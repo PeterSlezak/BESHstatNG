@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.props" Condition="Exists('..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <EnableMicrosoftTestingPlatform>false</EnableMicrosoftTestingPlatform>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A4A3C057-C520-462B-AD91-F481B2D797DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>BESHStatNG</RootNamespace>
+    <AssemblyName>BESHStatNG</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>Windows</MyType>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <AllowedReferenceRelatedFileExtensions>
+      <!-- Prevent default XML documentation files to be copied to output-->
+          .pdb
+      </AllowedReferenceRelatedFileExtensions>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>BESHStatNG.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <AllowedReferenceRelatedFileExtensions>
+      <!-- Prevent default XML documentation files to be copied to output-->
+          .pdb
+      </AllowedReferenceRelatedFileExtensions>
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>BESHStatNG.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Text</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <Target Name="RemoveSatelliteAssemblies" AfterTargets="ResolveAssemblyReferences">
+    <ItemGroup>
+      <ReferenceCopyLocalPaths Remove="@(ReferenceSatellitePaths)" />
+    </ItemGroup>
+  </Target>
+  <ItemGroup>
+    <Reference Include="ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDna.Integration.1.9.0\lib\net462\ExcelDna.Integration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.23.0.29, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.23.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.6.0.5\lib\net46\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="System.Threading.Tasks" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BESHStatAddIn.vb" />
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="src\BaseStat\Distributions.vb" />
+    <Compile Include="src\BaseStat\StatFunc.vb" />
+    <Compile Include="src\BESHstatGlobals.vb" />
+    <Compile Include="src\DM\DataObj.vb" />
+    <Compile Include="src\DM\Helpers.vb" />
+    <Compile Include="src\DM\SheetManagement.vb" />
+    <Compile Include="src\Graphics\BoxPlot.vb" />
+    <Compile Include="src\Graphics\ChartingFunc.vb" />
+    <Compile Include="src\Graphics\Histogram.vb" />
+    <Compile Include="src\Graphics\NormalPlot.vb" />
+    <Compile Include="src\Graphics\ROC.vb" />
+    <Compile Include="src\Graphics\ScatterPlotMatrix.vb" />
+    <Compile Include="src\Graphics\SymetryPlot.vb" />
+    <Compile Include="src\Graphics\XYZscatter.vb" />
+    <Compile Include="src\Help\HelpWiring.vb" />
+    <Compile Include="src\RegModels\CoxPH.vb" />
+    <Compile Include="src\RegModels\Family.vb" />
+    <Compile Include="src\RegModels\GEE.vb" />
+    <Compile Include="src\RegModels\GEEcovStruct.vb" />
+    <Compile Include="src\RegModels\GLM.vb" />
+    <Compile Include="src\RegModels\LinearModel.vb" />
+    <Compile Include="src\RegModels\Link.vb" />
+    <Compile Include="src\RegModels\LMresult.vb" />
+    <Compile Include="src\RegModels\Matrix.vb" />
+    <Compile Include="src\RegModels\MultinomialLogitModel.vb" />
+    <Compile Include="src\RegModels\Multivariate\CA.vb" />
+    <Compile Include="src\RegModels\Multivariate\PCA.vb" />
+    <Compile Include="src\RegModels\OrdinalLogitModel.vb" />
+    <Compile Include="src\DM\ResultTable.vb" />
+    <Compile Include="src\StatTests\Assumptions.vb" />
+    <Compile Include="src\StatTests\ContingencyTable.vb" />
+    <Compile Include="src\StatTests\FisherExact.vb" />
+    <Compile Include="src\StatTests\Survival.vb" />
+    <Compile Include="src\StatTests\Nonparametric.vb" />
+    <Compile Include="src\StatTests\Parametric.vb" />
+    <Compile Include="src\UI\Ui10ShowLog.Designer.vb">
+      <DependentUpon>Ui10ShowLog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui10ShowLog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui11AboutAddin.Designer.vb">
+      <DependentUpon>Ui11AboutAddin.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui11AboutAddin.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui11PCA.Designer.vb">
+      <DependentUpon>Ui11PCA.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui11PCA.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui0OneRefeditMulticol.Designer.vb">
+      <DependentUpon>Ui0OneRefeditMulticol.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui0OneRefeditMulticol.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui12GlobalSettings.Designer.vb">
+      <DependentUpon>Ui12GlobalSettings.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui12GlobalSettings.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui12SampleSizeTtestSingleProp.Designer.vb">
+      <DependentUpon>Ui12SampleSizeTtestSingleProp.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui12SampleSizeTtestSingleProp.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui13GEE.Designer.vb">
+      <DependentUpon>Ui13GEE.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui13GEE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui3XYZplot.Designer.vb">
+      <DependentUpon>Ui3XYZplot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui3XYZplot.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui4Cox.Designer.vb">
+      <DependentUpon>Ui4Cox.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui4Cox.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui4KMandLogRank.Designer.vb">
+      <DependentUpon>Ui4KMandLogRank.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui4KMandLogRank.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui82x2.Designer.vb">
+      <DependentUpon>Ui82x2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui82x2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui8Proportions.Designer.vb">
+      <DependentUpon>Ui8Proportions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui8Proportions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui9ANOVA2nested.Designer.vb">
+      <DependentUpon>Ui9ANOVA2nested.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui9ANOVA2nested.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\UiTwoInputRefedits.Designer.vb">
+      <DependentUpon>UiTwoInputRefedits.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\UiTwoInputRefedits.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Refedit\Excel2007RefEdit.Designer.vb">
+      <DependentUpon>Excel2007RefEdit.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Refedit\Excel2007RefEdit.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\UI\UibyID.Designer.vb">
+      <DependentUpon>UibyID.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\UibyID.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\UiGLM.Designer.vb">
+      <DependentUpon>UiGLM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\UiGLM.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\DM\UIprocedures.vb" />
+    <Compile Include="src\Help\HelpLinks.vb" />
+    <Compile Include="src\Help\HelpContext.vb" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui10ShowLog.resx">
+      <DependentUpon>Ui10ShowLog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Refedit\Excel2007RefEdit.resx">
+      <DependentUpon>Excel2007RefEdit.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui0OneRefeditMulticol.resx">
+      <DependentUpon>Ui0OneRefeditMulticol.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui11AboutAddin.resx">
+      <DependentUpon>Ui11AboutAddin.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui11PCA.resx">
+      <DependentUpon>Ui11PCA.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui12GlobalSettings.resx">
+      <DependentUpon>Ui12GlobalSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui12SampleSizeTtestSingleProp.resx">
+      <DependentUpon>Ui12SampleSizeTtestSingleProp.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui13GEE.resx">
+      <DependentUpon>Ui13GEE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui3XYZplot.resx">
+      <DependentUpon>Ui3XYZplot.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui4Cox.resx">
+      <DependentUpon>Ui4Cox.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui4KMandLogRank.resx">
+      <DependentUpon>Ui4KMandLogRank.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui82x2.resx">
+      <DependentUpon>Ui82x2.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui8Proportions.resx">
+      <DependentUpon>Ui8Proportions.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui9ANOVA2nested.resx">
+      <DependentUpon>Ui9ANOVA2nested.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\UibyID.resx">
+      <DependentUpon>UibyID.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\UiGLM.resx">
+      <DependentUpon>UiGLM.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\UiTwoInputRefedits.resx">
+      <DependentUpon>UiTwoInputRefedits.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="BESHStatNG-AddIn.dna" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="nlog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\ExcelDna.Build.props" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Generated\VersionAttributes.vb" />
+  </ItemGroup>
+  <PropertyGroup>
+    <!-- ISO-8601 extended date: YYYY-MM-DD -->
+    <BuildDate>$([System.DateTime]::UtcNow.ToString("yyyy-MM-dd"))</BuildDate>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Resources\RefEdit0.bmp" />
+    <Content Include="Resources\RefEdit1.bmp" />
+    <Content Include="Resources\RibbonXML.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.props'))" />
+    <Error Condition="!Exists('..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.targets'))" />
+  </Target>
+  <Import Project="..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.targets" Condition="Exists('..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.targets')" />
+  <Target Name="GenerateVersionAttributes" BeforeTargets="BeforeBuild">
+    <MakeDir Directories="$(ProjectDir)Generated" />
+    <ItemGroup>
+      <_VersionLines Include="Imports System.Reflection" />
+      <_VersionLines Include="&lt;Assembly: AssemblyVersion(&quot;$(BeshVersion)&quot;)&gt;" />
+      <_VersionLines Include="&lt;Assembly: AssemblyFileVersion(&quot;$(BeshVersion)&quot;)&gt;" />
+      <_VersionLines Include="&lt;Assembly: AssemblyInformationalVersion(&quot;$(BeshVersion)&quot;)&gt;" />
+      <_VersionLines Include="&lt;Assembly: AssemblyMetadata(&quot;BuildDate&quot;, &quot;$(BuildDate)&quot;)&gt;" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(ProjectDir)Generated\VersionAttributes.vb" Lines="@(_VersionLines)" Overwrite="true" Encoding="UTF-8" />
+  </Target>
+  <PropertyGroup>
+    <PythonExe>C:\Users\peter\Desktop\WPy64-31150\python-3.11.5.amd64\python.exe</PythonExe>
+    <HelpMethodsYml>$(MSBuildProjectDirectory)\..\BESHStatNG_Help_MkDocs\docs\_meta\methods.yml</HelpMethodsYml>
+  </PropertyGroup>
+  <Target Name="GenerateHelpLinks" BeforeTargets="BeforeBuild">
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="&quot;$(PythonExe)&quot; &quot;$(MSBuildProjectDirectory)\tools\generate_help_links.py&quot; --methods-yml &quot;$(HelpMethodsYml)&quot; --project-dir &quot;$(MSBuildProjectDirectory)&quot;" />
+  </Target>
+</Project>
