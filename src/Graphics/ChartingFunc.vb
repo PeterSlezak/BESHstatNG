@@ -121,7 +121,8 @@ Namespace graphics
         ''' <param name="ws">Worksheet where the chart will be created.</param>
         ''' <returns>An Excel <see cref="Microsoft.Office.Interop.Excel.Chart"/> object.</returns>
         Public Function GeneralScatterPlot(arX() As Double, arY() As Double,
-                                           strYname As String, strXname As String, ws As Worksheet) As Microsoft.Office.Interop.Excel.Chart
+                                           strYname As String, strXname As String, ws As Worksheet,
+                                           Optional strTitle As String = "Theil-Sen nonparametric regression plot") As Microsoft.Office.Interop.Excel.Chart
             'sub for ploting nonparametric simple linear regression plot of Theil-Sen regression
             'compute optimal scaling
             Dim udPlotAxis As CHARTscale = ChartScaling(arX.Min(), arX.Max())
@@ -163,7 +164,7 @@ Namespace graphics
                     .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.text = strXname
                     .HasTitle = False
                     .HasTitle = True
-                    .ChartTitle.Text = "Theil-Sen nonparametric regression plot"
+                    .ChartTitle.Text = strTitle
                     On Error GoTo 0
                 End With
                 Return .Chart
@@ -252,7 +253,7 @@ Namespace graphics
                     dScale = 2.0
             End Select
 
-            'Calculate the scaling factor (major unit)
+            'Fit the scaling factor (major unit)
             dScale = dScale * 10 ^ Int(dPower)
 
             'Round the axis values to the nearest scaling factor
@@ -607,6 +608,7 @@ Namespace graphics
 
             Return out
         End Function
+
     End Module
 
 End Namespace

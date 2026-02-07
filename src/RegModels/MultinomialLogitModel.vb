@@ -414,7 +414,7 @@ Namespace regression
         ''' <param name="bStartParams">Reserved. If True, uses <see cref="startParams"/> when provided.</param>
         ''' <param name="progressBar">Optional UI progress bar.</param>
         ''' <param name="progressLbl">Optional UI label for progress text.</param>
-        Public Sub Calculate(Optional intercept As Integer = 1,
+        Public Sub Fit(Optional intercept As Integer = 1,
                          Optional reference As ReferenceCategory = ReferenceCategory.Last,
                          Optional bStartParams As Boolean = False,
                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
@@ -778,7 +778,7 @@ Namespace regression
         Private Sub ComputeResiduals(Optional useWeights As Boolean = True,
                                  Optional computeLeverage As Boolean = True)
 
-            If results Is Nothing OrElse results.Coeffs_est Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Calculate())."))
+            If results Is Nothing OrElse results.Coeffs_est Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
 
             Dim colsK As Integer = pKuse
             Dim out As New MultinomialResiduals()
@@ -966,7 +966,7 @@ Namespace regression
         Private Function ComputeClassificationCrosstab(Optional useWeights As Boolean = True,
                                               Optional tieBreakToSmallestCategory As Boolean = True) As ClassificationCrosstab
             If results Is Nothing OrElse results.Coeffs_est Is Nothing Then
-                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Calculate())."))
+                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
 
             Dim out As New ClassificationCrosstab()
@@ -1020,7 +1020,7 @@ Namespace regression
         ''' </summary>
         Public Sub ComputeFitStatistics()
             If results Is Nothing OrElse results.Coeffs_est Is Nothing Then
-                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Calculate())."))
+                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
 
             ' Full-model loglik
@@ -1091,7 +1091,7 @@ Namespace regression
                                                  Optional keyDigits As Integer = 12) As TestResult
 
             If results Is Nothing OrElse results.Coeffs_est Is Nothing Then
-                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Calculate())."))
+                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
             Dim out As New TestResult
             out.TestStatistics1 = Double.NaN

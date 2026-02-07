@@ -4,21 +4,154 @@ Imports System.IO
 Imports System.Reflection
 Imports System.Resources.ResXFileRef
 Imports System.Runtime.InteropServices
-Imports Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext
 Imports Microsoft.Office.Interop.Excel
 Imports NLog
 
+''' <summary>
+''' Generalized Linear Model (GLM) fitted by Iteratively Reweighted Least Squares (IRLS).
+''' </summary>
+''' <remarks>
+''' <para>
+''' This implementation fits regression coefficients <c>β</c> in the mean model:
+''' </para>
+''' <para><c>ηᵢ = xᵢᵀ β + oᵢ</c> (linear predictor with optional offset <c>oᵢ</c>)</para>
+''' <para><c>μᵢ = g⁻¹(ηᵢ)</c> where <c>g</c> is the link function.</para>
+''' <para>
+''' The response distribution is represented via an exponential-family-like object (<see cref="regression.Family"/>)
+''' providing at least a variance function <c>Var(μ)</c>, deviance <c>D(y, μ)</c>, and a log-likelihood routine.
+''' </para>
+'''
+''' <h3>IRLS / Fisher scoring update used in this code</h3>
+''' <para>
+''' At iteration <c>t</c>, with current <c>μ</c> and <c>η</c>, define:
+''' </para>
+''' <list type="bullet">
+''' <item><description><c>dη/dμ = g'(μ)</c> (this code uses <c>pLink.deriv(μ)</c>).</description></item>
+''' <item><description>Working weights
+''' <c>wᵢ = wBaseᵢ / ( (dη/dμ)² · Var(μᵢ) )</c>,
+''' where <c>wBaseᵢ</c> is an optional user weight (<c>pWeights</c>).</description></item>
+''' <item><description>Working response
+''' <c>zᵢ = ηᵢ + (yᵢ − μᵢ)(dη/dμ) − oᵢ</c>.
+''' (The subtraction of <c>oᵢ</c> is required because <c>ηᵢ</c> stored in the code already includes the offset.)</description></item>
+''' </list>
+''' <para>
+''' Then the updated coefficients are obtained by weighted least squares:
+''' </para>
+''' <para><c>β(new) = argmin_β Σᵢ wᵢ (zᵢ − xᵢᵀβ)²</c></para>
+''' <para>
+''' i.e. <c>β(new) = (Xᵀ W X)⁻¹ Xᵀ W z</c>.
+''' </para>
+'''
+''' <h3>Deviance, convergence, and step-halving</h3>
+''' <para>
+''' After each update, the fitted means are recomputed and the model deviance <c>D(y, μ)</c> is evaluated.
+''' If the deviance increases or fitted means become invalid (e.g., out of bounds), the code performs step-halving:
+''' </para>
+''' <para><c>β ← (β + β_old)/2</c> repeatedly (up to <c>pInnerLoopMaxIter</c>) until the issue is resolved.</para>
+''' <para>
+''' Convergence is declared when the absolute change in deviance is below <c>pEps</c>:
+''' <c>|D_t − D_{t−1}| &lt; pEps</c>.
+''' </para>
+'''
+''' <h3>Scale / dispersion and standard errors</h3>
+''' <para>
+''' The scale factor returned by <see cref="ScaleSECoef"/> is:
+''' </para>
+''' <list type="bullet">
+''' <item><description><c>1</c> for Binomial, Poisson, Negative Binomial.</description></item>
+''' <item><description>For other families, either Pearson-based or Deviance-based as selected by <c>pScaleEstimation</c>.</description></item>
+''' </list>
+''' <para>
+''' Pearson dispersion is computed as <see cref="DispestionParameterPhi"/> = <c>X² / (n − p)</c>,
+''' where <c>X² = Σ (y−μ)²/Var(μ)</c>.
+''' </para>
+''' <para>
+''' Parameter covariance is computed as <c>(Xᵀ W X)⁻¹</c> (see <see cref="VarCovar"/>).
+''' Standard errors reported in <c>results</c> are scaled in the code as:
+''' <c>SE = SE_WLS / sqrt(phi) * sqrt(ScaleSECoef)</c>.
+''' </para>
+''' </remarks>
 Public Class GLM
 
+    ''' <summary>
+    ''' Optional starting values for the coefficient vector <c>β</c> (including intercept if used).
+    ''' </summary>
+    ''' <remarks>
+    ''' Used when calling <see cref="Fit"/> with <c>bStartParams:=True</c>.
+    ''' Length must match the number of fitted parameters <c>p</c>.
+    ''' </remarks>
     Public startParams() As Double = Nothing 'Starting parameter values
+
+    ''' <summary>
+    ''' If <c>True</c>, residuals, leverage, standardized residuals, and Cook’s distance are computed after fitting.
+    ''' </summary>
+    ''' <remarks>
+    ''' Residual outputs are exposed via <see cref="AllResiduals"/>.
+    ''' </remarks>
     Public bComputeResiduals As Boolean = False
+
+    ''' <summary>
+    ''' Populated after a successful <see cref="Fit"/> with coefficient estimates, standard errors, and model tables.
+    ''' </summary>
     Public results As LMresult = Nothing
+
+    ''' <summary>
+    ''' If <c>True</c>, <see cref="wrapResults"/> includes the covariance matrix table for the fitted parameters.
+    ''' </summary>
+    ''' <remarks>
+    ''' The covariance matrix is computed by <see cref="VarCovar"/> (ultimately <c>(XᵀWX)⁻¹</c>).
+    ''' </remarks>
     Public bReturnCov As Boolean = False
+
+    ''' <summary>
+    ''' If <c>True</c>, iteration history (coefficients, deviance, and deviance change per iteration) is retained
+    ''' and included in <see cref="wrapResults"/>.
+    ''' </summary>
     Public bIterationDetails As Boolean = False
+
+    ''' <summary>
+    ''' Indicates that complete separation was detected for Binomial/logistic-like models.
+    ''' </summary>
+    ''' <remarks>
+    ''' Separation detection is based on the proportion of extreme fitted probabilities near 0 or 1 during IRLS.
+    ''' If complete separation is detected, maximum likelihood estimates may not exist and results can be unstable.
+    ''' </remarks>
     Public bSeparation As Boolean = False
+
+    ''' <summary>
+    ''' Indicates that quasi-separation was detected for Binomial/logistic-like models.
+    ''' </summary>
+    ''' <remarks>
+    ''' Quasi-separation warns that the IRLS iterates produce a nontrivial fraction of near-0/near-1 fitted probabilities.
+    ''' The code may prompt the user to continue.
+    ''' </remarks>
     Public bQuasiSeparation As Boolean = False
+
+    ''' <summary>
+    ''' If <c>True</c> and the family is Binomial, computes the Hosmer–Lemeshow goodness-of-fit test after fitting.
+    ''' </summary>
+    ''' <remarks>
+    ''' The test is computed by binning predicted probabilities (typically deciles, collapsed if ties occur),
+    ''' then comparing observed vs expected successes and failures within bins.
+    ''' </remarks>
     Public bHosmerLemeshow As Boolean = True
 
+
+    ''' <summary>
+    ''' Initializes a GLM with a specified family and link function.
+    ''' </summary>
+    ''' <param name="f">Distribution/family object providing variance, deviance, and log-likelihood routines.</param>
+    ''' <param name="l">Link function mapping <c>μ → η</c> with inverse <c>η → μ</c> and derivative <c>dη/dμ</c>.</param>
+    ''' <remarks>
+    ''' Default controls set here:
+    ''' <list type="bullet">
+    ''' <item><description><c>pEps = 1e-8</c> (deviance-change tolerance)</description></item>
+    ''' <item><description><c>pMaxiter = 20</c> (IRLS maximum iterations)</description></item>
+    ''' <item><description><c>pInnerLoopMaxIter = 100</c> (step-halving cap)</description></item>
+    ''' <item><description><c>pAlpha = 0.05</c> (for CIs / p-values in output formatting)</description></item>
+    ''' <item><description><c>pScaleEstimation = "Pearson chisq"</c> (scale selection for non-canonical families)</description></item>
+    ''' </list>
+    ''' </remarks>
     Public Sub New(f As regression.Family, l As regression.Link)
         pLink = l
         pFamily = f
@@ -78,6 +211,28 @@ Public Class GLM
     Private pHosmerLemeshowTab(,) As Double
     Private pHosmerLemeshowTest As TestResult = New TestResult
 
+    ''' <summary>
+    ''' Returns a per-observation residual table: raw, deviance, Pearson, leverage, standardized residuals, and Cook’s distance.
+    ''' </summary>
+    ''' <value>
+    ''' An <c>Object(,)</c> table with columns:
+    ''' Raw Residual, Deviance Residual, Pearson Residual, Leverage, Std Deviance Residual, Std Pearson Residual, Cook’s D.
+    ''' </value>
+    ''' <remarks>
+    ''' Definitions as implemented:
+    ''' <list type="bullet">
+    ''' <item><description><b>Raw</b>: <c>rᵢ = yᵢ − μᵢ</c></description></item>
+    ''' <item><description><b>Pearson</b>: <c>rᵢ / sqrt(Var(μᵢ))</c></description></item>
+    ''' <item><description><b>Deviance</b>: <c>pFamily.residDev(yᵢ, μᵢ)</c> (family-specific)</description></item>
+    ''' <item><description><b>Leverage</b> (<c>hᵢ</c>): diagonal of the hat matrix computed from
+    ''' <c>X_v = diag(sqrt(w)) X</c> and <c>VarCovar = (Xᵀ W X)⁻¹</c>:
+    ''' <c>H = X_v VarCovar X_vᵀ</c>, so <c>hᵢ = Hᵢᵢ</c>.</description></item>
+    ''' <item><description><b>Standardized Pearson</b>: <c>r_P / sqrt(1 − hᵢ)</c></description></item>
+    ''' <item><description><b>Standardized Deviance</b>: <c>r_D / sqrt(1 − hᵢ)</c></description></item>
+    ''' <item><description><b>Cook’s distance</b> (as coded):
+    ''' <c>Dᵢ = ( (1/p) · (hᵢ/(1−hᵢ)) · (StdPearsonᵢ)² ) / ScaleSECoef</c>.</description></item>
+    ''' </list>
+    ''' </remarks>
     Public Overridable ReadOnly Property AllResiduals() As Object(,)
         Get
             Dim t = New ResultTable
@@ -97,23 +252,60 @@ Public Class GLM
         End Get
     End Property
 
+    ''' <summary>
+    ''' Returns the (unscaled) covariance matrix of the coefficient estimates: <c>(Xᵀ W X)⁻¹</c>.
+    ''' </summary>
+    ''' <remarks>
+    ''' The code constructs the weighted design matrix via <c>X_v(i,j) = sqrt(wᵢ) X(i,j)</c>
+    ''' and computes:
+    ''' <para><c>VarCovar = (Xᵀ W X)⁻¹</c></para>
+    ''' where <c>W = diag(wᵢ)</c> uses the final IRLS weights stored in <c>pFinalWeights</c>.
+    ''' <para>
+    ''' If <c>pbVarCovarComputed</c> is False, this property triggers computation.
+    ''' </para>
+    ''' </remarks>
     Public ReadOnly Property VarCovar() As Double(,)
         Get
             If Me.pbVarCovarComputed Then Return pVarCovar Else Return computeVarCovar()
         End Get
     End Property
+
+    ''' <summary>
+    ''' Pearson dispersion estimate <c>φ</c> computed as <c>X² / (n − p)</c>.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Here <c>X²</c> is the Pearson goodness-of-fit statistic:
+    ''' <c>X² = Σ (yᵢ − μᵢ)² / Var(μᵢ)</c>,
+    ''' and <c>n − p</c> is the residual degrees of freedom.
+    ''' </para>
+    ''' <para>
+    ''' This property is primarily used when <see cref="ScaleSECoef"/> selects Pearson scaling for non-canonical families.
+    ''' </para>
+    ''' </remarks>
     Public ReadOnly Property DispestionParameterPhi() As Double
         Get
             Return Me.PearsonGOFchisq / Me.DFresid
         End Get
     End Property
 
+    ''' <summary>
+    ''' Residual degrees of freedom: <c>n − p</c>.
+    ''' </summary>
     Public ReadOnly Property DFresid() As Integer
         Get
             Return Me.n - Me.p
         End Get
     End Property
 
+    ''' <summary>
+    ''' Pearson goodness-of-fit statistic <c>X²</c>.
+    ''' </summary>
+    ''' <remarks>
+    ''' Computed as:
+    ''' <para><c>X² = Σᵢ (yᵢ − μᵢ)² / Var(μᵢ)</c></para>
+    ''' using the family variance function <c>Var(μ)</c>.
+    ''' </remarks>
     Public ReadOnly Property PearsonGOFchisq() As Double
         Get
             Dim sum As Double = 0.0
@@ -124,6 +316,18 @@ Public Class GLM
         End Get
     End Property
 
+    ''' <summary>
+    ''' Upper-tail p-value for the Pearson goodness-of-fit statistic using a chi-square reference distribution.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Uses <c>df = n − p</c> and returns:
+    ''' </para>
+    ''' <para><c>p = 1 − F_{χ²(df)}(X²)</c>.</para>
+    ''' <para>
+    ''' Returns <see cref="Double.NaN"/> if <c>df ≤ 0</c>.
+    ''' </para>
+    ''' </remarks>
     Public ReadOnly Property PearsonGOFpvalue() As Double
         Get
             If Me.DFresid <= 0 Then Return Double.NaN
@@ -131,12 +335,29 @@ Public Class GLM
         End Get
     End Property
 
+    ''' <summary>
+    ''' Likelihood-ratio / deviance reduction statistic (G²) comparing the fitted model to the null model.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Computed as:
+    ''' <c>G² = (D_null − D_model) / ScaleSECoef</c>,
+    ''' where <c>D</c> is deviance and <see cref="ScaleSECoef"/> applies scale correction when appropriate.
+    ''' </para>
+    ''' </remarks>
     Public ReadOnly Property  DevianceG2chisq() As Double
         Get
             Return (Me.pNullDeviance - Me.pFinalDeviance) / Me.ScaleSECoef
         End Get
     End Property
 
+    ''' <summary>
+    ''' Degrees of freedom for the deviance reduction test (G²).
+    ''' </summary>
+    ''' <remarks>
+    ''' If an intercept is included, the null model uses an intercept-only fit, and the df is <c>p − 1</c>.
+    ''' Otherwise, df is <c>p</c>.
+    ''' </remarks>
     Public ReadOnly Property DevianceG2df() As Integer
         Get
             If Me.pbIntercept Then
@@ -147,6 +368,12 @@ Public Class GLM
         End Get
     End Property
 
+    ''' <summary>
+    ''' Upper-tail p-value for the deviance reduction test statistic (G²) using a chi-square reference distribution.
+    ''' </summary>
+    ''' <remarks>
+    ''' Returns <c>1 − F_{χ²(df)}(G²)</c>, with <c>df</c> from <see cref="DevianceG2df"/>.
+    ''' </remarks>
     Public ReadOnly Property DevianceG2pvalue() As Double
         Get
             Dim df As Integer = Me.DevianceG2df
@@ -155,13 +382,24 @@ Public Class GLM
         End Get
     End Property
 
-
+    ''' <summary>
+    ''' Deviance goodness-of-fit statistic: <c>D_model / ScaleSECoef</c>.
+    ''' </summary>
+    ''' <remarks>
+    ''' Often compared to <c>χ²(n − p)</c> as an approximate GOF check.
+    ''' </remarks>
     Public ReadOnly Property DevianceGOFchisq() As Double
         Get 'deviance goodnes of fit
             Return Me.pFinalDeviance / Me.ScaleSECoef
         End Get
     End Property
 
+    ''' <summary>
+    ''' Upper-tail p-value for the deviance goodness-of-fit statistic using a chi-square reference distribution.
+    ''' </summary>
+    ''' <remarks>
+    ''' Returns <c>1 − F_{χ²(n−p)}(D_model/ScaleSECoef)</c>. Returns NaN if <c>n − p ≤ 0</c>.
+    ''' </remarks>
     Public ReadOnly Property DevianceGOFpvalue() As Double
         Get
             If Me.DFresid <= 0 Then Return Double.NaN
@@ -169,28 +407,63 @@ Public Class GLM
         End Get
     End Property
 
+    ''' <summary>
+    ''' Scaled log-likelihood of the fitted model: <c>loglike(y, μ, scale)</c>.
+    ''' </summary>
+    ''' <remarks>
+    ''' This calls <c>pFamily.loglike(y, μ, ScaleSECoef)</c>.
+    ''' Depending on the family implementation, <c>scale</c> may affect the likelihood (e.g., Gaussian).
+    ''' </remarks>
     Public ReadOnly Property LogLikelihood() As Double
         Get
             Return pFamily.loglike(Me.y, Me.mu, Me.ScaleSECoef)
         End Get
     End Property
+
+    ''' <summary>
+    ''' Unscaled log-likelihood of the fitted model: <c>loglike(y, μ, 1)</c>.
+    ''' </summary>
+    ''' <remarks>
+    ''' This is the log-likelihood used by AIC/BIC/AICc properties in this code.
+    ''' </remarks>
     Public ReadOnly Property LogLikelihoodUnscaled() As Double
         Get
             Return pFamily.loglike(Me.y, Me.mu, 1.0)
         End Get
     End Property
 
+    ''' <summary>
+    ''' Akaike Information Criterion (AIC) using the unscaled log-likelihood.
+    ''' </summary>
+    ''' <remarks>
+    ''' Computed as <c>AIC = −2·LL + 2p</c>, where <c>LL</c> is <see cref="LogLikelihoodUnscaled"/>.
+    ''' </remarks>
     Public Overridable ReadOnly Property AIC() As Double
         Get
             Return -2.0 * Me.LogLikelihoodUnscaled + 2.0 * Me.p
         End Get
     End Property
+
+    ''' <summary>
+    ''' Bayesian Information Criterion (BIC) using the unscaled log-likelihood.
+    ''' </summary>
+    ''' <remarks>
+    ''' Computed as <c>BIC = −2·LL + log(n)·p</c>, where <c>LL</c> is <see cref="LogLikelihoodUnscaled"/>.
+    ''' </remarks>
     Public Overridable ReadOnly Property BIC() As Double
         Get
             Return -2.0 * Me.LogLikelihoodUnscaled + Math.Log(Me.n) * Me.p
         End Get
     End Property
 
+    ''' <summary>
+    ''' Small-sample corrected AIC (AICc) using the unscaled log-likelihood.
+    ''' </summary>
+    ''' <remarks>
+    ''' Computed here as:
+    ''' <para><c>AICc = −2·LL + 2·p·n / ( (n−p) − 1 )</c></para>
+    ''' Returns NaN if the denominator is non-positive.
+    ''' </remarks>
     Public Overridable ReadOnly Property AICc() As Double
         Get
             Dim denom As Double = Me.DFresid - 1.0
@@ -199,7 +472,15 @@ Public Class GLM
         End Get
     End Property
 
-
+    ''' <summary>
+    ''' Pseudo R² based on the deviance ratio: <c>1 − D_model / D_null</c>.
+    ''' </summary>
+    ''' <remarks>
+    ''' This is the quantity returned by the code (and labeled in output as pseudo R²).
+    ''' It is deviance-based:
+    ''' <para><c>R²_pseudo = 1 − D(β̂) / D_null</c>.</para>
+    ''' If <c>D_null</c> is non-positive or not finite, returns 0.
+    ''' </remarks>
     Public ReadOnly Property PseudoR2() As Double
         Get
             If Me.pNullDeviance <= 0.0 OrElse Double.IsNaN(Me.pNullDeviance) OrElse Double.IsInfinity(Me.pNullDeviance) Then
@@ -209,7 +490,17 @@ Public Class GLM
         End Get
     End Property
 
-
+    ''' <summary>
+    ''' Scale factor used for scaling deviance-based statistics and (optionally) standard errors.
+    ''' </summary>
+    ''' <remarks>
+    ''' Returns:
+    ''' <list type="bullet">
+    ''' <item><description><c>1</c> for Binomial, Poisson, Negative Binomial.</description></item>
+    ''' <item><description>If <c>pScaleEstimation="Pearson chisq"</c>: <see cref="DispestionParameterPhi"/>.</description></item>
+    ''' <item><description>If <c>pScaleEstimation="Deviance"</c>: <c>D_model/(n−p)</c>.</description></item>
+    ''' </list>
+    ''' </remarks>
     Public ReadOnly Property ScaleSECoef() As Double
         Get
             If TypeOf pFamily Is regression.Binomial Or TypeOf pFamily Is regression.Poisson Or TypeOf pFamily Is regression.NegativeBinomial Then
@@ -229,30 +520,74 @@ Public Class GLM
         End Get
     End Property
 
+    ''' <summary>
+    ''' Returns fitted means <c>μ</c> for each observation.
+    ''' </summary>
+    ''' <remarks>
+    ''' Ordering matches the input rows passed to <see cref="data"/>.
+    ''' </remarks>
     Public ReadOnly Property PredictedResponses() As Double()
         Get
             Return Me.mu
         End Get
     End Property
 
+    ''' <summary>
+    ''' Returns the design matrix <c>X</c> used in fitting (including intercept column if selected).
+    ''' </summary>
     Public ReadOnly Property Xdata() As Double(,)
         Get  'predictor variables including intercept in the 1st column
             Return Me.x
         End Get
     End Property
 
+    ''' <summary>
+    ''' Returns the fitted linear predictor <c>η</c> for each observation (including the offset).
+    ''' </summary>
+    ''' <remarks>
+    ''' <para><c>η = Xβ + offset</c></para>
+    ''' Ordering matches the input rows passed to <see cref="data"/>.
+    ''' </remarks>
     Public ReadOnly Property LinPred() As Double()
         Get
             Return GetColumnFrom2Darray(Me.pLin_pred, 0)
         End Get
     End Property
 
+    ''' <summary>
+    ''' Indicates whether the IRLS algorithm met the convergence criterion.
+    ''' </summary>
+    ''' <remarks>
+    ''' Convergence is based on the absolute deviance change falling below <c>pEps</c>.
+    ''' </remarks>
     Public ReadOnly Property Converged() As Boolean
         Get
             Return Me.pbConverged
         End Get
     End Property
 
+    ''' <summary>
+    ''' Supplies the observation-level dataset and optional offset/weights to the model.
+    ''' </summary>
+    ''' <param name="x">
+    ''' Rectangular array where column 0 is the response <c>y</c> and remaining columns are predictors.
+    ''' The intercept column is handled in <see cref="Fit"/> intercept argument.
+    ''' </param>
+    ''' <param name="RowNums">
+    ''' Optional mapping back to original row indices; if omitted, uses <c>0..n−1</c>.
+    ''' </param>
+    ''' <param name="Offset">
+    ''' Optional offset vector <c>o</c> added to the linear predictor:
+    ''' <c>η = Xβ + o</c>. If omitted, a zero vector is used.
+    ''' </param>
+    ''' <param name="Weights">
+    ''' Optional nonnegative weights <c>wBase</c>. If omitted, a vector of ones is used.
+    ''' These weights enter IRLS as the multiplicative factor in the working weights:
+    ''' <c>wᵢ = wBaseᵢ / ( (dη/dμ)² · Var(μᵢ) )</c>.
+    ''' </param>
+    ''' <remarks>
+    ''' Offsets are treated as “present” (<c>pbOffset=True</c>) only if at least one offset element is nonzero.
+    ''' </remarks>
     Public Sub data(x(,) As Double,
          Optional RowNums() As Integer = Nothing,
          Optional Offset() As Double = Nothing,
@@ -260,7 +595,7 @@ Public Class GLM
 
         pData = x
 
-        ' Offsets are additive in eta (as used throughout GLM.Calculate).
+        ' Offsets are additive in eta (as used throughout GLM.Fit).
         ' Passing an all-zero offset should behave exactly like having no offset.
         pbOffset = False
         If Offset Is Nothing Then
@@ -292,17 +627,47 @@ Public Class GLM
         End If
     End Sub
 
-
+    ''' <summary>
+    ''' Sets general fitting controls (alpha, iteration limit, and convergence tolerance).
+    ''' </summary>
+    ''' <param name="dAlpha">Significance level used for intervals and p-values in output formatting.</param>
+    ''' <param name="lMaxiter">Maximum IRLS iterations.</param>
+    ''' <param name="dEps">Convergence tolerance for deviance change.</param>
     Public Sub settingInputs(dAlpha As Double, lMaxiter As Integer, dEps As Double)
         pAlpha = dAlpha
         pMaxiter = lMaxiter
         pEps = dEps
     End Sub
 
+    ''' <summary>
+    ''' Stores variable names used in reporting (tables/headers).
+    ''' </summary>
+    ''' <param name="names">
+    ''' Names aligned to the data columns: index 0 is the response name; subsequent names are predictor names.
+    ''' </param>
+    ''' <remarks>
+    ''' These labels do not affect estimation; they are used by <see cref="wrapResults"/> and by <c>LMresult</c>.
+    ''' </remarks>
     Public Sub setVarNames(names() As String)
         Me.pVarNames = names
     End Sub
 
+    ''' <summary>
+    ''' Produces a list of formatted result tables (coefficients, model info, diagnostics, iteration history, etc.).
+    ''' </summary>
+    ''' <param name="strOffsetVar">Optional offset variable name to include as a footnote.</param>
+    ''' <param name="strWeightsVar">Optional weights variable name to include as a footnote.</param>
+    ''' <returns>A list of <c>ResultTable</c> objects suitable for UI/report rendering.</returns>
+    ''' <remarks>
+    ''' Typically includes:
+    ''' <list type="bullet">
+    ''' <item><description>Coefficient table with z/t statistics and p-values.</description></item>
+    ''' <item><description>Model summary table (family/link, deviance, GOF tests, AIC/AICc/BIC, etc.).</description></item>
+    ''' <item><description>Hosmer–Lemeshow table for Binomial (if enabled).</description></item>
+    ''' <item><description>Iteration trace (if <see cref="bIterationDetails"/> True).</description></item>
+    ''' <item><description>Covariance matrix table (if <see cref="bReturnCov"/> True).</description></item>
+    ''' </list>
+    ''' </remarks>
     Public Function wrapResults(Optional strOffsetVar As String = "",
                                 Optional strWeightsVar As String = "") As List(Of ResultTable)
         Dim out As New List(Of ResultTable)
@@ -383,10 +748,43 @@ Public Class GLM
         Return BESHStatNG.SubsetArray(names, 1)
     End Function
 
-    Public Overridable Sub Calculate(intercept As Integer,
-                                     Optional bStartParams As Boolean = False,
-                                     Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                                     Optional progressLbl As System.Windows.Forms.Label = Nothing)
+    ''' <summary>
+    ''' Fits the GLM by IRLS and populates <see cref="results"/> and diagnostic properties.
+    ''' </summary>
+    ''' <param name="intercept">
+    ''' 1 to include an intercept term; 0 to fit without an intercept.
+    ''' </param>
+    ''' <param name="bStartParams">
+    ''' If <c>True</c>, uses <see cref="startParams"/> as initial <c>β</c>. Otherwise uses family-specific starting means.
+    ''' </param>
+    ''' <param name="progressBar">Optional UI progress bar updated during IRLS.</param>
+    ''' <param name="progressLbl">Optional UI label updated with iteration count and deviance-change metric.</param>
+    ''' <remarks>
+    ''' <para>
+    ''' The null deviance is computed “R-compatibly”:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>If intercept is included, fits an intercept-only model by IRLS using the same offset and uses its deviance.</description></item>
+    ''' <item><description>If no intercept, uses <c>η = offset</c> and computes deviance directly.</description></item>
+    ''' </list>
+    ''' <para>
+    ''' For Binomial models, the implementation applies numerical safeguards:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>Clamps <c>η</c> to avoid overflow in inverse link evaluation.</description></item>
+    ''' <item><description>Keeps <c>μ</c> away from 0 and 1 to prevent exploding weights.</description></item>
+    ''' <item><description>Uses step-halving when <c>μ</c> leaves the valid domain or when deviance increases.</description></item>
+    ''' </list>
+    ''' <para>
+    ''' When <see cref="bComputeResiduals"/> is True, calls the internal residual routine to compute the table returned by
+    ''' <see cref="AllResiduals"/>. When <see cref="bHosmerLemeshow"/> is True and the family is Binomial, computes the
+    ''' Hosmer–Lemeshow test table and p-value.
+    ''' </para>
+    ''' </remarks>
+    Public Overridable Sub Fit(intercept As Integer,
+                               Optional bStartParams As Boolean = False,
+                               Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                               Optional progressLbl As System.Windows.Forms.Label = Nothing)
         'Intercept = 1 if Yes; 0 if No
         Dim j As Integer, pi1 As Integer, dev As Double, params(,) As Double, hold As Double, y_mean As Double
         Dim ii As Integer, weights() As Double, old_params() As Double, wlsendog() As Double
@@ -718,18 +1116,18 @@ Public Class GLM
 
         'Test for convergence or divergence and warn user
         If pIRLSiterations >= pMaxiter + 1 Then 'Too many iterations
-            BSlogg.Log("Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Calculate. ", LogMsgType.Warn)
-            Me.strError += " Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Calculate. "
+            BSlogg.Log("Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. ", LogMsgType.Warn)
+            Me.strError += " Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. "
         ElseIf Not pbConverged Then
-            BSlogg.Log("Algorithm Is diverging. Failure Of IRLS algorithm In .Calculate.", LogMsgType.Warn)
-            Me.strError += " Algorithm Is diverging. Failure Of IRLS algorithm In .Calculate."
+            BSlogg.Log("Algorithm Is diverging. Failure Of IRLS algorithm In .Fit.", LogMsgType.Warn)
+            Me.strError += " Algorithm Is diverging. Failure Of IRLS algorithm In .Fit."
         End If
         If Me.bIterationDetails Then
             If pIRLSiterations > 0 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIRLSiterations) Else ReDim Preserve pItInfo(UBound(pItInfo, 1), 0)
         End If
         pIRLSiterations += 1
 
-        'Calculate model coefficient estimates, standard errors, pZ and Chi2
+        'Fit model coefficient estimates, standard errors, pZ and Chi2
         'statistics, and upper and lower confidence intervals for parameters
         For i = 0 To Me.p - 1
             Me.results.Coeffs_SEs(i) = (StdErr(i) / Math.Sqrt(DispestionParameterPhi)) * Math.Sqrt(ScaleSECoef) ': SE
@@ -1151,7 +1549,7 @@ Public Class GLM
     End Sub
 
     Private Sub HosmerLemeshowTest()
-        'Calculate Hosmer Lemeshow Goodness of Fit test
+        'Fit Hosmer Lemeshow Goodness of Fit test
         'Computed as described in Hosmer, Lemeshow Applied Logistic Regression, 3rd ed. page 170 STATA
         Dim temp(9) As Double
 
@@ -1219,16 +1617,47 @@ Public Class GLM
 End Class
 
 
+''' <summary>
+''' Negative Binomial GLM fitted by alternating between GLM coefficient updates and dispersion (theta/alpha) updates.
+''' </summary>
+''' <remarks>
+''' <para>
+''' This class inherits <see cref="GLM"/> but implements a <see cref="Fit"/> procedure modeled after
+''' the MASS::glm.nb algorithm in R (iterating between:
+''' </para>
+''' <list type="bullet">
+''' <item><description>fitting a Negative Binomial GLM for fixed dispersion, and</description></item>
+''' <item><description>re-estimating dispersion by (approximate) maximum likelihood given the fitted means.</description></item>
+''' </list>
+''' <para>
+''' Parameterization used in code:
+''' <c>alpha = 1/theta</c>, exposed by <see cref="NBalpha"/>.
+''' </para>
+''' </remarks>
 Public Class GLM_NB
     Inherits GLM
 
     Private pLastIterDispersionChange As Double
     Private pNBglm As GLM = Nothing
 
+    ''' <summary>
+    ''' Initializes a Negative Binomial GLM with the specified link function.
+    ''' </summary>
+    ''' <param name="l">Link function for the mean model (commonly log link).</param>
+    ''' <remarks>
+    ''' Internally sets the family to <c>regression.NegativeBinomial</c>.
+    ''' </remarks>
     Public Sub New(l As regression.Link)
         MyBase.New(New regression.NegativeBinomial, l)
     End Sub
 
+    ''' <summary>
+    ''' Returns the Negative Binomial dispersion parameter <c>alpha</c> (where <c>alpha = 1/theta</c>).
+    ''' </summary>
+    ''' <remarks>
+    ''' In NB2 form: <c>Var(Y|μ) = μ + alpha·μ²</c> (typical convention).
+    ''' The exact variance form depends on your <c>regression.NegativeBinomial</c> implementation.
+    ''' </remarks>
     Public ReadOnly Property NBalpha() As Double
         'negative binomial dispersion parameter (1 / theta)
         Get
@@ -1236,6 +1665,14 @@ Public Class GLM_NB
         End Get
     End Property
 
+    ''' <summary>
+    ''' AIC for Negative Binomial GLM counting the dispersion parameter as an additional fitted parameter.
+    ''' </summary>
+    ''' <remarks>
+    ''' Computed as:
+    ''' <para><c>AIC = −2·LL + 2·(p + 1)</c></para>
+    ''' where <c>LL</c> is the unscaled log-likelihood of the fitted NB model and <c>p</c> is the number of mean parameters.
+    ''' </remarks>
     Public Overloads ReadOnly Property AIC() As Double
         'here we have number of parameters + 1 because of the alpha (NB dispersion) parameter estimation
         Get
@@ -1243,6 +1680,13 @@ Public Class GLM_NB
         End Get
     End Property
 
+    ''' <summary>
+    ''' BIC for Negative Binomial GLM counting the dispersion parameter as an additional fitted parameter.
+    ''' </summary>
+    ''' <remarks>
+    ''' Computed as:
+    ''' <para><c>BIC = −2·LL + log(n)·(p + 1)</c></para>
+    ''' </remarks>
     Public Overloads ReadOnly Property BIC() As Double
         'here we have number of parameters + 1 because of the alpha (NB dispersion) parameter estimation
         Get
@@ -1250,6 +1694,14 @@ Public Class GLM_NB
         End Get
     End Property
 
+    ''' <summary>
+    ''' Small-sample corrected AIC (AICc) for Negative Binomial GLM counting the dispersion parameter.
+    ''' </summary>
+    ''' <remarks>
+    ''' Computed here as:
+    ''' <para><c>AICc = −2·LL + 2·(p + 1)·n / (n − p)</c></para>
+    ''' Returns NaN if <c>n − p ≤ 0</c>.
+    ''' </remarks>
     Public Overloads ReadOnly Property AICc() As Double
         'here we have number of parameters + 1 because of the alpha (NB dispersion) parameter estimation
         Get
@@ -1259,6 +1711,12 @@ Public Class GLM_NB
         End Get
     End Property
 
+    ''' <summary>
+    ''' Returns residual diagnostics from the internally fitted NB GLM.
+    ''' </summary>
+    ''' <remarks>
+    ''' This override forces residual computation on the internal GLM instance and returns its <see cref="GLM.AllResiduals"/>.
+    ''' </remarks>
     Public Overrides ReadOnly Property AllResiduals() As Object(,)
         Get
             Me.pNBglm.bComputeResiduals = True
@@ -1267,6 +1725,103 @@ Public Class GLM_NB
         End Get
     End Property
 
+    ''' <summary>
+    ''' Estimates the Negative Binomial dispersion parameter (<c>theta</c>) by (approximately) maximizing
+    ''' the Negative Binomial log-likelihood given the current fitted means <c>μ</c>.
+    ''' </summary>
+    ''' <param name="nb_fit">
+    ''' A fitted <see cref="GLM"/> instance representing the current Negative Binomial mean-model fit
+    ''' (i.e., holding the current coefficient estimates and fitted means).
+    ''' The routine treats <c>μ</c> from <paramref name="nb_fit"/> as fixed while optimizing <c>theta</c>.
+    ''' </param>
+    ''' <param name="w">
+    ''' Optional nonnegative observation weights. If omitted, all weights are treated as 1.
+    ''' When provided, they are applied as multiplicative weights in the log-likelihood and its derivatives:
+    ''' each observation contributes <c>wᵢ</c> times its usual contribution.
+    ''' </param>
+    ''' <returns>
+    ''' The maximum-likelihood estimate of the NB dispersion parameter <c>theta</c> (also called “size” in some software).
+    ''' </returns>
+    ''' <remarks>
+    ''' <h3>Model and parameterization</h3>
+    ''' <para>
+    ''' This routine assumes the NB2 mean/variance relationship (common in GLM software):
+    ''' </para>
+    ''' <para><c>E[Yᵢ|μᵢ] = μᵢ</c>, and <c>Var(Yᵢ|μᵢ) = μᵢ + μᵢ² / theta</c>.</para>
+    ''' <para>
+    ''' Equivalently, with <c>alpha = 1/theta</c>, <c>Var(Yᵢ|μᵢ) = μᵢ + alpha·μᵢ²</c>.
+    ''' </para>
+    ''' <para>
+    ''' The fitted mean <c>μᵢ</c> is taken from <paramref name="nb_fit"/> and is not updated inside this function.
+    ''' </para>
+    '''
+    ''' <h3>Log-likelihood optimized</h3>
+    ''' <para>
+    ''' For a single observation <c>yᵢ</c> with mean <c>μᵢ</c> and dispersion <c>theta</c>, the NB log-likelihood is:
+    ''' </para>
+    ''' <para>
+    ''' <c>
+    ''' ℓᵢ(theta) =
+    ''' log Γ(yᵢ + theta) − log Γ(theta) − log(yᵢ!)
+    ''' + theta·log(theta) + yᵢ·log(μᵢ)
+    ''' − (yᵢ + theta)·log(theta + μᵢ).
+    ''' </c>
+    ''' </para>
+    ''' <para>
+    ''' With weights <c>wᵢ</c>, the objective is:
+    ''' <c>ℓ(theta) = Σᵢ wᵢ · ℓᵢ(theta)</c>.
+    ''' </para>
+    '''
+    ''' <h3>Score equation and Newton update (typical for glm.nb)</h3>
+    ''' <para>
+    ''' The derivative (score) with respect to <c>theta</c> (holding μ fixed) can be written using the digamma function
+    ''' <c>ψ(·)</c>:
+    ''' </para>
+    ''' <para>
+    ''' <c>
+    ''' ∂ℓᵢ/∂theta =
+    ''' ψ(yᵢ + theta) − ψ(theta)
+    ''' + log(theta) + 1
+    ''' − log(theta + μᵢ) − (yᵢ + theta)/(theta + μᵢ).
+    ''' </c>
+    ''' </para>
+    ''' <para>
+    ''' And the second derivative uses the trigamma function <c>ψ₁(·)</c>.
+    ''' Many implementations (including MASS::glm.nb) solve <c>Σ ∂ℓᵢ/∂theta = 0</c>
+    ''' by Newton–Raphson:
+    ''' </para>
+    ''' <para><c>theta(new) = theta(old) − score / information</c></para>
+    ''' <para>
+    ''' with step control to keep <c>theta &gt; 0</c>.
+    ''' </para>
+    ''' <para>
+    ''' This function follows that same principle: it iterates updates for <c>theta</c> until convergence,
+    ''' using the current <c>μ</c> from <paramref name="nb_fit"/>.
+    ''' </para>
+    '''
+    ''' <h3>Numerical stability / constraints</h3>
+    ''' <para>
+    ''' The dispersion parameter must satisfy <c>theta &gt; 0</c>. The implementation enforces positivity
+    ''' (e.g., via truncation, guarded updates, or step-halving) so that intermediate iterates do not
+    ''' cross into invalid values.
+    ''' </para>
+    ''' <para>
+    ''' Because the log-likelihood involves <c>log(theta)</c>, <c>log(theta + μ)</c>, and gamma-function terms,
+    ''' extremely small <c>theta</c> can cause instability; similarly, very large <c>theta</c> approximates Poisson.
+    ''' </para>
+    '''
+    ''' <h3>Relationship to the outer <see cref="GLM_NB.Fit"/> loop</h3>
+    ''' <para>
+    ''' <see cref="GLM_NB.Fit"/> alternates between:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>Updating <c>β</c> by fitting an NB GLM for a fixed <c>theta</c> (mean step), and</description></item>
+    ''' <item><description>Updating <c>theta</c> by maximizing <c>ℓ(theta)</c> with μ fixed (dispersion step), via this function.</description></item>
+    ''' </list>
+    ''' <para>
+    ''' Convergence of the outer loop typically depends on the change in log-likelihood and/or <c>theta</c>.
+    ''' </para>
+    ''' </remarks>
     Private Function theta_ml(nb_fit As GLM, Optional w As Double() = Nothing) As Double
         ' Re-estimate theta given NB parameters; returns alpha = 1/theta (NB2 dispersion)
         Dim th As Double = 0.0, info As Double, score As Double
@@ -1322,8 +1877,33 @@ Public Class GLM_NB
         Return 1.0 / th  ' alpha
     End Function
 
-
-    Public Overrides Sub calculate(intercept As Integer,
+    ''' <summary>
+    ''' Fits a Negative Binomial GLM by iterating between mean-parameter IRLS updates and dispersion updates.
+    ''' </summary>
+    ''' <param name="intercept">1 to include an intercept; 0 otherwise.</param>
+    ''' <param name="bStartParams">If True, uses <see cref="GLM.startParams"/> as initial mean parameters.</param>
+    ''' <param name="progressBar">Optional progress bar.</param>
+    ''' <param name="progressLbl">Optional progress label.</param>
+    ''' <remarks>
+    ''' <para>
+    ''' High-level algorithm (glm.nb style):
+    ''' </para>
+    ''' <list type="number">
+    ''' <item><description>Fit an initial Poisson GLM to obtain starting <c>β</c> and <c>μ</c>.</description></item>
+    ''' <item><description>Initialize dispersion (<c>theta</c> / <c>alpha</c>).</description></item>
+    ''' <item><description>Repeat until convergence or max iterations:
+    ''' <list type="bullet">
+    ''' <item><description>Fit an NB GLM with current dispersion to update <c>β</c>.</description></item>
+    ''' <item><description>Update dispersion by maximizing NB log-likelihood w.r.t. <c>theta</c> (implemented by <c>theta_ml</c>).</description></item>
+    ''' <item><description>Check convergence using the change in log-likelihood / dispersion metric maintained by the class.</description></item>
+    ''' </list>
+    ''' </description></item>
+    ''' </list>
+    ''' <para>
+    ''' The result object (<see cref="GLM.results"/>) is populated from the final NB fit.
+    ''' </para>
+    ''' </remarks>
+    Public Overrides Sub Fit(intercept As Integer,
                                    Optional bStartParams As Boolean = False,
                                    Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                                    Optional progressLbl As System.Windows.Forms.Label = Nothing)
@@ -1362,7 +1942,7 @@ Public Class GLM_NB
             .setVarNames(Me.pVarNames)
             .settingInputs(pAlpha, pMaxiter, pEps)
             .startParams = Me.startParams
-            .Calculate(intercept, bStartParams)
+            .Fit(intercept, bStartParams)
         End With
         Dim PoissonParams = poisson_glm.results.Coeffs_est
 
@@ -1387,7 +1967,7 @@ Public Class GLM_NB
                 .settingInputs(Me.pAlpha, Me.pMaxiter, Me.pEps)
                 .pFamily.pdAlpha = th  'dispersion parameter initial value
                 .startParams = PoissonParams
-                .Calculate(intercept, True)
+                .Fit(intercept, True)
             End With
 
             If pNBglm.strError <> String.Empty Then
@@ -1434,7 +2014,7 @@ Public Class GLM_NB
                                                              End Sub)
         If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Format$((Timer - startTime), "#####0.00")} [s] Finalizing ..."
 
-        'Calculate model coefficient estimates, standard errors, pZ and Chi2
+        'Fit model coefficient estimates, standard errors, pZ and Chi2
         'statistics, and upper and lower confidence intervals for parameters
         Me.results = pNBglm.results
         Me.pNullDeviance = pNBglm.pNullDeviance
@@ -1476,14 +2056,104 @@ Public Class GLM_NB
 End Class
 
 
-
+''' <summary>
+''' Zero-Inflated Poisson (ZIP) regression fitted by an EM algorithm combining a Poisson count model and a logistic zero model.
+''' </summary>
+''' <remarks>
+''' <h3>Model</h3>
+''' <para>
+''' For observation <c>i</c>, let:
+''' </para>
+''' <list type="bullet">
+''' <item><description><c>λᵢ = exp(xᵢᵀ β)</c> be the Poisson mean (log link).</description></item>
+''' <item><description><c>πᵢ = logistic(zᵢᵀ γ)</c> be the probability of belonging to the “structural zero” component (logit link).</description></item>
+''' </list>
+''' <para>
+''' The ZIP pmf is:
+''' </para>
+''' <para>
+''' <c>P(Yᵢ=0) = πᵢ + (1−πᵢ)·exp(−λᵢ)</c>
+''' </para>
+''' <para>
+''' <c>P(Yᵢ=k&gt;0) = (1−πᵢ)·exp(−λᵢ)·λᵢ^k / k!</c>
+''' </para>
+'''
+''' <h3>EM algorithm as implemented</h3>
+''' <para>
+''' Introduce latent indicator <c>Sᵢ</c> where <c>Sᵢ=1</c> means “structural zero” and <c>Sᵢ=0</c> means “Poisson component”.
+''' For nonzero counts, <c>P(Sᵢ=1|Yᵢ&gt;0)=0</c>.
+''' For <c>Yᵢ=0</c>:
+''' </para>
+''' <para>
+''' <c>τᵢ = P(Sᵢ=1 | Yᵢ=0) = πᵢ / ( πᵢ + (1−πᵢ)·P_Pois(0; λᵢ) )</c>
+''' </para>
+''' <para>
+''' where <c>P_Pois(0; λ)=exp(−λ)</c>.
+''' </para>
+''' <para>
+''' The code stores <c>τᵢ</c> in <c>probi(i)</c> and <c>1−τᵢ</c> in <c>probi1(i)</c>.
+''' </para>
+''' <para>
+''' M-step updates are performed by fitting two GLMs:
+''' </para>
+''' <list type="bullet">
+''' <item><description><b>Poisson</b>: fit on the original counts with observation weights <c>probi1</c>
+''' (posterior probability of the Poisson component).</description></item>
+''' <item><description><b>Logistic</b>: fit on a “fractional” response column set to <c>probi</c>
+''' (posterior probability of structural-zero membership), using a Binomial/logit GLM.</description></item>
+''' </list>
+'''
+''' <h3>Acceleration (over-relaxation) and monotone fallback</h3>
+''' <para>
+''' After computing the plain EM parameter updates, the code attempts an over-relaxed step:
+''' </para>
+''' <para><c>θ_try = θ_old + s(θ_new − θ_old)</c> with <c>s=1.2</c></para>
+''' <para>
+''' and backtracks toward <c>s=1</c> if the observed-data log-likelihood decreases, guaranteeing monotonicity.
+''' </para>
+''' </remarks>
 Public Class ZeroInflatedPoisson
 
+    ''' <summary>
+    ''' Optional starting values for the Poisson (count) part coefficients <c>β</c>.
+    ''' </summary>
+    ''' <remarks>
+    ''' Used when calling <see cref="Fit"/> with <c>bStartParamsPois:=True</c>.
+    ''' </remarks>
     Public startParamsPois() As Double = Nothing
+
+    ''' <summary>
+    ''' Optional starting values for the Logistic (zero) part coefficients <c>γ</c>.
+    ''' </summary>
+    ''' <remarks>
+    ''' Used when calling <see cref="Fit"/> with <c>bStartParamsLog:=True</c>.
+    ''' </remarks>
     Public startParamsLog() As Double = Nothing
+
+    ''' <summary>
+    ''' If <c>True</c>, ZIP residuals are computed after fitting and exposed via <see cref="AllResiduals"/>.
+    ''' </summary>
     Public bComputeResiduals As Boolean = False
+
+    ''' <summary>
+    ''' If <c>True</c>, retains EM iteration history and includes it in <see cref="wrapResults"/>.
+    ''' </summary>
     Public bIterationDetails As Boolean = False
+
+    ''' <summary>
+    ''' If <c>True</c>, includes an additional covariance/diagnostic output table (when available) in <see cref="wrapResults"/>.
+    ''' </summary>
     Public bReturnCov As Boolean = False
+
+    ''' <summary>
+    ''' Result object for the Poisson (count) component of the ZIP model.
+    ''' </summary>
+    Public resultsPoisson As LMresult 'Zip model resutls for Poisson/Count part
+
+    ''' <summary>
+    ''' Result object for the Logistic (zero) component of the ZIP model.
+    ''' </summary>
+    Public resultsLogistic As LMresult 'Zip model resutls for Logistic/Zero part
 
     Private pAlpha As Double
     Private pMaxEMIter As Integer
@@ -1513,8 +2183,6 @@ Public Class ZeroInflatedPoisson
     Private pLogLikelihood As Double
     Private pFinalDeviance As Double
     Private pFinalZeroModel As GLM
-    Public resultsPoisson As LMresult 'Zip model resutls for Poisson/Count part
-    Public resultsLogistic As LMresult 'Zip model resutls for Logistic/Zero part
     Private ZIPmodelInfo As ResultTable
     'residuals
     Private pRaw_res() As Double
@@ -1523,7 +2191,18 @@ Public Class ZeroInflatedPoisson
     Private pY0count As String
     Private pItInfo(,) As Double 'Interation history information
 
-
+    ''' <summary>
+    ''' Initializes a ZIP model with default EM/IRLS controls.
+    ''' </summary>
+    ''' <remarks>
+    ''' Defaults in code:
+    ''' <list type="bullet">
+    ''' <item><description><c>pEps = 1e-9</c> (log-likelihood change tolerance)</description></item>
+    ''' <item><description><c>pAlpha = 0.05</c></description></item>
+    ''' <item><description><c>pMaxEMIter = 200</c></description></item>
+    ''' <item><description><c>pMaxIRLSIter = 25</c></description></item>
+    ''' </list>
+    ''' </remarks>
     Public Sub New()
         pEps = 0.000000001
         pAlpha = 0.05 'significance level
@@ -1531,6 +2210,17 @@ Public Class ZeroInflatedPoisson
         pMaxIRLSIter = 25
     End Sub
 
+    ''' <summary>
+    ''' Supplies the Poisson-part and Logistic-part datasets (and their variable names) for ZIP fitting.
+    ''' </summary>
+    ''' <param name="arPoisData">Data matrix for the count part: column 0 is response, remaining columns are predictors.</param>
+    ''' <param name="arLogisticData">Data matrix for the zero part: column 0 is the same response, remaining columns are predictors.</param>
+    ''' <param name="strPoisVarNames">Variable names for the Poisson part (aligned to columns).</param>
+    ''' <param name="strLogisticVarNames">Variable names for the Logistic part (aligned to columns).</param>
+    ''' <param name="RowNums">Optional mapping back to original row indices; if omitted, uses sequential indices.</param>
+    ''' <remarks>
+    ''' Both matrices must have the same number of rows and the same response values in column 0.
+    ''' </remarks>
     Public Sub dataInputs(arPoisData(,) As Double, arLogisticData(,) As Double,
                    strPoisVarNames() As String, strLogisticVarNames() As String,
                    Optional RowNums() As Integer = Nothing)
@@ -1549,6 +2239,13 @@ Public Class ZeroInflatedPoisson
         End If
     End Sub
 
+    ''' <summary>
+    ''' Sets ZIP fitting controls for EM and its nested IRLS steps.
+    ''' </summary>
+    ''' <param name="dAlpha">Significance level for output formatting.</param>
+    ''' <param name="irlsMaxiter">Maximum IRLS iterations used inside each M-step GLM fit.</param>
+    ''' <param name="emMaxiter">Maximum EM iterations.</param>
+    ''' <param name="dEps">Convergence tolerance for absolute change in observed-data log-likelihood.</param>
     Public Sub settingInputs(dAlpha As Double, irlsMaxiter As Integer, emMaxiter As Integer, dEps As Double)
         pAlpha = dAlpha
         pMaxEMIter = emMaxiter
@@ -1556,28 +2253,71 @@ Public Class ZeroInflatedPoisson
         pEps = dEps
     End Sub
 
+    ''' <summary>
+    ''' AIC for the fitted ZIP model.
+    ''' </summary>
+    ''' <remarks>
+    ''' The code returns:
+    ''' <para><c>AIC = −2·(LL − (p_count + p_zero))</c></para>
+    ''' (algebraically equivalent to <c>−2·LL + 2·(p_count+p_zero)</c>).
+    ''' </remarks>
     Public ReadOnly Property AIC() As Double
         Get
             Return -2.0 * (pLogLikelihood - (p_count + p_zero))
         End Get
     End Property
+
+    ''' <summary>
+    ''' BIC for the fitted ZIP model.
+    ''' </summary>
+    ''' <remarks>
+    ''' Computed as:
+    ''' <para><c>BIC = D + log(n)·(p_count+p_zero)</c></para>
+    ''' where <c>D = −2·LL</c> is the final deviance stored by the code.
+    ''' </remarks>
     Public ReadOnly Property BIC() As Double
         Get
             Return pFinalDeviance + Math.Log(n) * (p_count + p_zero)
         End Get
     End Property
+
+    ''' <summary>
+    ''' Small-sample corrected AIC (AICc) for the fitted ZIP model.
+    ''' </summary>
+    ''' <remarks>
+    ''' Computed as:
+    ''' <para><c>AICc = D + 2·k·n / (n − k − 1)</c></para>
+    ''' where <c>k = p_count + p_zero</c>.
+    ''' </remarks>
     Public ReadOnly Property AICc() As Double
         Get
             Return pFinalDeviance + 2.0 * (p_count + p_zero) * (n / (n - (p_count + p_zero) - 1))
         End Get
     End Property
 
+    ''' <summary>
+    ''' Returns the ZIP model mean prediction <c>E[Y|x,z] = (1−π)·λ</c> for each observation.
+    ''' </summary>
+    ''' <remarks>
+    ''' With <c>λᵢ = exp(xᵢᵀβ)</c> and <c>πᵢ = logistic(zᵢᵀγ)</c>, the ZIP mean is:
+    ''' <para><c>μᵢ = (1−πᵢ)·λᵢ</c></para>
+    ''' </remarks>
     Public ReadOnly Property Predicted() As Double()
         Get
             Return Me.pPredicted
         End Get
     End Property
 
+    ''' <summary>
+    ''' Returns basic residuals for ZIP: raw and Pearson residuals.
+    ''' </summary>
+    ''' <remarks>
+    ''' As implemented:
+    ''' <list type="bullet">
+    ''' <item><description><b>Raw</b>: <c>rᵢ = yᵢ − μᵢ</c> where <c>μᵢ</c> is the ZIP mean prediction.</description></item>
+    ''' <item><description><b>Pearson</b>: code-stored Pearson-style residual for ZIP (computed post-fit).</description></item>
+    ''' </list>
+    ''' </remarks>
     Public ReadOnly Property AllResiduals() As Object(,)
         Get
             Dim t = New ResultTable
@@ -1592,6 +2332,22 @@ Public Class ZeroInflatedPoisson
         End Get
     End Property
 
+    ''' <summary>
+    ''' Produces formatted result tables for the ZIP model (Poisson and Logistic components plus model diagnostics).
+    ''' </summary>
+    ''' <param name="strOffsetVar">Optional offset variable name (if relevant) added as a footnote.</param>
+    ''' <param name="strWeightsVar">Optional weights variable name added as a footnote.</param>
+    ''' <returns>A list of <c>ResultTable</c> objects for reporting/UI display.</returns>
+    ''' <remarks>
+    ''' Typically includes:
+    ''' <list type="bullet">
+    ''' <item><description>Poisson (count) coefficient table</description></item>
+    ''' <item><description>Logistic (zero) coefficient table (with separation warnings if detected)</description></item>
+    ''' <item><description>ZIP model info table (LL, deviance, AIC/AICc/BIC, #zeros, etc.)</description></item>
+    ''' <item><description>Iteration trace (if enabled)</description></item>
+    ''' <item><description>Optional covariance output (if enabled and available)</description></item>
+    ''' </list>
+    ''' </remarks>
     Public Function wrapResults(Optional strOffsetVar As String = Nothing,
                                 Optional strWeightsVar As String = Nothing) As List(Of ResultTable)
         Dim out As New List(Of ResultTable)
@@ -1648,7 +2404,34 @@ Public Class ZeroInflatedPoisson
         Return out
     End Function
 
-    Public Sub Calculate(interceptPois As Integer, interceptLog As Integer,
+    ''' <summary>
+    ''' Fits a Zero-Inflated Poisson model by EM, using GLM(IRLS) fits in each M-step.
+    ''' </summary>
+    ''' <param name="interceptPois">1 to include an intercept in the Poisson part; 0 otherwise.</param>
+    ''' <param name="interceptLog">1 to include an intercept in the Logistic part; 0 otherwise.</param>
+    ''' <param name="bStartParamsPois">If True, uses <see cref="startParamsPois"/> for Poisson-part initialization.</param>
+    ''' <param name="bStartParamsLog">If True, uses <see cref="startParamsLog"/> for Logistic-part initialization.</param>
+    ''' <param name="progressBar">Optional progress bar updated during EM.</param>
+    ''' <param name="progressLbl">Optional progress label updated with iteration count and log-likelihood change.</param>
+    ''' <remarks>
+    ''' <para>
+    ''' Preconditions enforced by the code:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>The data must contain at least one zero (<c>y0 &gt; 0</c>).</description></item>
+    ''' <item><description>Not all observations may be zero (otherwise parameters are not identifiable).</description></item>
+    ''' </list>
+    ''' <para>
+    ''' After convergence, the method:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description>Stores final log-likelihood and deviance <c>D = −2·LL</c>.</description></item>
+    ''' <item><description>Computes component linear predictors and predictions, and the ZIP mean <c>(1−π)·λ</c>.</description></item>
+    ''' <item><description>Computes a Hessian-based covariance/SE estimate for both component parameter vectors.</description></item>
+    ''' <item><description>Optionally computes residuals if <see cref="bComputeResiduals"/> is True.</description></item>
+    ''' </list>
+    ''' </remarks>
+    Public Sub Fit(interceptPois As Integer, interceptLog As Integer,
                          Optional bStartParamsPois As Boolean = False,
                          Optional bStartParamsLog As Boolean = False,
                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
@@ -1732,7 +2515,7 @@ Public Class ZeroInflatedPoisson
             .setVarNames(Me.pVarNames_count)
             .settingInputs(pAlpha, pMaxIRLSIter, pEps)
             If bStartParamsPois Then .startParams = Me.startParamsPois
-            .Calculate(interceptPois, bStartParamsPois)
+            .Fit(interceptPois, bStartParamsPois)
         End With
         Dim countParam = model_count.results.Coeffs_est
 
@@ -1747,7 +2530,7 @@ Public Class ZeroInflatedPoisson
             .setVarNames(Me.pVarNames_zero)
             .settingInputs(pAlpha, pMaxIRLSIter, pEps)
             If bStartParamsLog Then .startParams = Me.startParamsLog
-            .Calculate(interceptLog, bStartParamsLog) 'allways calculate intercept
+            .Fit(interceptLog, bStartParamsLog) 'allways calculate intercept
         End With
         Dim zeroParam = model_zero.results.Coeffs_est
 
@@ -1757,7 +2540,7 @@ Public Class ZeroInflatedPoisson
         model_zero.PredictedResponses.CopyTo(probi, 0)
 
         For i = 0 To n - 1
-            probi(i) = If(y(i) = 0.0, probi(i) / (probi(i) + (1.0 - probi(i)) * Distributions.PoissonPMF(0.0, mui(i))), 0)
+            probi(i) = If(y(i) = 0.0, probi(i) / (probi(i) + (1.0 - probi(i)) * distributions.PoissonPMF(0.0, mui(i))), 0)
             probi1(i) = 1.0 - probi(i)
         Next
 
@@ -1776,7 +2559,7 @@ Public Class ZeroInflatedPoisson
             With model_count
                 .data(Data_count,,, probi1)
                 .startParams = countParam
-                .Calculate(interceptPois, True)
+                .Fit(interceptPois, True)
             End With
             countParam = model_count.results.Coeffs_est
 
@@ -1787,7 +2570,7 @@ Public Class ZeroInflatedPoisson
             With model_zero
                 .data(YX_zero)
                 .startParams = zeroParam
-                .Calculate(interceptLog, True)
+                .Fit(interceptLog, True)
             End With
             zeroParam = model_zero.results.Coeffs_est
 
@@ -1846,7 +2629,7 @@ Public Class ZeroInflatedPoisson
             probi = PredictLogisticLogitLink(model_zero.Xdata, zeroParam)
 
             For i As Integer = 0 To n - 1
-                probi(i) = If(y(i) = 0.0, probi(i) / (probi(i) + (1.0 - probi(i)) * Distributions.PoissonPMF(0.0, mui(i))), 0.0)
+                probi(i) = If(y(i) = 0.0, probi(i) / (probi(i) + (1.0 - probi(i)) * distributions.PoissonPMF(0.0, mui(i))), 0.0)
                 probi1(i) = 1.0 - probi(i)
             Next
 

@@ -14,12 +14,34 @@ Public Class UiTwoInputRefedits
         Me.Text = analysis
 
         Me.TabPageOptionsHotteling.Parent = Nothing
+        Me.TabPageOptions.Parent = Nothing
         If Me.Text = "Hotelling's T-Squared Test" Then
-            Me.TabPageOptions.Parent = Nothing
             Me.TabPageOptionsHotteling.Parent = Me.TabMultipage
+            Me.grpCItype.Visible = False
+            Me.lblAlpha.Visible = False
+            Me.spinBtnAlphaDeming.Visible = False
+            Me.lblErrorRatio.Visible = False
+            Me.spinBtnErrorRatio.Visible = False
+
+        ElseIf Me.Text = "Deming Regression" Then
+            Me.TabPageOptions.Parent = Me.TabMultipage
+            Me.lblRefedit1.Text = "Reference method (X)"
+            Me.lblRefedit2.Text = "Test method (Y)"
+            Me.ckSignTest.Visible = False
+            Me.ckDescriptiveStatistics.Visible = False
+            Me.grpCItype.Visible = True
+            Me.lblAlpha.Visible = True
+            Me.spinBtnAlphaDeming.Visible = True
+            Me.lblErrorRatio.Visible = True
+            Me.spinBtnErrorRatio.Visible = True
 
         ElseIf analysis <> "Wilcoxon signed rank test" Then
             Me.ckSignTest.Visible = False
+            Me.grpCItype.Visible = False
+            Me.lblAlpha.Visible = False
+            Me.spinBtnAlphaDeming.Visible = False
+            Me.lblErrorRatio.Visible = False
+            Me.spinBtnErrorRatio.Visible = False
 
         End If
 
@@ -33,15 +55,16 @@ Public Class UiTwoInputRefedits
         'for by ID declarations
         Dim refId As String, refData As String, refFinal As String
 
-        If WorksheetNameFromRefAdress(Me.RefEdit1.Address, True) <> WorksheetNameFromRefAdress(Me.RefEdit2.Address, True) Then
+        If WorksheetNameFromRefAdress(Me.RefEdit1.Address, True, Me.RefEdit1.ExcelWorkBook) <>
+            WorksheetNameFromRefAdress(Me.RefEdit2.Address, True, Me.RefEdit2.ExcelWorkBook) Then
             strErr = "Input reference range adresses are from different sheets. Input can be only from one sheet."
         End If
 
-        refId = prepareRef2D(Me.RefEdit1.Address)
-        refData = prepareRef2D(Me.RefEdit2.Address)
+        refId = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
+        refData = prepareRef2D(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
         'join reference address into one (remove sheet name from the second and concatenate).
         'Data can be only form one sheet because of the above check
-        refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True) & "!", String.Empty) 'Remove "Sheet1!" from string
+        refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True, Me.RefEdit2.ExcelWorkBook) & "!", String.Empty) 'Remove "Sheet1!" from string
         columData.DataInport(refFinal, True)
 
         'get unique group IDs
@@ -56,12 +79,13 @@ Public Class UiTwoInputRefedits
         Dim Gr1Data = New DataObj, Gr2Data = New DataObj
         Dim refGr1 As String, refGr2 As String
 
-        If WorksheetNameFromRefAdress(Me.RefEdit1.Address, True) <> WorksheetNameFromRefAdress(Me.RefEdit2.Address, True) Then
+        If WorksheetNameFromRefAdress(Me.RefEdit1.Address, True, Me.RefEdit1.ExcelWorkBook) <>
+            WorksheetNameFromRefAdress(Me.RefEdit2.Address, True, Me.RefEdit2.ExcelWorkBook) Then
             strErr = "Input reference range adresses are from different sheets. Input can be only from one sheet."
             Return (Nothing, Nothing)
         End If
 
-        refGr1 = prepareRef2D(Me.RefEdit1.Address)
+        refGr1 = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
         Gr1Data.DataInport(refGr1, True)
         Dim x1(,) As Double = Gr1Data.DataDbl
         If Gr1Data.bZeroValid Then
@@ -69,7 +93,7 @@ Public Class UiTwoInputRefedits
             Return (Nothing, Nothing)
         End If
 
-        refGr2 = prepareRef2D(Me.RefEdit2.Address)
+        refGr2 = prepareRef2D(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
         Gr2Data.DataInport(refGr2, True)
         Dim x2(,) As Double = Gr2Data.DataDbl
         If Gr2Data.bZeroValid Then
@@ -78,7 +102,7 @@ Public Class UiTwoInputRefedits
         End If
 
         If UBound(x1, 2) <> UBound(x2, 2) Then
-            strErr = $"Input data ranges must have the same number of columns. Group1 #columns= {UBound(x1, 2) + 1} Group2 #columns={UBound(x2, 2) + 1}."
+            strErr = $"Input data ranges must have the same number of columns. Group1 #columns= {x1.GetLength(1)} Group2 #columns={x2.GetLength(1)}."
             Return (Nothing, Nothing)
         End If
 
@@ -131,10 +155,42 @@ Public Class UiTwoInputRefedits
                 Me.RunPairedTtest(data)
             ElseIf Me.Text = "Hotelling's T-Squared Test" Then
                 Me.RunHotteling(D1.Item1, D1.Item2)
+            ElseIf Me.Text = "Deming Regression" Then
+                Me.RunDeming(data)
             End If
         Catch ex As Exception
             BSerr.LogAndThrow(ex, False, True)
         End Try
+    End Sub
+
+    Private Sub RunDeming(data As TwoGroupsPairedData)
+        Dim WriteRes = New WriteResults
+        Dim tt = New Agreement.DemingRegression(GetColumnFrom2Darray(data.X, 0), GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
+        tt.Lambda = Me.spinBtnErrorRatio.Value
+        tt.alpha = Me.spinBtnAlphaDeming.Value
+
+        If Me.optAnalyticalLinnet.Checked Then
+            tt.DemingAnalyticalCI_MCR()
+        ElseIf Me.optJackknife.Checked Then
+            tt.FitJackknifeCI()
+        ElseIf Me.optAnalyticalClosedForm.Checked Then
+            tt.DemingAnalyticalCI()
+        End If
+        Dim res = tt.wrapResults()
+
+        'Dump outputs
+        WriteRes = GetResultWriter() 'pass just table from the main test output
+        Dim rr = New ProcessListofResultTables(res)
+        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
+        Dim totcols As Integer = rr.TotCols
+        If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
+            If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
+                Exit Sub
+            End If
+        End If
+
+        rr.writeToSheet(WriteRes, True)
+        tt.AddPlot(WriteRes.ws)
     End Sub
 
     Private Sub RunHotteling(D1 As DataObj, D2 As DataObj)

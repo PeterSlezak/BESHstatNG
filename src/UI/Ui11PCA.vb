@@ -4,7 +4,7 @@ Public Class Ui11PCA
 
     Private pWorksheet As Worksheet
     Private pWorkbook As Workbook
-    Private VariableColumnsInfo As Dictionary(Of Integer, Object()) 'information of variable/column names inported into the input listbox
+    Private VariableColumnsInfo As Dictionary(Of String, VarColumnInfo) 'information of variable/column names inported into the input listbox
 
     Sub New(analysis As String, ws As Worksheet)
         ' This call is required by the designer.

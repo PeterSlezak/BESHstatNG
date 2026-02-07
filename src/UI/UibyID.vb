@@ -1,6 +1,5 @@
 ﻿Imports System.Runtime.InteropServices.ComTypes
 Imports System.Security.Cryptography
-Imports Microsoft.ApplicationInsights
 Imports Microsoft.Office.Interop.Excel
 
 Public Class UibyID
@@ -71,7 +70,7 @@ Public Class UibyID
         ElseIf Me.Text = "Outliers" Then
             Me.TabPage_OptionsOutliers.Parent = Me.TabMultipage
         End If
-
+        Me.RefEdit1.txtAddress.Select()
         Me.WireHelp(Me.btnHelp)
     End Sub
 
@@ -158,7 +157,7 @@ Public Class UibyID
         Dim out = New MultiGroupsUnpairedData
         'for by ID declarations
         Dim refId As String, refData As String, refFinal As String
-        Dim groupIDs() As String, NoGroups As Integer, ii As Long
+        Dim groupIDs() As String, NoGroups As Integer, ii As Integer
 
         If Me.optByColumn.Checked Then
             'Group by Column. Loop throug each column separately because data are not paired
@@ -178,9 +177,9 @@ Public Class UibyID
                 If columData.FinalData IsNot Nothing Then 'save data
                     outData(ii) = GetColumnFrom2Darray(columData.DataDbl, 0)
                     groupIDs(ii) = columData.varNames(0)
-                    ii = ii + 1
+                    ii += 1
                 End If
-            Next i
+            Next
             If ii = 0 Then 'no valid data column
                 strErr = "No valid data"
                 Return Nothing

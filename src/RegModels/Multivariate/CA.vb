@@ -1206,7 +1206,7 @@ Namespace Multivariate
         ''' </para>
         ''' <para>
         ''' <b>Implementation note.</b>
-        ''' This helper is typically called inside the row/column loops in <c>Calculate()</c> to populate
+        ''' This helper is typically called inside the row/column loops in <c>Fit()</c> to populate
         ''' <c>pRowCorr</c>/<c>pColCorr</c> and <c>pRowAngle</c>/<c>pColAngle</c>.
         ''' </para>
         ''' </remarks>

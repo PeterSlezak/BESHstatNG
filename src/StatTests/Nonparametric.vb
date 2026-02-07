@@ -151,6 +151,16 @@ Public Class ConfidenceIntervalResult
     Public LowerLimit As Double = Nothing
 
     ''' <summary>
+    ''' Standard error that is used to derive interval (used as applicable).
+    ''' </summary>
+    Public StdErr As Double = Nothing
+
+    ''' <summary>
+    ''' 100 * (1 - alpha) confidence interval is created.
+    ''' </summary>
+    Public alpha As Double = 0.05
+
+    ''' <summary>
     ''' Preformatted textual representation of the confidence interval,
     ''' typically in the form "estimate (lower to upper)" for reporting.
     ''' </summary>
@@ -170,6 +180,12 @@ Public Class ConfidenceIntervalResult
         Set(value As String)
             pstrConfidenceInterval = value
         End Set
+    End Property
+
+    Public ReadOnly Property CIlabel As String
+        Get
+            Return $"{100.0 * (1.0 - alpha)}% Confidence Interval"
+        End Get
     End Property
 
 End Class
@@ -809,7 +825,7 @@ Namespace nonparametric
             Me.Shift = New ConfidenceIntervalResult
             Dim n As Integer = UBound(arG12, 1) + 1
 
-            'Calculate Hodges-Lehmann estimate of shift
+            'Fit Hodges-Lehmann estimate of shift
             Dim MeanOfDiffs(n * (n - 1) / 2 + n - 1) As Double
 
             For i = 0 To n - 1
@@ -1374,7 +1390,7 @@ Namespace nonparametric
             Dim t3 As Double = 0.0131 - 0.00046 * Y
             Dim t4 As Double = 0.0072 - 0.0831 * b + Y * b * t3
             Dim u As Double = x * b * (0.2274 + b * T1 + Y * (-0.0758 + b * T2 - Y * b * (0.0879 + 0.0151 * b - Y * t4)))
-            Dim PRHO As Double = u / Math.Exp(Y / 2.0) + (1.0 - distributions.PNorm(x)) 'Calculate probability
+            Dim PRHO As Double = u / Math.Exp(Y / 2.0) + (1.0 - distributions.PNorm(x)) 'Fit probability
 
             If PRHO > 1.0 Then
                 Me.CorrelationResult.PvalueExact = 0.5
@@ -2571,7 +2587,7 @@ Namespace nonparametric
             Me.TSresults.lNoTies = jj
             ReDim Preserve arSlopes(ii - 1)
 
-            'Calculate Median slope
+            'Fit Median slope
             Array.Sort(arSlopes)
             If ii Mod 2 = 0 Then
                 Me.TSresults.MedianSlope = (arSlopes(ii / 2 - 1) + arSlopes(ii / 2)) / 2

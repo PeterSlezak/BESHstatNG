@@ -932,7 +932,7 @@ Partial Class UiGLM
         Me.btCalculate.Name = "btCalculate"
         Me.btCalculate.Size = New System.Drawing.Size(75, 23)
         Me.btCalculate.TabIndex = 3
-        Me.btCalculate.Text = "Calculate"
+        Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
         '
         'btnHelp

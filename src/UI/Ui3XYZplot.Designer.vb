@@ -59,11 +59,15 @@ Partial Class Ui3XYZplot
         Me.lblGroup = New System.Windows.Forms.Label()
         Me.btOK = New System.Windows.Forms.Button()
         Me.btnHelp = New System.Windows.Forms.Button()
+        Me.btnAnimatedGif = New System.Windows.Forms.Button()
+        Me.lblAnimatedGif = New System.Windows.Forms.Label()
+        Me.RefEdit6_AnimatedGif = New BESHStatNG.Excel2007RefEdit()
         Me.RefEdit5_Labels = New BESHStatNG.Excel2007RefEdit()
         Me.RefEdit4_Group = New BESHStatNG.Excel2007RefEdit()
         Me.RefEdit3_Z = New BESHStatNG.Excel2007RefEdit()
         Me.RefEdit2_Y = New BESHStatNG.Excel2007RefEdit()
         Me.RefEdit1_X = New BESHStatNG.Excel2007RefEdit()
+        Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.grpChartSettings.SuspendLayout()
         CType(Me.spinBtnLabelFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnMarkerSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -308,7 +312,7 @@ Partial Class Ui3XYZplot
         Me.grpViewSettings.Controls.Add(Me.spinBtnRotationX)
         Me.grpViewSettings.Controls.Add(Me.lblRotationX)
         Me.grpViewSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpViewSettings.Location = New System.Drawing.Point(15, 219)
+        Me.grpViewSettings.Location = New System.Drawing.Point(15, 234)
         Me.grpViewSettings.Name = "grpViewSettings"
         Me.grpViewSettings.Size = New System.Drawing.Size(331, 179)
         Me.grpViewSettings.TabIndex = 2
@@ -369,7 +373,7 @@ Partial Class Ui3XYZplot
         '
         Me.spinBtnZoom.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.spinBtnZoom.Location = New System.Drawing.Point(162, 90)
-        Me.spinBtnZoom.Maximum = New Decimal(New Integer() {360, 0, 0, 0})
+        Me.spinBtnZoom.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.spinBtnZoom.Name = "spinBtnZoom"
         Me.spinBtnZoom.Size = New System.Drawing.Size(59, 22)
         Me.spinBtnZoom.TabIndex = 7
@@ -466,7 +470,7 @@ Partial Class Ui3XYZplot
         '
         'btOK
         '
-        Me.btOK.Location = New System.Drawing.Point(673, 360)
+        Me.btOK.Location = New System.Drawing.Point(680, 390)
         Me.btOK.Name = "btOK"
         Me.btOK.Size = New System.Drawing.Size(75, 23)
         Me.btOK.TabIndex = 6
@@ -475,12 +479,45 @@ Partial Class Ui3XYZplot
         '
         'btnHelp
         '
-        Me.btnHelp.Location = New System.Drawing.Point(592, 360)
+        Me.btnHelp.Location = New System.Drawing.Point(599, 390)
         Me.btnHelp.Name = "btnHelp"
         Me.btnHelp.Size = New System.Drawing.Size(75, 23)
         Me.btnHelp.TabIndex = 7
         Me.btnHelp.Text = "Help"
         Me.btnHelp.UseVisualStyleBackColor = True
+        '
+        'btnAnimatedGif
+        '
+        Me.btnAnimatedGif.Location = New System.Drawing.Point(492, 390)
+        Me.btnAnimatedGif.Name = "btnAnimatedGif"
+        Me.btnAnimatedGif.Size = New System.Drawing.Size(101, 23)
+        Me.btnAnimatedGif.TabIndex = 14
+        Me.btnAnimatedGif.Text = "Animated Gif"
+        Me.btnAnimatedGif.UseVisualStyleBackColor = True
+        '
+        'lblAnimatedGif
+        '
+        Me.lblAnimatedGif.AutoSize = True
+        Me.lblAnimatedGif.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAnimatedGif.Location = New System.Drawing.Point(386, 337)
+        Me.lblAnimatedGif.Name = "lblAnimatedGif"
+        Me.lblAnimatedGif.Size = New System.Drawing.Size(121, 16)
+        Me.lblAnimatedGif.TabIndex = 16
+        Me.lblAnimatedGif.Text = "Animated Gif Inputs"
+        '
+        'RefEdit6_AnimatedGif
+        '
+        Me.RefEdit6_AnimatedGif.Address = ""
+        Me.RefEdit6_AnimatedGif.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit6_AnimatedGif.ExcelConnector = Nothing
+        Me.RefEdit6_AnimatedGif.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit6_AnimatedGif.ImageMinimized = CType(resources.GetObject("RefEdit6_AnimatedGif.ImageMinimized"), System.Drawing.Image)
+        Me.RefEdit6_AnimatedGif.Location = New System.Drawing.Point(508, 329)
+        Me.RefEdit6_AnimatedGif.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit6_AnimatedGif.Name = "RefEdit6_AnimatedGif"
+        Me.RefEdit6_AnimatedGif.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit6_AnimatedGif.Size = New System.Drawing.Size(246, 32)
+        Me.RefEdit6_AnimatedGif.TabIndex = 15
         '
         'RefEdit5_Labels
         '
@@ -552,11 +589,22 @@ Partial Class Ui3XYZplot
         Me.RefEdit1_X.Size = New System.Drawing.Size(246, 32)
         Me.RefEdit1_X.TabIndex = 9
         '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Location = New System.Drawing.Point(383, 366)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(372, 18)
+        Me.ProgressBar1.TabIndex = 17
+        '
         'Ui3XYZplot
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(767, 403)
+        Me.ClientSize = New System.Drawing.Size(761, 418)
+        Me.Controls.Add(Me.ProgressBar1)
+        Me.Controls.Add(Me.lblAnimatedGif)
+        Me.Controls.Add(Me.RefEdit6_AnimatedGif)
+        Me.Controls.Add(Me.btnAnimatedGif)
         Me.Controls.Add(Me.lblLabels)
         Me.Controls.Add(Me.RefEdit5_Labels)
         Me.Controls.Add(Me.RefEdit4_Group)
@@ -634,4 +682,8 @@ Partial Class Ui3XYZplot
     Friend WithEvents ckZdropLines As Windows.Forms.CheckBox
     Friend WithEvents lblPointLabelPosition As Windows.Forms.Label
     Friend WithEvents cbPointLabelPosition As Windows.Forms.ComboBox
+    Friend WithEvents btnAnimatedGif As Windows.Forms.Button
+    Friend WithEvents RefEdit6_AnimatedGif As Excel2007RefEdit
+    Friend WithEvents lblAnimatedGif As Windows.Forms.Label
+    Friend WithEvents ProgressBar1 As Windows.Forms.ProgressBar
 End Class

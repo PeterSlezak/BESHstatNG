@@ -29,7 +29,7 @@ Public Class Ui4KMandLogRank
         ElseIf Me.Text = "Logrank Test" Then
             Me.lblGroup.Text = "Group ID"
         End If
-
+        Me.RefEdit1_SurvivalTime.txtAddress.Select()
         Me.WireHelp(Me.btnHelp)
     End Sub
 

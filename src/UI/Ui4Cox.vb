@@ -3,7 +3,7 @@
 Public Class Ui4Cox
     Private pWorksheet As Object
     Private pWorkbook As Object
-    Private VariableColumnsInfo As Dictionary(Of Integer, Object()) 'information of variable/column names inported into the input listbox
+    Private VariableColumnsInfo As Dictionary(Of String, VarColumnInfo) 'information of variable/column names inported into the input listbox
 
     Sub New()
 

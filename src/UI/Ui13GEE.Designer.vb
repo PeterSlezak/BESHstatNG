@@ -832,7 +832,7 @@ Partial Class Ui13GEE
         Me.btCalculate.Name = "btCalculate"
         Me.btCalculate.Size = New System.Drawing.Size(75, 23)
         Me.btCalculate.TabIndex = 11
-        Me.btCalculate.Text = "Calculate"
+        Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
         '
         'Ui13GEE

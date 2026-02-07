@@ -74,7 +74,7 @@ Namespace Multivariate
         '''''' <param name="arVarNames">Variable names (length p). Used for headers and loading/biplot labels.</param>
         '''''' <param name="strExtractMethodLabel">Optional label displayed in titles produced by <see cref="wrapResults"/>.</param>
         '''''' <remarks>
-        '''''' <para>Calling this method does not run PCA; it only stores inputs. Call <see cref="Calculate"/> to perform the analysis.</para>
+        '''''' <para>Calling this method does not run PCA; it only stores inputs. Call <see cref="Fit"/> to perform the analysis.</para>
         '''''' </remarks>
         Sub dataInputs(arData(,) As Double, arRowIds() As Integer, arVarNames() As String, Optional strExtractMethodLabel As String = "")
             pData = arData
@@ -84,7 +84,7 @@ Namespace Multivariate
         End Sub
 
         '''''' <summary>
-        '''''' Configures eigen-solver and matrix type settings used by <see cref="Calculate"/>.
+        '''''' Configures eigen-solver and matrix type settings used by <see cref="Fit"/>.
         '''''' </summary>
         '''''' <param name="maximumIteration">Maximum number of sweeps/iterations passed to <c>EIGEN_JK</c>.</param>
         '''''' <param name="dEps">Convergence tolerance passed to <c>EIGEN_JK</c> (smaller values are stricter).</param>
@@ -192,7 +192,7 @@ Namespace Multivariate
         '''''' <summary>
         '''''' Gets the number of extracted principal components k.
         '''''' </summary>
-        '''''' <returns>An integer in [1, p] determined by the extraction rule used in <see cref="Calculate"/>.</returns>
+        '''''' <returns>An integer in [1, p] determined by the extraction rule used in <see cref="Fit"/>.</returns>
         ReadOnly Property NoExtractComponents() As Integer
             Get
                 Return pNoExtractComponents
@@ -274,10 +274,10 @@ Namespace Multivariate
         '''''' <c>ResultTable</c> implementation.
         '''''' </para>
         '''''' <para>
-        '''''' Call <see cref="Calculate"/> before calling this method.
+        '''''' Call <see cref="Fit"/> before calling this method.
         '''''' </para>
         '''''' </remarks>
-        '''''' <seealso cref="Calculate" />
+        '''''' <seealso cref="Fit" />
         Public Function wrapResults() As List(Of ResultTable)
             Dim out As New List(Of ResultTable)
             Dim t = New ResultTable
@@ -440,7 +440,7 @@ Namespace Multivariate
         '''''' instance named <c>app</c> is available in scope. They create a new chart in the active workbook.
         '''''' </para>
         '''''' <para>
-        '''''' Call <see cref="Calculate"/> before plotting.
+        '''''' Call <see cref="Fit"/> before plotting.
         '''''' </para>
         '''''' <para>Uses <see cref="GetLoadings"/> and <see cref="PercentExpl"/> for axis labeling.</para>
         '''''' </remarks>
@@ -477,7 +477,7 @@ Namespace Multivariate
         '''''' instance named <c>app</c> is available in scope. They create a new chart in the active workbook.
         '''''' </para>
         '''''' <para>
-        '''''' Call <see cref="Calculate"/> before plotting.
+        '''''' Call <see cref="Fit"/> before plotting.
         '''''' </para>
         '''''' <para>Uses <see cref="GetLoadings"/> and <see cref="PercentExpl"/> for axis labeling.</para>
         '''''' </remarks>
@@ -603,7 +603,7 @@ Namespace Multivariate
         '''''' instance named <c>app</c> is available in scope. They create a new chart in the active workbook.
         '''''' </para>
         '''''' <para>
-        '''''' Call <see cref="Calculate"/> before plotting.
+        '''''' Call <see cref="Fit"/> before plotting.
         '''''' </para>
         '''''' <para>Uses <see cref="ReducedDataset"/> and <see cref="PercentExpl"/> for axis labeling.</para>
         '''''' </remarks>
@@ -645,7 +645,7 @@ Namespace Multivariate
         '''''' instance named <c>app</c> is available in scope. They create a new chart in the active workbook.
         '''''' </para>
         '''''' <para>
-        '''''' Call <see cref="Calculate"/> before plotting.
+        '''''' Call <see cref="Fit"/> before plotting.
         '''''' </para>
         '''''' <para>Uses <see cref="ReducedDataset"/> and <see cref="PercentExpl"/> for axis labeling. Points may be labeled using row IDs.</para>
         '''''' </remarks>
@@ -766,7 +766,7 @@ Namespace Multivariate
         '''''' instance named <c>app</c> is available in scope. They create a new chart in the active workbook.
         '''''' </para>
         '''''' <para>
-        '''''' Call <see cref="Calculate"/> before plotting.
+        '''''' Call <see cref="Fit"/> before plotting.
         '''''' </para>
         '''''' <para>Plots scores from <see cref="ReducedDataset"/> and loadings from <see cref="GetLoadings"/>.</para>
         '''''' </remarks>
@@ -941,7 +941,7 @@ Namespace Multivariate
         '''''' instance named <c>app</c> is available in scope. They create a new chart in the active workbook.
         '''''' </para>
         '''''' <para>
-        '''''' Call <see cref="Calculate"/> before plotting.
+        '''''' Call <see cref="Fit"/> before plotting.
         '''''' </para>
         '''''' <para>Uses <see cref="Eigenvalues"/> and <see cref="XaxisComponents"/>.</para>
         '''''' </remarks>

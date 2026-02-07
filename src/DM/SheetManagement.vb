@@ -1,5 +1,6 @@
 ﻿Option Explicit On
 Imports ExcelDna.Integration
+Imports Microsoft.Office.Interop
 Imports Microsoft.Office.Interop.Excel
 
 Friend Module SheetManagement
@@ -231,7 +232,7 @@ Friend Module SheetManagement
     ''' Dim ws2 As Worksheet = WorksheetFromRefAdress("'Data Sheet'!B10")
     ''' Console.WriteLine("Worksheet name: " + ws2.Name)
     ''' </example>
-    Function WorksheetFromRefAdress(strAddr As String) As Worksheet
+    Function WorksheetFromRefAdress(strAddr As String, Optional WB As Excel.Workbook = Nothing) As Worksheet
         Dim nIndex As Integer, wks As String = String.Empty, countExclm As Integer
         WorksheetFromRefAdress = Nothing
         'If the name of the worksheet contains a single apostrophe, there are spaces in the name.
@@ -260,7 +261,12 @@ Friend Module SheetManagement
             BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .else condition.. Unrecognized reference range adress string = " & strAddr))
         End If
 
-        Return app.ActiveWorkbook.Worksheets(wks)
+        If WB Is Nothing Then
+            Return app.ActiveWorkbook.Worksheets(wks)
+        Else
+            Return WB.Worksheets(wks)
+        End If
+
     End Function
 
     ''' <summary>
@@ -295,22 +301,33 @@ Friend Module SheetManagement
     ''' ' refStr = "$B:$B"
     ''' Console.WriteLine(refStr)
     ''' </example>
-    Function CreateReference(ws As Worksheet, var As String, VarList As Dictionary(Of Integer, Object())) As String
-        'Create reference (ie. column name in the ws worksheet ) based on the variable name
-        Dim WholeString As Object, PartString As Object
+    Function CreateReference(ws As Worksheet, var As String, VarList As Dictionary(Of String, VarColumnInfo)) As String
 
-        'bFind = False
-        Dim ref As String = String.Empty
-        Dim colNumber As Integer
-        For Each key In VarList.Keys
-            Dim colinfo = VarList(key)
-            If colinfo(3) = var Then colNumber = key
-        Next
-        WholeString = ws.Range(ws.Cells(1, colNumber), ws.Cells(1, colNumber)).AddressLocal
-        PartString = Split(WholeString, "$")
-        ref = "$" & PartString(1) & ":$" & PartString(1)
-        Return ref
+        Dim info As VarColumnInfo = Nothing
+        If Not VarList.TryGetValue(CStr(var), info) OrElse info Is Nothing Then
+            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Variable not found in VarList: '{var}'."))
+        End If
+
+        Dim col As String = info.ColumnLetter
+        Return "$" & col & ":$" & col
     End Function
+
+    'Function CreateReference(ws As Worksheet, var As String, VarList As Dictionary(Of Integer, Object())) As String
+    '    'Create reference (ie. column name in the ws worksheet ) based on the variable name
+    '    Dim WholeString As Object, PartString As Object
+
+    '    'bFind = False
+    '    Dim ref As String = String.Empty
+    '    Dim colNumber As Integer
+    '    For Each key In VarList.Keys
+    '        Dim colinfo = VarList(key)
+    '        If colinfo(3) = var Then colNumber = key
+    '    Next
+    '    WholeString = ws.Range(ws.Cells(1, colNumber), ws.Cells(1, colNumber)).AddressLocal
+    '    PartString = Split(WholeString, "$")
+    '    ref = "$" & PartString(1) & ":$" & PartString(1)
+    '    Return ref
+    'End Function
 
     ''' <summary>
     ''' Extracts the worksheet name from a reference string and optionally includes apostrophes.
@@ -339,17 +356,17 @@ Friend Module SheetManagement
     ''' Dim wsName2 As String = WorksheetNameFromRefAdress("'Data Sheet'!B10", True)
     ''' ' wsName2 = "'Data Sheet'"
     ''' </example>
-    Function WorksheetNameFromRefAdress(strAddr As String, bIncludeApos As Boolean) As String
+    Function WorksheetNameFromRefAdress(strAddr As String, bIncludeApos As Boolean, Optional WB As Excel.Workbook = Nothing) As String
         Dim strName As String
 
         If bIncludeApos Then
             If InStr(1, strAddr, "'") Then
-                strName = "'" & WorksheetFromRefAdress(strAddr).Name & "'"
+                strName = "'" & WorksheetFromRefAdress(strAddr, WB).Name & "'"
             Else
-                strName = WorksheetFromRefAdress(strAddr).Name
+                strName = WorksheetFromRefAdress(strAddr, WB).Name
             End If
         Else
-            strName = WorksheetFromRefAdress(strAddr).Name
+            strName = WorksheetFromRefAdress(strAddr, WB).Name
         End If
         Return strName
     End Function
@@ -377,12 +394,12 @@ Friend Module SheetManagement
     ''' Dim refs2() As String = ColumListFromRefAdress("'Data Sheet'!B2:D10")
     ''' ' refs2 = {"$B:$B", "$C:$C", "$D:$D"}
     ''' </example>
-    Function ColumListFromRefAdress(ref As String) As String()
+    Function ColumListFromRefAdress(ref As String, Optional WB As Excel.Workbook = Nothing) As String()
         Dim wks As String, temp As Object, FullString As Object, ws As Worksheet, i As Integer, j As Integer
         Dim rRange As Range, strUpdatedAdrr As String, lastRow As Integer
         strUpdatedAdrr = String.Empty
-        wks = WorksheetNameFromRefAdress(ref, True) & "!"
-        ws = WorksheetFromRefAdress(ref)
+        wks = WorksheetNameFromRefAdress(ref, True, WB) & "!"
+        ws = WorksheetFromRefAdress(ref, WB)
         temp = Replace(Replace(ref, wks, String.Empty), "$", String.Empty) 'Remove "Sheet1!" and "$" from string
 
         FullString = Split(temp, ",") 'String reference
@@ -460,10 +477,10 @@ Friend Module SheetManagement
     ''' Dim refStr2 As String = prepareRef2D("'Data Sheet'!B2:D10")
     ''' ' refStr2 = "'Data Sheet'!$B:$B, $C:$C, $D:$D"
     ''' </example>
-    Function prepareRef2D(strRefid As String) As String
+    Function prepareRef2D(strRefid As String, Optional WB As Excel.Workbook = Nothing) As String
         'if one range of multiple columns (e.g. for RMANOVA, Hotelling's T2)then update it so we can use standard Reg rutines
-        Dim ref As String = WorksheetNameFromRefAdress(strRefid, True) & "!"
-        Dim colList() As String = ColumListFromRefAdress(strRefid)
+        Dim ref As String = WorksheetNameFromRefAdress(strRefid, True, WB) & "!"
+        Dim colList() As String = ColumListFromRefAdress(strRefid, WB)
         For i = 0 To UBound(colList)
             If i = 0 Then
                 ref += LTrim$(colList(i))

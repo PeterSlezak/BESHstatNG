@@ -32,11 +32,9 @@ Partial Class Ui82x2
         Me.lblC1 = New System.Windows.Forms.Label()
         Me.lblR2 = New System.Windows.Forms.Label()
         Me.lblR1 = New System.Windows.Forms.Label()
-        Me.RefEdit1_WorksheetData = New BESHStatNG.Excel2007RefEdit()
         Me.optWorksheetData = New System.Windows.Forms.RadioButton()
         Me.optScreenData = New System.Windows.Forms.RadioButton()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
@@ -49,6 +47,8 @@ Partial Class Ui82x2
         Me.ckAssociation = New System.Windows.Forms.CheckBox()
         Me.ckChi2 = New System.Windows.Forms.CheckBox()
         Me.ckFisher = New System.Windows.Forms.CheckBox()
+        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit1_WorksheetData = New BESHStatNG.Excel2007RefEdit()
         Me.grpInput.SuspendLayout()
         CType(Me.spinBtnD, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnC, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -150,21 +150,6 @@ Partial Class Ui82x2
         Me.lblR1.TabIndex = 10
         Me.lblR1.Text = "R1"
         '
-        'RefEdit1_WorksheetData
-        '
-        Me.RefEdit1_WorksheetData.Address = ""
-        Me.RefEdit1_WorksheetData.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit1_WorksheetData.Enabled = False
-        Me.RefEdit1_WorksheetData.ExcelConnector = Nothing
-        Me.RefEdit1_WorksheetData.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit1_WorksheetData.ImageMinimized = CType(resources.GetObject("RefEdit1_WorksheetData.ImageMinimized"), System.Drawing.Image)
-        Me.RefEdit1_WorksheetData.Location = New System.Drawing.Point(243, 92)
-        Me.RefEdit1_WorksheetData.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit1_WorksheetData.Name = "RefEdit1_WorksheetData"
-        Me.RefEdit1_WorksheetData.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit1_WorksheetData.Size = New System.Drawing.Size(267, 32)
-        Me.RefEdit1_WorksheetData.TabIndex = 9
-        '
         'optWorksheetData
         '
         Me.optWorksheetData.AutoSize = True
@@ -199,21 +184,6 @@ Partial Class Ui82x2
         Me.grpOutput.TabIndex = 5
         Me.grpOutput.TabStop = False
         Me.grpOutput.Text = "Output"
-        '
-        'RefEditOutput
-        '
-        Me.RefEditOutput.Address = ""
-        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
-        Me.RefEditOutput.Enabled = False
-        Me.RefEditOutput.ExcelConnector = Nothing
-        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
-        Me.RefEditOutput.Location = New System.Drawing.Point(168, 16)
-        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEditOutput.Name = "RefEditOutput"
-        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
-        Me.RefEditOutput.TabIndex = 3
         '
         'optWorkbook
         '
@@ -351,6 +321,36 @@ Partial Class Ui82x2
         Me.ckFisher.TabIndex = 0
         Me.ckFisher.Text = "Fisher Exact Test"
         Me.ckFisher.UseVisualStyleBackColor = True
+        '
+        'RefEditOutput
+        '
+        Me.RefEditOutput.Address = ""
+        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
+        Me.RefEditOutput.Enabled = False
+        Me.RefEditOutput.ExcelConnector = Nothing
+        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
+        Me.RefEditOutput.Location = New System.Drawing.Point(168, 16)
+        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEditOutput.Name = "RefEditOutput"
+        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
+        Me.RefEditOutput.TabIndex = 3
+        '
+        'RefEdit1_WorksheetData
+        '
+        Me.RefEdit1_WorksheetData.Address = ""
+        Me.RefEdit1_WorksheetData.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit1_WorksheetData.Enabled = False
+        Me.RefEdit1_WorksheetData.ExcelConnector = Nothing
+        Me.RefEdit1_WorksheetData.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit1_WorksheetData.ImageMinimized = CType(resources.GetObject("RefEdit1_WorksheetData.ImageMinimized"), System.Drawing.Image)
+        Me.RefEdit1_WorksheetData.Location = New System.Drawing.Point(243, 92)
+        Me.RefEdit1_WorksheetData.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit1_WorksheetData.Name = "RefEdit1_WorksheetData"
+        Me.RefEdit1_WorksheetData.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit1_WorksheetData.Size = New System.Drawing.Size(267, 32)
+        Me.RefEdit1_WorksheetData.TabIndex = 9
         '
         'Ui82x2
         '

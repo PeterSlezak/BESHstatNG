@@ -360,7 +360,7 @@ Namespace regression
         ''' <summary>
         ''' Fits the proportional-odds ordinal logistic model by maximizing the weighted log-likelihood.
         ''' </summary>
-        Public Sub Calculate(Optional reference As ReferenceCategory = ReferenceCategory.Last,
+        Public Sub Fit(Optional reference As ReferenceCategory = ReferenceCategory.Last,
                          Optional bStartParams As Boolean = False,
                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                          Optional progressLbl As System.Windows.Forms.Label = Nothing)

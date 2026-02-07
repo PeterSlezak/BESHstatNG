@@ -4,7 +4,7 @@ Public Class Ui13GEE
 
     Private pWorksheet As Object
     Private pWorkbook As Object
-    Private VariableColumnsInfo As Dictionary(Of Integer, Object()) 'information of variable/column names inported into the input listbox
+    Private VariableColumnsInfo As Dictionary(Of String, VarColumnInfo) 'information of variable/column names inported into the input listbox
 
     Sub New(analysis As String)
 
@@ -346,7 +346,7 @@ Public Class Ui13GEE
             fitGEE.bIterationDetails = Me.ckIterationsDetails.Checked
             fitGEE.settingInputs(0.05, CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text), Me.ckUseP.Checked)
             If bInitialValues Then fitGEE.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
-            fitGEE.Calculate(bInitialValues, , Me.ProgressBar1, Me.lblProgress)
+            fitGEE.Fit(bInitialValues, , Me.ProgressBar1, Me.lblProgress)
 
             ''Dump results
             Dim WriteRes As WriteResults = New WriteResults

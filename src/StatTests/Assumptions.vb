@@ -159,7 +159,7 @@ Namespace assumptions
                 Return Nothing
             End If
 
-            ' Calculate W statistic as squared correlation between data and coefficients
+            ' Fit W statistic as squared correlation between data and coefficients
             SA = SA / n
             sx = sx / n
             Dim SSA As Double = 0.0
@@ -187,7 +187,7 @@ Namespace assumptions
             w1 = (SSASSX - SAX) * (SSASSX + SAX) / (SSA * SSX)
             W = 1.0 - w1
 
-            ' Calculate significance level for W (exact for N=3)
+            ' Fit significance level for W (exact for N=3)
             Select Case n ' neriesi n<3 to treba vyriesit na zaciatku
                 Case Is = 3
                     PW = 1.909859 * (Math.Asin(Math.Sqrt(W)) - 1.047198)

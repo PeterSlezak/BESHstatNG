@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class UiTwoInputRefedits
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class UiTwoInputRefedits
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UiTwoInputRefedits))
         Me.TabMultipage = New System.Windows.Forms.TabControl()
@@ -36,6 +36,13 @@ Partial Class UiTwoInputRefedits
         Me.lblRefedit2 = New System.Windows.Forms.Label()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
         Me.TabPageOptions = New System.Windows.Forms.TabPage()
+        Me.lblErrorRatio = New System.Windows.Forms.Label()
+        Me.spinBtnErrorRatio = New System.Windows.Forms.NumericUpDown()
+        Me.lblAlpha = New System.Windows.Forms.Label()
+        Me.spinBtnAlphaDeming = New System.Windows.Forms.NumericUpDown()
+        Me.grpCItype = New System.Windows.Forms.GroupBox()
+        Me.optJackknife = New System.Windows.Forms.RadioButton()
+        Me.optAnalyticalLinnet = New System.Windows.Forms.RadioButton()
         Me.ckSignTest = New System.Windows.Forms.CheckBox()
         Me.ckDescriptiveStatistics = New System.Windows.Forms.CheckBox()
         Me.TabPageOptionsHotteling = New System.Windows.Forms.TabPage()
@@ -48,11 +55,15 @@ Partial Class UiTwoInputRefedits
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCompute = New System.Windows.Forms.Button()
         Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
+        Me.optAnalyticalClosedForm = New System.Windows.Forms.RadioButton()
         Me.TabMultipage.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.grpOutput.SuspendLayout()
         Me.grpInput.SuspendLayout()
         Me.TabPageOptions.SuspendLayout()
+        CType(Me.spinBtnErrorRatio, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.spinBtnAlphaDeming, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpCItype.SuspendLayout()
         Me.TabPageOptionsHotteling.SuspendLayout()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpHottelingTestType.SuspendLayout()
@@ -185,7 +196,7 @@ Partial Class UiTwoInputRefedits
         'lblRefedit2
         '
         Me.lblRefedit2.AutoSize = True
-        Me.lblRefedit2.Location = New System.Drawing.Point(29, 112)
+        Me.lblRefedit2.Location = New System.Drawing.Point(13, 96)
         Me.lblRefedit2.Name = "lblRefedit2"
         Me.lblRefedit2.Size = New System.Drawing.Size(89, 16)
         Me.lblRefedit2.TabIndex = 3
@@ -193,15 +204,19 @@ Partial Class UiTwoInputRefedits
         '
         'lblRefedit1
         '
-        Me.lblRefedit1.AutoSize = True
-        Me.lblRefedit1.Location = New System.Drawing.Point(29, 58)
+        Me.lblRefedit1.Location = New System.Drawing.Point(13, 42)
         Me.lblRefedit1.Name = "lblRefedit1"
-        Me.lblRefedit1.Size = New System.Drawing.Size(89, 16)
+        Me.lblRefedit1.Size = New System.Drawing.Size(123, 34)
         Me.lblRefedit1.TabIndex = 2
         Me.lblRefedit1.Text = "Data: Group 1"
         '
         'TabPageOptions
         '
+        Me.TabPageOptions.Controls.Add(Me.lblErrorRatio)
+        Me.TabPageOptions.Controls.Add(Me.spinBtnErrorRatio)
+        Me.TabPageOptions.Controls.Add(Me.lblAlpha)
+        Me.TabPageOptions.Controls.Add(Me.spinBtnAlphaDeming)
+        Me.TabPageOptions.Controls.Add(Me.grpCItype)
         Me.TabPageOptions.Controls.Add(Me.ckSignTest)
         Me.TabPageOptions.Controls.Add(Me.ckDescriptiveStatistics)
         Me.TabPageOptions.Location = New System.Drawing.Point(4, 25)
@@ -211,6 +226,87 @@ Partial Class UiTwoInputRefedits
         Me.TabPageOptions.TabIndex = 1
         Me.TabPageOptions.Text = "Options"
         Me.TabPageOptions.UseVisualStyleBackColor = True
+        '
+        'lblErrorRatio
+        '
+        Me.lblErrorRatio.AutoSize = True
+        Me.lblErrorRatio.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblErrorRatio.Location = New System.Drawing.Point(16, 231)
+        Me.lblErrorRatio.Name = "lblErrorRatio"
+        Me.lblErrorRatio.Size = New System.Drawing.Size(123, 16)
+        Me.lblErrorRatio.TabIndex = 9
+        Me.lblErrorRatio.Text = "Error Ratio (σx²/σy²)"
+        '
+        'spinBtnErrorRatio
+        '
+        Me.spinBtnErrorRatio.DecimalPlaces = 3
+        Me.spinBtnErrorRatio.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnErrorRatio.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnErrorRatio.Location = New System.Drawing.Point(145, 226)
+        Me.spinBtnErrorRatio.Maximum = New Decimal(New Integer() {1000000, 0, 0, 196608})
+        Me.spinBtnErrorRatio.Name = "spinBtnErrorRatio"
+        Me.spinBtnErrorRatio.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnErrorRatio.TabIndex = 8
+        Me.spinBtnErrorRatio.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'lblAlpha
+        '
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAlpha.Location = New System.Drawing.Point(97, 206)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(42, 16)
+        Me.lblAlpha.TabIndex = 7
+        Me.lblAlpha.Text = "Alpha"
+        '
+        'spinBtnAlphaDeming
+        '
+        Me.spinBtnAlphaDeming.DecimalPlaces = 3
+        Me.spinBtnAlphaDeming.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlphaDeming.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlphaDeming.Location = New System.Drawing.Point(145, 200)
+        Me.spinBtnAlphaDeming.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlphaDeming.Name = "spinBtnAlphaDeming"
+        Me.spinBtnAlphaDeming.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlphaDeming.TabIndex = 6
+        Me.spinBtnAlphaDeming.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
+        'grpCItype
+        '
+        Me.grpCItype.Controls.Add(Me.optAnalyticalClosedForm)
+        Me.grpCItype.Controls.Add(Me.optJackknife)
+        Me.grpCItype.Controls.Add(Me.optAnalyticalLinnet)
+        Me.grpCItype.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpCItype.Location = New System.Drawing.Point(19, 69)
+        Me.grpCItype.Name = "grpCItype"
+        Me.grpCItype.Size = New System.Drawing.Size(325, 123)
+        Me.grpCItype.TabIndex = 5
+        Me.grpCItype.TabStop = False
+        Me.grpCItype.Text = "Confidence Interval Construction"
+        '
+        'optJackknife
+        '
+        Me.optJackknife.AutoSize = True
+        Me.optJackknife.Checked = True
+        Me.optJackknife.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optJackknife.Location = New System.Drawing.Point(17, 30)
+        Me.optJackknife.Name = "optJackknife"
+        Me.optJackknife.Size = New System.Drawing.Size(85, 20)
+        Me.optJackknife.TabIndex = 1
+        Me.optJackknife.TabStop = True
+        Me.optJackknife.Text = "Jackknife"
+        Me.optJackknife.UseVisualStyleBackColor = True
+        '
+        'optAnalyticalLinnet
+        '
+        Me.optAnalyticalLinnet.AutoSize = True
+        Me.optAnalyticalLinnet.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optAnalyticalLinnet.Location = New System.Drawing.Point(17, 56)
+        Me.optAnalyticalLinnet.Name = "optAnalyticalLinnet"
+        Me.optAnalyticalLinnet.Size = New System.Drawing.Size(289, 20)
+        Me.optAnalyticalLinnet.TabIndex = 0
+        Me.optAnalyticalLinnet.Text = "Analytical – Linnet (jackknife pseudo-values)"
+        Me.optAnalyticalLinnet.UseVisualStyleBackColor = True
         '
         'ckSignTest
         '
@@ -345,6 +441,17 @@ Partial Class UiTwoInputRefedits
         Me.progressBarExactCalc.Size = New System.Drawing.Size(270, 23)
         Me.progressBarExactCalc.TabIndex = 5
         '
+        'optAnalyticalClosedForm
+        '
+        Me.optAnalyticalClosedForm.AutoSize = True
+        Me.optAnalyticalClosedForm.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optAnalyticalClosedForm.Location = New System.Drawing.Point(17, 82)
+        Me.optAnalyticalClosedForm.Name = "optAnalyticalClosedForm"
+        Me.optAnalyticalClosedForm.Size = New System.Drawing.Size(248, 20)
+        Me.optAnalyticalClosedForm.TabIndex = 2
+        Me.optAnalyticalClosedForm.Text = "Analytical (closed form / linearization)"
+        Me.optAnalyticalClosedForm.UseVisualStyleBackColor = True
+        '
         'UiTwoInputRefedits
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -366,6 +473,10 @@ Partial Class UiTwoInputRefedits
         Me.grpInput.PerformLayout()
         Me.TabPageOptions.ResumeLayout(False)
         Me.TabPageOptions.PerformLayout()
+        CType(Me.spinBtnErrorRatio, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.spinBtnAlphaDeming, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpCItype.ResumeLayout(False)
+        Me.grpCItype.PerformLayout()
         Me.TabPageOptionsHotteling.ResumeLayout(False)
         Me.TabPageOptionsHotteling.PerformLayout()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
@@ -400,4 +511,12 @@ Partial Class UiTwoInputRefedits
     Friend WithEvents optPaired As Windows.Forms.RadioButton
     Friend WithEvents lblAlphaOutliers As Windows.Forms.Label
     Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents grpCItype As Windows.Forms.GroupBox
+    Friend WithEvents optJackknife As Windows.Forms.RadioButton
+    Friend WithEvents optAnalyticalLinnet As Windows.Forms.RadioButton
+    Friend WithEvents lblErrorRatio As Windows.Forms.Label
+    Friend WithEvents spinBtnErrorRatio As Windows.Forms.NumericUpDown
+    Friend WithEvents lblAlpha As Windows.Forms.Label
+    Friend WithEvents spinBtnAlphaDeming As Windows.Forms.NumericUpDown
+    Friend WithEvents optAnalyticalClosedForm As Windows.Forms.RadioButton
 End Class

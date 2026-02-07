@@ -32,6 +32,12 @@ Public Class Excel2007RefEdit
     Private DisplayState As RefEditState
     Private pbInTextAdressHandler As Boolean = False
 
+    Public ReadOnly Property ExcelWorkBook() As Excel.Workbook
+        Get
+            Return Me.xlBook
+        End Get
+    End Property
+
     Public Sub New()
 
         ' This call is required by the designer.
@@ -444,7 +450,9 @@ Public Class Excel2007RefEdit
             If xlSheet.Name <> xlBook.ActiveSheet.name AndAlso xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then xlSheet = xlBook.ActiveSheet
         End If
         AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
-        Me.FindForm().TopMost = True
+
+        If Me.FindForm() IsNot Nothing Then Me.FindForm().TopMost = True
+
         Me.pbInTextAdressHandler = True
     End Sub
 

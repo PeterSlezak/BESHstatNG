@@ -67,9 +67,6 @@
     <Reference Include="ExcelDna.Integration, Version=1.1.0.0, Culture=neutral, PublicKeyToken=f225e9659857edbe, processorArchitecture=MSIL">
       <HintPath>..\packages\ExcelDna.Integration.1.9.0\lib\net462\ExcelDna.Integration.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=2.23.0.29, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.23.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
@@ -79,30 +76,12 @@
       <HintPath>..\packages\NLog.6.0.5\lib\net46\NLog.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
-    </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
-    </Reference>
     <Reference Include="System.Numerics" />
-    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime" />
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -146,7 +125,9 @@
     <Compile Include="src\DM\Helpers.vb" />
     <Compile Include="src\DM\SheetManagement.vb" />
     <Compile Include="src\Graphics\BoxPlot.vb" />
+    <Compile Include="src\Graphics\ChartExport.vb" />
     <Compile Include="src\Graphics\ChartingFunc.vb" />
+    <Compile Include="src\Graphics\GifAnimator.vb" />
     <Compile Include="src\Graphics\Histogram.vb" />
     <Compile Include="src\Graphics\NormalPlot.vb" />
     <Compile Include="src\Graphics\ROC.vb" />
@@ -168,12 +149,14 @@
     <Compile Include="src\RegModels\Multivariate\PCA.vb" />
     <Compile Include="src\RegModels\OrdinalLogitModel.vb" />
     <Compile Include="src\DM\ResultTable.vb" />
+    <Compile Include="src\StatTests\Agreement.vb" />
     <Compile Include="src\StatTests\Assumptions.vb" />
     <Compile Include="src\StatTests\ContingencyTable.vb" />
     <Compile Include="src\StatTests\FisherExact.vb" />
     <Compile Include="src\StatTests\Survival.vb" />
     <Compile Include="src\StatTests\Nonparametric.vb" />
     <Compile Include="src\StatTests\Parametric.vb" />
+    <Compile Include="src\UI\ExcelWindowWrapper.vb" />
     <Compile Include="src\UI\Ui10ShowLog.Designer.vb">
       <DependentUpon>Ui10ShowLog.vb</DependentUpon>
     </Compile>
@@ -244,6 +227,12 @@
       <DependentUpon>Ui8Proportions.vb</DependentUpon>
     </Compile>
     <Compile Include="src\UI\Ui8Proportions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui99ExportChart.Designer.vb">
+      <DependentUpon>Ui99ExportChart.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui99ExportChart.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\UI\Ui9ANOVA2nested.Designer.vb">
@@ -328,6 +317,9 @@
     <EmbeddedResource Include="src\UI\Ui8Proportions.resx">
       <DependentUpon>Ui8Proportions.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui99ExportChart.resx">
+      <DependentUpon>Ui99ExportChart.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui9ANOVA2nested.resx">
       <DependentUpon>Ui9ANOVA2nested.vb</DependentUpon>
     </EmbeddedResource>
@@ -368,6 +360,16 @@
   <PropertyGroup>
     <!-- ISO-8601 extended date: YYYY-MM-DD -->
     <BuildDate>$([System.DateTime]::UtcNow.ToString("yyyy-MM-dd"))</BuildDate>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Releas|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Releas\</OutputPath>
+    <DocumentationFile>BESHStatNG.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Resources\RefEdit0.bmp" />

@@ -67,19 +67,39 @@ def load_methods(meta: dict) -> list[dict]:
     return out
 
 
+def load_pages(meta: dict) -> list[dict]:
+    """Load non-method pages that still need help hooks (e.g. export-chart.md)."""
+    pages = meta.get("pages")
+    return pages if isinstance(pages, list) else []
+
+
 def generate(methods_yml: Path, project_dir: Path) -> None:
     meta = yaml.safe_load(methods_yml.read_text(encoding="utf-8"))
     base_url = (meta.get("site", {}) or {}).get("baseUrl", "https://www.beshstat.eu/beshstatng/help").rstrip("/")
     methods = load_methods(meta)
+    pages = load_pages(meta)
 
-    # 1) Build HelpTopic enum + URL mapping (from method key + slug)
+    # 1) Build HelpTopic enum + URL mapping
     topics: list[tuple[str, str]] = [("Home", "/")]
+
+    # Method pages live under /methods/<slug>/
     for m in methods:
         key = m.get("key")
         slug = m.get("slug")
         if not key or not slug:
             continue
         topics.append((vb_ident(key), f"/methods/{slug}/"))
+
+    # Non-method pages live at /<slug>/ (MkDocs page "export-chart.md" -> "/export-chart/")
+    for p in pages:
+        key = p.get("key")
+        slug = p.get("slug")
+        if not key or not slug:
+            continue
+        rel = slug if slug.startswith("/") else f"/{slug}/"
+        if not rel.endswith("/"):
+            rel += "/"
+        topics.append((vb_ident(key), rel))
 
     # de-dupe by enum name (stable order)
     seen: set[str] = set()
@@ -108,6 +128,19 @@ def generate(methods_yml: Path, project_dir: Path) -> None:
             else:
                 mapping[map_key] = topic
 
+    for p in pages:
+        topic = vb_ident(p.get("key", ""))
+        title = p.get("title") or ""
+        for fr in (p.get("forms") or []):
+            form = fr.get("form") or ""
+            disp = fr.get("analysisTitle") or title
+            map_key = f"{form}|{normalize_for_key(disp)}"
+            if map_key in mapping and mapping[map_key] != topic:
+                conflicts.add(map_key)
+            else:
+                mapping[map_key] = topic
+
+
     # remove ambiguous keys -> will fall back to Home
     for k in conflicts:
         mapping.pop(k, None)
@@ -127,6 +160,8 @@ def generate(methods_yml: Path, project_dir: Path) -> None:
         "",
         "Imports System.Diagnostics",
         "Imports System.Reflection",
+        "Imports System.Net",
+        "Imports System.Collections.Generic",
         "",
         "Public Enum HelpTopic",
     ]
@@ -168,8 +203,11 @@ def generate(methods_yml: Path, project_dir: Path) -> None:
         "        End Select",
         "    End Function",
         "",
+        "    ' Cache URL existence results to avoid repeated network requests",
+        "    Private ReadOnly _urlExistsCache As New Dictionary(Of String, Boolean)(StringComparer.OrdinalIgnoreCase)",
+        "",
         "    Public Sub OpenTopic(topic As HelpTopic)",
-        "        OpenUrl(GetUrl(topic))",
+        "        OpenUrlWithFallback(GetUrl(topic))",
         "    End Sub",
         "",
         "    Public Sub OpenUrl(url As String)",
@@ -177,6 +215,109 @@ def generate(methods_yml: Path, project_dir: Path) -> None:
         "        Dim psi As New ProcessStartInfo(url) With {.UseShellExecute = True}",
         "        Process.Start(psi)",
         "    End Sub",
+        "",
+        "    Private Sub OpenUrlWithFallback(primaryUrl As String)",
+        "        If String.IsNullOrWhiteSpace(primaryUrl) Then",
+        "            OpenUrl(FallbackBaseUrl)",
+        "            Return",
+        "        End If",
+        "",
+        "        ' 1) Try versioned URL first",
+        "        If UrlExistsCached(primaryUrl) Then",
+        "            OpenUrl(primaryUrl)",
+        "            Return",
+        "        End If",
+        "",
+        "        ' 2) Try same relative path under /latest/",
+        "        Dim fallbackCandidate As String = BuildFallbackCandidate(primaryUrl)",
+        "        If Not String.IsNullOrWhiteSpace(fallbackCandidate) AndAlso UrlExistsCached(fallbackCandidate) Then",
+        "            OpenUrl(fallbackCandidate)",
+        "            Return",
+        "        End If",
+        "",
+        "        ' 3) Last resort: open the fallback base",
+        "        OpenUrl(FallbackBaseUrl)",
+        "    End Sub",
+        "",
+        "    Private Function BuildFallbackCandidate(primaryUrl As String) As String",
+        "        ' Preserve relative path when switching from /vX.Y.Z.W to /latest/",
+        "        Try",
+        "            Dim baseV As String = BaseUrl",
+        "            If String.IsNullOrWhiteSpace(baseV) Then Return Nothing",
+        "            If primaryUrl.StartsWith(baseV, StringComparison.OrdinalIgnoreCase) Then",
+        "                Dim rel As String = primaryUrl.Substring(baseV.Length)",
+        "                Dim fb As String = FallbackBaseUrl.TrimEnd(\"/\"c)",
+        "                If Not rel.StartsWith(\"/\", StringComparison.Ordinal) Then rel = \"/\" & rel",
+        "                Return fb & rel",
+        "            End If",
+        "        Catch",
+        "        End Try",
+        "        Return Nothing",
+        "    End Function",
+        "",
+        "    Private Function UrlExistsCached(url As String) As Boolean",
+        "        Dim exists As Boolean",
+        "        If _urlExistsCache.TryGetValue(url, exists) Then Return exists",
+        "        exists = UrlExists(url)",
+        "        _urlExistsCache(url) = exists",
+        "        Return exists",
+        "    End Function",
+        "",
+        "    Private Function UrlExists(url As String) As Boolean",
+        "        ' Use GET and sniff HTML because some hosting returns HTTP 200 for the MkDocs 404 page.",
+        "        Try",
+        "            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 Or SecurityProtocolType.Tls11 Or SecurityProtocolType.Tls",
+        "        Catch",
+        "        End Try",
+        "",
+        "        Try",
+        "            Dim req = CType(WebRequest.Create(url), HttpWebRequest)",
+        "            req.Method = \"GET\"",
+        "            req.AllowAutoRedirect = True",
+        "            req.Timeout = 2000",
+        "            req.ReadWriteTimeout = 2000",
+        "            req.UserAgent = \"BESHStatNG-Help\"",
+        "            req.Accept = \"text/html\"",
+        "            ' Try to read only a small portion of the response",
+        "            Try : req.AddRange(0, 8191) : Catch : End Try",
+        "",
+        "            Using resp = CType(req.GetResponse(), HttpWebResponse)",
+        "                Dim code As Integer = CInt(resp.StatusCode)",
+        "                If code = 404 OrElse code = 410 Then Return False",
+        "                If code < 200 OrElse code >= 400 Then Return False",
+        "",
+        "                Using s = resp.GetResponseStream()",
+        "                    If s Is Nothing Then Return False",
+        "                    Using sr As New IO.StreamReader(s, System.Text.Encoding.UTF8, detectEncodingFromByteOrderMarks:=True, bufferSize:=4096)",
+        "                        Dim html As String = sr.ReadToEnd()",
+        "                        If String.IsNullOrEmpty(html) Then Return True",
+        "                        Dim h As String = html.ToLowerInvariant()",
+        "",
+        "                        ' MkDocs Material 404 markers",
+        "                        If h.Contains(\"oops! that page\") OrElse",
+        "                            (h.Contains(\"page can\") AndAlso h.Contains(\"t be found\")) OrElse",
+        "                            h.Contains(\"404 - not found\") OrElse",
+        "                            h.Contains(\">404<\") Then",
+        "                            Return False",
+        "                        End If",
+        "",
+        "                        Return True",
+        "                    End Using",
+        "                End Using",
+        "            End Using",
+        "",
+        "        Catch ex As WebException",
+        "            Dim resp = TryCast(ex.Response, HttpWebResponse)",
+        "            If resp IsNot Nothing Then",
+        "                Dim code As Integer = CInt(resp.StatusCode)",
+        "                If code = 404 OrElse code = 410 Then Return False",
+        "                Return False",
+        "            End If",
+        "            Return False",
+        "        Catch",
+        "            Return False",
+        "        End Try",
+        "    End Function",
         "End Module",
         "",
     ]

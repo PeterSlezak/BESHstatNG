@@ -1,5 +1,6 @@
 ﻿Option Explicit On
 Imports System.Xml
+Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop.Excel
 
 Namespace graphics
@@ -145,12 +146,12 @@ Namespace graphics
         Private tx(2) As Double
         Private ftn(2) As Double
         Private tsn(2) As Double
-        Private xs_x_axisticks(20) As Double
-        Private ys_x_axisticks(20) As Double
-        Private xs_y_axisticks(20) As Double
-        Private ys_y_axisticks(20) As Double
-        Private xs_z_axisticks(20) As Double
-        Private ys_z_axisticks(20) As Double
+        Private xs_x_axisticks() As Double
+        Private ys_x_axisticks() As Double
+        Private xs_y_axisticks() As Double
+        Private ys_y_axisticks() As Double
+        Private xs_z_axisticks() As Double
+        Private ys_z_axisticks() As Double
         Private x_tick_labels() As String
         Private y_tick_labels() As String
         Private z_tick_labels() As String
@@ -382,7 +383,7 @@ Namespace graphics
         ''' <param name="figure">Optional existing chart; otherwise a new chart is created.</param>
         Public Sub draw(Optional figure As Chart = Nothing)
 
-            Dim i As Integer, j As Integer, can_delete_i As Integer, grpID As Integer, zeros() As Double
+            Dim i As Integer, j As Integer, grpID As Integer, zeros() As Double
             'Arrays for By Group display
             Dim ByGroupX() As Double, ByGroupY() As Double, ByGroupDataPointLabel() As String, ByGroupError_bar() As Double
 
@@ -390,8 +391,8 @@ Namespace graphics
             Call cut_planes()
 
             If figure Is Nothing Then
-                app.Charts.Add()
-                figure = app.ActiveWorkbook.ActiveChart
+                app.ActiveWorkbook.Charts.Add()
+                figure = CType(app.ActiveWorkbook.ActiveChart, Microsoft.Office.Interop.Excel.Chart)
             End If
 
             With figure
@@ -402,27 +403,68 @@ Namespace graphics
                     .HasLegend = bGroups
                     .Name = pChartName
                     .HasTitle = False
-                    .hestitle = True
-                    .ChartTitle.Delete()
+                    .HasTitle = True
+                    .HasTitle = False
                 Catch
                 End Try
                 .ChartType = XlChartType.xlXYScatter
 
+                '*** IMPORTANT RESET FOR REUSE ***
+                'When reusing the same chart object, Excel can carry over formatting
+                'that makes new line series (like the Cage) render invisible.
+                Try
+                    .ChartArea.ClearFormats()
+                    .PlotArea.ClearFormats()
+                Catch ex As Exception
+                    Debug.Print("ClearFormats failed: " & ex.Message)
+                End Try
+
                 'delete extra series
-                Do Until .SeriesCollection.Count = 0
+                Do While .SeriesCollection.Count > 0
                     .SeriesCollection(1).Delete
                 Loop
+
+                '------------------------------------------------------------
+                ' FIX: Do NOT delete axes. Keep them, lock scales, and hide them.
+                ' Deleting axes breaks redraw/reuse because the second draw may
+                ' not have axes to configure, and the Try/Catch skips scale locks.
+                '------------------------------------------------------------
                 Try
-                    'this is required to enable zoom/shift. Scale is automaticaly recalculated otherwise = calceling the zoom/shift effect.
-                    .Axes(XlAxisType.xlCategory).MinimumScale = -1
-                    .Axes(XlAxisType.xlCategory).MaximumScale = 1
-                    .Axes(XlAxisType.xlCategory).Delete
-                    .Axes(XlAxisType.xlValue).MinimumScale = 0
-                    .Axes(XlAxisType.xlValue).MaximumScale = 2
-                    .Axes(XlAxisType.xlValue).Delete
-                    .Axes(XlAxisType.xlValue).MajorGridlines.Delete
-                Catch
+                    .HasAxis(XlAxisType.xlCategory, XlAxisGroup.xlPrimary) = False
+                    .HasAxis(XlAxisType.xlValue, XlAxisGroup.xlPrimary) = False
+                    .HasAxis(XlAxisType.xlCategory, XlAxisGroup.xlPrimary) = True
+                    .HasAxis(XlAxisType.xlValue, XlAxisGroup.xlPrimary) = True
+
+                    'X axis
+                    Dim axX As Axis = .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary)
+                    axX.MinimumScaleIsAuto = False
+                    axX.MaximumScaleIsAuto = False
+                    axX.MinimumScale = -1
+                    axX.MaximumScale = 1
+                    axX.HasMajorGridlines = False
+                    axX.HasMinorGridlines = False
+                    axX.MajorTickMark = XlTickMark.xlTickMarkNone
+                    axX.MinorTickMark = XlTickMark.xlTickMarkNone
+                    axX.TickLabelPosition = XlTickLabelPosition.xlTickLabelPositionNone
+                    axX.Border.LineStyle = XlLineStyle.xlLineStyleNone   'hide axis line (Excel-only)
+
+                    'Y axis
+                    Dim axY As Axis = .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary)
+                    axY.MinimumScaleIsAuto = False
+                    axY.MaximumScaleIsAuto = False
+                    axY.MinimumScale = 0
+                    axY.MaximumScale = 2
+                    axY.HasMajorGridlines = False
+                    axY.HasMinorGridlines = False
+                    axY.MajorTickMark = XlTickMark.xlTickMarkNone
+                    axY.MinorTickMark = XlTickMark.xlTickMarkNone
+                    axY.TickLabelPosition = XlTickLabelPosition.xlTickLabelPositionNone
+                    axY.Border.LineStyle = XlLineStyle.xlLineStyleNone   'hide axis line (Excel-only)
+
+                Catch ex As Exception
+                    Debug.Print("Axis setup failed: " & ex.Message)
                 End Try
+
 
                 'plot cage-------------------------------------------------------------
                 Call cage_data()
@@ -433,6 +475,11 @@ Namespace graphics
                     .XValues = xs_cage
                     .Values = ys_cage
                     .Name = "Cage"
+                    'Force a real line even after redraw/reuse
+                    .Border.LineStyle = XlLineStyle.xlContinuous
+                    .Border.Weight = XlBorderWeight.xlThin
+                    .Border.Color = RGB(100, 100, 100)
+
                     .Format.Line.Weight = 1
                     .Format.Line.Visible = True
                     .Format.Line.ForeColor.RGB = RGB(100, 100, 100)
@@ -462,37 +509,34 @@ Namespace graphics
                 seriesID += 1
                 .SeriesCollection.NewSeries
                 With .SeriesCollection(seriesID)
+                    .ClearFormats()
                     .ChartType = XlChartType.xlXYScatterLinesNoMarkers
                     .XValues = xs_x_axisticks
                     .Values = ys_x_axisticks
                     .Name = "x_ticks"
+                    'Force a real line even after redraw/reuse
+                    .Border.LineStyle = XlLineStyle.xlContinuous
+                    .Border.Weight = XlBorderWeight.xlThin
+                    .Border.Color = RGB(0, 0, 0)
+
                     .Format.Line.Weight = 2
                     .Format.Line.Visible = True
                     .Format.Line.ForeColor.RGB = RGB(0, 0, 0)
 
                     'Attach a label to each data point in the chart.
-                    j = 0
-                    For i = 1 To xs_x_axisticks.Length
-                        If i = 2 Or i = 6 Or i = 8 Or i = 12 Or i = 14 Or i = 18 Or i = 20 Then
-                            .points(i).HasDataLabel = True
-                            .points(i).DataLabel.text = CStr(x_tick_labels(j))
-                            .points(i).DataLabel.Position = XlDataLabelPosition.xlLabelPositionRight
-                            .points(i).DataLabel.Font.Size = 10
-                            j += 1
-                            If j > UBound(x_tick_labels) Then Exit For
-                        End If
+                    For t As Integer = 0 To x_tick_labels.GetUpperBound(0)
+                        Dim pt As Integer = t * 3 + 2
+                        .Points(pt).HasDataLabel = True
+                        .Points(pt).DataLabel.Text = x_tick_labels(t)
+                        .Points(pt).DataLabel.Position = XlDataLabelPosition.xlLabelPositionRight
+                        .Points(pt).DataLabel.Font.Size = 10
                     Next
 
-                    can_delete_i = i
-                    For i = can_delete_i + 2 To UBound(xs_x_axisticks)
-                        .points(i).Format.Line.Visible = False
-                    Next
-
-                    'Make redundant line segments invisible
-                    For i = 3 To 21
-                        If i = 3 Or i = 4 Or i = 7 Or i = 8 Or i = 10 Or i = 11 Or i = 13 Or
-                           i = 15 Or i = 16 Or i = 19 Or i = 20 Then
-                            .points(i).Format.Line.Visible = False
+                    For i = 0 To xs_x_axisticks.Length - 1
+                        If xs_x_axisticks(i) = gToDeleteGridLineValue Then
+                            .Points(i + 1).Format.Line.Visible = False
+                            If i + 1 <= xs_x_axisticks.GetUpperBound(0) Then .Points(i + 2).Format.Line.Visible = False
+                            i += 1
                         End If
                     Next
                 End With
@@ -504,33 +548,29 @@ Namespace graphics
                     .XValues = xs_y_axisticks
                     .Values = ys_y_axisticks
                     .Name = "y_ticks"
+                    'Force a real line even after redraw/reuse
+                    .Border.LineStyle = XlLineStyle.xlContinuous
+                    .Border.Weight = XlBorderWeight.xlThin
+                    .Border.Color = RGB(0, 0, 0)
+
                     .Format.Line.Weight = 2
                     .Format.Line.Visible = True
                     .Format.Line.ForeColor.RGB = RGB(0, 0, 0)
 
                     'Attach a label to each data point in the chart.
-                    j = 0
-                    For i = 1 To xs_y_axisticks.Length
-                        If i = 2 Or i = 6 Or i = 8 Or i = 12 Or i = 14 Or i = 18 Or i = 20 Then
-                            .points(i).HasDataLabel = True
-                            .points(i).DataLabel.text = CStr(y_tick_labels(j))
-                            .points(i).DataLabel.Position = XlDataLabelPosition.xlLabelPositionBelow
-                            .points(i).DataLabel.Font.Size = 11
-                            j += 1
-                            If j > UBound(y_tick_labels) Then Exit For
-                        End If
+                    For t As Integer = 0 To y_tick_labels.GetUpperBound(0)
+                        Dim pt As Integer = t * 3 + 2
+                        .Points(pt).HasDataLabel = True
+                        .Points(pt).DataLabel.Text = y_tick_labels(t)
+                        .Points(pt).DataLabel.Position = XlDataLabelPosition.xlLabelPositionBelow
+                        .Points(pt).DataLabel.Font.Size = 10
                     Next
 
-                    can_delete_i = i
-                    For i = can_delete_i + 2 To UBound(xs_y_axisticks)
-                        .points(i).Format.Line.Visible = False
-                    Next
-
-                    'Make redundant line segments invisible
-                    For i = 3 To 21
-                        If i = 3 Or i = 4 Or i = 7 Or i = 8 Or i = 10 Or i = 11 Or i = 13 Or
-                           i = 15 Or i = 16 Or i = 19 Or i = 20 Then
-                            .points(i).Format.Line.Visible = False
+                    For i = 0 To xs_y_axisticks.Length - 1
+                        If xs_y_axisticks(i) = gToDeleteGridLineValue Then
+                            .Points(i + 1).Format.Line.Visible = False
+                            If i + 1 <= xs_y_axisticks.GetUpperBound(0) Then .Points(i + 2).Format.Line.Visible = False
+                            i += 1
                         End If
                     Next
                 End With
@@ -542,32 +582,29 @@ Namespace graphics
                     .XValues = xs_z_axisticks
                     .Values = ys_z_axisticks
                     .Name = "z_ticks"
+                    'Force a real line even after redraw/reuse
+                    .Border.LineStyle = XlLineStyle.xlContinuous
+                    .Border.Weight = XlBorderWeight.xlThin
+                    .Border.Color = RGB(0, 0, 0)
+
                     .Format.Line.Weight = 2
                     .Format.Line.Visible = True
                     .Format.Line.ForeColor.RGB = RGB(0, 0, 0)
 
                     'Attach a label to each data point in the chart.
-                    j = 0
-                    For i = 1 To xs_z_axisticks.Length
-                        If i = 2 Or i = 6 Or i = 8 Or i = 12 Or i = 14 Or i = 18 Or i = 20 Then
-                            .points(i).HasDataLabel = True
-                            .points(i).DataLabel.text = CStr(z_tick_labels(j))
-                            .points(i).DataLabel.Position = XlDataLabelPosition.xlLabelPositionRight
-                            .points(i).DataLabel.Font.Size = 10
-                            j += 1
-                            If j > UBound(z_tick_labels) Then Exit For
-                        End If
+                    For t As Integer = 0 To z_tick_labels.GetUpperBound(0)
+                        Dim pt As Integer = t * 3 + 2
+                        .Points(pt).HasDataLabel = True
+                        .Points(pt).DataLabel.Text = z_tick_labels(t)
+                        .Points(pt).DataLabel.Position = XlDataLabelPosition.xlLabelPositionRight
+                        .Points(pt).DataLabel.Font.Size = 10
                     Next
 
-                    can_delete_i = i
-                    For i = can_delete_i + 2 To UBound(xs_z_axisticks)
-                        .points(i).Format.Line.Visible = False
-                    Next
-
-                    'Make redundant line segments invisible
-                    For i = 3 To 21
-                        If i = 3 Or i = 4 Or i = 7 Or i = 8 Or i = 10 Or i = 11 Or i = 13 Or i = 15 Or i = 16 Or i = 19 Or i = 20 Then
-                            .points(i).Format.Line.Visible = False
+                    For i = 0 To xs_z_axisticks.Length - 1
+                        If xs_z_axisticks(i) = gToDeleteGridLineValue Then
+                            .Points(i + 1).Format.Line.Visible = False
+                            If i + 1 <= xs_z_axisticks.GetUpperBound(0) Then .Points(i + 2).Format.Line.Visible = False
+                            i += 1
                         End If
                     Next
                 End With
@@ -851,16 +888,12 @@ Namespace graphics
                             .ErrorBar(Direction:=XlErrorBarDirection.xlY, Include:=Constants.xlMinusValues, Type:=XlErrorBarType.xlErrorBarTypeCustom, amount:=zeros, MinusValues:=error_bars)
                             .ErrorBar(Direction:=XlErrorBarDirection.xlX, Include:=Constants.xlNone, Type:=XlErrorBarType.xlErrorBarTypeFixedValue, amount:=0, MinusValues:=0)
                         End If
-
-                        Try
-                            .Legend.Delete
-                        Catch
-                        End Try
                     End With
                 End If
             End With
 
         End Sub
+
 
         ''' <summary>
         ''' Computes all gridline coordinates for the XY, XZ, and YZ planes after
@@ -1115,47 +1148,120 @@ Namespace graphics
         ''' using <c>gToDeleteGridLineValue</c>.
         ''' </summary>
         Private Sub tick_marks_data()
-            Dim vect1(20) As Double, vect2(20) As Double, vect3(20) As Double
-            Dim vectxc(20) As Double, tmx_x(20) As Double, vectyc(20) As Double, tmy_y(20) As Double, vectzc(20) As Double, tmz_z(20) As Double
-
             Call tick_marks_prerequisites()
 
-            ReDim x_tick_labels(tx(0)), y_tick_labels(tx(1)), z_tick_labels(tx(2))
-            For i = 1 To 21
-                vect1(i - 1) = Int((i - 1) / 3)
-                If i Mod 2 = 1 Then
-                    vect2(i - 1) = 0.5
-                ElseIf i Mod 2 = 0 Then
-                    vect2(i - 1) = 0.55
-                End If
-                vect3(i - 1) = -0.5
+            'Labels: one per tick (0..tx)
+            ReDim x_tick_labels(CInt(tx(0))), y_tick_labels(CInt(tx(1))), z_tick_labels(CInt(tx(2)))
 
-                'x axis tick marks
-                vectxc(i - 1) = If(vect1(i - 1) > tx(0), tx(0), vect1(i - 1))
-                tmx_x(i - 1) = ftn(0) + vectxc(i - 1) * tsn(0)
-                xs_x_axisticks(i - 1) = (tmx_x(i - 1) * rot_1(0) + vect2(i - 1) * rot_1(1) + vect3(i - 1) * rot_1(2) + x_shift_internal) * zoom_internal
-                ys_x_axisticks(i - 1) = (tmx_x(i - 1) * rot_2(0) + vect2(i - 1) * rot_2(1) + vect3(i - 1) * rot_2(2) + y_shift_internal) * zoom_internal
+            'Allocate ticks like gridlines: (base, tip, dummy) per tick
+            ReDim xs_x_axisticks(3 * (CInt(tx(0)) + 1) - 1), ys_x_axisticks(3 * (CInt(tx(0)) + 1) - 1)
+            ReDim xs_y_axisticks(3 * (CInt(tx(1)) + 1) - 1), ys_y_axisticks(3 * (CInt(tx(1)) + 1) - 1)
+            ReDim xs_z_axisticks(3 * (CInt(tx(2)) + 1) - 1), ys_z_axisticks(3 * (CInt(tx(2)) + 1) - 1)
 
-                'pY axis tick marks
-                vectyc(i - 1) = If(vect1(i - 1) > tx(1), tx(1), vect1(i - 1))
-                tmy_y(i - 1) = ftn(1) + vectyc(i - 1) * tsn(1)
-                xs_y_axisticks(i - 1) = (vect2(i - 1) * rot_1(0) + tmy_y(i - 1) * rot_1(1) + vect3(i - 1) * rot_1(2) + x_shift_internal) * zoom_internal
-                ys_y_axisticks(i - 1) = (vect2(i - 1) * rot_2(0) + tmy_y(i - 1) * rot_2(1) + vect3(i - 1) * rot_2(2) + y_shift_internal) * zoom_internal
+            Dim base As Double = 0.5
+            Dim tip As Double = 0.55
+            Dim back As Double = -0.5
 
-                'z axis tick marks
-                vectzc(i - 1) = If(vect1(i - 1) > tx(2), tx(2), vect1(i - 1))
-                tmz_z(i - 1) = ftn(2) + vectzc(i - 1) * tsn(2)
-                xs_z_axisticks(i - 1) = (vect3(i - 1) * rot_1(0) + vect2(i - 1) * rot_1(1) + tmz_z(i - 1) * rot_1(2) + x_shift_internal) * zoom_internal
-                ys_z_axisticks(i - 1) = (vect3(i - 1) * rot_2(0) + vect2(i - 1) * rot_2(1) + tmz_z(i - 1) * rot_2(2) + y_shift_internal) * zoom_internal
+            'X axis ticks: (x varies), tick goes in +Y direction at Z = -0.5
+            For t As Integer = 0 To CInt(tx(0))
+                Dim x As Double = ftn(0) + t * tsn(0)
 
-                'tick mark values
-                If (i - 1) Mod 3 = 1 Then
-                    x_tick_labels(Math.Round(vectxc(i - 1), 0)) = CStr(ft(0) + vectxc(i - 1) * ts(0))
-                    y_tick_labels(Math.Round(vectyc(i - 1), 0)) = CStr(ft(1) + vectyc(i - 1) * ts(1))
-                    z_tick_labels(Math.Round(vectzc(i - 1), 0)) = CStr(ft(2) + vectzc(i - 1) * ts(2))
-                End If
+                'base
+                xs_x_axisticks(t * 3) = (x * rot_1(0) + base * rot_1(1) + back * rot_1(2) + x_shift_internal) * zoom_internal
+                ys_x_axisticks(t * 3) = (x * rot_2(0) + base * rot_2(1) + back * rot_2(2) + y_shift_internal) * zoom_internal
+
+                'tip
+                xs_x_axisticks(t * 3 + 1) = (x * rot_1(0) + tip * rot_1(1) + back * rot_1(2) + x_shift_internal) * zoom_internal
+                ys_x_axisticks(t * 3 + 1) = (x * rot_2(0) + tip * rot_2(1) + back * rot_2(2) + y_shift_internal) * zoom_internal
+
+                'dummy separator (hidden later)
+                xs_x_axisticks(t * 3 + 2) = gToDeleteGridLineValue
+                ys_x_axisticks(t * 3 + 2) = gToDeleteGridLineValue
+
+                x_tick_labels(t) = CStr(ft(0) + t * ts(0))
+            Next
+
+            'Y axis ticks: (y varies), tick goes in +X direction at Z = -0.5
+            For t As Integer = 0 To CInt(tx(1))
+                Dim y As Double = ftn(1) + t * tsn(1)
+
+                'base
+                xs_y_axisticks(t * 3) = (base * rot_1(0) + y * rot_1(1) + back * rot_1(2) + x_shift_internal) * zoom_internal
+                ys_y_axisticks(t * 3) = (base * rot_2(0) + y * rot_2(1) + back * rot_2(2) + y_shift_internal) * zoom_internal
+
+                'tip
+                xs_y_axisticks(t * 3 + 1) = (tip * rot_1(0) + y * rot_1(1) + back * rot_1(2) + x_shift_internal) * zoom_internal
+                ys_y_axisticks(t * 3 + 1) = (tip * rot_2(0) + y * rot_2(1) + back * rot_2(2) + y_shift_internal) * zoom_internal
+
+                'dummy separator
+                xs_y_axisticks(t * 3 + 2) = gToDeleteGridLineValue
+                ys_y_axisticks(t * 3 + 2) = gToDeleteGridLineValue
+
+                y_tick_labels(t) = CStr(ft(1) + t * ts(1))
+            Next
+
+            'Z axis ticks: (z varies), tick goes in +Y direction at X = -0.5
+            For t As Integer = 0 To CInt(tx(2))
+                Dim z As Double = ftn(2) + t * tsn(2)
+
+                'base
+                xs_z_axisticks(t * 3) = (back * rot_1(0) + base * rot_1(1) + z * rot_1(2) + x_shift_internal) * zoom_internal
+                ys_z_axisticks(t * 3) = (back * rot_2(0) + base * rot_2(1) + z * rot_2(2) + y_shift_internal) * zoom_internal
+
+                'tip
+                xs_z_axisticks(t * 3 + 1) = (back * rot_1(0) + tip * rot_1(1) + z * rot_1(2) + x_shift_internal) * zoom_internal
+                ys_z_axisticks(t * 3 + 1) = (back * rot_2(0) + tip * rot_2(1) + z * rot_2(2) + y_shift_internal) * zoom_internal
+
+                'dummy separator
+                xs_z_axisticks(t * 3 + 2) = gToDeleteGridLineValue
+                ys_z_axisticks(t * 3 + 2) = gToDeleteGridLineValue
+
+                z_tick_labels(t) = CStr(ft(2) + t * ts(2))
             Next
         End Sub
+
+        'Private Sub tick_marks_data()
+        '    Dim vect1(20) As Double, vect2(20) As Double, vect3(20) As Double
+        '    Dim vectxc(20) As Double, tmx_x(20) As Double, vectyc(20) As Double, tmy_y(20) As Double, vectzc(20) As Double, tmz_z(20) As Double
+
+        '    Call tick_marks_prerequisites()
+
+        '    ReDim x_tick_labels(tx(0)), y_tick_labels(tx(1)), z_tick_labels(tx(2))
+        '    For i = 1 To 21
+        '        vect1(i - 1) = Int((i - 1) / 3)
+        '        If i Mod 2 = 1 Then
+        '            vect2(i - 1) = 0.5
+        '        ElseIf i Mod 2 = 0 Then
+        '            vect2(i - 1) = 0.55
+        '        End If
+        '        vect3(i - 1) = -0.5
+
+        '        'x axis tick marks
+        '        vectxc(i - 1) = If(vect1(i - 1) > tx(0), tx(0), vect1(i - 1))
+        '        tmx_x(i - 1) = ftn(0) + vectxc(i - 1) * tsn(0)
+        '        xs_x_axisticks(i - 1) = (tmx_x(i - 1) * rot_1(0) + vect2(i - 1) * rot_1(1) + vect3(i - 1) * rot_1(2) + x_shift_internal) * zoom_internal
+        '        ys_x_axisticks(i - 1) = (tmx_x(i - 1) * rot_2(0) + vect2(i - 1) * rot_2(1) + vect3(i - 1) * rot_2(2) + y_shift_internal) * zoom_internal
+
+        '        'pY axis tick marks
+        '        vectyc(i - 1) = If(vect1(i - 1) > tx(1), tx(1), vect1(i - 1))
+        '        tmy_y(i - 1) = ftn(1) + vectyc(i - 1) * tsn(1)
+        '        xs_y_axisticks(i - 1) = (vect2(i - 1) * rot_1(0) + tmy_y(i - 1) * rot_1(1) + vect3(i - 1) * rot_1(2) + x_shift_internal) * zoom_internal
+        '        ys_y_axisticks(i - 1) = (vect2(i - 1) * rot_2(0) + tmy_y(i - 1) * rot_2(1) + vect3(i - 1) * rot_2(2) + y_shift_internal) * zoom_internal
+
+        '        'z axis tick marks
+        '        vectzc(i - 1) = If(vect1(i - 1) > tx(2), tx(2), vect1(i - 1))
+        '        tmz_z(i - 1) = ftn(2) + vectzc(i - 1) * tsn(2)
+        '        xs_z_axisticks(i - 1) = (vect3(i - 1) * rot_1(0) + vect2(i - 1) * rot_1(1) + tmz_z(i - 1) * rot_1(2) + x_shift_internal) * zoom_internal
+        '        ys_z_axisticks(i - 1) = (vect3(i - 1) * rot_2(0) + vect2(i - 1) * rot_2(1) + tmz_z(i - 1) * rot_2(2) + y_shift_internal) * zoom_internal
+
+        '        'tick mark values
+        '        If (i - 1) Mod 3 = 1 Then
+        '            x_tick_labels(Math.Round(vectxc(i - 1), 0)) = CStr(ft(0) + vectxc(i - 1) * ts(0))
+        '            y_tick_labels(Math.Round(vectyc(i - 1), 0)) = CStr(ft(1) + vectyc(i - 1) * ts(1))
+        '            z_tick_labels(Math.Round(vectzc(i - 1), 0)) = CStr(ft(2) + vectzc(i - 1) * ts(2))
+        '        End If
+        '    Next
+        'End Sub
 
         ''' <summary>
         ''' Computes all prerequisite quantities needed for tick‑mark generation on

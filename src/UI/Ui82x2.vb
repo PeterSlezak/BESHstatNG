@@ -25,7 +25,7 @@ Public Class Ui82x2
             'get data
             If Me.optWorksheetData.Checked Then
                 Dim d = Me.getDataMultipleGroups()
-                If UBound(d.X, 1) <> 2 Or UBound(d.X, 2) <> 2 Then
+                If d.X.GetLength(0) <> 2 Or d.X.GetLength(1) <> 2 Then
                     MsgBox("Wrong dimensions of input table, 2x2 is expected.", vbOKOnly, "2x2 table analysis")
                     Exit Sub
                 End If
@@ -167,6 +167,7 @@ Public Class Ui82x2
         Me.spinBtnB.Enabled = False
         Me.spinBtnC.Enabled = False
         Me.spinBtnD.Enabled = False
+        If Me.optWorksheetData.Checked Then Me.RefEdit1_WorksheetData.txtAddress.Select()
     End Sub
 
     Private Sub optScreenData_Click(sender As Object, e As System.EventArgs) Handles optScreenData.Click

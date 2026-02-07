@@ -677,7 +677,7 @@ Partial Class Ui4Cox
         Me.btCalculate.Name = "btCalculate"
         Me.btCalculate.Size = New System.Drawing.Size(75, 23)
         Me.btCalculate.TabIndex = 6
-        Me.btCalculate.Text = "Calculate"
+        Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
         '
         'ProgressBar1

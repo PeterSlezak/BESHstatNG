@@ -1,7 +1,6 @@
 ﻿Option Explicit On
 Imports System.Drawing
 Imports System.Security.Policy
-Imports Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext
 Imports Microsoft.Office
 Imports Microsoft.Office.Interop.Excel
 

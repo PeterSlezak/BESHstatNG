@@ -16,6 +16,7 @@ Public Class Ui0OneRefeditMulticol
 
         Me.TabPage_Options.Parent = Nothing
         Me.TabPage_OptionsRxC.Parent = Nothing
+        Me.TabPage_OptionsICC.Parent = Nothing
 
         If Me.Text = "Friedman Test" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
@@ -38,14 +39,17 @@ Public Class Ui0OneRefeditMulticol
         ElseIf Me.Text = "Correspondence Analysis" Then
             Me.ckLabels.Visible = True
 
-        End If
+        ElseIf Me.Text = "Intraclass Correlation Coefficients" Then
+            Me.TabPage_OptionsICC.Parent = Me.TabMultipage
 
+        End If
+        Me.RefEdit1.txtAddress.Select()
         Me.WireHelp(Me.btnHelp)
     End Sub
 
     Private Function checkInputs() As Boolean
         Dim bOut As Boolean
-        'check input data------------------------------
+        'check input data1------------------------------
         If CheckRefEdit(Me.RefEdit1.Address) Then
             Me.TabMultipage.SelectedIndex = 0
             RefEditReset(Me.RefEdit1)
@@ -67,7 +71,7 @@ Public Class Ui0OneRefeditMulticol
         If Me.Text <> "Skillings-Mack Test" Then
             Dim out = New MultiGroupsPairedData
             Dim columData = New DataObj
-            Dim ref As String = prepareRef2D(Me.RefEdit1.Address)
+            Dim ref As String = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
 
             columData.DataInport(ref, True)
             out.X = columData.DataDbl()
@@ -82,7 +86,7 @@ Public Class Ui0OneRefeditMulticol
     Private Function getCAdata(ByRef strErr As String) As DataObj
         Dim out = New MultiGroupsPairedData
         Dim columData = New DataObj
-        Dim ref As String = prepareRef2D(Me.RefEdit1.Address)
+        Dim ref As String = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
 
         If Me.ckLabels.Checked Then
             columData.DataInport(ref, True, 0) 'first column will contain row labels
@@ -91,6 +95,38 @@ Public Class Ui0OneRefeditMulticol
         End If
 
         Return columData
+    End Function
+
+    Private Function getDataICC11(ByRef strErr As String) As MultiGroupsUnpairedData
+
+        Dim columData = New DataObj
+        Dim ref As String = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
+        Dim out = New MultiGroupsUnpairedData
+
+        columData.bAllowMissing = True 'allow missing values
+        columData.DataInport(ref, True)
+        Dim tmp(,) As Double = columData.DataDbl()
+        Dim g As Integer = tmp.GetLength(0)
+        Dim t As Integer = tmp.GetLength(1)
+        Dim outData(g - 1)() As Double
+
+        For i = 0 To g - 1
+            Dim tm(t - 1) As Double
+            Dim k = 0
+            For j = 0 To t - 1
+                If Not Double.IsNaN(tmp(i, j)) Then
+                    tm(k) = tmp(i, j)
+                    k += 1
+                End If
+            Next
+            ReDim Preserve tm(k - 1)
+            outData(i) = tm
+        Next
+
+        out.X = outData
+        Dim varnames(g - 1) As String
+        out.varNames = varnames
+        Return out
     End Function
 
     Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
@@ -126,10 +162,81 @@ Public Class Ui0OneRefeditMulticol
                 Me.RunSkillingsMack()
             ElseIf Me.Text = "Correspondence Analysis" Then
                 Me.RunCA(CAdata)
+            ElseIf Me.Text = "Intraclass Correlation Coefficients" Then
+                Me.RunICC()
             End If
         Catch ex As Exception
             BSerr.LogAndThrow(ex, False, True)
         End Try
+    End Sub
+
+
+
+    Private Sub RunICC()
+        Dim errText As String = String.Empty
+        Dim icc As New Agreement.IntraclassCorrelation
+        Dim iccNum As ConfidenceIntervalResult = Nothing
+        Dim data1 As MultiGroupsUnpairedData = Nothing
+        Dim data2 As MultiGroupsPairedData = Nothing
+
+        If Me.optICC11.Checked Or Me.optICC1k.Checked Then
+            data1 = getDataICC11(errText)
+        Else
+            data2 = Me.getDataMultipleGroups(errText)
+        End If
+
+        If errText <> String.Empty Then
+            MsgBox(errText, vbExclamation)
+            Exit Sub
+        End If
+
+        Dim strIccType As String = String.Empty
+        If Me.optICC11.Checked Then
+            iccNum = icc.ICC11(data1.X, Me.spinBtnAlphaICC.Value)
+            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_OneWay(data1.X, False, Me.spinBtnAlphaICC.Value)
+            strIccType = "ICC(1,1)"
+
+        ElseIf Me.optICC1k.Checked Then
+            iccNum = icc.ICC1k(data1.X, Me.spinBtnAlphaICC.Value)
+            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_OneWay(data1.X, True, Me.spinBtnAlphaICC.Value)
+            strIccType = "ICC(1,k)"
+
+        ElseIf Me.optICC21.Checked Then
+            iccNum = icc.ICC21(data2.X, Me.spinBtnAlphaICC.Value)
+            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_TwoWay(data2.X, True, False, Me.spinBtnAlphaICC.Value)
+            strIccType = "ICC(2,1)"
+
+        ElseIf Me.optICC2k.Checked Then
+            iccNum = icc.ICC2k(data2.X, Me.spinBtnAlphaICC.Value)
+            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_TwoWay(data2.X, True, True, Me.spinBtnAlphaICC.Value)
+            strIccType = $"ICC(2,{data2.X.GetLength(1)})"
+
+        ElseIf Me.optICC31.Checked Then
+            iccNum = icc.ICC31(data2.X, Me.spinBtnAlphaICC.Value)
+            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_TwoWay(data2.X, False, False, Me.spinBtnAlphaICC.Value)
+            strIccType = "ICC(3,1)"
+
+        ElseIf Me.optICC3k.Checked Then
+            iccNum = icc.ICC3k(data2.X, Me.spinBtnAlphaICC.Value)
+            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_TwoWay(data2.X, False, True, Me.spinBtnAlphaICC.Value)
+            strIccType = $"ICC(3,{data2.X.GetLength(1)})"
+
+        End If
+
+        Dim res = icc.wrapResults(iccNum, strIccType)
+
+        'Dump outputs
+        Dim WriteRes = GetResultWriter() 'pass just table from the main test output
+        Dim rr = New ProcessListofResultTables(res)
+        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
+        Dim totcols As Integer = rr.TotCols
+        If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
+            If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
+                Exit Sub
+            End If
+        End If
+
+        rr.writeToSheet(WriteRes, True)
     End Sub
 
     Private Sub RunCA(data As DataObj)
@@ -202,8 +309,7 @@ Public Class Ui0OneRefeditMulticol
 
         columData.bAllowMissing = True 'allow missing values
         columData.DataInport(ref, True)
-        'Debug.Print(array2str(columData.DataDbl()))
-        'Debug.Print(array2str(columData.FinalData))
+
         'analyzed table
         Dim head(UBound(columData.FinalData, 2)) As String
         head(0) = "Analyzed table"
@@ -383,15 +489,15 @@ Public Class Ui0OneRefeditMulticol
         Dim WriteRes = New WriteResults
         Dim res = New List(Of ResultTable)
 
-        'check if data are 1/0
+        'check if data1 are 1/0
         Dim NoColumns As Integer = UBound(data.X, 2) + 1
         Dim NoBlocks As Integer = UBound(data.X, 1) + 1
         Dim ar1Counts(NoColumns - 1) As Integer, ar1Per(NoColumns - 1, 0) As Object
-        'check if we have binary data
+        'check if we have binary data1
         For i = 0 To NoBlocks - 1
             For j = 0 To NoColumns - 1
                 If Not (data.X(i, j) = 1 Or data.X(i, j) = 0) Then
-                    strErr = "ThenInput data must be 1/0 but value =" & CStr(data.X(i, j)) & " was observed. Please select 1/0 data only."
+                    strErr = "ThenInput data1 must be 1/0 but value =" & CStr(data.X(i, j)) & " was observed. Please select 1/0 data1 only."
                     Exit For
                 End If
                 If strErr <> String.Empty Then Exit For

@@ -153,4 +153,21 @@ Public Module BESHstatGlobals
         End Sub
     End Class
 
+    Public ReadOnly Property ExcelMainHwnd As IntPtr
+        Get
+            Try
+                Dim h = ExcelDnaUtil.WindowHandle
+                If h <> IntPtr.Zero Then Return h
+            Catch
+            End Try
+
+            Try
+                If app IsNot Nothing Then Return New IntPtr(BESHstatGlobals.app.Hwnd)
+            Catch
+            End Try
+
+            Return IntPtr.Zero
+        End Get
+    End Property
+
 End Module

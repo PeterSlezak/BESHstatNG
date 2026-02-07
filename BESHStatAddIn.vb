@@ -160,7 +160,7 @@ Public Class Ribbon
         mwForm.Show()
     End Sub
     Public Sub Onbtm2WayNestedPressed(control As IRibbonControl)
-        Dim mwForm As New Ui9ANOVA2nested
+        Dim mwForm As New Ui9ANOVA2nested("Two-Way Nested ANOVA")
         mwForm.Tag = HelpTopic.TwoWayNestedANOVA
         mwForm.Show()
     End Sub
@@ -406,6 +406,27 @@ Public Class Ribbon
     End Sub
 
     '--------------------------------------------------------------------------
+    ' Agreement
+    '--------------------------------------------------------------------------
+    Public Sub OnbtmPassingBablok(control As IRibbonControl)
+        Dim mwForm As New Ui9ANOVA2nested("Passing-Bablok Regression")
+        mwForm.Tag = HelpTopic.PassingBablokRegression
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmDeming(control As IRibbonControl)
+        Dim mwForm As New UiTwoInputRefedits("Deming Regression")
+        mwForm.Tag = HelpTopic.DemingRegression
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmIcc(control As IRibbonControl)
+        Dim mwForm As New Ui0OneRefeditMulticol("Intraclass Correlation Coefficients")
+        mwForm.Tag = HelpTopic.IntraclassCorrelationCoefficients
+        mwForm.Show()
+    End Sub
+
+    '--------------------------------------------------------------------------
     ' Ribbon Buttons
     '--------------------------------------------------------------------------
     Public Sub OnbtmAboutPressed(control As IRibbonControl)
@@ -425,6 +446,31 @@ Public Class Ribbon
     Public Sub OnbtmSettingsPressed(control As IRibbonControl)
         Dim mwForm As New Ui12GlobalSettings()
         mwForm.Show()
+    End Sub
+
+    'Chart exporting
+    Private Shared _exportChartForm As Ui99ExportChart
+
+    Public Sub OnbtmShowExportChart(control As IRibbonControl)
+
+        ExcelDna.Integration.ExcelAsyncUtil.QueueAsMacro(Sub()
+
+                                                             Dim app = BESHstatGlobals.app
+                                                             If Not Ui99ExportChart.WorkbookHasAnyCharts(app) Then
+                                                                 MessageBox.Show("The active workbook contains no embedded charts and no chart sheets.",
+                                                                                 "Export Chart",
+                                                                                 MessageBoxButtons.OK,
+                                                                                 MessageBoxIcon.Information)
+                                                                 Return
+                                                             End If
+
+                                                             Dim hwnd As IntPtr = ExcelDnaUtil.WindowHandle
+                                                             Dim f As New Ui99ExportChart()
+                                                             f.Tag = HelpTopic.ExportChart
+                                                             f.Show(New ExcelWindowWrapper(hwnd))
+
+                                                         End Sub)
+
     End Sub
 
 End Class

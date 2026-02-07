@@ -1,10 +1,17 @@
-﻿Imports System.Runtime.InteropServices.ComTypes
+﻿Imports System.IO
+Imports System.Runtime.InteropServices.ComTypes
+Imports System.Windows
+Imports System.Windows.Forms
+Imports BESHStatNG.GifAnimator
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui3XYZplot
 
     Private pFigure As Chart = Nothing
     Private pbPreventEvents As Boolean = False
+    'Animated GIF workflow 
+    Private pAnimatedGifFinalPath As String = String.Empty
+    Private pAnimatedGifWorkDir As String = String.Empty
 
     Sub New()
 
@@ -17,6 +24,7 @@ Public Class Ui3XYZplot
         Me.RefEdit3_Z.ExcelConnector = BESHstatGlobals.app
         Me.RefEdit4_Group.ExcelConnector = BESHstatGlobals.app
         Me.RefEdit5_Labels.ExcelConnector = BESHstatGlobals.app
+        Me.RefEdit6_AnimatedGif.ExcelConnector = BESHstatGlobals.app
 
         With Me.cbPointLabelPosition.Items
             .Add("Right")
@@ -26,6 +34,7 @@ Public Class Ui3XYZplot
         End With
         Me.cbPointLabelPosition.SelectedIndex = 0
 
+        Me.RefEdit1_X.txtAddress.Select()
         Me.WireHelp(Me.btnHelp)
     End Sub
 
@@ -152,13 +161,6 @@ Public Class Ui3XYZplot
         Dim zlbl = data.varNames(colId + 2)
 
         If Me.pFigure Is Nothing Then
-            app.ActiveWorkbook.Charts.Add()
-            Me.pFigure = app.ActiveWorkbook.ActiveChart
-        Else
-            'delete old figure and recrate it
-            app.DisplayAlerts = False
-            Me.pFigure.Delete()
-            app.DisplayAlerts = True
             app.ActiveWorkbook.Charts.Add()
             Me.pFigure = app.ActiveWorkbook.ActiveChart
         End If
@@ -295,5 +297,189 @@ Public Class Ui3XYZplot
     Private Sub ckZdropLines_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckZdropLines.CheckedChanged
         If pFigure IsNot Nothing Then Call Recalculate()
     End Sub
+
+    Private Sub btnAnimatedGif_Click(sender As Object, e As System.EventArgs) Handles btnAnimatedGif.Click
+
+        '----------------------------------------------------------------------
+        ' get animated gif data
+        '----------------------------------------------------------------------
+        If Me.RefEdit6_AnimatedGif.Address = String.Empty Then
+            MsgBox("Animated Gif Inputs must be specified with 6 columns <Rotation X axis [degree]>, <Rotation Z axis [degree]>, <Zoom>, <Shift in X Direction>, <Shift in Y Direction>, <Delay>")
+            Exit Sub
+        Else
+            If CheckRefEdit(Me.RefEdit6_AnimatedGif.Address, False) Then
+                RefEditReset(Me.RefEdit6_AnimatedGif)
+                Exit Sub
+            End If
+        End If
+
+        Dim fData As MultiGroupsPairedData = getDataMultipleGroups()
+        If fData.varNames.Length < 6 Then
+            MsgBox("Animated Gif Inputs must be specified with 6 columns <Rotation X axis [degree]>, <Rotation Z axis [degree]>, <Zoom>, <Shift in X Direction>, <Shift in Y Direction>, <Delay>")
+            Exit Sub
+        End If
+
+        Dim n As Integer = fData.X.GetLength(0)
+        For i = 0 To n - 1
+            If fData.X(i, 0) < 0 Or fData.X(i, 0) > 360 Then
+                MsgBox($"<Rotation X axis [degree]> column values should be in range [0...360] but got {fData.X(i, 0)}. It should be in the 1st input column.")
+                Exit Sub
+            End If
+            If fData.X(i, 1) < 0 Or fData.X(i, 1) > 360 Then
+                MsgBox($"<Rotation Z axis [degree]> column values should be in range [0...360] but got {fData.X(i, 1)}. It should be in the 2nd input column.")
+                Exit Sub
+            End If
+            If fData.X(i, 2) < 0 Then
+                MsgBox($"<Zoom> column values should be .ge. 0 but got {fData.X(i, 2)}. It should be in the 3rd input column.")
+                Exit Sub
+            End If
+            If fData.X(i, 3) < 0 Or fData.X(i, 3) > 100 Then
+                MsgBox($"<Shift in X Direction> column values should be in range [0...100] but got {fData.X(i, 3)}. It should be in the 4th input column.")
+                Exit Sub
+            End If
+            If fData.X(i, 4) < 0 Or fData.X(i, 4) > 100 Then
+                MsgBox($"<Shift in Y Direction> column values should be in range [0...100] but got {fData.X(i, 4)}. It should be in the 5th input column.")
+                Exit Sub
+            End If
+            If fData.X(i, 5) < 0 Then
+                MsgBox($"<Delay [ms]> column values should be .ge. 0 but got {fData.X(i, 5)}. It should be in the 5th input column.")
+                Exit Sub
+            End If
+        Next
+
+        '----------------------------------------------------------------------
+        ' get Actual chart data
+        '----------------------------------------------------------------------
+        Dim errText As String = String.Empty
+        Dim data As DataObj
+        Dim grpData() As String = Nothing, labelData() As String = Nothing
+        Dim colId As Integer = 0
+
+        'Get Data
+        data = Me.getData(errText)
+        If errText <> String.Empty Then
+            MsgBox(errText, vbExclamation)
+            Exit Sub
+        End If
+
+        Dim d = data.FinalData
+
+        'check if we have groups data input
+        If Me.RefEdit4_Group.Address <> String.Empty Then 'We have only One group
+            grpData = Array2strArray(GetColumnFrom2Darray(d, 0))
+            colId += 1
+        End If
+        'check if we have data lebels data input
+        If Me.RefEdit5_Labels.Address <> String.Empty Then 'We have only One group
+            labelData = Array2strArray(GetColumnFrom2Darray(d, colId))
+            colId += 1
+        End If
+
+        Dim Xdata = Array2dblArray(GetColumnFrom2Darray(d, colId))
+        Dim Ydata = Array2dblArray(GetColumnFrom2Darray(d, colId + 1))
+        Dim Zdata = Array2dblArray(GetColumnFrom2Darray(d, colId + 2))
+        Dim xlbl = data.varNames(colId)
+        Dim ylbl = data.varNames(colId + 1)
+        Dim zlbl = data.varNames(colId + 2)
+
+        If Not ChooseAnimatedGifOutput() Then Exit Sub
+
+        Dim XYZplot As New graphics.XYZscatter
+        With XYZplot
+            .dataInputs(Xdata, Ydata, Zdata)
+            .axesLabelInputs(xlbl, ylbl, zlbl)
+            .showPlanePointInputs(Me.ckXYplanePoints.Checked, Me.ckYZplanePoints.Checked, Me.ckXZplanePoints.Checked,
+                                      Int(Me.spinBtnXYPlanePointSize.Value), Int(Me.spinBtnYZPlanePointSize.Value), Int(Me.spinBtnXZPlanePointSize.Value))
+            .ScaleAxis(Me.ckScaleAxes.Checked)
+            .settingsInputs(Me.ckDataPointLabels.Checked, Me.ckZdropLines.Checked, Me.ckGridlines.Checked, Int(Me.spinBtnLabelFontSize.Value),
+                                GetLabelPositionFromCombobox(Me.cbPointLabelPosition.Text), Me.spinBtnMarkerSize.Value)
+
+            If Me.ckDataPointLabels.Checked Then .SetDataLabels(labelData)
+            If grpData IsNot Nothing Then .SetGroups(grpData)
+        End With
+
+        Dim gifList As New List(Of String)
+        Dim delayList As New List(Of Integer)
+
+        For i = 0 To n - 1
+
+            If Me.pFigure Is Nothing Then
+                app.ActiveWorkbook.Charts.Add()
+                Me.pFigure = app.ActiveWorkbook.ActiveChart
+                'Else
+                'delete old figure and recrate it
+                'app.DisplayAlerts = False
+                'Me.pFigure.Delete()
+                'app.DisplayAlerts = True
+                'app.ActiveWorkbook.Charts.Add()
+                'Me.pFigure = app.ActiveWorkbook.ActiveChart
+            End If
+
+            Dim rotX = fData.X(i, 0)
+            Dim rotZ = fData.X(i, 1)
+            Dim zoom = fData.X(i, 2)
+            Dim shiftX = fData.X(i, 3)
+            Dim shiftY = fData.X(i, 4)
+
+            With XYZplot
+                .rotationAndZoomInputs(zoom, shiftY, shiftX, rotX, rotZ)
+                .draw(Me.pFigure)
+            End With
+
+            Dim framePath As String = Path.Combine(pAnimatedGifWorkDir, CStr(i) & ".gif")
+            If File.Exists(framePath) Then File.Delete(framePath)
+            Me.pFigure.Export(Filename:=framePath, FilterName:="GIF")
+            gifList.Add(framePath)
+            delayList.Add(CInt(fData.X(i, 5)))
+
+            ProgressBar1.Value = 100 * ((i + 1) / n)
+            System.Windows.Forms.Application.DoEvents()
+        Next
+
+        'create animated gif
+        GifAnimator.CreateAnimatedGif(gifList, Me.pAnimatedGifFinalPath, delayList, 0,, Me.ProgressBar1)
+        MsgBox("Animated gif was created " & Me.pAnimatedGifFinalPath)
+    End Sub
+
+
+    Private Function getDataMultipleGroups() As MultiGroupsPairedData
+        Dim out = New MultiGroupsPairedData
+        Dim columData = New DataObj
+        Dim ref As String = prepareRef2D(Me.RefEdit6_AnimatedGif.Address, Me.RefEdit6_AnimatedGif.ExcelWorkBook)
+
+        columData.DataInport(ref, True)
+        out.X = columData.DataDbl()
+        out.varNames = columData.varNames
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Prompts the user for the final animated GIF path (not created yet) and creates
+    ''' a working subfolder in the same directory for individual frame GIFs.
+    ''' </summary>
+    Private Function ChooseAnimatedGifOutput() As Boolean
+        Using sfd As New SaveFileDialog()
+            sfd.Title = "Choose output animated GIF (frames will be saved to a subfolder)"
+            sfd.Filter = "GIF image (*.gif)|*.gif"
+            sfd.DefaultExt = "gif"
+            sfd.AddExtension = True
+            sfd.OverwritePrompt = True
+            sfd.FileName = "xyz_animation.gif"
+
+            If sfd.ShowDialog(Me) <> DialogResult.OK Then
+                Return False
+            End If
+
+            pAnimatedGifFinalPath = sfd.FileName
+        End Using
+
+        Dim outDir = Path.GetDirectoryName(pAnimatedGifFinalPath)
+        Dim baseName = Path.GetFileNameWithoutExtension(pAnimatedGifFinalPath)
+        pAnimatedGifWorkDir = Path.Combine(outDir, baseName & "_frames")
+
+        Directory.CreateDirectory(pAnimatedGifWorkDir)
+        Return True
+    End Function
 
 End Class

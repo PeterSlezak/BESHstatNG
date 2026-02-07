@@ -73,6 +73,11 @@
 							<button id="btn9_3SingleProp" label="Single Proportion" onAction='OnbtmSinglePropPressed' imageMso="ObjectsArrangeMenu" />
 							<button id="btn9_4IndProp" label="Independent Proporions" onAction='OnbtmIndPropPressed' imageMso="ObjectsGroupMenuOutlook" />
 						</menu>
+						<menu id='subMenu_Agreement' label='Agreement' >
+							<button id="btn10_1PassingBablok" label="Passing-Bablok Regression" onAction='OnbtmPassingBablok' imageMso="AutoSummaryViewByHighlight" />
+							<button id="btn10_2Deming" label="Deming Regression" onAction='OnbtmDeming' imageMso="DiagramResizeClassic" />
+							<button id="btn10_3icc" label="Intraclass Correlation Coefficients" onAction='OnbtmIcc' imageMso="CombineShapesGallery" />
+						</menu>
 					</menu>
 
 					<separator id="sep1" />
@@ -80,7 +85,7 @@
 					<button id="btn00_2Help" label="Help" onAction='OnbtmHelpPressed' imageMso="Help" />
 					<button id="btn00_3Settings" label="Settings" onAction='OnbtmSettingsPressed' imageMso="PivotTableFieldSettings" />
 					<button id="btn00_4logShow" label="Show Log" onAction='OnbtmShowLogPressed' imageMso='ScriptDebugger' />
-
+					<button id="btn00_5ExportChart" label="Export Chart" onAction='OnbtmShowExportChart' imageMso='ExportFile' />
 				</group>
 			</tab>
 		</tabs>

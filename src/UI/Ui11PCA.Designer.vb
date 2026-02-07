@@ -432,7 +432,7 @@ Partial Class Ui11PCA
         Me.btCalculate.Name = "btCalculate"
         Me.btCalculate.Size = New System.Drawing.Size(75, 23)
         Me.btCalculate.TabIndex = 5
-        Me.btCalculate.Text = "Calculate"
+        Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
         '
         'Ui11PCA

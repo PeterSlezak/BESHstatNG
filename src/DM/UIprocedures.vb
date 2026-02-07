@@ -18,6 +18,89 @@ Imports Microsoft.Office.Interop.Excel
 Module UIprocedures
 
     ''' <summary>
+    ''' Describes a worksheet column as presented to the UI (typically in a ListBox).
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Instances of this class are commonly produced by <c>VarNamesToLBox</c> and stored in a dictionary
+    ''' keyed by <see cref="DisplayText"/>. The <see cref="DisplayText"/> value is intended to match the
+    ''' exact string shown in the UI (e.g. <c>"Age | VarA"</c> or <c>"VarB"</c>) and should be stable and
+    ''' unique per worksheet column.
+    ''' </para>
+    ''' <para>
+    ''' Use <see cref="ColumnNumber"/> and <see cref="ColumnLetter"/> to map the UI item back to the
+    ''' underlying Excel column for range/reference creation.
+    ''' </para>
+    ''' </remarks>
+    Public Class VarColumnInfo
+
+        ''' <summary>
+        ''' Gets or sets the 1-based Excel column number (e.g. 1 for column A).
+        ''' </summary>
+        ''' <remarks>
+        ''' This value corresponds to <c>Range.Column</c> for the header cell in the worksheet.
+        ''' </remarks>
+        Public Property ColumnNumber As Integer
+
+        ''' <summary>
+        ''' Gets or sets the Excel column letter(s) (e.g. <c>A</c>, <c>B</c>, <c>AA</c>).
+        ''' </summary>
+        ''' <remarks>
+        ''' This is useful for creating column references such as <c>$A:$A</c> without COM calls.
+        ''' </remarks>
+        Public Property ColumnLetter As String
+
+        ''' <summary>
+        ''' Gets or sets the raw header text for the column.
+        ''' </summary>
+        ''' <remarks>
+        ''' When the worksheet header is missing or invalid, this may be a placeholder such as <c>"VarA"</c>.
+        ''' This value does not include the <c>" | VarX"</c> suffix used in <see cref="DisplayText"/>.
+        ''' </remarks>
+        Public Property HeaderText As String
+
+        ''' <summary>
+        ''' Gets or sets a value indicating whether <see cref="HeaderText"/> came from the worksheet header row.
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' If <c>True</c>, <see cref="HeaderText"/> reflects the value found in the header cell (typically row 1).
+        ''' If <c>False</c>, <see cref="HeaderText"/> is a generated placeholder (e.g. <c>"VarA"</c>).
+        ''' </para>
+        ''' </remarks>
+        Public Property HasHeader As Boolean
+
+        ''' <summary>
+        ''' Gets or sets the index of this item in the ListBox at the time it was populated.
+        ''' </summary>
+        ''' <remarks>
+        ''' This can be used to restore selections or correlate UI items with their metadata.
+        ''' Note that indices may change if the ListBox is rebuilt or items are sorted.
+        ''' </remarks>
+        Public Property ListBoxIndex As Integer
+
+        ''' <summary>
+        ''' Gets or sets the exact text displayed in the ListBox for this column.
+        ''' </summary>
+        ''' <remarks>
+        ''' <para>
+        ''' This is typically either:
+        ''' </para>
+        ''' <list type="bullet">
+        '''   <item><description><c>"{HeaderText} | Var{ColumnLetter}"</c> when the header exists</description></item>
+        '''   <item><description><c>"Var{ColumnLetter}"</c> when a placeholder name is used</description></item>
+        ''' </list>
+        ''' <para>
+        ''' This value is commonly used as the dictionary key for column metadata lookups.
+        ''' </para>
+        ''' </remarks>
+        Public Property DisplayText As String
+
+    End Class
+
+
+
+    ''' <summary>
     ''' Extracts variable names from an Excel range and populates a ListBox with
     ''' human‑readable labels. Returns a dictionary mapping column numbers to
     ''' metadata describing each variable.
@@ -37,49 +120,64 @@ Module UIprocedures
     '''   <item><description><c>(3)</c> — final display text</description></item>
     ''' </list>
     ''' </returns>
-    Public Function VarNamesToLBox(VarRng As Range, MaxRows As Integer, lbox As System.Windows.Forms.ListBox, Optional bNumeric_only As Boolean = True) As Dictionary(Of Integer, Object())
-        'returns dictionary where key is a column number and value is 1D array with 4 fields
-        '     - column name (ie. text from first row or column name placeholder if missing) as string;
-        '     - bollean indicator indicating if it is an placeholder name
-        '     - integer - position of item within the listbox
-        '     - final text that appears in the listbox "<varname> | Var<column letter>" or just "Var<column letter>"
-        'Create variable names from input range and add names to Listbox
-        'MaxRows - total rows in the worksheet
-        'lbox - output list box
+    Public Function VarNamesToLBox(VarRng As Range,
+                                   MaxRows As Integer,
+                                   lbox As System.Windows.Forms.ListBox,
+                                   Optional bNumeric_only As Boolean = True) As Dictionary(Of String, VarColumnInfo)
+
         Dim cell As Object, app As Application
         Dim ws As Worksheet = VarRng.Parent
         app = BESHstatGlobals.app
-        Dim out As New Dictionary(Of Integer, Object())
 
-        'Cycle through the range and add the variable names to the listbox that displays the list of all available variables
+        Dim out As New Dictionary(Of String, VarColumnInfo)(StringComparer.Ordinal)
+
         Dim i As Integer = 0
         For Each cell In VarRng
-            Dim names(3) As Object
+            Dim colLetter As String = ColName(cell)
+            Dim displayText As String = String.Empty
+            Dim headerText As String = String.Empty
+            Dim hasHeader As Boolean = False
 
-            'if it is non empty and there are any numerical data in that column, assign variable name
-            If app.WorksheetFunction.IsNA(cell) Or TypeOf cell.value Is ExcelError Or TypeOf cell.value Is ExcelEmpty Or TypeOf cell.value Is ExcelMissing Or cell.value Is Nothing Then
+            If app.WorksheetFunction.IsNA(cell) Or TypeOf cell.value Is ExcelError _
+           Or TypeOf cell.value Is ExcelEmpty Or TypeOf cell.value Is ExcelMissing _
+           Or cell.value Is Nothing Then
+
                 If CountNonmissing(ws.Range(ws.Cells(1, cell.Column), ws.Cells(MaxRows, cell.Column)), bNumeric_only) > 0 Then
-                    lbox.Items.Add("Var" & ColName(cell))
-                    names(0) = "Var" & ColName(cell) : names(1) = False : names(3) = names(0)
+                    headerText = "Var" & colLetter
+                    displayText = headerText
+                    hasHeader = False
                 End If
+
             ElseIf CountNonmissing(ws.Range(ws.Cells(1, cell.Column), ws.Cells(MaxRows, cell.Column)), bNumeric_only) > 0 Then
-                lbox.Items.Add(CStr(cell.value) & " | Var" & ColName(cell))
-                names(0) = CStr(cell.value) : names(1) = True : names(3) = CStr(cell.value) & " | Var" & ColName(cell)
-            Else 'if it is empty check if in that column are any numerical data, if yes assign default variable name
+                headerText = CStr(cell.value)
+                displayText = headerText & " | Var" & colLetter
+                hasHeader = True
+
+            Else
                 If CountNonmissing(ws.Range(ws.Cells(1, cell.Column), ws.Cells(MaxRows, cell.Column)), bNumeric_only) > 0 Then
-                    lbox.Items.Add("Var" & ColName(cell))
-                    names(0) = "Var" & ColName(cell) : names(1) = False : names(3) = names(0)
+                    headerText = "Var" & colLetter
+                    displayText = headerText
+                    hasHeader = False
                 End If
             End If
-            If names(0) <> String.Empty Then
-                names(2) = i 'position of item within the listbox
-                out.Add(ColumnLetterToNumber(ColName(cell)), names)
+
+            If displayText <> String.Empty Then
+                lbox.Items.Add(displayText)
+
+                Dim info As New VarColumnInfo With {.ColumnNumber = cell.Column,
+                                                    .ColumnLetter = colLetter,
+                                                    .HeaderText = headerText,
+                                                    .HasHeader = hasHeader,
+                                                    .ListBoxIndex = i,
+                                                    .DisplayText = displayText}
+                out.Add(displayText, info)
                 i += 1
             End If
         Next cell
 
         Return out
     End Function
+
 
     ''' <summary>
     ''' Adds a single selected item from one ListBox to another, ensuring that:

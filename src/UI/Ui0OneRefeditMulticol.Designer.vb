@@ -26,14 +26,12 @@ Partial Class Ui0OneRefeditMulticol
         Me.TabMultipage = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.grpInput = New System.Windows.Forms.GroupBox()
         Me.ckLabels = New System.Windows.Forms.CheckBox()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
-        Me.RefEdit1 = New BESHStatNG.Excel2007RefEdit()
         Me.TabPage_Options = New System.Windows.Forms.TabPage()
         Me.grpMCP = New System.Windows.Forms.GroupBox()
         Me.ckTukey = New System.Windows.Forms.CheckBox()
@@ -48,9 +46,22 @@ Partial Class Ui0OneRefeditMulticol
         Me.ckCochranArmitage = New System.Windows.Forms.CheckBox()
         Me.ckNominalAssociation = New System.Windows.Forms.CheckBox()
         Me.ckOrdinal = New System.Windows.Forms.CheckBox()
+        Me.TabPage_OptionsICC = New System.Windows.Forms.TabPage()
+        Me.lblAlphaICC = New System.Windows.Forms.Label()
+        Me.spinBtnAlphaICC = New System.Windows.Forms.NumericUpDown()
+        Me.grpICCtype = New System.Windows.Forms.GroupBox()
+        Me.optICC3k = New System.Windows.Forms.RadioButton()
+        Me.optICC31 = New System.Windows.Forms.RadioButton()
+        Me.optICC2k = New System.Windows.Forms.RadioButton()
+        Me.optICC21 = New System.Windows.Forms.RadioButton()
+        Me.optICC1k = New System.Windows.Forms.RadioButton()
+        Me.optICC11 = New System.Windows.Forms.RadioButton()
         Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCompute = New System.Windows.Forms.Button()
+        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit1 = New BESHStatNG.Excel2007RefEdit()
+        Me.ckRepeatabilityCoefficient = New System.Windows.Forms.CheckBox()
         Me.TabMultipage.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.grpOutput.SuspendLayout()
@@ -59,6 +70,9 @@ Partial Class Ui0OneRefeditMulticol
         Me.grpMCP.SuspendLayout()
         Me.grpRmANOVAsphericity.SuspendLayout()
         Me.TabPage_OptionsRxC.SuspendLayout()
+        Me.TabPage_OptionsICC.SuspendLayout()
+        CType(Me.spinBtnAlphaICC, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpICCtype.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabMultipage
@@ -66,6 +80,7 @@ Partial Class Ui0OneRefeditMulticol
         Me.TabMultipage.Controls.Add(Me.TabPage1)
         Me.TabMultipage.Controls.Add(Me.TabPage_Options)
         Me.TabMultipage.Controls.Add(Me.TabPage_OptionsRxC)
+        Me.TabMultipage.Controls.Add(Me.TabPage_OptionsICC)
         Me.TabMultipage.Location = New System.Drawing.Point(12, 13)
         Me.TabMultipage.Name = "TabMultipage"
         Me.TabMultipage.SelectedIndex = 0
@@ -96,21 +111,6 @@ Partial Class Ui0OneRefeditMulticol
         Me.grpOutput.TabIndex = 4
         Me.grpOutput.TabStop = False
         Me.grpOutput.Text = "Output"
-        '
-        'RefEditOutput
-        '
-        Me.RefEditOutput.Address = ""
-        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
-        Me.RefEditOutput.Enabled = False
-        Me.RefEditOutput.ExcelConnector = Nothing
-        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
-        Me.RefEditOutput.Location = New System.Drawing.Point(155, 16)
-        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEditOutput.Name = "RefEditOutput"
-        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
-        Me.RefEditOutput.TabIndex = 3
         '
         'optWorkbook
         '
@@ -175,20 +175,6 @@ Partial Class Ui0OneRefeditMulticol
         Me.lblRefedit1.Size = New System.Drawing.Size(39, 16)
         Me.lblRefedit1.TabIndex = 2
         Me.lblRefedit1.Text = "Data:"
-        '
-        'RefEdit1
-        '
-        Me.RefEdit1.Address = ""
-        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit1.ExcelConnector = Nothing
-        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit1.Location = New System.Drawing.Point(140, 37)
-        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit1.Name = "RefEdit1"
-        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit1.TabIndex = 4
         '
         'TabPage_Options
         '
@@ -369,6 +355,125 @@ Partial Class Ui0OneRefeditMulticol
         Me.ckOrdinal.Text = "Ordinal Association"
         Me.ckOrdinal.UseVisualStyleBackColor = True
         '
+        'TabPage_OptionsICC
+        '
+        Me.TabPage_OptionsICC.Controls.Add(Me.ckRepeatabilityCoefficient)
+        Me.TabPage_OptionsICC.Controls.Add(Me.lblAlphaICC)
+        Me.TabPage_OptionsICC.Controls.Add(Me.spinBtnAlphaICC)
+        Me.TabPage_OptionsICC.Controls.Add(Me.grpICCtype)
+        Me.TabPage_OptionsICC.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage_OptionsICC.Name = "TabPage_OptionsICC"
+        Me.TabPage_OptionsICC.Size = New System.Drawing.Size(446, 335)
+        Me.TabPage_OptionsICC.TabIndex = 3
+        Me.TabPage_OptionsICC.Text = "Options"
+        Me.TabPage_OptionsICC.UseVisualStyleBackColor = True
+        '
+        'lblAlphaICC
+        '
+        Me.lblAlphaICC.AutoSize = True
+        Me.lblAlphaICC.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAlphaICC.Location = New System.Drawing.Point(211, 43)
+        Me.lblAlphaICC.Name = "lblAlphaICC"
+        Me.lblAlphaICC.Size = New System.Drawing.Size(42, 16)
+        Me.lblAlphaICC.TabIndex = 9
+        Me.lblAlphaICC.Text = "Alpha"
+        '
+        'spinBtnAlphaICC
+        '
+        Me.spinBtnAlphaICC.DecimalPlaces = 3
+        Me.spinBtnAlphaICC.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlphaICC.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlphaICC.Location = New System.Drawing.Point(259, 41)
+        Me.spinBtnAlphaICC.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlphaICC.Name = "spinBtnAlphaICC"
+        Me.spinBtnAlphaICC.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlphaICC.TabIndex = 8
+        Me.spinBtnAlphaICC.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
+        'grpICCtype
+        '
+        Me.grpICCtype.Controls.Add(Me.optICC3k)
+        Me.grpICCtype.Controls.Add(Me.optICC31)
+        Me.grpICCtype.Controls.Add(Me.optICC2k)
+        Me.grpICCtype.Controls.Add(Me.optICC21)
+        Me.grpICCtype.Controls.Add(Me.optICC1k)
+        Me.grpICCtype.Controls.Add(Me.optICC11)
+        Me.grpICCtype.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpICCtype.Location = New System.Drawing.Point(20, 12)
+        Me.grpICCtype.Name = "grpICCtype"
+        Me.grpICCtype.Size = New System.Drawing.Size(174, 199)
+        Me.grpICCtype.TabIndex = 2
+        Me.grpICCtype.TabStop = False
+        Me.grpICCtype.Text = "ICC Type"
+        '
+        'optICC3k
+        '
+        Me.optICC3k.AutoSize = True
+        Me.optICC3k.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optICC3k.Location = New System.Drawing.Point(17, 161)
+        Me.optICC3k.Name = "optICC3k"
+        Me.optICC3k.Size = New System.Drawing.Size(74, 20)
+        Me.optICC3k.TabIndex = 5
+        Me.optICC3k.Text = "ICC(3,k)"
+        Me.optICC3k.UseVisualStyleBackColor = True
+        '
+        'optICC31
+        '
+        Me.optICC31.AutoSize = True
+        Me.optICC31.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optICC31.Location = New System.Drawing.Point(17, 135)
+        Me.optICC31.Name = "optICC31"
+        Me.optICC31.Size = New System.Drawing.Size(74, 20)
+        Me.optICC31.TabIndex = 4
+        Me.optICC31.Text = "ICC(3,1)"
+        Me.optICC31.UseVisualStyleBackColor = True
+        '
+        'optICC2k
+        '
+        Me.optICC2k.AutoSize = True
+        Me.optICC2k.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optICC2k.Location = New System.Drawing.Point(17, 109)
+        Me.optICC2k.Name = "optICC2k"
+        Me.optICC2k.Size = New System.Drawing.Size(74, 20)
+        Me.optICC2k.TabIndex = 3
+        Me.optICC2k.Text = "ICC(2,k)"
+        Me.optICC2k.UseVisualStyleBackColor = True
+        '
+        'optICC21
+        '
+        Me.optICC21.AutoSize = True
+        Me.optICC21.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optICC21.Location = New System.Drawing.Point(17, 83)
+        Me.optICC21.Name = "optICC21"
+        Me.optICC21.Size = New System.Drawing.Size(74, 20)
+        Me.optICC21.TabIndex = 2
+        Me.optICC21.Text = "ICC(2,1)"
+        Me.optICC21.UseVisualStyleBackColor = True
+        '
+        'optICC1k
+        '
+        Me.optICC1k.AutoSize = True
+        Me.optICC1k.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optICC1k.Location = New System.Drawing.Point(17, 57)
+        Me.optICC1k.Name = "optICC1k"
+        Me.optICC1k.Size = New System.Drawing.Size(74, 20)
+        Me.optICC1k.TabIndex = 1
+        Me.optICC1k.Text = "ICC(1,k)"
+        Me.optICC1k.UseVisualStyleBackColor = True
+        '
+        'optICC11
+        '
+        Me.optICC11.AutoSize = True
+        Me.optICC11.Checked = True
+        Me.optICC11.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optICC11.Location = New System.Drawing.Point(17, 31)
+        Me.optICC11.Name = "optICC11"
+        Me.optICC11.Size = New System.Drawing.Size(74, 20)
+        Me.optICC11.TabIndex = 0
+        Me.optICC11.TabStop = True
+        Me.optICC11.Text = "ICC(1,1)"
+        Me.optICC11.UseVisualStyleBackColor = True
+        '
         'progressBarExactCalc
         '
         Me.progressBarExactCalc.Location = New System.Drawing.Point(12, 382)
@@ -393,6 +498,47 @@ Partial Class Ui0OneRefeditMulticol
         Me.btCompute.TabIndex = 5
         Me.btCompute.Text = "Compute"
         Me.btCompute.UseVisualStyleBackColor = True
+        '
+        'RefEditOutput
+        '
+        Me.RefEditOutput.Address = ""
+        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
+        Me.RefEditOutput.Enabled = False
+        Me.RefEditOutput.ExcelConnector = Nothing
+        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
+        Me.RefEditOutput.Location = New System.Drawing.Point(155, 16)
+        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEditOutput.Name = "RefEditOutput"
+        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
+        Me.RefEditOutput.TabIndex = 3
+        '
+        'RefEdit1
+        '
+        Me.RefEdit1.Address = ""
+        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit1.ExcelConnector = Nothing
+        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit1.Location = New System.Drawing.Point(140, 37)
+        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit1.Name = "RefEdit1"
+        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit1.TabIndex = 4
+        '
+        'ckRepeatabilityCoefficient
+        '
+        Me.ckRepeatabilityCoefficient.AutoSize = True
+        Me.ckRepeatabilityCoefficient.Checked = True
+        Me.ckRepeatabilityCoefficient.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckRepeatabilityCoefficient.Location = New System.Drawing.Point(216, 82)
+        Me.ckRepeatabilityCoefficient.Name = "ckRepeatabilityCoefficient"
+        Me.ckRepeatabilityCoefficient.Size = New System.Drawing.Size(174, 20)
+        Me.ckRepeatabilityCoefficient.TabIndex = 10
+        Me.ckRepeatabilityCoefficient.Text = "Repeatability Coefficient"
+        Me.ckRepeatabilityCoefficient.UseVisualStyleBackColor = True
         '
         'Ui0OneRefeditMulticol
         '
@@ -422,6 +568,11 @@ Partial Class Ui0OneRefeditMulticol
         Me.grpRmANOVAsphericity.PerformLayout()
         Me.TabPage_OptionsRxC.ResumeLayout(False)
         Me.TabPage_OptionsRxC.PerformLayout()
+        Me.TabPage_OptionsICC.ResumeLayout(False)
+        Me.TabPage_OptionsICC.PerformLayout()
+        CType(Me.spinBtnAlphaICC, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpICCtype.ResumeLayout(False)
+        Me.grpICCtype.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -454,4 +605,15 @@ Partial Class Ui0OneRefeditMulticol
     Friend WithEvents ckCochranArmitage As Windows.Forms.CheckBox
     Friend WithEvents ckNominalAssociation As Windows.Forms.CheckBox
     Friend WithEvents ckLabels As Windows.Forms.CheckBox
+    Friend WithEvents TabPage_OptionsICC As Windows.Forms.TabPage
+    Friend WithEvents grpICCtype As Windows.Forms.GroupBox
+    Friend WithEvents optICC21 As Windows.Forms.RadioButton
+    Friend WithEvents optICC1k As Windows.Forms.RadioButton
+    Friend WithEvents optICC11 As Windows.Forms.RadioButton
+    Friend WithEvents optICC3k As Windows.Forms.RadioButton
+    Friend WithEvents optICC31 As Windows.Forms.RadioButton
+    Friend WithEvents optICC2k As Windows.Forms.RadioButton
+    Friend WithEvents lblAlphaICC As Windows.Forms.Label
+    Friend WithEvents spinBtnAlphaICC As Windows.Forms.NumericUpDown
+    Friend WithEvents ckRepeatabilityCoefficient As Windows.Forms.CheckBox
 End Class

@@ -9,7 +9,7 @@ Public Class UiGLM
 
     Private pWorksheet As Object
     Private pWorkbook As Object
-    Private VariableColumnsInfo As Dictionary(Of Integer, Object()) 'information of variable/column names inported into the input listbox
+    Private VariableColumnsInfo As Dictionary(Of String, VarColumnInfo) 'information of variable/column names inported into the input listbox
 
     Sub New(analysis As String)
 
@@ -412,7 +412,7 @@ Public Class UiGLM
         ordL.SettingInputs(0.05, CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text))
         If bInitialValues Then ordL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
         Dim refCat = If(Me.optFirst.Checked, regression.ReferenceCategory.First, regression.ReferenceCategory.Last)
-        ordL.Calculate(refCat, bInitialValues, Me.ProgressBar1, Me.lblProgress)
+        ordL.Fit(refCat, bInitialValues, Me.ProgressBar1, Me.lblProgress)
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
@@ -477,7 +477,7 @@ Public Class UiGLM
         Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
         If bInitialValues Then multL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
         Dim refCat = If(Me.optFirst.Checked, regression.ReferenceCategory.First, regression.ReferenceCategory.Last)
-        multL.Calculate(lIntercept, refCat, bInitialValues, Me.ProgressBar1, Me.lblProgress)
+        multL.Fit(lIntercept, refCat, bInitialValues, Me.ProgressBar1, Me.lblProgress)
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
@@ -540,7 +540,7 @@ Public Class UiGLM
         zipFit.settingInputs(0.05, CInt(Me.tbMaxIter.Text), CInt(Me.tbEMiterations.Text), CDbl(Me.tbEps.Text))
         If bPoissonInitialValues Then zipFit.startParamsPois = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
         If bLogisticInitialValues Then zipFit.startParamsLog = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, False) 'we tested already that they are correct
-        zipFit.Calculate(If(Me.ckIntercept.Checked, 1, 0), If(Me.ckInterceptLogistic.Checked, 1, 0),
+        zipFit.Fit(If(Me.ckIntercept.Checked, 1, 0), If(Me.ckInterceptLogistic.Checked, 1, 0),
                          bPoissonInitialValues, bLogisticInitialValues, Me.ProgressBar1, Me.lblProgress)
 
         'Dump results
@@ -612,7 +612,7 @@ Public Class UiGLM
         nb2.settingInputs(0.05, CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text))
         Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
         If bInitialValues Then nb2.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
-        nb2.calculate(lIntercept, bInitialValues, Me.ProgressBar1, Me.lblProgress)
+        nb2.Fit(lIntercept, bInitialValues, Me.ProgressBar1, Me.lblProgress)
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
@@ -699,7 +699,7 @@ Public Class UiGLM
         fitGlm.settingInputs(0.05, CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text))
         Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
         If bInitialValues Then fitGlm.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
-        fitGlm.Calculate(lIntercept, bInitialValues, Me.ProgressBar1, Me.lblProgress)
+        fitGlm.Fit(lIntercept, bInitialValues, Me.ProgressBar1, Me.lblProgress)
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
