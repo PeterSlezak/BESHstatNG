@@ -29,7 +29,7 @@ Public Class Ui82x2
                     MsgBox("Wrong dimensions of input table, 2x2 is expected.", vbOKOnly, "2x2 table analysis")
                     Exit Sub
                 End If
-                table = Array2intArray(d.X)
+                table = Matrix.Array2intArray(d.X)
                 R1C1 = table(0, 0)
                 R1C2 = table(0, 1)
                 R2C1 = table(1, 0)
@@ -121,7 +121,7 @@ Public Class Ui82x2
 
             rr.writeToSheet(WriteRes, True)
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -140,14 +140,14 @@ Public Class Ui82x2
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = app.Workbooks.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

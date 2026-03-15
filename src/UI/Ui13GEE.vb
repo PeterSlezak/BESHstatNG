@@ -217,7 +217,7 @@ Public Class Ui13GEE
             Exit Sub
         End If
         If Me.lbSelectedEffectsList.Items.Count = 0 And Me.cbIntercept.Checked Then
-            If MsgBox("Do you want to fit intercept only model?", vbYesNo + vbExclamation, gsAPP_TITLE) = vbNo Then
+            If MsgBox("Do you want to fit intercept only model?", vbYesNo + vbExclamation, BESHstatGlobals.gsAPP_TITLE) = vbNo Then
                 bWait = True
                 Exit Sub
             End If
@@ -229,42 +229,33 @@ Public Class Ui13GEE
     End Sub
 
     Private Function GetData() As geeData
-        Dim ref As String
         Dim MyData As geeData = New geeData
-
-        'Find the response variable and assign the reference
-        ref = "'" & pWorksheet.Name & "'!" & CreateReference(pWorksheet, Me.lbY.Items(0), Me.VariableColumnsInfo)
+        Dim keys As New List(Of String)
+        keys.Add(CStr(Me.lbY.Items(0))) 'Find the response variable and assign the reference
 
         'X vars
-        For i = 0 To lbSelectedEffectsList.Items.Count - 1
-            ref = ref & ", " & CreateReference(pWorksheet, Me.lbSelectedEffectsList.Items(i), Me.VariableColumnsInfo)
+        For i = 0 To Me.lbSelectedEffectsList.Items.Count - 1
+            keys.Add(CStr(Me.lbSelectedEffectsList.Items(i)))
         Next
         'Cluster ID
-        If Me.lbClusterID.Items(0) <> String.Empty Then
-            ref = ref & ", " & CreateReference(pWorksheet, Me.lbClusterID.Items(0), Me.VariableColumnsInfo)
-        End If
+        If Me.lbClusterID.Items(0) <> String.Empty Then keys.Add(CStr(Me.lbClusterID.Items(0)))
         'Time/Withing cluster ordering variable
-        If Me.lbTime.Items.Count > 0 Then
-            If Me.lbTime.Items(0) <> vbNullString Then
-                MyData.bTime = True
-                ref = ref & ", " & CreateReference(pWorksheet, Me.lbTime.Items(0), Me.VariableColumnsInfo)
-            End If
+        If Me.lbTime.Items.Count > 0 AndAlso Me.lbTime.Items(0) <> vbNullString Then
+            MyData.bTime = True
+            keys.Add(CStr(Me.lbTime.Items(0)))
         End If
         'Offset
-        If Me.lbOffset.Items.Count > 0 Then
-            If Me.lbOffset.Items(0) <> String.Empty Then
-                MyData.bOffset = True
-                ref = ref & ", " & CreateReference(pWorksheet, Me.lbOffset.Items(0), Me.VariableColumnsInfo)
-            End If
+        If Me.lbOffset.Items.Count > 0 AndAlso Me.lbOffset.Items(0) <> String.Empty Then
+            MyData.bOffset = True
+            keys.Add(CStr(Me.lbOffset.Items(0)))
         End If
         'Weights
-        If Me.lbWeights.Items.Count > 0 Then
-            If Me.lbWeights.Items(0) <> String.Empty Then
-                MyData.bWeights = True
-                ref = ref & ", " & CreateReference(pWorksheet, Me.lbWeights.Items(0), Me.VariableColumnsInfo)
-            End If
+        If Me.lbWeights.Items.Count > 0 AndAlso Me.lbWeights.Items(0) <> String.Empty Then
+            MyData.bWeights = True
+            keys.Add(CStr(Me.lbWeights.Items(0)))
         End If
 
+        Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
         'Prepare Data from references
         MyData.DataInport(ref)
         Return MyData
@@ -295,7 +286,7 @@ Public Class Ui13GEE
                 Dim bErr As Boolean = False
                 Dim initVals = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
                 If bErr Then
-                    BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
+                    BESHstatGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
                     MsgBox("Cannot extract initial parameter values. They will be ignored.")
                 Else
                     bInitialValues = True
@@ -306,7 +297,7 @@ Public Class Ui13GEE
                 Me.RunGEE(MyData, bInitialValues)
             End If
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -350,9 +341,9 @@ Public Class Ui13GEE
 
             ''Dump results
             Dim WriteRes As WriteResults = New WriteResults
-            WriteRes.wb = app.Workbooks.Add()
-            app.ActiveWorkbook.ActiveSheet.name = "Data"
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+            BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
             WriteRes.write({"Row ID"})
             WriteRes.setRowPointer(2)
             WriteRes.write(MyData.RowIds, bTall:=True)
@@ -408,9 +399,9 @@ Public Class Ui13GEE
             'We need to start new writer to start writing on this new sheet
             Dim res = fitGEE.wrapResults()
             WriteRes = New WriteResults
-            app.ActiveWorkbook.Worksheets.Add()
-            app.ActiveWorkbook.ActiveSheet.name = "GEE"
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
+            BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "GEE"
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
 
             Dim rr = New ProcessListofResultTables(res)
             rr.writeToSheet(WriteRes, True)

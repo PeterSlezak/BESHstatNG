@@ -114,9 +114,9 @@ Friend Module SheetManagement
     ''' </example>
     Public Function CountNonmissing(r As Range, bNumeric_only As Boolean) As Integer
         If bNumeric_only Then
-            Return app.WorksheetFunction.Count(r)
+            Return BESHstatGlobals.app.WorksheetFunction.Count(r)
         Else
-            Return app.WorksheetFunction.CountA(r)
+            Return BESHstatGlobals.app.WorksheetFunction.CountA(r)
         End If
     End Function
 
@@ -171,7 +171,21 @@ Friend Module SheetManagement
     ''' Console.WriteLine(colA + ", " + colZ + ", " + colAA)
     ''' </example>
     Public Function ColNumber2Letter(ColumnNumber As Integer) As String
-        Dim ColumnLetter As String = Split(app.ActiveSheet.Cells(1, ColumnNumber).Address, "$")(1)
+        Dim ColumnLetter As String = String.Empty
+        Try
+            If BESHstatGlobals.app.ActiveSheet.Type = XlSheetType.xlWorksheet Then
+                ColumnLetter = Split(BESHstatGlobals.app.ActiveSheet.Cells(1, ColumnNumber).Address, "$")(1)
+            Else
+                For Each ws As Worksheet In BESHstatGlobals.app.ActiveWorkbook.Worksheets
+                    If ws.Type = XlSheetType.xlWorksheet Then
+                        ColumnLetter = Split(BESHstatGlobals.app.ActiveSheet.Cells(1, ColumnNumber).Address, "$")(1)
+                        Exit For
+                    End If
+                Next ws
+            End If
+
+        Catch
+        End Try
         Return ColumnLetter
     End Function
 
@@ -262,7 +276,7 @@ Friend Module SheetManagement
         End If
 
         If WB Is Nothing Then
-            Return app.ActiveWorkbook.Worksheets(wks)
+            Return BESHstatGlobals.app.ActiveWorkbook.Worksheets(wks)
         Else
             Return WB.Worksheets(wks)
         End If
@@ -312,22 +326,40 @@ Friend Module SheetManagement
         Return "$" & col & ":$" & col
     End Function
 
-    'Function CreateReference(ws As Worksheet, var As String, VarList As Dictionary(Of Integer, Object())) As String
-    '    'Create reference (ie. column name in the ws worksheet ) based on the variable name
-    '    Dim WholeString As Object, PartString As Object
+    ''' <summary>
+    ''' Build a comma-separated Excel reference string in the form:
+    '''   'SheetName'!$A:$A, $B:$B, $C:$C
+    ''' from a sequence of variable keys (listbox item strings).
+    ''' </summary>
+    Public Function BuildExcelRefList(ws As Worksheet, varKeys As IEnumerable(Of String),
+                                      varList As Dictionary(Of String, VarColumnInfo),
+                                      Optional skipEmpty As Boolean = True) As String
 
-    '    'bFind = False
-    '    Dim ref As String = String.Empty
-    '    Dim colNumber As Integer
-    '    For Each key In VarList.Keys
-    '        Dim colinfo = VarList(key)
-    '        If colinfo(3) = var Then colNumber = key
-    '    Next
-    '    WholeString = ws.Range(ws.Cells(1, colNumber), ws.Cells(1, colNumber)).AddressLocal
-    '    PartString = Split(WholeString, "$")
-    '    ref = "$" & PartString(1) & ":$" & PartString(1)
-    '    Return ref
-    'End Function
+        If ws Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(ws)))
+        If varKeys Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(varKeys)))
+        If varList Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(varList)))
+
+        Dim parts As New List(Of String)
+
+        For Each kObj As String In varKeys
+            Dim k As String = If(kObj, String.Empty)
+            If skipEmpty AndAlso k.Trim() = String.Empty Then Continue For
+            parts.Add(CreateReference(ws, k, varList))
+        Next
+
+        If parts.Count = 0 Then
+            Return String.Empty
+        End If
+
+        'Only the first reference is sheet-qualified (Excel accepts the rest as relative to it)
+        Dim ref As String = "'" & ws.Name & "'!" & parts(0)
+
+        For i As Integer = 1 To parts.Count - 1
+            ref &= ", " & parts(i)
+        Next
+
+        Return ref
+    End Function
 
     ''' <summary>
     ''' Extracts the worksheet name from a reference string and optionally includes apostrophes.

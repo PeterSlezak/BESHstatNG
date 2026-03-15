@@ -26,13 +26,13 @@ Partial Class UiTwoInputRefedits
         Me.TabMultipage = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEditOutput = New Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.grpInput = New System.Windows.Forms.GroupBox()
-        Me.RefEdit2 = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit1 = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit2 = New Excel2007RefEdit()
+        Me.RefEdit1 = New Excel2007RefEdit()
         Me.lblRefedit2 = New System.Windows.Forms.Label()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
         Me.TabPageOptions = New System.Windows.Forms.TabPage()
@@ -41,6 +41,7 @@ Partial Class UiTwoInputRefedits
         Me.lblAlpha = New System.Windows.Forms.Label()
         Me.spinBtnAlphaDeming = New System.Windows.Forms.NumericUpDown()
         Me.grpCItype = New System.Windows.Forms.GroupBox()
+        Me.optAnalyticalClosedForm = New System.Windows.Forms.RadioButton()
         Me.optJackknife = New System.Windows.Forms.RadioButton()
         Me.optAnalyticalLinnet = New System.Windows.Forms.RadioButton()
         Me.ckSignTest = New System.Windows.Forms.CheckBox()
@@ -55,7 +56,6 @@ Partial Class UiTwoInputRefedits
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCompute = New System.Windows.Forms.Button()
         Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
-        Me.optAnalyticalClosedForm = New System.Windows.Forms.RadioButton()
         Me.TabMultipage.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.grpOutput.SuspendLayout()
@@ -284,6 +284,17 @@ Partial Class UiTwoInputRefedits
         Me.grpCItype.TabStop = False
         Me.grpCItype.Text = "Confidence Interval Construction"
         '
+        'optAnalyticalClosedForm
+        '
+        Me.optAnalyticalClosedForm.AutoSize = True
+        Me.optAnalyticalClosedForm.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optAnalyticalClosedForm.Location = New System.Drawing.Point(17, 82)
+        Me.optAnalyticalClosedForm.Name = "optAnalyticalClosedForm"
+        Me.optAnalyticalClosedForm.Size = New System.Drawing.Size(248, 20)
+        Me.optAnalyticalClosedForm.TabIndex = 2
+        Me.optAnalyticalClosedForm.Text = "Analytical (closed form / linearization)"
+        Me.optAnalyticalClosedForm.UseVisualStyleBackColor = True
+        '
         'optJackknife
         '
         Me.optJackknife.AutoSize = True
@@ -441,17 +452,6 @@ Partial Class UiTwoInputRefedits
         Me.progressBarExactCalc.Size = New System.Drawing.Size(270, 23)
         Me.progressBarExactCalc.TabIndex = 5
         '
-        'optAnalyticalClosedForm
-        '
-        Me.optAnalyticalClosedForm.AutoSize = True
-        Me.optAnalyticalClosedForm.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.optAnalyticalClosedForm.Location = New System.Drawing.Point(17, 82)
-        Me.optAnalyticalClosedForm.Name = "optAnalyticalClosedForm"
-        Me.optAnalyticalClosedForm.Size = New System.Drawing.Size(248, 20)
-        Me.optAnalyticalClosedForm.TabIndex = 2
-        Me.optAnalyticalClosedForm.Text = "Analytical (closed form / linearization)"
-        Me.optAnalyticalClosedForm.UseVisualStyleBackColor = True
-        '
         'UiTwoInputRefedits
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -462,6 +462,7 @@ Partial Class UiTwoInputRefedits
         Me.Controls.Add(Me.btCompute)
         Me.Controls.Add(Me.TabMultipage)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
         Me.MinimumSize = New System.Drawing.Size(483, 457)
         Me.Name = "UiTwoInputRefedits"
         Me.ShowIcon = False

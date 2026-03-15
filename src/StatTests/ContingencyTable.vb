@@ -238,8 +238,7 @@ Namespace contingencytable
 
             Dim n As Double = a + b + c + d
             If n > 1000 Then
-                MsgBox("Too large sample size for exact computation.", vbOKOnly, "Fisher's exact test")
-                BSlogg.Log("Too large sample size for exact computation.", LogMsgType.Warn)
+                BESHstatGlobals.BSlogg.Log("Too large sample size for exact computation.", BESHstatGlobals.LogMsgType.Warn)
                 Return Nothing
             End If
             Dim min As Integer = Minimum(a, b, c, d)

@@ -78,7 +78,7 @@ Namespace Multivariate
     Public Class CA
         'Simple and Multiple Correspondence analysis class
 
-        Private pData(,) As Integer 'Input contingency table. When Multiple CA then it is the Design Matrix
+        Private pData(,) As Integer 'Input contingency table. When Multiple CA then it is the Design MatrixType
         Private pDataMultiple(,) As String 'Input Raw data for Multiple Correspondence Analysis. We need to create Burt table out of it first
         Private pVarNames() As String 'variable names. Used only for Multiple CA
         Private pVarNamesToPresent() As String
@@ -153,7 +153,7 @@ Namespace Multivariate
             Else
                 pRowNames = rows
                 If pRowNames.Length <> pR Then
-                    BSerr.LogAndThrow(New ArgumentException("Number of Contingency table rows and Row labels don't match!"))
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Number of Contingency table rows and Row labels don't match!"))
                 End If
             End If
 
@@ -163,7 +163,7 @@ Namespace Multivariate
             Else
                 pColNames = cols
                 If pColNames.Length <> pC Then
-                    BSerr.LogAndThrow(New ArgumentException("Number of Contingency table columns And Column labels don't match!"))
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Number of Contingency table columns And Column labels don't match!"))
                 End If
             End If
         End Sub
@@ -310,9 +310,9 @@ Namespace Multivariate
         ReadOnly Property RowFactors(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pRowFactors, 0)
+                    Return Matrix.GetColumnFrom2Darray(pRowFactors, 0)
                 Else
-                    Return GetColumnFrom2Darray(pRowFactors, id)
+                    Return Matrix.GetColumnFrom2Darray(pRowFactors, id)
                 End If
             End Get
         End Property
@@ -326,9 +326,9 @@ Namespace Multivariate
         ReadOnly Property ColFactors(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pColFactors, 0)
+                    Return Matrix.GetColumnFrom2Darray(pColFactors, 0)
                 Else
-                    Return GetColumnFrom2Darray(pColFactors, id)
+                    Return Matrix.GetColumnFrom2Darray(pColFactors, id)
                 End If
             End Get
         End Property
@@ -388,9 +388,9 @@ Namespace Multivariate
         ReadOnly Property RowCorr(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pRowCorr, 0)
+                    Return Matrix.GetColumnFrom2Darray(pRowCorr, 0)
                 Else
-                    Return GetColumnFrom2Darray(pRowCorr, id)
+                    Return Matrix.GetColumnFrom2Darray(pRowCorr, id)
                 End If
             End Get
         End Property
@@ -400,9 +400,9 @@ Namespace Multivariate
         ReadOnly Property ColCorr(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pColCorr, 0)
+                    Return Matrix.GetColumnFrom2Darray(pColCorr, 0)
                 Else
-                    Return GetColumnFrom2Darray(pColCorr, id)
+                    Return Matrix.GetColumnFrom2Darray(pColCorr, id)
                 End If
             End Get
         End Property
@@ -415,9 +415,9 @@ Namespace Multivariate
         ReadOnly Property RowContribution(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pRowContribution, 0)
+                    Return Matrix.GetColumnFrom2Darray(pRowContribution, 0)
                 Else
-                    Return GetColumnFrom2Darray(pRowContribution, id)
+                    Return Matrix.GetColumnFrom2Darray(pRowContribution, id)
                 End If
             End Get
         End Property
@@ -430,9 +430,9 @@ Namespace Multivariate
         ReadOnly Property ColContributionSigned(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pColContributionSigned, 0)
+                    Return Matrix.GetColumnFrom2Darray(pColContributionSigned, 0)
                 Else
-                    Return GetColumnFrom2Darray(pColContributionSigned, id)
+                    Return Matrix.GetColumnFrom2Darray(pColContributionSigned, id)
                 End If
             End Get
         End Property
@@ -443,9 +443,9 @@ Namespace Multivariate
         ReadOnly Property ColContribution(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pColContribution, 0)
+                    Return Matrix.GetColumnFrom2Darray(pColContribution, 0)
                 Else
-                    Return GetColumnFrom2Darray(pColContribution, id)
+                    Return Matrix.GetColumnFrom2Darray(pColContribution, id)
                 End If
             End Get
         End Property
@@ -456,9 +456,9 @@ Namespace Multivariate
         ReadOnly Property RowAngle(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pRowAngle, 0)
+                    Return Matrix.GetColumnFrom2Darray(pRowAngle, 0)
                 Else
-                    Return GetColumnFrom2Darray(pRowAngle, id)
+                    Return Matrix.GetColumnFrom2Darray(pRowAngle, id)
                 End If
             End Get
         End Property
@@ -468,9 +468,9 @@ Namespace Multivariate
         ReadOnly Property ColAngle(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pColAngle, 0)
+                    Return Matrix.GetColumnFrom2Darray(pColAngle, 0)
                 Else
-                    Return GetColumnFrom2Darray(pColAngle, id)
+                    Return Matrix.GetColumnFrom2Darray(pColAngle, id)
                 End If
             End Get
         End Property
@@ -480,9 +480,9 @@ Namespace Multivariate
         ReadOnly Property RowEigenvalueContrib(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pRowEigencontrib, 0)
+                    Return Matrix.GetColumnFrom2Darray(pRowEigencontrib, 0)
                 Else
-                    Return GetColumnFrom2Darray(pRowEigencontrib, id)
+                    Return Matrix.GetColumnFrom2Darray(pRowEigencontrib, id)
                 End If
             End Get
         End Property
@@ -492,9 +492,9 @@ Namespace Multivariate
         ReadOnly Property ColEigenvalueContrib(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return GetColumnFrom2Darray(pColEigencontrib, 0)
+                    Return Matrix.GetColumnFrom2Darray(pColEigencontrib, 0)
                 Else
-                    Return GetColumnFrom2Darray(pColEigencontrib, id)
+                    Return Matrix.GetColumnFrom2Darray(pColEigencontrib, id)
                 End If
             End Get
         End Property
@@ -528,13 +528,13 @@ Namespace Multivariate
             If Me.pbMultiple Then
                 'Burt table
                 t.AddTitle("Burt Table")
-                t.AddHeaderTopRow(ConcatArrays({"Variable", ""}, Me.BurtVarNames))
-                t.AddHeaderTopRow(ConcatArrays({"", "Category"}, Me.rowNames))
+                t.AddHeaderTopRow(Matrix.ConcatArrays({"Variable", ""}, Me.BurtVarNames))
+                t.AddHeaderTopRow(Matrix.ConcatArrays({"", "Category"}, Me.rowNames))
                 t.AddHeaderLeftRow(Me.BurtVarNames)
                 t.AddHeaderLeftRow(Me.rowNames)
-                t.SetBody(Array2objArray(Me.BurtTable))
+                t.SetBody(Matrix.Array2objArray(Me.BurtTable))
                 out.Add(t)
-                Debug.Print(array2str(t.returnSelf))
+                Debug.Print(Matrix.array2str(t.returnSelf))
 
                 'Eigenvalues
                 t = New ResultTable
@@ -766,7 +766,7 @@ Namespace Multivariate
         Public Sub Calculate()
             Dim axesToCompute As Integer = Math.Min(2, pDim + 1)  'pDim+1 = number of eigenvalues stored
             If axesToCompute < 1 Then
-                BSerr.LogAndThrow(New InvalidOperationException("Not enough dimensions for correspondence analysis."))
+                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Not enough dimensions for correspondence analysis."))
             End If
 
             Dim prop(pR - 1, pC - 1) As Double, Dr(pR - 1, pR - 1) As Double, Dc(pC - 1, pC - 1) As Double
@@ -795,7 +795,7 @@ Namespace Multivariate
                 Next
             Next
 
-            Dim scaledMat(,) As Double = MatrixMult(MatrixMult(Dr, resid), Dc)
+            Dim scaledMat(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(Dr, resid), Dc)
 
             'Do the SVD
             'Given a matrix a(1:m,1:n), this routine computes its singular value decomposition, A = U * W * V ^t .
@@ -803,8 +803,8 @@ Namespace Multivariate
             'The matrix V (not the transpose V T ) is output as V(1:n,1:n).
 
             'Do the computation for Rows ------------------------------------------------------------------
-            Dim svd As SVDoutput = SVD_decomp(scaledMat) 'W is the square root of eigenvalues
-            Dim tmp2(,) As Double = MatrixMult(MatrixMult(Dr, svd.U), svd.Wmat) 'is the CA row factor matrix
+            Dim svd As Matrix.SVDoutput = Matrix.SVD_decomp(scaledMat) 'W is the square root of eigenvalues
+            Dim tmp2(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(Dr, svd.U), svd.Wmat) 'is the CA row factor matrix
 
             'We need to reorder Factor based on the Eigenvalues (largest -> smallest)
             Dim Ordr(svd.Wvect.Length - 1) As Integer
@@ -866,7 +866,7 @@ Namespace Multivariate
 
 
             'Do the computation for Columns ---------------------------------------------------------------
-            tmp2 = MatrixMult(MatrixMult(Dc, svd.V), trans(svd.Wmat)) 'is the CA column factor matrix
+            tmp2 = Matrix.MatrixMult(Matrix.MatrixMult(Dc, svd.V), Matrix.trans(svd.Wmat)) 'is the CA column factor matrix
             'ReDim factors the same way as rows: axis 0 stored in column 0
             ReDim pColFactors(pC - 1, pDim)
             For k As Integer = 0 To pDim
@@ -1003,7 +1003,7 @@ Namespace Multivariate
             Dim nameIdx As Integer = 0
 
             For varIdx As Integer = 0 To p - 1
-                Dim col() As String = GetColumnFrom2Darray(pDataMultiple, varIdx)
+                Dim col() As String = Matrix.GetColumnFrom2Darray(pDataMultiple, varIdx)
 
                 'normalize (optional, but reduces "same category with trailing spaces" issues)
                 For i As Integer = 0 To col.Length - 1
@@ -1255,8 +1255,8 @@ Namespace Multivariate
             End If
 
             If ws Is Nothing Then
-                app.Charts.Add()
-                figure = app.ActiveWorkbook.ActiveChart
+                BESHstatGlobals.app.Charts.Add()
+                figure = BESHstatGlobals.app.ActiveWorkbook.ActiveChart
             Else
                 figure = ws.Shapes.AddChart.Chart
             End If
@@ -1316,8 +1316,8 @@ Namespace Multivariate
             Dim udPlotAxisX As graphics.CHARTscale = graphics.ChartScaling(Math.Min(RowFactors(0).Min(), ColFactors(0).Min()), Math.Max(RowFactors(0).Max(), ColFactors(0).Max()))
 
             If ws Is Nothing Then
-                app.Charts.Add()
-                figure = app.ActiveWorkbook.ActiveChart
+                BESHstatGlobals.app.Charts.Add()
+                figure = BESHstatGlobals.app.ActiveWorkbook.ActiveChart
             Else
                 figure = ws.Shapes.AddChart.Chart
             End If

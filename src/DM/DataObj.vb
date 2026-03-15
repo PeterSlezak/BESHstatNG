@@ -141,7 +141,7 @@ Public Class DataObj
     Public ReadOnly Property DataByID2ByColumn() As Double()()
         Get
             Dim groupIDs() As Object, arDataColumn(,) As Double, NoGroups As Integer, arN() As Integer, n As Integer
-            groupIDs = GetColumnFrom2Darray(Me.FinalData, 0).Distinct().ToArray()
+            groupIDs = Matrix.GetColumnFrom2Darray(Me.FinalData, 0).Distinct().ToArray()
             NoGroups = UBound(groupIDs, 1)
             n = UBound(Me.FinalData, 1)
 
@@ -157,7 +157,7 @@ Public Class DataObj
                 Next
             Next
             For j = 0 To NoGroups
-                out(j) = SubsetArray(GetColumnFrom2Darray(arDataColumn, j), 0, arN(j) - 1)
+                out(j) = Matrix.SubsetArray(Matrix.GetColumnFrom2Darray(arDataColumn, j), 0, arN(j) - 1)
             Next
 
             Return out
@@ -381,7 +381,7 @@ Public Class DataObj
 
         'Redimension the temporary array to equal the ouput array
         If cnt = 0 Then 'zero valid data
-            BSlogg.Log("Zero valid matched data!")
+            BESHstatGlobals.BSlogg.Log("Zero valid matched data!")
             Exit Sub
         Else
             Me.bZeroValid = False
@@ -829,7 +829,7 @@ Public Class CoxPHData
         For i = 0 To Me.nRows - 1
             Me.TimeData(i) = Me.FinalData(i, 0)
             If Not (Me.FinalData(i, 1) = 0 Or Me.FinalData(i, 1) = 1) Then
-                gLogger.Error($"Censorting value is not 1/0. Value ={Me.FinalData(i, 1)}")
+                BESHstatGlobals.gLogger.Error($"Censorting value is not 1/0. Value ={Me.FinalData(i, 1)}")
                 BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Censorting value is not 1/0. Value ={Me.FinalData(i, 1)}"))
             End If
             Me.CensorData(i) = Int(Me.FinalData(i, 1))
@@ -866,7 +866,7 @@ Public Class CoxPHData
 
             ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 3)
             ReDim Preserve Me.varNames(Me.nCols - 3)
-            Debug.Print(array2str(Me.varNames))
+            Debug.Print(Matrix.array2str(Me.varNames))
             Me.nCols -= 2
         End If
 

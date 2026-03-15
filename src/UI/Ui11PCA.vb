@@ -15,7 +15,7 @@ Public Class Ui11PCA
         ' Add any initialization after the InitializeComponent() call.
         Me.Text = analysis
 
-        If Me.Text = "Scatter Plot Matrix" Then
+        If Me.Text = "Scatter Plot MatrixType" Then
             Me.TabPageOptionsPCA.Parent = Nothing
         ElseIf Me.Text = "Principal Component Analysis" Then
             Me.TabPageOptionsSPM.Parent = Nothing
@@ -41,7 +41,7 @@ Public Class Ui11PCA
                 Exit Sub
             End If
 
-            If Me.Text = "Scatter Plot Matrix" Then
+            If Me.Text = "Scatter Plot MatrixType" Then
                 Me.RunSPM(MyData)
             ElseIf Me.Text = "Principal Component Analysis" Then
                 Me.RunPCA(MyData)
@@ -49,7 +49,7 @@ Public Class Ui11PCA
                 Me.RunMCA(MyData)
             End If
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -64,14 +64,14 @@ Public Class Ui11PCA
             MyData.SubsetByRowIdValues(ids)
         End If
 
-        mca.DataMultiple(Array2strArray(MyData.FinalData), MyData.varNames)
+        mca.DataMultiple(Matrix.Array2strArray(MyData.FinalData), MyData.varNames)
         mca.Calculate()
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = app.Workbooks.Add()
-        app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Row ID"})
         WriteRes.setRowPointer(3) 'second row is blank because of Design matrix having two header rows
         WriteRes.write(MyData.RowIds, bTall:=True)
@@ -82,7 +82,7 @@ Public Class Ui11PCA
         WriteRes.write(MyData.FinalData)
         WriteRes.shiftColumnPointer(MyData.varNames.Length)
         WriteRes.setRowPointer()
-        WriteRes.write({"Design Matrix:"})
+        WriteRes.write({"Design MatrixType:"})
         WriteRes.setRowPointer()
         WriteRes.shiftColumnPointer(1)
         WriteRes.write(mca.BurtVarNames)
@@ -92,9 +92,9 @@ Public Class Ui11PCA
         'MCA numerical results
         Dim res = mca.wrapResults()
         WriteRes = New WriteResults
-        app.ActiveWorkbook.Worksheets.Add()
-        app.ActiveWorkbook.ActiveSheet.name = "MCA results"
-        WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
+        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "MCA results"
+        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
 
@@ -134,9 +134,9 @@ Public Class Ui11PCA
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = app.Workbooks.Add()
-        app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Row ID"})
         WriteRes.setRowPointer(2)
         WriteRes.write(MyData.RowIds, bTall:=True)
@@ -158,9 +158,9 @@ Public Class Ui11PCA
         'PCA numerical results
         Dim res = objPCA.wrapResults()
         WriteRes = New WriteResults
-        app.ActiveWorkbook.Worksheets.Add()
-        app.ActiveWorkbook.ActiveSheet.name = "PCA results"
-        WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
+        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "PCA results"
+        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
 
@@ -205,21 +205,16 @@ Public Class Ui11PCA
     End Sub
 
     Private Function GetData() As DataObj
-        Dim ref As String = String.Empty
         Dim MyData As DataObj = New DataObj
+        Dim keys As New List(Of String)
+        For i = 0 To Me.lbXs.Items.Count - 1 'X vars
+            keys.Add(CStr(Me.lbXs.Items(i)))
+        Next
 
-        'X vars
-        For i = 0 To lbXs.Items.Count - 1
-            If i = 0 Then
-                ref = "'" & pWorksheet.Name & "'!" & CreateReference(pWorksheet, Me.lbXs.Items(i), Me.VariableColumnsInfo)
-            Else
-                ref &= ", " & CreateReference(pWorksheet, Me.lbXs.Items(i), Me.VariableColumnsInfo)
-            End If
-        Next i
+        Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
 
-        'Prepare Data from references
-        If Me.Text = "Multiple Correspondence Analysis" Then 'accept Text data
-            MyData.DataInport(ref, False, 20000) 'just some large number as all data can be character
+        If Me.Text = "Multiple Correspondence Analysis" Then
+            MyData.DataInport(ref, False, 20000)
         Else
             MyData.DataInport(ref)
         End If

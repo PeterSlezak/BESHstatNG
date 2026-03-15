@@ -386,7 +386,7 @@ Public Class ResultTable
             For i = 0 To Me.Footnotes.Count - 1
                 fnotes(i, 0) = Me.Footnotes(i)
             Next
-            Out = HorizontalStackArrays(Out, fnotes, True)
+            Out = Matrix.HorizontalStackArrays(Out, fnotes, True)
         End If
 
         If Me.Titles.Count > 0 Then
@@ -394,7 +394,7 @@ Public Class ResultTable
             For i = 0 To Me.Titles.Count - 1
                 titls(i, 0) = Me.Titles(i)
             Next
-            Out = HorizontalStackArrays(titls, Out, True)
+            Out = Matrix.HorizontalStackArrays(titls, Out, True)
         End If
 
         Return Out
@@ -530,7 +530,7 @@ Public Class WriteResults
         'ds - data to present
         Dim rowIncr As Integer, colIncr As Integer, _ds As Object, bFormat As Boolean = False
 
-        If ds.GetType() Is GetType(BESHStatNG.ResultTable) Then
+        If ds.GetType() Is GetType(ResultTable) Then
             _ds = ds.returnSelf()
             bFormat = True 'Header footer formating is possible now
         Else
@@ -552,7 +552,7 @@ Public Class WriteResults
             End If
         End If
         If bTall Then
-            Me.ws.Range(ws.Cells(Me.lastRowID, Me.lastColumID), ws.Cells(Me.lastRowID + rowIncr, Me.lastColumID + colIncr)).Value = app.WorksheetFunction.Transpose(_ds)
+            Me.ws.Range(ws.Cells(Me.lastRowID, Me.lastColumID), ws.Cells(Me.lastRowID + rowIncr, Me.lastColumID + colIncr)).Value = BESHstatGlobals.app.WorksheetFunction.Transpose(_ds)
         Else
             Dim rng = Me.ws.Range(ws.Cells(Me.lastRowID, Me.lastColumID), ws.Cells(Me.lastRowID + rowIncr, Me.lastColumID + colIncr))
             rng.Value = _ds
@@ -723,7 +723,7 @@ Public Class ProcessListofResultTables
     ''' </summary>
     ''' <param name="xlist">The list of tables to be processed.</param>
     Public Sub New(xlist As List(Of ResultTable))
-        If xlist Is Nothing Then BSerr.LogAndThrow(New ArgumentNullException(NameOf(xlist)))
+        If xlist Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(xlist)))
         Me.inList = xlist
     End Sub
 

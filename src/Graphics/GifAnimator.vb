@@ -13,13 +13,13 @@ Public Module GifAnimator
                                  Optional includeAllFramesFromAnimatedInputs As Boolean = False,
                                  Optional progressBar As System.Windows.Forms.ProgressBar = Nothing)
 
-        If inputGifPaths Is Nothing Then BSerr.LogAndThrow(New ArgumentNullException(NameOf(inputGifPaths)))
-        If frameDelaysMs Is Nothing Then BSerr.LogAndThrow(New ArgumentNullException(NameOf(frameDelaysMs)))
+        If inputGifPaths Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(inputGifPaths)))
+        If frameDelaysMs Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(frameDelaysMs)))
 
         Dim paths = inputGifPaths.Where(Function(p) Not String.IsNullOrWhiteSpace(p)).ToList()
-        If paths.Count = 0 Then BSerr.LogAndThrow(New InvalidOperationException("No input GIF paths provided."))
+        If paths.Count = 0 Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("No input GIF paths provided."))
         For Each p In paths
-            If Not File.Exists(p) Then BSerr.LogAndThrow(New FileNotFoundException("Input GIF not found.", p))
+            If Not File.Exists(p) Then BESHstatGlobals.BSerr.LogAndThrow(New FileNotFoundException("Input GIF not found.", p))
         Next
 
         ' 1) Figure out how many OUTPUT frames we will write (needed for per-frame delay array)
@@ -28,7 +28,7 @@ Public Module GifAnimator
                                         paths.Count)
 
         If frameDelaysMs.Count <> totalFrames Then
-            BSerr.LogAndThrow(New ArgumentException($"frameDelaysMs count ({frameDelaysMs.Count}) must match output frame count ({totalFrames})."))
+            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"frameDelaysMs count ({frameDelaysMs.Count}) must match output frame count ({totalFrames})."))
         End If
 
         ' Convert delays to centiseconds (1/100 sec)
@@ -42,7 +42,7 @@ Public Module GifAnimator
         GetFirstFrameSize(paths(0), includeAllFramesFromAnimatedInputs, outW, outH)
 
         Dim gifEncoder = GetEncoder(ImageFormat.Gif)
-        If gifEncoder Is Nothing Then BSerr.LogAndThrow(New InvalidOperationException("GIF encoder not found."))
+        If gifEncoder Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("GIF encoder not found."))
 
         Dim encSaveFlag = System.Drawing.Imaging.Encoder.SaveFlag
         Dim ep As New EncoderParameters(1)

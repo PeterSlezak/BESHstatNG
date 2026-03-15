@@ -153,21 +153,21 @@ Public Class Ui8Proportions
 
             rr.writeToSheet(WriteRes, True)
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = app.Workbooks.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

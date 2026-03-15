@@ -24,7 +24,7 @@ Partial Class Ui8Proportions
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Ui8Proportions))
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEditOutput = New Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
@@ -261,6 +261,7 @@ Partial Class Ui8Proportions
         Me.Controls.Add(Me.btCompute)
         Me.Controls.Add(Me.grpInput)
         Me.Controls.Add(Me.grpOutput)
+        Me.MaximizeBox = False
         Me.MinimumSize = New System.Drawing.Size(482, 400)
         Me.Name = "Ui8Proportions"
         Me.ShowIcon = False

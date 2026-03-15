@@ -550,7 +550,7 @@ Public Class GLM
     ''' </remarks>
     Public ReadOnly Property LinPred() As Double()
         Get
-            Return GetColumnFrom2Darray(Me.pLin_pred, 0)
+            Return Matrix.GetColumnFrom2Darray(Me.pLin_pred, 0)
         End Get
     End Property
 
@@ -599,7 +599,7 @@ Public Class GLM
         ' Passing an all-zero offset should behave exactly like having no offset.
         pbOffset = False
         If Offset Is Nothing Then
-            pOffset = BESHStatNG.IdentityVect(pData.GetUpperBound(0), 0)   ' length = n (rows)
+            pOffset = Matrix.IdentityVect(pData.GetUpperBound(0), 0)   ' length = n (rows)
         Else
             pOffset = Offset
             For i As Integer = 0 To Offset.GetUpperBound(0)
@@ -612,7 +612,7 @@ Public Class GLM
 
         pbWeigts = (Weights IsNot Nothing)
         If Weights Is Nothing Then
-            pWeights = BESHStatNG.IdentityVect(pData.GetUpperBound(0), 1)     ' length = n (rows)
+            pWeights = Matrix.IdentityVect(pData.GetUpperBound(0), 1)     ' length = n (rows)
         Else
             pWeights = Weights
         End If
@@ -678,7 +678,7 @@ Public Class GLM
         t.AddPvalueToFormat(4)
         If strOffsetVar IsNot Nothing Then t.AddFootnote($"Offset Variable: {strOffsetVar}")
         If strWeightsVar IsNot Nothing Then t.AddFootnote($"Weights Variable: {strWeightsVar}")
-        If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {array2str(Me.startParams)}")
+        If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParams)}")
         If Me.bSeparation Then
             t.AddFootnote("Complete separation of data points. Maximum likelihood estimates may not exist.")
         ElseIf Me.bQuasiSeparation Then
@@ -718,7 +718,7 @@ Public Class GLM
             Dim ItLabels(Me.pIRLSiterations - 1) As String
             For i = 0 To Me.pIRLSiterations - 1 : ItLabels(i) = $"Iteration {i + 1}" : Next
             t.AddHeaderTopRow(ItLabels)
-            Dim vars = ConcatArrays(Me.pVarNames, {"LogLikelihood", "LogLikelihood Change"})
+            Dim vars = Matrix.ConcatArrays(Me.pVarNames, {"LogLikelihood", "LogLikelihood Change"})
             If Me.pbIntercept Then vars(0) = "Intercept"
             t.AddHeaderLeftRow(vars)
             out.Add(t)
@@ -745,7 +745,7 @@ Public Class GLM
         If names Is Nothing OrElse names.Length <= 1 Then
             Return New String() {} ' no predictors; intercept only model
         End If
-        Return BESHStatNG.SubsetArray(names, 1)
+        Return Matrix.SubsetArray(names, 1)
     End Function
 
     ''' <summary>
@@ -808,7 +808,7 @@ Public Class GLM
         Me.n = pData.GetLength(0)     '# of observations
 
         If Me.p <= 0 Then
-            BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
+            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
             Me.strError += " Model has no parameters (no intercept and no predictors)."
             Exit Sub
         End If
@@ -816,7 +816,7 @@ Public Class GLM
         ReDim pItInfo(Me.p + 1, pMaxiter + 1) 'stores params estimates, LL at each iteration
         'Test for insufficient observations
         If n <= pi1 Then
-            BSlogg.Log("Insufficient observations to complete analysis.", BESHstatGlobals.LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Insufficient observations to complete analysis.", BESHstatGlobals.LogMsgType.Warn)
             Me.strError += " Insufficient observations to complete analysis."
             Exit Sub
         End If
@@ -885,10 +885,10 @@ Public Class GLM
                 pLin_pred(i, 0) = pLink.transform(mu(i))
             Next
             ' Add offset once (offset is zeros when pbOffset=False)
-            If Me.pbOffset Then pLin_pred = M_ADD(pLin_pred, pOffset)
+            If Me.pbOffset Then pLin_pred = Matrix.M_ADD(pLin_pred, pOffset)
         Else
-            pLin_pred = MatrixMult(x, startParams)
-            pLin_pred = M_ADD(pLin_pred, pOffset)
+            pLin_pred = Matrix.MatrixMult(x, startParams)
+            pLin_pred = Matrix.M_ADD(pLin_pred, pOffset)
             For i = 0 To Me.n - 1
                 Me.mu(i) = pLink.inverse(CDbl(pLin_pred(i, 0)))
             Next
@@ -897,21 +897,21 @@ Public Class GLM
 
         'Do IRLS iterations
         For pIRLSiterations = 0 To pMaxiter
-            BSlogg.Log($"IRLS iteration #{pIRLSiterations}")
+            BESHstatGlobals.BSlogg.Log($"IRLS iteration #{pIRLSiterations}")
             For i = 0 To Me.n - 1
                 weights(i) = pWeights(i) * 1.0 / (pLink.deriv(mu(i)) ^ 2 * pFamily.Variance(mu(i))) 'eim (expected information (hassian) matrix
                 wlsendog(i) = pLin_pred(i, 0) + ((Me.y(i) - mu(i)) * pLink.deriv(mu(i))) - pOffset(i)
             Next
 
-            params = MinimalWLS(wlsendog, x, weights)
+            params = Matrix.MinimalWLS(wlsendog, x, weights)
 
             For i = 0 To UBound(params, 1)
                 Me.results.Coeffs_est(i) = params(i, 0)
                 StdErr(i) = params(i, 1)
             Next
 
-            pLin_pred = MatrixMult(x, Me.results.Coeffs_est)
-            pLin_pred = M_ADD(pLin_pred, pOffset)
+            pLin_pred = Matrix.MatrixMult(x, Me.results.Coeffs_est)
+            pLin_pred = Matrix.M_ADD(pLin_pred, pOffset)
 
             If TypeOf pFamily Is regression.Binomial Then
                 Sep = 0
@@ -959,7 +959,7 @@ Public Class GLM
             ' If so, do step-halving toward the previous iteration's parameters until mu is finite.
             If HasNonFinite(Me.mu) Then
                 ii = 0
-                BSlogg.Log("step size truncated: non-finite mu", LogMsgType.Warn)
+                BESHstatGlobals.BSlogg.Log("step size truncated: non-finite mu", BESHstatGlobals.LogMsgType.Warn)
 
                 Do While HasNonFinite(Me.mu)
                     If (ii > pInnerLoopMaxIter) Then Exit Do
@@ -969,8 +969,8 @@ Public Class GLM
                         Me.results.Coeffs_est(k) = (Me.results.Coeffs_est(k) + old_params(k)) / 2.0
                     Next
 
-                    pLin_pred = MatrixMult(x, Me.results.Coeffs_est)
-                    pLin_pred = M_ADD(pLin_pred, pOffset)
+                    pLin_pred = Matrix.MatrixMult(x, Me.results.Coeffs_est)
+                    pLin_pred = Matrix.M_ADD(pLin_pred, pOffset)
 
                     For r As Integer = 0 To Me.n - 1
                         Dim eta2 As Double = CDbl(pLin_pred(r, 0))
@@ -982,7 +982,7 @@ Public Class GLM
                 Loop
 
                 If HasNonFinite(Me.mu) Then
-                    BSlogg.Log("IRLS - Step size truncated: non-finite mu. Cannot correct step size.", LogMsgType.Warn)
+                    BESHstatGlobals.BSlogg.Log("IRLS - Step size truncated: non-finite mu. Cannot correct step size.", BESHstatGlobals.LogMsgType.Warn)
                     Me.strError += " IRLS - Step size truncated: non-finite mu. Cannot correct step size."
                     Exit Sub
                 End If
@@ -992,20 +992,20 @@ Public Class GLM
             If CheckMu(mu) And TypeOf pFamily Is regression.Binomial Then
 
                 If pIRLSiterations = 0 Then
-                    BSlogg.Log("IRLS algorithm. No valid set of coefficients has been found: please supply starting values.", LogMsgType.Warn)
+                    BESHstatGlobals.BSlogg.Log("IRLS algorithm. No valid set of coefficients has been found: please supply starting values.", BESHstatGlobals.LogMsgType.Warn)
                     'Me.strError += " IRLS algorithm. No valid set of coefficients has been found: please supply starting values."
                 Else
 
                     ii = 0
-                    BSlogg.Log("step size truncated: out of bounds")
+                    BESHstatGlobals.BSlogg.Log("step size truncated: out of bounds")
                     Do While (CheckMu(mu))
                         If (ii > pInnerLoopMaxIter) Then Exit Do
                         ii += 1
                         For i = 0 To UBound(Me.results.Coeffs_est)
                             Me.results.Coeffs_est(i) = (Me.results.Coeffs_est(i) + old_params(i)) / 2.0
                         Next
-                        pLin_pred = MatrixMult(x, Me.results.Coeffs_est)
-                        pLin_pred = M_ADD(pLin_pred, pOffset)
+                        pLin_pred = Matrix.MatrixMult(x, Me.results.Coeffs_est)
+                        pLin_pred = Matrix.M_ADD(pLin_pred, pOffset)
                         For i = 0 To Me.n - 1
                             Dim eta As Double = CDbl(pLin_pred(i, 0))
                             If eta < -700.0 Then eta = -700.0
@@ -1020,11 +1020,11 @@ Public Class GLM
                         Next
                     Loop
                     If (ii > pInnerLoopMaxIter) Then
-                        BSlogg.Log("IRLS - Step size truncated: out of bounds. Inner loop 2; cannot correct step size.", LogMsgType.Warn)
+                        BESHstatGlobals.BSlogg.Log("IRLS - Step size truncated: out of bounds. Inner loop 2; cannot correct step size.", BESHstatGlobals.LogMsgType.Warn)
                         Me.strError += " IRLS - Step size truncated: out of bounds. Inner loop 2; cannot correct step size."
                     Else
                         dev = pFamily.Deviance(y, mu)
-                        BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
+                        BESHstatGlobals.BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
                     End If
                 End If
             End If
@@ -1042,18 +1042,18 @@ Public Class GLM
             If (((dev - hold) / (0.1 + Math.Abs(dev)) >= 0.00000001) And (pIRLSiterations > 0)) Then
                 ii = 0
 
-                BSlogg.Log(" step size truncated due to increasing deviance")
+                BESHstatGlobals.BSlogg.Log(" step size truncated due to increasing deviance")
                 Do While ((dev - hold) / (0.1 + Math.Abs(dev))) > 0.00000001
 
                     If (ii > pInnerLoopMaxIter) Then Exit Do
                     ii += 1
-                    Debug.Print(array2str(Me.results.Coeffs_est))
+                    Debug.Print(Matrix.array2str(Me.results.Coeffs_est))
 
                     For i = 0 To UBound(Me.results.Coeffs_est)
                         Me.results.Coeffs_est(i) = (Me.results.Coeffs_est(i) + old_params(i)) / 2.0
                     Next
-                    pLin_pred = MatrixMult(x, Me.results.Coeffs_est)
-                    pLin_pred = M_ADD(pLin_pred, pOffset)
+                    pLin_pred = Matrix.MatrixMult(x, Me.results.Coeffs_est)
+                    pLin_pred = Matrix.M_ADD(pLin_pred, pOffset)
 
                     For i = 0 To Me.n - 1
                         Dim eta As Double = CDbl(pLin_pred(i, 0))
@@ -1069,13 +1069,13 @@ Public Class GLM
                     Next
 
                     dev = pFamily.Deviance(y, mu)
-                    BSlogg.Log($"inner loop 3; ii={ii} dev={dev} hold={hold}")
+                    BESHstatGlobals.BSlogg.Log($"inner loop 3; ii={ii} dev={dev} hold={hold}")
                 Loop
                 If (ii > pInnerLoopMaxIter) Then
-                    BSlogg.Log("IRLS - Step size truncated due to increasing deviance. Inner loop 3; cannot correct step size.", LogMsgType.Warn)
+                    BESHstatGlobals.BSlogg.Log("IRLS - Step size truncated due to increasing deviance. Inner loop 3; cannot correct step size.", BESHstatGlobals.LogMsgType.Warn)
                     Me.strError += " IRLS - Step size truncated due to increasing deviance. Inner loop 3; cannot correct step size."
                 Else
-                    BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
+                    BESHstatGlobals.BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
                 End If
             End If
 
@@ -1086,7 +1086,7 @@ Public Class GLM
                 Next
             End If
 
-            BSlogg.Log($" eps={pEps} Abs(Abs(dev) - Abs(hold))={Math.Abs(Math.Abs(dev) - Math.Abs(hold))}")
+            BESHstatGlobals.BSlogg.Log($" eps={pEps} Abs(Abs(dev) - Abs(hold))={Math.Abs(Math.Abs(dev) - Math.Abs(hold))}")
             If pIRLSiterations > 0 Then
 
                 pLastIterLLchange = Math.Abs(Math.Abs(dev) - Math.Abs(hold))
@@ -1116,10 +1116,10 @@ Public Class GLM
 
         'Test for convergence or divergence and warn user
         If pIRLSiterations >= pMaxiter + 1 Then 'Too many iterations
-            BSlogg.Log("Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. ", LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. ", BESHstatGlobals.LogMsgType.Warn)
             Me.strError += " Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. "
         ElseIf Not pbConverged Then
-            BSlogg.Log("Algorithm Is diverging. Failure Of IRLS algorithm In .Fit.", LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Algorithm Is diverging. Failure Of IRLS algorithm In .Fit.", BESHstatGlobals.LogMsgType.Warn)
             Me.strError += " Algorithm Is diverging. Failure Of IRLS algorithm In .Fit."
         End If
         If Me.bIterationDetails Then
@@ -1134,7 +1134,7 @@ Public Class GLM
             Me.results.Coeffs_SEsT(i) = StdErr(i)                             ': SE
         Next
 
-        BSlogg.Log($"pCoefs{array2str(Me.results.CoeffsZ_vals)} {MethodBase.GetCurrentMethod().Name}")
+        BESHstatGlobals.BSlogg.Log($"pCoefs{Matrix.array2str(Me.results.CoeffsZ_vals)} {MethodBase.GetCurrentMethod().Name}")
 
         If Me.bComputeResiduals Then Me.Residuals()
         If Me.bHosmerLemeshow And TypeOf pFamily Is regression.Binomial Then Me.HosmerLemeshowTest()
@@ -1205,7 +1205,7 @@ Public Class GLM
 
         ' Add offset once (offset is all-zeros if pbOffset=False; but guard anyway)
         If Me.pbOffset AndAlso Me.pOffset IsNot Nothing Then
-            eta0 = M_ADD(eta0, Me.pOffset)
+            eta0 = Matrix.M_ADD(eta0, Me.pOffset)
         End If
 
         Dim devOld As Double = Double.PositiveInfinity
@@ -1222,7 +1222,7 @@ Public Class GLM
                 wlsendog0(i) = eta0(i, 0) + ((Me.y(i) - mu0(i)) * pLink.deriv(mu0(i))) - off
             Next
 
-            Dim params0 As Double(,) = MinimalWLS(wlsendog0, x0, weights0)
+            Dim params0 As Double(,) = Matrix.MinimalWLS(wlsendog0, x0, weights0)
             betaNew = params0(0, 0)
 
             ' --- Update eta and mu under the null: eta = beta0 + offset ---
@@ -1465,14 +1465,14 @@ Public Class GLM
         QSEP = False
 
         If Sep / CDbl(n) >= 0.0001 Then 'Complete separation
-            BSlogg.Log("Complete separation of data points. Maximum likelihood estimates may not exist. Ending Computation.", LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Complete separation of data points. Maximum likelihood estimates may not exist. Ending Computation.", BESHstatGlobals.LogMsgType.Warn)
             Me.strError += " Complete separation of data points. Maximum likelihood estimates may not exist. Ending Computation."
             QSEP = True
             Me.bSeparation = True
             Me.bQuasiSeparation = True
             Exit Function
         ElseIf Sep / CDbl(n) >= 0.05 Then 'Quasi-separation
-            BSlogg.Log("Quasi-separation of the iterative algorithm.", LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Quasi-separation of the iterative algorithm.", BESHstatGlobals.LogMsgType.Warn)
             Me.bQuasiSeparation = True
             If MsgBox(Prompt:="Quasi-separation of the iterative algorithm." & vbCr & vbCr & "Results may be misleading.", Title:="Continue?") = vbNo Then
                 QSEP = True
@@ -1518,7 +1518,7 @@ Public Class GLM
                 XtWX(j, i) = tmp1
             Next
         Next
-        Return MatInv(XtWX, "CHOL")
+        Return Matrix.MatInv(XtWX, "CHOL")
     End Function
 
     Protected Friend Sub Residuals()
@@ -1539,7 +1539,7 @@ Public Class GLM
                 xv(i, j) = Math.Sqrt(Me.pFinalWeights(i)) * x(i, j)
             Next
         Next
-        Dim temp_db2 = MatrixMult(MatrixMult(xv, VarCovar), trans(xv))
+        Dim temp_db2 = Matrix.MatrixMult(Matrix.MatrixMult(xv, VarCovar), Matrix.trans(xv))
         For i = 0 To n - 1
             pLeverage(i) = temp_db2(i, i) 'Leverage
             pStPearsChisq_res(i) = pPearsChisq_res(i) / Math.Sqrt(1.0 - pLeverage(i)) 'Std Pearson
@@ -1554,7 +1554,7 @@ Public Class GLM
         Dim temp(9) As Double
 
         ' 1) Compute deciles of predicted probabilities -------------------------
-        With app.WorksheetFunction
+        With BESHstatGlobals.app.WorksheetFunction
             For i = 0 To 9
                 temp(i) = .Percentile(mu, (i + 1) / 10)
             Next
@@ -1864,12 +1864,12 @@ Public Class GLM_NB
         Loop
 
         If it >= Me.pMaxiter Then
-            BSlogg.Log("Theta iteration limit reached", LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Theta iteration limit reached", BESHstatGlobals.LogMsgType.Warn)
             Me.strError += " Theta iteration limit reached"
         End If
 
         If th < 0.0 Then
-            BSlogg.Log("Theta estimate truncated at zero", LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Theta estimate truncated at zero", BESHstatGlobals.LogMsgType.Warn)
             Me.strError += " Theta estimate truncated at zero"
             Return 0.0
         End If
@@ -1919,13 +1919,13 @@ Public Class GLM_NB
         Me.n = pData.GetLength(0)   '# of observations
 
         If Me.p <= 0 Then
-            BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
+            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
             Me.strError += " Model has no parameters (no intercept and no predictors)."
             Exit Sub
         End If
 
         If Me.n <= pi1 Then
-            BSerr.LogAndThrow(New ArgumentException("Insufficient observations to complete analysis."))
+            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Insufficient observations to complete analysis."))
             Me.strError += " Insufficient observations to complete analysis."
             Exit Sub
         End If
@@ -1971,7 +1971,7 @@ Public Class GLM_NB
             End With
 
             If pNBglm.strError <> String.Empty Then
-                BSerr.LogAndThrow(New ArgumentException("Error in inner loop while re-estimating Negative binomial fit with new dispension parameter. " & pNBglm.strError))
+                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error in inner loop while re-estimating Negative binomial fit with new dispension parameter. " & pNBglm.strError))
                 Exit Do
             End If
 
@@ -2002,7 +2002,7 @@ Public Class GLM_NB
 
         If pIRLSiterations > pMaxiter Then
             pbConverged = False
-            BSlogg.Log("Algorithm is diverging.", LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Algorithm is diverging.", BESHstatGlobals.LogMsgType.Warn)
         Else
             pbConverged = True
             If pIRLSiterations > 0 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIRLSiterations - 1) Else ReDim Preserve pItInfo(UBound(pItInfo, 1), 0)
@@ -2359,7 +2359,7 @@ Public Class ZeroInflatedPoisson
         t.AddTitle("Poisson Model Estimates")
         If strOffsetVar IsNot Nothing Then t.AddFootnote($"Offset Variable: {strOffsetVar}")
         If strWeightsVar IsNot Nothing Then t.AddFootnote($"Weights Variable: {strWeightsVar}")
-        If Me.startParamsPois IsNot Nothing Then t.AddFootnote($"Starting values: {array2str(Me.startParamsPois)}")
+        If Me.startParamsPois IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParamsPois)}")
         out.Add(t)
 
         'Logistic Coefficients, SE table
@@ -2371,7 +2371,7 @@ Public Class ZeroInflatedPoisson
         ElseIf Me.pFinalZeroModel.bQuasiSeparation Then
             t.AddFootnote("Quasi-separation of the iterative algorithm. Results may be misleading.")
         End If
-        If Me.startParamsLog IsNot Nothing Then t.AddFootnote($"Starting values: {array2str(Me.startParamsLog)}")
+        If Me.startParamsLog IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParamsLog)}")
         t.AddFootnote($"Computational time: {Me.CompTime} seconds.")
         out.Add(t)
 
@@ -2385,7 +2385,7 @@ Public Class ZeroInflatedPoisson
             Dim ItLabels(Me.pEMiterations - 1) As String
             For i = 0 To Me.pEMiterations - 1 : ItLabels(i) = $"Iteration {i + 1}" : Next
             t.AddHeaderTopRow(ItLabels)
-            t.AddHeaderLeftRow(ConcatArrays(ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero), {"LogLikelihood", "LogLikelihood Change"}))
+            t.AddHeaderLeftRow(Matrix.ConcatArrays(Matrix.ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero), {"LogLikelihood", "LogLikelihood Change"}))
             out.Add(t)
         End If
 
@@ -2396,8 +2396,8 @@ Public Class ZeroInflatedPoisson
             Dim h(Me.pVarNames_count.Length + Me.pVarNames_zero.Length - 1) As String
             h(0) = "Covariance matrix of parameters"
             t.AddHeaderTopRow(h)
-            t.AddHeaderTopRow(ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero))
-            t.AddHeaderLeftRow(ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero))
+            t.AddHeaderTopRow(Matrix.ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero))
+            t.AddHeaderLeftRow(Matrix.ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero))
             out.Add(t)
         End If
 
@@ -2453,7 +2453,7 @@ Public Class ZeroInflatedPoisson
         pi1 = Data_zero.GetLength(1) 'Columns of predictor variables and responses
         Me.p_zero = pi1 - 1 + interceptLog '# of variables initially in the model
         If n <> Data_zero.GetLength(0) Then
-            BSerr.LogAndThrow(New ArgumentException("ERROR: Number of records in Poisson and Logistic part of model doesn't match."))
+            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ERROR: Number of records in Poisson and Logistic part of model doesn't match."))
             Exit Sub
         End If
 
@@ -2461,7 +2461,7 @@ Public Class ZeroInflatedPoisson
         ReDim y(n - 1), pItInfo(p_zero + p_count + 1, pMaxEMIter) 'stores params estimates, LL at each iteration
 
         'prepare Logistic data as required in EM algorithm
-        y = GetColumnFrom2Darray(Data_zero, 0)
+        y = Matrix.GetColumnFrom2Darray(Data_zero, 0)
         For i = 0 To n - 1
             'Response for initial Logisitc model. Swap Zeros and Ones
             YX_zero(i, 0) = If(y(i) = 0, 1, 0)
@@ -2505,7 +2505,7 @@ Public Class ZeroInflatedPoisson
             Next
         Else
             ' Fall back to full-data init (or user provided start params)
-            wInit = IdentityVect(n - 1, 1.0)
+            wInit = Matrix.IdentityVect(n - 1, 1.0)
         End If
 
         With model_count
@@ -2621,7 +2621,7 @@ Public Class ZeroInflatedPoisson
                 zeroParam = zeroNew
                 LL_new = LL_em
             End If
-            BSlogg.Log($"ZIP Over-relaxation with monotone fallback Iter {pEMiterations}: accepted={accepted}, s={s:0.###}, LL_new={LL_new}")
+            BESHstatGlobals.BSlogg.Log($"ZIP Over-relaxation with monotone fallback Iter {pEMiterations}: accepted={accepted}, s={s:0.###}, LL_new={LL_new}")
 
             ' ---------- E-step computed from the ACCEPTED params ----------
             ' Compute mu and pi from X matrices + accepted params
@@ -2755,7 +2755,7 @@ Public Class ZeroInflatedPoisson
         Dim mu(n - 1) As Double
 
         If bOffset AndAlso (offset Is Nothing OrElse offset.Length <> n) Then
-            BESHStatNG.BSerr.LogAndThrow(New ArgumentException("Offset array is missing or has incorrect length."))
+            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Offset array is missing or has incorrect length."))
         End If
 
         For i As Integer = 0 To n - 1
@@ -3067,8 +3067,8 @@ Public Class ZeroInflatedPoisson
             dd(n + i, n + i) = Dgg(i, i)
         Next
 
-        Dim tmp2 = MatrixMult(MatrixMult(trans(xx), dd), xx)
-        Return MatInv(tmp2, "CHOL")
+        Dim tmp2 = Matrix.MatrixMult(Matrix.MatrixMult(Matrix.trans(xx), dd), xx)
+        Return Matrix.MatInv(tmp2, "CHOL")
     End Function
 
     Sub Residuals()
@@ -3110,7 +3110,7 @@ Public Class ZeroInflatedPoisson
             countP(i, 0) = count_params(i)
         Next
 
-        Dim muMat(,) As Double = MatrixMult(Xcount, countP)
+        Dim muMat(,) As Double = Matrix.MatrixMult(Xcount, countP)
         Dim mu(n - 1) As Double
         For i = 0 To n - 1
             mu(i) = Math.Exp(muMat(i, 0))   ' safe: exp(η) only
@@ -3122,7 +3122,7 @@ Public Class ZeroInflatedPoisson
             zeroP(i, 0) = zero_params(i)
         Next
 
-        Dim phiMat(,) As Double = MatrixMult(Xzero, zeroP)
+        Dim phiMat(,) As Double = Matrix.MatrixMult(Xzero, zeroP)
         Dim pi(n - 1) As Double
         For i = 0 To n - 1
             pi(i) = regression.Logit.LogisticStable(phiMat(i, 0))

@@ -24,7 +24,7 @@ Partial Class Ui9ANOVA2nested
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Ui9ANOVA2nested))
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEditOutput = New Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
@@ -32,11 +32,11 @@ Partial Class Ui9ANOVA2nested
         Me.btCompute = New System.Windows.Forms.Button()
         Me.grpInput = New System.Windows.Forms.GroupBox()
         Me.lblRefedit2_Nested = New System.Windows.Forms.Label()
-        Me.RefEdit2_Nested = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit2_Nested = New Excel2007RefEdit()
         Me.lblRefedit3_Data = New System.Windows.Forms.Label()
         Me.lblRefedit1_Group = New System.Windows.Forms.Label()
-        Me.RefEdit1_Group = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit3_Data = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit1_Group = New Excel2007RefEdit()
+        Me.RefEdit3_Data = New Excel2007RefEdit()
         Me.grpOutput.SuspendLayout()
         Me.grpInput.SuspendLayout()
         Me.SuspendLayout()
@@ -212,6 +212,7 @@ Partial Class Ui9ANOVA2nested
         Me.Controls.Add(Me.btnHelp)
         Me.Controls.Add(Me.btCompute)
         Me.Controls.Add(Me.grpOutput)
+        Me.MaximizeBox = False
         Me.MinimumSize = New System.Drawing.Size(483, 398)
         Me.Name = "Ui9ANOVA2nested"
         Me.ShowIcon = False

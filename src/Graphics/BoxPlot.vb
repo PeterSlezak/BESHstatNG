@@ -48,10 +48,10 @@ Namespace graphics
         ''' <summary>Collection of <see cref="DescriptiveStat"/> objects (one per group).</summary>
         Private pDSCollection As New Collection
 
-        ''' <summary>Matrix of large outlier values (above Q3 + 1.5·IQR).</summary>
+        ''' <summary>MatrixType of large outlier values (above Q3 + 1.5·IQR).</summary>
         Private pArOutliersBig(,) As Double
 
-        ''' <summary>Matrix of small outlier values (below Q1 − 1.5·IQR).</summary>
+        ''' <summary>MatrixType of small outlier values (below Q1 − 1.5·IQR).</summary>
         Private pArOutliersSmall(,) As Double
 
         ''' <summary>Number of large outliers per group.</summary>
@@ -124,7 +124,7 @@ Namespace graphics
             pData = New Double(pNoGroups - 1)() {}
             For i = 0 To pNoGroups - 1
                 pNs(i) = UBound(arrData, 1) + 1
-                pData(i) = GetColumnFrom2Darray(arrData, i)
+                pData(i) = Matrix.GetColumnFrom2Darray(arrData, i)
             Next
             pGroupNames = varNames
             pWS = ws

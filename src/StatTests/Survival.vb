@@ -144,7 +144,7 @@ Namespace survival
 
             If t.Length <> s.Length Or t.Length <> g.Length Or t.Length <> strat.Length Then
                 strErr = "Invalid input dimensions"
-                BSlogg.Log(strErr)
+                BESHstatGlobals.BSlogg.Log(strErr)
                 Return Nothing
             End If
 
@@ -158,13 +158,13 @@ Namespace survival
                 Dim sr As New SurvivalRecord
                 If t(i) < 0 Then
                     strErr = "Unexpected time value (values less then zero are expected) but got = " & CStr(s(i))
-                    BSlogg.Log(strErr)
+                    BESHstatGlobals.BSlogg.Log(strErr)
                     Return Nothing
                 End If
 
                 If s(i) < 0 Or s(i) > 1 Then
                     strErr = "Unexpected censoring indictor (0/1 values are expected) but got = " & CStr(s(i))
-                    BSlogg.Log(strErr)
+                    BESHstatGlobals.BSlogg.Log(strErr)
                     Return Nothing
                 End If
 
@@ -327,7 +327,7 @@ Namespace survival
             End If
             If Me.NoGroups = 2 Then
                 If LogRankres IsNot Nothing Then
-                    Lr = HorizontalStackArrays(Lr,
+                    Lr = Matrix.HorizontalStackArrays(Lr,
                                            {{"Hazard ratio(" & grpIDs(0) & " vs. " & grpIDs(1) & ")", HRres.Estimate},
                                             {"Approximate 95% CI", HRres.strConfidenceInterval(CIformat.LL_to_UL)}})
                     t.SetBody(Lr)
@@ -414,7 +414,7 @@ Namespace survival
             Dim NoTimes As Integer '# of distinct survival times at whitch at least one event occured
 
             If Me.AllCenzoredInGroup() Then
-                BSlogg.Log("Log rank test skipped, because a group with all record censored detected.")
+                BESHstatGlobals.BSlogg.Log("Log rank test skipped, because a group with all record censored detected.")
                 Return Nothing
             End If
             'ascending order of Time
@@ -574,13 +574,13 @@ Namespace survival
             Next
 
             'Compute test statistic (quadratic form)
-            Dim VarINV = MatInv(Var2)
+            Dim VarINV = Matrix.MatInv(Var2)
             Dim Zj2(UBound(Zj) - 1, 0) As Double, Zj2T(0, UBound(Zj) - 1) As Double
             For i = 0 To UBound(Zj2)
                 Zj2(i, 0) = Zj(i)
                 Zj2T(0, i) = Zj(i)
             Next
-            Dim chi2(,) As Double = MatrixMult(MatrixMult(Zj2T, VarINV), Zj2)
+            Dim chi2(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(Zj2T, VarINV), Zj2)
 
             'calculate HR and 95% CI if there are two groups
             If NoGroups = 2 Then

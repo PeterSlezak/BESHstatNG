@@ -138,8 +138,8 @@ Namespace graphics
 
                 'calculate parameters of the reference line
                 'and coordinate for the 1st and last X value coordinate that will define reference line in plot
-                dSlope = Slope(GetColumnFrom2Darray(pRefLine, 1), GetColumnFrom2Darray(pRefLine, 0))
-                dIntercept = Intercept(GetColumnFrom2Darray(pRefLine, 1), GetColumnFrom2Darray(pRefLine, 0))
+                dSlope = Slope(Matrix.GetColumnFrom2Darray(pRefLine, 1), Matrix.GetColumnFrom2Darray(pRefLine, 0))
+                dIntercept = Intercept(Matrix.GetColumnFrom2Darray(pRefLine, 1), Matrix.GetColumnFrom2Darray(pRefLine, 0))
             ElseIf strMethod = "OLS" Then
                 dSlope = Slope(pZ, pData)
                 dIntercept = Intercept(pZ, pData)
@@ -203,8 +203,8 @@ Namespace graphics
 
                 .SeriesCollection.NewSeries
                 With .SeriesCollection(2)
-                    .XValues = GetColumnFrom2Darray(pRefLine, 0)
-                    .Values = GetColumnFrom2Darray(pRefLine, 1)
+                    .XValues = Matrix.GetColumnFrom2Darray(pRefLine, 0)
+                    .Values = Matrix.GetColumnFrom2Darray(pRefLine, 1)
                     .Name = "Reference Line"
                     .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
                     .Border.Color = RGB(255, 0, 0)

@@ -446,11 +446,11 @@ Namespace assumptions
                         tmp(i, j) = Cov_mat(k, i, j)
                     Next
                 Next
-                test_stat += (Math.Log(MDeterm(tmp)) * (SampleSizes(k) - 1))
+                test_stat += (Math.Log(Matrix.MDeterm(tmp)) * (SampleSizes(k) - 1))
                 nn += (1.0 / (SampleSizes(k) - 1))
                 nn2 += ((1.0 / (SampleSizes(k) - 1)) ^ 2)
             Next
-            test_stat = (Math.Log(MDeterm(cov_pooled)) * (tot - n_grp)) - test_stat
+            test_stat = (Math.Log(Matrix.MDeterm(cov_pooled)) * (tot - n_grp)) - test_stat
             nn -= (1.0 / (tot - n_grp))
             nn2 -= (1.0 / (tot - n_grp)) ^ 2
 
@@ -865,10 +865,10 @@ Namespace assumptions
             Dim NoSub As Integer = arData.GetLength(0)
             Dim NoGroups As Integer = arData.GetLength(1)
 
-            Dim VarCovar(,) As Double = MatCovar(arData) 'create variance-covariance matrix
+            Dim VarCovar(,) As Double = Matrix.MatCovar(arData) 'create variance-covariance matrix
             'double center sample var-covar matrix to estimate population var-covar matrix
-            Dim PopVarCovar(,) As Double = MatDoubleCenter(VarCovar)
-            Dim eig = EIGEN_JK(PopVarCovar) 'calculate eigenvector and eigenvalues
+            Dim PopVarCovar(,) As Double = Matrix.MatDoubleCenter(VarCovar)
+            Dim eig = Matrix.EIGEN_JK(PopVarCovar) 'calculate eigenvector and eigenvalues
             Dim Eigenval() As Double = eig.Item1
 
             Dim Num As Double = 1.0
@@ -1072,11 +1072,11 @@ Namespace assumptions
             Dim n As Integer = x.Length
 
             If n < 15 Then
-                BSlogg.Log("Rosner: Sample size too small for calucalation (n < 15).", LogMsgType.Warn)
+                BESHstatGlobals.BSlogg.Log("Rosner: Sample size too small for calucalation (n < 15).", BESHstatGlobals.LogMsgType.Warn)
                 Return Nothing
             ElseIf n < 25 Then
-                BSlogg.Log("Rosner: Too small sample size for this test (n < 25). Inference done by the test could be incorect. For more information see (Technometrics, 25(2), 165-172).",
-                        LogMsgType.Warn)
+                BESHstatGlobals.BSlogg.Log("Rosner: Too small sample size for this test (n < 25). Inference done by the test could be incorect. For more information see (Technometrics, 25(2), 165-172).",
+                        BESHstatGlobals.LogMsgType.Warn)
             End If
 
             Dim fn = n

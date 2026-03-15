@@ -159,13 +159,13 @@ Public Class UiTwoInputRefedits
                 Me.RunDeming(data)
             End If
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
     Private Sub RunDeming(data As TwoGroupsPairedData)
         Dim WriteRes = New WriteResults
-        Dim tt = New Agreement.DemingRegression(GetColumnFrom2Darray(data.X, 0), GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
+        Dim tt = New Agreement.DemingRegression(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
         tt.Lambda = Me.spinBtnErrorRatio.Value
         tt.alpha = Me.spinBtnAlphaDeming.Value
 
@@ -203,7 +203,7 @@ Public Class UiTwoInputRefedits
             res = HT2.wrapResults()
 
         ElseIf Me.optSingle.checked Then
-            Dim HT2 = New parametric.HotelingsT_single(D1.DataDbl, rowFromArray(D2.DataDbl, 0), D1.varNames)
+            Dim HT2 = New parametric.HotelingsT_single(D1.DataDbl, Matrix.rowFromArray(D2.DataDbl, 0), D1.varNames)
             HT2.calculate()
             HT2.CI(Me.spinBtnAlpha.Value)
             res = HT2.wrapResults()
@@ -212,8 +212,8 @@ Public Class UiTwoInputRefedits
             Dim HT2 = New parametric.HotelingsT_independent(D1.DataDbl, D2.DataDbl, D1.varNames)
 
             'Box M test for equality of covariance matrices
-            Dim tmp1(,) As Double = MatCovar(D1.DataDbl)
-            Dim tmp2(,) As Double = MatCovar(D2.DataDbl)
+            Dim tmp1(,) As Double = Matrix.MatCovar(D1.DataDbl)
+            Dim tmp2(,) As Double = Matrix.MatCovar(D2.DataDbl)
             Dim p As Integer = UBound(tmp1, 1) + 1
             Dim CovMats(1, p - 1, p - 1) As Double
             For i = 0 To p - 1
@@ -300,7 +300,7 @@ Public Class UiTwoInputRefedits
 
     Private Sub RunKendall(data As TwoGroupsPairedData)
         Dim WriteRes = New WriteResults
-        Dim kendall = New nonparametric.KendallsTau(GetColumnFrom2Darray(data.X, 0), GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
+        Dim kendall = New nonparametric.KendallsTau(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
         kendall.Compute(Me.progressBarExactCalc)
         Dim res = kendall.wrapResults()
 
@@ -324,7 +324,7 @@ Public Class UiTwoInputRefedits
     Private Sub RunSpearman(data As TwoGroupsPairedData)
         Dim WriteRes = New WriteResults
 
-        Dim spearman = New nonparametric.SpearmanRho(GetColumnFrom2Darray(data.X, 0), GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
+        Dim spearman = New nonparametric.SpearmanRho(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
         spearman.Compute(Me.progressBarExactCalc)
         Dim res = spearman.wrapResults()
 
@@ -398,20 +398,20 @@ Public Class UiTwoInputRefedits
 
     Private Function ComputeDescriptiveStatistics(data As TwoGroupsPairedData, Optional diffs() As Double = Nothing) As ResultTable
         Dim descTable = New ResultTable
-        Dim ds1 = New DescriptiveStat(GetColumnFrom2Darray(data.X, 0))
-        Dim ds2 = New DescriptiveStat(GetColumnFrom2Darray(data.X, 1))
+        Dim ds1 = New DescriptiveStat(Matrix.GetColumnFrom2Darray(data.X, 0))
+        Dim ds2 = New DescriptiveStat(Matrix.GetColumnFrom2Darray(data.X, 1))
         ds1.compute()
         ds2.compute()
 
         If diffs IsNot Nothing Then
             Dim dsDiff = New DescriptiveStat(diffs)
             dsDiff.compute()
-            descTable.SetBody(VerticalStackArrays(VerticalStackArrays(ds1.wrapSelf(True),
+            descTable.SetBody(Matrix.VerticalStackArrays(Matrix.VerticalStackArrays(ds1.wrapSelf(True),
                                                                       ds2.wrapSelf(False)),
                                                   dsDiff.wrapSelf(False)))
             descTable.AddHeaderTopRow({"", data.name1, data.name2, "Difference: " & data.name1 & " - " & data.name2})
         Else
-            descTable.SetBody(VerticalStackArrays(ds1.wrapSelf(True), ds2.wrapSelf(False)))
+            descTable.SetBody(Matrix.VerticalStackArrays(ds1.wrapSelf(True), ds2.wrapSelf(False)))
             descTable.AddHeaderTopRow({"", data.name1, data.name2})
         End If
         descTable.AddTitle("Descriptive Statistics")
@@ -422,14 +422,14 @@ Public Class UiTwoInputRefedits
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = app.Workbooks.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

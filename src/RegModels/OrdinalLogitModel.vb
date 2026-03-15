@@ -265,23 +265,23 @@ Namespace regression
         Public Function wrapResiduals() As Object(,)
             'call this sub only after we have parameters estimated
             Dim t As New ResultTable, tmp2(n - 1, 2) As Double
-            Dim tmp = VerticalStackArrays(Me.pResiduals.FittedMeans, Me.pResiduals.Probabilities)
-            tmp = VerticalStackArrays(tmp, Me.pResiduals.ResponseResiduals)
-            tmp = VerticalStackArrays(tmp, Me.pResiduals.PearsonResiduals)
-            tmp = VerticalStackArrays(tmp, Me.pResiduals.StdPearsonResiduals)
+            Dim tmp = Matrix.VerticalStackArrays(Me.pResiduals.FittedMeans, Me.pResiduals.Probabilities)
+            tmp = Matrix.VerticalStackArrays(tmp, Me.pResiduals.ResponseResiduals)
+            tmp = Matrix.VerticalStackArrays(tmp, Me.pResiduals.PearsonResiduals)
+            tmp = Matrix.VerticalStackArrays(tmp, Me.pResiduals.StdPearsonResiduals)
 
-            Dim resnames = ConcatArrays(GetResidualColumnNames(ResidualColumnType.FittedMean),
+            Dim resnames = Matrix.ConcatArrays(GetResidualColumnNames(ResidualColumnType.FittedMean),
                                     GetResidualColumnNames(ResidualColumnType.FittedProbability))
-            resnames = ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.ResponseResidual))
-            resnames = ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.PearsonResidual))
-            resnames = ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.StdPearsonResidual))
-            resnames = ConcatArrays(resnames, {"DevianceResiduals", "StdDevianceResiduals", "Leverage"})
+            resnames = Matrix.ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.ResponseResidual))
+            resnames = Matrix.ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.PearsonResidual))
+            resnames = Matrix.ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.StdPearsonResidual))
+            resnames = Matrix.ConcatArrays(resnames, {"DevianceResiduals", "StdDevianceResiduals", "Leverage"})
             For i = 0 To n - 1
                 tmp2(i, 0) = Me.pResiduals.DevianceResiduals(i)
                 tmp2(i, 1) = Me.pResiduals.StdDevianceResiduals(i)
                 tmp2(i, 2) = Me.pResiduals.Leverage(i)
             Next
-            t.SetBody(VerticalStackArrays(tmp, tmp2))
+            t.SetBody(Matrix.VerticalStackArrays(tmp, tmp2))
             t.AddHeaderTopRow(resnames)
 
             Return t.returnSelf()
@@ -296,7 +296,7 @@ Namespace regression
             t.AddPvalueToFormat(4)
             If strOffsetVar IsNot Nothing Then t.AddFootnote($"Offset Variable: {strOffsetVar}")
             If strWeightsVar IsNot Nothing Then t.AddFootnote($"Weights Variable: {strWeightsVar}")
-            If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {array2str(Me.startParams)}")
+            If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParams)}")
             t.AddFootnote($"Reference category = {pCats(pCats.Length - 1)}")
             t.AddFootnote($"Computational time: {Me.CompTime} seconds.")
             out.Add(t)
@@ -325,8 +325,8 @@ Namespace regression
             For i = 0 To UBound(pCats) : strCats(i) = pCats(i).ToString : Next
             strCats2(1) = "Predicted"
             t.AddHeaderTopRow(strCats2)
-            t.AddHeaderTopRow(ConcatArrays(ConcatArrays({"Observed"}, strCats), {"Classification Accuracy"}))
-            t.AddHeaderLeftRow(ConcatArrays(strCats, {"Overall Percentage"}))
+            t.AddHeaderTopRow(Matrix.ConcatArrays(Matrix.ConcatArrays({"Observed"}, strCats), {"Classification Accuracy"}))
+            t.AddHeaderLeftRow(Matrix.ConcatArrays(strCats, {"Overall Percentage"}))
             out.Add(t)
 
             'iteration info
@@ -336,7 +336,7 @@ Namespace regression
                 Dim ItLabels(Me.pIteration - 1) As String
                 For i = 0 To Me.pIteration - 1 : ItLabels(i) = $"Iteration {i + 1}" : Next
                 t.AddHeaderTopRow(ItLabels)
-                Dim vars = ConcatArrays(Me.results.varNames, {"LogLikelihood", "LogLikelihood Change"})
+                Dim vars = Matrix.ConcatArrays(Me.results.varNames, {"LogLikelihood", "LogLikelihood Change"})
                 t.AddHeaderLeftRow(vars)
                 out.Add(t)
             End If
@@ -571,7 +571,7 @@ Namespace regression
                     info(r, r) += pRidge
                 Next
 
-                invInfo = MatInv(info, "CHOL")
+                invInfo = Matrix.MatInv(info, "CHOL")
                 Dim stepVec() As Double = CategoricalLogitUtils.MatTimesVec(invInfo, g)
 
                 ' line search on b + s*step
@@ -621,7 +621,7 @@ Namespace regression
             Next pIteration
             If pIteration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIteration)
             pIteration += 1
-            If Not converged Then BSlogg.Log("Algorithm Is diverging. Convergence not reached.", LogMsgType.Warn)
+            If Not converged Then BESHstatGlobals.BSlogg.Log("Algorithm Is diverging. Convergence not reached.", BESHstatGlobals.LogMsgType.Warn)
 
             ' store covariance at final b (one-pass behind is usually tiny at convergence,
             ' but we set pCov here to the last invInfo computed in-loop)
@@ -1241,7 +1241,7 @@ Namespace regression
                     info(r, r) += pRidge
                 Next
 
-                Dim invInfo(,) As Double = MatInv(info, "CHOL")
+                Dim invInfo(,) As Double = Matrix.MatInv(info, "CHOL")
                 Dim stepVec() As Double = CategoricalLogitUtils.MatTimesVec(invInfo, g)
 
                 Dim stepScale As Double = 1.0

@@ -92,13 +92,13 @@ Namespace graphics
         Public Function compute(bOveraly As Boolean, Optional strType As String = "") As Object(,)
 
             Dim bins = HistogramBinsComputation(Me.data, strType)
-            Me.arBinMidVal = Array2dblArray(GetColumnFrom2Darray(bins, 0))
-            Me.arFreq = Array2intArray(GetColumnFrom2Darray(bins, 1))
+            Me.arBinMidVal = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(bins, 0))
+            Me.arFreq = Matrix.Array2intArray(Matrix.GetColumnFrom2Darray(bins, 1))
 
             If bOveraly Then
                 Dim overlayData = GaussOverlayComputation(Me.data, Me.arBinMidVal)
-                Me.arXi = GetColumnFrom2Darray(overlayData, 0)
-                Me.arGauss = GetColumnFrom2Darray(overlayData, 1)
+                Me.arXi = Matrix.GetColumnFrom2Darray(overlayData, 0)
+                Me.arGauss = Matrix.GetColumnFrom2Darray(overlayData, 1)
             End If
 
             Return bins

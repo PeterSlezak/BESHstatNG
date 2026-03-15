@@ -337,7 +337,7 @@ Public Class LMresult
             resTab.SetBody(out)
             resTab.AddHeaderTopRow(LMresult.CoeffsZ_table_labels)
             If Me.bIntercept Then
-                rowLbls = BESHStatNG.ConcatArrays({"Variable", "Intercept"}, Me.varNames)
+                rowLbls = Matrix.ConcatArrays({"Variable", "Intercept"}, Me.varNames)
             Else
                 rowLbls = Me.varNames
             End If
@@ -369,7 +369,7 @@ Public Class LMresult
             resTab.SetBody(out)
             resTab.AddHeaderTopRow(LMresult.CoeffsT_table_labels)
             If Me.bIntercept Then
-                rowLbls = BESHStatNG.ConcatArrays({"Intercept"}, Me.varNames)
+                rowLbls = Matrix.ConcatArrays({"Intercept"}, Me.varNames)
             Else
                 rowLbls = Me.varNames
             End If

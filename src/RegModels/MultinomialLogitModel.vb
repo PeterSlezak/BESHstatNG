@@ -291,7 +291,7 @@ Namespace regression
 
             If offset Is Nothing Then
                 pbOffset = False
-                pOffset = IdentityVect(UBound(x, 1), 0.9)
+                pOffset = Matrix.IdentityVect(UBound(x, 1), 0.9)
             Else
                 pOffset = offset
                 pbOffset = True
@@ -299,7 +299,7 @@ Namespace regression
 
             If weights Is Nothing Then
                 pbWeights = False
-                pWeights = IdentityVect(UBound(x, 1), 1.0)
+                pWeights = Matrix.IdentityVect(UBound(x, 1), 1.0)
             Else
                 pWeights = weights
                 pbWeights = True
@@ -315,7 +315,7 @@ Namespace regression
             t.AddPvalueToFormat(4)
             If strOffsetVar IsNot Nothing Then t.AddFootnote($"Offset Variable: {strOffsetVar}")
             If strWeightsVar IsNot Nothing Then t.AddFootnote($"Weights Variable: {strWeightsVar}")
-            If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {array2str(Me.startParams)}")
+            If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParams)}")
             t.AddFootnote($"Computational time: {Me.CompTime} seconds.")
             out.Add(t)
 
@@ -343,8 +343,8 @@ Namespace regression
             For i = 0 To UBound(pCats) : strCats(i) = pCats(i).ToString : Next
             strCats2(1) = "Predicted"
             t.AddHeaderTopRow(strCats2)
-            t.AddHeaderTopRow(ConcatArrays(ConcatArrays({"Observed"}, strCats), {"Classification Accuracy"}))
-            t.AddHeaderLeftRow(ConcatArrays(strCats, {"Overall Percentage"}))
+            t.AddHeaderTopRow(Matrix.ConcatArrays(Matrix.ConcatArrays({"Observed"}, strCats), {"Classification Accuracy"}))
+            t.AddHeaderLeftRow(Matrix.ConcatArrays(strCats, {"Overall Percentage"}))
             out.Add(t)
 
             'iteration info
@@ -354,7 +354,7 @@ Namespace regression
                 Dim ItLabels(Me.pIteration - 1) As String
                 For i = 0 To Me.pIteration - 1 : ItLabels(i) = $"Iteration {i + 1}" : Next
                 t.AddHeaderTopRow(ItLabels)
-                Dim vars = ConcatArrays(Me.results.varNames, {"LogLikelihood", "LogLikelihood Change"})
+                Dim vars = Matrix.ConcatArrays(Me.results.varNames, {"LogLikelihood", "LogLikelihood Change"})
                 t.AddHeaderLeftRow(vars)
                 out.Add(t)
             End If
@@ -377,23 +377,23 @@ Namespace regression
         Public Function wrapResiduals() As Object(,)
             'call this sub only after we have parameters estimated
             Dim t As New ResultTable, tmp2(n - 1, 2) As Double
-            Dim tmp = VerticalStackArrays(Me.pResiduals.FittedMeans, Me.pResiduals.Probabilities)
-            tmp = VerticalStackArrays(tmp, Me.pResiduals.ResponseResiduals)
-            tmp = VerticalStackArrays(tmp, Me.pResiduals.PearsonResiduals)
-            tmp = VerticalStackArrays(tmp, Me.pResiduals.StdPearsonResiduals)
+            Dim tmp = Matrix.VerticalStackArrays(Me.pResiduals.FittedMeans, Me.pResiduals.Probabilities)
+            tmp = Matrix.VerticalStackArrays(tmp, Me.pResiduals.ResponseResiduals)
+            tmp = Matrix.VerticalStackArrays(tmp, Me.pResiduals.PearsonResiduals)
+            tmp = Matrix.VerticalStackArrays(tmp, Me.pResiduals.StdPearsonResiduals)
 
-            Dim resnames = ConcatArrays(GetResidualColumnNames(ResidualColumnType.FittedMean),
+            Dim resnames = Matrix.ConcatArrays(GetResidualColumnNames(ResidualColumnType.FittedMean),
                                     GetResidualColumnNames(ResidualColumnType.FittedProbability))
-            resnames = ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.ResponseResidual))
-            resnames = ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.PearsonResidual))
-            resnames = ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.StdPearsonResidual))
-            resnames = ConcatArrays(resnames, {"DevianceResiduals", "StdDevianceResiduals", "Leverage"})
+            resnames = Matrix.ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.ResponseResidual))
+            resnames = Matrix.ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.PearsonResidual))
+            resnames = Matrix.ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.StdPearsonResidual))
+            resnames = Matrix.ConcatArrays(resnames, {"DevianceResiduals", "StdDevianceResiduals", "Leverage"})
             For i = 0 To n - 1
                 tmp2(i, 0) = Me.pResiduals.DevianceResiduals(i)
                 tmp2(i, 1) = Me.pResiduals.StdDevianceResiduals(i)
                 tmp2(i, 2) = Me.pResiduals.Leverage(i)
             Next
-            t.SetBody(VerticalStackArrays(tmp, tmp2))
+            t.SetBody(Matrix.VerticalStackArrays(tmp, tmp2))
             t.AddHeaderTopRow(resnames)
 
             Return t.returnSelf()
@@ -498,7 +498,7 @@ Namespace regression
             ReDim pItInfo(q + 1, pMaxiter) 'parameters, LL, LLchange
 
             For pItration = 0 To pMaxiter
-                BSlogg.Log($"MultinomialLogit iteration #{pItration}")
+                BESHstatGlobals.BSlogg.Log($"MultinomialLogit iteration #{pItration}")
                 Dim g(q - 1) As Double
                 Dim H(q - 1, q - 1) As Double
                 Dim ll As Double = 0.0
@@ -569,7 +569,7 @@ Namespace regression
                     minusH(r, r) += pRidge
                 Next
 
-                invMinusH = MatInv(minusH, "CHOL")
+                invMinusH = Matrix.MatInv(minusH, "CHOL")
                 Dim stepVec() As Double = CategoricalLogitUtils.MatTimesVec(invMinusH, g)
 
                 ' Line search to keep LL non-decreasing
@@ -583,7 +583,7 @@ Namespace regression
                     llTry = ComputeLogLikMultinom(Me.pX, Me.pyFit, bTry, p, pKuse)
                     If llTry >= ll OrElse stepScale <= 0.000001 Then Exit Do
                     stepScale *= 0.5
-                    BSlogg.Log($"MultinomialLogit step halving stepScale={stepScale}, LogLike={llTry}, params={array2str(bTry)}")
+                    BESHstatGlobals.BSlogg.Log($"MultinomialLogit step halving stepScale={stepScale}, LogLike={llTry}, params={Matrix.array2str(bTry)}")
                 Loop
 
                 Array.Copy(bTry, b, q)
@@ -596,7 +596,7 @@ Namespace regression
                                        End Sub)
                     System.Windows.Forms.Application.DoEvents()
                 End If
-                BSlogg.Log($"MultinomialLogit iteration loop new esstimates  - LogLike={pLL}, pLastIterLLchange={pLastIterLLchange}, params={array2str(b)}")
+                BESHstatGlobals.BSlogg.Log($"MultinomialLogit iteration loop new esstimates  - LogLike={pLL}, pLastIterLLchange={pLastIterLLchange}, params={Matrix.array2str(b)}")
                 'save iteration info
                 For i = 0 To q + 1
                     If i = q Then 'LL
@@ -617,7 +617,7 @@ Namespace regression
             Next pItration
             If pIteration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIteration)
             pIteration += 1
-            If Not converged Then BSlogg.Log("Algorithm Is diverging. Convergence not reached.", LogMsgType.Warn)
+            If Not converged Then BESHstatGlobals.BSlogg.Log("Algorithm Is diverging. Convergence not reached.", BESHstatGlobals.LogMsgType.Warn)
 
             ' === Recompute covariance at FINAL coefficients b ===
             ' Observed information: I(b) = -H(b) (plus ridge if you want)
@@ -679,7 +679,7 @@ Namespace regression
             Next
 
             ' Final covariance approximation at final b
-            pCov = MatInv(minusHfinal, "CHOL")
+            pCov = Matrix.MatInv(minusHfinal, "CHOL")
             ' === end covariance recompute ===
 
 
@@ -1374,7 +1374,7 @@ Namespace regression
                     minusH(r, r) += Me.pRidge
                 Next
 
-                Dim invMinusH(,) As Double = MatInv(minusH, "CHOL")
+                Dim invMinusH(,) As Double = Matrix.MatInv(minusH, "CHOL")
                 Dim stepVec() As Double = CategoricalLogitUtils.MatTimesVec(invMinusH, g)
 
                 Dim stepScale As Double = 1.0

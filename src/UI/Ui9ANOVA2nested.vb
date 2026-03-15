@@ -91,7 +91,7 @@ Public Class Ui9ANOVA2nested
 
         If byIdData.varNames.Length = 0 Then
             strErr = "Zero valid data!"
-            BSlogg.Log("Zero valid data!", LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Zero valid data!", BESHstatGlobals.LogMsgType.Warn)
             Return Nothing
         End If
 
@@ -136,7 +136,7 @@ Public Class Ui9ANOVA2nested
 
         If byIdData.varNames.Length = 0 Then
             strErr = "Zero valid data!"
-            BSlogg.Log("Zero valid data!", LogMsgType.Warn)
+            BESHstatGlobals.BSlogg.Log("Zero valid data!", BESHstatGlobals.LogMsgType.Warn)
             Return Nothing
         End If
 
@@ -173,7 +173,7 @@ Public Class Ui9ANOVA2nested
             End If
 
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -190,14 +190,14 @@ Public Class Ui9ANOVA2nested
         End If
 
         If bGrouped Then
-            grp = GetColumnFrom2Darray(d.X, 0)
-            x = Array2dblArray(GetColumnFrom2Darray(d.X, 1))
-            y = Array2dblArray(GetColumnFrom2Darray(d.X, 2))
+            grp = Matrix.GetColumnFrom2Darray(d.X, 0)
+            x = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d.X, 1))
+            y = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d.X, 2))
             pb = New PassinbBablok(x, y, d.varNames(1), d.varNames(2), grp, d.varNames(0))
             pb.GroupeDBlockPassingBablok()
         Else
-            x = Array2dblArray(GetColumnFrom2Darray(d.X, 0))
-            y = Array2dblArray(GetColumnFrom2Darray(d.X, 1))
+            x = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d.X, 0))
+            y = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d.X, 1))
             pb = New PassinbBablok(x, y, d.varNames(0), d.varNames(1))
             pb.PassingBablokCI()
         End If
@@ -247,14 +247,14 @@ Public Class Ui9ANOVA2nested
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = app.Workbooks.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

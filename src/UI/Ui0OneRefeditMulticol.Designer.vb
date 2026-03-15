@@ -26,12 +26,14 @@ Partial Class Ui0OneRefeditMulticol
         Me.TabMultipage = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
+        Me.RefEditOutput = New Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.grpInput = New System.Windows.Forms.GroupBox()
         Me.ckLabels = New System.Windows.Forms.CheckBox()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
+        Me.RefEdit1 = New Excel2007RefEdit()
         Me.TabPage_Options = New System.Windows.Forms.TabPage()
         Me.grpMCP = New System.Windows.Forms.GroupBox()
         Me.ckTukey = New System.Windows.Forms.CheckBox()
@@ -47,6 +49,7 @@ Partial Class Ui0OneRefeditMulticol
         Me.ckNominalAssociation = New System.Windows.Forms.CheckBox()
         Me.ckOrdinal = New System.Windows.Forms.CheckBox()
         Me.TabPage_OptionsICC = New System.Windows.Forms.TabPage()
+        Me.ckRepeatabilityCoefficient = New System.Windows.Forms.CheckBox()
         Me.lblAlphaICC = New System.Windows.Forms.Label()
         Me.spinBtnAlphaICC = New System.Windows.Forms.NumericUpDown()
         Me.grpICCtype = New System.Windows.Forms.GroupBox()
@@ -59,9 +62,6 @@ Partial Class Ui0OneRefeditMulticol
         Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCompute = New System.Windows.Forms.Button()
-        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit1 = New BESHStatNG.Excel2007RefEdit()
-        Me.ckRepeatabilityCoefficient = New System.Windows.Forms.CheckBox()
         Me.TabMultipage.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.grpOutput.SuspendLayout()
@@ -111,6 +111,21 @@ Partial Class Ui0OneRefeditMulticol
         Me.grpOutput.TabIndex = 4
         Me.grpOutput.TabStop = False
         Me.grpOutput.Text = "Output"
+        '
+        'RefEditOutput
+        '
+        Me.RefEditOutput.Address = ""
+        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
+        Me.RefEditOutput.Enabled = False
+        Me.RefEditOutput.ExcelConnector = Nothing
+        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
+        Me.RefEditOutput.Location = New System.Drawing.Point(155, 16)
+        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEditOutput.Name = "RefEditOutput"
+        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
+        Me.RefEditOutput.TabIndex = 3
         '
         'optWorkbook
         '
@@ -175,6 +190,20 @@ Partial Class Ui0OneRefeditMulticol
         Me.lblRefedit1.Size = New System.Drawing.Size(39, 16)
         Me.lblRefedit1.TabIndex = 2
         Me.lblRefedit1.Text = "Data:"
+        '
+        'RefEdit1
+        '
+        Me.RefEdit1.Address = ""
+        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit1.ExcelConnector = Nothing
+        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit1.Location = New System.Drawing.Point(140, 37)
+        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit1.Name = "RefEdit1"
+        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit1.TabIndex = 4
         '
         'TabPage_Options
         '
@@ -368,6 +397,18 @@ Partial Class Ui0OneRefeditMulticol
         Me.TabPage_OptionsICC.Text = "Options"
         Me.TabPage_OptionsICC.UseVisualStyleBackColor = True
         '
+        'ckRepeatabilityCoefficient
+        '
+        Me.ckRepeatabilityCoefficient.AutoSize = True
+        Me.ckRepeatabilityCoefficient.Checked = True
+        Me.ckRepeatabilityCoefficient.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckRepeatabilityCoefficient.Location = New System.Drawing.Point(216, 82)
+        Me.ckRepeatabilityCoefficient.Name = "ckRepeatabilityCoefficient"
+        Me.ckRepeatabilityCoefficient.Size = New System.Drawing.Size(174, 20)
+        Me.ckRepeatabilityCoefficient.TabIndex = 10
+        Me.ckRepeatabilityCoefficient.Text = "Repeatability Coefficient"
+        Me.ckRepeatabilityCoefficient.UseVisualStyleBackColor = True
+        '
         'lblAlphaICC
         '
         Me.lblAlphaICC.AutoSize = True
@@ -499,47 +540,6 @@ Partial Class Ui0OneRefeditMulticol
         Me.btCompute.Text = "Compute"
         Me.btCompute.UseVisualStyleBackColor = True
         '
-        'RefEditOutput
-        '
-        Me.RefEditOutput.Address = ""
-        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
-        Me.RefEditOutput.Enabled = False
-        Me.RefEditOutput.ExcelConnector = Nothing
-        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
-        Me.RefEditOutput.Location = New System.Drawing.Point(155, 16)
-        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEditOutput.Name = "RefEditOutput"
-        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
-        Me.RefEditOutput.TabIndex = 3
-        '
-        'RefEdit1
-        '
-        Me.RefEdit1.Address = ""
-        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit1.ExcelConnector = Nothing
-        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit1.Location = New System.Drawing.Point(140, 37)
-        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit1.Name = "RefEdit1"
-        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit1.TabIndex = 4
-        '
-        'ckRepeatabilityCoefficient
-        '
-        Me.ckRepeatabilityCoefficient.AutoSize = True
-        Me.ckRepeatabilityCoefficient.Checked = True
-        Me.ckRepeatabilityCoefficient.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ckRepeatabilityCoefficient.Location = New System.Drawing.Point(216, 82)
-        Me.ckRepeatabilityCoefficient.Name = "ckRepeatabilityCoefficient"
-        Me.ckRepeatabilityCoefficient.Size = New System.Drawing.Size(174, 20)
-        Me.ckRepeatabilityCoefficient.TabIndex = 10
-        Me.ckRepeatabilityCoefficient.Text = "Repeatability Coefficient"
-        Me.ckRepeatabilityCoefficient.UseVisualStyleBackColor = True
-        '
         'Ui0OneRefeditMulticol
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -550,6 +550,9 @@ Partial Class Ui0OneRefeditMulticol
         Me.Controls.Add(Me.btCompute)
         Me.Controls.Add(Me.TabMultipage)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(485, 464)
+        Me.MinimumSize = New System.Drawing.Size(485, 464)
         Me.Name = "Ui0OneRefeditMulticol"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

@@ -339,7 +339,7 @@ Public Class GEE
         End If
 
         If Weights Is Nothing Then
-            Me.pWeights = IdentityVect(Me.n - 1, 1) 'it automaticaly assign zeros
+            Me.pWeights = Matrix.IdentityVect(Me.n - 1, 1) 'it automaticaly assign zeros
             Me.pbWeights = False
         Else
             Me.pbWeights = True
@@ -596,7 +596,7 @@ Public Class GEE
         t.AddPvalueToFormat(4)
         If Me.pOffsetVarName IsNot Nothing Then t.AddFootnote($"Offset Variable: {Me.pOffsetVarName}")
         If Me.pWeightsVarName IsNot Nothing Then t.AddFootnote($"Weights Variable: {Me.pWeightsVarName}")
-        If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {array2str(Me.startParams)}")
+        If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParams)}")
         'If Me.bSeparation Then
         '    t.AddFootnote("Complete separation of data points. Maximum likelihood estimates may not exist.")
         'ElseIf Me.bQuasiSeparation Then
@@ -611,33 +611,33 @@ Public Class GEE
         'Working correlation matrix
         t = New ResultTable
         t.SetBody(Me.pCovStruct.DepParams(Me))
-        t.AddTitle("Working Correlation Matrix")
+        t.AddTitle("Working Correlation MatrixType")
         out.Add(t)
 
-        'Covariance Matrix - Model based (Naive)
-        Dim strVars() As String = ConcatArrays({"Intercept"}, BESHStatNG.SubsetArray(pVarNames, 1))
+        'Covariance MatrixType - Model based (Naive)
+        Dim strVars() As String = Matrix.ConcatArrays({"Intercept"}, Matrix.SubsetArray(pVarNames, 1))
         t = New ResultTable
         t.SetBody(Me.pCovNaive)
         t.AddHeaderLeftRow(strVars)
         t.AddHeaderTopRow(strVars)
-        t.AddTitle("Covariance Matrix - Model based (Naive)")
+        t.AddTitle("Covariance MatrixType - Model based (Naive)")
         out.Add(t)
 
-        'Covariance Matrix - Model based (Naive)
+        'Covariance MatrixType - Model based (Naive)
         t = New ResultTable
         t.SetBody(Me.pCovRobust)
         t.AddHeaderLeftRow(strVars)
         t.AddHeaderTopRow(strVars)
-        t.AddTitle("Covariance Matrix - Empirical (Robust)")
+        t.AddTitle("Covariance MatrixType - Empirical (Robust)")
         out.Add(t)
 
-        'Covariance Matrix - Bias Reduced
+        'Covariance MatrixType - Bias Reduced
         If Me.pStdErrType = "Bias Reduced" Then
             t = New ResultTable
             t.SetBody(Me.pCovBiasCorr)
             t.AddHeaderLeftRow(strVars)
             t.AddHeaderTopRow(strVars)
-            t.AddTitle("Covariance Matrix - Bias Reduced")
+            t.AddTitle("Covariance MatrixType - Bias Reduced")
             out.Add(t)
         End If
 
@@ -648,7 +648,7 @@ Public Class GEE
             Dim ItLabels(Me.pItration) As String
             For i = 0 To Me.pItration : ItLabels(i) = $"Iteration {i + 1}" : Next
             t.AddHeaderTopRow(ItLabels)
-            t.AddHeaderLeftRow(ConcatArrays(Me.pVarNames, {"Parameter Change"}))
+            t.AddHeaderLeftRow(Matrix.ConcatArrays(Me.pVarNames, {"Parameter Change"}))
             out.Add(t)
         End If
 
@@ -714,12 +714,12 @@ Public Class GEE
                          Optional scalingFactor As Double = 1.0#,
                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                          Optional progressLbl As System.Windows.Forms.Label = Nothing)
-        BSlogg.Log("proc started: gee.Fit")
+        BESHstatGlobals.BSlogg.Log("proc started: gee.Fit")
         Dim update() As Double = Nothing, score() As Double = Nothing, del_params As Double, strTmpTrace As String = String.Empty
         Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
         Me.pScalingFactor = scalingFactor
         Me.results = New LMresult
-        Me.results.varNames = BESHStatNG.SubsetArray(pVarNames, 1)
+        Me.results.varNames = Matrix.SubsetArray(pVarNames, 1)
         ReDim pItInfo(p, pMaxiter)
 
         'starting parameters
@@ -734,10 +734,10 @@ Public Class GEE
 
             'Compute step (same as your current code)
             Me.updateMeanParams(update, score)
-            BSlogg.Log($"Iteration={pItration + 1} update:{array2str(update)} score: {array2str(score)}")
+            BESHstatGlobals.BSlogg.Log($"Iteration={pItration + 1} update:{Matrix.array2str(update)} score: {Matrix.array2str(score)}")
 
             'Apply step (same as your current code)
-            meanParams = M_ADD(meanParams, update)
+            meanParams = Matrix.M_ADD(meanParams, update)
             Me.UpdateCachedMeans(meanParams)
 
             '--- SAS-style convergence criterion: max change in beta (abs or relative) ---
@@ -757,7 +757,7 @@ Public Class GEE
                 consecOK = 0
             End If
 
-            BSlogg.Log($"Iteration={pItration + 1} meanParams:{array2str(meanParams)} sas_del={del_params} consecOK={consecOK}")
+            BESHstatGlobals.BSlogg.Log($"Iteration={pItration + 1} meanParams:{Matrix.array2str(meanParams)} sas_del={del_params} consecOK={consecOK}")
 
             'save iteration info (store criterion in last row, like before)
             For i = 0 To p
@@ -773,7 +773,7 @@ Public Class GEE
 
             'Update dependence structure
             pCovStruct.updateAssoc(Me, strTmpTrace)
-            If strTmpTrace <> String.Empty Then BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            If strTmpTrace <> String.Empty Then BESHstatGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
 
             'UI progress
             If progressBar IsNot Nothing Then
@@ -792,7 +792,7 @@ Public Class GEE
         Next pItration
         '-----------------------------------------------
 
-        If Not pConverged Then BSlogg.Log($"Iteration limit reached prior to convergence", LogMsgType.Warn)
+        If Not pConverged Then BESHstatGlobals.BSlogg.Log($"Iteration limit reached prior to convergence", BESHstatGlobals.LogMsgType.Warn)
         If pItration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pItration)
 
         Me.pScale = EstimateScale(True)
@@ -819,7 +819,7 @@ Public Class GEE
 
         Me.results.ModelTableLabels = {"Dep.Variable", "Family", "Link Function", "Dependence Structure", "Covariance Type",
                 "# observations", "# clusters", "Min. Cluster Size", "Max. Cluster Size", "Mean Cluster Size",
-                "Correlation Matrix Dimension", "Scale", "QIC", "QICu", "Quasi Likelihood", "Number of Iterations",
+                "Correlation MatrixType Dimension", "Scale", "QIC", "QICu", "Quasi Likelihood", "Number of Iterations",
                 "Relative Parameter Values Change", "Converged?"}
         Me.results.ModelTableTopRow = {"Model Analysis", "", "df"}
         Me.results.ModelTableVals = {{Me.pVarNames(0), ""},
@@ -900,11 +900,11 @@ Public Class GEE
     ''' </remarks>
     Private Function ComputeBScovMat(cnaive(,) As Double) As Double(,)
         'Fit the bias-corrected sandwich estimate of Mancl and DeRouen.
-        BSlogg.Log("proc started: gee.ComputeBScovMat")
+        BESHstatGlobals.BSlogg.Log("proc started: gee.ComputeBScovMat")
 
         Dim strTmpTrace As String = String.Empty, srt() As Double = Nothing
 
-        cnaive = MatrixMult(cnaive, 1.0 / pScalingFactor)
+        cnaive = Matrix.MatrixMult(cnaive, 1.0 / pScalingFactor)
         If pScale = 0 Then pScale = EstimateScale()
 
         Dim bcm(p - 1, p - 1) As Double
@@ -915,7 +915,7 @@ Public Class GEE
             Dim exog = pExogLi(i)
 
             Dim sdev(UBound(expval)) As Double ', resid(1 To UBound(expval))
-            Dim resid = M_SUB(endog, expval)
+            Dim resid = Matrix.M_SUB(endog, expval)
             Dim dmat = MeanDeriv(exog, lin_pred, i, False)
             For j = 0 To UBound(expval)
                 sdev(j) = SafeStDevFromMu(expval(j))
@@ -923,29 +923,29 @@ Public Class GEE
 
             Dim vinv_d(,) As Double = Nothing, vinv_resid() As Double = Nothing
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, dmat, resid, vinv_d, vinv_resid, strTmpTrace) ' vinv_d, vinv_resid - are results
-            If strTmpTrace <> String.Empty Then BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            If strTmpTrace <> String.Empty Then BESHstatGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
 
-            vinv_d = MatrixMult(vinv_d, 1.0 / pScale)
-            Dim hmat(,) As Double = MatrixMult(MatrixMult(vinv_d, cnaive), trans(dmat))
-            hmat = trans(hmat)
+            vinv_d = Matrix.MatrixMult(vinv_d, 1.0 / pScale)
+            Dim hmat(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(vinv_d, cnaive), Matrix.trans(dmat))
+            hmat = Matrix.trans(hmat)
 
-            Dim tmp2 = M_SUB(IdentityMat(UBound(resid)), hmat)
-            Dim tmp = Cholesky(tmp2)
-            Dim aresid = CholSolve(tmp, resid)
+            Dim tmp2 = Matrix.M_SUB(Matrix.IdentityMat(UBound(resid)), hmat)
+            Dim tmp = Matrix.Cholesky(tmp2)
+            Dim aresid = Matrix.CholSolve(tmp, resid)
             strTmpTrace = String.Empty
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, dmat, aresid, tmp2, srt, strTmpTrace) ' tmp2, srt - are results (reusing tmp2)
-            If strTmpTrace <> String.Empty Then BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            If strTmpTrace <> String.Empty Then BESHstatGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
 
-            srt = GetColumnFrom2Darray(MatrixMult(trans(dmat), srt), 0)
+            srt = Matrix.GetColumnFrom2Darray(Matrix.MatrixMult(Matrix.trans(dmat), srt), 0)
             For j = 0 To UBound(srt)
                 srt(j) /= pScale
             Next
-            bcm = M_ADD(bcm, M_OUTERPRODUCT(srt, srt))
+            bcm = Matrix.M_ADD(bcm, Matrix.M_OUTERPRODUCT(srt, srt))
         Next
 
         ReDim pCovBiasCorr(p - 1, p - 1)
-        Me.pCovBiasCorr = MatrixMult(cnaive, MatrixMult(bcm, cnaive))
-        Me.pCovBiasCorr = MatrixMult(Me.pCovBiasCorr, pScalingFactor)
+        Me.pCovBiasCorr = Matrix.MatrixMult(cnaive, Matrix.MatrixMult(bcm, cnaive))
+        Me.pCovBiasCorr = Matrix.MatrixMult(Me.pCovBiasCorr, pScalingFactor)
 
         Return pCovBiasCorr
     End Function
@@ -976,7 +976,7 @@ Public Class GEE
     ''' </remarks>
     Private Sub ComputeCovMat()
         'Returns the sampling covariance matrix of the regression parameters and related quantities.
-        BSlogg.Log("proc started: gee.ComputeCovMat")
+        BESHstatGlobals.BSlogg.Log("proc started: gee.ComputeCovMat")
         Dim strTmpTrace As String = String.Empty
 
         Dim bmat(p - 1, p - 1) As Double, cmat(p - 1, p - 1) As Double
@@ -987,7 +987,7 @@ Public Class GEE
             Dim exog = pExogLi(i)
 
             Dim resid(UBound(expval)) As Double, sdev(UBound(expval)) As Double
-            resid = M_SUB(endog, expval)
+            resid = Matrix.M_SUB(endog, expval)
             Dim dmat = MeanDeriv(exog, lin_pred, i, False)
             For j = 0 To UBound(expval)
                 sdev(j) = SafeStDevFromMu(expval(j))
@@ -997,21 +997,21 @@ Public Class GEE
             Dim wdmat = dmat
             Dim vinv_d(,) As Double = Nothing, vinv_resid() As Double = Nothing
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, wdmat, wresid, vinv_d, vinv_resid, strTmpTrace) ' vinv_d, vinv_resid - are results
-            If strTmpTrace <> String.Empty Then BSlogg.Log($"strTmpTrace= {strTmpTrace}")
-            bmat = M_ADD(bmat, MatrixMult(trans(dmat), vinv_d))
-            Dim dvinv_resid = MatrixMult(trans(dmat), vinv_resid)
-            cmat = M_ADD(cmat, M_OUTERPRODUCT(GetColumnFrom2Darray(dvinv_resid, 0), GetColumnFrom2Darray(dvinv_resid, 0)))
+            If strTmpTrace <> String.Empty Then BESHstatGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            bmat = Matrix.M_ADD(bmat, Matrix.MatrixMult(Matrix.trans(dmat), vinv_d))
+            Dim dvinv_resid = Matrix.MatrixMult(Matrix.trans(dmat), vinv_resid)
+            cmat = Matrix.M_ADD(cmat, Matrix.M_OUTERPRODUCT(Matrix.GetColumnFrom2Darray(dvinv_resid, 0), Matrix.GetColumnFrom2Darray(dvinv_resid, 0)))
         Next
 
         If pScale = 0 Then pScale = EstimateScale()
-        BSlogg.Log($"bmatfull={array2str(bmat)}")
+        BESHstatGlobals.BSlogg.Log($"bmatfull={Matrix.array2str(bmat)}")
         ReDim pCovNaive(p - 1, p - 1), pCovRobust(p - 1, p - 1)
         'compute matrix inversion
 
-        Dim bmatInv(,) As Double = MatInv(bmat, "CHOL",, bPseudInverse:=True)
+        Dim bmatInv(,) As Double = Matrix.MatInv(bmat, "CHOL",, bPseudInverse:=True)
         'Dim tmp(,) As Double = Cholesky(bmat, iErr, False)
         ''Debug.Print(array2str(tmp))
-        'If iErr = 2 Then 'Matrix not positive-definite. Compute pseudoinverse
+        'If iErr = 2 Then 'MatrixType not positive-definite. Compute pseudoinverse
         '    BSlogg.Log($"WARNING: CHOLESKY. bmat not positive-definite. Calling pseudoInverse. bmat={array2str(bmat)}", LogMsgType.Warn)
         '    bmatInv = pseudoInverse(bmat)
         '    BSlogg.Log($"NOTE: pseudoInverse output ={array2str(bmatInv)}")
@@ -1019,7 +1019,7 @@ Public Class GEE
         '    bmatInv = CholInv(tmp)
         'End If
         'Debug.Print(array2str(bmatInv))
-        Me.pCovRobust = MatrixMult(bmatInv, MatrixMult(cmat, bmatInv))
+        Me.pCovRobust = Matrix.MatrixMult(bmatInv, Matrix.MatrixMult(cmat, bmatInv))
 
         For i = 0 To p - 1
             For j = 0 To p - 1
@@ -1064,7 +1064,7 @@ Public Class GEE
     Function EstimateScale(Optional bForce As Boolean = False) As Double
         'The scale parameter is estimated as the sum of squared Pearson residuals divided by
 
-        BSlogg.Log("proc started: gee.estimateScale")
+        BESHstatGlobals.BSlogg.Log("proc started: gee.estimateScale")
         If bForce Then GoTo 1
 
         If pScaleType = 0 And (TypeOf pFamily Is regression.Binomial Or TypeOf pFamily Is regression.Poisson Or TypeOf pFamily Is regression.NegativeBinomial) Then
@@ -1084,7 +1084,7 @@ Public Class GEE
                 ' If any NaN stdev appears, bail out safely
                 If sdev.Any(Function(z) Double.IsNaN(z)) Then Return Double.NaN
 
-                ResId = M_DIV(M_SUB(endog, expval), sdev)
+                ResId = Matrix.M_DIV(Matrix.M_SUB(endog, expval), sdev)
 
                 For j = 0 To UBound(ResId)
                     estScale += ResId(j) * ResId(j)
@@ -1117,7 +1117,7 @@ Public Class GEE
         'update and score is the output
 
         Dim strTmpTrace As String, bmat(p - 1, p - 1) As Double, score_(p - 1, 0) As Double
-        BSlogg.Log("proc started: gee.updateMeanParams")
+        BESHstatGlobals.BSlogg.Log("proc started: gee.updateMeanParams")
         For i = 0 To p - 1 : score_(i, 0) = 0 : Next
 
         For i = 0 To pNoGroup - 1
@@ -1127,7 +1127,7 @@ Public Class GEE
             Dim exog = pExogLi(i)
 
             Dim resid(UBound(expval)) As Double, sdev(UBound(expval)) As Double
-            resid = M_SUB(endog, expval)
+            resid = Matrix.M_SUB(endog, expval)
             Dim dmat(,) As Double = MeanDeriv(exog, lin_pred, i)
             For j = 0 To UBound(expval)
                 sdev(j) = SafeStDevFromMu(expval(j))
@@ -1138,18 +1138,18 @@ Public Class GEE
             Dim vinv_d(,) As Double = Nothing, vinv_resid() As Double = Nothing
             strTmpTrace = String.Empty
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, wdmat, wresid, vinv_d, vinv_resid, strTmpTrace) ' vinv_d, vinv_resid - are results
-            If strTmpTrace <> String.Empty Then BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            If strTmpTrace <> String.Empty Then BESHstatGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
 
-            bmat = M_ADD(bmat, MatrixMult(trans(dmat), vinv_d))
-            score_ = M_ADD(score_, MatrixMult(trans(dmat), vinv_resid))
+            bmat = Matrix.M_ADD(bmat, Matrix.MatrixMult(Matrix.trans(dmat), vinv_d))
+            score_ = Matrix.M_ADD(score_, Matrix.MatrixMult(Matrix.trans(dmat), vinv_resid))
         Next
 
-        score = GetColumnFrom2Darray(score_, 0)
-        BSlogg.Log($"bmatfull= {array2str(bmat)} scorefull={array2str(score)}")
+        score = Matrix.GetColumnFrom2Darray(score_, 0)
+        BESHstatGlobals.BSlogg.Log($"bmatfull= {Matrix.array2str(bmat)} scorefull={Matrix.array2str(score)}")
 
 
-        Dim tmp = MatInv(bmat, "CHOL",, bPseudInverse:=True)
-        update = GetColumnFrom2Darray(MatrixMult(tmp, score_), 0)
+        Dim tmp = Matrix.MatInv(bmat, "CHOL",, bPseudInverse:=True)
+        update = Matrix.GetColumnFrom2Darray(Matrix.MatrixMult(tmp, score_), 0)
 
     End Sub
 
@@ -1165,7 +1165,7 @@ Public Class GEE
     ''' If <c>True</c> and an offset was supplied, adds the offset to <paramref name="lin_pred"/> before evaluating <c>dμ/dη</c>.
     ''' </param>
     ''' <returns>
-    ''' Matrix <c>Dᵢ</c> where row <c>j</c> is <c>xᵢⱼ * (dμ/dη)(ηᵢⱼ)</c>.
+    ''' MatrixType <c>Dᵢ</c> where row <c>j</c> is <c>xᵢⱼ * (dμ/dη)(ηᵢⱼ)</c>.
     ''' </returns>
     ''' <remarks>
     ''' Using the inverse link derivative:
@@ -1205,14 +1205,14 @@ Public Class GEE
     Private Sub UpdateCachedMeans(mean_params() As Double)
         'pCachedMeans should always contain the most recent calculation of the group-wise mean vectors. This sub should be
         'called every time the regression parameters are changed, to keep the cached means up to date.
-        BSlogg.Log("proc started: gee.updateCachedMeans")
+        BESHstatGlobals.BSlogg.Log("proc started: gee.updateCachedMeans")
 
         Dim bFirstCall As Boolean = If(pCachedMeans.Count = 0, True, False)
 
         For i = 0 To pNoGroup - 1
             'Debug.Print(array2str(pExogLi(i)))
             Dim tmpExog(,) As Double = pExogLi(i)
-            Dim lin_pred(,) As Double = MatrixMult(tmpExog, mean_params)
+            Dim lin_pred(,) As Double = Matrix.MatrixMult(tmpExog, mean_params)
 
             Dim expval(UBound(tmpExog, 1)) As Double
             For j = 0 To UBound(tmpExog, 1)
@@ -1240,7 +1240,7 @@ Public Class GEE
     Private Function GetStartParams() As Double()
         'estimate starting parameters using the GLM fit
 
-        BSlogg.Log("proc started: gee.getStartParams")
+        BESHstatGlobals.BSlogg.Log("proc started: gee.getStartParams")
 
         Dim glm As New GLM(pFamily, pLink)
         With glm
@@ -1255,7 +1255,7 @@ Public Class GEE
             .Fit(1)
             pIndependenceNaiveVarCovar = .VarCovar
         End With
-        BSlogg.Log($"start params: {array2str(glm.results.Coeffs_est)}")
+        BESHstatGlobals.BSlogg.Log($"start params: {Matrix.array2str(glm.results.Coeffs_est)}")
 
         Return glm.results.Coeffs_est
     End Function
@@ -1283,7 +1283,7 @@ Public Class GEE
         'Returns quasi-information criteria and quasi-likelihood values.
         'W. Pan (2001).  Akaike's information criterion in generalized estimating equations.  Biometrics (57) 1.
         Dim Trace As Double
-        BSlogg.Log("proc started: gee.estimateQIC")
+        BESHstatGlobals.BSlogg.Log("proc started: gee.estimateQIC")
 
         For i = 0 To pNoGroup - 1
             Dim expval = pCachedMeans(i).Item1
@@ -1292,8 +1292,8 @@ Public Class GEE
             Next
         Next
 
-        Dim NaiveInv(,) As Double = MatInv(pIndependenceNaiveVarCovar)
-        Dim tmp = MatrixMult(NaiveInv, pCovRobust)
+        Dim NaiveInv(,) As Double = Matrix.MatInv(pIndependenceNaiveVarCovar)
+        Dim tmp = Matrix.MatrixMult(NaiveInv, pCovRobust)
 
         For i = 0 To UBound(tmp)
             Trace += tmp(i, i)
@@ -1322,7 +1322,7 @@ Public Class GEE
     ''' </remarks>
     Private Sub PreProcessData()
 
-        BSlogg.Log("proc started: Extracted Information:")
+        BESHstatGlobals.BSlogg.Log("proc started: Extracted Information:")
         Dim uniqueTimesColl = New Dictionary(Of Double, String)
         'data should be already sorted by repeats (clusetr/subject id) and within cluster order variable (time)
         Dim tmpGrp As Dictionary(Of Object, Integer) = Me.pRepeats.GroupBy(Function(x) x).
@@ -1392,8 +1392,8 @@ Public Class GEE
             pUniqueTimesDict.Add(UniqueTimes(i), i)
         Next
 
-        BSlogg.Log($"pGroupLabels={array2str(pGroupLabels)}")
-        BSlogg.Log($"# of unique times: {uniqueTimesColl.Count}; UniqueTimes={array2str(UniqueTimes)}")
+        BESHstatGlobals.BSlogg.Log($"pGroupLabels={Matrix.array2str(pGroupLabels)}")
+        BESHstatGlobals.BSlogg.Log($"# of unique times: {uniqueTimesColl.Count}; UniqueTimes={Matrix.array2str(UniqueTimes)}")
     End Sub
 
 

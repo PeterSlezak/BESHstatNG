@@ -964,7 +964,7 @@ Public Module StatFunc
     ''' <list type="bullet">
     '''   <item><description>**Range checks** in statistical routines.</description></item>
     '''   <item><description>**Diagnostics** for EM or NR iterations.</description></item>
-    '''   <item><description>**Matrix preprocessing** before normalization.</description></item>
+    '''   <item><description>**MatrixType preprocessing** before normalization.</description></item>
     ''' </list>
     ''' </remarks>
     Public Function Minimum2D(x(,) As Double) As Double
@@ -1021,7 +1021,7 @@ Public Module StatFunc
     ''' <list type="bullet">
     '''   <item><description>**[Range checks](guide://action?prefill=Tell%20me%20more%20about%3A%20Range%20checks)** in statistical routines.</description></item>
     '''   <item><description>**[Diagnostics](guide://action?prefill=Tell%20me%20more%20about%3A%20Diagnostics)** for EM or NR iterations.</description></item>
-    '''   <item><description>**[Matrix preprocessing](guide://action?prefill=Tell%20me%20more%20about%3A%20Matrix%20preprocessing)** before normalization.</description></item>
+    '''   <item><description>**[MatrixType preprocessing](guide://action?prefill=Tell%20me%20more%20about%3A%20Matrix%20preprocessing)** before normalization.</description></item>
     ''' </list>
     ''' </remarks>
     Public Function Maximum2D(x(,) As Double) As Double
@@ -1106,7 +1106,7 @@ Public Module StatFunc
         'convert correlation matrix to covariance matrix
 
         Dim cov(UBound(corr), UBound(corr, 2)) As Double
-        Dim std2(,) As Double = M_OUTERPRODUCT(std, std)
+        Dim std2(,) As Double = Matrix.M_OUTERPRODUCT(std, std)
         For i = 0 To UBound(corr)
             For j = 0 To UBound(corr, 2)
                 cov(i, j) = corr(i, j) * std2(i, j)
@@ -1176,7 +1176,7 @@ Public Module StatFunc
     ''' </returns>
     ''' <remarks>
     ''' <para>
-    ''' Uses <see cref="EIGEN_JK"/> to obtain eigenvalues and eigenvectors.  
+    ''' Uses <see cref="matrix.EIGEN_JK"/> to obtain eigenvalues and eigenvectors.  
     ''' The first column contains eigenvalues; remaining columns contain eigenvectors.
     ''' </para>
     ''' <para>
@@ -1187,7 +1187,7 @@ Public Module StatFunc
     ''' </code>
     ''' </remarks>
     Function clipEvals(corr(,) As Double, ByRef bClipped As Boolean, Optional value As Double = 0#) As Double(,)
-        Dim ei = EIGEN_JK(corr)
+        Dim ei = Matrix.EIGEN_JK(corr)
 
         Dim n As Integer = UBound(corr, 1)
         Dim evecs(,) As Double = ei.Item2
@@ -1226,7 +1226,7 @@ Public Module StatFunc
             Next
         Next
 
-        Return MatrixMult(tmpM, trans(evecs))
+        Return Matrix.MatrixMult(tmpM, Matrix.trans(evecs))
     End Function
 
 
@@ -1258,8 +1258,8 @@ Public Module StatFunc
         For i = 0 To UBound(cov)
             std(i) = Math.Sqrt(cov(i, i))
         Next
-        Dim std2(,) As Double = M_OUTERPRODUCT(std, std)
-        Return M_DIV(cov, std2)
+        Dim std2(,) As Double = Matrix.M_OUTERPRODUCT(std, std)
+        Return Matrix.M_DIV(cov, std2)
     End Function
 
     ''' <summary>
@@ -1697,7 +1697,7 @@ Public Module StatFunc
     Public Function stDev(Of T)(data() As T) As Double
         Dim n As Integer = data.Length
         If n <= 1 Then
-            BSlogg.Log("N<=1 for sample standard deviation computation.")
+            BESHstatGlobals.BSlogg.Log("N<=1 for sample standard deviation computation.")
             Return Double.NaN
         End If
 
@@ -1734,7 +1734,7 @@ Public Module StatFunc
     Public Function variance(Of T)(data() As T) As Double
         Dim n As Integer = data.Length
         If n <= 1 Then
-            BSlogg.Log("N<=1 for sample variance computation.")
+            BESHstatGlobals.BSlogg.Log("N<=1 for sample variance computation.")
             Return Double.NaN
         End If
 

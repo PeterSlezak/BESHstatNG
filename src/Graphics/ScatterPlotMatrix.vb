@@ -196,8 +196,8 @@ Namespace graphics
                 For i = 0 To p - 1
                     For j = 0 To p - 1
                         If i <> j Then
-                            tmp1 = GetColumnFrom2Darray(ScaledData, i)
-                            tmp2 = GetColumnFrom2Darray(ScaledData, j)
+                            tmp1 = Matrix.GetColumnFrom2Darray(ScaledData, i)
+                            tmp2 = Matrix.GetColumnFrom2Darray(ScaledData, j)
 
                             seriesID += 1
                             .SeriesCollection.NewSeries
@@ -349,7 +349,7 @@ Namespace graphics
             Dim range_new As Double = max_new - min_new
 
             For j = 1 To p  ' loop over all variables/columns
-                tmp = GetColumnFrom2Darray(pData, j - 1)
+                tmp = Matrix.GetColumnFrom2Darray(pData, j - 1)
                 min_old(j - 1) = tmp.Min()
                 max_old(j - 1) = tmp.Max()
                 range_old(j - 1) = max_old(j - 1) - min_old(j - 1)
@@ -363,14 +363,14 @@ Namespace graphics
                 Next
             Next
 
-            If pbDisplayCorrCoef Then CorrMatrix = CorrelMatrix(pData, "r") 'compute pearson correlation coefficient to display on chart
+            If pbDisplayCorrCoef Then CorrMatrix = Matrix.CorrelMatrix(pData, "r") 'compute pearson correlation coefficient to display on chart
 
             'compute regression lines to display on the chart
             If pbDisplayRegLines Then
                 For i = 0 To p - 1
-                    tmp = GetColumnFrom2Darray(ScaledData, i)
+                    tmp = Matrix.GetColumnFrom2Darray(ScaledData, i)
                     For j = 0 To p - 1
-                        tmp2 = GetColumnFrom2Darray(ScaledData, j)
+                        tmp2 = Matrix.GetColumnFrom2Darray(ScaledData, j)
                         intercepts_scaled(i, j) = Intercept(tmp2, tmp)
                         slopes_scaled(i, j) = Slope(tmp2, tmp)
                     Next

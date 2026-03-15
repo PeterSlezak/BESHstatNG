@@ -182,7 +182,7 @@ Namespace graphics
 
             ReDim arIDs(n - 1)
 
-            Data12 = ConcatArrays(data(0), data(1))
+            Data12 = Matrix.ConcatArrays(data(0), data(1))
             For i = 0 To n - 1
                 arIDs(i) = If(i <= (n1 - 1), 1, 2) '1 denote patients
             Next

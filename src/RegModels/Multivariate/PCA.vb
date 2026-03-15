@@ -26,9 +26,9 @@ Namespace Multivariate
     '''''' <para>
     '''''' Internal dependencies:
     '''''' <list type="bullet">
-    '''''' <item><description><c>MatCovar</c> (Matrix.vb) builds the sample covariance/correlation matrix (divisor n−1).</description></item>
-    '''''' <item><description><c>EIGEN_JK</c> (Matrix.vb) computes eigenpairs via a Jacobi/Kogbetliantz-style iterative orthogonalization.</description></item>
-    '''''' <item><description><c>MatrixMult</c> (Matrix.vb) is used to compute component scores.</description></item>
+    '''''' <item><description><c>MatCovar</c> (MatrixType.vb) builds the sample covariance/correlation matrix (divisor n−1).</description></item>
+    '''''' <item><description><c>EIGEN_JK</c> (MatrixType.vb) computes eigenpairs via a Jacobi/Kogbetliantz-style iterative orthogonalization.</description></item>
+    '''''' <item><description><c>MatrixMult</c> (MatrixType.vb) is used to compute component scores.</description></item>
     '''''' <item><description><c>stDev</c> (StatFunc.vb) provides sample standard deviation used for standardization.</description></item>
     '''''' </list>
     '''''' </para>
@@ -43,9 +43,9 @@ Namespace Multivariate
     '''''' </list>
     '''''' </para>
     '''''' </remarks>
-    '''''' <seealso cref="Matrix.MatCovar" />
-    '''''' <seealso cref="Matrix.EIGEN_JK" />
-    '''''' <seealso cref="Matrix.MatrixMult" />
+    '''''' <seealso cref="MatrixType.MatCovar" />
+    '''''' <seealso cref="MatrixType.EIGEN_JK" />
+    '''''' <seealso cref="MatrixType.MatrixMult" />
     '''''' <seealso cref="StatFunc.stDev" />
     Public Class PCA
 
@@ -62,7 +62,7 @@ Namespace Multivariate
         Private pLoadings(,) As Double
         Private pMaxiter As Integer
         Private pEps As Double
-        Private Matrix As String 'correlation or covariance
+        Private MatrixType As String 'correlation or covariance
         Private pNoExtractComponents As Integer
         Private pstrExtractMethodLabel As String
 
@@ -99,7 +99,7 @@ Namespace Multivariate
         Sub settingsInputs(maximumIteration As Integer, dEps As Double, strAnalyzedMatrixType As String)
             pMaxiter = maximumIteration
             pEps = dEps
-            Matrix = strAnalyzedMatrixType
+            MatrixType = strAnalyzedMatrixType
         End Sub
 
         ' Get Values------------------------------------------------------------
@@ -109,9 +109,9 @@ Namespace Multivariate
         '''''' </summary>
         '''''' <returns>A <c>p × p</c> matrix. For covariance PCA: S = Cov(X). For correlation PCA: S = Cor(Z) = Cov(Z).</returns>
         '''''' <remarks>
-        '''''' <para>Computed by <c>MatCovar</c> (Matrix.vb) with sample divisor (n−1).</para>
+        '''''' <para>Computed by <c>MatCovar</c> (MatrixType.vb) with sample divisor (n−1).</para>
         '''''' </remarks>
-        '''''' <seealso cref="Matrix.MatCovar" />
+        '''''' <seealso cref="MatrixType.MatCovar" />
         ReadOnly Property VarCovarMat() As Double(,)
             Get
                 Return pVarCovar
@@ -123,7 +123,7 @@ Namespace Multivariate
         '''''' </summary>
         '''''' <returns>An <c>n × p</c> matrix with column means 0 and sample standard deviations 1.</returns>
         '''''' <remarks>
-        '''''' <para>Only meaningful when Matrix = "Correlation"; for covariance PCA this contains the internally produced standardized matrix (may still be computed).</para>
+        '''''' <para>Only meaningful when MatrixType = "Correlation"; for covariance PCA this contains the internally produced standardized matrix (may still be computed).</para>
         '''''' </remarks>
         '''''' <seealso cref="StatFunc.stDev" />
         ReadOnly Property StandardizedData() As Double(,)
@@ -165,7 +165,7 @@ Namespace Multivariate
         '''''' <remarks>
         '''''' <para>Scores are computed as T = Xc * V_k (covariance PCA) or T = Z * V_k (correlation PCA).</para>
         '''''' </remarks>
-        '''''' <seealso cref="Matrix.MatrixMult" />
+        '''''' <seealso cref="MatrixType.MatrixMult" />
         ReadOnly Property ReducedDataset() As Double(,)
             Get
                 Return pFinalDataset
@@ -286,10 +286,10 @@ Namespace Multivariate
             t.SetBody(Me.pVarCovar)
             t.AddHeaderTopRow(Me.pVarNames)
             t.AddHeaderLeftRow(Me.pVarNames)
-            If Matrix = "Correlation" Then
-                t.AddTitle("Correlation Matrix")
+            If MatrixType = "Correlation" Then
+                t.AddTitle("Correlation MatrixType")
             Else
-                t.AddTitle("Variance-Covariance Matrix")
+                t.AddTitle("Variance-Covariance MatrixType")
             End If
             out.Add(t)
 
@@ -351,9 +351,9 @@ Namespace Multivariate
         '''''' </list>
         '''''' </para>
         '''''' </remarks>
-        '''''' <seealso cref="Matrix.MatCovar" />
-        '''''' <seealso cref="Matrix.EIGEN_JK" />
-        '''''' <seealso cref="Matrix.MatrixMult" />
+        '''''' <seealso cref="MatrixType.MatCovar" />
+        '''''' <seealso cref="MatrixType.EIGEN_JK" />
+        '''''' <seealso cref="MatrixType.MatrixMult" />
         '''''' <seealso cref="StatFunc.stDev" />
         Public Sub Calculate(extract_method As String, extract_coef As Double)
 
@@ -365,7 +365,7 @@ Namespace Multivariate
             '1. standardize and center data
             '   center data - (required only for covariance matrix but we always compute it)
             For i As Integer = 0 To p - 1
-                Dim tmp() As Double = GetColumnFrom2Darray(Me.pData, i)
+                Dim tmp() As Double = Matrix.GetColumnFrom2Darray(Me.pData, i)
                 Dim tmp2() As Double = center(tmp)
                 tmp = standardize(tmp)
 
@@ -376,15 +376,15 @@ Namespace Multivariate
             Next
 
             '2. get variance-covariance matrix
-            If Matrix = "Correlation" Then
-                Me.pVarCovar = MatCovar(Me.pStandardData)
+            If MatrixType = "Correlation" Then
+                Me.pVarCovar = Matrix.MatCovar(Me.pStandardData)
             Else 'Covariance matrix
-                Me.pVarCovar = MatCovar(CenteredData)
+                Me.pVarCovar = Matrix.MatCovar(CenteredData)
             End If
 
             '3. Compute the eigenvectors and eigenvalues
             'The 1st column of the eigen_raw matrix contains eigenvalues and the rest of the p+1 columns are eigenvectors
-            Dim eigen_raw = EIGEN_JK(pVarCovar, pMaxiter, pEps)
+            Dim eigen_raw = Matrix.EIGEN_JK(pVarCovar, pMaxiter, pEps)
             Dim sorted = SortEigenpairsDescending(eigen_raw.Item1, eigen_raw.Item2)
             Me.pEigenval = sorted.Item1
             Me.pEigenvect = sorted.Item2
@@ -412,7 +412,7 @@ Namespace Multivariate
             'create Feature vector/matrix
             ReDim pLoadings(p - 1, pNoExtractComponents - 1)
             For j As Integer = 0 To pNoExtractComponents - 1
-                Dim col() As Double = GetColumnFrom2Darray(pEigenvect, j)
+                Dim col() As Double = Matrix.GetColumnFrom2Darray(pEigenvect, j)
                 Dim minv As Double = col.Min()
                 Dim maxv As Double = col.Max()
                 Dim flip As Boolean = If(Math.Abs(minv) > Math.Abs(maxv), (minv < 0), (maxv < 0))
@@ -422,10 +422,10 @@ Namespace Multivariate
             Next
 
 
-            If Matrix = "Correlation" Then
-                pFinalDataset = MatrixMult(pStandardData, pLoadings)
+            If MatrixType = "Correlation" Then
+                pFinalDataset = Matrix.MatrixMult(pStandardData, pLoadings)
             Else
-                pFinalDataset = MatrixMult(CenteredData, pLoadings)
+                pFinalDataset = Matrix.MatrixMult(CenteredData, pLoadings)
             End If
 
         End Sub
@@ -449,9 +449,9 @@ Namespace Multivariate
             If pNoExtractComponents < 3 Then Exit Sub
 
             Dim XYZ As New graphics.XYZscatter
-            Dim pc1() As Double = GetColumnFrom2Darray(pLoadings, 0)
-            Dim pc2() As Double = GetColumnFrom2Darray(pLoadings, 1)
-            Dim pc3() As Double = GetColumnFrom2Darray(pLoadings, 2)
+            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(pLoadings, 0)
+            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(pLoadings, 1)
+            Dim pc3() As Double = Matrix.GetColumnFrom2Darray(pLoadings, 2)
 
             With XYZ
                 .ChartName = "Loadings Plot3D"
@@ -485,15 +485,15 @@ Namespace Multivariate
 
             If pNoExtractComponents < 2 Then Exit Sub
 
-            Dim pc1() As Double = GetColumnFrom2Darray(pLoadings, 0)
-            Dim pc2() As Double = GetColumnFrom2Darray(pLoadings, 1)
+            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(pLoadings, 0)
+            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(pLoadings, 1)
             Dim scl1 As Double = Math.Max(Math.Abs(pc1.Min()), Math.Abs(pc1.Max()))
             Dim scl2 As Double = Math.Max(Math.Abs(pc2.Min()), Math.Abs(pc2.Max()))
             Dim udAxisX As graphics.CHARTscale = graphics.ChartScaling(-scl1, scl1)
             Dim udAxisY As graphics.CHARTscale = graphics.ChartScaling(-scl2, scl2)
 
-            app.Charts.Add()
-            With app.ActiveWorkbook.ActiveChart
+            BESHstatGlobals.app.Charts.Add()
+            With BESHstatGlobals.app.ActiveWorkbook.ActiveChart
                 .Name = "Loadings Plot2D"
                 .ChartType = XlChartType.xlXYScatter
 
@@ -612,9 +612,9 @@ Namespace Multivariate
             If pNoExtractComponents < 3 Then Exit Sub
 
             Dim XYZ As New graphics.XYZscatter
-            Dim pc1() As Double = GetColumnFrom2Darray(pFinalDataset, 0)
-            Dim pc2() As Double = GetColumnFrom2Darray(pFinalDataset, 1)
-            Dim pc3() As Double = GetColumnFrom2Darray(pFinalDataset, 2)
+            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(pFinalDataset, 0)
+            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(pFinalDataset, 1)
+            Dim pc3() As Double = Matrix.GetColumnFrom2Darray(pFinalDataset, 2)
 
             Dim rownums_str(n - 1) As String
             For i = 0 To n - 1
@@ -631,7 +631,7 @@ Namespace Multivariate
                 .ScaleAxis(False)
                 .settingsInputs(True, True, True)
                 .SetDataLabels(rownums_str)
-                .draw
+                .draw()
             End With
         End Sub
 
@@ -653,14 +653,13 @@ Namespace Multivariate
 
             If pNoExtractComponents < 2 Then Exit Sub
 
-            Dim pc1() As Double = GetColumnFrom2Darray(pFinalDataset, 0)
-            Dim pc2() As Double = GetColumnFrom2Darray(pFinalDataset, 1)
+            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(pFinalDataset, 0)
+            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(pFinalDataset, 1)
             Dim udAxisX As graphics.CHARTscale = graphics.ChartScaling(pc1.Min(), pc1.Max())
             Dim udAxisY As graphics.CHARTscale = graphics.ChartScaling(pc2.Min(), pc2.Max())
 
-            app.Charts.Add()
-
-            With app.ActiveWorkbook.ActiveChart
+            BESHstatGlobals.app.Charts.Add()
+            With BESHstatGlobals.app.ActiveWorkbook.ActiveChart
                 .Name = "Score Plot2D"
                 .ChartType = XlChartType.xlXYScatter
 
@@ -774,7 +773,7 @@ Namespace Multivariate
             Dim series_id As Integer, lam(1) As Double, titl As String = String.Empty
 
             If pNoExtractComponents < 2 Then Exit Sub
-            If c < 0.0 Or c > 1.0 Then BSerr.LogAndThrow(New ArgumentException("biplot 'scale' is outside of range [0, 1]"))
+            If c < 0.0 Or c > 1.0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("biplot 'scale' is outside of range [0, 1]"))
 
             If c = 0.0 Then
                 titl = "GH, or column-metric preserving"
@@ -785,10 +784,10 @@ Namespace Multivariate
             End If
 
             'Get data to present - loadings and scores for the first two components
-            Dim pc1() As Double = GetColumnFrom2Darray(pFinalDataset, 0)
-            Dim pc2() As Double = GetColumnFrom2Darray(pFinalDataset, 1)
-            Dim Load1() As Double = GetColumnFrom2Darray(pLoadings, 0)
-            Dim Load2() As Double = GetColumnFrom2Darray(pLoadings, 1)
+            Dim pc1() As Double = Matrix.GetColumnFrom2Darray(pFinalDataset, 0)
+            Dim pc2() As Double = Matrix.GetColumnFrom2Darray(pFinalDataset, 1)
+            Dim Load1() As Double = Matrix.GetColumnFrom2Darray(pLoadings, 0)
+            Dim Load2() As Double = Matrix.GetColumnFrom2Darray(pLoadings, 1)
 
             'Scale the data
             For i = 0 To 1
@@ -811,8 +810,8 @@ Namespace Multivariate
             Dim udAxisY As graphics.CHARTscale = graphics.ChartScaling(Math.Min(pc2.Min(), Load2.Min()), Math.Max(pc2.Max(), Load2.Max()))
 
             'Create chart
-            app.Charts.Add()
-            With app.ActiveWorkbook.ActiveChart
+            BESHstatGlobals.app.Charts.Add()
+            With BESHstatGlobals.app.ActiveWorkbook.ActiveChart
                 .Name = "Biplot scale=" & CStr(c)
                 .ChartType = XlChartType.xlXYScatter
 
@@ -947,8 +946,8 @@ Namespace Multivariate
         '''''' </remarks>
         Public Sub screePlot()
 
-            app.Charts.Add()
-            With app.ActiveWorkbook.ActiveChart
+            BESHstatGlobals.app.Charts.Add()
+            With BESHstatGlobals.app.ActiveWorkbook.ActiveChart
                 .Name = "Scree Plot"
                 .ChartType = XlChartType.xlXYScatter
 
@@ -1032,7 +1031,7 @@ Namespace Multivariate
             Dim out(k) As Double
             Dim sd As Double = stDev(vector)
             If sd = 0.0 OrElse Double.IsNaN(sd) OrElse Double.IsInfinity(sd) Then
-                BSerr.LogAndThrow(New ArgumentException("Cannot standardize: SD is zero/invalid."))
+                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Cannot standardize: SD is zero/invalid."))
             End If
 
             For i As Integer = 0 To k

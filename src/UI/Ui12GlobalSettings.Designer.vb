@@ -109,6 +109,8 @@ Partial Class Ui12GlobalSettings
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.ckLogging)
         Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(512, 233)
+        Me.MinimumSize = New System.Drawing.Size(512, 233)
         Me.Name = "Ui12GlobalSettings"
         Me.ShowIcon = False
         Me.Text = "Global Settings"

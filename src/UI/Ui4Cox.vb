@@ -109,9 +109,9 @@ Public Class Ui4Cox
 
             'Dump results
             Dim WriteRes = New WriteResults
-            WriteRes.wb = app.Workbooks.Add()
-            app.ActiveWorkbook.ActiveSheet.name = "Cox Regression"
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+            BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Cox Regression"
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
 
             Dim rr = New ProcessListofResultTables(res)
             rr.writeToSheet(WriteRes, True)
@@ -120,7 +120,7 @@ Public Class Ui4Cox
             ' baseline hazard from fitted model (matches R's survfit(coxph, newdata=...))
             Dim bh = cox.ComputeBaseline(bZeroBetas:=False)
             Dim strExpString As String = String.Empty
-            With app.ActiveSheet
+            With BESHstatGlobals.app.ActiveSheet
                 For i = 1 To MyData.varNames.Length
                     Dim strCellAddress1 = .Cells(i + 1, 4 + 3 * bh.Keys.Count).Address(RowAbsolute:=True, ColumnAbsolute:=True) 'b
                     Dim strCellAddress2 = .Cells(i + 1, 5 + 3 * bh.Keys.Count).Address(RowAbsolute:=True, ColumnAbsolute:=True) 'predictor value
@@ -132,24 +132,24 @@ Public Class Ui4Cox
                 Next i
             End With
 
-            app.Worksheets.Add()
-            app.ActiveWorkbook.ActiveSheet.name = "Adjusted Curves"
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            BESHstatGlobals.app.Worksheets.Add()
+            BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Adjusted Curves"
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
             WriteRes.setRowPointer(1)
             WriteRes.setColumnPointer(1)
             Dim j As Integer = 0
             Dim strCellAddress(,) As Object = Nothing, Strata1Times() As Double = Nothing, Strata1SurvProb() As Double = Nothing
             For Each strId In bh.Keys
-                Dim x(,) As Object = Array2objArray(cox.BaseSurvivalForPloting(bh(strId)))
+                Dim x(,) As Object = Matrix.Array2objArray(cox.BaseSurvivalForPloting(bh(strId)))
                 Dim tit(,) As Object = {{$"Time_{strId}", $"Baseline Survival_{strId}", $"Baseline Cumulative Hazard_{strId}"}}
-                WriteRes.write(HorizontalStackArrays(tit, x))
+                WriteRes.write(Matrix.HorizontalStackArrays(tit, x))
                 WriteRes.setRowPointer(1)
                 WriteRes.shiftColumnPointer(3)
 
                 If j = 0 Then
                     ReDim strCellAddress(UBound(x, 1), 0), Strata1Times(UBound(x, 1)), Strata1SurvProb(UBound(x, 1))
                     For i = 0 To UBound(x, 1)
-                        Dim strAddr = app.ActiveSheet.Cells(i + 2, 2).Address(RowAbsolute:=False, ColumnAbsolute:=False)
+                        Dim strAddr = BESHstatGlobals.app.ActiveSheet.Cells(i + 2, 2).Address(RowAbsolute:=False, ColumnAbsolute:=False)
                         strCellAddress(i, 0) = $"={strAddr}^exp({strExpString})"
 
                         Strata1Times(i) = x(i, 0)
@@ -160,11 +160,11 @@ Public Class Ui4Cox
             Next
             'Adjusted curve
             WriteRes.shiftColumnPointer()
-            WriteRes.write(HorizontalStackArrays({{"Adjusted Survival"}}, strCellAddress))
+            WriteRes.write(Matrix.HorizontalStackArrays({{"Adjusted Survival"}}, strCellAddress))
             WriteRes.setRowPointer(1)
             WriteRes.shiftColumnPointer(1)
-            app.ActiveSheet.Cells(2, 5 + 3 * bh.Keys.Count).AddComment
-            With app.ActiveSheet.Cells(2, 5 + 3 * bh.Keys.Count).Comment
+            BESHstatGlobals.app.ActiveSheet.Cells(2, 5 + 3 * bh.Keys.Count).AddComment
+            With BESHstatGlobals.app.ActiveSheet.Cells(2, 5 + 3 * bh.Keys.Count).Comment
                 .Visible = False
                 .text("Enter values for adjusted survival curve here. If stratified analysis was performed then you need to adjust" + vbNewLine +
                      "formula in the Adjusted-Survival-column, to compute the adjusted survival curve for appropriate stratum." + vbNewLine +
@@ -183,21 +183,21 @@ Public Class Ui4Cox
             Next
             t.SetBody(tt)
             WriteRes.write(t)
-            With app.ActiveSheet
+            With BESHstatGlobals.app.ActiveSheet
                 .Range(.Cells(2, 5 + 3 * bh.Keys.Count), .Cells(1 + MyData.varNames.Length, 5 + 3 * bh.Keys.Count)).Interior.Color = RGB(255, 255, 0)
             End With
 
             cox.PlotCox(WriteRes.ws, Strata1Times, Strata1SurvProb, 100, 200)
             'add new series to adjusted survival curve chart
             Dim strXChartDataAddr As String, strYChartDataAddr As String
-            With app.ActiveSheet
+            With BESHstatGlobals.app.ActiveSheet
                 strXChartDataAddr = .Cells(2, 1).Address(RowAbsolute:=True, ColumnAbsolute:=True)
                 strYChartDataAddr = .Cells(2, 2 + 3 * bh.Keys.Count).Address(RowAbsolute:=True, ColumnAbsolute:=True)
                 strXChartDataAddr += ":" + .Cells(1 + Strata1Times.Length, 1).Address(RowAbsolute:=True, ColumnAbsolute:=True)
                 strYChartDataAddr += ":" + .Cells(1 + Strata1SurvProb.Length, 2 + 3 * bh.Keys.Count).Address(RowAbsolute:=True, ColumnAbsolute:=True)
             End With
 
-            With app.ActiveSheet.ChartObjects(1).Chart
+            With BESHstatGlobals.app.ActiveSheet.ChartObjects(1).Chart
                 .SeriesCollection.NewSeries
                 With .SeriesCollection(.SeriesCollection.count)
                     .Name = "=""Adjusted"""
@@ -207,9 +207,9 @@ Public Class Ui4Cox
             End With
 
             'Residuals outputs
-            app.Worksheets.Add()
-            app.ActiveWorkbook.ActiveSheet.name = "Residuals"
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            BESHstatGlobals.app.Worksheets.Add()
+            BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Residuals"
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
             WriteRes.setRowPointer(1)
             WriteRes.setColumnPointer(1)
 
@@ -237,7 +237,7 @@ Public Class Ui4Cox
                 WriteRes.shiftColumnPointer(UBound(residualsList(i), 2) + 1)
             Next
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -279,28 +279,21 @@ Public Class Ui4Cox
     End Sub
 
     Private Function GetData() As CoxPHData
-        Dim ref As String
         Dim MyData = New CoxPHData
-
-        'Find the response variable and assign the reference
-        ref = "'" & pWorksheet.Name & "'!" & CreateReference(pWorksheet, Me.lbTime.Items(0), Me.VariableColumnsInfo)
-        'Censorting
-        ref = ref & ", " & CreateReference(pWorksheet, Me.lbCensoring.Items(0), Me.VariableColumnsInfo)
-
+        Dim keys As New List(Of String)
+        keys.Add(CStr(Me.lbTime.Items(0))) 'Time
+        keys.Add(CStr(Me.lbCensoring.Items(0))) 'Censorting
         'Stratum
-        If Me.lbStrata.Items.Count > 0 Then
-            If Me.lbStrata.Items(0) <> String.Empty Then
-                MyData.bStrata = True
-                ref = ref & ", " & CreateReference(pWorksheet, Me.lbStrata.Items(0), Me.VariableColumnsInfo)
-            End If
+        If Me.lbStrata.Items.Count > 0 AndAlso Me.lbStrata.Items(0) <> String.Empty Then
+            MyData.bStrata = True
+            keys.Add(CStr(Me.lbStrata.Items(0)))
         End If
-
         'X vars
-        For i = 0 To lbSelectedEffectsList.Items.Count - 1
-            ref = ref & ", " & CreateReference(pWorksheet, Me.lbSelectedEffectsList.Items(i), Me.VariableColumnsInfo)
-        Next i
-        Debug.Print(ref)
+        For i = 0 To Me.lbSelectedEffectsList.Items.Count - 1
+            keys.Add(CStr(Me.lbSelectedEffectsList.Items(i)))
+        Next
 
+        Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
         MyData.DataInport(ref)
         Return MyData
     End Function
@@ -345,7 +338,7 @@ Public Class Ui4Cox
             Exit Sub
         End If
         If Me.lbSelectedEffectsList.Items.Count = 0 Then
-            If MsgBox("Do you want to fit intercept only model?", vbYesNo + vbExclamation, gsAPP_TITLE) = vbNo Then
+            If MsgBox("Do you want to fit intercept only model?", vbYesNo + vbExclamation, BESHstatGlobals.gsAPP_TITLE) = vbNo Then
                 bWait = True
                 Exit Sub
             End If

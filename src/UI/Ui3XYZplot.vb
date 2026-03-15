@@ -25,6 +25,7 @@ Public Class Ui3XYZplot
         Me.RefEdit4_Group.ExcelConnector = BESHstatGlobals.app
         Me.RefEdit5_Labels.ExcelConnector = BESHstatGlobals.app
         Me.RefEdit6_AnimatedGif.ExcelConnector = BESHstatGlobals.app
+        Me.RefEdit1_3Dobjects.ExcelConnector = BESHstatGlobals.app
 
         With Me.cbPointLabelPosition.Items
             .Add("Right")
@@ -33,6 +34,17 @@ Public Class Ui3XYZplot
             .Add("Below")
         End With
         Me.cbPointLabelPosition.SelectedIndex = 0
+
+        With Me.cbMarkerSymbol.Items
+            .Add("Circle")
+            .Add("Square")
+            .Add("Diamond")
+            .Add("Triangle")
+            .Add("X")
+            .Add("Plus")
+            .Add("Star")
+        End With
+        Me.cbMarkerSymbol.SelectedIndex = 0
 
         Me.RefEdit1_X.txtAddress.Select()
         Me.WireHelp(Me.btnHelp)
@@ -71,7 +83,230 @@ Public Class Ui3XYZplot
             End If
         End If
 
+        If Me.RefEdit1_3Dobjects.Address <> String.Empty Then
+            If CheckRefEdit(Me.RefEdit1_3Dobjects.Address) Then
+                RefEditReset(Me.RefEdit1_3Dobjects)
+                bOut = True
+            End If
+        End If
+
+        'Axis scaling numbers check if numeric (if provided)
+        If Not CheckNumeric(Me.tbXmax) Then bOut = True
+        If Not CheckNumeric(Me.tbXmin) Then bOut = True
+        If Not CheckNumeric(Me.tbYmax) Then bOut = True
+        If Not CheckNumeric(Me.tbYmin) Then bOut = True
+        If Not CheckNumeric(Me.tbZmax) Then bOut = True
+        If Not CheckNumeric(Me.tbZmin) Then bOut = True
+
         Return bOut
+    End Function
+
+    Private Function ValidateAxisLimitPair(axisName As String,
+                                           tbMin As System.Windows.Forms.TextBox,
+                                           tbMax As System.Windows.Forms.TextBox,
+                                           ByRef errText As String) As Boolean
+        errText = ""
+
+        Dim hasMin As Boolean = tbMin.Text <> String.Empty
+        Dim hasMax As Boolean = tbMax.Text <> String.Empty
+
+        If hasMin Xor hasMax Then
+            errText = $"{axisName}: both minimum and maximum must be provided."
+            Return False
+        End If
+
+        If Not hasMin AndAlso Not hasMax Then
+            Return True
+        End If
+
+        Dim minVal As Double, maxVal As Double, sErr As String = ""
+
+        If Not CheckNumeric(tbMin, minVal, sErr) Then
+            errText = $"{axisName} minimum: {sErr}"
+            Return False
+        End If
+
+        If Not CheckNumeric(tbMax, maxVal, sErr) Then
+            errText = $"{axisName} maximum: {sErr}"
+            Return False
+        End If
+
+        If Not graphics.XYZscatter.ValidateAxisMinMax(axisName, minVal, maxVal, errText) Then
+            Return False
+        End If
+
+        Return True
+    End Function
+
+    Private Function TryApplyManualAxisLimits(plot As graphics.XYZscatter,
+                                          ByRef errText As String) As Boolean
+        errText = ""
+
+        If Not ValidateAxisLimitPair("X axis", Me.tbXmin, Me.tbXmax, errText) Then Return False
+        If Not ValidateAxisLimitPair("Y axis", Me.tbYmin, Me.tbYmax, errText) Then Return False
+        If Not ValidateAxisLimitPair("Z axis", Me.tbZmin, Me.tbZmax, errText) Then Return False
+
+        If Me.tbXmin.Text <> String.Empty Then
+            plot.SetAxisLimitsX(CDbl(Me.tbXmin.Text), CDbl(Me.tbXmax.Text))
+        End If
+        If Me.tbYmin.Text <> String.Empty Then
+            plot.SetAxisLimitsY(CDbl(Me.tbYmin.Text), CDbl(Me.tbYmax.Text))
+        End If
+        If Me.tbZmin.Text <> String.Empty Then
+            plot.SetAxisLimitsZ(CDbl(Me.tbZmin.Text), CDbl(Me.tbZmax.Text))
+        End If
+
+        Return True
+    End Function
+
+    Private Function get3DobjectsData() As DataObj
+        If Me.RefEdit1_3Dobjects.Address <> String.Empty Then
+            Dim IdData = New DataObj
+            Dim ref As String
+            Dim CharCols As Integer = 0
+
+            Dim wks As String = WorksheetNameFromRefAdress(Me.RefEdit1_3Dobjects.Address, True)
+            ref = prepareRef2D(Me.RefEdit1_3Dobjects.Address)
+            IdData.bAllowMissing = True
+            IdData.DataInport(ref, True, 1)
+
+            Return IdData
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    Private Function Create3DObjectsList(data3Dobj As DataObj, ByRef errText As String) As List(Of graphics.IXYZDrawable3D)
+        errText = String.Empty
+        Dim out As New List(Of graphics.IXYZDrawable3D)
+
+        If data3Dobj Is Nothing OrElse data3Dobj.FinalData Is Nothing Then
+            Return out
+        End If
+
+        Dim d = data3Dobj.FinalData
+        Dim nRows As Integer = UBound(d, 1)
+        Dim nCols As Integer = UBound(d, 2) + 1
+
+        If nCols < 5 Then
+            errText = "3D objects table must have at least 5 columns: [type, X, Y, Z, diameter]. For ellipsoid also provide [diameterX, diameterY, diameterZ]."
+            Return Nothing
+        End If
+
+        For i As Integer = 0 To nRows
+            Dim rowNum As Integer = i + 1 '1-based for user-friendly messages
+
+            'Object type (col 1)
+            Dim objType As String = ""
+            If d(i, 0) IsNot Nothing Then objType = CStr(d(i, 0)).Trim().ToLowerInvariant()
+
+            'Convenience aliases
+            Select Case objType
+                Case "s", "sphere", "wire_sphere", "wiresphere"
+                    objType = "sphere"
+                Case "e", "ellipsoid", "wire_ellipsoid", "wireellipsoid"
+                    objType = "ellipsoid"
+            End Select
+
+            If objType = "" Then
+                errText = $"3D objects row {rowNum}: object type (column 1) is empty. Allowed: sphere, ellipsoid."
+                Return Nothing
+            End If
+
+            'Common numeric checks (cols 2..4)
+            Dim x As Double, y As Double, z As Double
+            Try
+                x = CDbl(d(i, 1))
+                y = CDbl(d(i, 2))
+                z = CDbl(d(i, 3))
+            Catch
+                errText = $"3D objects row {rowNum}: X, Y, Z must be numeric."
+                Return Nothing
+            End Try
+
+            If Double.IsNaN(x) OrElse Double.IsInfinity(x) OrElse
+               Double.IsNaN(y) OrElse Double.IsInfinity(y) OrElse
+               Double.IsNaN(z) OrElse Double.IsInfinity(z) Then
+                errText = $"3D objects row {rowNum}: X, Y, Z must be finite numbers."
+                Return Nothing
+            End If
+
+            If objType = "sphere" Then
+                'Sphere needs at least 5 columns (diameter in col 5)
+                Dim diam As Double
+                Try
+                    diam = CDbl(d(i, 4))
+                Catch
+                    errText = $"3D objects row {rowNum} (sphere): diameter (column 5) must be numeric."
+                    Return Nothing
+                End Try
+
+                If Double.IsNaN(diam) OrElse Double.IsInfinity(diam) Then
+                    errText = $"3D objects row {rowNum} (sphere): diameter must be a finite number."
+                    Return Nothing
+                End If
+
+                If diam < 0 Then
+                    errText = $"3D objects row {rowNum} (sphere): diameter must be >= 0."
+                    Return Nothing
+                End If
+
+                'Skip zero-size objects (no error)
+                If diam = 0 Then Continue For
+
+                out.Add(New graphics.WireSphere3D(cx:=x, cy:=y, cz:=z, diameter:=diam) With {
+                            .LatitudeRings = Me.spinBtnLatitudeRings.Value,
+                            .LongitudeRings = Me.spinBtnLongitudeRings.Value,
+                            .PointsPerRing = Me.spinBtnPointsPerRing.Value,
+                            .ColorR = Me.spinBtnR.Value, .ColorG = Me.spinBtnG.Value, .ColorB = Me.spinBtnB.Value
+                            })
+
+            ElseIf objType = "ellipsoid" Then
+                'Ellipsoid needs 7 columns (diameterX/Y/Z in cols 5..7)
+                If nCols < 7 Then
+                    errText = "3D objects table contains an 'ellipsoid' row but has fewer than 7 columns. Required: [type, X, Y, Z, diameterX, diameterY, diameterZ]."
+                    Return Nothing
+                End If
+
+                Dim dx As Double, dy As Double, dz As Double
+                Try
+                    dx = CDbl(d(i, 4))
+                    dy = CDbl(d(i, 5))
+                    dz = CDbl(d(i, 6))
+                Catch
+                    errText = $"3D objects row {rowNum} (ellipsoid): diameterX, diameterY, diameterZ (columns 5–7) must be numeric."
+                    Return Nothing
+                End Try
+
+                If Double.IsNaN(dx) OrElse Double.IsInfinity(dx) OrElse
+               Double.IsNaN(dy) OrElse Double.IsInfinity(dy) OrElse
+               Double.IsNaN(dz) OrElse Double.IsInfinity(dz) Then
+                    errText = $"3D objects row {rowNum} (ellipsoid): diameters must be finite numbers."
+                    Return Nothing
+                End If
+
+                If dx < 0 OrElse dy < 0 OrElse dz < 0 Then
+                    errText = $"3D objects row {rowNum} (ellipsoid): diameterX, diameterY, diameterZ must be >= 0."
+                    Return Nothing
+                End If
+
+                'Skip degenerate ellipsoids (no error)
+                If dx = 0 OrElse dy = 0 OrElse dz = 0 Then Continue For
+
+                out.Add(New graphics.WireEllipsoid3D(cx:=x, cy:=y, cz:=z,
+                                                     diameterX:=dx, diameterY:=dy, diameterZ:=dz) With {
+                            .LatitudeRings = Me.spinBtnLatitudeRings.Value,
+                            .LongitudeRings = Me.spinBtnLongitudeRings.Value,
+                            .PointsPerRing = Me.spinBtnPointsPerRing.Value,
+                            .ColorR = Me.spinBtnR.Value, .ColorG = Me.spinBtnG.Value, .ColorB = Me.spinBtnB.Value
+                            })
+            Else
+                errText = $"3D objects row {rowNum}: unknown type '{objType}'. Allowed: sphere, ellipsoid."
+                Return Nothing
+            End If
+        Next
+
+        Return out
     End Function
 
     Private Function getData(ByRef strErr As String) As DataObj
@@ -144,25 +379,37 @@ Public Class Ui3XYZplot
 
         'check if we have groups data input
         If Me.RefEdit4_Group.Address <> String.Empty Then 'We have only One group
-            grpData = Array2strArray(GetColumnFrom2Darray(d, 0))
+            grpData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, 0))
             colId += 1
         End If
         'check if we have data lebels data input
         If Me.RefEdit5_Labels.Address <> String.Empty Then 'We have only One group
-            labelData = Array2strArray(GetColumnFrom2Darray(d, colId))
+            labelData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, colId))
             colId += 1
         End If
 
-        Dim Xdata = Array2dblArray(GetColumnFrom2Darray(d, colId))
-        Dim Ydata = Array2dblArray(GetColumnFrom2Darray(d, colId + 1))
-        Dim Zdata = Array2dblArray(GetColumnFrom2Darray(d, colId + 2))
+        Dim Xdata = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d, colId))
+        Dim Ydata = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d, colId + 1))
+        Dim Zdata = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d, colId + 2))
         Dim xlbl = data.varNames(colId)
         Dim ylbl = data.varNames(colId + 1)
         Dim zlbl = data.varNames(colId + 2)
 
+        'get 3D object data
+        Dim objects3D As New List(Of graphics.IXYZDrawable3D)
+        If Me.RefEdit1_3Dobjects.Address <> String.Empty Then
+            Dim data3Dobj = Me.get3DobjectsData()
+            Dim err3D As String = ""
+            objects3D = Create3DObjectsList(data3Dobj, err3D)
+            If objects3D Is Nothing Then
+                MsgBox(err3D, vbExclamation)
+                Exit Sub
+            End If
+        End If
+
         If Me.pFigure Is Nothing Then
-            app.ActiveWorkbook.Charts.Add()
-            Me.pFigure = app.ActiveWorkbook.ActiveChart
+            BESHstatGlobals.app.ActiveWorkbook.Charts.Add()
+            Me.pFigure = BESHstatGlobals.app.ActiveWorkbook.ActiveChart
         End If
 
         Dim XYZplot As New graphics.XYZscatter
@@ -175,7 +422,20 @@ Public Class Ui3XYZplot
             .rotationAndZoomInputs(CDbl(Me.spinBtnZoom.Value), CDbl(Me.spinBtnShiftY.Value), CDbl(Me.spinBtnShiftX.Value),
                                    CDbl(Me.spinBtnRotationX.Value), CDbl(Me.spinBtnRotationZ.Value))
             .settingsInputs(Me.ckDataPointLabels.Checked, Me.ckZdropLines.Checked, Me.ckGridlines.Checked, Int(Me.spinBtnLabelFontSize.Value),
-                            GetLabelPositionFromCombobox(Me.cbPointLabelPosition.Text), Me.spinBtnMarkerSize.Value)
+                     GetLabelPositionFromCombobox(Me.cbPointLabelPosition.Text), CInt(Me.spinBtnMarkerSize.Value), GetMarkerStyleFromCombobox(Me.cbMarkerSymbol.Text))
+            'axis scaling
+            Dim axisErr As String = ""
+            If Not TryApplyManualAxisLimits(XYZplot, axisErr) Then
+                MsgBox(axisErr, vbExclamation)
+                Exit Sub
+            End If
+
+            ' Add wire sphere in RAW coordinates (same units as your data)
+            .ClearObjects()
+            .SetObjects(objects3D)
+
+            ' Reverse X and Y display direction
+            .AxisDirectionInputs(flipX:=Me.ckXreverseAxis.Checked, flipY:=Me.ckYreverseAxis.Checked, flipZ:=Me.ckZreverseAxis.Checked)
 
             If Me.ckDataPointLabels.Checked Then .SetDataLabels(labelData)
             If grpData IsNot Nothing Then .SetGroups(grpData)
@@ -206,7 +466,7 @@ Public Class Ui3XYZplot
 
             Recalculate()
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -260,10 +520,6 @@ Public Class Ui3XYZplot
 
     Private Sub spinBtnLabelFontSize_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnLabelFontSize.ValueChanged
         If pFigure IsNot Nothing And Me.ckDataPointLabels.Checked Then Call Recalculate()
-    End Sub
-
-    Private Sub ckScaleAxes_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckScaleAxes.CheckedChanged
-        If pFigure IsNot Nothing Then Call Recalculate()
     End Sub
 
     Private Sub ckGridlines_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckGridlines.CheckedChanged
@@ -366,21 +622,33 @@ Public Class Ui3XYZplot
 
         'check if we have groups data input
         If Me.RefEdit4_Group.Address <> String.Empty Then 'We have only One group
-            grpData = Array2strArray(GetColumnFrom2Darray(d, 0))
+            grpData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, 0))
             colId += 1
         End If
         'check if we have data lebels data input
         If Me.RefEdit5_Labels.Address <> String.Empty Then 'We have only One group
-            labelData = Array2strArray(GetColumnFrom2Darray(d, colId))
+            labelData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, colId))
             colId += 1
         End If
 
-        Dim Xdata = Array2dblArray(GetColumnFrom2Darray(d, colId))
-        Dim Ydata = Array2dblArray(GetColumnFrom2Darray(d, colId + 1))
-        Dim Zdata = Array2dblArray(GetColumnFrom2Darray(d, colId + 2))
+        Dim Xdata = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d, colId))
+        Dim Ydata = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d, colId + 1))
+        Dim Zdata = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d, colId + 2))
         Dim xlbl = data.varNames(colId)
         Dim ylbl = data.varNames(colId + 1)
         Dim zlbl = data.varNames(colId + 2)
+
+        'get 3D object data
+        Dim objects3D As New List(Of graphics.IXYZDrawable3D)
+        If Me.RefEdit1_3Dobjects.Address <> String.Empty Then
+            Dim data3Dobj = Me.get3DobjectsData()
+            Dim err3D As String = ""
+            objects3D = Create3DObjectsList(data3Dobj, err3D)
+            If objects3D Is Nothing Then
+                MsgBox(err3D, vbExclamation)
+                Exit Sub
+            End If
+        End If
 
         If Not ChooseAnimatedGifOutput() Then Exit Sub
 
@@ -392,7 +660,21 @@ Public Class Ui3XYZplot
                                       Int(Me.spinBtnXYPlanePointSize.Value), Int(Me.spinBtnYZPlanePointSize.Value), Int(Me.spinBtnXZPlanePointSize.Value))
             .ScaleAxis(Me.ckScaleAxes.Checked)
             .settingsInputs(Me.ckDataPointLabels.Checked, Me.ckZdropLines.Checked, Me.ckGridlines.Checked, Int(Me.spinBtnLabelFontSize.Value),
-                                GetLabelPositionFromCombobox(Me.cbPointLabelPosition.Text), Me.spinBtnMarkerSize.Value)
+                     GetLabelPositionFromCombobox(Me.cbPointLabelPosition.Text), CInt(Me.spinBtnMarkerSize.Value), GetMarkerStyleFromCombobox(Me.cbMarkerSymbol.Text))
+
+            'axis scaling
+            Dim axisErr As String = ""
+            If Not TryApplyManualAxisLimits(XYZplot, axisErr) Then
+                MsgBox(axisErr, vbExclamation)
+                Exit Sub
+            End If
+
+            ' Add wire sphere in RAW coordinates (same units as your data)
+            .ClearObjects()
+            .SetObjects(objects3D)
+
+            ' Reverse X and Y display direction
+            .AxisDirectionInputs(flipX:=Me.ckXreverseAxis.Checked, flipY:=Me.ckYreverseAxis.Checked, flipZ:=Me.ckZreverseAxis.Checked)
 
             If Me.ckDataPointLabels.Checked Then .SetDataLabels(labelData)
             If grpData IsNot Nothing Then .SetGroups(grpData)
@@ -404,15 +686,8 @@ Public Class Ui3XYZplot
         For i = 0 To n - 1
 
             If Me.pFigure Is Nothing Then
-                app.ActiveWorkbook.Charts.Add()
-                Me.pFigure = app.ActiveWorkbook.ActiveChart
-                'Else
-                'delete old figure and recrate it
-                'app.DisplayAlerts = False
-                'Me.pFigure.Delete()
-                'app.DisplayAlerts = True
-                'app.ActiveWorkbook.Charts.Add()
-                'Me.pFigure = app.ActiveWorkbook.ActiveChart
+                BESHstatGlobals.app.ActiveWorkbook.Charts.Add()
+                Me.pFigure = BESHstatGlobals.app.ActiveWorkbook.ActiveChart
             End If
 
             Dim rotX = fData.X(i, 0)
@@ -482,4 +757,80 @@ Public Class Ui3XYZplot
         Return True
     End Function
 
+    Private Sub cbXreverseAxis_CheckedChanged(sender As Object, e As System.EventArgs)
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub cbYreverseAxis_CheckedChanged(sender As Object, e As System.EventArgs)
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub cbZreverseAxis_CheckedChanged(sender As Object, e As System.EventArgs)
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub spinBtnR_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnR.ValueChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub spinBtnG_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnG.ValueChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub spinBtnB_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnB.ValueChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub spinBtnLatitudeRings_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnLatitudeRings.ValueChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub spinBtnLongitudeRings_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnLongitudeRings.ValueChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub spinBtnPointsPerRing_ValueChanged(sender As Object, e As System.EventArgs) Handles spinBtnPointsPerRing.ValueChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub ckScaleAxes_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckScaleAxes.CheckedChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub ckXreverseAxis_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckXreverseAxis.CheckedChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub ckYreverseAxis_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckYreverseAxis.CheckedChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub ckZreverseAxis_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckZreverseAxis.CheckedChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Sub cbMarkerSymbol_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbMarkerSymbol.SelectedIndexChanged
+        If pFigure IsNot Nothing Then Call Recalculate()
+    End Sub
+
+    Private Function GetMarkerStyleFromCombobox(txt_style As String) As XlMarkerStyle
+        Select Case txt_style
+            Case "Circle"
+                Return XlMarkerStyle.xlMarkerStyleCircle
+            Case "Square"
+                Return XlMarkerStyle.xlMarkerStyleSquare
+            Case "Diamond"
+                Return XlMarkerStyle.xlMarkerStyleDiamond
+            Case "Triangle"
+                Return XlMarkerStyle.xlMarkerStyleTriangle
+            Case "X"
+                Return XlMarkerStyle.xlMarkerStyleX
+            Case "Plus"
+                Return XlMarkerStyle.xlMarkerStylePlus
+            Case "Star"
+                Return XlMarkerStyle.xlMarkerStyleStar
+            Case Else
+                Return XlMarkerStyle.xlMarkerStyleCircle
+        End Select
+    End Function
 End Class

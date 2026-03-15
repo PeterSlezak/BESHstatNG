@@ -77,7 +77,7 @@ Namespace parametric
                 Me.data = x
                 Me.varNames = varNames
                 QuickSort2D(Me.data, "0,A,1,A", 0, UBound(Me.data, 1)) 'sort by 1st and 2nd column
-                Debug.Print(array2str(Me.data))
+                Debug.Print(Matrix.array2str(Me.data))
                 ReDim parGroupS(UBound(Me.data, 1)), parSubGroupS(UBound(Me.data, 1)), parRes(UBound(Me.data, 1))
 
                 For i = 0 To UBound(data, 1)
@@ -383,8 +383,8 @@ Namespace parametric
             Public Sub New(x()() As Double, varNames() As String)
                 Me.data = x
                 Me.varNames = varNames
-                If x.GetLength(0) <> varNames.Length Then BSerr.LogAndThrow(New ArgumentException("Number of groups and variable names should be the same."))
-                If x.GetLength(0) < 2 Then BSerr.LogAndThrow(New ArgumentException("At least two groups are expected."))
+                If x.GetLength(0) <> varNames.Length Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Number of groups and variable names should be the same."))
+                If x.GetLength(0) < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least two groups are expected."))
 
                 pNoGroups = x.Length
                 ReDim pNs(pNoGroups - 1)
@@ -419,7 +419,7 @@ Namespace parametric
                     anTable.AddHeaderLeftRow({"Between Groups", "Within Groups", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value"})
                 Else
-                    anTable.SetBody(VerticalStackArrays(Me.ANOVAtable,
+                    anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
                                                         {{Me.WANOVA.DF1, Me.WANOVA.TestStatistics1, Me.WANOVA.Pvalue},
                                                          {"", "", ""},
                                                          {"", "", ""}}))
@@ -896,19 +896,19 @@ Namespace parametric
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value"})
                 ElseIf Me.HuyhnFeldtTest IsNot Nothing And Me.GreenhouseGeisserTest IsNot Nothing Then
-                    anTable.SetBody(VerticalStackArrays(Me.ANOVAtable,
+                    anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
                                                         {{Me.GreenhouseGeisserTest.TestStatistics1, Me.GreenhouseGeisserTest.Pvalue, Me.HuyhnFeldtTest.TestStatistics1, Me.HuyhnFeldtTest.Pvalue},
                                                          {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}}))
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value", "Epsilon Greenhouse - Geisser", "P-value GG", "Epsilon Huyhn-Feldt", "P-value HF"})
                 ElseIf Me.HuyhnFeldtTest IsNot Nothing Then
-                    anTable.SetBody(VerticalStackArrays(Me.ANOVAtable,
+                    anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
                                                         {{Me.HuyhnFeldtTest.TestStatistics1, Me.HuyhnFeldtTest.Pvalue},
                                                          {"", ""}, {"", ""}, {"", ""}}))
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value", "Epsilon Huyhn-Feldt", "P-value HF"})
                 ElseIf Me.GreenhouseGeisserTest IsNot Nothing Then
-                    anTable.SetBody(VerticalStackArrays(Me.ANOVAtable,
+                    anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
                                                         {{Me.GreenhouseGeisserTest.TestStatistics1, Me.GreenhouseGeisserTest.Pvalue},
                                                          {"", ""}, {"", ""}, {"", ""}}))
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
@@ -967,7 +967,7 @@ Namespace parametric
 
                 'compute groups means, between groups sum-of-squares, and totoal sum-of-sqares
                 For i = 0 To NoGroups - 1
-                    arTemp = GetColumnFrom2Darray(data, i)
+                    arTemp = Matrix.GetColumnFrom2Darray(data, i)
                     For j = 0 To NoBlocks - 1
                         SStot += (arTemp(j) - MeanTot) ^ 2
                     Next
@@ -978,7 +978,7 @@ Namespace parametric
 
                 'compute subject means and sum-of-squares
                 For j = 0 To NoBlocks - 1
-                    arTemp = rowFromArray(data, j)
+                    arTemp = Matrix.rowFromArray(data, j)
                     arSMeans(j) = arTemp.Average()
                     SSsub += (arSMeans(j) - MeanTot) ^ 2
                 Next
@@ -1027,10 +1027,10 @@ Namespace parametric
                 Dim Num As Double, Den As Double
                 GreenhouseGeisserTest = New TestResult
 
-                Dim VarCovar(,) As Double = MatCovar(data) 'create variance-covariance matrix
+                Dim VarCovar(,) As Double = Matrix.MatCovar(data) 'create variance-covariance matrix
                 'double center sample var-covar matrix to estimate population var-covar matrix
-                Dim PopVarCovar(,) As Double = MatDoubleCenter(VarCovar)
-                Dim eig = EIGEN_JK(PopVarCovar) 'calculate eigenvector and eigenvalues
+                Dim PopVarCovar(,) As Double = Matrix.MatDoubleCenter(VarCovar)
+                Dim eig = Matrix.EIGEN_JK(PopVarCovar) 'calculate eigenvector and eigenvalues
                 Dim Eigenval() As Double = eig.Item1
 
                 For i = 0 To UBound(Eigenval) - 1
@@ -1073,10 +1073,10 @@ Namespace parametric
                 Dim Num As Double, Den As Double
                 HuyhnFeldtTest = New TestResult
 
-                Dim VarCovar(,) As Double = MatCovar(data) 'create variance-covariance matrix
+                Dim VarCovar(,) As Double = Matrix.MatCovar(data) 'create variance-covariance matrix
                 'double center sample var-covar matrix to estimate population var-covar matrix
-                Dim PopVarCovar(,) As Double = MatDoubleCenter(VarCovar)
-                Dim eig = EIGEN_JK(PopVarCovar) 'calculate eigenvector and eigenvalues
+                Dim PopVarCovar(,) As Double = Matrix.MatDoubleCenter(VarCovar)
+                Dim eig = Matrix.EIGEN_JK(PopVarCovar) 'calculate eigenvector and eigenvalues
                 Dim Eigenval() As Double = eig.Item1
 
                 For i = 0 To UBound(Eigenval, 1) - 1
@@ -1200,7 +1200,7 @@ Namespace parametric
                 Dim MSerr As Double = CDbl(Me.ANOVAtable(1, 2))
 
                 For i = 0 To NoGroups - 1
-                    arTemp = GetColumnFrom2Darray(data, i)
+                    arTemp = Matrix.GetColumnFrom2Darray(data, i)
                     arMean(i) = arTemp.Average() 'compute means
                 Next
 
@@ -1288,9 +1288,9 @@ Namespace parametric
             ''' </param>
             ''' <param name="varNames">Names of the two groups for reporting.</param>
             Public Sub New(x()() As Double, varNames() As String)
-                If x Is Nothing OrElse x.Length <> 2 Then BSerr.LogAndThrow(New ArgumentException("Two groups are expected for the Unpaired t-test"))
-                If x(0) Is Nothing OrElse x(0).Length < 2 Then BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 1"))
-                If x(1) Is Nothing OrElse x(1).Length < 2 Then BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 2"))
+                If x Is Nothing OrElse x.Length <> 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Two groups are expected for the Unpaired t-test"))
+                If x(0) Is Nothing OrElse x(0).Length < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 1"))
+                If x(1) Is Nothing OrElse x(1).Length < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 2"))
 
                 Me.data = x
                 Me.varNames = varNames
@@ -1664,45 +1664,45 @@ Namespace parametric
                 Dim n2 As Integer = data2.GetLength(0)
                 Dim p As Integer = data1.GetLength(1)
                 If p <> data2.GetLength(1) Then
-                    BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
 
                 If pMeans Is Nothing Then
                     ReDim pMeans(p - 1)
                     For i = 0 To p - 1
-                        Dim tmp1 = GetColumnFrom2Darray(data1, i)
-                        Dim tmp2 = GetColumnFrom2Darray(data2, i)
-                        pmeans(i) = tmp1.Average() - tmp2.Average()
+                        Dim tmp1 = Matrix.GetColumnFrom2Darray(data1, i)
+                        Dim tmp2 = Matrix.GetColumnFrom2Darray(data2, i)
+                        pMeans(i) = tmp1.Average() - tmp2.Average()
                     Next
                 End If
 
-                'Convariance Matrix of 1st Group
-                Dim covar1(,) As Double = MatCovar(data1)
+                'Convariance MatrixType of 1st Group
+                Dim covar1(,) As Double = Matrix.MatCovar(data1)
                 If bCovEqual Then
-                    covar1 = MatrixMult(covar1, n1 - 1)
+                    covar1 = Matrix.MatrixMult(covar1, n1 - 1)
                 Else
-                    covar1 = MatrixMult(covar1, 1 / n1)
+                    covar1 = Matrix.MatrixMult(covar1, 1 / n1)
                 End If
 
-                'Convariance Matrix of 2nd Group
-                Dim covar2(,) As Double = MatCovar(data2)
+                'Convariance MatrixType of 2nd Group
+                Dim covar2(,) As Double = Matrix.MatCovar(data2)
                 If bCovEqual Then
-                    covar2 = MatrixMult(covar2, n2 - 1)
+                    covar2 = Matrix.MatrixMult(covar2, n2 - 1)
                 Else
-                    covar2 = MatrixMult(covar2, 1 / n2)
+                    covar2 = Matrix.MatrixMult(covar2, 1 / n2)
                 End If
 
-                'Pooled Convariance Matrix
-                Dim covar(,) As Double = M_ADD(covar1, covar2)
+                'Pooled Convariance MatrixType
+                Dim covar(,) As Double = Matrix.M_ADD(covar1, covar2)
                 Dim tot_covar(p - 1, p - 1) As Double
                 If bCovEqual Then
-                    tot_covar = MatrixMult(covar, (1.0 / n1 + 1.0 / n2) * (1.0 / (n1 + n2 - 2)))
+                    tot_covar = Matrix.MatrixMult(covar, (1.0 / n1 + 1.0 / n2) * (1.0 / (n1 + n2 - 2)))
                 Else
                     tot_covar = covar
                 End If
 
-                Dim covarinv(,) As Double = MatInv(tot_covar, "CHOL")
-                Dim H(,) As Double = MatrixMult(pMeans, MatrixMult(covarinv, pMeans))
+                Dim covarinv(,) As Double = Matrix.MatInv(tot_covar, "CHOL")
+                Dim H(,) As Double = Matrix.MatrixMult(pMeans, Matrix.MatrixMult(covarinv, pMeans))
                 Dim out As New TestResult
                 If bCovEqual Then
                     out.TestStatistics1 = H(0, 0)
@@ -1710,11 +1710,11 @@ Namespace parametric
                     Me.HT_eq = out
                 Else
                     'compute adjusted DF
-                    Dim k1(,) As Double = MatrixMult(pMeans, covarinv)
-                    Dim k2(,) As Double = MatrixMult(covarinv, pMeans)
-                    Dim h1(,) As Double = MatrixMult(k1, MatrixMult(covar1, k2))
-                    Dim h2(,) As Double = MatrixMult(k1, MatrixMult(covar2, k2))
-                    H = MatrixMult(k1, pMeans) 're-using the h array
+                    Dim k1(,) As Double = Matrix.MatrixMult(pMeans, covarinv)
+                    Dim k2(,) As Double = Matrix.MatrixMult(covarinv, pMeans)
+                    Dim h1(,) As Double = Matrix.MatrixMult(k1, Matrix.MatrixMult(covar1, k2))
+                    Dim h2(,) As Double = Matrix.MatrixMult(k1, Matrix.MatrixMult(covar2, k2))
+                    H = Matrix.MatrixMult(k1, pMeans) 're-using the h array
 
                     Dim df As Double = 1.0 / ((h1(0, 0) / H(0, 0)) ^ 2 / (n1 - 1) + (h2(0, 0) / H(0, 0)) ^ 2 / (n2 - 1))
                     out.DF1 = df
@@ -1773,10 +1773,10 @@ Namespace parametric
                 Dim n2 As Integer = data2.GetLength(0)
                 Dim p As Integer = data1.GetLength(1)
                 If p <> data2.GetLength(1) Then
-                    BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
                 If dAlpha < 0.0 Or dAlpha > 1.0 Then
-                    BSerr.LogAndThrow(New ArgumentException("Error: Independent samples version of Hotelling's T-squared alpha must be (0 to 1)."))
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Independent samples version of Hotelling's T-squared alpha must be (0 to 1)."))
                 End If
                 Dim diffs(p - 1) As Double
                 Me.pCIs = New List(Of String)
@@ -1785,8 +1785,8 @@ Namespace parametric
                 Dim Tcrit As Double = Math.Sqrt(distributions.F_Inv_RT(dAlpha, CDbl(p), n1 + n2 - 1 - p) * p * (n1 + n2 - 2) / (n1 + n2 - 1 - p))
 
                 For i = 0 To p - 1
-                    Dim tmp1 = GetColumnFrom2Darray(data1, i)
-                    Dim tmp2 = GetColumnFrom2Darray(data2, i)
+                    Dim tmp1 = Matrix.GetColumnFrom2Darray(data1, i)
+                    Dim tmp2 = Matrix.GetColumnFrom2Darray(data2, i)
                     pMeans(i) = tmp1.Average() - tmp2.Average()
                     pSE(i) = Math.Sqrt(((n1 - 1) * variance(tmp1) + (n2 - 1) * variance(tmp2)) / (n1 + n2 - 2)) * Math.Sqrt(1.0 / n1 + 1.0 / n2)
 
@@ -1914,13 +1914,13 @@ Namespace parametric
                 Dim n As Integer = data.GetLength(0)
                 Dim p As Integer = data.GetLength(1)
                 If p <> H0.Length Then
-                    BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
                 Dim diffs(p - 1) As Double, Data_(n - 1, p - 1) As Double
                 ReDim pMeans(p - 1)
 
                 For i = 0 To p - 1
-                    Dim tmp = GetColumnFrom2Darray(data, i)
+                    Dim tmp = Matrix.GetColumnFrom2Darray(data, i)
                     pMeans(i) = tmp.Average()
                     diffs(i) = pMeans(i) - H0(i)
                 Next
@@ -1931,10 +1931,10 @@ Namespace parametric
                     Next
                 Next
 
-                Dim covar(,) As Double = MatrixMult(Matrix.trans(Data_), Data_)
-                covar = MatrixMult(covar, 1 / (n - 1))
-                Dim covarinv(,) As Double = MatInv(covar, "CHOL")
-                Dim H(,) As Double = MatrixMult(MatrixMult(diffs, covarinv), diffs)
+                Dim covar(,) As Double = Matrix.MatrixMult(Matrix.trans(Data_), Data_)
+                covar = Matrix.MatrixMult(covar, 1 / (n - 1))
+                Dim covarinv(,) As Double = Matrix.MatInv(covar, "CHOL")
+                Dim H(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(diffs, covarinv), diffs)
                 Dim out As New TestResult
                 out.TestStatistics1 = H(0, 0) * n
                 out.Pvalue = distributions.F_RT((n - p) * out.TestStatistics1 / (p * (n - 1)), CDbl(p), n - p)
@@ -1980,10 +1980,10 @@ Namespace parametric
                 Dim n As Integer = data.GetLength(0)
                 Dim p As Integer = data.GetLength(1)
                 If p <> H0.Length Then
-                    BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
                 If dAlpha < 0.0 Or dAlpha > 1.0 Then
-                    BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared alpha must be (0 to 1)."))
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared alpha must be (0 to 1)."))
                 End If
 
                 Dim diffs(p - 1) As Double
@@ -1992,7 +1992,7 @@ Namespace parametric
                 Dim Tcrit As Double = Math.Sqrt(p * (n - 1) / (n - p) * distributions.F_Inv_RT(dAlpha, CDbl(p), n - p))
                 Me.pCIs = New List(Of String)
                 For i = 0 To p - 1
-                    Dim tmp = GetColumnFrom2Darray(data, i)
+                    Dim tmp = Matrix.GetColumnFrom2Darray(data, i)
                     pMeans(i) = tmp.Average()
                     pSE(i) = stDev(tmp) / Math.Sqrt(n)
                     diffs(i) = pMeans(i) - H0(i)
@@ -2108,14 +2108,14 @@ Namespace parametric
                     Dim n As Integer = data1.GetLength(0)
                     Dim p As Integer = data1.GetLength(1)
                     If n <> data2.GetLength(0) Then
-                        BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of rows in the Input Datasets."))
+                        BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of rows in the Input Datasets."))
                     End If
                     If p <> data2.GetLength(1) Then
-                        BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                        BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                     End If
 
-                    Dim zeros() As Double = IdentityVect(p - 1, 0)
-                    Dim diff(,) As Double = M_SUB(data1, data2)
+                    Dim zeros() As Double = Matrix.IdentityVect(p - 1, 0)
+                    Dim diff(,) As Double = Matrix.M_SUB(data1, data2)
 
                     Me.pHt = New HotelingsT_single(diff, zeros, Me.pVarNames)
                 End If

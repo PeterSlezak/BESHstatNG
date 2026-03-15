@@ -137,7 +137,7 @@ Namespace graphics
 
             If lLeft = -1 Then lLeft = 100
             If lTop = -1 Then lTop = 100
-            With app.ActiveSheet.Shapes.AddChart(Left:=lLeft, Top:=lTop, Width:=300, Height:=270)
+            With BESHstatGlobals.app.ActiveSheet.Shapes.AddChart(Left:=lLeft, Top:=lTop, Width:=300, Height:=270)
                 With .Chart
                     .ChartType = XlChartType.xlXYScatter
 

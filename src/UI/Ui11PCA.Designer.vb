@@ -349,7 +349,7 @@ Partial Class Ui11PCA
         Me.optCovar.Name = "optCovar"
         Me.optCovar.Size = New System.Drawing.Size(135, 20)
         Me.optCovar.TabIndex = 1
-        Me.optCovar.Text = "Covariance Matrix"
+        Me.optCovar.Text = "Covariance MatrixType"
         Me.optCovar.UseVisualStyleBackColor = True
         '
         'optCorr
@@ -362,7 +362,7 @@ Partial Class Ui11PCA
         Me.optCorr.Size = New System.Drawing.Size(131, 20)
         Me.optCorr.TabIndex = 0
         Me.optCorr.TabStop = True
-        Me.optCorr.Text = "Correlation Matrix"
+        Me.optCorr.Text = "Correlation MatrixType"
         Me.optCorr.UseVisualStyleBackColor = True
         '
         'grpIterOptions

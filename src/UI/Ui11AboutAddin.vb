@@ -8,7 +8,7 @@ Public Class Ui11AboutAddin
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.Text = "About " & gsAPP_TITLE
+        Me.Text = "About " & BESHstatGlobals.gsAPP_TITLE
         lblVersion.Text = $"Version {BESHstatGlobals.gAddinVersion} ({BESHstatGlobals.GetBuildDateIso})"
 
         Me.tbLicense.ReadOnly = True
@@ -20,21 +20,21 @@ Public Class Ui11AboutAddin
         Dim sErr As String = String.Empty, strDownloadUrl As String = String.Empty, strNewVersion As String = String.Empty
         If IsInternetConnected() Then
             If IsThereAnUpdate(sErr, strDownloadUrl, strNewVersion) Then
-                If MsgBox($"There is an update for {gsAPP_TITLE} available." & vbNewLine &
+                If MsgBox($"There is an update for {BESHstatGlobals.gsAPP_TITLE} available." & vbNewLine &
                           $"Do you want to download new version {strNewVersion} now?",
-                          vbQuestion + vbYesNo, gsAPP_TITLE) = vbYes Then
+                          vbQuestion + vbYesNo, BESHstatGlobals.gsAPP_TITLE) = vbYes Then
                     Process.Start(strDownloadUrl)
                 End If
             Else
-                MsgBox(gsAPP_TITLE & " is up to date.", vbInformation + vbOKOnly, gsAPP_TITLE)
+                MsgBox(BESHstatGlobals.gsAPP_TITLE & " is up to date.", vbInformation + vbOKOnly, BESHstatGlobals.gsAPP_TITLE)
             End If
         Else
-            MsgBox("There seems to be no internet connection.", vbOKOnly, gsAPP_TITLE)
+            MsgBox("There seems to be no internet connection.", vbOKOnly, BESHstatGlobals.gsAPP_TITLE)
         End If
     End Sub
 
     Private Function IsThereAnUpdate(ByRef sError As String, ByRef downloadURL As String, ByRef strNewVersion As String, Optional url As String = "") As Boolean
-        Dim sUrl = If(url = String.Empty, gCheckUpdateUrl, url)
+        Dim sUrl = If(url = String.Empty, BESHstatGlobals.gCheckUpdateUrl, url)
         Dim doc As New Xml.XmlDocument
         Dim bRet As Boolean = False
         Try
@@ -42,7 +42,7 @@ Public Class Ui11AboutAddin
             'Dim root As XmlNode = doc.FirstChild
             Dim currentVer As Xml.XmlNodeList = doc.SelectNodes("root/CurrentVersion/update")
             strNewVersion = currentVer(0).Attributes.GetNamedItem("version").Value
-            If Me.IsNewerVersion(gAddinVersion, strNewVersion) Then
+            If Me.IsNewerVersion(BESHstatGlobals.gAddinVersion, strNewVersion) Then
                 bRet = True
                 downloadURL = currentVer(0).Attributes.GetNamedItem("detailsURL").Value
             End If

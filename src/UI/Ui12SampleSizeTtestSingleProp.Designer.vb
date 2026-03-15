@@ -222,6 +222,7 @@ Partial Class Ui12SampleSizeTtestSingleProp
         Me.Controls.Add(Me.grpInput)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.MinimumSize = New System.Drawing.Size(577, 407)
         Me.Name = "Ui12SampleSizeTtestSingleProp"
         Me.ShowIcon = False

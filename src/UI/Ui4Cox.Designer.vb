@@ -525,7 +525,7 @@ Partial Class Ui4Cox
         Me.ckCovarMatrix.Name = "ckCovarMatrix"
         Me.ckCovarMatrix.Size = New System.Drawing.Size(223, 20)
         Me.ckCovarMatrix.TabIndex = 5
-        Me.ckCovarMatrix.Text = "Covariance Matrix of Parameters"
+        Me.ckCovarMatrix.Text = "Covariance MatrixType of Parameters"
         Me.ckCovarMatrix.UseVisualStyleBackColor = True
         '
         'grpTiesHandling

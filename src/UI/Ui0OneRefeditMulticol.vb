@@ -166,7 +166,7 @@ Public Class Ui0OneRefeditMulticol
                 Me.RunICC()
             End If
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -243,7 +243,7 @@ Public Class Ui0OneRefeditMulticol
         Dim ca As New Multivariate.CA, TableData(,) As Integer
 
         If Me.ckLabels.Checked Then
-            Dim RowLabels() As String = Array2strArray(GetColumnFrom2Darray(data.FinalData, 0))
+            Dim RowLabels() As String = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(data.FinalData, 0))
             ReDim TableData(data.nRows - 1, data.nCols - 2)
             For i = 0 To UBound(data.FinalData, 1)
                 For j = 1 To UBound(data.FinalData, 2) '1st column is Row labels
@@ -338,7 +338,7 @@ Public Class Ui0OneRefeditMulticol
     End Sub
 
     Private Sub RunRxC(data As MultiGroupsPairedData)
-        Dim tab = Array2intArray(data.X)
+        Dim tab = Matrix.Array2intArray(data.X)
         Dim res = New List(Of ResultTable), t = New ResultTable
         Dim head(UBound(tab, 2)) As String
         head(0) = "Analyzed table"
@@ -415,7 +415,7 @@ Public Class Ui0OneRefeditMulticol
             If Not ((rows = 2) Or (cols = 2)) Or (rows + cols < 5) Then
                 MsgBox("Cannot compute Cochran-Armitage test for linear trend because of inapropriate table dimensions.", vbOKOnly, "Cochran-Armitage test")
             ElseIf rows = 2 Then
-                Cochran = contingencytable.CochranArmitage(Array2intArray(trans(data.X)))
+                Cochran = contingencytable.CochranArmitage(Matrix.Array2intArray(Matrix.trans(data.X)))
             Else
                 Cochran = contingencytable.CochranArmitage(tab)
             End If
@@ -450,13 +450,13 @@ Public Class Ui0OneRefeditMulticol
         Dim rowsNo As Integer = UBound(data.X, 1) + 1
         'check validity of the input
         If UBound(data.X, 2) <> 1 Or (rowsNo Mod 2 <> 0) Then
-            BSlogg.Log($"Wrong dimensions of the input table. {array2str(data.X)}", LogMsgType.Warn)
-            MsgBox("Wrong dimensions of the input table.", vbOKOnly, gsAPP_TITLE)
+            BESHstatGlobals.BSlogg.Log($"Wrong dimensions of the input table. {Matrix.array2str(data.X)}", BESHstatGlobals.LogMsgType.Warn)
+            MsgBox("Wrong dimensions of the input table.", vbOKOnly, BESHstatGlobals.gsAPP_TITLE)
             Exit Sub
         End If
 
         Dim t = New ResultTable
-        t.SetBody(Array2intArray(data.X))
+        t.SetBody(Matrix.Array2intArray(data.X))
         t.AddHeaderTopRow({"Analyzed contingency tables", ""})
         res.Add(t)
 
@@ -506,7 +506,7 @@ Public Class Ui0OneRefeditMulticol
         Next i
 
         If strErr <> String.Empty Then
-            MsgBox(strErr, vbExclamation, gsAPP_TITLE)
+            MsgBox(strErr, vbExclamation, BESHstatGlobals.gsAPP_TITLE)
             Exit Sub
         End If
 
@@ -635,31 +635,31 @@ Public Class Ui0OneRefeditMulticol
 
     Private Function ComputeDescriptiveStatistics(data As MultiGroupsPairedData) As ResultTable
         Dim descTable = New ResultTable
-        Dim ds1 = New DescriptiveStat(GetColumnFrom2Darray(data.X, 0))
+        Dim ds1 = New DescriptiveStat(Matrix.GetColumnFrom2Darray(data.X, 0))
         ds1.compute()
         Dim tableBody = ds1.wrapSelf(True)
         For i = 1 To UBound(data.X, 2)
-            Dim ds2 = New DescriptiveStat(GetColumnFrom2Darray(data.X, i))
+            Dim ds2 = New DescriptiveStat(Matrix.GetColumnFrom2Darray(data.X, i))
             ds2.compute()
-            tableBody = VerticalStackArrays(tableBody, ds2.wrapSelf(False))
+            tableBody = Matrix.VerticalStackArrays(tableBody, ds2.wrapSelf(False))
         Next
         descTable.SetBody(tableBody)
         descTable.AddTitle("Descriptive Statistics")
-        descTable.AddHeaderTopRow(ConcatArrays({""}, data.varNames))
+        descTable.AddHeaderTopRow(Matrix.ConcatArrays({""}, data.varNames))
         Return descTable
     End Function
 
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = app.Workbooks.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

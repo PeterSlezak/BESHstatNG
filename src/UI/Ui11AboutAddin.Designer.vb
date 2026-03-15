@@ -91,6 +91,9 @@ Partial Class Ui11AboutAddin
         Me.Controls.Add(Me.btnCheckUpdate)
         Me.Controls.Add(Me.lblVersion)
         Me.Controls.Add(Me.tbLicense)
+        Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(483, 439)
+        Me.MinimumSize = New System.Drawing.Size(483, 439)
         Me.Name = "Ui11AboutAddin"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen

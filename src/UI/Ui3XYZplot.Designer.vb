@@ -25,6 +25,8 @@ Partial Class Ui3XYZplot
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Ui3XYZplot))
         Me.lblLabels = New System.Windows.Forms.Label()
         Me.grpChartSettings = New System.Windows.Forms.GroupBox()
+        Me.cbMarkerSymbol = New System.Windows.Forms.ComboBox()
+        Me.lblMarkerSymbol = New System.Windows.Forms.Label()
         Me.cbPointLabelPosition = New System.Windows.Forms.ComboBox()
         Me.lblPointLabelPosition = New System.Windows.Forms.Label()
         Me.spinBtnLabelFontSize = New System.Windows.Forms.NumericUpDown()
@@ -33,7 +35,6 @@ Partial Class Ui3XYZplot
         Me.lblMarkerSize = New System.Windows.Forms.Label()
         Me.spinBtnMarkerSize = New System.Windows.Forms.NumericUpDown()
         Me.ckGridlines = New System.Windows.Forms.CheckBox()
-        Me.ckScaleAxes = New System.Windows.Forms.CheckBox()
         Me.spinBtnXZPlanePointSize = New System.Windows.Forms.NumericUpDown()
         Me.ckXZplanePoints = New System.Windows.Forms.CheckBox()
         Me.spinBtnYZPlanePointSize = New System.Windows.Forms.NumericUpDown()
@@ -61,13 +62,51 @@ Partial Class Ui3XYZplot
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btnAnimatedGif = New System.Windows.Forms.Button()
         Me.lblAnimatedGif = New System.Windows.Forms.Label()
-        Me.RefEdit6_AnimatedGif = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit5_Labels = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit4_Group = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit3_Z = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit2_Y = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit1_X = New BESHStatNG.Excel2007RefEdit()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.TabInput = New System.Windows.Forms.TabControl()
+        Me.TabPage1_Input = New System.Windows.Forms.TabPage()
+        Me.RefEdit6_AnimatedGif = New Excel2007RefEdit()
+        Me.RefEdit5_Labels = New Excel2007RefEdit()
+        Me.RefEdit4_Group = New Excel2007RefEdit()
+        Me.RefEdit1_X = New Excel2007RefEdit()
+        Me.RefEdit2_Y = New Excel2007RefEdit()
+        Me.RefEdit3_Z = New Excel2007RefEdit()
+        Me.TabPage2_3Dobjects = New System.Windows.Forms.TabPage()
+        Me.lblG = New System.Windows.Forms.Label()
+        Me.lblB = New System.Windows.Forms.Label()
+        Me.lblR = New System.Windows.Forms.Label()
+        Me.spinBtnB = New System.Windows.Forms.NumericUpDown()
+        Me.spinBtnG = New System.Windows.Forms.NumericUpDown()
+        Me.spinBtnR = New System.Windows.Forms.NumericUpDown()
+        Me.lblColor = New System.Windows.Forms.Label()
+        Me.lblPointsPerRing = New System.Windows.Forms.Label()
+        Me.spinBtnPointsPerRing = New System.Windows.Forms.NumericUpDown()
+        Me.lblLongitudeRings = New System.Windows.Forms.Label()
+        Me.spinBtnLongitudeRings = New System.Windows.Forms.NumericUpDown()
+        Me.lblLatitudeRings = New System.Windows.Forms.Label()
+        Me.spinBtnLatitudeRings = New System.Windows.Forms.NumericUpDown()
+        Me.lblObjectList = New System.Windows.Forms.Label()
+        Me.RefEdit1_3Dobjects = New Excel2007RefEdit()
+        Me.TabPage1_AxisOption = New System.Windows.Forms.TabPage()
+        Me.grpZaxisOption = New System.Windows.Forms.GroupBox()
+        Me.tbZmax = New System.Windows.Forms.TextBox()
+        Me.lblZmax = New System.Windows.Forms.Label()
+        Me.tbZmin = New System.Windows.Forms.TextBox()
+        Me.ckZreverseAxis = New System.Windows.Forms.CheckBox()
+        Me.lblZmin = New System.Windows.Forms.Label()
+        Me.grpYaxisOption = New System.Windows.Forms.GroupBox()
+        Me.tbYmax = New System.Windows.Forms.TextBox()
+        Me.lblYmax = New System.Windows.Forms.Label()
+        Me.tbYmin = New System.Windows.Forms.TextBox()
+        Me.ckYreverseAxis = New System.Windows.Forms.CheckBox()
+        Me.lblYmin = New System.Windows.Forms.Label()
+        Me.ckScaleAxes = New System.Windows.Forms.CheckBox()
+        Me.grpXaxisOption = New System.Windows.Forms.GroupBox()
+        Me.tbXmax = New System.Windows.Forms.TextBox()
+        Me.lblXmax = New System.Windows.Forms.Label()
+        Me.tbXmin = New System.Windows.Forms.TextBox()
+        Me.lblXmin = New System.Windows.Forms.Label()
+        Me.ckXreverseAxis = New System.Windows.Forms.CheckBox()
         Me.grpChartSettings.SuspendLayout()
         CType(Me.spinBtnLabelFontSize, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnMarkerSize, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,12 +119,25 @@ Partial Class Ui3XYZplot
         CType(Me.spinBtnZoom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnRotationZ, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnRotationX, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabInput.SuspendLayout()
+        Me.TabPage1_Input.SuspendLayout()
+        Me.TabPage2_3Dobjects.SuspendLayout()
+        CType(Me.spinBtnB, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.spinBtnG, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.spinBtnR, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.spinBtnPointsPerRing, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.spinBtnLongitudeRings, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.spinBtnLatitudeRings, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage1_AxisOption.SuspendLayout()
+        Me.grpZaxisOption.SuspendLayout()
+        Me.grpYaxisOption.SuspendLayout()
+        Me.grpXaxisOption.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblLabels
         '
         Me.lblLabels.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLabels.Location = New System.Drawing.Point(12, 163)
+        Me.lblLabels.Location = New System.Drawing.Point(19, 162)
         Me.lblLabels.Name = "lblLabels"
         Me.lblLabels.Size = New System.Drawing.Size(119, 32)
         Me.lblLabels.TabIndex = 4
@@ -93,6 +145,8 @@ Partial Class Ui3XYZplot
         '
         'grpChartSettings
         '
+        Me.grpChartSettings.Controls.Add(Me.cbMarkerSymbol)
+        Me.grpChartSettings.Controls.Add(Me.lblMarkerSymbol)
         Me.grpChartSettings.Controls.Add(Me.cbPointLabelPosition)
         Me.grpChartSettings.Controls.Add(Me.lblPointLabelPosition)
         Me.grpChartSettings.Controls.Add(Me.spinBtnLabelFontSize)
@@ -101,7 +155,6 @@ Partial Class Ui3XYZplot
         Me.grpChartSettings.Controls.Add(Me.lblMarkerSize)
         Me.grpChartSettings.Controls.Add(Me.spinBtnMarkerSize)
         Me.grpChartSettings.Controls.Add(Me.ckGridlines)
-        Me.grpChartSettings.Controls.Add(Me.ckScaleAxes)
         Me.grpChartSettings.Controls.Add(Me.spinBtnXZPlanePointSize)
         Me.grpChartSettings.Controls.Add(Me.ckXZplanePoints)
         Me.grpChartSettings.Controls.Add(Me.spinBtnYZPlanePointSize)
@@ -110,18 +163,38 @@ Partial Class Ui3XYZplot
         Me.grpChartSettings.Controls.Add(Me.lblPointSize)
         Me.grpChartSettings.Controls.Add(Me.ckXYplanePoints)
         Me.grpChartSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpChartSettings.Location = New System.Drawing.Point(383, 12)
+        Me.grpChartSettings.Location = New System.Drawing.Point(390, 11)
         Me.grpChartSettings.Name = "grpChartSettings"
-        Me.grpChartSettings.Size = New System.Drawing.Size(372, 310)
+        Me.grpChartSettings.Size = New System.Drawing.Size(372, 281)
         Me.grpChartSettings.TabIndex = 1
         Me.grpChartSettings.TabStop = False
         Me.grpChartSettings.Text = "Chart Settings"
+        '
+        'cbMarkerSymbol
+        '
+        Me.cbMarkerSymbol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbMarkerSymbol.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbMarkerSymbol.FormattingEnabled = True
+        Me.cbMarkerSymbol.Location = New System.Drawing.Point(205, 125)
+        Me.cbMarkerSymbol.Name = "cbMarkerSymbol"
+        Me.cbMarkerSymbol.Size = New System.Drawing.Size(156, 24)
+        Me.cbMarkerSymbol.TabIndex = 25
+        '
+        'lblMarkerSymbol
+        '
+        Me.lblMarkerSymbol.AutoSize = True
+        Me.lblMarkerSymbol.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMarkerSymbol.Location = New System.Drawing.Point(86, 129)
+        Me.lblMarkerSymbol.Name = "lblMarkerSymbol"
+        Me.lblMarkerSymbol.Size = New System.Drawing.Size(98, 16)
+        Me.lblMarkerSymbol.TabIndex = 24
+        Me.lblMarkerSymbol.Text = "Marker Symbol"
         '
         'cbPointLabelPosition
         '
         Me.cbPointLabelPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbPointLabelPosition.FormattingEnabled = True
-        Me.cbPointLabelPosition.Location = New System.Drawing.Point(205, 266)
+        Me.cbPointLabelPosition.Location = New System.Drawing.Point(205, 242)
         Me.cbPointLabelPosition.Name = "cbPointLabelPosition"
         Me.cbPointLabelPosition.Size = New System.Drawing.Size(156, 24)
         Me.cbPointLabelPosition.TabIndex = 22
@@ -130,7 +203,7 @@ Partial Class Ui3XYZplot
         '
         Me.lblPointLabelPosition.AutoSize = True
         Me.lblPointLabelPosition.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPointLabelPosition.Location = New System.Drawing.Point(42, 269)
+        Me.lblPointLabelPosition.Location = New System.Drawing.Point(42, 245)
         Me.lblPointLabelPosition.Name = "lblPointLabelPosition"
         Me.lblPointLabelPosition.Size = New System.Drawing.Size(157, 16)
         Me.lblPointLabelPosition.TabIndex = 16
@@ -139,7 +212,7 @@ Partial Class Ui3XYZplot
         'spinBtnLabelFontSize
         '
         Me.spinBtnLabelFontSize.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.spinBtnLabelFontSize.Location = New System.Drawing.Point(209, 236)
+        Me.spinBtnLabelFontSize.Location = New System.Drawing.Point(209, 212)
         Me.spinBtnLabelFontSize.Maximum = New Decimal(New Integer() {72, 0, 0, 0})
         Me.spinBtnLabelFontSize.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.spinBtnLabelFontSize.Name = "spinBtnLabelFontSize"
@@ -151,7 +224,7 @@ Partial Class Ui3XYZplot
         '
         Me.ckDataPointLabels.AutoSize = True
         Me.ckDataPointLabels.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ckDataPointLabels.Location = New System.Drawing.Point(6, 238)
+        Me.ckDataPointLabels.Location = New System.Drawing.Point(6, 214)
         Me.ckDataPointLabels.Name = "ckDataPointLabels"
         Me.ckDataPointLabels.Size = New System.Drawing.Size(171, 20)
         Me.ckDataPointLabels.TabIndex = 14
@@ -164,7 +237,7 @@ Partial Class Ui3XYZplot
         Me.ckZdropLines.Checked = True
         Me.ckZdropLines.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ckZdropLines.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ckZdropLines.Location = New System.Drawing.Point(6, 212)
+        Me.ckZdropLines.Location = New System.Drawing.Point(6, 188)
         Me.ckZdropLines.Name = "ckZdropLines"
         Me.ckZdropLines.Size = New System.Drawing.Size(104, 20)
         Me.ckZdropLines.TabIndex = 13
@@ -175,7 +248,7 @@ Partial Class Ui3XYZplot
         '
         Me.lblMarkerSize.AutoSize = True
         Me.lblMarkerSize.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMarkerSize.Location = New System.Drawing.Point(106, 181)
+        Me.lblMarkerSize.Location = New System.Drawing.Point(106, 157)
         Me.lblMarkerSize.Name = "lblMarkerSize"
         Me.lblMarkerSize.Size = New System.Drawing.Size(78, 16)
         Me.lblMarkerSize.TabIndex = 12
@@ -184,7 +257,7 @@ Partial Class Ui3XYZplot
         'spinBtnMarkerSize
         '
         Me.spinBtnMarkerSize.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.spinBtnMarkerSize.Location = New System.Drawing.Point(209, 179)
+        Me.spinBtnMarkerSize.Location = New System.Drawing.Point(209, 155)
         Me.spinBtnMarkerSize.Maximum = New Decimal(New Integer() {72, 0, 0, 0})
         Me.spinBtnMarkerSize.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.spinBtnMarkerSize.Name = "spinBtnMarkerSize"
@@ -198,23 +271,12 @@ Partial Class Ui3XYZplot
         Me.ckGridlines.Checked = True
         Me.ckGridlines.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ckGridlines.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ckGridlines.Location = New System.Drawing.Point(6, 156)
+        Me.ckGridlines.Location = New System.Drawing.Point(6, 115)
         Me.ckGridlines.Name = "ckGridlines"
         Me.ckGridlines.Size = New System.Drawing.Size(82, 20)
         Me.ckGridlines.TabIndex = 10
         Me.ckGridlines.Text = "Gridlines"
         Me.ckGridlines.UseVisualStyleBackColor = True
-        '
-        'ckScaleAxes
-        '
-        Me.ckScaleAxes.AutoSize = True
-        Me.ckScaleAxes.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ckScaleAxes.Location = New System.Drawing.Point(6, 130)
-        Me.ckScaleAxes.Name = "ckScaleAxes"
-        Me.ckScaleAxes.Size = New System.Drawing.Size(97, 20)
-        Me.ckScaleAxes.TabIndex = 9
-        Me.ckScaleAxes.Text = "Scale Axes"
-        Me.ckScaleAxes.UseVisualStyleBackColor = True
         '
         'spinBtnXZPlanePointSize
         '
@@ -312,7 +374,7 @@ Partial Class Ui3XYZplot
         Me.grpViewSettings.Controls.Add(Me.spinBtnRotationX)
         Me.grpViewSettings.Controls.Add(Me.lblRotationX)
         Me.grpViewSettings.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpViewSettings.Location = New System.Drawing.Point(15, 234)
+        Me.grpViewSettings.Location = New System.Drawing.Point(22, 233)
         Me.grpViewSettings.Name = "grpViewSettings"
         Me.grpViewSettings.Size = New System.Drawing.Size(331, 179)
         Me.grpViewSettings.TabIndex = 2
@@ -432,7 +494,7 @@ Partial Class Ui3XYZplot
         '
         Me.lblX.AutoSize = True
         Me.lblX.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblX.Location = New System.Drawing.Point(109, 13)
+        Me.lblX.Location = New System.Drawing.Point(116, 12)
         Me.lblX.Name = "lblX"
         Me.lblX.Size = New System.Drawing.Size(15, 16)
         Me.lblX.TabIndex = 0
@@ -442,7 +504,7 @@ Partial Class Ui3XYZplot
         '
         Me.lblY.AutoSize = True
         Me.lblY.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblY.Location = New System.Drawing.Point(108, 48)
+        Me.lblY.Location = New System.Drawing.Point(115, 47)
         Me.lblY.Name = "lblY"
         Me.lblY.Size = New System.Drawing.Size(16, 16)
         Me.lblY.TabIndex = 1
@@ -452,7 +514,7 @@ Partial Class Ui3XYZplot
         '
         Me.lblZ.AutoSize = True
         Me.lblZ.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblZ.Location = New System.Drawing.Point(108, 88)
+        Me.lblZ.Location = New System.Drawing.Point(115, 87)
         Me.lblZ.Name = "lblZ"
         Me.lblZ.Size = New System.Drawing.Size(15, 16)
         Me.lblZ.TabIndex = 2
@@ -462,7 +524,7 @@ Partial Class Ui3XYZplot
         '
         Me.lblGroup.AutoSize = True
         Me.lblGroup.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGroup.Location = New System.Drawing.Point(5, 125)
+        Me.lblGroup.Location = New System.Drawing.Point(12, 124)
         Me.lblGroup.Name = "lblGroup"
         Me.lblGroup.Size = New System.Drawing.Size(119, 16)
         Me.lblGroup.TabIndex = 3
@@ -470,7 +532,7 @@ Partial Class Ui3XYZplot
         '
         'btOK
         '
-        Me.btOK.Location = New System.Drawing.Point(680, 390)
+        Me.btOK.Location = New System.Drawing.Point(687, 389)
         Me.btOK.Name = "btOK"
         Me.btOK.Size = New System.Drawing.Size(75, 23)
         Me.btOK.TabIndex = 6
@@ -479,7 +541,7 @@ Partial Class Ui3XYZplot
         '
         'btnHelp
         '
-        Me.btnHelp.Location = New System.Drawing.Point(599, 390)
+        Me.btnHelp.Location = New System.Drawing.Point(606, 389)
         Me.btnHelp.Name = "btnHelp"
         Me.btnHelp.Size = New System.Drawing.Size(75, 23)
         Me.btnHelp.TabIndex = 7
@@ -488,7 +550,7 @@ Partial Class Ui3XYZplot
         '
         'btnAnimatedGif
         '
-        Me.btnAnimatedGif.Location = New System.Drawing.Point(492, 390)
+        Me.btnAnimatedGif.Location = New System.Drawing.Point(499, 389)
         Me.btnAnimatedGif.Name = "btnAnimatedGif"
         Me.btnAnimatedGif.Size = New System.Drawing.Size(101, 23)
         Me.btnAnimatedGif.TabIndex = 14
@@ -499,11 +561,57 @@ Partial Class Ui3XYZplot
         '
         Me.lblAnimatedGif.AutoSize = True
         Me.lblAnimatedGif.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAnimatedGif.Location = New System.Drawing.Point(386, 337)
+        Me.lblAnimatedGif.Location = New System.Drawing.Point(393, 336)
         Me.lblAnimatedGif.Name = "lblAnimatedGif"
         Me.lblAnimatedGif.Size = New System.Drawing.Size(121, 16)
         Me.lblAnimatedGif.TabIndex = 16
         Me.lblAnimatedGif.Text = "Animated Gif Inputs"
+        '
+        'ProgressBar1
+        '
+        Me.ProgressBar1.Location = New System.Drawing.Point(390, 365)
+        Me.ProgressBar1.Name = "ProgressBar1"
+        Me.ProgressBar1.Size = New System.Drawing.Size(372, 18)
+        Me.ProgressBar1.TabIndex = 17
+        '
+        'TabInput
+        '
+        Me.TabInput.Controls.Add(Me.TabPage1_Input)
+        Me.TabInput.Controls.Add(Me.TabPage2_3Dobjects)
+        Me.TabInput.Controls.Add(Me.TabPage1_AxisOption)
+        Me.TabInput.Location = New System.Drawing.Point(2, 1)
+        Me.TabInput.Name = "TabInput"
+        Me.TabInput.SelectedIndex = 0
+        Me.TabInput.Size = New System.Drawing.Size(780, 456)
+        Me.TabInput.TabIndex = 18
+        '
+        'TabPage1_Input
+        '
+        Me.TabPage1_Input.Controls.Add(Me.lblX)
+        Me.TabPage1_Input.Controls.Add(Me.ProgressBar1)
+        Me.TabPage1_Input.Controls.Add(Me.grpChartSettings)
+        Me.TabPage1_Input.Controls.Add(Me.lblAnimatedGif)
+        Me.TabPage1_Input.Controls.Add(Me.grpViewSettings)
+        Me.TabPage1_Input.Controls.Add(Me.RefEdit6_AnimatedGif)
+        Me.TabPage1_Input.Controls.Add(Me.btOK)
+        Me.TabPage1_Input.Controls.Add(Me.btnAnimatedGif)
+        Me.TabPage1_Input.Controls.Add(Me.lblY)
+        Me.TabPage1_Input.Controls.Add(Me.lblLabels)
+        Me.TabPage1_Input.Controls.Add(Me.btnHelp)
+        Me.TabPage1_Input.Controls.Add(Me.RefEdit5_Labels)
+        Me.TabPage1_Input.Controls.Add(Me.lblZ)
+        Me.TabPage1_Input.Controls.Add(Me.RefEdit4_Group)
+        Me.TabPage1_Input.Controls.Add(Me.RefEdit1_X)
+        Me.TabPage1_Input.Controls.Add(Me.lblGroup)
+        Me.TabPage1_Input.Controls.Add(Me.RefEdit2_Y)
+        Me.TabPage1_Input.Controls.Add(Me.RefEdit3_Z)
+        Me.TabPage1_Input.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1_Input.Name = "TabPage1_Input"
+        Me.TabPage1_Input.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage1_Input.Size = New System.Drawing.Size(772, 427)
+        Me.TabPage1_Input.TabIndex = 0
+        Me.TabPage1_Input.Text = "Input"
+        Me.TabPage1_Input.UseVisualStyleBackColor = True
         '
         'RefEdit6_AnimatedGif
         '
@@ -512,7 +620,7 @@ Partial Class Ui3XYZplot
         Me.RefEdit6_AnimatedGif.ExcelConnector = Nothing
         Me.RefEdit6_AnimatedGif.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
         Me.RefEdit6_AnimatedGif.ImageMinimized = CType(resources.GetObject("RefEdit6_AnimatedGif.ImageMinimized"), System.Drawing.Image)
-        Me.RefEdit6_AnimatedGif.Location = New System.Drawing.Point(508, 329)
+        Me.RefEdit6_AnimatedGif.Location = New System.Drawing.Point(515, 328)
         Me.RefEdit6_AnimatedGif.Margin = New System.Windows.Forms.Padding(4)
         Me.RefEdit6_AnimatedGif.Name = "RefEdit6_AnimatedGif"
         Me.RefEdit6_AnimatedGif.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -526,7 +634,7 @@ Partial Class Ui3XYZplot
         Me.RefEdit5_Labels.ExcelConnector = Nothing
         Me.RefEdit5_Labels.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
         Me.RefEdit5_Labels.ImageMinimized = CType(resources.GetObject("RefEdit5_Labels.ImageMinimized"), System.Drawing.Image)
-        Me.RefEdit5_Labels.Location = New System.Drawing.Point(130, 163)
+        Me.RefEdit5_Labels.Location = New System.Drawing.Point(137, 162)
         Me.RefEdit5_Labels.Margin = New System.Windows.Forms.Padding(4)
         Me.RefEdit5_Labels.Name = "RefEdit5_Labels"
         Me.RefEdit5_Labels.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -540,40 +648,12 @@ Partial Class Ui3XYZplot
         Me.RefEdit4_Group.ExcelConnector = Nothing
         Me.RefEdit4_Group.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
         Me.RefEdit4_Group.ImageMinimized = CType(resources.GetObject("RefEdit4_Group.ImageMinimized"), System.Drawing.Image)
-        Me.RefEdit4_Group.Location = New System.Drawing.Point(130, 125)
+        Me.RefEdit4_Group.Location = New System.Drawing.Point(137, 124)
         Me.RefEdit4_Group.Margin = New System.Windows.Forms.Padding(4)
         Me.RefEdit4_Group.Name = "RefEdit4_Group"
         Me.RefEdit4_Group.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RefEdit4_Group.Size = New System.Drawing.Size(246, 32)
         Me.RefEdit4_Group.TabIndex = 12
-        '
-        'RefEdit3_Z
-        '
-        Me.RefEdit3_Z.Address = ""
-        Me.RefEdit3_Z.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit3_Z.ExcelConnector = Nothing
-        Me.RefEdit3_Z.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit3_Z.ImageMinimized = CType(resources.GetObject("RefEdit3_Z.ImageMinimized"), System.Drawing.Image)
-        Me.RefEdit3_Z.Location = New System.Drawing.Point(130, 88)
-        Me.RefEdit3_Z.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit3_Z.Name = "RefEdit3_Z"
-        Me.RefEdit3_Z.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit3_Z.Size = New System.Drawing.Size(246, 32)
-        Me.RefEdit3_Z.TabIndex = 11
-        '
-        'RefEdit2_Y
-        '
-        Me.RefEdit2_Y.Address = ""
-        Me.RefEdit2_Y.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit2_Y.ExcelConnector = Nothing
-        Me.RefEdit2_Y.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit2_Y.ImageMinimized = CType(resources.GetObject("RefEdit2_Y.ImageMinimized"), System.Drawing.Image)
-        Me.RefEdit2_Y.Location = New System.Drawing.Point(130, 48)
-        Me.RefEdit2_Y.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit2_Y.Name = "RefEdit2_Y"
-        Me.RefEdit2_Y.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit2_Y.Size = New System.Drawing.Size(246, 32)
-        Me.RefEdit2_Y.TabIndex = 10
         '
         'RefEdit1_X
         '
@@ -582,43 +662,441 @@ Partial Class Ui3XYZplot
         Me.RefEdit1_X.ExcelConnector = Nothing
         Me.RefEdit1_X.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
         Me.RefEdit1_X.ImageMinimized = CType(resources.GetObject("RefEdit1_X.ImageMinimized"), System.Drawing.Image)
-        Me.RefEdit1_X.Location = New System.Drawing.Point(130, 13)
+        Me.RefEdit1_X.Location = New System.Drawing.Point(137, 12)
         Me.RefEdit1_X.Margin = New System.Windows.Forms.Padding(4)
         Me.RefEdit1_X.Name = "RefEdit1_X"
         Me.RefEdit1_X.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RefEdit1_X.Size = New System.Drawing.Size(246, 32)
         Me.RefEdit1_X.TabIndex = 9
         '
-        'ProgressBar1
+        'RefEdit2_Y
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(383, 366)
-        Me.ProgressBar1.Name = "ProgressBar1"
-        Me.ProgressBar1.Size = New System.Drawing.Size(372, 18)
-        Me.ProgressBar1.TabIndex = 17
+        Me.RefEdit2_Y.Address = ""
+        Me.RefEdit2_Y.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit2_Y.ExcelConnector = Nothing
+        Me.RefEdit2_Y.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit2_Y.ImageMinimized = CType(resources.GetObject("RefEdit2_Y.ImageMinimized"), System.Drawing.Image)
+        Me.RefEdit2_Y.Location = New System.Drawing.Point(137, 47)
+        Me.RefEdit2_Y.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit2_Y.Name = "RefEdit2_Y"
+        Me.RefEdit2_Y.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit2_Y.Size = New System.Drawing.Size(246, 32)
+        Me.RefEdit2_Y.TabIndex = 10
+        '
+        'RefEdit3_Z
+        '
+        Me.RefEdit3_Z.Address = ""
+        Me.RefEdit3_Z.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit3_Z.ExcelConnector = Nothing
+        Me.RefEdit3_Z.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit3_Z.ImageMinimized = CType(resources.GetObject("RefEdit3_Z.ImageMinimized"), System.Drawing.Image)
+        Me.RefEdit3_Z.Location = New System.Drawing.Point(137, 87)
+        Me.RefEdit3_Z.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit3_Z.Name = "RefEdit3_Z"
+        Me.RefEdit3_Z.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit3_Z.Size = New System.Drawing.Size(246, 32)
+        Me.RefEdit3_Z.TabIndex = 11
+        '
+        'TabPage2_3Dobjects
+        '
+        Me.TabPage2_3Dobjects.Controls.Add(Me.lblG)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.lblB)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.lblR)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.spinBtnB)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.spinBtnG)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.spinBtnR)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.lblColor)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.lblPointsPerRing)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.spinBtnPointsPerRing)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.lblLongitudeRings)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.spinBtnLongitudeRings)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.lblLatitudeRings)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.spinBtnLatitudeRings)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.lblObjectList)
+        Me.TabPage2_3Dobjects.Controls.Add(Me.RefEdit1_3Dobjects)
+        Me.TabPage2_3Dobjects.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage2_3Dobjects.Name = "TabPage2_3Dobjects"
+        Me.TabPage2_3Dobjects.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage2_3Dobjects.Size = New System.Drawing.Size(772, 427)
+        Me.TabPage2_3Dobjects.TabIndex = 1
+        Me.TabPage2_3Dobjects.Text = "3D Objects"
+        Me.TabPage2_3Dobjects.UseVisualStyleBackColor = True
+        '
+        'lblG
+        '
+        Me.lblG.AutoSize = True
+        Me.lblG.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblG.Location = New System.Drawing.Point(164, 182)
+        Me.lblG.Name = "lblG"
+        Me.lblG.Size = New System.Drawing.Size(17, 16)
+        Me.lblG.TabIndex = 17
+        Me.lblG.Text = "G"
+        '
+        'lblB
+        '
+        Me.lblB.AutoSize = True
+        Me.lblB.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblB.Location = New System.Drawing.Point(164, 210)
+        Me.lblB.Name = "lblB"
+        Me.lblB.Size = New System.Drawing.Size(16, 16)
+        Me.lblB.TabIndex = 16
+        Me.lblB.Text = "B"
+        '
+        'lblR
+        '
+        Me.lblR.AutoSize = True
+        Me.lblR.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblR.Location = New System.Drawing.Point(164, 154)
+        Me.lblR.Name = "lblR"
+        Me.lblR.Size = New System.Drawing.Size(17, 16)
+        Me.lblR.TabIndex = 15
+        Me.lblR.Text = "R"
+        '
+        'spinBtnB
+        '
+        Me.spinBtnB.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnB.Location = New System.Drawing.Point(187, 208)
+        Me.spinBtnB.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
+        Me.spinBtnB.Name = "spinBtnB"
+        Me.spinBtnB.Size = New System.Drawing.Size(59, 22)
+        Me.spinBtnB.TabIndex = 14
+        Me.spinBtnB.Value = New Decimal(New Integer() {8, 0, 0, 0})
+        '
+        'spinBtnG
+        '
+        Me.spinBtnG.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnG.Location = New System.Drawing.Point(187, 180)
+        Me.spinBtnG.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
+        Me.spinBtnG.Name = "spinBtnG"
+        Me.spinBtnG.Size = New System.Drawing.Size(59, 22)
+        Me.spinBtnG.TabIndex = 13
+        Me.spinBtnG.Value = New Decimal(New Integer() {8, 0, 0, 0})
+        '
+        'spinBtnR
+        '
+        Me.spinBtnR.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnR.Location = New System.Drawing.Point(187, 152)
+        Me.spinBtnR.Maximum = New Decimal(New Integer() {255, 0, 0, 0})
+        Me.spinBtnR.Name = "spinBtnR"
+        Me.spinBtnR.Size = New System.Drawing.Size(59, 22)
+        Me.spinBtnR.TabIndex = 12
+        Me.spinBtnR.Value = New Decimal(New Integer() {125, 0, 0, 0})
+        '
+        'lblColor
+        '
+        Me.lblColor.AutoSize = True
+        Me.lblColor.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblColor.Location = New System.Drawing.Point(16, 158)
+        Me.lblColor.Name = "lblColor"
+        Me.lblColor.Size = New System.Drawing.Size(71, 16)
+        Me.lblColor.TabIndex = 11
+        Me.lblColor.Text = "Color RGB"
+        '
+        'lblPointsPerRing
+        '
+        Me.lblPointsPerRing.AutoSize = True
+        Me.lblPointsPerRing.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPointsPerRing.Location = New System.Drawing.Point(16, 124)
+        Me.lblPointsPerRing.Name = "lblPointsPerRing"
+        Me.lblPointsPerRing.Size = New System.Drawing.Size(98, 16)
+        Me.lblPointsPerRing.TabIndex = 10
+        Me.lblPointsPerRing.Text = "Points per Ring"
+        '
+        'spinBtnPointsPerRing
+        '
+        Me.spinBtnPointsPerRing.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnPointsPerRing.Location = New System.Drawing.Point(187, 118)
+        Me.spinBtnPointsPerRing.Maximum = New Decimal(New Integer() {360, 0, 0, 0})
+        Me.spinBtnPointsPerRing.Minimum = New Decimal(New Integer() {60, 0, 0, 0})
+        Me.spinBtnPointsPerRing.Name = "spinBtnPointsPerRing"
+        Me.spinBtnPointsPerRing.Size = New System.Drawing.Size(59, 22)
+        Me.spinBtnPointsPerRing.TabIndex = 9
+        Me.spinBtnPointsPerRing.Value = New Decimal(New Integer() {120, 0, 0, 0})
+        '
+        'lblLongitudeRings
+        '
+        Me.lblLongitudeRings.AutoSize = True
+        Me.lblLongitudeRings.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLongitudeRings.Location = New System.Drawing.Point(16, 94)
+        Me.lblLongitudeRings.Name = "lblLongitudeRings"
+        Me.lblLongitudeRings.Size = New System.Drawing.Size(169, 16)
+        Me.lblLongitudeRings.TabIndex = 8
+        Me.lblLongitudeRings.Text = "Number of Longitude Rings"
+        '
+        'spinBtnLongitudeRings
+        '
+        Me.spinBtnLongitudeRings.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnLongitudeRings.Location = New System.Drawing.Point(187, 88)
+        Me.spinBtnLongitudeRings.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.spinBtnLongitudeRings.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.spinBtnLongitudeRings.Name = "spinBtnLongitudeRings"
+        Me.spinBtnLongitudeRings.Size = New System.Drawing.Size(59, 22)
+        Me.spinBtnLongitudeRings.TabIndex = 7
+        Me.spinBtnLongitudeRings.Value = New Decimal(New Integer() {12, 0, 0, 0})
+        '
+        'lblLatitudeRings
+        '
+        Me.lblLatitudeRings.AutoSize = True
+        Me.lblLatitudeRings.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLatitudeRings.Location = New System.Drawing.Point(16, 64)
+        Me.lblLatitudeRings.Name = "lblLatitudeRings"
+        Me.lblLatitudeRings.Size = New System.Drawing.Size(157, 16)
+        Me.lblLatitudeRings.TabIndex = 6
+        Me.lblLatitudeRings.Text = "Number of Latitude Rings"
+        '
+        'spinBtnLatitudeRings
+        '
+        Me.spinBtnLatitudeRings.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnLatitudeRings.Location = New System.Drawing.Point(187, 58)
+        Me.spinBtnLatitudeRings.Maximum = New Decimal(New Integer() {120, 0, 0, 0})
+        Me.spinBtnLatitudeRings.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.spinBtnLatitudeRings.Name = "spinBtnLatitudeRings"
+        Me.spinBtnLatitudeRings.Size = New System.Drawing.Size(59, 22)
+        Me.spinBtnLatitudeRings.TabIndex = 5
+        Me.spinBtnLatitudeRings.Value = New Decimal(New Integer() {8, 0, 0, 0})
+        '
+        'lblObjectList
+        '
+        Me.lblObjectList.AutoSize = True
+        Me.lblObjectList.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblObjectList.Location = New System.Drawing.Point(16, 19)
+        Me.lblObjectList.Name = "lblObjectList"
+        Me.lblObjectList.Size = New System.Drawing.Size(153, 16)
+        Me.lblObjectList.TabIndex = 1
+        Me.lblObjectList.Text = "3D Objects Specification"
+        '
+        'RefEdit1_3Dobjects
+        '
+        Me.RefEdit1_3Dobjects.Address = ""
+        Me.RefEdit1_3Dobjects.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit1_3Dobjects.ExcelConnector = Nothing
+        Me.RefEdit1_3Dobjects.ImageMaximized = CType(resources.GetObject("RefEdit1_3Dobjects.ImageMaximized"), System.Drawing.Image)
+        Me.RefEdit1_3Dobjects.ImageMinimized = CType(resources.GetObject("RefEdit1_3Dobjects.ImageMinimized"), System.Drawing.Image)
+        Me.RefEdit1_3Dobjects.Location = New System.Drawing.Point(176, 19)
+        Me.RefEdit1_3Dobjects.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit1_3Dobjects.Name = "RefEdit1_3Dobjects"
+        Me.RefEdit1_3Dobjects.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit1_3Dobjects.Size = New System.Drawing.Size(260, 32)
+        Me.RefEdit1_3Dobjects.TabIndex = 2
+        '
+        'TabPage1_AxisOption
+        '
+        Me.TabPage1_AxisOption.Controls.Add(Me.grpZaxisOption)
+        Me.TabPage1_AxisOption.Controls.Add(Me.grpYaxisOption)
+        Me.TabPage1_AxisOption.Controls.Add(Me.ckScaleAxes)
+        Me.TabPage1_AxisOption.Controls.Add(Me.grpXaxisOption)
+        Me.TabPage1_AxisOption.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage1_AxisOption.Name = "TabPage1_AxisOption"
+        Me.TabPage1_AxisOption.Size = New System.Drawing.Size(772, 427)
+        Me.TabPage1_AxisOption.TabIndex = 2
+        Me.TabPage1_AxisOption.Text = "Axis Option"
+        Me.TabPage1_AxisOption.UseVisualStyleBackColor = True
+        '
+        'grpZaxisOption
+        '
+        Me.grpZaxisOption.Controls.Add(Me.tbZmax)
+        Me.grpZaxisOption.Controls.Add(Me.lblZmax)
+        Me.grpZaxisOption.Controls.Add(Me.tbZmin)
+        Me.grpZaxisOption.Controls.Add(Me.ckZreverseAxis)
+        Me.grpZaxisOption.Controls.Add(Me.lblZmin)
+        Me.grpZaxisOption.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpZaxisOption.Location = New System.Drawing.Point(24, 253)
+        Me.grpZaxisOption.Name = "grpZaxisOption"
+        Me.grpZaxisOption.Size = New System.Drawing.Size(265, 112)
+        Me.grpZaxisOption.TabIndex = 32
+        Me.grpZaxisOption.TabStop = False
+        Me.grpZaxisOption.Text = "Z Axis Option"
+        '
+        'tbZmax
+        '
+        Me.tbZmax.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbZmax.Location = New System.Drawing.Point(84, 75)
+        Me.tbZmax.Name = "tbZmax"
+        Me.tbZmax.Size = New System.Drawing.Size(129, 22)
+        Me.tbZmax.TabIndex = 30
+        '
+        'lblZmax
+        '
+        Me.lblZmax.AutoSize = True
+        Me.lblZmax.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblZmax.Location = New System.Drawing.Point(18, 78)
+        Me.lblZmax.Name = "lblZmax"
+        Me.lblZmax.Size = New System.Drawing.Size(64, 16)
+        Me.lblZmax.TabIndex = 29
+        Me.lblZmax.Text = "Maximum"
+        '
+        'tbZmin
+        '
+        Me.tbZmin.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbZmin.Location = New System.Drawing.Point(84, 47)
+        Me.tbZmin.Name = "tbZmin"
+        Me.tbZmin.Size = New System.Drawing.Size(129, 22)
+        Me.tbZmin.TabIndex = 28
+        '
+        'ckZreverseAxis
+        '
+        Me.ckZreverseAxis.AutoSize = True
+        Me.ckZreverseAxis.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckZreverseAxis.Location = New System.Drawing.Point(21, 21)
+        Me.ckZreverseAxis.Name = "ckZreverseAxis"
+        Me.ckZreverseAxis.Size = New System.Drawing.Size(120, 20)
+        Me.ckZreverseAxis.TabIndex = 28
+        Me.ckZreverseAxis.Text = "Reverse Z Axis"
+        Me.ckZreverseAxis.UseVisualStyleBackColor = True
+        '
+        'lblZmin
+        '
+        Me.lblZmin.AutoSize = True
+        Me.lblZmin.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblZmin.Location = New System.Drawing.Point(18, 50)
+        Me.lblZmin.Name = "lblZmin"
+        Me.lblZmin.Size = New System.Drawing.Size(60, 16)
+        Me.lblZmin.TabIndex = 27
+        Me.lblZmin.Text = "Minimum"
+        '
+        'grpYaxisOption
+        '
+        Me.grpYaxisOption.Controls.Add(Me.tbYmax)
+        Me.grpYaxisOption.Controls.Add(Me.lblYmax)
+        Me.grpYaxisOption.Controls.Add(Me.tbYmin)
+        Me.grpYaxisOption.Controls.Add(Me.ckYreverseAxis)
+        Me.grpYaxisOption.Controls.Add(Me.lblYmin)
+        Me.grpYaxisOption.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpYaxisOption.Location = New System.Drawing.Point(24, 135)
+        Me.grpYaxisOption.Name = "grpYaxisOption"
+        Me.grpYaxisOption.Size = New System.Drawing.Size(265, 112)
+        Me.grpYaxisOption.TabIndex = 31
+        Me.grpYaxisOption.TabStop = False
+        Me.grpYaxisOption.Text = "Y Axis Option"
+        '
+        'tbYmax
+        '
+        Me.tbYmax.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbYmax.Location = New System.Drawing.Point(84, 75)
+        Me.tbYmax.Name = "tbYmax"
+        Me.tbYmax.Size = New System.Drawing.Size(129, 22)
+        Me.tbYmax.TabIndex = 30
+        '
+        'lblYmax
+        '
+        Me.lblYmax.AutoSize = True
+        Me.lblYmax.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblYmax.Location = New System.Drawing.Point(18, 78)
+        Me.lblYmax.Name = "lblYmax"
+        Me.lblYmax.Size = New System.Drawing.Size(64, 16)
+        Me.lblYmax.TabIndex = 29
+        Me.lblYmax.Text = "Maximum"
+        '
+        'tbYmin
+        '
+        Me.tbYmin.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbYmin.Location = New System.Drawing.Point(84, 47)
+        Me.tbYmin.Name = "tbYmin"
+        Me.tbYmin.Size = New System.Drawing.Size(129, 22)
+        Me.tbYmin.TabIndex = 28
+        '
+        'ckYreverseAxis
+        '
+        Me.ckYreverseAxis.AutoSize = True
+        Me.ckYreverseAxis.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckYreverseAxis.Location = New System.Drawing.Point(21, 21)
+        Me.ckYreverseAxis.Name = "ckYreverseAxis"
+        Me.ckYreverseAxis.Size = New System.Drawing.Size(121, 20)
+        Me.ckYreverseAxis.TabIndex = 27
+        Me.ckYreverseAxis.Text = "Reverse Y Axis"
+        Me.ckYreverseAxis.UseVisualStyleBackColor = True
+        '
+        'lblYmin
+        '
+        Me.lblYmin.AutoSize = True
+        Me.lblYmin.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblYmin.Location = New System.Drawing.Point(18, 50)
+        Me.lblYmin.Name = "lblYmin"
+        Me.lblYmin.Size = New System.Drawing.Size(60, 16)
+        Me.lblYmin.TabIndex = 27
+        Me.lblYmin.Text = "Minimum"
+        '
+        'ckScaleAxes
+        '
+        Me.ckScaleAxes.AutoSize = True
+        Me.ckScaleAxes.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckScaleAxes.Location = New System.Drawing.Point(309, 17)
+        Me.ckScaleAxes.Name = "ckScaleAxes"
+        Me.ckScaleAxes.Size = New System.Drawing.Size(97, 20)
+        Me.ckScaleAxes.TabIndex = 29
+        Me.ckScaleAxes.Text = "Scale Axes"
+        Me.ckScaleAxes.UseVisualStyleBackColor = True
+        '
+        'grpXaxisOption
+        '
+        Me.grpXaxisOption.Controls.Add(Me.tbXmax)
+        Me.grpXaxisOption.Controls.Add(Me.lblXmax)
+        Me.grpXaxisOption.Controls.Add(Me.tbXmin)
+        Me.grpXaxisOption.Controls.Add(Me.lblXmin)
+        Me.grpXaxisOption.Controls.Add(Me.ckXreverseAxis)
+        Me.grpXaxisOption.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpXaxisOption.Location = New System.Drawing.Point(24, 17)
+        Me.grpXaxisOption.Name = "grpXaxisOption"
+        Me.grpXaxisOption.Size = New System.Drawing.Size(265, 112)
+        Me.grpXaxisOption.TabIndex = 0
+        Me.grpXaxisOption.TabStop = False
+        Me.grpXaxisOption.Text = "X Axis Option"
+        '
+        'tbXmax
+        '
+        Me.tbXmax.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbXmax.Location = New System.Drawing.Point(84, 75)
+        Me.tbXmax.Name = "tbXmax"
+        Me.tbXmax.Size = New System.Drawing.Size(129, 22)
+        Me.tbXmax.TabIndex = 30
+        '
+        'lblXmax
+        '
+        Me.lblXmax.AutoSize = True
+        Me.lblXmax.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblXmax.Location = New System.Drawing.Point(18, 78)
+        Me.lblXmax.Name = "lblXmax"
+        Me.lblXmax.Size = New System.Drawing.Size(64, 16)
+        Me.lblXmax.TabIndex = 29
+        Me.lblXmax.Text = "Maximum"
+        '
+        'tbXmin
+        '
+        Me.tbXmin.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbXmin.Location = New System.Drawing.Point(84, 47)
+        Me.tbXmin.Name = "tbXmin"
+        Me.tbXmin.Size = New System.Drawing.Size(129, 22)
+        Me.tbXmin.TabIndex = 28
+        '
+        'lblXmin
+        '
+        Me.lblXmin.AutoSize = True
+        Me.lblXmin.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblXmin.Location = New System.Drawing.Point(18, 50)
+        Me.lblXmin.Name = "lblXmin"
+        Me.lblXmin.Size = New System.Drawing.Size(60, 16)
+        Me.lblXmin.TabIndex = 27
+        Me.lblXmin.Text = "Minimum"
+        '
+        'ckXreverseAxis
+        '
+        Me.ckXreverseAxis.AutoSize = True
+        Me.ckXreverseAxis.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckXreverseAxis.Location = New System.Drawing.Point(18, 27)
+        Me.ckXreverseAxis.Name = "ckXreverseAxis"
+        Me.ckXreverseAxis.Size = New System.Drawing.Size(120, 20)
+        Me.ckXreverseAxis.TabIndex = 26
+        Me.ckXreverseAxis.Text = "Reverse X Axis"
+        Me.ckXreverseAxis.UseVisualStyleBackColor = True
         '
         'Ui3XYZplot
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(761, 418)
-        Me.Controls.Add(Me.ProgressBar1)
-        Me.Controls.Add(Me.lblAnimatedGif)
-        Me.Controls.Add(Me.RefEdit6_AnimatedGif)
-        Me.Controls.Add(Me.btnAnimatedGif)
-        Me.Controls.Add(Me.lblLabels)
-        Me.Controls.Add(Me.RefEdit5_Labels)
-        Me.Controls.Add(Me.RefEdit4_Group)
-        Me.Controls.Add(Me.lblGroup)
-        Me.Controls.Add(Me.RefEdit3_Z)
-        Me.Controls.Add(Me.RefEdit2_Y)
-        Me.Controls.Add(Me.RefEdit1_X)
-        Me.Controls.Add(Me.lblZ)
-        Me.Controls.Add(Me.btnHelp)
-        Me.Controls.Add(Me.lblY)
-        Me.Controls.Add(Me.btOK)
-        Me.Controls.Add(Me.lblX)
-        Me.Controls.Add(Me.grpViewSettings)
-        Me.Controls.Add(Me.grpChartSettings)
+        Me.ClientSize = New System.Drawing.Size(784, 459)
+        Me.Controls.Add(Me.TabInput)
+        Me.MaximizeBox = False
+        Me.MaximumSize = New System.Drawing.Size(802, 506)
         Me.Name = "Ui3XYZplot"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -637,8 +1115,26 @@ Partial Class Ui3XYZplot
         CType(Me.spinBtnZoom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnRotationZ, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnRotationX, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabInput.ResumeLayout(False)
+        Me.TabPage1_Input.ResumeLayout(False)
+        Me.TabPage1_Input.PerformLayout()
+        Me.TabPage2_3Dobjects.ResumeLayout(False)
+        Me.TabPage2_3Dobjects.PerformLayout()
+        CType(Me.spinBtnB, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.spinBtnG, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.spinBtnR, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.spinBtnPointsPerRing, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.spinBtnLongitudeRings, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.spinBtnLatitudeRings, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage1_AxisOption.ResumeLayout(False)
+        Me.TabPage1_AxisOption.PerformLayout()
+        Me.grpZaxisOption.ResumeLayout(False)
+        Me.grpZaxisOption.PerformLayout()
+        Me.grpYaxisOption.ResumeLayout(False)
+        Me.grpYaxisOption.PerformLayout()
+        Me.grpXaxisOption.ResumeLayout(False)
+        Me.grpXaxisOption.PerformLayout()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
     Friend WithEvents grpChartSettings As Windows.Forms.GroupBox
@@ -676,7 +1172,6 @@ Partial Class Ui3XYZplot
     Friend WithEvents lblMarkerSize As Windows.Forms.Label
     Friend WithEvents spinBtnMarkerSize As Windows.Forms.NumericUpDown
     Friend WithEvents ckGridlines As Windows.Forms.CheckBox
-    Friend WithEvents ckScaleAxes As Windows.Forms.CheckBox
     Friend WithEvents spinBtnLabelFontSize As Windows.Forms.NumericUpDown
     Friend WithEvents ckDataPointLabels As Windows.Forms.CheckBox
     Friend WithEvents ckZdropLines As Windows.Forms.CheckBox
@@ -686,4 +1181,44 @@ Partial Class Ui3XYZplot
     Friend WithEvents RefEdit6_AnimatedGif As Excel2007RefEdit
     Friend WithEvents lblAnimatedGif As Windows.Forms.Label
     Friend WithEvents ProgressBar1 As Windows.Forms.ProgressBar
+    Friend WithEvents TabInput As Windows.Forms.TabControl
+    Friend WithEvents TabPage1_Input As Windows.Forms.TabPage
+    Friend WithEvents TabPage2_3Dobjects As Windows.Forms.TabPage
+    Friend WithEvents RefEdit1_3Dobjects As Excel2007RefEdit
+    Friend WithEvents lblObjectList As Windows.Forms.Label
+    Friend WithEvents lblLatitudeRings As Windows.Forms.Label
+    Friend WithEvents spinBtnLatitudeRings As Windows.Forms.NumericUpDown
+    Friend WithEvents lblLongitudeRings As Windows.Forms.Label
+    Friend WithEvents spinBtnLongitudeRings As Windows.Forms.NumericUpDown
+    Friend WithEvents lblPointsPerRing As Windows.Forms.Label
+    Friend WithEvents spinBtnPointsPerRing As Windows.Forms.NumericUpDown
+    Friend WithEvents lblG As Windows.Forms.Label
+    Friend WithEvents lblB As Windows.Forms.Label
+    Friend WithEvents lblR As Windows.Forms.Label
+    Friend WithEvents spinBtnB As Windows.Forms.NumericUpDown
+    Friend WithEvents spinBtnG As Windows.Forms.NumericUpDown
+    Friend WithEvents spinBtnR As Windows.Forms.NumericUpDown
+    Friend WithEvents lblColor As Windows.Forms.Label
+    Friend WithEvents TabPage1_AxisOption As Windows.Forms.TabPage
+    Friend WithEvents ckScaleAxes As Windows.Forms.CheckBox
+    Friend WithEvents ckZreverseAxis As Windows.Forms.CheckBox
+    Friend WithEvents ckYreverseAxis As Windows.Forms.CheckBox
+    Friend WithEvents grpXaxisOption As Windows.Forms.GroupBox
+    Friend WithEvents lblXmin As Windows.Forms.Label
+    Friend WithEvents ckXreverseAxis As Windows.Forms.CheckBox
+    Friend WithEvents grpZaxisOption As Windows.Forms.GroupBox
+    Friend WithEvents tbZmax As Windows.Forms.TextBox
+    Friend WithEvents lblZmax As Windows.Forms.Label
+    Friend WithEvents tbZmin As Windows.Forms.TextBox
+    Friend WithEvents lblZmin As Windows.Forms.Label
+    Friend WithEvents grpYaxisOption As Windows.Forms.GroupBox
+    Friend WithEvents tbYmax As Windows.Forms.TextBox
+    Friend WithEvents lblYmax As Windows.Forms.Label
+    Friend WithEvents tbYmin As Windows.Forms.TextBox
+    Friend WithEvents lblYmin As Windows.Forms.Label
+    Friend WithEvents tbXmax As Windows.Forms.TextBox
+    Friend WithEvents lblXmax As Windows.Forms.Label
+    Friend WithEvents tbXmin As Windows.Forms.TextBox
+    Friend WithEvents cbMarkerSymbol As Windows.Forms.ComboBox
+    Friend WithEvents lblMarkerSymbol As Windows.Forms.Label
 End Class

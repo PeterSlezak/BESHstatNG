@@ -15,7 +15,16 @@ Imports Microsoft.Office.Interop.Excel
 ''' </list>
 ''' These procedures are used throughout the UI layer of the statistical add‑in.
 ''' </summary>
-Module UIprocedures
+Public Module UIprocedures
+
+    Public Class TermSpec
+        Public Property Kind As String 'MainEffect | Polynomial | Interaction
+        Public Property BaseVarKeys As List(Of String)
+        Public Property Degree As Integer
+        Public Property DisplayNameForCoef As String '(e.g. "Age^2", "Age:BMI")
+        Public Property Order As Integer 'position in the result output. It should be identical to the input combobox item position
+
+    End Class
 
     ''' <summary>
     ''' Describes a worksheet column as presented to the UI (typically in a ListBox).
@@ -139,8 +148,8 @@ Module UIprocedures
             Dim hasHeader As Boolean = False
 
             If app.WorksheetFunction.IsNA(cell) Or TypeOf cell.value Is ExcelError _
-           Or TypeOf cell.value Is ExcelEmpty Or TypeOf cell.value Is ExcelMissing _
-           Or cell.value Is Nothing Then
+               Or TypeOf cell.value Is ExcelEmpty Or TypeOf cell.value Is ExcelMissing _
+               Or cell.value Is Nothing Then
 
                 If CountNonmissing(ws.Range(ws.Cells(1, cell.Column), ws.Cells(MaxRows, cell.Column)), bNumeric_only) > 0 Then
                     headerText = "Var" & colLetter
@@ -202,7 +211,7 @@ Module UIprocedures
         Else 'Check that the lbox_to listbox is empty
             If lbox_to.Items.Count = 0 Then 'Test to see if a selection has been made
                 If lbox_from.SelectedItems.count = 1 Then 'some X response variables has been already selected
-                    For jj As Integer = 0 To UBound(lbox_tocheck, 1)
+                    For jj As Integer = 0 To lbox_tocheck.GetUpperBound(0)
                         For ii As Integer = 0 To lbox_tocheck(jj).Items.Count - 1
                             'this variable has been already selected as predictor
                             If lbox_from.Items(lbox_from.SelectedIndex) = lbox_tocheck(jj).Items(ii) Then
@@ -328,7 +337,7 @@ Module UIprocedures
                     End If
                 Next
                 'check whether this Variable has alredy been selected as respons variable
-                For jj As Integer = 0 To UBound(lbox_tocheck)
+                For jj As Integer = 0 To lbox_tocheck.GetUpperBound(0)
                     For ii As Integer = 0 To lbox_tocheck(jj).Items.Count - 1
                         If lbox_tocheck(jj).Items(ii) = lbox_from.Items(i) And lbox_from.SelectedItems.Contains(lbox_from.Items(i)) Then
                             MsgBox("Variable " & lbox_from.Items(i) & " has already been selected.", vbExclamation, "Input Error!")
@@ -387,51 +396,136 @@ Module UIprocedures
     ''' </param>
     ''' <returns>True if ListBox2 is a subset of ListBox1.</returns>
     Function IsSubsetListBox(ListBox1 As Object, ListBox2 As Object, Optional bOnlyMain As Boolean = False) As Boolean
-        'return true if listBox1 contains all items that contains listBox2
-        '(listBox1 can contain also additional that are not in listBox2)
-        Dim MainEff1 As String, MainEff2 As String
-        Dim dict As New Dictionary(Of String, Integer)
+        Dim dict As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
 
-        If ListBox1.Items.Count = 0 And ListBox2.Items.Count = 0 Then
-            IsSubsetListBox = True
-            Exit Function
-        End If
+        If ListBox1.Items.Count = 0 And ListBox2.Items.Count = 0 Then Return True
 
-        'create dictionary of items in list box 1
+        'Build dict from ListBox1
         For i As Integer = 0 To ListBox1.Items.Count - 1
-            If Right$(ListBox1.Items(i), 2) = "^2" And bOnlyMain Then
-                dict.Add(Left$(ListBox1.Items(i), Len(ListBox1.Items(i)) - 2), 1)
-            ElseIf InStr(ListBox1.Items(i), "''x''") > 0 And bOnlyMain Then
-                Dim PartString() As String = Split(ListBox1.Items(i), "''x''")
-                MainEff1 = Mid$(PartString(0), 3)
-                MainEff2 = Left$(PartString(1), Len(PartString(1)) - 2)
-                dict.Add(MainEff1, 1)
-                dict.Add(MainEff2, 1)
-            Else
-                dict.Add(ListBox1.Items(i), 1)
-            End If
+            Dim keys As List(Of String) = ExtractBaseKeysForSubset(CStr(ListBox1.Items(i)), bOnlyMain)
+            For Each k As String In keys
+                If Not dict.ContainsKey(k) Then dict.Add(k, 1)
+            Next
         Next
 
-        'check if list box 2 item exists in list box 1
+        'Check all required keys from ListBox2 exist in dict
         For i As Integer = 0 To ListBox2.Items.Count - 1
-            If Right$(ListBox2.Items(i), 2) = "^2" And bOnlyMain Then
-                If Not dict.ContainsKey(Left$(ListBox2.Items(i), Len(ListBox2.Items(i)) - 2)) Then Return False
-
-            ElseIf InStr(ListBox2.Items(i), "''X''") > 0 And bOnlyMain Then
-                Dim PartString() As String = Split(ListBox2.Items(i), "''x''")
-                MainEff1 = Mid$(PartString(0), 3)
-                MainEff2 = Left$(PartString(1), Len(PartString(1)) - 2)
-                dict.Add(MainEff1, 1)
-                dict.Add(MainEff2, 1)
-                If Not dict.ContainsKey(MainEff1) Then Return False
-                If Not dict.ContainsKey(MainEff2) Then Return False
-            Else
-                If Not dict.ContainsKey(ListBox2.Items(i)) Then Return False
-            End If
+            Dim keys As List(Of String) = ExtractBaseKeysForSubset(CStr(ListBox2.Items(i)), bOnlyMain)
+            For Each k As String In keys
+                If Not dict.ContainsKey(k) Then Return False
+            Next
         Next
 
         Return True
     End Function
+
+    ''' <summary>
+    ''' Extracts one or more "base keys" from an effect expression.  
+    ''' The function supports several expression formats, including:
+    ''' polynomial expressions using the caret operator, quoted interaction
+    ''' formats, and simple main-effect strings.
+    ''' </summary>
+    ''' <param name="effectText">
+    ''' The raw effect expression to analyze. May contain polynomial notation
+    ''' (e.g., "X^2"), quoted interaction notation (e.g., "A":"B"), or a simple
+    ''' main-effect term.
+    ''' </param>
+    ''' <param name="bOnlyMain">
+    ''' If True, only the main/base portion of the effect is returned.  
+    ''' If False, the entire trimmed effectText is returned as a single key.
+    ''' </param>
+    ''' <returns>
+    ''' A list of extracted base keys.  
+    ''' 
+    ''' <para>
+    ''' Behavior by format:
+    ''' </para>
+    ''' <list type="bullet">
+    '''   <item>
+    '''     <description>
+    '''     If <paramref name="bOnlyMain"/> is False, the function returns a list
+    '''     containing the full trimmed effectText.
+    '''     </description>
+    '''   </item>
+    '''   <item>
+    '''     <description>
+    '''     Polynomial format ("base"^k or base^k):  
+    '''     If the exponent is valid, returns the base portion with outer quotes removed.
+    '''     </description>
+    '''   </item>
+    '''   <item>
+    '''     <description>
+    '''     Quoted interaction format ("A":"B"):  
+    '''     Splits on ":" and returns each quoted component as a separate key.
+    '''     </description>
+    '''   </item>
+    '''   <item>
+    '''     <description>
+    '''     If no special format is detected, returns the trimmed effectText as-is.
+    '''     </description>
+    '''   </item>
+    ''' </list>
+    ''' </returns>
+    Private Function ExtractBaseKeysForSubset(effectText As String, bOnlyMain As Boolean) As List(Of String)
+        Dim out As New List(Of String)
+        Dim s As String = If(effectText, String.Empty).Trim()
+
+        If Not bOnlyMain Then
+            out.Add(s)
+            Return out
+        End If
+
+        '1) Polynomial: "<base>"^k or <base>^k
+        Dim pCaret As Integer = InStrRev(s, "^")
+        If pCaret > 0 AndAlso pCaret < Len(s) Then
+            Dim expStr As String = Mid$(s, pCaret + 1)
+            Dim expVal As Integer
+            If Integer.TryParse(expStr, expVal) Then
+                Dim baseKey As String = Left$(s, pCaret - 1).Trim()
+                out.Add(StripOuterDoubleQuotes(baseKey))
+                Return out
+            End If
+        End If
+
+        '2) New interaction format:  "A":"B"  (also supports multiway in future)
+        If InStr(s, ":") > 0 AndAlso InStr(s, ChrW(34)) > 0 Then
+            Dim parts() As String = Split(s, ":")
+            For Each p As String In parts
+                Dim k As String = StripOuterDoubleQuotes(p.Trim())
+                If k <> String.Empty Then out.Add(k)
+            Next
+            If out.Count >= 2 Then Return out
+            out.Clear()
+        End If
+
+        '3) Main effect as-is
+        out.Add(s)
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Removes a single pair of outer double quotes from the supplied string,
+    ''' if such quotes are present. Inner content is preserved unchanged.
+    ''' </summary>
+    ''' <param name="s">
+    ''' The input string to process. May be quoted, unquoted, or null.
+    ''' </param>
+    ''' <returns>
+    ''' The trimmed string with one pair of leading and trailing double quotes
+    ''' removed if present; otherwise, the trimmed original value.
+    ''' </returns>
+    ''' <remarks>
+    ''' Only removes quotes when both the first and last characters are
+    ''' double quotes. Does not attempt to unescape or modify internal content.
+    ''' </remarks>
+    Private Function StripOuterDoubleQuotes(s As String) As String
+        Dim t As String = If(s, String.Empty).Trim()
+        If Len(t) >= 2 AndAlso Left$(t, 1) = ChrW(34) AndAlso Right$(t, 1) = ChrW(34) Then
+            t = Mid$(t, 2, Len(t) - 2)
+        End If
+        Return t.Trim()
+    End Function
+
 
     ''' <summary>
     ''' Parses a space‑separated string of numbers into a Double array.
@@ -456,8 +550,8 @@ Module UIprocedures
         Loop Until tmp = tb
 
         Dim list() As String = Split(Trim$(tmp), " ")
-        ReDim out(list.length - 1)
-        For i = 0 To list.length - 1
+        ReDim out(list.Length - 1)
+        For i = 0 To list.Length - 1
             Try
                 out(i) = CDbl(list(i))
             Catch
@@ -473,7 +567,6 @@ Module UIprocedures
     ''' <param name="tb">The TextBox or ComboBox control.</param>
     ''' <param name="bkColor">Background color to apply.</param>
     ''' <param name="tiptext">Tooltip text to assign.</param>
-
     Sub setTextBoxProperties(ByRef tb As Object, bkColor As Object, tiptext As String)
         Dim window As Object
         Try
@@ -503,7 +596,7 @@ Module UIprocedures
         Dim ws As Worksheet = Nothing
 
         If refEditValue = String.Empty Then
-            MsgBox("The Reference Range is NULL. Please select some data.", vbExclamation, gsAPP_TITLE)
+            MsgBox("The Reference Range is NULL. Please select some data.", vbExclamation, BESHstatGlobals.gsAPP_TITLE)
             Return True
         End If
 
@@ -516,13 +609,13 @@ Module UIprocedures
         End Try
 
         If Not bIsRange Then
-            MsgBox("The Range is not valid!", vbExclamation, gsAPP_TITLE)
+            MsgBox("The Range is not valid!", vbExclamation, BESHstatGlobals.gsAPP_TITLE)
             Return True
         End If
         If bOneColumn And bIsRange Then
             rRange = ws.Range(refEditValue)
             If rRange.Columns.Count <> 1 Then
-                MsgBox("The Range have to have one column!", vbExclamation, gsAPP_TITLE)
+                MsgBox("The Range have to have one column!", vbExclamation, BESHstatGlobals.gsAPP_TITLE)
                 Return True
             End If
         End If
@@ -606,6 +699,551 @@ Module UIprocedures
             'txtData.ControlTipText = txtData.ControlTipText + sErr + sError
 
         End If
+    End Function
+
+    ''' <summary>
+    ''' Extract a stable coefficient base name from a UI variable key (e.g. "Age | VarA" -> "Age").
+    ''' If no header is present, returns the whole string (e.g. "VarB").
+    ''' </summary>
+    Public Function GetCoefBaseName(varKey As String) As String
+        If String.IsNullOrEmpty(varKey) Then Return String.Empty
+
+        Dim s As String = varKey.Trim()
+        Dim token As String = " | Var"
+
+        Dim idx As Integer = s.IndexOf(token, StringComparison.Ordinal)
+        If idx >= 0 Then
+            Return s.Substring(0, idx).Trim()
+        End If
+
+        Return s
+    End Function
+
+    ''' <summary>
+    ''' Constructs a standardized polynomial effect key using a quoted base term
+    ''' and an integer exponent. The resulting format is: "baseKey"^degree.
+    ''' </summary>
+    ''' <param name="baseKey">
+    ''' The underlying effect name to be wrapped in double quotes.
+    ''' </param>
+    ''' <param name="degree">
+    ''' The polynomial degree to append after the caret symbol.
+    ''' </param>
+    ''' <returns>
+    ''' A string in the form "baseKey"^degree, suitable for use as a
+    ''' polynomial effect identifier.
+    ''' </returns>
+    Public Function MakePolynomialEffectKey(baseKey As String, degree As Integer) As String
+        Return """" & baseKey & """" & "^" & CStr(degree)
+    End Function
+
+    ''' <summary>
+    ''' Builds a standardized interaction-effect key by quoting each base term
+    ''' and joining them with a colon separator. The resulting format is:
+    ''' "A":"B":... for multiway interactions.
+    ''' </summary>
+    ''' <param name="baseKeys">
+    ''' A sequence of effect names that will be individually wrapped in
+    ''' double quotes and combined into a single interaction key.
+    ''' </param>
+    ''' <returns>
+    ''' A colon‑delimited string of quoted effect names, suitable for use as
+    ''' an interaction-effect identifier.
+    ''' </returns>
+    ''' <remarks>
+    ''' The function does not validate or alter the internal content of each
+    ''' key; it only trims, quotes, and concatenates them.
+    ''' </remarks>
+    Public Function MakeInteractionEffectKey(baseKeys As IEnumerable(Of String)) As String
+        Dim quoted As New List(Of String)
+        For Each k As String In baseKeys
+            quoted.Add("""" & k & """")
+        Next
+        Return String.Join(":", quoted)
+    End Function
+
+    ''' <summary>
+    ''' Creates a standardized coefficient-name key for an interaction term by
+    ''' converting each base key into its coefficient-safe form and joining them
+    ''' with a colon separator.
+    ''' </summary>
+    ''' <param name="baseKeys">
+    ''' A sequence of effect base names that will be transformed using
+    ''' <c>GetCoefBaseName</c> and combined into a single interaction
+    ''' coefficient identifier.
+    ''' </param>
+    ''' <returns>
+    ''' A colon‑delimited string of coefficient‑safe names representing the
+    ''' interaction term.
+    ''' </returns>
+    ''' <remarks>
+    ''' This function delegates the normalization of each individual key to
+    ''' <c>GetCoefBaseName</c>, ensuring consistent naming across all effect types.
+    ''' </remarks>
+    Public Function MakeInteractionCoefName(baseKeys As IEnumerable(Of String)) As String
+        Dim names As New List(Of String)
+        For Each k As String In baseKeys
+            names.Add(GetCoefBaseName(k))
+        Next
+        Return String.Join(":", names)
+    End Function
+
+    ''' <summary>
+    ''' Returns the ordered list of RAW worksheet variable keys required to construct the selected effects.
+    ''' Uses TermSpecs when available; otherwise falls back to parsing effect strings:
+    '''   Polynomial:   "A | VarX"^k
+    '''   Interaction:  "A | VarX":"B | VarY":...
+    ''' </summary>
+    Public Function GetRequiredRawVarKeys(effectItems As IEnumerable, termSpecs As Dictionary(Of String, TermSpec)) As List(Of String)
+        Dim raw As New List(Of String)
+
+        If effectItems Is Nothing Then Return raw
+
+        For Each obj As Object In effectItems
+            Dim effKey As String = CStr(obj)
+
+            '1) Prefer TermSpecs mapping
+            If termSpecs IsNot Nothing AndAlso termSpecs.ContainsKey(effKey) Then
+                Dim spec As TermSpec = termSpecs(effKey)
+                If spec IsNot Nothing AndAlso spec.BaseVarKeys IsNot Nothing AndAlso spec.BaseVarKeys.Count > 0 Then
+                    For Each baseKey As String In spec.BaseVarKeys
+                        If Not raw.Contains(baseKey) Then raw.Add(baseKey)
+                    Next
+                    Continue For
+                End If
+            End If
+
+            '2) Fallback parse: polynomial or interaction formatted strings
+            Dim baseKeys As List(Of String) = ExtractBaseKeysFromEffectText(effKey)
+            If baseKeys.Count > 0 Then
+                For Each k As String In baseKeys
+                    If Not raw.Contains(k) Then raw.Add(k)
+                Next
+            Else
+                If Not raw.Contains(effKey) Then raw.Add(effKey)
+            End If
+        Next
+
+        Return raw
+    End Function
+
+    ''' <summary>
+    ''' Extract base variable keys from an effect text if it matches polynomial/interaction UI formats.
+    ''' Returns empty list if it looks like a simple main effect.
+    ''' </summary>
+    Public Function ExtractBaseKeysFromEffectText(effectText As String) As List(Of String)
+        Dim out As New List(Of String)
+        Dim s As String = If(effectText, String.Empty).Trim()
+
+        If s = String.Empty Then Return out
+
+        'Polynomial: "<base>"^k or <base>^k
+        Dim pCaret As Integer = InStrRev(s, "^")
+        If pCaret > 0 AndAlso pCaret < Len(s) Then
+            Dim expStr As String = Mid$(s, pCaret + 1)
+            Dim expVal As Integer
+            If Integer.TryParse(expStr, expVal) Then
+                Dim baseKey As String = Left$(s, pCaret - 1).Trim()
+                out.Add(StripOuterDoubleQuotesPublic(baseKey))
+                Return out
+            End If
+        End If
+
+        'Interaction: "A":"B":"C"...
+        If InStr(s, ":") > 0 AndAlso InStr(s, ChrW(34)) > 0 Then
+            Dim parts() As String = Split(s, ":")
+            For Each p As String In parts
+                Dim k As String = StripOuterDoubleQuotesPublic(p.Trim())
+                If k <> String.Empty Then out.Add(k)
+            Next
+            If out.Count >= 2 Then Return out
+            out.Clear()
+        End If
+
+        'Not a derived effect format
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Removes a single pair of leading and trailing double quotes from the
+    ''' provided string, if such quotes are present. Inner content is left
+    ''' unchanged.
+    ''' </summary>
+    ''' <param name="s">
+    ''' The input string to process. May be quoted, unquoted, or null.
+    ''' </param>
+    ''' <returns>
+    ''' The trimmed string with one outer pair of double quotes removed when
+    ''' applicable; otherwise, the trimmed original value.
+    ''' </returns>
+    ''' <remarks>
+    ''' Only strips quotes when both the first and last characters are
+    ''' double quotes. Does not modify or interpret any internal characters.
+    ''' </remarks>
+    Public Function StripOuterDoubleQuotesPublic(s As String) As String
+        Dim t As String = If(s, String.Empty).Trim()
+        If Len(t) >= 2 AndAlso Left$(t, 1) = ChrW(34) AndAlso Right$(t, 1) = ChrW(34) Then
+            t = Mid$(t, 2, Len(t) - 2)
+        End If
+        Return t.Trim()
+    End Function
+
+    ''' <summary>
+    ''' Updates the <c>Order</c> property of each <c>TermSpec</c> entry based on
+    ''' the sequence of items provided in <paramref name="effectItems"/>.
+    ''' </summary>
+    ''' <param name="effectItems">
+    ''' An ordered collection whose elements represent effect keys. Each item is
+    ''' converted to a string and used to look up the corresponding entry in
+    ''' <paramref name="termSpecs"/>.
+    ''' </param>
+    ''' <param name="termSpecs">
+    ''' A dictionary mapping effect keys to their associated <c>TermSpec</c>
+    ''' objects. Only keys present in this dictionary are updated.
+    ''' </param>
+    ''' <remarks>
+    ''' The method assigns incremental order values starting at zero, following
+    ''' the enumeration order of <paramref name="effectItems"/>. Items not found
+    ''' in <paramref name="termSpecs"/> are ignored.
+    ''' </remarks>
+    Public Sub RefreshTermSpecOrders(effectItems As IEnumerable, termSpecs As Dictionary(Of String, TermSpec))
+        If effectItems Is Nothing OrElse termSpecs Is Nothing Then Exit Sub
+
+        Dim i As Integer = 0
+        For Each obj As Object In effectItems
+            Dim k As String = CStr(obj)
+            If termSpecs.ContainsKey(k) Then termSpecs(k).Order = i
+            i += 1
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Computes an integer power of a floating‑point value using simple
+    ''' repeated multiplication. Supports non‑negative integer exponents.
+    ''' </summary>
+    ''' <param name="x">
+    ''' The base value to be raised to a power.
+    ''' </param>
+    ''' <param name="degree">
+    ''' The non‑negative integer exponent.  
+    ''' A value of 0 returns 1.0; a value of 1 returns <paramref name="x"/>.
+    ''' </param>
+    ''' <returns>
+    ''' The value of <paramref name="x"/> raised to the specified integer power.
+    ''' </returns>
+    ''' <remarks>
+    ''' This implementation uses iterative multiplication and does not perform
+    ''' any overflow checking or handle negative exponents.
+    ''' </remarks>
+    Private Function PowInt(x As Double, degree As Integer) As Double
+        If degree = 0 Then Return 1.0
+        If degree = 1 Then Return x
+
+        Dim r As Double = 1.0
+        For k As Integer = 1 To degree
+            r *= x
+        Next
+        Return r
+    End Function
+
+    ''' <summary>
+    ''' Build expanded LM data matrix: [Y | expanded X], where expanded X includes
+    ''' polynomial and interaction columns based on TermSpecs/effectItems.
+    ''' varNames returned includes Y at index 0 and expanded predictors thereafter.
+    ''' </summary>
+    Public Sub BuildExpandedLmDataMatrix(raw As glmData, yKey As String, effectItems As IEnumerable,
+                                         termSpecs As Dictionary(Of String, TermSpec),
+                                         ByRef outData(,) As Double,
+                                         ByRef outVarNames() As String)
+
+        If raw Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
+        If effectItems Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
+
+        'Materialize effects in display/order sequence (ListBox order)
+        Dim effects As New List(Of String)
+        For Each obj As Object In effectItems
+            effects.Add(CStr(obj))
+        Next
+
+        Dim nRows As Integer = raw.nRows
+        Dim pExpanded As Integer = effects.Count 'expanded predictors count (1 column per effect)
+
+        'Raw imported numeric matrix includes Y at col 0 and raw X in subsequent columns
+        Dim rawMat(,) As Double = raw.DataDbl
+
+        'Map raw variable keys -> column index in rawMat
+        'rawMat col 0 = Y; col 1.. = raw predictors in the order GetRequiredRawVarKeys produced
+        Dim rawXKeys As List(Of String) = GetRequiredRawVarKeys(effectItems, termSpecs)
+        Dim rawIndex As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+
+        For j As Integer = 0 To rawXKeys.Count - 1
+            rawIndex(rawXKeys(j)) = j + 1
+        Next
+
+        'Allocate output: columns = 1 (Y) + pExpanded predictors
+        ReDim outData(nRows - 1, pExpanded)
+        ReDim outVarNames(pExpanded) '0..pExpanded
+
+        'Y name
+        outVarNames(0) = GetCoefBaseName(yKey)
+
+        'Copy Y
+        For i As Integer = 0 To nRows - 1
+            outData(i, 0) = rawMat(i, 0)
+        Next
+
+        'Build expanded predictors in effects order
+        For e As Integer = 0 To effects.Count - 1
+            Dim effKey As String = effects(e)
+
+            Dim kind As String = "MainEffect"
+            Dim baseKeys As List(Of String) = Nothing
+            Dim degree As Integer = 1
+            Dim coefName As String = Nothing
+
+            If termSpecs IsNot Nothing AndAlso termSpecs.ContainsKey(effKey) AndAlso termSpecs(effKey) IsNot Nothing Then
+                Dim spec As TermSpec = termSpecs(effKey)
+                kind = If(spec.Kind, "MainEffect")
+                baseKeys = spec.BaseVarKeys
+                degree = spec.Degree
+                coefName = spec.DisplayNameForCoef
+            End If
+
+            'Fallbacks when no spec exists
+            If baseKeys Is Nothing OrElse baseKeys.Count = 0 Then
+                baseKeys = New List(Of String) From {effKey}
+            End If
+            If String.IsNullOrEmpty(coefName) Then
+                'If user didn’t store DisplayNameForCoef, infer from base key
+                If String.Equals(kind, "Polynomial", StringComparison.OrdinalIgnoreCase) Then
+                    coefName = GetCoefBaseName(baseKeys(0)) & "^" & CStr(degree)
+                ElseIf String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
+                    Dim tmp As New List(Of String)
+                    For Each bk As String In baseKeys
+                        tmp.Add(GetCoefBaseName(bk))
+                    Next
+                    coefName = String.Join(":", tmp)
+                Else
+                    coefName = GetCoefBaseName(baseKeys(0))
+                End If
+            End If
+
+            outVarNames(e + 1) = coefName
+
+            'Compute column values
+            If String.Equals(kind, "Polynomial", StringComparison.OrdinalIgnoreCase) Then
+                If degree < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Polynomial degree must be >=2 for term '{effKey}'."))
+
+                Dim bk As String = baseKeys(0)
+                If Not rawIndex.ContainsKey(bk) Then
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by polynomial term '{effKey}'."))
+                End If
+                Dim col As Integer = rawIndex(bk)
+
+                For i As Integer = 0 To nRows - 1
+                    outData(i, e + 1) = PowInt(rawMat(i, col), degree)
+                Next
+
+            ElseIf String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
+                If baseKeys.Count < 2 Then
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Interaction term '{effKey}' must have at least 2 base variables."))
+                End If
+
+                'validate all base keys exist
+                Dim cols As New List(Of Integer)
+                For Each bk As String In baseKeys
+                    If Not rawIndex.ContainsKey(bk) Then
+                        BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
+                    End If
+                    cols.Add(rawIndex(bk))
+                Next
+
+                For i As Integer = 0 To nRows - 1
+                    Dim prod As Double = 1.0
+                    For Each c As Integer In cols
+                        prod *= rawMat(i, c)
+                    Next
+                    outData(i, e + 1) = prod
+                Next
+
+            Else
+                'Main effect (or unknown kind treated as main effect)
+                Dim bk As String = baseKeys(0)
+                If Not rawIndex.ContainsKey(bk) Then
+                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by term '{effKey}'."))
+                End If
+                Dim col As Integer = rawIndex(bk)
+
+                For i As Integer = 0 To nRows - 1
+                    outData(i, e + 1) = rawMat(i, col)
+                Next
+            End If
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' Extracts the variable‑suffix portion of a base effect key. Supports keys
+    ''' that optionally contain a descriptive prefix followed by " | ".
+    ''' </summary>
+    ''' <param name="baseKey">
+    ''' The full effect key from which the suffix should be extracted. May be
+    ''' a simple name (e.g., "VarC") or a composite form (e.g., "Age | VarA").
+    ''' </param>
+    ''' <returns>
+    ''' The suffix portion of the key.  
+    ''' If the key contains the token " | ", the substring after the token is
+    ''' returned; otherwise, the trimmed key itself is returned.  
+    ''' Returns "var" when <paramref name="baseKey"/> is null or empty.
+    ''' </returns>
+    ''' <remarks>
+    ''' This function does not validate the semantic meaning of the suffix; it
+    ''' simply parses based on the presence of the " | " delimiter.
+    ''' </remarks>
+    Private Function ExtractVarSuffix(baseKey As String) As String
+        If String.IsNullOrEmpty(baseKey) Then Return "var"
+
+        'Base key examples:
+        '  "Age | VarA"  -> suffix "VarA"
+        '  "VarC"        -> suffix "VarC"
+        Dim token As String = " | "
+        Dim idx As Integer = baseKey.IndexOf(token, StringComparison.Ordinal)
+        If idx >= 0 AndAlso idx + token.Length < baseKey.Length Then
+            Return baseKey.Substring(idx + token.Length).Trim()
+        End If
+
+        Return baseKey.Trim()
+    End Function
+
+    ''' <summary>
+    ''' Build custom term groups for LinearModel.Fit() term-wise ANOVA.
+    ''' Column indices refer to the design matrix X inside LinearModel (i.e. include intercept shift).
+    ''' 
+    ''' Grouping rule:
+    '''  - MainEffect/Polynomial: grouped by base variable (GetCoefBaseName(baseKey)), so Age + Age^2 -> one term.
+    '''  - Interaction: one term per interaction (DisplayNameForCoef by default).
+    ''' </summary>
+    Public Function BuildCustomTermGroupsForLm(effectItems As IEnumerable,
+                                               termSpecs As Dictionary(Of String, TermSpec),
+                                               includeIntercept As Boolean) As Dictionary(Of String, Integer())
+
+        Dim groups As New Dictionary(Of String, List(Of Integer))(StringComparer.Ordinal)
+        Dim colOffset As Integer = If(includeIntercept, 1, 0)
+
+        'Optional: include intercept group
+        If includeIntercept Then
+            groups("Intercept") = New List(Of Integer) From {0}
+        End If
+
+        'For base-name disambiguation across duplicate headers
+        Dim baseNameToKeys As New Dictionary(Of String, List(Of String))(StringComparer.Ordinal)
+        Dim baseKeyToGroupName As New Dictionary(Of String, String)(StringComparer.Ordinal)
+
+        'For interaction-name collision handling
+        Dim usedGroupNames As New HashSet(Of String)(StringComparer.Ordinal)
+        If includeIntercept Then usedGroupNames.Add("Intercept")
+
+        Dim effects As New List(Of String)
+        For Each obj As Object In effectItems
+            effects.Add(CStr(obj))
+        Next
+
+        For e As Integer = 0 To effects.Count - 1
+            Dim effKey As String = effects(e)
+            Dim xCol As Integer = e + colOffset
+
+            Dim kind As String = "MainEffect"
+            Dim baseKeys As List(Of String) = Nothing
+            Dim coefName As String = Nothing
+
+            If termSpecs IsNot Nothing AndAlso termSpecs.ContainsKey(effKey) AndAlso termSpecs(effKey) IsNot Nothing Then
+                Dim spec As TermSpec = termSpecs(effKey)
+                kind = If(spec.Kind, "MainEffect")
+                baseKeys = spec.BaseVarKeys
+                coefName = spec.DisplayNameForCoef
+            End If
+
+            If baseKeys Is Nothing OrElse baseKeys.Count = 0 Then
+                baseKeys = New List(Of String) From {effKey}
+            End If
+
+            Dim groupName As String
+
+            If String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
+                'Interaction term name for ANOVA
+                If String.IsNullOrEmpty(coefName) Then
+                    coefName = MakeInteractionCoefName(baseKeys)
+                End If
+                groupName = coefName
+
+                'Ensure unique group name
+                If usedGroupNames.Contains(groupName) Then
+                    Dim k As Integer = 2
+                    Dim candidate As String = $"{groupName} ({k})"
+                    While usedGroupNames.Contains(candidate)
+                        k += 1
+                        candidate = $"{groupName} ({k})"
+                    End While
+                    groupName = candidate
+                End If
+
+            Else
+                'MainEffect or Polynomial -> group by base variable (so poly joins main)
+                Dim baseKey As String = baseKeys(0)
+                Dim baseName As String = GetCoefBaseName(baseKey)
+
+                If Not baseNameToKeys.ContainsKey(baseName) Then
+                    baseNameToKeys(baseName) = New List(Of String)
+                End If
+
+                Dim list As List(Of String) = baseNameToKeys(baseName)
+
+                If Not list.Contains(baseKey) Then
+                    list.Add(baseKey)
+
+                    'If this baseName now maps to multiple different baseKeys, disambiguate ALL
+                    If list.Count >= 2 Then
+                        For Each bk As String In list
+                            Dim desired As String = baseName & " (" & ExtractVarSuffix(bk) & ")"
+
+                            If baseKeyToGroupName.ContainsKey(bk) Then
+                                Dim oldName As String = baseKeyToGroupName(bk)
+                                'Rename existing group if it used the ambiguous baseName
+                                If oldName = baseName AndAlso groups.ContainsKey(oldName) Then
+                                    groups(desired) = groups(oldName)
+                                    groups.Remove(oldName)
+                                End If
+                                baseKeyToGroupName(bk) = desired
+                            Else
+                                baseKeyToGroupName(bk) = desired
+                            End If
+                        Next
+                    End If
+                End If
+
+                'Pick groupName for this baseKey
+                If baseKeyToGroupName.ContainsKey(baseKey) Then
+                    groupName = baseKeyToGroupName(baseKey)
+                Else
+                    groupName = baseName
+                    baseKeyToGroupName(baseKey) = groupName
+                End If
+
+            End If
+
+            usedGroupNames.Add(groupName)
+
+            If Not groups.ContainsKey(groupName) Then groups(groupName) = New List(Of Integer)
+            groups(groupName).Add(xCol)
+        Next
+
+        'Convert lists to arrays
+        Dim out As New Dictionary(Of String, Integer())(StringComparer.Ordinal)
+        For Each kvp In groups
+            Dim arr As Integer() = kvp.Value.Distinct().OrderBy(Function(z) z).ToArray()
+            out(kvp.Key) = arr
+        Next
+
+        Return out
     End Function
 
 End Module

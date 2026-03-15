@@ -53,7 +53,7 @@ Public Class Ui4KMandLogRank
                 Me.RunLogrank(data)
             End If
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -79,7 +79,7 @@ Public Class Ui4KMandLogRank
                 grpData(i) = "0"
             Next
         Else
-            grpData = Array2strArray(GetColumnFrom2Darray(d, 0))
+            grpData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, 0))
             colId += 1
         End If
         Dim NoGroups As Integer = grpData.Distinct().Count()
@@ -91,12 +91,12 @@ Public Class Ui4KMandLogRank
                 strataData(i) = "0"
             Next
         Else
-            strataData = Array2strArray(GetColumnFrom2Darray(d, colId))
+            strataData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, colId))
             colId += 1
         End If
 
-        Dim SurvD = survival.CreatSurvivalData(Array2dblArray(GetColumnFrom2Darray(d, colId)),
-                                      Array2intArray(GetColumnFrom2Darray(d, colId + 1)),
+        Dim SurvD = survival.CreatSurvivalData(Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d, colId)),
+                                      Matrix.Array2intArray(Matrix.GetColumnFrom2Darray(d, colId + 1)),
                                       grpData, strataData, strErr)
 
         If strErr <> String.Empty Then
@@ -148,7 +148,6 @@ Public Class Ui4KMandLogRank
     End Sub
 
     Private Function getData(ByRef strErr As String) As DataObj
-        Dim out = New MultiGroupsUnpairedData
         Dim byIdData = New DataObj
         Dim refTime As String, refCen As String, refFinal As String, refGroup As String = String.Empty, refStrata As String = String.Empty
         Dim CharCols As Integer = 0
@@ -240,14 +239,14 @@ Public Class Ui4KMandLogRank
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = app.Workbooks.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

@@ -110,7 +110,7 @@ Namespace regression
         ''' Returns the identity matrix as the dependence‑parameter matrix.
         ''' </summary>
         Public Overrides Function DepParams(gee As GEE, Optional bFullCov As Boolean = True) As Double(,)
-            Return IdentityMat(gee.TimesDict.Count - 1)
+            Return Matrix.IdentityMat(gee.TimesDict.Count - 1)
         End Function
 
         ''' <summary>
@@ -127,9 +127,9 @@ Namespace regression
                 V(i) = stDev(i) ^ 2
             Next
 
-            res_wdmat = M_DIV(wdmat, V, tmpTrace)
+            res_wdmat = Matrix.M_DIV(wdmat, V, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
-            res_wresid = M_DIV(wresid, V, tmpTrace)
+            res_wresid = Matrix.M_DIV(wresid, V, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
         End Sub
 
@@ -144,7 +144,7 @@ Namespace regression
         ''' Returns an identity working‑correlation matrix for the cluster.
         ''' </summary>
         Public Overrides Function covarianceMatrix(endog_expval() As Double, gee As GEE, index As Integer) As Double(,)
-            Return IdentityMat(gee.TimesDict.Count - 1)
+            Return Matrix.IdentityMat(gee.TimesDict.Count - 1)
         End Function
     End Class
 
@@ -214,7 +214,7 @@ Namespace regression
                     sdev(j) = Math.Sqrt(v)
                 Next
 
-                Dim resid() As Double = M_DIV(M_SUB(endog, expval), sdev, tmpTrace)
+                Dim resid() As Double = Matrix.M_DIV(Matrix.M_SUB(endog, expval), sdev, tmpTrace)
                 If tmpTrace <> String.Empty Then strTrace &= vbNewLine & tmpTrace
                 Dim ssr As Double = SumSq(resid)
                 ngrp = resid.Length
@@ -259,14 +259,14 @@ Namespace regression
             'helper sub to process Exchangable covariance structure when inM is 1D
             Dim tmp2() As Double, tmpTrace As String = String.Empty
 
-            Dim tmp() As Double = M_DIV(inM, stDev)
+            Dim tmp() As Double = Matrix.M_DIV(inM, stDev)
             Dim sumTot As Double = tmp.Sum()
             ReDim tmp2(UBound(tmp))
             For i = 0 To UBound(tmp)
                 tmp2(i) = (tmp(i) / (1 - Me.pDepParams)) - (c * sumTot)
             Next
 
-            CovMatSolveExchangable = M_DIV(tmp2, stDev, tmpTrace)
+            CovMatSolveExchangable = Matrix.M_DIV(tmp2, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace &= vbNewLine & tmpTrace
         End Function
 
@@ -278,7 +278,7 @@ Namespace regression
             'helper sub to process Exchangable covariance structure when inM is 2D
             Dim tmpTrace As String = String.Empty
 
-            Dim tmp(,) As Double = M_DIV(inM, stDev)
+            Dim tmp(,) As Double = Matrix.M_DIV(inM, stDev)
             Dim tmp2(UBound(tmp), UBound(tmp, 2)) As Double, arrSumtot(UBound(tmp, 2)) As Double
             'Get column sums
             For i = 0 To UBound(tmp)
@@ -293,7 +293,7 @@ Namespace regression
                 Next
             Next
 
-            CovMatSolveExchangable = M_DIV(tmp2, stDev, tmpTrace)
+            CovMatSolveExchangable = Matrix.M_DIV(tmp2, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace &= vbNewLine & tmpTrace
         End Function
 
@@ -328,7 +328,7 @@ Namespace regression
                     End If
                 Next
             Next
-            Debug.Print(array2str(out))
+            Debug.Print(Matrix.array2str(out))
             Return out
         End Function
 
@@ -352,9 +352,9 @@ Namespace regression
                     V(i) = stDev(i) * stDev(i)
                 Next
 
-                res_wdmat = M_DIV(wdmat, V, tmpTrace)
+                res_wdmat = Matrix.M_DIV(wdmat, V, tmpTrace)
                 If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
-                res_wresid = M_DIV(wresid, V, tmpTrace)
+                res_wresid = Matrix.M_DIV(wresid, V, tmpTrace)
                 If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
 
             ElseIf k = 2 Then 'wdmat/wresid has two rows
@@ -366,7 +366,7 @@ Namespace regression
                 Next
                 res_wdmat = covMatSolveAR1_2(wdmat, stDev, mat, tmpTrace)
                 If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
-                res_wresid = GetColumnFrom2Darray(covMatSolveAR1_2(wresid, stDev, mat, tmpTrace), 0)
+                res_wresid = Matrix.GetColumnFrom2Darray(covMatSolveAR1_2(wresid, stDev, mat, tmpTrace), 0)
                 If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
 
             ElseIf k >= 3 Then ' >= 3 rows: values c0, c1, c2 defined below give the inverse.
@@ -413,7 +413,7 @@ Namespace regression
                     sdev(j) = Math.Sqrt(v)
                 Next
 
-                resid = M_DIV(M_SUB(endog, expval), sdev, tmpTrace)
+                resid = Matrix.M_DIV(Matrix.M_SUB(endog, expval), sdev, tmpTrace)
                 If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
 
                 totN1 += (n - 1)
@@ -454,10 +454,10 @@ Namespace regression
                                       mat(,) As Double, ByRef Optional strTrace As String = "") As Double(,)
             Dim tmpTrace As String = String.Empty
 
-            Dim x(,) As Double = M_DIV(inM, stDev, tmpTrace)
+            Dim x(,) As Double = Matrix.M_DIV(inM, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace &= vbNewLine & tmpTrace
-            Dim x1(,) As Double = MatrixMult(mat, x)
-            covMatSolveAR1_2 = M_DIV(x1, stDev, tmpTrace)
+            Dim x1(,) As Double = Matrix.MatrixMult(mat, x)
+            covMatSolveAR1_2 = Matrix.M_DIV(x1, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace &= vbNewLine & tmpTrace
         End Function
 
@@ -468,10 +468,10 @@ Namespace regression
                                       mat(,) As Double, ByRef Optional strTrace As String = "") As Double(,)
             Dim tmpTrace As String = String.Empty
 
-            Dim x() As Double = M_DIV(inM, stDev, tmpTrace)
+            Dim x() As Double = Matrix.M_DIV(inM, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace &= vbNewLine & tmpTrace
-            Dim x1(,) As Double = MatrixMult(mat, x)
-            covMatSolveAR1_2 = M_DIV(x1, stDev, tmpTrace)
+            Dim x1(,) As Double = Matrix.MatrixMult(mat, x)
+            covMatSolveAR1_2 = Matrix.M_DIV(x1, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace &= vbNewLine & tmpTrace
         End Function
 
@@ -482,7 +482,7 @@ Namespace regression
         Private Function covMatSolveAR1_3(inM() As Double, stDev() As Double,
                                       c0 As Double, c1 As Double, c2 As Double, ByRef Optional strTrace As String = "") As Double()
             Dim tmpTrace As String = String.Empty
-            Dim x() As Double = M_DIV(inM, stDev, tmpTrace)
+            Dim x() As Double = Matrix.M_DIV(inM, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
 
             Dim y(UBound(x)) As Double, rhs1(UBound(x)) As Double, rhs2(UBound(x)) As Double
@@ -501,7 +501,7 @@ Namespace regression
                 End If
             Next
 
-            covMatSolveAR1_3 = M_DIV(y, stDev, tmpTrace)
+            covMatSolveAR1_3 = Matrix.M_DIV(y, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
 
         End Function
@@ -514,7 +514,7 @@ Namespace regression
                                       c0 As Double, c1 As Double, c2 As Double, ByRef Optional strTrace As String = "") As Double(,)
 
             Dim tmpTrace As String = String.Empty
-            Dim x(,) As Double = M_DIV(inM, stDev, tmpTrace)
+            Dim x(,) As Double = Matrix.M_DIV(inM, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
 
             Dim y(UBound(x), UBound(x, 2)) As Double, rhs1(UBound(x), UBound(x, 2)) As Double, rhs2(UBound(x), UBound(x, 2)) As Double
@@ -536,7 +536,7 @@ Namespace regression
                 Next
             Next
 
-            covMatSolveAR1_3 = M_DIV(y, stDev, tmpTrace)
+            covMatSolveAR1_3 = Matrix.M_DIV(y, stDev, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
         End Function
 
@@ -571,7 +571,7 @@ Namespace regression
             Dim vco(,) As Double = Nothing, iErr As Integer, bSuccess As Boolean
 
             Dim vmat(,) As Double = covarianceMatrix(expval, gee, index)
-            Dim tmp(,) As Double = M_OUTERPRODUCT(stDev, stDev)
+            Dim tmp(,) As Double = Matrix.M_OUTERPRODUCT(stDev, stDev)
 
             For i = 0 To UBound(vmat)
                 For k = 0 To UBound(vmat, 2)
@@ -583,10 +583,10 @@ Namespace regression
             'Factor the covariance matrix.  If the factorization fails, attempt to condition it into a factorizable matrix.
             For i = 0 To 20
                 iErr = 0
-                vco = Cholesky(vmat, iErr, False)
-                If iErr > 0 Then 'Matrix not positive-definite. Compute pseudoinverse
+                vco = Matrix.Cholesky(vmat, iErr, False)
+                If iErr > 0 Then 'MatrixType not positive-definite. Compute pseudoinverse
                     strTrace = strTrace & " WARNING: CHOLESKY. bmat not positive-definite. Calling CovNearest." & vbNewLine
-                    strTrace = strTrace & " i=" & CStr(i) & " vmat=" & array2str(vmat) & " treshold=" & CStr(threshold) & " bSuccess=" & CStr(bSuccess) & vbNewLine
+                    strTrace = strTrace & " i=" & CStr(i) & " vmat=" & Matrix.array2str(vmat) & " treshold=" & CStr(threshold) & " bSuccess=" & CStr(bSuccess) & vbNewLine
                     bSuccess = False
                     vmat = CovNearest(vmat, threshold)
                     threshold *= 2
@@ -603,13 +603,13 @@ Namespace regression
                         If i <> k Then vmat(i, k) = 0
                     Next
                 Next
-                BSlogg.Log($"WARNING: CovNearest was not successful. Using vmat.  vmat={array2str(vmat)}", LogMsgType.Warn)
-                strTrace &= $"WARNING: CovNearest was not successful. Using vmat.  vmat={array2str(vmat)}"
-                vco = Cholesky(vmat, iErr, False)
+                BESHstatGlobals.BSlogg.Log($"WARNING: CovNearest was not successful. Using vmat.  vmat={Matrix.array2str(vmat)}", BESHstatGlobals.LogMsgType.Warn)
+                strTrace &= $"WARNING: CovNearest was not successful. Using vmat.  vmat={Matrix.array2str(vmat)}"
+                vco = Matrix.Cholesky(vmat, iErr, False)
             End If
 
-            res_wdmat = CholSolve(vco, wdmat)
-            res_wresid = CholSolve(vco, wresid)
+            res_wdmat = Matrix.CholSolve(vco, wdmat)
+            res_wresid = Matrix.CholSolve(vco, wresid)
         End Sub
 
         ''' <summary>
@@ -642,7 +642,7 @@ Namespace regression
                 Next
 
 
-                resid = M_DIV(M_SUB(endog, expval), sdev, tmpTrace)
+                resid = Matrix.M_DIV(Matrix.M_SUB(endog, expval), sdev, tmpTrace)
                 If tmpTrace <> String.Empty Then strTrace = strTrace & vbNewLine & tmpTrace
                 Dim ssr As Double = SumSq(resid)
                 Dim ii As Integer = 0
@@ -681,7 +681,7 @@ Namespace regression
                     End If
                 Next
             Next
-            cov = M_DIV(cov, csum, tmpTrace)
+            cov = Matrix.M_DIV(cov, csum, tmpTrace)
             If tmpTrace <> String.Empty Then strTrace &= vbNewLine & tmpTrace
 
             For i = 0 To UBound(cov)
@@ -699,7 +699,7 @@ Namespace regression
         ''' </summary>
         Public Overrides Function covarianceMatrix(endog_expval() As Double, gee As GEE, index As Integer) As Double(,)
             Dim out(,) As Double
-            If pDepParams Is Nothing Then Me.pDepParams = IdentityMat(gee.UniqueTimesDict.Count - 1)
+            If pDepParams Is Nothing Then Me.pDepParams = Matrix.IdentityMat(gee.UniqueTimesDict.Count - 1)
             If gee.hasTime Then
                 'TODO: need to test this on live data. I assume that the subset of the pDepParams matrix should be returned
                 ' based on what times we have in the current cluster

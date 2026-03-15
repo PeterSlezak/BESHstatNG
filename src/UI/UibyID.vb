@@ -119,8 +119,8 @@ Public Class UibyID
             columData.DataInport(prepareRef2D(Me.RefEdit1.Address), True)
             columData2.DataInport(prepareRef2D(Me.RefEdit2.Address), True)
 
-            out.X1 = GetColumnFrom2Darray(columData.DataDbl, 0)
-            out.X2 = GetColumnFrom2Darray(columData2.DataDbl, 0)
+            out.X1 = Matrix.GetColumnFrom2Darray(columData.DataDbl, 0)
+            out.X2 = Matrix.GetColumnFrom2Darray(columData2.DataDbl, 0)
             out.name1 = columData.varNames(0)
             out.name2 = columData2.varNames(0)
         Else
@@ -138,8 +138,8 @@ Public Class UibyID
 
             'get unique group IDs
 
-            groupIDs = GetColumnFrom2Darray(columData.FinalData, 0).Distinct().ToArray()
-            Debug.Print(array2str(groupIDs))
+            groupIDs = Matrix.GetColumnFrom2Darray(columData.FinalData, 0).Distinct().ToArray()
+            Debug.Print(Matrix.array2str(groupIDs))
             If groupIDs.Length <> 2 Then strErr = "Number Of groups must be eq 2"
 
             Dim coljagged()() As Double = columData.DataByID2ByColumn()
@@ -175,7 +175,7 @@ Public Class UibyID
                 Dim columData = New DataObj
                 columData.DataInport(ref1, True)
                 If columData.FinalData IsNot Nothing Then 'save data
-                    outData(ii) = GetColumnFrom2Darray(columData.DataDbl, 0)
+                    outData(ii) = Matrix.GetColumnFrom2Darray(columData.DataDbl, 0)
                     groupIDs(ii) = columData.varNames(0)
                     ii += 1
                 End If
@@ -206,7 +206,7 @@ Public Class UibyID
 
             'Debug.Print(array2str(byIdData.FinalData))
             out.X = byIdData.DataByID2ByColumn()
-            out.varNames = Array2strArray(GetColumnFrom2Darray(byIdData.FinalData, 0).Distinct().ToArray())
+            out.varNames = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(byIdData.FinalData, 0).Distinct().ToArray())
             Return out
         End If
 
@@ -271,7 +271,7 @@ Public Class UibyID
                 End If
             End If
         Catch ex As Exception
-            BSerr.LogAndThrow(ex, False, True)
+            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -560,7 +560,7 @@ Public Class UibyID
                 Dim sw_res = assumptions.ShapiroWilk(data.X(i), strErr)
                 sw_r = {{""}, {sw_res.TestStatistics1}, {sw_res.Pvalue}}
             Else
-                BSlogg.Log("N not in range between 3 and 5000")
+                BESHstatGlobals.BSlogg.Log("N not in range between 3 and 5000")
                 sw_r = {{"NA n<4 or n>5000"}, {"NA n<4 or n>5000"}, {"NA n<4 or n>5000"}}
             End If
 
@@ -569,7 +569,7 @@ Public Class UibyID
                 Dim da_res = assumptions.DAgostino(data.X(i), strErr)
                 da_r = {{""}, {da_res.TestStatistics1}, {da_res.Pvalue}}
             Else
-                BSlogg.Log("N not >= 9")
+                BESHstatGlobals.BSlogg.Log("N not >= 9")
                 da_r = {{"NA n<9"}, {"NA n<9"}, {"NA n<9"}}
             End If
 
@@ -577,15 +577,15 @@ Public Class UibyID
                 Dim ad_res = assumptions.AndersonDarlingTEST(data.X(i))
                 ad_r = {{""}, {ad_res.TestStatistics1}, {ad_res.Pvalue}}
             Else
-                BSlogg.Log("N not > 1")
+                BESHstatGlobals.BSlogg.Log("N not > 1")
                 ad_r = {{"NA"}, {"NA"}, {"NA"}}
             End If
 
-            results = VerticalStackArrays(results, HorizontalStackArrays(HorizontalStackArrays(sw_r, da_r), ad_r))
+            results = Matrix.VerticalStackArrays(results, Matrix.HorizontalStackArrays(Matrix.HorizontalStackArrays(sw_r, da_r), ad_r))
         Next
         rTable.SetBody(results)
-        rTable.AddHeaderTopRow(ConcatArrays({"Normality Tests"}, data.varNames))
-        Res.add(rTable)
+        rTable.AddHeaderTopRow(Matrix.ConcatArrays({"Normality Tests"}, data.varNames))
+        res.add(rTable)
 
         'descriptive statistics
         If Me.ckDescriptiveStatistics.Checked Then Res.add(Me.ComputeDescriptiveStats(data))
@@ -746,7 +746,7 @@ Public Class UibyID
                 If o Is Nothing Then
                     o = {{"Levene", ""}, {"Test statistics", varResult.TestStatistics1}, {"P-value", varResult.Pvalue}}
                 Else
-                    o = HorizontalStackArrays(o, {{"Levene", ""}, {"Test statistics", varResult.TestStatistics1}, {"P-value", varResult.Pvalue}})
+                    o = Matrix.HorizontalStackArrays(o, {{"Levene", ""}, {"Test statistics", varResult.TestStatistics1}, {"P-value", varResult.Pvalue}})
                 End If
             End If
             If Me.ckSquaredRanks.Checked Then
@@ -754,7 +754,7 @@ Public Class UibyID
                 If o Is Nothing Then
                     o = {{"Squared Ranks", ""}, {"Test statistics", varResult.TestStatistics1}, {"P-value", varResult.Pvalue}}
                 Else
-                    o = HorizontalStackArrays(o, {{"Squared Ranks", ""}, {"Test statistics", varResult.TestStatistics1}, {"P-value", varResult.Pvalue}})
+                    o = Matrix.HorizontalStackArrays(o, {{"Squared Ranks", ""}, {"Test statistics", varResult.TestStatistics1}, {"P-value", varResult.Pvalue}})
                 End If
             End If
 
@@ -763,7 +763,7 @@ Public Class UibyID
                 If o Is Nothing Then
                     o = {{"Bartlett", ""}, {"Test statistics", varResult.TestStatistics1}, {"P-value", varResult.Pvalue}}
                 Else
-                    o = HorizontalStackArrays(o, {{"Bartlett", ""}, {"Test statistics", varResult.TestStatistics1}, {"P-value", varResult.Pvalue}})
+                    o = Matrix.HorizontalStackArrays(o, {{"Bartlett", ""}, {"Test statistics", varResult.TestStatistics1}, {"P-value", varResult.Pvalue}})
                 End If
             End If
             t.AddHeaderTopRow({"Homogeneity of Variances", ""})
@@ -781,11 +781,11 @@ Public Class UibyID
         For i = 1 To data.X.Length - 1
             Dim ds2 = New DescriptiveStat(data.X(i))
             ds2.compute()
-            tableBody = VerticalStackArrays(tableBody, ds2.wrapSelf(False, statsToReturn))
+            tableBody = Matrix.VerticalStackArrays(tableBody, ds2.wrapSelf(False, statsToReturn))
         Next
         descTable.SetBody(tableBody)
         descTable.AddTitle("Descriptive Statistics")
-        descTable.AddHeaderTopRow(ConcatArrays({""}, data.varNames))
+        descTable.AddHeaderTopRow(Matrix.ConcatArrays({""}, data.varNames))
 
         Return descTable
     End Function
@@ -947,14 +947,14 @@ Public Class UibyID
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = app.Workbooks.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = app.ActiveWorkbook
+            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)
