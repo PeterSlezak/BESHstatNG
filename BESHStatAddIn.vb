@@ -20,10 +20,13 @@ Public Class BESHStatAddIn
         BESHstatGlobals.gXllPath = Path.GetDirectoryName(BESHstatGlobals.gXllName)
         BESHstatGlobals.gLogFile = BESHstatGlobals.gXllPath & "\Logs\all.log"
         'recreate log file (warning/error files content is kept)
-        Dim LogFileStream = New FileStream(BESHStatNG.gLogFile, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite)
+        Dim LogFileStream = New FileStream(BESHstatGlobals.gLogFile, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite)
         LogFileStream.Dispose()
         BESHstatGlobals.gLogger = NLog.LogManager.GetCurrentClassLogger()
         BESHstatGlobals.gLogger.Info("Logger started")
+
+        ' Background update check (non-blocking).
+        BESHStatUpdate.AutoUpdate.Start(4000)
     End Sub
 
     Public Sub AutoClose() Implements IExcelAddIn.AutoClose
@@ -45,7 +48,7 @@ Public Class Ribbon
     Friend Shared XllPath As String = Nothing
 
     Public Overrides Function GetCustomUI(RibbonID As String) As String
-        Return BESHStatNG.My.Resources.RibbonXML ' The name here is the resource name that the ribbon xml has in the BESHStatResources resource file
+        Return My.Resources.RibbonXML ' The name here is the resource name that the ribbon xml has in the BESHStatResources resource file
     End Function
 
     '--------------------------------------------------------------------------
@@ -129,7 +132,7 @@ Public Class Ribbon
             BESHstatGlobals.app.Workbooks.Add()
             sh = BESHstatGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui11PCA("Scatter Plot Matrix", sh)
+        Dim mwForm As New Ui11PCA("Scatter Plot MatrixType", sh)
         mwForm.Tag = HelpTopic.ScatterPlotMatrix
         mwForm.Show()
     End Sub

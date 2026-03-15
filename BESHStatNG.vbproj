@@ -124,6 +124,13 @@
     <Compile Include="src\DM\DataObj.vb" />
     <Compile Include="src\DM\Helpers.vb" />
     <Compile Include="src\DM\SheetManagement.vb" />
+    <Compile Include="src\ExcelUDFs\CoxUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\DistributionUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\NonparametricUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\SurvivalUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\UDFhelpers.vb" />
+    <Compile Include="src\ExcelUDFs\UdfRangeHelpers.vb" />
+    <Compile Include="src\Graphics\3Dobjects.vb" />
     <Compile Include="src\Graphics\BoxPlot.vb" />
     <Compile Include="src\Graphics\ChartExport.vb" />
     <Compile Include="src\Graphics\ChartingFunc.vb" />
@@ -268,6 +275,10 @@
     <Compile Include="src\DM\UIprocedures.vb" />
     <Compile Include="src\Help\HelpLinks.vb" />
     <Compile Include="src\Help\HelpContext.vb" />
+    <Compile Include="src\UI\UiUpdateAvailable.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\Update\AutoUpdate.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -334,6 +345,9 @@
     <EmbeddedResource Include="src\UI\UiTwoInputRefedits.resx">
       <DependentUpon>UiTwoInputRefedits.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\UiUpdateAvailable.resx">
+      <DependentUpon>UiUpdateAvailable.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
