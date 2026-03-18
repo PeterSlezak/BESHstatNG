@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports BESHStatNG.AppInfrastructure
 
 Public Module Helpers
 
@@ -57,7 +58,7 @@ Public Module Helpers
         ' Validate all requested row indices
         For Each key In rIds.Keys
             If key < 0 OrElse key > rowCount Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
             End If
         Next
 
@@ -177,7 +178,7 @@ Public Module Helpers
         ' Validate all requested indices
         For Each key In rIds.Keys
             If key < 0 OrElse key > rowCount Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
             End If
         Next
 

@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui12SampleSizeTtestSingleProp
@@ -9,8 +10,8 @@ Public Class Ui12SampleSizeTtestSingleProp
         InitializeComponent()
 
         Me.Text = analysis
-        Me.lblSettings.Text = "Use " & Chr(34) & BESHstatGlobals.app.DecimalSeparator & Chr(34) & " as a decimal separator and " &
-                                      Chr(34) & BESHstatGlobals.app.ThousandsSeparator & Chr(34) & " as a thousands separator."
+        Me.lblSettings.Text = "Use " & Chr(34) & AppGlobals.app.DecimalSeparator & Chr(34) & " as a decimal separator and " &
+                                      Chr(34) & AppGlobals.app.ThousandsSeparator & Chr(34) & " as a thousands separator."
 
         ' Add any initialization after the InitializeComponent() call.
         If Me.Text = "Sample Size - Paired T-test" Then
@@ -42,7 +43,7 @@ Public Class Ui12SampleSizeTtestSingleProp
 
             Me.CheckData(strErr, wait)
             If strErr <> String.Empty Then
-                MsgBox(strErr, vbExclamation, BESHstatGlobals.gsAPP_TITLE)
+                MsgBox(strErr, vbExclamation, AppGlobals.gsAPP_TITLE)
                 Exit Sub
             End If
 
@@ -56,7 +57,7 @@ Public Class Ui12SampleSizeTtestSingleProp
                 Me.RunIndependentProp()
             End If
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -91,7 +92,7 @@ Public Class Ui12SampleSizeTtestSingleProp
         End If
 
         If Len(sAllErrors) > 0 Then
-            MsgBox(sAllErrors, vbExclamation, BESHstatGlobals.gsAPP_TITLE)
+            MsgBox(sAllErrors, vbExclamation, AppGlobals.gsAPP_TITLE)
             Exit Sub 'Display any error we got in the main call
         End If
 
@@ -151,7 +152,7 @@ Public Class Ui12SampleSizeTtestSingleProp
         End If
 
         If Len(sAllErrors) > 0 Then
-            MsgBox(sAllErrors, vbExclamation, BESHstatGlobals.gsAPP_TITLE)
+            MsgBox(sAllErrors, vbExclamation, AppGlobals.gsAPP_TITLE)
             Exit Sub 'Display any error we got in the main call
         End If
 
@@ -264,8 +265,8 @@ Public Class Ui12SampleSizeTtestSingleProp
 
     Private Sub btnSaveToSheet_Click(sender As Object, e As System.EventArgs) Handles btnSaveToSheet.Click
         If Me.tbOutput.Text <> String.Empty Then
-            BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-            Dim sh As Worksheet = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+            Dim sh As Worksheet = AppGlobals.app.ActiveWorkbook.ActiveSheet
             sh.Cells(1, 1) = Me.Text
             Dim i As Integer = 2
             For Each s As String In Me.tbOutput.Lines

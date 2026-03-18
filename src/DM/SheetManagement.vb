@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop
 Imports Microsoft.Office.Interop.Excel
@@ -114,9 +115,9 @@ Friend Module SheetManagement
     ''' </example>
     Public Function CountNonmissing(r As Range, bNumeric_only As Boolean) As Integer
         If bNumeric_only Then
-            Return BESHstatGlobals.app.WorksheetFunction.Count(r)
+            Return AppGlobals.app.WorksheetFunction.Count(r)
         Else
-            Return BESHstatGlobals.app.WorksheetFunction.CountA(r)
+            Return AppGlobals.app.WorksheetFunction.CountA(r)
         End If
     End Function
 
@@ -173,12 +174,12 @@ Friend Module SheetManagement
     Public Function ColNumber2Letter(ColumnNumber As Integer) As String
         Dim ColumnLetter As String = String.Empty
         Try
-            If BESHstatGlobals.app.ActiveSheet.Type = XlSheetType.xlWorksheet Then
-                ColumnLetter = Split(BESHstatGlobals.app.ActiveSheet.Cells(1, ColumnNumber).Address, "$")(1)
+            If AppGlobals.app.ActiveSheet.Type = XlSheetType.xlWorksheet Then
+                ColumnLetter = Split(AppGlobals.app.ActiveSheet.Cells(1, ColumnNumber).Address, "$")(1)
             Else
-                For Each ws As Worksheet In BESHstatGlobals.app.ActiveWorkbook.Worksheets
+                For Each ws As Worksheet In AppGlobals.app.ActiveWorkbook.Worksheets
                     If ws.Type = XlSheetType.xlWorksheet Then
-                        ColumnLetter = Split(BESHstatGlobals.app.ActiveSheet.Cells(1, ColumnNumber).Address, "$")(1)
+                        ColumnLetter = Split(AppGlobals.app.ActiveSheet.Cells(1, ColumnNumber).Address, "$")(1)
                         Exit For
                     End If
                 Next ws
@@ -254,7 +255,7 @@ Friend Module SheetManagement
 
         'Try to extract worksheet name from the RefEditValue and create a worksheet object
         If strAddr = String.Empty Or InStr(1, strAddr, "!") = 0 Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Cannot get worksheet name. Probably an invalid reference string. strAddr=" & strAddr))
+            AppGlobals.BSerr.LogAndThrow(New ApplicationException("Cannot get worksheet name. Probably an invalid reference string. strAddr=" & strAddr))
         End If
 
         countExclm = Len(strAddr) - Len(Replace(strAddr, "!", String.Empty))
@@ -267,16 +268,16 @@ Friend Module SheetManagement
             wks = Left$(strAddr, nIndex - 1)
         ElseIf countExclm > 1 And InStr(1, strAddr, "'") = 0 Then
             'we should be having apostroph if name contains !
-            BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .condition 3.. Unrecognized reference range adress string = " & strAddr))
+            AppGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .condition 3.. Unrecognized reference range adress string = " & strAddr))
         ElseIf countExclm > 1 And InStr(1, strAddr, "'") > 0 Then
             'This should not happen. In this case string should contain "'!" which is our first condition.
-            BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .condition 4.. Unrecognized reference range adress string = " & strAddr))
+            AppGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .condition 4.. Unrecognized reference range adress string = " & strAddr))
         Else
-            BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .else condition.. Unrecognized reference range adress string = " & strAddr))
+            AppGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .else condition.. Unrecognized reference range adress string = " & strAddr))
         End If
 
         If WB Is Nothing Then
-            Return BESHstatGlobals.app.ActiveWorkbook.Worksheets(wks)
+            Return AppGlobals.app.ActiveWorkbook.Worksheets(wks)
         Else
             Return WB.Worksheets(wks)
         End If
@@ -319,7 +320,7 @@ Friend Module SheetManagement
 
         Dim info As VarColumnInfo = Nothing
         If Not VarList.TryGetValue(CStr(var), info) OrElse info Is Nothing Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Variable not found in VarList: '{var}'."))
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Variable not found in VarList: '{var}'."))
         End If
 
         Dim col As String = info.ColumnLetter
@@ -335,9 +336,9 @@ Friend Module SheetManagement
                                       varList As Dictionary(Of String, VarColumnInfo),
                                       Optional skipEmpty As Boolean = True) As String
 
-        If ws Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(ws)))
-        If varKeys Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(varKeys)))
-        If varList Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(varList)))
+        If ws Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(ws)))
+        If varKeys Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(varKeys)))
+        If varList Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(varList)))
 
         Dim parts As New List(Of String)
 

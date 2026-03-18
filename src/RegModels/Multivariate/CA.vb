@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Namespace Multivariate
@@ -153,7 +154,7 @@ Namespace Multivariate
             Else
                 pRowNames = rows
                 If pRowNames.Length <> pR Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Number of Contingency table rows and Row labels don't match!"))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Number of Contingency table rows and Row labels don't match!"))
                 End If
             End If
 
@@ -163,7 +164,7 @@ Namespace Multivariate
             Else
                 pColNames = cols
                 If pColNames.Length <> pC Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Number of Contingency table columns And Column labels don't match!"))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Number of Contingency table columns And Column labels don't match!"))
                 End If
             End If
         End Sub
@@ -766,7 +767,7 @@ Namespace Multivariate
         Public Sub Calculate()
             Dim axesToCompute As Integer = Math.Min(2, pDim + 1)  'pDim+1 = number of eigenvalues stored
             If axesToCompute < 1 Then
-                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Not enough dimensions for correspondence analysis."))
+                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Not enough dimensions for correspondence analysis."))
             End If
 
             Dim prop(pR - 1, pC - 1) As Double, Dr(pR - 1, pR - 1) As Double, Dc(pC - 1, pC - 1) As Double
@@ -1255,8 +1256,8 @@ Namespace Multivariate
             End If
 
             If ws Is Nothing Then
-                BESHstatGlobals.app.Charts.Add()
-                figure = BESHstatGlobals.app.ActiveWorkbook.ActiveChart
+                AppGlobals.app.Charts.Add()
+                figure = AppGlobals.app.ActiveWorkbook.ActiveChart
             Else
                 figure = ws.Shapes.AddChart.Chart
             End If
@@ -1316,8 +1317,8 @@ Namespace Multivariate
             Dim udPlotAxisX As graphics.CHARTscale = graphics.ChartScaling(Math.Min(RowFactors(0).Min(), ColFactors(0).Min()), Math.Max(RowFactors(0).Max(), ColFactors(0).Max()))
 
             If ws Is Nothing Then
-                BESHstatGlobals.app.Charts.Add()
-                figure = BESHstatGlobals.app.ActiveWorkbook.ActiveChart
+                AppGlobals.app.Charts.Add()
+                figure = AppGlobals.app.ActiveWorkbook.ActiveChart
             Else
                 figure = ws.Shapes.AddChart.Chart
             End If

@@ -1,6 +1,7 @@
 ﻿Option Explicit On
-Imports Microsoft.Office.Interop.Excel
 Imports System.Linq
+Imports BESHStatNG.AppInfrastructure
+Imports Microsoft.Office.Interop.Excel
 
 Namespace Multivariate
 
@@ -492,8 +493,8 @@ Namespace Multivariate
             Dim udAxisX As graphics.CHARTscale = graphics.ChartScaling(-scl1, scl1)
             Dim udAxisY As graphics.CHARTscale = graphics.ChartScaling(-scl2, scl2)
 
-            BESHstatGlobals.app.Charts.Add()
-            With BESHstatGlobals.app.ActiveWorkbook.ActiveChart
+            AppGlobals.app.Charts.Add()
+            With AppGlobals.app.ActiveWorkbook.ActiveChart
                 .Name = "Loadings Plot2D"
                 .ChartType = XlChartType.xlXYScatter
 
@@ -658,8 +659,8 @@ Namespace Multivariate
             Dim udAxisX As graphics.CHARTscale = graphics.ChartScaling(pc1.Min(), pc1.Max())
             Dim udAxisY As graphics.CHARTscale = graphics.ChartScaling(pc2.Min(), pc2.Max())
 
-            BESHstatGlobals.app.Charts.Add()
-            With BESHstatGlobals.app.ActiveWorkbook.ActiveChart
+            AppGlobals.app.Charts.Add()
+            With AppGlobals.app.ActiveWorkbook.ActiveChart
                 .Name = "Score Plot2D"
                 .ChartType = XlChartType.xlXYScatter
 
@@ -773,7 +774,7 @@ Namespace Multivariate
             Dim series_id As Integer, lam(1) As Double, titl As String = String.Empty
 
             If pNoExtractComponents < 2 Then Exit Sub
-            If c < 0.0 Or c > 1.0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("biplot 'scale' is outside of range [0, 1]"))
+            If c < 0.0 Or c > 1.0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("biplot 'scale' is outside of range [0, 1]"))
 
             If c = 0.0 Then
                 titl = "GH, or column-metric preserving"
@@ -810,8 +811,8 @@ Namespace Multivariate
             Dim udAxisY As graphics.CHARTscale = graphics.ChartScaling(Math.Min(pc2.Min(), Load2.Min()), Math.Max(pc2.Max(), Load2.Max()))
 
             'Create chart
-            BESHstatGlobals.app.Charts.Add()
-            With BESHstatGlobals.app.ActiveWorkbook.ActiveChart
+            AppGlobals.app.Charts.Add()
+            With AppGlobals.app.ActiveWorkbook.ActiveChart
                 .Name = "Biplot scale=" & CStr(c)
                 .ChartType = XlChartType.xlXYScatter
 
@@ -946,8 +947,8 @@ Namespace Multivariate
         '''''' </remarks>
         Public Sub screePlot()
 
-            BESHstatGlobals.app.Charts.Add()
-            With BESHstatGlobals.app.ActiveWorkbook.ActiveChart
+            AppGlobals.app.Charts.Add()
+            With AppGlobals.app.ActiveWorkbook.ActiveChart
                 .Name = "Scree Plot"
                 .ChartType = XlChartType.xlXYScatter
 
@@ -1031,7 +1032,7 @@ Namespace Multivariate
             Dim out(k) As Double
             Dim sd As Double = stDev(vector)
             If sd = 0.0 OrElse Double.IsNaN(sd) OrElse Double.IsInfinity(sd) Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Cannot standardize: SD is zero/invalid."))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Cannot standardize: SD is zero/invalid."))
             End If
 
             For i As Integer = 0 To k

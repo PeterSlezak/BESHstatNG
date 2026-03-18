@@ -72,9 +72,6 @@
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="NLog, Version=6.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.6.0.5\lib\net46\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -118,15 +115,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="src\AppSettings.vb" />
     <Compile Include="src\BaseStat\Distributions.vb" />
     <Compile Include="src\BaseStat\StatFunc.vb" />
-    <Compile Include="src\BESHstatGlobals.vb" />
+    <Compile Include="src\AppGlobals.vb" />
     <Compile Include="src\DM\DataObj.vb" />
     <Compile Include="src\DM\Helpers.vb" />
     <Compile Include="src\DM\SheetManagement.vb" />
     <Compile Include="src\ExcelUDFs\CoxUDFs.vb" />
     <Compile Include="src\ExcelUDFs\DistributionUDFs.vb" />
     <Compile Include="src\ExcelUDFs\NonparametricUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\ParametricUDFs.vb" />
     <Compile Include="src\ExcelUDFs\SurvivalUDFs.vb" />
     <Compile Include="src\ExcelUDFs\UDFhelpers.vb" />
     <Compile Include="src\ExcelUDFs\UdfRangeHelpers.vb" />
@@ -361,9 +360,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
-    </None>
-    <None Include="nlog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\ExcelDna.Build.props" />

@@ -2,6 +2,7 @@
 Imports System.Drawing.Drawing2D
 Imports System.Linq
 Imports System.Runtime.InteropServices.ComTypes
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Namespace survival
@@ -144,7 +145,7 @@ Namespace survival
 
             If t.Length <> s.Length Or t.Length <> g.Length Or t.Length <> strat.Length Then
                 strErr = "Invalid input dimensions"
-                BESHstatGlobals.BSlogg.Log(strErr)
+                AppGlobals.BSlogg.Log(strErr)
                 Return Nothing
             End If
 
@@ -158,13 +159,13 @@ Namespace survival
                 Dim sr As New SurvivalRecord
                 If t(i) < 0 Then
                     strErr = "Unexpected time value (values less then zero are expected) but got = " & CStr(s(i))
-                    BESHstatGlobals.BSlogg.Log(strErr)
+                    AppGlobals.BSlogg.Log(strErr)
                     Return Nothing
                 End If
 
                 If s(i) < 0 Or s(i) > 1 Then
                     strErr = "Unexpected censoring indictor (0/1 values are expected) but got = " & CStr(s(i))
-                    BESHstatGlobals.BSlogg.Log(strErr)
+                    AppGlobals.BSlogg.Log(strErr)
                     Return Nothing
                 End If
 
@@ -219,6 +220,9 @@ Namespace survival
         ''' <summary>Weighting method used for the log‑rank test.</summary>
         Private pWeightMethod As String
 
+        ''' <summary>Requested significance level for survival confidence intervals.</summary>
+        Private pAlpha As Double = 0.05
+
         ''' <summary>Log‑rank test results.</summary>
         Private LogRankres As TestResult
 
@@ -246,10 +250,10 @@ Namespace survival
         ''' <summary>Median survival times for each group.</summary>
         Private MedianSurvivalTime() As Double
 
-        ''' <summary>Lower 95% CI for median survival times.</summary>
+        ''' <summary>Lower confidence limit for median survival times at level <c>1 - pAlpha</c>.</summary>
         Private MedianSurvivalTimeLLCI() As Double
 
-        ''' <summary>Upper 95% CI for median survival times.</summary>
+        ''' <summary>Upper confidence limit for median survival times at level <c>1 - pAlpha</c>.</summary>
         Private MedianSurvivalTimeULCI() As Double
 
         ''' <summary>Fixed‑time survival comparison results (two‑group case).</summary>
@@ -272,10 +276,21 @@ Namespace survival
             Me.SurvivalProbability()
         End Sub
 
+        Private Shared Function FormatValueForDisplay(x As Double) As String
+            If Double.IsNaN(x) Then Return "#N/A"
+            If Double.IsPositiveInfinity(x) Then Return "#Pinf"
+            If Double.IsNegativeInfinity(x) Then Return "#Ninf"
+            Return CStr(x)
+        End Function
+
+        Private Shared Function FormatIntervalForDisplay(lower As Double, upper As Double) As String
+            Return $"{FormatValueForDisplay(lower)} to {FormatValueForDisplay(upper)}"
+        End Function
+
         ''' <summary>
         ''' Produces formatted result tables summarizing:
         ''' <list type="bullet">
-        '''   <item><description>Median survival times with 95% CI</description></item>
+        '''   <item><description>Median survival times with confidence intervals at level <c>1 - pAlpha</c></description></item>
         '''   <item><description>Brookmeyer–Crowley median test</description></item>
         '''   <item><description>Weighted log‑rank test results</description></item>
         '''   <item><description>Hazard ratio and CI (two‑group case)</description></item>
@@ -293,17 +308,18 @@ Namespace survival
             Dim Lr(,) As Object = Nothing
             Dim rTable = New ResultTable
             Dim tmp(NoGroups - 1, 1) As Object
+            Dim ciLabelShort As String = $"{100.0 * (1.0 - Me.pAlpha):0.##}% CI"
 
             'median surviaval time and confidence intervals  -------------------------------------------------
             If Me.MedianSurvivalTime IsNot Nothing Then
                 For i = 0 To NoGroups - 1
                     tmp(i, 0) = Me.MedianSurvivalTime(i)
-                    tmp(i, 1) = $"{Me.MedianSurvivalTimeLLCI(i)} to {Me.MedianSurvivalTimeULCI(i)}"
+                    tmp(i, 1) = FormatIntervalForDisplay(Me.MedianSurvivalTimeLLCI(i), Me.MedianSurvivalTimeULCI(i))
                 Next
                 rTable.SetBody(tmp)
                 rTable.AddHeaderLeftRow(Me.grpIDs.ToArray())
                 rTable.AddHeaderTopRow({"Median Survival Time", "", ""})
-                rTable.AddHeaderTopRow({"Group", "Median Survival Time", "95%CI"})
+                rTable.AddHeaderTopRow({"Group", "Median Survival Time", ciLabelShort})
                 out.Add(rTable)
             End If
 
@@ -329,7 +345,7 @@ Namespace survival
                 If LogRankres IsNot Nothing Then
                     Lr = Matrix.HorizontalStackArrays(Lr,
                                            {{"Hazard ratio(" & grpIDs(0) & " vs. " & grpIDs(1) & ")", HRres.Estimate},
-                                            {"Approximate 95% CI", HRres.strConfidenceInterval(CIformat.LL_to_UL)}})
+                                            {"Approximate " & HRres.CIlabel, HRres.strConfidenceInterval(CIformat.LL_to_UL)}})
                     t.SetBody(Lr)
                     out.Add(t)
                 End If
@@ -368,7 +384,7 @@ Namespace survival
                 rTable = New ResultTable
                 rTable.SetBody(KMtab)
                 rTable.AddHeaderTopRow({"Survival Cuve Tabular Result", "", "", "", "", "", ""})
-                rTable.AddHeaderTopRow({"Time", "Group", "AtRisk", "S", "SE(S)", "95%LCL", "95%UCL"})
+                rTable.AddHeaderTopRow({"Time", "Group", "AtRisk", "S", "SE(S)", $"{100.0 * (1.0 - Me.pAlpha):0.##}% LCL", $"{100.0 * (1.0 - Me.pAlpha):0.##}% UCL"})
                 out.Add(rTable)
             End If
 
@@ -376,12 +392,12 @@ Namespace survival
         End Function
 
         ''' <summary>
-        ''' Computes a weighted log‑rank test for comparing survival curves across
+        ''' Performs a weighted log-rank test to compare survival distributions between
         ''' groups. Supported weighting schemes:
         ''' <list type="bullet">
         '''   <item><description><c>logrank</c> — equal weights</description></item>
         '''   <item><description><c>gehan-breslow</c> — weights proportional to number at risk</description></item>
-        '''   <item><description><c>tarone-ware</c> — square‑root weights</description></item>
+        '''   <item><description><c>tarone-ware</c> — square-root weights</description></item>
         '''   <item><description><c>peto</c> — Peto–Peto modification</description></item>
         '''   <item><description><c>modified peto</c> — Anderson modification</description></item>
         ''' </list>
@@ -392,7 +408,8 @@ Namespace survival
         ''' </code>
         ''' where Z is the vector of weighted observed–expected event differences.
         ''' 
-        ''' For two groups, a hazard ratio and 95% CI are also computed using:
+        ''' For two groups, a hazard ratio and a two-sided confidence interval at level <c>1 - alpha</c>
+        ''' are also computed using:
         ''' <code>
         ''' HR (O/E method) = (O1/E1) / (O2/E2)
         ''' with SE(log HR) ≈ sqrt(1/E1 + 1/E2)
@@ -406,15 +423,21 @@ Namespace survival
         ''' </list>
         ''' </summary>
         ''' <param name="weightMethod">Weighting scheme name.</param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the hazard-ratio confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>A <see cref="TestResult"/> containing χ² and p-value.</returns>
-        Public Function WeightedLogRankTest(weightMethod As String) As TestResult
+        Public Function WeightedLogRankTest(weightMethod As String, Optional alpha As Double = 0.05) As TestResult
             Const small As Double = 0.0000000000001
             Me.pWeightMethod = weightMethod
+            Me.pAlpha = alpha
+            Dim z As Double = distributions.ZCritTwoSided(alpha)
             Dim ii As Integer, Events1 As Double, Events2 As Double
             Dim NoTimes As Integer '# of distinct survival times at whitch at least one event occured
 
             If Me.AllCenzoredInGroup() Then
-                BESHstatGlobals.BSlogg.Log("Log rank test skipped, because a group with all record censored detected.")
+                AppGlobals.BSlogg.Log("Log rank test skipped, because a group with all record censored detected.")
                 Return Nothing
             End If
             'ascending order of Time
@@ -582,12 +605,13 @@ Namespace survival
             Next
             Dim chi2(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(Zj2T, VarINV), Zj2)
 
-            'calculate HR and 95% CI if there are two groups
+            'calculate HR and confidence interval if there are two groups
             If NoGroups = 2 Then
                 Me.HRres = New ConfidenceIntervalResult
+                Me.HRres.alpha = alpha
                 Me.HRres.Estimate = ((Events1 / (ZjLR(0) - Events1)) / (Events2 / (ZjLR(1) - Events2)))
-                Me.HRres.LowerLimit = Math.Exp(Math.Log(Me.HRres.Estimate) - 1.96 * Math.Sqrt(1.0 / ((ZjLR(0) - Events1) * -1) + 1.0 / ((ZjLR(1) - Events2) * -1)))
-                Me.HRres.UpperLimit = Math.Exp(Math.Log(Me.HRres.Estimate) + 1.96 * Math.Sqrt(1.0 / ((ZjLR(0) - Events1) * -1) + 1.0 / ((ZjLR(1) - Events2) * -1)))
+                Me.HRres.LowerLimit = Math.Exp(Math.Log(Me.HRres.Estimate) - z * Math.Sqrt(1.0 / ((ZjLR(0) - Events1) * -1) + 1.0 / ((ZjLR(1) - Events2) * -1)))
+                Me.HRres.UpperLimit = Math.Exp(Math.Log(Me.HRres.Estimate) + z * Math.Sqrt(1.0 / ((ZjLR(0) - Events1) * -1) + 1.0 / ((ZjLR(1) - Events2) * -1)))
             End If
 
             Me.LogRankres = New TestResult
@@ -655,8 +679,8 @@ Namespace survival
         '''   <item><description>Number at risk</description></item>
         '''   <item><description>Survival probability S(t)</description></item>
         '''   <item><description>Greenwood SE</description></item>
-        '''   <item><description>Log‑SE</description></item>
-        '''   <item><description>95% confidence limits</description></item>
+        '''   <item><description>Log-SE</description></item>
+        '''   <item><description>Two-sided confidence limits at level <c>1 - alpha</c></description></item>
         ''' </list>
         ''' 
         ''' External dependencies:
@@ -666,9 +690,15 @@ Namespace survival
         '''   <item><description><c>SurvivalCurveAtRisk</c></description></item>
         ''' </list>
         ''' </summary>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the Kaplan–Meier confidence limits.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>An array of lists of <see cref="SurvivalTableRecord"/> objects.</returns>
-        Public Function SurvivalCurveTabularOutput() As Object()
+        Public Function SurvivalCurveTabularOutput(Optional alpha As Double = 0.05) As Object()
 
+            Me.pAlpha = alpha
+            Dim z As Double = distributions.ZCritTwoSided(alpha)
             Dim LogSE = Me.SurvivalCurveLogSE()
             Dim AtRiskOUT = SurvivalCurveAtRisk()
             Dim n As Integer = Me.pSortedRecords.Count()
@@ -717,8 +747,8 @@ Namespace survival
                     tmp.AtRisk = TableRecords(i).AtRisk
                     tmp.Prob = TableRecords(i).Prob
                     tmp.SE = TableRecords(i).SE
-                    tmp.ProbCILL = tmp.Prob ^ Math.Exp(1.96 * TableRecords(i).LogSE)
-                    tmp.ProbCIUL = tmp.Prob ^ Math.Exp(-1.96 * TableRecords(i).LogSE)
+                    tmp.ProbCILL = tmp.Prob ^ Math.Exp(z * TableRecords(i).LogSE)
+                    tmp.ProbCIUL = tmp.Prob ^ Math.Exp(-z * TableRecords(i).LogSE)
                     out_tmp.Add(tmp)
                 Next
                 out(j) = out_tmp
@@ -784,7 +814,7 @@ Namespace survival
         ''' 
         ''' Used to compute log‑transformed confidence intervals:
         ''' <code>
-        ''' CI = S(t) ^ exp( ±1.96 × logSE )
+        ''' CI = S(t) ^ exp( ± z_(1 − α/2) × logSE )
         ''' </code>
         ''' </summary>
         ''' <returns>A 2D array LogSE(group, timeIndex).</returns>
@@ -800,7 +830,7 @@ Namespace survival
                             If InRisk(j) <> 1 Then 'would produce division by zero
                                 sum(j) += (Me.pSortedRecords(i).Censorship / (InRisk(j) * (InRisk(j) - Me.pSortedRecords(i).Censorship)))
                                 sum2(j) += Math.Log((InRisk(j) - Me.pSortedRecords(i).Censorship) / InRisk(j))
-                                LogSE(j, i) = Math.Sqrt(sum(j)) / (-sum2(j)) 'for 95%CI computation using Transformation Method.
+                                LogSE(j, i) = Math.Sqrt(sum(j)) / (-sum2(j)) 'for confidence interval at level 1 - alpha computation using Transformation Method.
                                 'Survival Analysis: A Practical Approach. p.42-43 by David Machin, Yin Bun Cheung, Mahesh Parmar
                             End If
                         ElseIf Me.pSortedRecords(i).Censorship = 0 Then
@@ -946,7 +976,7 @@ Namespace survival
 
             ' Step 2: Estimate pooled Kaplan-Meier median
             Dim survivalProb As Double = 1.0
-            Dim pooledMedian As Double = -1.0
+            Dim pooledMedian As Double = Double.NaN
 
             For Each t In sorted.Where(Function(r) r.Censorship = 1).Select(Function(r) r.Time).Distinct().OrderBy(Function(q) q)
                 Dim atRisk = sorted.Where(Function(r) r.Time >= t).Count()
@@ -958,10 +988,12 @@ Namespace survival
                 End If
             Next
 
-            If pooledMedian < 0 Then 'Median not reached
+            If Double.IsNaN(pooledMedian) Then ' Median not reached
                 out.DF1 = NoGroups - 1
                 out.TestStatistics1 = Double.NaN
                 out.Pvalue = Double.NaN
+                Me.pBrookmeyerCrowleyMedianTestResult = out
+                Return out
             End If
 
             ' --- Compute pseudocounts ---
@@ -1023,7 +1055,7 @@ Namespace survival
         End Function
 
         ''' <summary>
-        ''' Computes median survival times and corresponding 95% confidence intervals
+        ''' Computes median survival times and corresponding confidence intervals
         ''' for each group using the Brookmeyer–Crowley method.
         ''' 
         ''' Method:
@@ -1039,10 +1071,10 @@ Namespace survival
         '''   <item><description>Tracks the Kaplan–Meier survival probability S(t).</description></item>
         '''   <item><description>Identifies the first time where S(t) ≤ 0.5 as the median.</description></item>
         '''   <item><description>Uses the standardized quantity
-        '''     <c>(S(t) − 0.5) / SE(S(t))</c> to determine lower/upper CI limits based on
-        '''     ±1.96 cutoffs.</description></item>
-        '''   <item><description>Groups without a reached median retain default −1 values
-        '''     for median and CI limits.</description></item>
+        '''     <c>(S(t) − 0.5) / SE(S(t))</c> to determine lower/upper confidence limits based on
+        '''     <c>± z_(1 − alpha / 2)</c> cutoffs.</description></item>
+        '''   <item><description>Groups without a reached median retain default <c>Double.NaN</c> values
+        '''     for median and confidence limits.</description></item>
         ''' </list>
         ''' 
         ''' Results are stored in:
@@ -1052,16 +1084,22 @@ Namespace survival
         '''   <item><description><c>MedianSurvivalTimeULCI</c></description></item>
         ''' </list>
         ''' </summary>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the Brookmeyer–Crowley confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>
         ''' A 2D array <c>Out(group, 0..2)</c> containing, for each group:
         ''' <list type="bullet">
         '''   <item><description>Column 0: Median survival time</description></item>
-        '''   <item><description>Column 1: Lower 95% confidence limit</description></item>
-        '''   <item><description>Column 2: Upper 95% confidence limit</description></item>
+        '''   <item><description>Column 1: Lower confidence limit</description></item>
+        '''   <item><description>Column 2: Upper confidence limit</description></item>
         ''' </list>
-        ''' Groups without a defined median or CI have −1 in the corresponding fields.
+        ''' Groups without a defined median or CI have <c>Double.NaN</c> in the corresponding fields.
         ''' </returns>
-        Public Function BrookmeyerCrowleyMedianSurvivalCI() As Object(,)
+        Public Function BrookmeyerCrowleyMedianSurvivalCI(Optional alpha As Double = 0.05) As Object(,)
+            Me.pAlpha = alpha
+            Dim z As Double = distributions.ZCritTwoSided(alpha)
             Dim ii() As Integer, LogSurvProb() As Double, bPrvaMensia() As Boolean, bWasSmaller() As Boolean
             Dim n As Integer = Me.pRecords.Count
             ReDim Me.MedianSurvivalTime(NoGroups - 1), LogSurvProb(NoGroups - 1), bPrvaMensia(NoGroups - 1), bWasSmaller(NoGroups - 1)
@@ -1069,11 +1107,11 @@ Namespace survival
 
             For j = 0 To NoGroups - 1
                 bPrvaMensia(j) = True
-                '-1 is default value, we can than check whether median is present in given group. If negative
-                'in the end, given group does not have median survival time. The same holds for 95%CI.
-                MedianSurvivalTime(j) = -1.0
-                MedianSurvivalTimeLLCI(j) = -1.0
-                MedianSurvivalTimeULCI(j) = -1.0
+                'Double.NaN is the default not-estimable value.
+                'If it remains NaN, the group does not have an estimable median survival time and/or confidence interval at level 1 - alpha.
+                MedianSurvivalTime(j) = Double.NaN
+                MedianSurvivalTimeLLCI(j) = Double.NaN
+                MedianSurvivalTimeULCI(j) = Double.NaN
             Next
 
             For i = 1 To n
@@ -1082,15 +1120,15 @@ Namespace survival
 
                         If Me.pSortedRecords(i - 1).Censorship = 1 And Me.pSEGreenwood(i, j) > 0 Then LogSurvProb(j) = (Me.pSurvivalProb(i, j) - 0.5) / Me.pSEGreenwood(i, j)
 
-                        'compute median survival time and 95% CI
+                        'compute median survival time and confidence interval at level 1 - alpha
                         If Me.pSurvivalProb(i, j) <= 0.5 And ii(j) = 0 Then 'store only 1st value smaler then 0.5
                             MedianSurvivalTime(j) = Me.pSortedRecords(i - 1).Time
                             ii(j) = 1
                         End If
 
-                        '95% CI - lower limit
+                        'confidence interval at level 1 - alpha - lower limit
                         If Me.pSortedRecords(i - 1).Censorship <> 0 Then 'for censored observation it's always zero
-                            If LogSurvProb(j) <= 1.96 Then 'the 1st smaller is CI limit
+                            If LogSurvProb(j) <= z Then 'the 1st smaller is CI limit
                                 If bPrvaMensia(j) Then
                                     MedianSurvivalTimeLLCI(j) = Me.pSortedRecords(i - 1).Time
                                     bPrvaMensia(j) = False
@@ -1098,10 +1136,10 @@ Namespace survival
                             End If
 
                             'upper limit. store only if median exists
-                            If LogSurvProb(j) >= -1.96 And ii(j) = 1 And Not bWasSmaller(j) Then
+                            If LogSurvProb(j) >= -z And ii(j) = 1 And Not bWasSmaller(j) Then
                                 ' Use the right end of the KM plateau for the reported upper CI time (step-function friendly reporting).
                                 MedianSurvivalTimeULCI(j) = StepPlateauRightEndTime(i, j)
-                            ElseIf LogSurvProb(j) < -1.96 And ii(j) = 1 And Not bWasSmaller(j) Then
+                            ElseIf LogSurvProb(j) < -z And ii(j) = 1 And Not bWasSmaller(j) Then
                                 bWasSmaller(j) = True
                             End If
 
@@ -1329,11 +1367,11 @@ Namespace survival
         End Function
 
         ''' <summary>
-        ''' Creates a Kaplan–Meier survival plot in an Excel worksheet, including:
+        ''' Adds a Kaplan–Meier plot to an Excel worksheet, including:
         ''' <list type="bullet">
-        '''   <item><description>Step‑function survival curves for each group</description></item>
+        '''   <item><description>Step-function survival curves for each group</description></item>
         '''   <item><description>Censoring markers</description></item>
-        '''   <item><description>Optional 95% confidence limits</description></item>
+        '''   <item><description>Optional confidence limits at level <c>1 - alpha</c></description></item>
         '''   <item><description>Optional legend and chart title</description></item>
         ''' </list>
         ''' 
@@ -1346,10 +1384,10 @@ Namespace survival
         ''' 
         ''' Plotting details:
         ''' <list type="number">
-        '''   <item><description>Constructs step‑function curves by duplicating each event time.</description></item>
+        '''   <item><description>Constructs step-function curves by duplicating each event time.</description></item>
         '''   <item><description>Plots censoring markers at the last survival probability before censoring.</description></item>
-        '''   <item><description>Plots upper and lower 95% CI curves using log‑SE transformation.</description></item>
-        '''   <item><description>Applies consistent group‑specific colors via <c>GetColor()</c>.</description></item>
+        '''   <item><description>Plots upper and lower confidence-limit curves using log-SE transformation.</description></item>
+        '''   <item><description>Applies consistent group-specific colors via <c>GetColor()</c>.</description></item>
         ''' </list>
         ''' 
         ''' External dependencies:
@@ -1360,11 +1398,16 @@ Namespace survival
         ''' </list>
         ''' </summary>
         ''' <param name="ws">Excel worksheet where the KM plot will be created.</param>
-        ''' <param name="bPlotCI">If <c>True</c>, plots 95% confidence limits.</param>
+        ''' <param name="bPlotCI">If <c>True</c>, plots confidence limits at level <c>1 - alpha</c>.</param>
         ''' <param name="bLegend">If <c>True</c>, includes a legend.</param>
         ''' <param name="sTitle">Chart title (empty string removes title).</param>
         ''' <param name="sXaxisUnit">Label for the time axis (e.g., “days”, “months”).</param>
-        Public Sub AddKMplot(ws As Worksheet, bPlotCI As Boolean, bLegend As Boolean, sTitle As String, sXaxisUnit As String)
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for Kaplan–Meier confidence limits.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
+        Public Sub AddKMplot(ws As Worksheet, bPlotCI As Boolean, bLegend As Boolean, sTitle As String, sXaxisUnit As String, Optional alpha As Double = 0.05)
+            Me.pAlpha = alpha
             Dim bCen As Boolean
             Dim CenProbability() As Double, CenTimes() As Double, UpCI() As Double, LowCI() As Double, time() As Double, Probability() As Double
 
@@ -1490,7 +1533,7 @@ Namespace survival
 
                             .SeriesCollection.NewSeries
                             With .SeriesCollection(i + 1)
-                                .Name = "95% CI " + Me.grpIDs(i - 2 * NoGroups)
+                                .Name = $"{100.0 * (1.0 - Me.pAlpha):0.##}% CI " + Me.grpIDs(i - 2 * NoGroups)
                                 .XValues = time
                                 .Values = UpCI
                                 .Border.Color = graphics.GetColor(i - 2 * NoGroups + 1)
@@ -1521,7 +1564,7 @@ Namespace survival
 
                             .SeriesCollection.NewSeries
                             With .SeriesCollection(i + 1)
-                                .Name = "95% CI " + Me.grpIDs(i - 3 * NoGroups)
+                                .Name = $"{100.0 * (1.0 - Me.pAlpha):0.##}% CI " + Me.grpIDs(i - 3 * NoGroups)
                                 .XValues = time
                                 .Values = LowCI
                                 .Border.Color = graphics.GetColor(i - 3 * NoGroups + 1)
@@ -1569,20 +1612,20 @@ Namespace survival
         ''' <summary>
         ''' Prepares all arrays required for Kaplan–Meier plotting, including:
         ''' <list type="bullet">
-        '''   <item><description>Duplicated time points for step‑function survival curves</description></item>
+        '''   <item><description>Duplicated time points for step-function survival curves</description></item>
         '''   <item><description>Survival probabilities for each group</description></item>
-        '''   <item><description>Upper and lower 95% confidence limits</description></item>
+        '''   <item><description>Upper and lower confidence limits</description></item>
         '''   <item><description>Censoring marker times and probabilities</description></item>
         ''' </list>
         ''' 
         ''' Steps:
         ''' <list type="number">
         '''   <item><description>Determine maximum observed time per group.</description></item>
-        '''   <item><description>Compute log‑SE values using <c>SurvivalCurveLogSE</c>.</description></item>
-        '''   <item><description>Construct step‑function arrays by duplicating each event time.</description></item>
+        '''   <item><description>Compute log-SE values using <c>SurvivalCurveLogSE</c>.</description></item>
+        '''   <item><description>Construct step-function arrays by duplicating each event time.</description></item>
         '''   <item><description>Compute CI curves using:
         '''     <code>
-        '''     CI = S(t) ^ exp( ±1.96 × logSE )
+        '''     CI = S(t) ^ exp( ± z_(1 − alpha / 2) × logSE )
         '''     </code>
         '''   </description></item>
         '''   <item><description>Extract censoring markers at the last survival probability
@@ -1593,8 +1636,8 @@ Namespace survival
         ''' <list type="bullet">
         '''   <item><description><c>CenMarkersProb</c> — censoring marker probabilities</description></item>
         '''   <item><description><c>CenMarkersTime</c> — censoring marker times</description></item>
-        '''   <item><description><c>LLCI</c> — lower 95% CI curve</description></item>
-        '''   <item><description><c>ULCI</c> — upper 95% CI curve</description></item>
+        '''   <item><description><c>LLCI</c> — lower confidence-limit curve</description></item>
+        '''   <item><description><c>ULCI</c> — upper confidence-limit curve</description></item>
         '''   <item><description><c>SurvivalTimePlot</c> — duplicated time points</description></item>
         '''   <item><description><c>SurvivalProbPlot</c> — survival probabilities for each group</description></item>
         ''' </list>
@@ -1607,14 +1650,13 @@ Namespace survival
         ''' </summary>
         ''' <param name="CenMarkersProb">Output: censoring marker probabilities.</param>
         ''' <param name="CenMarkersTime">Output: censoring marker times.</param>
-        ''' <param name="LLCI">Output: lower 95% confidence limits.</param>
-        ''' <param name="ULCI">Output: upper 95% confidence limits.</param>
+        ''' <param name="LLCI">Output: lower confidence-limit curve.</param>
+        ''' <param name="ULCI">Output: upper confidence-limit curve.</param>
         ''' <param name="SurvivalTimePlot">Output: duplicated time points for step curves.</param>
         ''' <param name="SurvivalProbPlot">Output: survival probabilities for each group.</param>
         Private Sub KaplanMeierPlotDataPrep(ByRef CenMarkersProb(,) As Double, ByRef CenMarkersTime(,) As Double,
                                             ByRef LLCI(,) As Double, ByRef ULCI(,) As Double,
                                             ByRef SurvivalTimePlot() As Double, ByRef SurvivalProbPlot(,) As Double)
-
             Dim k As Integer
             Dim n As Integer = Me.pSortedRecords.Count()
             Dim MaxTime() As Double = Me.pSortedRecords.GroupBy(Function(r) r.Group) _
@@ -1626,6 +1668,7 @@ Namespace survival
                                                           .OrderBy(Function(g) g.Key) _
                                                           .Select(Function(g) g.Count()).ToArray()
 
+            Dim z As Double = distributions.ZCritTwoSided(Me.pAlpha)
             Dim LogSE = Me.SurvivalCurveLogSE()
 
             'arrays for plotting
@@ -1635,7 +1678,7 @@ Namespace survival
             If i = 0 Then i = 1
             'censored markers
             ReDim CenMarkersProb(i - 1, NoGroups - 1), CenMarkersTime(i - 1, NoGroups - 1)
-            ReDim LLCI(0 To 2 * n - 1, NoGroups - 1), ULCI(0 To 2 * n - 1, NoGroups - 1) '95% CI for survival curves
+            ReDim LLCI(0 To 2 * n - 1, NoGroups - 1), ULCI(0 To 2 * n - 1, NoGroups - 1) 'confidence interval at level 1 - alpha for survival curves
             Dim ii(NoGroups - 1) As Integer
 
             For i = 1 To n
@@ -1645,18 +1688,18 @@ Namespace survival
                     If Me.pSortedRecords(i - 1).Time <= MaxTime(j) Then 'the curve for respecitve group end in max observed time in that group
                         SurvivalProbPlot(i * 2 - 2, j) = pSurvivalProb(i - 1, j)
                         SurvivalProbPlot(i * 2 - 1, j) = pSurvivalProb(i, j)
-                        '95% CI http://www.graphpad.com/support/faq/how-does-prism-compute-the-confidence-intervals-of-a-survival-curve/
+                        'confidence interval at level 1 - alpha http://www.graphpad.com/support/faq/how-does-prism-compute-the-confidence-intervals-of-a-survival-curve/
                         If i > 1 Then
-                            LLCI(i * 2 - 2, j) = pSurvivalProb(i - 1, j) ^ Math.Exp(1.96 * LogSE(j, i - 2))
-                            ULCI(i * 2 - 2, j) = pSurvivalProb(i - 1, j) ^ Math.Exp(-1.96 * LogSE(j, i - 2))
+                            LLCI(i * 2 - 2, j) = pSurvivalProb(i - 1, j) ^ Math.Exp(z * LogSE(j, i - 2))
+                            ULCI(i * 2 - 2, j) = pSurvivalProb(i - 1, j) ^ Math.Exp(-z * LogSE(j, i - 2))
                         Else
-                            LLCI(1, j) = 1
-                            ULCI(1, j) = 1
-                            LLCI(0, j) = 1
-                            ULCI(0, j) = 1
+                            LLCI(1, j) = 1.0
+                            ULCI(1, j) = 1.0
+                            LLCI(0, j) = 1.0
+                            ULCI(0, j) = 1.0
                         End If
-                        LLCI(i * 2 - 1, j) = pSurvivalProb(i, j) ^ Math.Exp(1.96 * LogSE(j, i - 1))
-                        ULCI(i * 2 - 1, j) = pSurvivalProb(i, j) ^ Math.Exp(-1.96 * LogSE(j, i - 1))
+                        LLCI(i * 2 - 1, j) = pSurvivalProb(i, j) ^ Math.Exp(z * LogSE(j, i - 1))
+                        ULCI(i * 2 - 1, j) = pSurvivalProb(i, j) ^ Math.Exp(-z * LogSE(j, i - 1))
                     End If
                     'censor markers
                     If Me.pSortedRecords(i - 1).Censorship = 0 And Me.pSortedRecords(i - 1).Group = j Then

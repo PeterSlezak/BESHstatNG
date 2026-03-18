@@ -2,6 +2,7 @@
 Imports System.Drawing.Imaging
 Imports System.Runtime.InteropServices
 Imports System.Threading
+Imports BESHStatNG.AppInfrastructure
 Imports Excel = Microsoft.Office.Interop.Excel
 
 Module ChartExport
@@ -18,21 +19,21 @@ Module ChartExport
 
     Private Const CF_ENHMETAFILE As UInteger = 14
 
-        <DllImport("user32.dll", SetLastError:=True)>
-        Private Function OpenClipboard(hWndNewOwner As IntPtr) As Boolean
-        End Function
+    <DllImport("user32.dll", SetLastError:=True)>
+    Private Function OpenClipboard(hWndNewOwner As IntPtr) As Boolean
+    End Function
 
-        <DllImport("user32.dll", SetLastError:=True)>
-        Private Function CloseClipboard() As Boolean
-        End Function
+    <DllImport("user32.dll", SetLastError:=True)>
+    Private Function CloseClipboard() As Boolean
+    End Function
 
-        <DllImport("user32.dll", SetLastError:=True)>
-        Private Function GetClipboardData(uFormat As UInteger) As IntPtr
-        End Function
+    <DllImport("user32.dll", SetLastError:=True)>
+    Private Function GetClipboardData(uFormat As UInteger) As IntPtr
+    End Function
 
-        <DllImport("gdi32.dll", SetLastError:=True)>
-        Private Function GetEnhMetaFileBits(hemf As IntPtr, cbBuffer As UInteger, lpbBuffer As Byte()) As UInteger
-        End Function
+    <DllImport("gdi32.dll", SetLastError:=True)>
+    Private Function GetEnhMetaFileBits(hemf As IntPtr, cbBuffer As UInteger, lpbBuffer As Byte()) As UInteger
+    End Function
 
     Public Sub ExportChart(ch As Excel.Chart,
                            outputPath As String,
@@ -44,10 +45,10 @@ Module ChartExport
                            Optional maxWorkingSetMB As Integer = 0)
         ' (Same implementation as your ExportActiveChart overload,
         ' but use the passed-in ch instead of app.ActiveChart)
-        If dpi < 72 OrElse dpi > 1200 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(dpi), "DPI must be 72..1200"))
-        If widthPx < 1 OrElse heightPx < 1 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException("widthPx/heightPx", "Pixel size must be >= 1"))
+        If dpi < 72 OrElse dpi > 1200 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(dpi), "DPI must be 72..1200"))
+        If widthPx < 1 OrElse heightPx < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException("widthPx/heightPx", "Pixel size must be >= 1"))
         If maxWorkingSetMB <= 0 Then maxWorkingSetMB = DefaultMaxWorkingSetMB()
-        If ch Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("No active chart."))
+        If ch Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("No active chart."))
 
         ' Copy chart as metafile
         ch.CopyPicture(Appearance:=Excel.XlPictureAppearance.xlPrinter,
@@ -55,7 +56,7 @@ Module ChartExport
 
         Dim emfBytes As Byte() = ReadEmfFromClipboardWithRetry(10, 30)
         If emfBytes Is Nothing OrElse emfBytes.Length = 0 Then
-            BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Could not retrieve EMF from clipboard."))
+            AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Could not retrieve EMF from clipboard."))
         End If
 
         ' Guardrail (no tiling)
@@ -76,7 +77,7 @@ Module ChartExport
                 Return
             End If
 
-            BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException(
+            AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(
                             $"Requested bitmap is too large for current memory limit. " &
                             $"Estimated working set: {(estWorking / (1024.0 * 1024.0)):F0} MB, limit: {maxWorkingSetMB} MB. " &
                             $"Reduce pixel size/DPI, or export as BMP (tiled)."))

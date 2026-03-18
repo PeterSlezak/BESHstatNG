@@ -4,8 +4,8 @@ Imports System.IO
 Imports System.Reflection
 Imports System.Resources.ResXFileRef
 Imports System.Runtime.InteropServices
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
-Imports NLog
 
 ''' <summary>
 ''' Generalized Linear Model (GLM) fitted by Iteratively Reweighted Least Squares (IRLS).
@@ -345,7 +345,7 @@ Public Class GLM
     ''' where <c>D</c> is deviance and <see cref="ScaleSECoef"/> applies scale correction when appropriate.
     ''' </para>
     ''' </remarks>
-    Public ReadOnly Property  DevianceG2chisq() As Double
+    Public ReadOnly Property DevianceG2chisq() As Double
         Get
             Return (Me.pNullDeviance - Me.pFinalDeviance) / Me.ScaleSECoef
         End Get
@@ -511,7 +511,7 @@ Public Class GLM
                 ElseIf pScaleEstimation = "Deviance" Then
                     Return pFinalDeviance / (Me.DFresid)
                 ElseIf pScaleEstimation = "Maximum Likelihood" Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New NotImplementedException("Scale coeficient using Maximum likelihood method is not implemented yet."))
+                    AppGlobals.BSerr.LogAndThrow(New NotImplementedException("Scale coeficient using Maximum likelihood method is not implemented yet."))
                     Return Nothing
                 Else
                     Return 1.0
@@ -808,7 +808,7 @@ Public Class GLM
         Me.n = pData.GetLength(0)     '# of observations
 
         If Me.p <= 0 Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
             Me.strError += " Model has no parameters (no intercept and no predictors)."
             Exit Sub
         End If
@@ -816,7 +816,7 @@ Public Class GLM
         ReDim pItInfo(Me.p + 1, pMaxiter + 1) 'stores params estimates, LL at each iteration
         'Test for insufficient observations
         If n <= pi1 Then
-            BESHstatGlobals.BSlogg.Log("Insufficient observations to complete analysis.", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Insufficient observations to complete analysis.", AppGlobals.LogMsgType.Warn)
             Me.strError += " Insufficient observations to complete analysis."
             Exit Sub
         End If
@@ -897,7 +897,7 @@ Public Class GLM
 
         'Do IRLS iterations
         For pIRLSiterations = 0 To pMaxiter
-            BESHstatGlobals.BSlogg.Log($"IRLS iteration #{pIRLSiterations}")
+            AppGlobals.BSlogg.Log($"IRLS iteration #{pIRLSiterations}")
             For i = 0 To Me.n - 1
                 weights(i) = pWeights(i) * 1.0 / (pLink.deriv(mu(i)) ^ 2 * pFamily.Variance(mu(i))) 'eim (expected information (hassian) matrix
                 wlsendog(i) = pLin_pred(i, 0) + ((Me.y(i) - mu(i)) * pLink.deriv(mu(i))) - pOffset(i)
@@ -959,7 +959,7 @@ Public Class GLM
             ' If so, do step-halving toward the previous iteration's parameters until mu is finite.
             If HasNonFinite(Me.mu) Then
                 ii = 0
-                BESHstatGlobals.BSlogg.Log("step size truncated: non-finite mu", BESHstatGlobals.LogMsgType.Warn)
+                AppGlobals.BSlogg.Log("step size truncated: non-finite mu", AppGlobals.LogMsgType.Warn)
 
                 Do While HasNonFinite(Me.mu)
                     If (ii > pInnerLoopMaxIter) Then Exit Do
@@ -982,7 +982,7 @@ Public Class GLM
                 Loop
 
                 If HasNonFinite(Me.mu) Then
-                    BESHstatGlobals.BSlogg.Log("IRLS - Step size truncated: non-finite mu. Cannot correct step size.", BESHstatGlobals.LogMsgType.Warn)
+                    AppGlobals.BSlogg.Log("IRLS - Step size truncated: non-finite mu. Cannot correct step size.", AppGlobals.LogMsgType.Warn)
                     Me.strError += " IRLS - Step size truncated: non-finite mu. Cannot correct step size."
                     Exit Sub
                 End If
@@ -992,12 +992,12 @@ Public Class GLM
             If CheckMu(mu) And TypeOf pFamily Is regression.Binomial Then
 
                 If pIRLSiterations = 0 Then
-                    BESHstatGlobals.BSlogg.Log("IRLS algorithm. No valid set of coefficients has been found: please supply starting values.", BESHstatGlobals.LogMsgType.Warn)
+                    AppGlobals.BSlogg.Log("IRLS algorithm. No valid set of coefficients has been found: please supply starting values.", AppGlobals.LogMsgType.Warn)
                     'Me.strError += " IRLS algorithm. No valid set of coefficients has been found: please supply starting values."
                 Else
 
                     ii = 0
-                    BESHstatGlobals.BSlogg.Log("step size truncated: out of bounds")
+                    AppGlobals.BSlogg.Log("step size truncated: out of bounds")
                     Do While (CheckMu(mu))
                         If (ii > pInnerLoopMaxIter) Then Exit Do
                         ii += 1
@@ -1020,11 +1020,11 @@ Public Class GLM
                         Next
                     Loop
                     If (ii > pInnerLoopMaxIter) Then
-                        BESHstatGlobals.BSlogg.Log("IRLS - Step size truncated: out of bounds. Inner loop 2; cannot correct step size.", BESHstatGlobals.LogMsgType.Warn)
+                        AppGlobals.BSlogg.Log("IRLS - Step size truncated: out of bounds. Inner loop 2; cannot correct step size.", AppGlobals.LogMsgType.Warn)
                         Me.strError += " IRLS - Step size truncated: out of bounds. Inner loop 2; cannot correct step size."
                     Else
                         dev = pFamily.Deviance(y, mu)
-                        BESHstatGlobals.BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
+                        AppGlobals.BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
                     End If
                 End If
             End If
@@ -1042,7 +1042,7 @@ Public Class GLM
             If (((dev - hold) / (0.1 + Math.Abs(dev)) >= 0.00000001) And (pIRLSiterations > 0)) Then
                 ii = 0
 
-                BESHstatGlobals.BSlogg.Log(" step size truncated due to increasing deviance")
+                AppGlobals.BSlogg.Log(" step size truncated due to increasing deviance")
                 Do While ((dev - hold) / (0.1 + Math.Abs(dev))) > 0.00000001
 
                     If (ii > pInnerLoopMaxIter) Then Exit Do
@@ -1069,13 +1069,13 @@ Public Class GLM
                     Next
 
                     dev = pFamily.Deviance(y, mu)
-                    BESHstatGlobals.BSlogg.Log($"inner loop 3; ii={ii} dev={dev} hold={hold}")
+                    AppGlobals.BSlogg.Log($"inner loop 3; ii={ii} dev={dev} hold={hold}")
                 Loop
                 If (ii > pInnerLoopMaxIter) Then
-                    BESHstatGlobals.BSlogg.Log("IRLS - Step size truncated due to increasing deviance. Inner loop 3; cannot correct step size.", BESHstatGlobals.LogMsgType.Warn)
+                    AppGlobals.BSlogg.Log("IRLS - Step size truncated due to increasing deviance. Inner loop 3; cannot correct step size.", AppGlobals.LogMsgType.Warn)
                     Me.strError += " IRLS - Step size truncated due to increasing deviance. Inner loop 3; cannot correct step size."
                 Else
-                    BESHstatGlobals.BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
+                    AppGlobals.BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
                 End If
             End If
 
@@ -1086,7 +1086,7 @@ Public Class GLM
                 Next
             End If
 
-            BESHstatGlobals.BSlogg.Log($" eps={pEps} Abs(Abs(dev) - Abs(hold))={Math.Abs(Math.Abs(dev) - Math.Abs(hold))}")
+            AppGlobals.BSlogg.Log($" eps={pEps} Abs(Abs(dev) - Abs(hold))={Math.Abs(Math.Abs(dev) - Math.Abs(hold))}")
             If pIRLSiterations > 0 Then
 
                 pLastIterLLchange = Math.Abs(Math.Abs(dev) - Math.Abs(hold))
@@ -1116,10 +1116,10 @@ Public Class GLM
 
         'Test for convergence or divergence and warn user
         If pIRLSiterations >= pMaxiter + 1 Then 'Too many iterations
-            BESHstatGlobals.BSlogg.Log("Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. ", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. ", AppGlobals.LogMsgType.Warn)
             Me.strError += " Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. "
         ElseIf Not pbConverged Then
-            BESHstatGlobals.BSlogg.Log("Algorithm Is diverging. Failure Of IRLS algorithm In .Fit.", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Algorithm Is diverging. Failure Of IRLS algorithm In .Fit.", AppGlobals.LogMsgType.Warn)
             Me.strError += " Algorithm Is diverging. Failure Of IRLS algorithm In .Fit."
         End If
         If Me.bIterationDetails Then
@@ -1134,7 +1134,7 @@ Public Class GLM
             Me.results.Coeffs_SEsT(i) = StdErr(i)                             ': SE
         Next
 
-        BESHstatGlobals.BSlogg.Log($"pCoefs{Matrix.array2str(Me.results.CoeffsZ_vals)} {MethodBase.GetCurrentMethod().Name}")
+        AppGlobals.BSlogg.Log($"pCoefs{Matrix.array2str(Me.results.CoeffsZ_vals)} {MethodBase.GetCurrentMethod().Name}")
 
         If Me.bComputeResiduals Then Me.Residuals()
         If Me.bHosmerLemeshow And TypeOf pFamily Is regression.Binomial Then Me.HosmerLemeshowTest()
@@ -1465,14 +1465,14 @@ Public Class GLM
         QSEP = False
 
         If Sep / CDbl(n) >= 0.0001 Then 'Complete separation
-            BESHstatGlobals.BSlogg.Log("Complete separation of data points. Maximum likelihood estimates may not exist. Ending Computation.", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Complete separation of data points. Maximum likelihood estimates may not exist. Ending Computation.", AppGlobals.LogMsgType.Warn)
             Me.strError += " Complete separation of data points. Maximum likelihood estimates may not exist. Ending Computation."
             QSEP = True
             Me.bSeparation = True
             Me.bQuasiSeparation = True
             Exit Function
         ElseIf Sep / CDbl(n) >= 0.05 Then 'Quasi-separation
-            BESHstatGlobals.BSlogg.Log("Quasi-separation of the iterative algorithm.", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Quasi-separation of the iterative algorithm.", AppGlobals.LogMsgType.Warn)
             Me.bQuasiSeparation = True
             If MsgBox(Prompt:="Quasi-separation of the iterative algorithm." & vbCr & vbCr & "Results may be misleading.", Title:="Continue?") = vbNo Then
                 QSEP = True
@@ -1554,7 +1554,7 @@ Public Class GLM
         Dim temp(9) As Double
 
         ' 1) Compute deciles of predicted probabilities -------------------------
-        With BESHstatGlobals.app.WorksheetFunction
+        With AppGlobals.app.WorksheetFunction
             For i = 0 To 9
                 temp(i) = .Percentile(mu, (i + 1) / 10)
             Next
@@ -1864,12 +1864,12 @@ Public Class GLM_NB
         Loop
 
         If it >= Me.pMaxiter Then
-            BESHstatGlobals.BSlogg.Log("Theta iteration limit reached", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Theta iteration limit reached", AppGlobals.LogMsgType.Warn)
             Me.strError += " Theta iteration limit reached"
         End If
 
         If th < 0.0 Then
-            BESHstatGlobals.BSlogg.Log("Theta estimate truncated at zero", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Theta estimate truncated at zero", AppGlobals.LogMsgType.Warn)
             Me.strError += " Theta estimate truncated at zero"
             Return 0.0
         End If
@@ -1919,13 +1919,13 @@ Public Class GLM_NB
         Me.n = pData.GetLength(0)   '# of observations
 
         If Me.p <= 0 Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
             Me.strError += " Model has no parameters (no intercept and no predictors)."
             Exit Sub
         End If
 
         If Me.n <= pi1 Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Insufficient observations to complete analysis."))
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Insufficient observations to complete analysis."))
             Me.strError += " Insufficient observations to complete analysis."
             Exit Sub
         End If
@@ -1971,7 +1971,7 @@ Public Class GLM_NB
             End With
 
             If pNBglm.strError <> String.Empty Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error in inner loop while re-estimating Negative binomial fit with new dispension parameter. " & pNBglm.strError))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error in inner loop while re-estimating Negative binomial fit with new dispension parameter. " & pNBglm.strError))
                 Exit Do
             End If
 
@@ -2002,7 +2002,7 @@ Public Class GLM_NB
 
         If pIRLSiterations > pMaxiter Then
             pbConverged = False
-            BESHstatGlobals.BSlogg.Log("Algorithm is diverging.", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Algorithm is diverging.", AppGlobals.LogMsgType.Warn)
         Else
             pbConverged = True
             If pIRLSiterations > 0 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIRLSiterations - 1) Else ReDim Preserve pItInfo(UBound(pItInfo, 1), 0)
@@ -2453,7 +2453,7 @@ Public Class ZeroInflatedPoisson
         pi1 = Data_zero.GetLength(1) 'Columns of predictor variables and responses
         Me.p_zero = pi1 - 1 + interceptLog '# of variables initially in the model
         If n <> Data_zero.GetLength(0) Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ERROR: Number of records in Poisson and Logistic part of model doesn't match."))
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("ERROR: Number of records in Poisson and Logistic part of model doesn't match."))
             Exit Sub
         End If
 
@@ -2472,12 +2472,12 @@ Public Class ZeroInflatedPoisson
         Next
         pY0count = $"{y0} ({Format$((100 * y0 / n), "##0.00")}%)"
         If y0 = 0 Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("No zero present in the data. ZIP cannot be fitted. Aborting exectution."))
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("No zero present in the data. ZIP cannot be fitted. Aborting exectution."))
             Exit Sub
         End If
 
         If y0 = n Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("All observations are zero. ZIP is not identifiable (no positive counts)."))
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("All observations are zero. ZIP is not identifiable (no positive counts)."))
             Exit Sub
         End If
 
@@ -2621,7 +2621,7 @@ Public Class ZeroInflatedPoisson
                 zeroParam = zeroNew
                 LL_new = LL_em
             End If
-            BESHstatGlobals.BSlogg.Log($"ZIP Over-relaxation with monotone fallback Iter {pEMiterations}: accepted={accepted}, s={s:0.###}, LL_new={LL_new}")
+            AppGlobals.BSlogg.Log($"ZIP Over-relaxation with monotone fallback Iter {pEMiterations}: accepted={accepted}, s={s:0.###}, LL_new={LL_new}")
 
             ' ---------- E-step computed from the ACCEPTED params ----------
             ' Compute mu and pi from X matrices + accepted params
@@ -2755,7 +2755,7 @@ Public Class ZeroInflatedPoisson
         Dim mu(n - 1) As Double
 
         If bOffset AndAlso (offset Is Nothing OrElse offset.Length <> n) Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Offset array is missing or has incorrect length."))
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Offset array is missing or has incorrect length."))
         End If
 
         For i As Integer = 0 To n - 1

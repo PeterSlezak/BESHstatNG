@@ -47,6 +47,8 @@ Partial Class Ui4KMandLogRank
         Me.optGehanBreslow = New System.Windows.Forms.RadioButton()
         Me.optLogRank = New System.Windows.Forms.RadioButton()
         Me.TabPage_OptionsKM = New System.Windows.Forms.TabPage()
+        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
+        Me.lblAlpha = New System.Windows.Forms.Label()
         Me.grpChartOptions = New System.Windows.Forms.GroupBox()
         Me.tbTitleText = New System.Windows.Forms.TextBox()
         Me.ckPlotCI = New System.Windows.Forms.CheckBox()
@@ -67,6 +69,7 @@ Partial Class Ui4KMandLogRank
         Me.TabPage_OptionsLogRank.SuspendLayout()
         Me.grpLogRankWeights.SuspendLayout()
         Me.TabPage_OptionsKM.SuspendLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpChartOptions.SuspendLayout()
         Me.grpKMOptions.SuspendLayout()
         Me.SuspendLayout()
@@ -346,6 +349,8 @@ Partial Class Ui4KMandLogRank
         '
         'TabPage_OptionsKM
         '
+        Me.TabPage_OptionsKM.Controls.Add(Me.spinBtnAlpha)
+        Me.TabPage_OptionsKM.Controls.Add(Me.lblAlpha)
         Me.TabPage_OptionsKM.Controls.Add(Me.grpChartOptions)
         Me.TabPage_OptionsKM.Controls.Add(Me.grpKMOptions)
         Me.TabPage_OptionsKM.Location = New System.Drawing.Point(4, 25)
@@ -354,6 +359,28 @@ Partial Class Ui4KMandLogRank
         Me.TabPage_OptionsKM.TabIndex = 4
         Me.TabPage_OptionsKM.Text = "Options"
         Me.TabPage_OptionsKM.UseVisualStyleBackColor = True
+        '
+        'spinBtnAlpha
+        '
+        Me.spinBtnAlpha.DecimalPlaces = 3
+        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(64, 299)
+        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Name = "spinBtnAlpha"
+        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlpha.TabIndex = 24
+        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
+        'lblAlpha
+        '
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Location = New System.Drawing.Point(12, 301)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
+        Me.lblAlpha.TabIndex = 23
+        Me.lblAlpha.Text = "alpha"
         '
         'grpChartOptions
         '
@@ -366,7 +393,7 @@ Partial Class Ui4KMandLogRank
         Me.grpChartOptions.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grpChartOptions.Location = New System.Drawing.Point(9, 139)
         Me.grpChartOptions.Name = "grpChartOptions"
-        Me.grpChartOptions.Size = New System.Drawing.Size(432, 154)
+        Me.grpChartOptions.Size = New System.Drawing.Size(438, 154)
         Me.grpChartOptions.TabIndex = 1
         Me.grpChartOptions.TabStop = False
         Me.grpChartOptions.Text = "Chart Options"
@@ -388,9 +415,9 @@ Partial Class Ui4KMandLogRank
         Me.ckPlotCI.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ckPlotCI.Location = New System.Drawing.Point(6, 120)
         Me.ckPlotCI.Name = "ckPlotCI"
-        Me.ckPlotCI.Size = New System.Drawing.Size(205, 20)
+        Me.ckPlotCI.Size = New System.Drawing.Size(176, 20)
         Me.ckPlotCI.TabIndex = 4
-        Me.ckPlotCI.Text = "Plot 95% Confidence Intervals"
+        Me.ckPlotCI.Text = "Plot Confidence Intervals"
         Me.ckPlotCI.UseVisualStyleBackColor = True
         '
         'ckDisplayTitle
@@ -442,7 +469,7 @@ Partial Class Ui4KMandLogRank
         Me.grpKMOptions.Controls.Add(Me.ckCSCatFTP)
         Me.grpKMOptions.Controls.Add(Me.ckCIoutput)
         Me.grpKMOptions.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpKMOptions.Location = New System.Drawing.Point(3, 24)
+        Me.grpKMOptions.Location = New System.Drawing.Point(9, 24)
         Me.grpKMOptions.Name = "grpKMOptions"
         Me.grpKMOptions.Size = New System.Drawing.Size(438, 100)
         Me.grpKMOptions.TabIndex = 0
@@ -531,6 +558,8 @@ Partial Class Ui4KMandLogRank
         Me.grpLogRankWeights.ResumeLayout(False)
         Me.grpLogRankWeights.PerformLayout()
         Me.TabPage_OptionsKM.ResumeLayout(False)
+        Me.TabPage_OptionsKM.PerformLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpChartOptions.ResumeLayout(False)
         Me.grpChartOptions.PerformLayout()
         Me.grpKMOptions.ResumeLayout(False)
@@ -576,5 +605,7 @@ Partial Class Ui4KMandLogRank
     Friend WithEvents lblCensor As Windows.Forms.Label
     Friend WithEvents lblTime As Windows.Forms.Label
     Friend WithEvents grpInput As Windows.Forms.GroupBox
+    Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents lblAlpha As Windows.Forms.Label
     'Friend WithEvents RefEdit1_StrataID As Excel2007RefEdit
 End Class

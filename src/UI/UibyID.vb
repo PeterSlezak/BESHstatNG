@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.InteropServices.ComTypes
 Imports System.Security.Cryptography
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Public Class UibyID
@@ -8,9 +9,9 @@ Public Class UibyID
         ' This call is required by the designer.
         InitializeComponent()
 
-        Me.RefEdit1.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit2.ExcelConnector = BESHstatGlobals.app
-        Me.RefEditOutput.ExcelConnector = BESHstatGlobals.app
+        Me.RefEdit1.ExcelConnector = AppGlobals.app
+        Me.RefEdit2.ExcelConnector = AppGlobals.app
+        Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
 
         'set all "Options" tab to invisible and then later show just that required based on analysis.
@@ -126,7 +127,7 @@ Public Class UibyID
         Else
             'Group by identifier. We expect only two groups for Mann-Whitney test
             If WorksheetNameFromRefAdress(Me.RefEdit1.Address, True) <> WorksheetNameFromRefAdress(Me.RefEdit2.Address, True) Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Input reference range adresses are from different sheets. Input can be only from one sheet."))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input reference range adresses are from different sheets. Input can be only from one sheet."))
             End If
 
             refId = prepareRef2D(Me.RefEdit1.Address)
@@ -271,7 +272,7 @@ Public Class UibyID
                 End If
             End If
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -560,7 +561,7 @@ Public Class UibyID
                 Dim sw_res = assumptions.ShapiroWilk(data.X(i), strErr)
                 sw_r = {{""}, {sw_res.TestStatistics1}, {sw_res.Pvalue}}
             Else
-                BESHstatGlobals.BSlogg.Log("N not in range between 3 and 5000")
+                AppGlobals.BSlogg.Log("N not in range between 3 and 5000")
                 sw_r = {{"NA n<4 or n>5000"}, {"NA n<4 or n>5000"}, {"NA n<4 or n>5000"}}
             End If
 
@@ -569,7 +570,7 @@ Public Class UibyID
                 Dim da_res = assumptions.DAgostino(data.X(i), strErr)
                 da_r = {{""}, {da_res.TestStatistics1}, {da_res.Pvalue}}
             Else
-                BESHstatGlobals.BSlogg.Log("N not >= 9")
+                AppGlobals.BSlogg.Log("N not >= 9")
                 da_r = {{"NA n<9"}, {"NA n<9"}, {"NA n<9"}}
             End If
 
@@ -577,7 +578,7 @@ Public Class UibyID
                 Dim ad_res = assumptions.AndersonDarlingTEST(data.X(i))
                 ad_r = {{""}, {ad_res.TestStatistics1}, {ad_res.Pvalue}}
             Else
-                BESHstatGlobals.BSlogg.Log("N not > 1")
+                AppGlobals.BSlogg.Log("N not > 1")
                 ad_r = {{"NA"}, {"NA"}, {"NA"}}
             End If
 
@@ -947,14 +948,14 @@ Public Class UibyID
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = AppGlobals.app.Workbooks.Add()
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

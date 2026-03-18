@@ -2,6 +2,7 @@
 
 Imports System
 Imports System.Collections.Generic
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 
@@ -192,7 +193,7 @@ Namespace Agreement
             Private Sub GetGroupCounts(arr() As Object)
                 Dim gg = arr.GroupBy(Function(x) x)
                 Dim counts = gg.Select(Function(g) g.Count()).ToList()
-                If counts.Count = 0 Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("No groups found"))
+                If counts.Count = 0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("No groups found"))
 
                 Me.pNoGroups = counts.Count
                 Me.pMinGroupSize = counts.Min()
@@ -721,10 +722,10 @@ Namespace Agreement
             End Property
 
             Public Sub New(dataX As Double(), dataY As Double(), varX As String, varY As String)
-                If dataX Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataX)))
-                If dataY Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataY)))
-                If dataX.Length <> dataY.Length Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("x and y must have the same length."))
-                If dataX.Length < 3 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 paired observations are required."))
+                If dataX Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataX)))
+                If dataY Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataY)))
+                If dataX.Length <> dataY.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("x and y must have the same length."))
+                If dataX.Length < 3 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 paired observations are required."))
 
                 x = CType(dataX.Clone(), Double())
                 y = CType(dataY.Clone(), Double())
@@ -771,8 +772,8 @@ Namespace Agreement
             ''' <returns>Tuple(InterceptCI, SlopeCI).</returns>
             Public Function FitJackknifeCI(Optional dfForTCrit As Integer? = Nothing) As (InterceptCI As ConfidenceIntervalResult, SlopeCI As ConfidenceIntervalResult)
 
-                If Lambda <= 0.0 OrElse Double.IsNaN(Lambda) OrElse Double.IsInfinity(Lambda) Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(Lambda), "Lambda must be finite and > 0."))
-                If alpha <= 0.0 OrElse alpha >= 1.0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(alpha), "alpha must be in (0,1)."))
+                If Lambda <= 0.0 OrElse Double.IsNaN(Lambda) OrElse Double.IsInfinity(Lambda) Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(Lambda), "Lambda must be finite and > 0."))
+                If alpha <= 0.0 OrElse alpha >= 1.0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(alpha), "alpha must be in (0,1)."))
 
                 Dim n As Integer = x.Length
 
@@ -927,13 +928,13 @@ Namespace Agreement
             Public Function DemingAnalyticalCI() As (InterceptCI As ConfidenceIntervalResult, SlopeCI As ConfidenceIntervalResult)
 
                 Dim n As Integer = x.Length
-                If n < 3 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 observations are required (n>=3)."))
-                If Double.IsNaN(alpha) OrElse alpha <= 0 OrElse alpha >= 1 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(alpha), "alpha must be in (0,1)."))
+                If n < 3 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 observations are required (n>=3)."))
+                If Double.IsNaN(alpha) OrElse alpha <= 0 OrElse alpha >= 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(alpha), "alpha must be in (0,1)."))
 
                 ' MCR-compatible meaning:
                 ' Lambda = error.ratio = σx²/σy²  (reference/test)
                 If Lambda <= 0 OrElse Double.IsNaN(Lambda) OrElse Double.IsInfinity(Lambda) Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(Lambda), "Error ratio (Lambda) must be finite and > 0."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(Lambda), "Error ratio (Lambda) must be finite and > 0."))
                 End If
 
                 Me.pCItype = "Analytical (closed form / linearization)"
@@ -960,7 +961,7 @@ Namespace Agreement
                 Sxy /= (n - 1)
 
                 If Sxy = 0.0 Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Deming slope is undefined because Sxy = 0 (degenerate association)."))
+                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Deming slope is undefined because Sxy = 0 (degenerate association)."))
                 End If
 
                 ' Deming slope (closed form, using δ = σy²/σx²)
@@ -1005,7 +1006,7 @@ Namespace Agreement
                 ' Invert 2x2 matrix A = J'J
                 Dim det As Double = a11 * a22 - a12 * a12
                 If det <= 0 OrElse Double.IsNaN(det) OrElse Double.IsInfinity(det) Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Failed to invert information matrix for analytical SE."))
+                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Failed to invert information matrix for analytical SE."))
                 End If
 
                 Dim inv00 As Double = a22 / det
@@ -1231,7 +1232,7 @@ Namespace Agreement
 
 
                 Dim n As Integer = x.Length
-                If n < 3 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Deming analytical CI requires at least 3 observations (df = n-2)."))
+                If n < 3 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Deming analytical CI requires at least 3 observations (df = n-2)."))
 
                 ' Error ratio convention used throughout this project:
                 '   Lambda = σx²/σy²  (reference over test)
@@ -1357,7 +1358,7 @@ Namespace Agreement
             Private Shared Function ComputeDemingCoefficients(x As Double(), y As Double(), errorRatio As Double) As (Intercept As Double, Slope As Double)
 
                 Dim n As Integer = x.Length
-                If n <> y.Length Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("x and y must have the same length."))
+                If n <> y.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("x and y must have the same length."))
                 If n < 2 Then Return (Double.NaN, Double.NaN)
                 If errorRatio <= 0.0 OrElse Double.IsNaN(errorRatio) OrElse Double.IsInfinity(errorRatio) Then Return (Double.NaN, Double.NaN)
 
@@ -1654,8 +1655,8 @@ Namespace Agreement
                 Dim n As Integer = x.GetLength(0) ' number of targets
                 Dim k As Integer = x.GetLength(1) ' number of raters
 
-                If n < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,1) requires at least 2 targets (rows)."))
-                If k < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,1) requires at least 2 raters (columns)."))
+                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,1) requires at least 2 targets (rows)."))
+                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,1) requires at least 2 raters (columns)."))
 
                 Dim vars(k - 1) As String
                 Dim anova = New parametric.OneWayRmANOVA(x, vars)
@@ -1672,7 +1673,7 @@ Namespace Agreement
                 Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If MSE <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,1) is undefined (check data)."))
+                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,1) is undefined (check data)."))
 
                 ' ICC(2,1): two-way random, absolute agreement, single measure
                 ' ICC = (MSR - MSE) / (MSR + (k-1)MSE + k*(MSC - MSE)/n)
@@ -1738,8 +1739,8 @@ Namespace Agreement
                 Dim n As Integer = x.GetLength(0) ' targets
                 Dim k As Integer = x.GetLength(1) ' raters
 
-                If n < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,k) requires at least 2 targets (rows)."))
-                If k < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,k) requires at least 2 raters (columns)."))
+                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,k) requires at least 2 targets (rows)."))
+                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,k) requires at least 2 raters (columns)."))
 
                 Dim vars(k - 1) As String
                 Dim anova = New parametric.OneWayRmANOVA(x, vars)
@@ -1756,7 +1757,7 @@ Namespace Agreement
                 Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If MSE <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,k) is undefined (check data)."))
+                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,k) is undefined (check data)."))
 
                 ' ICC(2,k) formula (absolute agreement, average measures):
                 ' ICC(2,k) = (MSR - MSE) / (MSR + (MSC - MSE)/n)
@@ -1830,8 +1831,8 @@ Namespace Agreement
                 Dim n As Integer = x.GetLength(0) ' number of targets
                 Dim k As Integer = x.GetLength(1) ' number of raters
 
-                If n < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,1) requires at least 2 targets (rows)."))
-                If k < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,1) requires at least 2 raters (columns)."))
+                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,1) requires at least 2 targets (rows)."))
+                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,1) requires at least 2 raters (columns)."))
 
                 Dim vars(k - 1) As String
                 Dim anova = New parametric.OneWayRmANOVA(x, vars)
@@ -1847,7 +1848,7 @@ Namespace Agreement
                 Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If MSE <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,1) is undefined (check data)."))
+                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,1) is undefined (check data)."))
 
                 ' ICC(3,1) point estimate:
                 ' ICC(3,1) = (MSR - MSE) / (MSR + (k - 1)MSE)
@@ -1916,8 +1917,8 @@ Namespace Agreement
                 Dim n As Integer = x.GetLength(0) ' number of targets
                 Dim k As Integer = x.GetLength(1) ' number of raters
 
-                If n < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,k) requires at least 2 targets (rows)."))
-                If k < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,k) requires at least 2 raters (columns)."))
+                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,k) requires at least 2 targets (rows)."))
+                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,k) requires at least 2 raters (columns)."))
 
                 Dim vars(k - 1) As String
                 Dim anova = New parametric.OneWayRmANOVA(x, vars)
@@ -1933,8 +1934,8 @@ Namespace Agreement
                 Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If MSE <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,k) is undefined (check data)."))
-                If MSR <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("MSR <= 0; ICC(3,k) is undefined (check data)."))
+                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,k) is undefined (check data)."))
+                If MSR <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSR <= 0; ICC(3,k) is undefined (check data)."))
 
                 ' ICC(3,k) point estimate:
                 ' ICC(3,k) = (MSR - MSE) / MSR
@@ -2003,14 +2004,14 @@ Namespace Agreement
             ''' </remarks>
             Private Shared Function EffectiveGroupSizeN0_ICC11(x()() As Double) As Double
                 Dim k As Integer = x.Length
-                If k < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least two groups are required."))
+                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two groups are required."))
 
                 Dim n As Integer = 0
                 Dim sumNiSq As Double = 0.0
 
                 For i As Integer = 0 To k - 1
                     Dim ni As Integer = x(i).Length
-                    If ni = 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Group {i} is empty."))
+                    If ni = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Group {i} is empty."))
 
                     n += ni
                     sumNiSq += ni * ni
@@ -2041,7 +2042,7 @@ Namespace Agreement
             Public Function RepeatabilityCoefficient_OneWay(x()() As Double, averageMeasures As Boolean,
                                                             Optional alpha As Double = 0.05) As ConfidenceIntervalResult
 
-                If x Is Nothing OrElse x.Length < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 targets/groups are required."))
+                If x Is Nothing OrElse x.Length < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 targets/groups are required."))
 
                 Dim vars(x.Length - 1) As String
                 Dim anova = New parametric.OneWayANOVA(x, vars)
@@ -2050,19 +2051,19 @@ Namespace Agreement
                 Dim msw As Double = CDbl(atab(1, 2))   ' within/error MS
                 Dim dfw As Integer = CInt(atab(1, 1))  ' within df = n_tot - g
 
-                If dfw <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Invalid within degrees of freedom."))
-                If msw < 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("MSw < 0 is invalid."))
+                If dfw <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Invalid within degrees of freedom."))
+                If msw < 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSw < 0 is invalid."))
 
                 ' Effective k used for average-measures ICC(1,k)
                 Dim kEff As Double = 1.0
                 If averageMeasures Then
                     kEff = EffectiveGroupSizeN0_ICC11(x)
-                    If kEff <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Effective group size n0 <= 0 is invalid."))
+                    If kEff <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Effective group size n0 <= 0 is invalid."))
                 End If
 
                 ' For average-measures: Var(mean) = MSW / kEff
                 Dim varUsed As Double = msw / kEff
-                If varUsed <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Computed variance <= 0; cannot compute SEM/RC."))
+                If varUsed <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Computed variance <= 0; cannot compute SEM/RC."))
 
                 Dim sem As Double = Math.Sqrt(varUsed)
                 Dim z As Double = distributions.NormSInv(1.0 - alpha / 2.0)
@@ -2122,12 +2123,12 @@ Namespace Agreement
                                                             averageMeasures As Boolean,
                                                             Optional alpha As Double = 0.05) As ConfidenceIntervalResult
 
-                If x Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(x)))
+                If x Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(x)))
 
                 Dim n As Integer = x.GetLength(0) ' targets
                 Dim k As Integer = x.GetLength(1) ' raters
-                If n < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 targets (rows) are required."))
-                If k < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 raters (columns) are required."))
+                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 targets (rows) are required."))
+                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 raters (columns) are required."))
 
                 ' Two-way ANOVA without replication (same as ICC(2,·)/ICC(3,·) in this class)
                 Dim vars(k - 1) As String
@@ -2141,8 +2142,8 @@ Namespace Agreement
                 Dim dfC As Integer = CInt(atab(0, 1)) ' k - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If dfE <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Invalid residual degrees of freedom."))
-                If MSE <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; repeatability/SEM is undefined."))
+                If dfE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Invalid residual degrees of freedom."))
+                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; repeatability/SEM is undefined."))
 
                 ' Variance components (classical two-way random/mixed decomposition)
                 ' σ_e^2 estimated by MSE
@@ -2159,7 +2160,7 @@ Namespace Agreement
                 Dim varSingle As Double = sigmaE2 + sigmaR2
                 Dim varUsed As Double = If(averageMeasures, varSingle / k, varSingle)
 
-                If varUsed <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Computed variance <= 0; cannot compute SEM/RC."))
+                If varUsed <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Computed variance <= 0; cannot compute SEM/RC."))
 
                 ' SEM and RC
                 Dim sem As Double = Math.Sqrt(varUsed)

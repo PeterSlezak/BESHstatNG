@@ -4,6 +4,7 @@ Imports System
 Imports System.Diagnostics
 Imports System.Drawing
 Imports System.Windows.Forms
+Imports BESHStatNG.AppInfrastructure
 
 ''' <summary>
 ''' Simple update prompt dialog used by Update.AutoUpdate.
@@ -25,7 +26,7 @@ Public Class UiUpdateAvailable
         _newVersion = newVersion
         _downloadUrl = downloadUrl
 
-        Me.Text = $"{BESHstatGlobals.gsAPP_TITLE} update available"
+        Me.Text = $"{AppGlobals.gsAPP_TITLE} update available"
         Me.FormBorderStyle = FormBorderStyle.FixedDialog
         Me.MinimizeBox = False
         Me.MaximizeBox = False
@@ -35,8 +36,8 @@ Public Class UiUpdateAvailable
         Me.Padding = New Padding(14)
 
         With Me.lblInfo
-            .Text = $"A new version of {BESHstatGlobals.gsAPP_TITLE} is available." & Environment.NewLine &
-                    $"Installed: {BESHstatGlobals.gAddinVersion}" & Environment.NewLine &
+            .Text = $"A new version of {AppGlobals.gsAPP_TITLE} is available." & Environment.NewLine &
+                    $"Installed: {AppGlobals.gAddinVersion}" & Environment.NewLine &
                     $"Available: {_newVersion}"
         End With
 
@@ -104,7 +105,7 @@ Public Class UiUpdateAvailable
         Me.lblInfo.Name = "lblInfo"
         Me.lblInfo.Size = New System.Drawing.Size(389, 48)
         Me.lblInfo.TabIndex = 3
-        Me.lblInfo.Text = "A new version of {BESHstatGlobals.gsAPP_TITLE} is available. " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Installed: {BESHst" &
+        Me.lblInfo.Text = "A new version of {AppGlobals.gsAPP_TITLE} is available. " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Installed: {BESHst" &
     "atGlobals.gAddinVersion}" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Available: {_newVersion}"
         '
         'UiUpdateAvailable

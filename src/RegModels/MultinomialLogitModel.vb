@@ -1,10 +1,11 @@
 ﻿Option Strict On
 Option Explicit On
 Imports System.Collections.Generic
-Imports Microsoft.Office.Interop.Excel
-Imports Microsoft.VisualBasic.Devices
 Imports System.Globalization
 Imports System.Text
+Imports BESHStatNG.AppInfrastructure
+Imports Microsoft.Office.Interop.Excel
+Imports Microsoft.VisualBasic.Devices
 
 Namespace regression
 
@@ -420,21 +421,21 @@ Namespace regression
                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                          Optional progressLbl As System.Windows.Forms.Label = Nothing)
 
-            If pData Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException("Data not set. Call dataInputs(x, ...)."))
+            If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException("Data not set. Call dataInputs(x, ...)."))
             Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
             Me.n = UBound(pData, 1) + 1
             Dim cols As Integer = UBound(pData, 2) + 1
-            If cols < 1 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Data must have at least 1 column: Y."))
+            If cols < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Data must have at least 1 column: Y."))
 
             ' Intercept-only model is valid only if intercept=1
             If cols = 1 AndAlso intercept <> 1 Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("No predictors provided and intercept=0 => model has no parameters. Use intercept=1 or add predictors."))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("No predictors provided and intercept=0 => model has no parameters. Use intercept=1 or add predictors."))
             End If
 
             ' ---- categories: unique Y values sorted ascending ----
             Me.pCats = GetSortedCategoriesFromY(n)
             Me.pKuse = pCats.Length
-            If pKuse < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Need at least 2 categories for multinomial logit."))
+            If pKuse < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Need at least 2 categories for multinomial logit."))
 
             Dim map As New Dictionary(Of Integer, Integer)()
             For i As Integer = 0 To pKuse - 1
@@ -445,7 +446,7 @@ Namespace regression
             Dim yIdx(n - 1) As Integer
             For i As Integer = 0 To n - 1
                 Dim yv As Integer = CInt(Math.Round(pData(i, 0)))
-                If Not map.ContainsKey(yv) Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Unknown category at row {i}."))
+                If Not map.ContainsKey(yv) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Unknown category at row {i}."))
                 yIdx(i) = map(yv)
             Next
 
@@ -487,7 +488,7 @@ Namespace regression
             Dim q As Integer = p * (pKuse - 1)
             Dim b(q - 1) As Double ' init zeros
             If bStartParams Then
-                If Me.startParams.Length <> b.Length Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("starting parameter array length <> b length"))
+                If Me.startParams.Length <> b.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("starting parameter array length <> b length"))
                 Me.startParams.CopyTo(b, 0)
             End If
 
@@ -498,7 +499,7 @@ Namespace regression
             ReDim pItInfo(q + 1, pMaxiter) 'parameters, LL, LLchange
 
             For pItration = 0 To pMaxiter
-                BESHstatGlobals.BSlogg.Log($"MultinomialLogit iteration #{pItration}")
+                AppGlobals.BSlogg.Log($"MultinomialLogit iteration #{pItration}")
                 Dim g(q - 1) As Double
                 Dim H(q - 1, q - 1) As Double
                 Dim ll As Double = 0.0
@@ -583,7 +584,7 @@ Namespace regression
                     llTry = ComputeLogLikMultinom(Me.pX, Me.pyFit, bTry, p, pKuse)
                     If llTry >= ll OrElse stepScale <= 0.000001 Then Exit Do
                     stepScale *= 0.5
-                    BESHstatGlobals.BSlogg.Log($"MultinomialLogit step halving stepScale={stepScale}, LogLike={llTry}, params={Matrix.array2str(bTry)}")
+                    AppGlobals.BSlogg.Log($"MultinomialLogit step halving stepScale={stepScale}, LogLike={llTry}, params={Matrix.array2str(bTry)}")
                 Loop
 
                 Array.Copy(bTry, b, q)
@@ -596,7 +597,7 @@ Namespace regression
                                        End Sub)
                     System.Windows.Forms.Application.DoEvents()
                 End If
-                BESHstatGlobals.BSlogg.Log($"MultinomialLogit iteration loop new esstimates  - LogLike={pLL}, pLastIterLLchange={pLastIterLLchange}, params={Matrix.array2str(b)}")
+                AppGlobals.BSlogg.Log($"MultinomialLogit iteration loop new esstimates  - LogLike={pLL}, pLastIterLLchange={pLastIterLLchange}, params={Matrix.array2str(b)}")
                 'save iteration info
                 For i = 0 To q + 1
                     If i = q Then 'LL
@@ -617,7 +618,7 @@ Namespace regression
             Next pItration
             If pIteration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIteration)
             pIteration += 1
-            If Not converged Then BESHstatGlobals.BSlogg.Log("Algorithm Is diverging. Convergence not reached.", BESHstatGlobals.LogMsgType.Warn)
+            If Not converged Then AppGlobals.BSlogg.Log("Algorithm Is diverging. Convergence not reached.", AppGlobals.LogMsgType.Warn)
 
             ' === Recompute covariance at FINAL coefficients b ===
             ' Observed information: I(b) = -H(b) (plus ridge if you want)
@@ -778,7 +779,7 @@ Namespace regression
         Private Sub ComputeResiduals(Optional useWeights As Boolean = True,
                                  Optional computeLeverage As Boolean = True)
 
-            If results Is Nothing OrElse results.Coeffs_est Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
+            If results Is Nothing OrElse results.Coeffs_est Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
 
             Dim colsK As Integer = pKuse
             Dim out As New MultinomialResiduals()
@@ -887,7 +888,7 @@ Namespace regression
         ''' </remarks>
         Public Function GetResidualColumnNames(resType As ResidualColumnType) As String()
 
-            If pCats Is Nothing OrElse pCats.Length = 0 Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Categories are not available. Fit the model first."))
+            If pCats Is Nothing OrElse pCats.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Categories are not available. Fit the model first."))
             Dim cols As Integer = pKuse
             Dim names(cols - 1) As String
             Dim prefix As String = ResidualTypePrefix(resType)
@@ -915,7 +916,7 @@ Namespace regression
         ''' </remarks>
         Private Function GetOriginalCategoryValueFromInternalIndex(internalIndex As Integer) As Integer
             If internalIndex < 0 OrElse internalIndex >= pKuse Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(internalIndex)))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(internalIndex)))
             End If
 
             ' If you already store the user's reference choice in a field, use it here.
@@ -966,7 +967,7 @@ Namespace regression
         Private Function ComputeClassificationCrosstab(Optional useWeights As Boolean = True,
                                               Optional tieBreakToSmallestCategory As Boolean = True) As ClassificationCrosstab
             If results Is Nothing OrElse results.Coeffs_est Is Nothing Then
-                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
+                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
 
             Dim out As New ClassificationCrosstab()
@@ -1020,7 +1021,7 @@ Namespace regression
         ''' </summary>
         Public Sub ComputeFitStatistics()
             If results Is Nothing OrElse results.Coeffs_est Is Nothing Then
-                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
+                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
 
             ' Full-model loglik
@@ -1091,7 +1092,7 @@ Namespace regression
                                                  Optional keyDigits As Integer = 12) As TestResult
 
             If results Is Nothing OrElse results.Coeffs_est Is Nothing Then
-                BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
+                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
             Dim out As New TestResult
             out.TestStatistics1 = Double.NaN

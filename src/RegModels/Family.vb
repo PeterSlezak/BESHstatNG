@@ -1,5 +1,6 @@
 ﻿Option Explicit On
 Imports System.Math
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Namespace regression
@@ -19,7 +20,7 @@ Namespace regression
             ElseIf type.ToLower = "gamma" Then
                 f = New regression.Gamma
             Else
-                BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Unsupported family type = " & type))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Unsupported family type = " & type))
                 f = Nothing
             End If
             Return f

@@ -2,6 +2,7 @@
 Imports System.IO
 Imports System.Security.Cryptography
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop.Excel
 
@@ -10,8 +11,8 @@ Public Class Ui0OneRefeditMulticol
         ' This call is required by the designer.
         InitializeComponent()
 
-        Me.RefEdit1.ExcelConnector = BESHstatGlobals.app
-        Me.RefEditOutput.ExcelConnector = BESHstatGlobals.app
+        Me.RefEdit1.ExcelConnector = AppGlobals.app
+        Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
 
         Me.TabPage_Options.Parent = Nothing
@@ -166,7 +167,7 @@ Public Class Ui0OneRefeditMulticol
                 Me.RunICC()
             End If
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -450,8 +451,8 @@ Public Class Ui0OneRefeditMulticol
         Dim rowsNo As Integer = UBound(data.X, 1) + 1
         'check validity of the input
         If UBound(data.X, 2) <> 1 Or (rowsNo Mod 2 <> 0) Then
-            BESHstatGlobals.BSlogg.Log($"Wrong dimensions of the input table. {Matrix.array2str(data.X)}", BESHstatGlobals.LogMsgType.Warn)
-            MsgBox("Wrong dimensions of the input table.", vbOKOnly, BESHstatGlobals.gsAPP_TITLE)
+            AppGlobals.BSlogg.Log($"Wrong dimensions of the input table. {Matrix.array2str(data.X)}", AppGlobals.LogMsgType.Warn)
+            MsgBox("Wrong dimensions of the input table.", vbOKOnly, AppGlobals.gsAPP_TITLE)
             Exit Sub
         End If
 
@@ -506,7 +507,7 @@ Public Class Ui0OneRefeditMulticol
         Next i
 
         If strErr <> String.Empty Then
-            MsgBox(strErr, vbExclamation, BESHstatGlobals.gsAPP_TITLE)
+            MsgBox(strErr, vbExclamation, AppGlobals.gsAPP_TITLE)
             Exit Sub
         End If
 
@@ -652,14 +653,14 @@ Public Class Ui0OneRefeditMulticol
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = AppGlobals.app.Workbooks.Add()
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

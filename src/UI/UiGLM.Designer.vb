@@ -48,6 +48,7 @@ Partial Class UiGLM
         Me.lblX = New System.Windows.Forms.Label()
         Me.lblSelectedSheet = New System.Windows.Forms.Label()
         Me.TabPageBuildModel = New System.Windows.Forms.TabPage()
+        Me.btAddEffectCategoricalFactor = New System.Windows.Forms.Button()
         Me.btnCustomInteraction = New System.Windows.Forms.Button()
         Me.btn2Interactions = New System.Windows.Forms.Button()
         Me.spinBtnPoly = New System.Windows.Forms.NumericUpDown()
@@ -376,6 +377,7 @@ Partial Class UiGLM
         '
         'TabPageBuildModel
         '
+        Me.TabPageBuildModel.Controls.Add(Me.btAddEffectCategoricalFactor)
         Me.TabPageBuildModel.Controls.Add(Me.btnCustomInteraction)
         Me.TabPageBuildModel.Controls.Add(Me.btn2Interactions)
         Me.TabPageBuildModel.Controls.Add(Me.spinBtnPoly)
@@ -398,11 +400,21 @@ Partial Class UiGLM
         Me.TabPageBuildModel.Text = "Build Model"
         Me.TabPageBuildModel.UseVisualStyleBackColor = True
         '
+        'btAddEffectCategoricalFactor
+        '
+        Me.btAddEffectCategoricalFactor.Location = New System.Drawing.Point(333, 89)
+        Me.btAddEffectCategoricalFactor.Name = "btAddEffectCategoricalFactor"
+        Me.btAddEffectCategoricalFactor.Size = New System.Drawing.Size(191, 23)
+        Me.btAddEffectCategoricalFactor.TabIndex = 16
+        Me.btAddEffectCategoricalFactor.Text = "Add as Categorical Factor >>"
+        Me.btAddEffectCategoricalFactor.UseVisualStyleBackColor = True
+        Me.btAddEffectCategoricalFactor.Visible = False
+        '
         'btnCustomInteraction
         '
-        Me.btnCustomInteraction.Location = New System.Drawing.Point(352, 153)
+        Me.btnCustomInteraction.Location = New System.Drawing.Point(333, 176)
         Me.btnCustomInteraction.Name = "btnCustomInteraction"
-        Me.btnCustomInteraction.Size = New System.Drawing.Size(146, 23)
+        Me.btnCustomInteraction.Size = New System.Drawing.Size(191, 23)
         Me.btnCustomInteraction.TabIndex = 15
         Me.btnCustomInteraction.Text = "Custom Interaction >>"
         Me.btnCustomInteraction.UseVisualStyleBackColor = True
@@ -410,9 +422,9 @@ Partial Class UiGLM
         '
         'btn2Interactions
         '
-        Me.btn2Interactions.Location = New System.Drawing.Point(352, 124)
+        Me.btn2Interactions.Location = New System.Drawing.Point(333, 147)
         Me.btn2Interactions.Name = "btn2Interactions"
-        Me.btn2Interactions.Size = New System.Drawing.Size(146, 23)
+        Me.btn2Interactions.Size = New System.Drawing.Size(191, 23)
         Me.btn2Interactions.TabIndex = 14
         Me.btn2Interactions.Text = "2-way Interactions >>"
         Me.btn2Interactions.UseVisualStyleBackColor = True
@@ -421,7 +433,7 @@ Partial Class UiGLM
         'spinBtnPoly
         '
         Me.spinBtnPoly.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.spinBtnPoly.Location = New System.Drawing.Point(454, 96)
+        Me.spinBtnPoly.Location = New System.Drawing.Point(480, 118)
         Me.spinBtnPoly.Maximum = New Decimal(New Integer() {1000000, 0, 0, 196608})
         Me.spinBtnPoly.Name = "spinBtnPoly"
         Me.spinBtnPoly.Size = New System.Drawing.Size(44, 22)
@@ -431,9 +443,9 @@ Partial Class UiGLM
         '
         'btnPoly
         '
-        Me.btnPoly.Location = New System.Drawing.Point(352, 95)
+        Me.btnPoly.Location = New System.Drawing.Point(333, 118)
         Me.btnPoly.Name = "btnPoly"
-        Me.btnPoly.Size = New System.Drawing.Size(96, 23)
+        Me.btnPoly.Size = New System.Drawing.Size(131, 23)
         Me.btnPoly.TabIndex = 12
         Me.btnPoly.Text = "Poly >>"
         Me.btnPoly.UseVisualStyleBackColor = True
@@ -674,7 +686,7 @@ Partial Class UiGLM
         Me.ckCovarMatrix.AutoSize = True
         Me.ckCovarMatrix.Location = New System.Drawing.Point(349, 59)
         Me.ckCovarMatrix.Name = "ckCovarMatrix"
-        Me.ckCovarMatrix.Size = New System.Drawing.Size(223, 20)
+        Me.ckCovarMatrix.Size = New System.Drawing.Size(255, 20)
         Me.ckCovarMatrix.TabIndex = 4
         Me.ckCovarMatrix.Text = "Covariance MatrixType of Parameters"
         Me.ckCovarMatrix.UseVisualStyleBackColor = True
@@ -923,7 +935,7 @@ Partial Class UiGLM
         Me.ckCovarMatrixLM.AutoSize = True
         Me.ckCovarMatrixLM.Location = New System.Drawing.Point(355, 49)
         Me.ckCovarMatrixLM.Name = "ckCovarMatrixLM"
-        Me.ckCovarMatrixLM.Size = New System.Drawing.Size(223, 20)
+        Me.ckCovarMatrixLM.Size = New System.Drawing.Size(255, 20)
         Me.ckCovarMatrixLM.TabIndex = 5
         Me.ckCovarMatrixLM.Text = "Covariance MatrixType of Parameters"
         Me.ckCovarMatrixLM.UseVisualStyleBackColor = True
@@ -1132,4 +1144,5 @@ Partial Class UiGLM
     Friend WithEvents spinBtnPoly As Windows.Forms.NumericUpDown
     Friend WithEvents btnCustomInteraction As Windows.Forms.Button
     Friend WithEvents btn2Interactions As Windows.Forms.Button
+    Friend WithEvents btAddEffectCategoricalFactor As Windows.Forms.Button
 End Class

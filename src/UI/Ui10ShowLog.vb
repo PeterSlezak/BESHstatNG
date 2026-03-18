@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports BESHStatNG.AppInfrastructure
 
 Public Class Ui10ShowLog
     Private ex As Exception
@@ -14,7 +15,7 @@ Public Class Ui10ShowLog
         Me.btnTrace.Anchor = Windows.Forms.AnchorStyles.Bottom Or Windows.Forms.AnchorStyles.Right
         Me.btnErrors.Anchor = Windows.Forms.AnchorStyles.Bottom Or Windows.Forms.AnchorStyles.Right
 
-        Me.LoadFileToTextbox(BESHstatGlobals.gLogFile)
+        Me.LoadFileToTextbox(AppGlobals.gLogFile)
         Me.Text = "Trace Log"
     End Sub
 
@@ -33,18 +34,18 @@ Public Class Ui10ShowLog
     End Sub
 
     Private Sub btnTrace_Click(sender As Object, e As System.EventArgs) Handles btnTrace.Click
-        Me.LoadFileToTextbox(BESHstatGlobals.gLogFile)
+        Me.LoadFileToTextbox(AppGlobals.gLogFile)
         Me.Text = "Trace Log"
     End Sub
 
     Private Sub btnErrors_Click(sender As Object, e As System.EventArgs) Handles btnErrors.Click
-        Dim dir = Path.GetDirectoryName(BESHstatGlobals.gLogFile)
+        Dim dir = Path.GetDirectoryName(AppGlobals.gLogFile)
         Me.LoadFileToTextbox(Path.Combine(dir, "err.log"))
         Me.Text = "Errors Log"
     End Sub
 
     Private Sub btnWarn_Click(sender As Object, e As System.EventArgs) Handles btnWarn.Click
-        Dim dir = Path.GetDirectoryName(BESHstatGlobals.gLogFile)
+        Dim dir = Path.GetDirectoryName(AppGlobals.gLogFile)
         Me.LoadFileToTextbox(Path.Combine(dir, "errwarn.log"))
         Me.Text = "Errors and Warnings Log"
     End Sub

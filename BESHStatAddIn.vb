@@ -2,11 +2,10 @@
 Imports System.IO
 Imports System.Runtime.InteropServices 'needed for the <ComVisible(True)>
 Imports System.Windows.Forms
+Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration 'app = ExcelDnaUtil.Application
 Imports ExcelDna.Integration.CustomUI 'needed for the Inherits ExcelRibbon
 Imports Microsoft.Office.Interop.Excel 'Dim app As Application
-Imports NLog
-Imports NLog.Targets
 
 Public Class BESHStatAddIn
     Implements IExcelAddIn
@@ -15,22 +14,35 @@ Public Class BESHStatAddIn
         ' Store this for access from anywhere in my workflows: 
         ' https://groups.google.com/g/exceldna/c/1rScvDdeVOk/m/euij1L-VihoJ
         ExcelIntegration.RegisterUnhandledExceptionHandler(AddressOf UnhandledExceptionHandler)
-        BESHstatGlobals.app = ExcelDnaUtil.Application
-        BESHstatGlobals.gXllName = DirectCast(XlCall.Excel(XlCall.xlGetName), String)
-        BESHstatGlobals.gXllPath = Path.GetDirectoryName(BESHstatGlobals.gXllName)
-        BESHstatGlobals.gLogFile = BESHstatGlobals.gXllPath & "\Logs\all.log"
-        'recreate log file (warning/error files content is kept)
-        Dim LogFileStream = New FileStream(BESHstatGlobals.gLogFile, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite)
-        LogFileStream.Dispose()
-        BESHstatGlobals.gLogger = NLog.LogManager.GetCurrentClassLogger()
-        BESHstatGlobals.gLogger.Info("Logger started")
+        AppGlobals.app = ExcelDnaUtil.Application
+        AppGlobals.gXllName = DirectCast(XlCall.Excel(XlCall.xlGetName), String)
+        AppGlobals.gXllPath = Path.GetDirectoryName(AppGlobals.gXllName)
+        'AppGlobals.gLogFile = Path.Combine(AppGlobals.gXllPath, "Logs", "all.log")
+        'AppGlobals.gLogger = New AppGlobals.SimpleFileLogger(AppGlobals.gXllPath, GetType(BESHStatAddIn).FullName, resetTraceLog:=True)
+        'AppGlobals.BSlogg.Info("Logger started")
+        AppGlobals.gLogFile = Path.Combine(AppGlobals.gXllPath, "Logs", "all.log")
+        AppGlobals.gLogger = New AppGlobals.SimpleFileLogger(AppGlobals.gXllPath, GetType(BESHStatAddIn).FullName, resetTraceLog:=True)
+
+        AppGlobals.gSettingsStore = New AppInfrastructure.BeshStatNgSettingsStore(AppGlobals.gXllPath)
+        AppGlobals.ApplySettings(AppGlobals.gSettingsStore.Load())
+
+        AppGlobals.BSlogg.Info("Logger started")
+        AppGlobals.BSlogg.Info("Trace execution logging enabled = " & AppGlobals.TraceExecutionLoggingEnabled.ToString())
 
         ' Background update check (non-blocking).
         BESHStatUpdate.AutoUpdate.Start(4000)
     End Sub
 
     Public Sub AutoClose() Implements IExcelAddIn.AutoClose
-        BESHstatGlobals.app = Nothing
+        Try
+            If AppGlobals.gLogger IsNot Nothing Then
+                AppGlobals.gLogger.Dispose()
+                AppGlobals.gLogger = Nothing
+            End If
+        Catch
+        End Try
+
+        AppGlobals.app = Nothing
     End Sub
 
     Private Function UnhandledExceptionHandler(exception As Object) As Object
@@ -126,11 +138,11 @@ Public Class Ribbon
     Public Sub OnbtmScatterPlotMatPressed(control As IRibbonControl)
         Dim sh As Worksheet
 
-        If BESHstatGlobals.app.Workbooks.Count > 0 Then
-            sh = BESHstatGlobals.app.ActiveSheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
         Else
-            BESHstatGlobals.app.Workbooks.Add()
-            sh = BESHstatGlobals.app.ActiveSheet
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
         End If
         Dim mwForm As New Ui11PCA("Scatter Plot MatrixType", sh)
         mwForm.Tag = HelpTopic.ScatterPlotMatrix
@@ -264,11 +276,11 @@ Public Class Ribbon
     Public Sub OnbtmCoxPressed(control As IRibbonControl)
         Dim sh As Worksheet, mwForm As New Ui4Cox()
 
-        If BESHstatGlobals.app.Workbooks.Count > 0 Then
-            sh = BESHstatGlobals.app.ActiveSheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
         Else
-            BESHstatGlobals.app.Workbooks.Add()
-            sh = BESHstatGlobals.app.ActiveSheet
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
         End If
         mwForm.Tag = HelpTopic.CoxRegression
         mwForm.Populate(sh)
@@ -288,11 +300,11 @@ Public Class Ribbon
 
     Public Sub OnbtmGEEPressed(control As IRibbonControl)
         Dim sh As Worksheet
-        If BESHstatGlobals.app.Workbooks.Count > 0 Then
-            sh = BESHstatGlobals.app.ActiveSheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
         Else
-            BESHstatGlobals.app.Workbooks.Add()
-            sh = BESHstatGlobals.app.ActiveSheet
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
         End If
         Dim mwForm As New Ui13GEE("Generalized Estimating Equations")
         mwForm.Tag = HelpTopic.GeneralizedEstimatingEquationsGEE
@@ -318,11 +330,11 @@ Public Class Ribbon
 
     Private Sub RegStart(strTitle As String)
         Dim sh As Worksheet
-        If BESHstatGlobals.app.Workbooks.Count > 0 Then
-            sh = BESHstatGlobals.app.ActiveSheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
         Else
-            BESHstatGlobals.app.Workbooks.Add()
-            sh = BESHstatGlobals.app.ActiveSheet
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
         End If
         Dim mwForm As New UiGLM(strTitle)
         If strTitle = "Multiple Linear Regression (LM)" Then
@@ -354,11 +366,11 @@ Public Class Ribbon
 
     Public Sub OnbtmPCAPressed(control As IRibbonControl)
         Dim sh As Worksheet
-        If BESHstatGlobals.app.Workbooks.Count > 0 Then
-            sh = BESHstatGlobals.app.ActiveSheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
         Else
-            BESHstatGlobals.app.Workbooks.Add()
-            sh = BESHstatGlobals.app.ActiveSheet
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
         End If
         Dim mwForm As New Ui11PCA("Principal Component Analysis", sh)
         mwForm.Tag = HelpTopic.PrincipalComponentAnalysis
@@ -373,11 +385,11 @@ Public Class Ribbon
 
     Public Sub OnbtmMCAPressed(control As IRibbonControl)
         Dim sh As Worksheet
-        If BESHstatGlobals.app.Workbooks.Count > 0 Then
-            sh = BESHstatGlobals.app.ActiveSheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
         Else
-            BESHstatGlobals.app.Workbooks.Add()
-            sh = BESHstatGlobals.app.ActiveSheet
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
         End If
         Dim mwForm As New Ui11PCA("Multiple Correspondence Analysis", sh)
         mwForm.Tag = HelpTopic.MultipleCorrespondenceAnalysis
@@ -458,7 +470,7 @@ Public Class Ribbon
 
         ExcelDna.Integration.ExcelAsyncUtil.QueueAsMacro(Sub()
 
-                                                             Dim app = BESHstatGlobals.app
+                                                             Dim app = AppGlobals.app
                                                              If Not Ui99ExportChart.WorkbookHasAnyCharts(app) Then
                                                                  MessageBox.Show("The active workbook contains no embedded charts and no chart sheets.",
                                                                                  "Export Chart",

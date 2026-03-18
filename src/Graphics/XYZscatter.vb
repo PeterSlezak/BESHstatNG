@@ -1,5 +1,6 @@
 ﻿Option Explicit On
 Imports System.Xml
+Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop.Excel
 
@@ -562,8 +563,8 @@ Namespace graphics
 
 
             If figure Is Nothing Then
-                BESHstatGlobals.app.ActiveWorkbook.Charts.Add()
-                figure = CType(BESHstatGlobals.app.ActiveWorkbook.ActiveChart, Microsoft.Office.Interop.Excel.Chart)
+                AppGlobals.app.ActiveWorkbook.Charts.Add()
+                figure = CType(AppGlobals.app.ActiveWorkbook.ActiveChart, Microsoft.Office.Interop.Excel.Chart)
             End If
 
             With figure
@@ -1107,12 +1108,6 @@ Namespace graphics
         Private Sub get_gridlines()
             Dim x As Double, y As Double, z As Double
 
-            'Dim xH As Double = 0.5 * axis_dir_(0)
-            'Dim xL As Double = -0.5 * axis_dir_(0)
-            'Dim yH As Double = 0.5 * axis_dir_(1)
-            'Dim yL As Double = -0.5 * axis_dir_(1)
-            'Dim zH As Double = 0.5 * axis_dir_(2)
-            'Dim zL As Double = -0.5 * axis_dir_(2)
             'Keep gridlines on the original cage faces (do not move when axis is flipped)
             Dim xH As Double = 0.5
             Dim xL As Double = -0.5
@@ -1357,13 +1352,6 @@ Namespace graphics
             ReDim xs_y_axisticks(3 * (CInt(tx(1)) + 1) - 1), ys_y_axisticks(3 * (CInt(tx(1)) + 1) - 1)
             ReDim xs_z_axisticks(3 * (CInt(tx(2)) + 1) - 1), ys_z_axisticks(3 * (CInt(tx(2)) + 1) - 1)
 
-            'Axis-face constants with axis direction applied
-            'Dim xBase As Double = 0.5 * axis_dir_(0)
-            'Dim xTip As Double = 0.55 * axis_dir_(0)
-            'Dim xL As Double = -0.5 * axis_dir_(0)
-            'Dim yBase As Double = 0.5 * axis_dir_(1)
-            'Dim yTip As Double = 0.55 * axis_dir_(1)
-            'Dim zBack As Double = -0.5 * axis_dir_(2)
             'Axis-face constants FIXED to the original cage faces (do not move when axis is flipped)
             Dim xBase As Double = 0.5
             Dim xTip As Double = 0.55
@@ -1389,13 +1377,6 @@ Namespace graphics
                 ys_x_axisticks(t * 3 + 2) = gToDeleteGridLineValue
 
                 x_tick_labels(t) = CStr(ft(0) + t * ts(0))
-                'Keep the SAME "nice" tick values, but reverse their ORDER when axis is flipped.
-                'Dim idx As Integer = t
-                'If axis_dir_(0) < 0 Then
-                '    idx = CInt(tx(0)) - t
-                'End If
-                'Dim xVal As Double = ft(0) + idx * ts(0)
-                'x_tick_labels(t) = CStr(xVal)
             Next
 
             'Y axis ticks: (y varies), tick goes in +X direction at Z = -0.5
@@ -1415,12 +1396,6 @@ Namespace graphics
                 ys_y_axisticks(t * 3 + 2) = gToDeleteGridLineValue
 
                 y_tick_labels(t) = CStr(ft(1) + t * ts(1))
-                'Dim idx As Integer = t
-                'If axis_dir_(1) < 0 Then
-                '    idx = CInt(tx(1)) - t
-                'End If
-                'Dim yVal As Double = ft(1) + idx * ts(1)
-                'y_tick_labels(t) = CStr(yVal)
             Next
 
             'Z axis ticks: (z varies), tick goes in +Y direction at X = -0.5
@@ -1440,12 +1415,6 @@ Namespace graphics
                 ys_z_axisticks(t * 3 + 2) = gToDeleteGridLineValue
 
                 z_tick_labels(t) = CStr(ft(2) + t * ts(2))
-                'Dim idx As Integer = t
-                'If axis_dir_(2) < 0 Then
-                '    idx = CInt(tx(2)) - t
-                'End If
-                'Dim zVal As Double = ft(2) + idx * ts(2)
-                'z_tick_labels(t) = CStr(zVal)
             Next
         End Sub
 
@@ -1486,11 +1455,6 @@ Namespace graphics
                 'Normalize to [-0.5, +0.5] and apply axis direction.
                 ftn(i) = ((ft(i) - raw_mins_(i)) / raw_ranges_(i) - 0.5) * axis_dir_(i)  'first tick (normalized)
                 tsn(i) = (ts(i) / raw_ranges_(i)) * axis_dir_(i)                         'tick step (normalized)
-
-                'Normalize to [-0.5, +0.5] WITHOUT axis flip so tick geometry stays on the same cage faces.
-                'ftn(i) = ((ft(i) - raw_mins_(i)) / raw_ranges_(i) - 0.5)   'first tick (normalized)
-                'tsn(i) = (ts(i) / raw_ranges_(i))                          'tick step (normalized)
-
             Next
         End Sub
 
@@ -1550,12 +1514,6 @@ Namespace graphics
         Private Sub cage_data()
             Dim unscaled_x(10) As Double, unscaled_y(10) As Double, unscaled_z(10) As Double
 
-            'Dim xH As Double = 0.5 * axis_dir_(0)
-            'Dim xL As Double = -0.5 * axis_dir_(0)
-            'Dim yH As Double = 0.5 * axis_dir_(1)
-            'Dim yL As Double = -0.5 * axis_dir_(1)
-            'Dim zH As Double = 0.5 * axis_dir_(2)
-            'Dim zL As Double = -0.5 * axis_dir_(2)
             'Keep cage fixed (do not move when axis is flipped)
             Dim xH As Double = 0.5
             Dim xL As Double = -0.5

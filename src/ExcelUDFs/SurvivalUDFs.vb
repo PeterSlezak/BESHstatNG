@@ -1,5 +1,7 @@
 Option Explicit On
 Imports System.Globalization
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock
 Imports ExcelDna.Integration
 
 Namespace BESHStatNG.WorksheetFunctions
@@ -136,29 +138,31 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         ''' <summary>
-        ''' Computes the Kaplan–Meier median survival time and its 95% confidence interval using the Brookmeyer–Crowley method.
+        ''' Computes the Kaplan–Meier median survival time and its Brookmeyer–Crowley confidence interval at level <c>1 - alpha</c>.
         ''' </summary>
-        ''' <param name="timeRange">
+        ''' <param name="time">
         ''' A single-column range containing follow-up times (time-to-event or time-to-censoring). Values must be ≥ 0.
         ''' </param>
-        ''' <param name="statusRange">
+        ''' <param name="status">
         ''' A single-column range containing event indicators: 1 = event occurred, 0 = censored. Other values are invalid.
         ''' </param>
-        ''' <param name="groupRange">
+        ''' <param name="group">
         ''' Optional single-column range of group identifiers (text or numbers).
-        ''' <para>
         ''' If omitted, the median and confidence interval are computed for the whole sample and a single-row result is returned.
         ''' If provided, the result includes one row per group (based on distinct identifiers present in the input), allowing
         ''' quick comparison of group-specific medians.
-        ''' </para>
+        ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the Brookmeyer–Crowley confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>
         ''' A 2D array with one row per group and the following columns:
         ''' <list type="bullet">
         '''   <item><description>Column 0: Group identifier (or <c>ALL</c> when no group range is provided)</description></item>
         '''   <item><description>Column 1: Median survival time (Kaplan–Meier estimate)</description></item>
-        '''   <item><description>Column 2: 95% confidence interval lower bound</description></item>
-        '''   <item><description>Column 3: 95% confidence interval upper bound</description></item>
+        '''   <item><description>Column 2: confidence interval lower bound</description></item>
+        '''   <item><description>Column 3: confidence interval upper bound</description></item>
         ''' </list>
         ''' If the median (or CI bound) is not defined for a group (e.g., heavy censoring and the estimated survival curve never drops to 0.5),
         ''' the corresponding cell is returned as <c>#N/A</c>.
@@ -171,22 +175,29 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' <code>
         ''' =BESH.SURV.MEDIAN_CI(A2:A101, B2:B101)
         ''' =BESH.SURV.MEDIAN_CI(A2:A101, B2:B101, C2:C101)
+        ''' =BESH.SURV.MEDIAN_CI(A2:A101, B2:B101, C2:C101, 0.1)
         ''' </code>
         ''' </example>
         <ExcelFunction(
-            Name:="BESH.SURV.MEDIAN_CI",
-            Category:="BESHStatNG - Survival",
-            Description:="Kaplan–Meier median survival time with Brookmeyer–Crowley 95% CI (overall or by group). Returns a 2D table.",
-            HelpTopic:="udf/survival.md#beshsurvmedian_ci")>
+    Name:="BESH.SURV.MEDIAN_CI",
+    Category:="BESHStatNG - Survival",
+    Description:="Kaplan–Meier median survival time with Brookmeyer–Crowley CI (overall or by group). Returns a 2D table.",
+    HelpTopic:="udf/survival.md#beshsurvmedian_ci")>
         Public Function MEDIAN_CI(
-            <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> timeRange As Object,
-            <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> statusRange As Object,
-            <ExcelArgument(Name:="group", Description:="Optional single-column range of group identifiers. If omitted, computes overall median.")> Optional groupRange As Object = Nothing
-        ) As Object
+    <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> time As Object,
+    <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> status As Object,
+    <ExcelArgument(Name:="group", Description:="Optional single-column range of group identifiers. If omitted, computes overall median.")> Optional group As Object = Nothing,
+    <ExcelArgument(Name:="alpha", Description:="Optional two-sided alpha for the Brookmeyer-Crowley confidence interval (default 0.05).")> Optional alpha As Object = Nothing
+) As Object
 
             Try
+                Dim alphaValue As Double = 0.05
+                If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then
+                    Return ExcelError.ExcelErrorNum
+                End If
+
                 Dim outArr As Object(,) = Nothing
-                If Not TryComputeMedianCI(timeRange, statusRange, groupRange, outArr) Then
+                If Not TryComputeMedianCI(time, status, group, alphaValue, outArr) Then
                     Return ExcelError.ExcelErrorNum
                 End If
                 Return outArr
@@ -207,7 +218,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' </para>
         ''' <para>
         ''' The output includes, for each event/censoring time, the number at risk, the estimated survival
-        ''' probability, Greenwood standard error, and a 95% confidence interval.
+        ''' probability, Greenwood standard error, and a two-sided confidence interval at level <c>1 - alpha</c>.
         ''' Confidence limits are computed on a transformed scale to keep limits within <c>[0,1]</c>.
         ''' </para>
         ''' <para>
@@ -227,8 +238,8 @@ Namespace BESHStatNG.WorksheetFunctions
         '''   <item><description>Col 3: At risk</description></item>
         '''   <item><description>Col 4: S(t)</description></item>
         '''   <item><description>Col 5: SE(S(t))</description></item>
-        '''   <item><description>Col 6: Lower 95% CI</description></item>
-        '''   <item><description>Col 7: Upper 95% CI</description></item>
+        '''   <item><description>Col 6: Lower confidence limit</description></item>
+        '''   <item><description>Col 7: Upper confidence limit</description></item>
         ''' </list>
         ''' </para>
         ''' </remarks>
@@ -237,38 +248,48 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' <param name="group">
         ''' Optional single-column range of group IDs (text or numbers). When omitted, all observations are treated as one group.
         ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the Kaplan–Meier confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>
         ''' A 2D array with one row per time point per group and 7 columns:
-        ''' group, time, at risk, survival, SE, lower 95%, upper 95%.
+        ''' group, time, at risk, survival, SE, lower confidence limit, upper confidence limit.
         ''' </returns>
         ''' <example>
         ''' <code>
         ''' =BESH.SURV.KM_TABLE(A2:A200, B2:B200)
         ''' =BESH.SURV.KM_TABLE(A2:A200, B2:B200, C2:C200)
+        ''' =BESH.SURV.KM_TABLE(A2:A200, B2:B200, C2:C200, 0.1)
         ''' </code>
         ''' </example>
         <ExcelFunction(
             Name:="BESH.SURV.KM_TABLE",
             Category:="BESHStatNG - Survival",
-            Description:="Kaplan-Meier tabular survival curve: group, time, at-risk, S(t), SE, lower/upper 95% CI.",
+            Description:="Kaplan-Meier tabular survival curve: group, time, at-risk, S(t), SE, lower/upper CI.",
             HelpTopic:="udf/survival.md#beshsurvkm_table"
         )>
         Public Function KM_TABLE(
             <ExcelArgument(Name:="time", Description:="Follow-up time (single column, >=0).")> time As Object,
             <ExcelArgument(Name:="status", Description:="Event indicator (single column, 1=event, 0=censored).")> status As Object,
-            <ExcelArgument(Name:="[group]", Description:="Optional group IDs (single column). When omitted, computes one overall curve.")> Optional group As Object = Nothing
+            <ExcelArgument(Name:="[group]", Description:="Optional group IDs (single column). When omitted, computes one overall curve.")> Optional group As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional two-sided alpha for the Kaplan-Meier confidence interval (default 0.05).")> Optional alpha As Object = Nothing
         ) As Object
 
             Try
+                Dim alphaValue As Double = 0.05
+                If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then
+                    Return ExcelError.ExcelErrorNum
+                End If
+
                 Dim hasGroup As Boolean = (group IsNot Nothing) AndAlso Not TypeOf group Is ExcelMissing
 
                 Dim records As List(Of survival.SurvivalRecord) = BuildSurvivalRecords(time, status, If(hasGroup, group, Nothing))
                 If records Is Nothing OrElse records.Count = 0 Then Return ExcelError.ExcelErrorNum
 
                 Dim km As New survival.Survival_KM_LR(records)
-                Dim outObj As Object() = km.SurvivalCurveTabularOutput()
+                Dim outObj As Object() = km.SurvivalCurveTabularOutput(alphaValue)
 
-                ' Flatten Object() of List(Of SurvivalTableRecord) into a single 2D array.
                 Dim totalRows As Integer = 0
                 For Each g In outObj
                     If g Is Nothing Then Continue For
@@ -279,7 +300,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 If totalRows = 0 Then Return ExcelError.ExcelErrorNum
 
-                Dim result(totalRows - 1, 6) As Object  ' 7 columns
+                Dim result(totalRows - 1, 6) As Object
 
                 Dim r As Integer = 0
                 For Each g In outObj
@@ -371,12 +392,8 @@ Namespace BESHStatNG.WorksheetFunctions
             Return records
         End Function
 
-        Private Function TryComputeMedianCI(
-            timeRange As Object,
-            statusRange As Object,
-            groupRange As Object,
-            ByRef outTable As Object(,)
-        ) As Boolean
+        Private Function TryComputeMedianCI(timeRange As Object, statusRange As Object, groupRange As Object,
+                                            alpha As Double, ByRef outTable As Object(,)) As Boolean
 
             outTable = Nothing
 
@@ -440,7 +457,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If recs Is Nothing Then Return False
 
             Dim lr As New survival.Survival_KM_LR(recs)
-            Dim mci As Object(,) = lr.BrookmeyerCrowleyMedianSurvivalCI() ' (group, 0..2) = median, LLCI, ULCI
+            Dim mci As Object(,) = lr.BrookmeyerCrowleyMedianSurvivalCI(alpha) ' (group, 0..2) = median, LLCI, ULCI
 
             If mci Is Nothing OrElse mci.GetLength(0) < 1 Then Return False
 
@@ -459,20 +476,20 @@ Namespace BESHStatNG.WorksheetFunctions
                 out(j, 0) = groupIds(j)
 
                 ' Col 2: median survival time
-                If med < 0 Then
+                If Double.IsNaN(med) OrElse Double.IsInfinity(med) Then
                     out(j, 1) = ExcelError.ExcelErrorNA
                 Else
                     out(j, 1) = med
                 End If
 
-                ' Col 3-4: 95% CI lower/upper
-                If ll < 0 Then
+                ' Col 3-4: CI lower/upper
+                If Double.IsNaN(ll) OrElse Double.IsInfinity(ll) Then
                     out(j, 2) = ExcelError.ExcelErrorNA
                 Else
                     out(j, 2) = ll
                 End If
 
-                If ul < 0 Then
+                If Double.IsNaN(ul) OrElse Double.IsInfinity(ul) Then
                     out(j, 3) = ExcelError.ExcelErrorNA
                 Else
                     out(j, 3) = ul

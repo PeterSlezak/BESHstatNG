@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Namespace regression
@@ -16,7 +17,7 @@ Namespace regression
             ElseIf type.ToLower = "unstructured" Then
                 f = New regression.Unstructured
             Else
-                BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Unsupported gee correlation type type = " & type))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Unsupported gee correlation type type = " & type))
                 f = Nothing
             End If
             Return f
@@ -443,7 +444,7 @@ Namespace regression
         ''' arbitrary time patterns; calling this method raises an exception.
         ''' </summary>
         Public Overrides Function covarianceMatrix(endog_expval() As Double, gee As GEE, index As Integer) As Double(,)
-            BESHstatGlobals.BSerr.LogAndThrow(New NotImplementedException("convarianceMatrix not applicable"))
+            AppGlobals.BSerr.LogAndThrow(New NotImplementedException("convarianceMatrix not applicable"))
             Return Nothing
         End Function
 
@@ -603,7 +604,7 @@ Namespace regression
                         If i <> k Then vmat(i, k) = 0
                     Next
                 Next
-                BESHstatGlobals.BSlogg.Log($"WARNING: CovNearest was not successful. Using vmat.  vmat={Matrix.array2str(vmat)}", BESHstatGlobals.LogMsgType.Warn)
+                AppGlobals.BSlogg.Log($"WARNING: CovNearest was not successful. Using vmat.  vmat={Matrix.array2str(vmat)}", AppGlobals.LogMsgType.Warn)
                 strTrace &= $"WARNING: CovNearest was not successful. Using vmat.  vmat={Matrix.array2str(vmat)}"
                 vco = Matrix.Cholesky(vmat, iErr, False)
             End If

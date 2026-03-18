@@ -2,12 +2,23 @@
 Imports System.IO
 Imports System.Windows.Forms.AxHost
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Namespace parametric
 
 
     Public Module Parametric
+
+        Friend Function BuildMcpCiFootnote(alpha As Double) As String
+            Return "Confidence interval level = " & ((1.0 - alpha) * 100.0).ToString("0.##") & "% (alpha = " & alpha.ToString("0.####") & ")."
+        End Function
+
+        Friend Sub ValidateAlpha(alpha As Double)
+            If Double.IsNaN(alpha) OrElse alpha <= 0.0 OrElse alpha >= 1.0 Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(alpha), "alpha must be in (0,1)."))
+            End If
+        End Sub
 
         ''' <summary>
         ''' Implements a two‑way nested ANOVA model of the form:
@@ -248,7 +259,7 @@ Namespace parametric
                 Next
 
                 If outFrq2D.GetLength(0) <> parSubGroupID.GetLength(0) Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Factor is not nested. The same 'nested' factor category occured in multiple group factor categories."))
+                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Factor is not nested. The same 'nested' factor category occured in multiple group factor categories."))
                 End If
 
                 'test if balanced design
@@ -371,6 +382,10 @@ Namespace parametric
             Private MCP_Bonferroni(,) As Object = Nothing
             Private MCP_Tukey(,) As Object = Nothing
             Private MCP_GamesHowell(,) As Object = Nothing
+            Private MCP_LSD_Alpha As Double = 0.05
+            Private MCP_Bonferroni_Alpha As Double = 0.05
+            Private MCP_Tukey_Alpha As Double = 0.05
+            Private MCP_GamesHowell_Alpha As Double = 0.05
 
             ''' <summary>
             ''' Initializes the one‑way ANOVA model with grouped numeric data.
@@ -383,8 +398,8 @@ Namespace parametric
             Public Sub New(x()() As Double, varNames() As String)
                 Me.data = x
                 Me.varNames = varNames
-                If x.GetLength(0) <> varNames.Length Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Number of groups and variable names should be the same."))
-                If x.GetLength(0) < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least two groups are expected."))
+                If x.GetLength(0) <> varNames.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Number of groups and variable names should be the same."))
+                If x.GetLength(0) < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two groups are expected."))
 
                 pNoGroups = x.Length
                 ReDim pNs(pNoGroups - 1)
@@ -395,7 +410,7 @@ Namespace parametric
 
             ''' <summary>
             ''' Wraps the ANOVA results and all available multiple‑comparison procedures
-            ''' into a list of <c>ResultTable</c> objects.
+            ''' into a list of <c>ResultTable</c> objects. 
             ''' </summary>
             ''' <remarks>
             ''' <para>
@@ -405,7 +420,9 @@ Namespace parametric
             ''' <para>
             ''' Additional tables are included only if their corresponding MCP matrices
             ''' (<c>MCP_LSD</c>, <c>MCP_Bonferroni</c>, <c>MCP_Tukey</c>,
-            ''' <c>MCP_GamesHowell</c>) have been computed.
+            ''' <c>MCP_GamesHowell</c>) have been computed. MCP tables that report confidence intervals also include a footnote
+            ''' indicating the confidence interval level derived from the alpha used
+            ''' when that MCP table was created.
             ''' </para>
             ''' </remarks>
             ''' <returns>A list of formatted <c>ResultTable</c> objects.</returns>
@@ -431,25 +448,32 @@ Namespace parametric
                 If MCP_LSD IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_LSD)
-                    t.AddHeaderTopRow({"Fisher's LSD multiple comparisons", "Mean difference (95% CI)", "t", "P-value"})
+                    t.AddHeaderTopRow({"Fisher's LSD multiple comparisons", "Mean difference (CI)", "t", "P-value"})
+                    t.AddFootnote(BuildMcpCiFootnote(Me.MCP_LSD_Alpha))
                     out.Add(t)
                 End If
+
                 If MCP_Bonferroni IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_Bonferroni)
-                    t.AddHeaderTopRow({"Bonferroni adjusted multiple comparisons", "Mean difference (95% CI)", "t", "P-value"})
+                    t.AddHeaderTopRow({"Bonferroni adjusted multiple comparisons", "Mean difference (CI)", "t", "P-value"})
+                    t.AddFootnote(BuildMcpCiFootnote(Me.MCP_Bonferroni_Alpha) & " Bonferroni-adjusted critical values were used.")
                     out.Add(t)
                 End If
+
                 If MCP_Tukey IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_Tukey)
-                    t.AddHeaderTopRow({"Tukey-Kramer multiple comparisons", "Mean difference (95% CI)", "q", "P-value"})
+                    t.AddHeaderTopRow({"Tukey-Kramer multiple comparisons", "Mean difference (CI)", "q", "P-value"})
+                    t.AddFootnote(BuildMcpCiFootnote(Me.MCP_Tukey_Alpha))
                     out.Add(t)
                 End If
+
                 If MCP_GamesHowell IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_GamesHowell)
-                    t.AddHeaderTopRow({"Games-Howell multiple comparisons", "Mean difference (95% CI)", "q", "DF", "P-value"})
+                    t.AddHeaderTopRow({"Games-Howell multiple comparisons", "Mean difference (CI)", "q", "DF", "P-value"})
+                    t.AddFootnote(BuildMcpCiFootnote(Me.MCP_GamesHowell_Alpha))
                     out.Add(t)
                 End If
 
@@ -572,242 +596,232 @@ Namespace parametric
             End Function
 
             ''' <summary>
-            ''' Performs Fisher’s Least Significant Difference (LSD) post‑hoc test for
-            ''' all pairwise group comparisons. Optionally applies Bonferroni correction
-            ''' to control the family‑wise error rate.
+            ''' Performs Fisher’s Least Significant Difference (LSD) post-hoc test for
+            ''' all pairwise group comparisons. Optionally applies a Bonferroni
+            ''' adjustment to the pairwise p-values and to the critical value used for
+            ''' the reported confidence intervals.
             ''' </summary>
             ''' <param name="bBonferroni">
-            ''' If True, applies Bonferroni‑adjusted critical values and p‑values.
+            ''' If True, applies Bonferroni-adjusted p-values and Bonferroni-adjusted
+            ''' critical values for the reported confidence intervals.
+            ''' </param>
+            ''' <param name="alpha">
+            ''' Significance level used to construct the reported confidence intervals.
+            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
             ''' </param>
             ''' <returns>
-            ''' A 2D Object array containing:
+            ''' A 2D Object array containing, in natural pair-generation order:
             ''' <list type="bullet">
             '''   <item><description>Group comparison label</description></item>
-            '''   <item><description>Mean difference with 95% CI</description></item>
-            '''   <item><description>t‑statistic</description></item>
-            '''   <item><description>p‑value (with optional “stop” flag)</description></item>
+            '''   <item><description>Mean difference with confidence interval</description></item>
+            '''   <item><description>t-statistic</description></item>
+            '''   <item><description>Adjusted or unadjusted p-value</description></item>
             ''' </list>
             ''' </returns>
-            Public Function FisherLSD(Optional bBonferroni As Boolean = False) As Object(,)
-                'Fishers least significant difference (LSD) post hoc test after 1-way ANOVA
-                ' or Benferroni correction if bBonferroni = True
-
-                Dim out(,) As Object, strStop As String, blDone As Boolean
+            Public Function FisherLSD(Optional bBonferroni As Boolean = False,
+                                      Optional alpha As Double = 0.05) As Object(,)
+                ' Fisher's least significant difference (LSD) post hoc test after 1-way ANOVA
+                ' or Bonferroni correction if bBonferroni = True
+                ValidateAlpha(alpha)
+                Dim out(,) As Object
                 Dim nContrasts As Integer = (pNoGroups * (pNoGroups - 1)) / 2
                 ReDim out(nContrasts - 1, 3)
+
                 Dim arMean(pNoGroups - 1) As Double
-                Dim arDiffs(nContrasts - 1, 8)
+                Dim arDiffs(nContrasts - 1, 7) As Object
                 Dim DFerr As Double = CDbl(Me.ANOVAtable(1, 1))
                 Dim MSerr As Double = CDbl(Me.ANOVAtable(1, 2))
 
                 For i = 0 To pNoGroups - 1
-                    arMean(i) = data(i).Average() 'compute means
+                    arMean(i) = data(i).Average()
                 Next
 
-                'All pairwaise comparisons
                 Dim ii As Integer = 0
                 For i = 0 To pNoGroups - 1
                     For j = i + 1 To pNoGroups - 1
-                        arDiffs(ii, 1) = arMean(i) - arMean(j) 'difference between means
-                        arDiffs(ii, 8) = Math.Abs(arMean(i) - arMean(j))
-                        arDiffs(ii, 0) = Math.Sqrt(MSerr * (1.0 / pNs(i) + 1 / pNs(j))) 'SE
-                        arDiffs(ii, 2) = arDiffs(ii, 1) / arDiffs(ii, 0) 'T statistic
+                        Dim diff As Double = arMean(i) - arMean(j)
+                        Dim se As Double = Math.Sqrt(MSerr * (1.0 / pNs(i) + 1.0 / pNs(j)))
+                        Dim tStat As Double = diff / se
+                        Dim rawP As Double = distributions.T_2T(Math.Abs(tStat), DFerr)
+                        Dim pVal As Double
+                        Dim tCrit As Double
 
                         If bBonferroni Then
-                            Dim pval As Double = distributions.T_2T(Math.Abs(arDiffs(ii, 2)), DFerr) * nContrasts
-
-                            If pval > 1.0 Then pval = 1.0
-                            arDiffs(ii, 5) = pval 'pvalue
-
-                            arDiffs(ii, 6) = arDiffs(ii, 2) - (distributions.T_Inv_2T(0.05 / nContrasts, DFerr) * arDiffs(ii, 0)) '95%LCI
-                            arDiffs(ii, 7) = arDiffs(ii, 2) + (distributions.T_Inv_2T(0.05 / nContrasts, DFerr) * arDiffs(ii, 0)) '95%UCI
+                            pVal = rawP * nContrasts
+                            If pVal > 1.0 Then pVal = 1.0
+                            tCrit = distributions.T_Inv_2T(alpha / nContrasts, DFerr)
                         Else
-                            arDiffs(ii, 5) = distributions.T_2T(Math.Abs(arDiffs(ii, 2)), DFerr) 'pvalue
-                            arDiffs(ii, 6) = arDiffs(ii, 2) - (distributions.T_Inv_2T(0.05, DFerr) * arDiffs(ii, 0)) '95%LCI
-                            arDiffs(ii, 7) = arDiffs(ii, 2) + (distributions.T_Inv_2T(0.05, DFerr) * arDiffs(ii, 0)) '95%UCI
+                            pVal = rawP
+                            tCrit = distributions.T_Inv_2T(alpha, DFerr)
                         End If
 
+                        arDiffs(ii, 0) = se
+                        arDiffs(ii, 1) = diff
+                        arDiffs(ii, 2) = tStat
                         arDiffs(ii, 3) = i
                         arDiffs(ii, 4) = j
+                        arDiffs(ii, 5) = pVal
+                        arDiffs(ii, 6) = diff - tCrit * se
+                        arDiffs(ii, 7) = diff + tCrit * se
                         ii += 1
                     Next
                 Next
 
-                QuickSort2D(arDiffs, "5,A,8,D", 0, UBound(arDiffs, 1)) 'sort by pvalue ascending
-
-                'Populate output
-                blDone = False
                 For i = 0 To ii - 1
-                    out(i, 0) = varNames(arDiffs(i, 3)) & " vs. " & varNames(arDiffs(i, 4))
+                    out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
                     out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
                     out(i, 2) = CStr(CSng(arDiffs(i, 2)))
-                    If blDone Then
-                        strStop = String.Empty
-                    Else
-                        If arDiffs(i, 5) > 0.05 Then
-                            strStop = " stop"
-                            blDone = True
-                        Else
-                            strStop = String.Empty
-                        End If
-                    End If
-                    out(i, 3) = CStr(CSng(arDiffs(i, 5))) & strStop
-                Next i
+                    out(i, 3) = CStr(CSng(arDiffs(i, 5)))
+                Next
 
                 If bBonferroni Then
                     Me.MCP_Bonferroni = out
+                    Me.MCP_Bonferroni_Alpha = alpha
                 Else
                     Me.MCP_LSD = out
+                    Me.MCP_LSD_Alpha = alpha
                 End If
 
                 Return out
             End Function
 
             ''' <summary>
-            ''' Performs the Tukey–Kramer multiple‑comparison test for unequal sample
-            ''' sizes. Computes:
-            ''' <list type="bullet">
-            '''   <item><description>Mean differences</description></item>
-            '''   <item><description>Q‑statistics</description></item>
-            '''   <item><description>p‑values using the studentized range distribution</description></item>
-            '''   <item><description>95% confidence intervals</description></item>
-            ''' </list>
+            ''' Performs the Tukey–Kramer multiple-comparison test for unequal sample
+            ''' sizes.
             ''' </summary>
+            ''' <param name="alpha">
+            ''' Significance level used to construct the reported confidence intervals.
+            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
+            ''' </param>
             ''' <returns>
             ''' A 2D Object array containing comparison labels, mean differences with
-            ''' confidence intervals, Q‑statistics, and p‑values.
+            ''' confidence intervals, Q-statistics, and p-values.
             ''' </returns>
-            Public Function TukeyKramer() As Object(,)
-                'Tukey-Kramer post hoc test after 1-way ANOVA
-                Dim out(,) As Object, strStop As String, blDone As Boolean, iFault As Integer = 0
+            ''' <remarks>
+            ''' Pairwise comparisons are returned in natural pair-generation order and
+            ''' are not sorted by effect size or p-value.
+            ''' </remarks>
+            Public Function TukeyKramer(Optional alpha As Double = 0.05) As Object(,)
+                ' Tukey-Kramer post hoc test after 1-way ANOVA
+                ValidateAlpha(alpha)
+                Dim out(,) As Object
+                Dim iFault As Integer = 0
                 Dim nContrasts As Integer = (pNoGroups * (pNoGroups - 1)) / 2
                 ReDim out(nContrasts - 1, 3)
+
                 Dim arMean(pNoGroups - 1) As Double
-                Dim arDiffs(nContrasts - 1, 7)
+                Dim arDiffs(nContrasts - 1, 7) As Object
                 Dim MSerr As Double = CDbl(Me.ANOVAtable(1, 2))
 
                 For i = 0 To pNoGroups - 1
-                    arMean(i) = data(i).Average() 'compute means
+                    arMean(i) = data(i).Average()
                 Next
 
                 Dim df As Integer = pNs.Sum() - pNoGroups
+                Dim Qcrit As Double = distributions.QTRNG(1.0 - alpha, CDbl(df), CDbl(pNoGroups), iFault)
 
-                'Get Q critical value for 95% CI computation
-                Dim Qcrit As Double = distributions.QTRNG(0.95, CDbl(df), CDbl(pNoGroups), iFault)
-
-                'All pairwaise comparisons
                 Dim ii As Integer = 0
                 For i = 0 To pNoGroups - 1
                     For j = i + 1 To pNoGroups - 1
-                        arDiffs(ii, 1) = arMean(i) - arMean(j)
-                        arDiffs(ii, 0) = Math.Abs(arDiffs(ii, 1))
-                        arDiffs(ii, 2) = arDiffs(ii, 0) / Math.Sqrt(0.5 * MSerr * (1.0 / pNs(i) + 1.0 / pNs(j))) 'Q statistic
-                        arDiffs(ii, 5) = 1.0 - distributions.PRTRNG(arDiffs(ii, 2), CDbl(df), CDbl(pNoGroups), iFault) 'pvalue
-                        arDiffs(ii, 6) = arDiffs(ii, 1) - ((Qcrit / Math.Sqrt(2)) * Math.Sqrt(MSerr) * Math.Sqrt(1 / pNs(i) + 1 / pNs(j))) '95%LCI
-                        arDiffs(ii, 7) = arDiffs(ii, 1) + ((Qcrit / Math.Sqrt(2)) * Math.Sqrt(MSerr) * Math.Sqrt(1 / pNs(i) + 1 / pNs(j))) '95%UCI
+                        Dim diff As Double = arMean(i) - arMean(j)
+                        Dim qStat As Double = Math.Abs(diff) / Math.Sqrt(0.5 * MSerr * (1.0 / pNs(i) + 1.0 / pNs(j)))
+                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, CDbl(df), CDbl(pNoGroups), iFault)
+                        Dim margin As Double = (Qcrit / Math.Sqrt(2.0)) * Math.Sqrt(MSerr) * Math.Sqrt(1.0 / pNs(i) + 1.0 / pNs(j))
+
+                        arDiffs(ii, 1) = diff
+                        arDiffs(ii, 2) = qStat
                         arDiffs(ii, 3) = i
                         arDiffs(ii, 4) = j
+                        arDiffs(ii, 5) = pVal
+                        arDiffs(ii, 6) = diff - margin
+                        arDiffs(ii, 7) = diff + margin
                         ii += 1
-                    Next j
-                Next i
+                    Next
+                Next
 
-                QuickSort2D(arDiffs, "5,A,2,D", 0, UBound(arDiffs, 1)) 'sort by pvalue and test statistic
-
-
-                'Populate output
-                blDone = False
                 For i = 0 To ii - 1
-                    out(i, 0) = varNames(arDiffs(i, 3)) & " vs. " & varNames(arDiffs(i, 4))
+                    out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
                     out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
                     out(i, 2) = CStr(CSng(arDiffs(i, 2)))
-                    If blDone Then
-                        strStop = String.Empty
-                    Else
-                        If arDiffs(i, 5) > 0.05 Then
-                            strStop = " stop"
-                            blDone = True
-                        Else
-                            strStop = String.Empty
-                        End If
-                    End If
-                    out(i, 3) = CStr(CSng(arDiffs(i, 5))) & strStop
+                    out(i, 3) = CStr(CSng(arDiffs(i, 5)))
                 Next
 
                 Me.MCP_Tukey = out
+                Me.MCP_Tukey_Alpha = alpha
                 Return out
             End Function
 
             ''' <summary>
-            ''' Performs the Games–Howell post‑hoc test, which is robust to unequal
-            ''' variances and unequal sample sizes. Computes:
-            ''' <list type="bullet">
-            '''   <item><description>Mean differences</description></item>
-            '''   <item><description>Q‑statistics</description></item>
-            '''   <item><description>Group‑specific degrees of freedom</description></item>
-            '''   <item><description>p‑values from the studentized range distribution</description></item>
-            ''' </list>
+            ''' Performs the Games–Howell post-hoc test, which is robust to unequal
+            ''' variances and unequal sample sizes.
             ''' </summary>
+            ''' <param name="alpha">
+            ''' Significance level used to construct the reported confidence intervals.
+            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
+            ''' </param>
             ''' <returns>
-            ''' A 2D Object array containing comparison labels, mean differences,
-            ''' Q‑statistics, degrees of freedom, and p‑values.
+            ''' A 2D Object array containing comparison labels, mean differences with
+            ''' confidence intervals, Q-statistics, degrees of freedom, and p-values.
             ''' </returns>
-            Public Function GamesHowell() As Object(,)
-                'Games Howell post hoc test after 1-way ANOVA
-
-                Dim out(,) As Object, strStop As String, blDone As Boolean, iFault As Integer
+            ''' <remarks>
+            ''' Pairwise comparisons are returned in natural pair-generation order and
+            ''' are not sorted by effect size or p-value.
+            ''' </remarks>
+            Public Function GamesHowell(Optional alpha As Double = 0.05) As Object(,)
+                ' Games-Howell post hoc test after 1-way ANOVA
+                ValidateAlpha(alpha)
+                Dim out(,) As Object
+                Dim iFault As Integer = 0
                 Dim arTemp() As Double
                 Dim nContrasts As Integer = (pNoGroups * (pNoGroups - 1)) / 2
                 ReDim out(nContrasts - 1, 4)
-                Dim arMean(pNoGroups - 1) As Double, arVars(pNoGroups - 1) As Double
-                Dim arDiffs(nContrasts - 1, 7)
+
+                Dim arMean(pNoGroups - 1) As Double
+                Dim arVars(pNoGroups - 1) As Double
+                Dim arDiffs(nContrasts - 1, 8) As Object
 
                 For i = 0 To pNoGroups - 1
                     arTemp = data(i)
-                    arMean(i) = arTemp.Average() 'compute means
+                    arMean(i) = arTemp.Average()
                     arVars(i) = variance(arTemp)
                 Next
 
-                'Compute all pairwaise comparisons
                 Dim ii As Integer = 0
                 For i = 0 To pNoGroups - 1
                     Dim VarNi As Double = arVars(i) / pNs(i)
+
                     For j = i + 1 To pNoGroups - 1
                         Dim VarNj As Double = arVars(j) / pNs(j)
-                        arDiffs(ii, 1) = arMean(i) - arMean(j)
-                        arDiffs(ii, 0) = Math.Abs(arDiffs(ii, 1))
-                        arDiffs(ii, 5) = Math.Sqrt(0.5 * (VarNi + VarNj)) 'SE
-                        arDiffs(ii, 2) = (arDiffs(ii, 0) / arDiffs(ii, 5)) 'Q statistic
-                        arDiffs(ii, 7) = ((VarNi + VarNj) ^ 2) / (((VarNi ^ 2) / (pNs(i) - 1)) + ((VarNj ^ 2) / (pNs(j) - 1))) 'DF
-                        arDiffs(ii, 5) = 1.0 - distributions.PRTRNG(arDiffs(ii, 2), arDiffs(ii, 7), CDbl(pNoGroups), iFault) 'pvalue
+                        Dim diff As Double = arMean(i) - arMean(j)
+                        Dim se As Double = Math.Sqrt(0.5 * (VarNi + VarNj))
+                        Dim qStat As Double = Math.Abs(diff) / se
+                        Dim df As Double = ((VarNi + VarNj) ^ 2) / (((VarNi ^ 2) / (pNs(i) - 1)) + ((VarNj ^ 2) / (pNs(j) - 1)))
+                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, df, CDbl(pNoGroups), iFault)
+                        Dim qCrit As Double = distributions.QTRNG(1.0 - alpha, df, CDbl(pNoGroups), iFault)
+                        Dim margin As Double = qCrit * se
+
+                        arDiffs(ii, 1) = diff
+                        arDiffs(ii, 2) = qStat
                         arDiffs(ii, 3) = i
                         arDiffs(ii, 4) = j
+                        arDiffs(ii, 5) = pVal
+                        arDiffs(ii, 6) = diff - margin
+                        arDiffs(ii, 7) = diff + margin
+                        arDiffs(ii, 8) = df
                         ii += 1
-                    Next j
-                Next i
+                    Next
+                Next
 
-                QuickSort2D(arDiffs, "5,A,2,D", 0, UBound(arDiffs, 1)) 'sort by pvalue and test statistic
-
-                'output
-                blDone = False
                 For i = 0 To ii - 1
-                    out(i, 0) = varNames(arDiffs(i, 3)) & " vs. " & varNames(arDiffs(i, 4))
-                    out(i, 1) = CSng(arDiffs(i, 1))
-                    out(i, 2) = CSng(arDiffs(i, 2))
-                    out(i, 3) = CSng(arDiffs(i, 7))
-                    If blDone Then
-                        strStop = vbNullString
-                    Else
-                        If arDiffs(i, 5) > 0.05 Then
-                            strStop = " stop"
-                            blDone = True
-                        Else
-                            strStop = vbNullString
-                        End If
-                    End If
-                    out(i, 4) = CSng(arDiffs(i, 5)) & strStop
-                Next i
+                    out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
+                    out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
+                    out(i, 2) = CStr(CSng(arDiffs(i, 2)))
+                    out(i, 3) = CStr(CSng(arDiffs(i, 8)))
+                    out(i, 4) = CStr(CSng(arDiffs(i, 5)))
+                Next
 
                 Me.MCP_GamesHowell = out
+                Me.MCP_GamesHowell_Alpha = alpha
                 Return out
             End Function
         End Class
@@ -847,6 +861,8 @@ Namespace parametric
             Private GreenhouseGeisserTest As TestResult = Nothing
             Private TuekyRM2(,) As Object = Nothing
             Private TukeyOut(,) As Object = Nothing
+            Private TuekyRM2Alpha As Double = 0.05
+            Private TukeyOutAlpha As Double = 0.05
 
             ''' <summary>
             ''' Initializes the repeated‑measures ANOVA model.
@@ -869,6 +885,9 @@ Namespace parametric
             ''' <summary>
             ''' Wraps the RM‑ANOVA results and all available sphericity‑corrected
             ''' statistics and post‑hoc tests into a list of <c>ResultTable</c> objects.
+            ''' MCP tables that report confidence intervals also include a footnote
+            ''' indicating the confidence interval level derived from the alpha used
+            ''' when that MCP table was created.
             ''' </summary>
             ''' <remarks>
             ''' <para>
@@ -920,14 +939,17 @@ Namespace parametric
                     t = New ResultTable
                     t.SetBody(Me.TuekyRM2)
                     t.AddHeaderTopRow({"Tukey-Kramer multiple comparisons not assuming sphericity. Recommended", "", "", ""})
-                    t.AddHeaderTopRow({"Comparison", "Mean difference (95% CI)", "q", "P-value"})
+                    t.AddHeaderTopRow({"Comparison", "Mean difference (CI)", "q", "P-value"})
+                    t.AddFootnote(BuildMcpCiFootnote(Me.TuekyRM2Alpha))
                     out.Add(t)
                 End If
+
                 If TukeyOut IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.TukeyOut)
                     t.AddHeaderTopRow({"Tukey-Kramer multiple comparisons assuming sphericity (using single pooled variance)", "", "", ""})
-                    t.AddHeaderTopRow({"Comparison", "Mean difference (95% CI)", "q", "P-value"})
+                    t.AddHeaderTopRow({"Comparison", "Mean difference (CI)", "q", "P-value"})
+                    t.AddFootnote(BuildMcpCiFootnote(Me.TukeyOutAlpha))
                     out.Add(t)
                 End If
 
@@ -1037,7 +1059,7 @@ Namespace parametric
                     Num += Eigenval(i) 'numerator
                     Den += Eigenval(i) * Eigenval(i) 'denominator
                 Next
-                Num = Num ^ 2
+                Num = Num * Num
                 Dim V As Double = Num / Den
                 Dim Epsilon As Double = V / (NoGroups - 1)
                 Dim DFb As Double = Epsilon * ANOVAtable(0, 1)
@@ -1083,7 +1105,7 @@ Namespace parametric
                     Num += Eigenval(i) 'numerator
                     Den += Eigenval(i) * Eigenval(i) 'denominator
                 Next
-                Num = Num ^ 2
+                Num = Num * Num
 
                 Dim V As Double = Num / Den
                 Dim EpsilonGG As Double = V / (NoGroups - 1)
@@ -1100,157 +1122,137 @@ Namespace parametric
             End Function
 
             ''' <summary>
-            ''' Performs the Tukey–Kramer post‑hoc test for repeated‑measures ANOVA
-            ''' without assuming sphericity. This is the recommended RM post‑hoc test.
+            ''' Performs the Tukey–Kramer post-hoc test for repeated-measures ANOVA
+            ''' without assuming sphericity. This is the recommended RM post-hoc test.
             ''' </summary>
-            ''' <remarks>
-            ''' <para>
-            ''' For each pair of conditions, the method computes:
-            ''' <list type="bullet">
-            '''   <item><description>Mean of paired differences</description></item>
-            '''   <item><description>Studentized range statistic Q</description></item>
-            '''   <item><description>p‑value from the studentized range distribution</description></item>
-            '''   <item><description>95% confidence interval for the mean difference</description></item>
-            ''' </list>
-            ''' </para>
-            ''' </remarks>
+            ''' <param name="alpha">
+            ''' Significance level used to construct the reported confidence intervals.
+            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
+            ''' </param>
             ''' <returns>
             ''' A 2D Object array containing comparison labels, mean differences with
-            ''' confidence intervals, Q‑statistics, and p‑values.
+            ''' confidence intervals, Q-statistics, and p-values.
             ''' </returns>
-            Public Function TukeyKramerRM2() As Object(,)
-                'Tukey-Kramer post hoc test after 1-way RM ANOVA not assuming sphericity. Recommended
-                Dim blDone As Boolean, iFault As Integer, strStop As String
-
+            ''' <remarks>
+            ''' Pairwise comparisons are returned in natural pair-generation order and
+            ''' are not sorted by effect size or p-value.
+            ''' </remarks>
+            Public Function TukeyKramerRM2(Optional alpha As Double = 0.05) As Object(,)
+                ' Tukey-Kramer post hoc test after 1-way RM ANOVA not assuming sphericity. Recommended
+                ValidateAlpha(alpha)
+                Dim iFault As Integer = 0
                 ReDim Me.TuekyRM2(((NoGroups * (NoGroups - 1)) / 2 - 1), 3)
+
                 Dim arDiffs(((NoGroups * (NoGroups - 1)) / 2 - 1), 7) As Object
                 Dim df As Integer = NoBlocks - 1
+                Dim Qcrit As Double = distributions.QTRNG(1.0 - alpha, CDbl(df), CDbl(NoGroups), iFault)
 
-                'Get Q critical value for 95% CI computation
-                Dim Qcrit As Double = distributions.QTRNG(0.95, CDbl(df), CDbl(NoGroups), iFault)
-
-                'All pairwaise comparisons
                 Dim ii As Integer = 0
                 Dim arTemp(NoBlocks - 1) As Double
+
                 For i = 0 To NoGroups - 1
                     For j = i + 1 To NoGroups - 1
-
-                        'compute mean of differences
                         For jj = 0 To NoBlocks - 1
                             arTemp(jj) = data(jj, i) - data(jj, j)
                         Next
-                        arDiffs(ii, 1) = arTemp.Average()
-                        arDiffs(ii, 2) = Math.Abs(arDiffs(ii, 1))
-                        arDiffs(ii, 0) = arDiffs(ii, 2) / (1.0 / Math.Sqrt(2.0) * ((stDev(arTemp) / Math.Sqrt(NoBlocks)))) 'Q statistic
-                        arDiffs(ii, 5) = 1.0 - distributions.PRTRNG(arDiffs(ii, 0), CDbl(df), CDbl(NoGroups), iFault) 'pvalue
-                        arDiffs(ii, 6) = arDiffs(ii, 1) - ((Qcrit / Math.Sqrt(2.0)) * (stDev(arTemp) / Math.Sqrt(NoBlocks))) '95%LCI
-                        arDiffs(ii, 7) = arDiffs(ii, 1) + ((Qcrit / Math.Sqrt(2.0)) * (stDev(arTemp) / Math.Sqrt(NoBlocks))) '95%UCI
+
+                        Dim diff As Double = arTemp.Average()
+                        Dim seDiff As Double = stDev(arTemp) / Math.Sqrt(NoBlocks)
+                        Dim qStat As Double = Math.Abs(diff) / ((1.0 / Math.Sqrt(2.0)) * seDiff)
+                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, CDbl(df), CDbl(NoGroups), iFault)
+                        Dim margin As Double = (Qcrit / Math.Sqrt(2.0)) * seDiff
+
+                        arDiffs(ii, 0) = qStat
+                        arDiffs(ii, 1) = diff
                         arDiffs(ii, 3) = i
                         arDiffs(ii, 4) = j
+                        arDiffs(ii, 5) = pVal
+                        arDiffs(ii, 6) = diff - margin
+                        arDiffs(ii, 7) = diff + margin
                         ii += 1
                     Next
-                Next i
+                Next
 
-                QuickSort2D(arDiffs, "0,D", 0, UBound(arDiffs, 1)) 'sort by descending order of q
-
-                'output
-                blDone = False
                 For i = 0 To ii - 1
-                    TuekyRM2(i, 0) = varNames(arDiffs(i, 3)) & " vs. " & varNames(arDiffs(i, 4))
+                    TuekyRM2(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
                     TuekyRM2(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
                     TuekyRM2(i, 2) = CStr(CSng(arDiffs(i, 0)))
-                    If blDone Then
-                        strStop = String.Empty
-                    Else
-                        If arDiffs(i, 6) > 0.05 Then
-                            strStop = " stop"
-                            blDone = True
-                        Else
-                            strStop = String.Empty
-                        End If
-                    End If
-                    TuekyRM2(i, 3) = CStr(CSng(arDiffs(i, 5))) & strStop
+                    TuekyRM2(i, 3) = CStr(CSng(arDiffs(i, 5)))
                 Next
+
+                Me.TuekyRM2Alpha = alpha
                 Return TuekyRM2
             End Function
 
             ''' <summary>
-            ''' Performs the Tukey–Kramer post‑hoc test for repeated‑measures ANOVA
-            ''' under the assumption of sphericity (single pooled variance).
+            ''' Performs the Tukey–Kramer post-hoc test for repeated-measures ANOVA
+            ''' under the assumption of sphericity (single pooled residual variance).
             ''' </summary>
-            ''' <remarks>
-            ''' <para>
-            ''' This method is appropriate only when sphericity is satisfied or when
-            ''' corrections (GG/HF) indicate minimal violation.
-            ''' </para>
-            ''' </remarks>
+            ''' <param name="alpha">
+            ''' Significance level used to construct the reported confidence intervals.
+            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
+            ''' </param>
             ''' <returns>
             ''' A 2D Object array containing comparison labels, mean differences with
-            ''' confidence intervals, Q‑statistics, and p‑values.
+            ''' confidence intervals, Q-statistics, and p-values.
             ''' </returns>
-            Public Function Tukey() As Object(,)
-                'Tukey-Kramer post hoc test assuming sphericity
-
-                Dim out(,) As Object, strStop As String, blDone As Boolean, iFault As Integer = 0
+            ''' <remarks>
+            ''' Pairwise comparisons are returned in natural pair-generation order and
+            ''' are not sorted by effect size or p-value.
+            ''' </remarks>
+            Public Function Tukey(Optional alpha As Double = 0.05) As Object(,)
+                ' Tukey-Kramer post hoc test assuming sphericity
+                ValidateAlpha(alpha)
+                Dim out(,) As Object
+                Dim iFault As Integer = 0
                 Dim arTemp() As Double
                 Dim nContrasts As Integer = (NoGroups * (NoGroups - 1)) / 2
                 ReDim out(nContrasts - 1, 3)
+
                 Dim arMean(NoGroups - 1) As Double
-                Dim arDiffs(nContrasts - 1, 7)
-                Dim MSerr As Double = CDbl(Me.ANOVAtable(1, 2))
+                Dim arDiffs(nContrasts - 1, 7) As Object
+                Dim MSerr As Double = CDbl(Me.ANOVAtable(2, 2)) ' residual/error MS CDbl(Me.ANOVAtable(1, 2))
 
                 For i = 0 To NoGroups - 1
                     arTemp = Matrix.GetColumnFrom2Darray(data, i)
-                    arMean(i) = arTemp.Average() 'compute means
+                    arMean(i) = arTemp.Average()
                 Next
 
                 Dim df As Integer = (NoGroups * NoBlocks) + 1 - NoGroups - NoBlocks
+                Dim Qcrit As Double = distributions.QTRNG(1.0 - alpha, CDbl(df), CDbl(NoGroups), iFault)
 
-                'Get Q critical value for 95% CI computation
-                Dim Qcrit As Double = distributions.QTRNG(0.95, CDbl(df), CDbl(NoGroups), iFault)
-
-                'All pairwaise comparisons
                 Dim ii As Integer = 0
                 For i = 0 To NoGroups - 1
                     For j = i + 1 To NoGroups - 1
-                        arDiffs(ii, 1) = arMean(i) - arMean(j)
-                        arDiffs(ii, 0) = Math.Abs(arDiffs(ii, 1))
-                        arDiffs(ii, 2) = arDiffs(ii, 0) / Math.Sqrt(0.5 * MSerr * (1 / NoBlocks + 1 / NoBlocks)) 'Q statistic
-                        arDiffs(ii, 5) = 1.0 - distributions.PRTRNG(arDiffs(ii, 2), CDbl(df), CDbl(NoGroups), iFault) 'pvalue
-                        arDiffs(ii, 6) = arDiffs(ii, 1) - ((Qcrit / Math.Sqrt(2.0)) * Math.Sqrt(MSerr) * Math.Sqrt(1.0 / NoBlocks + 1.0 / NoBlocks)) '95%LCI
-                        arDiffs(ii, 7) = arDiffs(ii, 1) + ((Qcrit / Math.Sqrt(2.0)) * Math.Sqrt(MSerr) * Math.Sqrt(1.0 / NoBlocks + 1.0 / NoBlocks)) '95%UCI
+                        Dim diff As Double = arMean(i) - arMean(j)
+                        Dim qStat As Double = Math.Abs(diff) / Math.Sqrt(0.5 * MSerr * (1.0 / NoBlocks + 1.0 / NoBlocks))
+                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, CDbl(df), CDbl(NoGroups), iFault)
+                        Dim margin As Double = (Qcrit / Math.Sqrt(2.0)) * Math.Sqrt(MSerr) * Math.Sqrt(1.0 / NoBlocks + 1.0 / NoBlocks)
+
+                        arDiffs(ii, 1) = diff
+                        arDiffs(ii, 2) = qStat
                         arDiffs(ii, 3) = i
                         arDiffs(ii, 4) = j
+                        arDiffs(ii, 5) = pVal
+                        arDiffs(ii, 6) = diff - margin
+                        arDiffs(ii, 7) = diff + margin
                         ii += 1
                     Next
                 Next
 
-                QuickSort2D(arDiffs, "5,A,2,D", 0, UBound(arDiffs, 1)) 'sort by pvalue and test statistic
-
-
-                'Populate output
-                blDone = False
                 For i = 0 To ii - 1
-                    out(i, 0) = varNames(arDiffs(i, 3)) & " vs. " & varNames(arDiffs(i, 4))
+                    out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
                     out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
                     out(i, 2) = CStr(CSng(arDiffs(i, 2)))
-                    If blDone Then
-                        strStop = String.Empty
-                    Else
-                        If arDiffs(i, 5) > 0.05 Then
-                            strStop = " stop"
-                            blDone = True
-                        Else
-                            strStop = String.Empty
-                        End If
-                    End If
-                    out(i, 3) = CStr(CSng(arDiffs(i, 5))) & strStop
+                    out(i, 3) = CStr(CSng(arDiffs(i, 5)))
                 Next
 
                 Me.TukeyOut = out
+                Me.TukeyOutAlpha = alpha
                 Return out
             End Function
         End Class
+
 
 
         ''' <summary>
@@ -1288,9 +1290,9 @@ Namespace parametric
             ''' </param>
             ''' <param name="varNames">Names of the two groups for reporting.</param>
             Public Sub New(x()() As Double, varNames() As String)
-                If x Is Nothing OrElse x.Length <> 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Two groups are expected for the Unpaired t-test"))
-                If x(0) Is Nothing OrElse x(0).Length < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 1"))
-                If x(1) Is Nothing OrElse x(1).Length < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 2"))
+                If x Is Nothing OrElse x.Length <> 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Two groups are expected for the Unpaired t-test"))
+                If x(0) Is Nothing OrElse x(0).Length < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 1"))
+                If x(1) Is Nothing OrElse x(1).Length < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 2"))
 
                 Me.data = x
                 Me.varNames = varNames
@@ -1394,16 +1396,16 @@ Namespace parametric
                 out.DF2 = df_unq
 
                 Me.diffCI = New ConfidenceIntervalResult With {
-                    .Estimate = diff,
-                    .LowerLimit = diff - (distributions.T_Inv_2T(0.05, out.DF1) * SE),
-                    .UpperLimit = diff + (distributions.T_Inv_2T(0.05, out.DF1) * SE)
-                }
+                        .Estimate = diff,
+                        .LowerLimit = diff - (distributions.T_Inv_2T(0.05, out.DF1) * SE),
+                        .UpperLimit = diff + (distributions.T_Inv_2T(0.05, out.DF1) * SE)
+                    }
 
                 Me.diffCIunq = New ConfidenceIntervalResult With {
-                    .Estimate = diff,
-                    .LowerLimit = diff - (distributions.T_Inv_2T(0.05, out.DF2) * SEunq),
-                    .UpperLimit = diff + (distributions.T_Inv_2T(0.05, out.DF2) * SEunq)
-                }
+                        .Estimate = diff,
+                        .LowerLimit = diff - (distributions.T_Inv_2T(0.05, out.DF2) * SEunq),
+                        .UpperLimit = diff + (distributions.T_Inv_2T(0.05, out.DF2) * SEunq)
+                    }
 
                 Me.TtestRes = out
                 Return out
@@ -1664,7 +1666,7 @@ Namespace parametric
                 Dim n2 As Integer = data2.GetLength(0)
                 Dim p As Integer = data1.GetLength(1)
                 If p <> data2.GetLength(1) Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
 
                 If pMeans Is Nothing Then
@@ -1773,10 +1775,10 @@ Namespace parametric
                 Dim n2 As Integer = data2.GetLength(0)
                 Dim p As Integer = data1.GetLength(1)
                 If p <> data2.GetLength(1) Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
                 If dAlpha < 0.0 Or dAlpha > 1.0 Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Independent samples version of Hotelling's T-squared alpha must be (0 to 1)."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Independent samples version of Hotelling's T-squared alpha must be (0 to 1)."))
                 End If
                 Dim diffs(p - 1) As Double
                 Me.pCIs = New List(Of String)
@@ -1791,10 +1793,10 @@ Namespace parametric
                     pSE(i) = Math.Sqrt(((n1 - 1) * variance(tmp1) + (n2 - 1) * variance(tmp2)) / (n1 + n2 - 2)) * Math.Sqrt(1.0 / n1 + 1.0 / n2)
 
                     Dim CIres As New ConfidenceIntervalResult With {
-                        .Estimate = pMeans(i),
-                        .LowerLimit = pMeans(i) - Tcrit * pSE(i),
-                        .UpperLimit = pMeans(i) + Tcrit * pSE(i)
-                    }
+                            .Estimate = pMeans(i),
+                            .LowerLimit = pMeans(i) - Tcrit * pSE(i),
+                            .UpperLimit = pMeans(i) + Tcrit * pSE(i)
+                        }
                     Me.pCIs.Add(CIres.strConfidenceInterval(CIformat.LL_to_UL))
                     Me.CIs.Add(CIres)
                 Next
@@ -1914,7 +1916,7 @@ Namespace parametric
                 Dim n As Integer = data.GetLength(0)
                 Dim p As Integer = data.GetLength(1)
                 If p <> H0.Length Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
                 Dim diffs(p - 1) As Double, Data_(n - 1, p - 1) As Double
                 ReDim pMeans(p - 1)
@@ -1980,10 +1982,10 @@ Namespace parametric
                 Dim n As Integer = data.GetLength(0)
                 Dim p As Integer = data.GetLength(1)
                 If p <> H0.Length Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
                 If dAlpha < 0.0 Or dAlpha > 1.0 Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared alpha must be (0 to 1)."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared alpha must be (0 to 1)."))
                 End If
 
                 Dim diffs(p - 1) As Double
@@ -1998,10 +2000,10 @@ Namespace parametric
                     diffs(i) = pMeans(i) - H0(i)
 
                     Dim CIres As New ConfidenceIntervalResult With {
-                        .Estimate = pMeans(i),
-                        .LowerLimit = pMeans(i) - Tcrit * pSE(i),
-                        .UpperLimit = pMeans(i) + Tcrit * pSE(i)
-                    }
+                            .Estimate = pMeans(i),
+                            .LowerLimit = pMeans(i) - Tcrit * pSE(i),
+                            .UpperLimit = pMeans(i) + Tcrit * pSE(i)
+                        }
                     Me.pCIs.Add(CIres.strConfidenceInterval(CIformat.LL_to_UL))
                     Me.CIs.Add(CIres)
                 Next
@@ -2108,10 +2110,10 @@ Namespace parametric
                     Dim n As Integer = data1.GetLength(0)
                     Dim p As Integer = data1.GetLength(1)
                     If n <> data2.GetLength(0) Then
-                        BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of rows in the Input Datasets."))
+                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of rows in the Input Datasets."))
                     End If
                     If p <> data2.GetLength(1) Then
-                        BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                     End If
 
                     Dim zeros() As Double = Matrix.IdentityVect(p - 1, 0)

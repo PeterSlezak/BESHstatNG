@@ -1,7 +1,7 @@
 ﻿Imports System.Net
 Imports System.Security.Cryptography
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
-Imports NLog.Filters
 
 Public Class Ui8Proportions
     Sub New()
@@ -10,7 +10,7 @@ Public Class Ui8Proportions
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.RefEditOutput.ExcelConnector = BESHstatGlobals.app
+        Me.RefEditOutput.ExcelConnector = AppGlobals.app
 
         If Me.optSingle.Checked = True Then
             Me.lbl1.Text = "Total number of observations in the study"
@@ -30,6 +30,8 @@ Public Class Ui8Proportions
             Dim TotalN1 As Integer, RespondersN1 As Integer, TotalN2 As Integer, RespondersN2 As Integer
             Dim RespondersBoth As Integer, nres As Integer
             Dim res = New List(Of ResultTable), t = New ResultTable
+            Dim alphaValue As Double = Me.spinBtnAlpha.Value '0.05
+            Dim ciLabel As String = $"{100.0 * (1.0 - alphaValue):0.##}% CI"
 
             'get data
             If Me.optSingle.Checked Then
@@ -56,7 +58,7 @@ Public Class Ui8Proportions
                     Me.spinBtnA.Select()
                     Exit Sub
                 End If
-                Dim SingleProp = contingencytable.SingleProportion(RespondersN1, TotalN1)
+                Dim SingleProp = contingencytable.SingleProportion(RespondersN1, TotalN1, alphaValue)
                 If RespondersN1 * 2 > TotalN1 Then
                     nres = TotalN1 - RespondersN1
                 Else
@@ -69,7 +71,7 @@ Public Class Ui8Proportions
                 t.SetBody({{"Total Number of Subjects", TotalN1},
                             {"Number of Responders", RespondersN1},
                             {"Proportion", SingleProp.Estimate},
-                            {"95% CI", SingleProp.strConfidenceInterval(CIformat.LL_to_UL)},
+                            {ciLabel, SingleProp.strConfidenceInterval(CIformat.LL_to_UL)},
                             {"two-sided P-value", PtwoTAIL}})
                 res.Add(t)
 
@@ -85,7 +87,7 @@ Public Class Ui8Proportions
                     Me.spinBtnC.Select()
                     Exit Sub
                 End If
-                Dim TwoIdependent = contingencytable.TwoIndependentProportions(RespondersN1, TotalN1, RespondersN2, TotalN2)
+                Dim TwoIdependent = contingencytable.TwoIndependentProportions(RespondersN1, TotalN1, RespondersN2, TotalN2, alphaValue)
 
                 'get counts in format required by fisherexact
                 Dim R1C1 As Integer = RespondersN1
@@ -102,7 +104,7 @@ Public Class Ui8Proportions
                             {"Number of Responders in Sample 2", RespondersN2},
                             {"Proportion in Sample 2", RespondersN2 / TotalN2},
                             {"Proportions Difference", TwoIdependent.Estimate},
-                            {"95% CI", TwoIdependent.strConfidenceInterval(CIformat.LL_to_UL)},
+                            {ciLabel, TwoIdependent.strConfidenceInterval(CIformat.LL_to_UL)},
                             {"Exact two - sided P-value", Fisher.Pvalue},
                             {"Exact Mid two-sided P-value", Fisher.Pvalue2}})
                 res.Add(t)
@@ -115,7 +117,7 @@ Public Class Ui8Proportions
                     Me.spinBtnA.Select()
                     Exit Sub
                 End If
-                Dim PairedProp = contingencytable.PairedProportions(TotalN1, RespondersN1, RespondersN2, RespondersBoth)
+                Dim PairedProp = contingencytable.PairedProportions(TotalN1, RespondersN1, RespondersN2, RespondersBoth, alphaValue)
 
                 'get counts in format required by liddel
                 Dim Total As Integer = TotalN1
@@ -135,7 +137,7 @@ Public Class Ui8Proportions
                             {"Number of Responders in the 2nd Category", (RespondersN2 + RespondersBoth) / TotalN1},
                             {"Number of Responders in Both Categories", RespondersBoth},
                             {"Proportions Difference", PairedProp.Estimate},
-                            {"95% CI", PairedProp.strConfidenceInterval(CIformat.LL_to_UL)},
+                            {ciLabel, PairedProp.strConfidenceInterval(CIformat.LL_to_UL)},
                             {"Two-sided P-value", Liddell.Item1.Pvalue}})
                 res.Add(t)
             End If
@@ -153,21 +155,21 @@ Public Class Ui8Proportions
 
             rr.writeToSheet(WriteRes, True)
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = AppGlobals.app.Workbooks.Add()
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

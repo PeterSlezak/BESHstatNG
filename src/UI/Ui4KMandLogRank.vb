@@ -1,4 +1,5 @@
 ﻿Imports System.Security.Cryptography
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui4KMandLogRank
@@ -7,11 +8,11 @@ Public Class Ui4KMandLogRank
         ' This call is required by the designer.
         InitializeComponent()
 
-        Me.RefEdit1_SurvivalTime.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit2_Censor.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit3_GroupID.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit4_StrataID.ExcelConnector = BESHstatGlobals.app
-        Me.RefEditOutput.ExcelConnector = BESHstatGlobals.app
+        Me.RefEdit1_SurvivalTime.ExcelConnector = AppGlobals.app
+        Me.RefEdit2_Censor.ExcelConnector = AppGlobals.app
+        Me.RefEdit3_GroupID.ExcelConnector = AppGlobals.app
+        Me.RefEdit4_StrataID.ExcelConnector = AppGlobals.app
+        Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
 
         With Me.cbXunits.Items
@@ -53,7 +54,7 @@ Public Class Ui4KMandLogRank
                 Me.RunLogrank(data)
             End If
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -71,6 +72,7 @@ Public Class Ui4KMandLogRank
         Dim WriteRes = New WriteResults
         Dim n As Integer = UBound(d, 1) + 1
         Dim colId As Integer = 0
+        Dim alphaValue As Double = Me.spinBtnAlpha.Value '0.05
 
         'Create data for GROUP ID if missing
         If Me.RefEdit3_GroupID.Address = String.Empty Then 'We have only One group
@@ -119,9 +121,9 @@ Public Class Ui4KMandLogRank
             strMethod = "modified Peto"
         End If
 
-        If NoGroups > 1 Then LRKM.WeightedLogRankTest(strMethod)
-        LRKM.BrookmeyerCrowleyMedianSurvivalCI() 'Median survival time and CI by group
-        If Me.ckCIoutput.Checked Then LRKM.SurvivalCurveTabularOutput()
+        If NoGroups > 1 Then LRKM.WeightedLogRankTest(strMethod, alphaValue)
+        LRKM.BrookmeyerCrowleyMedianSurvivalCI(alphaValue) 'Median survival time and CI by group
+        If Me.ckCIoutput.Checked Then LRKM.SurvivalCurveTabularOutput(alphaValue)
         If Me.ckBCtest.Checked And NoGroups > 1 Then LRKM.EqualityOfMedianTest()
         If NoGroups = 2 Then
             If Me.ckCSCatFTP.Checked Then LRKM.CompareCurveFixTimePoint()
@@ -144,7 +146,7 @@ Public Class Ui4KMandLogRank
         rr.writeToSheet(WriteRes, True)
 
         Dim strTitle = If(Me.ckDisplayTitle.Checked, Me.tbTitleText.Text, String.Empty)
-        LRKM.AddKMplot(WriteRes.ws, Me.ckPlotCI.Checked, Me.ckShowLegend.Checked, strTitle, Me.cbXunits.Text)
+        LRKM.AddKMplot(WriteRes.ws, Me.ckPlotCI.Checked, Me.ckShowLegend.Checked, strTitle, Me.cbXunits.Text, alphaValue)
     End Sub
 
     Private Function getData(ByRef strErr As String) As DataObj
@@ -239,14 +241,14 @@ Public Class Ui4KMandLogRank
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = AppGlobals.app.Workbooks.Add()
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

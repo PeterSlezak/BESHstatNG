@@ -1,4 +1,5 @@
-﻿Imports Microsoft.Office.Interop.Excel
+﻿Imports BESHStatNG.AppInfrastructure
+Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui11PCA
 
@@ -49,7 +50,7 @@ Public Class Ui11PCA
                 Me.RunMCA(MyData)
             End If
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -69,9 +70,9 @@ Public Class Ui11PCA
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = AppGlobals.app.Workbooks.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Row ID"})
         WriteRes.setRowPointer(3) 'second row is blank because of Design matrix having two header rows
         WriteRes.write(MyData.RowIds, bTall:=True)
@@ -92,9 +93,9 @@ Public Class Ui11PCA
         'MCA numerical results
         Dim res = mca.wrapResults()
         WriteRes = New WriteResults
-        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "MCA results"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "MCA results"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
 
@@ -134,9 +135,9 @@ Public Class Ui11PCA
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = AppGlobals.app.Workbooks.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Row ID"})
         WriteRes.setRowPointer(2)
         WriteRes.write(MyData.RowIds, bTall:=True)
@@ -158,9 +159,9 @@ Public Class Ui11PCA
         'PCA numerical results
         Dim res = objPCA.wrapResults()
         WriteRes = New WriteResults
-        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "PCA results"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "PCA results"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
 

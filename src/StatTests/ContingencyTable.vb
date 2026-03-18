@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Namespace contingencytable
@@ -17,17 +18,22 @@ Namespace contingencytable
         ''' <item><description>Row i+1: [c, d]</description></item>
         ''' </list>
         ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the pooled odds-ratio confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>
         ''' A tuple containing:
         ''' <list type="bullet">
         ''' <item><description><see cref="TestResult"/> with the Mantel–Haenszel chi-square statistic and p-value.</description></item>
-        ''' <item><description><see cref="ConfidenceIntervalResult"/> with the pooled odds ratio estimate and 95% confidence interval.</description></item>
+        ''' <item><description><see cref="ConfidenceIntervalResult"/> with the pooled odds ratio estimate and a two-sided confidence interval at level <c>1 - alpha</c>.</description></item>
         ''' </list>
         ''' </returns>
         ''' <remarks>
         ''' - Applies a continuity correction (0.5) when any cell count is zero.  
         ''' - Uses the chi-square distribution with 1 degree of freedom for the test statistic.  
-        ''' - Confidence interval is computed on the log-odds scale and exponentiated back.  
+        ''' - Confidence interval is computed on the log-odds scale and exponentiated back using
+        '''   <c>z = NormSInv(1 - alpha / 2)</c>.  
         ''' </remarks>
         ''' <example>
         ''' ' Example: two stratified 2x2 tables
@@ -41,18 +47,18 @@ Namespace contingencytable
         ''' Console.WriteLine("Chi-square: " result.Item1.TestStatistics1)
         ''' Console.WriteLine("p-value: "  result.Item1.Pvalue)
         ''' Console.WriteLine("Odds ratio: "  result.Item2.Estimate)
-        ''' Console.WriteLine("95% CI: "  result.Item2.strConfidenceInterval)
+        ''' Console.WriteLine("CI: "  result.Item2.strConfidenceInterval)
         ''' </example>
-        Public Function MantelHaenszel(data(,) As Double) As (TestResult, ConfidenceIntervalResult)
-            'sub works for multiple (stratified) 2x2 table arranged under each other
+        Public Function MantelHaenszel(data(,) As Double, Optional alpha As Double = 0.05) As (TestResult, ConfidenceIntervalResult)
+
             Dim a As Double, b As Double, c As Double, d As Double
             Dim SumNum As Double, SumDenom As Double, SumOR1 As Double, SumOR2 As Double, n As Double
             Dim sum1 As Double, sum2 As Double, Sum3 As Double
-
+            Dim z As Double = distributions.ZCritTwoSided(alpha)
             Dim rowsNo As Integer = data.GetLength(0)
 
             If (rowsNo Mod 2 <> 0) Or (data.GetUpperBound(1) <> 1) Then 'check imput data dimension
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Wrong dimension of the input table! Mantel Haenszel test"))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Wrong dimension of the input table! Mantel Haenszel test"))
             End If
 
             For i = 0 To rowsNo - 1
@@ -84,17 +90,18 @@ Namespace contingencytable
             out.Pvalue = 1.0 - distributions.ChiSquareCDF(out.TestStatistics1, 1)
 
             Dim ci As New ConfidenceIntervalResult
+            ci.alpha = alpha
             ci.Estimate = SumOR1 / SumOR2
             Dim var As Double = 0.5 * ((sum1 / SumOR1 ^ 2) + (sum2 / (SumOR1 * SumOR2)) + (Sum3 / SumOR2 ^ 2))
-            ci.LowerLimit = Math.Exp(Math.Log(ci.Estimate) - (1.96 * Math.Sqrt(var)))
-            ci.UpperLimit = Math.Exp(Math.Log(ci.Estimate) + (1.96 * Math.Sqrt(var)))
+            ci.LowerLimit = Math.Exp(Math.Log(ci.Estimate) - (z * Math.Sqrt(var)))
+            ci.UpperLimit = Math.Exp(Math.Log(ci.Estimate) + (z * Math.Sqrt(var)))
 
             Return (out, ci)
         End Function
 
 
         ''' <summary>
-        ''' Computes a single proportion estimate and its 95% confidence interval
+        ''' Computes a single proportion estimate and its confidence interval
         ''' using the Wilson score interval method.
         ''' </summary>
         ''' <param name="NoResp">
@@ -103,33 +110,40 @@ Namespace contingencytable
         ''' <param name="TotalN">
         ''' The total sample size (number of trials).
         ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the Wilson confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>
         ''' A <see cref="ConfidenceIntervalResult"/> containing:
         ''' <list type="bullet">
         ''' <item><description><c>Estimate</c>: the observed proportion (NoResp / TotalN).</description></item>
-        ''' <item><description><c>LowerLimit</c>: the lower bound of the 95% confidence interval.</description></item>
-        ''' <item><description><c>UpperLimit</c>: the upper bound of the 95% confidence interval.</description></item>
+        ''' <item><description><c>LowerLimit</c>: the lower bound of the confidence interval.</description></item>
+        ''' <item><description><c>UpperLimit</c>: the upper bound of the confidence interval.</description></item>
         ''' <item><description><c>strConfidenceInterval</c>: formatted string representation of the interval.</description></item>
         ''' </list>
         ''' </returns>
         ''' <remarks>
-        ''' This implementation uses the Wilson score interval with z = 1.96 for a 95% confidence level.
+        ''' This implementation uses the Wilson score interval with
+        ''' <c>z = NormSInv(1 - alpha / 2)</c>.
         ''' It is more accurate than the normal approximation, especially for small samples or proportions near 0 or 1.
         ''' </remarks>
         ''' <example>
         ''' Dim result As ConfidenceIntervalResult = SingleProportion(45, 100)
         ''' Console.WriteLine("Estimate: " result.Estimate)
-        ''' Console.WriteLine("95% CI: " result.strConfidenceInterval)
+        ''' Console.WriteLine("CI: " result.strConfidenceInterval)
         ''' ' Output: Estimate ≈ 0.45, CI ≈ 0.352 to 0.552
         ''' </example>
-        Public Function SingleProportion(NoResp As Integer, TotalN As Integer) As ConfidenceIntervalResult
-            ' Proportion and strCI (95% confidence interval) are outcomes
+        Public Function SingleProportion(NoResp As Integer, TotalN As Integer, Optional alpha As Double = 0.05) As ConfidenceIntervalResult
 
-            Dim a As Double = 2.0 * NoResp + 1.96 ^ 2
-            Dim b As Double = 1.96 * Math.Sqrt(1.96 ^ 2 + 4.0 * NoResp * (1 - NoResp / TotalN))
-            Dim c As Double = 2.0 * (TotalN + 1.96 ^ 2)
+            Dim z As Double = distributions.ZCritTwoSided(alpha)
+            Dim z2 As Double = z * z
+            Dim a As Double = 2.0 * NoResp + z2
+            Dim b As Double = z * Math.Sqrt(z2 + 4.0 * NoResp * (1 - NoResp / TotalN))
+            Dim c As Double = 2.0 * (TotalN + z2)
 
             Dim out As New ConfidenceIntervalResult
+            out.alpha = alpha
             out.LowerLimit = (a - b) / c
             out.UpperLimit = (a + b) / c
             out.Estimate = NoResp / TotalN
@@ -138,7 +152,7 @@ Namespace contingencytable
         End Function
 
         ''' <summary>
-        ''' Computes the difference between two independent proportions and its 95% confidence interval.
+        ''' Computes the difference between two independent proportions and its confidence interval.
         ''' </summary>
         ''' <param name="NoResp1">
         ''' The number of responses (successes) observed in the first sample.
@@ -152,12 +166,16 @@ Namespace contingencytable
         ''' <param name="TotalN2">
         ''' The total sample size of the second group.
         ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>
         ''' A <see cref="ConfidenceIntervalResult"/> containing:
         ''' <list type="bullet">
         ''' <item><description><c>Estimate</c>: the difference in proportions (p1 − p2).</description></item>
-        ''' <item><description><c>LowerLimit</c>: the lower bound of the 95% confidence interval.</description></item>
-        ''' <item><description><c>UpperLimit</c>: the upper bound of the 95% confidence interval.</description></item>
+        ''' <item><description><c>LowerLimit</c>: the lower bound of the confidence interval.</description></item>
+        ''' <item><description><c>UpperLimit</c>: the upper bound of the confidence interval.</description></item>
         ''' <item><description><c>strConfidenceInterval</c>: formatted string representation of the interval.</description></item>
         ''' </list>
         ''' </returns>
@@ -169,20 +187,22 @@ Namespace contingencytable
         ''' <example>
         ''' Dim result As ConfidenceIntervalResult = TwoIndependentProportions(45, 100, 30, 100)
         ''' Console.WriteLine("Estimate: "  result.Estimate)
-        ''' Console.WriteLine("95% CI: "  result.strConfidenceInterval)
+        ''' Console.WriteLine("CI: "  result.strConfidenceInterval)
         ''' ' Output: Estimate ≈ 0.15, CI ≈ 0.037 to 0.263
         ''' </example>
-        Public Function TwoIndependentProportions(NoResp1 As Integer, TotalN1 As Integer, NoResp2 As Integer, TotalN2 As Integer) As ConfidenceIntervalResult
-            'ProportionDif and strCI (95% confidence interval) are outcomes
-
+        Public Function TwoIndependentProportions(NoResp1 As Integer, TotalN1 As Integer, NoResp2 As Integer, TotalN2 As Integer, Optional alpha As Double = 0.05) As ConfidenceIntervalResult
+            Dim z As Double = distributions.ZCritTwoSided(alpha)
+            Dim z2 As Double = z * z
             Dim out = New ConfidenceIntervalResult
+            out.alpha = alpha
             out.Estimate = NoResp1 / TotalN1 - NoResp2 / TotalN2
-            Dim a1 As Double = 2.0 * NoResp1 + 1.96 ^ 2
-            Dim a2 As Double = 2.0 * NoResp2 + 1.96 ^ 2
-            Dim b1 As Double = 1.96 * Math.Sqrt(1.96 ^ 2 + 4.0 * NoResp1 * (1 - NoResp1 / TotalN1))
-            Dim b2 As Double = 1.96 * Math.Sqrt(1.96 ^ 2 + 4.0 * NoResp2 * (1 - NoResp2 / TotalN2))
-            Dim c1 As Double = 2.0 * (TotalN1 + 1.96 ^ 2)
-            Dim c2 As Double = 2.0 * (TotalN2 + 1.96 ^ 2)
+
+            Dim a1 As Double = 2.0 * NoResp1 + z2
+            Dim a2 As Double = 2.0 * NoResp2 + z2
+            Dim b1 As Double = z * Math.Sqrt(z2 + 4.0 * NoResp1 * (1 - NoResp1 / TotalN1))
+            Dim b2 As Double = z * Math.Sqrt(z2 + 4.0 * NoResp2 * (1 - NoResp2 / TotalN2))
+            Dim c1 As Double = 2.0 * (TotalN1 + z2)
+            Dim c2 As Double = 2.0 * (TotalN2 + z2)
             Dim L1 As Double = (a1 - b1) / c1
             Dim L2 As Double = (a2 - b2) / c2
             Dim U1 As Double = (a1 + b1) / c1
@@ -238,7 +258,7 @@ Namespace contingencytable
 
             Dim n As Double = a + b + c + d
             If n > 1000 Then
-                BESHstatGlobals.BSlogg.Log("Too large sample size for exact computation.", BESHstatGlobals.LogMsgType.Warn)
+                AppGlobals.BSlogg.Log("Too large sample size for exact computation.", AppGlobals.LogMsgType.Warn)
                 Return Nothing
             End If
             Dim min As Integer = Minimum(a, b, c, d)
@@ -285,7 +305,7 @@ Namespace contingencytable
         End Function
 
         ''' <summary>
-        ''' Computes the difference between two paired proportions and its 95% confidence interval.
+        ''' Computes the difference between two paired proportions and its confidence interval.
         ''' </summary>
         ''' <param name="TotalN">
         ''' The total number of paired observations.
@@ -299,12 +319,16 @@ Namespace contingencytable
         ''' <param name="RespBoth">
         ''' The number of responses observed in both conditions simultaneously.
         ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>
         ''' A <see cref="ConfidenceIntervalResult"/> containing:
         ''' <list type="bullet">
         ''' <item><description><c>Estimate</c>: the difference in paired proportions (P1 − P2).</description></item>
-        ''' <item><description><c>LowerLimit</c>: the lower bound of the 95% confidence interval.</description></item>
-        ''' <item><description><c>UpperLimit</c>: the upper bound of the 95% confidence interval.</description></item>
+        ''' <item><description><c>LowerLimit</c>: the lower bound of the confidence interval.</description></item>
+        ''' <item><description><c>UpperLimit</c>: the upper bound of the confidence interval.</description></item>
         ''' <item><description><c>strConfidenceInterval</c>: formatted string representation of the interval.</description></item>
         ''' </list>
         ''' </returns>
@@ -317,30 +341,32 @@ Namespace contingencytable
         ''' ' Example: paired responses in two conditions
         ''' Dim result As ConfidenceIntervalResult = PairedProportions(100, 20, 15, 40)
         ''' Console.WriteLine("Estimate: "  result.Estimate)
-        ''' Console.WriteLine("95% CI: "  result.strConfidenceInterval)
+        ''' Console.WriteLine("CI: "  result.strConfidenceInterval)
         ''' ' Output: Estimate ≈ 0.05, CI ≈ -0.083 to 0.183
         ''' </example>
-        Public Function PairedProportions(TotalN As Integer, NoResp1 As Integer, NoResp2 As Integer, RespBoth As Integer) As ConfidenceIntervalResult
-            'ProportionDif and strCI (95% confidence interval) are outcomes
+        Public Function PairedProportions(TotalN As Integer, NoResp1 As Integer, NoResp2 As Integer, RespBoth As Integer, Optional alpha As Double = 0.05) As ConfidenceIntervalResult
             Dim phi As Double, a As Double, b As Double, c As Double
-
+            Dim z As Double = distributions.ZCritTwoSided(alpha)
+            Dim z2 As Double = z * z
             Dim out = New ConfidenceIntervalResult
+            out.alpha = alpha
+
             Dim P1 As Double = (NoResp1 + RespBoth) / TotalN
             Dim P2 As Double = (NoResp2 + RespBoth) / TotalN
             out.Estimate = P1 - P2
-            Dim a1 As Double = 2.0 * (NoResp1 + RespBoth) + 1.96 ^ 2
-            Dim a2 As Double = 2.0 * (NoResp2 + RespBoth) + 1.96 ^ 2
-            Dim b1 As Double = 1.96 * Math.Sqrt((1.96 ^ 2) + 4.0 * (NoResp1 + RespBoth) * (1.0 - P1))
-            Dim b2 As Double = 1.96 * Math.Sqrt((1.96 ^ 2) + 4.0 * (NoResp2 + RespBoth) * (1.0 - P2))
-            Dim c1 As Double = 2.0 * (TotalN + 1.96 ^ 2)
-            Dim c2 As Double = 2.0 * (TotalN + 1.96 ^ 2)
+
+            Dim a1 As Double = 2.0 * (NoResp1 + RespBoth) + z2
+            Dim a2 As Double = 2.0 * (NoResp2 + RespBoth) + z2
+            Dim b1 As Double = z * Math.Sqrt(z2 + 4.0 * (NoResp1 + RespBoth) * (1.0 - P1))
+            Dim b2 As Double = z * Math.Sqrt(z2 + 4.0 * (NoResp2 + RespBoth) * (1.0 - P2))
+            Dim c1 As Double = 2.0 * (TotalN + z2)
+            Dim c2 As Double = 2.0 * (TotalN + z2)
             Dim L1 As Double = (a1 - b1) / c1
             Dim L2 As Double = (a2 - b2) / c2
             Dim U1 As Double = (a1 + b1) / c1
             Dim U2 As Double = (a2 + b2) / c2
 
-            If (NoResp1 + RespBoth) = 0 Or ((TotalN - NoResp1 - RespBoth) = 0) Or
-            (NoResp2 + RespBoth) = 0 Or ((TotalN - NoResp2 - RespBoth) = 0) Then
+            If (NoResp1 + RespBoth) = 0 Or ((TotalN - NoResp1 - RespBoth) = 0) Or (NoResp2 + RespBoth) = 0 Or ((TotalN - NoResp2 - RespBoth) = 0) Then
                 phi = 0.0
             Else
                 a = (NoResp1 + RespBoth) * (TotalN - NoResp1 - RespBoth) * (NoResp2 + RespBoth) * (TotalN - NoResp2 - RespBoth)
@@ -641,7 +667,7 @@ Namespace contingencytable
         End Function
 
         ''' <summary>
-        ''' Computes the risk ratio (relative risk) from a 2×2 contingency table and its 95% confidence interval.
+        ''' Computes the risk ratio (relative risk) from a 2×2 contingency table and its confidence interval.
         ''' </summary>
         ''' <param name="table">
         ''' A two-dimensional integer array representing a 2×2 contingency table:
@@ -653,7 +679,8 @@ Namespace contingencytable
         ''' </list>
         ''' </param>
         ''' <param name="alpha">
-        ''' The significance level for the confidence interval (default = 0.05 for 95% CI).
+        ''' The significance level for the confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>
         ''' A <see cref="ConfidenceIntervalResult"/> containing:
@@ -667,7 +694,7 @@ Namespace contingencytable
         ''' <remarks>
         ''' - Risk ratio is computed as (a / (a + c)) ÷ (b / (b + d)).  
         ''' - Confidence interval is based on the log risk ratio and its standard error.  
-        ''' - Uses the normal approximation with z = NormSInv(1 − α/2).  
+        ''' - Uses the normal approximation with <c>z = NormSInv(1 − alpha / 2)</c>.  
         ''' </remarks>
         ''' <example>
         ''' ' Example: 2×2 table
@@ -677,7 +704,7 @@ Namespace contingencytable
         '''
         ''' Dim result As ConfidenceIntervalResult = RiskRatio(table)
         ''' Console.WriteLine("Risk ratio: "  result.Estimate)
-        ''' Console.WriteLine("95% CI: "  result.strConfidenceInterval)
+        ''' Console.WriteLine("CI: "  result.strConfidenceInterval)
         ''' ' Output: Risk ratio ≈ 3.86, CI ≈ 2.02 to 7.37
         ''' </example>
         Public Function RiskRatio(table(,) As Integer, Optional alpha As Double = 0.05) As ConfidenceIntervalResult

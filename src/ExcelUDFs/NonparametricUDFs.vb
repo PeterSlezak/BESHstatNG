@@ -878,6 +878,149 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         ' -------------------------------------------------------------------------------------------------------------
+        ' Kruskal-Wallis multiple comparisons
+        ' -------------------------------------------------------------------------------------------------------------
+
+        ''' <summary>
+        ''' Dunn's post-hoc multiple comparisons following a Kruskal-Wallis test.
+        ''' </summary>
+        ''' <param name="groups">
+        ''' Multi-column Excel range where each column represents one independent group.
+        ''' Non-numeric cells inside a group column are ignored. Columns with no numeric observations are ignored.
+        ''' If the first row contains non-numeric labels, it is treated as a header row and used as group names.
+        ''' </param>
+        ''' <param name="groupNames">
+        ''' Optional group names supplied as a comma-separated string or as a one-row/one-column range.
+        ''' When omitted, names are taken from the first row of <paramref name="groups"/> when it looks like a header;
+        ''' otherwise default names such as Group 1, Group 2, … are used.
+        ''' </param>
+        ''' <param name="alpha">
+        ''' Reserved for API consistency with other MCP UDFs.
+        ''' The current Dunn implementation reports adjusted p-values only and does not compute confidence intervals.
+        ''' </param>
+        ''' <returns>
+        ''' A labeled Dunn multiple-comparison table as a dynamic array.
+        ''' Returns <c>#VALUE!</c> for invalid input.
+        ''' Returns <c>#NUM!</c> for invalid alpha or too few groups.
+        ''' </returns>
+        <ExcelFunction(
+            Name:="BESH.NP.KW_MCP",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Kruskal-Wallis post-hoc multiple comparisons (Dunn test).",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/")>
+        Public Function KW_MCP(
+            <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha parameter reserved for API consistency; currently no CI is reported.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not TryReadGroupedNumericColumnsWithHeaders(groups, data, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim test = New KruskallWalis(data, names)
+                test.compute()
+                test.MCP(alphaValue)
+
+                Dim tables = test.wrapResults()
+                Return PrepareResultTableForUdf(tables(1).returnSelf())
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+        End Function
+
+        ' -------------------------------------------------------------------------------------------------------------
+        ' Friedman multiple comparisons
+        ' -------------------------------------------------------------------------------------------------------------
+
+        ''' <summary>
+        ''' Post-hoc multiple comparisons following a Friedman test.
+        ''' </summary>
+        ''' <param name="data">
+        ''' Numeric matrix where rows are blocks/subjects and columns are treatments/conditions.
+        ''' Rows containing any missing or non-numeric value are excluded so that the remaining matrix is complete.
+        ''' If the first row contains non-numeric labels, it is treated as a header row and used as condition names.
+        ''' </param>
+        ''' <param name="conditionNames">
+        ''' Optional condition names supplied as a comma-separated string or as a one-row/one-column range.
+        ''' </param>
+        ''' <param name="method">
+        ''' Post-hoc method to return:
+        ''' <list type="bullet">
+        ''' <item><description><c>"dunn"</c> / <c>"spss"</c> (default)</description></item>
+        ''' <item><description><c>"conover"</c></description></item>
+        ''' <item><description><c>"all"</c> — stack both MCP tables</description></item>
+        ''' </list>
+        ''' </param>
+        ''' <param name="alpha">
+        ''' Reserved for API consistency with other MCP UDFs.
+        ''' The current Friedman MCP implementation reports adjusted p-values only and does not compute confidence intervals.
+        ''' </param>
+        ''' <returns>
+        ''' A labeled multiple-comparison table as a dynamic array.
+        ''' Returns <c>#VALUE!</c> for invalid input or unknown method.
+        ''' Returns <c>#NUM!</c> for invalid alpha or too few complete rows/conditions.
+        ''' </returns>
+        <ExcelFunction(
+            Name:="BESH.NP.FRIEDMAN_MCP",
+            Category:="BESHStatNG - Nonparametric",
+            Description:="Friedman post-hoc multiple comparisons: Dunn (default) or Conover.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/")>
+        Public Function FRIEDMAN_MCP(
+            <ExcelArgument(Name:="data", Description:="Numeric matrix; rows=blocks/subjects, columns=conditions. First row may contain headers.")> data As Object,
+            <ExcelArgument(Name:="conditionNames", Description:="Optional condition names as comma-separated text or 1-row/1-column range.")> Optional conditionNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional: dunn/spss (default), conover, or all.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha parameter reserved for API consistency; currently no CI is reported.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(conditionNames, detectedNames, mat.GetLength(1), "Condition")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim which As String = NormalizeText(method)
+                Dim test = New Friedman(mat, names)
+                test.compute()
+                test.MCP(alphaValue)
+
+                Dim tables = test.wrapResults()
+
+                Select Case which
+                    Case "", "DUNN", "SPSS"
+                        Return PrepareResultTableForUdf(tables(3).returnSelf())
+
+                    Case "CONOVER", "CON"
+                        Return PrepareResultTableForUdf(tables(2).returnSelf())
+
+                    Case "ALL", "BOTH"
+                        Dim stacked As Object(,) = TryCast(tables(2).returnSelf(), Object(,))
+                        stacked = ParametricUDFs.StackWithBlankRow(stacked, TryCast(tables(3).returnSelf(), Object(,)))
+                        Return PrepareResultTableForUdf(stacked)
+
+                    Case Else
+                        Return ExcelError.ExcelErrorValue
+                End Select
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+        End Function
+
+        ' -------------------------------------------------------------------------------------------------------------
         ' Helpers
         ' -------------------------------------------------------------------------------------------------------------
 
@@ -1194,5 +1337,73 @@ Namespace BESHStatNG.WorksheetFunctions
             Return True
         End Function
 
+        Private Function TryReadGroupedNumericColumnsWithHeaders(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
+            groups = Nothing
+            names = Nothing
+
+            Dim err As ExcelError? = Nothing
+            Dim arr As Object(,) = ToObjectMatrix(input, err)
+            If err.HasValue OrElse arr Is Nothing Then Return False
+
+            Dim rows As Integer = arr.GetLength(0)
+            Dim cols As Integer = arr.GetLength(1)
+            If cols < 1 OrElse rows < 1 Then Return False
+
+            Dim hasHeader As Boolean = LooksLikeHeaderRowAllCols(arr)
+            Dim startRow As Integer = If(hasHeader, 1, 0)
+
+            Dim groupList As New List(Of Double())
+            Dim nameList As New List(Of String)
+
+            For c As Integer = 0 To cols - 1
+                Dim vals As New List(Of Double)
+                For r As Integer = startRow To rows - 1
+                    Dim d = TryGetDouble(arr(r, c))
+                    If d.HasValue Then vals.Add(d.Value)
+                Next
+
+                If vals.Count > 0 Then
+                    groupList.Add(vals.ToArray())
+                    If hasHeader Then
+                        nameList.Add(Convert.ToString(arr(0, c)).Trim())
+                    Else
+                        nameList.Add("Group " & groupList.Count.ToString())
+                    End If
+                End If
+            Next
+
+            If groupList.Count < 2 Then Return False
+            groups = groupList.ToArray()
+            names = nameList.ToArray()
+            Return True
+        End Function
+
+        Private Function LooksLikeHeaderRowAllCols(arr As Object(,)) As Boolean
+            Dim rows As Integer = arr.GetLength(0)
+            Dim cols As Integer = arr.GetLength(1)
+            If rows < 2 Then Return False
+
+            Dim anyNonNumeric As Boolean = False
+            For c As Integer = 0 To cols - 1
+                If Not TryGetDouble(arr(0, c)).HasValue Then
+                    anyNonNumeric = True
+                    Exit For
+                End If
+            Next
+            If Not anyNonNumeric Then Return False
+
+            For c As Integer = 0 To cols - 1
+                Dim foundNumericBelow As Boolean = False
+                For r As Integer = 1 To rows - 1
+                    If TryGetDouble(arr(r, c)).HasValue Then
+                        foundNumericBelow = True
+                        Exit For
+                    End If
+                Next
+                If Not foundNumericBelow Then Return False
+            Next
+
+            Return True
+        End Function
     End Module
 End Namespace

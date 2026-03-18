@@ -1,4 +1,5 @@
 ﻿Imports System.Security.Cryptography
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 
@@ -8,9 +9,9 @@ Public Class UiTwoInputRefedits
         ' This call is required by the designer.
         InitializeComponent()
 
-        Me.RefEdit1.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit2.ExcelConnector = BESHstatGlobals.app
-        Me.RefEditOutput.ExcelConnector = BESHstatGlobals.app
+        Me.RefEdit1.ExcelConnector = AppGlobals.app
+        Me.RefEdit2.ExcelConnector = AppGlobals.app
+        Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
 
         Me.TabPageOptionsHotteling.Parent = Nothing
@@ -35,8 +36,18 @@ Public Class UiTwoInputRefedits
             Me.lblErrorRatio.Visible = True
             Me.spinBtnErrorRatio.Visible = True
 
-        ElseIf analysis <> "Wilcoxon signed rank test" Then
+        ElseIf analysis = "Kendall's Rank Correlation" Or analysis = "Spearman Rank Correlation" Then
+            Me.TabPageOptions.Parent = Me.TabMultipage
             Me.ckSignTest.Visible = False
+            Me.grpCItype.Visible = False
+            Me.lblAlpha.Visible = False
+            Me.spinBtnAlphaDeming.Visible = False
+            Me.lblErrorRatio.Visible = False
+            Me.spinBtnErrorRatio.Visible = False
+
+        ElseIf analysis = "Wilcoxon Signed rank test" Then
+            Me.TabPageOptions.Parent = Me.TabMultipage
+            Me.ckSignTest.Visible = True
             Me.grpCItype.Visible = False
             Me.lblAlpha.Visible = False
             Me.spinBtnAlphaDeming.Visible = False
@@ -159,7 +170,7 @@ Public Class UiTwoInputRefedits
                 Me.RunDeming(data)
             End If
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -422,14 +433,14 @@ Public Class UiTwoInputRefedits
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = AppGlobals.app.Workbooks.Add()
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

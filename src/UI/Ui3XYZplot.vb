@@ -2,6 +2,7 @@
 Imports System.Runtime.InteropServices.ComTypes
 Imports System.Windows
 Imports System.Windows.Forms
+Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.GifAnimator
 Imports Microsoft.Office.Interop.Excel
 
@@ -19,13 +20,13 @@ Public Class Ui3XYZplot
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.RefEdit1_X.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit2_Y.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit3_Z.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit4_Group.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit5_Labels.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit6_AnimatedGif.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit1_3Dobjects.ExcelConnector = BESHstatGlobals.app
+        Me.RefEdit1_X.ExcelConnector = AppGlobals.app
+        Me.RefEdit2_Y.ExcelConnector = AppGlobals.app
+        Me.RefEdit3_Z.ExcelConnector = AppGlobals.app
+        Me.RefEdit4_Group.ExcelConnector = AppGlobals.app
+        Me.RefEdit5_Labels.ExcelConnector = AppGlobals.app
+        Me.RefEdit6_AnimatedGif.ExcelConnector = AppGlobals.app
+        Me.RefEdit1_3Dobjects.ExcelConnector = AppGlobals.app
 
         With Me.cbPointLabelPosition.Items
             .Add("Right")
@@ -408,8 +409,8 @@ Public Class Ui3XYZplot
         End If
 
         If Me.pFigure Is Nothing Then
-            BESHstatGlobals.app.ActiveWorkbook.Charts.Add()
-            Me.pFigure = BESHstatGlobals.app.ActiveWorkbook.ActiveChart
+            AppGlobals.app.ActiveWorkbook.Charts.Add()
+            Me.pFigure = AppGlobals.app.ActiveWorkbook.ActiveChart
         End If
 
         Dim XYZplot As New graphics.XYZscatter
@@ -466,7 +467,7 @@ Public Class Ui3XYZplot
 
             Recalculate()
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -686,8 +687,8 @@ Public Class Ui3XYZplot
         For i = 0 To n - 1
 
             If Me.pFigure Is Nothing Then
-                BESHstatGlobals.app.ActiveWorkbook.Charts.Add()
-                Me.pFigure = BESHstatGlobals.app.ActiveWorkbook.ActiveChart
+                AppGlobals.app.ActiveWorkbook.Charts.Add()
+                Me.pFigure = AppGlobals.app.ActiveWorkbook.ActiveChart
             End If
 
             Dim rotX = fData.X(i, 0)

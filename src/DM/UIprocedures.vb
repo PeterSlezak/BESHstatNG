@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration 'for the excelmissing constant
 Imports Microsoft.Office.Interop.Excel
 
@@ -17,13 +18,21 @@ Imports Microsoft.Office.Interop.Excel
 ''' </summary>
 Public Module UIprocedures
 
+    Public Enum PredictorScale
+        Continuous = 0
+        Categorical = 1
+    End Enum
+
+    Public Const CATEGORICAL_EFFECT_PREFIX As String = "[Cat] "
+
     Public Class TermSpec
         Public Property Kind As String 'MainEffect | Polynomial | Interaction
         Public Property BaseVarKeys As List(Of String)
         Public Property Degree As Integer
         Public Property DisplayNameForCoef As String '(e.g. "Age^2", "Age:BMI")
         Public Property Order As Integer 'position in the result output. It should be identical to the input combobox item position
-
+        Public Property Scale As PredictorScale = PredictorScale.Continuous
+        Public Property ReferenceValue As Nullable(Of Double) = Nothing 'optional: if Nothing, use smallest numeric level as reference
     End Class
 
     ''' <summary>
@@ -136,7 +145,7 @@ Public Module UIprocedures
 
         Dim cell As Object, app As Application
         Dim ws As Worksheet = VarRng.Parent
-        app = BESHstatGlobals.app
+        app = AppGlobals.app
 
         Dim out As New Dictionary(Of String, VarColumnInfo)(StringComparer.Ordinal)
 
@@ -230,6 +239,66 @@ Public Module UIprocedures
         End If
     End Sub
 
+    Private Function IsDerivedEffectKey(effectText As String) As Boolean
+        Dim s As String = If(effectText, String.Empty).Trim()
+        If s = String.Empty Then Return False
+
+        'Categorical effect is a main effect, not a derived term
+        If s.StartsWith(CATEGORICAL_EFFECT_PREFIX, StringComparison.Ordinal) Then
+            Return False
+        End If
+
+        'Polynomial: "<base>"^k or <base>^k
+        Dim pCaret As Integer = InStrRev(s, "^")
+        If pCaret > 0 AndAlso pCaret < Len(s) Then
+            Dim expStr As String = Mid$(s, pCaret + 1)
+            Dim expVal As Integer
+            If Integer.TryParse(expStr, expVal) Then
+                Return True
+            End If
+        End If
+
+        'Interaction: "A":"B":...
+        If InStr(s, ":") > 0 AndAlso InStr(s, ChrW(34)) > 0 Then
+            Dim keys As List(Of String) = ExtractBaseKeysFromEffectText(s)
+            If keys.Count >= 2 Then Return True
+        End If
+
+        Return False
+    End Function
+
+    Private Function ContainsAnyBaseKey(baseKeys As List(Of String),
+                                    removedBaseKeys As HashSet(Of String)) As Boolean
+        If baseKeys Is Nothing Then Return False
+
+        For Each bk As String In baseKeys
+            If removedBaseKeys.Contains(bk) Then Return True
+        Next
+
+        Return False
+    End Function
+
+    Private Sub SyncTermSpecsToListBoxItems(lbox As Object,
+                                        termSpecs As Dictionary(Of String, TermSpec))
+        If termSpecs Is Nothing Then Exit Sub
+
+        Dim keep As New HashSet(Of String)(StringComparer.Ordinal)
+        For Each it As Object In lbox.Items
+            keep.Add(CStr(it))
+        Next
+
+        Dim stale As New List(Of String)
+        For Each k As String In termSpecs.Keys
+            If Not keep.Contains(k) Then stale.Add(k)
+        Next
+
+        For Each k As String In stale
+            termSpecs.Remove(k)
+        Next
+
+        RefreshTermSpecOrders(lbox.Items, termSpecs)
+    End Sub
+
     ''' <summary>
     ''' Removes items from a ListBox. Supports removing:
     ''' <list type="bullet">
@@ -243,68 +312,70 @@ Public Module UIprocedures
     ''' <param name="sWhich">
     ''' Either <c>"all"</c> or <c>"selected"</c>.
     ''' </param>
-    Sub Remove_Item(lbox As Object, Optional sWhich As String = "all")
+    Public Sub Remove_Item(lbox As Object, Optional sWhich As String = "all",
+                           Optional termSpecs As Dictionary(Of String, TermSpec) = Nothing)
 
-        'Test if there is a variable in the listbox
-        If lbox.Items.Count() > 0 Then
-            If sWhich = "all" Then
-                lbox.Items.Clear()
-            ElseIf sWhich = "selected" Then 'Check that a variable(s) have been selected
+        If lbox Is Nothing OrElse lbox.Items.Count = 0 Then Exit Sub
 
-                If lbox.SelectedItems.count = 0 Then
-                    MsgBox("Please select variable(s) to remove.", vbExclamation, "Input Error!")
-                Else
-                    For i As Integer = lbox.Items.Count - 1 To 0 Step -1
-                        If lbox.SelectedItems.Contains(lbox.Items(i)) Then
-                            If Not (InStr(lbox.Items(i), "''log(time)''") > 0 Or
-                                    InStr(lbox.Items(i), "''time''") > 0 Or
-                                    InStr(lbox.Items(i), "''heaviside(") > 0) Or
-                               Not (Right$(lbox.Items(i), 2) = "^2" Or InStr(lbox.Items(i), "''x''")) Then
-                                'not a main effect = (ie not (COX time interactions or 2nd order polynomial))
+        If String.Equals(sWhich, "all", StringComparison.OrdinalIgnoreCase) Then
+            lbox.Items.Clear()
 
-                                'it is probably a main effect, so we neet to remove polynomial/2-way interaction as well
-                                For j As Integer = lbox.Items.Count - 1 To 0 Step -1
-
-                                    Dim maineffect1 As String = String.Empty
-                                    Dim maineffect2 As String = String.Empty
-
-                                    If InStr(lbox.Items(j), "''x''") Then '2-way intractions
-                                        Dim PartString() As String = Split(lbox.Items(j), "''x''")
-                                        maineffect1 = Mid$(PartString(0), 3)
-                                        maineffect2 = Left$(PartString(1), Len(PartString(1)) - 2)
-                                        If maineffect1 = lbox.Items(i) Or maineffect2 = lbox.Items(i) Then
-                                            'it is a interaction of the main effect we are removing so remove it as well
-                                            lbox.Items.RemoveAt(j)
-                                        End If
-                                    ElseIf Right$(lbox.Items(j), 2) = "^2" Then ' 2nd order polynomial
-                                        maineffect1 = Left$(lbox.Items(j), Len(lbox.Items(j)) - 2)
-                                        If maineffect1 = lbox.Items(i) Then
-                                            'it is a 2nd order polynomial of the main effect we are removing so remove it as well
-                                            lbox.Items.RemoveAt(j)
-                                        End If
-                                    ElseIf InStr(lbox.Items(j), "''log(time)''") Then ' COX time intraction
-                                        If Mid$(lbox.Items(j), 3, Len(lbox.Items(j)) - 17) = lbox.Items(i) Then
-                                            'it is a time interaction of the main effect we are removing so remove it as well
-                                            lbox.Items.RemoveAt(j)
-                                        End If
-                                    ElseIf InStr(lbox.Items(j), "''time''") Then ' COX time intraction
-                                        If Mid$(lbox.Items(j), 3, Len(lbox.Items(j)) - 12) = lbox.Items(i) Then
-                                            lbox.Items.RemoveAt(j)
-                                        End If
-                                    ElseIf InStr(lbox.Items(j), "''heaviside(") Then ' COX time intraction
-                                        If Mid$(lbox.Items(j), 3, InStr(lbox.Items(j), "''''heaviside(") - 3) = lbox.Items(i) Then
-                                            lbox.Items.RemoveAt(j)
-                                        End If
-                                    End If
-                                Next
-                            End If
-
-                            'remove selected item
-                            lbox.Items.RemoveAt(i)
-                        End If
-                    Next i
-                End If
+            If termSpecs IsNot Nothing Then
+                termSpecs.Clear()
+                RefreshTermSpecOrders(lbox.Items, termSpecs)
             End If
+
+            Exit Sub
+        End If
+
+        If Not String.Equals(sWhich, "selected", StringComparison.OrdinalIgnoreCase) Then
+            Exit Sub
+        End If
+
+        If lbox.SelectedItems.Count = 0 Then
+            MsgBox("Please select variable(s) to remove.", vbExclamation, "Input Error!")
+            Exit Sub
+        End If
+
+        Dim selectedKeys As New HashSet(Of String)(StringComparer.Ordinal)
+        For Each it As Object In lbox.SelectedItems
+            selectedKeys.Add(CStr(it))
+        Next
+
+        'If a main effect is removed, also remove all dependent derived terms
+        Dim removedBaseKeys As New HashSet(Of String)(StringComparer.Ordinal)
+        For Each effKey As String In selectedKeys
+            If Not IsDerivedEffectKey(effKey) Then
+                Dim baseKeys As List(Of String) = ExtractBaseKeysForSubset(effKey, True)
+                For Each bk As String In baseKeys
+                    If bk <> String.Empty Then removedBaseKeys.Add(bk)
+                Next
+            End If
+        Next
+
+        Dim keysToRemove As New HashSet(Of String)(selectedKeys, StringComparer.Ordinal)
+
+        If removedBaseKeys.Count > 0 Then
+            For Each it As Object In lbox.Items
+                Dim effKey As String = CStr(it)
+                If keysToRemove.Contains(effKey) Then Continue For
+
+                Dim baseKeys As List(Of String) = ExtractBaseKeysForSubset(effKey, True)
+                If ContainsAnyBaseKey(baseKeys, removedBaseKeys) Then
+                    keysToRemove.Add(effKey)
+                End If
+            Next
+        End If
+
+        For i As Integer = lbox.Items.Count - 1 To 0 Step -1
+            Dim effKey As String = CStr(lbox.Items(i))
+            If keysToRemove.Contains(effKey) Then
+                lbox.Items.RemoveAt(i)
+            End If
+        Next
+
+        If termSpecs IsNot Nothing Then
+            SyncTermSpecsToListBoxItems(lbox, termSpecs)
         End If
     End Sub
 
@@ -498,6 +569,12 @@ Public Module UIprocedures
             out.Clear()
         End If
 
+        '3) Categorical predictor
+        If s.StartsWith(CATEGORICAL_EFFECT_PREFIX, StringComparison.Ordinal) Then
+            out.Add(s.Substring(CATEGORICAL_EFFECT_PREFIX.Length).Trim())
+            Return out
+        End If
+
         '3) Main effect as-is
         out.Add(s)
         Return out
@@ -596,7 +673,7 @@ Public Module UIprocedures
         Dim ws As Worksheet = Nothing
 
         If refEditValue = String.Empty Then
-            MsgBox("The Reference Range is NULL. Please select some data.", vbExclamation, BESHstatGlobals.gsAPP_TITLE)
+            MsgBox("The Reference Range is NULL. Please select some data.", vbExclamation, AppGlobals.gsAPP_TITLE)
             Return True
         End If
 
@@ -609,13 +686,13 @@ Public Module UIprocedures
         End Try
 
         If Not bIsRange Then
-            MsgBox("The Range is not valid!", vbExclamation, BESHstatGlobals.gsAPP_TITLE)
+            MsgBox("The Range is not valid!", vbExclamation, AppGlobals.gsAPP_TITLE)
             Return True
         End If
         If bOneColumn And bIsRange Then
             rRange = ws.Range(refEditValue)
             If rRange.Columns.Count <> 1 Then
-                MsgBox("The Range have to have one column!", vbExclamation, BESHstatGlobals.gsAPP_TITLE)
+                MsgBox("The Range have to have one column!", vbExclamation, AppGlobals.gsAPP_TITLE)
                 Return True
             End If
         End If
@@ -737,6 +814,10 @@ Public Module UIprocedures
         Return """" & baseKey & """" & "^" & CStr(degree)
     End Function
 
+    Public Function MakeCategoricalEffectKey(baseKey As String) As String
+        Return CATEGORICAL_EFFECT_PREFIX & baseKey
+    End Function
+
     ''' <summary>
     ''' Builds a standardized interaction-effect key by quoting each base term
     ''' and joining them with a colon separator. The resulting format is:
@@ -788,6 +869,21 @@ Public Module UIprocedures
         Return String.Join(":", names)
     End Function
 
+    Private Function MakeResolvedInteractionDisplayName(baseKeys As IEnumerable(Of String),
+                                                    baseDisplayNames As Dictionary(Of String, String)) As String
+        Dim names As New List(Of String)
+
+        For Each bk As String In baseKeys
+            If baseDisplayNames.ContainsKey(bk) Then
+                names.Add(baseDisplayNames(bk))
+            Else
+                names.Add(GetCoefBaseName(bk))
+            End If
+        Next
+
+        Return String.Join(":", names)
+    End Function
+
     ''' <summary>
     ''' Returns the ordered list of RAW worksheet variable keys required to construct the selected effects.
     ''' Uses TermSpecs when available; otherwise falls back to parsing effect strings:
@@ -836,6 +932,12 @@ Public Module UIprocedures
         Dim s As String = If(effectText, String.Empty).Trim()
 
         If s = String.Empty Then Return out
+
+        'Categorical main effect: [Cat] Age | VarA
+        If s.StartsWith(CATEGORICAL_EFFECT_PREFIX, StringComparison.Ordinal) Then
+            out.Add(s.Substring(CATEGORICAL_EFFECT_PREFIX.Length).Trim())
+            Return out
+        End If
 
         'Polynomial: "<base>"^k or <base>^k
         Dim pCaret As Integer = InStrRev(s, "^")
@@ -946,140 +1048,385 @@ Public Module UIprocedures
         Return r
     End Function
 
+    Private Function GetSortedDistinctLevels(rawMat(,) As Double, col As Integer, nRows As Integer) As List(Of Double)
+        Dim hs As New SortedSet(Of Double)
+
+        For i As Integer = 0 To nRows - 1
+            Dim v As Double = rawMat(i, col)
+            If Double.IsNaN(v) OrElse Double.IsInfinity(v) Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Categorical variable contains invalid numeric values."))
+            End If
+            hs.Add(v)
+        Next
+
+        Return hs.ToList()
+    End Function
+
+    Private Function GetReferenceLevel(levels As List(Of Double), spec As TermSpec) As Double
+        If levels Is Nothing OrElse levels.Count = 0 Then
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("No observed factor levels were found."))
+        End If
+
+        If spec IsNot Nothing AndAlso spec.ReferenceValue.HasValue Then
+            If Not levels.Contains(spec.ReferenceValue.Value) Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Reference level {spec.ReferenceValue.Value} is not present in the data."))
+            End If
+            Return spec.ReferenceValue.Value
+        End If
+
+        'default: smallest observed level
+        Return levels(0)
+    End Function
+
+    Private Function IsBaseVariableCategorical(baseKey As String,
+                                           termSpecs As Dictionary(Of String, TermSpec)) As Boolean
+        If termSpecs Is Nothing Then Return False
+
+        For Each kvp In termSpecs
+            Dim spec = kvp.Value
+            If spec Is Nothing OrElse spec.BaseVarKeys Is Nothing Then Continue For
+
+            If spec.Scale = PredictorScale.Categorical AndAlso
+           spec.BaseVarKeys.Any(Function(x) String.Equals(x, baseKey, StringComparison.Ordinal)) Then
+                Return True
+            End If
+        Next
+
+        Return False
+    End Function
+
     ''' <summary>
     ''' Build expanded LM data matrix: [Y | expanded X], where expanded X includes
     ''' polynomial and interaction columns based on TermSpecs/effectItems.
     ''' varNames returned includes Y at index 0 and expanded predictors thereafter.
     ''' </summary>
     Public Sub BuildExpandedLmDataMatrix(raw As glmData, yKey As String, effectItems As IEnumerable,
-                                         termSpecs As Dictionary(Of String, TermSpec),
-                                         ByRef outData(,) As Double,
-                                         ByRef outVarNames() As String)
+                                     termSpecs As Dictionary(Of String, TermSpec),
+                                     includeIntercept As Boolean,
+                                     ByRef outData(,) As Double,
+                                     ByRef outVarNames() As String,
+                                     ByRef outTermGroups As Dictionary(Of String, Integer()))
 
-        If raw Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-        If effectItems Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
+        If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
+        If effectItems Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
 
-        'Materialize effects in display/order sequence (ListBox order)
         Dim effects As New List(Of String)
         For Each obj As Object In effectItems
             effects.Add(CStr(obj))
         Next
 
         Dim nRows As Integer = raw.nRows
-        Dim pExpanded As Integer = effects.Count 'expanded predictors count (1 column per effect)
-
-        'Raw imported numeric matrix includes Y at col 0 and raw X in subsequent columns
         Dim rawMat(,) As Double = raw.DataDbl
 
-        'Map raw variable keys -> column index in rawMat
-        'rawMat col 0 = Y; col 1.. = raw predictors in the order GetRequiredRawVarKeys produced
+        'rawMat col 0 = Y; cols 1.. = imported raw predictors
         Dim rawXKeys As List(Of String) = GetRequiredRawVarKeys(effectItems, termSpecs)
+        Dim baseDisplayNames As Dictionary(Of String, String) = BuildLmBaseDisplayNameMap(effectItems, termSpecs)
         Dim rawIndex As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
-
         For j As Integer = 0 To rawXKeys.Count - 1
             rawIndex(rawXKeys(j)) = j + 1
         Next
 
-        'Allocate output: columns = 1 (Y) + pExpanded predictors
-        ReDim outData(nRows - 1, pExpanded)
-        ReDim outVarNames(pExpanded) '0..pExpanded
+        Dim predictorCols As New List(Of Double())
+        Dim predictorNames As New List(Of String)
 
-        'Y name
-        outVarNames(0) = GetCoefBaseName(yKey)
+        Dim groups As New Dictionary(Of String, List(Of Integer))(StringComparer.Ordinal)
+        If includeIntercept Then
+            groups("Intercept") = New List(Of Integer) From {0}
+        End If
 
-        'Copy Y
-        For i As Integer = 0 To nRows - 1
-            outData(i, 0) = rawMat(i, 0)
-        Next
+        Dim nextLmXCol As Integer = If(includeIntercept, 1, 0)
 
-        'Build expanded predictors in effects order
-        For e As Integer = 0 To effects.Count - 1
-            Dim effKey As String = effects(e)
-
+        For Each effKey As String In effects
             Dim kind As String = "MainEffect"
             Dim baseKeys As List(Of String) = Nothing
             Dim degree As Integer = 1
             Dim coefName As String = Nothing
+            Dim scale As PredictorScale = PredictorScale.Continuous
+            Dim spec As TermSpec = Nothing
 
             If termSpecs IsNot Nothing AndAlso termSpecs.ContainsKey(effKey) AndAlso termSpecs(effKey) IsNot Nothing Then
-                Dim spec As TermSpec = termSpecs(effKey)
+                spec = termSpecs(effKey)
                 kind = If(spec.Kind, "MainEffect")
                 baseKeys = spec.BaseVarKeys
                 degree = spec.Degree
                 coefName = spec.DisplayNameForCoef
+                scale = spec.Scale
             End If
 
-            'Fallbacks when no spec exists
             If baseKeys Is Nothing OrElse baseKeys.Count = 0 Then
                 baseKeys = New List(Of String) From {effKey}
             End If
-            If String.IsNullOrEmpty(coefName) Then
-                'If user didn’t store DisplayNameForCoef, infer from base key
-                If String.Equals(kind, "Polynomial", StringComparison.OrdinalIgnoreCase) Then
-                    coefName = GetCoefBaseName(baseKeys(0)) & "^" & CStr(degree)
-                ElseIf String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
-                    Dim tmp As New List(Of String)
-                    For Each bk As String In baseKeys
-                        tmp.Add(GetCoefBaseName(bk))
-                    Next
-                    coefName = String.Join(":", tmp)
-                Else
-                    coefName = GetCoefBaseName(baseKeys(0))
-                End If
-            End If
 
-            outVarNames(e + 1) = coefName
-
-            'Compute column values
             If String.Equals(kind, "Polynomial", StringComparison.OrdinalIgnoreCase) Then
-                If degree < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Polynomial degree must be >=2 for term '{effKey}'."))
-
                 Dim bk As String = baseKeys(0)
-                If Not rawIndex.ContainsKey(bk) Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by polynomial term '{effKey}'."))
-                End If
-                Dim col As Integer = rawIndex(bk)
 
+                If scale = PredictorScale.Categorical OrElse IsBaseVariableCategorical(bk, termSpecs) Then
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Polynomial term '{effKey}' cannot be used with a categorical predictor."))
+                End If
+
+                If degree < 2 Then
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Polynomial degree must be >=2 for term '{effKey}'."))
+                End If
+
+                If Not rawIndex.ContainsKey(bk) Then
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by polynomial term '{effKey}'."))
+                End If
+
+                Dim col As Integer = rawIndex(bk)
+                Dim newCol(nRows - 1) As Double
                 For i As Integer = 0 To nRows - 1
-                    outData(i, e + 1) = PowInt(rawMat(i, col), degree)
+                    newCol(i) = PowInt(rawMat(i, col), degree)
                 Next
+
+                predictorCols.Add(newCol)
+                Dim displayBase As String = If(baseDisplayNames.ContainsKey(bk), baseDisplayNames(bk), GetCoefBaseName(bk))
+                predictorNames.Add(displayBase & "^" & CStr(degree))
+                'predictorNames.Add(If(String.IsNullOrEmpty(coefName), GetCoefBaseName(bk) & "^" & CStr(degree), coefName))
+
+                'Dim gName As String = GetCoefBaseName(bk)
+                Dim gName As String = displayBase
+                If Not groups.ContainsKey(gName) Then groups(gName) = New List(Of Integer)
+                groups(gName).Add(nextLmXCol)
+                nextLmXCol += 1
 
             ElseIf String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
                 If baseKeys.Count < 2 Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Interaction term '{effKey}' must have at least 2 base variables."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Interaction term '{effKey}' must have at least 2 base variables."))
                 End If
 
-                'validate all base keys exist
+                For Each bk As String In baseKeys
+                    If IsBaseVariableCategorical(bk, termSpecs) Then
+                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Interaction term '{effKey}' uses a categorical predictor. This is not implemented yet."))
+                    End If
+                Next
+
                 Dim cols As New List(Of Integer)
                 For Each bk As String In baseKeys
                     If Not rawIndex.ContainsKey(bk) Then
-                        BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
+                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
                     End If
                     cols.Add(rawIndex(bk))
                 Next
 
+                Dim newCol(nRows - 1) As Double
                 For i As Integer = 0 To nRows - 1
                     Dim prod As Double = 1.0
                     For Each c As Integer In cols
                         prod *= rawMat(i, c)
                     Next
-                    outData(i, e + 1) = prod
+                    newCol(i) = prod
                 Next
+
+                predictorCols.Add(newCol)
+                Dim resolvedInteractionName As String = MakeResolvedInteractionDisplayName(baseKeys, baseDisplayNames)
+                predictorNames.Add(resolvedInteractionName)
+
+                Dim gName As String = resolvedInteractionName
+                If Not groups.ContainsKey(gName) Then groups(gName) = New List(Of Integer)
+                groups(gName).Add(nextLmXCol)
+                nextLmXCol += 1
 
             Else
-                'Main effect (or unknown kind treated as main effect)
+                'Main effect
                 Dim bk As String = baseKeys(0)
-                If Not rawIndex.ContainsKey(bk) Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by term '{effKey}'."))
-                End If
-                Dim col As Integer = rawIndex(bk)
 
-                For i As Integer = 0 To nRows - 1
-                    outData(i, e + 1) = rawMat(i, col)
-                Next
+                If Not rawIndex.ContainsKey(bk) Then
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by term '{effKey}'."))
+                End If
+
+                Dim col As Integer = rawIndex(bk)
+                Dim baseName As String = If(baseDisplayNames.ContainsKey(bk), baseDisplayNames(bk), GetCoefBaseName(bk))
+                If Not groups.ContainsKey(baseName) Then groups(baseName) = New List(Of Integer)
+
+                If scale = PredictorScale.Categorical Then
+                    Dim levels As List(Of Double) = GetSortedDistinctLevels(rawMat, col, nRows)
+                    If levels.Count < 2 Then
+                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Categorical predictor '{bk}' has fewer than 2 observed levels."))
+                    End If
+
+                    Dim refVal As Double = GetReferenceLevel(levels, spec)
+
+                    For Each lev As Double In levels
+                        If includeIntercept AndAlso lev = refVal Then Continue For
+
+                        Dim newCol(nRows - 1) As Double
+                        For i As Integer = 0 To nRows - 1
+                            newCol(i) = If(rawMat(i, col) = lev, 1.0, 0.0)
+                        Next
+
+                        predictorCols.Add(newCol)
+                        predictorNames.Add($"{baseName}[{lev}]")
+                        groups(baseName).Add(nextLmXCol)
+                        nextLmXCol += 1
+                    Next
+
+                Else
+                    Dim newCol(nRows - 1) As Double
+                    For i As Integer = 0 To nRows - 1
+                        newCol(i) = rawMat(i, col)
+                    Next
+
+                    predictorCols.Add(newCol)
+                    predictorNames.Add(baseName) 'predictorNames.Add(If(String.IsNullOrEmpty(coefName), baseName, coefName))
+                    groups(baseName).Add(nextLmXCol)
+                    nextLmXCol += 1
+                End If
             End If
         Next
+
+        'Materialize final [Y | expanded X]
+        Dim pExpanded As Integer = predictorCols.Count
+        ReDim outData(nRows - 1, pExpanded)
+        ReDim outVarNames(pExpanded)
+
+        outVarNames(0) = GetCoefBaseName(yKey)
+        For i As Integer = 0 To nRows - 1
+            outData(i, 0) = rawMat(i, 0)
+        Next
+
+        For j As Integer = 0 To predictorCols.Count - 1
+            outVarNames(j + 1) = predictorNames(j)
+            For i As Integer = 0 To nRows - 1
+                outData(i, j + 1) = predictorCols(j)(i)
+            Next
+        Next
+
+        outTermGroups = New Dictionary(Of String, Integer())(StringComparer.Ordinal)
+        For Each kvp In groups
+            outTermGroups(kvp.Key) = kvp.Value.Distinct().OrderBy(Function(z) z).ToArray()
+        Next
     End Sub
+    'Public Sub BuildExpandedLmDataMatrix(raw As glmData, yKey As String, effectItems As IEnumerable,
+    '                                 termSpecs As Dictionary(Of String, TermSpec),
+    '                                 includeIntercept As Boolean,
+    '                                 ByRef outData(,) As Double,
+    '                                 ByRef outVarNames() As String,
+    '                                 ByRef outTermGroups As Dictionary(Of String, Integer()))
+
+    '    If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
+    '    If effectItems Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
+
+    '    'Materialize effects in display/order sequence (ListBox order)
+    '    Dim effects As New List(Of String)
+    '    For Each obj As Object In effectItems
+    '        effects.Add(CStr(obj))
+    '    Next
+
+    '    Dim nRows As Integer = raw.nRows
+    '    Dim pExpanded As Integer = effects.Count 'expanded predictors count (1 column per effect)
+
+    '    'Raw imported numeric matrix includes Y at col 0 and raw X in subsequent columns
+    '    Dim rawMat(,) As Double = raw.DataDbl
+
+    '    'Map raw variable keys -> column index in rawMat
+    '    'rawMat col 0 = Y; col 1.. = raw predictors in the order GetRequiredRawVarKeys produced
+    '    Dim rawXKeys As List(Of String) = GetRequiredRawVarKeys(effectItems, termSpecs)
+    '    Dim rawIndex As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+
+    '    For j As Integer = 0 To rawXKeys.Count - 1
+    '        rawIndex(rawXKeys(j)) = j + 1
+    '    Next
+
+    '    'Allocate output: columns = 1 (Y) + pExpanded predictors
+    '    ReDim outData(nRows - 1, pExpanded)
+    '    ReDim outVarNames(pExpanded) '0..pExpanded
+
+    '    'Y name
+    '    outVarNames(0) = GetCoefBaseName(yKey)
+
+    '    'Copy Y
+    '    For i As Integer = 0 To nRows - 1
+    '        outData(i, 0) = rawMat(i, 0)
+    '    Next
+
+    '    'Build expanded predictors in effects order
+    '    For e As Integer = 0 To effects.Count - 1
+    '        Dim effKey As String = effects(e)
+
+    '        Dim kind As String = "MainEffect"
+    '        Dim baseKeys As List(Of String) = Nothing
+    '        Dim degree As Integer = 1
+    '        Dim coefName As String = Nothing
+
+    '        If termSpecs IsNot Nothing AndAlso termSpecs.ContainsKey(effKey) AndAlso termSpecs(effKey) IsNot Nothing Then
+    '            Dim spec As TermSpec = termSpecs(effKey)
+    '            kind = If(spec.Kind, "MainEffect")
+    '            baseKeys = spec.BaseVarKeys
+    '            degree = spec.Degree
+    '            coefName = spec.DisplayNameForCoef
+    '        End If
+
+    '        'Fallbacks when no spec exists
+    '        If baseKeys Is Nothing OrElse baseKeys.Count = 0 Then
+    '            baseKeys = New List(Of String) From {effKey}
+    '        End If
+    '        If String.IsNullOrEmpty(coefName) Then
+    '            'If user didn’t store DisplayNameForCoef, infer from base key
+    '            If String.Equals(kind, "Polynomial", StringComparison.OrdinalIgnoreCase) Then
+    '                coefName = GetCoefBaseName(baseKeys(0)) & "^" & CStr(degree)
+    '            ElseIf String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
+    '                Dim tmp As New List(Of String)
+    '                For Each bk As String In baseKeys
+    '                    tmp.Add(GetCoefBaseName(bk))
+    '                Next
+    '                coefName = String.Join(":", tmp)
+    '            Else
+    '                coefName = GetCoefBaseName(baseKeys(0))
+    '            End If
+    '        End If
+
+    '        outVarNames(e + 1) = coefName
+
+    '        'Compute column values
+    '        If String.Equals(kind, "Polynomial", StringComparison.OrdinalIgnoreCase) Then
+    '            If degree < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Polynomial degree must be >=2 for term '{effKey}'."))
+
+    '            Dim bk As String = baseKeys(0)
+    '            If Not rawIndex.ContainsKey(bk) Then
+    '                AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by polynomial term '{effKey}'."))
+    '            End If
+    '            Dim col As Integer = rawIndex(bk)
+
+    '            For i As Integer = 0 To nRows - 1
+    '                outData(i, e + 1) = PowInt(rawMat(i, col), degree)
+    '            Next
+
+    '        ElseIf String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
+    '            If baseKeys.Count < 2 Then
+    '                AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Interaction term '{effKey}' must have at least 2 base variables."))
+    '            End If
+
+    '            'validate all base keys exist
+    '            Dim cols As New List(Of Integer)
+    '            For Each bk As String In baseKeys
+    '                If Not rawIndex.ContainsKey(bk) Then
+    '                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
+    '                End If
+    '                cols.Add(rawIndex(bk))
+    '            Next
+
+    '            For i As Integer = 0 To nRows - 1
+    '                Dim prod As Double = 1.0
+    '                For Each c As Integer In cols
+    '                    prod *= rawMat(i, c)
+    '                Next
+    '                outData(i, e + 1) = prod
+    '            Next
+
+    '        Else
+    '            'Main effect (or unknown kind treated as main effect)
+    '            Dim bk As String = baseKeys(0)
+    '            If Not rawIndex.ContainsKey(bk) Then
+    '                AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by term '{effKey}'."))
+    '            End If
+    '            Dim col As Integer = rawIndex(bk)
+
+    '            For i As Integer = 0 To nRows - 1
+    '                outData(i, e + 1) = rawMat(i, col)
+    '            Next
+    '        End If
+    '    Next
+    'End Sub
 
     ''' <summary>
     ''' Extracts the variable‑suffix portion of a base effect key. Supports keys
@@ -1112,6 +1459,42 @@ Public Module UIprocedures
         End If
 
         Return baseKey.Trim()
+    End Function
+
+    Private Function BuildLmBaseDisplayNameMap(effectItems As IEnumerable,
+                                           termSpecs As Dictionary(Of String, TermSpec)) As Dictionary(Of String, String)
+
+        Dim out As New Dictionary(Of String, String)(StringComparer.Ordinal)
+        Dim rawBaseKeys As List(Of String) = GetRequiredRawVarKeys(effectItems, termSpecs)
+
+        Dim grouped = rawBaseKeys.GroupBy(Function(bk) GetCoefBaseName(bk), StringComparer.Ordinal)
+
+        For Each grp In grouped
+            Dim baseName As String = grp.Key
+            Dim keys As List(Of String) = grp.ToList()
+
+            If keys.Count = 1 Then
+                out(keys(0)) = baseName
+            Else
+                Dim used As New HashSet(Of String)(StringComparer.Ordinal)
+
+                For Each bk As String In keys
+                    Dim candidate As String = baseName & " (" & ExtractVarSuffix(bk) & ")"
+                    Dim finalName As String = candidate
+                    Dim k As Integer = 2
+
+                    While used.Contains(finalName)
+                        finalName = candidate & " (" & k & ")"
+                        k += 1
+                    End While
+
+                    used.Add(finalName)
+                    out(bk) = finalName
+                Next
+            End If
+        Next
+
+        Return out
     End Function
 
     ''' <summary>
@@ -1246,4 +1629,54 @@ Public Module UIprocedures
         Return out
     End Function
 
+    Public Function BuildCategoricalReferenceFootnotesForLm(raw As glmData,
+                                                        effectItems As IEnumerable,
+                                                        termSpecs As Dictionary(Of String, TermSpec),
+                                                        includeIntercept As Boolean) As List(Of String)
+
+        Dim notes As New List(Of String)
+
+        If raw Is Nothing OrElse effectItems Is Nothing OrElse termSpecs Is Nothing Then
+            Return notes
+        End If
+
+        Dim rawMat(,) As Double = raw.DataDbl
+        Dim rawXKeys As List(Of String) = GetRequiredRawVarKeys(effectItems, termSpecs)
+        Dim rawIndex As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+
+        For j As Integer = 0 To rawXKeys.Count - 1
+            rawIndex(rawXKeys(j)) = j + 1
+        Next
+
+        Dim baseDisplayNames As Dictionary(Of String, String) = BuildLmBaseDisplayNameMap(effectItems, termSpecs)
+        Dim seen As New HashSet(Of String)(StringComparer.Ordinal)
+
+        For Each obj As Object In effectItems
+            Dim effKey As String = CStr(obj)
+
+            If Not termSpecs.ContainsKey(effKey) Then Continue For
+            Dim spec As TermSpec = termSpecs(effKey)
+            If spec Is Nothing Then Continue For
+            If spec.Scale <> PredictorScale.Categorical Then Continue For
+            If spec.BaseVarKeys Is Nothing OrElse spec.BaseVarKeys.Count = 0 Then Continue For
+
+            Dim bk As String = spec.BaseVarKeys(0)
+            If seen.Contains(bk) Then Continue For
+            seen.Add(bk)
+
+            If Not rawIndex.ContainsKey(bk) Then Continue For
+
+            Dim displayName As String = If(baseDisplayNames.ContainsKey(bk), baseDisplayNames(bk), GetCoefBaseName(bk))
+            Dim levels As List(Of Double) = GetSortedDistinctLevels(rawMat, rawIndex(bk), raw.nRows)
+
+            If includeIntercept Then
+                Dim refVal As Double = GetReferenceLevel(levels, spec)
+                notes.Add($"Categorical predictor (Factor): {displayName}; reference level = {refVal}.")
+            Else
+                notes.Add($"Categorical predictor (Factor): {displayName}; model fit without intercept, so no reference level was omitted.")
+            End If
+        Next
+
+        Return notes
+    End Function
 End Module

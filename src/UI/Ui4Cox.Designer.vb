@@ -57,6 +57,8 @@ Partial Class Ui4Cox
         Me.lblSelectedEffectsList = New System.Windows.Forms.Label()
         Me.lblSelectedVariables = New System.Windows.Forms.Label()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
+        Me.lblAlpha = New System.Windows.Forms.Label()
         Me.grpResiduals = New System.Windows.Forms.GroupBox()
         Me.ckPHtest = New System.Windows.Forms.CheckBox()
         Me.ckResidualPlots = New System.Windows.Forms.CheckBox()
@@ -82,6 +84,7 @@ Partial Class Ui4Cox
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpResiduals.SuspendLayout()
         Me.grpTiesHandling.SuspendLayout()
         Me.grpIterOptions.SuspendLayout()
@@ -447,6 +450,8 @@ Partial Class Ui4Cox
         '
         'TabPage3
         '
+        Me.TabPage3.Controls.Add(Me.spinBtnAlpha)
+        Me.TabPage3.Controls.Add(Me.lblAlpha)
         Me.TabPage3.Controls.Add(Me.grpResiduals)
         Me.TabPage3.Controls.Add(Me.ckRobustVariance)
         Me.TabPage3.Controls.Add(Me.ckCovarMatrix)
@@ -458,6 +463,28 @@ Partial Class Ui4Cox
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Options"
         Me.TabPage3.UseVisualStyleBackColor = True
+        '
+        'spinBtnAlpha
+        '
+        Me.spinBtnAlpha.DecimalPlaces = 3
+        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(400, 85)
+        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Name = "spinBtnAlpha"
+        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlpha.TabIndex = 22
+        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
+        'lblAlpha
+        '
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Location = New System.Drawing.Point(348, 87)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
+        Me.lblAlpha.TabIndex = 21
+        Me.lblAlpha.Text = "alpha"
         '
         'grpResiduals
         '
@@ -523,7 +550,7 @@ Partial Class Ui4Cox
         Me.ckCovarMatrix.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ckCovarMatrix.Location = New System.Drawing.Point(351, 32)
         Me.ckCovarMatrix.Name = "ckCovarMatrix"
-        Me.ckCovarMatrix.Size = New System.Drawing.Size(223, 20)
+        Me.ckCovarMatrix.Size = New System.Drawing.Size(255, 20)
         Me.ckCovarMatrix.TabIndex = 5
         Me.ckCovarMatrix.Text = "Covariance MatrixType of Parameters"
         Me.ckCovarMatrix.UseVisualStyleBackColor = True
@@ -709,6 +736,7 @@ Partial Class Ui4Cox
         Me.TabPage2.PerformLayout()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpResiduals.ResumeLayout(False)
         Me.grpResiduals.PerformLayout()
         Me.grpTiesHandling.ResumeLayout(False)
@@ -776,4 +804,6 @@ Partial Class Ui4Cox
     Friend WithEvents ckResidualPlots As Windows.Forms.CheckBox
     Friend WithEvents ckAllResiduals As Windows.Forms.CheckBox
     Friend WithEvents lblSelectedSheet As Windows.Forms.Label
+    Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents lblAlpha As Windows.Forms.Label
 End Class

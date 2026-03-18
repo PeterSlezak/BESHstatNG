@@ -1,5 +1,6 @@
 ﻿Option Explicit On
 Imports System.Xml
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>
@@ -250,7 +251,7 @@ Public Class ResultTable
                 Me.HeaderTop.Add(tmp)
 
             ElseIf Me.HeaderTop.Last.Length < header.Length Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Input Header has too many elements."))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input Header has too many elements."))
             End If
         End If
     End Sub
@@ -290,7 +291,7 @@ Public Class ResultTable
                 Me.HeaderLeft.Add(tmp)
 
             ElseIf Me.HeaderLeft.Last.Length < header.Length Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Input Header has too many elements."))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Input Header has too many elements."))
             End If
         End If
     End Sub
@@ -469,6 +470,57 @@ Public Class WriteResults
         Me.lastRowID = r
     End Sub
 
+    Private Shared Function NormalizeForExcel(value As Object) As Object
+        If value Is Nothing Then Return Nothing
+        If Not IsArray(value) Then Return NormalizeScalarForExcel(value)
+
+        Dim arr As Array = DirectCast(value, Array)
+
+        If arr.Rank = 1 Then
+            Dim out(arr.GetUpperBound(0) - arr.GetLowerBound(0)) As Object
+            For ii As Integer = arr.GetLowerBound(0) To arr.GetUpperBound(0)
+                out(ii - arr.GetLowerBound(0)) = NormalizeScalarForExcel(arr.GetValue(ii))
+            Next
+            Return out
+        ElseIf arr.Rank = 2 Then
+            Dim out(arr.GetUpperBound(0) - arr.GetLowerBound(0), arr.GetUpperBound(1) - arr.GetLowerBound(1)) As Object
+            For ii As Integer = arr.GetLowerBound(0) To arr.GetUpperBound(0)
+                For jj As Integer = arr.GetLowerBound(1) To arr.GetUpperBound(1)
+                    out(ii - arr.GetLowerBound(0), jj - arr.GetLowerBound(1)) = NormalizeScalarForExcel(arr.GetValue(ii, jj))
+                Next
+            Next
+            Return out
+        End If
+
+        Return value
+    End Function
+
+    Private Shared Function NormalizeScalarForExcel(value As Object) As Object
+        If value Is Nothing Then Return Nothing
+
+        If TypeOf value Is Double Then
+            Dim d As Double = CDbl(value)
+
+            If Double.IsNaN(d) Then Return "#N/A"
+            If Double.IsPositiveInfinity(d) Then Return "#Pinf"
+            If Double.IsNegativeInfinity(d) Then Return "#Ninf"
+
+            Return d
+        End If
+
+        If TypeOf value Is Single Then
+            Dim d As Double = CDbl(value)
+
+            If Double.IsNaN(d) Then Return "#N/A"
+            If Double.IsPositiveInfinity(d) Then Return "#Pinf"
+            If Double.IsNegativeInfinity(d) Then Return "#Ninf"
+
+            Return value
+        End If
+
+        Return value
+    End Function
+
     ''' <summary>
     ''' Shifts the internal row pointer downward by a specified number of rows.
     ''' </summary>
@@ -525,6 +577,11 @@ Public Class WriteResults
     ''' After writing, <c>lastRowID</c> is incremented by the number of rows written
     ''' plus one blank row.
     ''' </para>
+    ''' <para>
+    ''' Before writing to Excel, numeric non-finite values are normalized for safe display.
+    ''' <c>NaN</c> values are written as <c>#N/A</c>, positive infinity as <c>#Pinf</c>,
+    ''' and negative infinity as <c>#Ninf</c>.
+    ''' </para>
     ''' </remarks>
     Sub write(ds As Object, Optional bTall As Boolean = False)
         'ds - data to present
@@ -536,6 +593,8 @@ Public Class WriteResults
         Else
             _ds = ds
         End If
+
+        _ds = NormalizeForExcel(_ds)
 
         If IsArray(_ds) Then
             If _ds.Rank = 1 Then
@@ -552,7 +611,7 @@ Public Class WriteResults
             End If
         End If
         If bTall Then
-            Me.ws.Range(ws.Cells(Me.lastRowID, Me.lastColumID), ws.Cells(Me.lastRowID + rowIncr, Me.lastColumID + colIncr)).Value = BESHstatGlobals.app.WorksheetFunction.Transpose(_ds)
+            Me.ws.Range(ws.Cells(Me.lastRowID, Me.lastColumID), ws.Cells(Me.lastRowID + rowIncr, Me.lastColumID + colIncr)).Value = AppGlobals.app.WorksheetFunction.Transpose(_ds)
         Else
             Dim rng = Me.ws.Range(ws.Cells(Me.lastRowID, Me.lastColumID), ws.Cells(Me.lastRowID + rowIncr, Me.lastColumID + colIncr))
             rng.Value = _ds
@@ -723,7 +782,7 @@ Public Class ProcessListofResultTables
     ''' </summary>
     ''' <param name="xlist">The list of tables to be processed.</param>
     Public Sub New(xlist As List(Of ResultTable))
-        If xlist Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(xlist)))
+        If xlist Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(xlist)))
         Me.inList = xlist
     End Sub
 
@@ -807,7 +866,7 @@ Public Class ProcessListofResultTables
     ''' </exception>
     Public Sub SetSeparators(x As List(Of Object(,)))
         If x.Count <> Me.inList.Count - 1 Then
-            BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Incorrect list items count."))
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Incorrect list items count."))
         End If
         pSep = x
     End Sub

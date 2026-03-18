@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Namespace assumptions
@@ -422,10 +423,10 @@ Namespace assumptions
             Dim p As Integer = Cov_mat.GetLength(1)
             ' Cov_mat is (group, row, col)
             If Cov_mat.GetLength(1) <> Cov_mat.GetLength(2) Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test require the same dimenstions of Covariance matrix for each group."))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test require the same dimenstions of Covariance matrix for each group."))
             End If
             If n_grp <> SampleSizes.Length Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test - incorrect input array dimenstions."))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test - incorrect input array dimenstions."))
             End If
 
             Dim cov_pooled(p - 1, p - 1) As Double, tmp(p - 1, p - 1) As Double
@@ -1072,11 +1073,11 @@ Namespace assumptions
             Dim n As Integer = x.Length
 
             If n < 15 Then
-                BESHstatGlobals.BSlogg.Log("Rosner: Sample size too small for calucalation (n < 15).", BESHstatGlobals.LogMsgType.Warn)
+                AppGlobals.BSlogg.Log("Rosner: Sample size too small for calucalation (n < 15).", AppGlobals.LogMsgType.Warn)
                 Return Nothing
             ElseIf n < 25 Then
-                BESHstatGlobals.BSlogg.Log("Rosner: Too small sample size for this test (n < 25). Inference done by the test could be incorect. For more information see (Technometrics, 25(2), 165-172).",
-                        BESHstatGlobals.LogMsgType.Warn)
+                AppGlobals.BSlogg.Log("Rosner: Too small sample size for this test (n < 25). Inference done by the test could be incorect. For more information see (Technometrics, 25(2), 165-172).",
+                        AppGlobals.LogMsgType.Warn)
             End If
 
             Dim fn = n

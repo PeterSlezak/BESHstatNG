@@ -5,6 +5,7 @@ Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Resources.ResXFileRef
 Imports System.Text
+Imports BESHStatNG.AppInfrastructure
 
 Namespace regression
 
@@ -365,16 +366,16 @@ Namespace regression
                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                          Optional progressLbl As System.Windows.Forms.Label = Nothing)
 
-            If pData Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Data not set. Call Data(...)."))
+            If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Data not set. Call Data(...)."))
             Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
             Me.n = UBound(pData, 1) + 1
             Dim cols As Integer = UBound(pData, 2) + 1
-            If cols < 1 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Data must have at least 1 column: Y."))
+            If cols < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Data must have at least 1 column: Y."))
 
             ' categories and mapping
             Dim catsAsc() As Integer = GetSortedCategoriesFromY()   ' always ascending
             pK = catsAsc.Length
-            If pK < 2 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Ordinal model requires at least 2 ordered categories."))
+            If pK < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Ordinal model requires at least 2 ordered categories."))
 
             Me.pReference = reference
 
@@ -399,7 +400,7 @@ Namespace regression
             ReDim pyFit(n - 1)
             For i As Integer = 0 To n - 1
                 Dim yv As Integer = CInt(Math.Round(pData(i, 0)))
-                If Not map.ContainsKey(yv) Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Unknown category at row {i}."))
+                If Not map.ContainsKey(yv) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Unknown category at row {i}."))
                 pyFit(i) = map(yv)
             Next
 
@@ -559,7 +560,7 @@ Namespace regression
                 Next
 
                 If Double.IsNegativeInfinity(ll) Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("OrdinalLogit: invalid step (probability <= 0 or thresholds not increasing)."))
+                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("OrdinalLogit: invalid step (probability <= 0 or thresholds not increasing)."))
                 End If
 
                 ' information matrix = -H + ridge*I
@@ -621,7 +622,7 @@ Namespace regression
             Next pIteration
             If pIteration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIteration)
             pIteration += 1
-            If Not converged Then BESHstatGlobals.BSlogg.Log("Algorithm Is diverging. Convergence not reached.", BESHstatGlobals.LogMsgType.Warn)
+            If Not converged Then AppGlobals.BSlogg.Log("Algorithm Is diverging. Convergence not reached.", AppGlobals.LogMsgType.Warn)
 
             ' store covariance at final b (one-pass behind is usually tiny at convergence,
             ' but we set pCov here to the last invInfo computed in-loop)
@@ -808,7 +809,7 @@ Namespace regression
         ''' </summary>
         Public Function GetResidualColumnNames(resType As ResidualColumnType) As String()
 
-            If pCats Is Nothing OrElse pCats.Length = 0 Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Categories not available. Fit the model first."))
+            If pCats Is Nothing OrElse pCats.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Categories not available. Fit the model first."))
 
             Dim cols As Integer = pK
             Dim names(cols - 1) As String
@@ -1413,7 +1414,7 @@ Namespace regression
         ''' </summary>
         Private Sub InitStartParams(ByRef b() As Double)
             If Me.startParams IsNot Nothing Then
-                If Me.startParams.Length <> b.Length Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("starting parameter array length <> b length"))
+                If Me.startParams.Length <> b.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("starting parameter array length <> b length"))
                 Me.startParams.CopyTo(b, 0)
             Else
                 For j As Integer = 0 To p - 1

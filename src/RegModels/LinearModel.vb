@@ -4,6 +4,7 @@ Option Explicit On
 Imports System
 Imports System.Collections.Generic
 Imports System.Linq
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Namespace regression
@@ -185,6 +186,9 @@ Namespace regression
         'Key = term name, Value = X-column indices (0..p-1) after intercept handling
         Private termGroups As Dictionary(Of String, Integer())
 
+        'Footnotes for categorical coding / reference levels
+        Private pPredictorCodingFootnotes As New List(Of String)
+
         '==========================
         ' Input
         '==========================
@@ -214,7 +218,7 @@ Namespace regression
         ''' This method stores the provided inputs; estimation is performed by <see cref="Fit"/>.
         ''' </para>
         ''' <seealso cref="Fit"/>
-        ''' <seealso cref="BESHstatGlobals.BSerr.LogAndThrow(Exception,Boolean,Boolean)"/>
+        ''' <seealso cref="AppGlobals.BSerr.LogAndThrow(Exception,Boolean,Boolean)"/>
         ''' <seealso cref="Matrix.IdentityVect(Integer, Double)"/>
         ''' </remarks>
         Public Sub Data(dataMatrix(,) As Double,
@@ -222,17 +226,17 @@ Namespace regression
                     Optional RowNums() As Integer = Nothing,
                     Optional weights() As Double = Nothing)
 
-            If dataMatrix Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataMatrix)))
+            If dataMatrix Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataMatrix)))
             Me.pData = dataMatrix
 
             Me.n = UBound(pData, 1) + 1
-            If n <= 1 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Data matrix must have at least 2 rows."))
+            If n <= 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Data matrix must have at least 2 rows."))
 
             '--- varNames incoming includes Y at index 0; store predictors only (drop index 0) ---
             If varNames IsNot Nothing Then
                 Dim expectedCols As Integer = UBound(pData, 2) + 1
                 If varNames.Length <> expectedCols Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("varNames length must match number of columns in dataMatrix (including Y at index 0)."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("varNames length must match number of columns in dataMatrix (including Y at index 0)."))
                 End If
 
                 Dim pPredictors As Integer = expectedCols - 1
@@ -253,7 +257,7 @@ Namespace regression
                     pRowNums(i) = i
                 Next
             Else
-                If RowNums.Length <> n Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("RowNums length must match #rows."))
+                If RowNums.Length <> n Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("RowNums length must match #rows."))
                 Me.pRowNums = CType(RowNums.Clone(), Integer())
             End If
 
@@ -261,9 +265,38 @@ Namespace regression
                 ' IdentityVect expects last index, so n-1 gives length n
                 Me.pWeights = Matrix.IdentityVect(n - 1, 1.0)
             Else
-                If weights.Length <> n Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("weights length must match #rows."))
+                If weights.Length <> n Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("weights length must match #rows."))
                 Me.pWeights = CType(weights.Clone(), Double())
             End If
+        End Sub
+
+        ''' <summary>
+        ''' Stores explanatory footnotes about predictor coding, e.g. which predictors
+        ''' were treated as categorical and which reference levels were used.
+        ''' </summary>
+        Public Sub SetPredictorCodingFootnotes(notes As IEnumerable(Of String))
+            pPredictorCodingFootnotes.Clear()
+
+            If notes Is Nothing Then Exit Sub
+
+            Dim seen As New HashSet(Of String)(StringComparer.Ordinal)
+            For Each note As String In notes
+                Dim s As String = If(note, String.Empty).Trim()
+                If s = String.Empty Then Continue For
+                If seen.Add(s) Then pPredictorCodingFootnotes.Add(s)
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' Appends stored predictor-coding footnotes to a result table.
+        ''' </summary>
+        Private Sub AddPredictorCodingFootnotes(t As ResultTable)
+            If t Is Nothing Then Exit Sub
+            If pPredictorCodingFootnotes Is Nothing OrElse pPredictorCodingFootnotes.Count = 0 Then Exit Sub
+
+            For Each note As String In pPredictorCodingFootnotes
+                t.AddFootnote(note)
+            Next
         End Sub
 
         '==========================
@@ -380,22 +413,37 @@ Namespace regression
         ''' </remarks>
         Public Function wrapResults() As List(Of ResultTable)
 
-            If results Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Model is not fitted."))
+            If results Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Model is not fitted."))
 
             Dim out As New List(Of ResultTable)
 
             Dim tCoef As ResultTable = results.CoeffsT_toPrint
             tCoef.AddPvalueToFormat(4)
+            AddPredictorCodingFootnotes(tCoef)
             out.Add(tCoef)
 
-            out.Add(results.getModelDiagnasticTable_toPrint())
+            Dim tDiag As ResultTable = results.getModelDiagnasticTable_toPrint()
+            out.Add(tDiag)
 
-            If pAnovaOverall IsNot Nothing Then out.Add(pAnovaOverall)
+            If pAnovaOverall IsNot Nothing Then
+                AddPredictorCodingFootnotes(pAnovaOverall)
+                out.Add(pAnovaOverall)
+            End If
 
-            If pAnovaTypeI IsNot Nothing Then out.Add(pAnovaTypeI)
-            If pAnovaTypeIII IsNot Nothing Then out.Add(pAnovaTypeIII)
+            If pAnovaTypeI IsNot Nothing Then
+                AddPredictorCodingFootnotes(pAnovaTypeI)
+                out.Add(pAnovaTypeI)
+            End If
 
-            out.Add(pVIF)
+            If pAnovaTypeIII IsNot Nothing Then
+                AddPredictorCodingFootnotes(pAnovaTypeIII)
+                out.Add(pAnovaTypeIII)
+            End If
+
+            If pVIF IsNot Nothing Then
+                AddPredictorCodingFootnotes(pVIF)
+                out.Add(pVIF)
+            End If
 
             'Return covariance
             If Me.bReturnCov Then
@@ -409,6 +457,7 @@ Namespace regression
                 t.AddHeaderTopRow(h)
                 t.AddHeaderTopRow(vars)
                 t.AddHeaderLeftRow(vars)
+                AddPredictorCodingFootnotes(t)
                 out.Add(t)
             End If
 
@@ -502,11 +551,11 @@ Namespace regression
                    Optional customTermGroups As Dictionary(Of String, Integer()) = Nothing,
                    Optional computeTermAnova As TermSumOfSquaresType = TermSumOfSquaresType.TypeIII)
 
-            If pData Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Call Data(...) first."))
+            If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Call Data(...) first."))
 
             Dim lastCol As Integer = UBound(pData, 2)  '0 means only Y column
             If lastCol < 0 Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Data matrix must contain at least one column (Y)."))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Data matrix must contain at least one column (Y)."))
             End If
             Dim pPredictors As Integer = lastCol '0.. => number of predictor columns (since col0 is Y)
             Me.pIncludeIntercept = includeIntercept
@@ -521,7 +570,7 @@ Namespace regression
             w = CType(pWeights.Clone(), Double())
             For i As Integer = 0 To n - 1
                 If Double.IsNaN(w(i)) OrElse Double.IsInfinity(w(i)) OrElse w(i) <= 0 Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Invalid weight at row {i}: {w(i)}. Weights must be finite and > 0."))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Invalid weight at row {i}: {w(i)}. Weights must be finite and > 0."))
                 End If
             Next
 
@@ -585,7 +634,7 @@ Namespace regression
 
             Dim ssr As Double = sst - sse
             Dim dfResid As Integer = n - p
-            If dfResid <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Insufficient degrees of freedom: n - p <= 0."))
+            If dfResid <= 0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Insufficient degrees of freedom: n - p <= 0."))
             Dim dfModel As Integer = If(includeIntercept, p - 1, p)
             Dim dfTotal As Integer = If(includeIntercept, n - 1, n) 'common convention for uncentered total
 
@@ -632,7 +681,7 @@ Namespace regression
             Dim stdRes() As Double = Nothing
             Dim cooks() As Double = Nothing
             If bComputeResiduals Then
-                If cov Is Nothing Then BESHstatGlobals.BSerr.LogAndThrow(New InvalidOperationException("Covariance is required for diagnostics."))
+                If cov Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Covariance is required for diagnostics."))
                 ComputeDiagnostics(X, w, cov, mse)
             End If
 
@@ -901,7 +950,7 @@ Namespace regression
                     Next
 
                 Case Else
-                    BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(ssType)))
+                    AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(ssType)))
             End Select
 
             'Add residual row

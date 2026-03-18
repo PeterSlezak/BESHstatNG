@@ -227,10 +227,14 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' Optional logical flag indicating whether a header row should be included in the spilled output.
         ''' If omitted, a header row is included.
         ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the hazard-ratio confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>
         ''' A spilled array with one row per predictor.
         ''' The output includes the variable name, regression coefficient, standard error, Wald z statistic, two-sided p-value,
-        ''' hazard ratio, and a 95% confidence interval for the hazard ratio.
+        ''' hazard ratio, and a two-sided hazard-ratio confidence interval at level <c>1 - alpha</c>.
         ''' </returns>
         ''' <remarks>
         ''' <para>
@@ -252,17 +256,19 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.SURV.COX_SUMMARY(F2)
+        ''' =BESH.SURV.COX_SUMMARY(F2, TRUE, 0.1)
         ''' </code>
         ''' </example>
         <ExcelFunction(
-            Name:="BESH.SURV.COX_SUMMARY",
-            Category:="BESHStatNG - Survival",
-            Description:="Returns coefficient table (beta, SE, z, p, HR, CI) for a fitted Cox model handle.",
-            HelpTopic:="udf/survival.md#beshsurvcox_summary"
-        )>
+    Name:="BESH.SURV.COX_SUMMARY",
+    Category:="BESHStatNG - Survival",
+    Description:="Returns coefficient table (beta, SE, z, p, HR, CI) for a fitted Cox model handle.",
+    HelpTopic:="udf/survival.md#beshsurvcox_summary"
+)>
         Public Function COX_SUMMARY(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object,
-            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include header row (default TRUE).")> Optional includeHeader As Object = Nothing
+            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include header row (default TRUE).")> Optional includeHeader As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional two-sided alpha for HR confidence intervals (default 0.05).")> Optional alpha As Object = Nothing
         ) As Object
 
             Dim key As String = UdfRangeHelpers.AsString(handle)
@@ -270,6 +276,12 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Dim h As CoxModelHandle = Nothing
             If Not _coxCache.TryGetValue(key, h) Then Return ExcelError.ExcelErrorNA
+
+            Dim alphaValue As Double = 0.05
+            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+            Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)
+            Dim ciPct As String = $"{100.0 * (1.0 - alphaValue):0.##}%"
 
             Dim hdr As Boolean = UdfRangeHelpers.GetOptionalBool(includeHeader, True)
             Dim p As Integer = h.VarNames.Length
@@ -284,8 +296,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 out(0, 3) = "Z"
                 out(0, 4) = "P-value"
                 out(0, 5) = "HR"
-                out(0, 6) = "HR 95% LCL"
-                out(0, 7) = "HR 95% UCL"
+                out(0, 6) = "HR " & ciPct & " LCL"
+                out(0, 7) = "HR " & ciPct & " UCL"
                 r0 = 1
             End If
 
@@ -301,8 +313,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim z As Double = beta / se
                 Dim pv As Double = 2.0 * distributions.PNorm(-Math.Abs(z))
                 Dim hr As Double = Math.Exp(beta)
-                Dim lcl As Double = Math.Exp(beta - 1.96 * se)
-                Dim ucl As Double = Math.Exp(beta + 1.96 * se)
+                Dim lcl As Double = Math.Exp(beta - zCrit * se)
+                Dim ucl As Double = Math.Exp(beta + zCrit * se)
 
                 out(r0 + i, 0) = h.VarNames(i)
                 out(r0 + i, 1) = beta

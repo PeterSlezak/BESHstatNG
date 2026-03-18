@@ -167,12 +167,16 @@ Public Class ConfidenceIntervalResult
     Public Property strConfidenceInterval(Optional format As CIformat = CIformat.E_p_LL_to_UL_p) As String
         Get
             If pstrConfidenceInterval = String.Empty Then
+                Dim estText As String = FormatDoubleForDisplay(Estimate)
+                Dim llText As String = FormatDoubleForDisplay(LowerLimit)
+                Dim ulText As String = FormatDoubleForDisplay(UpperLimit)
+
                 If format = CIformat.E_p_LL_to_UL_p Then
-                    pstrConfidenceInterval = $"{CSng(Estimate)} ({CSng(LowerLimit)} to {CSng(UpperLimit)})"
+                    pstrConfidenceInterval = $"{estText} ({llText} to {ulText})"
                 ElseIf format = CIformat.LL_to_UL Then
-                    pstrConfidenceInterval = $"{CSng(LowerLimit)} to {CSng(UpperLimit)}"
+                    pstrConfidenceInterval = $"{llText} to {ulText}"
                 ElseIf format = CIformat.p_LL_to_UL_p Then
-                    pstrConfidenceInterval = $"({CSng(LowerLimit)} to {CSng(UpperLimit)})"
+                    pstrConfidenceInterval = $"({llText} to {ulText})"
                 End If
             End If
             Return pstrConfidenceInterval
@@ -181,6 +185,13 @@ Public Class ConfidenceIntervalResult
             pstrConfidenceInterval = value
         End Set
     End Property
+
+    Private Shared Function FormatDoubleForDisplay(x As Double) As String
+        If Double.IsNaN(x) Then Return "#N/A"
+        If Double.IsPositiveInfinity(x) Then Return "#Pinf"
+        If Double.IsNegativeInfinity(x) Then Return "#Ninf"
+        Return CStr(CSng(x))
+    End Function
 
     Public ReadOnly Property CIlabel As String
         Get
@@ -1046,33 +1057,40 @@ Namespace nonparametric
     '''   <item><description>Rank transformation of X and Y</description></item>
     '''   <item><description>Exact permutation p-values for n ≤ 10</description></item>
     '''   <item><description>Edgeworth-series approximation for 4 ≤ n ≤ 50 (no ties)</description></item>
-    '''   <item><description>t‑distribution approximation for general n</description></item>
-    '''   <item><description>Fisher z‑transformation confidence interval</description></item>
+    '''   <item><description>t-distribution approximation for general n</description></item>
+    '''   <item><description>Fisher z-transformation confidence interval at level <c>1 - alpha</c></description></item>
     ''' </list>
     ''' 
     ''' Spearman's ρ is defined as the Pearson correlation of the ranked variables:
     ''' <code>
-    ''' ρ = cor( rank(X), rank(Y) )
+    ''' ρ = cor(rank(X), rank(Y))
     ''' </code>
     ''' 
     ''' When no ties are present, the classical formula applies:
     ''' <code>
     ''' ρ = 1 − (6 Σ dᵢ²) / (n(n² − 1))
     ''' </code>
-    ''' where dᵢ = rank(Xᵢ) − rank(Yᵢ).
+    ''' where <c>dᵢ = rank(Xᵢ) − rank(Yᵢ)</c>.
     ''' 
-    ''' Exact p-values are computed via permutation enumeration (Heap's algorithm).
-    ''' For n ≥ 30 or when ties are present, a t‑approximation is used:
+    ''' Exact p-values are computed by permutation enumeration.
+    ''' For larger samples or when ties are present, an approximate t-based test is used:
     ''' <code>
     ''' t = ρ √((n − 2) / (1 − ρ²))
+    ''' </code>
+    ''' 
+    ''' The confidence interval is based on the Fisher z transform:
+    ''' <code>
+    ''' z = atanh(ρ)
+    ''' CI = tanh(z ± z_(1 − alpha/2) / √(n − 3))
     ''' </code>
     ''' 
     ''' External dependencies:
     ''' <list type="bullet">
     '''   <item><description><c>ComputeAvgRanks</c> — rank computation with ties</description></item>
     '''   <item><description><c>PNorm</c> — normal CDF</description></item>
-    '''   <item><description><c>T_2T</c>, <c>T_RT</c>, <c>T_CDF</c> — t‑distribution functions</description></item>
+    '''   <item><description><c>T_2T</c>, <c>T_RT</c>, <c>T_CDF</c> — t-distribution functions</description></item>
     '''   <item><description><c>Atanh</c> — inverse hyperbolic tangent</description></item>
+    '''   <item><description><c>ZCritTwoSided</c> — two-sided normal critical value</description></item>
     '''   <item><description><c>HorizontalStackArrays</c> — table formatting</description></item>
     '''   <item><description><c>ResultTable</c>, <c>TestResult</c>, <c>ConfidenceIntervalResult</c></description></item>
     ''' </list>
@@ -1137,7 +1155,7 @@ Namespace nonparametric
         ''' <list type="bullet">
         '''   <item><description>Sample size</description></item>
         '''   <item><description>Spearman's ρ</description></item>
-        '''   <item><description>Approximate confidence interval</description></item>
+        '''   <item><description>Approximate confidence interval at level <c>1 - alpha</c></description></item>
         '''   <item><description>Approximate p-values</description></item>
         '''   <item><description>Exact p-values (if available)</description></item>
         ''' </list>
@@ -1161,7 +1179,7 @@ Namespace nonparametric
             Dim o = {
                 {"Number of valid data pairs", Me.n},
                 {"Rho", Me.CorrelationResult.TestStatistics1},
-                {"Approximate 95%CI", Me.correlationCI.strConfidenceInterval(CIformat.LL_to_UL)},
+                {"Approximate " & Me.correlationCI.CIlabel, Me.correlationCI.strConfidenceInterval(CIformat.LL_to_UL)},
                 {"Two-sided p-value (approx.)", Me.CorrelationResult.Pvalue},
                 {"Low-side p-value (approx.)", Me.CorrelationResult.PvalueLowerSide},
                 {"Upper-sid p-value (approx.)", Me.CorrelationResult.PvalueUpperSide}
@@ -1213,15 +1231,14 @@ Namespace nonparametric
         '''   <item><description>Rank transformation of X and Y</description></item>
         '''   <item><description>Exact permutation p-values for n ≤ 10</description></item>
         '''   <item><description>Edgeworth-series approximation (AS 89) for 4 ≤ n ≤ 50 without ties</description></item>
-        '''   <item><description>t‑distribution approximation for general n</description></item>
-        '''   <item><description>Fisher z‑transformation confidence interval</description></item>
+        '''   <item><description>t-distribution approximation for general n</description></item>
+        '''   <item><description>Fisher z-transformation confidence interval at level <c>1 - alpha</c></description></item>
         ''' </list>
         ''' 
         ''' Exact permutation test:
         ''' <para>
-        ''' Enumerates all permutations of Y (or unique permutations if ties exist)
-        ''' using Heap's algorithm. For each permutation, computes ρ and compares
-        ''' to the observed value.
+        ''' Enumerates permutations of Y (or unique permutations when ties are present),
+        ''' computes ρ for each permutation, and compares it with the observed value.
         ''' </para>
         ''' 
         ''' Approximate p-values:
@@ -1233,7 +1250,7 @@ Namespace nonparametric
         ''' Confidence interval:
         ''' <code>
         ''' z = atanh(ρ)
-        ''' CI = tanh( z ± 1.96 / √(n − 3) )
+        ''' CI = tanh(z ± z_(1 − alpha/2) / √(n − 3))
         ''' </code>
         ''' 
         ''' External dependencies:
@@ -1242,11 +1259,16 @@ Namespace nonparametric
         '''   <item><description><c>PNorm</c></description></item>
         '''   <item><description><c>T_2T</c>, <c>T_RT</c>, <c>T_CDF</c></description></item>
         '''   <item><description><c>Atanh</c></description></item>
+        '''   <item><description><c>ZCritTwoSided</c></description></item>
         ''' </list>
         ''' </summary>
         ''' <param name="progressBar">Optional progress bar for permutation enumeration.</param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the confidence interval.
+        ''' For example, <c>alpha = 0.05</c> gives a 95% confidence interval.
+        ''' </param>
         ''' <returns>A <see cref="TestResult"/> containing ρ and p-values.</returns>
-        Function Compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing) As TestResult
+        Function Compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing, Optional alpha As Double = 0.05) As TestResult
             Me.CorrelationResult = New TestResult
             Me.n = Me.X.Length
             Dim xRanks = ComputeAvgRanks(X)
@@ -1339,11 +1361,14 @@ Namespace nonparametric
             'lower side
             Me.CorrelationResult.PvalueLowerSide = distributions.T_CDF(t, n - 2)
 
+            Dim z As Double = distributions.ZCritTwoSided(alpha)
+
             Me.correlationCI = New ConfidenceIntervalResult
+            Me.correlationCI.alpha = alpha
             Me.correlationCI.Estimate = rhoObs
             Dim SE As Double = Math.Sqrt(1.0 / (n - 3)) '(((1 + (AtanhRho ^ 2)) / 2) / (n - 3)) ^ 0.5 'BONETT and WRIGHT, PSYCHOMETRIKA-VOL. 65, NO. 1, 23-28, 2000
-            Me.correlationCI.LowerLimit = Math.Tanh(Atanh(rhoObs) - SE * 1.96)
-            Me.correlationCI.UpperLimit = Math.Tanh(Atanh(rhoObs) + SE * 1.96)
+            Me.correlationCI.LowerLimit = Math.Tanh(Atanh(rhoObs) - SE * z)
+            Me.correlationCI.UpperLimit = Math.Tanh(Atanh(rhoObs) + SE * z)
 
             Return Me.CorrelationResult
         End Function
@@ -1463,16 +1488,16 @@ Namespace nonparametric
 
 
     ''' <summary>
-    ''' Implements Kendall’s rank correlation coefficient τ<sub>b</sub>, including:
+    ''' Implements Kendall's rank correlation coefficient τ<sub>b</sub>, including:
     ''' <list type="bullet">
-    '''   <item><description>Computation of Kendall’s τ<sub>b</sub> with tie adjustment</description></item>
+    '''   <item><description>Computation of Kendall's τ<sub>b</sub> with tie adjustment</description></item>
     '''   <item><description>Exact permutation p-values for n ≤ 10</description></item>
     '''   <item><description>Edgeworth-series approximation for 4 ≤ n ≤ 50 (no ties)</description></item>
     '''   <item><description>Normal approximation for general n</description></item>
-    '''   <item><description>Confidence interval for τ<sub>b</sub> using Hollander and Wolfe (1999)</description></item>
+    '''   <item><description>Approximate confidence interval at level <c>1 - alpha</c></description></item>
     ''' </list>
     ''' 
-    ''' Kendall’s τ<sub>b</sub> measures the strength of monotonic association between two variables.
+    ''' Kendall's τ<sub>b</sub> measures the strength of monotonic association between two variables.
     ''' It is defined as:
     ''' <code>
     ''' τ = (C − D) / √((C + Tₓ)(C + Tᵧ))
@@ -1485,23 +1510,25 @@ Namespace nonparametric
     '''   <item><description>Tᵧ = number of ties in Y</description></item>
     ''' </list>
     ''' 
-    ''' Exact p-values are computed via permutation enumeration (Heap’s algorithm).
+    ''' Exact p-values are computed by permutation enumeration.
     ''' For larger samples, a normal approximation is used:
     ''' <code>
     ''' Z = τ / √((4n + 10) / (9n(n − 1)))
     ''' </code>
     ''' 
-    ''' Confidence intervals follow Hollander and Wolfe (1999), p. 384:
+    ''' The approximate confidence interval is computed as:
     ''' <code>
-    ''' CI = τ ± 1.65 × SE(τ)
+    ''' CI = τ ± z_(1 − alpha/2) × SE(τ)
     ''' </code>
+    ''' and truncated to the valid correlation range [-1, 1].
     ''' 
     ''' External dependencies:
     ''' <list type="bullet">
-    '''   <item><description><c>ComputeAvgRanks</c> — rank computation for Spearman (inherited)</description></item>
+    '''   <item><description><c>ComputeAvgRanks</c> — rank computation for inherited utilities</description></item>
     '''   <item><description><c>PNorm</c> — normal CDF</description></item>
     '''   <item><description><c>ExpectedTotalPermutations</c>, <c>Factorial</c> — permutation enumeration</description></item>
-    '''   <item><description><c>GetPermutationKey</c> — tie‑aware permutation deduplication</description></item>
+    '''   <item><description><c>GetPermutationKey</c> — tie-aware permutation deduplication</description></item>
+    '''   <item><description><c>ZCritTwoSided</c> — two-sided normal critical value</description></item>
     '''   <item><description><c>HorizontalStackArrays</c>, <c>ResultTable</c>, <c>TestResult</c>, <c>ConfidenceIntervalResult</c></description></item>
     ''' </list>
     ''' </summary>
@@ -1528,8 +1555,8 @@ Namespace nonparametric
         ''' <summary>
         ''' Produces formatted result tables summarizing:
         ''' <list type="bullet">
-        '''   <item><description>Kendall’s τ<sub>b</sub></description></item>
-        '''   <item><description>Approximate confidence interval</description></item>
+        '''   <item><description>Kendall's τ<sub>b</sub></description></item>
+        '''   <item><description>Approximate confidence interval at level <c>1 - alpha</c></description></item>
         '''   <item><description>Approximate p-values</description></item>
         '''   <item><description>Exact p-values (if available)</description></item>
         ''' </list>
@@ -1552,7 +1579,7 @@ Namespace nonparametric
 
             Dim o = {{"Number of valid data pairs", Me.n},
                  {"Tau-b", Me.CorrelationResult.TestStatistics1},
-                 {"Approximate 95%CI", Me.correlationCI.strConfidenceInterval(CIformat.LL_to_UL)},
+                 {"Approximate " & Me.correlationCI.CIlabel, Me.correlationCI.strConfidenceInterval(CIformat.LL_to_UL)},
                  {"Two-sided p-value (approx.)", Me.CorrelationResult.Pvalue},
                  {"Low-side p-value (approx.)", Me.CorrelationResult.PvalueLowerSide},
                  {"Upper-sid p-value (approx.)", Me.CorrelationResult.PvalueUpperSide}
@@ -1629,7 +1656,7 @@ Namespace nonparametric
 
             Dim tau As Double = S / Math.Sqrt(n1 * n2)
 
-            '95%Ci caluclation
+            'Confidence interval caluclation
             If bComputeSE Then
                 Ci = M_SUB(Sc, sd)
                 Dim Cbar As Double = Ci.Sum() / CDbl(n)
@@ -1648,13 +1675,13 @@ Namespace nonparametric
         End Function
 
         ''' <summary>
-        ''' Computes Kendall’s τ<sub>b</sub> correlation test, including:
+        ''' Computes Kendall's τ<sub>b</sub> correlation test, including:
         ''' <list type="bullet">
         '''   <item><description>Computation of τ<sub>b</sub> and SE(τ)</description></item>
         '''   <item><description>Exact permutation p-values for n ≤ 10</description></item>
         '''   <item><description>Edgeworth-series approximation for 4 ≤ n ≤ 50 (no ties)</description></item>
         '''   <item><description>Normal approximation for general n</description></item>
-        '''   <item><description>Confidence interval using Hollander and Wolfe (1999)</description></item>
+        '''   <item><description>Approximate confidence interval at level <c>1 - alpha</c></description></item>
         ''' </list>
         ''' 
         ''' Normal approximation:
@@ -1664,19 +1691,26 @@ Namespace nonparametric
         ''' 
         ''' Confidence interval:
         ''' <code>
-        ''' CI = τ ± 1.65 × SE(τ)
+        ''' CI = τ ± z_(1 − alpha/2) × SE(τ)
         ''' </code>
+        ''' 
+        ''' The interval is truncated to the valid correlation range [-1, 1].
         ''' 
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>PNorm</c> — normal CDF</description></item>
         '''   <item><description><c>ExpectedTotalPermutations</c>, <c>Factorial</c></description></item>
-        '''   <item><description><c>GetPermutationKey</c> — tie‑aware deduplication</description></item>
+        '''   <item><description><c>GetPermutationKey</c> — tie-aware deduplication</description></item>
+        '''   <item><description><c>ZCritTwoSided</c></description></item>
         ''' </list>
         ''' </summary>
         ''' <param name="progressBar">Optional progress bar for permutation enumeration.</param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the approximate confidence interval.
+        ''' For example, <c>alpha = 0.05</c> gives a 95% confidence interval.
+        ''' </param>
         ''' <returns>A <see cref="TestResult"/> containing τ<sub>b</sub> and p-values.</returns>
-        Public Shadows Function compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing) As TestResult
+        Public Shadows Function compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing, Optional alpha As Double = 0.05) As TestResult
             CorrelationResult = New TestResult
             Me.n = X.Length
             Dim tauObs As Double = correlationCoefficient(X, Y, True)
@@ -1768,13 +1802,15 @@ Namespace nonparametric
             Me.CorrelationResult.PvalueLowerSide = distributions.PNorm(z)
 
 
-            'Kendall TAU 95%CI as described in
+            'Kendall TAU Confidence Interval as described in
             'Hollander M, Wolfe DA. Non-parametric Statistical Methods (2nd edition). New York: Wiley 1999. page 384
             Me.correlationCI = New ConfidenceIntervalResult
+            Me.correlationCI.alpha = alpha
             Me.correlationCI.Estimate = tauObs
-            Me.correlationCI.LowerLimit = tauObs - Me.pSE * 1.65
+            Dim zz As Double = distributions.ZCritTwoSided(alpha)
+            Me.correlationCI.LowerLimit = tauObs - Me.pSE * zz
             If Me.correlationCI.LowerLimit < -1 Then Me.correlationCI.LowerLimit = -1
-            Me.correlationCI.UpperLimit = tauObs + Me.pSE * 1.65
+            Me.correlationCI.UpperLimit = tauObs + Me.pSE * zz
             If Me.correlationCI.UpperLimit > 1 Then Me.correlationCI.UpperLimit = 1
 
             Return Me.CorrelationResult
@@ -2061,11 +2097,17 @@ Namespace nonparametric
         ''' External dependency:
         ''' <c>PNorm</c> — normal CDF.
         ''' </summary>
+        '''  <param name="alpha">
+        ''' Reserved for API consistency with other multiple-comparison methods.
+        ''' This method currently reports Bonferroni-adjusted p-values only and does
+        ''' not compute confidence intervals, so <paramref name="alpha"/> is not yet used.
+        ''' </param>
         ''' <returns>A matrix of contrasts and test results.</returns>
-        Public Function MCP() As Object(,)
-            ' Compute ranks with tie handling
-            Dim allValues As New List(Of Double)
+        Public Function MCP(Optional alpha As Double = 0.05) As Object(,)
 
+            parametric.ValidateAlpha(alpha)
+            Dim allValues As New List(Of Double)
+            ' Compute ranks with tie handling
             For g = 0 To Me.NoGroups - 1
                 For Each v In Me.data(g)
                     allValues.Add(v)
@@ -2263,8 +2305,14 @@ Namespace nonparametric
         '''   <item><description><c>HorizontalStackArrays</c></description></item>
         ''' </list>
         ''' </summary>
+        ''' <param name="alpha">
+        ''' Reserved for API consistency with other multiple-comparison methods.
+        ''' This method currently reports adjusted p-values only and does not compute
+        ''' confidence intervals, so <paramref name="alpha"/> is not yet used.
+        ''' </param>
         ''' <returns>A matrix of contrasts and test results.</returns>
-        Public Function MCP() As Object(,)
+        Public Function MCP(Optional alpha As Double = 0.05) As Object(,)
+            parametric.ValidateAlpha(alpha)
             Dim MrankSUM As Double, SumRanksSQ As Double
             Dim Ncontrast As Integer = NoGroups * (NoGroups - 1) / 2
             ReDim Conover(Ncontrast - 1, 3), SPSS(Ncontrast - 1, 3)

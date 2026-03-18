@@ -1,8 +1,8 @@
 ﻿Imports System.Drawing
 Imports System.Security.Cryptography
 Imports System.Security.Policy
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
-Imports NLog.Filters
 
 Public Class Ui82x2
 
@@ -12,8 +12,8 @@ Public Class Ui82x2
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.RefEdit1_WorksheetData.ExcelConnector = BESHstatGlobals.app
-        Me.RefEditOutput.ExcelConnector = BESHstatGlobals.app
+        Me.RefEdit1_WorksheetData.ExcelConnector = AppGlobals.app
+        Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.WireHelp(Me.btnHelp)
     End Sub
 
@@ -121,7 +121,7 @@ Public Class Ui82x2
 
             rr.writeToSheet(WriteRes, True)
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -140,14 +140,14 @@ Public Class Ui82x2
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = AppGlobals.app.Workbooks.Add()
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

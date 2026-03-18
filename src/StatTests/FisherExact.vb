@@ -1,8 +1,9 @@
 ﻿Option Explicit On
-Imports Microsoft.Office.Interop
-Imports Microsoft.Office.Interop.Excel
 Imports System
 Imports System.Math
+Imports BESHStatNG.AppInfrastructure
+Imports Microsoft.Office.Interop
+Imports Microsoft.Office.Interop.Excel
 
 Namespace contingencytable
 
@@ -71,7 +72,7 @@ Namespace contingencytable
             For i As Integer = 0 To _nrow - 1
                 For j As Integer = 0 To _ncol - 1
                     Dim v = _table(i, j)
-                    If v < 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("TABLE cannot contain negative values."))
+                    If v < 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("TABLE cannot contain negative values."))
                     ntot += v
                 Next
             Next
@@ -289,11 +290,11 @@ Namespace contingencytable
             kyy(1) = 1
             For i = 1 To nro - 1
                 Dim mult As Long = CLng(kyy(i)) * (CLng(iro(i)) + 1L)
-                If mult > Integer.MaxValue Then BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("kyy overflow; increase workspace / change encoding."))
+                If mult > Integer.MaxValue Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("kyy overflow; increase workspace / change encoding."))
                 kyy(i + 1) = CInt(mult)
             Next
             If (CLng(iro(nro)) + 1L) > (CLng(Integer.MaxValue) \ CLng(kyy(nro))) Then
-                BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("kyy overflow (final check)."))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("kyy overflow (final check)."))
             End If
 
             ' -----------------------------
@@ -367,7 +368,7 @@ L150:
             ' Daughter row totals: irn(i) = iro(i) - idif(i)
             For i = 1 To nro
                 irn(i) = iro(i) - idif(i)
-                If irn(i) < 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Invalid daughter: irn(i)<0."))
+                If irn(i) < 0 Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("Invalid daughter: irn(i)<0."))
             Next
 
             Dim nrb As Integer = 1
@@ -453,7 +454,7 @@ L150:
 
             ' Process the mother chain for this ipo
             Dim ipn As Integer = ipoin(ikkeyOff + ipo)
-            If ipn <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New Exception("ipoin() head missing for mother."))
+            If ipn <= 0 Then AppGlobals.BSerr.LogAndThrow(New Exception("ipoin() head missing for mother."))
 
             pastp = stp(ikstpOff + ipn)
             Dim ifreq As Integer = ifrq(ikstpOff + ipn)
@@ -800,7 +801,7 @@ LoopNode:
                 Next
 
                 If keyVal < -1 Then
-                    BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Bug in FEXACT: negative key computed in F3xact."))
+                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("Bug in FEXACT: negative key computed in F3xact."))
                 End If
 
                 Dim ipn As Integer = CInt((keyVal Mod ldst) + 1)
@@ -823,7 +824,7 @@ LoopNode:
                     ii += 1
                 Next
 
-                BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Stack length exceeded in F3xact (ist/itc bank full)."))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Stack length exceeded in F3xact (ist/itc bank full)."))
 
 L180:
                 istW(ii) = keyVal
@@ -1258,12 +1259,12 @@ Backtrack:
                 If key(slotVB) < 0 Then GoTo L_INSERT_HASH
             Next
 
-            BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("LDKEY too small for problem (hash full in F5xact)."))
+            AppGlobals.BSerr.LogAndThrow(New ApplicationException("LDKEY too small for problem (hash full in F5xact)."))
 
 L_INSERT_HASH:
             key(slotVB) = kval
             itop += 1
-            If itop > ldstp Then BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("LDSTP too small (STP overflow in F5xact)."))
+            If itop > ldstp Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("LDSTP too small (STP overflow in F5xact)."))
 
             ipoin(slotVB) = itop
 
@@ -1277,7 +1278,7 @@ L_INSERT_HASH:
 
 L_FOUND_HASH:
             Dim root As Integer = ipoin(slotVB)
-            If root <= 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Corrupt ipoin() in F5xact (root<=0)."))
+            If root <= 0 Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("Corrupt ipoin() in F5xact (root<=0)."))
 
             ' BST search by stp() tolerance
             Dim ipn As Integer = root
@@ -1295,7 +1296,7 @@ L_FOUND_HASH:
 
             ' Need a new node
             itop += 1
-            If itop > ldstp Then BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("LDSTP too small (tree overflow in F5xact)."))
+            If itop > ldstp Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("LDSTP too small (tree overflow in F5xact)."))
 
             ' Find insertion location again from root
             ipn = root
@@ -1314,7 +1315,7 @@ L_DESCEND:
                 If ipn > 0 Then GoTo L_DESCEND
                 nr(ipnVB2) = itop
             Else
-                BESHstatGlobals.BSerr.LogAndThrow(New ApplicationException("Unexpected equality state in F5xact insert."))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Unexpected equality state in F5xact insert."))
             End If
 
             ' Threaded next-node chain (same as R: npoin[new] = npoin[parent]; npoin[parent] = new)
@@ -1512,9 +1513,9 @@ L70:
         Private Sub F8xact(irow() As Integer, isVal As Integer, i1 As Integer, izero As Integer, newArr() As Integer)
             Dim i As Integer
 
-            If i1 < 1 OrElse i1 > izero Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException("F8xact: i1 out of range"))
-            If irow.GetUpperBound(0) < izero Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("F8xact: irow too small"))
-            If newArr.GetUpperBound(0) < izero Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("F8xact: newArr too small"))
+            If i1 < 1 OrElse i1 > izero Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException("F8xact: i1 out of range"))
+            If irow.GetUpperBound(0) < izero Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("F8xact: irow too small"))
+            If newArr.GetUpperBound(0) < izero Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("F8xact: newArr too small"))
 
             ' Copy unchanged prefix
             For i = 1 To i1 - 1

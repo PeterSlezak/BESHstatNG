@@ -1,9 +1,27 @@
 ﻿Option Explicit On
+Imports BESHStatNG.AppInfrastructure
 
 Namespace distributions
 
 
     Public Module Distributions
+
+        ''' <summary>
+        ''' Returns the two-sided standard normal critical value z_(1 - α/2).
+        ''' </summary>
+        ''' <param name="alpha">
+        ''' Significance level for a two-sided confidence interval.
+        ''' Must satisfy 0 &lt; alpha &lt; 1.
+        ''' </param>
+        ''' <returns>
+        ''' The standard normal quantile corresponding to 1 - alpha/2.
+        ''' </returns>
+        Public Function ZCritTwoSided(Optional alpha As Double = 0.05) As Double
+            If alpha <= 0.0 OrElse alpha >= 1.0 Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(alpha), "alpha must be in (0,1)."))
+            End If
+            Return NormSInv(1.0 - alpha / 2.0)
+        End Function
 
         ''' <summary>
         ''' Computes the probability density function (PDF) of the normal distribution,
@@ -392,7 +410,7 @@ Namespace distributions
         ''' <para>
         ''' Input validation:
         ''' - If <paramref name="p"/> ≤ 0 or ≥ 1, an <see cref="ArgumentOutOfRangeException"/> is thrown
-        '''   (via <c>BESHstatGlobals.BSerr.LogAndThrow</c>).
+        '''   (via <c>AppGlobals.BSerr.LogAndThrow</c>).
         ''' </para>
         ''' <para>
         ''' Accuracy: Typically near IEEE double precision for most inputs after refinement; practical agreement
@@ -413,7 +431,7 @@ Namespace distributions
         ''' </example>
         ''' </remarks>
         Public Function NormSInv(p As Double) As Double
-            If p <= 0.0 OrElse p >= 1.0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException("p must be in (0,1)"))
+            If p <= 0.0 OrElse p >= 1.0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException("p must be in (0,1)"))
 
             ' Coefficients for AS241
             Dim a() As Double = {

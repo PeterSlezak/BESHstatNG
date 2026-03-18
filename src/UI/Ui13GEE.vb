@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports BESHStatNG.AppInfrastructure
 
 Public Class Ui13GEE
 
@@ -127,7 +128,7 @@ Public Class Ui13GEE
                 Me.lbTime.Items.Clear()
                 Me.lbXs.Items.Clear()
                 Me.lbSelectedVariables.Items.Clear()
-                Me.lbSelectedEffectsList.Items.Clear()
+                Remove_Item(Me.lbSelectedEffectsList, "all")
             End If
             newSheet = pWorkbook.worksheets(Me.cbSheetsList.SelectedItem.ToString())
             Me.Populate(newSheet)
@@ -217,7 +218,7 @@ Public Class Ui13GEE
             Exit Sub
         End If
         If Me.lbSelectedEffectsList.Items.Count = 0 And Me.cbIntercept.Checked Then
-            If MsgBox("Do you want to fit intercept only model?", vbYesNo + vbExclamation, BESHstatGlobals.gsAPP_TITLE) = vbNo Then
+            If MsgBox("Do you want to fit intercept only model?", vbYesNo + vbExclamation, AppGlobals.gsAPP_TITLE) = vbNo Then
                 bWait = True
                 Exit Sub
             End If
@@ -286,7 +287,7 @@ Public Class Ui13GEE
                 Dim bErr As Boolean = False
                 Dim initVals = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
                 If bErr Then
-                    BESHstatGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
+                    AppGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
                     MsgBox("Cannot extract initial parameter values. They will be ignored.")
                 Else
                     bInitialValues = True
@@ -297,7 +298,7 @@ Public Class Ui13GEE
                 Me.RunGEE(MyData, bInitialValues)
             End If
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -341,9 +342,9 @@ Public Class Ui13GEE
 
             ''Dump results
             Dim WriteRes As WriteResults = New WriteResults
-            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-            BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = AppGlobals.app.Workbooks.Add()
+            AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
             WriteRes.write({"Row ID"})
             WriteRes.setRowPointer(2)
             WriteRes.write(MyData.RowIds, bTall:=True)
@@ -399,9 +400,9 @@ Public Class Ui13GEE
             'We need to start new writer to start writing on this new sheet
             Dim res = fitGEE.wrapResults()
             WriteRes = New WriteResults
-            BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-            BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "GEE"
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+            AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "GEE"
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
 
             Dim rr = New ProcessListofResultTables(res)
             rr.writeToSheet(WriteRes, True)
@@ -463,7 +464,7 @@ Public Class Ui13GEE
     End Sub
 
     Private Sub btClearAllSelectedEffects_Click(sender As Object, e As System.EventArgs) Handles btClearAllSelectedEffects.Click
-        Me.lbSelectedEffectsList.Items.Clear()
+        Remove_Item(Me.lbSelectedEffectsList, "all")
     End Sub
 
     Private Sub btAddX_Click(sender As Object, e As System.EventArgs) Handles btAddX.Click

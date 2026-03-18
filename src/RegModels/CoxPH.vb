@@ -3,8 +3,8 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports System.Resources.ResXFileRef
 Imports System.Windows.Forms
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
-Imports NLog
 
 
 ''' <summary>
@@ -295,8 +295,27 @@ Public Class CoxPH
         Return out
     End Function
 
-    Public Function wrapResults(Optional strStrataVar As String = Nothing) As List(Of ResultTable)
+    ''' <summary>
+    ''' Builds formatted result tables for a fitted Cox proportional hazards model.
+    ''' </summary>
+    ''' <param name="strStrataVar">
+    ''' Optional name of the strata variable, included in the output footnotes when supplied.
+    ''' </param>
+    ''' <param name="alpha">
+    ''' Optional two-sided significance level used for hazard-ratio confidence intervals.
+    ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+    ''' </param>
+    ''' <returns>
+    ''' A list of <see cref="ResultTable"/> objects containing:
+    ''' <list type="bullet">
+    ''' <item><description>Coefficient table with beta, standard error, Wald z, p-value, hazard ratio, and confidence limits.</description></item>
+    ''' <item><description>Model-fit summary table with likelihood-ratio test, score test, log-likelihoods, convergence, tie method, and computational time.</description></item>
+    ''' </list>
+    ''' </returns>
+    Public Function wrapResults(Optional strStrataVar As String = Nothing, Optional alpha As Double = 0.05) As List(Of ResultTable)
         Dim out = New List(Of ResultTable)
+        Dim zCrit As Double = distributions.ZCritTwoSided(alpha)
+        Dim ciPct As String = $"{100.0 * (1.0 - alpha)}% CI"
 
         'coefficients, SE table
         Dim t = New ResultTable
@@ -311,12 +330,12 @@ Public Class CoxPH
             o(i, 2) = o(i, 0) / o(i, 1)
             o(i, 3) = 2.0 * distributions.PNorm(-Math.Abs(o(i, 2)))
             o(i, 4) = Math.Exp(Me.pCoefficients(i))
-            o(i, 5) = Math.Exp(Me.pCoefficients(i) - 1.96 * o(i, 1))
-            o(i, 6) = Math.Exp(Me.pCoefficients(i) + 1.96 * o(i, 1))
+            o(i, 5) = Math.Exp(Me.pCoefficients(i) - zCrit * o(i, 1))
+            o(i, 6) = Math.Exp(Me.pCoefficients(i) + zCrit * o(i, 1))
         Next
         t.SetBody(o)
         t.AddPvalueToFormat(4)
-        t.AddHeaderTopRow({"Variable", "Coefficient", "Std. Error", "Z", "P-value", "HR", "95% CI Lower Limit", "95% CI Upper Limit"})
+        t.AddHeaderTopRow({"Variable", "Coefficient", "Std. Error", "Z", "P-value", "HR", ciPct & " Lower Limit", ciPct & " Upper Limit"})
         t.AddHeaderLeftRow(Me.pVarNames)
         If bRobustVariance Then t.AddFootnote("Standard Errors are based on Lin–Wei–Ying robust sandwich variance.")
         If strStrataVar IsNot Nothing Then t.AddFootnote($"Strata Variable: {strStrataVar}")
@@ -520,7 +539,7 @@ Public Class CoxPH
                         Optional progressLbl As System.Windows.Forms.Label = Nothing) As CoxResult
         Me.pMethod = method
         Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
-        If Me.pRecords.Count = 0 Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Empty data"))
+        If Me.pRecords.Count = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Empty data"))
 
         Dim p As Integer = Me.pRecords(0).Covariates.Length
         Dim beta(p - 1) As Double
@@ -600,7 +619,7 @@ Public Class CoxPH
                 If Not Double.IsNaN(logLikNew) AndAlso logLikNew >= Me.pLogLikelihood OrElse stepSize < 0.00000001 Then
                     Exit Do
                 Else
-                    BESHstatGlobals.BSlogg.Log($"Step halving. Current stepSize={stepSize}; logLikNew={logLikNew}; old logLike={Me.pLogLikelihood}")
+                    AppGlobals.BSlogg.Log($"Step halving. Current stepSize={stepSize}; logLikNew={logLikNew}; old logLike={Me.pLogLikelihood}")
                     stepSize /= 2.0
                 End If
             Loop
@@ -610,7 +629,7 @@ Public Class CoxPH
             beta = CType(betaNew.Clone(), Double())
             Me.pLogLikelihood = logLikNew
 
-            If Me.bTrace Then BESHstatGlobals.BSlogg.Log($"betaNew = {Matrix.array2str(betaNew)}; logLikNew = {logLikNew}; llDiff = {llDiff}")
+            If Me.bTrace Then AppGlobals.BSlogg.Log($"betaNew = {Matrix.array2str(betaNew)}; logLikNew = {logLikNew}; llDiff = {llDiff}")
 
             'save iteration info
             For jj = 0 To p + 1
@@ -1364,7 +1383,7 @@ Public Class CoxPH
         For Each r In Me.pRecords
             Dim Ui As Double() = score(r.Index)
 
-            If Ui.Length <> p Then BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Score residual vector length {Ui.Length} does not match p={p}"))
+            If Ui.Length <> p Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Score residual vector length {Ui.Length} does not match p={p}"))
 
             For i = 0 To p - 1
                 For j = 0 To p - 1
@@ -1422,7 +1441,7 @@ Public Class CoxPH
             Case ResidualType.CoxSnell
                 Return ComputeCoxSnellResiduals()
             Case Else
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Unknown residual type."))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Unknown residual type."))
                 Return Nothing
         End Select
     End Function
@@ -2386,7 +2405,7 @@ Public Class CoxPH
                     xt(i) = Math.Log(times(i))
                 Next
             Case Else
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException("Unknown transform"))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Unknown transform"))
         End Select
 
         ' === Center x (R centers the transformed times) ===

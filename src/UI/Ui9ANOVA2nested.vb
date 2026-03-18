@@ -1,5 +1,6 @@
 ﻿Imports System.Security.Cryptography
 Imports BESHStatNG.Agreement.Agreement
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui9ANOVA2nested
@@ -10,10 +11,10 @@ Public Class Ui9ANOVA2nested
         Me.Text = analysis
 
         ' Add any initialization after the InitializeComponent() call.
-        Me.RefEdit1_Group.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit2_Nested.ExcelConnector = BESHstatGlobals.app
-        Me.RefEdit3_Data.ExcelConnector = BESHstatGlobals.app
-        Me.RefEditOutput.ExcelConnector = BESHstatGlobals.app
+        Me.RefEdit1_Group.ExcelConnector = AppGlobals.app
+        Me.RefEdit2_Nested.ExcelConnector = AppGlobals.app
+        Me.RefEdit3_Data.ExcelConnector = AppGlobals.app
+        Me.RefEditOutput.ExcelConnector = AppGlobals.app
 
         If Me.Text = "Passing-Bablok Regression" Then
             Me.lblRefedit1_Group.Text = "Group (optional)"
@@ -91,7 +92,7 @@ Public Class Ui9ANOVA2nested
 
         If byIdData.varNames.Length = 0 Then
             strErr = "Zero valid data!"
-            BESHstatGlobals.BSlogg.Log("Zero valid data!", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Zero valid data!", AppGlobals.LogMsgType.Warn)
             Return Nothing
         End If
 
@@ -136,7 +137,7 @@ Public Class Ui9ANOVA2nested
 
         If byIdData.varNames.Length = 0 Then
             strErr = "Zero valid data!"
-            BESHstatGlobals.BSlogg.Log("Zero valid data!", BESHstatGlobals.LogMsgType.Warn)
+            AppGlobals.BSlogg.Log("Zero valid data!", AppGlobals.LogMsgType.Warn)
             Return Nothing
         End If
 
@@ -173,7 +174,7 @@ Public Class Ui9ANOVA2nested
             End If
 
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -247,14 +248,14 @@ Public Class Ui9ANOVA2nested
     Private Function GetResultWriter() As WriteResults
         Dim WriteRes = New WriteResults, rRange As Range
         If Me.optWorkbook.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.wb = AppGlobals.app.Workbooks.Add()
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         ElseIf Me.optWorksheet.Checked Then
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.wb.Worksheets.Add()
-            WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+            WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         Else
-            WriteRes.wb = BESHstatGlobals.app.ActiveWorkbook
+            WriteRes.wb = AppGlobals.app.ActiveWorkbook
             WriteRes.ws = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             rRange = WriteRes.ws.Range(Me.RefEditOutput.Address)
             WriteRes.setRowPointer(rRange.Row)

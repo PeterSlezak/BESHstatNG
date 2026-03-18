@@ -1,5 +1,6 @@
 ﻿Option Explicit On
 
+Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop.Excel
 
@@ -381,7 +382,7 @@ Public Class DataObj
 
         'Redimension the temporary array to equal the ouput array
         If cnt = 0 Then 'zero valid data
-            BESHstatGlobals.BSlogg.Log("Zero valid matched data!")
+            AppGlobals.BSlogg.Log("Zero valid matched data!")
             Exit Sub
         Else
             Me.bZeroValid = False
@@ -829,8 +830,7 @@ Public Class CoxPHData
         For i = 0 To Me.nRows - 1
             Me.TimeData(i) = Me.FinalData(i, 0)
             If Not (Me.FinalData(i, 1) = 0 Or Me.FinalData(i, 1) = 1) Then
-                BESHstatGlobals.gLogger.Error($"Censorting value is not 1/0. Value ={Me.FinalData(i, 1)}")
-                BESHstatGlobals.BSerr.LogAndThrow(New ArgumentException($"Censorting value is not 1/0. Value ={Me.FinalData(i, 1)}"))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Censorting value is not 1/0. Value ={Me.FinalData(i, 1)}"))
             End If
             Me.CensorData(i) = Int(Me.FinalData(i, 1))
             Me.TimeVarName = Me.varNames(0)

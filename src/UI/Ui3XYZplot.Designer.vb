@@ -889,7 +889,7 @@ Partial Class Ui3XYZplot
         Me.TabPage1_AxisOption.Name = "TabPage1_AxisOption"
         Me.TabPage1_AxisOption.Size = New System.Drawing.Size(772, 427)
         Me.TabPage1_AxisOption.TabIndex = 2
-        Me.TabPage1_AxisOption.Text = "Axis Option"
+        Me.TabPage1_AxisOption.Text = "Axis Options"
         Me.TabPage1_AxisOption.UseVisualStyleBackColor = True
         '
         'grpZaxisOption

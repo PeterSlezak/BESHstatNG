@@ -31,6 +31,8 @@ Partial Class Ui8Proportions
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCompute = New System.Windows.Forms.Button()
         Me.grpInput = New System.Windows.Forms.GroupBox()
+        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
+        Me.lblAlpha = New System.Windows.Forms.Label()
         Me.optPaired = New System.Windows.Forms.RadioButton()
         Me.spinBtnD = New System.Windows.Forms.NumericUpDown()
         Me.spinBtnC = New System.Windows.Forms.NumericUpDown()
@@ -44,6 +46,7 @@ Partial Class Ui8Proportions
         Me.optSingle = New System.Windows.Forms.RadioButton()
         Me.grpOutput.SuspendLayout()
         Me.grpInput.SuspendLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnD, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnB, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -56,7 +59,7 @@ Partial Class Ui8Proportions
         Me.grpOutput.Controls.Add(Me.optWorkbook)
         Me.grpOutput.Controls.Add(Me.optWorksheet)
         Me.grpOutput.Controls.Add(Me.optOutputRange)
-        Me.grpOutput.Location = New System.Drawing.Point(12, 205)
+        Me.grpOutput.Location = New System.Drawing.Point(12, 230)
         Me.grpOutput.Name = "grpOutput"
         Me.grpOutput.Size = New System.Drawing.Size(442, 113)
         Me.grpOutput.TabIndex = 5
@@ -112,7 +115,7 @@ Partial Class Ui8Proportions
         '
         'btnHelp
         '
-        Me.btnHelp.Location = New System.Drawing.Point(297, 324)
+        Me.btnHelp.Location = New System.Drawing.Point(297, 349)
         Me.btnHelp.Name = "btnHelp"
         Me.btnHelp.Size = New System.Drawing.Size(75, 23)
         Me.btnHelp.TabIndex = 12
@@ -121,7 +124,7 @@ Partial Class Ui8Proportions
         '
         'btCompute
         '
-        Me.btCompute.Location = New System.Drawing.Point(378, 324)
+        Me.btCompute.Location = New System.Drawing.Point(378, 349)
         Me.btCompute.Name = "btCompute"
         Me.btCompute.Size = New System.Drawing.Size(75, 23)
         Me.btCompute.TabIndex = 11
@@ -130,6 +133,8 @@ Partial Class Ui8Proportions
         '
         'grpInput
         '
+        Me.grpInput.Controls.Add(Me.spinBtnAlpha)
+        Me.grpInput.Controls.Add(Me.lblAlpha)
         Me.grpInput.Controls.Add(Me.optPaired)
         Me.grpInput.Controls.Add(Me.spinBtnD)
         Me.grpInput.Controls.Add(Me.spinBtnC)
@@ -143,10 +148,32 @@ Partial Class Ui8Proportions
         Me.grpInput.Controls.Add(Me.optSingle)
         Me.grpInput.Location = New System.Drawing.Point(12, 12)
         Me.grpInput.Name = "grpInput"
-        Me.grpInput.Size = New System.Drawing.Size(442, 187)
+        Me.grpInput.Size = New System.Drawing.Size(442, 212)
         Me.grpInput.TabIndex = 10
         Me.grpInput.TabStop = False
         Me.grpInput.Text = "Input"
+        '
+        'spinBtnAlpha
+        '
+        Me.spinBtnAlpha.DecimalPlaces = 3
+        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(75, 179)
+        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Name = "spinBtnAlpha"
+        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlpha.TabIndex = 20
+        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
+        'lblAlpha
+        '
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Location = New System.Drawing.Point(23, 181)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
+        Me.lblAlpha.TabIndex = 19
+        Me.lblAlpha.Text = "alpha"
         '
         'optPaired
         '
@@ -256,13 +283,14 @@ Partial Class Ui8Proportions
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(464, 353)
+        Me.ClientSize = New System.Drawing.Size(464, 382)
         Me.Controls.Add(Me.btnHelp)
         Me.Controls.Add(Me.btCompute)
         Me.Controls.Add(Me.grpInput)
         Me.Controls.Add(Me.grpOutput)
         Me.MaximizeBox = False
-        Me.MinimumSize = New System.Drawing.Size(482, 400)
+        Me.MaximumSize = New System.Drawing.Size(482, 429)
+        Me.MinimumSize = New System.Drawing.Size(482, 429)
         Me.Name = "Ui8Proportions"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -271,6 +299,7 @@ Partial Class Ui8Proportions
         Me.grpOutput.PerformLayout()
         Me.grpInput.ResumeLayout(False)
         Me.grpInput.PerformLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnD, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnB, System.ComponentModel.ISupportInitialize).EndInit()
@@ -298,4 +327,6 @@ Partial Class Ui8Proportions
     Friend WithEvents lbl3 As Windows.Forms.Label
     Friend WithEvents optIndependent As Windows.Forms.RadioButton
     Friend WithEvents optSingle As Windows.Forms.RadioButton
+    Friend WithEvents lblAlpha As Windows.Forms.Label
+    Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
 End Class

@@ -5,6 +5,7 @@ Imports System.Drawing
 Imports System.IO
 Imports System.Windows.Forms
 Imports System.Windows.Forms.LinkLabel
+Imports BESHStatNG.AppInfrastructure
 
 Public Class UiGLM
 
@@ -75,6 +76,7 @@ Public Class UiGLM
             Me.lblInitValues.Visible = False
             Me.tbInitValues.Visible = False
 
+            Me.btAddEffectCategoricalFactor.Visible = True
             Me.btnPoly.Visible = True
             Me.spinBtnPoly.Visible = True
             Me.btn2Interactions.Visible = True
@@ -247,7 +249,7 @@ Public Class UiGLM
             Exit Sub
         End If
         If Me.lbSelectedEffectsList.Items.Count = 0 And Me.ckIntercept.Checked Then
-            If MsgBox("Do you want to fit intercept only model?", vbYesNo + vbExclamation, BESHstatGlobals.gsAPP_TITLE) = vbNo Then
+            If MsgBox("Do you want to fit intercept only model?", vbYesNo + vbExclamation, AppGlobals.gsAPP_TITLE) = vbNo Then
                 bWait = True
                 Exit Sub
             End If
@@ -269,7 +271,12 @@ Public Class UiGLM
                 Me.lbWeights.Items.Clear()
                 Me.lbXs.Items.Clear()
                 Me.lbSelectedVariables.Items.Clear()
-                Me.lbSelectedEffectsList.Items.Clear()
+                Remove_Item(Me.lbSelectedEffectsList, "all", Me.TermSpecs)
+
+                If Me.Text = "Zero-Inflated Poisson Regression" Then
+                    Me.lbSelectedVariablesLogistic.Items.Clear()
+                    Remove_Item(Me.lbSelectedEffectsListLogistic, "all")
+                End If
             End If
             newSheet = pWorkbook.worksheets(Me.cbSheetsList.SelectedItem.ToString())
             Me.Populate(newSheet)
@@ -303,7 +310,7 @@ Public Class UiGLM
                 Dim bErr As Boolean = False
                 Dim initVals = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
                 If bErr Then
-                    BESHstatGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
+                    AppGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
                     MsgBox("Cannot extract initial parameter values. They will be ignored.")
                 Else
                     bInitialValues = True
@@ -322,7 +329,7 @@ Public Class UiGLM
                     Dim bErr As Boolean = False
                     Dim initVals = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, bErr)
                     If bErr Then
-                        BESHstatGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
+                        AppGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
                         MsgBox("Cannot extract initial parameter values. They will be ignored.")
                     Else
                         bLogisticInitialValues = True
@@ -349,7 +356,7 @@ Public Class UiGLM
                 Me.RunOLS(MyData, bInitialValues)
             End If
         Catch ex As Exception
-            BESHstatGlobals.BSerr.LogAndThrow(ex, False, True)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -357,28 +364,41 @@ Public Class UiGLM
         Dim lm As New regression.LinearModel()
         Dim expanded(,) As Double = Nothing
         Dim expandedNames() As String = Nothing
-        UIprocedures.BuildExpandedLmDataMatrix(raw:=MyData, yKey:=CStr(Me.lbY.Items(0)),
-                                               effectItems:=Me.lbSelectedEffectsList.Items, termSpecs:=Me.TermSpecs,
-                                               outData:=expanded, outVarNames:=expandedNames)
-        lm.Data(expanded, expandedNames, MyData.RowIds, If(MyData.bWeights, MyData.WeightData, Nothing))
-        ' lm.Data(MyData.DataDbl, MyData.varNames, MyData.RowIds, If(MyData.bWeights, MyData.WeightData, Nothing))
+        Dim customGroups As Dictionary(Of String, Integer()) = Nothing
 
+        UIprocedures.BuildExpandedLmDataMatrix(raw:=MyData,
+                                       yKey:=CStr(Me.lbY.Items(0)),
+                                       effectItems:=Me.lbSelectedEffectsList.Items,
+                                       termSpecs:=Me.TermSpecs,
+                                       includeIntercept:=Me.ckIntercept.Checked,
+                                       outData:=expanded,
+                                       outVarNames:=expandedNames,
+                                       outTermGroups:=customGroups)
+
+        lm.Data(expanded, expandedNames, MyData.RowIds, If(MyData.bWeights, MyData.WeightData, Nothing))
+        Dim codingNotes As List(Of String) = UIprocedures.BuildCategoricalReferenceFootnotesForLm(
+                                                                    raw:=MyData,
+                                                                    effectItems:=Me.lbSelectedEffectsList.Items,
+                                                                    termSpecs:=Me.TermSpecs,
+                                                                    includeIntercept:=Me.ckIntercept.Checked)
+        lm.SetPredictorCodingFootnotes(codingNotes)
         lm.bReturnCov = Me.ckCovarMatrixLM.Checked
         lm.bComputeResiduals = Me.ckResidualsLM.Checked
+
         Dim ss As regression.TermSumOfSquaresType
         If Me.optTypeISS.Checked Then
             ss = regression.TermSumOfSquaresType.TypeI
-        ElseIf Me.optTypeIIISS.checked Then
+        ElseIf Me.optTypeIIISS.Checked Then
             ss = regression.TermSumOfSquaresType.TypeIII
         End If
-        Dim customGroups As Dictionary(Of String, Integer()) = UIprocedures.BuildCustomTermGroupsForLm(Me.lbSelectedEffectsList.Items, Me.TermSpecs, Me.ckIntercept.Checked)
-        lm.Fit(Me.ckIntercept.Checked, customGroups, ss)   'lm.Fit(Me.ckIntercept.Checked,, ss)
+
+        lm.Fit(Me.ckIntercept.Checked, customGroups, ss)
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = AppGlobals.app.Workbooks.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Row ID"})
         WriteRes.setRowPointer(2)
         WriteRes.write(MyData.RowIds, bTall:=True)
@@ -410,9 +430,9 @@ Public Class UiGLM
         'We need to start new writer to start writing on this new sheet
         Dim res = lm.wrapResults()
         WriteRes = New WriteResults
-        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "LM"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "LM"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
 
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
@@ -434,9 +454,9 @@ Public Class UiGLM
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = AppGlobals.app.Workbooks.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Row ID"})
         WriteRes.setRowPointer(2)
         WriteRes.write(MyData.RowIds, bTall:=True)
@@ -475,9 +495,9 @@ Public Class UiGLM
         Dim res = ordL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                      If(MyData.bWeights, MyData.WeightVarName, Nothing))
         WriteRes = New WriteResults
-        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Ordinal_LR"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Ordinal_LR"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
 
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
@@ -499,9 +519,9 @@ Public Class UiGLM
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = AppGlobals.app.Workbooks.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Row ID"})
         WriteRes.setRowPointer(2)
         WriteRes.write(MyData.RowIds, bTall:=True)
@@ -540,9 +560,9 @@ Public Class UiGLM
         Dim res = multL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                      If(MyData.bWeights, MyData.WeightVarName, Nothing))
         WriteRes = New WriteResults
-        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Multinomial_LR"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Multinomial_LR"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
 
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
@@ -563,9 +583,9 @@ Public Class UiGLM
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = AppGlobals.app.Workbooks.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Poisson"})
         WriteRes.write({"Row ID"})
         WriteRes.write(PoissonData.RowIds, bTall:=True)
@@ -603,9 +623,9 @@ Public Class UiGLM
         Dim res = zipFit.wrapResults(If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing),
                                      If(PoissonData.bWeights, PoissonData.WeightVarName, Nothing))
         WriteRes = New WriteResults
-        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Zero-Inflated Poisson"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Zero-Inflated Poisson"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
 
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
@@ -634,9 +654,9 @@ Public Class UiGLM
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = AppGlobals.app.Workbooks.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Row ID"})
         WriteRes.setRowPointer(2)
         WriteRes.write(MyData.RowIds, bTall:=True)
@@ -682,9 +702,9 @@ Public Class UiGLM
         Dim res = nb2.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                   If(MyData.bWeights, MyData.WeightVarName, Nothing))
         WriteRes = New WriteResults
-        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "GLM NB2"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "GLM NB2"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
 
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
@@ -721,9 +741,9 @@ Public Class UiGLM
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
-        WriteRes.wb = BESHstatGlobals.app.Workbooks.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        WriteRes.wb = AppGlobals.app.Workbooks.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
         WriteRes.write({"Row ID"})
         WriteRes.setRowPointer(2)
         WriteRes.write(MyData.RowIds, bTall:=True)
@@ -772,9 +792,9 @@ Public Class UiGLM
         Dim res = fitGlm.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                           If(MyData.bWeights, MyData.WeightVarName, Nothing))
         WriteRes = New WriteResults
-        BESHstatGlobals.app.ActiveWorkbook.Worksheets.Add()
-        BESHstatGlobals.app.ActiveWorkbook.ActiveSheet.name = "GLM"
-        WriteRes.ws = BESHstatGlobals.app.ActiveWorkbook.ActiveSheet
+        AppGlobals.app.ActiveWorkbook.Worksheets.Add()
+        AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "GLM"
+        WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
 
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
@@ -809,14 +829,16 @@ Public Class UiGLM
                     If MsgBox("There is a variable in selected effects list that was removed from the predictor variable(s) list." & vbNewLine & vbNewLine &
                               "Clear selected effects list?", vbYesNo + vbExclamation, "Clear selected effects list?") = vbYes Then
                         'Selected item was removed from X vars
-                        If Me.lbSelectedEffectsList.Items.Count > 0 Then Remove_Item(Me.lbSelectedEffectsList)
+                        If Me.lbSelectedEffectsList.Items.Count > 0 Then Remove_Item(Me.lbSelectedEffectsList, "all", Me.TermSpecs)
                     End If
                 End If
             End If
             If Me.Text = "Zero-Inflated Poisson Regression" Then
                 If Not IsEqualListBox(Me.lbXs, Me.lbSelectedVariablesLogistic) Then
                     'values on 1st tab changed so refresh it with new values
-                    If Me.lbSelectedVariablesLogistic.Items.Count > 0 Then Remove_Item(Me.lbSelectedVariablesLogistic)
+                    If Me.lbSelectedVariablesLogistic.Items.Count > 0 Then
+                        Remove_Item(Me.lbSelectedVariablesLogistic)
+                    End If
                     For i = 0 To Me.lbXs.Items.Count - 1
                         Me.lbSelectedVariablesLogistic.Items.Add(Me.lbXs.Items(i))
                     Next i
@@ -825,7 +847,7 @@ Public Class UiGLM
                               "Clear selected effects list?", vbYesNo + vbExclamation, "Clear selected effects list?") = vbYes Then
                             'Selected item was removed from X vars
                             'TODO: this need to be updated when start using poly and interaction effects
-                            If Me.lbSelectedEffectsList.Items.Count > 0 Then Remove_Item(Me.lbSelectedEffectsList)
+                            If Me.lbSelectedEffectsListLogistic.Items.Count > 0 Then Remove_Item(Me.lbSelectedEffectsListLogistic)
                         End If
                     End If
                 End If
@@ -871,27 +893,11 @@ Public Class UiGLM
     End Sub
 
     Private Sub btClearAllSelectedEffects_Click(sender As Object, e As System.EventArgs) Handles btClearAllSelectedEffects.Click
-        Me.lbSelectedEffectsList.Items.Clear()
-        'Keep TermSpecs in sync when clearing/removing effects
-        If Me.TermSpecs IsNot Nothing Then Me.TermSpecs.Clear()
+        Remove_Item(Me.lbSelectedEffectsList, "all", Me.TermSpecs)
     End Sub
 
     Private Sub tbRemoveSelectedEffects_Click(sender As Object, e As System.EventArgs) Handles tbRemoveSelectedEffects.Click
-        Dim removed As New List(Of String)
-        For Each it As Object In Me.lbSelectedEffectsList.SelectedItems
-            removed.Add(CStr(it))
-        Next
-
-        Remove_Item(Me.lbSelectedEffectsList, "selected")
-
-        'Keep TermSpecs in sync when clearing/removing effects
-        If Me.TermSpecs IsNot Nothing Then
-            For Each k As String In removed
-                If Me.TermSpecs.ContainsKey(k) Then Me.TermSpecs.Remove(k)
-            Next
-        End If
-
-        UIprocedures.RefreshTermSpecOrders(Me.lbSelectedEffectsList.Items, Me.TermSpecs)
+        Remove_Item(Me.lbSelectedEffectsList, "selected", Me.TermSpecs)
     End Sub
 
     Private Sub btAddEffect_Click(sender As Object, e As System.EventArgs) Handles btAddEffect.Click
@@ -908,7 +914,7 @@ Public Class UiGLM
     End Sub
 
     Private Sub btClearAllSelectedEffectsLogistic_Click(sender As Object, e As System.EventArgs) Handles btClearAllSelectedEffectsLogistic.Click
-        Me.lbSelectedEffectsListLogistic.Items.Clear()
+        Remove_Item(Me.lbSelectedEffectsListLogistic, "all")
     End Sub
 
     Private Sub btnPoly_Click(sender As Object, e As System.EventArgs) Handles btnPoly.Click
@@ -923,6 +929,43 @@ Public Class UiGLM
         AddCustomInteractionFromSelectedVars()
     End Sub
 
+    Private Sub btAddEffectCategoricalFactor_Click(sender As Object, e As System.EventArgs) Handles btAddEffectCategoricalFactor.Click
+        AddCategoricalEffectsFromSelectedVars()
+    End Sub
+
+    Private Function HasCategoricalMainEffect(baseKey As String) As Boolean
+        If Me.TermSpecs Is Nothing Then Return False
+
+        Dim catKey As String = UIprocedures.MakeCategoricalEffectKey(baseKey)
+        Return Me.TermSpecs.ContainsKey(catKey)
+    End Function
+
+    Private Function BaseVarUsedInAnyOtherTerm(baseKey As String) As Boolean
+        If Me.TermSpecs Is Nothing Then Return False
+
+        For Each kvp In Me.TermSpecs
+            Dim spec = kvp.Value
+            If spec Is Nothing OrElse spec.BaseVarKeys Is Nothing Then Continue For
+
+            If spec.BaseVarKeys.Any(Function(x) String.Equals(x, baseKey, StringComparison.Ordinal)) Then
+                Return True
+            End If
+        Next
+
+        Return False
+    End Function
+
+    Private Function SelectedVarsContainCategoricalUsage() As Boolean
+        If Me.TermSpecs Is Nothing Then Return False
+
+        For Each it As Object In Me.lbSelectedVariables.SelectedItems
+            Dim bk As String = CStr(it)
+            If HasCategoricalMainEffect(bk) Then Return True
+        Next
+
+        Return False
+    End Function
+
     Private Sub AddMainEffectsFromSelectedVars()
         If Me.lbSelectedVariables.SelectedItems.Count = 0 Then
             MsgBox("Please select variable(s).", vbExclamation, "Input Error!")
@@ -936,18 +979,64 @@ Public Class UiGLM
         For Each it As Object In Me.lbSelectedVariables.SelectedItems
             Dim baseKey As String = CStr(it)
 
-            'Skip duplicates in the effects list
+            If HasCategoricalMainEffect(baseKey) Then
+                MsgBox("Variable '" & UIprocedures.GetCoefBaseName(baseKey) &
+               "' is already marked as categorical. Remove it first if you want to use it as continuous.",
+               vbExclamation, "Input Error!")
+                Continue For
+            End If
+
             If Me.lbSelectedEffectsList.Items.Contains(baseKey) Then Continue For
 
             Me.lbSelectedEffectsList.Items.Add(baseKey)
 
             Dim spec As New UIprocedures.TermSpec With {
-                    .Kind = "MainEffect",
-                    .BaseVarKeys = New List(Of String) From {baseKey},
-                    .Degree = 1,
-                    .DisplayNameForCoef = UIprocedures.GetCoefBaseName(baseKey),
-                    .Order = Me.lbSelectedEffectsList.Items.Count - 1}
+                .Kind = "MainEffect",
+                .BaseVarKeys = New List(Of String) From {baseKey},
+                .Degree = 1,
+                .DisplayNameForCoef = UIprocedures.GetCoefBaseName(baseKey),
+                .Order = Me.lbSelectedEffectsList.Items.Count - 1,
+                .Scale = UIprocedures.PredictorScale.Continuous}
             Me.TermSpecs(baseKey) = spec
+        Next
+    End Sub
+
+    Private Sub AddCategoricalEffectsFromSelectedVars()
+        If Me.lbSelectedVariables.SelectedItems.Count = 0 Then
+            MsgBox("Please select variable(s).", vbExclamation, "Input Error!")
+            Exit Sub
+        End If
+
+        If Me.TermSpecs Is Nothing Then
+            Me.TermSpecs = New Dictionary(Of String, UIprocedures.TermSpec)(StringComparer.Ordinal)
+        End If
+
+        For Each it As Object In Me.lbSelectedVariables.SelectedItems
+            Dim baseKey As String = CStr(it)
+            Dim termKey As String = UIprocedures.MakeCategoricalEffectKey(baseKey)
+
+            'reject if variable is already used anywhere else in the model
+            If BaseVarUsedInAnyOtherTerm(baseKey) AndAlso Not Me.TermSpecs.ContainsKey(termKey) Then
+                MsgBox("Variable '" & UIprocedures.GetCoefBaseName(baseKey) &
+                   "' is already used in the model. Remove its existing term(s) before adding it as categorical.",
+                   vbExclamation, "Input Error!")
+                Continue For
+            End If
+
+            If Me.lbSelectedEffectsList.Items.Contains(termKey) Then Continue For
+
+            Me.lbSelectedEffectsList.Items.Add(termKey)
+
+            Dim spec As New UIprocedures.TermSpec With {
+                .Kind = "MainEffect",
+                .BaseVarKeys = New List(Of String) From {baseKey},
+                .Degree = 1,
+                .DisplayNameForCoef = UIprocedures.GetCoefBaseName(baseKey),
+                .Order = Me.lbSelectedEffectsList.Items.Count - 1,
+                .Scale = UIprocedures.PredictorScale.Categorical
+            }
+
+            Me.TermSpecs(termKey) = spec
         Next
     End Sub
 
@@ -969,6 +1058,11 @@ Public Class UiGLM
         For Each it As Object In Me.lbSelectedVariables.SelectedItems
             Dim baseKey As String = CStr(it)
 
+            If HasCategoricalMainEffect(baseKey) Then
+                MsgBox("Polynomial terms are not supported for categorical predictors.", vbExclamation, "Input Error!")
+                Continue For
+            End If
+
             'Listbox display term:  "Age | VarA"^2   (quotes included)
             Dim termKey As String = UIprocedures.MakePolynomialEffectKey(baseKey, degree)
 
@@ -982,7 +1076,8 @@ Public Class UiGLM
                     .BaseVarKeys = New List(Of String) From {baseKey},
                     .Degree = degree,
                     .DisplayNameForCoef = UIprocedures.GetCoefBaseName(baseKey) & "^" & CStr(degree),
-                    .Order = Me.lbSelectedEffectsList.Items.Count - 1}
+                    .Order = Me.lbSelectedEffectsList.Items.Count - 1,
+                    .Scale = UIprocedures.PredictorScale.Continuous}
             Me.TermSpecs(termKey) = spec
         Next
     End Sub
@@ -990,6 +1085,11 @@ Public Class UiGLM
     Private Sub AddTwoWayInteractionsFromSelectedVars()
         If Me.lbSelectedVariables.SelectedItems.Count < 2 Then
             MsgBox("Please select at least two variables.", vbExclamation, "Input Error!")
+            Exit Sub
+        End If
+
+        If SelectedVarsContainCategoricalUsage() Then
+            MsgBox("Interactions involving categorical predictors are not implemented yet.", vbExclamation, "Input Error!")
             Exit Sub
         End If
 
@@ -1023,7 +1123,8 @@ Public Class UiGLM
                         .BaseVarKeys = New List(Of String) From {v1, v2},
                         .Degree = 1,
                         .DisplayNameForCoef = UIprocedures.MakeInteractionCoefName(New List(Of String) From {v1, v2}),
-                        .Order = Me.lbSelectedEffectsList.Items.Count - 1}
+                        .Order = Me.lbSelectedEffectsList.Items.Count - 1,
+                        .Scale = UIprocedures.PredictorScale.Continuous}
 
                 Me.TermSpecs(termKey) = spec
             Next
@@ -1033,6 +1134,11 @@ Public Class UiGLM
     Private Sub AddCustomInteractionFromSelectedVars()
         If Me.lbSelectedVariables.SelectedItems.Count < 2 Then
             MsgBox("Please select at least two variables.", vbExclamation, "Input Error!")
+            Exit Sub
+        End If
+
+        If SelectedVarsContainCategoricalUsage() Then
+            MsgBox("Interactions involving categorical predictors are not implemented yet.", vbExclamation, "Input Error!")
             Exit Sub
         End If
 
@@ -1066,9 +1172,11 @@ Public Class UiGLM
                 .BaseVarKeys = baseKeys,
                 .Degree = 1,
                 .DisplayNameForCoef = UIprocedures.MakeInteractionCoefName(baseKeys),
-                .Order = Me.lbSelectedEffectsList.Items.Count - 1}
+                .Order = Me.lbSelectedEffectsList.Items.Count - 1,
+                .Scale = UIprocedures.PredictorScale.Continuous}
 
         Me.TermSpecs(termKey) = spec
     End Sub
+
 
 End Class

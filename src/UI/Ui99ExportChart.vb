@@ -1,8 +1,9 @@
-﻿Imports System.Windows.Forms
-Imports Excel = Microsoft.Office.Interop.Excel
-Imports ExcelDna.Integration
-Imports System.Drawing
+﻿Imports System.Drawing
 Imports System.Threading
+Imports System.Windows.Forms
+Imports BESHStatNG.AppInfrastructure
+Imports ExcelDna.Integration
+Imports Excel = Microsoft.Office.Interop.Excel
 
 Public Class Ui99ExportChart
 
@@ -239,7 +240,7 @@ Public Class Ui99ExportChart
         widthPts = 0
         heightPts = 0
 
-        Dim app As Excel.Application = BESHstatGlobals.app
+        Dim app As Excel.Application = AppGlobals.app
         If app Is Nothing Then Return False
 
         ' 1) Selection is ChartObject
@@ -305,7 +306,7 @@ Public Class Ui99ExportChart
         sheetName = Nothing
         chartName = Nothing
 
-        Dim app As Excel.Application = BESHstatGlobals.app
+        Dim app As Excel.Application = AppGlobals.app
         If app Is Nothing OrElse app.ActiveWorkbook Is Nothing Then Return
 
         ' Rule 1: If a chart is active (embedded or chart sheet), select it
@@ -406,8 +407,8 @@ Public Class Ui99ExportChart
 
     ' Populate both combos
     Private Sub LoadSheetsAndCharts()
-        Dim app As Excel.Application = BESHstatGlobals.app
-        Dim wb As Excel.Workbook = app.ActiveWorkbook
+        Dim app As Excel.Application = AppGlobals.app
+        Dim wb As Excel.Workbook = AppGlobals.app.ActiveWorkbook
 
         _loading = True
         Try

@@ -7,6 +7,7 @@ Imports System.Net.Http
 Imports System.Threading
 Imports System.Threading.Tasks
 Imports System.Xml
+Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration
 
 Namespace BESHStatUpdate
@@ -38,7 +39,7 @@ Namespace BESHStatUpdate
                          Catch ex As Exception
                              ' Never surface update-check exceptions to the user.
                              Try
-                                 BESHstatGlobals.BSlogg.Log($"AutoUpdate failed: {ex.Message}", BESHstatGlobals.LogMsgType.Debug)
+                                 AppGlobals.BSlogg.Log($"AutoUpdate failed: {ex.Message}", AppGlobals.LogMsgType.Debug)
                              Catch
                              End Try
                          End Try
@@ -51,7 +52,7 @@ Namespace BESHStatUpdate
         Private Shared ReadOnly Property StateFolder As String
             Get
                 Dim basePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)
-                Return Path.Combine(basePath, BESHstatGlobals.gsAPP_TITLE)
+                Return Path.Combine(basePath, AppGlobals.gsAPP_TITLE)
             End Get
         End Property
 
@@ -143,7 +144,7 @@ Namespace BESHStatUpdate
             Dim info As UpdateInfo = Await TryGetUpdateInfoAsync().ConfigureAwait(False)
             If info Is Nothing Then Return
 
-            If Not IsNewerVersion(BESHstatGlobals.gAddinVersion, info.NewVersion) Then Return
+            If Not IsNewerVersion(AppGlobals.gAddinVersion, info.NewVersion) Then Return
             If String.Equals(st.IgnoreVersion, info.NewVersion, StringComparison.OrdinalIgnoreCase) Then Return
 
             ' Prompt on Excel UI thread.
@@ -164,7 +165,7 @@ Namespace BESHStatUpdate
             Try
                 Using client As New HttpClient()
                     client.Timeout = TimeSpan.FromSeconds(3)
-                    Dim xmlText = Await client.GetStringAsync(BESHstatGlobals.gCheckUpdateUrl).ConfigureAwait(False)
+                    Dim xmlText = Await client.GetStringAsync(AppGlobals.gCheckUpdateUrl).ConfigureAwait(False)
                     If String.IsNullOrWhiteSpace(xmlText) Then Return Nothing
 
                     Dim doc As New XmlDocument()
@@ -207,7 +208,7 @@ Namespace BESHStatUpdate
                 frm.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
                 Dim owner As System.Windows.Forms.IWin32Window = Nothing
                 Try
-                    owner = New ExcelWindowWrapper(BESHstatGlobals.ExcelMainHwnd)
+                    owner = New ExcelWindowWrapper(AppGlobals.ExcelMainHwnd)
                 Catch
                 End Try
 
