@@ -103,8 +103,8 @@ Namespace graphics
         ''' <summary>
         ''' Wraps ROC results into formatted tables:
         ''' <list type="bullet">
-        '''   <item><description>Overall ROC summary (AUC, CI, SE, p‑value) (Note: DeLong's and Hanley–McNeil based SEs)</description></item>
-        '''   <item><description>Cut‑off table (cut‑off, sensitivity, specificity)</description></item>
+        '''   <item><description>Overall ROC summary (AUC, DeLong and Hanley–McNeil confidence intervals, standard errors, and p-value)</description></item>
+        '''   <item><description>Cut-off table (cut-off, sensitivity, specificity)</description></item>
         ''' </list>
         ''' 
         ''' External dependency:
@@ -112,22 +112,15 @@ Namespace graphics
         '''   <item><description><c>ResultTable</c></description></item>
         ''' </list>
         ''' </summary>
-        ''' <returns>
-        ''' A list of <see cref="ResultTable"/> objects:
-        ''' <list type="bullet">
-        '''   <item><description>First table: AUC summary</description></item>
-        '''   <item><description>Second table: cut‑off, sensitivity, specificity</description></item>
-        ''' </list>
-        ''' </returns>
         Public Function wrapResults() As List(Of ResultTable)
             Dim out = New List(Of ResultTable), t = New ResultTable
 
             t.SetBody({{"Wilcoxon AUC", Me.pAUC},
-                {"DeLong 95% Confidence Interval", Me.pdelongCI.strConfidenceInterval(CIformat.LL_to_UL)},
-                {"DeLong Standard error", Me.pdelongSE},
-                {"Hanley–McNeil 95% Confidence Interval", Me.pCI.strConfidenceInterval(CIformat.LL_to_UL)},
-                {"Hanley–McNeil Standard error", Me.pseAUC},
-                {"Two-sided p-value (AUC different from 0.5)", Me.pPvalue}})
+                        {"DeLong " & Me.pdelongCI.CIlabel, Me.pdelongCI.strConfidenceInterval(CIformat.LL_to_UL)},
+                        {"DeLong Standard error", Me.pdelongSE},
+                        {"Hanley–McNeil " & Me.pCI.CIlabel, Me.pCI.strConfidenceInterval(CIformat.LL_to_UL)},
+                        {"Hanley–McNeil Standard error", Me.pseAUC},
+                        {"Two-sided p-value (AUC different from 0.5)", Me.pPvalue}})
             t.AddHeaderTopRow({"Receiver Operating Characteristic (ROC) Curve", ""})
             out.Add(t)
 
@@ -146,19 +139,19 @@ Namespace graphics
         End Function
 
         ''' <summary>
-        ''' Computes ROC curve, Wilcoxon AUC, its standard error, p‑value for H₀: AUC = 0.5,
-        ''' and a (1 − α) confidence interval for AUC.
+        ''' Computes the ROC curve, Wilcoxon AUC, Hanley–McNeil and DeLong standard errors,
+        ''' a two-sided test of H₀: AUC = 0.5, and confidence intervals at level <c>1 - alpha</c>.
         ''' 
         ''' Steps:
         ''' <list type="number">
         '''   <item><description>Concatenate patient and control data and sort by marker value.</description></item>
-        '''   <item><description>Define cut‑offs as midpoints between successive distinct values
-        '''     (last cut‑off above the maximum).</description></item>
-        '''   <item><description>For each cut‑off, compute sensitivity and specificity.</description></item>
+        '''   <item><description>Define cut-offs as midpoints between successive distinct values
+        '''     (last cut-off above the maximum).</description></item>
+        '''   <item><description>For each cut-off, compute sensitivity and specificity.</description></item>
         '''   <item><description>Compute Wilcoxon AUC using cumulated group counts (Mann–Whitney form).</description></item>
-        '''   <item><description>Compute AUC standard error using Hanley–McNeil Q₁, Q₂ formulas.</description></item>
-        '''   <item><description>Compute z‑test for H₀: AUC = 0.5 and corresponding p‑value.</description></item>
-        '''   <item><description>Construct normal‑approximation CI: AUC ± z_{1−α/2}·SE(AUC).</description></item>
+        '''   <item><description>Compute the Hanley–McNeil standard error and corresponding normal-approximation CI.</description></item>
+        '''   <item><description>Compute the DeLong standard error and corresponding CI.</description></item>
+        '''   <item><description>Compute the z-test for H₀: AUC = 0.5 and the associated two-sided p-value.</description></item>
         ''' </list>
         ''' 
         ''' External dependencies:
@@ -168,7 +161,10 @@ Namespace graphics
         '''   <item><description><c>ConfidenceIntervalResult</c></description></item>
         ''' </list>
         ''' </summary>
-        ''' <param name="alpha">Significance level for the AUC confidence interval (default 0.05).</param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used to construct the reported AUC confidence intervals.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         Public Sub compute(Optional alpha As Double = 0.05)
             Dim Data12() As Double, arIDs() As Integer
             Dim arPatientsGroupNo() As Double, arControlsGroupNo() As Double, arPatientsCum() As Double 'Wilcoxon AUC calculation
@@ -257,6 +253,7 @@ Namespace graphics
             pPvalue = 2 * distributions.PNorm(-Math.Abs(pAUC - 0.5) / SEforPvalue)
 
             Me.pCI = New ConfidenceIntervalResult
+            Me.pCI.alpha = alpha
             Dim q As Double = distributions.NormSInv(1.0 - alpha / 2.0)
             Me.pCI.Estimate = pAUC
             Me.pCI.LowerLimit = pAUC - q * pseAUC
@@ -268,11 +265,15 @@ Namespace graphics
 
 
         ''' <summary>
-        ''' Computes the ROC AUC and DeLong's nonparametric standard error for two independent groups.
+        ''' Computes DeLong's nonparametric standard error for the ROC AUC and stores
+        ''' the corresponding confidence interval at level <c>1 - alpha</c>.
         ''' </summary>
-        ''' <param name="alpha">Significance level for the AUC confidence interval (default 0.05).</param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used to construct the DeLong AUC confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
         ''' <returns>
-        ''' A <see cref="Double"/> containing the AUC, DeLong variance, and standard error.
+        ''' The DeLong standard error of the AUC.
         ''' </returns>
         ''' <exception cref="ArgumentNullException">
         ''' Thrown when data for patient/controls is <c>Nothing</c>.
@@ -415,6 +416,7 @@ Namespace graphics
             Me.pdelongCI = New ConfidenceIntervalResult
             Dim q As Double = distributions.NormSInv(1.0 - alpha / 2.0)
             Me.pdelongCI.Estimate = auc
+            Me.pdelongCI.alpha = alpha
             Me.pdelongCI.LowerLimit = auc - q * Me.pdelongSE
             Me.pdelongCI.UpperLimit = auc + q * Me.pdelongSE
 

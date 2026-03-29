@@ -122,13 +122,17 @@
     <Compile Include="src\DM\DataObj.vb" />
     <Compile Include="src\DM\Helpers.vb" />
     <Compile Include="src\DM\SheetManagement.vb" />
+    <Compile Include="src\ExcelUDFs\AssumptionsUDFs.vb" />
     <Compile Include="src\ExcelUDFs\CoxUDFs.vb" />
     <Compile Include="src\ExcelUDFs\DistributionUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\MultinomialLogitUDFs.vb" />
     <Compile Include="src\ExcelUDFs\NonparametricUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\OrdinalLogitUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ParametricUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\RegressionFormulaUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\SampleSizeUDFs.vb" />
     <Compile Include="src\ExcelUDFs\SurvivalUDFs.vb" />
     <Compile Include="src\ExcelUDFs\UDFhelpers.vb" />
-    <Compile Include="src\ExcelUDFs\UdfRangeHelpers.vb" />
     <Compile Include="src\Graphics\3Dobjects.vb" />
     <Compile Include="src\Graphics\BoxPlot.vb" />
     <Compile Include="src\Graphics\ChartExport.vb" />
@@ -155,14 +159,19 @@
     <Compile Include="src\RegModels\Multivariate\PCA.vb" />
     <Compile Include="src\RegModels\OrdinalLogitModel.vb" />
     <Compile Include="src\DM\ResultTable.vb" />
+    <Compile Include="src\RegModels\RegressionDesignCore.vb" />
+    <Compile Include="src\RegModels\RegressionFormulaDesignService.vb" />
+    <Compile Include="src\RegModels\RegressionFormulaParser.vb" />
     <Compile Include="src\StatTests\Agreement.vb" />
     <Compile Include="src\StatTests\Assumptions.vb" />
     <Compile Include="src\StatTests\ContingencyTable.vb" />
     <Compile Include="src\StatTests\FisherExact.vb" />
+    <Compile Include="src\StatTests\SampleSize.vb" />
     <Compile Include="src\StatTests\Survival.vb" />
     <Compile Include="src\StatTests\Nonparametric.vb" />
     <Compile Include="src\StatTests\Parametric.vb" />
     <Compile Include="src\UI\ExcelWindowWrapper.vb" />
+    <Compile Include="src\UI\RegressionEffectsController.vb" />
     <Compile Include="src\UI\Ui10ShowLog.Designer.vb">
       <DependentUpon>Ui10ShowLog.vb</DependentUpon>
     </Compile>

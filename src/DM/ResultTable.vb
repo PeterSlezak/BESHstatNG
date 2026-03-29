@@ -644,7 +644,7 @@ Public Class WriteResults
     '''   <item><description>Bold left headers</description></item>
     '''   <item><description>Reduced font size for footnotes</description></item>
     '''   <item><description>Title styling with bottom border</description></item>
-    '''   <item><description>Conditional p‑value highlighting (p ≤ 0.05)</description></item>
+    '''   <item><description>Conditional p-value highlighting (p ≤ current default alpha)</description></item>
     ''' </list>
     ''' </remarks>
     Private Sub format(rng As Range, hTop As Integer, hLeft As Integer, foots As Integer, Pvals As List(Of Integer), TitlesCount As Integer)
@@ -723,11 +723,13 @@ Public Class WriteResults
         Next
 
         If Pvals.Count > 0 Then
-            'highlight pvalue < 0.05
+            Dim pHighlightAlpha As Double = AppGlobals.DefaultAlpha
+
+            'highlight pvalue <= current default alpha
             For Each i In Pvals
                 For j = 1 + hTop + TitlesCount To rng.Rows.Count - foots
                     Try
-                        If CDbl(rng(j, i + hLeft).value) <= 0.05 Then rng(j, i + hLeft).font.color = RGB(50, 255, 50)
+                        If CDbl(rng(j, i + hLeft).value) <= pHighlightAlpha Then rng(j, i + hLeft).font.color = RGB(50, 255, 50)
                     Catch
                     End Try
                 Next

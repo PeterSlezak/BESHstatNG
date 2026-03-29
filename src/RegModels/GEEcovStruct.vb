@@ -8,8 +8,9 @@ Namespace regression
     Public Module GEEcovStructUtils
         Public Function createGEEcovMat(type As String) As regression.GEEcovStruct
             Dim f As GEEcovStruct
-            If type.ToLower = "idependence" Then
-                f = New regression.Idependence
+
+            If String.Equals(type, "Independence", StringComparison.OrdinalIgnoreCase) Then
+                f = New regression.Independence
             ElseIf type.ToLower = "exchangable" Then
                 f = New regression.Exchangable
             ElseIf type.ToLower = "autoregressive" Then
@@ -20,9 +21,9 @@ Namespace regression
                 AppGlobals.BSerr.LogAndThrow(New ApplicationException("Unsupported gee correlation type type = " & type))
                 f = Nothing
             End If
+
             Return f
         End Function
-
     End Module
 
     ''' <summary>
@@ -41,7 +42,7 @@ Namespace regression
     Public MustInherit Class GEEcovStruct
 
         Protected Friend pDepParams(,) As Double = Nothing 'for Exchangeble, Autoregressive structure it is double; for Unstructured it is a double array
-        Public Shared CovStructsList() As String = {"Idependence", "Exchangable", "Autoregressive", "Unstructured"}
+        Public Shared CovStructsList() As String = {"Independence", "Exchangable", "Autoregressive", "Unstructured"}
 
         ''' <summary>
         ''' Solves the weighted design‑matrix and residual systems using the
@@ -99,12 +100,12 @@ Namespace regression
     ''' The working covariance matrix is the identity matrix and no association
     ''' parameters are estimated.
     ''' </summary>
-    Public Class Idependence
+    Public Class Independence
         Inherits GEEcovStruct
         Private Shadows pDepParams As Double = 1
 
         Public Overrides Function tostring() As String
-            Return "Idependence"
+            Return "Independence"
         End Function
 
         ''' <summary>
@@ -138,7 +139,7 @@ Namespace regression
         ''' Independence structure has no association parameter to update.
         ''' </summary>
         Public Overrides Sub updateAssoc(gee As GEE, ByRef Optional strTrace As String = Nothing)
-            'there is nothing to update for Idependence structure
+            'there is nothing to update for Independence structure
         End Sub
 
         ''' <summary>

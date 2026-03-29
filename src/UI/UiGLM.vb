@@ -6,21 +6,31 @@ Imports System.IO
 Imports System.Windows.Forms
 Imports System.Windows.Forms.LinkLabel
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.regression
 
 Public Class UiGLM
 
     Private pWorksheet As Object
     Private pWorkbook As Object
-    Private VariableColumnsInfo As Dictionary(Of String, VarColumnInfo) 'information of variable/column names inported into the input listbox
+    Private VariableColumnsInfo As Dictionary(Of String, VarColumnInfo) 'information Of variable/column names inported into the input listbox
     'key = effects list item string (e.g. Age | VarA, or "Age | VarA"^2)
-    Private TermSpecs As Dictionary(Of String, UIprocedures.TermSpec)
+    'UiGLM owns the TermSpecs dictionary; the shared EffectsController mutates this same
+    'instance by reference so add/remove/clear operations remain synchronized.
+    Private TermSpecs As Dictionary(Of String, TermSpec)
+    Private ReadOnly EffectsController As RegressionEffectsController
+
+    'ZIP logistic-model authored effects
+    'The logistic ZIP tab uses its own independent effect list and term-specification dictionary.
+    Private TermSpecsLogistic As Dictionary(Of String, TermSpec)
+    Private ReadOnly EffectsControllerLogistic As RegressionEffectsController
 
     Sub New(analysis As String)
 
         ' This call is required by the designer.
         InitializeComponent()
-
+        Me.tbEps.Text = FormatUiDouble(0.000001)
         Me.Text = analysis
+        Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         ' Add any initialization after the InitializeComponent() call.
         If Me.Text = "Generalized Linear Models" Then
@@ -31,11 +41,8 @@ Public Class UiGLM
             For Each sFam In regression.Family.FamiliesList
                 Me.cbFamily.Items.Add(sFam)
             Next
-            For Each sLink In regression.Link.LinkList.Values
-                Me.cbLink.Items.Add(sLink)
-            Next
             Me.cbFamily.SelectedIndex = 0
-            Me.cbLink.SelectedIndex = 0
+            RefreshLinkOptionsForSelectedFamily(FamilyUtils.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
 
         ElseIf Me.Text = "Negative Binomial Regression (NB2)" Then
             Me.TabPageLogisticModel.Parent = Nothing
@@ -43,11 +50,8 @@ Public Class UiGLM
             Me.grpReference.Visible = False
 
             Me.cbFamily.Items.Add("Negative Binomial")
-            For Each sLink In regression.Link.PoissonLinkList.Keys
-                Me.cbLink.Items.Add(regression.Link.PoissonLinkList(sLink))
-            Next
             Me.cbFamily.SelectedIndex = 0
-            Me.cbLink.SelectedIndex = 0
+            RefreshLinkOptionsForSelectedFamily(FamilyUtils.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
 
         ElseIf Me.Text = "Zero-Inflated Poisson Regression" Then
             Me.TabPageOptions_LinearModel.Parent = Nothing
@@ -57,6 +61,11 @@ Public Class UiGLM
             Me.TabPageBuildModel.Text = "Build Model - Poisson"
             Me.lblEMiterations.Enabled = True
             Me.tbEMiterations.Enabled = True
+
+            Me.lblWeights.Enabled = False
+            Me.lbWeights.Enabled = False
+            Me.btAddWeights.Enabled = False
+            Me.btRemoveWeights.Enabled = False
 
         ElseIf Me.Text = "Multinomial Logistic Regression" Or Me.Text = "Ordinal Logistic Regression" Then
             Me.TabPageLogisticModel.Parent = Nothing
@@ -75,12 +84,6 @@ Public Class UiGLM
             Me.btRemoveOffset.Visible = False
             Me.lblInitValues.Visible = False
             Me.tbInitValues.Visible = False
-
-            Me.btAddEffectCategoricalFactor.Visible = True
-            Me.btnPoly.Visible = True
-            Me.spinBtnPoly.Visible = True
-            Me.btn2Interactions.Visible = True
-            Me.btnCustomInteraction.Visible = True
 
         End If
 
@@ -139,8 +142,23 @@ Public Class UiGLM
         Me.btClearAllSelectedEffects.Anchor = Windows.Forms.AnchorStyles.Bottom Or
                                             Windows.Forms.AnchorStyles.Right
 
-        'Term specifications for selected effects (main, polynomial, interaction)
-        Me.TermSpecs = New Dictionary(Of String, UIprocedures.TermSpec)(StringComparer.Ordinal)
+        'Poisson / primary-model term specifications.
+        'This dictionary remains owned by UiGLM and is passed into the shared controller
+        'so both the form and the controller operate on the same backing state.
+        Me.TermSpecs = New Dictionary(Of String, TermSpec)(StringComparer.Ordinal)
+
+        'Shared effect-authoring controller for the primary Build Model tab.
+        Me.EffectsController = New RegressionEffectsController(Me.lbSelectedVariables,
+                                                               Me.lbSelectedEffectsList,
+                                                               Me.TermSpecs)
+
+        'ZIP logistic-model term specifications.
+        Me.TermSpecsLogistic = New Dictionary(Of String, TermSpec)(StringComparer.Ordinal)
+
+        'Shared effect-authoring controller for the ZIP Logistic Build Model tab.
+        Me.EffectsControllerLogistic = New RegressionEffectsController(Me.lbSelectedVariablesLogistic,
+                                                                       Me.lbSelectedEffectsListLogistic,
+                                                                       Me.TermSpecsLogistic)
         Me.WireHelp(Me.btnHelp)
     End Sub
 
@@ -161,6 +179,80 @@ Public Class UiGLM
         Me.cbSheetsList.SelectedIndex = Me.cbSheetsList.FindStringExact(Me.pWorkbook.activesheet.name)
     End Sub
 
+    Private Shared Function GetFamilyCodeFromDisplayName(familyDisplayName As String) As String
+        Select Case familyDisplayName
+            Case "Binomial"
+                Return "Binomial"
+            Case "Poisson"
+                Return "Poisson"
+            Case "Negative Binomial"
+                Return "NegativeBinomial"
+            Case "Gaussian"
+                Return "Gaussian"
+            Case "Gamma"
+                Return "Gamma"
+            Case Else
+                Return String.Empty
+        End Select
+    End Function
+
+    Private Sub RefreshLinkOptionsForSelectedFamily(Optional preferredLink As String = Nothing)
+        Dim selectedFamilyName As String = String.Empty
+        If Me.cbFamily.SelectedItem IsNot Nothing Then
+            selectedFamilyName = Me.cbFamily.SelectedItem.ToString()
+        End If
+
+        Dim linkToSelect As String = preferredLink
+        If String.IsNullOrWhiteSpace(linkToSelect) AndAlso Me.cbLink.SelectedItem IsNot Nothing Then
+            linkToSelect = Me.cbLink.SelectedItem.ToString()
+        End If
+
+        Dim familyCode As String = GetFamilyCodeFromDisplayName(selectedFamilyName)
+
+        Me.cbLink.BeginUpdate()
+        Try
+            Me.cbLink.Items.Clear()
+
+            If String.IsNullOrWhiteSpace(familyCode) Then
+                Me.cbLink.SelectedIndex = -1
+                UpdatePowerLinkState()
+                Return
+            End If
+
+            Dim fam As regression.Family = regression.createFamily(familyCode)
+
+            For Each sLink As String In regression.Link.LinkList.Values
+                If fam.testLink(sLink) Then
+                    Me.cbLink.Items.Add(sLink)
+                End If
+            Next
+
+            If Not String.IsNullOrWhiteSpace(linkToSelect) Then
+                Dim existingIndex As Integer = Me.cbLink.FindStringExact(linkToSelect)
+                If existingIndex >= 0 Then
+                    Me.cbLink.SelectedIndex = existingIndex
+                End If
+            End If
+
+            If Me.cbLink.SelectedIndex = -1 AndAlso Me.cbLink.Items.Count > 0 Then
+                Me.cbLink.SelectedIndex = 0
+            End If
+
+            UpdatePowerLinkState()
+        Finally
+            Me.cbLink.EndUpdate()
+        End Try
+    End Sub
+
+    Private Sub UpdatePowerLinkState()
+        Dim usePowerLink As Boolean =
+            Me.cbLink.SelectedItem IsNot Nothing AndAlso
+            Me.cbLink.SelectedItem.ToString() = "Power"
+
+        Me.lblPower.Enabled = usePowerLink
+        Me.tbPower.Enabled = usePowerLink
+    End Sub
+
     Private Function GetData(Optional bZip As Boolean = False) As glmData
         Dim MyData As New glmData
         Dim keys As New List(Of String)
@@ -169,15 +261,15 @@ Public Class UiGLM
         keys.Add(yKey)
 
         If bZip Then
-            'ZIP Logistic tab: effects are raw vars (no poly/interaction here)
-            For i As Integer = 0 To Me.lbSelectedEffectsListLogistic.Items.Count - 1
-                Dim xKey As String = CStr(Me.lbSelectedEffectsListLogistic.Items(i))
+            'ZIP Logistic tab: import only the required RAW predictors for the authored effects.
+            Dim rawXKeys As List(Of String) = RegressionDesignCore.GetRequiredRawVarKeys(Me.lbSelectedEffectsListLogistic.Items, Me.TermSpecsLogistic)
+            For Each xKey As String In rawXKeys
                 keys.Add(xKey)
             Next
 
         Else
             '--- Build refs only from required RAW predictors ---
-            Dim rawXKeys As List(Of String) = UIprocedures.GetRequiredRawVarKeys(Me.lbSelectedEffectsList.Items, Me.TermSpecs)
+            Dim rawXKeys As List(Of String) = RegressionDesignCore.GetRequiredRawVarKeys(Me.lbSelectedEffectsList.Items, Me.TermSpecs)
             For Each xKey As String In rawXKeys
                 keys.Add(xKey)
             Next
@@ -203,6 +295,148 @@ Public Class UiGLM
         Return MyData
     End Function
 
+    ''' <summary>
+    ''' Builds the expanded regression matrix and aligned variable names for the
+    ''' current non-ZIP regression model.
+    ''' </summary>
+    ''' <param name="MyData">
+    ''' Raw imported regression data containing Y in column 0 and only required raw predictors thereafter.
+    ''' </param>
+    ''' <param name="fitData">
+    ''' Returns the expanded matrix in the form [Y | expanded X].
+    ''' </param>
+    ''' <param name="fitVarNames">
+    ''' Returns variable names aligned to <paramref name="fitData"/>.
+    ''' </param>
+    Private Sub BuildExpandedRegressionInputs(MyData As glmData,
+                                              ByRef fitData(,) As Double,
+                                              ByRef fitVarNames() As String)
+
+        RegressionDesignCore.BuildExpandedRegressionDataMatrix(raw:=MyData,
+                                                       yKey:=CStr(Me.lbY.Items(0)),
+                                                       effectItems:=Me.lbSelectedEffectsList.Items,
+                                                       termSpecs:=Me.TermSpecs,
+                                                       omitCategoricalReference:=Me.ckIntercept.Checked,
+                                                       outData:=fitData,
+                                                       outVarNames:=fitVarNames)
+    End Sub
+
+    ''' <summary>
+    ''' Builds the expanded ZIP Poisson-part regression matrix and aligned variable names.
+    ''' </summary>
+    Private Sub BuildExpandedZIPPoissonInputs(MyData As glmData,
+                                              ByRef fitData(,) As Double,
+                                              ByRef fitVarNames() As String)
+
+        RegressionDesignCore.BuildExpandedRegressionDataMatrix(raw:=MyData,
+                                                       yKey:=CStr(Me.lbY.Items(0)),
+                                                       effectItems:=Me.lbSelectedEffectsList.Items,
+                                                       termSpecs:=Me.TermSpecs,
+                                                       omitCategoricalReference:=Me.ckIntercept.Checked,
+                                                       outData:=fitData,
+                                                       outVarNames:=fitVarNames)
+    End Sub
+
+    ''' <summary>
+    ''' Builds the expanded ZIP Logistic-part regression matrix and aligned variable names.
+    ''' </summary>
+    Private Sub BuildExpandedZIPLogisticInputs(MyData As glmData,
+                                               ByRef fitData(,) As Double,
+                                               ByRef fitVarNames() As String)
+
+        RegressionDesignCore.BuildExpandedRegressionDataMatrix(raw:=MyData,
+                                                       yKey:=CStr(Me.lbY.Items(0)),
+                                                       effectItems:=Me.lbSelectedEffectsListLogistic.Items,
+                                                       termSpecs:=Me.TermSpecsLogistic,
+                                                       omitCategoricalReference:=Me.ckInterceptLogistic.Checked,
+                                                       outData:=fitData,
+                                                       outVarNames:=fitVarNames)
+    End Sub
+
+    ''' <summary>
+    ''' Counts the number of distinct response categories in the first column of a
+    ''' regression data matrix.
+    ''' </summary>
+    ''' <param name="data">
+    ''' A regression matrix whose first column contains the response values.
+    ''' </param>
+    ''' <returns>
+    ''' The number of distinct response categories.
+    ''' </returns>
+    Private Function CountDistinctResponseCategories(data(,) As Double) As Integer
+        Dim cats As New Dictionary(Of Integer, Byte)
+
+        For i As Integer = 0 To UBound(data, 1)
+            Dim yVal As Integer = CInt(Math.Round(data(i, 0)))
+            If Not cats.ContainsKey(yVal) Then cats.Add(yVal, 0)
+        Next
+
+        Return cats.Count
+    End Function
+
+    ''' <summary>
+    ''' Validates the exact number of user-supplied initial values after effect expansion.
+    ''' </summary>
+    ''' <param name="expectedCount">
+    ''' The exact number of parameters expected by the fitted model.
+    ''' </param>
+    ''' <param name="modelCaption">
+    ''' The display name of the model used in the validation message.
+    ''' </param>
+    ''' <param name="includeInterceptFirstNote">
+    ''' If <see langword="True"/>, appends a note that the intercept initial value should be first.
+    ''' </param>
+    ''' <param name="extraNote">
+    ''' Optional extra explanatory text appended to the validation message.
+    ''' </param>
+    ''' <param name="targetTextBox">
+    ''' The textbox containing the starting values. If omitted, uses <see cref="tbInitValues"/>.
+    ''' </param>
+    ''' <returns>
+    ''' <see langword="True"/> when the supplied initial values are valid; otherwise <see langword="False"/>.
+    ''' </returns>
+    Private Function ValidateExpandedInitialValuesCount(expectedCount As Integer,
+                                                        modelCaption As String,
+                                                        Optional includeInterceptFirstNote As Boolean = False,
+                                                        Optional extraNote As String = "",
+                                                        Optional targetTextBox As TextBox = Nothing) As Boolean
+        Dim tb As TextBox = If(targetTextBox, Me.tbInitValues)
+
+        If tb.Text = String.Empty Then Return True
+
+        setTextBoxProperties(tb, Color.White, String.Empty)
+
+        Dim bErr As Boolean = False
+        Dim vals() As Double = GetNumbersFromStrList(tb.Text, bErr)
+
+        If bErr Then
+            Dim msg As String = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers without thousands separators."
+            setTextBoxProperties(tb, Color.Red, msg)
+            MsgBox(msg, vbExclamation, "Input Error!")
+            Return False
+        End If
+
+        If vals.Length <> expectedCount Then
+            Dim msg As String = $"Number of initial values does not match the number of estimated parameters for {modelCaption}." &
+                                vbNewLine &
+                                $"Expected {expectedCount}, received {vals.Length}."
+
+            If includeInterceptFirstNote Then
+                msg &= vbNewLine & "Initial value for the intercept should be the first one in the list."
+            End If
+
+            If extraNote <> String.Empty Then
+                msg &= vbNewLine & extraNote
+            End If
+
+            setTextBoxProperties(tb, Color.Red, msg)
+            MsgBox(msg, vbExclamation, "Input Error!")
+            Return False
+        End If
+
+        Return True
+    End Function
+
     Private Sub valiateInputs(ByRef bWait As Boolean, ByRef strErr As String)
         Dim vals() As Double, bErr As Boolean
 
@@ -211,26 +445,25 @@ Public Class UiGLM
             setTextBoxProperties(Me.tbInitValues, Color.White, String.Empty) 'give the text box its usual background
             vals = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
             If bErr Then 'Error while converting to array
-                strErr = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers."
+                strErr = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers without thousands separators."
                 setTextBoxProperties(Me.tbInitValues, Color.Red, strErr)
                 bWait = True
                 Exit Sub
             End If
-            If vals.Length <> Me.lbSelectedEffectsList.Items.Count + If(Me.ckIntercept.Checked, 1, 0) And
-               (Me.Text = "Generalized Linear Models" Or Me.Text = "Negative Binomial Regression (NB2)") Then '+1 because of intercept
 
-                strErr = "Number of initial values does not match the number of estimated parameters." & vbNewLine &
-                         "Initial value for the intercept should be the first one in the list."
-                setTextBoxProperties(Me.tbInitValues, Color.Red, strErr)
-                bWait = True
-                Exit Sub
-            End If
-            If vals.Length < Me.lbSelectedEffectsList.Items.Count + 2 And Me.Text = "Ordinal Logistic Regression" Then '+1 because of intercept
-                'this is just a lower estimate. Exact value depends on the number of categories. Precise check will be done during the fit.
+            'Do not validate parameter count here for GLM/NB2/ordinal/multinomial.
+            'The exact count depends on the expanded design matrix and, for ordinal/multinomial,
+            'also on the number of observed response categories. Exact validation is performed
+            'after effect expansion inside the corresponding fit routine.
+        End If
 
-                strErr = "Number of initial values does not match the number of estimated parameters." & vbNewLine &
-                         "Initial value for the intercept should be the first one in the list."
-                setTextBoxProperties(Me.tbInitValues, Color.Red, strErr)
+        'ZIP logistic initial parameter values
+        If Me.Text = "Zero-Inflated Poisson Regression" AndAlso Me.tbInitValuesLogistic.Text <> String.Empty Then
+            setTextBoxProperties(Me.tbInitValuesLogistic, Color.White, String.Empty)
+            vals = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, bErr)
+            If bErr Then
+                strErr = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers without thousands separators."
+                setTextBoxProperties(Me.tbInitValuesLogistic, Color.Red, strErr)
                 bWait = True
                 Exit Sub
             End If
@@ -243,12 +476,13 @@ Public Class UiGLM
             bWait = True
             Exit Sub
         End If
-        If Me.lbSelectedEffectsList.Items.Count = 0 And Not Me.ckIntercept.Checked Then
+        If Me.lbSelectedEffectsList.Items.Count = 0 AndAlso Not Me.ckIntercept.Checked Then
             strErr = "No Intercept and Effects were specified."
             bWait = True
             Exit Sub
         End If
-        If Me.lbSelectedEffectsList.Items.Count = 0 And Me.ckIntercept.Checked Then
+
+        If Me.lbSelectedEffectsList.Items.Count = 0 AndAlso Me.ckIntercept.Checked Then
             If MsgBox("Do you want to fit intercept only model?", vbYesNo + vbExclamation, AppGlobals.gsAPP_TITLE) = vbNo Then
                 bWait = True
                 Exit Sub
@@ -258,6 +492,22 @@ Public Class UiGLM
             bWait = True
             Exit Sub
         End If
+
+        If Me.Text = "Zero-Inflated Poisson Regression" Then
+            If Me.lbSelectedEffectsListLogistic.Items.Count = 0 AndAlso Not Me.ckInterceptLogistic.Checked Then
+                strErr = "No Intercept and Effects were specified for the Logistic part of the ZIP model."
+                bWait = True
+                Exit Sub
+            End If
+
+            If Me.lbSelectedEffectsListLogistic.Items.Count = 0 AndAlso Me.ckInterceptLogistic.Checked Then
+                If MsgBox("Do you want to fit intercept only model for the Logistic part?", vbYesNo + vbExclamation, AppGlobals.gsAPP_TITLE) = vbNo Then
+                    bWait = True
+                    Exit Sub
+                End If
+            End If
+        End If
+
     End Sub
 
     Private Sub btReload_Click(sender As Object, e As System.EventArgs) Handles btReload.Click
@@ -275,7 +525,7 @@ Public Class UiGLM
 
                 If Me.Text = "Zero-Inflated Poisson Regression" Then
                     Me.lbSelectedVariablesLogistic.Items.Clear()
-                    Remove_Item(Me.lbSelectedEffectsListLogistic, "all")
+                    Remove_Item(Me.lbSelectedEffectsListLogistic, "all", Me.TermSpecsLogistic)
                 End If
             End If
             newSheet = pWorkbook.worksheets(Me.cbSheetsList.SelectedItem.ToString())
@@ -366,7 +616,7 @@ Public Class UiGLM
         Dim expandedNames() As String = Nothing
         Dim customGroups As Dictionary(Of String, Integer()) = Nothing
 
-        UIprocedures.BuildExpandedLmDataMatrix(raw:=MyData,
+        RegressionDesignCore.BuildExpandedLmDataMatrix(raw:=MyData,
                                        yKey:=CStr(Me.lbY.Items(0)),
                                        effectItems:=Me.lbSelectedEffectsList.Items,
                                        termSpecs:=Me.TermSpecs,
@@ -376,7 +626,7 @@ Public Class UiGLM
                                        outTermGroups:=customGroups)
 
         lm.Data(expanded, expandedNames, MyData.RowIds, If(MyData.bWeights, MyData.WeightData, Nothing))
-        Dim codingNotes As List(Of String) = UIprocedures.BuildCategoricalReferenceFootnotesForLm(
+        Dim codingNotes As List(Of String) = RegressionDesignCore.BuildCategoricalReferenceFootnotesForLm(
                                                                     raw:=MyData,
                                                                     effectItems:=Me.lbSelectedEffectsList.Items,
                                                                     termSpecs:=Me.TermSpecs,
@@ -441,14 +691,36 @@ Public Class UiGLM
 
     Private Sub RunOrdLogit(MyData As glmData, bInitialValues As Boolean)
         Dim ordL = New regression.OrdinalLogitModel()
-        ordL.Data(MyData.DataDbl, MyData.varNames, MyData.RowIds,
+        Dim alphaValue As Double = Me.spinBtnAlpha.Value
+        Dim fitData(,) As Double = Nothing
+        Dim fitVarNames() As String = Nothing
+
+        BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
+
+        Dim predictorCount As Integer = fitVarNames.Length - 1
+        Dim categoryCount As Integer = CountDistinctResponseCategories(fitData)
+
+        If bInitialValues Then
+            Dim expectedCount As Integer = predictorCount + (categoryCount - 1)
+
+            If Not ValidateExpandedInitialValuesCount(
+                    expectedCount:=expectedCount,
+                    modelCaption:="Ordinal Logistic Regression",
+                    extraNote:="Expected one value per expanded predictor plus one threshold for each adjacent outcome split.") Then
+                Exit Sub
+            End If
+        End If
+
+        ordL.Data(fitData, fitVarNames, MyData.RowIds,
                    If(MyData.bOffset, MyData.OffsetData, Nothing),
                    If(MyData.bWeights, MyData.WeightData, Nothing))
         ordL.bReturnCov = Me.ckCovarMatrix.Checked
         ordL.bComputeResiduals = Me.ckResiduals.Checked
         ordL.bIterationDetails = Me.ckIterationsDetails.Checked
-        ordL.SettingInputs(0.05, CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text))
-        If bInitialValues Then ordL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
+        ordL.SettingInputs(alphaValue,
+                           ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
+                           ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
+        If bInitialValues Then ordL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
         Dim refCat = If(Me.optFirst.Checked, regression.ReferenceCategory.First, regression.ReferenceCategory.Last)
         ordL.Fit(refCat, bInitialValues, Me.ProgressBar1, Me.lblProgress)
 
@@ -462,9 +734,9 @@ Public Class UiGLM
         WriteRes.write(MyData.RowIds, bTall:=True)
         WriteRes.setRowPointer()
         WriteRes.setColumnPointer(2)
-        WriteRes.write(MyData.varNames)
-        WriteRes.write(MyData.FinalData)
-        WriteRes.shiftColumnPointer(MyData.varNames.Length)
+        WriteRes.write(fitVarNames)
+        WriteRes.write(fitData)
+        WriteRes.shiftColumnPointer(fitVarNames.Length)
         WriteRes.setRowPointer()
 
         'Offset
@@ -505,15 +777,37 @@ Public Class UiGLM
 
     Private Sub RunMultiLogit(MyData As glmData, bInitialValues As Boolean)
         Dim multL = New regression.MultinomialLogitModel()
-        multL.data(MyData.DataDbl, MyData.varNames, MyData.RowIds,
+        Dim alphaValue As Double = Me.spinBtnAlpha.Value
+        Dim fitData(,) As Double = Nothing
+        Dim fitVarNames() As String = Nothing
+
+        BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
+
+        Dim predictorCount As Integer = fitVarNames.Length - 1
+        Dim categoryCount As Integer = CountDistinctResponseCategories(fitData)
+        Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
+
+        If bInitialValues Then
+            Dim expectedCount As Integer = (predictorCount + lIntercept) * (categoryCount - 1)
+
+            If Not ValidateExpandedInitialValuesCount(
+                    expectedCount:=expectedCount,
+                    modelCaption:="Multinomial Logistic Regression",
+                    extraNote:="Expected (expanded predictors + intercept, if included) × (number of non-reference outcome categories).") Then
+                Exit Sub
+            End If
+        End If
+
+        multL.data(fitData, fitVarNames, MyData.RowIds,
                    If(MyData.bOffset, MyData.OffsetData, Nothing),
                    If(MyData.bWeights, MyData.WeightData, Nothing))
         multL.bReturnCov = Me.ckCovarMatrix.Checked
         multL.bComputeResiduals = Me.ckResiduals.Checked
         multL.bIterationDetails = Me.ckIterationsDetails.Checked
-        multL.settingInputs(0.05, CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text))
-        Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
-        If bInitialValues Then multL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
+        multL.settingInputs(alphaValue,
+                            ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
+                            ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
+        If bInitialValues Then multL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
         Dim refCat = If(Me.optFirst.Checked, regression.ReferenceCategory.First, regression.ReferenceCategory.Last)
         multL.Fit(lIntercept, refCat, bInitialValues, Me.ProgressBar1, Me.lblProgress)
 
@@ -527,9 +821,9 @@ Public Class UiGLM
         WriteRes.write(MyData.RowIds, bTall:=True)
         WriteRes.setRowPointer()
         WriteRes.setColumnPointer(2)
-        WriteRes.write(MyData.varNames)
-        WriteRes.write(MyData.FinalData)
-        WriteRes.shiftColumnPointer(MyData.varNames.Length)
+        WriteRes.write(fitVarNames)
+        WriteRes.write(fitData)
+        WriteRes.shiftColumnPointer(fitVarNames.Length)
         WriteRes.setRowPointer()
 
         'Offset
@@ -571,35 +865,94 @@ Public Class UiGLM
     Private Sub RunZIP(PoissonData As glmData, bPoissonInitialValues As Boolean,
                        LogisticData As glmData, bLogisticInitialValues As Boolean)
         Dim zipFit = New ZeroInflatedPoisson
-        zipFit.dataInputs(PoissonData.DataDbl, LogisticData.DataDbl, PoissonData.varNames, LogisticData.varNames, PoissonData.RowIds)
+        Dim alphaValue As Double = Me.spinBtnAlpha.Value
+
+        Dim fitDataPois(,) As Double = Nothing
+        Dim fitVarNamesPois() As String = Nothing
+        Dim fitDataLog(,) As Double = Nothing
+        Dim fitVarNamesLog() As String = Nothing
+
+        BuildExpandedZIPPoissonInputs(PoissonData, fitDataPois, fitVarNamesPois)
+        BuildExpandedZIPLogisticInputs(LogisticData, fitDataLog, fitVarNamesLog)
+
+        Dim predictorCountPois As Integer = fitVarNamesPois.Length - 1
+        Dim predictorCountLog As Integer = fitVarNamesLog.Length - 1
+        Dim interceptPois As Integer = If(Me.ckIntercept.Checked, 1, 0)
+        Dim interceptLog As Integer = If(Me.ckInterceptLogistic.Checked, 1, 0)
+
+        If bPoissonInitialValues Then
+            If Not ValidateExpandedInitialValuesCount(
+                    expectedCount:=predictorCountPois + interceptPois,
+                    modelCaption:="Zero-Inflated Poisson Regression (Poisson part)",
+                    includeInterceptFirstNote:=(interceptPois = 1),
+                    targetTextBox:=Me.tbInitValues) Then
+                Exit Sub
+            End If
+        End If
+
+        If bLogisticInitialValues Then
+            If Not ValidateExpandedInitialValuesCount(
+                    expectedCount:=predictorCountLog + interceptLog,
+                    modelCaption:="Zero-Inflated Poisson Regression (Logistic part)",
+                    includeInterceptFirstNote:=(interceptLog = 1),
+                    targetTextBox:=Me.tbInitValuesLogistic) Then
+                Exit Sub
+            End If
+        End If
+
+        zipFit.dataInputs(fitDataPois,
+                          fitDataLog,
+                          fitVarNamesPois,
+                          fitVarNamesLog,
+                          PoissonData.RowIds,
+                          If(PoissonData.bOffset, PoissonData.OffsetData, Nothing),
+                          If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing))
+
         zipFit.bComputeResiduals = Me.ckResiduals.Checked
         zipFit.bIterationDetails = Me.ckIterationsDetails.Checked
         zipFit.bReturnCov = Me.ckCovarMatrix.Checked
-        zipFit.settingInputs(0.05, CInt(Me.tbMaxIter.Text), CInt(Me.tbEMiterations.Text), CDbl(Me.tbEps.Text))
-        If bPoissonInitialValues Then zipFit.startParamsPois = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
-        If bLogisticInitialValues Then zipFit.startParamsLog = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, False) 'we tested already that they are correct
-        zipFit.Fit(If(Me.ckIntercept.Checked, 1, 0), If(Me.ckInterceptLogistic.Checked, 1, 0),
-                         bPoissonInitialValues, bLogisticInitialValues, Me.ProgressBar1, Me.lblProgress)
+        zipFit.settingInputs(alphaValue,
+                             ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
+                             ParseUiInteger(Me.tbEMiterations.Text, "EM iterations"),
+                             ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
+
+        If bPoissonInitialValues Then
+            zipFit.startParamsPois = GetNumbersFromStrList(Me.tbInitValues.Text, False)
+        End If
+
+        If bLogisticInitialValues Then
+            zipFit.startParamsLog = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, False)
+        End If
+
+        zipFit.Fit(interceptPois,
+                   interceptLog,
+                   bPoissonInitialValues,
+                   bLogisticInitialValues,
+                   Me.ProgressBar1,
+                   Me.lblProgress)
 
         'Dump results
         Dim WriteRes As WriteResults = New WriteResults
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
+
         WriteRes.write({"Poisson"})
         WriteRes.write({"Row ID"})
         WriteRes.write(PoissonData.RowIds, bTall:=True)
         WriteRes.setRowPointer(2)
         WriteRes.setColumnPointer(2)
-        WriteRes.write(PoissonData.varNames)
-        WriteRes.write(PoissonData.FinalData)
-        WriteRes.shiftColumnPointer(PoissonData.varNames.Length)
+        WriteRes.write(fitVarNamesPois)
+        WriteRes.write(fitDataPois)
+        WriteRes.shiftColumnPointer(fitVarNamesPois.Length)
         WriteRes.setRowPointer(1)
+
         WriteRes.write({"Logistic"})
-        WriteRes.write(LogisticData.varNames)
-        WriteRes.write(LogisticData.FinalData)
-        WriteRes.shiftColumnPointer(LogisticData.varNames.Length)
+        WriteRes.write(fitVarNamesLog)
+        WriteRes.write(fitDataLog)
+        WriteRes.shiftColumnPointer(fitVarNamesLog.Length)
         WriteRes.setRowPointer(2)
+
         'Offset
         If PoissonData.bOffset Then
             WriteRes.write({PoissonData.OffsetVarName})
@@ -608,11 +961,13 @@ Public Class UiGLM
             WriteRes.setRowPointer(2)
             WriteRes.shiftColumnPointer(1)
         End If
+
         'Prediction
         WriteRes.write({"Prediction"})
         WriteRes.write(zipFit.Predicted, bTall:=True)
         WriteRes.setRowPointer(2)
         WriteRes.shiftColumnPointer(1)
+
         'Residuals
         If zipFit.bComputeResiduals Then
             WriteRes.write(zipFit.AllResiduals())
@@ -620,8 +975,8 @@ Public Class UiGLM
 
         'Create new worksheet in workbook. It will automaticaly be an activesheet
         'We need to start new writer to start writing on this new sheet
-        Dim res = zipFit.wrapResults(If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing),
-                                     If(PoissonData.bWeights, PoissonData.WeightVarName, Nothing))
+        Dim res = zipFit.wrapResults(If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing), Nothing)
+
         WriteRes = New WriteResults
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Zero-Inflated Poisson"
@@ -633,23 +988,42 @@ Public Class UiGLM
 
     Private Sub RunGLMNB2(MyData As glmData, bInitialValues As Boolean)
         Dim lnk As regression.Link
+        Dim alphaValue As Double = Me.spinBtnAlpha.Value
+        Dim fitData(,) As Double = Nothing
+        Dim fitVarNames() As String = Nothing
+
+        BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
+
         If Me.cbLink.SelectedItem = "Power" Then
-            lnk = regression.createLink(Me.cbLink.SelectedItem, CDbl(Me.tbPower.Text))
+            lnk = regression.createLink(Me.cbLink.SelectedItem, ParseUiDouble(Me.tbPower.Text, "Power link parameter"))
         Else
             lnk = regression.createLink(Me.cbLink.SelectedItem)
         End If
 
         Dim nb2 = New GLM_NB(lnk)
-        nb2.data(MyData.DataDbl, MyData.RowIds,
+        Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
+        Dim predictorCount As Integer = fitVarNames.Length - 1
+
+        If bInitialValues Then
+            If Not ValidateExpandedInitialValuesCount(
+                    expectedCount:=predictorCount + lIntercept,
+                    modelCaption:="Negative Binomial Regression (NB2)",
+                    includeInterceptFirstNote:=(lIntercept = 1)) Then
+                Exit Sub
+            End If
+        End If
+
+        nb2.data(fitData, MyData.RowIds,
                  If(MyData.bOffset, MyData.OffsetData, Nothing),
                  If(MyData.bWeights, MyData.WeightData, Nothing))
-        nb2.setVarNames(MyData.varNames)
+        nb2.setVarNames(fitVarNames)
         nb2.bReturnCov = Me.ckCovarMatrix.Checked
         nb2.bComputeResiduals = Me.ckResiduals.Checked
         nb2.bIterationDetails = Me.ckIterationsDetails.Checked
-        nb2.settingInputs(0.05, CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text))
-        Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
-        If bInitialValues Then nb2.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
+        nb2.settingInputs(alphaValue,
+                          ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
+                          ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
+        If bInitialValues Then nb2.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
         nb2.Fit(lIntercept, bInitialValues, Me.ProgressBar1, Me.lblProgress)
 
         'Dump results
@@ -662,9 +1036,9 @@ Public Class UiGLM
         WriteRes.write(MyData.RowIds, bTall:=True)
         WriteRes.setRowPointer()
         WriteRes.setColumnPointer(2)
-        WriteRes.write(MyData.varNames)
-        WriteRes.write(MyData.FinalData)
-        WriteRes.shiftColumnPointer(UBound(MyData.FinalData, 2) + 1)
+        WriteRes.write(fitVarNames)
+        WriteRes.write(fitData)
+        WriteRes.shiftColumnPointer(fitVarNames.Length)
         WriteRes.setRowPointer()
 
         'Offset
@@ -712,31 +1086,53 @@ Public Class UiGLM
 
     Private Sub RunGLM(MyData As glmData, bInitialValues As Boolean)
         Dim fitGlm As GLM
+        Dim alphaValue As Double = Me.spinBtnAlpha.Value
+        Dim fitData(,) As Double = Nothing
+        Dim fitVarNames() As String = Nothing
+
+        BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
+
         Dim fam = regression.createFamily(regression.Family.FamiliesCodes(Me.cbFamily.SelectedIndex))
         If Me.tbDispersionParameterNB2.Text <> String.Empty Then
             Try
-                Dim dispParam As Double = CDbl(Me.tbDispersionParameterNB2.Text)
+                Dim dispParam As Double = ParseUiDouble(Me.tbDispersionParameterNB2.Text, "Dispersion parameter")
                 If dispParam > 0 Then fam.pdAlpha = dispParam
             Catch
             End Try
         End If
+
         Dim lnk As regression.Link
         If Me.cbLink.SelectedItem = "Power" Then
-            lnk = regression.createLink(Me.cbLink.SelectedItem, CDbl(Me.tbPower.Text))
+            lnk = regression.createLink(Me.cbLink.SelectedItem, ParseUiDouble(Me.tbPower.Text, "Power link parameter"))
         Else
             lnk = regression.createLink(Me.cbLink.SelectedItem)
         End If
+
         fitGlm = New GLM(fam, lnk)
-        fitGlm.data(MyData.DataDbl, MyData.RowIds,
+
+        Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
+        Dim predictorCount As Integer = fitVarNames.Length - 1
+
+        If bInitialValues Then
+            If Not ValidateExpandedInitialValuesCount(
+                    expectedCount:=predictorCount + lIntercept,
+                    modelCaption:="Generalized Linear Models",
+                    includeInterceptFirstNote:=(lIntercept = 1)) Then
+                Exit Sub
+            End If
+        End If
+
+        fitGlm.data(fitData, MyData.RowIds,
                         If(MyData.bOffset, MyData.OffsetData, Nothing),
                         If(MyData.bWeights, MyData.WeightData, Nothing))
-        fitGlm.setVarNames(MyData.varNames)
+        fitGlm.setVarNames(fitVarNames)
         fitGlm.bReturnCov = Me.ckCovarMatrix.Checked
         fitGlm.bComputeResiduals = Me.ckResiduals.Checked
         fitGlm.bIterationDetails = Me.ckIterationsDetails.Checked
-        fitGlm.settingInputs(0.05, CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text))
-        Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
-        If bInitialValues Then fitGlm.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
+        fitGlm.settingInputs(alphaValue,
+                             ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
+                             ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
+        If bInitialValues Then fitGlm.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
         fitGlm.Fit(lIntercept, bInitialValues, Me.ProgressBar1, Me.lblProgress)
 
         'Dump results
@@ -749,10 +1145,10 @@ Public Class UiGLM
         WriteRes.write(MyData.RowIds, bTall:=True)
         WriteRes.setRowPointer()
         WriteRes.setColumnPointer(2)
-        WriteRes.write(MyData.varNames)
-        WriteRes.write(MyData.FinalData)
+        WriteRes.write(fitVarNames)
+        WriteRes.write(fitData)
         WriteRes.setRowPointer()
-        WriteRes.shiftColumnPointer(UBound(MyData.FinalData, 2) + 1)
+        WriteRes.shiftColumnPointer(UBound(fitData, 2) + 1)
 
         'Offset
         If MyData.bOffset Then
@@ -803,17 +1199,31 @@ Public Class UiGLM
     Private Sub tbInitValues_Leave(sender As Object, e As System.EventArgs) Handles tbInitValues.Leave
         Dim vals() As Double, bErr As Boolean, tiptext As String
 
-        setTextBoxProperties(Me.tbInitValues, Color.White, String.Empty) 'give the text box its usual background
+        setTextBoxProperties(Me.tbInitValues, Color.White, String.Empty)
         vals = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
-        If bErr Then 'Error while converting to array
-            tiptext = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers."
+        If bErr Then
+            tiptext = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers without thousands separators."
             setTextBoxProperties(Me.tbInitValues, Color.Red, tiptext)
+            Exit Sub
         End If
-        If vals.Length <> Me.lbSelectedEffectsList.Items.Count + 1 Then '+1 because of intercept
-            tiptext = "Number of initial values does not match the number of estimated parameters." & vbNewLine &
-                      "Initial value for the intercept should be the first one in the list."
-            setTextBoxProperties(Me.tbInitValues, Color.Red, tiptext)
+
+        'Exact initial-value length validation is performed after predictor expansion
+        'during model fitting.
+    End Sub
+
+    Private Sub tbInitValuesLogistic_Leave(sender As Object, e As System.EventArgs) Handles tbInitValuesLogistic.Leave
+        Dim vals() As Double, bErr As Boolean, tiptext As String
+
+        setTextBoxProperties(Me.tbInitValuesLogistic, Color.White, String.Empty)
+        vals = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, bErr)
+        If bErr Then
+            tiptext = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers without thousands separators."
+            setTextBoxProperties(Me.tbInitValuesLogistic, Color.Red, tiptext)
+            Exit Sub
         End If
+
+        'Exact initial-value length validation is performed after predictor expansion
+        'during model fitting.
     End Sub
 
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles TabControl1.SelectedIndexChanged
@@ -842,12 +1252,12 @@ Public Class UiGLM
                     For i = 0 To Me.lbXs.Items.Count - 1
                         Me.lbSelectedVariablesLogistic.Items.Add(Me.lbXs.Items(i))
                     Next i
-                    If Not IsSubsetListBox(Me.lbSelectedVariablesLogistic, Me.lbSelectedEffectsListLogistic) Then
+                    If Not IsSubsetListBox(Me.lbSelectedVariablesLogistic, Me.lbSelectedEffectsListLogistic, bOnlyMain:=True) Then
                         If MsgBox("There is a variable in selected effects list that was removed from the predictor variable(s) list." & vbNewLine & vbNewLine &
                               "Clear selected effects list?", vbYesNo + vbExclamation, "Clear selected effects list?") = vbYes Then
-                            'Selected item was removed from X vars
-                            'TODO: this need to be updated when start using poly and interaction effects
-                            If Me.lbSelectedEffectsListLogistic.Items.Count > 0 Then Remove_Item(Me.lbSelectedEffectsListLogistic)
+                            If Me.lbSelectedEffectsListLogistic.Items.Count > 0 Then
+                                Remove_Item(Me.lbSelectedEffectsListLogistic, "all", Me.TermSpecsLogistic)
+                            End If
                         End If
                     End If
                 End If
@@ -901,282 +1311,59 @@ Public Class UiGLM
     End Sub
 
     Private Sub btAddEffect_Click(sender As Object, e As System.EventArgs) Handles btAddEffect.Click
-        'AddItemsToListbox(Me.lbSelectedEffectsList, Me.lbSelectedVariables, Me.lbY, Me.lbOffset, Me.lbWeights)
-        AddMainEffectsFromSelectedVars()
+        Me.EffectsController.AddMainEffectsFromSelectedVars()
     End Sub
 
     Private Sub btAddEffectLogistic_Click(sender As Object, e As System.EventArgs) Handles btAddEffectLogistic.Click
-        AddItemsToListbox(Me.lbSelectedEffectsListLogistic, Me.lbSelectedVariablesLogistic, Me.lbY, Me.lbOffset, Me.lbWeights)
+        Me.EffectsControllerLogistic.AddMainEffectsFromSelectedVars()
+    End Sub
+
+    Private Sub btAddEffectCategoricalFactorLogistic_Click(sender As Object, e As System.EventArgs) Handles btAddEffectCategoricalFactorLogistic.Click
+        Me.EffectsControllerLogistic.AddCategoricalEffectsFromSelectedVars()
+    End Sub
+
+    Private Sub btnPolyLogistic_Click(sender As Object, e As System.EventArgs) Handles btnPolyLogistic.Click
+        Me.EffectsControllerLogistic.AddPolynomialEffectsFromSelectedVars(CInt(Me.spinBtnPolyLogistic.Value))
+    End Sub
+
+    Private Sub btn2InteractionsLogistic_Click(sender As Object, e As System.EventArgs) Handles btn2InteractionsLogistic.Click
+        Me.EffectsControllerLogistic.AddTwoWayInteractionsFromSelectedVars()
+    End Sub
+
+    Private Sub btnCustomInteractionLogistic_Click(sender As Object, e As System.EventArgs) Handles btnCustomInteractionLogistic.Click
+        Me.EffectsControllerLogistic.AddCustomInteractionFromSelectedVars()
     End Sub
 
     Private Sub tbRemoveSelectedEffectsLogistic_Click(sender As Object, e As System.EventArgs) Handles tbRemoveSelectedEffectsLogistic.Click
-        Remove_Item(Me.lbSelectedEffectsListLogistic, "selected")
+        Remove_Item(Me.lbSelectedEffectsListLogistic, "selected", Me.TermSpecsLogistic)
     End Sub
 
     Private Sub btClearAllSelectedEffectsLogistic_Click(sender As Object, e As System.EventArgs) Handles btClearAllSelectedEffectsLogistic.Click
-        Remove_Item(Me.lbSelectedEffectsListLogistic, "all")
+        Remove_Item(Me.lbSelectedEffectsListLogistic, "all", Me.TermSpecsLogistic)
     End Sub
 
     Private Sub btnPoly_Click(sender As Object, e As System.EventArgs) Handles btnPoly.Click
-        AddPolynomialEffectsFromSelectedVars(CInt(Me.spinBtnPoly.Value))
+        Me.EffectsController.AddPolynomialEffectsFromSelectedVars(CInt(Me.spinBtnPoly.Value))
     End Sub
 
     Private Sub btn2Interactions_Click(sender As Object, e As System.EventArgs) Handles btn2Interactions.Click
-        AddTwoWayInteractionsFromSelectedVars()
+        Me.EffectsController.AddTwoWayInteractionsFromSelectedVars()
     End Sub
 
     Private Sub btnCustomInteraction_Click(sender As Object, e As System.EventArgs) Handles btnCustomInteraction.Click
-        AddCustomInteractionFromSelectedVars()
+        Me.EffectsController.AddCustomInteractionFromSelectedVars()
     End Sub
 
     Private Sub btAddEffectCategoricalFactor_Click(sender As Object, e As System.EventArgs) Handles btAddEffectCategoricalFactor.Click
-        AddCategoricalEffectsFromSelectedVars()
+        Me.EffectsController.AddCategoricalEffectsFromSelectedVars()
     End Sub
 
-    Private Function HasCategoricalMainEffect(baseKey As String) As Boolean
-        If Me.TermSpecs Is Nothing Then Return False
-
-        Dim catKey As String = UIprocedures.MakeCategoricalEffectKey(baseKey)
-        Return Me.TermSpecs.ContainsKey(catKey)
-    End Function
-
-    Private Function BaseVarUsedInAnyOtherTerm(baseKey As String) As Boolean
-        If Me.TermSpecs Is Nothing Then Return False
-
-        For Each kvp In Me.TermSpecs
-            Dim spec = kvp.Value
-            If spec Is Nothing OrElse spec.BaseVarKeys Is Nothing Then Continue For
-
-            If spec.BaseVarKeys.Any(Function(x) String.Equals(x, baseKey, StringComparison.Ordinal)) Then
-                Return True
-            End If
-        Next
-
-        Return False
-    End Function
-
-    Private Function SelectedVarsContainCategoricalUsage() As Boolean
-        If Me.TermSpecs Is Nothing Then Return False
-
-        For Each it As Object In Me.lbSelectedVariables.SelectedItems
-            Dim bk As String = CStr(it)
-            If HasCategoricalMainEffect(bk) Then Return True
-        Next
-
-        Return False
-    End Function
-
-    Private Sub AddMainEffectsFromSelectedVars()
-        If Me.lbSelectedVariables.SelectedItems.Count = 0 Then
-            MsgBox("Please select variable(s).", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If Me.TermSpecs Is Nothing Then
-            Me.TermSpecs = New Dictionary(Of String, UIprocedures.TermSpec)(StringComparer.Ordinal)
-        End If
-
-        For Each it As Object In Me.lbSelectedVariables.SelectedItems
-            Dim baseKey As String = CStr(it)
-
-            If HasCategoricalMainEffect(baseKey) Then
-                MsgBox("Variable '" & UIprocedures.GetCoefBaseName(baseKey) &
-               "' is already marked as categorical. Remove it first if you want to use it as continuous.",
-               vbExclamation, "Input Error!")
-                Continue For
-            End If
-
-            If Me.lbSelectedEffectsList.Items.Contains(baseKey) Then Continue For
-
-            Me.lbSelectedEffectsList.Items.Add(baseKey)
-
-            Dim spec As New UIprocedures.TermSpec With {
-                .Kind = "MainEffect",
-                .BaseVarKeys = New List(Of String) From {baseKey},
-                .Degree = 1,
-                .DisplayNameForCoef = UIprocedures.GetCoefBaseName(baseKey),
-                .Order = Me.lbSelectedEffectsList.Items.Count - 1,
-                .Scale = UIprocedures.PredictorScale.Continuous}
-            Me.TermSpecs(baseKey) = spec
-        Next
+    Private Sub cbFamily_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbFamily.SelectedIndexChanged
+        RefreshLinkOptionsForSelectedFamily(GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
     End Sub
 
-    Private Sub AddCategoricalEffectsFromSelectedVars()
-        If Me.lbSelectedVariables.SelectedItems.Count = 0 Then
-            MsgBox("Please select variable(s).", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If Me.TermSpecs Is Nothing Then
-            Me.TermSpecs = New Dictionary(Of String, UIprocedures.TermSpec)(StringComparer.Ordinal)
-        End If
-
-        For Each it As Object In Me.lbSelectedVariables.SelectedItems
-            Dim baseKey As String = CStr(it)
-            Dim termKey As String = UIprocedures.MakeCategoricalEffectKey(baseKey)
-
-            'reject if variable is already used anywhere else in the model
-            If BaseVarUsedInAnyOtherTerm(baseKey) AndAlso Not Me.TermSpecs.ContainsKey(termKey) Then
-                MsgBox("Variable '" & UIprocedures.GetCoefBaseName(baseKey) &
-                   "' is already used in the model. Remove its existing term(s) before adding it as categorical.",
-                   vbExclamation, "Input Error!")
-                Continue For
-            End If
-
-            If Me.lbSelectedEffectsList.Items.Contains(termKey) Then Continue For
-
-            Me.lbSelectedEffectsList.Items.Add(termKey)
-
-            Dim spec As New UIprocedures.TermSpec With {
-                .Kind = "MainEffect",
-                .BaseVarKeys = New List(Of String) From {baseKey},
-                .Degree = 1,
-                .DisplayNameForCoef = UIprocedures.GetCoefBaseName(baseKey),
-                .Order = Me.lbSelectedEffectsList.Items.Count - 1,
-                .Scale = UIprocedures.PredictorScale.Categorical
-            }
-
-            Me.TermSpecs(termKey) = spec
-        Next
+    Private Sub cbLink_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbLink.SelectedIndexChanged
+        UpdatePowerLinkState()
     End Sub
-
-    Private Sub AddPolynomialEffectsFromSelectedVars(degree As Integer)
-        If degree < 2 Then
-            MsgBox("Polynomial degree must be >= 2.", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If Me.lbSelectedVariables.SelectedItems.Count = 0 Then
-            MsgBox("Please select variable(s).", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If Me.TermSpecs Is Nothing Then
-            Me.TermSpecs = New Dictionary(Of String, UIprocedures.TermSpec)(StringComparer.Ordinal)
-        End If
-
-        For Each it As Object In Me.lbSelectedVariables.SelectedItems
-            Dim baseKey As String = CStr(it)
-
-            If HasCategoricalMainEffect(baseKey) Then
-                MsgBox("Polynomial terms are not supported for categorical predictors.", vbExclamation, "Input Error!")
-                Continue For
-            End If
-
-            'Listbox display term:  "Age | VarA"^2   (quotes included)
-            Dim termKey As String = UIprocedures.MakePolynomialEffectKey(baseKey, degree)
-
-            'Skip duplicates in the effects list
-            If Me.lbSelectedEffectsList.Items.Contains(termKey) Then Continue For
-
-            Me.lbSelectedEffectsList.Items.Add(termKey)
-
-            Dim spec As New UIprocedures.TermSpec With {
-                    .Kind = "Polynomial",
-                    .BaseVarKeys = New List(Of String) From {baseKey},
-                    .Degree = degree,
-                    .DisplayNameForCoef = UIprocedures.GetCoefBaseName(baseKey) & "^" & CStr(degree),
-                    .Order = Me.lbSelectedEffectsList.Items.Count - 1,
-                    .Scale = UIprocedures.PredictorScale.Continuous}
-            Me.TermSpecs(termKey) = spec
-        Next
-    End Sub
-
-    Private Sub AddTwoWayInteractionsFromSelectedVars()
-        If Me.lbSelectedVariables.SelectedItems.Count < 2 Then
-            MsgBox("Please select at least two variables.", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If SelectedVarsContainCategoricalUsage() Then
-            MsgBox("Interactions involving categorical predictors are not implemented yet.", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If Me.TermSpecs Is Nothing Then
-            Me.TermSpecs = New Dictionary(Of String, UIprocedures.TermSpec)(StringComparer.Ordinal)
-        End If
-
-        'Use SelectedIndices sorted -> deterministic order based on listbox order
-        Dim idxs As New List(Of Integer)
-        For Each ix As Integer In Me.lbSelectedVariables.SelectedIndices
-            idxs.Add(ix)
-        Next
-        idxs.Sort()
-
-        For a As Integer = 0 To idxs.Count - 2
-            Dim v1 As String = CStr(Me.lbSelectedVariables.Items(idxs(a)))
-
-            For b As Integer = a + 1 To idxs.Count - 1
-                Dim v2 As String = CStr(Me.lbSelectedVariables.Items(idxs(b)))
-
-                'Listbox display: "Var1":"Var2"
-                Dim termKey As String = UIprocedures.MakeInteractionEffectKey(New List(Of String) From {v1, v2})
-
-                'Skip duplicates
-                If Me.lbSelectedEffectsList.Items.Contains(termKey) Then Continue For
-
-                Me.lbSelectedEffectsList.Items.Add(termKey)
-
-                Dim spec As New UIprocedures.TermSpec With {
-                        .Kind = "Interaction",
-                        .BaseVarKeys = New List(Of String) From {v1, v2},
-                        .Degree = 1,
-                        .DisplayNameForCoef = UIprocedures.MakeInteractionCoefName(New List(Of String) From {v1, v2}),
-                        .Order = Me.lbSelectedEffectsList.Items.Count - 1,
-                        .Scale = UIprocedures.PredictorScale.Continuous}
-
-                Me.TermSpecs(termKey) = spec
-            Next
-        Next
-    End Sub
-
-    Private Sub AddCustomInteractionFromSelectedVars()
-        If Me.lbSelectedVariables.SelectedItems.Count < 2 Then
-            MsgBox("Please select at least two variables.", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If SelectedVarsContainCategoricalUsage() Then
-            MsgBox("Interactions involving categorical predictors are not implemented yet.", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If Me.TermSpecs Is Nothing Then
-            Me.TermSpecs = New Dictionary(Of String, UIprocedures.TermSpec)(StringComparer.Ordinal)
-        End If
-
-        'Deterministic order: by listbox order (not click order)
-        Dim idxs As New List(Of Integer)
-        For Each ix As Integer In Me.lbSelectedVariables.SelectedIndices
-            idxs.Add(ix)
-        Next
-        idxs.Sort()
-
-        Dim baseKeys As New List(Of String)
-        For Each ix As Integer In idxs
-            Dim v As String = CStr(Me.lbSelectedVariables.Items(ix))
-            baseKeys.Add(v)
-        Next
-
-        'Listbox display: "Var1":"Var2":"Var3"... (quotes around each var)
-        Dim termKey As String = UIprocedures.MakeInteractionEffectKey(baseKeys)
-
-        'Skip duplicates
-        If Me.lbSelectedEffectsList.Items.Contains(termKey) Then Exit Sub
-
-        Me.lbSelectedEffectsList.Items.Add(termKey)
-
-        Dim spec As New UIprocedures.TermSpec With {
-                .Kind = "Interaction",
-                .BaseVarKeys = baseKeys,
-                .Degree = 1,
-                .DisplayNameForCoef = UIprocedures.MakeInteractionCoefName(baseKeys),
-                .Order = Me.lbSelectedEffectsList.Items.Count - 1,
-                .Scale = UIprocedures.PredictorScale.Continuous}
-
-        Me.TermSpecs(termKey) = spec
-    End Sub
-
 
 End Class

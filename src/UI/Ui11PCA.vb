@@ -12,6 +12,7 @@ Public Class Ui11PCA
         InitializeComponent()
         pWorksheet = ws
         pWorkbook = ws.Parent
+        Me.tbEps.Text = FormatUiDouble(0.000001)
 
         ' Add any initialization after the InitializeComponent() call.
         Me.Text = analysis
@@ -129,7 +130,9 @@ Public Class Ui11PCA
         Dim objPCA As New Multivariate.PCA
         With objPCA
             .dataInputs(MyData.DataDbl, MyData.RowIds, MyData.varNames, strExtractMethodLong)
-            .settingsInputs(CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text), strMatrix)
+            .settingsInputs(ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
+                            ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"),
+                            strMatrix)
             .Calculate(strExtractMethod, Extractcoef)
         End With
 

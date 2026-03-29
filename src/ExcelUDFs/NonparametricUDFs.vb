@@ -346,6 +346,12 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' One-column range containing the second variable (Y). Values are paired by row with <paramref name="xRange"/>.
         ''' Non-numeric cells are ignored together with the corresponding row in <paramref name="xRange"/>.
         ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the internal confidence-interval metadata
+        ''' computed by the underlying Spearman procedure.
+        ''' The returned coefficient itself does not depend on <c>alpha</c>.
+        ''' The default is <c>0.05</c>.
+        ''' </param>
         ''' <returns>
         ''' Spearman's ρ in the range [-1, 1], or an Excel error code if inputs are invalid.
         ''' </returns>
@@ -360,12 +366,14 @@ Namespace BESHStatNG.WorksheetFunctions
         '''   <item><description>Each input must be a single-column range.</description></item>
         '''   <item><description>The two ranges must have the same number of rows (paired by row).</description></item>
         '''   <item><description>At least 3 valid numeric pairs are required.</description></item>
+        '''   <item><description><c>alpha</c> must satisfy 0 &lt; alpha &lt; 1.</description></item>
         ''' </list>
         ''' </para>
         ''' </remarks>
         ''' <example>
         ''' <code>
         ''' =BESH.NP.SPEARMAN_RHO(A2:A51, B2:B51)
+        ''' =BESH.NP.SPEARMAN_RHO(A2:A51, B2:B51, 0.1)
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -376,12 +384,16 @@ Namespace BESHStatNG.WorksheetFunctions
         )>
         Public Function SPEARMAN_RHO(
             <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
-            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object) As Object
+            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha for internal CI metadata; coefficient output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
             Dim pairs = ExtractPairedNumericColumns(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
+
+            Dim alphaValue As Double = 0.05
+            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
             Dim n As Integer = pairs.GetLength(0)
             Dim x(n - 1) As Double
@@ -392,7 +404,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Next
 
             Dim test = New SpearmanRho(x, y, "X", "Y")
-            test.Compute()
+            test.Compute(Nothing, alphaValue)
             Return test.correlCoef
         End Function
 
@@ -406,6 +418,11 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' <param name="yRange">
         ''' One-column range containing the second variable (Y). Values are paired by row with <paramref name="xRange"/>.
         ''' Non-numeric cells are ignored together with the corresponding row in <paramref name="xRange"/>.
+        ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level passed through to the underlying Spearman procedure for API consistency.
+        ''' The returned p-value itself does not depend on <c>alpha</c>.
+        ''' The default is <c>0.05</c>.
         ''' </param>
         ''' <returns>
         ''' Two-sided p-value for testing the null hypothesis of no monotonic association (ρ = 0),
@@ -427,6 +444,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.NP.SPEARMAN_P(A2:A51, B2:B51)
+        ''' =BESH.NP.SPEARMAN_P(A2:A51, B2:B51, 0.1)
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -437,12 +455,16 @@ Namespace BESHStatNG.WorksheetFunctions
         )>
         Public Function SPEARMAN_P(
             <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
-            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object) As Object
+            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha passed through for API consistency; p-value output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
             Dim pairs = ExtractPairedNumericColumns(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
+
+            Dim alphaValue As Double = 0.05
+            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
             Dim n As Integer = pairs.GetLength(0)
             Dim x(n - 1) As Double
@@ -453,7 +475,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Next
 
             Dim test = New SpearmanRho(x, y, "X", "Y")
-            test.Compute()
+            test.Compute(Nothing, alphaValue)
             Return test.pvalue
         End Function
 
@@ -472,6 +494,12 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' One-column range containing the second variable (Y). Values are paired by row with <paramref name="xRange"/>.
         ''' Rows where either X or Y is non-numeric (empty, text, logical, error) are ignored.
         ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the internal confidence-interval metadata
+        ''' computed by the underlying Kendall procedure.
+        ''' The returned coefficient itself does not depend on <c>alpha</c>.
+        ''' The default is <c>0.05</c>.
+        ''' </param>
         ''' <returns>
         ''' Kendall’s τ<sub>b</sub> in the range [-1, 1], or an Excel error code if inputs are invalid.
         ''' </returns>
@@ -487,12 +515,14 @@ Namespace BESHStatNG.WorksheetFunctions
         '''   <item><description>Each input must be a single-column range.</description></item>
         '''   <item><description>The two ranges must have the same number of rows (paired by row).</description></item>
         '''   <item><description>At least 4 valid numeric pairs are required for the associated significance test.</description></item>
+        '''   <item><description><c>alpha</c> must satisfy 0 &lt; alpha &lt; 1.</description></item>
         ''' </list>
         ''' </para>
         ''' </remarks>
         ''' <example>
         ''' <code>
         ''' =BESH.NP.KENDALL_TAU(A2:A51, B2:B51)
+        ''' =BESH.NP.KENDALL_TAU(A2:A51, B2:B51, 0.1)
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -503,12 +533,16 @@ Namespace BESHStatNG.WorksheetFunctions
         )>
         Public Function KENDALL_TAU(
             <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
-            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object) As Object
+            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha for internal CI metadata; coefficient output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
             Dim pairs = ExtractPairedNumericColumns(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
+
+            Dim alphaValue As Double = 0.05
+            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
             Dim n As Integer = pairs.GetLength(0)
             Dim x(n - 1) As Double
@@ -519,7 +553,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Next
 
             Dim test = New KendallsTau(x, y, "X", "Y")
-            test.compute()
+            test.compute(Nothing, alphaValue)
             Return test.correlCoef
         End Function
 
@@ -534,6 +568,11 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' One-column range containing the second variable (Y). Values are paired by row with <paramref name="xRange"/>.
         ''' Rows where either X or Y is non-numeric (empty, text, logical, error) are ignored.
         ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level passed through to the underlying Kendall procedure for API consistency.
+        ''' The returned p-value itself does not depend on <c>alpha</c>.
+        ''' The default is <c>0.05</c>.
+        ''' </param>
         ''' <returns>
         ''' Two-sided p-value for testing the null hypothesis of no association (τ = 0).
         ''' Returns an Excel error code if inputs are invalid.
@@ -547,6 +586,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.NP.KENDALL_P(A2:A51, B2:B51)
+        ''' =BESH.NP.KENDALL_P(A2:A51, B2:B51, 0.1)
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -557,12 +597,16 @@ Namespace BESHStatNG.WorksheetFunctions
         )>
         Public Function KENDALL_P(
             <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
-            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object) As Object
+            <ExcelArgument(Name:="y", Description:="One-column range for Y (paired by row).")> yRange As Object,
+            <ExcelArgument(Name:="alpha", Description:="Optional alpha passed through for API consistency; p-value output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
             Dim pairs = ExtractPairedNumericColumns(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 4 Then Return ExcelError.ExcelErrorNum
+
+            Dim alphaValue As Double = 0.05
+            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
             Dim n As Integer = pairs.GetLength(0)
             Dim x(n - 1) As Double
@@ -573,7 +617,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Next
 
             Dim test = New KendallsTau(x, y, "X", "Y")
-            test.compute()
+            test.compute(Nothing, alphaValue)
             Return test.pvalue
         End Function
 

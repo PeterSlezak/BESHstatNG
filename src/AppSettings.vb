@@ -10,8 +10,9 @@ Namespace AppInfrastructure
     Public Class BeshStatNgSettings
 
         Public Sub New()
-            Version = 1
+            Version = 2
             Diagnostics = New DiagnosticsSettings()
+            DefaultAlpha = 0.05
         End Sub
 
         <XmlAttribute("version")>
@@ -19,8 +20,18 @@ Namespace AppInfrastructure
 
         Public Property Diagnostics As DiagnosticsSettings
 
+        ''' <summary>
+        ''' Default two-sided significance level used to initialize UI alpha controls.
+        ''' Also used as the default threshold for p-value highlighting and similar decision rules.
+        ''' </summary>
+        Public Property DefaultAlpha As Double
+
         Public Sub EnsureDefaults()
             If Diagnostics Is Nothing Then Diagnostics = New DiagnosticsSettings()
+
+            If DefaultAlpha <= 0.0 OrElse DefaultAlpha >= 1.0 Then
+                DefaultAlpha = 0.05
+            End If
         End Sub
     End Class
 

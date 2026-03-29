@@ -11,6 +11,7 @@ Public Class Ui8Proportions
 
         ' Add any initialization after the InitializeComponent() call.
         Me.RefEditOutput.ExcelConnector = AppGlobals.app
+        Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         If Me.optSingle.Checked = True Then
             Me.lbl1.Text = "Total number of observations in the study"

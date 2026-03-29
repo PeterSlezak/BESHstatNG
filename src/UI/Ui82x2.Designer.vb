@@ -32,11 +32,11 @@ Partial Class Ui82x2
         Me.lblC1 = New System.Windows.Forms.Label()
         Me.lblR2 = New System.Windows.Forms.Label()
         Me.lblR1 = New System.Windows.Forms.Label()
-        Me.RefEdit1_WorksheetData = New Excel2007RefEdit()
+        Me.RefEdit1_WorksheetData = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optWorksheetData = New System.Windows.Forms.RadioButton()
         Me.optScreenData = New System.Windows.Forms.RadioButton()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New Excel2007RefEdit()
+        Me.RefEditOutput = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
@@ -49,6 +49,8 @@ Partial Class Ui82x2
         Me.ckAssociation = New System.Windows.Forms.CheckBox()
         Me.ckChi2 = New System.Windows.Forms.CheckBox()
         Me.ckFisher = New System.Windows.Forms.CheckBox()
+        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
+        Me.lblAlpha = New System.Windows.Forms.Label()
         Me.grpInput.SuspendLayout()
         CType(Me.spinBtnD, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnC, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -56,6 +58,7 @@ Partial Class Ui82x2
         CType(Me.spinBtnA, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpOutput.SuspendLayout()
         Me.grpOptions.SuspendLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'grpInput
@@ -267,6 +270,8 @@ Partial Class Ui82x2
         '
         'grpOptions
         '
+        Me.grpOptions.Controls.Add(Me.spinBtnAlpha)
+        Me.grpOptions.Controls.Add(Me.lblAlpha)
         Me.grpOptions.Controls.Add(Me.ckRR)
         Me.grpOptions.Controls.Add(Me.ckOR)
         Me.grpOptions.Controls.Add(Me.ckLiddel)
@@ -275,7 +280,7 @@ Partial Class Ui82x2
         Me.grpOptions.Controls.Add(Me.ckFisher)
         Me.grpOptions.Location = New System.Drawing.Point(23, 184)
         Me.grpOptions.Name = "grpOptions"
-        Me.grpOptions.Size = New System.Drawing.Size(442, 113)
+        Me.grpOptions.Size = New System.Drawing.Size(520, 113)
         Me.grpOptions.TabIndex = 9
         Me.grpOptions.TabStop = False
         Me.grpOptions.Text = "Options"
@@ -352,6 +357,28 @@ Partial Class Ui82x2
         Me.ckFisher.Text = "Fisher Exact Test"
         Me.ckFisher.UseVisualStyleBackColor = True
         '
+        'spinBtnAlpha
+        '
+        Me.spinBtnAlpha.DecimalPlaces = 3
+        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(405, 31)
+        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Name = "spinBtnAlpha"
+        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlpha.TabIndex = 26
+        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
+        'lblAlpha
+        '
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Location = New System.Drawing.Point(353, 33)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
+        Me.lblAlpha.TabIndex = 25
+        Me.lblAlpha.Text = "alpha"
+        '
         'Ui82x2
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -378,6 +405,7 @@ Partial Class Ui82x2
         Me.grpOutput.PerformLayout()
         Me.grpOptions.ResumeLayout(False)
         Me.grpOptions.PerformLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -386,7 +414,7 @@ Partial Class Ui82x2
     Friend WithEvents optWorksheetData As Windows.Forms.RadioButton
     Friend WithEvents optScreenData As Windows.Forms.RadioButton
     Friend WithEvents grpOutput As Windows.Forms.GroupBox
-    Friend WithEvents RefEditOutput As Excel2007RefEdit
+    Friend WithEvents RefEditOutput As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents optWorkbook As Windows.Forms.RadioButton
     Friend WithEvents optWorksheet As Windows.Forms.RadioButton
     Friend WithEvents optOutputRange As Windows.Forms.RadioButton
@@ -395,7 +423,7 @@ Partial Class Ui82x2
     Friend WithEvents lblC1 As Windows.Forms.Label
     Friend WithEvents lblR2 As Windows.Forms.Label
     Friend WithEvents lblR1 As Windows.Forms.Label
-    Friend WithEvents RefEdit1_WorksheetData As Excel2007RefEdit
+    Friend WithEvents RefEdit1_WorksheetData As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents btnHelp As Windows.Forms.Button
     Friend WithEvents btCompute As Windows.Forms.Button
     Friend WithEvents spinBtnD As Windows.Forms.NumericUpDown
@@ -408,4 +436,6 @@ Partial Class Ui82x2
     Friend WithEvents ckOR As Windows.Forms.CheckBox
     Friend WithEvents ckLiddel As Windows.Forms.CheckBox
     Friend WithEvents ckAssociation As Windows.Forms.CheckBox
+    Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents lblAlpha As Windows.Forms.Label
 End Class

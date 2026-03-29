@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.SampleSizeCalc
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui12SampleSizeTtestSingleProp
@@ -12,6 +13,7 @@ Public Class Ui12SampleSizeTtestSingleProp
         Me.Text = analysis
         Me.lblSettings.Text = "Use " & Chr(34) & AppGlobals.app.DecimalSeparator & Chr(34) & " as a decimal separator and " &
                                       Chr(34) & AppGlobals.app.ThousandsSeparator & Chr(34) & " as a thousands separator."
+        Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         ' Add any initialization after the InitializeComponent() call.
         If Me.Text = "Sample Size - Paired T-test" Then
@@ -26,12 +28,12 @@ Public Class Ui12SampleSizeTtestSingleProp
             Me.lblMeanDiff.Text = "Proportion"
             Me.lblSD.Text = "Null Hypothesis Proportion"
             Me.tbMeanDiff.Text = String.Empty
-            Me.tbSD.Text = "0.5"
+            Me.tbSD.Text = FormatUiDouble(0.5)
         ElseIf Me.Text = "Sample Size - Independent Proportions" Then
             Me.lblMeanDiff.Text = "Control Group Proportion"
             Me.lblSD.Text = "Experimental Group Proportion"
-            Me.tbMeanDiff.Text = "0.4"
-            Me.tbSD.Text = "0.5"
+            Me.tbMeanDiff.Text = FormatUiDouble(0.4)
+            Me.tbSD.Text = FormatUiDouble(0.5)
         End If
 
         Me.WireHelp(Me.btnHelp)
@@ -65,7 +67,7 @@ Public Class Ui12SampleSizeTtestSingleProp
         Dim bFocusSet As Boolean, sAllErrors As String = String.Empty
 
         'Check input values
-        Dim CProp As Double = CDbl(Me.tbMeanDiff.Text)
+        Dim CProp As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Control Group Proportion")
         If CProp < 0 Or CProp > 1 Then
             If Not bFocusSet Then
                 Me.tbMeanDiff.Select()
@@ -74,7 +76,7 @@ Public Class Ui12SampleSizeTtestSingleProp
             sAllErrors += "Control Group Proportion should be 0 < Proportion < 1. " + vbLf
         End If
 
-        Dim TProp As Double = CDbl(Me.tbSD.Text)
+        Dim TProp As Double = ParseUiDouble(Me.tbSD.Text, "Experimental Group Proportion")
         If TProp < 0 Or TProp > 1 Then
             If Not bFocusSet Then
                 Me.tbSD.Select()
@@ -98,25 +100,15 @@ Public Class Ui12SampleSizeTtestSingleProp
 
         Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
-        Dim Kappa As Double = CDbl(Me.tbKappa.Text)
-
-        'get the estimate based on the normal distribution
-        Dim Pciara As Double = (CProp + TProp / Kappa) / (1 + 1 / Kappa)
-        Dim UncorrNest As Double = distributions.NormSInv(1.0 - Alpha / 2.0) * Math.Sqrt((1.0 + Kappa) * Pciara * (1.0 - Pciara))
-        UncorrNest = (UncorrNest + (distributions.NormSInv(1.0 - Beta) * Math.Sqrt(CProp * (1.0 - CProp) + Kappa * TProp * (1.0 - TProp)))) ^ 2
-        UncorrNest = (UncorrNest / (TProp - CProp) ^ 2) / Kappa
-        UncorrNest = RoundUp(UncorrNest, 0)
-        Dim UncorrNt As Integer = Int(UncorrNest)
-
-        Dim CorrNest As Double = (UncorrNt / 4.0) * (1.0 + Math.Sqrt(1.0 + (2.0 * (Kappa + 1.0)) / (CDbl(UncorrNt) * Kappa * Math.Abs(CProp - TProp)))) ^ 2
-        Dim CorrNt As Integer = Int(RoundUp(CorrNest, 0))
+        Dim Kappa As Double = ParseUiDouble(Me.tbKappa.Text, "Ratio of control to experimental subjects")
+        Dim result As IndependentProportionsSampleSizeResult = SampleSizeCalculator.CalculateIndependentProportions(CProp, TProp, Kappa, Alpha, Beta)
 
         Dim out As String = $"Inputs: Control Group Proportion={CProp}; Experimental Group Proportion={TProp}; Ratio of control to experimental subjects={Kappa}. {vbNewLine}" &
-                            $"alpha={Alpha}; beta={Beta}. {vbNewLine} For uncorrected chi-square test: {vbNewLine}" &
-                            $"Estimated Number of Controls:{Int(UncorrNt * Kappa)} {vbNewLine}" &
-                            $"Est. Number of Experimental subjects:{UncorrNt} {vbNewLine} For corrected chi-square or Fisher's exact test: {vbNewLine}" &
-                            $"Estimated Number of Controls:{Int(CorrNt * Kappa)} {vbNewLine}" &
-                            $"Est. Number of Experimental subjects:{CorrNt} {vbNewLine} {vbNewLine}"
+                        $"alpha={Alpha}; beta={Beta}. {vbNewLine} For uncorrected chi-square test: {vbNewLine}" &
+                        $"Estimated Number of Controls:{result.UncorrectedNumberOfControls} {vbNewLine}" &
+                        $"Est. Number of Experimental subjects:{result.UncorrectedNumberOfExperimental} {vbNewLine} For corrected chi-square or Fisher's exact test: {vbNewLine}" &
+                        $"Estimated Number of Controls:{result.CorrectedNumberOfControls} {vbNewLine}" &
+                        $"Est. Number of Experimental subjects:{result.CorrectedNumberOfExperimental} {vbNewLine} {vbNewLine}"
 
         Me.tbOutput.AppendText(out)
     End Sub
@@ -125,7 +117,7 @@ Public Class Ui12SampleSizeTtestSingleProp
         Dim bFocusSet As Boolean, sAllErrors As String = String.Empty
 
         'Check input values
-        Dim prop As Double = CDbl(Me.tbMeanDiff.Text)
+        Dim prop As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Proportion")
         If prop < 0 Or prop > 1 Then
             If Not bFocusSet Then
                 Me.tbMeanDiff.Select()
@@ -134,7 +126,7 @@ Public Class Ui12SampleSizeTtestSingleProp
             sAllErrors += "Proportion: Proportion should be 0 < Proportion < 1. " + vbLf
         End If
 
-        Dim H0Prop As Double = CDbl(Me.tbSD.Text)
+        Dim H0Prop As Double = ParseUiDouble(Me.tbSD.Text, "Null Hypothesis Proportion")
         If H0Prop < 0 Or H0Prop > 1 Then
             If Not bFocusSet Then
                 Me.tbSD.Select()
@@ -158,70 +150,39 @@ Public Class Ui12SampleSizeTtestSingleProp
 
         Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
-
-        'get the estimate based on the normal distribution
-        Dim Nest As Double = prop * (1.0 - prop) * ((distributions.NormSInv(1.0 - Alpha / 2.0) + distributions.NormSInv(1.0 - Beta)) / (prop - H0Prop)) ^ 2
-        Nest = RoundUp(Nest, 0)
-        Dim n As Integer = Int(Nest) 'final sample size estimate
+        Dim result As SingleProportionSampleSizeResult = SampleSizeCalculator.CalculateSingleProportion(prop, H0Prop, Alpha, Beta)
 
         Dim out As String = $"Inputs: Proportion={prop}; Null Hypothesis Proportion={H0Prop}; alpha={Alpha}; beta={Beta}. {vbNewLine}" &
-                            $"Est. Number of Subjects:{n} {vbNewLine} {vbNewLine}"
+                        $"Est. Number of Subjects:{result.NumberOfSubjects} {vbNewLine} {vbNewLine}"
 
         Me.tbOutput.AppendText(out)
     End Sub
 
     Private Sub RunPTtest()
-        Dim Crit As Double
-        Dim diff As Double = CDbl(Me.tbMeanDiff.Text)
-        Dim sd As Double = CDbl(Me.tbSD.Text)
+        Dim diff As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Mean difference")
+        Dim sd As Double = ParseUiDouble(Me.tbSD.Text, "Standard deviation")
         Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
-
-        'get 1st estimate based on the normal distribution
-        Dim Nest As Double = (sd * (distributions.NormSInv(1.0 - Alpha / 2.0) + distributions.NormSInv(1.0 - Beta)) / diff) ^ 2
-        Nest = RoundUp(Nest, 0)
-        Dim n As Integer = Int(Nest)
-
-        If n > 1 Then 'Iterate to get the final estimate
-            For i = 0 To 1000
-                Crit = (distributions.T_Inv(Alpha / 2, n - 1) + distributions.T_Inv(Beta, n - 1)) ^ 2 / (diff / sd) ^ 2
-                If CDbl(n) > Crit Then Exit For
-                n += 1
-            Next
-        End If
+        Dim result As PairedTTestSampleSizeResult = SampleSizeCalculator.CalculatePairedTTest(diff, sd, Alpha, Beta)
 
         Dim out As String = $"Inputs: Mean difference={diff}; SD={sd}; alpha={Alpha}; beta={Beta}. {vbNewLine}" &
-                            $"Est. Number of Paires:{n} {vbNewLine} {vbNewLine}"
+                        $"Est. Number of Paires:{result.NumberOfPairs} {vbNewLine} {vbNewLine}"
 
         Me.tbOutput.AppendText(out)
     End Sub
 
     Private Sub RunUPTtest()
-        Dim Crit As Double
-        Dim diff As Double = CDbl(Me.tbMeanDiff.Text)
-        Dim sd As Double = CDbl(Me.tbSD.Text)
-        Dim Kappa As Double = CDbl(Me.tbKappa.Text)
+        Dim diff As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Mean difference")
+        Dim sd As Double = ParseUiDouble(Me.tbSD.Text, "Standard deviation")
+        Dim Kappa As Double = ParseUiDouble(Me.tbKappa.Text, "Ratio of control to experimental subjects")
         Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
-
-        'get 1st estimate based on the normal distribution
-        Dim Nest As Double = (1.0 + 1.0 / Kappa) * (sd * (distributions.NormSInv(1.0 - Alpha / 2.0) + distributions.NormSInv(1.0 - Beta)) / diff) ^ 2
-        Nest = RoundUp(Nest, 0)
-        Dim nt As Integer = Int(Nest) 'final sample size estimates
-
-        If nt > 1 Then
-            'Iterate to get the final estimate
-            For i = 0 To 1000
-                Crit = (1 + 1 / Kappa) * (distributions.T_Inv(Alpha / 2, nt * (Kappa + 1) - 2) + distributions.T_Inv(Beta, nt * (Kappa + 1) - 2)) ^ 2 / (diff / sd) ^ 2
-                If CDbl(nt) > Crit Then Exit For
-                nt += 1
-            Next
-        End If
+        Dim result As UnpairedTTestSampleSizeResult = SampleSizeCalculator.CalculateUnpairedTTest(diff, sd, Kappa, Alpha, Beta)
 
         Dim out As String = $"Inputs: Mean difference={diff}; SD={sd}; Ratio of control to experimental subjects={Kappa}. {vbNewLine}" &
-                            $"alpha={Alpha}; beta={Beta}. {vbNewLine}" &
-                            $"Estimated Number of Controls:{Int(nt * Kappa)} {vbNewLine}" &
-                            $"Est. Number of Experimental subjects:{nt} {vbNewLine} {vbNewLine}"
+                        $"alpha={Alpha}; beta={Beta}. {vbNewLine}" &
+                        $"Estimated Number of Controls:{result.NumberOfControls} {vbNewLine}" &
+                        $"Est. Number of Experimental subjects:{result.NumberOfExperimental} {vbNewLine} {vbNewLine}"
 
         Me.tbOutput.AppendText(out)
     End Sub
@@ -238,7 +199,7 @@ Public Class Ui12SampleSizeTtestSingleProp
                 bFocusSet = True
             End If
             'build an error string, so we display all errors on the UserForm in one error message
-            sAllErrors += "Mean Difference:" + sError + vbLf
+            sAllErrors += Me.lblMeanDiff.Text & ":" & sError & vbLf
             bwait = True
         End If
 
@@ -247,7 +208,7 @@ Public Class Ui12SampleSizeTtestSingleProp
                 Me.tbSD.Select()
                 bFocusSet = True
             End If
-            sAllErrors += "Standard Deviation:" + sError + vbLf
+            sAllErrors += Me.lblSD.Text & ":" & sError & vbLf
             bwait = True
         End If
 

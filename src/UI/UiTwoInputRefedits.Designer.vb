@@ -26,13 +26,13 @@ Partial Class UiTwoInputRefedits
         Me.TabMultipage = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New Excel2007RefEdit()
+        Me.RefEditOutput = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.grpInput = New System.Windows.Forms.GroupBox()
-        Me.RefEdit2 = New Excel2007RefEdit()
-        Me.RefEdit1 = New Excel2007RefEdit()
+        Me.RefEdit2 = New Global.BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit1 = New Global.BESHStatNG.Excel2007RefEdit()
         Me.lblRefedit2 = New System.Windows.Forms.Label()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
         Me.TabPageOptions = New System.Windows.Forms.TabPage()
@@ -255,9 +255,9 @@ Partial Class UiTwoInputRefedits
         Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAlpha.Location = New System.Drawing.Point(97, 206)
         Me.lblAlpha.Name = "lblAlpha"
-        Me.lblAlpha.Size = New System.Drawing.Size(42, 16)
+        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
         Me.lblAlpha.TabIndex = 7
-        Me.lblAlpha.Text = "Alpha"
+        Me.lblAlpha.Text = "alpha"
         '
         'spinBtnAlphaDeming
         '
@@ -266,6 +266,7 @@ Partial Class UiTwoInputRefedits
         Me.spinBtnAlphaDeming.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlphaDeming.Location = New System.Drawing.Point(145, 200)
         Me.spinBtnAlphaDeming.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlphaDeming.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlphaDeming.Name = "spinBtnAlphaDeming"
         Me.spinBtnAlphaDeming.Size = New System.Drawing.Size(67, 22)
         Me.spinBtnAlphaDeming.TabIndex = 6
@@ -361,9 +362,9 @@ Partial Class UiTwoInputRefedits
         Me.lblAlphaOutliers.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAlphaOutliers.Location = New System.Drawing.Point(21, 165)
         Me.lblAlphaOutliers.Name = "lblAlphaOutliers"
-        Me.lblAlphaOutliers.Size = New System.Drawing.Size(42, 16)
+        Me.lblAlphaOutliers.Size = New System.Drawing.Size(41, 16)
         Me.lblAlphaOutliers.TabIndex = 5
-        Me.lblAlphaOutliers.Text = "Alpha"
+        Me.lblAlphaOutliers.Text = "alpha"
         '
         'spinBtnAlpha
         '
@@ -372,6 +373,7 @@ Partial Class UiTwoInputRefedits
         Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlpha.Location = New System.Drawing.Point(69, 163)
         Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlpha.Name = "spinBtnAlpha"
         Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
         Me.spinBtnAlpha.TabIndex = 4
@@ -491,8 +493,8 @@ Partial Class UiTwoInputRefedits
     Friend WithEvents TabPage1 As Windows.Forms.TabPage
     Friend WithEvents TabPageOptions As Windows.Forms.TabPage
     Friend WithEvents grpInput As Windows.Forms.GroupBox
-    Friend WithEvents RefEdit2 As Excel2007RefEdit
-    Friend WithEvents RefEdit1 As Excel2007RefEdit
+    Friend WithEvents RefEdit2 As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit1 As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents lblRefedit2 As Windows.Forms.Label
     Friend WithEvents lblRefedit1 As Windows.Forms.Label
     Friend WithEvents btnHelp As Windows.Forms.Button
@@ -501,7 +503,7 @@ Partial Class UiTwoInputRefedits
     Friend WithEvents ckSignTest As Windows.Forms.CheckBox
     Friend WithEvents progressBarExactCalc As Windows.Forms.ProgressBar
     Friend WithEvents grpOutput As Windows.Forms.GroupBox
-    Friend WithEvents RefEditOutput As Excel2007RefEdit
+    Friend WithEvents RefEditOutput As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents optWorkbook As Windows.Forms.RadioButton
     Friend WithEvents optWorksheet As Windows.Forms.RadioButton
     Friend WithEvents optOutputRange As Windows.Forms.RadioButton

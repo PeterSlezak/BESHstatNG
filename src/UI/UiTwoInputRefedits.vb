@@ -13,6 +13,8 @@ Public Class UiTwoInputRefedits
         Me.RefEdit2.ExcelConnector = AppGlobals.app
         Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
+        Me.spinBtnAlphaDeming.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlphaDeming.Minimum, Me.spinBtnAlphaDeming.Maximum)
+        Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         Me.TabPageOptionsHotteling.Parent = Nothing
         Me.TabPageOptions.Parent = Nothing
@@ -36,23 +38,38 @@ Public Class UiTwoInputRefedits
             Me.lblErrorRatio.Visible = True
             Me.spinBtnErrorRatio.Visible = True
 
-        ElseIf analysis = "Kendall's Rank Correlation" Or analysis = "Spearman Rank Correlation" Then
+        ElseIf analysis = "Kendall's Rank Correlation" Or
+               analysis = "Spearman Rank Correlation" Or
+               analysis = "Theil-Sen Simple Regression" Then
             Me.TabPageOptions.Parent = Me.TabMultipage
             Me.ckSignTest.Visible = False
             Me.grpCItype.Visible = False
-            Me.lblAlpha.Visible = False
-            Me.spinBtnAlphaDeming.Visible = False
             Me.lblErrorRatio.Visible = False
             Me.spinBtnErrorRatio.Visible = False
+            Me.lblAlpha.Visible = True
+            Me.lblAlpha.Location = New System.Drawing.Point(19, 45)
+            Me.spinBtnAlphaDeming.Visible = True
+            Me.spinBtnAlphaDeming.Location = New System.Drawing.Point(67, 43)
 
         ElseIf analysis = "Wilcoxon Signed rank test" Then
             Me.TabPageOptions.Parent = Me.TabMultipage
             Me.ckSignTest.Visible = True
             Me.grpCItype.Visible = False
-            Me.lblAlpha.Visible = False
-            Me.spinBtnAlphaDeming.Visible = False
             Me.lblErrorRatio.Visible = False
             Me.spinBtnErrorRatio.Visible = False
+            Me.lblAlpha.Visible = True
+            Me.lblAlpha.Location = New System.Drawing.Point(19, 68)
+            Me.spinBtnAlphaDeming.Visible = True
+            Me.spinBtnAlphaDeming.Location = New System.Drawing.Point(67, 66)
+
+        ElseIf Me.Text = "Paired T-test" Then
+            Me.TabPageOptions.Parent = Me.TabMultipage
+            Me.ckSignTest.Visible = False
+            Me.grpCItype.Visible = False
+            Me.lblErrorRatio.Visible = False
+            Me.spinBtnErrorRatio.Visible = False
+            Me.lblAlpha.Visible = False
+            Me.spinBtnAlphaDeming.Visible = False
 
         End If
 
@@ -235,7 +252,7 @@ Public Class UiTwoInputRefedits
             Next
 
             Dim BoxStat As TestResult = assumptions.BoxM(CovMats, {D1.nRows, D2.nRows})
-            Dim bEqCov As Boolean = If(BoxStat.Pvalue > 0.05, True, False)
+            Dim bEqCov As Boolean = If(BoxStat.Pvalue > AppGlobals.DefaultAlpha, True, False)
             HT2.calculate(True)
             HT2.CI(Me.spinBtnAlpha.Value)
             res = HT2.wrapResults()
@@ -287,8 +304,9 @@ Public Class UiTwoInputRefedits
 
     Private Sub RunTheilSen(data As TwoGroupsPairedData)
         Dim WriteRes = New WriteResults
+        Dim alphaValue As Double = CDbl(Me.spinBtnAlphaDeming.Value)
         Dim ts = New nonparametric.TheilSen(data.X, {data.name1, data.name2})
-        ts.compute()
+        ts.compute(alphaValue)
         Dim res = ts.wrapResults()
 
         'Compute descriptive statistics
@@ -311,8 +329,9 @@ Public Class UiTwoInputRefedits
 
     Private Sub RunKendall(data As TwoGroupsPairedData)
         Dim WriteRes = New WriteResults
+        Dim alphaValue As Double = CDbl(Me.spinBtnAlphaDeming.Value)
         Dim kendall = New nonparametric.KendallsTau(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
-        kendall.Compute(Me.progressBarExactCalc)
+        kendall.compute(Me.progressBarExactCalc, alphaValue)
         Dim res = kendall.wrapResults()
 
         'Compute descriptive statistics
@@ -334,9 +353,10 @@ Public Class UiTwoInputRefedits
 
     Private Sub RunSpearman(data As TwoGroupsPairedData)
         Dim WriteRes = New WriteResults
+        Dim alphaValue As Double = CDbl(Me.spinBtnAlphaDeming.Value)
 
         Dim spearman = New nonparametric.SpearmanRho(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
-        spearman.Compute(Me.progressBarExactCalc)
+        spearman.Compute(Me.progressBarExactCalc, alphaValue)
         Dim res = spearman.wrapResults()
 
         'Compute descriptive statistics
@@ -358,11 +378,12 @@ Public Class UiTwoInputRefedits
 
     Private Sub RunWilcoxon(data As TwoGroupsPairedData)
         Dim WriteRes = New WriteResults
+        Dim alphaValue As Double = CDbl(Me.spinBtnAlphaDeming.Value)
 
         'Compute test
         Dim Wilcoxon = New nonparametric.WilcoxonTest(data.X, data.name1, data.name2)
         Wilcoxon.Compute(Me.progressBarExactCalc)
-        Wilcoxon.ComputeShift()
+        Wilcoxon.ComputeShift(alphaValue)
         If Me.ckSignTest.Checked Then Wilcoxon.signTest()
 
         Dim res = Wilcoxon.wrapResults()

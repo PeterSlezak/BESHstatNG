@@ -148,13 +148,16 @@ Public Class Ui3XYZplot
         If Not ValidateAxisLimitPair("Z axis", Me.tbZmin, Me.tbZmax, errText) Then Return False
 
         If Me.tbXmin.Text <> String.Empty Then
-            plot.SetAxisLimitsX(CDbl(Me.tbXmin.Text), CDbl(Me.tbXmax.Text))
+            plot.SetAxisLimitsX(ParseUiDouble(Me.tbXmin.Text, "X axis minimum"),
+                                ParseUiDouble(Me.tbXmax.Text, "X axis maximum"))
         End If
         If Me.tbYmin.Text <> String.Empty Then
-            plot.SetAxisLimitsY(CDbl(Me.tbYmin.Text), CDbl(Me.tbYmax.Text))
+            plot.SetAxisLimitsY(ParseUiDouble(Me.tbYmin.Text, "Y axis minimum"),
+                                ParseUiDouble(Me.tbYmax.Text, "Y axis maximum"))
         End If
         If Me.tbZmin.Text <> String.Empty Then
-            plot.SetAxisLimitsZ(CDbl(Me.tbZmin.Text), CDbl(Me.tbZmax.Text))
+            plot.SetAxisLimitsZ(ParseUiDouble(Me.tbZmin.Text, "Z axis minimum"),
+                                ParseUiDouble(Me.tbZmax.Text, "Z axis maximum"))
         End If
 
         Return True

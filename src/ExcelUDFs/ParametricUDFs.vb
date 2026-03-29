@@ -358,7 +358,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' </param>
         ''' <param name="alpha">
         ''' Significance level used for confidence intervals in the returned MCP table(s).
-        ''' For example, <c>0.05</c> gives 95% confidence intervals.
+        ''' The default is `0.05`, corresponding to 95% confidence intervals.
         ''' </param>
         ''' <returns>
         ''' A labeled multiple-comparison table as a dynamic array.
@@ -374,7 +374,7 @@ Namespace BESHStatNG.WorksheetFunctions
             <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
             <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing,
             <ExcelArgument(Name:="method", Description:="Optional: tukey/tukey-kramer (default), games-howell, lsd/fisher, bonferroni, or all.")> Optional method As Object = Nothing,
-            <ExcelArgument(Name:="alpha", Description:="Optional CI alpha level, e.g. 0.05 for 95% CI.")> Optional alpha As Object = Nothing
+            <ExcelArgument(Name:="alpha", Description:="Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).")> Optional alpha As Object = Nothing
         ) As Object
             Try
                 Dim data()() As Double = Nothing
@@ -460,7 +460,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' </param>
         ''' <param name="alpha">
         ''' Significance level used for confidence intervals in the returned MCP table(s).
-        ''' For example, <c>0.05</c> gives 95% confidence intervals.
+        ''' The default is `0.05`, corresponding to 95% confidence intervals.
         ''' </param>
         ''' <returns>
         ''' A labeled multiple-comparison table as a dynamic array.
@@ -476,7 +476,7 @@ Namespace BESHStatNG.WorksheetFunctions
             <ExcelArgument(Name:="data", Description:="Numeric matrix; rows=subjects, columns=conditions. First row may contain headers.")> data As Object,
             <ExcelArgument(Name:="conditionNames", Description:="Optional condition names as comma-separated text or 1-row/1-column range.")> Optional conditionNames As Object = Nothing,
             <ExcelArgument(Name:="method", Description:="Optional: rm2/tukeyrm2 (default), tukey/sphericity, or all.")> Optional method As Object = Nothing,
-            <ExcelArgument(Name:="alpha", Description:="Optional CI alpha level, e.g. 0.05 for 95% CI.")> Optional alpha As Object = Nothing
+            <ExcelArgument(Name:="alpha", Description:="Optional two-sided significance level for confidence intervals. Default 0.05 (95% confidence interval).")> Optional alpha As Object = Nothing
         ) As Object
             Try
                 Dim mat(,) As Double = Nothing
@@ -520,6 +520,184 @@ Namespace BESHStatNG.WorksheetFunctions
                     Case Else
                         Return ExcelError.ExcelErrorValue
                 End Select
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+        End Function
+
+        ' -------------------------------------------------------------------------------------------------------------
+        ' T-tests
+        ' -------------------------------------------------------------------------------------------------------------
+
+        ''' <summary>
+        ''' Two-sample unpaired t-test for comparing the means of two independent groups.
+        ''' </summary>
+        ''' <param name="x">
+        ''' First group as a single-column Excel range.
+        ''' Non-numeric cells are ignored. If the first cell is a non-numeric label and numeric values follow,
+        ''' it is treated as a header and may be used as the default name of the first group.
+        ''' </param>
+        ''' <param name="y">
+        ''' Second group as a single-column Excel range.
+        ''' Non-numeric cells are ignored. If the first cell is a non-numeric label and numeric values follow,
+        ''' it is treated as a header and may be used as the default name of the second group.
+        ''' </param>
+        ''' <param name="groupNames">
+        ''' Optional group names supplied as a comma-separated string or as a one-row/one-column range.
+        ''' Two names are expected. When omitted, names are taken from header cells when available;
+        ''' otherwise default names such as Group 1 and Group 2 are used.
+        ''' </param>
+        ''' <param name="outputType">
+        ''' Optional output selection:
+        ''' <list type="bullet">
+        ''' <item><description><c>"both"</c> — return the pooled-variance table followed by the Welch table (default)</description></item>
+        ''' <item><description><c>"equal"</c>, <c>"pooled"</c>, or <c>"student"</c> — return only the equal-variance table</description></item>
+        ''' <item><description><c>"unequal"</c> or <c>"welch"</c> — return only the unequal-variance table</description></item>
+        ''' </list>
+        ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the mean-difference confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
+        ''' <returns>
+        ''' A labeled result table, or two stacked labeled tables when <paramref name="outputType"/> is <c>"both"</c>.
+        ''' The equal-variance output reports the pooled standard error, t statistic, degrees of freedom, two-sided p-value,
+        ''' and confidence interval for the mean difference. The unequal-variance output reports the Welch standard error,
+        ''' Welch degrees of freedom, two-sided p-value, confidence interval, and the p-value of the variance-comparison F test.
+        ''' Returns <c>#VALUE!</c> if either input is not a single column or if <paramref name="outputType"/> is not recognized.
+        ''' Returns <c>#NUM!</c> if either group has fewer than two usable numeric observations or if <paramref name="alpha"/> is invalid.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This worksheet function compares two <b>independent</b> samples.
+        ''' By default it returns both the classical pooled-variance t-test and Welch’s unequal-variance alternative,
+        ''' which is often preferred when sample sizes or variances differ noticeably.
+        ''' </para>
+        ''' <para>
+        ''' The test statistic is based on the difference between the sample means.
+        ''' The pooled version assumes equal population variances, while the Welch version does not and uses an adjusted
+        ''' degrees-of-freedom approximation.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.PAR.TTEST_UNPAIRED(A2:A21, B2:B19)
+        ''' =BESH.PAR.TTEST_UNPAIRED(A1:A21, B1:B19, "Control,Treatment", "welch", 0.01)
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.PAR.TTEST_UNPAIRED",
+            Category:="BESHStatNG - Parametric",
+            Description:="Two-sample unpaired t-test. Returns pooled, Welch, or both result tables.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+        Public Function TTEST_UNPAIRED(
+            <ExcelArgument(Name:="x", Description:="First independent group as a single-column range. Non-numeric cells ignored; first cell may be a header.")> x As Object,
+            <ExcelArgument(Name:="y", Description:="Second independent group as a single-column range. Non-numeric cells ignored; first cell may be a header.")> y As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="output", Description:="Optional: both (default), equal/pooled/student, or unequal/welch.")> Optional outputType As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional two-sided significance level for the confidence interval. Default 0.05.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not TryReadIndependentNumericColumns(x, y, data, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
+                If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
+                If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(groupNames, detectedNames, 2, "Group")
+
+                Dim alphaValue As Double = 0.05
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim mdl As New parametric.UnpairedTtest(data, names)
+                mdl.compute(alphaValue)
+                Dim tables = mdl.wrapResults()
+
+                Dim which As String = NormalizeText(outputType)
+                Select Case which
+                    Case "", "BOTH", "ALL"
+                        Return PrepareResultTableForUdf(StackWithBlankRow(tables(0).returnSelf(), tables(1).returnSelf()))
+                    Case "EQUAL", "POOLED", "STUDENT", "ASSUME-EQUAL", "ASSUMEEQUAL"
+                        Return PrepareResultTableForUdf(tables(0).returnSelf())
+                    Case "UNEQUAL", "WELCH", "ASSUME-UNEQUAL", "ASSUMEUNEQUAL"
+                        Return PrepareResultTableForUdf(tables(1).returnSelf())
+                    Case Else
+                        Return ExcelError.ExcelErrorValue
+                End Select
+            Catch
+                Return ExcelError.ExcelErrorValue
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Paired t-test for comparing the mean of within-row differences between two matched measurements.
+        ''' </summary>
+        ''' <param name="x">
+        ''' First measurement as a single-column Excel range.
+        ''' Values are paired by row with the second input. If the first cell is a non-numeric label and numeric values follow,
+        ''' it is treated as a header and may be used as the default name of the first measurement.
+        ''' </param>
+        ''' <param name="y">
+        ''' Second measurement as a single-column Excel range.
+        ''' Values are paired by row with the first input. If the first cell is a non-numeric label and numeric values follow,
+        ''' it is treated as a header and may be used as the default name of the second measurement.
+        ''' </param>
+        ''' <param name="varNames">
+        ''' Optional names supplied as a comma-separated string or as a one-row/one-column range.
+        ''' Two names are expected. When omitted, names are taken from header cells when available;
+        ''' otherwise default names such as Sample 1 and Sample 2 are used.
+        ''' </param>
+        ''' <returns>
+        ''' A labeled result table showing the number of usable pairs, the mean of differences,
+        ''' the standard deviation and standard error of the differences, the degrees of freedom,
+        ''' the t statistic, and the two-sided p-value.
+        ''' Returns <c>#VALUE!</c> if either input is not a single column or if the two inputs have different row counts.
+        ''' Returns <c>#NUM!</c> if fewer than two usable numeric pairs remain after filtering.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This worksheet function compares two <b>paired</b> measurements, such as before/after values,
+        ''' left/right measurements, or matched observations from the same subjects.
+        ''' Rows are matched strictly by position.
+        ''' </para>
+        ''' <para>
+        ''' The test is carried out on the within-row differences <c>x - y</c>.
+        ''' It tests whether the mean difference equals zero while accounting for the pairing structure.
+        ''' Rows where either entry is non-numeric are discarded before the calculation.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.PAR.TTEST_PAIRED(A2:A21, B2:B21)
+        ''' =BESH.PAR.TTEST_PAIRED(A1:A21, B1:B21, "Before,After")
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.PAR.TTEST_PAIRED",
+            Category:="BESHStatNG - Parametric",
+            Description:="Paired t-test for two matched samples. Returns a labeled result table.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+        Public Function TTEST_PAIRED(
+            <ExcelArgument(Name:="x", Description:="First paired sample as a single-column range. Values are paired by row; first cell may be a header.")> x As Object,
+            <ExcelArgument(Name:="y", Description:="Second paired sample as a single-column range. Values are paired by row; first cell may be a header.")> y As Object,
+            <ExcelArgument(Name:="varNames", Description:="Optional names as comma-separated text or 1-row/1-column range.")> Optional varNames As Object = Nothing
+        ) As Object
+            Try
+                Dim mat(,) As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not TryReadPairedNumericColumns(x, y, mat, detectedNames) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+                If mat Is Nothing OrElse mat.GetLength(0) < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim names() As String = ResolveNames(varNames, detectedNames, 2, "Sample")
+                Dim mdl As New parametric.PairedTtest(mat, names)
+                mdl.compute()
+                Dim tables = mdl.wrapResults()
+                Return PrepareResultTableForUdf(tables(0).returnSelf())
             Catch
                 Return ExcelError.ExcelErrorValue
             End Try
@@ -607,7 +785,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' </returns>
         Friend Function ResolveNames(explicitNames As Object, detectedNames() As String, expectedCount As Integer, prefix As String) As String()
             If Not IsMissingArg(explicitNames) Then
-                Dim names = UdfRangeHelpers.GetVarNames(explicitNames, expectedCount)
+                Dim names = UDFhelpers.GetVarNames(explicitNames, expectedCount)
                 For i As Integer = 0 To names.Length - 1
                     If String.IsNullOrWhiteSpace(names(i)) Then names(i) = prefix & " " & (i + 1).ToString()
                 Next
@@ -657,6 +835,92 @@ Namespace BESHStatNG.WorksheetFunctions
             Return True
         End Function
 
+        Private Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean
+            If arr Is Nothing Then Return False
+            If arr.GetLength(1) <> 1 Then Return False
+
+            Dim rows As Integer = arr.GetLength(0)
+            If rows < 2 Then Return False
+            If TryGetDouble(arr(0, 0)).HasValue Then Return False
+
+            For r As Integer = 1 To rows - 1
+                If TryGetDouble(arr(r, 0)).HasValue Then Return True
+            Next
+
+            Return False
+        End Function
+
+        Private Function TryReadIndependentNumericColumns(x As Object, y As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
+            groups = Nothing
+            names = Nothing
+
+            Dim ax As Object(,) = UDFhelpers.Get2D(x)
+            Dim ay As Object(,) = UDFhelpers.Get2D(y)
+            If ax Is Nothing OrElse ay Is Nothing Then Return False
+            If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return False
+
+            Dim hasHeaderX As Boolean = LooksLikeSingleColumnHeader(ax)
+            Dim hasHeaderY As Boolean = LooksLikeSingleColumnHeader(ay)
+            Dim startRowX As Integer = If(hasHeaderX, 1, 0)
+            Dim startRowY As Integer = If(hasHeaderY, 1, 0)
+
+            Dim gx As New List(Of Double)
+            For r As Integer = startRowX To ax.GetLength(0) - 1
+                Dim d = TryGetDouble(ax(r, 0))
+                If d.HasValue Then gx.Add(d.Value)
+            Next
+
+            Dim gy As New List(Of Double)
+            For r As Integer = startRowY To ay.GetLength(0) - 1
+                Dim d = TryGetDouble(ay(r, 0))
+                If d.HasValue Then gy.Add(d.Value)
+            Next
+
+            groups = New Double()() {gx.ToArray(), gy.ToArray()}
+            names = New String() {
+                If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Group 1"),
+                If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Group 2")
+            }
+            Return True
+        End Function
+
+        Private Function TryReadPairedNumericColumns(x As Object, y As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
+            mat = Nothing
+            names = Nothing
+
+            Dim ax As Object(,) = UDFhelpers.Get2D(x)
+            Dim ay As Object(,) = UDFhelpers.Get2D(y)
+            If ax Is Nothing OrElse ay Is Nothing Then Return False
+            If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return False
+            If ax.GetLength(0) <> ay.GetLength(0) Then Return False
+
+            Dim hasHeaderX As Boolean = LooksLikeSingleColumnHeader(ax)
+            Dim hasHeaderY As Boolean = LooksLikeSingleColumnHeader(ay)
+            If hasHeaderX <> hasHeaderY Then Return False
+
+            names = New String() {
+                If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Sample 1"),
+                If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Sample 2")
+            }
+
+            Dim pairs As New List(Of Double())
+            For r As Integer = 0 To ax.GetLength(0) - 1
+                Dim dx = TryGetDouble(ax(r, 0))
+                Dim dy = TryGetDouble(ay(r, 0))
+                If dx.HasValue AndAlso dy.HasValue Then
+                    pairs.Add(New Double() {dx.Value, dy.Value})
+                End If
+            Next
+
+            If pairs.Count = 0 Then Return True
+
+            mat = New Double(pairs.Count - 1, 1) {}
+            For r As Integer = 0 To pairs.Count - 1
+                mat(r, 0) = pairs(r)(0)
+                mat(r, 1) = pairs(r)(1)
+            Next
+            Return True
+        End Function
         Private Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
             groups = Nothing
             names = Nothing

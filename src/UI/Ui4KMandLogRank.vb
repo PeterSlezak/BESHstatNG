@@ -14,6 +14,7 @@ Public Class Ui4KMandLogRank
         Me.RefEdit4_StrataID.ExcelConnector = AppGlobals.app
         Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
+        Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         With Me.cbXunits.Items
             .Add("days")

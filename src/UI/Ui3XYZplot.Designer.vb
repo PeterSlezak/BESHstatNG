@@ -65,12 +65,12 @@ Partial Class Ui3XYZplot
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
         Me.TabInput = New System.Windows.Forms.TabControl()
         Me.TabPage1_Input = New System.Windows.Forms.TabPage()
-        Me.RefEdit6_AnimatedGif = New Excel2007RefEdit()
-        Me.RefEdit5_Labels = New Excel2007RefEdit()
-        Me.RefEdit4_Group = New Excel2007RefEdit()
-        Me.RefEdit1_X = New Excel2007RefEdit()
-        Me.RefEdit2_Y = New Excel2007RefEdit()
-        Me.RefEdit3_Z = New Excel2007RefEdit()
+        Me.RefEdit6_AnimatedGif = New Global.BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit5_Labels = New Global.BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit4_Group = New Global.BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit1_X = New Global.BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit2_Y = New Global.BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit3_Z = New Global.BESHStatNG.Excel2007RefEdit()
         Me.TabPage2_3Dobjects = New System.Windows.Forms.TabPage()
         Me.lblG = New System.Windows.Forms.Label()
         Me.lblB = New System.Windows.Forms.Label()
@@ -86,7 +86,7 @@ Partial Class Ui3XYZplot
         Me.lblLatitudeRings = New System.Windows.Forms.Label()
         Me.spinBtnLatitudeRings = New System.Windows.Forms.NumericUpDown()
         Me.lblObjectList = New System.Windows.Forms.Label()
-        Me.RefEdit1_3Dobjects = New Excel2007RefEdit()
+        Me.RefEdit1_3Dobjects = New Global.BESHStatNG.Excel2007RefEdit()
         Me.TabPage1_AxisOption = New System.Windows.Forms.TabPage()
         Me.grpZaxisOption = New System.Windows.Forms.GroupBox()
         Me.tbZmax = New System.Windows.Forms.TextBox()
@@ -1146,11 +1146,11 @@ Partial Class Ui3XYZplot
     Friend WithEvents lblZ As Windows.Forms.Label
     Friend WithEvents btOK As Windows.Forms.Button
     Friend WithEvents btnHelp As Windows.Forms.Button
-    Friend WithEvents RefEdit1_X As Excel2007RefEdit
-    Friend WithEvents RefEdit2_Y As Excel2007RefEdit
-    Friend WithEvents RefEdit3_Z As Excel2007RefEdit
-    Friend WithEvents RefEdit4_Group As Excel2007RefEdit
-    Friend WithEvents RefEdit5_Labels As Excel2007RefEdit
+    Friend WithEvents RefEdit1_X As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit2_Y As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit3_Z As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit4_Group As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit5_Labels As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents lblRotationX As Windows.Forms.Label
     Friend WithEvents spinBtnRotationX As Windows.Forms.NumericUpDown
     Friend WithEvents spinBtnRotationZ As Windows.Forms.NumericUpDown
@@ -1178,13 +1178,13 @@ Partial Class Ui3XYZplot
     Friend WithEvents lblPointLabelPosition As Windows.Forms.Label
     Friend WithEvents cbPointLabelPosition As Windows.Forms.ComboBox
     Friend WithEvents btnAnimatedGif As Windows.Forms.Button
-    Friend WithEvents RefEdit6_AnimatedGif As Excel2007RefEdit
+    Friend WithEvents RefEdit6_AnimatedGif As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents lblAnimatedGif As Windows.Forms.Label
     Friend WithEvents ProgressBar1 As Windows.Forms.ProgressBar
     Friend WithEvents TabInput As Windows.Forms.TabControl
     Friend WithEvents TabPage1_Input As Windows.Forms.TabPage
     Friend WithEvents TabPage2_3Dobjects As Windows.Forms.TabPage
-    Friend WithEvents RefEdit1_3Dobjects As Excel2007RefEdit
+    Friend WithEvents RefEdit1_3Dobjects As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents lblObjectList As Windows.Forms.Label
     Friend WithEvents lblLatitudeRings As Windows.Forms.Label
     Friend WithEvents spinBtnLatitudeRings As Windows.Forms.NumericUpDown

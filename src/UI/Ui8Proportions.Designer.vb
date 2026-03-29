@@ -24,7 +24,7 @@ Partial Class Ui8Proportions
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Ui8Proportions))
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New Excel2007RefEdit()
+        Me.RefEditOutput = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
@@ -309,7 +309,7 @@ Partial Class Ui8Proportions
     End Sub
 
     Friend WithEvents grpOutput As Windows.Forms.GroupBox
-    Friend WithEvents RefEditOutput As Excel2007RefEdit
+    Friend WithEvents RefEditOutput As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents optWorkbook As Windows.Forms.RadioButton
     Friend WithEvents optWorksheet As Windows.Forms.RadioButton
     Friend WithEvents optOutputRange As Windows.Forms.RadioButton

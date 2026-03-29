@@ -388,66 +388,70 @@ Namespace contingencytable
         End Function
 
         ''' <summary>
-        ''' Performs Liddell's exact McNemar test for matched pairs in a 2x2 contingency table.
+        ''' Performs Liddell's exact McNemar test for paired 2×2 tables and returns
+        ''' an exact odds-ratio confidence interval.
         ''' </summary>
         ''' <param name="table">
-        ''' A two-dimensional integer array representing a 2x2 contingency table:
+        ''' A two-dimensional integer array representing a paired 2×2 table:
         ''' <list type="bullet">
-        ''' <item><description>Row 0, Col 0: concordant positive pairs</description></item>
-        ''' <item><description>Row 0, Col 1: discordant pairs (positive in first, negative in second)</description></item>
-        ''' <item><description>Row 1, Col 0: discordant pairs (negative in first, positive in second)</description></item>
-        ''' <item><description>Row 1, Col 1: concordant negative pairs</description></item>
+        ''' <item><description>Row 0, Col 0: concordant negative pairs</description></item>
+        ''' <item><description>Row 0, Col 1: discordant pairs of type r</description></item>
+        ''' <item><description>Row 1, Col 0: discordant pairs of type s</description></item>
+        ''' <item><description>Row 1, Col 1: concordant positive pairs</description></item>
         ''' </list>
-        ''' If a larger matrix is provided, only the upper-left 2x2 subtable is analyzed.
+        ''' If a larger matrix is provided, only the upper-left 2×2 subtable is analyzed.
+        ''' </param>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the exact odds-ratio confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>
         ''' A tuple containing:
         ''' <list type="bullet">
         ''' <item><description><see cref="TestResult"/> with the exact p-value from Liddell's McNemar test.</description></item>
-        ''' <item><description><see cref="ConfidenceIntervalResult"/> with the odds ratio estimate and 95% confidence interval.</description></item>
+        ''' <item><description><see cref="ConfidenceIntervalResult"/> with the odds-ratio estimate and an exact two-sided confidence interval at level <c>1 - alpha</c>.</description></item>
         ''' </list>
         ''' </returns>
         ''' <remarks>
-        ''' - Based on F.D.K. Liddell (1983), *Simplified exact analysis of case-referent studies: matched pairs; dichotomous exposure*, 
-        ''' Journal of Epidemiology and Community Health, 37, 82–84.  
-        ''' - Uses F-distribution quantiles to compute confidence intervals for the odds ratio.  
-        ''' - Handles special cases when one discordant cell count is zero (producing one-sided or infinite bounds).  
+        ''' - Based on F.D.K. Liddell (1983), <i>Simplified exact analysis of case-referent studies: matched pairs; dichotomous exposure</i>, Journal of Epidemiology and Community Health, 37, 82–84.  
+        ''' - Uses upper-tail F quantiles with <c>alpha / 2</c> to compute exact confidence limits for the matched-pairs odds ratio.  
+        ''' - Handles special cases when one discordant cell count is zero, producing one-sided or infinite bounds when appropriate.  
         ''' </remarks>
         ''' <example>
-        ''' ' Example: 2x2 matched pairs table
         ''' Dim table(1,1) As Integer
         ''' table(0,0) = 30 : table(0,1) = 10
         ''' table(1,0) = 5  : table(1,1) = 25
         '''
-        ''' Dim result = Liddell_McNemar(table)
-        ''' Console.WriteLine("Exact p-value: "  result.Item1.Pvalue)
-        ''' Console.WriteLine("Odds ratio: "  result.Item2.Estimate)
-        ''' Console.WriteLine("95% CI: "  result.Item2.strConfidenceInterval)
+        ''' Dim result = Liddell_McNemar(table, 0.1)
+        ''' Console.WriteLine("Exact p-value: " result.Item1.Pvalue)
+        ''' Console.WriteLine("Odds ratio: " result.Item2.Estimate)
+        ''' Console.WriteLine("CI: "  result.Item2.strConfidenceInterval)
         ''' </example>
-        Public Function Liddell_McNemar(table(,) As Integer) As (TestResult, ConfidenceIntervalResult)
+        Public Function Liddell_McNemar(table(,) As Integer, Optional alpha As Double = 0.05) As (TestResult, ConfidenceIntervalResult)
             'input table have to be of size 2x2 else 2x2 subtable in upper left corner of the matrix is analyzed
             'function is based on paper by F.D.K. Liddell. Simplified exact analysis of case-referent studies:
             'matched pairs; dichotomous exposure. Journal of Epidemiology and Community Health, 1983, 37, 82-84.
 
             Dim tst = New TestResult, ci = New ConfidenceIntervalResult
+            ci.alpha = alpha
             Dim r As Double = table(0, 1)
             Dim S As Double = table(1, 0)
 
             If S > 0 Then
                 If r > 0 Then
                     ci.Estimate = r / S
-                    ci.LowerLimit = r / ((S + 1) * distributions.F_Inv_RT(0.025, 2.0 * (S + 1), 2.0 * r))
-                    ci.UpperLimit = ((r + 1) * distributions.F_Inv_RT(0.025, 2.0 * (r + 1), 2.0 * S)) / S
+                    ci.LowerLimit = r / ((S + 1) * distributions.F_Inv_RT(alpha / 2.0, 2.0 * (S + 1), 2.0 * r))
+                    ci.UpperLimit = ((r + 1) * distributions.F_Inv_RT(alpha / 2.0, 2.0 * (r + 1), 2.0 * S)) / S
 
                 ElseIf r = 0 Then
                     ci.Estimate = r / S
                     ci.LowerLimit = 0.0
-                    ci.UpperLimit = ((r + 1) * distributions.F_Inv_RT(0.025, 2.0 * (r + 1), 2 * S)) / S
+                    ci.UpperLimit = ((r + 1) * distributions.F_Inv_RT(alpha / 2.0, 2.0 * (r + 1), 2 * S)) / S
 
                 End If
             ElseIf S = 0 Then
                 ci.Estimate = 1.0E+30 'infinity
-                ci.LowerLimit = r / ((S + 1) * distributions.F_Inv_RT(0.025, 2.0 * (S + 1), 2.0 * r))
+                ci.LowerLimit = r / ((S + 1) * distributions.F_Inv_RT(alpha / 2.0, 2.0 * (S + 1), 2.0 * r))
                 ci.strConfidenceInterval = CStr(CSng(ci.LowerLimit)) + " to infinity"
             End If
 
@@ -557,7 +561,8 @@ Namespace contingencytable
         ''' </list>
         ''' </param>
         ''' <param name="alpha">
-        ''' The significance level for the confidence interval (default = 0.05 for 95% CI).
+        ''' Optional two-sided significance level used for the Woolf and Cornfield confidence intervals.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>
         ''' A tuple containing:
@@ -593,6 +598,7 @@ Namespace contingencytable
             Dim sum As Double = a + b + c + d
             Dim q = distributions.NormSInv(1.0 - alpha / 2.0)
             Dim out As New ConfidenceIntervalResult
+            out.alpha = alpha
             'Woolf confidence interval
             out.Estimate = a * d / (b * c)
             Dim SE As Double = Math.Sqrt(1.0 / a + 1 / b + 1 / c + 1 / d)
@@ -659,6 +665,7 @@ Namespace contingencytable
             Loop
 
             Dim out2 As New ConfidenceIntervalResult
+            out2.alpha = alpha
             out2.Estimate = out.Estimate
             out2.LowerLimit = OmegaL
             out2.UpperLimit = OmegaU
@@ -679,7 +686,7 @@ Namespace contingencytable
         ''' </list>
         ''' </param>
         ''' <param name="alpha">
-        ''' The significance level for the confidence interval.
+        ''' Optional two-sided significance level used for the confidence interval.
         ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>
@@ -713,6 +720,7 @@ Namespace contingencytable
             Dim c As Double = CDbl(table(1, 0))
             Dim d As Double = CDbl(table(1, 1))
             Dim out As New ConfidenceIntervalResult
+            out.alpha = alpha
             out.Estimate = (a / (a + c)) / (b / (b + d))
             Dim SE As Double = Math.Sqrt((c / (a * (a + c))) + (d / (b * (b + d))))
             Dim q = distributions.NormSInv(1.0 - alpha / 2.0)
@@ -824,7 +832,8 @@ Namespace contingencytable
         ''' and columns correspond to ordered categories of the dependent variable.
         ''' </param>
         ''' <param name="alpha">
-        ''' The significance level for confidence intervals (default = 0.05 for 95% CI).
+        ''' Optional two-sided significance level used for the reported confidence intervals.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>
         ''' A tuple containing four <see cref="TestResult"/> objects:
@@ -969,7 +978,7 @@ Namespace contingencytable
             taub.DF1 = Math.Sqrt((SumASE0 - ((p * 2 - q * 2) ^ 2 / points)) / (en1 * en2))
             tauC.DF1 = ((2 * minIJ) / ((minIJ - 1) * points ^ 2)) * Math.Sqrt((SumASE0 - ((p * 2 - q * 2) ^ 2 / points)))
             SomersD.DF1 = (2.0 / wr_sas ^ 2) * Math.Sqrt(v_sas2)
-            '95% CI
+            'confidence interval at the selected level
             Dim qq = distributions.NormSInv(1.0 - alpha / 2.0)
             taub.strSpecialInformation = $"{Format$(taub.TestStatistics1 - qq * taub.DF1, "0.#########")} to {Format$(taub.TestStatistics1 + qq * taub.DF1, "0.#########")}"
             tauC.strSpecialInformation = $"{Format$(tauC.TestStatistics1 - qq * tauC.DF1, "0.#########")} to {Format$(tauC.TestStatistics1 + qq * tauC.DF1, "0.#########")}"

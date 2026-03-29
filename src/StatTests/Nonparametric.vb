@@ -271,18 +271,6 @@ Namespace nonparametric
         ''' <summary>Total number of ties in the combined sample.</summary>
         Private NumberOfTies As Integer
 
-        'Private data()() As Double
-        'Private var1 As String
-        'Private var2 As String
-        'Private G12() As Double
-        'Private MWresult As TestResult
-        'Private Shift As ConfidenceIntervalResult
-        'Private bShift As Boolean
-        'Private n1 As Integer 'size of group 1, 2, and totalComb respectively
-        'Private n2 As Integer
-        'Private n As Integer
-        'Private NumberOfTies As Integer 'number of ties
-
         ''' <summary>
         ''' Initializes a new Mann–Whitney test instance.
         ''' </summary>
@@ -347,7 +335,7 @@ Namespace nonparametric
             If Me.bShift Then
                 t = New ResultTable
                 t.AddHeaderTopRow({"Hodges-Lehmann estimate of shift", ""})
-                t.SetBody({{"mean/median diff (95%CI)", Me.Shift.strConfidenceInterval}})
+                t.SetBody({{"mean/median diff (" & Me.Shift.CIlabel & ")", Me.Shift.strConfidenceInterval}})
                 out.Add(t)
             End If
 
@@ -364,24 +352,31 @@ Namespace nonparametric
         ''' 
         ''' Confidence intervals are computed using:
         ''' <list type="bullet">
-        '''   <item><description>Exact quantiles (n₁,n₂ ≤ 20)</description></item>
-        '''   <item><description>Normal approximation for moderate sizes</description></item>
+        '''   <item><description>Exact table-based quantiles when <c>n₁,n₂ ≤ 20</c> and <c>alpha = 0.05</c></description></item>
+        '''   <item><description>Normal-approximation quantiles for other confidence levels or larger samples</description></item>
         '''   <item><description>Direct indexing for very large samples</description></item>
         ''' </list>
         ''' 
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>Median</c> — computes sample median</description></item>
-        '''   <item><description><c>Percentile_Exc</c> — Excel‑style percentile</description></item>
-        '''   <item><description><c>MannWhitneyQuantiles</c> — exact quantile table</description></item>
+        '''   <item><description><c>Percentile_Exc</c> — Excel-style percentile</description></item>
+        '''   <item><description><c>MannWhitneyQuantiles</c> — exact 95% quantile table</description></item>
+        '''   <item><description><c>ZCritTwoSided</c> — two-sided normal critical value</description></item>
         ''' </list>
         ''' </summary>
-        ''' <returns>A <see cref="ConfidenceIntervalResult"/> containing estimate and CI.</returns>
-        Public Function ComputeShift() As ConfidenceIntervalResult
-            'Hodges-Lehmann estimate of shift
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the shift confidence interval.
+        ''' The exact small-sample table is currently used only when <c>alpha = 0.05</c>;
+        ''' other levels use the normal-approximation quantile.
+        ''' </param>
+        ''' <returns>A <see cref="ConfidenceIntervalResult"/> containing estimate and confidence interval.</returns>
+        Public Function ComputeShift(Optional alpha As Double = 0.05) As ConfidenceIntervalResult
 
             Dim diffs() As Double, Quantile As Integer, low_k As Double, up_k As Double, k As Integer, G As Integer
             Me.Shift = New ConfidenceIntervalResult
+            Me.Shift.alpha = alpha
+            Const exactAlpha As Double = 0.05
             ReDim diffs(Me.n1 * Me.n2 - 1)
 
             For i = 0 To Me.n1 - 1
@@ -392,8 +387,9 @@ Namespace nonparametric
             Next
 
             Array.Sort(diffs)
+            Dim zCrit As Double = distributions.ZCritTwoSided(alpha)
 
-            If Me.n1 <= 20 And Me.n2 <= 20 Then
+            If Me.n1 <= 20 And Me.n2 <= 20 AndAlso Math.Abs(alpha - exactAlpha) < 0.0000001 Then
                 Me.Shift.Estimate = Median(diffs)
                 Quantile = MannWhitneyQuantiles(Me.n1, Me.n2)
                 k = Quantile - Me.n1 * (Me.n1 + 1) / 2
@@ -403,16 +399,16 @@ Namespace nonparametric
             ElseIf Me.n1 * Me.n2 < 1048576 Then 'use build in excel functions to find median/quantiles
                 Me.Shift.Estimate = Median(diffs)
 
-                Quantile = CDbl(Me.n1) * (Me.n + 1.0) / 2.0 - 1.96 * Math.Sqrt(CDbl(Me.n1) * CDbl(Me.n2) * (Me.n + 1) / 12.0)
+                Quantile = CDbl(Me.n1) * (Me.n + 1.0) / 2.0 - zCrit * Math.Sqrt(CDbl(Me.n1) * CDbl(Me.n2) * (Me.n + 1) / 12.0)
                 k = Quantile - Me.n1 * (Me.n1 + 1) / 2
                 low_k = CDbl(k) / (CDbl(Me.n1) * CDbl(Me.n2))
-                up_k = 1.0# - low_k
+                up_k = 1.0 - low_k
 
                 Me.Shift.LowerLimit = Percentile_Exc(diffs, low_k)
                 Me.Shift.UpperLimit = Percentile_Exc(diffs, up_k)
             Else
                 Me.Shift.Estimate = diffs(CLng((n1 * n2) / 2))
-                Quantile = CDbl(Me.n1) * (Me.n + 1.0) / 2.0 - 1.96 * Math.Sqrt(CDbl(Me.n1) * CDbl(n2) * (Me.n + 1.0) / 12.0)
+                Quantile = CDbl(Me.n1) * (Me.n + 1.0) / 2.0 - zCrit * Math.Sqrt(CDbl(Me.n1) * CDbl(n2) * (Me.n + 1.0) / 12.0)
                 k = Quantile - Me.n1 * (Me.n1 + 1) / 2
                 Me.Shift.LowerLimit = diffs(k - 1)
                 Me.Shift.UpperLimit = diffs(Me.n1 * Me.n2 - (k - 1) - 1)
@@ -785,7 +781,7 @@ Namespace nonparametric
                  {"Z score", WilcoxonTestresult.TestStatistics1},
                  {"Two sided p-value (ties and continuity corrected)", WilcoxonTestresult.Pvalue}
                 }
-            wOut2 = {{"mean/median diff (95%CI)", Me.Shift.strConfidenceInterval}}
+            wOut2 = {{"mean/median diff (" & Me.Shift.CIlabel & ")", Me.Shift.strConfidenceInterval}}
 
             'put all together
             t.SetBody(HorizontalStackArrays(wOut1, pexactOut))
@@ -814,20 +810,26 @@ Namespace nonparametric
         ''' HL = median( wᵢⱼ )
         ''' </code>
         ''' 
-        ''' Confidence intervals:
+        ''' Confidence intervals are computed using:
         ''' <list type="bullet">
-        '''   <item><description>Exact quantiles for n ≤ 50 (using table W25)</description></item>
-        '''   <item><description>Normal approximation for n > 50</description></item>
+        '''   <item><description>Exact table-based quantiles for <c>n ≤ 50</c> when <c>alpha = 0.05</c></description></item>
+        '''   <item><description>Normal-approximation quantiles for other confidence levels or larger samples</description></item>
         ''' </list>
         ''' 
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>Median</c></description></item>
+        '''   <item><description><c>ZCritTwoSided</c> — two-sided normal critical value</description></item>
         ''' </list>
         ''' </summary>
-        ''' <returns>A <see cref="ConfidenceIntervalResult"/> containing estimate and CI.</returns>
-        Public Function ComputeShift() As ConfidenceIntervalResult
-            ' Hodges-Lehmann estimate of shift
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used for the shift confidence interval.
+        ''' The exact small-sample table is currently used only when <c>alpha = 0.05</c>;
+        ''' other levels use the normal-approximation quantile.
+        ''' </param>
+        ''' <returns>A <see cref="ConfidenceIntervalResult"/> containing estimate and confidence interval.</returns>
+        Public Function ComputeShift(Optional alpha As Double = 0.05) As ConfidenceIntervalResult
+
             Dim Wquantil As Integer, j As Integer
             Dim W25() As Integer = {Nothing, Nothing, Nothing, Nothing, 0, 0, 1, 3, 4, 6, 9, 11, 14, 18, 22, 26, 30, 35, 41,
                                 47, 53, 59, 67, 74, 82, 90, 99, 108, 117, 127, 138, 148, 160, 171, 183, 196, 209, 222,
@@ -848,12 +850,15 @@ Namespace nonparametric
             Array.Sort(MeanOfDiffs)
 
             Me.Shift.Estimate = Median(MeanOfDiffs)
+            Me.Shift.alpha = alpha
+            Const exactAlpha As Double = 0.05
+            Dim zCrit As Double = distributions.ZCritTwoSided(alpha)
 
-            If n > 3 And n <= 50 Then 'exact quantiles
+            If n > 3 And n <= 50 AndAlso Math.Abs(alpha - exactAlpha) < 0.0000001 Then 'exact quantiles
                 Me.Shift.LowerLimit = MeanOfDiffs(W25(n) - 1)
                 Me.Shift.UpperLimit = MeanOfDiffs(UBound(MeanOfDiffs) - W25(n))
-            ElseIf n > 50 Then 'normal approximation
-                Wquantil = (n * (n + 1) / 4) - 1.96 * Math.Sqrt(n * (n + 1) * (2 * n + 1) / 24)
+            ElseIf n > 3 Then 'normal approximation
+                Wquantil = (n * (n + 1) / 4) - zCrit * Math.Sqrt(n * (n + 1) * (2 * n + 1) / 24)
                 Me.Shift.LowerLimit = MeanOfDiffs(Wquantil - 1)
                 Me.Shift.UpperLimit = MeanOfDiffs(UBound(MeanOfDiffs) - Wquantil - 1)
             End If
@@ -1265,7 +1270,7 @@ Namespace nonparametric
         ''' <param name="progressBar">Optional progress bar for permutation enumeration.</param>
         ''' <param name="alpha">
         ''' Optional two-sided significance level used for the confidence interval.
-        ''' For example, <c>alpha = 0.05</c> gives a 95% confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>A <see cref="TestResult"/> containing ρ and p-values.</returns>
         Function Compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing, Optional alpha As Double = 0.05) As TestResult
@@ -1707,7 +1712,7 @@ Namespace nonparametric
         ''' <param name="progressBar">Optional progress bar for permutation enumeration.</param>
         ''' <param name="alpha">
         ''' Optional two-sided significance level used for the approximate confidence interval.
-        ''' For example, <c>alpha = 0.05</c> gives a 95% confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>A <see cref="TestResult"/> containing τ<sub>b</sub> and p-values.</returns>
         Public Shadows Function compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing, Optional alpha As Double = 0.05) As TestResult
@@ -1809,9 +1814,9 @@ Namespace nonparametric
             Me.correlationCI.Estimate = tauObs
             Dim zz As Double = distributions.ZCritTwoSided(alpha)
             Me.correlationCI.LowerLimit = tauObs - Me.pSE * zz
-            If Me.correlationCI.LowerLimit < -1 Then Me.correlationCI.LowerLimit = -1
+            If Me.correlationCI.LowerLimit < -1.0 Then Me.correlationCI.LowerLimit = -1.0
             Me.correlationCI.UpperLimit = tauObs + Me.pSE * zz
-            If Me.correlationCI.UpperLimit > 1 Then Me.correlationCI.UpperLimit = 1
+            If Me.correlationCI.UpperLimit > 1.0 Then Me.correlationCI.UpperLimit = 1.0
 
             Return Me.CorrelationResult
         End Function
@@ -2488,6 +2493,20 @@ Namespace nonparametric
         ''' </summary>
         Public Intercept As Double
 
+        ''' <summary>
+        ''' Two-sided significance level used to construct the slope confidence interval.
+        ''' The reported interval level is <c>100 × (1 - alpha)%</c>.
+        ''' </summary>
+        Public alpha As Double = 0.05
+
+        ''' <summary>
+        ''' Display label for the confidence interval level.
+        ''' </summary>
+        Public ReadOnly Property CIlabel As String
+            Get
+                Return $"{100.0 * (1.0 - alpha):0.##}% CI"
+            End Get
+        End Property
     End Class
 
 
@@ -2554,7 +2573,7 @@ Namespace nonparametric
         ''' <list type="bullet">
         '''   <item><description>Number of observations</description></item>
         '''   <item><description>Number of tied X values</description></item>
-        '''   <item><description>Theil–Sen median slope with 95% CI</description></item>
+        '''   <item><description>Theil–Sen median slope with confidence interval at the selected level</description></item>
         '''   <item><description>Intercept estimate</description></item>
         '''   <item><description>Regression equation</description></item>
         ''' </list>
@@ -2567,10 +2586,10 @@ Namespace nonparametric
             Dim out = New List(Of ResultTable)
             Dim t = New ResultTable
             Dim strYname As String = If(varNames(0) = String.Empty, "Y", varNames(0))
-            Dim strXNameEq As String = If(varNames(1) = String.Empty, "X", varNames(0))
+            Dim strXNameEq As String = If(varNames(1) = String.Empty, "X", varNames(1))
             t.SetBody({{"Number of data points", UBound(Me.data, 1) + 1},
                   {"Number of X-ties", Me.TSresults.lNoTies},
-                  {"Median Slope(95%CI)", CStr(TSresults.MedianSlope) & " (" & CStr(TSresults.LLslope) & " to " & CStr(TSresults.ULslope) & ")"},
+                  {"Median Slope (" & Me.TSresults.CIlabel & ")", CStr(TSresults.MedianSlope) & " (" & CStr(TSresults.LLslope) & " to " & CStr(TSresults.ULslope) & ")"},
                   {"Intercept", Me.TSresults.Intercept},
                   {"Equation", strYname & " = " & CStr(TSresults.MedianSlope) & " " & strXNameEq & " + " & CStr(TSresults.Intercept)}
                  })
@@ -2605,12 +2624,19 @@ Namespace nonparametric
         '''   <item><description><c>NormSInv</c></description></item>
         ''' </list>
         ''' </summary>
-        ''' <param name="alpha">Significance level for CI (default 0.05).</param>
-        ''' <returns>A <see cref="TheilSenResults"/> object containing slope, CI, and intercept.</returns>
+        ''' <param name="alpha">
+        ''' Optional two-sided significance level used to construct the Theil–Sen slope confidence interval.
+        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+        ''' </param>
+        ''' <returns>
+        ''' A <see cref="TheilSenResults"/> object containing the median slope, its confidence interval,
+        ''' the intercept estimate, and the number of non-tied slope pairs used.
+        ''' </returns>
         Public Function compute(Optional alpha As Double = 0.05) As TheilSenResults
             ' Theil-Sen nonparametric simple linear regression
             Dim jj As Long, arSlopes() As Double, dYmedian As Double, dXmedian As Double
             TSresults = New TheilSenResults
+            TSresults.alpha = alpha
 
             'calculate nonparametric regression parameters
             dYmedian = Median(GetColumnFrom2Darray(Me.data, 0))
@@ -2643,11 +2669,11 @@ Namespace nonparametric
                 Me.TSresults.MedianSlope = arSlopes((ii - 1) / 2)
             End If
 
-            '95% CI for slope
+            'Confidence interval for slope at the selected alpha level
             'are calculated according large-sample approximation equations. The large-sample approximation is appropriate
             'for samples that include at least 20 pairs of data. A sample size of five XY points is, algebraically,
             'the min sample size that will produce meaningful ranks. Use of eq. 4 and 5 with five XY points
-            'will produce a 95% CI including all 10 pairwise slopes.
+            'will produce a very wide interval including all 10 pairwise slopes when alpha = 0.05.
 
             'if there are less then 5 distinct points, then confidence limits are the min and max calculated slope
             Dim q As Double = distributions.NormSInv(1.0 - alpha / 2.0)

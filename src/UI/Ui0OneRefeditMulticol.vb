@@ -14,6 +14,7 @@ Public Class Ui0OneRefeditMulticol
         Me.RefEdit1.ExcelConnector = AppGlobals.app
         Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
+        Me.spinBtnAlphaICC.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlphaICC.Minimum, Me.spinBtnAlphaICC.Maximum)
 
         Me.TabPage_Options.Parent = Nothing
         Me.TabPage_OptionsRxC.Parent = Nothing
@@ -34,8 +35,23 @@ Public Class Ui0OneRefeditMulticol
         ElseIf Me.Text = "Cochran's Q Test" Then
         ElseIf Me.Text = "RxC Table" Then
             Me.TabPage_OptionsRxC.Parent = Me.TabMultipage
+            ' Reuse the existing alpha controls for ordinal-association confidence intervals.
+            Me.TabPage_OptionsRxC.Controls.Add(Me.lblAlphaICC)
+            Me.TabPage_OptionsRxC.Controls.Add(Me.spinBtnAlphaICC)
+            Me.lblAlphaICC.Visible = True
+            Me.spinBtnAlphaICC.Visible = True
+            Me.lblAlphaICC.Location = New System.Drawing.Point(20, 132)
+            Me.spinBtnAlphaICC.Location = New System.Drawing.Point(68, 130)
 
         ElseIf Me.Text = "Mantel-Haenszel Test" Then
+            Me.TabPage_OptionsICC.Parent = Me.TabMultipage
+            Me.grpICCtype.Visible = False
+            Me.ckRepeatabilityCoefficient.Visible = False
+            Me.lblAlphaICC.Visible = True
+            Me.spinBtnAlphaICC.Visible = True
+            Me.lblAlphaICC.Location = New System.Drawing.Point(20, 20)
+            Me.spinBtnAlphaICC.Location = New System.Drawing.Point(68, 18)
+
         ElseIf Me.Text = "Skillings-Mack Test" Then
         ElseIf Me.Text = "Correspondence Analysis" Then
             Me.ckLabels.Visible = True
@@ -364,7 +380,6 @@ Public Class Ui0OneRefeditMulticol
         End If
 
         If Me.ckFFH.Checked Then
-            'Dim tab = {{2, 4, 6}, {7, 6, 1}, {5, 0, 0}}
             Dim strP As String
             Try
                 Dim fexact = New contingencytable.FisherExactEngine(tab)
@@ -374,9 +389,6 @@ Public Class Ui0OneRefeditMulticol
                 strP = ".error. not possible to compute"
             End Try
 
-            'Debug.Print(array2str(tab))
-            'Debug.Print($"PValue={fexact.PValue}")
-            'Debug.Print($"PObserved={fexact.PObserved}")
             t = New ResultTable
             t.AddHeaderTopRow({"Fisher-Freeman-Halton Exact Test", ""})
             t.SetBody({{"two-sided P-value", strP}})
@@ -384,25 +396,27 @@ Public Class Ui0OneRefeditMulticol
         End If
 
         If Me.ckOrdinal.Checked Then
-            Dim ordinal = contingencytable.cTableORDINALassoc(tab)
+            Dim alphaValue As Double = CDbl(Me.spinBtnAlphaICC.Value)
+            Dim ciLabel As String = $"{(1.0 - alphaValue) * 100.0:0.##}% CI"
+            Dim ordinal = contingencytable.cTableORDINALassoc(tab, alphaValue)
 
             t = New ResultTable
             t.AddHeaderTopRow({"Measures of Ordinal Association", ""})
             t.SetBody({{"Kendall's tau-b", ordinal.Item1.TestStatistics1},
                        {"Std.Err.", ordinal.Item1.DF1},
-                       {"95% CI", ordinal.Item1.strSpecialInformation},
+                       {ciLabel, ordinal.Item1.strSpecialInformation},
                        {"two-sided P-value", ordinal.Item1.Pvalue},
                        {"Kendall's tau-c", ordinal.Item2.TestStatistics1},
                        {"Std.Err.", ordinal.Item2.DF1},
-                       {"95% CI", ordinal.Item2.strSpecialInformation},
+                       {ciLabel, ordinal.Item2.strSpecialInformation},
                        {"two-sided P-value", ordinal.Item2.Pvalue},
                        {"Goodman-Kruskal's Gamma", ordinal.Item3.TestStatistics1},
                        {"Std.Err.", ordinal.Item3.DF1},
-                       {"95% CI", ordinal.Item3.strSpecialInformation},
+                       {ciLabel, ordinal.Item3.strSpecialInformation},
                        {"two-sided P-value", ordinal.Item3.Pvalue},
                        {"Somers' D (columns as dependent var.)", ordinal.Item4.TestStatistics1},
                        {"Std.Err.", ordinal.Item4.DF1},
-                       {"95% CI", ordinal.Item4.strSpecialInformation},
+                       {ciLabel, ordinal.Item4.strSpecialInformation},
                        {"two-sided P-value", ordinal.Item4.Pvalue}})
             res.Add(t)
         End If
@@ -462,11 +476,12 @@ Public Class Ui0OneRefeditMulticol
         res.Add(t)
 
         t = New ResultTable
-        Dim mh = contingencytable.MantelHaenszel(data.X)
+        Dim alphaValue As Double = CDbl(Me.spinBtnAlphaICC.Value)
+        Dim mh = contingencytable.MantelHaenszel(data.X, alphaValue)
         t.SetBody({{"Chi-square", mh.Item1.TestStatistics1},
                     {"two-sided P-value", mh.Item1.Pvalue},
                     {"pooled Or", mh.Item2.Estimate},
-                    {"95% CI", mh.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
+                    {mh.Item2.CIlabel, mh.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
         t.AddHeaderTopRow({"Mantel-Haenszel test", ""})
         res.Add(t)
 

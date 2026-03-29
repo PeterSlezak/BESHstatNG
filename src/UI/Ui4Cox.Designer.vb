@@ -47,6 +47,11 @@ Partial Class Ui4Cox
         Me.lblX = New System.Windows.Forms.Label()
         Me.lblSelectedSheet = New System.Windows.Forms.Label()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
+        Me.btAddEffectCategoricalFactor = New System.Windows.Forms.Button()
+        Me.btnCustomInteraction = New System.Windows.Forms.Button()
+        Me.btn2Interactions = New System.Windows.Forms.Button()
+        Me.spinBtnPoly = New System.Windows.Forms.NumericUpDown()
+        Me.btnPoly = New System.Windows.Forms.Button()
         Me.btAddEffect = New System.Windows.Forms.Button()
         Me.btClearAllSelectedEffects = New System.Windows.Forms.Button()
         Me.tbRemoveSelectedEffects = New System.Windows.Forms.Button()
@@ -83,6 +88,7 @@ Partial Class Ui4Cox
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
+        CType(Me.spinBtnPoly, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage3.SuspendLayout()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpResiduals.SuspendLayout()
@@ -345,6 +351,11 @@ Partial Class Ui4Cox
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.btAddEffectCategoricalFactor)
+        Me.TabPage2.Controls.Add(Me.btnCustomInteraction)
+        Me.TabPage2.Controls.Add(Me.btn2Interactions)
+        Me.TabPage2.Controls.Add(Me.spinBtnPoly)
+        Me.TabPage2.Controls.Add(Me.btnPoly)
         Me.TabPage2.Controls.Add(Me.btAddEffect)
         Me.TabPage2.Controls.Add(Me.btClearAllSelectedEffects)
         Me.TabPage2.Controls.Add(Me.tbRemoveSelectedEffects)
@@ -361,6 +372,52 @@ Partial Class Ui4Cox
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Build Model"
         Me.TabPage2.UseVisualStyleBackColor = True
+        '
+        'btAddEffectCategoricalFactor
+        '
+        Me.btAddEffectCategoricalFactor.Location = New System.Drawing.Point(325, 75)
+        Me.btAddEffectCategoricalFactor.Name = "btAddEffectCategoricalFactor"
+        Me.btAddEffectCategoricalFactor.Size = New System.Drawing.Size(191, 23)
+        Me.btAddEffectCategoricalFactor.TabIndex = 21
+        Me.btAddEffectCategoricalFactor.Text = "Add as Categorical Factor >>"
+        Me.btAddEffectCategoricalFactor.UseVisualStyleBackColor = True
+        '
+        'btnCustomInteraction
+        '
+        Me.btnCustomInteraction.Location = New System.Drawing.Point(325, 162)
+        Me.btnCustomInteraction.Name = "btnCustomInteraction"
+        Me.btnCustomInteraction.Size = New System.Drawing.Size(191, 23)
+        Me.btnCustomInteraction.TabIndex = 20
+        Me.btnCustomInteraction.Text = "Custom Interaction >>"
+        Me.btnCustomInteraction.UseVisualStyleBackColor = True
+        '
+        'btn2Interactions
+        '
+        Me.btn2Interactions.Location = New System.Drawing.Point(325, 133)
+        Me.btn2Interactions.Name = "btn2Interactions"
+        Me.btn2Interactions.Size = New System.Drawing.Size(191, 23)
+        Me.btn2Interactions.TabIndex = 19
+        Me.btn2Interactions.Text = "2-way Interactions >>"
+        Me.btn2Interactions.UseVisualStyleBackColor = True
+        '
+        'spinBtnPoly
+        '
+        Me.spinBtnPoly.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnPoly.Location = New System.Drawing.Point(472, 104)
+        Me.spinBtnPoly.Maximum = New Decimal(New Integer() {1000000, 0, 0, 196608})
+        Me.spinBtnPoly.Name = "spinBtnPoly"
+        Me.spinBtnPoly.Size = New System.Drawing.Size(44, 22)
+        Me.spinBtnPoly.TabIndex = 18
+        Me.spinBtnPoly.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        '
+        'btnPoly
+        '
+        Me.btnPoly.Location = New System.Drawing.Point(325, 104)
+        Me.btnPoly.Name = "btnPoly"
+        Me.btnPoly.Size = New System.Drawing.Size(131, 23)
+        Me.btnPoly.TabIndex = 17
+        Me.btnPoly.Text = "Poly >>"
+        Me.btnPoly.UseVisualStyleBackColor = True
         '
         'btAddEffect
         '
@@ -550,9 +607,9 @@ Partial Class Ui4Cox
         Me.ckCovarMatrix.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ckCovarMatrix.Location = New System.Drawing.Point(351, 32)
         Me.ckCovarMatrix.Name = "ckCovarMatrix"
-        Me.ckCovarMatrix.Size = New System.Drawing.Size(255, 20)
+        Me.ckCovarMatrix.Size = New System.Drawing.Size(223, 20)
         Me.ckCovarMatrix.TabIndex = 5
-        Me.ckCovarMatrix.Text = "Covariance MatrixType of Parameters"
+        Me.ckCovarMatrix.Text = "Covariance Matrix of Parameters"
         Me.ckCovarMatrix.UseVisualStyleBackColor = True
         '
         'grpTiesHandling
@@ -734,6 +791,7 @@ Partial Class Ui4Cox
         Me.TabPage1.PerformLayout()
         Me.TabPage2.ResumeLayout(False)
         Me.TabPage2.PerformLayout()
+        CType(Me.spinBtnPoly, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
@@ -806,4 +864,9 @@ Partial Class Ui4Cox
     Friend WithEvents lblSelectedSheet As Windows.Forms.Label
     Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
     Friend WithEvents lblAlpha As Windows.Forms.Label
+    Friend WithEvents btAddEffectCategoricalFactor As Windows.Forms.Button
+    Friend WithEvents btnCustomInteraction As Windows.Forms.Button
+    Friend WithEvents btn2Interactions As Windows.Forms.Button
+    Friend WithEvents spinBtnPoly As Windows.Forms.NumericUpDown
+    Friend WithEvents btnPoly As Windows.Forms.Button
 End Class

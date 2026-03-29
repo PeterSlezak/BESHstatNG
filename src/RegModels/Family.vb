@@ -25,6 +25,23 @@ Namespace regression
             End If
             Return f
         End Function
+
+        Public Function GetCanonicalLinkFromDisplayName(familyDisplayName As String) As String
+            Select Case familyDisplayName
+                Case "Binomial"
+                    Return "Logit"
+                Case "Poisson"
+                    Return "Log"
+                Case "Negative Binomial"
+                    Return "Log"
+                Case "Gaussian"
+                    Return "Identity"
+                Case "Gamma"
+                    Return "Inverse"
+                Case Else
+                    Return String.Empty
+            End Select
+        End Function
     End Module
 
     ''' <summary>

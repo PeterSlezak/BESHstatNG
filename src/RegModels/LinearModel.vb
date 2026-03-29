@@ -37,8 +37,7 @@ Namespace regression
     ''' </list>
     ''' <para>
     ''' The definition of a "term" is provided by <c>customTermGroups</c> in <see cref="LinearModel.Fit"/>; 
-    ''' for example, a multi-level factor or  an interaction may span multiple columns. Interaction columns must be precomputed by 
-    ''' the caller and included in the design matrix.
+    ''' for example, a multi-level factor or  an interaction may span multiple columns.
     ''' </para>
     ''' </remarks>
 
@@ -815,7 +814,7 @@ Namespace regression
         ''' <remarks>
         ''' <para>
         ''' Term groups are used only for term-wise ANOVA (Type I/III) and allow multi-column terms, e.g. dummy-coded factors or
-        ''' precomputed interaction blocks. Interaction columns must be computed by the caller and included in the design matrix.
+        ''' precomputed interaction blocks.
         ''' </para>
         ''' </remarks>
         Private Function BuildDefaultTermGroups(includeIntercept As Boolean,

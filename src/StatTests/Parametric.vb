@@ -606,8 +606,8 @@ Namespace parametric
             ''' critical values for the reported confidence intervals.
             ''' </param>
             ''' <param name="alpha">
-            ''' Significance level used to construct the reported confidence intervals.
-            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
+            ''' Optional two-sided significance level used to construct the reported confidence intervals.
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A 2D Object array containing, in natural pair-generation order:
@@ -690,8 +690,8 @@ Namespace parametric
             ''' sizes.
             ''' </summary>
             ''' <param name="alpha">
-            ''' Significance level used to construct the reported confidence intervals.
-            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
+            ''' Optional two-sided significance level used to construct the reported confidence intervals.
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A 2D Object array containing comparison labels, mean differences with
@@ -756,8 +756,8 @@ Namespace parametric
             ''' variances and unequal sample sizes.
             ''' </summary>
             ''' <param name="alpha">
-            ''' Significance level used to construct the reported confidence intervals.
-            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
+            ''' Optional two-sided significance level used to construct the reported confidence intervals.
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A 2D Object array containing comparison labels, mean differences with
@@ -1126,8 +1126,8 @@ Namespace parametric
             ''' without assuming sphericity. This is the recommended RM post-hoc test.
             ''' </summary>
             ''' <param name="alpha">
-            ''' Significance level used to construct the reported confidence intervals.
-            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
+            ''' Optional two-sided significance level used to construct the reported confidence intervals.
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A 2D Object array containing comparison labels, mean differences with
@@ -1138,7 +1138,7 @@ Namespace parametric
             ''' are not sorted by effect size or p-value.
             ''' </remarks>
             Public Function TukeyKramerRM2(Optional alpha As Double = 0.05) As Object(,)
-                ' Tukey-Kramer post hoc test after 1-way RM ANOVA not assuming sphericity. Recommended
+
                 ValidateAlpha(alpha)
                 Dim iFault As Integer = 0
                 ReDim Me.TuekyRM2(((NoGroups * (NoGroups - 1)) / 2 - 1), 3)
@@ -1189,8 +1189,8 @@ Namespace parametric
             ''' under the assumption of sphericity (single pooled residual variance).
             ''' </summary>
             ''' <param name="alpha">
-            ''' Significance level used to construct the reported confidence intervals.
-            ''' For example, <c>alpha = 0.05</c> produces 95% confidence intervals.
+            ''' Optional two-sided significance level used to construct the reported confidence intervals.
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A 2D Object array containing comparison labels, mean differences with
@@ -1299,19 +1299,19 @@ Namespace parametric
             End Sub
 
             ''' <summary>
-            ''' Wraps the results of the unpaired t‑test into two <c>ResultTable</c> objects:
-            ''' one assuming equal variances (pooled t‑test) and one assuming unequal
-            ''' variances (Welch’s t‑test).
+            ''' Wraps the results of the unpaired t-test into two <c>ResultTable</c> objects:
+            ''' one assuming equal variances (pooled t-test) and one assuming unequal
+            ''' variances (Welch’s t-test).
             ''' </summary>
             ''' <remarks>
             ''' <para>
             ''' The first table contains:
             ''' <list type="bullet">
             '''   <item><description>Pooled standard error</description></item>
-            '''   <item><description>Pooled t‑statistic</description></item>
+            '''   <item><description>Pooled t-statistic</description></item>
             '''   <item><description>Pooled degrees of freedom</description></item>
-            '''   <item><description>Two‑sided p‑value</description></item>
-            '''   <item><description>Mean difference with 95% CI</description></item>
+            '''   <item><description>Two-sided p-value</description></item>
+            '''   <item><description>Mean difference with a confidence interval at the selected level</description></item>
             ''' </list>
             ''' </para>
             ''' 
@@ -1319,11 +1319,11 @@ Namespace parametric
             ''' The second table contains:
             ''' <list type="bullet">
             '''   <item><description>Welch standard error</description></item>
-            '''   <item><description>Welch t‑statistic</description></item>
+            '''   <item><description>Welch t-statistic</description></item>
             '''   <item><description>Welch degrees of freedom</description></item>
-            '''   <item><description>Two‑sided p‑value</description></item>
-            '''   <item><description>Mean difference with 95% CI</description></item>
-            '''   <item><description>F‑test p‑value for equality of variances</description></item>
+            '''   <item><description>Two-sided p-value</description></item>
+            '''   <item><description>Mean difference with a confidence interval at the selected level</description></item>
+            '''   <item><description>F-test p-value for equality of variances</description></item>
             ''' </list>
             ''' </para>
             ''' </remarks>
@@ -1335,7 +1335,7 @@ Namespace parametric
                         {"t", Me.TtestRes.TestStatistics1},
                         {"df", Me.TtestRes.DF1},
                         {"Two sided p-value", Me.TtestRes.Pvalue},
-                        {"mean diff (95%CI)", Me.diffCI.strConfidenceInterval}})
+                        {"mean diff (" & Me.diffCI.CIlabel & ")", Me.diffCI.strConfidenceInterval}})
                 t.AddHeaderTopRow({"Unpaired T-test", ""})
                 t.AddHeaderTopRow({"Assuming equal variance", ""})
                 out.Add(t)
@@ -1345,7 +1345,7 @@ Namespace parametric
                         {"t", Me.TtestRes.TestStatistics2},
                         {"df", Me.TtestRes.DF2},
                         {"Two sided p-value", Me.TtestRes.Pvalue2},
-                        {"mean diff (95%CI)", Me.diffCIunq.strConfidenceInterval},
+                        {"mean diff (" & Me.diffCIunq.CIlabel & ")", Me.diffCIunq.strConfidenceInterval},
                         {"F test p-value", FTest(data(0), data(1))}})
                 t.AddHeaderTopRow({"Assuming unequal variance", ""})
                 out.Add(t)
@@ -1353,29 +1353,33 @@ Namespace parametric
             End Function
 
             ''' <summary>
-            ''' Performs the two‑sample unpaired t‑test, computing:
+            ''' Performs the two-sample unpaired t-test, computing:
             ''' <list type="bullet">
             '''   <item><description>Group means</description></item>
             '''   <item><description>Pooled standard error (equal variances)</description></item>
             '''   <item><description>Welch standard error (unequal variances)</description></item>
-            '''   <item><description>Pooled t‑statistic and df</description></item>
-            '''   <item><description>Welch t‑statistic and df</description></item>
-            '''   <item><description>Two‑sided p‑values for both tests</description></item>
-            '''   <item><description>Mean‑difference confidence intervals (equal and unequal variances)</description></item>
+            '''   <item><description>Pooled t-statistic and degrees of freedom</description></item>
+            '''   <item><description>Welch t-statistic and degrees of freedom</description></item>
+            '''   <item><description>Two-sided p-values for both tests</description></item>
+            '''   <item><description>Mean-difference confidence intervals (equal and unequal variances)</description></item>
             ''' </list>
             ''' </summary>
+            ''' <param name="alpha">
+            ''' Optional two-sided significance level used for both mean-difference confidence intervals.
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+            ''' </param>
             ''' <returns>
             ''' A <c>TestResult</c> object containing:
             ''' <list type="bullet">
-            '''   <item><description><c>TestStatistics1</c> — pooled t‑statistic</description></item>
-            '''   <item><description><c>TestStatistics2</c> — Welch t‑statistic</description></item>
-            '''   <item><description><c>Pvalue</c> — pooled two‑sided p‑value</description></item>
-            '''   <item><description><c>Pvalue2</c> — Welch two‑sided p‑value</description></item>
+            '''   <item><description><c>TestStatistics1</c> — pooled t-statistic</description></item>
+            '''   <item><description><c>TestStatistics2</c> — Welch t-statistic</description></item>
+            '''   <item><description><c>Pvalue</c> — pooled two-sided p-value</description></item>
+            '''   <item><description><c>Pvalue2</c> — Welch two-sided p-value</description></item>
             '''   <item><description><c>DF1</c> — pooled degrees of freedom</description></item>
             '''   <item><description><c>DF2</c> — Welch degrees of freedom</description></item>
             ''' </list>
             ''' </returns>
-            Public Function compute() As TestResult
+            Public Function compute(Optional alpha As Double = 0.05) As TestResult
                 Dim out = New TestResult
                 Dim n1 As Integer = data(0).Length
                 Dim n2 As Integer = data(1).Length
@@ -1396,15 +1400,17 @@ Namespace parametric
                 out.DF2 = df_unq
 
                 Me.diffCI = New ConfidenceIntervalResult With {
+                        .alpha = alpha,
                         .Estimate = diff,
-                        .LowerLimit = diff - (distributions.T_Inv_2T(0.05, out.DF1) * SE),
-                        .UpperLimit = diff + (distributions.T_Inv_2T(0.05, out.DF1) * SE)
+                        .LowerLimit = diff - (distributions.T_Inv_2T(alpha, out.DF1) * SE),
+                        .UpperLimit = diff + (distributions.T_Inv_2T(alpha, out.DF1) * SE)
                     }
 
                 Me.diffCIunq = New ConfidenceIntervalResult With {
+                        .alpha = alpha,
                         .Estimate = diff,
-                        .LowerLimit = diff - (distributions.T_Inv_2T(0.05, out.DF2) * SEunq),
-                        .UpperLimit = diff + (distributions.T_Inv_2T(0.05, out.DF2) * SEunq)
+                        .LowerLimit = diff - (distributions.T_Inv_2T(alpha, out.DF2) * SEunq),
+                        .UpperLimit = diff + (distributions.T_Inv_2T(alpha, out.DF2) * SEunq)
                     }
 
                 Me.TtestRes = out
@@ -1583,7 +1589,7 @@ Namespace parametric
             '''   <item><description>Null mean differences (0)</description></item>
             '''   <item><description>Observed mean differences</description></item>
             '''   <item><description>Standard errors</description></item>
-            '''   <item><description>Simultaneous 95% confidence intervals</description></item>
+            '''   <item><description>Simultaneous confidence intervals at the selected level</description></item>
             ''' </list>
             ''' </para>
             ''' 
@@ -1599,6 +1605,7 @@ Namespace parametric
             Public Function wrapResults() As List(Of ResultTable)
                 Dim out = New List(Of ResultTable)
                 Dim t = New ResultTable
+                Dim ciLabel As String = $"{(1.0 - Me.pAlpha) * 100.0:0.##}% CI (Simultaneous)"
 
                 If Me.pCIs Is Nothing Then Me.CI(Me.pAlpha) 'if no CIs then calculate them
                 Dim o(3, Me.pVarNames.Length - 1) As Object
@@ -1610,7 +1617,7 @@ Namespace parametric
                 Next
                 t.SetBody(o)
                 t.AddHeaderTopRow(Me.pVarNames)
-                t.AddHeaderLeftRow({"H0 Mean Diffs", "Mean of Differences", "StdErr", "95% CI (Simultaneous)"})
+                t.AddHeaderLeftRow({"H0 Mean Diffs", "Mean of Differences", "StdErr", ciLabel})
                 out.Add(t)
 
                 'Test result
@@ -1768,23 +1775,27 @@ Namespace parametric
             ''' the family‑wise error rate at the specified α level.
             ''' </para>
             ''' </remarks>
-            ''' <param name="dAlpha">Significance level (default 0.05).</param>
-            Public Function CI(dAlpha As Double) As List(Of ConfidenceIntervalResult)
-                Me.pAlpha = dAlpha
+            ''' <param name="alpha">
+            ''' Two-sided significance level used to construct the simultaneous confidence intervals.
+            ''' Must satisfy <c>0 &lt; alpha &lt; 1</c>.
+            ''' The default convention <c>alpha = 0.05</c> corresponds to simultaneous 95% confidence intervals.
+            ''' </param>
+            Public Function CI(alpha As Double) As List(Of ConfidenceIntervalResult)
+                Me.pAlpha = alpha
                 Dim n1 As Integer = data1.GetLength(0)
                 Dim n2 As Integer = data2.GetLength(0)
                 Dim p As Integer = data1.GetLength(1)
                 If p <> data2.GetLength(1) Then
                     AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
-                If dAlpha < 0.0 Or dAlpha > 1.0 Then
+                If alpha < 0.0 Or alpha > 1.0 Then
                     AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Independent samples version of Hotelling's T-squared alpha must be (0 to 1)."))
                 End If
                 Dim diffs(p - 1) As Double
                 Me.pCIs = New List(Of String)
                 ReDim pMeans(p - 1), pSE(p - 1)
 
-                Dim Tcrit As Double = Math.Sqrt(distributions.F_Inv_RT(dAlpha, CDbl(p), n1 + n2 - 1 - p) * p * (n1 + n2 - 2) / (n1 + n2 - 1 - p))
+                Dim Tcrit As Double = Math.Sqrt(distributions.F_Inv_RT(alpha, CDbl(p), n1 + n2 - 1 - p) * p * (n1 + n2 - 2) / (n1 + n2 - 1 - p))
 
                 For i = 0 To p - 1
                     Dim tmp1 = Matrix.GetColumnFrom2Darray(data1, i)
@@ -1793,6 +1804,7 @@ Namespace parametric
                     pSE(i) = Math.Sqrt(((n1 - 1) * variance(tmp1) + (n2 - 1) * variance(tmp2)) / (n1 + n2 - 2)) * Math.Sqrt(1.0 / n1 + 1.0 / n2)
 
                     Dim CIres As New ConfidenceIntervalResult With {
+                            .alpha = alpha,
                             .Estimate = pMeans(i),
                             .LowerLimit = pMeans(i) - Tcrit * pSE(i),
                             .UpperLimit = pMeans(i) + Tcrit * pSE(i)
@@ -1861,6 +1873,8 @@ Namespace parametric
             Public Function wrapResults(Optional bPaired As Boolean = False) As List(Of ResultTable)
                 Dim out = New List(Of ResultTable)
                 Dim t = New ResultTable
+                Dim ciLabel As String = $"{(1.0 - Me.pAlpha) * 100.0:0.##}% CI (Simultaneous)"
+
                 If Me.pCIs Is Nothing Then Me.CI(Me.pAlpha) 'if no CIs then calculate them
                 Dim o(5, Me.pVarNames.Length - 1) As Object, n As Integer = UBound(Me.data, 1) + 1
                 For i = 0 To Me.pVarNames.Length - 1
@@ -1874,7 +1888,7 @@ Namespace parametric
 
                 t.SetBody(o)
                 t.AddHeaderTopRow(Me.pVarNames)
-                t.AddHeaderLeftRow({"H0 Mean Diffs", "Mean of Differences", "StdErr", "Individual T-test", "T-test two-sided p-value", "95% CI (Simultaneous)"})
+                t.AddHeaderLeftRow({"H0 Mean Diffs", "Mean of Differences", "StdErr", "Individual T-test", "T-test two-sided p-value", ciLabel})
                 out.Add(t)
 
                 'Test result
@@ -1940,7 +1954,7 @@ Namespace parametric
                 Dim out As New TestResult
                 out.TestStatistics1 = H(0, 0) * n
                 out.Pvalue = distributions.F_RT((n - p) * out.TestStatistics1 / (p * (n - 1)), CDbl(p), n - p)
-                Me.pht = out
+                Me.pHT = out
                 Return out
             End Function
 
@@ -1974,24 +1988,31 @@ Namespace parametric
             ''' These intervals control the family‑wise error rate across all p variables.
             ''' </para>
             ''' </remarks>
-            ''' <param name="dAlpha">Significance level α (must be between 0 and 1).</param>
-            ''' <returns>A list of ConfidenceIntervalResult objects.</returns>
-            Public Function CI(dAlpha As Double) As List(Of ConfidenceIntervalResult)
+            ''' <param name="alpha">
+            ''' Two-sided significance level used to construct the simultaneous confidence intervals.
+            ''' Must satisfy <c>0 &lt; alpha &lt; 1</c>.
+            ''' The default convention <c>alpha = 0.05</c> corresponds to simultaneous 95% confidence intervals.
+            ''' </param>
+            ''' <returns>
+            ''' A list of <see cref="ConfidenceIntervalResult"/> objects, one per variable,
+            ''' each carrying the estimate, interval bounds, and the supplied alpha level.
+            ''' </returns>
+            Public Function CI(alpha As Double) As List(Of ConfidenceIntervalResult)
                 'computes simultaneous confidence intervals for Single sample Hotelling's T-squared test
-                Me.pAlpha = dAlpha
+                Me.pAlpha = alpha
                 Dim n As Integer = data.GetLength(0)
                 Dim p As Integer = data.GetLength(1)
                 If p <> H0.Length Then
                     AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
-                If dAlpha < 0.0 Or dAlpha > 1.0 Then
+                If alpha < 0.0 Or alpha > 1.0 Then
                     AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared alpha must be (0 to 1)."))
                 End If
 
                 Dim diffs(p - 1) As Double
                 ReDim pMeans(p - 1), pSE(p - 1)
 
-                Dim Tcrit As Double = Math.Sqrt(p * (n - 1) / (n - p) * distributions.F_Inv_RT(dAlpha, CDbl(p), n - p))
+                Dim Tcrit As Double = Math.Sqrt(p * (n - 1) / (n - p) * distributions.F_Inv_RT(alpha, CDbl(p), n - p))
                 Me.pCIs = New List(Of String)
                 For i = 0 To p - 1
                     Dim tmp = Matrix.GetColumnFrom2Darray(data, i)
@@ -2000,6 +2021,7 @@ Namespace parametric
                     diffs(i) = pMeans(i) - H0(i)
 
                     Dim CIres As New ConfidenceIntervalResult With {
+                            .alpha = alpha,
                             .Estimate = pMeans(i),
                             .LowerLimit = pMeans(i) - Tcrit * pSE(i),
                             .UpperLimit = pMeans(i) + Tcrit * pSE(i)

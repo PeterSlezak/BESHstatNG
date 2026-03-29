@@ -13,7 +13,7 @@ Fix vs older generator:
   - If ambiguous/unresolved, falls back to Home (BaseUrl).
 
 Usage:
-  python tools/generate_help_links.py --methods-yml "..\BESHStatNG_Help_MkDocs\docs\_meta\methods.yml" --project-dir ".."
+  python tools/generate_help_links.py --methods-yml "..\\BESHStatNG_Help_MkDocs\\docs\\_meta\\methods.yml" --project-dir ".."
 
 Dependencies:
   pip install pyyaml
@@ -145,7 +145,7 @@ def generate(methods_yml: Path, project_dir: Path) -> None:
     for k in conflicts:
         mapping.pop(k, None)
 
-    gen_time = datetime.datetime.utcnow().isoformat() + "Z"
+    gen_time = datetime.datetime.now(datetime.UTC).isoformat()
 
     # ---- HelpLinks.vb ----
     help_links_vb: list[str] = []

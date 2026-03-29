@@ -6,21 +6,24 @@ Public Class Ui13GEE
     Private pWorksheet As Object
     Private pWorkbook As Object
     Private VariableColumnsInfo As Dictionary(Of String, VarColumnInfo) 'information of variable/column names inported into the input listbox
+    'Ui13GEE owns the TermSpecs dictionary; the shared EffectsController mutates this same
+    'instance by reference so add/remove/clear operations remain synchronized.
+    Private TermSpecs As Dictionary(Of String, TermSpec)
+    Private ReadOnly EffectsController As RegressionEffectsController
 
     Sub New(analysis As String)
 
         ' This call is required by the designer.
         InitializeComponent()
+        Me.tbEps.Text = FormatUiDouble(0.000001)
         Me.Text = analysis
+        Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         ' Add any initialization after the InitializeComponent() call.
         If Me.Text = "Generalized Estimating Equations" Then
 
             For Each sFam In regression.Family.FamiliesList
                 Me.cbFamily.Items.Add(sFam)
-            Next
-            For Each sLink In regression.Link.LinkList.Values
-                Me.cbLink.Items.Add(sLink)
             Next
             For Each sCovStruct In regression.GEEcovStruct.CovStructsList
                 Me.cbCovarStruct.Items.Add(sCovStruct)
@@ -29,7 +32,7 @@ Public Class Ui13GEE
                 Me.cbStandardErr.Items.Add(sSE)
             Next
             Me.cbFamily.SelectedIndex = 0
-            Me.cbLink.SelectedIndex = 0
+            RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
             Me.cbCovarStruct.SelectedIndex = 0
             Me.cbStandardErr.SelectedIndex = 0
         End If
@@ -95,6 +98,16 @@ Public Class Ui13GEE
         Me.btClearAllSelectedEffects.Anchor = Windows.Forms.AnchorStyles.Bottom Or
                                             Windows.Forms.AnchorStyles.Right
 
+
+        'Term specifications for selected effects.
+        'This dictionary remains owned by Ui13GEE and is passed into the shared controller
+        'so both the form and the controller operate on the same backing state.
+        Me.TermSpecs = New Dictionary(Of String, TermSpec)(StringComparer.Ordinal)
+
+        'Shared effect-authoring controller for GEE model construction.
+        Me.EffectsController = New RegressionEffectsController(Me.lbSelectedVariables,
+                                                               Me.lbSelectedEffectsList,
+                                                               Me.TermSpecs)
         Me.WireHelp(Me.btnHelp)
     End Sub
 
@@ -115,6 +128,80 @@ Public Class Ui13GEE
         Me.cbSheetsList.SelectedIndex = Me.cbSheetsList.FindStringExact(Me.pWorkbook.activesheet.name)
     End Sub
 
+    Private Shared Function GetFamilyCodeFromDisplayName(familyDisplayName As String) As String
+        Select Case familyDisplayName
+            Case "Binomial"
+                Return "Binomial"
+            Case "Poisson"
+                Return "Poisson"
+            Case "Negative Binomial"
+                Return "NegativeBinomial"
+            Case "Gaussian"
+                Return "Gaussian"
+            Case "Gamma"
+                Return "Gamma"
+            Case Else
+                Return String.Empty
+        End Select
+    End Function
+
+    Private Sub RefreshLinkOptionsForSelectedFamily(Optional preferredLink As String = Nothing)
+        Dim selectedFamilyName As String = String.Empty
+        If Me.cbFamily.SelectedItem IsNot Nothing Then
+            selectedFamilyName = Me.cbFamily.SelectedItem.ToString()
+        End If
+
+        Dim linkToSelect As String = preferredLink
+        If String.IsNullOrWhiteSpace(linkToSelect) AndAlso Me.cbLink.SelectedItem IsNot Nothing Then
+            linkToSelect = Me.cbLink.SelectedItem.ToString()
+        End If
+
+        Dim familyCode As String = GetFamilyCodeFromDisplayName(selectedFamilyName)
+
+        Me.cbLink.BeginUpdate()
+        Try
+            Me.cbLink.Items.Clear()
+
+            If String.IsNullOrWhiteSpace(familyCode) Then
+                Me.cbLink.SelectedIndex = -1
+                UpdatePowerLinkState()
+                Return
+            End If
+
+            Dim fam As regression.Family = regression.createFamily(familyCode)
+
+            For Each sLink As String In regression.Link.LinkList.Values
+                If fam.testLink(sLink) Then
+                    Me.cbLink.Items.Add(sLink)
+                End If
+            Next
+
+            If Not String.IsNullOrWhiteSpace(linkToSelect) Then
+                Dim existingIndex As Integer = Me.cbLink.FindStringExact(linkToSelect)
+                If existingIndex >= 0 Then
+                    Me.cbLink.SelectedIndex = existingIndex
+                End If
+            End If
+
+            If Me.cbLink.SelectedIndex = -1 AndAlso Me.cbLink.Items.Count > 0 Then
+                Me.cbLink.SelectedIndex = 0
+            End If
+
+            UpdatePowerLinkState()
+        Finally
+            Me.cbLink.EndUpdate()
+        End Try
+    End Sub
+
+    Private Sub UpdatePowerLinkState()
+        Dim usePowerLink As Boolean =
+            Me.cbLink.SelectedItem IsNot Nothing AndAlso
+            Me.cbLink.SelectedItem.ToString() = "Power"
+
+        Me.lblPower.Enabled = usePowerLink
+        Me.tbPower.Enabled = usePowerLink
+    End Sub
+
     Private Sub btReload_Click(sender As Object, e As System.EventArgs) Handles btReload.Click
         Dim newSheet As Object
         Me.lbAllColumns.Items.Clear()
@@ -128,7 +215,7 @@ Public Class Ui13GEE
                 Me.lbTime.Items.Clear()
                 Me.lbXs.Items.Clear()
                 Me.lbSelectedVariables.Items.Clear()
-                Remove_Item(Me.lbSelectedEffectsList, "all")
+                Remove_Item(Me.lbSelectedEffectsList, "all", Me.TermSpecs)
             End If
             newSheet = pWorkbook.worksheets(Me.cbSheetsList.SelectedItem.ToString())
             Me.Populate(newSheet)
@@ -143,14 +230,14 @@ Public Class Ui13GEE
         setTextBoxProperties(Me.tbInitValues, Color.White, String.Empty) 'give the text box its usual background
         vals = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
         If bErr Then 'Error while converting to array
-            tiptext = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers."
+            tiptext = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers without thousands separators."
             setTextBoxProperties(Me.tbInitValues, Color.Red, tiptext)
+            Exit Sub
         End If
-        If vals.Length <> Me.lbSelectedEffectsList.Items.Count + 1 Then '+1 because of intercept
-            tiptext = "Number of initial values does not match the number of estimated parameters." & vbNewLine &
-                      "Initial value for the intercept should be the first one in the list."
-            setTextBoxProperties(Me.tbInitValues, Color.Red, tiptext)
-        End If
+
+        'Do not validate the exact number of initial values here.
+        'The exact parameter count depends on the expanded design matrix and is
+        'validated after effect expansion inside RunGEE().
     End Sub
 
     Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles TabControl1.SelectedIndexChanged
@@ -162,12 +249,11 @@ Public Class Ui13GEE
                 For i = 0 To Me.lbXs.Items.Count - 1
                     Me.lbSelectedVariables.Items.Add(Me.lbXs.Items(i))
                 Next
-                If Not IsSubsetListBox(Me.lbSelectedVariables, Me.lbSelectedEffectsList) Then
+                If Not IsSubsetListBox(Me.lbSelectedVariables, Me.lbSelectedEffectsList, bOnlyMain:=True) Then
                     If MsgBox("There is a variable in selected effects list that was removed from the predictor variable(s) list." & vbNewLine & vbNewLine &
                               "Clear selected effects list?", vbYesNo + vbExclamation, "Clear selected effects list?") = vbYes Then
                         'Selected item was removed from X vars
-                        'TODO: this need to be updated when start using poly and interaction effects
-                        If Me.lbSelectedEffectsList.Items.Count > 0 Then Remove_Item(Me.lbSelectedEffectsList)
+                        If Me.lbSelectedEffectsList.Items.Count > 0 Then Remove_Item(Me.lbSelectedEffectsList, "all", Me.TermSpecs)
                     End If
                 End If
             End If
@@ -186,18 +272,15 @@ Public Class Ui13GEE
             setTextBoxProperties(Me.tbInitValues, Color.White, String.Empty) 'give the text box its usual background
             vals = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
             If bErr Then 'Error while converting to array
-                strErr = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers."
+                strErr = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers without thousands separators."
                 setTextBoxProperties(Me.tbInitValues, Color.Red, strErr)
                 bWait = True
                 Exit Sub
             End If
-            If vals.Length <> Me.lbSelectedEffectsList.Items.Count + 1 Then '+1 because of intercept
-                strErr = "Number of initial values does not match the number of estimated parameters." & vbNewLine &
-                         "Initial value for the intercept should be the first one in the list."
-                setTextBoxProperties(Me.tbInitValues, Color.Red, strErr)
-                bWait = True
-                Exit Sub
-            End If
+
+            'Do not validate parameter count here.
+            'The exact count depends on the expanded design matrix and is validated
+            'after expansion inside RunGEE().
         End If
 
         'Input variables
@@ -232,24 +315,32 @@ Public Class Ui13GEE
     Private Function GetData() As geeData
         Dim MyData As geeData = New geeData
         Dim keys As New List(Of String)
-        keys.Add(CStr(Me.lbY.Items(0))) 'Find the response variable and assign the reference
 
-        'X vars
-        For i = 0 To Me.lbSelectedEffectsList.Items.Count - 1
-            keys.Add(CStr(Me.lbSelectedEffectsList.Items(i)))
+        'Response variable always first
+        keys.Add(CStr(Me.lbY.Items(0)))
+
+        'Only import required RAW predictors. The selected effects list may later
+        'contain derived terms, but the raw import should remain stable.
+        Dim rawXKeys As List(Of String) = RegressionDesignCore.GetRequiredRawVarKeys(Me.lbSelectedEffectsList.Items, Me.TermSpecs)
+        For Each xKey As String In rawXKeys
+            keys.Add(xKey)
         Next
+
         'Cluster ID
         If Me.lbClusterID.Items(0) <> String.Empty Then keys.Add(CStr(Me.lbClusterID.Items(0)))
-        'Time/Withing cluster ordering variable
+
+        'Time / within-cluster ordering variable
         If Me.lbTime.Items.Count > 0 AndAlso Me.lbTime.Items(0) <> vbNullString Then
             MyData.bTime = True
             keys.Add(CStr(Me.lbTime.Items(0)))
         End If
+
         'Offset
         If Me.lbOffset.Items.Count > 0 AndAlso Me.lbOffset.Items(0) <> String.Empty Then
             MyData.bOffset = True
             keys.Add(CStr(Me.lbOffset.Items(0)))
         End If
+
         'Weights
         If Me.lbWeights.Items.Count > 0 AndAlso Me.lbWeights.Items(0) <> String.Empty Then
             MyData.bWeights = True
@@ -257,9 +348,75 @@ Public Class Ui13GEE
         End If
 
         Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
-        'Prepare Data from references
         MyData.DataInport(ref)
         Return MyData
+    End Function
+
+    ''' <summary>
+    ''' Builds the expanded regression matrix and aligned variable names for GEE.
+    ''' </summary>
+    ''' <param name="MyData">
+    ''' Raw imported GEE data containing Y in column 0 and only required raw predictors thereafter.
+    ''' Cluster id, time, offset, and weights are stored separately by <see cref="geeData"/>.
+    ''' </param>
+    ''' <param name="fitData">
+    ''' Returns the expanded matrix in the form [Y | expanded X].
+    ''' </param>
+    ''' <param name="fitVarNames">
+    ''' Returns variable names aligned to <paramref name="fitData"/>.
+    ''' </param>
+    Private Sub BuildExpandedRegressionInputs(MyData As geeData,
+                                              ByRef fitData(,) As Double,
+                                              ByRef fitVarNames() As String)
+
+        'The current GEE engine always includes an intercept internally, so categorical
+        'predictors should always omit their reference level when expanded.
+        RegressionDesignCore.BuildExpandedRegressionDataMatrix(raw:=MyData,
+                                                       yKey:=CStr(Me.lbY.Items(0)),
+                                                       effectItems:=Me.lbSelectedEffectsList.Items,
+                                                       termSpecs:=Me.TermSpecs,
+                                                       omitCategoricalReference:=True,
+                                                       outData:=fitData,
+                                                       outVarNames:=fitVarNames)
+    End Sub
+
+    ''' <summary>
+    ''' Validates the exact number of user-supplied initial values after effect expansion.
+    ''' </summary>
+    ''' <param name="expectedCount">
+    ''' The exact number of mean-model parameters expected by the fitted GEE.
+    ''' </param>
+    ''' <returns>
+    ''' <see langword="True"/> when the supplied initial values are valid; otherwise <see langword="False"/>.
+    ''' </returns>
+    Private Function ValidateExpandedInitialValuesCount(expectedCount As Integer) As Boolean
+        If Me.tbInitValues.Text = String.Empty Then Return True
+
+        setTextBoxProperties(Me.tbInitValues, Color.White, String.Empty)
+
+        Dim bErr As Boolean = False
+        Dim vals() As Double = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
+
+        If bErr Then
+            Dim msg As String = "Cannot convert provided string to the array of double digits. Please provide space separated list of numbers without thousands separators."
+            setTextBoxProperties(Me.tbInitValues, Color.Red, msg)
+            MsgBox(msg, vbExclamation, "Input Error!")
+            Return False
+        End If
+
+        If vals.Length <> expectedCount Then
+            Dim msg As String = $"Number of initial values does not match the number of estimated parameters for Generalized Estimating Equations." &
+                                vbNewLine &
+                                $"Expected {expectedCount}, received {vals.Length}." &
+                                vbNewLine &
+                                "Initial value for the intercept should be the first one in the list."
+
+            setTextBoxProperties(Me.tbInitValues, Color.Red, msg)
+            MsgBox(msg, vbExclamation, "Input Error!")
+            Return False
+        End If
+
+        Return True
     End Function
 
     Private Sub btCalculate_Click(sender As Object, e As System.EventArgs) Handles btCalculate.Click
@@ -305,11 +462,26 @@ Public Class Ui13GEE
     Private Sub RunGEE(MyData As geeData, bInitialValues As Boolean)
         Dim fitGEE As GEE
         Try
+            Dim alphaValue As Double = Me.spinBtnAlpha.Value
+            Dim fitData(,) As Double = Nothing
+            Dim fitVarNames() As String = Nothing
+
+            BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
+
+            If bInitialValues Then
+                'GEE currently always includes an intercept internally.
+                Dim expectedCount As Integer = fitVarNames.Length
+
+                If Not ValidateExpandedInitialValuesCount(expectedCount) Then
+                    Exit Sub
+                End If
+            End If
+
             'create family
             Dim fam = regression.createFamily(regression.Family.FamiliesCodes(Me.cbFamily.SelectedIndex))
             If Me.tbDispersionParameterNB2.Text <> String.Empty Then
                 Try
-                    Dim dispParam As Double = CDbl(Me.tbDispersionParameterNB2.Text)
+                    Dim dispParam As Double = ParseUiDouble(Me.tbDispersionParameterNB2.Text, "Dispersion parameter")
                     If dispParam > 0 Then fam.pdAlpha = dispParam
                 Catch
                 End Try
@@ -318,7 +490,7 @@ Public Class Ui13GEE
             'create link
             Dim lnk As regression.Link
             If Me.cbLink.SelectedItem = "Power" Then
-                lnk = regression.createLink(Me.cbLink.SelectedItem, CDbl(Me.tbPower.Text))
+                lnk = regression.createLink(Me.cbLink.SelectedItem, ParseUiDouble(Me.tbPower.Text, "Power link parameter"))
             Else
                 lnk = regression.createLink(Me.cbLink.SelectedItem)
             End If
@@ -326,18 +498,26 @@ Public Class Ui13GEE
             'create Covariance structure
             Dim covStr = regression.createGEEcovMat(regression.GEEcovStruct.CovStructsList(Me.cbCovarStruct.SelectedIndex))
             fitGEE = New GEE(fam, lnk, covStr, Me.cbStandardErr.SelectedItem)
-            fitGEE.data(MyData.DataDbl, MyData.ClusterIdData, MyData.RowIds,
+
+            fitGEE.data(fitData, MyData.ClusterIdData, MyData.RowIds,
                     If(MyData.bOffset, MyData.OffsetData, Nothing),
                     If(MyData.bWeights, MyData.WeightData, Nothing),
                     If(MyData.bTime, MyData.TimeData, Nothing))
-            fitGEE.setVarNames(MyData.varNames, MyData.ClusterIdVarName,
+
+            fitGEE.setVarNames(fitVarNames, MyData.ClusterIdVarName,
                            If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                            If(MyData.bWeights, MyData.WeightVarName, Nothing),
                            If(MyData.bTime, MyData.TimeVarName, Nothing))
+
             fitGEE.bComputeResiduals = Me.ckResiduals.Checked
             fitGEE.bIterationDetails = Me.ckIterationsDetails.Checked
-            fitGEE.settingInputs(0.05, CInt(Me.tbMaxIter.Text), CDbl(Me.tbEps.Text), Me.ckUseP.Checked)
-            If bInitialValues Then fitGEE.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'we tested already that they are correct
+            fitGEE.settingInputs(alphaValue,
+                                 ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
+                                 ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"),
+                                 Me.ckUseP.Checked)
+
+            If bInitialValues Then fitGEE.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
+
             fitGEE.Fit(bInitialValues, , Me.ProgressBar1, Me.lblProgress)
 
             ''Dump results
@@ -350,10 +530,10 @@ Public Class Ui13GEE
             WriteRes.write(MyData.RowIds, bTall:=True)
             WriteRes.setRowPointer()
             WriteRes.setColumnPointer(2)
-            WriteRes.write(MyData.varNames)
-            WriteRes.write(MyData.FinalData)
+            WriteRes.write(fitVarNames)
+            WriteRes.write(fitData)
             WriteRes.setRowPointer()
-            WriteRes.shiftColumnPointer(UBound(MyData.FinalData, 2) + 1)
+            WriteRes.shiftColumnPointer(fitVarNames.Length)
 
             'Offset
             If MyData.bOffset Then
@@ -363,6 +543,7 @@ Public Class Ui13GEE
                 WriteRes.setRowPointer()
                 WriteRes.shiftColumnPointer(1)
             End If
+
             'Weights
             If MyData.bWeights Then
                 WriteRes.write({MyData.WeightVarName})
@@ -371,6 +552,7 @@ Public Class Ui13GEE
                 WriteRes.setRowPointer()
                 WriteRes.shiftColumnPointer(1)
             End If
+
             'Time
             If MyData.bTime Then
                 WriteRes.write({MyData.TimeVarName})
@@ -379,6 +561,7 @@ Public Class Ui13GEE
                 WriteRes.setRowPointer()
                 WriteRes.shiftColumnPointer(1)
             End If
+
             'Cluster ID
             WriteRes.write({MyData.ClusterIdVarName})
             WriteRes.setRowPointer(2)
@@ -456,18 +639,43 @@ Public Class Ui13GEE
     End Sub
 
     Private Sub btAddEffect_Click(sender As Object, e As System.EventArgs) Handles btAddEffect.Click
-        AddItemsToListbox(Me.lbSelectedEffectsList, Me.lbSelectedVariables, Me.lbY, Me.lbOffset, Me.lbWeights, Me.lbClusterID)
+        Me.EffectsController.AddMainEffectsFromSelectedVars()
+    End Sub
+
+    Private Sub btAddEffectCategoricalFactor_Click(sender As Object, e As System.EventArgs) Handles btAddEffectCategoricalFactor.Click
+        Me.EffectsController.AddCategoricalEffectsFromSelectedVars()
+    End Sub
+
+    Private Sub btn2Interactions_Click(sender As Object, e As System.EventArgs) Handles btn2Interactions.Click
+        Me.EffectsController.AddTwoWayInteractionsFromSelectedVars()
+    End Sub
+
+    Private Sub btnCustomInteraction_Click(sender As Object, e As System.EventArgs) Handles btnCustomInteraction.Click
+        Me.EffectsController.AddCustomInteractionFromSelectedVars()
     End Sub
 
     Private Sub tbRemoveSelectedEffects_Click(sender As Object, e As System.EventArgs) Handles tbRemoveSelectedEffects.Click
-        Remove_Item(Me.lbSelectedEffectsList, "selected")
+        Remove_Item(Me.lbSelectedEffectsList, "selected", Me.TermSpecs)
     End Sub
 
     Private Sub btClearAllSelectedEffects_Click(sender As Object, e As System.EventArgs) Handles btClearAllSelectedEffects.Click
-        Remove_Item(Me.lbSelectedEffectsList, "all")
+        Remove_Item(Me.lbSelectedEffectsList, "all", Me.TermSpecs)
     End Sub
 
     Private Sub btAddX_Click(sender As Object, e As System.EventArgs) Handles btAddX.Click
         AddItemsToListbox(Me.lbXs, Me.lbAllColumns, Me.lbY, Me.lbOffset, Me.lbWeights, Me.lbClusterID)
     End Sub
+
+    Private Sub btnPoly_Click(sender As Object, e As System.EventArgs) Handles btnPoly.Click
+        Me.EffectsController.AddPolynomialEffectsFromSelectedVars(CInt(Me.spinBtnPoly.Value))
+    End Sub
+
+    Private Sub cbFamily_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbFamily.SelectedIndexChanged
+        RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
+    End Sub
+
+    Private Sub cbLink_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbLink.SelectedIndexChanged
+        UpdatePowerLinkState()
+    End Sub
+
 End Class

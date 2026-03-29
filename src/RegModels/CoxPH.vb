@@ -141,6 +141,17 @@ Public Class CoxPH
     Public bIterationDetails As Boolean = False
     Public bTrace As Boolean = False
 
+    ''' <summary>
+    ''' Optional user-supplied starting parameter values for the Newton–Raphson optimizer.
+    ''' </summary>
+    ''' <remarks>
+    ''' These values affect only the starting point of the optimization.
+    ''' They do not change the null-model log-likelihood, the likelihood-ratio
+    ''' comparison against the null model, or the score test, all of which remain
+    ''' defined at β = 0.
+    ''' </remarks>
+    Public startParams() As Double = Nothing
+
     Public Sub New(x As List(Of survival.SurvivalRecord), varnames() As String, Optional maxIter As Integer = 100, Optional eps As Double = 0.00000001)
         Me.pRecords = x
         Me.pVarNames = varnames
@@ -339,6 +350,7 @@ Public Class CoxPH
         t.AddHeaderLeftRow(Me.pVarNames)
         If bRobustVariance Then t.AddFootnote("Standard Errors are based on Lin–Wei–Ying robust sandwich variance.")
         If strStrataVar IsNot Nothing Then t.AddFootnote($"Strata Variable: {strStrataVar}")
+        If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParams)}")
         t.AddFootnote($"Computational time: {Me.CompTime} seconds.")
         out.Add(t)
 
@@ -543,11 +555,30 @@ Public Class CoxPH
 
         Dim p As Integer = Me.pRecords(0).Covariates.Length
         Dim beta(p - 1) As Double
-        Dim oldBeta(p - 1) As Double
 
-        ' log-likelihood at beta = 0 (null)
-        Me.pLogLikelihood = ComputeLogLikelihood(beta)
-        Me.pLogLikelihoodNull = Me.pLogLikelihood
+        'The null-model log-likelihood must always be evaluated at β = 0,
+        'regardless of any user-supplied starting values.
+        Dim betaNull(p - 1) As Double
+        Me.pLogLikelihoodNull = ComputeLogLikelihood(betaNull)
+
+        'Initialize the optimizer either at the null vector or at the supplied
+        'starting values. This affects optimization only, not null-model statistics.
+        If Me.startParams IsNot Nothing Then
+            If Me.startParams.Length <> p Then
+                AppGlobals.BSerr.LogAndThrow(
+                    New ArgumentException($"Starting parameter array length ({Me.startParams.Length}) does not match the number of Cox predictors ({p})."))
+            End If
+
+            Me.startParams.CopyTo(beta, 0)
+            Me.pLogLikelihood = ComputeLogLikelihood(beta)
+
+            If Double.IsNaN(Me.pLogLikelihood) OrElse Double.IsInfinity(Me.pLogLikelihood) Then
+                AppGlobals.BSerr.LogAndThrow(
+                    New ArgumentException("Provided starting values lead to an invalid initial Cox partial log-likelihood. Please provide a different set of starting values."))
+            End If
+        Else
+            Me.pLogLikelihood = Me.pLogLikelihoodNull
+        End If
 
         ' Group by stratum
         Dim strataGroups = Me.pRecords.GroupBy(Function(r) r.Stratum).ToList()
@@ -616,7 +647,7 @@ Public Class CoxPH
                 Next
 
                 logLikNew = ComputeLogLikelihood(betaNew)
-                If Not Double.IsNaN(logLikNew) AndAlso logLikNew >= Me.pLogLikelihood OrElse stepSize < 0.00000001 Then
+                If (Not Double.IsNaN(logLikNew) AndAlso logLikNew >= Me.pLogLikelihood) OrElse stepSize < 0.00000001 Then
                     Exit Do
                 Else
                     AppGlobals.BSlogg.Log($"Step halving. Current stepSize={stepSize}; logLikNew={logLikNew}; old logLike={Me.pLogLikelihood}")

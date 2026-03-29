@@ -14,6 +14,9 @@ Public Class UibyID
         Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
 
+        Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
+        Me.spinBtnAlphaOutliers.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlphaOutliers.Minimum, Me.spinBtnAlphaOutliers.Maximum)
+
         'set all "Options" tab to invisible and then later show just that required based on analysis.
         'options for other outputs https://stackoverflow.com/questions/12740073/programmatically-hide-remove-tabpages-in-vb-net
         Me.TabPage_Options.Parent = Nothing
@@ -28,9 +31,11 @@ Public Class UibyID
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.grpHomogeneityVariances.Visible = True
+
         ElseIf Me.Text = "Box and Whiskers" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
+
         ElseIf Me.Text = "One-Way ANOVA" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
@@ -38,39 +43,57 @@ Public Class UibyID
             Me.grpHomogeneityVariances.Visible = True
             Me.grpANOVA1MCP.Visible = True
             Me.ckWelch.Visible = True
+
         ElseIf Me.Text = "Mann-Whitney Test" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.ckEstimateOfShift.Visible = True
+            Me.spinBtnAlpha.Visible = True
+            Me.lblAlpha.Visible = True
+
         ElseIf Me.Text = "Unpaired T-test" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
+            Me.spinBtnAlpha.Visible = True
+            Me.lblAlpha.Visible = True
+
         ElseIf Me.Text = "ROC Curve" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
+            Me.spinBtnAlpha.Visible = True
+            Me.lblAlpha.Visible = True
+
         ElseIf Me.Text = "Descriptive Statistcs" Then
             Me.TabPage_OptionsDescriptive.Parent = Me.TabMultipage
             Me.ckBoxPlot_Descriptive.Visible = True
+
         ElseIf Me.Text = "Normality" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
+
         ElseIf Me.Text = "Histogram" Then
             Me.TabPage_OptionsHistogram.Parent = Me.TabMultipage
+
         ElseIf Me.Text = "Normal Plot" Then
             Me.TabPage_OptionsNormalPlot.Parent = Me.TabMultipage
+
         ElseIf Me.Text = "Homogeneity Of Variance" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.grpHomogeneityVariances.Visible = True
+
         ElseIf Me.Text = "Symmetry" Then
             Me.TabPage_OptionsSymmetry.Parent = Me.TabMultipage
+
         ElseIf Me.Text = "Outliers" Then
             Me.TabPage_OptionsOutliers.Parent = Me.TabMultipage
+
         End If
+
         Me.RefEdit1.txtAddress.Select()
         Me.WireHelp(Me.btnHelp)
     End Sub
@@ -293,17 +316,17 @@ Public Class UibyID
         Dim nMaxOutliers As Integer = 0
         For i = 0 To k - 1
             If Me.optGrubbs.Checked Then
-                Dim t = assumptions.Grubbs(data.X(i), Me.spinBtnAlpha.Value)
-                out(0, i) = Me.spinBtnAlpha.Value
+                Dim t = assumptions.Grubbs(data.X(i), Me.spinBtnAlphaOutliers.Value)
+                out(0, i) = Me.spinBtnAlphaOutliers.Value
                 out(1, i) = t.TestStatistics1
                 out(2, i) = t.TestStatistics2
                 out(3, i) = t.strSpecialInformation
 
             ElseIf Me.optRosner.Checked Then
 
-                Dim t = assumptions.Rosner(data.X(i), Me.spinBtnAlpha.Value)
+                Dim t = assumptions.Rosner(data.X(i), Me.spinBtnAlphaOutliers.Value)
 
-                out(0, i) = Me.spinBtnAlpha.Value
+                out(0, i) = Me.spinBtnAlphaOutliers.Value
                 out(2, i) = "List of Outliers:"
                 If t Is Nothing Then
                     out(1, i) = 0
@@ -676,7 +699,7 @@ Public Class UibyID
 
     Private Sub RunROC(data As MultiGroupsUnpairedData)
         Dim rroc = New graphics.ROC(data.X, data.varNames)
-        rroc.compute()
+        rroc.compute(Me.spinBtnAlpha.Value)
         Dim res = rroc.wrapResults()
 
         'Compute descriptive statistics
@@ -699,8 +722,9 @@ Public Class UibyID
 
     Private Sub RunTtest(data As MultiGroupsUnpairedData)
         Dim box As graphics.BoxPlot = Nothing
+        Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim ttest = New parametric.UnpairedTtest(data.X, data.varNames)
-        ttest.compute()
+        ttest.compute(alphaValue)
         Dim res = ttest.wrapResults()
 
         'Compute descriptive statistics
@@ -908,11 +932,12 @@ Public Class UibyID
 
     Private Sub RunMannWhitney(data As MultiGroupsUnpairedData)
         Dim box As graphics.BoxPlot = Nothing
+        Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
 
         'Compute test
         Dim MW As New nonparametric.MannWhitney(data.X, data.varNames(0), data.varNames(1))
         MW.Compute(Me.progressBarExactCalc)
-        If Me.ckEstimateOfShift.Checked Then MW.ComputeShift()
+        If Me.ckEstimateOfShift.Checked Then MW.ComputeShift(alphaValue)
         Dim res = MW.wrapResults()
 
         'Compute descriptive statistics

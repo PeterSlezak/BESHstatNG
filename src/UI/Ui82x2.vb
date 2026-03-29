@@ -14,6 +14,7 @@ Public Class Ui82x2
         ' Add any initialization after the InitializeComponent() call.
         Me.RefEdit1_WorksheetData.ExcelConnector = AppGlobals.app
         Me.RefEditOutput.ExcelConnector = AppGlobals.app
+        Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
         Me.WireHelp(Me.btnHelp)
     End Sub
 
@@ -21,6 +22,7 @@ Public Class Ui82x2
         Try
             Dim R1C1 As Integer, R1C2 As Integer, R2C1 As Integer, R2C2 As Integer, bSelectedOption As Boolean = False
             Dim table(1, 1) As Integer, res = New List(Of ResultTable), t = New ResultTable
+            Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
 
             'get data
             If Me.optWorksheetData.Checked Then
@@ -76,29 +78,29 @@ Public Class Ui82x2
                 res.Add(t)
             End If
             If Me.ckLiddel.Checked Then
-                Dim Liddel = contingencytable.Liddell_McNemar(table)
+                Dim Liddel = contingencytable.Liddell_McNemar(table, alphaValue)
                 t = New ResultTable
                 t.AddHeaderTopRow({"Liddell's Test", ""})
                 t.SetBody({{"P-value", Liddel.Item1.Pvalue},
                             {"Risk ratio", Liddel.Item2.Estimate},
-                            {"95% CI", Liddel.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
+                            {Liddel.Item2.CIlabel, Liddel.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
                 res.Add(t)
             End If
             If Me.ckOR.Checked Then
-                Dim Odds = contingencytable.OddsRatio(table)
+                Dim Odds = contingencytable.OddsRatio(table, alphaValue)
                 t = New ResultTable
                 t.AddHeaderTopRow({"Odds Ratio", ""})
                 t.SetBody({{"OR", Odds.Item1.Estimate},
-                          {"95% CI (Woolf)", Odds.Item1.strConfidenceInterval(CIformat.LL_to_UL)},
-                          {"95% CI (Cornfield)", Odds.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
+                          {Odds.Item1.CIlabel & " (Woolf)", Odds.Item1.strConfidenceInterval(CIformat.LL_to_UL)},
+                          {Odds.Item2.CIlabel & " (Cornfield)", Odds.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
                 res.Add(t)
             End If
             If Me.ckRR.Checked Then
-                Dim Risk = contingencytable.RiskRatio(table)
+                Dim Risk = contingencytable.RiskRatio(table, alphaValue)
                 t = New ResultTable
                 t.AddHeaderTopRow({"Risk Ratio", ""})
                 t.SetBody({{"RR", Risk.Estimate},
-                          {"95% CI", Risk.strConfidenceInterval(CIformat.LL_to_UL)}})
+                            {Risk.CIlabel, Risk.strConfidenceInterval(CIformat.LL_to_UL)}})
                 res.Add(t)
             End If
 

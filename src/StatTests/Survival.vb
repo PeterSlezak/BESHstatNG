@@ -1515,7 +1515,7 @@ Namespace survival
                     Next i
 
                     If bPlotCI Then
-                        'plot 95% confidence limits
+                        'plot confidence limits at the selected level
                         For i = 2 * NoGroups To 3 * NoGroups - 1
                             'upper limits
                             ReDim UpCI(UBound(SurvivalProbPlot, 1) + 1), time(UBound(SurvivalTimePlot) + 1)

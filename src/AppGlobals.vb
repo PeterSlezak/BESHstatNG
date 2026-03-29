@@ -345,6 +345,29 @@ Namespace AppInfrastructure
             End Get
         End Property
 
+        ''' <summary>
+        ''' Gets the session default two-sided alpha level.
+        ''' Falls back to 0.05 if the settings file is missing or contains an invalid value.
+        ''' </summary>
+        Public ReadOnly Property DefaultAlpha As Double
+            Get
+                Dim alpha = GetCurrentSettings().DefaultAlpha
+                If alpha <= 0.0 OrElse alpha >= 1.0 Then Return 0.05
+                Return alpha
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Returns the configured default alpha clamped to the range accepted by a UI numeric control.
+        ''' </summary>
+        Public Function GetDefaultAlphaDecimal(minimum As Decimal, maximum As Decimal) As Decimal
+            Dim value As Decimal = CDec(DefaultAlpha)
+            If value < minimum Then value = minimum
+            If value > maximum Then value = maximum
+            Return value
+        End Function
+
+
         Public Sub ApplySettings(settings As BeshStatNgSettings)
             If settings Is Nothing Then
                 settings = New BeshStatNgSettings()

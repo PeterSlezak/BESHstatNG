@@ -10,12 +10,16 @@ Public Class Ui12GlobalSettings
         ' Load current session settings into the form.
         Dim settings = AppGlobals.GetCurrentSettings()
         Me.ckLogging.Checked = settings.Diagnostics.TraceExecutionLoggingEnabled
+        Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
+
+        Me.WireHelp(Me.btnHelp)
     End Sub
 
     Private Sub btnOK_Click(sender As Object, e As System.EventArgs) Handles btnOK.Click
         Dim settings = AppGlobals.GetCurrentSettings()
 
         settings.Diagnostics.TraceExecutionLoggingEnabled = Me.ckLogging.Checked
+        settings.DefaultAlpha = CDbl(Me.spinBtnAlpha.Value)
         AppGlobals.ApplySettings(settings)
 
         Try

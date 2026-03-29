@@ -24,7 +24,7 @@ Partial Class Ui9ANOVA2nested
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Ui9ANOVA2nested))
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New Excel2007RefEdit()
+        Me.RefEditOutput = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
@@ -32,11 +32,11 @@ Partial Class Ui9ANOVA2nested
         Me.btCompute = New System.Windows.Forms.Button()
         Me.grpInput = New System.Windows.Forms.GroupBox()
         Me.lblRefedit2_Nested = New System.Windows.Forms.Label()
-        Me.RefEdit2_Nested = New Excel2007RefEdit()
+        Me.RefEdit2_Nested = New Global.BESHStatNG.Excel2007RefEdit()
         Me.lblRefedit3_Data = New System.Windows.Forms.Label()
         Me.lblRefedit1_Group = New System.Windows.Forms.Label()
-        Me.RefEdit1_Group = New Excel2007RefEdit()
-        Me.RefEdit3_Data = New Excel2007RefEdit()
+        Me.RefEdit1_Group = New Global.BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit3_Data = New Global.BESHStatNG.Excel2007RefEdit()
         Me.grpOutput.SuspendLayout()
         Me.grpInput.SuspendLayout()
         Me.SuspendLayout()
@@ -227,7 +227,7 @@ Partial Class Ui9ANOVA2nested
     End Sub
 
     Friend WithEvents grpOutput As Windows.Forms.GroupBox
-    Friend WithEvents RefEditOutput As Excel2007RefEdit
+    Friend WithEvents RefEditOutput As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents optWorkbook As Windows.Forms.RadioButton
     Friend WithEvents optWorksheet As Windows.Forms.RadioButton
     Friend WithEvents optOutputRange As Windows.Forms.RadioButton
@@ -236,8 +236,8 @@ Partial Class Ui9ANOVA2nested
     Friend WithEvents grpInput As Windows.Forms.GroupBox
     Friend WithEvents lblRefedit3_Data As Windows.Forms.Label
     Friend WithEvents lblRefedit1_Group As Windows.Forms.Label
-    Friend WithEvents RefEdit1_Group As Excel2007RefEdit
-    Friend WithEvents RefEdit3_Data As Excel2007RefEdit
+    Friend WithEvents RefEdit1_Group As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit3_Data As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents lblRefedit2_Nested As Windows.Forms.Label
-    Friend WithEvents RefEdit2_Nested As Excel2007RefEdit
+    Friend WithEvents RefEdit2_Nested As Global.BESHStatNG.Excel2007RefEdit
 End Class

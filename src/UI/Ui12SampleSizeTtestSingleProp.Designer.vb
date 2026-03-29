@@ -91,6 +91,7 @@ Partial Class Ui12SampleSizeTtestSingleProp
         Me.spinBtnBeta.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnBeta.Location = New System.Drawing.Point(443, 62)
         Me.spinBtnBeta.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnBeta.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnBeta.Name = "spinBtnBeta"
         Me.spinBtnBeta.Size = New System.Drawing.Size(67, 22)
         Me.spinBtnBeta.TabIndex = 8
@@ -113,6 +114,7 @@ Partial Class Ui12SampleSizeTtestSingleProp
         Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlpha.Location = New System.Drawing.Point(443, 34)
         Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlpha.Name = "spinBtnAlpha"
         Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
         Me.spinBtnAlpha.TabIndex = 6

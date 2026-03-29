@@ -75,6 +75,8 @@ Partial Class UiGLM
         Me.lblSelectedEffectsListLogistic = New System.Windows.Forms.Label()
         Me.lblSelectedVariablesLogistic = New System.Windows.Forms.Label()
         Me.TabPageOptions = New System.Windows.Forms.TabPage()
+        Me.lblAlpha = New System.Windows.Forms.Label()
+        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
         Me.ckCovarMatrix = New System.Windows.Forms.CheckBox()
         Me.ckResiduals = New System.Windows.Forms.CheckBox()
         Me.grpReference = New System.Windows.Forms.GroupBox()
@@ -108,17 +110,24 @@ Partial Class UiGLM
         Me.lblProgress = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.btAddEffectCategoricalFactorLogistic = New System.Windows.Forms.Button()
+        Me.btnCustomInteractionLogistic = New System.Windows.Forms.Button()
+        Me.btn2InteractionsLogistic = New System.Windows.Forms.Button()
+        Me.spinBtnPolyLogistic = New System.Windows.Forms.NumericUpDown()
+        Me.btnPolyLogistic = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPageBuildModel.SuspendLayout()
         CType(Me.spinBtnPoly, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPageLogisticModel.SuspendLayout()
         Me.TabPageOptions.SuspendLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpReference.SuspendLayout()
         Me.grpModelSpecification.SuspendLayout()
         Me.grpIterOptions.SuspendLayout()
         Me.TabPageOptions_LinearModel.SuspendLayout()
         Me.grpSumOfSquares.SuspendLayout()
+        CType(Me.spinBtnPolyLogistic, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'lbAllColumns
@@ -408,7 +417,6 @@ Partial Class UiGLM
         Me.btAddEffectCategoricalFactor.TabIndex = 16
         Me.btAddEffectCategoricalFactor.Text = "Add as Categorical Factor >>"
         Me.btAddEffectCategoricalFactor.UseVisualStyleBackColor = True
-        Me.btAddEffectCategoricalFactor.Visible = False
         '
         'btnCustomInteraction
         '
@@ -418,7 +426,6 @@ Partial Class UiGLM
         Me.btnCustomInteraction.TabIndex = 15
         Me.btnCustomInteraction.Text = "Custom Interaction >>"
         Me.btnCustomInteraction.UseVisualStyleBackColor = True
-        Me.btnCustomInteraction.Visible = False
         '
         'btn2Interactions
         '
@@ -428,7 +435,6 @@ Partial Class UiGLM
         Me.btn2Interactions.TabIndex = 14
         Me.btn2Interactions.Text = "2-way Interactions >>"
         Me.btn2Interactions.UseVisualStyleBackColor = True
-        Me.btn2Interactions.Visible = False
         '
         'spinBtnPoly
         '
@@ -439,7 +445,6 @@ Partial Class UiGLM
         Me.spinBtnPoly.Size = New System.Drawing.Size(44, 22)
         Me.spinBtnPoly.TabIndex = 13
         Me.spinBtnPoly.Value = New Decimal(New Integer() {2, 0, 0, 0})
-        Me.spinBtnPoly.Visible = False
         '
         'btnPoly
         '
@@ -449,7 +454,6 @@ Partial Class UiGLM
         Me.btnPoly.TabIndex = 12
         Me.btnPoly.Text = "Poly >>"
         Me.btnPoly.UseVisualStyleBackColor = True
-        Me.btnPoly.Visible = False
         '
         'ckIntercept
         '
@@ -551,6 +555,11 @@ Partial Class UiGLM
         '
         'TabPageLogisticModel
         '
+        Me.TabPageLogisticModel.Controls.Add(Me.btAddEffectCategoricalFactorLogistic)
+        Me.TabPageLogisticModel.Controls.Add(Me.btnCustomInteractionLogistic)
+        Me.TabPageLogisticModel.Controls.Add(Me.btn2InteractionsLogistic)
+        Me.TabPageLogisticModel.Controls.Add(Me.spinBtnPolyLogistic)
+        Me.TabPageLogisticModel.Controls.Add(Me.btnPolyLogistic)
         Me.TabPageLogisticModel.Controls.Add(Me.ckInterceptLogistic)
         Me.TabPageLogisticModel.Controls.Add(Me.btAddEffectLogistic)
         Me.TabPageLogisticModel.Controls.Add(Me.btClearAllSelectedEffectsLogistic)
@@ -669,6 +678,8 @@ Partial Class UiGLM
         '
         'TabPageOptions
         '
+        Me.TabPageOptions.Controls.Add(Me.lblAlpha)
+        Me.TabPageOptions.Controls.Add(Me.spinBtnAlpha)
         Me.TabPageOptions.Controls.Add(Me.ckCovarMatrix)
         Me.TabPageOptions.Controls.Add(Me.ckResiduals)
         Me.TabPageOptions.Controls.Add(Me.grpReference)
@@ -681,14 +692,37 @@ Partial Class UiGLM
         Me.TabPageOptions.Text = "Options"
         Me.TabPageOptions.UseVisualStyleBackColor = True
         '
+        'lblAlpha
+        '
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAlpha.Location = New System.Drawing.Point(28, 209)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
+        Me.lblAlpha.TabIndex = 11
+        Me.lblAlpha.Text = "alpha"
+        '
+        'spinBtnAlpha
+        '
+        Me.spinBtnAlpha.DecimalPlaces = 3
+        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(76, 207)
+        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Name = "spinBtnAlpha"
+        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlpha.TabIndex = 10
+        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
         'ckCovarMatrix
         '
         Me.ckCovarMatrix.AutoSize = True
         Me.ckCovarMatrix.Location = New System.Drawing.Point(349, 59)
         Me.ckCovarMatrix.Name = "ckCovarMatrix"
-        Me.ckCovarMatrix.Size = New System.Drawing.Size(255, 20)
+        Me.ckCovarMatrix.Size = New System.Drawing.Size(223, 20)
         Me.ckCovarMatrix.TabIndex = 4
-        Me.ckCovarMatrix.Text = "Covariance MatrixType of Parameters"
+        Me.ckCovarMatrix.Text = "Covariance Matrix of Parameters"
         Me.ckCovarMatrix.UseVisualStyleBackColor = True
         '
         'ckResiduals
@@ -749,7 +783,7 @@ Partial Class UiGLM
         Me.grpModelSpecification.Controls.Add(Me.cbFamily)
         Me.grpModelSpecification.Controls.Add(Me.lblFamily)
         Me.grpModelSpecification.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpModelSpecification.Location = New System.Drawing.Point(23, 199)
+        Me.grpModelSpecification.Location = New System.Drawing.Point(23, 242)
         Me.grpModelSpecification.Name = "grpModelSpecification"
         Me.grpModelSpecification.Size = New System.Drawing.Size(312, 155)
         Me.grpModelSpecification.TabIndex = 1
@@ -935,9 +969,9 @@ Partial Class UiGLM
         Me.ckCovarMatrixLM.AutoSize = True
         Me.ckCovarMatrixLM.Location = New System.Drawing.Point(355, 49)
         Me.ckCovarMatrixLM.Name = "ckCovarMatrixLM"
-        Me.ckCovarMatrixLM.Size = New System.Drawing.Size(255, 20)
+        Me.ckCovarMatrixLM.Size = New System.Drawing.Size(223, 20)
         Me.ckCovarMatrixLM.TabIndex = 5
-        Me.ckCovarMatrixLM.Text = "Covariance MatrixType of Parameters"
+        Me.ckCovarMatrixLM.Text = "Covariance Matrix of Parameters"
         Me.ckCovarMatrixLM.UseVisualStyleBackColor = True
         '
         'ckResidualsLM
@@ -1021,6 +1055,52 @@ Partial Class UiGLM
         Me.ProgressBar1.Size = New System.Drawing.Size(837, 23)
         Me.ProgressBar1.TabIndex = 10
         '
+        'btAddEffectCategoricalFactorLogistic
+        '
+        Me.btAddEffectCategoricalFactorLogistic.Location = New System.Drawing.Point(328, 84)
+        Me.btAddEffectCategoricalFactorLogistic.Name = "btAddEffectCategoricalFactorLogistic"
+        Me.btAddEffectCategoricalFactorLogistic.Size = New System.Drawing.Size(191, 23)
+        Me.btAddEffectCategoricalFactorLogistic.TabIndex = 26
+        Me.btAddEffectCategoricalFactorLogistic.Text = "Add as Categorical Factor >>"
+        Me.btAddEffectCategoricalFactorLogistic.UseVisualStyleBackColor = True
+        '
+        'btnCustomInteractionLogistic
+        '
+        Me.btnCustomInteractionLogistic.Location = New System.Drawing.Point(328, 171)
+        Me.btnCustomInteractionLogistic.Name = "btnCustomInteractionLogistic"
+        Me.btnCustomInteractionLogistic.Size = New System.Drawing.Size(191, 23)
+        Me.btnCustomInteractionLogistic.TabIndex = 25
+        Me.btnCustomInteractionLogistic.Text = "Custom Interaction >>"
+        Me.btnCustomInteractionLogistic.UseVisualStyleBackColor = True
+        '
+        'btn2InteractionsLogistic
+        '
+        Me.btn2InteractionsLogistic.Location = New System.Drawing.Point(328, 142)
+        Me.btn2InteractionsLogistic.Name = "btn2InteractionsLogistic"
+        Me.btn2InteractionsLogistic.Size = New System.Drawing.Size(191, 23)
+        Me.btn2InteractionsLogistic.TabIndex = 24
+        Me.btn2InteractionsLogistic.Text = "2-way Interactions >>"
+        Me.btn2InteractionsLogistic.UseVisualStyleBackColor = True
+        '
+        'spinBtnPolyLogistic
+        '
+        Me.spinBtnPolyLogistic.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnPolyLogistic.Location = New System.Drawing.Point(475, 113)
+        Me.spinBtnPolyLogistic.Maximum = New Decimal(New Integer() {1000000, 0, 0, 196608})
+        Me.spinBtnPolyLogistic.Name = "spinBtnPolyLogistic"
+        Me.spinBtnPolyLogistic.Size = New System.Drawing.Size(44, 22)
+        Me.spinBtnPolyLogistic.TabIndex = 23
+        Me.spinBtnPolyLogistic.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        '
+        'btnPolyLogistic
+        '
+        Me.btnPolyLogistic.Location = New System.Drawing.Point(328, 113)
+        Me.btnPolyLogistic.Name = "btnPolyLogistic"
+        Me.btnPolyLogistic.Size = New System.Drawing.Size(131, 23)
+        Me.btnPolyLogistic.TabIndex = 22
+        Me.btnPolyLogistic.Text = "Poly >>"
+        Me.btnPolyLogistic.UseVisualStyleBackColor = True
+        '
         'UiGLM
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -1046,6 +1126,7 @@ Partial Class UiGLM
         Me.TabPageLogisticModel.PerformLayout()
         Me.TabPageOptions.ResumeLayout(False)
         Me.TabPageOptions.PerformLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpReference.ResumeLayout(False)
         Me.grpReference.PerformLayout()
         Me.grpModelSpecification.ResumeLayout(False)
@@ -1056,6 +1137,7 @@ Partial Class UiGLM
         Me.TabPageOptions_LinearModel.PerformLayout()
         Me.grpSumOfSquares.ResumeLayout(False)
         Me.grpSumOfSquares.PerformLayout()
+        CType(Me.spinBtnPolyLogistic, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1145,4 +1227,11 @@ Partial Class UiGLM
     Friend WithEvents btnCustomInteraction As Windows.Forms.Button
     Friend WithEvents btn2Interactions As Windows.Forms.Button
     Friend WithEvents btAddEffectCategoricalFactor As Windows.Forms.Button
+    Friend WithEvents lblAlpha As Windows.Forms.Label
+    Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents btAddEffectCategoricalFactorLogistic As Windows.Forms.Button
+    Friend WithEvents btnCustomInteractionLogistic As Windows.Forms.Button
+    Friend WithEvents btn2InteractionsLogistic As Windows.Forms.Button
+    Friend WithEvents spinBtnPolyLogistic As Windows.Forms.NumericUpDown
+    Friend WithEvents btnPolyLogistic As Windows.Forms.Button
 End Class

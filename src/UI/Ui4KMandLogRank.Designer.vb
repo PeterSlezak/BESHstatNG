@@ -26,16 +26,16 @@ Partial Class Ui4KMandLogRank
         Me.TabMultipage = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpInput = New System.Windows.Forms.GroupBox()
-        Me.RefEdit1_SurvivalTime = New Excel2007RefEdit()
+        Me.RefEdit1_SurvivalTime = New Global.BESHStatNG.Excel2007RefEdit()
         Me.lblStrata = New System.Windows.Forms.Label()
-        Me.RefEdit4_StrataID = New Excel2007RefEdit()
+        Me.RefEdit4_StrataID = New Global.BESHStatNG.Excel2007RefEdit()
         Me.lblGroup = New System.Windows.Forms.Label()
-        Me.RefEdit3_GroupID = New Excel2007RefEdit()
+        Me.RefEdit3_GroupID = New Global.BESHStatNG.Excel2007RefEdit()
         Me.lblCensor = New System.Windows.Forms.Label()
-        Me.RefEdit2_Censor = New Excel2007RefEdit()
+        Me.RefEdit2_Censor = New Global.BESHStatNG.Excel2007RefEdit()
         Me.lblTime = New System.Windows.Forms.Label()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New Excel2007RefEdit()
+        Me.RefEditOutput = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
@@ -592,14 +592,14 @@ Partial Class Ui4KMandLogRank
     Friend WithEvents tbTitleText As Windows.Forms.TextBox
     Friend WithEvents optModPeto As Windows.Forms.RadioButton
     Friend WithEvents grpOutput As Windows.Forms.GroupBox
-    Friend WithEvents RefEditOutput As Excel2007RefEdit
+    Friend WithEvents RefEditOutput As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents optWorkbook As Windows.Forms.RadioButton
     Friend WithEvents optWorksheet As Windows.Forms.RadioButton
     Friend WithEvents optOutputRange As Windows.Forms.RadioButton
-    Friend WithEvents RefEdit1_SurvivalTime As Excel2007RefEdit
-    Friend WithEvents RefEdit2_Censor As Excel2007RefEdit
-    Friend WithEvents RefEdit3_GroupID As Excel2007RefEdit
-    Friend WithEvents RefEdit4_StrataID As Excel2007RefEdit
+    Friend WithEvents RefEdit1_SurvivalTime As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit2_Censor As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit3_GroupID As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit4_StrataID As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents lblStrata As Windows.Forms.Label
     Friend WithEvents lblGroup As Windows.Forms.Label
     Friend WithEvents lblCensor As Windows.Forms.Label

@@ -156,10 +156,11 @@ Namespace Agreement
             Private pMeanGroupSize As Double
 
             ''' <summary>
-            ''' Significance level used for (1−α) confidence intervals.
+            ''' Two-sided significance level used to construct the reported confidence intervals.
             ''' </summary>
             ''' <remarks>
-            ''' Default is <c>0.05</c> (95% confidence intervals).
+            ''' The reported interval level is <c>100 × (1 − alpha)%</c>.
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </remarks>
             Public alpha As Double = 0.05
 
@@ -216,7 +217,7 @@ Namespace Agreement
                 t.SetBody({{Me.pSlopeCI.Estimate, Me.pSlopeCI.strConfidenceInterval(CIformat.LL_to_UL), "Proportional differences"},
                            {Me.pInterceptCI.Estimate, Me.pInterceptCI.strConfidenceInterval(CIformat.LL_to_UL), "Systematic differences"}})
                 t.AddHeaderLeftRow({"Slope", "Intercept"})
-                t.AddHeaderTopRow({"Estimate", "95% CI", "Meaning"})
+                t.AddHeaderTopRow({"Estimate", Me.pSlopeCI.CIlabel, "Meaning"})
                 If Me.groups IsNot Nothing Then t.AddFootnote($"Group var = {Me.pVarGrp}")
                 out.Add(t)
 
@@ -678,7 +679,10 @@ Namespace Agreement
             Private pVarY As String
             Private pCItype As String = Nothing
 
-            ''' <summary>Two-sided significance level α (default 0.05 => 95% CI).</summary>
+            ''' <summary>
+            ''' Two-sided significance level used to construct the reported confidence intervals.
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
+            ''' </summary>
             Public Property alpha As Double = 0.05
 
             ''' <summary>
@@ -749,7 +753,7 @@ Namespace Agreement
                 t.SetBody({{Me.pSlopeCI.Estimate, Me.pSlopeCI.strConfidenceInterval(CIformat.LL_to_UL), "Proportional differences"},
                            {Me.pInterceptCI.Estimate, Me.pInterceptCI.strConfidenceInterval(CIformat.LL_to_UL), "Systematic differences"}})
                 t.AddHeaderLeftRow({"Slope", "Intercept"})
-                t.AddHeaderTopRow({"Estimate", "95% CI", "Meaning"})
+                t.AddHeaderTopRow({"Estimate", Me.pSlopeCI.CIlabel, "Meaning"})
                 t.AddFootnote($"SE type = {Me.pCItype}")
                 out.Add(t)
 
@@ -1492,7 +1496,8 @@ Namespace Agreement
             ''' Each <c>x(i)</c> is the set of repeated measurements (e.g., ratings) for target i.
             ''' </param>
             ''' <param name="alpha">
-            ''' Significance level for the confidence interval (e.g., 0.05 for a 95% CI).
+            ''' Optional two-sided significance level used for the confidence interval. 
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A <see cref="ConfidenceIntervalResult"/> containing:
@@ -1561,7 +1566,8 @@ Namespace Agreement
             ''' Each <c>x(i)</c> is the set of repeated measurements (e.g., ratings) for target i.
             ''' </param>
             ''' <param name="alpha">
-            ''' Significance level for the confidence interval (e.g., 0.05 for a 95% CI).
+            ''' Optional two-sided significance level used for the confidence interval. 
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A <see cref="ConfidenceIntervalResult"/> containing the ICC(1,k) estimate and CI.
@@ -1617,7 +1623,8 @@ Namespace Agreement
             ''' The matrix must be complete (no missing values) with one observation per target×rater cell.
             ''' </param>
             ''' <param name="alpha">
-            ''' Significance level for the confidence interval (e.g., 0.05 for a 95% CI).
+            ''' Optional two-sided significance level used for the confidence interval. 
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A <see cref="ConfidenceIntervalResult"/> containing the ICC(2,1) estimate and CI.
@@ -1706,7 +1713,8 @@ Namespace Agreement
             ''' The matrix must be complete (no missing values) with one observation per target×rater cell.
             ''' </param>
             ''' <param name="alpha">
-            ''' Significance level for the confidence interval (e.g., 0.05 for a 95% CI).
+            ''' Optional two-sided significance level used for the confidence interval. 
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A <see cref="ConfidenceIntervalResult"/> containing the ICC(2,k) estimate and CI.
@@ -1797,7 +1805,8 @@ Namespace Agreement
             ''' The matrix must be complete (no missing values) with one observation per target×rater cell.
             ''' </param>
             ''' <param name="alpha">
-            ''' Significance level for the confidence interval (e.g., 0.05 for a 95% CI).
+            ''' Optional two-sided significance level used for the confidence interval. 
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A <see cref="ConfidenceIntervalResult"/> containing the ICC(3,1) estimate and CI.
@@ -1882,7 +1891,8 @@ Namespace Agreement
             ''' The matrix must be complete (no missing values) with one observation per target×rater cell.
             ''' </param>
             ''' <param name="alpha">
-            ''' Significance level for the confidence interval (e.g., 0.05 for a 95% CI).
+            ''' Optional two-sided significance level used for the confidence interval. 
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
             ''' </param>
             ''' <returns>
             ''' A <see cref="ConfidenceIntervalResult"/> containing the ICC(3,k) estimate and CI.
@@ -2038,7 +2048,10 @@ Namespace Agreement
             ''' False => ICC(1,1) style (single measurement).
             ''' True  => ICC(1,k) style (mean of measurements) using effective group size n0.
             ''' </param>
-            ''' <param name="alpha">Significance level (e.g., 0.05 for 95% CI).</param>
+            ''' <param name="alpha"> 
+            ''' Optional two-sided significance level used for the confidence interval. 
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval. 
+            ''' </param>
             Public Function RepeatabilityCoefficient_OneWay(x()() As Double, averageMeasures As Boolean,
                                                             Optional alpha As Double = 0.05) As ConfidenceIntervalResult
 
@@ -2117,7 +2130,10 @@ Namespace Agreement
             ''' <param name="averageMeasures">
             ''' True for (·,k) (mean of k raters), False for (·,1) (single rater).
             ''' </param>
-            ''' <param name="alpha">Significance level (e.g., 0.05 for 95% CI).</param>
+            ''' <param name="alpha"> 
+            ''' Optional two-sided significance level used for the confidence interval. 
+            ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval. 
+            ''' </param>
             Public Function RepeatabilityCoefficient_TwoWay(x(,) As Double,
                                                             includeRaterVariance As Boolean,
                                                             averageMeasures As Boolean,

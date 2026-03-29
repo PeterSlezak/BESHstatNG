@@ -2167,6 +2167,12 @@ Public Class ZeroInflatedPoisson
     Private pVarNames_count() As String
     Private pVarNames_zero() As String
     Private pRowNums() As Integer
+
+    'Optional offset for the Poisson (count) part only.
+    Private pOffset() As Double
+    Private pbOffset As Boolean = False
+    Private pOffsetVarName As String = Nothing
+
     Private n As Integer 'number of rows
     Private p_zero As Integer 'number of variables in logistic part
     Private p_count As Integer 'number of variables in poisson part
@@ -2218,12 +2224,17 @@ Public Class ZeroInflatedPoisson
     ''' <param name="strPoisVarNames">Variable names for the Poisson part (aligned to columns).</param>
     ''' <param name="strLogisticVarNames">Variable names for the Logistic part (aligned to columns).</param>
     ''' <param name="RowNums">Optional mapping back to original row indices; if omitted, uses sequential indices.</param>
+    ''' <param name="Offset">Optional offset for the Poisson part only.</param>
+    ''' <param name="strOffsetVarName">Optional offset variable name for reporting.</param>
     ''' <remarks>
     ''' Both matrices must have the same number of rows and the same response values in column 0.
     ''' </remarks>
     Public Sub dataInputs(arPoisData(,) As Double, arLogisticData(,) As Double,
-                   strPoisVarNames() As String, strLogisticVarNames() As String,
-                   Optional RowNums() As Integer = Nothing)
+                           strPoisVarNames() As String, strLogisticVarNames() As String,
+                           Optional RowNums() As Integer = Nothing,
+                           Optional Offset() As Double = Nothing,
+                           Optional strOffsetVarName As String = Nothing)
+
         Me.Data_count = arPoisData
         Me.Data_zero = arLogisticData
         Me.pVarNames_count = strPoisVarNames
@@ -2236,6 +2247,26 @@ Public Class ZeroInflatedPoisson
             Next
         Else
             Me.pRowNums = RowNums
+        End If
+
+        Me.pbOffset = False
+        Me.pOffsetVarName = strOffsetVarName
+
+        If Offset Is Nothing Then
+            Me.pOffset = Matrix.IdentityVect(arPoisData.GetUpperBound(0), 0.0)
+        Else
+            If Offset.Length <> arPoisData.GetLength(0) Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("ZIP offset array length does not match the number of observations."))
+            End If
+
+            Me.pOffset = Offset
+
+            For i = 0 To Offset.GetUpperBound(0)
+                If Offset(i) <> 0.0 Then
+                    Me.pbOffset = True
+                    Exit For
+                End If
+            Next
         End If
     End Sub
 
@@ -2511,7 +2542,7 @@ Public Class ZeroInflatedPoisson
         With model_count
             .bComputeResiduals = False
             .bIterationDetails = False
-            .data(Me.Data_count,,, wInit) ' Pass prior weights for init; this keeps Xdata/mu length = n
+            .data(Me.Data_count,, If(Me.pbOffset, Me.pOffset, Nothing), wInit) ' Pass prior weights for init; this keeps Xdata/mu length = n
             .setVarNames(Me.pVarNames_count)
             .settingInputs(pAlpha, pMaxIRLSIter, pEps)
             If bStartParamsPois Then .startParams = Me.startParamsPois
@@ -2544,7 +2575,8 @@ Public Class ZeroInflatedPoisson
             probi1(i) = 1.0 - probi(i)
         Next
 
-        LL_new = loglikfun(model_count.Xdata, countParam, model_zero.Xdata, zeroParam)
+        LL_new = loglikfun(model_count.Xdata, countParam, model_zero.Xdata, zeroParam,
+                           If(Me.pbOffset, Me.pOffset, Nothing), Me.pbOffset)
         LL_old = 2.0 * LL_new 'multipley by 2 to always run at least 1 iteration
         pLastIterLLchange = Math.Abs(LL_new - LL_old)
         'EM iterations ----------------------------------------------------------------
@@ -2557,7 +2589,7 @@ Public Class ZeroInflatedPoisson
 
             'M step - Poisson -------------------------------
             With model_count
-                .data(Data_count,,, probi1)
+                .data(Data_count,, If(Me.pbOffset, Me.pOffset, Nothing), probi1)
                 .startParams = countParam
                 .Fit(interceptPois, True)
             End With
@@ -2580,7 +2612,8 @@ Public Class ZeroInflatedPoisson
             Dim zeroNew() As Double = model_zero.results.Coeffs_est
 
             ' Base LL at the plain EM update
-            Dim LL_em As Double = loglikfun(model_count.Xdata, countNew, model_zero.Xdata, zeroNew)
+            Dim LL_em As Double = loglikfun(model_count.Xdata, countNew, model_zero.Xdata, zeroNew,
+                                            If(Me.pbOffset, Me.pOffset, Nothing), Me.pbOffset)
 
             ' Try an over-relaxed step
             Dim s As Double = 1.2
@@ -2600,7 +2633,8 @@ Public Class ZeroInflatedPoisson
                     zeroTry(j) = zeroOld(j) + s * (zeroNew(j) - zeroOld(j))
                 Next
 
-                LL_try = loglikfun(model_count.Xdata, countTry, model_zero.Xdata, zeroTry)
+                LL_try = loglikfun(model_count.Xdata, countTry, model_zero.Xdata, zeroTry,
+                                   If(Me.pbOffset, Me.pOffset, Nothing), Me.pbOffset)
 
                 If LL_try >= LL_em Then
                     accepted = True
@@ -2625,7 +2659,7 @@ Public Class ZeroInflatedPoisson
 
             ' ---------- E-step computed from the ACCEPTED params ----------
             ' Compute mu and pi from X matrices + accepted params
-            mui = PredictPoissonLogLink(model_count.Xdata, countParam)
+            mui = PredictPoissonLogLink(model_count.Xdata, countParam, If(Me.pbOffset, Me.pOffset, Nothing), Me.pbOffset)
             probi = PredictLogisticLogitLink(model_zero.Xdata, zeroParam)
 
             For i As Integer = 0 To n - 1
@@ -2670,7 +2704,13 @@ Public Class ZeroInflatedPoisson
         Me.resultsLogistic.Coeffs_est = zeroParam
         ' Recompute linear predictors and predictions from the accepted params
         Me.pLinPred_Count = LinearPredictor(model_count.Xdata, countParam)
-        Me.pPredicted_Count = MuFromEtaLogLink(Me.pLinPred_Count)  ' Poisson log link
+        If Me.pbOffset Then
+            For i = 0 To Me.pLinPred_Count.GetUpperBound(0)
+                Me.pLinPred_Count(i) += Me.pOffset(i)
+            Next
+        End If
+
+        Me.pPredicted_Count = PredictPoissonLogLink(model_count.Xdata, countParam, If(Me.pbOffset, Me.pOffset, Nothing), Me.pbOffset)  ' Poisson log link
         Me.pLinPred_Zero = LinearPredictor(model_zero.Xdata, zeroParam)
         Me.pPredicted_Zero = PredictLogisticLogitLink(model_zero.Xdata, zeroParam) ' uses stable logistic
 
@@ -3096,25 +3136,20 @@ Public Class ZeroInflatedPoisson
     ''' <param name="count_params">Parameter vector for the Poisson component.</param>
     ''' <param name="Xzero">Design matrix for the zero-inflation component.</param>
     ''' <param name="zero_params">Parameter vector for the zero-inflation component.</param>
+    ''' <param name="offset">Optional offset for the Poisson component only.</param>
+    ''' <param name="bOffset">If <see langword="True"/>, applies <paramref name="offset"/> to the Poisson linear predictor.</param>
     ''' <returns>The total log-likelihood of the ZIP model.</returns>
     Private Function loglikfun(Xcount(,) As Double,
-                           count_params() As Double,
-                           Xzero(,) As Double,
-                           zero_params() As Double) As Double
+                               count_params() As Double,
+                               Xzero(,) As Double,
+                               zero_params() As Double,
+                               Optional offset() As Double = Nothing,
+                               Optional bOffset As Boolean = False) As Double
 
         Dim loglik As Double = 0.0
 
-        ' === Compute Poisson linear predictor and mean ===
-        Dim countP(p_count - 1, 0) As Double
-        For i = 0 To p_count - 1
-            countP(i, 0) = count_params(i)
-        Next
-
-        Dim muMat(,) As Double = Matrix.MatrixMult(Xcount, countP)
-        Dim mu(n - 1) As Double
-        For i = 0 To n - 1
-            mu(i) = Math.Exp(muMat(i, 0))   ' safe: exp(η) only
-        Next
+        ' === Compute Poisson mean ===
+        Dim mu() As Double = PredictPoissonLogLink(Xcount, count_params, offset, bOffset)
 
         ' === Compute zero-inflation linear predictor and probability ===
         Dim zeroP(p_zero - 1, 0) As Double

@@ -26,14 +26,14 @@ Partial Class Ui0OneRefeditMulticol
         Me.TabMultipage = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New Excel2007RefEdit()
+        Me.RefEditOutput = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.grpInput = New System.Windows.Forms.GroupBox()
         Me.ckLabels = New System.Windows.Forms.CheckBox()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
-        Me.RefEdit1 = New Excel2007RefEdit()
+        Me.RefEdit1 = New Global.BESHStatNG.Excel2007RefEdit()
         Me.TabPage_Options = New System.Windows.Forms.TabPage()
         Me.grpMCP = New System.Windows.Forms.GroupBox()
         Me.ckTukey = New System.Windows.Forms.CheckBox()
@@ -415,9 +415,9 @@ Partial Class Ui0OneRefeditMulticol
         Me.lblAlphaICC.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAlphaICC.Location = New System.Drawing.Point(211, 43)
         Me.lblAlphaICC.Name = "lblAlphaICC"
-        Me.lblAlphaICC.Size = New System.Drawing.Size(42, 16)
+        Me.lblAlphaICC.Size = New System.Drawing.Size(41, 16)
         Me.lblAlphaICC.TabIndex = 9
-        Me.lblAlphaICC.Text = "Alpha"
+        Me.lblAlphaICC.Text = "alpha"
         '
         'spinBtnAlphaICC
         '
@@ -426,6 +426,7 @@ Partial Class Ui0OneRefeditMulticol
         Me.spinBtnAlphaICC.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlphaICC.Location = New System.Drawing.Point(259, 41)
         Me.spinBtnAlphaICC.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlphaICC.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlphaICC.Name = "spinBtnAlphaICC"
         Me.spinBtnAlphaICC.Size = New System.Drawing.Size(67, 22)
         Me.spinBtnAlphaICC.TabIndex = 8
@@ -583,13 +584,13 @@ Partial Class Ui0OneRefeditMulticol
     Friend WithEvents TabMultipage As Windows.Forms.TabControl
     Friend WithEvents TabPage1 As Windows.Forms.TabPage
     Friend WithEvents grpOutput As Windows.Forms.GroupBox
-    Friend WithEvents RefEditOutput As Excel2007RefEdit
+    Friend WithEvents RefEditOutput As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents optWorkbook As Windows.Forms.RadioButton
     Friend WithEvents optWorksheet As Windows.Forms.RadioButton
     Friend WithEvents optOutputRange As Windows.Forms.RadioButton
     Friend WithEvents grpInput As Windows.Forms.GroupBox
     Friend WithEvents lblRefedit1 As Windows.Forms.Label
-    Friend WithEvents RefEdit1 As Excel2007RefEdit
+    Friend WithEvents RefEdit1 As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents TabPage_Options As Windows.Forms.TabPage
     Friend WithEvents ckBoxPlot As Windows.Forms.CheckBox
     Friend WithEvents ckDescriptiveStatistics As Windows.Forms.CheckBox

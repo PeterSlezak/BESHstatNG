@@ -26,8 +26,9 @@ Partial Class Ui12GlobalSettings
         Me.btnOK = New System.Windows.Forms.Button()
         Me.spinBtnPvalueDP = New System.Windows.Forms.NumericUpDown()
         Me.lblPvalueDecimalPlaces = New System.Windows.Forms.Label()
-        Me.lblAlphaOutliers = New System.Windows.Forms.Label()
+        Me.lblAlpha = New System.Windows.Forms.Label()
         Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
+        Me.btnHelp = New System.Windows.Forms.Button()
         CType(Me.spinBtnPvalueDP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -35,16 +36,16 @@ Partial Class Ui12GlobalSettings
         'ckLogging
         '
         Me.ckLogging.AutoSize = True
-        Me.ckLogging.Location = New System.Drawing.Point(24, 24)
+        Me.ckLogging.Location = New System.Drawing.Point(73, 12)
         Me.ckLogging.Name = "ckLogging"
-        Me.ckLogging.Size = New System.Drawing.Size(249, 20)
+        Me.ckLogging.Size = New System.Drawing.Size(181, 20)
         Me.ckLogging.TabIndex = 0
-        Me.ckLogging.Text = "Trace Execution During This Session"
+        Me.ckLogging.Text = "Trace Program Execution"
         Me.ckLogging.UseVisualStyleBackColor = True
         '
         'btnOK
         '
-        Me.btnOK.Location = New System.Drawing.Point(409, 153)
+        Me.btnOK.Location = New System.Drawing.Point(403, 151)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(75, 23)
         Me.btnOK.TabIndex = 1
@@ -55,7 +56,7 @@ Partial Class Ui12GlobalSettings
         '
         Me.spinBtnPvalueDP.Enabled = False
         Me.spinBtnPvalueDP.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.spinBtnPvalueDP.Location = New System.Drawing.Point(263, 61)
+        Me.spinBtnPvalueDP.Location = New System.Drawing.Point(260, 79)
         Me.spinBtnPvalueDP.Maximum = New Decimal(New Integer() {16, 0, 0, 0})
         Me.spinBtnPvalueDP.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.spinBtnPvalueDP.Name = "spinBtnPvalueDP"
@@ -67,42 +68,51 @@ Partial Class Ui12GlobalSettings
         '
         Me.lblPvalueDecimalPlaces.AutoSize = True
         Me.lblPvalueDecimalPlaces.Enabled = False
-        Me.lblPvalueDecimalPlaces.Location = New System.Drawing.Point(21, 63)
+        Me.lblPvalueDecimalPlaces.Location = New System.Drawing.Point(18, 81)
         Me.lblPvalueDecimalPlaces.Name = "lblPvalueDecimalPlaces"
         Me.lblPvalueDecimalPlaces.Size = New System.Drawing.Size(236, 16)
         Me.lblPvalueDecimalPlaces.TabIndex = 8
         Me.lblPvalueDecimalPlaces.Text = "Decimal Places for P-value Presenting"
         '
-        'lblAlphaOutliers
+        'lblAlpha
         '
-        Me.lblAlphaOutliers.AutoSize = True
-        Me.lblAlphaOutliers.Enabled = False
-        Me.lblAlphaOutliers.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAlphaOutliers.Location = New System.Drawing.Point(215, 96)
-        Me.lblAlphaOutliers.Name = "lblAlphaOutliers"
-        Me.lblAlphaOutliers.Size = New System.Drawing.Size(42, 16)
-        Me.lblAlphaOutliers.TabIndex = 10
-        Me.lblAlphaOutliers.Text = "Alpha"
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAlpha.Location = New System.Drawing.Point(170, 53)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(84, 16)
+        Me.lblAlpha.TabIndex = 10
+        Me.lblAlpha.Text = "default alpha"
         '
         'spinBtnAlpha
         '
         Me.spinBtnAlpha.DecimalPlaces = 3
-        Me.spinBtnAlpha.Enabled = False
         Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnAlpha.Location = New System.Drawing.Point(263, 94)
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(260, 51)
         Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlpha.Name = "spinBtnAlpha"
         Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
         Me.spinBtnAlpha.TabIndex = 9
         Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
+        'btnHelp
+        '
+        Me.btnHelp.Location = New System.Drawing.Point(322, 151)
+        Me.btnHelp.Name = "btnHelp"
+        Me.btnHelp.Size = New System.Drawing.Size(75, 23)
+        Me.btnHelp.TabIndex = 11
+        Me.btnHelp.Text = "Help"
+        Me.btnHelp.UseVisualStyleBackColor = True
         '
         'Ui12GlobalSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(494, 186)
-        Me.Controls.Add(Me.lblAlphaOutliers)
+        Me.Controls.Add(Me.btnHelp)
+        Me.Controls.Add(Me.lblAlpha)
         Me.Controls.Add(Me.spinBtnAlpha)
         Me.Controls.Add(Me.lblPvalueDecimalPlaces)
         Me.Controls.Add(Me.spinBtnPvalueDP)
@@ -125,6 +135,7 @@ Partial Class Ui12GlobalSettings
     Friend WithEvents btnOK As Windows.Forms.Button
     Friend WithEvents spinBtnPvalueDP As Windows.Forms.NumericUpDown
     Friend WithEvents lblPvalueDecimalPlaces As Windows.Forms.Label
-    Friend WithEvents lblAlphaOutliers As Windows.Forms.Label
+    Friend WithEvents lblAlpha As Windows.Forms.Label
     Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents btnHelp As Windows.Forms.Button
 End Class

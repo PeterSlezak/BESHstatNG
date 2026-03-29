@@ -28,15 +28,15 @@ Partial Class UibyID
         Me.TabMultipage = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New Excel2007RefEdit()
+        Me.RefEditOutput = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.grpInput = New System.Windows.Forms.GroupBox()
         Me.lblRefedit2 = New System.Windows.Forms.Label()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
-        Me.RefEdit1 = New Excel2007RefEdit()
-        Me.RefEdit2 = New Excel2007RefEdit()
+        Me.RefEdit1 = New Global.BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit2 = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optByID = New System.Windows.Forms.RadioButton()
         Me.optByColumn = New System.Windows.Forms.RadioButton()
         Me.TabPage_Options = New System.Windows.Forms.TabPage()
@@ -101,11 +101,13 @@ Partial Class UibyID
         Me.ckBoxPlot_Outliers = New System.Windows.Forms.CheckBox()
         Me.grpOutlierTests = New System.Windows.Forms.GroupBox()
         Me.lblAlphaOutliers = New System.Windows.Forms.Label()
-        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
+        Me.spinBtnAlphaOutliers = New System.Windows.Forms.NumericUpDown()
         Me.optRosner = New System.Windows.Forms.RadioButton()
         Me.optGrubbs = New System.Windows.Forms.RadioButton()
         Me.ckDescriptive_Outliers = New System.Windows.Forms.CheckBox()
         Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
+        Me.lblAlpha = New System.Windows.Forms.Label()
+        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
         Me.TabMultipage.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.grpOutput.SuspendLayout()
@@ -124,6 +126,7 @@ Partial Class UibyID
         Me.grpSymmetryTest.SuspendLayout()
         Me.TabPage_OptionsOutliers.SuspendLayout()
         Me.grpOutlierTests.SuspendLayout()
+        CType(Me.spinBtnAlphaOutliers, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -315,6 +318,8 @@ Partial Class UibyID
         '
         'TabPage_Options
         '
+        Me.TabPage_Options.Controls.Add(Me.lblAlpha)
+        Me.TabPage_Options.Controls.Add(Me.spinBtnAlpha)
         Me.TabPage_Options.Controls.Add(Me.grpHomogeneityVariances)
         Me.TabPage_Options.Controls.Add(Me.ckWelch)
         Me.TabPage_Options.Controls.Add(Me.grpANOVA1MCP)
@@ -1090,7 +1095,7 @@ Partial Class UibyID
         'grpOutlierTests
         '
         Me.grpOutlierTests.Controls.Add(Me.lblAlphaOutliers)
-        Me.grpOutlierTests.Controls.Add(Me.spinBtnAlpha)
+        Me.grpOutlierTests.Controls.Add(Me.spinBtnAlphaOutliers)
         Me.grpOutlierTests.Controls.Add(Me.optRosner)
         Me.grpOutlierTests.Controls.Add(Me.optGrubbs)
         Me.grpOutlierTests.Location = New System.Drawing.Point(18, 88)
@@ -1106,21 +1111,22 @@ Partial Class UibyID
         Me.lblAlphaOutliers.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAlphaOutliers.Location = New System.Drawing.Point(17, 32)
         Me.lblAlphaOutliers.Name = "lblAlphaOutliers"
-        Me.lblAlphaOutliers.Size = New System.Drawing.Size(42, 16)
+        Me.lblAlphaOutliers.Size = New System.Drawing.Size(41, 16)
         Me.lblAlphaOutliers.TabIndex = 3
-        Me.lblAlphaOutliers.Text = "Alpha"
+        Me.lblAlphaOutliers.Text = "alpha"
         '
-        'spinBtnAlpha
+        'spinBtnAlphaOutliers
         '
-        Me.spinBtnAlpha.DecimalPlaces = 3
-        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnAlpha.Location = New System.Drawing.Point(65, 30)
-        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
-        Me.spinBtnAlpha.Name = "spinBtnAlpha"
-        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
-        Me.spinBtnAlpha.TabIndex = 2
-        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        Me.spinBtnAlphaOutliers.DecimalPlaces = 3
+        Me.spinBtnAlphaOutliers.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlphaOutliers.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlphaOutliers.Location = New System.Drawing.Point(65, 30)
+        Me.spinBtnAlphaOutliers.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlphaOutliers.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlphaOutliers.Name = "spinBtnAlphaOutliers"
+        Me.spinBtnAlphaOutliers.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlphaOutliers.TabIndex = 2
+        Me.spinBtnAlphaOutliers.Value = New Decimal(New Integer() {5, 0, 0, 131072})
         '
         'optRosner
         '
@@ -1165,6 +1171,31 @@ Partial Class UibyID
         Me.progressBarExactCalc.Name = "progressBarExactCalc"
         Me.progressBarExactCalc.Size = New System.Drawing.Size(296, 23)
         Me.progressBarExactCalc.TabIndex = 4
+        '
+        'lblAlpha
+        '
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAlpha.Location = New System.Drawing.Point(210, 49)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
+        Me.lblAlpha.TabIndex = 7
+        Me.lblAlpha.Text = "alpha"
+        Me.lblAlpha.Visible = False
+        '
+        'spinBtnAlpha
+        '
+        Me.spinBtnAlpha.DecimalPlaces = 3
+        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(258, 47)
+        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Name = "spinBtnAlpha"
+        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlpha.TabIndex = 6
+        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        Me.spinBtnAlpha.Visible = False
         '
         'UibyID
         '
@@ -1215,6 +1246,7 @@ Partial Class UibyID
         Me.TabPage_OptionsOutliers.PerformLayout()
         Me.grpOutlierTests.ResumeLayout(False)
         Me.grpOutlierTests.PerformLayout()
+        CType(Me.spinBtnAlphaOutliers, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1229,14 +1261,14 @@ Partial Class UibyID
     Friend WithEvents optByID As Windows.Forms.RadioButton
     Friend WithEvents optByColumn As Windows.Forms.RadioButton
     Friend WithEvents TabPage_Options As Windows.Forms.TabPage
-    Friend WithEvents RefEdit2 As Excel2007RefEdit
-    Friend WithEvents RefEdit1 As Excel2007RefEdit
+    Friend WithEvents RefEdit2 As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents RefEdit1 As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents ckBoxPlot As Windows.Forms.CheckBox
     Friend WithEvents ckDescriptiveStatistics As Windows.Forms.CheckBox
     Friend WithEvents ckEstimateOfShift As Windows.Forms.CheckBox
     Friend WithEvents progressBarExactCalc As Windows.Forms.ProgressBar
     Friend WithEvents grpOutput As Windows.Forms.GroupBox
-    Friend WithEvents RefEditOutput As Excel2007RefEdit
+    Friend WithEvents RefEditOutput As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents optWorkbook As Windows.Forms.RadioButton
     Friend WithEvents optWorksheet As Windows.Forms.RadioButton
     Friend WithEvents optOutputRange As Windows.Forms.RadioButton
@@ -1299,7 +1331,9 @@ Partial Class UibyID
     Friend WithEvents optGrubbs As Windows.Forms.RadioButton
     Friend WithEvents optRosner As Windows.Forms.RadioButton
     Friend WithEvents lblAlphaOutliers As Windows.Forms.Label
-    Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents spinBtnAlphaOutliers As Windows.Forms.NumericUpDown
     Friend WithEvents ckBoxPlot_Outliers As Windows.Forms.CheckBox
     Friend WithEvents ckDescriptive_NormalPlot As Windows.Forms.CheckBox
+    Friend WithEvents lblAlpha As Windows.Forms.Label
+    Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
 End Class

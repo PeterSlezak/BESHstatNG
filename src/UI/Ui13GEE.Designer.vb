@@ -66,6 +66,8 @@ Partial Class Ui13GEE
         Me.lblSelectedEffectsList = New System.Windows.Forms.Label()
         Me.lblSelectedVariables = New System.Windows.Forms.Label()
         Me.TabPageOptions = New System.Windows.Forms.TabPage()
+        Me.lblAlpha = New System.Windows.Forms.Label()
+        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
         Me.ckResiduals = New System.Windows.Forms.CheckBox()
         Me.grpModelSpecification = New System.Windows.Forms.GroupBox()
         Me.cbStandardErr = New System.Windows.Forms.ComboBox()
@@ -92,12 +94,19 @@ Partial Class Ui13GEE
         Me.lblProgress = New System.Windows.Forms.Label()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCalculate = New System.Windows.Forms.Button()
+        Me.btAddEffectCategoricalFactor = New System.Windows.Forms.Button()
+        Me.btnCustomInteraction = New System.Windows.Forms.Button()
+        Me.btn2Interactions = New System.Windows.Forms.Button()
+        Me.spinBtnPoly = New System.Windows.Forms.NumericUpDown()
+        Me.btnPoly = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPageBuildModel.SuspendLayout()
         Me.TabPageOptions.SuspendLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpModelSpecification.SuspendLayout()
         Me.grpIterOptions.SuspendLayout()
+        CType(Me.spinBtnPoly, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -442,6 +451,11 @@ Partial Class Ui13GEE
         '
         'TabPageBuildModel
         '
+        Me.TabPageBuildModel.Controls.Add(Me.btAddEffectCategoricalFactor)
+        Me.TabPageBuildModel.Controls.Add(Me.btnCustomInteraction)
+        Me.TabPageBuildModel.Controls.Add(Me.btn2Interactions)
+        Me.TabPageBuildModel.Controls.Add(Me.spinBtnPoly)
+        Me.TabPageBuildModel.Controls.Add(Me.btnPoly)
         Me.TabPageBuildModel.Controls.Add(Me.cbIntercept)
         Me.TabPageBuildModel.Controls.Add(Me.btAddEffect)
         Me.TabPageBuildModel.Controls.Add(Me.btClearAllSelectedEffects)
@@ -561,6 +575,8 @@ Partial Class Ui13GEE
         '
         'TabPageOptions
         '
+        Me.TabPageOptions.Controls.Add(Me.lblAlpha)
+        Me.TabPageOptions.Controls.Add(Me.spinBtnAlpha)
         Me.TabPageOptions.Controls.Add(Me.ckResiduals)
         Me.TabPageOptions.Controls.Add(Me.grpModelSpecification)
         Me.TabPageOptions.Controls.Add(Me.grpIterOptions)
@@ -570,6 +586,29 @@ Partial Class Ui13GEE
         Me.TabPageOptions.TabIndex = 2
         Me.TabPageOptions.Text = "Options"
         Me.TabPageOptions.UseVisualStyleBackColor = True
+        '
+        'lblAlpha
+        '
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAlpha.Location = New System.Drawing.Point(346, 59)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
+        Me.lblAlpha.TabIndex = 13
+        Me.lblAlpha.Text = "alpha"
+        '
+        'spinBtnAlpha
+        '
+        Me.spinBtnAlpha.DecimalPlaces = 3
+        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(394, 57)
+        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Name = "spinBtnAlpha"
+        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlpha.TabIndex = 12
+        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
         '
         'ckResiduals
         '
@@ -835,6 +874,52 @@ Partial Class Ui13GEE
         Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
         '
+        'btAddEffectCategoricalFactor
+        '
+        Me.btAddEffectCategoricalFactor.Location = New System.Drawing.Point(330, 84)
+        Me.btAddEffectCategoricalFactor.Name = "btAddEffectCategoricalFactor"
+        Me.btAddEffectCategoricalFactor.Size = New System.Drawing.Size(191, 23)
+        Me.btAddEffectCategoricalFactor.TabIndex = 26
+        Me.btAddEffectCategoricalFactor.Text = "Add as Categorical Factor >>"
+        Me.btAddEffectCategoricalFactor.UseVisualStyleBackColor = True
+        '
+        'btnCustomInteraction
+        '
+        Me.btnCustomInteraction.Location = New System.Drawing.Point(330, 171)
+        Me.btnCustomInteraction.Name = "btnCustomInteraction"
+        Me.btnCustomInteraction.Size = New System.Drawing.Size(191, 23)
+        Me.btnCustomInteraction.TabIndex = 25
+        Me.btnCustomInteraction.Text = "Custom Interaction >>"
+        Me.btnCustomInteraction.UseVisualStyleBackColor = True
+        '
+        'btn2Interactions
+        '
+        Me.btn2Interactions.Location = New System.Drawing.Point(330, 142)
+        Me.btn2Interactions.Name = "btn2Interactions"
+        Me.btn2Interactions.Size = New System.Drawing.Size(191, 23)
+        Me.btn2Interactions.TabIndex = 24
+        Me.btn2Interactions.Text = "2-way Interactions >>"
+        Me.btn2Interactions.UseVisualStyleBackColor = True
+        '
+        'spinBtnPoly
+        '
+        Me.spinBtnPoly.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnPoly.Location = New System.Drawing.Point(477, 113)
+        Me.spinBtnPoly.Maximum = New Decimal(New Integer() {1000000, 0, 0, 196608})
+        Me.spinBtnPoly.Name = "spinBtnPoly"
+        Me.spinBtnPoly.Size = New System.Drawing.Size(44, 22)
+        Me.spinBtnPoly.TabIndex = 23
+        Me.spinBtnPoly.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        '
+        'btnPoly
+        '
+        Me.btnPoly.Location = New System.Drawing.Point(330, 113)
+        Me.btnPoly.Name = "btnPoly"
+        Me.btnPoly.Size = New System.Drawing.Size(131, 23)
+        Me.btnPoly.TabIndex = 22
+        Me.btnPoly.Text = "Poly >>"
+        Me.btnPoly.UseVisualStyleBackColor = True
+        '
         'Ui13GEE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -857,10 +942,12 @@ Partial Class Ui13GEE
         Me.TabPageBuildModel.PerformLayout()
         Me.TabPageOptions.ResumeLayout(False)
         Me.TabPageOptions.PerformLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpModelSpecification.ResumeLayout(False)
         Me.grpModelSpecification.PerformLayout()
         Me.grpIterOptions.ResumeLayout(False)
         Me.grpIterOptions.PerformLayout()
+        CType(Me.spinBtnPoly, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -935,4 +1022,11 @@ Partial Class Ui13GEE
     Friend WithEvents ckUseP As Windows.Forms.CheckBox
     Friend WithEvents cbStandardErr As Windows.Forms.ComboBox
     Friend WithEvents lblStdErr As Windows.Forms.Label
+    Friend WithEvents lblAlpha As Windows.Forms.Label
+    Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents btAddEffectCategoricalFactor As Windows.Forms.Button
+    Friend WithEvents btnCustomInteraction As Windows.Forms.Button
+    Friend WithEvents btn2Interactions As Windows.Forms.Button
+    Friend WithEvents spinBtnPoly As Windows.Forms.NumericUpDown
+    Friend WithEvents btnPoly As Windows.Forms.Button
 End Class

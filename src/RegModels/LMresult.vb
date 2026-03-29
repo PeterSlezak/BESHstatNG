@@ -43,13 +43,12 @@ Imports Microsoft.Office.Interop.Excel
 ''' pᵢ = 2(1 − Fₜ(|Tᵢ|; df)), where Fₜ is the t‑distribution CDF. Implemented in <c>Coeffs_PvaluesT</c>.
 ''' </para>
 ''' 
-''' <para id="LM_CI_Z"><b>8. 95% Confidence Intervals (Normal‑based)</b><br/>
+''' <para id="LM_CI_Z"><b>8. Two-Sided Confidence Intervals</b><br/>
 ''' CIᵢ = β̂ᵢ ± z_{1−α/2}·SE(β̂ᵢ), where z_{1−α/2} = Φ⁻¹(1 − α/2). Implemented in
-''' <c>Coeffs_95CIlowZ</c> and <c>Coeffs_95CIhighZ</c>.
+''' <c>Coeffs_CIlowZ</c> and <c>Coeffs_CIhighZ</c>.
 ''' </para>
-''' 
-''' <para id="LM_CI_T"><b>9. 95% Confidence Intervals (T‑based)</b><br/>
-''' CIᵢ = β̂ᵢ ± t_{1−α/2,df}·SEₜ(β̂ᵢ). Implemented in <c>Coeffs_95CIlowT</c> and <c>Coeffs_95CIhighT</c>.
+''' <para id="LM_CI_T"><b>9. Two-Sided Confidence Intervals (T‑based)</b><br/>
+''' CIᵢ = β̂ᵢ ± t_{1−α/2,df}·SEₜ(β̂ᵢ). Implemented in <c>Coeffs_CIlowT</c> and <c>Coeffs_CIhighT</c>.
 ''' </para>
 ''' 
 ''' <para id="LM_OR"><b>10. Odds Ratios</b><br/>
@@ -91,12 +90,28 @@ Imports Microsoft.Office.Interop.Excel
 ''' </para>
 ''' 
 ''' </remarks>
-
 Public Class LMresult
     'Likelihood model results
-    Public Shared CoeffsZ_table_labels() As String = {"Coefficient", "Std. Error", "Z", "P-value", "95% CI Lower", "95% CI Upper"}
-    Public Shared CoeffsT_table_labels() As String = {"Coefficient", "Std. Error", "T", "P-value", "95% CI Lower", "95% CI Upper"}
-    Public Shared OR_table_labels() As String = {"OR", "Wald Chi2", "P-value", "95% CI Lower", "95% CI Upper"}
+    Private ReadOnly Property CiPercentLabel As String
+        Get
+            Return $"{100.0 * (1.0 - Me.alpha):0.##}%"
+        End Get
+    End Property
+    Private ReadOnly Property CoeffsZ_table_labels() As String()
+        Get
+            Return {"Coefficient", "Std. Error", "Z", "P-value", CiPercentLabel & " CI Lower", CiPercentLabel & " CI Upper"}
+        End Get
+    End Property
+    Private ReadOnly Property CoeffsT_table_labels() As String()
+        Get
+            Return {"Coefficient", "Std. Error", "T", "P-value", CiPercentLabel & " CI Lower", CiPercentLabel & " CI Upper"}
+        End Get
+    End Property
+    Private ReadOnly Property OR_table_labels() As String()
+        Get
+            Return {"OR", "Wald Chi2", "P-value", CiPercentLabel & " CI Lower", CiPercentLabel & " CI Upper"}
+        End Get
+    End Property
 
     Public alpha As Double = 0.05
     Public Coeffs_est() As Double 'Parameter estimates must be provided by procedure
@@ -179,7 +194,6 @@ Public Class LMresult
     ''' <remarks>
     ''' See <a href="#LM_Tstat">Mathematical Appendix §5</a>.
     ''' </remarks>
-
     ReadOnly Property Coeffs_Tstat() As Double()
         Get
             Dim out(UBound(Me.Coeffs_est)) As Double
@@ -223,13 +237,12 @@ Public Class LMresult
     End Property
 
     ''' <summary>
-    ''' Computes lower bounds of 95% confidence intervals using normal‑based SEs.
+    ''' Computes lower bounds of two-sided confidence intervals using normal-based SEs.
     ''' </summary>
     ''' <remarks>
     ''' See <a href="#LM_CI_Z">Mathematical Appendix §8</a>.
     ''' </remarks>
-
-    ReadOnly Property Coeffs_95CIlowZ() As Double()
+    ReadOnly Property Coeffs_CIlowZ() As Double()
         Get
             Dim out(UBound(Me.Coeffs_est)) As Double
             Dim tmp1 As Double = distributions.NormSInv(1.0 - Me.alpha / 2.0)
@@ -241,13 +254,12 @@ Public Class LMresult
     End Property
 
     ''' <summary>
-    ''' Computes lower bounds of 95% confidence intervals using T‑based SEs.
+    ''' Computes lower bounds of two-sided confidence intervals using T‑based SEs.
     ''' </summary>
     ''' <remarks>
     ''' See <a href="#LM_CI_T">Mathematical Appendix §9</a>.
     ''' </remarks>
-
-    ReadOnly Property Coeffs_95CIlowT() As Double()
+    ReadOnly Property Coeffs_CIlowT() As Double()
         Get
             Dim out(UBound(Me.Coeffs_est)) As Double
             For i = 0 To UBound(Me.Coeffs_est)
@@ -258,13 +270,12 @@ Public Class LMresult
     End Property
 
     ''' <summary>
-    ''' Computes upper bounds of 95% confidence intervals using normal‑based SEs.
+    ''' Computes upper bounds of two-sided confidence intervals using normal‑based SEs.
     ''' </summary>
     ''' <remarks>
     ''' See <a href="#LM_CI_Z">Mathematical Appendix §8</a>.
     ''' </remarks>
-
-    ReadOnly Property Coeffs_95CIhighZ() As Double()
+    ReadOnly Property Coeffs_CIhighZ() As Double()
         Get
             Dim out(UBound(Me.Coeffs_est)) As Double
             Dim tmp1 As Double = distributions.NormSInv(1.0 - Me.alpha / 2.0)
@@ -276,13 +287,12 @@ Public Class LMresult
     End Property
 
     ''' <summary>
-    ''' Computes upper bounds of 95% confidence intervals using T‑based SEs.
+    ''' Computes upper bounds of two-sided confidence intervals using T‑based SEs.
     ''' </summary>
     ''' <remarks>
     ''' See <a href="#LM_CI_T">Mathematical Appendix §9</a>.
     ''' </remarks>
-
-    ReadOnly Property Coeffs_95CIhighT() As Double()
+    ReadOnly Property Coeffs_CIhighT() As Double()
         Get
             Dim out(UBound(Me.Coeffs_est)) As Double
             For i = 0 To UBound(Me.Coeffs_est)
@@ -299,7 +309,6 @@ Public Class LMresult
     ''' <remarks>
     ''' See <a href="#LM_Tables">Mathematical Appendix §11</a>.
     ''' </remarks>
-
     ReadOnly Property CoeffsZ_vals() As Double(,)
         Get
             Dim out(UBound(Me.Coeffs_est), 5) As Double
@@ -308,8 +317,8 @@ Public Class LMresult
                 out(i, 1) = Me.Coeffs_SEs(i)
                 out(i, 2) = Me.Coeffs_Zstat(i)
                 out(i, 3) = Me.Coeffs_PvaluesZ(i)
-                out(i, 4) = Me.Coeffs_95CIlowZ(i)
-                out(i, 5) = Me.Coeffs_95CIhighZ(i)
+                out(i, 4) = Me.Coeffs_CIlowZ(i)
+                out(i, 5) = Me.Coeffs_CIhighZ(i)
             Next
             Return out
         End Get
@@ -321,7 +330,6 @@ Public Class LMresult
     ''' <remarks>
     ''' See <a href="#LM_Tables">Mathematical Appendix §11</a>.
     ''' </remarks>
-
     ReadOnly Property CoeffsZ_toPrint() As ResultTable
         Get
             Dim out(UBound(Me.Coeffs_est), 5) As Object, rowLbls() As String
@@ -331,11 +339,11 @@ Public Class LMresult
                 out(i, 1) = Me.Coeffs_SEs(i)
                 out(i, 2) = Me.Coeffs_Zstat(i)
                 out(i, 3) = Me.Coeffs_PvaluesZ(i)
-                out(i, 4) = Me.Coeffs_95CIlowZ(i)
-                out(i, 5) = Me.Coeffs_95CIhighZ(i)
+                out(i, 4) = Me.Coeffs_CIlowZ(i)
+                out(i, 5) = Me.Coeffs_CIhighZ(i)
             Next
             resTab.SetBody(out)
-            resTab.AddHeaderTopRow(LMresult.CoeffsZ_table_labels)
+            resTab.AddHeaderTopRow(Me.CoeffsZ_table_labels)
             If Me.bIntercept Then
                 rowLbls = Matrix.ConcatArrays({"Variable", "Intercept"}, Me.varNames)
             Else
@@ -352,7 +360,6 @@ Public Class LMresult
     ''' <remarks>
     ''' See <a href="#LM_Tables">Mathematical Appendix §11</a>.
     ''' </remarks>
-
     ReadOnly Property CoeffsT_toPrint() As ResultTable
         Get
             Dim out(UBound(Me.Coeffs_est), 5) As Object, rowLbls() As String
@@ -363,11 +370,11 @@ Public Class LMresult
                 out(i, 1) = Me.Coeffs_SEsT(i)
                 out(i, 2) = Me.Coeffs_Tstat(i)
                 out(i, 3) = Me.Coeffs_PvaluesT(i)
-                out(i, 4) = Me.Coeffs_95CIlowT(i)
-                out(i, 5) = Me.Coeffs_95CIhighT(i)
+                out(i, 4) = Me.Coeffs_CIlowT(i)
+                out(i, 5) = Me.Coeffs_CIhighT(i)
             Next
             resTab.SetBody(out)
-            resTab.AddHeaderTopRow(LMresult.CoeffsT_table_labels)
+            resTab.AddHeaderTopRow(Me.CoeffsT_table_labels)
             If Me.bIntercept Then
                 rowLbls = Matrix.ConcatArrays({"Intercept"}, Me.varNames)
             Else
@@ -385,7 +392,6 @@ Public Class LMresult
     ''' <remarks>
     ''' See <a href="#LM_Tables">Mathematical Appendix §11</a>.
     ''' </remarks>
-
     ReadOnly Property CoeffsT_vals() As Double(,)
         Get
             Dim out(UBound(Me.Coeffs_est), 5) As Double
@@ -394,21 +400,21 @@ Public Class LMresult
                 out(i, 1) = Me.Coeffs_SEsT(i)
                 out(i, 2) = Me.Coeffs_Tstat(i)
                 out(i, 3) = Me.Coeffs_PvaluesT(i)
-                out(i, 4) = Me.Coeffs_95CIlowT(i)
-                out(i, 5) = Me.Coeffs_95CIhighT(i)
+                out(i, 4) = Me.Coeffs_CIlowT(i)
+                out(i, 5) = Me.Coeffs_CIhighT(i)
             Next
 
             Return out
         End Get
     End Property
 
+
     ''' <summary>
-    ''' Computes odds ratios, Wald χ², p‑values, and CI bounds for non‑intercept parameters.
+    ''' Computes odds ratios, Wald χ², p-values, and CI bounds for non-intercept parameters.
     ''' </summary>
     ''' <remarks>
     ''' See <a href="#LM_OR">Mathematical Appendix §10</a>.
     ''' </remarks>
-
     ReadOnly Property ParameterOdds() As Object(,)
         'Odds Rations exp(parameter estimate)
         Get
@@ -423,18 +429,23 @@ Public Class LMresult
 
             For i = 0 To NoParams
                 Dim k = If(Me.bIntercept, i + 1, i)
-                If Me.Coeffs_est(k) > 600 Or Me.Coeffs_95CIhighZ(k) > 600 Or Me.Coeffs_95CIlowZ(k) > 600 Then 'Avoid overflow. Most likely a linear combination of vars
-                    out(i, 0) = "Inf"
-                    out(i, 1) = Me.Coeffs_Zstat(k)
-                    out(i, 2) = Me.Coeffs_PvaluesZ(k)
-                    out(i, 3) = "Inf"
-                    out(i, 4) = "Inf"
+                Dim pname As String = Nothing
+                If Me.varNames IsNot Nothing AndAlso k >= 0 AndAlso k <= UBound(Me.varNames) Then
+                    pname = Me.varNames(k)
+                End If
+                Dim isExplicitIntercept As Boolean = pname IsNot Nothing AndAlso pname.Trim().EndsWith(": Intercept", StringComparison.OrdinalIgnoreCase)
+
+                out(i, 1) = Me.Coeffs_Zstat(k) ^ 2         ': Wald Chi-Square
+                out(i, 2) = Me.Coeffs_PvaluesZ(k)          ': pvalue
+
+                If isExplicitIntercept Then
+                    out(i, 0) = ""
+                    out(i, 3) = ""
+                    out(i, 4) = ""
                 Else
-                    out(i, 0) = Math.Exp(Me.Coeffs_est(k))       ': Odds Ratio
-                    out(i, 1) = Me.Coeffs_Zstat(k) ^ 2           ': Chi-Square
-                    out(i, 2) = Me.Coeffs_PvaluesZ(k)            ': pvalue
-                    out(i, 3) = Math.Exp(Me.Coeffs_95CIlowZ(k))  ': LL
-                    out(i, 4) = Math.Exp(Me.Coeffs_95CIhighZ(k)) ': UL
+                    out(i, 0) = ExpForDisplay(Me.Coeffs_est(k))     ': Odds Ratio
+                    out(i, 3) = ExpForDisplay(Me.Coeffs_CIlowZ(k))  ': LL
+                    out(i, 4) = ExpForDisplay(Me.Coeffs_CIhighZ(k)) ': UL
                 End If
             Next
             Return out
@@ -447,12 +458,11 @@ Public Class LMresult
     ''' <remarks>
     ''' See <a href="#LM_OR">Mathematical Appendix §10</a>.
     ''' </remarks>
-
     ReadOnly Property OR_toPrint() As ResultTable
         Get
             Dim resTab As ResultTable = New ResultTable
             resTab.SetBody(Me.ParameterOdds)
-            resTab.AddHeaderTopRow(LMresult.OR_table_labels)
+            resTab.AddHeaderTopRow(Me.OR_table_labels)
             resTab.AddHeaderLeftRow(Me.varNames)
             Return resTab
         End Get
@@ -465,7 +475,6 @@ Public Class LMresult
     ''' <remarks>
     ''' See <a href="#Dev_Tables">Developer Manual §15</a>.
     ''' </remarks>
-
     Public Function getModelDiagnasticTable_toPrint() As ResultTable
         Dim resTab As ResultTable = New ResultTable
         If Me.ModelTableTopRow Is Nothing Then

@@ -1,9 +1,10 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 
 Imports System
 Imports System.Collections.Concurrent
 Imports System.Collections.Generic
+Imports System.Linq
 Imports System.Reflection
 Imports ExcelDna.Integration
 
@@ -37,6 +38,11 @@ Namespace BESHStatNG.WorksheetFunctions
             Public Property Model As CoxPH
             Public Property Result As CoxResult
             Public Property VarNames As String()
+            Public Property RawVarNames As String()
+            Public Property RawPredictorKeys As String()
+            Public Property RawPredictorAbsoluteLetters As String()
+            Public Property DesignSpec As RegressionFormulaDesignSpec
+            Public Property OmitCategoricalReference As Boolean
             Public Property TieMethod As TieMethod
             Public Property Robust As Boolean
         End Class
@@ -78,6 +84,20 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' Optional logical flag indicating whether robust (sandwich) standard errors should be computed.
         ''' Robust standard errors can be useful when model assumptions are mildly violated or when greater protection against variance misspecification is desired.
         ''' </param>
+        ''' <param name="formula">
+        ''' Optional right-hand-side model formula used to construct the design matrix from the raw predictor matrix <paramref name="x"/>.
+        ''' Supported syntax currently includes additive terms (<c>A + B</c>), polynomial terms (<c>A^2</c>),
+        ''' continuous-variable interactions (<c>A:B</c>, <c>A:B:C</c>), and categorical main effects such as <c>factor(C)</c> or <c>factor(C, ref=2)</c>.
+        ''' If omitted or blank, all predictor columns are used as continuous main effects.
+        ''' </param>
+        ''' <param name="formulaAddressing">
+        ''' Optional formula-addressing mode that controls how bare column-letter tokens are interpreted.
+        ''' Accepted values are <c>relative</c> (default), <c>absolute</c>, and <c>names</c>.
+        ''' In <c>relative</c> mode, <c>A</c>, <c>B</c>, <c>AA</c>, … refer to columns 1, 2, 27, … of <paramref name="x"/>.
+        ''' In <c>absolute</c> mode, bare letters refer to worksheet columns of the supplied <paramref name="x"/> range.
+        ''' In <c>names</c> mode, bare letters are disabled and variables should be referenced using single-quoted names such as <c>'Age'</c>.
+        ''' Quoted variable names are also allowed in the other two modes.
+        ''' </param>
         ''' <param name="maxIter">
         ''' Optional maximum number of iterations allowed in the numerical optimization.
         ''' Increase this value if convergence is slow for more complex models.
@@ -101,6 +121,10 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' Exponentiating a coefficient gives the hazard ratio associated with a one-unit increase in the covariate.
         ''' </para>
         ''' <para>
+        ''' When a formula is supplied, the model matrix is built internally from the raw predictor columns.
+        ''' If <c>formulaAddressing="absolute"</c> is used, the <paramref name="x"/> argument should be passed as a direct worksheet range so its absolute worksheet column letters can be determined.
+        ''' </para>
+        ''' <para>
         ''' Rows with invalid values, such as non-numeric times or predictors, are excluded before fitting.
         ''' If too few valid rows remain after filtering, the function returns an Excel error.
         ''' </para>
@@ -111,6 +135,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:D101,"Age,Treatment")
+        ''' =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:F101,"Age,BMI,Stage,Treat",,,"efron",FALSE,100,1E-8,"A + A^2 + factor(C, ref=1) + B:D","relative")
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -122,37 +147,105 @@ Namespace BESHStatNG.WorksheetFunctions
         Public Function COX_FIT(
             <ExcelArgument(Name:="time", Description:="Follow-up time for each subject (>=0). One column.")> time As Object,
             <ExcelArgument(Name:="status", Description:="Event indicator (1=event, 0=censored). One column.")> status As Object,
-            <ExcelArgument(Name:="x", Description:="Predictor matrix. Rows align with time/status; columns are predictors.")> x As Object,
+            <ExcelArgument(AllowReference:=True, Name:="x", Description:="Predictor matrix. Rows align with time/status; columns are predictors.")> x As Object,
             <ExcelArgument(Name:="varNames", Description:="Optional predictor names (one row) or comma-separated list.")> Optional varNames As Object = Nothing,
             <ExcelArgument(Name:="strata", Description:="Optional stratification variable (one column).")> Optional strata As Object = Nothing,
             <ExcelArgument(Name:="ties", Description:="Ties method: ""breslow"" (default), ""efron"", ""exact"".")> Optional ties As Object = Nothing,
             <ExcelArgument(Name:="robust", Description:="TRUE to compute robust (sandwich) standard errors.")> Optional robust As Object = Nothing,
+            <ExcelArgument(Name:="formula", Description:="Optional RHS model formula, e.g. ""A + A^2 + factor(C, ref=1) + B:D"".")> Optional formula As Object = Nothing,
+            <ExcelArgument(Name:="formulaAddressing", Description:="Formula-addressing mode: ""relative"" (default), ""absolute"", or ""names"".")> Optional formulaAddressing As Object = Nothing,
             <ExcelArgument(Name:="maxIter", Description:="Maximum iterations (default 100).")> Optional maxIter As Object = Nothing,
             <ExcelArgument(Name:="tol", Description:="Convergence tolerance (default 1E-8).")> Optional tol As Object = Nothing
-        ) As Object
+            ) As Object
+
+            If ExcelDnaUtil.IsInFunctionWizard() Then Return "COX_FIT (editing...)"
 
             Try
                 Dim tVals As List(Of Double) = Nothing
                 Dim sVals As List(Of Integer) = Nothing
-                If Not UdfRangeHelpers.TryReadNumericColumn(time, tVals) Then Return ExcelError.ExcelErrorValue
-                If Not UdfRangeHelpers.TryReadBinary01Column(status, sVals) Then Return ExcelError.ExcelErrorValue
+                If Not UDFhelpers.TryReadNumericColumn(time, tVals) Then Return ExcelError.ExcelErrorValue
+                If Not UDFhelpers.TryReadBinary01Column(status, sVals) Then Return ExcelError.ExcelErrorValue
 
                 Dim xMat As Double(,) = Nothing
                 Dim rowCount As Integer = 0
                 Dim colCount As Integer = 0
-                If Not UdfRangeHelpers.TryReadNumericMatrix(x, xMat, rowCount, colCount) Then Return ExcelError.ExcelErrorValue
+                If Not UDFhelpers.TryReadNumericMatrix(x, xMat, rowCount, colCount) Then Return ExcelError.ExcelErrorValue
                 If rowCount <> tVals.Count OrElse rowCount <> sVals.Count Then Return ExcelError.ExcelErrorValue
                 If colCount < 1 Then Return ExcelError.ExcelErrorNum
+
+                Dim rawRowIds() As Integer = Nothing
 
                 Dim strataVals As List(Of String) = Nothing
                 Dim hasStrata As Boolean = False
                 If strata IsNot Nothing AndAlso Not TypeOf strata Is ExcelMissing AndAlso Not TypeOf strata Is ExcelEmpty Then
-                    If Not UdfRangeHelpers.TryReadTextColumn(strata, strataVals) Then Return ExcelError.ExcelErrorValue
+                    If Not UDFhelpers.TryReadTextColumn(strata, strataVals, True) Then Return ExcelError.ExcelErrorValue
                     If strataVals.Count <> rowCount Then Return ExcelError.ExcelErrorValue
                     hasStrata = True
                 End If
 
-                Dim vnames As String() = UdfRangeHelpers.GetVarNames(varNames, xMat.GetLength(1))
+                If Not TryFilterRawCoxInputs(timeVals:=tVals,
+                                             statusVals:=sVals,
+                                             rawX:=xMat,
+                                             strataVals:=strataVals,
+                                             filteredTime:=tVals,
+                                             filteredStatus:=sVals,
+                                             filteredRawX:=xMat,
+                                             filteredStrata:=strataVals,
+                                             originalRowIds:=rawRowIds) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+
+                rowCount = xMat.GetLength(0)
+                colCount = xMat.GetLength(1)
+                If rowCount <> tVals.Count OrElse rowCount <> sVals.Count Then Return ExcelError.ExcelErrorValue
+                If hasStrata AndAlso strataVals.Count <> rowCount Then Return ExcelError.ExcelErrorValue
+
+                Dim rawVNames As String() = UDFhelpers.GetVarNames(varNames, xMat.GetLength(1))
+
+                Dim formulaText As String = UDFhelpers.AsString(formula)
+                If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
+
+                Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
+                Dim allowRelativeColumnLetters As Boolean = False
+                Dim allowAbsoluteColumnLetters As Boolean = False
+                Dim allowQuotedVariableNames As Boolean = True
+
+                Select Case addressingMode
+                    Case "absolute"
+                        allowAbsoluteColumnLetters = True
+                    Case "names"
+                        allowQuotedVariableNames = True
+                    Case Else
+                        allowRelativeColumnLetters = True
+                        addressingMode = "relative"
+                End Select
+
+                Dim absoluteColumnLetters As String() = Nothing
+                If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then
+                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(x, colCount, absoluteColumnLetters) Then
+                        Return ExcelError.ExcelErrorValue
+                    End If
+                End If
+
+                Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing
+                Dim designErr As String = Nothing
+                If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=xMat,
+                                                                                                result:=designBuild,
+                                                                                                errorMessage:=designErr,
+                                                                                                predictorNames:=rawVNames,
+                                                                                                formulaText:=formulaText,
+                                                                                                absoluteColumnLetters:=absoluteColumnLetters,
+                                                                                                allowRelativeColumnLetters:=allowRelativeColumnLetters,
+                                                                                                allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,
+                                                                                                allowQuotedVariableNames:=allowQuotedVariableNames,
+                                                                                                omitCategoricalReference:=True) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+
+                Dim fitX(,) As Double = designBuild.ExpandedPredictorMatrix
+                Dim fitVarNames As String() = designBuild.ExpandedPredictorNames
+                Dim fitColCount As Integer = If(fitVarNames Is Nothing, 0, fitVarNames.Length)
+                If fitX Is Nothing OrElse fitColCount < 1 Then Return ExcelError.ExcelErrorValue
 
                 ' Build survival records.
                 Dim records As New List(Of survival.SurvivalRecord)(rowCount)
@@ -162,12 +255,17 @@ Namespace BESHStatNG.WorksheetFunctions
                     If rec.Time < 0 OrElse Double.IsNaN(rec.Time) OrElse Double.IsInfinity(rec.Time) Then
                         Continue For
                     End If
+
+                    If sVals(i) <> 0 AndAlso sVals(i) <> 1 Then
+                        Continue For
+                    End If
                     rec.Censorship = sVals(i)
-                    rec.Index = i
-                    Dim cov(colCount - 1) As Double
+                    rec.Index = If(rawRowIds IsNot Nothing AndAlso i < rawRowIds.Length, rawRowIds(i) - 1, i)
+
+                    Dim cov(fitColCount - 1) As Double
                     Dim ok As Boolean = True
-                    For j As Integer = 0 To colCount - 1
-                        Dim vv As Double = xMat(i, j)
+                    For j As Integer = 0 To fitColCount - 1
+                        Dim vv As Double = fitX(i, j)
                         If Double.IsNaN(vv) OrElse Double.IsInfinity(vv) Then
                             ok = False
                             Exit For
@@ -178,6 +276,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     rec.Covariates = cov
 
                     If hasStrata Then
+                        If String.IsNullOrWhiteSpace(strataVals(i)) Then Continue For
                         rec.Stratum = strataVals(i)
                         rec.strStratum = strataVals(i)
                     Else
@@ -190,12 +289,12 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 If records.Count < 3 Then Return ExcelError.ExcelErrorNum
 
-                Dim mi As Integer = UdfRangeHelpers.GetOptionalInt(maxIter, 100)
-                Dim eps As Double = UdfRangeHelpers.GetOptionalDouble(tol, 1.0E-8)
-                Dim method As TieMethod = UdfRangeHelpers.ParseTieMethod(ties, TieMethod.Breslow)
-                Dim useRobust As Boolean = UdfRangeHelpers.GetOptionalBool(robust, False)
+                Dim mi As Integer = UDFhelpers.GetOptionalInt(maxIter, 100)
+                Dim eps As Double = UDFhelpers.GetOptionalDouble(tol, 0.00000001)
+                Dim method As TieMethod = UDFhelpers.ParseTieMethod(ties, TieMethod.Breslow)
+                Dim useRobust As Boolean = UDFhelpers.GetOptionalBool(robust, False)
 
-                Dim model As New CoxPH(records, vnames, mi, eps)
+                Dim model As New CoxPH(records, fitVarNames, mi, eps)
                 model.bRobustVariance = useRobust
 
                 Dim res As CoxResult = model.Fit(method)
@@ -205,7 +304,12 @@ Namespace BESHStatNG.WorksheetFunctions
                     .Handle = handle,
                     .Model = model,
                     .Result = res,
-                    .VarNames = vnames,
+                    .VarNames = fitVarNames,
+                    .RawVarNames = If(designBuild.FullRawPredictorNames, rawVNames),
+                    .RawPredictorKeys = designBuild.FullRawPredictorKeys,
+                    .RawPredictorAbsoluteLetters = designBuild.FullRawPredictorAbsoluteLetters,
+                    .DesignSpec = designBuild.DesignSpec,
+                    .OmitCategoricalReference = True,
                     .TieMethod = method,
                     .Robust = useRobust
                 }
@@ -260,18 +364,18 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' </code>
         ''' </example>
         <ExcelFunction(
-    Name:="BESH.SURV.COX_SUMMARY",
-    Category:="BESHStatNG - Survival",
-    Description:="Returns coefficient table (beta, SE, z, p, HR, CI) for a fitted Cox model handle.",
-    HelpTopic:="udf/survival.md#beshsurvcox_summary"
-)>
+            Name:="BESH.SURV.COX_SUMMARY",
+            Category:="BESHStatNG - Survival",
+            Description:="Returns coefficient table (beta, SE, z, p, HR, CI) for a fitted Cox model handle.",
+            HelpTopic:="udf/survival.md#beshsurvcox_summary"
+        )>
         Public Function COX_SUMMARY(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object,
             <ExcelArgument(Name:="includeHeader", Description:="TRUE to include header row (default TRUE).")> Optional includeHeader As Object = Nothing,
             <ExcelArgument(Name:="alpha", Description:="Optional two-sided alpha for HR confidence intervals (default 0.05).")> Optional alpha As Object = Nothing
         ) As Object
 
-            Dim key As String = UdfRangeHelpers.AsString(handle)
+            Dim key As String = UDFhelpers.AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
 
             Dim h As CoxModelHandle = Nothing
@@ -283,7 +387,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)
             Dim ciPct As String = $"{100.0 * (1.0 - alphaValue):0.##}%"
 
-            Dim hdr As Boolean = UdfRangeHelpers.GetOptionalBool(includeHeader, True)
+            Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
             Dim p As Integer = h.VarNames.Length
             Dim rows As Integer = If(hdr, p + 1, p)
             Dim out(rows - 1, 7) As Object
@@ -312,9 +416,9 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim z As Double = beta / se
                 Dim pv As Double = 2.0 * distributions.PNorm(-Math.Abs(z))
-                Dim hr As Double = Math.Exp(beta)
-                Dim lcl As Double = Math.Exp(beta - zCrit * se)
-                Dim ucl As Double = Math.Exp(beta + zCrit * se)
+                Dim hr As Object = ExpForDisplay(beta)
+                Dim lcl As Object = ExpForDisplay(beta - zCrit * se)
+                Dim ucl As Object = ExpForDisplay(beta + zCrit * se)
 
                 out(r0 + i, 0) = h.VarNames(i)
                 out(r0 + i, 1) = beta
@@ -382,7 +486,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
 
             Try
-                Dim key As String = UdfRangeHelpers.AsString(handle)
+                Dim key As String = UDFhelpers.AsString(handle)
                 If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
 
                 Dim h As CoxModelHandle = Nothing
@@ -390,7 +494,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If h Is Nothing OrElse h.Result Is Nothing Then Return ExcelError.ExcelErrorNA
                 If h.VarNames Is Nothing Then Return ExcelError.ExcelErrorNA
 
-                Dim hdr As Boolean = UdfRangeHelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
                 Dim p As Integer = h.VarNames.Length
                 If p < 1 Then Return ExcelError.ExcelErrorNA
 
@@ -435,7 +539,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If v IsNot Nothing Then
                     Dim invV As Double(,) = Nothing
 
-                    If UdfRangeHelpers.TryInvertMatrix(v, invV) Then
+                    If UDFhelpers.TryInvertMatrix(v, invV) Then
                         If invV IsNot Nothing AndAlso invV.GetLength(0) = p AndAlso invV.GetLength(1) = p Then
 
                             Dim tmp(p - 1) As Double
@@ -643,7 +747,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim h As CoxModelHandle = Nothing
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
-                Dim tp As String = UdfRangeHelpers.AsString(baselineType)
+                Dim tp As String = UDFhelpers.AsString(baselineType)
                 If String.IsNullOrWhiteSpace(tp) Then tp = "table"
                 tp = tp.ToLowerInvariant()
                 Dim base = h.Model.ComputeBaseline(False)
@@ -727,6 +831,10 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' In stratified models, time-dependent predictions require the appropriate stratum-specific baseline function.
         ''' </para>
         ''' <para>
+        ''' The <c>newX</c> argument should contain the raw predictor columns in the same order as the original model input.
+        ''' When the fitted model uses internally expanded terms such as factors, polynomials, or interactions, the prediction path rebuilds the required design matrix automatically from those raw inputs.
+        ''' </para>
+        ''' <para>
         ''' Prediction functions are most meaningful when the new covariate values are within the practical range of the data used to fit the model.
         ''' Strong extrapolation beyond the observed predictor region should be interpreted cautiously.
         ''' </para>
@@ -742,22 +850,48 @@ Namespace BESHStatNG.WorksheetFunctions
                        HelpTopic:="udf/survival.md#beshsurvcox_pred")>
         Public Function COX_PRED(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object,
-            <ExcelArgument(Name:="newX", Description:="Numeric matrix with one column per fitted covariate.")> newX As Object,
+            <ExcelArgument(Name:="newX", Description:="Numeric matrix of raw predictor columns in the same order as used when fitting the model.")> newX As Object,
             <ExcelArgument(Name:="type", Description:="Prediction type: lp, risk, survival, or cumhaz.")> Optional predType As Object = Nothing,
             <ExcelArgument(Name:="timeGrid", Description:="Optional single-column vector of time points for survival/cumhaz predictions.")> Optional timeGrid As Object = Nothing
         ) As Object
             Try
                 Dim h As CoxModelHandle = Nothing
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
-                Dim xMat As Double(,) = Nothing
-                Dim n As Integer = 0, p As Integer = 0
-                If Not UdfRangeHelpers.TryReadNumericMatrix(newX, xMat, n, p) Then Return ExcelError.ExcelErrorValue
-                If p <> h.VarNames.Length Then Return ExcelError.ExcelErrorValue
-                Dim tp As String = UdfRangeHelpers.AsString(predType)
+                Dim rawX As Double(,) = Nothing
+                Dim n As Integer = 0, rawP As Integer = 0
+                If Not UDFhelpers.TryReadNumericMatrix(newX, rawX, n, rawP) Then Return ExcelError.ExcelErrorValue
+
+                Dim expectedRawP As Integer = If(h.RawVarNames IsNot Nothing AndAlso h.RawVarNames.Length > 0, h.RawVarNames.Length, h.VarNames.Length)
+                If rawP <> expectedRawP Then Return ExcelError.ExcelErrorValue
+
+                Dim xMat As Double(,) = rawX
+                Dim predNames As String() = h.VarNames
+                If h.DesignSpec IsNot Nothing AndAlso h.RawPredictorKeys IsNot Nothing AndAlso h.RawPredictorKeys.Length > 0 Then
+                    Dim expandedX(,) As Double = Nothing
+                    Dim expandedNames() As String = Nothing
+                    Dim designErr As String = Nothing
+                    If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=rawX,
+                                                                                                        fullRawPredictorKeys:=h.RawPredictorKeys,
+                                                                                                        designSpec:=h.DesignSpec,
+                                                                                                        expandedX:=expandedX,
+                                                                                                        expandedPredictorNames:=expandedNames,
+                                                                                                        errorMessage:=designErr,
+                                                                                                        omitCategoricalReference:=h.OmitCategoricalReference) Then
+                        Return ExcelError.ExcelErrorValue
+                    End If
+                    xMat = expandedX
+                    predNames = expandedNames
+                End If
+
+                Dim p As Integer = If(predNames Is Nothing, 0, predNames.Length)
+                If xMat Is Nothing OrElse p < 1 OrElse h.Result Is Nothing OrElse h.Result.Coefficients Is Nothing Then Return ExcelError.ExcelErrorValue
+
+                Dim tp As String = UDFhelpers.AsString(predType)
                 If String.IsNullOrWhiteSpace(tp) Then tp = "lp"
                 tp = tp.ToLowerInvariant()
 
                 Dim beta = h.Result.Coefficients
+                If beta.Length <> p Then Return ExcelError.ExcelErrorValue
                 If tp = "lp" OrElse tp = "risk" Then
                     Dim out(n, 1) As Object
                     out(0, 0) = "Subject" : out(0, 1) = If(tp = "lp", "LinearPredictor", "Risk")
@@ -777,7 +911,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim times As New List(Of Double)
                 If timeGrid IsNot Nothing AndAlso Not TypeOf timeGrid Is ExcelMissing AndAlso Not TypeOf timeGrid Is ExcelEmpty Then
                     Dim tVals As List(Of Double) = Nothing
-                    If Not UdfRangeHelpers.TryReadNumericColumn(timeGrid, tVals) Then Return ExcelError.ExcelErrorValue
+                    If Not UDFhelpers.TryReadNumericColumn(timeGrid, tVals) Then Return ExcelError.ExcelErrorValue
                     For Each tt In tVals
                         If Not Double.IsNaN(tt) AndAlso Not Double.IsInfinity(tt) AndAlso tt >= 0 Then times.Add(tt)
                     Next
@@ -845,15 +979,93 @@ Namespace BESHStatNG.WorksheetFunctions
             <ExcelArgument(Name:="handle",
                            Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object
         ) As Object
-            Dim key As String = UdfRangeHelpers.AsString(handle)
+            Dim key As String = UDFhelpers.AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
             Dim removed As CoxModelHandle = Nothing
             Return _coxCache.TryRemove(key, removed)
         End Function
 
+        Private Function TryFilterRawCoxInputs(timeVals As IList(Of Double),
+                                               statusVals As IList(Of Integer),
+                                               rawX(,) As Double,
+                                               strataVals As IList(Of String),
+                                               ByRef filteredTime As List(Of Double),
+                                               ByRef filteredStatus As List(Of Integer),
+                                               ByRef filteredRawX As Double(,),
+                                               ByRef filteredStrata As List(Of String),
+                                               ByRef originalRowIds As Integer()) As Boolean
+            filteredTime = Nothing
+            filteredStatus = Nothing
+            filteredRawX = Nothing
+            filteredStrata = Nothing
+            originalRowIds = Nothing
+
+            If timeVals Is Nothing OrElse statusVals Is Nothing OrElse rawX Is Nothing Then Return False
+
+            Dim n As Integer = rawX.GetLength(0)
+            Dim p As Integer = rawX.GetLength(1)
+            If timeVals.Count <> n OrElse statusVals.Count <> n Then Return False
+            If strataVals IsNot Nothing AndAlso strataVals.Count <> n Then Return False
+
+            Dim keep As New List(Of Integer)()
+
+            For i As Integer = 0 To n - 1
+                Dim ok As Boolean = True
+
+                Dim tv As Double = timeVals(i)
+                If Double.IsNaN(tv) OrElse Double.IsInfinity(tv) OrElse tv < 0.0 Then
+                    ok = False
+                End If
+
+                If ok Then
+                    Dim sv As Integer = statusVals(i)
+                    If sv <> 0 AndAlso sv <> 1 Then ok = False
+                End If
+
+                If ok Then
+                    For j As Integer = 0 To p - 1
+                        Dim xv As Double = rawX(i, j)
+                        If Double.IsNaN(xv) OrElse Double.IsInfinity(xv) Then
+                            ok = False
+                            Exit For
+                        End If
+                    Next
+                End If
+
+                If ok AndAlso strataVals IsNot Nothing Then
+                    If String.IsNullOrWhiteSpace(strataVals(i)) Then ok = False
+                End If
+
+                If ok Then keep.Add(i)
+            Next
+
+            If keep.Count < 1 Then Return False
+
+            filteredTime = New List(Of Double)(keep.Count)
+            filteredStatus = New List(Of Integer)(keep.Count)
+            filteredRawX = New Double(keep.Count - 1, p - 1) {}
+            ReDim originalRowIds(keep.Count - 1)
+            If strataVals IsNot Nothing Then filteredStrata = New List(Of String)(keep.Count)
+
+            For r As Integer = 0 To keep.Count - 1
+                Dim src As Integer = keep(r)
+                filteredTime.Add(timeVals(src))
+                filteredStatus.Add(statusVals(src))
+                originalRowIds(r) = src + 1
+
+                For j As Integer = 0 To p - 1
+                    filteredRawX(r, j) = rawX(src, j)
+                Next
+
+                If filteredStrata IsNot Nothing Then filteredStrata.Add(strataVals(src))
+            Next
+
+            Return True
+        End Function
+
         Private Function TryGetHandle(handle As Object, ByRef h As CoxModelHandle) As Boolean
             h = Nothing
-            Dim key As String = UdfRangeHelpers.AsString(handle)
+            Dim key As String = UDFhelpers.AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return False
             Return _coxCache.TryGetValue(key, h)
         End Function
@@ -891,7 +1103,7 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         Private Function ParseResidualType(v As Object) As ResidualType
-            Dim s As String = UdfRangeHelpers.AsString(v)
+            Dim s As String = UDFhelpers.AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return ResidualType.Martingale
             Select Case s.Trim().ToLowerInvariant()
                 Case "martingale" : Return ResidualType.Martingale

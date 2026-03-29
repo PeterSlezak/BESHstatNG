@@ -460,6 +460,7 @@ Public Class Ribbon
 
     Public Sub OnbtmSettingsPressed(control As IRibbonControl)
         Dim mwForm As New Ui12GlobalSettings()
+        mwForm.Tag = HelpTopic.GlobalSettings
         mwForm.Show()
     End Sub
 
