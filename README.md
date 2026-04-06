@@ -6,6 +6,7 @@ It brings a broad set of statistical methods, charting tools, and worksheet func
 Website: https://beshstat.eu/  
 Documentation: https://beshstat.eu/beshstatng/help/latest/  
 Releases: https://github.com/PeterSlezak/BESHstatNG/releases
+![BESHStatNG ribbon](.github/assets/beshstatng_ribbon2.png)
 
 ## Why BESHStatNG?
 
@@ -118,13 +119,22 @@ The documentation source in this repository is built with **MkDocs**.
 ## Repository structure
 
 ```text
-src/                    application code
-src/ExcelUDFs/          Excel worksheet functions
-src/StatTests/          statistical method implementations
-src/RegModels/          regression model code
-src/UI/                 Windows Forms UI and ribbon handlers
-src/Help/               help-link mapping and help integration
-tools/                  helper scripts
+
+BESHStatNG.sln
+/BESHStatNG/                    BESHStatNG excel-DNA based add-in project source code
+           src/                    application code
+              /ExcelUDFs/          Excel worksheet functions
+              /StatTests/          statistical method implementations
+              /RegModels/          regression model code
+              /UI/                 Windows Forms UI and ribbon handlers
+              /Help/               help-link mapping and help integration
+           tools/                  helper scripts
+/BESHStatNG.Test/               unittest project
+/BESHStatNG_Help_MkDocs         mkdocs documetnation source files
+/BESHStatNG_Installer           wix installer
+/tools
+/.github
+README.md
 ```
 
 ## Intended users
