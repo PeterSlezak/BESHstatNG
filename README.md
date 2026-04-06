@@ -155,3 +155,7 @@ Current priorities include:
 - Releases: https://github.com/PeterSlezak/BESHstatNG/releases
 - Issues: https://github.com/PeterSlezak/BESHstatNG/issues
 
+## Screenshots
+![BESHStatNG screenshot](.github/assets/beshstatng_ribbon.png)
+![3D scatter plot example](BESHStatNG_Help_MkDocs/docs/assets/images/0113dscatterplot/0113dscatterplot_result.png)
+![animated 3D scatter plot example](BESHStatNG_Help_MkDocs/docs/assets/images/0113dscatterplot/0113dscatterplot_result_animation.gif)
