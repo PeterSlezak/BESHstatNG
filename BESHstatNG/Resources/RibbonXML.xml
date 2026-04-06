@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<customUI xmlns='http://schemas.microsoft.com/office/2009/07/customui' loadImage='LoadImage'>
+	<ribbon>
+		<tabs>
+			<tab id='tab1' label='BESH Stat NG'>
+				<group id='group1' label='BESH Stat menu'>
+					<menu id='MainMenu' label='Analyse' size="large" imageMso="PivotTableFormulasMenu" >
+						<menu id='subMenu_Assumptions' label='Assumptions' >
+							<button id="btm1_1Normaility" label="Normality Tests" onAction='OnbtmNormalityTestsPressed' imageMso="ShapeCurve" />
+							<button id="btm1_2Outliers" label="Univariate Outliers" onAction='OnbtmOutliersPressed' imageMso='TableFind' />
+							<button id="btm1_3HomogeneityVar" label="Homogeneity of Variance" onAction='OnbtmHomogeneityVarPressed' imageMso='ChartUpDownBars' />
+							<button id="btm1_4Symmetry" label="Symmetry" onAction='OnbtmSymmetryPressed' imageMso="ShapeIsoscelesTriangle"/>
+							<button id="btm1_5Desc" label="Descriptive Statistics" onAction='OnbtmDescriptivePressed' imageMso="FormulaEvaluate" />
+						</menu>
+						<menu id='subMenu_Graphics' label='Graphics' >
+							<button id="btm2_1Histogram" label="Histogram" onAction='OnbtmHistogramPressed' imageMso="ChartPlacement"/>
+							<button id="btm2_2Box" label="Box and Whiskers" onAction='OnbtmBoxWhiskersPressed' imageMso='MergeCells' />
+							<button id="btm2_3ROC" label="ROC Curve" onAction='OnbtmROCPressed' imageMso='ChartTypeAreaInsertGallery' />
+							<button id="btm2_4KM" label="Kaplan-Meier Plot" onAction='OnbtmKMPressed' imageMso='ConnectorRightAngle' />
+							<button id="btm2_5Normal" label="Normal Plot" onAction='OnbtmNormalPressed' imageMso="BorderDiagonalUp"/>
+							<button id="btm2_6XYZ" label="XYZ 3D Scatterplot" onAction='OnbtmXYZPressed' imageMso="_3DSurfaceWireFrameClassic"/>
+							<button id="btm2_7ScatPlotMat" label="Scatter Plot Matrix" onAction='OnbtmScatterPlotMatPressed' imageMso="ViewNormalViewExcel" />
+						</menu>
+						<menu id='subMenu_Parametric' label='Parametric' >
+							<button id="btm3_1PairedT" label="Paired T tests" onAction='OnbtmPairedTPressed' imageMso="PrintColumns" />
+							<button id="btm3_2UnpairedT" label="Unpaired (two sample) T tests" onAction='OnbtmUnpairedTPressed' imageMso="JustifyMediumVertical" />
+							<button id="btm3_3OneWayANOVA" label="One-Way ANOVA" onAction='Onbtm1WayANOVAPressed' imageMso="Chart3DColumnChart" />
+							<button id="btm3_4OneWayRMANOVA" label="One-Way Repeated-Measures ANOVA" onAction='Onbtm1RMANOVAPressed' imageMso="AlignJustify" />
+							<button id="btm3_5TwoWayNested" label="Two-Way Nested ANOVA" onAction='Onbtm2WayNestedPressed' imageMso="DatabaseRelationships" />
+						</menu>	
+						<menu id='subMenu_Nonparametric' label='Nonparametric' >
+							<button id="btm4_1MannWhiteny" label="Mann-Whitney Test" onAction='OnbtmMannWhitneyPressed' imageMso="JustifyMediumVertical" />
+							<button id="btm4_2Wilcoxon" label="Wilcoxon Signed Rank Test" onAction='OnbtmWilcoxonPressed' imageMso="PrintColumns" />
+							<button id="btm4_3KruskallWalis" label="Kruskal-Wallis Test" onAction='OnbtmKruskalWallisPressed' imageMso="Chart3DColumnChart" />
+							<button id="btm4_4Friedman" label="Friedman Test" onAction='OnbtmFriedmanPressed' imageMso="AlignJustify" />
+							<button id="btm4_5CochranQ" label="Cochran's Q Test" onAction='OnbtmCochranPressed' imageMso="SlidesPerPage9Slides"/>
+							<button id="btm4_6Skilling" label="Skillings-Mack Test" onAction='OnbtmSkillingsMackPressed' imageMso="LineStylesDialog"/>
+							<button id="btm4_7Spearman" label="Spearman Rank Correlation" onAction='OnbtmSpearmanPressed' imageMso="GroupDesignGridlines" />
+							<button id="btm4_8Kendall" label="Kendall's Rank Correlation" onAction='OnbtmKendallPressed' imageMso="GroupDesignGridlines" />
+							<button id="btm4_9TheilSen" label="Theil-Sen Simple Regression" onAction='OnbtmTheilSenPressed' imageMso="BorderDiagonalUp" />
+						</menu>
+						<menu id='subMenu_Contingency' label='Contingency Table Analysis' >
+							<button id="btm5_12x2" label="2x2 Table" onAction='Onbtm2x2Pressed' imageMso="BorderInside"/>
+							<button id="btm5_2RxC" label="RxC Table" onAction='OnbtmRxCPressed' imageMso="GridSettings"/>
+							<button id="btm5_3Mantel" label="Mantel-Haenszel Test" onAction='OnbtmMantelPressed' imageMso="ShapesDuplicate"/>
+							<button id="btm5_4Proportions" label="Proportions" onAction='OnbtmProportionsPressed' imageMso="ObjectSendToBackOutlook"/>
+							<button id="btm5_5CA" label="Correspondence Analysis" onAction='OnbtmCAPressed' imageMso='TableInsertExcel'/>
+						</menu>
+						<menu id='subMenu_Survival' label='Survival Analysis' >
+							<button id="btm6_1KM" label="Kaplan-Meier Plot" onAction='OnbtmKMPressed' imageMso='ConnectorRightAngle' />
+							<button id="btm6_2Logrank" label="Logrank Test" onAction='OnbtmLogrankPressed' imageMso='ChartTypeLineInsertGallery' />
+							<button id="btm6_3Cox" label="Cox Regression" onAction='OnbtmCoxPressed' imageMso='ChartTypeXYScatterInsertGallery' />
+						</menu>
+						<menu id='subMenu_Regression' label='Regression' >
+							<button id="btm7_1LM" label="Multiple Linear Regression (LM)" onAction='OnbtmLMPressed' imageMso="ChartTrendline" />
+							<button id="btm7_2GLM" label="Generalized Linear Models (GLM)" onAction='OnbtmGLMPressed' imageMso="EquationScriptGallery" />
+							<button id="btm7_3GLM_NB2" label="Negative Binomial Regression (NB2)" onAction='OnbtmGLMNB2Pressed' imageMso='Superscript' />
+							<button id="btm7_4_GEE" label="Generalized Estimating Equations (GEE)" onAction='OnbtmGEEPressed' imageMso="SlidesPerPage3Slides" />
+							<button id="btm7_5Cox" label="Cox Regression" onAction='OnbtmCoxPressed' imageMso='ChartTypeXYScatterInsertGallery' />
+							<button id="btm7_6ZIP" label="Zero-Inflated Poisson Regression" onAction='OnbtmZeroPressed' imageMso="Z"/>
+							<button id="btm7_7MultiLogit" label="Multinomial Logistic Regression" onAction='OnbtmMultiLogitPressed' imageMso="Bullets" />
+							<button id="btm7_8OrdLogit" label="Ordinal Logistic Regression" onAction='OnbtmOrdLogitPressed' imageMso="Numbering"/>
+						</menu>
+						<menu id='subMenu_Multivariate' label='Multivariate Analysis' >
+							<button id="btn8_1Hotteling" label="Hotelling's T-Squared Test" onAction='OnbtmHottelingPressed' imageMso="T" />
+							<button id="btn8_2PCA" label="Principal Component Analysis" onAction='OnbtmPCAPressed' imageMso="ChartTypeOtherInsertGallery" />
+							<button id="btm8_3CA" label="Correspondence Analysis" onAction='OnbtmCAPressed' imageMso='TableInsertExcel'/>
+							<button id="btm8_4MCA" label="Multiple Correspondence Analysis" onAction='OnbtmMCAPressed' imageMso='PivotTableOptions' />
+						</menu>
+						<menu id='subMenu_SampleSize' label='Sample Size' >
+							<button id="btn9_1PairedT" label="Paired T-test" onAction='OnbtmSampleSizePairedTPressed' imageMso="PrintColumns" />
+							<button id="btn9_2UnPairedT" label="Unpaired T-test" onAction='OnbtmSampleSizeUnPairedTPressed' imageMso="JustifyMediumVertical" />
+							<button id="btn9_3SingleProp" label="Single Proportion" onAction='OnbtmSinglePropPressed' imageMso="ObjectsArrangeMenu" />
+							<button id="btn9_4IndProp" label="Independent Proporions" onAction='OnbtmIndPropPressed' imageMso="ObjectsGroupMenuOutlook" />
+						</menu>
+						<menu id='subMenu_Agreement' label='Agreement' >
+							<button id="btn10_1PassingBablok" label="Passing-Bablok Regression" onAction='OnbtmPassingBablok' imageMso="AutoSummaryViewByHighlight" />
+							<button id="btn10_2Deming" label="Deming Regression" onAction='OnbtmDeming' imageMso="DiagramResizeClassic" />
+							<button id="btn10_3icc" label="Intraclass Correlation Coefficients" onAction='OnbtmIcc' imageMso="CombineShapesGallery" />
+						</menu>
+					</menu>
+
+					<separator id="sep1" />
+					<button id="btn00_1About" label="About" onAction='OnbtmAboutPressed' imageMso="Info" />
+					<button id="btn00_2Help" label="Help" onAction='OnbtmHelpPressed' imageMso="Help" />
+					<button id="btn00_3Settings" label="Settings" onAction='OnbtmSettingsPressed' imageMso="PivotTableFieldSettings" />
+					<button id="btn00_4logShow" label="Show Log" onAction='OnbtmShowLogPressed' imageMso='ScriptDebugger' />
+					<button id="btn00_5ExportChart" label="Export Chart" onAction='OnbtmShowExportChart' imageMso='ExportFile' />
+				</group>
+			</tab>
+		</tabs>
+	</ribbon>
+</customUI>
