@@ -1,0 +1,153 @@
+# Mapping from worksheet UDFs to the corresponding Windows Forms ("Methods") documentation pages.
+# The generator will include a link only if the target markdown file exists in your MkDocs repo.
+
+patterns:
+  # Mann–Whitney U (Wilcoxon rank-sum) test
+  - match: '^BESH\.NP\.MW_'
+    doc: 'methods/mann-whitney-test.md'
+
+  # Wilcoxon signed-rank test (paired)
+  - match: '^BESH\.NP\.WILCOX_'
+    doc: 'methods/wilcoxon-signed-rank-test.md'
+
+  # Spearman rho
+  - match: '^BESH\.NP\.SPEARMAN_'
+    doc: 'methods/spearman-rank-correlation.md'
+
+  # Kendall's tau-b
+  - match: '^BESH\.NP\.KENDALL_'
+    doc: 'methods/kendalls-rank-correlation.md'
+
+  # Kruskall-Walis rho
+  - match: '^BESH\.NP\.KW_'
+    doc: 'methods/kruskal-wallis-test.md'
+
+  # Friedman
+  - match: '^BESH\.NP\.FRIEDMAN_'
+    doc: 'methods/friedman-test.md'
+
+  # Logrank
+  - match: '^BESH\.SURV\.LOGRANK_'
+    doc: 'methods/logrank-test.md'
+
+  # Median survival tiem
+  - match: '^BESH\.SURV\.MEDIAN_CI'
+    doc: 'methods/kaplan-meier-plot.md'
+
+  # Cox PH model related functions
+  - match: '^BESH\.SURV\.COX_'
+    doc: 'methods/cox-regression.md'
+
+  # Cox PH model related functions
+  - match: '^BESH\.SURV\.COX_FIT'
+    doc: 'udf/regression-formula-syntax.md'
+
+  # Cox PH model related functions
+  - match: '^BESH\.SURV\.COX_FIT'
+    doc: 'udf/regression-models.md#beshregrformula_validate'
+    
+  # One-way ANOVA
+  - match: '^BESH\.PAR\.ANOVA1'
+    doc: 'methods/one-way-anova.md'
+
+  # One-way RM ANOVA
+  - match: '^BESH\.PAR\.RMANOVA1'
+    doc: 'methods/one-way-repeated-measures-anova.md'
+
+  # Two-way Nested ANOVA
+  - match: '^BESH\.PAR\.ANOVA2_NESTED'
+    doc: 'methods/two-way-nested-anova.md'
+
+  # unpaired T-test
+  - match: '^BESH\.PAR\.TTEST_UNPAIRED'
+    doc: 'methods/unpaired-two-sample-t-tests.md'
+    
+  # paired T-test
+  - match: '^BESH\.PAR\.TTEST_PAIRED'
+    doc: 'methods/paired-t-tests.md'
+
+  # normality tests
+  - match: '^BESH\.ASM\.SHAPIRO_WILK'
+    doc: 'methods/normality-tests.md'
+
+  # (a)symmetry tests
+  - match: '^BESH\.ASM\.SYMMETRY'
+    doc: 'methods/symmetry.md'
+
+  # all vairance tests
+  - match: '^BESH\.ASM\.LEVENE'
+    doc: 'methods/homogeneity-of-variance.md'
+
+  # all outliers tests
+  - match: '^BESH\.ASM\.GRUBBS'
+    doc: 'methods/univariate-outliers.md'
+
+  # sample size
+  - match: '^BESH\.SSIZE\.TTEST_PAIRED'
+    doc: 'methods/sample-size-paired-t-test.md'
+
+  # sample size
+  - match: '^BESH\.SSIZE\.TTEST_UNPAIRED'
+    doc: 'methods/sample-size-unpaired-t-test.md'
+
+  # sample size
+  - match: '^BESH\.SSIZE\.PROP_SINGLE'
+    doc: 'methods/sample-size-single-proportion.md'
+
+  # sample size
+  - match: '^BESH\.SSIZE\.PROP_INDEP'
+    doc: 'methods/sample-size-independent-proportions.md'
+
+  # Ordinal logisitc regression
+  - match: '^BESH\.REGR\.ORDLOGIT_'
+    doc: 'methods/ordinal-logistic-regression.md'
+
+  # Multinomial logisitc regression
+  - match: '^BESH\.REGR\.MNLOGIT_'
+    doc: 'methods/multinomial-logistic-regression.md'
+    
+  - match: '^BESH\.REGR\.FORMULA_'
+    doc: 'udf/regression-formula-syntax.md'
+
+  # multiple linear regression
+  - match: '^BESH\.REGR\.LM_'
+    doc: 'methods/multiple-linear-regression-lm.md'
+
+  # generalized linear models
+  - match: '^BESH\.REGR\.GLM_'
+    doc: 'methods/generalized-linear-models-glm.md'
+
+  # negative bionomial regression GLM NB2
+  - match: '^BESH\.REGR\.GLMNB_'
+    doc: 'methods/negative-binomial-regression-nb2.md'
+
+  # zero inflated poisson
+  - match: '^BESH\.REGR\.ZIP_'
+    doc: 'methods/zero-inflated-poisson-regression.md'
+
+  # GEE
+  - match: '^BESH\.REGR\.GEE_'
+    doc: 'methods/generalized-estimating-equations-gee.md'
+
+  # Contingency Tables
+  - match: '^BESH\.CT\.MANTEL_HAENSZEL'
+    doc: 'methods/mantel-haenszel-test.md'
+
+  # Contingency Tables
+  - match: '^BESH\.CT\.TREND'
+    doc: 'methods/rxc-table.md'
+
+  # Contingency Tables
+  - match: '^BESH\.CT\.FISHER_2X2'
+    doc: 'methods/2x2-table.md'
+
+  # Contingency Tables
+  - match: '^BESH\.CT\.PAIRED_PROPORTIONS'
+    doc: 'methods/proportions.md'
+    
+
+# Optional: group-level links (shown on the UDF overview page for the whole category).
+# Add entries here only if you have a single "main" method page that represents the whole group.
+groups:
+  # "BESHStatNG - Distributions": { doc: "methods/..." }
+  # "BESHStatNG - Nonparametric": { doc: "methods/..." }

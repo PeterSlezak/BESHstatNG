@@ -1,0 +1,110 @@
+site_name: BESHStatNG Help
+repo_url: null
+
+theme:
+  name: material
+  favicon: assets/images/favicon.ico
+  features:
+    - navigation.sections
+    - navigation.instant
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - assets/javascripts/mathjax.js
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+- Home: index.md
+- Getting started: getting-started.md
+- Implementation notes: implementation-notes.md
+- How to select data: data-selection.md
+- Global Settings: global-settings.md
+- Chart Exporting: export-chart.md
+- What's new: whats-new.md
+- Methods:
+  - Assumptions:
+    - Normality Tests: methods/normality-tests.md
+    - Univariate Outliers: methods/univariate-outliers.md
+    - Homogeneity of Variance: methods/homogeneity-of-variance.md
+    - Symmetry: methods/symmetry.md
+    - Descriptive Statistics: methods/descriptive-statistics.md
+  - Graphics:
+    - Histogram: methods/histogram.md
+    - Box and Whiskers: methods/box-and-whiskers.md
+    - ROC Curve: methods/roc-curve.md
+    - Kaplan-Meier Plot: methods/kaplan-meier-plot.md
+    - Normal Plot: methods/normal-plot.md
+    - XYZ 3D Scatterplot: methods/xyz-3d-scatterplot.md
+    - Scatter Plot Matrix: methods/scatter-plot-matrix.md
+  - Parametric:
+    - Paired (single sample) T tests: methods/paired-t-tests.md
+    - Unpaired (two sample) T tests: methods/unpaired-two-sample-t-tests.md
+    - One-Way ANOVA: methods/one-way-anova.md
+    - One-Way Repeated-Measures ANOVA: methods/one-way-repeated-measures-anova.md
+    - Two-Way Nested ANOVA: methods/two-way-nested-anova.md
+  - Nonparametric:
+    - Mann-Whitney Test: methods/mann-whitney-test.md
+    - Wilcoxon Signed Rank Test: methods/wilcoxon-signed-rank-test.md
+    - Kruskal-Wallis Test: methods/kruskal-wallis-test.md
+    - Friedman Test: methods/friedman-test.md
+    - Cochran's Q Test: methods/cochrans-q-test.md
+    - Skillings-Mack Test: methods/skillings-mack-test.md
+    - Spearman Rank Correlation: methods/spearman-rank-correlation.md
+    - Kendall's Rank Correlation: methods/kendalls-rank-correlation.md
+    - Theil-Sen Simple Regression: methods/theil-sen-simple-regression.md
+  - Contingency Table Analysis:
+    - 2x2 Table: methods/2x2-table.md
+    - RxC Table: methods/rxc-table.md
+    - Mantel-Haenszel Test: methods/mantel-haenszel-test.md
+    - Proportions: methods/proportions.md
+    - Correspondence Analysis: methods/correspondence-analysis.md
+  - Survival Analysis:
+    - Kaplan-Meier Plot: methods/kaplan-meier-plot.md
+    - Logrank Test: methods/logrank-test.md
+    - Cox Regression: methods/cox-regression.md
+  - Regression:
+    - Multiple Linear Regression (LM): methods/multiple-linear-regression-lm.md
+    - Generalized Linear Models (GLM): methods/generalized-linear-models-glm.md
+    - Negative Binomial Regression (NB2): methods/negative-binomial-regression-nb2.md
+    - Generalized Estimating Equations (GEE): methods/generalized-estimating-equations-gee.md
+    - Cox Regression: methods/cox-regression.md
+    - Zero-Inflated Poisson Regression: methods/zero-inflated-poisson-regression.md
+    - Multinomial Logistic Regression: methods/multinomial-logistic-regression.md
+    - Ordinal Logistic Regression: methods/ordinal-logistic-regression.md
+  - Multivariate Analysis:
+    - Hotelling's T-Squared Test: methods/hotellings-t-squared-test.md
+    - Principal Component Analysis: methods/principal-component-analysis.md
+    - Correspondence Analysis: methods/correspondence-analysis.md
+    - Multiple Correspondence Analysis: methods/multiple-correspondence-analysis.md
+    - K-Means Clustering: methods/k-means-clustering.md
+    - Hierarchical Clustering: methods/hierarchical-clustering.md
+    - Factor Analysis: methods/factor-analysis.md
+  - Sample Size:
+    - "Sample Size – Paired T-test": methods/sample-size-paired-t-test.md
+    - "Sample Size – Unpaired T-test": methods/sample-size-unpaired-t-test.md
+    - "Sample Size – Single Proportion": methods/sample-size-single-proportion.md
+    - "Sample Size – Independent Proportions": methods/sample-size-independent-proportions.md
+  - Agreement:
+    - Passing–Bablok Regression: methods/passing-bablok-regression.md
+    - Deming Regression: methods/deming-regression.md
+    - Intraclass Correlation Coefficients: methods/intraclass-correlation-coefficients.md
+- User Defined Functions (UDF):
+  - Overview: udf/index.md
+  - UDF Regression Formula Syntax: udf/regression-formula-syntax.md
+  - UDF Methods:
+    - Assumptions: udf/assumptions.md
+    - Distributions: udf/distributions.md
+    - Nonparametric: udf/nonparametric.md
+    - Parametric: udf/parametric.md
+    - Contingency Table: udf/contingency-tables.md
+    - Survival: udf/survival.md
+    - Regression Models: udf/regression-models.md
+    - Sample Size: udf/sample-size.md

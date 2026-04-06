@@ -1,0 +1,1134 @@
+site:
+  title: BESHStatNG Help
+  baseUrl: https://www.beshstat.eu/beshstatng/help
+pages:
+- key: ExportChart
+  title: Export Chart
+  slug: export-chart
+  forms:
+  - form: Ui99ExportChart
+    analysisTitle: Export Chart
+- key: GlobalSettings
+  title: Global Settings
+  slug: global-settings
+  forms:
+  - form: Ui12GlobalSettings
+    analysisTitle: Global Settings
+methods:
+- key: T2x2Table
+  title: 2x2 Table
+  slug: 2x2-table
+  short: "**Includes:** Pearson chi-square, Fisher’s exact (two-sided, one-sided,\
+    \ mid-p), Odds ratio + CI, Relative risk + CI, McNemar / Liddell test for paired\
+    \ 2×2.  \nAnalyze 2×2 contingency tables with exact tests and common effect-size\
+    \ measures."
+  ribbonIds:
+  - btm5_12x2
+  onActions:
+  - Onbtm2x2Pressed
+  forms:
+  - handler: Onbtm2x2Pressed
+    form: Ui82x2
+    analysisTitle: null
+  categories:
+  - Contingency Table Analysis
+- key: BoxAndWhiskers
+  title: Box and Whiskers
+  slug: box-and-whiskers
+  short: "**Includes:** Tukey boxplot (median, quartiles, whiskers), Outliers via\
+    \ 1.5×IQR rule.  \nVisualize distribution shape and outliers across one or more\
+    \ groups."
+  ribbonIds:
+  - btm2_2Box
+  onActions:
+  - OnbtmBoxWhiskersPressed
+  forms:
+  - handler: OnbtmBoxWhiskersPressed
+    form: UibyID
+    analysisTitle: Box and Whiskers
+  categories:
+  - Graphics
+- key: CochranSQTest
+  title: Cochran's Q Test
+  slug: cochrans-q-test
+  short: "**Includes:** Cochran’s Q, Percent of 1’s per condition.  \nTest differences\
+    \ in matched binary outcomes across three or more conditions (extension of McNemar)."
+  ribbonIds:
+  - btm4_5CochranQ
+  onActions:
+  - OnbtmCochranPressed
+  forms:
+  - handler: OnbtmCochranPressed
+    form: Ui0OneRefeditMulticol
+    analysisTitle: Cochran's Q Test
+  categories:
+  - Nonparametric
+- key: CorrespondenceAnalysis
+  title: Correspondence Analysis
+  slug: correspondence-analysis
+  short: "**Includes:** Correspondence analysis (CA), Row/column contribution plots,\
+    \ Biplot.  \nExplore structure in contingency tables via low-dimensional map representations\
+    \ of rows and columns."
+  ribbonIds:
+  - btm5_5CA
+  - btm8_3CA
+  onActions:
+  - OnbtmCAPressed
+  - OnbtmCAPressed
+  forms:
+  - handler: OnbtmCAPressed
+    form: Ui0OneRefeditMulticol
+    analysisTitle: Correspondence Analysis
+  - handler: OnbtmCAPressed
+    form: Ui0OneRefeditMulticol
+    analysisTitle: Correspondence Analysis
+  categories:
+  - Contingency Table Analysis
+  - Multivariate Analysis
+- key: CoxRegression
+  title: Cox Regression
+  slug: cox-regression
+  short: "**Includes:** Cox proportional hazards model, Tie handling: Breslow, Efron,\
+    \ Exact, categorical factors, polynomial terms, continuous-variable interactions,\
+    \ optional starting values, robust variance (optional), residuals + PH score test\
+    \ (optional), baseline + adjusted survival curves.  \nFit a proportional hazards\
+    \ model to time-to-event data and report hazard ratios with diagnostics."
+  ribbonIds:
+  - btm6_3Cox
+  - btm7_5Cox
+  onActions:
+  - OnbtmCoxPressed
+  - OnbtmCoxPressed
+  forms:
+  - handler: OnbtmCoxPressed
+    form: Ui4Cox
+    analysisTitle: null
+  - handler: OnbtmCoxPressed
+    form: Ui4Cox
+    analysisTitle: null
+  categories:
+  - Regression
+  - Survival Analysis
+- key: DescriptiveStatistics
+  title: Descriptive Statistics
+  slug: descriptive-statistics
+  short: "**Includes:** n, mean, median, SD / variance, SEM, CV, skewness / kurtosis,\
+    \ Q1 / Q3, IQR, min / max / range, Shapiro–Wilk (optional).  \nCompute a compact\
+    \ set of summary statistics for one or multiple variables, optionally adding a\
+    \ normality check."
+  ribbonIds:
+  - btm1_5Desc
+  onActions:
+  - OnbtmDescriptivePressed
+  forms:
+  - handler: OnbtmDescriptivePressed
+    form: UibyID
+    analysisTitle: Descriptive Statistcs
+  categories:
+  - Assumptions
+- key: FactorAnalysis
+  title: Factor Analysis
+  slug: factor-analysis
+  short: "**Includes:** Exploratory factor analysis on correlation or covariance matrices;\
+    \ extraction by principal axis, maximum likelihood, generalized least squares, image,\
+    \ alpha, or principal-components style extraction; retention by fixed count / eigenvalue\
+    \ cutoff / cumulative variance; orthogonal or oblique rotation; factor scores; diagnostics;\
+    \ scree and loading plots.  \nExplore latent structure behind correlated numeric variables\
+    \ and inspect communalities, loadings, scores, and residual matrices."
+  ribbonIds:
+  - btm8_5KMC
+  onActions:
+  - OnbtmFAPressed
+  forms:
+  - handler: OnbtmFAPressed
+    form: Ui11PCA
+    analysisTitle: Factor Analysis
+  categories:
+  - Multivariate Analysis
+- key: FriedmanTest
+  title: Friedman Test
+  slug: friedman-test
+  short: "**Includes:** Friedman test, Post-hoc multiple comparisons (MCP), Descriptive\
+    \ stats (optional), Box plot (optional).  \nNonparametric repeated-measures alternative\
+    \ to one-way RM ANOVA for ranked data across conditions."
+  ribbonIds:
+  - btm4_4Friedman
+  onActions:
+  - OnbtmFriedmanPressed
+  forms:
+  - handler: OnbtmFriedmanPressed
+    form: Ui0OneRefeditMulticol
+    analysisTitle: Friedman Test
+  categories:
+  - Nonparametric
+- key: GeneralizedEstimatingEquationsGEE
+  title: Generalized Estimating Equations (GEE)
+  slug: generalized-estimating-equations-gee
+  short: "**Includes:** Families: Gaussian, Binomial, Poisson, Negative Binomial,\
+    \ Gamma, Covariance structures: Independence, Exchangeable, Autoregressive, Unstructured,\
+    \ SE types: Robust, Naive, Bias-reduced, categorical factors, polynomial terms,\
+    \ continuous-variable interactions, optional starting values.  \nFit marginal\
+    \ models for correlated/clustered data using GEE with selectable working correlation."
+  ribbonIds:
+  - btm7_4_GEE
+  onActions:
+  - OnbtmGEEPressed
+  forms:
+  - handler: OnbtmGEEPressed
+    form: Ui13GEE
+    analysisTitle: Generalized Estimating Equations
+  categories:
+  - Regression
+- key: GeneralizedLinearModelsGLM
+  title: Generalized Linear Models (GLM)
+  slug: generalized-linear-models-glm
+  short: "**Includes:** GLM families: Gaussian, Binomial, Poisson, Negative Binomial,\
+    \ Gamma, Links per family (selectable), categorical factors, polynomial terms,\
+    \ continuous-variable interactions, optional starting values, optional weights\
+    \ and offset, IRLS with user-set iterations/ε, optional covariance matrix and\
+    \ residuals.  \nFit generalized linear models to a wide range of outcome types\
+    \ with configurable link functions."
+  ribbonIds:
+  - btm7_2GLM
+  onActions:
+  - OnbtmGLMPressed
+  forms:
+  - handler: OnbtmGLMPressed
+    form: UiGLM
+    analysisTitle: Generalized Linear Models
+  categories:
+  - Regression
+- key: HierarchicalClustering
+  title: Hierarchical Clustering
+  slug: hierarchical-clustering
+  short: "**Includes:** Agglomerative hierarchical clustering, linkage methods (Ward, complete,\
+    \ average, weighted average, single, centroid, median), distance metrics (squared Euclidean,\
+    \ Euclidean, Manhattan, Chebyshev, Minkowski, cosine, correlation), optional preprocessing,\
+    \ cluster membership by cluster count or cut height, and dendrogram plotting.  \n    Explore\
+    \ the full nested cluster structure and visualize it as an Excel dendrogram."
+  ribbonIds:
+  - btm8_5KMC
+  onActions:
+  - OnbtmHCPressed
+  forms:
+  - handler: OnbtmHCPressed
+    form: Ui11PCA
+    analysisTitle: Hierarchical Clustering
+  categories:
+  - Multivariate Analysis
+- key: Histogram
+  title: Histogram
+  slug: histogram
+  short: "**Includes:** Automatic bin rules (Sturges, Doane, Scott, Freedman–Diaconis),\
+    \ Overlay multiple groups (optional).  \nCreate publication-friendly histograms\
+    \ with sensible bin-width heuristics and optional overlays."
+  ribbonIds:
+  - btm2_1Histogram
+  onActions:
+  - OnbtmHistogramPressed
+  forms:
+  - handler: OnbtmHistogramPressed
+    form: UibyID
+    analysisTitle: Histogram
+  categories:
+  - Graphics
+- key: HomogeneityOfVariance
+  title: Homogeneity of Variance
+  slug: homogeneity-of-variance
+  short: "**Includes:** Fligner–Killeen, Levene (Brown–Forsythe/median), Squared Ranks,\
+    \ Bartlett.  \nTest whether multiple groups have similar variances, which is an\
+    \ important assumption for many parametric comparisons."
+  ribbonIds:
+  - btm1_3HomogeneityVar
+  onActions:
+  - OnbtmHomogeneityVarPressed
+  forms:
+  - handler: OnbtmHomogeneityVarPressed
+    form: UibyID
+    analysisTitle: Homogeneity of Variance
+  categories:
+  - Assumptions
+- key: HotellingSTSquaredTest
+  title: Hotelling's T-Squared Test
+  slug: hotellings-t-squared-test
+  short: "**Includes:** One-sample Hotelling’s T², Two-sample (independent) Hotelling’s\
+    \ T², Paired Hotelling’s T², Simultaneous confidence intervals.  \nMultivariate\
+    \ extension of the t-test for comparing mean vectors (one-sample, two-sample,\
+    \ or paired)."
+  ribbonIds:
+  - btn8_1Hotteling
+  onActions:
+  - OnbtmHottelingPressed
+  forms:
+  - handler: OnbtmHottelingPressed
+    form: UiTwoInputRefedits
+    analysisTitle: Hotelling's T-Squared Test
+  categories:
+  - Multivariate Analysis
+- key: IndependentProportions
+  title: Sample Size – Independent Proportions
+  slug: sample-size-independent-proportions
+  short: "**Includes:** Sample size for two independent proportions (uncorrected and\
+    \ corrected chi-square / Fisher).  \nEstimate sample sizes for comparing two independent\
+    \ proportions (with optional group-size ratio κ)."
+  ribbonIds:
+  - btn9_4IndProp
+  onActions:
+  - OnbtmIndPropPressed
+  forms:
+  - handler: OnbtmIndPropPressed
+    form: Ui12SampleSizeTtestSingleProp
+    analysisTitle: Sample Size - Independent Proportions
+  categories:
+  - Sample Size
+- key: KaplanMeierPlot
+  title: Kaplan-Meier Plot
+  slug: kaplan-meier-plot
+  short: "**Includes:** Kaplan–Meier survival estimate, Optional confidence bands,\
+    \ Tabular survival output (optional).  \nPlot survival over time and summarize\
+    \ survival probabilities (with censoring) for one or multiple groups."
+  ribbonIds:
+  - btm2_4KM
+  - btm6_1KM
+  onActions:
+  - OnbtmKMPressed
+  - OnbtmKMPressed
+  forms:
+  - handler: OnbtmKMPressed
+    form: Ui4KMandLogRank
+    analysisTitle: Kaplan-Meier Plot
+  - handler: OnbtmKMPressed
+    form: Ui4KMandLogRank
+    analysisTitle: Kaplan-Meier Plot
+  categories:
+  - Graphics
+  - Survival Analysis
+- key: KendallSRankCorrelation
+  title: Kendall's Rank Correlation
+  slug: kendalls-rank-correlation
+  short: "**Includes:** Kendall’s τ, p-value / CI where applicable.  \nMeasure ordinal\
+    \ association between two variables, with good behavior under ties and small samples."
+  ribbonIds:
+  - btm4_8Kendall
+  onActions:
+  - OnbtmKendallPressed
+  forms:
+  - handler: OnbtmKendallPressed
+    form: UiTwoInputRefedits
+    analysisTitle: Kendall's Rank Correlation
+  categories:
+  - Nonparametric
+- key: KMeansClustering
+  title: K-Means Clustering
+  slug: k-means-clustering
+  short: "**Includes:** K-means clustering for numeric data, initialization by k-means++, Forgy,\
+    \ random partition, or user-specified centers, repeated random starts, optional z-score or 0–1\
+    \ range standardization, explicit missing-value handling, empty-cluster strategies, and prediction\
+    \ for new observations.  \nPartition observations into a requested number of compact centroid-based\
+    \ clusters."
+  ribbonIds:
+  - btm8_5KMC
+  onActions:
+  - OnbtmKMCPressed
+  forms:
+  - handler: OnbtmKMCPressed
+    form: Ui11PCA
+    analysisTitle: K-Means Clustering
+  categories:
+  - Multivariate Analysis
+- key: KruskalWallisTest
+  title: Kruskal-Wallis Test
+  slug: kruskal-wallis-test
+  short: "**Includes:** H statistic (uncorrected), H statistic (tie-corrected), Dunn’s\
+    \ post-hoc comparisons (optional).  \nNonparametric one-way ANOVA alternative\
+    \ for comparing more than two independent groups."
+  ribbonIds:
+  - btm4_3KruskallWalis
+  onActions:
+  - OnbtmKruskalWallisPressed
+  forms:
+  - handler: OnbtmKruskalWallisPressed
+    form: UibyID
+    analysisTitle: Kruskal-Wallis Test
+  categories:
+  - Nonparametric
+- key: LogrankTest
+  title: Logrank Test
+  slug: logrank-test
+  short: "**Includes:** Logrank, Tarone–Ware, Gehan–Breslow, Peto, Modified Peto (Andersen).\
+    \  \nCompare survival curves between groups using logrank-type tests (with several\
+    \ common weightings)."
+  ribbonIds:
+  - btm6_2Logrank
+  onActions:
+  - OnbtmLogrankPressed
+  forms:
+  - handler: OnbtmLogrankPressed
+    form: Ui4KMandLogRank
+    analysisTitle: Logrank Test
+  categories:
+  - Survival Analysis
+- key: MannWhitneyTest
+  title: Mann-Whitney Test
+  slug: mann-whitney-test
+  short: "**Includes:** Exact p-values (when available), Normal approximation (ties\
+    \ + continuity correction), Hodges–Lehmann shift estimate (optional).  \nNonparametric\
+    \ alternative to the two-sample t-test for comparing two independent groups."
+  ribbonIds:
+  - btm4_1MannWhiteny
+  onActions:
+  - OnbtmMannWhitneyPressed
+  forms:
+  - handler: OnbtmMannWhitneyPressed
+    form: UibyID
+    analysisTitle: Mann-Whitney Test
+  categories:
+  - Nonparametric
+- key: MantelHaenszelTest
+  title: Mantel-Haenszel Test
+  slug: mantel-haenszel-test
+  short: "**Includes:** Mantel–Haenszel chi-square, Pooled odds ratio + confidence interval at the selected level.  \n\
+    Combine stratified 2×2 tables to estimate a pooled association while controlling\
+    \ for a stratification factor."
+  ribbonIds:
+  - btm5_3Mantel
+  onActions:
+  - OnbtmMantelPressed
+  forms:
+  - handler: OnbtmMantelPressed
+    form: Ui0OneRefeditMulticol
+    analysisTitle: Mantel-Haenszel Test
+  categories:
+  - Contingency Table Analysis
+- key: MultinomialLogisticRegression
+  title: Multinomial Logistic Regression
+  slug: multinomial-logistic-regression
+  short: "**Includes:** Multinomial logistic regression, Reference category selection\
+    \ (first/last), categorical factors, polynomial terms, continuous-variable interactions,\
+    \ optional starting values, optional offset/weights, covariance matrix, residuals.\
+    \  \nModel nominal outcomes with more than two categories."
+  ribbonIds:
+  - btm7_7MultiLogit
+  onActions:
+  - OnbtmMultiLogitPressed
+  forms:
+  - handler: OnbtmMultiLogitPressed
+    form: UiGLM
+    analysisTitle: Multinomial Logistic Regression
+  categories:
+  - Regression
+- key: MultipleCorrespondenceAnalysis
+  title: Multiple Correspondence Analysis
+  slug: multiple-correspondence-analysis
+  short: "**Includes:** Multiple correspondence analysis (MCA) via indicator/Burt\
+    \ matrix, Contribution plots, Biplot.  \nExtend correspondence analysis to multiple\
+    \ categorical variables (survey-style data)."
+  ribbonIds:
+  - btm8_4MCA
+  onActions:
+  - OnbtmMCAPressed
+  forms:
+  - handler: OnbtmMCAPressed
+    form: Ui11PCA
+    analysisTitle: null
+  categories:
+  - Multivariate Analysis
+- key: MultipleLinearRegressionLM
+  title: Multiple Linear Regression (LM)
+  slug: multiple-linear-regression-lm
+  short: "**Includes:** OLS multiple regression, Optional weights, Type I or Type\
+    \ III term SS (ANOVA table), Optional covariance matrix and residuals.  \nFit\
+    \ a standard linear regression model, report coefficients and ANOVA-style term\
+    \ tests."
+  ribbonIds:
+  - btm7_1LM
+  onActions:
+  - OnbtmLMPressed
+  forms:
+  - handler: OnbtmLMPressed
+    form: UiGLM
+    analysisTitle: Multiple Linear Regression (LM)
+  categories:
+  - Regression
+- key: NegativeBinomialRegressionNB2
+  title: Negative Binomial Regression (NB2)
+  slug: negative-binomial-regression-nb2
+  short: "**Includes:** Negative Binomial (NB2) regression, Overdispersion parameter\
+    \ (estimated), categorical factors, polynomial terms, continuous-variable interactions,\
+    \ optional starting values, optional offset/weights, covariance matrix, residuals.\
+    \  \nModel overdispersed count outcomes using an NB2 variance function."
+  ribbonIds:
+  - btm7_3GLM_NB2
+  onActions:
+  - OnbtmGLMNB2Pressed
+  forms:
+  - handler: OnbtmGLMNB2Pressed
+    form: UiGLM
+    analysisTitle: Negative Binomial Regression (NB2)
+  categories:
+  - Regression
+- key: NormalPlot
+  title: Normal Plot
+  slug: normal-plot
+  short: "**Includes:** Rank methods: Blom, Rankit, Van der Waerden, Line fits: SPSS,\
+    \ OLS, R-style, Optional descriptive stats.  \nCreate a normal probability plot\
+    \ to visually assess normality and identify deviations such as skewness or heavy\
+    \ tails."
+  ribbonIds:
+  - btm2_5Normal
+  onActions:
+  - OnbtmNormalPressed
+  forms:
+  - handler: OnbtmNormalPressed
+    form: UibyID
+    analysisTitle: Normal Plot
+  categories:
+  - Graphics
+- key: NormalityTests
+  title: Normality Tests
+  slug: normality-tests
+  short: "**Includes:** Shapiro–Wilk, D’Agostino–Pearson K², Anderson–Darling.  \n\
+    Check whether a sample distribution is consistent with normality—useful before\
+    \ parametric tests."
+  ribbonIds:
+  - btm1_1Normaility
+  onActions:
+  - OnbtmNormalityTestsPressed
+  forms:
+  - handler: OnbtmNormalityTestsPressed
+    form: UibyID
+    analysisTitle: Normality
+  categories:
+  - Assumptions
+- key: OneWayANOVA
+  title: One-Way ANOVA
+  slug: one-way-anova
+  short: "**Includes:** Classic one-way ANOVA, Welch ANOVA, Post-hoc: LSD, Bonferroni,\
+    \ Tukey–Kramer, Games–Howell.  \nCompare means across multiple independent groups\
+    \ and run common post-hoc procedures when differences are detected."
+  ribbonIds:
+  - btm3_3OneWayANOVA
+  onActions:
+  - Onbtm1WayANOVAPressed
+  forms:
+  - handler: Onbtm1WayANOVAPressed
+    form: UibyID
+    analysisTitle: One-Way ANOVA
+  categories:
+  - Parametric
+- key: OneWayRepeatedMeasuresANOVA
+  title: One-Way Repeated-Measures ANOVA
+  slug: one-way-repeated-measures-anova
+  short: "**Includes:** RM ANOVA, Sphericity: Mauchly test (optional), Corrections:\
+    \ Greenhouse–Geisser, Huynh–Feldt (optional), Post-hoc: Tukey (optional), Descriptive\
+    \ stats / box plot (optional).  \nCompare means across repeated conditions for\
+    \ the same subjects, with optional sphericity diagnostics and corrections."
+  ribbonIds:
+  - btm3_4OneWayRMANOVA
+  onActions:
+  - Onbtm1RMANOVAPressed
+  forms:
+  - handler: Onbtm1RMANOVAPressed
+    form: Ui0OneRefeditMulticol
+    analysisTitle: One-Way Repeated-Measures ANOVA
+  categories:
+  - Parametric
+- key: OrdinalLogisticRegression
+  title: Ordinal Logistic Regression
+  slug: ordinal-logistic-regression
+  short: "**Includes:** Ordinal logistic regression, Reference category selection\
+    \ (first/last), categorical factors, polynomial terms, continuous-variable interactions,\
+    \ optional starting values, optional offset/weights, covariance matrix, residuals.\
+    \  \nModel ordered categorical outcomes using an ordinal logistic framework."
+  ribbonIds:
+  - btm7_8OrdLogit
+  onActions:
+  - OnbtmOrdLogitPressed
+  forms:
+  - handler: OnbtmOrdLogitPressed
+    form: UiGLM
+    analysisTitle: Ordinal Logistic Regression
+  categories:
+  - Regression
+- key: PairedSingleSampleTTests
+  title: Paired (single sample) T tests
+  slug: paired-t-tests
+  short: "**Includes:** Paired t-test (matched pairs).  \nCompare two paired measurements\
+    \ on the same subjects by testing the mean of differences."
+  ribbonIds:
+  - btm3_1PairedT
+  onActions:
+  - OnbtmPairedTPressed
+  forms:
+  - handler: OnbtmPairedTPressed
+    form: UiTwoInputRefedits
+    analysisTitle: Paired T-test
+  categories:
+  - Parametric
+- key: PairedTTest
+  title: Sample Size – Paired T-test
+  slug: sample-size-paired-t-test
+  short: "**Includes:** Sample size for paired t-test (iterative t critical values).\
+    \  \nEstimate required number of pairs for a paired t-test given effect size,\
+    \ SD, α and power."
+  ribbonIds:
+  - btn9_1PairedT
+  onActions:
+  - OnbtmSampleSizePairedTPressed
+  forms:
+  - handler: OnbtmSampleSizePairedTPressed
+    form: Ui12SampleSizeTtestSingleProp
+    analysisTitle: Sample Size - Paired T-test
+  categories:
+  - Sample Size
+- key: PrincipalComponentAnalysis
+  title: Principal Component Analysis
+  slug: principal-component-analysis
+  short: "**Includes:** PCA on correlation or covariance matrix, Component extraction:\
+    \ eigenvalue, fixed k, variance threshold, Outputs: scores, loadings, reduced\
+    \ dataset, Plots: scree, score/loading plots, biplots (2D/3D).  \nReduce dimensionality\
+    \ of multivariate numeric data and visualize dominant patterns."
+  ribbonIds:
+  - btn8_2PCA
+  onActions:
+  - OnbtmPCAPressed
+  forms:
+  - handler: OnbtmPCAPressed
+    form: Ui11PCA
+    analysisTitle: null
+  categories:
+  - Multivariate Analysis
+- key: Proportions
+  title: Proportions
+  slug: proportions
+  short: "**Includes:** Single proportion (estimate + CI), Two independent proportions\
+    \ (difference + CI, Fisher exact p-values), Two paired proportions (difference\
+    \ + CI, Liddell/McNemar-type test).  \nWork with binomial outcomes: estimate proportions\
+    \ and compare proportions between groups."
+  ribbonIds:
+  - btm5_4Proportions
+  onActions:
+  - OnbtmProportionsPressed
+  forms:
+  - handler: OnbtmProportionsPressed
+    form: Ui8Proportions
+    analysisTitle: null
+  categories:
+  - Contingency Table Analysis
+- key: ROCCurve
+  title: ROC Curve
+  slug: roc-curve
+  short: "**Includes:** ROC curve points, AUC (Wilcoxon), SE / CI / p-value, Cutoff\
+    \ table.  \nAssess binary classifier performance and explore sensitivity/specificity\
+    \ tradeoffs across thresholds."
+  ribbonIds:
+  - btm2_3ROC
+  onActions:
+  - OnbtmROCPressed
+  forms:
+  - handler: OnbtmROCPressed
+    form: UibyID
+    analysisTitle: ROC Curve
+  categories:
+  - Graphics
+- key: RxCTable
+  title: RxC Table
+  slug: rxc-table
+  short: "**Includes:** Pearson chi-square test of independence, Nominal association\
+    \ (Cramer's V, Phi, contingency coefficient), Fisher–Freeman–Halton exact test\
+    \ (optional), Ordinal association (tau-b/tau-c, gamma, Somers’ D), Cochran–Armitage\
+    \ trend test (when applicable).  \nAnalyze general contingency tables and report\
+    \ association measures and exact/trend tests where applicable."
+  ribbonIds:
+  - btm5_2RxC
+  onActions:
+  - OnbtmRxCPressed
+  forms:
+  - handler: OnbtmRxCPressed
+    form: Ui0OneRefeditMulticol
+    analysisTitle: RxC Table
+  categories:
+  - Contingency Table Analysis
+- key: ScatterPlotMatrix
+  title: Scatter Plot Matrix
+  slug: scatter-plot-matrix
+  short: "**Includes:** Scatter plot matrix, Optional correlation coefficients, Optional\
+    \ regression lines.  \nQuickly explore pairwise relationships among many variables."
+  ribbonIds:
+  - btm2_7ScatPlotMat
+  onActions:
+  - OnbtmScatterPlotMatPressed
+  forms:
+  - handler: OnbtmScatterPlotMatPressed
+    form: Ui11PCA
+    analysisTitle: null
+  categories:
+  - Graphics
+- key: SingleProportion
+  title: Sample Size – Single Proportion
+  slug: sample-size-single-proportion
+  short: "**Includes:** Sample size for a single proportion test.  \nEstimate required\
+    \ sample size for testing a single proportion against a null value."
+  ribbonIds:
+  - btn9_3SingleProp
+  onActions:
+  - OnbtmSinglePropPressed
+  forms:
+  - handler: OnbtmSinglePropPressed
+    form: Ui12SampleSizeTtestSingleProp
+    analysisTitle: Sample Size - Single Proportion
+  categories:
+  - Sample Size
+- key: SkillingsMackTest
+  title: Skillings-Mack Test
+  slug: skillings-mack-test
+  short: "**Includes:** Skillings–Mack test (handles missing values).  \nNonparametric\
+    \ test for block designs like Friedman, but robust to missing observations."
+  ribbonIds:
+  - btm4_6Skilling
+  onActions:
+  - OnbtmSkillingsMackPressed
+  forms:
+  - handler: OnbtmSkillingsMackPressed
+    form: Ui0OneRefeditMulticol
+    analysisTitle: Skillings-Mack Test
+  categories:
+  - Nonparametric
+- key: SpearmanRankCorrelation
+  title: Spearman Rank Correlation
+  slug: spearman-rank-correlation
+  short: "**Includes:** Spearman’s ρ (rank correlation), p-value / CI where applicable.\
+    \  \nMeasure monotonic association between two variables using ranks (robust to\
+    \ non-normality and outliers)."
+  ribbonIds:
+  - btm4_7Spearman
+  onActions:
+  - OnbtmSpearmanPressed
+  forms:
+  - handler: OnbtmSpearmanPressed
+    form: UiTwoInputRefedits
+    analysisTitle: Spearman Rank Correlation
+  categories:
+  - Nonparametric
+- key: Symmetry
+  title: Symmetry
+  slug: symmetry
+  short: "**Includes:** Miao–Gel–Gastwirth test, Cabilio–Masaro test, Asymmetry plot\
+    \ (optional).  \nEvaluate whether a distribution is symmetric around its center\
+    \ and visualize asymmetry when needed."
+  ribbonIds:
+  - btm1_4Symmetry
+  onActions:
+  - OnbtmSymmetryPressed
+  forms:
+  - handler: OnbtmSymmetryPressed
+    form: UibyID
+    analysisTitle: Symmetry
+  categories:
+  - Assumptions
+- key: TheilSenSimpleRegression
+  title: Theil-Sen Simple Regression
+  slug: theil-sen-simple-regression
+  short: "**Includes:** Median slope (Theil–Sen), CI at the selected level (Sen/large-sample approx.),\
+    \ Robust intercept.  \nUse when you want a robust simple linear trend estimate\
+    \ that resists outliers."
+  ribbonIds:
+  - btm4_9TheilSen
+  onActions:
+  - OnbtmTheilSenPressed
+  forms:
+  - handler: OnbtmTheilSenPressed
+    form: UiTwoInputRefedits
+    analysisTitle: Theil-Sen Simple Regression
+  categories:
+  - Nonparametric
+- key: TwoWayNestedANOVA
+  title: Two-Way Nested ANOVA
+  slug: two-way-nested-anova
+  short: "**Includes:** Two-way nested ANOVA, Balanced design check, Satterthwaite\
+    \ approximation.  \nAnalyze hierarchical (nested) designs such as subjects nested\
+    \ within centers, with appropriate variance decomposition."
+  ribbonIds:
+  - btm3_5TwoWayNested
+  onActions:
+  - Onbtm2WayNestedPressed
+  forms:
+  - handler: Onbtm2WayNestedPressed
+    form: Ui9ANOVA2nested
+    analysisTitle: null
+  categories:
+  - Parametric
+- key: UnivariateOutliers
+  title: Univariate Outliers
+  slug: univariate-outliers
+  short: "**Includes:** Grubbs’ test (single outlier), Rosner / generalized ESD (multiple\
+    \ outliers).  \nIdentify statistically unusual values in a single variable, with\
+    \ options suited to one or multiple outliers."
+  ribbonIds:
+  - btm1_2Outliers
+  onActions:
+  - OnbtmOutliersPressed
+  forms:
+  - handler: OnbtmOutliersPressed
+    form: UibyID
+    analysisTitle: Outliers
+  categories:
+  - Assumptions
+- key: UnpairedTwoSampleTTests
+  title: Unpaired (two sample) T tests
+  slug: unpaired-two-sample-t-tests
+  short: "**Includes:** Pooled-variance t-test, Welch t-test, F-test for variances\
+    \ (optional).  \nCompare two independent groups under (or relaxing) the equal-variance\
+    \ assumption."
+  ribbonIds:
+  - btm3_2UnpairedT
+  onActions:
+  - OnbtmUnpairedTPressed
+  forms:
+  - handler: OnbtmUnpairedTPressed
+    form: UibyID
+    analysisTitle: Unpaired T-test
+  categories:
+  - Parametric
+- key: UnpairedTTest
+  title: Sample Size – Unpaired T-test
+  slug: sample-size-unpaired-t-test
+  short: "**Includes:** Sample size for unpaired t-test (with group ratio κ).  \n\
+    Estimate required sample sizes per group for a two-sample t-test given effect\
+    \ size, SD, α and power."
+  ribbonIds:
+  - btn9_2UnPairedT
+  onActions:
+  - OnbtmSampleSizeUnPairedTPressed
+  forms:
+  - handler: OnbtmSampleSizeUnPairedTPressed
+    form: Ui12SampleSizeTtestSingleProp
+    analysisTitle: Sample Size - Unpaired T-test
+  categories:
+  - Sample Size
+- key: WilcoxonSignedRankTest
+  title: Wilcoxon Signed Rank Test
+  slug: wilcoxon-signed-rank-test
+  short: "**Includes:** Exact p-values (when available), Normal approximation (ties\
+    \ + continuity correction), Hodges–Lehmann shift estimate, Sign test (optional).\
+    \  \nNonparametric paired comparison test for matched samples or before/after\
+    \ measurements."
+  ribbonIds:
+  - btm4_2Wilcoxon
+  onActions:
+  - OnbtmWilcoxonPressed
+  forms:
+  - handler: OnbtmWilcoxonPressed
+    form: UiTwoInputRefedits
+    analysisTitle: Wilcoxon Signed Rank Test
+  categories:
+  - Nonparametric
+- key: XYZ3DScatterplot
+  title: XYZ 3D Scatterplot
+  slug: xyz-3d-scatterplot
+  short: "**Includes:** 3D scatter plot (X,Y,Z), Optional group coloring, Optional\
+    \ point labels, Rotation/zoom + plane projections (optional).  \nVisualize three-dimensional\
+    \ relationships with interactive rotation controls."
+  ribbonIds:
+  - btm2_6XYZ
+  onActions:
+  - OnbtmXYZPressed
+  forms:
+  - handler: OnbtmXYZPressed
+    form: Ui3XYZplot
+    analysisTitle: null
+  categories:
+  - Graphics
+- key: ZeroInflatedPoissonRegression
+  title: Zero-Inflated Poisson Regression
+  slug: zero-inflated-poisson-regression
+  short: "**Includes:** ZIP model (Poisson count + logistic inflation part), separate\
+    \ authored effects for the Poisson and Logistic components, categorical factors,\
+    \ polynomial terms, continuous-variable interactions, EM-style fitting (with iterations/ε),\
+    \ optional starting values for both parts.  \nModel count data with excess zeros\
+    \ by combining a Poisson model with a separate zero-inflation process."
+  ribbonIds:
+  - btm7_6ZIP
+  onActions:
+  - OnbtmZeroPressed
+  forms:
+  - handler: OnbtmZeroPressed
+    form: UiGLM
+    analysisTitle: Zero-Inflated Poisson Regression
+  categories:
+  - Regression
+- key: PassingBablokRegression
+  title: Passing–Bablok Regression
+  slug: passing-bablok-regression
+  short: "**Includes:** Passing–Bablok nonparametric linear regression for method comparison, slope/intercept estimates, confidence intervals, and robust handling of outliers.  \nUse when comparing two measurement methods without assuming normal errors or homoscedasticity."
+  ribbonIds:
+  - btn10_1PassingBablok
+  onActions:
+  - OnbtmPassingBablok
+  forms:
+  - handler: OnbtmPassingBablok
+    form: Ui9ANOVA2nested
+    analysisTitle: Passing-Bablok Regression
+  categories:
+  - Agreement
+- key: DemingRegression
+  title: Deming Regression
+  slug: deming-regression
+  short: "**Includes:** Deming (errors-in-variables) regression with configurable error ratio (λ), point estimates and confidence intervals.  \nUse when both X and Y have measurement error and you want a symmetric method-comparison regression."
+  ribbonIds:
+  - btn10_2Deming
+  onActions:
+  - OnbtmDeming
+  forms:
+  - handler: OnbtmDeming
+    form: UiTwoInputRefedits
+    analysisTitle: Deming Regression
+  categories:
+  - Agreement
+- key: IntraclassCorrelationCoefficients
+  title: Intraclass Correlation Coefficients
+  slug: intraclass-correlation-coefficients
+  short: "**Includes:** ICC(1,1), ICC(1,k), ICC(2,1), ICC(2,k), ICC(3,1), ICC(3,k) with confidence intervals.  \nQuantify reliability/agreement of measurements across raters/replicates using standard ICC families."
+  ribbonIds:
+  - btn10_3icc
+  onActions:
+  - OnbtmIcc
+  forms:
+  - handler: OnbtmIcc
+    form: Ui0OneRefeditMulticol
+    analysisTitle: Intraclass Correlation Coefficients
+  categories:
+  - Agreement
+categories:
+- name: Assumptions
+  items:
+  - ref: NormalityTests
+    ribbonId: btm1_1Normaility
+    title: Normality Tests
+    slug: normality-tests
+  - ref: UnivariateOutliers
+    ribbonId: btm1_2Outliers
+    title: Univariate Outliers
+    slug: univariate-outliers
+  - ref: HomogeneityOfVariance
+    ribbonId: btm1_3HomogeneityVar
+    title: Homogeneity of Variance
+    slug: homogeneity-of-variance
+  - ref: Symmetry
+    ribbonId: btm1_4Symmetry
+    title: Symmetry
+    slug: symmetry
+  - ref: DescriptiveStatistics
+    ribbonId: btm1_5Desc
+    title: Descriptive Statistics
+    slug: descriptive-statistics
+- name: Graphics
+  items:
+  - ref: Histogram
+    ribbonId: btm2_1Histogram
+    title: Histogram
+    slug: histogram
+  - ref: BoxAndWhiskers
+    ribbonId: btm2_2Box
+    title: Box and Whiskers
+    slug: box-and-whiskers
+  - ref: ROCCurve
+    ribbonId: btm2_3ROC
+    title: ROC Curve
+    slug: roc-curve
+  - ref: KaplanMeierPlot
+    ribbonId: btm2_4KM
+    title: Kaplan-Meier Plot
+    slug: kaplan-meier-plot
+  - ref: NormalPlot
+    ribbonId: btm2_5Normal
+    title: Normal Plot
+    slug: normal-plot
+  - ref: XYZ3DScatterplot
+    ribbonId: btm2_6XYZ
+    title: XYZ 3D Scatterplot
+    slug: xyz-3d-scatterplot
+  - ref: ScatterPlotMatrix
+    ribbonId: btm2_7ScatPlotMat
+    title: Scatter Plot Matrix
+    slug: scatter-plot-matrix
+- name: Parametric
+  items:
+  - ref: PairedSingleSampleTTests
+    ribbonId: btm3_1PairedT
+    title: Paired (single sample) T tests
+    slug: paired-single-sample-t-tests
+  - ref: UnpairedTwoSampleTTests
+    ribbonId: btm3_2UnpairedT
+    title: Unpaired (two sample) T tests
+    slug: unpaired-two-sample-t-tests
+  - ref: OneWayANOVA
+    ribbonId: btm3_3OneWayANOVA
+    title: One-Way ANOVA
+    slug: one-way-anova
+  - ref: OneWayRepeatedMeasuresANOVA
+    ribbonId: btm3_4OneWayRMANOVA
+    title: One-Way Repeated-Measures ANOVA
+    slug: one-way-repeated-measures-anova
+  - ref: TwoWayNestedANOVA
+    ribbonId: btm3_5TwoWayNested
+    title: Two-Way Nested ANOVA
+    slug: two-way-nested-anova
+- name: Nonparametric
+  items:
+  - ref: MannWhitneyTest
+    ribbonId: btm4_1MannWhiteny
+    title: Mann-Whitney Test
+    slug: mann-whitney-test
+  - ref: WilcoxonSignedRankTest
+    ribbonId: btm4_2Wilcoxon
+    title: Wilcoxon Signed Rank Test
+    slug: wilcoxon-signed-rank-test
+  - ref: KruskalWallisTest
+    ribbonId: btm4_3KruskallWalis
+    title: Kruskal-Wallis Test
+    slug: kruskal-wallis-test
+  - ref: FriedmanTest
+    ribbonId: btm4_4Friedman
+    title: Friedman Test
+    slug: friedman-test
+  - ref: CochranSQTest
+    ribbonId: btm4_5CochranQ
+    title: Cochran's Q Test
+    slug: cochrans-q-test
+  - ref: SkillingsMackTest
+    ribbonId: btm4_6Skilling
+    title: Skillings-Mack Test
+    slug: skillings-mack-test
+  - ref: SpearmanRankCorrelation
+    ribbonId: btm4_7Spearman
+    title: Spearman Rank Correlation
+    slug: spearman-rank-correlation
+  - ref: KendallSRankCorrelation
+    ribbonId: btm4_8Kendall
+    title: Kendall's Rank Correlation
+    slug: kendalls-rank-correlation
+  - ref: TheilSenSimpleRegression
+    ribbonId: btm4_9TheilSen
+    title: Theil-Sen Simple Regression
+    slug: theil-sen-simple-regression
+- name: Contingency Table Analysis
+  items:
+  - ref: T2x2Table
+    ribbonId: btm5_12x2
+    title: 2x2 Table
+    slug: 2x2-table
+  - ref: RxCTable
+    ribbonId: btm5_2RxC
+    title: RxC Table
+    slug: rxc-table
+  - ref: MantelHaenszelTest
+    ribbonId: btm5_3Mantel
+    title: Mantel-Haenszel Test
+    slug: mantel-haenszel-test
+  - ref: Proportions
+    ribbonId: btm5_4Proportions
+    title: Proportions
+    slug: proportions
+  - ref: CorrespondenceAnalysis
+    ribbonId: btm5_5CA
+    title: Correspondence Analysis
+    slug: correspondence-analysis
+- name: Survival Analysis
+  items:
+  - ref: KaplanMeierPlot
+    ribbonId: btm6_1KM
+    title: Kaplan-Meier Plot
+    slug: kaplan-meier-plot
+  - ref: LogrankTest
+    ribbonId: btm6_2Logrank
+    title: Logrank Test
+    slug: logrank-test
+  - ref: CoxRegression
+    ribbonId: btm6_3Cox
+    title: Cox Regression
+    slug: cox-regression
+- name: Regression
+  items:
+  - ref: MultipleLinearRegressionLM
+    ribbonId: btm7_1LM
+    title: Multiple Linear Regression (LM)
+    slug: multiple-linear-regression-lm
+  - ref: GeneralizedLinearModelsGLM
+    ribbonId: btm7_2GLM
+    title: Generalized Linear Models (GLM)
+    slug: generalized-linear-models-glm
+  - ref: NegativeBinomialRegressionNB2
+    ribbonId: btm7_3GLM_NB2
+    title: Negative Binomial Regression (NB2)
+    slug: negative-binomial-regression-nb2
+  - ref: GeneralizedEstimatingEquationsGEE
+    ribbonId: btm7_4_GEE
+    title: Generalized Estimating Equations (GEE)
+    slug: generalized-estimating-equations-gee
+  - ref: CoxRegression
+    ribbonId: btm7_5Cox
+    title: Cox Regression
+    slug: cox-regression
+  - ref: ZeroInflatedPoissonRegression
+    ribbonId: btm7_6ZIP
+    title: Zero-Inflated Poisson Regression
+    slug: zero-inflated-poisson-regression
+  - ref: MultinomialLogisticRegression
+    ribbonId: btm7_7MultiLogit
+    title: Multinomial Logistic Regression
+    slug: multinomial-logistic-regression
+  - ref: OrdinalLogisticRegression
+    ribbonId: btm7_8OrdLogit
+    title: Ordinal Logistic Regression
+    slug: ordinal-logistic-regression
+- name: Multivariate Analysis
+  items:
+  - ref: HotellingSTSquaredTest
+    ribbonId: btn8_1Hotteling
+    title: Hotelling's T-Squared Test
+    slug: hotellings-t-squared-test
+  - ref: PrincipalComponentAnalysis
+    ribbonId: btn8_2PCA
+    title: Principal Component Analysis
+    slug: principal-component-analysis
+  - ref: CorrespondenceAnalysis
+    ribbonId: btm8_3CA
+    title: Correspondence Analysis
+    slug: correspondence-analysis
+  - ref: MultipleCorrespondenceAnalysis
+    ribbonId: btm8_4MCA
+    title: Multiple Correspondence Analysis
+    slug: multiple-correspondence-analysis
+- name: Sample Size
+  items:
+  - ref: PairedTTest
+    ribbonId: btn9_1PairedT
+    title: Paired T-test
+    slug: paired-t-test
+  - ref: UnpairedTTest
+    ribbonId: btn9_2UnPairedT
+    title: Unpaired T-test
+    slug: unpaired-t-test
+  - ref: SingleProportion
+    ribbonId: btn9_3SingleProp
+    title: Single Proportion
+    slug: single-proportion
+  - ref: IndependentProportions
+    ribbonId: btn9_4IndProp
+    title: Independent Proportions
+    slug: independent-proportions
+- name: Agreement
+  items:
+  - ref: PassingBablokRegression
+    ribbonId: btn10_1PassingBablok
+    title: Passing–Bablok Regression
+    slug: passing-bablok-regression
+  - ref: DemingRegression
+    ribbonId: btn10_2Deming
+    title: Deming Regression
+    slug: deming-regression
+  - ref: IntraclassCorrelationCoefficients
+    ribbonId: btn10_3icc
+    title: Intraclass Correlation Coefficients
+    slug: intraclass-correlation-coefficients
