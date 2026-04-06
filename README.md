@@ -144,7 +144,6 @@ BESHStatNG is under active development.
 
 Current priorities include:
 
-- improving release quality and public packaging
 - expanding documentation and worked examples
 - strengthening UDF discoverability and formula workflows
 - extending agreement, validation, and study-planning functionality
