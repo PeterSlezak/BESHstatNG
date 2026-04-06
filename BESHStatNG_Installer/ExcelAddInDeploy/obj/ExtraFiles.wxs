@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Fragment>
+    <DirectoryRef Id="AddinFolder">
+      <Directory Id="Logs_DIR" Name="Logs" />
+    </DirectoryRef>
+  </Fragment>
+  <Fragment>
+    <ComponentGroup Id="ExtraDistributables">
+      <Component Guid="{B2D37AE1-CEDF-42FF-8742-89B721860AF2}" Directory="Logs_DIR">
+        <RegistryValue Root="HKCU" Key="Software\beshstat\BESHstatNG\ExtraFiles\Logs" Name="Installed" Type="string" Value="1" KeyPath="yes" />
+        <File Id="Fil_Logs_all.log" Source="C:\Users\peter\Dropbox\dotNET\BESHStatNG\BESHStatNG\bin\Release\Logs\all.log" />
+        <RemoveFile Id="Remove_Logs_all.log" Name="all.log" On="uninstall" />
+        <File Id="Fil_Logs_err.log" Source="C:\Users\peter\Dropbox\dotNET\BESHStatNG\BESHStatNG\bin\Release\Logs\err.log" />
+        <RemoveFile Id="Remove_Logs_err.log" Name="err.log" On="uninstall" />
+        <File Id="Fil_Logs_errwarn.log" Source="C:\Users\peter\Dropbox\dotNET\BESHStatNG\BESHStatNG\bin\Release\Logs\errwarn.log" />
+        <RemoveFile Id="Remove_Logs_errwarn.log" Name="errwarn.log" On="uninstall" />
+        <RemoveFolder Id="RemoveFolder_Logs" Directory="Logs_DIR" On="uninstall" />
+      </Component>
+      <Component Guid="{F6074E14-BE2F-3591-85FF-FFBE2FBF5343}" Directory="AddinFolder">
+        <RegistryValue Root="HKCU" Key="Software\beshstat\BESHstatNG\ExtraFiles" Name="Installed" Type="string" Value="1" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>

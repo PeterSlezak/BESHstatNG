@@ -1,0 +1,77 @@
+﻿<Project Sdk="WixToolset.Sdk/4.0.1">
+  <PropertyGroup>
+    <!-- The platform below can also be changed to "x64" (then also change Visual Studio solution platform config)
+         It determines what bitness the installer has, affecting what versions of Windows it will work on.
+         Both an x86 and an x64 installer will install the right add-in (32-bit or 64-bit) according to the bitness of Excel.
+         But an x64 installer won't run on 32-bit Windows, so we prefer x86 here which can run everywhere.
+    -->
+    <Platform>x86</Platform>
+    <EnableDefaultEmbeddedResourceItems>false</EnableDefaultEmbeddedResourceItems>
+    <SuppressIces>ICE91</SuppressIces> <!-- We install per-user only, so don't complain about ALLUSERS problems -->
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\InstallerCA\InstallerCA.csproj">
+      <Name>InstallerCA</Name>
+      <Project>{f135d7b8-747c-4c4f-a9fc-1f3a25fbd403}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Banner.jpg" />
+    <Content Include="Resources\Dialog.jpg" />
+    <Content Include="Resources\EULA.rtf" />
+    <Content Include="Resources\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.UI.wixext" Version="4.0.1" />
+    <PackageReference Include="WixToolset.NetFx.wixext" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EnglishLoc.wxl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Generate-ExtrafilesWxs.ps1" />
+  </ItemGroup>
+
+	<!-- Product version taken from parent/parent folder Directory.Build.props -->
+	<PropertyGroup>
+		<DefineConstants>
+			$(DefineConstants);
+			ProductVersion=$(BeshVersion);
+		</DefineConstants>
+	</PropertyGroup>
+
+	<!-- Final output .msi file name  -->
+	<PropertyGroup>
+		<OutputName>$(MSBuildProjectName)-$(BeshVersion3)</OutputName>
+	</PropertyGroup>
+	
+	<!-- For the add-in output directory, we create a property and expose as a variable to WiX -->
+    <PropertyGroup>
+		<!-- Parent directory of the solution -->
+        <!-- First parent -->
+        <SolutionParentDir> $([System.IO.Directory]::GetParent('$(SolutionDir)').FullName)</SolutionParentDir>
+        <!-- Parent of the parent -->
+        <SolutionGrandParentDir>$([System.IO.Directory]::GetParent('$(SolutionParentDir)').FullName)</SolutionGrandParentDir>
+		<AddinPublishDir>$([System.IO.Path]::Combine('$(SolutionGrandParentDir)', 'BESHStatNG', 'bin', 'Release'))</AddinPublishDir>
+
+		<DefineConstants>$(DefineConstants);AddinPublishDir=$(AddinPublishDir)</DefineConstants>
+		<ExtraFilesRegKeyBase>Software\beshstat\BESHstatNG\ExtraFiles</ExtraFilesRegKeyBase>
+	</PropertyGroup>
+
+  <!-- Generate the .wxs -->
+  <Target Name="GenerateExtraFilesWxs" BeforeTargets="CoreCompile">
+    <Exec Command="powershell.exe -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Generate-ExtraFilesWxs.ps1&quot; -PublishDir &quot;$(AddinPublishDir)&quot; -OutputWxs &quot;$(MSBuildProjectDirectory)\obj\ExtraFiles.wxs&quot; -RegKeyBase &quot;$(ExtraFilesRegKeyBase)&quot;" />
+  </Target>
+  <!-- Include the generated file for compilation -->
+  <ItemGroup>
+    <Compile Include="obj\ExtraFiles.wxs" />
+  </ItemGroup>
+
+</Project>

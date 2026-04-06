@@ -1,0 +1,22 @@
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:bal="http://wixtoolset.org/schemas/v4/wxs/bal">
+  <Bundle Name="BESHStatNGAddInDeploy" Manufacturer="www.beshstat.eu" Version="1.0.0.0" UpgradeCode="a8232bfc-a6ce-4fec-bb1b-512acf92c528" >
+    <!--Name="..." Version="..." Manufacturer="..." UpgradeCode="..." Copyright="..." IconSourceFile="..." AboutUrl="...">-->
+
+    <BootstrapperApplication>
+      <bal:WixStandardBootstrapperApplication LicenseFile="Resources\EULA.rtf" LogoFile="Resources\Icon.ico" Theme="rtfLicense" />
+    </BootstrapperApplication>
+
+	  <Chain>
+	      <!-- <MsiPackage SourceFile="BESHStatNGAddInDeploy.msi" />-->
+		  <!-- 
+		      MSBuild automatically exposes these variables to WiX:
+			  $(var.BESHStatNGAddInDeploy.TargetDir)
+			  $(var.BESHStatNGAddInDeploy.TargetName)
+			  $(var.BESHStatNGAddInDeploy.TargetPath) ← full path including versioned filename
+			  So the bundle always picks up the correct MSI file
+		  -->
+		  <MsiPackage SourceFile="$(var.BESHStatNGAddInDeploy.TargetPath)" />
+	  </Chain>
+
+  </Bundle>
+</Wix>

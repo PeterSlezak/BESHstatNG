@@ -1,0 +1,71 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\peter\\Dropbox\\dotNET\\BESHStatNG\\BESHStatNG_Installer\\ExcelAddInBundle\\BESHStatNGAddInBundle.wixproj": {}
+  },
+  "projects": {
+    "C:\\Users\\peter\\Dropbox\\dotNET\\BESHStatNG\\BESHStatNG_Installer\\ExcelAddInBundle\\BESHStatNGAddInBundle.wixproj": {
+      "version": "0.5.8",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\peter\\Dropbox\\dotNET\\BESHStatNG\\BESHStatNG_Installer\\ExcelAddInBundle\\BESHStatNGAddInBundle.wixproj",
+        "projectName": "BESHStatNGAddInBundle",
+        "projectPath": "C:\\Users\\peter\\Dropbox\\dotNET\\BESHStatNG\\BESHStatNG_Installer\\ExcelAddInBundle\\BESHStatNGAddInBundle.wixproj",
+        "packagesPath": "C:\\Users\\peter\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\peter\\Dropbox\\dotNET\\BESHStatNG\\BESHStatNG_Installer\\ExcelAddInBundle\\obj\\",
+        "projectStyle": "PackageReference",
+        "UsingMicrosoftNETSdk": false,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\peter\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "native"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.jason": {}
+        },
+        "frameworks": {
+          "native": {
+            "targetAlias": "native",
+            "projectReferences": {}
+          }
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "native": {
+          "targetAlias": "native",
+          "dependencies": {
+            "WixToolset.Bal.wixext": {
+              "target": "Package",
+              "version": "[4.0.1, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-arm64": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}

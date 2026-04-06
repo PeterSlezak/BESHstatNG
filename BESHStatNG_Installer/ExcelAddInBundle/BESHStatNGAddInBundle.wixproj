@@ -1,0 +1,16 @@
+﻿<Project Sdk="WixToolset.Sdk/4.0.1">
+  <PropertyGroup>
+    <OutputType>Bundle</OutputType>
+    <OutputName>$(MSBuildProjectName)-$(BeshVersion3)</OutputName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="Resources\EULA.rtf" />
+    <Content Include="Resources\Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WixToolset.Bal.wixext" Version="4.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExcelAddInDeploy\BESHStatNGAddInDeploy.wixproj" />
+  </ItemGroup>
+</Project>
