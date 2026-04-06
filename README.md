@@ -138,7 +138,7 @@ BESHStatNG.sln
 README.md
 ```
 
-##Notes
+## Notes
 
 - BESHStatNG.sln is the main solution for the Excel add-in itself.
 - BESHStatNG.Test contains the separate test solution and supporting reference material.
