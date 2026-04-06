@@ -1,0 +1,19 @@
+<Project>
+  <PropertyGroup>
+    <!-- Single source of truth (4-part) -->
+    <BeshVersion>0.6.3.0</BeshVersion>
+
+    <!-- .NET versioning -->
+    <Version>$(BeshVersion)</Version>
+    <AssemblyVersion>$(BeshVersion)</AssemblyVersion>
+    <FileVersion>$(BeshVersion)</FileVersion>
+    <InformationalVersion>$(BeshVersion)</InformationalVersion>
+
+    <!-- Derive MSI 3-part version (drop the 4th part) -->
+    <BeshVersion3>$([System.Version]::Parse('$(BeshVersion)').ToString(3))</BeshVersion3>
+
+    <!-- Docs version folder (pick one) -->
+    <HelpVersion>v$(BeshVersion)</HelpVersion>
+    <!-- or if you prefer docs per MSI version: v$(BeshVersion3) -->
+  </PropertyGroup>
+</Project>
