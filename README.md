@@ -138,6 +138,14 @@ BESHStatNG.sln
 README.md
 ```
 
+##Notes
+
+- BESHStatNG.sln is the main solution for the Excel add-in itself.
+- BESHStatNG.Test contains the separate test solution and supporting reference material.
+- BESHStatNG_Help_MkDocs contains the source for the published online documentation.
+- BESHStatNG_Installer contains the installer/build packaging projects.
+- .github/assets stores screenshots and other media used by the GitHub landing page.
+
 ## Intended users
 
 BESHStatNG is especially useful for:
