@@ -1,11 +1,15 @@
 # What's New
 
-## version 0.6.x.0 (2026-04-xx)
+## version 0.6.5.0 (2026-04-11)
 
 - Excel user defined functions exposed (4th batch including multiple linear regression model, generalized linear model, GLM NB2 with dispersion parameter estimation, Zero-Inflated Poisson regression, GEE)
-- Adition of new methods:
-  - the Cluster analysis including K-means clustering, and Hierarchical clustering with dendogram
+- Addition of new methods:
+  - the Cluster analysis including K-means clustering, and Hierarchical clustering with dendrogram
   - Exploratory Factor analysis
+  - Weighted Deming Regression
+  - Weighted kappa
+  - Lin CCC
+  - Bland–Altman
 
 
 ## version 0.5.8.0 (2026-03-29)

@@ -16,7 +16,7 @@ Excel Function Wizard category (e.g. `BESHStatNG - Nonparametric`).
 | [Parametric](parametric.md) | Worksheet functions in this category. | 8 | [One Way Anova](../methods/one-way-anova.md), [Two Way Nested Anova](../methods/two-way-nested-anova.md), [One Way Repeated Measures Anova](../methods/one-way-repeated-measures-anova.md), [Paired T Tests](../methods/paired-t-tests.md), [Unpaired Two Sample T Tests](../methods/unpaired-two-sample-t-tests.md) |
 | [Regression Models](regression-models.md) | Worksheet functions in this category. | 49 | [Regression Formula Syntax](regression-formula-syntax.md), [Generalized Estimating Equations Gee](../methods/generalized-estimating-equations-gee.md), [Negative Binomial Regression Nb2](../methods/negative-binomial-regression-nb2.md), [Generalized Linear Models Glm](../methods/generalized-linear-models-glm.md), [Multiple Linear Regression Lm](../methods/multiple-linear-regression-lm.md), [Multinomial Logistic Regression](../methods/multinomial-logistic-regression.md), [Ordinal Logistic Regression](../methods/ordinal-logistic-regression.md), [Zero Inflated Poisson Regression](../methods/zero-inflated-poisson-regression.md) |
 | [Sample Size](sample-size.md) | Worksheet functions in this category. | 4 | [Sample Size Independent Proportions](../methods/sample-size-independent-proportions.md), [Sample Size Single Proportion](../methods/sample-size-single-proportion.md), [Sample Size Paired T Test](../methods/sample-size-paired-t-test.md), [Sample Size Unpaired T Test](../methods/sample-size-unpaired-t-test.md) |
-| [Survival](survival.md) | Worksheet functions in this category. | 10 | [Cox Regression](../methods/cox-regression.md), [Regression Formula Syntax](regression-formula-syntax.md), [Logrank Test](../methods/logrank-test.md), [Kaplan Meier Plot](../methods/kaplan-meier-plot.md) |
+| [Survival](survival.md) | Worksheet functions in this category. | 11 | [Cox Regression](../methods/cox-regression.md), [Regression Formula Syntax](regression-formula-syntax.md), [Logrank Test](../methods/logrank-test.md), [Kaplan Meier Plot](../methods/kaplan-meier-plot.md) |
 
 ## Function index
 
@@ -161,6 +161,7 @@ See: [Sample Size UDFs](sample-size.md)
 ### Survival
 
 - `BESH.SURV.COX_BASELINE` — Returns baseline survival or cumulative hazard from a fitted Cox model.
+- `BESH.SURV.COX_DROP` — Removes a fitted Cox model handle from memory.
 - `BESH.SURV.COX_FIT` — Fits a Cox proportional hazards model and returns a handle for use with other COX_* functions.
 - `BESH.SURV.COX_PRED` — Computes predictions from a fitted Cox model (linear predictor, risk, survival, or cumulative hazard).
 - `BESH.SURV.COX_RESID` — Returns residual diagnostics for a fitted Cox model.

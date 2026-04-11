@@ -51,6 +51,39 @@ Baseline quantities are model-based estimates and therefore inherit the assumpti
 =BESH.SURV.COX_BASELINE(F2,"survival")
 ```
 
+## BESH.SURV.COX_DROP
+
+Removes a fitted Cox model handle from memory.
+
+**Function wizard:** Removes a fitted Cox model handle from memory.
+
+### Syntax
+
+`=BESH.SURV.COX_DROP(handle)`
+
+### Parameters
+
+- **handle** — A model handle previously returned by `BESH.SURV.COX_FIT`.
+
+### Returns
+
+TRUE if the handle existed and was removed successfully; otherwise FALSE.
+
+### Notes
+
+Cox model handles are stored only for the current Excel session so that related worksheet functions can reuse the fitted model without repeating the estimation step.
+This function removes the cached model when it is no longer needed.
+
+Removing unused handles can help reduce memory use in large workbooks or after repeated model fitting during exploratory analysis.
+Once a handle has been removed, it can no longer be used by other Cox-related worksheet functions.
+
+### Example
+
+```
+
+=BESH.SURV.COX_DROP(F2)
+```
+
 ## BESH.SURV.COX_FIT
 
 Fits a Cox proportional hazards regression model and returns a reusable model handle.

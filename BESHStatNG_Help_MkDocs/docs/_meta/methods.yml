@@ -874,7 +874,7 @@ methods:
 - key: DemingRegression
   title: Deming Regression
   slug: deming-regression
-  short: "**Includes:** Deming (errors-in-variables) regression with configurable error ratio (λ), point estimates and confidence intervals.  \nUse when both X and Y have measurement error and you want a symmetric method-comparison regression."
+  short: "**Includes:** Deming (errors-in-variables) regression with configurable error ratio (λ), weighted/generalized variance models, point estimates and confidence intervals.  \nUse when both X and Y have measurement error and you want a symmetric method-comparison regression."
   ribbonIds:
   - btn10_2Deming
   onActions:
@@ -883,6 +883,48 @@ methods:
   - handler: OnbtmDeming
     form: UiTwoInputRefedits
     analysisTitle: Deming Regression
+  categories:
+  - Agreement
+- key: BlandAltman
+  title: Bland–Altman Analysis
+  slug: bland-altman
+  short: "**Includes:** Simple paired Bland–Altman analysis, repeated-measures Bland–Altman by subject, bias and limits of agreement (LoA), analytical / jackknife / bootstrap confidence intervals, optional proportional-bias check, raw-difference / percentage / log-ratio scales, several x-axis conventions, and Bland–Altman plots with optional subject means."
+  ribbonIds:
+  - Ui9ANOVA2nested
+  onActions:
+  - OnbtmBlandAltman
+  forms:
+  - handler: OnbtmBlandAltman
+    form: Ui9ANOVA2nested
+    analysisTitle: Bland–Altman Analysis
+  categories:
+  - Agreement
+- key: LinsCCC
+  title: Lin's Concordance Correlation Coefficient
+  slug: lins-ccc
+  short: "**Includes:** Lin CCC, Pearson r, bias-correction factor Cb, analytical or bootstrap confidence intervals, null-concordance test, and identity-line plot."
+  ribbonIds:
+  - UiTwoInputRefedits
+  onActions:
+  - OnbtmLCCC
+  forms:
+  - handler: OnbtmLCCC
+    form: UiTwoInputRefedits
+    analysisTitle: Lin's Concordance Correlation Coefficient
+  categories:
+  - Agreement
+- key: CohensKappa
+  title: Cohen's / Weighted Kappa
+  slug: cohens-kappa
+  short: "**Includes:** Cohen's / weighted kappa for paired categorical ratings, with unweighted, linear, quadratic, Cicchetti–Allison, and Fleiss–Cohen weighting schemes; analytical and bootstrap confidence intervals; confusion-matrix output; and weight-matrix output."
+  ribbonIds:
+  - UiTwoInputRefedits
+  onActions:
+  - OnbtmCohenKappa
+  forms:
+  - handler: OnbtmCohenKappa
+    form: UiTwoInputRefedits
+    analysisTitle: Cohen's / Weighted Kappa
   categories:
   - Agreement
 - key: IntraclassCorrelationCoefficients

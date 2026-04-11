@@ -380,13 +380,48 @@ In practice, the random-start setting usually matters more than fine-tuning tole
 
 #### Random seed
 
+This field controls the pseudo-random generator used for stochastic parts of the k-means workflow, including random or k-means++ style initialization.
+
+You may either:
+
+- enter an explicit seed in the form, or
+- leave it blank.
+
+##### Seed precedence
+
+K-Means clustering now resolves the seed as follows:
+
+1. **explicit seed entered in the K-Means form**
+2. otherwise **Global Settings → Default Random Seed**
+3. otherwise a **time-based seed**
+
+So the global default seed is used only when the K-Means seed box is left blank.
+
+##### When to set a seed
+
 Set a seed when:
 
-- you want fully reproducible runs,
-- you are writing a report or teaching material,
-- you want to compare results across software or parameter settings.
+- you want reproducible cluster assignments,
+- you want reproducible random starts for comparisons,
+- you are debugging or validating the clustering workflow,
+- you are preparing documentation or publication material and want exact reruns.
 
-Leave it unset when you simply want a fresh random search each run.
+##### When to leave it blank
+
+Leave the field blank when:
+
+- you want a fresh stochastic initialization each run,
+- you do not need exact reproducibility.
+
+##### Output reporting
+
+The results sheet reports the **effective seed actually used**.
+
+This means the reported seed may come from:
+
+- the explicit seed entered in the form,
+- the global default random seed,
+- or a time-based seed if neither was supplied.
 
 ### 6) Empty-cluster handling
 
@@ -472,7 +507,7 @@ Includes:
 - Standardization
 - MissingValuePolicy
 - EmptyClusterHandling
-- RandomSeed
+- **RandomSeed** — the effective pseudo-random seed actually used for the clustering run
 
 ### 2) K-Means Fit Summary
 

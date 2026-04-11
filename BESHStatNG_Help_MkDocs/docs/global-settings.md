@@ -48,6 +48,60 @@ This default alpha is currently used for:
 !!! example
     If you set **Default Alpha = 0.10**, then supported dialogs will open with a default **90% confidence interval** instead of 95%.
 
+### 3) Default Random Seed
+
+This value defines the **global default pseudo-random seed** used by workflows that rely on randomization, resampling, or stochastic initialization **when no explicit method-level seed is supplied**.
+
+Leave this field **blank** if you want BESHStatNG to use a time-based seed instead.
+
+Valid input:
+
+- any valid **32-bit integer**
+- blank = **no deterministic default seed**
+- value `0` should be avoided; in the settings normalization logic it is treated as **unset**
+
+### How the seed is resolved
+
+BESHStatNG now follows this precedence:
+
+1. **Explicit method seed**, if the workflow exposes one and the user enters it
+2. otherwise **Global Settings → Default Random Seed**
+3. otherwise a **time-based seed**
+
+This means the global seed is especially useful for workflows that support stochastic behavior but **do not show a dedicated seed box in their own dialog**.
+
+### Where the global default seed is currently used
+
+At the time of writing, the global default seed is used by:
+
+- **Bland–Altman** bootstrap confidence intervals
+- **Deming Regression** bootstrap confidence intervals
+- **Lin’s Concordance Correlation Coefficient** bootstrap confidence intervals
+- **Cohen’s / Weighted Kappa** bootstrap confidence intervals
+- **K-Means Clustering** when the optional method-level seed box is left blank
+
+### Why this setting is useful
+
+Use a global default seed when you want:
+
+- reproducible bootstrap confidence intervals across sessions,
+- reproducible stochastic clustering starts,
+- consistent results while validating or comparing analyses,
+- easier debugging of results that depend on resampling.
+
+### Important interpretation note
+
+A fixed seed does **not** change the statistical method itself.  
+It only makes the pseudo-random sequence reproducible.
+
+For example:
+
+- bootstrap percentile limits should be reproducible across runs with the same seed,
+- random-start clustering should initialize the same way across runs with the same seed.
+
+!!! example
+    If you set **Default Random Seed = 123456789**, then supported bootstrap-based agreement methods and k-means clustering (when no explicit seed is entered there) will produce reproducible pseudo-random behavior across runs and sessions.
+
 ## Settings currently shown but not active
 
 Some builds may display controls that are currently disabled, such as **Decimal Places for P-value Presenting**.
