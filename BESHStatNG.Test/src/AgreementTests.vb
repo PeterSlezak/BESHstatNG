@@ -446,61 +446,219 @@ Public Class Agreement_Tests
                                                      End Sub)
     End Sub
 
-    ' ---------------- Deming regression ----------------
+    ' ---------------- Bland–Altman ----------------
 
     <TestMethod>
-    Public Sub Deming_point_and_CI_on_perfect_line()
+    Public Sub BlandAltman_simple_pairs_returns_expected_bias_and_limits()
+        Dim x() As Double = {1, 2, 3, 4, 5}
+        Dim y() As Double = {2, 3, 4, 5, 6}
+        Dim opts As New Agreement.BlandAltmanOptions With {
+            .Mode = Agreement.RepeatedBlandAltmanMode.SimplePairs,
+            .Scale = Agreement.BlandAltmanScale.RawDifference,
+            .XAxisMode = Agreement.BlandAltmanXAxisMode.MeanOfMethods,
+            .CheckProportionalBias = False,
+            .CiMethod = Agreement.AgreementCiMethod.Analytical
+        }
+
+        Dim ba As New Agreement.BlandAltmanAgreement(x, y, "x", "y", opts)
+        Dim res = ba.Fit()
+
+        Assert.IsFalse(res.UsedRepeatedModel, "Expected ordinary Bland–Altman mode.")
+        AssertAlmostEqual(1.0, res.BiasCI.Estimate, TOL, "BA bias")
+        AssertAlmostEqual(0.0, res.SdDifference, TOL, "BA SD(diff)")
+        AssertAlmostEqual(1.0, res.LowerLoACI.Estimate, TOL, "BA lower LoA")
+        AssertAlmostEqual(1.0, res.UpperLoACI.Estimate, TOL, "BA upper LoA")
+        Assert.AreEqual(5, res.ObservationCount, "BA observation count")
+    End Sub
+
+    <TestMethod>
+    Public Sub BlandAltman_repeated_by_subject_uses_within_subject_variance()
+        Dim x() As Double = {10, 10, 20, 20}
+        Dim y() As Double = {11, 12, 20, 21}
+        Dim sids() As Object = {"A", "A", "B", "B"}
+
+        Dim opts As New Agreement.BlandAltmanOptions With {
+            .Mode = Agreement.RepeatedBlandAltmanMode.RepeatedBySubject,
+            .SubjectIds = sids,
+            .Scale = Agreement.BlandAltmanScale.RawDifference,
+            .CheckProportionalBias = False,
+            .AllowFallbackToSimple = False,
+            .CiMethod = Agreement.AgreementCiMethod.Analytical
+        }
+
+        Dim ba As New Agreement.BlandAltmanAgreement(x, y, "x", "y", opts)
+        Dim res = ba.Fit()
+
+        Dim expectedSw As Double = Math.Sqrt(0.5)
+        Dim expectedLower As Double = 1.0 - 1.96 * expectedSw
+        Dim expectedUpper As Double = 1.0 + 1.96 * expectedSw
+
+        Assert.IsTrue(res.UsedRepeatedModel, "Expected repeated-measures Bland–Altman mode.")
+        Assert.AreEqual(2, res.SubjectCount, "Repeated BA subject count")
+        AssertAlmostEqual(1.0, res.BiasCI.Estimate, TOL, "Repeated BA bias")
+        AssertAlmostEqual(expectedSw, res.WithinSubjectSD, TOL_CI, "Repeated BA within-subject SD")
+        AssertAlmostEqual(expectedLower, res.LowerLoACI.Estimate, TOL_CI, "Repeated BA lower LoA")
+        AssertAlmostEqual(expectedUpper, res.UpperLoACI.Estimate, TOL_CI, "Repeated BA upper LoA")
+    End Sub
+
+    ' ---------------- Lin concordance correlation ----------------
+
+    <TestMethod>
+    Public Sub LinCCC_matches_independent_reference_calculation()
+        Dim x() As Double = {1, 2, 3, 4, 5}
+        Dim y() As Double = {1.1, 1.9, 3.2, 3.8, 5.1}
+        Dim opts As New Agreement.LinConcordanceOptions With {
+            .Alpha = 0.05,
+            .CiMethod = Agreement.AgreementCiMethod.Analytical,
+            .NullConcordance = 0.0
+        }
+
+        Dim lc As New Agreement.LinConcordanceCorrelation(x, y, "x", "y", opts)
+        Dim res = lc.Fit()
+
+        AssertAlmostEqual(0.9944951179, res.ConcordanceCI.Estimate, TOL_CI, "Lin CCC estimate")
+        AssertAlmostEqual(0.9945856655, res.PearsonR, TOL_CI, "Lin Pearson r")
+        AssertAlmostEqual(0.9999089595, res.BiasCorrectionFactor, TOL_CI, "Lin bias correction factor")
+        AssertAlmostEqual(-0.0126783720, res.LocationShift, TOL_CI, "Lin location shift")
+        AssertAlmostEqual(1.0046319853, res.ScaleShift, TOL_CI, "Lin scale shift")
+        AssertAlmostEqual(0.9154774013, res.ConcordanceCI.LowerLimit, 0.0001, "Lin CCC CI lower")
+        AssertAlmostEqual(0.9996547853, res.ConcordanceCI.UpperLimit, 0.0001, "Lin CCC CI upper")
+        AssertAlmostEqual(4.1666343990, res.HypothesisTest.TestStatistics1, 0.0001, "Lin CCC z statistic")
+    End Sub
+
+    ' ---------------- Weighted kappa ----------------
+
+    <TestMethod>
+    Public Sub WeightedKappa_unweighted_matches_manual_reference()
+        Dim r1() As Object = {1, 1, 2, 2, 3, 3}
+        Dim r2() As Object = {1, 2, 2, 2, 3, 1}
+        Dim opts As New Agreement.KappaOptions With {
+            .Weighting = Agreement.KappaWeightingScheme.Unweighted,
+            .CiMethod = Agreement.AgreementCiMethod.Analytical,
+            .Categories = New Object() {1, 2, 3}
+        }
+
+        Dim wk As New Agreement.WeightedKappaAgreement(r1, r2, "r1", "r2", opts)
+        Dim res = wk.Fit()
+
+        AssertAlmostEqual(0.5, res.KappaCI.Estimate, TOL_CI, "Unweighted kappa")
+        AssertAlmostEqual(4.0 / 6.0, res.ObservedAgreement, TOL_CI, "Observed agreement")
+        AssertAlmostEqual(1.0 / 3.0, res.ExpectedAgreement, TOL_CI, "Expected agreement")
+        AssertAlmostEqual(4.0 / 6.0, res.WeightedObservedAgreement, TOL_CI, "Weighted observed agreement for unweighted case")
+        AssertAlmostEqual(1.0 / 3.0, res.WeightedExpectedAgreement, TOL_CI, "Weighted expected agreement for unweighted case")
+        Assert.AreEqual(3, res.Categories.Length, "Kappa category count")
+        Assert.AreEqual(3, res.ConfusionMatrix.GetLength(0), "Kappa confusion matrix rows")
+        Assert.AreEqual(3, res.ConfusionMatrix.GetLength(1), "Kappa confusion matrix columns")
+    End Sub
+
+    <TestMethod>
+    Public Sub WeightedKappa_linear_matches_manual_reference()
+        Dim r1() As Object = {1, 1, 2, 2, 3, 3}
+        Dim r2() As Object = {1, 2, 2, 2, 3, 1}
+        Dim opts As New Agreement.KappaOptions With {
+            .Weighting = Agreement.KappaWeightingScheme.Linear,
+            .CiMethod = Agreement.AgreementCiMethod.Analytical,
+            .Categories = New Object() {1, 2, 3}
+        }
+
+        Dim wk As New Agreement.WeightedKappaAgreement(r1, r2, "r1", "r2", opts)
+        Dim res = wk.Fit()
+
+        AssertAlmostEqual(0.4, res.KappaCI.Estimate, TOL_CI, "Linear weighted kappa")
+        AssertAlmostEqual(0.75, res.WeightedObservedAgreement, TOL_CI, "Linear weighted observed agreement")
+        AssertAlmostEqual(7.0 / 12.0, res.WeightedExpectedAgreement, TOL_CI, "Linear weighted expected agreement")
+    End Sub
+
+    ' ---------------- Weighted / generalized Deming regression ----------------
+
+    <TestMethod>
+    Public Sub WeightedDeming_constant_lambda_preserves_legacy_perfect_line_behavior()
         Dim x() As Double = {1, 2, 3, 4, 5}
         Dim y() As Double = {2, 4, 6, 8, 10}
-        Dim d As New Agreement.Agreement.DemingRegression(x, y, "x", "y")
+        Dim d As New Agreement.WeightedDemingRegression(x, y, "x", "y")
         d.Lambda = 1.0
         d.alpha = 0.05
 
         Dim est = d.FitPointEstimate()
-        AssertAlmostEqual(2.0, est.Slope, TOL, "Deming slope")
-        AssertAlmostEqual(0.0, est.Intercept, TOL, "Deming intercept")
+        AssertAlmostEqual(2.0, est.Slope, TOL, "Weighted Deming slope")
+        AssertAlmostEqual(0.0, est.Intercept, TOL, "Weighted Deming intercept")
 
         Dim ci = d.FitJackknifeCI()
-        AssertAlmostEqual(2.0, ci.SlopeCI.Estimate, TOL, "Deming slope CI estimate")
-        AssertAlmostEqual(0.0, ci.InterceptCI.Estimate, TOL, "Deming intercept CI estimate")
-
-        ' Perfect line => jackknife SE should be ~0, CI collapses.
-        AssertAlmostEqual(0.0, d.SlopeSE, TOL, "Deming slope SE")
-        AssertAlmostEqual(0.0, d.InterceptSE, TOL, "Deming intercept SE")
-        AssertAlmostEqual(2.0, ci.SlopeCI.LowerLimit, TOL, "Deming slope L")
-        AssertAlmostEqual(2.0, ci.SlopeCI.UpperLimit, TOL, "Deming slope U")
-        AssertAlmostEqual(0.0, ci.InterceptCI.LowerLimit, TOL, "Deming intercept L")
-        AssertAlmostEqual(0.0, ci.InterceptCI.UpperLimit, TOL, "Deming intercept U")
+        AssertAlmostEqual(2.0, ci.SlopeCI.Estimate, TOL, "Weighted Deming slope CI estimate")
+        AssertAlmostEqual(0.0, ci.InterceptCI.Estimate, TOL, "Weighted Deming intercept CI estimate")
+        AssertAlmostEqual(0.0, d.SlopeSE, TOL, "Weighted Deming slope SE")
+        AssertAlmostEqual(0.0, d.InterceptSE, TOL, "Weighted Deming intercept SE")
+        AssertAlmostEqual(2.0, ci.SlopeCI.LowerLimit, TOL, "Weighted Deming slope L")
+        AssertAlmostEqual(2.0, ci.SlopeCI.UpperLimit, TOL, "Weighted Deming slope U")
+        AssertAlmostEqual(0.0, ci.InterceptCI.LowerLimit, TOL, "Weighted Deming intercept L")
+        AssertAlmostEqual(0.0, ci.InterceptCI.UpperLimit, TOL, "Weighted Deming intercept U")
     End Sub
 
     <TestMethod>
-    Public Sub Deming_constructor_and_parameter_validation()
+    Public Sub WeightedDeming_constant_CV_point_estimate_on_perfect_line()
+        Dim x() As Double = {1, 2, 3, 4, 5}
+        Dim y() As Double = {2, 4, 6, 8, 10}
+        Dim opts As New Agreement.DemingOptions With {
+            .VarianceModel = Agreement.DemingVarianceModel.ConstantCV,
+            .CVx = 0.1,
+            .CVy = 0.2,
+            .FitIntercept = True
+        }
+        Dim d As New Agreement.WeightedDemingRegression(x, y, "x", "y", opts)
+        Dim est = d.FitPointEstimate()
+
+        AssertAlmostEqual(2.0, est.Slope, TOL_CI, "Constant CV slope")
+        AssertAlmostEqual(0.0, est.Intercept, TOL_CI, "Constant CV intercept")
+    End Sub
+
+    <TestMethod>
+    Public Sub WeightedDeming_known_pointwise_sd_handles_filtered_pairs()
+        Dim x() As Double = {1, 2, Double.NaN, 4, 5}
+        Dim y() As Double = {2, 4, Double.NaN, 8, 10}
+        Dim opts As New Agreement.DemingOptions With {
+            .VarianceModel = Agreement.DemingVarianceModel.KnownPointwiseSD,
+            .SDx = New Double() {0.1, 0.1, 0.1, 0.1, 0.1},
+            .SDy = New Double() {0.2, 0.2, 0.2, 0.2, 0.2},
+            .FitIntercept = True
+        }
+        Dim d As New Agreement.WeightedDemingRegression(x, y, "x", "y", opts)
+        Dim est = d.FitPointEstimate()
+
+        AssertAlmostEqual(2.0, est.Slope, TOL_CI, "Known-pointwise-SD slope")
+        AssertAlmostEqual(0.0, est.Intercept, TOL_CI, "Known-pointwise-SD intercept")
+    End Sub
+
+    <TestMethod>
+    Public Sub WeightedDeming_constructor_and_parameter_validation()
         Dim x() As Double = {1, 2}
         Dim y() As Double = {1, 2}
         Assert.ThrowsException(Of ArgumentException)(Sub()
-                                                         Dim tmp = New Agreement.Agreement.DemingRegression(x, y, "x", "y")
+                                                         Dim tmp = New Agreement.WeightedDemingRegression(x, y, "x", "y")
                                                      End Sub)
 
         Dim x2() As Double = {1, 2, 3}
         Dim y2() As Double = {1, 2, 3}
-        Dim d As New Agreement.Agreement.DemingRegression(x2, y2, "x", "y")
-        d.Lambda = 0.0
-        Assert.ThrowsException(Of ArgumentOutOfRangeException)(Sub() d.FitJackknifeCI())
+        Dim d As New Agreement.WeightedDemingRegression(x2, y2, "x", "y")
+
+        Assert.ThrowsException(Of ArgumentOutOfRangeException)(
+                        Sub()
+                            d.Lambda = 0.0
+                        End Sub)
 
         d.Lambda = 1.0
-        d.alpha = 1.0
-        Assert.ThrowsException(Of ArgumentOutOfRangeException)(Sub() d.FitJackknifeCI())
+        Assert.ThrowsException(Of ArgumentOutOfRangeException)(
+                    Sub()
+                        d.alpha = 1.0
+                    End Sub)
     End Sub
 
     <TestMethod>
-    Public Sub Deming_analyticalCI_throws_when_Sxy_zero()
-        ' y constant => Sxy = 0
+    Public Sub WeightedDeming_analyticalCI_throws_when_Sxy_zero()
         Dim x() As Double = {1, 2, 3, 4}
         Dim y() As Double = {5, 5, 5, 5}
-        Dim d As New Agreement.Agreement.DemingRegression(x, y, "x", "y")
+        Dim d As New Agreement.WeightedDemingRegression(x, y, "x", "y")
         d.Lambda = 1.0
         d.alpha = 0.05
         Assert.ThrowsException(Of InvalidOperationException)(Sub() d.DemingAnalyticalCI())
     End Sub
-
 End Class
