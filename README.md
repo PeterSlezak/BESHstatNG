@@ -131,8 +131,8 @@ BESHStatNG.sln
               /Help/            help-link mapping and help integration
            tools/               helper scripts
 /BESHStatNG.Test/               unittest project
-/BESHStatNG_Help_MkDocs         mkdocs documetnation source files
-/BESHStatNG_Installer           wix installer
+/BESHStatNG_Help_MkDocs/        mkdocs documetnation source files
+/BESHStatNG_Installer/          wix installer
 /tools
 /.github
 README.md
