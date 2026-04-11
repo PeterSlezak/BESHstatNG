@@ -104,7 +104,6 @@ Public Class UiGLM
         Me.lbAllColumns.Anchor = Windows.Forms.AnchorStyles.Left Or
                                  Windows.Forms.AnchorStyles.Bottom Or
                                  Windows.Forms.AnchorStyles.Top
-        'Me.lbWeights.Anchor = Windows.Forms.AnchorStyles.Right Or Windows.Forms.AnchorStyles.Left
         Me.lbY.Anchor = Windows.Forms.AnchorStyles.Left Or
                         Windows.Forms.AnchorStyles.Right Or
                         Windows.Forms.AnchorStyles.Top

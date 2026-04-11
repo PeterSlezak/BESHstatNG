@@ -420,7 +420,6 @@ Public Module RegressionDesignCore
                 Dim displayBase As String = If(baseDisplayNames.ContainsKey(bk), baseDisplayNames(bk), GetCoefBaseName(bk))
                 predictorNames.Add(If(String.IsNullOrWhiteSpace(coefName), displayBase & "^" & CStr(degree), coefName))
 
-                'Dim gName As String = GetCoefBaseName(bk)
                 Dim gName As String = displayBase
                 If Not groups.ContainsKey(gName) Then groups(gName) = New List(Of Integer)
                 groups(gName).Add(nextLmXCol)
@@ -1103,6 +1102,7 @@ Public Module RegressionDesignCore
                                          omitCategoricalReference:=omitCategoricalReference)
     End Function
 
+
     ''' <summary>
     ''' Build custom term groups for LinearModel.Fit() term-wise ANOVA.
     ''' Column indices refer to the design matrix X inside LinearModel (i.e. include intercept shift).
@@ -1112,8 +1112,9 @@ Public Module RegressionDesignCore
     '''  - Interaction: one term per interaction (DisplayNameForCoef by default).
     ''' </summary>
     Public Function BuildCustomTermGroupsForLm(effectItems As IEnumerable,
-                                               termSpecs As Dictionary(Of String, TermSpec),
-                                               includeIntercept As Boolean) As Dictionary(Of String, Integer())
+                                           termSpecs As Dictionary(Of String, TermSpec),
+                                           includeIntercept As Boolean,
+                                           Optional rawBaseDisplayNames As IDictionary(Of String, String) = Nothing) As Dictionary(Of String, Integer())
 
         Dim groups As New Dictionary(Of String, List(Of Integer))(StringComparer.Ordinal)
         Dim colOffset As Integer = If(includeIntercept, 1, 0)
@@ -1123,10 +1124,6 @@ Public Module RegressionDesignCore
             groups("Intercept") = New List(Of Integer) From {0}
         End If
 
-        'For base-name disambiguation across duplicate headers
-        Dim baseNameToKeys As New Dictionary(Of String, List(Of String))(StringComparer.Ordinal)
-        Dim baseKeyToGroupName As New Dictionary(Of String, String)(StringComparer.Ordinal)
-
         'For interaction-name collision handling
         Dim usedGroupNames As New HashSet(Of String)(StringComparer.Ordinal)
         If includeIntercept Then usedGroupNames.Add("Intercept")
@@ -1135,6 +1132,15 @@ Public Module RegressionDesignCore
         For Each obj As Object In effectItems
             effects.Add(CStr(obj))
         Next
+
+        Dim baseDisplayNames As New Dictionary(Of String, String)(StringComparer.Ordinal)
+        If rawBaseDisplayNames IsNot Nothing Then
+            For Each kvp As KeyValuePair(Of String, String) In rawBaseDisplayNames
+                Dim resolvedName As String = If(kvp.Value, String.Empty).Trim()
+                If resolvedName = String.Empty Then resolvedName = GetCoefBaseName(kvp.Key)
+                baseDisplayNames(kvp.Key) = resolvedName
+            Next
+        End If
 
         For e As Integer = 0 To effects.Count - 1
             Dim effKey As String = effects(e)
@@ -1160,7 +1166,7 @@ Public Module RegressionDesignCore
             If String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
                 'Interaction term name for ANOVA
                 If String.IsNullOrEmpty(coefName) Then
-                    coefName = MakeInteractionCoefName(baseKeys)
+                    coefName = MakeResolvedInteractionDisplayName(baseKeys, baseDisplayNames)
                 End If
                 groupName = coefName
 
@@ -1176,47 +1182,23 @@ Public Module RegressionDesignCore
                 End If
 
             Else
-                'MainEffect or Polynomial -> group by base variable (so poly joins main)
+                'MainEffect or Polynomial -> group by the user-facing base variable name (so poly joins main)
                 Dim baseKey As String = baseKeys(0)
-                Dim baseName As String = GetCoefBaseName(baseKey)
+                Dim baseDisplayName As String = Nothing
 
-                If Not baseNameToKeys.ContainsKey(baseName) Then
-                    baseNameToKeys(baseName) = New List(Of String)
-                End If
-
-                Dim list As List(Of String) = baseNameToKeys(baseName)
-
-                If Not list.Contains(baseKey) Then
-                    list.Add(baseKey)
-
-                    'If this baseName now maps to multiple different baseKeys, disambiguate ALL
-                    If list.Count >= 2 Then
-                        For Each bk As String In list
-                            Dim desired As String = baseName & " (" & ExtractVarSuffix(bk) & ")"
-
-                            If baseKeyToGroupName.ContainsKey(bk) Then
-                                Dim oldName As String = baseKeyToGroupName(bk)
-                                'Rename existing group if it used the ambiguous baseName
-                                If oldName = baseName AndAlso groups.ContainsKey(oldName) Then
-                                    groups(desired) = groups(oldName)
-                                    groups.Remove(oldName)
-                                End If
-                                baseKeyToGroupName(bk) = desired
-                            Else
-                                baseKeyToGroupName(bk) = desired
-                            End If
-                        Next
-                    End If
-                End If
-
-                'Pick groupName for this baseKey
-                If baseKeyToGroupName.ContainsKey(baseKey) Then
-                    groupName = baseKeyToGroupName(baseKey)
+                If baseDisplayNames.ContainsKey(baseKey) Then
+                    baseDisplayName = baseDisplayNames(baseKey)
+                ElseIf Not String.IsNullOrWhiteSpace(coefName) AndAlso Not String.Equals(kind, "Polynomial", StringComparison.OrdinalIgnoreCase) Then
+                    baseDisplayName = coefName
                 Else
-                    groupName = baseName
-                    baseKeyToGroupName(baseKey) = groupName
+                    baseDisplayName = GetCoefBaseName(baseKey)
                 End If
 
+                If String.IsNullOrWhiteSpace(baseDisplayName) Then
+                    baseDisplayName = GetCoefBaseName(baseKey)
+                End If
+
+                groupName = baseDisplayName
             End If
 
             usedGroupNames.Add(groupName)
@@ -1236,9 +1218,10 @@ Public Module RegressionDesignCore
     End Function
 
     Public Function BuildCategoricalReferenceFootnotesForLm(raw As glmData,
-                                                        effectItems As IEnumerable,
-                                                        termSpecs As Dictionary(Of String, TermSpec),
-                                                        includeIntercept As Boolean) As List(Of String)
+                                                    effectItems As IEnumerable,
+                                                    termSpecs As Dictionary(Of String, TermSpec),
+                                                    includeIntercept As Boolean,
+                                                    Optional rawBaseDisplayNames As IDictionary(Of String, String) = Nothing) As List(Of String)
 
         Dim notes As New List(Of String)
 
@@ -1254,7 +1237,17 @@ Public Module RegressionDesignCore
             rawIndex(rawXKeys(j)) = j + 1
         Next
 
-        Dim baseDisplayNames As Dictionary(Of String, String) = BuildLmBaseDisplayNameMap(effectItems, termSpecs)
+        Dim baseDisplayNames As New Dictionary(Of String, String)(StringComparer.Ordinal)
+        If rawBaseDisplayNames IsNot Nothing Then
+            For Each kvp As KeyValuePair(Of String, String) In rawBaseDisplayNames
+                Dim resolvedName As String = If(kvp.Value, String.Empty).Trim()
+                If resolvedName = String.Empty Then resolvedName = GetCoefBaseName(kvp.Key)
+                baseDisplayNames(kvp.Key) = resolvedName
+            Next
+        End If
+        If baseDisplayNames.Count = 0 Then
+            baseDisplayNames = BuildLmBaseDisplayNameMap(effectItems, termSpecs)
+        End If
         Dim seen As New HashSet(Of String)(StringComparer.Ordinal)
 
         For Each obj As Object In effectItems

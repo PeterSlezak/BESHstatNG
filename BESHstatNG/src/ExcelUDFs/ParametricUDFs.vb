@@ -77,8 +77,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 mdl.compute()
                 Dim tables = mdl.wrapResults()
                 Return PrepareResultTableForUdf(tables(0).returnSelf())
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.ANOVA1", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -147,8 +147,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 t.AddHeaderLeftRow({"Welch ANOVA"})
                 t.AddHeaderTopRow({"Source", "df numerator", "df denominator", "F", "P-value"})
                 Return PrepareResultTableForUdf(t.returnSelf())
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.ANOVA1_WELCH", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -211,7 +211,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                If Not UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
@@ -237,8 +237,8 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim tables = mdl.wrapResults()
                 Return PrepareResultTableForUdf(tables(0).returnSelf())
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.RMANOVA1", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -324,8 +324,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 Else
                     Return ExcelError.ExcelErrorValue
                 End If
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.ANOVA2_NESTED", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -430,8 +430,8 @@ Namespace BESHStatNG.WorksheetFunctions
                     Case Else
                         Return ExcelError.ExcelErrorValue
                 End Select
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.ANOVA1_MCP", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -481,7 +481,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                If Not UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
@@ -520,8 +520,8 @@ Namespace BESHStatNG.WorksheetFunctions
                     Case Else
                         Return ExcelError.ExcelErrorValue
                 End Select
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.RMANOVA1_MCP", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -600,7 +600,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadIndependentNumericColumns(x, y, data, detectedNames) Then
+                If Not UDFhelpers.TryReadIndependentNumericColumns(x, y, data, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
@@ -627,8 +627,8 @@ Namespace BESHStatNG.WorksheetFunctions
                     Case Else
                         Return ExcelError.ExcelErrorValue
                 End Select
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.TTEST_UNPAIRED", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -688,9 +688,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadPairedNumericColumns(x, y, mat, detectedNames) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
+                If Not UDFhelpers.TryReadPairedNumericColumns(x, y, mat, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If mat Is Nothing OrElse mat.GetLength(0) < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(varNames, detectedNames, 2, "Sample")
@@ -698,8 +696,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 mdl.compute()
                 Dim tables = mdl.wrapResults()
                 Return PrepareResultTableForUdf(tables(0).returnSelf())
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.TTEST_PAIRED", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -745,25 +743,6 @@ Namespace BESHStatNG.WorksheetFunctions
             Return out
         End Function
 
-        Private Function IsMissingArg(v As Object) As Boolean
-            Return v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty
-        End Function
-
-        ''' <summary>
-        ''' Normalizes an optional text argument for case-insensitive method matching.
-        ''' </summary>
-        ''' <param name="v">The input value to normalize.</param>
-        ''' <returns>
-        ''' An upper-case, trimmed string representation of <paramref name="v"/>.
-        ''' Returns an empty string for missing, empty, or null-like Excel arguments.
-        ''' </returns>
-        Friend Function NormalizeText(v As Object) As String
-            If IsMissingArg(v) Then Return ""
-            Dim s As String = Convert.ToString(v)
-            If s Is Nothing Then Return ""
-            Return s.Trim().ToUpperInvariant()
-        End Function
-
         ''' <summary>
         ''' Resolves a final set of display names for groups or conditions.
         ''' </summary>
@@ -806,219 +785,6 @@ Namespace BESHStatNG.WorksheetFunctions
                 fallback(i) = prefix & " " & (i + 1).ToString()
             Next
             Return fallback
-        End Function
-
-        Private Function LooksLikeHeaderRow(arr As Object(,), numericCols As Integer()) As Boolean
-            Dim rows As Integer = arr.GetLength(0)
-            If rows < 2 Then Return False
-
-            Dim anyNonNumeric As Boolean = False
-            For Each c In numericCols
-                If Not TryGetDouble(arr(0, c)).HasValue Then
-                    anyNonNumeric = True
-                    Exit For
-                End If
-            Next
-            If Not anyNonNumeric Then Return False
-
-            For Each c In numericCols
-                Dim foundNumericBelow As Boolean = False
-                For r As Integer = 1 To rows - 1
-                    If TryGetDouble(arr(r, c)).HasValue Then
-                        foundNumericBelow = True
-                        Exit For
-                    End If
-                Next
-                If Not foundNumericBelow Then Return False
-            Next
-
-            Return True
-        End Function
-
-        Private Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean
-            If arr Is Nothing Then Return False
-            If arr.GetLength(1) <> 1 Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            If rows < 2 Then Return False
-            If TryGetDouble(arr(0, 0)).HasValue Then Return False
-
-            For r As Integer = 1 To rows - 1
-                If TryGetDouble(arr(r, 0)).HasValue Then Return True
-            Next
-
-            Return False
-        End Function
-
-        Private Function TryReadIndependentNumericColumns(x As Object, y As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
-            groups = Nothing
-            names = Nothing
-
-            Dim ax As Object(,) = UDFhelpers.Get2D(x)
-            Dim ay As Object(,) = UDFhelpers.Get2D(y)
-            If ax Is Nothing OrElse ay Is Nothing Then Return False
-            If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return False
-
-            Dim hasHeaderX As Boolean = LooksLikeSingleColumnHeader(ax)
-            Dim hasHeaderY As Boolean = LooksLikeSingleColumnHeader(ay)
-            Dim startRowX As Integer = If(hasHeaderX, 1, 0)
-            Dim startRowY As Integer = If(hasHeaderY, 1, 0)
-
-            Dim gx As New List(Of Double)
-            For r As Integer = startRowX To ax.GetLength(0) - 1
-                Dim d = TryGetDouble(ax(r, 0))
-                If d.HasValue Then gx.Add(d.Value)
-            Next
-
-            Dim gy As New List(Of Double)
-            For r As Integer = startRowY To ay.GetLength(0) - 1
-                Dim d = TryGetDouble(ay(r, 0))
-                If d.HasValue Then gy.Add(d.Value)
-            Next
-
-            groups = New Double()() {gx.ToArray(), gy.ToArray()}
-            names = New String() {
-                If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Group 1"),
-                If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Group 2")
-            }
-            Return True
-        End Function
-
-        Private Function TryReadPairedNumericColumns(x As Object, y As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
-            mat = Nothing
-            names = Nothing
-
-            Dim ax As Object(,) = UDFhelpers.Get2D(x)
-            Dim ay As Object(,) = UDFhelpers.Get2D(y)
-            If ax Is Nothing OrElse ay Is Nothing Then Return False
-            If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return False
-            If ax.GetLength(0) <> ay.GetLength(0) Then Return False
-
-            Dim hasHeaderX As Boolean = LooksLikeSingleColumnHeader(ax)
-            Dim hasHeaderY As Boolean = LooksLikeSingleColumnHeader(ay)
-            If hasHeaderX <> hasHeaderY Then Return False
-
-            names = New String() {
-                If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Sample 1"),
-                If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Sample 2")
-            }
-
-            Dim pairs As New List(Of Double())
-            For r As Integer = 0 To ax.GetLength(0) - 1
-                Dim dx = TryGetDouble(ax(r, 0))
-                Dim dy = TryGetDouble(ay(r, 0))
-                If dx.HasValue AndAlso dy.HasValue Then
-                    pairs.Add(New Double() {dx.Value, dy.Value})
-                End If
-            Next
-
-            If pairs.Count = 0 Then Return True
-
-            mat = New Double(pairs.Count - 1, 1) {}
-            For r As Integer = 0 To pairs.Count - 1
-                mat(r, 0) = pairs(r)(0)
-                mat(r, 1) = pairs(r)(1)
-            Next
-            Return True
-        End Function
-        Private Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
-            groups = Nothing
-            names = Nothing
-
-            Dim arr As Object(,) = TryCast(input, Object(,))
-            If arr Is Nothing Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If cols < 1 OrElse rows < 1 Then Return False
-
-            Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, Enumerable.Range(0, cols).ToArray())
-            Dim startRow As Integer = If(hasHeader, 1, 0)
-
-            Dim groupList As New List(Of Double())
-            Dim nameList As New List(Of String)
-
-            For c As Integer = 0 To cols - 1
-                Dim vals As New List(Of Double)
-                For r As Integer = startRow To rows - 1
-                    Dim d = TryGetDouble(arr(r, c))
-                    If d.HasValue Then vals.Add(d.Value)
-                Next
-                If vals.Count > 0 Then
-                    groupList.Add(vals.ToArray())
-                    If hasHeader Then
-                        nameList.Add(Convert.ToString(arr(0, c)).Trim())
-                    Else
-                        nameList.Add("Group " & (groupList.Count).ToString())
-                    End If
-                End If
-            Next
-
-            If groupList.Count < 2 Then Return False
-            groups = groupList.ToArray()
-            names = nameList.ToArray()
-            Return True
-        End Function
-
-        ''' <summary>
-        ''' Attempts to read a rectangular Excel input range as a complete numeric matrix,
-        ''' optionally using the first row as column headers.
-        ''' </summary>
-        ''' <param name="input">The Excel input value to parse.</param>
-        ''' <param name="mat">
-        ''' When this method returns <c>True</c>, contains the parsed numeric matrix.
-        ''' Rows containing any non-numeric or missing value are excluded.
-        ''' </param>
-        ''' <param name="names">
-        ''' When this method returns <c>True</c>, contains the resolved column names.
-        ''' If a header row is detected, its values are used; otherwise default condition names are generated.
-        ''' </param>
-        ''' <returns>
-        ''' <c>True</c> if a valid numeric matrix could be parsed; otherwise <c>False</c>.
-        ''' </returns>
-        Friend Function TryReadCompleteNumericMatrixWithHeaders(input As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
-            mat = Nothing
-            names = Nothing
-
-            Dim arr As Object(,) = TryCast(input, Object(,))
-            If arr Is Nothing Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows < 1 OrElse cols < 2 Then Return False
-
-            Dim numericCols As Integer() = Enumerable.Range(0, cols).ToArray()
-            Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, numericCols)
-            Dim startRow As Integer = If(hasHeader, 1, 0)
-
-            names = New String(cols - 1) {}
-            For c As Integer = 0 To cols - 1
-                names(c) = If(hasHeader, Convert.ToString(arr(0, c)).Trim(), "Condition " & (c + 1).ToString())
-            Next
-
-            Dim keepRows As New List(Of Double())
-            For r As Integer = startRow To rows - 1
-                Dim row(cols - 1) As Double
-                Dim ok As Boolean = True
-                For c As Integer = 0 To cols - 1
-                    Dim d = TryGetDouble(arr(r, c))
-                    If Not d.HasValue Then
-                        ok = False
-                        Exit For
-                    End If
-                    row(c) = d.Value
-                Next
-                If ok Then keepRows.Add(row)
-            Next
-
-            If keepRows.Count < 1 Then Return False
-            mat = New Double(keepRows.Count - 1, cols - 1) {}
-            For r As Integer = 0 To keepRows.Count - 1
-                For c As Integer = 0 To cols - 1
-                    mat(r, c) = keepRows(r)(c)
-                Next
-            Next
-            Return True
         End Function
 
         Private Function TryReadNestedThreeColumnData(input As Object, ByRef data(,) As Object, ByRef names() As String) As Boolean

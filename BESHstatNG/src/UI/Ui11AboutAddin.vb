@@ -40,7 +40,6 @@ Public Class Ui11AboutAddin
         Dim bRet As Boolean = False
         Try
             doc.Load(sUrl)
-            'Dim root As XmlNode = doc.FirstChild
             Dim currentVer As Xml.XmlNodeList = doc.SelectNodes("root/CurrentVersion/update")
             strNewVersion = currentVer(0).Attributes.GetNamedItem("version").Value
             If Me.IsNewerVersion(AppGlobals.gAddinVersion, strNewVersion) Then

@@ -106,10 +106,6 @@ Namespace graphics
                 .Values = ys
                 .Border.Weight = XlBorderWeight.xlThin
                 .Border.Color = RGB(ColorR, ColorG, ColorB)
-                '.Format.Line.Visible = True
-                '.Format.Line.Weight = 0.75
-                '.Format.Line.Visible = True
-                '.Format.Line.ForeColor.RGB = RGB(150, 0, 0)
 
                 'Make ring separators invisible
                 For i = 0 To Xs.Length - 1

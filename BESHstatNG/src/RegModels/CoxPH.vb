@@ -1,9 +1,11 @@
 ﻿Imports System
 Imports System.Collections.Generic
+Imports System.IO
 Imports System.Linq
 Imports System.Resources.ResXFileRef
 Imports System.Windows.Forms
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.regression
 Imports Microsoft.Office.Interop.Excel
 
 
@@ -549,6 +551,7 @@ Public Class CoxPH
     Public Function Fit(Optional method As TieMethod = TieMethod.Breslow,
                         Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                         Optional progressLbl As System.Windows.Forms.Label = Nothing) As CoxResult
+        AppGlobals.BSlogg.Debug($"COX.Fit start. method={method.ToString}; startParams={startParams}; maxIter={pmaxIter}; eps={pEps}; dataShape={Me.pRecords.Count}x{Me.pRecords(0).Covariates.Length}")
         Me.pMethod = method
         Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
         If Me.pRecords.Count = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Empty data"))
@@ -763,6 +766,7 @@ Public Class CoxPH
                                                              End Sub)
 
         Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
+        AppGlobals.BSlogg.Debug($"GLM.Fit completed. converged={Me.pConverged}; iterations={Me.pIterations}; logLikelihood={Me.pLogLikelihood}; compTime={Me.CompTime}")
         Return New CoxResult With {
                 .Coefficients = Me.pCoefficients,
                 .VarCov = Me.pVarCov,
@@ -2049,7 +2053,6 @@ Public Class CoxPH
         Dim res As New Dictionary(Of Integer, Double())
 
         ' 1) Get baseline hazard per stratum (match R basehaz / fitted Cox model)
-        'Dim baseline = ComputeBaseline()   ' Dictionary(stratum → List(Of BaselinePoint))
         Dim baseline = ComputeBaseline(bZeroBetas:=False)
 
         ' 2) For each subject: r_i = H0(t_i) * exp(eta)

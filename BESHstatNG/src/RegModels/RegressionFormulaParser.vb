@@ -5,6 +5,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Linq
+Imports BESHStatNG.AppInfrastructure
 
 ''' <summary>
 ''' Identifies the addressing mode used to resolve a formula variable reference.
@@ -332,6 +333,7 @@ Public Module RegressionFormulaParser
         errorMessage = Nothing
 
         If variableCatalog Is Nothing Then
+            AppGlobals.BSlogg.Trace($"TryParseFormulaToDesignSpec start. formula='{If(formulaText, String.Empty)}'; catalogVars={variableCatalog.Variables.Count}")
             errorMessage = "Variable catalog is required."
             Return False
         End If
@@ -339,6 +341,7 @@ Public Module RegressionFormulaParser
         Dim formula As String = If(formulaText, String.Empty).Trim()
         If formula = String.Empty Then
             designSpec = BuildDefaultMainEffectsDesignSpec(variableCatalog)
+            AppGlobals.BSlogg.Trace($"TryParseFormulaToDesignSpec defaulted to main effects. termCount={designSpec.EffectItems.Count}")
             Return True
         End If
 
@@ -357,12 +360,14 @@ Public Module RegressionFormulaParser
             Dim parsed As ParsedRegressionFormulaTerm = Nothing
             Dim parseErr As String = Nothing
             If Not TryParseSingleTerm(rawTerm, variableCatalog, parsed, parseErr) Then
+                AppGlobals.BSlogg.Debug($"TryParseFormulaToDesignSpec failed while parsing term '{rawTerm}'. {parseErr}")
                 errorMessage = parseErr
                 Return False
             End If
 
             Dim effectCountBefore As Integer = spec.EffectItems.Count
             If Not AppendTerm(spec, parsed, parseErr) Then
+                AppGlobals.BSlogg.Debug($"TryParseFormulaToDesignSpec failed while appending term '{rawTerm}'. {parseErr}")
                 errorMessage = parseErr
                 Return False
             End If
@@ -380,6 +385,7 @@ Public Module RegressionFormulaParser
         spec.NormalizedFormulaText = String.Join(" + ", normalizedTerms)
         spec.RequiredRawVarKeys = RegressionDesignCore.GetRequiredRawVarKeys(spec.EffectItems, spec.TermSpecs)
         designSpec = spec
+        AppGlobals.BSlogg.Trace($"TryParseFormulaToDesignSpec success. normalized='{spec.NormalizedFormulaText}'; termCount={spec.EffectItems.Count}; requiredRaw={If(spec.RequiredRawVarKeys Is Nothing, 0, spec.RequiredRawVarKeys.Count)}")
         Return True
     End Function
 

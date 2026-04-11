@@ -9,45 +9,73 @@ Imports Microsoft.Office.Interop.Excel 'Dim app As Application
 
 Public Class BESHStatAddIn
     Implements IExcelAddIn
-
     Public Sub AutoOpen() Implements IExcelAddIn.AutoOpen
         ' Store this for access from anywhere in my workflows: 
         ' https://groups.google.com/g/exceldna/c/1rScvDdeVOk/m/euij1L-VihoJ
         ExcelIntegration.RegisterUnhandledExceptionHandler(AddressOf UnhandledExceptionHandler)
+
         AppGlobals.app = ExcelDnaUtil.Application
         AppGlobals.gXllName = DirectCast(XlCall.Excel(XlCall.xlGetName), String)
         AppGlobals.gXllPath = Path.GetDirectoryName(AppGlobals.gXllName)
-        'AppGlobals.gLogFile = Path.Combine(AppGlobals.gXllPath, "Logs", "all.log")
-        'AppGlobals.gLogger = New AppGlobals.SimpleFileLogger(AppGlobals.gXllPath, GetType(BESHStatAddIn).FullName, resetTraceLog:=True)
-        'AppGlobals.BSlogg.Info("Logger started")
         AppGlobals.gLogFile = Path.Combine(AppGlobals.gXllPath, "Logs", "all.log")
         AppGlobals.gLogger = New AppGlobals.SimpleFileLogger(AppGlobals.gXllPath, GetType(BESHStatAddIn).FullName, resetTraceLog:=True)
 
-        AppGlobals.gSettingsStore = New AppInfrastructure.BeshStatNgSettingsStore(AppGlobals.gXllPath)
-        AppGlobals.ApplySettings(AppGlobals.gSettingsStore.Load())
+        AppGlobals.BSlogg.Info($"AutoOpen starting. Version={AppGlobals.gAddinVersion}; Build={AppGlobals.GetBuildDateIso()}; XllPath={AppGlobals.gXllPath}")
 
-        AppGlobals.BSlogg.Info("Logger started")
+        Try
+            AppGlobals.gSettingsStore = New AppInfrastructure.BeshStatNgSettingsStore(AppGlobals.gXllPath)
+            AppGlobals.ApplySettings(AppGlobals.gSettingsStore.Load())
+            AppGlobals.BSlogg.Info("Settings loaded successfully.")
+        Catch ex As Exception
+            AppGlobals.ApplySettings(New AppInfrastructure.BeshStatNgSettings())
+            AppGlobals.BSlogg.Error(ex, "Failed to load settings. Defaults were applied for this session.")
+        End Try
+
         AppGlobals.BSlogg.Info("Trace execution logging enabled = " & AppGlobals.TraceExecutionLoggingEnabled.ToString())
 
-        ' Background update check (non-blocking).
-        BESHStatUpdate.AutoUpdate.Start(4000)
+        Try
+            BESHStatUpdate.AutoUpdate.Start(4000)
+            AppGlobals.BSlogg.Debug("Background update check scheduled.")
+        Catch ex As Exception
+            AppGlobals.BSlogg.Error(ex, "Failed to schedule background update check.")
+        End Try
+
+        AppGlobals.BSlogg.Info("AutoOpen completed.")
     End Sub
 
     Public Sub AutoClose() Implements IExcelAddIn.AutoClose
         Try
+            AppGlobals.BSlogg.Info("AutoClose starting.")
+
             If AppGlobals.gLogger IsNot Nothing Then
                 AppGlobals.gLogger.Dispose()
                 AppGlobals.gLogger = Nothing
             End If
-        Catch
+        Catch ex As Exception
+            AppGlobals.BSlogg.Error(ex, "Error while closing the add-in.")
+        Finally
+            AppGlobals.app = Nothing
         End Try
-
-        AppGlobals.app = Nothing
     End Sub
 
     Private Function UnhandledExceptionHandler(exception As Object) As Object
-        Dim erForm As New Ui10ShowLog(DirectCast(exception, Exception))
-        erForm.Show()
+        Dim ex As Exception = TryCast(exception, Exception)
+        If ex Is Nothing Then
+            ex = New ApplicationException("Unhandled non-exception object received from Excel-DNA: " & If(exception, "<null>").ToString())
+        End If
+
+        AppGlobals.BSlogg.Error(ex, "Unhandled Excel-DNA exception")
+
+        Try
+            Dim erForm As New Ui10ShowLog(ex)
+            erForm.Show()
+        Catch uiEx As Exception
+            AppGlobals.BSlogg.Error(uiEx, "Failed to show the log window for an unhandled exception.")
+            MsgBox("An unhandled error occurred: " & ex.Message & vbCrLf & "Check the log for more information.",
+                   MsgBoxStyle.Exclamation,
+                   AppGlobals.gsAPP_TITLE)
+        End Try
+
         Return ExcelError.ExcelErrorValue
     End Function
 End Class
@@ -396,6 +424,45 @@ Public Class Ribbon
         mwForm.Show()
     End Sub
 
+    Public Sub OnbtmKMCPressed(control As IRibbonControl)
+        Dim sh As Worksheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
+        Else
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
+        End If
+        Dim mwForm As New Ui11PCA("K-Means Clustering", sh)
+        mwForm.Tag = HelpTopic.KMeansClustering
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmHCPressed(control As IRibbonControl)
+        Dim sh As Worksheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
+        Else
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
+        End If
+        Dim mwForm As New Ui11PCA("Hierarchical Clustering", sh)
+        mwForm.Tag = HelpTopic.HierarchicalClustering
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmFAPressed(control As IRibbonControl)
+        Dim sh As Worksheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
+        Else
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
+        End If
+        Dim mwForm As New Ui11PCA("Factor Analysis", sh)
+        mwForm.Tag = HelpTopic.FactorAnalysis
+        mwForm.Show()
+    End Sub
+
     '--------------------------------------------------------------------------
     ' Sample Size
     '--------------------------------------------------------------------------
@@ -416,7 +483,7 @@ Public Class Ribbon
     End Sub
     Public Sub OnbtmIndPropPressed(control As IRibbonControl)
         Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Independent Proportions")
-        mwForm.Tag = HelpTopic.IndependentProporions
+        mwForm.Tag = HelpTopic.IndependentProportions
         mwForm.Show()
     End Sub
 
@@ -438,6 +505,24 @@ Public Class Ribbon
     Public Sub OnbtmIcc(control As IRibbonControl)
         Dim mwForm As New Ui0OneRefeditMulticol("Intraclass Correlation Coefficients")
         mwForm.Tag = HelpTopic.IntraclassCorrelationCoefficients
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmBlandAltman(control As IRibbonControl)
+        Dim mwForm As New Ui9ANOVA2nested("Bland–Altman Analysis")
+        mwForm.Tag = HelpTopic.BlandAltman
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmLCCC(control As IRibbonControl)
+        Dim mwForm As New UiTwoInputRefedits("Lin's Concordance Correlation Coefficient")
+        mwForm.Tag = HelpTopic.LinsCCC
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmCohenKappa(control As IRibbonControl)
+        Dim mwForm As New UiTwoInputRefedits("Cohen's / Weighted Kappa")
+        mwForm.Tag = HelpTopic.CohensKappa
         mwForm.Show()
     End Sub
 

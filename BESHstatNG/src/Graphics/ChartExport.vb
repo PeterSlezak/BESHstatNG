@@ -120,14 +120,6 @@ Module ChartExport
 
     End Sub
 
-
-    Private Sub PointsToPixels(wPts As Double, hPts As Double, dpi As Integer, ByRef wPx As Integer, ByRef hPx As Integer)
-        Dim wIn As Double = wPts / 72.0
-        Dim hIn As Double = hPts / 72.0
-        wPx = Math.Max(1, CInt(Math.Round(wIn * dpi)))
-        hPx = Math.Max(1, CInt(Math.Round(hIn * dpi)))
-    End Sub
-
     Private Sub SaveTiffRgb(path As String, bmp As Bitmap)
         Dim codec = ImageCodecInfo.GetImageEncoders().First(Function(c) c.MimeType = "image/tiff")
         Using ep As New EncoderParameters(1)

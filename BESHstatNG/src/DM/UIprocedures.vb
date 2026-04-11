@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports BESHStatNG.Agreement
 Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration 'for the excelmissing constant
 Imports Microsoft.Office.Interop.Excel
@@ -831,6 +832,35 @@ Public Module UIprocedures
             'txtData.ControlTipText = txtData.ControlTipText + sErr + sError
 
         End If
+    End Function
+
+    ''' <summary>
+    ''' Converts category labels stored as <see cref="Object"/> values into the string-array format required by <see cref="ResultTable"/> header methods.
+    ''' </summary>
+    ''' <param name="categories">Category labels.</param>
+    ''' <returns>A string array preserving the current category order.</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' Weighted kappa supports numeric and text categories internally, so labels are stored as <see cref="Object()"/>.
+    ''' The reporting layer, however, expects <see cref="String()"/> headers. This helper performs a safe conversion
+    ''' using invariant-culture formatting for numeric labels and empty strings for missing values.
+    ''' </para>
+    ''' </remarks>
+    Public Function ConvertCategoriesToStrings(categories As Object()) As String()
+        If categories Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(categories)))
+
+        Dim headers(categories.Length - 1) As String
+        For i As Integer = 0 To categories.Length - 1
+            Dim value As Object = categories(i)
+            If value Is Nothing OrElse Convert.IsDBNull(value) Then
+                headers(i) = String.Empty
+            ElseIf TypeOf value Is IFormattable Then
+                headers(i) = DirectCast(value, IFormattable).ToString(Nothing, Globalization.CultureInfo.InvariantCulture)
+            Else
+                headers(i) = Convert.ToString(value, Globalization.CultureInfo.InvariantCulture)
+            End If
+        Next
+        Return headers
     End Function
 
 End Module

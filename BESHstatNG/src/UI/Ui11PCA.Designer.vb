@@ -22,10 +22,13 @@ Partial Class Ui11PCA
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Ui11PCA))
         Me.TabPageOptionsSPM = New System.Windows.Forms.TabPage()
         Me.ckShowRegressionLines = New System.Windows.Forms.CheckBox()
         Me.ckDisplayCorrelCoef = New System.Windows.Forms.CheckBox()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.cbKmeansRowLabel = New System.Windows.Forms.ComboBox()
+        Me.lblKmeansRowLabel = New System.Windows.Forms.Label()
         Me.ckFirstRow = New System.Windows.Forms.CheckBox()
         Me.lbXs = New System.Windows.Forms.ListBox()
         Me.cbSheetsList = New System.Windows.Forms.ComboBox()
@@ -53,6 +56,91 @@ Partial Class Ui11PCA
         Me.lblMaxIter = New System.Windows.Forms.Label()
         Me.lblEps = New System.Windows.Forms.Label()
         Me.tbEps = New System.Windows.Forms.TextBox()
+        Me.TabPageOptionsKmeans = New System.Windows.Forms.TabPage()
+        Me.lblCenterHint = New System.Windows.Forms.Label()
+        Me.refKmeansCenters = New Global.BESHStatNG.Excel2007RefEdit()
+        Me.lblCenterRef = New System.Windows.Forms.Label()
+        Me.grpKmeansFit = New System.Windows.Forms.GroupBox()
+        Me.tbKmeansSeed = New System.Windows.Forms.TextBox()
+        Me.lblSeed = New System.Windows.Forms.Label()
+        Me.tbKmeansTolerance = New System.Windows.Forms.TextBox()
+        Me.nudKmeansMaxIterations = New System.Windows.Forms.NumericUpDown()
+        Me.nudKmeansStarts = New System.Windows.Forms.NumericUpDown()
+        Me.lblTol = New System.Windows.Forms.Label()
+        Me.lblKmeanMaxIter = New System.Windows.Forms.Label()
+        Me.lblStarts = New System.Windows.Forms.Label()
+        Me.grpKmeansPreprocess = New System.Windows.Forms.GroupBox()
+        Me.cbKmeansEmptyCluster = New System.Windows.Forms.ComboBox()
+        Me.lblEmpty = New System.Windows.Forms.Label()
+        Me.cbKmeansMissingPolicy = New System.Windows.Forms.ComboBox()
+        Me.lblMissing = New System.Windows.Forms.Label()
+        Me.cbKmeansStandardization = New System.Windows.Forms.ComboBox()
+        Me.lblStd = New System.Windows.Forms.Label()
+        Me.grpKmeansBasic = New System.Windows.Forms.GroupBox()
+        Me.cbKmeansDistance = New System.Windows.Forms.ComboBox()
+        Me.lblDist = New System.Windows.Forms.Label()
+        Me.cbKmeansInitialization = New System.Windows.Forms.ComboBox()
+        Me.lblInit = New System.Windows.Forms.Label()
+        Me.lblK = New System.Windows.Forms.Label()
+        Me.nudKmeansClusters = New System.Windows.Forms.NumericUpDown()
+        Me.TabPageOptionsHierarchicalClustering = New System.Windows.Forms.TabPage()
+        Me.grpHierarchicalDendrogram = New System.Windows.Forms.GroupBox()
+        Me.ckHierarchicalCreateDendrogram = New System.Windows.Forms.CheckBox()
+        Me.cbHierarchicalLabelMode = New System.Windows.Forms.ComboBox()
+        Me.cbHierarchicalOrientation = New System.Windows.Forms.ComboBox()
+        Me.lblOrientation = New System.Windows.Forms.Label()
+        Me.cbHierarchicalHeightMode = New System.Windows.Forms.ComboBox()
+        Me.lblLabelMode = New System.Windows.Forms.Label()
+        Me.lblHeightMode = New System.Windows.Forms.Label()
+        Me.grpHierarchicalMembership = New System.Windows.Forms.GroupBox()
+        Me.nudHierarchicalClusters = New System.Windows.Forms.NumericUpDown()
+        Me.tbHierarchicalCutHeight = New System.Windows.Forms.TextBox()
+        Me.optHierarchicalCutByHeight = New System.Windows.Forms.RadioButton()
+        Me.optHierarchicalCutByClusters = New System.Windows.Forms.RadioButton()
+        Me.lblMembershipHint = New System.Windows.Forms.Label()
+        Me.grpHierarchicalPreprocess = New System.Windows.Forms.GroupBox()
+        Me.cbHierarchicalMissingPolicy = New System.Windows.Forms.ComboBox()
+        Me.lblMissingHierarchicalClustering = New System.Windows.Forms.Label()
+        Me.cbHierarchicalStandardization = New System.Windows.Forms.ComboBox()
+        Me.lblStdHierarchicalClustering = New System.Windows.Forms.Label()
+        Me.grpHierarchicalBasic = New System.Windows.Forms.GroupBox()
+        Me.tbHierarchicalMinkowskiPower = New System.Windows.Forms.TextBox()
+        Me.cbHierarchicalDistance = New System.Windows.Forms.ComboBox()
+        Me.lblDistance = New System.Windows.Forms.Label()
+        Me.cbHierarchicalLinkage = New System.Windows.Forms.ComboBox()
+        Me.lblHierarchicalMinkowskiPower = New System.Windows.Forms.Label()
+        Me.lblLinkage = New System.Windows.Forms.Label()
+        Me.TabPageOptionsFA = New System.Windows.Forms.TabPage()
+        Me.grpFAIterations = New System.Windows.Forms.GroupBox()
+        Me.tbFAEps = New System.Windows.Forms.TextBox()
+        Me.nudFAMaxIter = New System.Windows.Forms.NumericUpDown()
+        Me.lblFAEps = New System.Windows.Forms.Label()
+        Me.lblFAMaxIter = New System.Windows.Forms.Label()
+        Me.grpFAScoring = New System.Windows.Forms.GroupBox()
+        Me.cbFAScoreMethod = New System.Windows.Forms.ComboBox()
+        Me.lblFaScoreMethod = New System.Windows.Forms.Label()
+        Me.grpFARotation = New System.Windows.Forms.GroupBox()
+        Me.lblFAPromaxPower = New System.Windows.Forms.Label()
+        Me.ckFAKaiserNormalization = New System.Windows.Forms.CheckBox()
+        Me.cbFARotation = New System.Windows.Forms.ComboBox()
+        Me.lblFaRotationMethod = New System.Windows.Forms.Label()
+        Me.nudFAPromaxPower = New System.Windows.Forms.NumericUpDown()
+        Me.grpFARetention = New System.Windows.Forms.GroupBox()
+        Me.nudFAVariance = New System.Windows.Forms.NumericUpDown()
+        Me.nudFAEigen = New System.Windows.Forms.NumericUpDown()
+        Me.nudFAFactors = New System.Windows.Forms.NumericUpDown()
+        Me.optFAExtractVariance = New System.Windows.Forms.RadioButton()
+        Me.optFAExtractEigen = New System.Windows.Forms.RadioButton()
+        Me.optFAExtractFixed = New System.Windows.Forms.RadioButton()
+        Me.grpFABasic = New System.Windows.Forms.GroupBox()
+        Me.cbFAMissingPolicy = New System.Windows.Forms.ComboBox()
+        Me.lblMissingFa = New System.Windows.Forms.Label()
+        Me.cbFACommunalityInit = New System.Windows.Forms.ComboBox()
+        Me.lblFaStartingCommunalities = New System.Windows.Forms.Label()
+        Me.cbFAExtraction = New System.Windows.Forms.ComboBox()
+        Me.lblFaExtractionMethod = New System.Windows.Forms.Label()
+        Me.optFACovariance = New System.Windows.Forms.RadioButton()
+        Me.optFACorrelation = New System.Windows.Forms.RadioButton()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCalculate = New System.Windows.Forms.Button()
         Me.TabPageOptionsSPM.SuspendLayout()
@@ -65,6 +153,30 @@ Partial Class Ui11PCA
         CType(Me.spinBtnExtractVariance, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpAnalyzeType.SuspendLayout()
         Me.grpIterOptions.SuspendLayout()
+        Me.TabPageOptionsKmeans.SuspendLayout()
+        Me.grpKmeansFit.SuspendLayout()
+        CType(Me.nudKmeansMaxIterations, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudKmeansStarts, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpKmeansPreprocess.SuspendLayout()
+        Me.grpKmeansBasic.SuspendLayout()
+        CType(Me.nudKmeansClusters, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPageOptionsHierarchicalClustering.SuspendLayout()
+        Me.grpHierarchicalDendrogram.SuspendLayout()
+        Me.grpHierarchicalMembership.SuspendLayout()
+        CType(Me.nudHierarchicalClusters, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpHierarchicalPreprocess.SuspendLayout()
+        Me.grpHierarchicalBasic.SuspendLayout()
+        Me.TabPageOptionsFA.SuspendLayout()
+        Me.grpFAIterations.SuspendLayout()
+        CType(Me.nudFAMaxIter, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpFAScoring.SuspendLayout()
+        Me.grpFARotation.SuspendLayout()
+        CType(Me.nudFAPromaxPower, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpFARetention.SuspendLayout()
+        CType(Me.nudFAVariance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudFAEigen, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudFAFactors, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpFABasic.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabPageOptionsSPM
@@ -106,6 +218,8 @@ Partial Class Ui11PCA
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.cbKmeansRowLabel)
+        Me.TabPage1.Controls.Add(Me.lblKmeansRowLabel)
         Me.TabPage1.Controls.Add(Me.ckFirstRow)
         Me.TabPage1.Controls.Add(Me.lbXs)
         Me.TabPage1.Controls.Add(Me.cbSheetsList)
@@ -123,6 +237,27 @@ Partial Class Ui11PCA
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Select Variables"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'cbKmeansRowLabel
+        '
+        Me.cbKmeansRowLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbKmeansRowLabel.FormattingEnabled = True
+        Me.cbKmeansRowLabel.Location = New System.Drawing.Point(579, 145)
+        Me.cbKmeansRowLabel.Name = "cbKmeansRowLabel"
+        Me.cbKmeansRowLabel.Size = New System.Drawing.Size(240, 24)
+        Me.cbKmeansRowLabel.TabIndex = 27
+        Me.cbKmeansRowLabel.Visible = False
+        '
+        'lblKmeansRowLabel
+        '
+        Me.lblKmeansRowLabel.AutoSize = True
+        Me.lblKmeansRowLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblKmeansRowLabel.Location = New System.Drawing.Point(576, 126)
+        Me.lblKmeansRowLabel.Name = "lblKmeansRowLabel"
+        Me.lblKmeansRowLabel.Size = New System.Drawing.Size(209, 16)
+        Me.lblKmeansRowLabel.TabIndex = 26
+        Me.lblKmeansRowLabel.Text = "Optional Row Label Variable:"
+        Me.lblKmeansRowLabel.Visible = False
         '
         'ckFirstRow
         '
@@ -227,6 +362,9 @@ Partial Class Ui11PCA
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPageOptionsSPM)
         Me.TabControl1.Controls.Add(Me.TabPageOptionsPCA)
+        Me.TabControl1.Controls.Add(Me.TabPageOptionsKmeans)
+        Me.TabControl1.Controls.Add(Me.TabPageOptionsHierarchicalClustering)
+        Me.TabControl1.Controls.Add(Me.TabPageOptionsFA)
         Me.TabControl1.Location = New System.Drawing.Point(3, 2)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -347,7 +485,7 @@ Partial Class Ui11PCA
         Me.optCovar.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.optCovar.Location = New System.Drawing.Point(16, 63)
         Me.optCovar.Name = "optCovar"
-        Me.optCovar.Size = New System.Drawing.Size(135, 20)
+        Me.optCovar.Size = New System.Drawing.Size(167, 20)
         Me.optCovar.TabIndex = 1
         Me.optCovar.Text = "Covariance MatrixType"
         Me.optCovar.UseVisualStyleBackColor = True
@@ -359,7 +497,7 @@ Partial Class Ui11PCA
         Me.optCorr.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.optCorr.Location = New System.Drawing.Point(16, 31)
         Me.optCorr.Name = "optCorr"
-        Me.optCorr.Size = New System.Drawing.Size(131, 20)
+        Me.optCorr.Size = New System.Drawing.Size(163, 20)
         Me.optCorr.TabIndex = 0
         Me.optCorr.TabStop = True
         Me.optCorr.Text = "Correlation MatrixType"
@@ -417,6 +555,938 @@ Partial Class Ui11PCA
         Me.tbEps.TabIndex = 1
         Me.tbEps.Text = "0.000001"
         '
+        'TabPageOptionsKmeans
+        '
+        Me.TabPageOptionsKmeans.Controls.Add(Me.lblCenterHint)
+        Me.TabPageOptionsKmeans.Controls.Add(Me.refKmeansCenters)
+        Me.TabPageOptionsKmeans.Controls.Add(Me.lblCenterRef)
+        Me.TabPageOptionsKmeans.Controls.Add(Me.grpKmeansFit)
+        Me.TabPageOptionsKmeans.Controls.Add(Me.grpKmeansPreprocess)
+        Me.TabPageOptionsKmeans.Controls.Add(Me.grpKmeansBasic)
+        Me.TabPageOptionsKmeans.Location = New System.Drawing.Point(4, 25)
+        Me.TabPageOptionsKmeans.Name = "TabPageOptionsKmeans"
+        Me.TabPageOptionsKmeans.Size = New System.Drawing.Size(836, 465)
+        Me.TabPageOptionsKmeans.TabIndex = 4
+        Me.TabPageOptionsKmeans.Text = "Options"
+        Me.TabPageOptionsKmeans.UseVisualStyleBackColor = True
+        '
+        'lblCenterHint
+        '
+        Me.lblCenterHint.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCenterHint.Location = New System.Drawing.Point(12, 348)
+        Me.lblCenterHint.Name = "lblCenterHint"
+        Me.lblCenterHint.Size = New System.Drawing.Size(321, 53)
+        Me.lblCenterHint.TabIndex = 17
+        Me.lblCenterHint.Text = "Provide a contiguous numeric range with k rows and one column per selected analys" &
+    "is variable. Do not include a header row."
+        '
+        'refKmeansCenters
+        '
+        Me.refKmeansCenters.Address = ""
+        Me.refKmeansCenters.BackColor = System.Drawing.Color.Transparent
+        Me.refKmeansCenters.ExcelConnector = Nothing
+        Me.refKmeansCenters.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.refKmeansCenters.ImageMinimized = CType(resources.GetObject("refKmeansCenters.ImageMinimized"), System.Drawing.Image)
+        Me.refKmeansCenters.Location = New System.Drawing.Point(15, 312)
+        Me.refKmeansCenters.Margin = New System.Windows.Forms.Padding(4)
+        Me.refKmeansCenters.Name = "refKmeansCenters"
+        Me.refKmeansCenters.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.refKmeansCenters.Size = New System.Drawing.Size(300, 32)
+        Me.refKmeansCenters.TabIndex = 16
+        '
+        'lblCenterRef
+        '
+        Me.lblCenterRef.AutoSize = True
+        Me.lblCenterRef.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCenterRef.Location = New System.Drawing.Point(12, 292)
+        Me.lblCenterRef.Name = "lblCenterRef"
+        Me.lblCenterRef.Size = New System.Drawing.Size(241, 16)
+        Me.lblCenterRef.TabIndex = 15
+        Me.lblCenterRef.Text = "User-Specified Starting Centers Range:"
+        '
+        'grpKmeansFit
+        '
+        Me.grpKmeansFit.Controls.Add(Me.tbKmeansSeed)
+        Me.grpKmeansFit.Controls.Add(Me.lblSeed)
+        Me.grpKmeansFit.Controls.Add(Me.tbKmeansTolerance)
+        Me.grpKmeansFit.Controls.Add(Me.nudKmeansMaxIterations)
+        Me.grpKmeansFit.Controls.Add(Me.nudKmeansStarts)
+        Me.grpKmeansFit.Controls.Add(Me.lblTol)
+        Me.grpKmeansFit.Controls.Add(Me.lblKmeanMaxIter)
+        Me.grpKmeansFit.Controls.Add(Me.lblStarts)
+        Me.grpKmeansFit.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpKmeansFit.Location = New System.Drawing.Point(357, 17)
+        Me.grpKmeansFit.Name = "grpKmeansFit"
+        Me.grpKmeansFit.Size = New System.Drawing.Size(336, 139)
+        Me.grpKmeansFit.TabIndex = 9
+        Me.grpKmeansFit.TabStop = False
+        Me.grpKmeansFit.Text = "Fitting Controls"
+        '
+        'tbKmeansSeed
+        '
+        Me.tbKmeansSeed.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbKmeansSeed.Location = New System.Drawing.Point(159, 109)
+        Me.tbKmeansSeed.Name = "tbKmeansSeed"
+        Me.tbKmeansSeed.Size = New System.Drawing.Size(168, 22)
+        Me.tbKmeansSeed.TabIndex = 13
+        '
+        'lblSeed
+        '
+        Me.lblSeed.AutoSize = True
+        Me.lblSeed.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSeed.Location = New System.Drawing.Point(6, 111)
+        Me.lblSeed.Name = "lblSeed"
+        Me.lblSeed.Size = New System.Drawing.Size(155, 16)
+        Me.lblSeed.TabIndex = 12
+        Me.lblSeed.Text = "Random seed (optional):"
+        '
+        'tbKmeansTolerance
+        '
+        Me.tbKmeansTolerance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbKmeansTolerance.Location = New System.Drawing.Point(159, 81)
+        Me.tbKmeansTolerance.Name = "tbKmeansTolerance"
+        Me.tbKmeansTolerance.Size = New System.Drawing.Size(168, 22)
+        Me.tbKmeansTolerance.TabIndex = 11
+        '
+        'nudKmeansMaxIterations
+        '
+        Me.nudKmeansMaxIterations.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudKmeansMaxIterations.Location = New System.Drawing.Point(159, 55)
+        Me.nudKmeansMaxIterations.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
+        Me.nudKmeansMaxIterations.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudKmeansMaxIterations.Name = "nudKmeansMaxIterations"
+        Me.nudKmeansMaxIterations.Size = New System.Drawing.Size(56, 22)
+        Me.nudKmeansMaxIterations.TabIndex = 10
+        Me.nudKmeansMaxIterations.Value = New Decimal(New Integer() {100, 0, 0, 0})
+        '
+        'nudKmeansStarts
+        '
+        Me.nudKmeansStarts.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudKmeansStarts.Location = New System.Drawing.Point(159, 30)
+        Me.nudKmeansStarts.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.nudKmeansStarts.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudKmeansStarts.Name = "nudKmeansStarts"
+        Me.nudKmeansStarts.Size = New System.Drawing.Size(56, 22)
+        Me.nudKmeansStarts.TabIndex = 9
+        Me.nudKmeansStarts.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
+        'lblTol
+        '
+        Me.lblTol.AutoSize = True
+        Me.lblTol.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTol.Location = New System.Drawing.Point(6, 84)
+        Me.lblTol.Name = "lblTol"
+        Me.lblTol.Size = New System.Drawing.Size(150, 16)
+        Me.lblTol.TabIndex = 7
+        Me.lblTol.Text = "Convergence tolerance:"
+        '
+        'lblKmeanMaxIter
+        '
+        Me.lblKmeanMaxIter.AutoSize = True
+        Me.lblKmeanMaxIter.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblKmeanMaxIter.Location = New System.Drawing.Point(6, 57)
+        Me.lblKmeanMaxIter.Name = "lblKmeanMaxIter"
+        Me.lblKmeanMaxIter.Size = New System.Drawing.Size(124, 16)
+        Me.lblKmeanMaxIter.TabIndex = 5
+        Me.lblKmeanMaxIter.Text = "Maximum iterations:"
+        '
+        'lblStarts
+        '
+        Me.lblStarts.AutoSize = True
+        Me.lblStarts.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStarts.Location = New System.Drawing.Point(6, 30)
+        Me.lblStarts.Name = "lblStarts"
+        Me.lblStarts.Size = New System.Drawing.Size(97, 16)
+        Me.lblStarts.TabIndex = 2
+        Me.lblStarts.Text = "Random starts:"
+        '
+        'grpKmeansPreprocess
+        '
+        Me.grpKmeansPreprocess.Controls.Add(Me.cbKmeansEmptyCluster)
+        Me.grpKmeansPreprocess.Controls.Add(Me.lblEmpty)
+        Me.grpKmeansPreprocess.Controls.Add(Me.cbKmeansMissingPolicy)
+        Me.grpKmeansPreprocess.Controls.Add(Me.lblMissing)
+        Me.grpKmeansPreprocess.Controls.Add(Me.cbKmeansStandardization)
+        Me.grpKmeansPreprocess.Controls.Add(Me.lblStd)
+        Me.grpKmeansPreprocess.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpKmeansPreprocess.Location = New System.Drawing.Point(15, 150)
+        Me.grpKmeansPreprocess.Name = "grpKmeansPreprocess"
+        Me.grpKmeansPreprocess.Size = New System.Drawing.Size(336, 118)
+        Me.grpKmeansPreprocess.TabIndex = 1
+        Me.grpKmeansPreprocess.TabStop = False
+        Me.grpKmeansPreprocess.Text = "Preprocessing"
+        '
+        'cbKmeansEmptyCluster
+        '
+        Me.cbKmeansEmptyCluster.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbKmeansEmptyCluster.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbKmeansEmptyCluster.Location = New System.Drawing.Point(159, 81)
+        Me.cbKmeansEmptyCluster.Name = "cbKmeansEmptyCluster"
+        Me.cbKmeansEmptyCluster.Size = New System.Drawing.Size(168, 24)
+        Me.cbKmeansEmptyCluster.TabIndex = 8
+        '
+        'lblEmpty
+        '
+        Me.lblEmpty.AutoSize = True
+        Me.lblEmpty.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblEmpty.Location = New System.Drawing.Point(6, 84)
+        Me.lblEmpty.Name = "lblEmpty"
+        Me.lblEmpty.Size = New System.Drawing.Size(144, 16)
+        Me.lblEmpty.TabIndex = 7
+        Me.lblEmpty.Text = "Empty cluster handling:"
+        '
+        'cbKmeansMissingPolicy
+        '
+        Me.cbKmeansMissingPolicy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbKmeansMissingPolicy.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbKmeansMissingPolicy.Location = New System.Drawing.Point(159, 54)
+        Me.cbKmeansMissingPolicy.Name = "cbKmeansMissingPolicy"
+        Me.cbKmeansMissingPolicy.Size = New System.Drawing.Size(168, 24)
+        Me.cbKmeansMissingPolicy.TabIndex = 6
+        '
+        'lblMissing
+        '
+        Me.lblMissing.AutoSize = True
+        Me.lblMissing.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMissing.Location = New System.Drawing.Point(6, 57)
+        Me.lblMissing.Name = "lblMissing"
+        Me.lblMissing.Size = New System.Drawing.Size(99, 16)
+        Me.lblMissing.TabIndex = 5
+        Me.lblMissing.Text = "Missing values:"
+        '
+        'cbKmeansStandardization
+        '
+        Me.cbKmeansStandardization.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbKmeansStandardization.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbKmeansStandardization.Location = New System.Drawing.Point(159, 27)
+        Me.cbKmeansStandardization.Name = "cbKmeansStandardization"
+        Me.cbKmeansStandardization.Size = New System.Drawing.Size(168, 24)
+        Me.cbKmeansStandardization.TabIndex = 4
+        '
+        'lblStd
+        '
+        Me.lblStd.AutoSize = True
+        Me.lblStd.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStd.Location = New System.Drawing.Point(6, 30)
+        Me.lblStd.Name = "lblStd"
+        Me.lblStd.Size = New System.Drawing.Size(103, 16)
+        Me.lblStd.TabIndex = 2
+        Me.lblStd.Text = "Standardization:"
+        '
+        'grpKmeansBasic
+        '
+        Me.grpKmeansBasic.Controls.Add(Me.cbKmeansDistance)
+        Me.grpKmeansBasic.Controls.Add(Me.lblDist)
+        Me.grpKmeansBasic.Controls.Add(Me.cbKmeansInitialization)
+        Me.grpKmeansBasic.Controls.Add(Me.lblInit)
+        Me.grpKmeansBasic.Controls.Add(Me.lblK)
+        Me.grpKmeansBasic.Controls.Add(Me.nudKmeansClusters)
+        Me.grpKmeansBasic.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpKmeansBasic.Location = New System.Drawing.Point(15, 17)
+        Me.grpKmeansBasic.Name = "grpKmeansBasic"
+        Me.grpKmeansBasic.Size = New System.Drawing.Size(336, 127)
+        Me.grpKmeansBasic.TabIndex = 0
+        Me.grpKmeansBasic.TabStop = False
+        Me.grpKmeansBasic.Text = "Partition Options"
+        '
+        'cbKmeansDistance
+        '
+        Me.cbKmeansDistance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbKmeansDistance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbKmeansDistance.Location = New System.Drawing.Point(159, 88)
+        Me.cbKmeansDistance.Name = "cbKmeansDistance"
+        Me.cbKmeansDistance.Size = New System.Drawing.Size(168, 24)
+        Me.cbKmeansDistance.TabIndex = 5
+        '
+        'lblDist
+        '
+        Me.lblDist.AutoSize = True
+        Me.lblDist.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDist.Location = New System.Drawing.Point(6, 91)
+        Me.lblDist.Name = "lblDist"
+        Me.lblDist.Size = New System.Drawing.Size(121, 16)
+        Me.lblDist.TabIndex = 4
+        Me.lblDist.Text = "Reported distance:"
+        '
+        'cbKmeansInitialization
+        '
+        Me.cbKmeansInitialization.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbKmeansInitialization.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbKmeansInitialization.Location = New System.Drawing.Point(159, 57)
+        Me.cbKmeansInitialization.Name = "cbKmeansInitialization"
+        Me.cbKmeansInitialization.Size = New System.Drawing.Size(168, 24)
+        Me.cbKmeansInitialization.TabIndex = 3
+        '
+        'lblInit
+        '
+        Me.lblInit.AutoSize = True
+        Me.lblInit.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblInit.Location = New System.Drawing.Point(6, 60)
+        Me.lblInit.Name = "lblInit"
+        Me.lblInit.Size = New System.Drawing.Size(78, 16)
+        Me.lblInit.TabIndex = 2
+        Me.lblInit.Text = "Initialization:"
+        '
+        'lblK
+        '
+        Me.lblK.AutoSize = True
+        Me.lblK.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblK.Location = New System.Drawing.Point(6, 29)
+        Me.lblK.Name = "lblK"
+        Me.lblK.Size = New System.Drawing.Size(139, 16)
+        Me.lblK.TabIndex = 1
+        Me.lblK.Text = "Number of clusters (k):"
+        '
+        'nudKmeansClusters
+        '
+        Me.nudKmeansClusters.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudKmeansClusters.Location = New System.Drawing.Point(159, 29)
+        Me.nudKmeansClusters.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.nudKmeansClusters.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudKmeansClusters.Name = "nudKmeansClusters"
+        Me.nudKmeansClusters.Size = New System.Drawing.Size(56, 22)
+        Me.nudKmeansClusters.TabIndex = 0
+        Me.nudKmeansClusters.Value = New Decimal(New Integer() {3, 0, 0, 0})
+        '
+        'TabPageOptionsHierarchicalClustering
+        '
+        Me.TabPageOptionsHierarchicalClustering.Controls.Add(Me.grpHierarchicalDendrogram)
+        Me.TabPageOptionsHierarchicalClustering.Controls.Add(Me.grpHierarchicalMembership)
+        Me.TabPageOptionsHierarchicalClustering.Controls.Add(Me.grpHierarchicalPreprocess)
+        Me.TabPageOptionsHierarchicalClustering.Controls.Add(Me.grpHierarchicalBasic)
+        Me.TabPageOptionsHierarchicalClustering.Location = New System.Drawing.Point(4, 25)
+        Me.TabPageOptionsHierarchicalClustering.Name = "TabPageOptionsHierarchicalClustering"
+        Me.TabPageOptionsHierarchicalClustering.Size = New System.Drawing.Size(836, 465)
+        Me.TabPageOptionsHierarchicalClustering.TabIndex = 5
+        Me.TabPageOptionsHierarchicalClustering.Text = "Options"
+        Me.TabPageOptionsHierarchicalClustering.UseVisualStyleBackColor = True
+        '
+        'grpHierarchicalDendrogram
+        '
+        Me.grpHierarchicalDendrogram.Controls.Add(Me.ckHierarchicalCreateDendrogram)
+        Me.grpHierarchicalDendrogram.Controls.Add(Me.cbHierarchicalLabelMode)
+        Me.grpHierarchicalDendrogram.Controls.Add(Me.cbHierarchicalOrientation)
+        Me.grpHierarchicalDendrogram.Controls.Add(Me.lblOrientation)
+        Me.grpHierarchicalDendrogram.Controls.Add(Me.cbHierarchicalHeightMode)
+        Me.grpHierarchicalDendrogram.Controls.Add(Me.lblLabelMode)
+        Me.grpHierarchicalDendrogram.Controls.Add(Me.lblHeightMode)
+        Me.grpHierarchicalDendrogram.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpHierarchicalDendrogram.Location = New System.Drawing.Point(357, 15)
+        Me.grpHierarchicalDendrogram.Name = "grpHierarchicalDendrogram"
+        Me.grpHierarchicalDendrogram.Size = New System.Drawing.Size(336, 169)
+        Me.grpHierarchicalDendrogram.TabIndex = 13
+        Me.grpHierarchicalDendrogram.TabStop = False
+        Me.grpHierarchicalDendrogram.Text = "Dendrogram"
+        '
+        'ckHierarchicalCreateDendrogram
+        '
+        Me.ckHierarchicalCreateDendrogram.AutoSize = True
+        Me.ckHierarchicalCreateDendrogram.Checked = True
+        Me.ckHierarchicalCreateDendrogram.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckHierarchicalCreateDendrogram.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckHierarchicalCreateDendrogram.Location = New System.Drawing.Point(9, 34)
+        Me.ckHierarchicalCreateDendrogram.Name = "ckHierarchicalCreateDendrogram"
+        Me.ckHierarchicalCreateDendrogram.Size = New System.Drawing.Size(178, 20)
+        Me.ckHierarchicalCreateDendrogram.TabIndex = 7
+        Me.ckHierarchicalCreateDendrogram.Text = "Create dendrogram chart"
+        Me.ckHierarchicalCreateDendrogram.UseVisualStyleBackColor = True
+        '
+        'cbHierarchicalLabelMode
+        '
+        Me.cbHierarchicalLabelMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbHierarchicalLabelMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbHierarchicalLabelMode.Location = New System.Drawing.Point(162, 132)
+        Me.cbHierarchicalLabelMode.Name = "cbHierarchicalLabelMode"
+        Me.cbHierarchicalLabelMode.Size = New System.Drawing.Size(168, 24)
+        Me.cbHierarchicalLabelMode.TabIndex = 6
+        '
+        'cbHierarchicalOrientation
+        '
+        Me.cbHierarchicalOrientation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbHierarchicalOrientation.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbHierarchicalOrientation.Location = New System.Drawing.Point(162, 99)
+        Me.cbHierarchicalOrientation.Name = "cbHierarchicalOrientation"
+        Me.cbHierarchicalOrientation.Size = New System.Drawing.Size(168, 24)
+        Me.cbHierarchicalOrientation.TabIndex = 5
+        '
+        'lblOrientation
+        '
+        Me.lblOrientation.AutoSize = True
+        Me.lblOrientation.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblOrientation.Location = New System.Drawing.Point(6, 102)
+        Me.lblOrientation.Name = "lblOrientation"
+        Me.lblOrientation.Size = New System.Drawing.Size(74, 16)
+        Me.lblOrientation.TabIndex = 4
+        Me.lblOrientation.Text = "Orientation:"
+        '
+        'cbHierarchicalHeightMode
+        '
+        Me.cbHierarchicalHeightMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbHierarchicalHeightMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbHierarchicalHeightMode.Location = New System.Drawing.Point(162, 67)
+        Me.cbHierarchicalHeightMode.Name = "cbHierarchicalHeightMode"
+        Me.cbHierarchicalHeightMode.Size = New System.Drawing.Size(168, 24)
+        Me.cbHierarchicalHeightMode.TabIndex = 3
+        '
+        'lblLabelMode
+        '
+        Me.lblLabelMode.AutoSize = True
+        Me.lblLabelMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLabelMode.Location = New System.Drawing.Point(6, 135)
+        Me.lblLabelMode.Name = "lblLabelMode"
+        Me.lblLabelMode.Size = New System.Drawing.Size(82, 16)
+        Me.lblLabelMode.TabIndex = 2
+        Me.lblLabelMode.Text = "Label mode:"
+        '
+        'lblHeightMode
+        '
+        Me.lblHeightMode.AutoSize = True
+        Me.lblHeightMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHeightMode.Location = New System.Drawing.Point(6, 70)
+        Me.lblHeightMode.Name = "lblHeightMode"
+        Me.lblHeightMode.Size = New System.Drawing.Size(87, 16)
+        Me.lblHeightMode.TabIndex = 1
+        Me.lblHeightMode.Text = "Height mode:"
+        '
+        'grpHierarchicalMembership
+        '
+        Me.grpHierarchicalMembership.Controls.Add(Me.nudHierarchicalClusters)
+        Me.grpHierarchicalMembership.Controls.Add(Me.tbHierarchicalCutHeight)
+        Me.grpHierarchicalMembership.Controls.Add(Me.optHierarchicalCutByHeight)
+        Me.grpHierarchicalMembership.Controls.Add(Me.optHierarchicalCutByClusters)
+        Me.grpHierarchicalMembership.Controls.Add(Me.lblMembershipHint)
+        Me.grpHierarchicalMembership.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpHierarchicalMembership.Location = New System.Drawing.Point(15, 253)
+        Me.grpHierarchicalMembership.Name = "grpHierarchicalMembership"
+        Me.grpHierarchicalMembership.Size = New System.Drawing.Size(336, 144)
+        Me.grpHierarchicalMembership.TabIndex = 13
+        Me.grpHierarchicalMembership.TabStop = False
+        Me.grpHierarchicalMembership.Text = "Membership Table"
+        '
+        'nudHierarchicalClusters
+        '
+        Me.nudHierarchicalClusters.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudHierarchicalClusters.Location = New System.Drawing.Point(220, 33)
+        Me.nudHierarchicalClusters.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.nudHierarchicalClusters.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudHierarchicalClusters.Name = "nudHierarchicalClusters"
+        Me.nudHierarchicalClusters.Size = New System.Drawing.Size(110, 22)
+        Me.nudHierarchicalClusters.TabIndex = 14
+        Me.nudHierarchicalClusters.Value = New Decimal(New Integer() {3, 0, 0, 0})
+        '
+        'tbHierarchicalCutHeight
+        '
+        Me.tbHierarchicalCutHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbHierarchicalCutHeight.Location = New System.Drawing.Point(186, 59)
+        Me.tbHierarchicalCutHeight.Name = "tbHierarchicalCutHeight"
+        Me.tbHierarchicalCutHeight.Size = New System.Drawing.Size(144, 22)
+        Me.tbHierarchicalCutHeight.TabIndex = 13
+        '
+        'optHierarchicalCutByHeight
+        '
+        Me.optHierarchicalCutByHeight.AutoSize = True
+        Me.optHierarchicalCutByHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optHierarchicalCutByHeight.Location = New System.Drawing.Point(9, 59)
+        Me.optHierarchicalCutByHeight.Name = "optHierarchicalCutByHeight"
+        Me.optHierarchicalCutByHeight.Size = New System.Drawing.Size(171, 20)
+        Me.optHierarchicalCutByHeight.TabIndex = 4
+        Me.optHierarchicalCutByHeight.Text = "Cut tree at merge height:"
+        Me.optHierarchicalCutByHeight.UseVisualStyleBackColor = True
+        '
+        'optHierarchicalCutByClusters
+        '
+        Me.optHierarchicalCutByClusters.AutoSize = True
+        Me.optHierarchicalCutByClusters.Checked = True
+        Me.optHierarchicalCutByClusters.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optHierarchicalCutByClusters.Location = New System.Drawing.Point(9, 33)
+        Me.optHierarchicalCutByClusters.Name = "optHierarchicalCutByClusters"
+        Me.optHierarchicalCutByClusters.Size = New System.Drawing.Size(205, 20)
+        Me.optHierarchicalCutByClusters.TabIndex = 3
+        Me.optHierarchicalCutByClusters.TabStop = True
+        Me.optHierarchicalCutByClusters.Text = "Cut tree by number of clusters:"
+        Me.optHierarchicalCutByClusters.UseVisualStyleBackColor = True
+        '
+        'lblMembershipHint
+        '
+        Me.lblMembershipHint.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMembershipHint.Location = New System.Drawing.Point(6, 96)
+        Me.lblMembershipHint.Name = "lblMembershipHint"
+        Me.lblMembershipHint.Size = New System.Drawing.Size(324, 40)
+        Me.lblMembershipHint.TabIndex = 2
+        Me.lblMembershipHint.Text = "The selected rule controls the cluster-membership table returned in the formatted" &
+    " results output."
+        '
+        'grpHierarchicalPreprocess
+        '
+        Me.grpHierarchicalPreprocess.Controls.Add(Me.cbHierarchicalMissingPolicy)
+        Me.grpHierarchicalPreprocess.Controls.Add(Me.lblMissingHierarchicalClustering)
+        Me.grpHierarchicalPreprocess.Controls.Add(Me.cbHierarchicalStandardization)
+        Me.grpHierarchicalPreprocess.Controls.Add(Me.lblStdHierarchicalClustering)
+        Me.grpHierarchicalPreprocess.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpHierarchicalPreprocess.Location = New System.Drawing.Point(15, 148)
+        Me.grpHierarchicalPreprocess.Name = "grpHierarchicalPreprocess"
+        Me.grpHierarchicalPreprocess.Size = New System.Drawing.Size(336, 99)
+        Me.grpHierarchicalPreprocess.TabIndex = 13
+        Me.grpHierarchicalPreprocess.TabStop = False
+        Me.grpHierarchicalPreprocess.Text = "Preprocessing"
+        '
+        'cbHierarchicalMissingPolicy
+        '
+        Me.cbHierarchicalMissingPolicy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbHierarchicalMissingPolicy.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbHierarchicalMissingPolicy.Location = New System.Drawing.Point(162, 58)
+        Me.cbHierarchicalMissingPolicy.Name = "cbHierarchicalMissingPolicy"
+        Me.cbHierarchicalMissingPolicy.Size = New System.Drawing.Size(168, 24)
+        Me.cbHierarchicalMissingPolicy.TabIndex = 5
+        '
+        'lblMissingHierarchicalClustering
+        '
+        Me.lblMissingHierarchicalClustering.AutoSize = True
+        Me.lblMissingHierarchicalClustering.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMissingHierarchicalClustering.Location = New System.Drawing.Point(6, 61)
+        Me.lblMissingHierarchicalClustering.Name = "lblMissingHierarchicalClustering"
+        Me.lblMissingHierarchicalClustering.Size = New System.Drawing.Size(99, 16)
+        Me.lblMissingHierarchicalClustering.TabIndex = 4
+        Me.lblMissingHierarchicalClustering.Text = "Missing values:"
+        '
+        'cbHierarchicalStandardization
+        '
+        Me.cbHierarchicalStandardization.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbHierarchicalStandardization.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbHierarchicalStandardization.Location = New System.Drawing.Point(162, 26)
+        Me.cbHierarchicalStandardization.Name = "cbHierarchicalStandardization"
+        Me.cbHierarchicalStandardization.Size = New System.Drawing.Size(168, 24)
+        Me.cbHierarchicalStandardization.TabIndex = 3
+        '
+        'lblStdHierarchicalClustering
+        '
+        Me.lblStdHierarchicalClustering.AutoSize = True
+        Me.lblStdHierarchicalClustering.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblStdHierarchicalClustering.Location = New System.Drawing.Point(6, 29)
+        Me.lblStdHierarchicalClustering.Name = "lblStdHierarchicalClustering"
+        Me.lblStdHierarchicalClustering.Size = New System.Drawing.Size(103, 16)
+        Me.lblStdHierarchicalClustering.TabIndex = 1
+        Me.lblStdHierarchicalClustering.Text = "Standardization:"
+        '
+        'grpHierarchicalBasic
+        '
+        Me.grpHierarchicalBasic.Controls.Add(Me.tbHierarchicalMinkowskiPower)
+        Me.grpHierarchicalBasic.Controls.Add(Me.cbHierarchicalDistance)
+        Me.grpHierarchicalBasic.Controls.Add(Me.lblDistance)
+        Me.grpHierarchicalBasic.Controls.Add(Me.cbHierarchicalLinkage)
+        Me.grpHierarchicalBasic.Controls.Add(Me.lblHierarchicalMinkowskiPower)
+        Me.grpHierarchicalBasic.Controls.Add(Me.lblLinkage)
+        Me.grpHierarchicalBasic.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpHierarchicalBasic.Location = New System.Drawing.Point(15, 15)
+        Me.grpHierarchicalBasic.Name = "grpHierarchicalBasic"
+        Me.grpHierarchicalBasic.Size = New System.Drawing.Size(336, 127)
+        Me.grpHierarchicalBasic.TabIndex = 1
+        Me.grpHierarchicalBasic.TabStop = False
+        Me.grpHierarchicalBasic.Text = "Method and Distance"
+        '
+        'tbHierarchicalMinkowskiPower
+        '
+        Me.tbHierarchicalMinkowskiPower.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbHierarchicalMinkowskiPower.Location = New System.Drawing.Point(162, 91)
+        Me.tbHierarchicalMinkowskiPower.Name = "tbHierarchicalMinkowskiPower"
+        Me.tbHierarchicalMinkowskiPower.Size = New System.Drawing.Size(168, 22)
+        Me.tbHierarchicalMinkowskiPower.TabIndex = 12
+        '
+        'cbHierarchicalDistance
+        '
+        Me.cbHierarchicalDistance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbHierarchicalDistance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbHierarchicalDistance.Location = New System.Drawing.Point(162, 58)
+        Me.cbHierarchicalDistance.Name = "cbHierarchicalDistance"
+        Me.cbHierarchicalDistance.Size = New System.Drawing.Size(168, 24)
+        Me.cbHierarchicalDistance.TabIndex = 5
+        '
+        'lblDistance
+        '
+        Me.lblDistance.AutoSize = True
+        Me.lblDistance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDistance.Location = New System.Drawing.Point(6, 61)
+        Me.lblDistance.Name = "lblDistance"
+        Me.lblDistance.Size = New System.Drawing.Size(102, 16)
+        Me.lblDistance.TabIndex = 4
+        Me.lblDistance.Text = "Distance metric:"
+        '
+        'cbHierarchicalLinkage
+        '
+        Me.cbHierarchicalLinkage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbHierarchicalLinkage.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbHierarchicalLinkage.Location = New System.Drawing.Point(162, 26)
+        Me.cbHierarchicalLinkage.Name = "cbHierarchicalLinkage"
+        Me.cbHierarchicalLinkage.Size = New System.Drawing.Size(168, 24)
+        Me.cbHierarchicalLinkage.TabIndex = 3
+        '
+        'lblHierarchicalMinkowskiPower
+        '
+        Me.lblHierarchicalMinkowskiPower.AutoSize = True
+        Me.lblHierarchicalMinkowskiPower.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHierarchicalMinkowskiPower.Location = New System.Drawing.Point(6, 94)
+        Me.lblHierarchicalMinkowskiPower.Name = "lblHierarchicalMinkowskiPower"
+        Me.lblHierarchicalMinkowskiPower.Size = New System.Drawing.Size(112, 16)
+        Me.lblHierarchicalMinkowskiPower.TabIndex = 2
+        Me.lblHierarchicalMinkowskiPower.Text = "Minkowski power:"
+        '
+        'lblLinkage
+        '
+        Me.lblLinkage.AutoSize = True
+        Me.lblLinkage.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLinkage.Location = New System.Drawing.Point(6, 29)
+        Me.lblLinkage.Name = "lblLinkage"
+        Me.lblLinkage.Size = New System.Drawing.Size(58, 16)
+        Me.lblLinkage.TabIndex = 1
+        Me.lblLinkage.Text = "Linkage:"
+        '
+        'TabPageOptionsFA
+        '
+        Me.TabPageOptionsFA.Controls.Add(Me.grpFAIterations)
+        Me.TabPageOptionsFA.Controls.Add(Me.grpFAScoring)
+        Me.TabPageOptionsFA.Controls.Add(Me.grpFARotation)
+        Me.TabPageOptionsFA.Controls.Add(Me.grpFARetention)
+        Me.TabPageOptionsFA.Controls.Add(Me.grpFABasic)
+        Me.TabPageOptionsFA.Location = New System.Drawing.Point(4, 25)
+        Me.TabPageOptionsFA.Name = "TabPageOptionsFA"
+        Me.TabPageOptionsFA.Size = New System.Drawing.Size(836, 465)
+        Me.TabPageOptionsFA.TabIndex = 6
+        Me.TabPageOptionsFA.Text = "Options"
+        Me.TabPageOptionsFA.UseVisualStyleBackColor = True
+        '
+        'grpFAIterations
+        '
+        Me.grpFAIterations.Controls.Add(Me.tbFAEps)
+        Me.grpFAIterations.Controls.Add(Me.nudFAMaxIter)
+        Me.grpFAIterations.Controls.Add(Me.lblFAEps)
+        Me.grpFAIterations.Controls.Add(Me.lblFAMaxIter)
+        Me.grpFAIterations.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpFAIterations.Location = New System.Drawing.Point(356, 222)
+        Me.grpFAIterations.Name = "grpFAIterations"
+        Me.grpFAIterations.Size = New System.Drawing.Size(336, 93)
+        Me.grpFAIterations.TabIndex = 26
+        Me.grpFAIterations.TabStop = False
+        Me.grpFAIterations.Text = "Iteration Options"
+        '
+        'tbFAEps
+        '
+        Me.tbFAEps.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbFAEps.Location = New System.Drawing.Point(159, 58)
+        Me.tbFAEps.Name = "tbFAEps"
+        Me.tbFAEps.Size = New System.Drawing.Size(168, 22)
+        Me.tbFAEps.TabIndex = 11
+        '
+        'nudFAMaxIter
+        '
+        Me.nudFAMaxIter.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudFAMaxIter.Location = New System.Drawing.Point(159, 32)
+        Me.nudFAMaxIter.Maximum = New Decimal(New Integer() {100000, 0, 0, 0})
+        Me.nudFAMaxIter.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudFAMaxIter.Name = "nudFAMaxIter"
+        Me.nudFAMaxIter.Size = New System.Drawing.Size(76, 22)
+        Me.nudFAMaxIter.TabIndex = 10
+        Me.nudFAMaxIter.Value = New Decimal(New Integer() {250, 0, 0, 0})
+        '
+        'lblFAEps
+        '
+        Me.lblFAEps.AutoSize = True
+        Me.lblFAEps.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFAEps.Location = New System.Drawing.Point(6, 61)
+        Me.lblFAEps.Name = "lblFAEps"
+        Me.lblFAEps.Size = New System.Drawing.Size(150, 16)
+        Me.lblFAEps.TabIndex = 7
+        Me.lblFAEps.Text = "Convergence tolerance:"
+        '
+        'lblFAMaxIter
+        '
+        Me.lblFAMaxIter.AutoSize = True
+        Me.lblFAMaxIter.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFAMaxIter.Location = New System.Drawing.Point(6, 34)
+        Me.lblFAMaxIter.Name = "lblFAMaxIter"
+        Me.lblFAMaxIter.Size = New System.Drawing.Size(124, 16)
+        Me.lblFAMaxIter.TabIndex = 5
+        Me.lblFAMaxIter.Text = "Maximum iterations:"
+        '
+        'grpFAScoring
+        '
+        Me.grpFAScoring.Controls.Add(Me.cbFAScoreMethod)
+        Me.grpFAScoring.Controls.Add(Me.lblFaScoreMethod)
+        Me.grpFAScoring.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpFAScoring.Location = New System.Drawing.Point(356, 148)
+        Me.grpFAScoring.Name = "grpFAScoring"
+        Me.grpFAScoring.Size = New System.Drawing.Size(336, 65)
+        Me.grpFAScoring.TabIndex = 25
+        Me.grpFAScoring.TabStop = False
+        Me.grpFAScoring.Text = "Scores"
+        '
+        'cbFAScoreMethod
+        '
+        Me.cbFAScoreMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbFAScoreMethod.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbFAScoreMethod.Location = New System.Drawing.Point(162, 28)
+        Me.cbFAScoreMethod.Name = "cbFAScoreMethod"
+        Me.cbFAScoreMethod.Size = New System.Drawing.Size(168, 24)
+        Me.cbFAScoreMethod.TabIndex = 22
+        '
+        'lblFaScoreMethod
+        '
+        Me.lblFaScoreMethod.AutoSize = True
+        Me.lblFaScoreMethod.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFaScoreMethod.Location = New System.Drawing.Point(6, 31)
+        Me.lblFaScoreMethod.Name = "lblFaScoreMethod"
+        Me.lblFaScoreMethod.Size = New System.Drawing.Size(94, 16)
+        Me.lblFaScoreMethod.TabIndex = 21
+        Me.lblFaScoreMethod.Text = "Score method:"
+        '
+        'grpFARotation
+        '
+        Me.grpFARotation.Controls.Add(Me.lblFAPromaxPower)
+        Me.grpFARotation.Controls.Add(Me.ckFAKaiserNormalization)
+        Me.grpFARotation.Controls.Add(Me.cbFARotation)
+        Me.grpFARotation.Controls.Add(Me.lblFaRotationMethod)
+        Me.grpFARotation.Controls.Add(Me.nudFAPromaxPower)
+        Me.grpFARotation.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpFARotation.Location = New System.Drawing.Point(356, 12)
+        Me.grpFARotation.Name = "grpFARotation"
+        Me.grpFARotation.Size = New System.Drawing.Size(336, 130)
+        Me.grpFARotation.TabIndex = 21
+        Me.grpFARotation.TabStop = False
+        Me.grpFARotation.Text = "Rotation"
+        '
+        'lblFAPromaxPower
+        '
+        Me.lblFAPromaxPower.AutoSize = True
+        Me.lblFAPromaxPower.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFAPromaxPower.Location = New System.Drawing.Point(6, 92)
+        Me.lblFAPromaxPower.Name = "lblFAPromaxPower"
+        Me.lblFAPromaxPower.Size = New System.Drawing.Size(96, 16)
+        Me.lblFAPromaxPower.TabIndex = 24
+        Me.lblFAPromaxPower.Text = "Promax power:"
+        '
+        'ckFAKaiserNormalization
+        '
+        Me.ckFAKaiserNormalization.AutoSize = True
+        Me.ckFAKaiserNormalization.Checked = True
+        Me.ckFAKaiserNormalization.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckFAKaiserNormalization.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckFAKaiserNormalization.Location = New System.Drawing.Point(9, 58)
+        Me.ckFAKaiserNormalization.Name = "ckFAKaiserNormalization"
+        Me.ckFAKaiserNormalization.Size = New System.Drawing.Size(177, 20)
+        Me.ckFAKaiserNormalization.TabIndex = 23
+        Me.ckFAKaiserNormalization.Text = "Use Kaiser normalization"
+        Me.ckFAKaiserNormalization.UseVisualStyleBackColor = True
+        '
+        'cbFARotation
+        '
+        Me.cbFARotation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbFARotation.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbFARotation.Location = New System.Drawing.Point(162, 28)
+        Me.cbFARotation.Name = "cbFARotation"
+        Me.cbFARotation.Size = New System.Drawing.Size(168, 24)
+        Me.cbFARotation.TabIndex = 22
+        '
+        'lblFaRotationMethod
+        '
+        Me.lblFaRotationMethod.AutoSize = True
+        Me.lblFaRotationMethod.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFaRotationMethod.Location = New System.Drawing.Point(6, 31)
+        Me.lblFaRotationMethod.Name = "lblFaRotationMethod"
+        Me.lblFaRotationMethod.Size = New System.Drawing.Size(108, 16)
+        Me.lblFaRotationMethod.TabIndex = 21
+        Me.lblFaRotationMethod.Text = "Rotation method:"
+        '
+        'nudFAPromaxPower
+        '
+        Me.nudFAPromaxPower.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudFAPromaxPower.Location = New System.Drawing.Point(162, 90)
+        Me.nudFAPromaxPower.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.nudFAPromaxPower.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudFAPromaxPower.Name = "nudFAPromaxPower"
+        Me.nudFAPromaxPower.Size = New System.Drawing.Size(110, 22)
+        Me.nudFAPromaxPower.TabIndex = 20
+        Me.nudFAPromaxPower.Value = New Decimal(New Integer() {4, 0, 0, 0})
+        '
+        'grpFARetention
+        '
+        Me.grpFARetention.Controls.Add(Me.nudFAVariance)
+        Me.grpFARetention.Controls.Add(Me.nudFAEigen)
+        Me.grpFARetention.Controls.Add(Me.nudFAFactors)
+        Me.grpFARetention.Controls.Add(Me.optFAExtractVariance)
+        Me.grpFARetention.Controls.Add(Me.optFAExtractEigen)
+        Me.grpFARetention.Controls.Add(Me.optFAExtractFixed)
+        Me.grpFARetention.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpFARetention.Location = New System.Drawing.Point(14, 222)
+        Me.grpFARetention.Name = "grpFARetention"
+        Me.grpFARetention.Size = New System.Drawing.Size(336, 130)
+        Me.grpFARetention.TabIndex = 13
+        Me.grpFARetention.TabStop = False
+        Me.grpFARetention.Text = "Retention"
+        '
+        'nudFAVariance
+        '
+        Me.nudFAVariance.DecimalPlaces = 1
+        Me.nudFAVariance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudFAVariance.Location = New System.Drawing.Point(220, 90)
+        Me.nudFAVariance.Name = "nudFAVariance"
+        Me.nudFAVariance.Size = New System.Drawing.Size(110, 22)
+        Me.nudFAVariance.TabIndex = 20
+        Me.nudFAVariance.Value = New Decimal(New Integer() {70, 0, 0, 0})
+        '
+        'nudFAEigen
+        '
+        Me.nudFAEigen.DecimalPlaces = 2
+        Me.nudFAEigen.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudFAEigen.Location = New System.Drawing.Point(220, 62)
+        Me.nudFAEigen.Name = "nudFAEigen"
+        Me.nudFAEigen.Size = New System.Drawing.Size(110, 22)
+        Me.nudFAEigen.TabIndex = 19
+        Me.nudFAEigen.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'nudFAFactors
+        '
+        Me.nudFAFactors.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudFAFactors.Location = New System.Drawing.Point(220, 34)
+        Me.nudFAFactors.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.nudFAFactors.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudFAFactors.Name = "nudFAFactors"
+        Me.nudFAFactors.Size = New System.Drawing.Size(110, 22)
+        Me.nudFAFactors.TabIndex = 18
+        Me.nudFAFactors.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        '
+        'optFAExtractVariance
+        '
+        Me.optFAExtractVariance.AutoSize = True
+        Me.optFAExtractVariance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optFAExtractVariance.Location = New System.Drawing.Point(9, 88)
+        Me.optFAExtractVariance.Name = "optFAExtractVariance"
+        Me.optFAExtractVariance.Size = New System.Drawing.Size(175, 20)
+        Me.optFAExtractVariance.TabIndex = 17
+        Me.optFAExtractVariance.Text = "Cumulative variance (%):"
+        Me.optFAExtractVariance.UseVisualStyleBackColor = True
+        '
+        'optFAExtractEigen
+        '
+        Me.optFAExtractEigen.AutoSize = True
+        Me.optFAExtractEigen.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optFAExtractEigen.Location = New System.Drawing.Point(9, 62)
+        Me.optFAExtractEigen.Name = "optFAExtractEigen"
+        Me.optFAExtractEigen.Size = New System.Drawing.Size(133, 20)
+        Me.optFAExtractEigen.TabIndex = 16
+        Me.optFAExtractEigen.Text = "Eigenvalue cutoff:"
+        Me.optFAExtractEigen.UseVisualStyleBackColor = True
+        '
+        'optFAExtractFixed
+        '
+        Me.optFAExtractFixed.AutoSize = True
+        Me.optFAExtractFixed.Checked = True
+        Me.optFAExtractFixed.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optFAExtractFixed.Location = New System.Drawing.Point(9, 36)
+        Me.optFAExtractFixed.Name = "optFAExtractFixed"
+        Me.optFAExtractFixed.Size = New System.Drawing.Size(169, 20)
+        Me.optFAExtractFixed.TabIndex = 15
+        Me.optFAExtractFixed.TabStop = True
+        Me.optFAExtractFixed.Text = "Fixed number of factors:"
+        Me.optFAExtractFixed.UseVisualStyleBackColor = True
+        '
+        'grpFABasic
+        '
+        Me.grpFABasic.Controls.Add(Me.cbFAMissingPolicy)
+        Me.grpFABasic.Controls.Add(Me.lblMissingFa)
+        Me.grpFABasic.Controls.Add(Me.cbFACommunalityInit)
+        Me.grpFABasic.Controls.Add(Me.lblFaStartingCommunalities)
+        Me.grpFABasic.Controls.Add(Me.cbFAExtraction)
+        Me.grpFABasic.Controls.Add(Me.lblFaExtractionMethod)
+        Me.grpFABasic.Controls.Add(Me.optFACovariance)
+        Me.grpFABasic.Controls.Add(Me.optFACorrelation)
+        Me.grpFABasic.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpFABasic.Location = New System.Drawing.Point(14, 12)
+        Me.grpFABasic.Name = "grpFABasic"
+        Me.grpFABasic.Size = New System.Drawing.Size(336, 194)
+        Me.grpFABasic.TabIndex = 2
+        Me.grpFABasic.TabStop = False
+        Me.grpFABasic.Text = "Model Setup"
+        '
+        'cbFAMissingPolicy
+        '
+        Me.cbFAMissingPolicy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbFAMissingPolicy.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbFAMissingPolicy.Location = New System.Drawing.Point(162, 157)
+        Me.cbFAMissingPolicy.Name = "cbFAMissingPolicy"
+        Me.cbFAMissingPolicy.Size = New System.Drawing.Size(168, 24)
+        Me.cbFAMissingPolicy.TabIndex = 20
+        '
+        'lblMissingFa
+        '
+        Me.lblMissingFa.AutoSize = True
+        Me.lblMissingFa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMissingFa.Location = New System.Drawing.Point(6, 160)
+        Me.lblMissingFa.Name = "lblMissingFa"
+        Me.lblMissingFa.Size = New System.Drawing.Size(99, 16)
+        Me.lblMissingFa.TabIndex = 19
+        Me.lblMissingFa.Text = "Missing values:"
+        '
+        'cbFACommunalityInit
+        '
+        Me.cbFACommunalityInit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbFACommunalityInit.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbFACommunalityInit.Location = New System.Drawing.Point(162, 127)
+        Me.cbFACommunalityInit.Name = "cbFACommunalityInit"
+        Me.cbFACommunalityInit.Size = New System.Drawing.Size(168, 24)
+        Me.cbFACommunalityInit.TabIndex = 18
+        '
+        'lblFaStartingCommunalities
+        '
+        Me.lblFaStartingCommunalities.AutoSize = True
+        Me.lblFaStartingCommunalities.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFaStartingCommunalities.Location = New System.Drawing.Point(6, 130)
+        Me.lblFaStartingCommunalities.Name = "lblFaStartingCommunalities"
+        Me.lblFaStartingCommunalities.Size = New System.Drawing.Size(144, 16)
+        Me.lblFaStartingCommunalities.TabIndex = 17
+        Me.lblFaStartingCommunalities.Text = "Starting communalities:"
+        '
+        'cbFAExtraction
+        '
+        Me.cbFAExtraction.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbFAExtraction.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbFAExtraction.Location = New System.Drawing.Point(162, 95)
+        Me.cbFAExtraction.Name = "cbFAExtraction"
+        Me.cbFAExtraction.Size = New System.Drawing.Size(168, 24)
+        Me.cbFAExtraction.TabIndex = 16
+        '
+        'lblFaExtractionMethod
+        '
+        Me.lblFaExtractionMethod.AutoSize = True
+        Me.lblFaExtractionMethod.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFaExtractionMethod.Location = New System.Drawing.Point(6, 98)
+        Me.lblFaExtractionMethod.Name = "lblFaExtractionMethod"
+        Me.lblFaExtractionMethod.Size = New System.Drawing.Size(116, 16)
+        Me.lblFaExtractionMethod.TabIndex = 15
+        Me.lblFaExtractionMethod.Text = "Extraction method:"
+        '
+        'optFACovariance
+        '
+        Me.optFACovariance.AutoSize = True
+        Me.optFACovariance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optFACovariance.Location = New System.Drawing.Point(18, 63)
+        Me.optFACovariance.Name = "optFACovariance"
+        Me.optFACovariance.Size = New System.Drawing.Size(135, 20)
+        Me.optFACovariance.TabIndex = 14
+        Me.optFACovariance.Text = "Covariance matrix"
+        Me.optFACovariance.UseVisualStyleBackColor = True
+        '
+        'optFACorrelation
+        '
+        Me.optFACorrelation.AutoSize = True
+        Me.optFACorrelation.Checked = True
+        Me.optFACorrelation.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optFACorrelation.Location = New System.Drawing.Point(18, 31)
+        Me.optFACorrelation.Name = "optFACorrelation"
+        Me.optFACorrelation.Size = New System.Drawing.Size(131, 20)
+        Me.optFACorrelation.TabIndex = 13
+        Me.optFACorrelation.TabStop = True
+        Me.optFACorrelation.Text = "Correlation matrix"
+        Me.optFACorrelation.UseVisualStyleBackColor = True
+        '
         'btnHelp
         '
         Me.btnHelp.Location = New System.Drawing.Point(687, 502)
@@ -461,6 +1531,43 @@ Partial Class Ui11PCA
         Me.grpAnalyzeType.PerformLayout()
         Me.grpIterOptions.ResumeLayout(False)
         Me.grpIterOptions.PerformLayout()
+        Me.TabPageOptionsKmeans.ResumeLayout(False)
+        Me.TabPageOptionsKmeans.PerformLayout()
+        Me.grpKmeansFit.ResumeLayout(False)
+        Me.grpKmeansFit.PerformLayout()
+        CType(Me.nudKmeansMaxIterations, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudKmeansStarts, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpKmeansPreprocess.ResumeLayout(False)
+        Me.grpKmeansPreprocess.PerformLayout()
+        Me.grpKmeansBasic.ResumeLayout(False)
+        Me.grpKmeansBasic.PerformLayout()
+        CType(Me.nudKmeansClusters, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPageOptionsHierarchicalClustering.ResumeLayout(False)
+        Me.grpHierarchicalDendrogram.ResumeLayout(False)
+        Me.grpHierarchicalDendrogram.PerformLayout()
+        Me.grpHierarchicalMembership.ResumeLayout(False)
+        Me.grpHierarchicalMembership.PerformLayout()
+        CType(Me.nudHierarchicalClusters, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpHierarchicalPreprocess.ResumeLayout(False)
+        Me.grpHierarchicalPreprocess.PerformLayout()
+        Me.grpHierarchicalBasic.ResumeLayout(False)
+        Me.grpHierarchicalBasic.PerformLayout()
+        Me.TabPageOptionsFA.ResumeLayout(False)
+        Me.grpFAIterations.ResumeLayout(False)
+        Me.grpFAIterations.PerformLayout()
+        CType(Me.nudFAMaxIter, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpFAScoring.ResumeLayout(False)
+        Me.grpFAScoring.PerformLayout()
+        Me.grpFARotation.ResumeLayout(False)
+        Me.grpFARotation.PerformLayout()
+        CType(Me.nudFAPromaxPower, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpFARetention.ResumeLayout(False)
+        Me.grpFARetention.PerformLayout()
+        CType(Me.nudFAVariance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudFAEigen, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudFAFactors, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpFABasic.ResumeLayout(False)
+        Me.grpFABasic.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -498,4 +1605,91 @@ Partial Class Ui11PCA
     Friend WithEvents spinBtnExtractComp As Windows.Forms.NumericUpDown
     Friend WithEvents spinBtnExtractEigen As Windows.Forms.NumericUpDown
     Friend WithEvents ckFirstRow As Windows.Forms.CheckBox
+    Friend WithEvents TabPageOptionsKmeans As Windows.Forms.TabPage
+    Friend WithEvents grpKmeansBasic As Windows.Forms.GroupBox
+    Friend WithEvents cbKmeansInitialization As Windows.Forms.ComboBox
+    Friend WithEvents lblInit As Windows.Forms.Label
+    Friend WithEvents lblK As Windows.Forms.Label
+    Friend WithEvents nudKmeansClusters As Windows.Forms.NumericUpDown
+    Friend WithEvents lblDist As Windows.Forms.Label
+    Friend WithEvents cbKmeansDistance As Windows.Forms.ComboBox
+    Friend WithEvents grpKmeansPreprocess As Windows.Forms.GroupBox
+    Friend WithEvents cbKmeansStandardization As Windows.Forms.ComboBox
+    Friend WithEvents lblStd As Windows.Forms.Label
+    Friend WithEvents cbKmeansMissingPolicy As Windows.Forms.ComboBox
+    Friend WithEvents lblMissing As Windows.Forms.Label
+    Friend WithEvents cbKmeansEmptyCluster As Windows.Forms.ComboBox
+    Friend WithEvents lblEmpty As Windows.Forms.Label
+    Friend WithEvents grpKmeansFit As Windows.Forms.GroupBox
+    Friend WithEvents nudKmeansStarts As Windows.Forms.NumericUpDown
+    Friend WithEvents lblTol As Windows.Forms.Label
+    Friend WithEvents lblKmeanMaxIter As Windows.Forms.Label
+    Friend WithEvents lblStarts As Windows.Forms.Label
+    Friend WithEvents nudKmeansMaxIterations As Windows.Forms.NumericUpDown
+    Friend WithEvents tbKmeansTolerance As Windows.Forms.TextBox
+    Friend WithEvents lblSeed As Windows.Forms.Label
+    Friend WithEvents tbKmeansSeed As Windows.Forms.TextBox
+    Friend WithEvents cbKmeansRowLabel As Windows.Forms.ComboBox
+    Friend WithEvents lblKmeansRowLabel As Windows.Forms.Label
+    Friend WithEvents lblCenterHint As Windows.Forms.Label
+    Friend WithEvents refKmeansCenters As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents lblCenterRef As Windows.Forms.Label
+    Friend WithEvents TabPageOptionsHierarchicalClustering As Windows.Forms.TabPage
+    Friend WithEvents grpHierarchicalBasic As Windows.Forms.GroupBox
+    Friend WithEvents cbHierarchicalDistance As Windows.Forms.ComboBox
+    Friend WithEvents lblDistance As Windows.Forms.Label
+    Friend WithEvents cbHierarchicalLinkage As Windows.Forms.ComboBox
+    Friend WithEvents lblHierarchicalMinkowskiPower As Windows.Forms.Label
+    Friend WithEvents lblLinkage As Windows.Forms.Label
+    Friend WithEvents tbHierarchicalMinkowskiPower As Windows.Forms.TextBox
+    Friend WithEvents grpHierarchicalPreprocess As Windows.Forms.GroupBox
+    Friend WithEvents cbHierarchicalMissingPolicy As Windows.Forms.ComboBox
+    Friend WithEvents lblMissingHierarchicalClustering As Windows.Forms.Label
+    Friend WithEvents cbHierarchicalStandardization As Windows.Forms.ComboBox
+    Friend WithEvents lblStdHierarchicalClustering As Windows.Forms.Label
+    Friend WithEvents grpHierarchicalMembership As Windows.Forms.GroupBox
+    Friend WithEvents optHierarchicalCutByClusters As Windows.Forms.RadioButton
+    Friend WithEvents lblMembershipHint As Windows.Forms.Label
+    Friend WithEvents tbHierarchicalCutHeight As Windows.Forms.TextBox
+    Friend WithEvents optHierarchicalCutByHeight As Windows.Forms.RadioButton
+    Friend WithEvents grpHierarchicalDendrogram As Windows.Forms.GroupBox
+    Friend WithEvents cbHierarchicalOrientation As Windows.Forms.ComboBox
+    Friend WithEvents lblOrientation As Windows.Forms.Label
+    Friend WithEvents cbHierarchicalHeightMode As Windows.Forms.ComboBox
+    Friend WithEvents lblLabelMode As Windows.Forms.Label
+    Friend WithEvents lblHeightMode As Windows.Forms.Label
+    Friend WithEvents nudHierarchicalClusters As Windows.Forms.NumericUpDown
+    Friend WithEvents cbHierarchicalLabelMode As Windows.Forms.ComboBox
+    Friend WithEvents ckHierarchicalCreateDendrogram As Windows.Forms.CheckBox
+    Friend WithEvents TabPageOptionsFA As Windows.Forms.TabPage
+    Friend WithEvents grpFABasic As Windows.Forms.GroupBox
+    Friend WithEvents grpFARetention As Windows.Forms.GroupBox
+    Friend WithEvents cbFAMissingPolicy As Windows.Forms.ComboBox
+    Friend WithEvents lblMissingFa As Windows.Forms.Label
+    Friend WithEvents cbFACommunalityInit As Windows.Forms.ComboBox
+    Friend WithEvents lblFaStartingCommunalities As Windows.Forms.Label
+    Friend WithEvents cbFAExtraction As Windows.Forms.ComboBox
+    Friend WithEvents lblFaExtractionMethod As Windows.Forms.Label
+    Friend WithEvents optFACovariance As Windows.Forms.RadioButton
+    Friend WithEvents optFACorrelation As Windows.Forms.RadioButton
+    Friend WithEvents optFAExtractEigen As Windows.Forms.RadioButton
+    Friend WithEvents optFAExtractFixed As Windows.Forms.RadioButton
+    Friend WithEvents optFAExtractVariance As Windows.Forms.RadioButton
+    Friend WithEvents grpFARotation As Windows.Forms.GroupBox
+    Friend WithEvents nudFAPromaxPower As Windows.Forms.NumericUpDown
+    Friend WithEvents nudFAVariance As Windows.Forms.NumericUpDown
+    Friend WithEvents nudFAEigen As Windows.Forms.NumericUpDown
+    Friend WithEvents nudFAFactors As Windows.Forms.NumericUpDown
+    Friend WithEvents lblFAPromaxPower As Windows.Forms.Label
+    Friend WithEvents ckFAKaiserNormalization As Windows.Forms.CheckBox
+    Friend WithEvents cbFARotation As Windows.Forms.ComboBox
+    Friend WithEvents lblFaRotationMethod As Windows.Forms.Label
+    Friend WithEvents grpFAScoring As Windows.Forms.GroupBox
+    Friend WithEvents cbFAScoreMethod As Windows.Forms.ComboBox
+    Friend WithEvents lblFaScoreMethod As Windows.Forms.Label
+    Friend WithEvents grpFAIterations As Windows.Forms.GroupBox
+    Friend WithEvents tbFAEps As Windows.Forms.TextBox
+    Friend WithEvents nudFAMaxIter As Windows.Forms.NumericUpDown
+    Friend WithEvents lblFAEps As Windows.Forms.Label
+    Friend WithEvents lblFAMaxIter As Windows.Forms.Label
 End Class

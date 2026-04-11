@@ -232,71 +232,6 @@ Public Class Ui99ExportChart
         spinBtnJPGquality.Enabled = isJpg
     End Sub
 
-    ' Detect chart size in POINTS:
-    ' 1) Selected ChartObject (embedded)
-    ' 2) Selected Shape/ShapeRange with HasChart
-    ' 3) ActiveChart (chart sheet or active embedded)
-    Private Function TryGetActiveOrSelectedChartSizePoints(ByRef widthPts As Double, ByRef heightPts As Double) As Boolean
-        widthPts = 0
-        heightPts = 0
-
-        Dim app As Excel.Application = AppGlobals.app
-        If app Is Nothing Then Return False
-
-        ' 1) Selection is ChartObject
-        Try
-            Dim sel As Object = app.Selection
-            If sel IsNot Nothing AndAlso TypeOf sel Is Excel.ChartObject Then
-                Dim co As Excel.ChartObject = DirectCast(sel, Excel.ChartObject)
-                widthPts = co.Width
-                heightPts = co.Height
-                Return (widthPts > 0 AndAlso heightPts > 0)
-            End If
-        Catch
-            ' ignore
-        End Try
-
-        ' 2) Selection is Shape or ShapeRange containing a chart
-        'Try
-        '    Dim sel As Object = app.Selection
-        '    If sel IsNot Nothing AndAlso TypeOf sel Is Excel.Shape Then
-        '        Dim shp As Excel.Shape = DirectCast(sel, Excel.Shape)
-        '        If shp.HasChart Then
-        '            widthPts = shp.Width
-        '            heightPts = shp.Height
-        '            Return (widthPts > 0 AndAlso heightPts > 0)
-        '        End If
-        '    ElseIf sel IsNot Nothing AndAlso TypeOf sel Is Excel.ShapeRange Then
-        '        Dim sr As Excel.ShapeRange = DirectCast(sel, Excel.ShapeRange)
-        '        If sr.Count >= 1 Then
-        '            Dim shp As Excel.Shape = sr.Item(1)
-        '            If shp IsNot Nothing AndAlso shp.HasChart Then
-        '                widthPts = shp.Width
-        '                heightPts = shp.Height
-        '                Return (widthPts > 0 AndAlso heightPts > 0)
-        '            End If
-        '        End If
-        '    End If
-        'Catch
-        '    ' ignore
-        'End Try
-
-        ' 3) ActiveChart (chart sheets and sometimes embedded)
-        Try
-            Dim ch As Excel.Chart = app.ActiveChart
-            If ch IsNot Nothing Then
-                ' ChartArea sizes are points
-                widthPts = ch.ChartArea.Width
-                heightPts = ch.ChartArea.Height
-                Return (widthPts > 0 AndAlso heightPts > 0)
-            End If
-        Catch
-            ' ignore
-        End Try
-
-        Return False
-    End Function
-
     ' Determines what should be selected initially 
     Private Sub GetInitialSelection(ByRef sheetKind As String,
                                 ByRef sheetName As String,
@@ -531,8 +466,8 @@ Public Class Ui99ExportChart
                                                                      MessageBox.Show(Me, "Chart exported successfully.", "Export Chart",
                                                                                       MessageBoxButtons.OK, MessageBoxIcon.Information)
                                                                  Catch ex As Exception
-                                                                     MessageBox.Show(Me, ex.Message, "Export Chart",
-                                                                                     MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                                                     AppInfrastructure.AppGlobals.BSlogg.Error(ex, $"Chart export failed. path='{path}'; format={fmt}; dpi={dpi}; widthPx={wPx}; heightPx={hPx}")
+                                                                     MessageBox.Show(Me, ex.Message, "Export Chart", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                                                  Finally
                                                                      Me.btExport.Enabled = True
                                                                  End Try

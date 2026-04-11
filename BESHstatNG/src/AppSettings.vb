@@ -13,6 +13,7 @@ Namespace AppInfrastructure
             Version = 2
             Diagnostics = New DiagnosticsSettings()
             DefaultAlpha = 0.05
+            DefaultRandomSeed = Integer.MinValue
         End Sub
 
         <XmlAttribute("version")>
@@ -26,12 +27,20 @@ Namespace AppInfrastructure
         ''' </summary>
         Public Property DefaultAlpha As Double
 
+        ''' <summary>
+        ''' Global default pseudo-random seed used by workflows that support stochastic behavior but do not expose
+        ''' a dedicated seed input on their own form. The sentinel <see cref="Integer.MinValue"/> means to use a time-based seed.
+        ''' </summary>
+        Public Property DefaultRandomSeed As Integer
+
         Public Sub EnsureDefaults()
             If Diagnostics Is Nothing Then Diagnostics = New DiagnosticsSettings()
 
             If DefaultAlpha <= 0.0 OrElse DefaultAlpha >= 1.0 Then
                 DefaultAlpha = 0.05
             End If
+            
+            if DefaultRandomSeed = 0 then DefaultRandomSeed = Integer.MinValue
         End Sub
     End Class
 
@@ -79,10 +88,17 @@ Namespace AppInfrastructure
                     Return settings
                 End Using
             Catch ex As Exception
-                Debug.WriteLine("Failed to load settings file: " & ex.Message)
+                AppGlobals.BSlogg.Warn($"Failed to load settings file '{_settingsPath}'. Defaults will be recreated. {ex.Message}")
 
                 Dim defaults = CreateDefault()
-                Save(defaults)
+
+                Try
+                    Save(defaults)
+                    AppGlobals.BSlogg.Info($"Default settings file recreated at '{_settingsPath}'.")
+                Catch saveEx As Exception
+                    AppGlobals.BSlogg.Error(saveEx, $"Failed to recreate default settings file '{_settingsPath}'.")
+                End Try
+
                 Return defaults
             End Try
         End Function

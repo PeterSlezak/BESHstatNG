@@ -382,7 +382,6 @@ Namespace graphics
 
                     sBinSize = 2.0 * (Quartiles.Q3 - Quartiles.Q1) / nn ^ (1 / 3)
                     iNoBins = Math.Round((arInput.Max() - min) / sBinSize)
-
             End Select
 
 
@@ -399,13 +398,6 @@ Namespace graphics
             sBinSize = breaks(1) - breaks(0)
 
             ReDim out(iNoBins - 1, 1)
-            'Dim digs As Integer = DecimalsForStep(sBinSize)
-
-            ''Midpoints and initialize frequencies
-            'For i = 0 To iNoBins - 1
-            '    out(i, 0) = Math.Round((breaks(i) + breaks(i + 1)) / 2.0, digs)
-            '    out(i, 1) = 0
-            'Next
             Dim digs As Integer = DecimalsForStep(sBinSize)
 
             ' Midpoints may require more decimals than the bin width (e.g. step=1 => midpoint ends with .5)
@@ -435,8 +427,7 @@ Namespace graphics
                 End If
 
                 out(idx, 1) = CInt(out(idx, 1)) + 1
-            Next i
-
+            Next
 
             Return out
         End Function
@@ -615,7 +606,6 @@ Namespace graphics
             Else
                 dBinSize = 1.0
             End If
-            'If UBound(arBinMidVal) >= 1 Then dBinSize = Math.Abs(arBinMidVal(0) - arBinMidVal(1))
 
             'calculate 100 values for superimposed gaussian curve
             Dim dMin As Double = arData.Min()

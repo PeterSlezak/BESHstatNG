@@ -102,8 +102,8 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim result As PairedTTestSampleSizeResult = SampleSizeCalculator.CalculatePairedTTest(diff.Value, sd.Value, a.Value, b.Value)
                 Return MakeMetricValueTable("Required pairs", result.NumberOfPairs)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.SSIZE.SSIZE_TTEST_PAIRED", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -187,8 +187,8 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim result As UnpairedTTestSampleSizeResult = SampleSizeCalculator.CalculateUnpairedTTest(diff.Value, sd.Value, kappa.Value, a.Value, b.Value)
                 Return MakeTwoGroupTable("Required subjects", result.NumberOfControls, result.NumberOfExperimental)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.SSIZE.SSIZE_TTEST_UNPAIRED", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -264,8 +264,8 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim result As SingleProportionSampleSizeResult = SampleSizeCalculator.CalculateSingleProportion(prop.Value, h0.Value, a.Value, b.Value)
                 Return MakeMetricValueTable("Required subjects", result.NumberOfSubjects)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.SSIZE.SSIZE_PROP_SINGLE", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -349,13 +349,9 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim result As IndependentProportionsSampleSizeResult = SampleSizeCalculator.CalculateIndependentProportions(cProp.Value, eProp.Value, kappa.Value, a.Value, b.Value)
                 Return MakeIndependentProportionsTable(result)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.SSIZE.SSIZE_PROP_INDEP", ex, ExcelError.ExcelErrorValue)
             End Try
-        End Function
-
-        Private Function IsOpenUnitInterval(value As Double) As Boolean
-            Return value > 0.0 AndAlso value < 1.0 AndAlso Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
         End Function
 
         Private Function IsClosedUnitInterval(value As Double) As Boolean

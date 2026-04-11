@@ -187,6 +187,41 @@ Public Class DataObj
         Me.RemoveMissing(CharCols, SkipRow)
     End Sub
 
+    Public Overridable Sub DataImportRawMatrix(rawInput(,) As Object,
+                                           variableNames() As String,
+                                           Optional firstSourceRow As Integer = 1,
+                                           Optional sourceWorksheet As Worksheet = Nothing,
+                                           Optional CharCols As Integer = -1,
+                                           Optional SkipRow As Integer = 0)
+
+        If rawInput Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rawInput)))
+        If variableNames Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(variableNames)))
+        Dim rows As Integer = rawInput.GetLength(0)
+        Dim cols As Integer = rawInput.GetLength(1)
+
+        If rows < 1 OrElse cols < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("rawInput must contain at least one row and one column."))
+        If variableNames.Length <> cols Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"variableNames length ({variableNames.Length}) must match the number of columns ({cols})."))
+
+        Me.ws = sourceWorksheet
+        Me.nRows = rows
+        Me.nCols = cols
+        Me.StartRow = Math.Max(1, firstSourceRow)
+
+        ReDim Me.varNames(cols - 1)
+        For j As Integer = 0 To cols - 1
+            Me.varNames(j) = If(variableNames(j), String.Empty)
+        Next
+
+        ReDim Me.RawData(Me.StartRow + rows - 1, cols - 1)
+        For i As Integer = 0 To rows - 1
+            For j As Integer = 0 To cols - 1
+                Me.RawData(Me.StartRow + i, j) = rawInput(i, j)
+            Next
+        Next
+
+        Me.RemoveMissing(CharCols, SkipRow)
+    End Sub
+
     ''' <summary>
     ''' Prepares the raw data matrix from a worksheet reference string, handling non-contiguous ranges.
     ''' </summary>
@@ -413,10 +448,11 @@ Public Class DataObj
                         jj += 1
                     End If
                 Else
-                    If CharCols > -1 Or haveChar.Contains(j) Then 'we had some character value in this column so convert everything to char
-                        Me.FinalData(i, j) = CStr(Me.RawData(RowIds(i), j))
-                    Else
-                        Me.FinalData(i, j) = Me.RawData(RowIds(i), j)
+                    'If CharCols > -1 Or haveChar.Contains(j) Then 'we had some character value in this column so convert everything to char
+                    If (CharCols > -1 AndAlso j <= CharCols) OrElse haveChar.Contains(j) Then 'convert only declared/text columns to text
+                            Me.FinalData(i, j) = CStr(Me.RawData(RowIds(i), j))
+                        Else
+                            Me.FinalData(i, j) = Me.RawData(RowIds(i), j)
                     End If
                 End If
             Next
@@ -524,6 +560,30 @@ Public Class glmData
         Me.RowIds = rIds.Values.ToArray()
     End Sub
 
+    Private Sub SplitOffsetAndWeights()
+        If Me.bWeights Then
+            ReDim Me.WeightData(Me.nRows - 1)
+            For i = 0 To Me.nRows - 1
+                Me.WeightData(i) = CDbl(Me.FinalData(i, Me.nCols - 1))
+            Next
+            Me.WeightVarName = Me.varNames(Me.nCols - 1)
+            ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 2)
+            ReDim Preserve Me.varNames(Me.nCols - 2)
+            Me.nCols -= 1
+        End If
+
+        If Me.bOffset Then
+            ReDim Me.OffsetData(Me.nRows - 1)
+            For i = 0 To Me.nRows - 1
+                Me.OffsetData(i) = CDbl(Me.FinalData(i, Me.nCols - 1))
+            Next
+            Me.OffsetVarName = Me.varNames(Me.nCols - 1)
+            ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 2)
+            ReDim Preserve Me.varNames(Me.nCols - 2)
+            Me.nCols -= 1
+        End If
+    End Sub
+
     ''' <summary>
     ''' Imports data from a worksheet reference into the <c>glmData</c> object,
     ''' separating offset and weight columns if enabled.
@@ -546,34 +606,21 @@ Public Class glmData
     ''' Console.WriteLine("Offset variable: " + glm.WeightVarName)
     ''' </example>
     Public Overrides Sub DataInport(ByRef ref As String, Optional bStartRow As Boolean = False,
-                                   Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
+                               Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
 
         MyBase.DataInport(ref, bStartRow, CharCols, SkipRow)
+        SplitOffsetAndWeights()
+    End Sub
 
-        'process offset and weights
-        If Me.bWeights Then
-            'Last column is offset. Put it to separate array
-            ReDim Me.WeightData(Me.nRows - 1)
-            For i = 0 To Me.nRows - 1
-                Me.WeightData(i) = Me.FinalData(i, Me.nCols - 1)
-            Next
-            Me.WeightVarName = Me.varNames(Me.nCols - 1)
-            ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 2)
-            ReDim Preserve Me.varNames(Me.nCols - 2)
-            Me.nCols -= 1
-        End If
+    Public Overrides Sub DataImportRawMatrix(rawInput(,) As Object,
+                                         variableNames() As String,
+                                         Optional firstSourceRow As Integer = 1,
+                                         Optional sourceWorksheet As Worksheet = Nothing,
+                                         Optional CharCols As Integer = -1,
+                                         Optional SkipRow As Integer = 0)
 
-        If Me.bOffset Then
-            'Last column is offset. Put it to separate array
-            ReDim Me.OffsetData(Me.nRows - 1)
-            For i = 0 To Me.nRows - 1
-                Me.OffsetData(i) = Me.FinalData(i, Me.nCols - 1)
-            Next
-            Me.OffsetVarName = Me.varNames(Me.nCols - 1)
-            ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 2)
-            ReDim Preserve Me.varNames(Me.nCols - 2)
-            Me.nCols -= 1
-        End If
+        MyBase.DataImportRawMatrix(rawInput, variableNames, firstSourceRow, sourceWorksheet, CharCols, SkipRow)
+        SplitOffsetAndWeights()
     End Sub
 End Class
 
@@ -648,6 +695,21 @@ Public Class geeData
                                    Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
 
         MyBase.DataInport(ref, bStartRow, CharCols, SkipRow)
+        FinalizeGeeImport()
+    End Sub
+
+    Public Overrides Sub DataImportRawMatrix(rawInput(,) As Object,
+                                         variableNames() As String,
+                                         Optional firstSourceRow As Integer = 1,
+                                         Optional sourceWorksheet As Worksheet = Nothing,
+                                         Optional CharCols As Integer = -1,
+                                         Optional SkipRow As Integer = 0)
+
+        MyBase.DataImportRawMatrix(rawInput, variableNames, firstSourceRow, sourceWorksheet, CharCols, SkipRow)
+        FinalizeGeeImport()
+    End Sub
+
+    Private Sub FinalizeGeeImport()
 
         'Sort by repeats clusterid (subject) and within cluster ordering varianble (if provided)
         'It is required by some GEE algorithms logic
@@ -816,29 +878,49 @@ Public Class CoxPHData
     ''' Console.WriteLine("Covariates: " + String.Join(",", cox.varNames))
     ''' </example>
     Public Overrides Sub DataInport(ByRef ref As String, Optional bStartRow As Boolean = False,
-                                    Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
+                                Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
 
-        MyBase.DataInport(ref, bStartRow, CharCols, SkipRow)
+        Dim effectiveCharCols As Integer = CharCols
+        If Me.bStrata AndAlso effectiveCharCols < 2 Then
+            effectiveCharCols = 2
+        End If
 
-        'Sort by repeats ClusterID (subject) and within cluster ordering varianble (if provided)
-        'It is required by some GEE logic
+        MyBase.DataInport(ref, bStartRow, effectiveCharCols, SkipRow)
+        FinalizeCoxImport()
+    End Sub
 
-        'In the data we should always have Time varaible in the 1st column, Censorting variable in the 2nd column
-        ' Strata variable (optional) in the 3rd column, followed by covariates
-        'process offset and weights
+    Public Overrides Sub DataImportRawMatrix(rawInput(,) As Object,
+                                         variableNames() As String,
+                                         Optional firstSourceRow As Integer = 1,
+                                         Optional sourceWorksheet As Worksheet = Nothing,
+                                         Optional CharCols As Integer = -1,
+                                         Optional SkipRow As Integer = 0)
+
+        Dim effectiveCharCols As Integer = CharCols
+        If Me.bStrata AndAlso effectiveCharCols < 2 Then
+            effectiveCharCols = 2
+        End If
+
+        MyBase.DataImportRawMatrix(rawInput, variableNames, firstSourceRow, sourceWorksheet, effectiveCharCols, SkipRow)
+        FinalizeCoxImport()
+    End Sub
+
+    Private Sub FinalizeCoxImport()
         ReDim TimeData(Me.nRows - 1), CensorData(Me.nRows - 1)
+
         For i = 0 To Me.nRows - 1
-            Me.TimeData(i) = Me.FinalData(i, 0)
+            Me.TimeData(i) = CDbl(Me.FinalData(i, 0))
+
             If Not (Me.FinalData(i, 1) = 0 Or Me.FinalData(i, 1) = 1) Then
                 AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Censorting value is not 1/0. Value ={Me.FinalData(i, 1)}"))
             End If
-            Me.CensorData(i) = Int(Me.FinalData(i, 1))
+
+            Me.CensorData(i) = CInt(Me.FinalData(i, 1))
             Me.TimeVarName = Me.varNames(0)
             Me.CensorVarName = Me.varNames(1)
         Next
 
         If Me.bStrata Then
-            'Last column is offset. Put it to separate array
             ReDim Me.StrataData(Me.nRows - 1)
             For i = 0 To Me.nRows - 1
                 Me.StrataData(i) = CStr(Me.FinalData(i, 2))
@@ -857,7 +939,6 @@ Public Class CoxPHData
             Me.nCols -= 3
         Else
             For i = 0 To Me.nRows - 1
-                Dim Xs(Me.nCols - 3) As Double
                 For j = 2 To Me.nCols - 1
                     Me.FinalData(i, j - 2) = Me.FinalData(i, j)
                     If i = 0 Then Me.varNames(j - 2) = Me.varNames(j)
@@ -866,16 +947,16 @@ Public Class CoxPHData
 
             ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 3)
             ReDim Preserve Me.varNames(Me.nCols - 3)
-            Debug.Print(Matrix.array2str(Me.varNames))
             Me.nCols -= 2
         End If
 
-        'create list of Record data
+        SurvRecordsList.Clear()
         For i = 0 To Me.nRows - 1
             Dim Xs(Me.nCols - 1) As Double
             For j = 0 To Me.nCols - 1
-                Xs(j) = Me.FinalData(i, j)
+                Xs(j) = CDbl(Me.FinalData(i, j))
             Next
+
             Dim sr = New survival.SurvivalRecord
             sr.Censorship = Me.CensorData(i)
             sr.Stratum = If(Me.bStrata, Me.StrataData(i), "0")
@@ -885,5 +966,4 @@ Public Class CoxPHData
             SurvRecordsList.Add(sr)
         Next
     End Sub
-
 End Class

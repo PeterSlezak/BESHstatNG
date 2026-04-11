@@ -61,10 +61,10 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim x1 As Double(), x2 As Double()
             Dim err As ExcelError? = Nothing
 
-            x1 = ExtractNumericColumn(group1, err)
+            x1 = UDFhelpers.ExtractNumericColumnIgnoringNonNumeric(group1, err)
             If err.HasValue Then Return err.Value
 
-            x2 = ExtractNumericColumn(group2, err)
+            x2 = UDFhelpers.ExtractNumericColumnIgnoringNonNumeric(group2, err)
             If err.HasValue Then Return err.Value
 
             If x1.Length < 1 OrElse x2.Length < 1 Then
@@ -143,10 +143,10 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim x1 As Double(), x2 As Double()
             Dim err As ExcelError? = Nothing
 
-            x1 = ExtractNumericColumn(group1, err)
+            x1 = UDFhelpers.ExtractNumericColumnIgnoringNonNumeric(group1, err)
             If err.HasValue Then Return err.Value
 
-            x2 = ExtractNumericColumn(group2, err)
+            x2 = UDFhelpers.ExtractNumericColumnIgnoringNonNumeric(group2, err)
             If err.HasValue Then Return err.Value
 
             If x1.Length < 1 OrElse x2.Length < 1 Then
@@ -232,7 +232,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim pairs As Double(,)
             Dim err As ExcelError? = Nothing
 
-            pairs = ExtractPairedNumericColumns(x, y, err)
+            pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(x, y, err)
             If err.HasValue Then Return err.Value
 
             If pairs Is Nothing OrElse pairs.GetLength(0) < 1 Then
@@ -304,7 +304,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim pairs As Double(,)
             Dim err As ExcelError? = Nothing
 
-            pairs = ExtractPairedNumericColumns(x, y, err)
+            pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(x, y, err)
             If err.HasValue Then Return err.Value
 
             If pairs Is Nothing OrElse pairs.GetLength(0) < 1 Then
@@ -380,7 +380,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.NP.SPEARMAN_RHO",
             Category:="BESHStatNG - Nonparametric",
             Description:="Spearman rank correlation coefficient (ρ) for two paired samples.",
-            HelpTopic:="/latest/udf/nonparametric.md#beshnpspearman_rho"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric.md"
         )>
         Public Function SPEARMAN_RHO(
             <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
@@ -388,7 +388,7 @@ Namespace BESHStatNG.WorksheetFunctions
             <ExcelArgument(Name:="alpha", Description:="Optional alpha for internal CI metadata; coefficient output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim pairs = ExtractPairedNumericColumns(xRange, yRange, err)
+            Dim pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
@@ -451,7 +451,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.NP.SPEARMAN_P",
             Category:="BESHStatNG - Nonparametric",
             Description:="Two-sided p-value for Spearman rank correlation test (paired samples).",
-            HelpTopic:="/latest/udf/nonparametric.md#beshnpspearman_p"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
         )>
         Public Function SPEARMAN_P(
             <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
@@ -459,7 +459,7 @@ Namespace BESHStatNG.WorksheetFunctions
             <ExcelArgument(Name:="alpha", Description:="Optional alpha passed through for API consistency; p-value output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim pairs = ExtractPairedNumericColumns(xRange, yRange, err)
+            Dim pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
@@ -529,7 +529,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.NP.KENDALL_TAU",
             Category:="BESHStatNG - Nonparametric",
             Description:="Kendall rank correlation coefficient (τb) for two paired samples.",
-            HelpTopic:="/latest/udf/nonparametric.md#beshnpkendall_tau"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
         )>
         Public Function KENDALL_TAU(
             <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
@@ -537,7 +537,7 @@ Namespace BESHStatNG.WorksheetFunctions
             <ExcelArgument(Name:="alpha", Description:="Optional alpha for internal CI metadata; coefficient output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim pairs = ExtractPairedNumericColumns(xRange, yRange, err)
+            Dim pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
@@ -593,7 +593,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.NP.KENDALL_P",
             Category:="BESHStatNG - Nonparametric",
             Description:="P-value for Kendall rank correlation test (τb) for two paired samples.",
-            HelpTopic:="/latest/udf/nonparametric.md#beshnpkendall_p"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
         )>
         Public Function KENDALL_P(
             <ExcelArgument(Name:="x", Description:="One-column range for X (paired by row).")> xRange As Object,
@@ -601,7 +601,7 @@ Namespace BESHStatNG.WorksheetFunctions
             <ExcelArgument(Name:="alpha", Description:="Optional alpha passed through for API consistency; p-value output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim pairs = ExtractPairedNumericColumns(xRange, yRange, err)
+            Dim pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 4 Then Return ExcelError.ExcelErrorNum
 
@@ -665,7 +665,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.NP.KW_STAT",
             Category:="BESHStatNG - Nonparametric",
             Description:="Kruskal-Wallis test statistic H (or tie-corrected Hcor) for 2+ independent groups.",
-            HelpTopic:="/latest/udf/nonparametric.md#beshnpkw_stat"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
         )>
         Public Function KW_STAT(
             <ExcelArgument(Name:="groups", Description:="Multi-column range: one column per group (independent samples).")> groups As Object,
@@ -673,7 +673,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim data = ExtractNumericGroupsFromColumns(groups, err)
+            Dim data = UDFhelpers.ExtractNumericGroupsFromColumnsIgnoringNonNumeric(groups, err)
             If err.HasValue Then Return err.Value
             If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
@@ -732,7 +732,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.NP.KW_P",
             Category:="BESHStatNG - Nonparametric",
             Description:="P-value for Kruskal-Wallis test (based on H or tie-corrected Hcor) for 2+ independent groups.",
-            HelpTopic:="/latest/udf/nonparametric.md#beshnpkw_p"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/nonparametric/"
         )>
         Public Function KW_P(
             <ExcelArgument(Name:="groups", Description:="Multi-column range: one column per group (independent samples).")> groups As Object,
@@ -740,7 +740,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim data = ExtractNumericGroupsFromColumns(groups, err)
+            Dim data = UDFhelpers.ExtractNumericGroupsFromColumnsIgnoringNonNumeric(groups, err)
             If err.HasValue Then Return err.Value
             If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
@@ -805,7 +805,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.NP.FRIEDMAN_STAT",
             Category:="BESHStatNG - Nonparametric",
             Description:="Friedman test statistic for repeated-measures/blocked designs (T1 chi-square or T2 F-approximation).",
-            HelpTopic:="udf/nonparametric.md#beshnpfriedman_stat"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/nonparametric/"
         )>
         Public Function FRIEDMAN_STAT(
             <ExcelArgument(Name:="data", Description:="Multi-column range: columns=treatments, rows=blocks/subjects (complete rows only).")> data As Object,
@@ -815,7 +815,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim mat As Double(,) = Nothing
                 Dim k As Integer = 0, b As Integer = 0
-                If Not ExtractCompleteNumericMatrix(data, mat, b, k) Then
+                If Not UDFhelpers.ExtractCompleteNumericMatrixCompleteCases(data, mat, b, k) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If b < 2 OrElse k < 2 Then
@@ -879,7 +879,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.NP.FRIEDMAN_P",
             Category:="BESHStatNG - Nonparametric",
             Description:="Friedman test p-value for repeated-measures/blocked designs (chi-square or F-approximation).",
-            HelpTopic:="udf/nonparametric.md#beshnpfriedman_p"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/nonparametric/"
         )>
         Public Function FRIEDMAN_P(
             <ExcelArgument(Name:="data", Description:="Multi-column range: columns=treatments, rows=blocks/subjects (complete rows only).")> data As Object,
@@ -889,7 +889,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim mat As Double(,) = Nothing
                 Dim k As Integer = 0, b As Integer = 0
-                If Not ExtractCompleteNumericMatrix(data, mat, b, k) Then
+                If Not UDFhelpers.ExtractCompleteNumericMatrixCompleteCases(data, mat, b, k) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If b < 2 OrElse k < 2 Then
@@ -960,7 +960,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadGroupedNumericColumnsWithHeaders(groups, data, detectedNames) Then
+                If Not UDFhelpers.TryReadGroupedNumericColumns(groups, data, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
@@ -1027,7 +1027,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                If Not UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
@@ -1069,74 +1069,6 @@ Namespace BESHStatNG.WorksheetFunctions
         ' -------------------------------------------------------------------------------------------------------------
 
         ''' <summary>
-        ''' Extracts numeric values from an Excel range that must be a single column.
-        ''' Non-numeric cells (empty, text, logical, error) are ignored.
-        ''' </summary>
-        Private Function ExtractNumericColumn(arg As Object, ByRef err As ExcelError?) As Double()
-            err = Nothing
-
-            If arg Is Nothing OrElse TypeOf arg Is ExcelMissing OrElse TypeOf arg Is ExcelEmpty Then
-                Return Array.Empty(Of Double)()
-            End If
-
-            ' Excel passes ranges as a 2-D object array.
-            If TypeOf arg Is Object(,) Then
-                Dim arr = DirectCast(arg, Object(,))
-                Dim rows As Integer = arr.GetLength(0)
-                Dim cols As Integer = arr.GetLength(1)
-
-                If cols <> 1 Then
-                    err = ExcelError.ExcelErrorValue
-                    Return Array.Empty(Of Double)()
-                End If
-
-                Dim values As New List(Of Double)(rows)
-                For r = 0 To rows - 1
-                    Dim v As Object = arr(r, 0)
-                    If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then
-                        Continue For
-                    End If
-                    If TypeOf v Is ExcelError Then
-                        Continue For
-                    End If
-                    If TypeOf v Is Boolean OrElse TypeOf v Is String Then
-                        Continue For
-                    End If
-                    Try
-                        Dim d As Double = Convert.ToDouble(v)
-                        If Not Double.IsNaN(d) AndAlso Not Double.IsInfinity(d) Then
-                            values.Add(d)
-                        End If
-                    Catch
-                        ' Ignore anything not convertible to a number.
-                    End Try
-                Next
-
-                Return values.ToArray()
-            End If
-
-            ' Single cell / scalar.
-            If TypeOf arg Is ExcelError Then
-                err = DirectCast(arg, ExcelError)
-                Return Array.Empty(Of Double)()
-            End If
-            If TypeOf arg Is Boolean OrElse TypeOf arg Is String Then
-                Return Array.Empty(Of Double)()
-            End If
-            Try
-                Dim d As Double = Convert.ToDouble(arg)
-                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then
-                    Return Array.Empty(Of Double)()
-                End If
-                Return New Double() {d}
-            Catch
-                Return Array.Empty(Of Double)()
-            End Try
-        End Function
-
-
-
-        ''' <summary>
         ''' Ensures probabilities lie in [0,1] and are finite; otherwise returns #NUM!.
         ''' </summary>
         Private Function ClampProb(p As Double) As Object
@@ -1146,74 +1078,6 @@ Namespace BESHStatNG.WorksheetFunctions
             If p < 0.0 Then p = 0.0
             If p > 1.0 Then p = 1.0
             Return p
-        End Function
-
-        ''' <summary>
-        ''' Converts an Excel argument to a 2-D object array (matrix).
-        ''' Scalars are treated as a 1x1 matrix.
-        ''' </summary>
-        Private Function ToObjectMatrix(arg As Object, ByRef err As ExcelError?) As Object(,)
-            err = Nothing
-
-            If arg Is Nothing OrElse TypeOf arg Is ExcelMissing OrElse TypeOf arg Is ExcelEmpty Then
-                Return New Object(0, 0) {{ExcelEmpty.Value}}
-            End If
-
-            If TypeOf arg Is Object(,) Then
-                Return DirectCast(arg, Object(,))
-            End If
-
-            If TypeOf arg Is ExcelError Then
-                err = DirectCast(arg, ExcelError)
-                Return New Object(0, 0) {{arg}}
-            End If
-
-            Return New Object(0, 0) {{arg}}
-        End Function
-
-        ''' <summary>
-        ''' Extracts paired numeric values from two Excel ranges that must each be a single column
-        ''' and must have the same number of rows. Values are paired by row.
-        ''' Rows where either value is non-numeric (empty, text, logical, error) are ignored.
-        ''' </summary>
-        Private Function ExtractPairedNumericColumns(x As Object, y As Object, ByRef err As ExcelError?) As Double(,)
-            err = Nothing
-
-            Dim ax As Object(,) = ToObjectMatrix(x, err)
-            If err.HasValue Then Return Nothing
-
-            Dim ay As Object(,) = ToObjectMatrix(y, err)
-            If err.HasValue Then Return Nothing
-
-            Dim rowsX As Integer = ax.GetLength(0)
-            Dim colsX As Integer = ax.GetLength(1)
-            Dim rowsY As Integer = ay.GetLength(0)
-            Dim colsY As Integer = ay.GetLength(1)
-
-            If colsX <> 1 OrElse colsY <> 1 OrElse rowsX <> rowsY Then
-                err = ExcelError.ExcelErrorValue
-                Return Nothing
-            End If
-
-            Dim pairs As New List(Of Tuple(Of Double, Double))(rowsX)
-            For r = 0 To rowsX - 1
-                Dim dx? As Double = TryGetDouble(ax(r, 0))
-                Dim dy? As Double = TryGetDouble(ay(r, 0))
-                If dx.HasValue AndAlso dy.HasValue Then
-                    pairs.Add(Tuple.Create(dx.Value, dy.Value))
-                End If
-            Next
-
-            If pairs.Count = 0 Then
-                Return Nothing
-            End If
-
-            Dim out(pairs.Count - 1, 1) As Double
-            For i = 0 To pairs.Count - 1
-                out(i, 0) = pairs(i).Item1
-                out(i, 1) = pairs(i).Item2
-            Next
-            Return out
         End Function
 
         ''' <summary>
@@ -1255,42 +1119,6 @@ Namespace BESHStatNG.WorksheetFunctions
             Return 0
         End Function
 
-        ''' <summary>
-        ''' Extracts numeric group data from an Excel range where each column is a group.
-        ''' Non-numeric cells (empty, text, logical, error) are ignored within each column.
-        ''' Columns with no numeric values are ignored.
-        ''' </summary>
-        ''' <param name="arg">Excel input range (multi-column).</param>
-        ''' <param name="err">Returns #VALUE! if the input is not a 2-D range.</param>
-        Private Function ExtractNumericGroupsFromColumns(arg As Object, ByRef err As ExcelError?) As Double()()
-            err = Nothing
-
-            Dim mat As Object(,) = ToObjectMatrix(arg, err)
-            If err.HasValue Then Return Nothing
-
-            Dim rows As Integer = mat.GetLength(0)
-            Dim cols As Integer = mat.GetLength(1)
-
-            If cols < 1 Then
-                err = ExcelError.ExcelErrorValue
-                Return Nothing
-            End If
-
-            Dim groups As New List(Of Double())(cols)
-            For c = 0 To cols - 1
-                Dim values As New List(Of Double)(rows)
-                For r = 0 To rows - 1
-                    Dim d? As Double = TryGetDouble(mat(r, c))
-                    If d.HasValue Then values.Add(d.Value)
-                Next
-                If values.Count > 0 Then
-                    groups.Add(values.ToArray())
-                End If
-            Next
-
-            Return groups.ToArray()
-        End Function
-
         ' Helper: parse Friedman statistic/p-value selector. Returns 1 for T1 (chi-square), 2 for T2 (F-approx).
         Private Function ParseFriedmanType(selector As Object, Optional defaultToT1 As Boolean = True) As Integer
             Dim s As String = ""
@@ -1310,144 +1138,5 @@ Namespace BESHStatNG.WorksheetFunctions
             Return 1
         End Function
 
-        ' Helper: Extract complete numeric rows from a multi-column Excel range (rows = blocks, columns = treatments).
-        Private Function ExtractCompleteNumericMatrix(input As Object, ByRef mat As Double(,), ByRef noRows As Integer, ByRef noCols As Integer) As Boolean
-            mat = Nothing
-            noRows = 0
-            noCols = 0
-
-            Dim arr As Object(,) = TryCast(input, Object(,))
-            If arr Is Nothing Then
-                Return False
-            End If
-
-            Dim r As Integer = arr.GetLength(0)
-            Dim c As Integer = arr.GetLength(1)
-            If c < 2 Then Return False
-
-            Dim rows As New List(Of Double())()
-
-            For i = 0 To r - 1
-                Dim rowVals(c - 1) As Double
-                Dim ok As Boolean = True
-
-                For j = 0 To c - 1
-                    Dim v As Object = arr(i, j)
-
-                    If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then
-                        ok = False
-                        Exit For
-                    End If
-
-                    Dim d As Double
-                    If TypeOf v Is Double Then
-                        d = CDbl(v)
-                    ElseIf TypeOf v Is Single Then
-                        d = CDbl(v)
-                    ElseIf TypeOf v Is Integer OrElse TypeOf v Is Long OrElse TypeOf v Is Short OrElse TypeOf v Is Decimal Then
-                        d = Convert.ToDouble(v)
-                    ElseIf TypeOf v Is String Then
-                        If Not Double.TryParse(CStr(v), Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, d) AndAlso
-                           Not Double.TryParse(CStr(v), d) Then
-                            ok = False
-                            Exit For
-                        End If
-                    Else
-                        ok = False
-                        Exit For
-                    End If
-
-                    If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then
-                        ok = False
-                        Exit For
-                    End If
-                    rowVals(j) = d
-                Next
-
-                If ok Then rows.Add(rowVals)
-            Next
-
-            noRows = rows.Count
-            noCols = c
-            If noRows < 2 Then Return True ' caller will decide NUM
-
-            mat = New Double(noRows - 1, c - 1) {}
-            For i = 0 To noRows - 1
-                For j = 0 To c - 1
-                    mat(i, j) = rows(i)(j)
-                Next
-            Next
-
-            Return True
-        End Function
-
-        Private Function TryReadGroupedNumericColumnsWithHeaders(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
-            groups = Nothing
-            names = Nothing
-
-            Dim err As ExcelError? = Nothing
-            Dim arr As Object(,) = ToObjectMatrix(input, err)
-            If err.HasValue OrElse arr Is Nothing Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If cols < 1 OrElse rows < 1 Then Return False
-
-            Dim hasHeader As Boolean = LooksLikeHeaderRowAllCols(arr)
-            Dim startRow As Integer = If(hasHeader, 1, 0)
-
-            Dim groupList As New List(Of Double())
-            Dim nameList As New List(Of String)
-
-            For c As Integer = 0 To cols - 1
-                Dim vals As New List(Of Double)
-                For r As Integer = startRow To rows - 1
-                    Dim d = TryGetDouble(arr(r, c))
-                    If d.HasValue Then vals.Add(d.Value)
-                Next
-
-                If vals.Count > 0 Then
-                    groupList.Add(vals.ToArray())
-                    If hasHeader Then
-                        nameList.Add(Convert.ToString(arr(0, c)).Trim())
-                    Else
-                        nameList.Add("Group " & groupList.Count.ToString())
-                    End If
-                End If
-            Next
-
-            If groupList.Count < 2 Then Return False
-            groups = groupList.ToArray()
-            names = nameList.ToArray()
-            Return True
-        End Function
-
-        Private Function LooksLikeHeaderRowAllCols(arr As Object(,)) As Boolean
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows < 2 Then Return False
-
-            Dim anyNonNumeric As Boolean = False
-            For c As Integer = 0 To cols - 1
-                If Not TryGetDouble(arr(0, c)).HasValue Then
-                    anyNonNumeric = True
-                    Exit For
-                End If
-            Next
-            If Not anyNonNumeric Then Return False
-
-            For c As Integer = 0 To cols - 1
-                Dim foundNumericBelow As Boolean = False
-                For r As Integer = 1 To rows - 1
-                    If TryGetDouble(arr(r, c)).HasValue Then
-                        foundNumericBelow = True
-                        Exit For
-                    End If
-                Next
-                If Not foundNumericBelow Then Return False
-            Next
-
-            Return True
-        End Function
     End Module
 End Namespace

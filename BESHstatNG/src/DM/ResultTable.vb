@@ -735,13 +735,6 @@ Public Class WriteResults
                 Next
             Next
         End If
-
-        'autosize column width if output is on new book/sheet
-        'If Me.lastRowID = 1 And Me.lastColumID = 1 Then
-        'For Each clm In rng.Columns.Count
-        'clm.EntireColumn.AutoFit
-        'Next
-        'End If
     End Sub
 End Class
 

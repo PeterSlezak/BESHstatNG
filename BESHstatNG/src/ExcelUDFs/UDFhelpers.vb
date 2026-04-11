@@ -1,8 +1,30 @@
 ﻿Imports System
 Imports System.Collections.Generic
+Imports System.Globalization
+Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration
 
 Module UDFhelpers
+
+    Friend Function LoggedUdfError(functionName As String,
+                                   ex As Exception,
+                                   fallback As Object,
+                                   Optional uiPrefix As String = Nothing) As Object
+        Dim logMessage As String = functionName & " failed"
+        If Not String.IsNullOrWhiteSpace(uiPrefix) Then logMessage &= ". " & uiPrefix.Trim()
+
+        AppGlobals.BSlogg.Error(ex, logMessage)
+
+        If String.IsNullOrWhiteSpace(uiPrefix) Then Return fallback
+
+        Return uiPrefix & ex.Message
+    End Function
+
+    Friend Function LoggedUdfExceptionText(functionName As String, ex As Exception) As String
+        AppGlobals.BSlogg.Error(ex, functionName & " failed")
+        Return ex.GetType().Name & ": " & ex.Message
+    End Function
+
     ''' <summary>
     ''' Attempts to convert a value to a finite <see cref="Double"/>.
     ''' </summary>
@@ -260,75 +282,6 @@ Module UDFhelpers
     End Function
 
     ''' <summary>
-    ''' Reads a one-column binary range, trimming unused bottom rows and optionally skipping a header row.
-    ''' </summary>
-    ''' <param name="v">The worksheet argument to read.</param>
-    ''' <param name="values">On success, receives one integer value per retained row. Invalid nonblank cells are returned as -1.</param>
-    ''' <returns>True when a one-column input can be read; otherwise, False.</returns>
-    Public Function TryReadBinary01Column(v As Object, ByRef values As List(Of Integer)) As Boolean
-        values = New List(Of Integer)
-        Dim arr As Object(,) = Get2D(v)
-        If arr Is Nothing Then Return False
-        If arr.GetLength(1) <> 1 Then Return False
-
-        Dim lastRow As Integer = FindLastNonBlankRow(arr)
-        If lastRow < 0 Then Return False
-
-        Dim startRow As Integer = If(HasBinaryColumnHeader(arr, lastRow), 1, 0)
-        If startRow > lastRow Then Return False
-
-        For i As Integer = startRow To lastRow
-            Dim iv As Integer
-            If TryGetBinary01(arr(i, 0), iv) Then
-                values.Add(iv)
-            Else
-                values.Add(-1)
-            End If
-        Next
-
-        Return values.Count > 0
-    End Function
-
-    ''' <summary>
-    ''' Reads a one-column text range, trimming unused bottom rows and optionally skipping a header row for full-column references.
-    ''' </summary>
-    ''' <param name="v">The worksheet argument to read.</param>
-    ''' <param name="values">On success, receives one text value per retained row.</param>
-    ''' <param name="skipHeaderForWholeColumn">
-    ''' When True, a nonblank first row is skipped if the input appears to be a full worksheet-column reference.
-    ''' </param>
-    ''' <returns>True when a one-column input can be read; otherwise, False.</returns>
-    Public Function TryReadTextColumn(v As Object,
-                                      ByRef values As List(Of String),
-                                      Optional skipHeaderForWholeColumn As Boolean = False) As Boolean
-        values = New List(Of String)
-        Dim arr As Object(,) = Get2D(v)
-        If arr Is Nothing Then Return False
-        If arr.GetLength(1) <> 1 Then Return False
-
-        Dim lastRow As Integer = FindLastNonBlankRow(arr)
-        If lastRow < 0 Then Return False
-
-        Dim startRow As Integer = 0
-        If skipHeaderForWholeColumn AndAlso HasTextColumnHeaderForWholeColumnReference(v, arr, lastRow) Then
-            startRow = 1
-        End If
-
-        If startRow > lastRow Then Return False
-
-        For i As Integer = startRow To lastRow
-            Dim cell = arr(i, 0)
-            If IsBlankCell(cell) Then
-                values.Add("")
-            Else
-                values.Add(Convert.ToString(cell).Trim())
-            End If
-        Next
-
-        Return values.Count > 0
-    End Function
-
-    ''' <summary>
     ''' Reads a numeric matrix, trimming unused bottom rows and optionally skipping a single header row.
     ''' </summary>
     ''' <param name="v">The worksheet argument to read.</param>
@@ -364,6 +317,490 @@ Module UDFhelpers
             Next
         Next
 
+        Return True
+    End Function
+
+    Friend Function HasOnlyFinite(values() As Double, Optional requirePositive As Boolean = False) As Boolean
+        If values Is Nothing Then Return True
+
+        For Each v As Double In values
+            If Double.IsNaN(v) OrElse Double.IsInfinity(v) Then Return False
+            If requirePositive AndAlso v <= 0.0R Then Return False
+        Next
+
+        Return True
+    End Function
+
+    Friend Function TryExtractIntegerOutcomeColumn(data As DataObj, ByRef values As List(Of Integer)) As Boolean
+        values = New List(Of Integer)()
+
+        If data Is Nothing OrElse data.nRows < 1 OrElse data.nCols < 1 Then Return False
+
+        For i As Integer = 0 To data.nRows - 1
+            Dim d As Double = CDbl(data.FinalData(i, 0))
+            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return False
+
+            Dim rounded As Double = Math.Round(d)
+            If Math.Abs(d - rounded) > 0.0000001R Then Return False
+
+            values.Add(CInt(rounded))
+        Next
+
+        Return values.Count > 0
+    End Function
+
+    Friend Function ResolveImportedPredictorNames(varNames As Object, inferredNames As String()) As String()
+        If inferredNames Is Nothing OrElse inferredNames.Length = 0 Then Return New String() {}
+        If varNames Is Nothing OrElse TypeOf varNames Is ExcelEmpty OrElse TypeOf varNames Is ExcelMissing Then Return inferredNames
+        Return GetVarNames(varNames, inferredNames.Length)
+    End Function
+
+    Friend Function TryGetTrimmedColumnObject(v As Object, ByRef col(,) As Object, ByRef inferredName As String,
+                                              Optional headerMode As String = "numeric") As Boolean
+
+        col = Nothing
+        inferredName = Nothing
+
+        Dim arr As Object(,) = Get2D(v)
+        If arr Is Nothing Then Return False
+        If arr.GetLength(1) <> 1 Then Return False
+
+        Dim lastRow As Integer = FindLastNonBlankRow(arr)
+        If lastRow < 0 Then Return False
+
+        Dim startRow As Integer = 0
+        Select Case headerMode.ToLowerInvariant()
+            Case "binary"
+                If HasBinaryColumnHeader(arr, lastRow) Then startRow = 1
+            Case "text"
+                If HasTextColumnHeaderForWholeColumnReference(v, arr, lastRow) Then startRow = 1
+            Case Else
+                If HasNumericColumnHeader(arr, lastRow) Then startRow = 1
+        End Select
+
+        If startRow = 1 AndAlso Not IsBlankCell(arr(0, 0)) Then
+            inferredName = Convert.ToString(arr(0, 0)).Trim()
+        End If
+
+        Dim rows As Integer = lastRow - startRow + 1
+        If rows < 1 Then Return False
+
+        ReDim col(rows - 1, 0)
+        For i As Integer = 0 To rows - 1
+            col(i, 0) = arr(startRow + i, 0)
+        Next
+
+        Return True
+    End Function
+
+    Friend Function TryGetTrimmedNumericMatrixObject(v As Object, ByRef mat(,) As Object,
+                                                     ByRef inferredNames As String()) As Boolean
+
+        mat = Nothing
+        inferredNames = Nothing
+
+        Dim arr As Object(,) = Get2D(v)
+        If arr Is Nothing Then Return False
+
+        Dim cols As Integer = arr.GetLength(1)
+        If cols < 1 Then Return False
+
+        Dim lastRow As Integer = FindLastNonBlankRow(arr)
+        If lastRow < 0 Then Return False
+
+        Dim startRow As Integer = If(HasNumericMatrixHeader(arr, lastRow), 1, 0)
+        Dim rows As Integer = lastRow - startRow + 1
+        If rows < 1 Then Return False
+
+        ReDim inferredNames(cols - 1)
+        For j As Integer = 0 To cols - 1
+            inferredNames(j) = "X" & (j + 1).ToString()
+            If startRow = 1 AndAlso Not IsBlankCell(arr(0, j)) Then
+                inferredNames(j) = Convert.ToString(arr(0, j)).Trim()
+            End If
+        Next
+
+        ReDim mat(rows - 1, cols - 1)
+        For i As Integer = 0 To rows - 1
+            For j As Integer = 0 To cols - 1
+                mat(i, j) = arr(startRow + i, j)
+            Next
+        Next
+
+        Return True
+    End Function
+
+    Friend Function TryGetAlignedClusterIdColumnObject(v As Object,
+                                                       expectedRows As Integer,
+                                                       ByRef col(,) As Object,
+                                                       ByRef inferredName As String) As Boolean
+        col = Nothing
+        inferredName = Nothing
+
+        Dim arr As Object(,) = Get2D(v)
+        If arr Is Nothing Then Return False
+        If arr.GetLength(1) <> 1 Then Return False
+
+        Dim lastRow As Integer = FindLastNonBlankRow(arr)
+        If lastRow < 0 Then Return False
+
+        Dim usedRows As Integer = lastRow + 1
+        Dim startRow As Integer = 0
+
+        If usedRows = expectedRows + 1 Then
+            If Not IsBlankCell(arr(0, 0)) Then
+                inferredName = Convert.ToString(arr(0, 0)).Trim()
+            End If
+            startRow = 1
+        ElseIf usedRows = expectedRows Then
+            startRow = 0
+        ElseIf HasTextColumnHeaderForWholeColumnReference(v, arr, lastRow) AndAlso usedRows - 1 = expectedRows Then
+            If Not IsBlankCell(arr(0, 0)) Then
+                inferredName = Convert.ToString(arr(0, 0)).Trim()
+            End If
+            startRow = 1
+        Else
+            Return False
+        End If
+
+        ReDim col(expectedRows - 1, 0)
+        For i As Integer = 0 To expectedRows - 1
+            col(i, 0) = arr(startRow + i, 0)
+        Next
+
+        Return True
+    End Function
+
+    Friend Function TryBuildGeeDataFromUdfArgs(y As Object,
+                                               x As Object,
+                                               clusterId As Object,
+                                               time As Object,
+                                               varNames As Object,
+                                               offset As Object,
+                                               weights As Object,
+                                               ByRef data As geeData) As Boolean
+        data = Nothing
+
+        Dim yCol(,) As Object = Nothing
+        Dim xMat(,) As Object = Nothing
+        Dim clusterCol(,) As Object = Nothing
+        Dim timeCol(,) As Object = Nothing
+        Dim offsetCol(,) As Object = Nothing
+        Dim weightCol(,) As Object = Nothing
+
+        Dim yName As String = Nothing
+        Dim clusterName As String = Nothing
+        Dim timeName As String = Nothing
+        Dim offsetName As String = Nothing
+        Dim weightName As String = Nothing
+        Dim inferredPredictorNames() As String = Nothing
+
+        If Not TryGetTrimmedColumnObject(y, yCol, yName, "numeric") Then Return False
+        If Not TryGetTrimmedNumericMatrixObject(x, xMat, inferredPredictorNames) Then Return False
+
+        Dim rowCount As Integer = yCol.GetLength(0)
+        If rowCount < 1 Then Return False
+        If xMat.GetLength(0) <> rowCount Then Return False
+        If Not TryGetAlignedClusterIdColumnObject(clusterId, rowCount, clusterCol, clusterName) Then Return False
+
+        Dim hasTime As Boolean = Not (time Is Nothing OrElse TypeOf time Is ExcelEmpty OrElse TypeOf time Is ExcelMissing)
+        Dim hasOffset As Boolean = Not (offset Is Nothing OrElse TypeOf offset Is ExcelEmpty OrElse TypeOf offset Is ExcelMissing)
+        Dim hasWeights As Boolean = Not (weights Is Nothing OrElse TypeOf weights Is ExcelEmpty OrElse TypeOf weights Is ExcelMissing)
+
+        If hasTime Then
+            If Not TryGetTrimmedColumnObject(time, timeCol, timeName, "numeric") Then Return False
+            If timeCol.GetLength(0) <> rowCount Then Return False
+        End If
+
+        If hasOffset Then
+            If Not TryGetTrimmedColumnObject(offset, offsetCol, offsetName, "numeric") Then Return False
+            If offsetCol.GetLength(0) <> rowCount Then Return False
+        End If
+
+        If hasWeights Then
+            If Not TryGetTrimmedColumnObject(weights, weightCol, weightName, "numeric") Then Return False
+            If weightCol.GetLength(0) <> rowCount Then Return False
+        End If
+
+        Dim predictorNames As String() = ResolveImportedPredictorNames(varNames, inferredPredictorNames)
+        Dim xCols As Integer = xMat.GetLength(1)
+        Dim totalCols As Integer = 2 + xCols + If(hasTime, 1, 0) + If(hasOffset, 1, 0) + If(hasWeights, 1, 0)
+
+        Dim raw(rowCount - 1, totalCols - 1) As Object
+        Dim names(totalCols - 1) As String
+
+        names(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
+        For i As Integer = 0 To rowCount - 1
+            raw(i, 0) = yCol(i, 0)
+        Next
+
+        For j As Integer = 0 To xCols - 1
+            names(j + 1) = predictorNames(j)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, j + 1) = xMat(i, j)
+            Next
+        Next
+
+        Dim nextCol As Integer = 1 + xCols
+        names(nextCol) = If(String.IsNullOrWhiteSpace(clusterName), "ClusterID", clusterName)
+
+        Dim clusterCodes As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
+        For i As Integer = 0 To rowCount - 1
+            Dim key As String = Convert.ToString(clusterCol(i, 0)).Trim()
+            If String.IsNullOrWhiteSpace(key) Then Return False
+
+            Dim code As Integer = 0
+            If Not clusterCodes.TryGetValue(key, code) Then
+                code = clusterCodes.Count + 1
+                clusterCodes.Add(key, code)
+            End If
+
+            raw(i, nextCol) = code
+        Next
+        nextCol += 1
+
+        If hasTime Then
+            names(nextCol) = If(String.IsNullOrWhiteSpace(timeName), "Time", timeName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, nextCol) = timeCol(i, 0)
+            Next
+            nextCol += 1
+        End If
+
+        If hasOffset Then
+            names(nextCol) = If(String.IsNullOrWhiteSpace(offsetName), "Offset", offsetName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, nextCol) = offsetCol(i, 0)
+            Next
+            nextCol += 1
+        End If
+
+        If hasWeights Then
+            names(nextCol) = If(String.IsNullOrWhiteSpace(weightName), "Weight", weightName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, nextCol) = weightCol(i, 0)
+            Next
+        End If
+
+        Dim out As New geeData With {
+                .bTime = hasTime,
+                .bOffset = hasOffset,
+                .bWeights = hasWeights
+            }
+
+        out.DataImportRawMatrix(raw, names)
+        If out.bZeroValid OrElse out.nRows < 1 Then Return False
+
+        data = out
+        Return True
+    End Function
+
+    Friend Function TryBuildGlmDataFromUdfArgs(y As Object, x As Object, varNames As Object, offset As Object,
+                                               weights As Object, ByRef data As glmData) As Boolean
+
+        data = Nothing
+
+        Dim yCol(,) As Object = Nothing
+        Dim xMat(,) As Object = Nothing
+        Dim offsetCol(,) As Object = Nothing
+        Dim weightCol(,) As Object = Nothing
+
+        Dim yName As String = Nothing
+        Dim offsetName As String = Nothing
+        Dim weightName As String = Nothing
+        Dim inferredPredictorNames() As String = Nothing
+
+        If Not TryGetTrimmedColumnObject(y, yCol, yName, "numeric") Then Return False
+        If Not TryGetTrimmedNumericMatrixObject(x, xMat, inferredPredictorNames) Then Return False
+
+        Dim rowCount As Integer = yCol.GetLength(0)
+        If xMat.GetLength(0) <> rowCount Then Return False
+
+        Dim hasOffset As Boolean = Not (offset Is Nothing OrElse TypeOf offset Is ExcelEmpty OrElse TypeOf offset Is ExcelMissing)
+        Dim hasWeights As Boolean = Not (weights Is Nothing OrElse TypeOf weights Is ExcelEmpty OrElse TypeOf weights Is ExcelMissing)
+
+        If hasOffset Then
+            If Not TryGetTrimmedColumnObject(offset, offsetCol, offsetName, "numeric") Then Return False
+            If offsetCol.GetLength(0) <> rowCount Then Return False
+        End If
+
+        If hasWeights Then
+            If Not TryGetTrimmedColumnObject(weights, weightCol, weightName, "numeric") Then Return False
+            If weightCol.GetLength(0) <> rowCount Then Return False
+        End If
+
+        Dim predictorNames As String() = ResolveImportedPredictorNames(varNames, inferredPredictorNames)
+        Dim xCols As Integer = xMat.GetLength(1)
+        Dim totalCols As Integer = 1 + xCols + If(hasOffset, 1, 0) + If(hasWeights, 1, 0)
+
+        Dim raw(rowCount - 1, totalCols - 1) As Object
+        Dim names(totalCols - 1) As String
+
+        names(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
+        For i As Integer = 0 To rowCount - 1
+            raw(i, 0) = yCol(i, 0)
+        Next
+
+        For j As Integer = 0 To xCols - 1
+            names(j + 1) = predictorNames(j)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, j + 1) = xMat(i, j)
+            Next
+        Next
+
+        Dim nextCol As Integer = 1 + xCols
+        If hasOffset Then
+            names(nextCol) = If(String.IsNullOrWhiteSpace(offsetName), "Offset", offsetName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, nextCol) = offsetCol(i, 0)
+            Next
+            nextCol += 1
+        End If
+
+        If hasWeights Then
+            names(nextCol) = If(String.IsNullOrWhiteSpace(weightName), "Weight", weightName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, nextCol) = weightCol(i, 0)
+            Next
+        End If
+
+        Dim out As New glmData With {
+                .bOffset = hasOffset,
+                .bWeights = hasWeights
+            }
+
+        out.DataImportRawMatrix(raw, names)
+        If out.bZeroValid OrElse out.nRows < 1 Then Return False
+
+        data = out
+        Return True
+    End Function
+
+    Friend Function TryBuildPredictorDataFromUdfArgs(x As Object,
+                                                 expectedPredictorNames As String(),
+                                                 offset As Object,
+                                                 requireOffset As Boolean,
+                                                 ByRef data As glmData) As Boolean
+        data = Nothing
+
+        If expectedPredictorNames Is Nothing OrElse expectedPredictorNames.Length < 1 Then Return False
+
+        Dim xMat(,) As Object = Nothing
+        Dim offsetCol(,) As Object = Nothing
+        Dim inferredPredictorNames() As String = Nothing
+        Dim offsetName As String = Nothing
+
+        If Not TryGetTrimmedNumericMatrixObject(x, xMat, inferredPredictorNames) Then Return False
+
+        Dim rowCount As Integer = xMat.GetLength(0)
+        Dim xCols As Integer = xMat.GetLength(1)
+        If xCols <> expectedPredictorNames.Length Then Return False
+
+        Dim hasOffsetArg As Boolean = Not (offset Is Nothing OrElse TypeOf offset Is ExcelEmpty OrElse TypeOf offset Is ExcelMissing)
+        If requireOffset AndAlso Not hasOffsetArg Then Return False
+
+        If hasOffsetArg Then
+            If Not TryGetTrimmedColumnObject(offset, offsetCol, offsetName, "numeric") Then Return False
+            If offsetCol.GetLength(0) <> rowCount Then Return False
+        End If
+
+        Dim totalCols As Integer = xCols + If(hasOffsetArg, 1, 0)
+        Dim raw(rowCount - 1, totalCols - 1) As Object
+        Dim names(totalCols - 1) As String
+
+        For j As Integer = 0 To xCols - 1
+            names(j) = expectedPredictorNames(j)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, j) = xMat(i, j)
+            Next
+        Next
+
+        If hasOffsetArg Then
+            names(xCols) = If(String.IsNullOrWhiteSpace(offsetName), "Offset", offsetName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, xCols) = offsetCol(i, 0)
+            Next
+        End If
+
+        Dim out As New glmData With {
+                .bOffset = hasOffsetArg,
+                .bWeights = False
+            }
+
+        out.DataImportRawMatrix(raw, names)
+        If out.bZeroValid OrElse out.nRows < 1 Then Return False
+
+        data = out
+        Return True
+    End Function
+
+    Friend Function TryBuildCoxDataFromUdfArgs(time As Object, status As Object, x As Object, varNames As Object,
+                                               strata As Object, ByRef data As CoxPHData) As Boolean
+        data = Nothing
+
+        Dim timeCol(,) As Object = Nothing
+        Dim statusCol(,) As Object = Nothing
+        Dim strataCol(,) As Object = Nothing
+        Dim xMat(,) As Object = Nothing
+
+        Dim timeName As String = Nothing
+        Dim statusName As String = Nothing
+        Dim strataName As String = Nothing
+        Dim inferredPredictorNames() As String = Nothing
+
+        If Not TryGetTrimmedColumnObject(time, timeCol, timeName, "numeric") Then Return False
+        If Not TryGetTrimmedColumnObject(status, statusCol, statusName, "binary") Then Return False
+        If Not TryGetTrimmedNumericMatrixObject(x, xMat, inferredPredictorNames) Then Return False
+
+        Dim rowCount As Integer = timeCol.GetLength(0)
+        If statusCol.GetLength(0) <> rowCount Then Return False
+        If xMat.GetLength(0) <> rowCount Then Return False
+
+        Dim hasStrata As Boolean = Not (strata Is Nothing OrElse TypeOf strata Is ExcelEmpty OrElse TypeOf strata Is ExcelMissing)
+        If hasStrata Then
+            If Not TryGetTrimmedColumnObject(strata, strataCol, strataName, "text") Then Return False
+            If strataCol.GetLength(0) <> rowCount Then Return False
+        End If
+
+        Dim predictorNames As String() = ResolveImportedPredictorNames(varNames, inferredPredictorNames)
+        Dim xCols As Integer = xMat.GetLength(1)
+        Dim totalCols As Integer = 2 + If(hasStrata, 1, 0) + xCols
+
+        Dim raw(rowCount - 1, totalCols - 1) As Object
+        Dim names(totalCols - 1) As String
+
+        names(0) = If(String.IsNullOrWhiteSpace(timeName), "Time", timeName)
+        names(1) = If(String.IsNullOrWhiteSpace(statusName), "Status", statusName)
+
+        For i As Integer = 0 To rowCount - 1
+            raw(i, 0) = timeCol(i, 0)
+            raw(i, 1) = statusCol(i, 0)
+        Next
+
+        Dim firstPredictorCol As Integer = 2
+        If hasStrata Then
+            names(2) = If(String.IsNullOrWhiteSpace(strataName), "Strata", strataName)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, 2) = strataCol(i, 0)
+            Next
+            firstPredictorCol = 3
+        End If
+
+        For j As Integer = 0 To xCols - 1
+            names(firstPredictorCol + j) = predictorNames(j)
+            For i As Integer = 0 To rowCount - 1
+                raw(i, firstPredictorCol + j) = xMat(i, j)
+            Next
+        Next
+
+        Dim out As New CoxPHData With {
+                .bStrata = hasStrata
+            }
+
+        out.DataImportRawMatrix(raw, names, CharCols:=If(hasStrata, 2, -1))
+        If out.bZeroValid OrElse out.nRows < 1 Then Return False
+
+        data = out
         Return True
     End Function
 
@@ -468,7 +905,7 @@ Module UDFhelpers
     ''' </summary>
     ''' <param name="cell">The worksheet cell to inspect.</param>
     ''' <returns>True when the cell is missing or contains only whitespace text; otherwise, False.</returns>
-    Private Function IsBlankCell(cell As Object) As Boolean
+    Friend Function IsBlankCell(cell As Object) As Boolean
         If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then Return True
         If TypeOf cell Is String Then Return String.IsNullOrWhiteSpace(CStr(cell))
         Return False
@@ -479,7 +916,7 @@ Module UDFhelpers
     ''' </summary>
     ''' <param name="arr">The two-dimensional worksheet array to inspect.</param>
     ''' <returns>The zero-based last nonblank row index, or -1 when all rows are blank.</returns>
-    Private Function FindLastNonBlankRow(arr As Object(,)) As Integer
+    Friend Function FindLastNonBlankRow(arr As Object(,)) As Integer
         If arr Is Nothing Then Return -1
 
         For i As Integer = arr.GetLength(0) - 1 To 0 Step -1
@@ -499,7 +936,7 @@ Module UDFhelpers
     ''' <param name="arr">The one-column worksheet array to inspect.</param>
     ''' <param name="lastRow">The last retained nonblank row index.</param>
     ''' <returns>True when the first row appears to be a header; otherwise, False.</returns>
-    Private Function HasNumericColumnHeader(arr As Object(,), lastRow As Integer) As Boolean
+    Friend Function HasNumericColumnHeader(arr As Object(,), lastRow As Integer) As Boolean
         If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False
         If lastRow < 1 Then Return False
 
@@ -514,7 +951,7 @@ Module UDFhelpers
     ''' <param name="arr">The one-column worksheet array to inspect.</param>
     ''' <param name="lastRow">The last retained nonblank row index.</param>
     ''' <returns>True when the first row appears to be a header; otherwise, False.</returns>
-    Private Function HasBinaryColumnHeader(arr As Object(,), lastRow As Integer) As Boolean
+    Friend Function HasBinaryColumnHeader(arr As Object(,), lastRow As Integer) As Boolean
         If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False
         If lastRow < 1 Then Return False
 
@@ -531,9 +968,7 @@ Module UDFhelpers
     ''' <param name="arr">The one-column worksheet array to inspect.</param>
     ''' <param name="lastRow">The last retained nonblank row index.</param>
     ''' <returns>True when the first row should be treated as a header; otherwise, False.</returns>
-    Private Function HasTextColumnHeaderForWholeColumnReference(originalArg As Object,
-                                                                arr As Object(,),
-                                                                lastRow As Integer) As Boolean
+    Friend Function HasTextColumnHeaderForWholeColumnReference(originalArg As Object, arr As Object(,), lastRow As Integer) As Boolean
         If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False
         If lastRow < 1 Then Return False
         If originalArg Is Nothing OrElse Not TypeOf originalArg Is ExcelReference Then Return False
@@ -562,7 +997,7 @@ Module UDFhelpers
     ''' <param name="arr">The worksheet array to inspect.</param>
     ''' <param name="lastRow">The last retained nonblank row index.</param>
     ''' <returns>True when the first row appears to be a header; otherwise, False.</returns>
-    Private Function HasNumericMatrixHeader(arr As Object(,), lastRow As Integer) As Boolean
+    Friend Function HasNumericMatrixHeader(arr As Object(,), lastRow As Integer) As Boolean
         If arr Is Nothing Then Return False
         If lastRow < 1 Then Return False
 
@@ -592,7 +1027,7 @@ Module UDFhelpers
     ''' <param name="cell">The cell value to inspect.</param>
     ''' <param name="value">On success, receives 0 or 1.</param>
     ''' <returns>True when the cell represents a binary value; otherwise, False.</returns>
-    Private Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean
+    Friend Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean
         value = -1
 
         If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then
@@ -615,5 +1050,720 @@ Module UDFhelpers
         End If
 
         Return False
+    End Function
+
+    Friend Function TryGetWholeNumber(v As Object, ByRef value As Integer) As Boolean
+        value = 0
+
+        Dim d As Double? = TryGetDouble(v)
+        If Not d.HasValue Then Return False
+        If Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then Return False
+
+        Dim rounded As Double = Math.Round(d.Value)
+        If Math.Abs(d.Value - rounded) > 0.0000001R Then Return False
+        If rounded < Integer.MinValue OrElse rounded > Integer.MaxValue Then Return False
+
+        value = CInt(rounded)
+        Return True
+    End Function
+
+    Friend Function IsOpenUnitInterval(value As Double) As Boolean
+        Return value > 0.0R AndAlso value < 1.0R AndAlso Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
+    End Function
+
+    Friend Function ParseFamilyCode(v As Object) As String
+        Dim s As String = UDFhelpers.AsString(v)
+        If String.IsNullOrWhiteSpace(s) Then Return "Gaussian"
+
+        Dim key As String = NormalizeKey(s)
+        Select Case key
+            Case "binomial", "binary", "logistic"
+                Return "Binomial"
+            Case "poisson", "count"
+                Return "Poisson"
+            Case "negativebinomial", "negativebinom", "negativebin", "negbin", "nb", "nb2"
+                Return "NegativeBinomial"
+            Case "gaussian", "normal"
+                Return "Gaussian"
+            Case "gamma"
+                Return "Gamma"
+            Case Else
+                Return Nothing
+        End Select
+    End Function
+
+    Friend Function ParseLinkName(v As Object, familyDisplayName As String) As String
+        Dim s As String = UDFhelpers.AsString(v)
+        If String.IsNullOrWhiteSpace(s) Then
+            Return regression.GetCanonicalLinkFromDisplayName(familyDisplayName)
+        End If
+
+        Dim key As String = NormalizeKey(s)
+        Select Case key
+            Case "logit"
+                Return "Logit"
+            Case "probit"
+                Return "Probit"
+            Case "log"
+                Return "Log"
+            Case "identity", "id"
+                Return "Identity"
+            Case "sqrt", "squareroot"
+                Return "Sqrt"
+            Case "inverse", "reciprocal"
+                Return "Inverse"
+            Case "power"
+                Return "Power"
+            Case Else
+                Return Nothing
+        End Select
+    End Function
+
+    Friend Function NormalizeKey(value As String) As String
+        Return value.Trim().ToLowerInvariant().Replace(" ", String.Empty).Replace("_", String.Empty).Replace("-", String.Empty)
+    End Function
+
+    ''' <summary>
+    ''' Wraps a residual or leverage vector in a spilled-object array.
+    ''' </summary>
+    ''' <param name="vec">Vector of per-observation values.</param>
+    ''' <param name="header">Column label to use when <paramref name="includeHeader"/> is True.</param>
+    ''' <param name="includeHeader">Whether to include a header row.</param>
+    ''' <returns>A spilled-object array containing the requested vector.</returns>
+    Friend Function BuildResidualVectorOutput(vec() As Double, header As String, includeHeader As Boolean) As Object
+        If vec Is Nothing Then Return ExcelError.ExcelErrorNA
+
+        Dim n As Integer = vec.Length
+        Dim outRows As Integer = If(includeHeader, n + 1, n)
+        Dim out(outRows - 1, 0) As Object
+        Dim r0 As Integer = 0
+
+        If includeHeader Then
+            out(0, 0) = header
+            r0 = 1
+        End If
+
+        For i As Integer = 0 To n - 1
+            out(r0 + i, 0) = vec(i)
+        Next
+
+        Return out
+    End Function
+
+    Friend Function TryPrepareInterceptOnlyPredictionInputs(newOffset As Object,
+                                                        requireOffset As Boolean,
+                                                        ByRef nRows As Integer,
+                                                        ByRef offsetVals() As Double) As Boolean
+        nRows = 0
+        offsetVals = Nothing
+
+        Dim hasOffsetArg As Boolean = HasUsableOptionalArgument(newOffset)
+        If requireOffset AndAlso Not hasOffsetArg Then Return False
+
+        If hasOffsetArg Then
+            Dim values As List(Of Double) = Nothing
+            If Not UDFhelpers.TryReadNumericColumn(newOffset, values) Then Return False
+            If values Is Nothing OrElse values.Count < 1 Then Return False
+            offsetVals = values.ToArray()
+            If Not UDFhelpers.HasOnlyFinite(offsetVals) Then Return False
+            nRows = offsetVals.Length
+            Return True
+        End If
+
+        nRows = 1
+        Return True
+    End Function
+
+
+    Friend Function ComputeLinearPredictor(expandedX(,) As Double,
+                                            rowIndex As Integer,
+                                            beta() As Double,
+                                            includeIntercept As Boolean,
+                                            offsetVals() As Double) As Double
+        Dim eta As Double = 0.0R
+        Dim startBeta As Integer = 0
+
+        If includeIntercept AndAlso beta IsNot Nothing AndAlso beta.Length > 0 Then
+            eta = beta(0)
+            startBeta = 1
+        End If
+
+        If expandedX IsNot Nothing Then
+            Dim p As Integer = expandedX.GetLength(1)
+            For j As Integer = 0 To p - 1
+                eta += expandedX(rowIndex, j) * beta(startBeta + j)
+            Next
+        End If
+
+        If offsetVals IsNot Nothing AndAlso rowIndex >= 0 AndAlso rowIndex < offsetVals.Length Then
+            eta += offsetVals(rowIndex)
+        End If
+
+        Return eta
+    End Function
+
+    Friend Function SafeExcelNumber(value As Double) As Object
+        If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return ExcelError.ExcelErrorNum
+        Return value
+    End Function
+
+    ''' <summary>
+    ''' Normalizes an optional text argument for case-insensitive method matching.
+    ''' </summary>
+    ''' <param name="v">The input value to normalize.</param>
+    ''' <returns>
+    ''' An upper-case, trimmed string representation of <paramref name="v"/>.
+    ''' Returns an empty string for missing, empty, or null-like Excel arguments.
+    ''' </returns>
+    Friend Function NormalizeText(v As Object) As String
+        If IsMissingArg(v) Then Return ""
+        Dim s As String = Convert.ToString(v)
+        If s Is Nothing Then Return ""
+        Return s.Trim().ToUpperInvariant()
+    End Function
+
+    Friend Function IsMissingArg(v As Object) As Boolean
+        Return v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty
+    End Function
+
+    Friend Function LooksLikeHeaderRow(arr As Object(,), numericCols As Integer()) As Boolean
+        Dim rows As Integer = arr.GetLength(0)
+        If rows < 2 Then Return False
+
+        Dim anyNonNumeric As Boolean = False
+        For Each c In numericCols
+            If Not TryGetDouble(arr(0, c)).HasValue Then
+                anyNonNumeric = True
+                Exit For
+            End If
+        Next
+        If Not anyNonNumeric Then Return False
+
+        For Each c In numericCols
+            Dim foundNumericBelow As Boolean = False
+            For r As Integer = 1 To rows - 1
+                If TryGetDouble(arr(r, c)).HasValue Then
+                    foundNumericBelow = True
+                    Exit For
+                End If
+            Next
+            If Not foundNumericBelow Then Return False
+        Next
+
+        Return True
+    End Function
+
+    Friend Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean
+        If arr Is Nothing Then Return False
+        If arr.GetLength(1) <> 1 Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        If rows < 2 Then Return False
+        If TryGetDouble(arr(0, 0)).HasValue Then Return False
+
+        For r As Integer = 1 To rows - 1
+            If TryGetDouble(arr(r, 0)).HasValue Then Return True
+        Next
+
+        Return False
+    End Function
+
+    Friend Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
+        groups = Nothing
+        names = Nothing
+
+        Dim arr As Object(,) = TryCast(input, Object(,))
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If cols < 1 OrElse rows < 1 Then Return False
+
+        Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, Enumerable.Range(0, cols).ToArray())
+        Dim startRow As Integer = If(hasHeader, 1, 0)
+
+        Dim groupList As New List(Of Double())
+        Dim nameList As New List(Of String)
+
+        For c As Integer = 0 To cols - 1
+            Dim vals As New List(Of Double)
+            For r As Integer = startRow To rows - 1
+                Dim d = TryGetDouble(arr(r, c))
+                If d.HasValue Then vals.Add(d.Value)
+            Next
+            If vals.Count > 0 Then
+                groupList.Add(vals.ToArray())
+                If hasHeader Then
+                    nameList.Add(Convert.ToString(arr(0, c)).Trim())
+                Else
+                    nameList.Add("Group " & (groupList.Count).ToString())
+                End If
+            End If
+        Next
+
+        If groupList.Count < 2 Then Return False
+        groups = groupList.ToArray()
+        names = nameList.ToArray()
+        Return True
+    End Function
+
+    Friend Function TryReadIndependentNumericColumns(x As Object, y As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
+        groups = Nothing
+        names = Nothing
+
+        Dim ax As Object(,) = Get2D(x)
+        Dim ay As Object(,) = Get2D(y)
+        If ax Is Nothing OrElse ay Is Nothing Then Return False
+        If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return False
+
+        Dim hasHeaderX As Boolean = LooksLikeSingleColumnHeader(ax)
+        Dim hasHeaderY As Boolean = LooksLikeSingleColumnHeader(ay)
+
+        Dim startRowX As Integer = If(hasHeaderX, 1, 0)
+        Dim startRowY As Integer = If(hasHeaderY, 1, 0)
+
+        Dim gx As New List(Of Double)
+        For r As Integer = startRowX To ax.GetLength(0) - 1
+            Dim d = TryGetDouble(ax(r, 0))
+            If d.HasValue Then gx.Add(d.Value)
+        Next
+
+        Dim gy As New List(Of Double)
+        For r As Integer = startRowY To ay.GetLength(0) - 1
+            Dim d = TryGetDouble(ay(r, 0))
+            If d.HasValue Then gy.Add(d.Value)
+        Next
+
+        groups = New Double()() {gx.ToArray(), gy.ToArray()}
+        names = New String() {
+            If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Group 1"),
+            If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Group 2")
+        }
+
+        Return True
+    End Function
+
+    Friend Function TryReadPairedNumericColumns(x As Object, y As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
+        mat = Nothing
+        names = Nothing
+
+        Dim ax As Object(,) = Get2D(x)
+        Dim ay As Object(,) = Get2D(y)
+        If ax Is Nothing OrElse ay Is Nothing Then Return False
+        If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return False
+        If ax.GetLength(0) <> ay.GetLength(0) Then Return False
+
+        Dim hasHeaderX As Boolean = LooksLikeSingleColumnHeader(ax)
+        Dim hasHeaderY As Boolean = LooksLikeSingleColumnHeader(ay)
+        If hasHeaderX <> hasHeaderY Then Return False
+
+        names = New String() {
+            If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Sample 1"),
+            If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Sample 2")
+        }
+
+        Dim pairs As New List(Of Double())
+        For r As Integer = 0 To ax.GetLength(0) - 1
+            Dim dx = TryGetDouble(ax(r, 0))
+            Dim dy = TryGetDouble(ay(r, 0))
+            If dx.HasValue AndAlso dy.HasValue Then
+                pairs.Add(New Double() {dx.Value, dy.Value})
+            End If
+        Next
+
+        If pairs.Count = 0 Then Return True
+
+        mat = New Double(pairs.Count - 1, 1) {}
+        For r As Integer = 0 To pairs.Count - 1
+            mat(r, 0) = pairs(r)(0)
+            mat(r, 1) = pairs(r)(1)
+        Next
+
+        Return True
+    End Function
+
+    Friend Function Get2DOrScalar(v As Object) As Object(,)
+        Dim arr As Object(,) = Get2D(v)
+        If arr IsNot Nothing Then Return arr
+
+        If IsMissingArg(v) OrElse TypeOf v Is ExcelError Then Return Nothing
+
+        Dim Sngl(0, 0) As Object
+        Sngl(0, 0) = v
+        Return Sngl
+    End Function
+
+    Friend Function CellToTrimmedText(v As Object) As String
+        If IsMissingArg(v) Then Return ""
+
+        If TypeOf v Is String Then
+            Return CStr(v).Trim()
+        End If
+
+        If TypeOf v Is Double OrElse
+           TypeOf v Is Single OrElse
+           TypeOf v Is Decimal OrElse
+           TypeOf v Is Integer OrElse
+           TypeOf v Is Long OrElse
+           TypeOf v Is Short Then
+
+            Dim d As Double = Convert.ToDouble(v, CultureInfo.InvariantCulture)
+            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return ""
+
+            If Math.Abs(d - Math.Round(d)) < 0.000000000001R Then
+                Return CLng(Math.Round(d)).ToString(CultureInfo.InvariantCulture)
+            End If
+
+            Return d.ToString(CultureInfo.InvariantCulture)
+        End If
+
+        Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)
+        If s Is Nothing Then Return ""
+        Return s.Trim()
+    End Function
+
+    Friend Function TryGetFiniteDoubleFlexible(v As Object, ByRef x As Double) As Boolean
+        x = 0.0R
+
+        Dim d As Double? = TryGetDouble(v)
+        If d.HasValue Then
+            x = d.Value
+            Return True
+        End If
+
+        If IsMissingArg(v) OrElse TypeOf v Is ExcelError OrElse TypeOf v Is Boolean Then Return False
+
+        Dim s As String = CellToTrimmedText(v)
+        If String.IsNullOrWhiteSpace(s) Then Return False
+
+        If Double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, x) Then
+            Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
+        End If
+
+        If Double.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, x) Then
+            Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
+        End If
+
+        Return False
+    End Function
+
+    Friend Function TryGetStatus01Flexible(v As Object, ByRef value As Integer) As Boolean
+        value = 0
+
+        If TryGetBinary01(v, value) Then Return True
+
+        Dim x As Double
+        If Not TryGetFiniteDoubleFlexible(v, x) Then Return False
+
+        If x = 0.0R Then
+            value = 0
+            Return True
+        End If
+
+        If x = 1.0R Then
+            value = 1
+            Return True
+        End If
+
+        Return False
+    End Function
+
+    ''' <summary>
+    ''' Counts the number of distinct outcome categories present in the filtered regression data matrix.
+    ''' </summary>
+    ''' <param name="fitData">Regression matrix whose first column contains the outcome.</param>
+    ''' <returns>The number of distinct integer-valued response categories observed.</returns>
+    Friend Function CountDistinctOutcomeCategories(fitData(,) As Double) As Integer
+        If fitData Is Nothing Then Return 0
+        Dim n As Integer = fitData.GetLength(0)
+        Dim cats As New HashSet(Of Integer)()
+        For i As Integer = 0 To n - 1
+            cats.Add(CInt(Math.Round(fitData(i, 0))))
+        Next
+        Return cats.Count
+    End Function
+
+
+    ''' <summary>
+    ''' Parses the reference-category option supplied to the multinomial-logit fit function.
+    ''' </summary>
+    ''' <param name="v">Worksheet argument containing the requested reference direction.</param>
+    ''' <returns>The parsed reference-category choice, defaulting to <see cref="regression.ReferenceCategory.Last"/>.</returns>
+    Friend Function ParseReferenceCategory(v As Object) As regression.ReferenceCategory
+        Dim s As String = UDFhelpers.AsString(v)
+        If String.IsNullOrWhiteSpace(s) Then Return regression.ReferenceCategory.Last
+
+        Select Case s.Trim().ToLowerInvariant()
+            Case "first", "smallest", "min"
+                Return regression.ReferenceCategory.First
+            Case Else
+                Return regression.ReferenceCategory.Last
+        End Select
+    End Function
+
+    ''' <summary>
+    ''' Builds category-specific column headers for residual or probability outputs.
+    ''' </summary>
+    ''' <param name="prefix">Prefix describing the quantity shown in each category column.</param>
+    ''' <param name="categories">Outcome categories in model order.</param>
+    ''' <returns>An array of column labels aligned with the category-specific matrix.</returns>
+    Friend Function CategoryHeaders(prefix As String, categories() As Integer) As String()
+        If categories Is Nothing Then Return New String() {}
+        Dim out(categories.Length - 1) As String
+        For i As Integer = 0 To categories.Length - 1
+            out(i) = prefix & "(" & categories(i).ToString(CultureInfo.InvariantCulture) & ")"
+        Next
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Wraps a category-specific residual matrix in a spilled-object array.
+    ''' </summary>
+    ''' <param name="mat">Residual matrix with one row per observation and one column per category.</param>
+    ''' <param name="headers">Column headers aligned with <paramref name="mat"/>.</param>
+    ''' <param name="includeHeader">Whether to include a header row.</param>
+    ''' <returns>A spilled-object array containing the requested residual matrix.</returns>
+    Friend Function BuildResidualMatrixOutput(mat(,) As Double, headers() As String, includeHeader As Boolean) As Object
+        If mat Is Nothing Then Return ExcelError.ExcelErrorNA
+
+        Dim n As Integer = mat.GetLength(0)
+        Dim p As Integer = mat.GetLength(1)
+        Dim outRows As Integer = If(includeHeader, n + 1, n)
+        Dim out(outRows - 1, p - 1) As Object
+        Dim r0 As Integer = 0
+
+        If includeHeader Then
+            For j As Integer = 0 To p - 1
+                out(0, j) = headers(j)
+            Next
+            r0 = 1
+        End If
+
+        For i As Integer = 0 To n - 1
+            For j As Integer = 0 To p - 1
+                out(r0 + i, j) = mat(i, j)
+            Next
+        Next
+
+        Return out
+    End Function
+
+    Friend Function IsFinite(x As Double) As Boolean
+        Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
+    End Function
+
+    Friend Function CloneStringArray(values() As String) As String()
+        If values Is Nothing Then Return Nothing
+        Return DirectCast(values.Clone(), String())
+    End Function
+
+    ''' <summary>
+    ''' Returns True when an optional worksheet argument contains a usable value rather than Excel missing/empty markers.
+    ''' </summary>
+    Friend Function HasUsableOptionalArgument(v As Object) As Boolean
+        Return Not (v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty)
+    End Function
+
+    Friend Function CoerceToObjectMatrix(v As Object, ByRef err As ExcelError?) As Object(,)
+        err = Nothing
+
+        If v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty Then
+            Return New Object(0, 0) {{ExcelEmpty.Value}}
+        End If
+
+        If TypeOf v Is Object(,) Then
+            Return DirectCast(v, Object(,))
+        End If
+
+        If TypeOf v Is ExcelReference Then
+            Dim arr As Object(,) = Get2D(v)
+            If arr Is Nothing Then Return Nothing
+            Return arr
+        End If
+
+        If TypeOf v Is ExcelError Then
+            err = DirectCast(v, ExcelError)
+            Return Nothing
+        End If
+
+        Return New Object(0, 0) {{v}}
+    End Function
+
+    Friend Function ExtractNumericColumnIgnoringNonNumeric(arg As Object, ByRef err As ExcelError?) As Double()
+        err = Nothing
+
+        Dim arr As Object(,) = CoerceToObjectMatrix(arg, err)
+        If err.HasValue OrElse arr Is Nothing Then Return Array.Empty(Of Double)()
+
+        If arr.GetLength(1) <> 1 Then
+            err = ExcelError.ExcelErrorValue
+            Return Array.Empty(Of Double)()
+        End If
+
+        Dim values As New List(Of Double)(arr.GetLength(0))
+        For r As Integer = 0 To arr.GetLength(0) - 1
+            Dim d As Double? = TryGetDouble(arr(r, 0))
+            If d.HasValue Then values.Add(d.Value)
+        Next
+
+        Return values.ToArray()
+    End Function
+
+    Friend Function ExtractPairedNumericColumnsIgnoringNonNumeric(x As Object, y As Object,
+                                                                  ByRef err As ExcelError?) As Double(,)
+        err = Nothing
+
+        Dim ax As Object(,) = CoerceToObjectMatrix(x, err)
+        If err.HasValue OrElse ax Is Nothing Then Return Nothing
+
+        Dim ay As Object(,) = CoerceToObjectMatrix(y, err)
+        If err.HasValue OrElse ay Is Nothing Then Return Nothing
+
+        If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 OrElse ax.GetLength(0) <> ay.GetLength(0) Then
+            err = ExcelError.ExcelErrorValue
+            Return Nothing
+        End If
+
+        Dim pairs As New List(Of Double())()
+        For r As Integer = 0 To ax.GetLength(0) - 1
+            Dim dx As Double? = TryGetDouble(ax(r, 0))
+            Dim dy As Double? = TryGetDouble(ay(r, 0))
+            If dx.HasValue AndAlso dy.HasValue Then
+                pairs.Add(New Double() {dx.Value, dy.Value})
+            End If
+        Next
+
+        If pairs.Count = 0 Then Return Nothing
+
+        Dim out(pairs.Count - 1, 1) As Double
+        For i As Integer = 0 To pairs.Count - 1
+            out(i, 0) = pairs(i)(0)
+            out(i, 1) = pairs(i)(1)
+        Next
+
+        Return out
+    End Function
+
+    Friend Function ExtractNumericGroupsFromColumnsIgnoringNonNumeric(arg As Object, ByRef err As ExcelError?) As Double()()
+        err = Nothing
+
+        Dim mat As Object(,) = CoerceToObjectMatrix(arg, err)
+        If err.HasValue OrElse mat Is Nothing Then Return Nothing
+
+        Dim rows As Integer = mat.GetLength(0)
+        Dim cols As Integer = mat.GetLength(1)
+
+        If cols < 1 Then
+            err = ExcelError.ExcelErrorValue
+            Return Nothing
+        End If
+
+        Dim groups As New List(Of Double())()
+        For c As Integer = 0 To cols - 1
+            Dim values As New List(Of Double)(rows)
+            For r As Integer = 0 To rows - 1
+                Dim d As Double? = TryGetDouble(mat(r, c))
+                If d.HasValue Then values.Add(d.Value)
+            Next
+            If values.Count > 0 Then groups.Add(values.ToArray())
+        Next
+
+        Return groups.ToArray()
+    End Function
+
+    Friend Function ExtractCompleteNumericMatrixCompleteCases(input As Object,
+                                                              ByRef mat As Double(,),
+                                                              ByRef noRows As Integer,
+                                                              ByRef noCols As Integer) As Boolean
+        mat = Nothing
+        noRows = 0
+        noCols = 0
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim r As Integer = arr.GetLength(0)
+        Dim c As Integer = arr.GetLength(1)
+        If c < 2 Then Return False
+
+        Dim rows As New List(Of Double())()
+
+        For i As Integer = 0 To r - 1
+            Dim rowVals(c - 1) As Double
+            Dim ok As Boolean = True
+
+            For j As Integer = 0 To c - 1
+                Dim d As Double? = TryGetDouble(arr(i, j))
+                If Not d.HasValue Then
+                    ok = False
+                    Exit For
+                End If
+                rowVals(j) = d.Value
+            Next
+
+            If ok Then rows.Add(rowVals)
+        Next
+
+        noRows = rows.Count
+        noCols = c
+        If noRows < 2 Then Return True
+
+        mat = New Double(noRows - 1, c - 1) {}
+        For i As Integer = 0 To noRows - 1
+            For j As Integer = 0 To c - 1
+                mat(i, j) = rows(i)(j)
+            Next
+        Next
+
+        Return True
+    End Function
+
+    Friend Function TryReadCompleteNumericMatrixWithHeaders(input As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
+        mat = Nothing
+        names = Nothing
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If rows < 1 OrElse cols < 2 Then Return False
+
+        Dim numericCols As Integer() = Enumerable.Range(0, cols).ToArray()
+        Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, numericCols)
+        Dim startRow As Integer = If(hasHeader, 1, 0)
+
+        names = New String(cols - 1) {}
+        For c As Integer = 0 To cols - 1
+            names(c) = If(hasHeader, Convert.ToString(arr(0, c)).Trim(), "Condition " & (c + 1).ToString())
+        Next
+
+        Dim keepRows As New List(Of Double())()
+        For r As Integer = startRow To rows - 1
+            Dim row(cols - 1) As Double
+            Dim ok As Boolean = True
+
+            For c As Integer = 0 To cols - 1
+                Dim d As Double? = TryGetDouble(arr(r, c))
+                If Not d.HasValue Then
+                    ok = False
+                    Exit For
+                End If
+                row(c) = d.Value
+            Next
+
+            If ok Then keepRows.Add(row)
+        Next
+
+        If keepRows.Count < 1 Then Return False
+
+        mat = New Double(keepRows.Count - 1, cols - 1) {}
+        For r As Integer = 0 To keepRows.Count - 1
+            For c As Integer = 0 To cols - 1
+                mat(r, c) = keepRows(r)(c)
+            Next
+        Next
+
+        Return True
     End Function
 End Module

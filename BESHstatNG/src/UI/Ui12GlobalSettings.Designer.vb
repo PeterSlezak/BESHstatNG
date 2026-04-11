@@ -29,6 +29,8 @@ Partial Class Ui12GlobalSettings
         Me.lblAlpha = New System.Windows.Forms.Label()
         Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
         Me.btnHelp = New System.Windows.Forms.Button()
+        Me.lblDefaultRandomSeed = New System.Windows.Forms.Label()
+        Me.tbDefaultRandomSeed = New System.Windows.Forms.TextBox()
         CType(Me.spinBtnPvalueDP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -80,9 +82,9 @@ Partial Class Ui12GlobalSettings
         Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAlpha.Location = New System.Drawing.Point(170, 53)
         Me.lblAlpha.Name = "lblAlpha"
-        Me.lblAlpha.Size = New System.Drawing.Size(84, 16)
+        Me.lblAlpha.Size = New System.Drawing.Size(86, 16)
         Me.lblAlpha.TabIndex = 10
-        Me.lblAlpha.Text = "default alpha"
+        Me.lblAlpha.Text = "Default alpha"
         '
         'spinBtnAlpha
         '
@@ -106,11 +108,29 @@ Partial Class Ui12GlobalSettings
         Me.btnHelp.Text = "Help"
         Me.btnHelp.UseVisualStyleBackColor = True
         '
+        'lblDefaultRandomSeed
+        '
+        Me.lblDefaultRandomSeed.AutoSize = True
+        Me.lblDefaultRandomSeed.Location = New System.Drawing.Point(114, 111)
+        Me.lblDefaultRandomSeed.Name = "lblDefaultRandomSeed"
+        Me.lblDefaultRandomSeed.Size = New System.Drawing.Size(140, 16)
+        Me.lblDefaultRandomSeed.TabIndex = 12
+        Me.lblDefaultRandomSeed.Text = "Default Random Seed"
+        '
+        'tbDefaultRandomSeed
+        '
+        Me.tbDefaultRandomSeed.Location = New System.Drawing.Point(260, 108)
+        Me.tbDefaultRandomSeed.Name = "tbDefaultRandomSeed"
+        Me.tbDefaultRandomSeed.Size = New System.Drawing.Size(218, 22)
+        Me.tbDefaultRandomSeed.TabIndex = 13
+        '
         'Ui12GlobalSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(494, 186)
+        Me.Controls.Add(Me.tbDefaultRandomSeed)
+        Me.Controls.Add(Me.lblDefaultRandomSeed)
         Me.Controls.Add(Me.btnHelp)
         Me.Controls.Add(Me.lblAlpha)
         Me.Controls.Add(Me.spinBtnAlpha)
@@ -138,4 +158,6 @@ Partial Class Ui12GlobalSettings
     Friend WithEvents lblAlpha As Windows.Forms.Label
     Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
     Friend WithEvents btnHelp As Windows.Forms.Button
+    Friend WithEvents lblDefaultRandomSeed As Windows.Forms.Label
+    Friend WithEvents tbDefaultRandomSeed As Windows.Forms.TextBox
 End Class

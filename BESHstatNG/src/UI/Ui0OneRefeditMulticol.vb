@@ -424,7 +424,7 @@ Public Class Ui0OneRefeditMulticol
         If Me.ckCochranArmitage.Checked Then
             Dim Cochran As TestResult = Nothing
             '1st chcek for proper table dimensions.
-            'One of the dimenstions have to be 2 and table must be larger then 2x2
+            'One of the dimensions have to be 2 and table must be larger then 2x2
             Dim rows As Integer = UBound(tab, 1) + 1
             Dim cols As Integer = UBound(tab, 2) + 1
             If Not ((rows = 2) Or (cols = 2)) Or (rows + cols < 5) Then

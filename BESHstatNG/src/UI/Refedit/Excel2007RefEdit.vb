@@ -1,7 +1,9 @@
 ﻿Imports System.ComponentModel
 Imports System.Drawing
 Imports System.Runtime.InteropServices
+Imports System.Security.Cryptography
 Imports System.Windows.Forms
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop
 Imports Microsoft.Office.Interop.Excel
 
@@ -260,7 +262,6 @@ Public Class Excel2007RefEdit
                 .MouseDownBackColor = value.MouseDownBackColor
                 .MouseOverBackColor = value.MouseOverBackColor
             End With
-
         End Set
     End Property
 
@@ -326,7 +327,6 @@ Public Class Excel2007RefEdit
             btnState.Image = _ImageMaximized
 
             Me.Invalidate()
-
         End Set
     End Property
 
@@ -396,6 +396,7 @@ Public Class Excel2007RefEdit
 
             'Call _NAR(target)
         Catch
+            AppGlobals.BSlogg.Log($"Excel2007RefEdit.SelectionChange error target={target.ToString()}, address={Address}, SheetName={target.Worksheet.Name}")
         End Try
     End Sub
 
@@ -638,7 +639,6 @@ Public Class Excel2007RefEdit
         Catch ex As Exception
 
         End Try
-
     End Sub
 
 #End Region
@@ -654,7 +654,6 @@ Namespace EventArgs
         Inherits System.EventArgs
 
         Public Property DisplayState As RefEditState
-
     End Class
 
     ''' <summary>
@@ -665,6 +664,5 @@ Namespace EventArgs
         Inherits System.ComponentModel.CancelEventArgs
 
         Public Property DisplayState As RefEditState
-
     End Class
 End Namespace

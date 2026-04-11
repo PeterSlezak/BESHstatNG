@@ -11,6 +11,7 @@ Public Class Ui12GlobalSettings
         Dim settings = AppGlobals.GetCurrentSettings()
         Me.ckLogging.Checked = settings.Diagnostics.TraceExecutionLoggingEnabled
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
+        Me.tbDefaultRandomSeed.Text = AppGlobals.GetDefaultRandomSeedText()
 
         Me.WireHelp(Me.btnHelp)
     End Sub
@@ -20,6 +21,18 @@ Public Class Ui12GlobalSettings
 
         settings.Diagnostics.TraceExecutionLoggingEnabled = Me.ckLogging.Checked
         settings.DefaultAlpha = CDbl(Me.spinBtnAlpha.Value)
+
+        Dim seedText = Me.tbDefaultRandomSeed.Text.Trim()
+        If seedText = String.Empty Then
+            settings.DefaultRandomSeed = Integer.MinValue
+        Else
+            Dim parsedSeed As Integer
+            If Not Integer.TryParse(seedText, Globalization.NumberStyles.Integer, Globalization.CultureInfo.InvariantCulture, parsedSeed) Then
+                Throw New ArgumentException("Default random seed must be a valid 32-bit integer or left blank.")
+            End If
+            settings.DefaultRandomSeed = parsedSeed
+        End If
+
         AppGlobals.ApplySettings(settings)
 
         Try
@@ -31,11 +44,7 @@ Public Class Ui12GlobalSettings
             AppGlobals.BSlogg.Info("Global settings saved.")
             Me.Close()
         Catch ex As Exception
-            If AppGlobals.gLogger IsNot Nothing Then
-                AppGlobals.gLogger.WriteError(ex, "Failed to save global settings.")
-            End If
-
-            MsgBox("Failed to save settings: " & ex.Message, MsgBoxStyle.Exclamation, AppGlobals.gsAPP_TITLE)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True, "Failed to save global settings")
         End Try
     End Sub
 

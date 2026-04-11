@@ -240,6 +240,23 @@ Namespace regression
         Private pPredAccuary As ClassificationCrosstab
         Private pResiduals As MultinomialResiduals
 
+        ''' <summary>
+        ''' Returns the fitted observed-versus-predicted classification table.
+        ''' </summary>
+        Public ReadOnly Property ClassificationTable() As ClassificationCrosstab
+            Get
+                Return Me.pPredAccuary
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Returns the residual-diagnostics container computed after fitting.
+        ''' </summary>
+        Public ReadOnly Property ResidualDiagnostics() As MultinomialResiduals
+            Get
+                Return Me.pResiduals
+            End Get
+        End Property
 
         ' ----------------------- Settings / data -----------------------
 
@@ -420,7 +437,7 @@ Namespace regression
                          Optional bStartParams As Boolean = False,
                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                          Optional progressLbl As System.Windows.Forms.Label = Nothing)
-
+            AppGlobals.BSlogg.Debug($"MultinomialLogtModel.Fit start. intercept={intercept}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
             If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException("Data not set. Call dataInputs(x, ...)."))
             Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
             Me.n = UBound(pData, 1) + 1
@@ -744,6 +761,7 @@ Namespace regression
             If Me.bComputeResiduals Then Me.ComputeResiduals()
 
             Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
+            AppGlobals.BSlogg.Debug($"MultinomialLogtModel.Fit completed. converged={converged}; iterations={Me.pIteration}; logLikelihood={Me.pLL}; compTime={Me.CompTime}")
             If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
                                                                      progressBar.Value = 100
                                                                  End Sub)

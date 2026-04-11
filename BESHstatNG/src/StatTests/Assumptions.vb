@@ -423,10 +423,10 @@ Namespace assumptions
             Dim p As Integer = Cov_mat.GetLength(1)
             ' Cov_mat is (group, row, col)
             If Cov_mat.GetLength(1) <> Cov_mat.GetLength(2) Then
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test require the same dimenstions of Covariance matrix for each group."))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test require the same dimensions of Covariance matrix for each group."))
             End If
             If n_grp <> SampleSizes.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test - incorrect input array dimenstions."))
+                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test - incorrect input array dimensions."))
             End If
 
             Dim cov_pooled(p - 1, p - 1) As Double, tmp(p - 1, p - 1) As Double

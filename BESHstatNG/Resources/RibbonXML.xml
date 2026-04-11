@@ -66,17 +66,23 @@
 							<button id="btn8_2PCA" label="Principal Component Analysis" onAction='OnbtmPCAPressed' imageMso="ChartTypeOtherInsertGallery" />
 							<button id="btm8_3CA" label="Correspondence Analysis" onAction='OnbtmCAPressed' imageMso='TableInsertExcel'/>
 							<button id="btm8_4MCA" label="Multiple Correspondence Analysis" onAction='OnbtmMCAPressed' imageMso='PivotTableOptions' />
+							<button id="btm8_5KMC" label="K-Means Clustering" onAction='OnbtmKMCPressed' imageMso='DesignAccentsGallery' />
+							<button id="btm8_6HC" label="Hierarchical Clustering" onAction='OnbtmHCPressed' imageMso='ViewPredecessorsSuccessorsShow' />
+							<button id="btm8_7FA" label="Factor Analysis" onAction='OnbtmFAPressed' imageMso='CreateSubsite' />
 						</menu>
 						<menu id='subMenu_SampleSize' label='Sample Size' >
 							<button id="btn9_1PairedT" label="Paired T-test" onAction='OnbtmSampleSizePairedTPressed' imageMso="PrintColumns" />
 							<button id="btn9_2UnPairedT" label="Unpaired T-test" onAction='OnbtmSampleSizeUnPairedTPressed' imageMso="JustifyMediumVertical" />
 							<button id="btn9_3SingleProp" label="Single Proportion" onAction='OnbtmSinglePropPressed' imageMso="ObjectsArrangeMenu" />
-							<button id="btn9_4IndProp" label="Independent Proporions" onAction='OnbtmIndPropPressed' imageMso="ObjectsGroupMenuOutlook" />
+							<button id="btn9_4IndProp" label="Independent Proportions" onAction='OnbtmIndPropPressed' imageMso="ObjectsGroupMenuOutlook" />
 						</menu>
 						<menu id='subMenu_Agreement' label='Agreement' >
 							<button id="btn10_1PassingBablok" label="Passing-Bablok Regression" onAction='OnbtmPassingBablok' imageMso="AutoSummaryViewByHighlight" />
 							<button id="btn10_2Deming" label="Deming Regression" onAction='OnbtmDeming' imageMso="DiagramResizeClassic" />
-							<button id="btn10_3icc" label="Intraclass Correlation Coefficients" onAction='OnbtmIcc' imageMso="CombineShapesGallery" />
+							<button id="btn10_3Bland" label="Bland–Altman Analysis" onAction='OnbtmBlandAltman' imageMso="ChartLines" />
+							<button id="btn10_4LCCC" label="Lin's Concordance Correlation Coefficient" onAction='OnbtmLCCC' imageMso="BlackAndWhiteDontShow" />
+							<button id="btn10_5Cohen" label="Cohen's / Weighted Kappa" onAction='OnbtmCohenKappa' imageMso="FormControlCheckBox" />
+							<button id="btn10_6icc" label="Intraclass Correlation Coefficients" onAction='OnbtmIcc' imageMso="CombineShapesGallery" />
 						</menu>
 					</menu>
 

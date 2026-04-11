@@ -69,8 +69,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable("Shapiro-Wilk Test", "W statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.SHAPIRO_WILK", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -122,8 +122,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable("D'Agostino-Pearson K² Test", "K² statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.DAGOSTINO_PEARSON", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -174,8 +174,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable("Anderson-Darling Test", "Adjusted AD²", res.TestStatistics1, "Approximate p-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.ANDERSON_DARLING", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -259,8 +259,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable("Box's Test of Equality of Covariance Matrices", "M statistic", res.TestStatistics1, "P-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.BOX_M", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -308,8 +308,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable("Fligner-Killeen Test", "Chi-square statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.FLIGNER_KILLEEN", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -370,8 +370,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable(label, "F statistic", res.TestStatistics1, "P-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.LEVENE", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -422,8 +422,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable("Bartlett Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.BARTLETT", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -471,8 +471,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable("Squared Ranks Test", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.SQUARED_RANKS", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -516,7 +516,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim names() As String = Nothing
-                If Not ParametricUDFs.TryReadCompleteNumericMatrixWithHeaders(data, mat, names) Then Return ExcelError.ExcelErrorValue
+                If Not UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(data, mat, names) Then Return ExcelError.ExcelErrorValue
                 If mat Is Nothing OrElse mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 3 Then Return ExcelError.ExcelErrorNum
 
                 Dim res As TestResult = Assumptions.MauchlyTest(mat)
@@ -525,8 +525,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable("Mauchly's Test of Sphericity", "Chi-square statistic", res.TestStatistics1, "P-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.MAUCHLY", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -587,8 +587,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildTwoValueTable(title, "Test statistic", res.TestStatistics1, "Two-sided p-value", res.Pvalue)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.SYMMETRY", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -649,8 +649,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return BuildGrubbsTable(alphaValue, res)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.GRUBBS", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -706,8 +706,8 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim outliers() As Double = Assumptions.Rosner(x, alphaValue)
                 Return BuildRosnerTable(alphaValue, outliers, x.Length < 25)
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.ASSUMP.ROSNER", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
 
@@ -766,10 +766,6 @@ Namespace BESHStatNG.WorksheetFunctions
             Return ParametricUDFs.PrepareResultTableForUdf(t.returnSelf())
         End Function
 
-        Private Function IsFinite(x As Double) As Boolean
-            Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-        End Function
-
         Private Function TryParseLeveneCenter(arg As Object, ByRef useMedian As Boolean, ByRef title As String) As Boolean
             useMedian = False
             title = "Levene Test"
@@ -809,13 +805,6 @@ Namespace BESHStatNG.WorksheetFunctions
             End Select
         End Function
 
-        Private Function NormalizeText(v As Object) As String
-            If v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty Then Return ""
-            Dim s As String = Convert.ToString(v)
-            If s Is Nothing Then Return ""
-            Return s.Trim().ToUpperInvariant()
-        End Function
-
         Private Function TryReadSingleNumericColumn(input As Object, ByRef values() As Double, ByRef detectedName As String) As Boolean
             values = Nothing
             detectedName = ""
@@ -835,46 +824,6 @@ Namespace BESHStatNG.WorksheetFunctions
             Next
 
             values = list.ToArray()
-            Return True
-        End Function
-
-        Private Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
-            groups = Nothing
-            names = Nothing
-
-            Dim arr As Object(,) = UDFhelpers.Get2D(input)
-            If arr Is Nothing Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows < 1 OrElse cols < 1 Then Return False
-
-            Dim numericCols As Integer() = Enumerable.Range(0, cols).ToArray()
-            Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, numericCols)
-            Dim startRow As Integer = If(hasHeader, 1, 0)
-
-            Dim groupList As New List(Of Double())
-            Dim nameList As New List(Of String)
-
-            For c As Integer = 0 To cols - 1
-                Dim vals As New List(Of Double)
-                For r As Integer = startRow To rows - 1
-                    Dim d = UDFhelpers.TryGetDouble(arr(r, c))
-                    If d.HasValue AndAlso IsFinite(d.Value) Then vals.Add(d.Value)
-                Next
-
-                If vals.Count > 0 Then
-                    groupList.Add(vals.ToArray())
-                    If hasHeader Then
-                        nameList.Add(Convert.ToString(arr(0, c)).Trim())
-                    Else
-                        nameList.Add("Group " & groupList.Count.ToString())
-                    End If
-                End If
-            Next
-
-            groups = groupList.ToArray()
-            names = nameList.ToArray()
             Return True
         End Function
 
@@ -974,48 +923,6 @@ Namespace BESHStatNG.WorksheetFunctions
                 Next
             Next
             Return cov
-        End Function
-
-        Private Function LooksLikeHeaderRow(arr As Object(,), numericCols As Integer()) As Boolean
-            Dim rows As Integer = arr.GetLength(0)
-            If rows < 2 Then Return False
-
-            Dim anyNonNumeric As Boolean = False
-            For Each c In numericCols
-                If Not UDFhelpers.TryGetDouble(arr(0, c)).HasValue Then
-                    anyNonNumeric = True
-                    Exit For
-                End If
-            Next
-            If Not anyNonNumeric Then Return False
-
-            For Each c In numericCols
-                Dim foundNumericBelow As Boolean = False
-                For r As Integer = 1 To rows - 1
-                    If UDFhelpers.TryGetDouble(arr(r, c)).HasValue Then
-                        foundNumericBelow = True
-                        Exit For
-                    End If
-                Next
-                If Not foundNumericBelow Then Return False
-            Next
-
-            Return True
-        End Function
-
-        Private Function LooksLikeSingleColumnHeader(arr As Object(,)) As Boolean
-            If arr Is Nothing Then Return False
-            If arr.GetLength(1) <> 1 Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            If rows < 2 Then Return False
-            If UDFhelpers.TryGetDouble(arr(0, 0)).HasValue Then Return False
-
-            For r As Integer = 1 To rows - 1
-                If UDFhelpers.TryGetDouble(arr(r, 0)).HasValue Then Return True
-            Next
-
-            Return False
         End Function
 
     End Module

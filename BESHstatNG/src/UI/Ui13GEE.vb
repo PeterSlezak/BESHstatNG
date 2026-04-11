@@ -54,7 +54,6 @@ Public Class Ui13GEE
         Me.lbAllColumns.Anchor = Windows.Forms.AnchorStyles.Left Or
                                  Windows.Forms.AnchorStyles.Bottom Or
                                  Windows.Forms.AnchorStyles.Top
-        'Me.lbWeights.Anchor = Windows.Forms.AnchorStyles.Right Or Windows.Forms.AnchorStyles.Left
         Me.lbY.Anchor = Windows.Forms.AnchorStyles.Left Or
                         Windows.Forms.AnchorStyles.Right Or
                         Windows.Forms.AnchorStyles.Top
@@ -590,7 +589,7 @@ Public Class Ui13GEE
             Dim rr = New ProcessListofResultTables(res)
             rr.writeToSheet(WriteRes, True)
         Catch ex As Exception
-            Debug.Print(ex.Message)
+            AppGlobals.BSerr.LogAndThrow(ex, False, True, "Failed to write GEE results to the workbook")
         End Try
     End Sub
 

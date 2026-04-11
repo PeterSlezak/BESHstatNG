@@ -594,6 +594,7 @@ Public Class GLM
          Optional Weights() As Double = Nothing)
 
         pData = x
+        AppGlobals.BSlogg.Trace($"GLM.data start. rows={x.GetLength(0)}; cols={x.GetLength(1)}; rowNumsProvided={RowNums IsNot Nothing}; offsetProvided={Offset IsNot Nothing}; weightsProvided={Weights IsNot Nothing}")
 
         ' Offsets are additive in eta (as used throughout GLM.Fit).
         ' Passing an all-zero offset should behave exactly like having no offset.
@@ -625,6 +626,8 @@ Public Class GLM
         Else
             pRowNums = RowNums
         End If
+
+        AppGlobals.BSlogg.Trace($"GLM.data completed. pbOffset={pbOffset}; pbWeights={pbWeigts}; n={pData.GetLength(0)}")
     End Sub
 
     ''' <summary>
@@ -785,6 +788,7 @@ Public Class GLM
                                Optional bStartParams As Boolean = False,
                                Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                                Optional progressLbl As System.Windows.Forms.Label = Nothing)
+        AppGlobals.BSlogg.Debug($"GLM.Fit start. family={pFamily.GetType().Name}; link={pLink.GetType().Name}; intercept={intercept}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}; weights={pbWeigts}")
         'Intercept = 1 if Yes; 0 if No
         Dim j As Integer, pi1 As Integer, dev As Double, params(,) As Double, hold As Double, y_mean As Double
         Dim ii As Integer, weights() As Double, old_params() As Double, wlsendog() As Double
@@ -1047,7 +1051,6 @@ Public Class GLM
 
                     If (ii > pInnerLoopMaxIter) Then Exit Do
                     ii += 1
-                    Debug.Print(Matrix.array2str(Me.results.Coeffs_est))
 
                     For i = 0 To UBound(Me.results.Coeffs_est)
                         Me.results.Coeffs_est(i) = (Me.results.Coeffs_est(i) + old_params(i)) / 2.0
@@ -1162,6 +1165,7 @@ Public Class GLM
                                     {CStr(Me.pbConverged), "", ""}}
 
         Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
+        AppGlobals.BSlogg.Debug($"GLM.Fit completed. converged={Me.pbConverged}; iterations={Me.pIRLSiterations}; finalDeviance={Me.pFinalDeviance}; logLikelihood={Me.LogLikelihood()}; compTime={Me.CompTime}")
         If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
                                                                  progressBar.Value = 100
                                                              End Sub)
@@ -2155,6 +2159,89 @@ Public Class ZeroInflatedPoisson
     ''' </summary>
     Public resultsLogistic As LMresult 'Zip model resutls for Logistic/Zero part
 
+    ''' <summary>
+    ''' Returns the final observed-data log-likelihood of the fitted zero-inflated Poisson model.
+    ''' </summary>
+    Public ReadOnly Property LogLikelihood() As Double
+        Get
+            Return Me.pLogLikelihood
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the final residual deviance, defined in this implementation as <c>-2 log L</c>.
+    ''' </summary>
+    Public ReadOnly Property ResidualDeviance() As Double
+        Get
+            Return Me.pFinalDeviance
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the number of outer EM iterations performed during fitting.
+    ''' </summary>
+    Public ReadOnly Property EMiterations() As Integer
+        Get
+            Return Me.pEMiterations
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the final relative log-likelihood change used by the stopping rule.
+    ''' </summary>
+    Public ReadOnly Property LastRelativeLogLikelihoodChange() As Double
+        Get
+            Return Me.pLastIterLLchange
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns whether the ZIP fitting algorithm satisfied its convergence criterion.
+    ''' </summary>
+    Public ReadOnly Property Converged() As Boolean
+        Get
+            Return Me.pConverged
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the total computational time in seconds.
+    ''' </summary>
+    Public ReadOnly Property ComputationalTimeSeconds() As Double
+        Get
+            Return Me.CompTime
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the final logistic model used for the zero-inflation component.
+    ''' </summary>
+    Public ReadOnly Property FinalZeroComponentModel() As GLM
+        Get
+            Return Me.pFinalZeroModel
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the raw residual vector <c>y - μ</c>.
+    ''' </summary>
+    Public ReadOnly Property RawResiduals() As Double()
+        Get
+            If Me.pRaw_res Is Nothing Then Return Nothing
+            Return DirectCast(Me.pRaw_res.Clone(), Double())
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the Pearson residual vector based on the ZIP variance function.
+    ''' </summary>
+    Public ReadOnly Property PearsonResiduals() As Double()
+        Get
+            If Me.pPearsChisq_res Is Nothing Then Return Nothing
+            Return DirectCast(Me.pPearsChisq_res.Clone(), Double())
+        End Get
+    End Property
+
     Private pAlpha As Double
     Private pMaxEMIter As Integer
     Private pMaxIRLSIter As Integer
@@ -2776,15 +2863,6 @@ Public Class ZeroInflatedPoisson
             eta(i) = s
         Next
         Return eta
-    End Function
-
-    Private Function MuFromEtaLogLink(ByVal eta As Double()) As Double()
-        Dim nLocal As Integer = eta.Length
-        Dim mu(nLocal - 1) As Double
-        For i As Integer = 0 To nLocal - 1
-            mu(i) = Math.Exp(eta(i))
-        Next
-        Return mu
     End Function
 
     Private Function PredictPoissonLogLink(ByVal X As Double(,), ByVal beta As Double(),

@@ -445,6 +445,176 @@ Public Class GEE
     End Property
 
     ''' <summary>
+    ''' Recomputes residual arrays for the current fitted mean model.
+    ''' </summary>
+    ''' <param name="useWeights">
+    ''' If <c>True</c> and case weights were supplied, appropriate residual types are multiplied by <c>sqrt(w_i)</c>.
+    ''' </param>
+    ''' <param name="scaleResiduals">
+    ''' If <c>True</c>, scaled Pearson and scaled deviance residuals divide by <c>sqrt(φ)</c>.
+    ''' </param>
+    Public Sub Residuals(Optional useWeights As Boolean = False,
+                         Optional scaleResiduals As Boolean = True)
+        ComputeResiduals(useWeights:=useWeights, scaleResiduals:=scaleResiduals)
+    End Sub
+
+    Public ReadOnly Property RawResiduals() As Double()
+        Get
+            If Me.pRawRes Is Nothing Then Return Nothing
+            Return DirectCast(Me.pRawRes.Clone(), Double())
+        End Get
+    End Property
+
+    Public ReadOnly Property DevianceResiduals() As Double()
+        Get
+            If Me.pDevianceRes Is Nothing Then Return Nothing
+            Return DirectCast(Me.pDevianceRes.Clone(), Double())
+        End Get
+    End Property
+
+    Public ReadOnly Property PearsonResiduals() As Double()
+        Get
+            If Me.pPearsonRes Is Nothing Then Return Nothing
+            Return DirectCast(Me.pPearsonRes.Clone(), Double())
+        End Get
+    End Property
+
+    Public ReadOnly Property ScaledDevianceResiduals() As Double()
+        Get
+            If Me.pDevianceScaledRes Is Nothing Then Return Nothing
+            Return DirectCast(Me.pDevianceScaledRes.Clone(), Double())
+        End Get
+    End Property
+
+    Public ReadOnly Property ScaledPearsonResiduals() As Double()
+        Get
+            If Me.pPearsonScaledRes Is Nothing Then Return Nothing
+            Return DirectCast(Me.pPearsonScaledRes.Clone(), Double())
+        End Get
+    End Property
+
+    Public ReadOnly Property WorkingResiduals() As Double()
+        Get
+            If Me.pWorkingRes Is Nothing Then Return Nothing
+            Return DirectCast(Me.pWorkingRes.Clone(), Double())
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the fitted working correlation matrix <c>R(α)</c> used inside the generalized estimating equations.
+    ''' </summary>
+    ''' <value>
+    ''' A square matrix whose dimension equals the number of distinct within-cluster time positions
+    ''' represented by the fitted working-correlation structure.
+    ''' </value>
+    ''' <remarks>
+    ''' <para>
+    ''' In generalized estimating equations, the cluster-level working covariance is commonly written as
+    ''' <c>V_i = φ A_i^{1/2} R_i(α) A_i^{1/2}</c>,
+    ''' where <c>A_i</c> contains the marginal variance terms implied by the selected family,
+    ''' <c>φ</c> is a scale parameter, and <c>R_i(α)</c> is the working correlation matrix.
+    ''' </para>
+    ''' <para>
+    ''' This property returns the fitted correlation component <c>R(α)</c>, not the full covariance matrix <c>V_i</c>.
+    ''' Therefore, the diagonal entries are 1 and the off-diagonal entries describe the assumed within-cluster association pattern.
+    ''' For example:
+    ''' </para>
+    ''' <list type="bullet">
+    ''' <item><description><b>Independence</b>: <c>R_i = I</c>.</description></item>
+    ''' <item><description><b>Exchangeable</b>: all off-diagonal entries are equal to a common correlation parameter <c>ρ</c>.</description></item>
+    ''' <item><description><b>Autoregressive AR(1)</b>: entry <c>(s,t)</c> is <c>ρ^{|t-s|}</c> under equally spaced repeated measures.</description></item>
+    ''' <item><description><b>Unstructured</b>: each distinct pairwise correlation is estimated separately subject to matrix feasibility.</description></item>
+    ''' </list>
+    ''' <para>
+    ''' The returned matrix is the fitted working structure used to improve efficiency and to define the model-based covariance calculations.
+    ''' It should not be interpreted as the empirical sample correlation matrix of the observed outcomes.
+    ''' </para>
+    ''' </remarks>
+    Public ReadOnly Property WorkingCorrelationMatrix() As Double(,)
+        Get
+            If Me.pCovStruct Is Nothing Then Return Nothing
+            Dim m(,) As Double = Me.pCovStruct.DepParams(Me, True)
+            If m Is Nothing Then Return Nothing
+            Return DirectCast(m.Clone(), Double(,))
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the estimated covariance matrix of the regression-parameter estimator.
+    ''' </summary>
+    ''' <param name="covarianceType">
+    ''' Covariance estimator type.
+    ''' Accepted values are <c>"Naive"</c>, <c>"Robust"</c>, and <c>"Bias Reduced"</c>.
+    ''' If omitted or blank, the covariance type used for the fitted coefficient summary is returned.
+    ''' </param>
+    ''' <returns>
+    ''' A square matrix whose <c>(j,j)</c> element is the estimated variance of the <c>j</c>-th coefficient
+    ''' and whose off-diagonal elements are the estimated covariances between coefficients.
+    ''' </returns>
+    ''' <remarks>
+    ''' <para>
+    ''' Let
+    ''' <c>B = Σ_i D_i' V_i^{-1} D_i</c>
+    ''' and
+    ''' <c>u_i = D_i' V_i^{-1}(y_i - μ_i)</c>.
+    ''' Then the common covariance estimators for generalized estimating equations are:
+    ''' </para>
+    ''' <para>
+    ''' <b>Model-based / naive:</b>
+    ''' <c>Var_naive(β̂) = φ B^{-1}</c>
+    ''' </para>
+    ''' <para>
+    ''' <b>Empirical / robust sandwich:</b>
+    ''' <c>Var_robust(β̂) = B^{-1} (Σ_i u_i u_i') B^{-1}</c>
+    ''' </para>
+    ''' <para>
+    ''' <b>Bias-reduced sandwich:</b>
+    ''' a leverage-adjusted sandwich estimator intended to reduce small-sample downward bias
+    ''' in the robust covariance when the number of clusters is limited.
+    ''' </para>
+    ''' <para>
+    ''' The square roots of the diagonal entries are the coefficient standard errors used in Wald statistics
+    ''' and confidence intervals. The covariance matrix is reported on the coefficient scale of the linear predictor,
+    ''' not on the response scale.
+    ''' </para>
+    ''' <para>
+    ''' If the bias-reduced covariance was not stored during fitting, it is computed on demand from the fitted model state.
+    ''' </para>
+    ''' </remarks>
+    Public Function GetParameterCovarianceMatrix(Optional covarianceType As String = Nothing) As Double(,)
+        Dim covType As String = If(covarianceType, String.Empty)
+        covType = covType.Trim()
+
+        If String.IsNullOrWhiteSpace(covType) Then
+            covType = Me.pStdErrType
+        End If
+
+        If Me.pCovNaive Is Nothing OrElse Me.pCovRobust Is Nothing Then
+            ComputeCovMat()
+        End If
+
+        Select Case covType.ToLowerInvariant().Replace(" ", "")
+            Case "naive", "model", "modelbased"
+                If Me.pCovNaive Is Nothing Then Return Nothing
+                Return DirectCast(Me.pCovNaive.Clone(), Double(,))
+
+            Case "robust", "sandwich", "empirical"
+                If Me.pCovRobust Is Nothing Then Return Nothing
+                Return DirectCast(Me.pCovRobust.Clone(), Double(,))
+
+            Case "biasreduced", "biascorrected", "biascorr", "manclderouen"
+                If Me.pCovNaive Is Nothing Then Return Nothing
+                If Me.pCovBiasCorr Is Nothing Then
+                    Me.pCovBiasCorr = ComputeBScovMat(DirectCast(Me.pCovNaive.Clone(), Double(,)))
+                End If
+                Return DirectCast(Me.pCovBiasCorr.Clone(), Double(,))
+
+            Case Else
+                Return Nothing
+        End Select
+    End Function
+
+    ''' <summary>
     ''' Dictionary of unique time values to contiguous indices (0..T−1) used by certain covariance structures.
     ''' </summary>
     ''' <remarks>
@@ -562,6 +732,15 @@ Public Class GEE
     Public ReadOnly Property DFresid() As Integer
         Get
             Return Me.pDFresid
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the elapsed fitting time in seconds for the most recent call to <see cref="Fit"/>.
+    ''' </summary>
+    Public ReadOnly Property ComputationalTimeSeconds() As Double
+        Get
+            Return Me.CompTime
         End Get
     End Property
 
@@ -715,7 +894,7 @@ Public Class GEE
                          Optional scalingFactor As Double = 1.0#,
                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                          Optional progressLbl As System.Windows.Forms.Label = Nothing)
-        AppGlobals.BSlogg.Log("proc started: gee.Fit")
+        AppGlobals.BSlogg.Debug($"GEE.Fit start. family={pFamily.GetType().Name}; link={pLink.GetType().Name}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
         Dim update() As Double = Nothing, score() As Double = Nothing, del_params As Double, strTmpTrace As String = String.Empty
         Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
         Me.pScalingFactor = scalingFactor
@@ -843,6 +1022,8 @@ Public Class GEE
                                      {CStr(Me.pConverged), ""}}
 
         Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
+        AppGlobals.BSlogg.Debug($"GEE.Fit completed. converged={Me.pConverged}; iterations={Me.pItration}; logLikelihood={Me.pQL}; compTime={Me.CompTime}")
+
         If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
                                                                  progressBar.Value = 100
                                                              End Sub)
@@ -1010,16 +1191,6 @@ Public Class GEE
         'compute matrix inversion
 
         Dim bmatInv(,) As Double = Matrix.MatInv(bmat, "CHOL",, bPseudInverse:=True)
-        'Dim tmp(,) As Double = Cholesky(bmat, iErr, False)
-        ''Debug.Print(array2str(tmp))
-        'If iErr = 2 Then 'MatrixType not positive-definite. Compute pseudoinverse
-        '    BSlogg.Log($"WARNING: CHOLESKY. bmat not positive-definite. Calling pseudoInverse. bmat={array2str(bmat)}", LogMsgType.Warn)
-        '    bmatInv = pseudoInverse(bmat)
-        '    BSlogg.Log($"NOTE: pseudoInverse output ={array2str(bmatInv)}")
-        'Else
-        '    bmatInv = CholInv(tmp)
-        'End If
-        'Debug.Print(array2str(bmatInv))
         Me.pCovRobust = Matrix.MatrixMult(bmatInv, Matrix.MatrixMult(cmat, bmatInv))
 
         For i = 0 To p - 1
@@ -1028,7 +1199,6 @@ Public Class GEE
                 pCovRobust(i, j) = pCovRobust(i, j) * pScalingFactor
             Next
         Next
-
     End Sub
 
     ''' <summary>

@@ -217,7 +217,6 @@ Namespace regression
         ''' This method stores the provided inputs; estimation is performed by <see cref="Fit"/>.
         ''' </para>
         ''' <seealso cref="Fit"/>
-        ''' <seealso cref="AppGlobals.BSerr.LogAndThrow(Exception,Boolean,Boolean)"/>
         ''' <seealso cref="Matrix.IdentityVect(Integer, Double)"/>
         ''' </remarks>
         Public Sub Data(dataMatrix(,) As Double,

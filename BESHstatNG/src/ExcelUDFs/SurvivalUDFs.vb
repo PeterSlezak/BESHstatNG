@@ -63,7 +63,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.LOGRANK_P",
             Category:="BESHStatNG - Survival",
             Description:="Log-rank family test p-value for comparing survival curves across groups (optionally stratified; supports multiple weight schemes).",
-            HelpTopic:="udf/survival.md#beshsurvlogrank_p")>
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/")>
         Public Function LOGRANK_P(
             <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> timeRange As Object,
             <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> statusRange As Object,
@@ -113,7 +113,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.LOGRANK_STAT",
             Category:="BESHStatNG - Survival",
             Description:="Log-rank family test chi-square statistic for comparing survival curves across groups (optionally stratified; supports multiple weight schemes).",
-            HelpTopic:="udf/survival.md#beshsurvlogrank_stat")>
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/")>
         Public Function LOGRANK_STAT(
             <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> timeRange As Object,
             <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> statusRange As Object,
@@ -182,7 +182,7 @@ Namespace BESHStatNG.WorksheetFunctions
     Name:="BESH.SURV.MEDIAN_CI",
     Category:="BESHStatNG - Survival",
     Description:="Kaplan–Meier median survival time with Brookmeyer–Crowley CI (overall or by group). Returns a 2D table.",
-    HelpTopic:="udf/survival.md#beshsurvmedian_ci")>
+    HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/")>
         Public Function MEDIAN_CI(
     <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> time As Object,
     <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> status As Object,
@@ -201,8 +201,8 @@ Namespace BESHStatNG.WorksheetFunctions
                     Return ExcelError.ExcelErrorNum
                 End If
                 Return outArr
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.SURV.MEDIAN_CI", ex, ExcelError.ExcelErrorValue)
             End Try
 
         End Function
@@ -267,7 +267,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.KM_TABLE",
             Category:="BESHStatNG - Survival",
             Description:="Kaplan-Meier tabular survival curve: group, time, at-risk, S(t), SE, lower/upper CI.",
-            HelpTopic:="udf/survival.md#beshsurvkm_table"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/"
         )>
         Public Function KM_TABLE(
             <ExcelArgument(Name:="time", Description:="Follow-up time (single column, >=0).")> time As Object,
@@ -323,8 +323,8 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Return result
 
-            Catch
-                Return ExcelError.ExcelErrorValue
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.SURV.KM_TABLE", ex, ExcelError.ExcelErrorValue)
             End Try
 
         End Function
@@ -332,7 +332,6 @@ Namespace BESHStatNG.WorksheetFunctions
         ' =================
         ' Internal helpers
         ' =================
-
         Private Function BuildSurvivalRecords(time As Object, status As Object, group As Object) As List(Of survival.SurvivalRecord)
             Dim tArr = TryCast(time, Object(,))
             Dim sArr = TryCast(status, Object(,))
@@ -358,9 +357,9 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim tVal As Double
                 Dim sVal As Integer
 
-                If Not TryGetDoubleSurv(tArr(i, 0), tVal) Then Continue For
+                If Not UDFhelpers.TryGetFiniteDoubleFlexible(tArr(i, 0), tVal) Then Continue For
                 If tVal < 0 Then Continue For
-                If Not TryGetStatus01(sArr(i, 0), sVal) Then Continue For
+                If Not UDFhelpers.TryGetStatus01Flexible(sArr(i, 0), sVal) Then Continue For
 
                 Dim gKey As String = "All"
                 If hasGroup Then
@@ -379,13 +378,13 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Dim rec As New survival.SurvivalRecord With {
-                    .Time = tVal,
-                    .Censorship = sVal,
-                    .Group = gid,
-                    .strGroup = gKey,
-                    .Stratum = "",
-                    .strStratum = ""
-                }
+                        .Time = tVal,
+                        .Censorship = sVal,
+                        .Group = gid,
+                        .strGroup = gKey,
+                        .Stratum = "",
+                        .strStratum = ""
+                    }
                 records.Add(rec)
             Next
 
@@ -394,7 +393,6 @@ Namespace BESHStatNG.WorksheetFunctions
 
         Private Function TryComputeMedianCI(timeRange As Object, statusRange As Object, groupRange As Object,
                                             alpha As Double, ByRef outTable As Object(,)) As Boolean
-
             outTable = Nothing
 
             Dim timeArr As Object(,) = Nothing
@@ -426,13 +424,13 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim t As Double
                 Dim s As Integer
 
-                If Not TryToDouble(timeArr(i, 0), t) Then Continue For
-                If Not TryToInt01(statusArr(i, 0), s) Then Continue For
+                If Not UDFhelpers.TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For
+                If Not UDFhelpers.TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For
                 If t < 0 Then Return False
 
                 Dim g As String = "ALL"
                 If hasGroup Then
-                    g = ToStr(groupArr(i, 0))
+                    g = UDFhelpers.CellToTrimmedText(groupArr(i, 0))
                     If String.IsNullOrWhiteSpace(g) Then Continue For
                     g = g.Trim()
                 End If
@@ -500,15 +498,13 @@ Namespace BESHStatNG.WorksheetFunctions
             Return True
         End Function
 
-        Private Function TryComputeLogRank(
-            timeRange As Object,
-            statusRange As Object,
-            groupRange As Object,
-            strataRange As Object,
-            weight As Object,
-            ByRef result As TestResult,
-            ByRef errText As String
-        ) As Boolean
+        Private Function TryComputeLogRank(timeRange As Object,
+                                        statusRange As Object,
+                                        groupRange As Object,
+                                        strataRange As Object,
+                                        weight As Object,
+                                        ByRef result As TestResult,
+                                        ByRef errText As String) As Boolean
 
             errText = Nothing
             result = Nothing
@@ -557,14 +553,14 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim g As String
                 Dim st As String = "ALL"
 
-                If Not TryToDouble(timeArr(i, 0), t) Then Continue For
-                If Not TryToInt01(statusArr(i, 0), s) Then Continue For
+                If Not UDFhelpers.TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For
+                If Not UDFhelpers.TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For
 
-                g = ToStr(groupArr(i, 0))
+                g = UDFhelpers.CellToTrimmedText(groupArr(i, 0))
                 If String.IsNullOrWhiteSpace(g) Then Continue For
 
                 If hasStrata Then
-                    st = ToStr(strataArr(i, 0))
+                    st = UDFhelpers.CellToTrimmedText(strataArr(i, 0))
                     If String.IsNullOrWhiteSpace(st) Then st = "ALL"
                 End If
 
@@ -598,7 +594,6 @@ Namespace BESHStatNG.WorksheetFunctions
             Return result IsNot Nothing
         End Function
 
-
         Private Function ParseWeightMethod(weight As Object) As String
             Dim w As String = "logrank"
 
@@ -606,7 +601,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return w
             End If
 
-            Dim s As String = ToStr(weight)
+            Dim s As String = UDFhelpers.CellToTrimmedText(weight)
             If String.IsNullOrWhiteSpace(s) Then Return w
 
             s = s.Trim().ToLowerInvariant()
@@ -627,96 +622,11 @@ Namespace BESHStatNG.WorksheetFunctions
             End Select
         End Function
 
-
         Private Function TryGet2D(input As Object, ByRef arr As Object(,)) As Boolean
-            arr = Nothing
-            If input Is Nothing Then Return False
-
-            If TypeOf input Is Object(,) Then
-                arr = CType(input, Object(,))
-                Return True
-            End If
-
-            ' Allow a single value to be passed instead of a range
-            arr = New Object(0, 0) {}
-            arr(0, 0) = input
-            Return True
+            arr = UDFhelpers.Get2DOrScalar(input)
+            Return arr IsNot Nothing
         End Function
 
-        Private Function TryToDouble(v As Object, ByRef x As Double) As Boolean
-            x = 0.0
-            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return False
-
-            If TypeOf v Is Double Then
-                x = CDbl(v)
-                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-            End If
-
-            Dim s = ToStr(v)
-            Return Double.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, x) _
-                   AndAlso Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-        End Function
-
-        Private Function TryToInt01(v As Object, ByRef x As Integer) As Boolean
-            x = 0
-            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return False
-
-            If TypeOf v Is Double Then
-                Dim d = CDbl(v)
-                If d = 0 Then x = 0 : Return True
-                If d = 1 Then x = 1 : Return True
-                Return False
-            End If
-
-            Dim s = ToStr(v).Trim()
-            If s = "0" Then x = 0 : Return True
-            If s = "1" Then x = 1 : Return True
-            Return False
-        End Function
-
-        Private Function ToStr(v As Object) As String
-            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return ""
-            If TypeOf v Is String Then Return CStr(v)
-
-            If TypeOf v Is Double Then
-                Dim d = CDbl(v)
-                If Math.Abs(d - Math.Round(d)) < 0.000000000001 Then
-                    Return CStr(CLng(Math.Round(d)))
-                End If
-                Return d.ToString(Globalization.CultureInfo.InvariantCulture)
-            End If
-
-            Return v.ToString()
-        End Function
-
-        Private Function TryGetDoubleSurv(v As Object, ByRef x As Double) As Boolean
-            If v Is Nothing Then Return False
-            If TypeOf v Is Double Then
-                x = CDbl(v)
-                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-            End If
-            If TypeOf v Is Single OrElse TypeOf v Is Decimal OrElse TypeOf v Is Integer OrElse TypeOf v Is Long OrElse TypeOf v Is Short Then
-                x = CDbl(v)
-                Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-            End If
-            Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)
-            If String.IsNullOrWhiteSpace(s) Then Return False
-            Return Double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, x)
-        End Function
-
-        Private Function TryGetStatus01(v As Object, ByRef s As Integer) As Boolean
-            Dim x As Double
-            If Not TryGetDoubleSurv(v, x) Then Return False
-            If x = 0 Then
-                s = 0
-                Return True
-            End If
-            If x = 1 Then
-                s = 1
-                Return True
-            End If
-            Return False
-        End Function
     End Module
 
 End Namespace

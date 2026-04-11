@@ -85,7 +85,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.FORMULA_VALIDATE",
             Category:="BESHStatNG - Regression Models",
             Description:="Validates a regression-model formula string and returns TRUE or a descriptive validation message.",
-            HelpTopic:="udf/regression-formula-syntax.md#beshregrformula_validate"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-formula-syntax/"
         )>
         Public Function FORMULA_VALIDATE(
             <ExcelArgument(Name:="formula", Description:="Formula text to validate. Blank text is allowed and means all predictors as continuous main effects.")> formula As Object,
@@ -160,7 +160,7 @@ Namespace BESHStatNG.WorksheetFunctions
                                                      parserOrBuilderMessage:=designErr)
 
             Catch ex As Exception
-                Return "Validation failed: " & ex.Message
+                Return LoggedUdfError("BESH.REGR.FORMULA_VALIDATE", ex, Nothing, "Validation failed: ")
             End Try
         End Function
 

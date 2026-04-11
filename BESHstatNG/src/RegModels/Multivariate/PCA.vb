@@ -367,8 +367,8 @@ Namespace Multivariate
             '   center data - (required only for covariance matrix but we always compute it)
             For i As Integer = 0 To p - 1
                 Dim tmp() As Double = Matrix.GetColumnFrom2Darray(Me.pData, i)
-                Dim tmp2() As Double = center(tmp)
-                tmp = standardize(tmp)
+                Dim tmp2() As Double = MultivariateShared.Center(tmp)
+                tmp = MultivariateShared.Standardize(tmp)
 
                 For j As Integer = 0 To n - 1
                     pStandardData(j, i) = tmp(j)
@@ -386,7 +386,7 @@ Namespace Multivariate
             '3. Compute the eigenvectors and eigenvalues
             'The 1st column of the eigen_raw matrix contains eigenvalues and the rest of the p+1 columns are eigenvectors
             Dim eigen_raw = Matrix.EIGEN_JK(pVarCovar, pMaxiter, pEps)
-            Dim sorted = SortEigenpairsDescending(eigen_raw.Item1, eigen_raw.Item2)
+            Dim sorted = MultivariateShared.SortEigenpairsDescending(eigen_raw.Item1, eigen_raw.Item2)
             Me.pEigenval = sorted.Item1
             Me.pEigenvect = sorted.Item2
 
@@ -1014,73 +1014,6 @@ Namespace Multivariate
                 varOut(i) = "Standardized_" & varNames(i)
             Next
             Return varOut
-        End Function
-
-        '''''' <summary>
-        '''''' Standardizes a vector to mean 0 and sample SD 1.
-        '''''' </summary>
-        '''''' <param name="vector">Input data vector (length n).</param>
-        '''''' <returns>Standardized vector z_i = (x_i − mean(x))/sd(x).</returns>
-        '''''' <exception cref="System.ArgumentException">Thrown if the standard deviation is zero or not finite.</exception>
-        '''''' <remarks>
-        '''''' <para>Uses <see cref="StatFunc.stDev"/> (sample SD with divisor n−1).</para>
-        '''''' </remarks>
-        '''''' <seealso cref="StatFunc.stDev" />
-        Private Function standardize(vector As Double()) As Double()
-            Dim k As Integer = UBound(vector)
-            Dim m As Double = vector.Average()
-            Dim out(k) As Double
-            Dim sd As Double = stDev(vector)
-            If sd = 0.0 OrElse Double.IsNaN(sd) OrElse Double.IsInfinity(sd) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Cannot standardize: SD is zero/invalid."))
-            End If
-
-            For i As Integer = 0 To k
-                out(i) = (vector(i) - m) / sd
-            Next
-            Return out
-        End Function
-
-        '''''' <summary>
-        '''''' Centers a vector by subtracting its mean.
-        '''''' </summary>
-        '''''' <param name="vector">Input data vector (length n).</param>
-        '''''' <returns>Centered vector x_i − mean(x).</returns>
-        Private Function center(vector() As Double) As Double()
-            Dim k As Integer = UBound(vector)
-            Dim m As Double = vector.Average()
-            Dim out(k) As Double
-            For i As Integer = 0 To k
-                out(i) = (vector(i) - m)
-            Next
-            Return out
-        End Function
-
-        '''''' <summary>
-        '''''' Sorts eigenvalues descending and reorders the corresponding eigenvector columns.
-        '''''' </summary>
-        '''''' <param name="vals">Eigenvalues array (length p).</param>
-        '''''' <param name="vecs">Eigenvector matrix (p × p), where columns align with vals.</param>
-        '''''' <returns>A tuple (sortedVals, sortedVecs) with consistent ordering.</returns>
-        '''''' <remarks>
-        '''''' <para>Sorting is required for correct explained-variance calculations and component selection.</para>
-        '''''' </remarks>
-        Private Function SortEigenpairsDescending(vals() As Double, vecs(,) As Double) As (Double(), Double(,))
-
-            Dim pLast As Integer = vals.Length - 1
-            Dim order = Enumerable.Range(0, vals.Length).OrderByDescending(Function(i) vals(i)).ToArray()
-            Dim vals2(pLast) As Double
-            Dim vecs2(pLast, pLast) As Double
-
-            For newJ As Integer = 0 To pLast
-                Dim oldJ As Integer = order(newJ)
-                vals2(newJ) = vals(oldJ)
-                For i As Integer = 0 To pLast
-                    vecs2(i, newJ) = vecs(i, oldJ)
-                Next
-            Next
-
-            Return (vals2, vecs2)
         End Function
 
     End Class

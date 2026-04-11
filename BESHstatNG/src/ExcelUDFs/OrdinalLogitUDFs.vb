@@ -37,9 +37,6 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' </summary>
         Private ReadOnly _ordCache As New ConcurrentDictionary(Of String, OrdinalLogitHandle)(StringComparer.OrdinalIgnoreCase)
 
-        ''' <summary>Sentinel used internally for missing ordinal outcomes before row filtering.</summary>
-        Private Const MissingOrdinalOutcomeCode As Integer = Integer.MinValue
-
         ''' <summary>
         ''' Stores a fitted ordinal-logit model together with the metadata required for summaries and prediction.
         ''' </summary>
@@ -146,7 +143,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ORDLOGIT_FIT",
             Category:="BESHStatNG - Regression Models",
             Description:="Fits a proportional-odds ordinal logistic regression model and returns a reusable handle.",
-            HelpTopic:="udf/regression.md#beshregrordlogit_fit"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
         )>
         Public Function ORDLOGIT_FIT(
             <ExcelArgument(Name:="y", Description:="Ordinal outcome (single numeric column of ordered category codes).")> y As Object,
@@ -165,50 +162,18 @@ Namespace BESHStatNG.WorksheetFunctions
             If ExcelDnaUtil.IsInFunctionWizard() Then Return "ORDLOGIT_FIT (editing...)"
 
             Try
-                Dim yVals As List(Of Integer) = Nothing
-                If Not TryReadOrdinalOutcome(y, yVals) Then Return ExcelError.ExcelErrorValue
 
-                Dim xMat As Double(,) = Nothing
-                Dim rowCount As Integer = 0
-                Dim colCount As Integer = 0
-                If Not UDFhelpers.TryReadNumericMatrix(x, xMat, rowCount, colCount) Then Return ExcelError.ExcelErrorValue
-                If rowCount <> yVals.Count Then Return ExcelError.ExcelErrorValue
-                If colCount < 1 Then Return ExcelError.ExcelErrorNum
-
-                Dim rawRowIds() As Integer = Nothing
-
-                Dim offsetVals As List(Of Double) = Nothing
-                Dim hasOffset As Boolean = HasUsableOptionalArgument(offset)
-                If hasOffset Then
-                    If Not UDFhelpers.TryReadNumericColumn(offset, offsetVals) Then Return ExcelError.ExcelErrorValue
-                    If offsetVals.Count <> rowCount Then Return ExcelError.ExcelErrorValue
-                End If
-
-                Dim weightVals As List(Of Double) = Nothing
-                Dim hasWeights As Boolean = HasUsableOptionalArgument(weights)
-                If hasWeights Then
-                    If Not UDFhelpers.TryReadNumericColumn(weights, weightVals) Then Return ExcelError.ExcelErrorValue
-                    If weightVals.Count <> rowCount Then Return ExcelError.ExcelErrorValue
-                End If
-
-                If Not TryFilterRawOrdinalRegressionInputs(yVals:=yVals,
-                                                           rawX:=xMat,
-                                                           offsetVals:=offsetVals,
-                                                           weightVals:=weightVals,
-                                                           filteredY:=yVals,
-                                                           filteredRawX:=xMat,
-                                                           filteredOffset:=offsetVals,
-                                                           filteredWeights:=weightVals,
-                                                           originalRowIds:=rawRowIds) Then
+                Dim imported As glmData = Nothing
+                If Not UDFhelpers.TryBuildGlmDataFromUdfArgs(y, x, varNames, offset, weights, imported) Then
                     Return ExcelError.ExcelErrorValue
                 End If
 
-                rowCount = xMat.GetLength(0)
-                colCount = xMat.GetLength(1)
-                If rowCount <> yVals.Count Then Return ExcelError.ExcelErrorValue
-                If colCount < 1 Then Return ExcelError.ExcelErrorNum
+                If imported.nCols < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim rawVarNames As String() = UDFhelpers.GetVarNames(varNames, colCount)
+                Dim yVals As List(Of Integer) = Nothing
+                If Not UDFhelpers.TryExtractIntegerOutcomeColumn(imported, yVals) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
 
                 Dim formulaText As String = UDFhelpers.AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
@@ -230,55 +195,41 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim absoluteColumnLetters As String() = Nothing
                 If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then
-                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(x, colCount, absoluteColumnLetters) Then
+                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(x, imported.nCols - 1, absoluteColumnLetters) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                 End If
 
-                Dim designBuild As RegressionFormulaMatrixBuildResult = Nothing
+                Dim designBuild As RegressionFormulaRegressionDataBuildResult = Nothing
                 Dim designErr As String = Nothing
-                If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromFormula(rawX:=xMat,
-                                                                                                result:=designBuild,
-                                                                                                errorMessage:=designErr,
-                                                                                                predictorNames:=rawVarNames,
-                                                                                                formulaText:=formulaText,
-                                                                                                absoluteColumnLetters:=absoluteColumnLetters,
-                                                                                                allowRelativeColumnLetters:=allowRelativeColumnLetters,
-                                                                                                allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,
-                                                                                                allowQuotedVariableNames:=allowQuotedVariableNames,
-                                                                                                omitCategoricalReference:=True) Then
+                If Not RegressionFormulaDesignService.TryBuildExpandedRegressionDataMatrixFromFormula(raw:=imported,
+                                                                                     yKey:=imported.varNames(0),
+                                                                                     result:=designBuild,
+                                                                                     errorMessage:=designErr,
+                                                                                     formulaText:=formulaText,
+                                                                                     absoluteColumnLetters:=absoluteColumnLetters,
+                                                                                     allowRelativeColumnLetters:=allowRelativeColumnLetters,
+                                                                                     allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,
+                                                                                     allowQuotedVariableNames:=allowQuotedVariableNames,
+                                                                                     omitCategoricalReference:=True) Then
                     Return ExcelError.ExcelErrorValue
                 End If
 
-                Dim fitX As Double(,) = designBuild.ExpandedPredictorMatrix
-                Dim fitPredictorNames As String() = designBuild.ExpandedPredictorNames
-                If fitX Is Nothing OrElse fitPredictorNames Is Nothing OrElse fitPredictorNames.Length < 1 Then
+                Dim fitData As Double(,) = designBuild.RegressionDataMatrix
+                Dim fitVarNames As String() = designBuild.RegressionDataVarNames
+                Dim fitPredictorNames As String() = If(designBuild.ExpandedPredictorNames, New String() {})
+                Dim fitOffset() As Double = If(imported.bOffset, imported.OffsetData, Nothing)
+                Dim fitWeights() As Double = If(imported.bWeights, imported.WeightData, Nothing)
+                Dim rowIds() As Integer = imported.RowIds
+
+                If fitData Is Nothing OrElse fitVarNames Is Nothing OrElse fitVarNames.Length < 2 Then
                     Return ExcelError.ExcelErrorValue
                 End If
-
-                Dim fitData As Double(,) = Nothing
-                Dim fitOffset() As Double = Nothing
-                Dim fitWeights() As Double = Nothing
-                Dim rowIds() As Integer = Nothing
-
-                If Not BuildFilteredOrdinalRegressionInputs(yVals:=yVals,
-                                                            expandedX:=fitX,
-                                                            offsetVals:=offsetVals,
-                                                            weightVals:=weightVals,
-                                                            sourceRowIds:=rawRowIds,
-                                                            fitData:=fitData,
-                                                            rowIds:=rowIds,
-                                                            fitOffset:=fitOffset,
-                                                            fitWeights:=fitWeights) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
+                If Not UDFhelpers.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
+                If Not UDFhelpers.HasOnlyFinite(fitWeights, True) Then Return ExcelError.ExcelErrorValue
 
                 Dim distinctCats As Integer = CountDistinctOutcomeCategories(fitData)
                 If distinctCats < 2 Then Return ExcelError.ExcelErrorNum
-
-                Dim fitVarNames(fitPredictorNames.Length) As String
-                fitVarNames(0) = "Y"
-                Array.Copy(fitPredictorNames, 0, fitVarNames, 1, fitPredictorNames.Length)
 
                 Dim alphaValue As Double = 0.05
                 If HasUsableOptionalArgument(alpha) Then
@@ -331,7 +282,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return handleKey
 
             Catch ex As Exception
-                Return ex.GetType().Name & ": " & ex.Message
+                Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_FIT", ex)
             End Try
         End Function
 
@@ -364,7 +315,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ORDLOGIT_SUMMARY",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the parameter summary table for a fitted ordinal-logit model handle.",
-            HelpTopic:="udf/regression.md#beshregrordlogit_summary"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
         )>
         Public Function ORDLOGIT_SUMMARY(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ORDLOGIT_FIT.")> handle As Object,
@@ -431,7 +382,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return out
 
             Catch ex As Exception
-                Return ex.GetType().Name & ": " & ex.Message
+                Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_SUMMARY", ex)
             End Try
         End Function
 
@@ -459,7 +410,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ORDLOGIT_TESTS",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns model-level diagnostics and tests for a fitted ordinal-logit model handle.",
-            HelpTopic:="udf/regression.md#beshregrordlogit_tests"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
         )>
         Public Function ORDLOGIT_TESTS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ORDLOGIT_FIT.")> handle As Object,
@@ -498,7 +449,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return out
 
             Catch ex As Exception
-                Return ex.GetType().Name & ": " & ex.Message
+                Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_TESTS", ex)
             End Try
         End Function
 
@@ -526,7 +477,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ORDLOGIT_CLASS",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the classification confusion matrix for a fitted ordinal-logit model handle.",
-            HelpTopic:="udf/regression.md#beshregrordlogit_class"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
         )>
         Public Function ORDLOGIT_CLASS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ORDLOGIT_FIT.")> handle As Object,
@@ -578,7 +529,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return out
 
             Catch ex As Exception
-                Return ex.GetType().Name & ": " & ex.Message
+                Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_CLASS", ex)
             End Try
         End Function
 
@@ -613,7 +564,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ORDLOGIT_RESID",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns residual diagnostics for a fitted ordinal-logit model handle.",
-            HelpTopic:="udf/regression.md#beshregrordlogit_resid"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
         )>
         Public Function ORDLOGIT_RESID(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ORDLOGIT_FIT.")> handle As Object,
@@ -663,7 +614,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 End Select
 
             Catch ex As Exception
-                Return ex.GetType().Name & ": " & ex.Message
+                Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_RESID", ex)
             End Try
         End Function
 
@@ -702,7 +653,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ORDLOGIT_PRED",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns fitted probabilities and predicted categories for new data under a fitted ordinal-logit model.",
-            HelpTopic:="udf/regression.md#beshregrordlogit_pred"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
         )>
         Public Function ORDLOGIT_PRED(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ORDLOGIT_FIT.")> handle As Object,
@@ -715,42 +666,40 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim h As OrdinalLogitHandle = Nothing
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
-                Dim rawX As Double(,) = Nothing
-                Dim nRows As Integer = 0
-                Dim rawCols As Integer = 0
-                If Not UDFhelpers.TryReadNumericMatrix(newX, rawX, nRows, rawCols) Then Return ExcelError.ExcelErrorValue
-                If h.RawPredictorKeys Is Nothing OrElse rawCols <> h.RawPredictorKeys.Length Then Return ExcelError.ExcelErrorValue
+                Dim rawPredictorKeys As String() = If(h.RawPredictorKeys, h.RawVarNames)
+                If rawPredictorKeys Is Nothing OrElse rawPredictorKeys.Length < 1 Then Return ExcelError.ExcelErrorValue
+
+                Dim imported As glmData = Nothing
+                If Not UDFhelpers.TryBuildPredictorDataFromUdfArgs(newX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+
+                If imported.nCols <> rawPredictorKeys.Length Then Return ExcelError.ExcelErrorValue
 
                 Dim expandedX As Double(,) = Nothing
                 Dim expandedNames() As String = Nothing
                 Dim designErr As String = Nothing
-                If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=rawX,
-                                                                                                    fullRawPredictorKeys:=h.RawPredictorKeys,
-                                                                                                    designSpec:=h.DesignSpec,
-                                                                                                    expandedX:=expandedX,
-                                                                                                    expandedPredictorNames:=expandedNames,
-                                                                                                    errorMessage:=designErr,
-                                                                                                    omitCategoricalReference:=h.OmitCategoricalReference) Then
+                If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,
+                                                                                            fullRawPredictorKeys:=rawPredictorKeys,
+                                                                                            designSpec:=h.DesignSpec,
+                                                                                            expandedX:=expandedX,
+                                                                                            expandedPredictorNames:=expandedNames,
+                                                                                            errorMessage:=designErr,
+                                                                                            omitCategoricalReference:=h.OmitCategoricalReference) Then
                     Return ExcelError.ExcelErrorValue
                 End If
 
                 If expandedX Is Nothing OrElse expandedNames Is Nothing Then Return ExcelError.ExcelErrorValue
                 If expandedNames.Length <> h.PredictorCount Then Return ExcelError.ExcelErrorValue
 
-                Dim offsetVals As List(Of Double) = Nothing
-                If h.HasOffset Then
-                    If Not HasUsableOptionalArgument(newOffset) Then Return ExcelError.ExcelErrorValue
-                    If Not UDFhelpers.TryReadNumericColumn(newOffset, offsetVals) Then Return ExcelError.ExcelErrorValue
-                    If offsetVals.Count <> nRows Then Return ExcelError.ExcelErrorValue
-                ElseIf HasUsableOptionalArgument(newOffset) Then
-                    If Not UDFhelpers.TryReadNumericColumn(newOffset, offsetVals) Then Return ExcelError.ExcelErrorValue
-                    If offsetVals.Count <> nRows Then Return ExcelError.ExcelErrorValue
-                End If
+                Dim offsetVals() As Double = If(imported.bOffset, imported.OffsetData, Nothing)
+                If Not UDFhelpers.HasOnlyFinite(offsetVals) Then Return ExcelError.ExcelErrorValue
 
                 Dim b() As Double = h.Model.results.Coeffs_est
                 Dim cats() As Integer = h.CategoriesInModelOrder
                 If b Is Nothing OrElse cats Is Nothing OrElse cats.Length < 2 Then Return ExcelError.ExcelErrorNA
 
+                Dim nRows As Integer = imported.nRows
                 Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, nRows + 1, nRows)
                 Dim outCols As Integer = cats.Length + 2
@@ -774,7 +723,6 @@ Namespace BESHStatNG.WorksheetFunctions
                         eta += xv * b(j)
                     Next
                     If offsetVals IsNot Nothing Then
-                        If Double.IsNaN(offsetVals(i)) OrElse Double.IsInfinity(offsetVals(i)) Then Return ExcelError.ExcelErrorValue
                         eta += offsetVals(i)
                     End If
 
@@ -791,7 +739,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return out
 
             Catch ex As Exception
-                Return ex.GetType().Name & ": " & ex.Message
+                Return LoggedUdfExceptionText("BESH.REGR.ORDLOGIT_PRED", ex)
             End Try
         End Function
 
@@ -809,7 +757,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ORDLOGIT_DROP",
             Category:="BESHStatNG - Regression Models",
             Description:="Removes a fitted ordinal-logit model handle from memory.",
-            HelpTopic:="udf/regression.md#beshregrordlogit_drop"
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
         )>
         Public Function ORDLOGIT_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ORDLOGIT_FIT.")> handle As Object
@@ -818,234 +766,6 @@ Namespace BESHStatNG.WorksheetFunctions
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
             Dim removed As OrdinalLogitHandle = Nothing
             Return _ordCache.TryRemove(key, removed)
-        End Function
-
-        ''' <summary>
-        ''' Attempts to read an ordinal outcome column from Excel input.
-        ''' </summary>
-        ''' <param name="v">Worksheet argument containing the outcome column.</param>
-        ''' <param name="values">On success, receives the ordered category codes as integers.</param>
-        ''' <returns>True when the input can be interpreted as a one-column ordinal outcome; otherwise, False.</returns>
-        Private Function TryReadOrdinalOutcome(v As Object, ByRef values As List(Of Integer)) As Boolean
-            values = New List(Of Integer)()
-
-            Dim dVals As List(Of Double) = Nothing
-            If Not UDFhelpers.TryReadNumericColumn(v, dVals) Then Return False
-            If dVals Is Nothing OrElse dVals.Count = 0 Then Return False
-
-            For Each d As Double In dVals
-                If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then
-                    values.Add(MissingOrdinalOutcomeCode)
-                    Continue For
-                End If
-
-                Dim rounded As Double = Math.Round(d)
-                If Math.Abs(d - rounded) > 0.0000001R Then
-                    Return False
-                End If
-
-                values.Add(CInt(rounded))
-            Next
-
-            Return values.Count > 0
-        End Function
-
-        ''' <summary>
-        ''' Filters the raw ordinal-regression inputs before formula expansion so rows with missing outcome/predictor values are ignored consistently.
-        ''' </summary>
-        Private Function TryFilterRawOrdinalRegressionInputs(yVals As IList(Of Integer),
-                                                             rawX(,) As Double,
-                                                             offsetVals As IList(Of Double),
-                                                             weightVals As IList(Of Double),
-                                                             ByRef filteredY As List(Of Integer),
-                                                             ByRef filteredRawX As Double(,),
-                                                             ByRef filteredOffset As List(Of Double),
-                                                             ByRef filteredWeights As List(Of Double),
-                                                             ByRef originalRowIds As Integer()) As Boolean
-
-            filteredY = Nothing
-            filteredRawX = Nothing
-            filteredOffset = Nothing
-            filteredWeights = Nothing
-            originalRowIds = Nothing
-
-            If yVals Is Nothing OrElse rawX Is Nothing Then Return False
-
-            Dim n As Integer = rawX.GetLength(0)
-            Dim p As Integer = rawX.GetLength(1)
-            If yVals.Count <> n Then Return False
-            If offsetVals IsNot Nothing AndAlso offsetVals.Count <> n Then Return False
-            If weightVals IsNot Nothing AndAlso weightVals.Count <> n Then Return False
-
-            Dim keep As New List(Of Integer)()
-
-            For i As Integer = 0 To n - 1
-                Dim ok As Boolean = (yVals(i) <> MissingOrdinalOutcomeCode)
-
-                If ok Then
-                    For j As Integer = 0 To p - 1
-                        Dim xv As Double = rawX(i, j)
-                        If Double.IsNaN(xv) OrElse Double.IsInfinity(xv) Then
-                            ok = False
-                            Exit For
-                        End If
-                    Next
-                End If
-
-                If ok AndAlso offsetVals IsNot Nothing Then
-                    Dim ov As Double = offsetVals(i)
-                    If Double.IsNaN(ov) OrElse Double.IsInfinity(ov) Then ok = False
-                End If
-
-                If ok AndAlso weightVals IsNot Nothing Then
-                    Dim wv As Double = weightVals(i)
-                    If Double.IsNaN(wv) OrElse Double.IsInfinity(wv) OrElse wv <= 0.0 Then ok = False
-                End If
-
-                If ok Then keep.Add(i)
-            Next
-
-            If keep.Count < 1 Then Return False
-
-            filteredY = New List(Of Integer)(keep.Count)
-            filteredRawX = New Double(keep.Count - 1, p - 1) {}
-            ReDim originalRowIds(keep.Count - 1)
-
-            If offsetVals IsNot Nothing Then filteredOffset = New List(Of Double)(keep.Count)
-            If weightVals IsNot Nothing Then filteredWeights = New List(Of Double)(keep.Count)
-
-            For r As Integer = 0 To keep.Count - 1
-                Dim src As Integer = keep(r)
-                filteredY.Add(yVals(src))
-                originalRowIds(r) = src + 1
-
-                For j As Integer = 0 To p - 1
-                    filteredRawX(r, j) = rawX(src, j)
-                Next
-
-                If filteredOffset IsNot Nothing Then filteredOffset.Add(offsetVals(src))
-                If filteredWeights IsNot Nothing Then filteredWeights.Add(weightVals(src))
-            Next
-
-            Return True
-        End Function
-
-        ''' <summary>
-        ''' Builds the filtered fitting inputs for the ordinal-logit model by excluding rows containing invalid values.
-        ''' </summary>
-        ''' <param name="yVals">Outcome category codes.</param>
-        ''' <param name="expandedX">Expanded predictor matrix aligned with <paramref name="yVals"/>.</param>
-        ''' <param name="offsetVals">Optional offset vector aligned with <paramref name="yVals"/>.</param>
-        ''' <param name="weightVals">Optional case-weight vector aligned with <paramref name="yVals"/>.</param>
-        ''' <param name="fitData">On success, receives the final regression data matrix with outcome in column 0 and predictors in the remaining columns.</param>
-        ''' <param name="rowIds">On success, receives the original 1-based row numbers retained after filtering.</param>
-        ''' <param name="fitOffset">On success, receives the filtered offset vector or Nothing.</param>
-        ''' <param name="fitWeights">On success, receives the filtered weight vector or Nothing.</param>
-        ''' <returns>True when at least one valid row remains and the filtered structures are produced; otherwise, False.</returns>
-        Private Function BuildFilteredOrdinalRegressionInputs(yVals As IList(Of Integer),
-                                                              expandedX(,) As Double,
-                                                              offsetVals As IList(Of Double),
-                                                              weightVals As IList(Of Double),
-                                                              sourceRowIds As IList(Of Integer),
-                                                              ByRef fitData As Double(,),
-                                                              ByRef rowIds As Integer(),
-                                                              ByRef fitOffset As Double(),
-                                                              ByRef fitWeights As Double()) As Boolean
-
-            fitData = Nothing
-            rowIds = Nothing
-            fitOffset = Nothing
-            fitWeights = Nothing
-
-            If yVals Is Nothing OrElse expandedX Is Nothing Then Return False
-
-            Dim n As Integer = expandedX.GetLength(0)
-            Dim p As Integer = expandedX.GetLength(1)
-            If yVals.Count <> n Then Return False
-            If offsetVals IsNot Nothing AndAlso offsetVals.Count <> n Then Return False
-            If weightVals IsNot Nothing AndAlso weightVals.Count <> n Then Return False
-            If sourceRowIds IsNot Nothing AndAlso sourceRowIds.Count <> n Then Return False
-
-            Dim keep As New List(Of Integer)()
-
-            For i As Integer = 0 To n - 1
-                Dim ok As Boolean = True
-
-                For j As Integer = 0 To p - 1
-                    Dim xv As Double = expandedX(i, j)
-                    If Double.IsNaN(xv) OrElse Double.IsInfinity(xv) Then
-                        ok = False
-                        Exit For
-                    End If
-                Next
-
-                If ok AndAlso offsetVals IsNot Nothing Then
-                    Dim ov As Double = offsetVals(i)
-                    If Double.IsNaN(ov) OrElse Double.IsInfinity(ov) Then ok = False
-                End If
-
-                If ok AndAlso weightVals IsNot Nothing Then
-                    Dim wv As Double = weightVals(i)
-                    If Double.IsNaN(wv) OrElse Double.IsInfinity(wv) OrElse wv <= 0.0 Then ok = False
-                End If
-
-                If ok Then keep.Add(i)
-            Next
-
-            If keep.Count < 1 Then Return False
-
-            ReDim fitData(keep.Count - 1, p)
-            ReDim rowIds(keep.Count - 1)
-
-            If offsetVals IsNot Nothing Then ReDim fitOffset(keep.Count - 1)
-            If weightVals IsNot Nothing Then ReDim fitWeights(keep.Count - 1)
-
-            For r As Integer = 0 To keep.Count - 1
-                Dim src As Integer = keep(r)
-                fitData(r, 0) = yVals(src)
-                rowIds(r) = If(sourceRowIds IsNot Nothing, sourceRowIds(src), src + 1)
-
-                For j As Integer = 0 To p - 1
-                    fitData(r, j + 1) = expandedX(src, j)
-                Next
-
-                If fitOffset IsNot Nothing Then fitOffset(r) = offsetVals(src)
-                If fitWeights IsNot Nothing Then fitWeights(r) = weightVals(src)
-            Next
-
-            Return True
-        End Function
-
-        ''' <summary>
-        ''' Counts the number of distinct outcome categories present in the filtered regression data matrix.
-        ''' </summary>
-        ''' <param name="fitData">Regression matrix whose first column contains the outcome.</param>
-        ''' <returns>The number of distinct integer-valued response categories observed.</returns>
-        Private Function CountDistinctOutcomeCategories(fitData(,) As Double) As Integer
-            If fitData Is Nothing Then Return 0
-            Dim n As Integer = fitData.GetLength(0)
-            Dim cats As New HashSet(Of Integer)()
-            For i As Integer = 0 To n - 1
-                cats.Add(CInt(Math.Round(fitData(i, 0))))
-            Next
-            Return cats.Count
-        End Function
-
-        ''' <summary>
-        ''' Parses the reference-direction option supplied to the ordinal-logit fit function.
-        ''' </summary>
-        ''' <param name="v">Worksheet argument containing the requested reference direction.</param>
-        ''' <returns>The parsed reference-category choice, defaulting to <see cref="regression.ReferenceCategory.Last"/>.</returns>
-        Private Function ParseReferenceCategory(v As Object) As regression.ReferenceCategory
-            Dim s As String = UDFhelpers.AsString(v)
-            If String.IsNullOrWhiteSpace(s) Then Return regression.ReferenceCategory.Last
-
-            Select Case s.Trim().ToLowerInvariant()
-                Case "first", "smallest", "min"
-                    Return regression.ReferenceCategory.First
-                Case Else
-                    Return regression.ReferenceCategory.Last
-            End Select
         End Function
 
         ''' <summary>
@@ -1059,15 +779,6 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim key As String = UDFhelpers.AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return False
             Return _ordCache.TryGetValue(key, h)
-        End Function
-
-        ''' <summary>
-        ''' Returns True when an optional worksheet argument contains a usable value rather than Excel missing/empty markers.
-        ''' </summary>
-        ''' <param name="v">Worksheet argument to inspect.</param>
-        ''' <returns>True when the argument is present; otherwise, False.</returns>
-        Private Function HasUsableOptionalArgument(v As Object) As Boolean
-            Return Not (v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty)
         End Function
 
         ''' <summary>
@@ -1143,21 +854,6 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         ''' <summary>
-        ''' Builds category-specific column headers for residual or probability outputs.
-        ''' </summary>
-        ''' <param name="prefix">Prefix describing the quantity shown in each category column.</param>
-        ''' <param name="categories">Outcome categories in model order.</param>
-        ''' <returns>An array of column labels aligned with the category-specific matrix.</returns>
-        Private Function CategoryHeaders(prefix As String, categories() As Integer) As String()
-            If categories Is Nothing Then Return New String() {}
-            Dim out(categories.Length - 1) As String
-            For i As Integer = 0 To categories.Length - 1
-                out(i) = prefix & "(" & categories(i).ToString(CultureInfo.InvariantCulture) & ")"
-            Next
-            Return out
-        End Function
-
-        ''' <summary>
         ''' Builds the full residual-output table used for <c>residType="all"</c>.
         ''' </summary>
         ''' <param name="res">Residual container from the fitted ordinal-logit model.</param>
@@ -1215,69 +911,6 @@ Namespace BESHStatNG.WorksheetFunctions
                 out(r0 + i, c) = res.DevianceResiduals(i) : c += 1
                 out(r0 + i, c) = res.StdDevianceResiduals(i) : c += 1
                 out(r0 + i, c) = res.Leverage(i)
-            Next
-
-            Return out
-        End Function
-
-        ''' <summary>
-        ''' Wraps a category-specific residual matrix in a spilled-object array.
-        ''' </summary>
-        ''' <param name="mat">Residual matrix with one row per observation and one column per category.</param>
-        ''' <param name="headers">Column headers aligned with <paramref name="mat"/>.</param>
-        ''' <param name="includeHeader">Whether to include a header row.</param>
-        ''' <returns>A spilled-object array containing the requested residual matrix.</returns>
-        Private Function BuildResidualMatrixOutput(mat(,) As Double,
-                                                   headers() As String,
-                                                   includeHeader As Boolean) As Object
-            If mat Is Nothing Then Return ExcelError.ExcelErrorNA
-
-            Dim n As Integer = mat.GetLength(0)
-            Dim p As Integer = mat.GetLength(1)
-            Dim outRows As Integer = If(includeHeader, n + 1, n)
-            Dim out(outRows - 1, p - 1) As Object
-            Dim r0 As Integer = 0
-
-            If includeHeader Then
-                For j As Integer = 0 To p - 1
-                    out(0, j) = headers(j)
-                Next
-                r0 = 1
-            End If
-
-            For i As Integer = 0 To n - 1
-                For j As Integer = 0 To p - 1
-                    out(r0 + i, j) = mat(i, j)
-                Next
-            Next
-
-            Return out
-        End Function
-
-        ''' <summary>
-        ''' Wraps a residual or leverage vector in a spilled-object array.
-        ''' </summary>
-        ''' <param name="vec">Vector of per-observation values.</param>
-        ''' <param name="header">Column label to use when <paramref name="includeHeader"/> is True.</param>
-        ''' <param name="includeHeader">Whether to include a header row.</param>
-        ''' <returns>A spilled-object array containing the requested vector.</returns>
-        Private Function BuildResidualVectorOutput(vec() As Double,
-                                                   header As String,
-                                                   includeHeader As Boolean) As Object
-            If vec Is Nothing Then Return ExcelError.ExcelErrorNA
-
-            Dim n As Integer = vec.Length
-            Dim outRows As Integer = If(includeHeader, n + 1, n)
-            Dim out(outRows - 1, 0) As Object
-            Dim r0 As Integer = 0
-
-            If includeHeader Then
-                out(0, 0) = header
-                r0 = 1
-            End If
-
-            For i As Integer = 0 To n - 1
-                out(r0 + i, 0) = vec(i)
             Next
 
             Return out

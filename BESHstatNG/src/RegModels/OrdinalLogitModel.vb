@@ -365,7 +365,7 @@ Namespace regression
                          Optional bStartParams As Boolean = False,
                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                          Optional progressLbl As System.Windows.Forms.Label = Nothing)
-
+            AppGlobals.BSlogg.Debug($"OrdinalLogitModel.Fit start. startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
             If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Data not set. Call Data(...)."))
             Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
             Me.n = UBound(pData, 1) + 1
@@ -687,6 +687,7 @@ Namespace regression
             End If
 
             Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
+            AppGlobals.BSlogg.Debug($"OrdinalLogitModel.Fit completed. converged={converged}; iterations={Me.pIteration}; logLikelihood={Me.pLL}; compTime={Me.CompTime}")
             If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
                                                                      progressBar.Value = 100
                                                                  End Sub)

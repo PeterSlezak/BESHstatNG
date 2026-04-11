@@ -88,7 +88,6 @@ Namespace parametric
                 Me.data = x
                 Me.varNames = varNames
                 QuickSort2D(Me.data, "0,A,1,A", 0, UBound(Me.data, 1)) 'sort by 1st and 2nd column
-                Debug.Print(Matrix.array2str(Me.data))
                 ReDim parGroupS(UBound(Me.data, 1)), parSubGroupS(UBound(Me.data, 1)), parRes(UBound(Me.data, 1))
 
                 For i = 0 To UBound(data, 1)

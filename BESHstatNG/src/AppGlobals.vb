@@ -1,12 +1,14 @@
 ﻿Option Explicit On
 Imports System.IO
-Imports System.Text
-Imports System.Reflection
-Imports System.Threading
 Imports System.Linq
+Imports System.Reflection
+Imports System.Runtime.ExceptionServices
+Imports System.Text
+Imports System.Threading
 Imports System.Windows.Forms
 Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop.Excel
+
 
 Namespace AppInfrastructure
 
@@ -367,6 +369,36 @@ Namespace AppInfrastructure
             Return value
         End Function
 
+        ''' <summary>
+        ''' Gets the session default pseudo-random seed.
+        ''' The sentinel <see cref="Integer.MinValue"/> means that no deterministic default seed is configured.
+        ''' </summary>
+        Public ReadOnly Property DefaultRandomSeed As Integer
+            Get
+                Return GetCurrentSettings().DefaultRandomSeed
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Returns the configured default seed as text for UI seed editors.
+        ''' Returns an empty string when no deterministic default seed is configured.
+        ''' </summary>
+        Public Function GetDefaultRandomSeedText() As String
+            Dim seed = DefaultRandomSeed
+            If seed = Integer.MinValue Then Return String.Empty
+            Return seed.ToString(Globalization.CultureInfo.InvariantCulture)
+        End Function
+
+        ''' <summary>
+        ''' Creates a pseudo-random generator using an explicit seed if supplied, otherwise the configured global default seed.
+        ''' If neither is available, a time-based seed is used.
+        ''' </summary>
+        Public Function CreateRandom(Optional explicitSeed As Integer = Integer.MinValue) As Random
+            Dim seed = explicitSeed
+            If seed = Integer.MinValue Then seed = DefaultRandomSeed
+            If seed = Integer.MinValue Then Return New Random()
+            Return New Random(seed)
+        End Function
 
         Public Sub ApplySettings(settings As BeshStatNgSettings)
             If settings Is Nothing Then
@@ -383,21 +415,33 @@ Namespace AppInfrastructure
         Public Class BSerr
 
             ''' <summary>
-            ''' Logs an exception using the global logger and optionally throws it.
+            ''' Logs an exception using the global logger and optionally rethrows it while preserving the original stack trace.
             ''' </summary>
             ''' <param name="err">The exception to log.</param>
             ''' <param name="bThrow">If True, the exception is re-thrown.</param>
             ''' <param name="bShowMsg">If True, displays a message box with the error text.</param>
-            Public Shared Sub LogAndThrow(err As Exception, Optional bThrow As Boolean = True, Optional bShowMsg As Boolean = False)
+            ''' <param name="context">Optional contextual message to prefix the error.</param>
+            Public Shared Sub LogAndThrow(err As Exception,
+                                          Optional bThrow As Boolean = True,
+                                          Optional bShowMsg As Boolean = False,
+                                          Optional context As String = Nothing)
+                If err Is Nothing Then err = New Exception("Unknown error.")
+                Dim logMessage As String = If(String.IsNullOrWhiteSpace(context), err.Message, context)
+                Dim uiMessage As String = If(String.IsNullOrWhiteSpace(context), err.Message, context & ": " & err.Message)
+
                 Try
-                    Debug.Print(err.Message)
-                    If gLogger IsNot Nothing Then gLogger.WriteError(err, err.Message)
-                    If bShowMsg Then MsgBox("An error occured: " & err.Message & " Check log for more information.")
-                Catch
-                    ' Swallow logging failures (e.g., logger not initialized in unit tests)
+                    System.Diagnostics.Debug.Print(err.ToString())
+                    BSlogg.Error(err, logMessage)
+
+                    If bShowMsg Then
+                        MsgBox("An error occurred: " & uiMessage & vbCrLf & "Check log for more information.",
+                               MsgBoxStyle.Exclamation, gsAPP_TITLE)
+                    End If
+                Catch logEx As Exception
+                    System.Diagnostics.Debug.Print("Logging failure: " & logEx.ToString())
                 End Try
 
-                If bThrow Then Throw err
+                If bThrow Then ExceptionDispatchInfo.Capture(err).Throw()
             End Sub
         End Class
 
@@ -419,20 +463,54 @@ Namespace AppInfrastructure
         ''' </summary>
         Public Class BSlogg
 
-            Public Shared Sub Info(txt As String)
+            Private Shared Sub SafeLog(act As System.Action)
                 Try
-                    If gLogger IsNot Nothing Then gLogger.Info(txt)
-                Catch
-                    ' Swallow logging failures
+                    act()
+                Catch ex As Exception
+                    System.Diagnostics.Debug.Print("Logging failure: " & ex.ToString())
                 End Try
             End Sub
 
+            Public Shared Sub Info(txt As String)
+                SafeLog(Sub()
+                            If gLogger IsNot Nothing Then gLogger.Info(txt)
+                        End Sub)
+            End Sub
+
+            Public Shared Sub Warn(txt As String)
+                SafeLog(Sub()
+                            If gLogger IsNot Nothing Then gLogger.Warn(txt)
+                        End Sub)
+            End Sub
+
+            Public Shared Sub Debug(txt As String)
+                SafeLog(Sub()
+                            If gLogger IsNot Nothing AndAlso AppGlobals.TraceExecutionLoggingEnabled Then gLogger.Debug(txt)
+                        End Sub)
+            End Sub
+
+            Public Shared Sub Trace(txt As String)
+                SafeLog(Sub()
+                            If gLogger IsNot Nothing AndAlso AppGlobals.TraceExecutionLoggingEnabled Then gLogger.Trace(txt)
+                        End Sub)
+            End Sub
+
             Public Shared Sub [Error](txt As String)
-                Try
-                    If gLogger IsNot Nothing Then gLogger.WriteError(txt)
-                Catch
-                    ' Swallow logging failures
-                End Try
+                SafeLog(Sub()
+                            If gLogger IsNot Nothing Then gLogger.WriteError(txt)
+                        End Sub)
+            End Sub
+
+            Public Shared Sub [Error](ex As Exception, Optional txt As String = Nothing)
+                SafeLog(Sub()
+                            If gLogger Is Nothing Then Return
+
+                            If ex Is Nothing Then
+                                gLogger.WriteError(If(String.IsNullOrWhiteSpace(txt), "Unknown error.", txt))
+                            Else
+                                gLogger.WriteError(ex, If(String.IsNullOrWhiteSpace(txt), ex.Message, txt))
+                            End If
+                        End Sub)
             End Sub
 
             ''' <summary>
@@ -442,19 +520,14 @@ Namespace AppInfrastructure
             ''' <param name="txt">The message text.</param>
             ''' <param name="msgType">The severity level (default = Trace).</param>
             Public Shared Sub Log(txt As String, Optional msgType As LogMsgType = LogMsgType.Trace)
-                Try
-                    If gLogger IsNot Nothing Then
-                        If msgType = LogMsgType.Warn Then
-                            gLogger.Warn(txt)
-                        ElseIf msgType = LogMsgType.Debug Then
-                            If AppGlobals.TraceExecutionLoggingEnabled Then gLogger.Debug(txt)
-                        ElseIf msgType = LogMsgType.Trace Then
-                            If AppGlobals.TraceExecutionLoggingEnabled Then gLogger.Trace(txt)
-                        End If
-                    End If
-                Catch
-                    ' Swallow logging failures
-                End Try
+                Select Case msgType
+                    Case LogMsgType.Warn
+                        Warn(txt)
+                    Case LogMsgType.Debug
+                        Debug(txt)
+                    Case Else
+                        Trace(txt)
+                End Select
             End Sub
         End Class
 

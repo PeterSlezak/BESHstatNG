@@ -163,7 +163,6 @@ Public Class UibyID
             'get unique group IDs
 
             groupIDs = Matrix.GetColumnFrom2Darray(columData.FinalData, 0).Distinct().ToArray()
-            Debug.Print(Matrix.array2str(groupIDs))
             If groupIDs.Length <> 2 Then strErr = "Number Of groups must be eq 2"
 
             Dim coljagged()() As Double = columData.DataByID2ByColumn()
@@ -188,7 +187,6 @@ Public Class UibyID
             Dim colList() As String = ColumListFromRefAdress(Me.RefEdit2.Address)
             NoGroups = colList.Length
             Dim ref As String = prepareRef2D(Me.RefEdit2.Address)
-            Debug.Print(ref)
             ii = 0 'use separate column counter so we can drop completely missing columns
 
             Dim outData()() As Double = New Double()() {}

@@ -330,7 +330,6 @@ Namespace regression
                     End If
                 Next
             Next
-            Debug.Print(Matrix.array2str(out))
             Return out
         End Function
 

@@ -87,7 +87,7 @@ Namespace Multivariate
         Private pColNames() As String
         Private pR As Integer 'Number of rows
         Private pC As Integer 'number of columns
-        Private pDim As Integer 'number of eigenvalues dimenstions
+        Private pDim As Integer 'number of eigenvalues dimensions
         Private pEigenvalues() As Double
         Private pRowTot() As Double
         Private pColTot() As Double
@@ -199,9 +199,11 @@ Namespace Multivariate
             pbMultiple = True
             pDataMultiple = x
             pVarNames = strVarnames
+
             CreateCrossTab()
-            CreateBurtTable()
-            CreateDesignMatrix()
+            CreateDesignMatrix()   ' fills pDesignMatrix and pIndCatIdx
+            CreateBurtTable()      ' now uses pIndCatIdx in one pass
+
             pData = pDesignMatrix
             pR = UBound(pDesignMatrix, 1) + 1
             pC = UBound(pDesignMatrix, 2) + 1
@@ -535,7 +537,6 @@ Namespace Multivariate
                 t.AddHeaderLeftRow(Me.rowNames)
                 t.SetBody(Matrix.Array2objArray(Me.BurtTable))
                 out.Add(t)
-                Debug.Print(Matrix.array2str(t.returnSelf))
 
                 'Eigenvalues
                 t = New ResultTable
@@ -945,8 +946,9 @@ Namespace Multivariate
 
             Dim totalCats As Integer = pCatTots(p - 1)
             ReDim pDesignMatrix(r - 1, totalCats - 1)
+            ReDim pIndCatIdx(r - 1, p - 1)
 
-            'Build per-variable map: category -> local index
+            ' Build per-variable map: category -> local index
             Dim arDic As New List(Of Dictionary(Of String, Integer))(p)
             For varIdx As Integer = 0 To p - 1
                 Dim dic As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
@@ -957,7 +959,7 @@ Namespace Multivariate
                 arDic.Add(dic)
             Next
 
-            'Fill design matrix
+            ' Fill design matrix and cache each row/variable global category index
             For i As Integer = 0 To r - 1
                 For varIdx As Integer = 0 To p - 1
                     Dim raw As String = pDataMultiple(i, varIdx)
@@ -965,14 +967,13 @@ Namespace Multivariate
 
                     Dim localIdx As Integer
                     If Not arDic(varIdx).TryGetValue(raw, localIdx) Then
-                        Throw New ArgumentException(
-                    $"Unknown category '{raw}' in row {i}, variable '{pVarNames(varIdx)}'.")
+                        Throw New ArgumentException($"Unknown category '{raw}' in row {i}, variable '{pVarNames(varIdx)}'.")
                     End If
 
-                    Dim globalIdx As Integer =
-                If(varIdx = 0, localIdx, pCatTots(varIdx - 1) + localIdx)
+                    Dim globalIdx As Integer = If(varIdx = 0, localIdx, pCatTots(varIdx - 1) + localIdx)
 
                     pDesignMatrix(i, globalIdx) = 1
+                    pIndCatIdx(i, varIdx) = globalIdx
                 Next
             Next
         End Sub
@@ -1050,68 +1051,39 @@ Namespace Multivariate
         ''' counts for a variable, and each off-diagonal block contains the contingency table between two variables’ categories.
         ''' </para>
         ''' <para>
-        ''' Current implementation fills off-diagonal blocks by repeatedly calling <see cref="ComputeCrossCount"/>,
-        ''' which is O(N) per category-pair. For many variables/categories, a faster approach is to compute each
-        ''' block using a single pass over individuals with a dictionary accumulator.
+        ''' Current implementation fills off-diagonal blocks. With one pass over rows using global category index per variable.
         ''' </para>
         ''' </remarks>
         Private Sub CreateBurtTable()
 
-            Dim p As Integer = UBound(pVarNames)
-            ReDim pVarNamesToPresent(pR - 1), pBurtTable(pR - 1, pC - 1) 'It's a square matrix
+            Dim p As Integer = pLevels.Count            ' number of variables
+            Dim n As Integer = UBound(pDataMultiple, 1) + 1
 
-            'populate cross tab counts for the same variables
-            Dim i As Integer = 0
-            For idx As Integer = 0 To p 'number of variables
-                For Each key In pLevels(idx)
-                    pBurtTable(i, i) = pCrossTab(idx)(key)
-                    pVarNamesToPresent(i) = pVarNames(idx)
-                    i += 1
+            ReDim pVarNamesToPresent(pR - 1)
+            ReDim pBurtTable(pR - 1, pC - 1) ' square matrix
+
+            ' Fill diagonal counts and expanded variable-name presentation vector
+            Dim globalIdx As Integer = 0
+            For varIdx As Integer = 0 To p - 1
+                For Each key In pLevels(varIdx)
+                    pBurtTable(globalIdx, globalIdx) = pCrossTab(varIdx)(key)
+                    pVarNamesToPresent(globalIdx) = pVarNames(varIdx)
+                    globalIdx += 1
                 Next
-            Next idx
+            Next
 
-            'get cross tab counts for different variables
-            For idx As Integer = 0 To p 'variables
-                For idx2 As Integer = idx + 1 To p
-                    Dim baseI As Integer = If(idx = 0, 0, pCatTots(idx - 1))
-                    Dim baseJ As Integer = If(idx2 = 0, 0, pCatTots(idx2 - 1))
-
-                    i = 0
-                    For Each keyA In pLevels(idx)
-                        Dim j As Integer = 0
-                        For Each keyB In pLevels(idx2)
-                            Dim v As Integer = ComputeCrossCount(keyA, keyB, idx, idx2)
-                            pBurtTable(baseI + i, baseJ + j) = v
-                            pBurtTable(baseJ + j, baseI + i) = v
-                            j += 1
-                        Next
-                        i += 1
+            ' Fill off-diagonal blocks in one pass over observations
+            For i As Integer = 0 To n - 1
+                For varA As Integer = 0 To p - 1
+                    Dim idxA As Integer = pIndCatIdx(i, varA)
+                    For varB As Integer = varA + 1 To p - 1
+                        Dim idxB As Integer = pIndCatIdx(i, varB)
+                        pBurtTable(idxA, idxB) += 1
+                        pBurtTable(idxB, idxA) += 1
                     Next
                 Next
             Next
         End Sub
-
-        ''' <summary>
-        ''' Counts the number of individuals having (<paramref name="strCat1"/>, <paramref name="strCat2"/>) for two variables.
-        ''' </summary>
-        ''' <param name="strCat1">Category value for variable <paramref name="varID1"/>.</param>
-        ''' <param name="strCat2">Category value for variable <paramref name="varID2"/>.</param>
-        ''' <param name="varID1">Zero-based variable index for <paramref name="strCat1"/>.</param>
-        ''' <param name="varID2">Zero-based variable index for <paramref name="strCat2"/>.</param>
-        ''' <returns>Co-occurrence count across all individuals.</returns>
-        ''' <remarks>
-        ''' Complexity is O(N) over individuals. Used for Burt off-diagonal blocks.
-        ''' </remarks>
-        Private Function ComputeCrossCount(strCat1 As String, strCat2 As String, varID1 As Integer, varID2 As Integer) As Integer
-            'returns frequency for specified categories from two variables
-
-            Dim tot As Integer
-            Dim r As Integer = UBound(pDataMultiple, 1)
-            For i As Integer = 0 To r
-                If CStr(pDataMultiple(i, varID1)) = strCat1 And CStr(pDataMultiple(i, varID2)) = strCat2 Then tot += 1
-            Next
-            Return tot
-        End Function
 
         ''' <summary>
         ''' Builds a label vector for plotting, optionally splitting labels across lines.
