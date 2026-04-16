@@ -93,6 +93,28 @@ https://beshstat.eu/beshstatng/help/latest/
 
 The documentation source in this repository is built with **MkDocs**.
 
+## Contributing and issue reporting
+
+Contributions, bug reports, and workflow suggestions are welcome.
+
+If you have found a bug, please open an issue and include:
+
+- the BESHStatNG version
+- the Excel version and Office bitness
+- the Windows version
+- exact steps to reproduce the problem
+- the expected behavior and the actual behavior
+- the full error message or stack trace, if available
+- a simplified workbook, screenshot, or sample data if it helps reproduce the issue
+
+If you plan to submit a fix, please also include short validation notes describing how the change was tested in Excel and whether any unit tests or documentation were updated.
+
+Useful links:
+
+- Contributing guide: [CONTRIBUTING.md](.github/CONTRIBUTING.md)
+- Issue tracker: https://github.com/PeterSlezak/BESHstatNG/issues
+- Releases: https://github.com/PeterSlezak/BESHstatNG/releases
+
 ## Build from source
 
 ### Prerequisites
