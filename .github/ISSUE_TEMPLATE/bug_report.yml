@@ -1,0 +1,106 @@
+name: Bug report
+description: Report a reproducible problem in BESHStatNG
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please provide enough detail to reproduce the issue.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - GUI dialog / ribbon workflow
+        - Excel UDF
+        - Statistical result / numerical output
+        - Chart / export
+        - Installer / startup
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: besh_version
+    attributes:
+      label: BESHStatNG version
+      placeholder: e.g. 1.2.3
+    validations:
+      required: true
+
+  - type: input
+    id: excel_version
+    attributes:
+      label: Excel version
+      placeholder: e.g. Microsoft 365, Excel 2021
+    validations:
+      required: true
+
+  - type: dropdown
+    id: office_bitness
+    attributes:
+      label: Office bitness
+      options:
+        - 64-bit
+        - 32-bit
+        - Not sure
+    validations:
+      required: true
+
+  - type: input
+    id: windows_version
+    attributes:
+      label: Windows version
+      placeholder: e.g. Windows 11 24H2
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Write the exact steps, including selected options, ranges, and formula text if relevant.
+      placeholder: |
+        1. Open workbook...
+        2. Click...
+        3. Enter formula...
+        4. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: error_text
+    attributes:
+      label: Error message / stack trace
+      description: Paste the full message if available.
+
+  - type: textarea
+    id: attachments
+    attributes:
+      label: Workbook, screenshots, or sample data
+      description: Attach files directly to the issue after it is created, or describe what you attached.
+
+  - type: checkboxes
+    id: validation
+    attributes:
+      label: Validation notes
+      options:
+        - label: I reproduced this in a new or simplified workbook
+        - label: I restarted Excel and tested again
+        - label: I included the exact formula, dialog path, or option settings
+        - label: I removed confidential data before attaching files

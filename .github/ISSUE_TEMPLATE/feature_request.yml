@@ -1,0 +1,49 @@
+name: Feature request
+description: Suggest a new method, workflow, or improvement
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Please describe the user problem first, then the proposed feature.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - New statistical method
+        - GUI workflow
+        - Excel UDF
+        - Plot / export
+        - Documentation
+        - Installer
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples from other software or references
+      description: SPSS, R, SAS, Prism, Excel examples, papers, or screenshots.
