@@ -353,3 +353,116 @@ degrees-of-freedom approximation.
 =BESH.PAR.TTEST_UNPAIRED(A2:A21, B2:B19)
 =BESH.PAR.TTEST_UNPAIRED(A1:A21, B1:B19, "Control,Treatment", "welch", 0.01)
 ```
+
+## BESH.PAR.TTEST_UNPAIRED_EQUIV
+
+TOST-style equivalence comparison for two independent means.
+
+**Function wizard:** TOST-style equivalence comparison for two independent means with interval-based decision reporting.
+
+### Syntax
+
+`=BESH.PAR.TTEST_UNPAIRED_EQUIV(control, experimental, lowerMargin, upperMargin, groupNames, method, alpha)`
+
+### Parameters
+
+- **control** — Control or reference sample as a single-column Excel range.
+- **experimental** — Experimental or test sample as a single-column Excel range.
+- **lowerMargin** — Lower equivalence margin on the difference scale `mean(experimental) - mean(control)`.
+If `upperMargin` is omitted, this argument is interpreted as a positive symmetric margin magnitude `M`
+and the function uses margins `-M` and `+M`.
+- **upperMargin** — Optional upper equivalence margin on the difference scale.
+When supplied, the function uses the exact interval `[lowerMargin, upperMargin]`.
+- **groupNames** — Optional display names for the two groups.
+- **method** — Optional variance assumption: `welch` (default) or `equal`/`pooled`/`student`.
+- **alpha** — Optional one-sided significance level for each TOST component. Default `0.025`.
+The matching confidence interval therefore has confidence level `1 - 2α`.
+
+### Returns
+
+A labeled spill table containing the two one-sided test components, the combined TOST p-value,
+the equivalence confidence interval, and the interval-based decision summary.
+
+### Notes
+
+The Two One-Sided Tests (TOST) procedure assesses whether the true mean difference lies entirely inside a prespecified equivalence region.
+On the difference scale `Δ = mean(experimental) - mean(control)`, equivalence is supported when both hypotheses are rejected:
+
+- `H0,lower: Δ ≤ L` versus `H1,lower: Δ > L`
+- `H0,upper: Δ ≥ U` versus `H1,upper: Δ < U`
+
+The function reports the lower and upper component statistics and p-values separately,
+together with the TOST p-value `max(p_lower, p_upper)`.
+It also returns the matched two-sided confidence interval with confidence level `1 - 2α`.
+Equivalence is supported when this interval lies completely inside `[L, U]`.
+
+### Example
+
+```
+
+=BESH.PAR.TTEST_UNPAIRED_EQUIV(A2:A21,B2:B19,0.5)
+=BESH.PAR.TTEST_UNPAIRED_EQUIV(A2:A21,B2:B19,-1,1,"Control,Treatment","welch",0.025)
+```
+
+## BESH.PAR.TTEST_UNPAIRED_NI
+
+One-sided non-inferiority comparison for two independent means.
+
+**Function wizard:** Non-inferiority comparison for two independent means with CI-based decision reporting.
+
+### Syntax
+
+`=BESH.PAR.TTEST_UNPAIRED_NI(control, experimental, margin, groupNames, method, alpha)`
+
+### Parameters
+
+- **control** — Control or reference sample as a single-column Excel range.
+Non-numeric cells are ignored. If the first cell looks like text, it is treated as a header and may be used
+as the default display name of the control group.
+- **experimental** — Experimental or test sample as a single-column Excel range.
+Non-numeric cells are ignored. If the first cell looks like text, it is treated as a header and may be used
+as the default display name of the experimental group.
+- **margin** — Positive non-inferiority margin magnitude `M` on the difference scale.
+The comparison is performed on `Δ = mean(experimental) - mean(control)`.
+The null boundary is therefore `Δ ≤ -M` and the alternative is `Δ > -M`.
+- **groupNames** — Optional display names for the two groups, supplied either as a comma-separated string such as
+`"Control,Test"` or as a one-row / one-column range with two names.
+When omitted, names are taken from header cells when available.
+- **method** — Optional variance assumption:
+`welch` (default, unequal variances) or `equal`/`pooled`/`student`.
+Welch’s method is usually preferred when sample sizes or variances differ.
+- **alpha** — Optional one-sided significance level. The default is `0.025`.
+The function also reports the matching two-sided confidence interval with confidence level `1 - 2α`.
+
+### Returns
+
+A labeled spill table containing sample sizes, sample means, the mean difference
+`mean(experimental) - mean(control)`, the non-inferiority limit `-M`,
+the test statistic, one-sided p-value, lower one-sided confidence limit, the matching two-sided confidence interval,
+and an interval-based decision summary.
+
+### Notes
+
+This function tests whether the experimental mean is not worse than the control mean by more than a prespecified amount.
+On the difference scale `Δ = mean(experimental) - mean(control)`, a positive value favors the experimental group.
+
+The non-inferiority hypotheses are
+`H0: Δ ≤ -M` versus `H1: Δ > -M`,
+where `M > 0` is the clinically or scientifically acceptable loss.
+
+The test statistic is
+`t = (Δ̂ + M) / SE(Δ̂)`,
+evaluated either with Welch’s unequal-variance degrees of freedom or the pooled-variance Student t distribution.
+The reported two-sided confidence interval uses confidence level `1 - 2α`. Non-inferiority is supported when
+the lower confidence bound exceeds `-M` and, equivalently, when the one-sided p-value is at most `α`.
+
+Missing or non-numeric cells are removed independently within each supplied group before the comparison is formed.
+Each retained sample must contribute at least two usable numeric observations.
+
+### Example
+
+```
+
+=BESH.PAR.TTEST_UNPAIRED_NI(A2:A21,B2:B19,0.5)
+=BESH.PAR.TTEST_UNPAIRED_NI(A1:A21,B1:B19,1.25,"Control,Treatment","welch",0.025)
+```

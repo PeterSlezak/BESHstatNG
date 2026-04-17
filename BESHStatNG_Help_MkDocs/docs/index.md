@@ -30,6 +30,9 @@ The NG architecture makes it simpler to add new statistical methods, improve exi
 **6) Better diagnostics when something goes wrong**  
 NG keeps internal logs that help track down issues (useful when reporting a bug), rather than failing silently or with generic VBA errors.
 
+!!! tip
+    Need to report a bug or suggest an improvement? Please use the [GitHub issue tracker](https://github.com/PeterSlezak/BESHstatNG/issues) so the problem can be tracked, reproduced, and linked to fixes.
+
 ### In short
 BESHStatNG keeps the same “Excel-first” workflow, but moves the engine from an old macro-based add-in (`.xlam`) to a modern compiled add-in (`.xll`) so it can grow and remain dependable.
 
@@ -126,12 +129,17 @@ Choose a method below. Each page explains what the method does, what data it exp
 - [K-Means Clustering](methods/k-means-clustering.md) — *K-means clustering for numeric data.* Partition observations into a requested number of compact clusters by minimizing the total within-cluster sum of squared Euclidean distances.
 - [Hierarchical Clustering](methods/hierarchical-clustering.md) — *Agglomerative hierarchical clustering • Dendogram.* Build a full bottom-up clustering hierarchy and inspect it through merge tables, membership cuts, and a dendrogram.
 - [Factor Analysis](methods/factor-analysis.md) — *Exploratory factor analysis on correlation or covariance matrix, extraction methods, retention by fixed count / eigenvalue cutoff / cumulative variance, rotations, regression or Bartlett scores, factorability diagnostics.* Discover lower-dimensional latent structure behind correlated numeric variables and summarize the common variance they share.
+- [Discriminant Analysis](methods/discriminant-analysis.md) — *Linear and quadratic discriminant analysis, group priors, optional preprocessing, posterior probabilities, classification tables, canonical discriminant functions, and leave-one-out / k-fold / holdout validation.*.
 
 ### Sample Size
 - [Sample Size – Paired T-test](methods/sample-size-paired-t-test.md) — *Sample size for paired t-test (iterative t critical values).* Estimate required number of pairs for a paired t-test given effect size, SD, α and power.
-- [Sample Size – Unpaired T-test](methods/sample-size-unpaired-t-test.md) — *Sample size for unpaired t-test (with group ratio κ).* Estimate required sample sizes per group for a two-sample t-test given effect size, SD, α and power.
+- [Sample Size – Unpaired T-test](methods/sample-size-unpaired-t-test.md) — *Sample size planning for an unpaired two-sample t-test in Superiority, Noninferiority, and Equivalence modes.* Estimate required sample sizes per group for a two-sample t-test given effect size, SD, α and power.
 - [Sample Size – Single Proportion](methods/sample-size-single-proportion.md) — *Sample size for a single proportion test.* Estimate required sample size for testing a single proportion against a null value.
-- [Sample Size – Independent Proportions](methods/sample-size-independent-proportions.md) — *Sample size for two independent proportions (uncorrected and corrected chi-square / Fisher).* Estimate sample sizes for comparing two independent proportions (with optional group-size ratio κ).
+- [Sample Size – Independent Proportions](methods/sample-size-independent-proportions.md) — *Sample size for two independent proportions with Superiority, Noninferiority, and Equivalence modes.* Estimate sample sizes for comparing two independent proportions (with optional group-size ratio κ).
+- [Sample Size – Log-rank test](methods/sample-size-log-rank.md) — *Sample size planning for a two-group log-rank test* Estimate the required number of events, plus the corresponding numbers of controls, experimental subjects, and total subjects for a study with a time-to-event endpoint.
+- [Sample Size – Cox Regression](methods/sample-size-cox-regression.md) — *Event-count and subject-count planning for a Cox proportional hazards model with either a binary covariate or a continuous covariate.* Estimate the required number of events, and when an overall event proportion is supplied, the corresponding number of subjects.
+- [Sample Size – Intraclass Correlation (ICC)](methods/sample-size-icc.md) — *Sample size planning for a one-sided hypothesis test on an intraclass correlation coefficient (ICC)* Estimate the required number of subjects for a study in which each subject is measured repeatedly or rated multiple times.
+- [Sample Size – Agreement (Bland-Altman)](methods/sample-size-bland-altman.md) — *Sample size planning for a Bland-Altman agreement study when the goal is to control the confidence-interval half-width around a limit of agreement (LoA)* Estimate the required number of paired measurements so that the confidence interval around either LoA is sufficiently precise on the original measurement scale.
 
 ### Agreement
 - [Passing–Bablok Regression](methods/passing-bablok-regression.md) — *Passing–Bablok nonparametric linear regression for method comparison, slope/intercept estimates, confidence intervals, and robust handling of outliers.* Use when comparing two measurement methods without assuming normal errors or homoscedasticity.
@@ -148,6 +156,7 @@ Choose a method below. Each page explains what the method does, what data it exp
 - [Contingency Tables](udf/contingency-tables.md) — *Fisher exact test, Chi2, ORDINAL association, OR, RR, Mantel-Haenszel* Various tests for the contingency table analysis.
 - [Survival](udf/survival.md) — *Log-rank test, Kaplan-Meier estimate, Cox regression* Various survival analysis functions
 - [Assumptions](udf/assumptions.md) — *Shapiro-Wilk test* Various tests for checking statistical assumptions such as normality, homogeneity of variances, and outliers.
-- [Sample Size Calculation](udf/sample-size.md) — *Sample size for (un)paired t-test, and proportions* Estimate required sample sizes for various designs.
+- [Sample Size Calculation](udf/sample-size.md) — *Sample size for (un)paired t-test, proportions, Log-rank test, Cox regression, ICC, Bland-Altman agreement* Estimate required sample sizes for various designs.
 - [Regression Models](udf/regression-models.md) - *Linear Models, GLM, GEE*
+- [Plot Data](udf/plot-data.md) - *ROC, Histogram binning, Kaplan-Meier plot*
 - [Formula Syntax](udf/regression-formula-syntax.md) — Formula syntax for regression Fit functions.

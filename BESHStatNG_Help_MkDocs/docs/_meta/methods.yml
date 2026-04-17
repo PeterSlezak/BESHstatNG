@@ -126,6 +126,22 @@ methods:
     analysisTitle: Descriptive Statistcs
   categories:
   - Assumptions
+- key: DiscriminantAnalysis
+  title: Discriminant Analysis
+  slug: discriminant-analysis
+  short: "**Includes:** Linear and quadratic discriminant analysis, group priors, optional preprocessing, posterior probabilities, \
+    \ classification tables, canonical discriminant functions, and leave-one-out / k-fold / holdout validation. Classify observations\
+    \ into known groups and inspect how the groups are separated."
+  ribbonIds:
+  - btm8_8Discr
+  onActions:
+  - OnbtmDiscrPressed
+  forms:
+  - handler: OnbtmDiscrPressed
+    form: Ui11PCA
+    analysisTitle: Discriminant Analysis
+  categories:
+  - Multivariate Analysis
 - key: FactorAnalysis
   title: Factor Analysis
   slug: factor-analysis
@@ -136,7 +152,7 @@ methods:
     \ scree and loading plots.  \nExplore latent structure behind correlated numeric variables\
     \ and inspect communalities, loadings, scores, and residual matrices."
   ribbonIds:
-  - btm8_5KMC
+  - btm8_7FA
   onActions:
   - OnbtmFAPressed
   forms:
@@ -207,7 +223,7 @@ methods:
     \ cluster membership by cluster count or cut height, and dendrogram plotting.  \n    Explore\
     \ the full nested cluster structure and visualize it as an Excel dendrogram."
   ribbonIds:
-  - btm8_5KMC
+  - btm8_6HC
   onActions:
   - OnbtmHCPressed
   forms:
@@ -268,8 +284,7 @@ methods:
 - key: IndependentProportions
   title: Sample Size – Independent Proportions
   slug: sample-size-independent-proportions
-  short: "**Includes:** Sample size for two independent proportions (uncorrected and\
-    \ corrected chi-square / Fisher).  \nEstimate sample sizes for comparing two independent\
+  short: "**Includes:** Sample size for two independent proportions with Superiority, Noninferiority, and Equivalence modes.  \nEstimate sample sizes for comparing two independent\
     \ proportions (with optional group-size ratio κ)."
   ribbonIds:
   - btn9_4IndProp
@@ -601,7 +616,7 @@ methods:
 - key: Proportions
   title: Proportions
   slug: proportions
-  short: "**Includes:** Single proportion (estimate + CI), Two independent proportions\
+  short: "**Includes:** Single proportion (estimate + CI), Two independent proportions (Superiority, Noninferiority, Equivalence)\
     \ (difference + CI, Fisher exact p-values), Two paired proportions (difference\
     \ + CI, Liddell/McNemar-type test).  \nWork with binomial outcomes: estimate proportions\
     \ and compare proportions between groups."
@@ -664,6 +679,20 @@ methods:
     analysisTitle: null
   categories:
   - Graphics
+- key: SSlogrank
+  title: Sample Size – Log-rank test
+  slug: sample-size-log-rank
+  short: "**Includes:** Sample size planning for a two-group log-rank test.  \nEstimate the required number of events, plus the corresponding numbers of controls, experimental subjects, and total subjects for a study with a time-to-event endpoint."
+  ribbonIds:
+  - btn9_5logrank
+  onActions:
+  - OnbtmSSlogrankPressed
+  forms:
+  - handler: OnbtmSSlogrankPressed
+    form: Ui12SampleSizeTtestSingleProp
+    analysisTitle: Sample Size - Log-rank test
+  categories:
+  - Sample Size
 - key: SingleProportion
   title: Sample Size – Single Proportion
   slug: sample-size-single-proportion
@@ -777,9 +806,8 @@ methods:
 - key: UnpairedTwoSampleTTests
   title: Unpaired (two sample) T tests
   slug: unpaired-two-sample-t-tests
-  short: "**Includes:** Pooled-variance t-test, Welch t-test, F-test for variances\
-    \ (optional).  \nCompare two independent groups under (or relaxing) the equal-variance\
-    \ assumption."
+  short: "**Includes:** two-sample t-test for superiority, noninferiority, and equivalence (TOST) for two independent means; choice of Welch unequal variances or equal variances (pooled); optional descriptive statistics and box-and-whiskers plot.\
+    \ \nCompare two independent groups under (or relaxing) the equal-variance assumption."
   ribbonIds:
   - btm3_2UnpairedT
   onActions:
@@ -793,7 +821,7 @@ methods:
 - key: UnpairedTTest
   title: Sample Size – Unpaired T-test
   slug: sample-size-unpaired-t-test
-  short: "**Includes:** Sample size for unpaired t-test (with group ratio κ).  \n\
+  short: "**Includes:** Sample size planning for an unpaired two-sample t-test in Superiority, Noninferiority, and Equivalence modes.  \n\
     Estimate required sample sizes per group for a two-sample t-test given effect\
     \ size, SD, α and power."
   ribbonIds:
@@ -804,6 +832,48 @@ methods:
   - handler: OnbtmSampleSizeUnPairedTPressed
     form: Ui12SampleSizeTtestSingleProp
     analysisTitle: Sample Size - Unpaired T-test
+  categories:
+  - Sample Size
+- key: SScox
+  title: Sample Size – Cox Regression
+  slug: sample-size-cox-regression
+  short: "**Includes:** Event-count and subject-count planning for a Cox proportional hazards model with either a binary covariate or a continuous covariate.  /nEstimate the required number of events, and when an overall event proportion is supplied, the corresponding number of subjects.."
+  ribbonIds:
+  - btn9_6cox
+  onActions:
+  - OnbtmSScoxPressed
+  forms:
+  - handler: OnbtmSScoxPressed
+    form: Ui12SampleSizeTtestSingleProp
+    analysisTitle: Sample Size - Cox Regression
+  categories:
+  - Sample Size
+- key: SSicc
+  title: Sample Size – Intraclass Correlation (ICC)
+  slug: sample-size-icc
+  short: "**Includes:** Sample size planning for a one-sided hypothesis test on an intraclass correlation coefficient (ICC).  /nEstimate the required number of subjects for a study in which each subject is measured repeatedly or rated multiple times."
+  ribbonIds:
+  - btn9_7icc
+  onActions:
+  - OnbtmSSiccPressed
+  forms:
+  - handler: OnbtmSSiccPressed
+    form: Ui12SampleSizeTtestSingleProp
+    analysisTitle: Sample Size - Intraclass Correlation (ICC)
+  categories:
+  - Sample Size
+- key: SSblandaltman
+  title: Sample Size – Agreement (Bland-Altman)
+  slug: sample-size-bland-altman
+  short: "**Includes:** Sample size planning for a Bland-Altman agreement study when the goal is to control the confidence-interval half-width around a limit of agreement (LoA).  /nEstimate the required number of paired measurements so that the confidence interval around either LoA is sufficiently precise on the original measurement scale."
+  ribbonIds:
+  - btn9_8ba
+  onActions:
+  - OnbtmSSblandaltmanPressed
+  forms:
+  - handler: OnbtmSSblandaltmanPressed
+    form: Ui12SampleSizeTtestSingleProp
+    analysisTitle: Sample Size - Agreement (Bland-Altman)
   categories:
   - Sample Size
 - key: WilcoxonSignedRankTest
@@ -888,7 +958,7 @@ methods:
 - key: BlandAltman
   title: Bland–Altman Analysis
   slug: bland-altman
-  short: "**Includes:** Simple paired Bland–Altman analysis, repeated-measures Bland–Altman by subject, bias and limits of agreement (LoA), analytical / jackknife / bootstrap confidence intervals, optional proportional-bias check, raw-difference / percentage / log-ratio scales, several x-axis conventions, and Bland–Altman plots with optional subject means."
+  short: "**Includes:** Simple paired Bland–Altman analysis, repeated-measures Bland–Altman by subject, bias and limits of agreement (LoA), analytical / jackknife / bootstrap confidence intervals, optional proportional-bias check, optional allowable-bias / decision-limit reporting, raw-difference / percentage / log-ratio scales, several x-axis conventions, and Bland–Altman plots with optional subject means."
   ribbonIds:
   - Ui9ANOVA2nested
   onActions:
@@ -1142,6 +1212,22 @@ categories:
     ribbonId: btm8_4MCA
     title: Multiple Correspondence Analysis
     slug: multiple-correspondence-analysis
+  - ref: KMeansClustering
+    ribbonId: btm8_5KMC
+    title: K-Means Clustering
+    slug: k-means-clustering
+  - ref: HierarchicalClustering
+    ribbonId: btm8_6HC
+    title: Hierarchical Clustering
+    slug: hierarchical-clustering
+  - ref: FactorAnalysis
+    ribbonId: btm8_7FA
+    title: Factor Analysis
+    slug: factor-analysis
+  - ref: DiscriminantAnalysis
+    ribbonId: btm8_8Discr
+    title: Discriminant Analysis
+    slug: discriminant-analysis
 - name: Sample Size
   items:
   - ref: PairedTTest
@@ -1160,6 +1246,22 @@ categories:
     ribbonId: btn9_4IndProp
     title: Independent Proportions
     slug: independent-proportions
+  - ref: SSlogrank
+    ribbonId: btn9_5logrank
+    title: Sample Size - Log-rank Test
+    slug: sample-size-log-rank
+  - ref: SScox
+    ribbonId: btn9_6cox
+    title: Sample Size – Cox Regression
+    slug: sample-size-cox-regression
+  - ref: SSicc
+    ribbonId: btn9_7icc
+    title: Sample Size – Intraclass Correlation (ICC)
+    slug: sample-size-icc
+  - ref: SSblandaltman
+    ribbonId: btn9_8ba
+    title: Sample Size – Agreement (Bland-Altman)
+    slug: sample-size-bland-altman
 - name: Agreement
   items:
   - ref: PassingBablokRegression
@@ -1170,6 +1272,18 @@ categories:
     ribbonId: btn10_2Deming
     title: Deming Regression
     slug: deming-regression
+  - ref: BlandAltman
+    ribbonId: btn10_3Bland
+    title: Bland–Altman Analysis
+    slug: bland-altman
+  - ref: LinsCCC
+    ribbonId: btn10_4LCCC
+    title: Lin's Concordance Correlation Coefficient
+    slug: lins-ccc
+  - ref: CohensKappa
+    ribbonId: btn10_5Cohen
+    title: Cohen's / Weighted Kappa
+    slug: cohens-kappa
   - ref: IntraclassCorrelationCoefficients
     ribbonId: btn10_3icc
     title: Intraclass Correlation Coefficients

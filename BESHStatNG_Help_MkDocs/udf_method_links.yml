@@ -85,18 +85,20 @@ patterns:
   # sample size
   - match: '^BESH\.SSIZE\.TTEST_PAIRED'
     doc: 'methods/sample-size-paired-t-test.md'
-
-  # sample size
   - match: '^BESH\.SSIZE\.TTEST_UNPAIRED'
     doc: 'methods/sample-size-unpaired-t-test.md'
-
-  # sample size
   - match: '^BESH\.SSIZE\.PROP_SINGLE'
     doc: 'methods/sample-size-single-proportion.md'
-
-  # sample size
   - match: '^BESH\.SSIZE\.PROP_INDEP'
     doc: 'methods/sample-size-independent-proportions.md'
+  - match: '^BESH\.SSIZE\.COX_'
+    doc: 'methods/sample-size-cox-regression.md'
+  - match: '^BESH\.SSIZE\.LOGRANK'
+    doc: 'methods/sample-size-log-rank.md'
+  - match: '^BESH\.SSIZE\.ICC'
+    doc: 'methods/sample-size-icc.md'
+  - match: '^BESH\.SSIZE\.BLANDALTMAN'
+    doc: 'methods/sample-size-bland-altman.md'
 
   # Ordinal logisitc regression
   - match: '^BESH\.REGR\.ORDLOGIT_'
@@ -144,8 +146,57 @@ patterns:
   # Contingency Tables
   - match: '^BESH\.CT\.PAIRED_PROPORTIONS'
     doc: 'methods/proportions.md'
-    
 
+  # passing bablok
+  - match: '^BESH\.AGREE\.PASSINGBABLOK_'
+    doc: 'methods/passing-bablok-regression.md'
+
+  # Deming regression
+  - match: '^BESH\.AGREE\.DEMING_'
+    doc: 'methods/deming-regression.md'
+
+  # bland-altman
+  - match: '^BESH\.AGREE\.BLANDALTMAN_'
+    doc: 'methods/bland-altman.md'
+
+  # Lin's CCC
+  - match: '^BESH\.AGREE\.LINCCC_'
+    doc: 'methods/lins-ccc.md'
+
+  # Cohen's/weighted kappa
+  - match: '^BESH\.AGREE\.KAPPA_'
+    doc: 'methods/cohens-kappa.md'
+
+  # Cohen's/weighted kappa
+  - match: '^BESH\.AGREE\.KAPPA_'
+    doc: 'methods/cohens-kappa.md'
+
+  # ICC
+  - match: '^BESH\.AGREE\.ICC_'
+    doc: 'methods/intraclass-correlation-coefficients.md'
+
+  # Multivariate
+  - match: '^BESH\.MULTI\.PCA_'
+    doc: 'methods/principal-component-analysis.md'
+  - match: '^BESH\.MULTI\.FA_'
+    doc: 'methods/factor-analysis.md'
+  - match: '^BESH\.MULTI\.HCLUST_'
+    doc: 'methods/hierarchical-clustering.md'
+  - match: '^BESH\.MULTI\.KMEANS_'
+    doc: 'methods/k-means-clustering.md'
+  - match: '^BESH\.MULTI\.CA_'
+    doc: 'methods/correspondence-analysis.md'
+  - match: '^BESH\.MULTI\.MCA_'
+    doc: 'methods/multiple-correspondence-analysis.md'
+  - match: '^BESH\.MULTI\.DA_'
+    doc: 'methods/discriminant-analysis.md'
+
+  # Plot Data
+  - match: '^BESH\.PLOT\.HIST_'
+    doc: 'methods/histogram.md'
+  - match: '^BESH\.PLOT\.ROC_'
+    doc: 'methods/roc-curve.md'
+    
 # Optional: group-level links (shown on the UDF overview page for the whole category).
 # Add entries here only if you have a single "main" method page that represents the whole group.
 groups:

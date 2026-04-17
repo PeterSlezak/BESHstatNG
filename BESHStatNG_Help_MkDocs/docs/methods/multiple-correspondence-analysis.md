@@ -20,9 +20,9 @@ The main outputs are:
 - The **Burt table** (all pairwise cross-tabulations in one matrix),
 - Eigenvalues (inertia) and percent explained,
 - **Principal coordinates** (factor scores) and diagnostics for each category level,
-- Axis-by-axis tables (cos2, contribution, angle, etc.),
-- Contribution plots (Axis 1 and Axis 2),
-- A 2D correspondence plot of category levels (Factor 1 vs Factor 2).
+- Axis-by-axis tables for all available axes (cos², contribution, angle, axis inertia contribution, etc.),
+- Contribution plots for the leading axes (typically Axis 1 and Axis 2),
+- A 2D correspondence plot of category levels (typically Factor 1 vs Factor 2).
 
 !!! note "Relation to simple correspondence analysis"
     MCA reuses the same core CA mathematics (standardized residual matrix, SVD, principal coordinates, contributions, cos2, etc.).  
@@ -135,7 +135,7 @@ The eigenvalues summarize how much association is captured by each axis.
 - **Percent**: eigenvalue divided by total inertia
 - **Percent Cumulative**: cumulative percent across axes
 
-Interpret the first 1–2 axes if they explain most of the inertia.
+Interpret the first few axes if they explain most of the inertia; in practice the first 1–2 axes are usually the most useful for plotting.
 
 #### Principal coordinates for Columns/Rows (categories)
 
@@ -144,28 +144,32 @@ For each **category level**, BESHStatNG reports:
 - **Mass**: marginal proportion (weight) of that category column
 - **Distance**: squared distance from the origin in factor space
 - **Inertia**: share of total inertia attributable to that category
-- **Quality**: how well the displayed axes represent the category (sum of cos2 on displayed axes)
+- **Quality**: how well the available axes represent the category (sum of cos² across the stored axes)
 
 Interpretation tips:
 
 - Categories with **high Quality** are well represented on the 2D map.
 - Categories with **high Inertia** are more influential in the overall association.
 
-#### Axis tables (Axis 1, Axis 2)
+#### Axis tables (Axis 1, Axis 2, ...)
 
 For each axis and each category, BESHStatNG reports:
 
 - **Factor**: principal coordinate on that axis
-- **Correlation**: cos2 (squared cosine), proportion of the category’s distance explained by that axis
+- **Cos²**: squared cosine, proportion of the category’s distance explained by that axis
 - **Contribution**: contribution of the category to that axis inertia
-- **Angle**: angle (degrees) derived from cos2
-- **Eigenvalue**: per-category share `mass * factor^2`
+- **Angle**: angle (degrees) derived from cos²
+- **Axis Inertia Contribution**: per-category share `mass × factor²`
 
-Categories with large absolute **Factor** values are far from the origin on that axis; categories with large **Contribution** values define the axis.
+Categories with large absolute **Factor** values are far from the origin on that axis; categories with large **Contribution** values define the axis; categories with high **Cos²** are well represented by that axis.
+
+!!! note "Available axes"
+    The full MCA solution can contain more than two axes.  
+    BESHStatNG stores diagnostics by available axis, while the charts mainly emphasize the leading low-dimensional view (usually Axis 1 and Axis 2).
 
 #### Charts
 
-- **Contribution plots**: contributions by category for Axis 1 and Axis 2.
+- **Contribution plots**: contributions by category for the leading plotted axes, usually Axis 1 and Axis 2.
 - **Correspondence plot**: category points on Factor 1 vs Factor 2.
 
 !!! note "Why only categories are plotted"
@@ -200,7 +204,7 @@ BESHStatNG then applies **standard correspondence analysis** to `Z` using the sa
 
 - **[Correspondence Analysis → Mathematical details](correspondence-analysis.md#mathematical-details)**
 
-Distances, principal coordinates, contributions, cos2 and quality are computed with the same formulas as CA, applied to the contingency table `Z`.
+Distances, principal coordinates, contributions, cos² and quality are computed with the same formulas as CA, applied to the contingency table `Z`.
 
 ---
 

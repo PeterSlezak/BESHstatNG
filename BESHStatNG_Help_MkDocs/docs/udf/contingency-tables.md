@@ -673,3 +673,92 @@ If the same subjects contribute to both measurements, use the paired-proportions
 =BESH.CT.TWO_INDEPENDENT_PROPORTIONS(18,50,10,45)
 =BESH.CT.TWO_INDEPENDENT_PROPORTIONS(18,50,10,45,0.1)
 ```
+
+## BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV
+
+TOST-style equivalence comparison for two independent proportions.
+
+**Function wizard:** TOST-style equivalence comparison for two independent proportions with interval-based decision reporting.
+
+### Syntax
+
+`=BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV(controlResponders, controlTotal, experimentalResponders, experimentalTotal, lowerMargin, upperMargin, alpha)`
+
+### Parameters
+
+- **controlResponders** — Number of responders in the control or reference group.
+- **controlTotal** — Total number of observations in the control or reference group.
+- **experimentalResponders** — Number of responders in the experimental or test group.
+- **experimentalTotal** — Total number of observations in the experimental or test group.
+- **lowerMargin** — Lower equivalence margin on the risk-difference scale `p(experimental) - p(control)`.
+If `upperMargin` is omitted, this argument is interpreted as a positive symmetric margin magnitude `M`
+and the function uses margins `-M` and `+M`.
+- **upperMargin** — Optional upper equivalence margin. When omitted, ±lowerMargin is used.
+- **alpha** — Optional one-sided alpha for each TOST component. Default `0.025`.
+
+### Returns
+
+A labeled spill table containing the two one-sided proportion tests, the combined TOST p-value,
+the matched two-sided confidence interval, and the interval-based decision summary.
+
+### Notes
+
+Equivalence is evaluated on the absolute risk-difference scale using the Two One-Sided Tests principle.
+Let `Δ = p(experimental) - p(control)`. The function evaluates
+`H0,lower: Δ ≤ L` versus `H1,lower: Δ > L`
+and
+`H0,upper: Δ ≥ U` versus `H1,upper: Δ < U`.
+Both components must be significant at the supplied one-sided α level for equivalence to be supported.
+
+The reported confidence interval is a Wilson/Newcombe-style interval for the difference in two independent proportions.
+Equivalence is supported when that interval lies completely inside the stated equivalence margins.
+
+### Example
+
+```
+
+=BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV(18,50,16,48,0.1)
+=BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV(18,50,16,48,-0.08,0.08,0.025)
+```
+
+## BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI
+
+One-sided non-inferiority comparison for two independent proportions.
+
+**Function wizard:** Non-inferiority comparison for two independent proportions with CI-based decision reporting.
+
+### Syntax
+
+`=BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI(controlResponders, controlTotal, experimentalResponders, experimentalTotal, margin, alpha)`
+
+### Parameters
+
+- **controlResponders** — Number of responders in the control or reference group.
+- **controlTotal** — Total number of observations in the control or reference group.
+- **experimentalResponders** — Number of responders in the experimental or test group.
+- **experimentalTotal** — Total number of observations in the experimental or test group.
+- **margin** — Positive non-inferiority margin magnitude `M` on the absolute risk-difference scale.
+The comparison is performed on `Δ = p(experimental) - p(control)`, so the null boundary is `-M`.
+- **alpha** — Optional one-sided significance level. Default `0.025`.
+
+### Returns
+
+A labeled spill table containing observed proportions, the difference `p(experimental) - p(control)`,
+the one-sided z test, the matching two-sided confidence interval, and the interval-based decision summary.
+
+### Notes
+
+The non-inferiority hypotheses are
+`H0: Δ ≤ -M` versus `H1: Δ > -M`,
+where `M > 0` is the largest acceptable loss in the experimental response probability.
+
+The function reports the usual risk-difference estimate together with a Wilson/Newcombe-style two-sided confidence interval.
+Non-inferiority is supported when the lower confidence bound exceeds `-M`, which corresponds to a one-sided p-value at most `α`.
+
+### Example
+
+```
+
+=BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI(18,50,16,48,0.1)
+=BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI(18,50,16,48,0.08,0.025)
+```

@@ -14,14 +14,14 @@ Key ideas:
 - Each row is represented by its **row profile** (row proportions across columns).
 - Each column is represented by its **column profile** (column proportions across rows).
 - Distances are measured using the **chi-square distance**.
-- The first 1–2 axes (factors) usually capture most of the association.
+- The first few axes (often 1–2) usually capture most of the association, although the full solution may contain additional axes.
 
 BESHStatNG reports:
 
 - Eigenvalues (inertia) and percent explained
 - Principal coordinates for rows and columns (with mass, distance, inertia, quality)
-- Axis-by-axis tables with factor scores, cos2 (correlation), contributions, angles
-- Contribution plots (rows and columns)
+- Axis-by-axis tables for all available axes with factor scores, cos², contributions, angles, and axis inertia contributions
+- Contribution plots for the leading axes (typically Axis 1 and Axis 2)
 - A correspondence plot (rows and columns together)
 
 ---
@@ -112,7 +112,7 @@ For each row and each column, BESHStatNG reports:
 - **Mass**: marginal proportion (row/column weight)
 - **Distance**: squared distance from the origin in factor space
 - **Inertia**: share of total inertia attributable to that row/column
-- **Quality**: how well the displayed axes represent the point
+- **Quality**: how well the available axes represent the point
 
 Interpretation tips:
 
@@ -124,21 +124,25 @@ Interpretation tips:
 For each axis and each point (row/column), BESHStatNG reports:
 
 - **Factor**: principal coordinate on that axis
-- **Correlation**: cos2 (squared cosine), proportion of the point’s distance explained by that axis
-- **Contribut**: contribution of the point to that axis inertia
+- **Cos²**: squared cosine, proportion of the point’s distance explained by that axis
+- **Contribution**: contribution of the point to that axis inertia
 - **Angle**: angle (degrees) between the point vector and the axis
-- **Eigenvalue**: point inertia on that axis (mass times factor squared)
+- **Axis Inertia Contribution**: point inertia on that axis (`mass × factor²`)
 
 Interpretation tips:
 
 - Large absolute **Factor** values indicate points far from the origin on that axis.
-- Large **Contribut** values indicate points that strongly define the axis.
-- High **Correlation (cos2)** indicates the axis explains most of the point’s position.
+- Large **Contribution** values indicate points that strongly define the axis.
+- High **Cos²** indicates the axis explains most of the point’s position.
+
+!!! note "GUI tables vs UDF tables"
+    In the worksheet UDFs, the same diagnostics are split across separate outputs such as row/column coordinates, cos² tables, and contribution tables.  
+    The dialog output presents them together in axis-by-axis tables for easier reading.
 
 ### 4) Charts
 
-- **Contribution plots** show contributions of each row/column category to each axis.
-- **Correspondence plot** shows rows and columns in the same 2D plane.
+- **Contribution plots** usually focus on the leading axes, especially Axis 1 and Axis 2.
+- **Correspondence plot** shows rows and columns in the same 2D plane, typically Factor 1 vs Factor 2.
 
 In the correspondence plot:
 
@@ -246,7 +250,7 @@ d_i^{2} = \sum_k f_{ik}^{2},
 d_j^{2} = \sum_k g_{jk}^{2}.
 $$
 
-### Contributions, cos2 (correlation), inertia, quality, angles
+### Contributions, cos², inertia, quality, angles
 
 **Contribution** of row \(i\) to axis \(k\) inertia:
 
@@ -262,11 +266,13 @@ $$
 cos^{2}_{ik} = \frac{f_{ik}^{2}}{d_i^{2}}.
 $$
 
-**Quality** is the sum of cos2 across the displayed axes k (typically Axis 1 and Axis 2):
+**Quality** is the sum of cos² across the available axes included in the solution:
 
 $$
 \mathrm{Quality}_i = \sum_{k\in\mathcal{K}} \cos^2_{ik}.
 $$
+
+When interpreting a 2D map, Axis 1 + Axis 2 still provide the most important low-dimensional visual summary, but the stored quality measure itself is not restricted to only two axes.
 
 **Point inertia share** (as shown in the principal coordinates table) is:
 
@@ -274,7 +280,7 @@ $$
 inertia_i = \frac{r_i d_i^{2}}{I}.
 $$
 
-In the axis tables, the per-point “Eigenvalue” column corresponds to:
+In the axis tables, the per-point **Axis Inertia Contribution** column corresponds to:
 
 $$
 eig_{ik} = r_i f_{ik}^{2}

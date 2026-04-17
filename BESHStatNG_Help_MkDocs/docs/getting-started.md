@@ -2,6 +2,9 @@
 
 This page covers installation and the first things to check when **BESHStatNG** does not show up in Excel.
 
+!!! tip
+    Need to report a bug or suggest an improvement? Please use the [GitHub issue tracker](https://github.com/PeterSlezak/BESHstatNG/issues) so the problem can be tracked, reproduced, and linked to fixes.
+
 ## Install the add-in (MSI)
 
 1. **Close Excel** (and any other Office apps).

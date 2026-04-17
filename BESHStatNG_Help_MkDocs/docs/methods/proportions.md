@@ -1,407 +1,673 @@
 # Proportions
 
-**Includes:** Single proportion (estimate + confidence interval), Two independent proportions (difference + confidence interval, Fisher exact p-values), Two paired proportions (difference + confidence interval, Liddell/McNemar-type test).  
-**Purpose:** Work with binomial outcomes: estimate proportions and compare proportions between groups.
+**Includes:** Single proportion, Two independent proportions (**Superiority**, **Noninferiority**, **Equivalence**), and Two paired proportions.  
+**Purpose:** Estimate one or more binomial proportions and compare proportions between groups.
 
 ---
 
 ## Overview
 
-Use **Proportions** when your outcome is binary (e.g., responder vs non‑responder, event vs no event).
+Use **Proportions** when the outcome is binary, for example:
 
-- **Single proportion**: estimate the event rate in one sample and test against a reference proportion.
-- **Two independent**: compare event rates between **two unrelated** groups (two samples).
-- **Two paired**: compare event rates between **two matched/paired** measurements on the same subjects (before/after, left/right, etc.).
+- responder vs non-responder,
+- event vs no event,
+- yes vs no,
+- improved vs not improved.
 
-### Assumptions and notes
+The dialog accepts **counts**, not raw subject-level data.
 
-- Observations are counts of successes out of totals.
-- For the CI methods used here (Wilson/Newcombe), performance is generally better than Wald CIs, especially for small samples or proportions near 0/1.
-- Exact p‑values are used where indicated.
+The current version supports three analysis families:
+
+- **Single** — estimate one proportion and test it against the built-in null value.
+- **Two Independent** — compare proportions from two unrelated groups.
+- **Paired** — compare proportions from two matched/paired measurements on the same subjects.
+
+For **Two Independent**, BESHStatNG now supports three hypothesis types:
+
+- **Superiority** — ordinary two-sided comparison of proportions
+- **Noninferiority** — test whether the experimental/test proportion is not worse than the control/reference proportion by more than a user-specified margin
+- **Equivalence** — TOST-style equivalence test using a symmetric margin around zero on the difference scale
+
+---
+
+## When to use it
+
+### Single proportion
+
+Use when you have one sample of size \(n\) with \(x\) responders and want:
+
+- the estimated proportion,
+- a confidence interval,
+- an exact two-sided p-value against the built-in null value.
+
+### Two independent proportions
+
+Use when you have **two unrelated groups**, for example treatment vs control, exposed vs unexposed, or experimental vs reference.
+
+BESHStatNG reports the proportion difference on the scale:
+
+\[
+\hat\Delta = \hat p_E - \hat p_C
+\]
+
+where:
+
+- **Sample 1** is the **control / reference** group,
+- **Sample 2** is the **experimental / test** group.
+
+This ordering matters for **Noninferiority** and **Equivalence**.
+
+### Two paired proportions
+
+Use when the same subjects contribute two related binary outcomes, for example:
+
+- before vs after,
+- left vs right,
+- method A vs method B on the same subjects.
 
 ---
 
 ## Inputs
-This dialog accepts **counts** (not raw individual‑level records).
 
-> Tip: Even though counts are typed into the form, you can keep the raw data in a worksheet and simply copy the totals into the numeric fields.
+This dialog uses **count data**.
 
-### Analysis types
+> Tip: You can keep the raw data in Excel and manually enter the totals into the numeric fields.
 
-#### Single
+### Single
 
-- **Total number of observations**: \(n\)
+- **Total number of observations in the study**: \(n\)
 - **Number of responders**: \(x\)
 
-#### Two Independent
+### Two Independent
 
-- Sample 1: total \(n_1\), responders \(x_1\)
-- Sample 2: total \(n_2\), responders \(x_2\)
+- **Total number of observations in Sample 1**: \(n_C\)
+- **Number of responders in Sample 1**: \(x_C\)
+- **Total number of observations in Sample 2**: \(n_E\)
+- **Number of responders in Sample 2**: \(x_E\)
 
-#### Paired
+For **Two Independent**, the **Hypothesis** selector is available:
 
-- **Total number of observations**: \(n\)
+- **Superiority**
+- **Noninferiority**
+- **Equivalence**
+
+Depending on the selected hypothesis:
+
+- **Superiority** uses **two-sided alpha**.
+- **Noninferiority** uses **one-sided alpha** and a **positive noninferiority margin**.
+- **Equivalence** uses **one-sided alpha** and a **positive symmetric equivalence margin**.
+
+### Paired
+
+- **Total number of observations in the study**: \(n\)
 - **Number of responders in 1st category only**: \(b\)
 - **Number of responders in 2nd category only**: \(c\)
 - **Number of responders in both categories**: \(a\)
 
-The implied 2×2 matched‑pairs table is:
+The implied paired 2×2 table is:
 
-$$
+\[
 \begin{array}{c|cc}
  & \text{Category 2 = Yes} & \text{Category 2 = No}\\\hline
 \text{Category 1 = Yes} & a & b\\
-\text{Category 1 = No}  & c & d
+\text{Category 1 = No} & c & d
 \end{array}
-\qquad d = n - a - b - c.
-$$
+\qquad d = n-a-b-c.
+\]
 
 ---
 
-## Using the add‑in
+## Using the add-in
 
-1. In Excel ribbon: **BESH Stat NG → Analyse → Contingency Table Analysis → Proportions**.
-2. Choose **Single**, **Two Independent**, or **Paired**.
-3. Enter the required counts.
-4. Set **Alpha** for the confidence interval level.  
-   Default: **0.05** (95% confidence interval).
-5. Choose output destination (**New Worksheet**, **New Workbook**, or **Output Range**).
-6. Click **Compute**.
+1. Ribbon: **BESH Stat NG → Analyse → Contingency Table Analysis → Proportions**
+2. Select **Single**, **Two Independent**, or **Paired**
+3. Enter the required counts
+4. If **Two Independent** is selected, choose the **Hypothesis**:
+   - **Superiority**
+   - **Noninferiority**
+   - **Equivalence**
+5. Enter **alpha**
+6. If needed, enter the **margin**
+7. Choose the output destination:
+   - **Output Range**
+   - **New Worksheet**
+   - **New Workbook**
+8. Click **Compute**
 
 ---
 
 ## Screenshots
 
-**Two independent:**
+### Two independent — Superiority
+![Proportions – Two independent superiority input](../assets/images/029proportions/029proportions_input_independent.png)
 
-![](../assets/images/029proportions/029proportions_input_independent.png)
+### Two independent — Noninferiority
+![Proportions – Two independent noninferiority input](../assets/images/029proportions/029proportions_input_independent2.png)
 
-**Paired:**
+### Two independent — Equivalence
+![Proportions – Two independent equivalence input](../assets/images/029proportions/029proportions_input_independent3.png)
 
-![](../assets/images/029proportions/029proportions_input_paired.png)
+### Paired
+![Proportions – Paired input](../assets/images/029proportions/029proportions_input_paired.png)
 
-**Single:**
+### Single
+![Proportions – Single input](../assets/images/029proportions/029proportions_input_single.png)
 
-![](../assets/images/029proportions/029proportions_input_single.png)
+### Example output — Two independent (Superiority)
+![Proportions – Two independent superiority result](../assets/images/029proportions/029proportions_results_independent.png)
 
-**Example output (two independent):**
+### Example output — Two independent (Noninferiority)
+![Proportions – Two independent noninferiority result](../assets/images/029proportions/029proportions_results_independent2.png)
 
-![](../assets/images/029proportions/029proportions_results_independent.png)
+### Example output — Two independent (Equivalence)
+![Proportions – Two independent equivalence result](../assets/images/029proportions/029proportions_results_independent3.png)
 
-**Example output (paired):**
+### Example output — Paired
+![Proportions – Paired result](../assets/images/029proportions/029proportions_results_paired.png)
 
-![](../assets/images/029proportions/029proportions_results_paired.png)
+### Example output — Single
+![Proportions – Single result](../assets/images/029proportions/029proportions_results_single.png)
 
-**Example output (single):**
+---
 
-![](../assets/images/029proportions/029proportions_results_single.png)
+## Statistical methods
+
+## 1) Single proportion
+
+### Estimate
+
+\[
+\hat p = \frac{x}{n}
+\]
+
+### Confidence interval
+
+BESHStatNG uses the **Wilson score interval** at level \(1-\alpha\). With
+
+\[
+z = z_{1-\alpha/2}
+\]
+
+and observed proportion \(\hat p=x/n\), the Wilson interval can be written as:
+
+\[
+\tilde p = \frac{x + z^2/2}{n + z^2}
+\]
+
+\[
+h = \frac{z}{n+z^2}\sqrt{\frac{x(n-x)}{n}+\frac{z^2}{4}}
+\]
+
+\[
+\text{CI}_{1-\alpha} = [\tilde p-h,\ \tilde p+h]
+\]
+
+### Two-sided p-value
+
+The current Single-proportion dialog reports an **exact two-sided binomial p-value** for testing:
+
+\[
+H_0: p = 0.5
+\]
+
+---
+
+## 2) Two independent proportions — Superiority
+
+Let:
+
+- control/reference sample: \(x_C\) responders out of \(n_C\)
+- experimental/test sample: \(x_E\) responders out of \(n_E\)
+
+The sample proportions are:
+
+\[
+\hat p_C = \frac{x_C}{n_C}, \qquad \hat p_E = \frac{x_E}{n_E}
+\]
+
+and the reported difference is:
+
+\[
+\hat\Delta = \hat p_E - \hat p_C
+\]
+
+### Confidence interval for the difference
+
+BESHStatNG uses the **Newcombe/Wilson** confidence interval for the difference in two independent proportions.
+
+First compute Wilson intervals for the two individual proportions:
+
+\[
+[L_C, U_C] \text{ for } p_C, \qquad [L_E, U_E] \text{ for } p_E
+\]
+
+Then form the Newcombe interval for
+
+\[
+\Delta = p_E - p_C
+\]
+
+as:
+
+\[
+\Delta_L = \hat\Delta - \sqrt{(\hat p_E-L_E)^2 + (U_C-\hat p_C)^2}
+\]
+
+\[
+\Delta_U = \hat\Delta + \sqrt{(U_E-\hat p_E)^2 + (\hat p_C-L_C)^2}
+\]
+
+### Two-sided p-values
+
+BESHStatNG also reports:
+
+- **Exact two-sided P-value**
+- **Exact Mid two-sided P-value**
+
+from **Fisher’s exact test** applied to the corresponding 2×2 table:
+
+\[
+\begin{array}{c|cc}
+ & \text{Control} & \text{Experimental}\\\hline
+\text{Success} & x_C & x_E\\
+\text{Failure} & n_C-x_C & n_E-x_E
+\end{array}
+\]
+
+The mid-p version subtracts half the observed-table probability and is often less conservative than the ordinary exact two-sided value.
+
+---
+
+## 3) Two independent proportions — Noninferiority
+
+For noninferiority, the user enters a **positive margin** \(\Delta_{NI}>0\) on the difference scale.
+
+BESHStatNG defines the effect as:
+
+\[
+\Delta = p_E - p_C
+\]
+
+and the **noninferiority limit** as:
+
+\[
+L_{NI} = -\Delta_{NI}
+\]
+
+so the hypotheses are:
+
+\[
+H_0: p_E - p_C \le -\Delta_{NI}
+\qquad\text{vs}\qquad
+H_1: p_E - p_C > -\Delta_{NI}
+\]
+
+This is a **one-sided** test.
+
+### Test statistic
+
+BESHStatNG uses the large-sample standard error:
+
+\[
+SE = \sqrt{\frac{\hat p_C(1-\hat p_C)}{n_C} + \frac{\hat p_E(1-\hat p_E)}{n_E}}
+\]
+
+The test statistic is:
+
+\[
+Z_{NI} = \frac{\hat\Delta - L_{NI}}{SE}
+\]
+
+and the one-sided p-value is:
+
+\[
+p_{NI} = 1 - \Phi(Z_{NI})
+\]
+
+where \(\Phi\) is the standard normal cumulative distribution function.
+
+### Confidence interval reporting
+
+BESHStatNG reports:
+
+- the **lower one-sided confidence limit**
+- the matching
+
+\[
+100(1-2\alpha)\%\text{ two-sided confidence interval}
+\]
+
+for the difference in proportions.
+
+For example, if the user enters **one-sided alpha = 0.05**, the reported two-sided CI is **90%**.
+
+Noninferiority is supported when the lower one-sided limit is above the noninferiority limit, equivalently when the one-sided p-value is less than alpha.
+
+---
+
+## 4) Two independent proportions — Equivalence
+
+For equivalence, the user enters a **positive symmetric margin** \(\Delta>0\), so the equivalence region is:
+
+\[
+[-\Delta, +\Delta]
+\]
+
+on the difference scale \((p_E-p_C)\).
+
+BESHStatNG applies the **TOST (two one-sided tests)** approach.
+
+The two null hypotheses are:
+
+\[
+H_{01}: p_E - p_C \le -\Delta
+\]
+
+\[
+H_{02}: p_E - p_C \ge +\Delta
+\]
+
+and both must be rejected to conclude equivalence.
+
+### TOST components
+
+Using the same standard error:
+
+\[
+SE = \sqrt{\frac{\hat p_C(1-\hat p_C)}{n_C} + \frac{\hat p_E(1-\hat p_E)}{n_E}}
+\]
+
+BESHStatNG computes:
+
+\[
+Z_L = \frac{\hat\Delta - (-\Delta)}{SE}
+\qquad\text{with}
+\qquad
+p_L = 1 - \Phi(Z_L)
+\]
+
+\[
+Z_U = \frac{\hat\Delta - (+\Delta)}{SE}
+\qquad\text{with}
+\qquad
+p_U = \Phi(Z_U)
+\]
+
+The reported **TOST P-value** is:
+
+\[
+p_{TOST} = \max(p_L, p_U)
+\]
+
+Equivalence is concluded only if both one-sided tests are significant at the requested one-sided alpha.
+
+### Equivalent confidence interval
+
+BESHStatNG also reports the matching
+
+\[
+100(1-2\alpha)\%\text{ two-sided confidence interval}
+\]
+
+for the difference in proportions. Equivalence is supported if that entire interval lies inside the equivalence limits.
+
+For example, **one-sided alpha = 0.05** corresponds to a **90% two-sided confidence interval**.
+
+---
+
+## 5) Two paired proportions
+
+For paired data define:
+
+- \(a\): responders in both categories
+- \(b\): responders in the 1st category only
+- \(c\): responders in the 2nd category only
+- \(d=n-a-b-c\): responders in neither category
+
+The marginal proportions are:
+
+\[
+\hat p_1 = \frac{a+b}{n}, \qquad \hat p_2 = \frac{a+c}{n}
+\]
+
+and the reported difference is:
+
+\[
+\hat\Delta = \hat p_1 - \hat p_2 = \frac{b-c}{n}
+\]
+
+### Confidence interval
+
+BESHStatNG uses a **Wilson-based paired-difference interval with correlation adjustment**.
+
+Wilson limits are first computed for the two marginal proportions, then adjusted using the paired table structure.
+
+### Two-sided p-value
+
+To test equality of paired proportions (marginal homogeneity), BESHStatNG uses **Liddell’s exact McNemar test**, which depends only on the discordant pairs \(b\) and \(c\).
+
+Under the null, conditional on \(b+c\):
+
+\[
+X \sim \mathrm{Bin}(b+c, 0.5)
+\]
+
+and the reported p-value is a two-sided exact test for equality of the discordant probabilities.
 
 ---
 
 ## Output and interpretation
 
-### Single proportion
+## Single
 
-- **Proportion**: \(\hat p = x/n\).
-- **Confidence interval**: Wilson score interval at the selected level \(1-\alpha\).
-- **two-sided P-value**: exact binomial test of \(H_0: p = 0.5\) (two-sided).
+The output table contains:
 
-### Two independent proportions
+- **Total Number of Subjects**
+- **Number of Responders**
+- **Proportion**
+- **confidence interval** at the chosen level
+- **two-sided P-value**
 
-- **Proportion in sample 1/2**: \(\hat p_1=x_1/n_1\), \(\hat p_2=x_2/n_2\).
-- **Proportions Difference**: \(\hat\Delta = \hat p_1 - \hat p_2\).
-- **Confidence interval**: Newcombe (Wilson-based) interval for the difference at the selected level \(1-\alpha\).
-- **Exact two-sided P-value** and **Exact mid two-sided P-value**: Fisher’s exact test on the corresponding 2×2 table.
+## Two independent — Superiority
 
-### Two paired proportions
+The output table contains:
 
-- **Proportion in the 1st/2nd category**: \(\hat p_1=(a+b)/n\), \(\hat p_2=(a+c)/n\).
-- **Proportions Difference**: \(\hat\Delta = \hat p_1-\hat p_2 = (b-c)/n\).
-- **Confidence interval**: Wilson-based interval with paired-correlation adjustment at the selected level \(1-\alpha\).
-- **Two-sided P-value**: Liddell’s exact McNemar test (exact binomial on discordant pairs).
+- total subjects and responders in each sample
+- **Proportion in Sample 1**
+- **Proportion in Sample 2**
+- **Proportions Difference**
+- **95% CI** (or the selected \(1-\alpha\) CI)
+- **Exact two-sided P-value**
+- **Exact Mid two-sided P-value**
 
----
-## Statistical methods
+Interpretation:
 
-### 1) Single proportion
+- the **difference** is reported as **Sample 2 − Sample 1** in the updated two-independent NI/equivalence output logic, but in the ordinary superiority table the labels remain **Sample 1 / Sample 2**.
+- if you are thinking in control-vs-experimental terms, treat:
+  - **Sample 1 = Control / Reference**
+  - **Sample 2 = Experimental / Test**
 
-#### Estimate
+## Two independent — Noninferiority
 
-$$
-\hat p = \frac{x}{n}.
-$$
+The output table contains:
 
-#### Confidence interval at level \(1-\alpha\) (Wilson score)
+- control/reference sample size, responders, proportion
+- experimental/test sample size, responders, proportion
+- **Difference (Experimental - Control)**
+- **Noninferiority margin**
+- **Noninferiority limit**
+- **90% CI for proportion difference** (or more generally \(100(1-2\alpha)\%\))
+- **Lower one-sided confidence limit**
+- **Z statistic**
+- **One-sided P-value**
+- **Conclusion**
 
-BESHStatNG uses the **Wilson score interval** with \(z = z_{1-\alpha/2}\). In the dialog, \(\alpha\) is user-selectable; the default is \(\alpha=0.05\), which gives a 95% confidence interval:
+Interpretation:
 
-$$
-\tilde p = \frac{x + \tfrac{z^2}{2}}{n+z^2},
-\qquad
-h = \frac{z}{n+z^2}\sqrt{\frac{x(n-x)}{n} + \frac{z^2}{4}},
-$$
+- enter a **positive** noninferiority margin
+- the null limit is **−margin** on the \((Experimental - Control)\) scale
+- noninferiority is supported only if the lower one-sided limit is above that null limit and the one-sided p-value is below alpha
 
-$$
-\text{CI}_{1-\alpha} = \big[\,\tilde p - h,\; \tilde p + h\,\big].
-$$
+## Two independent — Equivalence
 
-This interval generally performs better than the Wald interval, especially for small \(n\) or \(\hat p\) near 0 or 1.
+The output table contains:
 
-#### Exact two-sided p-value (binomial test)
+- control/reference sample size, responders, proportion
+- experimental/test sample size, responders, proportion
+- **Difference (Experimental - Control)**
+- **Lower equivalence margin**
+- **Upper equivalence margin**
+- **90% CI for proportion difference** (or more generally \(100(1-2\alpha)\%\))
+- **Lower TOST Z statistic** and **one-sided P-value**
+- **Upper TOST Z statistic** and **one-sided P-value**
+- **TOST P-value**
+- **Conclusion**
 
-BESHStatNG reports an **exact** two‑sided p‑value for testing:
+Interpretation:
 
-$$
-H_0: p = 0.5.
-$$
+- enter a **positive symmetric equivalence margin**
+- the equivalence region is **[−margin, +margin]** on the \((Experimental - Control)\) scale
+- equivalence is supported only if **both** one-sided components are significant and the full equivalent confidence interval lies inside the margins
 
-It computes:
+## Two paired proportions
 
-$$
-k = \min(x,\,n-x),
-\qquad
-p_{2s} = 2\,\Pr\{X \le k\},\; X\sim\mathrm{Bin}(n,0.5),
-$$
+The output table contains:
 
-and caps at 1 (i.e., \(p_{2s}=\min(p_{2s},1)\)). This matches the usual two‑sided binomial test reported by common statistical software.
-
----
-
-### 2) Two independent proportions
-
-Let \(x_1\) successes out of \(n_1\) in sample 1, and \(x_2\) out of \(n_2\) in sample 2.
-
-#### Estimate
-
-$$
-\hat p_1 = \frac{x_1}{n_1},\qquad \hat p_2 = \frac{x_2}{n_2},\qquad \hat\Delta = \hat p_1-\hat p_2.
-$$
-
-#### Confidence interval for \(\Delta\) at level \(1-\alpha\) (Newcombe / Wilson)
-
-BESHStatNG uses the **Newcombe (1998) score-based** CI for the difference in proportions. Compute Wilson CIs for each proportion:
-
-$$
-[L_1,U_1] \text{ for } p_1,\qquad [L_2,U_2] \text{ for } p_2.
-$$
-
-Then form the Newcombe CI:
-
-$$
-\Delta_L = \hat\Delta - \sqrt{(\hat p_1 - L_1)^2 + (U_2 - \hat p_2)^2},
-$$
-
-$$
-\Delta_U = \hat\Delta + \sqrt{(U_1 - \hat p_1)^2 + (\hat p_2 - L_2)^2}.
-$$
-
-#### Exact p-values (Fisher exact)
-
-BESHStatNG also reports Fisher’s exact test p‑values on the corresponding 2×2 table:
-
-$$
-\begin{array}{c|cc}
- & \text{Sample 1} & \text{Sample 2}\\\hline
-\text{Success} & x_1 & x_2\\
-\text{Failure} & n_1-x_1 & n_2-x_2
-\end{array}
-$$
-
-- **Exact two-sided P-value:** two-sided Fisher p-value using probability ordering.
-- **Exact mid two-sided P-value:** mid-p adjustment (subtract half the observed-table probability in each tail).
-
-> This is the same Fisher calculation used in the **2×2 Table** tool. If you enter the same counts in both tools, the Fisher p‑values match.
+- total number of subjects
+- counts for 1st category only, 2nd category only, and both categories
+- marginal proportions in the 1st and 2nd category
+- paired proportion difference
+- confidence interval
+- exact two-sided p-value
 
 ---
 
-### 3) Two paired proportions
+## Example data used in the screenshots
 
-For matched pairs, define:
+### Two independent
 
-- \(a\): “Yes/Yes” (responders in both categories)
-- \(b\): “Yes/No” (1st category only)
-- \(c\): “No/Yes” (2nd category only)
-- \(d\): “No/No”, where \(d=n-a-b-c\)
+- Sample 1 total = 159
+- Sample 1 responders = 99
+- Sample 2 total = 74
+- Sample 2 responders = 32
 
-#### Estimate
+### Paired
 
-The marginal proportions are:
+- Total = 233
+- 1st category only = 60
+- 2nd category only = 32
+- both categories = 99
 
-$$
-\hat p_1 = \frac{a+b}{n},\qquad \hat p_2 = \frac{a+c}{n},
-$$
+### Single
 
-and the difference is:
-
-$$
-\hat\Delta = \hat p_1-\hat p_2 = \frac{b-c}{n}.
-$$
-
-#### Confidence interval at level \(1-\alpha\) (Wilson + correlation adjustment)
-
-BESHStatNG builds Wilson limits for each marginal proportion and then adjusts for within‑pair correlation.
-
-1) Compute Wilson limits \([L_1,U_1]\) for \(\hat p_1\) using \(x=a+b\) and \(n\), and \([L_2,U_2]\) for \(\hat p_2\) using \(x=a+c\) and \(n\).
-
-2) Compute an association term (\(\phi\)) from the paired 2×2 table (with a small (paired correlation) adjustment):
-
-$$
-A = (a+b)(n-a-b)(a+c)(n-a-c),
-$$
-
-$$
-B = a\,d - b\,c.
-$$
-
-Define
-
-$$
-C =
-\begin{cases}
-B - \tfrac{n}{2}, & B > \tfrac{n}{2}\\
-0, & 0 \le B \le \tfrac{n}{2}\\
-B, & B < 0
-\end{cases}
-\qquad
-\phi = \frac{C}{\sqrt{A}}.
-$$
-
-3) The CI is:
-
-$$
-\Delta_L = \hat\Delta - \sqrt{(\hat p_1-L_1)^2 - 2\phi(\hat p_1-L_1)(U_2-\hat p_2) + (U_2-\hat p_2)^2},
-$$
-
-$$
-\Delta_U = \hat\Delta + \sqrt{(\hat p_2-L_2)^2 - 2\phi(\hat p_2-L_2)(U_1-\hat p_1) + (U_1-\hat p_1)^2}.
-$$
-
-#### Exact p‑value (Liddell / McNemar)
-
-To test equality of paired proportions (marginal homogeneity), BESHStatNG uses **Liddell’s exact McNemar test**, which depends only on discordant pairs \(b\) and \(c\):
-
-$$
-H_0: \Pr(\text{Yes/No}) = \Pr(\text{No/Yes}).
-$$
-
-Under \(H_0\), conditional on \(b+c\), we have \(X\sim\mathrm{Bin}(b+c,0.5)\), and the two‑sided p‑value is:
-
-$$
-p = 2\,\Pr\{X \le \min(b,c)\}.
-$$
-
-This is the same test used by the **2×2 Table** tool when **Paired Data** is selected.
-
----
-
-## Example (same counts as the 2×2 Table help)
-
-The screenshots use the same 2×2 counts as the **2×2 Table** example:
-
-- Sample 1: \(n_1=159\), \(x_1=99\)
-- Sample 2: \(n_2=74\), \(x_2=32\)
-
-For the paired example:
-
-- \(n=233\), \(a=99\), \(b=60\), \(c=32\), \(d=42\)
+- Total = 233
+- responders = 60
 
 ---
 
 ## R code (reference)
 
-Below are R examples to reproduce the same results. Small differences can occur if you use different CI methods or different definitions of “two‑sided Fisher p‑value.”
+Below are reference R examples for analogous calculations. Small differences can occur if a different confidence-interval or exact-p-value convention is used.
 
-### Single proportion (Wilson CI + exact binomial test)
+### Single proportion
 
 ```r
 x <- 60
 n <- 233
 
-# Estimate
-p_hat <- x/n
+p_hat <- x / n
 
-# Wilson score CI
+# Wilson score interval
 if (!requireNamespace("binom", quietly = TRUE)) install.packages("binom")
-ci_wilson <- binom::binom.confint(x, n, methods = "wilson")
-ci_wilson[, c("lower", "upper")]
+binom::binom.confint(x, n, methods = "wilson")[, c("lower", "upper")]
 
-# Exact two-sided binomial p-value for H0: p = 0.5
+# Exact two-sided binomial test for H0: p = 0.5
 binom.test(x, n, p = 0.5, alternative = "two.sided")$p.value
 ```
 
-### Two independent proportions (Newcombe CI + Fisher exact + mid-p)
+### Two independent proportions — Superiority
 
 ```r
-x1 <- 99; n1 <- 159
-x2 <- 32; n2 <- 74
+xC <- 99; nC <- 159
+xE <- 32; nE <- 74
 
-# Difference in proportions
-p1 <- x1/n1
-p2 <- x2/n2
-diff <- p1 - p2
+pC <- xC / nC
+pE <- xE / nE
+diff <- pE - pC
 
-# Newcombe (1998) CI for difference
+# Newcombe / score CI for difference
 if (!requireNamespace("DescTools", quietly = TRUE)) install.packages("DescTools")
-DescTools::BinomDiffCI(x1, n1, x2, n2, method = "Newcombe")
+DescTools::BinomDiffCI(xE, nE, xC, nC, method = "Newcombe")
 
-# Fisher exact test (two-sided)
-T <- matrix(c(x1, n1-x1, x2, n2-x2), nrow = 2, byrow = TRUE)
+# Fisher exact p-values
+T <- matrix(c(xC, nC - xC, xE, nE - xE), nrow = 2, byrow = TRUE)
 fisher.test(T)$p.value
 
-# Mid-p Fisher (matches the add-in's 'Exact Mid two-sided P-value')
 if (!requireNamespace("exact2x2", quietly = TRUE)) install.packages("exact2x2")
 exact2x2::fisher.exact(T, tsmethod = "minlike", midp = TRUE)$p.value
 ```
 
-> Notes:
-> - `fisher.test()` reports a standard two-sided p-value; the exact two-sided definition can vary slightly between implementations. BESHStatNG uses probability ordering and reports a mid‑p variant as well.
+### Two independent proportions — Noninferiority
 
-### Two paired proportions (paired CI as implemented + exact McNemar/Liddell)
+```r
+xC <- 99; nC <- 159
+xE <- 32; nE <- 74
+alpha <- 0.05
+margin <- 0.10             # positive margin entered by user
+limit <- -margin           # null limit on the (E - C) scale
+
+pC <- xC / nC
+pE <- xE / nE
+diff <- pE - pC
+se <- sqrt(pC * (1 - pC) / nC + pE * (1 - pE) / nE)
+z <- (diff - limit) / se
+p_one_sided <- 1 - pnorm(z)
+
+zcrit <- qnorm(1 - alpha)
+lower_one_sided <- diff - zcrit * se
+
+p_one_sided
+lower_one_sided
+```
+
+### Two independent proportions — Equivalence (TOST)
+
+```r
+xC <- 99; nC <- 159
+xE <- 32; nE <- 74
+alpha <- 0.05
+margin <- 0.20
+
+pC <- xC / nC
+pE <- xE / nE
+diff <- pE - pC
+se <- sqrt(pC * (1 - pC) / nC + pE * (1 - pE) / nE)
+
+zL <- (diff - (-margin)) / se
+pL <- 1 - pnorm(zL)
+
+zU <- (diff - margin) / se
+pU <- pnorm(zU)
+
+pTOST <- max(pL, pU)
+
+c(lower_component_p = pL, upper_component_p = pU, tost_p = pTOST)
+```
+
+### Two paired proportions
 
 ```r
 n <- 233
-b <- 60  # category 1 only
-c <- 32  # category 2 only
- a <- 99 # both
- d <- n - a - b - c
+a <- 99
+b <- 60
+c <- 32
+d <- n - a - b - c
 
-p1 <- (a + b)/n
-p2 <- (a + c)/n
-Delta <- p1 - p2
+p1 <- (a + b) / n
+p2 <- (a + c) / n
+delta <- p1 - p2
 
-# --- CI for Delta (as implemented in BESHStatNG) ---
-alpha <- 0.05   # match the dialog default; change to 0.10 for a 90% CI
-wilson_limits <- function(x, n, alpha = 0.05) {
-  z <- qnorm(1 - alpha/2)
-  p <- x/n
-  a <- 2*x + z^2
-  b <- z * sqrt(z^2 + 4*x*(1 - p))
-  c <- 2*(n + z^2)
-  L <- (a - b)/c
-  U <- (a + b)/c
-  c(L = L, U = U)
-}
-
-L1U1 <- wilson_limits(a + b, n)
-L2U2 <- wilson_limits(a + c, n)
-L1 <- L1U1["L"]; U1 <- L1U1["U"]
-L2 <- L2U2["L"]; U2 <- L2U2["U"]
-
-A <- (a+b)*(n-a-b)*(a+c)*(n-a-c)
-B <- a*d - b*c
-Ccorr <- if (B > n/2) B - n/2 else if (B >= 0) 0 else B
-phi <- if (A == 0) 0 else Ccorr / sqrt(A)
-
-Delta_L <- Delta - sqrt((p1 - L1)^2 - 2*phi*(p1 - L1)*(U2 - p2) + (U2 - p2)^2)
-Delta_U <- Delta + sqrt((p2 - L2)^2 - 2*phi*(p2 - L2)*(U1 - p1) + (U1 - p1)^2)
-
-c(Delta = Delta, lower = Delta_L, upper = Delta_U)
-
-# --- Exact McNemar / Liddell p-value (two-sided) ---
-# Conditional on discordants (b+c), test b ~ Bin(b+c, 0.5)
-binom.test(min(b, c), b + c, p = 0.5)$p.value * 2  # equivalent two-sided form
-
-# Or directly using binom.test with the observed discordant count:
+# Exact McNemar / Liddell-style test via discordant pairs
 binom.test(b, b + c, p = 0.5, alternative = "two.sided")$p.value
 ```
 
@@ -409,21 +675,41 @@ binom.test(b, b + c, p = 0.5, alternative = "two.sided")$p.value
 
 ## Notes
 
-- **Same data as the 2×2 Table tool:**
-  - The **Two independent** proportions analysis corresponds to a 2×2 table with rows = success/failure and columns = sample.
-  - The **Paired** proportions p‑value corresponds to the **paired (McNemar/Liddell)** option in the 2×2 tool.
-- **Why CI methods may differ across software:** Wilson/Newcombe intervals are method‑dependent; different packages may default to Wald, Wilson, Agresti‑Coull, or exact methods.
+- The dialog expects **counts**, not a worksheet range of raw binary observations.
+- For **Two Independent** noninferiority and equivalence, interpret the samples as:
+  - **Sample 1 = Control / Reference**
+  - **Sample 2 = Experimental / Test**
+- **Alpha** means different things depending on the hypothesis:
+  - **Superiority:** two-sided alpha
+  - **Noninferiority / Equivalence:** one-sided alpha
+- For noninferiority and equivalence, the reported two-sided CI is the matching
+
+\[
+100(1-2\alpha)\%\text{ interval}
+\]
+
+  so with one-sided \(\alpha=0.05\) the reported CI is **90%**.
+
+- The current two-independent NI/equivalence implementation uses a **large-sample normal approximation** for the formal Z-tests and pairs it with CI-based reporting for interpretation.
+
+---
 
 ## References
 
-- Wilson E.B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212.
-- Newcombe R.G. (1998). Improved confidence intervals for the difference between binomial proportions based on paired data. Statistics in Medicine 17:2635-2650.
-- Newcombe R.G., Altman D.G. (2000). Proportions and their differences. In Statistics with Confidence 2nd ed. London, BMJ Publishing Group, 45-56.
-- Newcombe R.G. (1998). Interval estimation for the difference between independent proportions. Statistics in Medicine 17:873-890.
+- Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. *Journal of the American Statistical Association*, 22, 209–212.
+- McNemar, Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. *Psychometrika*, 12(2), 153–157.
+- Newcombe, R. G. (1998). Interval estimation for the difference between independent proportions: comparison of eleven methods. *Statistics in Medicine*, 17, 873–890.
+- Newcombe, R. G. (1998). Improved confidence intervals for the difference between binomial proportions based on paired data. *Statistics in Medicine*, 17, 2635–2650.
+- Newcombe, R. G., & Altman, D. G. (2000). Proportions and their differences. In *Statistics with Confidence* (2nd ed., pp. 45–56). BMJ Books.
+- Fleiss, J. L., Levin, B., & Paik, M. C. (2003). *Statistical Methods for Rates and Proportions* (3rd ed.). Wiley.
+- Wellek, S. (2010). *Testing Statistical Hypotheses of Equivalence and Noninferiority* (2nd ed.). Chapman & Hall/CRC.
+
+---
 
 ## See also
 
 - [2×2 Table](2x2-table.md)
 - [RxC Table](rxc-table.md)
+- [Sample Size – Independent Proportions](sample-size-independent-proportions.md)
+- [Sample Size – Single Proportion](sample-size-single-proportion.md)
 - [Home](../index.md)
-

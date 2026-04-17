@@ -1,5 +1,13 @@
 # What's New
 
+## version 0.7.1.0 (2026-04-17)
+
+- Excel user defined functions exposed (5th batch including Agreemnt related functions for Bland-Altman analysis, Passing-Bablok, Deming regression, ICC, Lin's CCC, and Cohen's Kappa. Multivariate analysis UDFs - PCA, Factor analysis, K-means clustering, Hierarchical clustering, Corespondence and Multiple corespondence analysis)
+- fixed base URL for the UDFs help in the build in Excel formula windows form link
+- New Sample size caluclation methods including UDFs
+- Addition of the Discriminant analysis including UDFs
+- New methods for testing non-inferiority and equivalence for the unpaired t-test, two independent proportions, and bland-altman agreemnet
+
 ## version 0.6.5.0 (2026-04-11)
 
 - Excel user defined functions exposed (4th batch including multiple linear regression model, generalized linear model, GLM NB2 with dispersion parameter estimation, Zero-Inflated Poisson regression, GEE)
@@ -10,7 +18,6 @@
   - Weighted kappa
   - Lin CCC
   - Bland–Altman
-
 
 ## version 0.5.8.0 (2026-03-29)
 
