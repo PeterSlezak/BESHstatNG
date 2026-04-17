@@ -194,7 +194,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GLM_FIT",
             Category:="BESHStatNG - Regression Models",
             Description:="Fits a generalized linear model and returns a reusable handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GLM_FIT(
             <ExcelArgument(Name:="y", Description:="Numeric response vector (single column).")> y As Object,
@@ -277,8 +277,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not interceptFlag AndAlso fitVarNames.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim alphaValue As Double = 0.05R
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim maxIterValue As Integer = UDFhelpers.GetOptionalInt(maxIter, 20)
@@ -303,7 +303,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim lnk As regression.Link = Nothing
                 If String.Equals(linkName, "Power", StringComparison.OrdinalIgnoreCase) Then
-                    If Not HasUsableOptionalArgument(power) Then Return ExcelError.ExcelErrorNum
+                    If IsMissingArg(power) Then Return ExcelError.ExcelErrorNum
                     Dim powerValue As Double = UDFhelpers.GetOptionalDouble(power, Double.NaN)
                     If Double.IsNaN(powerValue) OrElse Double.IsInfinity(powerValue) OrElse powerValue = 0.0R Then Return ExcelError.ExcelErrorNum
                     lnk = regression.createLink("Power", powerValue)
@@ -396,7 +396,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GLM_SUMMARY",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the coefficient summary table for a fitted generalized linear model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GLM_SUMMARY(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLM_FIT.")> handle As Object,
@@ -409,8 +409,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim alphaValue As Double = h.Alpha
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim beta() As Double = h.Model.results.Coeffs_est
@@ -488,7 +488,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GLM_TESTS",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns model-level diagnostics and fit statistics for a fitted generalized linear model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GLM_TESTS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLM_FIT.")> handle As Object,
@@ -600,7 +600,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GLM_RESID",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns residual diagnostics for a fitted generalized linear model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GLM_RESID(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLM_FIT.")> handle As Object,
@@ -684,7 +684,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GLM_PRED",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns predicted responses and linear predictors for new data under a fitted generalized linear model.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GLM_PRED(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLM_FIT.")> handle As Object,
@@ -780,7 +780,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GLM_DROP",
             Category:="BESHStatNG - Regression Models",
             Description:="Removes a fitted generalized linear model handle from memory.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GLM_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLM_FIT.")> handle As Object

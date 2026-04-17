@@ -189,7 +189,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ZIP_FIT",
             Category:="BESHStatNG - Regression Models",
             Description:="Fits a Zero-Inflated Poisson regression model and returns a reusable handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function ZIP_FIT(
             <ExcelArgument(Name:="y", Description:="Integer-valued nonnegative response vector (single column) of observed counts.")> y As Object,
@@ -212,8 +212,8 @@ Namespace BESHStatNG.WorksheetFunctions
             If ExcelDnaUtil.IsInFunctionWizard() Then Return "ZIP_FIT (editing...)"
 
             Try
-                Dim effectiveZeroX As Object = If(HasUsableOptionalArgument(xZero), xZero, xCount)
-                Dim effectiveZeroVarNames As Object = If(HasUsableOptionalArgument(zeroVarNames), zeroVarNames, countVarNames)
+                Dim effectiveZeroX As Object = If(Not IsMissingArg(xZero), xZero, xCount)
+                Dim effectiveZeroVarNames As Object = If(Not IsMissingArg(zeroVarNames), zeroVarNames, countVarNames)
 
                 Dim countData As glmData = Nothing
                 Dim zeroData As glmData = Nothing
@@ -313,8 +313,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not ResponseColumnsMatch(fitCountData, fitZeroData) Then Return ExcelError.ExcelErrorValue
 
                 Dim ciAlpha As Double = 0.05R
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, ciAlpha) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, ciAlpha) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim maxEmValue As Integer = UDFhelpers.GetOptionalInt(maxEmIter, 200)
@@ -416,7 +416,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ZIP_SUMMARY",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns coefficient summaries for the count and/or zero component of a fitted Zero-Inflated Poisson model.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function ZIP_SUMMARY(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ZIP_FIT.")> handle As Object,
@@ -430,8 +430,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim ciAlpha As Double = h.ConfidenceAlpha
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, ciAlpha) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, ciAlpha) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim componentKey As String = ParseZipComponent(component)
@@ -495,7 +495,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ZIP_TESTS",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns model-level diagnostics and fit statistics for a fitted Zero-Inflated Poisson model.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function ZIP_TESTS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ZIP_FIT.")> handle As Object,
@@ -570,7 +570,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ZIP_RESID",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns residual diagnostics for a fitted Zero-Inflated Poisson model.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function ZIP_RESID(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ZIP_FIT.")> handle As Object,
@@ -648,7 +648,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ZIP_PRED",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns predicted means and component predictions for new data under a fitted Zero-Inflated Poisson model.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function ZIP_PRED(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ZIP_FIT.")> handle As Object,
@@ -662,7 +662,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim h As ZipHandle = Nothing
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
-                Dim effectiveZeroX As Object = If(HasUsableOptionalArgument(newZeroX), newZeroX, newCountX)
+                Dim effectiveZeroX As Object = If(Not IsMissingArg(newZeroX), newZeroX, newCountX)
 
                 Dim countExpandedX(,) As Double = Nothing
                 Dim zeroExpandedX(,) As Double = Nothing
@@ -737,7 +737,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.ZIP_DROP",
             Category:="BESHStatNG - Regression Models",
             Description:="Removes a fitted Zero-Inflated Poisson model handle from memory.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function ZIP_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ZIP_FIT.")> handle As Object
@@ -816,7 +816,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If rawPredictorKeys.Length < 1 Then
                 If h.HasOffset Then
                     If Not TryPrepareOffsetOnlyPredictionInputs(newOffset, offsetVals, nRows) Then Return False
-                ElseIf HasUsableOptionalArgument(newOffset) Then
+                ElseIf Not IsMissingArg(newOffset) Then
                     If Not TryPrepareOffsetOnlyPredictionInputs(newOffset, offsetVals, nRows) Then Return False
                 End If
                 Return True
@@ -884,13 +884,11 @@ Namespace BESHStatNG.WorksheetFunctions
             Return True
         End Function
 
-        Private Function TryPrepareOffsetOnlyPredictionInputs(newOffset As Object,
-                                                              ByRef offsetVals() As Double,
+        Private Function TryPrepareOffsetOnlyPredictionInputs(newOffset As Object, ByRef offsetVals() As Double,
                                                               ByRef nRows As Integer) As Boolean
             offsetVals = Nothing
             nRows = 0
-
-            If Not HasUsableOptionalArgument(newOffset) Then Return False
+            If Not Not IsMissingArg(newOffset) Then Return False
 
             Dim values As List(Of Double) = Nothing
             If Not UDFhelpers.TryReadNumericColumn(newOffset, values) Then Return False
@@ -931,7 +929,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If xCountMat.GetLength(0) <> rowCount Then Return False
             If xZeroMat.GetLength(0) <> rowCount Then Return False
 
-            Dim hasOffset As Boolean = HasUsableOptionalArgument(offset)
+            Dim hasOffset As Boolean = Not IsMissingArg(offset)
             If hasOffset Then
                 If Not UDFhelpers.TryGetTrimmedColumnObject(offset, offsetCol, offsetName, "numeric") Then Return False
                 If offsetCol.GetLength(0) <> rowCount Then Return False

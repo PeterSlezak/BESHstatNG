@@ -1,11 +1,9 @@
 ﻿Option Explicit On
 Imports System.Drawing
-Imports System.Security.Policy
 Imports Microsoft.Office
 Imports Microsoft.Office.Interop.Excel
 
 Namespace graphics
-
 
     ''' <summary>
     ''' Implements ROC (Receiver Operating Characteristic) analysis for a binary

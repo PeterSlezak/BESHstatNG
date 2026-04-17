@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Option Strict On
+
 Imports System.Drawing
 Imports System.Linq
 Imports System.Security.Cryptography
@@ -256,7 +258,7 @@ Public Class GEE
     ''' and at least one association-parameter update has occurred.
     ''' </para>
     ''' </remarks>
-    Public Sub settingInputs(dAlpha As Double, lMaxiter As Long, dEps As Double, bUseP As Boolean)
+    Public Sub settingInputs(dAlpha As Double, lMaxiter As Integer, dEps As Double, bUseP As Boolean)
         pAlpha = dAlpha
         pMaxiter = lMaxiter
         pEps = dEps
@@ -958,7 +960,7 @@ Public Class GEE
             'UI progress
             If progressBar IsNot Nothing Then
                 progressBar.Invoke(Sub()
-                                       progressBar.Value = 100 * (Me.pItration + 1) / (Me.pMaxiter + 1)
+                                       progressBar.Value = CInt(100 * (Me.pItration + 1) / (Me.pMaxiter + 1))
                                        If progressLbl IsNot Nothing Then
                                            progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]  Iter {Me.pItration + 1}   Last convergence crit. value = {del_params}"
                                        End If
@@ -1506,7 +1508,7 @@ Public Class GEE
         Dim timeDim As Integer = 0
         Dim i As Integer = 0
         For Each grp In tmpGrp.Keys
-            pGroupLabels(i) = grp
+            pGroupLabels(i) = grp.ToString()
             pClusterSize(i) = tmpGrp(grp)
             Dim indices(pClusterSize(i) - 1) As Integer, tmpEndog(pClusterSize(i) - 1) As Double, tmpExog(pClusterSize(i) - 1, Me.p - 1) As Double
             Dim tmpOffset(pClusterSize(i) - 1) As Double, tmpTime(pClusterSize(i) - 1) As Double

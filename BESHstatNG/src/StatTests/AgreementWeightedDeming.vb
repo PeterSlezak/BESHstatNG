@@ -231,7 +231,7 @@ Namespace Agreement
                     res = FitJackknifeCore(Me.pFilteredReference, Me.pFilteredTest, sd.SDx, sd.SDy, pointFit)
                 Case AgreementCiMethod.BootstrapPercentile, AgreementCiMethod.BootstrapBCa
                     Me.pUsedBootstrapCi = True
-                    Me.pBootstrapSeedUsed = ResolveRandomSeed(randomSeed)
+                    Me.pBootstrapSeedUsed = Helpers.ResolveRandomSeed(randomSeed)
                     res = FitBootstrapCore(Me.pFilteredReference, Me.pFilteredTest, sd.SDx, sd.SDy, pointFit, progressBar, Me.pBootstrapSeedUsed)
                 Case Else
                     AppGlobals.BSerr.LogAndThrow(New NotSupportedException($"Unsupported CI method: {Me.pOptions.CiMethod}."))
@@ -608,10 +608,10 @@ Namespace Agreement
             Dim jackSlope(n - 1) As Double
 
             For i As Integer = 0 To n - 1
-                Dim xx = ExcludeIndex(x, i)
-                Dim yy = ExcludeIndex(y, i)
-                Dim sdx = ExcludeIndex(sdXin, i)
-                Dim sdy = ExcludeIndex(sdYin, i)
+                Dim xx = AgreementHelpers.ExcludeIndex(x, i)
+                Dim yy = AgreementHelpers.ExcludeIndex(y, i)
+                Dim sdx = AgreementHelpers.ExcludeIndex(sdXin, i)
+                Dim sdy = AgreementHelpers.ExcludeIndex(sdYin, i)
                 Dim fitI = ComputeWeightedDemingPointEstimate(xx, yy, sdx, sdy, Me.pOptions)
                 jackIntercept(i) = fitI.Intercept
                 jackSlope(i) = fitI.Slope
@@ -950,7 +950,7 @@ Namespace Agreement
         End Function
 
         Private Sub PrepareFilteredData()
-            Dim filtered = FilterFinitePairs(Me.pRawReference, Me.pRawTest)
+            Dim filtered = AgreementHelpers.FilterFinitePairsWithIndices(Me.pRawReference, Me.pRawTest)
             Me.pFilteredReference = filtered.Reference
             Me.pFilteredTest = filtered.Test
             Me.pKeptPairIndices = filtered.KeptIndices
@@ -959,28 +959,6 @@ Namespace Agreement
                 AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fewer than 3 finite paired observations remain after filtering."))
             End If
         End Sub
-
-        Private Shared Function FilterFinitePairs(x As Double(), y As Double()) As (Reference As Double(), Test As Double(), KeptIndices As Integer(), DroppedCount As Integer)
-            If x Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(x)))
-            If y Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(y)))
-            If x.Length <> y.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("x and y must have the same length."))
-
-            Dim keepX As New List(Of Double)
-            Dim keepY As New List(Of Double)
-            Dim keptIdx As New List(Of Integer)
-            Dim dropped As Integer = 0
-            For i As Integer = 0 To x.Length - 1
-                If Double.IsNaN(x(i)) OrElse Double.IsInfinity(x(i)) OrElse Double.IsNaN(y(i)) OrElse Double.IsInfinity(y(i)) Then
-                    dropped += 1
-                Else
-                    keepX.Add(x(i))
-                    keepY.Add(y(i))
-                    keptIdx.Add(i)
-                End If
-            Next
-
-            Return (keepX.ToArray(), keepY.ToArray(), keptIdx.ToArray(), dropped)
-        End Function
 
         Private Shared Sub ValidateOptions(opts As DemingOptions)
             If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
@@ -1103,17 +1081,6 @@ Namespace Agreement
             Return Math.Sqrt(((n - 1.0) / n) * ss)
         End Function
 
-        Private Shared Function ExcludeIndex(values As Double(), indexToExclude As Integer) As Double()
-            Dim out(values.Length - 2) As Double
-            Dim t As Integer = 0
-            For i As Integer = 0 To values.Length - 1
-                If i = indexToExclude Then Continue For
-                out(t) = values(i)
-                t += 1
-            Next
-            Return out
-        End Function
-
         Private Shared Function ComputeOrthogonalResidualSD(x As Double(),
                                                             y As Double(),
                                                             intercept As Double,
@@ -1128,15 +1095,6 @@ Namespace Agreement
                 ss += (v * v) / scale
             Next
             Return Math.Sqrt(ss / denom)
-        End Function
-
-        Friend Shared Function ResolveRandomSeed(requestedSeed As Integer) As Integer
-            If requestedSeed <> Integer.MinValue Then Return requestedSeed
-
-            Dim globalSeed As Integer = AppGlobals.DefaultRandomSeed
-            If globalSeed <> Integer.MinValue Then Return globalSeed
-
-            Return Environment.TickCount
         End Function
 
         Private Function BuildMethodName() As String

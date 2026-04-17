@@ -85,7 +85,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.FORMULA_VALIDATE",
             Category:="BESHStatNG - Regression Models",
             Description:="Validates a regression-model formula string and returns TRUE or a descriptive validation message.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-formula-syntax/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-formula-syntax/"
         )>
         Public Function FORMULA_VALIDATE(
             <ExcelArgument(Name:="formula", Description:="Formula text to validate. Blank text is allowed and means all predictors as continuous main effects.")> formula As Object,

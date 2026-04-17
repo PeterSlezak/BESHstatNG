@@ -139,7 +139,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.LM_FIT",
             Category:="BESHStatNG - Regression Models",
             Description:="Fits a Gaussian linear regression model and returns a reusable handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function LM_FIT(
             <ExcelArgument(Name:="y", Description:="Continuous response (single numeric column).")> y As Object,
@@ -225,8 +225,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Dim alphaValue As Double = 0.05
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim interceptFlag As Boolean = UDFhelpers.GetOptionalBool(includeIntercept, True)
@@ -289,8 +289,8 @@ Namespace BESHStatNG.WorksheetFunctions
                     .PredictorCount = fitPredictorNames.Length,
                     .Alpha = alphaValue,
                     .PredictorCodingFootnotes = If(codingNotes Is Nothing, New String() {}, codingNotes.ToArray()),
-                    .TypeIAnovaTable = ParametricUDFs.PrepareResultTableForUdf(lmTypeI.AnovaTypeI_toPrint.returnSelf()),
-                    .TypeIIIAnovaTable = ParametricUDFs.PrepareResultTableForUdf(lm.AnovaTypeIII_toPrint.returnSelf())
+                    .TypeIAnovaTable = PrepareResultTableForUdf(lmTypeI.AnovaTypeI_toPrint.returnSelf()),
+                    .TypeIIIAnovaTable = PrepareResultTableForUdf(lm.AnovaTypeIII_toPrint.returnSelf())
                 }
 
                 _lmCache(handleKey) = h
@@ -327,7 +327,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.LM_SUMMARY",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the coefficient summary table for a fitted linear-model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function LM_SUMMARY(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.LM_FIT.")> handle As Object,
@@ -340,8 +340,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim alphaValue As Double = h.Alpha
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim coef As Double() = h.Model.results.Coeffs_est
@@ -387,7 +387,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Next
 
                 AppendFootnotesInPlace(out, q + If(hdr, 1, 0), h.PredictorCodingFootnotes)
-                Return ParametricUDFs.PrepareResultTableForUdf(out)
+                Return PrepareResultTableForUdf(out)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.LM_SUMMARY", ex)
@@ -412,7 +412,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.LM_TESTS",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns model-level diagnostics and fit statistics for a fitted linear-model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function LM_TESTS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.LM_FIT.")> handle As Object,
@@ -450,7 +450,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Next
 
                 AppendFootnotesInPlace(out, n + If(hdr, 1, 0), h.PredictorCodingFootnotes)
-                Return ParametricUDFs.PrepareResultTableForUdf(out)
+                Return PrepareResultTableForUdf(out)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.LM_TESTS", ex)
@@ -477,7 +477,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.LM_ANOVA",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns an overall, Type I, or Type III ANOVA table for a fitted linear-model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function LM_ANOVA(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.LM_FIT.")> handle As Object,
@@ -499,7 +499,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Case "type3"
                         table = h.TypeIIIAnovaTable
                     Case Else
-                        table = ParametricUDFs.PrepareResultTableForUdf(h.Model.AnovaOverall_toPrint.returnSelf())
+                        table = PrepareResultTableForUdf(h.Model.AnovaOverall_toPrint.returnSelf())
                 End Select
 
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
@@ -510,7 +510,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     table = DropTopRows(table, If(which = "overall" OrElse which = "type1" OrElse which = "type3", titleRows + 1, 1))
                 End If
 
-                Return ParametricUDFs.PrepareResultTableForUdf(table)
+                Return PrepareResultTableForUdf(table)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.LM_ANOVA", ex)
@@ -535,7 +535,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.LM_VIF",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the variance-inflation-factor table for a fitted linear-model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function LM_VIF(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.LM_FIT.")> handle As Object,
@@ -546,7 +546,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim h As LinearModelHandle = Nothing
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
-                Dim table As Object(,) = ParametricUDFs.PrepareResultTableForUdf(h.Model.VIF_toPrint.returnSelf())
+                Dim table As Object(,) = PrepareResultTableForUdf(h.Model.VIF_toPrint.returnSelf())
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 table = AppendFootnotes(table, h.PredictorCodingFootnotes)
@@ -555,7 +555,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     table = DropTopRows(table, 2)
                 End If
 
-                Return ParametricUDFs.PrepareResultTableForUdf(table)
+                Return PrepareResultTableForUdf(table)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.LM_VIF", ex)
@@ -587,7 +587,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.LM_RESID",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns residual diagnostics for a fitted linear-model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function LM_RESID(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.LM_FIT.")> handle As Object,
@@ -599,7 +599,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim h As LinearModelHandle = Nothing
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
-                Dim fullTable As Object(,) = ParametricUDFs.PrepareResultTableForUdf(h.Model.AllResiduals_toPrint)
+                Dim fullTable As Object(,) = PrepareResultTableForUdf(h.Model.AllResiduals_toPrint)
                 If fullTable Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim selector As String = ParseLmResidualType(residType)
@@ -641,7 +641,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     r += 1
                 Next
 
-                Return ParametricUDFs.PrepareResultTableForUdf(out)
+                Return PrepareResultTableForUdf(out)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.LM_RESID", ex)
@@ -669,7 +669,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.LM_PRED",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns predicted mean responses for new observations from a fitted linear-model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function LM_PRED(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.LM_FIT.")> handle As Object,
@@ -765,7 +765,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.LM_DROP",
             Category:="BESHStatNG - Regression Models",
             Description:="Removes a fitted linear-model handle from memory.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function LM_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.LM_FIT.")> handle As Object

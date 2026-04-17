@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Option Strict On
 Imports BESHStatNG.AppInfrastructure
 
 Namespace Multivariate

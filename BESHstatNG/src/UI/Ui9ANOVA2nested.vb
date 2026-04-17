@@ -15,6 +15,7 @@ Public Class Ui9ANOVA2nested
         Me.RefEdit3_Data.ExcelConnector = AppInfrastructure.AppGlobals.app
         Me.RefEditOutput.ExcelConnector = AppInfrastructure.AppGlobals.app
         Me.TabPageOptionsBlandAltman.Parent = Nothing
+        Me.TabPageDecisionLimitsBlandAltman.Parent = Nothing
 
         If Me.Text = "Passing-Bablok Regression" Then
             Me.lblRefedit1_Group.Text = "Group (optional)"
@@ -23,6 +24,7 @@ Public Class Ui9ANOVA2nested
 
         ElseIf Me.Text = "Bland–Altman Analysis" Then
             Me.TabPageOptionsBlandAltman.Parent = Me.TabControl1
+            Me.TabPageDecisionLimitsBlandAltman.Parent = Me.TabControl1
             Me.lblRefedit1_Group.Text = "Subject ID (optional)"
             Me.lblRefedit2_Nested.Text = "Reference method (X)"
             Me.lblRefedit3_Data.Text = "Test method (Y)"
@@ -35,6 +37,7 @@ Public Class Ui9ANOVA2nested
             Me.cmbBlandScale.SelectedIndex = 0
             Me.cmbBlandMode.SelectedIndex = 0
             Me.spinBtnBlandAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnBlandAlpha.Minimum, Me.spinBtnBlandAlpha.Maximum)
+            Me.ApplyBlandDecisionLimitState()
 
         End If
 
@@ -180,17 +183,29 @@ Public Class Ui9ANOVA2nested
             y = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(d.X, 1))
         End If
 
+        Dim lowerAllowable As Double = Double.NaN
+        Dim upperAllowable As Double = Double.NaN
+        Dim decisionErr As String = String.Empty
+        Dim runDecisionLimits As Boolean = Me.ckBlandDecisionLimitsEnable.Checked
+
+        If runDecisionLimits Then
+            If Not Me.TryGetBlandDecisionLimitInputs(lowerAllowable, upperAllowable, hasSubjectIds, decisionErr) Then
+                MsgBox(decisionErr, vbExclamation)
+                Exit Sub
+            End If
+        End If
+
         Dim opts As New Agreement.BlandAltmanOptions With {
-                .Alpha = CDbl(Me.spinBtnBlandAlpha.Value),
-                .UseTDistribution = Me.ckBlandUseTDistribution.Checked,
-                .BootstrapReplicates = CInt(Val(Me.tbBlandBootstrapReps.Text)),
-                .SubjectIds = subIds,
-                .ExcludeSingletonSubjects = Me.ckBlandExcludeSingletonSubjects.Checked,
-                .MinSubjects = CInt(Me.spinBtnBlandMinSubjects.Value),
-                .MinPairsPerSubject = CInt(Me.spinBtnBlandMinPairs.Value),
-                .CheckProportionalBias = Me.ckBlandCheckProportionalBias.Checked,
-                .AllowFallbackToSimple = Me.ckBlandAllowFallback.Checked
-            }
+        .Alpha = CDbl(Me.spinBtnBlandAlpha.Value),
+        .UseTDistribution = Me.ckBlandUseTDistribution.Checked,
+        .BootstrapReplicates = CInt(Val(Me.tbBlandBootstrapReps.Text)),
+        .SubjectIds = subIds,
+        .ExcludeSingletonSubjects = Me.ckBlandExcludeSingletonSubjects.Checked,
+        .MinSubjects = CInt(Me.spinBtnBlandMinSubjects.Value),
+        .MinPairsPerSubject = CInt(Me.spinBtnBlandMinPairs.Value),
+        .CheckProportionalBias = Me.ckBlandCheckProportionalBias.Checked,
+        .AllowFallbackToSimple = Me.ckBlandAllowFallback.Checked
+    }
 
         Select Case Me.cmbBlandMode.SelectedIndex
             Case 1 : opts.Mode = Agreement.RepeatedBlandAltmanMode.SimplePairs
@@ -231,11 +246,24 @@ Public Class Ui9ANOVA2nested
         If opts.BootstrapReplicates <= 0 Then opts.BootstrapReplicates = 2000
 
         Dim ba As New Agreement.BlandAltmanAgreement(x, y,
-                                                     If(hasSubjectIds, d.varNames(1), d.varNames(0)),
-                                                     If(hasSubjectIds, d.varNames(2), d.varNames(1)),
-                                                     opts)
-        ba.Fit()
+                                             If(hasSubjectIds, d.varNames(1), d.varNames(0)),
+                                             If(hasSubjectIds, d.varNames(2), d.varNames(1)),
+                                             opts)
+        Dim fit = ba.Fit()
         Dim res = ba.wrapResults()
+
+        If runDecisionLimits Then
+            Dim biasAssessment = equivalencetests.EquivalenceNonInferiorityMethods.AssessAllowableBias(
+            fit, lowerAllowable, upperAllowable)
+
+            Dim loaAssessment = equivalencetests.EquivalenceNonInferiorityMethods.AssessBlandAltmanAgainstDecisionLimits(
+            fit, lowerAllowable, upperAllowable)
+
+            Dim scaleText As String = If(String.IsNullOrWhiteSpace(Me.cmbBlandScale.Text), "Raw difference", Me.cmbBlandScale.Text)
+            res.Add(Me.BuildBlandAllowableBiasTable(biasAssessment, scaleText, fit.UsedRepeatedModel))
+            res.Add(Me.BuildBlandDecisionLimitTable(loaAssessment, scaleText, fit.UsedRepeatedModel))
+        End If
+
         Dim rr = New ProcessListofResultTables(res)
 
         WriteRes = GetResultWriter()
@@ -336,7 +364,13 @@ Public Class Ui9ANOVA2nested
         Return WriteRes
     End Function
 
-    Private Sub UpdateBlandAltmanOptionState() Handles cmbBlandMode.SelectedIndexChanged, optBlandAnalytical.CheckedChanged, optBlandJackknife.CheckedChanged, optBlandBootstrap.CheckedChanged, optBlandBootstrapBCa.CheckedChanged
+    Private Sub UpdateBlandAltmanOptionState() Handles cmbBlandMode.SelectedIndexChanged,
+                                                   cmbBlandScale.SelectedIndexChanged,
+                                                   optBlandAnalytical.CheckedChanged,
+                                                   optBlandJackknife.CheckedChanged,
+                                                   optBlandBootstrap.CheckedChanged,
+                                                   optBlandBootstrapBCa.CheckedChanged,
+                                                   ckBlandDecisionLimitsEnable.CheckedChanged
         If Me.cmbBlandMode Is Nothing Then Exit Sub
 
         Dim repeatedRequested As Boolean = (Me.cmbBlandMode.SelectedIndex <> 1)
@@ -352,6 +386,8 @@ Public Class Ui9ANOVA2nested
         Me.tbBlandBootstrapReps.Enabled = useBootstrap
         Me.lblBlandBootstrapReps.Enabled = useBootstrap
         Me.ckBlandUseTDistribution.Enabled = Not useBootstrap
+
+        Me.ApplyBlandDecisionLimitState()
     End Sub
 
     Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
@@ -400,4 +436,105 @@ Public Class Ui9ANOVA2nested
         Me.RefEditOutput.Enabled = False
     End Sub
 
+    Private Function TryGetBlandDecisionLimitInputs(ByRef lowerAllowable As Double, ByRef upperAllowable As Double,
+                                                    hasSubjectIds As Boolean, ByRef errText As String) As Boolean
+        errText = String.Empty
+        lowerAllowable = Double.NaN
+        upperAllowable = Double.NaN
+
+        If Not Me.ckBlandDecisionLimitsEnable.Checked Then Return True
+
+        lowerAllowable = ParseUiDouble(Me.tbBlandLowerAllowable.Text, "Lower acceptable limit")
+        upperAllowable = ParseUiDouble(Me.tbBlandUpperAllowable.Text, "Upper acceptable limit")
+
+        If lowerAllowable > upperAllowable Then
+            errText = "The lower acceptable limit must not exceed the upper acceptable limit."
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Sub ApplyBlandDecisionLimitState()
+        Dim enabled As Boolean = Me.ckBlandDecisionLimitsEnable.Checked
+
+        Me.lblBlandLowerAllowable.Enabled = enabled
+        Me.tbBlandLowerAllowable.Enabled = enabled
+        Me.lblBlandUpperAllowable.Enabled = enabled
+        Me.tbBlandUpperAllowable.Enabled = enabled
+        Me.lblBlandDecisionLimitsHelp.Enabled = enabled
+
+        If Not enabled Then
+            Me.lblBlandDecisionLimitsHelp.Text = "Enable this to compare the fitted bias and limits of agreement with pre-specified lower and upper acceptable limits."
+            Exit Sub
+        End If
+
+        Dim scaleText As String = If(Me.cmbBlandScale Is Nothing OrElse Me.cmbBlandScale.SelectedIndex < 0, "the active analysis scale", Me.cmbBlandScale.Text)
+        Dim repeatedRequested As Boolean = False
+        If Me.cmbBlandMode IsNot Nothing Then repeatedRequested = (Me.cmbBlandMode.SelectedIndex = 2 OrElse Me.cmbBlandMode.SelectedIndex = 0)
+
+        Dim scaleHint As String
+        Select Case Me.cmbBlandScale.SelectedIndex
+            Case 1, 2, 3
+                scaleHint = "Enter the allowable lower and upper limits on the selected percent scale."
+            Case 4
+                scaleHint = "Enter the allowable lower and upper limits on the selected log-ratio scale."
+            Case Else
+                scaleHint = "Enter the allowable lower and upper limits on the raw-difference scale."
+        End Select
+
+        Dim repeatedHint As String = If(repeatedRequested,
+                                    " If the repeated-measures model is used, the assessment is based on the repeated-measures Bland–Altman bias and limits of agreement.",
+                                    String.Empty)
+
+        Me.lblBlandDecisionLimitsHelp.Text =
+            $"Decision-limit / allowable-bias reporting now follows the current Bland–Altman analysis settings. " &
+            $"Limits are interpreted on the current scale ({scaleText})." & Environment.NewLine &
+            scaleHint & repeatedHint
+    End Sub
+
+    Private Function BuildBlandAllowableBiasTable(resBias As equivalencetests.MarginCiAssessmentResult,
+                                              analysisScaleText As String,
+                                              usedRepeatedModel As Boolean) As ResultTable
+        Dim t As New ResultTable
+        t.AddHeaderTopRow({"Allowable-bias assessment", ""})
+        t.SetBody({
+                {"Analysis scale", analysisScaleText},
+                {"Repeated-measures model used", usedRepeatedModel},
+                {"Lower acceptable limit", resBias.LowerMargin},
+                {"Upper acceptable limit", resBias.UpperMargin},
+                {"Bias estimate", resBias.Estimate},
+                {"Bias confidence interval", resBias.ConfidenceInterval.strConfidenceInterval(CIformat.LL_to_UL)},
+                {"Point estimate within limits", resBias.IsPointEstimateWithinMargins},
+                {"Confidence interval within limits", resBias.IsConfidenceIntervalWithinMargins},
+                {"Lower-bound noninferiority supported", resBias.SupportsLowerNonInferiority},
+                {"Upper-bound noninferiority supported", resBias.SupportsUpperNonInferiority},
+                {"Conclusion", resBias.Conclusion}
+            })
+        t.AddFootnote("The acceptable limits are interpreted on the active Bland–Altman analysis scale.")
+        Return t
+    End Function
+
+    Private Function BuildBlandDecisionLimitTable(resDecision As equivalencetests.BlandAltmanDecisionLimitAssessmentResult,
+                                              analysisScaleText As String,
+                                              usedRepeatedModel As Boolean) As ResultTable
+        Dim t As New ResultTable
+        t.AddHeaderTopRow({"Bland–Altman decision-limit assessment", ""})
+        t.SetBody({
+                {"Analysis scale", analysisScaleText},
+                {"Repeated-measures model used", usedRepeatedModel},
+                {"Lower acceptable limit", resDecision.LowerAllowableLimit},
+                {"Upper acceptable limit", resDecision.UpperAllowableLimit},
+                {"Bias estimate", resDecision.BlandAltman.BiasCI.Estimate},
+                {"Bias confidence interval", resDecision.BlandAltman.BiasCI.strConfidenceInterval(CIformat.LL_to_UL)},
+                {"Lower limit of agreement", resDecision.BlandAltman.LowerLoACI.Estimate},
+                {"Lower LoA confidence interval", resDecision.BlandAltman.LowerLoACI.strConfidenceInterval(CIformat.LL_to_UL)},
+                {"Upper limit of agreement", resDecision.BlandAltman.UpperLoACI.Estimate},
+                {"Upper LoA confidence interval", resDecision.BlandAltman.UpperLoACI.strConfidenceInterval(CIformat.LL_to_UL)},
+                {"Observed LoA within allowable limits", resDecision.AreObservedLoAWithinAllowableLimits},
+                {"LoA confidence intervals within allowable limits", resDecision.AreLoAConfidenceIntervalsWithinAllowableLimits},
+                {"Conclusion", resDecision.Conclusion}
+            })
+        t.AddFootnote("The acceptable limits are interpreted on the active Bland–Altman analysis scale.")
+        Return t
+    End Function
 End Class

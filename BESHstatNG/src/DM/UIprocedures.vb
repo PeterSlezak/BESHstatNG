@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+
 Imports BESHStatNG.Agreement
 Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration 'for the excelmissing constant
@@ -625,8 +626,7 @@ Public Module UIprocedures
            Double.TryParse(s, styles, Globalization.CultureInfo.InvariantCulture, value)
     End Function
 
-    Public Function ParseUiDouble(text As String,
-                              Optional fieldName As String = "numeric value") As Double
+    Public Function ParseUiDouble(text As String, Optional fieldName As String = "numeric value") As Double
         Dim value As Double
         If Not TryParseUiDouble(text, value) Then
             Throw New FormatException($"Cannot parse {fieldName}: ""{text}"".")

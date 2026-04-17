@@ -85,8 +85,11 @@ Public Class Excel2007RefEdit
         If Me.pbInTextAdressHandler AndAlso
             xlBook.ActiveSheet.name <> xlSheet.Name AndAlso
             xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then
-            xlSheet = target
-            AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
+            Try
+                xlSheet = target
+                AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
+            Catch
+            End Try
         End If
     End Sub
 

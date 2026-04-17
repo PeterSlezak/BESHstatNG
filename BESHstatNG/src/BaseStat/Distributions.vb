@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Option Strict On
+
 Imports BESHStatNG.AppInfrastructure
 
 Namespace distributions
@@ -1295,7 +1297,7 @@ Namespace distributions
         ''' </remarks>
         Public Function PoissonInv(p As Double, lambda As Double) As Integer
             If p < 0.0 OrElse p > 1.0 OrElse lambda < 0.0 Then Return Integer.MinValue
-            If p = 0.0 Then Return 0.0
+            If p = 0.0 Then Return 0
             If p = 1.0 Then Return Integer.MaxValue
 
             Return PoissonInv_Hybrid(p, lambda)
@@ -1317,7 +1319,7 @@ Namespace distributions
 
 
         Private Function PoissonCDF_Recursive(k As Integer, lambda As Double) As Double
-            Dim mode As Integer = Math.Floor(lambda)
+            Dim mode As Integer = CInt(Math.Floor(lambda))
             Dim pm As Double = PoissonPMF(mode, lambda)
             Dim sum As Double = pm
             Dim p As Double = pm

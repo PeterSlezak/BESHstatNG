@@ -40,6 +40,8 @@ Partial Class UibyID
         Me.optByID = New System.Windows.Forms.RadioButton()
         Me.optByColumn = New System.Windows.Forms.RadioButton()
         Me.TabPage_Options = New System.Windows.Forms.TabPage()
+        Me.lblAlpha = New System.Windows.Forms.Label()
+        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
         Me.grpHomogeneityVariances = New System.Windows.Forms.GroupBox()
         Me.ckLevene = New System.Windows.Forms.CheckBox()
         Me.ckBartlett = New System.Windows.Forms.CheckBox()
@@ -105,14 +107,28 @@ Partial Class UibyID
         Me.optRosner = New System.Windows.Forms.RadioButton()
         Me.optGrubbs = New System.Windows.Forms.RadioButton()
         Me.ckDescriptive_Outliers = New System.Windows.Forms.CheckBox()
+        Me.TabPage_OptionsUTT = New System.Windows.Forms.TabPage()
+        Me.lblMarginHint_UTT = New System.Windows.Forms.Label()
+        Me.tbMargin_UTT = New System.Windows.Forms.TextBox()
+        Me.lblMargin_UTT = New System.Windows.Forms.Label()
+        Me.grpVarianceModel_UTT = New System.Windows.Forms.GroupBox()
+        Me.optVarianceEqual_UTT = New System.Windows.Forms.RadioButton()
+        Me.optVarianceWelch_UTT = New System.Windows.Forms.RadioButton()
+        Me.grpHypothesisType_UTT = New System.Windows.Forms.GroupBox()
+        Me.optHypothesisEquivalence_UTT = New System.Windows.Forms.RadioButton()
+        Me.optHypothesisNonInferiority_UTT = New System.Windows.Forms.RadioButton()
+        Me.optHypothesisSuperiority_UTT = New System.Windows.Forms.RadioButton()
+        Me.lblAlpha_UTT = New System.Windows.Forms.Label()
+        Me.spinBtnAlpha_UTT = New System.Windows.Forms.NumericUpDown()
+        Me.ckBoxPlot_UTT = New System.Windows.Forms.CheckBox()
+        Me.ckDescriptiveStatistics_UTT = New System.Windows.Forms.CheckBox()
         Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
-        Me.lblAlpha = New System.Windows.Forms.Label()
-        Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
         Me.TabMultipage.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.grpOutput.SuspendLayout()
         Me.grpInput.SuspendLayout()
         Me.TabPage_Options.SuspendLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpHomogeneityVariances.SuspendLayout()
         Me.grpANOVA1MCP.SuspendLayout()
         Me.TabPage_OptionsDescriptive.SuspendLayout()
@@ -127,7 +143,10 @@ Partial Class UibyID
         Me.TabPage_OptionsOutliers.SuspendLayout()
         Me.grpOutlierTests.SuspendLayout()
         CType(Me.spinBtnAlphaOutliers, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage_OptionsUTT.SuspendLayout()
+        Me.grpVarianceModel_UTT.SuspendLayout()
+        Me.grpHypothesisType_UTT.SuspendLayout()
+        CType(Me.spinBtnAlpha_UTT, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btCompute
@@ -157,6 +176,7 @@ Partial Class UibyID
         Me.TabMultipage.Controls.Add(Me.TabPage_OptionsNormalPlot)
         Me.TabMultipage.Controls.Add(Me.TabPage_OptionsSymmetry)
         Me.TabMultipage.Controls.Add(Me.TabPage_OptionsOutliers)
+        Me.TabMultipage.Controls.Add(Me.TabPage_OptionsUTT)
         Me.TabMultipage.Location = New System.Drawing.Point(9, 7)
         Me.TabMultipage.Name = "TabMultipage"
         Me.TabMultipage.SelectedIndex = 0
@@ -333,6 +353,31 @@ Partial Class UibyID
         Me.TabPage_Options.TabIndex = 1
         Me.TabPage_Options.Text = "Options"
         Me.TabPage_Options.UseVisualStyleBackColor = True
+        '
+        'lblAlpha
+        '
+        Me.lblAlpha.AutoSize = True
+        Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAlpha.Location = New System.Drawing.Point(210, 49)
+        Me.lblAlpha.Name = "lblAlpha"
+        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
+        Me.lblAlpha.TabIndex = 7
+        Me.lblAlpha.Text = "alpha"
+        Me.lblAlpha.Visible = False
+        '
+        'spinBtnAlpha
+        '
+        Me.spinBtnAlpha.DecimalPlaces = 3
+        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(258, 47)
+        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha.Name = "spinBtnAlpha"
+        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlpha.TabIndex = 6
+        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        Me.spinBtnAlpha.Visible = False
         '
         'grpHomogeneityVariances
         '
@@ -1165,37 +1210,189 @@ Partial Class UibyID
         Me.ckDescriptive_Outliers.Text = "Full Descriptive Statistics"
         Me.ckDescriptive_Outliers.UseVisualStyleBackColor = True
         '
+        'TabPage_OptionsUTT
+        '
+        Me.TabPage_OptionsUTT.Controls.Add(Me.lblMarginHint_UTT)
+        Me.TabPage_OptionsUTT.Controls.Add(Me.tbMargin_UTT)
+        Me.TabPage_OptionsUTT.Controls.Add(Me.lblMargin_UTT)
+        Me.TabPage_OptionsUTT.Controls.Add(Me.grpVarianceModel_UTT)
+        Me.TabPage_OptionsUTT.Controls.Add(Me.grpHypothesisType_UTT)
+        Me.TabPage_OptionsUTT.Controls.Add(Me.lblAlpha_UTT)
+        Me.TabPage_OptionsUTT.Controls.Add(Me.spinBtnAlpha_UTT)
+        Me.TabPage_OptionsUTT.Controls.Add(Me.ckBoxPlot_UTT)
+        Me.TabPage_OptionsUTT.Controls.Add(Me.ckDescriptiveStatistics_UTT)
+        Me.TabPage_OptionsUTT.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage_OptionsUTT.Name = "TabPage_OptionsUTT"
+        Me.TabPage_OptionsUTT.Size = New System.Drawing.Size(454, 335)
+        Me.TabPage_OptionsUTT.TabIndex = 7
+        Me.TabPage_OptionsUTT.Text = "Options"
+        Me.TabPage_OptionsUTT.UseVisualStyleBackColor = True
+        '
+        'lblMarginHint_UTT
+        '
+        Me.lblMarginHint_UTT.AutoSize = True
+        Me.lblMarginHint_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMarginHint_UTT.Location = New System.Drawing.Point(10, 240)
+        Me.lblMarginHint_UTT.Name = "lblMarginHint_UTT"
+        Me.lblMarginHint_UTT.Size = New System.Drawing.Size(362, 16)
+        Me.lblMarginHint_UTT.TabIndex = 16
+        Me.lblMarginHint_UTT.Text = "Enter a positive margin on the (Experimental - Control) scale."
+        '
+        'tbMargin_UTT
+        '
+        Me.tbMargin_UTT.Location = New System.Drawing.Point(191, 208)
+        Me.tbMargin_UTT.Name = "tbMargin_UTT"
+        Me.tbMargin_UTT.Size = New System.Drawing.Size(100, 22)
+        Me.tbMargin_UTT.TabIndex = 15
+        '
+        'lblMargin_UTT
+        '
+        Me.lblMargin_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMargin_UTT.ImageAlign = System.Drawing.ContentAlignment.TopLeft
+        Me.lblMargin_UTT.Location = New System.Drawing.Point(28, 211)
+        Me.lblMargin_UTT.Name = "lblMargin_UTT"
+        Me.lblMargin_UTT.Size = New System.Drawing.Size(148, 19)
+        Me.lblMargin_UTT.TabIndex = 14
+        Me.lblMargin_UTT.Text = "Margin:"
+        Me.lblMargin_UTT.TextAlign = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'grpVarianceModel_UTT
+        '
+        Me.grpVarianceModel_UTT.Controls.Add(Me.optVarianceEqual_UTT)
+        Me.grpVarianceModel_UTT.Controls.Add(Me.optVarianceWelch_UTT)
+        Me.grpVarianceModel_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpVarianceModel_UTT.Location = New System.Drawing.Point(191, 79)
+        Me.grpVarianceModel_UTT.Name = "grpVarianceModel_UTT"
+        Me.grpVarianceModel_UTT.Size = New System.Drawing.Size(245, 114)
+        Me.grpVarianceModel_UTT.TabIndex = 13
+        Me.grpVarianceModel_UTT.TabStop = False
+        Me.grpVarianceModel_UTT.Text = "Variance assumption"
+        '
+        'optVarianceEqual_UTT
+        '
+        Me.optVarianceEqual_UTT.AutoSize = True
+        Me.optVarianceEqual_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optVarianceEqual_UTT.Location = New System.Drawing.Point(15, 56)
+        Me.optVarianceEqual_UTT.Name = "optVarianceEqual_UTT"
+        Me.optVarianceEqual_UTT.Size = New System.Drawing.Size(179, 20)
+        Me.optVarianceEqual_UTT.TabIndex = 4
+        Me.optVarianceEqual_UTT.Text = "Equal variances (pooled)"
+        Me.optVarianceEqual_UTT.UseVisualStyleBackColor = True
+        '
+        'optVarianceWelch_UTT
+        '
+        Me.optVarianceWelch_UTT.AutoSize = True
+        Me.optVarianceWelch_UTT.Checked = True
+        Me.optVarianceWelch_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optVarianceWelch_UTT.Location = New System.Drawing.Point(15, 30)
+        Me.optVarianceWelch_UTT.Name = "optVarianceWelch_UTT"
+        Me.optVarianceWelch_UTT.Size = New System.Drawing.Size(187, 20)
+        Me.optVarianceWelch_UTT.TabIndex = 3
+        Me.optVarianceWelch_UTT.TabStop = True
+        Me.optVarianceWelch_UTT.Text = "Welch (unequal variances)"
+        Me.optVarianceWelch_UTT.UseVisualStyleBackColor = True
+        '
+        'grpHypothesisType_UTT
+        '
+        Me.grpHypothesisType_UTT.Controls.Add(Me.optHypothesisEquivalence_UTT)
+        Me.grpHypothesisType_UTT.Controls.Add(Me.optHypothesisNonInferiority_UTT)
+        Me.grpHypothesisType_UTT.Controls.Add(Me.optHypothesisSuperiority_UTT)
+        Me.grpHypothesisType_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpHypothesisType_UTT.Location = New System.Drawing.Point(13, 79)
+        Me.grpHypothesisType_UTT.Name = "grpHypothesisType_UTT"
+        Me.grpHypothesisType_UTT.Size = New System.Drawing.Size(163, 114)
+        Me.grpHypothesisType_UTT.TabIndex = 12
+        Me.grpHypothesisType_UTT.TabStop = False
+        Me.grpHypothesisType_UTT.Text = "Hypothesis type"
+        '
+        'optHypothesisEquivalence_UTT
+        '
+        Me.optHypothesisEquivalence_UTT.AutoSize = True
+        Me.optHypothesisEquivalence_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optHypothesisEquivalence_UTT.Location = New System.Drawing.Point(15, 82)
+        Me.optHypothesisEquivalence_UTT.Name = "optHypothesisEquivalence_UTT"
+        Me.optHypothesisEquivalence_UTT.Size = New System.Drawing.Size(103, 20)
+        Me.optHypothesisEquivalence_UTT.TabIndex = 5
+        Me.optHypothesisEquivalence_UTT.Text = "Equivalence"
+        Me.optHypothesisEquivalence_UTT.UseVisualStyleBackColor = True
+        '
+        'optHypothesisNonInferiority_UTT
+        '
+        Me.optHypothesisNonInferiority_UTT.AutoSize = True
+        Me.optHypothesisNonInferiority_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optHypothesisNonInferiority_UTT.Location = New System.Drawing.Point(15, 56)
+        Me.optHypothesisNonInferiority_UTT.Name = "optHypothesisNonInferiority_UTT"
+        Me.optHypothesisNonInferiority_UTT.Size = New System.Drawing.Size(106, 20)
+        Me.optHypothesisNonInferiority_UTT.TabIndex = 4
+        Me.optHypothesisNonInferiority_UTT.Text = "NonInferiority"
+        Me.optHypothesisNonInferiority_UTT.UseVisualStyleBackColor = True
+        '
+        'optHypothesisSuperiority_UTT
+        '
+        Me.optHypothesisSuperiority_UTT.AutoSize = True
+        Me.optHypothesisSuperiority_UTT.Checked = True
+        Me.optHypothesisSuperiority_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optHypothesisSuperiority_UTT.Location = New System.Drawing.Point(15, 30)
+        Me.optHypothesisSuperiority_UTT.Name = "optHypothesisSuperiority_UTT"
+        Me.optHypothesisSuperiority_UTT.Size = New System.Drawing.Size(92, 20)
+        Me.optHypothesisSuperiority_UTT.TabIndex = 3
+        Me.optHypothesisSuperiority_UTT.TabStop = True
+        Me.optHypothesisSuperiority_UTT.Text = "Superiority"
+        Me.optHypothesisSuperiority_UTT.UseVisualStyleBackColor = True
+        '
+        'lblAlpha_UTT
+        '
+        Me.lblAlpha_UTT.AutoSize = True
+        Me.lblAlpha_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAlpha_UTT.Location = New System.Drawing.Point(243, 45)
+        Me.lblAlpha_UTT.Name = "lblAlpha_UTT"
+        Me.lblAlpha_UTT.Size = New System.Drawing.Size(111, 16)
+        Me.lblAlpha_UTT.TabIndex = 11
+        Me.lblAlpha_UTT.Text = "Two-sided alpha:"
+        '
+        'spinBtnAlpha_UTT
+        '
+        Me.spinBtnAlpha_UTT.DecimalPlaces = 3
+        Me.spinBtnAlpha_UTT.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnAlpha_UTT.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha_UTT.Location = New System.Drawing.Point(369, 43)
+        Me.spinBtnAlpha_UTT.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
+        Me.spinBtnAlpha_UTT.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnAlpha_UTT.Name = "spinBtnAlpha_UTT"
+        Me.spinBtnAlpha_UTT.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnAlpha_UTT.TabIndex = 10
+        Me.spinBtnAlpha_UTT.Value = New Decimal(New Integer() {5, 0, 0, 131072})
+        '
+        'ckBoxPlot_UTT
+        '
+        Me.ckBoxPlot_UTT.AutoSize = True
+        Me.ckBoxPlot_UTT.Checked = True
+        Me.ckBoxPlot_UTT.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckBoxPlot_UTT.Location = New System.Drawing.Point(13, 17)
+        Me.ckBoxPlot_UTT.Name = "ckBoxPlot_UTT"
+        Me.ckBoxPlot_UTT.Size = New System.Drawing.Size(163, 20)
+        Me.ckBoxPlot_UTT.TabIndex = 9
+        Me.ckBoxPlot_UTT.Text = "Box and Whiskers Plot"
+        Me.ckBoxPlot_UTT.UseVisualStyleBackColor = True
+        '
+        'ckDescriptiveStatistics_UTT
+        '
+        Me.ckDescriptiveStatistics_UTT.AutoSize = True
+        Me.ckDescriptiveStatistics_UTT.Checked = True
+        Me.ckDescriptiveStatistics_UTT.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckDescriptiveStatistics_UTT.Location = New System.Drawing.Point(13, 43)
+        Me.ckDescriptiveStatistics_UTT.Name = "ckDescriptiveStatistics_UTT"
+        Me.ckDescriptiveStatistics_UTT.Size = New System.Drawing.Size(177, 20)
+        Me.ckDescriptiveStatistics_UTT.TabIndex = 8
+        Me.ckDescriptiveStatistics_UTT.Text = "Full Descriptive Statistics"
+        Me.ckDescriptiveStatistics_UTT.UseVisualStyleBackColor = True
+        '
         'progressBarExactCalc
         '
         Me.progressBarExactCalc.Location = New System.Drawing.Point(9, 376)
         Me.progressBarExactCalc.Name = "progressBarExactCalc"
         Me.progressBarExactCalc.Size = New System.Drawing.Size(296, 23)
         Me.progressBarExactCalc.TabIndex = 4
-        '
-        'lblAlpha
-        '
-        Me.lblAlpha.AutoSize = True
-        Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAlpha.Location = New System.Drawing.Point(210, 49)
-        Me.lblAlpha.Name = "lblAlpha"
-        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
-        Me.lblAlpha.TabIndex = 7
-        Me.lblAlpha.Text = "alpha"
-        Me.lblAlpha.Visible = False
-        '
-        'spinBtnAlpha
-        '
-        Me.spinBtnAlpha.DecimalPlaces = 3
-        Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnAlpha.Location = New System.Drawing.Point(258, 47)
-        Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
-        Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnAlpha.Name = "spinBtnAlpha"
-        Me.spinBtnAlpha.Size = New System.Drawing.Size(67, 22)
-        Me.spinBtnAlpha.TabIndex = 6
-        Me.spinBtnAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
-        Me.spinBtnAlpha.Visible = False
         '
         'UibyID
         '
@@ -1220,6 +1417,7 @@ Partial Class UibyID
         Me.grpInput.PerformLayout()
         Me.TabPage_Options.ResumeLayout(False)
         Me.TabPage_Options.PerformLayout()
+        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpHomogeneityVariances.ResumeLayout(False)
         Me.grpHomogeneityVariances.PerformLayout()
         Me.grpANOVA1MCP.ResumeLayout(False)
@@ -1247,7 +1445,13 @@ Partial Class UibyID
         Me.grpOutlierTests.ResumeLayout(False)
         Me.grpOutlierTests.PerformLayout()
         CType(Me.spinBtnAlphaOutliers, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage_OptionsUTT.ResumeLayout(False)
+        Me.TabPage_OptionsUTT.PerformLayout()
+        Me.grpVarianceModel_UTT.ResumeLayout(False)
+        Me.grpVarianceModel_UTT.PerformLayout()
+        Me.grpHypothesisType_UTT.ResumeLayout(False)
+        Me.grpHypothesisType_UTT.PerformLayout()
+        CType(Me.spinBtnAlpha_UTT, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1336,4 +1540,19 @@ Partial Class UibyID
     Friend WithEvents ckDescriptive_NormalPlot As Windows.Forms.CheckBox
     Friend WithEvents lblAlpha As Windows.Forms.Label
     Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents TabPage_OptionsUTT As Windows.Forms.TabPage
+    Friend WithEvents grpHypothesisType_UTT As Windows.Forms.GroupBox
+    Friend WithEvents optHypothesisEquivalence_UTT As Windows.Forms.RadioButton
+    Friend WithEvents optHypothesisNonInferiority_UTT As Windows.Forms.RadioButton
+    Friend WithEvents optHypothesisSuperiority_UTT As Windows.Forms.RadioButton
+    Friend WithEvents lblAlpha_UTT As Windows.Forms.Label
+    Friend WithEvents spinBtnAlpha_UTT As Windows.Forms.NumericUpDown
+    Friend WithEvents ckBoxPlot_UTT As Windows.Forms.CheckBox
+    Friend WithEvents ckDescriptiveStatistics_UTT As Windows.Forms.CheckBox
+    Friend WithEvents tbMargin_UTT As Windows.Forms.TextBox
+    Friend WithEvents lblMargin_UTT As Windows.Forms.Label
+    Friend WithEvents grpVarianceModel_UTT As Windows.Forms.GroupBox
+    Friend WithEvents optVarianceEqual_UTT As Windows.Forms.RadioButton
+    Friend WithEvents optVarianceWelch_UTT As Windows.Forms.RadioButton
+    Friend WithEvents lblMarginHint_UTT As Windows.Forms.Label
 End Class

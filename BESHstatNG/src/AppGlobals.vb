@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Option Strict On
 Imports System.IO
 Imports System.Linq
 Imports System.Reflection

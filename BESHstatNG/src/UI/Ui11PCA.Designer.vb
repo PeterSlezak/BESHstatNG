@@ -27,6 +27,8 @@ Partial Class Ui11PCA
         Me.ckShowRegressionLines = New System.Windows.Forms.CheckBox()
         Me.ckDisplayCorrelCoef = New System.Windows.Forms.CheckBox()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.cbGruppingVar = New System.Windows.Forms.ComboBox()
+        Me.lblGruppingVar = New System.Windows.Forms.Label()
         Me.cbKmeansRowLabel = New System.Windows.Forms.ComboBox()
         Me.lblKmeansRowLabel = New System.Windows.Forms.Label()
         Me.ckFirstRow = New System.Windows.Forms.CheckBox()
@@ -58,7 +60,6 @@ Partial Class Ui11PCA
         Me.tbEps = New System.Windows.Forms.TextBox()
         Me.TabPageOptionsKmeans = New System.Windows.Forms.TabPage()
         Me.lblCenterHint = New System.Windows.Forms.Label()
-        Me.refKmeansCenters = New Global.BESHStatNG.Excel2007RefEdit()
         Me.lblCenterRef = New System.Windows.Forms.Label()
         Me.grpKmeansFit = New System.Windows.Forms.GroupBox()
         Me.tbKmeansSeed = New System.Windows.Forms.TextBox()
@@ -141,8 +142,34 @@ Partial Class Ui11PCA
         Me.lblFaExtractionMethod = New System.Windows.Forms.Label()
         Me.optFACovariance = New System.Windows.Forms.RadioButton()
         Me.optFACorrelation = New System.Windows.Forms.RadioButton()
+        Me.TabPageOptionsDA = New System.Windows.Forms.TabPage()
+        Me.grpDAPrior = New System.Windows.Forms.GroupBox()
+        Me.tbDAUserPriors = New System.Windows.Forms.TextBox()
+        Me.lblDAUserPriors = New System.Windows.Forms.Label()
+        Me.cbDAPriors = New System.Windows.Forms.ComboBox()
+        Me.lblDAPriors = New System.Windows.Forms.Label()
+        Me.grpDAValidation = New System.Windows.Forms.GroupBox()
+        Me.tbDASeed = New System.Windows.Forms.TextBox()
+        Me.tbDAHoldoutFraction = New System.Windows.Forms.NumericUpDown()
+        Me.lblDASeed = New System.Windows.Forms.Label()
+        Me.ckDAStratified = New System.Windows.Forms.CheckBox()
+        Me.lblDAHoldoutFraction = New System.Windows.Forms.Label()
+        Me.nudDAFolds = New System.Windows.Forms.NumericUpDown()
+        Me.lblDAFolds = New System.Windows.Forms.Label()
+        Me.cbDAValidation = New System.Windows.Forms.ComboBox()
+        Me.lblDAValidation = New System.Windows.Forms.Label()
+        Me.grpDABasic = New System.Windows.Forms.GroupBox()
+        Me.tbDARegularization = New System.Windows.Forms.TextBox()
+        Me.lblDARegularization = New System.Windows.Forms.Label()
+        Me.cbDAMethod = New System.Windows.Forms.ComboBox()
+        Me.cbDAStandardization = New System.Windows.Forms.ComboBox()
+        Me.lblDAStandardization = New System.Windows.Forms.Label()
+        Me.cbDAMissingPolicy = New System.Windows.Forms.ComboBox()
+        Me.lblMissingDA = New System.Windows.Forms.Label()
+        Me.lblDAMethod = New System.Windows.Forms.Label()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCalculate = New System.Windows.Forms.Button()
+        Me.refKmeansCenters = New Global.BESHStatNG.Excel2007RefEdit()
         Me.TabPageOptionsSPM.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -177,6 +204,12 @@ Partial Class Ui11PCA
         CType(Me.nudFAEigen, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudFAFactors, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpFABasic.SuspendLayout()
+        Me.TabPageOptionsDA.SuspendLayout()
+        Me.grpDAPrior.SuspendLayout()
+        Me.grpDAValidation.SuspendLayout()
+        CType(Me.tbDAHoldoutFraction, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudDAFolds, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpDABasic.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabPageOptionsSPM
@@ -218,6 +251,8 @@ Partial Class Ui11PCA
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.cbGruppingVar)
+        Me.TabPage1.Controls.Add(Me.lblGruppingVar)
         Me.TabPage1.Controls.Add(Me.cbKmeansRowLabel)
         Me.TabPage1.Controls.Add(Me.lblKmeansRowLabel)
         Me.TabPage1.Controls.Add(Me.ckFirstRow)
@@ -238,11 +273,32 @@ Partial Class Ui11PCA
         Me.TabPage1.Text = "Select Variables"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'cbGruppingVar
+        '
+        Me.cbGruppingVar.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbGruppingVar.FormattingEnabled = True
+        Me.cbGruppingVar.Location = New System.Drawing.Point(579, 107)
+        Me.cbGruppingVar.Name = "cbGruppingVar"
+        Me.cbGruppingVar.Size = New System.Drawing.Size(240, 24)
+        Me.cbGruppingVar.TabIndex = 29
+        Me.cbGruppingVar.Visible = False
+        '
+        'lblGruppingVar
+        '
+        Me.lblGruppingVar.AutoSize = True
+        Me.lblGruppingVar.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGruppingVar.Location = New System.Drawing.Point(576, 88)
+        Me.lblGruppingVar.Name = "lblGruppingVar"
+        Me.lblGruppingVar.Size = New System.Drawing.Size(137, 16)
+        Me.lblGruppingVar.TabIndex = 28
+        Me.lblGruppingVar.Text = "Grouping Variable:"
+        Me.lblGruppingVar.Visible = False
+        '
         'cbKmeansRowLabel
         '
         Me.cbKmeansRowLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbKmeansRowLabel.FormattingEnabled = True
-        Me.cbKmeansRowLabel.Location = New System.Drawing.Point(579, 145)
+        Me.cbKmeansRowLabel.Location = New System.Drawing.Point(579, 154)
         Me.cbKmeansRowLabel.Name = "cbKmeansRowLabel"
         Me.cbKmeansRowLabel.Size = New System.Drawing.Size(240, 24)
         Me.cbKmeansRowLabel.TabIndex = 27
@@ -252,7 +308,7 @@ Partial Class Ui11PCA
         '
         Me.lblKmeansRowLabel.AutoSize = True
         Me.lblKmeansRowLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblKmeansRowLabel.Location = New System.Drawing.Point(576, 126)
+        Me.lblKmeansRowLabel.Location = New System.Drawing.Point(576, 135)
         Me.lblKmeansRowLabel.Name = "lblKmeansRowLabel"
         Me.lblKmeansRowLabel.Size = New System.Drawing.Size(209, 16)
         Me.lblKmeansRowLabel.TabIndex = 26
@@ -365,6 +421,7 @@ Partial Class Ui11PCA
         Me.TabControl1.Controls.Add(Me.TabPageOptionsKmeans)
         Me.TabControl1.Controls.Add(Me.TabPageOptionsHierarchicalClustering)
         Me.TabControl1.Controls.Add(Me.TabPageOptionsFA)
+        Me.TabControl1.Controls.Add(Me.TabPageOptionsDA)
         Me.TabControl1.Location = New System.Drawing.Point(3, 2)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -558,11 +615,11 @@ Partial Class Ui11PCA
         'TabPageOptionsKmeans
         '
         Me.TabPageOptionsKmeans.Controls.Add(Me.lblCenterHint)
-        Me.TabPageOptionsKmeans.Controls.Add(Me.refKmeansCenters)
         Me.TabPageOptionsKmeans.Controls.Add(Me.lblCenterRef)
         Me.TabPageOptionsKmeans.Controls.Add(Me.grpKmeansFit)
         Me.TabPageOptionsKmeans.Controls.Add(Me.grpKmeansPreprocess)
         Me.TabPageOptionsKmeans.Controls.Add(Me.grpKmeansBasic)
+        Me.TabPageOptionsKmeans.Controls.Add(Me.refKmeansCenters)
         Me.TabPageOptionsKmeans.Location = New System.Drawing.Point(4, 25)
         Me.TabPageOptionsKmeans.Name = "TabPageOptionsKmeans"
         Me.TabPageOptionsKmeans.Size = New System.Drawing.Size(836, 465)
@@ -579,20 +636,6 @@ Partial Class Ui11PCA
         Me.lblCenterHint.TabIndex = 17
         Me.lblCenterHint.Text = "Provide a contiguous numeric range with k rows and one column per selected analys" &
     "is variable. Do not include a header row."
-        '
-        'refKmeansCenters
-        '
-        Me.refKmeansCenters.Address = ""
-        Me.refKmeansCenters.BackColor = System.Drawing.Color.Transparent
-        Me.refKmeansCenters.ExcelConnector = Nothing
-        Me.refKmeansCenters.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.refKmeansCenters.ImageMinimized = CType(resources.GetObject("refKmeansCenters.ImageMinimized"), System.Drawing.Image)
-        Me.refKmeansCenters.Location = New System.Drawing.Point(15, 312)
-        Me.refKmeansCenters.Margin = New System.Windows.Forms.Padding(4)
-        Me.refKmeansCenters.Name = "refKmeansCenters"
-        Me.refKmeansCenters.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.refKmeansCenters.Size = New System.Drawing.Size(300, 32)
-        Me.refKmeansCenters.TabIndex = 16
         '
         'lblCenterRef
         '
@@ -1487,6 +1530,273 @@ Partial Class Ui11PCA
         Me.optFACorrelation.Text = "Correlation matrix"
         Me.optFACorrelation.UseVisualStyleBackColor = True
         '
+        'TabPageOptionsDA
+        '
+        Me.TabPageOptionsDA.Controls.Add(Me.grpDAPrior)
+        Me.TabPageOptionsDA.Controls.Add(Me.grpDAValidation)
+        Me.TabPageOptionsDA.Controls.Add(Me.grpDABasic)
+        Me.TabPageOptionsDA.Location = New System.Drawing.Point(4, 25)
+        Me.TabPageOptionsDA.Name = "TabPageOptionsDA"
+        Me.TabPageOptionsDA.Size = New System.Drawing.Size(836, 465)
+        Me.TabPageOptionsDA.TabIndex = 7
+        Me.TabPageOptionsDA.Text = "Options"
+        Me.TabPageOptionsDA.UseVisualStyleBackColor = True
+        '
+        'grpDAPrior
+        '
+        Me.grpDAPrior.Controls.Add(Me.tbDAUserPriors)
+        Me.grpDAPrior.Controls.Add(Me.lblDAUserPriors)
+        Me.grpDAPrior.Controls.Add(Me.cbDAPriors)
+        Me.grpDAPrior.Controls.Add(Me.lblDAPriors)
+        Me.grpDAPrior.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpDAPrior.Location = New System.Drawing.Point(393, 3)
+        Me.grpDAPrior.Name = "grpDAPrior"
+        Me.grpDAPrior.Size = New System.Drawing.Size(410, 183)
+        Me.grpDAPrior.TabIndex = 35
+        Me.grpDAPrior.TabStop = False
+        Me.grpDAPrior.Text = "Group Prior Probabilities"
+        '
+        'tbDAUserPriors
+        '
+        Me.tbDAUserPriors.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbDAUserPriors.Location = New System.Drawing.Point(88, 62)
+        Me.tbDAUserPriors.Multiline = True
+        Me.tbDAUserPriors.Name = "tbDAUserPriors"
+        Me.tbDAUserPriors.Size = New System.Drawing.Size(316, 109)
+        Me.tbDAUserPriors.TabIndex = 42
+        '
+        'lblDAUserPriors
+        '
+        Me.lblDAUserPriors.AutoSize = True
+        Me.lblDAUserPriors.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDAUserPriors.Location = New System.Drawing.Point(6, 62)
+        Me.lblDAUserPriors.Name = "lblDAUserPriors"
+        Me.lblDAUserPriors.Size = New System.Drawing.Size(77, 16)
+        Me.lblDAUserPriors.TabIndex = 41
+        Me.lblDAUserPriors.Text = "User Priors:"
+        '
+        'cbDAPriors
+        '
+        Me.cbDAPriors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbDAPriors.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbDAPriors.Location = New System.Drawing.Point(88, 28)
+        Me.cbDAPriors.Name = "cbDAPriors"
+        Me.cbDAPriors.Size = New System.Drawing.Size(316, 24)
+        Me.cbDAPriors.TabIndex = 40
+        '
+        'lblDAPriors
+        '
+        Me.lblDAPriors.AutoSize = True
+        Me.lblDAPriors.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDAPriors.Location = New System.Drawing.Point(6, 29)
+        Me.lblDAPriors.Name = "lblDAPriors"
+        Me.lblDAPriors.Size = New System.Drawing.Size(45, 16)
+        Me.lblDAPriors.TabIndex = 39
+        Me.lblDAPriors.Text = "Priors:"
+        '
+        'grpDAValidation
+        '
+        Me.grpDAValidation.Controls.Add(Me.tbDASeed)
+        Me.grpDAValidation.Controls.Add(Me.tbDAHoldoutFraction)
+        Me.grpDAValidation.Controls.Add(Me.lblDASeed)
+        Me.grpDAValidation.Controls.Add(Me.ckDAStratified)
+        Me.grpDAValidation.Controls.Add(Me.lblDAHoldoutFraction)
+        Me.grpDAValidation.Controls.Add(Me.nudDAFolds)
+        Me.grpDAValidation.Controls.Add(Me.lblDAFolds)
+        Me.grpDAValidation.Controls.Add(Me.cbDAValidation)
+        Me.grpDAValidation.Controls.Add(Me.lblDAValidation)
+        Me.grpDAValidation.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpDAValidation.Location = New System.Drawing.Point(5, 165)
+        Me.grpDAValidation.Name = "grpDAValidation"
+        Me.grpDAValidation.Size = New System.Drawing.Size(382, 164)
+        Me.grpDAValidation.TabIndex = 28
+        Me.grpDAValidation.TabStop = False
+        Me.grpDAValidation.Text = "Validation / Resampling"
+        '
+        'tbDASeed
+        '
+        Me.tbDASeed.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbDASeed.Location = New System.Drawing.Point(177, 135)
+        Me.tbDASeed.Name = "tbDASeed"
+        Me.tbDASeed.Size = New System.Drawing.Size(188, 22)
+        Me.tbDASeed.TabIndex = 39
+        '
+        'tbDAHoldoutFraction
+        '
+        Me.tbDAHoldoutFraction.DecimalPlaces = 2
+        Me.tbDAHoldoutFraction.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbDAHoldoutFraction.Location = New System.Drawing.Point(289, 106)
+        Me.tbDAHoldoutFraction.Maximum = New Decimal(New Integer() {99, 0, 0, 131072})
+        Me.tbDAHoldoutFraction.Minimum = New Decimal(New Integer() {1, 0, 0, 131072})
+        Me.tbDAHoldoutFraction.Name = "tbDAHoldoutFraction"
+        Me.tbDAHoldoutFraction.Size = New System.Drawing.Size(76, 22)
+        Me.tbDAHoldoutFraction.TabIndex = 39
+        Me.tbDAHoldoutFraction.Value = New Decimal(New Integer() {50, 0, 0, 131072})
+        '
+        'lblDASeed
+        '
+        Me.lblDASeed.AutoSize = True
+        Me.lblDASeed.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDASeed.Location = New System.Drawing.Point(16, 138)
+        Me.lblDASeed.Name = "lblDASeed"
+        Me.lblDASeed.Size = New System.Drawing.Size(155, 16)
+        Me.lblDASeed.TabIndex = 38
+        Me.lblDASeed.Text = "Random seed (optional):"
+        '
+        'ckDAStratified
+        '
+        Me.ckDAStratified.AutoSize = True
+        Me.ckDAStratified.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckDAStratified.Location = New System.Drawing.Point(178, 21)
+        Me.ckDAStratified.Name = "ckDAStratified"
+        Me.ckDAStratified.Size = New System.Drawing.Size(81, 20)
+        Me.ckDAStratified.TabIndex = 37
+        Me.ckDAStratified.Text = "Stratified"
+        Me.ckDAStratified.UseVisualStyleBackColor = True
+        '
+        'lblDAHoldoutFraction
+        '
+        Me.lblDAHoldoutFraction.AutoSize = True
+        Me.lblDAHoldoutFraction.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDAHoldoutFraction.Location = New System.Drawing.Point(151, 108)
+        Me.lblDAHoldoutFraction.Name = "lblDAHoldoutFraction"
+        Me.lblDAHoldoutFraction.Size = New System.Drawing.Size(108, 16)
+        Me.lblDAHoldoutFraction.TabIndex = 38
+        Me.lblDAHoldoutFraction.Text = "Holdout Fraction:"
+        '
+        'nudDAFolds
+        '
+        Me.nudDAFolds.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudDAFolds.Location = New System.Drawing.Point(289, 78)
+        Me.nudDAFolds.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.nudDAFolds.Minimum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.nudDAFolds.Name = "nudDAFolds"
+        Me.nudDAFolds.Size = New System.Drawing.Size(76, 22)
+        Me.nudDAFolds.TabIndex = 34
+        Me.nudDAFolds.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'lblDAFolds
+        '
+        Me.lblDAFolds.AutoSize = True
+        Me.lblDAFolds.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDAFolds.Location = New System.Drawing.Point(151, 80)
+        Me.lblDAFolds.Name = "lblDAFolds"
+        Me.lblDAFolds.Size = New System.Drawing.Size(107, 16)
+        Me.lblDAFolds.TabIndex = 33
+        Me.lblDAFolds.Text = "Validation Folds:"
+        '
+        'cbDAValidation
+        '
+        Me.cbDAValidation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbDAValidation.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbDAValidation.Location = New System.Drawing.Point(177, 48)
+        Me.cbDAValidation.Name = "cbDAValidation"
+        Me.cbDAValidation.Size = New System.Drawing.Size(188, 24)
+        Me.cbDAValidation.TabIndex = 32
+        '
+        'lblDAValidation
+        '
+        Me.lblDAValidation.AutoSize = True
+        Me.lblDAValidation.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDAValidation.Location = New System.Drawing.Point(16, 51)
+        Me.lblDAValidation.Name = "lblDAValidation"
+        Me.lblDAValidation.Size = New System.Drawing.Size(108, 16)
+        Me.lblDAValidation.TabIndex = 31
+        Me.lblDAValidation.Text = "Validation Mode:"
+        '
+        'grpDABasic
+        '
+        Me.grpDABasic.Controls.Add(Me.tbDARegularization)
+        Me.grpDABasic.Controls.Add(Me.lblDARegularization)
+        Me.grpDABasic.Controls.Add(Me.cbDAMethod)
+        Me.grpDABasic.Controls.Add(Me.cbDAStandardization)
+        Me.grpDABasic.Controls.Add(Me.lblDAStandardization)
+        Me.grpDABasic.Controls.Add(Me.cbDAMissingPolicy)
+        Me.grpDABasic.Controls.Add(Me.lblMissingDA)
+        Me.grpDABasic.Controls.Add(Me.lblDAMethod)
+        Me.grpDABasic.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpDABasic.Location = New System.Drawing.Point(5, 3)
+        Me.grpDABasic.Name = "grpDABasic"
+        Me.grpDABasic.Size = New System.Drawing.Size(382, 156)
+        Me.grpDABasic.TabIndex = 27
+        Me.grpDABasic.TabStop = False
+        Me.grpDABasic.Text = "Model Specification"
+        '
+        'tbDARegularization
+        '
+        Me.tbDARegularization.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbDARegularization.Location = New System.Drawing.Point(167, 122)
+        Me.tbDARegularization.Name = "tbDARegularization"
+        Me.tbDARegularization.Size = New System.Drawing.Size(198, 22)
+        Me.tbDARegularization.TabIndex = 34
+        '
+        'lblDARegularization
+        '
+        Me.lblDARegularization.AutoSize = True
+        Me.lblDARegularization.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDARegularization.Location = New System.Drawing.Point(6, 124)
+        Me.lblDARegularization.Name = "lblDARegularization"
+        Me.lblDARegularization.Size = New System.Drawing.Size(162, 16)
+        Me.lblDARegularization.TabIndex = 33
+        Me.lblDARegularization.Text = "Covariance regularization:"
+        '
+        'cbDAMethod
+        '
+        Me.cbDAMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbDAMethod.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbDAMethod.Location = New System.Drawing.Point(167, 28)
+        Me.cbDAMethod.Name = "cbDAMethod"
+        Me.cbDAMethod.Size = New System.Drawing.Size(198, 24)
+        Me.cbDAMethod.TabIndex = 23
+        '
+        'cbDAStandardization
+        '
+        Me.cbDAStandardization.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbDAStandardization.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbDAStandardization.Location = New System.Drawing.Point(167, 59)
+        Me.cbDAStandardization.Name = "cbDAStandardization"
+        Me.cbDAStandardization.Size = New System.Drawing.Size(198, 24)
+        Me.cbDAStandardization.TabIndex = 22
+        '
+        'lblDAStandardization
+        '
+        Me.lblDAStandardization.AutoSize = True
+        Me.lblDAStandardization.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDAStandardization.Location = New System.Drawing.Point(6, 62)
+        Me.lblDAStandardization.Name = "lblDAStandardization"
+        Me.lblDAStandardization.Size = New System.Drawing.Size(103, 16)
+        Me.lblDAStandardization.TabIndex = 21
+        Me.lblDAStandardization.Text = "Standardization:"
+        '
+        'cbDAMissingPolicy
+        '
+        Me.cbDAMissingPolicy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbDAMissingPolicy.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbDAMissingPolicy.Location = New System.Drawing.Point(167, 90)
+        Me.cbDAMissingPolicy.Name = "cbDAMissingPolicy"
+        Me.cbDAMissingPolicy.Size = New System.Drawing.Size(198, 24)
+        Me.cbDAMissingPolicy.TabIndex = 20
+        '
+        'lblMissingDA
+        '
+        Me.lblMissingDA.AutoSize = True
+        Me.lblMissingDA.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMissingDA.Location = New System.Drawing.Point(6, 93)
+        Me.lblMissingDA.Name = "lblMissingDA"
+        Me.lblMissingDA.Size = New System.Drawing.Size(99, 16)
+        Me.lblMissingDA.TabIndex = 19
+        Me.lblMissingDA.Text = "Missing values:"
+        '
+        'lblDAMethod
+        '
+        Me.lblDAMethod.AutoSize = True
+        Me.lblDAMethod.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDAMethod.Location = New System.Drawing.Point(6, 31)
+        Me.lblDAMethod.Name = "lblDAMethod"
+        Me.lblDAMethod.Size = New System.Drawing.Size(55, 16)
+        Me.lblDAMethod.TabIndex = 15
+        Me.lblDAMethod.Text = "Method:"
+        '
         'btnHelp
         '
         Me.btnHelp.Location = New System.Drawing.Point(687, 502)
@@ -1504,6 +1814,20 @@ Partial Class Ui11PCA
         Me.btCalculate.TabIndex = 5
         Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
+        '
+        'refKmeansCenters
+        '
+        Me.refKmeansCenters.Address = ""
+        Me.refKmeansCenters.BackColor = System.Drawing.Color.Transparent
+        Me.refKmeansCenters.ExcelConnector = Nothing
+        Me.refKmeansCenters.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.refKmeansCenters.ImageMinimized = CType(resources.GetObject("refKmeansCenters.ImageMinimized"), System.Drawing.Image)
+        Me.refKmeansCenters.Location = New System.Drawing.Point(15, 312)
+        Me.refKmeansCenters.Margin = New System.Windows.Forms.Padding(4)
+        Me.refKmeansCenters.Name = "refKmeansCenters"
+        Me.refKmeansCenters.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.refKmeansCenters.Size = New System.Drawing.Size(300, 32)
+        Me.refKmeansCenters.TabIndex = 16
         '
         'Ui11PCA
         '
@@ -1568,6 +1892,15 @@ Partial Class Ui11PCA
         CType(Me.nudFAFactors, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpFABasic.ResumeLayout(False)
         Me.grpFABasic.PerformLayout()
+        Me.TabPageOptionsDA.ResumeLayout(False)
+        Me.grpDAPrior.ResumeLayout(False)
+        Me.grpDAPrior.PerformLayout()
+        Me.grpDAValidation.ResumeLayout(False)
+        Me.grpDAValidation.PerformLayout()
+        CType(Me.tbDAHoldoutFraction, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudDAFolds, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpDABasic.ResumeLayout(False)
+        Me.grpDABasic.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1692,4 +2025,31 @@ Partial Class Ui11PCA
     Friend WithEvents nudFAMaxIter As Windows.Forms.NumericUpDown
     Friend WithEvents lblFAEps As Windows.Forms.Label
     Friend WithEvents lblFAMaxIter As Windows.Forms.Label
+    Friend WithEvents cbGruppingVar As Windows.Forms.ComboBox
+    Friend WithEvents lblGruppingVar As Windows.Forms.Label
+    Friend WithEvents TabPageOptionsDA As Windows.Forms.TabPage
+    Friend WithEvents grpDABasic As Windows.Forms.GroupBox
+    Friend WithEvents cbDAMissingPolicy As Windows.Forms.ComboBox
+    Friend WithEvents lblMissingDA As Windows.Forms.Label
+    Friend WithEvents lblDAMethod As Windows.Forms.Label
+    Friend WithEvents cbDAMethod As Windows.Forms.ComboBox
+    Friend WithEvents cbDAStandardization As Windows.Forms.ComboBox
+    Friend WithEvents lblDAStandardization As Windows.Forms.Label
+    Friend WithEvents tbDARegularization As Windows.Forms.TextBox
+    Friend WithEvents lblDARegularization As Windows.Forms.Label
+    Friend WithEvents grpDAPrior As Windows.Forms.GroupBox
+    Friend WithEvents grpDAValidation As Windows.Forms.GroupBox
+    Friend WithEvents nudDAFolds As Windows.Forms.NumericUpDown
+    Friend WithEvents lblDAFolds As Windows.Forms.Label
+    Friend WithEvents cbDAValidation As Windows.Forms.ComboBox
+    Friend WithEvents lblDAValidation As Windows.Forms.Label
+    Friend WithEvents tbDAUserPriors As Windows.Forms.TextBox
+    Friend WithEvents lblDAUserPriors As Windows.Forms.Label
+    Friend WithEvents cbDAPriors As Windows.Forms.ComboBox
+    Friend WithEvents lblDAPriors As Windows.Forms.Label
+    Friend WithEvents tbDASeed As Windows.Forms.TextBox
+    Friend WithEvents tbDAHoldoutFraction As Windows.Forms.NumericUpDown
+    Friend WithEvents lblDASeed As Windows.Forms.Label
+    Friend WithEvents ckDAStratified As Windows.Forms.CheckBox
+    Friend WithEvents lblDAHoldoutFraction As Windows.Forms.Label
 End Class

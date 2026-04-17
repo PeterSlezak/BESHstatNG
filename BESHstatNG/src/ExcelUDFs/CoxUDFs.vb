@@ -142,7 +142,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.COX_FIT",
             Category:="BESHStatNG - Survival",
             Description:="Fits a Cox proportional hazards model and returns a handle for use with other COX_* functions.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/"
         )>
         Public Function COX_FIT(
             <ExcelArgument(Name:="time", Description:="Follow-up time for each subject (>=0). One column.")> time As Object,
@@ -322,7 +322,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.COX_SUMMARY",
             Category:="BESHStatNG - Survival",
             Description:="Returns coefficient table (beta, SE, z, p, HR, CI) for a fitted Cox model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/"
         )>
         Public Function COX_SUMMARY(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object,
@@ -337,7 +337,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If Not _coxCache.TryGetValue(key, h) Then Return ExcelError.ExcelErrorNA
 
             Dim alphaValue As Double = 0.05
-            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+            If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
             Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)
             Dim ciPct As String = $"{100.0 * (1.0 - alphaValue):0.##}%"
@@ -433,7 +433,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.COX_TESTS",
             Category:="BESHStatNG - Survival",
             Description:="Returns global tests (LR, Wald) and fit statistics for a fitted Cox model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/"
         )>
         Public Function COX_TESTS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object,
@@ -616,7 +616,7 @@ Namespace BESHStatNG.WorksheetFunctions
         <ExcelFunction(Name:="BESH.SURV.COX_RESID",
                        Category:="BESHStatNG - Survival",
                        Description:="Returns residual diagnostics for a fitted Cox model.",
-                       HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/"
+                       HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/"
                        )>
         Public Function COX_RESID(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object,
@@ -694,7 +694,7 @@ Namespace BESHStatNG.WorksheetFunctions
         <ExcelFunction(Name:="BESH.SURV.COX_BASELINE",
                        Category:="BESHStatNG - Survival",
                        Description:="Returns baseline survival or cumulative hazard from a fitted Cox model.",
-                       HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/")>
+                       HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/")>
         Public Function COX_BASELINE(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object,
             <ExcelArgument(Name:="type", Description:="Output type: table (default), survival, cumhaz, or plot.")> Optional baselineType As Object = Nothing
@@ -802,7 +802,7 @@ Namespace BESHStatNG.WorksheetFunctions
         <ExcelFunction(Name:="BESH.SURV.COX_PRED",
                        Category:="BESHStatNG - Survival",
                        Description:="Computes predictions from a fitted Cox model (linear predictor, risk, survival, or cumulative hazard).",
-                       HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/")>
+                       HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/")>
         Public Function COX_PRED(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object,
             <ExcelArgument(AllowReference:=True, Name:="newX", Description:="Numeric matrix of raw predictor columns in the same order as used when fitting the model.")> newX As Object,
@@ -955,7 +955,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.COX_DROP",
             Category:="BESHStatNG - Survival",
             Description:="Removes a fitted Cox model handle from memory.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/"
         )>
         Public Function COX_DROP(
             <ExcelArgument(Name:="handle",

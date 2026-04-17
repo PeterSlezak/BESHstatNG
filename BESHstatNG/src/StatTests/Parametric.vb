@@ -1931,7 +1931,8 @@ Namespace parametric
                 If p <> H0.Length Then
                     AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
-                Dim diffs(p - 1) As Double, Data_(n - 1, p - 1) As Double
+
+                Dim diffs(p - 1) As Double
                 ReDim pMeans(p - 1)
 
                 For i = 0 To p - 1
@@ -1940,16 +1941,10 @@ Namespace parametric
                     diffs(i) = pMeans(i) - H0(i)
                 Next
 
-                For i = 0 To n - 1
-                    For j = 0 To p - 1
-                        Data_(i, j) = data(i, j) - pMeans(j)
-                    Next
-                Next
-
-                Dim covar(,) As Double = Matrix.MatrixMult(Matrix.trans(Data_), Data_)
-                covar = Matrix.MatrixMult(covar, 1 / (n - 1))
+                Dim covar(,) As Double = Matrix.MatCovar(data)
                 Dim covarinv(,) As Double = Matrix.MatInv(covar, "CHOL")
                 Dim H(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(diffs, covarinv), diffs)
+
                 Dim out As New TestResult
                 out.TestStatistics1 = H(0, 0) * n
                 out.Pvalue = distributions.F_RT((n - p) * out.TestStatistics1 / (p * (n - 1)), CDbl(p), n - p)

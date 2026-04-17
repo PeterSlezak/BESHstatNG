@@ -154,7 +154,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.MNLOGIT_FIT",
             Category:="BESHStatNG - Regression Models",
             Description:="Fits a baseline-category multinomial logistic regression model and returns a reusable handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function MNLOGIT_FIT(
             <ExcelArgument(Name:="y", Description:="Categorical outcome (single numeric column of category codes).")> y As Object,
@@ -244,8 +244,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If distinctCats < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim alphaValue As Double = 0.05
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim maxIterValue As Integer = UDFhelpers.GetOptionalInt(maxIter, 50)
@@ -327,7 +327,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.MNLOGIT_SUMMARY",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the parameter summary table for a fitted multinomial-logit model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function MNLOGIT_SUMMARY(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.MNLOGIT_FIT.")> handle As Object,
@@ -340,8 +340,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim alphaValue As Double = 0.05
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
@@ -416,7 +416,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.MNLOGIT_TESTS",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns model-level diagnostics and tests for a fitted multinomial-logit model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function MNLOGIT_TESTS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.MNLOGIT_FIT.")> handle As Object,
@@ -483,7 +483,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.MNLOGIT_CLASS",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the classification confusion matrix for a fitted multinomial-logit model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function MNLOGIT_CLASS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.MNLOGIT_FIT.")> handle As Object,
@@ -561,7 +561,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.MNLOGIT_RESID",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns residual diagnostics for a fitted multinomial-logit model handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function MNLOGIT_RESID(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.MNLOGIT_FIT.")> handle As Object,
@@ -639,7 +639,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.MNLOGIT_PRED",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns fitted probabilities and predicted categories for new data under a fitted multinomial-logit model.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function MNLOGIT_PRED(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.MNLOGIT_FIT.")> handle As Object,
@@ -749,7 +749,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.MNLOGIT_DROP",
             Category:="BESHStatNG - Regression Models",
             Description:="Removes a fitted multinomial-logit model handle from memory.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function MNLOGIT_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.MNLOGIT_FIT.")> handle As Object

@@ -31,6 +31,11 @@ Partial Class Ui8Proportions
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCompute = New System.Windows.Forms.Button()
         Me.grpInput = New System.Windows.Forms.GroupBox()
+        Me.lblMarginHint_IndProp = New System.Windows.Forms.Label()
+        Me.spinBtnMargin_IndProp = New System.Windows.Forms.NumericUpDown()
+        Me.lblMargin = New System.Windows.Forms.Label()
+        Me.lblHypothesisType = New System.Windows.Forms.Label()
+        Me.cbHypothesisType = New System.Windows.Forms.ComboBox()
         Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
         Me.lblAlpha = New System.Windows.Forms.Label()
         Me.optPaired = New System.Windows.Forms.RadioButton()
@@ -46,6 +51,7 @@ Partial Class Ui8Proportions
         Me.optSingle = New System.Windows.Forms.RadioButton()
         Me.grpOutput.SuspendLayout()
         Me.grpInput.SuspendLayout()
+        CType(Me.spinBtnMargin_IndProp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnD, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnC, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -59,7 +65,7 @@ Partial Class Ui8Proportions
         Me.grpOutput.Controls.Add(Me.optWorkbook)
         Me.grpOutput.Controls.Add(Me.optWorksheet)
         Me.grpOutput.Controls.Add(Me.optOutputRange)
-        Me.grpOutput.Location = New System.Drawing.Point(12, 230)
+        Me.grpOutput.Location = New System.Drawing.Point(5, 271)
         Me.grpOutput.Name = "grpOutput"
         Me.grpOutput.Size = New System.Drawing.Size(442, 113)
         Me.grpOutput.TabIndex = 5
@@ -115,7 +121,7 @@ Partial Class Ui8Proportions
         '
         'btnHelp
         '
-        Me.btnHelp.Location = New System.Drawing.Point(297, 349)
+        Me.btnHelp.Location = New System.Drawing.Point(291, 390)
         Me.btnHelp.Name = "btnHelp"
         Me.btnHelp.Size = New System.Drawing.Size(75, 23)
         Me.btnHelp.TabIndex = 12
@@ -124,7 +130,7 @@ Partial Class Ui8Proportions
         '
         'btCompute
         '
-        Me.btCompute.Location = New System.Drawing.Point(378, 349)
+        Me.btCompute.Location = New System.Drawing.Point(372, 390)
         Me.btCompute.Name = "btCompute"
         Me.btCompute.Size = New System.Drawing.Size(75, 23)
         Me.btCompute.TabIndex = 11
@@ -133,6 +139,11 @@ Partial Class Ui8Proportions
         '
         'grpInput
         '
+        Me.grpInput.Controls.Add(Me.lblMarginHint_IndProp)
+        Me.grpInput.Controls.Add(Me.spinBtnMargin_IndProp)
+        Me.grpInput.Controls.Add(Me.lblMargin)
+        Me.grpInput.Controls.Add(Me.lblHypothesisType)
+        Me.grpInput.Controls.Add(Me.cbHypothesisType)
         Me.grpInput.Controls.Add(Me.spinBtnAlpha)
         Me.grpInput.Controls.Add(Me.lblAlpha)
         Me.grpInput.Controls.Add(Me.optPaired)
@@ -146,19 +157,71 @@ Partial Class Ui8Proportions
         Me.grpInput.Controls.Add(Me.lbl3)
         Me.grpInput.Controls.Add(Me.optIndependent)
         Me.grpInput.Controls.Add(Me.optSingle)
-        Me.grpInput.Location = New System.Drawing.Point(12, 12)
+        Me.grpInput.Location = New System.Drawing.Point(5, 4)
         Me.grpInput.Name = "grpInput"
-        Me.grpInput.Size = New System.Drawing.Size(442, 212)
+        Me.grpInput.Size = New System.Drawing.Size(442, 261)
         Me.grpInput.TabIndex = 10
         Me.grpInput.TabStop = False
         Me.grpInput.Text = "Input"
+        '
+        'lblMarginHint_IndProp
+        '
+        Me.lblMarginHint_IndProp.Location = New System.Drawing.Point(11, 217)
+        Me.lblMarginHint_IndProp.Name = "lblMarginHint_IndProp"
+        Me.lblMarginHint_IndProp.Size = New System.Drawing.Size(424, 44)
+        Me.lblMarginHint_IndProp.TabIndex = 25
+        Me.lblMarginHint_IndProp.Text = "Margin is entered as a positive magnitude. Sample 1 is Control / Reference and Sa" &
+    "mple 2 is Experimental / Test"
+        Me.lblMarginHint_IndProp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'spinBtnMargin_IndProp
+        '
+        Me.spinBtnMargin_IndProp.DecimalPlaces = 4
+        Me.spinBtnMargin_IndProp.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnMargin_IndProp.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnMargin_IndProp.Location = New System.Drawing.Point(146, 192)
+        Me.spinBtnMargin_IndProp.Maximum = New Decimal(New Integer() {9999, 0, 0, 262144})
+        Me.spinBtnMargin_IndProp.Minimum = New Decimal(New Integer() {1, 0, 0, 262144})
+        Me.spinBtnMargin_IndProp.Name = "spinBtnMargin_IndProp"
+        Me.spinBtnMargin_IndProp.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnMargin_IndProp.TabIndex = 24
+        Me.spinBtnMargin_IndProp.Value = New Decimal(New Integer() {1, 0, 0, 65536})
+        '
+        'lblMargin
+        '
+        Me.lblMargin.AutoSize = True
+        Me.lblMargin.Location = New System.Drawing.Point(11, 194)
+        Me.lblMargin.Name = "lblMargin"
+        Me.lblMargin.Size = New System.Drawing.Size(129, 16)
+        Me.lblMargin.TabIndex = 23
+        Me.lblMargin.Text = "Noninferiority margin"
+        '
+        'lblHypothesisType
+        '
+        Me.lblHypothesisType.AutoSize = True
+        Me.lblHypothesisType.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHypothesisType.Location = New System.Drawing.Point(185, 171)
+        Me.lblHypothesisType.Name = "lblHypothesisType"
+        Me.lblHypothesisType.Size = New System.Drawing.Size(75, 16)
+        Me.lblHypothesisType.TabIndex = 22
+        Me.lblHypothesisType.Text = "Hypothesis"
+        '
+        'cbHypothesisType
+        '
+        Me.cbHypothesisType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbHypothesisType.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbHypothesisType.FormattingEnabled = True
+        Me.cbHypothesisType.Location = New System.Drawing.Point(266, 168)
+        Me.cbHypothesisType.Name = "cbHypothesisType"
+        Me.cbHypothesisType.Size = New System.Drawing.Size(169, 24)
+        Me.cbHypothesisType.TabIndex = 21
         '
         'spinBtnAlpha
         '
         Me.spinBtnAlpha.DecimalPlaces = 3
         Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnAlpha.Location = New System.Drawing.Point(75, 179)
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(112, 166)
         Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
         Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlpha.Name = "spinBtnAlpha"
@@ -168,12 +231,12 @@ Partial Class Ui8Proportions
         '
         'lblAlpha
         '
-        Me.lblAlpha.AutoSize = True
-        Me.lblAlpha.Location = New System.Drawing.Point(23, 181)
+        Me.lblAlpha.Location = New System.Drawing.Point(6, 171)
         Me.lblAlpha.Name = "lblAlpha"
-        Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
+        Me.lblAlpha.Size = New System.Drawing.Size(100, 16)
         Me.lblAlpha.TabIndex = 19
         Me.lblAlpha.Text = "alpha"
+        Me.lblAlpha.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'optPaired
         '
@@ -187,7 +250,7 @@ Partial Class Ui8Proportions
         '
         'spinBtnD
         '
-        Me.spinBtnD.Location = New System.Drawing.Point(26, 146)
+        Me.spinBtnD.Location = New System.Drawing.Point(14, 132)
         Me.spinBtnD.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.spinBtnD.Name = "spinBtnD"
         Me.spinBtnD.Size = New System.Drawing.Size(94, 22)
@@ -196,7 +259,7 @@ Partial Class Ui8Proportions
         '
         'spinBtnC
         '
-        Me.spinBtnC.Location = New System.Drawing.Point(26, 118)
+        Me.spinBtnC.Location = New System.Drawing.Point(14, 104)
         Me.spinBtnC.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.spinBtnC.Name = "spinBtnC"
         Me.spinBtnC.Size = New System.Drawing.Size(94, 22)
@@ -205,7 +268,7 @@ Partial Class Ui8Proportions
         '
         'spinBtnB
         '
-        Me.spinBtnB.Location = New System.Drawing.Point(26, 90)
+        Me.spinBtnB.Location = New System.Drawing.Point(14, 76)
         Me.spinBtnB.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.spinBtnB.Name = "spinBtnB"
         Me.spinBtnB.Size = New System.Drawing.Size(94, 22)
@@ -214,7 +277,7 @@ Partial Class Ui8Proportions
         '
         'spinBtnA
         '
-        Me.spinBtnA.Location = New System.Drawing.Point(26, 61)
+        Me.spinBtnA.Location = New System.Drawing.Point(14, 47)
         Me.spinBtnA.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.spinBtnA.Name = "spinBtnA"
         Me.spinBtnA.Size = New System.Drawing.Size(95, 22)
@@ -224,7 +287,7 @@ Partial Class Ui8Proportions
         'lbl2
         '
         Me.lbl2.AutoSize = True
-        Me.lbl2.Location = New System.Drawing.Point(134, 96)
+        Me.lbl2.Location = New System.Drawing.Point(122, 82)
         Me.lbl2.Name = "lbl2"
         Me.lbl2.Size = New System.Drawing.Size(23, 16)
         Me.lbl2.TabIndex = 13
@@ -233,7 +296,7 @@ Partial Class Ui8Proportions
         'lbl1
         '
         Me.lbl1.AutoSize = True
-        Me.lbl1.Location = New System.Drawing.Point(134, 67)
+        Me.lbl1.Location = New System.Drawing.Point(122, 53)
         Me.lbl1.Name = "lbl1"
         Me.lbl1.Size = New System.Drawing.Size(23, 16)
         Me.lbl1.TabIndex = 12
@@ -242,7 +305,7 @@ Partial Class Ui8Proportions
         'lbl4
         '
         Me.lbl4.AutoSize = True
-        Me.lbl4.Location = New System.Drawing.Point(134, 152)
+        Me.lbl4.Location = New System.Drawing.Point(122, 138)
         Me.lbl4.Name = "lbl4"
         Me.lbl4.Size = New System.Drawing.Size(24, 16)
         Me.lbl4.TabIndex = 11
@@ -251,7 +314,7 @@ Partial Class Ui8Proportions
         'lbl3
         '
         Me.lbl3.AutoSize = True
-        Me.lbl3.Location = New System.Drawing.Point(134, 124)
+        Me.lbl3.Location = New System.Drawing.Point(122, 110)
         Me.lbl3.Name = "lbl3"
         Me.lbl3.Size = New System.Drawing.Size(24, 16)
         Me.lbl3.TabIndex = 10
@@ -283,14 +346,14 @@ Partial Class Ui8Proportions
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(464, 382)
+        Me.ClientSize = New System.Drawing.Size(454, 417)
         Me.Controls.Add(Me.btnHelp)
         Me.Controls.Add(Me.btCompute)
         Me.Controls.Add(Me.grpInput)
         Me.Controls.Add(Me.grpOutput)
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(482, 429)
-        Me.MinimumSize = New System.Drawing.Size(482, 429)
+        Me.MaximumSize = New System.Drawing.Size(472, 464)
+        Me.MinimumSize = New System.Drawing.Size(472, 464)
         Me.Name = "Ui8Proportions"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
@@ -299,6 +362,7 @@ Partial Class Ui8Proportions
         Me.grpOutput.PerformLayout()
         Me.grpInput.ResumeLayout(False)
         Me.grpInput.PerformLayout()
+        CType(Me.spinBtnMargin_IndProp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnD, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnC, System.ComponentModel.ISupportInitialize).EndInit()
@@ -329,4 +393,9 @@ Partial Class Ui8Proportions
     Friend WithEvents optSingle As Windows.Forms.RadioButton
     Friend WithEvents lblAlpha As Windows.Forms.Label
     Friend WithEvents spinBtnAlpha As Windows.Forms.NumericUpDown
+    Friend WithEvents spinBtnMargin_IndProp As Windows.Forms.NumericUpDown
+    Friend WithEvents lblMargin As Windows.Forms.Label
+    Friend WithEvents lblHypothesisType As Windows.Forms.Label
+    Friend WithEvents cbHypothesisType As Windows.Forms.ComboBox
+    Friend WithEvents lblMarginHint_IndProp As Windows.Forms.Label
 End Class

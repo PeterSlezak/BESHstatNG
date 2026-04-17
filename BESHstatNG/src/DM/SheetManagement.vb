@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+
 Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop

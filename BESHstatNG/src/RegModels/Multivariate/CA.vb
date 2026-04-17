@@ -510,7 +510,7 @@ Namespace Multivariate
         ''' <list type="bullet">
         '''   <item><description>Eigenvalues / percent inertia / cumulative inertia</description></item>
         '''   <item><description>Principal coordinates (row and column/category factor scores)</description></item>
-        '''   <item><description>Cos² (quality/correlation) and contributions by axis</description></item>
+        '''   <item><description>Per-axis diagnostics for all available axes: factor scores, cos², contributions, angles, and axis-inertia contributions</description></item>
         '''   <item><description>Optional MCA tables such as the Burt table</description></item>
         ''' </list>
         ''' </returns>
@@ -520,7 +520,12 @@ Namespace Multivariate
         ''' The returned <see cref="ResultTable"/> objects are designed to be stacked/merged and exported (e.g., to Excel).
         ''' </para>
         ''' <para>
-        ''' <b>Axis indexing:</b> table headings are human-readable (“Factor 1”, “Factor 2”, …) while internal arrays are 0-based.
+        ''' <b>Axis indexing:</b> table headings are human-readable (“Axis 1”, “Axis 2”, …) while internal arrays remain 0-based
+        ''' (Factor 1 = index 0, Factor 2 = index 1, etc.).
+        ''' </para>
+        ''' <para>
+        ''' <b>Terminology:</b> the diagnostic column labeled <c>Cos²</c> contains squared cosines, not raw correlations.
+        ''' The column labeled <c>Axis Inertia Contribution</c> contains contribution × eigenvalue for the current axis.
         ''' </para>
         ''' </remarks>
         Public Function wrapResults() As List(Of ResultTable)
@@ -540,7 +545,7 @@ Namespace Multivariate
 
                 'Eigenvalues
                 t = New ResultTable
-                t.AddHeaderTopRow({"Factor #", "Eigenvalue", "Percent", "Percent Cumulative"})
+                t.AddHeaderTopRow({"Factor #", "Axis Inertia Contribution", "Percent", "Percent Cumulative"})
                 Dim o(UBound(Me.Eigenvalues, 1), 3) As Object
                 For i = 0 To UBound(Me.Eigenvalues, 1)
                     o(i, 0) = i + 1
@@ -548,7 +553,7 @@ Namespace Multivariate
                     o(i, 2) = Me.Percents(i, 0)
                     o(i, 3) = Me.Percents(i, 1)
                 Next
-                t.AddTitle("Eigenvalues")
+                t.AddTitle("Axis Inertia Contribution")
                 t.SetBody(o)
                 out.Add(t)
 
@@ -568,48 +573,31 @@ Namespace Multivariate
                 t.SetBody(tmp)
                 out.Add(t)
 
-                'Axis 1 - Rows
-                If axesAvail >= 1 Then
+                'Axis diagnostics for categories / columns
+                For axisIdx As Integer = 0 To axesAvail - 1
                     t = New ResultTable
-                    t.AddTitle("Axis 1")
+                    t.AddTitle("Axis " & CStr(axisIdx + 1))
                     t.AddHeaderLeftRow(Me.BurtVarNames)
                     t.AddHeaderLeftRow(Me.rowNames)
-                    t.AddHeaderTopRow({"Variable", "Category", "Factor", "Correlation", "Contribution", "Angle", "Eigenvalue"})
-                    Dim tmp2(Me.pC - 1, 4) As Object
-                    For i = 0 To Me.pC - 1
-                        tmp2(i, 0) = Me.ColFactors(0)(i)
-                        tmp2(i, 1) = Me.ColCorr(0)(i)
-                        tmp2(i, 2) = Me.ColContribution(0)(i)
-                        tmp2(i, 3) = Me.ColAngle(0)(i)
-                        tmp2(i, 4) = Me.ColEigenvalueContrib(0)(i)
-                    Next
-                    t.SetBody(tmp2)
-                    out.Add(t)
-                End If
+                    t.AddHeaderTopRow({"Variable", "Category", "Factor", "Cos²", "Contribution", "Angle", "Axis Inertia Contribution"})
 
-                'Axis 2 - Columns
-                If axesAvail >= 2 Then
-                    t = New ResultTable
-                    t.AddTitle("Axis 2")
-                    t.AddHeaderLeftRow(Me.BurtVarNames)
-                    t.AddHeaderLeftRow(Me.rowNames)
-                    t.AddHeaderTopRow({"Variable", "Category", "Factor", "Correlation", "Contribution", "Angle", "Eigenvalue"})
-                    Dim tmp6(Me.pC - 1, 4) As Object
+                    Dim tmpAxis(Me.pC - 1, 4) As Object
                     For i = 0 To Me.pC - 1
-                        tmp6(i, 0) = Me.ColFactors(1)(i)
-                        tmp6(i, 1) = Me.ColCorr(1)(i)
-                        tmp6(i, 2) = Me.ColContribution(1)(i)
-                        tmp6(i, 3) = Me.ColAngle(1)(i)
-                        tmp6(i, 4) = Me.ColEigenvalueContrib(1)(i)
+                        tmpAxis(i, 0) = Me.ColFactors(axisIdx)(i)
+                        tmpAxis(i, 1) = Me.ColCorr(axisIdx)(i)
+                        tmpAxis(i, 2) = Me.ColContribution(axisIdx)(i)
+                        tmpAxis(i, 3) = Me.ColAngle(axisIdx)(i)
+                        tmpAxis(i, 4) = Me.ColEigenvalueContrib(axisIdx)(i)
                     Next
-                    t.SetBody(tmp6)
+
+                    t.SetBody(tmpAxis)
                     out.Add(t)
-                End If
+                Next
 
             Else
 
                 'Eigenvalues
-                t.AddHeaderTopRow({"Factor #", "Eigenvalue", "Percent", "Percent Cumulative"})
+                t.AddHeaderTopRow({"Factor #", "Axis Inertia Contribution", "Percent", "Percent Cumulative"})
                 Dim o(UBound(Me.Eigenvalues, 1), 3) As Object
                 For i = 0 To UBound(Me.Eigenvalues, 1)
                     o(i, 0) = i + 1
@@ -617,7 +605,7 @@ Namespace Multivariate
                     o(i, 2) = Me.Percents(i, 0)
                     o(i, 3) = Me.Percents(i, 1)
                 Next
-                t.AddTitle("Eigenvalues")
+                t.AddTitle("Axis Inertia Contribution")
                 t.SetBody(o)
                 out.Add(t)
 
@@ -636,41 +624,25 @@ Namespace Multivariate
                 t.SetBody(tmp)
                 out.Add(t)
 
-                'Axis 1 - Rows
-                If axesAvail >= 1 Then
+                'Axis diagnostics for rows
+                For axisIdx As Integer = 0 To axesAvail - 1
                     t = New ResultTable
-                    t.AddTitle("Axis 1")
+                    t.AddTitle("Axis " & CStr(axisIdx + 1))
                     t.AddHeaderLeftRow(Me.rowNames)
-                    t.AddHeaderTopRow({"Row Name", "Factor", "Correlation", "Contribution", "Angle", "Eigenvalue"})
-                    Dim tmp2(Me.pR - 1, 4) As Object
-                    For i = 0 To Me.pR - 1
-                        tmp2(i, 0) = Me.RowFactors(0)(i)
-                        tmp2(i, 1) = Me.RowCorr(0)(i)
-                        tmp2(i, 2) = Me.RowContribution(0)(i)
-                        tmp2(i, 3) = Me.RowAngle(0)(i)
-                        tmp2(i, 4) = Me.RowEigenvalueContrib(0)(i)
-                    Next
-                    t.SetBody(tmp2)
-                    out.Add(t)
-                End If
+                    t.AddHeaderTopRow({"Row Name", "Factor", "Cos²", "Contribution", "Angle", "Axis Inertia Contribution"})
 
-                If axesAvail >= 2 Then
-                    'Axis 2 - Rows
-                    t = New ResultTable
-                    t.AddTitle("Axis 2")
-                    t.AddHeaderLeftRow(Me.rowNames)
-                    t.AddHeaderTopRow({"Row Name", "Factor", "Correlation", "Contribution", "Angle", "Eigenvalue"})
-                    Dim tmp3(Me.pR - 1, 4) As Object
+                    Dim tmpAxis(Me.pR - 1, 4) As Object
                     For i = 0 To Me.pR - 1
-                        tmp3(i, 0) = Me.RowFactors(1)(i)
-                        tmp3(i, 1) = Me.RowCorr(1)(i)
-                        tmp3(i, 2) = Me.RowContribution(1)(i)
-                        tmp3(i, 3) = Me.RowAngle(1)(i)
-                        tmp3(i, 4) = Me.RowEigenvalueContrib(1)(i)
+                        tmpAxis(i, 0) = Me.RowFactors(axisIdx)(i)
+                        tmpAxis(i, 1) = Me.RowCorr(axisIdx)(i)
+                        tmpAxis(i, 2) = Me.RowContribution(axisIdx)(i)
+                        tmpAxis(i, 3) = Me.RowAngle(axisIdx)(i)
+                        tmpAxis(i, 4) = Me.RowEigenvalueContrib(axisIdx)(i)
                     Next
-                    t.SetBody(tmp3)
+
+                    t.SetBody(tmpAxis)
                     out.Add(t)
-                End If
+                Next
 
                 'Principal Coordinates for Columns
                 t = New ResultTable
@@ -687,41 +659,25 @@ Namespace Multivariate
                 t.SetBody(tmp4)
                 out.Add(t)
 
-                'Axis 1 - Columns
-                If axesAvail >= 1 Then
+                'Axis diagnostics for columns
+                For axisIdx As Integer = 0 To axesAvail - 1
                     t = New ResultTable
-                    t.AddTitle("Axis 1")
+                    t.AddTitle("Axis " & CStr(axisIdx + 1))
                     t.AddHeaderLeftRow(Me.ColumNames)
-                    t.AddHeaderTopRow({"Column Name", "Factor", "Correlation", "Contribution", "Angle", "Eigenvalue"})
-                    Dim tmp5(Me.pC - 1, 4) As Object
-                    For i = 0 To Me.pC - 1
-                        tmp5(i, 0) = Me.ColFactors(0)(i)
-                        tmp5(i, 1) = Me.ColCorr(0)(i)
-                        tmp5(i, 2) = Me.ColContribution(0)(i)
-                        tmp5(i, 3) = Me.ColAngle(0)(i)
-                        tmp5(i, 4) = Me.ColEigenvalueContrib(0)(i)
-                    Next
-                    t.SetBody(tmp5)
-                    out.Add(t)
-                End If
+                    t.AddHeaderTopRow({"Column Name", "Factor", "Cos²", "Contribution", "Angle", "Axis Inertia Contribution"})
 
-                'Axis 2 - Columns
-                If axesAvail >= 2 Then
-                    t = New ResultTable
-                    t.AddTitle("Axis 2")
-                    t.AddHeaderLeftRow(Me.ColumNames)
-                    t.AddHeaderTopRow({"Column Name", "Factor", "Correlation", "Contribution", "Angle", "Eigenvalue"})
-                    Dim tmp6(Me.pC - 1, 4) As Object
+                    Dim tmpAxis(Me.pC - 1, 4) As Object
                     For i = 0 To Me.pC - 1
-                        tmp6(i, 0) = Me.ColFactors(1)(i)
-                        tmp6(i, 1) = Me.ColCorr(1)(i)
-                        tmp6(i, 2) = Me.ColContribution(1)(i)
-                        tmp6(i, 3) = Me.ColAngle(1)(i)
-                        tmp6(i, 4) = Me.ColEigenvalueContrib(1)(i)
+                        tmpAxis(i, 0) = Me.ColFactors(axisIdx)(i)
+                        tmpAxis(i, 1) = Me.ColCorr(axisIdx)(i)
+                        tmpAxis(i, 2) = Me.ColContribution(axisIdx)(i)
+                        tmpAxis(i, 3) = Me.ColAngle(axisIdx)(i)
+                        tmpAxis(i, 4) = Me.ColEigenvalueContrib(axisIdx)(i)
                     Next
-                    t.SetBody(tmp6)
+
+                    t.SetBody(tmpAxis)
                     out.Add(t)
-                End If
+                Next
             End If
 
             Return out
@@ -745,7 +701,7 @@ Namespace Multivariate
         '''       <item><description><b>Cos²</b> (a.k.a. squared correlations): <c>cos²ᵢₖ = fᵢₖ² / dᵢ²</c></description></item>
         '''       <item><description><b>Contributions</b>: <c>ctrᵢₖ = rᵢ fᵢₖ² / λₖ</c> (analogous for columns)</description></item>
         '''       <item><description><b>Angles</b>: <c>acos(sqrt(cos²))</c> in degrees</description></item>
-        '''       <item><description><b>Quality</b>: sum of cos² over the axes computed (here, the first two where available)</description></item>
+        '''       <item><description><b>Quality</b>: sum of cos² over the displayed low-dimensional map (Axis 1 + Axis 2 where available)</description></item>
         '''     </list>
         '''   </description></item>
         ''' </list>
@@ -766,7 +722,14 @@ Namespace Multivariate
         ''' Thrown if there are not enough dimensions to compute at least one axis.
         ''' </exception>
         Public Sub Calculate()
-            Dim axesToCompute As Integer = Math.Min(2, pDim + 1)  'pDim+1 = number of eigenvalues stored
+            ' Compute all available CA/MCA axes internally.
+            Dim axesToCompute As Integer = pDim + 1
+
+            ' For the overview "Quality" field, keep the traditional interpretation:
+            ' quality of representation in the displayed low-dimensional map.
+            ' In practice this means Axis 1 + Axis 2 when available.
+            Dim axesForDisplayedQuality As Integer = Math.Min(2, axesToCompute)
+
             If axesToCompute < 1 Then
                 AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Not enough dimensions for correspondence analysis."))
             End If
@@ -845,19 +808,28 @@ Namespace Multivariate
             Next
             'Compute Inertia
 
+            ' Compute per-axis row diagnostics directly from the stored row factors.
+            ' Do not call the RowContribution property here, because that property is only
+            ' a public accessor over pRowContribution after the arrays have already been built.
             Dim totInertia As Double
             For i As Integer = 0 To pR - 1
                 pRowInertia(i) = pRowTot(i) * pRowDistance(i)
                 totInertia += pRowInertia(i)
                 For j As Integer = 0 To axesToCompute - 1
                     Dim f As Double = pRowFactors(i, j)
-
                     Dim corr As Double
                     pRowAngle(i, j) = CorrAndAngleFromFactorAndDistance(f, pRowDistance(i), corr)
                     pRowCorr(i, j) = corr
 
-                    pRowQuality(i) += corr
-                    pRowContribution(i, j) = (pRowTot(i) * f * f) / pEigenvalues(j)
+                    ' Row contribution on axis j:  ctr_ij = rowMass_i * factor_ij^2 / eigenvalue_j
+                    If pEigenvalues(j) > 0 Then
+                        pRowContribution(i, j) = pRowTot(i) * f * f / pEigenvalues(j)
+                    Else
+                        pRowContribution(i, j) = 0
+                    End If
+
+                    ' Overview quality should reflect the displayed 2D map, not the full solution.
+                    If j < axesForDisplayedQuality Then pRowQuality(i) += corr
                     pRowEigencontrib(i, j) = pRowContribution(i, j) * pEigenvalues(j)
                 Next
             Next
@@ -888,22 +860,37 @@ Namespace Multivariate
             Next
 
             'Compute Inertia
+            ' Compute per-axis column diagnostics directly from the stored column factors.
+            ' Do not call the ColContribution property here, because that property is only
+            ' a public accessor over pColContribution after the arrays have already been built.
             totInertia = 0
             For i As Integer = 0 To pC - 1
                 pColInertia(i) = pColTot(i) * pColDistance(i)
                 totInertia += pColInertia(i)
                 For j As Integer = 0 To axesToCompute - 1
                     Dim f As Double = pColFactors(i, j)
-
                     Dim corr As Double
+
                     pColAngle(i, j) = CorrAndAngleFromFactorAndDistance(f, pColDistance(i), corr)
                     pColCorr(i, j) = corr
 
-                    pColQuality(i) += corr
-                    pColContribution(i, j) = (pColTot(i) * f * f) / pEigenvalues(j)
-                    pColEigencontrib(i, j) = pColContribution(i, j) * pEigenvalues(j)
+                    ' Column contribution on axis j: ctr_ij = colMass_i * factor_ij^2 / eigenvalue_j
+                    If pEigenvalues(j) > 0 Then
+                        pColContribution(i, j) = pColTot(i) * f * f / pEigenvalues(j)
+                    Else
+                        pColContribution(i, j) = 0
+                    End If
 
-                    pColContributionSigned(i, j) = pColContribution(i, j) * Math.Sign(f)
+                    ' Signed contribution keeps the contribution magnitude and the sign of the factor.
+                    If f < 0 Then
+                        pColContributionSigned(i, j) = -pColContribution(i, j)
+                    Else
+                        pColContributionSigned(i, j) = pColContribution(i, j)
+                    End If
+
+                    ' Overview quality should reflect the displayed 2D map, not the full solution.
+                    If j < axesForDisplayedQuality Then pColQuality(i) += corr
+                    pColEigencontrib(i, j) = pColContribution(i, j) * pEigenvalues(j)
                 Next
             Next
 
@@ -1179,12 +1166,13 @@ Namespace Multivariate
         ''' </para>
         ''' <para>
         ''' <b>Implementation note.</b>
-        ''' This helper is typically called inside the row/column loops in <c>Fit()</c> to populate
+        ''' This helper is typically called inside the row/column loops in <c>Calculate()</c> to populate
         ''' <c>pRowCorr</c>/<c>pColCorr</c> and <c>pRowAngle</c>/<c>pColAngle</c>.
+        ''' The returned <paramref name="corr"/> value is a cos² (squared cosine), not a raw correlation coefficient.
         ''' </para>
         ''' </remarks>
         Private Shared Function CorrAndAngleFromFactorAndDistance(f As Double, dist As Double, ByRef corr As Double) As Double
-            ' Returns angle in degrees. Sets corr (cos²).
+            ' Returns angle in degrees. Sets corr = cos².
             ' If dist is 0 (point at origin), define corr=0 and angle=0.
             If dist <= 0 OrElse Double.IsNaN(dist) OrElse Double.IsInfinity(dist) Then
                 corr = 0.0

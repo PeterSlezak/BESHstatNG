@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Option Strict On
+
 Imports System.Math
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel

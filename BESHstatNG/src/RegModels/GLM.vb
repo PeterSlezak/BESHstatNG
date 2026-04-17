@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Option Strict On
+
 Imports System.Drawing
 Imports System.IO
 Imports System.Reflection
@@ -1096,7 +1098,7 @@ Public Class GLM
                 pItInfo(Me.p + 1, pIRLSiterations) = pLastIterLLchange
                 If progressBar IsNot Nothing Then
                     progressBar.Invoke(Sub()
-                                           progressBar.Value = 100 * (Me.pIRLSiterations + 1) / (Me.pMaxiter + 1)
+                                           progressBar.Value = CInt(100 * (Me.pIRLSiterations + 1) / (Me.pMaxiter + 1))
                                            If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIRLSiterations + 1}   LogLikelihood change = {pLastIterLLchange}"
                                        End Sub)
                     System.Windows.Forms.Application.DoEvents()
@@ -1987,7 +1989,7 @@ Public Class GLM_NB
             pLastIterDispersionChange = Math.Abs(lm0 - lm) / d1 + Math.Abs(del) / d2
             If progressBar IsNot Nothing Then
                 progressBar.Invoke(Sub()
-                                       progressBar.Value = 100 * (Me.pIRLSiterations + 1) / Me.pMaxiter
+                                       progressBar.Value = CInt(100 * (Me.pIRLSiterations + 1) / Me.pMaxiter)
                                        If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIRLSiterations + 1}   Relative Deviance + Dispersion Change = {pLastIterDispersionChange}"
                                    End Sub)
                 System.Windows.Forms.Application.DoEvents()
@@ -2767,7 +2769,7 @@ Public Class ZeroInflatedPoisson
             End If
             If progressBar IsNot Nothing Then
                 progressBar.Invoke(Sub()
-                                       progressBar.Value = 100 * Me.pEMiterations / Me.pMaxEMIter
+                                       progressBar.Value = CInt(100 * Me.pEMiterations / Me.pMaxEMIter)
                                        If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pEMiterations + 1}   LogLikelihood change = {pLastIterLLchange}"
                                    End Sub)
                 System.Windows.Forms.Application.DoEvents()
@@ -3246,7 +3248,7 @@ Public Class ZeroInflatedPoisson
             If y(i) = 0 Then
                 loglik += LogZIPZeroTerm(pi(i), mu(i))
             Else
-                loglik += LogZIPPositiveTerm(pi(i), y(i), mu(i))
+                loglik += LogZIPPositiveTerm(pi(i), CInt(y(i)), mu(i))
             End If
         Next
 

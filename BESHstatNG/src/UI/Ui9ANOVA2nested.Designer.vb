@@ -64,6 +64,14 @@ Partial Class Ui9ANOVA2nested
         Me.optBlandAnalytical = New System.Windows.Forms.RadioButton()
         Me.lblBlandAlpha = New System.Windows.Forms.Label()
         Me.spinBtnBlandAlpha = New System.Windows.Forms.NumericUpDown()
+        Me.TabPageDecisionLimitsBlandAltman = New System.Windows.Forms.TabPage()
+        Me.grpBlandDecisionLimits = New System.Windows.Forms.GroupBox()
+        Me.lblBlandDecisionLimitsHelp = New System.Windows.Forms.Label()
+        Me.tbBlandUpperAllowable = New System.Windows.Forms.TextBox()
+        Me.lblBlandUpperAllowable = New System.Windows.Forms.Label()
+        Me.tbBlandLowerAllowable = New System.Windows.Forms.TextBox()
+        Me.ckBlandDecisionLimitsEnable = New System.Windows.Forms.CheckBox()
+        Me.lblBlandLowerAllowable = New System.Windows.Forms.Label()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCompute = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
@@ -77,12 +85,15 @@ Partial Class Ui9ANOVA2nested
         Me.grpBlandCI.SuspendLayout()
         CType(Me.tbBlandBootstrapReps, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnBlandAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPageDecisionLimitsBlandAltman.SuspendLayout()
+        Me.grpBlandDecisionLimits.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
         '
         Me.TabControl1.Controls.Add(Me.TabPageInput)
         Me.TabControl1.Controls.Add(Me.TabPageOptionsBlandAltman)
+        Me.TabControl1.Controls.Add(Me.TabPageDecisionLimitsBlandAltman)
         Me.TabControl1.Location = New System.Drawing.Point(-3, -3)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -109,7 +120,7 @@ Partial Class Ui9ANOVA2nested
         Me.grpOutput.Controls.Add(Me.optOutputRange)
         Me.grpOutput.Location = New System.Drawing.Point(11, 223)
         Me.grpOutput.Name = "grpOutput"
-        Me.grpOutput.Size = New System.Drawing.Size(441, 130)
+        Me.grpOutput.Size = New System.Drawing.Size(448, 130)
         Me.grpOutput.TabIndex = 13
         Me.grpOutput.TabStop = False
         Me.grpOutput.Text = "Output"
@@ -567,6 +578,91 @@ Partial Class Ui9ANOVA2nested
         Me.spinBtnBlandAlpha.TabIndex = 35
         Me.spinBtnBlandAlpha.Value = New Decimal(New Integer() {5, 0, 0, 131072})
         '
+        'TabPageDecisionLimitsBlandAltman
+        '
+        Me.TabPageDecisionLimitsBlandAltman.Controls.Add(Me.grpBlandDecisionLimits)
+        Me.TabPageDecisionLimitsBlandAltman.Location = New System.Drawing.Point(4, 25)
+        Me.TabPageDecisionLimitsBlandAltman.Name = "TabPageDecisionLimitsBlandAltman"
+        Me.TabPageDecisionLimitsBlandAltman.Size = New System.Drawing.Size(468, 371)
+        Me.TabPageDecisionLimitsBlandAltman.TabIndex = 2
+        Me.TabPageDecisionLimitsBlandAltman.Text = "Decision Limits"
+        Me.TabPageDecisionLimitsBlandAltman.UseVisualStyleBackColor = True
+        '
+        'grpBlandDecisionLimits
+        '
+        Me.grpBlandDecisionLimits.Controls.Add(Me.lblBlandDecisionLimitsHelp)
+        Me.grpBlandDecisionLimits.Controls.Add(Me.tbBlandUpperAllowable)
+        Me.grpBlandDecisionLimits.Controls.Add(Me.lblBlandUpperAllowable)
+        Me.grpBlandDecisionLimits.Controls.Add(Me.tbBlandLowerAllowable)
+        Me.grpBlandDecisionLimits.Controls.Add(Me.ckBlandDecisionLimitsEnable)
+        Me.grpBlandDecisionLimits.Controls.Add(Me.lblBlandLowerAllowable)
+        Me.grpBlandDecisionLimits.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpBlandDecisionLimits.Location = New System.Drawing.Point(11, 18)
+        Me.grpBlandDecisionLimits.Name = "grpBlandDecisionLimits"
+        Me.grpBlandDecisionLimits.Size = New System.Drawing.Size(437, 181)
+        Me.grpBlandDecisionLimits.TabIndex = 28
+        Me.grpBlandDecisionLimits.TabStop = False
+        Me.grpBlandDecisionLimits.Text = "Allowable Bias / Decision Limits"
+        '
+        'lblBlandDecisionLimitsHelp
+        '
+        Me.lblBlandDecisionLimitsHelp.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBlandDecisionLimitsHelp.Location = New System.Drawing.Point(6, 128)
+        Me.lblBlandDecisionLimitsHelp.Name = "lblBlandDecisionLimitsHelp"
+        Me.lblBlandDecisionLimitsHelp.Size = New System.Drawing.Size(425, 41)
+        Me.lblBlandDecisionLimitsHelp.TabIndex = 41
+        Me.lblBlandDecisionLimitsHelp.Text = "Uses the original (test - reference) difference scale. For the first UI, enable t" &
+    "his only for ordinary paired Bland–Altman analysis on the Raw difference scale."
+        '
+        'tbBlandUpperAllowable
+        '
+        Me.tbBlandUpperAllowable.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbBlandUpperAllowable.Location = New System.Drawing.Point(188, 91)
+        Me.tbBlandUpperAllowable.Name = "tbBlandUpperAllowable"
+        Me.tbBlandUpperAllowable.Size = New System.Drawing.Size(100, 22)
+        Me.tbBlandUpperAllowable.TabIndex = 40
+        Me.tbBlandUpperAllowable.Text = "5"
+        '
+        'lblBlandUpperAllowable
+        '
+        Me.lblBlandUpperAllowable.AutoSize = True
+        Me.lblBlandUpperAllowable.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBlandUpperAllowable.Location = New System.Drawing.Point(6, 94)
+        Me.lblBlandUpperAllowable.Name = "lblBlandUpperAllowable"
+        Me.lblBlandUpperAllowable.Size = New System.Drawing.Size(178, 16)
+        Me.lblBlandUpperAllowable.TabIndex = 39
+        Me.lblBlandUpperAllowable.Text = "Upper acceptable difference"
+        '
+        'tbBlandLowerAllowable
+        '
+        Me.tbBlandLowerAllowable.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbBlandLowerAllowable.Location = New System.Drawing.Point(188, 63)
+        Me.tbBlandLowerAllowable.Name = "tbBlandLowerAllowable"
+        Me.tbBlandLowerAllowable.Size = New System.Drawing.Size(100, 22)
+        Me.tbBlandLowerAllowable.TabIndex = 38
+        Me.tbBlandLowerAllowable.Text = "-5"
+        '
+        'ckBlandDecisionLimitsEnable
+        '
+        Me.ckBlandDecisionLimitsEnable.AutoSize = True
+        Me.ckBlandDecisionLimitsEnable.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckBlandDecisionLimitsEnable.Location = New System.Drawing.Point(6, 33)
+        Me.ckBlandDecisionLimitsEnable.Name = "ckBlandDecisionLimitsEnable"
+        Me.ckBlandDecisionLimitsEnable.Size = New System.Drawing.Size(209, 20)
+        Me.ckBlandDecisionLimitsEnable.TabIndex = 37
+        Me.ckBlandDecisionLimitsEnable.Text = "Enable decision-limit reporting"
+        Me.ckBlandDecisionLimitsEnable.UseVisualStyleBackColor = True
+        '
+        'lblBlandLowerAllowable
+        '
+        Me.lblBlandLowerAllowable.AutoSize = True
+        Me.lblBlandLowerAllowable.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBlandLowerAllowable.Location = New System.Drawing.Point(6, 66)
+        Me.lblBlandLowerAllowable.Name = "lblBlandLowerAllowable"
+        Me.lblBlandLowerAllowable.Size = New System.Drawing.Size(176, 16)
+        Me.lblBlandLowerAllowable.TabIndex = 8
+        Me.lblBlandLowerAllowable.Text = "Lower acceptable difference"
+        '
         'btnHelp
         '
         Me.btnHelp.Location = New System.Drawing.Point(310, 403)
@@ -615,6 +711,9 @@ Partial Class Ui9ANOVA2nested
         Me.grpBlandCI.PerformLayout()
         CType(Me.tbBlandBootstrapReps, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnBlandAlpha, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPageDecisionLimitsBlandAltman.ResumeLayout(False)
+        Me.grpBlandDecisionLimits.ResumeLayout(False)
+        Me.grpBlandDecisionLimits.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -662,4 +761,12 @@ Partial Class Ui9ANOVA2nested
     Friend WithEvents RefEdit2_nested As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents RefEdit3_Data As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents RefEdit1_Group As Global.BESHStatNG.Excel2007RefEdit
+    Friend WithEvents TabPageDecisionLimitsBlandAltman As Windows.Forms.TabPage
+    Friend WithEvents grpBlandDecisionLimits As Windows.Forms.GroupBox
+    Friend WithEvents ckBlandDecisionLimitsEnable As Windows.Forms.CheckBox
+    Friend WithEvents lblBlandLowerAllowable As Windows.Forms.Label
+    Friend WithEvents lblBlandDecisionLimitsHelp As Windows.Forms.Label
+    Friend WithEvents tbBlandUpperAllowable As Windows.Forms.TextBox
+    Friend WithEvents lblBlandUpperAllowable As Windows.Forms.Label
+    Friend WithEvents tbBlandLowerAllowable As Windows.Forms.TextBox
 End Class

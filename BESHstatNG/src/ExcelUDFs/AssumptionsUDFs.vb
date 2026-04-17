@@ -245,7 +245,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Dim n As Integer = mat.GetLength(0)
                     If n < 2 Then Return ExcelError.ExcelErrorNum
                     sampleSizes(i) = n
-                    Dim cov = SampleCovariance(mat)
+                    Dim cov = Matrix.MatCovar(mat)
                     For r As Integer = 0 To p - 1
                         For c As Integer = 0 To p - 1
                             covCube(i, r, c) = cov(r, c)
@@ -641,7 +641,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If x Is Nothing OrElse x.Length < 3 Then Return ExcelError.ExcelErrorNum
 
                 Dim alphaValue As Double = 0.05
-                If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
                 Dim res As TestResult = Assumptions.Grubbs(x, alphaValue)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.TestStatistics2) Then
@@ -702,7 +702,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If x Is Nothing OrElse x.Length < 15 Then Return ExcelError.ExcelErrorNum
 
                 Dim alphaValue As Double = 0.05
-                If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
                 Dim outliers() As Double = Assumptions.Rosner(x, alphaValue)
                 Return BuildRosnerTable(alphaValue, outliers, x.Length < 25)
@@ -719,7 +719,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim t As New ResultTable
             t.SetBody(New Object(,) {{label1, value1}, {label2, value2}})
             t.AddHeaderTopRow({title, ""})
-            Return ParametricUDFs.PrepareResultTableForUdf(t.returnSelf())
+            Return PrepareResultTableForUdf(t.returnSelf())
         End Function
 
         Private Function BuildGrubbsTable(alpha As Double, res As TestResult) As Object(,)
@@ -731,7 +731,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 {"Result", If(String.IsNullOrWhiteSpace(res.strSpecialInformation), "", res.strSpecialInformation)}
             })
             t.AddHeaderTopRow({"Grubbs Test", ""})
-            Return ParametricUDFs.PrepareResultTableForUdf(t.returnSelf())
+            Return PrepareResultTableForUdf(t.returnSelf())
         End Function
 
         Private Function BuildRosnerTable(alpha As Double, outliers() As Double, addCaution As Boolean) As Object(,)
@@ -763,7 +763,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If addCaution Then
                 t.AddFootnote("Interpret with caution for sample sizes below 25.")
             End If
-            Return ParametricUDFs.PrepareResultTableForUdf(t.returnSelf())
+            Return PrepareResultTableForUdf(t.returnSelf())
         End Function
 
         Private Function TryParseLeveneCenter(arg As Object, ByRef useMedian As Boolean, ByRef title As String) As Boolean
@@ -899,31 +899,5 @@ Namespace BESHStatNG.WorksheetFunctions
             Next
             Return out
         End Function
-
-        Private Function SampleCovariance(mat As Double(,)) As Double(,)
-            Dim n As Integer = mat.GetLength(0)
-            Dim p As Integer = mat.GetLength(1)
-            Dim means(p - 1) As Double
-            For c As Integer = 0 To p - 1
-                For r As Integer = 0 To n - 1
-                    means(c) += mat(r, c)
-                Next
-                means(c) /= n
-            Next
-
-            Dim cov(p - 1, p - 1) As Double
-            For i As Integer = 0 To p - 1
-                For j As Integer = i To p - 1
-                    Dim s As Double = 0.0
-                    For r As Integer = 0 To n - 1
-                        s += (mat(r, i) - means(i)) * (mat(r, j) - means(j))
-                    Next
-                    cov(i, j) = s / (n - 1)
-                    cov(j, i) = cov(i, j)
-                Next
-            Next
-            Return cov
-        End Function
-
     End Module
 End Namespace

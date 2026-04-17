@@ -50,7 +50,7 @@
     <OptionExplicit>On</OptionExplicit>
   </PropertyGroup>
   <PropertyGroup>
-    <OptionCompare>Text</OptionCompare>
+    <OptionCompare>Binary</OptionCompare>
   </PropertyGroup>
   <PropertyGroup>
     <OptionStrict>Off</OptionStrict>
@@ -122,6 +122,7 @@
     <Compile Include="src\DM\DataObj.vb" />
     <Compile Include="src\DM\Helpers.vb" />
     <Compile Include="src\DM\SheetManagement.vb" />
+    <Compile Include="src\ExcelUDFs\AgreementMethodUDFs.vb" />
     <Compile Include="src\ExcelUDFs\AssumptionsUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ContingencyTableUDFs.vb" />
     <Compile Include="src\ExcelUDFs\CoxUDFs.vb" />
@@ -131,9 +132,11 @@
     <Compile Include="src\ExcelUDFs\GlmUDFs.vb" />
     <Compile Include="src\ExcelUDFs\LinearModelUDFs.vb" />
     <Compile Include="src\ExcelUDFs\MultinomialLogitUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\MultivariateAnalysisUDFs.vb" />
     <Compile Include="src\ExcelUDFs\NonparametricUDFs.vb" />
     <Compile Include="src\ExcelUDFs\OrdinalLogitUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ParametricUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\PlotDataUDFs.vb" />
     <Compile Include="src\ExcelUDFs\RegressionFormulaUDFs.vb" />
     <Compile Include="src\ExcelUDFs\SampleSizeUDFs.vb" />
     <Compile Include="src\ExcelUDFs\SurvivalUDFs.vb" />
@@ -163,6 +166,7 @@
     <Compile Include="src\RegModels\MultinomialLogitModel.vb" />
     <Compile Include="src\RegModels\Multivariate\CA.vb" />
     <Compile Include="src\RegModels\Multivariate\ClusterAnalysis.vb" />
+    <Compile Include="src\RegModels\Multivariate\DiscriminantAnalysis.vb" />
     <Compile Include="src\RegModels\Multivariate\FactorAnalysis.vb" />
     <Compile Include="src\RegModels\Multivariate\MultivariateShared.vb" />
     <Compile Include="src\RegModels\Multivariate\PCA.vb" />
@@ -173,12 +177,13 @@
     <Compile Include="src\RegModels\RegressionFormulaParser.vb" />
     <Compile Include="src\StatTests\AgreementBlandAltman.vb" />
     <Compile Include="src\StatTests\Agreement.vb" />
-    <Compile Include="src\StatTests\AgreementCommon.vb" />
+    <Compile Include="src\StatTests\AgreementHelpers.vb" />
     <Compile Include="src\StatTests\AgreementLinConcordance.vb" />
     <Compile Include="src\StatTests\AgreementWeightedDeming.vb" />
     <Compile Include="src\StatTests\AgreementWeightedKappa.vb" />
     <Compile Include="src\StatTests\Assumptions.vb" />
     <Compile Include="src\StatTests\ContingencyTable.vb" />
+    <Compile Include="src\StatTests\EquivalenceNoninferiorityMethods.vb" />
     <Compile Include="src\StatTests\FisherExact.vb" />
     <Compile Include="src\StatTests\SampleSize.vb" />
     <Compile Include="src\StatTests\Survival.vb" />
@@ -393,16 +398,6 @@
   <PropertyGroup>
     <!-- ISO-8601 extended date: YYYY-MM-DD -->
     <BuildDate>$([System.DateTime]::UtcNow.ToString("yyyy-MM-dd"))</BuildDate>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Releas|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\Releas\</OutputPath>
-    <DocumentationFile>BESHStatNG.xml</DocumentationFile>
-    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Resources\RefEdit0.bmp" />

@@ -1126,6 +1126,210 @@ Namespace BESHStatNG.WorksheetFunctions
             End Try
         End Function
 
+        ' =============================================================================================================
+        ' Two independent proportions: non-inferiority and TOST equivalence
+        ' =============================================================================================================
+
+        ''' <summary>
+        ''' One-sided non-inferiority comparison for two independent proportions.
+        ''' </summary>
+        ''' <param name="controlResponders">Number of responders in the control or reference group.</param>
+        ''' <param name="controlTotal">Total number of observations in the control or reference group.</param>
+        ''' <param name="experimentalResponders">Number of responders in the experimental or test group.</param>
+        ''' <param name="experimentalTotal">Total number of observations in the experimental or test group.</param>
+        ''' <param name="margin">
+        ''' Positive non-inferiority margin magnitude <c>M</c> on the absolute risk-difference scale.
+        ''' The comparison is performed on <c>Δ = p(experimental) - p(control)</c>, so the null boundary is <c>-M</c>.
+        ''' </param>
+        ''' <param name="alpha">Optional <b>one-sided</b> significance level. Default <c>0.025</c>.</param>
+        ''' <returns>
+        ''' A labeled spill table containing observed proportions, the difference <c>p(experimental) - p(control)</c>,
+        ''' the one-sided z test, the matching two-sided confidence interval, and the interval-based decision summary.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' The non-inferiority hypotheses are
+        ''' <c>H0: Δ ≤ -M</c> versus <c>H1: Δ &gt; -M</c>,
+        ''' where <c>M &gt; 0</c> is the largest acceptable loss in the experimental response probability.
+        ''' </para>
+        ''' <para>
+        ''' The function reports the usual risk-difference estimate together with a Wilson/Newcombe-style two-sided confidence interval.
+        ''' Non-inferiority is supported when the lower confidence bound exceeds <c>-M</c>, which corresponds to a one-sided p-value at most <c>α</c>.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI(18,50,16,48,0.1)
+        ''' =BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI(18,50,16,48,0.08,0.025)
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI",
+            Category:="BESHStatNG - Contingency Tables",
+            Description:="Non-inferiority comparison for two independent proportions with CI-based decision reporting.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/contingency-tables/")>
+        Public Function CT_TWO_INDEPENDENT_PROPORTIONS_NI(
+            <ExcelArgument(Name:="controlResponders", Description:="Number of responders in the control/reference group.")> controlResponders As Object,
+            <ExcelArgument(Name:="controlTotal", Description:="Total number of observations in the control/reference group.")> controlTotal As Object,
+            <ExcelArgument(Name:="experimentalResponders", Description:="Number of responders in the experimental/test group.")> experimentalResponders As Object,
+            <ExcelArgument(Name:="experimentalTotal", Description:="Total number of observations in the experimental/test group.")> experimentalTotal As Object,
+            <ExcelArgument(Name:="margin", Description:="Positive non-inferiority margin magnitude M on the experimental-minus-control proportion scale.")> margin As Object,
+            <ExcelArgument(Name:="alpha", Description:="Optional one-sided alpha. Default 0.025.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim x0 As Integer, n0 As Integer, x1 As Integer, n1 As Integer
+                If Not TryGetWholeNumber(controlResponders, x0) OrElse
+                   Not TryGetWholeNumber(controlTotal, n0) OrElse
+                   Not TryGetWholeNumber(experimentalResponders, x1) OrElse
+                   Not TryGetWholeNumber(experimentalTotal, n1) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+
+                Dim marginValue As Double
+                If Not TryGetFiniteDouble(margin, marginValue) Then Return ExcelError.ExcelErrorValue
+                If marginValue <= 0.0 Then Return ExcelError.ExcelErrorNum
+
+                Dim alphaValue As Double = 0.025
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If n0 <= 0 OrElse n1 <= 0 OrElse x0 < 0 OrElse x0 > n0 OrElse x1 < 0 OrElse x1 > n1 Then Return ExcelError.ExcelErrorNum
+
+                Dim result As equivalencetests.ProportionNonInferiorityResult = equivalencetests.EquivalenceNonInferiorityMethods.TestIndependentProportionsNonInferiority(
+                    x0, n0, x1, n1, marginValue, alphaValue)
+
+                Dim body As Object(,) = {
+                    {"Control observations", result.NumberOfControls},
+                    {"Control responders", result.ControlResponders},
+                    {"Control proportion", result.ControlProportion},
+                    {"Experimental observations", result.NumberOfExperimental},
+                    {"Experimental responders", result.ExperimentalResponders},
+                    {"Experimental proportion", result.ExperimentalProportion},
+                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
+                    {"Standard error of the difference", result.StandardError},
+                    {"Non-inferiority margin magnitude", result.NonInferiorityMargin},
+                    {"Null boundary on difference scale", result.NonInferiorityLimit},
+                    {"One-sided alpha", result.AlphaOneSided},
+                    {"Z statistic", result.ZStatistic},
+                    {"One-sided p-value", result.PValue},
+                    {"Lower one-sided confidence limit", result.LowerOneSidedConfidenceLimit},
+                    {SafeCiLabel(result.TwoSidedEquivalentConfidenceInterval), SafeCiText(result.TwoSidedEquivalentConfidenceInterval)},
+                    {"Point estimate within stated limits", result.CiAssessment.IsPointEstimateWithinMargins},
+                    {"Confidence interval within stated limits", result.CiAssessment.IsConfidenceIntervalWithinMargins},
+                    {"Lower-bound non-inferiority supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
+                    {"Upper-bound non-inferiority supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
+                    {"Conclusion", result.Conclusion}
+                }
+
+                Return BuildResultTable("Two Independent Proportions Non-Inferiority", body)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.CT.TWO_INDEPENDENT_PROPORTIONS_NI", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' TOST-style equivalence comparison for two independent proportions.
+        ''' </summary>
+        ''' <param name="controlResponders">Number of responders in the control or reference group.</param>
+        ''' <param name="controlTotal">Total number of observations in the control or reference group.</param>
+        ''' <param name="experimentalResponders">Number of responders in the experimental or test group.</param>
+        ''' <param name="experimentalTotal">Total number of observations in the experimental or test group.</param>
+        ''' <param name="lowerMargin">
+        ''' Lower equivalence margin on the risk-difference scale <c>p(experimental) - p(control)</c>.
+        ''' If <paramref name="upperMargin"/> is omitted, this argument is interpreted as a positive symmetric margin magnitude <c>M</c>
+        ''' and the function uses margins <c>-M</c> and <c>+M</c>.
+        ''' </param>
+        ''' <param name="upperMargin">Optional upper equivalence margin. When omitted, ±lowerMargin is used.</param>
+        ''' <param name="alpha">Optional one-sided alpha for each TOST component. Default <c>0.025</c>.</param>
+        ''' <returns>
+        ''' A labeled spill table containing the two one-sided proportion tests, the combined TOST p-value,
+        ''' the matched two-sided confidence interval, and the interval-based decision summary.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' Equivalence is evaluated on the absolute risk-difference scale using the Two One-Sided Tests principle.
+        ''' Let <c>Δ = p(experimental) - p(control)</c>. The function evaluates
+        ''' <c>H0,lower: Δ ≤ L</c> versus <c>H1,lower: Δ &gt; L</c>
+        ''' and
+        ''' <c>H0,upper: Δ ≥ U</c> versus <c>H1,upper: Δ &lt; U</c>.
+        ''' Both components must be significant at the supplied one-sided α level for equivalence to be supported.
+        ''' </para>
+        ''' <para>
+        ''' The reported confidence interval is a Wilson/Newcombe-style interval for the difference in two independent proportions.
+        ''' Equivalence is supported when that interval lies completely inside the stated equivalence margins.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV(18,50,16,48,0.1)
+        ''' =BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV(18,50,16,48,-0.08,0.08,0.025)
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV",
+            Category:="BESHStatNG - Contingency Tables",
+            Description:="TOST-style equivalence comparison for two independent proportions with interval-based decision reporting.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/contingency-tables/")>
+        Public Function CT_TWO_INDEPENDENT_PROPORTIONS_EQUIV(
+            <ExcelArgument(Name:="controlResponders", Description:="Number of responders in the control/reference group.")> controlResponders As Object,
+            <ExcelArgument(Name:="controlTotal", Description:="Total number of observations in the control/reference group.")> controlTotal As Object,
+            <ExcelArgument(Name:="experimentalResponders", Description:="Number of responders in the experimental/test group.")> experimentalResponders As Object,
+            <ExcelArgument(Name:="experimentalTotal", Description:="Total number of observations in the experimental/test group.")> experimentalTotal As Object,
+            <ExcelArgument(Name:="lowerMargin", Description:="Lower equivalence margin, or a positive symmetric margin magnitude if upperMargin is omitted.")> lowerMargin As Object,
+            <ExcelArgument(Name:="upperMargin", Description:="Optional upper equivalence margin. When omitted, ±lowerMargin is used.")> Optional upperMargin As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional one-sided alpha for each TOST component. Default 0.025.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim x0 As Integer, n0 As Integer, x1 As Integer, n1 As Integer
+                If Not TryGetWholeNumber(controlResponders, x0) OrElse
+                   Not TryGetWholeNumber(controlTotal, n0) OrElse
+                   Not TryGetWholeNumber(experimentalResponders, x1) OrElse
+                   Not TryGetWholeNumber(experimentalTotal, n1) Then
+                    Return ExcelError.ExcelErrorValue
+                End If
+
+                Dim lowerValue As Double
+                Dim upperValue As Double
+                If Not TryGetEquivalenceMargins(lowerMargin, upperMargin, lowerValue, upperValue) Then Return ExcelError.ExcelErrorValue
+                If lowerValue >= upperValue Then Return ExcelError.ExcelErrorNum
+
+                Dim alphaValue As Double = 0.025
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If n0 <= 0 OrElse n1 <= 0 OrElse x0 < 0 OrElse x0 > n0 OrElse x1 < 0 OrElse x1 > n1 Then Return ExcelError.ExcelErrorNum
+
+                Dim result As equivalencetests.ProportionEquivalenceResult = equivalencetests.EquivalenceNonInferiorityMethods.TestIndependentProportionsEquivalence(
+                    x0, n0, x1, n1, lowerValue, upperValue, alphaValue)
+
+                Dim body As Object(,) = {
+                    {"Control observations", result.NumberOfControls},
+                    {"Control responders", result.ControlResponders},
+                    {"Control proportion", result.ControlProportion},
+                    {"Experimental observations", result.NumberOfExperimental},
+                    {"Experimental responders", result.ExperimentalResponders},
+                    {"Experimental proportion", result.ExperimentalProportion},
+                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
+                    {"Standard error of the difference", result.StandardError},
+                    {"Lower equivalence margin", result.LowerMargin},
+                    {"Upper equivalence margin", result.UpperMargin},
+                    {"One-sided alpha", result.AlphaOneSided},
+                    {"Lower TOST z statistic", result.LowerComponentStatistic},
+                    {"Lower TOST p-value", result.LowerComponentPValue},
+                    {"Upper TOST z statistic", result.UpperComponentStatistic},
+                    {"Upper TOST p-value", result.UpperComponentPValue},
+                    {"TOST p-value = max(component p-values)", result.TostPValue},
+                    {SafeCiLabel(result.EquivalentConfidenceInterval), SafeCiText(result.EquivalentConfidenceInterval)},
+                    {"Point estimate within margins", result.CiAssessment.IsPointEstimateWithinMargins},
+                    {"Confidence interval within margins", result.CiAssessment.IsConfidenceIntervalWithinMargins},
+                    {"Lower margin supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
+                    {"Upper margin supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
+                    {"Supports equivalence", result.SupportsEquivalence},
+                    {"Conclusion", result.Conclusion}
+                }
+
+                Return BuildResultTable("Two Independent Proportions Equivalence (TOST)", body)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.CT.TWO_INDEPENDENT_PROPORTIONS_EQUIV", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function
+
         ' -------------------------------------------------------------------------------------------------------------
         ' Helpers
         ' -------------------------------------------------------------------------------------------------------------
@@ -1207,12 +1411,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Return out
         End Function
 
-        Private Function BuildResultTable(title As String, body As Object(,)) As Object(,)
-            Dim t As New ResultTable
-            t.SetBody(body)
-            t.AddHeaderTopRow({title, ""})
-            Return ParametricUDFs.PrepareResultTableForUdf(t.returnSelf())
-        End Function
+
 
     End Module
 End Namespace

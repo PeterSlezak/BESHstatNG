@@ -25,6 +25,7 @@ Public Class UibyID
         Me.TabPage_OptionsNormalPlot.Parent = Nothing
         Me.TabPage_OptionsSymmetry.Parent = Nothing
         Me.TabPage_OptionsOutliers.Parent = Nothing
+        Me.TabPage_OptionsUTT.Parent = Nothing
 
         If Me.Text = "Kruskal-Wallis Test" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
@@ -53,11 +54,10 @@ Public Class UibyID
             Me.lblAlpha.Visible = True
 
         ElseIf Me.Text = "Unpaired T-test" Then
-            Me.TabPage_Options.Parent = Me.TabMultipage
-            Me.ckDescriptiveStatistics.Visible = True
-            Me.ckBoxPlot.Visible = True
-            Me.spinBtnAlpha.Visible = True
-            Me.lblAlpha.Visible = True
+            Me.TabPage_OptionsUTT.Parent = Me.TabMultipage
+            Me.spinBtnAlpha_UTT.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha_UTT.Minimum, Me.spinBtnAlpha_UTT.Maximum)
+            Me.UpdateUnpairedTtestOptionVisibility()
+            Me.ApplyUnpairedTtestInputLabels()
 
         ElseIf Me.Text = "ROC Curve" Then
             Me.TabPage_Options.Parent = Me.TabMultipage
@@ -240,7 +240,11 @@ Public Class UibyID
             Dim MWdata As TwoGroupsData, data As MultiGroupsUnpairedData
 
             'Validate Inputs
-            If Me.checkInputs() Then Exit Sub
+            If Me.Text = "Unpaired T-test" Then
+                If Me.ValidateUnpairedTtestOptionInputs() Then Exit Sub
+            Else
+                If Me.checkInputs() Then Exit Sub
+            End If
 
             If Me.Text = "Mann-Whitney Test" Or Me.Text = "Unpaired T-test" Or Me.Text = "ROC Curve" Then
 
@@ -720,26 +724,58 @@ Public Class UibyID
 
     Private Sub RunTtest(data As MultiGroupsUnpairedData)
         Dim box As graphics.BoxPlot = Nothing
-        Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
-        Dim ttest = New parametric.UnpairedTtest(data.X, data.varNames)
-        ttest.compute(alphaValue)
-        Dim res = ttest.wrapResults()
+        Dim res As New List(Of ResultTable)
+
+        If Me.optHypothesisSuperiority_UTT.Checked Then
+            Dim alphaValue As Double = CDbl(Me.spinBtnAlpha_UTT.Value)
+            Dim ttest = New parametric.UnpairedTtest(data.X, data.varNames)
+            ttest.compute(alphaValue)
+            Dim core As List(Of ResultTable) = ttest.wrapResults()
+
+            If Me.optVarianceEqual_UTT.Checked Then
+                res.Add(core(0))
+            Else
+                res.Add(core(1))
+            End If
+
+        ElseIf Me.optHypothesisNonInferiority_UTT.Checked Then
+            Dim ni = equivalencetests.EquivalenceNonInferiorityMethods.TestUnpairedMeansNonInferiority(
+            controlSample:=data.X(0),
+            experimentalSample:=data.X(1),
+            nonInferiorityMargin:=Me.GetUnpairedTtestMargin(),
+            alphaOneSided:=CDbl(Me.spinBtnAlpha_UTT.Value),
+            assumeEqualVariances:=Me.optVarianceEqual_UTT.Checked)
+
+            res.Add(Me.BuildUnpairedTtestNonInferiorityTable(ni, data.varNames))
+
+        ElseIf Me.optHypothesisEquivalence_UTT.Checked Then
+            Dim margin As Double = Me.GetUnpairedTtestMargin()
+            Dim eqv = equivalencetests.EquivalenceNonInferiorityMethods.TestUnpairedMeansEquivalence(
+            controlSample:=data.X(0),
+            experimentalSample:=data.X(1),
+            lowerMargin:=-margin,
+            upperMargin:=margin,
+            alphaOneSided:=CDbl(Me.spinBtnAlpha_UTT.Value),
+            assumeEqualVariances:=Me.optVarianceEqual_UTT.Checked)
+
+            res.Add(Me.BuildUnpairedTtestEquivalenceTable(eqv, data.varNames))
+        End If
 
         'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then Res.add(Me.ComputeDescriptiveStats(data))
+        If Me.ckDescriptiveStatistics_UTT.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
 
-        'box plot if requested
-        If Me.ckBoxPlot.Checked Then
+        'Box plot if requested
+        If Me.ckBoxPlot_UTT.Checked Then
             box = New graphics.BoxPlot(data.X, data.varNames)
             box.Calculate()
             box.CalcForPlotting()
-            Res.add(box.wrapResults())
+            res.Add(box.wrapResults())
         End If
 
         'Dump outputs
-        Dim WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(Res)
-        Dim totrows As Integer = rr.TotRows + Res.Count - 1 'one blank row as a separator
+        Dim WriteRes = GetResultWriter()
+        Dim rr = New ProcessListofResultTables(res)
+        Dim totrows As Integer = rr.TotRows + res.Count - 1
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -749,7 +785,7 @@ Public Class UibyID
 
         rr.writeToSheet(WriteRes, True)
 
-        If Me.ckBoxPlot.Checked Then
+        If Me.ckBoxPlot_UTT.Checked Then
             box.SetWs = WriteRes.ws
             box.AddBoxPlot()
         End If
@@ -1003,11 +1039,18 @@ Public Class UibyID
 
     Private Sub optByColumn_Click(sender As Object, e As System.EventArgs) Handles optByColumn.Click
         If Me.Text = "Mann-Whitney Test" Or Me.Text = "Unpaired T-test" Or Me.Text = "ROC Curve" Then
-            Me.lblRefedit1.Text = If(Me.Text = "ROC Curve", "Group with characteristic present (patients)", "Data: Group 1")
-            Me.lblRefedit2.Text = If(Me.Text = "ROC Curve", "Group with characteristic absent (controls)", "Data: Group 2")
+            If Me.Text = "ROC Curve" Then
+                Me.lblRefedit1.Text = "Group with characteristic present (patients)"
+                Me.lblRefedit2.Text = "Group with characteristic absent (controls)"
+            ElseIf Me.Text = "Unpaired T-test" Then
+                Me.ApplyUnpairedTtestInputLabels()
+            Else
+                Me.lblRefedit1.Text = "Data: Group 1"
+                Me.lblRefedit2.Text = "Data: Group 2"
+            End If
+
             Me.RefEdit1.txtAddress.Text = String.Empty
             Me.RefEdit1.txtAddress.Select()
-
         Else
             Me.RefEdit1.txtAddress.Text = String.Empty
             Me.RefEdit1.Enabled = False
@@ -1028,4 +1071,134 @@ Public Class UibyID
         End If
         Me.RefEdit1.txtAddress.Select()
     End Sub
+
+    Private Sub UnpairedTtestHypothesis_CheckedChanged(sender As Object, e As System.EventArgs) Handles optHypothesisSuperiority_UTT.CheckedChanged,
+                                                                                                        optHypothesisNonInferiority_UTT.CheckedChanged,
+                                                                                                        optHypothesisEquivalence_UTT.CheckedChanged
+        If Me.Text = "Unpaired T-test" Then
+            Me.UpdateUnpairedTtestOptionVisibility()
+            Me.ApplyUnpairedTtestInputLabels()
+        End If
+    End Sub
+
+    ' ====================================================================================
+    ' Helperw
+    ' ====================================================================================
+    Private Sub ApplyUnpairedTtestInputLabels()
+        If Me.optByColumn.Checked Then
+            Me.lblRefedit1.Text = "Control / Reference group:"
+            Me.lblRefedit2.Text = "Experimental / Test group:"
+        Else
+            Me.lblRefedit1.Text = "Group ID:"
+            Me.lblRefedit2.Text = "Data:"
+        End If
+    End Sub
+
+    Private Sub UpdateUnpairedTtestOptionVisibility()
+        If Me.optHypothesisSuperiority_UTT.Checked Then
+            Me.lblAlpha_UTT.Text = "Two-sided alpha:"
+            Me.lblMargin_UTT.Visible = False
+            Me.tbMargin_UTT.Visible = False
+            Me.lblMarginHint_UTT.Visible = False
+        ElseIf Me.optHypothesisNonInferiority_UTT.Checked Then
+            Me.lblAlpha_UTT.Text = "One-sided alpha:"
+            Me.lblMargin_UTT.Text = "NI margin:"
+            Me.lblMargin_UTT.Visible = True
+            Me.tbMargin_UTT.Visible = True
+            Me.lblMarginHint_UTT.Visible = True
+        ElseIf Me.optHypothesisEquivalence_UTT.Checked Then
+            Me.lblAlpha_UTT.Text = "One-sided alpha:"
+            Me.lblMargin_UTT.Text = "Equivalence margin (±):"
+            Me.lblMargin_UTT.Visible = True
+            Me.tbMargin_UTT.Visible = True
+            Me.lblMarginHint_UTT.Visible = True
+        End If
+    End Sub
+
+    Private Function ValidateUnpairedTtestOptionInputs() As Boolean
+        If Me.Text <> "Unpaired T-test" Then Return False
+
+        If (Me.optHypothesisNonInferiority_UTT.Checked OrElse Me.optHypothesisEquivalence_UTT.Checked) AndAlso Me.optByID.Checked Then
+            MsgBox("For noninferiority or equivalence, use 'By Column' input so the direction is explicit: control/reference in Input 1 and experimental/test in Input 2.", vbExclamation)
+            Me.TabMultipage.SelectedIndex = 0
+            Return True
+        End If
+
+        If Me.optHypothesisNonInferiority_UTT.Checked OrElse Me.optHypothesisEquivalence_UTT.Checked Then
+            Dim marginValue As Double
+            If Not Double.TryParse(Me.tbMargin_UTT.Text, Globalization.NumberStyles.Float, Globalization.CultureInfo.InvariantCulture, marginValue) Then
+                MsgBox("Enter a numeric positive margin using '.' as the decimal separator.", vbExclamation)
+                Return True
+            End If
+            If marginValue <= 0 Then
+                MsgBox("Margin must be greater than zero.", vbExclamation)
+                Return True
+            End If
+        End If
+
+        Return False
+    End Function
+
+    Private Function GetUnpairedTtestMargin() As Double
+        Dim marginValue As Double
+        If Not Double.TryParse(Me.tbMargin_UTT.Text, Globalization.NumberStyles.Float, Globalization.CultureInfo.InvariantCulture, marginValue) Then
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("A numeric positive margin is required for noninferiority / equivalence."))
+        End If
+        If marginValue <= 0 Then
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Margin must be greater than zero."))
+        End If
+        Return marginValue
+    End Function
+
+    Private Function BuildUnpairedTtestNonInferiorityTable(resNi As equivalencetests.MeanNonInferiorityResult, groupNames() As String) As ResultTable
+        Dim t = New ResultTable
+        Dim varianceLabel As String = If(resNi.AssumeEqualVariances, "Equal variances (pooled)", "Welch unequal variances")
+
+        t.AddHeaderTopRow({"Unpaired T-test", ""})
+        t.AddHeaderTopRow({"Noninferiority", ""})
+        t.SetBody({
+                {"Control / Reference group", groupNames(0)},
+                {"Experimental / Test group", groupNames(1)},
+                {"Variance assumption", varianceLabel},
+                {"Mean difference (Experimental - Control)", resNi.DifferenceExperimentalMinusControl},
+                {"SE", resNi.StandardError},
+                {"df", resNi.DegreesOfFreedom},
+                {"One-sided alpha", resNi.AlphaOneSided},
+                {"NI margin", resNi.NonInferiorityMargin},
+                {"NI limit", resNi.NonInferiorityLimit},
+                {"t", resNi.TestStatistic},
+                {"One-sided p-value", resNi.PValue},
+                {"Lower one-sided confidence limit", resNi.LowerOneSidedConfidenceLimit},
+                {"Two-sided confidence interval", resNi.TwoSidedEquivalentConfidenceInterval.strConfidenceInterval(CIformat.LL_to_UL)},
+                {"Conclusion", resNi.Conclusion}
+            })
+        Return t
+    End Function
+
+    Private Function BuildUnpairedTtestEquivalenceTable(resEq As equivalencetests.MeanEquivalenceResult, groupNames() As String) As ResultTable
+        Dim t = New ResultTable
+        Dim varianceLabel As String = If(resEq.AssumeEqualVariances, "Equal variances (pooled)", "Welch unequal variances")
+
+        t.AddHeaderTopRow({"Unpaired T-test", ""})
+        t.AddHeaderTopRow({"Equivalence (TOST)", ""})
+        t.SetBody({
+                {"Control / Reference group", groupNames(0)},
+                {"Experimental / Test group", groupNames(1)},
+                {"Variance assumption", varianceLabel},
+                {"Mean difference (Experimental - Control)", resEq.DifferenceExperimentalMinusControl},
+                {"SE", resEq.StandardError},
+                {"df", resEq.DegreesOfFreedom},
+                {"One-sided alpha", resEq.AlphaOneSided},
+                {"Lower margin", resEq.LowerMargin},
+                {"Upper margin", resEq.UpperMargin},
+                {"Lower-component t", resEq.LowerComponentStatistic},
+                {"Lower-component p-value", resEq.LowerComponentPValue},
+                {"Upper-component t", resEq.UpperComponentStatistic},
+                {"Upper-component p-value", resEq.UpperComponentPValue},
+                {"TOST p-value", resEq.TostPValue},
+                {"Equivalent confidence interval", resEq.EquivalentConfidenceInterval.strConfidenceInterval(CIformat.LL_to_UL)},
+                {"Conclusion", resEq.Conclusion}
+            })
+        Return t
+    End Function
 End Class

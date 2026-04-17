@@ -463,6 +463,19 @@ Public Class Ribbon
         mwForm.Show()
     End Sub
 
+    Public Sub OnbtmDiscrPressed(control As IRibbonControl)
+        Dim sh As Worksheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
+        Else
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
+        End If
+        Dim mwForm As New Ui11PCA("Discriminant Analysis", sh)
+        mwForm.Tag = HelpTopic.DiscriminantAnalysis
+        mwForm.Show()
+    End Sub
+
     '--------------------------------------------------------------------------
     ' Sample Size
     '--------------------------------------------------------------------------
@@ -484,6 +497,30 @@ Public Class Ribbon
     Public Sub OnbtmIndPropPressed(control As IRibbonControl)
         Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Independent Proportions")
         mwForm.Tag = HelpTopic.IndependentProportions
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmSSlogrankPressed(control As IRibbonControl)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Log-rank Test")
+        mwForm.Tag = HelpTopic.SSlogrank
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmSScoxPressed(control As IRibbonControl)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Cox Regression")
+        mwForm.Tag = HelpTopic.SScox
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmSSiccPressed(control As IRibbonControl)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Intraclass Correlation (ICC)")
+        mwForm.Tag = HelpTopic.SSicc
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmSSblandaltmanPressed(control As IRibbonControl)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Agreement (Bland-Altman)")
+        mwForm.Tag = HelpTopic.SSblandaltman
         mwForm.Show()
     End Sub
 

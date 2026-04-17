@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Option Strict On
+Imports BESHStatNG.AppInfrastructure
 
 Namespace Agreement
     Public Enum AgreementCiMethod
@@ -346,6 +348,105 @@ Namespace Agreement
         Public Property WeightMatrix As Double(,)
     End Class
 
+    Public Module AgreementHelpers
+
+        Friend Function ExcludeIndex(values As Double(), indexToExclude As Integer) As Double()
+            Dim out(values.Length - 2) As Double
+            Dim t As Integer = 0
+            For i As Integer = 0 To values.Length - 1
+                If i = indexToExclude Then Continue For
+                out(t) = values(i)
+                t += 1
+            Next
+            Return out
+        End Function
+
+        ''' <summary>
+        ''' Filters paired numeric inputs by removing any pair that contains a non-finite value.
+        ''' </summary>
+        ''' <param name="reference">Reference-method values.</param>
+        ''' <param name="test">Test-method values.</param>
+        ''' <returns>
+        ''' A tuple containing:
+        ''' <list type="bullet">
+        '''   <item><description>filtered reference values</description></item>
+        '''   <item><description>filtered test values</description></item>
+        '''   <item><description>the number of dropped pairs</description></item>
+        ''' </list>
+        ''' </returns>
+        ''' <remarks>
+        ''' A pair is retained only when both values are finite.
+        ''' </remarks>
+        Friend Function FilterFinitePairs(reference As Double(),
+                                          test As Double()) As (Reference As Double(), Test As Double(), DroppedCount As Integer)
+
+            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference.Length <> test.Length Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+            End If
+
+            Dim xr As New List(Of Double)(reference.Length)
+            Dim yt As New List(Of Double)(test.Length)
+            Dim dropped As Integer = 0
+
+            For i As Integer = 0 To reference.Length - 1
+                If IsFinite(reference(i)) AndAlso IsFinite(test(i)) Then
+                    xr.Add(reference(i))
+                    yt.Add(test(i))
+                Else
+                    dropped += 1
+                End If
+            Next
+
+            Return (xr.ToArray(), yt.ToArray(), dropped)
+        End Function
+
+        ''' <summary>
+        ''' Filters paired numeric inputs by removing any pair that contains a non-finite value and also returns the original kept row indices.
+        ''' </summary>
+        ''' <param name="reference">Reference-method values.</param>
+        ''' <param name="test">Test-method values.</param>
+        ''' <returns>
+        ''' A tuple containing:
+        ''' <list type="bullet">
+        '''   <item><description>filtered reference values</description></item>
+        '''   <item><description>filtered test values</description></item>
+        '''   <item><description>indices of the original rows that were kept</description></item>
+        '''   <item><description>the number of dropped pairs</description></item>
+        ''' </list>
+        ''' </returns>
+        ''' <remarks>
+        ''' This helper is useful when additional per-row arrays must be aligned to the filtered paired data.
+        ''' </remarks>
+        Friend Function FilterFinitePairsWithIndices(reference As Double(),
+                                                     test As Double()) As (Reference As Double(), Test As Double(), KeptIndices As Integer(), DroppedCount As Integer)
+
+            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference.Length <> test.Length Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+            End If
+
+            Dim xr As New List(Of Double)(reference.Length)
+            Dim yt As New List(Of Double)(test.Length)
+            Dim kept As New List(Of Integer)(reference.Length)
+            Dim dropped As Integer = 0
+
+            For i As Integer = 0 To reference.Length - 1
+                If IsFinite(reference(i)) AndAlso IsFinite(test(i)) Then
+                    xr.Add(reference(i))
+                    yt.Add(test(i))
+                    kept.Add(i)
+                Else
+                    dropped += 1
+                End If
+            Next
+
+            Return (xr.ToArray(), yt.ToArray(), kept.ToArray(), dropped)
+        End Function
+
+    End Module
 End Namespace
 
 

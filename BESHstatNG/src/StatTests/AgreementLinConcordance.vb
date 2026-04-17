@@ -185,7 +185,7 @@ Namespace Agreement
                 AppGlobals.BSerr.LogAndThrow(New NotSupportedException("Repeated-measures/clustered Lin concordance is not implemented in this first version. Supply independent paired measurements only."))
             End If
 
-            Dim filtered = FilterFinitePairs(Me.pReferenceData, Me.pTestData)
+            Dim filtered = AgreementHelpers.FilterFinitePairs(Me.pReferenceData, Me.pTestData)
             Me.pFilteredReference = filtered.Reference
             Me.pFilteredTest = filtered.Test
             Me.pDroppedPairCount = filtered.DroppedCount
@@ -198,7 +198,7 @@ Namespace Agreement
             Dim ci As ConfidenceIntervalResult
             If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
                 Me.pUsedBootstrapCi = True
-                Me.pBootstrapSeedUsed = ResolveRandomSeed(randomSeed)
+                Me.pBootstrapSeedUsed = Helpers.ResolveRandomSeed(randomSeed)
                 ci = BootstrapConcordanceConfidenceInterval(Me.pFilteredReference, Me.pFilteredTest, Me.pOptions, progressBar, Me.pBootstrapSeedUsed)
             Else
                 ci = ComputeConcordanceConfidenceInterval(core.Concordance, Me.pFilteredReference.Length, Me.pOptions)
@@ -382,38 +382,6 @@ Namespace Agreement
                 AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.NullConcordance), "Null concordance must lie strictly between -1 and 1 for Fisher z-style inference."))
             End If
         End Sub
-
-        ''' <summary>
-        ''' Removes any paired observation containing a non-finite value.
-        ''' </summary>
-        ''' <param name="reference">Reference-method observations.</param>
-        ''' <param name="test">Test-method observations.</param>
-        ''' <returns>
-        ''' A tuple containing the filtered reference array, filtered test array, and the number of dropped pairs.
-        ''' </returns>
-        Friend Shared Function FilterFinitePairs(reference As Double(),
-                                                 test As Double()) As (Reference As Double(), Test As Double(), DroppedCount As Integer)
-            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
-            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
-            If reference.Length <> test.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
-            End If
-
-            Dim xr As New List(Of Double)(reference.Length)
-            Dim yt As New List(Of Double)(test.Length)
-            Dim dropped As Integer = 0
-
-            For i As Integer = 0 To reference.Length - 1
-                If IsFinite(reference(i)) AndAlso IsFinite(test(i)) Then
-                    xr.Add(reference(i))
-                    yt.Add(test(i))
-                Else
-                    dropped += 1
-                End If
-            Next
-
-            Return (xr.ToArray(), yt.ToArray(), dropped)
-        End Function
 
         ''' <summary>
         ''' Computes Lin's concordance coefficient and its decomposition from paired numeric vectors.
@@ -610,24 +578,6 @@ Namespace Agreement
         End Function
 
         ''' <summary>
-        ''' Resolves the actual pseudo-random seed that will be used for bootstrap resampling.
-        ''' </summary>
-        ''' <param name="requestedSeed">
-        ''' Explicit seed requested by the caller. Use <see cref="Integer.MinValue"/> to indicate that no explicit seed was supplied.
-        ''' </param>
-        ''' <returns>
-        ''' The explicit seed if one was supplied; otherwise the global default seed; otherwise a time-based seed captured from <see cref="Environment.TickCount"/>.
-        ''' </returns>
-        ''' <remarks>
-        ''' Returning the concrete seed value allows the bootstrap run to be reproduced exactly and reported back in the result output.
-        ''' </remarks>
-        Friend Shared Function ResolveRandomSeed(Optional requestedSeed As Integer = Integer.MinValue) As Integer
-            If requestedSeed <> Integer.MinValue Then Return requestedSeed
-            If AppGlobals.DefaultRandomSeed <> Integer.MinValue Then Return AppGlobals.DefaultRandomSeed
-            Return Environment.TickCount
-        End Function
-
-        ''' <summary>
         ''' Computes an approximate hypothesis test for the null concordance value.
         ''' </summary>
         ''' <param name="concordance">Observed concordance estimate.</param>
@@ -669,15 +619,6 @@ Namespace Agreement
                 .Pvalue = p,
                 .strSpecialInformation = $"Approximate Fisher z-style test of H0: concordance = {CSng(opts.NullConcordance)}."
             }
-        End Function
-
-        ''' <summary>
-        ''' Returns <c>True</c> when the supplied value is finite.
-        ''' </summary>
-        ''' <param name="x">Value to evaluate.</param>
-        ''' <returns><c>True</c> if the value is neither <c>NaN</c> nor infinite; otherwise <c>False</c>.</returns>
-        Friend Shared Function IsFinite(x As Double) As Boolean
-            Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
         End Function
 
         ''' <summary>

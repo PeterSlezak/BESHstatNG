@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Option Strict On
+
 Imports System
 Imports System.Math
 Imports BESHStatNG.AppInfrastructure

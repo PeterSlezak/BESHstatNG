@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports BESHStatNG.AppInfrastructure

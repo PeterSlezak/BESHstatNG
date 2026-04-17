@@ -22,6 +22,14 @@ Public Class Ui8Proportions
             Me.spinBtnD.Visible = False
             Me.spinBtnA.Select()
         End If
+        Me.cbHypothesisType.Items.AddRange(New Object() {"Superiority", "Noninferiority", "Equivalence"})
+        Me.cbHypothesisType.SelectedIndex = 0
+        ' New independent-proportions NI / equivalence controls.
+        Me.cbHypothesisType.Visible = False
+        Me.lblMargin.Visible = False
+        Me.spinBtnMargin_IndProp.Visible = False
+        Me.lblMarginHint_IndProp.Visible = False
+        AddHandler Me.cbHypothesisType.SelectedIndexChanged, AddressOf Me.HypothesisTypeChanged
 
         Me.WireHelp(Me.btnHelp)
     End Sub
@@ -78,41 +86,108 @@ Public Class Ui8Proportions
 
             ElseIf Me.optIndependent.Checked Then
 
-                If TotalN1 < RespondersN1 Then 'total have to be less then # of responders
+                If TotalN1 < RespondersN1 Then
                     MsgBox("Total Number of observations is less then the Number of Responders", vbOKOnly, "Data input")
                     Me.spinBtnA.Select()
                     Exit Sub
                 End If
-                If TotalN2 < RespondersN2 Then 'total have to be less then # of responders
+                If TotalN2 < RespondersN2 Then
                     MsgBox("Total Number of observations is less then the Number of Responders", vbOKOnly, "Data input")
                     Me.spinBtnC.Select()
                     Exit Sub
                 End If
-                Dim TwoIdependent = contingencytable.TwoIndependentProportions(RespondersN1, TotalN1, RespondersN2, TotalN2, alphaValue)
 
-                'get counts in format required by fisherexact
-                Dim R1C1 As Integer = RespondersN1
-                Dim R2C1 As Integer = TotalN1 - RespondersN1
-                Dim R1C2 As Integer = RespondersN2
-                Dim R2C2 As Integer = TotalN2 - RespondersN2
-                Dim Fisher = contingencytable.FisherExact2x2(R1C1, R1C2, R2C1, R2C2)
+                Select Case Me.cbHypothesisType.SelectedItem
+                        Case "Noninferiority"
+                            Dim margin As Double = CDbl(Me.spinBtnMargin_IndProp.Value)
+                        Dim ni = equivalencetests.TestIndependentProportionsNonInferiority(
+                                        controlResponders:=RespondersN1,
+                                        controlTotal:=TotalN1,
+                                        experimentalResponders:=RespondersN2,
+                                        experimentalTotal:=TotalN2,
+                                        nonInferiorityMargin:=margin,
+                                        alphaOneSided:=alphaValue)
 
-                t.AddHeaderTopRow({"Two independent proportions", ""})
-                t.SetBody({{"Total Number of Subjects in Sample 1", TotalN1},
-                            {"Number of Responders in Sample 1", RespondersN1},
-                            {"Proportion in Sample 1", RespondersN1 / TotalN1},
-                            {"Total Number of Subjects in Sample 2", TotalN2},
-                            {"Number of Responders in Sample 2", RespondersN2},
-                            {"Proportion in Sample 2", RespondersN2 / TotalN2},
-                            {"Proportions Difference", TwoIdependent.Estimate},
-                            {ciLabel, TwoIdependent.strConfidenceInterval(CIformat.LL_to_UL)},
-                            {"Exact two - sided P-value", Fisher.Pvalue},
-                            {"Exact Mid two-sided P-value", Fisher.Pvalue2}})
-                res.Add(t)
+                        Dim niCiLabel As String = $"{100.0 * (1.0 - 2.0 * alphaValue):0.##}% CI for proportion difference"
+                            t.AddHeaderTopRow({"Two independent proportions - Noninferiority", ""})
+                        t.SetBody({
+                                        {"Control / Reference sample size", ni.NumberOfControls},
+                                        {"Control / Reference responders", ni.ControlResponders},
+                                        {"Control / Reference proportion", ni.ControlProportion},
+                                        {"Experimental / Test sample size", ni.NumberOfExperimental},
+                                        {"Experimental / Test responders", ni.ExperimentalResponders},
+                                        {"Experimental / Test proportion", ni.ExperimentalProportion},
+                                        {"Difference (Experimental - Control)", ni.DifferenceExperimentalMinusControl},
+                                        {"Noninferiority margin", ni.NonInferiorityMargin},
+                                        {"Noninferiority limit", ni.NonInferiorityLimit},
+                                        {niCiLabel, ni.TwoSidedEquivalentConfidenceInterval.strConfidenceInterval(CIformat.LL_to_UL)},
+                                        {"Lower one-sided confidence limit", ni.LowerOneSidedConfidenceLimit},
+                                        {"Z statistic", ni.ZStatistic},
+                                        {"One-sided P-value", ni.PValue},
+                                        {"Conclusion", ni.Conclusion}
+                                    })
+                        res.Add(t)
 
-            ElseIf Me.optPaired.Checked Then
+                        Case "Equivalence"
+                            Dim margin As Double = CDbl(Me.spinBtnMargin_IndProp.Value)
+                        Dim eq = equivalencetests.TestIndependentProportionsEquivalence(
+                                    controlResponders:=RespondersN1,
+                                    controlTotal:=TotalN1,
+                                    experimentalResponders:=RespondersN2,
+                                    experimentalTotal:=TotalN2,
+                                    lowerMargin:=-margin,
+                                    upperMargin:=margin,
+                                    alphaOneSided:=alphaValue)
 
-                If Math.Max(Math.Max(RespondersN1, RespondersN2), RespondersBoth) > TotalN1 Or
+                        Dim eqCiLabel As String = $"{100.0 * (1.0 - 2.0 * alphaValue):0.##}% CI for proportion difference"
+                            t.AddHeaderTopRow({"Two independent proportions - Equivalence", ""})
+                        t.SetBody({
+                                        {"Control / Reference sample size", eq.NumberOfControls},
+                                        {"Control / Reference responders", eq.ControlResponders},
+                                        {"Control / Reference proportion", eq.ControlProportion},
+                                        {"Experimental / Test sample size", eq.NumberOfExperimental},
+                                        {"Experimental / Test responders", eq.ExperimentalResponders},
+                                        {"Experimental / Test proportion", eq.ExperimentalProportion},
+                                        {"Difference (Experimental - Control)", eq.DifferenceExperimentalMinusControl},
+                                        {"Lower equivalence margin", eq.LowerMargin},
+                                        {"Upper equivalence margin", eq.UpperMargin},
+                                        {eqCiLabel, eq.EquivalentConfidenceInterval.strConfidenceInterval(CIformat.LL_to_UL)},
+                                        {"Lower TOST Z statistic", eq.LowerComponentStatistic},
+                                        {"Lower TOST one-sided P-value", eq.LowerComponentPValue},
+                                        {"Upper TOST Z statistic", eq.UpperComponentStatistic},
+                                        {"Upper TOST one-sided P-value", eq.UpperComponentPValue},
+                                        {"TOST P-value", eq.TostPValue},
+                                        {"Conclusion", eq.Conclusion}
+                                    })
+                        res.Add(t)
+
+                        Case Else
+                            Dim TwoIdependent = contingencytable.TwoIndependentProportions(RespondersN1, TotalN1, RespondersN2, TotalN2, alphaValue)
+
+                            ' get counts in format required by fisherexact
+                            Dim R1C1 As Integer = RespondersN1
+                            Dim R2C1 As Integer = TotalN1 - RespondersN1
+                            Dim R1C2 As Integer = RespondersN2
+                            Dim R2C2 As Integer = TotalN2 - RespondersN2
+                            Dim Fisher = contingencytable.FisherExact2x2(R1C1, R1C2, R2C1, R2C2)
+
+                            t.AddHeaderTopRow({"Two independent proportions", ""})
+                        t.SetBody({{"Total Number of Subjects in Sample 1", TotalN1},
+                                        {"Number of Responders in Sample 1", RespondersN1},
+                                        {"Proportion in Sample 1", RespondersN1 / TotalN1},
+                                        {"Total Number of Subjects in Sample 2", TotalN2},
+                                        {"Number of Responders in Sample 2", RespondersN2},
+                                        {"Proportion in Sample 2", RespondersN2 / TotalN2},
+                                        {"Proportions Difference", TwoIdependent.Estimate},
+                                        {ciLabel, TwoIdependent.strConfidenceInterval(CIformat.LL_to_UL)},
+                                        {"Exact two-sided P-value", Fisher.Pvalue},
+                                        {"Exact Mid two-sided P-value", Fisher.Pvalue2}})
+                        res.Add(t)
+                    End Select
+
+                ElseIf Me.optPaired.Checked Then
+
+                    If Math.Max(Math.Max(RespondersN1, RespondersN2), RespondersBoth) > TotalN1 Or
                    TotalN1 < RespondersN1 + RespondersBoth Or TotalN1 < RespondersN2 + RespondersBoth Then 'total have to be less then # of responders
                     MsgBox("Total Number of observations is less then the Number of Responders", vbOKOnly, "Data input")
                     Me.spinBtnA.Select()
@@ -200,6 +275,12 @@ Public Class Ui8Proportions
         Me.lbl4.Visible = False
         Me.spinBtnC.Visible = False
         Me.spinBtnD.Visible = False
+        Me.lblMargin.Visible = False
+        Me.spinBtnMargin_IndProp.Visible = False
+        Me.lblMarginHint_IndProp.Visible = False
+        Me.cbHypothesisType.Visible = False
+        Me.lblHypothesisType.Visible = False
+        Me.lblAlpha.Text = "alpha"
         Me.spinBtnA.Select()
     End Sub
 
@@ -212,6 +293,12 @@ Public Class Ui8Proportions
         Me.lbl4.Visible = True
         Me.spinBtnC.Visible = True
         Me.spinBtnD.Visible = True
+        Me.lblMargin.Visible = True
+        Me.spinBtnMargin_IndProp.Visible = True
+        Me.lblMarginHint_IndProp.Visible = True
+        Me.cbHypothesisType.Visible = True
+        Me.lblHypothesisType.Visible = True
+        UpdateIndependentHypothesisUi()
         Me.spinBtnA.Select()
     End Sub
 
@@ -224,6 +311,64 @@ Public Class Ui8Proportions
         Me.lbl4.Visible = True
         Me.spinBtnC.Visible = True
         Me.spinBtnD.Visible = True
+        Me.lblMargin.Visible = False
+        Me.spinBtnMargin_IndProp.Visible = False
+        Me.lblMarginHint_IndProp.Visible = False
+        Me.cbHypothesisType.Visible = False
+        Me.lblHypothesisType.Visible = False
         Me.spinBtnA.Select()
+    End Sub
+
+    Private Sub HypothesisTypeChanged(sender As Object, e As System.EventArgs)
+        Me.UpdateIndependentHypothesisUi()
+    End Sub
+
+    ' =============================================================================
+    ' HELPERS
+    ' =============================================================================
+    Private Function ValidateIndependentMargin() As Boolean
+        If Me.spinBtnMargin_IndProp Is Nothing Then Return True
+        Dim mode As String = Me.cbHypothesisType.SelectedItem
+        If mode = "Superiority" Then Return True
+
+        If Me.spinBtnMargin_IndProp.Value <= 0D Then
+            MsgBox("The margin must be greater than 0.", vbOKOnly, "Data input")
+            Me.spinBtnMargin_IndProp.Select()
+            Return False
+        End If
+
+        Return True
+    End Function
+
+    Private Sub UpdateIndependentHypothesisUi()
+        Dim isIndependent As Boolean = Me.optIndependent.Checked
+        Me.lblMargin.Visible = isIndependent
+        Me.spinBtnMargin_IndProp.Visible = isIndependent
+        If Not isIndependent Then Exit Sub
+
+        Select Case Me.cbHypothesisType.SelectedItem
+            Case "Noninferiority"
+                Me.lblAlpha.Text = "One-sided alpha"
+                Me.lblMargin.Text = "Noninferiority margin"
+                Me.lblMargin.Visible = True
+                Me.spinBtnMargin_IndProp.Visible = True
+
+                Me.lblMarginHint_IndProp.Text = "Enter a positive margin. The null limit is -margin on the (Experimental - Control) scale."
+                Me.lblMarginHint_IndProp.Visible = True
+
+            Case "Equivalence"
+                Me.lblAlpha.Text = "One-sided alpha"
+                Me.lblMargin.Text = "Equivalence margin"
+                Me.lblMargin.Visible = True
+                Me.spinBtnMargin_IndProp.Visible = True
+                Me.lblMarginHint_IndProp.Text = "Enter a positive symmetric margin. The equivalence region is [-margin, +margin] on the (Experimental - Control) scale."
+                Me.lblMarginHint_IndProp.Visible = True
+
+            Case Else
+                Me.lblAlpha.Text = "alpha"
+                Me.lblMargin.Visible = False
+                Me.spinBtnMargin_IndProp.Visible = False
+                Me.lblMarginHint_IndProp.Visible = False
+        End Select
     End Sub
 End Class

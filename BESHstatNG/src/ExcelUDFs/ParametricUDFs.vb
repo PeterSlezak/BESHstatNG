@@ -4,8 +4,9 @@ Option Strict On
 Imports System
 Imports System.Collections.Generic
 Imports System.Linq
-Imports ExcelDna.Integration
+Imports BESHStatNG.equivalencetests
 Imports BESHStatNG.Matrix
+Imports ExcelDna.Integration
 
 Namespace BESHStatNG.WorksheetFunctions
 
@@ -13,10 +14,6 @@ Namespace BESHStatNG.WorksheetFunctions
     ''' Worksheet functions exposing selected parametric ANOVA procedures.
     ''' </summary>
     Public Module ParametricUDFs
-
-        ' -------------------------------------------------------------------------------------------------------------
-        ' One-way ANOVA
-        ' -------------------------------------------------------------------------------------------------------------
 
         ''' <summary>
         ''' Classical one-way ANOVA for comparing means across two or more independent groups.
@@ -59,7 +56,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.PAR.ANOVA1",
             Category:="BESHStatNG - Parametric",
             Description:="One-way ANOVA table. Input: one column per group.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
         Public Function ANOVA1(
             <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
             <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing
@@ -118,7 +115,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.PAR.ANOVA1_WELCH",
             Category:="BESHStatNG - Parametric",
             Description:="Welch one-way ANOVA summary. Input: one column per group.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
         Public Function ANOVA1_WELCH(
             <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
             <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing
@@ -151,10 +148,6 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return LoggedUdfError("BESH.PAR.ANOVA1_WELCH", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
-
-        ' -------------------------------------------------------------------------------------------------------------
-        ' Repeated-measures ANOVA
-        ' -------------------------------------------------------------------------------------------------------------
 
         ''' <summary>
         ''' One-way repeated-measures ANOVA for comparing several conditions measured on the same subjects or blocks.
@@ -202,7 +195,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.PAR.RMANOVA1",
             Category:="BESHStatNG - Parametric",
             Description:="One-way repeated-measures ANOVA table. Input: rows=subjects, cols=conditions.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
         Public Function RMANOVA1(
             <ExcelArgument(Name:="data", Description:="Numeric matrix; rows=subjects, columns=conditions. First row may contain headers.")> data As Object,
             <ExcelArgument(Name:="conditionNames", Description:="Optional condition names as comma-separated text or 1-row/1-column range.")> Optional conditionNames As Object = Nothing,
@@ -241,10 +234,6 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return LoggedUdfError("BESH.PAR.RMANOVA1", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
-
-        ' -------------------------------------------------------------------------------------------------------------
-        ' Two-way nested ANOVA
-        ' -------------------------------------------------------------------------------------------------------------
 
         ''' <summary>
         ''' Two-way nested ANOVA for designs where one factor is nested within another.
@@ -294,7 +283,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.PAR.ANOVA2_NESTED",
             Category:="BESHStatNG - Parametric",
             Description:="Two-way nested ANOVA. Input: 3 columns = group, subgroup, response.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
         Public Function ANOVA2_NESTED(
             <ExcelArgument(Name:="data", Description:="Three columns: group, subgroup (nested), response. First row may contain headers.")> data As Object,
             <ExcelArgument(Name:="varNames", Description:="Optional variable names as comma-separated text or 1-row/1-column range.")> Optional varNames As Object = Nothing,
@@ -328,10 +317,6 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return LoggedUdfError("BESH.PAR.ANOVA2_NESTED", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
-
-        ' -------------------------------------------------------------------------------------------------------------
-        ' One-way ANOVA multiple comparisons
-        ' -------------------------------------------------------------------------------------------------------------
 
         ''' <summary>
         ''' One-way ANOVA post-hoc multiple comparisons for grouped data.
@@ -369,7 +354,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.PAR.ANOVA1_MCP",
             Category:="BESHStatNG - Parametric",
             Description:="One-way ANOVA multiple comparisons: Tukey-Kramer, Games-Howell, Fisher LSD, or Bonferroni.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
         Public Function ANOVA1_MCP(
             <ExcelArgument(Name:="groups", Description:="Multi-column range; one column per group. First row may contain headers.")> groups As Object,
             <ExcelArgument(Name:="groupNames", Description:="Optional group names as comma-separated text or 1-row/1-column range.")> Optional groupNames As Object = Nothing,
@@ -435,10 +420,6 @@ Namespace BESHStatNG.WorksheetFunctions
             End Try
         End Function
 
-        ' -------------------------------------------------------------------------------------------------------------
-        ' Repeated-measures ANOVA multiple comparisons
-        ' -------------------------------------------------------------------------------------------------------------
-
         ''' <summary>
         ''' One-way repeated-measures ANOVA post-hoc multiple comparisons.
         ''' </summary>
@@ -471,7 +452,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.PAR.RMANOVA1_MCP",
             Category:="BESHStatNG - Parametric",
             Description:="Repeated-measures ANOVA multiple comparisons: TukeyKramerRM2 (default) or Tukey assuming sphericity.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
         Public Function RMANOVA1_MCP(
             <ExcelArgument(Name:="data", Description:="Numeric matrix; rows=subjects, columns=conditions. First row may contain headers.")> data As Object,
             <ExcelArgument(Name:="conditionNames", Description:="Optional condition names as comma-separated text or 1-row/1-column range.")> Optional conditionNames As Object = Nothing,
@@ -589,7 +570,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.PAR.TTEST_UNPAIRED",
             Category:="BESHStatNG - Parametric",
             Description:="Two-sample unpaired t-test. Returns pooled, Welch, or both result tables.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
         Public Function TTEST_UNPAIRED(
             <ExcelArgument(Name:="x", Description:="First independent group as a single-column range. Non-numeric cells ignored; first cell may be a header.")> x As Object,
             <ExcelArgument(Name:="y", Description:="Second independent group as a single-column range. Non-numeric cells ignored; first cell may be a header.")> y As Object,
@@ -679,7 +660,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.PAR.TTEST_PAIRED",
             Category:="BESHStatNG - Parametric",
             Description:="Paired t-test for two matched samples. Returns a labeled result table.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/parametric/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
         Public Function TTEST_PAIRED(
             <ExcelArgument(Name:="x", Description:="First paired sample as a single-column range. Values are paired by row; first cell may be a header.")> x As Object,
             <ExcelArgument(Name:="y", Description:="Second paired sample as a single-column range. Values are paired by row; first cell may be a header.")> y As Object,
@@ -701,47 +682,256 @@ Namespace BESHStatNG.WorksheetFunctions
             End Try
         End Function
 
+        ''' <summary>
+        ''' One-sided non-inferiority comparison for two independent means.
+        ''' </summary>
+        ''' <param name="control">
+        ''' Control or reference sample as a single-column Excel range.
+        ''' Non-numeric cells are ignored. If the first cell looks like text, it is treated as a header and may be used
+        ''' as the default display name of the control group.
+        ''' </param>
+        ''' <param name="experimental">
+        ''' Experimental or test sample as a single-column Excel range.
+        ''' Non-numeric cells are ignored. If the first cell looks like text, it is treated as a header and may be used
+        ''' as the default display name of the experimental group.
+        ''' </param>
+        ''' <param name="margin">
+        ''' Positive non-inferiority margin magnitude <c>M</c> on the difference scale.
+        ''' The comparison is performed on <c>Δ = mean(experimental) - mean(control)</c>.
+        ''' The null boundary is therefore <c>Δ ≤ -M</c> and the alternative is <c>Δ &gt; -M</c>.
+        ''' </param>
+        ''' <param name="groupNames">
+        ''' Optional display names for the two groups, supplied either as a comma-separated string such as
+        ''' <c>"Control,Test"</c> or as a one-row / one-column range with two names.
+        ''' When omitted, names are taken from header cells when available.
+        ''' </param>
+        ''' <param name="method">
+        ''' Optional variance assumption:
+        ''' <c>welch</c> (default, unequal variances) or <c>equal</c>/<c>pooled</c>/<c>student</c>.
+        ''' Welch’s method is usually preferred when sample sizes or variances differ.
+        ''' </param>
+        ''' <param name="alpha">
+        ''' Optional <b>one-sided</b> significance level. The default is <c>0.025</c>.
+        ''' The function also reports the matching two-sided confidence interval with confidence level <c>1 - 2α</c>.
+        ''' </param>
+        ''' <returns>
+        ''' A labeled spill table containing sample sizes, sample means, the mean difference
+        ''' <c>mean(experimental) - mean(control)</c>, the non-inferiority limit <c>-M</c>,
+        ''' the test statistic, one-sided p-value, lower one-sided confidence limit, the matching two-sided confidence interval,
+        ''' and an interval-based decision summary.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This function tests whether the experimental mean is not worse than the control mean by more than a prespecified amount.
+        ''' On the difference scale <c>Δ = mean(experimental) - mean(control)</c>, a positive value favors the experimental group.
+        ''' </para>
+        ''' <para>
+        ''' The non-inferiority hypotheses are
+        ''' <c>H0: Δ ≤ -M</c> versus <c>H1: Δ &gt; -M</c>,
+        ''' where <c>M &gt; 0</c> is the clinically or scientifically acceptable loss.
+        ''' </para>
+        ''' <para>
+        ''' The test statistic is
+        ''' <c>t = (Δ̂ + M) / SE(Δ̂)</c>,
+        ''' evaluated either with Welch’s unequal-variance degrees of freedom or the pooled-variance Student t distribution.
+        ''' The reported two-sided confidence interval uses confidence level <c>1 - 2α</c>. Non-inferiority is supported when
+        ''' the lower confidence bound exceeds <c>-M</c> and, equivalently, when the one-sided p-value is at most <c>α</c>.
+        ''' </para>
+        ''' <para>
+        ''' Missing or non-numeric cells are removed independently within each supplied group before the comparison is formed.
+        ''' Each retained sample must contribute at least two usable numeric observations.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.PAR.TTEST_UNPAIRED_NI(A2:A21,B2:B19,0.5)
+        ''' =BESH.PAR.TTEST_UNPAIRED_NI(A1:A21,B1:B19,1.25,"Control,Treatment","welch",0.025)
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.PAR.TTEST_UNPAIRED_NI",
+            Category:="BESHStatNG - Parametric",
+            Description:="Non-inferiority comparison for two independent means with CI-based decision reporting.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function TTEST_UNPAIRED_NI(
+            <ExcelArgument(AllowReference:=True, Name:="control", Description:="Control/reference group as a single-column range. First cell may be a header.")> control As Object,
+            <ExcelArgument(AllowReference:=True, Name:="experimental", Description:="Experimental/test group as a single-column range. First cell may be a header.")> experimental As Object,
+            <ExcelArgument(Name:="margin", Description:="Positive non-inferiority margin magnitude M. The null limit is -M on the experimental-minus-control scale.")> margin As Object,
+            <ExcelArgument(Name:="groupNames", Description:="Optional names as comma-separated text or a 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional variance assumption: welch (default) or equal/pooled/student.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional one-sided alpha. Default 0.025.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not UDFhelpers.TryReadIndependentNumericColumns(control, experimental, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
+                If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
+                If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim marginValue As Double
+                If Not TryGetFiniteDouble(margin, marginValue) Then Return ExcelError.ExcelErrorValue
+                If marginValue <= 0.0 Then Return ExcelError.ExcelErrorNum
+
+                Dim alphaValue As Double = 0.025
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim assumeEqual As Boolean = ParseEqualVarianceMode(method, False)
+                Dim names() As String = ParametricUDFs.ResolveNames(groupNames, detectedNames, 2, "Group")
+
+                Dim result As MeanNonInferiorityResult = EquivalenceNonInferiorityMethods.TestUnpairedMeansNonInferiority(
+                    data(0), data(1), marginValue, alphaValue, assumeEqual)
+
+                Dim body As Object(,) = {
+                    {"Control group", names(0)},
+                    {"Experimental group", names(1)},
+                    {"Variance model", If(result.AssumeEqualVariances, "Equal variances (pooled Student t)", "Unequal variances (Welch)")},
+                    {"Observations in control", result.NumberOfControls},
+                    {"Observations in experimental", result.NumberOfExperimental},
+                    {"Mean control", result.MeanControl},
+                    {"Mean experimental", result.MeanExperimental},
+                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
+                    {"Standard error of the difference", result.StandardError},
+                    {"Degrees of freedom", result.DegreesOfFreedom},
+                    {"Non-inferiority margin magnitude", result.NonInferiorityMargin},
+                    {"Null boundary on difference scale", result.NonInferiorityLimit},
+                    {"One-sided alpha", result.AlphaOneSided},
+                    {"Test statistic", result.TestStatistic},
+                    {"One-sided p-value", result.PValue},
+                    {"Lower one-sided confidence limit", result.LowerOneSidedConfidenceLimit},
+                    {SafeCiLabel(result.TwoSidedEquivalentConfidenceInterval), SafeCiText(result.TwoSidedEquivalentConfidenceInterval)},
+                    {"Point estimate within stated limits", result.CiAssessment.IsPointEstimateWithinMargins},
+                    {"Confidence interval within stated limits", result.CiAssessment.IsConfidenceIntervalWithinMargins},
+                    {"Lower-bound non-inferiority supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
+                    {"Upper-bound non-inferiority supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
+                    {"Conclusion", result.Conclusion}
+                }
+
+                Return BuildResultTable("Unpaired Means Non-Inferiority", body)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.TTEST_UNPAIRED_NI", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' TOST-style equivalence comparison for two independent means.
+        ''' </summary>
+        ''' <param name="control">Control or reference sample as a single-column Excel range.</param>
+        ''' <param name="experimental">Experimental or test sample as a single-column Excel range.</param>
+        ''' <param name="lowerMargin">
+        ''' Lower equivalence margin on the difference scale <c>mean(experimental) - mean(control)</c>.
+        ''' If <paramref name="upperMargin"/> is omitted, this argument is interpreted as a positive symmetric margin magnitude <c>M</c>
+        ''' and the function uses margins <c>-M</c> and <c>+M</c>.
+        ''' </param>
+        ''' <param name="upperMargin">
+        ''' Optional upper equivalence margin on the difference scale.
+        ''' When supplied, the function uses the exact interval <c>[lowerMargin, upperMargin]</c>.
+        ''' </param>
+        ''' <param name="groupNames">Optional display names for the two groups.</param>
+        ''' <param name="method">Optional variance assumption: <c>welch</c> (default) or <c>equal</c>/<c>pooled</c>/<c>student</c>.</param>
+        ''' <param name="alpha">
+        ''' Optional <b>one-sided</b> significance level for each TOST component. Default <c>0.025</c>.
+        ''' The matching confidence interval therefore has confidence level <c>1 - 2α</c>.
+        ''' </param>
+        ''' <returns>
+        ''' A labeled spill table containing the two one-sided test components, the combined TOST p-value,
+        ''' the equivalence confidence interval, and the interval-based decision summary.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' The Two One-Sided Tests (TOST) procedure assesses whether the true mean difference lies entirely inside a prespecified equivalence region.
+        ''' On the difference scale <c>Δ = mean(experimental) - mean(control)</c>, equivalence is supported when both hypotheses are rejected:
+        ''' </para>
+        ''' <list type="bullet">
+        ''' <item><description><c>H0,lower: Δ ≤ L</c> versus <c>H1,lower: Δ &gt; L</c></description></item>
+        ''' <item><description><c>H0,upper: Δ ≥ U</c> versus <c>H1,upper: Δ &lt; U</c></description></item>
+        ''' </list>
+        ''' <para>
+        ''' The function reports the lower and upper component statistics and p-values separately,
+        ''' together with the TOST p-value <c>max(p_lower, p_upper)</c>.
+        ''' It also returns the matched two-sided confidence interval with confidence level <c>1 - 2α</c>.
+        ''' Equivalence is supported when this interval lies completely inside <c>[L, U]</c>.
+        ''' </para>
+        ''' </remarks>
+        ''' <example>
+        ''' <code>
+        ''' =BESH.PAR.TTEST_UNPAIRED_EQUIV(A2:A21,B2:B19,0.5)
+        ''' =BESH.PAR.TTEST_UNPAIRED_EQUIV(A2:A21,B2:B19,-1,1,"Control,Treatment","welch",0.025)
+        ''' </code>
+        ''' </example>
+        <ExcelFunction(
+            Name:="BESH.PAR.TTEST_UNPAIRED_EQUIV",
+            Category:="BESHStatNG - Parametric",
+            Description:="TOST-style equivalence comparison for two independent means with interval-based decision reporting.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/parametric/")>
+        Public Function TTEST_UNPAIRED_EQUIV(
+            <ExcelArgument(AllowReference:=True, Name:="control", Description:="Control/reference group as a single-column range. First cell may be a header.")> control As Object,
+            <ExcelArgument(AllowReference:=True, Name:="experimental", Description:="Experimental/test group as a single-column range. First cell may be a header.")> experimental As Object,
+            <ExcelArgument(Name:="lowerMargin", Description:="Lower equivalence margin, or a positive symmetric margin magnitude if upperMargin is omitted.")> lowerMargin As Object,
+            <ExcelArgument(Name:="upperMargin", Description:="Optional upper equivalence margin. When omitted, ±lowerMargin is used.")> Optional upperMargin As Object = Nothing,
+            <ExcelArgument(Name:="groupNames", Description:="Optional names as comma-separated text or a 1-row/1-column range.")> Optional groupNames As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional variance assumption: welch (default) or equal/pooled/student.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="alpha", Description:="Optional one-sided alpha for each TOST component. Default 0.025.")> Optional alpha As Object = Nothing
+        ) As Object
+            Try
+                Dim data()() As Double = Nothing
+                Dim detectedNames() As String = Nothing
+                If Not UDFhelpers.TryReadIndependentNumericColumns(control, experimental, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
+                If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
+                If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
+
+                Dim lowerValue As Double
+                Dim upperValue As Double
+                If Not TryGetEquivalenceMargins(lowerMargin, upperMargin, lowerValue, upperValue) Then Return ExcelError.ExcelErrorValue
+                If lowerValue >= upperValue Then Return ExcelError.ExcelErrorNum
+
+                Dim alphaValue As Double = 0.025
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+
+                Dim assumeEqual As Boolean = ParseEqualVarianceMode(method, False)
+                Dim names() As String = ParametricUDFs.ResolveNames(groupNames, detectedNames, 2, "Group")
+
+                Dim result As MeanEquivalenceResult = EquivalenceNonInferiorityMethods.TestUnpairedMeansEquivalence(
+                    data(0), data(1), lowerValue, upperValue, alphaValue, assumeEqual)
+
+                Dim body As Object(,) = {
+                    {"Control group", names(0)},
+                    {"Experimental group", names(1)},
+                    {"Variance model", If(result.AssumeEqualVariances, "Equal variances (pooled Student t)", "Unequal variances (Welch)")},
+                    {"Observations in control", result.NumberOfControls},
+                    {"Observations in experimental", result.NumberOfExperimental},
+                    {"Mean control", result.MeanControl},
+                    {"Mean experimental", result.MeanExperimental},
+                    {"Difference (experimental - control)", result.DifferenceExperimentalMinusControl},
+                    {"Standard error of the difference", result.StandardError},
+                    {"Degrees of freedom", result.DegreesOfFreedom},
+                    {"Lower equivalence margin", result.LowerMargin},
+                    {"Upper equivalence margin", result.UpperMargin},
+                    {"One-sided alpha", result.AlphaOneSided},
+                    {"Lower TOST statistic", result.LowerComponentStatistic},
+                    {"Lower TOST p-value", result.LowerComponentPValue},
+                    {"Upper TOST statistic", result.UpperComponentStatistic},
+                    {"Upper TOST p-value", result.UpperComponentPValue},
+                    {"TOST p-value = max(component p-values)", result.TostPValue},
+                    {SafeCiLabel(result.EquivalentConfidenceInterval), SafeCiText(result.EquivalentConfidenceInterval)},
+                    {"Point estimate within margins", result.CiAssessment.IsPointEstimateWithinMargins},
+                    {"Confidence interval within margins", result.CiAssessment.IsConfidenceIntervalWithinMargins},
+                    {"Lower margin supported by CI", result.CiAssessment.SupportsLowerNonInferiority},
+                    {"Upper margin supported by CI", result.CiAssessment.SupportsUpperNonInferiority},
+                    {"Supports equivalence", result.SupportsEquivalence},
+                    {"Conclusion", result.Conclusion}
+                }
+
+                Return BuildResultTable("Unpaired Means Equivalence (TOST)", body)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PAR.TTEST_UNPAIRED_EQUIV", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function
+
         ' -------------------------------------------------------------------------------------------------------------
         ' Private/Friend helpers
         ' -------------------------------------------------------------------------------------------------------------
-
-        ''' <summary>
-        ''' Converts a result table object into a 2D object array suitable for returning
-        ''' from an Excel-DNA UDF.
-        ''' </summary>
-        ''' <param name="table">
-        ''' The source table object, expected to be a two-dimensional <see cref="Object"/> array.
-        ''' </param>
-        ''' <returns>
-        ''' A two-dimensional <see cref="Object"/> array with <c>Nothing</c> and
-        ''' <see cref="DBNull"/> values converted to empty strings.
-        ''' Returns <c>Nothing</c> if <paramref name="table"/> cannot be cast to
-        ''' a two-dimensional object array.
-        ''' </returns>
-        Friend Function PrepareResultTableForUdf(table As Object) As Object(,)
-            Dim arr As Object(,) = TryCast(table, Object(,))
-            If arr Is Nothing Then Return Nothing
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            Dim out(rows - 1, cols - 1) As Object
-
-            For r As Integer = 0 To rows - 1
-                For c As Integer = 0 To cols - 1
-                    Dim v As Object = arr(r, c)
-
-                    If v Is Nothing Then
-                        out(r, c) = String.Empty ' ExcelEmpty.Value
-                    ElseIf TypeOf v Is DBNull Then
-                        out(r, c) = String.Empty ' ExcelEmpty.Value
-                    Else
-                        out(r, c) = v
-                    End If
-                Next
-            Next
-
-            Return out
-        End Function
 
         ''' <summary>
         ''' Resolves a final set of display names for groups or conditions.
@@ -875,43 +1065,17 @@ Namespace BESHStatNG.WorksheetFunctions
             Return out
         End Function
 
-        ''' <summary>
-        ''' Attempts to parse and validate an alpha value from an optional Excel argument.
-        ''' </summary>
-        ''' <param name="arg">
-        ''' The Excel argument to parse. May be missing, numeric, or a string representation of a number.
-        ''' </param>
-        ''' <param name="alpha">
-        ''' When this method returns <c>True</c>, contains the parsed alpha value.
-        ''' Defaults to <c>0.05</c> when the argument is missing.
-        ''' </param>
-        ''' <returns>
-        ''' <c>True</c> if a valid alpha in the open interval <c>(0, 1)</c> could be obtained;
-        ''' otherwise <c>False</c>.
-        ''' </returns>
-        Friend Function TryParseAlpha(arg As Object, ByRef alpha As Double) As Boolean
-            alpha = 0.05
-
-            If IsMissingArg(arg) Then Return True
-
-            Try
-                If TypeOf arg Is String Then
-                    Dim s As String = Convert.ToString(arg).Trim()
-                    If Not Double.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, alpha) AndAlso
-                       Not Double.TryParse(s, alpha) Then
-                        Return False
-                    End If
-                Else
-                    alpha = Convert.ToDouble(arg)
-                End If
-            Catch
-                Return False
-            End Try
-
-            If Double.IsNaN(alpha) OrElse Double.IsInfinity(alpha) Then Return False
-            If alpha <= 0.0 OrElse alpha >= 1.0 Then Return False
-
-            Return True
+        Private Function ParseEqualVarianceMode(arg As Object, defaultEqual As Boolean) As Boolean
+            Dim s As String = NormalizeToken(arg)
+            If s = "" Then Return defaultEqual
+            Select Case s
+                Case "WELCH", "UNEQUAL", "ASSUMEUNEQUAL", "ASSUME-UNEQUAL"
+                    Return False
+                Case "EQUAL", "POOLED", "STUDENT", "ASSUMEEQUAL", "ASSUME-EQUAL"
+                    Return True
+                Case Else
+                    Throw New ArgumentException("Unsupported variance method. Use welch or equal/pooled/student.")
+            End Select
         End Function
 
     End Module

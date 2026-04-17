@@ -3236,7 +3236,7 @@ SplitOk:
         ''' </summary>
         ''' <param name="mat">An <c>n × p</c> numeric matrix.</param>
         ''' <returns>A <c>p × p</c> sample covariance matrix.</returns>
-        Function MatCovar(mat(,) As Double) As Double(,)
+        Public Function MatCovar(mat(,) As Double) As Double(,)
             'returns the sample covariance matrix of a given mat (sample matrix becasuse of (n-1) division)
             'Input Mat (n x p); Returns (p x p) matrix
 

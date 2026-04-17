@@ -190,7 +190,7 @@ Namespace Agreement
 
             If opts.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse opts.CiMethod = AgreementCiMethod.BootstrapBCa Then
                 pUsedBootstrapCi = True
-                pBootstrapSeedUsed = ResolveRandomSeed(randomSeed)
+                pBootstrapSeedUsed = Helpers.ResolveRandomSeed(randomSeed)
             End If
 
             Dim requireSubjectIds As Boolean
@@ -247,7 +247,7 @@ Namespace Agreement
                 If subjectIds Is Nothing Then
                     Dim msg As String = "Repeated Bland–Altman was requested, but no subject IDs were supplied."
                     If opts.AllowFallbackToSimple Then
-                        sdForLoA = SampleStandardDeviation(d)
+                        sdForLoA = StatFunc.stDev(d)
                         noteParts.Add(msg & " Ordinary Bland–Altman was used.")
                     Else
                         AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(msg))
@@ -277,7 +277,7 @@ Namespace Agreement
                         If Not String.IsNullOrWhiteSpace(repeated.Note) Then noteParts.Add(repeated.Note)
 
                     ElseIf opts.AllowFallbackToSimple Then
-                        sdForLoA = SampleStandardDeviation(d)
+                        sdForLoA = StatFunc.stDev(d)
                         If Not String.IsNullOrWhiteSpace(repeated.Note) Then
                             noteParts.Add(repeated.Note)
                         Else
@@ -293,7 +293,7 @@ Namespace Agreement
                     End If
                 End If
             Else
-                sdForLoA = SampleStandardDeviation(d)
+                sdForLoA = StatFunc.stDev(d)
                 If subjectIds IsNot Nothing AndAlso opts.Mode = RepeatedBlandAltmanMode.SimplePairs Then
                     noteParts.Add("Subject IDs were supplied, but the analysis mode was explicitly set to SimplePairs, so ordinary Bland–Altman was used.")
                 End If
@@ -741,9 +741,9 @@ Namespace Agreement
             Dim upperJK(n - 1) As Double
 
             For i As Integer = 0 To n - 1
-                Dim sample As Double() = ExcludeIndex(differences, i)
+                Dim sample As Double() = AgreementHelpers.ExcludeIndex(differences, i)
                 Dim meanB As Double = sample.Average()
-                Dim sdB As Double = SampleStandardDeviation(sample)
+                Dim sdB As Double = StatFunc.stDev(sample)
                 biasJK(i) = meanB
                 lowerJK(i) = meanB - DefaultLoAMultiplier * sdB
                 upperJK(i) = meanB + DefaultLoAMultiplier * sdB
@@ -866,17 +866,6 @@ Namespace Agreement
                 outD.Add(differences(i))
             Next
             Return (outIds.ToArray(), outX.ToArray(), outD.ToArray())
-        End Function
-
-        Private Shared Function ExcludeIndex(values As Double(), indexToExclude As Integer) As Double()
-            Dim out(values.Length - 2) As Double
-            Dim t As Integer = 0
-            For i As Integer = 0 To values.Length - 1
-                If i = indexToExclude Then Continue For
-                out(t) = values(i)
-                t += 1
-            Next
-            Return out
         End Function
 
         Private Shared Function CloneOptions(opts As BlandAltmanOptions) As BlandAltmanOptions
@@ -1050,9 +1039,7 @@ Namespace Agreement
 
             Dim sw As Double = Math.Sqrt(ssWithin / dfWithin)
             Dim eligibleMeanDiffs As Double() = eligible.Select(Function(s) s.DifferenceMean).ToArray()
-            Dim betweenSubjectSD As Double = If(eligibleMeanDiffs.Length >= 2,
-                                        SampleStandardDeviation(eligibleMeanDiffs),
-                                        Double.NaN)
+            Dim betweenSubjectSD As Double = If(eligibleMeanDiffs.Length >= 2, StatFunc.stDev(eligibleMeanDiffs), Double.NaN)
 
             ' Only materialize subject-mean arrays when the selected plot mode can actually use them.
             If opts.PlotMode = RepeatedBlandAltmanPlotMode.AllObservations Then
@@ -1158,9 +1145,9 @@ Namespace Agreement
             Dim lowerCI As ConfidenceIntervalResult = BuildPercentileConfidenceInterval(lowerEstimates.ToArray(), observedBias - DefaultLoAMultiplier * observedWithinSubjectSD, opts.Alpha)
             Dim upperCI As ConfidenceIntervalResult = BuildPercentileConfidenceInterval(upperEstimates.ToArray(), observedBias + DefaultLoAMultiplier * observedWithinSubjectSD, opts.Alpha)
 
-            biasCI.StdErr = SampleStandardDeviation(biasEstimates.ToArray())
-            lowerCI.StdErr = SampleStandardDeviation(lowerEstimates.ToArray())
-            upperCI.StdErr = SampleStandardDeviation(upperEstimates.ToArray())
+            biasCI.StdErr = StatFunc.stDev(biasEstimates.ToArray())
+            lowerCI.StdErr = StatFunc.stDev(lowerEstimates.ToArray())
+            upperCI.StdErr = StatFunc.stDev(upperEstimates.ToArray())
 
             Return (biasCI, lowerCI, upperCI)
         End Function
@@ -1227,7 +1214,7 @@ Namespace Agreement
 
             Dim observed As Double = differences.Average()
             Dim ci = BuildPercentileConfidenceInterval(estimates, observed, opts.Alpha)
-            ci.StdErr = SampleStandardDeviation(estimates)
+            ci.StdErr = StatFunc.stDev(estimates)
             Return ci
         End Function
 
@@ -1249,15 +1236,15 @@ Namespace Agreement
                     sample(i) = bias + sdDiff * distributions.NormSInv(rng.NextDouble())
                 Next
                 Dim meanB As Double = sample.Average()
-                Dim sdB As Double = SampleStandardDeviation(sample)
+                Dim sdB As Double = StatFunc.stDev(sample)
                 lowerEst(r) = meanB - DefaultLoAMultiplier * sdB
                 upperEst(r) = meanB + DefaultLoAMultiplier * sdB
             Next
 
             Dim lower As ConfidenceIntervalResult = BuildPercentileConfidenceInterval(lowerEst, bias - DefaultLoAMultiplier * sdDiff, opts.Alpha)
             Dim upper As ConfidenceIntervalResult = BuildPercentileConfidenceInterval(upperEst, bias + DefaultLoAMultiplier * sdDiff, opts.Alpha)
-            lower.StdErr = SampleStandardDeviation(lowerEst)
-            upper.StdErr = SampleStandardDeviation(upperEst)
+            lower.StdErr = StatFunc.stDev(lowerEst)
+            upper.StdErr = StatFunc.stDev(upperEst)
             Return (lower, upper)
         End Function
 
@@ -1304,21 +1291,6 @@ Namespace Agreement
                 .Format.Line.Weight = 1.5
             End With
         End Sub
-
-        Private Shared Function SampleStandardDeviation(values As Double()) As Double
-            If values Is Nothing OrElse values.Length < 2 Then Return Double.NaN
-            Dim mu As Double = values.Average()
-            Dim ss As Double = 0.0
-            For i As Integer = 0 To values.Length - 1
-                Dim d As Double = values(i) - mu
-                ss += d * d
-            Next
-            Return Math.Sqrt(ss / (values.Length - 1.0))
-        End Function
-
-        Private Shared Function IsFinite(x As Double) As Boolean
-            Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-        End Function
 
         Private Shared Function IsMissingSubjectId(value As Object) As Boolean
             If value Is Nothing OrElse Convert.IsDBNull(value) Then Return True
@@ -1383,15 +1355,6 @@ Namespace Agreement
                 Case AgreementCiMethod.BootstrapBCa : Return "Bootstrap BCa (currently uses percentile engine)"
                 Case Else : Return "Unknown"
             End Select
-        End Function
-
-        Friend Shared Function ResolveRandomSeed(Optional requestedSeed As Integer = Integer.MinValue) As Integer
-            If requestedSeed <> Integer.MinValue Then Return requestedSeed
-
-            Dim globalSeed As Integer = AppGlobals.DefaultRandomSeed
-            If globalSeed <> Integer.MinValue Then Return globalSeed
-
-            Return Environment.TickCount
         End Function
 
         Private Sub ResetFitState()

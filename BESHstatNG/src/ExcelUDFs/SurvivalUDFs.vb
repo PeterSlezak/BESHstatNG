@@ -1,4 +1,6 @@
 Option Explicit On
+Option Strict On
+
 Imports System.Globalization
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock
@@ -63,7 +65,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.LOGRANK_P",
             Category:="BESHStatNG - Survival",
             Description:="Log-rank family test p-value for comparing survival curves across groups (optionally stratified; supports multiple weight schemes).",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/")>
         Public Function LOGRANK_P(
             <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> timeRange As Object,
             <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> statusRange As Object,
@@ -113,7 +115,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.LOGRANK_STAT",
             Category:="BESHStatNG - Survival",
             Description:="Log-rank family test chi-square statistic for comparing survival curves across groups (optionally stratified; supports multiple weight schemes).",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/")>
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/")>
         Public Function LOGRANK_STAT(
             <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> timeRange As Object,
             <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> statusRange As Object,
@@ -182,7 +184,7 @@ Namespace BESHStatNG.WorksheetFunctions
     Name:="BESH.SURV.MEDIAN_CI",
     Category:="BESHStatNG - Survival",
     Description:="Kaplan–Meier median survival time with Brookmeyer–Crowley CI (overall or by group). Returns a 2D table.",
-    HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/")>
+    HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/")>
         Public Function MEDIAN_CI(
     <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> time As Object,
     <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> status As Object,
@@ -192,7 +194,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim alphaValue As Double = 0.05
-                If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then
+                If Not TryParseAlpha(alpha, alphaValue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
 
@@ -267,7 +269,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.SURV.KM_TABLE",
             Category:="BESHStatNG - Survival",
             Description:="Kaplan-Meier tabular survival curve: group, time, at-risk, S(t), SE, lower/upper CI.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/survival/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/"
         )>
         Public Function KM_TABLE(
             <ExcelArgument(Name:="time", Description:="Follow-up time (single column, >=0).")> time As Object,
@@ -278,9 +280,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim alphaValue As Double = 0.05
-                If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
+                If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
                 Dim hasGroup As Boolean = (group IsNot Nothing) AndAlso Not TypeOf group Is ExcelMissing
 

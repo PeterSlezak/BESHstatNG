@@ -1,10 +1,60 @@
-﻿Imports System
+﻿Option Explicit On
+Option Strict On
+
+Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.BESHStatNG.WorksheetFunctions
 Imports ExcelDna.Integration
 
 Module UDFhelpers
+
+    Friend Function SafeCiLabel(ci As ConfidenceIntervalResult) As String
+        If ci Is Nothing Then Return "Confidence interval"
+        If String.IsNullOrWhiteSpace(ci.CIlabel) Then Return "Confidence interval"
+        Return ci.CIlabel
+    End Function
+
+    Friend Function SafeCiText(ci As ConfidenceIntervalResult) As String
+        If ci Is Nothing Then Return ""
+        Return ci.strConfidenceInterval(CIformat.LL_to_UL)
+    End Function
+
+    Friend Function BuildResultTable(title As String, body As Object(,)) As Object(,)
+        Dim t As New ResultTable
+        t.SetBody(body)
+        t.AddHeaderTopRow({title, ""})
+        Return PrepareResultTableForUdf(t.returnSelf())
+    End Function
+
+    Friend Function TryGetEquivalenceMargins(lowerArg As Object, upperArg As Object, ByRef lowerValue As Double, ByRef upperValue As Double) As Boolean
+        lowerValue = Double.NaN
+        upperValue = Double.NaN
+
+        If Not TryGetFiniteDouble(lowerArg, lowerValue) Then Return False
+
+        If UDFhelpers.IsMissingArg(upperArg) Then
+            Dim m As Double = Math.Abs(lowerValue)
+            If m <= 0.0 Then Return False
+            lowerValue = -m
+            upperValue = m
+            Return True
+        End If
+
+        If Not TryGetFiniteDouble(upperArg, upperValue) Then Return False
+        Return True
+    End Function
+
+    Friend Function TryGetFiniteDouble(arg As Object, ByRef value As Double) As Boolean
+        Dim parsed As Double? = UDFhelpers.TryGetDouble(arg)
+        If Not parsed.HasValue Then
+            value = Double.NaN
+            Return False
+        End If
+        value = parsed.Value
+        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
+    End Function
 
     Friend Function LoggedUdfError(functionName As String,
                                    ex As Exception,
@@ -258,26 +308,22 @@ Module UDFhelpers
     ''' <param name="values">On success, receives one numeric value per retained row. Invalid nonblank cells are returned as <see cref="Double.NaN"/>.</param>
     ''' <returns>True when a one-column input can be read; otherwise, False.</returns>
     Public Function TryReadNumericColumn(v As Object, ByRef values As List(Of Double)) As Boolean
-        values = New List(Of Double)
-        Dim arr As Object(,) = Get2D(v)
-        If arr Is Nothing Then Return False
-        If arr.GetLength(1) <> 1 Then Return False
+        values = New List(Of Double)()
+        Dim col(,) As Object = Nothing
+        Dim inferredName As String = Nothing
+        If Not TryGetTrimmedColumnObject(v, col, inferredName, "numeric") Then Return False
 
-        Dim lastRow As Integer = FindLastNonBlankRow(arr)
-        If lastRow < 0 Then Return False
+        Dim rows As Integer = col.GetLength(0)
+        If rows < 1 Then Return False
 
-        Dim startRow As Integer = If(HasNumericColumnHeader(arr, lastRow), 1, 0)
-        If startRow > lastRow Then Return False
-
-        For i As Integer = startRow To lastRow
-            Dim d As Double? = TryGetDouble(arr(i, 0))
+        For i As Integer = 0 To rows - 1
+            Dim d As Double? = TryGetDouble(col(i, 0))
             If d.HasValue Then
                 values.Add(d.Value)
             Else
                 values.Add(Double.NaN)
             End If
         Next
-
         Return values.Count > 0
     End Function
 
@@ -290,25 +336,21 @@ Module UDFhelpers
     ''' <param name="cols">On success, receives the column count.</param>
     ''' <returns>True when a numeric matrix can be read; otherwise, False.</returns>
     Public Function TryReadNumericMatrix(v As Object, ByRef mat As Double(,), ByRef rows As Integer, ByRef cols As Integer) As Boolean
-        mat = Nothing : rows = 0 : cols = 0
-        Dim arr As Object(,) = Get2D(v)
-        If arr Is Nothing Then Return False
+        mat = Nothing
+        rows = 0
+        cols = 0
+        Dim raw(,) As Object = Nothing
+        Dim inferredNames() As String = Nothing
+        If Not TryGetTrimmedNumericMatrixObject(v, raw, inferredNames) Then Return False
 
-        cols = arr.GetLength(1)
-        If cols < 1 Then Return False
+        rows = raw.GetLength(0)
+        cols = raw.GetLength(1)
+        If rows < 1 OrElse cols < 1 Then Return False
 
-        Dim lastRow As Integer = FindLastNonBlankRow(arr)
-        If lastRow < 0 Then Return False
-
-        Dim usedRows As Integer = lastRow + 1
-        Dim startRow As Integer = If(HasNumericMatrixHeader(arr, lastRow), 1, 0)
-        rows = usedRows - startRow
-        If rows < 1 Then Return False
-
-        mat = New Double(rows - 1, cols - 1) {}
+        ReDim mat(rows - 1, cols - 1)
         For i As Integer = 0 To rows - 1
             For j As Integer = 0 To cols - 1
-                Dim d As Double? = TryGetDouble(arr(startRow + i, j))
+                Dim d As Double? = TryGetDouble(raw(i, j))
                 If d.HasValue Then
                     mat(i, j) = d.Value
                 Else
@@ -316,9 +358,9 @@ Module UDFhelpers
                 End If
             Next
         Next
-
         Return True
     End Function
+
 
     Friend Function HasOnlyFinite(values() As Double, Optional requirePositive As Boolean = False) As Boolean
         If values Is Nothing Then Return True
@@ -347,6 +389,92 @@ Module UDFhelpers
         Next
 
         Return values.Count > 0
+    End Function
+
+    ''' <summary>
+    ''' Extracts numeric values column-wise from an object matrix, optionally using the first row as column names.
+    ''' Non-numeric cells are ignored.
+    ''' </summary>
+    ''' <param name="mat">The source object matrix.</param>
+    ''' <param name="startRow">The first row to scan for numeric data.</param>
+    ''' <param name="hasHeader">When <c>True</c>, the first row of <paramref name="mat"/> supplies output names.</param>
+    ''' <param name="defaultPrefix">Prefix used for generated names when no header row is present.</param>
+    ''' <param name="groups">On success, receives one numeric array per non-empty input column.</param>
+    ''' <param name="names">On success, receives one name per returned group.</param>
+    ''' <returns><c>True</c> when extraction succeeds; otherwise, <c>False</c>.</returns>
+    Friend Function TryExtractNumericGroupsFromMatrix(mat As Object(,),
+                                                  startRow As Integer,
+                                                  hasHeader As Boolean,
+                                                  defaultPrefix As String,
+                                                  ByRef groups()() As Double, ByRef names() As String) As Boolean
+        groups = Nothing
+        names = Nothing
+
+        If mat Is Nothing Then Return False
+
+        Dim rows As Integer = mat.GetLength(0)
+        Dim cols As Integer = mat.GetLength(1)
+        If rows < 1 OrElse cols < 1 Then Return False
+
+        Dim groupList As New List(Of Double())()
+        Dim nameList As New List(Of String)()
+
+        For c As Integer = 0 To cols - 1
+            Dim values As New List(Of Double)(Math.Max(0, rows - startRow))
+            For r As Integer = startRow To rows - 1
+                Dim d As Double? = TryGetDouble(mat(r, c))
+                If d.HasValue Then values.Add(d.Value)
+            Next
+
+            If values.Count > 0 Then
+                groupList.Add(values.ToArray())
+                If hasHeader Then
+                    nameList.Add(CellToTrimmedText(mat(0, c)))
+                Else
+                    nameList.Add(defaultPrefix & (groupList.Count).ToString(CultureInfo.InvariantCulture))
+                End If
+            End If
+        Next
+
+        groups = groupList.ToArray()
+        names = nameList.ToArray()
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Attempts to coerce an Excel argument into a two-dimensional object array, optionally allowing scalar inputs.
+    ''' </summary>
+    ''' <param name="v">The worksheet argument to coerce.</param>
+    ''' <param name="allowScalar">When <c>True</c>, non-range scalar values are wrapped into a 1×1 matrix.</param>
+    ''' <param name="mat">On success, receives the coerced object matrix.</param>
+    ''' <param name="err">On failure due to an Excel error value, receives the corresponding Excel error.</param>
+    ''' <returns><c>True</c> when coercion succeeds; otherwise, <c>False</c>.</returns>
+    Friend Function TryCoerceToObjectMatrix(v As Object, allowScalar As Boolean, ByRef mat As Object(,),
+                                        ByRef err As ExcelError?) As Boolean
+        mat = Nothing
+        err = Nothing
+        If v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty Then
+            mat = New Object(0, 0) {{ExcelEmpty.Value}}
+            Return True
+        End If
+
+        If TypeOf v Is ExcelError Then
+            err = DirectCast(v, ExcelError)
+            Return False
+        End If
+
+        Dim arr As Object(,) = Get2D(v)
+        If arr IsNot Nothing Then
+            mat = arr
+            Return True
+        End If
+
+        If Not allowScalar Then Return False
+
+        Dim singleValue(0, 0) As Object
+        singleValue(0, 0) = v
+        mat = singleValue
+        Return True
     End Function
 
     Friend Function ResolveImportedPredictorNames(varNames As Object, inferredNames As String()) As String()
@@ -1067,10 +1195,6 @@ Module UDFhelpers
         Return True
     End Function
 
-    Friend Function IsOpenUnitInterval(value As Double) As Boolean
-        Return value > 0.0R AndAlso value < 1.0R AndAlso Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
-    End Function
-
     Friend Function ParseFamilyCode(v As Object) As String
         Dim s As String = UDFhelpers.AsString(v)
         If String.IsNullOrWhiteSpace(s) Then Return "Gaussian"
@@ -1119,10 +1243,6 @@ Module UDFhelpers
         End Select
     End Function
 
-    Friend Function NormalizeKey(value As String) As String
-        Return value.Trim().ToLowerInvariant().Replace(" ", String.Empty).Replace("_", String.Empty).Replace("-", String.Empty)
-    End Function
-
     ''' <summary>
     ''' Wraps a residual or leverage vector in a spilled-object array.
     ''' </summary>
@@ -1157,7 +1277,7 @@ Module UDFhelpers
         nRows = 0
         offsetVals = Nothing
 
-        Dim hasOffsetArg As Boolean = HasUsableOptionalArgument(newOffset)
+        Dim hasOffsetArg As Boolean = Not IsMissingArg(newOffset)
         If requireOffset AndAlso Not hasOffsetArg Then Return False
 
         If hasOffsetArg Then
@@ -1208,6 +1328,26 @@ Module UDFhelpers
     End Function
 
     ''' <summary>
+    ''' Normalizes a string for token or key matching by trimming whitespace, optionally changing case,
+    ''' and removing selected separator characters.
+    ''' </summary>
+    ''' <param name="value">The text to normalize.</param>
+    ''' <param name="toUpper">When <c>True</c>, returns upper-case text; otherwise lower-case text.</param>
+    ''' <param name="removeUnderscore">When <c>True</c>, underscore characters are removed in addition to spaces and hyphens.</param>
+    ''' <returns>
+    ''' A normalized comparison token, or an empty string when <paramref name="value"/> is <c>Nothing</c>.
+    ''' </returns>
+    Friend Function NormalizeMatchToken(value As String, Optional toUpper As Boolean = True, Optional removeUnderscore As Boolean = False) As String
+        If value Is Nothing Then Return ""
+
+        Dim normalized As String = value.Trim()
+        normalized = If(toUpper, normalized.ToUpperInvariant(), normalized.ToLowerInvariant())
+        normalized = normalized.Replace(" ", String.Empty).Replace("-", String.Empty)
+        If removeUnderscore Then normalized = normalized.Replace("_", String.Empty)
+        Return normalized
+    End Function
+
+    ''' <summary>
     ''' Normalizes an optional text argument for case-insensitive method matching.
     ''' </summary>
     ''' <param name="v">The input value to normalize.</param>
@@ -1216,10 +1356,29 @@ Module UDFhelpers
     ''' Returns an empty string for missing, empty, or null-like Excel arguments.
     ''' </returns>
     Friend Function NormalizeText(v As Object) As String
-        If IsMissingArg(v) Then Return ""
-        Dim s As String = Convert.ToString(v)
-        If s Is Nothing Then Return ""
-        Return s.Trim().ToUpperInvariant()
+        Return NormalizeMatchToken(AsString(v), toUpper:=True, removeUnderscore:=False)
+    End Function
+
+    ''' <summary>
+    ''' Normalizes an optional token-style worksheet argument for case-insensitive option parsing.
+    ''' </summary>
+    ''' <param name="arg">The value to normalize.</param>
+    ''' <returns>
+    ''' An upper-case compact token with spaces and hyphens removed, or an empty string for missing input.
+    ''' </returns>
+    Public Function NormalizeToken(arg As Object) As String
+        Return NormalizeMatchToken(AsString(arg), toUpper:=True, removeUnderscore:=False)
+    End Function
+
+    ''' <summary>
+    ''' Normalizes a key for case-insensitive dictionary or option matching.
+    ''' </summary>
+    ''' <param name="value">The key text to normalize.</param>
+    ''' <returns>
+    ''' A lower-case compact key with spaces, underscores, and hyphens removed.
+    ''' </returns>
+    Friend Function NormalizeKey(value As String) As String
+        Return NormalizeMatchToken(value, toUpper:=False, removeUnderscore:=True)
     End Function
 
     Friend Function IsMissingArg(v As Object) As Boolean
@@ -1271,8 +1430,7 @@ Module UDFhelpers
     Friend Function TryReadGroupedNumericColumns(input As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
         groups = Nothing
         names = Nothing
-
-        Dim arr As Object(,) = TryCast(input, Object(,))
+        Dim arr As Object(,) = Get2D(input)
         If arr Is Nothing Then Return False
 
         Dim rows As Integer = arr.GetLength(0)
@@ -1282,29 +1440,8 @@ Module UDFhelpers
         Dim hasHeader As Boolean = LooksLikeHeaderRow(arr, Enumerable.Range(0, cols).ToArray())
         Dim startRow As Integer = If(hasHeader, 1, 0)
 
-        Dim groupList As New List(Of Double())
-        Dim nameList As New List(Of String)
-
-        For c As Integer = 0 To cols - 1
-            Dim vals As New List(Of Double)
-            For r As Integer = startRow To rows - 1
-                Dim d = TryGetDouble(arr(r, c))
-                If d.HasValue Then vals.Add(d.Value)
-            Next
-            If vals.Count > 0 Then
-                groupList.Add(vals.ToArray())
-                If hasHeader Then
-                    nameList.Add(Convert.ToString(arr(0, c)).Trim())
-                Else
-                    nameList.Add("Group " & (groupList.Count).ToString())
-                End If
-            End If
-        Next
-
-        If groupList.Count < 2 Then Return False
-        groups = groupList.ToArray()
-        names = nameList.ToArray()
-        Return True
+        Return TryExtractNumericGroupsFromMatrix(arr, startRow:=startRow, hasHeader:=hasHeader,
+                                             defaultPrefix:="Group ", groups:=groups, names:=names)
     End Function
 
     Friend Function TryReadIndependentNumericColumns(x As Object, y As Object, ByRef groups()() As Double, ByRef names() As String) As Boolean
@@ -1346,7 +1483,6 @@ Module UDFhelpers
     Friend Function TryReadPairedNumericColumns(x As Object, y As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
         mat = Nothing
         names = Nothing
-
         Dim ax As Object(,) = Get2D(x)
         Dim ay As Object(,) = Get2D(y)
         If ax Is Nothing OrElse ay Is Nothing Then Return False
@@ -1358,19 +1494,11 @@ Module UDFhelpers
         If hasHeaderX <> hasHeaderY Then Return False
 
         names = New String() {
-            If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Sample 1"),
-            If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Sample 2")
-        }
+                If(hasHeaderX, Convert.ToString(ax(0, 0)).Trim(), "Sample 1"),
+                If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Sample 2")
+            }
 
-        Dim pairs As New List(Of Double())
-        For r As Integer = 0 To ax.GetLength(0) - 1
-            Dim dx = TryGetDouble(ax(r, 0))
-            Dim dy = TryGetDouble(ay(r, 0))
-            If dx.HasValue AndAlso dy.HasValue Then
-                pairs.Add(New Double() {dx.Value, dy.Value})
-            End If
-        Next
-
+        Dim pairs As List(Of Double()) = ExtractCompletePairedNumericRows(ax, ay)
         If pairs.Count = 0 Then Return True
 
         mat = New Double(pairs.Count - 1, 1) {}
@@ -1378,19 +1506,60 @@ Module UDFhelpers
             mat(r, 0) = pairs(r)(0)
             mat(r, 1) = pairs(r)(1)
         Next
-
         Return True
     End Function
 
+    ''' <summary>
+    ''' Extracts complete numeric pairs from two aligned one-column object matrices.
+    ''' </summary>
+    ''' <param name="ax">First aligned one-column matrix.</param>
+    ''' <param name="ay">Second aligned one-column matrix.</param>
+    ''' <returns>A list containing one two-element array per row where both cells are numeric.</returns>
+    Friend Function ExtractCompletePairedNumericRows(ax As Object(,), ay As Object(,)) As List(Of Double())
+        Dim pairs As New List(Of Double())()
+
+        If ax Is Nothing OrElse ay Is Nothing Then Return pairs
+        If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return pairs
+        If ax.GetLength(0) <> ay.GetLength(0) Then Return pairs
+
+        For r As Integer = 0 To ax.GetLength(0) - 1
+            Dim dx As Double? = TryGetDouble(ax(r, 0))
+            Dim dy As Double? = TryGetDouble(ay(r, 0))
+            If dx.HasValue AndAlso dy.HasValue Then
+                pairs.Add(New Double() {dx.Value, dy.Value})
+            End If
+        Next
+
+        Return pairs
+    End Function
+
+    ''' <summary>
+    ''' Coerces a worksheet argument into a two-dimensional object array, treating scalar values as 1×1 matrices.
+    ''' </summary>
+    ''' <param name="v">The worksheet argument to coerce.</param>
+    ''' <returns>
+    ''' A two-dimensional object array when coercion succeeds; otherwise, <c>Nothing</c>.
+    ''' </returns>
     Friend Function Get2DOrScalar(v As Object) As Object(,)
-        Dim arr As Object(,) = Get2D(v)
-        If arr IsNot Nothing Then Return arr
+        Dim mat As Object(,) = Nothing
+        Dim err As ExcelError? = Nothing
+        If TryCoerceToObjectMatrix(v, allowScalar:=True, mat:=mat, err:=err) Then Return mat
+        Return Nothing
+    End Function
 
-        If IsMissingArg(v) OrElse TypeOf v Is ExcelError Then Return Nothing
-
-        Dim Sngl(0, 0) As Object
-        Sngl(0, 0) = v
-        Return Sngl
+    ''' <summary>
+    ''' Coerces a worksheet argument into a two-dimensional object array suitable for permissive UDF parsing.
+    ''' </summary>
+    ''' <param name="v">The worksheet argument to coerce.</param>
+    ''' <param name="err">On failure due to an Excel error value, receives the corresponding Excel error.</param>
+    ''' <returns>
+    ''' A two-dimensional object array when coercion succeeds; otherwise, <c>Nothing</c>.
+    ''' Missing arguments are returned as a 1×1 matrix containing <see cref="ExcelEmpty.Value"/>.
+    ''' </returns>
+    Friend Function CoerceToObjectMatrix(v As Object, ByRef err As ExcelError?) As Object(,)
+        Dim mat As Object(,) = Nothing
+        If TryCoerceToObjectMatrix(v, allowScalar:=True, mat:=mat, err:=err) Then Return mat
+        Return Nothing
     End Function
 
     Friend Function CellToTrimmedText(v As Object) As String
@@ -1548,45 +1717,9 @@ Module UDFhelpers
         Return out
     End Function
 
-    Friend Function IsFinite(x As Double) As Boolean
-        Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-    End Function
-
     Friend Function CloneStringArray(values() As String) As String()
         If values Is Nothing Then Return Nothing
         Return DirectCast(values.Clone(), String())
-    End Function
-
-    ''' <summary>
-    ''' Returns True when an optional worksheet argument contains a usable value rather than Excel missing/empty markers.
-    ''' </summary>
-    Friend Function HasUsableOptionalArgument(v As Object) As Boolean
-        Return Not (v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty)
-    End Function
-
-    Friend Function CoerceToObjectMatrix(v As Object, ByRef err As ExcelError?) As Object(,)
-        err = Nothing
-
-        If v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty Then
-            Return New Object(0, 0) {{ExcelEmpty.Value}}
-        End If
-
-        If TypeOf v Is Object(,) Then
-            Return DirectCast(v, Object(,))
-        End If
-
-        If TypeOf v Is ExcelReference Then
-            Dim arr As Object(,) = Get2D(v)
-            If arr Is Nothing Then Return Nothing
-            Return arr
-        End If
-
-        If TypeOf v Is ExcelError Then
-            err = DirectCast(v, ExcelError)
-            Return Nothing
-        End If
-
-        Return New Object(0, 0) {{v}}
     End Function
 
     Friend Function ExtractNumericColumnIgnoringNonNumeric(arg As Object, ByRef err As ExcelError?) As Double()
@@ -1610,7 +1743,7 @@ Module UDFhelpers
     End Function
 
     Friend Function ExtractPairedNumericColumnsIgnoringNonNumeric(x As Object, y As Object,
-                                                                  ByRef err As ExcelError?) As Double(,)
+                                                              ByRef err As ExcelError?) As Double(,)
         err = Nothing
 
         Dim ax As Object(,) = CoerceToObjectMatrix(x, err)
@@ -1624,15 +1757,7 @@ Module UDFhelpers
             Return Nothing
         End If
 
-        Dim pairs As New List(Of Double())()
-        For r As Integer = 0 To ax.GetLength(0) - 1
-            Dim dx As Double? = TryGetDouble(ax(r, 0))
-            Dim dy As Double? = TryGetDouble(ay(r, 0))
-            If dx.HasValue AndAlso dy.HasValue Then
-                pairs.Add(New Double() {dx.Value, dy.Value})
-            End If
-        Next
-
+        Dim pairs As List(Of Double()) = ExtractCompletePairedNumericRows(ax, ay)
         If pairs.Count = 0 Then Return Nothing
 
         Dim out(pairs.Count - 1, 1) As Double
@@ -1650,31 +1775,19 @@ Module UDFhelpers
         Dim mat As Object(,) = CoerceToObjectMatrix(arg, err)
         If err.HasValue OrElse mat Is Nothing Then Return Nothing
 
-        Dim rows As Integer = mat.GetLength(0)
-        Dim cols As Integer = mat.GetLength(1)
-
-        If cols < 1 Then
+        Dim groups()() As Double = Nothing
+        Dim names() As String = Nothing
+        If Not TryExtractNumericGroupsFromMatrix(mat, startRow:=0, hasHeader:=False,
+                                             defaultPrefix:="Group ", groups:=groups, names:=names) Then
             err = ExcelError.ExcelErrorValue
             Return Nothing
         End If
 
-        Dim groups As New List(Of Double())()
-        For c As Integer = 0 To cols - 1
-            Dim values As New List(Of Double)(rows)
-            For r As Integer = 0 To rows - 1
-                Dim d As Double? = TryGetDouble(mat(r, c))
-                If d.HasValue Then values.Add(d.Value)
-            Next
-            If values.Count > 0 Then groups.Add(values.ToArray())
-        Next
-
-        Return groups.ToArray()
+        Return groups
     End Function
 
-    Friend Function ExtractCompleteNumericMatrixCompleteCases(input As Object,
-                                                              ByRef mat As Double(,),
-                                                              ByRef noRows As Integer,
-                                                              ByRef noCols As Integer) As Boolean
+    Friend Function ExtractCompleteNumericMatrixCompleteCases(input As Object, ByRef mat As Double(,),
+                                                              ByRef noRows As Integer, ByRef noCols As Integer) As Boolean
         mat = Nothing
         noRows = 0
         noCols = 0
@@ -1765,5 +1878,436 @@ Module UDFhelpers
         Next
 
         Return True
+    End Function
+
+    ''' <summary>
+    ''' Builds a spilled worksheet table from a numeric matrix whose rows and columns have display labels.
+    ''' </summary>
+    ''' <param name="idHeader">
+    ''' Header placed in the top-left cell when <paramref name="includeHeader"/> is <c>True</c>.
+    ''' This is typically a label such as <c>Variable</c>, <c>Factor</c>, or <c>Dimension</c>.
+    ''' </param>
+    ''' <param name="rowNames">Labels aligned with the rows of <paramref name="mat"/>.</param>
+    ''' <param name="colNames">Labels aligned with the columns of <paramref name="mat"/>.</param>
+    ''' <param name="mat">Numeric matrix to convert into a worksheet spill range.</param>
+    ''' <param name="includeHeader">
+    ''' When <c>True</c>, returns a header row containing <paramref name="idHeader"/> and the supplied column names.
+    ''' When <c>False</c>, only the row labels and numeric values are returned.
+    ''' </param>
+    ''' <returns>
+    ''' A worksheet-ready object matrix produced by <c>PrepareResultTableForUdf</c>, or <c>#N/A</c> when
+    ''' <paramref name="mat"/> is <c>Nothing</c>.
+    ''' </returns>
+    Friend Function BuildNamedMatrixOutput(idHeader As String, rowNames() As String, colNames() As String,
+                                           mat(,) As Double, includeHeader As Boolean) As Object
+        If mat Is Nothing Then Return ExcelError.ExcelErrorNA
+
+        Dim n As Integer = mat.GetLength(0)
+        Dim p As Integer = mat.GetLength(1)
+        Dim out(n - 1 + If(includeHeader, 1, 0), p) As Object
+        Dim r0 As Integer = 0
+
+        If includeHeader Then
+            out(0, 0) = idHeader
+            For j As Integer = 0 To p - 1
+                out(0, j + 1) = If(colNames IsNot Nothing AndAlso j < colNames.Length, colNames(j), (j + 1).ToString(CultureInfo.InvariantCulture))
+            Next
+            r0 = 1
+        End If
+
+        For i As Integer = 0 To n - 1
+            out(r0 + i, 0) = If(rowNames IsNot Nothing AndAlso i < rowNames.Length, rowNames(i), (i + 1).ToString(CultureInfo.InvariantCulture))
+            For j As Integer = 0 To p - 1
+                out(r0 + i, j + 1) = mat(i, j)
+            Next
+        Next
+
+        Return PrepareResultTableForUdf(out)
+    End Function
+
+    ''' <summary>
+    ''' Builds a spilled worksheet table from a numeric matrix whose rows are identified by case or observation IDs.
+    ''' </summary>
+    ''' <param name="idHeader">
+    ''' Header placed in the top-left cell when <paramref name="includeHeader"/> is <c>True</c>.
+    ''' This is typically a label such as <c>Row</c> or <c>Observation</c>.
+    ''' </param>
+    ''' <param name="rowIds">Case identifiers aligned with the rows of <paramref name="mat"/>.</param>
+    ''' <param name="colNames">Labels aligned with the columns of <paramref name="mat"/>.</param>
+    ''' <param name="mat">Numeric matrix to convert into a worksheet spill range.</param>
+    ''' <param name="includeHeader">
+    ''' When <c>True</c>, returns a header row containing <paramref name="idHeader"/> and the supplied column names.
+    ''' When <c>False</c>, only the case IDs and numeric values are returned.
+    ''' </param>
+    ''' <returns>
+    ''' A worksheet-ready object matrix produced by <c>PrepareResultTableForUdf</c>, or <c>#N/A</c> when
+    ''' <paramref name="mat"/> or <paramref name="rowIds"/> is <c>Nothing</c>.
+    ''' </returns>
+    Friend Function BuildCaseMatrixOutput(idHeader As String, rowIds() As Integer,
+                                          colNames() As String, mat(,) As Double, includeHeader As Boolean) As Object
+        If mat Is Nothing OrElse rowIds Is Nothing Then Return ExcelError.ExcelErrorNA
+
+        Dim n As Integer = mat.GetLength(0)
+        Dim p As Integer = mat.GetLength(1)
+        Dim out(n - 1 + If(includeHeader, 1, 0), p) As Object
+        Dim r0 As Integer = 0
+
+        If includeHeader Then
+            out(0, 0) = idHeader
+            For j As Integer = 0 To p - 1
+                out(0, j + 1) = If(colNames IsNot Nothing AndAlso j < colNames.Length, colNames(j), (j + 1).ToString(CultureInfo.InvariantCulture))
+            Next
+            r0 = 1
+        End If
+
+        For i As Integer = 0 To n - 1
+            out(r0 + i, 0) = rowIds(i)
+            For j As Integer = 0 To p - 1
+                out(r0 + i, j + 1) = mat(i, j)
+            Next
+        Next
+
+        Return PrepareResultTableForUdf(out)
+    End Function
+
+    ''' <summary>
+    ''' Converts a wrapped result table into a worksheet spill range.
+    ''' </summary>
+    ''' <param name="tableWithTitle">
+    ''' A result table that begins with an optional title row followed by a header row and data rows.
+    ''' </param>
+    ''' <param name="includeHeader">
+    ''' When <c>True</c>, the returned spill keeps the header row and drops only the title row.
+    ''' When <c>False</c>, both the title row and the header row are removed.
+    ''' </param>
+    ''' <returns>
+    ''' A worksheet-ready object matrix produced by <c>PrepareResultTableForUdf</c>, or <c>#N/A</c> when
+    ''' <paramref name="tableWithTitle"/> is <c>Nothing</c>.
+    ''' </returns>
+    ''' <remarks>
+    ''' This helper is intended for outputs created by multivariate back-end wrappers that prepend a descriptive
+    ''' title row above the actual column headers.
+    ''' </remarks>
+    Friend Function PrepareWrappedResultTableForUdf(tableWithTitle As Object(,), includeHeader As Boolean) As Object
+        If tableWithTitle Is Nothing Then Return ExcelError.ExcelErrorNA
+        Dim totalRows As Integer = tableWithTitle.GetLength(0)
+        Dim totalCols As Integer = tableWithTitle.GetLength(1)
+        If totalRows <= 1 Then Return PrepareResultTableForUdf(tableWithTitle)
+        Dim startRow As Integer = If(includeHeader, 1, 2)
+        If startRow >= totalRows Then startRow = totalRows - 1
+        Dim out(totalRows - startRow - 1, totalCols - 1) As Object
+        For i As Integer = startRow To totalRows - 1
+            For j As Integer = 0 To totalCols - 1
+                out(i - startRow, j) = tableWithTitle(i, j)
+            Next
+        Next
+        Return PrepareResultTableForUdf(out)
+    End Function
+
+    ''' <summary>
+    ''' Attempts to read a one-dimensional text vector from a worksheet argument.
+    ''' </summary>
+    ''' <param name="arg">
+    ''' Input supplied either as a delimited string or as a one-row / one-column worksheet range.
+    ''' </param>
+    ''' <param name="values">Receives the parsed text values when conversion succeeds.</param>
+    ''' <returns>
+    ''' <c>True</c> when a non-empty vector of trimmed text values was read successfully; otherwise <c>False</c>.
+    ''' </returns>
+    ''' <remarks>
+    ''' Accepted string separators are commas, semicolons, carriage returns, and line feeds.
+    ''' Two-dimensional ranges with more than one row and more than one column are rejected.
+    ''' </remarks>
+    Friend Function TryReadStringVectorArgument(arg As Object, ByRef values() As String) As Boolean
+        values = Nothing
+        If IsMissingArg(arg) Then Return False
+        Dim s As String = TryCast(arg, String)
+        If s IsNot Nothing Then
+            Dim parts = s.Split({","c, ";"c, ControlChars.Lf, ControlChars.Cr}, StringSplitOptions.RemoveEmptyEntries)
+            If parts.Length > 0 Then
+                ReDim values(parts.Length - 1)
+                For i As Integer = 0 To parts.Length - 1
+                    values(i) = parts(i).Trim()
+                Next
+                Return True
+            End If
+        End If
+        Dim arr As Object(,) = Get2D(arg)
+        If arr Is Nothing Then Return False
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        Dim list As New List(Of String)
+        If rows = 1 Then
+            For j As Integer = 0 To cols - 1
+                list.Add(CellToTrimmedText(arr(0, j)))
+            Next
+        ElseIf cols = 1 Then
+            For i As Integer = 0 To rows - 1
+                list.Add(CellToTrimmedText(arr(i, 0)))
+            Next
+        Else
+            Return False
+        End If
+        values = list.ToArray()
+        Return values.Length > 0
+    End Function
+
+    ''' <summary>
+    ''' Attempts to read a one-dimensional numeric vector from a worksheet argument.
+    ''' </summary>
+    ''' <param name="arg">
+    ''' Input supplied either as a delimited string or as a one-row / one-column worksheet range.
+    ''' </param>
+    ''' <param name="values">Receives the parsed numeric values when conversion succeeds.</param>
+    ''' <returns>
+    ''' <c>True</c> when a non-empty vector of finite numeric values was read successfully; otherwise <c>False</c>.
+    ''' </returns>
+    ''' <remarks>
+    ''' For text input, semicolons or line breaks take precedence as separators. When none are present, commas are used.
+    ''' Both invariant-culture and current-culture numeric parsing are attempted so that decimal formatting is more tolerant.
+    ''' Two-dimensional ranges with more than one row and more than one column are rejected.
+    ''' </remarks>
+    Friend Function TryReadDoubleVectorArgument(arg As Object, ByRef values() As Double) As Boolean
+        values = Nothing
+        If IsMissingArg(arg) Then Return False
+        Dim s As String = TryCast(arg, String)
+        If s IsNot Nothing Then
+            Dim separators() As Char
+            If s.IndexOf(";"c) >= 0 OrElse s.IndexOf(ControlChars.Lf) >= 0 OrElse s.IndexOf(ControlChars.Cr) >= 0 Then
+                separators = New Char() {";"c, ControlChars.Lf, ControlChars.Cr}
+            Else
+                separators = New Char() {","c}
+            End If
+            Dim parts = s.Split(separators, StringSplitOptions.RemoveEmptyEntries)
+            Dim list As New List(Of Double)
+            For Each token As String In parts
+                Dim parsed As Double
+                If Double.TryParse(token.Trim(), NumberStyles.Float Or NumberStyles.AllowThousands, CultureInfo.InvariantCulture, parsed) OrElse
+                   Double.TryParse(token.Trim(), NumberStyles.Float Or NumberStyles.AllowThousands, CultureInfo.CurrentCulture, parsed) Then
+                    list.Add(parsed)
+                Else
+                    Return False
+                End If
+            Next
+            If list.Count > 0 Then
+                values = list.ToArray()
+                Return True
+            End If
+        End If
+        Dim arr As Object(,) = Get2D(arg)
+        If arr Is Nothing Then Return False
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        Dim vals As New List(Of Double)
+        If rows = 1 Then
+            For j As Integer = 0 To cols - 1
+                Dim d As Double? = TryGetDouble(arr(0, j))
+                If Not d.HasValue Then Return False
+                vals.Add(d.Value)
+            Next
+        ElseIf cols = 1 Then
+            For i As Integer = 0 To rows - 1
+                Dim d As Double? = TryGetDouble(arr(i, 0))
+                If Not d.HasValue Then Return False
+                vals.Add(d.Value)
+            Next
+        Else
+            Return False
+        End If
+        values = vals.ToArray()
+        Return values.Length > 0
+    End Function
+
+    ''' <summary>
+    ''' Attempts to convert a worksheet argument into a <c>DataObj</c> containing numeric predictors.
+    ''' </summary>
+    ''' <param name="input">
+    ''' Numeric worksheet range to import. The helper accepts either a plain numeric block or a block whose first row
+    ''' contains column labels.
+    ''' </param>
+    ''' <param name="varNames">
+    ''' Optional replacement variable names. When omitted, inferred names from the worksheet input are used.
+    ''' </param>
+    ''' <param name="allowMissing">
+    ''' When <c>True</c>, missing numeric cells are allowed to pass through to the <c>DataObj</c> import layer.
+    ''' When <c>False</c>, the downstream import will keep only complete numeric rows.
+    ''' </param>
+    ''' <param name="data">Receives the populated <c>DataObj</c> when conversion succeeds.</param>
+    ''' <returns>
+    ''' <c>True</c> when the input could be trimmed, named, and imported into a non-empty numeric data object;
+    ''' otherwise <c>False</c>.
+    ''' </returns>
+    ''' <remarks>
+    ''' This helper centralizes the standard numeric-matrix import path used by the multivariate UDFs.
+    ''' It deliberately reuses <c>TryGetTrimmedNumericMatrixObject</c> and <c>ResolveImportedPredictorNames</c>
+    ''' so that header detection, trailing blank-row trimming, and predictor-name resolution stay consistent across UDF modules.
+    ''' </remarks>
+    Friend Function TryBuildNumericDataObject(input As Object, varNames As Object,
+                                           allowMissing As Boolean, ByRef data As DataObj) As Boolean
+        data = Nothing
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim lastRow As Integer = FindLastNonBlankRow(arr)
+        If lastRow < 0 Then Return False
+
+        Dim raw(,) As Object = Nothing
+        Dim inferredNames() As String = Nothing
+        If Not TryGetTrimmedNumericMatrixObject(arr, raw, inferredNames) Then Return False
+
+        Dim firstSourceRow As Integer = If(HasNumericMatrixHeader(arr, lastRow), 2, 1)
+
+        Dim imported As New DataObj()
+        If allowMissing Then imported.bAllowMissing = True
+        imported.DataImportRawMatrix(raw,
+                                 ResolveImportedPredictorNames(varNames, inferredNames),
+                                 firstSourceRow:=firstSourceRow)
+
+        If imported.bZeroValid OrElse imported.nRows < 1 OrElse imported.nCols < 1 Then Return False
+        data = imported
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Converts an existing object table into a worksheet spill range, optionally dropping the header row.
+    ''' </summary>
+    ''' <param name="table">Object table that already contains its own header row.</param>
+    ''' <param name="includeHeader">
+    ''' When <c>True</c>, the full table is returned.
+    ''' When <c>False</c>, the first row is removed before spilling the result.
+    ''' </param>
+    ''' <returns>
+    ''' A worksheet-ready object matrix produced by <c>PrepareResultTableForUdf</c>, or <c>#N/A</c> when
+    ''' <paramref name="table"/> is <c>Nothing</c>.
+    ''' </returns>
+    Friend Function PrepareExistingObjectTableForUdf(table As Object(,), includeHeader As Boolean) As Object
+        If table Is Nothing Then Return ExcelError.ExcelErrorNA
+        If includeHeader Then Return PrepareResultTableForUdf(table)
+
+        Dim totalRows As Integer = table.GetLength(0)
+        Dim totalCols As Integer = table.GetLength(1)
+        If totalRows <= 1 Then Return PrepareResultTableForUdf(table)
+
+        Dim out(totalRows - 2, totalCols - 1) As Object
+        For i As Integer = 1 To totalRows - 1
+            For j As Integer = 0 To totalCols - 1
+                out(i - 1, j) = table(i, j)
+            Next
+        Next
+        Return PrepareResultTableForUdf(out)
+    End Function
+
+    ''' <summary>
+    ''' Builds a simple two-column note table that can be returned directly from a UDF.
+    ''' </summary>
+    ''' <param name="label">Label shown in the first column.</param>
+    ''' <param name="value">Value or explanatory message shown in the second column.</param>
+    ''' <returns>
+    ''' A two-row object table whose first row acts as the header and whose second row contains the supplied note.
+    ''' </returns>
+    Friend Function BuildSimpleNoteTable(label As String, value As String) As Object(,)
+        Dim out(1, 1) As Object
+        out(0, 0) = label
+        out(0, 1) = "Value"
+        out(1, 0) = label
+        out(1, 1) = value
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Converts a result table object into a 2D object array suitable for returning
+    ''' from an Excel-DNA UDF.
+    ''' </summary>
+    ''' <param name="table">
+    ''' The source table object, expected to be a two-dimensional <see cref="Object"/> array.
+    ''' </param>
+    ''' <returns>
+    ''' A two-dimensional <see cref="Object"/> array with <c>Nothing</c> and
+    ''' <see cref="DBNull"/> values converted to empty strings.
+    ''' Returns <c>Nothing</c> if <paramref name="table"/> cannot be cast to
+    ''' a two-dimensional object array.
+    ''' </returns>
+    Friend Function PrepareResultTableForUdf(table As Object) As Object(,)
+        Dim arr As Object(,) = TryCast(table, Object(,))
+        If arr Is Nothing Then Return Nothing
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        Dim out(rows - 1, cols - 1) As Object
+
+        For r As Integer = 0 To rows - 1
+            For c As Integer = 0 To cols - 1
+                Dim v As Object = arr(r, c)
+
+                If v Is Nothing Then
+                    out(r, c) = String.Empty ' ExcelEmpty.Value
+                ElseIf TypeOf v Is DBNull Then
+                    out(r, c) = String.Empty ' ExcelEmpty.Value
+                Else
+                    out(r, c) = v
+                End If
+            Next
+        Next
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Attempts to parse and validate an alpha value from an optional Excel argument.
+    ''' </summary>
+    ''' <param name="arg">
+    ''' The Excel argument to parse. May be missing, numeric, or a string representation of a number.
+    ''' </param>
+    ''' <param name="alpha">
+    ''' When this method returns <c>True</c>, contains the parsed alpha value.
+    ''' Defaults to <c>0.05</c> when the argument is missing.
+    ''' </param>
+    ''' <returns>
+    ''' <c>True</c> if a valid alpha in the open interval <c>(0, 1)</c> could be obtained;
+    ''' otherwise <c>False</c>.
+    ''' </returns>
+    Friend Function TryParseAlpha(arg As Object, ByRef alpha As Double) As Boolean
+        alpha = 0.05
+        If IsMissingArg(arg) Then Return True
+
+        Try
+            If TypeOf arg Is String Then
+                Dim s As String = Convert.ToString(arg).Trim()
+                If Not Double.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, alpha) AndAlso
+                   Not Double.TryParse(s, alpha) Then
+                    Return False
+                End If
+            Else
+                alpha = Convert.ToDouble(arg)
+            End If
+        Catch
+            Return False
+        End Try
+
+        If Double.IsNaN(alpha) OrElse Double.IsInfinity(alpha) Then Return False
+        If alpha <= 0.0 OrElse alpha >= 1.0 Then Return False
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Ensures probabilities lie in [0,1] and are finite; otherwise returns #NUM!.
+    ''' </summary>
+    Friend Function ClampProb(p As Double) As Object
+        If Double.IsNaN(p) OrElse Double.IsInfinity(p) Then Return ExcelError.ExcelErrorNum
+        If p < 0.0 Then p = 0.0
+        If p > 1.0 Then p = 1.0
+        Return p
+    End Function
+
+    Friend Function StackResultTables(tables As List(Of ResultTable)) As Object(,)
+        If tables Is Nothing OrElse tables.Count = 0 Then Return Nothing
+        Dim stacked As Object(,) = Nothing
+        For Each t In tables
+            Dim arr As Object(,) = PrepareResultTableForUdf(t.returnSelf())
+            stacked = PrepareResultTableForUdf(StackWithBlankRow(stacked, arr))
+        Next
+        Return stacked
     End Function
 End Module

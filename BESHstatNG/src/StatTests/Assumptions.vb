@@ -1,4 +1,6 @@
-﻿Imports System.Drawing
+﻿Option Explicit On
+Option Strict On
+Imports System.Drawing
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
@@ -55,10 +57,10 @@ Namespace assumptions
 
             strErr = String.Empty
             Dim n As Double = data.Length
-            ReDim a(n), x(n)
+            ReDim a(CInt(n)), x(CInt(n))
             'original code use 1 based arrays. Shift data by 1
             Array.Sort(data)
-            For i = 0 To n - 1
+            For i = 0 To CInt(n) - 1
                 x(i + 1) = data(i)
             Next
 
@@ -68,13 +70,13 @@ Namespace assumptions
             If W >= 0 Then W = 1
 
             Dim an As Double = n
-            Dim n2 As Integer = n / 2
+            Dim n2 As Integer = CInt(n / 2)
             Dim nn2 As Integer = n2
 
             If n Mod 2 = 0 Then ' N2 = 1/2N if N is even, 1/2(N-1) if N is odd
-                n2 = n / 2
+                n2 = CInt(n / 2)
             Else
-                n2 = (n - 1) / 2
+                n2 = CInt((n - 1) / 2)
             End If
 
             ' IF N2 < NN2 Then RETURN
@@ -132,7 +134,7 @@ Namespace assumptions
             If W < 0.0 Then w1 = 1.0 + W
 
             ' Check for zero range
-            Dim Range As Double = x(n) - x(1)
+            Dim Range As Double = x(CInt(n)) - x(1)
             If Range < 1.0E-19 Then
                 strErr = "The  data  have  zero  range. For more info see (Remark AS R94)."
                 Return Nothing
@@ -142,8 +144,8 @@ Namespace assumptions
             Dim xx As Double = x(1) / Range
             Dim sx As Double = xx
             Dim SA As Double = -a(1)
-            Dim j As Integer = n - 1
-            For i = 2 To n
+            Dim j As Integer = CInt(n) - 1
+            For i = 2 To CInt(n)
                 xi = x(i) / Range
                 sx += xi
                 If i > j Then ' originaly: if i<> j then SA = SA + SIGN(1, I - J) * A(MIN(I, J))
@@ -166,8 +168,8 @@ Namespace assumptions
             Dim SSA As Double = 0.0
             Dim SSX As Double = 0.0
             Dim SAX As Double = 0.0
-            j = n
-            For i = 1 To n
+            j = CInt(n)
+            For i = 1 To CInt(n)
                 If i > j Then
                     ASA = 1 * a(Math.Min(i, j)) - SA
                 ElseIf i < j Then
@@ -1103,11 +1105,11 @@ Namespace assumptions
                 Next
 
                 r(ii) = big / sd
-                q(ibig) = 1
-                Outliers(ii) = x(ibig)
+                q(CInt(ibig)) = 1
+                Outliers(ii) = x(CInt(ibig))
                 ii += 1
-                sum -= x(ibig)
-                sums -= x(ibig) * x(ibig)
+                sum -= x(CInt(ibig))
+                sums -= x(CInt(ibig)) * x(CInt(ibig))
                 fn -= 1
             Loop
 

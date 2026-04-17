@@ -69,12 +69,17 @@
 							<button id="btm8_5KMC" label="K-Means Clustering" onAction='OnbtmKMCPressed' imageMso='DesignAccentsGallery' />
 							<button id="btm8_6HC" label="Hierarchical Clustering" onAction='OnbtmHCPressed' imageMso='ViewPredecessorsSuccessorsShow' />
 							<button id="btm8_7FA" label="Factor Analysis" onAction='OnbtmFAPressed' imageMso='CreateSubsite' />
+							<button id="btm8_8Discr" label="Discriminant Analysis" onAction='OnbtmDiscrPressed' imageMso='AutomaticResize' />
 						</menu>
 						<menu id='subMenu_SampleSize' label='Sample Size' >
 							<button id="btn9_1PairedT" label="Paired T-test" onAction='OnbtmSampleSizePairedTPressed' imageMso="PrintColumns" />
 							<button id="btn9_2UnPairedT" label="Unpaired T-test" onAction='OnbtmSampleSizeUnPairedTPressed' imageMso="JustifyMediumVertical" />
 							<button id="btn9_3SingleProp" label="Single Proportion" onAction='OnbtmSinglePropPressed' imageMso="ObjectsArrangeMenu" />
 							<button id="btn9_4IndProp" label="Independent Proportions" onAction='OnbtmIndPropPressed' imageMso="ObjectsGroupMenuOutlook" />
+							<button id="btn9_5logrank" label="Log-rank Test" onAction='OnbtmSSlogrankPressed' imageMso="ChartTypeLineInsertGallery" />
+							<button id="btn9_6cox" label="Cox Regression" onAction='OnbtmSScoxPressed' imageMso="ChartTypeXYScatterInsertGallery" />
+							<button id="btn9_7icc" label="Intraclass Correlation (ICC)" onAction='OnbtmSSiccPressed' imageMso="CombineShapesGallery" />
+							<button id="btn9_8ba" label="Agreement (Bland-Altman)" onAction='OnbtmSSblandaltmanPressed' imageMso="ChartLines" />
 						</menu>
 						<menu id='subMenu_Agreement' label='Agreement' >
 							<button id="btn10_1PassingBablok" label="Passing-Bablok Regression" onAction='OnbtmPassingBablok' imageMso="AutoSummaryViewByHighlight" />

@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Option Strict On
+
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
@@ -882,12 +884,12 @@ Namespace contingencytable
             Dim points As Double = table(i - 1, j - 1)
 
             For k = 0 To nn - 2                           'Loop over entries in table,
-                ki = RoundDown(k / j, 0)                 'decoding a row index,
+                ki = CInt(RoundDown(k / j, 0))            'decoding a row index,
                 kj = k - j * ki                           'and a column index.
                 points += table(ki, kj)
 
                 For L = k + 1 To nn - 1                   'Loop over other member of the pair,
-                    li = RoundDown(L / j, 0)             'decoding its row
+                    li = CInt(RoundDown(L / j, 0))        'decoding its row
                     lj = L - j * li                       'and column.
                     m1 = li - ki
                     m2 = lj - kj

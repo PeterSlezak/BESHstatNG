@@ -254,7 +254,7 @@ Namespace Agreement
                 Me.pDroppedPairCount = built.DroppedCount
             End If
 
-            Dim n As Double = SumMatrix(table)
+            Dim n As Double = StatFunc.Sum2D(table)
             If n <= 0.0 Then
                 AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("The confusion matrix contains no observations."))
             End If
@@ -266,7 +266,7 @@ Namespace Agreement
             Dim ci As ConfidenceIntervalResult
             If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
                 Me.pUsedBootstrapCi = True
-                Me.pBootstrapSeedUsed = ResolveRandomSeed(randomSeed)
+                Me.pBootstrapSeedUsed = Helpers.ResolveRandomSeed(randomSeed)
                 ci = ComputeBootstrapConfidenceInterval(table, labels, Me.pOptions, metrics.Kappa, progressBar, Me.pBootstrapSeedUsed)
             Else
                 ci = ComputeAnalyticalConfidenceInterval(table, weights, metrics.Kappa, Me.pOptions)
@@ -274,7 +274,7 @@ Namespace Agreement
 
             Dim seForTest As Double = ci.StdErr
             If Double.IsNaN(seForTest) OrElse seForTest <= 0.0 Then
-                seForTest = ComputeAnalyticalStandardError(table, weights, metrics.Kappa)
+                seForTest = ComputeAnalyticalStandardError(table, weights)
             End If
             Dim ht = ComputeHypothesisTest(metrics.Kappa, seForTest)
 
@@ -559,7 +559,7 @@ Namespace Agreement
 
         Private Function ComputeKappaMetrics(table As Double(,), weights As Double(,)) As (Kappa As Double, WeightedObservedAgreement As Double, WeightedExpectedAgreement As Double, UnweightedObservedAgreement As Double, UnweightedExpectedAgreement As Double)
             Dim k As Integer = table.GetLength(0)
-            Dim n As Double = SumMatrix(table)
+            Dim n As Double = StatFunc.Sum2D(table)
             Dim probs = MatrixToProbabilities(table, n)
             Dim row = RowMarginals(probs)
             Dim col = ColumnMarginals(probs)
@@ -586,20 +586,20 @@ Namespace Agreement
         End Function
 
         Private Function ComputeAnalyticalConfidenceInterval(table As Double(,), weights As Double(,), kappa As Double, opts As KappaOptions) As ConfidenceIntervalResult
-            Dim se As Double = ComputeAnalyticalStandardError(table, weights, kappa)
+            Dim se As Double = ComputeAnalyticalStandardError(table, weights)
             Dim z As Double = distributions.ZCritTwoSided(opts.Alpha)
             Dim ci As New ConfidenceIntervalResult With {
-                .alpha = opts.Alpha,
-                .Estimate = kappa,
-                .StdErr = se,
-                .LowerLimit = Math.Max(-1.0, kappa - z * se),
-                .UpperLimit = Math.Min(1.0, kappa + z * se)
-            }
+                    .alpha = opts.Alpha,
+                    .Estimate = kappa,
+                    .StdErr = se,
+                    .LowerLimit = Math.Max(-1.0, kappa - z * se),
+                    .UpperLimit = Math.Min(1.0, kappa + z * se)
+                }
             Return ci
         End Function
 
-        Private Function ComputeAnalyticalStandardError(table As Double(,), weights As Double(,), observedKappa As Double) As Double
-            Dim n As Double = SumMatrix(table)
+        Private Function ComputeAnalyticalStandardError(table As Double(,), weights As Double(,)) As Double
+            Dim n As Double = StatFunc.Sum2D(table)
             If n <= 1.0 Then Return Double.NaN
 
             Dim probs = MatrixToProbabilities(table, n)
@@ -666,10 +666,10 @@ Namespace Agreement
                     idx += 1
                 Next
             Next
-            Return ComputeKappaMetrics(ProbabilitiesToCounts(probs), weights).Kappa
+            Return ComputeKappaMetrics(AsFrequencyMatrix(probs), weights).Kappa
         End Function
 
-        Private Function ProbabilitiesToCounts(probs As Double(,)) As Double(,)
+        Private Function AsFrequencyMatrix(probs As Double(,)) As Double(,)
             Return probs
         End Function
 
@@ -716,35 +716,17 @@ Namespace Agreement
             Dim upper As Double = QuantileFromSorted(boot, 1.0 - opts.Alpha / 2.0)
 
             Dim ci As New ConfidenceIntervalResult With {
-                .alpha = opts.Alpha,
-                .Estimate = observedKappa,
-                .LowerLimit = Math.Max(-1.0, lower),
-                .UpperLimit = Math.Min(1.0, upper),
-                .StdErr = SampleStandardDeviation(boot)
-            }
+                    .alpha = opts.Alpha,
+                    .Estimate = observedKappa,
+                    .LowerLimit = Math.Max(-1.0, lower),
+                    .UpperLimit = Math.Min(1.0, upper),
+                    .StdErr = StatFunc.stDev(boot)
+                }
             Return ci
         End Function
 
-        ''' <summary>
-        ''' Resolves the actual pseudo-random seed that will be used for bootstrap resampling.
-        ''' </summary>
-        ''' <param name="requestedSeed">
-        ''' Explicit seed requested by the caller. Use <see cref="Integer.MinValue"/> to indicate that no explicit seed was supplied.
-        ''' </param>
-        ''' <returns>
-        ''' The explicit seed if one was supplied; otherwise the global default seed; otherwise a time-based seed captured from <see cref="Environment.TickCount"/>.
-        ''' </returns>
-        Friend Shared Function ResolveRandomSeed(requestedSeed As Integer) As Integer
-            If requestedSeed <> Integer.MinValue Then Return requestedSeed
-
-            Dim globalSeed As Integer = AppGlobals.DefaultRandomSeed
-            If globalSeed <> Integer.MinValue Then Return globalSeed
-
-            Return Environment.TickCount
-        End Function
-
         Private Function ExpandTableToPairs(table As Double(,), labels As Object()) As Tuple(Of Object(), Object())
-            Dim n As Integer = CInt(Math.Round(SumMatrix(table)))
+            Dim n As Integer = CInt(Math.Round(StatFunc.Sum2D(table)))
             If n <= 0 Then Return Nothing
 
             For i As Integer = 0 To table.GetLength(0) - 1
@@ -785,14 +767,7 @@ Namespace Agreement
         End Function
 
         Private Function MatrixToProbabilities(table As Double(,), n As Double) As Double(,)
-            Dim k As Integer = table.GetLength(0)
-            Dim probs(k - 1, k - 1) As Double
-            For i As Integer = 0 To k - 1
-                For j As Integer = 0 To k - 1
-                    probs(i, j) = table(i, j) / n
-                Next
-            Next
-            Return probs
+            Return Matrix.M_DIV(table, n)
         End Function
 
         Private Function RowMarginals(probs As Double(,)) As Double()
@@ -829,16 +804,6 @@ Namespace Agreement
             Return out
         End Function
 
-        Private Function SumMatrix(m As Double(,)) As Double
-            Dim s As Double = 0.0
-            For i As Integer = 0 To m.GetLength(0) - 1
-                For j As Integer = 0 To m.GetLength(1) - 1
-                    s += m(i, j)
-                Next
-            Next
-            Return s
-        End Function
-
         Private Function QuantileFromSorted(sortedValues As Double(), p As Double) As Double
             If sortedValues Is Nothing OrElse sortedValues.Length = 0 Then Return Double.NaN
             If p <= 0.0 Then Return sortedValues(0)
@@ -849,16 +814,6 @@ Namespace Agreement
             If lo = hi Then Return sortedValues(lo)
             Dim frac As Double = pos - lo
             Return sortedValues(lo) + frac * (sortedValues(hi) - sortedValues(lo))
-        End Function
-
-        Private Function SampleStandardDeviation(values As Double()) As Double
-            If values Is Nothing OrElse values.Length < 2 Then Return Double.NaN
-            Dim m As Double = values.Average()
-            Dim ss As Double = 0.0
-            For Each v As Double In values
-                ss += (v - m) * (v - m)
-            Next
-            Return Math.Sqrt(ss / (values.Length - 1))
         End Function
 
     End Class

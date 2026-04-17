@@ -393,7 +393,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
             Dim alphaValue As Double = 0.05
-            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+            If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
             Dim n As Integer = pairs.GetLength(0)
             Dim x(n - 1) As Double
@@ -464,7 +464,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
             Dim alphaValue As Double = 0.05
-            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+            If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
             Dim n As Integer = pairs.GetLength(0)
             Dim x(n - 1) As Double
@@ -542,7 +542,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
             Dim alphaValue As Double = 0.05
-            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+            If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
             Dim n As Integer = pairs.GetLength(0)
             Dim x(n - 1) As Double
@@ -606,7 +606,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If pairs Is Nothing OrElse pairs.GetLength(0) < 4 Then Return ExcelError.ExcelErrorNum
 
             Dim alphaValue As Double = 0.05
-            If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+            If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
             Dim n As Integer = pairs.GetLength(0)
             Dim x(n - 1) As Double
@@ -1067,18 +1067,6 @@ Namespace BESHStatNG.WorksheetFunctions
         ' -------------------------------------------------------------------------------------------------------------
         ' Helpers
         ' -------------------------------------------------------------------------------------------------------------
-
-        ''' <summary>
-        ''' Ensures probabilities lie in [0,1] and are finite; otherwise returns #NUM!.
-        ''' </summary>
-        Private Function ClampProb(p As Double) As Object
-            If Double.IsNaN(p) OrElse Double.IsInfinity(p) Then
-                Return ExcelError.ExcelErrorNum
-            End If
-            If p < 0.0 Then p = 0.0
-            If p > 1.0 Then p = 1.0
-            Return p
-        End Function
 
         ''' <summary>
         ''' Parses the Kruskal-Wallis output selection (H vs Hcor).

@@ -209,7 +209,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GEE_FIT",
             Category:="BESHStatNG - Regression Models",
             Description:="Fits a generalized estimating equation model and returns a reusable handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GEE_FIT(
             <ExcelArgument(Name:="y", Description:="Numeric response vector (single column).")> y As Object,
@@ -298,8 +298,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not UDFhelpers.HasOnlyFinite(fitTime) Then Return ExcelError.ExcelErrorValue
 
                 Dim alphaValue As Double = 0.05R
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim maxIterValue As Integer = UDFhelpers.GetOptionalInt(maxIter, 20)
@@ -308,7 +308,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If maxIterValue < 1 Then Return ExcelError.ExcelErrorNum
                 If Double.IsNaN(tolValue) OrElse Double.IsInfinity(tolValue) OrElse tolValue <= 0.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim familyCode As String = ParseFamilyCode(If(HasUsableOptionalArgument(family), family, "binomial"))
+                Dim familyCode As String = ParseFamilyCode(If(Not IsMissingArg(family), family, "binomial"))
                 If String.IsNullOrWhiteSpace(familyCode) Then Return ExcelError.ExcelErrorValue
 
                 Dim dispersionValue As Double = UDFhelpers.GetOptionalDouble(dispersion, 1.0R)
@@ -325,7 +325,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim lnk As regression.Link = Nothing
                 If String.Equals(linkName, "Power", StringComparison.OrdinalIgnoreCase) Then
-                    If Not HasUsableOptionalArgument(power) Then Return ExcelError.ExcelErrorNum
+                    If Not Not IsMissingArg(power) Then Return ExcelError.ExcelErrorNum
                     Dim powerValue As Double = UDFhelpers.GetOptionalDouble(power, Double.NaN)
                     If Double.IsNaN(powerValue) OrElse Double.IsInfinity(powerValue) OrElse powerValue = 0.0R Then Return ExcelError.ExcelErrorNum
                     lnk = regression.createLink("Power", powerValue)
@@ -359,7 +359,7 @@ Namespace BESHStatNG.WorksheetFunctions
                                 If(imported.bTime, imported.TimeVarName, Nothing))
 
                 Dim parsedStartParams() As Double = Nothing
-                If HasUsableOptionalArgument(startParams) Then
+                If Not IsMissingArg(startParams) Then
                     If Not TryParseNumericVector(startParams, parsedStartParams) Then Return ExcelError.ExcelErrorValue
                     If parsedStartParams Is Nothing OrElse parsedStartParams.Length <> fitVarNames.Length Then Return ExcelError.ExcelErrorNum
                     mdl.startParams = parsedStartParams
@@ -433,7 +433,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GEE_SUMMARY",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the coefficient summary table for a fitted generalized estimating equation handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GEE_SUMMARY(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT.")> handle As Object,
@@ -446,8 +446,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim alphaValue As Double = h.Alpha
-                If HasUsableOptionalArgument(alpha) Then
-                    If Not ParametricUDFs.TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
+                If Not IsMissingArg(alpha) Then
+                    If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
                 Dim beta() As Double = h.Model.results.Coeffs_est
@@ -524,7 +524,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GEE_TESTS",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns model-level diagnostics and fit statistics for a fitted generalized estimating equation handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GEE_TESTS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT.")> handle As Object,
@@ -605,7 +605,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GEE_WCORR",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the fitted working correlation matrix for a generalized estimating equation handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GEE_WCORR(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT.")> handle As Object,
@@ -679,7 +679,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GEE_VCOV",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns the covariance matrix of the estimated generalized estimating equation coefficients.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GEE_VCOV(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT.")> handle As Object,
@@ -692,7 +692,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim covName As String = h.StandardErrorType
-                If HasUsableOptionalArgument(covarianceType) Then
+                If Not IsMissingArg(covarianceType) Then
                     covName = ParseGeeStandardErrorType(covarianceType)
                     If String.IsNullOrWhiteSpace(covName) Then Return ExcelError.ExcelErrorValue
                 End If
@@ -744,7 +744,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GEE_RESID",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns residual diagnostics for a fitted generalized estimating equation handle.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GEE_RESID(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT.")> handle As Object,
@@ -840,7 +840,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GEE_PRED",
             Category:="BESHStatNG - Regression Models",
             Description:="Returns predicted marginal means and linear predictors for new data under a fitted generalized estimating equation model.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GEE_PRED(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT.")> handle As Object,
@@ -936,7 +936,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Name:="BESH.REGR.GEE_DROP",
             Category:="BESHStatNG - Regression Models",
             Description:="Removes a fitted generalized estimating equation handle from memory.",
-            HelpTopic:=HelpLinks.BaseUrlRoot & "/udf/regression-models/"
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function GEE_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT.")> handle As Object

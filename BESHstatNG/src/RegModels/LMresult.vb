@@ -1,4 +1,6 @@
 ﻿Option Explicit On
+Option Strict On
+
 Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>

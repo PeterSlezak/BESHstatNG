@@ -23,6 +23,10 @@ Partial Class Ui12SampleSizeTtestSingleProp
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.grpInput = New System.Windows.Forms.GroupBox()
+        Me.lblHypothesisType = New System.Windows.Forms.Label()
+        Me.cbHypothesisType = New System.Windows.Forms.ComboBox()
+        Me.tbCustom4 = New System.Windows.Forms.TextBox()
+        Me.lblCustom4 = New System.Windows.Forms.Label()
         Me.lblSettings = New System.Windows.Forms.Label()
         Me.lblBeta = New System.Windows.Forms.Label()
         Me.spinBtnBeta = New System.Windows.Forms.NumericUpDown()
@@ -45,6 +49,10 @@ Partial Class Ui12SampleSizeTtestSingleProp
         '
         'grpInput
         '
+        Me.grpInput.Controls.Add(Me.lblHypothesisType)
+        Me.grpInput.Controls.Add(Me.cbHypothesisType)
+        Me.grpInput.Controls.Add(Me.tbCustom4)
+        Me.grpInput.Controls.Add(Me.lblCustom4)
         Me.grpInput.Controls.Add(Me.lblSettings)
         Me.grpInput.Controls.Add(Me.lblBeta)
         Me.grpInput.Controls.Add(Me.spinBtnBeta)
@@ -64,6 +72,43 @@ Partial Class Ui12SampleSizeTtestSingleProp
         Me.grpInput.TabStop = False
         Me.grpInput.Text = "Input"
         '
+        'lblHypothesisType
+        '
+        Me.lblHypothesisType.AutoSize = True
+        Me.lblHypothesisType.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHypothesisType.Location = New System.Drawing.Point(379, 81)
+        Me.lblHypothesisType.Name = "lblHypothesisType"
+        Me.lblHypothesisType.Size = New System.Drawing.Size(75, 16)
+        Me.lblHypothesisType.TabIndex = 14
+        Me.lblHypothesisType.Text = "Hypothesis"
+        '
+        'cbHypothesisType
+        '
+        Me.cbHypothesisType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbHypothesisType.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbHypothesisType.FormattingEnabled = True
+        Me.cbHypothesisType.Location = New System.Drawing.Point(379, 103)
+        Me.cbHypothesisType.Name = "cbHypothesisType"
+        Me.cbHypothesisType.Size = New System.Drawing.Size(141, 24)
+        Me.cbHypothesisType.TabIndex = 13
+        '
+        'tbCustom4
+        '
+        Me.tbCustom4.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbCustom4.Location = New System.Drawing.Point(277, 103)
+        Me.tbCustom4.Name = "tbCustom4"
+        Me.tbCustom4.Size = New System.Drawing.Size(72, 22)
+        Me.tbCustom4.TabIndex = 12
+        '
+        'lblCustom4
+        '
+        Me.lblCustom4.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustom4.Location = New System.Drawing.Point(6, 100)
+        Me.lblCustom4.Name = "lblCustom4"
+        Me.lblCustom4.Size = New System.Drawing.Size(265, 41)
+        Me.lblCustom4.TabIndex = 11
+        Me.lblCustom4.TextAlign = System.Drawing.ContentAlignment.TopRight
+        '
         'lblSettings
         '
         Me.lblSettings.AutoSize = True
@@ -78,7 +123,7 @@ Partial Class Ui12SampleSizeTtestSingleProp
         '
         Me.lblBeta.AutoSize = True
         Me.lblBeta.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBeta.Location = New System.Drawing.Point(395, 64)
+        Me.lblBeta.Location = New System.Drawing.Point(412, 52)
         Me.lblBeta.Name = "lblBeta"
         Me.lblBeta.Size = New System.Drawing.Size(35, 16)
         Me.lblBeta.TabIndex = 9
@@ -89,7 +134,7 @@ Partial Class Ui12SampleSizeTtestSingleProp
         Me.spinBtnBeta.DecimalPlaces = 3
         Me.spinBtnBeta.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.spinBtnBeta.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnBeta.Location = New System.Drawing.Point(443, 62)
+        Me.spinBtnBeta.Location = New System.Drawing.Point(453, 50)
         Me.spinBtnBeta.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
         Me.spinBtnBeta.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnBeta.Name = "spinBtnBeta"
@@ -99,20 +144,20 @@ Partial Class Ui12SampleSizeTtestSingleProp
         '
         'lblAlpha
         '
-        Me.lblAlpha.AutoSize = True
         Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAlpha.Location = New System.Drawing.Point(395, 36)
+        Me.lblAlpha.Location = New System.Drawing.Point(355, 16)
         Me.lblAlpha.Name = "lblAlpha"
-        Me.lblAlpha.Size = New System.Drawing.Size(42, 16)
+        Me.lblAlpha.Size = New System.Drawing.Size(92, 30)
         Me.lblAlpha.TabIndex = 7
         Me.lblAlpha.Text = "Alpha"
+        Me.lblAlpha.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'spinBtnAlpha
         '
         Me.spinBtnAlpha.DecimalPlaces = 3
         Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnAlpha.Location = New System.Drawing.Point(443, 34)
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(453, 16)
         Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
         Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlpha.Name = "spinBtnAlpha"
@@ -123,58 +168,56 @@ Partial Class Ui12SampleSizeTtestSingleProp
         'tbKappa
         '
         Me.tbKappa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbKappa.Location = New System.Drawing.Point(276, 93)
+        Me.tbKappa.Location = New System.Drawing.Point(277, 75)
         Me.tbKappa.Name = "tbKappa"
         Me.tbKappa.Size = New System.Drawing.Size(72, 22)
         Me.tbKappa.TabIndex = 5
-        Me.tbKappa.Text = "1"
         '
         'lblKappa
         '
         Me.lblKappa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblKappa.Location = New System.Drawing.Point(11, 90)
+        Me.lblKappa.Location = New System.Drawing.Point(12, 72)
         Me.lblKappa.Name = "lblKappa"
-        Me.lblKappa.Size = New System.Drawing.Size(248, 25)
+        Me.lblKappa.Size = New System.Drawing.Size(259, 25)
         Me.lblKappa.TabIndex = 4
         Me.lblKappa.Text = "Ratio of control to experimental subjects"
+        Me.lblKappa.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
         'tbSD
         '
         Me.tbSD.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbSD.Location = New System.Drawing.Point(276, 65)
+        Me.tbSD.Location = New System.Drawing.Point(277, 47)
         Me.tbSD.Name = "tbSD"
         Me.tbSD.Size = New System.Drawing.Size(72, 22)
         Me.tbSD.TabIndex = 3
-        Me.tbSD.Text = "10"
         '
         'lblSD
         '
-        Me.lblSD.AutoSize = True
         Me.lblSD.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSD.Location = New System.Drawing.Point(78, 68)
+        Me.lblSD.Location = New System.Drawing.Point(15, 50)
         Me.lblSD.Name = "lblSD"
-        Me.lblSD.Size = New System.Drawing.Size(122, 16)
+        Me.lblSD.Size = New System.Drawing.Size(256, 22)
         Me.lblSD.TabIndex = 2
         Me.lblSD.Text = "Standard Deviation"
+        Me.lblSD.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'tbMeanDiff
         '
         Me.tbMeanDiff.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.tbMeanDiff.Location = New System.Drawing.Point(276, 37)
+        Me.tbMeanDiff.Location = New System.Drawing.Point(277, 19)
         Me.tbMeanDiff.Name = "tbMeanDiff"
         Me.tbMeanDiff.Size = New System.Drawing.Size(72, 22)
         Me.tbMeanDiff.TabIndex = 1
-        Me.tbMeanDiff.Text = "5"
         '
         'lblMeanDiff
         '
-        Me.lblMeanDiff.AutoSize = True
         Me.lblMeanDiff.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMeanDiff.Location = New System.Drawing.Point(78, 40)
+        Me.lblMeanDiff.Location = New System.Drawing.Point(15, 22)
         Me.lblMeanDiff.Name = "lblMeanDiff"
-        Me.lblMeanDiff.Size = New System.Drawing.Size(105, 16)
+        Me.lblMeanDiff.Size = New System.Drawing.Size(256, 24)
         Me.lblMeanDiff.TabIndex = 0
         Me.lblMeanDiff.Text = "Mean Difference"
+        Me.lblMeanDiff.TextAlign = System.Drawing.ContentAlignment.TopRight
         '
         'tbOutput
         '
@@ -254,4 +297,8 @@ Partial Class Ui12SampleSizeTtestSingleProp
     Friend WithEvents btCompute As Windows.Forms.Button
     Friend WithEvents btnSaveToSheet As Windows.Forms.Button
     Friend WithEvents lblSettings As Windows.Forms.Label
+    Friend WithEvents tbCustom4 As Windows.Forms.TextBox
+    Friend WithEvents lblCustom4 As Windows.Forms.Label
+    Friend WithEvents lblHypothesisType As Windows.Forms.Label
+    Friend WithEvents cbHypothesisType As Windows.Forms.ComboBox
 End Class
