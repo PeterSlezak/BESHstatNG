@@ -765,6 +765,305 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         ''' <summary>
+        ''' Returns a threshold-based classification report for a fitted binomial generalized linear model.
+        ''' </summary>
+        ''' <param name="handle">
+        ''' Handle returned by <c>BESH.REGR.GLM_FIT</c> for a previously fitted generalized linear model.
+        ''' The handle must refer to a <b>binomial</b> GLM because the report is based on fitted event probabilities.
+        ''' </param>
+        ''' <param name="threshold">
+        ''' Optional single classification cutoff in the closed interval <c>[0,1]</c>.
+        ''' The default is <c>0.5</c>.
+        ''' Observations with fitted probability <c>p_i ≥ threshold</c> are classified as predicted positives and
+        ''' observations with <c>p_i &lt; threshold</c> are classified as predicted negatives.
+        ''' </param>
+        ''' <param name="includeHeader">
+        ''' TRUE to include a descriptive header row in the returned table (default TRUE).
+        ''' </param>
+        ''' <returns>
+        ''' A 4-column worksheet table containing a binary confusion matrix and selected summary measures.
+        ''' The returned layout is:
+        ''' <list type="bullet">
+        ''' <item><description>Observed vs predicted counts for classes 0 and 1.</description></item>
+        ''' <item><description>Specificity and sensitivity (reported as percentages).</description></item>
+        ''' <item><description>Negative predictive value, precision, and overall accuracy (reported as percentages).</description></item>
+        ''' <item><description>The chosen threshold, balanced accuracy, and Youden's J statistic.</description></item>
+        ''' </list>
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This function is intended for fitted <b>binary-response</b> GLMs such as logistic regression.
+        ''' It uses the model's fitted mean responses <c>μ_i</c> as estimated event probabilities and compares them with
+        ''' the observed binary outcomes <c>y_i ∈ {0,1}</c>.
+        ''' </para>
+        ''' <para>
+        ''' For a chosen threshold <c>c</c>, the predicted class is defined by
+        ''' <c>ŷ_i = 1</c> when <c>p_i ≥ c</c> and <c>ŷ_i = 0</c> otherwise. The function then computes the usual
+        ''' confusion-matrix counts <c>TP</c>, <c>FP</c>, <c>TN</c>, and <c>FN</c>, from which it derives
+        ''' sensitivity, specificity, precision, negative predictive value, accuracy, balanced accuracy,
+        ''' and Youden's J statistic.
+        ''' </para>
+        ''' <para>
+        ''' This is a threshold-dependent report. Changing <paramref name="threshold"/> changes the predicted classes and therefore
+        ''' the reported performance measures. For a threshold sweep across many cutoffs, use <c>BESH.REGR.GLM_THRESH</c>.
+        ''' </para>
+        ''' <para>
+        ''' Example:
+        ''' <c>=BESH.REGR.GLM_CLASS(A1)</c>
+        ''' or
+        ''' <c>=BESH.REGR.GLM_CLASS(A1,0.35,TRUE)</c>
+        ''' where <c>A1</c> contains a handle returned by <c>BESH.REGR.GLM_FIT</c>.
+        ''' </para>
+        ''' </remarks>
+        <ExcelFunction(
+            Name:="BESH.REGR.GLM_CLASS",
+            Category:="BESHStatNG - Regression Models",
+            Description:="Returns a threshold-based classification report for a fitted binomial generalized linear model.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
+        )>
+        Public Function GLM_CLASS(
+            <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLM_FIT for a fitted binomial generalized linear model.")> handle As Object,
+            <ExcelArgument(Name:="threshold", Description:="Optional single classification cutoff in [0,1]. Default = 0.5.")> Optional threshold As Object = Nothing,
+            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include a header row in the returned table. Default = TRUE.")> Optional includeHeader As Object = Nothing
+        ) As Object
+            Try
+                Dim h As GlmHandle = Nothing
+                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
+                If Not TypeOf h.Model.pFamily Is regression.Binomial Then Return ExcelError.ExcelErrorValue
+
+                Dim cutoff As Double = 0.5R
+                If Not TryGetSingleThresholdFromArg(threshold, cutoff, 0.5R) Then Return ExcelError.ExcelErrorValue
+
+                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim y() As Double = h.Model.ObservedResponses
+                Dim p() As Double = h.Model.PredictedResponses
+                Dim w() As Double = h.Model.ObservationWeights
+
+                Dim summary As regression.BinaryClassificationSummary =
+            regression.BinaryClassificationReporting.ComputeBinarySummary(y, p, cutoff, w)
+
+                Return UDFhelpers.BuildBinaryCrosstabOutput(summary, hdr)
+
+            Catch ex As Exception
+                Return LoggedUdfExceptionText("BESH.REGR.GLM_CLASS", ex)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Returns a threshold table for a fitted binomial generalized linear model.
+        ''' </summary>
+        ''' <param name="handle">
+        ''' Handle returned by <c>BESH.REGR.GLM_FIT</c> for a fitted binomial generalized linear model.
+        ''' </param>
+        ''' <param name="thresholds">
+        ''' Optional vector of one or more thresholds in <c>[0,1]</c> supplied as a row range, column range, or a single scalar.
+        ''' If omitted, the function builds a default threshold grid from the unique fitted probabilities generated by the model.
+        ''' </param>
+        ''' <param name="includeHeader">
+        ''' TRUE to include a header row in the returned table (default TRUE).
+        ''' </param>
+        ''' <returns>
+        ''' A worksheet table with one row per threshold and the following columns:
+        ''' threshold, TP, FP, TN, FN, sensitivity, specificity, precision, recall, NPV,
+        ''' accuracy, balanced accuracy, Youden's J, and F1.
+        ''' Percentage-based metrics are returned on the 0-100 scale to match the style of the existing classification UDFs.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This function evaluates the fitted binomial GLM across a sequence of classification cutoffs.
+        ''' It is useful for selecting or comparing decision thresholds after the model has been fitted.
+        ''' </para>
+        ''' <para>
+        ''' When <paramref name="thresholds"/> is omitted, the function uses the sorted unique fitted probabilities as the threshold grid.
+        ''' This provides an exact threshold sweep over the observed fitted values and is often more informative than using only a small fixed set of cutoffs.
+        ''' </para>
+        ''' <para>
+        ''' The returned table complements ROC analysis. ROC summarizes discrimination across cutoffs, whereas this function gives the
+        ''' concrete confusion counts and predictive values at each threshold.
+        ''' </para>
+        ''' <para>
+        ''' Example:
+        ''' <c>=BESH.REGR.GLM_THRESH(A1)</c>
+        ''' or
+        ''' <c>=BESH.REGR.GLM_THRESH(A1,{0.1,0.2,0.3,0.4,0.5},TRUE)</c>
+        ''' </para>
+        ''' </remarks>
+        <ExcelFunction(
+            Name:="BESH.REGR.GLM_THRESH",
+            Category:="BESHStatNG - Regression Models",
+            Description:="Returns a threshold table for a fitted binomial generalized linear model.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
+        )>
+        Public Function GLM_THRESH(
+            <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLM_FIT for a fitted binomial generalized linear model.")> handle As Object,
+            <ExcelArgument(Name:="thresholds", Description:="Optional scalar or row/column vector of thresholds in [0,1]. If omitted, the default threshold grid from the fitted probabilities is used.")> Optional thresholds As Object = Nothing,
+            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include a header row in the returned table. Default = TRUE.")> Optional includeHeader As Object = Nothing
+        ) As Object
+            Try
+                Dim h As GlmHandle = Nothing
+                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
+                If Not TypeOf h.Model.pFamily Is regression.Binomial Then Return ExcelError.ExcelErrorValue
+
+                Dim thresholdVector() As Double = Nothing
+                If Not UDFhelpers.TryGetOptionalThresholdVector(thresholds, thresholdVector) Then Return ExcelError.ExcelErrorValue
+
+                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim y() As Double = h.Model.ObservedResponses
+                Dim p() As Double = h.Model.PredictedResponses
+                Dim w() As Double = h.Model.ObservationWeights
+
+                Dim rows As List(Of regression.BinaryThresholdRow) =
+            regression.BinaryClassificationReporting.BuildThresholdTable(y, p, thresholdVector, w)
+
+                Return UDFhelpers.BuildThresholdTableOutput(rows, hdr)
+
+            Catch ex As Exception
+                Return LoggedUdfExceptionText("BESH.REGR.GLM_THRESH", ex)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Returns calibration-plot data for a fitted binomial generalized linear model.
+        ''' </summary>
+        ''' <param name="handle">
+        ''' Handle returned by <c>BESH.REGR.GLM_FIT</c> for a fitted binomial generalized linear model.
+        ''' </param>
+        ''' <param name="bins">
+        ''' Optional positive integer giving the number of calibration bins.
+        ''' The default is 10. The current implementation requires at least 2 bins.
+        ''' </param>
+        ''' <param name="method">
+        ''' Optional calibration binning method.
+        ''' Accepted values are <c>"quantile"</c> (default) and <c>"equalwidth"</c>.
+        ''' Quantile binning creates groups with approximately equal numbers of observations, while equal-width binning
+        ''' partitions the probability scale into equal intervals.
+        ''' </param>
+        ''' <param name="includeHeader">
+        ''' TRUE to include a header row in the returned table (default TRUE).
+        ''' </param>
+        ''' <returns>
+        ''' A worksheet table with one row per calibration bin and the columns:
+        ''' bin index, number of observations, mean predicted probability, observed event rate,
+        ''' and lower/upper confidence limits for the observed event rate.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This function is designed to support calibration plots for fitted binary GLMs.
+        ''' A well-calibrated model should produce bins in which the observed event rate is close to the mean predicted probability.
+        ''' </para>
+        ''' <para>
+        ''' The returned table can be plotted directly in Excel by using <c>MeanPredicted</c> on the x-axis and <c>ObservedRate</c> on the y-axis,
+        ''' optionally adding the confidence interval columns as error bars.
+        ''' </para>
+        ''' <para>
+        ''' Calibration describes how well predicted probabilities agree with empirical event frequencies.
+        ''' It is different from discrimination measures such as AUC or from threshold-based summaries such as sensitivity and specificity.
+        ''' </para>
+        ''' <para>
+        ''' Example:
+        ''' <c>=BESH.REGR.GLM_CALIB(A1)</c>
+        ''' or
+        ''' <c>=BESH.REGR.GLM_CALIB(A1,10,"quantile",TRUE)</c>
+        ''' </para>
+        ''' </remarks>
+        <ExcelFunction(
+            Name:="BESH.REGR.GLM_CALIB",
+            Category:="BESHStatNG - Regression Models",
+            Description:="Returns calibration-plot data for a fitted binomial generalized linear model.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
+        )>
+        Public Function GLM_CALIB(
+            <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLM_FIT for a fitted binomial generalized linear model.")> handle As Object,
+            <ExcelArgument(Name:="bins", Description:="Optional positive integer specifying the number of calibration bins. Default = 10.")> Optional bins As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional calibration binning method: 'quantile' (default) or 'equalwidth'.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include a header row in the returned table. Default = TRUE.")> Optional includeHeader As Object = Nothing
+        ) As Object
+            Try
+                Dim h As GlmHandle = Nothing
+                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
+                If Not TypeOf h.Model.pFamily Is regression.Binomial Then Return ExcelError.ExcelErrorValue
+
+                Dim binCount As Integer = 10
+                If Not UDFhelpers.TryGetOptionalPositiveInteger(bins, binCount, 10, 2) Then Return ExcelError.ExcelErrorValue
+
+                Dim methodName As String = UDFhelpers.ParseCalibrationMethod(method, "quantile")
+                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim y() As Double = h.Model.ObservedResponses
+                Dim p() As Double = h.Model.PredictedResponses
+                Dim w() As Double = h.Model.ObservationWeights
+
+                Dim rows As List(Of regression.CalibrationBinSummary) =
+            regression.BinaryClassificationReporting.BuildCalibrationBins(y, p, binCount, w, methodName)
+
+                Return UDFhelpers.BuildCalibrationTableOutput(rows, hdr)
+
+            Catch ex As Exception
+                Return LoggedUdfExceptionText("BESH.REGR.GLM_CALIB", ex)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Returns the Brier score for a fitted binomial generalized linear model.
+        ''' </summary>
+        ''' <param name="handle">
+        ''' Handle returned by <c>BESH.REGR.GLM_FIT</c> for a fitted binomial generalized linear model.
+        ''' </param>
+        ''' <param name="includeHeader">
+        ''' TRUE to include a header row in the returned table (default TRUE).
+        ''' </param>
+        ''' <returns>
+        ''' A small worksheet table containing the Brier score and, for convenience, the sample size and event rate.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' For a binary outcome with observed values <c>y_i ∈ {0,1}</c> and fitted probabilities <c>p_i</c>, the Brier score is
+        ''' <c>(1/n) Σ (y_i - p_i)^2</c> in the unweighted case, or the corresponding weighted mean when case weights were supplied.
+        ''' Lower values indicate more accurate probabilistic predictions.
+        ''' </para>
+        ''' <para>
+        ''' Unlike threshold-based metrics, the Brier score evaluates the full probability forecast and therefore does not depend on a chosen classification cutoff.
+        ''' It combines aspects of calibration and discrimination into a single proper scoring rule.
+        ''' </para>
+        ''' <para>
+        ''' Example:
+        ''' <c>=BESH.REGR.GLM_BRIER(A1)</c>
+        ''' </para>
+        ''' </remarks>
+        <ExcelFunction(
+            Name:="BESH.REGR.GLM_BRIER",
+            Category:="BESHStatNG - Regression Models",
+            Description:="Returns the Brier score for a fitted binomial generalized linear model.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
+        )>
+        Public Function GLM_BRIER(
+            <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLM_FIT for a fitted binomial generalized linear model.")> handle As Object,
+            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include a header row in the returned table. Default = TRUE.")> Optional includeHeader As Object = Nothing
+        ) As Object
+            Try
+                Dim h As GlmHandle = Nothing
+                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
+                If Not TypeOf h.Model.pFamily Is regression.Binomial Then Return ExcelError.ExcelErrorValue
+
+                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim y() As Double = h.Model.ObservedResponses
+                Dim p() As Double = h.Model.PredictedResponses
+                Dim w() As Double = h.Model.ObservationWeights
+
+                Dim score As Double = regression.BinaryClassificationReporting.ComputeBrierScore(y, p, w)
+                Dim eventRate As Double = ComputeBinaryEventRate(y, w)
+
+                Return UDFhelpers.BuildNamedScalarOutput("BrierScore", score, y.Length, eventRate, hdr)
+
+            Catch ex As Exception
+                Return LoggedUdfExceptionText("BESH.REGR.GLM_BRIER", ex)
+            End Try
+        End Function
+
+        ''' <summary>
         ''' Removes a fitted generalized linear model handle from the in-memory cache.
         ''' </summary>
         ''' <param name="handle">Handle returned by <c>BESH.REGR.GLM_FIT</c>.</param>
@@ -791,12 +1090,74 @@ Namespace BESHStatNG.WorksheetFunctions
             Return _glmCache.TryRemove(key, removed)
         End Function
 
-
+        ' ---------------------------------------------------------------------
+        ' Helpers
+        ' ---------------------------------------------------------------------
         Private Function TryGetHandle(handle As Object, ByRef h As GlmHandle) As Boolean
             h = Nothing
             Dim key As String = UDFhelpers.AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return False
             Return _glmCache.TryGetValue(key, h)
+        End Function
+
+        ''' <summary>
+        ''' Parses an optional single threshold argument for binary classification UDFs.
+        ''' </summary>
+        ''' <param name="arg">
+        ''' Optional scalar Excel argument expected to represent a single probability cutoff in <c>[0,1]</c>.
+        ''' Blank values use <paramref name="defaultValue"/>.
+        ''' </param>
+        ''' <param name="threshold">
+        ''' On success, receives the parsed threshold.
+        ''' </param>
+        ''' <param name="defaultValue">
+        ''' Default threshold returned when <paramref name="arg"/> is missing or blank.
+        ''' </param>
+        ''' <returns>
+        ''' TRUE if parsing succeeds; otherwise FALSE.
+        ''' </returns>
+        Friend Function TryGetSingleThresholdFromArg(arg As Object, ByRef threshold As Double,
+                                              Optional defaultValue As Double = 0.5R) As Boolean
+            threshold = defaultValue
+            Dim thresholds() As Double = Nothing
+            If Not UDFhelpers.TryGetOptionalThresholdVector(arg, thresholds) Then Return False
+            If thresholds Is Nothing OrElse thresholds.Length = 0 Then Return True
+            If thresholds.Length <> 1 Then Return False
+
+            threshold = thresholds(0)
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' Computes the event rate for a binary outcome vector.
+        ''' </summary>
+        ''' <param name="y">Observed binary outcomes coded as 0/1.</param>
+        ''' <param name="weights">Optional nonnegative observation weights.</param>
+        ''' <returns>
+        ''' The unweighted or weighted mean of <paramref name="y"/>. Returns <see cref="Double.NaN"/> when no valid denominator is available.
+        ''' </returns>
+        Friend Function ComputeBinaryEventRate(y() As Double, Optional weights() As Double = Nothing) As Double
+            If y Is Nothing OrElse y.Length = 0 Then Return Double.NaN
+
+            If weights Is Nothing OrElse weights.Length <> y.Length Then
+                Dim sumY As Double = 0.0
+                For i As Integer = 0 To y.Length - 1
+                    sumY += y(i)
+                Next
+                Return sumY / y.Length
+            End If
+
+            Dim sumW As Double = 0.0
+            Dim sumWY As Double = 0.0
+            For i As Integer = 0 To y.Length - 1
+                Dim wi As Double = weights(i)
+                If wi <= 0.0 Then Continue For
+                sumW += wi
+                sumWY += wi * y(i)
+            Next
+
+            If sumW <= 0.0 Then Return Double.NaN
+            Return sumWY / sumW
         End Function
 
         Private Function BuildParameterNames(h As GlmHandle, coefficientCount As Integer) As String()

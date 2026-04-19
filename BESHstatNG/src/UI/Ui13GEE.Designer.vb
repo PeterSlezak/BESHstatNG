@@ -55,6 +55,11 @@ Partial Class Ui13GEE
         Me.lblX = New System.Windows.Forms.Label()
         Me.lblSelectedSheet = New System.Windows.Forms.Label()
         Me.TabPageBuildModel = New System.Windows.Forms.TabPage()
+        Me.btAddEffectCategoricalFactor = New System.Windows.Forms.Button()
+        Me.btnCustomInteraction = New System.Windows.Forms.Button()
+        Me.btn2Interactions = New System.Windows.Forms.Button()
+        Me.spinBtnPoly = New System.Windows.Forms.NumericUpDown()
+        Me.btnPoly = New System.Windows.Forms.Button()
         Me.cbIntercept = New System.Windows.Forms.CheckBox()
         Me.btAddEffect = New System.Windows.Forms.Button()
         Me.btClearAllSelectedEffects = New System.Windows.Forms.Button()
@@ -66,6 +71,14 @@ Partial Class Ui13GEE
         Me.lblSelectedEffectsList = New System.Windows.Forms.Label()
         Me.lblSelectedVariables = New System.Windows.Forms.Label()
         Me.TabPageOptions = New System.Windows.Forms.TabPage()
+        Me.grpClassification = New System.Windows.Forms.GroupBox()
+        Me.cbBrierScore = New System.Windows.Forms.CheckBox()
+        Me.lblCallibrationBinsN = New System.Windows.Forms.Label()
+        Me.spinBtnCallibrationBinsN = New System.Windows.Forms.NumericUpDown()
+        Me.cbOutputCalibrationTable = New System.Windows.Forms.CheckBox()
+        Me.cbOutputTresholdTable = New System.Windows.Forms.CheckBox()
+        Me.tbClassificationTreshold = New System.Windows.Forms.TextBox()
+        Me.lblClassificationTreshold = New System.Windows.Forms.Label()
         Me.lblAlpha = New System.Windows.Forms.Label()
         Me.spinBtnAlpha = New System.Windows.Forms.NumericUpDown()
         Me.ckResiduals = New System.Windows.Forms.CheckBox()
@@ -94,19 +107,17 @@ Partial Class Ui13GEE
         Me.lblProgress = New System.Windows.Forms.Label()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCalculate = New System.Windows.Forms.Button()
-        Me.btAddEffectCategoricalFactor = New System.Windows.Forms.Button()
-        Me.btnCustomInteraction = New System.Windows.Forms.Button()
-        Me.btn2Interactions = New System.Windows.Forms.Button()
-        Me.spinBtnPoly = New System.Windows.Forms.NumericUpDown()
-        Me.btnPoly = New System.Windows.Forms.Button()
+        Me.cbPerformClasification = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPageBuildModel.SuspendLayout()
+        CType(Me.spinBtnPoly, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPageOptions.SuspendLayout()
+        Me.grpClassification.SuspendLayout()
+        CType(Me.spinBtnCallibrationBinsN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpModelSpecification.SuspendLayout()
         Me.grpIterOptions.SuspendLayout()
-        CType(Me.spinBtnPoly, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -474,6 +485,52 @@ Partial Class Ui13GEE
         Me.TabPageBuildModel.Text = "Build Model"
         Me.TabPageBuildModel.UseVisualStyleBackColor = True
         '
+        'btAddEffectCategoricalFactor
+        '
+        Me.btAddEffectCategoricalFactor.Location = New System.Drawing.Point(330, 84)
+        Me.btAddEffectCategoricalFactor.Name = "btAddEffectCategoricalFactor"
+        Me.btAddEffectCategoricalFactor.Size = New System.Drawing.Size(191, 23)
+        Me.btAddEffectCategoricalFactor.TabIndex = 26
+        Me.btAddEffectCategoricalFactor.Text = "Add as Categorical Factor >>"
+        Me.btAddEffectCategoricalFactor.UseVisualStyleBackColor = True
+        '
+        'btnCustomInteraction
+        '
+        Me.btnCustomInteraction.Location = New System.Drawing.Point(330, 171)
+        Me.btnCustomInteraction.Name = "btnCustomInteraction"
+        Me.btnCustomInteraction.Size = New System.Drawing.Size(191, 23)
+        Me.btnCustomInteraction.TabIndex = 25
+        Me.btnCustomInteraction.Text = "Custom Interaction >>"
+        Me.btnCustomInteraction.UseVisualStyleBackColor = True
+        '
+        'btn2Interactions
+        '
+        Me.btn2Interactions.Location = New System.Drawing.Point(330, 142)
+        Me.btn2Interactions.Name = "btn2Interactions"
+        Me.btn2Interactions.Size = New System.Drawing.Size(191, 23)
+        Me.btn2Interactions.TabIndex = 24
+        Me.btn2Interactions.Text = "2-way Interactions >>"
+        Me.btn2Interactions.UseVisualStyleBackColor = True
+        '
+        'spinBtnPoly
+        '
+        Me.spinBtnPoly.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnPoly.Location = New System.Drawing.Point(477, 113)
+        Me.spinBtnPoly.Maximum = New Decimal(New Integer() {1000000, 0, 0, 196608})
+        Me.spinBtnPoly.Name = "spinBtnPoly"
+        Me.spinBtnPoly.Size = New System.Drawing.Size(44, 22)
+        Me.spinBtnPoly.TabIndex = 23
+        Me.spinBtnPoly.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        '
+        'btnPoly
+        '
+        Me.btnPoly.Location = New System.Drawing.Point(330, 113)
+        Me.btnPoly.Name = "btnPoly"
+        Me.btnPoly.Size = New System.Drawing.Size(131, 23)
+        Me.btnPoly.TabIndex = 22
+        Me.btnPoly.Text = "Poly >>"
+        Me.btnPoly.UseVisualStyleBackColor = True
+        '
         'cbIntercept
         '
         Me.cbIntercept.AutoSize = True
@@ -575,6 +632,8 @@ Partial Class Ui13GEE
         '
         'TabPageOptions
         '
+        Me.TabPageOptions.Controls.Add(Me.cbPerformClasification)
+        Me.TabPageOptions.Controls.Add(Me.grpClassification)
         Me.TabPageOptions.Controls.Add(Me.lblAlpha)
         Me.TabPageOptions.Controls.Add(Me.spinBtnAlpha)
         Me.TabPageOptions.Controls.Add(Me.ckResiduals)
@@ -586,6 +645,102 @@ Partial Class Ui13GEE
         Me.TabPageOptions.TabIndex = 2
         Me.TabPageOptions.Text = "Options"
         Me.TabPageOptions.UseVisualStyleBackColor = True
+        '
+        'grpClassification
+        '
+        Me.grpClassification.Controls.Add(Me.cbBrierScore)
+        Me.grpClassification.Controls.Add(Me.lblCallibrationBinsN)
+        Me.grpClassification.Controls.Add(Me.spinBtnCallibrationBinsN)
+        Me.grpClassification.Controls.Add(Me.cbOutputCalibrationTable)
+        Me.grpClassification.Controls.Add(Me.cbOutputTresholdTable)
+        Me.grpClassification.Controls.Add(Me.tbClassificationTreshold)
+        Me.grpClassification.Controls.Add(Me.lblClassificationTreshold)
+        Me.grpClassification.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpClassification.Location = New System.Drawing.Point(349, 124)
+        Me.grpClassification.Name = "grpClassification"
+        Me.grpClassification.Size = New System.Drawing.Size(312, 163)
+        Me.grpClassification.TabIndex = 14
+        Me.grpClassification.TabStop = False
+        Me.grpClassification.Text = "Output classification"
+        '
+        'cbBrierScore
+        '
+        Me.cbBrierScore.AutoSize = True
+        Me.cbBrierScore.Checked = True
+        Me.cbBrierScore.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbBrierScore.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbBrierScore.Location = New System.Drawing.Point(19, 133)
+        Me.cbBrierScore.Name = "cbBrierScore"
+        Me.cbBrierScore.Size = New System.Drawing.Size(94, 20)
+        Me.cbBrierScore.TabIndex = 14
+        Me.cbBrierScore.Text = "Brier score"
+        Me.cbBrierScore.UseVisualStyleBackColor = True
+        '
+        'lblCallibrationBinsN
+        '
+        Me.lblCallibrationBinsN.AutoSize = True
+        Me.lblCallibrationBinsN.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCallibrationBinsN.Location = New System.Drawing.Point(16, 107)
+        Me.lblCallibrationBinsN.Name = "lblCallibrationBinsN"
+        Me.lblCallibrationBinsN.Size = New System.Drawing.Size(164, 16)
+        Me.lblCallibrationBinsN.TabIndex = 13
+        Me.lblCallibrationBinsN.Text = "Number of Calibration bins"
+        '
+        'spinBtnCallibrationBinsN
+        '
+        Me.spinBtnCallibrationBinsN.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.spinBtnCallibrationBinsN.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
+        Me.spinBtnCallibrationBinsN.Location = New System.Drawing.Point(186, 105)
+        Me.spinBtnCallibrationBinsN.Maximum = New Decimal(New Integer() {10000, 0, 0, 0})
+        Me.spinBtnCallibrationBinsN.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.spinBtnCallibrationBinsN.Name = "spinBtnCallibrationBinsN"
+        Me.spinBtnCallibrationBinsN.Size = New System.Drawing.Size(67, 22)
+        Me.spinBtnCallibrationBinsN.TabIndex = 12
+        Me.spinBtnCallibrationBinsN.Value = New Decimal(New Integer() {10, 0, 0, 0})
+        '
+        'cbOutputCalibrationTable
+        '
+        Me.cbOutputCalibrationTable.AutoSize = True
+        Me.cbOutputCalibrationTable.Checked = True
+        Me.cbOutputCalibrationTable.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbOutputCalibrationTable.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbOutputCalibrationTable.Location = New System.Drawing.Point(19, 80)
+        Me.cbOutputCalibrationTable.Name = "cbOutputCalibrationTable"
+        Me.cbOutputCalibrationTable.Size = New System.Drawing.Size(165, 20)
+        Me.cbOutputCalibrationTable.TabIndex = 9
+        Me.cbOutputCalibrationTable.Text = "Output calibration table"
+        Me.cbOutputCalibrationTable.UseVisualStyleBackColor = True
+        '
+        'cbOutputTresholdTable
+        '
+        Me.cbOutputTresholdTable.AutoSize = True
+        Me.cbOutputTresholdTable.Checked = True
+        Me.cbOutputTresholdTable.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbOutputTresholdTable.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbOutputTresholdTable.Location = New System.Drawing.Point(19, 54)
+        Me.cbOutputTresholdTable.Name = "cbOutputTresholdTable"
+        Me.cbOutputTresholdTable.Size = New System.Drawing.Size(158, 20)
+        Me.cbOutputTresholdTable.TabIndex = 8
+        Me.cbOutputTresholdTable.Text = "Output threshold table"
+        Me.cbOutputTresholdTable.UseVisualStyleBackColor = True
+        '
+        'tbClassificationTreshold
+        '
+        Me.tbClassificationTreshold.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tbClassificationTreshold.Location = New System.Drawing.Point(90, 26)
+        Me.tbClassificationTreshold.Name = "tbClassificationTreshold"
+        Me.tbClassificationTreshold.Size = New System.Drawing.Size(82, 22)
+        Me.tbClassificationTreshold.TabIndex = 7
+        '
+        'lblClassificationTreshold
+        '
+        Me.lblClassificationTreshold.AutoSize = True
+        Me.lblClassificationTreshold.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblClassificationTreshold.Location = New System.Drawing.Point(16, 29)
+        Me.lblClassificationTreshold.Name = "lblClassificationTreshold"
+        Me.lblClassificationTreshold.Size = New System.Drawing.Size(68, 16)
+        Me.lblClassificationTreshold.TabIndex = 2
+        Me.lblClassificationTreshold.Text = "Threshold"
         '
         'lblAlpha
         '
@@ -874,51 +1029,18 @@ Partial Class Ui13GEE
         Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
         '
-        'btAddEffectCategoricalFactor
+        'cbPerformClasification
         '
-        Me.btAddEffectCategoricalFactor.Location = New System.Drawing.Point(330, 84)
-        Me.btAddEffectCategoricalFactor.Name = "btAddEffectCategoricalFactor"
-        Me.btAddEffectCategoricalFactor.Size = New System.Drawing.Size(191, 23)
-        Me.btAddEffectCategoricalFactor.TabIndex = 26
-        Me.btAddEffectCategoricalFactor.Text = "Add as Categorical Factor >>"
-        Me.btAddEffectCategoricalFactor.UseVisualStyleBackColor = True
-        '
-        'btnCustomInteraction
-        '
-        Me.btnCustomInteraction.Location = New System.Drawing.Point(330, 171)
-        Me.btnCustomInteraction.Name = "btnCustomInteraction"
-        Me.btnCustomInteraction.Size = New System.Drawing.Size(191, 23)
-        Me.btnCustomInteraction.TabIndex = 25
-        Me.btnCustomInteraction.Text = "Custom Interaction >>"
-        Me.btnCustomInteraction.UseVisualStyleBackColor = True
-        '
-        'btn2Interactions
-        '
-        Me.btn2Interactions.Location = New System.Drawing.Point(330, 142)
-        Me.btn2Interactions.Name = "btn2Interactions"
-        Me.btn2Interactions.Size = New System.Drawing.Size(191, 23)
-        Me.btn2Interactions.TabIndex = 24
-        Me.btn2Interactions.Text = "2-way Interactions >>"
-        Me.btn2Interactions.UseVisualStyleBackColor = True
-        '
-        'spinBtnPoly
-        '
-        Me.spinBtnPoly.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.spinBtnPoly.Location = New System.Drawing.Point(477, 113)
-        Me.spinBtnPoly.Maximum = New Decimal(New Integer() {1000000, 0, 0, 196608})
-        Me.spinBtnPoly.Name = "spinBtnPoly"
-        Me.spinBtnPoly.Size = New System.Drawing.Size(44, 22)
-        Me.spinBtnPoly.TabIndex = 23
-        Me.spinBtnPoly.Value = New Decimal(New Integer() {2, 0, 0, 0})
-        '
-        'btnPoly
-        '
-        Me.btnPoly.Location = New System.Drawing.Point(330, 113)
-        Me.btnPoly.Name = "btnPoly"
-        Me.btnPoly.Size = New System.Drawing.Size(131, 23)
-        Me.btnPoly.TabIndex = 22
-        Me.btnPoly.Text = "Poly >>"
-        Me.btnPoly.UseVisualStyleBackColor = True
+        Me.cbPerformClasification.AutoSize = True
+        Me.cbPerformClasification.Checked = True
+        Me.cbPerformClasification.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbPerformClasification.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbPerformClasification.Location = New System.Drawing.Point(349, 98)
+        Me.cbPerformClasification.Name = "cbPerformClasification"
+        Me.cbPerformClasification.Size = New System.Drawing.Size(158, 20)
+        Me.cbPerformClasification.TabIndex = 16
+        Me.cbPerformClasification.Text = "Perform Classification"
+        Me.cbPerformClasification.UseVisualStyleBackColor = True
         '
         'Ui13GEE
         '
@@ -940,14 +1062,17 @@ Partial Class Ui13GEE
         Me.TabPage1.PerformLayout()
         Me.TabPageBuildModel.ResumeLayout(False)
         Me.TabPageBuildModel.PerformLayout()
+        CType(Me.spinBtnPoly, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPageOptions.ResumeLayout(False)
         Me.TabPageOptions.PerformLayout()
+        Me.grpClassification.ResumeLayout(False)
+        Me.grpClassification.PerformLayout()
+        CType(Me.spinBtnCallibrationBinsN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpModelSpecification.ResumeLayout(False)
         Me.grpModelSpecification.PerformLayout()
         Me.grpIterOptions.ResumeLayout(False)
         Me.grpIterOptions.PerformLayout()
-        CType(Me.spinBtnPoly, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1029,4 +1154,13 @@ Partial Class Ui13GEE
     Friend WithEvents btn2Interactions As Windows.Forms.Button
     Friend WithEvents spinBtnPoly As Windows.Forms.NumericUpDown
     Friend WithEvents btnPoly As Windows.Forms.Button
+    Friend WithEvents grpClassification As Windows.Forms.GroupBox
+    Friend WithEvents cbBrierScore As Windows.Forms.CheckBox
+    Friend WithEvents lblCallibrationBinsN As Windows.Forms.Label
+    Friend WithEvents spinBtnCallibrationBinsN As Windows.Forms.NumericUpDown
+    Friend WithEvents cbOutputCalibrationTable As Windows.Forms.CheckBox
+    Friend WithEvents cbOutputTresholdTable As Windows.Forms.CheckBox
+    Friend WithEvents tbClassificationTreshold As Windows.Forms.TextBox
+    Friend WithEvents lblClassificationTreshold As Windows.Forms.Label
+    Friend WithEvents cbPerformClasification As Windows.Forms.CheckBox
 End Class

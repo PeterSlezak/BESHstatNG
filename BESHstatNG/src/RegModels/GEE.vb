@@ -410,6 +410,94 @@ Public Class GEE
     End Property
 
     ''' <summary>
+    ''' Returns the observed responses <c>y</c> in original model-row order.
+    ''' </summary>
+    ''' <value>
+    ''' A length-<c>n</c> vector aligned to the rows passed to <see cref="data"/>.
+    ''' </value>
+    ''' <remarks>
+    ''' <para>
+    ''' Internally, GEE stores responses cluster-by-cluster in <see cref="pEndogLi"/>.
+    ''' This accessor flattens those cluster-local arrays back into the original row order using
+    ''' <see cref="pGroupIndices"/>.
+    ''' </para>
+    ''' <para>
+    ''' This is the preferred accessor for post-fit classifier/reporting summaries that must align
+    ''' with row-wise fitted probabilities and worksheet data.
+    ''' </para>
+    ''' </remarks>
+    Public ReadOnly Property ObservedResponses() As Double()
+        Get
+            Dim yFlat(n - 1) As Double
+            If pEndogLi Is Nothing OrElse pEndogLi.Count = 0 Then Return yFlat
+
+            For g As Integer = 0 To pNoGroup - 1
+                Dim idx() As Integer = pGroupIndices(pGroupLabels(g))
+                Dim y() As Double = pEndogLi(g)
+                Dim upper As Integer = Math.Min(idx.Length, y.Length) - 1
+                For j As Integer = 0 To upper
+                    Dim row As Integer = idx(j)
+                    If row >= 0 AndAlso row <= UBound(yFlat) Then yFlat(row) = y(j)
+                Next
+            Next
+
+            Return yFlat
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the fitted linear predictor <c>η</c> in original model-row order.
+    ''' </summary>
+    ''' <value>
+    ''' A length-<c>n</c> vector aligned to the rows passed to <see cref="data"/>.
+    ''' </value>
+    ''' <remarks>
+    ''' <para>
+    ''' The linear predictor is stored per cluster in <see cref="pCachedMeans"/> as <c>Item2</c>.
+    ''' This accessor flattens <c>η</c> back into original row order using <see cref="pGroupIndices"/>.
+    ''' </para>
+    ''' </remarks>
+    Public ReadOnly Property LinearPredictors() As Double()
+        Get
+            Dim etaFlat(n - 1) As Double
+            If pCachedMeans Is Nothing OrElse pCachedMeans.Count = 0 Then Return etaFlat
+
+            For g As Integer = 0 To pNoGroup - 1
+                Dim idx() As Integer = pGroupIndices(pGroupLabels(g))
+                Dim eta(,) As Double = pCachedMeans(g).Item2
+                Dim upper As Integer = Math.Min(idx.Length, UBound(eta, 1) + 1) - 1
+                For j As Integer = 0 To upper
+                    Dim row As Integer = idx(j)
+                    If row >= 0 AndAlso row <= UBound(etaFlat) Then etaFlat(row) = eta(j, 0)
+                Next
+            Next
+
+            Return etaFlat
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns observation-level weights in original model-row order.
+    ''' </summary>
+    ''' <value>
+    ''' A length-<c>n</c> vector aligned to the rows passed to <see cref="data"/>.
+    ''' If no weights were supplied, the returned vector is filled with ones.
+    ''' </value>
+    Public ReadOnly Property ObservationWeights() As Double()
+        Get
+            Dim w(n - 1) As Double
+            If pbWeights AndAlso pWeights IsNot Nothing AndAlso pWeights.Length = n Then
+                Array.Copy(pWeights, w, n)
+            Else
+                For i As Integer = 0 To n - 1
+                    w(i) = 1.0
+                Next
+            End If
+            Return w
+        End Get
+    End Property
+
+    ''' <summary>
     ''' Returns a table-like object containing multiple residual types per observation.
     ''' </summary>
     ''' <value>

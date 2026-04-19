@@ -7,6 +7,7 @@ Imports System.Reflection
 Imports System.Resources.ResXFileRef
 Imports System.Runtime.InteropServices
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.regression
 Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>
@@ -251,6 +252,18 @@ Public Class GLM
             t.SetBody(o)
             t.AddHeaderTopRow({"Raw Resid.", "Deviance Resid.", "Pearson Resid.", "Laverage", "Std Deviance Resid.", "Std Pearson Resid.", "Cook Distance"})
             Return t.returnSelf()
+        End Get
+    End Property
+
+    Public ReadOnly Property ObservedResponses() As Double()
+        Get
+            Return Me.y
+        End Get
+    End Property
+
+    Public ReadOnly Property ObservationWeights() As Double()
+        Get
+            Return Me.pWeights
         End Get
     End Property
 
@@ -1557,48 +1570,24 @@ Public Class GLM
     Private Sub HosmerLemeshowTest()
         'Fit Hosmer Lemeshow Goodness of Fit test
         'Computed as described in Hosmer, Lemeshow Applied Logistic Regression, 3rd ed. page 170 STATA
-        Dim temp(9) As Double
+        Dim sharedBins = BinaryClassificationReporting.BuildPercentileCutpointBins(mu, 10)
 
-        ' 1) Compute deciles of predicted probabilities -------------------------
-        With AppGlobals.app.WorksheetFunction
-            For i = 0 To 9
-                temp(i) = .Percentile(mu, (i + 1) / 10)
-            Next
-        End With
-        Dim percentiles() As Double = temp.Distinct().ToArray() 'if some percentiles are identical then collaps them
-        Dim bins = percentiles.Length - 1
+        Dim results = sharedBins.Select(Function(b) New With {.Bin = b.BinIndex,
+                                                              .Cut = b.CutUpper,
+                                                              .SuccessObs = b.Indices.Count(Function(idx) y(idx) > 0),
+                                                              .FailureObs = b.Indices.Count(Function(idx) y(idx) = 0),
+                                                              .SuccessExp = b.Indices.Sum(Function(idx) mu(idx)),
+                                                              .FailureExp = b.Indices.Count() - b.Indices.Sum(Function(idx) mu(idx))}).ToList()
 
-        ' 2) Combine y and mu into a single sequence ----------------------------
-        Dim data = Enumerable.Range(0, n).Select(Function(i) New With {.y = y(i), .mu = mu(i)})
-
-        ' 3) Local helper to assign bin index
-        Dim getBin = Function(muVal As Double) As Integer
-                         Dim idx As Integer = Array.FindIndex(percentiles, Function(p) muVal <= p)
-                         Return If(idx = -1, percentiles.Length - 1, idx)
-                     End Function
-
-        ' 4) Group by bin index
-        Dim grouped = data.GroupBy(Function(obs) getBin(obs.mu)).OrderBy(Function(g) g.Key).ToList()
-
-        ' 5) Aggregate per bin
-        Dim results = grouped.Select(Function(g, k) New With {
-                                        .Bin = k + 1,
-                                        .Cut = percentiles(k),
-                                        .SuccessObs = g.Count(Function(o) o.y > 0),
-                                        .FailureObs = g.Count(Function(o) o.y = 0),
-                                        .SuccessExp = g.Sum(Function(o) o.mu),
-                                        .FailureExp = g.Count() - g.Sum(Function(o) o.mu)}).ToList()
-
-        ' 6) HL chi-square
         pHosmerLemeshowTest.TestStatistics1 = results.Sum(
-            Function(r)
-                Dim s As Double = 0.0
-                If r.SuccessExp > 0 Then s += (r.SuccessObs - r.SuccessExp) ^ 2 / r.SuccessExp
-                If r.FailureExp > 0 Then s += (r.FailureObs - r.FailureExp) ^ 2 / r.FailureExp
-                Return s
-            End Function)
+                    Function(r)
+                        Dim s As Double = 0.0
+                        If r.SuccessExp > 0 Then s += (r.SuccessObs - r.SuccessExp) ^ 2 / r.SuccessExp
+                        If r.FailureExp > 0 Then s += (r.FailureObs - r.FailureExp) ^ 2 / r.FailureExp
+                        Return s
+                    End Function)
 
-        ' 7) DF and p-value
+        ' DF and p-value
         pHosmerLemeshowTest.DF1 = Math.Max(0, results.Count - 2)
         If pHosmerLemeshowTest.DF1 > 0 Then
             pHosmerLemeshowTest.Pvalue = 1.0 - distributions.ChiSquareCDF(pHosmerLemeshowTest.TestStatistics1, CDbl(pHosmerLemeshowTest.DF1))
@@ -1607,9 +1596,8 @@ Public Class GLM
         End If
 
         'Create table For Hosmer Lemeshow test (see Hosmer Lemeshow, Applied Logistic regression table 5.1
-        ' 8) Output table
         ReDim pHosmerLemeshowTab(results.Count - 1, 6)
-        For i = 0 To results.Count - 1
+        For i As Integer = 0 To results.Count - 1
             Dim r = results(i)
             pHosmerLemeshowTab(i, 0) = r.Bin
             pHosmerLemeshowTab(i, 1) = r.Cut

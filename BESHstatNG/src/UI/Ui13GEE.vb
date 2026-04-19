@@ -35,6 +35,7 @@ Public Class Ui13GEE
             RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
             Me.cbCovarStruct.SelectedIndex = 0
             Me.cbStandardErr.SelectedIndex = 0
+            UpdateClassificationOptionsState(False)
         End If
 
 
@@ -164,6 +165,7 @@ Public Class Ui13GEE
             If String.IsNullOrWhiteSpace(familyCode) Then
                 Me.cbLink.SelectedIndex = -1
                 UpdatePowerLinkState()
+                UpdateClassificationOptionsState()
                 Return
             End If
 
@@ -187,6 +189,8 @@ Public Class Ui13GEE
             End If
 
             UpdatePowerLinkState()
+            UpdateClassificationOptionsState()
+
         Finally
             Me.cbLink.EndUpdate()
         End Try
@@ -309,6 +313,18 @@ Public Class Ui13GEE
             bWait = True
             Exit Sub
         End If
+
+        If IsCurrentBinomialGeeFamily() Then
+            setTextBoxProperties(Me.tbClassificationTreshold, Color.White, String.Empty)
+            Try
+                Dim threshold As Double = GetClassificationThresholdUiValue()
+            Catch ex As Exception
+                strErr = ex.Message
+                setTextBoxProperties(Me.tbClassificationTreshold, Color.Red, strErr)
+                bWait = True
+                Exit Sub
+            End Try
+        End If
     End Sub
 
     Private Function GetData() As geeData
@@ -417,6 +433,64 @@ Public Class Ui13GEE
 
         Return True
     End Function
+
+    ''' <summary>
+    ''' Returns <c>True</c> when the currently selected GEE family is binomial.
+    ''' </summary>
+    Private Function IsCurrentBinomialGeeFamily() As Boolean
+        If Not String.Equals(Me.Text, "Generalized Estimating Equations", StringComparison.Ordinal) Then Return False
+        If Me.cbFamily.SelectedItem Is Nothing Then Return False
+        Return String.Equals(GetFamilyCodeFromDisplayName(Me.cbFamily.SelectedItem.ToString()), "Binomial", StringComparison.OrdinalIgnoreCase)
+    End Function
+
+    ''' <summary>
+    ''' Reads and validates the classification threshold entered in the UI.
+    ''' </summary>
+    ''' <returns>
+    ''' Threshold on the closed interval [0,1]. Defaults to 0.5 when the text box is blank.
+    ''' </returns>
+    Private Function GetClassificationThresholdUiValue() As Double
+        Dim txt As String = Me.tbClassificationTreshold.Text.Trim()
+        If txt = String.Empty Then
+            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5R)
+            Return 0.5R
+        End If
+
+        Dim threshold As Double = ParseUiDouble(txt, "classification threshold")
+        If threshold < 0.0R OrElse threshold > 1.0R Then
+            Throw New FormatException("Classification threshold must be between 0 and 1.")
+        End If
+        Return threshold
+    End Function
+
+    ''' <summary>
+    ''' Enables or disables the classification output group according to the currently
+    ''' selected family. Classification reporting is available only for binomial GEE.
+    ''' </summary>
+    ''' <param name="bAlreadyInit">
+    ''' When <c>True</c>, invalid highlight state on the threshold text box may be cleared
+    ''' when the classification group is disabled.
+    ''' </param>
+    Private Sub UpdateClassificationOptionsState(Optional bAlreadyInit As Boolean = True)
+        Dim enabledForFamily As Boolean = IsCurrentBinomialGeeFamily()
+
+        Me.grpClassification.Enabled = enabledForFamily
+        Me.cbPerformClasification.Enabled = enabledForFamily
+        Me.lblCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked
+        Me.spinBtnCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked
+
+        If Not enabledForFamily Then
+            If bAlreadyInit Then setTextBoxProperties(Me.tbClassificationTreshold, Color.White, String.Empty)
+        ElseIf String.IsNullOrWhiteSpace(Me.tbClassificationTreshold.Text) Then
+            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5R)
+        End If
+
+        If Me.cbPerformClasification.Checked And enabledForFamily Then
+            Me.grpClassification.Enabled = True
+        ElseIf Not Me.cbPerformClasification.Checked And enabledForFamily Then
+            Me.grpClassification.Enabled = False
+        End If
+    End Sub
 
     Private Sub btCalculate_Click(sender As Object, e As System.EventArgs) Handles btCalculate.Click
         Try
@@ -588,6 +662,59 @@ Public Class Ui13GEE
 
             Dim rr = New ProcessListofResultTables(res)
             rr.writeToSheet(WriteRes, True)
+
+            If IsCurrentBinomialGeeFamily() AndAlso Me.grpClassification.Enabled And cbPerformClasification.Checked Then
+                Dim y() As Double = fitGEE.ObservedResponses()
+                Dim p() As Double = fitGEE.PredictedResponses()
+                Dim weights() As Double = fitGEE.ObservationWeights()
+                Dim threshold As Double = GetClassificationThresholdUiValue()
+
+                regression.BinaryClassificationReporting.ValidateBinaryInputs(y, p, weights)
+
+                Dim summary As regression.BinaryClassificationSummary =
+                    regression.BinaryClassificationReporting.ComputeBinarySummary(y, p, threshold, weights)
+
+                Dim thresholdRows As List(Of regression.BinaryThresholdRow) = Nothing
+                If Me.cbOutputTresholdTable.Checked Then
+                    thresholdRows = regression.BinaryClassificationReporting.BuildThresholdTable(y, p, Nothing, weights)
+                End If
+
+                Dim calibrationRows As List(Of regression.CalibrationBinSummary) = Nothing
+                If Me.cbOutputCalibrationTable.Checked Then
+                    calibrationRows = regression.BinaryClassificationReporting.BuildCalibrationBins(
+                        y, p, CInt(Me.spinBtnCallibrationBinsN.Value), weights, "quantile")
+
+
+                End If
+
+                Dim brier As Double = Double.NaN
+                Dim eventRate As Double = Double.NaN
+                If Me.cbBrierScore.Checked Then
+                    brier = regression.BinaryClassificationReporting.ComputeBrierScore(y, p, weights)
+                    eventRate = BESHStatNG.WorksheetFunctions.ComputeWeightedEventRate(y, weights)
+                End If
+
+                Dim clsRes As List(Of ResultTable) = regression.BinaryClassificationReporting.WrapResults(
+                    summary, thresholdRows, calibrationRows, brier, eventRate, "GEE Binary Classification")
+
+                If clsRes IsNot Nothing AndAlso clsRes.Count > 0 Then
+                    WriteRes = New WriteResults
+                    AppGlobals.app.ActiveWorkbook.Worksheets.Add(After:=AppGlobals.app.ActiveWorkbook.Worksheets(AppGlobals.app.ActiveWorkbook.Worksheets.Count))
+                    AppGlobals.app.ActiveWorkbook.ActiveSheet.Name = "GEE Classification"
+                    WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
+
+                    Dim rrClass As New ProcessListofResultTables(clsRes)
+                    rrClass.writeToSheet(WriteRes, True)
+
+                    regression.BinaryClassificationReporting.AddRocResultsAndPlotToClassificationSheet(WriteRes, y, p, CDbl(Me.spinBtnAlpha.Value))
+
+                    If calibrationRows IsNot Nothing Then
+                        Dim cp As New graphics.CalibrationPlot(calibrationRows)
+                        Dim cht = cp.addCalibrationPlot(WriteRes.ws)
+                    End If
+                End If
+            End If
+
         Catch ex As Exception
             AppGlobals.BSerr.LogAndThrow(ex, False, True, "Failed to write GEE results to the workbook")
         End Try
@@ -677,4 +804,15 @@ Public Class Ui13GEE
         UpdatePowerLinkState()
     End Sub
 
+    Private Sub cbOutputCalibrationTable_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbOutputCalibrationTable.CheckedChanged
+        UpdateClassificationOptionsState()
+    End Sub
+
+    Private Sub cbPerformClasification_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbPerformClasification.CheckedChanged
+        If Me.cbPerformClasification.Checked And IsCurrentBinomialGeeFamily() Then
+            Me.grpClassification.Enabled = True
+        ElseIf Not Me.cbPerformClasification.Checked And IsCurrentBinomialGeeFamily() Then
+            Me.grpClassification.Enabled = False
+        End If
+    End Sub
 End Class

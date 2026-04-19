@@ -404,6 +404,142 @@ Namespace BESHStatNG.WorksheetFunctions
             End Try
         End Function
 
+        ''' <summary>
+        ''' Returns chart-ready calibration-bin coordinates for a binary classifier or probabilistic model.
+        ''' </summary>
+        ''' <param name="y">
+        ''' Single-column observed binary outcomes encoded as 0/1. The first cell may be a header.
+        ''' </param>
+        ''' <param name="probabilities">
+        ''' Single-column predicted probabilities aligned row-by-row with <paramref name="y"/>.
+        ''' Values must lie in the closed interval [0,1]. The first cell may be a header.
+        ''' </param>
+        ''' <param name="bins">
+        ''' Optional positive integer specifying the number of calibration bins. The default is 10.
+        ''' </param>
+        ''' <param name="method">
+        ''' Optional calibration-binning method. Supported values are <c>quantile</c> (default) and <c>equalwidth</c>.
+        ''' </param>
+        ''' <param name="weights">
+        ''' Optional single-column nonnegative observation weights aligned row-by-row with <paramref name="y"/>.
+        ''' When omitted, all observations receive weight 1.
+        ''' </param>
+        ''' <returns>
+        ''' A spill range with columns:
+        ''' <list type="bullet">
+        '''   <item><description><c>Bin</c> — bin index starting at 1.</description></item>
+        '''   <item><description><c>N</c> — (possibly weighted) bin size.</description></item>
+        '''   <item><description><c>MeanPredicted</c> — mean predicted probability in the bin.</description></item>
+        '''   <item><description><c>ObservedRate</c> — empirical event rate in the bin.</description></item>
+        '''   <item><description><c>LowerCI</c> — lower confidence limit for the observed rate.</description></item>
+        '''   <item><description><c>UpperCI</c> — upper confidence limit for the observed rate.</description></item>
+        '''   <item><description><c>ErrorMinus</c> — distance from the point to the lower confidence limit.</description></item>
+        '''   <item><description><c>ErrorPlus</c> — distance from the point to the upper confidence limit.</description></item>
+        ''' </list>
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This function is the plot-data counterpart of the classifier calibration reporting functions.
+        ''' It is intended for users who want to build a native Excel scatter plot directly from a worksheet
+        ''' spill range instead of using the GUI chart writer.
+        ''' </para>
+        ''' <para>
+        ''' The returned table can be plotted with:
+        ''' </para>
+        ''' <list type="bullet">
+        '''   <item><description>x-axis = <c>MeanPredicted</c></description></item>
+        '''   <item><description>y-axis = <c>ObservedRate</c></description></item>
+        '''   <item><description>optional custom error bars from <c>ErrorMinus</c> and <c>ErrorPlus</c></description></item>
+        ''' </list>
+        ''' <para>
+        ''' For a GUI-generated chart inside a workbook, pair these data with the new
+        ''' <c>graphics.CalibrationPlot</c> class.
+        ''' </para>
+        ''' </remarks>
+        <ExcelFunction(
+            Name:="BESH.PLOT.CALIB_POINTS",
+            Category:="BESHStatNG - Plot Data",
+            Description:="Calibration-bin points for plotting observed event rate vs. mean predicted probability.",
+            HelpTopic:=HelpLinks.BaseUrlRoot & "/latest/udf/plot-data/")>
+        Public Function CALIB_POINTS(
+            <ExcelArgument(AllowReference:=True, Name:="y", Description:="Single-column observed binary outcomes (0/1). First cell may be a header.")> y As Object,
+            <ExcelArgument(AllowReference:=True, Name:="probabilities", Description:="Single-column predicted probabilities aligned with y. First cell may be a header.")> probabilities As Object,
+            <ExcelArgument(Name:="bins", Description:="Optional positive integer number of calibration bins. Default 10.")> Optional bins As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional binning method: quantile | equalwidth. Default quantile.")> Optional method As Object = Nothing,
+            <ExcelArgument(AllowReference:=True, Name:="weights", Description:="Optional single-column nonnegative observation weights aligned with y.")> Optional weights As Object = Nothing
+            ) As Object
+            Try
+                Dim yVals As List(Of Double) = Nothing
+                Dim pVals As List(Of Double) = Nothing
+                Dim wVals As List(Of Double) = Nothing
+
+                If Not UDFhelpers.TryReadNumericColumn(y, yVals) Then Return ExcelError.ExcelErrorValue
+                If Not UDFhelpers.TryReadNumericColumn(probabilities, pVals) Then Return ExcelError.ExcelErrorValue
+                If yVals Is Nothing OrElse pVals Is Nothing Then Return ExcelError.ExcelErrorValue
+                If yVals.Count <> pVals.Count OrElse yVals.Count = 0 Then Return ExcelError.ExcelErrorNum
+
+                Dim w() As Double = Nothing
+                If Not UDFhelpers.IsMissingArg(weights) Then
+                    If Not UDFhelpers.TryReadNumericColumn(weights, wVals) Then Return ExcelError.ExcelErrorValue
+                    If wVals Is Nothing OrElse wVals.Count <> yVals.Count Then Return ExcelError.ExcelErrorNum
+                    w = wVals.ToArray()
+                End If
+
+                Dim binCount As Integer
+                If Not UDFhelpers.TryGetOptionalPositiveInteger(bins, binCount, 10, 1) Then Return ExcelError.ExcelErrorNum
+
+                Dim methodName As String = UDFhelpers.ParseCalibrationMethod(method, "quantile")
+                Dim yy() As Double = yVals.ToArray()
+                Dim pp() As Double = pVals.ToArray()
+
+                regression.BinaryClassificationReporting.ValidateBinaryInputs(yy, pp, w)
+                Dim rows As List(Of regression.CalibrationBinSummary) = regression.BinaryClassificationReporting.BuildCalibrationBins(yy, pp, binCount, w, methodName)
+                If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+
+                Return BuildCalibrationPointsTable(rows)
+            Catch ex As Exception
+                Return LoggedUdfError("BESH.PLOT.CALIB_POINTS", ex, ExcelError.ExcelErrorValue)
+            End Try
+        End Function
+
+        '----------------------------------------------------------------------
+        ' Helpers
+        '----------------------------------------------------------------------
+
+        ''' <summary>
+        ''' Builds a chart-ready calibration-points table from calibration-bin summaries.
+        ''' </summary>
+        ''' <param name="rows">Calibration-bin summaries returned by the shared reporting engine.</param>
+        ''' <returns>
+        ''' A spill range with columns Bin, N, MeanPredicted, ObservedRate, LowerCI, UpperCI, ErrorMinus, ErrorPlus.
+        ''' </returns>
+        Private Function BuildCalibrationPointsTable(rows As IList(Of regression.CalibrationBinSummary)) As Object(,)
+            Dim out(rows.Count, 7) As Object
+            out(0, 0) = "Bin"
+            out(0, 1) = "N"
+            out(0, 2) = "MeanPredicted"
+            out(0, 3) = "ObservedRate"
+            out(0, 4) = "LowerCI"
+            out(0, 5) = "UpperCI"
+            out(0, 6) = "ErrorMinus"
+            out(0, 7) = "ErrorPlus"
+
+            For i As Integer = 0 To rows.Count - 1
+                Dim r = rows(i)
+                out(i + 1, 0) = r.BinIndex
+                out(i + 1, 1) = r.N
+                out(i + 1, 2) = r.MeanPredicted
+                out(i + 1, 3) = r.ObservedRate
+                out(i + 1, 4) = r.LowerCI
+                out(i + 1, 5) = r.UpperCI
+                out(i + 1, 6) = If(Double.IsNaN(r.LowerCI), ExcelError.ExcelErrorNA, r.ObservedRate - r.LowerCI)
+                out(i + 1, 7) = If(Double.IsNaN(r.UpperCI), ExcelError.ExcelErrorNA, r.UpperCI - r.ObservedRate)
+            Next
+
+            Return PrepareResultTableForUdf(out)
+        End Function
+
+
         Private Function ResolveHistogramRule(arg As Object) As String
             Dim token As String = UDFhelpers.NormalizeToken(UDFhelpers.AsString(arg))
             If String.IsNullOrWhiteSpace(token) Then Return "(Sturges)"

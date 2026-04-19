@@ -2253,6 +2253,250 @@ Module UDFhelpers
         Return out
     End Function
 
+    Friend Function TryGetOptionalThresholdVector(arg As Object, ByRef thresholds() As Double) As Boolean
+        thresholds = Nothing
+        If IsMissingArg(arg) Then Return True
+
+        Dim scalarValue As Double
+        If TryGetFiniteDouble(arg, scalarValue) Then
+            If scalarValue < 0.0R OrElse scalarValue > 1.0R Then Return False
+            ReDim thresholds(0)
+            thresholds(0) = CDbl(ClampProb(scalarValue))
+            Return True
+        End If
+
+        Dim arr As Object(,) = Get2D(arg)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If rows <> 1 AndAlso cols <> 1 Then Return False
+
+        Dim values As New List(Of Double)()
+        If rows = 1 Then
+            For j As Integer = 0 To cols - 1
+                Dim cell As Object = arr(0, j)
+                If IsBlankCell(cell) Then Continue For
+
+                Dim d As Double
+                If Not TryGetFiniteDouble(cell, d) Then Return False
+                If d < 0.0R OrElse d > 1.0R Then Return False
+                values.Add(CDbl(ClampProb(d)))
+            Next
+        Else
+            For i As Integer = 0 To rows - 1
+                Dim cell As Object = arr(i, 0)
+                If IsBlankCell(cell) Then Continue For
+
+                Dim d As Double
+                If Not TryGetFiniteDouble(cell, d) Then Return False
+                If d < 0.0R OrElse d > 1.0R Then Return False
+                values.Add(CDbl(ClampProb(d)))
+            Next
+        End If
+
+        If values.Count = 0 Then Return True
+
+        values.Sort()
+        Dim uniqueValues As New List(Of Double)(values.Count)
+        For i As Integer = 0 To values.Count - 1
+            If i = 0 OrElse Math.Abs(values(i) - values(i - 1)) > 0.000000000001 Then
+                uniqueValues.Add(values(i))
+            End If
+        Next
+
+        thresholds = uniqueValues.ToArray()
+        Return True
+    End Function
+
+    Friend Function TryGetOptionalPositiveInteger(arg As Object,
+                                                  ByRef value As Integer,
+                                                  Optional defaultValue As Integer = 10,
+                                                  Optional minValue As Integer = 1) As Boolean
+        value = defaultValue
+        If IsMissingArg(arg) Then Return True
+
+        Dim d As Double
+        If Not TryGetFiniteDouble(arg, d) Then Return False
+
+        Dim rounded As Double = Math.Round(d)
+        If Math.Abs(d - rounded) > 0.0000001R Then Return False
+        If rounded < minValue Then Return False
+        If rounded > Integer.MaxValue Then Return False
+
+        value = CInt(rounded)
+        Return True
+    End Function
+
+    Friend Function ParseCalibrationMethod(arg As Object,
+                                           Optional defaultValue As String = "quantile") As String
+        If IsMissingArg(arg) Then Return defaultValue
+
+        Dim s As String = AsString(arg)
+        If String.IsNullOrWhiteSpace(s) Then Return defaultValue
+
+        Select Case s.Trim().ToLowerInvariant()
+            Case "quantile", "quantiles", "decile", "deciles"
+                Return "quantile"
+            Case "equalwidth", "equal-width", "equal_width", "equal width"
+                Return "equalwidth"
+            Case Else
+                Return defaultValue
+        End Select
+    End Function
+
+    Friend Function BuildBinaryCrosstabOutput(summary As regression.BinaryClassificationSummary,
+                                              Optional includeHeader As Boolean = True) As Object
+        Dim rowOffset As Integer = If(includeHeader, 1, 0)
+        Dim outRows As Integer = rowOffset + 4
+        Dim out(outRows - 1, 3) As Object
+
+        If includeHeader Then
+            out(0, 0) = "Observed \ Predicted"
+            out(0, 1) = 0
+            out(0, 2) = 1
+            out(0, 3) = "Recall %"
+        End If
+
+        out(rowOffset + 0, 0) = 0
+        out(rowOffset + 0, 1) = summary.TN
+        out(rowOffset + 0, 2) = summary.FP
+        out(rowOffset + 0, 3) = If(Double.IsNaN(summary.Specificity), ExcelError.ExcelErrorNA, 100.0R * summary.Specificity)
+
+        out(rowOffset + 1, 0) = 1
+        out(rowOffset + 1, 1) = summary.FN
+        out(rowOffset + 1, 2) = summary.TP
+        out(rowOffset + 1, 3) = If(Double.IsNaN(summary.Sensitivity), ExcelError.ExcelErrorNA, 100.0R * summary.Sensitivity)
+
+        out(rowOffset + 2, 0) = "Precision % / Overall"
+        out(rowOffset + 2, 1) = If(Double.IsNaN(summary.NPV), ExcelError.ExcelErrorNA, 100.0R * summary.NPV)
+        out(rowOffset + 2, 2) = If(Double.IsNaN(summary.Precision), ExcelError.ExcelErrorNA, 100.0R * summary.Precision)
+        out(rowOffset + 2, 3) = If(Double.IsNaN(summary.Accuracy), ExcelError.ExcelErrorNA, 100.0R * summary.Accuracy)
+
+        out(rowOffset + 3, 0) = "Threshold / Balanced accuracy"
+        out(rowOffset + 3, 1) = summary.Threshold
+        out(rowOffset + 3, 2) = If(Double.IsNaN(summary.BalancedAccuracy), ExcelError.ExcelErrorNA, 100.0R * summary.BalancedAccuracy)
+        out(rowOffset + 3, 3) = If(Double.IsNaN(summary.YoudenJ), ExcelError.ExcelErrorNA, 100.0R * summary.YoudenJ)
+
+        Return PrepareResultTableForUdf(out)
+    End Function
+
+    Friend Function BuildThresholdTableOutput(rows As IList(Of regression.BinaryThresholdRow),
+                                              Optional includeHeader As Boolean = True) As Object
+        If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+
+        Dim rowOffset As Integer = If(includeHeader, 1, 0)
+        Dim outRows As Integer = rowOffset + rows.Count
+        Dim out(outRows - 1, 13) As Object
+
+        If includeHeader Then
+            out(0, 0) = "Threshold"
+            out(0, 1) = "TP"
+            out(0, 2) = "FP"
+            out(0, 3) = "TN"
+            out(0, 4) = "FN"
+            out(0, 5) = "Sensitivity %"
+            out(0, 6) = "Specificity %"
+            out(0, 7) = "Precision %"
+            out(0, 8) = "Recall %"
+            out(0, 9) = "NPV %"
+            out(0, 10) = "Accuracy %"
+            out(0, 11) = "BalancedAccuracy %"
+            out(0, 12) = "YoudenJ %"
+            out(0, 13) = "F1 %"
+        End If
+
+        For i As Integer = 0 To rows.Count - 1
+            Dim r As regression.BinaryThresholdRow = rows(i)
+            Dim rr As Integer = rowOffset + i
+            out(rr, 0) = r.Threshold
+            out(rr, 1) = r.TP
+            out(rr, 2) = r.FP
+            out(rr, 3) = r.TN
+            out(rr, 4) = r.FN
+            out(rr, 5) = If(Double.IsNaN(r.Sensitivity), ExcelError.ExcelErrorNA, 100.0R * r.Sensitivity)
+            out(rr, 6) = If(Double.IsNaN(r.Specificity), ExcelError.ExcelErrorNA, 100.0R * r.Specificity)
+            out(rr, 7) = If(Double.IsNaN(r.Precision), ExcelError.ExcelErrorNA, 100.0R * r.Precision)
+            out(rr, 8) = If(Double.IsNaN(r.Recall), ExcelError.ExcelErrorNA, 100.0R * r.Recall)
+            out(rr, 9) = If(Double.IsNaN(r.NPV), ExcelError.ExcelErrorNA, 100.0R * r.NPV)
+            out(rr, 10) = If(Double.IsNaN(r.Accuracy), ExcelError.ExcelErrorNA, 100.0R * r.Accuracy)
+            out(rr, 11) = If(Double.IsNaN(r.BalancedAccuracy), ExcelError.ExcelErrorNA, 100.0R * r.BalancedAccuracy)
+            out(rr, 12) = If(Double.IsNaN(r.YoudenJ), ExcelError.ExcelErrorNA, 100.0R * r.YoudenJ)
+            out(rr, 13) = If(Double.IsNaN(r.F1), ExcelError.ExcelErrorNA, 100.0R * r.F1)
+        Next
+
+        Return PrepareResultTableForUdf(out)
+    End Function
+
+    Friend Function BuildCalibrationTableOutput(rows As IList(Of regression.CalibrationBinSummary),
+                                                Optional includeHeader As Boolean = True) As Object
+        If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+
+        Dim rowOffset As Integer = If(includeHeader, 1, 0)
+        Dim outRows As Integer = rowOffset + rows.Count
+        Dim out(outRows - 1, 5) As Object
+
+        If includeHeader Then
+            out(0, 0) = "Bin"
+            out(0, 1) = "N"
+            out(0, 2) = "MeanPredicted"
+            out(0, 3) = "ObservedRate"
+            out(0, 4) = "LowerCI"
+            out(0, 5) = "UpperCI"
+        End If
+
+        For i As Integer = 0 To rows.Count - 1
+            Dim r As regression.CalibrationBinSummary = rows(i)
+            Dim rr As Integer = rowOffset + i
+            out(rr, 0) = r.BinIndex
+            out(rr, 1) = r.N
+            out(rr, 2) = r.MeanPredicted
+            out(rr, 3) = r.ObservedRate
+            out(rr, 4) = r.LowerCI
+            out(rr, 5) = r.UpperCI
+        Next
+
+        Return PrepareResultTableForUdf(out)
+    End Function
+
+    Friend Function BuildNamedScalarOutput(itemName As String,
+                                           value As Double,
+                                           Optional n As Double = Double.NaN,
+                                           Optional eventRate As Double = Double.NaN,
+                                           Optional includeHeader As Boolean = True) As Object
+        Dim totalRows As Integer = 1
+        If Not Double.IsNaN(n) Then totalRows += 1
+        If Not Double.IsNaN(eventRate) Then totalRows += 1
+
+        Dim rowOffset As Integer = If(includeHeader, 1, 0)
+        Dim outRows As Integer = rowOffset + totalRows
+        Dim out(outRows - 1, 1) As Object
+
+        If includeHeader Then
+            out(0, 0) = "Item"
+            out(0, 1) = "Value"
+        End If
+
+        Dim r As Integer = rowOffset
+        out(r, 0) = itemName
+        out(r, 1) = value
+        r += 1
+
+        If Not Double.IsNaN(n) Then
+            out(r, 0) = "N"
+            out(r, 1) = n
+            r += 1
+        End If
+
+        If Not Double.IsNaN(eventRate) Then
+            out(r, 0) = "EventRate"
+            out(r, 1) = eventRate
+        End If
+
+        Return PrepareResultTableForUdf(out)
+    End Function
+
+
     ''' <summary>
     ''' Attempts to parse and validate an alpha value from an optional Excel argument.
     ''' </summary>

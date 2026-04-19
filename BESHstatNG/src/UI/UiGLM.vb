@@ -43,6 +43,8 @@ Public Class UiGLM
             Next
             Me.cbFamily.SelectedIndex = 0
             RefreshLinkOptionsForSelectedFamily(FamilyUtils.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
+            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5)
+            UpdateClassificationOptionsState(False)
 
         ElseIf Me.Text = "Negative Binomial Regression (NB2)" Then
             Me.TabPageLogisticModel.Parent = Nothing
@@ -215,6 +217,7 @@ Public Class UiGLM
             If String.IsNullOrWhiteSpace(familyCode) Then
                 Me.cbLink.SelectedIndex = -1
                 UpdatePowerLinkState()
+                UpdateClassificationOptionsState()
                 Return
             End If
 
@@ -238,9 +241,48 @@ Public Class UiGLM
             End If
 
             UpdatePowerLinkState()
+            UpdateClassificationOptionsState()
         Finally
             Me.cbLink.EndUpdate()
         End Try
+    End Sub
+
+    Private Function IsCurrentBinomialGlmFamily() As Boolean
+        If Not String.Equals(Me.Text, "Generalized Linear Models", StringComparison.Ordinal) Then Return False
+        If Me.cbFamily.SelectedItem Is Nothing Then Return False
+        Return String.Equals(GetFamilyCodeFromDisplayName(Me.cbFamily.SelectedItem.ToString()), "Binomial", StringComparison.OrdinalIgnoreCase)
+    End Function
+
+    Private Function GetClassificationThresholdUiValue() As Double
+        Dim txt As String = Me.tbClassificationTreshold.Text.Trim()
+        If txt = String.Empty Then
+            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5R)
+            Return 0.5R
+        End If
+        Dim threshold As Double = ParseUiDouble(txt, "classification threshold")
+        If threshold < 0.0R OrElse threshold > 1.0R Then Throw New FormatException("Classification threshold must be between 0 and 1.")
+        Return threshold
+    End Function
+
+    Private Sub UpdateClassificationOptionsState(Optional bAlreadyInit As Boolean = True)
+        Dim enabledForFamily As Boolean = IsCurrentBinomialGlmFamily()
+
+        Me.grpClassification.Enabled = enabledForFamily
+        Me.cbPerformClasification.Enabled = enabledForFamily
+        Me.lblCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked
+        Me.spinBtnCallibrationBinsN.Enabled = enabledForFamily AndAlso Me.cbOutputCalibrationTable.Checked
+
+        If Not enabledForFamily Then
+            If bAlreadyInit Then setTextBoxProperties(Me.tbClassificationTreshold, Color.White, String.Empty)
+        ElseIf String.IsNullOrWhiteSpace(Me.tbClassificationTreshold.Text) Then
+            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5R)
+        End If
+
+        If Me.cbPerformClasification.Checked And enabledForFamily Then
+            Me.grpClassification.Enabled = True
+        ElseIf Not Me.cbPerformClasification.Checked And enabledForFamily Then
+            Me.grpClassification.Enabled = False
+        End If
     End Sub
 
     Private Sub UpdatePowerLinkState()
@@ -507,6 +549,17 @@ Public Class UiGLM
             End If
         End If
 
+        If IsCurrentBinomialGlmFamily() Then
+            setTextBoxProperties(Me.tbClassificationTreshold, Color.White, String.Empty)
+            Try
+                Dim threshold As Double = GetClassificationThresholdUiValue()
+            Catch ex As Exception
+                strErr = ex.Message
+                setTextBoxProperties(Me.tbClassificationTreshold, Color.Red, strErr)
+                bWait = True
+                Exit Sub
+            End Try
+        End If
     End Sub
 
     Private Sub btReload_Click(sender As Object, e As System.EventArgs) Handles btReload.Click
@@ -1193,6 +1246,53 @@ Public Class UiGLM
 
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
+
+        If IsCurrentBinomialGlmFamily() AndAlso Me.grpClassification.Enabled And cbPerformClasification.Checked Then
+            Dim y() As Double = fitGlm.ObservedResponses()
+            Dim p() As Double = fitGlm.PredictedResponses()
+            Dim weights() As Double = fitGlm.ObservationWeights()
+            Dim threshold As Double = GetClassificationThresholdUiValue()
+
+            regression.BinaryClassificationReporting.ValidateBinaryInputs(y, p, weights)
+
+            Dim summary As regression.BinaryClassificationSummary = regression.BinaryClassificationReporting.ComputeBinarySummary(y, p, threshold, weights)
+
+            Dim thresholdRows As List(Of regression.BinaryThresholdRow) = Nothing
+            If Me.cbOutputTresholdTable.Checked Then thresholdRows = regression.BinaryClassificationReporting.BuildThresholdTable(y, p, Nothing, weights)
+            Dim calibrationRows As List(Of regression.CalibrationBinSummary) = Nothing
+            If Me.cbOutputCalibrationTable.Checked Then
+                calibrationRows = regression.BinaryClassificationReporting.BuildCalibrationBins(
+                    y, p, CInt(Me.spinBtnCallibrationBinsN.Value), weights, "quantile")
+            End If
+
+            Dim brier As Double = Double.NaN
+            Dim eventRate As Double = Double.NaN
+            If Me.cbBrierScore.Checked Then
+                brier = regression.BinaryClassificationReporting.ComputeBrierScore(y, p, weights)
+                eventRate = BESHStatNG.WorksheetFunctions.ComputeWeightedEventRate(y, weights)
+            End If
+
+            Dim clsRes As List(Of ResultTable) = regression.BinaryClassificationReporting.WrapResults(
+                summary, thresholdRows, calibrationRows, brier, eventRate, "GLM Binary Classification")
+
+            If clsRes IsNot Nothing AndAlso clsRes.Count > 0 Then
+                WriteRes = New WriteResults
+                AppGlobals.app.ActiveWorkbook.Worksheets.Add(After:=AppGlobals.app.ActiveWorkbook.Worksheets(AppGlobals.app.ActiveWorkbook.Worksheets.Count))
+                AppGlobals.app.ActiveWorkbook.ActiveSheet.Name = "GLM Classification"
+                WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
+
+                Dim rrClass = New ProcessListofResultTables(clsRes)
+                rrClass.writeToSheet(WriteRes, True)
+
+                AddRocResultsAndPlotToClassificationSheet(WriteRes, y, p, CDbl(Me.spinBtnAlpha.Value))
+
+                If calibrationRows IsNot Nothing Then
+                    Dim cp As New graphics.CalibrationPlot(calibrationRows)
+                    Dim cht = cp.addCalibrationPlot(WriteRes.ws)
+                End If
+            End If
+        End If
+
     End Sub
 
     Private Sub tbInitValues_Leave(sender As Object, e As System.EventArgs) Handles tbInitValues.Leave
@@ -1365,4 +1465,15 @@ Public Class UiGLM
         UpdatePowerLinkState()
     End Sub
 
+    Private Sub cbOutputCalibrationTable_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbOutputCalibrationTable.CheckedChanged
+        UpdateClassificationOptionsState()
+    End Sub
+
+    Private Sub cbPerformClasification_CheckedChanged(sender As Object, e As System.EventArgs) Handles cbPerformClasification.CheckedChanged
+        If Me.cbPerformClasification.Checked And IsCurrentBinomialGlmFamily() Then
+            Me.grpClassification.Enabled = True
+        ElseIf Not Me.cbPerformClasification.Checked And IsCurrentBinomialGlmFamily() Then
+            Me.grpClassification.Enabled = False
+        End If
+    End Sub
 End Class

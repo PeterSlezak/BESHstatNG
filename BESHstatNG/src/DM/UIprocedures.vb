@@ -702,11 +702,11 @@ Public Module UIprocedures
     ''' <param name="bkColor">Background color to apply.</param>
     ''' <param name="tiptext">Tooltip text to assign.</param>
     Sub setTextBoxProperties(ByRef tb As Object, bkColor As Object, tiptext As String)
-        Dim window As Object
+        Dim window As Object = Nothing
         Try
             tb.BackColor = bkColor
             window = tb.FindForm()
-            window.ToolTip1.SetToolTip(tb, tiptext)
+            If window IsNot Nothing Then window.ToolTip1.SetToolTip(tb, tiptext)
         Catch
         End Try
     End Sub

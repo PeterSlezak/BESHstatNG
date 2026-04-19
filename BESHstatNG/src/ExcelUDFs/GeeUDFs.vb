@@ -921,6 +921,276 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         ''' <summary>
+        ''' Returns a threshold-based classification report for a fitted binomial generalized estimating equation model.
+        ''' </summary>
+        ''' <param name="handle">
+        ''' Handle returned by <c>BESH.REGR.GEE_FIT</c> for a previously fitted generalized estimating equation model.
+        ''' The handle must refer to a <b>binomial</b> GEE because the report is based on fitted event probabilities.
+        ''' </param>
+        ''' <param name="threshold">
+        ''' Optional single classification cutoff in the closed interval <c>[0,1]</c>.
+        ''' The default is <c>0.5</c>.
+        ''' Observations with fitted probability <c>p_i ≥ threshold</c> are classified as predicted positives and
+        ''' observations with <c>p_i &lt; threshold</c> are classified as predicted negatives.
+        ''' </param>
+        ''' <param name="includeHeader">
+        ''' TRUE to include a descriptive header row in the returned table (default TRUE).
+        ''' </param>
+        ''' <returns>
+        ''' A 4-column worksheet table containing a binary confusion matrix and selected summary measures.
+        ''' The returned layout mirrors <c>BESH.REGR.GLM_CLASS</c> so that GLM and GEE classifier outputs are directly comparable.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This function is intended for fitted <b>binary-response</b> GEE models. It uses the model's fitted marginal means
+        ''' <c>μ_i</c> as estimated event probabilities and compares them with the observed binary outcomes <c>y_i ∈ {0,1}</c>.
+        ''' </para>
+        ''' <para>
+        ''' Because GEE is a marginal modeling framework, the returned classification summaries should be interpreted as summaries of the fitted
+        ''' marginal probabilities, not as subject-specific random-effects predictions.
+        ''' </para>
+        ''' <para>
+        ''' For a chosen threshold <c>c</c>, the predicted class is defined by <c>ŷ_i = 1</c> when <c>p_i ≥ c</c> and <c>ŷ_i = 0</c> otherwise.
+        ''' The function then derives confusion-matrix counts and the associated threshold-based metrics.
+        ''' </para>
+        ''' <para>
+        ''' Example:
+        ''' <c>=BESH.REGR.GEE_CLASS(A1)</c>
+        ''' or
+        ''' <c>=BESH.REGR.GEE_CLASS(A1,0.40,TRUE)</c>
+        ''' </para>
+        ''' </remarks>
+        <ExcelFunction(
+            Name:="BESH.REGR.GEE_CLASS",
+            Category:="BESHStatNG - Regression Models",
+            Description:="Returns a threshold-based classification report for a fitted binomial generalized estimating equation model.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
+        )>
+        Public Function GEE_CLASS(
+            <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT for a fitted binomial generalized estimating equation model.")> handle As Object,
+            <ExcelArgument(Name:="threshold", Description:="Optional single classification cutoff in [0,1]. Default = 0.5.")> Optional threshold As Object = Nothing,
+            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include a header row in the returned table. Default = TRUE.")> Optional includeHeader As Object = Nothing
+        ) As Object
+            Try
+                Dim h As GeeHandle = Nothing
+                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
+                If Not TypeOf h.Model.Family Is regression.Binomial Then Return ExcelError.ExcelErrorValue
+
+                Dim cutoff As Double = 0.5R
+                If Not TryGetSingleThresholdFromArg(threshold, cutoff, 0.5R) Then Return ExcelError.ExcelErrorValue
+
+                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim y() As Double = h.Model.ObservedResponses
+                Dim p() As Double = h.Model.PredictedResponses
+                Dim w() As Double = h.Model.ObservationWeights
+
+                Dim summary As regression.BinaryClassificationSummary = regression.BinaryClassificationReporting.ComputeBinarySummary(y, p, cutoff, w)
+
+                Return UDFhelpers.BuildBinaryCrosstabOutput(summary, hdr)
+
+            Catch ex As Exception
+                Return LoggedUdfExceptionText("BESH.REGR.GEE_CLASS", ex)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Returns a threshold table for a fitted binomial generalized estimating equation model.
+        ''' </summary>
+        ''' <param name="handle">
+        ''' Handle returned by <c>BESH.REGR.GEE_FIT</c> for a fitted binomial generalized estimating equation model.
+        ''' </param>
+        ''' <param name="thresholds">
+        ''' Optional vector of one or more thresholds in <c>[0,1]</c> supplied as a row range, column range, or a single scalar.
+        ''' If omitted, the function builds a default threshold grid from the unique fitted probabilities generated by the model.
+        ''' </param>
+        ''' <param name="includeHeader">
+        ''' TRUE to include a header row in the returned table (default TRUE).
+        ''' </param>
+        ''' <returns>
+        ''' A worksheet table with one row per threshold and the columns:
+        ''' threshold, TP, FP, TN, FN, sensitivity, specificity, precision, recall, NPV,
+        ''' accuracy, balanced accuracy, Youden's J, and F1.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This function evaluates a fitted binomial GEE across a sequence of decision thresholds using the model's fitted marginal probabilities.
+        ''' It is useful for comparing threshold-dependent operating points after a GEE has been fitted.
+        ''' </para>
+        ''' <para>
+        ''' When <paramref name="thresholds"/> is omitted, the function uses the sorted unique fitted probabilities as the threshold grid.
+        ''' </para>
+        ''' <para>
+        ''' Example:
+        ''' <c>=BESH.REGR.GEE_THRESH(A1)</c>
+        ''' or
+        ''' <c>=BESH.REGR.GEE_THRESH(A1,{0.25,0.50,0.75},TRUE)</c>
+        ''' </para>
+        ''' </remarks>
+        <ExcelFunction(
+            Name:="BESH.REGR.GEE_THRESH",
+            Category:="BESHStatNG - Regression Models",
+            Description:="Returns a threshold table for a fitted binomial generalized estimating equation model.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
+        )>
+        Public Function GEE_THRESH(
+            <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT for a fitted binomial generalized estimating equation model.")> handle As Object,
+            <ExcelArgument(Name:="thresholds", Description:="Optional scalar or row/column vector of thresholds in [0,1]. If omitted, the default threshold grid from the fitted probabilities is used.")> Optional thresholds As Object = Nothing,
+            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include a header row in the returned table. Default = TRUE.")> Optional includeHeader As Object = Nothing
+        ) As Object
+            Try
+                Dim h As GeeHandle = Nothing
+                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
+                If Not TypeOf h.Model.Family Is regression.Binomial Then Return ExcelError.ExcelErrorValue
+
+                Dim thresholdVector() As Double = Nothing
+                If Not UDFhelpers.TryGetOptionalThresholdVector(thresholds, thresholdVector) Then Return ExcelError.ExcelErrorValue
+
+                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim y() As Double = h.Model.ObservedResponses
+                Dim p() As Double = h.Model.PredictedResponses
+                Dim w() As Double = h.Model.ObservationWeights
+
+                Dim rows As List(Of regression.BinaryThresholdRow) = regression.BinaryClassificationReporting.BuildThresholdTable(y, p, thresholdVector, w)
+
+                Return UDFhelpers.BuildThresholdTableOutput(rows, hdr)
+
+            Catch ex As Exception
+                Return LoggedUdfExceptionText("BESH.REGR.GEE_THRESH", ex)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Returns calibration-plot data for a fitted binomial generalized estimating equation model.
+        ''' </summary>
+        ''' <param name="handle">
+        ''' Handle returned by <c>BESH.REGR.GEE_FIT</c> for a fitted binomial generalized estimating equation model.
+        ''' </param>
+        ''' <param name="bins">
+        ''' Optional positive integer giving the number of calibration bins.
+        ''' The default is 10. The current implementation requires at least 2 bins.
+        ''' </param>
+        ''' <param name="method">
+        ''' Optional calibration binning method.
+        ''' Accepted values are <c>"quantile"</c> (default) and <c>"equalwidth"</c>.
+        ''' </param>
+        ''' <param name="includeHeader">
+        ''' TRUE to include a header row in the returned table (default TRUE).
+        ''' </param>
+        ''' <returns>
+        ''' A worksheet table with one row per calibration bin and the columns:
+        ''' bin index, number of observations, mean predicted probability, observed event rate,
+        ''' and lower/upper confidence limits for the observed event rate.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' This function is designed to support calibration plots for fitted binary GEE models.
+        ''' It groups observations by fitted marginal probability and compares mean predicted probabilities with observed event rates.
+        ''' </para>
+        ''' <para>
+        ''' The returned table can be plotted directly in Excel by using <c>MeanPredicted</c> on the x-axis and <c>ObservedRate</c> on the y-axis.
+        ''' </para>
+        ''' <para>
+        ''' Example:
+        ''' <c>=BESH.REGR.GEE_CALIB(A1)</c>
+        ''' or
+        ''' <c>=BESH.REGR.GEE_CALIB(A1,10,"quantile",TRUE)</c>
+        ''' </para>
+        ''' </remarks>
+        <ExcelFunction(
+            Name:="BESH.REGR.GEE_CALIB",
+            Category:="BESHStatNG - Regression Models",
+            Description:="Returns calibration-plot data for a fitted binomial generalized estimating equation model.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
+        )>
+        Public Function GEE_CALIB(
+            <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT for a fitted binomial generalized estimating equation model.")> handle As Object,
+            <ExcelArgument(Name:="bins", Description:="Optional positive integer specifying the number of calibration bins. Default = 10.")> Optional bins As Object = Nothing,
+            <ExcelArgument(Name:="method", Description:="Optional calibration binning method: 'quantile' (default) or 'equalwidth'.")> Optional method As Object = Nothing,
+            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include a header row in the returned table. Default = TRUE.")> Optional includeHeader As Object = Nothing
+        ) As Object
+            Try
+                Dim h As GeeHandle = Nothing
+                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
+                If Not TypeOf h.Model.Family Is regression.Binomial Then Return ExcelError.ExcelErrorValue
+
+                Dim binCount As Integer = 10
+                If Not UDFhelpers.TryGetOptionalPositiveInteger(bins, binCount, 10, 2) Then Return ExcelError.ExcelErrorValue
+
+                Dim methodName As String = UDFhelpers.ParseCalibrationMethod(method, "quantile")
+                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim y() As Double = h.Model.ObservedResponses
+                Dim p() As Double = h.Model.PredictedResponses
+                Dim w() As Double = h.Model.ObservationWeights
+
+                Dim rows As List(Of regression.CalibrationBinSummary) = regression.BinaryClassificationReporting.BuildCalibrationBins(y, p, binCount, w, methodName)
+
+                Return UDFhelpers.BuildCalibrationTableOutput(rows, hdr)
+
+            Catch ex As Exception
+                Return LoggedUdfExceptionText("BESH.REGR.GEE_CALIB", ex)
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Returns the Brier score for a fitted binomial generalized estimating equation model.
+        ''' </summary>
+        ''' <param name="handle">
+        ''' Handle returned by <c>BESH.REGR.GEE_FIT</c> for a fitted binomial generalized estimating equation model.
+        ''' </param>
+        ''' <param name="includeHeader">
+        ''' TRUE to include a header row in the returned table (default TRUE).
+        ''' </param>
+        ''' <returns>
+        ''' A small worksheet table containing the Brier score and, for convenience, the sample size and event rate.
+        ''' </returns>
+        ''' <remarks>
+        ''' <para>
+        ''' For observed binary outcomes <c>y_i</c> and fitted marginal probabilities <c>p_i</c>, the Brier score is the mean squared probability error.
+        ''' In the unweighted case it is <c>(1/n) Σ (y_i - p_i)^2</c>; when observation weights are present, the corresponding weighted mean is returned.
+        ''' </para>
+        ''' <para>
+        ''' This summary is threshold-free and complements the threshold-based reports returned by <c>BESH.REGR.GEE_CLASS</c> and <c>BESH.REGR.GEE_THRESH</c>.
+        ''' </para>
+        ''' <para>
+        ''' Example:
+        ''' <c>=BESH.REGR.GEE_BRIER(A1)</c>
+        ''' </para>
+        ''' </remarks>
+        <ExcelFunction(
+            Name:="BESH.REGR.GEE_BRIER",
+            Category:="BESHStatNG - Regression Models",
+            Description:="Returns the Brier score for a fitted binomial generalized estimating equation model.",
+            HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
+        )>
+        Public Function GEE_BRIER(
+            <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT for a fitted binomial generalized estimating equation model.")> handle As Object,
+            <ExcelArgument(Name:="includeHeader", Description:="TRUE to include a header row in the returned table. Default = TRUE.")> Optional includeHeader As Object = Nothing
+        ) As Object
+            Try
+                Dim h As GeeHandle = Nothing
+                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
+                If Not TypeOf h.Model.Family Is regression.Binomial Then Return ExcelError.ExcelErrorValue
+
+                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim y() As Double = h.Model.ObservedResponses
+                Dim p() As Double = h.Model.PredictedResponses
+                Dim w() As Double = h.Model.ObservationWeights
+
+                Dim score As Double = regression.BinaryClassificationReporting.ComputeBrierScore(y, p, w)
+                Dim eventRate As Double = ComputeBinaryEventRate(y, w)
+
+                Return UDFhelpers.BuildNamedScalarOutput("BrierScore", score, y.Length, eventRate, hdr)
+
+            Catch ex As Exception
+                Return LoggedUdfExceptionText("BESH.REGR.GEE_BRIER", ex)
+            End Try
+        End Function
+
+        ''' <summary>
         ''' Removes a fitted generalized estimating equation handle from the in-memory cache.
         ''' </summary>
         ''' <param name="handle">Handle returned by <c>BESH.REGR.GEE_FIT</c>.</param>
