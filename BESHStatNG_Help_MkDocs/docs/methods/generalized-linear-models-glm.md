@@ -1,7 +1,7 @@
 # Generalized Linear Models (GLM)
 
-**Includes:** GLM families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Links per family (selectable), categorical factors, polynomial terms, continuous-variable interactions, optional starting values, optional weights and offset, IRLS with user-set iterations/ε, optional covariance matrix and residuals.  
-**Purpose:** Fit generalized linear models to a wide range of outcome types with configurable link functions.
+**Includes:** GLM families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Links per family (selectable), categorical factors, polynomial terms, continuous-variable interactions, optional starting values, optional weights and offset, IRLS with user-set iterations/ε, optional covariance matrix and residuals, and—for Binomial models—optional classifier reporting (confusion matrix, threshold table, calibration table/plot, Brier score, ROC tables and ROC plot).  
+**Purpose:** Fit generalized linear models to a wide range of outcome types with configurable link functions, including probability-model reporting for fitted binary Binomial models.
 
 ---
 
@@ -67,6 +67,25 @@ Current limitations:
 - **Compute Residuals**: writes residual diagnostics to the output workbook.
 - **Covariance Matrix of Parameters**: prints \(\widehat{\mathrm{Var}}(\hat\beta)\) (model-based / “naive”).
 
+**Binomial-family classification reporting**
+
+When **Family = Binomial**, the options page enables an additional **Perform Classification** block. This post-fit reporting is available for fitted binary probability models and writes a separate classification worksheet to the output workbook.
+
+- **Perform Classification**: enables classifier-oriented reporting for the fitted Binomial GLM.
+- **Threshold**: probability cutoff used for the main confusion-matrix report. Observations with fitted probability \(\hat p_i \ge c\) are classified as predicted positives.
+- **Output threshold table**: adds a threshold sweep across candidate cutoffs with TP, FP, TN, FN, sensitivity, specificity, precision, recall, NPV, accuracy, balanced accuracy, Youden’s \(J\), and F1.
+- **Output calibration table**: adds grouped calibration results with mean predicted probability, observed event rate, and confidence limits.
+- **Number of calibration bins**: number of bins used for the calibration table and the calibration plot (default **10**).
+- **Brier score**: adds the mean squared probability error for the fitted Binomial model.
+
+In addition to the tables, the classification worksheet also includes:
+
+- **ROC summary tables** and an **ROC plot** based on the fitted probabilities
+- a **calibration plot** with the 45° reference line \(y=x\)
+
+!!! note "Binomial models only"
+    The classification block is shown only when **Family = Binomial**. It is disabled for Gaussian, Poisson, Negative Binomial, Gamma, and other non-binary outcome families.
+
 ---
 
 ## Example dataset (same as the GEE example)
@@ -93,7 +112,13 @@ Residual export for this example (produced by the add-in): [036glm_residuals.csv
 
 ### Options
 
+For most families, the options page looks as follows:
+
 ![Generalized Linear Models - Options](../assets/images/036glm/036glm_options.png)
+
+When **Family = Binomial**, the page exposes the additional **Perform Classification** block:
+
+![Generalized Linear Models - Options for Binomial family](../assets/images/036glm/036glm_options_binomial.png)
 
 ---
 
@@ -344,7 +369,37 @@ The add-in creates a new workbook with (at least):
    - optional covariance matrix table
    - optional iteration details table
 
+3. **GLM Classification** sheet *(only when **Family = Binomial** and **Perform Classification** is checked)*
+   - confusion matrix / classification summary at the chosen threshold
+   - optional threshold-performance table
+   - optional calibration table
+   - optional Brier score table
+   - ROC summary tables
+   - ROC plot
+   - calibration plot
+
 ![Generalized Linear Models - Results](../assets/images/036glm/036glm_results1.png)
+
+### Classification reporting for binomial GLM
+
+For a fitted Binomial GLM, the reported class probabilities are the fitted means \(\hat p_i = \hat\mu_i\). Given a user-selected threshold \(c\), the add-in defines the predicted class by
+
+\[
+\hat y_i =
+\begin{cases}
+1, & \hat p_i \ge c,\\
+0, & \hat p_i < c.
+\end{cases}
+\]
+
+The classification sheet then summarizes:
+
+- threshold-dependent confusion counts and derived measures
+- calibration of predicted probabilities
+- threshold-free probability error through the **Brier score**
+- discrimination through the **ROC** curve and AUC-related summaries
+
+These outputs are intended for fitted **binary probability models** rather than for count, continuous, or multi-category GLM families.
 
 ---
 

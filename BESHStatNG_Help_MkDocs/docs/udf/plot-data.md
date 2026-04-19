@@ -6,6 +6,54 @@ _This page is auto-generated from XML doc comments in the VB files under the add
 - [Histogram](../methods/histogram.md)
 - [Roc Curve](../methods/roc-curve.md)
 
+## BESH.PLOT.CALIB_POINTS
+
+Returns chart-ready calibration-bin coordinates for a binary classifier or probabilistic model.
+
+**Function wizard:** Calibration-bin points for plotting observed event rate vs. mean predicted probability.
+
+### Syntax
+
+`=BESH.PLOT.CALIB_POINTS(y, probabilities, bins, method, weights)`
+
+### Parameters
+
+- **y** — Single-column observed binary outcomes encoded as 0/1. The first cell may be a header.
+- **probabilities** — Single-column predicted probabilities aligned row-by-row with `y`.
+Values must lie in the closed interval [0,1]. The first cell may be a header.
+- **bins** — Optional positive integer specifying the number of calibration bins. The default is 10.
+- **method** — Optional calibration-binning method. Supported values are `quantile` (default) and `equalwidth`.
+- **weights** — Optional single-column nonnegative observation weights aligned row-by-row with `y`.
+When omitted, all observations receive weight 1.
+
+### Returns
+
+A spill range with columns:
+
+- `Bin` — bin index starting at 1.
+- `N` — (possibly weighted) bin size.
+- `MeanPredicted` — mean predicted probability in the bin.
+- `ObservedRate` — empirical event rate in the bin.
+- `LowerCI` — lower confidence limit for the observed rate.
+- `UpperCI` — upper confidence limit for the observed rate.
+- `ErrorMinus` — distance from the point to the lower confidence limit.
+- `ErrorPlus` — distance from the point to the upper confidence limit.
+
+### Notes
+
+This function is the plot-data counterpart of the classifier calibration reporting functions.
+It is intended for users who want to build a native Excel scatter plot directly from a worksheet
+spill range instead of using the GUI chart writer.
+
+The returned table can be plotted with:
+
+- x-axis = `MeanPredicted`
+- y-axis = `ObservedRate`
+- optional custom error bars from `ErrorMinus` and `ErrorPlus`
+
+For a GUI-generated chart inside a workbook, pair these data with the new
+`graphics.CalibrationPlot` class.
+
 ## BESH.PLOT.HIST_BINS
 
 Returns histogram bin midpoints and frequencies for one or more numeric input columns.

@@ -1,7 +1,7 @@
 # Generalized Estimating Equations (GEE)
 
-**Includes:** Families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Covariance structures: Independence, Exchangeable, Autoregressive, Unstructured, SE types: Robust, Naive, Bias-reduced, categorical factors, polynomial terms, continuous-variable interactions, optional starting values.  
-**Purpose:** Fit marginal models for correlated/clustered data using GEE with selectable working correlation.
+**Includes:** Families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Covariance structures: Independence, Exchangeable, Autoregressive, Unstructured, SE types: Robust, Naive, Bias-reduced, categorical factors, polynomial terms, continuous-variable interactions, optional starting values, and—for Binomial models—optional classifier reporting (confusion matrix, threshold table, calibration table/plot, Brier score, ROC tables and ROC plot).  
+**Purpose:** Fit marginal models for correlated/clustered data using GEE with selectable working correlation, including marginal-probability reporting for fitted binary Binomial models.
 
 ---
 
@@ -77,7 +77,13 @@ Current limitations:
 
 ### Options
 
+For most families, the options page looks as follows:
+
 ![GEE - options](../assets/images/034gee/034gee_options.png)
+
+When **Family = Binomial**, the page exposes the additional **Perform Classification** block:
+
+![GEE - options for Binomial family](../assets/images/034gee/034gee_options_binomial.png)
 
 **Convergence options**
 
@@ -384,6 +390,37 @@ The main results sheet contains:
    - Model-based (Naive)
    - Empirical (Robust)
    - Bias Reduced (if selected)
+
+When **Family = Binomial** and **Perform Classification** is checked, the workbook also includes a separate **GEE Classification** sheet with:
+
+- confusion matrix / classification summary at the chosen threshold
+- optional threshold-performance table
+- optional calibration table
+- optional Brier score table
+- ROC summary tables
+- ROC plot
+- calibration plot
+
+### Classification reporting for binomial GEE
+
+For a fitted Binomial GEE, the reported class probabilities are the fitted **marginal** probabilities \(\hat p_{ij}\). Given a user-selected threshold \(c\), the add-in defines the predicted class by
+
+\[
+\hat y_{ij} =
+\begin{cases}
+1, & \hat p_{ij} \ge c,\\
+0, & \hat p_{ij} < c.
+\end{cases}
+\]
+
+The classification sheet then summarizes:
+
+- threshold-dependent confusion counts and derived measures
+- calibration of fitted marginal probabilities
+- threshold-free probability error through the **Brier score**
+- discrimination through the **ROC** curve and AUC-related summaries
+
+Because GEE targets the marginal mean, these classification summaries should be interpreted as **population-averaged** rather than subject-specific.
 
 ### Additional matrices
 

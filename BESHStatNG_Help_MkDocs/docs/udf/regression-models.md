@@ -12,6 +12,182 @@ _This page is auto-generated from XML doc comments in the VB files under the add
 - [Ordinal Logistic Regression](../methods/ordinal-logistic-regression.md)
 - [Zero Inflated Poisson Regression](../methods/zero-inflated-poisson-regression.md)
 
+## BESH.CLASS.BRIER
+
+Returns the Brier score for observed binary outcomes and predicted probabilities.
+
+**Function wizard:** Returns the Brier score for observed binary outcomes and predicted probabilities.
+
+### Syntax
+
+`=BESH.CLASS.BRIER(y, probabilities, weights, includeHeader)`
+
+### Parameters
+
+- **y** — Observed binary outcomes coded as `0` and `1`.
+Supply a single worksheet row or single worksheet column. A leading text header is allowed and is ignored.
+- **probabilities** — Predicted event probabilities corresponding row-by-row to `y`.
+Supply a single worksheet row or single worksheet column. Values must lie in `[0,1]`.
+A leading text header is allowed and is ignored.
+- **weights** — Optional nonnegative case weights aligned with `y` and `probabilities`.
+Supply a single worksheet row or single worksheet column. When omitted, all observations receive unit weight.
+- **includeHeader** — TRUE to include a header row in the returned table (default TRUE).
+
+### Returns
+
+A small worksheet table containing the Brier score and, for convenience, the sample size and event rate.
+
+### Notes
+
+For observed binary outcomes `y_i` and predicted probabilities `p_i`, the Brier score is the mean squared
+probability error. In the unweighted case it is `(1/n) Σ (y_i - p_i)^2`; when observation weights are present,
+the corresponding weighted mean is returned.
+
+This summary is threshold-free and complements the threshold-based reports returned by
+`BESH.CLASS.CONFUSION` and `BESH.CLASS.THRESH`.
+
+Example:
+`=BESH.CLASS.BRIER(A2:A101,B2:B101)`
+or
+`=BESH.CLASS.BRIER(A2:A101,B2:B101,C2:C101,TRUE)`
+
+## BESH.CLASS.CALIB
+
+Returns calibration-plot data for observed binary outcomes and predicted probabilities.
+
+**Function wizard:** Returns calibration-plot data for observed binary outcomes and predicted probabilities.
+
+### Syntax
+
+`=BESH.CLASS.CALIB(y, probabilities, bins, method, weights, includeHeader)`
+
+### Parameters
+
+- **y** — Observed binary outcomes coded as `0` and `1`.
+Supply a single worksheet row or single worksheet column. A leading text header is allowed and is ignored.
+- **probabilities** — Predicted event probabilities corresponding row-by-row to `y`.
+Supply a single worksheet row or single worksheet column. Values must lie in `[0,1]`.
+A leading text header is allowed and is ignored.
+- **bins** — Optional positive integer giving the number of calibration bins. The default is `10`.
+The current implementation requires at least `2` bins.
+- **method** — Optional calibration binning method.
+Accepted values are `"quantile"` (default) and `"equalwidth"`.
+Quantile binning creates groups with approximately equal numbers of observations, while equal-width binning
+partitions the probability scale into equal intervals.
+- **weights** — Optional nonnegative case weights aligned with `y` and `probabilities`.
+Supply a single worksheet row or single worksheet column. When omitted, all observations receive unit weight.
+- **includeHeader** — TRUE to include a header row in the returned table (default TRUE).
+
+### Returns
+
+A worksheet table with one row per calibration bin and the columns:
+bin index, number of observations, mean predicted probability, observed event rate,
+and lower/upper confidence limits for the observed event rate.
+The probability-scale columns are returned on the 0–1 scale so they can be plotted directly in Excel.
+
+### Notes
+
+This function is intended to support calibration plots and simple calibration diagnostics after a set of event probabilities
+has been produced. It groups observations by predicted probability and compares the mean predicted risk in each bin with the
+empirical event rate observed in that bin.
+
+The returned table can be plotted directly in Excel by using `MeanPredicted` on the x-axis and `ObservedRate`
+on the y-axis, optionally with the confidence limits as error bars for the observed rate.
+
+Example:
+`=BESH.CLASS.CALIB(A2:A101,B2:B101)`
+or
+`=BESH.CLASS.CALIB(A2:A101,B2:B101,10,"quantile",,TRUE)`
+
+## BESH.CLASS.CONFUSION
+
+Returns a threshold-based confusion-matrix report for observed binary outcomes and predicted probabilities.
+
+**Function wizard:** Returns a threshold-based confusion-matrix report for observed binary outcomes and predicted probabilities.
+
+### Syntax
+
+`=BESH.CLASS.CONFUSION(y, probabilities, threshold, weights, includeHeader)`
+
+### Parameters
+
+- **y** — Observed binary outcomes coded as `0` and `1`.
+Supply a single worksheet row or single worksheet column. A leading text header is allowed and is ignored.
+- **probabilities** — Predicted event probabilities corresponding row-by-row to `y`.
+Supply a single worksheet row or single worksheet column. Values must lie in `[0,1]`.
+A leading text header is allowed and is ignored.
+- **threshold** — Optional single classification cutoff in `[0,1]`. The default is `0.5`.
+The predicted class is defined by `ŷ_i = 1` when `p_i ≥ threshold`.
+- **weights** — Optional nonnegative case weights aligned with `y` and `probabilities`.
+Supply a single worksheet row or single worksheet column. When omitted, all observations receive unit weight.
+- **includeHeader** — TRUE to include a descriptive header row in the returned table (default TRUE).
+
+### Returns
+
+A worksheet table containing the 2×2 confusion matrix and selected threshold-based summary measures.
+The layout mirrors the classifier-report output used by the fitted-model UDFs so that generic and handle-based
+reports can be compared directly.
+
+### Notes
+
+This function is useful when predicted probabilities are already available in the worksheet and only the reporting
+layer is needed. Typical use cases include scoring a holdout set, evaluating external validation data, or reusing
+probabilities generated earlier by `BESH.REGR.GLM_PRED` or `BESH.REGR.GEE_PRED`.
+
+The report is threshold-dependent. Changing `threshold` changes the predicted classes and therefore
+the resulting confusion counts and derived measures. For a threshold sweep over many cutoffs, use
+`BESH.CLASS.THRESH`.
+
+Example:
+`=BESH.CLASS.CONFUSION(A2:A101,B2:B101)`
+or
+`=BESH.CLASS.CONFUSION(A2:A101,B2:B101,0.35,C2:C101,TRUE)`
+
+## BESH.CLASS.THRESH
+
+Returns a threshold-performance table for observed binary outcomes and predicted probabilities.
+
+**Function wizard:** Returns a threshold-performance table for observed binary outcomes and predicted probabilities.
+
+### Syntax
+
+`=BESH.CLASS.THRESH(y, probabilities, thresholds, weights, includeHeader)`
+
+### Parameters
+
+- **y** — Observed binary outcomes coded as `0` and `1`.
+Supply a single worksheet row or single worksheet column. A leading text header is allowed and is ignored.
+- **probabilities** — Predicted event probabilities corresponding row-by-row to `y`.
+Supply a single worksheet row or single worksheet column. Values must lie in `[0,1]`.
+A leading text header is allowed and is ignored.
+- **thresholds** — Optional scalar or vector of one or more thresholds in `[0,1]`.
+Supply a single worksheet row, a single worksheet column, or a scalar.
+If omitted, the default threshold grid is built from the sorted unique predicted probabilities.
+- **weights** — Optional nonnegative case weights aligned with `y` and `probabilities`.
+Supply a single worksheet row or single worksheet column. When omitted, all observations receive unit weight.
+- **includeHeader** — TRUE to include a header row in the returned table (default TRUE).
+
+### Returns
+
+A worksheet table with one row per threshold and the columns:
+threshold, TP, FP, TN, FN, sensitivity, specificity, precision, recall, NPV,
+accuracy, balanced accuracy, Youden's J, and F1.
+Percentage-based measures are returned on the 0–100 scale.
+
+### Notes
+
+This function evaluates classifier performance over many candidate decision thresholds.
+It is useful for selecting an operating point after probabilities have been produced, for comparing cutoffs,
+or for complementing ROC-based summaries with concrete confusion counts and predictive values.
+
+When `thresholds` is omitted, the function uses the sorted unique predicted probabilities.
+This gives an exact threshold sweep over the observed fitted values rather than only a coarse fixed grid.
+
+Example:
+`=BESH.CLASS.THRESH(A2:A101,B2:B101)`
+or
+`=BESH.CLASS.THRESH(A2:A101,B2:B101,{0.1,0.2,0.3,0.4,0.5},,TRUE)`
+
 ## BESH.REGR.FORMULA_VALIDATE
 
 Validates a regression-model formula string against the raw predictor matrix and returns TRUE when validation succeeds.
@@ -67,6 +243,113 @@ can determine the absolute worksheet column letters that are available to the fo
 =BESH.REGR.FORMULA_VALIDATE("'prison' + 'dose' + 'dose'^2", C2:F101, "prison,dose,stage,treat", "names")
 =BESH.REGR.FORMULA_VALIDATE("C + factor(E, ref=1)", C2:F101, "prison,dose,stage,treat", "absolute")
 ```
+
+## BESH.REGR.GEE_BRIER
+
+Returns the Brier score for a fitted binomial generalized estimating equation model.
+
+**Function wizard:** Returns the Brier score for a fitted binomial generalized estimating equation model.
+
+### Syntax
+
+`=BESH.REGR.GEE_BRIER(handle, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.GEE_FIT` for a fitted binomial generalized estimating equation model.
+- **includeHeader** — TRUE to include a header row in the returned table (default TRUE).
+
+### Returns
+
+A small worksheet table containing the Brier score and, for convenience, the sample size and event rate.
+
+### Notes
+
+For observed binary outcomes `y_i` and fitted marginal probabilities `p_i`, the Brier score is the mean squared probability error.
+In the unweighted case it is `(1/n) Σ (y_i - p_i)^2`; when observation weights are present, the corresponding weighted mean is returned.
+
+This summary is threshold-free and complements the threshold-based reports returned by `BESH.REGR.GEE_CLASS` and `BESH.REGR.GEE_THRESH`.
+
+Example:
+`=BESH.REGR.GEE_BRIER(A1)`
+
+## BESH.REGR.GEE_CALIB
+
+Returns calibration-plot data for a fitted binomial generalized estimating equation model.
+
+**Function wizard:** Returns calibration-plot data for a fitted binomial generalized estimating equation model.
+
+### Syntax
+
+`=BESH.REGR.GEE_CALIB(handle, bins, method, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.GEE_FIT` for a fitted binomial generalized estimating equation model.
+- **bins** — Optional positive integer giving the number of calibration bins.
+The default is 10. The current implementation requires at least 2 bins.
+- **method** — Optional calibration binning method.
+Accepted values are `"quantile"` (default) and `"equalwidth"`.
+- **includeHeader** — TRUE to include a header row in the returned table (default TRUE).
+
+### Returns
+
+A worksheet table with one row per calibration bin and the columns:
+bin index, number of observations, mean predicted probability, observed event rate,
+and lower/upper confidence limits for the observed event rate.
+
+### Notes
+
+This function is designed to support calibration plots for fitted binary GEE models.
+It groups observations by fitted marginal probability and compares mean predicted probabilities with observed event rates.
+
+The returned table can be plotted directly in Excel by using `MeanPredicted` on the x-axis and `ObservedRate` on the y-axis.
+
+Example:
+`=BESH.REGR.GEE_CALIB(A1)`
+or
+`=BESH.REGR.GEE_CALIB(A1,10,"quantile",TRUE)`
+
+## BESH.REGR.GEE_CLASS
+
+Returns a threshold-based classification report for a fitted binomial generalized estimating equation model.
+
+**Function wizard:** Returns a threshold-based classification report for a fitted binomial generalized estimating equation model.
+
+### Syntax
+
+`=BESH.REGR.GEE_CLASS(handle, threshold, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.GEE_FIT` for a previously fitted generalized estimating equation model.
+The handle must refer to a binomial GEE because the report is based on fitted event probabilities.
+- **threshold** — Optional single classification cutoff in the closed interval `[0,1]`.
+The default is `0.5`.
+Observations with fitted probability `p_i ≥ threshold` are classified as predicted positives and
+observations with `p_i < threshold` are classified as predicted negatives.
+- **includeHeader** — TRUE to include a descriptive header row in the returned table (default TRUE).
+
+### Returns
+
+A 4-column worksheet table containing a binary confusion matrix and selected summary measures.
+The returned layout mirrors `BESH.REGR.GLM_CLASS` so that GLM and GEE classifier outputs are directly comparable.
+
+### Notes
+
+This function is intended for fitted binary-response GEE models. It uses the model's fitted marginal means
+`μ_i` as estimated event probabilities and compares them with the observed binary outcomes `y_i ∈ {0,1}`.
+
+Because GEE is a marginal modeling framework, the returned classification summaries should be interpreted as summaries of the fitted
+marginal probabilities, not as subject-specific random-effects predictions.
+
+For a chosen threshold `c`, the predicted class is defined by `ŷ_i = 1` when `p_i ≥ c` and `ŷ_i = 0` otherwise.
+The function then derives confusion-matrix counts and the associated threshold-based metrics.
+
+Example:
+`=BESH.REGR.GEE_CLASS(A1)`
+or
+`=BESH.REGR.GEE_CLASS(A1,0.40,TRUE)`
 
 ## BESH.REGR.GEE_DROP
 
@@ -334,6 +617,41 @@ The scale row summarizes the estimated overdispersion or residual scale paramete
 The cluster-size rows describe the replication pattern that underlies the sandwich covariance and working-correlation updates.
 
 The convergence rows report the last relative coefficient-change criterion and whether the stopping rule was met before the iteration limit.
+
+## BESH.REGR.GEE_THRESH
+
+Returns a threshold table for a fitted binomial generalized estimating equation model.
+
+**Function wizard:** Returns a threshold table for a fitted binomial generalized estimating equation model.
+
+### Syntax
+
+`=BESH.REGR.GEE_THRESH(handle, thresholds, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.GEE_FIT` for a fitted binomial generalized estimating equation model.
+- **thresholds** — Optional vector of one or more thresholds in `[0,1]` supplied as a row range, column range, or a single scalar.
+If omitted, the function builds a default threshold grid from the unique fitted probabilities generated by the model.
+- **includeHeader** — TRUE to include a header row in the returned table (default TRUE).
+
+### Returns
+
+A worksheet table with one row per threshold and the columns:
+threshold, TP, FP, TN, FN, sensitivity, specificity, precision, recall, NPV,
+accuracy, balanced accuracy, Youden's J, and F1.
+
+### Notes
+
+This function evaluates a fitted binomial GEE across a sequence of decision thresholds using the model's fitted marginal probabilities.
+It is useful for comparing threshold-dependent operating points after a GEE has been fitted.
+
+When `thresholds` is omitted, the function uses the sorted unique fitted probabilities as the threshold grid.
+
+Example:
+`=BESH.REGR.GEE_THRESH(A1)`
+or
+`=BESH.REGR.GEE_THRESH(A1,{0.25,0.50,0.75},TRUE)`
 
 ## BESH.REGR.GEE_VCOV
 
@@ -652,6 +970,131 @@ Larger values of `α` indicate stronger overdispersion relative to Poisson.
 
 Information-criterion rows already account for the estimated dispersion parameter inside the underlying GLM_NB implementation.
 
+## BESH.REGR.GLM_BRIER
+
+Returns the Brier score for a fitted binomial generalized linear model.
+
+**Function wizard:** Returns the Brier score for a fitted binomial generalized linear model.
+
+### Syntax
+
+`=BESH.REGR.GLM_BRIER(handle, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.GLM_FIT` for a fitted binomial generalized linear model.
+- **includeHeader** — TRUE to include a header row in the returned table (default TRUE).
+
+### Returns
+
+A small worksheet table containing the Brier score and, for convenience, the sample size and event rate.
+
+### Notes
+
+For a binary outcome with observed values `y_i ∈ {0,1}` and fitted probabilities `p_i`, the Brier score is
+`(1/n) Σ (y_i - p_i)^2` in the unweighted case, or the corresponding weighted mean when case weights were supplied.
+Lower values indicate more accurate probabilistic predictions.
+
+Unlike threshold-based metrics, the Brier score evaluates the full probability forecast and therefore does not depend on a chosen classification cutoff.
+It combines aspects of calibration and discrimination into a single proper scoring rule.
+
+Example:
+`=BESH.REGR.GLM_BRIER(A1)`
+
+## BESH.REGR.GLM_CALIB
+
+Returns calibration-plot data for a fitted binomial generalized linear model.
+
+**Function wizard:** Returns calibration-plot data for a fitted binomial generalized linear model.
+
+### Syntax
+
+`=BESH.REGR.GLM_CALIB(handle, bins, method, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.GLM_FIT` for a fitted binomial generalized linear model.
+- **bins** — Optional positive integer giving the number of calibration bins.
+The default is 10. The current implementation requires at least 2 bins.
+- **method** — Optional calibration binning method.
+Accepted values are `"quantile"` (default) and `"equalwidth"`.
+Quantile binning creates groups with approximately equal numbers of observations, while equal-width binning
+partitions the probability scale into equal intervals.
+- **includeHeader** — TRUE to include a header row in the returned table (default TRUE).
+
+### Returns
+
+A worksheet table with one row per calibration bin and the columns:
+bin index, number of observations, mean predicted probability, observed event rate,
+and lower/upper confidence limits for the observed event rate.
+
+### Notes
+
+This function is designed to support calibration plots for fitted binary GLMs.
+A well-calibrated model should produce bins in which the observed event rate is close to the mean predicted probability.
+
+The returned table can be plotted directly in Excel by using `MeanPredicted` on the x-axis and `ObservedRate` on the y-axis,
+optionally adding the confidence interval columns as error bars.
+
+Calibration describes how well predicted probabilities agree with empirical event frequencies.
+It is different from discrimination measures such as AUC or from threshold-based summaries such as sensitivity and specificity.
+
+Example:
+`=BESH.REGR.GLM_CALIB(A1)`
+or
+`=BESH.REGR.GLM_CALIB(A1,10,"quantile",TRUE)`
+
+## BESH.REGR.GLM_CLASS
+
+Returns a threshold-based classification report for a fitted binomial generalized linear model.
+
+**Function wizard:** Returns a threshold-based classification report for a fitted binomial generalized linear model.
+
+### Syntax
+
+`=BESH.REGR.GLM_CLASS(handle, threshold, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.GLM_FIT` for a previously fitted generalized linear model.
+The handle must refer to a binomial GLM because the report is based on fitted event probabilities.
+- **threshold** — Optional single classification cutoff in the closed interval `[0,1]`.
+The default is `0.5`.
+Observations with fitted probability `p_i ≥ threshold` are classified as predicted positives and
+observations with `p_i < threshold` are classified as predicted negatives.
+- **includeHeader** — TRUE to include a descriptive header row in the returned table (default TRUE).
+
+### Returns
+
+A 4-column worksheet table containing a binary confusion matrix and selected summary measures.
+The returned layout is:
+
+- Observed vs predicted counts for classes 0 and 1.
+- Specificity and sensitivity (reported as percentages).
+- Negative predictive value, precision, and overall accuracy (reported as percentages).
+- The chosen threshold, balanced accuracy, and Youden's J statistic.
+
+### Notes
+
+This function is intended for fitted binary-response GLMs such as logistic regression.
+It uses the model's fitted mean responses `μ_i` as estimated event probabilities and compares them with
+the observed binary outcomes `y_i ∈ {0,1}`.
+
+For a chosen threshold `c`, the predicted class is defined by
+`ŷ_i = 1` when `p_i ≥ c` and `ŷ_i = 0` otherwise. The function then computes the usual
+confusion-matrix counts `TP`, `FP`, `TN`, and `FN`, from which it derives
+sensitivity, specificity, precision, negative predictive value, accuracy, balanced accuracy,
+and Youden's J statistic.
+
+This is a threshold-dependent report. Changing `threshold` changes the predicted classes and therefore
+the reported performance measures. For a threshold sweep across many cutoffs, use `BESH.REGR.GLM_THRESH`.
+
+Example:
+`=BESH.REGR.GLM_CLASS(A1)`
+or
+`=BESH.REGR.GLM_CLASS(A1,0.35,TRUE)`
+where `A1` contains a handle returned by `BESH.REGR.GLM_FIT`.
+
 ## BESH.REGR.GLM_DROP
 
 Removes a fitted generalized linear model handle from the in-memory cache.
@@ -925,6 +1368,46 @@ For Binomial models, this output also adds the numbers of observations with resp
 which helps document class balance in binary-response applications.
 
 Any convergence messages or numerical warnings produced during fitting are returned as a final row so they can be surfaced in generated documentation or audit sheets.
+
+## BESH.REGR.GLM_THRESH
+
+Returns a threshold table for a fitted binomial generalized linear model.
+
+**Function wizard:** Returns a threshold table for a fitted binomial generalized linear model.
+
+### Syntax
+
+`=BESH.REGR.GLM_THRESH(handle, thresholds, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.GLM_FIT` for a fitted binomial generalized linear model.
+- **thresholds** — Optional vector of one or more thresholds in `[0,1]` supplied as a row range, column range, or a single scalar.
+If omitted, the function builds a default threshold grid from the unique fitted probabilities generated by the model.
+- **includeHeader** — TRUE to include a header row in the returned table (default TRUE).
+
+### Returns
+
+A worksheet table with one row per threshold and the following columns:
+threshold, TP, FP, TN, FN, sensitivity, specificity, precision, recall, NPV,
+accuracy, balanced accuracy, Youden's J, and F1.
+Percentage-based metrics are returned on the 0-100 scale to match the style of the existing classification UDFs.
+
+### Notes
+
+This function evaluates the fitted binomial GLM across a sequence of classification cutoffs.
+It is useful for selecting or comparing decision thresholds after the model has been fitted.
+
+When `thresholds` is omitted, the function uses the sorted unique fitted probabilities as the threshold grid.
+This provides an exact threshold sweep over the observed fitted values and is often more informative than using only a small fixed set of cutoffs.
+
+The returned table complements ROC analysis. ROC summarizes discrimination across cutoffs, whereas this function gives the
+concrete confusion counts and predictive values at each threshold.
+
+Example:
+`=BESH.REGR.GLM_THRESH(A1)`
+or
+`=BESH.REGR.GLM_THRESH(A1,{0.1,0.2,0.3,0.4,0.5},TRUE)`
 
 ## BESH.REGR.LM_ANOVA
 

@@ -16,8 +16,8 @@ Excel Function Wizard category (e.g. `BESHStatNG - Nonparametric`).
 | [Multivariate Analysis](multivariate-analysis.md) | Worksheet functions in this category. | 70 | [Correspondence Analysis](../methods/correspondence-analysis.md), [Discriminant Analysis](../methods/discriminant-analysis.md), [Factor Analysis](../methods/factor-analysis.md), [Hierarchical Clustering](../methods/hierarchical-clustering.md), [K Means Clustering](../methods/k-means-clustering.md), [Multiple Correspondence Analysis](../methods/multiple-correspondence-analysis.md), [Principal Component Analysis](../methods/principal-component-analysis.md) |
 | [Nonparametric](nonparametric.md) | Rank-based and other nonparametric hypothesis tests and related statistics. | 14 | [Friedman Test](../methods/friedman-test.md), [Kendalls Rank Correlation](../methods/kendalls-rank-correlation.md), [Kruskal Wallis Test](../methods/kruskal-wallis-test.md), [Mann Whitney Test](../methods/mann-whitney-test.md), [Spearman Rank Correlation](../methods/spearman-rank-correlation.md), [Wilcoxon Signed Rank Test](../methods/wilcoxon-signed-rank-test.md) |
 | [Parametric](parametric.md) | Worksheet functions in this category. | 10 | [One Way Anova](../methods/one-way-anova.md), [Two Way Nested Anova](../methods/two-way-nested-anova.md), [One Way Repeated Measures Anova](../methods/one-way-repeated-measures-anova.md), [Paired T Tests](../methods/paired-t-tests.md), [Unpaired Two Sample T Tests](../methods/unpaired-two-sample-t-tests.md) |
-| [Plot Data](plot-data.md) | Worksheet functions in this category. | 5 | [Histogram](../methods/histogram.md), [Roc Curve](../methods/roc-curve.md) |
-| [Regression Models](regression-models.md) | Worksheet functions in this category. | 49 | [Regression Formula Syntax](regression-formula-syntax.md), [Generalized Estimating Equations Gee](../methods/generalized-estimating-equations-gee.md), [Negative Binomial Regression Nb2](../methods/negative-binomial-regression-nb2.md), [Generalized Linear Models Glm](../methods/generalized-linear-models-glm.md), [Multiple Linear Regression Lm](../methods/multiple-linear-regression-lm.md), [Multinomial Logistic Regression](../methods/multinomial-logistic-regression.md), [Ordinal Logistic Regression](../methods/ordinal-logistic-regression.md), [Zero Inflated Poisson Regression](../methods/zero-inflated-poisson-regression.md) |
+| [Plot Data](plot-data.md) | Worksheet functions in this category. | 6 | [Histogram](../methods/histogram.md), [Roc Curve](../methods/roc-curve.md) |
+| [Regression Models](regression-models.md) | Worksheet functions in this category. | 61 | [Regression Formula Syntax](regression-formula-syntax.md), [Generalized Estimating Equations Gee](../methods/generalized-estimating-equations-gee.md), [Negative Binomial Regression Nb2](../methods/negative-binomial-regression-nb2.md), [Generalized Linear Models Glm](../methods/generalized-linear-models-glm.md), [Multiple Linear Regression Lm](../methods/multiple-linear-regression-lm.md), [Multinomial Logistic Regression](../methods/multinomial-logistic-regression.md), [Ordinal Logistic Regression](../methods/ordinal-logistic-regression.md), [Zero Inflated Poisson Regression](../methods/zero-inflated-poisson-regression.md) |
 | [Sample Size](sample-size.md) | Worksheet functions in this category. | 9 | [Sample Size Bland Altman](../methods/sample-size-bland-altman.md), [Sample Size Cox Regression](../methods/sample-size-cox-regression.md), [Sample Size Icc](../methods/sample-size-icc.md), [Sample Size Log Rank](../methods/sample-size-log-rank.md), [Sample Size Independent Proportions](../methods/sample-size-independent-proportions.md), [Sample Size Single Proportion](../methods/sample-size-single-proportion.md), [Sample Size Paired T Test](../methods/sample-size-paired-t-test.md), [Sample Size Unpaired T Test](../methods/sample-size-unpaired-t-test.md) |
 | [Survival](survival.md) | Worksheet functions in this category. | 11 | [Cox Regression](../methods/cox-regression.md), [Regression Formula Syntax](regression-formula-syntax.md), [Logrank Test](../methods/logrank-test.md), [Kaplan Meier Plot](../methods/kaplan-meier-plot.md) |
 
@@ -200,6 +200,7 @@ See: [Parametric UDFs](parametric.md)
 
 ### Plot Data
 
+- `BESH.PLOT.CALIB_POINTS` — Calibration-bin points for plotting observed event rate vs. mean predicted probability.
 - `BESH.PLOT.HIST_BINS` — Histogram bin midpoints and frequencies for one or more numeric series.
 - `BESH.PLOT.HIST_NORMAL` — Normal-overlay coordinates matched to the GUI histogram frequency scale.
 - `BESH.PLOT.KM_CURVE` — Step-ready Kaplan-Meier survival-curve coordinates with optional confidence limits.
@@ -210,13 +211,21 @@ See: [Plot Data UDFs](plot-data.md)
 
 ### Regression Models
 
+- `BESH.CLASS.BRIER` — Returns the Brier score for observed binary outcomes and predicted probabilities.
+- `BESH.CLASS.CALIB` — Returns calibration-plot data for observed binary outcomes and predicted probabilities.
+- `BESH.CLASS.CONFUSION` — Returns a threshold-based confusion-matrix report for observed binary outcomes and predicted probabilities.
+- `BESH.CLASS.THRESH` — Returns a threshold-performance table for observed binary outcomes and predicted probabilities.
 - `BESH.REGR.FORMULA_VALIDATE` — Validates a regression-model formula string and returns TRUE or a descriptive validation message.
+- `BESH.REGR.GEE_BRIER` — Returns the Brier score for a fitted binomial generalized estimating equation model.
+- `BESH.REGR.GEE_CALIB` — Returns calibration-plot data for a fitted binomial generalized estimating equation model.
+- `BESH.REGR.GEE_CLASS` — Returns a threshold-based classification report for a fitted binomial generalized estimating equation model.
 - `BESH.REGR.GEE_DROP` — Removes a fitted generalized estimating equation handle from memory.
 - `BESH.REGR.GEE_FIT` — Fits a generalized estimating equation model and returns a reusable handle.
 - `BESH.REGR.GEE_PRED` — Returns predicted marginal means and linear predictors for new data under a fitted generalized estimating equation model.
 - `BESH.REGR.GEE_RESID` — Returns residual diagnostics for a fitted generalized estimating equation handle.
 - `BESH.REGR.GEE_SUMMARY` — Returns the coefficient summary table for a fitted generalized estimating equation handle.
 - `BESH.REGR.GEE_TESTS` — Returns model-level diagnostics and fit statistics for a fitted generalized estimating equation handle.
+- `BESH.REGR.GEE_THRESH` — Returns a threshold table for a fitted binomial generalized estimating equation model.
 - `BESH.REGR.GEE_VCOV` — Returns the covariance matrix of the estimated generalized estimating equation coefficients.
 - `BESH.REGR.GEE_WCORR` — Returns the fitted working correlation matrix for a generalized estimating equation handle.
 - `BESH.REGR.GLMNB_DROP` — Removes a fitted Negative Binomial regression handle from memory.
@@ -225,12 +234,16 @@ See: [Plot Data UDFs](plot-data.md)
 - `BESH.REGR.GLMNB_RESID` — Returns residual diagnostics for a fitted Negative Binomial regression handle.
 - `BESH.REGR.GLMNB_SUMMARY` — Returns the coefficient summary table for a fitted Negative Binomial regression handle.
 - `BESH.REGR.GLMNB_TESTS` — Returns model-level diagnostics and fit statistics for a fitted Negative Binomial regression handle.
+- `BESH.REGR.GLM_BRIER` — Returns the Brier score for a fitted binomial generalized linear model.
+- `BESH.REGR.GLM_CALIB` — Returns calibration-plot data for a fitted binomial generalized linear model.
+- `BESH.REGR.GLM_CLASS` — Returns a threshold-based classification report for a fitted binomial generalized linear model.
 - `BESH.REGR.GLM_DROP` — Removes a fitted generalized linear model handle from memory.
 - `BESH.REGR.GLM_FIT` — Fits a generalized linear model and returns a reusable handle.
 - `BESH.REGR.GLM_PRED` — Returns predicted responses and linear predictors for new data under a fitted generalized linear model.
 - `BESH.REGR.GLM_RESID` — Returns residual diagnostics for a fitted generalized linear model handle.
 - `BESH.REGR.GLM_SUMMARY` — Returns the coefficient summary table for a fitted generalized linear model handle.
 - `BESH.REGR.GLM_TESTS` — Returns model-level diagnostics and fit statistics for a fitted generalized linear model handle.
+- `BESH.REGR.GLM_THRESH` — Returns a threshold table for a fitted binomial generalized linear model.
 - `BESH.REGR.LM_ANOVA` — Returns an overall, Type I, or Type III ANOVA table for a fitted linear-model handle.
 - `BESH.REGR.LM_DROP` — Removes a fitted linear-model handle from memory.
 - `BESH.REGR.LM_FIT` — Fits a Gaussian linear regression model and returns a reusable handle.

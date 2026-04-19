@@ -1,12 +1,16 @@
 # What's New
 
+## version 0.7.x.0 (2026-0x-xx)
+- Added model-reporting tools for fitted binary classifiers, including confusion matrix, threshold-performance table, sensitivity/specificity and precision/recall summaries, calibration analysis, Brier score, ROC tables, and ROC plot outputs for binomial GLM and binomial GEE models. The same reporting workflow is also available through new generic classification UDFs for scoring external or holdout predictions directly in Excel.
+
+
 ## version 0.7.1.0 (2026-04-17)
 
-- Excel user defined functions exposed (5th batch including Agreemnt related functions for Bland-Altman analysis, Passing-Bablok, Deming regression, ICC, Lin's CCC, and Cohen's Kappa. Multivariate analysis UDFs - PCA, Factor analysis, K-means clustering, Hierarchical clustering, Corespondence and Multiple corespondence analysis)
+- Excel user defined functions exposed (5th batch including Agreement related functions for Bland-Altman analysis, Passing-Bablok, Deming regression, ICC, Lin's CCC, and Cohen's Kappa. Multivariate analysis UDFs - PCA, Factor analysis, K-means clustering, Hierarchical clustering, Correspondence and Multiple corespondence analysis)
 - fixed base URL for the UDFs help in the build in Excel formula windows form link
-- New Sample size caluclation methods including UDFs
+- New Sample size calculation methods including UDFs
 - Addition of the Discriminant analysis including UDFs
-- New methods for testing non-inferiority and equivalence for the unpaired t-test, two independent proportions, and bland-altman agreemnet
+- New methods for testing non-inferiority and equivalence for the unpaired t-test, two independent proportions, and bland-altman agreement
 
 ## version 0.6.5.0 (2026-04-11)
 
