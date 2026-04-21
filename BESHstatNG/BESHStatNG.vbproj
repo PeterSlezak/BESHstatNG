@@ -117,10 +117,18 @@
     </Compile>
     <Compile Include="src\AppSettings.vb" />
     <Compile Include="src\BaseStat\Distributions.vb" />
+    <Compile Include="src\BaseStat\Resampling\ResamplingBootstrap.vb" />
+    <Compile Include="src\BaseStat\Resampling\ResamplingBootstrapRunner.vb" />
+    <Compile Include="src\BaseStat\Resampling\ResamplingJackknife.vb" />
+    <Compile Include="src\BaseStat\Resampling\ResamplingJackknifeRunner.vb" />
+    <Compile Include="src\BaseStat\Resampling\ResamplingPermutation.vb" />
+    <Compile Include="src\BaseStat\Resampling\ResamplingResults.vb" />
+    <Compile Include="src\BaseStat\Resampling\ResamplingValidation.vb" />
     <Compile Include="src\BaseStat\StatFunc.vb" />
     <Compile Include="src\AppGlobals.vb" />
     <Compile Include="src\DM\DataObj.vb" />
     <Compile Include="src\DM\Helpers.vb" />
+    <Compile Include="src\DM\NumericGuards.vb" />
     <Compile Include="src\DM\SheetManagement.vb" />
     <Compile Include="src\ExcelUDFs\AgreementMethodUDFs.vb" />
     <Compile Include="src\ExcelUDFs\AssumptionsUDFs.vb" />
@@ -128,6 +136,7 @@
     <Compile Include="src\ExcelUDFs\ContingencyTableUDFs.vb" />
     <Compile Include="src\ExcelUDFs\CoxUDFs.vb" />
     <Compile Include="src\ExcelUDFs\DistributionUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\ExcelArgModules.vb" />
     <Compile Include="src\ExcelUDFs\GeeUDFs.vb" />
     <Compile Include="src\ExcelUDFs\GlmNbUDFs.vb" />
     <Compile Include="src\ExcelUDFs\GlmUDFs.vb" />
@@ -171,6 +180,7 @@
     <Compile Include="src\RegModels\Multivariate\ClusterAnalysis.vb" />
     <Compile Include="src\RegModels\Multivariate\DiscriminantAnalysis.vb" />
     <Compile Include="src\RegModels\Multivariate\FactorAnalysis.vb" />
+    <Compile Include="src\RegModels\Multivariate\MultivariateInputHelpers.vb" />
     <Compile Include="src\RegModels\Multivariate\MultivariateShared.vb" />
     <Compile Include="src\RegModels\Multivariate\PCA.vb" />
     <Compile Include="src\RegModels\OrdinalLogitModel.vb" />
@@ -188,6 +198,7 @@
     <Compile Include="src\StatTests\ContingencyTable.vb" />
     <Compile Include="src\StatTests\EquivalenceNoninferiorityMethods.vb" />
     <Compile Include="src\StatTests\FisherExact.vb" />
+    <Compile Include="src\BaseStat\Resampling\ResamplingCore.vb" />
     <Compile Include="src\StatTests\SampleSize.vb" />
     <Compile Include="src\StatTests\Survival.vb" />
     <Compile Include="src\StatTests\Nonparametric.vb" />

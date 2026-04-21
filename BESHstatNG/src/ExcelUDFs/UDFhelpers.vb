@@ -5,7 +5,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports BESHStatNG.AppInfrastructure
-Imports BESHStatNG.BESHStatNG.WorksheetFunctions
+Imports BESHStatNG.WorksheetFunctions
 Imports ExcelDna.Integration
 
 Module UDFhelpers
@@ -34,7 +34,7 @@ Module UDFhelpers
 
         If Not TryGetFiniteDouble(lowerArg, lowerValue) Then Return False
 
-        If UDFhelpers.IsMissingArg(upperArg) Then
+        If IsMissingArg(upperArg) Then
             Dim m As Double = Math.Abs(lowerValue)
             If m <= 0.0 Then Return False
             lowerValue = -m
@@ -44,16 +44,6 @@ Module UDFhelpers
 
         If Not TryGetFiniteDouble(upperArg, upperValue) Then Return False
         Return True
-    End Function
-
-    Friend Function TryGetFiniteDouble(arg As Object, ByRef value As Double) As Boolean
-        Dim parsed As Double? = UDFhelpers.TryGetDouble(arg)
-        If Not parsed.HasValue Then
-            value = Double.NaN
-            Return False
-        End If
-        value = parsed.Value
-        Return Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
     End Function
 
     Friend Function LoggedUdfError(functionName As String,
@@ -73,92 +63,6 @@ Module UDFhelpers
     Friend Function LoggedUdfExceptionText(functionName As String, ex As Exception) As String
         AppGlobals.BSlogg.Error(ex, functionName & " failed")
         Return ex.GetType().Name & ": " & ex.Message
-    End Function
-
-    ''' <summary>
-    ''' Attempts to convert a value to a finite <see cref="Double"/>.
-    ''' </summary>
-    ''' <param name="v">The value to inspect.</param>
-    ''' <returns>
-    ''' A finite numeric value when conversion succeeds; otherwise, <c>Nothing</c>.
-    ''' </returns>
-    Function TryGetDouble(v As Object) As Double?
-        If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then
-            Return Nothing
-        End If
-        If TypeOf v Is ExcelError OrElse TypeOf v Is Boolean OrElse TypeOf v Is String Then
-            Return Nothing
-        End If
-        Try
-            Dim d As Double = Convert.ToDouble(v)
-            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return Nothing
-            Return d
-        Catch
-            Return Nothing
-        End Try
-    End Function
-
-    ''' <summary>
-    ''' Converts a worksheet argument into trimmed text.
-    ''' </summary>
-    ''' <param name="v">The value to convert.</param>
-    ''' <returns>
-    ''' The trimmed text representation of the value, or <c>Nothing</c> when the input is missing.
-    ''' </returns>
-    Public Function AsString(v As Object) As String
-        If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return Nothing
-        Return Convert.ToString(v).Trim()
-    End Function
-
-    ''' <summary>
-    ''' Parses an optional Boolean worksheet argument using common textual aliases.
-    ''' </summary>
-    ''' <param name="v">The value to parse.</param>
-    ''' <param name="defaultValue">The value returned when the input is blank or unrecognized.</param>
-    ''' <returns>The parsed Boolean value or <paramref name="defaultValue"/>.</returns>
-    Public Function GetOptionalBool(v As Object, defaultValue As Boolean) As Boolean
-        If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
-        If TypeOf v Is Boolean Then Return CBool(v)
-        Dim s As String = Convert.ToString(v).Trim()
-        If String.IsNullOrEmpty(s) Then Return defaultValue
-        Select Case s.ToLowerInvariant()
-            Case "true", "t", "yes", "y", "1"
-                Return True
-            Case "false", "f", "no", "n", "0"
-                Return False
-            Case Else
-                Return defaultValue
-        End Select
-    End Function
-
-    ''' <summary>
-    ''' Parses an optional integer worksheet argument.
-    ''' </summary>
-    ''' <param name="v">The value to parse.</param>
-    ''' <param name="defaultValue">The value returned when the input is blank or unrecognized.</param>
-    ''' <returns>The parsed integer value or <paramref name="defaultValue"/>.</returns>
-    Public Function GetOptionalInt(v As Object, defaultValue As Integer) As Integer
-        If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
-        Dim d As Double?
-        d = TryGetDouble(v)
-        If d.HasValue Then
-            Return CInt(Math.Truncate(d.Value))
-        End If
-        Return defaultValue
-    End Function
-
-    ''' <summary>
-    ''' Parses an optional floating-point worksheet argument.
-    ''' </summary>
-    ''' <param name="v">The value to parse.</param>
-    ''' <param name="defaultValue">The value returned when the input is blank or unrecognized.</param>
-    ''' <returns>The parsed numeric value or <paramref name="defaultValue"/>.</returns>
-    Public Function GetOptionalDouble(v As Object, defaultValue As Double) As Double
-        If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return defaultValue
-        Dim d As Double?
-        d = TryGetDouble(v)
-        If d.HasValue Then Return d.Value
-        Return defaultValue
     End Function
 
     ''' <summary>
@@ -1029,17 +933,6 @@ Module UDFhelpers
     End Function
 
     ''' <summary>
-    ''' Determines whether a worksheet cell should be treated as blank for range-trimming purposes.
-    ''' </summary>
-    ''' <param name="cell">The worksheet cell to inspect.</param>
-    ''' <returns>True when the cell is missing or contains only whitespace text; otherwise, False.</returns>
-    Friend Function IsBlankCell(cell As Object) As Boolean
-        If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then Return True
-        If TypeOf cell Is String Then Return String.IsNullOrWhiteSpace(CStr(cell))
-        Return False
-    End Function
-
-    ''' <summary>
     ''' Finds the last row in a two-dimensional array that contains any nonblank cell.
     ''' </summary>
     ''' <param name="arr">The two-dimensional worksheet array to inspect.</param>
@@ -1149,54 +1042,8 @@ Module UDFhelpers
         Return True
     End Function
 
-    ''' <summary>
-    ''' Attempts to interpret a worksheet cell as a binary 0/1 value.
-    ''' </summary>
-    ''' <param name="cell">The cell value to inspect.</param>
-    ''' <param name="value">On success, receives 0 or 1.</param>
-    ''' <returns>True when the cell represents a binary value; otherwise, False.</returns>
-    Friend Function TryGetBinary01(cell As Object, ByRef value As Integer) As Boolean
-        value = -1
-
-        If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then
-            Return False
-        End If
-
-        Dim d As Double? = TryGetDouble(cell)
-        If d.HasValue Then
-            Dim iv As Integer = CInt(Math.Truncate(d.Value))
-            If iv = 0 OrElse iv = 1 Then
-                value = iv
-                Return True
-            End If
-            Return False
-        End If
-
-        If TypeOf cell Is Boolean Then
-            value = If(CBool(cell), 1, 0)
-            Return True
-        End If
-
-        Return False
-    End Function
-
-    Friend Function TryGetWholeNumber(v As Object, ByRef value As Integer) As Boolean
-        value = 0
-
-        Dim d As Double? = TryGetDouble(v)
-        If Not d.HasValue Then Return False
-        If Double.IsNaN(d.Value) OrElse Double.IsInfinity(d.Value) Then Return False
-
-        Dim rounded As Double = Math.Round(d.Value)
-        If Math.Abs(d.Value - rounded) > 0.0000001R Then Return False
-        If rounded < Integer.MinValue OrElse rounded > Integer.MaxValue Then Return False
-
-        value = CInt(rounded)
-        Return True
-    End Function
-
     Friend Function ParseFamilyCode(v As Object) As String
-        Dim s As String = UDFhelpers.AsString(v)
+        Dim s As String = AsString(v)
         If String.IsNullOrWhiteSpace(s) Then Return "Gaussian"
 
         Dim key As String = NormalizeKey(s)
@@ -1217,7 +1064,7 @@ Module UDFhelpers
     End Function
 
     Friend Function ParseLinkName(v As Object, familyDisplayName As String) As String
-        Dim s As String = UDFhelpers.AsString(v)
+        Dim s As String = AsString(v)
         If String.IsNullOrWhiteSpace(s) Then
             Return regression.GetCanonicalLinkFromDisplayName(familyDisplayName)
         End If
@@ -1379,10 +1226,6 @@ Module UDFhelpers
     ''' </returns>
     Friend Function NormalizeKey(value As String) As String
         Return NormalizeMatchToken(value, toUpper:=False, removeUnderscore:=True)
-    End Function
-
-    Friend Function IsMissingArg(v As Object) As Boolean
-        Return v Is Nothing OrElse TypeOf v Is ExcelMissing OrElse TypeOf v Is ExcelEmpty
     End Function
 
     Friend Function LooksLikeHeaderRow(arr As Object(,), numericCols As Integer()) As Boolean
@@ -1562,81 +1405,6 @@ Module UDFhelpers
         Return Nothing
     End Function
 
-    Friend Function CellToTrimmedText(v As Object) As String
-        If IsMissingArg(v) Then Return ""
-
-        If TypeOf v Is String Then
-            Return CStr(v).Trim()
-        End If
-
-        If TypeOf v Is Double OrElse
-           TypeOf v Is Single OrElse
-           TypeOf v Is Decimal OrElse
-           TypeOf v Is Integer OrElse
-           TypeOf v Is Long OrElse
-           TypeOf v Is Short Then
-
-            Dim d As Double = Convert.ToDouble(v, CultureInfo.InvariantCulture)
-            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return ""
-
-            If Math.Abs(d - Math.Round(d)) < 0.000000000001R Then
-                Return CLng(Math.Round(d)).ToString(CultureInfo.InvariantCulture)
-            End If
-
-            Return d.ToString(CultureInfo.InvariantCulture)
-        End If
-
-        Dim s As String = Convert.ToString(v, CultureInfo.InvariantCulture)
-        If s Is Nothing Then Return ""
-        Return s.Trim()
-    End Function
-
-    Friend Function TryGetFiniteDoubleFlexible(v As Object, ByRef x As Double) As Boolean
-        x = 0.0R
-
-        Dim d As Double? = TryGetDouble(v)
-        If d.HasValue Then
-            x = d.Value
-            Return True
-        End If
-
-        If IsMissingArg(v) OrElse TypeOf v Is ExcelError OrElse TypeOf v Is Boolean Then Return False
-
-        Dim s As String = CellToTrimmedText(v)
-        If String.IsNullOrWhiteSpace(s) Then Return False
-
-        If Double.TryParse(s, NumberStyles.Any, CultureInfo.InvariantCulture, x) Then
-            Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-        End If
-
-        If Double.TryParse(s, NumberStyles.Any, CultureInfo.CurrentCulture, x) Then
-            Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-        End If
-
-        Return False
-    End Function
-
-    Friend Function TryGetStatus01Flexible(v As Object, ByRef value As Integer) As Boolean
-        value = 0
-
-        If TryGetBinary01(v, value) Then Return True
-
-        Dim x As Double
-        If Not TryGetFiniteDoubleFlexible(v, x) Then Return False
-
-        If x = 0.0R Then
-            value = 0
-            Return True
-        End If
-
-        If x = 1.0R Then
-            value = 1
-            Return True
-        End If
-
-        Return False
-    End Function
-
     ''' <summary>
     ''' Counts the number of distinct outcome categories present in the filtered regression data matrix.
     ''' </summary>
@@ -1659,7 +1427,7 @@ Module UDFhelpers
     ''' <param name="v">Worksheet argument containing the requested reference direction.</param>
     ''' <returns>The parsed reference-category choice, defaulting to <see cref="regression.ReferenceCategory.Last"/>.</returns>
     Friend Function ParseReferenceCategory(v As Object) As regression.ReferenceCategory
-        Dim s As String = UDFhelpers.AsString(v)
+        Dim s As String = AsString(v)
         If String.IsNullOrWhiteSpace(s) Then Return regression.ReferenceCategory.Last
 
         Select Case s.Trim().ToLowerInvariant()
@@ -2253,250 +2021,6 @@ Module UDFhelpers
         Return out
     End Function
 
-    Friend Function TryGetOptionalThresholdVector(arg As Object, ByRef thresholds() As Double) As Boolean
-        thresholds = Nothing
-        If IsMissingArg(arg) Then Return True
-
-        Dim scalarValue As Double
-        If TryGetFiniteDouble(arg, scalarValue) Then
-            If scalarValue < 0.0R OrElse scalarValue > 1.0R Then Return False
-            ReDim thresholds(0)
-            thresholds(0) = CDbl(ClampProb(scalarValue))
-            Return True
-        End If
-
-        Dim arr As Object(,) = Get2D(arg)
-        If arr Is Nothing Then Return False
-
-        Dim rows As Integer = arr.GetLength(0)
-        Dim cols As Integer = arr.GetLength(1)
-        If rows <> 1 AndAlso cols <> 1 Then Return False
-
-        Dim values As New List(Of Double)()
-        If rows = 1 Then
-            For j As Integer = 0 To cols - 1
-                Dim cell As Object = arr(0, j)
-                If IsBlankCell(cell) Then Continue For
-
-                Dim d As Double
-                If Not TryGetFiniteDouble(cell, d) Then Return False
-                If d < 0.0R OrElse d > 1.0R Then Return False
-                values.Add(CDbl(ClampProb(d)))
-            Next
-        Else
-            For i As Integer = 0 To rows - 1
-                Dim cell As Object = arr(i, 0)
-                If IsBlankCell(cell) Then Continue For
-
-                Dim d As Double
-                If Not TryGetFiniteDouble(cell, d) Then Return False
-                If d < 0.0R OrElse d > 1.0R Then Return False
-                values.Add(CDbl(ClampProb(d)))
-            Next
-        End If
-
-        If values.Count = 0 Then Return True
-
-        values.Sort()
-        Dim uniqueValues As New List(Of Double)(values.Count)
-        For i As Integer = 0 To values.Count - 1
-            If i = 0 OrElse Math.Abs(values(i) - values(i - 1)) > 0.000000000001 Then
-                uniqueValues.Add(values(i))
-            End If
-        Next
-
-        thresholds = uniqueValues.ToArray()
-        Return True
-    End Function
-
-    Friend Function TryGetOptionalPositiveInteger(arg As Object,
-                                                  ByRef value As Integer,
-                                                  Optional defaultValue As Integer = 10,
-                                                  Optional minValue As Integer = 1) As Boolean
-        value = defaultValue
-        If IsMissingArg(arg) Then Return True
-
-        Dim d As Double
-        If Not TryGetFiniteDouble(arg, d) Then Return False
-
-        Dim rounded As Double = Math.Round(d)
-        If Math.Abs(d - rounded) > 0.0000001R Then Return False
-        If rounded < minValue Then Return False
-        If rounded > Integer.MaxValue Then Return False
-
-        value = CInt(rounded)
-        Return True
-    End Function
-
-    Friend Function ParseCalibrationMethod(arg As Object,
-                                           Optional defaultValue As String = "quantile") As String
-        If IsMissingArg(arg) Then Return defaultValue
-
-        Dim s As String = AsString(arg)
-        If String.IsNullOrWhiteSpace(s) Then Return defaultValue
-
-        Select Case s.Trim().ToLowerInvariant()
-            Case "quantile", "quantiles", "decile", "deciles"
-                Return "quantile"
-            Case "equalwidth", "equal-width", "equal_width", "equal width"
-                Return "equalwidth"
-            Case Else
-                Return defaultValue
-        End Select
-    End Function
-
-    Friend Function BuildBinaryCrosstabOutput(summary As regression.BinaryClassificationSummary,
-                                              Optional includeHeader As Boolean = True) As Object
-        Dim rowOffset As Integer = If(includeHeader, 1, 0)
-        Dim outRows As Integer = rowOffset + 4
-        Dim out(outRows - 1, 3) As Object
-
-        If includeHeader Then
-            out(0, 0) = "Observed \ Predicted"
-            out(0, 1) = 0
-            out(0, 2) = 1
-            out(0, 3) = "Recall %"
-        End If
-
-        out(rowOffset + 0, 0) = 0
-        out(rowOffset + 0, 1) = summary.TN
-        out(rowOffset + 0, 2) = summary.FP
-        out(rowOffset + 0, 3) = If(Double.IsNaN(summary.Specificity), ExcelError.ExcelErrorNA, 100.0R * summary.Specificity)
-
-        out(rowOffset + 1, 0) = 1
-        out(rowOffset + 1, 1) = summary.FN
-        out(rowOffset + 1, 2) = summary.TP
-        out(rowOffset + 1, 3) = If(Double.IsNaN(summary.Sensitivity), ExcelError.ExcelErrorNA, 100.0R * summary.Sensitivity)
-
-        out(rowOffset + 2, 0) = "Precision % / Overall"
-        out(rowOffset + 2, 1) = If(Double.IsNaN(summary.NPV), ExcelError.ExcelErrorNA, 100.0R * summary.NPV)
-        out(rowOffset + 2, 2) = If(Double.IsNaN(summary.Precision), ExcelError.ExcelErrorNA, 100.0R * summary.Precision)
-        out(rowOffset + 2, 3) = If(Double.IsNaN(summary.Accuracy), ExcelError.ExcelErrorNA, 100.0R * summary.Accuracy)
-
-        out(rowOffset + 3, 0) = "Threshold / Balanced accuracy"
-        out(rowOffset + 3, 1) = summary.Threshold
-        out(rowOffset + 3, 2) = If(Double.IsNaN(summary.BalancedAccuracy), ExcelError.ExcelErrorNA, 100.0R * summary.BalancedAccuracy)
-        out(rowOffset + 3, 3) = If(Double.IsNaN(summary.YoudenJ), ExcelError.ExcelErrorNA, 100.0R * summary.YoudenJ)
-
-        Return PrepareResultTableForUdf(out)
-    End Function
-
-    Friend Function BuildThresholdTableOutput(rows As IList(Of regression.BinaryThresholdRow),
-                                              Optional includeHeader As Boolean = True) As Object
-        If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
-
-        Dim rowOffset As Integer = If(includeHeader, 1, 0)
-        Dim outRows As Integer = rowOffset + rows.Count
-        Dim out(outRows - 1, 13) As Object
-
-        If includeHeader Then
-            out(0, 0) = "Threshold"
-            out(0, 1) = "TP"
-            out(0, 2) = "FP"
-            out(0, 3) = "TN"
-            out(0, 4) = "FN"
-            out(0, 5) = "Sensitivity %"
-            out(0, 6) = "Specificity %"
-            out(0, 7) = "Precision %"
-            out(0, 8) = "Recall %"
-            out(0, 9) = "NPV %"
-            out(0, 10) = "Accuracy %"
-            out(0, 11) = "BalancedAccuracy %"
-            out(0, 12) = "YoudenJ %"
-            out(0, 13) = "F1 %"
-        End If
-
-        For i As Integer = 0 To rows.Count - 1
-            Dim r As regression.BinaryThresholdRow = rows(i)
-            Dim rr As Integer = rowOffset + i
-            out(rr, 0) = r.Threshold
-            out(rr, 1) = r.TP
-            out(rr, 2) = r.FP
-            out(rr, 3) = r.TN
-            out(rr, 4) = r.FN
-            out(rr, 5) = If(Double.IsNaN(r.Sensitivity), ExcelError.ExcelErrorNA, 100.0R * r.Sensitivity)
-            out(rr, 6) = If(Double.IsNaN(r.Specificity), ExcelError.ExcelErrorNA, 100.0R * r.Specificity)
-            out(rr, 7) = If(Double.IsNaN(r.Precision), ExcelError.ExcelErrorNA, 100.0R * r.Precision)
-            out(rr, 8) = If(Double.IsNaN(r.Recall), ExcelError.ExcelErrorNA, 100.0R * r.Recall)
-            out(rr, 9) = If(Double.IsNaN(r.NPV), ExcelError.ExcelErrorNA, 100.0R * r.NPV)
-            out(rr, 10) = If(Double.IsNaN(r.Accuracy), ExcelError.ExcelErrorNA, 100.0R * r.Accuracy)
-            out(rr, 11) = If(Double.IsNaN(r.BalancedAccuracy), ExcelError.ExcelErrorNA, 100.0R * r.BalancedAccuracy)
-            out(rr, 12) = If(Double.IsNaN(r.YoudenJ), ExcelError.ExcelErrorNA, 100.0R * r.YoudenJ)
-            out(rr, 13) = If(Double.IsNaN(r.F1), ExcelError.ExcelErrorNA, 100.0R * r.F1)
-        Next
-
-        Return PrepareResultTableForUdf(out)
-    End Function
-
-    Friend Function BuildCalibrationTableOutput(rows As IList(Of regression.CalibrationBinSummary),
-                                                Optional includeHeader As Boolean = True) As Object
-        If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
-
-        Dim rowOffset As Integer = If(includeHeader, 1, 0)
-        Dim outRows As Integer = rowOffset + rows.Count
-        Dim out(outRows - 1, 5) As Object
-
-        If includeHeader Then
-            out(0, 0) = "Bin"
-            out(0, 1) = "N"
-            out(0, 2) = "MeanPredicted"
-            out(0, 3) = "ObservedRate"
-            out(0, 4) = "LowerCI"
-            out(0, 5) = "UpperCI"
-        End If
-
-        For i As Integer = 0 To rows.Count - 1
-            Dim r As regression.CalibrationBinSummary = rows(i)
-            Dim rr As Integer = rowOffset + i
-            out(rr, 0) = r.BinIndex
-            out(rr, 1) = r.N
-            out(rr, 2) = r.MeanPredicted
-            out(rr, 3) = r.ObservedRate
-            out(rr, 4) = r.LowerCI
-            out(rr, 5) = r.UpperCI
-        Next
-
-        Return PrepareResultTableForUdf(out)
-    End Function
-
-    Friend Function BuildNamedScalarOutput(itemName As String,
-                                           value As Double,
-                                           Optional n As Double = Double.NaN,
-                                           Optional eventRate As Double = Double.NaN,
-                                           Optional includeHeader As Boolean = True) As Object
-        Dim totalRows As Integer = 1
-        If Not Double.IsNaN(n) Then totalRows += 1
-        If Not Double.IsNaN(eventRate) Then totalRows += 1
-
-        Dim rowOffset As Integer = If(includeHeader, 1, 0)
-        Dim outRows As Integer = rowOffset + totalRows
-        Dim out(outRows - 1, 1) As Object
-
-        If includeHeader Then
-            out(0, 0) = "Item"
-            out(0, 1) = "Value"
-        End If
-
-        Dim r As Integer = rowOffset
-        out(r, 0) = itemName
-        out(r, 1) = value
-        r += 1
-
-        If Not Double.IsNaN(n) Then
-            out(r, 0) = "N"
-            out(r, 1) = n
-            r += 1
-        End If
-
-        If Not Double.IsNaN(eventRate) Then
-            out(r, 0) = "EventRate"
-            out(r, 1) = eventRate
-        End If
-
-        Return PrepareResultTableForUdf(out)
-    End Function
-
-
     ''' <summary>
     ''' Attempts to parse and validate an alpha value from an optional Excel argument.
     ''' </summary>
@@ -2550,7 +2074,7 @@ Module UDFhelpers
         Dim stacked As Object(,) = Nothing
         For Each t In tables
             Dim arr As Object(,) = PrepareResultTableForUdf(t.returnSelf())
-            stacked = PrepareResultTableForUdf(StackWithBlankRow(stacked, arr))
+            stacked = PrepareResultTableForUdf(ParametricUDFs.StackWithBlankRow(stacked, arr))
         Next
         Return stacked
     End Function

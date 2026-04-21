@@ -51,7 +51,7 @@ Public Class UiTwoInputRefedits
             Me.spinBtnAlphaGlobal.Visible = True
             Me.spinBtnAlphaGlobal.Location = New System.Drawing.Point(67, 43)
 
-        ElseIf analysis = "Wilcoxon Signed rank test" Then
+        ElseIf analysis = "Wilcoxon Signed Rank Test" Then
             Me.TabPageOptions.Parent = Me.TabMultipage
             Me.ckSignTest.Visible = True
 
@@ -261,6 +261,8 @@ Public Class UiTwoInputRefedits
 
         If Me.optKappaAnalytical.Checked Then
             opts.CiMethod = Agreement.AgreementCiMethod.Analytical
+        ElseIf Me.optKappaJackknife.Checked Then
+            opts.CiMethod = Agreement.AgreementCiMethod.Jackknife
         ElseIf Me.optKappaBootstrapPercentile.Checked Then
             opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile
         ElseIf Me.optKappaBootstrapBCa.Checked Then
@@ -272,8 +274,9 @@ Public Class UiTwoInputRefedits
         Try
             tt.Options = opts
 
-            Dim useBootstrap As Boolean = (opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile OrElse opts.CiMethod = Agreement.AgreementCiMethod.BootstrapBCa)
-            If useBootstrap Then
+            Dim useResampling As Boolean = (opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile OrElse opts.CiMethod = Agreement.AgreementCiMethod.BootstrapBCa OrElse
+                               opts.CiMethod = Agreement.AgreementCiMethod.Jackknife)
+            If useResampling Then
                 Me.progressBarExactCalc.Visible = True
                 Me.progressBarExactCalc.Value = 0
                 tt.Fit(Me.progressBarExactCalc)
@@ -814,7 +817,7 @@ Public Class UiTwoInputRefedits
     End Sub
 
     Private Sub optKappaAnalytical_CheckedChanged(sender As Object, e As System.EventArgs) _
-    Handles optKappaAnalytical.CheckedChanged, optKappaBootstrapPercentile.CheckedChanged, optKappaBootstrapBCa.CheckedChanged
+        Handles optKappaAnalytical.CheckedChanged, optKappaJackknife.CheckedChanged, optKappaBootstrapPercentile.CheckedChanged, optKappaBootstrapBCa.CheckedChanged
 
         Me.ApplyKappaControlState()
     End Sub

@@ -9,7 +9,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for validating regression-model formula strings before fitting a model.
@@ -109,7 +109,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Return "Validation failed: the raw predictor matrix x must contain at least one predictor column."
                 End If
 
-                Dim formulaText As String = UDFhelpers.AsString(formula)
+                Dim formulaText As String = AsString(formula)
                 If formulaText Is Nothing Then formulaText = String.Empty
 
                 Dim rawVarNames As String() = UDFhelpers.GetVarNames(varNames, colCount)

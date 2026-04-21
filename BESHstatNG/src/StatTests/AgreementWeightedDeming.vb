@@ -5,6 +5,7 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
+Imports BESHStatNG.Resampling
 
 Namespace Agreement
 
@@ -47,8 +48,8 @@ Namespace Agreement
         Private pInterceptSE As Double = Double.NaN
         Private pSlopeSE As Double = Double.NaN
         Private pCItype As String = String.Empty
-        Private pUsedBootstrapCi As Boolean = False
-        Private pBootstrapSeedUsed As Integer = Integer.MinValue
+        Private pBootstrapRunInfo As ResamplingRunInfo = Nothing
+        Private pJackknifeRunInfo As ResamplingRunInfo = Nothing
         Private pFilteredReference As Double() = Nothing
         Private pFilteredTest As Double() = Nothing
         Private pKeptPairIndices As Integer() = Nothing
@@ -217,8 +218,6 @@ Namespace Agreement
             PrepareFilteredData()
             ValidateOptions(Me.pOptions)
             ResetNotes()
-            Me.pUsedBootstrapCi = False
-            Me.pBootstrapSeedUsed = Integer.MinValue
 
             Dim sd = BuildObservationStandardDeviationsForCurrentData()
             Dim pointFit = ComputeWeightedDemingPointEstimate(Me.pFilteredReference, Me.pFilteredTest, sd.SDx, sd.SDy, Me.pOptions)
@@ -230,17 +229,12 @@ Namespace Agreement
                 Case AgreementCiMethod.Jackknife
                     res = FitJackknifeCore(Me.pFilteredReference, Me.pFilteredTest, sd.SDx, sd.SDy, pointFit)
                 Case AgreementCiMethod.BootstrapPercentile, AgreementCiMethod.BootstrapBCa
-                    Me.pUsedBootstrapCi = True
-                    Me.pBootstrapSeedUsed = Helpers.ResolveRandomSeed(randomSeed)
-                    res = FitBootstrapCore(Me.pFilteredReference, Me.pFilteredTest, sd.SDx, sd.SDy, pointFit, progressBar, Me.pBootstrapSeedUsed)
+                    res = FitBootstrapCore(Me.pFilteredReference, Me.pFilteredTest, sd.SDx, sd.SDy, pointFit, progressBar, randomSeed)
                 Case Else
                     AppGlobals.BSerr.LogAndThrow(New NotSupportedException($"Unsupported CI method: {Me.pOptions.CiMethod}."))
                     Return Nothing
             End Select
 
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 100)
-            End If
             Return FinalizeFitResult(res)
         End Function
 
@@ -603,23 +597,14 @@ Namespace Agreement
                                           sdYin As Double(),
                                           pointFit As (Intercept As Double, Slope As Double),
                                           Optional dfForTCrit As Integer? = Nothing) As MethodComparisonFitResult
-            Dim n As Integer = x.Length
-            Dim jackIntercept(n - 1) As Double
-            Dim jackSlope(n - 1) As Double
+            Dim jk As VectorResamplingResult = JackknifeDemingResamplingResult(x, y, sdXin, sdYin)
+            Me.pJackknifeRunInfo = jk.RunInfo
 
-            For i As Integer = 0 To n - 1
-                Dim xx = AgreementHelpers.ExcludeIndex(x, i)
-                Dim yy = AgreementHelpers.ExcludeIndex(y, i)
-                Dim sdx = AgreementHelpers.ExcludeIndex(sdXin, i)
-                Dim sdy = AgreementHelpers.ExcludeIndex(sdYin, i)
-                Dim fitI = ComputeWeightedDemingPointEstimate(xx, yy, sdx, sdy, Me.pOptions)
-                jackIntercept(i) = fitI.Intercept
-                jackSlope(i) = fitI.Slope
-            Next
-
-            Dim seIntercept As Double = JackknifeStdErr(jackIntercept)
-            Dim seSlope As Double = JackknifeStdErr(jackSlope)
-            Dim df As Integer = If(dfForTCrit.HasValue, dfForTCrit.Value, n - 2)
+            Dim jackIntercept As Double() = jk.GetParameterReplicates(0)
+            Dim jackSlope As Double() = jk.GetParameterReplicates(1)
+            Dim seIntercept As Double = ResamplingJackknife.JackknifeStandardError(jackIntercept)
+            Dim seSlope As Double = ResamplingJackknife.JackknifeStandardError(jackSlope)
+            Dim df As Integer = If(dfForTCrit.HasValue, dfForTCrit.Value, x.Length - 2)
             If df < 1 Then df = 1
             Dim tCrit As Double = distributions.T_Inv(1.0 - Me.pOptions.Alpha / 2.0, df)
 
@@ -651,12 +636,12 @@ Namespace Agreement
         End Function
 
         Private Function FitBootstrapCore(x As Double(),
-                                          y As Double(),
-                                          sdXin As Double(),
-                                          sdYin As Double(),
-                                          pointFit As (Intercept As Double, Slope As Double),
-                                          Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                                          Optional randomSeed As Integer = Integer.MinValue) As MethodComparisonFitResult
+                                  y As Double(),
+                                  sdXin As Double(),
+                                  sdYin As Double(),
+                                  pointFit As (Intercept As Double, Slope As Double),
+                                  Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                  Optional randomSeed As Integer = Integer.MinValue) As MethodComparisonFitResult
             Dim b As Integer = Math.Max(200, Me.pOptions.BootstrapReplicates)
             Dim n As Integer = x.Length
             Dim bootIntercept(b - 1) As Double
@@ -689,15 +674,46 @@ Namespace Agreement
                 End If
             Next
 
+            Dim interceptCI As ConfidenceIntervalResult
+            Dim slopeCI As ConfidenceIntervalResult
+
             If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
-                Me.pComputationNotes.Add("BCa bootstrap is not yet implemented separately for generalized Deming regression; percentile bootstrap limits were used.")
+                Dim jackIntercept(n - 1) As Double
+                Dim jackSlope(n - 1) As Double
+                For i As Integer = 0 To n - 1
+                    Dim xx = AgreementHelpers.ExcludeIndex(x, i)
+                    Dim yy = AgreementHelpers.ExcludeIndex(y, i)
+                    Dim sdx = AgreementHelpers.ExcludeIndex(sdXin, i)
+                    Dim sdy = AgreementHelpers.ExcludeIndex(sdYin, i)
+                    Dim fitI = ComputeWeightedDemingPointEstimate(xx, yy, sdx, sdy, Me.pOptions)
+                    jackIntercept(i) = fitI.Intercept
+                    jackSlope(i) = fitI.Slope
+                Next
+
+                interceptCI = BcaConfidenceInterval(pointFit.Intercept, bootIntercept, jackIntercept, Me.pOptions.Alpha)
+                slopeCI = BcaConfidenceInterval(pointFit.Slope, bootSlope, jackSlope, Me.pOptions.Alpha)
+                Me.pCItype = "Bootstrap BCa"
+                Me.pComputationNotes.Add("SE / CI type = Bootstrap BCa.")
+            Else
+                Dim interceptRes As New ScalarResamplingResult With {
+                        .ObservedStatistic = pointFit.Intercept,
+                        .ResampledStatistics = DirectCast(bootIntercept.Clone(), Double()),
+                        .RunInfo = Nothing
+                    }
+
+                Dim slopeRes As New ScalarResamplingResult With {
+                        .ObservedStatistic = pointFit.Slope,
+                        .ResampledStatistics = DirectCast(bootSlope.Clone(), Double()),
+                        .RunInfo = Nothing
+                    }
+
+                interceptCI = interceptRes.ToPercentileConfidenceInterval(Me.pOptions.Alpha)
+                slopeCI = slopeRes.ToPercentileConfidenceInterval(Me.pOptions.Alpha)
+                Me.pCItype = "Bootstrap percentile"
             End If
 
-            Dim interceptCI = PercentileConfidenceInterval(pointFit.Intercept, bootIntercept, Me.pOptions.Alpha)
-            Dim slopeCI = PercentileConfidenceInterval(pointFit.Slope, bootSlope, Me.pOptions.Alpha)
             Me.pInterceptSE = interceptCI.StdErr
             Me.pSlopeSE = slopeCI.StdErr
-            Me.pCItype = If(Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa, "Bootstrap BCa fallback (percentile)", "Bootstrap percentile")
 
             Return New MethodComparisonFitResult With {
                 .InterceptCI = interceptCI,
@@ -705,6 +721,80 @@ Namespace Agreement
                 .MethodName = BuildMethodName(),
                 .ResidualSD = ComputeOrthogonalResidualSD(x, y, pointFit.Intercept, pointFit.Slope)
             }
+        End Function
+
+        Private Shared Function BcaConfidenceInterval(estimate As Double,
+                                              bootstrapEstimates As Double(),
+                                              jackknifeEstimates As Double(),
+                                              alpha As Double) As ConfidenceIntervalResult
+            Dim sorted = DirectCast(bootstrapEstimates.Clone(), Double())
+            Array.Sort(sorted)
+
+            Dim z0 As Double = ComputeBcaBiasCorrectionZ0(estimate, sorted)
+            Dim a As Double = ComputeBcaAcceleration(jackknifeEstimates)
+            Dim lowerP As Double = ComputeBcaAdjustedProbability(alpha / 2.0, z0, a)
+            Dim upperP As Double = ComputeBcaAdjustedProbability(1.0 - alpha / 2.0, z0, a)
+            Dim lower As Double = QuantileSorted(sorted, lowerP)
+            Dim upper As Double = QuantileSorted(sorted, upperP)
+            Dim se As Double = StatFunc.stDev(sorted)
+
+            Return New ConfidenceIntervalResult With {
+        .Estimate = estimate,
+        .alpha = alpha,
+        .StdErr = se,
+        .LowerLimit = lower,
+        .UpperLimit = upper
+    }
+        End Function
+
+        Private Shared Function ComputeBcaBiasCorrectionZ0(observedEstimate As Double,
+                                                   sortedBootstrapEstimates As Double()) As Double
+            Dim countLess As Integer = 0
+            For i As Integer = 0 To sortedBootstrapEstimates.Length - 1
+                If sortedBootstrapEstimates(i) < observedEstimate Then countLess += 1
+            Next
+            Dim p As Double = ClampOpenUnitProbability(countLess / CDbl(sortedBootstrapEstimates.Length))
+            Return distributions.NormSInv(p)
+        End Function
+
+        Private Shared Function ComputeBcaAcceleration(jackknifeEstimates As Double()) As Double
+            If jackknifeEstimates Is Nothing OrElse jackknifeEstimates.Length < 2 Then Return 0.0
+
+            Dim meanJack As Double = jackknifeEstimates.Average()
+            Dim num As Double = 0.0
+            Dim denBase As Double = 0.0
+
+            For i As Integer = 0 To jackknifeEstimates.Length - 1
+                Dim d As Double = meanJack - jackknifeEstimates(i)
+                num += d * d * d
+                denBase += d * d
+            Next
+
+            If denBase <= 0.0 Then Return 0.0
+            Dim den As Double = 6.0 * Math.Pow(denBase, 1.5)
+            If den = 0.0 OrElse Double.IsNaN(den) OrElse Double.IsInfinity(den) Then Return 0.0
+            Return num / den
+        End Function
+
+        Private Shared Function ComputeBcaAdjustedProbability(tailProbability As Double,
+                                                      z0 As Double,
+                                                      acceleration As Double) As Double
+            Dim zAlpha As Double = distributions.NormSInv(ClampOpenUnitProbability(tailProbability))
+            Dim denom As Double = 1.0 - acceleration * (z0 + zAlpha)
+            If Math.Abs(denom) < 0.000000000001 Then
+                denom = If(denom < 0.0, -0.000000000001, 0.000000000001)
+            End If
+
+            Dim adjustedZ As Double = z0 + (z0 + zAlpha) / denom
+            Return ClampOpenUnitProbability(distributions.PNorm(adjustedZ))
+        End Function
+
+        Private Shared Function ClampOpenUnitProbability(p As Double) As Double
+            If Double.IsNaN(p) Then Return 0.5
+            Const eps As Double = 0.0000000001
+            If p <= 0.0 Then Return eps
+            If p >= 1.0 Then Return 1.0 - eps
+            Return p
         End Function
 
         Private Function FitClassicalAnalyticalClosedFormCore(x As Double(), y As Double()) As MethodComparisonFitResult
@@ -863,9 +953,8 @@ Namespace Agreement
         End Function
 
         Private Function FinalizeFitResult(res As MethodComparisonFitResult) As MethodComparisonFitResult
-            If Me.pUsedBootstrapCi Then
-                Me.pComputationNotes.Add($"Bootstrap seed = {Me.pBootstrapSeedUsed}.")
-            End If
+            AppendResamplingRunInfoNotes(Me.pJackknifeRunInfo)
+            AppendResamplingRunInfoNotes(Me.pBootstrapRunInfo)
             res.MethodName = BuildMethodName()
             res.Notes = String.Join(Environment.NewLine, Me.pComputationNotes)
             Me.pResult = res
@@ -879,16 +968,103 @@ Namespace Agreement
             Me.pInterceptSE = Double.NaN
             Me.pSlopeSE = Double.NaN
             Me.pCItype = String.Empty
-            Me.pUsedBootstrapCi = False
-            Me.pBootstrapSeedUsed = Integer.MinValue
+            Me.pBootstrapRunInfo = Nothing
+            Me.pJackknifeRunInfo = Nothing
         End Sub
 
         Private Sub ResetNotes()
             Me.pComputationNotes.Clear()
+            Me.pBootstrapRunInfo = Nothing
+            Me.pJackknifeRunInfo = Nothing
             If Me.pDroppedPairCount > 0 Then
                 Me.pComputationNotes.Add($"Dropped {Me.pDroppedPairCount} non-finite pair(s) by pairwise complete-case filtering.")
             End If
         End Sub
+
+        Private Sub AppendResamplingRunInfoNotes(info As ResamplingRunInfo)
+            If info Is Nothing Then Exit Sub
+
+            If info.SeedUsed <> Integer.MinValue Then
+                Me.pComputationNotes.Add($"Resampling seed = {info.SeedUsed}.")
+            End If
+            If info.ReplicatesRequested > 0 Then
+                Me.pComputationNotes.Add($"Resamples used = {info.ReplicatesUsed} / {info.ReplicatesRequested}.")
+            End If
+            If info.FailedReplicates > 0 Then
+                Me.pComputationNotes.Add($"Failed/discarded resamples = {info.FailedReplicates}.")
+            End If
+            If info.Notes IsNot Nothing Then
+                For Each note As String In info.Notes
+                    If Not String.IsNullOrWhiteSpace(note) Then Me.pComputationNotes.Add(note)
+                Next
+            End If
+        End Sub
+
+        Private Function BootstrapDemingResamplingResult(x As Double(),
+                                                         y As Double(),
+                                                         sdXin As Double(),
+                                                         sdYin As Double(),
+                                                         Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                         Optional randomSeed As Integer = Integer.MinValue) As VectorResamplingResult
+            Dim bootOpts As New BootstrapOptions With {
+                .Alpha = Me.pOptions.Alpha,
+                .Replicates = Math.Max(200, Me.pOptions.BootstrapReplicates),
+                .RandomSeed = randomSeed,
+                .MaxFailures = Math.Max(50, Math.Max(200, Me.pOptions.BootstrapReplicates) \ 4)
+            }
+
+            Dim progressCallback As Action(Of Integer, Integer) = Nothing
+            If progressBar IsNot Nothing Then
+                progressBar.Minimum = 0
+                progressBar.Maximum = 100
+                progressBar.Value = 0
+                progressCallback = Sub(completed As Integer, total As Integer)
+                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       progressBar.Value = progressValue
+                                   End Sub
+            End If
+
+            Return ResamplingBootstrapRunner.RunVectorBootstrap(
+                x.Length,
+                Function(idx As Integer())
+                    Dim xx As Double() = ResamplingBootstrap.TakeByIndices(x, idx)
+                    Dim yy As Double() = ResamplingBootstrap.TakeByIndices(y, idx)
+                    Dim sdx As Double() = ResamplingBootstrap.TakeByIndices(sdXin, idx)
+                    Dim sdy As Double() = ResamplingBootstrap.TakeByIndices(sdYin, idx)
+                    Dim fitR = ComputeWeightedDemingPointEstimate(xx, yy, sdx, sdy, Me.pOptions)
+                    Return New Double() {fitR.Intercept, fitR.Slope}
+                End Function,
+                bootOpts,
+                New String() {"Intercept", "Slope"},
+                BuildMethodName() & " bootstrap",
+                1,
+                progressCallback)
+        End Function
+
+        Private Function JackknifeDemingResamplingResult(x As Double(),
+                                                 y As Double(),
+                                                 sdXin As Double(),
+                                                 sdYin As Double()) As VectorResamplingResult
+            Dim jkOpts As New JackknifeOptions With {.Alpha = Me.pOptions.Alpha}
+
+            Dim result As VectorResamplingResult = ResamplingJackknifeRunner.RunVectorJackknife(
+                    x.Length,
+                    Function(idx As Integer())
+                        Dim xx As Double() = ResamplingBootstrap.TakeByIndices(x, idx)
+                        Dim yy As Double() = ResamplingBootstrap.TakeByIndices(y, idx)
+                        Dim sdx As Double() = ResamplingBootstrap.TakeByIndices(sdXin, idx)
+                        Dim sdy As Double() = ResamplingBootstrap.TakeByIndices(sdYin, idx)
+                        Dim fitI = ComputeWeightedDemingPointEstimate(xx, yy, sdx, sdy, Me.pOptions)
+                        Return New Double() {fitI.Intercept, fitI.Slope}
+                    End Function,
+                    jkOpts,
+                    New String() {"Intercept", "Slope"},
+                    BuildMethodName() & " jackknife",
+                    2)
+
+            ResamplingCore.AppendNote(result.RunInfo, "Jackknife CIs use leave-one-pair-out resampling.")
+            Return result
+        End Function
 
         Private Function BuildObservationStandardDeviationsForCurrentData() As (SDx As Double(), SDy As Double())
             If Me.pFilteredReference Is Nothing OrElse Me.pFilteredTest Is Nothing Then PrepareFilteredData()
@@ -1040,47 +1216,6 @@ Namespace Agreement
             Return Math.Max(sd, DEFAULT_SD_FLOOR)
         End Function
 
-        Private Shared Function PercentileConfidenceInterval(estimate As Double,
-                                                             bootstrapEstimates As Double(),
-                                                             alpha As Double) As ConfidenceIntervalResult
-            Dim sorted = DirectCast(bootstrapEstimates.Clone(), Double())
-            Array.Sort(sorted)
-            Dim lower As Double = QuantileSorted(sorted, alpha / 2.0)
-            Dim upper As Double = QuantileSorted(sorted, 1.0 - alpha / 2.0)
-            Dim se As Double = StatFunc.stDev(sorted)
-            Return New ConfidenceIntervalResult With {
-                .Estimate = estimate,
-                .alpha = alpha,
-                .StdErr = se,
-                .LowerLimit = lower,
-                .UpperLimit = upper
-            }
-        End Function
-
-        Private Shared Function QuantileSorted(sortedValues As Double(), p As Double) As Double
-            If sortedValues Is Nothing OrElse sortedValues.Length = 0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one sorted value is required."))
-            End If
-            Dim pp As Double = Math.Min(1.0, Math.Max(0.0, p))
-            Dim h As Double = (sortedValues.Length - 1) * pp
-            Dim lo As Integer = CInt(Math.Floor(h))
-            Dim hi As Integer = CInt(Math.Ceiling(h))
-            If lo = hi Then Return sortedValues(lo)
-            Dim frac As Double = h - lo
-            Return sortedValues(lo) + frac * (sortedValues(hi) - sortedValues(lo))
-        End Function
-
-        Private Shared Function JackknifeStdErr(leaveOneOutEstimates As Double()) As Double
-            Dim n As Integer = leaveOneOutEstimates.Length
-            Dim meanTheta As Double = leaveOneOutEstimates.Average()
-            Dim ss As Double = 0.0
-            For i As Integer = 0 To n - 1
-                Dim d As Double = leaveOneOutEstimates(i) - meanTheta
-                ss += d * d
-            Next
-            Return Math.Sqrt(((n - 1.0) / n) * ss)
-        End Function
-
         Private Shared Function ComputeOrthogonalResidualSD(x As Double(),
                                                             y As Double(),
                                                             intercept As Double,
@@ -1109,25 +1244,6 @@ Namespace Agreement
                     Return "Weighted Deming Regression"
             End Select
         End Function
-
-    End Class
-
-    ''' <summary>
-    ''' Alias exposing the broader “generalized Deming” name for the weighted Deming back-end.
-    ''' </summary>
-    Public Class GeneralizedDemingRegression
-        Inherits WeightedDemingRegression
-
-        ''' <summary>
-        ''' Initializes a generalized Deming-regression object.
-        ''' </summary>
-        Public Sub New(dataX As Double(),
-                       dataY As Double(),
-                       varX As String,
-                       varY As String,
-                       Optional opts As DemingOptions = Nothing)
-            MyBase.New(dataX, dataY, varX, varY, opts)
-        End Sub
     End Class
 
 End Namespace

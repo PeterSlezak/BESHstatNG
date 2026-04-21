@@ -5,6 +5,7 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.Multivariate
+Imports BESHStatNG.Resampling
 
 Namespace Agreement
 
@@ -70,8 +71,8 @@ Namespace Agreement
         Private pDroppedPairCount As Integer = 0
         Private pSampleSize As Integer = 0
         Private pComputationNotes As New List(Of String)
-        Private pUsedBootstrapCi As Boolean = False
-        Private pBootstrapSeedUsed As Integer = Integer.MinValue
+        Private pBootstrapRunInfo As ResamplingRunInfo = Nothing
+        Private pJackknifeRunInfo As ResamplingRunInfo = Nothing
 
         ''' <summary>
         ''' Initializes a new weighted-kappa analysis object from paired raw ratings.
@@ -236,8 +237,8 @@ Namespace Agreement
 
             ValidateOptions(Me.pOptions)
             Me.pComputationNotes.Clear()
-            Me.pUsedBootstrapCi = False
-            Me.pBootstrapSeedUsed = Integer.MinValue
+            Me.pBootstrapRunInfo = Nothing
+            Me.pJackknifeRunInfo = Nothing
 
             Dim labels As Object()
             Dim table As Double(,)
@@ -265,9 +266,24 @@ Namespace Agreement
 
             Dim ci As ConfidenceIntervalResult
             If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
-                Me.pUsedBootstrapCi = True
-                Me.pBootstrapSeedUsed = Helpers.ResolveRandomSeed(randomSeed)
-                ci = ComputeBootstrapConfidenceInterval(table, labels, Me.pOptions, metrics.Kappa, progressBar, Me.pBootstrapSeedUsed)
+                Dim bootResult As ScalarResamplingResult = BootstrapKappaResamplingResult(table, labels, Me.pOptions, metrics.Kappa, progressBar, randomSeed)
+                Me.pBootstrapRunInfo = bootResult.RunInfo
+                ci = bootResult.ToPercentileConfidenceInterval(Me.pOptions.Alpha)
+            ElseIf Me.pOptions.CiMethod = AgreementCiMethod.Jackknife Then
+                Dim jkResult As ScalarResamplingResult = JackknifeKappaResamplingResult(table, labels, Me.pOptions, metrics.Kappa, progressBar)
+                If jkResult IsNot Nothing AndAlso jkResult.ResampledStatistics IsNot Nothing AndAlso jkResult.ResampledStatistics.Length > 1 Then
+                    Me.pJackknifeRunInfo = jkResult.RunInfo
+                    Dim seJk As Double = ResamplingJackknife.JackknifeStandardError(jkResult.ResampledStatistics)
+                    Dim df As Integer = Math.Max(1, jkResult.ResampledStatistics.Length - 1)
+                    Dim tCrit As Double = distributions.T_Inv(1.0 - Me.pOptions.Alpha / 2.0, df)
+                    ci = jkResult.ToConfidenceIntervalResult(Me.pOptions.Alpha,
+                                                 metrics.Kappa - tCrit * seJk,
+                                                 metrics.Kappa + tCrit * seJk,
+                                                 seJk)
+                Else
+                    ci = ComputeAnalyticalConfidenceInterval(table, weights, metrics.Kappa, Me.pOptions)
+                    Me.pComputationNotes.Add("Jackknife confidence interval could not be computed for the current input; analytical delta-method interval was used instead.")
+                End If
             Else
                 ci = ComputeAnalyticalConfidenceInterval(table, weights, metrics.Kappa, Me.pOptions)
             End If
@@ -281,17 +297,30 @@ Namespace Agreement
             If Me.pConstructedFromTable Then
                 Me.pDroppedPairCount = 0
             End If
-            If Me.pOptions.CiMethod = AgreementCiMethod.Jackknife Then
-                Me.pComputationNotes.Add("Jackknife confidence intervals are not yet implemented separately; the current version uses the analytical delta-method interval.")
-            End If
-            If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
-                Me.pComputationNotes.Add("BCa bootstrap is not yet implemented separately; the current version uses percentile bootstrap limits.")
-            End If
+
             If Me.pConstructedFromTable AndAlso (Me.pOptions.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa) Then
                 Me.pComputationNotes.Add("Bootstrap interval from a contingency table is available only because the table could be expanded into item-level pairs.")
             End If
-            If Me.pUsedBootstrapCi Then
-                Me.pComputationNotes.Add($"Bootstrap seed = {Me.pBootstrapSeedUsed}.")
+            If Me.pConstructedFromTable AndAlso Me.pOptions.CiMethod = AgreementCiMethod.Jackknife Then
+                Me.pComputationNotes.Add("Jackknife interval from a contingency table is available only because the table could be expanded into item-level pairs.")
+            End If
+
+            If Me.pBootstrapRunInfo IsNot Nothing Then
+                If Me.pBootstrapRunInfo.Notes IsNot Nothing Then
+                    For Each note As String In Me.pBootstrapRunInfo.Notes
+                        If Not String.IsNullOrWhiteSpace(note) Then Me.pComputationNotes.Add(note)
+                    Next
+                End If
+                Me.pComputationNotes.Add($"Bootstrap seed = {Me.pBootstrapRunInfo.SeedUsed}.")
+                Me.pComputationNotes.Add($"Bootstrap replicates used = {Me.pBootstrapRunInfo.ReplicatesUsed} of {Me.pBootstrapRunInfo.ReplicatesRequested}.")
+            End If
+            If Me.pJackknifeRunInfo IsNot Nothing Then
+                If Me.pJackknifeRunInfo.Notes IsNot Nothing Then
+                    For Each note As String In Me.pJackknifeRunInfo.Notes
+                        If Not String.IsNullOrWhiteSpace(note) Then Me.pComputationNotes.Add(note)
+                    Next
+                End If
+                Me.pComputationNotes.Add($"Jackknife replicates used = {Me.pJackknifeRunInfo.ReplicatesUsed} of {Me.pJackknifeRunInfo.ReplicatesRequested}.")
             End If
 
             Me.pResult = New KappaResult With {
@@ -313,6 +342,7 @@ Namespace Agreement
             Me.pIsFitted = True
             Return Me.pResult
         End Function
+
 
         ''' <summary>
         ''' Creates formatted result tables suitable for worksheet or report output.
@@ -673,56 +703,112 @@ Namespace Agreement
             Return probs
         End Function
 
-        Private Function ComputeBootstrapConfidenceInterval(table As Double(,),
-                                                           labels As Object(),
-                                                           opts As KappaOptions,
-                                                           observedKappa As Double,
-                                                           Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                                                           Optional randomSeed As Integer = Integer.MinValue) As ConfidenceIntervalResult
+        Private Function BootstrapKappaResamplingResult(table As Double(,),
+                                               labels As Object(),
+                                               opts As KappaOptions,
+                                               observedKappa As Double,
+                                               Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                               Optional randomSeed As Integer = Integer.MinValue) As ScalarResamplingResult
             Dim pairs = ExpandTableToPairs(table, labels)
             If pairs Is Nothing OrElse pairs.Item1 Is Nothing OrElse pairs.Item1.Length < 2 Then
                 AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Bootstrap confidence interval requires paired item-level data or an integer-valued contingency table that can be expanded to pairs."))
             End If
 
-            Dim n As Integer = pairs.Item1.Length
-            Dim reps As Integer = opts.BootstrapReplicates
-            Dim boot(reps - 1) As Double
-            Dim rnd As Random = AppGlobals.CreateRandom(randomSeed)
+            Dim bootOpts As New BootstrapOptions With {
+                .Alpha = opts.Alpha,
+                .Replicates = opts.BootstrapReplicates,
+                .RandomSeed = randomSeed,
+                .MaxFailures = Math.Max(1000, opts.BootstrapReplicates)
+            }
 
+            Dim progressCallback As Action(Of Integer, Integer) = Nothing
             If progressBar IsNot Nothing Then
                 progressBar.Invoke(Sub() progressBar.Value = 0)
+                progressCallback = Sub(completed As Integer, total As Integer)
+                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                   End Sub
             End If
 
-            For b As Integer = 0 To reps - 1
-                Dim s1(n - 1) As Object
-                Dim s2(n - 1) As Object
-                For i As Integer = 0 To n - 1
-                    Dim take As Integer = rnd.Next(0, n)
-                    s1(i) = pairs.Item1(take)
-                    s2(i) = pairs.Item2(take)
-                Next
-                Dim built = BuildConfusionMatrixFromPairs(s1, s2, labels)
-                Dim w = BuildWeightMatrix(built.Labels.Length, opts)
-                boot(b) = ComputeKappaMetrics(built.Table, w).Kappa
+            Dim result As ScalarResamplingResult = ResamplingBootstrapRunner.RunScalarBootstrap(
+                pairs.Item1.Length,
+                Function(idx As Integer())
+                    Dim resampled = ResamplingBootstrap.TakeByIndices(Of Object, Object)(pairs.Item1, pairs.Item2, idx)
+                    Dim built = BuildConfusionMatrixFromPairs(resampled.Values1, resampled.Values2, DirectCast(labels.Clone(), Object()))
+                    Dim w = BuildWeightMatrix(built.Labels.Length, opts)
+                    Return ComputeKappaMetrics(built.Table, w).Kappa
+                End Function,
+                bootOpts,
+                "Weighted kappa",
+                "Weighted kappa bootstrap",
+                1,
+                progressCallback)
 
-                If progressBar IsNot Nothing Then
-                    Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * (b + 1) / reps)))
-                    progressBar.Invoke(Sub() progressBar.Value = progressValue)
-                End If
-            Next
+            result.ObservedStatistic = observedKappa
+            Return result
+        End Function
 
-            Array.Sort(boot)
-            Dim lower As Double = QuantileFromSorted(boot, opts.Alpha / 2.0)
-            Dim upper As Double = QuantileFromSorted(boot, 1.0 - opts.Alpha / 2.0)
+        Private Function JackknifeKappaResamplingResult(table As Double(,),
+                                                labels As Object(),
+                                                opts As KappaOptions,
+                                                observedKappa As Double,
+                                                Optional progressBar As System.Windows.Forms.ProgressBar = Nothing) As ScalarResamplingResult
+            Dim pairs = ExpandTableToPairs(table, labels)
+            If pairs Is Nothing OrElse pairs.Item1 Is Nothing OrElse pairs.Item1.Length < 3 Then Return Nothing
+            Dim jkOpts As New JackknifeOptions With {.Alpha = opts.Alpha}
 
-            Dim ci As New ConfidenceIntervalResult With {
-                    .alpha = opts.Alpha,
-                    .Estimate = observedKappa,
-                    .LowerLimit = Math.Max(-1.0, lower),
-                    .UpperLimit = Math.Min(1.0, upper),
-                    .StdErr = StatFunc.stDev(boot)
-                }
-            Return ci
+            Dim progressCallback As Action(Of Integer, Integer) = Nothing
+            If progressBar IsNot Nothing Then
+                progressBar.Invoke(Sub() progressBar.Value = 0)
+                progressCallback = Sub(completed As Integer, total As Integer)
+                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                   End Sub
+            End If
+
+            Dim result As ScalarResamplingResult = ResamplingJackknifeRunner.RunScalarJackknife(
+                pairs.Item1.Length,
+                Function(idx As Integer())
+                    Dim resampled = ResamplingBootstrap.TakeByIndices(Of Object, Object)(pairs.Item1, pairs.Item2, idx)
+                    Dim built = BuildConfusionMatrixFromPairs(resampled.Values1, resampled.Values2, DirectCast(labels.Clone(), Object()))
+                    Dim w = BuildWeightMatrix(built.Labels.Length, opts)
+                    Return ComputeKappaMetrics(built.Table, w).Kappa
+                End Function,
+                jkOpts,
+                "Weighted kappa",
+                "Weighted kappa jackknife",
+                2,
+                progressCallback)
+
+            result.ObservedStatistic = observedKappa
+            Return result
+        End Function
+
+        Private Function JackknifeKappaResamplingResult(table As Double(,),
+                                               labels As Object(),
+                                               opts As KappaOptions,
+                                               observedKappa As Double) As ScalarResamplingResult
+            Dim pairs = ExpandTableToPairs(table, labels)
+            If pairs Is Nothing OrElse pairs.Item1 Is Nothing OrElse pairs.Item1.Length < 2 Then
+                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("BCa confidence interval requires paired item-level data or an integer-valued contingency table that can be expanded to pairs."))
+            End If
+
+            Dim jkOpts As New JackknifeOptions With {.Alpha = opts.Alpha}
+            Dim result As ScalarResamplingResult = ResamplingJackknifeRunner.RunScalarJackknife(
+                pairs.Item1.Length,
+                Function(idx As Integer())
+                    Dim resampled = ResamplingBootstrap.TakeByIndices(Of Object, Object)(pairs.Item1, pairs.Item2, idx)
+                    Dim built = BuildConfusionMatrixFromPairs(resampled.Values1, resampled.Values2, DirectCast(labels.Clone(), Object()))
+                    Dim w = BuildWeightMatrix(built.Labels.Length, opts)
+                    Return ComputeKappaMetrics(built.Table, w).Kappa
+                End Function,
+                jkOpts,
+                "Weighted kappa",
+                "Weighted kappa jackknife",
+                2)
+
+            result.ObservedStatistic = observedKappa
+            Return result
         End Function
 
         Private Function ExpandTableToPairs(table As Double(,), labels As Object()) As Tuple(Of Object(), Object())
@@ -802,18 +888,6 @@ Namespace Agreement
                 Next
             Next
             Return out
-        End Function
-
-        Private Function QuantileFromSorted(sortedValues As Double(), p As Double) As Double
-            If sortedValues Is Nothing OrElse sortedValues.Length = 0 Then Return Double.NaN
-            If p <= 0.0 Then Return sortedValues(0)
-            If p >= 1.0 Then Return sortedValues(sortedValues.Length - 1)
-            Dim pos As Double = (sortedValues.Length - 1) * p
-            Dim lo As Integer = CInt(Math.Floor(pos))
-            Dim hi As Integer = CInt(Math.Ceiling(pos))
-            If lo = hi Then Return sortedValues(lo)
-            Dim frac As Double = pos - lo
-            Return sortedValues(lo) + frac * (sortedValues(hi) - sortedValues(lo))
         End Function
 
     End Class

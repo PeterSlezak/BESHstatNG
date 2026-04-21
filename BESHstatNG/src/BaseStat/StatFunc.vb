@@ -1694,15 +1694,15 @@ Public Module StatFunc
     ''' ' sd ≈ 2.58
     ''' Console.WriteLine(sd)
     ''' </example>
-    Public Function stDev(Of T)(data() As T) As Double
+    Public Function stDev(Of T)(data() As T, Optional useSampleStandardDeviation As Boolean = True) As Double
         Dim n As Integer = data.Length
-        If n <= 1 Then
+        If n <= 1 And useSampleStandardDeviation Then
             AppGlobals.BSlogg.Log("N<=1 for sample standard deviation computation.")
             Return Double.NaN
         End If
 
         ' Reuse the generic variance function
-        Return Math.Sqrt(variance(Of T)(data))
+        Return Math.Sqrt(variance(data, useSampleStandardDeviation))
     End Function
 
 
@@ -1731,7 +1731,7 @@ Public Module StatFunc
     ''' ' v = 6.666...
     ''' Console.WriteLine(v)
     ''' </example>
-    Public Function variance(Of T)(data() As T) As Double
+    Public Function variance(Of T)(data() As T, Optional useSampleStandardDeviation As Boolean = True) As Double
         Dim n As Integer = data.Length
         If n <= 1 Then
             AppGlobals.BSlogg.Log("N<=1 for sample variance computation.")
@@ -1741,13 +1741,13 @@ Public Module StatFunc
         ' Convert all values to Double for computation
         Dim dblData = data.Select(Function(x) Convert.ToDouble(x)).ToArray()
         Dim mean As Double = dblData.Average()
-        Dim sum As Double = 0
+        Dim sum As Double = 0.0
 
         For i = 0 To n - 1
             sum += (dblData(i) - mean) ^ 2
         Next
-
-        Return sum / (n - 1)
+        Dim df As Double = If(useSampleStandardDeviation, n - 1, n)
+        Return sum / df
     End Function
 
 

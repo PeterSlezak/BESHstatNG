@@ -4,8 +4,9 @@ Option Strict On
 Imports System
 Imports ExcelDna.Integration
 Imports BESHStatNG.SampleSizeCalc
+Imports BESHStatNG.AppInfrastructure
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for common sample-size planning scenarios.

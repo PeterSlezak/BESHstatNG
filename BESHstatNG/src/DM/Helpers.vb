@@ -5,10 +5,6 @@ Imports BESHStatNG.AppInfrastructure
 
 Public Module Helpers
 
-    Friend Function IsFinite(x As Double) As Boolean
-        Return Not Double.IsNaN(x) AndAlso Not Double.IsInfinity(x)
-    End Function
-
     ''' <summary>
     ''' Resolves the actual pseudo-random seed that will be used for bootstrap resampling.
     ''' </summary>
@@ -26,33 +22,6 @@ Public Module Helpers
         If AppGlobals.DefaultRandomSeed <> Integer.MinValue Then Return AppGlobals.DefaultRandomSeed
         Return Environment.TickCount
     End Function
-
-    Friend Sub ValidateOpenUnitInterval(value As Double, paramName As String)
-        If Not IsClosedUnitInterval(value) Then
-            Throw New ArgumentOutOfRangeException(paramName, "Value must satisfy 0 < value < 1.")
-        End If
-    End Sub
-
-    Friend Function IsClosedUnitInterval(value As Double) As Boolean
-        Return value >= 0.0 AndAlso value <= 1.0 AndAlso Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
-    End Function
-
-    Friend Function IsOpenUnitInterval(value As Double) As Boolean
-        Return value > 0.0R AndAlso value < 1.0R AndAlso Not Double.IsNaN(value) AndAlso Not Double.IsInfinity(value)
-    End Function
-
-    Friend Sub ValidatePositive(value As Double, argumentName As String)
-        If Double.IsNaN(value) OrElse Double.IsInfinity(value) OrElse value <= 0.0 Then
-            Throw New ArgumentOutOfRangeException(argumentName, "Value must be positive.")
-        End If
-    End Sub
-
-    Friend Sub ValidateAlphaOneSided(value As Double, argumentName As String)
-        ValidateOpenUnitInterval(value, argumentName)
-        If (2.0 * value) >= 1.0 Then
-            Throw New ArgumentOutOfRangeException(argumentName, "For CI-based margin reporting, one-sided alpha must be less than 0.5.")
-        End If
-    End Sub
 
     ''' <summary>
     ''' Creates a subset of the input 2D array by selecting specific rows whose indices

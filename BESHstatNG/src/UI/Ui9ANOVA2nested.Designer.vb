@@ -522,7 +522,6 @@ Partial Class Ui9ANOVA2nested
         'optBlandBootstrapBCa
         '
         Me.optBlandBootstrapBCa.AutoSize = True
-        Me.optBlandBootstrapBCa.Enabled = False
         Me.optBlandBootstrapBCa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.optBlandBootstrapBCa.Location = New System.Drawing.Point(9, 108)
         Me.optBlandBootstrapBCa.Name = "optBlandBootstrapBCa"

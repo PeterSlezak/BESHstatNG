@@ -7,7 +7,7 @@ Imports System.Collections.Generic
 Imports System.Globalization
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for Zero-Inflated Poisson (ZIP) regression fitted through <see cref="ZeroInflatedPoisson"/>.
@@ -221,10 +221,10 @@ Namespace BESHStatNG.WorksheetFunctions
                     Return ExcelError.ExcelErrorValue
                 End If
 
-                Dim countFormulaText As String = UDFhelpers.AsString(countFormula)
+                Dim countFormulaText As String = AsString(countFormula)
                 If String.IsNullOrWhiteSpace(countFormulaText) Then countFormulaText = Nothing
 
-                Dim zeroFormulaText As String = UDFhelpers.AsString(zeroFormula)
+                Dim zeroFormulaText As String = AsString(zeroFormula)
                 If String.IsNullOrWhiteSpace(zeroFormulaText) Then zeroFormulaText = Nothing
 
                 Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
@@ -256,8 +256,8 @@ Namespace BESHStatNG.WorksheetFunctions
                     End If
                 End If
 
-                Dim countInterceptFlag As Boolean = UDFhelpers.GetOptionalBool(includeCountIntercept, True)
-                Dim zeroInterceptFlag As Boolean = UDFhelpers.GetOptionalBool(includeZeroIntercept, True)
+                Dim countInterceptFlag As Boolean = GetOptionalBool(includeCountIntercept, True)
+                Dim zeroInterceptFlag As Boolean = GetOptionalBool(includeZeroIntercept, True)
 
                 Dim countDesignBuild As RegressionFormulaRegressionDataBuildResult = Nothing
                 Dim countDesignErr As String = Nothing
@@ -317,9 +317,9 @@ Namespace BESHStatNG.WorksheetFunctions
                     If Not TryParseAlpha(alpha, ciAlpha) Then Return ExcelError.ExcelErrorNum
                 End If
 
-                Dim maxEmValue As Integer = UDFhelpers.GetOptionalInt(maxEmIter, 200)
-                Dim maxIrlsValue As Integer = UDFhelpers.GetOptionalInt(maxIrlsIter, 25)
-                Dim tolValue As Double = UDFhelpers.GetOptionalDouble(tol, 0.000000001R)
+                Dim maxEmValue As Integer = GetOptionalInt(maxEmIter, 200)
+                Dim maxIrlsValue As Integer = GetOptionalInt(maxIrlsIter, 25)
+                Dim tolValue As Double = GetOptionalDouble(tol, 0.000000001R)
                 If maxEmValue < 1 Then Return ExcelError.ExcelErrorNum
                 If maxIrlsValue < 1 Then Return ExcelError.ExcelErrorNum
                 If Double.IsNaN(tolValue) OrElse Double.IsInfinity(tolValue) OrElse tolValue <= 0.0R Then Return ExcelError.ExcelErrorNum
@@ -427,7 +427,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As ZipHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _zipCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim ciAlpha As Double = h.ConfidenceAlpha
                 If Not IsMissingArg(alpha) Then
@@ -458,7 +458,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return MaterializeRows(rows,
-                                       UDFhelpers.GetOptionalBool(includeHeader, True),
+                                       GetOptionalBool(includeHeader, True),
                                        New String() {"Component", "Parameter", "Type", "Coef", "SE", "Z", "P-value", "CI Lower", "CI Upper"})
 
             Catch ex As Exception
@@ -504,7 +504,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As ZipHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _zipCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim rows As New List(Of Object())
                 rows.Add(New Object() {"Model", "Zero-Inflated Poisson", "", ""})
@@ -534,7 +534,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 End If
 
                 Return MaterializeRows(rows,
-                                       UDFhelpers.GetOptionalBool(includeHeader, True),
+                                       GetOptionalBool(includeHeader, True),
                                        New String() {"Item", "Value", "df", "P-value"})
 
             Catch ex As Exception
@@ -580,14 +580,14 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As ZipHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _zipCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim raw() As Double = h.Model.RawResiduals
                 Dim pearson() As Double = h.Model.PearsonResiduals
                 If raw Is Nothing OrElse pearson Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim key As String = ParseZipResidualType(residType)
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
 
                 Select Case key
                     Case "raw"
@@ -660,7 +660,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As ZipHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _zipCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim effectiveZeroX As Object = If(Not IsMissingArg(newZeroX), newZeroX, newCountX)
 
@@ -694,7 +694,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim betaZero() As Double = h.Model.resultsLogistic.Coeffs_est
                 If betaCount Is Nothing OrElse betaZero Is Nothing Then Return ExcelError.ExcelErrorNA
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim rows As New List(Of Object())
                 For i As Integer = 0 To nRows - 1
                     Dim etaCount As Double = ComputeLinearPredictor(countExpandedX, i, betaCount, h.CountInterceptIncluded, offsetVals)
@@ -742,7 +742,7 @@ Namespace BESHStatNG.WorksheetFunctions
         Public Function ZIP_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ZIP_FIT.")> handle As Object
         ) As Object
-            Dim key As String = UDFhelpers.AsString(handle)
+            Dim key As String = AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
             Dim removed As ZipHandle = Nothing
             Return _zipCache.TryRemove(key, removed)
@@ -1009,8 +1009,8 @@ Namespace BESHStatNG.WorksheetFunctions
             If countData.GetLength(0) <> zeroData.GetLength(0) Then Return False
 
             For i As Integer = 0 To countData.GetLength(0) - 1
-                Dim yc As Double? = UDFhelpers.TryGetDouble(countData(i, 0))
-                Dim yz As Double? = UDFhelpers.TryGetDouble(zeroData(i, 0))
+                Dim yc As Double? = TryGetDouble(countData(i, 0))
+                Dim yz As Double? = TryGetDouble(zeroData(i, 0))
                 If Not yc.HasValue OrElse Not yz.HasValue Then Return False
                 If Math.Abs(yc.Value - yz.Value) > 0.0000001R Then Return False
             Next
@@ -1026,7 +1026,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             ReDim response(n - 1)
             For i As Integer = 0 To n - 1
-                Dim yi As Double? = UDFhelpers.TryGetDouble(data(i, 0))
+                Dim yi As Double? = TryGetDouble(data(i, 0))
                 If Not yi.HasValue Then Return False
                 Dim yr As Double = Math.Round(yi.Value)
                 If yi.Value < 0.0R OrElse Math.Abs(yi.Value - yr) > 0.0000001R Then Return False
@@ -1069,7 +1069,7 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         Private Function ParseZipComponent(v As Object) As String
-            Dim s As String = UDFhelpers.AsString(v)
+            Dim s As String = AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return "all"
 
             Select Case NormalizeKey(s)
@@ -1085,7 +1085,7 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         Private Function ParseZipResidualType(v As Object) As String
-            Dim s As String = UDFhelpers.AsString(v)
+            Dim s As String = AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return "all"
 
             Select Case NormalizeKey(s)
@@ -1098,13 +1098,6 @@ Namespace BESHStatNG.WorksheetFunctions
                 Case Else
                     Return "all"
             End Select
-        End Function
-
-        Private Function TryGetHandle(handle As Object, ByRef h As ZipHandle) As Boolean
-            h = Nothing
-            Dim key As String = UDFhelpers.AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
-            Return _zipCache.TryGetValue(key, h)
         End Function
 
         Private Function BuildParameterNames(varNames() As String, interceptIncluded As Boolean, coefficientCount As Integer) As String()

@@ -7,18 +7,11 @@ Imports Microsoft.Office.Interop.Excel
 
 Namespace parametric
 
-
     Public Module Parametric
 
         Friend Function BuildMcpCiFootnote(alpha As Double) As String
             Return "Confidence interval level = " & ((1.0 - alpha) * 100.0).ToString("0.##") & "% (alpha = " & alpha.ToString("0.####") & ")."
         End Function
-
-        Friend Sub ValidateAlpha(alpha As Double)
-            If Double.IsNaN(alpha) OrElse alpha <= 0.0 OrElse alpha >= 1.0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(alpha), "alpha must be in (0,1)."))
-            End If
-        End Sub
 
         ''' <summary>
         ''' Implements a two‑way nested ANOVA model of the form:

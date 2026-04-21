@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports BESHStatNG.AppInfrastructure
 
 Namespace SampleSizeCalc
 
@@ -553,8 +554,8 @@ Namespace SampleSizeCalc
                                                              alpha As Double,
                                                              beta As Double) As IccHypothesisTestSampleSizeResult
 
-            ValidateIccValue(nullIcc, NameOf(nullIcc))
-            ValidateIccValue(alternativeIcc, NameOf(alternativeIcc))
+            ValidateUnitIntervalExcludingOne(nullIcc, NameOf(nullIcc), "ICC values for planning must satisfy 0 <= ICC < 1.")
+            ValidateUnitIntervalExcludingOne(alternativeIcc, NameOf(alternativeIcc), "ICC values for planning must satisfy 0 <= ICC < 1.")
             ValidateOpenUnitInterval(alpha, NameOf(alpha))
             ValidateOpenUnitInterval(beta, NameOf(beta))
 
@@ -960,24 +961,6 @@ Namespace SampleSizeCalc
 
             Return twoSidedEquivalent
         End Function
-
-        Private Sub ValidatePositive(value As Double, paramName As String)
-            If value <= 0.0 OrElse Double.IsNaN(value) OrElse Double.IsInfinity(value) Then
-                Throw New ArgumentOutOfRangeException(paramName, "Value must be finite and > 0.")
-            End If
-        End Sub
-
-        Private Sub ValidateUnitIntervalExcludingOne(value As Double, paramName As String)
-            If value < 0.0 OrElse value >= 1.0 OrElse Double.IsNaN(value) OrElse Double.IsInfinity(value) Then
-                Throw New ArgumentOutOfRangeException(paramName, "Value must satisfy 0 <= value < 1.")
-            End If
-        End Sub
-
-        Private Sub ValidateIccValue(value As Double, paramName As String)
-            If value < 0.0 OrElse value >= 1.0 OrElse Double.IsNaN(value) OrElse Double.IsInfinity(value) Then
-                Throw New ArgumentOutOfRangeException(paramName, "ICC values for planning must satisfy 0 <= ICC < 1.")
-            End If
-        End Sub
     End Module
 
 End Namespace

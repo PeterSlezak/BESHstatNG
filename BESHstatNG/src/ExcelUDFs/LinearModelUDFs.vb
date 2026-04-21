@@ -8,7 +8,7 @@ Imports System.Globalization
 Imports System.Linq
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for Gaussian linear regression models fitted by ordinary or weighted least squares.
@@ -164,7 +164,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 If imported.nCols < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim formulaText As String = UDFhelpers.AsString(formula)
+                Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
                 Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
@@ -229,8 +229,8 @@ Namespace BESHStatNG.WorksheetFunctions
                     If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
-                Dim interceptFlag As Boolean = UDFhelpers.GetOptionalBool(includeIntercept, True)
-                Dim residualFlag As Boolean = UDFhelpers.GetOptionalBool(computeResiduals, True)
+                Dim interceptFlag As Boolean = GetOptionalBool(includeIntercept, True)
+                Dim residualFlag As Boolean = GetOptionalBool(computeResiduals, True)
 
                 Dim rawBaseDisplayNames As New Dictionary(Of String, String)(StringComparer.Ordinal)
                 If designBuild.VariableCatalog IsNot Nothing AndAlso designBuild.VariableCatalog.Variables IsNot Nothing Then
@@ -337,7 +337,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As LinearModelHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _lmCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim alphaValue As Double = h.Alpha
                 If Not IsMissingArg(alpha) Then
@@ -350,7 +350,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If coef Is Nothing OrElse se Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim q As Integer = coef.Length
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim noteCount As Integer = If(h.PredictorCodingFootnotes Is Nothing, 0, h.PredictorCodingFootnotes.Length)
                 Dim outRows As Integer = q + If(hdr, 1, 0) + noteCount
                 Dim out(outRows - 1, 7) As Object
@@ -421,14 +421,14 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As LinearModelHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _lmCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim labels() As String = h.Model.results.ModelTableLabels
                 Dim vals(,) As Object = h.Model.results.ModelTableVals
                 If labels Is Nothing OrElse vals Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim n As Integer = labels.Length
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim noteCount As Integer = If(h.PredictorCodingFootnotes Is Nothing, 0, h.PredictorCodingFootnotes.Length)
                 Dim outRows As Integer = n + If(hdr, 1, 0) + noteCount
                 Dim out(outRows - 1, 3) As Object
@@ -487,7 +487,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As LinearModelHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _lmCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim which As String = ParseLmAnovaScope(scope)
                 Dim table As Object(,) = Nothing
@@ -505,7 +505,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 table = AppendFootnotes(table, h.PredictorCodingFootnotes)
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 If Not hdr Then
                     table = DropTopRows(table, If(which = "overall" OrElse which = "type1" OrElse which = "type3", titleRows + 1, 1))
                 End If
@@ -544,13 +544,13 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As LinearModelHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _lmCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim table As Object(,) = PrepareResultTableForUdf(h.Model.VIF_toPrint.returnSelf())
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 table = AppendFootnotes(table, h.PredictorCodingFootnotes)
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 If Not hdr Then
                     table = DropTopRows(table, 2)
                 End If
@@ -597,13 +597,13 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As LinearModelHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _lmCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim fullTable As Object(,) = PrepareResultTableForUdf(h.Model.AllResiduals_toPrint)
                 If fullTable Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim selector As String = ParseLmResidualType(residType)
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
 
                 If selector = "all" Then
                     Return If(hdr, fullTable, DropTopRows(fullTable, 1))
@@ -680,7 +680,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As LinearModelHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _lmCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim rawPredictorKeys As String() = If(h.RawPredictorKeys, h.RawVarNames)
                 If rawPredictorKeys Is Nothing OrElse rawPredictorKeys.Length < 1 Then Return ExcelError.ExcelErrorValue
@@ -715,7 +715,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If beta Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim nRows As Integer = imported.nRows
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, nRows + 1, nRows)
                 Dim out(outRows - 1, 0) As Object
 
@@ -770,27 +770,17 @@ Namespace BESHStatNG.WorksheetFunctions
         Public Function LM_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.LM_FIT.")> handle As Object
         ) As Object
-            Dim key As String = UDFhelpers.AsString(handle)
+            Dim key As String = AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
             Dim removed As LinearModelHandle = Nothing
             Return _lmCache.TryRemove(key, removed)
         End Function
 
         ''' <summary>
-        ''' Attempts to resolve a cached linear-model handle.
-        ''' </summary>
-        Private Function TryGetHandle(handle As Object, ByRef h As LinearModelHandle) As Boolean
-            h = Nothing
-            Dim key As String = UDFhelpers.AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
-            Return _lmCache.TryGetValue(key, h)
-        End Function
-
-        ''' <summary>
         ''' Parses the requested ANOVA-table selector into a canonical value.
         ''' </summary>
         Private Function ParseLmAnovaScope(v As Object) As String
-            Dim s As String = UDFhelpers.AsString(v)
+            Dim s As String = AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return "overall"
 
             Select Case s.Trim().ToLowerInvariant()
@@ -807,7 +797,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' Parses the requested residual selector into a canonical value.
         ''' </summary>
         Private Function ParseLmResidualType(v As Object) As String
-            Dim s As String = UDFhelpers.AsString(v)
+            Dim s As String = AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return "all"
 
             Select Case s.Trim().ToLowerInvariant()

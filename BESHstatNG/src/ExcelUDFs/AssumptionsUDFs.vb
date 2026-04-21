@@ -6,8 +6,9 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports ExcelDna.Integration
 Imports BESHStatNG.assumptions
+Imports BESHStatNG.AppInfrastructure
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions exposing assumption and diagnostic tests used across the add-in.
@@ -63,7 +64,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If x Is Nothing OrElse x.Length < 3 OrElse x.Length > 5000 Then Return ExcelError.ExcelErrorNum
 
                 Dim errText As String = String.Empty
-                Dim res As TestResult = Assumptions.ShapiroWilk(x, errText)
+                Dim res As TestResult = assumptions.ShapiroWilk(x, errText)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -116,7 +117,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If x Is Nothing OrElse x.Length < 9 Then Return ExcelError.ExcelErrorNum
 
                 Dim errText As String = String.Empty
-                Dim res As TestResult = Assumptions.DAgostino(x, errText)
+                Dim res As TestResult = assumptions.DAgostino(x, errText)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -168,7 +169,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = Assumptions.AndersonDarlingTEST(x)
+                Dim res As TestResult = assumptions.AndersonDarlingTEST(x)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -253,7 +254,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Next
                 Next
 
-                Dim res As TestResult = Assumptions.BoxM(covCube, sampleSizes)
+                Dim res As TestResult = assumptions.BoxM(covCube, sampleSizes)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -302,7 +303,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = Assumptions.FlignerKilleenTEST(data)
+                Dim res As TestResult = assumptions.FlignerKilleenTEST(data)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -364,7 +365,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim label As String = Nothing
                 If Not TryParseLeveneCenter(center, useMedian, label) Then Return ExcelError.ExcelErrorValue
 
-                Dim res As TestResult = Assumptions.LeveneTEST(data, useMedian)
+                Dim res As TestResult = assumptions.LeveneTEST(data, useMedian)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -416,7 +417,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     If g Is Nothing OrElse g.Length < 2 Then Return ExcelError.ExcelErrorNum
                 Next
 
-                Dim res As TestResult = Assumptions.BartlettTEST(data)
+                Dim res As TestResult = assumptions.BartlettTEST(data)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -465,7 +466,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = Assumptions.SquaredRanksTestVARIANCE(data)
+                Dim res As TestResult = assumptions.SquaredRanksTestVARIANCE(data)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -519,7 +520,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(data, mat, names) Then Return ExcelError.ExcelErrorValue
                 If mat Is Nothing OrElse mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 3 Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = Assumptions.MauchlyTest(mat)
+                Dim res As TestResult = assumptions.MauchlyTest(mat)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -581,7 +582,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim title As String = Nothing
                 If Not TryParseSymmetryMethod(method, methodInternal, title) Then Return ExcelError.ExcelErrorValue
 
-                Dim res As TestResult = Assumptions.SymmetryTest(x, methodInternal)
+                Dim res As TestResult = assumptions.SymmetryTest(x, methodInternal)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -643,7 +644,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim alphaValue As Double = 0.05
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-                Dim res As TestResult = Assumptions.Grubbs(x, alphaValue)
+                Dim res As TestResult = assumptions.Grubbs(x, alphaValue)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.TestStatistics2) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -704,7 +705,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim alphaValue As Double = 0.05
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-                Dim outliers() As Double = Assumptions.Rosner(x, alphaValue)
+                Dim outliers() As Double = assumptions.Rosner(x, alphaValue)
                 Return BuildRosnerTable(alphaValue, outliers, x.Length < 25)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.ASSUMP.ROSNER", ex, ExcelError.ExcelErrorValue)
@@ -819,7 +820,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim startRow As Integer = If(hasHeader, 1, 0)
             Dim list As New List(Of Double)
             For r As Integer = startRow To arr.GetLength(0) - 1
-                Dim d = UDFhelpers.TryGetDouble(arr(r, 0))
+                Dim d = TryGetDouble(arr(r, 0))
                 If d.HasValue AndAlso IsFinite(d.Value) Then list.Add(d.Value)
             Next
 
@@ -865,7 +866,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim row(dataCols - 1) As Double
                 Dim ok As Boolean = True
                 For c As Integer = 0 To dataCols - 1
-                    Dim d = UDFhelpers.TryGetDouble(dataArr(startData + i, c))
+                    Dim d = TryGetDouble(dataArr(startData + i, c))
                     If Not d.HasValue OrElse Not IsFinite(d.Value) Then
                         ok = False
                         Exit For

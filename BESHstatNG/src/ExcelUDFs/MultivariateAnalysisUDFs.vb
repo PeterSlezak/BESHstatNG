@@ -7,7 +7,7 @@ Imports System.Collections.Generic
 Imports System.Globalization
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for principal component analysis and exploratory factor analysis.

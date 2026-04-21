@@ -5,6 +5,7 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
+Imports BESHStatNG.Resampling
 
 Namespace Agreement
 
@@ -66,8 +67,8 @@ Namespace Agreement
         Private pSubjectMeanPlotY As Double() = Nothing
         Private pSubjectLabels As Object() = Nothing
 
-        Private pUsedBootstrapCi As Boolean = False
-        Private pBootstrapSeedUsed As Integer = Integer.MinValue
+        Private pBootstrapRunInfo As ResamplingRunInfo = Nothing
+        Private pJackknifeRunInfo As ResamplingRunInfo = Nothing
 
         ''' <summary>
         ''' Initializes a new Bland–Altman agreement-analysis object for two paired numeric variables.
@@ -188,11 +189,6 @@ Namespace Agreement
             ValidateOptions(opts)
             ResetFitState()
 
-            If opts.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse opts.CiMethod = AgreementCiMethod.BootstrapBCa Then
-                pUsedBootstrapCi = True
-                pBootstrapSeedUsed = Helpers.ResolveRandomSeed(randomSeed)
-            End If
-
             Dim requireSubjectIds As Boolean
             Select Case opts.Mode
                 Case RepeatedBlandAltmanMode.RepeatedBySubject
@@ -258,44 +254,38 @@ Namespace Agreement
 
                     If repeated.UseRepeated Then
                         pUsedRepeatedModel = True
+                        pWithinSubjectSD = repeated.WithinSubjectSD
                         pSubjectCount = repeated.SubjectCount
                         pExcludedSubjectCount = repeated.ExcludedSubjectCount
-                        pWithinSubjectSD = repeated.WithinSubjectSD
                         pSubjectMeanPlotX = repeated.SubjectMeanPlotX
                         pSubjectMeanPlotY = repeated.SubjectMeanPlotY
                         pSubjectLabels = repeated.SubjectLabels
 
+                        sdForLoA = repeated.WithinSubjectSD
                         repeatedBetweenSubjectSD = repeated.BetweenSubjectSD
                         repeatedSubjectMeanXAxis = repeated.SubjectMeanXAxis
                         repeatedSubjectMeanDifferences = repeated.SubjectMeanDifferences
                         repeatedSubjectObservationCounts = repeated.SubjectObservationCounts
 
-                        sdForLoA = repeated.WithinSubjectSD
                         noteParts.Add($"Repeated-measures Bland–Altman used with {pSubjectCount} subject(s).")
-                        If pExcludedSubjectCount > 0 Then noteParts.Add($"Excluded {pExcludedSubjectCount} subject(s) from within-subject SD estimation.")
-                        noteParts.Add($"Within-subject SD(diff) = {Math.Round(pWithinSubjectSD, 6)}.")
-                        If Not String.IsNullOrWhiteSpace(repeated.Note) Then noteParts.Add(repeated.Note)
-
-                    ElseIf opts.AllowFallbackToSimple Then
-                        sdForLoA = StatFunc.stDev(d)
-                        If Not String.IsNullOrWhiteSpace(repeated.Note) Then
-                            noteParts.Add(repeated.Note)
-                        Else
-                            noteParts.Add("Repeated-measures requirements were not met; ordinary Bland–Altman was used.")
+                        If pExcludedSubjectCount > 0 Then
+                            noteParts.Add($"Excluded {pExcludedSubjectCount} subject(s) that did not meet the repeated-measures requirements.")
                         End If
-
                     Else
-                        Dim msg As String = If(String.IsNullOrWhiteSpace(repeated.Note),
-                               "Repeated-measures requirements were not met.",
-                               repeated.Note)
-                        AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(msg))
-                        Return Nothing
+                        If opts.AllowFallbackToSimple Then
+                            pUsedRepeatedModel = False
+                            sdForLoA = StatFunc.stDev(d)
+                            noteParts.Add("Repeated-measures requirements were not met; ordinary Bland–Altman was used.")
+                        Else
+                            AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(If(String.IsNullOrWhiteSpace(repeated.Note), "Repeated-measures requirements were not met.", repeated.Note)))
+                            Return Nothing
+                        End If
                     End If
                 End If
             Else
                 sdForLoA = StatFunc.stDev(d)
                 If subjectIds IsNot Nothing AndAlso opts.Mode = RepeatedBlandAltmanMode.SimplePairs Then
-                    noteParts.Add("Subject IDs were supplied, but the analysis mode was explicitly set to SimplePairs, so ordinary Bland–Altman was used.")
+                    noteParts.Add("Subject IDs were supplied, but ordinary Bland–Altman was explicitly requested.")
                 End If
             End If
 
@@ -305,64 +295,77 @@ Namespace Agreement
             If pUsedRepeatedModel Then
                 Select Case opts.CiMethod
                     Case AgreementCiMethod.BootstrapPercentile, AgreementCiMethod.BootstrapBCa
-                        Dim clusteredBoot = ComputeRepeatedBootstrapConfidenceIntervals(subjectIds, plotX, d, bias, pWithinSubjectSD, opts, pBootstrapSeedUsed)
-                        biasCI = clusteredBoot.BiasCI
-                        loaCI = (clusteredBoot.LowerLoACI, clusteredBoot.UpperLoACI)
+                        Dim boot As VectorResamplingResult = RepeatedBootstrapBlandAltmanResamplingResult(subjectIds, plotX, d, bias, pWithinSubjectSD, opts, Nothing, randomSeed)
+                        pBootstrapRunInfo = boot.RunInfo
                         If opts.CiMethod = AgreementCiMethod.BootstrapBCa Then
-                            noteParts.Add("Repeated-measures BCa bootstrap is not yet implemented separately; clustered percentile bootstrap limits were used.")
+                            Dim jk As VectorResamplingResult = RepeatedJackknifeBlandAltmanResamplingResult(subjectIds, plotX, d, bias, pWithinSubjectSD, opts)
+                            pJackknifeRunInfo = jk.RunInfo
+                            biasCI = boot.ToScalar(0).ToBcaConfidenceInterval(opts.Alpha, jk.ToScalar(0).ResampledStatistics)
+                            loaCI = (boot.ToScalar(1).ToBcaConfidenceInterval(opts.Alpha, jk.ToScalar(1).ResampledStatistics),
+                         boot.ToScalar(2).ToBcaConfidenceInterval(opts.Alpha, jk.ToScalar(2).ResampledStatistics))
                         Else
-                            noteParts.Add("Repeated-measures bootstrap CIs use clustered resampling at the subject level.")
+                            biasCI = boot.ToScalar(0).ToPercentileConfidenceInterval(opts.Alpha)
+                            loaCI = (boot.ToScalar(1).ToPercentileConfidenceInterval(opts.Alpha), boot.ToScalar(2).ToPercentileConfidenceInterval(opts.Alpha))
                         End If
                     Case AgreementCiMethod.Jackknife
-                        Dim clusteredJack = ComputeRepeatedJackknifeConfidenceIntervals(subjectIds, plotX, d, bias, pWithinSubjectSD, opts)
-                        biasCI = clusteredJack.BiasCI
-                        loaCI = (clusteredJack.LowerLoACI, clusteredJack.UpperLoACI)
-                        noteParts.Add("Repeated-measures jackknife CIs use leave-one-subject-out resampling.")
+                        Dim jk As VectorResamplingResult = RepeatedJackknifeBlandAltmanResamplingResult(subjectIds, plotX, d, bias, pWithinSubjectSD, opts)
+                        pJackknifeRunInfo = jk.RunInfo
+                        biasCI = BuildJackknifeConfidenceInterval(bias, jk.ToScalar(0).ResampledStatistics, opts.Alpha, opts.UseTDistribution)
+                        loaCI = (BuildJackknifeConfidenceInterval(bias - DefaultLoAMultiplier * pWithinSubjectSD, jk.ToScalar(1).ResampledStatistics, opts.Alpha, opts.UseTDistribution),
+                     BuildJackknifeConfidenceInterval(bias + DefaultLoAMultiplier * pWithinSubjectSD, jk.ToScalar(2).ResampledStatistics, opts.Alpha, opts.UseTDistribution))
                     Case Else
-                        biasCI = ComputeBiasConfidenceInterval(d, bias, sdForLoA, opts, pBootstrapSeedUsed)
-                        loaCI = ComputeLimitsOfAgreementConfidenceIntervals(n, bias, sdForLoA, opts, pBootstrapSeedUsed)
+                        biasCI = ComputeBiasConfidenceInterval(d, bias, sdForLoA, opts)
+                        loaCI = ComputeLimitsOfAgreementConfidenceIntervals(d, bias, sdForLoA, opts)
                 End Select
             Else
-                If opts.CiMethod = AgreementCiMethod.Jackknife Then
-                    Dim jack = ComputeJackknifeConfidenceIntervalsSimple(d, bias, sdForLoA, opts)
-                    biasCI = jack.BiasCI
-                    loaCI = (jack.LowerLoACI, jack.UpperLoACI)
-                    noteParts.Add("Jackknife CIs use leave-one-pair-out resampling.")
-                Else
-                    biasCI = ComputeBiasConfidenceInterval(d, bias, sdForLoA, opts, pBootstrapSeedUsed)
-                    loaCI = ComputeLimitsOfAgreementConfidenceIntervals(n, bias, sdForLoA, opts, pBootstrapSeedUsed)
-                    If pUsedBootstrapCi AndAlso opts.CiMethod = AgreementCiMethod.BootstrapBCa Then
-                        noteParts.Add("BCa bootstrap is not yet implemented separately; percentile bootstrap limits were used.")
-                    End If
-                End If
+                Select Case opts.CiMethod
+                    Case AgreementCiMethod.BootstrapPercentile, AgreementCiMethod.BootstrapBCa
+                        Dim boot As VectorResamplingResult = SimpleBootstrapBlandAltmanResamplingResult(d, bias, sdForLoA, opts, Nothing, randomSeed)
+                        pBootstrapRunInfo = boot.RunInfo
+                        If opts.CiMethod = AgreementCiMethod.BootstrapBCa Then
+                            Dim jk As VectorResamplingResult = SimpleJackknifeBlandAltmanResamplingResult(d, bias, sdForLoA, opts)
+                            pJackknifeRunInfo = jk.RunInfo
+                            biasCI = boot.ToScalar(0).ToBcaConfidenceInterval(opts.Alpha, jk.ToScalar(0).ResampledStatistics)
+                            loaCI = (boot.ToScalar(1).ToBcaConfidenceInterval(opts.Alpha, jk.ToScalar(1).ResampledStatistics),
+                         boot.ToScalar(2).ToBcaConfidenceInterval(opts.Alpha, jk.ToScalar(2).ResampledStatistics))
+                        Else
+                            biasCI = boot.ToScalar(0).ToPercentileConfidenceInterval(opts.Alpha)
+                            loaCI = (boot.ToScalar(1).ToPercentileConfidenceInterval(opts.Alpha), boot.ToScalar(2).ToPercentileConfidenceInterval(opts.Alpha))
+                        End If
+                    Case AgreementCiMethod.Jackknife
+                        Dim jk As VectorResamplingResult = SimpleJackknifeBlandAltmanResamplingResult(d, bias, sdForLoA, opts)
+                        pJackknifeRunInfo = jk.RunInfo
+                        biasCI = BuildJackknifeConfidenceInterval(bias, jk.ToScalar(0).ResampledStatistics, opts.Alpha, opts.UseTDistribution)
+                        loaCI = (BuildJackknifeConfidenceInterval(bias - DefaultLoAMultiplier * sdForLoA, jk.ToScalar(1).ResampledStatistics, opts.Alpha, opts.UseTDistribution),
+                     BuildJackknifeConfidenceInterval(bias + DefaultLoAMultiplier * sdForLoA, jk.ToScalar(2).ResampledStatistics, opts.Alpha, opts.UseTDistribution))
+                    Case Else
+                        biasCI = ComputeBiasConfidenceInterval(d, bias, sdForLoA, opts)
+                        loaCI = ComputeLimitsOfAgreementConfidenceIntervals(d, bias, sdForLoA, opts)
+                End Select
             End If
 
-            If pUsedBootstrapCi Then noteParts.Add($"Bootstrap seed = {pBootstrapSeedUsed}.")
-
-            Dim trend As TestResult = Nothing
-            If opts.CheckProportionalBias Then trend = ComputeProportionalBiasTrend(plotX, d)
+            AppendResamplingRunInfoNotes(noteParts, pJackknifeRunInfo)
+            AppendResamplingRunInfoNotes(noteParts, pBootstrapRunInfo)
 
             pResult = New BlandAltmanResult With {
                 .UsedRepeatedModel = pUsedRepeatedModel,
+                .ObservationCount = n,
                 .BiasCI = biasCI,
                 .LowerLoACI = loaCI.Lower,
                 .UpperLoACI = loaCI.Upper,
                 .SdDifference = sdForLoA,
-                .WithinSubjectSD = If(pUsedRepeatedModel, pWithinSubjectSD, Double.NaN),
-                .BetweenSubjectSD = repeatedBetweenSubjectSD,
                 .RepeatabilityCoefficient = DefaultLoAMultiplier * sdForLoA,
-                .ObservationCount = n,
-                .SubjectCount = If(pUsedRepeatedModel, pSubjectCount, 0),
-                .ExcludedSubjectCount = If(pUsedRepeatedModel, pExcludedSubjectCount, 0),
+                .WithinSubjectSD = If(pUsedRepeatedModel, pWithinSubjectSD, Double.NaN),
+                .BetweenSubjectSD = If(pUsedRepeatedModel, repeatedBetweenSubjectSD, Double.NaN),
                 .PlotX = CType(plotX.Clone(), Double()),
                 .PlotY = CType(d.Clone(), Double()),
-                .SubjectMeanPlotX = If(pSubjectMeanPlotX Is Nothing, Nothing, CType(pSubjectMeanPlotX.Clone(), Double())),
-                .SubjectMeanPlotY = If(pSubjectMeanPlotY Is Nothing, Nothing, CType(pSubjectMeanPlotY.Clone(), Double())),
-                .SubjectLabels = If(pSubjectLabels Is Nothing, Nothing, CType(pSubjectLabels.Clone(), Object())),
-                .SubjectObservationCounts = If(repeatedSubjectObservationCounts Is Nothing, Nothing, CType(repeatedSubjectObservationCounts.Clone(), Integer())),
-                .SubjectMeanDifferences = If(repeatedSubjectMeanDifferences Is Nothing, Nothing, CType(repeatedSubjectMeanDifferences.Clone(), Double())),
-                .SubjectMeanXAxis = If(repeatedSubjectMeanXAxis Is Nothing, Nothing, CType(repeatedSubjectMeanXAxis.Clone(), Double())),
-                .ProportionalBias = trend,
+                .SubjectCount = If(pUsedRepeatedModel, pSubjectCount, 0),
+                .ExcludedSubjectCount = If(pUsedRepeatedModel, pExcludedSubjectCount, 0),
+                .SubjectMeanPlotX = repeatedSubjectMeanXAxis,
+                .SubjectMeanPlotY = repeatedSubjectMeanDifferences,
+                .SubjectObservationCounts = repeatedSubjectObservationCounts,
+                .SubjectLabels = pSubjectLabels,
+                .ProportionalBias = ComputeProportionalBiasTrend(plotX, d),
                 .MethodName = If(pUsedRepeatedModel, "Repeated-measures Bland–Altman agreement analysis", "Bland–Altman agreement analysis"),
                 .Notes = String.Join(" ", noteParts.Where(Function(s) Not String.IsNullOrWhiteSpace(s)))
             }
@@ -659,157 +662,55 @@ Namespace Agreement
         Friend Shared Function ComputeBiasConfidenceInterval(differences As Double(),
                                                      bias As Double,
                                                      sdDiff As Double,
-                                                     opts As BlandAltmanOptions,
-                                                     Optional randomSeed As Integer = Integer.MinValue) As ConfidenceIntervalResult
+                                                     opts As BlandAltmanOptions) As ConfidenceIntervalResult
             Dim n As Integer = differences.Length
             Dim se As Double = sdDiff / Math.Sqrt(n)
+            Dim crit As Double = If(opts.UseTDistribution,
+                            distributions.T_Inv(1.0 - opts.Alpha / 2.0, n - 1),
+                            distributions.NormSInv(1.0 - opts.Alpha / 2.0))
 
-            If opts.CiMethod = AgreementCiMethod.Analytical Then
-                Dim crit As Double = If(opts.UseTDistribution,
-                                distributions.T_Inv(1.0 - opts.Alpha / 2.0, n - 1),
-                                distributions.NormSInv(1.0 - opts.Alpha / 2.0))
-                Return New ConfidenceIntervalResult With {
-                        .Estimate = bias,
-                        .alpha = opts.Alpha,
-                        .StdErr = se,
-                        .LowerLimit = bias - crit * se,
-                        .UpperLimit = bias + crit * se
-                    }
-            End If
-
-            Return BootstrapBiasConfidenceInterval(differences, opts, randomSeed)
+            Return New ConfidenceIntervalResult With {
+                .Estimate = bias,
+                .alpha = opts.Alpha,
+                .StdErr = se,
+                .LowerLimit = bias - crit * se,
+                .UpperLimit = bias + crit * se
+            }
         End Function
 
         ''' <summary>
         ''' Computes approximate confidence intervals for the lower and upper Bland–Altman limits of agreement.
         ''' </summary>
-        Friend Shared Function ComputeLimitsOfAgreementConfidenceIntervals(n As Integer,
+        Friend Shared Function ComputeLimitsOfAgreementConfidenceIntervals(differences As Double(),
                                                                    bias As Double,
                                                                    sdDiff As Double,
-                                                                   opts As BlandAltmanOptions,
-                                                                   Optional randomSeed As Integer = Integer.MinValue) As (Lower As ConfidenceIntervalResult, Upper As ConfidenceIntervalResult)
+                                                                   opts As BlandAltmanOptions) As (Lower As ConfidenceIntervalResult, Upper As ConfidenceIntervalResult)
+            Dim n As Integer = differences.Length
             Dim lowerEstimate As Double = bias - DefaultLoAMultiplier * sdDiff
             Dim upperEstimate As Double = bias + DefaultLoAMultiplier * sdDiff
 
-            If opts.CiMethod = AgreementCiMethod.Analytical Then
-                Dim seLoA As Double = sdDiff * Math.Sqrt((1.0 / n) + ((DefaultLoAMultiplier * DefaultLoAMultiplier) / (2.0 * Math.Max(1.0, n - 1.0))))
-                Dim crit As Double = If(opts.UseTDistribution,
-                                distributions.T_Inv(1.0 - opts.Alpha / 2.0, Math.Max(1, n - 1)),
-                                distributions.NormSInv(1.0 - opts.Alpha / 2.0))
+            Dim seLoA As Double = sdDiff * Math.Sqrt((1.0 / n) + ((DefaultLoAMultiplier * DefaultLoAMultiplier) / (2.0 * (n - 1.0))))
+            Dim crit As Double = If(opts.UseTDistribution,
+                            distributions.T_Inv(1.0 - opts.Alpha / 2.0, n - 1),
+                            distributions.NormSInv(1.0 - opts.Alpha / 2.0))
 
-                Dim lower As New ConfidenceIntervalResult With {
-                        .Estimate = lowerEstimate,
-                        .alpha = opts.Alpha,
-                        .StdErr = seLoA,
-                        .LowerLimit = lowerEstimate - crit * seLoA,
-                        .UpperLimit = lowerEstimate + crit * seLoA
-                    }
+            Dim lower As New ConfidenceIntervalResult With {
+                .Estimate = lowerEstimate,
+                .alpha = opts.Alpha,
+                .StdErr = seLoA,
+                .LowerLimit = lowerEstimate - crit * seLoA,
+                .UpperLimit = lowerEstimate + crit * seLoA
+            }
 
-                Dim upper As New ConfidenceIntervalResult With {
-                        .Estimate = upperEstimate,
-                        .alpha = opts.Alpha,
-                        .StdErr = seLoA,
-                        .LowerLimit = upperEstimate - crit * seLoA,
-                        .UpperLimit = upperEstimate + crit * seLoA
-                    }
+            Dim upper As New ConfidenceIntervalResult With {
+                .Estimate = upperEstimate,
+                .alpha = opts.Alpha,
+                .StdErr = seLoA,
+                .LowerLimit = upperEstimate - crit * seLoA,
+                .UpperLimit = upperEstimate + crit * seLoA
+            }
 
-                Return (lower, upper)
-            End If
-
-            Return BootstrapLoAConfidenceIntervals(n, bias, sdDiff, opts, randomSeed)
-        End Function
-
-        ''' <summary>
-        ''' Fits a simple linear trend model of paired differences on the selected x-axis quantity.
-        ''' </summary>
-
-        Friend Shared Function ComputeJackknifeConfidenceIntervalsSimple(differences As Double(),
-                                                                          observedBias As Double,
-                                                                          observedSdDiff As Double,
-                                                                          opts As BlandAltmanOptions) As (BiasCI As ConfidenceIntervalResult,
-                                                                                                          LowerLoACI As ConfidenceIntervalResult,
-                                                                                                          UpperLoACI As ConfidenceIntervalResult)
-            If differences Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(differences)))
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
-            If differences.Length < 3 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 paired observations are required for jackknife Bland–Altman confidence intervals."))
-            End If
-
-            Dim n As Integer = differences.Length
-            Dim biasJK(n - 1) As Double
-            Dim lowerJK(n - 1) As Double
-            Dim upperJK(n - 1) As Double
-
-            For i As Integer = 0 To n - 1
-                Dim sample As Double() = AgreementHelpers.ExcludeIndex(differences, i)
-                Dim meanB As Double = sample.Average()
-                Dim sdB As Double = StatFunc.stDev(sample)
-                biasJK(i) = meanB
-                lowerJK(i) = meanB - DefaultLoAMultiplier * sdB
-                upperJK(i) = meanB + DefaultLoAMultiplier * sdB
-            Next
-
-            Dim biasCI = BuildJackknifeConfidenceInterval(observedBias, biasJK, opts.Alpha, opts.UseTDistribution)
-            Dim lowerObserved As Double = observedBias - DefaultLoAMultiplier * observedSdDiff
-            Dim upperObserved As Double = observedBias + DefaultLoAMultiplier * observedSdDiff
-            Dim lowerCI = BuildJackknifeConfidenceInterval(lowerObserved, lowerJK, opts.Alpha, opts.UseTDistribution)
-            Dim upperCI = BuildJackknifeConfidenceInterval(upperObserved, upperJK, opts.Alpha, opts.UseTDistribution)
-            Return (biasCI, lowerCI, upperCI)
-        End Function
-
-        Private Shared Function ComputeRepeatedJackknifeConfidenceIntervals(subjectIds As Object(),
-                                                                            plotX As Double(),
-                                                                            differences As Double(),
-                                                                            observedBias As Double,
-                                                                            observedWithinSubjectSD As Double,
-                                                                            opts As BlandAltmanOptions) As (BiasCI As ConfidenceIntervalResult,
-                                                                                                            LowerLoACI As ConfidenceIntervalResult,
-                                                                                                            UpperLoACI As ConfidenceIntervalResult)
-            If subjectIds Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(subjectIds)))
-            If plotX Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(plotX)))
-            If differences Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(differences)))
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
-            If subjectIds.Length <> plotX.Length OrElse subjectIds.Length <> differences.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("subjectIds, plotX, and differences must have the same length."))
-            End If
-
-            Dim grouped As Dictionary(Of String, List(Of Integer)) = BuildSubjectIndexGroups(subjectIds)
-            If grouped.Count < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("At least two subjects are required for repeated-measures jackknife Bland–Altman confidence intervals."))
-            End If
-
-            Dim jackBias As New List(Of Double)(grouped.Count)
-            Dim jackLower As New List(Of Double)(grouped.Count)
-            Dim jackUpper As New List(Of Double)(grouped.Count)
-
-            Dim jkOpts As BlandAltmanOptions = CloneOptions(opts)
-            jkOpts.MinSubjects = 1
-
-            For Each key As String In grouped.Keys
-                Dim reduced = ExcludeSubject(subjectIds, plotX, differences, grouped(key))
-                If reduced.SubjectIds.Length < 2 Then Continue For
-
-                Dim repeated = ComputeRepeatedStatistics(reduced.SubjectIds, reduced.PlotX, reduced.Differences, jkOpts)
-                If repeated.UseRepeated AndAlso Not Double.IsNaN(repeated.WithinSubjectSD) AndAlso repeated.WithinSubjectSD > 0.0 Then
-                    Dim biasJ As Double = reduced.Differences.Average()
-                    Dim lowerJ As Double = biasJ - DefaultLoAMultiplier * repeated.WithinSubjectSD
-                    Dim upperJ As Double = biasJ + DefaultLoAMultiplier * repeated.WithinSubjectSD
-                    jackBias.Add(biasJ)
-                    jackLower.Add(lowerJ)
-                    jackUpper.Add(upperJ)
-                End If
-            Next
-
-            If jackBias.Count < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Too few successful leave-one-subject-out replicates were obtained for repeated-measures jackknife Bland–Altman confidence intervals."))
-            End If
-
-            Dim biasCI = BuildJackknifeConfidenceInterval(observedBias, jackBias.ToArray(), opts.Alpha, opts.UseTDistribution)
-            Dim lowerObserved As Double = observedBias - DefaultLoAMultiplier * observedWithinSubjectSD
-            Dim upperObserved As Double = observedBias + DefaultLoAMultiplier * observedWithinSubjectSD
-            Dim lowerCI = BuildJackknifeConfidenceInterval(lowerObserved, jackLower.ToArray(), opts.Alpha, opts.UseTDistribution)
-            Dim upperCI = BuildJackknifeConfidenceInterval(upperObserved, jackUpper.ToArray(), opts.Alpha, opts.UseTDistribution)
-            Return (biasCI, lowerCI, upperCI)
+            Return (lower, upper)
         End Function
 
         Private Shared Function BuildJackknifeConfidenceInterval(observedEstimate As Double,
@@ -838,52 +739,6 @@ Namespace Agreement
                 .StdErr = se,
                 .LowerLimit = observedEstimate - crit * se,
                 .UpperLimit = observedEstimate + crit * se
-            }
-        End Function
-
-        Private Shared Function BuildSubjectIndexGroups(subjectIds As Object()) As Dictionary(Of String, List(Of Integer))
-            Dim grouped As New Dictionary(Of String, List(Of Integer))(StringComparer.Ordinal)
-            For i As Integer = 0 To subjectIds.Length - 1
-                Dim key As String = Convert.ToString(subjectIds(i), Globalization.CultureInfo.InvariantCulture)
-                If Not grouped.ContainsKey(key) Then grouped.Add(key, New List(Of Integer))
-                grouped(key).Add(i)
-            Next
-            Return grouped
-        End Function
-
-        Private Shared Function ExcludeSubject(subjectIds As Object(),
-                                               plotX As Double(),
-                                               differences As Double(),
-                                               rowsToExclude As List(Of Integer)) As (SubjectIds As Object(), PlotX As Double(), Differences As Double())
-            Dim skip As New HashSet(Of Integer)(rowsToExclude)
-            Dim outIds As New List(Of Object)(Math.Max(0, subjectIds.Length - skip.Count))
-            Dim outX As New List(Of Double)(Math.Max(0, plotX.Length - skip.Count))
-            Dim outD As New List(Of Double)(Math.Max(0, differences.Length - skip.Count))
-            For i As Integer = 0 To subjectIds.Length - 1
-                If skip.Contains(i) Then Continue For
-                outIds.Add(subjectIds(i))
-                outX.Add(plotX(i))
-                outD.Add(differences(i))
-            Next
-            Return (outIds.ToArray(), outX.ToArray(), outD.ToArray())
-        End Function
-
-        Private Shared Function CloneOptions(opts As BlandAltmanOptions) As BlandAltmanOptions
-            Return New BlandAltmanOptions With {
-                .Alpha = opts.Alpha,
-                .Scale = opts.Scale,
-                .XAxisMode = opts.XAxisMode,
-                .CiMethod = opts.CiMethod,
-                .UseTDistribution = opts.UseTDistribution,
-                .BootstrapReplicates = opts.BootstrapReplicates,
-                .SubjectIds = opts.SubjectIds,
-                .Mode = opts.Mode,
-                .ExcludeSingletonSubjects = opts.ExcludeSingletonSubjects,
-                .MinSubjects = opts.MinSubjects,
-                .MinPairsPerSubject = opts.MinPairsPerSubject,
-                .CheckProportionalBias = opts.CheckProportionalBias,
-                .PlotMode = opts.PlotMode,
-                .AllowFallbackToSimple = opts.AllowFallbackToSimple
             }
         End Function
 
@@ -1075,202 +930,219 @@ Namespace Agreement
                     String.Empty)
         End Function
 
-        ''' <summary>
-        ''' Computes clustered bootstrap confidence intervals for repeated-measures Bland–Altman analysis by resampling whole subjects with replacement.
-        ''' </summary>
-        ''' <param name="subjectIds">Subject identifiers aligned with <paramref name="plotX"/> and <paramref name="differences"/>.</param>
-        ''' <param name="plotX">The Bland–Altman x-axis values for each repeated paired observation.</param>
-        ''' <param name="differences">The transformed paired differences for each repeated paired observation.</param>
-        ''' <param name="observedBias">The observed repeated-measures bias estimate from the original data.</param>
-        ''' <param name="observedWithinSubjectSD">The observed pooled within-subject SD from the original data.</param>
-        ''' <param name="opts">Bland–Altman options controlling bootstrap size and repeated-measures eligibility.</param>
-        ''' <returns>
-        ''' A tuple containing the clustered-bootstrap confidence intervals for the bias, lower LoA, and upper LoA.
-        ''' </returns>
-        ''' <remarks>
-        ''' <para>
-        ''' This function resamples subjects rather than individual rows. Each selected subject contributes all of its repeated
-        ''' observations to the bootstrap sample. When a subject is sampled more than once, each copy is assigned a new synthetic
-        ''' subject ID so that the repeated-measures grouping logic treats duplicated draws as separate clusters.
-        ''' </para>
-        ''' <para>
-        ''' The returned intervals are percentile-bootstrap intervals. When <see cref="AgreementCiMethod.BootstrapBCa"/> is requested,
-        ''' the current implementation still uses the clustered percentile engine.
-        ''' </para>
-        ''' </remarks>
-        Private Shared Function ComputeRepeatedBootstrapConfidenceIntervals(subjectIds As Object(),
-                                                            plotX As Double(),
-                                                            differences As Double(),
-                                                            observedBias As Double,
-                                                            observedWithinSubjectSD As Double,
-                                                            opts As BlandAltmanOptions,
-                                                            Optional randomSeed As Integer = Integer.MinValue) As (BiasCI As ConfidenceIntervalResult,
-                                                                                                                    LowerLoACI As ConfidenceIntervalResult,
-                                                                                                                    UpperLoACI As ConfidenceIntervalResult)
-            If subjectIds Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(subjectIds)))
-            If plotX Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(plotX)))
-            If differences Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(differences)))
-            If subjectIds.Length <> plotX.Length OrElse subjectIds.Length <> differences.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("subjectIds, plotX, and differences must have the same length."))
+        Private Sub AppendResamplingRunInfoNotes(noteParts As List(Of String), info As ResamplingRunInfo)
+            If noteParts Is Nothing OrElse info Is Nothing Then Exit Sub
+            If info.SeedUsed <> Integer.MinValue Then noteParts.Add($"Resampling seed = {info.SeedUsed}.")
+            If info.ReplicatesRequested > 0 Then noteParts.Add($"Resamples used = {info.ReplicatesUsed} / {info.ReplicatesRequested}.")
+            If info.FailedReplicates > 0 Then noteParts.Add($"Failed/discarded resamples = {info.FailedReplicates}.")
+            If info.Notes IsNot Nothing Then
+                For Each s As String In info.Notes
+                    If Not String.IsNullOrWhiteSpace(s) Then noteParts.Add(s.Trim())
+                Next
             End If
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+        End Sub
 
-            Dim biasEstimates As New List(Of Double)(opts.BootstrapReplicates)
-            Dim lowerEstimates As New List(Of Double)(opts.BootstrapReplicates)
-            Dim upperEstimates As New List(Of Double)(opts.BootstrapReplicates)
-            Dim rng = AppGlobals.CreateRandom(randomSeed)
-            Dim maxAttempts As Integer = Math.Max(opts.BootstrapReplicates * 20, 1000)
-            Dim attempts As Integer = 0
+        Private Function SimpleBootstrapBlandAltmanResamplingResult(differences As Double(),
+                                                    observedBias As Double,
+                                                    observedSd As Double,
+                                                    opts As BlandAltmanOptions,
+                                                    Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                    Optional randomSeed As Integer = Integer.MinValue) As VectorResamplingResult
+            Dim bootOpts As New BootstrapOptions With {
+                    .Alpha = opts.Alpha,
+                    .Replicates = opts.BootstrapReplicates,
+                    .RandomSeed = randomSeed,
+                    .MaxFailures = Math.Max(1000, opts.BootstrapReplicates)
+                }
 
-            While biasEstimates.Count < opts.BootstrapReplicates AndAlso attempts < maxAttempts
-                attempts += 1
-                Dim boot = ResampleSubjectsWithReplacement(subjectIds, plotX, differences, rng, attempts)
-                Dim repeated = ComputeRepeatedStatistics(boot.SubjectIds, boot.PlotX, boot.Differences, opts)
-
-                If repeated.UseRepeated AndAlso Not Double.IsNaN(repeated.WithinSubjectSD) AndAlso repeated.WithinSubjectSD > 0.0 Then
-                    Dim biasB As Double = boot.Differences.Average()
-                    Dim lowerB As Double = biasB - DefaultLoAMultiplier * repeated.WithinSubjectSD
-                    Dim upperB As Double = biasB + DefaultLoAMultiplier * repeated.WithinSubjectSD
-                    biasEstimates.Add(biasB)
-                    lowerEstimates.Add(lowerB)
-                    upperEstimates.Add(upperB)
-                End If
-            End While
-
-            If biasEstimates.Count < Math.Max(100, CInt(Math.Ceiling(opts.BootstrapReplicates * 0.5))) Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Too few successful clustered bootstrap replicates were obtained for repeated-measures Bland–Altman confidence intervals."))
+            Dim progressCallback As Action(Of Integer, Integer) = Nothing
+            If progressBar IsNot Nothing Then
+                progressBar.Invoke(Sub() progressBar.Value = 0)
+                progressCallback = Sub(completed As Integer, total As Integer)
+                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                   End Sub
             End If
 
-            Dim biasCI As ConfidenceIntervalResult = BuildPercentileConfidenceInterval(biasEstimates.ToArray(), observedBias, opts.Alpha)
-            Dim lowerCI As ConfidenceIntervalResult = BuildPercentileConfidenceInterval(lowerEstimates.ToArray(), observedBias - DefaultLoAMultiplier * observedWithinSubjectSD, opts.Alpha)
-            Dim upperCI As ConfidenceIntervalResult = BuildPercentileConfidenceInterval(upperEstimates.ToArray(), observedBias + DefaultLoAMultiplier * observedWithinSubjectSD, opts.Alpha)
+            Dim result As VectorResamplingResult = ResamplingBootstrapRunner.RunVectorBootstrap(
+                differences.Length,
+                Function(idx As Integer())
+                    Dim sample As Double() = ResamplingBootstrap.TakeByIndices(differences, idx)
+                    Dim meanB As Double = sample.Average()
+                    Dim sdB As Double = StatFunc.stDev(sample)
+                    Return New Double() {meanB, meanB - DefaultLoAMultiplier * sdB, meanB + DefaultLoAMultiplier * sdB}
+                End Function,
+                bootOpts,
+                New String() {"Bias", "Lower LoA", "Upper LoA"},
+                "Bland–Altman bootstrap",
+                50,
+                progressCallback)
 
-            biasCI.StdErr = StatFunc.stDev(biasEstimates.ToArray())
-            lowerCI.StdErr = StatFunc.stDev(lowerEstimates.ToArray())
-            upperCI.StdErr = StatFunc.stDev(upperEstimates.ToArray())
-
-            Return (biasCI, lowerCI, upperCI)
+            result.ObservedStatistics = New Double() {observedBias, observedBias - DefaultLoAMultiplier * observedSd, observedBias + DefaultLoAMultiplier * observedSd}
+            Return result
         End Function
 
-        ''' <summary>
-        ''' Builds one clustered bootstrap sample by resampling whole subjects with replacement.
-        ''' </summary>
-        ''' <param name="subjectIds">Original subject identifiers.</param>
-        ''' <param name="plotX">Original x-axis values.</param>
-        ''' <param name="differences">Original transformed paired differences.</param>
-        ''' <param name="rng">Random-number generator used for sampling.</param>
-        ''' <param name="replicateIndex">Index of the current bootstrap replicate, used only to construct unique synthetic subject IDs.</param>
-        ''' <returns>
-        ''' A tuple containing bootstrap-sample subject IDs, x-axis values, and differences.
-        ''' </returns>
-        ''' <remarks>
-        ''' If a subject is sampled multiple times in the same bootstrap replicate, each sampled copy receives a new synthetic
-        ''' subject identifier so that repeated-measures grouping is preserved without merging duplicated draws.
-        ''' </remarks>
-        Private Shared Function ResampleSubjectsWithReplacement(subjectIds As Object(),
-                                                        plotX As Double(),
-                                                        differences As Double(),
-                                                        rng As Random,
-                                                        replicateIndex As Integer) As (SubjectIds As Object(), PlotX As Double(), Differences As Double())
-            Dim grouped As New Dictionary(Of String, List(Of Integer))(StringComparer.Ordinal)
-            For i As Integer = 0 To subjectIds.Length - 1
-                Dim key As String = Convert.ToString(subjectIds(i), Globalization.CultureInfo.InvariantCulture)
-                If Not grouped.ContainsKey(key) Then grouped.Add(key, New List(Of Integer))
-                grouped(key).Add(i)
+        Private Function SimpleJackknifeBlandAltmanResamplingResult(differences As Double(),
+                                                            observedBias As Double,
+                                                            observedSd As Double,
+                                                            opts As BlandAltmanOptions) As VectorResamplingResult
+            Dim jkOpts As New JackknifeOptions With {.Alpha = opts.Alpha}
+
+            Dim result As VectorResamplingResult = ResamplingJackknifeRunner.RunVectorJackknife(
+                differences.Length,
+                Function(idx As Integer())
+                    Dim sample As Double() = ResamplingBootstrap.TakeByIndices(differences, idx)
+                    Dim meanJ As Double = sample.Average()
+                    Dim sdJ As Double = StatFunc.stDev(sample)
+                    Return New Double() {meanJ, meanJ - DefaultLoAMultiplier * sdJ, meanJ + DefaultLoAMultiplier * sdJ}
+                End Function,
+                jkOpts,
+                New String() {"Bias", "Lower LoA", "Upper LoA"},
+                "Bland–Altman jackknife",
+                2)
+
+            result.ObservedStatistics = New Double() {
+                observedBias,
+                observedBias - DefaultLoAMultiplier * observedSd,
+                observedBias + DefaultLoAMultiplier * observedSd}
+
+            ResamplingCore.AppendNote(result.RunInfo, "Jackknife CIs use leave-one-pair-out resampling.")
+            Return result
+        End Function
+
+        Private Function RepeatedJackknifeBlandAltmanResamplingResult(subjectIds As Object(),
+                                                              plotX As Double(),
+                                                              differences As Double(),
+                                                              observedBias As Double,
+                                                              observedWithinSubjectSD As Double,
+                                                              opts As BlandAltmanOptions) As VectorResamplingResult
+            Dim jkOpts As New JackknifeOptions With {.Alpha = opts.Alpha}
+
+            Dim result As VectorResamplingResult = ResamplingJackknifeRunner.RunVectorClusterJackknife(
+                subjectIds,
+                Function(idx As Integer())
+                    Dim redSubj As Object() = ResamplingBootstrap.TakeByIndices(subjectIds, idx)
+                    Dim redX As Double() = ResamplingBootstrap.TakeByIndices(plotX, idx)
+                    Dim redD As Double() = ResamplingBootstrap.TakeByIndices(differences, idx)
+                    Dim repeated = ComputeRepeatedStatistics(redSubj, redX, redD, opts)
+                    If Not repeated.UseRepeated OrElse Double.IsNaN(repeated.WithinSubjectSD) OrElse repeated.WithinSubjectSD <= 0.0 Then
+                        Throw New InvalidOperationException("Repeated-measures statistics could not be estimated for this clustered jackknife replicate.")
+                    End If
+                    Dim biasJ As Double = redD.Average()
+                    Return New Double() {biasJ, biasJ - DefaultLoAMultiplier * repeated.WithinSubjectSD, biasJ + DefaultLoAMultiplier * repeated.WithinSubjectSD}
+                End Function,
+                jkOpts,
+                New String() {"Bias", "Lower LoA", "Upper LoA"},
+                "Repeated Bland–Altman jackknife",
+                2)
+
+            result.ObservedStatistics = New Double() {
+                observedBias,
+                observedBias - DefaultLoAMultiplier * observedWithinSubjectSD,
+                observedBias + DefaultLoAMultiplier * observedWithinSubjectSD}
+
+            ResamplingCore.AppendNote(result.RunInfo, "Repeated-measures jackknife CIs use leave-one-subject-out resampling.")
+            Return result
+        End Function
+
+        Private Function RepeatedBootstrapBlandAltmanResamplingResult(subjectIds As Object(),
+                                                      plotX As Double(),
+                                                      differences As Double(),
+                                                      observedBias As Double,
+                                                      observedWithinSubjectSD As Double,
+                                                      opts As BlandAltmanOptions,
+                                                      Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                      Optional randomSeed As Integer = Integer.MinValue) As VectorResamplingResult
+            Dim bootOpts As New BootstrapOptions With {
+                    .Alpha = opts.Alpha,
+                    .Replicates = opts.BootstrapReplicates,
+                    .RandomSeed = randomSeed,
+                    .MaxFailures = Math.Max(opts.BootstrapReplicates * 20, 1000)
+                }
+            Dim clusterBlocks As List(Of Integer()) = ResamplingBootstrap.BuildClusterIndexBlocks(subjectIds)
+            Dim minSuccessful As Integer = Math.Max(100, CInt(Math.Ceiling(bootOpts.Replicates * 0.5)))
+
+            Dim progressCallback As Action(Of Integer, Integer) = Nothing
+            If progressBar IsNot Nothing Then
+                progressBar.Invoke(Sub() progressBar.Value = 0)
+                progressCallback = Sub(completed As Integer, total As Integer)
+                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                   End Sub
+            End If
+
+            Dim result As VectorResamplingResult = ResamplingBootstrapRunner.RunVectorClusterBootstrap(
+                clusterBlocks,
+                Function(idx As Integer())
+                    Dim boot = BuildSyntheticSubjectBootstrapSample(subjectIds, plotX, differences, idx, clusterBlocks)
+                    Dim repeated = ComputeRepeatedStatistics(boot.SubjectIds, boot.PlotX, boot.Differences, opts)
+                    If Not repeated.UseRepeated OrElse Double.IsNaN(repeated.WithinSubjectSD) OrElse repeated.WithinSubjectSD <= 0.0 Then
+                        Throw New InvalidOperationException("Repeated-measures statistics could not be estimated for this clustered bootstrap replicate.")
+                    End If
+                    Dim biasB As Double = boot.Differences.Average()
+                    Return New Double() {biasB, biasB - DefaultLoAMultiplier * repeated.WithinSubjectSD, biasB + DefaultLoAMultiplier * repeated.WithinSubjectSD}
+                End Function,
+                bootOpts,
+                New String() {"Bias", "Lower LoA", "Upper LoA"},
+                "Repeated Bland–Altman clustered bootstrap",
+                minSuccessful,
+                progressCallback)
+
+            result.ObservedStatistics = New Double() {observedBias, observedBias - DefaultLoAMultiplier * observedWithinSubjectSD, observedBias + DefaultLoAMultiplier * observedWithinSubjectSD}
+            ResamplingCore.AppendNote(result.RunInfo, "Repeated-measures bootstrap CIs use clustered resampling at the subject level.")
+
+            Return result
+        End Function
+
+        Private Shared Function BuildSyntheticSubjectBootstrapSample(subjectIds As Object(),
+                                                                     plotX As Double(),
+                                                                     differences As Double(),
+                                                                     resampledIndices As Integer(),
+                                                                     clusterBlocks As List(Of Integer())) As (SubjectIds As Object(), PlotX As Double(), Differences As Double())
+            ValidateClusterBlocks(clusterBlocks)
+
+            Dim blockLengthByRow As New Dictionary(Of Integer, Integer)()
+            For Each block As Integer() In clusterBlocks
+                If block Is Nothing OrElse block.Length = 0 Then
+                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Cluster blocks must not contain empty blocks."))
+                End If
+                For Each rowIndex As Integer In block
+                    blockLengthByRow(rowIndex) = block.Length
+                Next
             Next
 
-            Dim keys As List(Of String) = grouped.Keys.ToList()
-            Dim outIds As New List(Of Object)(subjectIds.Length)
-            Dim outX As New List(Of Double)(plotX.Length)
-            Dim outD As New List(Of Double)(differences.Length)
+            Dim outIds As New List(Of Object)(resampledIndices.Length)
+            Dim outX As New List(Of Double)(resampledIndices.Length)
+            Dim outD As New List(Of Double)(resampledIndices.Length)
+            Dim pos As Integer = 0
+            Dim drawOrdinal As Integer = 0
 
-            For drawIndex As Integer = 0 To keys.Count - 1
-                Dim pickedKey As String = keys(rng.Next(0, keys.Count))
-                Dim syntheticId As String = $"{pickedKey}__bs{replicateIndex}_{drawIndex}"
-                For Each rowIndex As Integer In grouped(pickedKey)
+            While pos < resampledIndices.Length
+                Dim firstRow As Integer = resampledIndices(pos)
+                If Not blockLengthByRow.ContainsKey(firstRow) Then
+                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Resampled clustered bootstrap index does not map to a known source block."))
+                End If
+
+                Dim blockLength As Integer = blockLengthByRow(firstRow)
+                If pos + blockLength > resampledIndices.Length Then
+                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Clustered bootstrap sample ended inside a subject block; the sample cannot be reconstructed."))
+                End If
+
+                Dim baseKey As String = Convert.ToString(subjectIds(firstRow), Globalization.CultureInfo.InvariantCulture)
+                Dim syntheticId As String = $"{baseKey}__bs{drawOrdinal}"
+
+                For offset As Integer = 0 To blockLength - 1
+                    Dim rowIndex As Integer = resampledIndices(pos + offset)
                     outIds.Add(syntheticId)
                     outX.Add(plotX(rowIndex))
                     outD.Add(differences(rowIndex))
                 Next
-            Next
+
+                pos += blockLength
+                drawOrdinal += 1
+            End While
 
             Return (outIds.ToArray(), outX.ToArray(), outD.ToArray())
-        End Function
-
-        Private Shared Function BootstrapBiasConfidenceInterval(differences As Double(),
-                                                        opts As BlandAltmanOptions,
-                                                        Optional randomSeed As Integer = Integer.MinValue) As ConfidenceIntervalResult
-            Dim n As Integer = differences.Length
-            Dim estimates(opts.BootstrapReplicates - 1) As Double
-            Dim rng = AppGlobals.CreateRandom(randomSeed)
-
-            For b As Integer = 0 To opts.BootstrapReplicates - 1
-                Dim sample(n - 1) As Double
-                For i As Integer = 0 To n - 1
-                    sample(i) = differences(rng.Next(0, n))
-                Next
-                estimates(b) = sample.Average()
-            Next
-
-            Dim observed As Double = differences.Average()
-            Dim ci = BuildPercentileConfidenceInterval(estimates, observed, opts.Alpha)
-            ci.StdErr = StatFunc.stDev(estimates)
-            Return ci
-        End Function
-
-        Private Shared Function BootstrapLoAConfidenceIntervals(n As Integer,
-                                                        bias As Double,
-                                                        sdDiff As Double,
-                                                        opts As BlandAltmanOptions,
-                                                        Optional randomSeed As Integer = Integer.MinValue) As (Lower As ConfidenceIntervalResult,
-                                                                                                                Upper As ConfidenceIntervalResult)
-            Dim b As Integer = opts.BootstrapReplicates
-            Dim lowerEst(b - 1) As Double
-            Dim upperEst(b - 1) As Double
-            Dim rng = AppGlobals.CreateRandom(randomSeed)
-
-            For r As Integer = 0 To b - 1
-                ' Parametric bootstrap around the estimated BA model.
-                Dim sample(n - 1) As Double
-                For i As Integer = 0 To n - 1
-                    sample(i) = bias + sdDiff * distributions.NormSInv(rng.NextDouble())
-                Next
-                Dim meanB As Double = sample.Average()
-                Dim sdB As Double = StatFunc.stDev(sample)
-                lowerEst(r) = meanB - DefaultLoAMultiplier * sdB
-                upperEst(r) = meanB + DefaultLoAMultiplier * sdB
-            Next
-
-            Dim lower As ConfidenceIntervalResult = BuildPercentileConfidenceInterval(lowerEst, bias - DefaultLoAMultiplier * sdDiff, opts.Alpha)
-            Dim upper As ConfidenceIntervalResult = BuildPercentileConfidenceInterval(upperEst, bias + DefaultLoAMultiplier * sdDiff, opts.Alpha)
-            lower.StdErr = StatFunc.stDev(lowerEst)
-            upper.StdErr = StatFunc.stDev(upperEst)
-            Return (lower, upper)
-        End Function
-
-        Private Shared Function BuildPercentileConfidenceInterval(samples As Double(), observed As Double, alpha As Double) As ConfidenceIntervalResult
-            Dim sorted As Double() = CType(samples.Clone(), Double())
-            Array.Sort(sorted)
-            Dim lower As Double = PercentileFromSorted(sorted, alpha / 2.0)
-            Dim upper As Double = PercentileFromSorted(sorted, 1.0 - alpha / 2.0)
-            Return New ConfidenceIntervalResult With {
-                .Estimate = observed,
-                .alpha = alpha,
-                .LowerLimit = lower,
-                .UpperLimit = upper
-            }
-        End Function
-
-        Private Shared Function PercentileFromSorted(sorted As Double(), p As Double) As Double
-            If sorted Is Nothing OrElse sorted.Length = 0 Then Return Double.NaN
-            If p <= 0.0 Then Return sorted(0)
-            If p >= 1.0 Then Return sorted(sorted.Length - 1)
-
-            Dim h As Double = (sorted.Length - 1) * p
-            Dim i As Integer = CInt(Math.Floor(h))
-            Dim frac As Double = h - i
-            If i >= sorted.Length - 1 Then Return sorted(sorted.Length - 1)
-            Return sorted(i) + frac * (sorted(i + 1) - sorted(i))
         End Function
 
         Private Shared Sub AddHorizontalReferenceLine(ch As Chart,
@@ -1352,7 +1224,7 @@ Namespace Agreement
                 Case AgreementCiMethod.Analytical : Return "Analytical"
                 Case AgreementCiMethod.Jackknife : Return "Jackknife"
                 Case AgreementCiMethod.BootstrapPercentile : Return "Bootstrap percentile"
-                Case AgreementCiMethod.BootstrapBCa : Return "Bootstrap BCa (currently uses percentile engine)"
+                Case AgreementCiMethod.BootstrapBCa : Return "Bootstrap BCa"
                 Case Else : Return "Unknown"
             End Select
         End Function
@@ -1371,8 +1243,8 @@ Namespace Agreement
             pSubjectMeanPlotX = Nothing
             pSubjectMeanPlotY = Nothing
             pSubjectLabels = Nothing
-            pUsedBootstrapCi = False
-            pBootstrapSeedUsed = Integer.MinValue
+            pBootstrapRunInfo = Nothing
+            pJackknifeRunInfo = Nothing
         End Sub
 
         Private NotInheritable Class SubjectAccumulator

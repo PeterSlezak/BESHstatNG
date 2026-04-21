@@ -8,7 +8,7 @@ Imports System.Linq
 Imports BESHStatNG.equivalencetests
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Excel-DNA worksheet functions for agreement and method-comparison procedures.
@@ -91,7 +91,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
                 Dim grp() As Object = input.Category
-                Dim grpVarName As String = If(UDFhelpers.IsMissingArg(groupName), "Group", Convert.ToString(groupName).Trim())
+                Dim grpVarName As String = If(ExcelArgPredicates.IsMissingArg(groupName), "Group", Convert.ToString(groupName).Trim())
 
                 Dim mdl As New Agreement.PassinbBablok(input.X, input.Y, names(0), names(1), grp, grpVarName)
                 mdl.alpha = alphaValue
@@ -253,16 +253,16 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim names() As String = ParametricUDFs.ResolveNames(varNames, data.DetectedNames, 2, "Method")
                 Dim opts As New Agreement.DemingOptions With {
                     .Alpha = ParseAlphaOrDefault(alpha, 0.05),
-                    .Lambda = UDFhelpers.GetOptionalDouble(lambda, 1.0),
+                    .Lambda = GetOptionalDouble(lambda, 1.0),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Jackknife),
                     .VarianceModel = ParseDemingVarianceModel(varianceModel, Agreement.DemingVarianceModel.ConstantLambda),
-                    .FitIntercept = UDFhelpers.GetOptionalBool(fitIntercept, True),
+                    .FitIntercept = GetOptionalBool(fitIntercept, True),
                     .CVx = ParseOptionalNullableDouble(cvX),
                     .CVy = ParseOptionalNullableDouble(cvY),
-                    .BootstrapReplicates = Math.Max(200, UDFhelpers.GetOptionalInt(bootstrapReplicates, 2000))
+                    .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
-                If Not UDFhelpers.IsMissingArg(sdX) Then opts.SDx = data.SDx
-                If Not UDFhelpers.IsMissingArg(sdY) Then opts.SDy = data.SDy
+                If Not IsMissingArg(sdX) Then opts.SDx = data.SDx
+                If Not IsMissingArg(sdY) Then opts.SDy = data.SDy
 
                 Dim seed As Integer = ParseOptionalSeed(randomSeed)
                 Dim mdl As New Agreement.WeightedDemingRegression(data.X, data.Y, names(0), names(1), opts)
@@ -328,16 +328,16 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim opts As New Agreement.DemingOptions With {
                     .Alpha = ParseAlphaOrDefault(alpha, 0.05),
-                    .Lambda = UDFhelpers.GetOptionalDouble(lambda, 1.0),
+                    .Lambda = GetOptionalDouble(lambda, 1.0),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Jackknife),
                     .VarianceModel = ParseDemingVarianceModel(varianceModel, Agreement.DemingVarianceModel.ConstantLambda),
-                    .FitIntercept = UDFhelpers.GetOptionalBool(fitIntercept, True),
+                    .FitIntercept = GetOptionalBool(fitIntercept, True),
                     .CVx = ParseOptionalNullableDouble(cvX),
                     .CVy = ParseOptionalNullableDouble(cvY),
-                    .BootstrapReplicates = Math.Max(200, UDFhelpers.GetOptionalInt(bootstrapReplicates, 2000))
+                    .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
-                If Not UDFhelpers.IsMissingArg(sdX) Then opts.SDx = data.SDx
-                If Not UDFhelpers.IsMissingArg(sdY) Then opts.SDy = data.SDy
+                If Not IsMissingArg(sdX) Then opts.SDx = data.SDx
+                If Not IsMissingArg(sdY) Then opts.SDy = data.SDy
 
                 Dim seed As Integer = ParseOptionalSeed(randomSeed)
                 Dim mdl As New Agreement.WeightedDemingRegression(data.X, data.Y, "Reference", "Test", opts)
@@ -452,13 +452,13 @@ Namespace BESHStatNG.WorksheetFunctions
                     .Scale = ParseBlandScale(scale, Agreement.BlandAltmanScale.RawDifference),
                     .XAxisMode = ParseBlandXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
-                    .BootstrapReplicates = Math.Max(200, UDFhelpers.GetOptionalInt(bootstrapReplicates, 2000)),
-                    .UseTDistribution = UDFhelpers.GetOptionalBool(useT, True),
-                    .MinSubjects = Math.Max(1, UDFhelpers.GetOptionalInt(minSubjects, 2)),
-                    .MinPairsPerSubject = Math.Max(1, UDFhelpers.GetOptionalInt(minPairsPerSubject, 2)),
-                    .ExcludeSingletonSubjects = UDFhelpers.GetOptionalBool(excludeSingletonSubjects, True),
-                    .AllowFallbackToSimple = UDFhelpers.GetOptionalBool(allowFallbackToSimple, True),
-                    .CheckProportionalBias = UDFhelpers.GetOptionalBool(checkProportionalBias, True),
+                    .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000)),
+                    .UseTDistribution = GetOptionalBool(useT, True),
+                    .MinSubjects = Math.Max(1, GetOptionalInt(minSubjects, 2)),
+                    .MinPairsPerSubject = Math.Max(1, GetOptionalInt(minPairsPerSubject, 2)),
+                    .ExcludeSingletonSubjects = GetOptionalBool(excludeSingletonSubjects, True),
+                    .AllowFallbackToSimple = GetOptionalBool(allowFallbackToSimple, True),
+                    .CheckProportionalBias = GetOptionalBool(checkProportionalBias, True),
                     .PlotMode = ParseBlandPlotMode(plotMode, Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans)
                 }
 
@@ -523,7 +523,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     .Scale = ParseBlandScale(scale, Agreement.BlandAltmanScale.RawDifference),
                     .XAxisMode = ParseBlandXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
-                    .BootstrapReplicates = Math.Max(200, UDFhelpers.GetOptionalInt(bootstrapReplicates, 2000))
+                    .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
                 If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
 
@@ -891,8 +891,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim opts As New Agreement.LinConcordanceOptions With {
                     .Alpha = ParseAlphaOrDefault(alpha, 0.05),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
-                    .NullConcordance = UDFhelpers.GetOptionalDouble(nullConcordance, 0.0),
-                    .BootstrapReplicates = Math.Max(200, UDFhelpers.GetOptionalInt(bootstrapReplicates, 2000))
+                    .NullConcordance = GetOptionalDouble(nullConcordance, 0.0),
+                    .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
                 Dim mdl As New Agreement.LinConcordanceCorrelation(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), names(0), names(1), opts)
                 mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
@@ -941,8 +941,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim opts As New Agreement.LinConcordanceOptions With {
                     .Alpha = ParseAlphaOrDefault(alpha, 0.05),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
-                    .NullConcordance = UDFhelpers.GetOptionalDouble(nullConcordance, 0.0),
-                    .BootstrapReplicates = Math.Max(200, UDFhelpers.GetOptionalInt(bootstrapReplicates, 2000))
+                    .NullConcordance = GetOptionalDouble(nullConcordance, 0.0),
+                    .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
                 Dim mdl As New Agreement.LinConcordanceCorrelation(Matrix.GetColumnFrom2Darray(mat, 0), Matrix.GetColumnFrom2Darray(mat, 1), "Reference", "Test", opts)
                 Dim res = mdl.Fit(Nothing, ParseOptionalSeed(randomSeed))
@@ -1013,7 +1013,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     .Alpha = ParseAlphaOrDefault(alpha, 0.05),
                     .Weighting = ParseKappaWeighting(weighting, Agreement.KappaWeightingScheme.Quadratic),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
-                    .BootstrapReplicates = Math.Max(200, UDFhelpers.GetOptionalInt(bootstrapReplicates, 2000))
+                    .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
                 Dim cats() As Object = Nothing
                 If TryParseCategoryList(categories, cats) Then opts.Categories = cats
@@ -1070,7 +1070,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     .Alpha = ParseAlphaOrDefault(alpha, 0.05),
                     .Weighting = ParseKappaWeighting(weighting, Agreement.KappaWeightingScheme.Quadratic),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
-                    .BootstrapReplicates = Math.Max(200, UDFhelpers.GetOptionalInt(bootstrapReplicates, 2000))
+                    .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
                 Dim cats() As Object = Nothing
                 If TryParseCategoryList(categories, cats) Then opts.Categories = cats
@@ -1167,7 +1167,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Try
                 Dim modelCode As String = ParseIccModel(model, "ICC21")
                 Dim alphaValue As Double = ParseAlphaOrDefault(alpha, 0.05R)
-                Dim addRc As Boolean = UDFhelpers.GetOptionalBool(includeRepeatability, False)
+                Dim addRc As Boolean = GetOptionalBool(includeRepeatability, False)
 
                 Dim icc As New Agreement.IntraclassCorrelation
                 Dim result As ConfidenceIntervalResult = Nothing
@@ -1536,13 +1536,13 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         Private Function ParseOptionalNullableDouble(arg As Object) As Double
-            If UDFhelpers.IsMissingArg(arg) Then Return Double.NaN
-            Return UDFhelpers.GetOptionalDouble(arg, Double.NaN)
+            If IsMissingArg(arg) Then Return Double.NaN
+            Return GetOptionalDouble(arg, Double.NaN)
         End Function
 
         Private Function ParseOptionalSeed(arg As Object) As Integer
-            If UDFhelpers.IsMissingArg(arg) Then Return Integer.MinValue
-            Return UDFhelpers.GetOptionalInt(arg, Integer.MinValue)
+            If IsMissingArg(arg) Then Return Integer.MinValue
+            Return GetOptionalInt(arg, Integer.MinValue)
         End Function
 
         Private Function ReadAlignedNumericWithOptionalCategory(x As Object,
@@ -1565,7 +1565,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 }
 
             Dim ac As Object(,) = Nothing
-            Dim useCategory As Boolean = Not UDFhelpers.IsMissingArg(category)
+            Dim useCategory As Boolean = Not IsMissingArg(category)
             If useCategory Then
                 ac = UDFhelpers.Get2D(category)
                 If ac Is Nothing OrElse ac.GetLength(1) <> 1 OrElse ac.GetLength(0) <> ax.GetLength(0) Then Return (Nothing, Nothing, Nothing, Nothing, ExcelError.ExcelErrorValue)
@@ -1577,13 +1577,13 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim yv As New List(Of Double)
             Dim cv As New List(Of Object)
             For r As Integer = startRow To ax.GetLength(0) - 1
-                Dim dx = UDFhelpers.TryGetDouble(ax(r, 0))
-                Dim dy = UDFhelpers.TryGetDouble(ay(r, 0))
+                Dim dx = TryGetDouble(ax(r, 0))
+                Dim dy = TryGetDouble(ay(r, 0))
                 If dx.HasValue AndAlso dy.HasValue Then
                     xv.Add(dx.Value)
                     yv.Add(dy.Value)
                     If useCategory Then
-                        Dim s As String = UDFhelpers.CellToTrimmedText(ac(r, 0))
+                        Dim s As String = CellToTrimmedText(ac(r, 0))
                         If s = "" Then Return (Nothing, Nothing, Nothing, Nothing, ExcelError.ExcelErrorValue)
                         cv.Add(s)
                     End If
@@ -1596,7 +1596,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
         Private Function TryParseCategoryList(arg As Object, ByRef categories() As Object) As Boolean
             categories = Nothing
-            If UDFhelpers.IsMissingArg(arg) Then Return False
+            If IsMissingArg(arg) Then Return False
 
             If TypeOf arg Is String Then
                 Dim s As String = Convert.ToString(arg).Trim()
@@ -1612,12 +1612,12 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim vals As New List(Of Object)
             If arr.GetLength(0) = 1 Then
                 For j As Integer = 0 To arr.GetLength(1) - 1
-                    Dim s As String = UDFhelpers.CellToTrimmedText(arr(0, j))
+                    Dim s As String = CellToTrimmedText(arr(0, j))
                     If s <> "" Then vals.Add(s)
                 Next
             ElseIf arr.GetLength(1) = 1 Then
                 For i As Integer = 0 To arr.GetLength(0) - 1
-                    Dim s As String = UDFhelpers.CellToTrimmedText(arr(i, 0))
+                    Dim s As String = CellToTrimmedText(arr(i, 0))
                     If s <> "" Then vals.Add(s)
                 Next
             Else
@@ -1648,8 +1648,8 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim xs As New List(Of Object)
             Dim ys As New List(Of Object)
             For r As Integer = startRow To ax.GetLength(0) - 1
-                Dim sx As String = UDFhelpers.CellToTrimmedText(ax(r, 0))
-                Dim sy As String = UDFhelpers.CellToTrimmedText(ay(r, 0))
+                Dim sx As String = CellToTrimmedText(ax(r, 0))
+                Dim sy As String = CellToTrimmedText(ay(r, 0))
                 If sx <> "" AndAlso sy <> "" Then
                     xs.Add(sx)
                     ys.Add(sy)
@@ -1675,8 +1675,8 @@ Namespace BESHStatNG.WorksheetFunctions
                 If(hasHeaderY, Convert.ToString(ay(0, 0)).Trim(), "Test")
             }
 
-            Dim useSdx As Boolean = Not UDFhelpers.IsMissingArg(sdX)
-            Dim useSdy As Boolean = Not UDFhelpers.IsMissingArg(sdY)
+            Dim useSdx As Boolean = Not IsMissingArg(sdX)
+            Dim useSdy As Boolean = Not IsMissingArg(sdY)
             Dim asx As Object(,) = Nothing
             Dim asy As Object(,) = Nothing
             If useSdx Then
@@ -1698,18 +1698,18 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim sdyv As New List(Of Double)
 
             For r As Integer = startRow To ax.GetLength(0) - 1
-                Dim dx = UDFhelpers.TryGetDouble(ax(r, 0))
-                Dim dy = UDFhelpers.TryGetDouble(ay(r, 0))
+                Dim dx = TryGetDouble(ax(r, 0))
+                Dim dy = TryGetDouble(ay(r, 0))
                 If dx.HasValue AndAlso dy.HasValue Then
                     xv.Add(dx.Value)
                     yv.Add(dy.Value)
                     If useSdx Then
-                        Dim sx = UDFhelpers.TryGetDouble(asx(r, 0))
+                        Dim sx = TryGetDouble(asx(r, 0))
                         If Not sx.HasValue Then Return (Nothing, Nothing, Nothing, Nothing, Nothing, ExcelError.ExcelErrorValue)
                         sdxv.Add(sx.Value)
                     End If
                     If useSdy Then
-                        Dim sy = UDFhelpers.TryGetDouble(asy(r, 0))
+                        Dim sy = TryGetDouble(asy(r, 0))
                         If Not sy.HasValue Then Return (Nothing, Nothing, Nothing, Nothing, Nothing, ExcelError.ExcelErrorValue)
                         sdyv.Add(sy.Value)
                     End If
@@ -1800,9 +1800,9 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim sawAnyCell As Boolean = False
                 For c As Integer = 0 To lastCol
                     Dim cell As Object = arr(r, c)
-                    If IsBlankCellLocal(cell) Then Continue For
+                    If IsBlankCell(cell) Then Continue For
                     sawAnyCell = True
-                    Dim d As Double? = UDFhelpers.TryGetDouble(cell)
+                    Dim d As Double? = TryGetDouble(cell)
                     If Not d.HasValue Then Return False
                     rowVals.Add(d.Value)
                 Next
@@ -1817,16 +1817,10 @@ Namespace BESHStatNG.WorksheetFunctions
         Private Function FindLastNonBlankCol(arr As Object(,), lastRow As Integer) As Integer
             For c As Integer = arr.GetLength(1) - 1 To 0 Step -1
                 For r As Integer = 0 To lastRow
-                    If Not IsBlankCellLocal(arr(r, c)) Then Return c
+                    If Not IsBlankCell(arr(r, c)) Then Return c
                 Next
             Next
             Return -1
-        End Function
-
-        Private Function IsBlankCellLocal(cell As Object) As Boolean
-            If cell Is Nothing OrElse TypeOf cell Is ExcelEmpty OrElse TypeOf cell Is ExcelMissing Then Return True
-            If TypeOf cell Is String Then Return String.IsNullOrWhiteSpace(CStr(cell))
-            Return False
         End Function
 
         Private Function DescribeBlandScale(scale As Agreement.BlandAltmanScale) As String
@@ -1878,13 +1872,13 @@ Namespace BESHStatNG.WorksheetFunctions
                 .Scale = ParseBlandScale(scale, Agreement.BlandAltmanScale.RawDifference),
                 .XAxisMode = ParseBlandXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
                 .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
-                .BootstrapReplicates = Math.Max(200, UDFhelpers.GetOptionalInt(bootstrapReplicates, 2000)),
-                .UseTDistribution = UDFhelpers.GetOptionalBool(useT, True),
-                .MinSubjects = Math.Max(1, UDFhelpers.GetOptionalInt(minSubjects, 2)),
-                .MinPairsPerSubject = Math.Max(1, UDFhelpers.GetOptionalInt(minPairsPerSubject, 2)),
-                .ExcludeSingletonSubjects = UDFhelpers.GetOptionalBool(excludeSingletonSubjects, True),
-                .AllowFallbackToSimple = UDFhelpers.GetOptionalBool(allowFallbackToSimple, True),
-                .CheckProportionalBias = UDFhelpers.GetOptionalBool(checkProportionalBias, True),
+                .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000)),
+                .UseTDistribution = GetOptionalBool(useT, True),
+                .MinSubjects = Math.Max(1, GetOptionalInt(minSubjects, 2)),
+                .MinPairsPerSubject = Math.Max(1, GetOptionalInt(minPairsPerSubject, 2)),
+                .ExcludeSingletonSubjects = GetOptionalBool(excludeSingletonSubjects, True),
+                .AllowFallbackToSimple = GetOptionalBool(allowFallbackToSimple, True),
+                .CheckProportionalBias = GetOptionalBool(checkProportionalBias, True),
                 .PlotMode = ParseBlandPlotMode(plotMode, Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans)
             }
 

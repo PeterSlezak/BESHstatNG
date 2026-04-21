@@ -4,8 +4,9 @@ Option Strict On
 Imports System
 Imports ExcelDna.Integration
 Imports BESHStatNG.contingencytable
+Imports BESHStatNG.AppInfrastructure
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for categorical-data and contingency-table analysis.
@@ -86,7 +87,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
                 If TableTotal(tab) <= 0 Then Return ExcelError.ExcelErrorNum
 
-                Dim res = ContingencyTable.Chi2TESTindependence(tab)
+                Dim res = contingencytable.Chi2TESTindependence(tab)
                 If res.Item1 Is Nothing OrElse Not IsFinite(res.Item1.TestStatistics1) OrElse Not IsFinite(res.Item1.Pvalue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -151,7 +152,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
                 If TableTotal(tab) <= 0 Then Return ExcelError.ExcelErrorNum
 
-                Dim res = ContingencyTable.Chi2TESTindependence(tab)
+                Dim res = contingencytable.Chi2TESTindependence(tab)
                 If res.Item1 Is Nothing Then Return ExcelError.ExcelErrorNum
 
                 Dim body As Object(,) = {
@@ -216,7 +217,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If Not Is2x2(tab) Then Return ExcelError.ExcelErrorValue
 
-                Dim res As TestResult = ContingencyTable.FisherExact2x2(tab(0, 0), tab(0, 1), tab(1, 0), tab(1, 1))
+                Dim res As TestResult = contingencytable.FisherExact2x2(tab(0, 0), tab(0, 1), tab(1, 0), tab(1, 1))
                 If res Is Nothing OrElse Not IsFinite(res.Pvalue) Then Return ExcelError.ExcelErrorNum
 
                 Dim body As Object(,) = {
@@ -349,10 +350,10 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If Not Is2x2(tab) Then Return ExcelError.ExcelErrorValue
 
-                Dim alphaValue As Double = UDFhelpers.GetOptionalDouble(alpha, 0.05R)
+                Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res = ContingencyTable.Liddell_McNemar(tab, alphaValue)
+                Dim res = contingencytable.Liddell_McNemar(tab, alphaValue)
                 If res.Item1 Is Nothing OrElse res.Item2 Is Nothing OrElse Not IsFinite(res.Item1.Pvalue) Then Return ExcelError.ExcelErrorNum
 
                 Dim ciText As String = If(String.IsNullOrWhiteSpace(res.Item2.strConfidenceInterval(CIformat.LL_to_UL)), "", res.Item2.strConfidenceInterval(CIformat.LL_to_UL))
@@ -426,10 +427,10 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If Not Is2x2(tab) Then Return ExcelError.ExcelErrorValue
 
-                Dim alphaValue As Double = UDFhelpers.GetOptionalDouble(alpha, 0.05R)
+                Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res = ContingencyTable.OddsRatio(tab, alphaValue)
+                Dim res = contingencytable.OddsRatio(tab, alphaValue)
                 If res.Item1 Is Nothing OrElse res.Item2 Is Nothing OrElse Not IsFinite(res.Item1.Estimate) Then Return ExcelError.ExcelErrorNum
 
                 Dim body As Object(,) = {
@@ -501,10 +502,10 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If Not Is2x2(tab) Then Return ExcelError.ExcelErrorValue
 
-                Dim alphaValue As Double = UDFhelpers.GetOptionalDouble(alpha, 0.05R)
+                Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res As ConfidenceIntervalResult = ContingencyTable.RiskRatio(tab, alphaValue)
+                Dim res As ConfidenceIntervalResult = contingencytable.RiskRatio(tab, alphaValue)
                 If res Is Nothing OrElse Not IsFinite(res.Estimate) Then Return ExcelError.ExcelErrorNum
 
                 Dim body As Object(,) = {
@@ -580,7 +581,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     trendTable = TransposeIntMatrix(tab)
                 End If
 
-                Dim res As TestResult = ContingencyTable.CochranArmitage(trendTable)
+                Dim res As TestResult = contingencytable.CochranArmitage(trendTable)
                 If res Is Nothing OrElse Not IsFinite(res.TestStatistics1) OrElse Not IsFinite(res.Pvalue) Then Return ExcelError.ExcelErrorNum
 
                 Dim body As Object(,) = {
@@ -657,10 +658,10 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
 
-                Dim alphaValue As Double = UDFhelpers.GetOptionalDouble(alpha, 0.05R)
+                Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res = ContingencyTable.cTableORDINALassoc(tab, alphaValue)
+                Dim res = contingencytable.cTableORDINALassoc(tab, alphaValue)
                 If res.Item1 Is Nothing OrElse Not IsFinite(res.Item1.TestStatistics1) OrElse Not IsFinite(res.Item1.Pvalue) Then Return ExcelError.ExcelErrorNum
 
                 Dim ciLabel As String = $"{(1.0R - alphaValue) * 100.0R:0.##}% CI"
@@ -754,10 +755,10 @@ Namespace BESHStatNG.WorksheetFunctions
                     Next
                 Next
 
-                Dim alphaValue As Double = UDFhelpers.GetOptionalDouble(alpha, 0.05R)
+                Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If alphaValue <= 0.0R OrElse alphaValue >= 1.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim res = ContingencyTable.MantelHaenszel(mat, alphaValue)
+                Dim res = contingencytable.MantelHaenszel(mat, alphaValue)
                 If res.Item1 Is Nothing OrElse res.Item2 Is Nothing OrElse Not IsFinite(res.Item1.TestStatistics1) Then Return ExcelError.ExcelErrorNum
 
                 Dim body As Object(,) = {
@@ -853,7 +854,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Return ExcelError.ExcelErrorValue
                 End If
 
-                Dim alphaValue As Double = UDFhelpers.GetOptionalDouble(alpha, 0.05R)
+                Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If n <= 0 OrElse x < 0 OrElse x > n OrElse Not IsOpenUnitInterval(alphaValue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -965,7 +966,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Return ExcelError.ExcelErrorValue
                 End If
 
-                Dim alphaValue As Double = UDFhelpers.GetOptionalDouble(alpha, 0.05R)
+                Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If n1 <= 0 OrElse n2 <= 0 OrElse x1 < 0 OrElse x1 > n1 OrElse x2 < 0 OrElse x2 > n2 OrElse Not IsOpenUnitInterval(alphaValue) Then
                     Return ExcelError.ExcelErrorNum
                 End If
@@ -1092,7 +1093,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Return ExcelError.ExcelErrorValue
                 End If
 
-                Dim alphaValue As Double = UDFhelpers.GetOptionalDouble(alpha, 0.05R)
+                Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
                 If n <= 0 OrElse only1 < 0 OrElse only2 < 0 OrElse both < 0 OrElse
                    (only1 + both) > n OrElse (only2 + both) > n OrElse
                    Not IsOpenUnitInterval(alphaValue) Then

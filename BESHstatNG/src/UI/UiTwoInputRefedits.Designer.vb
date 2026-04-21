@@ -62,6 +62,7 @@ Partial Class UiTwoInputRefedits
         Me.optLinCCCAnalytical = New System.Windows.Forms.RadioButton()
         Me.TabPageOptionsKappa = New System.Windows.Forms.TabPage()
         Me.grpCItypeKappa = New System.Windows.Forms.GroupBox()
+        Me.optKappaJackknife = New System.Windows.Forms.RadioButton()
         Me.spinBtnBootstrapReplicatesKappa = New System.Windows.Forms.NumericUpDown()
         Me.lblBootstrapReplicatesKappa = New System.Windows.Forms.Label()
         Me.lblAlphaKappa = New System.Windows.Forms.Label()
@@ -540,7 +541,6 @@ Partial Class UiTwoInputRefedits
         'optLinCCCBootstrapBCa
         '
         Me.optLinCCCBootstrapBCa.AutoSize = True
-        Me.optLinCCCBootstrapBCa.Enabled = False
         Me.optLinCCCBootstrapBCa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.optLinCCCBootstrapBCa.Location = New System.Drawing.Point(16, 83)
         Me.optLinCCCBootstrapBCa.Name = "optLinCCCBootstrapBCa"
@@ -588,6 +588,7 @@ Partial Class UiTwoInputRefedits
         '
         'grpCItypeKappa
         '
+        Me.grpCItypeKappa.Controls.Add(Me.optKappaJackknife)
         Me.grpCItypeKappa.Controls.Add(Me.spinBtnBootstrapReplicatesKappa)
         Me.grpCItypeKappa.Controls.Add(Me.lblBootstrapReplicatesKappa)
         Me.grpCItypeKappa.Controls.Add(Me.lblAlphaKappa)
@@ -598,16 +599,27 @@ Partial Class UiTwoInputRefedits
         Me.grpCItypeKappa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.grpCItypeKappa.Location = New System.Drawing.Point(7, 144)
         Me.grpCItypeKappa.Name = "grpCItypeKappa"
-        Me.grpCItypeKappa.Size = New System.Drawing.Size(433, 160)
+        Me.grpCItypeKappa.Size = New System.Drawing.Size(433, 186)
         Me.grpCItypeKappa.TabIndex = 24
         Me.grpCItypeKappa.TabStop = False
         Me.grpCItypeKappa.Text = "Confidence Interval Type"
+        '
+        'optKappaJackknife
+        '
+        Me.optKappaJackknife.AutoSize = True
+        Me.optKappaJackknife.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optKappaJackknife.Location = New System.Drawing.Point(16, 57)
+        Me.optKappaJackknife.Name = "optKappaJackknife"
+        Me.optKappaJackknife.Size = New System.Drawing.Size(85, 20)
+        Me.optKappaJackknife.TabIndex = 10
+        Me.optKappaJackknife.Text = "Jackknife"
+        Me.optKappaJackknife.UseVisualStyleBackColor = True
         '
         'spinBtnBootstrapReplicatesKappa
         '
         Me.spinBtnBootstrapReplicatesKappa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.spinBtnBootstrapReplicatesKappa.Increment = New Decimal(New Integer() {100, 0, 0, 0})
-        Me.spinBtnBootstrapReplicatesKappa.Location = New System.Drawing.Point(334, 57)
+        Me.spinBtnBootstrapReplicatesKappa.Location = New System.Drawing.Point(334, 83)
         Me.spinBtnBootstrapReplicatesKappa.Maximum = New Decimal(New Integer() {10000000, 0, 0, 0})
         Me.spinBtnBootstrapReplicatesKappa.Minimum = New Decimal(New Integer() {200, 0, 0, 0})
         Me.spinBtnBootstrapReplicatesKappa.Name = "spinBtnBootstrapReplicatesKappa"
@@ -619,7 +631,7 @@ Partial Class UiTwoInputRefedits
         '
         Me.lblBootstrapReplicatesKappa.AutoSize = True
         Me.lblBootstrapReplicatesKappa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBootstrapReplicatesKappa.Location = New System.Drawing.Point(195, 59)
+        Me.lblBootstrapReplicatesKappa.Location = New System.Drawing.Point(195, 85)
         Me.lblBootstrapReplicatesKappa.Name = "lblBootstrapReplicatesKappa"
         Me.lblBootstrapReplicatesKappa.Size = New System.Drawing.Size(133, 16)
         Me.lblBootstrapReplicatesKappa.TabIndex = 8
@@ -629,7 +641,7 @@ Partial Class UiTwoInputRefedits
         '
         Me.lblAlphaKappa.AutoSize = True
         Me.lblAlphaKappa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAlphaKappa.Location = New System.Drawing.Point(13, 125)
+        Me.lblAlphaKappa.Location = New System.Drawing.Point(13, 148)
         Me.lblAlphaKappa.Name = "lblAlphaKappa"
         Me.lblAlphaKappa.Size = New System.Drawing.Size(41, 16)
         Me.lblAlphaKappa.TabIndex = 7
@@ -640,7 +652,7 @@ Partial Class UiTwoInputRefedits
         Me.spinBtnAlphaKappa.DecimalPlaces = 3
         Me.spinBtnAlphaKappa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.spinBtnAlphaKappa.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnAlphaKappa.Location = New System.Drawing.Point(61, 123)
+        Me.spinBtnAlphaKappa.Location = New System.Drawing.Point(61, 146)
         Me.spinBtnAlphaKappa.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
         Me.spinBtnAlphaKappa.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlphaKappa.Name = "spinBtnAlphaKappa"
@@ -651,9 +663,8 @@ Partial Class UiTwoInputRefedits
         'optKappaBootstrapBCa
         '
         Me.optKappaBootstrapBCa.AutoSize = True
-        Me.optKappaBootstrapBCa.Enabled = False
         Me.optKappaBootstrapBCa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.optKappaBootstrapBCa.Location = New System.Drawing.Point(16, 83)
+        Me.optKappaBootstrapBCa.Location = New System.Drawing.Point(16, 109)
         Me.optKappaBootstrapBCa.Name = "optKappaBootstrapBCa"
         Me.optKappaBootstrapBCa.Size = New System.Drawing.Size(115, 20)
         Me.optKappaBootstrapBCa.TabIndex = 5
@@ -664,7 +675,7 @@ Partial Class UiTwoInputRefedits
         '
         Me.optKappaBootstrapPercentile.AutoSize = True
         Me.optKappaBootstrapPercentile.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.optKappaBootstrapPercentile.Location = New System.Drawing.Point(16, 57)
+        Me.optKappaBootstrapPercentile.Location = New System.Drawing.Point(16, 83)
         Me.optKappaBootstrapPercentile.Name = "optKappaBootstrapPercentile"
         Me.optKappaBootstrapPercentile.Size = New System.Drawing.Size(149, 20)
         Me.optKappaBootstrapPercentile.TabIndex = 4
@@ -922,7 +933,6 @@ Partial Class UiTwoInputRefedits
         'optDemingBootstrapBCa
         '
         Me.optDemingBootstrapBCa.AutoSize = True
-        Me.optDemingBootstrapBCa.Enabled = False
         Me.optDemingBootstrapBCa.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.optDemingBootstrapBCa.Location = New System.Drawing.Point(17, 134)
         Me.optDemingBootstrapBCa.Name = "optDemingBootstrapBCa"
@@ -1159,4 +1169,5 @@ Partial Class UiTwoInputRefedits
     Friend WithEvents lblAlphaGlobal As Windows.Forms.Label
     Friend WithEvents spinBtnAlphaGlobal As Windows.Forms.NumericUpDown
     Friend WithEvents ckFirstRow As Windows.Forms.CheckBox
+    Friend WithEvents optKappaJackknife As Windows.Forms.RadioButton
 End Class

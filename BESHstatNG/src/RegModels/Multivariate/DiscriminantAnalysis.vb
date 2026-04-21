@@ -368,7 +368,10 @@ Namespace Multivariate
         Public Function PredictDetailed(newData(,) As Double,
                                         Optional rowLabels() As String = Nothing,
                                         Optional actualGroupLabels As Object() = Nothing) As DiscriminantPredictionResult
-            ValidateRectangularData(newData)
+            MultivariateInputHelpers.ValidateRectangularData(newData, nullParamName:=NameOf(newData),
+                                                             rankMessage:="The data matrix must be two-dimensional.",
+                                                             emptyMessage:="The data matrix must contain at least one row and one column.")
+
             If pPrepared Is Nothing OrElse pGroupStats Is Nothing Then
                 AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Model is not fitted."))
             End If
@@ -382,7 +385,7 @@ Namespace Multivariate
             End If
 
             Return PredictInternal(newData,
-                                   NormalizeRowLabels(rowLabels, newData.GetUpperBound(0) + 1),
+                                   MultivariateInputHelpers.NormalizeRowLabels(rowLabels, newData.GetUpperBound(0) + 1, defaultPrefix:="Row", allowDefaultOnLengthMismatch:=True),
                                    Enumerable.Range(1, newData.GetUpperBound(0) + 1).ToArray(),
                                    actualLabels,
                                    DiscriminantValidationMode.None,
@@ -480,7 +483,7 @@ Namespace Multivariate
         Private Sub ValidateInputs()
             If pRawData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException("Input predictor data were not supplied."))
             If pRawGroupLabels Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException("The grouping variable was not supplied."))
-            ValidateRectangularData(pRawData)
+            MultivariateInputHelpers.ValidateRectangularData(pRawData, nullParamName:=NameOf(pRawData), rankMessage:="The data matrix must be two-dimensional.", emptyMessage:="The data matrix must contain at least one row and one column.")
             Dim n As Integer = pRawData.GetUpperBound(0) + 1
             If pRawGroupLabels.Length <> n Then
                 AppGlobals.BSerr.LogAndThrow(New ArgumentException("The grouping variable length must match the number of data rows."))
@@ -747,7 +750,7 @@ Namespace Multivariate
                                          actualLabels() As String,
                                          validationMode As DiscriminantValidationMode,
                                          foldAssignments() As Integer) As DiscriminantPredictionResult
-            ValidateRectangularData(newData)
+            MultivariateInputHelpers.ValidateRectangularData(newData, nullParamName:=NameOf(newData), rankMessage:="The data matrix must be two-dimensional.", emptyMessage:="The data matrix must contain at least one row and one column.")
             Dim n As Integer = newData.GetUpperBound(0) + 1
             Dim p As Integer = newData.GetUpperBound(1) + 1
             If p <> pPrepared.ActiveOriginalData.GetUpperBound(1) + 1 Then
@@ -1210,11 +1213,12 @@ Namespace Multivariate
                                      varNames() As String,
                                      standardization As ClusterStandardizationMode,
                                      missingPolicy As ClusterMissingValuePolicy) As DiscriminantPreparedData
-            ValidateRectangularData(data)
+            MultivariateInputHelpers.ValidateRectangularData(data, nullParamName:=NameOf(data), rankMessage:="The data matrix must be two-dimensional.", emptyMessage:="The data matrix must contain at least one row and one column.")
             Dim n As Integer = data.GetUpperBound(0) + 1
             Dim p As Integer = data.GetUpperBound(1) + 1
-            Dim finalRowLabels() As String = NormalizeRowLabels(rowLabels, n)
-            Dim finalVarNames() As String = NormalizeVarNames(varNames, p)
+            Dim finalRowLabels() As String = MultivariateInputHelpers.NormalizeRowLabels(rowLabels, n, defaultPrefix:="Row", allowDefaultOnLengthMismatch:=True)
+            Dim finalVarNames() As String = MultivariateInputHelpers.NormalizeVarNames(varNames, p, defaultPrefix:="X", allowDefaultOnLengthMismatch:=True)
+
 
             Dim keepRow(n - 1) As Boolean
             Dim removedIndices As New List(Of Integer)
@@ -1415,9 +1419,8 @@ Namespace Multivariate
             Return folds
         End Function
 
-        Private Function TransformExternalData(data(,) As Double,
-                                               prepared As DiscriminantPreparedData) As Double(,)
-            ValidateRectangularData(data)
+        Private Function TransformExternalData(data(,) As Double, prepared As DiscriminantPreparedData) As Double(,)
+            MultivariateInputHelpers.ValidateRectangularData(data, nullParamName:=NameOf(data), rankMessage:="The data matrix must be two-dimensional.", emptyMessage:="The data matrix must contain at least one row and one column.")
             Dim n As Integer = data.GetUpperBound(0) + 1
             Dim p As Integer = data.GetUpperBound(1) + 1
             Dim out(n - 1, p - 1) As Double
@@ -1510,34 +1513,6 @@ Namespace Multivariate
             Dim s As String = Convert.ToString(value, CultureInfo.InvariantCulture)
             If s Is Nothing Then Return String.Empty
             Return s.Trim()
-        End Function
-
-        Private Sub ValidateRectangularData(data(,) As Double)
-            If data Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(data)))
-            If data.Rank <> 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("The data matrix must be two-dimensional."))
-            If data.GetUpperBound(0) < 0 OrElse data.GetUpperBound(1) < 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("The data matrix must contain at least one row and one column."))
-        End Sub
-
-        Private Function NormalizeRowLabels(rowLabels() As String, n As Integer) As String()
-            If rowLabels IsNot Nothing AndAlso rowLabels.Length = n Then
-                Return CType(rowLabels.Clone(), String())
-            End If
-            Dim out(n - 1) As String
-            For i As Integer = 0 To n - 1
-                out(i) = $"Row {i + 1}"
-            Next
-            Return out
-        End Function
-
-        Private Function NormalizeVarNames(varNames() As String, p As Integer) As String()
-            If varNames IsNot Nothing AndAlso varNames.Length = p Then
-                Return CType(varNames.Clone(), String())
-            End If
-            Dim out(p - 1) As String
-            For j As Integer = 0 To p - 1
-                out(j) = $"X{j + 1}"
-            Next
-            Return out
         End Function
 
         Private Sub ComputeStandardizationParameters(data(,) As Double, mode As ClusterStandardizationMode,

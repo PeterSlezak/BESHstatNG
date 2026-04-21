@@ -4,14 +4,12 @@ Imports System.Collections.Generic
 Imports System.Collections.ObjectModel
 Imports System.Drawing
 Imports System.Linq
-Imports System.Security.Cryptography.X509Certificates
-Imports System.Security.Policy
-Imports System.ServiceModel.Security
 Imports System.Text
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
+Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.Matrix
+Imports BESHStatNG.Resampling
 Imports Microsoft.Office.Interop.Excel
-
 
 
 
@@ -1279,80 +1277,21 @@ Namespace nonparametric
             Dim xRanks = ComputeAvgRanks(X)
             Dim yRanks = ComputeAvgRanks(Y)
             Dim rhoObs As Double = correlationCoefficient(xRanks, yRanks)
-
-            Dim total As Long = 0L
-            Dim extremeTwoSided As Long = 0L
-            Dim extremeGreater As Long = 0L
-            Dim extremeLess As Long = 0L
-            Dim hasTies = Me.HasTies(yRanks)
+            Dim hasTies As Boolean = ResamplingPermutation.HasTies(yRanks)
 
             If n <= 10 Then
-
-                Dim expectedTotal = If(hasTies, ExpectedTotalPermutations(yRanks), Factorial(n))
-                Dim s As Long = 0
-                Dim iUpdate As Long
-                iUpdate = expectedTotal / 100L
-                If iUpdate = 0 Then iUpdate = 1
-
-                ' Optional deduplication
-                Dim seen As HashSet(Of String) = If(hasTies, New HashSet(Of String)(), Nothing)
-                Dim c(n - 1) As Integer
-                Dim yPerm = yRanks.ToArray()
-
-                ' Evaluate initial permutation
-                Dim key = If(hasTies, GetPermutationKey(yPerm), Nothing)
-                If Not hasTies OrElse Not seen.Contains(key) Then
-                    If hasTies Then seen.Add(key)
-                    Dim r = correlationCoefficient(xRanks, yPerm)
-                    total += 1
-                    If Math.Abs(r) >= Math.Abs(rhoObs) Then extremeTwoSided += 1
-                    If r >= rhoObs Then extremeGreater += 1
-                    If r <= rhoObs Then extremeLess += 1
-                End If
-
-                Dim i = 0
-                While i < n
-                    If c(i) < i Then
-                        Dim j = If(i Mod 2 = 0, 0, c(i))
-                        ' Swap
-                        Dim temp = yPerm(i)
-                        yPerm(i) = yPerm(j)
-                        yPerm(j) = temp
-
-                        key = If(hasTies, GetPermutationKey(yPerm), Nothing)
-                        If Not hasTies OrElse Not seen.Contains(key) Then
-                            If hasTies Then seen.Add(key)
-                            Dim r = correlationCoefficient(xRanks, yPerm)
-                            total += 1
-                            If Math.Abs(r) >= Math.Abs(rhoObs) Then extremeTwoSided += 1
-                            If r >= rhoObs Then extremeGreater += 1
-                            If r < rhoObs Then extremeLess += 1
-
-                            If progressBar IsNot Nothing Then
-                                If s Mod iUpdate = 0 Then
-                                    progressBar.Invoke(Sub()
-                                                           progressBar.Value = 100 * s / expectedTotal
-                                                       End Sub)
-                                    System.Windows.Forms.Application.DoEvents()
-                                End If
-                                s += 1
-                            End If
-                        End If
-                        c(i) += 1
-                        i = 0
-                    Else
-                        c(i) = 0
-                        i += 1
-                    End If
-                End While
-                If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                         progressBar.Value = 100
-                                                                     End Sub)
+                Dim perm = ComputeExactPermutationResult(
+                    observedStatistic:=rhoObs,
+                    permutableValues:=yRanks,
+                    statisticEvaluator:=Function(yPerm As Double()) correlationCoefficient(xRanks, yPerm),
+                    progressBar:=progressBar,
+                    alpha:=alpha,
+                    statisticLabel:="Spearman's rho")
 
                 Me.CorrelationResult.bExactAvailable = True
-                Me.CorrelationResult.PvalueExact = extremeTwoSided / total
-                Me.CorrelationResult.pValueExactUpperSide = extremeGreater / total
-                Me.CorrelationResult.pValueExactLowerSide = extremeLess / total
+                Me.CorrelationResult.PvalueExact = perm.TwoSidedPValue
+                Me.CorrelationResult.pValueExactUpperSide = perm.UpperTailPValue
+                Me.CorrelationResult.pValueExactLowerSide = perm.LowerTailPValue
             ElseIf Not hasTies And n < 30 Then
                 Me.CorrelationResult.bExactAvailable = Me.SpearmanTailProbabilities(rhoObs)
             End If
@@ -1443,50 +1382,81 @@ Namespace nonparametric
             Return True
         End Function
 
-        ''' <summary>
-        ''' Computes n! for small n. Used in exact permutation enumeration.
-        ''' </summary>
-        Private Protected Function Factorial(n As Integer) As Long
-            Dim result As Long = 1
-            For i = 2 To n
-                result *= i
-            Next
+        Private Protected Function ComputeExactPermutationResult(observedStatistic As Double,
+                                                        permutableValues As Double(),
+                                                        statisticEvaluator As Func(Of Double(), Double),
+                                                        Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                        Optional alpha As Double = 0.05,
+                                                        Optional statisticLabel As String = "") As PermutationResamplingResult
+            If permutableValues Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(permutableValues)))
+            If statisticEvaluator Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(statisticEvaluator)))
+            If permutableValues.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one permutable value is required.", NameOf(permutableValues)))
+
+            Dim hasTies As Boolean = ResamplingPermutation.HasTies(permutableValues)
+            Dim expectedTotal As Long = If(hasTies,
+                                           ResamplingPermutation.ExpectedUniquePermutations(permutableValues),
+                                           ResamplingPermutation.Factorial(permutableValues.Length))
+
+            Dim opts As New PermutationOptions With {
+                    .Alpha = alpha,
+                    .Alternative = AlternativeHypothesis.TwoSided,
+                    .Mode = PermutationMode.ExactEnumeration,
+                    .MaxExactEnumerations = expectedTotal,
+                    .UseAddOneCorrection = False
+                }
+            Dim ctx = ResamplingPermutation.CreatePermutationContext(opts, statisticLabel & " exact permutation")
+            ResamplingCore.AppendNote(ctx.Info, $"Exact permutations enumerated = {expectedTotal}.")
+            If hasTies Then ResamplingCore.AppendNote(ctx.Info, "Tie-aware unique permutation enumeration was used.")
+
+            Dim nullStatistics As New List(Of Double)()
+            Dim extremeTwoSided As Long = 0L
+            Dim processed As Long = 0L
+            Dim updateEvery As Long = Math.Max(1L, expectedTotal \ 100L)
+
+            If hasTies Then
+                For Each permValues As Double() In ResamplingPermutation.EnumerateUniqueValuePermutations(permutableValues)
+                    Dim stat As Double = statisticEvaluator(permValues)
+                    nullStatistics.Add(stat)
+                    processed += 1
+                    If Math.Abs(stat) >= Math.Abs(observedStatistic) Then extremeTwoSided += 1
+
+                    If progressBar IsNot Nothing AndAlso (processed Mod updateEvery = 0 OrElse processed = expectedTotal) Then
+                        Dim percent As Integer = CInt(Math.Min(100L, (100L * processed) \ Math.Max(1L, expectedTotal)))
+                        progressBar.Invoke(Sub() progressBar.Value = percent)
+                        System.Windows.Forms.Application.DoEvents()
+                    End If
+                Next
+            Else
+                For Each permIdx As Integer() In ResamplingPermutation.EnumeratePermutations(permutableValues.Length)
+                    Dim permValues As Double() = ResamplingBootstrap.TakeByIndices(Of Double)(permutableValues, permIdx)
+                    Dim stat As Double = statisticEvaluator(permValues)
+                    nullStatistics.Add(stat)
+                    processed += 1
+                    If Math.Abs(stat) >= Math.Abs(observedStatistic) Then extremeTwoSided += 1
+
+                    If progressBar IsNot Nothing AndAlso (processed Mod updateEvery = 0 OrElse processed = expectedTotal) Then
+                        Dim percent As Integer = CInt(Math.Min(100L, (100L * processed) \ Math.Max(1L, expectedTotal)))
+                        progressBar.Invoke(Sub() progressBar.Value = percent)
+                        System.Windows.Forms.Application.DoEvents()
+                    End If
+                Next
+            End If
+
+            If progressBar IsNot Nothing Then progressBar.Invoke(Sub() progressBar.Value = 100)
+            ResamplingCore.CompleteRunInfo(ctx.Info, CInt(Math.Min(Integer.MaxValue, processed)), 0)
+
+            Dim result As PermutationResamplingResult = ResamplingPermutation.BuildPermutationResult(
+                observedStatistic:=observedStatistic,
+                nullStatistics:=nullStatistics.ToArray(),
+                opts:=opts,
+                statisticLabel:=statisticLabel,
+                runInfo:=ctx.Info)
+
+            If processed > 0 Then
+                result.TwoSidedPValue = extremeTwoSided / CDbl(processed)
+            End If
+
             Return result
-        End Function
-
-        ''' <summary>
-        ''' Computes the number of unique permutations when ties are present:
-        ''' <code>
-        ''' n! / Π (freqᵢ!)
-        ''' </code>
-        ''' </summary>
-        Private Protected Function ExpectedTotalPermutations(data As Double()) As Long
-            Dim n = data.Length
-            Dim freq = data.GroupBy(Function(v) v).Select(Function(g) g.Count()).ToArray()
-            Dim denominator As Long = 1
-            For Each count In freq
-                denominator *= Factorial(count)
-            Next
-            Return Factorial(n) \ denominator
-        End Function
-
-        ''' <summary>
-        ''' Returns True if the data contain tied ranks.
-        ''' </summary>
-        Private Function HasTies(data As Double()) As Boolean
-            Return data.GroupBy(Function(v) v).Any(Function(g) g.Count() > 1)
-        End Function
-
-        ''' <summary>
-        ''' Generates a canonical string key for a permutation of ranks.
-        ''' Used to avoid duplicate permutations when ties exist.
-        ''' </summary>
-        Private Protected Function GetPermutationKey(arr As Double()) As String
-            Dim sb As New StringBuilder()
-            For Each v In arr
-                sb.AppendFormat("{0:G17};", v)
-            Next
-            Return sb.ToString()
         End Function
 
     End Class
@@ -1531,8 +1501,6 @@ Namespace nonparametric
     ''' <list type="bullet">
     '''   <item><description><c>ComputeAvgRanks</c> — rank computation for inherited utilities</description></item>
     '''   <item><description><c>PNorm</c> — normal CDF</description></item>
-    '''   <item><description><c>ExpectedTotalPermutations</c>, <c>Factorial</c> — permutation enumeration</description></item>
-    '''   <item><description><c>GetPermutationKey</c> — tie-aware permutation deduplication</description></item>
     '''   <item><description><c>ZCritTwoSided</c> — two-sided normal critical value</description></item>
     '''   <item><description><c>HorizontalStackArrays</c>, <c>ResultTable</c>, <c>TestResult</c>, <c>ConfidenceIntervalResult</c></description></item>
     ''' </list>
@@ -1704,8 +1672,6 @@ Namespace nonparametric
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>PNorm</c> — normal CDF</description></item>
-        '''   <item><description><c>ExpectedTotalPermutations</c>, <c>Factorial</c></description></item>
-        '''   <item><description><c>GetPermutationKey</c> — tie-aware deduplication</description></item>
         '''   <item><description><c>ZCritTwoSided</c></description></item>
         ''' </list>
         ''' </summary>
@@ -1719,80 +1685,21 @@ Namespace nonparametric
             CorrelationResult = New TestResult
             Me.n = X.Length
             Dim tauObs As Double = correlationCoefficient(X, Y, True)
-            Dim total As Long = 0L
-            Dim extremeTwoSided As Long = 0L
-            Dim extremeGreater As Long = 0L
-            Dim extremeLess As Long = 0L
-            Dim hasTies = Me.HasTies(Y)
+            Dim hasTies As Boolean = ResamplingPermutation.HasTies(Y)
 
             If n <= 10 Then
-
-                Dim expectedTotal = If(hasTies, ExpectedTotalPermutations(Y), Factorial(n))
-                Dim s As Long = 0L
-                Dim iUpdate As Long
-                iUpdate = expectedTotal / 100L
-                If iUpdate = 0 Then iUpdate = 1
-
-                Dim c(n - 1) As Integer
-                Dim yPerm = Y.ToArray()
-
-                '' Optional deduplication
-                Dim seen As HashSet(Of String) = If(hasTies, New HashSet(Of String)(), Nothing)
-
-                ' evaluate initial permutation
-                Dim key = If(hasTies, GetPermutationKey(yPerm), Nothing)
-                If Not hasTies OrElse Not seen.Contains(key) Then
-                    If hasTies Then seen.Add(key)
-                    Dim tau = correlationCoefficient(X, yPerm)
-                    total += 1
-                    If Math.Abs(tau) >= Math.Abs(tauObs) Then extremeTwoSided += 1
-                    If tau >= tauObs Then extremeGreater += 1
-                    If tau <= tauObs Then extremeLess += 1
-                End If
-
-                Dim i = 0
-                While i < n
-                    If c(i) < i Then
-                        Dim j = If(i Mod 2 = 0, 0, c(i))
-                        ' swap
-                        Dim temp = yPerm(i)
-                        yPerm(i) = yPerm(j)
-                        yPerm(j) = temp
-
-                        key = If(hasTies, GetPermutationKey(yPerm), Nothing)
-                        If Not hasTies OrElse Not seen.Contains(key) Then
-                            If hasTies Then seen.Add(key)
-                            Dim tau = correlationCoefficient(X, yPerm)
-                            total += 1
-                            If Math.Abs(tau) >= Math.Abs(tauObs) Then extremeTwoSided += 1
-                            If tau >= tauObs Then extremeGreater += 1
-                            If tau < tauObs Then extremeLess += 1
-
-                            If progressBar IsNot Nothing Then
-                                If s Mod iUpdate = 0 Then
-                                    progressBar.Invoke(Sub()
-                                                           progressBar.Value = 100 * s / expectedTotal
-                                                       End Sub)
-                                    System.Windows.Forms.Application.DoEvents()
-                                End If
-                                s += 1
-                            End If
-                        End If
-                        c(i) += 1
-                        i = 0
-                    Else
-                        c(i) = 0
-                        i += 1
-                    End If
-                End While
-                If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                         progressBar.Value = 100
-                                                                     End Sub)
+                Dim perm = ComputeExactPermutationResult(
+            observedStatistic:=tauObs,
+            permutableValues:=Y,
+            statisticEvaluator:=Function(yPerm As Double()) correlationCoefficient(X, yPerm),
+            progressBar:=progressBar,
+            alpha:=alpha,
+            statisticLabel:="Kendall's tau-b")
 
                 Me.CorrelationResult.bExactAvailable = True
-                Me.CorrelationResult.PvalueExact = extremeTwoSided / total
-                Me.CorrelationResult.pValueExactUpperSide = extremeGreater / total
-                Me.CorrelationResult.pValueExactLowerSide = extremeLess / total
+                Me.CorrelationResult.PvalueExact = perm.TwoSidedPValue
+                Me.CorrelationResult.pValueExactUpperSide = perm.UpperTailPValue
+                Me.CorrelationResult.pValueExactLowerSide = perm.LowerTailPValue
             ElseIf Not hasTies And n < 30 Then
                 Me.CorrelationResult.bExactAvailable = Me.KendallTailProbabilities(tauObs)
             End If
@@ -2109,8 +2016,7 @@ Namespace nonparametric
         ''' </param>
         ''' <returns>A matrix of contrasts and test results.</returns>
         Public Function MCP(Optional alpha As Double = 0.05) As Object(,)
-
-            parametric.ValidateAlpha(alpha)
+            NumericGuards.ValidateAlpha(alpha)
             Dim allValues As New List(Of Double)
             ' Compute ranks with tie handling
             For g = 0 To Me.NoGroups - 1
@@ -2317,7 +2223,7 @@ Namespace nonparametric
         ''' </param>
         ''' <returns>A matrix of contrasts and test results.</returns>
         Public Function MCP(Optional alpha As Double = 0.05) As Object(,)
-            parametric.ValidateAlpha(alpha)
+            NumericGuards.ValidateAlpha(alpha)
             Dim MrankSUM As Double, SumRanksSQ As Double
             Dim Ncontrast As Integer = NoGroups * (NoGroups - 1) / 2
             ReDim Conover(Ncontrast - 1, 3), SPSS(Ncontrast - 1, 3)

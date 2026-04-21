@@ -8,7 +8,7 @@ Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for Cox proportional hazards regression.
@@ -173,7 +173,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 Dim rawVNames As String() = DirectCast(imported.varNames.Clone(), String())
 
-                Dim formulaText As String = UDFhelpers.AsString(formula)
+                Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
                 Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
@@ -244,10 +244,10 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 If records.Count < 3 Then Return ExcelError.ExcelErrorNum
 
-                Dim mi As Integer = UDFhelpers.GetOptionalInt(maxIter, 100)
-                Dim eps As Double = UDFhelpers.GetOptionalDouble(tol, 0.00000001)
+                Dim mi As Integer = GetOptionalInt(maxIter, 100)
+                Dim eps As Double = GetOptionalDouble(tol, 0.00000001)
                 Dim method As TieMethod = UDFhelpers.ParseTieMethod(ties, TieMethod.Breslow)
-                Dim useRobust As Boolean = UDFhelpers.GetOptionalBool(robust, False)
+                Dim useRobust As Boolean = GetOptionalBool(robust, False)
 
                 Dim model As New CoxPH(records, fitVarNames, mi, eps)
                 model.bRobustVariance = useRobust
@@ -330,7 +330,7 @@ Namespace BESHStatNG.WorksheetFunctions
             <ExcelArgument(Name:="alpha", Description:="Optional two-sided alpha for HR confidence intervals (default 0.05).")> Optional alpha As Object = Nothing
         ) As Object
 
-            Dim key As String = UDFhelpers.AsString(handle)
+            Dim key As String = AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
 
             Dim h As CoxModelHandle = Nothing
@@ -342,7 +342,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)
             Dim ciPct As String = $"{100.0 * (1.0 - alphaValue):0.##}%"
 
-            Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+            Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
             Dim p As Integer = h.VarNames.Length
             Dim rows As Integer = If(hdr, p + 1, p)
             Dim out(rows - 1, 7) As Object
@@ -441,7 +441,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
 
             Try
-                Dim key As String = UDFhelpers.AsString(handle)
+                Dim key As String = AsString(handle)
                 If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
 
                 Dim h As CoxModelHandle = Nothing
@@ -449,7 +449,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If h Is Nothing OrElse h.Result Is Nothing Then Return ExcelError.ExcelErrorNA
                 If h.VarNames Is Nothing Then Return ExcelError.ExcelErrorNA
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim p As Integer = h.VarNames.Length
                 If p < 1 Then Return ExcelError.ExcelErrorNA
 
@@ -624,7 +624,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
             Try
                 Dim h As CoxModelHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h) Then Return ExcelError.ExcelErrorNA
                 Dim rt As ResidualType = ParseResidualType(residType)
                 If Not EnsureResiduals(h) Then Return ExcelError.ExcelErrorValue
                 Dim d As Dictionary(Of Integer, Double()) = h.Model.Residuals(rt)
@@ -701,8 +701,8 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
             Try
                 Dim h As CoxModelHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
-                Dim tp As String = UDFhelpers.AsString(baselineType)
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h) Then Return ExcelError.ExcelErrorNA
+                Dim tp As String = AsString(baselineType)
                 If String.IsNullOrWhiteSpace(tp) Then tp = "table"
                 tp = tp.ToLowerInvariant()
                 Dim base = h.Model.ComputeBaseline(False)
@@ -811,7 +811,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
             Try
                 Dim h As CoxModelHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _coxCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim rawPredictorKeys As String() = If(h.RawPredictorKeys, h.RawVarNames)
                 If rawPredictorKeys Is Nothing OrElse rawPredictorKeys.Length < 1 Then Return ExcelError.ExcelErrorValue
@@ -846,7 +846,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim p As Integer = If(predNames Is Nothing, 0, predNames.Length)
                 If xMat Is Nothing OrElse p < 1 OrElse h.Result Is Nothing OrElse h.Result.Coefficients Is Nothing Then Return ExcelError.ExcelErrorValue
 
-                Dim tp As String = UDFhelpers.AsString(predType)
+                Dim tp As String = AsString(predType)
                 If String.IsNullOrWhiteSpace(tp) Then tp = "lp"
                 tp = tp.ToLowerInvariant()
 
@@ -961,17 +961,10 @@ Namespace BESHStatNG.WorksheetFunctions
             <ExcelArgument(Name:="handle",
                            Description:="Handle returned by BESH.SURV.COX_FIT.")> handle As Object
         ) As Object
-            Dim key As String = UDFhelpers.AsString(handle)
+            Dim key As String = AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
             Dim removed As CoxModelHandle = Nothing
             Return _coxCache.TryRemove(key, removed)
-        End Function
-
-        Private Function TryGetHandle(handle As Object, ByRef h As CoxModelHandle) As Boolean
-            h = Nothing
-            Dim key As String = UDFhelpers.AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
-            Return _coxCache.TryGetValue(key, h)
         End Function
 
         Private Function EnsureResiduals(h As CoxModelHandle) As Boolean
@@ -992,7 +985,7 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         Private Function ParseResidualType(v As Object) As ResidualType
-            Dim s As String = UDFhelpers.AsString(v)
+            Dim s As String = AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return ResidualType.Martingale
             Select Case s.Trim().ToLowerInvariant()
                 Case "martingale" : Return ResidualType.Martingale

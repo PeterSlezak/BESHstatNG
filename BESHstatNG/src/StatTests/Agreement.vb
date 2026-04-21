@@ -646,9 +646,6 @@ Namespace Agreement
 
         End Class
 
-
-        ' Deming regression moved to AgreementWeightedDeming.vb (WeightedDemingRegression / GeneralizedDemingRegression).
-
         ''' <summary>
         ''' Provides methods for computing intraclass correlation coefficients (ICC) and corresponding confidence intervals.
         ''' </summary>
@@ -1474,8 +1471,6 @@ Namespace Agreement
 
                 Return pRepeatabilityCoefficient
             End Function
-
-
         End Class
     End Module
 

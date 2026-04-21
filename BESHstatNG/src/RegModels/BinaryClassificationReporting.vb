@@ -3,6 +3,7 @@
 Imports System
 Imports System.Collections.Generic
 Imports System.Linq
+Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop
 
 Namespace regression
@@ -139,7 +140,7 @@ Namespace regression
                                              Optional weights() As Double = Nothing) As BinaryClassificationSummary
 
             ValidateBinaryInputs(y, p, weights)
-            ValidateThreshold(threshold)
+            AppInfrastructure.ValidateClosedUnitInterval(threshold, "threshold", "Threshold must lie in [0,1].")
 
             Dim w() As Double = NormalizeWeights(y.Length, weights)
             Dim out As New BinaryClassificationSummary With {.Threshold = threshold, .N = 0.0}
@@ -241,6 +242,27 @@ Namespace regression
         End Function
 
         ''' <summary>
+        ''' Parses and normalizes a calibration-binning method supplied from Excel.
+        ''' Supported return values are <c>quantile</c> and <c>equalwidth</c>.
+        ''' </summary>
+        Public Function ParseCalibrationMethod(arg As Object,
+                                               Optional defaultValue As String = "quantile") As String
+            If BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(arg) Then Return defaultValue
+
+            Dim s As String = BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg)
+            If String.IsNullOrWhiteSpace(s) Then Return defaultValue
+
+            Select Case s.Trim().ToLowerInvariant()
+                Case "quantile", "quantiles", "decile", "deciles"
+                    Return "quantile"
+                Case "equalwidth", "equal-width", "equal_width", "equal width"
+                    Return "equalwidth"
+                Case Else
+                    Return defaultValue
+            End Select
+        End Function
+
+        ''' <summary>
         ''' Returns a default set of sorted thresholds based on the unique fitted probabilities.
         ''' </summary>
         Public Function GetDefaultThresholds(p() As Double, Optional maxRows As Integer = 500,
@@ -249,7 +271,7 @@ Namespace regression
 
             Dim uniq = p.
                 Where(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)).
-                Select(Function(v) CDbl(UDFhelpers.ClampProb(v))).
+                Select(Function(v) ClampProbability(v)).
                 Distinct().
                 OrderBy(Function(v) v).
                 ToList()
@@ -279,7 +301,7 @@ Namespace regression
 
             Dim clean = p.
                 Where(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)).
-                Select(Function(v) CDbl(UDFhelpers.ClampProb(v))).
+                Select(Function(v) ClampProbability(v)).
                 ToArray()
             If clean.Length = 0 Then Return New List(Of ProbabilityCutpointBin)()
 
@@ -295,7 +317,7 @@ Namespace regression
             Dim byBin As New Dictionary(Of Integer, List(Of Integer))()
 
             For i = 0 To p.Length - 1
-                Dim pi As Double = CDbl(UDFhelpers.ClampProb(p(i)))
+                Dim pi As Double = ClampProbability(p(i))
                 Dim binKey As Integer = Array.FindIndex(cutpoints, Function(c) pi <= c)
                 If binKey < 0 Then binKey = cutpoints.Length - 1
                 If Not byBin.ContainsKey(binKey) Then byBin(binKey) = New List(Of Integer)()
@@ -347,7 +369,7 @@ Namespace regression
             Dim byBin As New Dictionary(Of Integer, List(Of Integer))
 
             For i = 0 To p.Length - 1
-                Dim scaled As Double = CDbl(UDFhelpers.ClampProb(p(i))) * bins
+                Dim scaled As Double = ClampProbability(p(i)) * bins
                 Dim b As Integer = CInt(Math.Floor(scaled)) + 1
                 If b > bins Then b = bins
                 If b < 1 Then b = 1
@@ -376,7 +398,7 @@ Namespace regression
 
             For Each i In idx
                 Dim wi As Double = weights(i)
-                Dim pi As Double = CDbl(UDFhelpers.ClampProb(p(i)))
+                Dim pi As Double = ClampProbability(p(i))
                 Dim yi As Double = If(y(i) >= 0.5, 1.0, 0.0)
                 sumW += wi
                 sumW2 += wi * wi
@@ -475,16 +497,12 @@ Namespace regression
             If thresholds Is Nothing OrElse thresholds.Length = 0 Then Return New Double() {}
             Dim vals = thresholds.Where(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)).
                                  Select(Function(v)
-                                            ValidateThreshold(v)
-                                            Return CDbl(UDFhelpers.ClampProb(v))
+                                            AppInfrastructure.ValidateClosedUnitInterval(v, "threshold", "Threshold must lie in [0,1].")
+                                            Return ClampProbability(v)
                                         End Function).
                                   Distinct().OrderBy(Function(v) v).ToArray()
             Return vals
         End Function
-
-        Private Sub ValidateThreshold(threshold As Double)
-            If Not IsClosedUnitInterval(threshold) Then Throw New ArgumentOutOfRangeException("threshold", "Threshold must lie in [0,1].")
-        End Sub
 
         Private Function ThinSortedValues(sortedValues() As Double, maxRows As Integer) As Double()
             If sortedValues Is Nothing OrElse sortedValues.Length <= maxRows OrElse maxRows < 2 Then Return sortedValues
@@ -507,13 +525,13 @@ Namespace regression
                                         Optional z As Double = 1.959963984540054) As Tuple(Of Double, Double)
             If Double.IsNaN(pHat) OrElse nEff <= 0 Then Return Tuple.Create(Double.NaN, Double.NaN)
 
-            pHat = CDbl(UDFhelpers.ClampProb(pHat))
+            pHat = ClampProbability(pHat)
             Dim z2 As Double = z * z
             Dim denom As Double = 1.0 + z2 / nEff
             Dim center As Double = (pHat + z2 / (2.0 * nEff)) / denom
             Dim halfWidth As Double = (z / denom) * Math.Sqrt(Math.Max(0.0, (pHat * (1.0 - pHat) / nEff) + z2 / (4.0 * nEff * nEff)))
 
-            Return Tuple.Create(CDbl(UDFhelpers.ClampProb(center - halfWidth)), CDbl(UDFhelpers.ClampProb(center + halfWidth)))
+            Return Tuple.Create(ClampProbability(center - halfWidth), ClampProbability(center + halfWidth))
         End Function
 
         ''' <summary>
@@ -557,6 +575,200 @@ Namespace regression
             If thresholdRows IsNot Nothing AndAlso thresholdRows.Count > 0 Then out.Add(BuildThresholdPerformanceTable(thresholdRows, analysisLabel))
 
             Return out
+        End Function
+
+
+        ''' <summary>
+        ''' Builds an Excel spill range for a binary confusion-matrix style crosstab.
+        ''' </summary>
+        Public Function BuildBinaryCrosstabUdfOutput(summary As BinaryClassificationSummary,
+                                                     Optional includeHeader As Boolean = True) As Object
+            Dim rowOffset As Integer = If(includeHeader, 1, 0)
+            Dim outRows As Integer = rowOffset + 4
+            Dim out(outRows - 1, 3) As Object
+
+            If includeHeader Then
+                out(0, 0) = "Observed \ Predicted"
+                out(0, 1) = 0
+                out(0, 2) = 1
+                out(0, 3) = "Recall %"
+            End If
+
+            out(rowOffset + 0, 0) = 0
+            out(rowOffset + 0, 1) = summary.TN
+            out(rowOffset + 0, 2) = summary.FP
+            out(rowOffset + 0, 3) = PercentOrExcelNa(summary.Specificity)
+
+            out(rowOffset + 1, 0) = 1
+            out(rowOffset + 1, 1) = summary.FN
+            out(rowOffset + 1, 2) = summary.TP
+            out(rowOffset + 1, 3) = PercentOrExcelNa(summary.Sensitivity)
+
+            out(rowOffset + 2, 0) = "Precision % / Overall"
+            out(rowOffset + 2, 1) = PercentOrExcelNa(summary.NPV)
+            out(rowOffset + 2, 2) = PercentOrExcelNa(summary.Precision)
+            out(rowOffset + 2, 3) = PercentOrExcelNa(summary.Accuracy)
+
+            out(rowOffset + 3, 0) = "Threshold / Balanced accuracy"
+            out(rowOffset + 3, 1) = summary.Threshold
+            out(rowOffset + 3, 2) = PercentOrExcelNa(summary.BalancedAccuracy)
+            out(rowOffset + 3, 3) = PercentOrExcelNa(summary.YoudenJ)
+
+            Return PrepareResultTableForUdfLocal(out)
+        End Function
+
+        ''' <summary>
+        ''' Builds an Excel spill range for threshold-performance rows.
+        ''' </summary>
+        Public Function BuildThresholdTableUdfOutput(rows As IList(Of BinaryThresholdRow),
+                                                     Optional includeHeader As Boolean = True) As Object
+            If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+
+            Dim rowOffset As Integer = If(includeHeader, 1, 0)
+            Dim outRows As Integer = rowOffset + rows.Count
+            Dim out(outRows - 1, 13) As Object
+
+            If includeHeader Then
+                out(0, 0) = "Threshold"
+                out(0, 1) = "TP"
+                out(0, 2) = "FP"
+                out(0, 3) = "TN"
+                out(0, 4) = "FN"
+                out(0, 5) = "Sensitivity %"
+                out(0, 6) = "Specificity %"
+                out(0, 7) = "Precision %"
+                out(0, 8) = "Recall %"
+                out(0, 9) = "NPV %"
+                out(0, 10) = "Accuracy %"
+                out(0, 11) = "BalancedAccuracy %"
+                out(0, 12) = "YoudenJ %"
+                out(0, 13) = "F1 %"
+            End If
+
+            For i As Integer = 0 To rows.Count - 1
+                Dim r As BinaryThresholdRow = rows(i)
+                Dim rr As Integer = rowOffset + i
+                out(rr, 0) = r.Threshold
+                out(rr, 1) = r.TP
+                out(rr, 2) = r.FP
+                out(rr, 3) = r.TN
+                out(rr, 4) = r.FN
+                out(rr, 5) = PercentOrExcelNa(r.Sensitivity)
+                out(rr, 6) = PercentOrExcelNa(r.Specificity)
+                out(rr, 7) = PercentOrExcelNa(r.Precision)
+                out(rr, 8) = PercentOrExcelNa(r.Recall)
+                out(rr, 9) = PercentOrExcelNa(r.NPV)
+                out(rr, 10) = PercentOrExcelNa(r.Accuracy)
+                out(rr, 11) = PercentOrExcelNa(r.BalancedAccuracy)
+                out(rr, 12) = PercentOrExcelNa(r.YoudenJ)
+                out(rr, 13) = PercentOrExcelNa(r.F1)
+            Next
+
+            Return PrepareResultTableForUdfLocal(out)
+        End Function
+
+        ''' <summary>
+        ''' Builds an Excel spill range for calibration-bin rows.
+        ''' </summary>
+        Public Function BuildCalibrationTableUdfOutput(rows As IList(Of CalibrationBinSummary),
+                                                       Optional includeHeader As Boolean = True) As Object
+            If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+
+            Dim rowOffset As Integer = If(includeHeader, 1, 0)
+            Dim outRows As Integer = rowOffset + rows.Count
+            Dim out(outRows - 1, 5) As Object
+
+            If includeHeader Then
+                out(0, 0) = "Bin"
+                out(0, 1) = "N"
+                out(0, 2) = "MeanPredicted"
+                out(0, 3) = "ObservedRate"
+                out(0, 4) = "LowerCI"
+                out(0, 5) = "UpperCI"
+            End If
+
+            For i As Integer = 0 To rows.Count - 1
+                Dim r As CalibrationBinSummary = rows(i)
+                Dim rr As Integer = rowOffset + i
+                out(rr, 0) = r.BinIndex
+                out(rr, 1) = r.N
+                out(rr, 2) = r.MeanPredicted
+                out(rr, 3) = r.ObservedRate
+                out(rr, 4) = r.LowerCI
+                out(rr, 5) = r.UpperCI
+            Next
+
+            Return PrepareResultTableForUdfLocal(out)
+        End Function
+
+        ''' <summary>
+        ''' Builds an Excel spill range for chart-ready calibration points.
+        ''' </summary>
+        Public Function BuildCalibrationPointsUdfOutput(rows As IList(Of CalibrationBinSummary)) As Object
+            If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+
+            Dim out(rows.Count, 7) As Object
+            out(0, 0) = "Bin"
+            out(0, 1) = "N"
+            out(0, 2) = "MeanPredicted"
+            out(0, 3) = "ObservedRate"
+            out(0, 4) = "LowerCI"
+            out(0, 5) = "UpperCI"
+            out(0, 6) = "ErrorMinus"
+            out(0, 7) = "ErrorPlus"
+
+            For i As Integer = 0 To rows.Count - 1
+                Dim r As CalibrationBinSummary = rows(i)
+                out(i + 1, 0) = r.BinIndex
+                out(i + 1, 1) = r.N
+                out(i + 1, 2) = r.MeanPredicted
+                out(i + 1, 3) = r.ObservedRate
+                out(i + 1, 4) = r.LowerCI
+                out(i + 1, 5) = r.UpperCI
+                out(i + 1, 6) = If(Double.IsNaN(r.LowerCI), ExcelError.ExcelErrorNA, r.ObservedRate - r.LowerCI)
+                out(i + 1, 7) = If(Double.IsNaN(r.UpperCI), ExcelError.ExcelErrorNA, r.UpperCI - r.ObservedRate)
+            Next
+
+            Return PrepareResultTableForUdfLocal(out)
+        End Function
+
+        ''' <summary>
+        ''' Builds an Excel spill range for the Brier score and optional supporting scalars.
+        ''' </summary>
+        Public Function BuildBrierScoreUdfOutput(score As Double,
+                                                 Optional n As Double = Double.NaN,
+                                                 Optional eventRate As Double = Double.NaN,
+                                                 Optional includeHeader As Boolean = True) As Object
+            Dim totalRows As Integer = 1
+            If Not Double.IsNaN(n) Then totalRows += 1
+            If Not Double.IsNaN(eventRate) Then totalRows += 1
+
+            Dim rowOffset As Integer = If(includeHeader, 1, 0)
+            Dim outRows As Integer = rowOffset + totalRows
+            Dim out(outRows - 1, 1) As Object
+
+            If includeHeader Then
+                out(0, 0) = "Item"
+                out(0, 1) = "Value"
+            End If
+
+            Dim r As Integer = rowOffset
+            out(r, 0) = "BrierScore"
+            out(r, 1) = score
+            r += 1
+
+            If Not Double.IsNaN(n) Then
+                out(r, 0) = "N"
+                out(r, 1) = n
+                r += 1
+            End If
+
+            If Not Double.IsNaN(eventRate) Then
+                out(r, 0) = "EventRate"
+                out(r, 1) = eventRate
+            End If
+
+            Return PrepareResultTableForUdfLocal(out)
         End Function
 
         ''' <summary>
@@ -680,7 +892,7 @@ Namespace regression
             Return True
         End Function
 
-        Private Function BuildConfusionMatrixTable(summary As BinaryClassificationSummary,    analysisLabel As String) As ResultTable
+        Private Function BuildConfusionMatrixTable(summary As BinaryClassificationSummary, analysisLabel As String) As ResultTable
             Dim t As New ResultTable
             t.AddTitle($"{analysisLabel} - Confusion Matrix")
 
@@ -794,6 +1006,40 @@ Namespace regression
         Private Function DisplayPercent(value As Double) As Object
             If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return "N/A"
             Return 100.0R * value
+        End Function
+
+        Private Function PercentOrExcelNa(value As Double) As Object
+            If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return ExcelError.ExcelErrorNA
+            Return 100.0R * value
+        End Function
+
+        Private Function ClampProbability(value As Double) As Double
+            If Double.IsNaN(value) Then Return 0.0R
+            If value <= 0.0R Then Return 0.0R
+            If value >= 1.0R Then Return 1.0R
+            Return value
+        End Function
+
+        Private Function PrepareResultTableForUdfLocal(table As Object(,)) As Object(,)
+            If table Is Nothing Then Return Nothing
+
+            Dim rows As Integer = table.GetLength(0)
+            Dim cols As Integer = table.GetLength(1)
+            Dim out(rows - 1, cols - 1) As Object
+
+            For r As Integer = 0 To rows - 1
+                For c As Integer = 0 To cols - 1
+                    Dim v As Object = table(r, c)
+
+                    If v Is Nothing OrElse TypeOf v Is DBNull Then
+                        out(r, c) = String.Empty
+                    Else
+                        out(r, c) = v
+                    End If
+                Next
+            Next
+
+            Return out
         End Function
 
         Private Function IsApproximatelyBinary(value As Double) As Boolean

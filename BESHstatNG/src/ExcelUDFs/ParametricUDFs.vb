@@ -8,7 +8,7 @@ Imports BESHStatNG.equivalencetests
 Imports BESHStatNG.Matrix
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions exposing selected parametric ANOVA procedures.

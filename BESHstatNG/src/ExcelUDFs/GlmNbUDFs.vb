@@ -7,7 +7,7 @@ Imports System.Collections.Generic
 Imports System.Globalization
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for the overdispersion-estimating Negative Binomial generalized linear model implemented by <see cref="GLM_NB"/>.
@@ -192,7 +192,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Return ExcelError.ExcelErrorValue
                 End If
 
-                Dim formulaText As String = UDFhelpers.AsString(formula)
+                Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
                 Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
@@ -245,7 +245,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not UDFhelpers.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
                 If Not UDFhelpers.HasOnlyFinite(fitWeights, True) Then Return ExcelError.ExcelErrorValue
 
-                Dim interceptFlag As Boolean = UDFhelpers.GetOptionalBool(includeIntercept, True)
+                Dim interceptFlag As Boolean = GetOptionalBool(includeIntercept, True)
                 If Not interceptFlag AndAlso fitVarNames.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim ciAlpha As Double = 0.05R
@@ -253,8 +253,8 @@ Namespace BESHStatNG.WorksheetFunctions
                     If Not TryParseAlpha(alpha, ciAlpha) Then Return ExcelError.ExcelErrorNum
                 End If
 
-                Dim maxIterValue As Integer = UDFhelpers.GetOptionalInt(maxIter, 20)
-                Dim tolValue As Double = UDFhelpers.GetOptionalDouble(tol, 0.00000001R)
+                Dim maxIterValue As Integer = GetOptionalInt(maxIter, 20)
+                Dim tolValue As Double = GetOptionalDouble(tol, 0.00000001R)
                 If maxIterValue < 1 Then Return ExcelError.ExcelErrorNum
                 If Double.IsNaN(tolValue) OrElse Double.IsInfinity(tolValue) OrElse tolValue <= 0.0R Then Return ExcelError.ExcelErrorNum
 
@@ -267,7 +267,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim lnk As regression.Link = Nothing
                 If String.Equals(linkName, "Power", StringComparison.OrdinalIgnoreCase) Then
                     If Not Not IsMissingArg(power) Then Return ExcelError.ExcelErrorNum
-                    Dim powerValue As Double = UDFhelpers.GetOptionalDouble(power, Double.NaN)
+                    Dim powerValue As Double = GetOptionalDouble(power, Double.NaN)
                     If Double.IsNaN(powerValue) OrElse Double.IsInfinity(powerValue) OrElse powerValue = 0.0R Then Return ExcelError.ExcelErrorNum
                     lnk = regression.createLink("Power", powerValue)
                 Else
@@ -357,7 +357,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GlmNbHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _glmNbCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim ciAlpha As Double = h.ConfidenceAlpha
                 If Not IsMissingArg(alpha) Then
@@ -370,7 +370,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If beta.Length <> se.Length Then Return ExcelError.ExcelErrorNA
 
                 Dim names() As String = BuildParameterNames(h, beta.Length)
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)
                 Dim out(outRows - 1, 7) As Object
                 Dim zCrit As Double = distributions.ZCritTwoSided(ciAlpha)
@@ -448,7 +448,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GlmNbHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _glmNbCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim labels() As String = h.Model.results.ModelTableLabels
                 Dim vals(,) As Object = h.Model.results.ModelTableVals
@@ -458,7 +458,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim extraRows As Integer = 3
                 If Not String.IsNullOrWhiteSpace(h.Model.strError) Then extraRows += 1
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, labels.Length + extraRows + 1, labels.Length + extraRows)
                 Dim out(outRows - 1, 3) As Object
                 Dim r As Integer = 0
@@ -548,12 +548,12 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GlmNbHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _glmNbCache, h) Then Return ExcelError.ExcelErrorNA
 
                 h.Model.bComputeResiduals = True
                 h.Model.Residuals()
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim key As String = ParseGlmResidualType(residType)
 
                 Select Case key
@@ -625,7 +625,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GlmNbHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _glmNbCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim rawPredictorKeys As String() = If(h.RawPredictorKeys, h.RawVarNames)
                 If rawPredictorKeys Is Nothing Then rawPredictorKeys = New String() {}
@@ -668,7 +668,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim beta() As Double = h.Model.results.Coeffs_est
                 If beta Is Nothing Then Return ExcelError.ExcelErrorNA
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, nRows + 1, nRows)
                 Dim out(outRows - 1, 1) As Object
                 Dim r0 As Integer = 0
@@ -714,17 +714,10 @@ Namespace BESHStatNG.WorksheetFunctions
         Public Function GLMNB_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GLMNB_FIT.")> handle As Object
         ) As Object
-            Dim key As String = UDFhelpers.AsString(handle)
+            Dim key As String = AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
             Dim removed As GlmNbHandle = Nothing
             Return _glmNbCache.TryRemove(key, removed)
-        End Function
-
-        Private Function TryGetHandle(handle As Object, ByRef h As GlmNbHandle) As Boolean
-            h = Nothing
-            Dim key As String = UDFhelpers.AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
-            Return _glmNbCache.TryGetValue(key, h)
         End Function
 
         Private Function BuildParameterNames(h As GlmNbHandle, coefficientCount As Integer) As String()

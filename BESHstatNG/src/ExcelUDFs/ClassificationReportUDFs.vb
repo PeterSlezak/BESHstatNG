@@ -4,9 +4,10 @@ Option Strict On
 Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
+Imports BESHStatNG.regression
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Generic worksheet functions for threshold-based reporting of binary classifiers.
@@ -104,11 +105,11 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim w() As Double = Nothing
                 If Not TryReadOptionalNumericVectorArgument(weights, w) Then Return ExcelError.ExcelErrorValue
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim summary As regression.BinaryClassificationSummary =
                     regression.BinaryClassificationReporting.ComputeBinarySummary(observed, probs, cutoff, w)
 
-                Return UDFhelpers.BuildBinaryCrosstabOutput(summary, hdr)
+                Return regression.BinaryClassificationReporting.BuildBinaryCrosstabUdfOutput(summary, hdr)
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.CONFUSION", ex)
             End Try
@@ -182,16 +183,16 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadNumericVectorArgument(probabilities, probs) Then Return ExcelError.ExcelErrorValue
 
                 Dim thresholdVector() As Double = Nothing
-                If Not UDFhelpers.TryGetOptionalThresholdVector(thresholds, thresholdVector) Then Return ExcelError.ExcelErrorValue
+                If Not TryGetOptionalThresholdVector(thresholds, thresholdVector) Then Return ExcelError.ExcelErrorValue
 
                 Dim w() As Double = Nothing
                 If Not TryReadOptionalNumericVectorArgument(weights, w) Then Return ExcelError.ExcelErrorValue
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim rows As List(Of regression.BinaryThresholdRow) =
                     regression.BinaryClassificationReporting.BuildThresholdTable(observed, probs, thresholdVector, w)
 
-                Return UDFhelpers.BuildThresholdTableOutput(rows, hdr)
+                Return regression.BinaryClassificationReporting.BuildThresholdTableUdfOutput(rows, hdr)
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.THRESH", ex)
             End Try
@@ -271,18 +272,18 @@ Namespace BESHStatNG.WorksheetFunctions
                 If Not TryReadNumericVectorArgument(probabilities, probs) Then Return ExcelError.ExcelErrorValue
 
                 Dim binCount As Integer = 10
-                If Not UDFhelpers.TryGetOptionalPositiveInteger(bins, binCount, 10, 2) Then Return ExcelError.ExcelErrorValue
+                If Not TryGetOptionalPositiveInteger(bins, binCount, 10, 2) Then Return ExcelError.ExcelErrorValue
 
-                Dim methodName As String = UDFhelpers.ParseCalibrationMethod(method, "quantile")
+                Dim methodName As String = BinaryClassificationReporting.ParseCalibrationMethod(method, "quantile")
 
                 Dim w() As Double = Nothing
                 If Not TryReadOptionalNumericVectorArgument(weights, w) Then Return ExcelError.ExcelErrorValue
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim rows As List(Of regression.CalibrationBinSummary) =
                     regression.BinaryClassificationReporting.BuildCalibrationBins(observed, probs, binCount, w, methodName)
 
-                Return UDFhelpers.BuildCalibrationTableOutput(rows, hdr)
+                Return BinaryClassificationReporting.BuildCalibrationTableUdfOutput(rows, hdr)
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.CALIB", ex)
             End Try
@@ -351,43 +352,30 @@ Namespace BESHStatNG.WorksheetFunctions
 
                 regression.BinaryClassificationReporting.ValidateBinaryInputs(observed, probs, w)
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim brier As Double = regression.BinaryClassificationReporting.ComputeBrierScore(observed, probs, w)
                 Dim eventRate As Double = ComputeWeightedEventRate(observed, w)
                 Dim nObs As Double = If(w Is Nothing, observed.Length, w.Sum())
 
-                Return UDFhelpers.BuildNamedScalarOutput("BrierScore", brier, nObs, eventRate, hdr)
+                Return BinaryClassificationReporting.BuildBrierScoreUdfOutput(brier, nObs, eventRate, hdr)
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.BRIER", ex)
             End Try
         End Function
 
-        Private Function TryGetSingleThresholdFromArg(arg As Object, ByRef threshold As Double,
-                                                      Optional defaultValue As Double = 0.5R) As Boolean
-            threshold = defaultValue
-            If UDFhelpers.IsMissingArg(arg) Then Return True
-
-            Dim d As Double? = UDFhelpers.TryGetDouble(arg)
-            If Not d.HasValue Then Return False
-            If d.Value < 0.0R OrElse d.Value > 1.0R Then Return False
-
-            threshold = d.Value
-            Return True
-        End Function
-
         Private Function TryReadOptionalNumericVectorArgument(arg As Object,
                                                               ByRef values() As Double) As Boolean
             values = Nothing
-            If UDFhelpers.IsMissingArg(arg) Then Return True
+            If IsMissingArg(arg) Then Return True
             Return TryReadNumericVectorArgument(arg, values)
         End Function
 
         Private Function TryReadNumericVectorArgument(arg As Object, ByRef values() As Double) As Boolean
             values = Nothing
 
-            If UDFhelpers.IsMissingArg(arg) Then Return False
+            If IsMissingArg(arg) Then Return False
 
-            Dim scalar As Double? = UDFhelpers.TryGetDouble(arg)
+            Dim scalar As Double? = TryGetDouble(arg)
             If scalar.HasValue Then
                 ReDim values(0)
                 values(0) = scalar.Value
@@ -415,13 +403,13 @@ Namespace BESHStatNG.WorksheetFunctions
             If rows < 1 Then Return False
 
             Dim last As Integer = rows - 1
-            While last >= 0 AndAlso UDFhelpers.IsBlankCell(arr(last, 0))
+            While last >= 0 AndAlso IsBlankCell(arr(last, 0))
                 last -= 1
             End While
             If last < 0 Then Return False
 
             Dim start As Integer = 0
-            If Not UDFhelpers.TryGetDouble(arr(0, 0)).HasValue Then
+            If Not TryGetDouble(arr(0, 0)).HasValue Then
                 If last = 0 Then Return False
                 start = 1
             End If
@@ -429,8 +417,8 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Dim out As New List(Of Double)
             For i = start To last
-                If UDFhelpers.IsBlankCell(arr(i, 0)) Then Return False
-                Dim d As Double? = UDFhelpers.TryGetDouble(arr(i, 0))
+                If IsBlankCell(arr(i, 0)) Then Return False
+                Dim d As Double? = TryGetDouble(arr(i, 0))
                 If Not d.HasValue Then Return False
                 out.Add(d.Value)
             Next
@@ -446,13 +434,13 @@ Namespace BESHStatNG.WorksheetFunctions
             If cols < 1 Then Return False
 
             Dim last As Integer = cols - 1
-            While last >= 0 AndAlso UDFhelpers.IsBlankCell(arr(0, last))
+            While last >= 0 AndAlso IsBlankCell(arr(0, last))
                 last -= 1
             End While
             If last < 0 Then Return False
 
             Dim start As Integer = 0
-            If Not UDFhelpers.TryGetDouble(arr(0, 0)).HasValue Then
+            If Not TryGetDouble(arr(0, 0)).HasValue Then
                 If last = 0 Then Return False
                 start = 1
             End If
@@ -460,8 +448,8 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Dim out As New List(Of Double)
             For j = start To last
-                If UDFhelpers.IsBlankCell(arr(0, j)) Then Return False
-                Dim d As Double? = UDFhelpers.TryGetDouble(arr(0, j))
+                If IsBlankCell(arr(0, j)) Then Return False
+                Dim d As Double? = TryGetDouble(arr(0, j))
                 If Not d.HasValue Then Return False
                 out.Add(d.Value)
             Next

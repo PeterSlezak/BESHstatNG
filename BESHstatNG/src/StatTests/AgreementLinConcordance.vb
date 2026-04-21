@@ -4,6 +4,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.Resampling
 Imports Microsoft.Office.Interop.Excel
 
 Namespace Agreement
@@ -72,8 +73,7 @@ Namespace Agreement
         Private pFilteredReference As Double() = Nothing
         Private pFilteredTest As Double() = Nothing
         Private pComputationNotes As New List(Of String)
-        Private pUsedBootstrapCi As Boolean = False
-        Private pBootstrapSeedUsed As Integer = Integer.MinValue
+        Private pBootstrapRunInfo As ResamplingRunInfo = Nothing
 
         ''' <summary>
         ''' Initializes a new Lin concordance-correlation analysis object.
@@ -178,8 +178,7 @@ Namespace Agreement
 
             ValidateOptions(Me.pOptions)
             Me.pComputationNotes.Clear()
-            Me.pUsedBootstrapCi = False
-            Me.pBootstrapSeedUsed = Integer.MinValue
+            Me.pBootstrapRunInfo = Nothing
 
             If Me.pOptions.SubjectIds IsNot Nothing Then
                 AppGlobals.BSerr.LogAndThrow(New NotSupportedException("Repeated-measures/clustered Lin concordance is not implemented in this first version. Supply independent paired measurements only."))
@@ -197,9 +196,19 @@ Namespace Agreement
             Dim core = ComputeLinConcordanceCore(Me.pFilteredReference, Me.pFilteredTest)
             Dim ci As ConfidenceIntervalResult
             If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
-                Me.pUsedBootstrapCi = True
-                Me.pBootstrapSeedUsed = Helpers.ResolveRandomSeed(randomSeed)
-                ci = BootstrapConcordanceConfidenceInterval(Me.pFilteredReference, Me.pFilteredTest, Me.pOptions, progressBar, Me.pBootstrapSeedUsed)
+                Dim boot As ScalarResamplingResult = BootstrapConcordanceResamplingResult(Me.pFilteredReference,
+                                                                               Me.pFilteredTest,
+                                                                               Me.pOptions,
+                                                                               progressBar,
+                                                                               randomSeed)
+                Me.pBootstrapRunInfo = boot.RunInfo
+                If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
+                    Dim jk As ScalarResamplingResult = JackknifeConcordanceResamplingResult(Me.pFilteredReference, Me.pFilteredTest, Me.pOptions)
+                    ci = boot.ToBcaConfidenceInterval(pOptions.Alpha, jk.ResampledStatistics)
+                    ResamplingCore.AppendNote(Me.pBootstrapRunInfo, $"BCa acceleration derived from {jk.ReplicateCount} leave-one-out jackknife replicates.")
+                Else
+                    ci = boot.ToPercentileConfidenceInterval(pOptions.Alpha)
+                End If
             Else
                 ci = ComputeConcordanceConfidenceInterval(core.Concordance, Me.pFilteredReference.Length, Me.pOptions)
             End If
@@ -211,11 +220,17 @@ Namespace Agreement
             If Me.pOptions.CiMethod = AgreementCiMethod.Jackknife Then
                 Me.pComputationNotes.Add("Jackknife CI is not yet implemented separately; the current version uses the analytical Fisher z-style approximation.")
             End If
-            If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
-                Me.pComputationNotes.Add("BCa bootstrap is not yet implemented separately; the current version uses percentile bootstrap limits.")
-            End If
-            If Me.pUsedBootstrapCi Then
-                Me.pComputationNotes.Add($"Bootstrap seed = {Me.pBootstrapSeedUsed}.")
+            If Me.pBootstrapRunInfo IsNot Nothing Then
+                Me.pComputationNotes.Add($"Bootstrap seed = {Me.pBootstrapRunInfo.SeedUsed}.")
+                Me.pComputationNotes.Add($"Bootstrap replicates used = {Me.pBootstrapRunInfo.ReplicatesUsed}/{Me.pBootstrapRunInfo.ReplicatesRequested}.")
+                If Me.pBootstrapRunInfo.FailedReplicates > 0 Then
+                    Me.pComputationNotes.Add($"Bootstrap failed replicates = {Me.pBootstrapRunInfo.FailedReplicates}.")
+                End If
+                If Me.pBootstrapRunInfo.Notes IsNot Nothing Then
+                    For Each note As String In Me.pBootstrapRunInfo.Notes
+                        If Not String.IsNullOrWhiteSpace(note) Then Me.pComputationNotes.Add(note)
+                    Next
+                End If
             End If
 
             Me.pResult = New LinConcordanceResult With {
@@ -383,6 +398,75 @@ Namespace Agreement
             End If
         End Sub
 
+        Friend Shared Function BootstrapConcordanceResamplingResult(reference As Double(),
+                                                            test As Double(),
+                                                            opts As LinConcordanceOptions,
+                                                            Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                            Optional randomSeed As Integer = Integer.MinValue) As ScalarResamplingResult
+            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference.Length <> test.Length Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+            End If
+            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+
+            Dim bootOpts As New BootstrapOptions With {
+                .Alpha = opts.Alpha,
+                .Replicates = opts.BootstrapReplicates,
+                .RandomSeed = randomSeed,
+                .MaxFailures = Math.Max(1000, opts.BootstrapReplicates)
+            }
+
+            Dim progressCallback As Action(Of Integer, Integer) = Nothing
+            If progressBar IsNot Nothing Then
+                progressBar.Invoke(Sub() progressBar.Value = 0)
+                progressCallback = Sub(completed As Integer, total As Integer)
+                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                   End Sub
+            End If
+
+            Dim result As ScalarResamplingResult = ResamplingBootstrapRunner.RunScalarBootstrap(
+                reference.Length,
+                Function(idx As Integer())
+                    Dim sampled = ResamplingBootstrap.TakeByIndices(reference, test, idx)
+                    Return ComputeLinConcordanceCore(sampled.Values1, sampled.Values2).Concordance
+                End Function,
+                bootOpts,
+                "Lin concordance correlation",
+                "Lin CCC bootstrap",
+                50,
+                progressCallback)
+
+            Return result
+        End Function
+
+        Friend Shared Function JackknifeConcordanceResamplingResult(reference As Double(),
+                                                            test As Double(),
+                                                            opts As LinConcordanceOptions) As ScalarResamplingResult
+            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference.Length <> test.Length Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+            End If
+            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+
+            Dim jkOpts As New JackknifeOptions With {.Alpha = opts.Alpha}
+            Dim result As ScalarResamplingResult = ResamplingJackknifeRunner.RunScalarJackknife(
+                reference.Length,
+                Function(idx As Integer())
+                    Dim sampled = ResamplingBootstrap.TakeByIndices(reference, test, idx)
+                    Return ComputeLinConcordanceCore(sampled.Values1, sampled.Values2).Concordance
+                End Function,
+                jkOpts,
+                "Lin concordance correlation",
+                "Lin CCC jackknife",
+                2)
+
+            result.ObservedStatistic = ComputeLinConcordanceCore(reference, test).Concordance
+            Return result
+        End Function
+
         ''' <summary>
         ''' Computes Lin's concordance coefficient and its decomposition from paired numeric vectors.
         ''' </summary>
@@ -512,70 +596,6 @@ Namespace Agreement
             Return Nothing
         End Function
 
-        ''' <summary>
-        ''' Computes a confidence interval for Lin's concordance coefficient by bootstrap resampling of paired observations.
-        ''' </summary>
-        ''' <param name="reference">Filtered finite reference-method values.</param>
-        ''' <param name="test">Filtered finite test-method values.</param>
-        ''' <param name="opts">Analysis options controlling bootstrap settings.</param>
-        ''' <returns>A percentile-bootstrap confidence interval result.</returns>
-        Friend Shared Function BootstrapConcordanceConfidenceInterval(reference As Double(),
-                                                                      test As Double(),
-                                                                      opts As LinConcordanceOptions,
-                                                                      Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                                                                      Optional randomSeed As Integer = Integer.MinValue) As ConfidenceIntervalResult
-            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
-            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
-            If reference.Length <> test.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
-            End If
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
-
-            Dim n As Integer = reference.Length
-            Dim b As Integer = opts.BootstrapReplicates
-            Dim concordances As New List(Of Double)(b)
-            Dim rng As Random = AppGlobals.CreateRandom(randomSeed)
-
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 0)
-            End If
-
-            For rep As Integer = 1 To b
-                Dim bx(n - 1) As Double
-                Dim by(n - 1) As Double
-                For i As Integer = 0 To n - 1
-                    Dim idx As Integer = rng.Next(0, n)
-                    bx(i) = reference(idx)
-                    by(i) = test(idx)
-                Next
-
-                Try
-                    Dim core = ComputeLinConcordanceCore(bx, by)
-                    If IsFinite(core.Concordance) Then concordances.Add(core.Concordance)
-                Catch
-                    ' Skip singular bootstrap samples with zero variance.
-                End Try
-
-                If progressBar IsNot Nothing Then
-                    Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * rep / b)))
-                    progressBar.Invoke(Sub() progressBar.Value = progressValue)
-                End If
-            Next
-
-            If concordances.Count < 50 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Too few valid bootstrap replicates were obtained for Lin concordance confidence intervals."))
-            End If
-
-            concordances.Sort()
-            Dim out As New ConfidenceIntervalResult With {
-                .Estimate = ComputeLinConcordanceCore(reference, test).Concordance,
-                .alpha = opts.Alpha,
-                .StdErr = Double.NaN,
-                .LowerLimit = PercentileFromSorted(concordances.ToArray(), opts.Alpha / 2.0),
-                .UpperLimit = PercentileFromSorted(concordances.ToArray(), 1.0 - opts.Alpha / 2.0)
-            }
-            Return out
-        End Function
 
         ''' <summary>
         ''' Computes an approximate hypothesis test for the null concordance value.
@@ -629,33 +649,11 @@ Namespace Agreement
         ''' The original value when it already lies strictly between -1 and 1; otherwise a numerically safe boundary value.
         ''' </returns>
         Friend Shared Function ClampToOpenUnitInterval(x As Double) As Double
-            Const eps As Double = 1.0E-12
+            Const eps As Double = 0.000000000001
             If x <= -1.0 Then Return -1.0 + eps
             If x >= 1.0 Then Return 1.0 - eps
             Return x
         End Function
-
-        ''' <summary>
-        ''' Returns an interpolated percentile from an ascending sorted numeric vector.
-        ''' </summary>
-        ''' <param name="sorted">Ascending sorted data.</param>
-        ''' <param name="p">Percentile probability in [0,1].</param>
-        ''' <returns>The interpolated percentile value.</returns>
-        Friend Shared Function PercentileFromSorted(sorted As Double(), p As Double) As Double
-            If sorted Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(sorted)))
-            If sorted.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Sorted data must not be empty.", NameOf(sorted)))
-            If p <= 0.0 Then Return sorted(0)
-            If p >= 1.0 Then Return sorted(sorted.Length - 1)
-
-            Dim h As Double = (sorted.Length - 1) * p
-            Dim lo As Integer = CInt(Math.Floor(h))
-            Dim hi As Integer = CInt(Math.Ceiling(h))
-            If lo = hi Then Return sorted(lo)
-
-            Dim frac As Double = h - lo
-            Return sorted(lo) + frac * (sorted(hi) - sorted(lo))
-        End Function
-
     End Class
 
 End Namespace

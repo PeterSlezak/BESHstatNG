@@ -6,9 +6,10 @@ Imports System.Collections
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Linq
+Imports BESHStatNG.regression
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions that return chart-ready tables for common statistical plots.
@@ -479,16 +480,16 @@ Namespace BESHStatNG.WorksheetFunctions
                 If yVals.Count <> pVals.Count OrElse yVals.Count = 0 Then Return ExcelError.ExcelErrorNum
 
                 Dim w() As Double = Nothing
-                If Not UDFhelpers.IsMissingArg(weights) Then
+                If Not IsMissingArg(weights) Then
                     If Not UDFhelpers.TryReadNumericColumn(weights, wVals) Then Return ExcelError.ExcelErrorValue
                     If wVals Is Nothing OrElse wVals.Count <> yVals.Count Then Return ExcelError.ExcelErrorNum
                     w = wVals.ToArray()
                 End If
 
                 Dim binCount As Integer
-                If Not UDFhelpers.TryGetOptionalPositiveInteger(bins, binCount, 10, 1) Then Return ExcelError.ExcelErrorNum
+                If Not TryGetOptionalPositiveInteger(bins, binCount, 10, 1) Then Return ExcelError.ExcelErrorNum
 
-                Dim methodName As String = UDFhelpers.ParseCalibrationMethod(method, "quantile")
+                Dim methodName As String = BinaryClassificationReporting.ParseCalibrationMethod(method, "quantile")
                 Dim yy() As Double = yVals.ToArray()
                 Dim pp() As Double = pVals.ToArray()
 
@@ -541,7 +542,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
 
         Private Function ResolveHistogramRule(arg As Object) As String
-            Dim token As String = UDFhelpers.NormalizeToken(UDFhelpers.AsString(arg))
+            Dim token As String = UDFhelpers.NormalizeToken(AsString(arg))
             If String.IsNullOrWhiteSpace(token) Then Return "(Sturges)"
 
             Select Case token
@@ -559,14 +560,14 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         Private Function ParseRocDirection(direction As Object) As Boolean
-            Dim token As String = UDFhelpers.NormalizeToken(UDFhelpers.AsString(direction))
+            Dim token As String = UDFhelpers.NormalizeToken(AsString(direction))
             If String.IsNullOrWhiteSpace(token) Then Return False
             Return (token = "lower" OrElse token = "low" OrElse token = "smaller" OrElse token = "decreasing")
         End Function
 
         Private Function GuessPositiveClass(statusCol(,) As Object, explicitPositive As Object, ByRef positiveLabel As String) As Boolean
             positiveLabel = Nothing
-            Dim explicitText As String = UDFhelpers.CellToTrimmedText(explicitPositive)
+            Dim explicitText As String = CellToTrimmedText(explicitPositive)
             If Not String.IsNullOrWhiteSpace(explicitText) Then
                 positiveLabel = explicitText
                 Return True
@@ -577,11 +578,11 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim allBinary01 As Boolean = True
 
             For i As Integer = 0 To statusCol.GetLength(0) - 1
-                Dim s As String = UDFhelpers.CellToTrimmedText(statusCol(i, 0))
+                Dim s As String = CellToTrimmedText(statusCol(i, 0))
                 If String.IsNullOrWhiteSpace(s) Then Continue For
 
                 Dim iv As Integer
-                If Not UDFhelpers.TryGetStatus01Flexible(statusCol(i, 0), iv) Then
+                If Not TryGetStatus01Flexible(statusCol(i, 0), iv) Then
                     allBinary01 = False
                 End If
 
@@ -652,14 +653,14 @@ Namespace BESHStatNG.WorksheetFunctions
 
             For i As Integer = 0 To markerCol.GetLength(0) - 1
                 Dim x As Double
-                If Not UDFhelpers.TryGetFiniteDoubleFlexible(markerCol(i, 0), x) Then Continue For
+                If Not TryGetFiniteDoubleFlexible(markerCol(i, 0), x) Then Continue For
 
-                Dim label As String = UDFhelpers.CellToTrimmedText(statusCol(i, 0))
+                Dim label As String = CellToTrimmedText(statusCol(i, 0))
                 If String.IsNullOrWhiteSpace(label) Then Continue For
 
                 Dim isPositive As Boolean = False
                 Dim iv As Integer
-                If normalizedPositive = "1" AndAlso UDFhelpers.TryGetStatus01Flexible(statusCol(i, 0), iv) Then
+                If normalizedPositive = "1" AndAlso TryGetStatus01Flexible(statusCol(i, 0), iv) Then
                     isPositive = (iv = 1)
                 Else
                     isPositive = String.Equals(UDFhelpers.NormalizeToken(label), normalizedPositive, StringComparison.OrdinalIgnoreCase)
@@ -700,7 +701,7 @@ Namespace BESHStatNG.WorksheetFunctions
             For i As Integer = 1 To n
                 Dim thresholdObj As Object = cutoffTable(i, 0)
                 Dim threshold As Double
-                If UDFhelpers.TryGetFiniteDoubleFlexible(thresholdObj, threshold) Then
+                If TryGetFiniteDoubleFlexible(thresholdObj, threshold) Then
                     out(i + 1, 0) = If(isLowerDirection, -threshold, threshold)
                 Else
                     out(i + 1, 0) = thresholdObj
@@ -752,7 +753,7 @@ Namespace BESHStatNG.WorksheetFunctions
             If Not UDFhelpers.TryGetTrimmedColumnObject(status, statusCol, statusName, "binary") Then Return False
             If timeCol.GetLength(0) <> statusCol.GetLength(0) Then Return False
 
-            Dim hasGroup As Boolean = Not UDFhelpers.IsMissingArg(group)
+            Dim hasGroup As Boolean = Not IsMissingArg(group)
             If hasGroup Then
                 If Not UDFhelpers.TryGetTrimmedColumnObject(group, groupCol, groupName, "text") Then Return False
                 If groupCol.GetLength(0) <> timeCol.GetLength(0) Then Return False
@@ -766,13 +767,13 @@ Namespace BESHStatNG.WorksheetFunctions
             For i As Integer = 0 To timeCol.GetLength(0) - 1
                 Dim t As Double
                 Dim s As Integer
-                If Not UDFhelpers.TryGetFiniteDoubleFlexible(timeCol(i, 0), t) Then Continue For
+                If Not TryGetFiniteDoubleFlexible(timeCol(i, 0), t) Then Continue For
                 If t < 0.0R Then Return False
-                If Not UDFhelpers.TryGetStatus01Flexible(statusCol(i, 0), s) Then Continue For
+                If Not TryGetStatus01Flexible(statusCol(i, 0), s) Then Continue For
 
                 Dim g As String = "ALL"
                 If hasGroup Then
-                    g = UDFhelpers.CellToTrimmedText(groupCol(i, 0))
+                    g = CellToTrimmedText(groupCol(i, 0))
                     If String.IsNullOrWhiteSpace(g) Then Continue For
                 End If
 

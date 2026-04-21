@@ -8,7 +8,7 @@ Imports System.Globalization
 Imports System.Linq
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for proportional-odds ordinal logistic regression models.
@@ -175,7 +175,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Return ExcelError.ExcelErrorValue
                 End If
 
-                Dim formulaText As String = UDFhelpers.AsString(formula)
+                Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
                 Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
@@ -236,8 +236,8 @@ Namespace BESHStatNG.WorksheetFunctions
                     If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
-                Dim maxIterValue As Integer = UDFhelpers.GetOptionalInt(maxIter, 50)
-                Dim tolValue As Double = UDFhelpers.GetOptionalDouble(tol, 0.0000000001R)
+                Dim maxIterValue As Integer = GetOptionalInt(maxIter, 50)
+                Dim tolValue As Double = GetOptionalDouble(tol, 0.0000000001R)
                 If maxIterValue < 1 Then Return ExcelError.ExcelErrorNum
                 If Double.IsNaN(tolValue) OrElse Double.IsInfinity(tolValue) OrElse tolValue <= 0 Then Return ExcelError.ExcelErrorNum
 
@@ -325,14 +325,14 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As OrdinalLogitHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _ordCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim alphaValue As Double = 0.05
                 If Not IsMissingArg(alpha) Then
                     If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim q As Integer = h.Model.results.Coeffs_est.Length
                 Dim outRows As Integer = If(hdr, q + 1, q)
                 Dim out(outRows - 1, 8) As Object
@@ -419,14 +419,14 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As OrdinalLogitHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _ordCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim labels() As String = h.Model.results.ModelTableLabels
                 Dim vals(,) As Object = h.Model.results.ModelTableVals
                 If labels Is Nothing OrElse vals Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim n As Integer = labels.Length
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, n + 1, n)
                 Dim out(outRows - 1, 3) As Object
 
@@ -486,12 +486,12 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As OrdinalLogitHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _ordCache, h) Then Return ExcelError.ExcelErrorNA
                 Dim cls = h.Model.Classification
                 If cls Is Nothing OrElse cls.Categories Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim k As Integer = cls.Categories.Length
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, k + 3, k + 2)
                 Dim outCols As Integer = k + 2
                 Dim out(outRows - 1, outCols - 1) As Object
@@ -574,12 +574,12 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As OrdinalLogitHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _ordCache, h) Then Return ExcelError.ExcelErrorNA
                 Dim res = h.Model.Residuals
                 If res Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim key As String = ParseOrdinalResidualType(residType)
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
 
                 Select Case key
                     Case "all"
@@ -664,7 +664,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As OrdinalLogitHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _ordCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim rawPredictorKeys As String() = If(h.RawPredictorKeys, h.RawVarNames)
                 If rawPredictorKeys Is Nothing OrElse rawPredictorKeys.Length < 1 Then Return ExcelError.ExcelErrorValue
@@ -700,7 +700,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If b Is Nothing OrElse cats Is Nothing OrElse cats.Length < 2 Then Return ExcelError.ExcelErrorNA
 
                 Dim nRows As Integer = imported.nRows
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, nRows + 1, nRows)
                 Dim outCols As Integer = cats.Length + 2
                 Dim out(outRows - 1, outCols - 1) As Object
@@ -762,23 +762,10 @@ Namespace BESHStatNG.WorksheetFunctions
         Public Function ORDLOGIT_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.ORDLOGIT_FIT.")> handle As Object
         ) As Object
-            Dim key As String = UDFhelpers.AsString(handle)
+            Dim key As String = AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
             Dim removed As OrdinalLogitHandle = Nothing
             Return _ordCache.TryRemove(key, removed)
-        End Function
-
-        ''' <summary>
-        ''' Attempts to resolve a cached ordinal-logit handle.
-        ''' </summary>
-        ''' <param name="handle">Worksheet handle argument.</param>
-        ''' <param name="h">On success, receives the cached handle object.</param>
-        ''' <returns>True when the handle exists in the cache; otherwise, False.</returns>
-        Private Function TryGetHandle(handle As Object, ByRef h As OrdinalLogitHandle) As Boolean
-            h = Nothing
-            Dim key As String = UDFhelpers.AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
-            Return _ordCache.TryGetValue(key, h)
         End Function
 
         ''' <summary>
@@ -826,7 +813,7 @@ Namespace BESHStatNG.WorksheetFunctions
         ''' <param name="v">Worksheet residual-type argument.</param>
         ''' <returns>A canonical residual-output key.</returns>
         Private Function ParseOrdinalResidualType(v As Object) As String
-            Dim s As String = UDFhelpers.AsString(v)
+            Dim s As String = AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return "all"
 
             Select Case s.Trim().ToLowerInvariant()

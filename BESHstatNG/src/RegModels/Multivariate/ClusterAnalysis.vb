@@ -2975,12 +2975,15 @@ Namespace Multivariate
                                     standardization As ClusterStandardizationMode,
                                     missingPolicy As ClusterMissingValuePolicy) As ClusterPreparedData
 
-            ValidateRectangularData(data)
+            MultivariateInputHelpers.ValidateRectangularData(data)
             Dim n As Integer = data.GetUpperBound(0) + 1
             Dim p As Integer = data.GetUpperBound(1) + 1
 
-            Dim finalRowLabels() As String = NormalizeRowLabels(rowLabels, n)
-            Dim finalVarNames() As String = NormalizeVarNames(varNames, p)
+            Dim finalRowLabels() As String = MultivariateInputHelpers.NormalizeRowLabels(rowLabels, n, defaultPrefix:="Obs",
+                                                                                         mismatchMessage:="The number of row labels does not match the number of observations.")
+            Dim finalVarNames() As String = MultivariateInputHelpers.NormalizeVarNames(varNames, p, defaultPrefix:="Var",
+                                                                                       mismatchMessage:="The number of variable names does not match the number of columns.", useSpaceSeparator:=True)
+
 
             Dim keepRow(n - 1) As Boolean
             Dim activeCount As Integer = 0
@@ -3433,36 +3436,6 @@ Namespace Multivariate
                 minB = temp
             End If
             Return minA.ToString("D8") & "|" & minB.ToString("D8")
-        End Function
-
-        Private Sub ValidateRectangularData(data(,) As Double)
-            If data Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input data must not be Nothing."))
-            If data.Rank <> 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input data must be a two-dimensional numeric array."))
-            If data.GetUpperBound(0) < 0 OrElse data.GetUpperBound(1) < 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input data must contain at least one row and one column."))
-        End Sub
-
-        Private Function NormalizeRowLabels(rowLabels() As String, n As Integer) As String()
-            If rowLabels Is Nothing Then
-                Dim labels(n - 1) As String
-                For i As Integer = 0 To n - 1
-                    labels(i) = $"Obs {i + 1}"
-                Next
-                Return labels
-            End If
-            If rowLabels.Length <> n Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("The number of row labels does not match the number of observations."))
-            Return CType(rowLabels.Clone(), String())
-        End Function
-
-        Private Function NormalizeVarNames(varNames() As String, p As Integer) As String()
-            If varNames Is Nothing Then
-                Dim names(p - 1) As String
-                For j As Integer = 0 To p - 1
-                    names(j) = $"Var {j + 1}"
-                Next
-                Return names
-            End If
-            If varNames.Length <> p Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("The number of variable names does not match the number of columns."))
-            Return CType(varNames.Clone(), String())
         End Function
 
         Private Sub ComputeStandardizationParameters(data(,) As Double, mode As ClusterStandardizationMode,

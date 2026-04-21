@@ -6,7 +6,7 @@ Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for basic survival analysis procedures.
@@ -357,9 +357,9 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim tVal As Double
                 Dim sVal As Integer
 
-                If Not UDFhelpers.TryGetFiniteDoubleFlexible(tArr(i, 0), tVal) Then Continue For
+                If Not TryGetFiniteDoubleFlexible(tArr(i, 0), tVal) Then Continue For
                 If tVal < 0 Then Continue For
-                If Not UDFhelpers.TryGetStatus01Flexible(sArr(i, 0), sVal) Then Continue For
+                If Not TryGetStatus01Flexible(sArr(i, 0), sVal) Then Continue For
 
                 Dim gKey As String = "All"
                 If hasGroup Then
@@ -424,13 +424,13 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim t As Double
                 Dim s As Integer
 
-                If Not UDFhelpers.TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For
-                If Not UDFhelpers.TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For
+                If Not TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For
+                If Not TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For
                 If t < 0 Then Return False
 
                 Dim g As String = "ALL"
                 If hasGroup Then
-                    g = UDFhelpers.CellToTrimmedText(groupArr(i, 0))
+                    g = CellToTrimmedText(groupArr(i, 0))
                     If String.IsNullOrWhiteSpace(g) Then Continue For
                     g = g.Trim()
                 End If
@@ -553,14 +553,14 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim g As String
                 Dim st As String = "ALL"
 
-                If Not UDFhelpers.TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For
-                If Not UDFhelpers.TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For
+                If Not TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For
+                If Not TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For
 
-                g = UDFhelpers.CellToTrimmedText(groupArr(i, 0))
+                g = CellToTrimmedText(groupArr(i, 0))
                 If String.IsNullOrWhiteSpace(g) Then Continue For
 
                 If hasStrata Then
-                    st = UDFhelpers.CellToTrimmedText(strataArr(i, 0))
+                    st = CellToTrimmedText(strataArr(i, 0))
                     If String.IsNullOrWhiteSpace(st) Then st = "ALL"
                 End If
 
@@ -601,7 +601,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Return w
             End If
 
-            Dim s As String = UDFhelpers.CellToTrimmedText(weight)
+            Dim s As String = CellToTrimmedText(weight)
             If String.IsNullOrWhiteSpace(s) Then Return w
 
             s = s.Trim().ToLowerInvariant()

@@ -3,7 +3,7 @@ Option Strict On
 
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
 
     ''' <summary>

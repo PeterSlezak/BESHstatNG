@@ -5,7 +5,7 @@ Imports System.Collections.Generic
 Imports BESHStatNG.nonparametric
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
 
     Public Module NonparametricUDFs

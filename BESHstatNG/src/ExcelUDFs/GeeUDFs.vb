@@ -5,9 +5,10 @@ Imports System
 Imports System.Collections.Concurrent
 Imports System.Collections.Generic
 Imports System.Globalization
+Imports BESHStatNG.regression
 Imports ExcelDna.Integration
 
-Namespace BESHStatNG.WorksheetFunctions
+Namespace WorksheetFunctions
 
     ''' <summary>
     ''' Worksheet functions for generalized estimating equations with reusable handle-based workflow from Excel.
@@ -242,7 +243,7 @@ Namespace BESHStatNG.WorksheetFunctions
                     Return ExcelError.ExcelErrorValue
                 End If
 
-                Dim formulaText As String = UDFhelpers.AsString(formula)
+                Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
                 Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
@@ -302,16 +303,16 @@ Namespace BESHStatNG.WorksheetFunctions
                     If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
                 End If
 
-                Dim maxIterValue As Integer = UDFhelpers.GetOptionalInt(maxIter, 20)
-                Dim tolValue As Double = UDFhelpers.GetOptionalDouble(tol, 0.00000001R)
-                Dim usePValue As Boolean = UDFhelpers.GetOptionalBool(useP, False)
+                Dim maxIterValue As Integer = GetOptionalInt(maxIter, 20)
+                Dim tolValue As Double = GetOptionalDouble(tol, 0.00000001R)
+                Dim usePValue As Boolean = GetOptionalBool(useP, False)
                 If maxIterValue < 1 Then Return ExcelError.ExcelErrorNum
                 If Double.IsNaN(tolValue) OrElse Double.IsInfinity(tolValue) OrElse tolValue <= 0.0R Then Return ExcelError.ExcelErrorNum
 
                 Dim familyCode As String = ParseFamilyCode(If(Not IsMissingArg(family), family, "binomial"))
                 If String.IsNullOrWhiteSpace(familyCode) Then Return ExcelError.ExcelErrorValue
 
-                Dim dispersionValue As Double = UDFhelpers.GetOptionalDouble(dispersion, 1.0R)
+                Dim dispersionValue As Double = GetOptionalDouble(dispersion, 1.0R)
                 If familyCode = "NegativeBinomial" Then
                     If Double.IsNaN(dispersionValue) OrElse Double.IsInfinity(dispersionValue) OrElse dispersionValue <= 0.0R Then Return ExcelError.ExcelErrorNum
                 End If
@@ -326,7 +327,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim lnk As regression.Link = Nothing
                 If String.Equals(linkName, "Power", StringComparison.OrdinalIgnoreCase) Then
                     If Not Not IsMissingArg(power) Then Return ExcelError.ExcelErrorNum
-                    Dim powerValue As Double = UDFhelpers.GetOptionalDouble(power, Double.NaN)
+                    Dim powerValue As Double = GetOptionalDouble(power, Double.NaN)
                     If Double.IsNaN(powerValue) OrElse Double.IsInfinity(powerValue) OrElse powerValue = 0.0R Then Return ExcelError.ExcelErrorNum
                     lnk = regression.createLink("Power", powerValue)
                 Else
@@ -443,7 +444,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim alphaValue As Double = h.Alpha
                 If Not IsMissingArg(alpha) Then
@@ -456,7 +457,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If beta.Length <> se.Length Then Return ExcelError.ExcelErrorNA
 
                 Dim names() As String = BuildParameterNames(h.VarNames, beta.Length)
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, beta.Length + 1, beta.Length)
                 Dim out(outRows - 1, 7) As Object
                 Dim zCrit As Double = distributions.ZCritTwoSided(alphaValue)
@@ -533,14 +534,14 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim labels() As String = h.Model.results.ModelTableLabels
                 Dim vals(,) As Object = h.Model.results.ModelTableVals
                 If labels Is Nothing OrElse vals Is Nothing Then Return ExcelError.ExcelErrorNA
                 If vals.GetLength(0) <> labels.Length Then Return ExcelError.ExcelErrorNA
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, labels.Length + 2, labels.Length + 1)
                 Dim out(outRows - 1, 3) As Object
                 Dim r As Integer = 0
@@ -614,13 +615,13 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim mat(,) As Double = h.Model.WorkingCorrelationMatrix
                 If mat Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim labels() As String = BuildGeeTimeLabels(h.Model, mat.GetLength(0))
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
 
                 Return BuildLabeledMatrixOutput(mat, labels, labels, hdr)
 
@@ -689,7 +690,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim covName As String = h.StandardErrorType
                 If Not IsMissingArg(covarianceType) Then
@@ -701,7 +702,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 If mat Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 Dim names() As String = BuildParameterNames(h.VarNames, mat.GetLength(0))
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
 
                 Return BuildLabeledMatrixOutput(mat, names, names, hdr)
 
@@ -754,11 +755,11 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
 
                 h.Model.Residuals()
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim key As String = ParseGeeResidualType(residType)
 
                 Select Case key
@@ -851,7 +852,7 @@ Namespace BESHStatNG.WorksheetFunctions
 
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
 
                 Dim rawPredictorKeys As String() = If(h.RawPredictorKeys, h.RawVarNames)
                 If rawPredictorKeys Is Nothing Then rawPredictorKeys = New String() {}
@@ -894,7 +895,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim beta() As Double = h.Model.results.Coeffs_est
                 If beta Is Nothing Then Return ExcelError.ExcelErrorNA
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim outRows As Integer = If(hdr, nRows + 1, nRows)
                 Dim out(outRows - 1, 1) As Object
                 Dim r0 As Integer = 0
@@ -973,21 +974,21 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
                 If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
                 If Not TypeOf h.Model.Family Is regression.Binomial Then Return ExcelError.ExcelErrorValue
 
                 Dim cutoff As Double = 0.5R
                 If Not TryGetSingleThresholdFromArg(threshold, cutoff, 0.5R) Then Return ExcelError.ExcelErrorValue
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim y() As Double = h.Model.ObservedResponses
                 Dim p() As Double = h.Model.PredictedResponses
                 Dim w() As Double = h.Model.ObservationWeights
 
                 Dim summary As regression.BinaryClassificationSummary = regression.BinaryClassificationReporting.ComputeBinarySummary(y, p, cutoff, w)
 
-                Return UDFhelpers.BuildBinaryCrosstabOutput(summary, hdr)
+                Return BinaryClassificationReporting.BuildBinaryCrosstabUdfOutput(summary, hdr)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_CLASS", ex)
@@ -1040,21 +1041,21 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
                 If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
                 If Not TypeOf h.Model.Family Is regression.Binomial Then Return ExcelError.ExcelErrorValue
 
                 Dim thresholdVector() As Double = Nothing
-                If Not UDFhelpers.TryGetOptionalThresholdVector(thresholds, thresholdVector) Then Return ExcelError.ExcelErrorValue
+                If Not TryGetOptionalThresholdVector(thresholds, thresholdVector) Then Return ExcelError.ExcelErrorValue
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim y() As Double = h.Model.ObservedResponses
                 Dim p() As Double = h.Model.PredictedResponses
                 Dim w() As Double = h.Model.ObservationWeights
 
                 Dim rows As List(Of regression.BinaryThresholdRow) = regression.BinaryClassificationReporting.BuildThresholdTable(y, p, thresholdVector, w)
 
-                Return UDFhelpers.BuildThresholdTableOutput(rows, hdr)
+                Return BinaryClassificationReporting.BuildThresholdTableUdfOutput(rows, hdr)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_THRESH", ex)
@@ -1112,22 +1113,22 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
                 If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
                 If Not TypeOf h.Model.Family Is regression.Binomial Then Return ExcelError.ExcelErrorValue
 
                 Dim binCount As Integer = 10
-                If Not UDFhelpers.TryGetOptionalPositiveInteger(bins, binCount, 10, 2) Then Return ExcelError.ExcelErrorValue
+                If Not TryGetOptionalPositiveInteger(bins, binCount, 10, 2) Then Return ExcelError.ExcelErrorValue
 
-                Dim methodName As String = UDFhelpers.ParseCalibrationMethod(method, "quantile")
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim methodName As String = BinaryClassificationReporting.ParseCalibrationMethod(method, "quantile")
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim y() As Double = h.Model.ObservedResponses
                 Dim p() As Double = h.Model.PredictedResponses
                 Dim w() As Double = h.Model.ObservationWeights
 
                 Dim rows As List(Of regression.CalibrationBinSummary) = regression.BinaryClassificationReporting.BuildCalibrationBins(y, p, binCount, w, methodName)
 
-                Return UDFhelpers.BuildCalibrationTableOutput(rows, hdr)
+                Return BinaryClassificationReporting.BuildCalibrationTableUdfOutput(rows, hdr)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_CALIB", ex)
@@ -1171,11 +1172,11 @@ Namespace BESHStatNG.WorksheetFunctions
         ) As Object
             Try
                 Dim h As GeeHandle = Nothing
-                If Not TryGetHandle(handle, h) Then Return ExcelError.ExcelErrorNA
+                If Not UdfCacheHelpers.TryGetCachedHandle(handle, _geeCache, h) Then Return ExcelError.ExcelErrorNA
                 If h Is Nothing OrElse h.Model Is Nothing Then Return ExcelError.ExcelErrorNA
                 If Not TypeOf h.Model.Family Is regression.Binomial Then Return ExcelError.ExcelErrorValue
 
-                Dim hdr As Boolean = UDFhelpers.GetOptionalBool(includeHeader, True)
+                Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim y() As Double = h.Model.ObservedResponses
                 Dim p() As Double = h.Model.PredictedResponses
                 Dim w() As Double = h.Model.ObservationWeights
@@ -1183,7 +1184,7 @@ Namespace BESHStatNG.WorksheetFunctions
                 Dim score As Double = regression.BinaryClassificationReporting.ComputeBrierScore(y, p, w)
                 Dim eventRate As Double = ComputeBinaryEventRate(y, w)
 
-                Return UDFhelpers.BuildNamedScalarOutput("BrierScore", score, y.Length, eventRate, hdr)
+                Return BinaryClassificationReporting.BuildBrierScoreUdfOutput(score, y.Length, eventRate, hdr)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_BRIER", ex)
@@ -1211,7 +1212,7 @@ Namespace BESHStatNG.WorksheetFunctions
         Public Function GEE_DROP(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT.")> handle As Object
         ) As Object
-            Dim key As String = UDFhelpers.AsString(handle)
+            Dim key As String = AsString(handle)
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
             Dim removed As GeeHandle = Nothing
             Return _geeCache.TryRemove(key, removed)
@@ -1296,7 +1297,7 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         Private Function ParseGeeCovarianceName(v As Object) As String
-            Dim s As String = UDFhelpers.AsString(v)
+            Dim s As String = AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return "Independence"
 
             Select Case NormalizeKey(s)
@@ -1314,7 +1315,7 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         Private Function ParseGeeStandardErrorType(v As Object) As String
-            Dim s As String = UDFhelpers.AsString(v)
+            Dim s As String = AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return "Robust"
 
             Select Case NormalizeKey(s)
@@ -1330,7 +1331,7 @@ Namespace BESHStatNG.WorksheetFunctions
         End Function
 
         Private Function ParseGeeResidualType(v As Object) As String
-            Dim s As String = UDFhelpers.AsString(v)
+            Dim s As String = AsString(v)
             If String.IsNullOrWhiteSpace(s) Then Return "all"
 
             Select Case NormalizeKey(s)
@@ -1351,13 +1352,6 @@ Namespace BESHStatNG.WorksheetFunctions
                 Case Else
                     Return "all"
             End Select
-        End Function
-
-        Private Function TryGetHandle(handle As Object, ByRef h As GeeHandle) As Boolean
-            h = Nothing
-            Dim key As String = UDFhelpers.AsString(handle)
-            If String.IsNullOrWhiteSpace(key) Then Return False
-            Return _geeCache.TryGetValue(key, h)
         End Function
 
         Private Function BuildParameterNames(predictorNames() As String, coefficientCount As Integer) As String()
@@ -1449,7 +1443,7 @@ Namespace BESHStatNG.WorksheetFunctions
             Dim k As Integer = 0
             For i As Integer = 0 To rows - 1
                 For j As Integer = 0 To cols - 1
-                    Dim d As Double? = UDFhelpers.TryGetDouble(arr(i, j))
+                    Dim d As Double? = TryGetDouble(arr(i, j))
                     If Not d.HasValue Then
                         values = Nothing
                         Return False
