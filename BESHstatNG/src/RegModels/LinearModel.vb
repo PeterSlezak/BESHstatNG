@@ -1161,37 +1161,135 @@ Namespace regression
 
 
         ''' <summary>
-        ''' Computes and inverts the weighted cross-product matrix <c>X' W X</c>.
+        ''' Computes (X' W X)^(-1) using a scaled weighted-design pseudoinverse.
+        ''' The implementation is tuned for numerical stability on ill-conditioned
+        ''' designs (for example Filip / high-degree polynomial regressions).
         ''' </summary>
-        ''' <param name="Xfull">Design matrix <c>X</c>.</param>
-        ''' <param name="wvec">Weights vector <c>w</c>.</param>
-        ''' <returns>
-        ''' The inverse matrix <c>(X' W X)^{-1}</c>.
-        ''' </returns>
-        ''' <remarks>
-        ''' <para>
-        ''' The matrix <c>X'WX</c> is computed element-wise as
-        ''' <c>(X'WX)_{ij} = Σ_k X_{k,i} · w_k · X_{k,j}</c>.
-        ''' The inverse is computed by <see cref="Matrix.MatInv"/> using a Cholesky-based method ("CHOL").
-        ''' </para>
-        ''' </remarks>
+        ''' <param name="Xfull">Full design matrix X (including intercept column if present).</param>
+        ''' <param name="wvec">Observation weights.</param>
+        ''' <returns>The covariance factor (X' W X)^(-1).</returns>
         Private Function InvertXtWX_UsingMatrixVB(Xfull(,) As Double, wvec() As Double) As Double(,)
             Dim nR As Integer = UBound(Xfull, 1) + 1
             Dim nC As Integer = UBound(Xfull, 2) + 1
 
-            Dim XtWX(nC - 1, nC - 1) As Double
-            For i As Integer = 0 To nC - 1
-                For j As Integer = i To nC - 1
-                    Dim acc As Double = 0.0
-                    For k As Integer = 0 To nR - 1
-                        acc += Xfull(k, i) * wvec(k) * Xfull(k, j)
-                    Next
-                    XtWX(i, j) = acc
-                    XtWX(j, i) = acc
+            ' ------------------------------------------------------------
+            ' Detect an intercept column in Xfull.
+            ' If present, keep it unscaled (same convention as RegrL).
+            ' ------------------------------------------------------------
+            Dim hasIntercept As Boolean = False
+            If nC > 0 Then
+                hasIntercept = True
+                For i As Integer = 0 To nR - 1
+                    If Math.Abs(Xfull(i, 0) - 1.0) > 0.000000000000001 Then
+                        hasIntercept = False
+                        Exit For
+                    End If
+                Next
+            End If
+
+            ' ------------------------------------------------------------
+            ' Build weighted design matrix: Xw = sqrt(W) * X
+            ' ------------------------------------------------------------
+            Dim Xw(nR - 1, nC - 1) As Double
+            For i As Integer = 0 To nR - 1
+                Dim sw As Double = Math.Sqrt(wvec(i))
+                For j As Integer = 0 To nC - 1
+                    Xw(i, j) = Xfull(i, j) * sw
                 Next
             Next
 
-            Return Matrix.MatInv(XtWX, "CHOL")
+            ' ------------------------------------------------------------
+            ' Column scaling around the strict-SVD pseudoinverse:
+            '
+            ' Let XwScaled = Xw * D^{-1}, where D is diagonal with column 2-norms.
+            ' Then:
+            '   (X' W X)^(-1) = D^{-1} * (XwScaled' XwScaled)^(-1) * D^{-1}
+            '
+            ' and for full-column-rank designs:
+            '   (XwScaled' XwScaled)^(-1) = XwScaled^+ * (XwScaled^+)'
+            '
+            ' Keep the intercept column unscaled when present.
+            ' ------------------------------------------------------------
+            Dim XwScaled(nR - 1, nC - 1) As Double, colScale(nC - 1) As Double, invColScale(nC - 1) As Double
+
+            For j As Integer = 0 To nC - 1
+                If hasIntercept AndAlso j = 0 Then
+                    colScale(j) = 1.0
+                Else
+                    'Compensated sum of squares for better accuracy
+                    Dim ss As Double = 0.0
+                    Dim c As Double = 0.0
+                    For i As Integer = 0 To nR - 1
+                        Dim term As Double = Xw(i, j) * Xw(i, j)
+                        Dim yk As Double = term - c
+                        Dim tk As Double = ss + yk
+                        c = (tk - ss) - yk
+                        ss = tk
+                    Next
+
+                    colScale(j) = Math.Sqrt(ss)
+                    If colScale(j) = 0.0 Then colScale(j) = 1.0
+                End If
+
+                invColScale(j) = 1.0 / colScale(j)
+
+                For i As Integer = 0 To nR - 1
+                    XwScaled(i, j) = Xw(i, j) * invColScale(j)
+                Next
+            Next
+
+            ' Strict SVD pseudoinverse on the scaled weighted design matrix
+            Dim XwPlusScaled(,) As Double = Matrix.pseudoInverse(XwScaled, 0.0)
+
+            ' ------------------------------------------------------------
+            ' Recover (XwScaled' XwScaled)^(-1) as:
+            '   XwPlusScaled * XwPlusScaled'
+            '
+            ' Compute this explicitly with compensated dot-products instead of
+            ' generic MatrixMult to reduce roundoff in the covariance diagonals.
+            ' ------------------------------------------------------------
+            Dim XtWXinvScaled(nC - 1, nC - 1) As Double
+            Dim nK As Integer = UBound(XwPlusScaled, 2) + 1  ' = nR
+
+            For i As Integer = 0 To nC - 1
+                For j As Integer = i To nC - 1
+                    Dim s As Double = 0.0
+                    Dim c As Double = 0.0
+
+                    For k As Integer = 0 To nK - 1
+                        Dim term As Double = XwPlusScaled(i, k) * XwPlusScaled(j, k)
+                        Dim yk As Double = term - c
+                        Dim tk As Double = s + yk
+                        c = (tk - s) - yk
+                        s = tk
+                    Next
+
+                    XtWXinvScaled(i, j) = s
+                    XtWXinvScaled(j, i) = s
+                Next
+            Next
+
+            ' Transform back to the original scale:
+            ' (X' W X)^(-1) = D^{-1} * XtWXinvScaled * D^{-1}
+            Dim XtWXinv(nC - 1, nC - 1) As Double
+            For i As Integer = 0 To nC - 1
+                For j As Integer = i To nC - 1
+                    Dim v As Double = XtWXinvScaled(i, j) * invColScale(i) * invColScale(j)
+                    XtWXinv(i, j) = v
+                    XtWXinv(j, i) = v
+                Next
+            Next
+
+            ' Final symmetrization to damp tiny numerical asymmetry
+            For i As Integer = 0 To nC - 1
+                For j As Integer = i + 1 To nC - 1
+                    Dim v As Double = 0.5 * (XtWXinv(i, j) + XtWXinv(j, i))
+                    XtWXinv(i, j) = v
+                    XtWXinv(j, i) = v
+                Next
+            Next
+
+            Return XtWXinv
         End Function
 
         '==========================================================

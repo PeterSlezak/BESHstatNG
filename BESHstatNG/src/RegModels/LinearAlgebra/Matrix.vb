@@ -1562,16 +1562,17 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Public Function MatInv(ByVal mat(,) As Double,
-                           Optional method As String = "LU",
-                           ByRef Optional iErr As Integer = 0,
-                           Optional bPseudInverse As Boolean = True) As Double(,)
+                               Optional method As String = "LU",
+                               ByRef Optional iErr As Integer = 0,
+                               Optional bPseudInverse As Boolean = True) As Double(,)
 
             Dim n As Integer = mat.GetUpperBound(0)
             If n <> mat.GetUpperBound(1) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Wrong input matrices dimensions."))
             Dim out(n, n) As Double
             Dim matCopy(,) As Double = DirectCast(mat.Clone(), Double(,))
+            Dim methodNorm As String = method.ToUpper.Trim
 
-            If method.ToUpper.Trim = "LU" Then
+            If methodNorm = "LU" Then
                 Dim d As Double
                 Dim decomp = LUdecomp(matCopy, d, iErr)
                 For j = 0 To n 'Find inverse by columns.
@@ -1583,7 +1584,7 @@ Namespace Matrix
                     Next
                 Next
 
-            ElseIf method.ToUpper.Trim = "CHOL" Then
+            ElseIf methodNorm = "CHOL" Then
                 Dim ch = Cholesky(matCopy, iErr)
                 If iErr = 2 Then
                     If bPseudInverse Then
@@ -1598,6 +1599,43 @@ Namespace Matrix
                     out = CholInv(ch)
                 End If
 
+            ElseIf methodNorm = "SVD" Then
+                'Strict SVD inverse for square, full-rank matrices only.
+                'This branch does NOT return a pseudoinverse.
+                'If any singular value is numerically zero, the matrix is treated as singular
+                'and an exception is raised.
+
+                Dim svd As SVDoutput = SVD_decomp(matCopy)
+                Dim nS As Integer = svd.Wvect.GetUpperBound(0)
+
+                Dim wMax As Double = 0.0
+                For i As Integer = 0 To nS
+                    Dim aw As Double = Math.Abs(svd.Wvect(i))
+                    If aw > wMax Then wMax = aw
+                Next
+                'Numerical rank threshold for Double precision
+                Const MachineEps As Double = 0.00000000000000022204460492503131
+                Dim tol As Double = MachineEps * (nS + 1) * wMax
+
+                'Require full rank for a true inverse
+                For i As Integer = 0 To nS
+                    If Math.Abs(svd.Wvect(i)) <= tol Then
+                        iErr = 1
+                        AppGlobals.BSerr.LogAndThrow(New ApplicationException(
+                                                        $"Matrix is singular or numerically rank-deficient for strict SVD inverse. " &
+                                                        $"sigma[{i}]={svd.Wvect(i)}, tol={tol}"))
+                    End If
+                Next
+
+                'Build Sigma^{-1}
+                Dim Winv(nS, nS) As Double
+                For i As Integer = 0 To nS
+                    Winv(i, i) = 1.0 / svd.Wvect(i)
+                Next
+
+                'A^{-1} = V * Sigma^{-1} * U^T
+                out = MatrixMult(MatrixMult(svd.V, Winv), trans(svd.U))
+                iErr = 0
             Else
                 AppGlobals.BSerr.LogAndThrow(New NotImplementedException("Not implemented error. method = " & method))
             End If
@@ -1646,8 +1684,9 @@ Namespace Matrix
         ''' <exception cref="ArgumentNullException">
         ''' Thrown if <paramref name="A"/> is <c>Nothing</c>.
         ''' </exception>
-        Function pseudoInverse(ByVal A(,) As Double, Optional tol As Double = -1.0) As Double(,)
+        Public Function pseudoInverse(ByVal A(,) As Double, Optional tol As Double = -1.0) As Double(,)
             If A Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(A)))
+            Const eps As Double = 0.00000000000000022204460492503131
 
             ' Work on a copy so the input A is not overwritten by SVD_decomp
             Dim Acopy As Double(,) = DirectCast(A.Clone(), Double(,))
@@ -1666,7 +1705,7 @@ Namespace Matrix
                     If aw > wMax Then wMax = aw
                 Next
 
-                tol = Double.Epsilon * Math.Max(mRows, nCols) * wMax
+                tol = eps * Math.Max(mRows, nCols) * wMax
             End If
 
             ' Build W^+ (diagonal)
@@ -1900,7 +1939,7 @@ Namespace Matrix
 
             ' --- Diagonalization of the bidiagonal form ---
             For k = n To 0 Step -1
-                For its = 1 To 30
+                For its = 1 To 100
                     For L = k To 0 Step -1
                         Nm = L - 1
                         If (Math.Abs(rv1(L)) + Anorm) = Anorm Then GoTo SplitOk
@@ -2194,58 +2233,214 @@ SplitOk:
         ''' </para>
         ''' </remarks>
         Function RegrL(y() As Double, x(,) As Double, bIntcpt As Boolean) As Double(,)
-            Dim ErSS As Double, Xs(,) As Double
+            Dim ErSS As Double = 0.0
+            Dim Xs(,) As Double
             AppGlobals.BSlogg.Log(MethodBase.GetCurrentMethod.Name & " execution start")
 
             Dim n As Integer = x.GetUpperBound(0)
-            Dim p As Integer = x.GetUpperBound(1) 'p = count of predictors (eventualy) including intercept
+            Dim p As Integer = x.GetUpperBound(1) ' upper bound of predictor columns (before optional intercept)
             Dim y2d(n, 0) As Double
-            If bIntcpt Then 'add intercept
-                p += 1
 
+            If bIntcpt Then ' add intercept
+                p += 1
                 ReDim Xs(n, p)
-                For i = 0 To n
-                    For j = 0 To p
+
+                For i As Integer = 0 To n
+                    For j As Integer = 0 To p
                         If j = 0 Then
-                            Xs(i, j) = 1
+                            Xs(i, j) = 1.0
                         Else
                             Xs(i, j) = x(i, j - 1)
                         End If
                     Next
                 Next
             Else
-                Xs = x
+                Xs = DirectCast(x.Clone(), Double(,))
             End If
-            For i = 0 To n : y2d(i, 0) = y(i) : Next i
 
-            '------- The X matrix is now set ----------
-            'compute X transpone matrix
-            'Since the built in Excel function TRANSPOSE is not limited to returning less than 5460 elements
-            '(as with the MMULT function), it can be used as default method.
-            Dim Xtrans(,) As Double = trans(Xs)
-            Dim XtX(,) As Double = MatrixMult(Xtrans, Xs)
-            Dim XtY(,) As Double = MatrixMult(Xtrans, y2d)
-            Dim XtXinv(,) As Double = MatInv(XtX, "CHOL")
-            Dim qr As QRout = QRdecomp(XtX)
-            Dim ParametersEst(,) As Double = QRsolve(qr, XtY)
-
-
-            For i = 0 To n
-                Dim F(,) As Double = MatrixMult(trans(rowFromArray(Xs, i, True)), ParametersEst) 'use i-th row from Xs
-                ErSS += (y(i) - F(0, 0)) ^ 2
+            For i As Integer = 0 To n
+                y2d(i, 0) = y(i)
             Next
+
+            ' ------------------------------------------------------------
+            ' Column scaling around the current strict-SVD solve.
+            '
+            ' Let Xscaled = X * D^{-1}, where D is diagonal with column 2-norms.
+            ' Solve y = Xscaled * gamma, then transform back:
+            '   beta = D^{-1} * gamma
+            '
+            ' Keep the intercept column unscaled.
+            ' ------------------------------------------------------------
+            Dim Xscaled(n, p) As Double
+            Dim colScale(p) As Double
+            Dim invColScale(p) As Double
+
+            For j As Integer = 0 To p
+                If bIntcpt AndAlso j = 0 Then
+                    colScale(j) = 1.0
+                Else
+                    Dim ss As Double = 0.0
+                    For i As Integer = 0 To n
+                        ss += Xs(i, j) * Xs(i, j)
+                    Next
+
+                    colScale(j) = Math.Sqrt(ss)
+
+                    ' Guard against a zero column
+                    If colScale(j) = 0.0 Then colScale(j) = 1.0
+                End If
+
+                invColScale(j) = 1.0 / colScale(j)
+
+                For i As Integer = 0 To n
+                    Xscaled(i, j) = Xs(i, j) * invColScale(j)
+                Next
+            Next
+
+            ' ------------------------------------------------------------
+            ' Solve least squares directly on the scaled design matrix
+            ' using strict SVD pseudoinverse (tol = 0.0 means no truncation).
+            ' ------------------------------------------------------------
+            Dim XplusScaled(,) As Double = pseudoInverse(Xscaled, 0.0)
+            Dim GammaEst(,) As Double = MatrixMult(XplusScaled, y2d)
+
+            ' ------------------------------------------------------------
+            ' Iterative refinement in the scaled parameterization:
+            '   r = y - Xscaled * gamma
+            '   delta = Xscaled^+ * r
+            '   gamma = gamma + delta
+            '
+            ' Use a few more passes for very ill-conditioned problems
+            ' such as Filip.
+            ' ------------------------------------------------------------
+            Const MaxRefineIters As Integer = 6
+
+            For iter As Integer = 1 To MaxRefineIters
+                Dim fitted(,) As Double = MatrixMult(Xscaled, GammaEst)
+                Dim resid(n, 0) As Double
+
+                For i As Integer = 0 To n
+                    resid(i, 0) = y(i) - fitted(i, 0)
+                Next
+
+                Dim delta(,) As Double = MatrixMult(XplusScaled, resid)
+
+                Dim maxAbsGamma As Double = 0.0
+                Dim maxAbsDelta As Double = 0.0
+
+                For j As Integer = 0 To p
+                    GammaEst(j, 0) += delta(j, 0)
+
+                    Dim ag As Double = Math.Abs(GammaEst(j, 0))
+                    Dim ad As Double = Math.Abs(delta(j, 0))
+
+                    If ag > maxAbsGamma Then maxAbsGamma = ag
+                    If ad > maxAbsDelta Then maxAbsDelta = ad
+                Next
+
+                ' Stop only when the correction is extremely small
+                If maxAbsDelta <= 0.00000000000001 * Math.Max(1.0, maxAbsGamma) Then Exit For
+            Next
+
+            ' Transform scaled coefficients gamma back to original coefficients beta
+            Dim ParametersEst(p, 0) As Double
+            For j As Integer = 0 To p
+                ParametersEst(j, 0) = GammaEst(j, 0) * invColScale(j)
+            Next
+
+            ' ------------------------------------------------------------
+            ' Covariance transform:
+            '
+            ' If Xscaled = X * D^{-1}, then
+            '   (X'X)^(-1) = D^{-1} * (Xscaled'Xscaled)^(-1) * D^{-1}
+            '
+            ' For full-column-rank designs:
+            '   (Xscaled'Xscaled)^(-1) = Xscaled^+ * (Xscaled^+)'
+            ' ------------------------------------------------------------
+            Dim XtXinvScaled(,) As Double = MatrixMult(XplusScaled, trans(XplusScaled))
+            Dim XtXinv(p, p) As Double
+
+            For i As Integer = 0 To p
+                For j As Integer = 0 To p
+                    XtXinv(i, j) = XtXinvScaled(i, j) * invColScale(i) * invColScale(j)
+                Next
+            Next
+
+            ' Compute residual sum of squares with refined coefficients on original X
+            Dim fittedFinal(,) As Double = MatrixMult(Xs, ParametersEst)
+            For i As Integer = 0 To n
+                Dim e As Double = y(i) - fittedFinal(i, 0)
+                ErSS += e * e
+            Next
+
             Dim VarCov(,) As Double = MatrixMult(XtXinv, ErSS / (n - p))
 
-            'put togheter for output: coefficients + SE
+            ' Put together output: coefficients + standard errors
             Dim out(p, 1) As Double
-            For i = 0 To p
+            For i As Integer = 0 To p
                 out(i, 0) = ParametersEst(i, 0)
-                out(i, 1) = Math.Sqrt(VarCov(i, i))
+                out(i, 1) = Math.Sqrt(Math.Max(0.0, VarCov(i, i)))
             Next
 
             AppGlobals.BSlogg.Log(MethodBase.GetCurrentMethod.Name & " execution end")
             Return out
         End Function
+
+        'Function RegrL(y() As Double, x(,) As Double, bIntcpt As Boolean) As Double(,)
+        '    Dim ErSS As Double, Xs(,) As Double
+        '    AppGlobals.BSlogg.Log(MethodBase.GetCurrentMethod.Name & " execution start")
+
+        '    Dim n As Integer = x.GetUpperBound(0)
+        '    Dim p As Integer = x.GetUpperBound(1) 'p = count of predictors (eventualy) including intercept
+        '    Dim y2d(n, 0) As Double
+        '    If bIntcpt Then 'add intercept
+        '        p += 1
+
+        '        ReDim Xs(n, p)
+        '        For i = 0 To n
+        '            For j = 0 To p
+        '                If j = 0 Then
+        '                    Xs(i, j) = 1
+        '                Else
+        '                    Xs(i, j) = x(i, j - 1)
+        '                End If
+        '            Next
+        '        Next
+        '    Else
+        '        Xs = x
+        '    End If
+        '    For i = 0 To n
+        '        y2d(i, 0) = y(i)
+        '    Next
+
+        '    '------------------------------------------------------------
+        '    ' Solve the least-squares problem directly on X using SVD.
+        '    '------------------------------------------------------------
+        '    Dim Xplus(,) As Double = pseudoInverse(Xs, 0.0)
+        '    Dim ParametersEst(,) As Double = MatrixMult(Xplus, y2d)
+
+        '    'For full-column-rank designs:
+        '    '    Xplus * Xplus' = (X'X)^(-1)
+        '    'This is much more stable than explicitly forming/inverting X'X.
+        '    Dim XtXinv(,) As Double = MatrixMult(Xplus, trans(Xplus))
+
+        '    For i As Integer = 0 To n
+        '        Dim F(,) As Double = MatrixMult(trans(rowFromArray(Xs, i, True)), ParametersEst)
+        '        ErSS += (y(i) - F(0, 0)) ^ 2
+        '    Next
+
+        '    Dim VarCov(,) As Double = MatrixMult(XtXinv, ErSS / (n - p))
+
+        '    'put together for output: coefficients + SE
+        '    Dim out(p, 1) As Double
+        '    For i As Integer = 0 To p
+        '        out(i, 0) = ParametersEst(i, 0)
+        '        out(i, 1) = Math.Sqrt(Math.Max(0.0, VarCov(i, i)))
+        '    Next
+
+        '    AppGlobals.BSlogg.Log(MethodBase.GetCurrentMethod.Name & " execution end")
+        '    Return out
+        'End Function
 
         ''' <summary>
         ''' Extracts a single row from a 2-dimensional matrix and returns it as a 1-dimensional vector.
@@ -2487,6 +2682,17 @@ SplitOk:
             Return RegrL(wendog, wexog, False) 'Fit; false because intercept is already in wexog
         End Function
 
+        ''' <summary>
+        ''' Stores the result of a QR decomposition.
+        ''' </summary>
+        ''' <remarks>
+        ''' For an input matrix A of size m x n with m >= n:
+        ''' <list type="bullet">
+        ''' <item><description><c>Q</c> is the thin/economy orthogonal factor of size m x n.</description></item>
+        ''' <item><description><c>R</c> is the upper-triangular factor of size n x n.</description></item>
+        ''' </list>
+        ''' For square inputs, Q and R are both n x n.
+        ''' </remarks>
         Public Class QRout
             'QR decomposition output
             Public R(,) As Double
@@ -2494,171 +2700,242 @@ SplitOk:
         End Class
 
         ''' <summary>
-        ''' Solves the linear system A·x = b using a QR decomposition previously computed by <see cref="QRdecomp"/>.
+        ''' Solves a linear system or least-squares problem from a QR decomposition.
         ''' </summary>
         ''' <param name="qr">
-        ''' The QR decomposition of matrix A, containing:
-        ''' <list type="bullet">
-        '''   <item><description><c>Q</c> — an orthogonal matrix (QᵀQ = I)</description></item>
-        '''   <item><description><c>R</c> — an upper-triangular matrix</description></item>
-        ''' </list>
+        ''' QR decomposition returned by <see cref="QRdecomp(Double(,), Double)"/>.
         ''' </param>
         ''' <param name="b">
-        ''' The right-hand side vector supplied as a 2D array of size (n × 1).
+        ''' Right-hand-side matrix of size m x k for a system based on A of size m x n.
         ''' </param>
         ''' <returns>
-        ''' A 2D array representing the solution vector x satisfying A·x = b.
+        ''' Solution matrix x of size n x k.
         ''' </returns>
         ''' <remarks>
-        ''' <para>
-        ''' Given A = Q·R from QR decomposition,
-        ''' solving A·x = b proceeds by multiplying both sides by Qᵀ:
-        ''' </para>
-        ''' 
-        ''' <code>
-        ''' Qᵀ A x = Qᵀ b  
-        ''' R x = Qᵀ b
-        ''' </code>
-        '''
-        ''' <para>
-        ''' Because R is upper triangular, x is obtained via back-substitution.
-        ''' </para>
-        ''' 
-        ''' <h4>Algorithm steps</h4>
-        ''' <list type="number">
-        '''   <item><description>Compute Qᵀ·b.</description></item>
-        '''   <item><description>Solve R·x = Qᵀ·b using backward substitution.</description></item>
-        ''' </list>
-        '''
-        ''' <h4>Assumptions</h4>
+        ''' This routine supports:
         ''' <list type="bullet">
-        '''   <item><description>A is full-rank and R(i,i) ≠ 0 for all diagonal elements.</description></item>
-        '''   <item><description><c>b</c> must match the number of rows in <c>qr.Q</c>.</description></item>
+        ''' <item>
+        ''' <description>
+        ''' square full-rank systems, where A is n x n and the solution is exact;
+        ''' </description>
+        ''' </item>
+        ''' <item>
+        ''' <description>
+        ''' tall full-column-rank systems, where A is m x n with m >= n, producing the
+        ''' ordinary least-squares solution that minimizes ||A*x - b||_2.
+        ''' </description>
+        ''' </item>
         ''' </list>
+        ''' 
+        ''' It solves:
+        ''' <code>
+        ''' x = R^(-1) * Q^T * b
+        ''' </code>
         ''' </remarks>
         Function QRsolve(qr As QRout, b(,) As Double) As Double(,)
-            Dim Qt_b(,) As Double = MatrixMult(trans(qr.Q), b) 'Form Q T · b.
+            Dim Qt_b(,) As Double = MatrixMult(trans(qr.Q), b)
             Dim n As Integer = qr.R.GetUpperBound(0)
-            Dim beta(n, 0) As Double
+            Dim beta(n, b.GetUpperBound(1)) As Double
 
-            'Solve R · x = Q T · b.
-            For i = n To 0 Step -1
-                Dim sum As Double = 0.0
-                For j = i + 1 To n
-                    sum += qr.R(i, j) * beta(j, 0)
+            For col As Integer = 0 To b.GetUpperBound(1)
+                For i As Integer = n To 0 Step -1
+                    Dim sum As Double = 0.0
+                    For j As Integer = i + 1 To n
+                        sum += qr.R(i, j) * beta(j, col)
+                    Next
+                    beta(i, col) = (Qt_b(i, col) - sum) / qr.R(i, i)
                 Next
-                beta(i, 0) = (Qt_b(i, 0) - sum) / qr.R(i, i)
             Next
+
             Return beta
         End Function
 
         ''' <summary>
-        ''' Computes the QR decomposition of a square matrix using Householder reflections.
-        ''' Produces an orthogonal matrix <c>Q</c> and an upper‑triangular matrix <c>R</c>
-        ''' such that <c>mat = Q · R</c>.
+        ''' Computes a Householder QR decomposition for a real matrix with rows >= columns.
         ''' </summary>
         ''' <param name="mat">
-        ''' A square matrix (n × n) to be decomposed.  
-        ''' The input matrix is not modified; internal working copies are used.
+        ''' Input matrix A of size m x n, with m >= n.
         ''' </param>
         ''' <param name="prec">
-        ''' Numerical precision threshold for treating values as zero.  
-        ''' Defaults to <c>1e‑12</c>.  
-        ''' If a column norm falls below this threshold, the corresponding reflection is skipped.
+        ''' Small positive threshold used to treat a reflector norm or denominator as numerically zero.
         ''' </param>
         ''' <returns>
-        ''' A <see cref="QRout"/> structure containing:
+        ''' A <see cref="QRout"/> object containing:
         ''' <list type="bullet">
-        '''   <item><description><c>Q</c> — an orthogonal matrix satisfying QᵀQ = I</description></item>
-        '''   <item><description><c>R</c> — an upper‑triangular matrix</description></item>
+        ''' <item>
+        ''' <description>
+        ''' <c>Q</c>: the thin/economy orthogonal factor of size m x n.
+        ''' For square input matrices, Q is n x n.
+        ''' </description>
+        ''' </item>
+        ''' <item>
+        ''' <description>
+        ''' <c>R</c>: the upper-triangular factor of size n x n.
+        ''' </description>
+        ''' </item>
         ''' </list>
-        ''' such that:
+        ''' The decomposition satisfies:
         ''' <code>
-        ''' mat = Q · R
+        ''' A = Q * R
         ''' </code>
+        ''' with Q having orthonormal columns.
         ''' </returns>
         ''' <remarks>
-        ''' <h4>Algorithm Overview (Householder Reflections)</h4>
-        ''' <para>
-        ''' For each column <c>j</c>, a Householder vector <c>v</c> is constructed to zero all
-        ''' elements below row <c>j</c>.  
-        ''' The corresponding Householder matrix is:
-        ''' </para>
-        ''' <code>
-        ''' P = I − 2 v vᵀ
-        ''' </code>
-        ''' <para>
-        ''' Each <c>P</c> is applied to the working copy of <paramref name="mat"/> (forming <c>R</c>)
-        ''' and accumulated into <c>Q</c>. After processing all columns:
-        ''' </para>
-        ''' <code>
-        ''' Q = P₁ P₂ … Pₖ  
-        ''' R = Qᵀ · mat
-        ''' </code>
-        ''' 
-        ''' <h4>Numerical Notes</h4>
+        ''' This routine supports both:
         ''' <list type="bullet">
-        '''   <item><description>Householder reflections provide high numerical stability.</description></item>
-        '''   <item><description>The <paramref name="prec"/> threshold prevents division by extremely small values.</description></item>
-        '''   <item><description>
-        ''' Column norms are computed from the working vector <c>v</c> using a sum‑of‑squares–based norm function.
-        ''' </description></item>
+        ''' <item><description>square matrices (n x n)</description></item>
+        ''' <item><description>tall matrices (m x n, with m > n)</description></item>
         ''' </list>
+        ''' It does not support wide matrices with fewer rows than columns.
         ''' 
-        ''' <h4>Output</h4>
-        ''' <para>
-        ''' <c>Q</c> is orthogonal and <c>R</c> is upper‑triangular.  
-        ''' These outputs are compatible with <see cref="QRsolve"/> for solving linear systems.
-        ''' </para>
+        ''' For tall matrices, the returned Q is the thin/economy Q, not the full m x m orthogonal matrix.
+        ''' This is the preferred form for least-squares problems and for QR-preconditioning in SVD-based solvers.
         ''' </remarks>
+        ''' <exception cref="System.ArgumentNullException">
+        ''' Thrown when <paramref name="mat"/> is Nothing.
+        ''' </exception>
+        ''' <exception cref="System.ArgumentException">
+        ''' Thrown when the input matrix is empty or has fewer rows than columns.
+        ''' </exception>
         Function QRdecomp(mat(,) As Double, Optional prec As Double = 0.000000000001) As QRout
-            ' return Q over R for a square matrix
-            Dim arr(,) As Double, out As New QRout
-            Dim d As Double, s As Double
+            If mat Is Nothing Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(mat)))
+            End If
 
-            arr = mat
-            Dim n As Integer = arr.GetUpperBound(0)
+            Dim m As Integer = mat.GetUpperBound(0) + 1
+            Dim n As Integer = mat.GetUpperBound(1) + 1
 
-            Dim v(n, 0) As Double, w(n, 0) As Double, p(n, n) As Double, q(n, n) As Double
-            q = IdentityMat(n)
+            If m <= 0 OrElse n <= 0 Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input matrix must be non-empty."))
+            End If
 
-            For j = 0 To n - 1
-                For i = 0 To n
-                    v(i, 0) = arr(i, j)
+            If m < n Then
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException("QRdecomp requires rows >= columns (m >= n)."))
+            End If
+
+            Dim out As New QRout
+            Dim R(,) As Double = DirectCast(mat.Clone(), Double(,))
+
+            Dim reflectors As New System.Collections.Generic.List(Of Double())()
+            Dim taus As New System.Collections.Generic.List(Of Double)()
+
+            For k As Integer = 0 To n - 1
+                Dim len As Integer = m - k
+                Dim x(len - 1) As Double
+
+                For i As Integer = 0 To len - 1
+                    x(i) = R(k + i, k)
                 Next
-                d = Math.Sqrt(SumSq(v))
-                If d <= prec Then Continue For
-                For i = 0 To n
-                    v(i, 0) = v(i, 0) / d
+
+                ' Stable 2-norm of x
+                Dim scale As Double = 0.0
+                Dim ssq As Double = 1.0
+                For i As Integer = 0 To len - 1
+                    Dim ax As Double = Math.Abs(x(i))
+                    If ax <> 0.0 Then
+                        If scale < ax Then
+                            Dim t As Double = If(scale = 0.0, 0.0, scale / ax)
+                            ssq = 1.0 + ssq * t * t
+                            scale = ax
+                        Else
+                            Dim t As Double = ax / scale
+                            ssq += t * t
+                        End If
+                    End If
                 Next
-                d = 0.0
-                For i = j To n
-                    d += v(i, 0) * v(i, 0)
+                Dim normX As Double = If(scale = 0.0, 0.0, scale * Math.Sqrt(ssq))
+
+                Dim v(len - 1) As Double
+                Dim tau As Double = 0.0
+
+                If normX <= prec Then
+                    v(0) = 1.0
+                    reflectors.Add(v)
+                    taus.Add(tau)
+                    Continue For
+                End If
+
+                Array.Copy(x, v, len)
+
+                Dim alpha As Double = x(0)
+                Dim signAlpha As Double = If(alpha >= 0.0, 1.0, -1.0)
+                Dim beta As Double = -signAlpha * normX
+                Dim denom As Double = alpha - beta
+
+                v(0) = 1.0
+                If Math.Abs(denom) > prec Then
+                    For i As Integer = 1 To len - 1
+                        v(i) = v(i) / denom
+                    Next
+                    tau = (beta - alpha) / beta
+                Else
+                    tau = 0.0
+                End If
+
+                reflectors.Add(v)
+                taus.Add(tau)
+
+                If tau <> 0.0 Then
+                    For j As Integer = k To n - 1
+                        Dim dot As Double = 0.0
+                        For i As Integer = 0 To len - 1
+                            dot += v(i) * R(k + i, j)
+                        Next
+                        dot *= tau
+
+                        For i As Integer = 0 To len - 1
+                            R(k + i, j) -= dot * v(i)
+                        Next
+                    Next
+                End If
+
+                R(k, k) = beta
+                For i As Integer = k + 1 To m - 1
+                    R(i, k) = 0.0
                 Next
-                d = Math.Sqrt(d)
-                If d <= prec Then Continue For
-                If v(j, 0) > 0 Then d = -d
-                For i = 0 To j - 1
-                    v(i, 0) = 0.0
-                    w(i, 0) = 0.0
-                Next
-                v(j, 0) = Math.Sqrt((1.0 - v(j, 0) / d) / 2.0)
-                w(j, 0) = -2.0 * v(j, 0)
-                s = -2.0 * d * v(j, 0)
-                For i = j + 1 To n
-                    v(i, 0) = v(i, 0) / s
-                    w(i, 0) = -2.0 * v(i, 0)
-                Next
-                p = MatrixMult(w, trans(v))
-                For i = 0 To n
-                    p(i, i) = p(i, i) + 1.0
-                Next
-                arr = MatrixMult(p, arr)
-                q = MatrixMult(q, p)
             Next
 
-            out.Q = q
-            out.R = arr
+            ' Build thin/economy Q = H0 * H1 * ... * H_{n-1}
+            ' as the first n columns of the full m x m orthogonal factor.
+            '
+            ' Because R is formed by left-applying reflectors to A in forward order,
+            ' Q must be accumulated on the identity in REVERSE order.
+            Dim QThin(m - 1, n - 1) As Double
+            For i As Integer = 0 To m - 1
+                For j As Integer = 0 To n - 1
+                    QThin(i, j) = If(i = j, 1.0, 0.0)
+                Next
+            Next
+
+            For k As Integer = n - 1 To 0 Step -1
+                Dim v() As Double = reflectors(k)
+                Dim tau As Double = taus(k)
+                Dim len As Integer = v.Length
+
+                If tau <> 0.0 Then
+                    For j As Integer = 0 To n - 1
+                        Dim dot As Double = 0.0
+                        For i As Integer = 0 To len - 1
+                            dot += v(i) * QThin(k + i, j)
+                        Next
+                        dot *= tau
+
+                        For i As Integer = 0 To len - 1
+                            QThin(k + i, j) -= dot * v(i)
+                        Next
+                    Next
+                End If
+            Next
+
+            Dim RUpper(n - 1, n - 1) As Double
+            For i As Integer = 0 To n - 1
+                For j As Integer = i To n - 1
+                    RUpper(i, j) = R(i, j)
+                Next
+            Next
+
+            out.Q = QThin
+            out.R = RUpper
             Return out
         End Function
 

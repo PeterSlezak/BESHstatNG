@@ -70,9 +70,9 @@ Namespace WorksheetFunctions
     ''' <summary>
     ''' Shared worksheet-argument numeric parsers and small validation helpers.
     ''' </summary>
-    Friend Module ExcelArgNumeric
+    Public Module ExcelArgNumeric
 
-        Function TryGetDouble(v As Object) As Double?
+        Public Function TryGetDouble(v As Object) As Double?
             If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then
                 Return Nothing
             End If
@@ -88,7 +88,7 @@ Namespace WorksheetFunctions
             End Try
         End Function
 
-        Friend Function TryGetFiniteDouble(arg As Object, ByRef value As Double) As Boolean
+        Public Function TryGetFiniteDouble(arg As Object, ByRef value As Double) As Boolean
             Dim parsed As Double? = ExcelArgNumeric.TryGetDouble(arg)
             If Not parsed.HasValue Then
                 value = Double.NaN
