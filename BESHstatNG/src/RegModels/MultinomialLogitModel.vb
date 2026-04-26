@@ -988,15 +988,19 @@ Namespace regression
                 AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
 
-            Dim out As New ClassificationCrosstab()
-            out.Categories = DirectCast(pCats.Clone(), Integer())
+            ' Build the confusion matrix in the model's internal category order first. When the
+            ' baseline category is the first observed level, the fitted model moves that baseline
+            ' to the last internal index. The user-facing classification table should still be
+            ' reported in the original ascending category order.
+            Dim internalOut As New ClassificationCrosstab()
+            internalOut.Categories = DirectCast(pCats.Clone(), Integer())
 
-            ReDim out.Counts(pKuse - 1, pKuse - 1)
-            ReDim out.RowTotals(pKuse - 1)
-            ReDim out.ColTotals(pKuse - 1)
-            ReDim out.RecallPct(pKuse - 1)
-            ReDim out.PrecisionPct(pKuse - 1)
-            ReDim out.ColTotalsPrct(pKuse - 1)
+            ReDim internalOut.Counts(pKuse - 1, pKuse - 1)
+            ReDim internalOut.RowTotals(pKuse - 1)
+            ReDim internalOut.ColTotals(pKuse - 1)
+            ReDim internalOut.RecallPct(pKuse - 1)
+            ReDim internalOut.PrecisionPct(pKuse - 1)
+            ReDim internalOut.ColTotalsPrct(pKuse - 1)
 
             Dim total As Double = 0.0
             Dim correct As Double = 0.0
@@ -1012,25 +1016,75 @@ Namespace regression
                 Dim probs() As Double = PredictRowProbs(i, results.Coeffs_est)
                 Dim predIdx As Integer = CategoricalLogitUtils.ArgMax(probs, tieBreakToSmallestCategory)
 
-                out.Counts(obsIdx, predIdx) += wi
-                out.RowTotals(obsIdx) += wi
-                out.ColTotals(predIdx) += wi
+                internalOut.Counts(obsIdx, predIdx) += wi
+                internalOut.RowTotals(obsIdx) += wi
+                internalOut.ColTotals(predIdx) += wi
 
                 total += wi
                 If predIdx = obsIdx Then correct += wi
             Next
 
-            out.OverallAccuracy = If(total > 0.0, correct / total, Double.NaN)
-            out.OverallAccuracyPct = 100.0 * out.OverallAccuracy
+            internalOut.OverallAccuracy = If(total > 0.0, correct / total, Double.NaN)
+            internalOut.OverallAccuracyPct = 100.0 * internalOut.OverallAccuracy
 
-            ' Recall and precision (%)
+            ' Recall and precision (%) in internal model order.
             For k As Integer = 0 To pKuse - 1
-                Dim diag As Double = out.Counts(k, k)
-                out.RecallPct(k) = If(out.RowTotals(k) > 0.0, 100.0 * diag / out.RowTotals(k), Double.NaN)
-                out.PrecisionPct(k) = If(out.ColTotals(k) > 0.0, 100.0 * diag / out.ColTotals(k), Double.NaN)
-                out.ColTotalsPrct(k) = 100 * out.ColTotals(k) / total
+                Dim diag As Double = internalOut.Counts(k, k)
+                internalOut.RecallPct(k) = If(internalOut.RowTotals(k) > 0.0, 100.0 * diag / internalOut.RowTotals(k), Double.NaN)
+                internalOut.PrecisionPct(k) = If(internalOut.ColTotals(k) > 0.0, 100.0 * diag / internalOut.ColTotals(k), Double.NaN)
+                internalOut.ColTotalsPrct(k) = 100 * internalOut.ColTotals(k) / total
             Next
 
+            Return ReorderClassificationCrosstabToOriginalCategoryOrder(internalOut)
+        End Function
+
+        ''' <summary>
+        ''' Reorders a confusion matrix from the model's internal category order to the original
+        ''' ascending observed category order.
+        ''' </summary>
+        Private Function ReorderClassificationCrosstabToOriginalCategoryOrder(internalOut As ClassificationCrosstab) As ClassificationCrosstab
+            If internalOut Is Nothing OrElse internalOut.Counts Is Nothing Then Return internalOut
+            If pCats Is Nothing OrElse pCats.Length <> pKuse Then Return internalOut
+
+            Dim out As New ClassificationCrosstab()
+            out.Categories = DirectCast(pCats.Clone(), Integer())
+
+            ReDim out.Counts(pKuse - 1, pKuse - 1)
+            ReDim out.RowTotals(pKuse - 1)
+            ReDim out.ColTotals(pKuse - 1)
+            ReDim out.RecallPct(pKuse - 1)
+            ReDim out.PrecisionPct(pKuse - 1)
+            ReDim out.ColTotalsPrct(pKuse - 1)
+
+            Dim catToAscendingIndex As New Dictionary(Of Integer, Integer)()
+            For i As Integer = 0 To pCats.Length - 1
+                catToAscendingIndex(pCats(i)) = i
+            Next
+
+            For internalObs As Integer = 0 To pKuse - 1
+                Dim obsCat As Integer = GetOriginalCategoryValueFromInternalIndex(internalObs)
+                Dim obsOutIdx As Integer = catToAscendingIndex(obsCat)
+
+                out.RowTotals(obsOutIdx) = internalOut.RowTotals(internalObs)
+                out.RecallPct(obsOutIdx) = internalOut.RecallPct(internalObs)
+
+                For internalPred As Integer = 0 To pKuse - 1
+                    Dim predCat As Integer = GetOriginalCategoryValueFromInternalIndex(internalPred)
+                    Dim predOutIdx As Integer = catToAscendingIndex(predCat)
+                    out.Counts(obsOutIdx, predOutIdx) = internalOut.Counts(internalObs, internalPred)
+                Next
+            Next
+
+            For internalPred As Integer = 0 To pKuse - 1
+                Dim predCat As Integer = GetOriginalCategoryValueFromInternalIndex(internalPred)
+                Dim predOutIdx As Integer = catToAscendingIndex(predCat)
+                out.ColTotals(predOutIdx) = internalOut.ColTotals(internalPred)
+                out.PrecisionPct(predOutIdx) = internalOut.PrecisionPct(internalPred)
+                out.ColTotalsPrct(predOutIdx) = internalOut.ColTotalsPrct(internalPred)
+            Next
+
+            out.OverallAccuracy = internalOut.OverallAccuracy
+            out.OverallAccuracyPct = internalOut.OverallAccuracyPct
             Return out
         End Function
 

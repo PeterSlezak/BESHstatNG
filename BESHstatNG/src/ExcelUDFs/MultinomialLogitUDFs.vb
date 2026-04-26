@@ -471,7 +471,7 @@ Namespace WorksheetFunctions
         ''' <remarks>
         ''' <para>
         ''' The classification table is based on assigning each observation to the category with the largest fitted probability.
-        ''' The category columns are shown in the model's internal category order, which depends on the reference-category choice used during fitting.
+        ''' The row and column labels are shown in the original ascending category order, independent of the reference-category choice used during fitting.
         ''' </para>
         ''' </remarks>
         ''' <example>
@@ -497,7 +497,10 @@ Namespace WorksheetFunctions
                 Dim cls As regression.ClassificationCrosstab = h.Model.ClassificationTable
                 If cls Is Nothing OrElse cls.Counts Is Nothing Then Return ExcelError.ExcelErrorNA
 
-                Dim cats() As Integer = h.CategoriesInModelOrder
+                Dim cats() As Integer = cls.Categories
+                If cats Is Nothing OrElse cats.Length < 2 Then
+                    cats = h.CategoriesInModelOrder
+                End If
                 If cats Is Nothing OrElse cats.Length < 2 Then Return ExcelError.ExcelErrorNA
 
                 Dim k As Integer = cats.Length

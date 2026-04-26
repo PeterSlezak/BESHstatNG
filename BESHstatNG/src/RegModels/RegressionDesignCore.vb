@@ -16,6 +16,7 @@ Public Class TermSpec
     Public Property Order As Integer 'position in the result output. It should be identical to the input combobox item position
     Public Property Scale As PredictorScale = PredictorScale.Continuous
     Public Property ReferenceValue As Nullable(Of Double) = Nothing 'optional: if Nothing, use smallest numeric level as reference
+    Public Property ObservedLevels As List(Of Double) = Nothing 'fit-time observed categorical levels, reused during prediction
 End Class
 
 Public Module RegressionDesignCore
@@ -309,13 +310,53 @@ Public Module RegressionDesignCore
 
         If spec IsNot Nothing AndAlso spec.ReferenceValue.HasValue Then
             If Not levels.Contains(spec.ReferenceValue.Value) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Reference level {spec.ReferenceValue.Value} is not present in the data."))
+                AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Reference level {spec.ReferenceValue.Value} is not present in the fitted categorical design."))
             End If
             Return spec.ReferenceValue.Value
         End If
 
         'default: smallest observed level
         Return levels(0)
+    End Function
+
+    ''' <summary>
+    ''' Resolves the categorical levels that should be used when expanding a factor term.
+    ''' During fitting, the levels are learned from <paramref name="rawMat"/> and persisted into
+    ''' <paramref name="spec"/>. During prediction, the persisted fit-time levels are reused so
+    ''' that missing categories in the prediction block still produce zero-filled dummy columns.
+    ''' </summary>
+    Private Function GetCategoricalLevelsForExpansion(rawMat(,) As Double,
+                                                      col As Integer,
+                                                      nRows As Integer,
+                                                      spec As TermSpec,
+                                                      baseKey As String) As List(Of Double)
+
+        Dim observedLevels As List(Of Double) = GetSortedDistinctLevels(rawMat, col, nRows)
+        Dim fittedLevels As List(Of Double) = Nothing
+
+        If spec IsNot Nothing AndAlso spec.ObservedLevels IsNot Nothing AndAlso spec.ObservedLevels.Count > 0 Then
+            fittedLevels = spec.ObservedLevels.Distinct().OrderBy(Function(v) v).ToList()
+
+            For Each lev As Double In observedLevels
+                If Not fittedLevels.Contains(lev) Then
+                    AppGlobals.BSerr.LogAndThrow(
+                        New ArgumentException($"Categorical predictor '{baseKey}' contains level {lev} that was not present during model fitting."))
+                End If
+            Next
+
+            Return fittedLevels
+        End If
+
+        If observedLevels.Count < 2 Then
+            AppGlobals.BSerr.LogAndThrow(
+                New ArgumentException($"Categorical predictor '{baseKey}' has fewer than 2 observed levels."))
+        End If
+
+        If spec IsNot Nothing Then
+            spec.ObservedLevels = observedLevels.ToList()
+        End If
+
+        Return observedLevels
     End Function
 
     Private Function IsBaseVariableCategorical(baseKey As String,
@@ -854,12 +895,11 @@ Public Module RegressionDesignCore
                                             coefName)
 
                 If scale = PredictorScale.Categorical Then
-                    Dim levels As List(Of Double) = GetSortedDistinctLevels(rawX, col, nRows)
-
-                    If levels.Count < 2 Then
-                        AppGlobals.BSerr.LogAndThrow(
-                            New ArgumentException($"Categorical predictor '{bk}' has fewer than 2 observed levels."))
-                    End If
+                    Dim levels As List(Of Double) = GetCategoricalLevelsForExpansion(rawMat:=rawX,
+                                                                                     col:=col,
+                                                                                     nRows:=nRows,
+                                                                                     spec:=spec,
+                                                                                     baseKey:=bk)
 
                     Dim refVal As Double = GetReferenceLevel(levels, spec)
 
