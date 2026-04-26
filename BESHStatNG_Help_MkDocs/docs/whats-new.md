@@ -1,8 +1,10 @@
 # What's New
 
-## version 0.7.x.0 (2026-0x-xx)
+## version 0.7.6.0 (2026-04-26)
 - Added model-reporting tools for fitted binary classifiers, including confusion matrix, threshold-performance table, sensitivity/specificity and precision/recall summaries, calibration analysis, Brier score, ROC tables, and ROC plot outputs for binomial GLM and binomial GEE models. The same reporting workflow is also available through new generic classification UDFs for scoring external or holdout predictions directly in Excel.
-
+- Agreement-method bootstrap BCa intervals are now implemented in the backend for Lin's CCC, Cohen's / Weighted Kappa, Deming regression, and Bland–Altman analysis.
+- The Excel dialog for Cohen's / Weighted Kappa now exposes the backend jackknife confidence interval option.
+- Improved numerical accuracy of the linear regression estimation to pass NIST reference datasets results unittests.
 
 ## version 0.7.1.0 (2026-04-17)
 

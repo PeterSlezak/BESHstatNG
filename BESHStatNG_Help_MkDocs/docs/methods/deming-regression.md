@@ -1,6 +1,6 @@
 # Deming Regression
 
-**Includes:** Classical Deming regression (constant error ratio), orthogonal regression as a special case when the error ratio is 1, and generalized weighted Deming regression with **constant lambda**, **constant CV**, or **known pointwise SD** variance models; confidence intervals via **Jackknife**, **Analytical – Linnet (jackknife pseudo-values)**, **Analytical (closed form / linearization)**, **Bootstrap Percentile**, or **Bootstrap BCa** (currently reported as a percentile-bootstrap fallback where applicable); regression plot with unity line.  
+**Includes:** Classical Deming regression (constant error ratio), orthogonal regression as a special case when the error ratio is 1, and generalized weighted Deming regression with **constant lambda**, **constant CV**, or **known pointwise SD** variance models; confidence intervals via **Jackknife**, **Analytical – Linnet (jackknife pseudo-values)**, **Analytical (closed form / linearization)**, **Bootstrap Percentile**, or **Bootstrap BCa**; regression plot with unity line.  
 **Purpose:** Use when **both X and Y have measurement error** and you want a symmetric method-comparison regression.
 
 ---
@@ -198,13 +198,16 @@ The results footnote reports:
 
 #### 5) Bootstrap BCa
 
-The UI exposes a BCa option.
+The add-in:
 
-At present, the Deming backend reports this as a **percentile-bootstrap fallback** with a note in the output, rather than a fully separate BCa implementation.
+1. resamples paired observations with replacement,
+2. refits the Deming model in each bootstrap sample,
+3. uses jackknife leave-one-out estimates to obtain the BCa acceleration term,
+4. forms **bias-corrected and accelerated (BCa)** intervals for intercept and slope.
 
 The results footnote reports:
 
-- **SE / CI type = Bootstrap BCa fallback (percentile)**
+- **SE / CI type = Bootstrap BCa**
 
 ### Bootstrap seed and reproducibility
 
@@ -239,7 +242,7 @@ This makes the bootstrap interval reproducible when the same input data, setting
   Good when you want a non-analytic interval and can afford more computation time.
 
 - **Bootstrap BCa**  
-  Exposed in the UI, but currently documented as a percentile-bootstrap fallback in the output notes.
+  Best when you want a bootstrap interval that adjusts for bias and skewness instead of using simple percentile limits.
 
 ---
 
@@ -569,7 +572,6 @@ A practical workflow is often to report both:
 - If the association is degenerate (for example \(S_{xy}=0\) in the classical model), the slope is undefined.
 - **Analytical – Linnet** and **Analytical (closed form)** are primarily classical constant-lambda Deming options.
 - For generalized weighted models, if an exact analytical interval is not implemented, the add-in falls back to jackknife and reports that in the notes.
-- The UI exposes **Bootstrap BCa**, but the current backend reports this as a percentile-bootstrap fallback.
 
 ---
 

@@ -1,6 +1,6 @@
 # Cohen's / Weighted Kappa
 
-**Includes:** Unweighted Cohen's kappa, linear weighted kappa, quadratic weighted kappa, Cicchetti–Allison and Fleiss–Cohen weighting schemes, analytical and bootstrap confidence intervals, approximate hypothesis test of \(H_0: \kappa = 0\), confusion matrix, and weight-matrix output.  
+**Includes:** Unweighted Cohen's kappa, linear weighted kappa, quadratic weighted kappa, Cicchetti–Allison and Fleiss–Cohen weighting schemes, analytical, jackknife, and bootstrap confidence intervals, approximate hypothesis test of \(H_0: \kappa = 0\), confusion matrix, and weight-matrix output.  
 **Purpose:** Use when **two paired categorical ratings** are assigned to the same items and you want a **chance-corrected measure of agreement**.
 
 ---
@@ -132,7 +132,7 @@ Use when you want the classic quadratic ordinal weighting convention.
 
 ### Confidence Interval Type
 
-The current UI provides three choices.
+The current UI provides four choices.
 
 #### 1) Analytical
 This is the fastest option.
@@ -153,7 +153,21 @@ Use this when:
 - speed matters,
 - you want a standard asymptotic interval.
 
-#### 2) Bootstrap Percentile
+#### 2) Jackknife
+The add-in:
+
+1. leaves out one paired row at a time,
+2. recomputes kappa for each leave-one-out sample,
+3. estimates the jackknife standard error from the leave-one-out distribution,
+4. forms a t-based confidence interval around the observed kappa estimate.
+
+Use this when:
+
+- you want a non-bootstrap resampling interval,
+- the sample size is moderate,
+- you want a resampling-based alternative to the asymptotic delta-method interval.
+
+#### 3) Bootstrap Percentile
 The add-in:
 
 1. resamples paired rows with replacement,
@@ -166,12 +180,21 @@ Use this when:
 - marginal distributions are uneven,
 - you want an interval less dependent on asymptotic approximations.
 
-#### 3) Bootstrap BCa
+#### 4) Bootstrap BCa
 The UI exposes a BCa option.
 
-At present, the kappa back-end reports this as a **percentile-bootstrap fallback** in the notes, rather than a fully separate BCa implementation.
+The add-in:
 
-Use it only if you want the same bootstrap workflow while keeping the option visible in the report; the output notes will clarify the fallback.
+1. resamples paired rows with replacement,
+2. recomputes kappa in each bootstrap sample,
+3. uses jackknife leave-one-out estimates to obtain the BCa acceleration term,
+4. forms a **bias-corrected and accelerated (BCa)** interval.
+
+Use this when:
+
+- you want a bootstrap interval that adjusts for bias and skewness,
+- the category distribution is uneven,
+- you want a more refined bootstrap CI than the simple percentile interval.
 
 ### Bootstrap seed and reproducibility
 
@@ -211,7 +234,8 @@ which corresponds to a 95% confidence interval.
 1. Ribbon: **BESH Stat NG → Analyse → Agreement → Cohen's / Weighted Kappa**
 2. Select the two paired categorical columns.
 3. Choose the **Weighting scheme**.
-4. Choose the **Confidence Interval Type** and set \(\alpha\).
+4. Choose the **Confidence Interval Type** and set \(\alpha\).  
+   If you choose **Bootstrap Percentile** or **Bootstrap BCa**, also set the number of bootstrap replicates.
 5. Click **Compute**.
 
 ---
@@ -319,7 +343,7 @@ The output includes:
 - approximate z test and p-value,
 - confusion matrix,
 - weight matrix,
-- notes (including the bootstrap seed if bootstrap CI is used, and any BCa-to-percentile fallback note).
+- notes (including bootstrap or jackknife run details when resampling is used).
 
 ### Interpretation of the main quantities
 
@@ -435,6 +459,12 @@ Use **Bootstrap Percentile** when:
 - category marginals are highly unbalanced,
 - you want a more data-driven interval.
 
+Use **Jackknife** when:
+
+- you want a resampling-based interval without bootstrap sampling,
+- you want the interval to depend on systematic leave-one-out perturbations of the paired ratings,
+- you want a middle ground between the asymptotic analytical interval and full bootstrap resampling.
+
 ---
 
 ## Reference R code
@@ -482,7 +512,6 @@ irr::kappa2(d, weight = "squared")
 - Kappa depends on the marginal category distributions and can be reduced even when observed agreement is high.
 - Weighted kappa requires a meaningful and correct category order.
 - The analytical CI is asymptotic and may be less reliable in small samples or with sparse tables.
-- Bootstrap BCa is currently reported as a percentile-bootstrap fallback in the output notes.
 - Interpretation rules such as “slight / fair / moderate / substantial / almost perfect” are heuristics, not universal scientific standards.
 
 ---

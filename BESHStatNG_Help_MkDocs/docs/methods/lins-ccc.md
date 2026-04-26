@@ -1,6 +1,6 @@
 # Lin's Concordance Correlation Coefficient
 
-**Includes:** Lin's Concordance Correlation Coefficient (CCC), Pearson correlation, bias-correction factor **Cb**, analytical CI via **Fisher z approximation**, **Bootstrap Percentile** or **Bootstrap BCa** (currently reported as a percentile-bootstrap fallback in computation notes), approximate hypothesis test for a selected **Null Concordance**, bias decomposition (**location shift** and **scale shift**), and concordance scatter plot with identity line.  
+**Includes:** Lin's Concordance Correlation Coefficient (CCC), Pearson correlation, bias-correction factor **Cb**, analytical CI via **Fisher z approximation**, **Bootstrap Percentile** or **Bootstrap BCa**, approximate hypothesis test for a selected **Null Concordance**, bias decomposition (**location shift** and **scale shift**), and concordance scatter plot with identity line.  
 **Purpose:** Use when you want to quantify **agreement** between two paired numeric measurement methods and separate overall agreement into **precision** and **accuracy** components.
 
 ---
@@ -123,12 +123,13 @@ Use this when:
 
 #### 3) Bootstrap BCa
 
-The GUI exposes **Bootstrap BCa**, but the current implementation reports this as a **percentile-bootstrap fallback** in the computation notes.
+This option resamples the **paired observations** with replacement and computes a **bias-corrected and accelerated (BCa)** interval from the bootstrap distribution plus the jackknife acceleration term.
 
-So at present:
+Use this when:
 
-- the UI lets you select BCa
-- the output notes explain that percentile-bootstrap limits were used instead
+- you want a bootstrap interval that adjusts for both bias and skewness,
+- the percentile interval looks asymmetric or sample size is modest,
+- you want a more refined bootstrap CI than simple percentile limits.
 
 ### Which CI option should I prefer?
 
@@ -139,7 +140,7 @@ So at present:
   Best when you want fewer distributional assumptions and can afford more computation time.
 
 - **Bootstrap BCa**  
-  Currently best interpreted as a placeholder for future refinement; for now it behaves like percentile bootstrap and the output notes make that explicit.
+  Best when you want a bootstrap interval with bias correction and acceleration rather than a simple percentile interval.
 
 ---
 
@@ -338,7 +339,7 @@ The results worksheet contains:
 - **Location shift**
 - **Scale shift**
 - **Approximate null-concordance test**
-- **Computation notes** (for example bootstrap details, bootstrap seed, and any BCa-to-percentile fallback note)
+- **Computation notes** (for example bootstrap details and bootstrap seed)
 
 ### How to interpret the main quantities
 
@@ -435,7 +436,6 @@ obs
 - `DescTools::CCC()` and other packages may define **location shift** and **scale shift** in the opposite direction depending on whether they use test/reference or reference/test ordering.
 - Some software reports only the concordance coefficient and not the full decomposition.
 - Some software uses different asymptotic formulas or bootstrap defaults for confidence intervals.
-- The add-in currently reports **Bootstrap BCa** as a percentile-bootstrap fallback in the computation notes.
 - Bootstrap intervals may differ slightly across software because of random seed handling, percentile interpolation, and implementation-specific defaults.
 
 ---
