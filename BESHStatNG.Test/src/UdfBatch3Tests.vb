@@ -4,7 +4,7 @@ Option Strict On
 Imports System
 Imports System.Globalization
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Udfs = BESHStatNG.BESHStatNG.WorksheetFunctions
+Imports Udfs = BESHStatNG.WorksheetFunctions
 
 ' Batch 3 UDF tests.
 ' This file assumes the helpers from src\UdfTests.vb already exist:

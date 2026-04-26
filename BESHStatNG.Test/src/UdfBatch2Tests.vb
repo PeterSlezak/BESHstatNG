@@ -7,7 +7,7 @@ Imports System.Globalization
 Imports System.IO
 Imports System.Linq
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Udfs = BESHStatNG.BESHStatNG.WorksheetFunctions
+Imports Udfs = BESHStatNG.WorksheetFunctions
 
 ' Batch 2 UDF tests.
 ' This file assumes the existing src\UdfTests.vb from batch 1 is already present,
@@ -172,11 +172,11 @@ Public Class UdfHelpersBatch2Tests
     <TestMethod>
     <TestCategory("UDF")>
     Public Sub GetOptionalInt_and_double_parse_numeric_inputs_and_fall_back_on_invalid()
-        Assert.AreEqual(12, UDFhelpers.GetOptionalInt(12.9R, -1))
-        Assert.AreEqual(-1, UDFhelpers.GetOptionalInt("abc", -1))
+        Assert.AreEqual(12, BESHStatNG.WorksheetFunctions.GetOptionalInt(12.9R, -1))
+        Assert.AreEqual(-1, BESHStatNG.WorksheetFunctions.GetOptionalInt("abc", -1))
 
-        Assert.AreEqual(3.5R, UDFhelpers.GetOptionalDouble(3.5R, -1.0R), 0.0R)
-        Assert.AreEqual(-1.0R, UDFhelpers.GetOptionalDouble("abc", -1.0R), 0.0R)
+        Assert.AreEqual(3.5R, BESHStatNG.WorksheetFunctions.GetOptionalDouble(3.5R, -1.0R), 0.0R)
+        Assert.AreEqual(-1.0R, BESHStatNG.WorksheetFunctions.GetOptionalDouble("abc", -1.0R), 0.0R)
     End Sub
 
     <TestMethod>

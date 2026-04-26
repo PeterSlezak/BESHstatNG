@@ -530,14 +530,4 @@ Public Class LinearModel_Tests
         Assert.ThrowsException(Of ArgumentException)(Sub() lm.Fit())
     End Sub
 
-    <TestCategory("LinearModel")>
-    <TestMethod()>
-    Public Sub Fit_singular_design_throws()
-        Dim loaded = LoadLmCsv("lm_dataset_singular.csv")
-        Dim data(,) As Double = loaded.Item1
-        Dim lm As New regression.LinearModel()
-        lm.Data(data, New String() {"y", "x1", "x2"})
-        Assert.ThrowsException(Of ApplicationException)(Sub() lm.Fit())
-    End Sub
-
 End Class

@@ -1,8 +1,8 @@
 Option Explicit On
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports System
-
 Imports BESHStatNG
+Imports BESHStatNG.Resampling
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass()>
 Public Class Agreement_Tests
@@ -660,5 +660,162 @@ Public Class Agreement_Tests
         d.Lambda = 1.0
         d.alpha = 0.05
         Assert.ThrowsException(Of InvalidOperationException)(Sub() d.DemingAnalyticalCI())
+    End Sub
+
+    <TestMethod>
+    Public Sub ScalarResamplingResult_BCa_interval_is_finite_and_not_identical_to_percentile_for_skewed_input()
+        Dim s As New ScalarResamplingResult With {
+            .StatisticLabel = "Skewed statistic",
+            .ObservedStatistic = 1.0,
+            .ResampledStatistics = New Double() {0.2, 0.35, 0.5, 0.6, 0.72, 0.85, 0.93, 1.05, 1.12, 1.25, 1.4, 1.8, 2.4, 3.0}
+        }
+
+        Dim jack() As Double = {0.88, 0.91, 0.95, 0.98, 1.02, 1.08, 1.15}
+
+        Dim pct = s.ToPercentileConfidenceInterval(0.05)
+        Dim bca = s.ToBcaConfidenceInterval(0.05, jack)
+
+        Assert.IsFalse(Double.IsNaN(bca.LowerLimit), "BCa lower limit should be finite.")
+        Assert.IsFalse(Double.IsNaN(bca.UpperLimit), "BCa upper limit should be finite.")
+        Assert.IsTrue(bca.LowerLimit <= bca.UpperLimit, "BCa lower limit should be <= upper limit.")
+
+        Dim changed As Boolean = (Math.Abs(bca.LowerLimit - pct.LowerLimit) > 0.0000000001) OrElse
+                                 (Math.Abs(bca.UpperLimit - pct.UpperLimit) > 0.0000000001)
+        Assert.IsTrue(changed, "BCa interval should differ from percentile interval for a sufficiently skewed bootstrap/jackknife configuration.")
+    End Sub
+
+    <TestMethod>
+    Public Sub LinCCC_bootstrap_BCa_is_reproducible_with_fixed_seed()
+        Dim x() As Double = {1, 2, 3, 4, 5, 6, 7, 8}
+        Dim y() As Double = {1.2, 1.7, 3.1, 4.5, 4.8, 6.4, 6.9, 8.6}
+        Dim opts As New Agreement.LinConcordanceOptions With {
+            .Alpha = 0.05,
+            .CiMethod = Agreement.AgreementCiMethod.BootstrapBCa,
+            .BootstrapReplicates = 200,
+            .NullConcordance = 0.0
+        }
+
+        Dim fit1 As New Agreement.LinConcordanceCorrelation(x, y, "x", "y", opts)
+        Dim fit2 As New Agreement.LinConcordanceCorrelation(x, y, "x", "y", opts)
+        Dim res1 = fit1.Fit(Nothing, 12345)
+        Dim res2 = fit2.Fit(Nothing, 12345)
+
+        Assert.IsTrue(res1.ConcordanceCI.LowerLimit <= res1.ConcordanceCI.UpperLimit, "Lin CCC BCa CI ordering")
+        AssertAlmostEqual(res1.ConcordanceCI.LowerLimit, res2.ConcordanceCI.LowerLimit, TOL_CI, "Lin CCC BCa lower reproducibility")
+        AssertAlmostEqual(res1.ConcordanceCI.UpperLimit, res2.ConcordanceCI.UpperLimit, TOL_CI, "Lin CCC BCa upper reproducibility")
+    End Sub
+
+    <TestMethod>
+    Public Sub WeightedKappa_bootstrap_BCa_is_reproducible_with_fixed_seed()
+        Dim r1() As Object = {1, 1, 1, 2, 2, 2, 3, 3, 3, 3}
+        Dim r2() As Object = {1, 1, 2, 2, 2, 3, 3, 2, 3, 3}
+        Dim opts As New Agreement.KappaOptions With {
+            .Weighting = Agreement.KappaWeightingScheme.Quadratic,
+            .CiMethod = Agreement.AgreementCiMethod.BootstrapBCa,
+            .BootstrapReplicates = 200,
+            .Categories = New Object() {1, 2, 3}
+        }
+
+        Dim fit1 As New Agreement.WeightedKappaAgreement(r1, r2, "r1", "r2", opts)
+        Dim fit2 As New Agreement.WeightedKappaAgreement(r1, r2, "r1", "r2", opts)
+        Dim res1 = fit1.Fit(Nothing, 24680)
+        Dim res2 = fit2.Fit(Nothing, 24680)
+
+        Assert.IsTrue(res1.KappaCI.LowerLimit <= res1.KappaCI.UpperLimit, "Weighted Kappa BCa CI ordering")
+        AssertAlmostEqual(res1.KappaCI.LowerLimit, res2.KappaCI.LowerLimit, TOL_CI, "Weighted Kappa BCa lower reproducibility")
+        AssertAlmostEqual(res1.KappaCI.UpperLimit, res2.KappaCI.UpperLimit, TOL_CI, "Weighted Kappa BCa upper reproducibility")
+    End Sub
+
+    <TestMethod>
+    Public Sub WeightedDeming_bootstrap_BCa_is_reproducible_with_fixed_seed_and_notes_do_not_claim_fallback()
+        Dim x() As Double = {1, 2, 3, 4, 5, 6, 7, 8}
+        Dim y() As Double = {2.1, 3.8, 5.9, 7.8, 10.3, 12.1, 13.9, 16.4}
+        Dim opts As New Agreement.DemingOptions With {
+            .VarianceModel = Agreement.DemingVarianceModel.ConstantLambda,
+            .Lambda = 1.0,
+            .CiMethod = Agreement.AgreementCiMethod.BootstrapBCa,
+            .BootstrapReplicates = 200,
+            .FitIntercept = True,
+            .Alpha = 0.05
+        }
+
+        Dim fit1 As New Agreement.WeightedDemingRegression(x, y, "x", "y", opts)
+        Dim fit2 As New Agreement.WeightedDemingRegression(x, y, "x", "y", opts)
+        Dim res1 = fit1.Fit(Nothing, 31415)
+        Dim res2 = fit2.Fit(Nothing, 31415)
+
+        Assert.IsTrue(res1.SlopeCI.LowerLimit <= res1.SlopeCI.UpperLimit, "Weighted Deming BCa slope CI ordering")
+        Assert.IsTrue(res1.InterceptCI.LowerLimit <= res1.InterceptCI.UpperLimit, "Weighted Deming BCa intercept CI ordering")
+        AssertAlmostEqual(res1.SlopeCI.LowerLimit, res2.SlopeCI.LowerLimit, TOL_CI, "Weighted Deming BCa slope lower reproducibility")
+        AssertAlmostEqual(res1.SlopeCI.UpperLimit, res2.SlopeCI.UpperLimit, TOL_CI, "Weighted Deming BCa slope upper reproducibility")
+        Assert.IsTrue(res1.Notes.IndexOf("Bootstrap BCa", StringComparison.OrdinalIgnoreCase) >= 0, "Weighted Deming notes should identify Bootstrap BCa.")
+        Assert.IsTrue(res1.Notes.IndexOf("fallback", StringComparison.OrdinalIgnoreCase) < 0, "Weighted Deming notes should not claim BCa fallback anymore.")
+    End Sub
+
+    <TestMethod>
+    Public Sub BlandAltman_bootstrap_BCa_simple_pairs_is_reproducible_with_fixed_seed_and_records_seed_in_notes()
+        Dim x() As Double = {10, 12, 14, 16, 18, 20, 22, 24}
+        Dim y() As Double = {11, 11.5, 14.8, 16.4, 18.2, 19.7, 23.0, 24.8}
+        Dim opts As New Agreement.BlandAltmanOptions With {
+            .Mode = Agreement.RepeatedBlandAltmanMode.SimplePairs,
+            .Scale = Agreement.BlandAltmanScale.RawDifference,
+            .XAxisMode = Agreement.BlandAltmanXAxisMode.MeanOfMethods,
+            .CheckProportionalBias = False,
+            .CiMethod = Agreement.AgreementCiMethod.BootstrapBCa,
+            .BootstrapReplicates = 200,
+            .Alpha = 0.05
+        }
+
+        Dim ba1 As New Agreement.BlandAltmanAgreement(x, y, "x", "y", opts)
+        Dim ba2 As New Agreement.BlandAltmanAgreement(x, y, "x", "y", opts)
+        Dim res1 = ba1.Fit(13579)
+        Dim res2 = ba2.Fit(13579)
+
+        Assert.IsTrue(res1.BiasCI.LowerLimit <= res1.BiasCI.UpperLimit, "Bland-Altman BCa bias CI ordering")
+        Assert.IsTrue(res1.LowerLoACI.LowerLimit <= res1.LowerLoACI.UpperLimit, "Bland-Altman BCa lower LoA CI ordering")
+        Assert.IsTrue(res1.UpperLoACI.LowerLimit <= res1.UpperLoACI.UpperLimit, "Bland-Altman BCa upper LoA CI ordering")
+        AssertAlmostEqual(res1.BiasCI.LowerLimit, res2.BiasCI.LowerLimit, TOL_CI, "Bland-Altman BCa lower reproducibility")
+        AssertAlmostEqual(res1.BiasCI.UpperLimit, res2.BiasCI.UpperLimit, TOL_CI, "Bland-Altman BCa upper reproducibility")
+        Assert.IsTrue(res1.Notes.IndexOf("Resampling seed = 13579", StringComparison.OrdinalIgnoreCase) >= 0, "Bland-Altman BCa notes should record the resampling seed.")
+    End Sub
+
+    <TestMethod>
+    Public Sub WeightedKappa_jackknife_produces_finite_interval_and_does_not_claim_analytical_fallback()
+        Dim r1() As Object = {1, 1, 1, 2, 2, 2, 3, 3, 3, 3}
+        Dim r2() As Object = {1, 1, 2, 2, 2, 3, 3, 2, 3, 3}
+        Dim opts As New Agreement.KappaOptions With {
+            .Weighting = Agreement.KappaWeightingScheme.Quadratic,
+            .CiMethod = Agreement.AgreementCiMethod.Jackknife,
+            .BootstrapReplicates = 200,
+            .Categories = New Object() {1, 2, 3}
+        }
+
+        Dim fit As New Agreement.WeightedKappaAgreement(r1, r2, "r1", "r2", opts)
+        Dim res = fit.Fit()
+
+        Assert.IsFalse(Double.IsNaN(res.KappaCI.LowerLimit), "Weighted Kappa jackknife lower CI should be finite.")
+        Assert.IsFalse(Double.IsNaN(res.KappaCI.UpperLimit), "Weighted Kappa jackknife upper CI should be finite.")
+        Assert.IsTrue(res.KappaCI.LowerLimit <= res.KappaCI.UpperLimit, "Weighted Kappa jackknife CI ordering")
+
+        Dim tables = fit.wrapResults()
+        Dim combinedParts As New List(Of String)
+        For Each t In tables
+            Dim rendered = t.returnSelf()
+            For i As Integer = 0 To UBound(rendered, 1)
+                For j As Integer = 0 To UBound(rendered, 2)
+                    If rendered(i, j) IsNot Nothing Then
+                        combinedParts.Add(rendered(i, j).ToString())
+                    End If
+                Next
+            Next
+        Next
+        Dim combinedText As String = String.Join(Environment.NewLine, combinedParts)
+
+        Assert.IsTrue(combinedText.IndexOf("Jackknife replicates used", StringComparison.OrdinalIgnoreCase) >= 0,
+                  "Weighted Kappa jackknife output should report jackknife replicate usage.")
+        Assert.IsTrue(combinedText.IndexOf("not yet implemented separately", StringComparison.OrdinalIgnoreCase) < 0,
+                  "Weighted Kappa jackknife output should not claim the old analytical fallback anymore.")
+        Assert.IsTrue(combinedText.IndexOf("analytical delta-method interval was used instead", StringComparison.OrdinalIgnoreCase) < 0,
+                  "Weighted Kappa jackknife output should not claim analytical fallback for this valid paired-ratings case.")
     End Sub
 End Class

@@ -9,7 +9,7 @@ Imports System.Linq
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports BESHStatNG
 Imports BESHStatNG.regression
-Imports Udfs = BESHStatNG.BESHStatNG.WorksheetFunctions
+Imports Udfs = BESHStatNG.WorksheetFunctions
 
 Friend Module ClassificationReportingTestData
 

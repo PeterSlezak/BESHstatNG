@@ -5,7 +5,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Reflection
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
-Imports Udfs = BESHStatNG.BESHStatNG.WorksheetFunctions
+Imports Udfs = BESHStatNG.WorksheetFunctions
 
 ' Add this file to the BESHStatNG.Test project.
 ' With the current source layout, the UDF namespace resolves to:
@@ -135,43 +135,43 @@ Public Class UdfHelpersTests
     <TestMethod>
     <TestCategory("UDF")>
     Public Sub TryGetDouble_rejects_missing_text_and_boolean_inputs()
-        Assert.IsFalse(UDFhelpers.TryGetDouble(Nothing).HasValue)
+        Assert.IsFalse(BESHStatNG.WorksheetFunctions.TryGetDouble(Nothing).HasValue)
 
         Dim emptyMarker As Object = ExcelDnaCompat.CreateExcelEmptyValue()
         If emptyMarker IsNot Nothing Then
-            Assert.IsFalse(UDFhelpers.TryGetDouble(emptyMarker).HasValue)
+            Assert.IsFalse(BESHStatNG.WorksheetFunctions.TryGetDouble(emptyMarker).HasValue)
         End If
 
         Dim missingMarker As Object = ExcelDnaCompat.CreateExcelMissingValue()
         If missingMarker IsNot Nothing Then
-            Assert.IsFalse(UDFhelpers.TryGetDouble(missingMarker).HasValue)
+            Assert.IsFalse(BESHStatNG.WorksheetFunctions.TryGetDouble(missingMarker).HasValue)
         End If
 
-        Assert.IsFalse(UDFhelpers.TryGetDouble("12.5").HasValue)
-        Assert.IsFalse(UDFhelpers.TryGetDouble(True).HasValue)
+        Assert.IsFalse(BESHStatNG.WorksheetFunctions.TryGetDouble("12.5").HasValue)
+        Assert.IsFalse(BESHStatNG.WorksheetFunctions.TryGetDouble(True).HasValue)
 
         Dim errorMarker As Object = ExcelDnaCompat.CreateExcelErrorValue("ExcelErrorValue")
         If errorMarker IsNot Nothing Then
-            Assert.IsFalse(UDFhelpers.TryGetDouble(errorMarker).HasValue)
+            Assert.IsFalse(BESHStatNG.WorksheetFunctions.TryGetDouble(errorMarker).HasValue)
         End If
     End Sub
 
     <TestMethod>
     <TestCategory("UDF")>
     Public Sub GetOptionalBool_parses_common_aliases()
-        Assert.IsTrue(UDFhelpers.GetOptionalBool("yes", False))
-        Assert.IsTrue(UDFhelpers.GetOptionalBool("1", False))
-        Assert.IsTrue(UDFhelpers.GetOptionalBool("TRUE", False))
+        Assert.IsTrue(BESHStatNG.WorksheetFunctions.GetOptionalBool("yes", False))
+        Assert.IsTrue(BESHStatNG.WorksheetFunctions.GetOptionalBool("1", False))
+        Assert.IsTrue(BESHStatNG.WorksheetFunctions.GetOptionalBool("TRUE", False))
 
-        Assert.IsFalse(UDFhelpers.GetOptionalBool("no", True))
-        Assert.IsFalse(UDFhelpers.GetOptionalBool("0", True))
-        Assert.IsFalse(UDFhelpers.GetOptionalBool("FALSE", True))
+        Assert.IsFalse(BESHStatNG.WorksheetFunctions.GetOptionalBool("no", True))
+        Assert.IsFalse(BESHStatNG.WorksheetFunctions.GetOptionalBool("0", True))
+        Assert.IsFalse(BESHStatNG.WorksheetFunctions.GetOptionalBool("FALSE", True))
 
-        Assert.IsTrue(UDFhelpers.GetOptionalBool("maybe", True))
+        Assert.IsTrue(BESHStatNG.WorksheetFunctions.GetOptionalBool("maybe", True))
 
         Dim missingMarker As Object = ExcelDnaCompat.CreateExcelMissingValue()
         If missingMarker IsNot Nothing Then
-            Assert.IsFalse(UDFhelpers.GetOptionalBool(missingMarker, False))
+            Assert.IsFalse(BESHStatNG.WorksheetFunctions.GetOptionalBool(missingMarker, False))
         End If
     End Sub
 
