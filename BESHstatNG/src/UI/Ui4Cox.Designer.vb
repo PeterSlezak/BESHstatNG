@@ -85,6 +85,7 @@ Partial Class Ui4Cox
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCalculate = New System.Windows.Forms.Button()
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.btInterrupt = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPage2.SuspendLayout()
@@ -102,7 +103,7 @@ Partial Class Ui4Cox
         Me.TabControl1.Controls.Add(Me.TabPage1)
         Me.TabControl1.Controls.Add(Me.TabPage2)
         Me.TabControl1.Controls.Add(Me.TabPage3)
-        Me.TabControl1.Location = New System.Drawing.Point(12, 12)
+        Me.TabControl1.Location = New System.Drawing.Point(3, 4)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
         Me.TabControl1.Size = New System.Drawing.Size(844, 476)
@@ -740,15 +741,15 @@ Partial Class Ui4Cox
         '
         'lblProgress
         '
-        Me.lblProgress.Location = New System.Drawing.Point(13, 512)
+        Me.lblProgress.Location = New System.Drawing.Point(4, 512)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(677, 23)
+        Me.lblProgress.Size = New System.Drawing.Size(600, 31)
         Me.lblProgress.TabIndex = 8
         Me.lblProgress.Text = "Elapsed Time: "
         '
         'btnHelp
         '
-        Me.btnHelp.Location = New System.Drawing.Point(696, 515)
+        Me.btnHelp.Location = New System.Drawing.Point(691, 515)
         Me.btnHelp.Name = "btnHelp"
         Me.btnHelp.Size = New System.Drawing.Size(75, 23)
         Me.btnHelp.TabIndex = 7
@@ -757,7 +758,7 @@ Partial Class Ui4Cox
         '
         'btCalculate
         '
-        Me.btCalculate.Location = New System.Drawing.Point(777, 515)
+        Me.btCalculate.Location = New System.Drawing.Point(772, 515)
         Me.btCalculate.Name = "btCalculate"
         Me.btCalculate.Size = New System.Drawing.Size(75, 23)
         Me.btCalculate.TabIndex = 6
@@ -766,16 +767,26 @@ Partial Class Ui4Cox
         '
         'ProgressBar1
         '
-        Me.ProgressBar1.Location = New System.Drawing.Point(15, 486)
+        Me.ProgressBar1.Location = New System.Drawing.Point(6, 486)
         Me.ProgressBar1.Name = "ProgressBar1"
         Me.ProgressBar1.Size = New System.Drawing.Size(837, 23)
         Me.ProgressBar1.TabIndex = 9
+        '
+        'btInterrupt
+        '
+        Me.btInterrupt.Location = New System.Drawing.Point(610, 515)
+        Me.btInterrupt.Name = "btInterrupt"
+        Me.btInterrupt.Size = New System.Drawing.Size(75, 23)
+        Me.btInterrupt.TabIndex = 18
+        Me.btInterrupt.Text = "Interrupt"
+        Me.btInterrupt.UseVisualStyleBackColor = True
         '
         'Ui4Cox
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(859, 543)
+        Me.Controls.Add(Me.btInterrupt)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.lblProgress)
         Me.Controls.Add(Me.btnHelp)
@@ -869,4 +880,5 @@ Partial Class Ui4Cox
     Friend WithEvents btn2Interactions As Windows.Forms.Button
     Friend WithEvents spinBtnPoly As Windows.Forms.NumericUpDown
     Friend WithEvents btnPoly As Windows.Forms.Button
+    Friend WithEvents btInterrupt As Windows.Forms.Button
 End Class

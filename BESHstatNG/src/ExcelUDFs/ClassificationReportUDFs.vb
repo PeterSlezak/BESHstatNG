@@ -94,16 +94,16 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim observed() As Double = Nothing
-                If Not TryReadNumericVectorArgument(y, observed) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericVector(y, observed) Then Return ExcelError.ExcelErrorValue
 
                 Dim probs() As Double = Nothing
-                If Not TryReadNumericVectorArgument(probabilities, probs) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericVector(probabilities, probs) Then Return ExcelError.ExcelErrorValue
 
                 Dim cutoff As Double = 0.5R
                 If Not TryGetSingleThresholdFromArg(threshold, cutoff, 0.5R) Then Return ExcelError.ExcelErrorValue
 
                 Dim w() As Double = Nothing
-                If Not TryReadOptionalNumericVectorArgument(weights, w) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim summary As regression.BinaryClassificationSummary =
@@ -177,16 +177,16 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim observed() As Double = Nothing
-                If Not TryReadNumericVectorArgument(y, observed) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericVector(y, observed) Then Return ExcelError.ExcelErrorValue
 
                 Dim probs() As Double = Nothing
-                If Not TryReadNumericVectorArgument(probabilities, probs) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericVector(probabilities, probs) Then Return ExcelError.ExcelErrorValue
 
                 Dim thresholdVector() As Double = Nothing
                 If Not TryGetOptionalThresholdVector(thresholds, thresholdVector) Then Return ExcelError.ExcelErrorValue
 
                 Dim w() As Double = Nothing
-                If Not TryReadOptionalNumericVectorArgument(weights, w) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim rows As List(Of regression.BinaryThresholdRow) =
@@ -266,10 +266,10 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim observed() As Double = Nothing
-                If Not TryReadNumericVectorArgument(y, observed) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericVector(y, observed) Then Return ExcelError.ExcelErrorValue
 
                 Dim probs() As Double = Nothing
-                If Not TryReadNumericVectorArgument(probabilities, probs) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericVector(probabilities, probs) Then Return ExcelError.ExcelErrorValue
 
                 Dim binCount As Integer = 10
                 If Not TryGetOptionalPositiveInteger(bins, binCount, 10, 2) Then Return ExcelError.ExcelErrorValue
@@ -277,7 +277,7 @@ Namespace WorksheetFunctions
                 Dim methodName As String = BinaryClassificationReporting.ParseCalibrationMethod(method, "quantile")
 
                 Dim w() As Double = Nothing
-                If Not TryReadOptionalNumericVectorArgument(weights, w) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim rows As List(Of regression.CalibrationBinSummary) =
@@ -342,13 +342,13 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim observed() As Double = Nothing
-                If Not TryReadNumericVectorArgument(y, observed) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericVector(y, observed) Then Return ExcelError.ExcelErrorValue
 
                 Dim probs() As Double = Nothing
-                If Not TryReadNumericVectorArgument(probabilities, probs) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericVector(probabilities, probs) Then Return ExcelError.ExcelErrorValue
 
                 Dim w() As Double = Nothing
-                If Not TryReadOptionalNumericVectorArgument(weights, w) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
 
                 regression.BinaryClassificationReporting.ValidateBinaryInputs(observed, probs, w)
 
@@ -361,102 +361,6 @@ Namespace WorksheetFunctions
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.BRIER", ex)
             End Try
-        End Function
-
-        Private Function TryReadOptionalNumericVectorArgument(arg As Object,
-                                                              ByRef values() As Double) As Boolean
-            values = Nothing
-            If IsMissingArg(arg) Then Return True
-            Return TryReadNumericVectorArgument(arg, values)
-        End Function
-
-        Private Function TryReadNumericVectorArgument(arg As Object, ByRef values() As Double) As Boolean
-            values = Nothing
-
-            If IsMissingArg(arg) Then Return False
-
-            Dim scalar As Double? = TryGetDouble(arg)
-            If scalar.HasValue Then
-                ReDim values(0)
-                values(0) = scalar.Value
-                Return True
-            End If
-
-            Dim arr As Object(,) = UDFhelpers.Get2D(arg)
-            If arr Is Nothing Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows < 1 OrElse cols < 1 Then Return False
-            If rows > 1 AndAlso cols > 1 Then Return False
-
-            If rows = 1 Then
-                Return TryReadNumericVectorFromSingleRow(arr, values)
-            Else
-                Return TryReadNumericVectorFromSingleColumn(arr, values)
-            End If
-        End Function
-
-        Private Function TryReadNumericVectorFromSingleColumn(arr As Object(,), ByRef values() As Double) As Boolean
-            values = Nothing
-            Dim rows As Integer = arr.GetLength(0)
-            If rows < 1 Then Return False
-
-            Dim last As Integer = rows - 1
-            While last >= 0 AndAlso IsBlankCell(arr(last, 0))
-                last -= 1
-            End While
-            If last < 0 Then Return False
-
-            Dim start As Integer = 0
-            If Not TryGetDouble(arr(0, 0)).HasValue Then
-                If last = 0 Then Return False
-                start = 1
-            End If
-            If start > last Then Return False
-
-            Dim out As New List(Of Double)
-            For i = start To last
-                If IsBlankCell(arr(i, 0)) Then Return False
-                Dim d As Double? = TryGetDouble(arr(i, 0))
-                If Not d.HasValue Then Return False
-                out.Add(d.Value)
-            Next
-
-            If out.Count = 0 Then Return False
-            values = out.ToArray()
-            Return True
-        End Function
-
-        Private Function TryReadNumericVectorFromSingleRow(arr As Object(,), ByRef values() As Double) As Boolean
-            values = Nothing
-            Dim cols As Integer = arr.GetLength(1)
-            If cols < 1 Then Return False
-
-            Dim last As Integer = cols - 1
-            While last >= 0 AndAlso IsBlankCell(arr(0, last))
-                last -= 1
-            End While
-            If last < 0 Then Return False
-
-            Dim start As Integer = 0
-            If Not TryGetDouble(arr(0, 0)).HasValue Then
-                If last = 0 Then Return False
-                start = 1
-            End If
-            If start > last Then Return False
-
-            Dim out As New List(Of Double)
-            For j = start To last
-                If IsBlankCell(arr(0, j)) Then Return False
-                Dim d As Double? = TryGetDouble(arr(0, j))
-                If Not d.HasValue Then Return False
-                out.Add(d.Value)
-            Next
-
-            If out.Count = 0 Then Return False
-            values = out.ToArray()
-            Return True
         End Function
 
         Friend Function ComputeWeightedEventRate(y() As Double, weights() As Double) As Double

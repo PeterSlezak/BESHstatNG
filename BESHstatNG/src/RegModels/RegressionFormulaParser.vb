@@ -244,6 +244,7 @@ End Class
 Public Class ParsedRegressionFormulaTerm
     Public Property Kind As String
     Public Property BaseVarKeys As List(Of String)
+    Public Property BaseVarDisplayNames As List(Of String)
     Public Property Degree As Integer
     Public Property Scale As PredictorScale
     Public Property ReferenceValue As Nullable(Of Double)
@@ -251,6 +252,21 @@ Public Class ParsedRegressionFormulaTerm
     Public Property DisplayNameForCoef As String
     Public Property NormalizedText As String
     Public Property OriginalText As String
+
+    ''' <summary>
+    ''' Base variable keys that were explicitly wrapped in factor(...) inside an interaction term.
+    ''' These are helper metadata used to create hidden categorical TermSpec entries so that
+    ''' formula-only interactions such as factor(A):B can expand correctly even when factor(A)
+    ''' is not also included as a visible main effect.
+    ''' </summary>
+    Public Property InteractionCategoricalBaseKeys As List(Of String)
+
+    ''' <summary>
+    ''' Reference-level settings aligned by base variable key for factor(...) parts inside
+    ''' an interaction.  A missing or Nothing value means the default reference level is used.
+    ''' </summary>
+    Public Property InteractionCategoricalReferenceValues As Dictionary(Of String, Nullable(Of Double))
+
 End Class
 
 ''' <summary>
@@ -297,6 +313,7 @@ Public Module RegressionFormulaParser
             Dim term As New ParsedRegressionFormulaTerm With {
                 .Kind = "MainEffect",
                 .BaseVarKeys = New List(Of String) From {v.BaseKey},
+                .BaseVarDisplayNames = New List(Of String) From {v.DisplayName},
                 .Degree = 1,
                 .Scale = PredictorScale.Continuous,
                 .ReferenceValue = Nothing,
@@ -421,6 +438,10 @@ Public Module RegressionFormulaParser
 
         errorMessage = Nothing
 
+        If Not EnsureInteractionCategoricalSupportSpecs(spec, parsed, errorMessage) Then
+            Return False
+        End If
+
         If Not spec.TermSpecs.ContainsKey(parsed.EffectKey) Then
             spec.EffectItems.Add(parsed.EffectKey)
             spec.ParsedTerms.Add(parsed)
@@ -428,6 +449,7 @@ Public Module RegressionFormulaParser
             Dim termSpec As New TermSpec With {
                 .Kind = parsed.Kind,
                 .BaseVarKeys = New List(Of String)(parsed.BaseVarKeys),
+                .BaseVarDisplayNames = If(parsed.BaseVarDisplayNames Is Nothing, Nothing, New List(Of String)(parsed.BaseVarDisplayNames)),
                 .Degree = parsed.Degree,
                 .DisplayNameForCoef = parsed.DisplayNameForCoef,
                 .Order = spec.EffectItems.Count - 1,
@@ -447,7 +469,93 @@ Public Module RegressionFormulaParser
             Return False
         End If
 
+        ' A hidden categorical helper spec can be created when parsing factor(A):B before
+        ' a visible factor(A) main effect is encountered.  If the visible main effect is later
+        ' parsed, add it to the effect list while reusing the already-created TermSpec.
+        If Not spec.EffectItems.Contains(parsed.EffectKey) Then
+            spec.EffectItems.Add(parsed.EffectKey)
+            spec.ParsedTerms.Add(parsed)
+            existing.Order = spec.EffectItems.Count - 1
+        End If
+
         Return True
+    End Function
+
+    ''' <summary>
+    ''' Ensures that factor(...) subterms used only inside interactions have categorical
+    ''' TermSpec entries available for the shared design expansion core.
+    ''' </summary>
+    ''' <remarks>
+    ''' The design core discovers categorical interaction bases by looking for a categorical
+    ''' main-effect TermSpec for the same base key.  Formula terms such as factor(A):B do not
+    ''' necessarily include factor(A) as a visible main effect, so this method creates a hidden
+    ''' categorical support TermSpec.  Hidden support terms are stored in TermSpecs but not in
+    ''' EffectItems, therefore they do not add a main-effect column unless the user explicitly
+    ''' includes factor(A) in the formula.
+    ''' </remarks>
+    Private Function EnsureInteractionCategoricalSupportSpecs(spec As RegressionFormulaDesignSpec,
+                                                              parsed As ParsedRegressionFormulaTerm,
+                                                              ByRef errorMessage As String) As Boolean
+        If parsed Is Nothing OrElse parsed.InteractionCategoricalBaseKeys Is Nothing Then Return True
+        If parsed.InteractionCategoricalBaseKeys.Count = 0 Then Return True
+
+        For Each baseKey As String In parsed.InteractionCategoricalBaseKeys
+            Dim catKey As String = RegressionDesignCore.MakeCategoricalEffectKey(baseKey)
+            Dim refVal As Nullable(Of Double) = Nothing
+
+            If parsed.InteractionCategoricalReferenceValues IsNot Nothing AndAlso
+               parsed.InteractionCategoricalReferenceValues.ContainsKey(baseKey) Then
+                refVal = parsed.InteractionCategoricalReferenceValues(baseKey)
+            End If
+
+            If spec.TermSpecs.ContainsKey(catKey) Then
+                Dim existing As TermSpec = spec.TermSpecs(catKey)
+                If existing Is Nothing OrElse
+                   Not String.Equals(existing.Kind, "MainEffect", StringComparison.OrdinalIgnoreCase) OrElse
+                   existing.Scale <> PredictorScale.Categorical Then
+                    errorMessage = "Formula contains conflicting categorical specification for '" & baseKey & "'."
+                    Return False
+                End If
+
+                If existing.ReferenceValue.HasValue <> refVal.HasValue Then
+                    errorMessage = "Formula contains conflicting factor reference levels for '" & baseKey & "'."
+                    Return False
+                End If
+                If existing.ReferenceValue.HasValue AndAlso existing.ReferenceValue.Value <> refVal.Value Then
+                    errorMessage = "Formula contains conflicting factor reference levels for '" & baseKey & "'."
+                    Return False
+                End If
+
+                Continue For
+            End If
+
+            spec.TermSpecs(catKey) = New TermSpec With {
+                    .Kind = "MainEffect",
+                    .BaseVarKeys = New List(Of String) From {baseKey},
+                    .BaseVarDisplayNames = New List(Of String) From {ResolveDisplayNameForBase(parsed, baseKey)},
+                    .Degree = 1,
+                    .DisplayNameForCoef = ResolveDisplayNameForBase(parsed, baseKey),
+                    .Order = -1,
+                    .Scale = PredictorScale.Categorical,
+                    .ReferenceValue = refVal
+                }
+        Next
+
+        Return True
+    End Function
+
+    Private Function ResolveDisplayNameForBase(parsed As ParsedRegressionFormulaTerm, baseKey As String) As String
+        If parsed IsNot Nothing AndAlso parsed.BaseVarKeys IsNot Nothing AndAlso parsed.BaseVarDisplayNames IsNot Nothing Then
+            Dim n As Integer = Math.Min(parsed.BaseVarKeys.Count, parsed.BaseVarDisplayNames.Count)
+            For i As Integer = 0 To n - 1
+                If String.Equals(parsed.BaseVarKeys(i), baseKey, StringComparison.Ordinal) Then
+                    Dim nm As String = If(parsed.BaseVarDisplayNames(i), String.Empty).Trim()
+                    If nm <> String.Empty Then Return nm
+                End If
+            Next
+        End If
+
+        Return baseKey
     End Function
 
     ''' <summary>
@@ -505,13 +613,23 @@ Public Module RegressionFormulaParser
             Return False
         End If
 
-        If StartsWithFactor(s) Then
-            Return TryParseFactorMainEffect(s, variableCatalog, parsed, errorMessage)
-        End If
-
+        ' IMPORTANT: interaction parsing must happen before factor-main-effect parsing.
+        '
+        ' factor(A):B starts with factor(, but it is not a single factor(...) main effect.
+        ' It is an interaction whose first subterm is factor(A).  SplitTopLevel ignores
+        ' colons inside parentheses and quotes, so this check safely distinguishes:
+        '
+        '   factor(A)       -> one part  -> parsed below as a categorical main effect
+        '   factor(A):B     -> two parts -> parsed as an interaction
+        '   factor(A):factor(B) -> two parts -> parsed as a categorical interaction
+        '
         Dim interactionParts As List(Of String) = SplitTopLevel(s, ":"c)
         If interactionParts.Count > 1 Then
             Return TryParseInteraction(s, interactionParts, variableCatalog, parsed, errorMessage)
+        End If
+
+        If StartsWithFactor(s) Then
+            Return TryParseFactorMainEffect(s, variableCatalog, parsed, errorMessage)
         End If
 
         Dim caretIndex As Integer = FindTopLevelChar(s, "^"c)
@@ -544,6 +662,7 @@ Public Module RegressionFormulaParser
         parsed = New ParsedRegressionFormulaTerm With {
             .Kind = "MainEffect",
             .BaseVarKeys = New List(Of String) From {entry.BaseKey},
+            .BaseVarDisplayNames = New List(Of String) From {entry.DisplayName},
             .Degree = 1,
             .Scale = PredictorScale.Continuous,
             .ReferenceValue = Nothing,
@@ -584,6 +703,7 @@ Public Module RegressionFormulaParser
         parsed = New ParsedRegressionFormulaTerm With {
             .Kind = "MainEffect",
             .BaseVarKeys = New List(Of String) From {entry.BaseKey},
+            .BaseVarDisplayNames = New List(Of String) From {entry.DisplayName},
             .Degree = 1,
             .Scale = PredictorScale.Categorical,
             .ReferenceValue = refValue,
@@ -637,6 +757,7 @@ Public Module RegressionFormulaParser
         parsed = New ParsedRegressionFormulaTerm With {
             .Kind = "Polynomial",
             .BaseVarKeys = New List(Of String) From {entry.BaseKey},
+            .BaseVarDisplayNames = New List(Of String) From {entry.DisplayName},
             .Degree = degree,
             .Scale = PredictorScale.Continuous,
             .ReferenceValue = Nothing,
@@ -648,14 +769,26 @@ Public Module RegressionFormulaParser
         Return True
     End Function
 
+    Private Class InteractionParsePart
+        Public Property Entry As RegressionVariableCatalogEntry
+        Public Property TokenKind As RegressionFormulaTokenKind
+        Public Property IsFactor As Boolean
+        Public Property ReferenceValue As Nullable(Of Double)
+        Public Property NormalizedToken As String
+    End Class
+
     ''' <summary>
-    ''' Attempts to parse a continuous interaction term.
+    ''' Attempts to parse an interaction term, including continuous and categorical factor subterms.
     ''' </summary>
     ''' <param name="termText">The formula term text to parse.</param>
-    ''' <param name="interactionParts">The interaction subterms obtained by splitting the source term on top-level colons.</param>
+    ''' <param name="interactionParts">The interaction subterms obtained by splitting the source term on top-level colons. Subterms may be raw variables or factor(...) terms.</param>
     ''' <param name="variableCatalog">The variable catalog used to resolve formula references.</param>
     ''' <param name="parsed">The parsed-term object being produced or appended.</param>
     ''' <param name="errorMessage">On failure, receives a human-readable error message.</param>
+    ''' <remarks>
+    ''' Supported interaction forms include <c>A:B</c>, <c>factor(A):B</c>, <c>factor(A, ref=0):B</c>,
+    ''' and <c>factor(A):factor(B)</c>. Polynomial subterms and repeated variables inside one interaction term remain unsupported.
+    ''' </remarks>
     ''' <returns>True when parsing succeeds; otherwise, False.</returns>
     Private Function TryParseInteraction(termText As String,
                                          interactionParts As List(Of String),
@@ -668,9 +801,10 @@ Public Module RegressionFormulaParser
             Return False
         End If
 
-        Dim resolvedEntries As New List(Of RegressionVariableCatalogEntry)()
-        Dim resolvedKinds As New List(Of RegressionFormulaTokenKind)()
+        Dim parts As New List(Of InteractionParsePart)()
         Dim seenBaseKeys As New HashSet(Of String)(StringComparer.Ordinal)
+        Dim categoricalBaseKeys As New List(Of String)()
+        Dim categoricalRefs As New Dictionary(Of String, Nullable(Of Double))(StringComparer.Ordinal)
 
         For Each part As String In interactionParts
             Dim p As String = If(part, String.Empty).Trim()
@@ -678,19 +812,35 @@ Public Module RegressionFormulaParser
                 errorMessage = "Invalid interaction term '" & termText.Trim() & "'."
                 Return False
             End If
-            If StartsWithFactor(p) Then
-                errorMessage = "Interactions involving factor(...) are not supported yet."
-                Return False
-            End If
+
             If FindTopLevelChar(p, "^"c) >= 0 Then
-                errorMessage = "Interactions involving polynomial subterms are not supported yet."
+                errorMessage = "Interactions involving polynomial subterms are not supported yet. Add the polynomial term as a separate effect first."
                 Return False
             End If
 
             Dim entry As RegressionVariableCatalogEntry = Nothing
             Dim tokenKind As RegressionFormulaTokenKind
-            If Not variableCatalog.TryResolveToken(p, entry, tokenKind, errorMessage) Then
-                Return False
+            Dim refValue As Nullable(Of Double) = Nothing
+            Dim isFactor As Boolean = False
+            Dim normalizedToken As String = Nothing
+
+            If StartsWithFactor(p) Then
+                If Not TryParseFactorArguments(p, variableCatalog, entry, tokenKind, refValue, errorMessage) Then
+                    Return False
+                End If
+
+                isFactor = True
+                normalizedToken = "factor(" & NormalizeVariableReference(entry, tokenKind)
+                If refValue.HasValue Then
+                    normalizedToken &= ", ref=" & refValue.Value.ToString("G", CultureInfo.InvariantCulture)
+                End If
+                normalizedToken &= ")"
+            Else
+                If Not variableCatalog.TryResolveToken(p, entry, tokenKind, errorMessage) Then
+                    Return False
+                End If
+
+                normalizedToken = NormalizeVariableReference(entry, tokenKind)
             End If
 
             If seenBaseKeys.Contains(entry.BaseKey) Then
@@ -701,28 +851,39 @@ Public Module RegressionFormulaParser
             End If
 
             seenBaseKeys.Add(entry.BaseKey)
-            resolvedEntries.Add(entry)
-            resolvedKinds.Add(tokenKind)
+            If isFactor Then
+                categoricalBaseKeys.Add(entry.BaseKey)
+                categoricalRefs(entry.BaseKey) = refValue
+            End If
+
+            parts.Add(New InteractionParsePart With {
+                .entry = entry,
+                .tokenKind = tokenKind,
+                .isFactor = isFactor,
+                .ReferenceValue = refValue,
+                .normalizedToken = normalizedToken
+            })
         Next
 
-        Dim paired = resolvedEntries.Select(Function(x, i) New With {.Entry = x, .Kind = resolvedKinds(i)}) _
-                                  .OrderBy(Function(x) x.Entry.BaseKey, StringComparer.Ordinal) _
-                                  .ToList()
+        Dim paired = parts.OrderBy(Function(x) x.Entry.BaseKey, StringComparer.Ordinal).ToList()
 
         Dim baseKeys As List(Of String) = paired.Select(Function(x) x.Entry.BaseKey).ToList()
         Dim displayNames As List(Of String) = paired.Select(Function(x) x.Entry.DisplayName).ToList()
-        Dim normalizedTokens As List(Of String) = paired.Select(Function(x) NormalizeVariableReference(x.Entry, x.Kind)).ToList()
+        Dim normalizedTokens As List(Of String) = paired.Select(Function(x) x.NormalizedToken).ToList()
 
         parsed = New ParsedRegressionFormulaTerm With {
             .Kind = "Interaction",
             .BaseVarKeys = baseKeys,
+            .BaseVarDisplayNames = displayNames,
             .Degree = 1,
-            .Scale = PredictorScale.Continuous,
+            .Scale = If(categoricalBaseKeys.Count > 0, PredictorScale.Categorical, PredictorScale.Continuous),
             .ReferenceValue = Nothing,
             .EffectKey = RegressionDesignCore.MakeInteractionEffectKey(baseKeys),
             .DisplayNameForCoef = String.Join(":", displayNames),
             .NormalizedText = String.Join(":", normalizedTokens),
-            .OriginalText = termText.Trim()
+            .OriginalText = termText.Trim(),
+            .InteractionCategoricalBaseKeys = categoricalBaseKeys,
+            .InteractionCategoricalReferenceValues = categoricalRefs
         }
         Return True
     End Function

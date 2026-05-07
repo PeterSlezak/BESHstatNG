@@ -26,8 +26,19 @@ Namespace AppInfrastructure
             Return IsFinite(value) AndAlso value >= 0.0R AndAlso value < 1.0R
         End Function
 
-        Friend Sub ValidateFinite(value As Double, paramName As String,
-                                  Optional message As String = "Value must be finite.")
+        Friend Function NormalizeAlpha(alpha As Double) As Double
+            If Not IsFinite(alpha) OrElse alpha <= 0.0 OrElse alpha >= 1.0 Then Return 0.05
+            Return alpha
+        End Function
+
+        Friend Function ClampProbability(value As Double) As Double
+            If Double.IsNaN(value) Then Return Double.NaN
+            If value <= 0.0R Then Return 0.0R
+            If value >= 1.0R Then Return 1.0R
+            Return value
+        End Function
+
+        Friend Sub ValidateFinite(value As Double, paramName As String, Optional message As String = "Value must be finite.")
             If Not IsFinite(value) Then
                 Throw New ArgumentOutOfRangeException(paramName, message)
             End If

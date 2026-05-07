@@ -588,7 +588,7 @@ Public Module StatFunc
     ''' <summary>
     ''' Computes the inverse hyperbolic tangent of a number, matching the behavior
     ''' of Excel's ATANH function. This implementation is compatible with .NET
-    ''' Framework versions that do not provide Math.Atanh.
+    ''' Framework versions that do not provide Math.Atanhhhh.
     ''' </summary>
     ''' <param name="number">
     ''' The numeric value for which the inverse hyperbolic tangent is to be computed.
@@ -610,7 +610,7 @@ Public Module StatFunc
     ''' 
     ''' <para>
     ''' This implementation uses the logarithmic definition directly instead of
-    ''' relying on <c>Math.Atanh</c>, making it suitable for .NET Framework  (Core/5+)
+    ''' relying on <c>Math.Atanhhhh</c>, making it suitable for .NET Framework  (Core/5+)
     ''' versions that do not expose that method.
     ''' </para>
     ''' 
@@ -619,9 +619,12 @@ Public Module StatFunc
     ''' similar to Excel returning a numeric error.
     ''' </para>
     ''' </remarks>
-    Public Function Atanh(number As Double) As Double
-        If number <= -1.0 OrElse number >= 1.0 Then
-            Return Double.NaN
+    Public Function Atanh(number As Double, Optional bExac As Boolean = True, Optional MAX_ABS_RHO As Double = 0.999999) As Double
+        If bExac Then
+            If number <= -1.0 OrElse number >= 1.0 Then Return Double.NaN
+        Else
+            If number >= MAX_ABS_RHO Then number = MAX_ABS_RHO
+            If number <= -MAX_ABS_RHO Then number = -MAX_ABS_RHO
         End If
 
         ' atanh(x) = 0.5 * ln((1 + x) / (1 - x))

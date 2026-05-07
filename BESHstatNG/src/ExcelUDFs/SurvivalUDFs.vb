@@ -76,7 +76,7 @@ Namespace WorksheetFunctions
 
             Dim res As TestResult = Nothing
             Dim errText As String = Nothing
-            Dim ok = TryComputeLogRank(timeRange, statusRange, groupRange, strataRange, weight, res, errText)
+            Dim ok = Global.BESHStatNG.UdfDataImport.TryComputeSurvivalLogRank(timeRange, statusRange, groupRange, strataRange, weight, res, errText)
             If Not ok Then
                 Return ExcelError.ExcelErrorNum
             End If
@@ -126,7 +126,7 @@ Namespace WorksheetFunctions
 
             Dim res As TestResult = Nothing
             Dim errText As String = Nothing
-            Dim ok = TryComputeLogRank(timeRange, statusRange, groupRange, strataRange, weight, res, errText)
+            Dim ok = Global.BESHStatNG.UdfDataImport.TryComputeSurvivalLogRank(timeRange, statusRange, groupRange, strataRange, weight, res, errText)
             If Not ok Then
                 Return ExcelError.ExcelErrorNum
             End If
@@ -186,11 +186,11 @@ Namespace WorksheetFunctions
     Description:="Kaplan–Meier median survival time with Brookmeyer–Crowley CI (overall or by group). Returns a 2D table.",
     HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/survival/")>
         Public Function MEDIAN_CI(
-    <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> time As Object,
-    <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> status As Object,
-    <ExcelArgument(Name:="group", Description:="Optional single-column range of group identifiers. If omitted, computes overall median.")> Optional group As Object = Nothing,
-    <ExcelArgument(Name:="alpha", Description:="Optional two-sided alpha for the Brookmeyer-Crowley confidence interval (default 0.05).")> Optional alpha As Object = Nothing
-) As Object
+        <ExcelArgument(Name:="time", Description:="Single-column range of follow-up times (>=0).")> time As Object,
+        <ExcelArgument(Name:="status", Description:="Single-column range of event indicators (1=event, 0=censored).")> status As Object,
+        <ExcelArgument(Name:="group", Description:="Optional single-column range of group identifiers. If omitted, computes overall median.")> Optional group As Object = Nothing,
+        <ExcelArgument(Name:="alpha", Description:="Optional two-sided alpha for the Brookmeyer-Crowley confidence interval (default 0.05).")> Optional alpha As Object = Nothing
+    ) As Object
 
             Try
                 Dim alphaValue As Double = 0.05
@@ -199,9 +199,7 @@ Namespace WorksheetFunctions
                 End If
 
                 Dim outArr As Object(,) = Nothing
-                If Not TryComputeMedianCI(time, status, group, alphaValue, outArr) Then
-                    Return ExcelError.ExcelErrorNum
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryComputeSurvivalMedianCi(time, status, group, alphaValue, outArr) Then Return ExcelError.ExcelErrorNum
                 Return outArr
             Catch ex As Exception
                 Return LoggedUdfError("BESH.SURV.MEDIAN_CI", ex, ExcelError.ExcelErrorValue)
@@ -282,10 +280,8 @@ Namespace WorksheetFunctions
                 Dim alphaValue As Double = 0.05
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
-                Dim hasGroup As Boolean = (group IsNot Nothing) AndAlso Not TypeOf group Is ExcelMissing
-
-                Dim records As List(Of survival.SurvivalRecord) = BuildSurvivalRecords(time, status, If(hasGroup, group, Nothing))
-                If records Is Nothing OrElse records.Count = 0 Then Return ExcelError.ExcelErrorNum
+                Dim records As List(Of survival.SurvivalRecord) = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetKaplanMeierRecords(time, status, group, records) Then Return ExcelError.ExcelErrorNum
 
                 Dim km As New survival.Survival_KM_LR(records)
                 Dim outObj As Object() = km.SurvivalCurveTabularOutput(alphaValue)
@@ -328,305 +324,5 @@ Namespace WorksheetFunctions
             End Try
 
         End Function
-
-        ' =================
-        ' Internal helpers
-        ' =================
-        Private Function BuildSurvivalRecords(time As Object, status As Object, group As Object) As List(Of survival.SurvivalRecord)
-            Dim tArr = TryCast(time, Object(,))
-            Dim sArr = TryCast(status, Object(,))
-            If tArr Is Nothing OrElse sArr Is Nothing Then Return Nothing
-            If tArr.GetLength(1) <> 1 OrElse sArr.GetLength(1) <> 1 Then Return Nothing
-            If tArr.GetLength(0) <> sArr.GetLength(0) Then Return Nothing
-
-            Dim hasGroup As Boolean = (group IsNot Nothing) AndAlso Not TypeOf group Is ExcelMissing
-            Dim gArr As Object(,) = Nothing
-            If hasGroup Then
-                gArr = TryCast(group, Object(,))
-                If gArr Is Nothing Then Return Nothing
-                If gArr.GetLength(1) <> 1 Then Return Nothing
-                If gArr.GetLength(0) <> tArr.GetLength(0) Then Return Nothing
-            End If
-
-            Dim map As New Dictionary(Of String, Integer)(StringComparer.OrdinalIgnoreCase)
-            Dim nextId As Integer = 0
-
-            Dim records As New List(Of survival.SurvivalRecord)()
-
-            For i As Integer = 0 To tArr.GetLength(0) - 1
-                Dim tVal As Double
-                Dim sVal As Integer
-
-                If Not TryGetFiniteDoubleFlexible(tArr(i, 0), tVal) Then Continue For
-                If tVal < 0 Then Continue For
-                If Not TryGetStatus01Flexible(sArr(i, 0), sVal) Then Continue For
-
-                Dim gKey As String = "All"
-                If hasGroup Then
-                    Dim cell = gArr(i, 0)
-                    If cell Is Nothing Then Continue For
-                    Dim gs As String = Convert.ToString(cell, CultureInfo.InvariantCulture)
-                    If String.IsNullOrWhiteSpace(gs) Then Continue For
-                    gKey = gs.Trim()
-                End If
-
-                Dim gid As Integer
-                If Not map.TryGetValue(gKey, gid) Then
-                    gid = nextId
-                    map(gKey) = gid
-                    nextId += 1
-                End If
-
-                Dim rec As New survival.SurvivalRecord With {
-                        .Time = tVal,
-                        .Censorship = sVal,
-                        .Group = gid,
-                        .strGroup = gKey,
-                        .Stratum = "",
-                        .strStratum = ""
-                    }
-                records.Add(rec)
-            Next
-
-            Return records
-        End Function
-
-        Private Function TryComputeMedianCI(timeRange As Object, statusRange As Object, groupRange As Object,
-                                            alpha As Double, ByRef outTable As Object(,)) As Boolean
-            outTable = Nothing
-
-            Dim timeArr As Object(,) = Nothing
-            Dim statusArr As Object(,) = Nothing
-            Dim groupArr As Object(,) = Nothing
-
-            If Not TryGet2D(timeRange, timeArr) Then Return False
-            If Not TryGet2D(statusRange, statusArr) Then Return False
-
-            If timeArr.GetLength(1) <> 1 OrElse statusArr.GetLength(1) <> 1 Then
-                Return False
-            End If
-
-            Dim nRows As Integer = timeArr.GetLength(0)
-            If statusArr.GetLength(0) <> nRows Then Return False
-
-            Dim hasGroup As Boolean = False
-            If groupRange IsNot Nothing AndAlso Not TypeOf groupRange Is ExcelMissing AndAlso Not TypeOf groupRange Is ExcelEmpty Then
-                hasGroup = True
-                If Not TryGet2D(groupRange, groupArr) Then Return False
-                If groupArr.GetLength(1) <> 1 OrElse groupArr.GetLength(0) <> nRows Then Return False
-            End If
-
-            Dim tList As New List(Of Double)()
-            Dim sList As New List(Of Integer)()
-            Dim gList As New List(Of String)()
-
-            For i = 0 To nRows - 1
-                Dim t As Double
-                Dim s As Integer
-
-                If Not TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For
-                If Not TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For
-                If t < 0 Then Return False
-
-                Dim g As String = "ALL"
-                If hasGroup Then
-                    g = CellToTrimmedText(groupArr(i, 0))
-                    If String.IsNullOrWhiteSpace(g) Then Continue For
-                    g = g.Trim()
-                End If
-
-                tList.Add(t)
-                sList.Add(s)
-                gList.Add(g)
-            Next
-
-            If tList.Count < 3 Then Return False
-
-            Dim err As String = Nothing
-            Dim stratAll() As String = Enumerable.Repeat("ALL", tList.Count).ToArray()
-
-            Dim recs = survival.Survival.CreatSurvivalData(
-                tList.ToArray(),
-                sList.ToArray(),
-                gList.ToArray(),
-                stratAll,
-                err)
-
-            If recs Is Nothing Then Return False
-
-            Dim lr As New survival.Survival_KM_LR(recs)
-            Dim mci As Object(,) = lr.BrookmeyerCrowleyMedianSurvivalCI(alpha) ' (group, 0..2) = median, LLCI, ULCI
-
-            If mci Is Nothing OrElse mci.GetLength(0) < 1 Then Return False
-
-            Dim groupIds = gList.Distinct().ToList()
-
-            Dim k As Integer = mci.GetLength(0)
-
-            Dim out As Object(,) = New Object(k - 1, 3) {}
-
-            For j = 0 To k - 1
-                Dim med As Double = CDbl(mci(j, 0))
-                Dim ll As Double = CDbl(mci(j, 1))
-                Dim ul As Double = CDbl(mci(j, 2))
-
-                ' Col 1: group id
-                out(j, 0) = groupIds(j)
-
-                ' Col 2: median survival time
-                If Double.IsNaN(med) OrElse Double.IsInfinity(med) Then
-                    out(j, 1) = ExcelError.ExcelErrorNA
-                Else
-                    out(j, 1) = med
-                End If
-
-                ' Col 3-4: CI lower/upper
-                If Double.IsNaN(ll) OrElse Double.IsInfinity(ll) Then
-                    out(j, 2) = ExcelError.ExcelErrorNA
-                Else
-                    out(j, 2) = ll
-                End If
-
-                If Double.IsNaN(ul) OrElse Double.IsInfinity(ul) Then
-                    out(j, 3) = ExcelError.ExcelErrorNA
-                Else
-                    out(j, 3) = ul
-                End If
-            Next
-
-            outTable = out
-            Return True
-        End Function
-
-        Private Function TryComputeLogRank(timeRange As Object,
-                                        statusRange As Object,
-                                        groupRange As Object,
-                                        strataRange As Object,
-                                        weight As Object,
-                                        ByRef result As TestResult,
-                                        ByRef errText As String) As Boolean
-
-            errText = Nothing
-            result = Nothing
-
-            Dim timeArr As Object(,) = Nothing
-            Dim statusArr As Object(,) = Nothing
-            Dim groupArr As Object(,) = Nothing
-            Dim strataArr As Object(,) = Nothing
-
-            If Not TryGet2D(timeRange, timeArr) Then Return False
-            If Not TryGet2D(statusRange, statusArr) Then Return False
-            If Not TryGet2D(groupRange, groupArr) Then Return False
-
-            If timeArr.GetLength(1) <> 1 OrElse statusArr.GetLength(1) <> 1 OrElse groupArr.GetLength(1) <> 1 Then
-                Return False 'must be single-column inputs
-            End If
-
-            Dim nRows As Integer = timeArr.GetLength(0)
-            If statusArr.GetLength(0) <> nRows OrElse groupArr.GetLength(0) <> nRows Then
-                Return False 'must be same number of rows
-            End If
-
-            Dim hasStrata As Boolean = False
-            If strataRange IsNot Nothing AndAlso Not TypeOf strataRange Is ExcelMissing AndAlso Not TypeOf strataRange Is ExcelEmpty Then
-                hasStrata = True
-                If Not TryGet2D(strataRange, strataArr) Then Return False
-                If strataArr.GetLength(1) <> 1 OrElse strataArr.GetLength(0) <> nRows Then
-                    Return False
-                End If
-            End If
-
-            Dim weightMethod As String = ParseWeightMethod(weight)
-            If weightMethod Is Nothing Then
-                Return False
-            End If
-
-            ' Collect valid rows (pairwise across time/status/group[/strata])
-            Dim tList As New List(Of Double)()
-            Dim sList As New List(Of Integer)()
-            Dim gList As New List(Of String)()
-            Dim stratList As New List(Of String)()
-
-            For i = 0 To nRows - 1
-                Dim t As Double
-                Dim s As Integer
-                Dim g As String
-                Dim st As String = "ALL"
-
-                If Not TryGetFiniteDoubleFlexible(timeArr(i, 0), t) Then Continue For
-                If Not TryGetStatus01Flexible(statusArr(i, 0), s) Then Continue For
-
-                g = CellToTrimmedText(groupArr(i, 0))
-                If String.IsNullOrWhiteSpace(g) Then Continue For
-
-                If hasStrata Then
-                    st = CellToTrimmedText(strataArr(i, 0))
-                    If String.IsNullOrWhiteSpace(st) Then st = "ALL"
-                End If
-
-                If t < 0 Then Return False
-
-                tList.Add(t)
-                sList.Add(s)
-                gList.Add(g.Trim())
-                stratList.Add(st.Trim())
-            Next
-
-            If tList.Count < 3 Then Return False
-            If gList.Distinct().Count() < 2 Then Return False
-
-            Dim err As String = Nothing
-            Dim recs = survival.Survival.CreatSurvivalData(
-                tList.ToArray(),
-                sList.ToArray(),
-                gList.ToArray(),
-                stratList.ToArray(),
-                err)
-
-            If recs Is Nothing Then
-                errText = err
-                Return False
-            End If
-
-            Dim lr As New survival.Survival_KM_LR(recs)
-            result = lr.WeightedLogRankTest(weightMethod)
-
-            Return result IsNot Nothing
-        End Function
-
-        Private Function ParseWeightMethod(weight As Object) As String
-            Dim w As String = "logrank"
-
-            If weight Is Nothing OrElse TypeOf weight Is ExcelMissing OrElse TypeOf weight Is ExcelEmpty Then
-                Return w
-            End If
-
-            Dim s As String = CellToTrimmedText(weight)
-            If String.IsNullOrWhiteSpace(s) Then Return w
-
-            s = s.Trim().ToLowerInvariant()
-
-            Select Case s
-                Case "logrank", "lr"
-                    Return "logrank"
-                Case "gehan-breslow", "gehan", "breslow", "wilcoxon"
-                    Return "gehan-breslow"
-                Case "tarone-ware", "tarone", "ware"
-                    Return "tarone-ware"
-                Case "peto", "peto-peto"
-                    Return "peto"
-                Case "modified peto", "modifiedpeto", "anderson", "modpeto"
-                    Return "modified peto"
-                Case Else
-                    Return Nothing
-            End Select
-        End Function
-
-        Private Function TryGet2D(input As Object, ByRef arr As Object(,)) As Boolean
-            arr = UDFhelpers.Get2DOrScalar(input)
-            Return arr IsNot Nothing
-        End Function
-
     End Module
-
 End Namespace

@@ -271,7 +271,7 @@ Namespace regression
 
             Dim uniq = p.
                 Where(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)).
-                Select(Function(v) ClampProbability(v)).
+                Select(Function(v) AppInfrastructure.ClampProbability(v)).
                 Distinct().
                 OrderBy(Function(v) v).
                 ToList()
@@ -301,7 +301,7 @@ Namespace regression
 
             Dim clean = p.
                 Where(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)).
-                Select(Function(v) ClampProbability(v)).
+                Select(Function(v) AppInfrastructure.ClampProbability(v)).
                 ToArray()
             If clean.Length = 0 Then Return New List(Of ProbabilityCutpointBin)()
 
@@ -317,7 +317,7 @@ Namespace regression
             Dim byBin As New Dictionary(Of Integer, List(Of Integer))()
 
             For i = 0 To p.Length - 1
-                Dim pi As Double = ClampProbability(p(i))
+                Dim pi As Double = AppInfrastructure.ClampProbability(p(i))
                 Dim binKey As Integer = Array.FindIndex(cutpoints, Function(c) pi <= c)
                 If binKey < 0 Then binKey = cutpoints.Length - 1
                 If Not byBin.ContainsKey(binKey) Then byBin(binKey) = New List(Of Integer)()
@@ -369,7 +369,7 @@ Namespace regression
             Dim byBin As New Dictionary(Of Integer, List(Of Integer))
 
             For i = 0 To p.Length - 1
-                Dim scaled As Double = ClampProbability(p(i)) * bins
+                Dim scaled As Double = AppInfrastructure.ClampProbability(p(i)) * bins
                 Dim b As Integer = CInt(Math.Floor(scaled)) + 1
                 If b > bins Then b = bins
                 If b < 1 Then b = 1
@@ -398,7 +398,7 @@ Namespace regression
 
             For Each i In idx
                 Dim wi As Double = weights(i)
-                Dim pi As Double = ClampProbability(p(i))
+                Dim pi As Double = AppInfrastructure.ClampProbability(p(i))
                 Dim yi As Double = If(y(i) >= 0.5, 1.0, 0.0)
                 sumW += wi
                 sumW2 += wi * wi
@@ -498,7 +498,7 @@ Namespace regression
             Dim vals = thresholds.Where(Function(v) Not Double.IsNaN(v) AndAlso Not Double.IsInfinity(v)).
                                  Select(Function(v)
                                             AppInfrastructure.ValidateClosedUnitInterval(v, "threshold", "Threshold must lie in [0,1].")
-                                            Return ClampProbability(v)
+                                            Return AppInfrastructure.ClampProbability(v)
                                         End Function).
                                   Distinct().OrderBy(Function(v) v).ToArray()
             Return vals
@@ -525,13 +525,13 @@ Namespace regression
                                         Optional z As Double = 1.959963984540054) As Tuple(Of Double, Double)
             If Double.IsNaN(pHat) OrElse nEff <= 0 Then Return Tuple.Create(Double.NaN, Double.NaN)
 
-            pHat = ClampProbability(pHat)
+            pHat = AppInfrastructure.ClampProbability(pHat)
             Dim z2 As Double = z * z
             Dim denom As Double = 1.0 + z2 / nEff
             Dim center As Double = (pHat + z2 / (2.0 * nEff)) / denom
             Dim halfWidth As Double = (z / denom) * Math.Sqrt(Math.Max(0.0, (pHat * (1.0 - pHat) / nEff) + z2 / (4.0 * nEff * nEff)))
 
-            Return Tuple.Create(ClampProbability(center - halfWidth), ClampProbability(center + halfWidth))
+            Return Tuple.Create(AppInfrastructure.ClampProbability(center - halfWidth), AppInfrastructure.ClampProbability(center + halfWidth))
         End Function
 
         ''' <summary>
@@ -1011,13 +1011,6 @@ Namespace regression
         Private Function PercentOrExcelNa(value As Double) As Object
             If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return ExcelError.ExcelErrorNA
             Return 100.0R * value
-        End Function
-
-        Private Function ClampProbability(value As Double) As Double
-            If Double.IsNaN(value) Then Return 0.0R
-            If value <= 0.0R Then Return 0.0R
-            If value >= 1.0R Then Return 1.0R
-            Return value
         End Function
 
         Private Function PrepareResultTableForUdfLocal(table As Object(,)) As Object(,)

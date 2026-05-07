@@ -132,7 +132,7 @@ Public Class Ui82x2
         Dim columData = New DataObj
         Dim ref As String = prepareRef2D(Me.RefEdit1_WorksheetData.Address)
 
-        columData.DataInport(ref, True)
+        columData.DataImport(ref, True)
         out.X = columData.DataDbl()
         out.varNames = columData.varNames
 

@@ -11,6 +11,7 @@ End Enum
 Public Class TermSpec
     Public Property Kind As String 'MainEffect | Polynomial | Interaction
     Public Property BaseVarKeys As List(Of String)
+    Public Property BaseVarDisplayNames As List(Of String) = Nothing
     Public Property Degree As Integer
     Public Property DisplayNameForCoef As String '(e.g. "Age^2", "Age:BMI")
     Public Property Order As Integer 'position in the result output. It should be identical to the input combobox item position
@@ -360,20 +361,8 @@ Public Module RegressionDesignCore
     End Function
 
     Private Function IsBaseVariableCategorical(baseKey As String,
-                                           termSpecs As Dictionary(Of String, TermSpec)) As Boolean
-        If termSpecs Is Nothing Then Return False
-
-        For Each kvp In termSpecs
-            Dim spec = kvp.Value
-            If spec Is Nothing OrElse spec.BaseVarKeys Is Nothing Then Continue For
-
-            If spec.Scale = PredictorScale.Categorical AndAlso
-           spec.BaseVarKeys.Any(Function(x) String.Equals(x, baseKey, StringComparison.Ordinal)) Then
-                Return True
-            End If
-        Next
-
-        Return False
+                                               termSpecs As Dictionary(Of String, TermSpec)) As Boolean
+        Return GetCategoricalTermSpecForBase(baseKey, termSpecs) IsNot Nothing
     End Function
 
     ''' <summary>
@@ -474,36 +463,38 @@ Public Module RegressionDesignCore
                 End If
 
                 For Each bk As String In baseKeys
-                    If IsBaseVariableCategorical(bk, termSpecs) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Interaction term '{effKey}' uses a categorical predictor. This is not implemented yet."))
-                    End If
-                Next
-
-                Dim cols As New List(Of Integer)
-                For Each bk As String In baseKeys
                     If Not rawIndex.ContainsKey(bk) Then
                         AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
                     End If
-                    cols.Add(rawIndex(bk))
                 Next
 
-                Dim newCol(nRows - 1) As Double
-                For i As Integer = 0 To nRows - 1
-                    Dim prod As Double = 1.0
-                    For Each c As Integer In cols
-                        prod *= rawMat(i, c)
-                    Next
-                    newCol(i) = prod
-                Next
+                Dim interactionCols As List(Of InteractionColumnDefinition) =
+                    BuildInteractionProductColumns(rawMat:=rawMat,
+                                                   rawIndex:=rawIndex,
+                                                   nRows:=nRows,
+                                                   baseKeys:=baseKeys,
+                                                   termSpecs:=termSpecs,
+                                                   baseDisplayNames:=baseDisplayNames,
+                                                   omitCategoricalReference:=includeIntercept)
 
-                predictorCols.Add(newCol)
                 Dim resolvedInteractionName As String = MakeResolvedInteractionDisplayName(baseKeys, baseDisplayNames)
-                predictorNames.Add(If(String.IsNullOrWhiteSpace(coefName), resolvedInteractionName, coefName))
-
                 Dim gName As String = If(String.IsNullOrWhiteSpace(coefName), resolvedInteractionName, coefName)
                 If Not groups.ContainsKey(gName) Then groups(gName) = New List(Of Integer)
-                groups(gName).Add(nextLmXCol)
-                nextLmXCol += 1
+
+                For Each ic As InteractionColumnDefinition In interactionCols
+                    predictorCols.Add(ic.Values)
+
+                    Dim predName As String
+                    If interactionCols.Count = 1 AndAlso Not String.IsNullOrWhiteSpace(coefName) Then
+                        predName = coefName
+                    Else
+                        predName = ic.Name
+                    End If
+
+                    predictorNames.Add(predName)
+                    groups(gName).Add(nextLmXCol)
+                    nextLmXCol += 1
+                Next
 
             Else
                 'Main effect
@@ -615,6 +606,29 @@ Public Module RegressionDesignCore
                                            termSpecs As Dictionary(Of String, TermSpec)) As Dictionary(Of String, String)
 
         Dim out As New Dictionary(Of String, String)(StringComparer.Ordinal)
+
+        If termSpecs IsNot Nothing Then
+            For Each kvp As KeyValuePair(Of String, TermSpec) In termSpecs
+                Dim spec As TermSpec = kvp.Value
+                If spec Is Nothing OrElse spec.BaseVarKeys Is Nothing Then Continue For
+
+                If spec.BaseVarDisplayNames IsNot Nothing AndAlso
+                   spec.BaseVarDisplayNames.Count = spec.BaseVarKeys.Count Then
+                    For i As Integer = 0 To spec.BaseVarKeys.Count - 1
+                        Dim bk As String = If(spec.BaseVarKeys(i), String.Empty).Trim()
+                        Dim displayName As String = If(spec.BaseVarDisplayNames(i), String.Empty).Trim()
+                        If bk <> String.Empty AndAlso displayName <> String.Empty Then out(bk) = displayName
+                    Next
+                    Continue For
+                End If
+
+                If spec.BaseVarKeys.Count = 1 AndAlso Not String.IsNullOrWhiteSpace(spec.DisplayNameForCoef) Then
+                    Dim bk As String = If(spec.BaseVarKeys(0), String.Empty).Trim()
+                    If bk <> String.Empty Then out(bk) = spec.DisplayNameForCoef.Trim()
+                End If
+            Next
+        End If
+
         Dim rawBaseKeys As List(Of String) = GetRequiredRawVarKeys(effectItems, termSpecs)
 
         Dim grouped = rawBaseKeys.GroupBy(Function(bk) GetCoefBaseName(bk), StringComparer.Ordinal)
@@ -624,11 +638,13 @@ Public Module RegressionDesignCore
             Dim keys As List(Of String) = grp.ToList()
 
             If keys.Count = 1 Then
-                out(keys(0)) = baseName
+                If Not out.ContainsKey(keys(0)) Then out(keys(0)) = baseName
             Else
                 Dim used As New HashSet(Of String)(StringComparer.Ordinal)
 
                 For Each bk As String In keys
+                    If out.ContainsKey(bk) Then Continue For
+
                     Dim candidate As String = baseName & " (" & ExtractVarSuffix(bk) & ")"
                     Dim finalName As String = candidate
                     Dim k As Integer = 2
@@ -847,39 +863,35 @@ Public Module RegressionDesignCore
                 End If
 
                 For Each bk As String In baseKeys
-                    If IsBaseVariableCategorical(bk, termSpecs) Then
-                        AppGlobals.BSerr.LogAndThrow(
-                            New ArgumentException($"Interaction term '{effKey}' uses a categorical predictor. This is not implemented yet."))
-                    End If
-                Next
-
-                Dim cols As New List(Of Integer)
-
-                For Each bk As String In baseKeys
                     If Not rawIndex.ContainsKey(bk) Then
                         AppGlobals.BSerr.LogAndThrow(
                             New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
                     End If
-
-                    cols.Add(rawIndex(bk))
                 Next
 
-                Dim newCol(nRows - 1) As Double
-
-                For i As Integer = 0 To nRows - 1
-                    Dim prod As Double = 1.0
-
-                    For Each c As Integer In cols
-                        prod *= rawX(i, c)
-                    Next
-
-                    newCol(i) = prod
-                Next
-
-                outPredictorCols.Add(newCol)
+                Dim interactionCols As List(Of InteractionColumnDefinition) =
+                    BuildInteractionProductColumns(rawMat:=rawX,
+                                                   rawIndex:=rawIndex,
+                                                   nRows:=nRows,
+                                                   baseKeys:=baseKeys,
+                                                   termSpecs:=termSpecs,
+                                                   baseDisplayNames:=baseDisplayNames,
+                                                   omitCategoricalReference:=omitCategoricalReference)
 
                 Dim resolvedInteractionName As String = MakeResolvedInteractionDisplayName(baseKeys, baseDisplayNames)
-                outPredictorNames.Add(If(String.IsNullOrWhiteSpace(coefName), resolvedInteractionName, coefName))
+
+                For Each ic As InteractionColumnDefinition In interactionCols
+                    outPredictorCols.Add(ic.Values)
+
+                    Dim predName As String
+                    If interactionCols.Count = 1 AndAlso Not String.IsNullOrWhiteSpace(coefName) Then
+                        predName = coefName
+                    Else
+                        predName = ic.Name
+                    End If
+
+                    outPredictorNames.Add(predName)
+                Next
 
             Else
                 Dim bk As String = baseKeys(0)
@@ -1320,5 +1332,190 @@ Public Module RegressionDesignCore
 
         Return notes
     End Function
+
+    ''' <summary>
+    ''' Internal design-column definition used when expanding interactions.
+    ''' </summary>
+    Private Class InteractionColumnDefinition
+        Public Property Values As Double()
+        Public Property Name As String
+    End Class
+
+    ''' <summary>
+    ''' Returns the categorical main-effect TermSpec associated with a base variable.
+    ''' </summary>
+    ''' <remarks>
+    ''' Interaction TermSpecs can contain several base variables and, in the UI path, may have
+    ''' Scale=Categorical when any component is categorical.  They must not be used to classify
+    ''' every component of the interaction as categorical.  Only explicit or hidden categorical
+    ''' main-effect TermSpecs identify a base variable as categorical.
+    ''' </remarks>
+    Private Function GetCategoricalTermSpecForBase(baseKey As String,
+                                                   termSpecs As Dictionary(Of String, TermSpec)) As TermSpec
+        If termSpecs Is Nothing Then Return Nothing
+
+        Dim catKey As String = MakeCategoricalEffectKey(baseKey)
+        If termSpecs.ContainsKey(catKey) Then
+            Dim direct As TermSpec = termSpecs(catKey)
+            If direct IsNot Nothing AndAlso
+               String.Equals(direct.Kind, "MainEffect", StringComparison.OrdinalIgnoreCase) AndAlso
+               direct.Scale = PredictorScale.Categorical AndAlso
+               direct.BaseVarKeys IsNot Nothing AndAlso
+               direct.BaseVarKeys.Count = 1 AndAlso
+               String.Equals(direct.BaseVarKeys(0), baseKey, StringComparison.Ordinal) Then
+                Return direct
+            End If
+        End If
+
+        For Each kvp In termSpecs
+            Dim spec As TermSpec = kvp.Value
+            If spec Is Nothing OrElse spec.BaseVarKeys Is Nothing Then Continue For
+            If Not String.Equals(spec.Kind, "MainEffect", StringComparison.OrdinalIgnoreCase) Then Continue For
+            If spec.Scale <> PredictorScale.Categorical Then Continue For
+            If spec.BaseVarKeys.Count <> 1 Then Continue For
+            If String.Equals(spec.BaseVarKeys(0), baseKey, StringComparison.Ordinal) Then Return spec
+        Next
+
+        Return Nothing
+    End Function
+
+    ''' <summary>
+    ''' Expands one base variable into the set of columns used in an interaction term.
+    ''' Continuous variables contribute one raw column.  Categorical variables contribute
+    ''' dummy columns, omitting the reference level when requested.
+    ''' </summary>
+    Private Function BuildBaseColumnsForInteraction(rawMat(,) As Double,
+                                                    rawIndex As Dictionary(Of String, Integer),
+                                                    nRows As Integer,
+                                                    baseKey As String,
+                                                    termSpecs As Dictionary(Of String, TermSpec),
+                                                    baseDisplayNames As Dictionary(Of String, String),
+                                                    omitCategoricalReference As Boolean) As List(Of InteractionColumnDefinition)
+        If Not rawIndex.ContainsKey(baseKey) Then
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{baseKey}' required by interaction term."))
+        End If
+
+        Dim out As New List(Of InteractionColumnDefinition)
+        Dim col As Integer = rawIndex(baseKey)
+        Dim displayBase As String = If(baseDisplayNames IsNot Nothing AndAlso baseDisplayNames.ContainsKey(baseKey),
+                                       baseDisplayNames(baseKey),
+                                       GetCoefBaseName(baseKey))
+
+        Dim catSpec As TermSpec = GetCategoricalTermSpecForBase(baseKey, termSpecs)
+
+        If catSpec Is Nothing Then
+            Dim values(nRows - 1) As Double
+            For i As Integer = 0 To nRows - 1
+                values(i) = rawMat(i, col)
+            Next
+
+            out.Add(New InteractionColumnDefinition With {
+                    .Values = values,
+                    .Name = displayBase
+                })
+            Return out
+        End If
+
+        Dim levels As List(Of Double) = GetCategoricalLevelsForExpansion(rawMat:=rawMat,
+                                                                         col:=col,
+                                                                         nRows:=nRows,
+                                                                         spec:=catSpec,
+                                                                         baseKey:=baseKey)
+        Dim refVal As Double = GetReferenceLevel(levels, catSpec)
+
+        For Each lev As Double In levels
+            If omitCategoricalReference AndAlso lev = refVal Then Continue For
+
+            Dim values(nRows - 1) As Double
+            For i As Integer = 0 To nRows - 1
+                values(i) = If(rawMat(i, col) = lev, 1.0, 0.0)
+            Next
+
+            out.Add(New InteractionColumnDefinition With {
+                .Values = values,
+                .Name = displayBase & "[" & CStr(lev) & "]"
+            })
+        Next
+
+        If out.Count = 0 Then
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Categorical predictor '{baseKey}' produced no interaction columns after reference-level omission."))
+        End If
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Builds all product columns for an interaction term.  For continuous*continuous this returns
+    ''' one product column.  For categorical*continuous it returns one column per non-reference level.
+    ''' For categorical*categorical it returns all dummy-product combinations.
+    ''' </summary>
+    Private Function BuildInteractionProductColumns(rawMat(,) As Double,
+                                                    rawIndex As Dictionary(Of String, Integer),
+                                                    nRows As Integer,
+                                                    baseKeys As List(Of String),
+                                                    termSpecs As Dictionary(Of String, TermSpec),
+                                                    baseDisplayNames As Dictionary(Of String, String),
+                                                    omitCategoricalReference As Boolean) As List(Of InteractionColumnDefinition)
+        If baseKeys Is Nothing OrElse baseKeys.Count < 2 Then
+            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Interaction terms require at least two base variables."))
+        End If
+
+        Dim factorSets As New List(Of List(Of InteractionColumnDefinition))
+        For Each bk As String In baseKeys
+            factorSets.Add(BuildBaseColumnsForInteraction(rawMat:=rawMat,
+                                                          rawIndex:=rawIndex,
+                                                          nRows:=nRows,
+                                                          baseKey:=bk,
+                                                          termSpecs:=termSpecs,
+                                                          baseDisplayNames:=baseDisplayNames,
+                                                          omitCategoricalReference:=omitCategoricalReference))
+        Next
+
+        Dim startValues(nRows - 1) As Double
+        For i As Integer = 0 To nRows - 1
+            startValues(i) = 1.0
+        Next
+
+        Dim out As New List(Of InteractionColumnDefinition)
+        BuildInteractionProductColumnsRecursive(factorSets:=factorSets,
+                                                depth:=0,
+                                                currentValues:=startValues,
+                                                currentNames:=New List(Of String),
+                                                out:=out)
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Recursive product-builder for interaction columns.
+    ''' </summary>
+    Private Sub BuildInteractionProductColumnsRecursive(factorSets As List(Of List(Of InteractionColumnDefinition)),
+                                                        depth As Integer,
+                                                        currentValues() As Double,
+                                                        currentNames As List(Of String),
+                                                        out As List(Of InteractionColumnDefinition))
+        If depth = factorSets.Count Then
+            out.Add(New InteractionColumnDefinition With {
+                    .Values = DirectCast(currentValues.Clone(), Double()),
+                    .Name = String.Join(":", currentNames.ToArray())
+                })
+            Exit Sub
+        End If
+
+        For Each candidate As InteractionColumnDefinition In factorSets(depth)
+            Dim nextValues(currentValues.Length - 1) As Double
+            For i As Integer = 0 To currentValues.Length - 1
+                nextValues(i) = currentValues(i) * candidate.Values(i)
+            Next
+
+            Dim nextNames As New List(Of String)(currentNames)
+            nextNames.Add(candidate.Name)
+
+            BuildInteractionProductColumnsRecursive(factorSets:=factorSets,
+                                                    depth:=depth + 1,
+                                                    currentValues:=nextValues,
+                                                    currentNames:=nextNames,
+                                                    out:=out)
+        Next
+    End Sub
 
 End Module

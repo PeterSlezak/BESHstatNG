@@ -39,7 +39,7 @@ Namespace WorksheetFunctions
     ''' </para>
     ''' <para>
     ''' Predictor formulas reuse the same regression-formula infrastructure used by the other model UDF modules.
-    ''' This allows additive terms, polynomial terms, continuous interactions, and categorical main effects to be defined from the raw predictor matrix.
+    ''' This allows additive terms, polynomial terms, continuous-continuous interactions, categorical main effects, categorical-continuous interactions, and categorical-categorical interactions to be defined from the raw predictor matrix.
     ''' </para>
     ''' </remarks>
     Public Module GLMNbUDFs
@@ -98,7 +98,7 @@ Namespace WorksheetFunctions
         ''' When FALSE, the fitted linear predictor omits <c>β_0</c>.
         ''' </param>
         ''' <param name="formula">
-        ''' Optional right-hand-side formula used to expand the raw predictor matrix before fitting.
+        ''' Optional right-hand-side formula used to expand the raw predictor matrix before fitting. Supported terms include additive effects, polynomial terms, <c>A:B</c>, <c>factor(C)</c>, <c>factor(C):B</c>, and <c>factor(C):factor(D)</c>.
         ''' If omitted or blank, all raw predictor columns are included as continuous main effects.
         ''' </param>
         ''' <param name="formulaAddressing">
@@ -158,7 +158,7 @@ Namespace WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.REGR.GLMNB_FIT(A2:A101,B2:D101,"Age,BMI,Treat")
-        ''' =BESH.REGR.GLMNB_FIT(A2:A101,B2:E101,"Dose,Age,Stage,Center","log",F2:F101,,TRUE,"A + B + factor(D)","relative")
+        ''' =BESH.REGR.GLMNB_FIT(A2:A101,B2:E101,"Dose,Age,Stage,Center","log",F2:F101,,TRUE,"A + B + factor(D) + factor(D):B","relative")
         ''' =BESH.REGR.GLMNB_FIT(A2:A101,B2:C101,"X1,X2","power",,,,TRUE,,,0.5)
         ''' </code>
         ''' </example>
@@ -188,9 +188,7 @@ Namespace WorksheetFunctions
 
             Try
                 Dim imported As glmData = Nothing
-                If Not UDFhelpers.TryBuildGlmDataFromUdfArgs(y, x, varNames, offset, weights, imported) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGlmData(y, x, varNames, offset, weights, imported) Then Return ExcelError.ExcelErrorValue
 
                 Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
@@ -640,7 +638,7 @@ Namespace WorksheetFunctions
                     End If
                 Else
                     Dim imported As glmData = Nothing
-                    If Not UDFhelpers.TryBuildPredictorDataFromUdfArgs(newX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                     If imported.nCols <> rawPredictorKeys.Length Then Return ExcelError.ExcelErrorValue

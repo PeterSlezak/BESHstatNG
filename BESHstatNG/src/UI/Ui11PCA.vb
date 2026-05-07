@@ -566,9 +566,9 @@ Public Class Ui11PCA
         End If
 
         If Me.Text = "Multiple Correspondence Analysis" Then
-            MyData.DataInport(ref, False, 20000)
+            MyData.DataImport(ref, False, 20000)
         Else
-            MyData.DataInport(ref)
+            MyData.DataImport(ref)
         End If
 
         Return MyData
@@ -611,7 +611,7 @@ Public Class Ui11PCA
         Dim MyData As New DataObj
         MyData.bAllowMissing = True
         Dim skipRows As Integer = If(Me.ckFirstRow.Checked, 1, 0)
-        MyData.DataInport(ref, False, 0, skipRows)
+        MyData.DataImport(ref, False, 0, skipRows)
 
         If MyData.varNames Is Nothing OrElse MyData.varNames.Length <> importKeys.Count Then
             Throw New ArgumentException("One or more selected variables contain no usable data after import. Please review the grouping variable and predictors.")
@@ -818,7 +818,7 @@ Public Class Ui11PCA
         Me.pWorkbook.Activate()
 
         Dim centersData As New DataObj
-        centersData.DataInport(refText, bStartRow:=True)
+        centersData.DataImport(refText, bStartRow:=True)
 
         If centersData.bZeroValid Then
             Throw New ArgumentException("The user-specified starting-centers range does not contain any valid numeric observations.")

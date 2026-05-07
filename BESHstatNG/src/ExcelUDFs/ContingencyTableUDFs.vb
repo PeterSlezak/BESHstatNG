@@ -83,7 +83,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim tab(,) As Integer = Nothing
-                If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
                 If TableTotal(tab) <= 0 Then Return ExcelError.ExcelErrorNum
 
@@ -148,7 +148,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim tab(,) As Integer = Nothing
-                If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
                 If TableTotal(tab) <= 0 Then Return ExcelError.ExcelErrorNum
 
@@ -214,7 +214,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim tab(,) As Integer = Nothing
-                If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If Not Is2x2(tab) Then Return ExcelError.ExcelErrorValue
 
                 Dim res As TestResult = contingencytable.FisherExact2x2(tab(0, 0), tab(0, 1), tab(1, 0), tab(1, 1))
@@ -275,7 +275,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim tab(,) As Integer = Nothing
-                If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
                 If TableTotal(tab) <= 0 Then Return ExcelError.ExcelErrorNum
 
@@ -347,7 +347,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim tab(,) As Integer = Nothing
-                If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If Not Is2x2(tab) Then Return ExcelError.ExcelErrorValue
 
                 Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
@@ -424,7 +424,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim tab(,) As Integer = Nothing
-                If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If Not Is2x2(tab) Then Return ExcelError.ExcelErrorValue
 
                 Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
@@ -499,7 +499,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim tab(,) As Integer = Nothing
-                If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If Not Is2x2(tab) Then Return ExcelError.ExcelErrorValue
 
                 Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
@@ -569,7 +569,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim tab(,) As Integer = Nothing
-                If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
 
                 Dim rows As Integer = tab.GetLength(0)
                 Dim cols As Integer = tab.GetLength(1)
@@ -655,7 +655,7 @@ Namespace WorksheetFunctions
         ) As Object
             Try
                 Dim tab(,) As Integer = Nothing
-                If Not TryReadContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetContingencyTable(table, tab) Then Return ExcelError.ExcelErrorValue
                 If tab.GetLength(0) < 2 OrElse tab.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim alphaValue As Double = GetOptionalDouble(alpha, 0.05R)
@@ -744,7 +744,7 @@ Namespace WorksheetFunctions
                 Dim mat(,) As Double = Nothing
                 Dim rows As Integer = 0
                 Dim cols As Integer = 0
-                If Not UDFhelpers.TryReadNumericMatrix(stackedTables, mat, rows, cols) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericMatrix(stackedTables, mat, rows, cols) Then Return ExcelError.ExcelErrorValue
                 If cols <> 2 OrElse rows < 2 OrElse (rows Mod 2) <> 0 Then Return ExcelError.ExcelErrorValue
 
                 For i As Integer = 0 To rows - 1
@@ -1334,29 +1334,6 @@ Namespace WorksheetFunctions
         ' -------------------------------------------------------------------------------------------------------------
         ' Helpers
         ' -------------------------------------------------------------------------------------------------------------
-
-        Private Function TryReadContingencyTable(v As Object, ByRef table(,) As Integer) As Boolean
-            table = Nothing
-
-            Dim mat(,) As Double = Nothing
-            Dim rows As Integer = 0
-            Dim cols As Integer = 0
-            If Not UDFhelpers.TryReadNumericMatrix(v, mat, rows, cols) Then Return False
-            If rows < 1 OrElse cols < 1 Then Return False
-
-            ReDim table(rows - 1, cols - 1)
-            For i As Integer = 0 To rows - 1
-                For j As Integer = 0 To cols - 1
-                    Dim x As Double = mat(i, j)
-                    If Double.IsNaN(x) OrElse Double.IsInfinity(x) OrElse x < 0.0R Then Return False
-                    Dim rounded As Double = Math.Round(x)
-                    If Math.Abs(x - rounded) > 0.0000001R Then Return False
-                    table(i, j) = CInt(rounded)
-                Next
-            Next
-
-            Return True
-        End Function
 
         Private Function Is2x2(table(,) As Integer) As Boolean
             If table Is Nothing Then Return False

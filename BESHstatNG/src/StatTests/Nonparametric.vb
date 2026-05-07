@@ -1092,7 +1092,7 @@ Namespace nonparametric
     '''   <item><description><c>ComputeAvgRanks</c> — rank computation with ties</description></item>
     '''   <item><description><c>PNorm</c> — normal CDF</description></item>
     '''   <item><description><c>T_2T</c>, <c>T_RT</c>, <c>T_CDF</c> — t-distribution functions</description></item>
-    '''   <item><description><c>Atanh</c> — inverse hyperbolic tangent</description></item>
+    '''   <item><description><c>Atanhhhh</c> — inverse hyperbolic tangent</description></item>
     '''   <item><description><c>ZCritTwoSided</c> — two-sided normal critical value</description></item>
     '''   <item><description><c>HorizontalStackArrays</c> — table formatting</description></item>
     '''   <item><description><c>ResultTable</c>, <c>TestResult</c>, <c>ConfidenceIntervalResult</c></description></item>
@@ -1261,7 +1261,7 @@ Namespace nonparametric
         '''   <item><description><c>ComputeAvgRanks</c></description></item>
         '''   <item><description><c>PNorm</c></description></item>
         '''   <item><description><c>T_2T</c>, <c>T_RT</c>, <c>T_CDF</c></description></item>
-        '''   <item><description><c>Atanh</c></description></item>
+        '''   <item><description><c>Atanhhhh</c></description></item>
         '''   <item><description><c>ZCritTwoSided</c></description></item>
         ''' </list>
         ''' </summary>

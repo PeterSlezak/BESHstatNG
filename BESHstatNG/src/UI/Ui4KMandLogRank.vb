@@ -188,7 +188,7 @@ Public Class Ui4KMandLogRank
                        Replace(refCen, wks & "!", String.Empty)  'Remove "Sheet1!" from string
         End If
 
-        byIdData.DataInport(refFinal, True, CharCols)
+        byIdData.DataImport(refFinal, True, CharCols)
 
         Return byIdData
 

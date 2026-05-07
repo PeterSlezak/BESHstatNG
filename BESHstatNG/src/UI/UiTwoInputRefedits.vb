@@ -96,7 +96,7 @@ Public Class UiTwoInputRefedits
         'join reference address into one (remove sheet name from the second and concatenate).
         'Data can be only form one sheet because of the above check
         refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True, Me.RefEdit2.ExcelWorkBook) & "!", String.Empty) 'Remove "Sheet1!" from string
-        columData.DataInport(refFinal, True)
+        columData.DataImport(refFinal, True)
 
         'get unique group IDs
         out.X = columData.DataDbl
@@ -122,7 +122,7 @@ Public Class UiTwoInputRefedits
 
         'Allow character values in both paired columns for categorical agreement analysis.
         Dim iStart As Integer = If(Me.ckFirstRow.Checked, 1, 0)
-        columData.DataInport(refFinal, True, CharCols:=1, iStart)
+        columData.DataImport(refFinal, True, CharCols:=1, iStart)
 
         If columData.bZeroValid Then
             strErr = "No valid paired categorical observations in the input ranges."
@@ -151,7 +151,7 @@ Public Class UiTwoInputRefedits
         End If
 
         refGr1 = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
-        Gr1Data.DataInport(refGr1, True)
+        Gr1Data.DataImport(refGr1, True)
         Dim x1(,) As Double = Gr1Data.DataDbl
         If Gr1Data.bZeroValid Then
             strErr = "No valid data in the 1st input."
@@ -159,7 +159,7 @@ Public Class UiTwoInputRefedits
         End If
 
         refGr2 = prepareRef2D(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
-        Gr2Data.DataInport(refGr2, True)
+        Gr2Data.DataImport(refGr2, True)
         Dim x2(,) As Double = Gr2Data.DataDbl
         If Gr2Data.bZeroValid Then
             strErr = "No valid data in the 2nd input."
@@ -712,7 +712,7 @@ Public Class UiTwoInputRefedits
         Try
             Dim sdData As New DataObj
             Dim refText As String = prepareRef2D(refEdit.Address, refEdit.ExcelWorkBook)
-            sdData.DataInport(refText, True)
+            sdData.DataImport(refText, True)
 
             If sdData.bZeroValid Then
                 errText = $"The {labelText} range does not contain valid numeric data."

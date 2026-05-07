@@ -3,7 +3,6 @@ Option Strict On
 
 Imports System
 Imports System.Collections.Generic
-Imports System.Linq
 Imports BESHStatNG.equivalencetests
 Imports BESHStatNG.Matrix
 Imports ExcelDna.Integration
@@ -64,7 +63,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadGroupedNumericColumns(groups, data, detectedNames) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
@@ -123,9 +122,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadGroupedNumericColumns(groups, data, detectedNames) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
@@ -204,7 +201,7 @@ Namespace WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
@@ -292,9 +289,7 @@ Namespace WorksheetFunctions
             Try
                 Dim mat(,) As Object = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadNestedThreeColumnData(data, mat, detectedNames) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNestedThreeColumnData(data, mat, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If mat.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(varNames, detectedNames, 3, "Var")
@@ -364,7 +359,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadGroupedNumericColumns(groups, data, detectedNames) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
@@ -462,7 +457,7 @@ Namespace WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
@@ -581,7 +576,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not UDFhelpers.TryReadIndependentNumericColumns(x, y, data, detectedNames) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetIndependentNumericColumns(x, y, data, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
@@ -669,7 +664,7 @@ Namespace WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not UDFhelpers.TryReadPairedNumericColumns(x, y, mat, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetPairedNumericColumns(x, y, mat, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If mat Is Nothing OrElse mat.GetLength(0) < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(varNames, detectedNames, 2, "Sample")
@@ -764,7 +759,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not UDFhelpers.TryReadIndependentNumericColumns(control, experimental, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetIndependentNumericColumns(control, experimental, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
                 If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
                 If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
@@ -876,7 +871,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not UDFhelpers.TryReadIndependentNumericColumns(control, experimental, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetIndependentNumericColumns(control, experimental, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length <> 2 Then Return ExcelError.ExcelErrorValue
                 If data(0) Is Nothing OrElse data(1) Is Nothing Then Return ExcelError.ExcelErrorNum
                 If data(0).Length < 2 OrElse data(1).Length < 2 Then Return ExcelError.ExcelErrorNum
@@ -975,57 +970,6 @@ Namespace WorksheetFunctions
                 fallback(i) = prefix & " " & (i + 1).ToString()
             Next
             Return fallback
-        End Function
-
-        Private Function TryReadNestedThreeColumnData(input As Object, ByRef data(,) As Object, ByRef names() As String) As Boolean
-            data = Nothing
-            names = Nothing
-
-            Dim arr As Object(,) = TryCast(input, Object(,))
-            If arr Is Nothing Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If cols <> 3 OrElse rows < 1 Then Return False
-
-            Dim hasHeader As Boolean = False
-            If rows >= 2 Then
-                Dim firstRespNumeric As Boolean = TryGetDouble(arr(0, 2)).HasValue
-                Dim belowRespNumeric As Boolean = False
-                For r As Integer = 1 To rows - 1
-                    If TryGetDouble(arr(r, 2)).HasValue Then
-                        belowRespNumeric = True
-                        Exit For
-                    End If
-                Next
-                hasHeader = (Not firstRespNumeric) AndAlso belowRespNumeric
-            End If
-            Dim startRow As Integer = If(hasHeader, 1, 0)
-
-            names = New String() {
-                    If(hasHeader, Convert.ToString(arr(0, 0)).Trim(), "Group"),
-                    If(hasHeader, Convert.ToString(arr(0, 1)).Trim(), "Subgroup"),
-                    If(hasHeader, Convert.ToString(arr(0, 2)).Trim(), "Response")
-                }
-
-            Dim rowsOut As New List(Of Object())
-            For r As Integer = startRow To rows - 1
-                Dim g As String = Convert.ToString(arr(r, 0)).Trim()
-                Dim sg As String = Convert.ToString(arr(r, 1)).Trim()
-                Dim y = TryGetDouble(arr(r, 2))
-                If g <> "" AndAlso sg <> "" AndAlso y.HasValue Then
-                    rowsOut.Add(New Object() {g, sg, y.Value})
-                End If
-            Next
-
-            If rowsOut.Count < 1 Then Return False
-            data = New Object(rowsOut.Count - 1, 2) {}
-            For r As Integer = 0 To rowsOut.Count - 1
-                data(r, 0) = rowsOut(r)(0)
-                data(r, 1) = rowsOut(r)(1)
-                data(r, 2) = rowsOut(r)(2)
-            Next
-            Return True
         End Function
 
         ''' <summary>

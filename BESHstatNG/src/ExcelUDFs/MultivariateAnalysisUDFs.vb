@@ -194,7 +194,7 @@ Namespace WorksheetFunctions
 
             Try
                 Dim imported As DataObj = Nothing
-                If Not TryBuildNumericDataObject(x, varNames, False, imported) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericData(x, varNames, False, imported) Then Return ExcelError.ExcelErrorValue
                 If imported.nRows < 2 OrElse imported.nCols < 1 Then Return ExcelError.ExcelErrorNum
 
                 Dim matrixLabel As String = ParsePcaMatrixType(matrixType)
@@ -547,7 +547,7 @@ Namespace WorksheetFunctions
 
             Try
                 Dim imported As DataObj = Nothing
-                If Not TryBuildNumericDataObject(x, varNames, True, imported) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericData(x, varNames, True, imported) Then Return ExcelError.ExcelErrorValue
                 If imported.nRows < 2 OrElse imported.nCols < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim matrixChoice As Multivariate.FactorAnalysisMatrixType = ParseFaMatrixType(matrixType)
@@ -715,7 +715,7 @@ Namespace WorksheetFunctions
                 Dim initialEigen() As Double = h.Model.InitialEigenvalues
                 Dim unrotatedSs() As Double = ColumnSumsOfSquares(h.Model.UnrotatedLoadings, h.Model.UnrotatedLoadings)
                 Dim rotatedSs() As Double = ColumnSumsOfSquares(h.Model.PatternMatrix, h.Model.StructureMatrix)
-                Dim totalVar As Double = MatrixTrace(h.Model.WorkingMatrix)
+                Dim totalVar As Double = Matrix.MatrixTrace(h.Model.WorkingMatrix)
                 Dim initPct() As Double = PercentOfTotal(initialEigen, totalVar)
                 Dim initCum() As Double = Cumulative(initPct)
                 Dim extrPct() As Double = PercentOfTotal(unrotatedSs, totalVar)
@@ -1101,7 +1101,7 @@ Namespace WorksheetFunctions
 
             Try
                 Dim imported As DataObj = Nothing
-                If Not TryBuildNumericDataObject(x, varNames, True, imported) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericData(x, varNames, True, imported) Then Return ExcelError.ExcelErrorValue
                 If imported.nRows < 1 OrElse imported.nCols < 1 Then Return ExcelError.ExcelErrorNum
 
                 Dim labels() As String = Nothing
@@ -1116,7 +1116,7 @@ Namespace WorksheetFunctions
 
                 If userCentersProvided Then
                     Dim centersData As DataObj = Nothing
-                    If Not TryBuildNumericDataObject(startingCenters, imported.varNames, False, centersData) Then Return ExcelError.ExcelErrorValue
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetNumericData(startingCenters, imported.varNames, False, centersData) Then Return ExcelError.ExcelErrorValue
                     If centersData.nCols <> imported.nCols Then Throw New ArgumentException("startingCenters must have the same number of columns as x.")
                     If centersData.nRows <> k Then Throw New ArgumentException("startingCenters must have exactly numberOfClusters rows.")
                     fit.startingCentersInputs(centersData.DataDbl)
@@ -1458,7 +1458,7 @@ Namespace WorksheetFunctions
 
             Try
                 Dim imported As DataObj = Nothing
-                If Not TryBuildNumericDataObject(x, varNames, True, imported) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericData(x, varNames, True, imported) Then Return ExcelError.ExcelErrorValue
                 If imported.nRows < 2 OrElse imported.nCols < 1 Then Return ExcelError.ExcelErrorNum
 
                 Dim labels() As String = Nothing
@@ -1806,7 +1806,7 @@ Namespace WorksheetFunctions
                 Dim counts(,) As Integer = Nothing
                 Dim rows() As String = Nothing
                 Dim cols() As String = Nothing
-                If Not TryBuildCorrespondenceInput(table, rowNames, colNames, counts, rows, cols) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCorrespondenceInput(table, rowNames, colNames, counts, rows, cols) Then Return ExcelError.ExcelErrorValue
                 If counts.GetLength(0) < 2 OrElse counts.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim fit As New Multivariate.CA()
@@ -2216,7 +2216,7 @@ Namespace WorksheetFunctions
             Try
                 Dim raw(,) As String = Nothing
                 Dim names() As String = Nothing
-                If Not TryBuildCategoricalMatrixObject(x, varNames, hasHeader, raw, names) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCategoricalMatrix(x, varNames, hasHeader, raw, names) Then Return ExcelError.ExcelErrorValue
                 If raw.GetLength(0) < 1 OrElse raw.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim fit As New Multivariate.CA()
@@ -2629,7 +2629,7 @@ Namespace WorksheetFunctions
 
             Try
                 Dim imported As DataObj = Nothing
-                If Not TryBuildNumericDataObject(x, varNames, True, imported) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericData(x, varNames, True, imported) Then Return ExcelError.ExcelErrorValue
                 If imported.nRows < 2 OrElse imported.nCols < 1 Then Return ExcelError.ExcelErrorNum
 
                 Dim groupCol(,) As Object = Nothing
@@ -2663,8 +2663,8 @@ Namespace WorksheetFunctions
                 If priorChoice = Multivariate.DiscriminantPriorMode.UserSpecified Then
                     Dim parsedLabels() As String = Nothing
                     Dim parsedProbabilities() As Double = Nothing
-                    If Not TryReadStringVectorArgument(priorLabels, parsedLabels) Then Throw New ArgumentException("priorLabels must be supplied when priorMode=user.")
-                    If Not TryReadDoubleVectorArgument(priorProbabilities, parsedProbabilities) Then Throw New ArgumentException("priorProbabilities must be supplied when priorMode=user.")
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetStringVector(priorLabels, parsedLabels) Then Throw New ArgumentException("priorLabels must be supplied when priorMode=user.")
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetDoubleVector(priorProbabilities, parsedProbabilities) Then Throw New ArgumentException("priorProbabilities must be supplied when priorMode=user.")
                     If parsedLabels.Length <> parsedProbabilities.Length Then Throw New ArgumentException("priorLabels and priorProbabilities must have the same length.")
                     Dim priorLabelObjects(parsedLabels.Length - 1) As Object
                     For i As Integer = 0 To parsedLabels.Length - 1
@@ -3144,7 +3144,7 @@ Namespace WorksheetFunctions
                 Dim h As DiscriminantHandle = Nothing
                 If Not TryGetDaHandle(handle, h) Then Return ExcelError.ExcelErrorNA
                 Dim imported As DataObj = Nothing
-                If Not TryBuildNumericDataObject(newX, h.VariableNames, False, imported) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericData(newX, h.VariableNames, False, imported) Then Return ExcelError.ExcelErrorValue
                 If imported.nCols <> h.VariableNames.Length Then Throw New ArgumentException("newX must have the same number of predictor columns used when the model was fitted.")
                 Dim labels() As String = Nothing
                 If Not TryResolveOptionalClusterRowLabels(rowLabels, imported.nRows, labels) Then Return ExcelError.ExcelErrorValue
@@ -3221,7 +3221,6 @@ Namespace WorksheetFunctions
         '----------------------------------------------------------------------
         ' Helpers
         '----------------------------------------------------------------------
-
         Private Function TryGetKMeansHandle(handle As Object, ByRef found As KMeansHandle) As Boolean
             found = Nothing
             Dim key As String = AsString(handle)
@@ -3596,9 +3595,7 @@ Namespace WorksheetFunctions
             End Select
         End Function
 
-        Private Function BuildClusterPreprocessingTable(varNames() As String,
-                                                        locations() As Double,
-                                                        scales() As Double,
+        Private Function BuildClusterPreprocessingTable(varNames() As String, locations() As Double, scales() As Double,
                                                         mode As Multivariate.ClusterStandardizationMode) As Object(,)
             Dim varCount As Integer = 0
             If varNames IsNot Nothing Then
@@ -3630,8 +3627,7 @@ Namespace WorksheetFunctions
             Return out
         End Function
 
-        Private Function BuildRemovedRowsOutput(rowIds() As Integer,
-                                                rowLabels() As String) As Object(,)
+        Private Function BuildRemovedRowsOutput(rowIds() As Integer, rowLabels() As String) As Object(,)
             If rowIds Is Nothing OrElse rowIds.Length = 0 Then
                 Dim note(1, 1) As Object
                 note(0, 0) = "Setting"
@@ -3695,114 +3691,6 @@ Namespace WorksheetFunctions
                 out(i + 1, 2) = If(labelByRow.ContainsKey(rowId), CType(labelByRow(rowId), Object), CType("Obs " & rowId.ToString(CultureInfo.InvariantCulture), Object))
             Next
             Return out
-        End Function
-
-
-
-
-
-        Private Function TryBuildCorrespondenceInput(input As Object,
-                                                     rowNamesArg As Object,
-                                                     colNamesArg As Object,
-                                                     ByRef table(,) As Integer,
-                                                     ByRef rowNames() As String,
-                                                     ByRef colNames() As String) As Boolean
-            table = Nothing
-            rowNames = Nothing
-            colNames = Nothing
-
-            Dim arr As Object(,) = Get2D(input)
-            If arr Is Nothing Then Return False
-
-            Dim cols As Integer = arr.GetLength(1)
-            If cols < 1 Then Return False
-
-            Dim lastRow As Integer = FindLastNonBlankRow(arr)
-            If lastRow < 0 Then Return False
-
-            Dim hasHeader As Boolean = HasNumericMatrixHeader(arr, lastRow)
-
-            Dim raw(,) As Double = Nothing
-            Dim rows As Integer = 0
-            Dim bodyCols As Integer = 0
-            If Not TryReadNumericMatrix(input, raw, rows, bodyCols) Then Return False
-            If rows < 1 OrElse bodyCols < 1 Then Return False
-
-            ReDim table(rows - 1, bodyCols - 1)
-            For i As Integer = 0 To rows - 1
-                For j As Integer = 0 To bodyCols - 1
-                    Dim x As Double = raw(i, j)
-                    If Double.IsNaN(x) OrElse Double.IsInfinity(x) OrElse x < 0.0R Then Return False
-                    Dim rounded As Double = Math.Round(x)
-                    If Math.Abs(x - rounded) > 0.0000001R Then Return False
-                    table(i, j) = CInt(rounded)
-                Next
-            Next
-
-            Dim inferredCols(bodyCols - 1) As String
-            For j As Integer = 0 To bodyCols - 1
-                inferredCols(j) = "Col " & (j + 1).ToString(CultureInfo.InvariantCulture)
-                If hasHeader AndAlso Not IsBlankCell(arr(0, j)) Then
-                    inferredCols(j) = CellToTrimmedText(arr(0, j))
-                End If
-            Next
-
-            rowNames = ResolveLabelNames(rowNamesArg, rows, "Row ")
-            colNames = ResolveLabelNames(colNamesArg, bodyCols, "Col ", inferredCols)
-            Return True
-        End Function
-
-        Private Function TryBuildCategoricalMatrixObject(input As Object,
-                                                         varNames As Object,
-                                                         hasHeaderArg As Object,
-                                                         ByRef data(,) As String,
-                                                         ByRef resolvedNames() As String) As Boolean
-            data = Nothing
-            resolvedNames = Nothing
-
-            Dim arr As Object(,) = Get2D(input)
-            If arr Is Nothing Then Return False
-
-            Dim cols As Integer = arr.GetLength(1)
-            If cols < 1 Then Return False
-
-            Dim lastRow As Integer = FindLastNonBlankRow(arr)
-            If lastRow < 0 Then Return False
-
-            Dim explicitNames As Boolean = Not IsMissingArg(varNames)
-            Dim assumeHeader As Boolean = If(IsMissingArg(hasHeaderArg), Not explicitNames, GetOptionalBool(hasHeaderArg, Not explicitNames))
-            Dim startRow As Integer = If(assumeHeader, 1, 0)
-            Dim usedRows As Integer = lastRow + 1
-            Dim rows As Integer = usedRows - startRow
-            If rows < 1 Then Return False
-
-            Dim inferred(cols - 1) As String
-            For j As Integer = 0 To cols - 1
-                inferred(j) = "Variable " & (j + 1).ToString(CultureInfo.InvariantCulture)
-                If assumeHeader AndAlso Not IsBlankCell(arr(0, j)) Then
-                    inferred(j) = CellToTrimmedText(arr(0, j))
-                End If
-            Next
-            resolvedNames = ResolveLabelNames(varNames, cols, "Variable ", inferred)
-
-            ReDim data(rows - 1, cols - 1)
-            For i As Integer = 0 To rows - 1
-                For j As Integer = 0 To cols - 1
-                    data(i, j) = CellToTrimmedText(arr(startRow + i, j))
-                Next
-            Next
-
-            Return True
-        End Function
-
-        Private Function MatrixTrace(mat(,) As Double) As Double
-            If mat Is Nothing Then Return Double.NaN
-            Dim d As Integer = Math.Min(mat.GetLength(0), mat.GetLength(1))
-            Dim total As Double = 0.0R
-            For i As Integer = 0 To d - 1
-                total += mat(i, i)
-            Next
-            Return total
         End Function
 
         Private Function PercentOfTotal(values() As Double, total As Double) As Double()
@@ -4086,59 +3974,6 @@ Namespace WorksheetFunctions
                 Next
             Next
             Return PrepareResultTableForUdf(out)
-        End Function
-
-        Private Function ResolveLabelNames(arg As Object,
-                                           expectedCount As Integer,
-                                           fallbackPrefix As String,
-                                           Optional inferred() As String = Nothing) As String()
-            Dim fallback(expectedCount - 1) As String
-            For i As Integer = 0 To expectedCount - 1
-                If inferred IsNot Nothing AndAlso i < inferred.Length AndAlso Not String.IsNullOrWhiteSpace(inferred(i)) Then
-                    fallback(i) = inferred(i)
-                Else
-                    fallback(i) = fallbackPrefix & (i + 1).ToString(CultureInfo.InvariantCulture)
-                End If
-            Next
-
-            If IsMissingArg(arg) Then Return fallback
-
-            Dim s As String = TryCast(arg, String)
-            If s IsNot Nothing Then
-                Dim parts = s.Split({","c}, StringSplitOptions.None)
-                If parts.Length = expectedCount Then
-                    For i As Integer = 0 To expectedCount - 1
-                        Dim name As String = parts(i).Trim()
-                        fallback(i) = If(String.IsNullOrWhiteSpace(name), fallback(i), name)
-                    Next
-                    Return fallback
-                End If
-            End If
-
-            Dim arr As Object(,) = Get2D(arg)
-            If arr Is Nothing Then Return fallback
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            Dim names As New List(Of String)
-
-            If rows = 1 AndAlso cols >= 1 Then
-                For j As Integer = 0 To cols - 1
-                    names.Add(CellToTrimmedText(arr(0, j)))
-                Next
-            ElseIf cols = 1 AndAlso rows >= 1 Then
-                For i As Integer = 0 To rows - 1
-                    names.Add(CellToTrimmedText(arr(i, 0)))
-                Next
-            End If
-
-            If names.Count = expectedCount Then
-                For i As Integer = 0 To expectedCount - 1
-                    If Not String.IsNullOrWhiteSpace(names(i)) Then fallback(i) = names(i)
-                Next
-            End If
-
-            Return fallback
         End Function
 
         Private Function FindWrappedDiscriminantTable(model As Multivariate.DiscriminantAnalysis,

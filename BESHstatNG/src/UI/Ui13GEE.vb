@@ -11,10 +11,16 @@ Public Class Ui13GEE
     Private TermSpecs As Dictionary(Of String, TermSpec)
     Private ReadOnly EffectsController As RegressionEffectsController
 
+    Private pRegressionCalculationRunning As Boolean = False
+    Private pRegressionCancelRequested As Boolean = False
+    Private pRegressionInterruptRequested As Boolean = False
+    Private pRegressionCloseAfterCancel As Boolean = False
+
     Sub New(analysis As String)
 
         ' This call is required by the designer.
         InitializeComponent()
+        Me.btInterrupt.Enabled = False
         Me.tbEps.Text = FormatUiDouble(0.000001)
         Me.Text = analysis
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
@@ -46,6 +52,8 @@ Public Class Ui13GEE
         Me.btCalculate.Anchor = Windows.Forms.AnchorStyles.Bottom Or
                                 Windows.Forms.AnchorStyles.Right
         Me.btnHelp.Anchor = Windows.Forms.AnchorStyles.Bottom Or
+                                Windows.Forms.AnchorStyles.Right
+        Me.btInterrupt.Anchor = Windows.Forms.AnchorStyles.Bottom Or
                                 Windows.Forms.AnchorStyles.Right
         Me.lblProgress.Anchor = Windows.Forms.AnchorStyles.Left Or
                                 Windows.Forms.AnchorStyles.Bottom
@@ -203,6 +211,94 @@ Public Class Ui13GEE
 
         Me.lblPower.Enabled = usePowerLink
         Me.tbPower.Enabled = usePowerLink
+    End Sub
+
+    Private Sub BeginRegressionComputation()
+        pRegressionCancelRequested = False
+        pRegressionInterruptRequested = False
+        pRegressionCloseAfterCancel = False
+        pRegressionCalculationRunning = True
+        AppGlobals.SetRegressionComputationCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
+
+        Try
+            Me.btCalculate.Enabled = False
+            Me.btInterrupt.Enabled = True
+            Me.lblProgress.Text = "Preparing calculation..."
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
+    End Sub
+
+    Private Sub EndRegressionComputation()
+        pRegressionCalculationRunning = False
+        AppGlobals.ClearRegressionComputationCallbacks()
+
+        Try
+            If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then
+                Me.lblProgress.Text = "Calculation interrupted; latest accepted estimates returned."
+            End If
+            Me.btCalculate.Enabled = True
+            Me.btInterrupt.Enabled = False
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
+
+        If pRegressionCloseAfterCancel Then
+            pRegressionCloseAfterCancel = False
+            Try
+                Me.Close()
+            Catch
+            End Try
+        End If
+    End Sub
+
+    Private Function IsRegressionCancellationRequested() As Boolean
+        Return pRegressionCancelRequested
+    End Function
+
+    Private Function IsRegressionInterruptionRequested() As Boolean
+        Return pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested
+    End Function
+
+    Private Sub FinishRegressionComputation(message As String)
+        Try
+            Me.ProgressBar1.Style = Windows.Forms.ProgressBarStyle.Continuous
+            Me.lblProgress.Text = message
+            Me.btCalculate.Enabled = True
+            Me.btInterrupt.Enabled = False
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
+    End Sub
+
+    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click
+        If Not pRegressionCalculationRunning Then Exit Sub
+
+        pRegressionInterruptRequested = True
+
+        Try
+            Me.lblProgress.Text = "Interrupting; latest accepted estimates will be returned..."
+            Me.btInterrupt.Enabled = False
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
+    End Sub
+
+    Private Sub RegressionForm_FormClosing(sender As Object, e As Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        If Not pRegressionCalculationRunning Then Exit Sub
+
+        pRegressionCancelRequested = True
+        pRegressionCloseAfterCancel = True
+        e.Cancel = True
+
+        Try
+            Me.lblProgress.Text = "Cancelling calculation..."
+            Me.ProgressBar1.Style = Windows.Forms.ProgressBarStyle.Marquee
+            Me.btCalculate.Enabled = False
+            Me.btInterrupt.Enabled = False
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
     End Sub
 
     Private Sub btReload_Click(sender As Object, e As System.EventArgs) Handles btReload.Click
@@ -363,7 +459,7 @@ Public Class Ui13GEE
         End If
 
         Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
-        MyData.DataInport(ref)
+        MyData.DataImport(ref)
         Return MyData
     End Function
 
@@ -493,6 +589,8 @@ Public Class Ui13GEE
     End Sub
 
     Private Sub btCalculate_Click(sender As Object, e As System.EventArgs) Handles btCalculate.Click
+        BeginRegressionComputation()
+
         Try
             Dim bWait As Boolean, strWarning As String
             'activate workbook we are working on (different may  be open if we re-running the analysis)
@@ -715,8 +813,12 @@ Public Class Ui13GEE
                 End If
             End If
 
+        Catch ex As System.OperationCanceledException
+            FinishRegressionComputation("Calculation cancelled.")
         Catch ex As Exception
             AppGlobals.BSerr.LogAndThrow(ex, False, True, "Failed to write GEE results to the workbook")
+        Finally
+            EndRegressionComputation()
         End Try
     End Sub
 

@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 
 Imports System
@@ -33,8 +33,10 @@ Namespace WorksheetFunctions
         ''' <param name="formula">
         ''' The right-hand-side model formula to validate.
         ''' Supported syntax currently includes additive terms (<c>A + B</c>), polynomial terms (<c>A^2</c>),
-        ''' continuous-variable interactions (<c>A:B</c>, <c>A:B:C</c>), and categorical main effects such as
-        ''' <c>factor(C)</c> or <c>factor(C, ref=2)</c>.
+        ''' continuous-continuous interactions (<c>A:B</c>, <c>A:B:C</c>), categorical main effects such as
+        ''' <c>factor(C)</c> or <c>factor(C, ref=2)</c>, categorical-continuous interactions such as
+        ''' <c>factor(C):A</c> or <c>factor(C, ref=1):A</c>, and categorical-categorical interactions such as
+        ''' <c>factor(C):factor(D)</c>.
         ''' Blank text is considered valid and corresponds to the default design that uses all predictor columns as continuous main effects.
         ''' </param>
         ''' <param name="x">
@@ -66,8 +68,9 @@ Namespace WorksheetFunctions
         ''' provided that the same <paramref name="x"/>, <paramref name="varNames"/>, and <paramref name="formulaAddressing"/> inputs are used.
         ''' </para>
         ''' <para>
-        ''' The current formula grammar intentionally does not support interactions involving <c>factor(...)</c>, polynomial subterms inside interactions,
-        ''' or repeated variables inside one interaction term.
+        ''' The formula grammar supports interactions involving <c>factor(...)</c>.  Polynomial subterms inside interactions
+        ''' and repeated variables inside one interaction term remain unsupported; write polynomial terms separately and then
+        ''' interact the raw variables only when needed.
         ''' </para>
         ''' <para>
         ''' When <c>formulaAddressing="absolute"</c> is used, the <paramref name="x"/> argument must be passed as a direct worksheet range so that the validator
@@ -77,8 +80,8 @@ Namespace WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.REGR.FORMULA_VALIDATE("A + A^2 + factor(C, ref=1) + B:D", C2:F101, "prison,dose,stage,treat")
-        ''' =BESH.REGR.FORMULA_VALIDATE("'prison' + 'dose' + 'dose'^2", C2:F101, "prison,dose,stage,treat", "names")
-        ''' =BESH.REGR.FORMULA_VALIDATE("C + factor(E, ref=1)", C2:F101, "prison,dose,stage,treat", "absolute")
+        ''' =BESH.REGR.FORMULA_VALIDATE("factor(stage, ref=1) + dose + factor(stage, ref=1):dose + factor(stage):factor(treat)", C2:F101, "prison,dose,stage,treat", "names")
+        ''' =BESH.REGR.FORMULA_VALIDATE("factor(E, ref=1):C", C2:F101, "prison,dose,stage,treat", "absolute")
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -88,7 +91,7 @@ Namespace WorksheetFunctions
             HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-formula-syntax/"
         )>
         Public Function FORMULA_VALIDATE(
-            <ExcelArgument(Name:="formula", Description:="Formula text to validate. Blank text is allowed and means all predictors as continuous main effects.")> formula As Object,
+            <ExcelArgument(Name:="formula", Description:="Formula text to validate, e.g. ""A + factor(C) + factor(C):B"". Blank text means all predictors as continuous main effects.")> formula As Object,
             <ExcelArgument(AllowReference:=True, Name:="x", Description:="Raw predictor matrix that defines the available formula variables.")> x As Object,
             <ExcelArgument(Name:="varNames", Description:="Optional predictor names as a comma-separated list or a one-row/one-column range.")> Optional varNames As Object = Nothing,
             <ExcelArgument(Name:="formulaAddressing", Description:="Addressing mode: ""relative"" (default), ""absolute"", or ""names"".")> Optional formulaAddressing As Object = Nothing
@@ -102,7 +105,7 @@ Namespace WorksheetFunctions
                 Dim xMat As Double(,) = Nothing
                 Dim rowCount As Integer = 0
                 Dim colCount As Integer = 0
-                If Not UDFhelpers.TryReadNumericMatrix(x, xMat, rowCount, colCount) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericMatrix(x, xMat, rowCount, colCount) Then
                     Return "Validation failed: the raw predictor matrix x could not be read as a numeric matrix. Ensure x matches the range you plan to use when fitting the model."
                 End If
                 If colCount < 1 Then

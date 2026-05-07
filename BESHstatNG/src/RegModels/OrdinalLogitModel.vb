@@ -9,7 +9,6 @@ Imports BESHStatNG.AppInfrastructure
 
 Namespace regression
 
-
     ''' <summary>
     ''' Fits an ordinal (ordered categorical) proportional-odds logistic regression model
     ''' with optional offset and case weights, and provides post-fit likelihood statistics,
@@ -433,6 +432,11 @@ Namespace regression
             Dim converged As Boolean = False
 
             For pIteration = 0 To pMaxiter
+                AppGlobals.ThrowIfRegressionCancellationRequested("Ordinal logistic regression calculation cancelled by user.")
+                If pIteration > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
+                    AppGlobals.BSlogg.Log("Ordinal logistic regression calculation interrupted by user; returning latest accepted estimates.", AppGlobals.LogMsgType.Warn)
+                    Exit For
+                End If
 
                 Dim g(q - 1) As Double
                 Dim H(q - 1, q - 1) As Double ' Hessian of loglik

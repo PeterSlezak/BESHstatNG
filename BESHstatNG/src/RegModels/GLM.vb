@@ -916,6 +916,13 @@ Public Class GLM
 
         'Do IRLS iterations
         For pIRLSiterations = 0 To pMaxiter
+            AppGlobals.ThrowIfRegressionCancellationRequested("GLM calculation cancelled by user.")
+            If progressBar IsNot Nothing AndAlso pIRLSiterations > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
+                Me.strError += " Calculation interrupted by user; latest accepted IRLS estimates returned."
+                AppGlobals.BSlogg.Log("GLM calculation interrupted by user; returning latest accepted IRLS estimates.", AppGlobals.LogMsgType.Warn)
+                Exit For
+            End If
+
             AppGlobals.BSlogg.Log($"IRLS iteration #{pIRLSiterations}")
             For i = 0 To Me.n - 1
                 weights(i) = pWeights(i) * 1.0 / (pLink.deriv(mu(i)) ^ 2 * pFamily.Variance(mu(i))) 'eim (expected information (hassian) matrix
@@ -1952,6 +1959,13 @@ Public Class GLM_NB
         pNBglm = New GLM(New regression.NegativeBinomial, Me.pLink)
 
         Do While (pIRLSiterations < pMaxiter And pLastIterDispersionChange > pEps)
+            AppGlobals.ThrowIfRegressionCancellationRequested("Negative binomial calculation cancelled by user.")
+            If pIRLSiterations > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
+                Me.strError += " Calculation interrupted by user; latest accepted NB2 estimates returned."
+                AppGlobals.BSlogg.Log("Negative binomial calculation interrupted by user; returning latest accepted estimates.", AppGlobals.LogMsgType.Warn)
+                Exit Do
+            End If
+
             With pNBglm
                 .data(Me.pData,
                       Me.pRowNums,
@@ -2658,6 +2672,12 @@ Public Class ZeroInflatedPoisson
         pLastIterLLchange = Math.Abs(LL_new - LL_old)
         'EM iterations ----------------------------------------------------------------
         Do While pLastIterLLchange > pEps And pEMiterations <= pMaxEMIter
+            AppGlobals.ThrowIfRegressionCancellationRequested("Zero-inflated Poisson calculation cancelled by user.")
+            If pEMiterations > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
+                AppGlobals.BSlogg.Log("Zero-inflated Poisson calculation interrupted by user; returning latest accepted EM estimates.", AppGlobals.LogMsgType.Warn)
+                Exit Do
+            End If
+
             LL_old = LL_new
 
             ' >>> SAVE OLD PARAMS BEFORE M-STEP UPDATES <<<

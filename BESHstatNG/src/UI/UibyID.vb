@@ -140,8 +140,8 @@ Public Class UibyID
 
         If Me.optByColumn.Checked Then
             'Group by Column
-            columData.DataInport(prepareRef2D(Me.RefEdit1.Address), True)
-            columData2.DataInport(prepareRef2D(Me.RefEdit2.Address), True)
+            columData.DataImport(prepareRef2D(Me.RefEdit1.Address), True)
+            columData2.DataImport(prepareRef2D(Me.RefEdit2.Address), True)
 
             out.X1 = Matrix.GetColumnFrom2Darray(columData.DataDbl, 0)
             out.X2 = Matrix.GetColumnFrom2Darray(columData2.DataDbl, 0)
@@ -158,7 +158,7 @@ Public Class UibyID
             'join reference address into one (remove sheet name from the second and concatenate).
             'Data can be only form one sheet because of the above check
             refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True) & "!", String.Empty) 'Remove "Sheet1!" from string
-            columData.DataInport(refFinal, True, 0)
+            columData.DataImport(refFinal, True, 0)
 
             'get unique group IDs
 
@@ -195,7 +195,7 @@ Public Class UibyID
                 Dim ref1 As String = WorksheetNameFromRefAdress(ref, True) & "!" & colList(i)
                 'Debug.Print(ref1)
                 Dim columData = New DataObj
-                columData.DataInport(ref1, True)
+                columData.DataImport(ref1, True)
                 If columData.FinalData IsNot Nothing Then 'save data
                     outData(ii) = Matrix.GetColumnFrom2Darray(columData.DataDbl, 0)
                     groupIDs(ii) = columData.varNames(0)
@@ -224,7 +224,7 @@ Public Class UibyID
             'join reference address into one (remove sheet name from the second and concatenate).
             'Data can be only form one sheet because of the above check
             refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True) & "!", String.Empty) 'Remove "Sheet1!" from string
-            byIdData.DataInport(refFinal, True, 0)
+            byIdData.DataImport(refFinal, True, 0)
 
             'Debug.Print(array2str(byIdData.FinalData))
             out.X = byIdData.DataByID2ByColumn()

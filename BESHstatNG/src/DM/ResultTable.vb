@@ -207,13 +207,30 @@ Public Class ResultTable
     End Sub
 
     ''' <summary>
-    ''' Marks a column index as containing p‑values for formatting purposes.
+    ''' Marks a body-column index as containing p-values for statistical formatting.
     ''' </summary>
-    ''' <param name="columnNumber">The column index to flag.</param>
-
+    ''' <param name="columnNumber">
+    ''' One-based column number within the table body, excluding left-header columns.
+    ''' For example, if the body columns are Estimate, Std. Error, z, p-value, then pass 4.
+    ''' </param>
+    ''' <remarks>
+    ''' <para>
+    ''' The value is one-based because <see cref="WriteResults.format"/> later adds the
+    ''' number of left-header columns and uses Excel's one-based range indexing.
+    ''' </para>
+    ''' <para>
+    ''' This method validates against the number of body columns.  The older implementation
+    ''' accidentally used <c>UBound(Me.Body)</c>, which refers to the first dimension
+    ''' (rows) and could either reject valid p-value columns or allow incorrect ones.
+    ''' </para>
+    ''' </remarks>
     Public Sub AddPvalueToFormat(columnNumber As Integer)
-        If Me.Body IsNot Nothing Then
-            If columnNumber <= UBound(Me.Body) And columnNumber > 0 Then Me.PvalueColumns.Add(columnNumber)
+        If Me.Body Is Nothing Then Exit Sub
+
+        Dim bodyCols As Integer = UBound(Me.Body, 2) + 1
+
+        If columnNumber >= 1 AndAlso columnNumber <= bodyCols Then
+            If Not Me.PvalueColumns.Contains(columnNumber) Then Me.PvalueColumns.Add(columnNumber)
         End If
     End Sub
 

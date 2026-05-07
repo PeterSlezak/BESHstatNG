@@ -71,6 +71,7 @@ Partial Class Ui13GEE
         Me.lblSelectedEffectsList = New System.Windows.Forms.Label()
         Me.lblSelectedVariables = New System.Windows.Forms.Label()
         Me.TabPageOptions = New System.Windows.Forms.TabPage()
+        Me.cbPerformClasification = New System.Windows.Forms.CheckBox()
         Me.grpClassification = New System.Windows.Forms.GroupBox()
         Me.cbBrierScore = New System.Windows.Forms.CheckBox()
         Me.lblCallibrationBinsN = New System.Windows.Forms.Label()
@@ -107,7 +108,7 @@ Partial Class Ui13GEE
         Me.lblProgress = New System.Windows.Forms.Label()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCalculate = New System.Windows.Forms.Button()
-        Me.cbPerformClasification = New System.Windows.Forms.CheckBox()
+        Me.btInterrupt = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPageBuildModel.SuspendLayout()
@@ -646,6 +647,19 @@ Partial Class Ui13GEE
         Me.TabPageOptions.Text = "Options"
         Me.TabPageOptions.UseVisualStyleBackColor = True
         '
+        'cbPerformClasification
+        '
+        Me.cbPerformClasification.AutoSize = True
+        Me.cbPerformClasification.Checked = True
+        Me.cbPerformClasification.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbPerformClasification.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbPerformClasification.Location = New System.Drawing.Point(349, 98)
+        Me.cbPerformClasification.Name = "cbPerformClasification"
+        Me.cbPerformClasification.Size = New System.Drawing.Size(158, 20)
+        Me.cbPerformClasification.TabIndex = 16
+        Me.cbPerformClasification.Text = "Perform Classification"
+        Me.cbPerformClasification.UseVisualStyleBackColor = True
+        '
         'grpClassification
         '
         Me.grpClassification.Controls.Add(Me.cbBrierScore)
@@ -1007,7 +1021,7 @@ Partial Class Ui13GEE
         '
         Me.lblProgress.Location = New System.Drawing.Point(6, 530)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(664, 23)
+        Me.lblProgress.Size = New System.Drawing.Size(600, 37)
         Me.lblProgress.TabIndex = 13
         Me.lblProgress.Text = "Elapsed Time: "
         '
@@ -1029,24 +1043,21 @@ Partial Class Ui13GEE
         Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
         '
-        'cbPerformClasification
+        'btInterrupt
         '
-        Me.cbPerformClasification.AutoSize = True
-        Me.cbPerformClasification.Checked = True
-        Me.cbPerformClasification.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbPerformClasification.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cbPerformClasification.Location = New System.Drawing.Point(349, 98)
-        Me.cbPerformClasification.Name = "cbPerformClasification"
-        Me.cbPerformClasification.Size = New System.Drawing.Size(158, 20)
-        Me.cbPerformClasification.TabIndex = 16
-        Me.cbPerformClasification.Text = "Perform Classification"
-        Me.cbPerformClasification.UseVisualStyleBackColor = True
+        Me.btInterrupt.Location = New System.Drawing.Point(608, 533)
+        Me.btInterrupt.Name = "btInterrupt"
+        Me.btInterrupt.Size = New System.Drawing.Size(75, 23)
+        Me.btInterrupt.TabIndex = 18
+        Me.btInterrupt.Text = "Interrupt"
+        Me.btInterrupt.UseVisualStyleBackColor = True
         '
         'Ui13GEE
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(853, 566)
+        Me.Controls.Add(Me.btInterrupt)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.lblProgress)
         Me.Controls.Add(Me.btnHelp)
@@ -1080,25 +1091,17 @@ Partial Class Ui13GEE
     Friend WithEvents TabControl1 As Windows.Forms.TabControl
     Friend WithEvents TabPage1 As Windows.Forms.TabPage
     Friend WithEvents lbXs As Windows.Forms.ListBox
-    Friend WithEvents lbWeights As Windows.Forms.ListBox
-    Friend WithEvents lbOffset As Windows.Forms.ListBox
     Friend WithEvents lbY As Windows.Forms.ListBox
     Friend WithEvents cbSheetsList As Windows.Forms.ComboBox
     Friend WithEvents btReload As Windows.Forms.Button
     Friend WithEvents btRemoveX As Windows.Forms.Button
     Friend WithEvents btAddX As Windows.Forms.Button
-    Friend WithEvents btRemoveWeights As Windows.Forms.Button
-    Friend WithEvents btAddWeights As Windows.Forms.Button
     Friend WithEvents lblNote As Windows.Forms.Label
-    Friend WithEvents lblOffset As Windows.Forms.Label
-    Friend WithEvents btRemoveOffset As Windows.Forms.Button
-    Friend WithEvents btAddOffset As Windows.Forms.Button
     Friend WithEvents lblY As Windows.Forms.Label
     Friend WithEvents btRemoveY As Windows.Forms.Button
     Friend WithEvents btAddY As Windows.Forms.Button
     Friend WithEvents lbAllColumns As Windows.Forms.ListBox
     Friend WithEvents lblAllColumns As Windows.Forms.Label
-    Friend WithEvents lblWeights As Windows.Forms.Label
     Friend WithEvents lblX As Windows.Forms.Label
     Friend WithEvents lblSelectedSheet As Windows.Forms.Label
     Friend WithEvents TabPageBuildModel As Windows.Forms.TabPage
@@ -1163,4 +1166,13 @@ Partial Class Ui13GEE
     Friend WithEvents tbClassificationTreshold As Windows.Forms.TextBox
     Friend WithEvents lblClassificationTreshold As Windows.Forms.Label
     Friend WithEvents cbPerformClasification As Windows.Forms.CheckBox
+    Friend WithEvents lbWeights As Windows.Forms.ListBox
+    Friend WithEvents lbOffset As Windows.Forms.ListBox
+    Friend WithEvents btRemoveWeights As Windows.Forms.Button
+    Friend WithEvents btAddWeights As Windows.Forms.Button
+    Friend WithEvents lblOffset As Windows.Forms.Label
+    Friend WithEvents btRemoveOffset As Windows.Forms.Button
+    Friend WithEvents btAddOffset As Windows.Forms.Button
+    Friend WithEvents lblWeights As Windows.Forms.Label
+    Friend WithEvents btInterrupt As Windows.Forms.Button
 End Class

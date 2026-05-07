@@ -107,7 +107,7 @@ Public Class Ui9ANOVA2nested
                Replace(refNest, wks & "!", String.Empty) & ", " &
                Replace(refData, wks & "!", String.Empty)  'Remove "Sheet1!" from string
 
-        byIdData.DataInport(refFinal, True, 1)
+        byIdData.DataImport(refFinal, True, 1)
 
         If byIdData.varNames.Length = 0 Then
             strErr = "Zero valid data!"
@@ -146,11 +146,11 @@ Public Class Ui9ANOVA2nested
             refFinal = refGrp & ", " &
                        Replace(refX, wks & "!", String.Empty) & ", " &
                        Replace(refY, wks & "!", String.Empty)  'Remove "Sheet1!" from string
-            byIdData.DataInport(refFinal, True, 1) 'first column can be character
+            byIdData.DataImport(refFinal, True, 1) 'first column can be character
         Else
             refFinal = refX & ", " &
                        Replace(refY, wks & "!", String.Empty)
-            byIdData.DataInport(refFinal, True)
+            byIdData.DataImport(refFinal, True)
         End If
 
 

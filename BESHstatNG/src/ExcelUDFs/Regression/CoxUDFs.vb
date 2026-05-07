@@ -87,7 +87,9 @@ Namespace WorksheetFunctions
         ''' <param name="formula">
         ''' Optional right-hand-side model formula used to construct the design matrix from the raw predictor matrix <paramref name="x"/>.
         ''' Supported syntax currently includes additive terms (<c>A + B</c>), polynomial terms (<c>A^2</c>),
-        ''' continuous-variable interactions (<c>A:B</c>, <c>A:B:C</c>), and categorical main effects such as <c>factor(C)</c> or <c>factor(C, ref=2)</c>.
+        ''' continuous-continuous interactions (<c>A:B</c>, <c>A:B:C</c>), categorical main effects such as
+        ''' <c>factor(C)</c> or <c>factor(C, ref=2)</c>, categorical-continuous interactions such as
+        ''' <c>factor(C):B</c>, and categorical-categorical interactions such as <c>factor(C):factor(D)</c>.
         ''' If omitted or blank, all predictor columns are used as continuous main effects.
         ''' </param>
         ''' <param name="formulaAddressing">
@@ -135,7 +137,7 @@ Namespace WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:D101,"Age,Treatment")
-        ''' =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:F101,"Age,BMI,Stage,Treat",,,"efron",FALSE,100,1E-8,"A + A^2 + factor(C, ref=1) + B:D","relative")
+        ''' =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:F101,"Age,BMI,Stage,Treat",,,"efron",FALSE,100,1E-8,"A + A^2 + factor(C, ref=1) + factor(C, ref=1):B","relative")
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -152,7 +154,7 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="strata", Description:="Optional stratification variable (one column).")> Optional strata As Object = Nothing,
             <ExcelArgument(Name:="ties", Description:="Ties method: ""breslow"" (default), ""efron"", ""exact"".")> Optional ties As Object = Nothing,
             <ExcelArgument(Name:="robust", Description:="TRUE to compute robust (sandwich) standard errors.")> Optional robust As Object = Nothing,
-            <ExcelArgument(Name:="formula", Description:="Optional RHS model formula, e.g. ""A + A^2 + factor(C, ref=1) + B:D"".")> Optional formula As Object = Nothing,
+            <ExcelArgument(Name:="formula", Description:="Optional RHS model formula, e.g. ""A + A^2 + factor(C, ref=1) + factor(C):B"".")> Optional formula As Object = Nothing,
             <ExcelArgument(Name:="formulaAddressing", Description:="Formula-addressing mode: ""relative"" (default), ""absolute"", or ""names"".")> Optional formulaAddressing As Object = Nothing,
             <ExcelArgument(Name:="maxIter", Description:="Maximum iterations (default 100).")> Optional maxIter As Object = Nothing,
             <ExcelArgument(Name:="tol", Description:="Convergence tolerance (default 1E-8).")> Optional tol As Object = Nothing
@@ -163,9 +165,7 @@ Namespace WorksheetFunctions
             Try
 
                 Dim imported As CoxPHData = Nothing
-                If Not UDFhelpers.TryBuildCoxDataFromUdfArgs(time, status, x, varNames, strata, imported) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCoxData(time, status, x, varNames, strata, imported) Then Return ExcelError.ExcelErrorValue
 
                 Dim rowCount As Integer = imported.nRows
                 Dim colCount As Integer = imported.nCols
@@ -817,9 +817,7 @@ Namespace WorksheetFunctions
                 If rawPredictorKeys Is Nothing OrElse rawPredictorKeys.Length < 1 Then Return ExcelError.ExcelErrorValue
 
                 Dim imported As glmData = Nothing
-                If Not UDFhelpers.TryBuildPredictorDataFromUdfArgs(newX, rawPredictorKeys, Nothing, False, imported) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newX, rawPredictorKeys, Nothing, False, imported) Then Return ExcelError.ExcelErrorValue
 
                 If imported.nCols <> rawPredictorKeys.Length Then Return ExcelError.ExcelErrorValue
 
@@ -881,7 +879,7 @@ Namespace WorksheetFunctions
                 Dim times As New List(Of Double)
                 If timeGrid IsNot Nothing AndAlso Not TypeOf timeGrid Is ExcelMissing AndAlso Not TypeOf timeGrid Is ExcelEmpty Then
                     Dim tVals As List(Of Double) = Nothing
-                    If Not UDFhelpers.TryReadNumericColumn(timeGrid, tVals) Then Return ExcelError.ExcelErrorValue
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetNumericColumn(timeGrid, tVals) Then Return ExcelError.ExcelErrorValue
                     For Each tt In tVals
                         If Not Double.IsNaN(tt) AndAlso Not Double.IsInfinity(tt) AndAlso tt >= 0 Then times.Add(tt)
                     Next

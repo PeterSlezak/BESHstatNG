@@ -3,7 +3,6 @@ Option Strict On
 
 Imports System
 Imports System.Collections.Generic
-Imports System.Linq
 Imports ExcelDna.Integration
 Imports BESHStatNG.assumptions
 Imports BESHStatNG.AppInfrastructure
@@ -60,7 +59,7 @@ Namespace WorksheetFunctions
             Try
                 Dim x() As Double = Nothing
                 Dim detectedName As String = Nothing
-                If Not TryReadSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 3 OrElse x.Length > 5000 Then Return ExcelError.ExcelErrorNum
 
                 Dim errText As String = String.Empty
@@ -113,7 +112,7 @@ Namespace WorksheetFunctions
             Try
                 Dim x() As Double = Nothing
                 Dim detectedName As String = Nothing
-                If Not TryReadSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 9 Then Return ExcelError.ExcelErrorNum
 
                 Dim errText As String = String.Empty
@@ -166,7 +165,7 @@ Namespace WorksheetFunctions
             Try
                 Dim x() As Double = Nothing
                 Dim detectedName As String = Nothing
-                If Not TryReadSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim res As TestResult = assumptions.AndersonDarlingTEST(x)
@@ -233,7 +232,7 @@ Namespace WorksheetFunctions
             Try
                 Dim groupMats As List(Of Double(,)) = Nothing
                 Dim groupNames As List(Of String) = Nothing
-                If Not TryReadGroupedCompleteMatrix(data, groups, groupMats, groupNames) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedCompleteMatrix(data, groups, groupMats, groupNames) Then Return ExcelError.ExcelErrorValue
                 If groupMats Is Nothing OrElse groupMats.Count < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim g As Integer = groupMats.Count
@@ -300,7 +299,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim res As TestResult = assumptions.FlignerKilleenTEST(data)
@@ -358,7 +357,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim useMedian As Boolean = False
@@ -411,7 +410,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
                 For Each g In data
                     If g Is Nothing OrElse g.Length < 2 Then Return ExcelError.ExcelErrorNum
@@ -463,7 +462,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not TryReadGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim res As TestResult = assumptions.SquaredRanksTestVARIANCE(data)
@@ -517,7 +516,7 @@ Namespace WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim names() As String = Nothing
-                If Not UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(data, mat, names) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, names) Then Return ExcelError.ExcelErrorValue
                 If mat Is Nothing OrElse mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 3 Then Return ExcelError.ExcelErrorNum
 
                 Dim res As TestResult = assumptions.MauchlyTest(mat)
@@ -575,7 +574,7 @@ Namespace WorksheetFunctions
             Try
                 Dim x() As Double = Nothing
                 Dim detectedName As String = Nothing
-                If Not TryReadSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim methodInternal As String = Nothing
@@ -638,7 +637,7 @@ Namespace WorksheetFunctions
             Try
                 Dim x() As Double = Nothing
                 Dim detectedName As String = Nothing
-                If Not TryReadSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 3 Then Return ExcelError.ExcelErrorNum
 
                 Dim alphaValue As Double = 0.05
@@ -699,7 +698,7 @@ Namespace WorksheetFunctions
             Try
                 Dim x() As Double = Nothing
                 Dim detectedName As String = Nothing
-                If Not TryReadSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetSingleNumericColumn(data, x, detectedName) Then Return ExcelError.ExcelErrorValue
                 If x Is Nothing OrElse x.Length < 15 Then Return ExcelError.ExcelErrorNum
 
                 Dim alphaValue As Double = 0.05
@@ -806,99 +805,5 @@ Namespace WorksheetFunctions
             End Select
         End Function
 
-        Private Function TryReadSingleNumericColumn(input As Object, ByRef values() As Double, ByRef detectedName As String) As Boolean
-            values = Nothing
-            detectedName = ""
-
-            Dim arr As Object(,) = UDFhelpers.Get2D(input)
-            If arr Is Nothing Then Return False
-            If arr.GetLength(1) <> 1 Then Return False
-
-            Dim hasHeader As Boolean = LooksLikeSingleColumnHeader(arr)
-            If hasHeader Then detectedName = Convert.ToString(arr(0, 0)).Trim()
-
-            Dim startRow As Integer = If(hasHeader, 1, 0)
-            Dim list As New List(Of Double)
-            For r As Integer = startRow To arr.GetLength(0) - 1
-                Dim d = TryGetDouble(arr(r, 0))
-                If d.HasValue AndAlso IsFinite(d.Value) Then list.Add(d.Value)
-            Next
-
-            values = list.ToArray()
-            Return True
-        End Function
-
-        Private Function TryReadGroupedCompleteMatrix(data As Object, groups As Object, ByRef groupMatrices As List(Of Double(,)), ByRef groupNames As List(Of String)) As Boolean
-            groupMatrices = Nothing
-            groupNames = Nothing
-
-            Dim dataArr As Object(,) = UDFhelpers.Get2D(data)
-            Dim groupArr As Object(,) = UDFhelpers.Get2D(groups)
-            If dataArr Is Nothing OrElse groupArr Is Nothing Then Return False
-            If groupArr.GetLength(1) <> 1 Then Return False
-
-            Dim dataRows As Integer = dataArr.GetLength(0)
-            Dim dataCols As Integer = dataArr.GetLength(1)
-            If dataRows < 1 OrElse dataCols < 1 Then Return False
-
-            Dim dataHasHeader As Boolean = LooksLikeHeaderRow(dataArr, Enumerable.Range(0, dataCols).ToArray())
-            Dim startData As Integer = If(dataHasHeader, 1, 0)
-
-            Dim usableRows As Integer = dataRows - startData
-            Dim groupRows As Integer = groupArr.GetLength(0)
-
-            Dim startGroup As Integer
-            If groupRows = usableRows Then
-                startGroup = 0
-            ElseIf groupRows = usableRows + 1 Then
-                startGroup = 1
-            Else
-                Return False
-            End If
-
-            Dim buckets As New Dictionary(Of String, List(Of Double()))(StringComparer.OrdinalIgnoreCase)
-            Dim order As New List(Of String)
-
-            For i As Integer = 0 To usableRows - 1
-                Dim label As String = Convert.ToString(groupArr(startGroup + i, 0)).Trim()
-                If String.IsNullOrWhiteSpace(label) Then Continue For
-
-                Dim row(dataCols - 1) As Double
-                Dim ok As Boolean = True
-                For c As Integer = 0 To dataCols - 1
-                    Dim d = TryGetDouble(dataArr(startData + i, c))
-                    If Not d.HasValue OrElse Not IsFinite(d.Value) Then
-                        ok = False
-                        Exit For
-                    End If
-                    row(c) = d.Value
-                Next
-                If Not ok Then Continue For
-
-                If Not buckets.ContainsKey(label) Then
-                    buckets(label) = New List(Of Double())
-                    order.Add(label)
-                End If
-                buckets(label).Add(row)
-            Next
-
-            groupMatrices = New List(Of Double(,))
-            groupNames = New List(Of String)(order)
-            For Each label In order
-                groupMatrices.Add(RowsToMatrix(buckets(label), dataCols))
-            Next
-
-            Return True
-        End Function
-
-        Private Function RowsToMatrix(rows As List(Of Double()), cols As Integer) As Double(,)
-            Dim out(rows.Count - 1, cols - 1) As Double
-            For r As Integer = 0 To rows.Count - 1
-                For c As Integer = 0 To cols - 1
-                    out(r, c) = rows(r)(c)
-                Next
-            Next
-            Return out
-        End Function
     End Module
 End Namespace

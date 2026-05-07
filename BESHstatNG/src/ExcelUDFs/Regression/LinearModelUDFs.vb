@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 
 Imports System
@@ -26,8 +26,9 @@ Namespace WorksheetFunctions
     ''' </para>
     ''' <para>
     ''' Predictor formulas reuse the same formula infrastructure that is currently available for the Cox, multinomial-logit,
-    ''' and ordinal-logit UDFs. This means additive terms, polynomial terms, continuous-variable interactions, and categorical
-    ''' main effects can be defined from the raw predictor matrix supplied to the fit function.
+    ''' and ordinal-logit UDFs. This means additive terms, polynomial terms, continuous-continuous interactions,
+    ''' categorical main effects, categorical-continuous interactions, and categorical-categorical interactions can be defined
+    ''' from the raw predictor matrix supplied to the fit function.
     ''' </para>
     ''' </remarks>
     Public Module LinearModelUDFs
@@ -91,8 +92,10 @@ Namespace WorksheetFunctions
         ''' <param name="formula">
         ''' Optional right-hand-side model formula used to construct the design matrix from the raw predictor matrix <paramref name="x"/>.
         ''' Supported syntax currently includes additive terms (<c>A + B</c>), polynomial terms (<c>A^2</c>),
-        ''' continuous-variable interactions (<c>A:B</c>, <c>A:B:C</c>), and categorical main effects such as
-        ''' <c>factor(C)</c> or <c>factor(C, ref=2)</c>. If omitted or blank, all raw predictor columns are used as continuous main effects.
+        ''' continuous-continuous interactions (<c>A:B</c>, <c>A:B:C</c>), categorical main effects such as
+        ''' <c>factor(C)</c> or <c>factor(C, ref=2)</c>, categorical-continuous interactions such as
+        ''' <c>factor(C):B</c>, and categorical-categorical interactions such as <c>factor(C):factor(D)</c>.
+        ''' If omitted or blank, all raw predictor columns are used as continuous main effects.
         ''' </param>
         ''' <param name="formulaAddressing">
         ''' Optional formula-addressing mode that controls how bare column-letter tokens are interpreted.
@@ -132,7 +135,7 @@ Namespace WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.REGR.LM_FIT(A2:A101,B2:D101,"dose,age,weight")
-        ''' =BESH.REGR.LM_FIT(A2:A101,B2:E101,"dose,age,stage,treat",,F2:F101,TRUE,"A + B + factor(C, ref=1) + 'dose':'age'","names",TRUE,0.05)
+        ''' =BESH.REGR.LM_FIT(A2:A101,B2:E101,"dose,age,stage,treat",,F2:F101,TRUE,"A + B + factor(C, ref=1) + factor(C, ref=1):B","relative",TRUE,0.05)
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -158,7 +161,7 @@ Namespace WorksheetFunctions
 
             Try
                 Dim imported As glmData = Nothing
-                If Not UDFhelpers.TryBuildGlmDataFromUdfArgs(y, x, varNames, offset, weights, imported) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGlmData(y, x, varNames, offset, weights, imported) Then
                     Return ExcelError.ExcelErrorValue
                 End If
 
@@ -518,12 +521,12 @@ Namespace WorksheetFunctions
         End Function
 
         ''' <summary>
-        ''' Returns the variance-inflation-factor table for a fitted linear-model handle.
+        '''Returns the variance-inflation-factor and partial-correlation table for a fitted linear-model handle.
         ''' </summary>
         ''' <param name="handle">Handle returned by <c>BESH.REGR.LM_FIT</c>.</param>
         ''' <param name="includeHeader">TRUE to include the title and header rows (default TRUE).</param>
         ''' <returns>
-        ''' A spilled array containing one VIF value per modeled predictor column.
+        ''' A spilled array containing VIF and partial-correlation values per modeled predictor column.
         ''' Intercept terms are omitted.
         ''' </returns>
         ''' <example>
@@ -534,7 +537,7 @@ Namespace WorksheetFunctions
         <ExcelFunction(
             Name:="BESH.REGR.LM_VIF",
             Category:="BESHStatNG - Regression Models",
-            Description:="Returns the variance-inflation-factor table for a fitted linear-model handle.",
+            Description:="Returns the variance-inflation-factor and partial-correlation table for a fitted linear-model handle.",
             HelpTopic:=HelpLinks.FallbackBaseUrl & "/udf/regression-models/"
         )>
         Public Function LM_VIF(
@@ -686,7 +689,7 @@ Namespace WorksheetFunctions
                 If rawPredictorKeys Is Nothing OrElse rawPredictorKeys.Length < 1 Then Return ExcelError.ExcelErrorValue
 
                 Dim imported As glmData = Nothing
-                If Not UDFhelpers.TryBuildPredictorDataFromUdfArgs(newX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
                     Return ExcelError.ExcelErrorValue
                 End If
 

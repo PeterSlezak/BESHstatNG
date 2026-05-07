@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.props" Condition="Exists('..\packages\ExcelDna.AddIn.1.9.0\build\ExcelDna.AddIn.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -134,24 +134,32 @@
     <Compile Include="src\ExcelUDFs\AssumptionsUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ClassificationReportUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ContingencyTableUDFs.vb" />
-    <Compile Include="src\ExcelUDFs\CoxUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\CoxUDFs.vb" />
     <Compile Include="src\ExcelUDFs\DistributionUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ExcelArgModules.vb" />
-    <Compile Include="src\ExcelUDFs\GeeUDFs.vb" />
-    <Compile Include="src\ExcelUDFs\GlmNbUDFs.vb" />
-    <Compile Include="src\ExcelUDFs\GlmUDFs.vb" />
-    <Compile Include="src\ExcelUDFs\LinearModelUDFs.vb" />
-    <Compile Include="src\ExcelUDFs\MultinomialLogitUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\GeeUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\GlmNbUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\GlmUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\LinearModelUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\MixedModelUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\MultinomialLogitUDFs.vb" />
     <Compile Include="src\ExcelUDFs\MultivariateAnalysisUDFs.vb" />
     <Compile Include="src\ExcelUDFs\NonparametricUDFs.vb" />
-    <Compile Include="src\ExcelUDFs\OrdinalLogitUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\OrdinalLogitUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ParametricUDFs.vb" />
     <Compile Include="src\ExcelUDFs\PlotDataUDFs.vb" />
-    <Compile Include="src\ExcelUDFs\RegressionFormulaUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\RegressionFormulaUDFs.vb" />
     <Compile Include="src\ExcelUDFs\SampleSizeUDFs.vb" />
     <Compile Include="src\ExcelUDFs\SurvivalUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImport.vb" />
+    <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportAgreement.vb" />
+    <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportContingency.vb" />
+    <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportMixedModel.vb" />
+    <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportMultivariate.vb" />
+    <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportPlot.vb" />
+    <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportSurvival.vb" />
     <Compile Include="src\ExcelUDFs\UDFhelpers.vb" />
-    <Compile Include="src\ExcelUDFs\ZipUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\Regression\ZipUDFs.vb" />
     <Compile Include="src\Graphics\3Dobjects.vb" />
     <Compile Include="src\Graphics\BoxPlot.vb" />
     <Compile Include="src\Graphics\CalibrationPlot.vb" />
@@ -175,6 +183,30 @@
     <Compile Include="src\RegModels\Link.vb" />
     <Compile Include="src\RegModels\LMresult.vb" />
     <Compile Include="src\RegModels\LinearAlgebra\Matrix.vb" />
+    <Compile Include="src\RegModels\MixedModels\LMM.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelAnalyticGradient.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelAverageInformationOptimizer.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelBlockData.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelCovariance.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelCovarianceDerivatives.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelCovarianceParameterScale.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelEngine.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelEngine.Inference.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelFitRequest.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelFormulaService.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelGStruct.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelHypothesisBuilder.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelInferenceWorkspace.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelKenwardRogerBackend.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelKenwardRogerInference.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelNumericalDiagnostics.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelOptimizer.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelPostEstimation.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelReferenceGrid.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelResult.vb" />
+    <Compile Include="src\RegModels\MixedModels\MixedModelRStruct.vb" />
+    <Compile Include="src\RegModels\MixedModels\MMRM.vb" />
+    <Compile Include="src\RegModels\MixedModels\MMRMPostEstimation.vb" />
     <Compile Include="src\RegModels\MultinomialLogitModel.vb" />
     <Compile Include="src\RegModels\Multivariate\CA.vb" />
     <Compile Include="src\RegModels\Multivariate\ClusterAnalysis.vb" />
@@ -245,6 +277,18 @@
       <DependentUpon>Ui13GEE.vb</DependentUpon>
     </Compile>
     <Compile Include="src\UI\Ui13GEE.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui18MMRM.Designer.vb">
+      <DependentUpon>Ui18MMRM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui18MMRM.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui19LMM.Designer.vb">
+      <DependentUpon>Ui19LMM.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui19LMM.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\UI\Ui3XYZplot.Designer.vb">
@@ -353,6 +397,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui13GEE.resx">
       <DependentUpon>Ui13GEE.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui18MMRM.resx">
+      <DependentUpon>Ui18MMRM.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui19LMM.resx">
+      <DependentUpon>Ui19LMM.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui3XYZplot.resx">
       <DependentUpon>Ui3XYZplot.vb</DependentUpon>

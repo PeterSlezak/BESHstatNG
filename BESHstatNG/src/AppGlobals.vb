@@ -89,6 +89,62 @@ Namespace AppInfrastructure
         ''' </summary>
         Public gSettings As BeshStatNgSettings
 
+        ''' <summary>
+        ''' Optional cancellation callback for long-running regression UI computations.
+        ''' </summary>
+        Public Property RegressionCancellationRequested As Func(Of Boolean) = Nothing
+
+        ''' <summary>
+        ''' Optional interruption callback for long-running regression UI computations. Interruption asks
+        ''' the model to return the latest usable iteration result instead of aborting completely.
+        ''' </summary>
+        Public Property RegressionInterruptionRequested As Func(Of Boolean) = Nothing
+
+        Public Sub SetRegressionComputationCallbacks(cancelRequested As Func(Of Boolean),
+                                                     interruptRequested As Func(Of Boolean))
+            RegressionCancellationRequested = cancelRequested
+            RegressionInterruptionRequested = interruptRequested
+        End Sub
+
+        Public Sub ClearRegressionComputationCallbacks()
+            RegressionCancellationRequested = Nothing
+            RegressionInterruptionRequested = Nothing
+        End Sub
+
+        Public Function IsRegressionCancellationRequested() As Boolean
+            If RegressionCancellationRequested Is Nothing Then Return False
+
+            Try
+                Return RegressionCancellationRequested.Invoke()
+            Catch
+                Return False
+            End Try
+        End Function
+
+        Public Function IsRegressionInterruptionRequested() As Boolean
+            If RegressionInterruptionRequested Is Nothing Then Return False
+
+            Try
+                Return RegressionInterruptionRequested.Invoke()
+            Catch
+                Return False
+            End Try
+        End Function
+
+        Public Sub ThrowIfRegressionCancellationRequested(Optional message As String = "Calculation cancelled by user.")
+            PumpRegressionUiMessages()
+            If IsRegressionCancellationRequested() Then Throw New OperationCanceledException(message)
+        End Sub
+
+        Private Sub PumpRegressionUiMessages()
+            If RegressionCancellationRequested Is Nothing AndAlso RegressionInterruptionRequested Is Nothing Then Exit Sub
+
+            Try
+                System.Windows.Forms.Application.DoEvents()
+            Catch
+            End Try
+        End Sub
+
         Public ReadOnly Property ExcelMainHwnd As IntPtr
             Get
                 Try

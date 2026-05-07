@@ -45,7 +45,7 @@ Namespace WorksheetFunctions
     ''' </para>
     ''' <para>
     ''' The count and zero components each use the same regression-formula infrastructure already used by the other regression UDF modules,
-    ''' so continuous effects, authored categorical terms, polynomial terms, and interactions can be defined independently for each component.
+    ''' so continuous effects, authored categorical terms, polynomial terms, continuous-continuous interactions, categorical-continuous interactions, and categorical-categorical interactions can be defined independently for each component.
     ''' </para>
     ''' </remarks>
     Public Module ZIPUDFs
@@ -113,11 +113,11 @@ Namespace WorksheetFunctions
         ''' TRUE to include an intercept in the logistic zero component (default TRUE).
         ''' </param>
         ''' <param name="countFormula">
-        ''' Optional right-hand-side formula used to expand the raw count-component predictor matrix before fitting.
+        ''' Optional right-hand-side formula used to expand the raw count-component predictor matrix before fitting. Supported terms include additive effects, polynomial terms, <c>A:B</c>, <c>factor(C)</c>, <c>factor(C):B</c>, and <c>factor(C):factor(D)</c>.
         ''' If omitted or blank, all raw count predictors enter as continuous main effects.
         ''' </param>
         ''' <param name="zeroFormula">
-        ''' Optional right-hand-side formula used to expand the raw zero-component predictor matrix before fitting.
+        ''' Optional right-hand-side formula used to expand the raw zero-component predictor matrix before fitting. Supported terms include additive effects, polynomial terms, <c>A:B</c>, <c>factor(C)</c>, <c>factor(C):B</c>, and <c>factor(C):factor(D)</c>.
         ''' If omitted or blank, all raw zero predictors enter as continuous main effects.
         ''' </param>
         ''' <param name="formulaAddressing">
@@ -181,8 +181,8 @@ Namespace WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.REGR.ZIP_FIT(A2:A201,B2:D201)
-        ''' =BESH.REGR.ZIP_FIT(A2:A201,B2:D201,E2:G201,"Age,BMI,Treat","Age,Stage,Smoker",H2:H201,TRUE,TRUE,"factor(C)+A","factor(B)+C")
-        ''' =BESH.REGR.ZIP_FIT(A2:A201,B2:E201,,"Dose,Age,Stage,Center",,TRUE,FALSE,"A + factor(C) + A*B","factor(D)")
+        ''' =BESH.REGR.ZIP_FIT(A2:A201,B2:D201,E2:G201,"Age,BMI,Treat","Age,Stage,Smoker",H2:H201,TRUE,TRUE,"factor(C)+A+factor(C):A","factor(B)+C+factor(B):C")
+        ''' =BESH.REGR.ZIP_FIT(A2:A201,B2:E201,,"Dose,Age,Stage,Center",,TRUE,FALSE,"A + B + factor(C) + factor(C):B","factor(D)")
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -217,7 +217,7 @@ Namespace WorksheetFunctions
 
                 Dim countData As glmData = Nothing
                 Dim zeroData As glmData = Nothing
-                If Not TryBuildZipDataFromUdfArgs(y, xCount, effectiveZeroX, countVarNames, effectiveZeroVarNames, offset, countData, zeroData) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetZipData(y, xCount, effectiveZeroX, countVarNames, effectiveZeroVarNames, offset, countData, zeroData) Then
                     Return ExcelError.ExcelErrorValue
                 End If
 
@@ -823,7 +823,7 @@ Namespace WorksheetFunctions
             End If
 
             Dim imported As glmData = Nothing
-            If Not UDFhelpers.TryBuildPredictorDataFromUdfArgs(newCountX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
+            If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newCountX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
                 Return False
             End If
             If imported.nCols <> rawPredictorKeys.Length Then Return False
@@ -860,7 +860,7 @@ Namespace WorksheetFunctions
             If rawPredictorKeys.Length < 1 Then Return True
 
             Dim imported As glmData = Nothing
-            If Not UDFhelpers.TryBuildPredictorDataFromUdfArgs(newZeroX, rawPredictorKeys, Nothing, False, imported) Then
+            If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newZeroX, rawPredictorKeys, Nothing, False, imported) Then
                 Return False
             End If
             If imported.nCols <> rawPredictorKeys.Length Then Return False
@@ -891,148 +891,12 @@ Namespace WorksheetFunctions
             If Not Not IsMissingArg(newOffset) Then Return False
 
             Dim values As List(Of Double) = Nothing
-            If Not UDFhelpers.TryReadNumericColumn(newOffset, values) Then Return False
+            If Not Global.BESHStatNG.UdfDataImport.TryGetNumericColumn(newOffset, values) Then Return False
             If values Is Nothing OrElse values.Count < 1 Then Return False
 
             offsetVals = values.ToArray()
             If Not UDFhelpers.HasOnlyFinite(offsetVals) Then Return False
             nRows = offsetVals.Length
-            Return True
-        End Function
-
-        Private Function TryBuildZipDataFromUdfArgs(y As Object,
-                                                    xCount As Object,
-                                                    xZero As Object,
-                                                    countVarNames As Object,
-                                                    zeroVarNames As Object,
-                                                    offset As Object,
-                                                    ByRef countData As glmData,
-                                                    ByRef zeroData As glmData) As Boolean
-            countData = Nothing
-            zeroData = Nothing
-
-            Dim yCol(,) As Object = Nothing
-            Dim xCountMat(,) As Object = Nothing
-            Dim xZeroMat(,) As Object = Nothing
-            Dim offsetCol(,) As Object = Nothing
-
-            Dim yName As String = Nothing
-            Dim offsetName As String = Nothing
-            Dim inferredCountNames() As String = Nothing
-            Dim inferredZeroNames() As String = Nothing
-
-            If Not UDFhelpers.TryGetTrimmedColumnObject(y, yCol, yName, "numeric") Then Return False
-            If Not UDFhelpers.TryGetTrimmedNumericMatrixObject(xCount, xCountMat, inferredCountNames) Then Return False
-            If Not UDFhelpers.TryGetTrimmedNumericMatrixObject(xZero, xZeroMat, inferredZeroNames) Then Return False
-
-            Dim rowCount As Integer = yCol.GetLength(0)
-            If xCountMat.GetLength(0) <> rowCount Then Return False
-            If xZeroMat.GetLength(0) <> rowCount Then Return False
-
-            Dim hasOffset As Boolean = Not IsMissingArg(offset)
-            If hasOffset Then
-                If Not UDFhelpers.TryGetTrimmedColumnObject(offset, offsetCol, offsetName, "numeric") Then Return False
-                If offsetCol.GetLength(0) <> rowCount Then Return False
-            End If
-
-            Dim countPredictorNames As String() = UDFhelpers.ResolveImportedPredictorNames(countVarNames, inferredCountNames)
-            Dim zeroPredictorNames As String() = UDFhelpers.ResolveImportedPredictorNames(zeroVarNames, inferredZeroNames)
-
-            Dim countCols As Integer = xCountMat.GetLength(1)
-            Dim zeroCols As Integer = xZeroMat.GetLength(1)
-
-            Dim rawCount(rowCount - 1, countCols + If(hasOffset, 1, 0)) As Object
-            Dim countNames(countCols + If(hasOffset, 1, 0)) As String
-            countNames(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
-
-            For i As Integer = 0 To rowCount - 1
-                rawCount(i, 0) = yCol(i, 0)
-            Next
-            For j As Integer = 0 To countCols - 1
-                countNames(j + 1) = countPredictorNames(j)
-                For i As Integer = 0 To rowCount - 1
-                    rawCount(i, j + 1) = xCountMat(i, j)
-                Next
-            Next
-            If hasOffset Then
-                countNames(countCols + 1) = If(String.IsNullOrWhiteSpace(offsetName), "Offset", offsetName)
-                For i As Integer = 0 To rowCount - 1
-                    rawCount(i, countCols + 1) = offsetCol(i, 0)
-                Next
-            End If
-
-            Dim rawZero(rowCount - 1, zeroCols) As Object
-            Dim zeroNames(zeroCols) As String
-            zeroNames(0) = If(String.IsNullOrWhiteSpace(yName), "Y", yName)
-
-            For i As Integer = 0 To rowCount - 1
-                rawZero(i, 0) = yCol(i, 0)
-            Next
-            For j As Integer = 0 To zeroCols - 1
-                zeroNames(j + 1) = zeroPredictorNames(j)
-                For i As Integer = 0 To rowCount - 1
-                    rawZero(i, j + 1) = xZeroMat(i, j)
-                Next
-            Next
-
-            Dim countOut As New glmData With {.bOffset = hasOffset, .bWeights = False}
-            countOut.DataImportRawMatrix(rawCount, countNames)
-            If countOut.bZeroValid OrElse countOut.nRows < 1 Then Return False
-
-            Dim zeroOut As New glmData With {.bOffset = False, .bWeights = False}
-            zeroOut.DataImportRawMatrix(rawZero, zeroNames)
-            If zeroOut.bZeroValid OrElse zeroOut.nRows < 1 Then Return False
-
-            Dim keepCount As Dictionary(Of Integer, Integer) = CommonItems(countOut.RowIds, zeroOut.RowIds)
-            Dim keepZero As Dictionary(Of Integer, Integer) = CommonItems(zeroOut.RowIds, countOut.RowIds)
-            If keepCount Is Nothing OrElse keepZero Is Nothing Then Return False
-            If keepCount.Count < 1 OrElse keepZero.Count < 1 Then Return False
-            If keepCount.Count <> keepZero.Count Then Return False
-
-            countOut.SubsetByRowIdValues(keepCount)
-            zeroOut.SubsetByRowIdValues(keepZero)
-            If countOut.nRows <> zeroOut.nRows Then Return False
-            If countOut.nRows < 1 Then Return False
-
-            If Not ResponseColumnsMatchObjects(countOut.FinalData, zeroOut.FinalData) Then Return False
-            Dim response() As Integer = Nothing
-            If Not TryExtractNonnegativeIntegerResponseObjects(countOut.FinalData, response) Then Return False
-            If hasOffset AndAlso Not UDFhelpers.HasOnlyFinite(countOut.OffsetData) Then Return False
-
-            countData = countOut
-            zeroData = zeroOut
-            Return True
-        End Function
-
-        Private Function ResponseColumnsMatchObjects(countData(,) As Object, zeroData(,) As Object) As Boolean
-            If countData Is Nothing OrElse zeroData Is Nothing Then Return False
-            If countData.GetLength(0) <> zeroData.GetLength(0) Then Return False
-
-            For i As Integer = 0 To countData.GetLength(0) - 1
-                Dim yc As Double? = TryGetDouble(countData(i, 0))
-                Dim yz As Double? = TryGetDouble(zeroData(i, 0))
-                If Not yc.HasValue OrElse Not yz.HasValue Then Return False
-                If Math.Abs(yc.Value - yz.Value) > 0.0000001R Then Return False
-            Next
-
-            Return True
-        End Function
-
-        Private Function TryExtractNonnegativeIntegerResponseObjects(data(,) As Object, ByRef response() As Integer) As Boolean
-            response = Nothing
-            If data Is Nothing Then Return False
-            Dim n As Integer = data.GetLength(0)
-            If n < 1 Then Return False
-
-            ReDim response(n - 1)
-            For i As Integer = 0 To n - 1
-                Dim yi As Double? = TryGetDouble(data(i, 0))
-                If Not yi.HasValue Then Return False
-                Dim yr As Double = Math.Round(yi.Value)
-                If yi.Value < 0.0R OrElse Math.Abs(yi.Value - yr) > 0.0000001R Then Return False
-                response(i) = CInt(yr)
-            Next
-
             Return True
         End Function
 

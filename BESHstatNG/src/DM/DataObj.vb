@@ -32,6 +32,40 @@ Public Class MultiGroupsPairedDataObj
     Public varNames() As String
 End Class
 
+Public Class MmrmData
+    Public Raw As DataObj
+    Public SubjectKey As String
+    Public ResponseKey As String
+    Public VisitKey As String
+End Class
+
+''' <summary>
+''' Describes how an imported data matrix originated.  GUI imports normally populate this from a worksheet range;
+''' UDF imports can populate it from the supplied Excel argument or raw object matrix.
+''' </summary>
+Public Class DataSourceInfo
+    Public Property SourceKind As String = "Unknown"
+    Public Property Address As String = Nothing
+    Public Property SheetName As String = Nothing
+    Public Property FirstSourceRow As Integer = 1
+    Public Property FirstSourceColumn As Integer = 1
+    Public Property ColumnNames As String() = Nothing
+End Class
+
+''' <summary>
+''' Options used by the shared DataObj raw-matrix import path.  This is intentionally small in Batch 1 so it can
+''' back the existing GUI and UDF imports without changing public worksheet function signatures.
+''' </summary>
+Public Class DataImportOptions
+    Public Property FirstSourceRow As Integer = 1
+    Public Property SourceWorksheet As Worksheet = Nothing
+    Public Property CharCols As Integer = -1
+    Public Property SkipRows As Integer = 0
+    Public Property AllowMissing As Boolean = False
+    Public Property SourceKind As String = "RawMatrix"
+    Public Property SourceAddress As String = Nothing
+End Class
+
 ''' <summary>
 ''' Represents a data container and utility class for importing, cleaning,
 ''' and transforming worksheet data into structured arrays suitable for statistical analysis.
@@ -67,7 +101,7 @@ End Class
 ''' Typical workflow:
 ''' </para>
 ''' <list type="number">
-'''   <item><description>Call <c>DataInport</c> with a reference string to import worksheet data.</description></item>
+'''   <item><description>Call <c>DataImport</c> with a reference string to import worksheet data.</description></item>
 '''   <item><description>Use <c>RemoveMissing</c> to clean rows with missing values.</description></item>
 '''   <item><description>Access <c>FinalData</c>, <c>DataDbl</c>, or <c>DataByID2ByColumn</c> for analysis.</description></item>
 '''   <item><description>Optionally subset rows with <c>SubsetByRowIdValues</c>.</description></item>
@@ -76,7 +110,7 @@ End Class
 ''' <example>
 ''' ' Example: Import and clean worksheet data
 ''' Dim dObj As New DataObj()
-''' dObj.DataInport("Sheet1!A:C", bStartRow:=True)
+''' dObj.DataImport("Sheet1!A:C", bStartRow:=True)
 ''' Dim cleanData As Double(,) = dObj.DataDbl
 ''' Console.WriteLine("Rows: " + dObj.nRows + ", Cols: " + dObj.nCols)
 ''' </example>
@@ -89,8 +123,17 @@ Public Class DataObj
     Public nCols As Integer
     Public nRows As Integer
     Public bZeroValid As Boolean
+    Public SourceInfo As DataSourceInfo = Nothing
     Private StartRow As Integer
     Private pbAllowMissing As Boolean = False
+
+    Public ReadOnly Property AllowMissing As Boolean
+        Get
+            Return pbAllowMissing
+        End Get
+    End Property
+
+
     Public WriteOnly Property bAllowMissing() As Boolean
         Set(value As Boolean)
             pbAllowMissing = value
@@ -178,12 +221,19 @@ Public Class DataObj
     ''' </remarks>
     ''' <example>
     ''' Dim dObj As New DataObj()
-    ''' dObj.DataInport("Sheet1!A:C", bStartRow:=True, CharCols:=1)
+    ''' dObj.DataImport("Sheet1!A:C", bStartRow:=True, CharCols:=1)
     ''' Console.WriteLine("Rows: " + dObj.nRows + ", Cols: " + dObj.nCols)
     ''' </example>
-    Public Overridable Sub DataInport(ByRef ref As String, Optional bStartRow As Boolean = False,
+    Public Overridable Sub DataImport(ByRef ref As String, Optional bStartRow As Boolean = False,
                    Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
+        Me.bZeroValid = False
         Me.RangePrep(ref, bStartRow)
+        Me.SourceInfo = New DataSourceInfo With {
+            .SourceKind = "WorksheetRange",
+            .Address = ref,
+            .SheetName = If(Me.ws Is Nothing, Nothing, Me.ws.Name),
+            .FirstSourceRow = Me.StartRow
+        }
         Me.RemoveMissing(CharCols, SkipRow)
     End Sub
 
@@ -219,8 +269,33 @@ Public Class DataObj
             Next
         Next
 
+        Me.SourceInfo = New DataSourceInfo With {
+            .SourceKind = "RawMatrix",
+            .SheetName = If(sourceWorksheet Is Nothing, Nothing, sourceWorksheet.Name),
+            .FirstSourceRow = Me.StartRow
+        }
+
         Me.RemoveMissing(CharCols, SkipRow)
     End Sub
+
+    Public Overridable Sub DataImportRawMatrixWithOptions(rawInput(,) As Object,
+                                                         variableNames() As String,
+                                                         Optional options As DataImportOptions = Nothing)
+        If options Is Nothing Then options = New DataImportOptions()
+
+        Me.pbAllowMissing = options.AllowMissing
+        Me.DataImportRawMatrix(rawInput,
+                               variableNames,
+                               firstSourceRow:=options.FirstSourceRow,
+                               sourceWorksheet:=options.SourceWorksheet,
+                               CharCols:=options.CharCols,
+                               SkipRow:=options.SkipRows)
+
+        If Me.SourceInfo Is Nothing Then Me.SourceInfo = New DataSourceInfo()
+        Me.SourceInfo.SourceKind = If(String.IsNullOrWhiteSpace(options.SourceKind), "RawMatrix", options.SourceKind)
+        Me.SourceInfo.Address = options.SourceAddress
+    End Sub
+
 
     ''' <summary>
     ''' Prepares the raw data matrix from a worksheet reference string, handling non-contiguous ranges.
@@ -350,42 +425,47 @@ Public Class DataObj
     ''' </example>
     Private Sub RemoveMissing(Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
         'Subroutine removes rows from the input matrix that contain missing values. The returned matrix is redimensioned.
-        Dim temp(,) As Object, NoMissing As Integer, cnt As Integer, i As Integer, j As Integer
+        Dim NoMissing As Integer, cnt As Integer, i As Integer, j As Integer
         Dim haveChar = New List(Of Integer)
         'Dimension temporal matrix and return missing obs vector
-        ReDim temp(Me.nRows + Me.StartRow - 1, Me.nCols - 1), RowIds(Me.nRows + Me.StartRow - 1)
+        Me.bZeroValid = False
+        Me.FinalData = Nothing
+
+        'Dimension return missing obs vector
+        ReDim RowIds(Me.nRows + Me.StartRow - 1)
 
         For i = (Me.StartRow + SkipRow) To (Me.nRows + Me.StartRow - 1)
             cnt += 1
             Dim tmpChars = New List(Of Integer)
             Dim currentMiss As Integer = 0
             For j = 0 To Me.nCols - 1
-                If TypeOf Me.RawData(i, j) Is ExcelEmpty Or TypeOf Me.RawData(i, j) Is ExcelMissing Or TypeOf Me.RawData(i, j) Is ExcelError Then
-                    If Me.pbAllowMissing Then
-                        currentMiss += 1
-                        Me.RawData(i, j) = Nothing
-                    Else
-                        NoMissing += 1
-                        cnt -= 1
-                        Exit For 'Remove entire row
-                    End If
-                ElseIf IsNumeric(Me.RawData(i, j)) Then
-                    If TypeOf Me.RawData(i, j) Is String Then tmpChars.Add(j) 'number stored as text. Convert everything to text because we may sort by this column
-                    Continue For
-                ElseIf Not IsNumeric(Me.RawData(i, j)) And CharCols = -1 Then
-                    If Me.pbAllowMissing Then
-                        currentMiss += 1
-                        Me.RawData(i, j) = Nothing
-                    Else
-                        NoMissing += 1
-                        cnt -= 1
-                        Exit For 'Remove entire row
-                    End If
-                ElseIf Not IsNumeric(Me.RawData(i, j)) And CharCols > -1 And j <= CharCols Then 'accept char data but only in the 1st # of specified columns
-                    tmpChars.Add(j)
-                    Continue For
-                ElseIf Not IsNumeric(Me.RawData(i, j)) And j > CharCols Then
-                    If Me.pbAllowMissing Then
+                'If TypeOf Me.RawData(i, j) Is ExcelEmpty Or TypeOf Me.RawData(i, j) Is ExcelMissing Or TypeOf Me.RawData(i, j) Is ExcelError Then
+                If Me.RawData(i, j) Is Nothing OrElse TypeOf Me.RawData(i, j) Is ExcelEmpty OrElse TypeOf Me.RawData(i, j) Is ExcelMissing OrElse TypeOf Me.RawData(i, j) Is ExcelError Then
+                        If Me.pbAllowMissing Then
+                            currentMiss += 1
+                            Me.RawData(i, j) = Nothing
+                        Else
+                            NoMissing += 1
+                            cnt -= 1
+                            Exit For 'Remove entire row
+                        End If
+                    ElseIf IsNumeric(Me.RawData(i, j)) Then
+                        If TypeOf Me.RawData(i, j) Is String Then tmpChars.Add(j) 'number stored as text. Convert everything to text because we may sort by this column
+                        Continue For
+                    ElseIf Not IsNumeric(Me.RawData(i, j)) And CharCols = -1 Then
+                        If Me.pbAllowMissing Then
+                            currentMiss += 1
+                            Me.RawData(i, j) = Nothing
+                        Else
+                            NoMissing += 1
+                            cnt -= 1
+                            Exit For 'Remove entire row
+                        End If
+                    ElseIf Not IsNumeric(Me.RawData(i, j)) And CharCols > -1 And j <= CharCols Then 'accept char data but only in the 1st # of specified columns
+                        tmpChars.Add(j)
+                        Continue For
+                    ElseIf Not IsNumeric(Me.RawData(i, j)) And j > CharCols Then
+                        If Me.pbAllowMissing Then
                         currentMiss += 1
                         Me.RawData(i, j) = Nothing
                     Else
@@ -402,6 +482,11 @@ Public Class DataObj
                     cnt -= 1
                 Else
                     RowIds(cnt - 1) = i
+                    If CharCols > -1 Or tmpChars.Count > 0 Then
+                        For Each xxx In tmpChars
+                            If Not haveChar.Contains(xxx) Then haveChar.Add(xxx)
+                        Next
+                    End If
                 End If
             Else
                 If j = Me.nCols Then 'check for character columns
@@ -415,21 +500,23 @@ Public Class DataObj
             End If
         Next
 
-        'Redimension the temporary array to equal the ouput array
         If cnt = 0 Then 'zero valid data
             AppGlobals.BSlogg.Log("Zero valid matched data!")
+            Me.bZeroValid = True
+            Me.nRows = 0
+            Me.FinalData = Nothing
+            Me.RowIds = New Integer() {}
             Exit Sub
-        Else
-            Me.bZeroValid = False
-            ReDim Me.FinalData(cnt - 1, Me.nCols - 1)
-            ReDim Preserve RowIds(cnt - 1)
-            Me.nRows = cnt
         End If
 
+        ReDim Preserve RowIds(cnt - 1)
+        Me.nRows = cnt
+
         'check if any variable have all values missing
+        Dim originalCols As Integer = Me.nCols
         Dim ColToDrop = New List(Of Integer)
         If Me.pbAllowMissing Then
-            For j = 0 To nCols - 1
+            For j = 0 To originalCols - 1
                 Dim nMiss As Integer = 0
                 For i = 0 To cnt - 1
                     If Me.RawData(RowIds(i), j) Is Nothing Then nMiss += 1
@@ -438,36 +525,51 @@ Public Class DataObj
             Next
         End If
 
+        Dim retainedCols As Integer = originalCols - ColToDrop.Count
+        If retainedCols <= 0 Then
+            AppGlobals.BSlogg.Log("Zero valid variables after dropping all-missing columns!")
+            Me.bZeroValid = True
+            Me.nCols = 0
+            Me.FinalData = Nothing
+            Me.varNames = New String() {}
+            Exit Sub
+        End If
+
+        ReDim Me.FinalData(cnt - 1, retainedCols - 1)
+
         'Dump the matrix with deleted rows into the resized array
         For i = 0 To cnt - 1
             Dim jj As Integer = 0
-            For j = 0 To nCols - 1
-                If Me.pbAllowMissing Then
-                    If Not ColToDrop.Contains(j) Then 'if column contains no data then drop it
-                        Me.FinalData(i, jj) = Me.RawData(RowIds(i), j)
-                        jj += 1
-                    End If
-                Else
-                    'If CharCols > -1 Or haveChar.Contains(j) Then 'we had some character value in this column so convert everything to char
+            For j = 0 To originalCols - 1
+                If Not ColToDrop.Contains(j) Then
                     If (CharCols > -1 AndAlso j <= CharCols) OrElse haveChar.Contains(j) Then 'convert only declared/text columns to text
-                            Me.FinalData(i, j) = CStr(Me.RawData(RowIds(i), j))
+                        If Me.RawData(RowIds(i), j) Is Nothing Then
+                            Me.FinalData(i, jj) = Nothing
                         Else
-                            Me.FinalData(i, j) = Me.RawData(RowIds(i), j)
+                            Me.FinalData(i, jj) = CStr(Me.RawData(RowIds(i), j))
+                        End If
+                    Else
+                        Me.FinalData(i, jj) = Me.RawData(RowIds(i), j)
                     End If
+                    jj += 1
                 End If
             Next
         Next i
 
-        'If we droped any variable then update the variable name list also
-        If Me.pbAllowMissing AndAlso ColToDrop.Count > 0 Then
+        'If we dropped any variable then update the variable name list also
+        If ColToDrop.Count > 0 Then
+            Dim newNames(retainedCols - 1) As String
             Dim jj As Integer = 0
-            For j = 0 To nCols - 1
+            For j = 0 To originalCols - 1
                 If Not ColToDrop.Contains(j) Then
-                    Me.varNames(jj) = Me.varNames(j)
+                    newNames(jj) = Me.varNames(j)
                     jj += 1
                 End If
             Next
-            ReDim Preserve Me.varNames(jj - 1)
+            Me.varNames = newNames
+            Me.nCols = retainedCols
+        Else
+            Me.nCols = originalCols
         End If
     End Sub
 
@@ -509,7 +611,7 @@ End Class
 ''' ' Example: import GLM data with weights
 ''' Dim glm As New glmData()
 ''' glm.bWeights = True
-''' glm.DataInport("Sheet1!A:D", bStartRow:=True)
+''' glm.DataImport("Sheet1!A:D", bStartRow:=True)
 ''' Console.WriteLine("Rows: " + glm.nRows + ", Cols: " + glm.nCols)
 ''' Console.WriteLine("Weight variable: " + glm.OffsetVarName)
 ''' </example>
@@ -593,7 +695,7 @@ Public Class glmData
     ''' <param name="CharCols">Optional. Number of leading columns allowed to contain character data. Default = -1.</param>
     ''' <param name="SkipRow">Optional. Number of rows to skip at the top of the range. Default = 0.</param>
     ''' <remarks>
-    ''' - Calls <c>DataObj.DataInport</c> to import the base data.  
+    ''' - Calls <c>DataObj.DataImport</c> to import the base data.  
     ''' - If <c>bWeights</c> is <c>True</c>, the last column is extracted into <c>WeightData</c> and removed from <c>FinalData</c>.  
     ''' - If <c>bOffset</c> is <c>True</c>, the last column is extracted into <c>OffsetData</c> and removed from <c>FinalData</c>.  
     ''' - Updates <c>WeightVarName</c> and <c>OffsetVarName</c> accordingly.  
@@ -602,13 +704,13 @@ Public Class glmData
     ''' ' Example: import GLM data with offset
     ''' Dim glm As New glmData()
     ''' glm.bOffset = True
-    ''' glm.DataInport("Sheet1!A:D", bStartRow:=True)
+    ''' glm.DataImport("Sheet1!A:D", bStartRow:=True)
     ''' Console.WriteLine("Offset variable: " + glm.WeightVarName)
     ''' </example>
-    Public Overrides Sub DataInport(ByRef ref As String, Optional bStartRow As Boolean = False,
+    Public Overrides Sub DataImport(ByRef ref As String, Optional bStartRow As Boolean = False,
                                Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
 
-        MyBase.DataInport(ref, bStartRow, CharCols, SkipRow)
+        MyBase.DataImport(ref, bStartRow, CharCols, SkipRow)
         SplitOffsetAndWeights()
     End Sub
 
@@ -679,7 +781,7 @@ Public Class geeData
     ''' <param name="CharCols">Optional. Number of leading columns allowed to contain character data. Default = -1.</param>
     ''' <param name="SkipRow">Optional. Number of rows to skip at the top of the range. Default = 0.</param>
     ''' <remarks>
-    ''' - Calls <c>DataObj.DataInport</c> to import the base data.  
+    ''' - Calls <c>DataObj.DataImport</c> to import the base data.  
     ''' - If <c>bWeights</c> is <c>True</c>, the last column is extracted into <c>WeightData</c> and removed from <c>FinalData</c>.  
     ''' - If <c>bOffset</c> is <c>True</c>, the last column is extracted into <c>OffsetData</c> and removed from <c>FinalData</c>.  
     ''' - Updates <c>WeightVarName</c> and <c>OffsetVarName</c> accordingly.  
@@ -688,13 +790,13 @@ Public Class geeData
     ''' ' Example: import GLM data with offset
     ''' Dim glm As New glmData()
     ''' glm.bOffset = True
-    ''' glm.DataInport("Sheet1!A:D", bStartRow:=True)
+    ''' glm.DataImport("Sheet1!A:D", bStartRow:=True)
     ''' Console.WriteLine("Offset variable: " + glm.WeightVarName)
     ''' </example>
-    Public Overrides Sub DataInport(ByRef ref As String, Optional bStartRow As Boolean = False,
+    Public Overrides Sub DataImport(ByRef ref As String, Optional bStartRow As Boolean = False,
                                    Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
 
-        MyBase.DataInport(ref, bStartRow, CharCols, SkipRow)
+        MyBase.DataImport(ref, bStartRow, CharCols, SkipRow)
         FinalizeGeeImport()
     End Sub
 
@@ -812,7 +914,7 @@ End Class
 ''' ' Example: import CoxPH data with strata
 ''' Dim cox As New CoxPHData()
 ''' cox.bStrata = True
-''' cox.DataInport("Sheet1!A:D", bStartRow:=True)
+''' cox.DataImport("Sheet1!A:D", bStartRow:=True)
 ''' Console.WriteLine("Rows: " + cox.nRows + ", Cols: " + cox.nCols)
 ''' Console.WriteLine("Time variable: " + cox.TimeVarName)
 ''' Console.WriteLine("Censor variable: " + cox.CensorVarName)
@@ -862,7 +964,7 @@ Public Class CoxPHData
     ''' <param name="CharCols">Optional. Number of leading columns allowed to contain character data. Default = -1.</param>
     ''' <param name="SkipRow">Optional. Number of rows to skip at the top of the range. Default = 0.</param>
     ''' <remarks>
-    ''' - Calls <c>DataObj.DataInport</c> to import the base data.  
+    ''' - Calls <c>DataObj.DataImport</c> to import the base data.  
     ''' - First column is always treated as time-to-event.  
     ''' - Second column must be a censoring indicator (0 or 1).  
     ''' - If <c>bStrata</c> is <c>True</c>, third column is treated as strata.  
@@ -872,12 +974,12 @@ Public Class CoxPHData
     ''' <example>
     ''' ' Example: import CoxPH data without strata
     ''' Dim cox As New CoxPHData()
-    ''' cox.DataInport("Sheet1!A:C", bStartRow:=True)
+    ''' cox.DataImport("Sheet1!A:C", bStartRow:=True)
     ''' Console.WriteLine("Time variable: " + cox.TimeVarName)
     ''' Console.WriteLine("Censor variable: " + cox.CensorVarName)
     ''' Console.WriteLine("Covariates: " + String.Join(",", cox.varNames))
     ''' </example>
-    Public Overrides Sub DataInport(ByRef ref As String, Optional bStartRow As Boolean = False,
+    Public Overrides Sub DataImport(ByRef ref As String, Optional bStartRow As Boolean = False,
                                 Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
 
         Dim effectiveCharCols As Integer = CharCols
@@ -885,7 +987,7 @@ Public Class CoxPHData
             effectiveCharCols = 2
         End If
 
-        MyBase.DataInport(ref, bStartRow, effectiveCharCols, SkipRow)
+        MyBase.DataImport(ref, bStartRow, effectiveCharCols, SkipRow)
         FinalizeCoxImport()
     End Sub
 

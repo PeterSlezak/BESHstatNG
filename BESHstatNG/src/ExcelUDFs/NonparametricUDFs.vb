@@ -61,10 +61,10 @@ Namespace WorksheetFunctions
             Dim x1 As Double(), x2 As Double()
             Dim err As ExcelError? = Nothing
 
-            x1 = UDFhelpers.ExtractNumericColumnIgnoringNonNumeric(group1, err)
+            x1 = Global.BESHStatNG.UdfDataImport.GetNumericColumnIgnoringNonNumeric(group1, err)
             If err.HasValue Then Return err.Value
 
-            x2 = UDFhelpers.ExtractNumericColumnIgnoringNonNumeric(group2, err)
+            x2 = Global.BESHStatNG.UdfDataImport.GetNumericColumnIgnoringNonNumeric(group2, err)
             If err.HasValue Then Return err.Value
 
             If x1.Length < 1 OrElse x2.Length < 1 Then
@@ -143,10 +143,10 @@ Namespace WorksheetFunctions
             Dim x1 As Double(), x2 As Double()
             Dim err As ExcelError? = Nothing
 
-            x1 = UDFhelpers.ExtractNumericColumnIgnoringNonNumeric(group1, err)
+            x1 = Global.BESHStatNG.UdfDataImport.GetNumericColumnIgnoringNonNumeric(group1, err)
             If err.HasValue Then Return err.Value
 
-            x2 = UDFhelpers.ExtractNumericColumnIgnoringNonNumeric(group2, err)
+            x2 = Global.BESHStatNG.UdfDataImport.GetNumericColumnIgnoringNonNumeric(group2, err)
             If err.HasValue Then Return err.Value
 
             If x1.Length < 1 OrElse x2.Length < 1 Then
@@ -232,7 +232,7 @@ Namespace WorksheetFunctions
             Dim pairs As Double(,)
             Dim err As ExcelError? = Nothing
 
-            pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(x, y, err)
+            pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(x, y, err)
             If err.HasValue Then Return err.Value
 
             If pairs Is Nothing OrElse pairs.GetLength(0) < 1 Then
@@ -304,7 +304,7 @@ Namespace WorksheetFunctions
             Dim pairs As Double(,)
             Dim err As ExcelError? = Nothing
 
-            pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(x, y, err)
+            pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(x, y, err)
             If err.HasValue Then Return err.Value
 
             If pairs Is Nothing OrElse pairs.GetLength(0) < 1 Then
@@ -388,7 +388,7 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="alpha", Description:="Optional alpha for internal CI metadata; coefficient output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
+            Dim pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
@@ -459,7 +459,7 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="alpha", Description:="Optional alpha passed through for API consistency; p-value output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
+            Dim pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
@@ -537,7 +537,7 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="alpha", Description:="Optional alpha for internal CI metadata; coefficient output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
+            Dim pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 3 Then Return ExcelError.ExcelErrorNum
 
@@ -601,7 +601,7 @@ Namespace WorksheetFunctions
             <ExcelArgument(Name:="alpha", Description:="Optional alpha passed through for API consistency; p-value output is unchanged.")> Optional alpha As Object = Nothing) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim pairs = UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
+            Dim pairs = Global.BESHStatNG.UdfDataImport.GetPairedNumericColumnsIgnoringNonNumeric(xRange, yRange, err)
             If err.HasValue Then Return err.Value
             If pairs Is Nothing OrElse pairs.GetLength(0) < 4 Then Return ExcelError.ExcelErrorNum
 
@@ -673,7 +673,7 @@ Namespace WorksheetFunctions
         ) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim data = UDFhelpers.ExtractNumericGroupsFromColumnsIgnoringNonNumeric(groups, err)
+            Dim data = Global.BESHStatNG.UdfDataImport.GetNumericGroupsFromColumnsIgnoringNonNumeric(groups, err)
             If err.HasValue Then Return err.Value
             If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
@@ -740,7 +740,7 @@ Namespace WorksheetFunctions
         ) As Object
 
             Dim err? As ExcelError = Nothing
-            Dim data = UDFhelpers.ExtractNumericGroupsFromColumnsIgnoringNonNumeric(groups, err)
+            Dim data = Global.BESHStatNG.UdfDataImport.GetNumericGroupsFromColumnsIgnoringNonNumeric(groups, err)
             If err.HasValue Then Return err.Value
             If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
@@ -815,12 +815,8 @@ Namespace WorksheetFunctions
             Try
                 Dim mat As Double(,) = Nothing
                 Dim k As Integer = 0, b As Integer = 0
-                If Not UDFhelpers.ExtractCompleteNumericMatrixCompleteCases(data, mat, b, k) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If b < 2 OrElse k < 2 Then
-                    Return ExcelError.ExcelErrorNum
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixCompleteCases(data, mat, b, k) Then Return ExcelError.ExcelErrorValue
+                If b < 2 OrElse k < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names(k - 1) As String
                 For j = 0 To k - 1
@@ -889,12 +885,8 @@ Namespace WorksheetFunctions
             Try
                 Dim mat As Double(,) = Nothing
                 Dim k As Integer = 0, b As Integer = 0
-                If Not UDFhelpers.ExtractCompleteNumericMatrixCompleteCases(data, mat, b, k) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
-                If b < 2 OrElse k < 2 Then
-                    Return ExcelError.ExcelErrorNum
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixCompleteCases(data, mat, b, k) Then Return ExcelError.ExcelErrorValue
+                If b < 2 OrElse k < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names(k - 1) As String
                 For j = 0 To k - 1
@@ -960,9 +952,7 @@ Namespace WorksheetFunctions
             Try
                 Dim data()() As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not UDFhelpers.TryReadGroupedNumericColumns(groups, data, detectedNames) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(groups, data, detectedNames) Then Return ExcelError.ExcelErrorValue
                 If data Is Nothing OrElse data.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim names() As String = ResolveNames(groupNames, detectedNames, data.Length, "Group")
@@ -1027,7 +1017,7 @@ Namespace WorksheetFunctions
             Try
                 Dim mat(,) As Double = Nothing
                 Dim detectedNames() As String = Nothing
-                If Not UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetCompleteNumericMatrixWithHeaders(data, mat, detectedNames) Then
                     Return ExcelError.ExcelErrorValue
                 End If
                 If mat.GetLength(0) < 2 OrElse mat.GetLength(1) < 2 Then Return ExcelError.ExcelErrorNum

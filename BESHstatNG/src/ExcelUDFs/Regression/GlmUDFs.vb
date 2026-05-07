@@ -45,9 +45,10 @@ Namespace WorksheetFunctions
     ''' predictions, and explicit cleanup without refitting.
     ''' </para>
     ''' <para>
-    ''' Predictor formulas allow additive effects, polynomial terms, interactions, and categorical main effects to be built from
-    ''' the raw predictor matrix supplied to the fit function. This lets the worksheet formula define the design matrix while
-    ''' keeping prediction on new data consistent with the original model specification.
+    ''' Predictor formulas allow additive effects, polynomial terms, continuous-continuous interactions, categorical main effects,
+    ''' categorical-continuous interactions, and categorical-categorical interactions to be built from the raw predictor matrix
+    ''' supplied to the fit function. This lets the worksheet formula define the design matrix while keeping prediction on new data
+    ''' consistent with the original model specification.
     ''' </para>
     ''' </remarks>
     Public Module GLMUDFs
@@ -124,7 +125,7 @@ Namespace WorksheetFunctions
         ''' <param name="formula">
         ''' Optional right-hand-side formula used to expand the raw predictor matrix before fitting.
         ''' If omitted or blank, all raw predictor columns are included as continuous main effects.
-        ''' Formula expansion can create transformed terms, interactions, and categorical indicators while preserving a consistent design for prediction.
+        ''' Formula expansion can create transformed terms, continuous-continuous interactions, categorical indicators, categorical-continuous interactions, and categorical-categorical interactions while preserving a consistent design for prediction.
         ''' </param>
         ''' <param name="formulaAddressing">
         ''' Formula-addressing mode: <c>relative</c> (default), <c>absolute</c>, or <c>names</c>.
@@ -187,7 +188,7 @@ Namespace WorksheetFunctions
         ''' <example>
         ''' <code>
         ''' =BESH.REGR.GLM_FIT(A2:A101,B2:D101,"Age,BMI,Treat","binomial","logit")
-        ''' =BESH.REGR.GLM_FIT(A2:A101,B2:E101,"Dose,Age,Stage,Center","poisson","log",F2:F101,,TRUE,"A + B + factor(D)","relative")
+        ''' =BESH.REGR.GLM_FIT(A2:A101,B2:E101,"Dose,Age,Stage,Center","poisson","log",F2:F101,,TRUE,"A + B + factor(D) + factor(D):B","relative")
         ''' =BESH.REGR.GLM_FIT(A2:A101,B2:C101,"X1,X2","negative binomial","log",, ,TRUE,,,0.75)
         ''' </code>
         ''' </example>
@@ -219,9 +220,7 @@ Namespace WorksheetFunctions
 
             Try
                 Dim imported As glmData = Nothing
-                If Not UDFhelpers.TryBuildGlmDataFromUdfArgs(y, x, varNames, offset, weights, imported) Then
-                    Return ExcelError.ExcelErrorValue
-                End If
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGlmData(y, x, varNames, offset, weights, imported) Then Return ExcelError.ExcelErrorValue
 
                 Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
@@ -711,7 +710,7 @@ Namespace WorksheetFunctions
                     End If
                 Else
                     Dim imported As glmData = Nothing
-                    If Not UDFhelpers.TryBuildPredictorDataFromUdfArgs(newX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                     If imported.nCols <> rawPredictorKeys.Length Then Return ExcelError.ExcelErrorValue

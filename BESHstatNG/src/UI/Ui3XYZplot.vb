@@ -172,7 +172,7 @@ Public Class Ui3XYZplot
             Dim wks As String = WorksheetNameFromRefAdress(Me.RefEdit1_3Dobjects.Address, True)
             ref = prepareRef2D(Me.RefEdit1_3Dobjects.Address)
             IdData.bAllowMissing = True
-            IdData.DataInport(ref, True, 1)
+            IdData.DataImport(ref, True, 1)
 
             Return IdData
         Else
@@ -360,7 +360,7 @@ Public Class Ui3XYZplot
                        Replace(refZ, wks & "!", String.Empty) 'Remove "Sheet1!" from string
         End If
 
-        byIdData.DataInport(refFinal, True, CharCols)
+        byIdData.DataImport(refFinal, True, CharCols)
 
         Return byIdData
 
@@ -726,7 +726,7 @@ Public Class Ui3XYZplot
         Dim columData = New DataObj
         Dim ref As String = prepareRef2D(Me.RefEdit6_AnimatedGif.Address, Me.RefEdit6_AnimatedGif.ExcelWorkBook)
 
-        columData.DataInport(ref, True)
+        columData.DataImport(ref, True)
         out.X = columData.DataDbl()
         out.varNames = columData.varNames
 

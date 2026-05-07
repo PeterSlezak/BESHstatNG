@@ -592,6 +592,12 @@ Public Class CoxPH
         ReDim pIterationDetails(p + 1, Me.pmaxIter - 1) 'parameters + LL + LL change
 
         For Me.pIterations = 0 To Me.pmaxIter - 1
+            AppGlobals.ThrowIfRegressionCancellationRequested("Cox proportional hazards calculation cancelled by user.")
+            If Me.pIterations > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
+                AppGlobals.BSlogg.Log("Cox proportional hazards calculation interrupted by user; returning latest accepted coefficient estimates.", AppGlobals.LogMsgType.Warn)
+                Exit For
+            End If
+
             Dim score(p - 1) As Double
             info = New Double(p - 1, p - 1) {}   ' reset Hessian accumulator
 
@@ -604,6 +610,7 @@ Public Class CoxPH
 
                 ' For each time with events
                 For Each eventGroup In eventsByTime
+                    AppGlobals.ThrowIfRegressionCancellationRequested("Cox proportional hazards calculation cancelled by user.")
 
                     Dim t As Double = eventGroup.Key
                     Dim events = eventGroup.OrderBy(Function(r) r.Index).ToList()
@@ -702,6 +709,8 @@ Public Class CoxPH
             Dim eventsByTime = group.Where(Function(r) r.Censorship = 1).GroupBy(Function(r) r.Time)
 
             For Each eventGroup In eventsByTime
+                AppGlobals.ThrowIfRegressionCancellationRequested("Cox proportional hazards calculation cancelled by user.")
+
                 Dim t = eventGroup.Key
                 Dim events = eventGroup.OrderBy(Function(r) r.Index).ToList()
                 Dim d = events.Count

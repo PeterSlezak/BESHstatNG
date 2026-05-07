@@ -1001,6 +1001,11 @@ Public Class GEE
         Const SAS_REL_THRESH As Double = 0.08   'SAS GENMOD GEE threshold :contentReference[oaicite:1]{index=1}
 
         For pItration = 0 To Me.pMaxiter
+            AppGlobals.ThrowIfRegressionCancellationRequested("GEE calculation cancelled by user.")
+            If pItration > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
+                AppGlobals.BSlogg.Log("GEE calculation interrupted by user; returning latest accepted estimating-equation parameters.", AppGlobals.LogMsgType.Warn)
+                Exit For
+            End If
 
             'Compute step (same as your current code)
             Me.updateMeanParams(update, score)

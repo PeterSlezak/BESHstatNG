@@ -59,6 +59,8 @@ Namespace WorksheetFunctions
             Public Property RawVarNames As String()
             Public Property RawPredictorKeys As String()
             Public Property RawPredictorAbsoluteLetters As String()
+            Public Property RequiredRawVarNames As String()
+            Public Property RequiredRawPredictorKeys As String()
             Public Property DesignSpec As RegressionFormulaDesignSpec
             Public Property OmitCategoricalReference As Boolean
             Public Property HasOffset As Boolean
@@ -138,7 +140,7 @@ Namespace WorksheetFunctions
         ''' <param name="formula">
         ''' Optional right-hand-side formula used to expand the raw predictor matrix before fitting.
         ''' If omitted or blank, all raw predictor columns are included as continuous main effects.
-        ''' Formula expansion can create transformed terms, interactions, and categorical indicators while preserving a consistent design for prediction.
+        ''' Formula expansion can create transformed terms, continuous-continuous interactions, categorical indicators, categorical-continuous interactions, and categorical-categorical interactions while preserving a consistent design for prediction.
         ''' </param>
         ''' <param name="formulaAddressing">
         ''' Formula-addressing mode: <c>relative</c> (default), <c>absolute</c>, or <c>names</c>.
@@ -203,7 +205,7 @@ Namespace WorksheetFunctions
         ''' <code>
         ''' =BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101)
         ''' =BESH.REGR.GEE_FIT(A2:A101,B2:E101,F2:F101,G2:G101,"Age,BMI,Treat,Visit","binomial","logit","exchangeable","robust")
-        ''' =BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101,,"Dose,Age,Stage","poisson","log","ar1","robust",H2:H101,,"A + B + factor(C)")
+        ''' =BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101,,"Dose,Age,Stage","poisson","log","ar1","robust",H2:H101,,"A + B + factor(C) + factor(C):B")
         ''' </code>
         ''' </example>
         <ExcelFunction(
@@ -239,7 +241,7 @@ Namespace WorksheetFunctions
 
             Try
                 Dim imported As geeData = Nothing
-                If Not UDFhelpers.TryBuildGeeDataFromUdfArgs(y, x, clusterId, time, varNames, offset, weights, imported) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGeeData(y, x, clusterId, time, varNames, offset, weights, imported) Then
                     Return ExcelError.ExcelErrorValue
                 End If
 
@@ -382,6 +384,8 @@ Namespace WorksheetFunctions
                     .RawVarNames = CloneStringArray(If(designBuild.FullRawPredictorNames, New String() {})),
                     .RawPredictorKeys = CloneStringArray(If(designBuild.FullRawPredictorKeys, New String() {})),
                     .RawPredictorAbsoluteLetters = CloneStringArray(If(designBuild.FullRawPredictorAbsoluteLetters, New String() {})),
+                    .RequiredRawVarNames = CloneStringArray(If(designBuild.RequiredRawPredictorNames, New String() {})),
+                    .RequiredRawPredictorKeys = CloneStringArray(If(designBuild.RequiredRawPredictorKeys, New String() {})),
                     .DesignSpec = designBuild.DesignSpec,
                     .OmitCategoricalReference = True,
                     .HasOffset = (fitOffset IsNot Nothing),
@@ -808,7 +812,9 @@ Namespace WorksheetFunctions
         ''' </summary>
         ''' <param name="handle">Handle returned by <c>BESH.REGR.GEE_FIT</c>.</param>
         ''' <param name="newX">
-        ''' New raw predictor matrix in the same raw-column order used at fitting time.
+        ''' New raw predictor matrix for the supplied observations.
+        ''' This may be either the full raw predictor matrix in the same column order used at fitting time, or, when a formula was used,
+        ''' the narrower matrix containing only the raw predictors required by that formula in formula-required order.
         ''' When the fitted model contains transformed terms, interactions, or categorical encodings, those derived columns are rebuilt automatically from this raw matrix using the original model specification.
         ''' </param>
         ''' <param name="newOffset">
@@ -845,7 +851,7 @@ Namespace WorksheetFunctions
         )>
         Public Function GEE_PRED(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.GEE_FIT.")> handle As Object,
-            <ExcelArgument(AllowReference:=True, Name:="newX", Description:="New raw predictor matrix in the same raw-column order used at fitting time.")> Optional newX As Object = Nothing,
+            <ExcelArgument(AllowReference:=True, Name:="newX", Description:="New raw predictor matrix: either all fit-time raw columns, or the formula-required raw columns in formula-required order.")> Optional newX As Object = Nothing,
             <ExcelArgument(Name:="newOffset", Description:="Optional offset vector for the new observations.")> Optional newOffset As Object = Nothing,
             <ExcelArgument(Name:="includeHeader", Description:="TRUE to include a header row (default TRUE).")> Optional includeHeader As Object = Nothing
         ) As Object
@@ -857,6 +863,9 @@ Namespace WorksheetFunctions
                 Dim rawPredictorKeys As String() = If(h.RawPredictorKeys, h.RawVarNames)
                 If rawPredictorKeys Is Nothing Then rawPredictorKeys = New String() {}
 
+                Dim requiredRawPredictorKeys As String() = If(h.RequiredRawPredictorKeys, rawPredictorKeys)
+                If requiredRawPredictorKeys Is Nothing OrElse requiredRawPredictorKeys.Length < 1 Then requiredRawPredictorKeys = rawPredictorKeys
+
                 Dim nRows As Integer = 0
                 Dim offsetVals() As Double = Nothing
                 Dim expandedX(,) As Double = Nothing
@@ -866,30 +875,19 @@ Namespace WorksheetFunctions
                         Return ExcelError.ExcelErrorValue
                     End If
                 Else
-                    Dim imported As glmData = Nothing
-                    If Not UDFhelpers.TryBuildPredictorDataFromUdfArgs(newX, rawPredictorKeys, newOffset, h.HasOffset, imported) Then
+                    If Not TryPrepareGeePredictionDesign(newX,
+                                     newOffset,
+                                     h.HasOffset,
+                                     rawPredictorKeys,
+                                     requiredRawPredictorKeys,
+                                     h.DesignSpec,
+                                     h.OmitCategoricalReference,
+                                     h.ExpandedPredictorNames,
+                                     nRows,
+                                     offsetVals,
+                                     expandedX) Then
                         Return ExcelError.ExcelErrorValue
                     End If
-                    If imported.nCols <> rawPredictorKeys.Length Then Return ExcelError.ExcelErrorValue
-
-                    Dim expandedNames() As String = Nothing
-                    Dim designErr As String = Nothing
-                    If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,
-                                                                                                        fullRawPredictorKeys:=rawPredictorKeys,
-                                                                                                        designSpec:=h.DesignSpec,
-                                                                                                        expandedX:=expandedX,
-                                                                                                        expandedPredictorNames:=expandedNames,
-                                                                                                        errorMessage:=designErr,
-                                                                                                        omitCategoricalReference:=h.OmitCategoricalReference) Then
-                        Return ExcelError.ExcelErrorValue
-                    End If
-
-                    If expandedNames Is Nothing Then expandedNames = New String() {}
-                    If expandedNames.Length <> h.ExpandedPredictorNames.Length Then Return ExcelError.ExcelErrorValue
-
-                    nRows = imported.nRows
-                    offsetVals = If(imported.bOffset, imported.OffsetData, Nothing)
-                    If Not UDFhelpers.HasOnlyFinite(offsetVals) Then Return ExcelError.ExcelErrorValue
                 End If
 
                 Dim beta() As Double = h.Model.results.Coeffs_est
@@ -1216,6 +1214,76 @@ Namespace WorksheetFunctions
             If String.IsNullOrWhiteSpace(key) Then Return ExcelError.ExcelErrorValue
             Dim removed As GeeHandle = Nothing
             Return _geeCache.TryRemove(key, removed)
+        End Function
+
+        Private Function TryPrepareGeePredictionDesign(newX As Object,
+                                                       newOffset As Object,
+                                                       hasOffset As Boolean,
+                                                       fullRawPredictorKeys As String(),
+                                                       requiredRawPredictorKeys As String(),
+                                                       designSpec As RegressionFormulaDesignSpec,
+                                                       omitCategoricalReference As Boolean,
+                                                       expectedExpandedPredictorNames As String(),
+                                                       ByRef nRows As Integer,
+                                                       ByRef offsetVals() As Double,
+                                                       ByRef expandedX(,) As Double) As Boolean
+
+            nRows = 0
+            offsetVals = Nothing
+            expandedX = Nothing
+
+            Dim candidateKeySets As New List(Of String())()
+            If fullRawPredictorKeys IsNot Nothing AndAlso fullRawPredictorKeys.Length > 0 Then
+                candidateKeySets.Add(fullRawPredictorKeys)
+            End If
+            If requiredRawPredictorKeys IsNot Nothing AndAlso requiredRawPredictorKeys.Length > 0 Then
+                Dim addRequired As Boolean = True
+                If candidateKeySets.Count > 0 AndAlso SequenceEqualStrings(candidateKeySets(0), requiredRawPredictorKeys) Then addRequired = False
+                If addRequired Then candidateKeySets.Add(requiredRawPredictorKeys)
+            End If
+
+            For Each candidateKeys As String() In candidateKeySets
+                Dim imported As glmData = Nothing
+                If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newX, candidateKeys, newOffset, hasOffset, imported) Then
+                    Continue For
+                End If
+                If imported Is Nothing OrElse imported.nCols <> candidateKeys.Length Then Continue For
+
+                Dim expandedNames() As String = Nothing
+                Dim designErr As String = Nothing
+                Dim candidateExpandedX(,) As Double = Nothing
+                If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,
+                                                                                                    fullRawPredictorKeys:=candidateKeys,
+                                                                                                    designSpec:=designSpec,
+                                                                                                    expandedX:=candidateExpandedX,
+                                                                                                    expandedPredictorNames:=expandedNames,
+                                                                                                    errorMessage:=designErr,
+                                                                                                    omitCategoricalReference:=omitCategoricalReference) Then
+                    Continue For
+                End If
+
+                If expandedNames Is Nothing Then expandedNames = New String() {}
+                If expectedExpandedPredictorNames IsNot Nothing AndAlso expandedNames.Length <> expectedExpandedPredictorNames.Length Then Continue For
+
+                Dim candidateOffset() As Double = If(imported.bOffset, imported.OffsetData, Nothing)
+                If Not UDFhelpers.HasOnlyFinite(candidateOffset) Then Continue For
+
+                nRows = imported.nRows
+                offsetVals = candidateOffset
+                expandedX = candidateExpandedX
+                Return True
+            Next
+
+            Return False
+        End Function
+
+        Private Function SequenceEqualStrings(left As String(), right As String()) As Boolean
+            If left Is Nothing OrElse right Is Nothing Then Return left Is right
+            If left.Length <> right.Length Then Return False
+            For i As Integer = 0 To left.Length - 1
+                If Not String.Equals(left(i), right(i), StringComparison.Ordinal) Then Return False
+            Next
+            Return True
         End Function
 
         Private Function BuildGeeTimeLabels(model As GEE, size As Integer) As String()

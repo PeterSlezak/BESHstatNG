@@ -383,6 +383,20 @@ Public Class Ribbon
 
     End Sub
 
+    Public Sub OnbtmMMRMPressed(control As IRibbonControl)
+        Dim sh As Worksheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
+        Else
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
+        End If
+        Dim mwForm As New Ui18MMRM("Mixed Models for Repeated Measures (MMRM)")
+        mwForm.Tag = HelpTopic.MixedModelsForRepeatedMeasuresMMRM
+        mwForm.Populate(sh)
+        mwForm.Show()
+    End Sub
+
     '--------------------------------------------------------------------------
     ' Multivariate
     '--------------------------------------------------------------------------

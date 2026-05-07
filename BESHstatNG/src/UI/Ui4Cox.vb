@@ -11,10 +11,16 @@ Public Class Ui4Cox
     Private TermSpecs As Dictionary(Of String, TermSpec)
     Private ReadOnly EffectsController As RegressionEffectsController
 
+    Private pRegressionCalculationRunning As Boolean = False
+    Private pRegressionCancelRequested As Boolean = False
+    Private pRegressionInterruptRequested As Boolean = False
+    Private pRegressionCloseAfterCancel As Boolean = False
+
     Sub New()
 
         ' This call is required by the designer.
         InitializeComponent()
+        Me.btInterrupt.Enabled = False
         Me.tbEps.Text = FormatUiDouble(0.000001)
 
         ' Add any initialization after the InitializeComponent() call.
@@ -25,6 +31,8 @@ Public Class Ui4Cox
         Me.btCalculate.Anchor = Windows.Forms.AnchorStyles.Bottom Or
                                 Windows.Forms.AnchorStyles.Right
         Me.btnHelp.Anchor = Windows.Forms.AnchorStyles.Bottom Or
+                                Windows.Forms.AnchorStyles.Right
+        Me.btInterrupt.Anchor = Windows.Forms.AnchorStyles.Bottom Or
                                 Windows.Forms.AnchorStyles.Right
         Me.ProgressBar1.Anchor = Windows.Forms.AnchorStyles.Bottom Or
                                 Windows.Forms.AnchorStyles.Right Or
@@ -87,6 +95,8 @@ Public Class Ui4Cox
     End Sub
 
     Private Sub btCalculate_Click(sender As Object, e As System.EventArgs) Handles btCalculate.Click
+        BeginRegressionComputation()
+
         Try
             Dim bWait As Boolean = False
             Dim strWarning As String = String.Empty
@@ -282,8 +292,13 @@ Public Class Ui4Cox
                 WriteRes.setRowPointer(1)
                 WriteRes.shiftColumnPointer(UBound(residualsList(i), 2) + 1)
             Next
+
+        Catch ex As System.OperationCanceledException
+            FinishRegressionComputation("Calculation cancelled.")
         Catch ex As Exception
             AppGlobals.BSerr.LogAndThrow(ex, False, True)
+        Finally
+            EndRegressionComputation()
         End Try
     End Sub
 
@@ -345,9 +360,67 @@ Public Class Ui4Cox
         Next
 
         Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
-        MyData.DataInport(ref)
+        MyData.DataImport(ref)
         Return MyData
     End Function
+
+    Private Sub BeginRegressionComputation()
+        pRegressionCancelRequested = False
+        pRegressionInterruptRequested = False
+        pRegressionCloseAfterCancel = False
+        pRegressionCalculationRunning = True
+        AppGlobals.SetRegressionComputationCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
+
+        Try
+            Me.btCalculate.Enabled = False
+            Me.btInterrupt.Enabled = True
+            Me.lblProgress.Text = "Preparing calculation..."
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
+    End Sub
+
+    Private Sub EndRegressionComputation()
+        pRegressionCalculationRunning = False
+        AppGlobals.ClearRegressionComputationCallbacks()
+
+        Try
+            If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then
+                Me.lblProgress.Text = "Calculation interrupted; latest accepted estimates returned."
+            End If
+            Me.btCalculate.Enabled = True
+            Me.btInterrupt.Enabled = False
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
+
+        If pRegressionCloseAfterCancel Then
+            pRegressionCloseAfterCancel = False
+            Try
+                Me.Close()
+            Catch
+            End Try
+        End If
+    End Sub
+
+    Private Function IsRegressionCancellationRequested() As Boolean
+        Return pRegressionCancelRequested
+    End Function
+
+    Private Function IsRegressionInterruptionRequested() As Boolean
+        Return pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested
+    End Function
+
+    Private Sub FinishRegressionComputation(message As String)
+        Try
+            Me.ProgressBar1.Style = Windows.Forms.ProgressBarStyle.Continuous
+            Me.lblProgress.Text = message
+            Me.btCalculate.Enabled = True
+            Me.btInterrupt.Enabled = False
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
+    End Sub
 
     ''' <summary>
     ''' Builds the expanded predictor matrix, predictor names, and survival-record list
@@ -372,7 +445,7 @@ Public Class Ui4Cox
                                        ByRef fitRecords As List(Of survival.SurvivalRecord))
 
         'Rebuild the raw predictor key list from the selected effects.
-        'Do not use MyData.varNames here: after CoxPHData.DataInport() those names are
+        'Do not use MyData.varNames here: after CoxPHData.DataImport() those names are
         'the imported/stripped covariate column names and may not match the UI raw keys
         'used by the selected-effects list (for example, "SEX | VarD").
         Dim rawXKeys As List(Of String) = RegressionDesignCore.GetRequiredRawVarKeys(Me.lbSelectedEffectsList.Items, Me.TermSpecs)
@@ -610,6 +683,36 @@ Public Class Ui4Cox
                 Me.lbSelectedVariables.Items.Add(Me.lbXs.Items(i))
             Next i
         End If
+    End Sub
+
+    Private Sub btInterrupt_Click(sender As Object, e As System.EventArgs) Handles btInterrupt.Click
+        If Not pRegressionCalculationRunning Then Exit Sub
+
+        pRegressionInterruptRequested = True
+
+        Try
+            Me.lblProgress.Text = "Interrupting; latest accepted estimates will be returned..."
+            Me.btInterrupt.Enabled = False
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
+    End Sub
+
+    Private Sub RegressionForm_FormClosing(sender As Object, e As Windows.Forms.FormClosingEventArgs) Handles Me.FormClosing
+        If Not pRegressionCalculationRunning Then Exit Sub
+
+        pRegressionCancelRequested = True
+        pRegressionCloseAfterCancel = True
+        e.Cancel = True
+
+        Try
+            Me.lblProgress.Text = "Cancelling calculation..."
+            Me.ProgressBar1.Style = Windows.Forms.ProgressBarStyle.Marquee
+            Me.btCalculate.Enabled = False
+            Me.btInterrupt.Enabled = False
+            Windows.Forms.Application.DoEvents()
+        Catch
+        End Try
     End Sub
 
 End Class

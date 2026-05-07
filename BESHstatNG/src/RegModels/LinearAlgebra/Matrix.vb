@@ -83,7 +83,17 @@ Namespace Matrix
             Return out
         End Function
 
+        Public Function MatrixTrace(a(,) As Double) As Double
+            If a Is Nothing Then Return Double.NaN
+            If a.GetLength(0) <> a.GetLength(1) Then Return Double.NaN
 
+            Dim out As Double = 0.0
+            For i As Integer = 0 To a.GetLength(0) - 1
+                out += a(i, i)
+            Next
+
+            Return out
+        End Function
 
         ''' <summary>
         ''' Computes the matrix product of two 2-dimensional numeric arrays.
@@ -208,7 +218,7 @@ Namespace Matrix
         ''' After conversion, multiplication is delegated to the primary 2-D × 2-D matrix multiplication routine.
         ''' </para>
         ''' </remarks>
-        Function MatrixMult(Matrix1(,) As Double, Matrix2() As Double) As Double(,)
+        Public Function MatrixMult(Matrix1(,) As Double, Matrix2() As Double) As Double(,)
             'overloading MatrixMult to have Matrix2 of rank = 1
             Dim Matrix2_2D(Matrix2.Length - 1, 0) As Double
             For ii = 0 To Matrix2.Length - 1
@@ -282,12 +292,30 @@ Namespace Matrix
         ''' v2(i) = v1(i) × c
         ''' </code>
         ''' </remarks>
-        Function MatrixMult(Matrix1() As Double, c As Double) As Double()
+        Public Function MatrixMult(Matrix1() As Double, c As Double) As Double()
             Dim MatrixOut(Matrix1.Length - 1) As Double
             For i = 0 To Matrix1.Length - 1
                 MatrixOut(i) = Matrix1(i) * c
             Next
             Return MatrixOut
+        End Function
+
+        Public Function NegativeVector(x() As Double) As Double()
+            If x Is Nothing Then Return Nothing
+            Return MatrixMult(x, -1.0)
+        End Function
+
+        Public Function MatrixVectorMultiply(a(,) As Double, x() As Double) As Double()
+            If a Is Nothing Then Throw New ArgumentNullException(NameOf(a))
+            If x Is Nothing Then Throw New ArgumentNullException(NameOf(x))
+            If a.GetLength(1) <> x.Length Then Throw New ApplicationException($"MatrixVectorMultiply dimension mismatch: matrix columns={a.GetLength(1)}, vector length={x.Length}.")
+
+            Dim tmp(,) As Double = Matrix.MatrixMult(a, x)
+            Dim out(tmp.GetLength(0) - 1) As Double
+            For i As Integer = 0 To tmp.GetLength(0) - 1
+                out(i) = tmp(i, 0)
+            Next
+            Return out
         End Function
 
         ''' <summary>
@@ -319,7 +347,10 @@ Namespace Matrix
         ''' If you want, I can add length validation for safety.
         ''' </para>
         ''' </remarks>
-        Function DotProduct(a() As Double, b() As Double) As Double
+        Public Function DotProduct(a() As Double, b() As Double) As Double
+            If a Is Nothing Then Throw New ArgumentNullException(NameOf(a))
+            If b Is Nothing Then Throw New ArgumentNullException(NameOf(b))
+            If a.Length <> b.Length Then Throw New ApplicationException("DotProduct vectors must have the same length.")
             Dim Out As Double
             For i = 0 To a.Length - 1
                 Out += a(i) * b(i)
@@ -1450,9 +1481,70 @@ Namespace Matrix
         Public Function IdentityMat(n As Integer) As Double(,)
             Dim out(n, n) As Double
             For i = 0 To n
-                out(i, i) = 1
+                out(i, i) = 1.0
             Next
             Return out
+        End Function
+
+        Public Function VectorNorm(x() As Double) As Double
+            If x Is Nothing Then Return Double.NaN
+
+            Dim s As Double = 0.0
+            For i As Integer = 0 To x.Length - 1
+                s += x(i) * x(i)
+            Next
+            Return Math.Sqrt(s)
+        End Function
+
+        Public Function MatrixIsFinite(a(,) As Double) As Boolean
+            If a Is Nothing Then Return False
+            For r As Integer = 0 To a.GetLength(0) - 1
+                For c As Integer = 0 To a.GetLength(1) - 1
+                    If Not AppInfrastructure.IsFinite(a(r, c)) Then Return False
+                Next
+            Next
+            Return True
+        End Function
+
+        Public Function VectorIsFinite(values() As Double) As Boolean
+            If values Is Nothing Then Return False
+            For Each value As Double In values
+                If Not AppInfrastructure.IsFinite(value) Then Return False
+            Next
+            Return True
+        End Function
+
+        Public Function MatrixIsFiniteAndSymmetric(a(,) As Double, tolerance As Double, ByRef message As String) As Boolean
+            message = String.Empty
+
+            If a Is Nothing Then
+                message = "matrix is Nothing."
+                Return False
+            End If
+
+            If a.GetLength(0) <> a.GetLength(1) Then
+                message = "matrix is not square."
+                Return False
+            End If
+
+            Dim n As Integer = a.GetLength(0)
+
+            For r As Integer = 0 To n - 1
+                For c As Integer = 0 To n - 1
+                    Dim v As Double = a(r, c)
+                    If Not AppInfrastructure.IsFinite(v) Then
+                        message = "matrix contains a non-finite value at (" & r.ToString() & ", " & c.ToString() & ")."
+                        Return False
+                    End If
+
+                    If Math.Abs(v - a(c, r)) > tolerance Then
+                        message = "matrix is not symmetric within tolerance at (" & r.ToString() & ", " & c.ToString() & ")."
+                        Return False
+                    End If
+                Next
+            Next
+
+            Return True
         End Function
 
         ''' <summary>
@@ -2386,62 +2478,6 @@ SplitOk:
             Return out
         End Function
 
-        'Function RegrL(y() As Double, x(,) As Double, bIntcpt As Boolean) As Double(,)
-        '    Dim ErSS As Double, Xs(,) As Double
-        '    AppGlobals.BSlogg.Log(MethodBase.GetCurrentMethod.Name & " execution start")
-
-        '    Dim n As Integer = x.GetUpperBound(0)
-        '    Dim p As Integer = x.GetUpperBound(1) 'p = count of predictors (eventualy) including intercept
-        '    Dim y2d(n, 0) As Double
-        '    If bIntcpt Then 'add intercept
-        '        p += 1
-
-        '        ReDim Xs(n, p)
-        '        For i = 0 To n
-        '            For j = 0 To p
-        '                If j = 0 Then
-        '                    Xs(i, j) = 1
-        '                Else
-        '                    Xs(i, j) = x(i, j - 1)
-        '                End If
-        '            Next
-        '        Next
-        '    Else
-        '        Xs = x
-        '    End If
-        '    For i = 0 To n
-        '        y2d(i, 0) = y(i)
-        '    Next
-
-        '    '------------------------------------------------------------
-        '    ' Solve the least-squares problem directly on X using SVD.
-        '    '------------------------------------------------------------
-        '    Dim Xplus(,) As Double = pseudoInverse(Xs, 0.0)
-        '    Dim ParametersEst(,) As Double = MatrixMult(Xplus, y2d)
-
-        '    'For full-column-rank designs:
-        '    '    Xplus * Xplus' = (X'X)^(-1)
-        '    'This is much more stable than explicitly forming/inverting X'X.
-        '    Dim XtXinv(,) As Double = MatrixMult(Xplus, trans(Xplus))
-
-        '    For i As Integer = 0 To n
-        '        Dim F(,) As Double = MatrixMult(trans(rowFromArray(Xs, i, True)), ParametersEst)
-        '        ErSS += (y(i) - F(0, 0)) ^ 2
-        '    Next
-
-        '    Dim VarCov(,) As Double = MatrixMult(XtXinv, ErSS / (n - p))
-
-        '    'put together for output: coefficients + SE
-        '    Dim out(p, 1) As Double
-        '    For i As Integer = 0 To p
-        '        out(i, 0) = ParametersEst(i, 0)
-        '        out(i, 1) = Math.Sqrt(Math.Max(0.0, VarCov(i, i)))
-        '    Next
-
-        '    AppGlobals.BSlogg.Log(MethodBase.GetCurrentMethod.Name & " execution end")
-        '    Return out
-        'End Function
-
         ''' <summary>
         ''' Extracts a single row from a 2-dimensional matrix and returns it as a 1-dimensional vector.
         ''' </summary>
@@ -2471,7 +2507,7 @@ SplitOk:
         ''' rowFromArray(mat, 1) → {4,5,6}
         ''' </code>
         ''' </remarks>
-        Function rowFromArray(mat(,) As Double, row As Integer) As Double()
+        Public Function rowFromArray(mat(,) As Double, row As Integer) As Double()
             Dim out(mat.GetUpperBound(1)) As Double
             For i = 0 To mat.GetUpperBound(1)
                 out(i) = mat(row, i)
@@ -2617,6 +2653,10 @@ SplitOk:
             Return out
         End Function
 
+        Public Function CloneMatrix(Of T)(mat(,) As T) As T(,)
+            If mat Is Nothing Then Return Nothing
+            Return CType(mat.Clone(), T(,))
+        End Function
 
         ''' <summary>
         ''' Performs a minimal implementation of Weighted Least Squares (WLS) regression.

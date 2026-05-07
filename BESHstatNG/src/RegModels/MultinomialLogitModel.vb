@@ -9,7 +9,6 @@ Imports Microsoft.VisualBasic.Devices
 
 Namespace regression
 
-
     ''' <summary>
     ''' Specifies which category is treated as the reference (baseline) category.
     ''' Categories are first sorted in ascending order of their observed values.
@@ -516,13 +515,18 @@ Namespace regression
             ReDim pItInfo(q + 1, pMaxiter) 'parameters, LL, LLchange
 
             For pItration = 0 To pMaxiter
+                AppGlobals.ThrowIfRegressionCancellationRequested("Multinomial logistic regression calculation cancelled by user.")
+                If pItration > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
+                    AppGlobals.BSlogg.Log("Multinomial logistic regression calculation interrupted by user; returning latest accepted estimates.", AppGlobals.LogMsgType.Warn)
+                    Exit For
+                End If
+
                 AppGlobals.BSlogg.Log($"MultinomialLogit iteration #{pItration}")
                 Dim g(q - 1) As Double
                 Dim H(q - 1, q - 1) As Double
                 Dim ll As Double = 0.0
 
                 For i As Integer = 0 To n - 1
-
                     Dim wi As Double = If(pbWeights, pWeights(i), 1.0)
                     If wi <= 0.0R Then Continue For
 

@@ -361,6 +361,7 @@ Namespace regression
         ''' <summary>Gets the variance inflation factor (VIF) table as a <see cref="ResultTable"/>.</summary>
         ''' <remarks>
         ''' VIFs are computed from the diagonal of the inverse weighted correlation matrix among predictors (excluding intercept).
+        ''' The table also reports each predictor's partial correlation with the response, adjusted for the remaining predictors.
         ''' </remarks>
         Public ReadOnly Property VIF_toPrint() As ResultTable
             Get
@@ -400,7 +401,7 @@ Namespace regression
         End Property
 
         ''' <summary>
-        ''' Returns a set of standard output tables for the fitted model (coefficients, model diagnostics, ANOVA, VIF, and residual diagnostics).
+        ''' Returns a set of standard output tables for the fitted model (coefficients, model diagnostics, ANOVA, VIF/partial correlations, and residual diagnostics).
         ''' </summary>
         ''' <returns>A list of <see cref="ResultTable"/> objects, in a presentation-friendly order.</returns>
         ''' <remarks>
@@ -537,6 +538,8 @@ Namespace regression
         ''' Variance inflation factors are computed from the inverse of the weighted predictor correlation matrix (excluding the intercept):
         ''' <c>VIF_j = (R^{-1})_{jj}</c>. The inversion uses <see cref="Matrix.MatInv"/>.
         ''' If the correlation matrix is singular or not positive definite, VIFs are reported as <c>+∞</c>.
+        ''' The same output table also reports coefficient-level partial correlations, computed as
+        ''' <c>r_partial,j = t_j / sqrt(t_j² + df_resid)</c>.
         ''' </para>
         ''' </remarks>
         ''' <seealso cref="Data"/>
@@ -685,7 +688,7 @@ Namespace regression
 
             '==== Build ResultTables ====
             pAnovaOverall = BuildOverallAnovaTable(ssr, sse, sst, dfModel, dfResid, dfTotal, mse, fStat, pStat)
-            pVIF = ComputeVIFTable_toPrint(X, w, includeIntercept) 'VIF
+            pVIF = ComputeVIFTable_toPrint(X, w, includeIntercept, beta, se, dfResid) 'VIF + partial correlations
 
             'Optional term ANOVA (Type I and Type III only)
             If computeTermAnova = TermSumOfSquaresType.TypeI Then
@@ -1060,12 +1063,15 @@ Namespace regression
         End Sub
 
         ''' <summary>
-        ''' Computes variance inflation factors (VIF) for each predictor (excluding the intercept) and returns them as a <see cref="ResultTable"/>.
+        ''' Computes variance inflation factors (VIF) and coefficient-level partial correlations for each predictor (excluding the intercept) and returns them as a <see cref="ResultTable"/>.
         ''' </summary>
         ''' <param name="Xfull">Full design matrix (including intercept if present).</param>
         ''' <param name="wvec">Weights vector.</param>
         ''' <param name="includeIntercept">If <c>True</c>, the first column is treated as intercept and excluded from VIF computations.</param>
-        ''' <returns>A <see cref="ResultTable"/> with one VIF value per predictor column.</returns>
+        ''' <param name="beta">Estimated coefficient vector in the same column order as <paramref name="Xfull"/>.</param>
+        ''' <param name="se">Coefficient standard errors in the same column order as <paramref name="Xfull"/>.</param>
+        ''' <param name="dfResid">Residual degrees of freedom used for the coefficient t-tests.</param>
+        ''' <returns>A <see cref="ResultTable"/> with one VIF and partial-correlation value per predictor column.</returns>
         ''' <remarks>
         ''' <para>
         ''' This implementation computes the (weighted) predictor correlation matrix <c>R</c> (excluding the intercept) and returns
@@ -1078,9 +1084,11 @@ Namespace regression
         ''' <para>
         ''' If the predictor correlation matrix is singular or not positive definite (perfect/multi-collinearity), the inversion may fail.
         ''' In that case the calling code may choose to report infinite/undefined VIFs.
+        ''' Partial correlations are computed from each coefficient t-statistic as
+        ''' <c>r_partial,j = t_j / sqrt(t_j² + df_resid)</c>, preserving the sign of the fitted coefficient.
         ''' </para>
         ''' </remarks>
-        Private Function ComputeVIFTable_toPrint(Xfull(,) As Double, wvec() As Double, includeIntercept As Boolean) As ResultTable
+        Private Function ComputeVIFTable_toPrint(Xfull(,) As Double, wvec() As Double, includeIntercept As Boolean, beta() As Double, se() As Double, dfResid As Double) As ResultTable
             Dim t As New ResultTable
             t.AddTitle("VIF")
 
@@ -1137,28 +1145,79 @@ Namespace regression
             Dim namesOK As Boolean = (pVarNames IsNot Nothing AndAlso pVarNames.Length = m)
 
             Dim rowNames As New List(Of String)
-            Dim body(m - 1, 0) As Object
+            Dim body(m - 1, 1) As Object
 
             Try
                 invR = Matrix.MatInv(R, "CHOL")
                 For j As Integer = 0 To m - 1
                     rowNames.Add(If(namesOK, pVarNames(j), $"X{j + 1}"))
                     body(j, 0) = invR(j, j)
+                    body(j, 1) = PartialCorrelationFromCoefficient(beta, se, j + startCol, dfResid)
                 Next
             Catch
                 For j As Integer = 0 To m - 1
                     rowNames.Add(If(namesOK, pVarNames(j), $"X{j + 1}"))
                     body(j, 0) = Double.PositiveInfinity
+                    body(j, 1) = PartialCorrelationFromCoefficient(beta, se, j + startCol, dfResid)
                 Next
             End Try
 
-            t.AddHeaderTopRow({"VIF"})
+            t.AddHeaderTopRow({"VIF", "Partial r"})
             t.AddHeaderLeftRow(rowNames.ToArray())
             t.SetBody(body)
 
             Return t
         End Function
 
+        ''' <summary>
+        ''' Computes the coefficient-level partial correlation for one model term from its t-statistic.
+        ''' </summary>
+        ''' <remarks>
+        ''' For a single-parameter coefficient test in a linear model, the signed partial correlation is
+        ''' <c>r_partial = t / sqrt(t² + df_resid)</c>. This is equivalent to the signed square root of
+        ''' the partial R² for adding that predictor after the remaining predictors are already in the model.
+        ''' </remarks>
+        Private Shared Function PartialCorrelationFromCoefficient(beta() As Double, se() As Double, coefIndex As Integer, dfResid As Double) As Double
+            If beta Is Nothing OrElse se Is Nothing Then Return Double.NaN
+            If coefIndex < 0 OrElse coefIndex > UBound(beta) OrElse coefIndex > UBound(se) Then Return Double.NaN
+            If Double.IsNaN(dfResid) OrElse Double.IsInfinity(dfResid) OrElse dfResid <= 0.0 Then Return Double.NaN
+
+            Dim estimate As Double = beta(coefIndex)
+            Dim stdErr As Double = se(coefIndex)
+            Dim tStat As Double
+
+            If Double.IsNaN(estimate) OrElse Double.IsNaN(stdErr) Then Return Double.NaN
+            If Double.IsInfinity(estimate) OrElse Double.IsInfinity(stdErr) Then Return Double.NaN
+
+            If stdErr = 0.0 Then
+                If estimate > 0.0 Then
+                    tStat = Double.PositiveInfinity
+                ElseIf estimate < 0.0 Then
+                    tStat = Double.NegativeInfinity
+                Else
+                    Return Double.NaN
+                End If
+            Else
+                tStat = estimate / stdErr
+            End If
+
+            Return PartialCorrelationFromT(tStat, dfResid)
+        End Function
+
+        ''' <summary>
+        ''' Converts a coefficient t-statistic to the corresponding signed partial correlation.
+        ''' </summary>
+        Private Shared Function PartialCorrelationFromT(tStat As Double, dfResid As Double) As Double
+            If Double.IsNaN(tStat) OrElse Double.IsNaN(dfResid) OrElse dfResid <= 0.0 Then Return Double.NaN
+            If Double.IsPositiveInfinity(tStat) Then Return 1.0
+            If Double.IsNegativeInfinity(tStat) Then Return -1.0
+            If Double.IsInfinity(tStat) Then Return Double.NaN
+            If tStat = 0.0 Then Return 0.0
+
+            Dim absT As Double = Math.Abs(tStat)
+            Dim sign As Double = If(tStat < 0.0, -1.0, 1.0)
+            Return sign / Math.Sqrt(1.0 + (dfResid / (absT * absT)))
+        End Function
 
         ''' <summary>
         ''' Computes (X' W X)^(-1) using a scaled weighted-design pseudoinverse.

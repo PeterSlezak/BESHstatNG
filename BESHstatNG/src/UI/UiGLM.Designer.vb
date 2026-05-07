@@ -124,6 +124,7 @@ Partial Class UiGLM
         Me.lblProgress = New System.Windows.Forms.Label()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.ProgressBar1 = New System.Windows.Forms.ProgressBar()
+        Me.btInterrupt = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPageBuildModel.SuspendLayout()
@@ -1212,7 +1213,7 @@ Partial Class UiGLM
         '
         Me.lblProgress.Location = New System.Drawing.Point(2, 524)
         Me.lblProgress.Name = "lblProgress"
-        Me.lblProgress.Size = New System.Drawing.Size(664, 23)
+        Me.lblProgress.Size = New System.Drawing.Size(596, 35)
         Me.lblProgress.TabIndex = 5
         Me.lblProgress.Text = "Elapsed Time: "
         '
@@ -1223,11 +1224,21 @@ Partial Class UiGLM
         Me.ProgressBar1.Size = New System.Drawing.Size(837, 23)
         Me.ProgressBar1.TabIndex = 10
         '
+        'btInterrupt
+        '
+        Me.btInterrupt.Location = New System.Drawing.Point(604, 527)
+        Me.btInterrupt.Name = "btInterrupt"
+        Me.btInterrupt.Size = New System.Drawing.Size(75, 23)
+        Me.btInterrupt.TabIndex = 18
+        Me.btInterrupt.Text = "Interrupt"
+        Me.btInterrupt.UseVisualStyleBackColor = True
+        '
         'UiGLM
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(850, 556)
+        Me.Controls.Add(Me.btInterrupt)
         Me.Controls.Add(Me.ProgressBar1)
         Me.Controls.Add(Me.lblProgress)
         Me.Controls.Add(Me.btnHelp)
@@ -1368,4 +1379,5 @@ Partial Class UiGLM
     Friend WithEvents cbOutputCalibrationTable As Windows.Forms.CheckBox
     Friend WithEvents cbOutputTresholdTable As Windows.Forms.CheckBox
     Friend WithEvents cbPerformClasification As Windows.Forms.CheckBox
+    Friend WithEvents btInterrupt As Windows.Forms.Button
 End Class

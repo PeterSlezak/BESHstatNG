@@ -76,7 +76,7 @@ Namespace WorksheetFunctions
             Try
                 Dim groups()() As Double = Nothing
                 Dim names() As String = Nothing
-                If Not UDFhelpers.TryReadGroupedNumericColumns(data, groups, names) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(data, groups, names) Then Return ExcelError.ExcelErrorValue
                 If groups Is Nothing OrElse names Is Nothing Then Return ExcelError.ExcelErrorNum
 
                 Dim resolvedRule As String = ResolveHistogramRule(binRule)
@@ -148,7 +148,7 @@ Namespace WorksheetFunctions
             Try
                 Dim groups()() As Double = Nothing
                 Dim names() As String = Nothing
-                If Not UDFhelpers.TryReadGroupedNumericColumns(data, groups, names) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(data, groups, names) Then Return ExcelError.ExcelErrorValue
                 If groups Is Nothing OrElse names Is Nothing Then Return ExcelError.ExcelErrorNum
 
                 Dim resolvedRule As String = ResolveHistogramRule(binRule)
@@ -254,7 +254,7 @@ Namespace WorksheetFunctions
                 Dim markerName As String = Nothing
                 Dim positiveLabel As String = Nothing
                 Dim isLowerDirection As Boolean = False
-                If Not TryBuildRocInput(marker, status, positiveClass, direction, rocInput, markerName, positiveLabel, isLowerDirection) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetRocInput(marker, status, positiveClass, direction, rocInput, markerName, positiveLabel, isLowerDirection) Then
                     Return ExcelError.ExcelErrorValue
                 End If
 
@@ -322,7 +322,7 @@ Namespace WorksheetFunctions
                 Dim markerName As String = Nothing
                 Dim positiveLabel As String = Nothing
                 Dim isLowerDirection As Boolean = False
-                If Not TryBuildRocInput(marker, status, positiveClass, direction, rocInput, markerName, positiveLabel, isLowerDirection) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetRocInput(marker, status, positiveClass, direction, rocInput, markerName, positiveLabel, isLowerDirection) Then
                     Return ExcelError.ExcelErrorValue
                 End If
 
@@ -392,7 +392,7 @@ Namespace WorksheetFunctions
                 If Not TryParseAlpha(alpha, alphaValue) Then Return ExcelError.ExcelErrorNum
 
                 Dim records As List(Of survival.SurvivalRecord) = Nothing
-                If Not TryBuildSurvivalRecords(time, status, group, records) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetSurvivalRecords(time, status, group, records) Then Return ExcelError.ExcelErrorValue
                 If records Is Nothing OrElse records.Count = 0 Then Return ExcelError.ExcelErrorNum
 
                 Dim km As New survival.Survival_KM_LR(records)
@@ -474,14 +474,14 @@ Namespace WorksheetFunctions
                 Dim pVals As List(Of Double) = Nothing
                 Dim wVals As List(Of Double) = Nothing
 
-                If Not UDFhelpers.TryReadNumericColumn(y, yVals) Then Return ExcelError.ExcelErrorValue
-                If Not UDFhelpers.TryReadNumericColumn(probabilities, pVals) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericColumn(y, yVals) Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNumericColumn(probabilities, pVals) Then Return ExcelError.ExcelErrorValue
                 If yVals Is Nothing OrElse pVals Is Nothing Then Return ExcelError.ExcelErrorValue
                 If yVals.Count <> pVals.Count OrElse yVals.Count = 0 Then Return ExcelError.ExcelErrorNum
 
                 Dim w() As Double = Nothing
                 If Not IsMissingArg(weights) Then
-                    If Not UDFhelpers.TryReadNumericColumn(weights, wVals) Then Return ExcelError.ExcelErrorValue
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetNumericColumn(weights, wVals) Then Return ExcelError.ExcelErrorValue
                     If wVals Is Nothing OrElse wVals.Count <> yVals.Count Then Return ExcelError.ExcelErrorNum
                     w = wVals.ToArray()
                 End If
@@ -559,126 +559,6 @@ Namespace WorksheetFunctions
             End Select
         End Function
 
-        Private Function ParseRocDirection(direction As Object) As Boolean
-            Dim token As String = UDFhelpers.NormalizeToken(AsString(direction))
-            If String.IsNullOrWhiteSpace(token) Then Return False
-            Return (token = "lower" OrElse token = "low" OrElse token = "smaller" OrElse token = "decreasing")
-        End Function
-
-        Private Function GuessPositiveClass(statusCol(,) As Object, explicitPositive As Object, ByRef positiveLabel As String) As Boolean
-            positiveLabel = Nothing
-            Dim explicitText As String = CellToTrimmedText(explicitPositive)
-            If Not String.IsNullOrWhiteSpace(explicitText) Then
-                positiveLabel = explicitText
-                Return True
-            End If
-
-            Dim distinctTokens As New List(Of String)()
-            Dim distinctNormalized As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
-            Dim allBinary01 As Boolean = True
-
-            For i As Integer = 0 To statusCol.GetLength(0) - 1
-                Dim s As String = CellToTrimmedText(statusCol(i, 0))
-                If String.IsNullOrWhiteSpace(s) Then Continue For
-
-                Dim iv As Integer
-                If Not TryGetStatus01Flexible(statusCol(i, 0), iv) Then
-                    allBinary01 = False
-                End If
-
-                Dim norm As String = UDFhelpers.NormalizeToken(s)
-                If Not distinctNormalized.Contains(norm) Then
-                    distinctNormalized.Add(norm)
-                    distinctTokens.Add(s)
-                End If
-            Next
-
-            If allBinary01 Then
-                positiveLabel = "1"
-                Return True
-            End If
-
-            If distinctTokens.Count = 2 Then
-                Dim norms = distinctTokens.Select(Function(x) UDFhelpers.NormalizeToken(x)).ToArray()
-                For i As Integer = 0 To norms.Length - 1
-                    Select Case norms(i)
-                        Case "positive", "pos", "case", "cases", "event", "events", "yes", "true"
-                            positiveLabel = distinctTokens(i)
-                            Return True
-                    End Select
-                Next
-                positiveLabel = distinctTokens(0)
-                Return True
-            End If
-
-            Return False
-        End Function
-
-        Private Function TryBuildRocInput(marker As Object, status As Object, positiveClass As Object, direction As Object,
-                                          ByRef rocInput()() As Double, ByRef markerName As String, ByRef positiveLabel As String,
-                                          ByRef isLowerDirection As Boolean) As Boolean
-            rocInput = Nothing
-            markerName = Nothing
-            positiveLabel = Nothing
-            isLowerDirection = ParseRocDirection(direction)
-
-            Dim markerCol(,) As Object = Nothing
-            Dim statusCol(,) As Object = Nothing
-            Dim inferredMarker As String = Nothing
-            Dim inferredStatus As String = Nothing
-
-            If Not UDFhelpers.TryGetTrimmedColumnObject(marker, markerCol, inferredMarker, "numeric") Then Return False
-            If Not UDFhelpers.TryGetTrimmedColumnObject(status, statusCol, inferredStatus, "binary") Then
-                If Not UDFhelpers.TryGetTrimmedColumnObject(status, statusCol, inferredStatus, "text") Then Return False
-            End If
-
-            If markerCol.GetLength(0) <> statusCol.GetLength(0) Then
-                If statusCol.GetLength(0) = markerCol.GetLength(0) + 1 Then
-                    Dim trimmed(statusCol.GetLength(0) - 2, 0) As Object
-                    For i As Integer = 1 To statusCol.GetLength(0) - 1
-                        trimmed(i - 1, 0) = statusCol(i, 0)
-                    Next
-                    statusCol = trimmed
-                End If
-            End If
-
-            If markerCol.GetLength(0) <> statusCol.GetLength(0) Then Return False
-
-            markerName = If(String.IsNullOrWhiteSpace(inferredMarker), "Marker", inferredMarker)
-            If Not GuessPositiveClass(statusCol, positiveClass, positiveLabel) Then Return False
-
-            Dim pos As New List(Of Double)()
-            Dim neg As New List(Of Double)()
-            Dim normalizedPositive As String = UDFhelpers.NormalizeToken(positiveLabel)
-
-            For i As Integer = 0 To markerCol.GetLength(0) - 1
-                Dim x As Double
-                If Not TryGetFiniteDoubleFlexible(markerCol(i, 0), x) Then Continue For
-
-                Dim label As String = CellToTrimmedText(statusCol(i, 0))
-                If String.IsNullOrWhiteSpace(label) Then Continue For
-
-                Dim isPositive As Boolean = False
-                Dim iv As Integer
-                If normalizedPositive = "1" AndAlso TryGetStatus01Flexible(statusCol(i, 0), iv) Then
-                    isPositive = (iv = 1)
-                Else
-                    isPositive = String.Equals(UDFhelpers.NormalizeToken(label), normalizedPositive, StringComparison.OrdinalIgnoreCase)
-                End If
-
-                If isLowerDirection Then x = -x
-                If isPositive Then
-                    pos.Add(x)
-                Else
-                    neg.Add(x)
-                End If
-            Next
-
-            If pos.Count < 1 OrElse neg.Count < 1 Then Return False
-            rocInput = New Double()() {pos.ToArray(), neg.ToArray()}
-            Return True
-        End Function
-
         Private Function BuildRocPointsTable(cutoffTable As Object(,), isLowerDirection As Boolean) As Object(,)
             If cutoffTable Is Nothing OrElse cutoffTable.GetLength(0) < 2 Then
                 Return BuildSimpleNoteTable("ROC", "No ROC cut-off table was returned.")
@@ -737,57 +617,6 @@ Namespace WorksheetFunctions
                 out(i, 1) = summaryTable(i, 1)
             Next
             Return out
-        End Function
-
-        Private Function TryBuildSurvivalRecords(time As Object, status As Object, group As Object,
-                                                 ByRef records As List(Of survival.SurvivalRecord)) As Boolean
-            records = Nothing
-            Dim timeCol(,) As Object = Nothing
-            Dim statusCol(,) As Object = Nothing
-            Dim groupCol(,) As Object = Nothing
-            Dim timeName As String = Nothing
-            Dim statusName As String = Nothing
-            Dim groupName As String = Nothing
-
-            If Not UDFhelpers.TryGetTrimmedColumnObject(time, timeCol, timeName, "numeric") Then Return False
-            If Not UDFhelpers.TryGetTrimmedColumnObject(status, statusCol, statusName, "binary") Then Return False
-            If timeCol.GetLength(0) <> statusCol.GetLength(0) Then Return False
-
-            Dim hasGroup As Boolean = Not IsMissingArg(group)
-            If hasGroup Then
-                If Not UDFhelpers.TryGetTrimmedColumnObject(group, groupCol, groupName, "text") Then Return False
-                If groupCol.GetLength(0) <> timeCol.GetLength(0) Then Return False
-            End If
-
-            Dim tList As New List(Of Double)()
-            Dim sList As New List(Of Integer)()
-            Dim gList As New List(Of String)()
-            Dim stratList As New List(Of String)()
-
-            For i As Integer = 0 To timeCol.GetLength(0) - 1
-                Dim t As Double
-                Dim s As Integer
-                If Not TryGetFiniteDoubleFlexible(timeCol(i, 0), t) Then Continue For
-                If t < 0.0R Then Return False
-                If Not TryGetStatus01Flexible(statusCol(i, 0), s) Then Continue For
-
-                Dim g As String = "ALL"
-                If hasGroup Then
-                    g = CellToTrimmedText(groupCol(i, 0))
-                    If String.IsNullOrWhiteSpace(g) Then Continue For
-                End If
-
-                tList.Add(t)
-                sList.Add(s)
-                gList.Add(g)
-                stratList.Add("ALL")
-            Next
-
-            If tList.Count < 1 Then Return False
-
-            Dim err As String = Nothing
-            records = survival.Survival.CreatSurvivalData(tList.ToArray(), sList.ToArray(), gList.ToArray(), stratList.ToArray(), err)
-            Return records IsNot Nothing AndAlso records.Count > 0
         End Function
 
         Private Function BuildKaplanMeierStepTable(rawCurves As Object()) As Object(,)

@@ -90,7 +90,7 @@ Public Class Ui0OneRefeditMulticol
             Dim columData = New DataObj
             Dim ref As String = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
 
-            columData.DataInport(ref, True)
+            columData.DataImport(ref, True)
             out.X = columData.DataDbl()
             out.varNames = columData.varNames
 
@@ -106,9 +106,9 @@ Public Class Ui0OneRefeditMulticol
         Dim ref As String = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
 
         If Me.ckLabels.Checked Then
-            columData.DataInport(ref, True, 0) 'first column will contain row labels
+            columData.DataImport(ref, True, 0) 'first column will contain row labels
         Else
-            columData.DataInport(ref, True)
+            columData.DataImport(ref, True)
         End If
 
         Return columData
@@ -121,7 +121,7 @@ Public Class Ui0OneRefeditMulticol
         Dim out = New MultiGroupsUnpairedData
 
         columData.bAllowMissing = True 'allow missing values
-        columData.DataInport(ref, True)
+        columData.DataImport(ref, True)
         Dim tmp(,) As Double = columData.DataDbl()
         Dim g As Integer = tmp.GetLength(0)
         Dim t As Integer = tmp.GetLength(1)
@@ -325,7 +325,7 @@ Public Class Ui0OneRefeditMulticol
         Dim out = New MultiGroupsPairedData
 
         columData.bAllowMissing = True 'allow missing values
-        columData.DataInport(ref, True)
+        columData.DataImport(ref, True)
 
         'analyzed table
         Dim head(UBound(columData.FinalData, 2)) As String

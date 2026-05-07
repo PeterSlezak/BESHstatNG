@@ -960,7 +960,7 @@ Module UDFhelpers
     Friend Function HasNumericColumnHeader(arr As Object(,), lastRow As Integer) As Boolean
         If arr Is Nothing OrElse arr.GetLength(1) <> 1 Then Return False
         If lastRow < 1 Then Return False
-
+        If IsBlankCell(arr(0, 0)) Then Return False
         Dim firstIsNumeric As Boolean = TryGetDouble(arr(0, 0)).HasValue
         Dim secondIsNumeric As Boolean = TryGetDouble(arr(1, 0)).HasValue
         Return (Not firstIsNumeric) AndAlso secondIsNumeric
@@ -1023,15 +1023,24 @@ Module UDFhelpers
         If lastRow < 1 Then Return False
 
         Dim cols As Integer = arr.GetLength(1)
-        Dim anyNonNumericFirstRow As Boolean = False
+        Dim anyNonBlankNonNumericFirstRow As Boolean = False
+        Dim anyNumericFirstRow As Boolean = False
         For j As Integer = 0 To cols - 1
-            If Not TryGetDouble(arr(0, j)).HasValue Then
-                anyNonNumericFirstRow = True
-                Exit For
+            If IsBlankCell(arr(0, j)) Then Continue For
+
+            If TryGetDouble(arr(0, j)).HasValue Then
+                anyNumericFirstRow = True
+            Else
+                anyNonBlankNonNumericFirstRow = True
             End If
         Next
 
-        If Not anyNonNumericFirstRow Then Return False
+        ' A real numeric-matrix header should look like labels, not like a data row
+        ' with one or more missing numeric values. This prevents explicit data ranges
+        ' whose first observation has missing values from being shortened before row-wise
+        ' complete-case filtering aligns y, x, subject, and visit.
+        If Not anyNonBlankNonNumericFirstRow Then Return False
+        If anyNumericFirstRow Then Return False
 
         For j As Integer = 0 To cols - 1
             If Not TryGetDouble(arr(1, j)).HasValue Then

@@ -280,20 +280,16 @@ Friend Class RegressionEffectsController
     End Sub
 
     ''' <summary>
-    ''' Adds all pairwise interaction effects for the currently selected variables.
+    ''' Adds all pairwise two-way interactions among currently selected variables.
     ''' </summary>
     ''' <remarks>
-    ''' This method currently supports continuous-by-continuous interactions only.
-    ''' If any selected variable is already used as categorical, the operation is rejected.
+    ''' Categorical predictors are now allowed in interactions.  Categorical status is inferred
+    ''' from existing categorical main-effect TermSpec entries.  For example, add SexCode as a
+    ''' categorical factor first, then select SexCode and age and click 2-way Interactions.
     ''' </remarks>
     Public Sub AddTwoWayInteractionsFromSelectedVars()
         If _selectedVariables.SelectedItems.Count < 2 Then
             MsgBox("Please select at least two variables.", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If SelectedVarsContainCategoricalUsage() Then
-            MsgBox("Interactions involving categorical predictors are not implemented yet.", vbExclamation, "Input Error!")
             Exit Sub
         End If
 
@@ -311,19 +307,28 @@ Friend Class RegressionEffectsController
             For b As Integer = a + 1 To idxs.Count - 1
                 Dim v2 As String = CStr(_selectedVariables.Items(idxs(b)))
 
-                Dim termKey As String = RegressionDesignCore.MakeInteractionEffectKey(New List(Of String) From {v1, v2})
+                Dim baseKeys As New List(Of String) From {v1, v2}
+                Dim termKey As String = RegressionDesignCore.MakeInteractionEffectKey(baseKeys)
 
                 If _selectedEffects.Items.Contains(termKey) Then Continue For
 
                 _selectedEffects.Items.Add(termKey)
 
+                Dim hasCategorical As Boolean = False
+                For Each bk As String In baseKeys
+                    If HasCategoricalMainEffect(bk) Then
+                        hasCategorical = True
+                        Exit For
+                    End If
+                Next
+
                 Dim spec As New TermSpec With {
                     .Kind = "Interaction",
-                    .BaseVarKeys = New List(Of String) From {v1, v2},
+                    .BaseVarKeys = baseKeys,
                     .Degree = 1,
-                    .DisplayNameForCoef = RegressionDesignCore.MakeInteractionCoefName(New List(Of String) From {v1, v2}),
+                    .DisplayNameForCoef = RegressionDesignCore.MakeInteractionCoefName(baseKeys),
                     .Order = _selectedEffects.Items.Count - 1,
-                    .Scale = PredictorScale.Continuous
+                    .Scale = If(hasCategorical, PredictorScale.Categorical, PredictorScale.Continuous)
                 }
 
                 _termSpecs(termKey) = spec
@@ -335,18 +340,12 @@ Friend Class RegressionEffectsController
     ''' Adds a single interaction effect containing all currently selected variables.
     ''' </summary>
     ''' <remarks>
-    ''' This method creates one multi-way interaction term spanning the entire current
-    ''' selection. As with pairwise interactions, categorical involvement is currently
-    ''' rejected.
+    ''' Categorical predictors are now allowed in custom interactions.  Categorical status is inferred
+    ''' from existing categorical main-effect TermSpec entries.
     ''' </remarks>
     Public Sub AddCustomInteractionFromSelectedVars()
         If _selectedVariables.SelectedItems.Count < 2 Then
             MsgBox("Please select at least two variables.", vbExclamation, "Input Error!")
-            Exit Sub
-        End If
-
-        If SelectedVarsContainCategoricalUsage() Then
-            MsgBox("Interactions involving categorical predictors are not implemented yet.", vbExclamation, "Input Error!")
             Exit Sub
         End If
 
@@ -370,13 +369,21 @@ Friend Class RegressionEffectsController
 
         _selectedEffects.Items.Add(termKey)
 
+        Dim hasCategorical As Boolean = False
+        For Each bk As String In baseKeys
+            If HasCategoricalMainEffect(bk) Then
+                hasCategorical = True
+                Exit For
+            End If
+        Next
+
         Dim spec As New TermSpec With {
             .Kind = "Interaction",
             .BaseVarKeys = baseKeys,
             .Degree = 1,
             .DisplayNameForCoef = RegressionDesignCore.MakeInteractionCoefName(baseKeys),
             .Order = _selectedEffects.Items.Count - 1,
-            .Scale = PredictorScale.Continuous
+            .Scale = If(hasCategorical, PredictorScale.Categorical, PredictorScale.Continuous)
         }
 
         _termSpecs(termKey) = spec
