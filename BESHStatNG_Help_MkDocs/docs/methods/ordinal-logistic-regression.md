@@ -1,6 +1,6 @@
 # Ordinal Logistic Regression
 
-**Includes:** Ordinal logistic regression, Reference category selection (first/last), categorical factors, polynomial terms, continuous-variable interactions, optional starting values, optional **offset** and **case weights**, covariance matrix, residuals.  
+**Includes:** Ordinal logistic regression, Reference category selection (first/last), categorical factors, polynomial terms, continuous and categorical-factor interactions, optional starting values, optional **offset** and **case weights**, covariance matrix, residuals.  
 **Purpose:** Model *ordered* categorical outcomes (e.g., `1 < 2 < 3`) using an ordinal logistic framework.
 
 ---
@@ -25,7 +25,7 @@ Ordinal logistic regression (also called the **proportional-odds cumulative logi
 ![Ordinal logistic regression - build model](../assets/images/040ordinallogisticregression/040ordinallogisticregression_input2.png)
 
 - **Add >>** adds the selected variable(s) as continuous main effects.
-- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns.
+- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns; if the factor is used in an interaction, the interaction is built from those expanded columns.
 - **Poly >>** creates polynomial terms for the selected variable(s). The degree is taken from the numeric box next to the button.
 - **2-way Interactions >>** creates all pairwise interactions among the currently selected variables.
 - **Custom Interaction >>** creates one multi-way interaction term spanning all currently selected variables.
@@ -34,8 +34,8 @@ Ordinal logistic regression (also called the **proportional-odds cumulative logi
 Current limitations:
 
 - Polynomial terms are supported only for **continuous** predictors.
-- Interaction terms are currently supported only for **continuous × continuous** combinations.
-- Interactions involving categorical predictors are **not implemented yet**.
+- Interaction terms support **continuous × continuous**, **categorical × continuous**, and **categorical × categorical** combinations.
+- Polynomial subterms inside interactions are not supported; create polynomial main effects separately when needed.
 
 !!! note
     In ordinal logistic regression, the fitted model includes **thresholds (cutpoints)** instead of an ordinary intercept term. The **Selected Effects** list contains only the authored predictor terms.

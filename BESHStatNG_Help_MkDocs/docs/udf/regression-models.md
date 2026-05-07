@@ -8,6 +8,7 @@ _This page is auto-generated from XML doc comments in the VB files under the add
 - [Negative Binomial Regression Nb2](../methods/negative-binomial-regression-nb2.md)
 - [Generalized Linear Models Glm](../methods/generalized-linear-models-glm.md)
 - [Multiple Linear Regression Lm](../methods/multiple-linear-regression-lm.md)
+- [Mixed Models For Repeated Measures Mmrm](../methods/mixed-models-for-repeated-measures-mmrm.md)
 - [Multinomial Logistic Regression](../methods/multinomial-logistic-regression.md)
 - [Ordinal Logistic Regression](../methods/ordinal-logistic-regression.md)
 - [Zero Inflated Poisson Regression](../methods/zero-inflated-poisson-regression.md)
@@ -202,8 +203,10 @@ Validates a regression-model formula string against the raw predictor matrix and
 
 - **formula** — The right-hand-side model formula to validate.
 Supported syntax currently includes additive terms (`A + B`), polynomial terms (`A^2`),
-continuous-variable interactions (`A:B`, `A:B:C`), and categorical main effects such as
-`factor(C)` or `factor(C, ref=2)`.
+continuous-continuous interactions (`A:B`, `A:B:C`), categorical main effects such as
+`factor(C)` or `factor(C, ref=2)`, categorical-continuous interactions such as
+`factor(C):A` or `factor(C, ref=1):A`, and categorical-categorical interactions such as
+`factor(C):factor(D)`.
 Blank text is considered valid and corresponds to the default design that uses all predictor columns as continuous main effects.
 - **x** — The raw predictor matrix that would be supplied to the corresponding regression fit UDF.
 The validator uses this matrix to determine the number of raw predictors and, when needed, the absolute worksheet column letters.
@@ -229,8 +232,9 @@ This function validates formulas by using the same parser and design-matrix infr
 As a result, a formula that returns TRUE here is expected to satisfy the formula grammar and addressing rules during model fitting as well,
 provided that the same `x`, `varNames`, and `formulaAddressing` inputs are used.
 
-The current formula grammar intentionally does not support interactions involving `factor(...)`, polynomial subterms inside interactions,
-or repeated variables inside one interaction term.
+The formula grammar supports interactions involving `factor(...)`.  Polynomial subterms inside interactions
+and repeated variables inside one interaction term remain unsupported; write polynomial terms separately and then
+interact the raw variables only when needed.
 
 When `formulaAddressing="absolute"` is used, the `x` argument must be passed as a direct worksheet range so that the validator
 can determine the absolute worksheet column letters that are available to the formula.
@@ -240,8 +244,8 @@ can determine the absolute worksheet column letters that are available to the fo
 ```
 
 =BESH.REGR.FORMULA_VALIDATE("A + A^2 + factor(C, ref=1) + B:D", C2:F101, "prison,dose,stage,treat")
-=BESH.REGR.FORMULA_VALIDATE("'prison' + 'dose' + 'dose'^2", C2:F101, "prison,dose,stage,treat", "names")
-=BESH.REGR.FORMULA_VALIDATE("C + factor(E, ref=1)", C2:F101, "prison,dose,stage,treat", "absolute")
+=BESH.REGR.FORMULA_VALIDATE("factor(stage, ref=1) + dose + factor(stage, ref=1):dose + factor(stage):factor(treat)", C2:F101, "prison,dose,stage,treat", "names")
+=BESH.REGR.FORMULA_VALIDATE("factor(E, ref=1):C", C2:F101, "prison,dose,stage,treat", "absolute")
 ```
 
 ## BESH.REGR.GEE_BRIER
@@ -427,7 +431,7 @@ Under a log link this is commonly used for log-exposure or log-person-time adjus
 These weights enter the mean-estimating equations and residual calculations in the same row order as the response.
 - **formula** — Optional right-hand-side formula used to expand the raw predictor matrix before fitting.
 If omitted or blank, all raw predictor columns are included as continuous main effects.
-Formula expansion can create transformed terms, interactions, and categorical indicators while preserving a consistent design for prediction.
+Formula expansion can create transformed terms, continuous-continuous interactions, categorical indicators, categorical-continuous interactions, and categorical-categorical interactions while preserving a consistent design for prediction.
 - **formulaAddressing** — Formula-addressing mode: `relative` (default), `absolute`, or `names`.
 This controls whether formula tokens refer to columns by relative worksheet letters, absolute worksheet letters, or supplied variable names.
 - **dispersion** — Optional fixed NB2 dispersion parameter used only when `family` is Negative Binomial.
@@ -474,7 +478,7 @@ If `formulaAddressing="absolute"` is used, the predictor argument should be a di
 
 =BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101)
 =BESH.REGR.GEE_FIT(A2:A101,B2:E101,F2:F101,G2:G101,"Age,BMI,Treat,Visit","binomial","logit","exchangeable","robust")
-=BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101,,"Dose,Age,Stage","poisson","log","ar1","robust",H2:H101,,"A + B + factor(C)")
+=BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101,,"Dose,Age,Stage","poisson","log","ar1","robust",H2:H101,,"A + B + factor(C) + factor(C):B")
 ```
 
 ## BESH.REGR.GEE_PRED
@@ -790,7 +794,7 @@ For rate models with exposure `t_i`, a common choice under the log link is `o_i 
 These weights are passed into the fitting engine and act multiplicatively in the IRLS working weights and in the dispersion update objective.
 - **includeIntercept** — TRUE to include an intercept term (default TRUE).
 When FALSE, the fitted linear predictor omits `β_0`.
-- **formula** — Optional right-hand-side formula used to expand the raw predictor matrix before fitting.
+- **formula** — Optional right-hand-side formula used to expand the raw predictor matrix before fitting. Supported terms include additive effects, polynomial terms, `A:B`, `factor(C)`, `factor(C):B`, and `factor(C):factor(D)`.
 If omitted or blank, all raw predictor columns are included as continuous main effects.
 - **formulaAddressing** — Formula-addressing mode: `relative` (default), `absolute`, or `names`.
 This controls how bare column tokens are interpreted inside `formula`.
@@ -837,7 +841,7 @@ If `formulaAddressing="absolute"` is used, the `x` argument should be supplied a
 ```
 
 =BESH.REGR.GLMNB_FIT(A2:A101,B2:D101,"Age,BMI,Treat")
-=BESH.REGR.GLMNB_FIT(A2:A101,B2:E101,"Dose,Age,Stage,Center","log",F2:F101,,TRUE,"A + B + factor(D)","relative")
+=BESH.REGR.GLMNB_FIT(A2:A101,B2:E101,"Dose,Age,Stage,Center","log",F2:F101,,TRUE,"A + B + factor(D) + factor(D):B","relative")
 =BESH.REGR.GLMNB_FIT(A2:A101,B2:C101,"X1,X2","power",,,,TRUE,,,0.5)
 ```
 
@@ -1163,7 +1167,7 @@ These weights scale the contribution of each observation in the IRLS fitting equ
 When FALSE, the fitted predictor is constrained to pass through the origin on the link scale.
 - **formula** — Optional right-hand-side formula used to expand the raw predictor matrix before fitting.
 If omitted or blank, all raw predictor columns are included as continuous main effects.
-Formula expansion can create transformed terms, interactions, and categorical indicators while preserving a consistent design for prediction.
+Formula expansion can create transformed terms, continuous-continuous interactions, categorical indicators, categorical-continuous interactions, and categorical-categorical interactions while preserving a consistent design for prediction.
 - **formulaAddressing** — Formula-addressing mode: `relative` (default), `absolute`, or `names`.
 This controls whether formula tokens refer to columns by relative worksheet letters, absolute worksheet letters, or supplied variable names.
 - **dispersion** — Optional fixed dispersion parameter for the Negative Binomial family.
@@ -1212,7 +1216,7 @@ If `formulaAddressing="absolute"` is used, the predictor argument should be a di
 ```
 
 =BESH.REGR.GLM_FIT(A2:A101,B2:D101,"Age,BMI,Treat","binomial","logit")
-=BESH.REGR.GLM_FIT(A2:A101,B2:E101,"Dose,Age,Stage,Center","poisson","log",F2:F101,,TRUE,"A + B + factor(D)","relative")
+=BESH.REGR.GLM_FIT(A2:A101,B2:E101,"Dose,Age,Stage,Center","poisson","log",F2:F101,,TRUE,"A + B + factor(D) + factor(D):B","relative")
 =BESH.REGR.GLM_FIT(A2:A101,B2:C101,"X1,X2","negative binomial","log",, ,TRUE,,,0.75)
 ```
 
@@ -1491,8 +1495,10 @@ Rows with nonpositive or invalid weights are excluded by the shared regression-d
 Set FALSE to fit a model through the origin after any formula-based predictor expansion.
 - **formula** — Optional right-hand-side model formula used to construct the design matrix from the raw predictor matrix `x`.
 Supported syntax currently includes additive terms (`A + B`), polynomial terms (`A^2`),
-continuous-variable interactions (`A:B`, `A:B:C`), and categorical main effects such as
-`factor(C)` or `factor(C, ref=2)`. If omitted or blank, all raw predictor columns are used as continuous main effects.
+continuous-continuous interactions (`A:B`, `A:B:C`), categorical main effects such as
+`factor(C)` or `factor(C, ref=2)`, categorical-continuous interactions such as
+`factor(C):B`, and categorical-categorical interactions such as `factor(C):factor(D)`.
+If omitted or blank, all raw predictor columns are used as continuous main effects.
 - **formulaAddressing** — Optional formula-addressing mode that controls how bare column-letter tokens are interpreted.
 Accepted values are `relative` (default), `absolute`, and `names`.
 In `relative` mode, `A`, `B`, `AA`, … refer to columns 1, 2, 27, … of `x`.
@@ -1526,7 +1532,7 @@ Term-wise ANOVA tables are prepared in both sequential (Type I) and partial (Typ
 ```
 
 =BESH.REGR.LM_FIT(A2:A101,B2:D101,"dose,age,weight")
-=BESH.REGR.LM_FIT(A2:A101,B2:E101,"dose,age,stage,treat",,F2:F101,TRUE,"A + B + factor(C, ref=1) + 'dose':'age'","names",TRUE,0.05)
+=BESH.REGR.LM_FIT(A2:A101,B2:E101,"dose,age,stage,treat",,F2:F101,TRUE,"A + B + factor(C, ref=1) + factor(C, ref=1):B","relative",TRUE,0.05)
 ```
 
 ## BESH.REGR.LM_PRED
@@ -1654,9 +1660,9 @@ adjusted R², the overall F test, log-likelihood, AIC, and BIC.
 
 ## BESH.REGR.LM_VIF
 
-Returns the variance-inflation-factor table for a fitted linear-model handle.
+Returns the variance-inflation-factor and partial-correlation table for a fitted linear-model handle.
 
-**Function wizard:** Returns the variance-inflation-factor table for a fitted linear-model handle.
+**Function wizard:** Returns the variance-inflation-factor and partial-correlation table for a fitted linear-model handle.
 
 ### Syntax
 
@@ -1669,7 +1675,7 @@ Returns the variance-inflation-factor table for a fitted linear-model handle.
 
 ### Returns
 
-A spilled array containing one VIF value per modeled predictor column.
+A spilled array containing VIF and partial-correlation values per modeled predictor column.
 Intercept terms are omitted.
 
 ### Example
@@ -1678,6 +1684,565 @@ Intercept terms are omitted.
 
 =BESH.REGR.LM_VIF(F2)
 ```
+
+## BESH.REGR.MMRM_CLEAR_ALL
+
+Removes all fitted MMRM handles from the current worksheet-session cache.
+
+**Function wizard:** Drops all fitted MMRM handles from the session cache.
+
+### Returns
+
+The number of handles removed from the current session cache.
+
+### Notes
+
+Use this function to clear all MMRM handles created during the current Excel session. It is
+useful before rerunning a large workbook or after exploratory analyses that created many
+temporary model handles. Recalculate any `BESH.REGR.MMRM_FIT` formulas to recreate
+handles that are still needed.
+
+## BESH.REGR.MMRM_COEF
+
+Returns the fixed-effect coefficient table for a fitted MMRM handle.
+
+**Function wizard:** Returns the fixed-effect coefficient table for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_COEF(handle, alpha)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+- **alpha** — Optional two-sided alpha level for confidence intervals. Leave blank to use the alpha value saved with the fit.
+
+### Returns
+
+A dynamic array containing the fixed-effect coefficient table.
+
+### Notes
+
+The table contains the fixed-effect estimates and the inferential columns associated with
+the inference method chosen during fitting. For Kenward-Roger fits, the standard errors,
+degrees of freedom, test statistics, p-values, and confidence intervals are reported using
+the Kenward-Roger adjustment.
+
+## BESH.REGR.MMRM_CONTRASTS
+
+Returns observed-design-grid contrasts between group levels for a fitted MMRM handle.
+
+**Function wizard:** Returns observed-design-grid group contrasts for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_CONTRASTS(handle, group, contrastMode, controlLevel, comparisonLevel, direction, alpha)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+- **group** — Fitted design column used as the grouping factor, for example `treatment_active`.
+- **contrastMode** — Contrast mode: `Pairwise among group levels`, `Each group vs control`, or `Selected comparison only`. Default is pairwise.
+- **controlLevel** — Optional numeric control/reference level. When omitted, the lowest observed group level is used.
+- **comparisonLevel** — Optional numeric comparison level for selected-comparison mode.
+- **direction** — Contrast direction: `Higher level - lower level`, `Treatment - control`, or `Control - treatment`. Default is treatment minus control for control-based contrasts and higher minus lower for pairwise contrasts.
+- **alpha** — Optional two-sided alpha level for confidence intervals. Leave blank to use the alpha value saved with the fit.
+
+### Returns
+
+A dynamic array containing group contrasts by visit.
+
+### Notes
+
+This extractor compares levels of one numeric fitted design column within each visit/time
+value. It is intended for common treatment-difference workflows where the design matrix
+contains a treatment indicator or other coded grouping column.
+
+The default contrast mode returns all pairwise group differences within each visit. To
+compare each group against a selected control level, set `contrastMode` to
+`"Each group vs control"` and provide `controlLevel`. To request one
+selected comparison, set `contrastMode` to `"Selected comparison only"`
+and provide both `controlLevel` and `comparisonLevel`.
+
+For Kenward-Roger fits, the returned standard errors, denominator degrees of freedom, test
+statistics, p-values, and confidence intervals use the Kenward-Roger adjustment.
+
+## BESH.REGR.MMRM_COVPARMS
+
+Returns estimated within-subject covariance parameters for a fitted MMRM handle.
+
+**Function wizard:** Returns covariance-parameter estimates for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_COVPARMS(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+
+### Returns
+
+A dynamic array containing covariance-parameter estimates and related columns.
+
+### Notes
+
+The returned rows describe the fitted covariance parameters for the selected
+within-subject covariance structure. The exact parameter labels depend on the covariance
+structure used in `BESH.REGR.MMRM_FIT`.
+
+## BESH.REGR.MMRM_DROP
+
+Removes a fitted MMRM handle from the current worksheet-session cache.
+
+**Function wizard:** Drops a fitted MMRM handle from the session cache.
+
+### Syntax
+
+`=BESH.REGR.MMRM_DROP(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+
+### Returns
+
+TRUE if the handle was found and removed; otherwise FALSE.
+
+### Notes
+
+Use this function when a saved handle is no longer needed. Removing unused handles can
+reduce memory use in long Excel sessions. Recalculate the original fit function to create
+a new handle.
+
+## BESH.REGR.MMRM_FIT
+
+Fits a Mixed Model for Repeated Measures and returns a reusable worksheet-session handle.
+
+**Function wizard:** Fits an MMRM and returns a reusable handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_FIT(y, x, subject, visit, varNames, covariance, fitMethod, inference, includeIntercept, formula, formulaAddressing, alpha, maxIter, trace, covOptimizerMode, covGradientMode)`
+
+### Parameters
+
+- **y** — Single-column range containing the continuous response values.
+- **x** — Numeric matrix containing raw fixed-effect predictors or already-coded design columns. Each row must correspond to the same row in `y`.
+- **subject** — Single-column range identifying the subject for each observation. Repeated rows with the same identifier are treated as belonging to the same subject.
+- **visit** — Optional single-column numeric visit/time range. When supplied, observations are sorted within each subject by this value before the covariance structure is evaluated.
+- **varNames** — Optional row or column range containing predictor names for the columns of `x`. If omitted, generic names are used.
+- **covariance** — Within-subject covariance structure. Accepted values include `ID`, `Diagonal`, `CS`, `HCS`, `AR(1)`, `HAR(1)`, and `UN`. The default is `UN`.
+- **fitMethod** — Likelihood method. Use `REML` for restricted maximum likelihood or `ML` for maximum likelihood. The default is `REML`.
+- **inference** — Fixed-effect inference method. Accepted values include `KR`, `Satterthwaite`, `BetweenWithin`, `ResidualDF`, and `Wald`. The default is `KR`.
+- **includeIntercept** — TRUE to add an intercept column before fitting; FALSE when `x` already contains all desired columns. The default is TRUE.
+- **formula** — Optional right-hand-side formula used to expand the raw predictor matrix before fitting. Leave blank to use the columns of `x` as supplied.
+- **formulaAddressing** — Formula-addressing mode: `relative` (default), `absolute`, or `names`.
+- **alpha** — Two-sided alpha level for confidence intervals returned by extractor functions. The default is 0.05.
+- **maxIter** — Optional maximum number of optimizer iterations. Leave blank to use the standard setting.
+- **trace** — TRUE to store detailed optimizer trace text in the fitted handle. Stored trace text can
+later be included by `BESH.REGR.MMRM_RESULTS` when its
+`includeOptimizerTrace` argument is TRUE. The default is FALSE.
+- **covOptimizerMode** — Optional covariance-optimizer mode. Blank uses the default SAS PROC MIXED-style
+Average Information / Fisher-scoring REML optimizer with safe fallback. Accepted values
+include `AI`, `AverageInformation`, `FisherScoring`, or `SAS` for
+Average Information / Fisher scoring; `BFGS` or `ProjectedBFGS` for projected
+BFGS using the selected gradient mode; `BFGS_ANALYTIC` for projected BFGS with
+analytic scores; and `BFGS_NUMERICAL` for projected BFGS with finite-difference
+gradients. Average Information is REML-oriented; if it is not applicable or does not
+produce a usable covariance solution, the fit records diagnostics and falls back to
+projected BFGS.
+- **covGradientMode** — Optional covariance-gradient mode used by projected BFGS and by fallback paths. Blank
+uses `Auto`. Accepted values include `Auto`, `Analytic`,
+`AnalyticValidation`, `Validate`, `Numerical`, and
+`FiniteDifference`. Auto uses analytic covariance scores for validated residual
+covariance structures and numerical finite differences otherwise. AnalyticValidation
+runs the analytic score path and records a finite-difference comparison in diagnostics;
+it is intended for validation and troubleshooting rather than routine production use.
+
+### Returns
+
+A text handle that identifies the fitted model in the current Excel session, or an error message if the fit cannot be created.
+
+### Notes
+
+Use this function when observations are grouped by subject and the within-subject
+covariance is modeled directly. The response and every predictor column must be numeric.
+Subject identifiers may be text or numeric. A visit/time column is optional but recommended
+whenever repeated measurements have a meaningful order or when rows are not already sorted
+within each subject.
+
+Rows with missing or invalid response, predictor, subject, or supplied visit values are
+excluded before fitting. The returned handle stores the fitted analysis for the current
+Excel session and can be passed to the extractor functions listed below.
+
+The default fit uses REML, an unstructured within-subject covariance matrix, an intercept
+column, and Kenward-Roger fixed-effect inference. Kenward-Roger inference requires REML.
+To use maximum likelihood, set `fitMethod` to `"ML"` and choose a
+non-Kenward-Roger inference method.
+
+Covariance optimization can be controlled from the worksheet. By default the fit uses a
+SAS PROC MIXED-style Average Information / Fisher-scoring REML covariance optimizer when
+it is applicable. If that optimizer cannot provide a usable solution, the fit falls back
+to the projected BFGS covariance optimizer. The gradient mode controls the derivative
+source used by projected BFGS: automatic analytic scores for validated covariance
+structures, fully numerical finite differences, analytic scores only, or analytic scores
+with finite-difference validation diagnostics.
+
+The optimizer setting is most useful for reproducibility and troubleshooting. Use
+`AI` or `AverageInformation` for the default Average Information / Fisher-scoring
+optimizer, `BFGS` for projected BFGS with the selected gradient mode,
+`BFGS_ANALYTIC` for projected BFGS with analytic scores, or `BFGS_NUMERICAL` for
+projected BFGS with finite-difference gradients. Use the numerical option when comparing
+against older workbooks or when diagnosing a suspected analytic derivative issue.
+
+Common follow-up functions are `BESH.REGR.MMRM_COEF`,
+`BESH.REGR.MMRM_TYPE3`, `BESH.REGR.MMRM_COVPARMS`,
+`BESH.REGR.MMRM_FITSTATS`, `BESH.REGR.MMRM_LSMEANS`,
+`BESH.REGR.MMRM_CONTRASTS`, `BESH.REGR.MMRM_FITTED`, and
+`BESH.REGR.MMRM_RESID`.
+
+## BESH.REGR.MMRM_FITSTATS
+
+Returns likelihood, information-criterion, convergence, and model-size statistics.
+
+**Function wizard:** Returns fit statistics for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_FITSTATS(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+
+### Returns
+
+A dynamic array containing model fit statistics.
+
+### Notes
+
+Use this function to review model fit, compare alternative covariance structures fitted
+with the same method, and check high-level convergence information.
+
+## BESH.REGR.MMRM_FITTED
+
+Returns row-level marginal fitted values for a fitted MMRM handle.
+
+**Function wizard:** Returns marginal fitted values for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_FITTED(handle, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+- **includeHeader** — TRUE to include a header row. The default is TRUE.
+
+### Returns
+
+A dynamic array with row number and fitted value columns.
+
+### Notes
+
+The returned rows correspond to the valid rows that remained after input screening in
+`BESH.REGR.MMRM_FIT`. This is a convenience extractor for workbooks that need fitted
+values without the residual column returned by `BESH.REGR.MMRM_RESID`.
+
+## BESH.REGR.MMRM_LSMEANS
+
+Returns observed-design-grid estimated marginal means for a fitted MMRM handle.
+
+**Function wizard:** Returns observed-design-grid LS-means for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_LSMEANS(handle, group, alpha)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+- **group** — Optional fitted design column to use as a grouping factor, for example `treatment_active`. Leave blank for visit-only means.
+- **alpha** — Optional two-sided alpha level for confidence intervals. Leave blank to use the alpha value saved with the fit.
+
+### Returns
+
+A dynamic array containing estimated marginal means.
+
+### Notes
+
+This extractor computes LS-means from the fitted fixed-effect design rows retained during
+the model fit. When `group` is blank, the table contains one estimated
+marginal mean for each visit/time value. When `group` names a numeric
+design column, the table contains means for each visit-by-group profile.
+
+The estimates use the same inference method saved with the fit. For Kenward-Roger fits,
+standard errors, denominator degrees of freedom, test statistics, p-values, and confidence
+limits use the Kenward-Roger adjustment.
+
+This function uses the observed design grid. Covariate/reference-grid helper functions can
+be added separately if a workbook needs SAS/R-style equal-cell marginalization over class
+factors and user-specified covariate values.
+
+## BESH.REGR.MMRM_LSMESTIMATE
+
+Returns custom MMRM LS-mean estimates or contrasts from a fitted MMRM handle, using
+a worksheet specification that is intentionally similar to the coefficient rows supplied
+to the SAS `PROC MIXED` `LSMESTIMATE` statement.
+
+**Function wizard:** Returns custom SAS-style LS-mean estimates/contrasts for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_LSMESTIMATE(handle, spec, alpha, at)`
+
+### Parameters
+
+- **handle** — A worksheet-session handle returned by `BESH.REGR.MMRM_FIT`.
+- **spec** — A worksheet range containing a header row and one or more profile/contrast rows. Required
+column: `weight`. Optional columns: `label` and `visit`. Any other nonblank
+header must name a fitted fixed-effect design column stored in the MMRM handle.
+- **alpha** — Optional two-sided significance level used for confidence intervals. If omitted, the alpha
+stored when the MMRM handle was created is used. The value must be finite and between 0 and 1
+according to the shared alpha parser used by the MMRM extractor UDFs.
+- **at** — Optional SAS `AT`-style worksheet range of common profile settings. The range may be a
+two-column name/value table or a wide single-row table. Names may be `visit` or fitted
+fixed-effect design column names. Values in `spec` override values in
+`at` for the same visit/design column.
+
+### Returns
+
+A dynamic array containing one row per custom estimate/contrast. The columns are produced
+by the common mixed-model linear contrast formatter and include the label, estimate, standard
+error, confidence limits, test statistic, denominator degrees of freedom when available, and
+p-value. On validation failure, the function returns a descriptive text error; if the handle
+is not found, it returns `#N/A`.
+
+### Notes
+
+`BESH.REGR.MMRM_LSMESTIMATE` evaluates one or more user-defined linear functions
+of the fitted fixed-effect coefficients from a previously fitted MMRM model. The function
+is intended for custom estimands that cannot be expressed conveniently by the simpler
+pairwise/control LS-mean contrast extractors, for example contrasts involving several
+factors at once, weighted averages over selected profiles, custom change-from-baseline
+combinations, or an average of several treatment/visit profiles.
+
+The first argument must be a handle returned by `BESH.REGR.MMRM_FIT`. The second
+argument, `spec`, is a worksheet range with a header row and one or more
+data rows. Each nonblank data row describes one LS-mean profile contribution. Rows with
+the same label are accumulated into one final estimate as
+`sum(weight * L(profile)) * beta`, where `L(profile)` is the average fixed-effect
+design row among observations matching the requested profile. The resulting dynamic array
+contains the estimate, standard error, confidence interval, test statistic, degrees of
+freedom when available, and p-value using the variance-covariance information stored in
+the fitted MMRM result.
+
+The `spec` range must contain a column named `weight`. Accepted
+aliases are `coef`, `coefficient`, and `contrastweight`. The weights are
+analogous to the numbers written in a SAS `LSMESTIMATE` coefficient row. Use values
+such as `1`, `0`, and `-1` for simple differences, or fractional values such
+as `0.5` for averages. Rows with a zero weight are ignored after validation.
+
+The optional `label` column groups rows into estimates. Accepted aliases are
+`contrast`, `estimate`, and `name`. If no label is supplied for a row,
+labels are generated as `Estimate 1`, `Estimate 2`, and so on. To build a
+contrast that uses multiple profile rows, give those rows exactly the same label.
+
+The optional `visit` column restricts a profile contribution to a visit/time value
+saved in the MMRM handle. Accepted alias: `time`. Any additional nonblank column in
+`spec` must match a fitted fixed-effect design column name, using either
+the exact name or a punctuation-insensitive/case-insensitive version of the name. For
+example, if the model handle stores design columns named `treatment_active`,
+`sex_code`, and `treatment_active:sex_code`, those headers may be used as profile
+columns. The numeric value in each cell is matched against the corresponding saved design
+row value. This makes the function work with model-matrix columns already created by the
+BESHStatNG formula/design machinery.
+
+The optional `at` argument implements an Excel range analogue of the SAS
+`AT` option. It supplies profile values that are applied to every row in
+`spec` unless that row explicitly overrides the same visit/design column.
+Use it for settings that are common to the whole custom estimand, such as holding a
+covariate at its mean or evaluating all rows at a particular factor level. The
+`at` range can be supplied in either of two forms:
+
+- Name/value form: two columns with headers such as `name` and `value`. The first column contains `visit` or a fitted design column name; the second column contains the numeric value to use.
+- Wide form: a header row containing `visit` and/or fitted design column names, followed by one nonblank data row containing the numeric values.
+
+Values supplied in `spec` take precedence over values supplied in
+`at`. For example, if `at` sets `visit=4` but one
+row of `spec` supplies `visit=2`, that row is evaluated at visit 2.
+If `at` sets `age=65` and the `spec` range does not
+contain an `age` column, every profile contribution is evaluated among observed design
+rows with `age=65`.
+
+This worksheet UDF uses the observed fitted design rows stored in the handle. It therefore
+evaluates profiles by averaging rows that actually occur in the retained analysis data and
+match the requested profile/AT conditions. It does not synthesize new design rows that were
+absent from the observed design. If no row matches a requested profile, the function returns
+a descriptive error identifying the affected label. When interaction terms are present,
+provide any required interaction design columns explicitly in `spec` or
+`at` if those columns are needed to identify the intended profile.
+
+Blank cells in profile columns are treated as unspecified. Numeric cells must be finite;
+missing, text, Boolean, error, nonnumeric, infinite, or NaN values in required numeric
+positions produce an error. The intercept column should normally be left unspecified.
+
+Example `spec` for a treatment difference at visit 2 among male subjects,
+with a design column named `sex_code` coded as 1 for male:
+
+```
+
+label              weight   visit   treatment_active   sex_code
+Active-Control V2   1        2       1                  1
+Active-Control V2  -1        2       0                  1
+```
+
+The same example using `at` to avoid repeating the common visit and sex
+settings:
+
+```
+
+spec:
+label              weight   treatment_active
+Active-Control V2   1        1
+Active-Control V2  -1        0
+
+at:
+name       value
+visit      2
+sex_code   1
+```
+
+## BESH.REGR.MMRM_RESID
+
+Returns row-level fitted values and raw marginal residuals for a fitted MMRM handle.
+
+**Function wizard:** Returns fitted values and raw marginal residuals for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_RESID(handle, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+- **includeHeader** — TRUE to include a header row. The default is TRUE.
+
+### Returns
+
+A dynamic array with row number, fitted value, and residual columns.
+
+### Notes
+
+The returned rows correspond to the valid rows that remained after input screening in
+`BESH.REGR.MMRM_FIT`. The residual is the observed response minus the marginal fitted
+value for the fixed-effect part of the model.
+
+## BESH.REGR.MMRM_RESULTS
+
+Returns all result tables, or one selected result table, from a fitted MMRM handle.
+
+**Function wizard:** Returns all MMRM result tables or one named table for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_RESULTS(handle, table, includeOptimizerTrace, alpha)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+- **table** — Optional result-table title to return. Leave blank to return all available tables.
+- **includeOptimizerTrace** — TRUE to include stored optimizer trace information when returning all tables. The default is FALSE.
+- **alpha** — Optional two-sided alpha level for confidence intervals. Leave blank to use the alpha value saved with the fit.
+
+### Returns
+
+A dynamic array containing the requested result table or tables.
+
+### Notes
+
+Leave `table` blank to return the complete set of available tables stacked
+vertically. Provide a table title to return only that table. Common table titles include
+`Fixed effects`, `Kenward-Roger term-level F tests`,
+`Covariance parameters`, `Estimated R covariance matrix`,
+`Estimated R correlation matrix`, `Fit statistics`, and `Convergence`.
+
+If trace output was requested when the model was fitted, set
+`includeOptimizerTrace` to TRUE to include the iteration history in the
+returned result set.
+
+## BESH.REGR.MMRM_R_CORR
+
+Returns the fitted within-subject correlation matrix for a fitted MMRM handle.
+
+**Function wizard:** Returns the fitted R-side correlation matrix for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_R_CORR(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+
+### Returns
+
+A dynamic array containing the estimated within-subject correlation matrix.
+
+### Notes
+
+This table converts the fitted within-subject covariance matrix to correlations, making it
+easier to compare the strength of association between visits or time points.
+
+## BESH.REGR.MMRM_R_COV
+
+Returns the fitted within-subject covariance matrix for a fitted MMRM handle.
+
+**Function wizard:** Returns the fitted R-side covariance matrix for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_R_COV(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+
+### Returns
+
+A dynamic array containing the estimated within-subject covariance matrix.
+
+### Notes
+
+The matrix is reported on the response scale for the visit levels represented in the
+fitted analysis. For unstructured covariance, this table is often the easiest way to review
+the estimated variances and covariances by visit.
+
+## BESH.REGR.MMRM_TYPE3
+
+Returns the term-level fixed-effect F-test table for a fitted MMRM handle.
+
+**Function wizard:** Returns the Kenward-Roger term-level F-test table for a fitted MMRM handle.
+
+### Syntax
+
+`=BESH.REGR.MMRM_TYPE3(handle, alpha)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
+- **alpha** — Reserved for consistency with other extractors. Leave blank unless a future version documents alpha-dependent columns for this table.
+
+### Returns
+
+A dynamic array containing the term-level fixed-effect F-test table.
+
+### Notes
+
+For Kenward-Roger fits, the table reports term-level F tests using Kenward-Roger
+denominator degrees of freedom and F scaling. This is the worksheet equivalent of the
+model-wide fixed-effect tests shown in the graphical MMRM output.
 
 ## BESH.REGR.MNLOGIT_CLASS
 
@@ -1767,8 +2332,10 @@ The selected category becomes the baseline category against which all other logi
 This corresponds to the usual multinomial-logit formulation.
 - **formula** — Optional right-hand-side model formula used to construct the design matrix from the raw predictor matrix `x`.
 Supported syntax currently includes additive terms (`A + B`), polynomial terms (`A^2`),
-continuous-variable interactions (`A:B`, `A:B:C`), and categorical main effects such as
-`factor(C)` or `factor(C, ref=2)`. If omitted or blank, all raw predictor columns are used as continuous main effects.
+continuous-continuous interactions (`A:B`, `A:B:C`), categorical main effects such as
+`factor(C)` or `factor(C, ref=2)`, categorical-continuous interactions such as
+`factor(C):B`, and categorical-categorical interactions such as `factor(C):factor(D)`.
+If omitted or blank, all raw predictor columns are used as continuous main effects.
 - **formulaAddressing** — Optional formula-addressing mode that controls how bare column-letter tokens are interpreted.
 Accepted values are `relative` (default), `absolute`, and `names`.
 In `relative` mode, `A`, `B`, `AA`, … refer to columns 1, 2, 27, … of `x`.
@@ -1803,7 +2370,7 @@ Residual diagnostics are computed during fitting so that `BESH.REGR.MNLOGIT_RESI
 ```
 
 =BESH.REGR.MNLOGIT_FIT(A2:A101,B2:D101,"dose,age,prison")
-=BESH.REGR.MNLOGIT_FIT(A2:A101,B2:E101,"dose,age,prison,stage",,,"last",TRUE,"A + B + factor(D, ref=1) + 'dose':'age'","names",100,1E-8,0.05)
+=BESH.REGR.MNLOGIT_FIT(A2:A101,B2:E101,"dose,age,prison,stage",,,"last",TRUE,"A + B + factor(D, ref=1) + factor(D, ref=1):B","relative",100,1E-8,0.05)
 ```
 
 ## BESH.REGR.MNLOGIT_PRED
@@ -2020,8 +2587,10 @@ Accepted values are `last` (default) and `first`.
 The choice changes the internal ordering used by the cumulative logits and therefore changes the interpretation of the thresholds.
 - **formula** — Optional right-hand-side model formula used to construct the design matrix from the raw predictor matrix `x`.
 Supported syntax currently includes additive terms (`A + B`), polynomial terms (`A^2`),
-continuous-variable interactions (`A:B`, `A:B:C`), and categorical main effects such as
-`factor(C)` or `factor(C, ref=2)`. If omitted or blank, all raw predictor columns are used as continuous main effects.
+continuous-continuous interactions (`A:B`, `A:B:C`), categorical main effects such as
+`factor(C)` or `factor(C, ref=2)`, categorical-continuous interactions such as
+`factor(C):B`, and categorical-categorical interactions such as `factor(C):factor(D)`.
+If omitted or blank, all raw predictor columns are used as continuous main effects.
 - **formulaAddressing** — Optional formula-addressing mode that controls how bare column-letter tokens are interpreted.
 Accepted values are `relative` (default), `absolute`, and `names`.
 In `relative` mode, `A`, `B`, `AA`, … refer to columns 1, 2, 27, … of `x`.
@@ -2057,7 +2626,7 @@ Residual diagnostics are computed during fitting so that `BESH.REGR.ORDLOGIT_RES
 ```
 
 =BESH.REGR.ORDLOGIT_FIT(A2:A101,B2:D101,"dose,age,prison")
-=BESH.REGR.ORDLOGIT_FIT(A2:A101,B2:E101,"dose,age,prison,stage",,,"last","A + B + factor(D, ref=1) + 'dose':'age'","names",100,1E-8,0.05)
+=BESH.REGR.ORDLOGIT_FIT(A2:A101,B2:E101,"dose,age,prison,stage",,,"last","A + B + factor(D, ref=1) + factor(D, ref=1):B","relative",100,1E-8,0.05)
 ```
 
 ## BESH.REGR.ORDLOGIT_PRED
@@ -2256,9 +2825,9 @@ The offset enters additively on the log-mean scale:
 A common rate-model choice is `o_i = log(t_i)` for exposure `t_i`.
 - **includeCountIntercept** — TRUE to include an intercept in the Poisson count component (default TRUE).
 - **includeZeroIntercept** — TRUE to include an intercept in the logistic zero component (default TRUE).
-- **countFormula** — Optional right-hand-side formula used to expand the raw count-component predictor matrix before fitting.
+- **countFormula** — Optional right-hand-side formula used to expand the raw count-component predictor matrix before fitting. Supported terms include additive effects, polynomial terms, `A:B`, `factor(C)`, `factor(C):B`, and `factor(C):factor(D)`.
 If omitted or blank, all raw count predictors enter as continuous main effects.
-- **zeroFormula** — Optional right-hand-side formula used to expand the raw zero-component predictor matrix before fitting.
+- **zeroFormula** — Optional right-hand-side formula used to expand the raw zero-component predictor matrix before fitting. Supported terms include additive effects, polynomial terms, `A:B`, `factor(C)`, `factor(C):B`, and `factor(C):factor(D)`.
 If omitted or blank, all raw zero predictors enter as continuous main effects.
 - **formulaAddressing** — Formula-addressing mode shared by both formulas: `relative` (default), `absolute`, or `names`.
 - **maxEmIter** — Maximum number of EM iterations (default 200).
@@ -2308,8 +2877,8 @@ ZeroInflatedPoisson implementation exposes a Poisson-part offset but not a user-
 ```
 
 =BESH.REGR.ZIP_FIT(A2:A201,B2:D201)
-=BESH.REGR.ZIP_FIT(A2:A201,B2:D201,E2:G201,"Age,BMI,Treat","Age,Stage,Smoker",H2:H201,TRUE,TRUE,"factor(C)+A","factor(B)+C")
-=BESH.REGR.ZIP_FIT(A2:A201,B2:E201,,"Dose,Age,Stage,Center",,TRUE,FALSE,"A + factor(C) + A*B","factor(D)")
+=BESH.REGR.ZIP_FIT(A2:A201,B2:D201,E2:G201,"Age,BMI,Treat","Age,Stage,Smoker",H2:H201,TRUE,TRUE,"factor(C)+A+factor(C):A","factor(B)+C+factor(B):C")
+=BESH.REGR.ZIP_FIT(A2:A201,B2:E201,,"Dose,Age,Stage,Center",,TRUE,FALSE,"A + B + factor(C) + factor(C):B","factor(D)")
 ```
 
 ## BESH.REGR.ZIP_PRED

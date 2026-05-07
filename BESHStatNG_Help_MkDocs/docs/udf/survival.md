@@ -118,7 +118,9 @@ The Breslow approximation is simple and fast, Efron is usually more accurate whe
 Robust standard errors can be useful when model assumptions are mildly violated or when greater protection against variance misspecification is desired.
 - **formula** — Optional right-hand-side model formula used to construct the design matrix from the raw predictor matrix `x`.
 Supported syntax currently includes additive terms (`A + B`), polynomial terms (`A^2`),
-continuous-variable interactions (`A:B`, `A:B:C`), and categorical main effects such as `factor(C)` or `factor(C, ref=2)`.
+continuous-continuous interactions (`A:B`, `A:B:C`), categorical main effects such as
+`factor(C)` or `factor(C, ref=2)`, categorical-continuous interactions such as
+`factor(C):B`, and categorical-categorical interactions such as `factor(C):factor(D)`.
 If omitted or blank, all predictor columns are used as continuous main effects.
 - **formulaAddressing** — Optional formula-addressing mode that controls how bare column-letter tokens are interpreted.
 Accepted values are `relative` (default), `absolute`, and `names`.
@@ -158,7 +160,7 @@ The returned handle is valid only for the current Excel session and should be tr
 ```
 
 =BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:D101,"Age,Treatment")
-=BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:F101,"Age,BMI,Stage,Treat",,,"efron",FALSE,100,1E-8,"A + A^2 + factor(C, ref=1) + B:D","relative")
+=BESH.SURV.COX_FIT(A2:A101,B2:B101,C2:F101,"Age,BMI,Stage,Treat",,,"efron",FALSE,100,1E-8,"A + A^2 + factor(C, ref=1) + factor(C, ref=1):B","relative")
 ```
 
 ## BESH.SURV.COX_PRED

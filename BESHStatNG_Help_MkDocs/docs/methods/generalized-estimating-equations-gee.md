@@ -1,6 +1,6 @@
 # Generalized Estimating Equations (GEE)
 
-**Includes:** Families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Covariance structures: Independence, Exchangeable, Autoregressive, Unstructured, SE types: Robust, Naive, Bias-reduced, categorical factors, polynomial terms, continuous-variable interactions, optional starting values, and—for Binomial models—optional classifier reporting (confusion matrix, threshold table, calibration table/plot, Brier score, ROC tables and ROC plot).  
+**Includes:** Families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Covariance structures: Independence, Exchangeable, Autoregressive, Unstructured, SE types: Robust, Naive, Bias-reduced, categorical factors, polynomial terms, continuous and categorical-factor interactions, optional starting values, and—for Binomial models—optional classifier reporting (confusion matrix, threshold table, calibration table/plot, Brier score, ROC tables and ROC plot).  
 **Purpose:** Fit marginal models for correlated/clustered data using GEE with selectable working correlation, including marginal-probability reporting for fitted binary Binomial models.
 
 ---
@@ -56,7 +56,7 @@ All implemented families, links, and correlation-structure mathematics are docum
 ![GEE - build model](../assets/images/034gee/034gee_input2.png)
 
 - **Add >>** adds the selected variable(s) as continuous main effects.
-- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns.
+- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns; if the factor is used in an interaction, the interaction is built from those expanded columns.
 - **Poly >>** creates polynomial terms for the selected variable(s). The degree is taken from the numeric box next to the button.
 - **2-way Interactions >>** creates all pairwise interactions among the currently selected variables.
 - **Custom Interaction >>** creates one multi-way interaction term spanning all currently selected variables.
@@ -69,8 +69,8 @@ All implemented families, links, and correlation-structure mathematics are docum
 Current limitations:
 
 - Polynomial terms are supported only for **continuous** predictors.
-- Interaction terms are currently supported only for **continuous × continuous** combinations.
-- Interactions involving categorical predictors are **not implemented yet**.
+- Interaction terms support **continuous × continuous**, **categorical × continuous**, and **categorical × categorical** combinations.
+- Polynomial subterms inside interactions are not supported; create polynomial main effects separately when needed.
 
 !!! note
     The **Selected Effects** list shows the authored terms, while the fitted coefficient table may contain more columns after expansion (for example, one coefficient per non-reference factor level).

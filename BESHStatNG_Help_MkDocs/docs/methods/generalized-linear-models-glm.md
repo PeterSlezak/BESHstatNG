@@ -1,6 +1,6 @@
 # Generalized Linear Models (GLM)
 
-**Includes:** GLM families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Links per family (selectable), categorical factors, polynomial terms, continuous-variable interactions, optional starting values, optional weights and offset, IRLS with user-set iterations/ε, optional covariance matrix and residuals, and—for Binomial models—optional classifier reporting (confusion matrix, threshold table, calibration table/plot, Brier score, ROC tables and ROC plot).  
+**Includes:** GLM families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Links per family (selectable), categorical factors, polynomial terms, continuous and categorical-factor interactions, optional starting values, optional weights and offset, IRLS with user-set iterations/ε, optional covariance matrix and residuals, and—for Binomial models—optional classifier reporting (confusion matrix, threshold table, calibration table/plot, Brier score, ROC tables and ROC plot).  
 **Purpose:** Fit generalized linear models to a wide range of outcome types with configurable link functions, including probability-model reporting for fitted binary Binomial models.
 
 ---
@@ -38,7 +38,7 @@ Provide:
 ### Build model
 
 - **Add >>** adds the selected variable(s) as continuous main effects.
-- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns.
+- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns; if the factor is used in an interaction, the interaction is built from those expanded columns.
 - **Poly >>** creates polynomial terms for the selected variable(s). The degree is taken from the numeric box next to the button.
 - **2-way Interactions >>** creates all pairwise interactions among the currently selected variables.
 - **Custom Interaction >>** creates one multi-way interaction term spanning all currently selected variables.
@@ -47,8 +47,8 @@ Provide:
 Current limitations:
 
 - Polynomial terms are supported only for **continuous** predictors.
-- Interaction terms are currently supported only for **continuous × continuous** combinations.
-- Interactions involving categorical predictors are **not implemented yet**.
+- Interaction terms support **continuous × continuous**, **categorical × continuous**, and **categorical × categorical** combinations.
+- Polynomial subterms inside interactions are not supported; create polynomial main effects separately when needed.
 
 ### Options
 

@@ -1,6 +1,6 @@
 # Zero-Inflated Poisson Regression
 
-**Includes:** ZIP model (Poisson count + logistic inflation part), separate authored effects for the Poisson and Logistic components, categorical factors, polynomial terms, continuous-variable interactions, EM-style fitting (with iterations/ε), optional starting values for both parts.  
+**Includes:** ZIP model (Poisson count + logistic inflation part), separate authored effects for the Poisson and Logistic components, categorical factors, polynomial terms, continuous and categorical-factor interactions, EM-style fitting (with iterations/ε), optional starting values for both parts.  
 **Purpose:** Model count data with excess zeros by combining a Poisson model with a separate zero-inflation process.
 
 ---
@@ -60,7 +60,7 @@ Select which predictors are included in the **count (Poisson)** component.
 ![ZIP – Build Model (Poisson)](../assets/images/038zeroinflatedpoisson/038zeroinflatedpoisson_input2.png)
 
 - **Add >>** adds the selected variable(s) as continuous main effects.
-- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns.
+- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns; if the factor is used in an interaction, the interaction is built from those expanded columns.
 - **Poly >>** creates polynomial terms for the selected variable(s). The degree is taken from the numeric box next to the button.
 - **2-way Interactions >>** creates all pairwise interactions among the currently selected variables.
 - **Custom Interaction >>** creates one multi-way interaction term spanning all currently selected variables.
@@ -69,8 +69,8 @@ Select which predictors are included in the **count (Poisson)** component.
 Current limitations:
 
 - Polynomial terms are supported only for **continuous** predictors.
-- Interaction terms are currently supported only for **continuous × continuous** combinations.
-- Interactions involving categorical predictors are **not implemented yet**.
+- Interaction terms support **continuous × continuous**, **categorical × continuous**, and **categorical × categorical** combinations.
+- Polynomial subterms inside interactions are not supported; create polynomial main effects separately when needed.
 
 ### 3.3 Build Model – Logistic tab
 
@@ -89,8 +89,8 @@ Select which predictors are included in the **inflation (logistic)** component.
 Current limitations:
 
 - Polynomial terms are supported only for **continuous** predictors.
-- Interaction terms are currently supported only for **continuous × continuous** combinations.
-- Interactions involving categorical predictors are **not implemented yet**.
+- Interaction terms support **continuous × continuous**, **categorical × continuous**, and **categorical × categorical** combinations.
+- Polynomial subterms inside interactions are not supported; create polynomial main effects separately when needed.
 
 !!! note
     The **Selected Effects** list on each ZIP tab shows the authored terms, while the fitted coefficient tables may contain more columns after factor expansion (for example, one coefficient per non-reference factor level).

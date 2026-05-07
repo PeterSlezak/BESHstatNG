@@ -1,8 +1,8 @@
 # Multiple Linear Regression (LM)
 
-**Includes:** Ordinary least squares (OLS) / weighted least squares (WLS), optional intercept, Type I or Type III term sums-of-squares (ANOVA), coefficient covariance matrix, residual/influence diagnostics, VIF.  
+**Includes:** Ordinary least squares (OLS) / weighted least squares (WLS), categorical factors and categorical-factor interactions, optional intercept, Type I or Type III term sums-of-squares (ANOVA), coefficient covariance matrix, residual/influence diagnostics, VIF and partial predictor correlations.  
 **Purpose:** Fit a standard linear regression model, report coefficients and ANOVA-style term tests.
-
+ 
 ---
 
 ## Overview
@@ -20,7 +20,7 @@ This add-in fits the model using **OLS** (all weights \(w_i=1\)) or **WLS** (use
 - coefficient estimates, standard errors, t-tests, and confidence intervals,
 - overall model fit (R², adjusted R², overall F-test),
 - ANOVA decomposition and **Type I** (sequential) or **Type III** (partial) term tests,
-- multicollinearity diagnostics (VIF),
+- multicollinearity and adjusted-association diagnostics (VIF and partial r),
 - residual and influence diagnostics (optional).
 
 ---
@@ -45,8 +45,9 @@ This add-in fits the model using **OLS** (all weights \(w_i=1\)) or **WLS** (use
 
 - **Add as Categorical Factor >>**: marks the selected predictor(s) as categorical main effects in the linear model.
 - Categorical predictors must be supplied as numeric-coded columns (for example `0/1`, `1/2/3`, etc.). Text/string factor columns are not supported in LM.
-- In the current LM implementation, categorical support applies to main effects only.
-- Polynomial terms and interaction terms involving categorical predictors are not implemented yet.
+- Categorical predictors can be used as main effects and in interactions.
+- Interactions are expanded after reference coding: factor × continuous interactions create one product column per non-reference factor level; factor × factor interactions create product columns for non-reference level combinations.
+- Polynomial subterms inside interactions are not supported; create polynomial main effects separately when needed.
 
 #### Adding polynomial and interaction terms
 
@@ -319,15 +320,21 @@ D_i = \frac{w_i e_i^2}{p\,\mathrm{MSE}} \cdot \frac{h_{ii}}{(1-h_{ii})^2}.
 
 ---
 
-## Multicollinearity: VIF
+## Multicollinearity and partial correlations: VIF table
 
-The add-in reports variance inflation factors (VIF) computed from the (weighted) predictor correlation matrix \(R\) (intercept excluded):
+The add-in reports a VIF table with one row per modeled predictor column (intercept excluded). The table includes:
 
 \[
 \mathrm{VIF}_j = (R^{-1})_{jj}.
 \]
 
-Large VIF values indicate strong linear dependence among predictors and inflated standard errors.
+**Partial r**: the partial correlation between the response and predictor column \(j\), adjusting for the other modeled predictor columns. It is computed from the signed coefficient t-statistic and residual degrees of freedom:
+
+\[
+r_{y x_j \cdot X_{-j}} = \frac{t_j}{\sqrt{t_j^2 + \mathrm{df}_{\mathrm{resid}}}}.
+\]
+
+Large VIF values indicate strong linear dependence among predictors and inflated standard errors. The **Partial r** value ranges from -1 to +1 and gives the direction and strength of the predictor's adjusted linear association with the outcome.
 
 ---
 
@@ -354,10 +361,10 @@ The LM sheet includes:
 - **Model summary**: \(n\), \(p\), df, \(R^2\), adjusted \(R^2\), overall F-test, logLik, AIC, BIC.
 - **ANOVA (Overall fit)**: SSR/SSE/SST and overall F-test.
 - **ANOVA (Type I or Type III)**: term tests based on selected SS type.
-- **VIF** table.
+- **VIF / Partial r** table.
 - Optional **Covariance Matrix of Parameters**.
 
-If categorical predictors are used, the **Coefficient table**, **ANOVA table(s)**, **VIF** table, and optional **Covariance Matrix** include footnotes identifying which predictors were treated as categorical and which reference levels were used. In coefficient-style tables, categorical predictors are expanded into indicator columns with labels such as `x1[2]`, `x1[3]`, etc., while ANOVA reports the grouped term using the base predictor name.
+If categorical predictors are used, the **Coefficient table**, **ANOVA table(s)**, **VIF / Partial r** table, and optional **Covariance Matrix** include footnotes identifying which predictors were treated as categorical and which reference levels were used. In coefficient-style tables, categorical predictors are expanded into indicator columns with labels such as `x1[2]`, `x1[3]`, etc., while ANOVA reports the grouped term using the base predictor name.
 
 ---
 
@@ -388,6 +395,11 @@ Anova(fit, type = 3)         # partial SS/F tests
 # VIF (matches add-in for OLS; WLS may differ by weighting convention)
 vif(fit)
 
+# Partial r values reported beside VIF in the add-in
+tvals <- coef(summary(fit))[, "t value"]
+partial_r <- tvals / sqrt(tvals^2 + df.residual(fit))
+partial_r[names(partial_r) != "(Intercept)"]
+
 # Diagnostics to match residual export
 h <- hatvalues(fit)                          # leverage
 e <- resid(fit)                              # raw residual
@@ -417,6 +429,7 @@ AIC(fit); BIC(fit)
 - **Type I SS** depends on predictor order in both environments. Ensure the same order in the Excel **Selected Effects** list and in the R formula. (If you need a different order in BESHstatNG, remove and re-add effects in the desired sequence.)
 - **Type III SS** in R (`car::Anova(type=3)`) matches BESHStatNG when the same term structure, factor coding, and reference levels are used.
 - **VIF**: BESHStatNG uses a **weighted** predictor correlation matrix for WLS; some R functions compute VIFs from the (unweighted) model matrix by default. For OLS, results should match closely.
+- **Partial r**: BESHStatNG computes this from each coefficient t-statistic and the residual degrees of freedom. It should match software that uses the same design matrix, factor coding, weights, and coefficient inference.
 - **AIC/BIC**: constant-offset conventions differ across some software; R’s `AIC(lm)`/`BIC(lm)` should match BESHStatNG’s convention for OLS.
 - **Categorical predictors**: BESHStatNG can now treat numeric-coded predictors as categorical main effects directly from the LM dialog.
 - To reproduce the same result in R, convert the predictor to a factor and use the same reference level. With an intercept, BESHStatNG uses the smallest observed numeric value as the reference level.

@@ -1,5 +1,12 @@
 # What's New
 
+## version 0.8.x.0 (2026-05-xx)
+- MMRM
+- Added support for categorical-factor interactions in regression/GEE/MMRM model building and formula validation, enabling terms such as `factor(A):B` and `factor(A):factor(B)` for common MMRM use cases such as group-by-time effects.
+- New Interrupt buttons were added to the regression forms, allowing long-running calculations to stop at the next safe point and return the latest available estimates where supported. Closing a form during a run now requests a clean cancellation instead of leaving the calculation running
+- Multiple linear regression VIF output now includes a signed **Partial r** column for each modeled predictor column, computed from the coefficient t-statistic and residual degrees of freedom.
+
+
 ## version 0.7.6.0 (2026-04-26)
 - Added model-reporting tools for fitted binary classifiers, including confusion matrix, threshold-performance table, sensitivity/specificity and precision/recall summaries, calibration analysis, Brier score, ROC tables, and ROC plot outputs for binomial GLM and binomial GEE models. The same reporting workflow is also available through new generic classification UDFs for scoring external or holdout predictions directly in Excel.
 - Agreement-method bootstrap BCa intervals are now implemented in the backend for Lin's CCC, Cohen's / Weighted Kappa, Deming regression, and Bland–Altman analysis.

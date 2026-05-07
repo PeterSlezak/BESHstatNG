@@ -1,6 +1,6 @@
 # Cox Regression
 
-**Includes:** Cox proportional hazards model, tie handling (Breslow, Efron, Exact), categorical factors, polynomial terms, continuous-variable interactions, user-selected hazard-ratio confidence level (default 95%), optional starting values for the optimizer, robust variance (optional), residuals + PH score test (optional), baseline + adjusted survival curves.  
+**Includes:** Cox proportional hazards model, tie handling (Breslow, Efron, Exact), categorical factors, polynomial terms, continuous and categorical-factor interactions, user-selected hazard-ratio confidence level (default 95%), optional starting values for the optimizer, robust variance (optional), residuals + PH score test (optional), baseline + adjusted survival curves.  
 **Purpose:** Fit a proportional hazards model to time-to-event data and report hazard ratios with diagnostics.
 
 ---
@@ -50,7 +50,7 @@ This add-in fits Cox PH models with configurable tie handling (Breslow, Efron, E
 ![Cox regression - build model](../assets/images/033cox/033cox_input2.png)
 
 - **Add >>** adds the selected variable(s) as continuous main effects.
-- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns.
+- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns; if the factor is used in an interaction, the interaction is built from those expanded columns.
 - **Poly >>** creates polynomial terms for the selected variable(s). The degree is taken from the numeric box next to the button.
 - **2-way Interactions >>** creates all pairwise interactions among the currently selected variables.
 - **Custom Interaction >>** creates one multi-way interaction term spanning all currently selected variables.
@@ -58,8 +58,8 @@ This add-in fits Cox PH models with configurable tie handling (Breslow, Efron, E
 Current limitations:
 
 - Polynomial terms are supported only for **continuous** predictors.
-- Interaction terms are currently supported only for **continuous × continuous** combinations.
-- Interactions involving categorical predictors are **not implemented yet**.
+- Interaction terms support **continuous × continuous**, **categorical × continuous**, and **categorical × categorical** combinations.
+- Polynomial subterms inside interactions are not supported; create polynomial main effects separately when needed.
 
 **Initial parameter values**
 

@@ -1,6 +1,6 @@
 # Negative Binomial Regression (NB2)
 
-**Includes:** Negative Binomial (NB2) regression, Overdispersion parameter (estimated), categorical factors, polynomial terms, continuous-variable interactions, optional starting values, optional offset/weights, covariance matrix, residuals.  
+**Includes:** Negative Binomial (NB2) regression, Overdispersion parameter (estimated), categorical factors, polynomial terms, continuous and categorical-factor interactions, optional starting values, optional offset/weights, covariance matrix, residuals.  
 **Purpose:** Model overdispersed count outcomes using an NB2 variance function.
 
 ---
@@ -45,7 +45,7 @@ If your main issue is **overdispersion** (variance > mean) without a clear struc
 ![NB2 - Build model](../assets/images/035negativebinomial/035negativebinomial_input2.png)
 
 - **Add >>** adds the selected variable(s) as continuous main effects.
-- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns.
+- **Add as Categorical Factor >>** marks the selected variable(s) as categorical main effects. Internally, BESHStatNG expands each selected factor into reference-coded indicator columns; if the factor is used in an interaction, the interaction is built from those expanded columns.
 - **Poly >>** creates polynomial terms for the selected variable(s). The degree is taken from the numeric box next to the button.
 - **2-way Interactions >>** creates all pairwise interactions among the currently selected variables.
 - **Custom Interaction >>** creates one multi-way interaction term spanning all currently selected variables.
@@ -54,8 +54,8 @@ If your main issue is **overdispersion** (variance > mean) without a clear struc
 Current limitations:
 
 - Polynomial terms are supported only for **continuous** predictors.
-- Interaction terms are currently supported only for **continuous × continuous** combinations.
-- Interactions involving categorical predictors are **not implemented yet**.
+- Interaction terms support **continuous × continuous**, **categorical × continuous**, and **categorical × categorical** combinations.
+- Polynomial subterms inside interactions are not supported; create polynomial main effects separately when needed.
 
 **Options**
 

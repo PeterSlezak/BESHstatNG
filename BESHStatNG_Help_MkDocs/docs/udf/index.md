@@ -17,7 +17,7 @@ Excel Function Wizard category (e.g. `BESHStatNG - Nonparametric`).
 | [Nonparametric](nonparametric.md) | Rank-based and other nonparametric hypothesis tests and related statistics. | 14 | [Friedman Test](../methods/friedman-test.md), [Kendalls Rank Correlation](../methods/kendalls-rank-correlation.md), [Kruskal Wallis Test](../methods/kruskal-wallis-test.md), [Mann Whitney Test](../methods/mann-whitney-test.md), [Spearman Rank Correlation](../methods/spearman-rank-correlation.md), [Wilcoxon Signed Rank Test](../methods/wilcoxon-signed-rank-test.md) |
 | [Parametric](parametric.md) | Worksheet functions in this category. | 10 | [One Way Anova](../methods/one-way-anova.md), [Two Way Nested Anova](../methods/two-way-nested-anova.md), [One Way Repeated Measures Anova](../methods/one-way-repeated-measures-anova.md), [Paired T Tests](../methods/paired-t-tests.md), [Unpaired Two Sample T Tests](../methods/unpaired-two-sample-t-tests.md) |
 | [Plot Data](plot-data.md) | Worksheet functions in this category. | 6 | [Histogram](../methods/histogram.md), [Roc Curve](../methods/roc-curve.md) |
-| [Regression Models](regression-models.md) | Worksheet functions in this category. | 61 | [Regression Formula Syntax](regression-formula-syntax.md), [Generalized Estimating Equations Gee](../methods/generalized-estimating-equations-gee.md), [Negative Binomial Regression Nb2](../methods/negative-binomial-regression-nb2.md), [Generalized Linear Models Glm](../methods/generalized-linear-models-glm.md), [Multiple Linear Regression Lm](../methods/multiple-linear-regression-lm.md), [Multinomial Logistic Regression](../methods/multinomial-logistic-regression.md), [Ordinal Logistic Regression](../methods/ordinal-logistic-regression.md), [Zero Inflated Poisson Regression](../methods/zero-inflated-poisson-regression.md) |
+| [Regression Models](regression-models.md) | Worksheet functions in this category. | 76 | [Regression Formula Syntax](regression-formula-syntax.md), [Generalized Estimating Equations Gee](../methods/generalized-estimating-equations-gee.md), [Negative Binomial Regression Nb2](../methods/negative-binomial-regression-nb2.md), [Generalized Linear Models Glm](../methods/generalized-linear-models-glm.md), [Multiple Linear Regression Lm](../methods/multiple-linear-regression-lm.md), [Mixed Models For Repeated Measures Mmrm](../methods/mixed-models-for-repeated-measures-mmrm.md), [Multinomial Logistic Regression](../methods/multinomial-logistic-regression.md), [Ordinal Logistic Regression](../methods/ordinal-logistic-regression.md), [Zero Inflated Poisson Regression](../methods/zero-inflated-poisson-regression.md) |
 | [Sample Size](sample-size.md) | Worksheet functions in this category. | 9 | [Sample Size Bland Altman](../methods/sample-size-bland-altman.md), [Sample Size Cox Regression](../methods/sample-size-cox-regression.md), [Sample Size Icc](../methods/sample-size-icc.md), [Sample Size Log Rank](../methods/sample-size-log-rank.md), [Sample Size Independent Proportions](../methods/sample-size-independent-proportions.md), [Sample Size Single Proportion](../methods/sample-size-single-proportion.md), [Sample Size Paired T Test](../methods/sample-size-paired-t-test.md), [Sample Size Unpaired T Test](../methods/sample-size-unpaired-t-test.md) |
 | [Survival](survival.md) | Worksheet functions in this category. | 11 | [Cox Regression](../methods/cox-regression.md), [Regression Formula Syntax](regression-formula-syntax.md), [Logrank Test](../methods/logrank-test.md), [Kaplan Meier Plot](../methods/kaplan-meier-plot.md) |
 
@@ -251,7 +251,22 @@ See: [Plot Data UDFs](plot-data.md)
 - `BESH.REGR.LM_RESID` — Returns residual diagnostics for a fitted linear-model handle.
 - `BESH.REGR.LM_SUMMARY` — Returns the coefficient summary table for a fitted linear-model handle.
 - `BESH.REGR.LM_TESTS` — Returns model-level diagnostics and fit statistics for a fitted linear-model handle.
-- `BESH.REGR.LM_VIF` — Returns the variance-inflation-factor table for a fitted linear-model handle.
+- `BESH.REGR.LM_VIF` — Returns the variance-inflation-factor and partial-correlation table for a fitted linear-model handle.
+- `BESH.REGR.MMRM_CLEAR_ALL` — Drops all fitted MMRM handles from the session cache.
+- `BESH.REGR.MMRM_COEF` — Returns the fixed-effect coefficient table for a fitted MMRM handle.
+- `BESH.REGR.MMRM_CONTRASTS` — Returns observed-design-grid group contrasts for a fitted MMRM handle.
+- `BESH.REGR.MMRM_COVPARMS` — Returns covariance-parameter estimates for a fitted MMRM handle.
+- `BESH.REGR.MMRM_DROP` — Drops a fitted MMRM handle from the session cache.
+- `BESH.REGR.MMRM_FIT` — Fits an MMRM and returns a reusable handle.
+- `BESH.REGR.MMRM_FITSTATS` — Returns fit statistics for a fitted MMRM handle.
+- `BESH.REGR.MMRM_FITTED` — Returns marginal fitted values for a fitted MMRM handle.
+- `BESH.REGR.MMRM_LSMEANS` — Returns observed-design-grid LS-means for a fitted MMRM handle.
+- `BESH.REGR.MMRM_LSMESTIMATE` — Returns custom SAS-style LS-mean estimates/contrasts for a fitted MMRM handle.
+- `BESH.REGR.MMRM_RESID` — Returns fitted values and raw marginal residuals for a fitted MMRM handle.
+- `BESH.REGR.MMRM_RESULTS` — Returns all MMRM result tables or one named table for a fitted MMRM handle.
+- `BESH.REGR.MMRM_R_CORR` — Returns the fitted R-side correlation matrix for a fitted MMRM handle.
+- `BESH.REGR.MMRM_R_COV` — Returns the fitted R-side covariance matrix for a fitted MMRM handle.
+- `BESH.REGR.MMRM_TYPE3` — Returns the Kenward-Roger term-level F-test table for a fitted MMRM handle.
 - `BESH.REGR.MNLOGIT_CLASS` — Returns the classification confusion matrix for a fitted multinomial-logit model handle.
 - `BESH.REGR.MNLOGIT_DROP` — Removes a fitted multinomial-logit model handle from memory.
 - `BESH.REGR.MNLOGIT_FIT` — Fits a baseline-category multinomial logistic regression model and returns a reusable handle.

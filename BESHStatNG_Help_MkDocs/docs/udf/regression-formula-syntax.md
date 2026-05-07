@@ -2,12 +2,8 @@
 
 This page describes the `formula=` and `formulaAddressing=` arguments used by regression UDFs.
 
-At the moment, this background formula facility is implemented for:
-
-- `BESH.SURV.COX_FIT`, `BESH.REGR.ORDLOGIT_FIT`
-- and `BESH.REGR.FORMULA_VALIDATE` that use the grammar described below on formula text string
-
-The same syntax is intended to be reused by other regression UDFs in the future.
+This background formula facility is used by supported regression fit UDFs and by
+`BESH.REGR.FORMULA_VALIDATE`, which validates the same formula grammar against a supplied raw predictor matrix.
 
 ---
 
@@ -21,6 +17,7 @@ Instead of treating every column of `x` as a simple continuous main effect, you 
 - polynomial terms
 - continuous-variable interactions
 - categorical main effects via `factor(...)`
+- interactions involving categorical factors, such as `factor(A):B` and `factor(A):factor(B)`
 
 If `formula` is omitted or blank, the default behavior is:
 
@@ -32,13 +29,17 @@ If `formula` is omitted or blank, the default behavior is:
 
 ## Where this is used
 
-Current UDF:
+The same formula grammar is used by supported regression fit UDFs, including linear, GLM-family, GEE, Cox, ordinal-logit, and multinomial-logit workflows, plus the standalone formula validator:
 
 ```excel
-=BESH.SURV.COX_FIT(time, status, x, [varNames], [strata], [ties], [robust], , [formula], [formulaAddressing], [maxIter], [tol])
+=BESH.REGR.FORMULA_VALIDATE(formula, x, [varNames], [formulaAddressing])
 ```
 
 Typical examples:
+
+```excel
+=BESH.REGR.FORMULA_VALIDATE("factor(A) + B + factor(A):B", A2:B101)
+```
 
 ```excel
 =BESH.SURV.COX_FIT(A2:A101, B2:B101, C2:F101, "age,bmi,stage,treat", , , FALSE, "A + A^2 + factor(C, ref=1) + B:D", "relative", 100, 1E-8)
@@ -83,18 +84,23 @@ Currently:
 
 ### Interaction terms
 
-Use `:` for continuous-variable interactions:
+Use `:` for interactions:
 
 ```text
 A:B
 A:B:C
+factor(A):B
+factor(A, ref=0):B
+factor(A):factor(B)
 ```
 
-Currently:
+Interactions are expanded after categorical coding:
 
-- interactions are supported only for continuous predictors
+- continuous × continuous interactions produce product columns of the raw continuous predictors
+- categorical × continuous interactions produce one product column for each non-reference factor indicator times the continuous predictor
+- categorical × categorical interactions produce product columns for combinations of non-reference factor indicators
 - repeated variables inside one interaction term are not allowed
-- examples such as `A:A` or `A:B:A` are rejected
+- examples such as `A:A`, `factor(A):A`, or `A:B:A` are rejected
 
 ### Categorical main effects
 
@@ -110,8 +116,7 @@ factor(C, ref=2)
 If `ref=` is not supplied, the implementation uses its default categorical reference-level behavior.
 
 !!! note
-    `factor(...)` currently applies only to **categorical main effects**.
-    Interactions involving `factor(...)` are not implemented yet.
+    `factor(...)` can be used as a categorical main effect or inside interaction terms. The referenced `x` column must contain numeric category codes; text labels are not converted to factor levels inside the UDF formula backend.
 
 ---
 
@@ -153,6 +158,18 @@ A + factor(C)
 A + factor(C, ref=1)
 ```
 
+### Categorical × continuous interaction
+
+```text
+factor(C, ref=1) + B + factor(C, ref=1):B
+```
+
+### Categorical × categorical interaction
+
+```text
+factor(C) + factor(D) + factor(C):factor(D)
+```
+
 ### Names mode
 
 ```text
@@ -172,13 +189,6 @@ Use doubled apostrophes inside the quoted name:
 ## Unsupported formulas and current limitations
 
 The following are **not** supported in the current implementation:
-
-### Interactions involving categorical predictors
-
-```text
-factor(C):A
-factor(C):factor(D)
-```
 
 ### Polynomial subterms inside interactions
 
@@ -455,13 +465,13 @@ Check that:
 
 - the referenced predictor column is numeric-coded
 - you are using `factor(C)` or `factor(C, ref=...)`
-- you are not trying to interact `factor(...)` with another term
+- if the factor is used in an interaction, the same numeric-coded column is available in the supplied `x` range
 
 ### Interaction term rejected
 
 Check that:
 
-- you are not using `factor(...)` inside the interaction
+- any `factor(...)` terms refer to numeric-coded categorical columns
 - you are not using a polynomial subterm like `A^2:B`
 - you are not repeating the same variable in one interaction term
 
@@ -477,11 +487,12 @@ Current capabilities include:
 - polynomial terms
 - continuous-variable interactions
 - categorical main effects via `factor(...)`
+- interactions involving categorical factors, such as `factor(A):B` and `factor(A):factor(B)`
 - three addressing styles: `relative`, `absolute`, and `names`
 - use `BESH.REGR.FORMULA_VALIDATE` to validate formula text string using the grammar described above
 
 Current limitations mainly affect:
 
-- interactions with categorical predictors
 - polynomial subterms inside interactions
+- repeated variables inside one interaction term
 - non-numeric factor columns in `x`
