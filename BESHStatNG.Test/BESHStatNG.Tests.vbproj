@@ -85,20 +85,33 @@
   <ItemGroup>
     <Compile Include="src\AgreementTests.vb" />
     <Compile Include="src\AssumptionsTests.vb" />
-    <Compile Include="src\CaTests.vb" />
+    <Compile Include="src\MixedModels\KenwardRogerDerivativeTests.vb" />
+    <Compile Include="src\MixedModels\KenwardRogerInferenceTests.vb" />
+    <Compile Include="src\MixedModels\KenwardRogerPerformanceAndInternalTests.vb" />
+    <Compile Include="src\MixedModels\KenwardRogerReferenceTests.vb" />
+    <Compile Include="src\MixedModels\LMMBackendReferenceTests.vb" />
+    <Compile Include="src\MixedModels\MixedModelAnalyticGradientTests.vb" />
+    <Compile Include="src\MixedModels\MixedModelCoreTests.vb" />
+    <Compile Include="src\MixedModels\MixedModelCovarianceDerivativeProviderTests.vb" />
+    <Compile Include="src\MixedModels\MixedModelOutputAndUdfTests.vb" />
+    <Compile Include="src\MixedModels\MMRMFitReferenceTests.vb" />
+    <Compile Include="src\MixedModels\MMRMMissingDataTests.vb" />
+    <Compile Include="src\MixedModels\MMRMPostEstimationTests.vb" />
+    <Compile Include="src\MixedModels\MMRMReferenceGridTests.vb" />
+    <Compile Include="src\Multivariate\CaTests.vb" />
     <Compile Include="src\ClassificationReportingTests.vb" />
-    <Compile Include="src\ClusterAnalysisTests.vb" />
+    <Compile Include="src\Multivariate\ClusterAnalysisTests.vb" />
     <Compile Include="src\ContingencyTableTests.vb" />
-    <Compile Include="src\DiscriminantAnalysisTests.vb" />
+    <Compile Include="src\Multivariate\DiscriminantAnalysisTests.vb" />
     <Compile Include="src\DistributionsTests.vb" />
     <Compile Include="src\EquivalenceNoninferiorityTests.vb" />
-    <Compile Include="src\FactorAnalysisTests.vb" />
-    <Compile Include="src\FamilyLinkTests.vb" />
+    <Compile Include="src\Multivariate\FactorAnalysisTests.vb" />
+    <Compile Include="src\Regression\FamilyLinkTests.vb" />
     <Compile Include="src\FisherExactTests.vb" />
-    <Compile Include="src\GEEtests.vb" />
-    <Compile Include="src\GLMTests.vb" />
-    <Compile Include="src\GLM_NBTests.vb" />
-    <Compile Include="src\LinearModelTests.vb" />
+    <Compile Include="src\Regression\GEEtests.vb" />
+    <Compile Include="src\Regression\GLMTests.vb" />
+    <Compile Include="src\Regression\GLM_NBTests.vb" />
+    <Compile Include="src\Regression\LinearModelTests.vb" />
     <Compile Include="src\MatrixTests.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -115,23 +128,23 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="src\CoxPHTests.vb" />
-    <Compile Include="src\MultinomialLogitModelTests.vb" />
+    <Compile Include="src\Regression\CoxPHTests.vb" />
+    <Compile Include="src\Regression\MultinomialLogitModelTests.vb" />
     <Compile Include="src\NistAnovaTests.vb" />
     <Compile Include="src\NistLinearRegressionTests.vb" />
-    <Compile Include="src\OrdinalLogitModelTests.vb" />
+    <Compile Include="src\Regression\OrdinalLogitModelTests.vb" />
     <Compile Include="src\ParametricModuleTests.vb" />
     <Compile Include="src\ParametricTests.vb" />
-    <Compile Include="src\PcaTests.vb" />
-    <Compile Include="src\RegressionFormulaParserBuilderTests.vb" />
+    <Compile Include="src\Multivariate\PcaTests.vb" />
+    <Compile Include="src\Regression\RegressionFormulaParserBuilderTests.vb" />
     <Compile Include="src\RocTests.vb" />
     <Compile Include="src\SampleSizeCalculatorTests.vb" />
     <Compile Include="src\StatFuncTests.vb" />
     <Compile Include="src\SurvivalTests.vb" />
-    <Compile Include="src\UdfBatch2Tests.vb" />
-    <Compile Include="src\UdfBatch3Tests.vb" />
-    <Compile Include="src\UdfTests.vb" />
-    <Compile Include="src\ZeroInflatedPoissonTests.vb" />
+    <Compile Include="src\UDFs\UdfBatch2Tests.vb" />
+    <Compile Include="src\UDFs\UdfBatch3Tests.vb" />
+    <Compile Include="src\UDFs\UdfTests.vb" />
+    <Compile Include="src\Regression\ZeroInflatedPoissonTests.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -152,6 +165,58 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="TestData\cluster_dataset_basic.csv" />
+    <None Include="TestData\cluster_dataset_missing.csv" />
+    <None Include="TestData\coxph_dataset_strata_ties.csv" />
+    <None Include="TestData\gee_binomial_logit_full.csv" />
+    <None Include="TestData\gee_binomial_logit_missing_time.csv" />
+    <None Include="TestData\gee_expected_outputs.csv" />
+    <None Include="TestData\gee_expected_residuals.csv" />
+    <None Include="TestData\gee_gaussian_identity_full.csv" />
+    <None Include="TestData\gee_poisson_log_offset_full.csv" />
+    <None Include="TestData\glm_binomial_full.csv" />
+    <None Include="TestData\glm_expected_outputs.csv" />
+    <None Include="TestData\glm_expected_residuals.csv" />
+    <None Include="TestData\glm_gamma_full.csv" />
+    <None Include="TestData\glm_gaussian_full.csv" />
+    <None Include="TestData\glm_nb2_expected_outputs.csv" />
+    <None Include="TestData\glm_nb2_expected_residuals_full.csv" />
+    <None Include="TestData\glm_nb2_full.csv" />
+    <None Include="TestData\glm_nb2_interceptonly.csv" />
+    <None Include="TestData\glm_poisson_full.csv" />
+    <None Include="TestData\kr_mmrm_multicovariate_missing_internal_reference.csv" />
+    <None Include="TestData\mixedmodel_lmm_random_intercept_data.csv" />
+    <None Include="TestData\mixedmodel_lmm_random_intercept_reference.csv" />
+    <None Include="TestData\mixedmodel_lmm_sleepstudy_random_slope_data.csv" />
+    <None Include="TestData\mixedmodel_lmm_sleepstudy_random_slope_unbalanced_data.csv" />
+    <None Include="TestData\mixedmodel_longitudinal_multicovariate_missing.csv" />
+    <None Include="TestData\mixedmodel_mmrm_identity_data.csv" />
+    <None Include="TestData\mixedmodel_mmrm_identity_reference.csv" />
+    <None Include="TestData\mlogit_dataset_grouped_basic.csv" />
+    <None Include="TestData\mmrm_orthodont_potthoffroy_long.csv" />
+    <None Include="TestData\NIST_ANOVA\AtmWtAg.csv" />
+    <None Include="TestData\NIST_ANOVA\AtmWtAg_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\metadata.csv" />
+    <None Include="TestData\NIST_ANOVA\SiRstv.csv" />
+    <None Include="TestData\NIST_ANOVA\SiRstv_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs01.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs01_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs02.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs02_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs03.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs03_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs04.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs04_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs05.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs05_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs06.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs06_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs07.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs07_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs08.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs08_reference.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs09.csv" />
+    <None Include="TestData\NIST_ANOVA\SmLs09_reference.csv" />
     <None Include="TestData\NIST_LLS\nist_lls_filip_data.csv" />
     <None Include="TestData\NIST_LLS\nist_lls_filip_reference.csv" />
     <None Include="TestData\NIST_LLS\nist_lls_longley_data.csv" />
@@ -177,6 +242,7 @@
     <None Include="TestData\NIST_LLS\nist_lls_wampler5_reference.csv" />
     <None Include="TestData\ordinal_logit_dataset_basic.csv" />
     <None Include="TestData\ordinal_logit_dataset_intercept_only.csv" />
+    <None Include="TestData\ordinal_logit_dataset_near_separation.csv" />
     <None Include="TestData\PCA_collinear_5x2.csv" />
     <None Include="TestData\PCA_constant_column_5x3.csv" />
     <None Include="TestData\lm_dataset_basic.csv" />
@@ -188,6 +254,11 @@
     <None Include="TestData\survival_dataset_2group.csv" />
     <None Include="TestData\survival_dataset_2group_allcensored.csv" />
     <None Include="TestData\survival_weightedlogrank_reference.csv" />
+    <None Include="TestData\zip_dataset_basic_count.csv" />
+    <None Include="TestData\zip_dataset_basic_zero.csv" />
+    <None Include="TestData\zip_expected_outputs.csv" />
+    <None Include="TestData\zip_expected_predictions.csv" />
+    <None Include="TestData\zip_expected_residuals_full.csv" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BESHStatNG\BESHStatNG.vbproj">
@@ -195,6 +266,7 @@
       <Name>BESHStatNG</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
