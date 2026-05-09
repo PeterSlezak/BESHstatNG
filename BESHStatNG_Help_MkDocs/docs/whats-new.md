@@ -1,7 +1,7 @@
 # What's New
 
-## version 0.8.x.0 (2026-05-xx)
-- MMRM
+## version 0.8.7.0 (2026-05-09)
+- This release adds a new **Mixed Models for Repeated Measures (MMRM)** procedure for longitudinal and repeated-measures analyses with incomplete follow-up data. The implementation supports REML/ML estimation, flexible within-subject covariance structures, Kenward-Roger, Satterthwaite, between-within, residual, and large-sample inference options, Type III tests, LS-means, pairwise contrasts, custom linear estimates through `BESH.REGR.MMRM_LSMESTIMATE`, fitted values, residuals, covariance diagnostics, and worksheet-function workflows. MMRM is available from the Regression ribbon and through the `BESH.REGR.MMRM_*` worksheet functions.
 - Added support for categorical-factor interactions in regression/GEE/MMRM model building and formula validation, enabling terms such as `factor(A):B` and `factor(A):factor(B)` for common MMRM use cases such as group-by-time effects.
 - New Interrupt buttons were added to the regression forms, allowing long-running calculations to stop at the next safe point and return the latest available estimates where supported. Closing a form during a run now requests a clean cancellation instead of leaving the calculation running
 - Multiple linear regression VIF output now includes a signed **Partial r** column for each modeled predictor column, computed from the coefficient t-statistic and residual degrees of freedom.

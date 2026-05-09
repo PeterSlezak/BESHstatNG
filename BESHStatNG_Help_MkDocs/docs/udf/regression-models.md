@@ -494,7 +494,9 @@ Returns predicted marginal means and linear predictors for new data under a fitt
 ### Parameters
 
 - **handle** — Handle returned by `BESH.REGR.GEE_FIT`.
-- **newX** — New raw predictor matrix in the same raw-column order used at fitting time.
+- **newX** — New raw predictor matrix for the supplied observations.
+This may be either the full raw predictor matrix in the same column order used at fitting time, or, when a formula was used,
+the narrower matrix containing only the raw predictors required by that formula in formula-required order.
 When the fitted model contains transformed terms, interactions, or categorical encodings, those derived columns are rebuilt automatically from this raw matrix using the original model specification.
 - **newOffset** — Optional offset vector for the new observations.
 It is required when the fitted model used an offset and enters additively on the linear-predictor scale.
