@@ -182,28 +182,28 @@ Public Class UdfHelpersBatch2Tests
     <TestMethod>
     <TestCategory("UDF")>
     Public Sub ExpForDisplay_handles_nan_overflow_and_underflow()
-        UdfAssert.IsExcelError(UDFhelpers.ExpForDisplay(Double.NaN), "ExcelErrorNum")
-        Assert.AreEqual("Inf", CStr(UDFhelpers.ExpForDisplay(Double.PositiveInfinity)))
-        Assert.AreEqual(0.0R, Convert.ToDouble(UDFhelpers.ExpForDisplay(Double.NegativeInfinity)), 0.0R)
+        UdfAssert.IsExcelError(UdfRegressionOutput.ExpForDisplay(Double.NaN), "ExcelErrorNum")
+        Assert.AreEqual("Inf", CStr(UdfRegressionOutput.ExpForDisplay(Double.PositiveInfinity)))
+        Assert.AreEqual(0.0R, Convert.ToDouble(UdfRegressionOutput.ExpForDisplay(Double.NegativeInfinity)), 0.0R)
 
-        Dim finite As Object = UDFhelpers.ExpForDisplay(1.25R)
+        Dim finite As Object = UdfRegressionOutput.ExpForDisplay(1.25R)
         Assert.AreEqual(Math.Exp(1.25R), Convert.ToDouble(finite), 0.000000000001R)
     End Sub
 
     <TestMethod>
     <TestCategory("UDF")>
-    Public Sub ParseTieMethod_recognizes_supported_values_and_defaults_unknown()
+    Public Sub GetCoxTieMethod_recognizes_supported_values_and_defaults_unknown()
         Assert.AreEqual(Global.BESHStatNG.TieMethod.Breslow,
-                        UDFhelpers.ParseTieMethod("breslow", Global.BESHStatNG.TieMethod.Exact))
+                        UdfDataImport.GetCoxTieMethod("breslow", Global.BESHStatNG.TieMethod.Exact))
 
         Assert.AreEqual(Global.BESHStatNG.TieMethod.Efron,
-                        UDFhelpers.ParseTieMethod("efron", Global.BESHStatNG.TieMethod.Breslow))
+                        UdfDataImport.GetCoxTieMethod("efron", Global.BESHStatNG.TieMethod.Breslow))
 
         Assert.AreEqual(Global.BESHStatNG.TieMethod.Exact,
-                        UDFhelpers.ParseTieMethod("exact", Global.BESHStatNG.TieMethod.Breslow))
+                        UdfDataImport.GetCoxTieMethod("exact", Global.BESHStatNG.TieMethod.Breslow))
 
         Assert.AreEqual(Global.BESHStatNG.TieMethod.Breslow,
-                        UDFhelpers.ParseTieMethod("unknown", Global.BESHStatNG.TieMethod.Breslow))
+                        UdfDataImport.GetCoxTieMethod("unknown", Global.BESHStatNG.TieMethod.Breslow))
     End Sub
 
 End Class

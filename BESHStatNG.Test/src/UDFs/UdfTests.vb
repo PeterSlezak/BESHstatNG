@@ -180,11 +180,11 @@ Public Class UdfHelpersTests
     Public Sub GetVarNames_accepts_csv_and_falls_back_when_count_is_wrong()
         CollectionAssert.AreEqual(
             New String() {"dose", "age", "stage"},
-            UDFhelpers.GetVarNames("dose, age, stage", 3))
+            UdfDataImport.GetVariableNames("dose, age, stage", 3))
 
         CollectionAssert.AreEqual(
             New String() {"X1", "X2", "X3"},
-            UDFhelpers.GetVarNames("dose, age", 3))
+            UdfDataImport.GetVariableNames("dose, age", 3))
     End Sub
 
     <TestMethod>
@@ -196,7 +196,7 @@ Public Class UdfHelpersTests
         Dim src As Object(,) = UdfTestData.ColUdfs("Weight", 10.0R, 11.5R, "oops", 13.0R, trailingBlank, Nothing)
 
         Dim values As List(Of Double) = Nothing
-        Dim ok As Boolean = UDFhelpers.TryReadNumericColumn(src, values)
+        Dim ok As Boolean = UdfDataImport.TryReadNumericColumn(src, values)
 
         Assert.IsTrue(ok)
         Assert.IsNotNull(values)
@@ -226,7 +226,7 @@ Public Class UdfHelpersTests
         Dim rows As Integer = 0
         Dim cols As Integer = 0
 
-        Dim ok As Boolean = UDFhelpers.TryReadNumericMatrix(src, mat, rows, cols)
+        Dim ok As Boolean = UdfDataImport.TryReadNumericMatrix(src, mat, rows, cols)
 
         Assert.IsTrue(ok)
         Assert.AreEqual(3, rows)
@@ -242,10 +242,10 @@ Public Class UdfHelpersTests
     <TestMethod>
     <TestCategory("UDF")>
     Public Sub ParseFormulaAddressingMode_recognizes_aliases_and_defaults()
-        Assert.AreEqual("relative", UDFhelpers.ParseFormulaAddressingMode("rel", "names"))
-        Assert.AreEqual("absolute", UDFhelpers.ParseFormulaAddressingMode("worksheet", "names"))
-        Assert.AreEqual("names", UDFhelpers.ParseFormulaAddressingMode("variables", "relative"))
-        Assert.AreEqual("relative", UDFhelpers.ParseFormulaAddressingMode("something-else", "relative"))
+        Assert.AreEqual("relative", UdfDataImport.GetFormulaAddressingMode("rel", "names"))
+        Assert.AreEqual("absolute", UdfDataImport.GetFormulaAddressingMode("worksheet", "names"))
+        Assert.AreEqual("names", UdfDataImport.GetFormulaAddressingMode("variables", "relative"))
+        Assert.AreEqual("relative", UdfDataImport.GetFormulaAddressingMode("something-else", "relative"))
     End Sub
 
 End Class
