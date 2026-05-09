@@ -216,59 +216,7 @@ Namespace WorksheetFunctions
         End Function
 
         Friend Function TryGetOptionalThresholdVector(arg As Object, ByRef thresholds() As Double) As Boolean
-            thresholds = Nothing
-            If ExcelArgPredicates.IsMissingArg(arg) Then Return True
-
-            Dim scalarValue As Double
-            If ExcelArgNumeric.TryGetFiniteDouble(arg, scalarValue) Then
-                If scalarValue < 0.0R OrElse scalarValue > 1.0R Then Return False
-                ReDim thresholds(0)
-                thresholds(0) = CDbl(UDFhelpers.ClampProb(scalarValue))
-                Return True
-            End If
-
-            Dim arr As Object(,) = UDFhelpers.Get2D(arg)
-            If arr Is Nothing Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows <> 1 AndAlso cols <> 1 Then Return False
-
-            Dim values As New List(Of Double)()
-            If rows = 1 Then
-                For j As Integer = 0 To cols - 1
-                    Dim cell As Object = arr(0, j)
-                    If ExcelArgPredicates.IsBlankCell(cell) Then Continue For
-
-                    Dim d As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(cell, d) Then Return False
-                    If d < 0.0R OrElse d > 1.0R Then Return False
-                    values.Add(CDbl(UDFhelpers.ClampProb(d)))
-                Next
-            Else
-                For i As Integer = 0 To rows - 1
-                    Dim cell As Object = arr(i, 0)
-                    If ExcelArgPredicates.IsBlankCell(cell) Then Continue For
-
-                    Dim d As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(cell, d) Then Return False
-                    If d < 0.0R OrElse d > 1.0R Then Return False
-                    values.Add(CDbl(UDFhelpers.ClampProb(d)))
-                Next
-            End If
-
-            If values.Count = 0 Then Return True
-
-            values.Sort()
-            Dim uniqueValues As New List(Of Double)(values.Count)
-            For i As Integer = 0 To values.Count - 1
-                If i = 0 OrElse Math.Abs(values(i) - values(i - 1)) > 0.000000000001 Then
-                    uniqueValues.Add(values(i))
-                End If
-            Next
-
-            thresholds = uniqueValues.ToArray()
-            Return True
+            Return Global.BESHStatNG.UdfDataImport.TryGetOptionalProbabilityThresholds(arg, thresholds)
         End Function
 
         Friend Function TryGetSingleThresholdFromArg(arg As Object, ByRef threshold As Double,

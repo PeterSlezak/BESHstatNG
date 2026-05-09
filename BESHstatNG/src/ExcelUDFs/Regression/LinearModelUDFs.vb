@@ -170,7 +170,7 @@ Namespace WorksheetFunctions
                 Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
-                Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
+                Dim addressingMode As String = Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, "relative")
                 Dim allowRelativeColumnLetters As Boolean = False
                 Dim allowAbsoluteColumnLetters As Boolean = False
                 Dim allowQuotedVariableNames As Boolean = True
@@ -187,7 +187,7 @@ Namespace WorksheetFunctions
 
                 Dim absoluteColumnLetters As String() = Nothing
                 If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then
-                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(x, imported.nCols - 1, absoluteColumnLetters) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(x, imported.nCols - 1, absoluteColumnLetters) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                 End If
@@ -217,8 +217,8 @@ Namespace WorksheetFunctions
                 If fitData Is Nothing OrElse fitVarNames Is Nothing OrElse fitVarNames.Length < 2 Then
                     Return ExcelError.ExcelErrorValue
                 End If
-                If Not UDFhelpers.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
-                If Not UDFhelpers.HasOnlyFinite(fitWeights, True) Then Return ExcelError.ExcelErrorValue
+                If Not UdfDataImport.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
+                If Not UdfDataImport.HasOnlyFinite(fitWeights, True) Then Return ExcelError.ExcelErrorValue
 
                 Dim fitDataAdjusted(,) As Double = DirectCast(fitData.Clone(), Double(,))
                 If fitOffset IsNot Nothing Then
@@ -712,7 +712,7 @@ Namespace WorksheetFunctions
                 If expandedNames.Length <> h.PredictorCount Then Return ExcelError.ExcelErrorValue
 
                 Dim offsetVals() As Double = If(imported.bOffset, imported.OffsetData, Nothing)
-                If Not UDFhelpers.HasOnlyFinite(offsetVals) Then Return ExcelError.ExcelErrorValue
+                If Not UdfDataImport.HasOnlyFinite(offsetVals) Then Return ExcelError.ExcelErrorValue
 
                 Dim beta() As Double = h.Model.results.Coeffs_est
                 If beta Is Nothing Then Return ExcelError.ExcelErrorNA

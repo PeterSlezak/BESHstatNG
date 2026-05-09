@@ -227,7 +227,7 @@ Namespace WorksheetFunctions
                 Dim zeroFormulaText As String = AsString(zeroFormula)
                 If String.IsNullOrWhiteSpace(zeroFormulaText) Then zeroFormulaText = Nothing
 
-                Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
+                Dim addressingMode As String = Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, "relative")
                 Dim allowRelativeColumnLetters As Boolean = False
                 Dim allowAbsoluteColumnLetters As Boolean = False
                 Dim allowQuotedVariableNames As Boolean = True
@@ -244,14 +244,14 @@ Namespace WorksheetFunctions
 
                 Dim countAbsoluteLetters As String() = Nothing
                 If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(countFormulaText) Then
-                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(xCount, countData.nCols - 1, countAbsoluteLetters) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(xCount, countData.nCols - 1, countAbsoluteLetters) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                 End If
 
                 Dim zeroAbsoluteLetters As String() = Nothing
                 If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(zeroFormulaText) Then
-                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(effectiveZeroX, zeroData.nCols - 1, zeroAbsoluteLetters) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(effectiveZeroX, zeroData.nCols - 1, zeroAbsoluteLetters) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                 End If
@@ -301,7 +301,7 @@ Namespace WorksheetFunctions
                 Dim rowIds() As Integer = countData.RowIds
                 If fitCountData Is Nothing OrElse fitCountVarNames Is Nothing OrElse fitCountVarNames.Length < 1 Then Return ExcelError.ExcelErrorValue
                 If fitZeroData Is Nothing OrElse fitZeroVarNames Is Nothing OrElse fitZeroVarNames.Length < 1 Then Return ExcelError.ExcelErrorValue
-                If Not UDFhelpers.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
+                If Not UdfDataImport.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
                 If fitCountData.GetLength(0) <> fitZeroData.GetLength(0) Then Return ExcelError.ExcelErrorValue
                 If rowIds Is Nothing OrElse rowIds.Length <> fitCountData.GetLength(0) Then Return ExcelError.ExcelErrorValue
 
@@ -309,7 +309,7 @@ Namespace WorksheetFunctions
                 If Not zeroInterceptFlag AndAlso fitZeroVarNames.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim response() As Integer = Nothing
-                If Not TryExtractNonnegativeIntegerResponse(fitCountData, response) Then Return ExcelError.ExcelErrorNum
+                If Not Global.BESHStatNG.UdfDataImport.TryGetNonnegativeIntegerResponse(fitCountData, response) Then Return ExcelError.ExcelErrorNum
                 If Not ResponseColumnsMatch(fitCountData, fitZeroData) Then Return ExcelError.ExcelErrorValue
 
                 Dim ciAlpha As Double = 0.05R
@@ -815,9 +815,9 @@ Namespace WorksheetFunctions
 
             If rawPredictorKeys.Length < 1 Then
                 If h.HasOffset Then
-                    If Not TryPrepareOffsetOnlyPredictionInputs(newOffset, offsetVals, nRows) Then Return False
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetRequiredOffsetPredictionInputs(newOffset, offsetVals, nRows) Then Return False
                 ElseIf Not IsMissingArg(newOffset) Then
-                    If Not TryPrepareOffsetOnlyPredictionInputs(newOffset, offsetVals, nRows) Then Return False
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetRequiredOffsetPredictionInputs(newOffset, offsetVals, nRows) Then Return False
                 End If
                 Return True
             End If
@@ -845,7 +845,7 @@ Namespace WorksheetFunctions
 
             nRows = imported.nRows
             offsetVals = If(imported.bOffset, imported.OffsetData, Nothing)
-            Return UDFhelpers.HasOnlyFinite(offsetVals)
+            Return UdfDataImport.HasOnlyFinite(offsetVals)
         End Function
 
         Private Function TryPrepareZipZeroPredictionInputs(h As ZipHandle,
@@ -884,22 +884,6 @@ Namespace WorksheetFunctions
             Return True
         End Function
 
-        Private Function TryPrepareOffsetOnlyPredictionInputs(newOffset As Object, ByRef offsetVals() As Double,
-                                                              ByRef nRows As Integer) As Boolean
-            offsetVals = Nothing
-            nRows = 0
-            If Not Not IsMissingArg(newOffset) Then Return False
-
-            Dim values As List(Of Double) = Nothing
-            If Not Global.BESHStatNG.UdfDataImport.TryGetNumericColumn(newOffset, values) Then Return False
-            If values Is Nothing OrElse values.Count < 1 Then Return False
-
-            offsetVals = values.ToArray()
-            If Not UDFhelpers.HasOnlyFinite(offsetVals) Then Return False
-            nRows = offsetVals.Length
-            Return True
-        End Function
-
         Private Function ResponseColumnsMatch(countData(,) As Double, zeroData(,) As Double) As Boolean
             If countData Is Nothing OrElse zeroData Is Nothing Then Return False
             If countData.GetLength(0) <> zeroData.GetLength(0) Then Return False
@@ -909,24 +893,6 @@ Namespace WorksheetFunctions
                 Dim yz As Double = zeroData(i, 0)
                 If Double.IsNaN(yc) OrElse Double.IsInfinity(yc) OrElse Double.IsNaN(yz) OrElse Double.IsInfinity(yz) Then Return False
                 If Math.Abs(yc - yz) > 0.0000001R Then Return False
-            Next
-
-            Return True
-        End Function
-
-        Private Function TryExtractNonnegativeIntegerResponse(data(,) As Double, ByRef response() As Integer) As Boolean
-            response = Nothing
-            If data Is Nothing Then Return False
-            Dim n As Integer = data.GetLength(0)
-            If n < 1 Then Return False
-
-            ReDim response(n - 1)
-            For i As Integer = 0 To n - 1
-                Dim yi As Double = data(i, 0)
-                If Double.IsNaN(yi) OrElse Double.IsInfinity(yi) Then Return False
-                Dim yr As Double = Math.Round(yi)
-                If yi < 0.0R OrElse Math.Abs(yi - yr) > 0.0000001R Then Return False
-                response(i) = CInt(yr)
             Next
 
             Return True

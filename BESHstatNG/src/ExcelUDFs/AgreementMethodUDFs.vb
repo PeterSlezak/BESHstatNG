@@ -448,9 +448,9 @@ Namespace WorksheetFunctions
 
                 Dim opts As New Agreement.BlandAltmanOptions With {
                     .Alpha = ParseAlphaOrDefault(alpha, 0.05),
-                    .Mode = ParseBlandMode(mode, Agreement.RepeatedBlandAltmanMode.Auto),
-                    .Scale = ParseBlandScale(scale, Agreement.BlandAltmanScale.RawDifference),
-                    .XAxisMode = ParseBlandXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
+                    .Mode = UdfDataImport.ParseBlandAltmanMode(mode, Agreement.RepeatedBlandAltmanMode.Auto),
+                    .Scale = UdfDataImport.ParseBlandAltmanScale(scale, Agreement.BlandAltmanScale.RawDifference),
+                    .XAxisMode = UdfDataImport.ParseBlandAltmanXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
                     .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000)),
                     .UseTDistribution = GetOptionalBool(useT, True),
@@ -459,7 +459,7 @@ Namespace WorksheetFunctions
                     .ExcludeSingletonSubjects = GetOptionalBool(excludeSingletonSubjects, True),
                     .AllowFallbackToSimple = GetOptionalBool(allowFallbackToSimple, True),
                     .CheckProportionalBias = GetOptionalBool(checkProportionalBias, True),
-                    .PlotMode = ParseBlandPlotMode(plotMode, Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans)
+                    .PlotMode = UdfDataImport.ParseBlandAltmanPlotMode(plotMode, Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans)
                 }
 
                 If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
@@ -519,9 +519,9 @@ Namespace WorksheetFunctions
 
                 Dim opts As New Agreement.BlandAltmanOptions With {
                     .Alpha = ParseAlphaOrDefault(alpha, 0.05),
-                    .Mode = ParseBlandMode(mode, Agreement.RepeatedBlandAltmanMode.Auto),
-                    .Scale = ParseBlandScale(scale, Agreement.BlandAltmanScale.RawDifference),
-                    .XAxisMode = ParseBlandXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
+                    .Mode = UdfDataImport.ParseBlandAltmanMode(mode, Agreement.RepeatedBlandAltmanMode.Auto),
+                    .Scale = UdfDataImport.ParseBlandAltmanScale(scale, Agreement.BlandAltmanScale.RawDifference),
+                    .XAxisMode = UdfDataImport.ParseBlandAltmanXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
                     .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
                     .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000))
                 }
@@ -587,16 +587,16 @@ Namespace WorksheetFunctions
                 If input.X Is Nothing OrElse input.X.Length < 2 Then Return ExcelError.ExcelErrorNum
 
                 Dim opts As New Agreement.BlandAltmanOptions With {
-                    .Mode = ParseBlandMode(mode, Agreement.RepeatedBlandAltmanMode.Auto),
-                    .Scale = ParseBlandScale(scale, Agreement.BlandAltmanScale.RawDifference),
-                    .XAxisMode = ParseBlandXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
-                    .PlotMode = ParseBlandPlotMode(plotMode, Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans)
+                    .Mode = UdfDataImport.ParseBlandAltmanMode(mode, Agreement.RepeatedBlandAltmanMode.Auto),
+                    .Scale = UdfDataImport.ParseBlandAltmanScale(scale, Agreement.BlandAltmanScale.RawDifference),
+                    .XAxisMode = UdfDataImport.ParseBlandAltmanXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
+                    .PlotMode = UdfDataImport.ParseBlandAltmanPlotMode(plotMode, Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans)
                 }
                 If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
 
                 Dim mdl As New Agreement.BlandAltmanAgreement(input.X, input.Y, "Reference", "Test", opts)
                 Dim res = mdl.Fit(ParseOptionalSeed(randomSeed))
-                Return BuildBlandPlotDataTable(res)
+                Return UdfDataImport.BuildBlandAltmanPlotDataTable(res)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.BLANDALTMAN_PLOTDATA", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -705,7 +705,7 @@ Namespace WorksheetFunctions
                     {"Reference method", names(0)},
                     {"Test method", names(1)},
                     {"Model actually used", If(fit.UsedRepeatedModel, "Repeated-measures Bland–Altman", "Ordinary paired Bland–Altman")},
-                    {"Difference scale", DescribeBlandScale(ParseBlandScale(scale, Agreement.BlandAltmanScale.RawDifference))},
+                    {"Difference scale", UdfDataImport.DescribeBlandAltmanScale(UdfDataImport.ParseBlandAltmanScale(scale, Agreement.BlandAltmanScale.RawDifference))},
                     {"Bias estimate", assessment.Estimate},
                     {SafeCiLabel(assessment.ConfidenceInterval), SafeCiText(assessment.ConfidenceInterval)},
                     {"Lower allowable bias", assessment.LowerMargin},
@@ -818,7 +818,7 @@ Namespace WorksheetFunctions
                     {"Reference method", names(0)},
                     {"Test method", names(1)},
                     {"Model actually used", If(fit.UsedRepeatedModel, "Repeated-measures Bland–Altman", "Ordinary paired Bland–Altman")},
-                    {"Difference scale", DescribeBlandScale(ParseBlandScale(scale, Agreement.BlandAltmanScale.RawDifference))},
+                    {"Difference scale", UdfDataImport.DescribeBlandAltmanScale(UdfDataImport.ParseBlandAltmanScale(scale, Agreement.BlandAltmanScale.RawDifference))},
                     {"Bias estimate", fit.BiasCI.Estimate},
                     {"Bias confidence interval", SafeCiText(fit.BiasCI)},
                     {"Lower limit of agreement", fit.LowerLoACI.Estimate},
@@ -1407,262 +1407,5 @@ Namespace WorksheetFunctions
                 Return LoggedUdfError("BESH.AGREE.ICC_RC", ex, ExcelError.ExcelErrorValue)
             End Try
         End Function
-
-
-        ' =============================================================================================================
-        ' Helpers
-        ' =============================================================================================================
-        Private Function ParseAlphaOrDefault(arg As Object, defaultValue As Double) As Double
-            Dim a As Double = defaultValue
-            If TryParseAlpha(arg, a) Then Return a
-            Throw New ArgumentException("alpha must be in the open interval (0, 1).")
-        End Function
-
-        Private Function ParseAgreementCiMethod(arg As Object, defaultValue As Agreement.AgreementCiMethod) As Agreement.AgreementCiMethod
-            Dim s As String = NormalizeToken(arg)
-            If s = "" Then Return defaultValue
-            Select Case s
-                Case "ANALYTICAL", "ANALYTIC"
-                    Return Agreement.AgreementCiMethod.Analytical
-                Case "JACKKNIFE", "JACK"
-                    Return Agreement.AgreementCiMethod.Jackknife
-                Case "BOOTSTRAP", "PERCENTILE", "BOOTSTRAPPERCENTILE", "BOOTSTRAP_PERCENTILE"
-                    Return Agreement.AgreementCiMethod.BootstrapPercentile
-                Case "BCA", "BOOTSTRAPBCA", "BOOTSTRAP_BCA"
-                    Return Agreement.AgreementCiMethod.BootstrapBCa
-                Case Else
-                    Throw New ArgumentException("Unsupported ciMethod. Use analytical, jackknife, bootstrap, or bca.")
-            End Select
-        End Function
-
-        Private Function ParseBlandMode(arg As Object, defaultValue As Agreement.RepeatedBlandAltmanMode) As Agreement.RepeatedBlandAltmanMode
-            Dim s As String = NormalizeToken(arg)
-            If s = "" Then Return defaultValue
-            Select Case s
-                Case "AUTO"
-                    Return Agreement.RepeatedBlandAltmanMode.Auto
-                Case "SIMPLE", "PAIRS", "SIMPLEPAIRS"
-                    Return Agreement.RepeatedBlandAltmanMode.SimplePairs
-                Case "REPEATED", "REPEATEDBYSUBJECT", "SUBJECT"
-                    Return Agreement.RepeatedBlandAltmanMode.RepeatedBySubject
-                Case Else
-                    Throw New ArgumentException("Unsupported Bland–Altman mode. Use auto, simple, or repeated.")
-            End Select
-        End Function
-
-        Private Function ParseBlandScale(arg As Object, defaultValue As Agreement.BlandAltmanScale) As Agreement.BlandAltmanScale
-            Dim s As String = NormalizeToken(arg)
-            If s = "" Then Return defaultValue
-            Select Case s
-                Case "RAW", "RAWDIFFERENCE", "DIFF", "DIFFERENCE"
-                    Return Agreement.BlandAltmanScale.RawDifference
-                Case "MEANPCT", "PERCENTOFMEAN", "PCTMEAN", "PERCENTMEAN"
-                    Return Agreement.BlandAltmanScale.PercentOfMean
-                Case "REFPCT", "PERCENTOFREFERENCE", "PCTREF", "PERCENTREF", "REFERENCE"
-                    Return Agreement.BlandAltmanScale.PercentOfReference
-                Case "TESTPCT", "PERCENTOFTEST", "PCTTEST", "PERCENTTEST"
-                    Return Agreement.BlandAltmanScale.PercentOfTest
-                Case "LOGRATIO", "LOG", "RATIO"
-                    Return Agreement.BlandAltmanScale.LogRatio
-                Case Else
-                    Throw New ArgumentException("Unsupported Bland–Altman scale.")
-            End Select
-        End Function
-
-        Private Function ParseBlandXAxisMode(arg As Object, defaultValue As Agreement.BlandAltmanXAxisMode) As Agreement.BlandAltmanXAxisMode
-            Dim s As String = NormalizeToken(arg)
-            If s = "" Then Return defaultValue
-            Select Case s
-                Case "MEAN", "MEANOFMETHODS"
-                    Return Agreement.BlandAltmanXAxisMode.MeanOfMethods
-                Case "REFERENCE", "REF", "X"
-                    Return Agreement.BlandAltmanXAxisMode.ReferenceMethod
-                Case "TEST", "Y"
-                    Return Agreement.BlandAltmanXAxisMode.TestMethod
-                Case Else
-                    Throw New ArgumentException("Unsupported Bland–Altman xAxis.")
-            End Select
-        End Function
-
-        Private Function ParseBlandPlotMode(arg As Object, defaultValue As Agreement.RepeatedBlandAltmanPlotMode) As Agreement.RepeatedBlandAltmanPlotMode
-            Dim s As String = NormalizeToken(arg)
-            If s = "" Then Return defaultValue
-            Select Case s
-                Case "ALL", "OBS", "ALLOBSERVATIONS"
-                    Return Agreement.RepeatedBlandAltmanPlotMode.AllObservations
-                Case "MEANS", "SUBJECTMEANS", "MEANSONLY"
-                    Return Agreement.RepeatedBlandAltmanPlotMode.SubjectMeansOnly
-                Case "BOTH", "ALLANDMEANS", "ALLOBSERVATIONSANDSUBJECTMEANS"
-                    Return Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans
-                Case Else
-                    Throw New ArgumentException("Unsupported Bland–Altman plotMode.")
-            End Select
-        End Function
-
-        Private Function ParseKappaWeighting(arg As Object, defaultValue As Agreement.KappaWeightingScheme) As Agreement.KappaWeightingScheme
-            Dim s As String = NormalizeToken(arg)
-            If s = "" Then Return defaultValue
-            Select Case s
-                Case "UNWEIGHTED", "COHEN", "NONE"
-                    Return Agreement.KappaWeightingScheme.Unweighted
-                Case "LINEAR"
-                    Return Agreement.KappaWeightingScheme.Linear
-                Case "QUADRATIC"
-                    Return Agreement.KappaWeightingScheme.Quadratic
-                Case "CICCHETTI", "CICCHETTIALLISON", "CA"
-                    Return Agreement.KappaWeightingScheme.CicchettiAllison
-                Case "FLEISS", "FLEISSCOHEN", "FC"
-                    Return Agreement.KappaWeightingScheme.FleissCohen
-                Case "CUSTOM"
-                    Return Agreement.KappaWeightingScheme.Custom
-                Case Else
-                    Throw New ArgumentException("Unsupported kappa weighting scheme.")
-            End Select
-        End Function
-
-        Private Function ParseDemingVarianceModel(arg As Object, defaultValue As Agreement.DemingVarianceModel) As Agreement.DemingVarianceModel
-            Dim s As String = NormalizeToken(arg)
-            If s = "" Then Return defaultValue
-            Select Case s
-                Case "LAMBDA", "CONSTANTLAMBDA", "CONSTANT"
-                    Return Agreement.DemingVarianceModel.ConstantLambda
-                Case "POINTWISE", "KNOWNPOINTWISESD", "SD", "POINTWISESD"
-                    Return Agreement.DemingVarianceModel.KnownPointwiseSD
-                Case "CV", "CONSTANTCV"
-                    Return Agreement.DemingVarianceModel.ConstantCV
-                Case Else
-                    Throw New ArgumentException("Unsupported Deming varianceModel.")
-            End Select
-        End Function
-
-        Private Function ParseOptionalNullableDouble(arg As Object) As Double
-            If IsMissingArg(arg) Then Return Double.NaN
-            Return GetOptionalDouble(arg, Double.NaN)
-        End Function
-
-        Private Function ParseOptionalSeed(arg As Object) As Integer
-            If IsMissingArg(arg) Then Return Integer.MinValue
-            Return GetOptionalInt(arg, Integer.MinValue)
-        End Function
-
-        Private Function BuildBlandPlotDataTable(res As Agreement.BlandAltmanResult) As Object(,)
-            Dim nObs As Integer = If(res.PlotX Is Nothing, 0, res.PlotX.Length)
-            Dim nMeans As Integer = If(res.SubjectMeanPlotX Is Nothing, 0, res.SubjectMeanPlotX.Length)
-            Dim rows As Integer = Math.Max(nObs, nMeans) + 1
-            Dim out(rows - 1, 3) As Object
-            out(0, 0) = "PlotX"
-            out(0, 1) = "PlotY"
-            out(0, 2) = "SubjectMeanX"
-            out(0, 3) = "SubjectMeanY"
-            For i As Integer = 0 To rows - 2
-                If i < nObs Then
-                    out(i + 1, 0) = res.PlotX(i)
-                    out(i + 1, 1) = res.PlotY(i)
-                Else
-                    out(i + 1, 0) = ""
-                    out(i + 1, 1) = ""
-                End If
-                If i < nMeans Then
-                    out(i + 1, 2) = res.SubjectMeanPlotX(i)
-                    out(i + 1, 3) = res.SubjectMeanPlotY(i)
-                Else
-                    out(i + 1, 2) = ""
-                    out(i + 1, 3) = ""
-                End If
-            Next
-            Return out
-        End Function
-
-        Private Function ParseIccModel(arg As Object, defaultValue As String) As String
-            Dim s As String = NormalizeToken(arg)
-            If s = "" Then Return defaultValue
-            Select Case s
-                Case "ICC11", "11"
-                    Return "ICC11"
-                Case "ICC1K", "1K"
-                    Return "ICC1K"
-                Case "ICC21", "21"
-                    Return "ICC21"
-                Case "ICC2K", "2K"
-                    Return "ICC2K"
-                Case "ICC31", "31"
-                    Return "ICC31"
-                Case "ICC3K", "3K"
-                    Return "ICC3K"
-                Case Else
-                    Throw New ArgumentException("Unsupported ICC model. Use ICC11, ICC1K, ICC21, ICC2K, ICC31, or ICC3K.")
-            End Select
-        End Function
-
-        Private Function IsOneWayIcc(modelCode As String) As Boolean
-            Return modelCode = "ICC11" OrElse modelCode = "ICC1K"
-        End Function
-
-        Private Function DescribeBlandScale(scale As Agreement.BlandAltmanScale) As String
-            Select Case scale
-                Case Agreement.BlandAltmanScale.RawDifference
-                    Return "Raw difference"
-                Case Agreement.BlandAltmanScale.PercentOfMean
-                    Return "% of paired mean"
-                Case Agreement.BlandAltmanScale.PercentOfReference
-                    Return "% of reference method"
-                Case Agreement.BlandAltmanScale.PercentOfTest
-                    Return "% of test method"
-                Case Agreement.BlandAltmanScale.LogRatio
-                    Return "Log ratio"
-                Case Else
-                    Return scale.ToString()
-            End Select
-        End Function
-
-        Private Function FitBlandAltmanFromUdfArgs(x As Object,
-                                                   y As Object,
-                                                   subjectIds As Object,
-                                                   alpha As Object,
-                                                   mode As Object,
-                                                   scale As Object,
-                                                   xAxis As Object,
-                                                   ciMethod As Object,
-                                                   bootstrapReplicates As Object,
-                                                   useT As Object,
-                                                   minSubjects As Object,
-                                                   minPairsPerSubject As Object,
-                                                   excludeSingletonSubjects As Object,
-                                                   allowFallbackToSimple As Object,
-                                                   checkProportionalBias As Object,
-                                                   plotMode As Object,
-                                                   randomSeed As Object,
-                                                   varNames As Object,
-                                                   ByRef names() As String) As Agreement.BlandAltmanResult
-
-            Dim input = Global.BESHStatNG.UdfDataImport.TryGetAlignedNumericWithOptionalCategory(x, y, subjectIds, requireCategory:=False)
-            If input.Error.HasValue Then Throw New ArgumentException("Inputs must be aligned one-column ranges with matching row counts.")
-            If input.X Is Nothing OrElse input.X.Length < 2 Then Throw New ArgumentException("At least two usable numeric pairs are required.")
-
-            names = ParametricUDFs.ResolveNames(varNames, input.DetectedNames, 2, "Method")
-
-            Dim opts As New Agreement.BlandAltmanOptions With {
-                .Alpha = ParseAlphaOrDefault(alpha, 0.05),
-                .Mode = ParseBlandMode(mode, Agreement.RepeatedBlandAltmanMode.Auto),
-                .Scale = ParseBlandScale(scale, Agreement.BlandAltmanScale.RawDifference),
-                .XAxisMode = ParseBlandXAxisMode(xAxis, Agreement.BlandAltmanXAxisMode.MeanOfMethods),
-                .CiMethod = ParseAgreementCiMethod(ciMethod, Agreement.AgreementCiMethod.Analytical),
-                .BootstrapReplicates = Math.Max(200, GetOptionalInt(bootstrapReplicates, 2000)),
-                .UseTDistribution = GetOptionalBool(useT, True),
-                .MinSubjects = Math.Max(1, GetOptionalInt(minSubjects, 2)),
-                .MinPairsPerSubject = Math.Max(1, GetOptionalInt(minPairsPerSubject, 2)),
-                .ExcludeSingletonSubjects = GetOptionalBool(excludeSingletonSubjects, True),
-                .AllowFallbackToSimple = GetOptionalBool(allowFallbackToSimple, True),
-                .CheckProportionalBias = GetOptionalBool(checkProportionalBias, True),
-                .PlotMode = ParseBlandPlotMode(plotMode, Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans)
-            }
-
-            If input.Category IsNot Nothing Then opts.SubjectIds = input.Category
-
-            Dim seed As Integer = ParseOptionalSeed(randomSeed)
-            Dim mdl As New Agreement.BlandAltmanAgreement(input.X, input.Y, names(0), names(1), opts)
-            Return mdl.Fit(seed)
-        End Function
-
     End Module
 End Namespace

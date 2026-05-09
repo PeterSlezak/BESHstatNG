@@ -225,7 +225,7 @@ Namespace WorksheetFunctions
                 Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
-                Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
+                Dim addressingMode As String = Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, "relative")
                 Dim allowRelativeColumnLetters As Boolean = False
                 Dim allowAbsoluteColumnLetters As Boolean = False
                 Dim allowQuotedVariableNames As Boolean = True
@@ -242,7 +242,7 @@ Namespace WorksheetFunctions
 
                 Dim absoluteColumnLetters As String() = Nothing
                 If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then
-                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(x, imported.nCols - 1, absoluteColumnLetters) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(x, imported.nCols - 1, absoluteColumnLetters) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                 End If
@@ -270,8 +270,8 @@ Namespace WorksheetFunctions
                 Dim rowIds() As Integer = imported.RowIds
 
                 If fitData Is Nothing OrElse fitVarNames Is Nothing OrElse fitVarNames.Length < 1 Then Return ExcelError.ExcelErrorValue
-                If Not UDFhelpers.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
-                If Not UDFhelpers.HasOnlyFinite(fitWeights, True) Then Return ExcelError.ExcelErrorValue
+                If Not UdfDataImport.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
+                If Not UdfDataImport.HasOnlyFinite(fitWeights, True) Then Return ExcelError.ExcelErrorValue
 
                 Dim interceptFlag As Boolean = GetOptionalBool(includeIntercept, True)
                 If Not interceptFlag AndAlso fitVarNames.Length < 2 Then Return ExcelError.ExcelErrorNum
@@ -286,7 +286,7 @@ Namespace WorksheetFunctions
                 If maxIterValue < 1 Then Return ExcelError.ExcelErrorNum
                 If Double.IsNaN(tolValue) OrElse Double.IsInfinity(tolValue) OrElse tolValue <= 0.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim familyCode As String = ParseFamilyCode(family)
+                Dim familyCode As String = Global.BESHStatNG.UdfDataImport.GetRegressionFamilyCode(family)
                 If String.IsNullOrWhiteSpace(familyCode) Then Return ExcelError.ExcelErrorValue
 
                 Dim dispersionValue As Double = GetOptionalDouble(dispersion, 1.0R)
@@ -297,7 +297,7 @@ Namespace WorksheetFunctions
                 Dim fam As regression.Family = regression.createFamily(familyCode, dispersionValue)
                 If fam Is Nothing Then Return ExcelError.ExcelErrorValue
 
-                Dim linkName As String = ParseLinkName(link, fam.ToString())
+                Dim linkName As String = Global.BESHStatNG.UdfDataImport.GetRegressionLinkName(link, fam.ToString())
                 If String.IsNullOrWhiteSpace(linkName) Then Return ExcelError.ExcelErrorValue
                 If Not fam.testLink(linkName) Then Return ExcelError.ExcelErrorValue
 
@@ -705,7 +705,7 @@ Namespace WorksheetFunctions
                 Dim expandedX(,) As Double = Nothing
 
                 If rawPredictorKeys.Length < 1 Then
-                    If Not TryPrepareInterceptOnlyPredictionInputs(newOffset, h.HasOffset, nRows, offsetVals) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetInterceptOnlyPredictionInputs(newOffset, h.HasOffset, nRows, offsetVals) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                 Else
@@ -732,7 +732,7 @@ Namespace WorksheetFunctions
 
                     nRows = imported.nRows
                     offsetVals = If(imported.bOffset, imported.OffsetData, Nothing)
-                    If Not UDFhelpers.HasOnlyFinite(offsetVals) Then Return ExcelError.ExcelErrorValue
+                    If Not UdfDataImport.HasOnlyFinite(offsetVals) Then Return ExcelError.ExcelErrorValue
                 End If
 
                 Dim beta() As Double = h.Model.results.Coeffs_est

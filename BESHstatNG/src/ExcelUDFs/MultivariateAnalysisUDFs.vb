@@ -2634,7 +2634,7 @@ Namespace WorksheetFunctions
 
                 Dim groupCol(,) As Object = Nothing
                 Dim inferredGroupName As String = Nothing
-                If Not TryGetTrimmedColumnObject(groups, groupCol, inferredGroupName, "text") Then Return ExcelError.ExcelErrorValue
+                If Not Global.BESHStatNG.UdfDataImport.TryGetTextColumn(groups, groupCol, inferredGroupName) Then Return ExcelError.ExcelErrorValue
                 If groupCol.GetLength(0) <> imported.nRows Then Throw New ArgumentException("groups must contain one value per data row after header detection.")
 
                 Dim labels() As String = Nothing

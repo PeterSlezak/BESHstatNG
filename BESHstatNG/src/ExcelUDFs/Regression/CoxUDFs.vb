@@ -176,7 +176,7 @@ Namespace WorksheetFunctions
                 Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
-                Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
+                Dim addressingMode As String = Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, "relative")
                 Dim allowRelativeColumnLetters As Boolean = False
                 Dim allowAbsoluteColumnLetters As Boolean = False
                 Dim allowQuotedVariableNames As Boolean = True
@@ -193,7 +193,7 @@ Namespace WorksheetFunctions
 
                 Dim absoluteColumnLetters As String() = Nothing
                 If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then
-                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(x, colCount, absoluteColumnLetters) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(x, colCount, absoluteColumnLetters) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                 End If
@@ -246,7 +246,7 @@ Namespace WorksheetFunctions
 
                 Dim mi As Integer = GetOptionalInt(maxIter, 100)
                 Dim eps As Double = GetOptionalDouble(tol, 0.00000001)
-                Dim method As TieMethod = UDFhelpers.ParseTieMethod(ties, TieMethod.Breslow)
+                Dim method As TieMethod = Global.BESHStatNG.UdfDataImport.GetCoxTieMethod(ties, TieMethod.Breslow)
                 Dim useRobust As Boolean = GetOptionalBool(robust, False)
 
                 Dim model As New CoxPH(records, fitVarNames, mi, eps)
@@ -494,7 +494,7 @@ Namespace WorksheetFunctions
                 If v IsNot Nothing Then
                     Dim invV As Double(,) = Nothing
 
-                    If UDFhelpers.TryInvertMatrix(v, invV) Then
+                    If Global.BESHStatNG.UdfLinearAlgebra.TryInvertMatrix(v, invV) Then
                         If invV IsNot Nothing AndAlso invV.GetLength(0) = p AndAlso invV.GetLength(1) = p Then
 
                             Dim tmp(p - 1) As Double

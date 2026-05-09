@@ -115,8 +115,8 @@ Namespace WorksheetFunctions
                 Dim formulaText As String = AsString(formula)
                 If formulaText Is Nothing Then formulaText = String.Empty
 
-                Dim rawVarNames As String() = UDFhelpers.GetVarNames(varNames, colCount)
-                Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
+                Dim rawVarNames As String() = Global.BESHStatNG.UdfDataImport.GetVariableNames(varNames, colCount)
+                Dim addressingMode As String = Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, "relative")
 
                 Dim allowRelativeColumnLetters As Boolean = False
                 Dim allowAbsoluteColumnLetters As Boolean = False
@@ -134,7 +134,7 @@ Namespace WorksheetFunctions
 
                 Dim absoluteColumnLetters As String() = Nothing
                 If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then
-                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(x, colCount, absoluteColumnLetters) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(x, colCount, absoluteColumnLetters) Then
                         Return "Validation failed: formulaAddressing='absolute' requires x to be passed as a direct worksheet range with " &
                                colCount.ToString(CultureInfo.InvariantCulture) &
                                " predictor column(s), so absolute worksheet column letters can be determined."

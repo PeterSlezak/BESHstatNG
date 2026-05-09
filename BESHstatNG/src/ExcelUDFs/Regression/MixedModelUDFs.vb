@@ -38,7 +38,7 @@ Namespace WorksheetFunctions
 
         Private ReadOnly _mmrmCache As New ConcurrentDictionary(Of String, MmrmHandle)(StringComparer.OrdinalIgnoreCase)
 
-        Private Class MmrmHandle
+        Friend Class MmrmHandle
             Public Property Handle As String
             Public Property Result As regression.MixedModelResult
             Public Property Alpha As Double
@@ -53,13 +53,13 @@ Namespace WorksheetFunctions
             Public Property VisitValues As Double()
         End Class
 
-        Private Class MmrmLsmEstimateProfileValue
+        Friend Class MmrmLsmEstimateProfileValue
             Public Property Name As String
             Public Property ColumnIndex As Integer
             Public Property Value As Double
         End Class
 
-        Private Class MmrmLsmEstimateComponent
+        Friend Class MmrmLsmEstimateComponent
             Public Property Label As String
             Public Property Weight As Double
             Public Property VisitSpecified As Boolean
@@ -67,7 +67,7 @@ Namespace WorksheetFunctions
             Public Property ProfileValues As New List(Of MmrmLsmEstimateProfileValue)()
         End Class
 
-        Private Class MmrmLsmEstimateAtProfile
+        Friend Class MmrmLsmEstimateAtProfile
             Public Property VisitSpecified As Boolean = False
             Public Property VisitValue As Double = Double.NaN
             Public Property ProfileValues As New List(Of MmrmLsmEstimateProfileValue)()
@@ -213,7 +213,7 @@ Namespace WorksheetFunctions
                 Dim formulaText As String = ExcelArgReaders.AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
-                Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
+                Dim addressingMode As String = Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, "relative")
                 Dim allowRelativeColumnLetters As Boolean = False
                 Dim allowAbsoluteColumnLetters As Boolean = False
                 Dim allowQuotedVariableNames As Boolean = True
@@ -237,21 +237,21 @@ Namespace WorksheetFunctions
                 Dim dropped As Integer = 0
                 Dim errorMessage As String = Nothing
 
-                If Not TryReadAndAlignMmrmInputs(y:=y,
-                                                  x:=x,
-                                                  subject:=subject,
-                                                  visit:=visit,
-                                                  yValues:=yValues,
-                                                  xValues:=xValues,
-                                                  subjectValues:=subjectValues,
-                                                  visitValues:=visitValues,
-                                                  inferredXNames:=inferredXNames,
-                                                  inferredXAbsoluteLetters:=inferredXAbsoluteLetters,
-                                                  droppedRows:=dropped,
-                                                  errorMessage:=errorMessage,
-                                                  formulaText:=formulaText,
-                                                  formulaAddressingMode:=addressingMode,
-                                                  varNames:=varNames) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetMmrmAlignedInputs(y:=y,
+                                                                      x:=x,
+                                                                      subject:=subject,
+                                                                      visit:=visit,
+                                                                      yValues:=yValues,
+                                                                      xValues:=xValues,
+                                                                      subjectValues:=subjectValues,
+                                                                      visitValues:=visitValues,
+                                                                      inferredXNames:=inferredXNames,
+                                                                      inferredXAbsoluteLetters:=inferredXAbsoluteLetters,
+                                                                      droppedRows:=dropped,
+                                                                      errorMessage:=errorMessage,
+                                                                      formulaText:=formulaText,
+                                                                      formulaAddressingMode:=addressingMode,
+                                                                      varNames:=varNames) Then
                     Return "BESH.REGR.MMRM_FIT error: " & errorMessage
                 End If
 
@@ -940,12 +940,12 @@ Namespace WorksheetFunctions
                 Dim components As List(Of MmrmLsmEstimateComponent) = Nothing
                 Dim errorMessage As String = Nothing
 
-                If Not TryReadMmrmLsmEstimateSpec(spec, h, components, errorMessage) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateSpec(spec, h, components, errorMessage) Then
                     Return "BESH.REGR.MMRM_LSMESTIMATE error: " & errorMessage
                 End If
 
                 Dim atProfile As MmrmLsmEstimateAtProfile = Nothing
-                If Not TryReadMmrmLsmEstimateAtSpec(at, h, atProfile, errorMessage) Then
+                If Not Global.BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateAtSpec(at, h, atProfile, errorMessage) Then
                     Return "BESH.REGR.MMRM_LSMESTIMATE error: " & errorMessage
                 End If
 
@@ -1160,260 +1160,6 @@ Namespace WorksheetFunctions
             Return count
         End Function
 
-
-        Private Function TryReadAndAlignMmrmInputs(y As Object,
-                                                   x As Object,
-                                                   subject As Object,
-                                                   visit As Object,
-                                                   ByRef yValues() As Double,
-                                                   ByRef xValues(,) As Double,
-                                                   ByRef subjectValues() As Object,
-                                                   ByRef visitValues() As Double,
-                                                   ByRef inferredXNames() As String,
-                                                   ByRef inferredXAbsoluteLetters() As String,
-                                                   ByRef droppedRows As Integer,
-                                                   ByRef errorMessage As String,
-                                                   formulaText As String,
-                                                   formulaAddressingMode As String,
-                                                   varNames As Object) As Boolean
-            yValues = Nothing
-            xValues = Nothing
-            subjectValues = Nothing
-            visitValues = Nothing
-            inferredXNames = Nothing
-            inferredXAbsoluteLetters = Nothing
-            droppedRows = 0
-            errorMessage = Nothing
-
-            Dim yCol(,) As Object = Nothing
-            Dim yName As String = Nothing
-            If Not TryGetTrimmedColumnObject(y, yCol, yName, "numeric") Then
-                errorMessage = "y must be a non-empty single-column numeric range."
-                Return False
-            End If
-
-            Dim xRaw(,) As Object = Nothing
-            If Not TryGetTrimmedNumericMatrixObject(x, xRaw, inferredXNames) Then
-                errorMessage = "x must be a non-empty matrix."
-                Return False
-            End If
-
-            Dim xColumnIndices() As Integer = Nothing
-            If Not TryResolveMmrmFormulaRequiredXColumns(x,
-                                                         xRaw,
-                                                         inferredXNames,
-                                                         formulaText,
-                                                         formulaAddressingMode,
-                                                         xColumnIndices,
-                                                         inferredXNames,
-                                                         inferredXAbsoluteLetters,
-                                                         errorMessage,
-                                                         varNames:=varNames) Then
-                Return False
-            End If
-
-            Dim subjectCol(,) As Object = Nothing
-            Dim subjectName As String = Nothing
-            If Not TryGetTrimmedColumnObject(subject, subjectCol, subjectName, "text") Then
-                errorMessage = "subject must be a non-empty single-column range."
-                Return False
-            End If
-
-            Dim visitCol(,) As Object = Nothing
-            Dim visitSupplied As Boolean = Not ExcelArgPredicates.IsMissingArg(visit)
-            If visitSupplied Then
-                Dim visitName As String = Nothing
-                If Not TryGetTrimmedColumnObject(visit, visitCol, visitName, "numeric") Then
-                    errorMessage = "visit must be a numeric single-column range when supplied."
-                    Return False
-                End If
-            End If
-
-            Dim n As Integer = yCol.GetLength(0)
-            If xRaw.GetLength(0) <> n OrElse subjectCol.GetLength(0) <> n OrElse (visitSupplied AndAlso visitCol.GetLength(0) <> n) Then
-                errorMessage = "y, x, subject, and visit inputs must have the same number of data rows after optional header trimming."
-                Return False
-            End If
-
-            Dim p As Integer = xColumnIndices.Length
-            Dim yList As New List(Of Double)()
-            Dim xRows As New List(Of Double())()
-            Dim subjectList As New List(Of Object)()
-            Dim visitList As New List(Of Double)()
-
-            For i As Integer = 0 To n - 1
-                Dim yi As Double? = ExcelArgNumeric.TryGetDouble(yCol(i, 0))
-                Dim subjectText As String = ExcelArgReaders.CellToTrimmedText(subjectCol(i, 0))
-                Dim valid As Boolean = yi.HasValue AndAlso Not String.IsNullOrWhiteSpace(subjectText)
-                Dim row(p - 1) As Double
-
-                If valid Then
-                    For j As Integer = 0 To p - 1
-                        Dim xij As Double? = ExcelArgNumeric.TryGetDouble(xRaw(i, xColumnIndices(j)))
-                        If Not xij.HasValue Then
-                            valid = False
-                            Exit For
-                        End If
-                        row(j) = xij.Value
-                    Next
-                End If
-
-                Dim vi As Double = Double.NaN
-                If valid AndAlso visitSupplied Then
-                    Dim parsedVisit As Double? = ExcelArgNumeric.TryGetDouble(visitCol(i, 0))
-                    If Not parsedVisit.HasValue Then
-                        valid = False
-                    Else
-                        vi = parsedVisit.Value
-                    End If
-                End If
-
-                If valid Then
-                    yList.Add(yi.Value)
-                    xRows.Add(row)
-                    subjectList.Add(subjectText)
-                    If visitSupplied Then visitList.Add(vi)
-                Else
-                    droppedRows += 1
-                End If
-            Next
-
-            If yList.Count = 0 Then
-                errorMessage = "no valid complete rows remain after removing rows with missing/invalid y, x, subject, or visit values."
-                Return False
-            End If
-
-            yValues = yList.ToArray()
-            subjectValues = subjectList.ToArray()
-            ReDim xValues(yList.Count - 1, p - 1)
-            For i As Integer = 0 To yList.Count - 1
-                For j As Integer = 0 To p - 1
-                    xValues(i, j) = xRows(i)(j)
-                Next
-            Next
-
-            If visitSupplied Then visitValues = visitList.ToArray()
-            Return True
-        End Function
-
-        Private Function TryResolveMmrmFormulaRequiredXColumns(xArg As Object,
-                                                               xRaw(,) As Object,
-                                                               allInferredNames() As String,
-                                                               formulaText As String,
-                                                               formulaAddressingMode As String,
-                                                               ByRef columnIndices() As Integer,
-                                                               ByRef selectedNames() As String,
-                                                               ByRef selectedAbsoluteLetters() As String,
-                                                               ByRef errorMessage As String,
-                                                               varNames As Object) As Boolean
-            columnIndices = Nothing
-            selectedNames = Nothing
-            selectedAbsoluteLetters = Nothing
-            errorMessage = Nothing
-
-            If xRaw Is Nothing Then
-                errorMessage = "x must be a non-empty matrix."
-                Return False
-            End If
-
-            Dim pAll As Integer = xRaw.GetLength(1)
-            If pAll < 1 Then
-                errorMessage = "x must contain at least one predictor column."
-                Return False
-            End If
-
-            Dim allNames() As String = If(allInferredNames, DefaultNames(pAll, "X"))
-            If allNames.Length <> pAll Then allNames = DefaultNames(pAll, "X")
-
-            Dim allAbsoluteLetters() As String = Nothing
-            Dim hasAbsoluteLetters As Boolean = UDFhelpers.TryGetAbsoluteColumnLettersFromRange(xArg, pAll, allAbsoluteLetters)
-            Dim allDisplayNames() As String = ResolveMmrmRawPredictorNames(varNames, allNames, pAll)
-
-            Dim normalizedFormula As String = If(formulaText, String.Empty).Trim()
-            If normalizedFormula = String.Empty Then
-                ReDim columnIndices(pAll - 1)
-                For j As Integer = 0 To pAll - 1
-                    columnIndices(j) = j
-                Next
-                selectedNames = CType(allDisplayNames.Clone(), String())
-                If hasAbsoluteLetters Then selectedAbsoluteLetters = CType(allAbsoluteLetters.Clone(), String())
-                Return True
-            End If
-
-            Dim mode As String = If(formulaAddressingMode, String.Empty).Trim().ToLowerInvariant()
-            Dim allowAbsolute As Boolean = String.Equals(mode, "absolute", StringComparison.OrdinalIgnoreCase)
-            Dim allowRelative As Boolean = String.Equals(mode, "relative", StringComparison.OrdinalIgnoreCase)
-            Dim allowQuoted As Boolean = True
-
-            If allowAbsolute AndAlso Not hasAbsoluteLetters Then
-                errorMessage = "formulaAddressing='absolute' requires x to be passed as a direct worksheet range so absolute worksheet column letters can be determined."
-                Return False
-            End If
-
-            Dim catalog As RegressionVariableCatalog = RegressionVariableCatalog.Build(varNames:=allDisplayNames,
-                                                                                       absoluteColumnLetters:=If(allowAbsolute, allAbsoluteLetters, Nothing),
-                                                                                       allowRelativeColumnLetters:=allowRelative,
-                                                                                       allowAbsoluteColumnLetters:=allowAbsolute,
-                                                                                       allowQuotedVariableNames:=allowQuoted)
-
-            Dim spec As RegressionFormulaDesignSpec = Nothing
-            Dim parseErr As String = Nothing
-            If Not RegressionFormulaParser.TryParseFormulaToDesignSpec(formulaText:=normalizedFormula,
-                                                                       variableCatalog:=catalog,
-                                                                       designSpec:=spec,
-                                                                       errorMessage:=parseErr) Then
-                errorMessage = "formula could not be parsed or expanded: " & If(parseErr, String.Empty)
-                Return False
-            End If
-
-            If spec Is Nothing OrElse spec.RequiredRawVarKeys Is Nothing OrElse spec.RequiredRawVarKeys.Count = 0 Then
-                errorMessage = "formula did not reference any predictor columns."
-                Return False
-            End If
-
-            If allowRelative Then
-                ' Relative formulas are positional by definition. Keep all columns so tokens such
-                ' as A, C, or AA retain their original x-range positions.
-                ReDim columnIndices(pAll - 1)
-                For j As Integer = 0 To pAll - 1
-                    columnIndices(j) = j
-                Next
-                selectedNames = CType(allDisplayNames.Clone(), String())
-                If hasAbsoluteLetters Then selectedAbsoluteLetters = CType(allAbsoluteLetters.Clone(), String())
-                Return True
-            End If
-
-            Dim entries As New List(Of RegressionVariableCatalogEntry)()
-            For Each requiredKey As String In spec.RequiredRawVarKeys
-                Dim entry As RegressionVariableCatalogEntry = catalog.Variables.FirstOrDefault(Function(v) String.Equals(v.BaseKey, requiredKey, StringComparison.Ordinal))
-                If entry Is Nothing Then
-                    errorMessage = "formula referenced an unknown predictor column."
-                    Return False
-                End If
-                If Not entries.Any(Function(v) String.Equals(v.BaseKey, entry.BaseKey, StringComparison.Ordinal)) Then
-                    entries.Add(entry)
-                End If
-            Next
-
-            entries = entries.OrderBy(Function(v) v.RelativeColumnIndex).ToList()
-            ReDim columnIndices(entries.Count - 1)
-            ReDim selectedNames(entries.Count - 1)
-            If hasAbsoluteLetters Then ReDim selectedAbsoluteLetters(entries.Count - 1)
-
-            For j As Integer = 0 To entries.Count - 1
-                Dim originalIndex As Integer = entries(j).RelativeColumnIndex - 1
-                If originalIndex < 0 OrElse originalIndex >= pAll Then
-                    errorMessage = "formula referenced a predictor column outside the supplied x range."
-                    Return False
-                End If
-                columnIndices(j) = originalIndex
-                selectedNames(j) = entries(j).DisplayName
-                If hasAbsoluteLetters Then selectedAbsoluteLetters(j) = entries(j).AbsoluteColumnLetter
-            Next
-
-            Return True
-        End Function
-
         Private Function ParseFitMethod(arg As Object) As regression.MixedModelFitMethod
             Dim s As String = ExcelArgReaders.AsString(arg)
             If String.IsNullOrWhiteSpace(s) Then Return regression.MixedModelFitMethod.REML
@@ -1541,7 +1287,7 @@ Namespace WorksheetFunctions
 
             If selectedAbsoluteLetters IsNot Nothing AndAlso selectedAbsoluteLetters.Length = selectedCount Then
                 Dim suppliedLetters() As String = Nothing
-                If UDFhelpers.TryGetAbsoluteColumnLettersFromRange(varNames, suppliedNames.Length, suppliedLetters) Then
+                If Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(varNames, suppliedNames.Length, suppliedLetters) Then
                     Dim byLetter As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
                     For i As Integer = 0 To Math.Min(suppliedNames.Length, suppliedLetters.Length) - 1
                         Dim letter As String = If(suppliedLetters(i), String.Empty).Trim()
@@ -1564,21 +1310,6 @@ Namespace WorksheetFunctions
 
                     If anyMapped Then Return NormalizeMmrmNameList(mapped, selectedCount, "X")
                 End If
-            End If
-
-            Return inferred
-        End Function
-
-        Private Function ResolveMmrmRawPredictorNames(varNames As Object,
-                                                      inferredNames() As String,
-                                                      expectedCount As Integer) As String()
-            Dim inferred() As String = NormalizeMmrmNameList(inferredNames, expectedCount, "X")
-            If expectedCount <= 0 Then Return New String() {}
-            If ExcelArgPredicates.IsMissingArg(varNames) Then Return inferred
-
-            Dim suppliedNames() As String = Nothing
-            If Global.BESHStatNG.UdfDataImport.TryGetMmrmNameList(varNames, suppliedNames) AndAlso suppliedNames IsNot Nothing AndAlso suppliedNames.Length = expectedCount Then
-                Return NormalizeMmrmNameList(suppliedNames, expectedCount, "X")
             End If
 
             Return inferred
@@ -1631,324 +1362,6 @@ Namespace WorksheetFunctions
             Next
             Return out
         End Function
-
-        Private Function TryReadMmrmLsmEstimateSpec(spec As Object,
-                                                        h As MmrmHandle,
-                                                        ByRef components As List(Of MmrmLsmEstimateComponent),
-                                                        ByRef errorMessage As String) As Boolean
-            components = New List(Of MmrmLsmEstimateComponent)()
-            errorMessage = Nothing
-
-            Dim arr As Object(,) = UDFhelpers.Get2D(spec)
-            If arr Is Nothing Then
-                errorMessage = "spec must be a worksheet range with a header row."
-                Return False
-            End If
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows < 2 OrElse cols < 2 Then
-                errorMessage = "spec must contain a header row and at least one data row."
-                Return False
-            End If
-
-            Dim header(cols - 1) As String
-            For c As Integer = 0 To cols - 1
-                header(c) = ExcelArgReaders.CellToTrimmedText(arr(0, c))
-            Next
-
-            Dim labelCol As Integer = FindHeaderIndex(header, "label", "contrast", "estimate", "name")
-            Dim weightCol As Integer = FindHeaderIndex(header, "weight", "coef", "coefficient", "contrastweight")
-            Dim visitCol As Integer = FindHeaderIndex(header, "visit", "time")
-
-            If weightCol < 0 Then
-                errorMessage = "spec header must include a weight column."
-                Return False
-            End If
-
-            Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()
-            For c As Integer = 0 To cols - 1
-                If c = labelCol OrElse c = weightCol OrElse c = visitCol Then Continue For
-                If String.IsNullOrWhiteSpace(header(c)) Then Continue For
-
-                Dim idx As Integer = FindDesignColumnIndex(h.FixedEffectNames, header(c))
-                If idx < 0 Then
-                    errorMessage = "profile column header """ & header(c) & """ was not found among fitted design columns: " &
-                                   String.Join(", ", h.FixedEffectNames) & ". Use header 'visit' for the visit/time column."
-                    Return False
-                End If
-
-                profileColumns.Add(New KeyValuePair(Of Integer, Integer)(c, idx))
-            Next
-
-            If profileColumns.Count = 0 AndAlso visitCol < 0 Then
-                errorMessage = "spec must include at least one profile column: visit and/or a fitted design column name."
-                Return False
-            End If
-
-            Dim defaultIndex As Integer = 1
-
-            For r As Integer = 1 To rows - 1
-                Dim hasAnyText As Boolean = False
-                For c As Integer = 0 To cols - 1
-                    If Not ExcelArgPredicates.IsBlankCell(arr(r, c)) Then
-                        hasAnyText = True
-                        Exit For
-                    End If
-                Next
-                If Not hasAnyText Then Continue For
-
-                Dim w As Double
-                If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, weightCol), w) Then
-                    errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing or nonnumeric weight."
-                    Return False
-                End If
-
-                Dim label As String = Nothing
-                If labelCol >= 0 Then label = ExcelArgReaders.CellToTrimmedText(arr(r, labelCol))
-                If String.IsNullOrWhiteSpace(label) Then label = "Estimate " & defaultIndex.ToString(CultureInfo.InvariantCulture)
-
-                Dim comp As New MmrmLsmEstimateComponent With {
-                    .Label = label,
-                    .Weight = w,
-                    .VisitSpecified = False,
-                    .VisitValue = Double.NaN
-                }
-
-                If visitCol >= 0 AndAlso Not ExcelArgPredicates.IsBlankCell(arr(r, visitCol)) Then
-                    Dim v As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, visitCol), v) Then
-                        errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a nonnumeric visit value."
-                        Return False
-                    End If
-                    comp.VisitSpecified = True
-                    comp.VisitValue = v
-                End If
-
-                For Each pair As KeyValuePair(Of Integer, Integer) In profileColumns
-                    If ExcelArgPredicates.IsBlankCell(arr(r, pair.Key)) Then Continue For
-
-                    Dim profileValue As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, pair.Key), profileValue) Then
-                        errorMessage = "spec row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
-                                       " has a nonnumeric value for profile column """ & header(pair.Key) & """."
-                        Return False
-                    End If
-
-                    comp.ProfileValues.Add(New MmrmLsmEstimateProfileValue With {
-                        .Name = h.FixedEffectNames(pair.Value),
-                        .ColumnIndex = pair.Value,
-                        .Value = profileValue
-                    })
-                Next
-
-                components.Add(comp)
-                defaultIndex += 1
-            Next
-
-            If components.Count = 0 Then
-                errorMessage = "spec does not contain any nonblank data rows."
-                Return False
-            End If
-
-            Return True
-        End Function
-
-        Private Function TryReadMmrmLsmEstimateAtSpec(at As Object,
-                                                              h As MmrmHandle,
-                                                              ByRef atProfile As MmrmLsmEstimateAtProfile,
-                                                              ByRef errorMessage As String) As Boolean
-            atProfile = Nothing
-            errorMessage = Nothing
-
-            If ExcelArgPredicates.IsMissingArg(at) Then Return True
-
-            Dim arr As Object(,) = UDFhelpers.Get2D(at)
-            If arr Is Nothing Then
-                errorMessage = "at must be blank or a worksheet range with a header row."
-                Return False
-            End If
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows < 2 OrElse cols < 1 Then
-                errorMessage = "at must contain a header row and at least one data row, or be omitted."
-                Return False
-            End If
-
-            Dim header(cols - 1) As String
-            For c As Integer = 0 To cols - 1
-                header(c) = ExcelArgReaders.CellToTrimmedText(arr(0, c))
-            Next
-
-            Dim nameCol As Integer = FindHeaderIndex(header, "name", "variable", "effect", "column", "profile", "at")
-            Dim valueCol As Integer = FindHeaderIndex(header, "value", "val", "setting", "atvalue")
-
-            Dim parsed As New MmrmLsmEstimateAtProfile()
-
-            If nameCol >= 0 AndAlso valueCol >= 0 AndAlso nameCol <> valueCol Then
-                For r As Integer = 1 To rows - 1
-                    Dim rowHasAny As Boolean = False
-                    For c As Integer = 0 To cols - 1
-                        If Not ExcelArgPredicates.IsBlankCell(arr(r, c)) Then
-                            rowHasAny = True
-                            Exit For
-                        End If
-                    Next
-                    If Not rowHasAny Then Continue For
-
-                    Dim requestedName As String = ExcelArgReaders.CellToTrimmedText(arr(r, nameCol))
-                    If String.IsNullOrWhiteSpace(requestedName) Then
-                        errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing name/variable value."
-                        Return False
-                    End If
-
-                    Dim value As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(r, valueCol), value) Then
-                        errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
-                                       " has a missing or nonnumeric value for """ & requestedName & """."
-                        Return False
-                    End If
-
-                    If Not AddMmrmLsmEstimateAtValue(parsed, h, requestedName, value,
-                                                     "at row " & (r + 1).ToString(CultureInfo.InvariantCulture),
-                                                     errorMessage) Then
-                        Return False
-                    End If
-                Next
-
-            Else
-                Dim profileColumns As New List(Of KeyValuePair(Of Integer, Integer))()
-                Dim visitCol As Integer = FindHeaderIndex(header, "visit", "time")
-
-                For c As Integer = 0 To cols - 1
-                    If c = visitCol Then Continue For
-                    If String.IsNullOrWhiteSpace(header(c)) Then Continue For
-
-                    Dim idx As Integer = FindDesignColumnIndex(h.FixedEffectNames, header(c))
-                    If idx < 0 Then
-                        errorMessage = "at column header """ & header(c) & """ was not found among fitted design columns: " &
-                                       String.Join(", ", h.FixedEffectNames) & ". Use header 'visit' for the visit/time column."
-                        Return False
-                    End If
-
-                    profileColumns.Add(New KeyValuePair(Of Integer, Integer)(c, idx))
-                Next
-
-                If visitCol < 0 AndAlso profileColumns.Count = 0 Then
-                    errorMessage = "at must contain either name/value headers or at least one visit/design-column header."
-                    Return False
-                End If
-
-                Dim dataRow As Integer = -1
-                For r As Integer = 1 To rows - 1
-                    Dim rowHasAny As Boolean = False
-                    For c As Integer = 0 To cols - 1
-                        If Not ExcelArgPredicates.IsBlankCell(arr(r, c)) Then
-                            rowHasAny = True
-                            Exit For
-                        End If
-                    Next
-                    If Not rowHasAny Then Continue For
-
-                    If dataRow >= 0 Then
-                        errorMessage = "wide-form at ranges must contain exactly one nonblank data row. Use name/value form for multiple AT settings by row."
-                        Return False
-                    End If
-
-                    dataRow = r
-                Next
-
-                If dataRow < 0 Then
-                    errorMessage = "at does not contain any nonblank data row."
-                    Return False
-                End If
-
-                If visitCol >= 0 AndAlso Not ExcelArgPredicates.IsBlankCell(arr(dataRow, visitCol)) Then
-                    Dim visitValue As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(dataRow, visitCol), visitValue) Then
-                        errorMessage = "at visit value must be numeric and finite."
-                        Return False
-                    End If
-
-                    If Not AddMmrmLsmEstimateAtValue(parsed, h, "visit", visitValue, "at visit column", errorMessage) Then
-                        Return False
-                    End If
-                End If
-
-                For Each pair As KeyValuePair(Of Integer, Integer) In profileColumns
-                    If ExcelArgPredicates.IsBlankCell(arr(dataRow, pair.Key)) Then Continue For
-
-                    Dim profileValue As Double
-                    If Not ExcelArgNumeric.TryGetFiniteDouble(arr(dataRow, pair.Key), profileValue) Then
-                        errorMessage = "at value for column """ & header(pair.Key) & """ must be numeric and finite."
-                        Return False
-                    End If
-
-                    If Not AddMmrmLsmEstimateAtValue(parsed, h, h.FixedEffectNames(pair.Value), profileValue,
-                                                     "at column """ & header(pair.Key) & """",
-                                                     errorMessage) Then
-                        Return False
-                    End If
-                Next
-            End If
-
-            If Not parsed.VisitSpecified AndAlso parsed.ProfileValues.Count = 0 Then
-                errorMessage = "at does not specify any nonblank visit or fitted design-column values."
-                Return False
-            End If
-
-            atProfile = parsed
-            Return True
-        End Function
-
-
-        Private Function AddMmrmLsmEstimateAtValue(atProfile As MmrmLsmEstimateAtProfile,
-                                                   h As MmrmHandle,
-                                                   requestedName As String,
-                                                   value As Double,
-                                                   sourceDescription As String,
-                                                   ByRef errorMessage As String) As Boolean
-            If atProfile Is Nothing Then
-                errorMessage = "internal error: AT profile was not initialized."
-                Return False
-            End If
-
-            If String.Equals(NormalizeDesignColumnName(requestedName), NormalizeDesignColumnName("visit"), StringComparison.OrdinalIgnoreCase) OrElse
-               String.Equals(NormalizeDesignColumnName(requestedName), NormalizeDesignColumnName("time"), StringComparison.OrdinalIgnoreCase) Then
-
-                If atProfile.VisitSpecified Then
-                    errorMessage = "at specifies visit/time more than once."
-                    Return False
-                End If
-
-                atProfile.VisitSpecified = True
-                atProfile.VisitValue = value
-                Return True
-            End If
-
-            Dim idx As Integer = FindDesignColumnIndex(h.FixedEffectNames, requestedName)
-            If idx < 0 Then
-                errorMessage = sourceDescription & " names """ & requestedName & """, which was not found among fitted design columns: " &
-                               String.Join(", ", h.FixedEffectNames) & "."
-                Return False
-            End If
-
-            For Each existing As MmrmLsmEstimateProfileValue In atProfile.ProfileValues
-                If existing.ColumnIndex = idx Then
-                    errorMessage = "at specifies design column """ & h.FixedEffectNames(idx) & """ more than once."
-                    Return False
-                End If
-            Next
-
-            atProfile.ProfileValues.Add(New MmrmLsmEstimateProfileValue With {
-                .Name = h.FixedEffectNames(idx),
-                .ColumnIndex = idx,
-                .Value = value
-            })
-            Return True
-        End Function
-
 
         Private Sub ApplyMmrmLsmEstimateAtProfile(components As List(Of MmrmLsmEstimateComponent),
                                                   atProfile As MmrmLsmEstimateAtProfile)
@@ -2027,19 +1440,6 @@ Namespace WorksheetFunctions
             Next
 
             Return sums
-        End Function
-
-        Private Function FindHeaderIndex(headers() As String, ParamArray acceptedNames() As String) As Integer
-            If headers Is Nothing OrElse acceptedNames Is Nothing Then Return -1
-
-            For i As Integer = 0 To headers.Length - 1
-                Dim h As String = NormalizeDesignColumnName(headers(i))
-                For Each accepted As String In acceptedNames
-                    If String.Equals(h, NormalizeDesignColumnName(accepted), StringComparison.OrdinalIgnoreCase) Then Return i
-                Next
-            Next
-
-            Return -1
         End Function
 
         Private Function TryGetDesignColumnValues(h As MmrmHandle,

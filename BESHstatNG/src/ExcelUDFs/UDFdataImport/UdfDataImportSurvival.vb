@@ -261,7 +261,7 @@ Partial Friend Module UdfDataImport
     End Function
 
     Private Function TryGetSurvival2D(input As Object, ByRef arr As Object(,)) As Boolean
-        arr = UDFhelpers.Get2DOrScalar(input)
+        arr = Get2DOrScalar(input)
         Return arr IsNot Nothing
     End Function
 

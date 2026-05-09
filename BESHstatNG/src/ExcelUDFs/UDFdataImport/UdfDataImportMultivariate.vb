@@ -23,21 +23,21 @@ Partial Friend Module UdfDataImport
         rowNames = Nothing
         colNames = Nothing
 
-        Dim arr As Object(,) = UDFhelpers.Get2D(input)
+        Dim arr As Object(,) = Get2D(input)
         If arr Is Nothing Then Return False
 
         Dim cols As Integer = arr.GetLength(1)
         If cols < 1 Then Return False
 
-        Dim lastRow As Integer = UDFhelpers.FindLastNonBlankRow(arr)
+        Dim lastRow As Integer = FindLastNonBlankRow(arr)
         If lastRow < 0 Then Return False
 
-        Dim hasHeader As Boolean = UDFhelpers.HasNumericMatrixHeader(arr, lastRow)
+        Dim hasHeader As Boolean = HasNumericMatrixHeader(arr, lastRow)
 
         Dim raw(,) As Double = Nothing
         Dim rows As Integer = 0
         Dim bodyCols As Integer = 0
-        If Not UDFhelpers.TryReadNumericMatrix(input, raw, rows, bodyCols) Then Return False
+        If Not TryReadNumericMatrix(input, raw, rows, bodyCols) Then Return False
         If rows < 1 OrElse bodyCols < 1 Then Return False
 
         ReDim table(rows - 1, bodyCols - 1)
@@ -76,13 +76,13 @@ Partial Friend Module UdfDataImport
         data = Nothing
         resolvedNames = Nothing
 
-        Dim arr As Object(,) = UDFhelpers.Get2D(input)
+        Dim arr As Object(,) = Get2D(input)
         If arr Is Nothing Then Return False
 
         Dim cols As Integer = arr.GetLength(1)
         If cols < 1 Then Return False
 
-        Dim lastRow As Integer = UDFhelpers.FindLastNonBlankRow(arr)
+        Dim lastRow As Integer = FindLastNonBlankRow(arr)
         If lastRow < 0 Then Return False
 
         Dim explicitNames As Boolean = Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(varNames)
@@ -133,7 +133,7 @@ Partial Friend Module UdfDataImport
             End If
         End If
 
-        Dim arr As Object(,) = UDFhelpers.Get2D(arg)
+        Dim arr As Object(,) = Get2D(arg)
         If arr Is Nothing Then Return False
 
         Dim rows As Integer = arr.GetLength(0)
@@ -190,7 +190,7 @@ Partial Friend Module UdfDataImport
             End If
         End If
 
-        Dim arr As Object(,) = UDFhelpers.Get2D(arg)
+        Dim arr As Object(,) = Get2D(arg)
         If arr Is Nothing Then Return False
 
         Dim rows As Integer = arr.GetLength(0)
@@ -243,7 +243,7 @@ Partial Friend Module UdfDataImport
             End If
         End If
 
-        Dim arr As Object(,) = UDFhelpers.Get2D(arg)
+        Dim arr As Object(,) = Get2D(arg)
         If arr Is Nothing Then Return fallback
 
         Dim rows As Integer = arr.GetLength(0)

@@ -248,7 +248,7 @@ Namespace WorksheetFunctions
                 Dim formulaText As String = AsString(formula)
                 If String.IsNullOrWhiteSpace(formulaText) Then formulaText = Nothing
 
-                Dim addressingMode As String = UDFhelpers.ParseFormulaAddressingMode(formulaAddressing, "relative")
+                Dim addressingMode As String = Global.BESHStatNG.UdfDataImport.GetFormulaAddressingMode(formulaAddressing, "relative")
                 Dim allowRelativeColumnLetters As Boolean = False
                 Dim allowAbsoluteColumnLetters As Boolean = False
                 Dim allowQuotedVariableNames As Boolean = True
@@ -265,7 +265,7 @@ Namespace WorksheetFunctions
 
                 Dim absoluteColumnLetters As String() = Nothing
                 If allowAbsoluteColumnLetters AndAlso Not String.IsNullOrWhiteSpace(formulaText) Then
-                    If Not UDFhelpers.TryGetAbsoluteColumnLettersFromRange(x, imported.nCols - 1, absoluteColumnLetters) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetAbsoluteColumnLetters(x, imported.nCols - 1, absoluteColumnLetters) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                 End If
@@ -296,9 +296,9 @@ Namespace WorksheetFunctions
 
                 If fitData Is Nothing OrElse fitVarNames Is Nothing OrElse fitVarNames.Length < 1 Then Return ExcelError.ExcelErrorValue
                 If fitCluster Is Nothing OrElse fitCluster.Length <> fitData.GetLength(0) Then Return ExcelError.ExcelErrorValue
-                If Not UDFhelpers.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
-                If Not UDFhelpers.HasOnlyFinite(fitWeights, True) Then Return ExcelError.ExcelErrorValue
-                If Not UDFhelpers.HasOnlyFinite(fitTime) Then Return ExcelError.ExcelErrorValue
+                If Not UdfDataImport.HasOnlyFinite(fitOffset) Then Return ExcelError.ExcelErrorValue
+                If Not UdfDataImport.HasOnlyFinite(fitWeights, True) Then Return ExcelError.ExcelErrorValue
+                If Not UdfDataImport.HasOnlyFinite(fitTime) Then Return ExcelError.ExcelErrorValue
 
                 Dim alphaValue As Double = 0.05R
                 If Not IsMissingArg(alpha) Then
@@ -311,7 +311,7 @@ Namespace WorksheetFunctions
                 If maxIterValue < 1 Then Return ExcelError.ExcelErrorNum
                 If Double.IsNaN(tolValue) OrElse Double.IsInfinity(tolValue) OrElse tolValue <= 0.0R Then Return ExcelError.ExcelErrorNum
 
-                Dim familyCode As String = ParseFamilyCode(If(Not IsMissingArg(family), family, "binomial"))
+                Dim familyCode As String = Global.BESHStatNG.UdfDataImport.GetRegressionFamilyCode(If(Not IsMissingArg(family), family, "binomial"))
                 If String.IsNullOrWhiteSpace(familyCode) Then Return ExcelError.ExcelErrorValue
 
                 Dim dispersionValue As Double = GetOptionalDouble(dispersion, 1.0R)
@@ -322,7 +322,7 @@ Namespace WorksheetFunctions
                 Dim fam As regression.Family = regression.createFamily(familyCode, dispersionValue)
                 If fam Is Nothing Then Return ExcelError.ExcelErrorValue
 
-                Dim linkName As String = ParseLinkName(link, fam.ToString())
+                Dim linkName As String = Global.BESHStatNG.UdfDataImport.GetRegressionLinkName(link, fam.ToString())
                 If String.IsNullOrWhiteSpace(linkName) Then Return ExcelError.ExcelErrorValue
                 If Not fam.testLink(linkName) Then Return ExcelError.ExcelErrorValue
 
@@ -363,7 +363,7 @@ Namespace WorksheetFunctions
 
                 Dim parsedStartParams() As Double = Nothing
                 If Not IsMissingArg(startParams) Then
-                    If Not TryParseNumericVector(startParams, parsedStartParams) Then Return ExcelError.ExcelErrorValue
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetLooseNumericVector(startParams, parsedStartParams) Then Return ExcelError.ExcelErrorValue
                     If parsedStartParams Is Nothing OrElse parsedStartParams.Length <> fitVarNames.Length Then Return ExcelError.ExcelErrorNum
                     mdl.startParams = parsedStartParams
                 End If
@@ -871,11 +871,11 @@ Namespace WorksheetFunctions
                 Dim expandedX(,) As Double = Nothing
 
                 If rawPredictorKeys.Length < 1 Then
-                    If Not TryPrepareInterceptOnlyPredictionInputs(newOffset, h.HasOffset, nRows, offsetVals) Then
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetInterceptOnlyPredictionInputs(newOffset, h.HasOffset, nRows, offsetVals) Then
                         Return ExcelError.ExcelErrorValue
                     End If
                 Else
-                    If Not TryPrepareGeePredictionDesign(newX,
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetPredictionDesignFromCandidateKeys(newX,
                                      newOffset,
                                      h.HasOffset,
                                      rawPredictorKeys,
@@ -1216,76 +1216,6 @@ Namespace WorksheetFunctions
             Return _geeCache.TryRemove(key, removed)
         End Function
 
-        Private Function TryPrepareGeePredictionDesign(newX As Object,
-                                                       newOffset As Object,
-                                                       hasOffset As Boolean,
-                                                       fullRawPredictorKeys As String(),
-                                                       requiredRawPredictorKeys As String(),
-                                                       designSpec As RegressionFormulaDesignSpec,
-                                                       omitCategoricalReference As Boolean,
-                                                       expectedExpandedPredictorNames As String(),
-                                                       ByRef nRows As Integer,
-                                                       ByRef offsetVals() As Double,
-                                                       ByRef expandedX(,) As Double) As Boolean
-
-            nRows = 0
-            offsetVals = Nothing
-            expandedX = Nothing
-
-            Dim candidateKeySets As New List(Of String())()
-            If fullRawPredictorKeys IsNot Nothing AndAlso fullRawPredictorKeys.Length > 0 Then
-                candidateKeySets.Add(fullRawPredictorKeys)
-            End If
-            If requiredRawPredictorKeys IsNot Nothing AndAlso requiredRawPredictorKeys.Length > 0 Then
-                Dim addRequired As Boolean = True
-                If candidateKeySets.Count > 0 AndAlso SequenceEqualStrings(candidateKeySets(0), requiredRawPredictorKeys) Then addRequired = False
-                If addRequired Then candidateKeySets.Add(requiredRawPredictorKeys)
-            End If
-
-            For Each candidateKeys As String() In candidateKeySets
-                Dim imported As glmData = Nothing
-                If Not Global.BESHStatNG.UdfDataImport.TryGetPredictorData(newX, candidateKeys, newOffset, hasOffset, imported) Then
-                    Continue For
-                End If
-                If imported Is Nothing OrElse imported.nCols <> candidateKeys.Length Then Continue For
-
-                Dim expandedNames() As String = Nothing
-                Dim designErr As String = Nothing
-                Dim candidateExpandedX(,) As Double = Nothing
-                If Not RegressionFormulaDesignService.TryBuildExpandedPredictorMatrixFromDesignSpec(rawX:=imported.DataDbl,
-                                                                                                    fullRawPredictorKeys:=candidateKeys,
-                                                                                                    designSpec:=designSpec,
-                                                                                                    expandedX:=candidateExpandedX,
-                                                                                                    expandedPredictorNames:=expandedNames,
-                                                                                                    errorMessage:=designErr,
-                                                                                                    omitCategoricalReference:=omitCategoricalReference) Then
-                    Continue For
-                End If
-
-                If expandedNames Is Nothing Then expandedNames = New String() {}
-                If expectedExpandedPredictorNames IsNot Nothing AndAlso expandedNames.Length <> expectedExpandedPredictorNames.Length Then Continue For
-
-                Dim candidateOffset() As Double = If(imported.bOffset, imported.OffsetData, Nothing)
-                If Not UDFhelpers.HasOnlyFinite(candidateOffset) Then Continue For
-
-                nRows = imported.nRows
-                offsetVals = candidateOffset
-                expandedX = candidateExpandedX
-                Return True
-            Next
-
-            Return False
-        End Function
-
-        Private Function SequenceEqualStrings(left As String(), right As String()) As Boolean
-            If left Is Nothing OrElse right Is Nothing Then Return left Is right
-            If left.Length <> right.Length Then Return False
-            For i As Integer = 0 To left.Length - 1
-                If Not String.Equals(left(i), right(i), StringComparison.Ordinal) Then Return False
-            Next
-            Return True
-        End Function
-
         Private Function BuildGeeTimeLabels(model As GEE, size As Integer) As String()
             Dim labels(size - 1) As String
 
@@ -1467,61 +1397,6 @@ Namespace WorksheetFunctions
             Next
 
             Return out
-        End Function
-
-        Private Function TryParseNumericVector(v As Object, ByRef values() As Double) As Boolean
-            values = Nothing
-
-            If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then
-                Return False
-            End If
-
-            Dim s As String = TryCast(v, String)
-            If s IsNot Nothing Then
-                Dim parts = s.Split({","c, ";"c, " "c, ChrW(9)}, StringSplitOptions.RemoveEmptyEntries)
-                If parts.Length < 1 Then Return False
-
-                ReDim values(parts.Length - 1)
-                For i As Integer = 0 To parts.Length - 1
-                    Dim parsed As Double
-                    If Not Double.TryParse(parts(i), NumberStyles.Float Or NumberStyles.AllowThousands, CultureInfo.InvariantCulture, parsed) AndAlso
-                       Not Double.TryParse(parts(i), NumberStyles.Float Or NumberStyles.AllowThousands, CultureInfo.CurrentCulture, parsed) Then
-                        values = Nothing
-                        Return False
-                    End If
-                    If Double.IsNaN(parsed) OrElse Double.IsInfinity(parsed) Then
-                        values = Nothing
-                        Return False
-                    End If
-                    values(i) = parsed
-                Next
-                Return True
-            End If
-
-            Dim arr As Object(,) = UDFhelpers.Get2D(v)
-            If arr Is Nothing Then Return False
-
-            Dim rows As Integer = arr.GetLength(0)
-            Dim cols As Integer = arr.GetLength(1)
-            If rows < 1 OrElse cols < 1 Then Return False
-            If rows <> 1 AndAlso cols <> 1 Then Return False
-
-            Dim count As Integer = rows * cols
-            ReDim values(count - 1)
-            Dim k As Integer = 0
-            For i As Integer = 0 To rows - 1
-                For j As Integer = 0 To cols - 1
-                    Dim d As Double? = TryGetDouble(arr(i, j))
-                    If Not d.HasValue Then
-                        values = Nothing
-                        Return False
-                    End If
-                    values(k) = d.Value
-                    k += 1
-                Next
-            Next
-
-            Return True
         End Function
 
     End Module

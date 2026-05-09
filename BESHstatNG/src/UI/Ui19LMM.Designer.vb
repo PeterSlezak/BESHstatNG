@@ -64,8 +64,8 @@ Partial Class Ui19LMM
         Me.btnFixedPoly = New System.Windows.Forms.Button()
         Me.cbFixedIntercept = New System.Windows.Forms.CheckBox()
         Me.btAddFixedEffect = New System.Windows.Forms.Button()
-        Me.btClearAllSelectedEffects = New System.Windows.Forms.Button()
-        Me.tbRemoveSelectedEffects = New System.Windows.Forms.Button()
+        Me.btClearAllSelectedFixedEffects = New System.Windows.Forms.Button()
+        Me.tbRemoveSelectedFixedEffects = New System.Windows.Forms.Button()
         Me.lbSelectedFixedEffectsList = New System.Windows.Forms.ListBox()
         Me.lbSelectedVariables = New System.Windows.Forms.ListBox()
         Me.lblSelectedEffectsList = New System.Windows.Forms.Label()
@@ -97,6 +97,15 @@ Partial Class Ui19LMM
         Me.lblProgress = New System.Windows.Forms.Label()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCalculate = New System.Windows.Forms.Button()
+        Me.cbRandomCovarStruct = New System.Windows.Forms.ComboBox()
+        Me.lblRandomCovarStruct = New System.Windows.Forms.Label()
+        Me.btClearAllSelectedRandomEffects = New System.Windows.Forms.Button()
+        Me.tbRemoveSelectedRandomEffects = New System.Windows.Forms.Button()
+        Me.grpLMMOutputs = New System.Windows.Forms.GroupBox()
+        Me.ckLMMGCovarianceMatrix = New System.Windows.Forms.CheckBox()
+        Me.ckLMMRCovarianceMatrix = New System.Windows.Forms.CheckBox()
+        Me.ckLMMRandomEffects = New System.Windows.Forms.CheckBox()
+        Me.ckLMMClassInfo = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabPageBuildModel.SuspendLayout()
@@ -106,6 +115,7 @@ Partial Class Ui19LMM
         Me.grpModelSpecification.SuspendLayout()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpIterOptions.SuspendLayout()
+        Me.grpLMMOutputs.SuspendLayout()
         Me.SuspendLayout()
         '
         'btInterrupt
@@ -212,9 +222,9 @@ Partial Class Ui19LMM
         Me.lblTime.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTime.Location = New System.Drawing.Point(334, 90)
         Me.lblTime.Name = "lblTime"
-        Me.lblTime.Size = New System.Drawing.Size(101, 16)
+        Me.lblTime.Size = New System.Drawing.Size(233, 16)
         Me.lblTime.TabIndex = 27
-        Me.lblTime.Text = "Visit / Time **"
+        Me.lblTime.Text = "Visit / Time / Ordering Variable**"
         '
         'lbClusterID
         '
@@ -232,9 +242,9 @@ Partial Class Ui19LMM
         Me.lblClusterID.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblClusterID.Location = New System.Drawing.Point(334, 48)
         Me.lblClusterID.Name = "lblClusterID"
-        Me.lblClusterID.Size = New System.Drawing.Size(84, 16)
+        Me.lblClusterID.Size = New System.Drawing.Size(78, 16)
         Me.lblClusterID.TabIndex = 25
-        Me.lblClusterID.Text = "Subject ID*"
+        Me.lblClusterID.Text = "Subject ID"
         '
         'lbXs
         '
@@ -294,12 +304,12 @@ Partial Class Ui19LMM
         '
         'lblNote
         '
-        Me.lblNote.AutoSize = True
-        Me.lblNote.Location = New System.Drawing.Point(561, 427)
+        Me.lblNote.Location = New System.Drawing.Point(561, 412)
         Me.lblNote.Name = "lblNote"
-        Me.lblNote.Size = New System.Drawing.Size(233, 32)
+        Me.lblNote.Size = New System.Drawing.Size(269, 46)
         Me.lblNote.TabIndex = 10
-        Me.lblNote.Text = "* indicate mandatory fields" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "** indicate conditionally required fields"
+        Me.lblNote.Text = "* indicate mandatory fields" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "** conditionally required for visit-indexed " & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "    re" &
+    "sidual structures"
         '
         'lblY
         '
@@ -355,9 +365,9 @@ Partial Class Ui19LMM
         Me.lblX.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblX.Location = New System.Drawing.Point(334, 132)
         Me.lblX.Name = "lblX"
-        Me.lblX.Size = New System.Drawing.Size(229, 16)
+        Me.lblX.Size = New System.Drawing.Size(190, 16)
         Me.lblX.TabIndex = 18
-        Me.lblX.Text = "Fixed-Effect Source Variable(s)*"
+        Me.lblX.Text = "Model Source Variable(s)*"
         '
         'lblSelectedSheet
         '
@@ -371,6 +381,8 @@ Partial Class Ui19LMM
         '
         'TabPageBuildModel
         '
+        Me.TabPageBuildModel.Controls.Add(Me.btClearAllSelectedRandomEffects)
+        Me.TabPageBuildModel.Controls.Add(Me.tbRemoveSelectedRandomEffects)
         Me.TabPageBuildModel.Controls.Add(Me.btAddRandomEffectCategoricalFactor)
         Me.TabPageBuildModel.Controls.Add(Me.btnRandomCustomInteraction)
         Me.TabPageBuildModel.Controls.Add(Me.btnRandom2Interactions)
@@ -387,8 +399,8 @@ Partial Class Ui19LMM
         Me.TabPageBuildModel.Controls.Add(Me.btnFixedPoly)
         Me.TabPageBuildModel.Controls.Add(Me.cbFixedIntercept)
         Me.TabPageBuildModel.Controls.Add(Me.btAddFixedEffect)
-        Me.TabPageBuildModel.Controls.Add(Me.btClearAllSelectedEffects)
-        Me.TabPageBuildModel.Controls.Add(Me.tbRemoveSelectedEffects)
+        Me.TabPageBuildModel.Controls.Add(Me.btClearAllSelectedFixedEffects)
+        Me.TabPageBuildModel.Controls.Add(Me.tbRemoveSelectedFixedEffects)
         Me.TabPageBuildModel.Controls.Add(Me.lbSelectedFixedEffectsList)
         Me.TabPageBuildModel.Controls.Add(Me.lbSelectedVariables)
         Me.TabPageBuildModel.Controls.Add(Me.lblSelectedEffectsList)
@@ -403,7 +415,7 @@ Partial Class Ui19LMM
         '
         'btAddRandomEffectCategoricalFactor
         '
-        Me.btAddRandomEffectCategoricalFactor.Location = New System.Drawing.Point(332, 292)
+        Me.btAddRandomEffectCategoricalFactor.Location = New System.Drawing.Point(332, 285)
         Me.btAddRandomEffectCategoricalFactor.Name = "btAddRandomEffectCategoricalFactor"
         Me.btAddRandomEffectCategoricalFactor.Size = New System.Drawing.Size(191, 23)
         Me.btAddRandomEffectCategoricalFactor.TabIndex = 36
@@ -412,7 +424,7 @@ Partial Class Ui19LMM
         '
         'btnRandomCustomInteraction
         '
-        Me.btnRandomCustomInteraction.Location = New System.Drawing.Point(332, 379)
+        Me.btnRandomCustomInteraction.Location = New System.Drawing.Point(332, 372)
         Me.btnRandomCustomInteraction.Name = "btnRandomCustomInteraction"
         Me.btnRandomCustomInteraction.Size = New System.Drawing.Size(191, 23)
         Me.btnRandomCustomInteraction.TabIndex = 35
@@ -421,7 +433,7 @@ Partial Class Ui19LMM
         '
         'btnRandom2Interactions
         '
-        Me.btnRandom2Interactions.Location = New System.Drawing.Point(332, 350)
+        Me.btnRandom2Interactions.Location = New System.Drawing.Point(332, 343)
         Me.btnRandom2Interactions.Name = "btnRandom2Interactions"
         Me.btnRandom2Interactions.Size = New System.Drawing.Size(191, 23)
         Me.btnRandom2Interactions.TabIndex = 34
@@ -431,7 +443,7 @@ Partial Class Ui19LMM
         'spinBtnRandomPoly
         '
         Me.spinBtnRandomPoly.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.spinBtnRandomPoly.Location = New System.Drawing.Point(479, 321)
+        Me.spinBtnRandomPoly.Location = New System.Drawing.Point(479, 314)
         Me.spinBtnRandomPoly.Maximum = New Decimal(New Integer() {1000000, 0, 0, 196608})
         Me.spinBtnRandomPoly.Name = "spinBtnRandomPoly"
         Me.spinBtnRandomPoly.Size = New System.Drawing.Size(44, 22)
@@ -440,7 +452,7 @@ Partial Class Ui19LMM
         '
         'btnRandomPoly
         '
-        Me.btnRandomPoly.Location = New System.Drawing.Point(332, 321)
+        Me.btnRandomPoly.Location = New System.Drawing.Point(332, 314)
         Me.btnRandomPoly.Name = "btnRandomPoly"
         Me.btnRandomPoly.Size = New System.Drawing.Size(131, 23)
         Me.btnRandomPoly.TabIndex = 32
@@ -452,7 +464,7 @@ Partial Class Ui19LMM
         Me.cbRandomIntercept.AutoSize = True
         Me.cbRandomIntercept.Checked = True
         Me.cbRandomIntercept.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbRandomIntercept.Location = New System.Drawing.Point(386, 408)
+        Me.cbRandomIntercept.Location = New System.Drawing.Point(386, 401)
         Me.cbRandomIntercept.Name = "cbRandomIntercept"
         Me.cbRandomIntercept.Size = New System.Drawing.Size(80, 20)
         Me.cbRandomIntercept.TabIndex = 31
@@ -461,7 +473,7 @@ Partial Class Ui19LMM
         '
         'btAddRandomEffect
         '
-        Me.btAddRandomEffect.Location = New System.Drawing.Point(386, 263)
+        Me.btAddRandomEffect.Location = New System.Drawing.Point(386, 256)
         Me.btAddRandomEffect.Name = "btAddRandomEffect"
         Me.btAddRandomEffect.Size = New System.Drawing.Size(75, 23)
         Me.btAddRandomEffect.TabIndex = 30
@@ -472,21 +484,21 @@ Partial Class Ui19LMM
         '
         Me.lbSelectedRandomEffectsList.FormattingEnabled = True
         Me.lbSelectedRandomEffectsList.ItemHeight = 16
-        Me.lbSelectedRandomEffectsList.Location = New System.Drawing.Point(548, 263)
+        Me.lbSelectedRandomEffectsList.Location = New System.Drawing.Point(548, 256)
         Me.lbSelectedRandomEffectsList.Name = "lbSelectedRandomEffectsList"
         Me.lbSelectedRandomEffectsList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.lbSelectedRandomEffectsList.Size = New System.Drawing.Size(282, 180)
+        Me.lbSelectedRandomEffectsList.Size = New System.Drawing.Size(282, 164)
         Me.lbSelectedRandomEffectsList.TabIndex = 29
         '
         'Label1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(559, 244)
+        Me.Label1.Location = New System.Drawing.Point(559, 237)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(181, 16)
+        Me.Label1.Size = New System.Drawing.Size(183, 16)
         Me.Label1.TabIndex = 28
-        Me.Label1.Text = "Selected Fandom-Effects"
+        Me.Label1.Text = "Selected Random-Effects"
         '
         'btAddFixedEffectCategoricalFactor
         '
@@ -555,25 +567,25 @@ Partial Class Ui19LMM
         Me.btAddFixedEffect.Text = "Add >>"
         Me.btAddFixedEffect.UseVisualStyleBackColor = True
         '
-        'btClearAllSelectedEffects
+        'btClearAllSelectedFixedEffects
         '
-        Me.btClearAllSelectedEffects.AutoEllipsis = True
-        Me.btClearAllSelectedEffects.Location = New System.Drawing.Point(726, 217)
-        Me.btClearAllSelectedEffects.Name = "btClearAllSelectedEffects"
-        Me.btClearAllSelectedEffects.Size = New System.Drawing.Size(94, 23)
-        Me.btClearAllSelectedEffects.TabIndex = 9
-        Me.btClearAllSelectedEffects.Text = "Clear All"
-        Me.btClearAllSelectedEffects.UseVisualStyleBackColor = True
+        Me.btClearAllSelectedFixedEffects.AutoEllipsis = True
+        Me.btClearAllSelectedFixedEffects.Location = New System.Drawing.Point(726, 201)
+        Me.btClearAllSelectedFixedEffects.Name = "btClearAllSelectedFixedEffects"
+        Me.btClearAllSelectedFixedEffects.Size = New System.Drawing.Size(94, 23)
+        Me.btClearAllSelectedFixedEffects.TabIndex = 9
+        Me.btClearAllSelectedFixedEffects.Text = "Clear All"
+        Me.btClearAllSelectedFixedEffects.UseVisualStyleBackColor = True
         '
-        'tbRemoveSelectedEffects
+        'tbRemoveSelectedFixedEffects
         '
-        Me.tbRemoveSelectedEffects.AutoEllipsis = True
-        Me.tbRemoveSelectedEffects.Location = New System.Drawing.Point(562, 218)
-        Me.tbRemoveSelectedEffects.Name = "tbRemoveSelectedEffects"
-        Me.tbRemoveSelectedEffects.Size = New System.Drawing.Size(91, 23)
-        Me.tbRemoveSelectedEffects.TabIndex = 8
-        Me.tbRemoveSelectedEffects.Text = "Remove"
-        Me.tbRemoveSelectedEffects.UseVisualStyleBackColor = True
+        Me.tbRemoveSelectedFixedEffects.AutoEllipsis = True
+        Me.tbRemoveSelectedFixedEffects.Location = New System.Drawing.Point(562, 202)
+        Me.tbRemoveSelectedFixedEffects.Name = "tbRemoveSelectedFixedEffects"
+        Me.tbRemoveSelectedFixedEffects.Size = New System.Drawing.Size(91, 23)
+        Me.tbRemoveSelectedFixedEffects.TabIndex = 8
+        Me.tbRemoveSelectedFixedEffects.Text = "Remove"
+        Me.tbRemoveSelectedFixedEffects.UseVisualStyleBackColor = True
         '
         'lbSelectedFixedEffectsList
         '
@@ -582,7 +594,7 @@ Partial Class Ui19LMM
         Me.lbSelectedFixedEffectsList.Location = New System.Drawing.Point(548, 31)
         Me.lbSelectedFixedEffectsList.Name = "lbSelectedFixedEffectsList"
         Me.lbSelectedFixedEffectsList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended
-        Me.lbSelectedFixedEffectsList.Size = New System.Drawing.Size(282, 180)
+        Me.lbSelectedFixedEffectsList.Size = New System.Drawing.Size(282, 164)
         Me.lbSelectedFixedEffectsList.TabIndex = 4
         '
         'lbSelectedVariables
@@ -617,6 +629,7 @@ Partial Class Ui19LMM
         '
         'TabPageOptions
         '
+        Me.TabPageOptions.Controls.Add(Me.grpLMMOutputs)
         Me.TabPageOptions.Controls.Add(Me.grpModelSpecification)
         Me.TabPageOptions.Controls.Add(Me.lblAlpha)
         Me.TabPageOptions.Controls.Add(Me.spinBtnAlpha)
@@ -632,15 +645,17 @@ Partial Class Ui19LMM
         'grpModelSpecification
         '
         Me.grpModelSpecification.Controls.Add(Me.cbInferenceMethod)
+        Me.grpModelSpecification.Controls.Add(Me.lblRandomCovarStruct)
+        Me.grpModelSpecification.Controls.Add(Me.cbRandomCovarStruct)
         Me.grpModelSpecification.Controls.Add(Me.lblInferenceMethod)
         Me.grpModelSpecification.Controls.Add(Me.cbFitMethod)
         Me.grpModelSpecification.Controls.Add(Me.cbCovarStruct)
         Me.grpModelSpecification.Controls.Add(Me.lblCovarStruct)
         Me.grpModelSpecification.Controls.Add(Me.lblFitMethod)
         Me.grpModelSpecification.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpModelSpecification.Location = New System.Drawing.Point(387, 16)
+        Me.grpModelSpecification.Location = New System.Drawing.Point(389, 16)
         Me.grpModelSpecification.Name = "grpModelSpecification"
-        Me.grpModelSpecification.Size = New System.Drawing.Size(441, 119)
+        Me.grpModelSpecification.Size = New System.Drawing.Size(441, 171)
         Me.grpModelSpecification.TabIndex = 16
         Me.grpModelSpecification.TabStop = False
         Me.grpModelSpecification.Text = "Model Specification"
@@ -684,13 +699,12 @@ Partial Class Ui19LMM
         '
         'lblCovarStruct
         '
-        Me.lblCovarStruct.AutoSize = True
         Me.lblCovarStruct.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCovarStruct.Location = New System.Drawing.Point(10, 60)
+        Me.lblCovarStruct.Location = New System.Drawing.Point(9, 57)
         Me.lblCovarStruct.Name = "lblCovarStruct"
-        Me.lblCovarStruct.Size = New System.Drawing.Size(188, 16)
+        Me.lblCovarStruct.Size = New System.Drawing.Size(188, 32)
         Me.lblCovarStruct.TabIndex = 15
-        Me.lblCovarStruct.Text = "Residual Covariance Structure"
+        Me.lblCovarStruct.Text = "R-side Residual Covariance Structure"
         '
         'lblFitMethod
         '
@@ -706,7 +720,7 @@ Partial Class Ui19LMM
         '
         Me.lblAlpha.AutoSize = True
         Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAlpha.Location = New System.Drawing.Point(384, 169)
+        Me.lblAlpha.Location = New System.Drawing.Point(393, 223)
         Me.lblAlpha.Name = "lblAlpha"
         Me.lblAlpha.Size = New System.Drawing.Size(41, 16)
         Me.lblAlpha.TabIndex = 13
@@ -717,7 +731,7 @@ Partial Class Ui19LMM
         Me.spinBtnAlpha.DecimalPlaces = 3
         Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnAlpha.Location = New System.Drawing.Point(432, 167)
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(441, 221)
         Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
         Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlpha.Name = "spinBtnAlpha"
@@ -728,7 +742,7 @@ Partial Class Ui19LMM
         'ckResiduals
         '
         Me.ckResiduals.AutoSize = True
-        Me.ckResiduals.Location = New System.Drawing.Point(387, 141)
+        Me.ckResiduals.Location = New System.Drawing.Point(396, 195)
         Me.ckResiduals.Name = "ckResiduals"
         Me.ckResiduals.Size = New System.Drawing.Size(147, 20)
         Me.ckResiduals.TabIndex = 3
@@ -900,6 +914,108 @@ Partial Class Ui19LMM
         Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
         '
+        'cbRandomCovarStruct
+        '
+        Me.cbRandomCovarStruct.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbRandomCovarStruct.FormattingEnabled = True
+        Me.cbRandomCovarStruct.Location = New System.Drawing.Point(203, 119)
+        Me.cbRandomCovarStruct.Name = "cbRandomCovarStruct"
+        Me.cbRandomCovarStruct.Size = New System.Drawing.Size(232, 24)
+        Me.cbRandomCovarStruct.TabIndex = 22
+        '
+        'lblRandomCovarStruct
+        '
+        Me.lblRandomCovarStruct.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRandomCovarStruct.Location = New System.Drawing.Point(12, 122)
+        Me.lblRandomCovarStruct.Name = "lblRandomCovarStruct"
+        Me.lblRandomCovarStruct.Size = New System.Drawing.Size(189, 37)
+        Me.lblRandomCovarStruct.TabIndex = 21
+        Me.lblRandomCovarStruct.Text = "G-side Random-Effects Covariance Structure"
+        '
+        'btClearAllSelectedRandomEffects
+        '
+        Me.btClearAllSelectedRandomEffects.AutoEllipsis = True
+        Me.btClearAllSelectedRandomEffects.Location = New System.Drawing.Point(726, 432)
+        Me.btClearAllSelectedRandomEffects.Name = "btClearAllSelectedRandomEffects"
+        Me.btClearAllSelectedRandomEffects.Size = New System.Drawing.Size(94, 23)
+        Me.btClearAllSelectedRandomEffects.TabIndex = 38
+        Me.btClearAllSelectedRandomEffects.Text = "Clear All"
+        Me.btClearAllSelectedRandomEffects.UseVisualStyleBackColor = True
+        '
+        'tbRemoveSelectedRandomEffects
+        '
+        Me.tbRemoveSelectedRandomEffects.AutoEllipsis = True
+        Me.tbRemoveSelectedRandomEffects.Location = New System.Drawing.Point(562, 433)
+        Me.tbRemoveSelectedRandomEffects.Name = "tbRemoveSelectedRandomEffects"
+        Me.tbRemoveSelectedRandomEffects.Size = New System.Drawing.Size(91, 23)
+        Me.tbRemoveSelectedRandomEffects.TabIndex = 37
+        Me.tbRemoveSelectedRandomEffects.Text = "Remove"
+        Me.tbRemoveSelectedRandomEffects.UseVisualStyleBackColor = True
+        '
+        'grpLMMOutputs
+        '
+        Me.grpLMMOutputs.Controls.Add(Me.ckLMMClassInfo)
+        Me.grpLMMOutputs.Controls.Add(Me.ckLMMRandomEffects)
+        Me.grpLMMOutputs.Controls.Add(Me.ckLMMRCovarianceMatrix)
+        Me.grpLMMOutputs.Controls.Add(Me.ckLMMGCovarianceMatrix)
+        Me.grpLMMOutputs.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpLMMOutputs.Location = New System.Drawing.Point(6, 195)
+        Me.grpLMMOutputs.Name = "grpLMMOutputs"
+        Me.grpLMMOutputs.Size = New System.Drawing.Size(368, 124)
+        Me.grpLMMOutputs.TabIndex = 18
+        Me.grpLMMOutputs.TabStop = False
+        Me.grpLMMOutputs.Text = "LMM outputs"
+        '
+        'ckLMMGCovarianceMatrix
+        '
+        Me.ckLMMGCovarianceMatrix.AutoSize = True
+        Me.ckLMMGCovarianceMatrix.Checked = True
+        Me.ckLMMGCovarianceMatrix.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckLMMGCovarianceMatrix.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckLMMGCovarianceMatrix.Location = New System.Drawing.Point(6, 21)
+        Me.ckLMMGCovarianceMatrix.Name = "ckLMMGCovarianceMatrix"
+        Me.ckLMMGCovarianceMatrix.Size = New System.Drawing.Size(217, 20)
+        Me.ckLMMGCovarianceMatrix.TabIndex = 6
+        Me.ckLMMGCovarianceMatrix.Text = "Output G covariance/correlation"
+        Me.ckLMMGCovarianceMatrix.UseVisualStyleBackColor = True
+        '
+        'ckLMMRCovarianceMatrix
+        '
+        Me.ckLMMRCovarianceMatrix.AutoSize = True
+        Me.ckLMMRCovarianceMatrix.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckLMMRCovarianceMatrix.Location = New System.Drawing.Point(6, 47)
+        Me.ckLMMRCovarianceMatrix.Name = "ckLMMRCovarianceMatrix"
+        Me.ckLMMRCovarianceMatrix.Size = New System.Drawing.Size(217, 20)
+        Me.ckLMMRCovarianceMatrix.TabIndex = 7
+        Me.ckLMMRCovarianceMatrix.Text = "Output R covariance/correlation"
+        Me.ckLMMRCovarianceMatrix.UseVisualStyleBackColor = True
+        '
+        'ckLMMRandomEffects
+        '
+        Me.ckLMMRandomEffects.AutoSize = True
+        Me.ckLMMRandomEffects.Checked = True
+        Me.ckLMMRandomEffects.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckLMMRandomEffects.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckLMMRandomEffects.Location = New System.Drawing.Point(6, 73)
+        Me.ckLMMRandomEffects.Name = "ckLMMRandomEffects"
+        Me.ckLMMRandomEffects.Size = New System.Drawing.Size(256, 20)
+        Me.ckLMMRandomEffects.TabIndex = 8
+        Me.ckLMMRandomEffects.Text = "Output BLUPs / subject random effects"
+        Me.ckLMMRandomEffects.UseVisualStyleBackColor = True
+        '
+        'ckLMMClassInfo
+        '
+        Me.ckLMMClassInfo.AutoSize = True
+        Me.ckLMMClassInfo.Checked = True
+        Me.ckLMMClassInfo.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckLMMClassInfo.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckLMMClassInfo.Location = New System.Drawing.Point(6, 99)
+        Me.ckLMMClassInfo.Name = "ckLMMClassInfo"
+        Me.ckLMMClassInfo.Size = New System.Drawing.Size(163, 20)
+        Me.ckLMMClassInfo.TabIndex = 9
+        Me.ckLMMClassInfo.Text = "Class level information"
+        Me.ckLMMClassInfo.UseVisualStyleBackColor = True
+        '
         'Ui19LMM
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -929,6 +1045,8 @@ Partial Class Ui19LMM
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpIterOptions.ResumeLayout(False)
         Me.grpIterOptions.PerformLayout()
+        Me.grpLMMOutputs.ResumeLayout(False)
+        Me.grpLMMOutputs.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -968,8 +1086,8 @@ Partial Class Ui19LMM
     Friend WithEvents btnFixedPoly As Windows.Forms.Button
     Friend WithEvents cbFixedIntercept As Windows.Forms.CheckBox
     Friend WithEvents btAddFixedEffect As Windows.Forms.Button
-    Friend WithEvents btClearAllSelectedEffects As Windows.Forms.Button
-    Friend WithEvents tbRemoveSelectedEffects As Windows.Forms.Button
+    Friend WithEvents btClearAllSelectedFixedEffects As Windows.Forms.Button
+    Friend WithEvents tbRemoveSelectedFixedEffects As Windows.Forms.Button
     Friend WithEvents lbSelectedFixedEffectsList As Windows.Forms.ListBox
     Friend WithEvents lbSelectedVariables As Windows.Forms.ListBox
     Friend WithEvents lblSelectedEffectsList As Windows.Forms.Label
@@ -1008,4 +1126,13 @@ Partial Class Ui19LMM
     Friend WithEvents btnRandomPoly As Windows.Forms.Button
     Friend WithEvents cbRandomIntercept As Windows.Forms.CheckBox
     Friend WithEvents btAddRandomEffect As Windows.Forms.Button
+    Friend WithEvents cbRandomCovarStruct As Windows.Forms.ComboBox
+    Friend WithEvents lblRandomCovarStruct As Windows.Forms.Label
+    Friend WithEvents btClearAllSelectedRandomEffects As Windows.Forms.Button
+    Friend WithEvents tbRemoveSelectedRandomEffects As Windows.Forms.Button
+    Friend WithEvents grpLMMOutputs As Windows.Forms.GroupBox
+    Friend WithEvents ckLMMClassInfo As Windows.Forms.CheckBox
+    Friend WithEvents ckLMMRandomEffects As Windows.Forms.CheckBox
+    Friend WithEvents ckLMMRCovarianceMatrix As Windows.Forms.CheckBox
+    Friend WithEvents ckLMMGCovarianceMatrix As Windows.Forms.CheckBox
 End Class

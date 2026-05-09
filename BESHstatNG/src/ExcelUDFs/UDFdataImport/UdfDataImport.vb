@@ -14,7 +14,88 @@ Partial Friend Module UdfDataImport
                                       varNames As Object,
                                       allowMissing As Boolean,
                                       ByRef data As DataObj) As Boolean
-        Return UDFhelpers.TryBuildNumericDataObject(input, varNames, allowMissing, data)
+        Return TryBuildNumericDataObject(input, varNames, allowMissing, data)
+    End Function
+
+    ''' <summary>
+    ''' Returns True when every supplied value is finite; optionally requires strictly positive values.
+    ''' A Nothing array is treated as valid to preserve optional offset/weight semantics.
+    ''' </summary>
+    Friend Function HasOnlyFinite(values() As Double, Optional requirePositive As Boolean = False) As Boolean
+        If values Is Nothing Then Return True
+
+        For Each v As Double In values
+            If Double.IsNaN(v) OrElse Double.IsInfinity(v) Then Return False
+            If requirePositive AndAlso v <= 0.0R Then Return False
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Parses an optional Cox ties-method argument.
+    ''' </summary>
+    Friend Function GetCoxTieMethod(arg As Object, defaultValue As TieMethod) As TieMethod
+        Dim s As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(arg)
+        If String.IsNullOrWhiteSpace(s) Then Return defaultValue
+
+        Select Case s.Trim().ToLowerInvariant()
+            Case "breslow"
+                Return TieMethod.Breslow
+            Case "efron"
+                Return TieMethod.Efron
+            Case "exact"
+                Return TieMethod.Exact
+            Case Else
+                Return defaultValue
+        End Select
+    End Function
+
+    ''' <summary>
+    ''' Extracts an integer response column from the first column of an imported regression DataObj.
+    ''' Values must be finite and exactly integer-valued after normal DataObj row screening.
+    ''' </summary>
+    Friend Function TryGetIntegerOutcomeColumn(data As DataObj, ByRef values As List(Of Integer)) As Boolean
+        values = New List(Of Integer)()
+
+        If data Is Nothing OrElse data.nRows < 1 OrElse data.nCols < 1 Then Return False
+
+        For i As Integer = 0 To data.nRows - 1
+            Dim d As Double = CDbl(data.FinalData(i, 0))
+            If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then Return False
+
+            Dim rounded As Double = Math.Round(d)
+            If Math.Abs(d - rounded) > 0.0000001R Then Return False
+
+            values.Add(CInt(rounded))
+        Next
+
+        Return values.Count > 0
+    End Function
+
+    ''' <summary>
+    ''' Extracts a non-negative integer response vector from the first column of a numeric data matrix.
+    ''' Used by count-model UDFs where the response must be a valid count.
+    ''' </summary>
+    Friend Function TryGetNonnegativeIntegerResponse(data(,) As Double, ByRef response() As Integer) As Boolean
+        response = Nothing
+        If data Is Nothing Then Return False
+
+        Dim n As Integer = data.GetLength(0)
+        If n < 1 Then Return False
+
+        ReDim response(n - 1)
+        For i As Integer = 0 To n - 1
+            Dim yi As Double = data(i, 0)
+            If Double.IsNaN(yi) OrElse Double.IsInfinity(yi) Then Return False
+
+            Dim yr As Double = Math.Round(yi)
+            If yi < 0.0R OrElse Math.Abs(yi - yr) > 0.0000001R Then Return False
+
+            response(i) = CInt(yr)
+        Next
+
+        Return True
     End Function
 
     ''' <summary>
@@ -27,11 +108,11 @@ Partial Friend Module UdfDataImport
         values = Nothing
         detectedName = String.Empty
 
-        Dim arr As Object(,) = UDFhelpers.Get2D(input)
+        Dim arr As Object(,) = Get2D(input)
         If arr Is Nothing Then Return False
         If arr.GetLength(1) <> 1 Then Return False
 
-        Dim hasHeader As Boolean = UDFhelpers.LooksLikeSingleColumnHeader(arr)
+        Dim hasHeader As Boolean = LooksLikeSingleColumnHeader(arr)
         If hasHeader Then detectedName = Convert.ToString(arr(0, 0)).Trim()
 
         Dim startRow As Integer = If(hasHeader, 1, 0)
@@ -52,7 +133,7 @@ Partial Friend Module UdfDataImport
     Friend Function TryGetGroupedNumericColumns(input As Object,
                                                 ByRef groups()() As Double,
                                                 ByRef names() As String) As Boolean
-        Return UDFhelpers.TryReadGroupedNumericColumns(input, groups, names)
+        Return TryReadGroupedNumericColumns(input, groups, names)
     End Function
 
     ''' <summary>
@@ -62,7 +143,7 @@ Partial Friend Module UdfDataImport
                                                     y As Object,
                                                     ByRef groups()() As Double,
                                                     ByRef names() As String) As Boolean
-        Return UDFhelpers.TryReadIndependentNumericColumns(x, y, groups, names)
+        Return TryReadIndependentNumericColumns(x, y, groups, names)
     End Function
 
     ''' <summary>
@@ -72,7 +153,7 @@ Partial Friend Module UdfDataImport
                                                y As Object,
                                                ByRef mat As Double(,),
                                                ByRef names() As String) As Boolean
-        Return UDFhelpers.TryReadPairedNumericColumns(x, y, mat, names)
+        Return TryReadPairedNumericColumns(x, y, mat, names)
     End Function
 
     ''' <summary>
@@ -81,14 +162,122 @@ Partial Friend Module UdfDataImport
     Friend Function TryGetCompleteNumericMatrixWithHeaders(input As Object,
                                                            ByRef mat As Double(,),
                                                            ByRef names() As String) As Boolean
-        Return UDFhelpers.TryReadCompleteNumericMatrixWithHeaders(input, mat, names)
+        Return TryReadCompleteNumericMatrixWithHeaders(input, mat, names)
     End Function
 
     ''' <summary>
     ''' Imports a single numeric column, preserving row alignment by returning Double.NaN for invalid/non-numeric cells.
     ''' </summary>
     Friend Function TryGetNumericColumn(input As Object, ByRef values As List(Of Double)) As Boolean
-        Return UDFhelpers.TryReadNumericColumn(input, values)
+        Return TryReadNumericColumn(input, values)
+    End Function
+
+    ''' <summary>
+    ''' Imports a required offset-only prediction column for count-model prediction paths.
+    ''' </summary>
+    Friend Function TryGetRequiredOffsetPredictionInputs(newOffset As Object,
+                                                         ByRef offsetVals() As Double,
+                                                         ByRef nRows As Integer) As Boolean
+        offsetVals = Nothing
+        nRows = 0
+
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(newOffset) Then Return False
+
+        Dim values As List(Of Double) = Nothing
+        If Not TryGetNumericColumn(newOffset, values) Then Return False
+        If values Is Nothing OrElse values.Count < 1 Then Return False
+
+        offsetVals = values.ToArray()
+        If Not UdfDataImport.HasOnlyFinite(offsetVals) Then Return False
+
+        nRows = offsetVals.Length
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports a one-dimensional numeric vector from comma/semicolon/space/tab-delimited text or a one-row / one-column range.
+    ''' This preserves legacy GEE start-parameter parsing semantics.
+    ''' </summary>
+    Friend Function TryGetLooseNumericVector(input As Object, ByRef values() As Double) As Boolean
+        values = Nothing
+
+        If Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(input) Then Return False
+
+        Dim s As String = TryCast(input, String)
+        If s IsNot Nothing Then
+            Dim parts As String() = s.Split({","c, ";"c, " "c, ChrW(9)}, StringSplitOptions.RemoveEmptyEntries)
+            If parts.Length < 1 Then Return False
+
+            ReDim values(parts.Length - 1)
+            For i As Integer = 0 To parts.Length - 1
+                Dim parsed As Double
+                If Not Double.TryParse(parts(i), Global.System.Globalization.NumberStyles.Float Or Global.System.Globalization.NumberStyles.AllowThousands, Global.System.Globalization.CultureInfo.InvariantCulture, parsed) AndAlso
+                   Not Double.TryParse(parts(i), Global.System.Globalization.NumberStyles.Float Or Global.System.Globalization.NumberStyles.AllowThousands, Global.System.Globalization.CultureInfo.CurrentCulture, parsed) Then
+                    values = Nothing
+                    Return False
+                End If
+                If Double.IsNaN(parsed) OrElse Double.IsInfinity(parsed) Then
+                    values = Nothing
+                    Return False
+                End If
+                values(i) = parsed
+            Next
+            Return True
+        End If
+
+        Dim arr As Object(,) = Get2D(input)
+        If arr Is Nothing Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim cols As Integer = arr.GetLength(1)
+        If rows < 1 OrElse cols < 1 Then Return False
+        If rows <> 1 AndAlso cols <> 1 Then Return False
+
+        Dim count As Integer = rows * cols
+        ReDim values(count - 1)
+        Dim k As Integer = 0
+        For i As Integer = 0 To rows - 1
+            For j As Integer = 0 To cols - 1
+                Dim d As Double? = Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetDouble(arr(i, j))
+                If Not d.HasValue Then
+                    values = Nothing
+                    Return False
+                End If
+                values(k) = d.Value
+                k += 1
+            Next
+        Next
+
+        Return True
+    End Function
+
+    ''' <summary>
+    ''' Imports offset values for intercept-only prediction UDF paths.
+    ''' When an offset is required, the argument must be supplied as a finite numeric column.
+    ''' When no offset is supplied, one prediction row is implied.
+    ''' </summary>
+    Friend Function TryGetInterceptOnlyPredictionInputs(newOffset As Object,
+                                                        requireOffset As Boolean,
+                                                        ByRef nRows As Integer,
+                                                        ByRef offsetVals() As Double) As Boolean
+        nRows = 0
+        offsetVals = Nothing
+
+        Dim hasOffsetArg As Boolean = Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(newOffset)
+        If requireOffset AndAlso Not hasOffsetArg Then Return False
+
+        If hasOffsetArg Then
+            Dim values As List(Of Double) = Nothing
+            If Not TryGetNumericColumn(newOffset, values) Then Return False
+            If values Is Nothing OrElse values.Count < 1 Then Return False
+            offsetVals = values.ToArray()
+            If Not UdfDataImport.HasOnlyFinite(offsetVals) Then Return False
+            nRows = offsetVals.Length
+            Return True
+        End If
+
+        nRows = 1
+        Return True
     End Function
 
     ''' <summary>
@@ -98,15 +287,24 @@ Partial Friend Module UdfDataImport
                                         ByRef mat As Double(,),
                                         ByRef rows As Integer,
                                         ByRef cols As Integer) As Boolean
-        Return UDFhelpers.TryReadNumericMatrix(input, mat, rows, cols)
+        Return TryReadNumericMatrix(input, mat, rows, cols)
+    End Function
+
+    ''' <summary>
+    ''' Imports a trimmed single-column text range and returns any inferred header/name.
+    ''' This is used for aligned categorical/group inputs while keeping raw range parsing behind the import facade.
+    ''' </summary>
+    Friend Function TryGetTextColumn(input As Object,
+                                     ByRef column(,) As Object,
+                                     ByRef inferredName As String) As Boolean
+        Return TryGetTrimmedColumnObject(input, column, inferredName, "text")
     End Function
 
     ''' <summary>
     ''' Imports a single-column sample for legacy nonparametric UDFs, ignoring non-numeric cells.
     ''' </summary>
-    Friend Function GetNumericColumnIgnoringNonNumeric(input As Object,
-                                                       ByRef err As ExcelError?) As Double()
-        Return UDFhelpers.ExtractNumericColumnIgnoringNonNumeric(input, err)
+    Friend Function GetNumericColumnIgnoringNonNumeric(input As Object, ByRef err As ExcelError?) As Double()
+        Return ExtractNumericColumnIgnoringNonNumeric(input, err)
     End Function
 
     ''' <summary>
@@ -115,7 +313,7 @@ Partial Friend Module UdfDataImport
     Friend Function GetPairedNumericColumnsIgnoringNonNumeric(x As Object,
                                                               y As Object,
                                                               ByRef err As ExcelError?) As Double(,)
-        Return UDFhelpers.ExtractPairedNumericColumnsIgnoringNonNumeric(x, y, err)
+        Return ExtractPairedNumericColumnsIgnoringNonNumeric(x, y, err)
     End Function
 
     ''' <summary>
@@ -123,7 +321,7 @@ Partial Friend Module UdfDataImport
     ''' </summary>
     Friend Function GetNumericGroupsFromColumnsIgnoringNonNumeric(input As Object,
                                                                   ByRef err As ExcelError?) As Double()()
-        Return UDFhelpers.ExtractNumericGroupsFromColumnsIgnoringNonNumeric(input, err)
+        Return ExtractNumericGroupsFromColumnsIgnoringNonNumeric(input, err)
     End Function
 
     ''' <summary>
@@ -133,7 +331,7 @@ Partial Friend Module UdfDataImport
                                                              ByRef mat As Double(,),
                                                              ByRef noRows As Integer,
                                                              ByRef noCols As Integer) As Boolean
-        Return UDFhelpers.ExtractCompleteNumericMatrixCompleteCases(input, mat, noRows, noCols)
+        Return ExtractCompleteNumericMatrixCompleteCases(input, mat, noRows, noCols)
     End Function
 
     ''' <summary>
@@ -152,7 +350,7 @@ Partial Friend Module UdfDataImport
             Return True
         End If
 
-        Dim arr As Object(,) = UDFhelpers.Get2D(input)
+        Dim arr As Object(,) = Get2D(input)
         If arr Is Nothing Then Return False
 
         Dim rows As Integer = arr.GetLength(0)
@@ -248,8 +446,8 @@ Partial Friend Module UdfDataImport
         groupMatrices = Nothing
         groupNames = Nothing
 
-        Dim dataArr As Object(,) = UDFhelpers.Get2D(data)
-        Dim groupArr As Object(,) = UDFhelpers.Get2D(groups)
+        Dim dataArr As Object(,) = Get2D(data)
+        Dim groupArr As Object(,) = Get2D(groups)
         If dataArr Is Nothing OrElse groupArr Is Nothing Then Return False
         If groupArr.GetLength(1) <> 1 Then Return False
 
@@ -262,7 +460,7 @@ Partial Friend Module UdfDataImport
             dataColIndexes(c) = c
         Next
 
-        Dim dataHasHeader As Boolean = UDFhelpers.LooksLikeHeaderRow(dataArr, dataColIndexes)
+        Dim dataHasHeader As Boolean = LooksLikeHeaderRow(dataArr, dataColIndexes)
         Dim startData As Integer = If(dataHasHeader, 1, 0)
 
         Dim usableRows As Integer = dataRows - startData
@@ -322,7 +520,7 @@ Partial Friend Module UdfDataImport
         data = Nothing
         names = Nothing
 
-        Dim arr As Object(,) = UDFhelpers.Get2D(input)
+        Dim arr As Object(,) = Get2D(input)
         If arr Is Nothing Then Return False
 
         Dim rows As Integer = arr.GetLength(0)
@@ -388,7 +586,7 @@ Partial Friend Module UdfDataImport
                                   offset As Object,
                                   weights As Object,
                                   ByRef data As glmData) As Boolean
-        Return UDFhelpers.TryBuildGlmDataFromUdfArgs(y, x, varNames, offset, weights, data)
+        Return TryBuildGlmDataFromUdfArgs(y, x, varNames, offset, weights, data)
     End Function
 
     ''' <summary>
@@ -399,7 +597,7 @@ Partial Friend Module UdfDataImport
                                         offset As Object,
                                         requireOffset As Boolean,
                                         ByRef data As glmData) As Boolean
-        Return UDFhelpers.TryBuildPredictorDataFromUdfArgs(x, expectedPredictorNames, offset, requireOffset, data)
+        Return TryBuildPredictorDataFromUdfArgs(x, expectedPredictorNames, offset, requireOffset, data)
     End Function
 
     ''' <summary>
@@ -413,7 +611,7 @@ Partial Friend Module UdfDataImport
                                   offset As Object,
                                   weights As Object,
                                   ByRef data As geeData) As Boolean
-        Return UDFhelpers.TryBuildGeeDataFromUdfArgs(y, x, clusterId, time, varNames, offset, weights, data)
+        Return TryBuildGeeDataFromUdfArgs(y, x, clusterId, time, varNames, offset, weights, data)
     End Function
 
     ''' <summary>
@@ -425,7 +623,7 @@ Partial Friend Module UdfDataImport
                                   varNames As Object,
                                   strata As Object,
                                   ByRef data As CoxPHData) As Boolean
-        Return UDFhelpers.TryBuildCoxDataFromUdfArgs(time, status, x, varNames, strata, data)
+        Return TryBuildCoxDataFromUdfArgs(time, status, x, varNames, strata, data)
     End Function
 
     ''' <summary>
@@ -452,9 +650,9 @@ Partial Friend Module UdfDataImport
         Dim inferredCountNames() As String = Nothing
         Dim inferredZeroNames() As String = Nothing
 
-        If Not UDFhelpers.TryGetTrimmedColumnObject(y, yCol, yName, "numeric") Then Return False
-        If Not UDFhelpers.TryGetTrimmedNumericMatrixObject(xCount, xCountMat, inferredCountNames) Then Return False
-        If Not UDFhelpers.TryGetTrimmedNumericMatrixObject(xZero, xZeroMat, inferredZeroNames) Then Return False
+        If Not TryGetTrimmedColumnObject(y, yCol, yName, "numeric") Then Return False
+        If Not TryGetTrimmedNumericMatrixObject(xCount, xCountMat, inferredCountNames) Then Return False
+        If Not TryGetTrimmedNumericMatrixObject(xZero, xZeroMat, inferredZeroNames) Then Return False
 
         Dim rowCount As Integer = yCol.GetLength(0)
         If xCountMat.GetLength(0) <> rowCount Then Return False
@@ -462,12 +660,12 @@ Partial Friend Module UdfDataImport
 
         Dim hasOffset As Boolean = Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(offset)
         If hasOffset Then
-            If Not UDFhelpers.TryGetTrimmedColumnObject(offset, offsetCol, offsetName, "numeric") Then Return False
+            If Not TryGetTrimmedColumnObject(offset, offsetCol, offsetName, "numeric") Then Return False
             If offsetCol.GetLength(0) <> rowCount Then Return False
         End If
 
-        Dim countPredictorNames As String() = UDFhelpers.ResolveImportedPredictorNames(countVarNames, inferredCountNames)
-        Dim zeroPredictorNames As String() = UDFhelpers.ResolveImportedPredictorNames(zeroVarNames, inferredZeroNames)
+        Dim countPredictorNames As String() = ResolveImportedPredictorNames(countVarNames, inferredCountNames)
+        Dim zeroPredictorNames As String() = ResolveImportedPredictorNames(zeroVarNames, inferredZeroNames)
 
         Dim countCols As Integer = xCountMat.GetLength(1)
         Dim zeroCols As Integer = xZeroMat.GetLength(1)
@@ -528,7 +726,7 @@ Partial Friend Module UdfDataImport
         If Not ResponseColumnsMatchObjects(countOut.FinalData, zeroOut.FinalData) Then Return False
         Dim response() As Integer = Nothing
         If Not TryExtractNonnegativeIntegerResponseObjects(countOut.FinalData, response) Then Return False
-        If hasOffset AndAlso Not UDFhelpers.HasOnlyFinite(countOut.OffsetData) Then Return False
+        If hasOffset AndAlso Not UdfDataImport.HasOnlyFinite(countOut.OffsetData) Then Return False
 
         countData = countOut
         zeroData = zeroOut

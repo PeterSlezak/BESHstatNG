@@ -79,7 +79,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(data, groups, names) Then Return ExcelError.ExcelErrorValue
                 If groups Is Nothing OrElse names Is Nothing Then Return ExcelError.ExcelErrorNum
 
-                Dim resolvedRule As String = ResolveHistogramRule(binRule)
+                Dim resolvedRule As String = Global.BESHStatNG.UdfDataImport.GetHistogramBinRule(binRule)
                 Dim parts As New List(Of Object(,))()
 
                 For i As Integer = 0 To groups.Length - 1
@@ -151,7 +151,7 @@ Namespace WorksheetFunctions
                 If Not Global.BESHStatNG.UdfDataImport.TryGetGroupedNumericColumns(data, groups, names) Then Return ExcelError.ExcelErrorValue
                 If groups Is Nothing OrElse names Is Nothing Then Return ExcelError.ExcelErrorNum
 
-                Dim resolvedRule As String = ResolveHistogramRule(binRule)
+                Dim resolvedRule As String = Global.BESHStatNG.UdfDataImport.GetHistogramBinRule(binRule)
                 Dim parts As New List(Of Object(,))()
 
                 For i As Integer = 0 To groups.Length - 1
@@ -538,25 +538,6 @@ Namespace WorksheetFunctions
             Next
 
             Return PrepareResultTableForUdf(out)
-        End Function
-
-
-        Private Function ResolveHistogramRule(arg As Object) As String
-            Dim token As String = UDFhelpers.NormalizeToken(AsString(arg))
-            If String.IsNullOrWhiteSpace(token) Then Return "(Sturges)"
-
-            Select Case token
-                Case "sturges", "sturge"
-                    Return "(Sturges)"
-                Case "doane", "doan"
-                    Return "(Doane)"
-                Case "scott"
-                    Return "(Scott)"
-                Case "freedmandiaconis", "freedman diaconis", "fd", "freedman-diaconis"
-                    Return "(Freedman-Diaconis)"
-                Case Else
-                    Return "(Sturges)"
-            End Select
         End Function
 
         Private Function BuildRocPointsTable(cutoffTable As Object(,), isLowerDirection As Boolean) As Object(,)

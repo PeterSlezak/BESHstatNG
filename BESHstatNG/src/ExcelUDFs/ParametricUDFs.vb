@@ -949,7 +949,7 @@ Namespace WorksheetFunctions
         ''' </returns>
         Friend Function ResolveNames(explicitNames As Object, detectedNames() As String, expectedCount As Integer, prefix As String) As String()
             If Not IsMissingArg(explicitNames) Then
-                Dim names = UDFhelpers.GetVarNames(explicitNames, expectedCount)
+                Dim names = Global.BESHStatNG.UdfDataImport.GetVariableNames(explicitNames, expectedCount)
                 For i As Integer = 0 To names.Length - 1
                     If String.IsNullOrWhiteSpace(names(i)) Then names(i) = prefix & " " & (i + 1).ToString()
                 Next

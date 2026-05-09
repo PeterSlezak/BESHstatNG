@@ -32,9 +32,9 @@ Partial Friend Module UdfDataImport
         Dim inferredMarker As String = Nothing
         Dim inferredStatus As String = Nothing
 
-        If Not UDFhelpers.TryGetTrimmedColumnObject(marker, markerCol, inferredMarker, "numeric") Then Return False
-        If Not UDFhelpers.TryGetTrimmedColumnObject(status, statusCol, inferredStatus, "binary") Then
-            If Not UDFhelpers.TryGetTrimmedColumnObject(status, statusCol, inferredStatus, "text") Then Return False
+        If Not TryGetTrimmedColumnObject(marker, markerCol, inferredMarker, "numeric") Then Return False
+        If Not TryGetTrimmedColumnObject(status, statusCol, inferredStatus, "binary") Then
+            If Not TryGetTrimmedColumnObject(status, statusCol, inferredStatus, "text") Then Return False
         End If
 
         If markerCol.GetLength(0) <> statusCol.GetLength(0) Then
@@ -54,7 +54,7 @@ Partial Friend Module UdfDataImport
 
         Dim pos As New List(Of Double)()
         Dim neg As New List(Of Double)()
-        Dim normalizedPositive As String = UDFhelpers.NormalizeToken(positiveLabel)
+        Dim normalizedPositive As String = NormalizeOptionKey(positiveLabel)
 
         For i As Integer = 0 To markerCol.GetLength(0) - 1
             Dim x As Double
@@ -68,7 +68,7 @@ Partial Friend Module UdfDataImport
             If normalizedPositive = "1" AndAlso Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetStatus01Flexible(statusCol(i, 0), iv) Then
                 isPositive = (iv = 1)
             Else
-                isPositive = String.Equals(UDFhelpers.NormalizeToken(label), normalizedPositive, StringComparison.OrdinalIgnoreCase)
+                isPositive = String.Equals(NormalizeOptionKey(label), normalizedPositive, StringComparison.OrdinalIgnoreCase)
             End If
 
             If isLowerDirection Then x = -x
@@ -99,13 +99,13 @@ Partial Friend Module UdfDataImport
         Dim statusName As String = Nothing
         Dim groupName As String = Nothing
 
-        If Not UDFhelpers.TryGetTrimmedColumnObject(time, timeCol, timeName, "numeric") Then Return False
-        If Not UDFhelpers.TryGetTrimmedColumnObject(status, statusCol, statusName, "binary") Then Return False
+        If Not TryGetTrimmedColumnObject(time, timeCol, timeName, "numeric") Then Return False
+        If Not TryGetTrimmedColumnObject(status, statusCol, statusName, "binary") Then Return False
         If timeCol.GetLength(0) <> statusCol.GetLength(0) Then Return False
 
         Dim hasGroup As Boolean = Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsMissingArg(group)
         If hasGroup Then
-            If Not UDFhelpers.TryGetTrimmedColumnObject(group, groupCol, groupName, "text") Then Return False
+            If Not TryGetTrimmedColumnObject(group, groupCol, groupName, "text") Then Return False
             If groupCol.GetLength(0) <> timeCol.GetLength(0) Then Return False
         End If
 
@@ -141,7 +141,7 @@ Partial Friend Module UdfDataImport
     End Function
 
     Private Function ParseRocDirection(direction As Object) As Boolean
-        Dim token As String = UDFhelpers.NormalizeToken(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(direction))
+        Dim token As String = NormalizeOptionKey(Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.AsString(direction))
         If String.IsNullOrWhiteSpace(token) Then Return False
         Return (token = "lower" OrElse token = "low" OrElse token = "smaller" OrElse token = "decreasing")
     End Function
@@ -169,7 +169,7 @@ Partial Friend Module UdfDataImport
                 allBinary01 = False
             End If
 
-            Dim norm As String = UDFhelpers.NormalizeToken(s)
+            Dim norm As String = NormalizeOptionKey(s)
             If Not distinctNormalized.Contains(norm) Then
                 distinctNormalized.Add(norm)
                 distinctTokens.Add(s)
@@ -182,7 +182,7 @@ Partial Friend Module UdfDataImport
         End If
 
         If distinctTokens.Count = 2 Then
-            Dim norms = distinctTokens.Select(Function(x) UDFhelpers.NormalizeToken(x)).ToArray()
+            Dim norms = distinctTokens.Select(Function(x) NormalizeOptionKey(x)).ToArray()
             For i As Integer = 0 To norms.Length - 1
                 Select Case norms(i)
                     Case "positive", "pos", "case", "cases", "event", "events", "yes", "true"
