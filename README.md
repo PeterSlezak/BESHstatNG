@@ -39,6 +39,7 @@ Based on the current source and documentation in this repository, BESHStatNG inc
 - Contingency tables and proportions
 - Correlation and association measures
 - Linear, generalized linear, negative binomial, ordinal, multinomial, and zero-inflated regression
+- Mixed Models for Repeated Measures (MMRM)
 - Generalized Estimating Equations (GEE)
 - Survival analysis, including Kaplan–Meier, log-rank, and Cox regression
 - Multivariate methods, including PCA, factor analysis, clustering, correspondence analysis, and Hotelling's T²
