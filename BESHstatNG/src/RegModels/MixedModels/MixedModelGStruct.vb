@@ -36,7 +36,7 @@ Namespace regression
         ''' </summary>
         ''' <param name="type">
         ''' Structure name. Matching is case-insensitive and supports short aliases such as
-        ''' <c>RI</c>, <c>RI+S</c>, <c>UN</c>, and <c>NONE</c>.
+        ''' <c>RI</c>, <c>RI+S</c>, <c>VC</c>, <c>UN</c>, and <c>NONE</c>.
         ''' </param>
         ''' <returns>A new <see cref="MixedModelGStruct"/> implementation.</returns>
         ''' <exception cref="ApplicationException">Thrown when the structure name is unsupported.</exception>
@@ -53,6 +53,35 @@ Namespace regression
                 OrElse normalized = "random intercept and slope" OrElse normalized = "ri+s" _
                 OrElse normalized = "ris" Then
                 f = New RandomInterceptSlope()
+            ElseIf normalized = "variance components (vc/diag)" OrElse normalized = "variance components" _
+                OrElse normalized = "variance component" OrElse normalized = "vc" _
+                OrElse normalized = "diag" OrElse normalized = "diagonal" _
+                OrElse normalized = "diagonal random effects" OrElse normalized = "independent random effects" Then
+                f = New VarianceComponentsRandomEffects()
+            ElseIf normalized = "identity" OrElse normalized = "id" OrElse normalized = "identity random effects" _
+                OrElse normalized = "equal variance independent" Then
+                f = New IdentityRandomEffects()
+            ElseIf normalized = "compound symmetry" OrElse normalized = "compound symmetry (cs)" _
+                OrElse normalized = "cs" OrElse normalized = "exchangeable" OrElse normalized = "exchangeable random effects" Then
+                f = New CompoundSymmetryRandomEffects()
+            ElseIf normalized = "heterogeneous compound symmetry" OrElse normalized = "heterogeneous compound symmetry (csh)" _
+                OrElse normalized = "csh" OrElse normalized = "cshp" OrElse normalized = "heterogeneous cs" Then
+                f = New HeterogeneousCompoundSymmetryRandomEffects()
+            ElseIf normalized = "autoregressive" OrElse normalized = "autoregressive (ar1)" _
+                OrElse normalized = "ar1" OrElse normalized = "ar(1)" OrElse normalized = "ar 1" Then
+                f = New AutoregressiveRandomEffects()
+            ElseIf normalized = "heterogeneous autoregressive" OrElse normalized = "heterogeneous autoregressive (arh1)" _
+                OrElse normalized = "heterogeneous ar1" OrElse normalized = "heterogeneous ar(1)" _
+                OrElse normalized = "arh1" OrElse normalized = "arh(1)" OrElse normalized = "arh 1" _
+                OrElse normalized = "arh" OrElse normalized = "arh1 random effects" Then
+                f = New HeterogeneousAutoregressiveRandomEffects()
+            ElseIf normalized = "toeplitz" OrElse normalized = "toeplitz (toep)" _
+                OrElse normalized = "toep" OrElse normalized = "toeplitz random effects" Then
+                f = New ToeplitzRandomEffects()
+            ElseIf normalized = "heterogeneous toeplitz" OrElse normalized = "heterogeneous toeplitz (toeph)" _
+                OrElse normalized = "toeph" OrElse normalized = "toeph random effects" _
+                OrElse normalized = "toep h" OrElse normalized = "toeplitz heterogeneous" Then
+                f = New HeterogeneousToeplitzRandomEffects()
             ElseIf normalized = "unstructured random effects" OrElse normalized = "unstructured" _
                 OrElse normalized = "un" Then
                 f = New UnstructuredRandomEffects()
@@ -99,7 +128,7 @@ Namespace regression
         ''' User-facing list of currently implemented G-side covariance structures.
         ''' </summary>
         Public Shared GStructsList() As String =
-            {"None", "Random Intercept", "Random Intercept + Slope", "Unstructured Random Effects"}
+           {"None", "Random Intercept", "Random Intercept + Slope", "Identity", "Variance Components (VC/Diag)", "Compound Symmetry (CS)", "Heterogeneous Compound Symmetry (CSH)", "Autoregressive (AR1)", "Heterogeneous Autoregressive (ARH1)", "Toeplitz (TOEP)", "Heterogeneous Toeplitz (TOEPH)", "Unstructured Random Effects"}
 
         ''' <summary>
         ''' Returns the display name of the structure.
@@ -192,6 +221,23 @@ Namespace regression
         ''' </summary>
         Protected Function CorrMap(x As Double) As Double
             Return Math.Tanh(x)
+        End Function
+
+        ''' <summary>
+        ''' Maps an unconstrained internal parameter to a correlation in a structure-specific interval.
+        ''' </summary>
+        Protected Function CorrMapBounded(x As Double, lower As Double, upper As Double) As Double
+            If lower >= 0.0 OrElse upper <= 0.0 Then Throw New ArgumentException("Correlation bounds must contain zero.")
+            If x >= 0.0 Then Return upper * Math.Tanh(x)
+            Return lower * Math.Tanh(-x)
+        End Function
+
+        ''' <summary>
+        ''' Returns the lower correlation bound for a q-dimensional compound-symmetry matrix.
+        ''' </summary>
+        Protected Function CompoundSymmetryCorrelationLowerBound(q As Integer) As Double
+            If q <= 1 Then Return -0.999999999
+            Return -1.0 / CDbl(q - 1)
         End Function
 
         ''' <summary>
@@ -486,6 +532,569 @@ Namespace regression
 
             LogTrace($"RandomInterceptSlope.BuildG q=2; sd0={sd0}; sd1={sd1}; rho={rho}", strTrace)
             Return gMat
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Variance-components / diagonal random-effects covariance structure.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' This structure assumes the subject-specific random effects are mutually independent:
+    ''' </para>
+    ''' <para><c>G = diag(σ₁², σ₂², ..., σ_q²)</c></para>
+    ''' <para>
+    ''' Each random-effect column has its own variance, but all off-diagonal covariances are fixed to zero.
+    ''' This corresponds to the common variance-components/diagonal G-side structure, for example SAS
+    ''' <c>TYPE=VC</c>. It is useful for multiple random slopes or random interaction terms when a fully
+    ''' unstructured covariance would be too parameter-heavy.
+    ''' </para>
+    ''' </remarks>
+    Public Class VarianceComponentsRandomEffects
+        Inherits MixedModelGStruct
+
+        Public Overrides Function ToString() As String
+            Return "Variance Components (VC/Diag)"
+        End Function
+
+        Public Overrides Function ParamCount(q As Integer) As Integer
+            ValidateQ(q, 1)
+            Return q
+        End Function
+
+        Public Overrides Function ParamNames(q As Integer,
+                                             Optional randomEffectNames() As String = Nothing) As String()
+            ValidateQ(q, 1)
+            Dim names(q - 1) As String
+            For i As Integer = 0 To q - 1
+                names(i) = "logVar(" & GetRandomEffectName(i, randomEffectNames) & ")"
+            Next
+            Return names
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData,
+                                              Optional olsResidualVar As Double = 1.0) As Double()
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+            If data.Q < 1 Then
+                Throw New ApplicationException($"VarianceComponentsRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
+            End If
+
+            Dim q As Integer = data.Q
+            Dim theta(q - 1) As Double
+            Dim baseVar As Double = Math.Max(olsResidualVar, 1.0E-6)
+            Dim startVar As Double = Math.Max(baseVar / 2.0, 1.0E-6)
+            For i As Integer = 0 To q - 1
+                theta(i) = Math.Log(startVar)
+            Next
+            Return theta
+        End Function
+
+        Public Overrides Function BuildG(theta() As Double,
+                                         q As Integer,
+                                         Optional ByRef strTrace As String = Nothing) As Double(,)
+            ValidateQ(q, 1)
+            If theta Is Nothing OrElse theta.Length <> q Then
+                Throw New ApplicationException($"VarianceComponentsRandomEffects.BuildG expects theta length = {q}, but found {If(theta Is Nothing, 0, theta.Length)}.")
+            End If
+
+            Dim gMat(q - 1, q - 1) As Double
+            For i As Integer = 0 To q - 1
+                gMat(i, i) = ExpMap(theta(i))
+            Next
+
+            LogTrace($"VarianceComponentsRandomEffects.BuildG q={q}; thetaCount={theta.Length}", strTrace)
+            Return gMat
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Identity random-effects covariance: a common variance and zero covariances.
+    ''' </summary>
+    Public Class IdentityRandomEffects
+        Inherits MixedModelGStruct
+
+        Public Overrides Function ToString() As String
+            Return "Identity"
+        End Function
+
+        Public Overrides Function ParamCount(q As Integer) As Integer
+            ValidateQ(q, 1)
+            Return 1
+        End Function
+
+        Public Overrides Function ParamNames(q As Integer,
+                                             Optional randomEffectNames() As String = Nothing) As String()
+            ValidateQ(q, 1)
+            Return {"logVar(ID)"}
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData,
+                                              Optional olsResidualVar As Double = 1.0) As Double()
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+            If data.Q < 1 Then Throw New ApplicationException($"IdentityRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
+            Return {Math.Log(Math.Max(olsResidualVar / 2.0, 1.0E-6))}
+        End Function
+
+        Public Overrides Function BuildG(theta() As Double,
+                                         q As Integer,
+                                         Optional ByRef strTrace As String = Nothing) As Double(,)
+            ValidateQ(q, 1)
+            If theta Is Nothing OrElse theta.Length <> 1 Then
+                Throw New ApplicationException($"IdentityRandomEffects.BuildG expects theta length = 1, but found {If(theta Is Nothing, 0, theta.Length)}.")
+            End If
+
+            Dim varB As Double = ExpMap(theta(0))
+            Dim gMat(q - 1, q - 1) As Double
+            For i As Integer = 0 To q - 1
+                gMat(i, i) = varB
+            Next
+
+            LogTrace($"IdentityRandomEffects.BuildG q={q}; var={varB}", strTrace)
+            Return gMat
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Homogeneous compound-symmetry random-effects covariance.
+    ''' </summary>
+    Public Class CompoundSymmetryRandomEffects
+        Inherits MixedModelGStruct
+
+        Public Overrides Function ToString() As String
+            Return "Compound Symmetry (CS)"
+        End Function
+
+        Public Overrides Function ParamCount(q As Integer) As Integer
+            ValidateQ(q, 1)
+            If q = 1 Then Return 1
+            Return 2
+        End Function
+
+        Public Overrides Function ParamNames(q As Integer,
+                                             Optional randomEffectNames() As String = Nothing) As String()
+            ValidateQ(q, 1)
+            If q = 1 Then Return {"logVar(CS)"}
+            Return {"logVar(CS)", "csCorr"}
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData,
+                                              Optional olsResidualVar As Double = 1.0) As Double()
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+            If data.Q < 1 Then Throw New ApplicationException($"CompoundSymmetryRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
+            Dim theta(ParamCount(data.Q) - 1) As Double
+            theta(0) = Math.Log(Math.Max(olsResidualVar / 2.0, 1.0E-6))
+            If theta.Length > 1 Then theta(1) = 0.0
+            Return theta
+        End Function
+
+        Public Overrides Function BuildG(theta() As Double,
+                                         q As Integer,
+                                         Optional ByRef strTrace As String = Nothing) As Double(,)
+            ValidateQ(q, 1)
+            Dim expected As Integer = ParamCount(q)
+            If theta Is Nothing OrElse theta.Length <> expected Then
+                Throw New ApplicationException($"CompoundSymmetryRandomEffects.BuildG expects theta length = {expected}, but found {If(theta Is Nothing, 0, theta.Length)}.")
+            End If
+
+            Dim varB As Double = ExpMap(theta(0))
+            Dim rho As Double = 0.0
+            If q > 1 Then
+                rho = CorrMapBounded(theta(1), CompoundSymmetryCorrelationLowerBound(q), 0.999999999)
+            End If
+
+            Dim gMat(q - 1, q - 1) As Double
+            For i As Integer = 0 To q - 1
+                For j As Integer = 0 To q - 1
+                    gMat(i, j) = If(i = j, varB, varB * rho)
+                Next
+            Next
+
+            LogTrace($"CompoundSymmetryRandomEffects.BuildG q={q}; var={varB}; rho={rho}", strTrace)
+            Return gMat
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Heterogeneous compound-symmetry random-effects covariance.
+    ''' </summary>
+    Public Class HeterogeneousCompoundSymmetryRandomEffects
+        Inherits MixedModelGStruct
+
+        Public Overrides Function ToString() As String
+            Return "Heterogeneous Compound Symmetry (CSH)"
+        End Function
+
+        Public Overrides Function ParamCount(q As Integer) As Integer
+            ValidateQ(q, 1)
+            If q = 1 Then Return 1
+            Return q + 1
+        End Function
+
+        Public Overrides Function ParamNames(q As Integer,     Optional randomEffectNames() As String = Nothing) As String()
+            ValidateQ(q, 1)
+            Dim names(ParamCount(q) - 1) As String
+            For i As Integer = 0 To q - 1
+                names(i) = "logVar(" & GetRandomEffectName(i, randomEffectNames) & ")"
+            Next
+            If q > 1 Then names(q) = "cshCorr"
+            Return names
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData,       Optional olsResidualVar As Double = 1.0) As Double()
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+            If data.Q < 1 Then Throw New ApplicationException($"HeterogeneousCompoundSymmetryRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
+            Dim theta(ParamCount(data.Q) - 1) As Double
+            Dim startVar As Double = Math.Max(olsResidualVar / 2.0, 1.0E-6)
+            For i As Integer = 0 To data.Q - 1
+                theta(i) = Math.Log(startVar)
+            Next
+            If data.Q > 1 Then theta(data.Q) = 0.0
+            Return theta
+        End Function
+
+        Public Overrides Function BuildG(theta() As Double,
+                                         q As Integer,
+                                         Optional ByRef strTrace As String = Nothing) As Double(,)
+            ValidateQ(q, 1)
+            Dim expected As Integer = ParamCount(q)
+            If theta Is Nothing OrElse theta.Length <> expected Then
+                Throw New ApplicationException($"HeterogeneousCompoundSymmetryRandomEffects.BuildG expects theta length = {expected}, but found {If(theta Is Nothing, 0, theta.Length)}.")
+            End If
+
+            Dim vars(q - 1) As Double
+            For i As Integer = 0 To q - 1
+                vars(i) = ExpMap(theta(i))
+            Next
+
+            Dim rho As Double = 0.0
+            If q > 1 Then
+                rho = CorrMapBounded(theta(q), CompoundSymmetryCorrelationLowerBound(q), 0.999999999)
+            End If
+
+            Dim gMat(q - 1, q - 1) As Double
+            For i As Integer = 0 To q - 1
+                For j As Integer = 0 To q - 1
+                    If i = j Then
+                        gMat(i, j) = vars(i)
+                    Else
+                        gMat(i, j) = rho * Math.Sqrt(vars(i) * vars(j))
+                    End If
+                Next
+            Next
+
+            LogTrace($"HeterogeneousCompoundSymmetryRandomEffects.BuildG q={q}; rho={rho}", strTrace)
+            Return gMat
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Homogeneous AR(1) random-effects covariance using the authored random-effect column order.
+    ''' </summary>
+    Public Class AutoregressiveRandomEffects
+        Inherits MixedModelGStruct
+
+        Public Overrides Function ToString() As String
+            Return "Autoregressive (AR1)"
+        End Function
+
+        Public Overrides Function ParamCount(q As Integer) As Integer
+            ValidateQ(q, 1)
+            If q = 1 Then Return 1
+            Return 2
+        End Function
+
+        Public Overrides Function ParamNames(q As Integer, Optional randomEffectNames() As String = Nothing) As String()
+            ValidateQ(q, 1)
+            If q = 1 Then Return {"logVar(AR1)"}
+            Return {"logVar(AR1)", "ar1Corr"}
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData,       Optional olsResidualVar As Double = 1.0) As Double()
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+            If data.Q < 1 Then Throw New ApplicationException($"AutoregressiveRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
+            Dim theta(ParamCount(data.Q) - 1) As Double
+            theta(0) = Math.Log(Math.Max(olsResidualVar / 2.0, 1.0E-6))
+            If theta.Length > 1 Then theta(1) = 0.0
+            Return theta
+        End Function
+
+        Public Overrides Function BuildG(theta() As Double,
+                                         q As Integer,
+                                         Optional ByRef strTrace As String = Nothing) As Double(,)
+            ValidateQ(q, 1)
+            Dim expected As Integer = ParamCount(q)
+            If theta Is Nothing OrElse theta.Length <> expected Then
+                Throw New ApplicationException($"AutoregressiveRandomEffects.BuildG expects theta length = {expected}, but found {If(theta Is Nothing, 0, theta.Length)}.")
+            End If
+
+            Dim varB As Double = ExpMap(theta(0))
+            Dim rho As Double = If(q = 1, 0.0, CorrMap(theta(1)))
+            Dim gMat(q - 1, q - 1) As Double
+            For i As Integer = 0 To q - 1
+                For j As Integer = 0 To q - 1
+                    gMat(i, j) = varB * Math.Pow(rho, Math.Abs(i - j))
+                Next
+            Next
+
+            LogTrace($"AutoregressiveRandomEffects.BuildG q={q}; var={varB}; rho={rho}", strTrace)
+            Return gMat
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Heterogeneous AR(1) random-effects covariance using the authored random-effect column order.
+    ''' </summary>
+    Public Class HeterogeneousAutoregressiveRandomEffects
+        Inherits MixedModelGStruct
+
+        Public Overrides Function ToString() As String
+            Return "Heterogeneous Autoregressive (ARH1)"
+        End Function
+
+        Public Overrides Function ParamCount(q As Integer) As Integer
+            ValidateQ(q, 1)
+            If q = 1 Then Return 1
+            Return q + 1
+        End Function
+
+        Public Overrides Function ParamNames(q As Integer, Optional randomEffectNames() As String = Nothing) As String()
+            ValidateQ(q, 1)
+            Dim names(ParamCount(q) - 1) As String
+            For i As Integer = 0 To q - 1
+                names(i) = "logVar(" & GetRandomEffectName(i, randomEffectNames) & ")"
+            Next
+            If q > 1 Then names(q) = "arh1Corr"
+            Return names
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData, Optional olsResidualVar As Double = 1.0) As Double()
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+            If data.Q < 1 Then Throw New ApplicationException($"HeterogeneousAutoregressiveRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
+            Dim theta(ParamCount(data.Q) - 1) As Double
+            Dim startVar As Double = Math.Max(olsResidualVar / 2.0, 1.0E-6)
+            For i As Integer = 0 To data.Q - 1
+                theta(i) = Math.Log(startVar)
+            Next
+            If data.Q > 1 Then theta(data.Q) = 0.0
+            Return theta
+        End Function
+
+        Public Overrides Function BuildG(theta() As Double,
+                                         q As Integer,
+                                         Optional ByRef strTrace As String = Nothing) As Double(,)
+            ValidateQ(q, 1)
+            Dim expected As Integer = ParamCount(q)
+            If theta Is Nothing OrElse theta.Length <> expected Then
+                Throw New ApplicationException($"HeterogeneousAutoregressiveRandomEffects.BuildG expects theta length = {expected}, but found {If(theta Is Nothing, 0, theta.Length)}.")
+            End If
+
+            Dim vars(q - 1) As Double
+            For i As Integer = 0 To q - 1
+                vars(i) = ExpMap(theta(i))
+            Next
+
+            Dim rho As Double = 0.0
+            If q > 1 Then rho = CorrMap(theta(q))
+            Dim gMat(q - 1, q - 1) As Double
+            For i As Integer = 0 To q - 1
+                For j As Integer = 0 To q - 1
+                    If i = j Then
+                        gMat(i, j) = vars(i)
+                    Else
+                        gMat(i, j) = Math.Sqrt(vars(i) * vars(j)) * Math.Pow(rho, Math.Abs(i - j))
+                    End If
+                Next
+            Next
+
+            LogTrace($"HeterogeneousAutoregressiveRandomEffects.BuildG q={q}; rho={rho}", strTrace)
+            Return gMat
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Homogeneous Toeplitz random-effects covariance using partial autocorrelations internally.
+    ''' </summary>
+    Public Class ToeplitzRandomEffects
+        Inherits MixedModelGStruct
+
+        Public Overrides Function ToString() As String
+            Return "Toeplitz (TOEP)"
+        End Function
+
+        Public Overrides Function ParamCount(q As Integer) As Integer
+            ValidateQ(q, 1)
+            Return q
+        End Function
+
+        Public Overrides Function ParamNames(q As Integer,  Optional randomEffectNames() As String = Nothing) As String()
+            ValidateQ(q, 1)
+            Dim names(q - 1) As String
+            names(0) = "logVar(TOEP)"
+            For lag As Integer = 1 To q - 1
+                names(lag) = "atanhPartialCorr(lag" & lag.ToString() & ")"
+            Next
+            Return names
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData, Optional olsResidualVar As Double = 1.0) As Double()
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+            If data.Q < 1 Then Throw New ApplicationException($"ToeplitzRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
+            Dim theta(data.Q - 1) As Double
+            theta(0) = Math.Log(Math.Max(olsResidualVar / 2.0, 1.0E-6))
+            For lag As Integer = 1 To data.Q - 1
+                theta(lag) = 0.0
+            Next
+            Return theta
+        End Function
+
+        Public Overrides Function BuildG(theta() As Double,
+                                         q As Integer,
+                                         Optional ByRef strTrace As String = Nothing) As Double(,)
+            ValidateQ(q, 1)
+            If theta Is Nothing OrElse theta.Length <> q Then
+                Throw New ApplicationException($"ToeplitzRandomEffects.BuildG expects theta length = {q}, but found {If(theta Is Nothing, 0, theta.Length)}.")
+            End If
+
+            Dim varB As Double = ExpMap(theta(0))
+            Dim rho() As Double = BuildAutocorrelationsFromPartialParameters(theta, q)
+            Dim gMat(q - 1, q - 1) As Double
+            For i As Integer = 0 To q - 1
+                For j As Integer = 0 To q - 1
+                    gMat(i, j) = varB * rho(Math.Abs(i - j))
+                Next
+            Next
+
+            LogTrace($"ToeplitzRandomEffects.BuildG q={q}; var={varB}", strTrace)
+            Return gMat
+        End Function
+
+        Private Function BuildAutocorrelationsFromPartialParameters(theta() As Double, q As Integer) As Double()
+            Dim rho(q - 1) As Double
+            rho(0) = 1.0
+            If q = 1 Then Return rho
+
+            Dim phi(q - 1, q - 1) As Double
+            For k As Integer = 1 To q - 1
+                Dim pacf As Double = CorrMap(theta(k))
+                phi(k, k) = pacf
+                If k > 1 Then
+                    For j As Integer = 1 To k - 1
+                        phi(k, j) = phi(k - 1, j) - pacf * phi(k - 1, k - j)
+                    Next
+                End If
+
+                Dim s As Double = 0.0
+                For j As Integer = 1 To k
+                    s += phi(k, j) * rho(k - j)
+                Next
+                rho(k) = s
+            Next
+
+            Return rho
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Heterogeneous Toeplitz random-effects covariance using partial autocorrelations internally.
+    ''' </summary>
+    Public Class HeterogeneousToeplitzRandomEffects
+        Inherits MixedModelGStruct
+
+        Public Overrides Function ToString() As String
+            Return "Heterogeneous Toeplitz (TOEPH)"
+        End Function
+
+        Public Overrides Function ParamCount(q As Integer) As Integer
+            ValidateQ(q, 1)
+            If q = 1 Then Return 1
+            Return (2 * q) - 1
+        End Function
+
+        Public Overrides Function ParamNames(q As Integer, Optional randomEffectNames() As String = Nothing) As String()
+            ValidateQ(q, 1)
+            Dim names(ParamCount(q) - 1) As String
+            For i As Integer = 0 To q - 1
+                names(i) = "logVar(" & GetRandomEffectName(i, randomEffectNames) & ")"
+            Next
+            For lag As Integer = 1 To q - 1
+                names(q + lag - 1) = "atanhPartialCorr(lag" & lag.ToString() & ")"
+            Next
+            Return names
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData, Optional olsResidualVar As Double = 1.0) As Double()
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+            If data.Q < 1 Then Throw New ApplicationException($"HeterogeneousToeplitzRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
+            Dim theta(ParamCount(data.Q) - 1) As Double
+            Dim startVar As Double = Math.Max(olsResidualVar / 2.0, 1.0E-6)
+            For i As Integer = 0 To data.Q - 1
+                theta(i) = Math.Log(startVar)
+            Next
+            For lag As Integer = 1 To data.Q - 1
+                theta(data.Q + lag - 1) = 0.0
+            Next
+            Return theta
+        End Function
+
+        Public Overrides Function BuildG(theta() As Double,
+                                         q As Integer,
+                                         Optional ByRef strTrace As String = Nothing) As Double(,)
+            ValidateQ(q, 1)
+            Dim expected As Integer = ParamCount(q)
+            If theta Is Nothing OrElse theta.Length <> expected Then
+                Throw New ApplicationException($"HeterogeneousToeplitzRandomEffects.BuildG expects theta length = {expected}, but found {If(theta Is Nothing, 0, theta.Length)}.")
+            End If
+
+            Dim vars(q - 1) As Double
+            For i As Integer = 0 To q - 1
+                vars(i) = ExpMap(theta(i))
+            Next
+
+            Dim corrTheta(q - 1) As Double
+            corrTheta(0) = 0.0
+            For lag As Integer = 1 To q - 1
+                corrTheta(lag) = theta(q + lag - 1)
+            Next
+
+            Dim rho() As Double = BuildAutocorrelationsFromPartialParameters(corrTheta, q)
+            Dim gMat(q - 1, q - 1) As Double
+            For i As Integer = 0 To q - 1
+                For j As Integer = 0 To q - 1
+                    If i = j Then
+                        gMat(i, j) = vars(i)
+                    Else
+                        gMat(i, j) = Math.Sqrt(vars(i) * vars(j)) * rho(Math.Abs(i - j))
+                    End If
+                Next
+            Next
+
+            LogTrace($"HeterogeneousToeplitzRandomEffects.BuildG q={q}", strTrace)
+            Return gMat
+        End Function
+
+        Private Function BuildAutocorrelationsFromPartialParameters(theta() As Double, q As Integer) As Double()
+            Dim rho(q - 1) As Double
+            rho(0) = 1.0
+            If q = 1 Then Return rho
+
+            Dim phi(q - 1, q - 1) As Double
+            For k As Integer = 1 To q - 1
+                Dim pacf As Double = CorrMap(theta(k))
+                phi(k, k) = pacf
+                If k > 1 Then
+                    For j As Integer = 1 To k - 1
+                        phi(k, j) = phi(k - 1, j) - pacf * phi(k - 1, k - j)
+                    Next
+                End If
+
+                Dim s As Double = 0.0
+                For j As Integer = 1 To k
+                    s += phi(k, j) * rho(k - j)
+                Next
+                rho(k) = s
+            Next
+
+            Return rho
         End Function
     End Class
 

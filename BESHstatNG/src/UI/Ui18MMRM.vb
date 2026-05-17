@@ -128,7 +128,7 @@ Public Class Ui18MMRM
         Dim FinalCol = LastColumnInSheet(ws)
         Dim MaxRows = MaxRowsInSheet(ws)
         VarRng = ws.Range(ws.Cells(1, 1), ws.Cells(1, FinalCol)) 'Create range object to contain variable names
-        Me.VariableColumnsInfo = VarNamesToLBox(VarRng, MaxRows, Me.lbAllColumns) 'Cycle through the range and add the variable names to the listbox
+        Me.VariableColumnsInfo = VarNamesToLBox(VarRng, MaxRows, Me.lbAllColumns, bNumeric_only:=False) 'Cycle through the range and add all non-empty variable names to the listbox
 
         'We may call this method multiple times so populate sheet combo box only once
         Me.cbSheetsList.Items.Clear()
@@ -160,6 +160,24 @@ Public Class Ui18MMRM
             bWait = True
             Exit Sub
         End If
+
+        If Not TryRequireNumericColumn(CStr(Me.lbY.Items(0)), "Response variable", strWarning) Then
+            bWait = True
+            Exit Sub
+        End If
+
+        If Not TryRequireNumericColumn(CStr(Me.lbTime.Items(0)), "Visit / Time variable", strWarning) Then
+            bWait = True
+            Exit Sub
+        End If
+
+        Dim rawFixedKeys As List(Of String) = RegressionDesignCore.GetRequiredRawVarKeys(Me.lbSelectedEffectsList.Items, Me.TermSpecs)
+        For Each rawKey As String In rawFixedKeys
+            If Not TryRequireNumericColumn(rawKey, "Fixed-effect variable", strWarning) Then
+                bWait = True
+                Exit Sub
+            End If
+        Next
 
         If Me.lbSelectedEffectsList.Items.Count = 0 AndAlso Not Me.cbIntercept.Checked Then
             strWarning = "No fixed effects were specified and the intercept is disabled."
@@ -206,6 +224,28 @@ Public Class Ui18MMRM
         End If
 
     End Sub
+
+    Private Function TryRequireNumericColumn(variableKey As String, roleDescription As String, ByRef warning As String) As Boolean
+        If IsAvailableColumnNumeric(variableKey) Then Return True
+
+        warning = roleDescription & " must be numeric. The selected column '" &
+                  If(variableKey, String.Empty) &
+                  "' contains no numeric observations in the current worksheet scan. Character columns are allowed only for the Subject ID."
+        Return False
+    End Function
+
+    Private Function IsAvailableColumnNumeric(variableKey As String) As Boolean
+        If String.IsNullOrWhiteSpace(variableKey) Then Return False
+        If Me.VariableColumnsInfo Is Nothing Then Return False
+
+        Dim info As VarColumnInfo = Nothing
+        If Not Me.VariableColumnsInfo.TryGetValue(variableKey, info) OrElse info Is Nothing Then Return False
+        If Me.pWorksheet Is Nothing Then Return False
+
+        Dim maxRows As Integer = MaxRowsInSheet(Me.pWorksheet)
+        Dim r As Object = Me.pWorksheet.Range(Me.pWorksheet.Cells(1, info.ColumnNumber), Me.pWorksheet.Cells(maxRows, info.ColumnNumber))
+        Return CountNonmissing(r, True) > 0
+    End Function
 
     Private Function GetData() As MmrmData
 
@@ -282,7 +322,7 @@ Public Class Ui18MMRM
         If expandedNames Is Nothing Then expandedNames = New String() {}
 
         If Me.cbIntercept.Checked Then
-            x = AddInterceptColumn(expandedX, nRows)
+            x = regression.MixedModelFrontEndHelpers.AddInterceptColumn(expandedX, nRows)
             fixedNames = CombineNamesWithIntercept(expandedNames)
         Else
             If expandedX Is Nothing OrElse expandedNames.Length = 0 Then
@@ -335,7 +375,7 @@ Public Class Ui18MMRM
         Dim subjectCol As Integer = ResolveDataColumnIndex(raw, mmrmGuiData.SubjectKey, "subject")
         Dim visitCol As Integer = ResolveDataColumnIndex(raw, mmrmGuiData.VisitKey, "visit/time")
 
-        Dim subjectId() As Object = ExtractObjectColumnFromData(raw, subjectCol)
+        Dim subjectId() As Object = regression.MixedModelFrontEndHelpers.ExtractObjectColumnFromData(raw, subjectCol)
         Dim visit() As Double = ExtractNumericColumnFromData(raw, visitCol)
 
         Dim blockData As regression.MixedModelBlockData =
@@ -746,7 +786,6 @@ Public Class Ui18MMRM
     End Sub
 
     Private Sub WriteMMRMModelSheet(wb As Object, result As regression.MixedModelResult)
-
         Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim tables As List(Of ResultTable) = result.wrapResults(alphaValue,
                                                                 includeOptimizerTrace:=Me.ckIterationsDetails.Checked,
@@ -759,151 +798,37 @@ Public Class Ui18MMRM
 
         Dim rr As New ProcessListofResultTables(tables)
         rr.writeToSheet(writeRes, True)
-
     End Sub
 
     Private Sub WriteMMRMTraceSheet(wb As Object, traceText As String)
-
         Dim writeRes As New WriteResults
         wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
         wb.ActiveSheet.Name = "MMRM Trace"
         writeRes.wb = wb
         writeRes.ws = wb.ActiveSheet
 
-        writeRes.write(TraceTextToMatrix(traceText))
-
+        writeRes.write(regression.MixedModelFrontEndHelpers.TraceTextToMatrix(traceText))
     End Sub
 
-    Private Function TraceTextToMatrix(traceText As String) As Object(,)
-        If traceText Is Nothing Then traceText = String.Empty
-
-        Dim lines() As String = traceText.Replace(vbCrLf, vbLf).Replace(vbCr, vbLf).Split({vbLf}, StringSplitOptions.None)
-        If lines.Length = 0 Then
-            Dim emptyOut(0, 0) As Object
-            emptyOut(0, 0) = String.Empty
-            Return emptyOut
-        End If
-
-        Dim out(lines.Length - 1, 0) As Object
-        For i As Integer = 0 To lines.Length - 1
-            out(i, 0) = lines(i)
-        Next
-        Return out
-    End Function
-
     Private Function BuildSelectedEffectsText() As String
-        If Me.lbSelectedEffectsList Is Nothing OrElse Me.lbSelectedEffectsList.Items.Count = 0 Then
-            If Me.cbIntercept.Checked Then Return "Intercept only"
-            Return String.Empty
-        End If
-
-        Dim parts As New List(Of String)
-        For Each it As Object In Me.lbSelectedEffectsList.Items
-            parts.Add(CStr(it))
-        Next
-
-        If Me.cbIntercept.Checked Then
-            Return "Intercept + " & String.Join(" + ", parts.ToArray())
-        End If
-
-        Return String.Join(" + ", parts.ToArray())
+        Return regression.MixedModelFrontEndHelpers.BuildEffectsText(If(Me.lbSelectedEffectsList Is Nothing, Nothing, Me.lbSelectedEffectsList.Items),
+                     Me.cbIntercept.Checked, "Intercept only")
     End Function
 
     Private Function ResolveDataColumnIndex(raw As DataObj, key As String, role As String) As Integer
-        If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-        If raw.varNames Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("Data object has no variable names."))
-
-        Dim targetKey As String = If(key, String.Empty).Trim()
-        Dim targetBase As String = RegressionDesignCore.GetCoefBaseName(targetKey).Trim()
-
-        For j As Integer = 0 To raw.varNames.Length - 1
-            Dim candidate As String = If(raw.varNames(j), String.Empty).Trim()
-            If String.Equals(candidate, targetKey, StringComparison.Ordinal) Then Return j
-            If String.Equals(candidate, targetBase, StringComparison.Ordinal) Then Return j
-            If String.Equals(RegressionDesignCore.GetCoefBaseName(candidate), targetBase, StringComparison.Ordinal) Then Return j
-        Next
-
-        AppGlobals.BSerr.LogAndThrow(New ApplicationException("Cannot resolve " & role & " variable '" & key & "' in imported MMRM data."))
-        Return -1
+        Return regression.MixedModelFrontEndHelpers.ResolveDataColumnIndex(raw, key, role, "MMRM")
     End Function
 
     Private Function ExtractNumericColumnFromData(raw As DataObj, columnIndex As Integer) As Double()
-        If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-        If raw.FinalData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("Data object has no FinalData matrix."))
-        If columnIndex < 0 OrElse columnIndex >= raw.nCols Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(columnIndex)))
-
-        Dim out(raw.nRows - 1) As Double
-        For i As Integer = 0 To raw.nRows - 1
-            If raw.FinalData(i, columnIndex) Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Missing numeric value encountered in MMRM data at row " & CStr(i + 1) & ", column " & CStr(columnIndex + 1) & "."))
-            End If
-            out(i) = CDbl(raw.FinalData(i, columnIndex))
-        Next
-
-        Return out
-    End Function
-
-    Private Function ExtractObjectColumnFromData(raw As DataObj, columnIndex As Integer) As Object()
-        If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-        If raw.FinalData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("Data object has no FinalData matrix."))
-        If columnIndex < 0 OrElse columnIndex >= raw.nCols Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(columnIndex)))
-
-        Dim out(raw.nRows - 1) As Object
-        For i As Integer = 0 To raw.nRows - 1
-            out(i) = raw.FinalData(i, columnIndex)
-        Next
-
-        Return out
+        Return regression.MixedModelFrontEndHelpers.ExtractNumericColumnFromData(raw, columnIndex, "MMRM")
     End Function
 
     Private Function ExtractRawNumericMatrix(raw As DataObj, rawXKeys As List(Of String)) As Double(,)
-        If rawXKeys Is Nothing OrElse rawXKeys.Count = 0 Then Return Nothing
-
-        Dim out(raw.nRows - 1, rawXKeys.Count - 1) As Double
-
-        For j As Integer = 0 To rawXKeys.Count - 1
-            Dim col As Integer = ResolveDataColumnIndex(raw, rawXKeys(j), "fixed-effect source")
-            Dim tmp() As Double = ExtractNumericColumnFromData(raw, col)
-
-            For i As Integer = 0 To raw.nRows - 1
-                out(i, j) = tmp(i)
-            Next
-        Next
-
-        Return out
-    End Function
-
-    Private Function AddInterceptColumn(expandedX(,) As Double, nRows As Integer) As Double(,)
-        Dim p As Integer = If(expandedX Is Nothing, 0, expandedX.GetLength(1))
-        Dim out(nRows - 1, p) As Double
-
-        For i As Integer = 0 To nRows - 1
-            out(i, 0) = 1.0
-        Next
-
-        If p > 0 Then
-            For i As Integer = 0 To nRows - 1
-                For j As Integer = 0 To p - 1
-                    out(i, j + 1) = expandedX(i, j)
-                Next
-            Next
-        End If
-
-        Return out
+        Return regression.MixedModelFrontEndHelpers.ExtractRawNumericMatrix(raw, rawXKeys, "fixed-effect", "MMRM")
     End Function
 
     Private Function CombineNamesWithIntercept(expandedNames() As String) As String()
-        Dim p As Integer = If(expandedNames Is Nothing, 0, expandedNames.Length)
-        Dim out(p) As String
-        out(0) = "Intercept"
-
-        If p > 0 Then
-            For j As Integer = 0 To p - 1
-                out(j + 1) = expandedNames(j)
-            Next
-        End If
-
-        Return out
+        Return regression.MixedModelFrontEndHelpers.AddInterceptName(expandedNames)
     End Function
 
     ''' <summary>
@@ -1173,12 +1098,12 @@ Public Class Ui18MMRM
 
         Try
             Dim col As Integer = ResolveDataColumnIndex(raw, key, "class-level variable")
-            Dim values() As Object = ExtractObjectColumnFromData(raw, col)
-            Dim uniqueValues() As Object = UniqueSortedClassValues(values)
+            Dim values() As Object = regression.MixedModelFrontEndHelpers.ExtractObjectColumnFromData(raw, col)
+            Dim uniqueValues() As Object = regression.MixedModelFrontEndHelpers.UniqueSortedClassValues(values)
 
             If uniqueValues Is Nothing OrElse uniqueValues.Length = 0 Then Exit Sub
 
-            rows.Add(New Object() {baseName, uniqueValues.Length, JoinClassValues(uniqueValues)})
+            rows.Add(New Object() {baseName, uniqueValues.Length, regression.MixedModelFrontEndHelpers.JoinClassValues(uniqueValues)})
             addedKeys.Add(baseName)
         Catch ex As Exception
             AppGlobals.BSlogg.Warn("Class-level row skipped for '" & key & "': " & ex.Message)
@@ -1243,101 +1168,6 @@ Public Class Ui18MMRM
                              "Reference-grid group contrasts")
         End If
     End Sub
-
-    ''' <summary>
-    ''' Returns unique class values sorted numerically when all non-missing values
-    ''' are numeric; otherwise sorts by display text.  Missing/blank values are
-    ''' ignored for the class-level table.
-    ''' </summary>
-    Private Function UniqueSortedClassValues(values() As Object) As Object()
-        If values Is Nothing Then Return New Object() {}
-
-        Dim numericValues As New List(Of Double)
-        Dim textValues As New List(Of String)
-        Dim anyText As Boolean = False
-
-        For Each obj As Object In values
-            If obj Is Nothing Then Continue For
-
-            Dim s As String = CStr(obj).Trim()
-            If s.Length = 0 Then Continue For
-
-            Dim d As Double
-            If Double.TryParse(s, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, d) Then
-                AddUniqueNumeric(values:=numericValues, value:=d)
-            ElseIf Double.TryParse(s, d) Then
-                AddUniqueNumeric(values:=numericValues, value:=d)
-            Else
-                anyText = True
-                AddUniqueText(values:=textValues, value:=s)
-            End If
-        Next
-
-        If Not anyText Then
-            numericValues.Sort()
-            Dim out(numericValues.Count - 1) As Object
-            For i As Integer = 0 To numericValues.Count - 1
-                out(i) = numericValues(i)
-            Next
-            Return out
-        End If
-
-        ' Mixed numeric/text values are displayed as text to avoid misleading ordering.
-        For Each d As Double In numericValues
-            AddUniqueText(values:=textValues, value:=regression.MixedModelPostEstimation.FormatProfileValue(d))
-        Next
-
-        textValues.Sort(StringComparer.OrdinalIgnoreCase)
-        Dim outText(textValues.Count - 1) As Object
-        For i As Integer = 0 To textValues.Count - 1
-            outText(i) = textValues(i)
-        Next
-        Return outText
-    End Function
-
-    Private Sub AddUniqueNumeric(values As List(Of Double), value As Double)
-        If values Is Nothing Then Exit Sub
-        If Not AppInfrastructure.NumericGuards.IsFinite(value) Then Exit Sub
-
-        For Each oldValue As Double In values
-            If regression.MixedModelPostEstimation.NearlyEqual(oldValue, value) Then Exit Sub
-        Next
-
-        values.Add(value)
-    End Sub
-
-    Private Sub AddUniqueText(values As List(Of String), value As String)
-        If values Is Nothing Then Exit Sub
-        If String.IsNullOrWhiteSpace(value) Then Exit Sub
-
-        For Each oldValue As String In values
-            If String.Equals(oldValue, value, StringComparison.OrdinalIgnoreCase) Then Exit Sub
-        Next
-
-        values.Add(value)
-    End Sub
-
-    ''' <summary>
-    ''' Formats class values as a SAS-like space-separated list.
-    ''' </summary>
-    Private Function JoinClassValues(values() As Object) As String
-        If values Is Nothing OrElse values.Length = 0 Then Return String.Empty
-
-        Dim parts As New List(Of String)
-        For Each obj As Object In values
-            If obj Is Nothing Then Continue For
-
-            If TypeOf obj Is Double Then
-                parts.Add(regression.MixedModelPostEstimation.FormatProfileValue(CDbl(obj)))
-            ElseIf TypeOf obj Is Single OrElse TypeOf obj Is Decimal OrElse TypeOf obj Is Integer OrElse TypeOf obj Is Long OrElse TypeOf obj Is Short Then
-                parts.Add(regression.MixedModelPostEstimation.FormatProfileValue(CDbl(obj)))
-            Else
-                parts.Add(CStr(obj))
-            End If
-        Next
-
-        Return String.Join(" ", parts.ToArray())
-    End Function
 
     ''' <summary>
     ''' Initializes MMRM-specific model, inference, and LS-means/contrast controls.
@@ -1609,32 +1439,11 @@ Public Class Ui18MMRM
 
     Private Function ParseMMRMCovarianceOptimizerMode(selection As String) As regression.MixedModelCovarianceOptimizerMode
         If String.IsNullOrWhiteSpace(selection) Then Return regression.MixedModelCovarianceOptimizerMode.AverageInformationReml
-
-        If String.Equals(selection, MMRM_OPT_AI, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelCovarianceOptimizerMode.AverageInformationReml
-        End If
-        If String.Equals(selection, MMRM_OPT_BFGS_ANALYTIC, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelCovarianceOptimizerMode.ProjectedBfgsAnalyticGradient
-        End If
-        If String.Equals(selection, MMRM_OPT_BFGS_NUMERICAL, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelCovarianceOptimizerMode.ProjectedBfgs
-        End If
-        Return regression.MixedModelCovarianceOptimizerMode.ProjectedBfgs
+        Return regression.MixedModelFrontEndHelpers.ParseCovarianceOptimizerMode(selection, regression.MixedModelCovarianceOptimizerMode.ProjectedBfgs)
     End Function
 
     Private Function ParseMMRMCovarianceGradientMode(selection As String) As regression.MixedModelCovarianceGradientMode
-        If String.IsNullOrWhiteSpace(selection) Then Return regression.MixedModelCovarianceGradientMode.Auto
-
-        If String.Equals(selection, MMRM_GRAD_ANALYTIC, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelCovarianceGradientMode.AnalyticScore
-        End If
-        If String.Equals(selection, MMRM_GRAD_VALIDATE, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelCovarianceGradientMode.AnalyticScoreWithFiniteDifferenceValidation
-        End If
-        If String.Equals(selection, MMRM_GRAD_NUMERICAL, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelCovarianceGradientMode.NumericalFiniteDifference
-        End If
-        Return regression.MixedModelCovarianceGradientMode.Auto
+        Return regression.MixedModelFrontEndHelpers.ParseCovarianceGradientMode(selection, regression.MixedModelCovarianceGradientMode.Auto)
     End Function
 
     Private Function SelectedComboText(cb As Windows.Forms.ComboBox, fallback As String) As String
@@ -2359,7 +2168,7 @@ Public Class Ui18MMRM
             Me.ProgressBar1.Value = value
 
             Dim msg As String = If(pMmrmCancelRequested, "Cancelling MMRM", If(pMmrmInterruptRequested, "Interrupting MMRM", info.Stage))
-            Dim elapsedSecondsText As String = FormatProgressElapsedSeconds()
+            Dim elapsedSecondsText As String = UIprocedures.FormatProgressElapsedSeconds(Me.pMmrmProgressStopwatch)
             If info.Iteration >= 0 AndAlso info.MaxIterations > 0 Then
                 If elapsedSecondsText.Length > 0 Then msg &= " " & elapsedSecondsText
                 msg &= " (" & info.Iteration.ToString() & "/" & info.MaxIterations.ToString() & ")"
@@ -2385,15 +2194,6 @@ Public Class Ui18MMRM
         Catch
         End Try
     End Sub
-
-    Private Function FormatProgressElapsedSeconds() As String
-        If pMmrmProgressStopwatch Is Nothing Then Return String.Empty
-
-        Dim elapsedMs As Double = pMmrmProgressStopwatch.Elapsed.TotalMilliseconds
-        If Double.IsNaN(elapsedMs) OrElse Double.IsInfinity(elapsedMs) OrElse elapsedMs < 0.0 Then Return String.Empty
-
-        Return (elapsedMs / 1000.0).ToString("0.00", Globalization.CultureInfo.InvariantCulture) & " s"
-    End Function
 
     Private Sub RefreshMMRMProgressControls(Optional force As Boolean = False)
         If pMmrmProgressRefreshActive Then Exit Sub
@@ -2424,17 +2224,6 @@ Public Class Ui18MMRM
             pMmrmProgressRefreshActive = False
         End Try
     End Sub
-
-    Private Shared Function FormatProgressDouble(value As Double) As String
-        If Not IsFinite(value) Then Return String.Empty
-
-        Dim absValue As Double = Math.Abs(value)
-        If absValue > 0.0 AndAlso (absValue < 0.0001 OrElse absValue >= 1000000.0) Then
-            Return value.ToString("0.###E+0", Globalization.CultureInfo.InvariantCulture)
-        End If
-
-        Return value.ToString("0.######", Globalization.CultureInfo.InvariantCulture)
-    End Function
 
     Private Sub InvokeMMRMUi(action As Action)
         If action Is Nothing Then Exit Sub

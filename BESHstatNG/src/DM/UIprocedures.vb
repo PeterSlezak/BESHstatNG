@@ -181,6 +181,25 @@ Public Module UIprocedures
         Return out
     End Function
 
+    Public Function FormatProgressElapsedSeconds(pProgressStopwatch As System.Diagnostics.Stopwatch) As String
+        If pProgressStopwatch Is Nothing Then Return String.Empty
+
+        Dim elapsedMs As Double = pProgressStopwatch.Elapsed.TotalMilliseconds
+        If Double.IsNaN(elapsedMs) OrElse Double.IsInfinity(elapsedMs) OrElse elapsedMs < 0.0 Then Return String.Empty
+
+        Return (elapsedMs / 1000.0).ToString("0.00", Globalization.CultureInfo.InvariantCulture) & " s"
+    End Function
+
+    Public Function FormatProgressDouble(value As Double) As String
+        If Not IsFinite(value) Then Return String.Empty
+
+        Dim absValue As Double = Math.Abs(value)
+        If absValue > 0.0 AndAlso (absValue < 0.0001 OrElse absValue >= 1000000.0) Then
+            Return value.ToString("0.###E+0", Globalization.CultureInfo.InvariantCulture)
+        End If
+
+        Return value.ToString("0.######", Globalization.CultureInfo.InvariantCulture)
+    End Function
 
     ''' <summary>
     ''' Adds a single selected item from one ListBox to another, ensuring that:

@@ -397,6 +397,20 @@ Public Class Ribbon
         mwForm.Show()
     End Sub
 
+    Public Sub OnbtmLMMPressed(control As IRibbonControl)
+        Dim sh As Worksheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
+        Else
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
+        End If
+        Dim mwForm As New Ui19LMM("Liner Mixed Models (LMM)")
+        mwForm.Tag = HelpTopic.LinearMixedModelsLMM
+        mwForm.Populate(sh)
+        mwForm.Show()
+    End Sub
+
     '--------------------------------------------------------------------------
     ' Multivariate
     '--------------------------------------------------------------------------

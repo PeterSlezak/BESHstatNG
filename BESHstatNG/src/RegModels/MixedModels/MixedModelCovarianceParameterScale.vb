@@ -535,9 +535,9 @@ Namespace regression
             End If
 
             If TypeOf request.ResidualStruct Is CompoundSymmetryR OrElse
-                TypeOf request.ResidualStruct Is HeterogeneousCSR OrElse
-                TypeOf request.ResidualStruct Is AR1R OrElse
-                TypeOf request.ResidualStruct Is HeterogeneousAR1R Then
+               TypeOf request.ResidualStruct Is HeterogeneousCSR OrElse
+               TypeOf request.ResidualStruct Is AR1R OrElse
+               TypeOf request.ResidualStruct Is HeterogeneousAR1R Then
                 Return TryCreateVarianceCorrelationMmrmThetaParameterMap(request,
                                                                          optimizerTheta,
                                                                          optimizerThetaCovariance,
@@ -610,7 +610,7 @@ Namespace regression
             End If
 
             If request.IsMMRM() AndAlso
-                (TypeOf request.ResidualStruct Is CompoundSymmetryR OrElse
+               (TypeOf request.ResidualStruct Is CompoundSymmetryR OrElse
                 TypeOf request.ResidualStruct Is HeterogeneousCSR OrElse
                 TypeOf request.ResidualStruct Is AR1R OrElse
                 TypeOf request.ResidualStruct Is HeterogeneousAR1R) Then
@@ -1333,6 +1333,146 @@ Namespace regression
                 Return True
             End If
 
+            If TypeOf gStruct Is VarianceComponentsRandomEffects Then
+                If q <= 0 Then
+                    diagnostic = "VarianceComponentsRandomEffects requires q > 0."
+                    Return False
+                End If
+                If thetaG Is Nothing OrElse thetaG.Length <> q Then
+                    diagnostic = "VarianceComponentsRandomEffects expects one optimizer parameter per random-effect column."
+                    Return False
+                End If
+
+                For i As Integer = 0 To q - 1
+                    outVals.Add(Math.Exp(thetaG(i)))
+                    outNames.Add("G_var(" & RandomEffectName(i, randomEffectNames) & ")")
+                Next
+
+                Return True
+            End If
+
+            If TypeOf gStruct Is IdentityRandomEffects Then
+                If thetaG Is Nothing OrElse thetaG.Length <> 1 Then
+                    diagnostic = "IdentityRandomEffects expects one optimizer parameter."
+                    Return False
+                End If
+                outVals.Add(Math.Exp(thetaG(0)))
+                outNames.Add("G_var(ID)")
+                Return True
+            End If
+
+            If TypeOf gStruct Is CompoundSymmetryRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If thetaG Is Nothing OrElse thetaG.Length <> expected Then
+                    diagnostic = "CompoundSymmetryRandomEffects optimizer parameter length mismatch."
+                    Return False
+                End If
+                Dim varB As Double = Math.Exp(thetaG(0))
+                outVals.Add(varB)
+                outNames.Add("G_var(CS)")
+                If q > 1 Then
+                    outVals.Add(BoundedCompoundSymmetryCorrelation(thetaG(1), q))
+                    outNames.Add("G_corr(CS)")
+                End If
+                Return True
+            End If
+
+            If TypeOf gStruct Is HeterogeneousCompoundSymmetryRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If thetaG Is Nothing OrElse thetaG.Length <> expected Then
+                    diagnostic = "HeterogeneousCompoundSymmetryRandomEffects optimizer parameter length mismatch."
+                    Return False
+                End If
+                For i As Integer = 0 To q - 1
+                    outVals.Add(Math.Exp(thetaG(i)))
+                    outNames.Add("G_var(" & RandomEffectName(i, randomEffectNames) & ")")
+                Next
+                If q > 1 Then
+                    outVals.Add(BoundedCompoundSymmetryCorrelation(thetaG(q), q))
+                    outNames.Add("G_corr(CSH)")
+                End If
+                Return True
+            End If
+
+            If TypeOf gStruct Is AutoregressiveRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If thetaG Is Nothing OrElse thetaG.Length <> expected Then
+                    diagnostic = "AutoregressiveRandomEffects optimizer parameter length mismatch."
+                    Return False
+                End If
+                outVals.Add(Math.Exp(thetaG(0)))
+                outNames.Add("G_var(AR1)")
+                If q > 1 Then
+                    outVals.Add(Math.Tanh(thetaG(1)))
+                    outNames.Add("G_corrLag1(AR1)")
+                End If
+                Return True
+            End If
+
+            If TypeOf gStruct Is HeterogeneousAutoregressiveRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If thetaG Is Nothing OrElse thetaG.Length <> expected Then
+                    diagnostic = "HeterogeneousAutoregressiveRandomEffects optimizer parameter length mismatch."
+                    Return False
+                End If
+                For i As Integer = 0 To q - 1
+                    outVals.Add(Math.Exp(thetaG(i)))
+                    outNames.Add("G_var(" & RandomEffectName(i, randomEffectNames) & ")")
+                Next
+                If q > 1 Then
+                    outVals.Add(Math.Tanh(thetaG(q)))
+                    outNames.Add("G_corrLag1(ARH1)")
+                End If
+                Return True
+            End If
+
+            If TypeOf gStruct Is ToeplitzRandomEffects Then
+                If thetaG Is Nothing OrElse thetaG.Length <> q Then
+                    diagnostic = "ToeplitzRandomEffects optimizer parameter length mismatch."
+                    Return False
+                End If
+                Dim gMat(,) As Double = gStruct.BuildG(thetaG, q)
+                If gMat Is Nothing Then
+                    diagnostic = "ToeplitzRandomEffects BuildG returned Nothing."
+                    Return False
+                End If
+                Dim varB As Double = gMat(0, 0)
+                outVals.Add(varB)
+                outNames.Add("G_var(TOEP)")
+                For lag As Integer = 1 To q - 1
+                    outVals.Add(gMat(lag, 0) / varB)
+                    outNames.Add("G_corrLag" & lag.ToString() & "(TOEP)")
+                Next
+                Return True
+            End If
+
+            If TypeOf gStruct Is HeterogeneousToeplitzRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If thetaG Is Nothing OrElse thetaG.Length <> expected Then
+                    diagnostic = "HeterogeneousToeplitzRandomEffects optimizer parameter length mismatch."
+                    Return False
+                End If
+                Dim gMat(,) As Double = gStruct.BuildG(thetaG, q)
+                If gMat Is Nothing Then
+                    diagnostic = "HeterogeneousToeplitzRandomEffects BuildG returned Nothing."
+                    Return False
+                End If
+                For i As Integer = 0 To q - 1
+                    outVals.Add(gMat(i, i))
+                    outNames.Add("G_var(" & RandomEffectName(i, randomEffectNames) & ")")
+                Next
+                For lag As Integer = 1 To q - 1
+                    Dim denom As Double = Math.Sqrt(gMat(lag, lag) * gMat(0, 0))
+                    If denom <= MIN_POSITIVE Then
+                        diagnostic = "HeterogeneousToeplitzRandomEffects produced a nonpositive variance."
+                        Return False
+                    End If
+                    outVals.Add(gMat(lag, 0) / denom)
+                    outNames.Add("G_corrLag" & lag.ToString() & "(TOEPH)")
+                Next
+                Return True
+            End If
+
             If TypeOf gStruct Is UnstructuredRandomEffects Then
                 If q <= 0 Then
                     diagnostic = "UnstructuredRandomEffects requires q > 0."
@@ -1420,6 +1560,201 @@ Namespace regression
                 Return True
             End If
 
+            If TypeOf gStruct Is VarianceComponentsRandomEffects Then
+                If q <= 0 Then
+                    diagnostic = "VarianceComponentsRandomEffects requires q > 0."
+                    Return False
+                End If
+                If covG Is Nothing OrElse covG.Length <> q Then
+                    diagnostic = "VarianceComponentsRandomEffects covariance theta length mismatch."
+                    Return False
+                End If
+
+                thetaG = New Double(q - 1) {}
+                For i As Integer = 0 To q - 1
+                    If covG(i) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covG(i)) Then
+                        diagnostic = "Variance-components random-effect variances must be positive."
+                        Return False
+                    End If
+                    thetaG(i) = Math.Log(covG(i))
+                Next
+
+                Return True
+            End If
+
+            If TypeOf gStruct Is IdentityRandomEffects Then
+                If covG Is Nothing OrElse covG.Length <> 1 Then
+                    diagnostic = "IdentityRandomEffects covariance theta length must be one."
+                    Return False
+                End If
+                If covG(0) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covG(0)) Then
+                    diagnostic = "Identity random-effects variance must be positive."
+                    Return False
+                End If
+                thetaG = New Double() {Math.Log(covG(0))}
+                Return True
+            End If
+
+            If TypeOf gStruct Is CompoundSymmetryRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If covG Is Nothing OrElse covG.Length <> expected Then
+                    diagnostic = "CompoundSymmetryRandomEffects covariance theta length mismatch."
+                    Return False
+                End If
+                If covG(0) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covG(0)) Then
+                    diagnostic = "Compound-symmetry random-effects variance must be positive."
+                    Return False
+                End If
+                thetaG = New Double(expected - 1) {}
+                thetaG(0) = Math.Log(covG(0))
+                If q > 1 Then
+                    Dim lower As Double = CompoundSymmetryCorrelationLowerBound(q)
+                    If covG(1) <= lower OrElse covG(1) >= MAX_ABS_RHO OrElse Not AppInfrastructure.IsFinite(covG(1)) Then
+                        diagnostic = "Compound-symmetry random-effects correlation is outside its positive-definite bounds."
+                        Return False
+                    End If
+                    thetaG(1) = LogitBounded(covG(1), lower, MAX_ABS_RHO)
+                End If
+                Return True
+            End If
+
+            If TypeOf gStruct Is HeterogeneousCompoundSymmetryRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If covG Is Nothing OrElse covG.Length <> expected Then
+                    diagnostic = "HeterogeneousCompoundSymmetryRandomEffects covariance theta length mismatch."
+                    Return False
+                End If
+                thetaG = New Double(expected - 1) {}
+                For i As Integer = 0 To q - 1
+                    If covG(i) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covG(i)) Then
+                        diagnostic = "Heterogeneous compound-symmetry random-effect variances must be positive."
+                        Return False
+                    End If
+                    thetaG(i) = Math.Log(covG(i))
+                Next
+                If q > 1 Then
+                    Dim rho As Double = covG(q)
+                    Dim lower As Double = CompoundSymmetryCorrelationLowerBound(q)
+                    If rho <= lower OrElse rho >= MAX_ABS_RHO OrElse Not AppInfrastructure.IsFinite(rho) Then
+                        diagnostic = "Heterogeneous compound-symmetry random-effects correlation is outside its positive-definite bounds."
+                        Return False
+                    End If
+                    thetaG(q) = LogitBounded(rho, lower, MAX_ABS_RHO)
+                End If
+                Return True
+            End If
+
+            If TypeOf gStruct Is AutoregressiveRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If covG Is Nothing OrElse covG.Length <> expected Then
+                    diagnostic = "AutoregressiveRandomEffects covariance theta length mismatch."
+                    Return False
+                End If
+                If covG(0) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covG(0)) Then
+                    diagnostic = "AR1 random-effects variance must be positive."
+                    Return False
+                End If
+                thetaG = New Double(expected - 1) {}
+                thetaG(0) = Math.Log(covG(0))
+                If q > 1 Then
+                    If Math.Abs(covG(1)) >= MAX_ABS_RHO OrElse Not AppInfrastructure.IsFinite(covG(1)) Then
+                        diagnostic = "AR1 random-effects correlation outside (-1,1)."
+                        Return False
+                    End If
+                    thetaG(1) = Atanh(covG(1), False, MAX_ABS_RHO)
+                End If
+                Return True
+            End If
+
+            If TypeOf gStruct Is HeterogeneousAutoregressiveRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If covG Is Nothing OrElse covG.Length <> expected Then
+                    diagnostic = "HeterogeneousAutoregressiveRandomEffects covariance theta length mismatch."
+                    Return False
+                End If
+                thetaG = New Double(expected - 1) {}
+                For i As Integer = 0 To q - 1
+                    If covG(i) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covG(i)) Then
+                        diagnostic = "ARH1 random-effect variances must be positive."
+                        Return False
+                    End If
+                    thetaG(i) = Math.Log(covG(i))
+                Next
+                If q > 1 Then
+                    Dim rho As Double = covG(q)
+                    If Math.Abs(rho) >= MAX_ABS_RHO OrElse Not AppInfrastructure.IsFinite(rho) Then
+                        diagnostic = "ARH1 random-effects correlation outside (-1,1)."
+                        Return False
+                    End If
+                    thetaG(q) = Atanh(rho, False, MAX_ABS_RHO)
+                End If
+                Return True
+            End If
+
+            If TypeOf gStruct Is ToeplitzRandomEffects Then
+                If covG Is Nothing OrElse covG.Length <> q Then
+                    diagnostic = "ToeplitzRandomEffects covariance theta length mismatch."
+                    Return False
+                End If
+                If covG(0) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covG(0)) Then
+                    diagnostic = "Toeplitz random-effects variance must be positive."
+                    Return False
+                End If
+                thetaG = New Double(q - 1) {}
+                thetaG(0) = Math.Log(covG(0))
+                If q > 1 Then
+                    Dim corr(q - 1) As Double
+                    corr(0) = 1.0
+                    For lag As Integer = 1 To q - 1
+                        If Math.Abs(covG(lag)) >= MAX_ABS_RHO OrElse Not AppInfrastructure.IsFinite(covG(lag)) Then
+                            diagnostic = "Toeplitz random-effects lag correlation outside (-1,1)."
+                            Return False
+                        End If
+                        corr(lag) = covG(lag)
+                    Next
+                    Dim pacfValues() As Double = Nothing
+                    If Not TryAutocorrelationsToPartialCorrelations(corr, pacfValues, diagnostic) Then Return False
+                    For lag As Integer = 1 To q - 1
+                        thetaG(lag) = Atanh(pacfValues(lag), False, MAX_ABS_RHO)
+                    Next
+                End If
+                Return True
+            End If
+
+            If TypeOf gStruct Is HeterogeneousToeplitzRandomEffects Then
+                Dim expected As Integer = gStruct.ParamCount(q)
+                If covG Is Nothing OrElse covG.Length <> expected Then
+                    diagnostic = "HeterogeneousToeplitzRandomEffects covariance theta length mismatch."
+                    Return False
+                End If
+                thetaG = New Double(expected - 1) {}
+                For i As Integer = 0 To q - 1
+                    If covG(i) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covG(i)) Then
+                        diagnostic = "TOEPH random-effect variances must be positive."
+                        Return False
+                    End If
+                    thetaG(i) = Math.Log(covG(i))
+                Next
+                If q > 1 Then
+                    Dim corr(q - 1) As Double
+                    corr(0) = 1.0
+                    For lag As Integer = 1 To q - 1
+                        Dim rho As Double = covG(q + lag - 1)
+                        If Math.Abs(rho) >= MAX_ABS_RHO OrElse Not AppInfrastructure.IsFinite(rho) Then
+                            diagnostic = "TOEPH random-effects lag correlation outside (-1,1)."
+                            Return False
+                        End If
+                        corr(lag) = rho
+                    Next
+                    Dim pacfValues() As Double = Nothing
+                    If Not TryAutocorrelationsToPartialCorrelations(corr, pacfValues, diagnostic) Then Return False
+                    For lag As Integer = 1 To q - 1
+                        thetaG(q + lag - 1) = Atanh(pacfValues(lag), False, MAX_ABS_RHO)
+                    Next
+                End If
+                Return True
+            End If
+
             If TypeOf gStruct Is UnstructuredRandomEffects Then
                 Dim expected As Integer = q * (q + 1) \ 2
                 If covG Is Nothing OrElse covG.Length <> expected Then
@@ -1472,10 +1807,10 @@ Namespace regression
 
             If TypeOf rStruct Is CompoundSymmetryR Then
                 If thetaR Is Nothing OrElse thetaR.Length <> 2 Then diagnostic = "CompoundSymmetryR expects two parameters." : Return False
-                Dim var As Double = Math.Exp(thetaR(0))
+                Dim varR As Double = Math.Exp(thetaR(0))
                 Dim rho As Double = Math.Tanh(thetaR(1))
-                outVals.Add(var)
-                outVals.Add(var * rho)
+                outVals.Add(varR)
+                outVals.Add(varR * rho)
                 outNames.Add("R_var")
                 outNames.Add("R_cov")
                 Return True
@@ -1507,6 +1842,34 @@ Namespace regression
                 Next
                 outVals.Add(Math.Tanh(thetaR(thetaR.Length - 1)))
                 outNames.Add("R_ar1_corr")
+                Return True
+            End If
+
+            If TypeOf rStruct Is ToeplitzR Then
+                Dim m As Integer = VisitDimension(data)
+                If thetaR Is Nothing OrElse thetaR.Length <> m Then diagnostic = "ToeplitzR expects visit-dimension parameters." : Return False
+                outVals.Add(Math.Exp(thetaR(0)))
+                outNames.Add("R_var")
+                Dim rho() As Double = BuildToeplitzAutocorrelationsFromPartialTheta(thetaR, m, 1)
+                For lag As Integer = 1 To m - 1
+                    outVals.Add(rho(lag))
+                    outNames.Add("R_toep_corr_lag" & lag.ToString())
+                Next
+                Return True
+            End If
+
+            If TypeOf rStruct Is HeterogeneousToeplitzR Then
+                Dim m As Integer = VisitDimension(data)
+                If thetaR Is Nothing OrElse thetaR.Length <> 2 * m - 1 Then diagnostic = "HeterogeneousToeplitzR expects 2*m-1 parameters." : Return False
+                For i As Integer = 0 To m - 1
+                    outVals.Add(Math.Exp(thetaR(i)))
+                    outNames.Add("R_var_visit" & (i + 1).ToString())
+                Next
+                Dim rho() As Double = BuildToeplitzAutocorrelationsFromPartialTheta(thetaR, m, m)
+                For lag As Integer = 1 To m - 1
+                    outVals.Add(rho(lag))
+                    outNames.Add("R_toeph_corr_lag" & lag.ToString())
+                Next
                 Return True
             End If
 
@@ -1560,12 +1923,12 @@ Namespace regression
 
             If TypeOf rStruct Is CompoundSymmetryR Then
                 If covR Is Nothing OrElse covR.Length <> 2 Then diagnostic = "CompoundSymmetryR covariance theta length must be two." : Return False
-                Dim var As Double = covR(0)
-                Dim cov As Double = covR(1)
-                If var <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(var) Then diagnostic = "CS variance must be positive." : Return False
-                Dim rho As Double = cov / var
+                Dim varR As Double = covR(0)
+                Dim covRho As Double = covR(1)
+                If varR <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(varR) Then diagnostic = "CS variance must be positive." : Return False
+                Dim rho As Double = covRho / varR
                 If Math.Abs(rho) >= MAX_ABS_RHO Then diagnostic = "CS covariance implies |rho| >= 1." : Return False
-                thetaR = New Double() {Math.Log(var), Atanh(rho, False, MAX_ABS_RHO)}
+                thetaR = New Double() {Math.Log(varR), Atanh(rho, False, MAX_ABS_RHO)}
                 Return True
             End If
 
@@ -1600,6 +1963,61 @@ Namespace regression
                 Dim rho As Double = covR(covR.Length - 1)
                 If Math.Abs(rho) >= MAX_ABS_RHO Then diagnostic = "HAR1 correlation outside (-1,1)." : Return False
                 thetaR(thetaR.Length - 1) = Atanh(rho, False, MAX_ABS_RHO)
+                Return True
+            End If
+
+            If TypeOf rStruct Is ToeplitzR Then
+                Dim m As Integer = VisitDimension(data)
+                If covR Is Nothing OrElse covR.Length <> m Then diagnostic = "ToeplitzR covariance theta length mismatch." : Return False
+                If covR(0) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covR(0)) Then diagnostic = "Toeplitz residual variance must be positive." : Return False
+                thetaR = New Double(m - 1) {}
+                thetaR(0) = Math.Log(covR(0))
+                If m > 1 Then
+                    Dim corr(m - 1) As Double
+                    corr(0) = 1.0
+                    For lag As Integer = 1 To m - 1
+                        Dim rhoLag As Double = covR(lag)
+                        If Math.Abs(rhoLag) >= MAX_ABS_RHO OrElse Not AppInfrastructure.IsFinite(rhoLag) Then
+                            diagnostic = "Toeplitz residual lag correlation outside (-1,1)."
+                            Return False
+                        End If
+                        corr(lag) = rhoLag
+                    Next
+                    Dim pacfValues() As Double = Nothing
+                    If Not TryAutocorrelationsToPartialCorrelations(corr, pacfValues, diagnostic) Then Return False
+                    For lag As Integer = 1 To m - 1
+                        thetaR(lag) = Atanh(pacfValues(lag), False, MAX_ABS_RHO)
+                    Next
+                End If
+                Return True
+            End If
+
+            If TypeOf rStruct Is HeterogeneousToeplitzR Then
+                Dim m As Integer = VisitDimension(data)
+                Dim expected As Integer = 2 * m - 1
+                If covR Is Nothing OrElse covR.Length <> expected Then diagnostic = "HeterogeneousToeplitzR covariance theta length mismatch." : Return False
+                thetaR = New Double(expected - 1) {}
+                For i As Integer = 0 To m - 1
+                    If covR(i) <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(covR(i)) Then diagnostic = "TOEPH residual variances must be positive." : Return False
+                    thetaR(i) = Math.Log(covR(i))
+                Next
+                If m > 1 Then
+                    Dim corr(m - 1) As Double
+                    corr(0) = 1.0
+                    For lag As Integer = 1 To m - 1
+                        Dim rhoLag As Double = covR(m + lag - 1)
+                        If Math.Abs(rhoLag) >= MAX_ABS_RHO OrElse Not AppInfrastructure.IsFinite(rhoLag) Then
+                            diagnostic = "TOEPH residual lag correlation outside (-1,1)."
+                            Return False
+                        End If
+                        corr(lag) = rhoLag
+                    Next
+                    Dim pacfValues() As Double = Nothing
+                    If Not TryAutocorrelationsToPartialCorrelations(corr, pacfValues, diagnostic) Then Return False
+                    For lag As Integer = 1 To m - 1
+                        thetaR(m + lag - 1) = Atanh(pacfValues(lag), False, MAX_ABS_RHO)
+                    Next
+                End If
                 Return True
             End If
 
@@ -1665,6 +2083,14 @@ Namespace regression
             If gStruct Is Nothing Then Return 0
             If TypeOf gStruct Is RandomIntercept Then Return 1
             If TypeOf gStruct Is RandomInterceptSlope Then Return 3
+            If TypeOf gStruct Is VarianceComponentsRandomEffects Then Return q
+            If TypeOf gStruct Is IdentityRandomEffects Then Return 1
+            If TypeOf gStruct Is CompoundSymmetryRandomEffects Then Return gStruct.ParamCount(q)
+            If TypeOf gStruct Is HeterogeneousCompoundSymmetryRandomEffects Then Return gStruct.ParamCount(q)
+            If TypeOf gStruct Is AutoregressiveRandomEffects Then Return gStruct.ParamCount(q)
+            If TypeOf gStruct Is HeterogeneousAutoregressiveRandomEffects Then Return gStruct.ParamCount(q)
+            If TypeOf gStruct Is ToeplitzRandomEffects Then Return q
+            If TypeOf gStruct Is HeterogeneousToeplitzRandomEffects Then Return gStruct.ParamCount(q)
             If TypeOf gStruct Is UnstructuredRandomEffects Then Return q * (q + 1) \ 2
             Return gStruct.ParamCount(q)
         End Function
@@ -1718,18 +2144,11 @@ Namespace regression
 
 
         Private Function VisitDimension(data As MixedModelBlockData) As Integer
-            If data Is Nothing OrElse data.Blocks Is Nothing Then Return 0
-
-            Dim maxVisit As Integer = 0
-            For Each b As MixedModelSubjectBlock In data.Blocks
-                If b Is Nothing OrElse b.Visit Is Nothing Then Continue For
-
-                For Each v As Double In b.Visit
-                    If AppInfrastructure.IsFinite(v) Then maxVisit = Math.Max(maxVisit, CInt(Math.Round(v)))
-                Next
-            Next
-
-            Return maxVisit
+            If data Is Nothing Then Return 0
+            Dim uniqueVisits() As Double = data.UniqueVisitValues
+            If uniqueVisits IsNot Nothing AndAlso uniqueVisits.Length > 0 Then Return uniqueVisits.Length
+            If data.Blocks Is Nothing Then Return 0
+            Return data.MaxClusterSize()
         End Function
 
 
@@ -1777,7 +2196,6 @@ Namespace regression
             Next
         End Sub
 
-
         Private Function MatrixFromLowerTriangle(vals() As Double, n As Integer) As Double(,)
             Dim out(n - 1, n - 1) As Double
             Dim k As Integer = 0
@@ -1793,6 +2211,100 @@ Namespace regression
             Return out
         End Function
 
+        Private Function CompoundSymmetryCorrelationLowerBound(q As Integer) As Double
+            If q <= 1 Then Return -MAX_ABS_RHO
+            Return -1.0 / CDbl(q - 1)
+        End Function
+
+
+        Private Function BoundedCompoundSymmetryCorrelation(raw As Double, q As Integer) As Double
+            Dim lower As Double = CompoundSymmetryCorrelationLowerBound(q)
+            If raw >= 0.0 Then Return MAX_ABS_RHO * Math.Tanh(raw)
+            Return lower * Math.Tanh(-raw)
+        End Function
+
+
+        Private Function LogitBounded(value As Double, lower As Double, upper As Double) As Double
+            If value <= lower OrElse value >= upper Then Throw New ArgumentOutOfRangeException(NameOf(value))
+            If value >= 0.0 Then
+                Return Atanh(value / upper, False, MAX_ABS_RHO)
+            End If
+            Return -Atanh(value / lower, False, MAX_ABS_RHO)
+        End Function
+
+        Private Function BuildToeplitzAutocorrelationsFromPartialTheta(theta() As Double, q As Integer, startIndex As Integer) As Double()
+            If q < 1 Then Throw New ArgumentOutOfRangeException(NameOf(q))
+            Dim rho(q - 1) As Double
+            rho(0) = 1.0
+            If q = 1 Then Return rho
+
+            Dim phi(q - 1, q - 1) As Double
+            For k As Integer = 1 To q - 1
+                Dim pacf As Double = Math.Tanh(theta(startIndex + k - 1))
+                If pacf > MAX_ABS_RHO Then pacf = MAX_ABS_RHO
+                If pacf < -MAX_ABS_RHO Then pacf = -MAX_ABS_RHO
+
+                phi(k, k) = pacf
+                If k > 1 Then
+                    For j As Integer = 1 To k - 1
+                        phi(k, j) = phi(k - 1, j) - pacf * phi(k - 1, k - j)
+                    Next
+                End If
+                For j As Integer = 1 To k
+                    rho(j) = phi(k, j)
+                Next
+            Next
+
+            Return rho
+        End Function
+
+        Private Function TryAutocorrelationsToPartialCorrelations(rho() As Double,
+                                                                  ByRef pacfValues() As Double,
+                                                                  ByRef diagnostic As String) As Boolean
+            pacfValues = Nothing
+            If rho Is Nothing OrElse rho.Length = 0 Then
+                diagnostic = "Toeplitz autocorrelation vector is empty."
+                Return False
+            End If
+
+            Dim q As Integer = rho.Length
+            pacfValues = New Double(q - 1) {}
+            pacfValues(0) = 1.0
+            If q = 1 Then Return True
+
+            Dim phi(q - 1, q - 1) As Double
+            Dim predictionVar As Double = 1.0
+
+            For k As Integer = 1 To q - 1
+                Dim numerator As Double = rho(k)
+                For j As Integer = 1 To k - 1
+                    numerator -= phi(k - 1, j) * rho(k - j)
+                Next
+
+                If predictionVar <= MIN_POSITIVE OrElse Not AppInfrastructure.IsFinite(predictionVar) Then
+                    diagnostic = "Toeplitz autocorrelation sequence is not positive definite."
+                    Return False
+                End If
+
+                Dim pacf As Double = numerator / predictionVar
+                If Math.Abs(pacf) >= MAX_ABS_RHO OrElse Not AppInfrastructure.IsFinite(pacf) Then
+                    diagnostic = "Toeplitz autocorrelation sequence implies an invalid partial autocorrelation."
+                    Return False
+                End If
+
+                pacfValues(k) = pacf
+                phi(k, k) = pacf
+                If k > 1 Then
+                    For j As Integer = 1 To k - 1
+                        phi(k, j) = phi(k - 1, j) - pacf * phi(k - 1, k - j)
+                    Next
+                End If
+
+                predictionVar *= (1.0 - pacf * pacf)
+            Next
+
+            Return True
+        End Function
 
         Private Function TryCholeskyLower(a(,) As Double, ByRef l(,) As Double) As Boolean
             l = Nothing

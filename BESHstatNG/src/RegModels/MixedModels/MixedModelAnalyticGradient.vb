@@ -513,6 +513,14 @@ Namespace regression
 
                 If Not (TypeOf activeG Is RandomIntercept OrElse
                         TypeOf activeG Is RandomInterceptSlope OrElse
+                        TypeOf activeG Is VarianceComponentsRandomEffects OrElse
+                        TypeOf activeG Is IdentityRandomEffects OrElse
+                        TypeOf activeG Is CompoundSymmetryRandomEffects OrElse
+                        TypeOf activeG Is HeterogeneousCompoundSymmetryRandomEffects OrElse
+                        TypeOf activeG Is AutoregressiveRandomEffects OrElse
+                        TypeOf activeG Is HeterogeneousAutoregressiveRandomEffects OrElse
+                        TypeOf activeG Is ToeplitzRandomEffects OrElse
+                        TypeOf activeG Is HeterogeneousToeplitzRandomEffects OrElse
                         TypeOf activeG Is UnstructuredRandomEffects) Then
                     message = MixedModelCovarianceDerivatives.UnsupportedGDerivativeMessage & " Structure='" & activeG.ToString() & "'."
                     Return False

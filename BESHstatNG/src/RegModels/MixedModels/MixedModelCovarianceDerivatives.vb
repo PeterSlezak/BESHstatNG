@@ -77,6 +77,11 @@ Namespace regression
                     Return True
                 End If
 
+                If TypeOf residualStruct Is ToeplitzR OrElse TypeOf residualStruct Is HeterogeneousToeplitzR Then
+                    derivatives = BuildNumericalResidualDerivatives(residualStruct, thetaR, block, data)
+                    Return True
+                End If
+
                 If TypeOf residualStruct Is UnstructuredR Then
                     derivatives = BuildUnstructuredDerivatives(thetaR, block, data)
                     Return True
@@ -135,9 +140,53 @@ Namespace regression
             Return TransformGDerivativesToV(block, dG)
         End Function
 
-        Private Function BuildUnstructuredGDerivatives(theta() As Double,
-                                                      block As MixedModelSubjectBlock,
-                                                      q As Integer) As Double(,,)
+        Private Function BuildVarianceComponentsGDerivatives(theta() As Double, block As MixedModelSubjectBlock, q As Integer) As Double(,,)
+            ValidateBlockQ(block, q, "VarianceComponentsRandomEffects")
+            ValidateThetaLength(theta, q, "VarianceComponentsRandomEffects")
+
+            Dim dG(q - 1, q - 1, q - 1) As Double
+            For h As Integer = 0 To q - 1
+                dG(h, h, h) = Math.Exp(theta(h))
+            Next
+
+            Return TransformGDerivativesToV(block, dG)
+        End Function
+
+        Private Function BuildNumericalStructuredGDerivatives(gStruct As MixedModelGStruct,
+                                                                  theta() As Double,
+                                                                  block As MixedModelSubjectBlock,
+                                                                  q As Integer,
+                                                                  structureName As String) As Double(,,)
+            If gStruct Is Nothing Then Throw New ArgumentNullException(NameOf(gStruct))
+            ValidateBlockQ(block, q, structureName)
+            Dim expected As Integer = gStruct.ParamCount(q)
+            ValidateThetaLength(theta, expected, structureName)
+
+            Dim dG(expected - 1, q - 1, q - 1) As Double
+            For h As Integer = 0 To expected - 1
+                Dim stepSize As Double = Math.Max(0.000001, 0.00001 * Math.Max(1.0, Math.Abs(theta(h))))
+                Dim plus() As Double = CType(theta.Clone(), Double())
+                Dim minus() As Double = CType(theta.Clone(), Double())
+                plus(h) += stepSize
+                minus(h) -= stepSize
+
+                Dim gPlus(,) As Double = gStruct.BuildG(plus, q)
+                Dim gMinus(,) As Double = gStruct.BuildG(minus, q)
+                If gPlus Is Nothing OrElse gMinus Is Nothing Then
+                    Throw New ApplicationException(structureName & " numerical derivative failed because BuildG returned Nothing.")
+                End If
+
+                For i As Integer = 0 To q - 1
+                    For j As Integer = 0 To q - 1
+                        dG(h, i, j) = (gPlus(i, j) - gMinus(i, j)) / (2.0 * stepSize)
+                    Next
+                Next
+            Next
+
+            Return TransformGDerivativesToV(block, dG)
+        End Function
+
+        Private Function BuildUnstructuredGDerivatives(theta() As Double, block As MixedModelSubjectBlock, q As Integer) As Double(,,)
             ValidateBlockQ(block, q, "UnstructuredRandomEffects")
             Dim expected As Integer = q * (q + 1) \ 2
             ValidateThetaLength(theta, expected, "UnstructuredRandomEffects")
@@ -267,6 +316,22 @@ Namespace regression
 
                 If TypeOf gStruct Is RandomInterceptSlope Then
                     derivatives = BuildRandomInterceptSlopeGDerivatives(thetaG, block)
+                    Return True
+                End If
+
+                If TypeOf gStruct Is VarianceComponentsRandomEffects Then
+                    derivatives = BuildVarianceComponentsGDerivatives(thetaG, block, data.Q)
+                    Return True
+                End If
+
+                If TypeOf gStruct Is IdentityRandomEffects OrElse
+                   TypeOf gStruct Is CompoundSymmetryRandomEffects OrElse
+                   TypeOf gStruct Is HeterogeneousCompoundSymmetryRandomEffects OrElse
+                   TypeOf gStruct Is AutoregressiveRandomEffects OrElse
+                   TypeOf gStruct Is HeterogeneousAutoregressiveRandomEffects OrElse
+                   TypeOf gStruct Is ToeplitzRandomEffects OrElse
+                   TypeOf gStruct Is HeterogeneousToeplitzRandomEffects Then
+                    derivatives = BuildNumericalStructuredGDerivatives(gStruct, thetaG, block, data.Q, gStruct.ToString())
                     Return True
                 End If
 
@@ -429,6 +494,42 @@ Namespace regression
                     If lag > 0 Then
                         out(m, i, j) = sd(i) * sd(j) * Ar1PowerDerivativeWithRespectToRho(rho, lag) * drho
                     End If
+                Next
+            Next
+
+            Return out
+        End Function
+
+        Private Function BuildNumericalResidualDerivatives(residualStruct As MixedModelRStruct,
+                                                                 theta() As Double,
+                                                                 block As MixedModelSubjectBlock,
+                                                                 data As MixedModelBlockData) As Double(,,)
+            If residualStruct Is Nothing Then Throw New ArgumentNullException(NameOf(residualStruct))
+            If theta Is Nothing Then Throw New ArgumentNullException(NameOf(theta))
+            If block Is Nothing Then Throw New ArgumentNullException(NameOf(block))
+            If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+
+            Dim p As Integer = theta.Length
+            Dim n As Integer = block.Nobs
+            Dim out(p - 1, n - 1, n - 1) As Double
+
+            For h As Integer = 0 To p - 1
+                Dim stepSize As Double = 0.00001 * Math.Max(1.0, Math.Abs(theta(h)))
+                If stepSize <= 0.0 OrElse Double.IsNaN(stepSize) OrElse Double.IsInfinity(stepSize) Then stepSize = 0.00001
+
+                Dim plus() As Double = CType(theta.Clone(), Double())
+                Dim minus() As Double = CType(theta.Clone(), Double())
+                plus(h) += stepSize
+                minus(h) -= stepSize
+
+                Dim rPlus(,) As Double = residualStruct.BuildRi(plus, block, data)
+                Dim rMinus(,) As Double = residualStruct.BuildRi(minus, block, data)
+                Dim denom As Double = 2.0 * stepSize
+
+                For i As Integer = 0 To n - 1
+                    For j As Integer = 0 To n - 1
+                        out(h, i, j) = (rPlus(i, j) - rMinus(i, j)) / denom
+                    Next
                 Next
             Next
 

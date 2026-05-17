@@ -125,7 +125,7 @@ Namespace WorksheetFunctions
         ''' <param name="subject">Single-column range identifying the subject for each observation. Repeated rows with the same identifier are treated as belonging to the same subject.</param>
         ''' <param name="visit">Optional single-column numeric visit/time range. When supplied, observations are sorted within each subject by this value before the covariance structure is evaluated.</param>
         ''' <param name="varNames">Optional row or column range containing predictor names for the columns of <paramref name="x"/>. If omitted, generic names are used.</param>
-        ''' <param name="covariance">Within-subject covariance structure. Accepted values include <c>ID</c>, <c>Diagonal</c>, <c>CS</c>, <c>HCS</c>, <c>AR(1)</c>, <c>HAR(1)</c>, and <c>UN</c>. The default is <c>UN</c>.</param>
+        ''' <param name="covariance">Within-subject covariance structure. Accepted values include <c>ID</c>, <c>Diagonal</c>, <c>CS</c>, <c>HCS</c>, <c>AR(1)</c>, <c>HAR(1)</c>, <c>TOEP</c>, <c>TOEPH</c> and <c>UN</c>. The default is <c>UN</c>.</param>
         ''' <param name="fitMethod">Likelihood method. Use <c>REML</c> for restricted maximum likelihood or <c>ML</c> for maximum likelihood. The default is <c>REML</c>.</param>
         ''' <param name="inference">Fixed-effect inference method. Accepted values include <c>KR</c>, <c>Satterthwaite</c>, <c>BetweenWithin</c>, <c>ResidualDF</c>, and <c>Wald</c>. The default is <c>KR</c>.</param>
         ''' <param name="includeIntercept">TRUE to add an intercept column before fitting; FALSE when <paramref name="x"/> already contains all desired columns. The default is TRUE.</param>
@@ -170,7 +170,7 @@ Namespace WorksheetFunctions
             <ExcelArgument(AllowReference:=True, Name:="subject", Description:="Subject identifier vector.")> subject As Object,
             <ExcelArgument(AllowReference:=True, Name:="visit", Description:="Optional numeric visit/time vector.")> Optional visit As Object = Nothing,
             <ExcelArgument(Name:="varNames", Description:="Optional predictor names for columns of x.")> Optional varNames As Object = Nothing,
-            <ExcelArgument(Name:="covariance", Description:="R-side covariance: ID, Diagonal, CS, HCS, AR(1), HAR(1), or UN. Default UN.")> Optional covariance As Object = Nothing,
+            <ExcelArgument(Name:="covariance", Description:="R-side covariance: ID, Diagonal, CS, HCS, AR(1), HAR(1), TOEP, TOEPH, or UN. Default UN.")> Optional covariance As Object = Nothing,
             <ExcelArgument(Name:="fitMethod", Description:="REML or ML. Default REML.")> Optional fitMethod As Object = Nothing,
             <ExcelArgument(Name:="inference", Description:="KR, Satterthwaite, BetweenWithin, ResidualDF, or Wald. Default KR.")> Optional inference As Object = Nothing,
             <ExcelArgument(Name:="includeIntercept", Description:="TRUE to prepend an intercept column to x. Default TRUE.")> Optional includeIntercept As Object = Nothing,
@@ -192,19 +192,11 @@ Namespace WorksheetFunctions
                 Dim includeInterceptValue As Boolean = ExcelArgNumeric.GetOptionalBool(includeIntercept, True)
                 Dim traceValue As Boolean = ExcelArgNumeric.GetOptionalBool(trace, False)
 
-                Dim fit As regression.MixedModelFitMethod = ParseFitMethod(fitMethod)
-                Dim fixedInference As regression.MixedModelFixedInferenceMethod = ParseInferenceMethod(inference)
-                Dim optimizerMode As regression.MixedModelCovarianceOptimizerMode = ParseCovarianceOptimizerMode(covOptimizerMode)
-                Dim gradientMode As regression.MixedModelCovarianceGradientMode = ParseCovarianceGradientMode(covGradientMode)
-                Dim optimizerToken As String = NormalizeToken(ExcelArgReaders.AsString(covOptimizerMode))
-                If optimizerToken = "BFGSANALYTIC" OrElse optimizerToken = "PROJECTEDBFGSANALYTIC" OrElse
-                   optimizerToken = "PROJECTEDBFGSANALYTICGRADIENT" OrElse optimizerToken = "ANALYTICBFGS" Then
-                    gradientMode = regression.MixedModelCovarianceGradientMode.AnalyticScore
-                ElseIf optimizerToken = "BFGSNUMERICAL" OrElse optimizerToken = "PROJECTEDBFGSNUMERICAL" OrElse
-                       optimizerToken = "BFGSFINITE" OrElse optimizerToken = "BFGSFINITEDIFFERENCE" OrElse
-                       optimizerToken = "NUMERICALBFGS" Then
-                    gradientMode = regression.MixedModelCovarianceGradientMode.NumericalFiniteDifference
-                End If
+                Dim fit As regression.MixedModelFitMethod = ParseMixedModelFitMethodStrict(fitMethod, "MMRM")
+                Dim fixedInference As regression.MixedModelFixedInferenceMethod = ParseMixedModelInferenceMethodStrict(inference, "MMRM")
+                Dim optimizerMode As regression.MixedModelCovarianceOptimizerMode = ParseMixedModelCovarianceOptimizerModeStrict(covOptimizerMode, "MMRM")
+                Dim gradientMode As regression.MixedModelCovarianceGradientMode = ParseMixedModelCovarianceGradientModeStrict(covGradientMode, "MMRM")
+                ApplyMixedModelOptimizerShortcutToGradient(covOptimizerMode, gradientMode)
 
                 If fixedInference = regression.MixedModelFixedInferenceMethod.KenwardRoger AndAlso fit <> regression.MixedModelFitMethod.REML Then
                     Return "BESH.REGR.MMRM_FIT error: Kenward-Roger inference requires REML. Set fitMethod to ""REML"" or choose another inference method."
@@ -300,7 +292,7 @@ Namespace WorksheetFunctions
                                                                                                         visit:=visitValues,
                                                                                                         sortWithinSubjectByVisit:=True)
 
-                Dim covName As String = NormalizeCovarianceName(covariance)
+                Dim covName As String = NormalizeMixedModelResidualCovarianceName(covariance, "UN")
                 Dim rStruct As regression.MixedModelRStruct = regression.MixedModelRStructUtils.createMixedModelRStruct(covName)
                 Dim req As regression.MixedModelFitRequest = regression.MixedModelFitRequest.CreateMMRM(data, rStruct, fit)
                 req.FixedEffectNames = fitNames
@@ -419,7 +411,7 @@ Namespace WorksheetFunctions
                     Return PrepareResultTableForUdf(StackResultTables(tables))
                 End If
 
-                Dim selected As Object(,) = FindTableByTitle(tables, tableName)
+                Dim selected As Object(,) = FindResultTableByTitle(tables, tableName)
                 If selected Is Nothing Then Return ExcelError.ExcelErrorNA
                 Return PrepareResultTableForUdf(selected)
 
@@ -1160,112 +1152,29 @@ Namespace WorksheetFunctions
             Return count
         End Function
 
-        Private Function ParseFitMethod(arg As Object) As regression.MixedModelFitMethod
-            Dim s As String = ExcelArgReaders.AsString(arg)
-            If String.IsNullOrWhiteSpace(s) Then Return regression.MixedModelFitMethod.REML
-
-            Select Case NormalizeToken(s)
-                Case "ML"
-                    Return regression.MixedModelFitMethod.ML
-                Case "REML"
-                    Return regression.MixedModelFitMethod.REML
-                Case Else
-                    Throw New ArgumentException("Unsupported MMRM fitMethod. Use REML or ML.")
-            End Select
-        End Function
-
-        Private Function ParseInferenceMethod(arg As Object) As regression.MixedModelFixedInferenceMethod
-            Dim s As String = ExcelArgReaders.AsString(arg)
-            If String.IsNullOrWhiteSpace(s) Then Return regression.MixedModelFixedInferenceMethod.KenwardRoger
-
-            Select Case NormalizeToken(s)
-                Case "KR", "KENWARDROGER", "KENWARDROGERDF", "KENWARDROGERF"
-                    Return regression.MixedModelFixedInferenceMethod.KenwardRoger
-                Case "SAT", "SATTERTHWAITE", "SATTERTHWAITEDF"
-                    Return regression.MixedModelFixedInferenceMethod.Satterthwaite
-                Case "BW", "BETWEENWITHIN", "BETWEENWITHINDF"
-                    Return regression.MixedModelFixedInferenceMethod.BetweenWithin
-                Case "RESID", "RESIDUAL", "RESIDUALDF"
-                    Return regression.MixedModelFixedInferenceMethod.ResidualDF
-                Case "WALD", "NORMAL", "WALDNORMAL", "Z"
-                    Return regression.MixedModelFixedInferenceMethod.WaldNormal
-                Case Else
-                    Throw New ArgumentException("Unsupported MMRM inference method. Use KR, Satterthwaite, BetweenWithin, ResidualDF, or Wald.")
-            End Select
-        End Function
-
-        Private Function ParseCovarianceOptimizerMode(arg As Object) As regression.MixedModelCovarianceOptimizerMode
-            Dim s As String = ExcelArgReaders.AsString(arg)
-            If String.IsNullOrWhiteSpace(s) Then Return regression.MixedModelCovarianceOptimizerMode.AverageInformationReml
-
-            Select Case NormalizeToken(s)
-                Case "AI", "AIREML", "AVERAGEINFORMATION", "AVERAGEINFORMATIONREML", "FISHER", "FISHERSCORING", "FISHERSCORE", "SAS", "PROCMIXED", "PROCMIXEDSTYLE"
-                    Return regression.MixedModelCovarianceOptimizerMode.AverageInformationReml
-                Case "BFGS", "PROJECTEDBFGS", "PROJECTEDBFGSAUTO"
-                    Return regression.MixedModelCovarianceOptimizerMode.ProjectedBfgs
-                Case "BFGSANALYTIC", "PROJECTEDBFGSANALYTIC", "PROJECTEDBFGSANALYTICGRADIENT", "ANALYTICBFGS"
-                    Return regression.MixedModelCovarianceOptimizerMode.ProjectedBfgsAnalyticGradient
-                Case "BFGSNUMERICAL", "PROJECTEDBFGSNUMERICAL", "BFGSFINITE", "BFGSFINITEDIFFERENCE", "NUMERICALBFGS"
-                    Return regression.MixedModelCovarianceOptimizerMode.ProjectedBfgs
-                Case Else
-                    Throw New ArgumentException("Unsupported MMRM covOptimizerMode. Use AI, AverageInformation, FisherScoring, SAS, BFGS, BFGS_ANALYTIC, or BFGS_NUMERICAL.")
-            End Select
-        End Function
-
-        Private Function ParseCovarianceGradientMode(arg As Object) As regression.MixedModelCovarianceGradientMode
-            Dim s As String = ExcelArgReaders.AsString(arg)
-            If String.IsNullOrWhiteSpace(s) Then Return regression.MixedModelCovarianceGradientMode.Auto
-
-            Select Case NormalizeToken(s)
-                Case "AUTO", "AUTOMATIC"
-                    Return regression.MixedModelCovarianceGradientMode.Auto
-                Case "ANALYTIC", "ANALYTICSCORE", "SCORE"
-                    Return regression.MixedModelCovarianceGradientMode.AnalyticScore
-                Case "ANALYTICVALIDATION", "ANALYTICSCOREVALIDATION", "ANALYTICWITHVALIDATION", "VALIDATE", "VALIDATION", "ANALYTICSCOREFINITEDIFFERENCEVALIDATION"
-                    Return regression.MixedModelCovarianceGradientMode.AnalyticScoreWithFiniteDifferenceValidation
-                Case "NUMERICAL", "FINITE", "FINITEDIFFERENCE", "FD", "NUMERICALFINITEDIFFERENCE"
-                    Return regression.MixedModelCovarianceGradientMode.NumericalFiniteDifference
-                Case Else
-                    Throw New ArgumentException("Unsupported MMRM covGradientMode. Use Auto, Analytic, AnalyticValidation, Validate, Numerical, or FiniteDifference.")
-            End Select
-        End Function
-
-        Private Function NormalizeCovarianceName(arg As Object) As String
-            Dim s As String = ExcelArgReaders.AsString(arg)
-            If String.IsNullOrWhiteSpace(s) Then Return "UN"
-
-            Select Case NormalizeToken(s)
-                Case "ID", "IDENTITY", "INDEPENDENCE"
-                    Return "Identity"
-                Case "DIAG", "DIAGONAL", "DIAGONALHETEROGENEOUS", "HETEROGENEOUSDIAGONAL"
-                    Return "Diagonal"
-                Case "CS", "COMPOUNDSYMMETRY", "EXCHANGEABLE"
-                    Return "CS"
-                Case "HCS", "CSH", "HETEROGENEOUSCS", "HETEROGENEOUSCOMPOUNDSYMMETRY"
-                    Return "Heterogeneous CS"
-                Case "AR1", "AR", "AR(1)", "AUTOREGRESSIVE"
-                    Return "AR(1)"
-                Case "HAR1", "ARH1", "ARH(1)", "HETEROGENEOUSAR1", "HETEROGENEOUSAR(1)"
-                    Return "Heterogeneous AR(1)"
-                Case "UN", "UNSTRUCTURED"
-                    Return "UN"
-                Case Else
-                    Return s
-            End Select
-        End Function
-
-        Private Function NormalizeToken(s As String) As String
-            If s Is Nothing Then Return String.Empty
-            Dim chars As Char() = s.Trim().ToUpperInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch) OrElse ch = "("c OrElse ch = ")"c).ToArray()
-            Return New String(chars)
-        End Function
-
         Private Function DefaultNames(count As Integer, prefix As String) As String()
             Dim names(Math.Max(0, count) - 1) As String
             For i As Integer = 0 To names.Length - 1
                 names(i) = prefix & (i + 1).ToString(CultureInfo.InvariantCulture)
             Next
             Return names
+        End Function
+
+
+        Private Function AddInterceptIfRequested(x(,) As Double, includeIntercept As Boolean) As Double(,)
+            If x Is Nothing Then Throw New ArgumentNullException(NameOf(x))
+            If Not includeIntercept Then Return x
+
+            Dim n As Integer = x.GetLength(0)
+            Dim p As Integer = x.GetLength(1)
+            Dim out(n - 1, p) As Double
+            For i As Integer = 0 To n - 1
+                out(i, 0) = 1.0
+                For j As Integer = 0 To p - 1
+                    out(i, j + 1) = x(i, j)
+                Next
+            Next
+            Return out
         End Function
 
         Private Function ResolveMmrmImportedPredictorNames(varNames As Object,
@@ -1334,22 +1243,6 @@ Namespace WorksheetFunctions
             If h.Result.Beta Is Nothing OrElse h.Result.Beta.Length <> h.FixedEffectNames.Length Then Exit Sub
             h.Result.FixedEffectNames = CType(h.FixedEffectNames.Clone(), String())
         End Sub
-
-        Private Function AddInterceptIfRequested(x(,) As Double, includeIntercept As Boolean) As Double(,)
-            If x Is Nothing Then Throw New ArgumentNullException(NameOf(x))
-            If Not includeIntercept Then Return x
-
-            Dim n As Integer = x.GetLength(0)
-            Dim p As Integer = x.GetLength(1)
-            Dim out(n - 1, p) As Double
-            For i As Integer = 0 To n - 1
-                out(i, 0) = 1.0
-                For j As Integer = 0 To p - 1
-                    out(i, j + 1) = x(i, j)
-                Next
-            Next
-            Return out
-        End Function
 
         Private Function AddInterceptNameIfRequested(names() As String, includeIntercept As Boolean) As String()
             If names Is Nothing Then names = Array.Empty(Of String)()
@@ -1562,36 +1455,6 @@ Namespace WorksheetFunctions
             Next
 
             Return out
-        End Function
-
-        Private Function FindTableByTitle(tables As List(Of ResultTable), title As String) As Object(,)
-            If tables Is Nothing OrElse String.IsNullOrWhiteSpace(title) Then Return Nothing
-            Dim wanted As String = NormalizeTableTitle(title)
-
-            For Each t As ResultTable In tables
-                If t Is Nothing Then Continue For
-                Dim arr As Object(,) = t.returnSelf()
-                If arr Is Nothing OrElse arr.GetLength(0) = 0 OrElse arr.GetLength(1) = 0 Then Continue For
-
-                Dim first As String = Convert.ToString(arr(0, 0), CultureInfo.InvariantCulture)
-                If NormalizeTableTitle(first) = wanted Then Return arr
-            Next
-
-            For Each t As ResultTable In tables
-                If t Is Nothing Then Continue For
-                Dim arr As Object(,) = t.returnSelf()
-                If arr Is Nothing OrElse arr.GetLength(0) = 0 OrElse arr.GetLength(1) = 0 Then Continue For
-
-                Dim first As String = Convert.ToString(arr(0, 0), CultureInfo.InvariantCulture)
-                If NormalizeTableTitle(first).Contains(wanted) OrElse wanted.Contains(NormalizeTableTitle(first)) Then Return arr
-            Next
-
-            Return Nothing
-        End Function
-
-        Private Function NormalizeTableTitle(s As String) As String
-            If s Is Nothing Then Return String.Empty
-            Return New String(s.Trim().ToUpperInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch)).ToArray())
         End Function
 
     End Module

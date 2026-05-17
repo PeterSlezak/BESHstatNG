@@ -843,6 +843,10 @@ Namespace regression
                 If q < 2 Then Return -1
                 Return 3
             End If
+            If TypeOf gStruct Is VarianceComponentsRandomEffects Then
+                If q <= 0 Then Return -1
+                Return q
+            End If
             If TypeOf gStruct Is UnstructuredRandomEffects Then
                 If q <= 0 Then Return -1
                 Return q * (q + 1) \ 2
@@ -901,6 +905,11 @@ Namespace regression
                     Case Else
                         Return Nothing
                 End Select
+            End If
+
+            If TypeOf activeG Is VarianceComponentsRandomEffects Then
+                If q <= 0 OrElse gParamIndex < 0 OrElse gParamIndex >= q Then Return Nothing
+                Return OuterProductColumns(z, gParamIndex, gParamIndex)
             End If
 
             If TypeOf activeG Is UnstructuredRandomEffects Then
@@ -1489,13 +1498,65 @@ Namespace regression
             Public Property D2V As Double(,,,)
         End Class
 
-        Private _krDerivativeViCache As Dictionary(Of String, Double(,)) = Nothing
+        Private _krDerivativeViCache As Dictionary(Of KrDerivativeViCacheKey, Double(,)) = Nothing
         Private _krDerivativeViCacheHits As Integer = 0
         Private _krDerivativeViCacheMisses As Integer = 0
         Private _krDerivativeViCacheInvalid As Integer = 0
         Private _krDerivativeViCacheSubjectKey As String = String.Empty
         Private _krFiniteDifferenceDiagnostics As MixedModelKrFiniteDifferenceDiagnostics = Nothing
         Private _krDerivativePatternCacheDiagnostics As MixedModelKrDerivativePatternCacheDiagnostics = Nothing
+
+        Private Structure KrDerivativeViCacheKey
+            Implements IEquatable(Of KrDerivativeViCacheKey)
+
+            Public ReadOnly Mode As Integer
+            Public ReadOnly HIndex As Integer
+            Public ReadOnly HDelta As Double
+            Public ReadOnly JIndex As Integer
+            Public ReadOnly JDelta As Double
+
+            Public Sub New(covarianceScale As Boolean,
+                           useMmrmThetaBackTransform As Boolean,
+                           hIndex As Integer,
+                           hDelta As Double,
+                           jIndex As Integer,
+                           jDelta As Double)
+                If covarianceScale Then
+                    Mode = 1
+                ElseIf useMmrmThetaBackTransform Then
+                    Mode = 2
+                Else
+                    Mode = 0
+                End If
+
+                Me.HIndex = hIndex
+                Me.HDelta = hDelta
+                Me.JIndex = jIndex
+                Me.JDelta = jDelta
+            End Sub
+
+            Public Overloads Function Equals(other As KrDerivativeViCacheKey) As Boolean Implements IEquatable(Of KrDerivativeViCacheKey).Equals
+                Return Mode = other.Mode AndAlso
+                       HIndex = other.HIndex AndAlso
+                       HDelta = other.HDelta AndAlso
+                       JIndex = other.JIndex AndAlso
+                       JDelta = other.JDelta
+            End Function
+
+            Public Overrides Function Equals(obj As Object) As Boolean
+                If Not TypeOf obj Is KrDerivativeViCacheKey Then Return False
+                Return Equals(CType(obj, KrDerivativeViCacheKey))
+            End Function
+
+            Public Overrides Function GetHashCode() As Integer
+                Dim hash As Integer = Mode.GetHashCode()
+                hash = hash Xor HIndex.GetHashCode()
+                hash = hash Xor HDelta.GetHashCode()
+                hash = hash Xor JIndex.GetHashCode()
+                hash = hash Xor JDelta.GetHashCode()
+                Return hash
+            End Function
+        End Structure
 
         Private Function TryBuildKrFirstDerivativeMatrix(parameters() As Double,
                                                          block As MixedModelSubjectBlock,
@@ -1770,9 +1831,15 @@ Namespace regression
                                             delta As Double,
                                             covarianceScale As Boolean,
                                             Optional useMmrmThetaBackTransform As Boolean = False) As Double(,)
-            Dim perturbed() As Double = CType(parameters.Clone(), Double())
-            perturbed(paramIndex) += delta
-            Return BuildKrViFromParameterVector(perturbed, block, covarianceScale, useMmrmThetaBackTransform)
+            Return BuildCachedPerturbedKrVi(parameters,
+                                           block,
+                                           paramIndex,
+                                           delta,
+                                           hasSecondPerturbation:=False,
+                                           secondIndex:=-1,
+                                           secondDelta:=0.0,
+                                           covarianceScale:=covarianceScale,
+                                           useMmrmThetaBackTransform:=useMmrmThetaBackTransform)
         End Function
 
 
@@ -1784,32 +1851,45 @@ Namespace regression
                                                   jDelta As Double,
                                                   covarianceScale As Boolean,
                                                   Optional useMmrmThetaBackTransform As Boolean = False) As Double(,)
-            Dim perturbed() As Double = CType(parameters.Clone(), Double())
-            perturbed(hIndex) += hDelta
-            perturbed(jIndex) += jDelta
-            Return BuildKrViFromParameterVector(perturbed, block, covarianceScale, useMmrmThetaBackTransform)
+            Return BuildCachedPerturbedKrVi(parameters,
+                                            block,
+                                            hIndex,
+                                            hDelta,
+                                            hasSecondPerturbation:=True,
+                                            secondIndex:=jIndex,
+                                            secondDelta:=jDelta,
+                                            covarianceScale:=covarianceScale,
+                                            useMmrmThetaBackTransform:=useMmrmThetaBackTransform)
         End Function
 
 
-        Private Function BuildKrViFromParameterVector(parameters() As Double,
-                                                           block As MixedModelSubjectBlock,
-                                                           covarianceScale As Boolean,
-                                                           Optional useMmrmThetaBackTransform As Boolean = False) As Double(,)
-            Dim directBuild As Func(Of Double(,)) = Function()
-                                                        If covarianceScale Then
-                                                            Return SafeBuildViForCovarianceTheta(parameters, block)
-                                                        End If
+        Private Function BuildCachedPerturbedKrVi(parameters() As Double,
+                                                  block As MixedModelSubjectBlock,
+                                                  firstIndex As Integer,
+                                                  firstDelta As Double,
+                                                  hasSecondPerturbation As Boolean,
+                                                  secondIndex As Integer,
+                                                  secondDelta As Double,
+                                                  covarianceScale As Boolean,
+                                                  Optional useMmrmThetaBackTransform As Boolean = False) As Double(,)
+            If _krDerivativeViCache Is Nothing Then
+                Return BuildKrViFromPerturbation(parameters,
+                                                block,
+                                                firstIndex,
+                                                firstDelta,
+                                                hasSecondPerturbation,
+                                                secondIndex,
+                                                secondDelta,
+                                                covarianceScale,
+                                                useMmrmThetaBackTransform)
+            End If
 
-                                                        If useMmrmThetaBackTransform Then
-                                                            Return SafeBuildViForMmrmTheta(parameters, block)
-                                                        End If
-
-                                                        Return SafeBuildViForTheta(parameters, block)
-                                                    End Function
-
-            If _krDerivativeViCache Is Nothing Then Return directBuild.Invoke()
-
-            Dim key As String = BuildKrDerivativeViCacheKey(parameters, covarianceScale, useMmrmThetaBackTransform)
+            Dim key As New KrDerivativeViCacheKey(covarianceScale,
+                                                  useMmrmThetaBackTransform,
+                                                  firstIndex,
+                                                  firstDelta,
+                                                  If(hasSecondPerturbation, secondIndex, -1),
+                                                  If(hasSecondPerturbation, secondDelta, 0.0))
             Dim cached(,) As Double = Nothing
 
             If _krDerivativeViCache.TryGetValue(key, cached) Then
@@ -1817,7 +1897,15 @@ Namespace regression
                 Return cached
             End If
 
-            cached = directBuild.Invoke()
+            cached = BuildKrViFromPerturbation(parameters,
+                                                block,
+                                                firstIndex,
+                                                firstDelta,
+                                                hasSecondPerturbation,
+                                                secondIndex,
+                                                secondDelta,
+                                                covarianceScale,
+                                                useMmrmThetaBackTransform)
             If cached Is Nothing Then
                 _krDerivativeViCacheInvalid += 1
                 Return Nothing
@@ -1828,8 +1916,44 @@ Namespace regression
             Return cached
         End Function
 
+        Private Function BuildKrViFromPerturbation(parameters() As Double,
+                                                   block As MixedModelSubjectBlock,
+                                                   firstIndex As Integer,
+                                                   firstDelta As Double,
+                                                   hasSecondPerturbation As Boolean,
+                                                   secondIndex As Integer,
+                                                   secondDelta As Double,
+                                                   covarianceScale As Boolean,
+                                                   Optional useMmrmThetaBackTransform As Boolean = False) As Double(,)
+            If parameters Is Nothing Then Return Nothing
+            If firstIndex < 0 OrElse firstIndex >= parameters.Length Then Return Nothing
+            If hasSecondPerturbation AndAlso (secondIndex < 0 OrElse secondIndex >= parameters.Length) Then Return Nothing
+
+            Dim perturbed() As Double = CType(parameters.Clone(), Double())
+            perturbed(firstIndex) += firstDelta
+            If hasSecondPerturbation Then perturbed(secondIndex) += secondDelta
+
+            Return BuildKrViFromParameterVector(perturbed, block, covarianceScale, useMmrmThetaBackTransform)
+        End Function
+
+
+        Private Function BuildKrViFromParameterVector(parameters() As Double,
+                                                           block As MixedModelSubjectBlock,
+                                                           covarianceScale As Boolean,
+                                                           Optional useMmrmThetaBackTransform As Boolean = False) As Double(,)
+            If covarianceScale Then
+                Return SafeBuildViForCovarianceTheta(parameters, block)
+            End If
+
+            If useMmrmThetaBackTransform Then
+                Return SafeBuildViForMmrmTheta(parameters, block)
+            End If
+
+            Return SafeBuildViForTheta(parameters, block)
+        End Function
+
         Private Sub BeginKrDerivativeViCache(subjectKey As String)
-            _krDerivativeViCache = New Dictionary(Of String, Double(,))(StringComparer.Ordinal)
+            _krDerivativeViCache = New Dictionary(Of KrDerivativeViCacheKey, Double(,))()
             _krDerivativeViCacheHits = 0
             _krDerivativeViCacheMisses = 0
             _krDerivativeViCacheInvalid = 0
@@ -1863,23 +1987,6 @@ Namespace regression
             _krDerivativeViCacheInvalid = 0
             _krDerivativeViCacheSubjectKey = String.Empty
         End Sub
-
-        Private Function BuildKrDerivativeViCacheKey(parameters() As Double,
-                                                          covarianceScale As Boolean,
-                                                          Optional useMmrmThetaBackTransform As Boolean = False) As String
-            Dim prefix As String = If(covarianceScale, "C", If(useMmrmThetaBackTransform, "M", "T"))
-            If parameters Is Nothing Then Return prefix & ":<null>"
-
-            Dim sb As New System.Text.StringBuilder()
-            sb.Append(prefix).Append(":"c)
-
-            For i As Integer = 0 To parameters.Length - 1
-                If i > 0 Then sb.Append("|"c)
-                sb.Append(parameters(i).ToString("G17", System.Globalization.CultureInfo.InvariantCulture))
-            Next
-
-            Return sb.ToString()
-        End Function
 
         Private Function CurrentKrFiniteDifferenceOptions() As MixedModelKenwardRogerFiniteDifferenceOptions
             Dim opts As MixedModelKenwardRogerFiniteDifferenceOptions = Nothing
@@ -1969,13 +2076,20 @@ Namespace regression
             Dim denom As Double = 2.0 * stepSize
 
             For r As Integer = 0 To n - 1
-                For c As Integer = 0 To n - 1
+                For c As Integer = 0 To r
                     Dim v As Double = (plus(r, c) - minus(r, c)) / denom
-                    out(r, c) = If(IsFinite(v), v, 0.0)
+                    v = If(IsFinite(v), v, 0.0)
+                    If r <> c Then
+                        Dim vt As Double = (plus(c, r) - minus(c, r)) / denom
+                        vt = If(IsFinite(vt), vt, 0.0)
+                        v = 0.5 * (v + vt)
+                    End If
+
+                    out(r, c) = v
+                    out(c, r) = v
                 Next
             Next
 
-            SymmetrizeInPlace(out)
             Return out
         End Function
 
@@ -1985,13 +2099,21 @@ Namespace regression
             Dim out(n - 1, n - 1) As Double
 
             For r As Integer = 0 To n - 1
-                For c As Integer = 0 To n - 1
+                For c As Integer = 0 To r
                     Dim v As Double = (plus(r, c) - baseMatrix(r, c)) / stepSize
-                    out(r, c) = If(IsFinite(v), v, 0.0)
+                    v = If(IsFinite(v), v, 0.0)
+
+                    If r <> c Then
+                        Dim vt As Double = (plus(c, r) - baseMatrix(c, r)) / stepSize
+                        vt = If(IsFinite(vt), vt, 0.0)
+                        v = 0.5 * (v + vt)
+                    End If
+
+                    out(r, c) = v
+                    out(c, r) = v
                 Next
             Next
 
-            SymmetrizeInPlace(out)
             Return out
         End Function
 
@@ -2001,13 +2123,21 @@ Namespace regression
             Dim out(n - 1, n - 1) As Double
 
             For r As Integer = 0 To n - 1
-                For c As Integer = 0 To n - 1
+                For c As Integer = 0 To r
                     Dim v As Double = (baseMatrix(r, c) - minus(r, c)) / stepSize
-                    out(r, c) = If(IsFinite(v), v, 0.0)
+                    v = If(IsFinite(v), v, 0.0)
+
+                    If r <> c Then
+                        Dim vt As Double = (baseMatrix(c, r) - minus(c, r)) / stepSize
+                        vt = If(IsFinite(vt), vt, 0.0)
+                        v = 0.5 * (v + vt)
+                    End If
+
+                    out(r, c) = v
+                    out(c, r) = v
                 Next
             Next
 
-            SymmetrizeInPlace(out)
             Return out
         End Function
 
@@ -2021,13 +2151,21 @@ Namespace regression
             Dim denom As Double = stepSize * stepSize
 
             For r As Integer = 0 To n - 1
-                For c As Integer = 0 To n - 1
+                For c As Integer = 0 To r
                     Dim v As Double = (plus(r, c) - 2.0 * baseMatrix(r, c) + minus(r, c)) / denom
-                    out(r, c) = If(IsFinite(v), v, 0.0)
+                    v = If(IsFinite(v), v, 0.0)
+
+                    If r <> c Then
+                        Dim vt As Double = (plus(c, r) - 2.0 * baseMatrix(c, r) + minus(c, r)) / denom
+                        vt = If(IsFinite(vt), vt, 0.0)
+                        v = 0.5 * (v + vt)
+                    End If
+
+                    out(r, c) = v
+                    out(c, r) = v
                 Next
             Next
 
-            SymmetrizeInPlace(out)
             Return out
         End Function
 
@@ -2043,13 +2181,21 @@ Namespace regression
             Dim denom As Double = 4.0 * hStep * jStep
 
             For r As Integer = 0 To n - 1
-                For c As Integer = 0 To n - 1
+                For c As Integer = 0 To r
                     Dim v As Double = (vPP(r, c) - vPM(r, c) - vMP(r, c) + vMM(r, c)) / denom
-                    out(r, c) = If(IsFinite(v), v, 0.0)
+                    v = If(IsFinite(v), v, 0.0)
+
+                    If r <> c Then
+                        Dim vt As Double = (vPP(c, r) - vPM(c, r) - vMP(c, r) + vMM(c, r)) / denom
+                        vt = If(IsFinite(vt), vt, 0.0)
+                        v = 0.5 * (v + vt)
+                    End If
+
+                    out(r, c) = v
+                    out(c, r) = v
                 Next
             Next
 
-            SymmetrizeInPlace(out)
             Return out
         End Function
 
@@ -2059,13 +2205,21 @@ Namespace regression
             Dim out(n - 1, n - 1) As Double
 
             For r As Integer = 0 To n - 1
-                For c As Integer = 0 To n - 1
+                For c As Integer = 0 To r
                     Dim v As Double = fine(r, c) + (fine(r, c) - coarse(r, c)) / 3.0
-                    out(r, c) = If(IsFinite(v), v, 0.0)
+                    v = If(IsFinite(v), v, 0.0)
+
+                    If r <> c Then
+                        Dim vt As Double = fine(c, r) + (fine(c, r) - coarse(c, r)) / 3.0
+                        vt = If(IsFinite(vt), vt, 0.0)
+                        v = 0.5 * (v + vt)
+                    End If
+
+                    out(r, c) = v
+                    out(c, r) = v
                 Next
             Next
 
-            SymmetrizeInPlace(out)
             Return out
         End Function
 

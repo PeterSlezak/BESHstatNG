@@ -257,4 +257,49 @@ Friend Module UdfOutputTables
         Next
         Return stacked
     End Function
+
+    ''' <summary>
+    ''' Finds a named result table in a list of wrapped analysis tables.
+    ''' </summary>
+    ''' <param name="tables">Wrapped result tables returned by an analysis object.</param>
+    ''' <param name="title">Requested table title or a punctuation-insensitive partial title.</param>
+    ''' <returns>
+    ''' The matching two-dimensional result table, or <c>Nothing</c> when no table matches.
+    ''' </returns>
+    Friend Function FindResultTableByTitle(tables As List(Of ResultTable), title As String) As Object(,)
+        If tables Is Nothing OrElse String.IsNullOrWhiteSpace(title) Then Return Nothing
+        Dim wanted As String = NormalizeResultTableTitle(title)
+
+        For Each t As ResultTable In tables
+            If t Is Nothing Then Continue For
+            Dim arr As Object(,) = t.returnSelf()
+            If arr Is Nothing OrElse arr.GetLength(0) = 0 OrElse arr.GetLength(1) = 0 Then Continue For
+
+            Dim first As String = Convert.ToString(arr(0, 0), CultureInfo.InvariantCulture)
+            If NormalizeResultTableTitle(first) = wanted Then Return arr
+        Next
+
+        For Each t As ResultTable In tables
+            If t Is Nothing Then Continue For
+            Dim arr As Object(,) = t.returnSelf()
+            If arr Is Nothing OrElse arr.GetLength(0) = 0 OrElse arr.GetLength(1) = 0 Then Continue For
+
+            Dim first As String = Convert.ToString(arr(0, 0), CultureInfo.InvariantCulture)
+            Dim normalizedFirst As String = NormalizeResultTableTitle(first)
+            If normalizedFirst.Contains(wanted) OrElse wanted.Contains(normalizedFirst) Then Return arr
+        Next
+
+        Return Nothing
+    End Function
+
+    ''' <summary>
+    ''' Normalizes a result-table title for case-insensitive and punctuation-insensitive matching.
+    ''' </summary>
+    ''' <param name="title">Table title text.</param>
+    ''' <returns>Uppercase title text containing only letters and digits.</returns>
+    Friend Function NormalizeResultTableTitle(title As String) As String
+        If title Is Nothing Then Return String.Empty
+        Return New String(title.Trim().ToUpperInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch)).ToArray())
+    End Function
+
 End Module

@@ -135,6 +135,33 @@ Namespace regression
         End Function
 
         ''' <summary>
+        ''' Releases large fit-state references retained by this convenience wrapper after a GUI or
+        ''' worksheet caller has already consumed the returned <see cref="MixedModelResult"/>.
+        ''' </summary>
+        ''' <param name="releaseResultWorkspaces">If True, releases large KR/Satterthwaite post-estimation arrays from the cached result.</param>
+        ''' <param name="clearRequestRuntimeReferences">If True, clears callbacks and blocked input data held by the request object.</param>
+        Public Sub ReleaseFitState(Optional releaseResultWorkspaces As Boolean = True, Optional clearRequestRuntimeReferences As Boolean = False)
+            Try
+                If releaseResultWorkspaces AndAlso results IsNot Nothing Then
+                    results.ReleaseLargePostEstimationWorkspaces()
+                End If
+
+                If clearRequestRuntimeReferences AndAlso pRequest IsNot Nothing Then
+                    pRequest.ProgressReporter = Nothing
+                    pRequest.CancellationRequested = Nothing
+                    pRequest.InterruptionRequested = Nothing
+                    pRequest.Data = Nothing
+                End If
+
+                results = Nothing
+                pEngine = Nothing
+                pStrTrace = String.Empty
+            Catch
+                ' Release is opportunistic; callers have already consumed the result.
+            End Try
+        End Sub
+
+        ''' <summary>
         ''' Performs LMM-specific structural checks and warnings before the generic engine starts.
         ''' </summary>
         Private Sub ValidateLMMIntent()

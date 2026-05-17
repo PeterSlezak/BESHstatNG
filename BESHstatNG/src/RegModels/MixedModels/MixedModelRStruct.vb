@@ -43,7 +43,7 @@ Namespace regression
             Dim f As MixedModelRStruct
             Dim normalized As String = If(type, String.Empty).Trim().ToLowerInvariant()
 
-            If normalized = "identity" OrElse normalized = "independence" Then
+            If normalized = "identity" OrElse normalized = "id" OrElse normalized = "independence" Then
                 f = New IdentityR()
             ElseIf normalized = "diagonal heterogeneous" OrElse normalized = "diag heterogeneous" _
                 OrElse normalized = "diagonal" OrElse normalized = "diag" Then
@@ -57,8 +57,17 @@ Namespace regression
             ElseIf normalized = "ar(1)" OrElse normalized = "ar1" OrElse normalized = "autoregressive" Then
                 f = New AR1R()
             ElseIf normalized = "heterogeneous ar(1)" OrElse normalized = "heterogeneous ar1" _
-                OrElse normalized = "arh(1)" OrElse normalized = "arh1" Then
+                OrElse normalized = "heterogeneous autoregressive" OrElse normalized = "arh(1)" _
+                OrElse normalized = "arh1" OrElse normalized = "arh" OrElse normalized = "har1" _
+                OrElse normalized = "har(1)" OrElse normalized = "har" Then
                 f = New HeterogeneousAR1R()
+            ElseIf normalized = "toeplitz" OrElse normalized = "toep" OrElse normalized = "toeplitz (toep)" Then
+                f = New ToeplitzR()
+            ElseIf normalized = "heterogeneous toeplitz" OrElse normalized = "toeplitz heterogeneous" _
+                OrElse normalized = "toeph" OrElse normalized = "toep h" OrElse normalized = "toeplitz h" _
+                OrElse normalized = "toeplitz (heterogeneous)" _
+                OrElse normalized = "heterogeneous toeplitz (toeph)" Then
+                f = New HeterogeneousToeplitzR()
             ElseIf normalized = "unstructured" OrElse normalized = "un" Then
                 f = New UnstructuredR()
             Else
@@ -111,7 +120,7 @@ Namespace regression
         ''' </summary>
         Public Shared RStructsList() As String =
             {"Identity", "Diagonal Heterogeneous", "Compound Symmetry", "Heterogeneous CS",
-             "AR(1)", "Heterogeneous AR(1)", "Unstructured"}
+             "AR(1)", "Heterogeneous AR(1)", "Toeplitz (TOEP)", "Heterogeneous Toeplitz (TOEPH)", "Unstructured"}
 
         ''' <summary>
         ''' Returns the display name of the structure.
@@ -323,6 +332,54 @@ Namespace regression
                 For j = 0 To n - 1
                     Dim lag As Integer = Math.Abs(indices(i) - indices(j))
                     out(i, j) = rho ^ lag
+                Next
+            Next
+            Return out
+        End Function
+
+        ''' <summary>
+        ''' Builds a positive-definite Toeplitz autocorrelation sequence from unconstrained
+        ''' partial-autocorrelation parameters. <c>rho(0)</c> is always 1.
+        ''' </summary>
+        Protected Function BuildToeplitzAutocorrelations(theta() As Double,
+                                                         q As Integer,
+                                                         Optional startIndex As Integer = 0) As Double()
+            If q < 1 Then Throw New ArgumentOutOfRangeException(NameOf(q))
+
+            Dim rho(q - 1) As Double
+            rho(0) = 1.0
+            If q = 1 Then Return rho
+
+            Dim phi(q - 1, q - 1) As Double
+            For k As Integer = 1 To q - 1
+                Dim pacf As Double = CorrelationFromTheta(theta(startIndex + k - 1))
+                phi(k, k) = pacf
+                If k > 1 Then
+                    For j As Integer = 1 To k - 1
+                        phi(k, j) = phi(k - 1, j) - pacf * phi(k - 1, k - j)
+                    Next
+                End If
+                For j As Integer = 1 To k
+                    rho(j) = phi(k, j)
+                Next
+            Next
+
+            Return rho
+        End Function
+
+        ''' <summary>
+        ''' Builds a Toeplitz correlation matrix using visit-index lag distances.
+        ''' </summary>
+        Protected Function BuildCorrelationToeplitz(indices() As Integer, rho() As Double) As Double(,)
+            Dim n As Integer = indices.Length
+            Dim out(n - 1, n - 1) As Double
+            For i As Integer = 0 To n - 1
+                For j As Integer = 0 To n - 1
+                    Dim lag As Integer = Math.Abs(indices(i) - indices(j))
+                    If lag >= rho.Length Then
+                        Throw New ArgumentException("Toeplitz correlation sequence is shorter than the observed visit lag.")
+                    End If
+                    out(i, j) = rho(lag)
                 Next
             Next
             Return out
@@ -783,6 +840,150 @@ Namespace regression
 
             Dim out As Double(,) = MultiplyDiagCorrDiag(stddev, corr)
             LogTrace($"HeterogeneousAR1R.BuildRi subject='{block.SubjectKey}' n={block.Nobs}; visitDim={m}; rho={rho}", strTrace)
+            Return out
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Homogeneous Toeplitz residual covariance structure.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Mathematical form:
+    ''' </para>
+    ''' <para><c>R_i(j,k) = sigma2 * rho_lag</c>, with <c>rho_0 = 1</c>.</para>
+    ''' <para>
+    ''' The lag correlations are internally represented by unconstrained partial-autocorrelation
+    ''' parameters. This keeps the full Toeplitz correlation matrix positive definite for finite
+    ''' optimizer values.
+    ''' </para>
+    ''' </remarks>
+    Public Class ToeplitzR
+        Inherits MixedModelRStruct
+
+        Public Overrides Function ToString() As String
+            Return "Toeplitz (TOEP)"
+        End Function
+
+        Public Overrides Function UsesVisitIndex() As Boolean
+            Return True
+        End Function
+
+        Public Overrides Function ParamCount(data As MixedModelBlockData) As Integer
+            Return VisitDimension(data)
+        End Function
+
+        Public Overrides Function ParamNames(data As MixedModelBlockData) As String()
+            Dim m As Integer = VisitDimension(data)
+            Dim out(m - 1) As String
+            out(0) = "log_sigma2"
+            For lag As Integer = 1 To m - 1
+                out(lag) = $"atanhPartialCorr_lag{lag}"
+            Next
+            Return out
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData,
+                                              Optional olsResidualVar As Double = 1.0) As Double()
+            Dim m As Integer = VisitDimension(data)
+            Dim out(m - 1) As Double
+            out(0) = SafeLogVarianceStart(olsResidualVar)
+            For lag As Integer = 1 To m - 1
+                out(lag) = 0.0
+            Next
+            Return out
+        End Function
+
+        Public Overrides Function BuildRi(theta() As Double,
+                                          block As MixedModelSubjectBlock,
+                                          data As MixedModelBlockData,
+                                          Optional ByRef strTrace As String = Nothing) As Double(,)
+            Dim m As Integer = VisitDimension(data)
+            ValidateThetaLength(theta, m)
+
+            Dim sigma2 As Double = PositiveScale(theta(0))
+            Dim idx() As Integer = GetBlockVisitIndices(block, data, strTrace)
+            Dim rho() As Double = BuildToeplitzAutocorrelations(theta, m, 1)
+            Dim corr(,) As Double = BuildCorrelationToeplitz(idx, rho)
+            Dim out As Double(,) = MultiplyDiagCorrDiag(BuildRepeatedStdDevVector(block.Nobs, sigma2), corr)
+
+            LogTrace($"ToeplitzR.BuildRi subject='{block.SubjectKey}' n={block.Nobs}; visitDim={m}; sigma2={sigma2}", strTrace)
+            Return out
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Heterogeneous Toeplitz residual covariance structure.
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' Mathematical form:
+    ''' </para>
+    ''' <para><c>R_i(j,k) = sd_visit_j * sd_visit_k * rho_lag</c>, with <c>rho_0 = 1</c>.</para>
+    ''' <para>
+    ''' This is the heterogeneous-variance analogue of Toeplitz and corresponds to commonly used
+    ''' repeated-measures structures such as SAS <c>TYPE=TOEPH</c>.
+    ''' </para>
+    ''' </remarks>
+    Public Class HeterogeneousToeplitzR
+        Inherits MixedModelRStruct
+
+        Public Overrides Function ToString() As String
+            Return "Heterogeneous Toeplitz (TOEPH)"
+        End Function
+
+        Public Overrides Function UsesVisitIndex() As Boolean
+            Return True
+        End Function
+
+        Public Overrides Function ParamCount(data As MixedModelBlockData) As Integer
+            Dim m As Integer = VisitDimension(data)
+            Return 2 * m - 1
+        End Function
+
+        Public Overrides Function ParamNames(data As MixedModelBlockData) As String()
+            Dim m As Integer = VisitDimension(data)
+            Dim out(2 * m - 2) As String
+            For i As Integer = 0 To m - 1
+                out(i) = $"log_sigma2_visit{i + 1}"
+            Next
+            For lag As Integer = 1 To m - 1
+                out(m + lag - 1) = $"atanhPartialCorr_lag{lag}"
+            Next
+            Return out
+        End Function
+
+        Public Overrides Function StartParams(data As MixedModelBlockData,
+                                              Optional olsResidualVar As Double = 1.0) As Double()
+            Dim m As Integer = VisitDimension(data)
+            Dim out(2 * m - 2) As Double
+            Dim s As Double = SafeLogVarianceStart(olsResidualVar)
+            For i As Integer = 0 To m - 1
+                out(i) = s
+            Next
+            For lag As Integer = 1 To m - 1
+                out(m + lag - 1) = 0.0
+            Next
+            Return out
+        End Function
+
+        Public Overrides Function BuildRi(theta() As Double,
+                                          block As MixedModelSubjectBlock,
+                                          data As MixedModelBlockData,
+                                          Optional ByRef strTrace As String = Nothing) As Double(,)
+            Dim m As Integer = VisitDimension(data)
+            ValidateThetaLength(theta, 2 * m - 1)
+
+            Dim idx() As Integer = GetBlockVisitIndices(block, data, strTrace)
+            Dim rho() As Double = BuildToeplitzAutocorrelations(theta, m, m)
+            Dim corr(,) As Double = BuildCorrelationToeplitz(idx, rho)
+            Dim stddev(block.Nobs - 1) As Double
+            For i As Integer = 0 To block.Nobs - 1
+                stddev(i) = SafeStdDev(PositiveScale(theta(idx(i))))
+            Next
+
+            Dim out As Double(,) = MultiplyDiagCorrDiag(stddev, corr)
+            LogTrace($"HeterogeneousToeplitzR.BuildRi subject='{block.SubjectKey}' n={block.Nobs}; visitDim={m}", strTrace)
             Return out
         End Function
     End Class
