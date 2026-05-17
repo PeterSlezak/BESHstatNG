@@ -43,6 +43,20 @@ Public Class MixedModelCovarianceDerivativeProviderTests
                                                  New Double() {Math.Log(0.75), Math.Log(1.05), Math.Log(1.45), Math.Log(1.95), AtanhForTest(0.36)},
                                                  data,
                                                  "Heterogeneous AR1 4-visit")
+
+        AssertRDerivativesMatchFiniteDifferences(New ToeplitzR(),
+                                                 New Double() {Math.Log(1.25), AtanhForTest(0.22), AtanhForTest(-0.08), AtanhForTest(0.04)},
+                                                 data,
+                                                 "Toeplitz 4-visit",
+                                                 relativeTolerance:=0.0002,
+                                                 absoluteTolerance:=0.000005)
+
+        AssertRDerivativesMatchFiniteDifferences(New HeterogeneousToeplitzR(),
+                                                 New Double() {Math.Log(0.85), Math.Log(1.05), Math.Log(1.35), Math.Log(1.7), AtanhForTest(0.2), AtanhForTest(-0.06), AtanhForTest(0.03)},
+                                                 data,
+                                                 "Heterogeneous Toeplitz 4-visit",
+                                                 relativeTolerance:=0.0002,
+                                                 absoluteTolerance:=0.000005)
     End Sub
 
     <TestMethod()>
@@ -97,6 +111,35 @@ Public Class MixedModelCovarianceDerivativeProviderTests
     End Sub
 
     <TestMethod()>
+    Public Sub MixedModelCovarianceStructureFactories_AcceptCommonAliasesAndReturnExpectedParameterCounts()
+        Dim rData As MixedModelBlockData = CreateVisitData(4)
+
+        Assert.IsInstanceOfType(MixedModelRStructUtils.createMixedModelRStruct("ID"), GetType(IdentityR))
+        Assert.IsInstanceOfType(MixedModelRStructUtils.createMixedModelRStruct("TOEP"), GetType(ToeplitzR))
+        Assert.IsInstanceOfType(MixedModelRStructUtils.createMixedModelRStruct("TOEPH"), GetType(HeterogeneousToeplitzR))
+        Assert.IsInstanceOfType(MixedModelRStructUtils.createMixedModelRStruct("HAR1"), GetType(HeterogeneousAR1R))
+
+        Assert.AreEqual(4, (New ToeplitzR()).ParamCount(rData), "R-side TOEP should use one variance plus lag correlations.")
+        Assert.AreEqual(7, (New HeterogeneousToeplitzR()).ParamCount(rData), "R-side TOEPH should use visit variances plus lag correlations.")
+
+        Dim q As Integer = 4
+        Assert.IsInstanceOfType(MixedModelGStructUtils.createMixedModelGStruct("VC"), GetType(VarianceComponentsRandomEffects))
+        Assert.IsInstanceOfType(MixedModelGStructUtils.createMixedModelGStruct("ID"), GetType(IdentityRandomEffects))
+        Assert.IsInstanceOfType(MixedModelGStructUtils.createMixedModelGStruct("CSH"), GetType(HeterogeneousCompoundSymmetryRandomEffects))
+        Assert.IsInstanceOfType(MixedModelGStructUtils.createMixedModelGStruct("ARH1"), GetType(HeterogeneousAutoregressiveRandomEffects))
+        Assert.IsInstanceOfType(MixedModelGStructUtils.createMixedModelGStruct("TOEPH"), GetType(HeterogeneousToeplitzRandomEffects))
+
+        Assert.AreEqual(1, (New IdentityRandomEffects()).ParamCount(q))
+        Assert.AreEqual(q, (New VarianceComponentsRandomEffects()).ParamCount(q))
+        Assert.AreEqual(2, (New CompoundSymmetryRandomEffects()).ParamCount(q))
+        Assert.AreEqual(q + 1, (New HeterogeneousCompoundSymmetryRandomEffects()).ParamCount(q))
+        Assert.AreEqual(2, (New AutoregressiveRandomEffects()).ParamCount(q))
+        Assert.AreEqual(q + 1, (New HeterogeneousAutoregressiveRandomEffects()).ParamCount(q))
+        Assert.AreEqual(q, (New ToeplitzRandomEffects()).ParamCount(q))
+        Assert.AreEqual(2 * q - 1, (New HeterogeneousToeplitzRandomEffects()).ParamCount(q))
+    End Sub
+
+    <TestMethod()>
     Public Sub RDerivativeProvider_RejectsUnsupportedInputs_WithDiagnosticMessage()
         Dim data As MixedModelBlockData = CreateVisitData(4)
         Dim block As MixedModelSubjectBlock = data.GetBlock(0)
@@ -124,6 +167,58 @@ Public Class MixedModelCovarianceDerivativeProviderTests
                                                  New Double() {Math.Log(0.7), Math.Log(0.3), AtanhForTest(0.18)},
                                                  CreateRandomEffectsData(2),
                                                  "Random intercept/slope G-side derivatives")
+
+        AssertGDerivativesMatchFiniteDifferences(New VarianceComponentsRandomEffects(),
+                                                 New Double() {Math.Log(0.7), Math.Log(0.4), Math.Log(0.25)},
+                                                 CreateRandomEffectsData(3),
+                                                 "Variance-components G-side derivatives")
+
+        AssertGDerivativesMatchFiniteDifferences(New IdentityRandomEffects(),
+                                                 New Double() {Math.Log(0.55)},
+                                                 CreateRandomEffectsData(3),
+                                                 "Identity G-side derivatives")
+
+        AssertGDerivativesMatchFiniteDifferences(New CompoundSymmetryRandomEffects(),
+                                                 New Double() {Math.Log(0.6), AtanhForTest(0.18)},
+                                                 CreateRandomEffectsData(3),
+                                                 "Compound-symmetry G-side derivatives",
+                                                 relativeTolerance:=0.00008,
+                                                 absoluteTolerance:=0.000002)
+
+        AssertGDerivativesMatchFiniteDifferences(New HeterogeneousCompoundSymmetryRandomEffects(),
+                                                 New Double() {Math.Log(0.72), Math.Log(0.38), Math.Log(0.21), AtanhForTest(0.16)},
+                                                 CreateRandomEffectsData(3),
+                                                 "Heterogeneous compound-symmetry G-side derivatives",
+                                                 relativeTolerance:=0.00008,
+                                                 absoluteTolerance:=0.000002)
+
+        AssertGDerivativesMatchFiniteDifferences(New AutoregressiveRandomEffects(),
+                                                 New Double() {Math.Log(0.6), AtanhForTest(0.24)},
+                                                 CreateRandomEffectsData(3),
+                                                 "Autoregressive G-side derivatives",
+                                                 relativeTolerance:=0.00008,
+                                                 absoluteTolerance:=0.000002)
+
+        AssertGDerivativesMatchFiniteDifferences(New HeterogeneousAutoregressiveRandomEffects(),
+                                                 New Double() {Math.Log(0.72), Math.Log(0.38), Math.Log(0.21), AtanhForTest(0.19)},
+                                                 CreateRandomEffectsData(3),
+                                                 "Heterogeneous autoregressive G-side derivatives",
+                                                 relativeTolerance:=0.00008,
+                                                 absoluteTolerance:=0.000002)
+
+        AssertGDerivativesMatchFiniteDifferences(New ToeplitzRandomEffects(),
+                                                 New Double() {Math.Log(0.58), AtanhForTest(0.18), AtanhForTest(-0.05)},
+                                                 CreateRandomEffectsData(3),
+                                                 "Toeplitz G-side derivatives",
+                                                 relativeTolerance:=0.0002,
+                                                 absoluteTolerance:=0.000005)
+
+        AssertGDerivativesMatchFiniteDifferences(New HeterogeneousToeplitzRandomEffects(),
+                                                 New Double() {Math.Log(0.72), Math.Log(0.38), Math.Log(0.21), AtanhForTest(0.16), AtanhForTest(-0.04)},
+                                                 CreateRandomEffectsData(3),
+                                                 "Heterogeneous Toeplitz G-side derivatives",
+                                                 relativeTolerance:=0.0002,
+                                                 absoluteTolerance:=0.000005)
 
         AssertGDerivativesMatchFiniteDifferences(New UnstructuredRandomEffects(),
                                                  New Double() {Math.Log(0.7), 0.04, Math.Log(0.35), -0.03, 0.02, Math.Log(0.22)},

@@ -463,3 +463,266 @@ Public Class MixedModelMmrmUdfExtractorTests
 End Class
 
 ' ===== END MMRM worksheet UDF extractor tests =====
+
+' ===== BEGIN LMM worksheet UDF extractor tests =====
+
+<TestClass()>
+Public Class MixedModelLmmUdfExtractorTests
+
+    <TestInitialize()>
+    Public Sub ClearHandlesBeforeTest()
+        BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_CLEAR_ALL()
+    End Sub
+
+
+    <TestCleanup()>
+    Public Sub ClearHandlesAfterTest()
+        BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_CLEAR_ALL()
+    End Sub
+
+
+    <TestMethod()>
+    Public Sub LMM_UDF_CoreExtractors_ReturnExpectedTables()
+        Dim handle As String = CreateSyntheticLmmHandle(randomFormulaMode:=False)
+
+        Dim allResults(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_RESULTS(handle))
+        AssertTableContains(allResults, "Fixed effects")
+        AssertTableContains(allResults, "Covariance parameters")
+        AssertTableContains(allResults, "Fit statistics")
+
+        Dim coef(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_COEF(handle))
+        AssertTableContains(coef, "Fixed effects")
+        AssertTableContains(coef, "Days")
+
+        Dim covparms(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_COVPARMS(handle))
+        AssertTableContains(covparms, "Covariance parameters")
+
+        Dim gCov(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_G_COV(handle))
+        AssertTableContains(gCov, "Estimated G covariance matrix")
+        AssertTableContains(gCov, "Intercept")
+
+        Dim gCorr(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_G_CORR(handle))
+        AssertTableContains(gCorr, "Estimated G correlation matrix")
+
+        Dim rCov(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_R_COV(handle))
+        AssertTableContains(rCov, "Estimated R covariance matrix")
+
+        Dim rCorr(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_R_CORR(handle))
+        AssertTableContains(rCorr, "Estimated R correlation matrix")
+
+        Dim ranef(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_RANEF(handle))
+        AssertTableContains(ranef, "BLUPs / random effects")
+        AssertTableHasAtLeastRows(ranef, 5, "LMM_RANEF")
+
+        Dim fitstats(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_FITSTATS(handle))
+        AssertTableContains(fitstats, "Fit statistics")
+
+        Dim fitted(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_FITTED(handle))
+        Assert.AreEqual("Row", CStr(fitted(0, 0)))
+        Assert.AreEqual("Fitted", CStr(fitted(0, 1)))
+        AssertTableHasAtLeastRows(fitted, 20, "LMM_FITTED")
+
+        Dim residuals(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_RESID(handle))
+        Assert.AreEqual("Row", CStr(residuals(0, 0)))
+        Assert.AreEqual("Fitted", CStr(residuals(0, 1)))
+        Assert.AreEqual("Residual", CStr(residuals(0, 2)))
+    End Sub
+
+
+    <TestMethod()>
+    Public Sub LMM_UDF_FormulaExpansion_SupportsMultipleRandomEffectsAndRandomInteraction()
+        Dim handle As String = CreateSyntheticLmmHandle(randomFormulaMode:=True)
+
+        Dim gCov(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_G_COV(handle))
+        AssertTableContains(gCov, "Estimated G covariance matrix")
+        AssertTableContains(gCov, "Days:Difficulty")
+
+        Dim covparms(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_COVPARMS(handle))
+        AssertTableContains(covparms, "Covariance parameters")
+
+        Dim coef(,) As Object = RequireTable(BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_COEF(handle))
+        AssertTableContains(coef, "Days:Treatment")
+    End Sub
+
+
+    <TestMethod()>
+    Public Sub LMM_UDF_DropAndClearAll_RemoveCachedHandles()
+        Dim handle1 As String = CreateSyntheticLmmHandle(randomFormulaMode:=False)
+        Dim handle2 As String = CreateSyntheticLmmHandle(randomFormulaMode:=False)
+
+        Assert.AreEqual(True, BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_DROP(handle1),
+                        "Dropping an existing LMM handle should return TRUE.")
+
+        Dim droppedResult As Object = BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_COEF(handle1)
+        Assert.IsFalse(TypeOf droppedResult Is Object(,),
+                       "Extracting from a dropped LMM handle should not return a result table.")
+
+        Dim cleared As Object = BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_CLEAR_ALL()
+        Assert.IsTrue(CInt(cleared) >= 1, "At least one remaining LMM handle should be cleared.")
+
+        Dim clearedResult As Object = BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_COEF(handle2)
+        Assert.IsFalse(TypeOf clearedResult Is Object(,),
+                       "Extracting from a handle after LMM_CLEAR_ALL should not return a result table.")
+    End Sub
+
+
+    Private Shared Function CreateSyntheticLmmHandle(randomFormulaMode As Boolean) As String
+        Dim y(,) As Object = Nothing
+        Dim x(,) As Object = Nothing
+        Dim z(,) As Object = Nothing
+        Dim subject(,) As Object = Nothing
+        Dim visit(,) As Object = Nothing
+        Dim xNames(,) As Object = Nothing
+        Dim zNames(,) As Object = Nothing
+
+        BuildSyntheticLmmInputs(y, x, z, subject, visit, xNames, zNames, randomFormulaMode)
+
+        Dim randomCovariance As String = If(randomFormulaMode, "VC", "RI+S")
+        Dim randomFormula As Object = If(randomFormulaMode,
+                                         CType("'Days' + 'Difficulty' + 'Days':'Difficulty'", Object),
+                                         Nothing)
+        Dim fixedFormula As Object = If(randomFormulaMode,
+                                        CType("'Days' + 'Treatment' + 'Difficulty' + 'Days':'Treatment'", Object),
+                                        Nothing)
+
+        Dim handleObj As Object =
+            BESHStatNG.WorksheetFunctions.LmmUDFs.LMM_FIT(
+                y:=y,
+                x:=x,
+                subject:=subject,
+                z:=z,
+                visit:=visit,
+                xVarNames:=xNames,
+                zVarNames:=zNames,
+                residualCovariance:="ID",
+                randomCovariance:=randomCovariance,
+                fitMethod:="REML",
+                inference:="ResidualDF",
+                includeFixedIntercept:=True,
+                includeRandomIntercept:=True,
+                fixedFormula:=fixedFormula,
+                randomFormula:=randomFormula,
+                formulaAddressing:="names",
+                alpha:=0.05,
+                maxIter:=200,
+                trace:=False,
+                covOptimizerMode:="AI",
+                covGradientMode:="Auto")
+
+        Assert.IsInstanceOfType(handleObj, GetType(String), "LMM_FIT should return a text handle.")
+
+        Dim handle As String = CStr(handleObj)
+        Assert.IsFalse(handle.StartsWith("BESH.REGR.LMM_FIT error:", StringComparison.OrdinalIgnoreCase),
+                       "LMM_FIT returned an error: " & handle)
+        Assert.IsTrue(handle.StartsWith("LMM:", StringComparison.OrdinalIgnoreCase),
+                      "LMM_FIT should return an LMM handle.")
+
+        Return handle
+    End Function
+
+
+    Private Shared Sub BuildSyntheticLmmInputs(ByRef y(,) As Object,
+                                               ByRef x(,) As Object,
+                                               ByRef z(,) As Object,
+                                               ByRef subject(,) As Object,
+                                               ByRef visit(,) As Object,
+                                               ByRef xNames(,) As Object,
+                                               ByRef zNames(,) As Object,
+                                               randomFormulaMode As Boolean)
+        Dim subjects As Integer = 18
+        Dim visits As Integer = 5
+        Dim n As Integer = subjects * visits
+
+        ReDim y(n - 1, 0)
+        ReDim x(n - 1, 2)
+        If randomFormulaMode Then
+            ReDim z(n - 1, 1)
+        Else
+            ReDim z(n - 1, 0)
+        End If
+        ReDim subject(n - 1, 0)
+        ReDim visit(n - 1, 0)
+        ReDim xNames(0, 2)
+        If randomFormulaMode Then
+            ReDim zNames(0, 1)
+        Else
+            ReDim zNames(0, 0)
+        End If
+
+        xNames(0, 0) = "Days"
+        xNames(0, 1) = "Treatment"
+        xNames(0, 2) = "Difficulty"
+        zNames(0, 0) = "Days"
+        If randomFormulaMode Then zNames(0, 1) = "Difficulty"
+
+        Dim r As Integer = 0
+        For sid As Integer = 1 To subjects
+            Dim treatment As Double = If(sid Mod 2 = 0, 1.0, 0.0)
+            Dim subjectIntercept As Double = 0.35 * CDbl((sid Mod 6) - 2)
+            Dim subjectSlope As Double = 0.04 * CDbl((sid Mod 5) - 2)
+            Dim ageShift As Double = 0.03 * CDbl(sid - 9)
+
+            For v As Integer = 0 To visits - 1
+                Dim days As Double = CDbl(v) - 2.0
+                Dim difficulty As Double = -0.2 + 0.15 * CDbl(v) + 0.04 * CDbl(sid Mod 4)
+                Dim deterministicNoise As Double = 0.035 * CDbl(((sid + v) Mod 5) - 2)
+
+                y(r, 0) = 12.0 +
+                          0.9 * days +
+                          1.1 * treatment +
+                          0.55 * difficulty +
+                          0.28 * days * treatment +
+                          ageShift +
+                          subjectIntercept +
+                          subjectSlope * days +
+                          deterministicNoise
+
+                x(r, 0) = days
+                x(r, 1) = treatment
+                x(r, 2) = difficulty
+                z(r, 0) = days
+                If randomFormulaMode Then z(r, 1) = difficulty
+                subject(r, 0) = "S" & sid.ToString("00", CultureInfo.InvariantCulture)
+                visit(r, 0) = CDbl(v + 1)
+
+                r += 1
+            Next
+        Next
+    End Sub
+
+
+    Private Shared Function RequireTable(value As Object) As Object(,)
+        Assert.IsInstanceOfType(value, GetType(Object(,)), "Expected a worksheet result table but got: " & Convert.ToString(value, CultureInfo.InvariantCulture))
+        Return DirectCast(value, Object(,))
+    End Function
+
+
+    Private Shared Sub AssertTableHasAtLeastRows(table(,) As Object,
+                                                minimumRows As Integer,
+                                                label As String)
+        Assert.IsNotNull(table)
+        Assert.IsTrue(table.GetLength(0) >= minimumRows,
+                      label & " table should contain at least " &
+                      minimumRows.ToString(CultureInfo.InvariantCulture) &
+                      " rows, but contained " &
+                      table.GetLength(0).ToString(CultureInfo.InvariantCulture) & ".")
+    End Sub
+
+
+    Private Shared Sub AssertTableContains(table(,) As Object,
+                                           expectedText As String)
+        Assert.IsNotNull(table)
+
+        For i As Integer = 0 To table.GetLength(0) - 1
+            For j As Integer = 0 To table.GetLength(1) - 1
+                Dim s As String = Convert.ToString(table(i, j), CultureInfo.InvariantCulture)
+                If String.Equals(s, expectedText, StringComparison.OrdinalIgnoreCase) Then Return
+            Next
+        Next
+
+        Assert.Fail("Expected table to contain text: " & expectedText)
+    End Sub
+
+End Class
+
+' ===== END LMM worksheet UDF extractor tests =====

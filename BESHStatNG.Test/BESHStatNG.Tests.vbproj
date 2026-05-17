@@ -143,6 +143,7 @@
     <Compile Include="src\SurvivalTests.vb" />
     <Compile Include="src\UDFs\UdfBatch2Tests.vb" />
     <Compile Include="src\UDFs\UdfBatch3Tests.vb" />
+    <Compile Include="src\UDFs\UdfImportFacadeTests.vb" />
     <Compile Include="src\UDFs\UdfTests.vb" />
     <Compile Include="src\Regression\ZeroInflatedPoissonTests.vb" />
   </ItemGroup>
@@ -165,6 +166,7 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="test.runsettings" />
     <None Include="TestData\cluster_dataset_basic.csv" />
     <None Include="TestData\cluster_dataset_missing.csv" />
     <None Include="TestData\coxph_dataset_strata_ties.csv" />
@@ -254,6 +256,7 @@
     <None Include="TestData\survival_dataset_2group.csv" />
     <None Include="TestData\survival_dataset_2group_allcensored.csv" />
     <None Include="TestData\survival_weightedlogrank_reference.csv" />
+    <None Include="TestData\UdfImportCases.xlsx" />
     <None Include="TestData\zip_dataset_basic_count.csv" />
     <None Include="TestData\zip_dataset_basic_zero.csv" />
     <None Include="TestData\zip_expected_outputs.csv" />
