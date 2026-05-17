@@ -473,4 +473,5 @@ CCC should not be treated as a full replacement for all method-comparison tools:
 - [Deming Regression](deming-regression.md)
 - [Passing–Bablok Regression](passing-bablok-regression.md)
 - [Intraclass Correlation Coefficients](intraclass-correlation-coefficients.md)
+- [Resampling in BESH Stat NG](resampling.md)
 - [Home](../index.md)

@@ -14,13 +14,13 @@ The MMRM implementation follows four design principles.
 
 | Design principle | Practical consequence |
 |---|---|
-| **Expose MMRM, not a general LMM workflow** | The released Excel interface is focused on marginal repeated-measures models with a residual-side within-subject covariance matrix. User-facing random-effects syntax, random intercepts, random slopes, BLUPs, and subject-specific predictions are deliberately not exposed in the MMRM. |
+| **Keep MMRM and LMM workflows distinct** | The MMRM interface is focused on marginal repeated-measures models with a residual-side within-subject covariance matrix. Random-effects LMM analyses, including random intercepts, random slopes, G-side covariance, BLUPs, and subject-specific predictions, are documented separately in [Linear Mixed Models (LMM)](../linear-mixed-models-lmm.md). |
 | **Fit the observed-data likelihood** | Subjects with incomplete visits can still contribute all observed response values. Missing visits are not filled in, imputed, or forced into a balanced matrix. |
 | **Use subject-level covariance blocks** | Each subject contributes a response vector, design rows, and a covariance submatrix. This is natural for MMRM and keeps missing-visit handling explicit. |
 | **Prefer transparent, reproducible output** | The ribbon workflow writes retained analysis data, fitted values, optional residuals, model tables, post-estimation tables, fit statistics, and optional iteration trace to Excel sheets that can be reviewed and archived. |
 
-The implementation reuses shared Gaussian mixed-model infrastructure internally, but the supported user workflow is the MMRM workflow.Users should think of the method as:
-
+The implementation reuses shared Gaussian mixed-model infrastructure internally, but the supported MMRM workflow remains the marginal repeated-measures workflow. Users should think of the method as:
+ 
 \[
 y_i = X_i\beta + \varepsilon_i, \qquad \varepsilon_i \sim N\{0, R_i(\theta)\},
 \]
@@ -38,10 +38,10 @@ The public user-facing surface consists of:
 - the worksheet functions named `BESH.REGR.MMRM_*`, described in [Worksheet functions](worksheet-functions.md),
 - the output workbook tables described in [Options and output reference](options-and-output.md).
 
-The implementation contains shared mixed-model infrastructure because MMRM and ordinary Gaussian linear mixed models share likelihood, covariance, derivative, and inference machinery. However, ordinary random-effects LMM modeling is not documented as a supported user-facing method in this release.
-
-!!! note "Why LMM is not exposed yet"
-    A full LMM workflow requires additional user-interface and documentation decisions: random-effect formula syntax, G-side covariance options, grouping factors, subject-specific predictions, random-effect diagnostics, and interpretation of BLUPs. The current release keeps the public method focused on MMRM, where the applied workflow and expected outputs are clearer.
+The implementation contains shared mixed-model infrastructure because MMRM and ordinary Gaussian linear mixed models share likelihood, covariance, derivative, and inference machinery. The MMRM workflow remains the marginal repeated-measures workflow with no user-specified random effects. Random-effects LMM analyses are documented separately in [Linear Mixed Models (LMM)](../linear-mixed-models-lmm.md).
+ 
+!!! note "MMRM versus LMM"
+    MMRM models the repeated-measures covariance directly through the residual/marginal covariance matrix and is often used for adjusted visit-specific means and planned repeated-measures contrasts. LMM introduces user-specified random effects and G-side covariance structures, which support subject- or cluster-specific intercepts, slopes, and random-effect predictions.
 
 ---
 
@@ -156,6 +156,8 @@ The currently documented user-facing covariance structures are:
 | **Heterogeneous CS** | Visit-specific variances with common correlation. | Useful when spread changes by visit but correlations are approximately exchangeable. |
 | **AR(1)** | Common variance with correlation decreasing by visit lag. | Ordered visits with serial decay and approximately constant variance. |
 | **Heterogeneous AR(1)** | Visit-specific variances with AR(1) correlation. | Practical compromise for ordered visits with changing variability. |
+| **Toeplitz (TOEP)** | Common variance with a separate correlation for each visit lag. | Ordered visits where correlation depends on lag but not necessarily by AR(1) decay. |
+| **Heterogeneous Toeplitz (TOEPH)** | Visit-specific variances with a separate correlation for each visit lag. | Ordered visits with changing variability and lag-specific correlation. |
 | **Unstructured** | A flexible positive-definite visit-level covariance matrix. | Standard MMRM default when the data support the number of parameters. |
 
 ### Parameter constraints
@@ -164,6 +166,7 @@ Covariance parameters are optimized on internal scales that make invalid covaria
 
 - variance-like quantities are represented on a log scale so they remain positive after transformation,
 - correlation-like quantities are represented on an unconstrained scale and transformed back into the interval \((-1, 1)\),
+- Toeplitz-style lag correlations are represented through partial-autocorrelation parameters so the implied Toeplitz correlation matrix remains positive definite,
 - the unstructured covariance matrix is represented through a Cholesky-style factor so the full visit-level covariance matrix is positive definite for finite parameter values.
 
 The output is transformed back to interpretable covariance, variance, standard-deviation, and correlation quantities where appropriate.
@@ -375,7 +378,7 @@ The ribbon workflow is useful for guided analyses and formatted output. The work
 The current MMRM implementation is intentionally focused. Users should be aware of these practical limits:
 
 - the response is continuous and modeled with a Gaussian likelihood,
-- random-effect LMM workflows are not exposed in the public MMRM release,
+- random-effect LMM workflows are handled by the separate [Linear Mixed Models (LMM)](../linear-mixed-models-lmm.md) method rather than by the MMRM dialog,
 - missing responses are not imputed,
 - covariance structures require enough data support for the requested number of parameters,
 - unstructured covariance can be difficult with many visits, small samples, or sparse visit patterns,

@@ -70,6 +70,7 @@ Use this tab to tell BESH Stat NG which worksheet columns play each analysis rol
 
 - Use **long-format data**: one row per subject and visit/time point.
 - The response and visit/time columns must be numeric.
+- The subject ID may be text or numeric. Text identifiers such as `PT1`, `USUBJID-004`, or `Site A` are allowed as the grouping variable.
 - Categorical predictors in the ribbon workflow should be numeric-coded and then added as categorical factors on the Build Model tab.
 - Select every raw variable needed for the fixed-effect model before building effects. For example, to fit treatment-by-visit interaction, both the treatment column and the visit column must be available as fixed-effect source variables.
 - Avoid filtering the worksheet to complete cases unless the analysis plan explicitly requires complete cases. Rows with missing analysis values are excluded from the fitted model, but subjects do not need to have every scheduled visit.
@@ -157,7 +158,7 @@ The **Options** tab controls estimation, inference, post-estimation output, and 
 | Option | Common choice | Meaning |
 |---|---|---|
 | **Fit Method** | `REML` | Estimates covariance parameters using restricted maximum likelihood. This is the usual default for fixed-effect inference in MMRM. |
-| **Residual Covariance Structure** | `Unstructured` | Allows each visit variance and each pairwise visit covariance to be estimated separately. Use when there are enough subjects and planned visits are not too numerous. |
+| **Residual Covariance Structure** | `Unstructured` | Allows each visit variance and each pairwise visit covariance to be estimated separately. Use when there are enough subjects and planned visits are not too numerous. Toeplitz and heterogeneous Toeplitz are useful alternatives when correlations mainly depend on visit lag. |
 | **Inference Method** | `Kenward-Roger`, `Satterthwaite`, or `Between-within DF` | Determines how denominator degrees of freedom, standard errors, and p-values are calculated for fixed effects and contrasts. |
 | **Compute Residuals** | checked when diagnostics are needed | Adds residuals to the output **Data** sheet. |
 | **alpha** | `0.050` | Significance level used for two-sided confidence intervals. |
@@ -303,7 +304,7 @@ Rows with missing values in selected analysis columns are not retained as observ
 
 ### The unstructured covariance model does not converge
 
-An unstructured covariance matrix is flexible but parameter-heavy. Check the number of subjects per visit, missingness patterns, sparse treatment-by-visit cells, outliers, and duplicate subject-visit records. If the structure is not supported by the data, try a simpler structure such as heterogeneous AR(1), compound symmetry, heterogeneous compound symmetry, diagonal heterogeneous, or identity as a sensitivity analysis.
+An unstructured covariance matrix is flexible but parameter-heavy. Check the number of subjects per visit, missingness patterns, sparse treatment-by-visit cells, outliers, and duplicate subject-visit records. If the structure is not supported by the data, try a simpler structure such as heterogeneous AR(1), Toeplitz, heterogeneous Toeplitz, compound symmetry, heterogeneous compound symmetry, diagonal heterogeneous, or identity as a sensitivity analysis.
 
 ### The covariance matrix appears near singular
 

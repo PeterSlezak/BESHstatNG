@@ -229,7 +229,7 @@ This is not required for fitting, but it is helpful when creating a workbook tem
 
 | Argument | Accepted/common values | Practical guidance |
 |---|---|---|
-| `covariance` | `ID`, `Diagonal`, `CS`, `HCS`, `AR(1)`, `HAR(1)`, `UN` | Start with `UN` for a standard repeated-visit MMRM when the number of visits and sample size support it. Use simpler structures when the unstructured fit is unstable or when required by the analysis plan. |
+| `covariance` | `ID`, `Diagonal`, `CS`, `HCS`, `AR(1)`, `HAR(1)`, `TOEP`, `TOEPH`, `UN` | Start with `UN` for a standard repeated-visit MMRM when the number of visits and sample size support it. Use simpler structures when the unstructured fit is unstable or when required by the analysis plan. Use `TOEP` or `TOEPH` when lag-specific residual correlations are needed. |
 | `fitMethod` | `REML`, `ML` | Use `REML` for routine fixed-effect inference and Kenward-Roger analyses. Use `ML` mainly for comparing different fixed-effect mean models. |
 | `inference` | `KR`, `Satterthwaite`, `BetweenWithin`, `ResidualDF`, `Wald` | `KR` is the default recommendation for many MMRM analyses. Use other methods for sensitivity analyses, compatibility, speed, or large-sample workflows. |
 | `includeIntercept` | `TRUE`, `FALSE` | Usually leave blank or use `TRUE`. Set `FALSE` only if the supplied design matrix already contains the intended intercept/cell-means coding. |

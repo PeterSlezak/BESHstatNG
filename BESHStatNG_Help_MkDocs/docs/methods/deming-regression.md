@@ -587,4 +587,5 @@ A practical workflow is often to report both:
 - [Passing–Bablok Regression](passing-bablok-regression.md)
 - [Bland–Altman Plot](bland-altman.md)
 - [Intraclass Correlation Coefficients](intraclass-correlation-coefficients.md)
+- [Resampling in BESH Stat NG](resampling.md)
 - [Home](../index.md)

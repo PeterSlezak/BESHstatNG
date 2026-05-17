@@ -1415,6 +1415,419 @@ Example:
 or
 `=BESH.REGR.GLM_THRESH(A1,{0.1,0.2,0.3,0.4,0.5},TRUE)`
 
+## BESH.REGR.LMM_CLEAR_ALL
+
+Removes all fitted LMM handles from the current worksheet-session cache.
+
+**Function wizard:** Drops all fitted LMM handles from the session cache.
+
+### Returns
+
+The number of handles removed from the current session cache.
+
+### Notes
+
+Use this function to clear all LMM handles created during the current Excel session. It is
+useful before rerunning a large workbook or after exploratory analyses that created many
+temporary model handles. Recalculate any `BESH.REGR.LMM_FIT` formulas to recreate
+handles that are still needed.
+
+## BESH.REGR.LMM_COEF
+
+Returns the fixed-effect coefficient table for a fitted LMM handle.
+
+**Function wizard:** Returns the fixed-effect coefficient table for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_COEF(handle, alpha)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+- **alpha** — Optional two-sided alpha level for confidence intervals. Leave blank to use the alpha value saved with the fit.
+
+### Returns
+
+A dynamic array containing the fixed-effect coefficient table.
+
+### Notes
+
+The table contains estimates, standard errors, test statistics, p-values, and confidence
+intervals for the fixed-effect coefficients saved with the fitted model. Denominator
+degrees of freedom are included when the selected inference method provides them.
+
+## BESH.REGR.LMM_COVPARMS
+
+Returns the covariance-parameter table for a fitted LMM handle.
+
+**Function wizard:** Returns covariance-parameter estimates for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_COVPARMS(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+
+### Returns
+
+A dynamic array containing covariance-parameter estimates.
+
+### Notes
+
+The table lists optimized covariance parameters for the random-effect side and residual
+side. These parameters are shown on the internal optimization scale; use the G-side and
+R-side covariance/correlation extractors for user-scale covariance matrices.
+
+## BESH.REGR.LMM_DROP
+
+Removes a fitted LMM handle from the current worksheet-session cache.
+
+**Function wizard:** Drops a fitted LMM handle from the session cache.
+
+### Syntax
+
+`=BESH.REGR.LMM_DROP(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+
+### Returns
+
+TRUE if the handle was found and removed; otherwise FALSE.
+
+### Notes
+
+Use this function when a saved handle is no longer needed. Removing unused handles can
+reduce memory use in long Excel sessions. Recalculate the original fit function to create
+a new handle.
+
+## BESH.REGR.LMM_FIT
+
+Fits a Gaussian linear mixed model and returns a reusable worksheet-session handle.
+
+**Function wizard:** Fits a linear mixed model and returns a reusable handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_FIT(y, x, subject, z, visit, xVarNames, zVarNames, residualCovariance, randomCovariance, fitMethod, inference, includeFixedIntercept, includeRandomIntercept, fixedFormula, randomFormula, formulaAddressing, alpha, maxIter, trace, covOptimizerMode, covGradientMode)`
+
+### Parameters
+
+- **y** — Single-column range containing the continuous response values.
+- **x** — Numeric matrix containing raw fixed-effect predictors or an already-coded fixed-effect design matrix. Each row must correspond to the same row in `y`.
+- **subject** — Single-column range identifying the subject, cluster, or repeated-measure unit for each observation.
+- **z** — Optional numeric matrix containing raw random-effect predictors or an already-coded random-effect design matrix. Leave blank for a random-intercept-only model.
+- **visit** — Optional single-column numeric visit/time range. Required for visit-indexed residual structures when row order is not sufficient.
+- **xVarNames** — Optional row or column range containing predictor names for the columns of `x`.
+- **zVarNames** — Optional row or column range containing predictor names for the columns of `z`.
+- **residualCovariance** — Residual covariance structure. Accepted values include `ID`, `Diagonal`, `CS`, `HCS`, `AR(1)`, `HAR(1)`, `TOEP`, `TOEPH`, and `UN`. The default is `ID`.
+- **randomCovariance** — Random-effect covariance structure. Accepted values include `RI`, `RI+S`, `ID`, `VC`, `CS`, `CSH`, `AR1`, `ARH1`, `TOEP`, `TOEPH`, and `UN`. If omitted, the function chooses a safe default from the random-effect design.
+- **fitMethod** — Likelihood method. Use `REML` for restricted maximum likelihood or `ML` for maximum likelihood. The default is `REML`.
+- **inference** — Fixed-effect inference method. Accepted values include `KR`, `Satterthwaite`, `BetweenWithin`, `ResidualDF`, and `Wald`. The default is `KR`.
+- **includeFixedIntercept** — TRUE to add an intercept column to the fixed-effect design; FALSE when `x` or `fixedFormula` already contains all desired columns. The default is TRUE.
+- **includeRandomIntercept** — TRUE to add an intercept column to the random-effect design. The default is TRUE.
+- **fixedFormula** — Optional right-hand-side formula used to expand the raw fixed-effect predictor matrix before fitting. Leave blank to use the columns of `x` as supplied.
+- **randomFormula** — Optional right-hand-side formula used to expand the raw random-effect predictor matrix before fitting. Leave blank to use the columns of `z` as supplied.
+- **formulaAddressing** — Formula-addressing mode: `relative` (default), `absolute`, or `names`.
+- **alpha** — Two-sided alpha level for confidence intervals returned by extractor functions. The default is 0.05.
+- **maxIter** — Optional maximum number of optimizer iterations. Leave blank to use the standard setting.
+- **trace** — TRUE to store optimizer trace text for later result output. The default is FALSE.
+- **covOptimizerMode** — Optional covariance optimizer. Accepted values include `AI`, `AverageInformation`, `FisherScoring`, `SAS`, `BFGS`, `BFGS_ANALYTIC`, and `BFGS_NUMERICAL`.
+- **covGradientMode** — Optional covariance-gradient mode for BFGS/fallback paths. Accepted values include `Auto`, `Analytic`, `AnalyticValidation`, `Validate`, `Numerical`, and `FiniteDifference`.
+
+### Returns
+
+A text handle that identifies the fitted model in the current Excel session, or a descriptive error message if the fit cannot be created.
+
+### Notes
+
+Use this function when observations are grouped by subject, site, cluster, or another
+repeated-measure unit and the model contains one or more random effects. The response,
+fixed-effect predictors, and random-effect predictors must be numeric. Subject identifiers
+may be text or numeric. The visit/time input is optional and is used only by residual
+covariance structures that depend on within-subject ordering.
+
+Rows with missing or invalid response, fixed-effect predictor, random-effect predictor,
+subject, or supplied visit values are excluded before fitting. The returned handle stores
+the fitted analysis for the current Excel session and can be passed to the LMM extractor
+functions.
+
+The fixed-effect design is created from `x` and optional
+`fixedFormula`. The random-effect design is created from optional
+`z` and optional `randomFormula`. When
+`includeRandomIntercept` is TRUE, an intercept column is prepended to
+the random-effect design. Therefore a random-intercept-only model can be fitted without
+supplying `z`.
+
+The default fit uses REML, an identity residual covariance structure, a random intercept
+when no random-effect predictors are supplied, variance-components random-effect
+covariance when multiple random-effect columns are present, and Kenward-Roger fixed-effect
+inference. Kenward-Roger inference requires REML. To use maximum likelihood, set
+`fitMethod` to `"ML"` and choose a non-Kenward-Roger inference
+method.
+
+Common follow-up functions are `BESH.REGR.LMM_RESULTS`, `BESH.REGR.LMM_COEF`,
+`BESH.REGR.LMM_TYPE3`, `BESH.REGR.LMM_COVPARMS`,
+`BESH.REGR.LMM_G_COV`, `BESH.REGR.LMM_G_CORR`,
+`BESH.REGR.LMM_R_COV`, `BESH.REGR.LMM_R_CORR`,
+`BESH.REGR.LMM_RANEF`, `BESH.REGR.LMM_FITSTATS`,
+`BESH.REGR.LMM_FITTED`, and `BESH.REGR.LMM_RESID`.
+
+## BESH.REGR.LMM_FITSTATS
+
+Returns model-level fit statistics for a fitted LMM handle.
+
+**Function wizard:** Returns fit statistics for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_FITSTATS(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+
+### Returns
+
+A dynamic array containing model-level fit statistics.
+
+### Notes
+
+The table includes likelihood criterion, information criteria, model dimensions,
+execution time when available, and related model-fit summaries.
+
+## BESH.REGR.LMM_FITTED
+
+Returns row-level marginal fitted values for a fitted LMM handle.
+
+**Function wizard:** Returns marginal fitted values for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_FITTED(handle, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+- **includeHeader** — TRUE to include a header row. The default is TRUE.
+
+### Returns
+
+A dynamic array with row number and fitted value columns.
+
+### Notes
+
+The returned rows correspond to the valid rows that remained after input screening in
+`BESH.REGR.LMM_FIT`. The fitted value is the model-implied marginal mean for the
+fixed-effect part of the model.
+
+## BESH.REGR.LMM_G_CORR
+
+Returns the fitted random-effect correlation matrix for a fitted LMM handle.
+
+**Function wizard:** Returns the fitted G-side random-effect correlation matrix for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_G_CORR(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+
+### Returns
+
+A dynamic array containing the fitted random-effect correlation matrix.
+
+### Notes
+
+The matrix is derived from the fitted random-effect covariance matrix and is aligned with
+the random-effect columns used in the fitted model.
+
+## BESH.REGR.LMM_G_COV
+
+Returns the fitted random-effect covariance matrix for a fitted LMM handle.
+
+**Function wizard:** Returns the fitted G-side random-effect covariance matrix for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_G_COV(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+
+### Returns
+
+A dynamic array containing the fitted random-effect covariance matrix.
+
+### Notes
+
+The matrix is shown on the user/statistical scale and is aligned with the random-effect
+columns used in the fitted model.
+
+## BESH.REGR.LMM_RANEF
+
+Returns subject-specific random-effect predictions for a fitted LMM handle.
+
+**Function wizard:** Returns subject-specific random-effect predictions for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_RANEF(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+
+### Returns
+
+A dynamic array containing subject-specific random-effect predictions.
+
+### Notes
+
+The returned table contains empirical Bayes predictions for each subject and random-effect
+column. These values are conditional random-effect predictions, not additional
+fixed-effect coefficients.
+
+## BESH.REGR.LMM_RESID
+
+Returns row-level marginal fitted values and raw residuals for a fitted LMM handle.
+
+**Function wizard:** Returns fitted values and raw marginal residuals for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_RESID(handle, includeHeader)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+- **includeHeader** — TRUE to include a header row. The default is TRUE.
+
+### Returns
+
+A dynamic array with row number, fitted value, and residual columns.
+
+### Notes
+
+The returned rows correspond to the valid rows that remained after input screening in
+`BESH.REGR.LMM_FIT`. The residual is the observed response minus the marginal fitted
+value for the fixed-effect part of the model.
+
+## BESH.REGR.LMM_RESULTS
+
+Returns all result tables, or one selected result table, from a fitted LMM handle.
+
+**Function wizard:** Returns all LMM result tables or one named table for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_RESULTS(handle, table, includeOptimizerTrace, alpha)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+- **table** — Optional result-table title to return. Leave blank to return all available tables.
+- **includeOptimizerTrace** — TRUE to include stored optimizer trace information when returning all tables. The default is FALSE.
+- **alpha** — Optional two-sided alpha level for confidence intervals. Leave blank to use the alpha value saved with the fit.
+
+### Returns
+
+A dynamic array containing the requested result table or tables.
+
+### Notes
+
+Leave `table` blank to return the complete set of available tables stacked
+vertically. Provide a table title to return only that table. Common table titles include
+`Fixed effects`, `Kenward-Roger term-level F tests`,
+`Covariance parameters`, `Estimated G covariance matrix`,
+`Estimated G correlation matrix`, `Estimated R covariance matrix`,
+`Estimated R correlation matrix`, `BLUPs / random effects`,
+`Fit statistics`, and `Convergence`.
+
+If trace output was requested when the model was fitted, set
+`includeOptimizerTrace` to TRUE to include the iteration history in the
+returned result set.
+
+## BESH.REGR.LMM_R_CORR
+
+Returns the fitted residual correlation matrix for a fitted LMM handle.
+
+**Function wizard:** Returns the fitted R-side residual correlation matrix for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_R_CORR(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+
+### Returns
+
+A dynamic array containing the fitted residual correlation matrix.
+
+### Notes
+
+The matrix is derived from the fitted residual covariance matrix. For visit-indexed
+residual covariance structures, rows and columns follow the visit/time ordering used by
+the fitted model.
+
+## BESH.REGR.LMM_R_COV
+
+Returns the fitted residual covariance matrix for a fitted LMM handle.
+
+**Function wizard:** Returns the fitted R-side residual covariance matrix for a fitted LMM handle.
+
+### Syntax
+
+`=BESH.REGR.LMM_R_COV(handle)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+
+### Returns
+
+A dynamic array containing the fitted residual covariance matrix.
+
+### Notes
+
+The matrix is shown on the user/statistical scale. For visit-indexed residual covariance
+structures, rows and columns follow the visit/time ordering used by the fitted model.
+
+## BESH.REGR.LMM_TYPE3
+
+Returns the term-level fixed-effect F-test table for a fitted LMM handle when available.
+
+**Function wizard:** Returns term-level fixed-effect tests for a fitted LMM handle when available.
+
+### Syntax
+
+`=BESH.REGR.LMM_TYPE3(handle, alpha)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.LMM_FIT`.
+- **alpha** — Optional two-sided alpha level for confidence intervals. Leave blank to use the alpha value saved with the fit.
+
+### Returns
+
+A dynamic array containing term-level fixed-effect tests, or `#N/A` when the table is not available.
+
+### Notes
+
+This extractor is intended for fits that requested Kenward-Roger fixed-effect inference.
+It returns multi-degree-of-freedom tests for fixed-effect terms when the necessary
+information is available in the fitted handle. If the selected inference method does not
+create term-level tests, the function returns `#N/A`.
+
 ## BESH.REGR.LM_ANOVA
 
 Returns an overall, Type I, or Type III ANOVA table for a fitted linear-model handle.
@@ -1834,7 +2247,7 @@ Fits a Mixed Model for Repeated Measures and returns a reusable worksheet-sessio
 - **subject** — Single-column range identifying the subject for each observation. Repeated rows with the same identifier are treated as belonging to the same subject.
 - **visit** — Optional single-column numeric visit/time range. When supplied, observations are sorted within each subject by this value before the covariance structure is evaluated.
 - **varNames** — Optional row or column range containing predictor names for the columns of `x`. If omitted, generic names are used.
-- **covariance** — Within-subject covariance structure. Accepted values include `ID`, `Diagonal`, `CS`, `HCS`, `AR(1)`, `HAR(1)`, and `UN`. The default is `UN`.
+- **covariance** — Within-subject covariance structure. Accepted values include `ID`, `Diagonal`, `CS`, `HCS`, `AR(1)`, `HAR(1)`, `TOEP`, `TOEPH` and `UN`. The default is `UN`.
 - **fitMethod** — Likelihood method. Use `REML` for restricted maximum likelihood or `ML` for maximum likelihood. The default is `REML`.
 - **inference** — Fixed-effect inference method. Accepted values include `KR`, `Satterthwaite`, `BetweenWithin`, `ResidualDF`, and `Wald`. The default is `KR`.
 - **includeIntercept** — TRUE to add an intercept column before fitting; FALSE when `x` already contains all desired columns. The default is TRUE.

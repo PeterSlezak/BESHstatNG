@@ -583,4 +583,5 @@ Prefer to report:
 - [Intraclass Correlation Coefficients](intraclass-correlation-coefficients.md)
 - [Lin's Concordance Correlation Coefficient](lins-ccc.md)
 - [Bland–Altman Plot](bland-altman.md)
-
+- [Resampling in BESH Stat NG](resampling.md)
+- [Home](../index.md)

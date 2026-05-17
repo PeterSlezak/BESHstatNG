@@ -186,7 +186,7 @@ MMRM is usually a good candidate when all or most of the following are true:
 | Does treatment effect vary over time? | Treatment-by-visit interaction and visit-specific contrasts. |
 | How much did each group change from baseline? | LS-mean change from baseline by treatment and visit. |
 | Did treatment improve change from baseline compared with control? | Difference in change from baseline. |
-| Are results sensitive to covariance assumptions? | Compare unstructured, heterogeneous AR(1), compound symmetry, and simpler structures where appropriate. |
+| Are results sensitive to covariance assumptions? | Compare unstructured, heterogeneous AR(1), Toeplitz, heterogeneous Toeplitz, compound symmetry, and simpler structures where appropriate. |
 
 ### Non-clinical examples
 
@@ -211,7 +211,7 @@ MMRM should not be the default choice for every repeated or clustered dataset.
 | Count outcome, such as number of events | Consider Poisson/negative-binomial GLM or GEE depending on the correlation structure and estimand. |
 | Ordinal or nominal outcome | Use an ordinal or multinomial model where available and appropriate. |
 | Time-to-event endpoint | Consider [Cox regression](../cox-regression.md) or survival-specific methods. |
-| Primary interest is subject-specific random-effect variability | A random-effects LMM may be more appropriate, but that is not the user-facing MMRM workflow in this release. |
+| Primary interest is subject-specific random-effect variability | Use the separate [Linear Mixed Models (LMM)](../linear-mixed-models-lmm.md) workflow, which supports random intercepts, random slopes, G-side covariance structures, and random-effect predictions. |
 | Very few subjects relative to covariance parameters | Use a simpler covariance structure or reconsider the model. |
 | Severe non-normality or influential outliers dominate the fit | Consider transformation, robust sensitivity checks, or a different outcome model. |
 | Missingness is likely strongly MNAR | Use sensitivity analyses or explicit missing-data methods; MMRM alone is not sufficient. |
@@ -313,7 +313,8 @@ Sometimes baseline-by-visit interaction is included when the baseline effect is 
 Start from the design and sample size:
 
 - **Unstructured** is often preferred when the number of visits is modest and the data support estimating all variances and covariances.
-- **Heterogeneous AR(1)** can be useful when correlations decline with visit distance and variances may differ by visit.
+**Heterogeneous AR(1)** can be useful when correlations decline smoothly with visit distance and variances may differ by visit.
+- **Toeplitz** and **heterogeneous Toeplitz** can be useful when correlations mainly depend on visit lag but do not follow a single AR(1) decay pattern.
 - **Compound symmetry** can be useful as a simple sensitivity model when correlations are roughly constant.
 - **Diagonal** may be useful as a diagnostic or sensitivity structure when within-subject covariance is weak, but it ignores residual correlation.
 
@@ -375,7 +376,7 @@ Use when the primary estimand is improvement or deterioration relative to baseli
 Use when the primary result should be checked against reasonable covariance alternatives.
 
 - Primary structure: often unstructured for modest visit counts.
-- Sensitivity structures: heterogeneous AR(1), compound symmetry, heterogeneous compound symmetry, diagonal.
+- Sensitivity structures: heterogeneous AR(1), Toeplitz, heterogeneous Toeplitz, compound symmetry, heterogeneous compound symmetry, diagonal.
 - Interpretation: whether the treatment estimate and standard error are stable across plausible covariance models.
 
 ---

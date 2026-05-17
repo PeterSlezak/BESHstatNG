@@ -146,6 +146,8 @@ The residual covariance structure defines the within-subject covariance matrix a
 | **Heterogeneous CS** | \(T+1\) | Variance differs by visit but one common correlation is plausible. | Still assumes a single correlation across all visit pairs. |
 | **AR(1)** | 2 | Equally spaced ordered visits with decaying correlation and common variance. | Assumes one decay parameter and common variance. |
 | **Heterogeneous AR(1)** | \(T+1\) | Ordered visits with decaying correlation and visit-specific variances. | Less flexible than unstructured for non-monotone correlation patterns. |
+| **Toeplitz (TOEP)** | \(T\) | Ordered visits where correlation mainly depends on visit lag but does not have to follow AR(1) decay. | Assumes common variance and the same correlation for all pairs with the same lag. |
+| **Heterogeneous Toeplitz (TOEPH)** | \(2T-1\) | Ordered visits with visit-specific variances and lag-specific correlations. | More parameter-heavy than AR(1)/heterogeneous AR(1); still assumes same-lag correlations are equal. |
 | **Unstructured** | \(T(T+1)/2\) | Each visit variance and covariance is estimated separately. Often preferred for confirmatory MMRM when there are enough subjects. | Uses many parameters; may be unstable with sparse visits or small samples. |
 
 ### Choosing a covariance structure
@@ -156,6 +158,7 @@ Start with **Unstructured** when the number of visits is modest and the study ha
 - the estimated covariance matrix is near singular,
 - some visit pairs have very little support,
 - the number of visits is large relative to the number of subjects,
+- a lag-based structure such as **Toeplitz (TOEP)** or **Heterogeneous Toeplitz (TOEPH)** is scientifically more plausible than a fully unstructured pattern,
 - the analysis plan prespecifies a simpler covariance pattern.
 
 The **Estimated R covariance matrix** and **Estimated R correlation matrix** output tables are the easiest way to inspect whether the chosen structure is behaving reasonably.
@@ -509,8 +512,8 @@ When **Kenward-Roger** inference is selected and the required KR workspace is av
 
 ### Covariance parameters
 
-The **Covariance parameters** table reports optimized R-side parameters on the **internal optimizer scale**. For an unstructured residual covariance, parameters include Cholesky-scale quantities such as `log_chol_diag_1` and `chol_2_1`.
-
+The **Covariance parameters** table reports optimized R-side parameters on the **internal optimizer scale**. For an unstructured residual covariance, parameters include Cholesky-scale quantities such as `log_chol_diag_1` and `chol_2_1`. For Toeplitz-style structures, lag correlations are optimized through an internal partial-autocorrelation parameterization and then reported through the fitted R covariance and correlation matrices.
+ 
 !!! important "Use the R matrix for interpretation"
     The internal covariance-parameter table is primarily for reproducibility and diagnostics. For practical interpretation, use the **Estimated R covariance matrix** and **Estimated R correlation matrix** tables.
 

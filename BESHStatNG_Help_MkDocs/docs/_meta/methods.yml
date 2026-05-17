@@ -495,6 +495,20 @@ methods:
     analysisTitle: Mixed Models for Repeated Measures (MMRM)
   categories:
   - Regression
+- key: LinearMixedModelsLMM
+  title: Linear Mixed Models (LMM)
+  slug: linear-mixed-models-lmm
+  short: "**Includes:** Gaussian linear mixed models, ML / REML, fixed effects with categorical factors, polynomial terms and interactions, random intercepts, random slopes and random-effect interactions, G-side covariance structures (RI, RI+slope, ID, VC/Diag, CS, CSH, AR1, ARH1, TOEP, TOEPH, Unstructured), optional R-side residual covariance structures, Satterthwaite and Kenward-Roger inference, fitted values/residuals, BLUPs, covariance/correlation output, diagnostics and trace output.  \nFit subject- or cluster-level random-effects models for continuous outcomes, including random-intercept, random-slope and richer mixed-model specifications."
+  ribbonIds:
+  - btm7_10LMM
+  onActions:
+  - OnbtmLMMPressed
+  forms:
+  - handler: OnbtmLMMPressed
+    form: Ui19LMM
+    analysisTitle: Linear Mixed Models (LMM)
+  categories:
+    - Regression
 - key: PairedSingleSampleTTests
   title: Paired (single sample) T tests
   slug: paired-t-tests
@@ -1088,6 +1102,10 @@ categories:
     ribbonId: btm7_9MMRM
     title: Mixed Models for Repeated Measures (MMRM)
     slug: mixed-models-for-repeated-measures-mmrm
+  - ref: LinearMixedModelsLMM
+    ribbonId: btm7_10LMM
+    title: Linear Mixed Models (LMM)
+    slug: linear-mixed-models-lmm
 - name: Multivariate Analysis
   items:
   - ref: HotellingSTSquaredTest

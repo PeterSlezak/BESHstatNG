@@ -117,3 +117,7 @@ The saved values are applied to future dialogs and future BESHStatNG sessions.
 ## Help button
 
 The **Help** button in the dialog opens this page.
+
+## See also
+- [Resampling in BESH Stat NG](methods/resampling.md)
+- [Home](index.md)

@@ -1,11 +1,14 @@
 # What's New
 
+## version 0.9.x.0 (2026-0x-xx)
+- Added Linear Mixed Models (LMM) as a new regression workflow for modeling clustered and repeated-measures data with subject-specific random effects. The new LMM dialog supports random intercepts, random slopes, multiple random effects, and random-effect interactions, with flexible G-side covariance structures including Random Intercept, Random Intercept + Slope, Identity, Variance Components/Diagonal, CS, CSH, AR(1), ARH(1), Toeplitz, heterogeneous Toeplitz, and Unstructured. LMM also supports optional R-side residual covariance structures, ML/REML fitting, Kenward-Roger and Satterthwaite inference, fitted values, residuals, covariance/correlation output, BLUP/random-effect estimates, diagnostics, and worksheet-function.
+
+
 ## version 0.8.7.0 (2026-05-09)
 - This release adds a new **Mixed Models for Repeated Measures (MMRM)** procedure for longitudinal and repeated-measures analyses with incomplete follow-up data. The implementation supports REML/ML estimation, flexible within-subject covariance structures, Kenward-Roger, Satterthwaite, between-within, residual, and large-sample inference options, Type III tests, LS-means, pairwise contrasts, custom linear estimates through `BESH.REGR.MMRM_LSMESTIMATE`, fitted values, residuals, covariance diagnostics, and worksheet-function workflows. MMRM is available from the Regression ribbon and through the `BESH.REGR.MMRM_*` worksheet functions.
 - Added support for categorical-factor interactions in regression/GEE/MMRM model building and formula validation, enabling terms such as `factor(A):B` and `factor(A):factor(B)` for common MMRM use cases such as group-by-time effects.
 - New Interrupt buttons were added to the regression forms, allowing long-running calculations to stop at the next safe point and return the latest available estimates where supported. Closing a form during a run now requests a clean cancellation instead of leaving the calculation running
 - Multiple linear regression VIF output now includes a signed **Partial r** column for each modeled predictor column, computed from the coefficient t-statistic and residual degrees of freedom.
-
 
 ## version 0.7.6.0 (2026-04-26)
 - Added model-reporting tools for fitted binary classifiers, including confusion matrix, threshold-performance table, sensitivity/specificity and precision/recall summaries, calibration analysis, Brier score, ROC tables, and ROC plot outputs for binomial GLM and binomial GEE models. The same reporting workflow is also available through new generic classification UDFs for scoring external or holdout predictions directly in Excel.

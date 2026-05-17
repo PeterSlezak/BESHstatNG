@@ -295,6 +295,8 @@ BESH Stat NG supports the following MMRM residual covariance structures. The tab
 | Heterogeneous compound symmetry | \(T+1\) | Visit-specific variances with common correlation. |
 | AR(1) | 2 | Common variance with correlation decaying by visit lag. |
 | Heterogeneous AR(1) | \(T+1\) | Visit-specific variances with AR(1) correlation decay. |
+| Toeplitz (TOEP) | \(T\) | Common variance with a separate correlation for each visit lag. |
+| Heterogeneous Toeplitz (TOEPH) | \(2T-1\) | Visit-specific variances with separate lag correlations. |
 | Unstructured | \(T(T+1)/2\) | Fully flexible covariance; default when supported by sample size. |
 
 ### 9.1 Identity / independence
@@ -340,28 +342,61 @@ This is more flexible than compound symmetry because each visit can have its own
 ### 9.5 AR(1)
 
 \[
-\operatorname{Cov}(Y_{it},Y_{is})=\sigma^2\rho^{|t-s|}.
+\operatorname{Cov}(Y_{it},Y_{is})=\sigma^2\rho^{\lvert t-s\rvert}.
 \]
 
-This structure assumes correlations decline with visit distance. In BESH Stat NG, the lag \(|t-s|\) is based on the ordinal visit index, not raw continuous time.
+This structure assumes correlations decline with visit distance. In BESH Stat NG, the lag \(\lvert t-s \rvert\) is based on the ordinal visit index, not raw continuous time.
 
 ### 9.6 Heterogeneous AR(1)
 
 \[
 \operatorname{Var}(Y_{it})=\sigma_t^2,
 \qquad
-\operatorname{Corr}(Y_{it},Y_{is})=\rho^{|t-s|}.
++\operatorname{Corr}(Y_{it},Y_{is})=\rho^{\lvert t-s\rvert}.
 \]
 
 Therefore
 
 \[
-\operatorname{Cov}(Y_{it},Y_{is})=\sigma_t\sigma_s\rho^{|t-s|}.
+\operatorname{Cov}(Y_{it},Y_{is})=\sigma_t\sigma_s\rho^{\lvert t-s\rvert}.
 \]
 
 This is often a practical compromise when the number of visits is too large for an unstructured covariance but visit-specific variances should still be allowed.
 
-### 9.7 Unstructured
+### 9.7 Toeplitz (TOEP)
+
+Toeplitz covariance uses one common variance and one correlation parameter for each visit lag:
+
+\[
+\operatorname{Cov}(Y_{it},Y_{is})=\sigma^2
+\rho_{\lvert t-s\rvert}, \qquad 
+\rho_0=1.
+\]
+
+For \(T\) retained visits, this gives one variance parameter and \(T-1\) lag-correlation parameters, for a total of \(T\) parameters. Toeplitz is less restrictive than AR(1) because each lag can have its own correlation, but it is much less parameter-heavy than an unstructured covariance.
+
+### 9.8 Heterogeneous Toeplitz (TOEPH)
+
+Heterogeneous Toeplitz allows visit-specific variances while keeping the Toeplitz lag-correlation pattern:
+
+\[
+\operatorname{Var}(Y_{it})=\sigma_t^2,
+\qquad
+\operatorname{Corr}(Y_{it},Y_{is})=
+\rho_{\lvert t-s\rvert}, \qquad 
+\rho_0=1.
+\]
+
+Therefore
+
+\[
+\operatorname{Cov}(Y_{it},Y_{is})=\sigma_t\sigma_s
+\rho_{\lvert t-s\rvert}.
+\]
+
+For \(T\) retained visits, this gives \(T\) variance parameters and \(T-1\) lag-correlation parameters, for a total of \(2T-1\) parameters. This structure is useful when variances differ by visit and correlations mainly depend on lag, but the AR(1) single-decay assumption is too restrictive.
+
+### 9.9 Unstructured
 
 The unstructured covariance estimates every variance and covariance among the \(T\) visits:
 
@@ -407,6 +442,7 @@ The optimizer works on unconstrained or nearly unconstrained internal parameters
 | Homogeneous variance | \(\theta=\log(\sigma^2)\) | \(\sigma^2=\exp(\theta)\) |
 | Visit-specific variance | \(\theta_t=\log(\sigma_t^2)\) | \(\sigma_t^2=\exp(\theta_t)\) |
 | Correlation | \(\eta=\operatorname{atanh}(\rho)\) | \(\rho=\tanh(\eta)\) |
+| Toeplitz lag correlations | partial-autocorrelation scale | positive-definite Toeplitz correlation matrix |
 | Unstructured covariance | lower-triangular Cholesky factor | \(R=LL^\top\) |
 
 For unstructured covariance, BESH Stat NG parameterizes a lower-triangular matrix \(L\). Diagonal entries are exponentiated to keep them positive, while off-diagonal entries are unconstrained:

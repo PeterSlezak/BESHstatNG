@@ -145,7 +145,7 @@ The best settings depend on the study protocol and analysis objective, but the f
 | Fixed effects | Treatment, visit, treatment × visit, baseline, important stratification factors | Directly supports visit-specific treatment comparisons. |
 | Primary output | LS-means and contrasts by visit | Gives adjusted group means and treatment differences in an interpretable form. |
 
-If the unstructured covariance does not converge or is not supported by the data, consider a simpler covariance structure such as heterogeneous compound symmetry, compound symmetry, heterogeneous AR(1), AR(1), or diagonal heterogeneous covariance. See [Options and output reference](mmrm/options-and-output.md) for details.
+If the unstructured covariance does not converge or is not supported by the data, consider a simpler covariance structure such as heterogeneous compound symmetry, compound symmetry, heterogeneous AR(1), AR(1), Toeplitz, heterogeneous Toeplitz, or diagonal heterogeneous covariance. See [Options and output reference](mmrm/options-and-output.md) for details.
 
 ---
 

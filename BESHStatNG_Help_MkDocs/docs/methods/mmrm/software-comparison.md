@@ -278,6 +278,7 @@ This grows quadratically with the number of visits. Four visits require 10 covar
 |---|---|---|
 | Identity, compound symmetry, AR(1) | Lower | Useful for diagnostics and sensitivity analyses; may be too restrictive for the primary analysis. |
 | Heterogeneous CS / AR(1) | Moderate | Useful when visit variances differ but correlation can be summarized simply. |
+| Toeplitz / heterogeneous Toeplitz | Moderate to high | Useful when same-lag correlations are plausible but AR(1) is too restrictive; cost grows with the number of visits. |
 | Unstructured covariance | Highest covariance-model cost | Appropriate for modest visit counts with adequate data support; risky with many visits and sparse data. |
 | Large-sample, residual, between-within DF | Lower inference overhead | Useful for fast checks and planned analyses where appropriate. |
 | Satterthwaite | Moderate to high | Requires covariance-parameter uncertainty calculations. |

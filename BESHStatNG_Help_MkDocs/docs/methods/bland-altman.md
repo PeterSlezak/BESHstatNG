@@ -965,3 +965,5 @@ So modest discrepancies are expected even when the high-level method is the same
 - [Intraclass Correlation Coefficients](intraclass-correlation-coefficients.md)
 - [Cohen's / Weighted Kappa](cohens-kappa.md)
 - [Sample Size – Agreement (Bland–Altman)](sample-size-bland-altman.md)
+- [Resampling in BESH Stat NG](resampling.md)
+- [Home](../index.md)
