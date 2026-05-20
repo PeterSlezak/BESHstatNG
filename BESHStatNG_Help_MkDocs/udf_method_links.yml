@@ -135,6 +135,14 @@ patterns:
   - match: '^BESH\.REGR\.MMRM_'
     doc: 'methods/mixed-models-for-repeated-measures-mmrm.md'
 
+  # LMM
+  - match: '^BESH\.REGR\.LMM_'
+    doc: 'methods/linear-mixed-models-lmm.md'
+
+  # PSM
+  - match: '^BESH\.PS\._'
+    doc: 'methods/propensity-score-matching.md'
+    
   # Contingency Tables
   - match: '^BESH\.CT\.MANTEL_HAENSZEL'
     doc: 'methods/mantel-haenszel-test.md'

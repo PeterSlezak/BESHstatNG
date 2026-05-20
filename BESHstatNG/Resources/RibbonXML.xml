@@ -91,6 +91,9 @@
 							<button id="btn10_5Cohen" label="Cohen's / Weighted Kappa" onAction='OnbtmCohenKappa' imageMso="FormControlCheckBox" />
 							<button id="btn10_6icc" label="Intraclass Correlation Coefficients" onAction='OnbtmIcc' imageMso="CombineShapesGallery" />
 						</menu>
+						<menu id="subMenu_Causal" label="Causal Inference">
+							<button id="btmCausal_PSM" label="Propensity Score Matching" onAction="OnbtmPSMPressed" imageMso="ChartTrendline" />
+						</menu>
 					</menu>
 
 					<separator id="sep1" />

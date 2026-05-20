@@ -7,6 +7,7 @@ _This page is auto-generated from XML doc comments in the VB files under the add
 - [Generalized Estimating Equations Gee](../methods/generalized-estimating-equations-gee.md)
 - [Negative Binomial Regression Nb2](../methods/negative-binomial-regression-nb2.md)
 - [Generalized Linear Models Glm](../methods/generalized-linear-models-glm.md)
+- [Linear Mixed Models Lmm](../methods/linear-mixed-models-lmm.md)
 - [Multiple Linear Regression Lm](../methods/multiple-linear-regression-lm.md)
 - [Mixed Models For Repeated Measures Mmrm](../methods/mixed-models-for-repeated-measures-mmrm.md)
 - [Multinomial Logistic Regression](../methods/multinomial-logistic-regression.md)

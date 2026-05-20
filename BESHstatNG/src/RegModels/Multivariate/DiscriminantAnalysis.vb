@@ -1649,7 +1649,7 @@ Namespace Multivariate
             Return idx
         End Function
 
-        Private Function MatVec(mat(,) As Double, v() As Double) As Double()
+        Friend Shared Function MatVec(mat(,) As Double, v() As Double) As Double()
             Dim n As Integer = mat.GetUpperBound(0) + 1
             Dim p As Integer = mat.GetUpperBound(1) + 1
             Dim out(n - 1) As Double
@@ -1663,7 +1663,7 @@ Namespace Multivariate
             Return out
         End Function
 
-        Private Function QuadraticForm(v() As Double, mat(,) As Double) As Double
+        Friend Shared Function QuadraticForm(v() As Double, mat(,) As Double) As Double
             Dim tmp() As Double = MatVec(mat, v)
             Return Matrix.DotProduct(v, tmp)
         End Function

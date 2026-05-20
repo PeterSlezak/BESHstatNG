@@ -2,6 +2,8 @@
 
 ## version 0.9.x.0 (2026-0x-xx)
 - Added Linear Mixed Models (LMM) as a new regression workflow for modeling clustered and repeated-measures data with subject-specific random effects. The new LMM dialog supports random intercepts, random slopes, multiple random effects, and random-effect interactions, with flexible G-side covariance structures including Random Intercept, Random Intercept + Slope, Identity, Variance Components/Diagonal, CS, CSH, AR(1), ARH(1), Toeplitz, heterogeneous Toeplitz, and Unstructured. LMM also supports optional R-side residual covariance structures, ML/REML fitting, Kenward-Roger and Satterthwaite inference, fitted values, residuals, covariance/correlation output, BLUP/random-effect estimates, diagnostics, and worksheet-function.
+- MMRM - added Toeplitz and heterogeneous Toeplitz to the R-side covariance options
+- Propensity Score Matching (PSM) addition for causal-inference workflows, including logistic-regression or supplied propensity scores, nearest-neighbor and optimal pair matching, weighting, subclassification, coarsened exact matching, balance diagnostics, Love-plot output, matched-pair/result tables, worksheet UDFs `BESH.PS.*`.
 
 
 ## version 0.8.7.0 (2026-05-09)

@@ -509,6 +509,20 @@ methods:
     analysisTitle: Linear Mixed Models (LMM)
   categories:
     - Regression
+- key: PropensityScoreMatching
+  title: Propensity Score Matching
+  slug: propensity-score-matching
+  short: "**Includes:** Propensity score estimation by GLM logistic regression or supplied scores; nearest-neighbor, optimal pair, subclassification, weighting, coarsened exact matching, exact matching restrictions, calipers, common support and trimming; ATT / ATC / ATE / ATO estimands; balance diagnostics, Love-plot data, overlap and weight diagnostics, AIPW doubly robust estimates, bootstrap summaries, and Rosenbaum-style matched-pair sensitivity analysis.  \nEstimate treatment effects for observational studies by balancing treated and control groups using propensity-score-based matching, weighting, and diagnostics."
+  ribbonIds:
+  - btmCausal_PSM
+  onActions:
+  - OnbtmPSMPressed
+  forms:
+  - handler: OnbtmPSMPressed
+    form: Ui20PropensityScoreMatching
+    analysisTitle: Propensity Score Matching
+  categories:
+  - Causal Inference
 - key: PairedSingleSampleTTests
   title: Paired (single sample) T tests
   slug: paired-t-tests
@@ -1200,3 +1214,9 @@ categories:
     ribbonId: btn10_3icc
     title: Intraclass Correlation Coefficients
     slug: intraclass-correlation-coefficients
+- name: Causal Inference
+  items:
+  - ref: PropensityScoreMatching
+    ribbonId: btmCausal_PSM
+    title: Propensity Score Matching
+    slug: propensity-score-matching

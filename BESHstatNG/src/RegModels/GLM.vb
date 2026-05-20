@@ -139,6 +139,34 @@ Public Class GLM
     ''' </remarks>
     Public bHosmerLemeshow As Boolean = True
 
+    Private pWlsRidgePenalty As Double = 0.0
+
+    ''' <summary>
+    ''' Optional ridge penalty applied to the weighted least-squares normal equations used inside IRLS.
+    ''' </summary>
+    ''' <remarks>
+    ''' The default value of 0 preserves the original GLM behaviour. When positive, the IRLS WLS step solves
+    ''' <c>(XᵀWX + Λ)β = XᵀWz</c>, where Λ is diagonal and contains this value for penalized columns.
+    ''' By default the intercept is not penalized when an intercept is present. This is mainly intended for
+    ''' numerically stabilizing binomial/logit fits used by propensity-score models.
+    ''' </remarks>
+    Public Property WlsRidgePenalty As Double
+        Get
+            Return pWlsRidgePenalty
+        End Get
+        Set(value As Double)
+            If Double.IsNaN(value) OrElse Double.IsInfinity(value) OrElse value < 0.0 Then
+                Throw New ArgumentOutOfRangeException(NameOf(WlsRidgePenalty), "WLS ridge penalty must be a finite non-negative value.")
+            End If
+            pWlsRidgePenalty = value
+        End Set
+    End Property
+
+    ''' <summary>
+    ''' If True, <see cref="WlsRidgePenalty"/> is not applied to the intercept column when the model includes an intercept.
+    ''' </summary>
+    Public Property WlsRidgeExcludeIntercept As Boolean = True
+
 
     ''' <summary>
     ''' Initializes a GLM with a specified family and link function.
@@ -803,7 +831,7 @@ Public Class GLM
                                Optional bStartParams As Boolean = False,
                                Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
                                Optional progressLbl As System.Windows.Forms.Label = Nothing)
-        AppGlobals.BSlogg.Debug($"GLM.Fit start. family={pFamily.GetType().Name}; link={pLink.GetType().Name}; intercept={intercept}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}; weights={pbWeigts}")
+        AppGlobals.BSlogg.Debug($"GLM.Fit start. family={pFamily.GetType().Name}; link={pLink.GetType().Name}; intercept={intercept}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}; weights={pbWeigts}; wlsRidge={Me.WlsRidgePenalty}; ridgeExcludeIntercept={Me.WlsRidgeExcludeIntercept}")
         'Intercept = 1 if Yes; 0 if No
         Dim j As Integer, pi1 As Integer, dev As Double, params(,) As Double, hold As Double, y_mean As Double
         Dim ii As Integer, weights() As Double, old_params() As Double, wlsendog() As Double
@@ -929,7 +957,7 @@ Public Class GLM
                 wlsendog(i) = pLin_pred(i, 0) + ((Me.y(i) - mu(i)) * pLink.deriv(mu(i))) - pOffset(i)
             Next
 
-            params = Matrix.MinimalWLS(wlsendog, x, weights)
+            params = FitIrlsWeightedLeastSquares(wlsendog, x, weights)
 
             For i = 0 To UBound(params, 1)
                 Me.results.Coeffs_est(i) = params(i, 0)
@@ -1248,7 +1276,7 @@ Public Class GLM
                 wlsendog0(i) = eta0(i, 0) + ((Me.y(i) - mu0(i)) * pLink.deriv(mu0(i))) - off
             Next
 
-            Dim params0 As Double(,) = Matrix.MinimalWLS(wlsendog0, x0, weights0)
+            Dim params0 As Double(,) = FitIrlsWeightedLeastSquares(wlsendog0, x0, weights0)
             betaNew = params0(0, 0)
 
             ' --- Update eta and mu under the null: eta = beta0 + offset ---
@@ -1527,24 +1555,88 @@ Public Class GLM
     End Function
 
     Private Function hessian(x(,) As Double, V() As Double) As Double(,)
-        'compute hessian matrix X'VX for regression analysis
-        Dim tmp1 As Double
-        Dim n As Integer = x.GetLength(0)
-        Dim p As Integer = x.GetLength(1) 'number of regression parameters
-        Dim XtWX(p - 1, p - 1) As Double
+        'compute inverse of X'VX, or inverse of the penalized information matrix when ridge is enabled
+        Dim xtwx As Double(,) = BuildWeightedCrossProduct(x, V)
+        ApplyWlsRidgePenalty(xtwx)
+        Return Matrix.MatInv(xtwx, "CHOL")
+    End Function
 
-        'Compute X'VX
-        For i = 0 To p - 1
-            For j = i To p - 1
-                tmp1 = 0.0
-                For k = 0 To n - 1
-                    tmp1 += x(k, j) * V(k) * x(k, i)
+    Private Function FitIrlsWeightedLeastSquares(endog() As Double, exog(,) As Double, weights() As Double) As Double(,)
+        If Me.WlsRidgePenalty <= 0.0 Then Return Matrix.MinimalWLS(endog, exog, weights)
+
+        Dim xtwx As Double(,) = BuildWeightedCrossProduct(exog, weights)
+        Dim xtwy() As Double = BuildWeightedCrossProductResponse(exog, endog, weights)
+        ApplyWlsRidgePenalty(xtwx)
+
+        Dim ifault As Integer = 0
+        Dim chol As Double(,) = Matrix.Cholesky(xtwx, ifault, False)
+        If ifault <> 0 Then
+            AppGlobals.BSlogg.Log("Ridge WLS normal equations were not positive definite; retrying with a larger numerical ridge.", AppGlobals.LogMsgType.Warn)
+            For j As Integer = 0 To xtwx.GetUpperBound(0)
+                xtwx(j, j) += Math.Max(Me.WlsRidgePenalty, 0.00000001) * 100.0
+            Next
+            ifault = 0
+            chol = Matrix.Cholesky(xtwx, ifault, True)
+        End If
+
+        Dim beta() As Double = Matrix.CholSolve(chol, xtwy)
+        Dim invInfo As Double(,) = Matrix.MatInv(xtwx, "CHOL")
+        Dim out(beta.Length - 1, 1) As Double
+        For j As Integer = 0 To beta.Length - 1
+            out(j, 0) = beta(j)
+            out(j, 1) = Math.Sqrt(Math.Max(0.0, invInfo(j, j)))
+        Next
+        Return out
+    End Function
+
+    Private Function BuildWeightedCrossProduct(exog(,) As Double, weights() As Double) As Double(,)
+        Dim nRows As Integer = exog.GetLength(0)
+        Dim nCols As Integer = exog.GetLength(1)
+        Dim xtwx(nCols - 1, nCols - 1) As Double
+
+        For j As Integer = 0 To nCols - 1
+            For k As Integer = j To nCols - 1
+                Dim s As Double = 0.0
+                For i As Integer = 0 To nRows - 1
+                    Dim w As Double = If(weights(i) > 0.0, weights(i), 0.0)
+                    s += exog(i, j) * w * exog(i, k)
                 Next
-                XtWX(i, j) = tmp1
-                XtWX(j, i) = tmp1
+                xtwx(j, k) = s
+                xtwx(k, j) = s
             Next
         Next
-        Return Matrix.MatInv(XtWX, "CHOL")
+        Return xtwx
+    End Function
+
+    Private Function BuildWeightedCrossProductResponse(exog(,) As Double, endog() As Double, weights() As Double) As Double()
+        Dim nRows As Integer = exog.GetLength(0)
+        Dim nCols As Integer = exog.GetLength(1)
+        Dim xtwy(nCols - 1) As Double
+
+        For j As Integer = 0 To nCols - 1
+            Dim s As Double = 0.0
+            For i As Integer = 0 To nRows - 1
+                Dim w As Double = If(weights(i) > 0.0, weights(i), 0.0)
+                s += exog(i, j) * w * endog(i)
+            Next
+            xtwy(j) = s
+        Next
+
+        Return xtwy
+    End Function
+
+    Private Sub ApplyWlsRidgePenalty(ByRef xtwx(,) As Double)
+        If Me.WlsRidgePenalty <= 0.0 OrElse xtwx Is Nothing Then Return
+
+        For j As Integer = 0 To xtwx.GetUpperBound(0)
+            If ShouldApplyWlsRidgeToColumn(j) Then xtwx(j, j) += Me.WlsRidgePenalty
+        Next
+    End Sub
+
+    Private Function ShouldApplyWlsRidgeToColumn(columnIndex As Integer) As Boolean
+        If Me.WlsRidgePenalty <= 0.0 Then Return False
+        If Me.WlsRidgeExcludeIntercept AndAlso Me.pbIntercept AndAlso columnIndex = 0 Then Return False
+        Return True
     End Function
 
     Protected Friend Sub Residuals()

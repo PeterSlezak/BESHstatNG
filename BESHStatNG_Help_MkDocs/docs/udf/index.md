@@ -11,13 +11,14 @@ Excel Function Wizard category (e.g. `BESHStatNG - Nonparametric`).
 |---|---|---:|---|
 | [Agreement](agreement.md) | Worksheet functions in this category. | 16 | [Bland Altman](../methods/bland-altman.md), [Deming Regression](../methods/deming-regression.md), [Intraclass Correlation Coefficients](../methods/intraclass-correlation-coefficients.md), [Cohens Kappa](../methods/cohens-kappa.md), [Lins Ccc](../methods/lins-ccc.md), [Passing Bablok Regression](../methods/passing-bablok-regression.md) |
 | [Assumptions](assumptions.md) | Worksheet functions in this category. | 12 | [Univariate Outliers](../methods/univariate-outliers.md), [Homogeneity Of Variance](../methods/homogeneity-of-variance.md), [Normality Tests](../methods/normality-tests.md), [Symmetry](../methods/symmetry.md) |
+| [Causal Inference](causal-inference.md) | Worksheet functions in this category. | 6 | — |
 | [Contingency Tables](contingency-tables.md) | Worksheet functions in this category. | 15 | [2X2 Table](../methods/2x2-table.md), [Mantel Haenszel Test](../methods/mantel-haenszel-test.md), [Proportions](../methods/proportions.md), [Rxc Table](../methods/rxc-table.md) |
 | [Distributions](distributions.md) | Probability distribution helper functions (PDF/CDF/quantiles and related utilities). | 3 | — |
 | [Multivariate Analysis](multivariate-analysis.md) | Worksheet functions in this category. | 70 | [Correspondence Analysis](../methods/correspondence-analysis.md), [Discriminant Analysis](../methods/discriminant-analysis.md), [Factor Analysis](../methods/factor-analysis.md), [Hierarchical Clustering](../methods/hierarchical-clustering.md), [K Means Clustering](../methods/k-means-clustering.md), [Multiple Correspondence Analysis](../methods/multiple-correspondence-analysis.md), [Principal Component Analysis](../methods/principal-component-analysis.md) |
 | [Nonparametric](nonparametric.md) | Rank-based and other nonparametric hypothesis tests and related statistics. | 14 | [Friedman Test](../methods/friedman-test.md), [Kendalls Rank Correlation](../methods/kendalls-rank-correlation.md), [Kruskal Wallis Test](../methods/kruskal-wallis-test.md), [Mann Whitney Test](../methods/mann-whitney-test.md), [Spearman Rank Correlation](../methods/spearman-rank-correlation.md), [Wilcoxon Signed Rank Test](../methods/wilcoxon-signed-rank-test.md) |
 | [Parametric](parametric.md) | Worksheet functions in this category. | 10 | [One Way Anova](../methods/one-way-anova.md), [Two Way Nested Anova](../methods/two-way-nested-anova.md), [One Way Repeated Measures Anova](../methods/one-way-repeated-measures-anova.md), [Paired T Tests](../methods/paired-t-tests.md), [Unpaired Two Sample T Tests](../methods/unpaired-two-sample-t-tests.md) |
 | [Plot Data](plot-data.md) | Worksheet functions in this category. | 6 | [Histogram](../methods/histogram.md), [Roc Curve](../methods/roc-curve.md) |
-| [Regression Models](regression-models.md) | Worksheet functions in this category. | 91 | [Regression Formula Syntax](regression-formula-syntax.md), [Generalized Estimating Equations Gee](../methods/generalized-estimating-equations-gee.md), [Negative Binomial Regression Nb2](../methods/negative-binomial-regression-nb2.md), [Generalized Linear Models Glm](../methods/generalized-linear-models-glm.md), [Multiple Linear Regression Lm](../methods/multiple-linear-regression-lm.md), [Mixed Models For Repeated Measures Mmrm](../methods/mixed-models-for-repeated-measures-mmrm.md), [Multinomial Logistic Regression](../methods/multinomial-logistic-regression.md), [Ordinal Logistic Regression](../methods/ordinal-logistic-regression.md), [Zero Inflated Poisson Regression](../methods/zero-inflated-poisson-regression.md) |
+| [Regression Models](regression-models.md) | Worksheet functions in this category. | 91 | [Regression Formula Syntax](regression-formula-syntax.md), [Generalized Estimating Equations Gee](../methods/generalized-estimating-equations-gee.md), [Negative Binomial Regression Nb2](../methods/negative-binomial-regression-nb2.md), [Generalized Linear Models Glm](../methods/generalized-linear-models-glm.md), [Linear Mixed Models Lmm](../methods/linear-mixed-models-lmm.md), [Multiple Linear Regression Lm](../methods/multiple-linear-regression-lm.md), [Mixed Models For Repeated Measures Mmrm](../methods/mixed-models-for-repeated-measures-mmrm.md), [Multinomial Logistic Regression](../methods/multinomial-logistic-regression.md), [Ordinal Logistic Regression](../methods/ordinal-logistic-regression.md), [Zero Inflated Poisson Regression](../methods/zero-inflated-poisson-regression.md) |
 | [Sample Size](sample-size.md) | Worksheet functions in this category. | 9 | [Sample Size Bland Altman](../methods/sample-size-bland-altman.md), [Sample Size Cox Regression](../methods/sample-size-cox-regression.md), [Sample Size Icc](../methods/sample-size-icc.md), [Sample Size Log Rank](../methods/sample-size-log-rank.md), [Sample Size Independent Proportions](../methods/sample-size-independent-proportions.md), [Sample Size Single Proportion](../methods/sample-size-single-proportion.md), [Sample Size Paired T Test](../methods/sample-size-paired-t-test.md), [Sample Size Unpaired T Test](../methods/sample-size-unpaired-t-test.md) |
 | [Survival](survival.md) | Worksheet functions in this category. | 11 | [Cox Regression](../methods/cox-regression.md), [Regression Formula Syntax](regression-formula-syntax.md), [Logrank Test](../methods/logrank-test.md), [Kaplan Meier Plot](../methods/kaplan-meier-plot.md) |
 
@@ -60,6 +61,17 @@ See: [Agreement UDFs](agreement.md)
 - `BESH.ASM.SYMMETRY` — Symmetry test about an unknown median: MGG (default) or Cabilio-Masaro.
 
 See: [Assumptions UDFs](assumptions.md)
+
+### Causal Inference
+
+- `BESH.PS.BALANCE` — Returns balance diagnostics before and after matching/weighting.
+- `BESH.PS.CLEANUP` — Removes one PSM handle from the session cache, or all PSM handles when handle is blank or ALL.
+- `BESH.PS.FIT` — Fits a propensity-score analysis and returns a reusable handle.
+- `BESH.PS.LOVEPLOT_DATA` — Returns chart-ready Love plot data for a fitted propensity-score handle.
+- `BESH.PS.SUMMARY` — Returns stacked summary tables for a fitted propensity-score handle.
+- `BESH.PSM.MATCHES` — Returns the matched-pair/set table for a fitted propensity-score handle.
+
+See: [Causal Inference UDFs](causal-inference.md)
 
 ### Contingency Tables
 
