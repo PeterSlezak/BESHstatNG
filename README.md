@@ -145,17 +145,21 @@ Useful links:
 ```text
 
 BESHStatNG.sln
-/BESHStatNG/                    BESHStatNG excel-DNA based add-in project source code
-           src/                 application code
-              /ExcelUDFs/       Excel worksheet functions
-              /StatTests/       statistical method implementations
-              /RegModels/       regression model code
-              /UI/              Windows Forms UI and ribbon handlers
-              /Help/            help-link mapping and help integration
-           tools/               helper scripts
-/BESHStatNG.Test/               unittest project
-/BESHStatNG_Help_MkDocs/        mkdocs documetnation source files
-/BESHStatNG_Installer/          wix installer
+/BESHStatNG/                        BESHStatNG excel-DNA based add-in project source code
+           src/                     application code
+              /AppInfrastructure/   global app settings and classes
+              /BaseStat/            Basic statistical procedures, distributions, resampling infrastructure
+              /ExcelUDFs/           Excel worksheet functions
+              /Graphics/            Chart generation functions, chart exporting code
+              /StatTests/           statistical method implementations
+              /RegModels/           regression models and multivariate methods code
+              /UI/                  Windows Forms UI and ribbon handlers
+              /Help/                help-link mapping and help integration
+              /Update/              app new version checker and updater
+           tools/                   helper scripts
+/BESHStatNG.Test/                   unittest project
+/BESHStatNG_Help_MkDocs/            mkdocs documetnation source files
+/BESHStatNG_Installer/              wix installer
 /tools
 /.github
 README.md
