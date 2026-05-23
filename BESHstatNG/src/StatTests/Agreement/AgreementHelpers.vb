@@ -380,10 +380,10 @@ Namespace Agreement
         Friend Function FilterFinitePairs(reference As Double(),
                                           test As Double()) As (Reference As Double(), Test As Double(), DroppedCount As Integer)
 
-            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
-            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(test)))
             If reference.Length <> test.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
             End If
 
             Dim xr As New List(Of Double)(reference.Length)
@@ -422,11 +422,9 @@ Namespace Agreement
         Friend Function FilterFinitePairsWithIndices(reference As Double(),
                                                      test As Double()) As (Reference As Double(), Test As Double(), KeptIndices As Integer(), DroppedCount As Integer)
 
-            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
-            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
-            If reference.Length <> test.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
-            End If
+            If reference Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference.Length <> test.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
 
             Dim xr As New List(Of Double)(reference.Length)
             Dim yt As New List(Of Double)(test.Length)

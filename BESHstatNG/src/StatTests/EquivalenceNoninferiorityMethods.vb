@@ -760,17 +760,17 @@ Namespace equivalencetests
         End Structure
 
         Private Function ComputeSampleMoments(values As Double(), argumentName As String) As SampleMoments
-            If values Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(argumentName))
+            If values Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(argumentName))
 
             Dim cleaned As New List(Of Double)()
             For Each value As Double In values
                 If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(argumentName, "All observations must be finite numeric values."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(argumentName, "All observations must be finite numeric values."))
                 End If
                 cleaned.Add(value)
             Next
 
-            If cleaned.Count < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two observations are required.", argumentName))
+            If cleaned.Count < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least two observations are required.", argumentName))
 
             Return New SampleMoments With {
                 .Count = cleaned.Count,

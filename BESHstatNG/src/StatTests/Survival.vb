@@ -1,7 +1,6 @@
 ﻿Option Explicit On
-Imports System.Drawing.Drawing2D
+
 Imports System.Linq
-Imports System.Runtime.InteropServices.ComTypes
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
@@ -145,7 +144,7 @@ Namespace survival
 
             If t.Length <> s.Length Or t.Length <> g.Length Or t.Length <> strat.Length Then
                 strErr = "Invalid input dimensions"
-                AppGlobals.BSlogg.Log(strErr)
+                CoreServices.Log(strErr)
                 Return Nothing
             End If
 
@@ -159,13 +158,13 @@ Namespace survival
                 Dim sr As New SurvivalRecord
                 If t(i) < 0 Then
                     strErr = "Unexpected time value (values less then zero are expected) but got = " & CStr(s(i))
-                    AppGlobals.BSlogg.Log(strErr)
+                    CoreServices.Log(strErr)
                     Return Nothing
                 End If
 
                 If s(i) < 0 Or s(i) > 1 Then
                     strErr = "Unexpected censoring indictor (0/1 values are expected) but got = " & CStr(s(i))
-                    AppGlobals.BSlogg.Log(strErr)
+                    CoreServices.Log(strErr)
                     Return Nothing
                 End If
 
@@ -437,7 +436,7 @@ Namespace survival
             Dim NoTimes As Integer '# of distinct survival times at whitch at least one event occured
 
             If Me.AllCenzoredInGroup() Then
-                AppGlobals.BSlogg.Log("Log rank test skipped, because a group with all record censored detected.")
+                CoreServices.Log("Log rank test skipped, because a group with all record censored detected.")
                 Return Nothing
             End If
             'ascending order of Time

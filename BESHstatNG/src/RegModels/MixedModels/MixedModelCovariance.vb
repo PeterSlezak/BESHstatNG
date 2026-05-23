@@ -37,7 +37,7 @@ Namespace regression
     ''' <item><description>Positive-definite solves are delegated to the existing project Cholesky routines in <c>Matrix.vb</c>.</description></item>
     ''' <item><description>No Moore-Penrose fallback is used here.  During likelihood optimization, non-SPD covariance proposals should be rejected or penalized, not silently pseudo-inverted.</description></item>
     ''' <item><description>Optional diagonal jitter is available only through explicit helper methods, mainly for diagnostics and controlled optimizer retry logic.</description></item>
-    ''' <item><description>Each public operation accepts an optional in-memory trace buffer while also writing through <see cref="AppGlobals.BSlogg"/>.  This mirrors the GLM/GEE logging style and allows the future engine/UI to expose detailed diagnostics to the user.</description></item>
+    ''' <item><description>Each public operation accepts an optional in-memory trace buffer while also writing through <see cref="CoreServices.logger"/>.  This mirrors the GLM/GEE logging style and allows the future engine/UI to expose detailed diagnostics to the user.</description></item>
     ''' </list>
     ''' </remarks>
     Public Module MixedModelCovariance
@@ -506,17 +506,17 @@ Namespace regression
             ' This is used during optimizer objective evaluations to avoid huge logs.
             If strTrace Is Nothing Then Exit Sub
             AppendTraceLine(message, strTrace)
-            AppGlobals.BSlogg.Trace(message)
+            CoreServices.Logger.Trace(message)
         End Sub
 
         Private Sub LogDebug(message As String, Optional ByRef strTrace As String = Nothing)
             AppendTraceLine(message, strTrace)
-            AppGlobals.BSlogg.Debug(message)
+            CoreServices.Logger.Debug(message)
         End Sub
 
         Private Sub LogWarn(message As String, Optional ByRef strTrace As String = Nothing)
             AppendTraceLine(message, strTrace)
-            AppGlobals.BSlogg.Warn(message)
+            CoreServices.Logger.Warn(message)
         End Sub
 
     End Module

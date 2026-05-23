@@ -1,9 +1,5 @@
 ﻿Option Explicit On
 
-Imports BESHStatNG.AppInfrastructure
-Imports ExcelDna.Integration
-Imports Microsoft.Office.Interop.Excel
-
 Public Class TwoGroupsData
     Public X1() As Double
     Public X2() As Double
@@ -40,25 +36,12 @@ Public Class MmrmData
 End Class
 
 ''' <summary>
-''' Describes how an imported data matrix originated.  GUI imports normally populate this from a worksheet range;
-''' UDF imports can populate it from the supplied Excel argument or raw object matrix.
-''' </summary>
-Public Class DataSourceInfo
-    Public Property SourceKind As String = "Unknown"
-    Public Property Address As String = Nothing
-    Public Property SheetName As String = Nothing
-    Public Property FirstSourceRow As Integer = 1
-    Public Property FirstSourceColumn As Integer = 1
-    Public Property ColumnNames As String() = Nothing
-End Class
-
-''' <summary>
 ''' Options used by the shared DataObj raw-matrix import path.  This is intentionally small in Batch 1 so it can
 ''' back the existing GUI and UDF imports without changing public worksheet function signatures.
 ''' </summary>
 Public Class DataImportOptions
     Public Property FirstSourceRow As Integer = 1
-    Public Property SourceWorksheet As Worksheet = Nothing
+    Public Property SourceWorksheet As Object = Nothing
     Public Property CharCols As Integer = -1
     Public Property SkipRows As Integer = 0
     Public Property AllowMissing As Boolean = False
@@ -110,12 +93,12 @@ End Class
 ''' <example>
 ''' ' Example: Import and clean worksheet data
 ''' Dim dObj As New DataObj()
-''' dObj.DataImport("Sheet1!A:C", bStartRow:=True)
+''' ExcelDnaDataImporter.ImportInto(dObj,"Sheet1!A:C", bStartRow:=True)
 ''' Dim cleanData As Double(,) = dObj.DataDbl
 ''' Console.WriteLine("Rows: " + dObj.nRows + ", Cols: " + dObj.nCols)
 ''' </example>
 Public Class DataObj
-    Public ws As Worksheet
+    Public ws As Object
     Public varNames() As String 'array that contains the variable names
     Public RawData(,) As Object 'variant that returns the range specified in 'ref'
     Public RowIds() As Integer = Nothing 'Excel row numbers where we have valid data
@@ -124,6 +107,7 @@ Public Class DataObj
     Public nRows As Integer
     Public bZeroValid As Boolean
     Public SourceInfo As DataSourceInfo = Nothing
+    Public CoreTable As CoreDataTable = Nothing
     Private StartRow As Integer
     Private pbAllowMissing As Boolean = False
 
@@ -210,72 +194,93 @@ Public Class DataObj
     End Property
 
     ''' <summary>
-    ''' Imports data from a worksheet reference into the <c>DataObj</c>, preparing ranges and removing missing values.
+    ''' Loads this DataObj from a host-neutral table model.  Excel/Office.js/Google Sheets importers should convert
+    ''' their host-specific ranges into CoreDataTable first, then call this method.
     ''' </summary>
-    ''' <param name="ref">The reference string specifying the worksheet range (may be non-contiguous).</param>
-    ''' <param name="bStartRow">If <c>True</c>, determines the starting row from the reference string; otherwise defaults to 1.</param>
-    ''' <param name="CharCols">Optional. Number of leading columns allowed to contain character data. Default = -1 (none).</param>
-    ''' <param name="SkipRow">Optional. Number of rows to skip at the top of the range. Default = 0.</param>
-    ''' <remarks>
-    ''' Calls <c>RangePrep</c> to assemble the raw data matrix, then <c>RemoveMissing</c> to clean invalid rows.
-    ''' </remarks>
-    ''' <example>
-    ''' Dim dObj As New DataObj()
-    ''' dObj.DataImport("Sheet1!A:C", bStartRow:=True, CharCols:=1)
-    ''' Console.WriteLine("Rows: " + dObj.nRows + ", Cols: " + dObj.nCols)
-    ''' </example>
-    Public Overridable Sub DataImport(ByRef ref As String, Optional bStartRow As Boolean = False,
-                   Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
-        Me.bZeroValid = False
-        Me.RangePrep(ref, bStartRow)
-        Me.SourceInfo = New DataSourceInfo With {
-            .SourceKind = "WorksheetRange",
-            .Address = ref,
-            .SheetName = If(Me.ws Is Nothing, Nothing, Me.ws.Name),
-            .FirstSourceRow = Me.StartRow
-        }
-        Me.RemoveMissing(CharCols, SkipRow)
-    End Sub
+    ''' <param name="cloneTable">
+    ''' If <c>True</c> (default), stores a defensive clone in <see cref="CoreTable"/>.  Pass <c>False</c> only when
+    ''' the caller created the <see cref="CoreDataTable"/> specifically for this <see cref="DataObj"/> and will not
+    ''' mutate it afterwards.  This avoids one full-size copy of ObjectMatrix/NumericMatrix/MissingMask for large data.
+    ''' </param>
+    Public Overridable Sub LoadCoreDataTable(table As CoreDataTable,
+                                            Optional CharCols As Integer = -1,
+                                            Optional SkipRow As Integer = 0,
+                                            Optional cloneTable As Boolean = True)
+        If table Is Nothing Then Throw New ArgumentNullException(NameOf(table))
+        If table.ObjectMatrix Is Nothing Then Throw New ArgumentException("CoreDataTable.ObjectMatrix cannot be Nothing.")
+        If table.ColumnNames Is Nothing Then Throw New ArgumentException("CoreDataTable.ColumnNames cannot be Nothing.")
 
-    Public Overridable Sub DataImportRawMatrix(rawInput(,) As Object,
-                                           variableNames() As String,
-                                           Optional firstSourceRow As Integer = 1,
-                                           Optional sourceWorksheet As Worksheet = Nothing,
-                                           Optional CharCols As Integer = -1,
-                                           Optional SkipRow As Integer = 0)
+        Dim rows As Integer = table.ObjectMatrix.GetLength(0)
+        Dim cols As Integer = table.ObjectMatrix.GetLength(1)
+        If rows < 1 OrElse cols < 1 Then Throw New ArgumentException("CoreDataTable must contain at least one row and one column.")
+        If table.ColumnNames.Length <> cols Then Throw New ArgumentException($"ColumnNames length ({table.ColumnNames.Length}) must match the number of columns ({cols}).")
 
-        If rawInput Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rawInput)))
-        If variableNames Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(variableNames)))
-        Dim rows As Integer = rawInput.GetLength(0)
-        Dim cols As Integer = rawInput.GetLength(1)
-
-        If rows < 1 OrElse cols < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("rawInput must contain at least one row and one column."))
-        If variableNames.Length <> cols Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"variableNames length ({variableNames.Length}) must match the number of columns ({cols})."))
-
-        Me.ws = sourceWorksheet
+        Me.CoreTable = If(cloneTable, table.Clone(), table)
         Me.nRows = rows
         Me.nCols = cols
-        Me.StartRow = Math.Max(1, firstSourceRow)
+        Me.StartRow = Math.Max(1, table.FirstSourceRow)
 
         ReDim Me.varNames(cols - 1)
         For j As Integer = 0 To cols - 1
-            Me.varNames(j) = If(variableNames(j), String.Empty)
+            Me.varNames(j) = If(table.ColumnNames(j), String.Empty)
         Next
 
         ReDim Me.RawData(Me.StartRow + rows - 1, cols - 1)
         For i As Integer = 0 To rows - 1
             For j As Integer = 0 To cols - 1
-                Me.RawData(Me.StartRow + i, j) = rawInput(i, j)
+                Me.RawData(Me.StartRow + i, j) = table.ObjectMatrix(i, j)
             Next
         Next
 
-        Me.SourceInfo = New DataSourceInfo With {
-            .SourceKind = "RawMatrix",
-            .SheetName = If(sourceWorksheet Is Nothing, Nothing, sourceWorksheet.Name),
-            .FirstSourceRow = Me.StartRow
-        }
+        If table.SourceInfo IsNot Nothing Then
+            Me.SourceInfo = New DataSourceInfo With {
+                .SourceKind = table.SourceInfo.SourceKind,
+                .Address = table.SourceInfo.Address,
+                .SheetName = table.SourceInfo.SheetName,
+                .FirstSourceRow = table.SourceInfo.FirstSourceRow,
+                .FirstSourceColumn = table.SourceInfo.FirstSourceColumn,
+                .ColumnNames = CoreDataTable.CopyColumnNames(table.SourceInfo.ColumnNames)
+            }
+        Else
+            Me.SourceInfo = New DataSourceInfo With {
+                .SourceKind = "CoreDataTable",
+                .FirstSourceRow = Me.StartRow,
+                .ColumnNames = CoreDataTable.CopyColumnNames(Me.varNames)
+            }
+        End If
 
         Me.RemoveMissing(CharCols, SkipRow)
+        If Not Me.bZeroValid Then OnDataImported()
+    End Sub
+
+    Public Overridable Sub DataImportRawMatrix(rawInput(,) As Object,
+                                           variableNames() As String,
+                                           Optional firstSourceRow As Integer = 1,
+                                           Optional sourceWorksheet As Object = Nothing,
+                                           Optional CharCols As Integer = -1,
+                                           Optional SkipRow As Integer = 0)
+
+        Dim sheetName As String = Nothing
+        If sourceWorksheet IsNot Nothing Then
+            Try
+                sheetName = CStr(sourceWorksheet.Name)
+            Catch
+                sheetName = Nothing
+            End Try
+        End If
+
+        Dim source As New DataSourceInfo With {
+            .SourceKind = "RawMatrix",
+            .SheetName = sheetName,
+            .FirstSourceRow = Math.Max(1, firstSourceRow),
+            .ColumnNames = CoreDataTable.CopyColumnNames(variableNames)
+        }
+
+        Me.ws = sourceWorksheet
+        Me.LoadCoreDataTable(CoreDataTable.FromObjectMatrix(rawInput, variableNames, firstSourceRow:=firstSourceRow, sourceInfo:=source),
+                             CharCols:=CharCols,
+                             SkipRow:=SkipRow,
+                             cloneTable:=False)
     End Sub
 
     Public Overridable Sub DataImportRawMatrixWithOptions(rawInput(,) As Object,
@@ -296,117 +301,8 @@ Public Class DataObj
         Me.SourceInfo.Address = options.SourceAddress
     End Sub
 
-
-    ''' <summary>
-    ''' Prepares the raw data matrix from a worksheet reference string, handling non-contiguous ranges.
-    ''' </summary>
-    ''' <param name="ref">The reference string specifying the worksheet range.</param>
-    ''' <param name="bStartRow">If <c>True</c>, determines the starting row from the reference string; otherwise defaults to 1.</param>
-    ''' <remarks>
-    ''' - Determines number of columns and rows in the reference.  
-    ''' - Populates <c>RawData</c> and <c>varNames</c>.  
-    ''' - Handles missing or default variable names.  
-    ''' </remarks>
-    ''' <example>
-    ''' Me.RangePrep("Sheet1!A:C", bStartRow:=True)
-    ''' Console.WriteLine("StartRow=" + Me.StartRow)
-    ''' </example>
-    Private Sub RangePrep(ByRef ref As String, Optional bStartRow As Boolean = False)
-        'Subroutine assembles a single return array from a (possibly) non-contiguous range reference.
-        '  ref = a string that contains the range reference to be analyzed (may be non contiguous)
-
-        Dim TestVal As Range, FullString() As String, j As Integer, i As Integer, PartString As Object, temp As Object
-        Dim Str1 As Object, Str2 As Object, MaxRows As Integer, k As Integer
-        Me.ws = WorksheetFromRefAdress(ref)
-
-        With Me.ws
-            FullString = ColumListFromRefAdress(ref)
-
-            'Determine # of columns in the total range including non-contiguous ranges
-            'Used to dimension return (Data) array later
-            For i = 0 To UBound(FullString, 1)
-                Me.nCols += .Range(FullString(i)).Columns.Count
-            Next
-            ReDim Me.varNames(Me.nCols - 1)
-
-            'Determine rows by assigning a range object to a range on the worksheet
-            'TestVal is range of the outcome variable
-            TestVal = .Range(FullString(0))
-
-            MaxRows = MaxRowsInSheet(WorksheetFromRefAdress(ref))
-
-            'Find the last row of the data range (uses only the 1st column)
-            If TestVal.Rows.Count = .Cells.Rows.Count Then
-                Me.nRows = TestVal(MaxRows, 1).End(XlDirection.xlUp).row 'Start at bottom and go up
-            Else
-                Me.nRows = TestVal.Rows.Count
-            End If
-
-            'Dimension the return matrix and variable name array
-            If bStartRow Then
-                If InStr(FullString(0), ":") = 0 Then
-                    If removeNonDigits(CStr(FullString(0))) = String.Empty Then
-                        Me.StartRow = 1
-                    Else
-                        Me.StartRow = CLng(removeNonDigits(CStr(FullString(0))))
-                    End If
-                Else
-                    temp = Split(FullString(0), ":")
-
-                    If UBound(temp) >= 1 Then 'use row number
-                        If removeNonDigits(CStr(temp(0))) = String.Empty Then
-                            Me.StartRow = 1
-                        Else
-                            Me.StartRow = CLng(removeNonDigits(CStr(temp(0))))
-                        End If
-                    Else
-                        Me.StartRow = 1
-                    End If
-                End If
-            Else
-                Me.StartRow = 1
-            End If
-            ReDim Me.RawData(Me.nRows + Me.StartRow - 1, Me.nCols - 1) ' we would need to move elements by number = StartRow
-
-            'Loop once for each non-contiguous range
-            For i = 0 To Me.nCols - 1
-                If InStr(FullString(i), ":") = 0 Then
-                    temp = FullString(i)
-                Else
-                    'Break the 1st range reference into two parts (column refs)
-                    PartString = Split(FullString(i), ":")
-
-                    'Get 1st part of range reference without row numbers
-                    '(Val function does not recognize zeros as numbers)
-                    Str1 = Split(PartString(0), StrReverse(Val(StrReverse(PartString(0)))))
-                    Str1 = Str1(0)
-
-                    'Get 2nd part of range reference without row numbers
-                    Str2 = Split(PartString(1), StrReverse(Val(StrReverse(PartString(1)))))
-                    Str2 = Str2(0)
-
-                    'Assemble the entire reference with row numbers
-                    temp = Str1 & CStr(Me.StartRow) & ":" & Str2 & CStr(Me.nRows + (Me.StartRow - 1))
-                End If
-                TestVal = .Range(temp) 'Set range object equal to range on worksheet
-
-                'Iterate through the columns and add to data matrix
-                For k = 1 To .Range(temp).Columns.Count
-                    'Check for numeric variable names
-                    If TypeOf TestVal(1, k).Value Is ExcelMissing Or TypeOf TestVal(1, k).Value Is ExcelEmpty Or TestVal(1, k).Value Is Nothing Then
-                        Me.varNames(i) = "Var" + ColNumber2Letter(TestVal.Column) 'default name
-                        For j = 1 To Me.nRows  'Load return matrix
-                            Me.RawData(j + Me.StartRow - 1, i) = TestVal(j, k).value
-                        Next
-                    Else 'Load variable names
-                        Me.varNames(i) = TestVal(1, k).value
-                        For j = 1 To Me.nRows
-                            Me.RawData(j + Me.StartRow - 1, i) = TestVal(j, k).value
-                        Next
-                    End If
-                Next
-            Next i
-        End With
+    Protected Overridable Sub OnDataImported()
+        'Specialized data objects can split weights, offsets, time, strata, etc. after the common import/cleaning path.
     End Sub
 
     ''' <summary>
@@ -440,7 +336,7 @@ Public Class DataObj
             Dim currentMiss As Integer = 0
             For j = 0 To Me.nCols - 1
                 'If TypeOf Me.RawData(i, j) Is ExcelEmpty Or TypeOf Me.RawData(i, j) Is ExcelMissing Or TypeOf Me.RawData(i, j) Is ExcelError Then
-                If Me.RawData(i, j) Is Nothing OrElse TypeOf Me.RawData(i, j) Is ExcelEmpty OrElse TypeOf Me.RawData(i, j) Is ExcelMissing OrElse TypeOf Me.RawData(i, j) Is ExcelError Then
+                If CoreDataTable.IsMissingValue(Me.RawData(i, j)) Then
                         If Me.pbAllowMissing Then
                             currentMiss += 1
                             Me.RawData(i, j) = Nothing
@@ -501,7 +397,7 @@ Public Class DataObj
         Next
 
         If cnt = 0 Then 'zero valid data
-            AppGlobals.BSlogg.Log("Zero valid matched data!")
+            AppInfrastructure.CoreServices.Log("Zero valid matched data!")
             Me.bZeroValid = True
             Me.nRows = 0
             Me.FinalData = Nothing
@@ -527,7 +423,7 @@ Public Class DataObj
 
         Dim retainedCols As Integer = originalCols - ColToDrop.Count
         If retainedCols <= 0 Then
-            AppGlobals.BSlogg.Log("Zero valid variables after dropping all-missing columns!")
+            AppInfrastructure.CoreServices.Log("Zero valid variables after dropping all-missing columns!")
             Me.bZeroValid = True
             Me.nCols = 0
             Me.FinalData = Nothing
@@ -611,7 +507,7 @@ End Class
 ''' ' Example: import GLM data with weights
 ''' Dim glm As New glmData()
 ''' glm.bWeights = True
-''' glm.DataImport("Sheet1!A:D", bStartRow:=True)
+''' ExcelDnaDataImporter.ImportInto(dObj,"Sheet1!A:D", bStartRow:=True)
 ''' Console.WriteLine("Rows: " + glm.nRows + ", Cols: " + glm.nCols)
 ''' Console.WriteLine("Weight variable: " + glm.OffsetVarName)
 ''' </example>
@@ -662,6 +558,11 @@ Public Class glmData
         Me.RowIds = rIds.Values.ToArray()
     End Sub
 
+    Protected Overrides Sub OnDataImported()
+        If Me.bZeroValid OrElse Me.FinalData Is Nothing Then Return
+        SplitOffsetAndWeights()
+    End Sub
+
     Private Sub SplitOffsetAndWeights()
         If Me.bWeights Then
             ReDim Me.WeightData(Me.nRows - 1)
@@ -686,43 +587,14 @@ Public Class glmData
         End If
     End Sub
 
-    ''' <summary>
-    ''' Imports data from a worksheet reference into the <c>glmData</c> object,
-    ''' separating offset and weight columns if enabled.
-    ''' </summary>
-    ''' <param name="ref">The reference string specifying the worksheet range.</param>
-    ''' <param name="bStartRow">If <c>True</c>, determines the starting row from the reference string; otherwise defaults to 1.</param>
-    ''' <param name="CharCols">Optional. Number of leading columns allowed to contain character data. Default = -1.</param>
-    ''' <param name="SkipRow">Optional. Number of rows to skip at the top of the range. Default = 0.</param>
-    ''' <remarks>
-    ''' - Calls <c>DataObj.DataImport</c> to import the base data.  
-    ''' - If <c>bWeights</c> is <c>True</c>, the last column is extracted into <c>WeightData</c> and removed from <c>FinalData</c>.  
-    ''' - If <c>bOffset</c> is <c>True</c>, the last column is extracted into <c>OffsetData</c> and removed from <c>FinalData</c>.  
-    ''' - Updates <c>WeightVarName</c> and <c>OffsetVarName</c> accordingly.  
-    ''' </remarks>
-    ''' <example>
-    ''' ' Example: import GLM data with offset
-    ''' Dim glm As New glmData()
-    ''' glm.bOffset = True
-    ''' glm.DataImport("Sheet1!A:D", bStartRow:=True)
-    ''' Console.WriteLine("Offset variable: " + glm.WeightVarName)
-    ''' </example>
-    Public Overrides Sub DataImport(ByRef ref As String, Optional bStartRow As Boolean = False,
-                               Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
-
-        MyBase.DataImport(ref, bStartRow, CharCols, SkipRow)
-        SplitOffsetAndWeights()
-    End Sub
-
     Public Overrides Sub DataImportRawMatrix(rawInput(,) As Object,
                                          variableNames() As String,
                                          Optional firstSourceRow As Integer = 1,
-                                         Optional sourceWorksheet As Worksheet = Nothing,
+                                         Optional sourceWorksheet As Object = Nothing,
                                          Optional CharCols As Integer = -1,
                                          Optional SkipRow As Integer = 0)
 
         MyBase.DataImportRawMatrix(rawInput, variableNames, firstSourceRow, sourceWorksheet, CharCols, SkipRow)
-        SplitOffsetAndWeights()
     End Sub
 End Class
 
@@ -772,42 +644,18 @@ Public Class geeData
         Me.RowIds = rIds.Values.ToArray()
     End Sub
 
-    ''' <summary>
-    ''' Imports data from a worksheet reference into the <c>glmData</c> object,
-    ''' separating offset and weight columns if enabled.
-    ''' </summary>
-    ''' <param name="ref">The reference string specifying the worksheet range.</param>
-    ''' <param name="bStartRow">If <c>True</c>, determines the starting row from the reference string; otherwise defaults to 1.</param>
-    ''' <param name="CharCols">Optional. Number of leading columns allowed to contain character data. Default = -1.</param>
-    ''' <param name="SkipRow">Optional. Number of rows to skip at the top of the range. Default = 0.</param>
-    ''' <remarks>
-    ''' - Calls <c>DataObj.DataImport</c> to import the base data.  
-    ''' - If <c>bWeights</c> is <c>True</c>, the last column is extracted into <c>WeightData</c> and removed from <c>FinalData</c>.  
-    ''' - If <c>bOffset</c> is <c>True</c>, the last column is extracted into <c>OffsetData</c> and removed from <c>FinalData</c>.  
-    ''' - Updates <c>WeightVarName</c> and <c>OffsetVarName</c> accordingly.  
-    ''' </remarks>
-    ''' <example>
-    ''' ' Example: import GLM data with offset
-    ''' Dim glm As New glmData()
-    ''' glm.bOffset = True
-    ''' glm.DataImport("Sheet1!A:D", bStartRow:=True)
-    ''' Console.WriteLine("Offset variable: " + glm.WeightVarName)
-    ''' </example>
-    Public Overrides Sub DataImport(ByRef ref As String, Optional bStartRow As Boolean = False,
-                                   Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
-
-        MyBase.DataImport(ref, bStartRow, CharCols, SkipRow)
-        FinalizeGeeImport()
-    End Sub
-
     Public Overrides Sub DataImportRawMatrix(rawInput(,) As Object,
                                          variableNames() As String,
                                          Optional firstSourceRow As Integer = 1,
-                                         Optional sourceWorksheet As Worksheet = Nothing,
+                                         Optional sourceWorksheet As Object = Nothing,
                                          Optional CharCols As Integer = -1,
                                          Optional SkipRow As Integer = 0)
 
         MyBase.DataImportRawMatrix(rawInput, variableNames, firstSourceRow, sourceWorksheet, CharCols, SkipRow)
+    End Sub
+
+    Protected Overrides Sub OnDataImported()
+        If Me.bZeroValid OrElse Me.FinalData Is Nothing Then Return
         FinalizeGeeImport()
     End Sub
 
@@ -914,7 +762,7 @@ End Class
 ''' ' Example: import CoxPH data with strata
 ''' Dim cox As New CoxPHData()
 ''' cox.bStrata = True
-''' cox.DataImport("Sheet1!A:D", bStartRow:=True)
+''' ExcelDnaDataImporter.ImportInto(dObj,"Sheet1!A:D", bStartRow:=True)
 ''' Console.WriteLine("Rows: " + cox.nRows + ", Cols: " + cox.nCols)
 ''' Console.WriteLine("Time variable: " + cox.TimeVarName)
 ''' Console.WriteLine("Censor variable: " + cox.CensorVarName)
@@ -955,46 +803,10 @@ Public Class CoxPHData
         Me.bStrata = False
     End Sub
 
-    ''' <summary>
-    ''' Imports data from a worksheet reference into the <c>CoxPHData</c> object,
-    ''' separating time, censoring, and optional strata variables from covariates.
-    ''' </summary>
-    ''' <param name="ref">The reference string specifying the worksheet range.</param>
-    ''' <param name="bStartRow">If <c>True</c>, determines the starting row from the reference string; otherwise defaults to 1.</param>
-    ''' <param name="CharCols">Optional. Number of leading columns allowed to contain character data. Default = -1.</param>
-    ''' <param name="SkipRow">Optional. Number of rows to skip at the top of the range. Default = 0.</param>
-    ''' <remarks>
-    ''' - Calls <c>DataObj.DataImport</c> to import the base data.  
-    ''' - First column is always treated as time-to-event.  
-    ''' - Second column must be a censoring indicator (0 or 1).  
-    ''' - If <c>bStrata</c> is <c>True</c>, third column is treated as strata.  
-    ''' - Remaining columns are treated as covariates.  
-    ''' - Populates <c>SurvRecordsList</c> with <c>SurvivalRecord</c> objects.  
-    ''' </remarks>
-    ''' <example>
-    ''' ' Example: import CoxPH data without strata
-    ''' Dim cox As New CoxPHData()
-    ''' cox.DataImport("Sheet1!A:C", bStartRow:=True)
-    ''' Console.WriteLine("Time variable: " + cox.TimeVarName)
-    ''' Console.WriteLine("Censor variable: " + cox.CensorVarName)
-    ''' Console.WriteLine("Covariates: " + String.Join(",", cox.varNames))
-    ''' </example>
-    Public Overrides Sub DataImport(ByRef ref As String, Optional bStartRow As Boolean = False,
-                                Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
-
-        Dim effectiveCharCols As Integer = CharCols
-        If Me.bStrata AndAlso effectiveCharCols < 2 Then
-            effectiveCharCols = 2
-        End If
-
-        MyBase.DataImport(ref, bStartRow, effectiveCharCols, SkipRow)
-        FinalizeCoxImport()
-    End Sub
-
     Public Overrides Sub DataImportRawMatrix(rawInput(,) As Object,
                                          variableNames() As String,
                                          Optional firstSourceRow As Integer = 1,
-                                         Optional sourceWorksheet As Worksheet = Nothing,
+                                         Optional sourceWorksheet As Object = Nothing,
                                          Optional CharCols As Integer = -1,
                                          Optional SkipRow As Integer = 0)
 
@@ -1004,6 +816,10 @@ Public Class CoxPHData
         End If
 
         MyBase.DataImportRawMatrix(rawInput, variableNames, firstSourceRow, sourceWorksheet, effectiveCharCols, SkipRow)
+    End Sub
+
+    Protected Overrides Sub OnDataImported()
+        If Me.bZeroValid OrElse Me.FinalData Is Nothing Then Return
         FinalizeCoxImport()
     End Sub
 
@@ -1014,7 +830,7 @@ Public Class CoxPHData
             Me.TimeData(i) = CDbl(Me.FinalData(i, 0))
 
             If Not (Me.FinalData(i, 1) = 0 Or Me.FinalData(i, 1) = 1) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Censorting value is not 1/0. Value ={Me.FinalData(i, 1)}"))
+                Throw New ArgumentException($"Censorting value is not 1/0. Value ={Me.FinalData(i, 1)}")
             End If
 
             Me.CensorData(i) = CInt(Me.FinalData(i, 1))

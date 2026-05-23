@@ -1,9 +1,9 @@
 ﻿Option Explicit On
-Imports System
+Option Strict On
+
 Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 Namespace Multivariate
 
@@ -687,227 +687,19 @@ Namespace Multivariate
         End Function
 
         ''' <summary>
-        ''' Creates a scree plot of the initial factor-analysis eigenvalue profile.
+        ''' Gets the variable names used by the factor-analysis model.
         ''' </summary>
-        ''' <remarks>
-        ''' The chart mirrors the default PCA scree output and labels each point by its percentage of total variance.
-        ''' Run <see cref="Calculate"/> before calling this method.
-        ''' </remarks>
-        Public Sub screePlot()
+        Public ReadOnly Property VariableNames() As String()
+            Get
+                Return pVarNames
+            End Get
+        End Property
 
-            If pInitialEigenvalues Is Nothing OrElse pInitialEigenvalues.Length = 0 Then Exit Sub
-
-            Dim factorAxis(pInitialEigenvalues.Length - 1) As Integer
-            For i As Integer = 0 To pInitialEigenvalues.Length - 1
-                factorAxis(i) = i + 1
-            Next
-            Dim initialPct() As Double = PercentOfTotal(pInitialEigenvalues, TotalVariance(pWorkingMatrix))
-
-            AppGlobals.app.Charts.Add()
-            With AppGlobals.app.ActiveWorkbook.ActiveChart
-                .Name = "Scree Plot"
-                .ChartType = XlChartType.xlXYScatter
-
-                Do Until .SeriesCollection.Count = 0
-                    .SeriesCollection(1).Delete
-                Loop
-
-                .SeriesCollection.NewSeries
-                With .SeriesCollection(1)
-                    .XValues = factorAxis
-                    .Values = initialPct
-                    .Name = "Initial Variance Explained"
-                    .Format.Line.Weight = 1.5
-                    .MarkerStyle = 8
-                    .MarkerSize = 5
-                    .Border.Color = RGB(100, 100, 100)
-                    .MarkerForegroundColor = RGB(100, 100, 100)
-                    .MarkerBackgroundColor = RGB(100, 100, 100)
-
-                    For i As Integer = 0 To pInitialEigenvalues.Length - 1
-                        .Points(i + 1).HasDataLabel = True
-                        .Points(i + 1).DataLabel.Text = Format$(initialPct(i), "#0.0#")
-                        .Points(i + 1).DataLabel.Position = XlDataLabelPosition.xlLabelPositionAbove
-                        .Points(i + 1).DataLabel.Font.Size = 12
-                    Next
-                End With
-
-                Try
-                    .Legend.Delete()
-                Catch
-                End Try
-
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = "Variance explained [%]"
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Font.Size = 16
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).TickLabels.Font.Size = 14
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = False
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = True
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Text = "Factor"
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Font.Size = 16
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).TickLabels.Font.Size = 14
-                .HasTitle = False
-                .HasTitle = True
-                .ChartTitle.Text = "Scree Plot"
-                .ChartTitle.Font.Size = 18
-                .ChartTitle.Font.Bold = True
-            End With
-
-        End Sub
-
-        ''' <summary>
-        ''' Creates a 2D scatter plot of variable loadings on the first two retained factors.
-        ''' </summary>
-        ''' <remarks>
-        ''' The plot uses the rotated pattern matrix and mirrors the PCA loading-plot style.
-        ''' Run <see cref="Calculate"/> before calling this method.
-        ''' </remarks>
-        Public Sub loadingPlot2D()
-
-            If pPatternMatrix Is Nothing OrElse pNoFactors < 2 Then Exit Sub
-
-            Dim f1() As Double = Matrix.GetColumnFrom2Darray(pPatternMatrix, 0)
-            Dim f2() As Double = Matrix.GetColumnFrom2Darray(pPatternMatrix, 1)
-            Dim factorPct() As Double = PercentOfTotal(ColumnSumsOfSquares(pPatternMatrix, pStructureMatrix), TotalVariance(pWorkingMatrix))
-            Dim factorNames() As String = Me.FactorNames()
-
-            Dim scl1 As Double = Math.Max(Math.Abs(f1.Min()), Math.Abs(f1.Max()))
-            Dim scl2 As Double = Math.Max(Math.Abs(f2.Min()), Math.Abs(f2.Max()))
-            Dim udAxisX As graphics.CHARTscale = graphics.ChartScaling(-scl1, scl1)
-            Dim udAxisY As graphics.CHARTscale = graphics.ChartScaling(-scl2, scl2)
-
-            AppGlobals.app.Charts.Add()
-            With AppGlobals.app.ActiveWorkbook.ActiveChart
-                .Name = "Factor Loadings Plot2D"
-                .ChartType = XlChartType.xlXYScatter
-
-                Do Until .SeriesCollection.Count = 0
-                    .SeriesCollection(1).Delete
-                Loop
-
-                With .Axes(XlAxisType.xlCategory)
-                    .MinimumScale = udAxisX.Min
-                    .MaximumScale = udAxisX.Max
-                    .MajorUnit = udAxisX.Scale
-                    .CrossesAt = -1.0E+100
-                    .MajorTickMark = XlTickMark.xlTickMarkOutside
-                    .MajorGridlines.Delete
-                End With
-                With .Axes(XlAxisType.xlValue)
-                    .CrossesAt = -1.0E+100
-                    .MinimumScale = udAxisY.Min
-                    .MaximumScale = udAxisY.Max
-                    .MajorUnit = udAxisY.Scale
-                    .MajorTickMark = XlTickMark.xlTickMarkOutside
-                    .MajorGridlines.Delete
-                End With
-
-                Dim seriesId As Integer = 0
-                For id As Integer = 0 To pp - 1
-                    .SeriesCollection.NewSeries
-                    seriesId += 1
-                    With .SeriesCollection(seriesId)
-                        .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                        .XValues = {0, f1(id)}
-                        .Values = {0, f2(id)}
-                        .Name = "Loading_" & CStr(id)
-                        .Format.Line.Weight = 1
-                        .Format.Line.Visible = True
-                        .Format.Line.ForeColor.RGB = RGB(0, 0, 150)
-                        .Format.Line.EndArrowheadStyle = 2
-
-                        .Points(2).HasDataLabel = True
-                        .Points(2).DataLabel.Text = CStr(pVarNames(id))
-                        .Points(2).DataLabel.Position = XlDataLabelPosition.xlLabelPositionAbove
-                        .Points(2).DataLabel.Font.Size = 11
-                        .Points(2).DataLabel.Font.Color = RGB(0, 0, 150)
-                    End With
-                Next
-
-                .SeriesCollection.NewSeries
-                seriesId += 1
-                With .SeriesCollection(seriesId)
-                    .XValues = {udAxisX.Min, udAxisX.Max}
-                    .Values = {0, 0}
-                    .Name = "Y Zero Line"
-                    .MarkerStyle = -4142
-                    .Border.Color = RGB(0, 0, 0)
-                    With .Format.Line
-                        .Visible = True
-                        .Weight = 1
-                    End With
-                End With
-                .SeriesCollection.NewSeries
-                seriesId += 1
-                With .SeriesCollection(seriesId)
-                    .XValues = {0, 0}
-                    .Values = {udAxisY.Min, udAxisY.Max}
-                    .Name = "X Zero Line"
-                    .MarkerStyle = -4142
-                    .Border.Color = RGB(0, 0, 0)
-                    With .Format.Line
-                        .Visible = True
-                        .Weight = 1
-                    End With
-                End With
-
-                Try
-                    .Legend.Delete()
-                Catch
-                End Try
-
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Text = $"{factorNames(1)} [{Format$(factorPct(1), "#0.0#")}%]"
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.Font.Size = 16
-                .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).TickLabels.Font.Size = 14
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = False
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = True
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Text = $"{factorNames(0)} [{Format$(factorPct(0), "#0.0#")}%]"
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.Font.Size = 16
-                .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).TickLabels.Font.Size = 14
-                .HasTitle = False
-                .HasTitle = True
-                .ChartTitle.Text = "Factor Loadings Plot"
-                .ChartTitle.Font.Size = 18
-                .ChartTitle.Font.Bold = True
-            End With
-
-        End Sub
-
-        ''' <summary>
-        ''' Creates a 3D scatter plot of variable loadings on the first three retained factors.
-        ''' </summary>
-        ''' <remarks>
-        ''' The plot uses the rotated pattern matrix and mirrors the PCA loading-plot style.
-        ''' Run <see cref="Calculate"/> before calling this method.
-        ''' </remarks>
-        Public Sub loadingPlot3D()
-
-            If pPatternMatrix Is Nothing OrElse pNoFactors < 3 Then Exit Sub
-
-            Dim factorPct() As Double = PercentOfTotal(ColumnSumsOfSquares(pPatternMatrix, pStructureMatrix), TotalVariance(pWorkingMatrix))
-            Dim factorNames() As String = Me.FactorNames()
-            Dim XYZ As New graphics.XYZscatter
-            Dim f1() As Double = Matrix.GetColumnFrom2Darray(pPatternMatrix, 0)
-            Dim f2() As Double = Matrix.GetColumnFrom2Darray(pPatternMatrix, 1)
-            Dim f3() As Double = Matrix.GetColumnFrom2Darray(pPatternMatrix, 2)
-
-            With XYZ
-                .ChartName = "Factor Loadings Plot3D"
-                .dataInputs(f1, f2, f3)
-                .axesLabelInputs($"{factorNames(0)} [{Format$(factorPct(0), "#0.0#")}%]",
-                                 $"{factorNames(1)} [{Format$(factorPct(1), "#0.0#")}%]",
-                                 $"{factorNames(2)} [{Format$(factorPct(2), "#0.0#")}%]")
-                .showPlanePointInputs(True, True, True, 3, 3, 3)
-                .ScaleAxis(False)
-                .settingsInputs(True, True, True)
-                .SetDataLabels(pVarNames)
-                .draw()
-            End With
-
-        End Sub
+        Public ReadOnly Property VariableCount() As Integer
+            Get
+                Return pp
+            End Get
+        End Property
 
         ''' <summary>
         ''' Returns the per-factor contributions that sum to each variable communality.
@@ -1215,12 +1007,12 @@ Namespace Multivariate
         ''' Validates that the supplied inputs and configuration are internally consistent before fitting begins.
         ''' </summary>
         Private Sub ValidateSettings()
-            If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("No input data supplied to FactorAnalysis.dataInputs."))
-            If pVarNames Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("No variable names supplied to FactorAnalysis.dataInputs."))
-            If pData.GetLength(1) <> pVarNames.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("The number of variable names must match the number of columns in the input matrix."))
-            If pMaxiter < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(pMaxiter), "maximumIteration must be >= 1."))
-            If pEps <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(pEps), "dEps must be > 0."))
-            If pPromaxPower <= 1.0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(pPromaxPower), "promaxPower must be > 1."))
+            If pData Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("No input data supplied to FactorAnalysis.dataInputs."))
+            If pVarNames Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("No variable names supplied to FactorAnalysis.dataInputs."))
+            If pData.GetLength(1) <> pVarNames.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("The number of variable names must match the number of columns in the input matrix."))
+            If pMaxiter < 1 Then CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(pMaxiter), "maximumIteration must be >= 1."))
+            If pEps <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(pEps), "dEps must be > 0."))
+            If pPromaxPower <= 1.0 Then CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(pPromaxPower), "promaxPower must be > 1."))
         End Sub
 
         ''' <summary>
@@ -1247,15 +1039,15 @@ Namespace Multivariate
 
                 If rowHasMissing Then
                     If pMissingValuePolicy = FactorAnalysisMissingValuePolicy.ErrorOnMissing Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing or non-finite value detected in row {i + 1}."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing or non-finite value detected in row {i + 1}."))
                     End If
                 Else
                     keptRows.Add(i)
                 End If
             Next
 
-            If keptRows.Count = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("No complete rows remain after applying the missing-value policy."))
-            If keptRows.Count < 3 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Factor analysis requires at least three complete observations."))
+            If keptRows.Count = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("No complete rows remain after applying the missing-value policy."))
+            If keptRows.Count < 3 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Factor analysis requires at least three complete observations."))
 
             ReDim pAnalysisData(keptRows.Count - 1, pRaw - 1)
             ReDim pAnalysisRowNums(keptRows.Count - 1)
@@ -1393,7 +1185,7 @@ Namespace Multivariate
 
                 Case FactorAnalysisRetentionMethod.Variance
                     Dim target As Double = pRetentionValue
-                    If target <= 0 OrElse target > 100 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(pRetentionValue), "Variance retention targets must be in (0, 100]."))
+                    If target <= 0 OrElse target > 100 Then CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(pRetentionValue), "Variance retention targets must be in (0, 100]."))
                     Dim pct() As Double = PercentOfTotal(pInitialEigenvalues, TotalVariance(pWorkingMatrix))
                     Dim cum As Double = 0.0
                     pNoFactors = 0
@@ -1429,7 +1221,7 @@ Namespace Multivariate
                     ExtractAdvancedFactorsInternal()
 
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New NotSupportedException($"Unsupported extraction method: {pExtractionMethod}."))
+                    CoreServices.Errors.LogAndThrow(New NotSupportedException($"Unsupported extraction method: {pExtractionMethod}."))
             End Select
         End Sub
 
@@ -1449,7 +1241,7 @@ Namespace Multivariate
                 Case FactorAnalysisExtractionMethod.Alpha
                     helperMethod = AdvancedFactorExtractionFamily.Alpha
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException($"Unsupported advanced extraction method: {pExtractionMethod}."))
+                    CoreServices.Errors.LogAndThrow(New InvalidOperationException($"Unsupported advanced extraction method: {pExtractionMethod}."))
                     Exit Sub
             End Select
 
@@ -1517,7 +1309,7 @@ Namespace Multivariate
             pConverged = converged
 
             If Not converged Then
-                AppGlobals.BSlogg.Log("Principal-axis factoring did not meet the convergence tolerance before the maximum iteration count.", AppGlobals.LogMsgType.Warn)
+                CoreServices.Log("Principal-axis factoring did not meet the convergence tolerance before the maximum iteration count.", AppInfrastructure.LogMsgType.Warn)
             End If
         End Sub
 
@@ -1574,7 +1366,7 @@ Namespace Multivariate
                     rotation = PromaxRotate(pUnrotatedLoadings)
 
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New NotSupportedException($"Unsupported rotation method: {pRotationMethod}."))
+                    CoreServices.Errors.LogAndThrow(New NotSupportedException($"Unsupported rotation method: {pRotationMethod}."))
                     Return
             End Select
 
@@ -1760,7 +1552,7 @@ Namespace Multivariate
                     pScoreCoefficientMatrix = Matrix.MatrixMult(psiInv, Matrix.MatrixMult(pPatternMatrix, MultivariateShared.SafeInverse(mid, preferCholesky:=True)))
 
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New NotSupportedException($"Unsupported factor score method: {pScoreMethod}."))
+                    CoreServices.Errors.LogAndThrow(New NotSupportedException($"Unsupported factor score method: {pScoreMethod}."))
             End Select
 
             Dim scoreInput(,) As Double = If(pMatrixType = FactorAnalysisMatrixType.Correlation,
@@ -1913,7 +1705,7 @@ Namespace Multivariate
 
     End Class
 
-''' <summary>
+    ''' <summary>
     ''' Enumerates the additional exploratory-factor-extraction families implemented by
     ''' <see cref="FactorAnalysisAdvancedExtraction"/>.
     ''' </summary>
@@ -2098,7 +1890,7 @@ Namespace Multivariate
                     Return ExtractAlphaFactors(analysisMatrix, correlationMatrix, numberOfFactors, initialCommunalities, maxIterations, epsilon)
 
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New NotSupportedException($"Unsupported advanced extraction family: {method}."))
+                    CoreServices.Errors.LogAndThrow(New NotSupportedException($"Unsupported advanced extraction family: {method}."))
                     Return Nothing
             End Select
         End Function
@@ -2156,7 +1948,7 @@ Namespace Multivariate
             }
 
             If Not result.Converged Then
-                AppGlobals.BSlogg.Log("Maximum-likelihood factor extraction did not satisfy the convergence tolerance before the iteration limit.", AppGlobals.LogMsgType.Warn)
+                CoreServices.Log("Maximum-likelihood factor extraction did not satisfy the convergence tolerance before the iteration limit.", AppInfrastructure.LogMsgType.Warn)
             End If
 
             Return result
@@ -2216,7 +2008,7 @@ Namespace Multivariate
             }
 
             If Not result.Converged Then
-                AppGlobals.BSlogg.Log("Generalized-least-squares factor extraction did not satisfy the convergence tolerance before the iteration limit.", AppGlobals.LogMsgType.Warn)
+                CoreServices.Log("Generalized-least-squares factor extraction did not satisfy the convergence tolerance before the iteration limit.", AppInfrastructure.LogMsgType.Warn)
             End If
 
             Return result
@@ -2347,7 +2139,7 @@ Namespace Multivariate
             Next
 
             If loadCorr Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Alpha factor extraction did not produce a loading matrix."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Alpha factor extraction did not produce a loading matrix."))
             End If
 
             Dim sqrtH2() As Double = h2.Select(Function(x) Math.Sqrt(Math.Max(x, 0.0))).ToArray()
@@ -2374,7 +2166,7 @@ Namespace Multivariate
             }
 
             If Not result.Converged Then
-                AppGlobals.BSlogg.Log("Alpha factor extraction did not satisfy the convergence tolerance before the iteration limit.", AppGlobals.LogMsgType.Warn)
+                CoreServices.Log("Alpha factor extraction did not satisfy the convergence tolerance before the iteration limit.", AppInfrastructure.LogMsgType.Warn)
             End If
 
             Return result
@@ -2394,7 +2186,7 @@ Namespace Multivariate
             Dim diagS() As Double = MultivariateShared.DiagonalValues(analysisMatrix)
             If userSuppliedCommunalities IsNot Nothing Then
                 If userSuppliedCommunalities.Length <> diagS.Length Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("The supplied communality vector length does not match the matrix dimension."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("The supplied communality vector length does not match the matrix dimension."))
                 End If
                 Return ClampCommunalities(CType(userSuppliedCommunalities.Clone(), Double()), diagS, 0.000001)
             End If
@@ -2423,19 +2215,19 @@ Namespace Multivariate
             ValidateSquareMatrix(correlationMatrix, NameOf(correlationMatrix))
 
             If analysisMatrix.GetLength(0) <> correlationMatrix.GetLength(0) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The analysis matrix and correlation matrix must have the same order."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The analysis matrix and correlation matrix must have the same order."))
             End If
 
             If numberOfFactors < 1 OrElse numberOfFactors > analysisMatrix.GetLength(0) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(numberOfFactors), "The requested number of factors must be between 1 and the number of variables."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(numberOfFactors), "The requested number of factors must be between 1 and the number of variables."))
             End If
 
             If maxIterations < 1 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(maxIterations), "The maximum number of iterations must be at least 1."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(maxIterations), "The maximum number of iterations must be at least 1."))
             End If
 
             If epsilon <= 0.0 OrElse Double.IsNaN(epsilon) OrElse Double.IsInfinity(epsilon) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(epsilon), "The convergence tolerance must be a finite positive number."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(epsilon), "The convergence tolerance must be a finite positive number."))
             End If
         End Sub
 
@@ -2444,17 +2236,17 @@ Namespace Multivariate
         ''' </summary>
         Private Sub ValidateSquareMatrix(mat(,) As Double, paramName As String)
             If mat Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(paramName))
+                CoreServices.Errors.LogAndThrow(New ArgumentNullException(paramName))
             End If
 
             If mat.GetLength(0) <> mat.GetLength(1) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The supplied matrix must be square.", paramName))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The supplied matrix must be square.", paramName))
             End If
 
             For i As Integer = 0 To mat.GetLength(0) - 1
                 For j As Integer = 0 To mat.GetLength(1) - 1
                     If Double.IsNaN(mat(i, j)) OrElse Double.IsInfinity(mat(i, j)) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("The supplied matrix contains a missing or non-finite value.", paramName))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("The supplied matrix contains a missing or non-finite value.", paramName))
                     End If
                 Next
             Next

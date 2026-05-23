@@ -296,7 +296,7 @@ Public Module RegressionDesignCore
         For i As Integer = 0 To nRows - 1
             Dim v As Double = rawMat(i, col)
             If Double.IsNaN(v) OrElse Double.IsInfinity(v) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Categorical variable contains invalid numeric values."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Categorical variable contains invalid numeric values."))
             End If
             hs.Add(v)
         Next
@@ -305,13 +305,11 @@ Public Module RegressionDesignCore
     End Function
 
     Private Function GetReferenceLevel(levels As List(Of Double), spec As TermSpec) As Double
-        If levels Is Nothing OrElse levels.Count = 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("No observed factor levels were found."))
-        End If
+        If levels Is Nothing OrElse levels.Count = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("No observed factor levels were found."))
 
         If spec IsNot Nothing AndAlso spec.ReferenceValue.HasValue Then
             If Not levels.Contains(spec.ReferenceValue.Value) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Reference level {spec.ReferenceValue.Value} is not present in the fitted categorical design."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException($"Reference level {spec.ReferenceValue.Value} is not present in the fitted categorical design."))
             End If
             Return spec.ReferenceValue.Value
         End If
@@ -340,7 +338,7 @@ Public Module RegressionDesignCore
 
             For Each lev As Double In observedLevels
                 If Not fittedLevels.Contains(lev) Then
-                    AppGlobals.BSerr.LogAndThrow(
+                    CoreServices.Errors.LogAndThrow(
                         New ArgumentException($"Categorical predictor '{baseKey}' contains level {lev} that was not present during model fitting."))
                 End If
             Next
@@ -349,7 +347,7 @@ Public Module RegressionDesignCore
         End If
 
         If observedLevels.Count < 2 Then
-            AppGlobals.BSerr.LogAndThrow(
+            CoreServices.Errors.LogAndThrow(
                 New ArgumentException($"Categorical predictor '{baseKey}' has fewer than 2 observed levels."))
         End If
 
@@ -377,8 +375,8 @@ Public Module RegressionDesignCore
                                      ByRef outVarNames() As String,
                                      ByRef outTermGroups As Dictionary(Of String, Integer()))
 
-        If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-        If effectItems Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
+        If raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(raw)))
+        If effectItems Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
 
         Dim effects As New List(Of String)
         For Each obj As Object In effectItems
@@ -431,15 +429,15 @@ Public Module RegressionDesignCore
                 Dim bk As String = baseKeys(0)
 
                 If scale = PredictorScale.Categorical OrElse IsBaseVariableCategorical(bk, termSpecs) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Polynomial term '{effKey}' cannot be used with a categorical predictor."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Polynomial term '{effKey}' cannot be used with a categorical predictor."))
                 End If
 
                 If degree < 2 Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Polynomial degree must be >=2 for term '{effKey}'."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Polynomial degree must be >=2 for term '{effKey}'."))
                 End If
 
                 If Not rawIndex.ContainsKey(bk) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by polynomial term '{effKey}'."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by polynomial term '{effKey}'."))
                 End If
 
                 Dim col As Integer = rawIndex(bk)
@@ -459,12 +457,12 @@ Public Module RegressionDesignCore
 
             ElseIf String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
                 If baseKeys.Count < 2 Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Interaction term '{effKey}' must have at least 2 base variables."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Interaction term '{effKey}' must have at least 2 base variables."))
                 End If
 
                 For Each bk As String In baseKeys
                     If Not rawIndex.ContainsKey(bk) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
                     End If
                 Next
 
@@ -501,7 +499,7 @@ Public Module RegressionDesignCore
                 Dim bk As String = baseKeys(0)
 
                 If Not rawIndex.ContainsKey(bk) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by term '{effKey}'."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by term '{effKey}'."))
                 End If
 
                 Dim col As Integer = rawIndex(bk)
@@ -513,7 +511,7 @@ Public Module RegressionDesignCore
                 If scale = PredictorScale.Categorical Then
                     Dim levels As List(Of Double) = GetSortedDistinctLevels(rawMat, col, nRows)
                     If levels.Count < 2 Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Categorical predictor '{bk}' has fewer than 2 observed levels."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Categorical predictor '{bk}' has fewer than 2 observed levels."))
                     End If
 
                     Dim refVal As Double = GetReferenceLevel(levels, spec)
@@ -707,9 +705,7 @@ Public Module RegressionDesignCore
     ''' </exception>
     Private Function ExtractRawPredictorMatrixFromRegressionData(raw As DataObj,
                                                                  rawXKeys As IEnumerable) As Double(,)
-        If raw Is Nothing Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-        End If
+        If raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(raw)))
 
         Dim rawKeyList As List(Of String) = MaterializeStringList(rawXKeys)
         Dim pRaw As Integer = rawKeyList.Count
@@ -717,7 +713,7 @@ Public Module RegressionDesignCore
         If pRaw = 0 Then Return Nothing
 
         If raw.nCols <> pRaw + 1 Then
-            AppGlobals.BSerr.LogAndThrow(
+            CoreServices.Errors.LogAndThrow(
                 New ArgumentException(
                     $"Regression data object contains {raw.nCols - 1} raw predictor column(s), but {pRaw} were expected."))
         End If
@@ -772,9 +768,7 @@ Public Module RegressionDesignCore
                                                       ByRef outPredictorCols As List(Of Double()),
                                                       ByRef outPredictorNames As List(Of String))
 
-        If effectItems Is Nothing Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
-        End If
+        If effectItems Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
 
         Dim effects As List(Of String) = MaterializeStringList(effectItems)
         Dim rawKeyList As List(Of String) = MaterializeStringList(rawXKeys)
@@ -788,7 +782,7 @@ Public Module RegressionDesignCore
         End If
 
         If rawColCount <> rawKeyList.Count Then
-            AppGlobals.BSerr.LogAndThrow(
+            CoreServices.Errors.LogAndThrow(
                 New ArgumentException(
                     $"Raw predictor matrix contains {rawColCount} column(s), but {rawKeyList.Count} raw key(s) were provided."))
         End If
@@ -828,18 +822,15 @@ Public Module RegressionDesignCore
                 Dim bk As String = baseKeys(0)
 
                 If scale = PredictorScale.Categorical OrElse IsBaseVariableCategorical(bk, termSpecs) Then
-                    AppGlobals.BSerr.LogAndThrow(
-                        New ArgumentException($"Polynomial term '{effKey}' cannot be used with a categorical predictor."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Polynomial term '{effKey}' cannot be used with a categorical predictor."))
                 End If
 
                 If degree < 2 Then
-                    AppGlobals.BSerr.LogAndThrow(
-                        New ArgumentException($"Polynomial degree must be >=2 for term '{effKey}'."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Polynomial degree must be >=2 for term '{effKey}'."))
                 End If
 
                 If Not rawIndex.ContainsKey(bk) Then
-                    AppGlobals.BSerr.LogAndThrow(
-                        New ArgumentException($"Missing raw predictor '{bk}' required by polynomial term '{effKey}'."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by polynomial term '{effKey}'."))
                 End If
 
                 Dim col As Integer = rawIndex(bk)
@@ -858,14 +849,12 @@ Public Module RegressionDesignCore
 
             ElseIf String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
                 If baseKeys.Count < 2 Then
-                    AppGlobals.BSerr.LogAndThrow(
-                        New ArgumentException($"Interaction term '{effKey}' must have at least 2 base variables."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Interaction term '{effKey}' must have at least 2 base variables."))
                 End If
 
                 For Each bk As String In baseKeys
                     If Not rawIndex.ContainsKey(bk) Then
-                        AppGlobals.BSerr.LogAndThrow(
-                            New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by interaction term '{effKey}'."))
                     End If
                 Next
 
@@ -897,8 +886,7 @@ Public Module RegressionDesignCore
                 Dim bk As String = baseKeys(0)
 
                 If Not rawIndex.ContainsKey(bk) Then
-                    AppGlobals.BSerr.LogAndThrow(
-                        New ArgumentException($"Missing raw predictor '{bk}' required by term '{effKey}'."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing raw predictor '{bk}' required by term '{effKey}'."))
                 End If
 
                 Dim col As Integer = rawIndex(bk)
@@ -1037,9 +1025,7 @@ Public Module RegressionDesignCore
                                                  ByRef outData(,) As Double,
                                                  ByRef outVarNames() As String)
 
-        If raw Is Nothing Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-        End If
+        If raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(raw)))
 
         Dim rawKeyList As List(Of String) = GetRequiredRawVarKeys(effectItems, termSpecs)
         Dim rawX(,) As Double = ExtractRawPredictorMatrixFromRegressionData(raw, rawKeyList)
@@ -1142,9 +1128,7 @@ Public Module RegressionDesignCore
                                               termSpecs As Dictionary(Of String, TermSpec),
                                               omitCategoricalReference As Boolean) As String()
 
-        If raw Is Nothing Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-        End If
+        If raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(raw)))
 
         Dim rawKeyList As List(Of String) = GetRequiredRawVarKeys(effectItems, termSpecs)
         Dim rawX(,) As Double = ExtractRawPredictorMatrixFromRegressionData(raw, rawKeyList)
@@ -1392,7 +1376,7 @@ Public Module RegressionDesignCore
                                                     baseDisplayNames As Dictionary(Of String, String),
                                                     omitCategoricalReference As Boolean) As List(Of InteractionColumnDefinition)
         If Not rawIndex.ContainsKey(baseKey) Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing raw predictor '{baseKey}' required by interaction term."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing raw predictor '{baseKey}' required by interaction term."))
         End If
 
         Dim out As New List(Of InteractionColumnDefinition)
@@ -1438,7 +1422,7 @@ Public Module RegressionDesignCore
         Next
 
         If out.Count = 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Categorical predictor '{baseKey}' produced no interaction columns after reference-level omission."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException($"Categorical predictor '{baseKey}' produced no interaction columns after reference-level omission."))
         End If
 
         Return out
@@ -1457,7 +1441,7 @@ Public Module RegressionDesignCore
                                                     baseDisplayNames As Dictionary(Of String, String),
                                                     omitCategoricalReference As Boolean) As List(Of InteractionColumnDefinition)
         If baseKeys Is Nothing OrElse baseKeys.Count < 2 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Interaction terms require at least two base variables."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Interaction terms require at least two base variables."))
         End If
 
         Dim factorSets As New List(Of List(Of InteractionColumnDefinition))

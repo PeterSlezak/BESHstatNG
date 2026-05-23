@@ -399,7 +399,7 @@ Public Class Excel2007RefEdit
 
             'Call _NAR(target)
         Catch
-            AppGlobals.BSlogg.Log($"Excel2007RefEdit.SelectionChange error target={target.ToString()}, address={Address}, SheetName={target.Worksheet.Name}")
+            AppInfrastructure.CoreServices.Log($"Excel2007RefEdit.SelectionChange error target={target.ToString()}, address={Address}, SheetName={target.Worksheet.Name}")
         End Try
     End Sub
 

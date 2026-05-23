@@ -340,7 +340,7 @@ Public Class UiGLM
 
         '--- Import ---
         Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
-        MyData.DataImport(ref)
+        ExcelDnaDataImporter.ImportInto(MyData, ref)
         Return MyData
     End Function
 
@@ -575,7 +575,7 @@ Public Class UiGLM
         pRegressionInterruptRequested = False
         pRegressionCloseAfterCancel = False
         pRegressionCalculationRunning = True
-        AppGlobals.SetRegressionComputationCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
+        CoreServices.Regression.SetCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
 
         Try
             Me.btCalculate.Enabled = False
@@ -588,7 +588,7 @@ Public Class UiGLM
 
     Private Sub EndRegressionComputation()
         pRegressionCalculationRunning = False
-        AppGlobals.ClearRegressionComputationCallbacks()
+        CoreServices.Regression.ClearCallbacks()
 
         Try
             If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then
@@ -710,7 +710,7 @@ Public Class UiGLM
                 Dim bErr As Boolean = False
                 Dim initVals = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
                 If bErr Then
-                    AppGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
+                    AppInfrastructure.CoreServices.Log("Cannot extract initial parameter values. They will be ignored.")
                     MsgBox("Cannot extract initial parameter values. They will be ignored.")
                 Else
                     bInitialValues = True
@@ -729,7 +729,7 @@ Public Class UiGLM
                     Dim bErr As Boolean = False
                     Dim initVals = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, bErr)
                     If bErr Then
-                        AppGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
+                        AppInfrastructure.CoreServices.Log("Cannot extract initial parameter values. They will be ignored.")
                         MsgBox("Cannot extract initial parameter values. They will be ignored.")
                     Else
                         bLogisticInitialValues = True
@@ -759,7 +759,7 @@ Public Class UiGLM
         Catch ex As System.OperationCanceledException
             FinishRegressionComputation("Calculation cancelled.")
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         Finally
             EndRegressionComputation()
         End Try
@@ -800,7 +800,7 @@ Public Class UiGLM
         lm.Fit(Me.ckIntercept.Checked, customGroups, ss)
 
         'Dump results
-        Dim WriteRes As WriteResults = New WriteResults
+        Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -834,7 +834,7 @@ Public Class UiGLM
         'Create new worksheet in workbook. It will automaticaly be an activesheet
         'We need to start new writer to start writing on this new sheet
         Dim res = lm.wrapResults()
-        WriteRes = New WriteResults
+        WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "LM"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -877,10 +877,10 @@ Public Class UiGLM
                            ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
         If bInitialValues Then ordL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
         Dim refCat = If(Me.optFirst.Checked, regression.ReferenceCategory.First, regression.ReferenceCategory.Last)
-        ordL.Fit(refCat, bInitialValues, Me.ProgressBar1, Me.lblProgress)
+        ordL.Fit(refCat, bInitialValues, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
 
         'Dump results
-        Dim WriteRes As WriteResults = New WriteResults
+        Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -921,7 +921,7 @@ Public Class UiGLM
         'We need to start new writer to start writing on this new sheet
         Dim res = ordL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                      If(MyData.bWeights, MyData.WeightVarName, Nothing))
-        WriteRes = New WriteResults
+        WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Ordinal_LR"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -964,10 +964,10 @@ Public Class UiGLM
                             ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
         If bInitialValues Then multL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
         Dim refCat = If(Me.optFirst.Checked, regression.ReferenceCategory.First, regression.ReferenceCategory.Last)
-        multL.Fit(lIntercept, refCat, bInitialValues, Me.ProgressBar1, Me.lblProgress)
+        multL.Fit(lIntercept, refCat, bInitialValues, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
 
         'Dump results
-        Dim WriteRes As WriteResults = New WriteResults
+        Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -1008,7 +1008,7 @@ Public Class UiGLM
         'We need to start new writer to start writing on this new sheet
         Dim res = multL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                      If(MyData.bWeights, MyData.WeightVarName, Nothing))
-        WriteRes = New WriteResults
+        WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Multinomial_LR"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -1083,11 +1083,10 @@ Public Class UiGLM
                    interceptLog,
                    bPoissonInitialValues,
                    bLogisticInitialValues,
-                   Me.ProgressBar1,
-                   Me.lblProgress)
+                   New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
 
         'Dump results
-        Dim WriteRes As WriteResults = New WriteResults
+        Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -1132,7 +1131,7 @@ Public Class UiGLM
         'We need to start new writer to start writing on this new sheet
         Dim res = zipFit.wrapResults(If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing), Nothing)
 
-        WriteRes = New WriteResults
+        WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Zero-Inflated Poisson"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -1179,10 +1178,10 @@ Public Class UiGLM
                           ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
                           ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
         If bInitialValues Then nb2.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
-        nb2.Fit(lIntercept, bInitialValues, Me.ProgressBar1, Me.lblProgress)
+        nb2.Fit(lIntercept, bInitialValues, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
 
         'Dump results
-        Dim WriteRes As WriteResults = New WriteResults
+        Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -1230,7 +1229,7 @@ Public Class UiGLM
         'We need to start new writer to start writing on this new sheet
         Dim res = nb2.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                   If(MyData.bWeights, MyData.WeightVarName, Nothing))
-        WriteRes = New WriteResults
+        WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "GLM NB2"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -1288,10 +1287,10 @@ Public Class UiGLM
                              ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
                              ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
         If bInitialValues Then fitGlm.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
-        fitGlm.Fit(lIntercept, bInitialValues, Me.ProgressBar1, Me.lblProgress)
+        fitGlm.Fit(lIntercept, bInitialValues, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
 
         'Dump results
-        Dim WriteRes As WriteResults = New WriteResults
+        Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -1342,7 +1341,7 @@ Public Class UiGLM
         'We need to start new writer to start writing on this new sheet
         Dim res = fitGlm.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                           If(MyData.bWeights, MyData.WeightVarName, Nothing))
-        WriteRes = New WriteResults
+        WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "GLM"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -1379,7 +1378,7 @@ Public Class UiGLM
                 summary, thresholdRows, calibrationRows, brier, eventRate, "GLM Binary Classification")
 
             If clsRes IsNot Nothing AndAlso clsRes.Count > 0 Then
-                WriteRes = New WriteResults
+                WriteRes = New ExcelDnaResultWriter
                 AppGlobals.app.ActiveWorkbook.Worksheets.Add(After:=AppGlobals.app.ActiveWorkbook.Worksheets(AppGlobals.app.ActiveWorkbook.Worksheets.Count))
                 AppGlobals.app.ActiveWorkbook.ActiveSheet.Name = "GLM Classification"
                 WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet

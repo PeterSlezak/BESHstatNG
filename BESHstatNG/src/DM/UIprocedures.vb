@@ -866,7 +866,7 @@ Public Module UIprocedures
     ''' </para>
     ''' </remarks>
     Public Function ConvertCategoriesToStrings(categories As Object()) As String()
-        If categories Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(categories)))
+        If categories Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(categories)))
 
         Dim headers(categories.Length - 1) As String
         For i As Integer = 0 To categories.Length - 1

@@ -256,8 +256,8 @@ Namespace Resampling
                                                 minimumSuccessfulReplicates As Integer,
                                                 statisticLabel As String,
                                                 progressCallback As Action(Of Integer, Integer)) As ScalarResamplingResult
-            If resamples Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(resamples)))
-            If info Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(info)))
+            If resamples Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(resamples)))
+            If info Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(info)))
 
             Dim estimates As New List(Of Double)(Math.Max(1, info.ReplicatesRequested))
             Dim failed As Integer = 0
@@ -274,7 +274,7 @@ Namespace Resampling
                     failed += 1
                     If firstFailure Is Nothing Then firstFailure = ex
                     If failed > maxFailures Then
-                        AppGlobals.BSerr.LogAndThrow(New InvalidOperationException($"Bootstrap aborted after {failed} failed replicates exceeded the allowed maximum of {maxFailures}.", firstFailure))
+                        Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New InvalidOperationException($"Bootstrap aborted after {failed} failed replicates exceeded the allowed maximum of {maxFailures}.", firstFailure))
                     End If
                 End Try
 
@@ -283,7 +283,7 @@ Namespace Resampling
 
             If estimates.Count < minimumSuccessfulReplicates Then
                 Dim msg As String = $"Too few successful bootstrap replicates were obtained ({estimates.Count} < {minimumSuccessfulReplicates})."
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(msg, firstFailure))
+                Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New InvalidOperationException(msg, firstFailure))
             End If
 
             ResamplingCore.CompleteRunInfo(info, estimates.Count, failed)
@@ -305,8 +305,8 @@ Namespace Resampling
                                                 minimumSuccessfulReplicates As Integer,
                                                 parameterLabels As String(),
                                                 progressCallback As Action(Of Integer, Integer)) As VectorResamplingResult
-            If resamples Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(resamples)))
-            If info Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(info)))
+            If resamples Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(resamples)))
+            If info Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(info)))
 
             Dim estimates As New List(Of Double())(Math.Max(1, info.ReplicatesRequested))
             Dim failed As Integer = 0
@@ -320,14 +320,14 @@ Namespace Resampling
                     Dim value As Double() = statistic(idx)
                     ValidateFiniteVector(value, "bootstrap replicate statistic vector")
                     If value.Length <> parameterCount Then
-                        AppGlobals.BSerr.LogAndThrow(New InvalidOperationException($"Bootstrap replicate vector length {value.Length} does not match the observed parameter count {parameterCount}."))
+                        Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New InvalidOperationException($"Bootstrap replicate vector length {value.Length} does not match the observed parameter count {parameterCount}."))
                     End If
                     estimates.Add(DirectCast(value.Clone(), Double()))
                 Catch ex As Exception
                     failed += 1
                     If firstFailure Is Nothing Then firstFailure = ex
                     If failed > maxFailures Then
-                        AppGlobals.BSerr.LogAndThrow(New InvalidOperationException($"Bootstrap aborted after {failed} failed replicates exceeded the allowed maximum of {maxFailures}.", firstFailure))
+                        Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New InvalidOperationException($"Bootstrap aborted after {failed} failed replicates exceeded the allowed maximum of {maxFailures}.", firstFailure))
                     End If
                 End Try
 
@@ -336,7 +336,7 @@ Namespace Resampling
 
             If estimates.Count < minimumSuccessfulReplicates Then
                 Dim msg As String = $"Too few successful bootstrap replicates were obtained ({estimates.Count} < {minimumSuccessfulReplicates})."
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(msg, firstFailure))
+                Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New InvalidOperationException(msg, firstFailure))
             End If
 
             ResamplingCore.CompleteRunInfo(info, estimates.Count, failed)

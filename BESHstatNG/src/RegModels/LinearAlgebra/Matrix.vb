@@ -1,12 +1,8 @@
 ﻿Option Explicit On
-Imports System.Drawing.Drawing2D
-Imports System.Net.NetworkInformation
+
 Imports System.Numerics
 Imports System.Reflection
-Imports System.Runtime.InteropServices
-Imports System.Text.RegularExpressions
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 Namespace Matrix
 
@@ -68,7 +64,7 @@ Namespace Matrix
             GetType(T) Is GetType(Single) OrElse
             GetType(T) Is GetType(Long)) Then
 
-                AppGlobals.BSerr.LogAndThrow(New NotSupportedException($"Type {GetType(T).Name} is not supported. " &
+                CoreServices.Errors.LogAndThrow(New NotSupportedException($"Type {GetType(T).Name} is not supported. " &
                                                 "Allowed types: Double, Integer, Single, Long."))
             End If
 
@@ -138,7 +134,7 @@ Namespace Matrix
             Dim NoColumn1 As Integer = Matrix1.GetUpperBound(1)
             Dim NoColumn2 As Integer = Matrix2.GetUpperBound(1)
 
-            If NoRow2 <> NoColumn1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Inapropriate matrix dimensions in input matrix."))
+            If NoRow2 <> NoColumn1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Inapropriate matrix dimensions in input matrix."))
 
             Dim MatrixOut(NoRow1, NoColumn2) As Double
             For i = 0 To NoRow1
@@ -388,8 +384,8 @@ Namespace Matrix
         ''' </remarks>
         Function M_ADD(mat1(,) As Double, mat2(,) As Double) As Double(,) 'matrix addition
 
-            If mat1.GetLength(0) <> mat2.GetLength(0) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-            If mat1.GetLength(1) <> mat2.GetLength(1) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("2st dimension of input matrices is not equal."))
+            If mat1.GetLength(0) <> mat2.GetLength(0) Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
+            If mat1.GetLength(1) <> mat2.GetLength(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("2st dimension of input matrices is not equal."))
 
             Dim c(mat1.GetUpperBound(0), mat1.GetUpperBound(1)) As Double
             For i = 0 To mat1.GetUpperBound(0)
@@ -437,7 +433,7 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Function M_ADD(mat1(,) As Double, mat2() As Double) As Double(,) 'matrix addition
-            If mat1.GetLength(0) <> mat2.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
+            If mat1.GetLength(0) <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
 
             Dim c(mat1.GetUpperBound(0), mat2.Length - 1) As Double
             For i = 0 To mat1.GetUpperBound(0)
@@ -475,7 +471,7 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Function M_ADD(mat1() As Double, mat2() As Double) As Double() 'matrix addition
-            If mat1.Length <> mat2.Length Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("1st dimension of input matrices is not equal."))
+            If mat1.Length <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ApplicationException("1st dimension of input matrices is not equal."))
 
             Dim c(mat1.Length - 1) As Double
             For i = 0 To mat1.Length - 1
@@ -551,8 +547,8 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Function M_SUB(mat1(,) As Double, mat2(,) As Double) As Double(,) 'matrix elementwise subtraction
-            If mat1.GetUpperBound(0) <> mat2.GetUpperBound(0) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-            If mat1.GetUpperBound(1) <> mat2.GetUpperBound(1) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("2st dimension of input matrices is not equal."))
+            If mat1.GetUpperBound(0) <> mat2.GetUpperBound(0) Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
+            If mat1.GetUpperBound(1) <> mat2.GetUpperBound(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("2st dimension of input matrices is not equal."))
 
             Dim c(mat1.GetUpperBound(0), UBound(mat1, 2)) As Double
             For i = 0 To mat1.GetUpperBound(0)
@@ -593,7 +589,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_SUB(mat1() As Double, mat2() As Double) As Double()
-            If mat1.Length <> mat2.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
+            If mat1.Length <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
 
             Dim c(mat1.Length - 1) As Double
             For i = 0 To mat1.Length - 1
@@ -678,8 +674,8 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_DIV(mat1(,) As Double, mat2(,) As Double, ByRef Optional strTrace As String = "") As Double(,)
-            If mat1.GetLength(0) <> mat2.GetLength(0) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-            If mat1.GetLength(1) <> mat2.GetLength(1) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("2st dimension of input matrices is not equal."))
+            If mat1.GetLength(0) <> mat2.GetLength(0) Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
+            If mat1.GetLength(1) <> mat2.GetLength(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("2st dimension of input matrices is not equal."))
 
             Dim out(mat1.GetUpperBound(0), mat1.GetUpperBound(1)) As Double
             For i = 0 To mat1.GetUpperBound(0)
@@ -734,7 +730,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_DIV(mat1() As Double, mat2() As Double, ByRef Optional strTrace As String = "") As Double()
-            If mat1.Length <> mat2.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
+            If mat1.Length <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
 
             Dim out(mat1.Length - 1) As Double
             For i = 0 To mat1.Length - 1
@@ -795,7 +791,7 @@ Namespace Matrix
         ''' </remarks>
         Function M_DIV(mat1(,) As Double, mat2() As Double, ByRef Optional strTrace As String = "") As Double(,)
 
-            If mat1.GetLength(0) <> mat2.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
+            If mat1.GetLength(0) <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
 
             Dim out(mat1.GetUpperBound(0), mat1.GetUpperBound(1)) As Double
             For i = 0 To mat1.GetUpperBound(0)
@@ -963,7 +959,7 @@ Namespace Matrix
                 L(i, i) = a(i, i) - S
                 If L(i, i) <= 0 Then 'MatrixType not positive-definite
                     iFault = 2
-                    If bErrorRaise Then AppGlobals.BSerr.LogAndThrow(New ApplicationException($"MatrixType not positive-definite. {array2str(a)}"))
+                    If bErrorRaise Then CoreServices.Errors.LogAndThrow(New ApplicationException($"MatrixType not positive-definite. {array2str(a)}"))
                     Return L
                 End If
                 L(i, i) = Math.Sqrt(L(i, i))
@@ -1230,7 +1226,7 @@ Namespace Matrix
             a = DirectCast(mat.Clone(), Double(,))
             Dim n As Integer = UBound(a, 1)
             'decomposed matrix have to be squared
-            If n <> a.GetUpperBound(1) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input matrix is not squared."))
+            If n <> a.GetUpperBound(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Input matrix is not squared."))
 
             ReDim VV(n), indx(n)
 
@@ -1244,9 +1240,9 @@ Namespace Matrix
                     If (Math.Abs(a(i, j)) > Aamax) Then Aamax = Math.Abs(a(i, j))
                 Next
 
-                If (Aamax = 0) Then
+                If Aamax = 0 Then
                     iErr = 2
-                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("Singular matrix.")) 'singular matrix in LUdcemop, No nonzero largest element.
+                    CoreServices.Errors.LogAndThrow(New ApplicationException("Singular matrix.")) 'singular matrix in LUdcemop, No nonzero largest element.
                 End If
                 VV(i) = 1.0 / Aamax 'Save the scaling.
             Next
@@ -1358,7 +1354,7 @@ Namespace Matrix
             Dim b() As Double = RighthandSideVector
             Dim n As Integer = LUA.GetUpperBound(0)
 
-            If n <> LUA.GetUpperBound(1) And n <> UBound(indx) And n <> b.GetUpperBound(0) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Wrong input matrices dimensions."))
+            If n <> LUA.GetUpperBound(1) And n <> UBound(indx) And n <> b.GetUpperBound(0) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Wrong input matrices dimensions."))
 
             Dim ii As Integer = -1
             'When ii is set to a positive value, it will become the index of the 1st nonvanishing element of b. We now do
@@ -1659,7 +1655,7 @@ Namespace Matrix
                                Optional bPseudInverse As Boolean = True) As Double(,)
 
             Dim n As Integer = mat.GetUpperBound(0)
-            If n <> mat.GetUpperBound(1) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Wrong input matrices dimensions."))
+            If n <> mat.GetUpperBound(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Wrong input matrices dimensions."))
             Dim out(n, n) As Double
             Dim matCopy(,) As Double = DirectCast(mat.Clone(), Double(,))
             Dim methodNorm As String = method.ToUpper.Trim
@@ -1681,11 +1677,11 @@ Namespace Matrix
                 If iErr = 2 Then
                     If bPseudInverse Then
                         'try pseudoinverse
-                        AppGlobals.BSlogg.Log($"WARNING: CHOLESKY. mat not positive-definite. Calling pseudoInverse. mat={array2str(matCopy)}", AppGlobals.LogMsgType.Warn)
+                        AppInfrastructure.CoreServices.Log($"WARNING: CHOLESKY. mat not positive-definite. Calling pseudoInverse. mat={array2str(matCopy)}", AppInfrastructure.LogMsgType.Warn)
                         out = pseudoInverse(matCopy)
-                        AppGlobals.BSlogg.Log($"NOTE: pseudoInverse output ={array2str(out)}")
+                        AppInfrastructure.CoreServices.Log($"NOTE: pseudoInverse output ={array2str(out)}")
                     Else
-                        AppGlobals.BSerr.LogAndThrow(New ApplicationException("MatrixType not positive definite"))
+                        CoreServices.Errors.LogAndThrow(New ApplicationException("MatrixType not positive definite"))
                     End If
                 Else
                     out = CholInv(ch)
@@ -1713,7 +1709,7 @@ Namespace Matrix
                 For i As Integer = 0 To nS
                     If Math.Abs(svd.Wvect(i)) <= tol Then
                         iErr = 1
-                        AppGlobals.BSerr.LogAndThrow(New ApplicationException(
+                        CoreServices.Errors.LogAndThrow(New ApplicationException(
                                                         $"Matrix is singular or numerically rank-deficient for strict SVD inverse. " &
                                                         $"sigma[{i}]={svd.Wvect(i)}, tol={tol}"))
                     End If
@@ -1729,7 +1725,7 @@ Namespace Matrix
                 out = MatrixMult(MatrixMult(svd.V, Winv), trans(svd.U))
                 iErr = 0
             Else
-                AppGlobals.BSerr.LogAndThrow(New NotImplementedException("Not implemented error. method = " & method))
+                CoreServices.Errors.LogAndThrow(New NotImplementedException("Not implemented error. method = " & method))
             End If
 
             Return out
@@ -1777,7 +1773,7 @@ Namespace Matrix
         ''' Thrown if <paramref name="A"/> is <c>Nothing</c>.
         ''' </exception>
         Public Function pseudoInverse(ByVal A(,) As Double, Optional tol As Double = -1.0) As Double(,)
-            If A Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(A)))
+            If A Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(A)))
             Const eps As Double = 0.00000000000000022204460492503131
 
             ' Work on a copy so the input A is not overwritten by SVD_decomp
@@ -2076,7 +2072,7 @@ SplitOk:
                         Exit For
                     End If
 
-                    If its = 30 Then AppGlobals.BSlogg.Log("SVD: No convergence!", AppGlobals.LogMsgType.Warn)
+                    If its = 30 Then AppInfrastructure.CoreServices.Log("SVD: No convergence!", AppInfrastructure.LogMsgType.Warn)
 
                     x = W(L)
                     Nm = k - 1
@@ -2327,7 +2323,7 @@ SplitOk:
         Function RegrL(y() As Double, x(,) As Double, bIntcpt As Boolean) As Double(,)
             Dim ErSS As Double = 0.0
             Dim Xs(,) As Double
-            AppGlobals.BSlogg.Log(MethodBase.GetCurrentMethod.Name & " execution start")
+            AppInfrastructure.CoreServices.Log(MethodBase.GetCurrentMethod.Name & " execution start")
 
             Dim n As Integer = x.GetUpperBound(0)
             Dim p As Integer = x.GetUpperBound(1) ' upper bound of predictor columns (before optional intercept)
@@ -2474,7 +2470,7 @@ SplitOk:
                 out(i, 1) = Math.Sqrt(Math.Max(0.0, VarCov(i, i)))
             Next
 
-            AppGlobals.BSlogg.Log(MethodBase.GetCurrentMethod.Name & " execution end")
+            AppInfrastructure.CoreServices.Log(MethodBase.GetCurrentMethod.Name & " execution end")
             Return out
         End Function
 
@@ -2839,18 +2835,18 @@ SplitOk:
         ''' </exception>
         Function QRdecomp(mat(,) As Double, Optional prec As Double = 0.000000000001) As QRout
             If mat Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(mat)))
+                CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(mat)))
             End If
 
             Dim m As Integer = mat.GetUpperBound(0) + 1
             Dim n As Integer = mat.GetUpperBound(1) + 1
 
             If m <= 0 OrElse n <= 0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input matrix must be non-empty."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Input matrix must be non-empty."))
             End If
 
             If m < n Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("QRdecomp requires rows >= columns (m >= n)."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("QRdecomp requires rows >= columns (m >= n)."))
             End If
 
             Dim out As New QRout
@@ -3161,7 +3157,7 @@ SplitOk:
         Public Function VerticalStackArrays(Of T)(a1(,) As T, a2(,) As T, Optional bAppendBlanks As Boolean = False) As T(,)
 
             If a1.GetUpperBound(0) <> a2.GetUpperBound(0) AndAlso Not bAppendBlanks Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Invalid input array dimensions"))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid input array dimensions"))
             End If
 
             Dim out(Math.Max(a1.GetUpperBound(0), a2.GetUpperBound(0)), a1.GetUpperBound(1) + a2.GetUpperBound(1) + 1) As T
@@ -3227,7 +3223,7 @@ SplitOk:
         Public Function HorizontalStackArrays(Of T)(a1(,) As T, a2(,) As T, Optional bAppendBlanks As Boolean = False) As T(,)
 
             If a1.GetUpperBound(1) <> a2.GetUpperBound(1) AndAlso Not bAppendBlanks Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Invalid input array dimensions"))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid input array dimensions"))
             End If
 
             Dim out(a1.GetUpperBound(0) + a2.GetUpperBound(0) + 1, Math.Max(a1.GetUpperBound(1), a2.GetUpperBound(1))) As T
@@ -3282,7 +3278,7 @@ SplitOk:
         Public Function GetColumnFrom2Darray(Of T)(x(,) As T, nCol As Integer) As T()
             Dim out(x.GetUpperBound(0)) As T
             If nCol > x.GetUpperBound(1) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Provided column number is larger than array 2nd dimension."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Provided column number is larger than array 2nd dimension."))
             End If
             For i = 0 To x.GetUpperBound(0)
                 out(i) = x(i, nCol)
@@ -3627,7 +3623,7 @@ SplitOk:
             a = mat
             Dim n As Integer = a.GetUpperBound(0)
             Dim m As Integer = a.GetUpperBound(1)
-            If n <> m Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input matrix is not square (p x p)"))
+            If n <> m Then CoreServices.Errors.LogAndThrow(New ArgumentException("Input matrix is not square (p x p)"))
 
             Dim CMeans(n, m) As Double 'average for each column
             Dim RMeans(n, m) As Double 'average for each row
@@ -3853,7 +3849,7 @@ SplitOk:
                 If maxAbsNum < eps AndAlso Iter > 1 Then Exit For
             Next Iter
 
-            If Iter >= maxiter Then AppGlobals.BSlogg.Log("JK Iteration has not converged.", AppGlobals.LogMsgType.Warn)
+            If Iter >= maxiter Then AppInfrastructure.CoreServices.Log("JK Iteration has not converged.", AppInfrastructure.LogMsgType.Warn)
 
             'Compute eigenvalues/eigenvectors
             Dim EigenVal(p) As Double, EigenVec(p, p) As Double

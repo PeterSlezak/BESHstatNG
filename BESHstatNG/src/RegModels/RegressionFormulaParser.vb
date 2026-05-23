@@ -350,7 +350,7 @@ Public Module RegressionFormulaParser
         errorMessage = Nothing
 
         If variableCatalog Is Nothing Then
-            AppGlobals.BSlogg.Trace($"TryParseFormulaToDesignSpec start. formula='{If(formulaText, String.Empty)}'; catalogVars={variableCatalog.Variables.Count}")
+            CoreServices.Logger.Trace($"TryParseFormulaToDesignSpec start. formula='{If(formulaText, String.Empty)}'; catalogVars={variableCatalog.Variables.Count}")
             errorMessage = "Variable catalog is required."
             Return False
         End If
@@ -358,7 +358,7 @@ Public Module RegressionFormulaParser
         Dim formula As String = If(formulaText, String.Empty).Trim()
         If formula = String.Empty Then
             designSpec = BuildDefaultMainEffectsDesignSpec(variableCatalog)
-            AppGlobals.BSlogg.Trace($"TryParseFormulaToDesignSpec defaulted to main effects. termCount={designSpec.EffectItems.Count}")
+            CoreServices.Logger.Trace($"TryParseFormulaToDesignSpec defaulted to main effects. termCount={designSpec.EffectItems.Count}")
             Return True
         End If
 
@@ -377,14 +377,14 @@ Public Module RegressionFormulaParser
             Dim parsed As ParsedRegressionFormulaTerm = Nothing
             Dim parseErr As String = Nothing
             If Not TryParseSingleTerm(rawTerm, variableCatalog, parsed, parseErr) Then
-                AppGlobals.BSlogg.Debug($"TryParseFormulaToDesignSpec failed while parsing term '{rawTerm}'. {parseErr}")
+                CoreServices.Logger.Debug($"TryParseFormulaToDesignSpec failed while parsing term '{rawTerm}'. {parseErr}")
                 errorMessage = parseErr
                 Return False
             End If
 
             Dim effectCountBefore As Integer = spec.EffectItems.Count
             If Not AppendTerm(spec, parsed, parseErr) Then
-                AppGlobals.BSlogg.Debug($"TryParseFormulaToDesignSpec failed while appending term '{rawTerm}'. {parseErr}")
+                CoreServices.Logger.Debug($"TryParseFormulaToDesignSpec failed while appending term '{rawTerm}'. {parseErr}")
                 errorMessage = parseErr
                 Return False
             End If
@@ -402,7 +402,7 @@ Public Module RegressionFormulaParser
         spec.NormalizedFormulaText = String.Join(" + ", normalizedTerms)
         spec.RequiredRawVarKeys = RegressionDesignCore.GetRequiredRawVarKeys(spec.EffectItems, spec.TermSpecs)
         designSpec = spec
-        AppGlobals.BSlogg.Trace($"TryParseFormulaToDesignSpec success. normalized='{spec.NormalizedFormulaText}'; termCount={spec.EffectItems.Count}; requiredRaw={If(spec.RequiredRawVarKeys Is Nothing, 0, spec.RequiredRawVarKeys.Count)}")
+        CoreServices.Logger.Trace($"TryParseFormulaToDesignSpec success. normalized='{spec.NormalizedFormulaText}'; termCount={spec.EffectItems.Count}; requiredRaw={If(spec.RequiredRawVarKeys Is Nothing, 0, spec.RequiredRawVarKeys.Count)}")
         Return True
     End Function
 
@@ -857,11 +857,11 @@ Public Module RegressionFormulaParser
             End If
 
             parts.Add(New InteractionParsePart With {
-                .entry = entry,
-                .tokenKind = tokenKind,
-                .isFactor = isFactor,
+                .Entry = entry,
+                .TokenKind = tokenKind,
+                .IsFactor = isFactor,
                 .ReferenceValue = refValue,
-                .normalizedToken = normalizedToken
+                .NormalizedToken = normalizedToken
             })
         Next
 

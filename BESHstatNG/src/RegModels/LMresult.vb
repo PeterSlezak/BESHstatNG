@@ -1,7 +1,6 @@
 ﻿Option Explicit On
 Option Strict On
 
-Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>
 ''' Likelihood‑model result container providing coefficient estimates, standard errors,

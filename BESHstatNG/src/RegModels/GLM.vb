@@ -1,14 +1,10 @@
 ﻿Option Explicit On
 Option Strict On
 
-Imports System.Drawing
-Imports System.IO
 Imports System.Reflection
-Imports System.Resources.ResXFileRef
 Imports System.Runtime.InteropServices
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.regression
-Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>
 ''' Generalized Linear Model (GLM) fitted by Iteratively Reweighted Least Squares (IRLS).
@@ -554,7 +550,7 @@ Public Class GLM
                 ElseIf pScaleEstimation = "Deviance" Then
                     Return pFinalDeviance / (Me.DFresid)
                 ElseIf pScaleEstimation = "Maximum Likelihood" Then
-                    AppGlobals.BSerr.LogAndThrow(New NotImplementedException("Scale coeficient using Maximum likelihood method is not implemented yet."))
+                    CoreServices.Errors.LogAndThrow(New NotImplementedException("Scale coeficient using Maximum likelihood method is not implemented yet."))
                     Return Nothing
                 Else
                     Return 1.0
@@ -637,7 +633,7 @@ Public Class GLM
          Optional Weights() As Double = Nothing)
 
         pData = x
-        AppGlobals.BSlogg.Trace($"GLM.data start. rows={x.GetLength(0)}; cols={x.GetLength(1)}; rowNumsProvided={RowNums IsNot Nothing}; offsetProvided={Offset IsNot Nothing}; weightsProvided={Weights IsNot Nothing}")
+        CoreServices.Logger.Trace($"GLM.data start. rows={x.GetLength(0)}; cols={x.GetLength(1)}; rowNumsProvided={RowNums IsNot Nothing}; offsetProvided={Offset IsNot Nothing}; weightsProvided={Weights IsNot Nothing}")
 
         ' Offsets are additive in eta (as used throughout GLM.Fit).
         ' Passing an all-zero offset should behave exactly like having no offset.
@@ -670,7 +666,7 @@ Public Class GLM
             pRowNums = RowNums
         End If
 
-        AppGlobals.BSlogg.Trace($"GLM.data completed. pbOffset={pbOffset}; pbWeights={pbWeigts}; n={pData.GetLength(0)}")
+        CoreServices.Logger.Trace($"GLM.data completed. pbOffset={pbOffset}; pbWeights={pbWeigts}; n={pData.GetLength(0)}")
     End Sub
 
     ''' <summary>
@@ -803,8 +799,7 @@ Public Class GLM
     ''' <param name="bStartParams">
     ''' If <c>True</c>, uses <see cref="startParams"/> as initial <c>β</c>. Otherwise uses family-specific starting means.
     ''' </param>
-    ''' <param name="progressBar">Optional UI progress bar updated during IRLS.</param>
-    ''' <param name="progressLbl">Optional UI label updated with iteration count and deviance-change metric.</param>
+    ''' <param name="progress">Optional host-neutral progress reporter.</param>
     ''' <remarks>
     ''' <para>
     ''' The null deviance is computed “R-compatibly”:
@@ -829,9 +824,8 @@ Public Class GLM
     ''' </remarks>
     Public Overridable Sub Fit(intercept As Integer,
                                Optional bStartParams As Boolean = False,
-                               Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                               Optional progressLbl As System.Windows.Forms.Label = Nothing)
-        AppGlobals.BSlogg.Debug($"GLM.Fit start. family={pFamily.GetType().Name}; link={pLink.GetType().Name}; intercept={intercept}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}; weights={pbWeigts}; wlsRidge={Me.WlsRidgePenalty}; ridgeExcludeIntercept={Me.WlsRidgeExcludeIntercept}")
+                               Optional progress As IProgressReporter = Nothing)
+        CoreServices.Logger.Debug($"GLM.Fit start. family={pFamily.GetType().Name}; link={pLink.GetType().Name}; intercept={intercept}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}; weights={pbWeigts}; wlsRidge={Me.WlsRidgePenalty}; ridgeExcludeIntercept={Me.WlsRidgeExcludeIntercept}")
         'Intercept = 1 if Yes; 0 if No
         Dim j As Integer, pi1 As Integer, dev As Double, params(,) As Double, hold As Double, y_mean As Double
         Dim ii As Integer, weights() As Double, old_params() As Double, wlsendog() As Double
@@ -855,7 +849,7 @@ Public Class GLM
         Me.n = pData.GetLength(0)     '# of observations
 
         If Me.p <= 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
             Me.strError += " Model has no parameters (no intercept and no predictors)."
             Exit Sub
         End If
@@ -863,7 +857,7 @@ Public Class GLM
         ReDim pItInfo(Me.p + 1, pMaxiter + 1) 'stores params estimates, LL at each iteration
         'Test for insufficient observations
         If n <= pi1 Then
-            AppGlobals.BSlogg.Log("Insufficient observations to complete analysis.", AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Insufficient observations to complete analysis.", AppInfrastructure.LogMsgType.Warn)
             Me.strError += " Insufficient observations to complete analysis."
             Exit Sub
         End If
@@ -944,14 +938,14 @@ Public Class GLM
 
         'Do IRLS iterations
         For pIRLSiterations = 0 To pMaxiter
-            AppGlobals.ThrowIfRegressionCancellationRequested("GLM calculation cancelled by user.")
-            If progressBar IsNot Nothing AndAlso pIRLSiterations > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
+            CoreServices.Regression.ThrowIfCancellationRequested("GLM calculation cancelled by user.")
+            If progress IsNot Nothing AndAlso pIRLSiterations > 0 AndAlso CoreServices.Regression.IsInterruptionRequested() Then
                 Me.strError += " Calculation interrupted by user; latest accepted IRLS estimates returned."
-                AppGlobals.BSlogg.Log("GLM calculation interrupted by user; returning latest accepted IRLS estimates.", AppGlobals.LogMsgType.Warn)
+                AppInfrastructure.CoreServices.Log("GLM calculation interrupted by user; returning latest accepted IRLS estimates.", AppInfrastructure.LogMsgType.Warn)
                 Exit For
             End If
 
-            AppGlobals.BSlogg.Log($"IRLS iteration #{pIRLSiterations}")
+            AppInfrastructure.CoreServices.Log($"IRLS iteration #{pIRLSiterations}")
             For i = 0 To Me.n - 1
                 weights(i) = pWeights(i) * 1.0 / (pLink.deriv(mu(i)) ^ 2 * pFamily.Variance(mu(i))) 'eim (expected information (hassian) matrix
                 wlsendog(i) = pLin_pred(i, 0) + ((Me.y(i) - mu(i)) * pLink.deriv(mu(i))) - pOffset(i)
@@ -1013,7 +1007,7 @@ Public Class GLM
             ' If so, do step-halving toward the previous iteration's parameters until mu is finite.
             If HasNonFinite(Me.mu) Then
                 ii = 0
-                AppGlobals.BSlogg.Log("step size truncated: non-finite mu", AppGlobals.LogMsgType.Warn)
+                AppInfrastructure.CoreServices.Log("step size truncated: non-finite mu", AppInfrastructure.LogMsgType.Warn)
 
                 Do While HasNonFinite(Me.mu)
                     If (ii > pInnerLoopMaxIter) Then Exit Do
@@ -1036,7 +1030,7 @@ Public Class GLM
                 Loop
 
                 If HasNonFinite(Me.mu) Then
-                    AppGlobals.BSlogg.Log("IRLS - Step size truncated: non-finite mu. Cannot correct step size.", AppGlobals.LogMsgType.Warn)
+                    AppInfrastructure.CoreServices.Log("IRLS - Step size truncated: non-finite mu. Cannot correct step size.", AppInfrastructure.LogMsgType.Warn)
                     Me.strError += " IRLS - Step size truncated: non-finite mu. Cannot correct step size."
                     Exit Sub
                 End If
@@ -1046,12 +1040,12 @@ Public Class GLM
             If CheckMu(mu) And TypeOf pFamily Is regression.Binomial Then
 
                 If pIRLSiterations = 0 Then
-                    AppGlobals.BSlogg.Log("IRLS algorithm. No valid set of coefficients has been found: please supply starting values.", AppGlobals.LogMsgType.Warn)
+                    AppInfrastructure.CoreServices.Log("IRLS algorithm. No valid set of coefficients has been found: please supply starting values.", AppInfrastructure.LogMsgType.Warn)
                     'Me.strError += " IRLS algorithm. No valid set of coefficients has been found: please supply starting values."
                 Else
 
                     ii = 0
-                    AppGlobals.BSlogg.Log("step size truncated: out of bounds")
+                    AppInfrastructure.CoreServices.Log("step size truncated: out of bounds")
                     Do While (CheckMu(mu))
                         If (ii > pInnerLoopMaxIter) Then Exit Do
                         ii += 1
@@ -1073,12 +1067,12 @@ Public Class GLM
                             End If
                         Next
                     Loop
-                    If (ii > pInnerLoopMaxIter) Then
-                        AppGlobals.BSlogg.Log("IRLS - Step size truncated: out of bounds. Inner loop 2; cannot correct step size.", AppGlobals.LogMsgType.Warn)
+                    If ii > pInnerLoopMaxIter Then
+                        AppInfrastructure.CoreServices.Log("IRLS - Step size truncated: out of bounds. Inner loop 2; cannot correct step size.", AppInfrastructure.LogMsgType.Warn)
                         Me.strError += " IRLS - Step size truncated: out of bounds. Inner loop 2; cannot correct step size."
                     Else
                         dev = pFamily.Deviance(y, mu)
-                        AppGlobals.BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
+                        AppInfrastructure.CoreServices.Log($" Step halved: new deviance ={dev} ii ={ii}")
                     End If
                 End If
             End If
@@ -1093,10 +1087,10 @@ Public Class GLM
             End If
 
             dev = pFamily.Deviance(y, mu)
-            If (((dev - hold) / (0.1 + Math.Abs(dev)) >= 0.00000001) And (pIRLSiterations > 0)) Then
+            If ((dev - hold) / (0.1 + Math.Abs(dev)) >= 0.00000001) And (pIRLSiterations > 0) Then
                 ii = 0
 
-                AppGlobals.BSlogg.Log(" step size truncated due to increasing deviance")
+                AppInfrastructure.CoreServices.Log(" step size truncated due to increasing deviance")
                 Do While ((dev - hold) / (0.1 + Math.Abs(dev))) > 0.00000001
 
                     If (ii > pInnerLoopMaxIter) Then Exit Do
@@ -1122,13 +1116,13 @@ Public Class GLM
                     Next
 
                     dev = pFamily.Deviance(y, mu)
-                    AppGlobals.BSlogg.Log($"inner loop 3; ii={ii} dev={dev} hold={hold}")
+                    AppInfrastructure.CoreServices.Log($"inner loop 3; ii={ii} dev={dev} hold={hold}")
                 Loop
-                If (ii > pInnerLoopMaxIter) Then
-                    AppGlobals.BSlogg.Log("IRLS - Step size truncated due to increasing deviance. Inner loop 3; cannot correct step size.", AppGlobals.LogMsgType.Warn)
+                If ii > pInnerLoopMaxIter Then
+                    AppInfrastructure.CoreServices.Log("IRLS - Step size truncated due to increasing deviance. Inner loop 3; cannot correct step size.", AppInfrastructure.LogMsgType.Warn)
                     Me.strError += " IRLS - Step size truncated due to increasing deviance. Inner loop 3; cannot correct step size."
                 Else
-                    AppGlobals.BSlogg.Log($" Step halved: new deviance ={dev} ii ={ii}")
+                    AppInfrastructure.CoreServices.Log($" Step halved: new deviance ={dev} ii ={ii}")
                 End If
             End If
 
@@ -1139,17 +1133,14 @@ Public Class GLM
                 Next
             End If
 
-            AppGlobals.BSlogg.Log($" eps={pEps} Abs(Abs(dev) - Abs(hold))={Math.Abs(Math.Abs(dev) - Math.Abs(hold))}")
+            AppInfrastructure.CoreServices.Log($" eps={pEps} Abs(Abs(dev) - Abs(hold))={Math.Abs(Math.Abs(dev) - Math.Abs(hold))}")
             If pIRLSiterations > 0 Then
 
                 pLastIterLLchange = Math.Abs(Math.Abs(dev) - Math.Abs(hold))
                 pItInfo(Me.p + 1, pIRLSiterations) = pLastIterLLchange
-                If progressBar IsNot Nothing Then
-                    progressBar.Invoke(Sub()
-                                           progressBar.Value = CInt(100 * (Me.pIRLSiterations + 1) / (Me.pMaxiter + 1))
-                                           If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIRLSiterations + 1}   LogLikelihood change = {pLastIterLLchange}"
-                                       End Sub)
-                    System.Windows.Forms.Application.DoEvents()
+                If progress IsNot Nothing Then
+                    progress.Report(CInt(100 * (Me.pIRLSiterations + 1) / (Me.pMaxiter + 1)),
+                                    $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIRLSiterations + 1}   LogLikelihood change = {pLastIterLLchange}")
                 End If
 
                 If pLastIterLLchange < pEps Then 'AndAlso (maxDelta < pEps) Then
@@ -1169,10 +1160,10 @@ Public Class GLM
 
         'Test for convergence or divergence and warn user
         If pIRLSiterations >= pMaxiter + 1 Then 'Too many iterations
-            AppGlobals.BSlogg.Log("Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. ", AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. ", AppInfrastructure.LogMsgType.Warn)
             Me.strError += " Algorithm failed To converge. Results may be misleading. Excessive iterations Of IRLS algorithm In .Fit. "
         ElseIf Not pbConverged Then
-            AppGlobals.BSlogg.Log("Algorithm Is diverging. Failure Of IRLS algorithm In .Fit.", AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Algorithm Is diverging. Failure Of IRLS algorithm In .Fit.", AppInfrastructure.LogMsgType.Warn)
             Me.strError += " Algorithm Is diverging. Failure Of IRLS algorithm In .Fit."
         End If
         If Me.bIterationDetails Then
@@ -1187,7 +1178,7 @@ Public Class GLM
             Me.results.Coeffs_SEsT(i) = StdErr(i)                             ': SE
         Next
 
-        AppGlobals.BSlogg.Log($"pCoefs{Matrix.array2str(Me.results.CoeffsZ_vals)} {MethodBase.GetCurrentMethod().Name}")
+        AppInfrastructure.CoreServices.Log($"pCoefs{Matrix.array2str(Me.results.CoeffsZ_vals)} {MethodBase.GetCurrentMethod().Name}")
 
         If Me.bComputeResiduals Then Me.Residuals()
         If Me.bHosmerLemeshow And TypeOf pFamily Is regression.Binomial Then Me.HosmerLemeshowTest()
@@ -1215,10 +1206,8 @@ Public Class GLM
                                     {CStr(Me.pbConverged), "", ""}}
 
         Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
-        AppGlobals.BSlogg.Debug($"GLM.Fit completed. converged={Me.pbConverged}; iterations={Me.pIRLSiterations}; finalDeviance={Me.pFinalDeviance}; logLikelihood={Me.LogLikelihood()}; compTime={Me.CompTime}")
-        If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                 progressBar.Value = 100
-                                                             End Sub)
+        CoreServices.Logger.Debug($"GLM.Fit completed. converged={Me.pbConverged}; iterations={Me.pIRLSiterations}; finalDeviance={Me.pFinalDeviance}; logLikelihood={Me.LogLikelihood()}; compTime={Me.CompTime}")
+        If progress IsNot Nothing Then progress.Report(100)
     End Sub
 
 
@@ -1519,14 +1508,14 @@ Public Class GLM
         QSEP = False
 
         If Sep / CDbl(n) >= 0.0001 Then 'Complete separation
-            AppGlobals.BSlogg.Log("Complete separation of data points. Maximum likelihood estimates may not exist. Ending Computation.", AppGlobals.LogMsgType.Warn)
-            Me.strError += " Complete separation of data points. Maximum likelihood estimates may not exist. Ending Computation."
+            AppInfrastructure.CoreServices.Log("Complete separation of data points. Maximum likelihood estimates may Not exist. Ending Computation.", AppInfrastructure.LogMsgType.Warn)
+            Me.strError += " Complete separation of data points. Maximum likelihood estimates may Not exist. Ending Computation."
             QSEP = True
             Me.bSeparation = True
             Me.bQuasiSeparation = True
             Exit Function
         ElseIf Sep / CDbl(n) >= 0.05 Then 'Quasi-separation
-            AppGlobals.BSlogg.Log("Quasi-separation of the iterative algorithm.", AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Quasi-separation of the iterative algorithm.", AppInfrastructure.LogMsgType.Warn)
             Me.bQuasiSeparation = True
             If MsgBox(Prompt:="Quasi-separation of the iterative algorithm." & vbCr & vbCr & "Results may be misleading.", Title:="Continue?") = vbNo Then
                 QSEP = True
@@ -1571,7 +1560,7 @@ Public Class GLM
         Dim ifault As Integer = 0
         Dim chol As Double(,) = Matrix.Cholesky(xtwx, ifault, False)
         If ifault <> 0 Then
-            AppGlobals.BSlogg.Log("Ridge WLS normal equations were not positive definite; retrying with a larger numerical ridge.", AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Ridge WLS normal equations were Not positive definite; retrying with a larger numerical ridge.", AppInfrastructure.LogMsgType.Warn)
             For j As Integer = 0 To xtwx.GetUpperBound(0)
                 xtwx(j, j) += Math.Max(Me.WlsRidgePenalty, 0.00000001) * 100.0
             Next
@@ -1957,12 +1946,12 @@ Public Class GLM_NB
         Loop
 
         If it >= Me.pMaxiter Then
-            AppGlobals.BSlogg.Log("Theta iteration limit reached", AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Theta iteration limit reached", AppInfrastructure.LogMsgType.Warn)
             Me.strError += " Theta iteration limit reached"
         End If
 
         If th < 0.0 Then
-            AppGlobals.BSlogg.Log("Theta estimate truncated at zero", AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Theta estimate truncated at zero", AppInfrastructure.LogMsgType.Warn)
             Me.strError += " Theta estimate truncated at zero"
             Return 0.0
         End If
@@ -1975,8 +1964,7 @@ Public Class GLM_NB
     ''' </summary>
     ''' <param name="intercept">1 to include an intercept; 0 otherwise.</param>
     ''' <param name="bStartParams">If True, uses <see cref="GLM.startParams"/> as initial mean parameters.</param>
-    ''' <param name="progressBar">Optional progress bar.</param>
-    ''' <param name="progressLbl">Optional progress label.</param>
+    ''' <param name="progress">Optional host-neutral progress reporter.</param>
     ''' <remarks>
     ''' <para>
     ''' High-level algorithm (glm.nb style):
@@ -1997,9 +1985,8 @@ Public Class GLM_NB
     ''' </para>
     ''' </remarks>
     Public Overrides Sub Fit(intercept As Integer,
-                                   Optional bStartParams As Boolean = False,
-                                   Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                                   Optional progressLbl As System.Windows.Forms.Label = Nothing)
+                             Optional bStartParams As Boolean = False,
+                             Optional progress As IProgressReporter = Nothing)
         'replicating the [R] MASS package glm.nb algorithm
         Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
         'Set defaults
@@ -2012,13 +1999,13 @@ Public Class GLM_NB
         Me.n = pData.GetLength(0)   '# of observations
 
         If Me.p <= 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Model has no parameters (no intercept and no predictors)."))
-            Me.strError += " Model has no parameters (no intercept and no predictors)."
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Model has no parameters (no intercept And no predictors)."))
+            Me.strError += " Model has no parameters (no intercept And no predictors)."
             Exit Sub
         End If
 
         If Me.n <= pi1 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Insufficient observations to complete analysis."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Insufficient observations to complete analysis."))
             Me.strError += " Insufficient observations to complete analysis."
             Exit Sub
         End If
@@ -2051,10 +2038,10 @@ Public Class GLM_NB
         pNBglm = New GLM(New regression.NegativeBinomial, Me.pLink)
 
         Do While (pIRLSiterations < pMaxiter And pLastIterDispersionChange > pEps)
-            AppGlobals.ThrowIfRegressionCancellationRequested("Negative binomial calculation cancelled by user.")
-            If pIRLSiterations > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
+            CoreServices.Regression.ThrowIfCancellationRequested("Negative binomial calculation cancelled by user.")
+            If pIRLSiterations > 0 AndAlso CoreServices.Regression.IsInterruptionRequested() Then
                 Me.strError += " Calculation interrupted by user; latest accepted NB2 estimates returned."
-                AppGlobals.BSlogg.Log("Negative binomial calculation interrupted by user; returning latest accepted estimates.", AppGlobals.LogMsgType.Warn)
+                AppInfrastructure.CoreServices.Log("Negative binomial calculation interrupted by user; returning latest accepted estimates.", AppInfrastructure.LogMsgType.Warn)
                 Exit Do
             End If
 
@@ -2071,7 +2058,7 @@ Public Class GLM_NB
             End With
 
             If pNBglm.strError <> String.Empty Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error in inner loop while re-estimating Negative binomial fit with new dispension parameter. " & pNBglm.strError))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Error in inner loop while re-estimating Negative binomial fit with New dispension parameter. " & pNBglm.strError))
                 Exit Do
             End If
 
@@ -2081,12 +2068,9 @@ Public Class GLM_NB
             lm0 = lm
             lm = pNBglm.LogLikelihood
             pLastIterDispersionChange = Math.Abs(lm0 - lm) / d1 + Math.Abs(del) / d2
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub()
-                                       progressBar.Value = CInt(100 * (Me.pIRLSiterations + 1) / Me.pMaxiter)
-                                       If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIRLSiterations + 1}   Relative Deviance + Dispersion Change = {pLastIterDispersionChange}"
-                                   End Sub)
-                System.Windows.Forms.Application.DoEvents()
+            If progress IsNot Nothing Then
+                progress.Report(CInt(100 * (Me.pIRLSiterations + 1) / Me.pMaxiter),
+                                $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIRLSiterations + 1}   Relative Deviance + Dispersion Change = {pLastIterDispersionChange}")
             End If
 
             'save iteration info
@@ -2102,17 +2086,14 @@ Public Class GLM_NB
 
         If pIRLSiterations > pMaxiter Then
             pbConverged = False
-            AppGlobals.BSlogg.Log("Algorithm is diverging.", AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Algorithm Is diverging.", AppInfrastructure.LogMsgType.Warn)
         Else
             pbConverged = True
             If pIRLSiterations > 0 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIRLSiterations - 1) Else ReDim Preserve pItInfo(UBound(pItInfo, 1), 0)
         End If
 
         Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
-        If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                 progressBar.Value = 100
-                                                             End Sub)
-        If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Format$((Timer - startTime), "#####0.00")} [s] Finalizing ..."
+        If progress IsNot Nothing Then progress.Report(100, $"Elapsed Time: {Format$((Timer - startTime), "#####0.00")} [s] Finalizing ...")
 
         'Fit model coefficient estimates, standard errors, pZ and Chi2
         'statistics, and upper and lower confidence intervals for parameters
@@ -2439,7 +2420,7 @@ Public Class ZeroInflatedPoisson
             Me.pOffset = Matrix.IdentityVect(arPoisData.GetUpperBound(0), 0.0)
         Else
             If Offset.Length <> arPoisData.GetLength(0) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("ZIP offset array length does not match the number of observations."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("ZIP offset array length does Not match the number of observations."))
             End If
 
             Me.pOffset = Offset
@@ -2571,9 +2552,9 @@ Public Class ZeroInflatedPoisson
         t = Me.resultsPoisson.CoeffsZ_toPrint()
         t.AddPvalueToFormat(4)
         t.AddTitle("Poisson Model Estimates")
-        If strOffsetVar IsNot Nothing Then t.AddFootnote($"Offset Variable: {strOffsetVar}")
-        If strWeightsVar IsNot Nothing Then t.AddFootnote($"Weights Variable: {strWeightsVar}")
-        If Me.startParamsPois IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParamsPois)}")
+        If strOffsetVar IsNot Nothing Then t.AddFootnote($"Offset Variable {strOffsetVar}")
+        If strWeightsVar IsNot Nothing Then t.AddFootnote($"Weights Variable {strWeightsVar}")
+        If Me.startParamsPois IsNot Nothing Then t.AddFootnote($"Starting values {Matrix.array2str(Me.startParamsPois)}")
         out.Add(t)
 
         'Logistic Coefficients, SE table
@@ -2581,12 +2562,12 @@ Public Class ZeroInflatedPoisson
         t.AddPvalueToFormat(4)
         t.AddTitle("Logistic Model Estimates")
         If Me.pFinalZeroModel.bSeparation Then
-            t.AddFootnote("Complete separation of data points. Maximum likelihood estimates may not exist.")
+            t.AddFootnote("Complete separation of data points. Maximum likelihood estimates may Not exist.")
         ElseIf Me.pFinalZeroModel.bQuasiSeparation Then
             t.AddFootnote("Quasi-separation of the iterative algorithm. Results may be misleading.")
         End If
-        If Me.startParamsLog IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParamsLog)}")
-        t.AddFootnote($"Computational time: {Me.CompTime} seconds.")
+        If Me.startParamsLog IsNot Nothing Then t.AddFootnote($"Starting values {Matrix.array2str(Me.startParamsLog)}")
+        t.AddFootnote($"Computational time {Me.CompTime} seconds.")
         out.Add(t)
 
         'Model Info
@@ -2625,8 +2606,7 @@ Public Class ZeroInflatedPoisson
     ''' <param name="interceptLog">1 to include an intercept in the Logistic part; 0 otherwise.</param>
     ''' <param name="bStartParamsPois">If True, uses <see cref="startParamsPois"/> for Poisson-part initialization.</param>
     ''' <param name="bStartParamsLog">If True, uses <see cref="startParamsLog"/> for Logistic-part initialization.</param>
-    ''' <param name="progressBar">Optional progress bar updated during EM.</param>
-    ''' <param name="progressLbl">Optional progress label updated with iteration count and log-likelihood change.</param>
+    ''' <param name="progress">Optional host-neutral progress reporter.</param>
     ''' <remarks>
     ''' <para>
     ''' Preconditions enforced by the code:
@@ -2646,10 +2626,9 @@ Public Class ZeroInflatedPoisson
     ''' </list>
     ''' </remarks>
     Public Sub Fit(interceptPois As Integer, interceptLog As Integer,
-                         Optional bStartParamsPois As Boolean = False,
-                         Optional bStartParamsLog As Boolean = False,
-                         Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                         Optional progressLbl As System.Windows.Forms.Label = Nothing)
+                   Optional bStartParamsPois As Boolean = False,
+                   Optional bStartParamsLog As Boolean = False,
+                   Optional progress As IProgressReporter = Nothing)
         Dim y0 As Integer, LL_old As Double, LL_new As Double
         Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
         Me.resultsPoisson = New LMresult
@@ -2667,7 +2646,7 @@ Public Class ZeroInflatedPoisson
         pi1 = Data_zero.GetLength(1) 'Columns of predictor variables and responses
         Me.p_zero = pi1 - 1 + interceptLog '# of variables initially in the model
         If n <> Data_zero.GetLength(0) Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("ERROR: Number of records in Poisson and Logistic part of model doesn't match."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("ERROR Number of records in Poisson And Logistic part of model doesn't match."))
             Exit Sub
         End If
 
@@ -2686,12 +2665,12 @@ Public Class ZeroInflatedPoisson
         Next
         pY0count = $"{y0} ({Format$((100 * y0 / n), "##0.00")}%)"
         If y0 = 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("No zero present in the data. ZIP cannot be fitted. Aborting exectution."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("No zero present in the data. ZIP cannot be fitted. Aborting exectution."))
             Exit Sub
         End If
 
         If y0 = n Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("All observations are zero. ZIP is not identifiable (no positive counts)."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("All observations are zero. ZIP is not identifiable (no positive counts)."))
             Exit Sub
         End If
 
@@ -2764,9 +2743,9 @@ Public Class ZeroInflatedPoisson
         pLastIterLLchange = Math.Abs(LL_new - LL_old)
         'EM iterations ----------------------------------------------------------------
         Do While pLastIterLLchange > pEps And pEMiterations <= pMaxEMIter
-            AppGlobals.ThrowIfRegressionCancellationRequested("Zero-inflated Poisson calculation cancelled by user.")
-            If pEMiterations > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
-                AppGlobals.BSlogg.Log("Zero-inflated Poisson calculation interrupted by user; returning latest accepted EM estimates.", AppGlobals.LogMsgType.Warn)
+            CoreServices.Regression.ThrowIfCancellationRequested("Zero-inflated Poisson calculation cancelled by user.")
+            If pEMiterations > 0 AndAlso CoreServices.Regression.IsInterruptionRequested() Then
+                AppInfrastructure.CoreServices.Log("Zero-inflated Poisson calculation interrupted by user; returning latest accepted EM estimates.", AppInfrastructure.LogMsgType.Warn)
                 Exit Do
             End If
 
@@ -2844,7 +2823,7 @@ Public Class ZeroInflatedPoisson
                 zeroParam = zeroNew
                 LL_new = LL_em
             End If
-            AppGlobals.BSlogg.Log($"ZIP Over-relaxation with monotone fallback Iter {pEMiterations}: accepted={accepted}, s={s:0.###}, LL_new={LL_new}")
+            AppInfrastructure.CoreServices.Log($"ZIP Over-relaxation with monotone fallback Iter {pEMiterations}: accepted={accepted}, s={s:0.###}, LL_new={LL_new}")
 
             ' ---------- E-step computed from the ACCEPTED params ----------
             ' Compute mu and pi from X matrices + accepted params
@@ -2867,12 +2846,9 @@ Public Class ZeroInflatedPoisson
                 pItInfo(pItInfo.GetUpperBound(0) - 1, pEMiterations) = LL_new
                 pItInfo(pItInfo.GetUpperBound(0), pEMiterations) = pLastIterLLchange
             End If
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub()
-                                       progressBar.Value = CInt(100 * Me.pEMiterations / Me.pMaxEMIter)
-                                       If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pEMiterations + 1}   LogLikelihood change = {pLastIterLLchange}"
-                                   End Sub)
-                System.Windows.Forms.Application.DoEvents()
+            If progress IsNot Nothing Then
+                progress.Report(CInt(100 * Me.pEMiterations / Me.pMaxEMIter),
+                                $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pEMiterations + 1}   LogLikelihood change = {pLastIterLLchange}")
             End If
 
             pEMiterations += 1
@@ -2913,12 +2889,8 @@ Public Class ZeroInflatedPoisson
         Me.pHessianMat = Hess()
 
         'update userform label
-        If progressBar IsNot Nothing Then
-            progressBar.Invoke(Sub()
-                                   progressBar.Value = 100
-                                   If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Finalizing ..."
-                               End Sub)
-            System.Windows.Forms.Application.DoEvents()
+        If progress IsNot Nothing Then
+            progress.Report(100, $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Finalizing ...")
         End If
 
         Dim tmp1 = distributions.NormSInv(1.0 - pAlpha / 2.0)
@@ -2975,7 +2947,7 @@ Public Class ZeroInflatedPoisson
         Dim mu(n - 1) As Double
 
         If bOffset AndAlso (offset Is Nothing OrElse offset.Length <> n) Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Offset array is missing or has incorrect length."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Offset array is missing or has incorrect length."))
         End If
 
         For i As Integer = 0 To n - 1

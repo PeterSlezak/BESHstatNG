@@ -68,7 +68,7 @@ Namespace Resampling
         ''' </returns>
         Public Function CanEnumerateExactly(expectedPermutations As Long, opts As PermutationOptions) As Boolean
             If expectedPermutations < 0L Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(expectedPermutations), "The expected number of permutations must be non-negative."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(expectedPermutations), "The expected number of permutations must be non-negative."))
             End If
             Dim normalized As PermutationOptions = ResamplingCore.NormalizePermutationOptions(opts)
             Return expectedPermutations <= normalized.MaxExactEnumerations
@@ -86,13 +86,13 @@ Namespace Resampling
         ''' </remarks>
         Public Function Factorial(n As Integer) As Long
             If n < 0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(n), "Factorial is undefined for negative integers."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(n), "Factorial is undefined for negative integers."))
             End If
 
             Dim result As Long = 1L
             For i As Integer = 2 To n
                 If result > Long.MaxValue \ i Then
-                    AppGlobals.BSerr.LogAndThrow(New OverflowException($"Factorial({n}) exceeds the range of Int64."))
+                    CoreServices.Errors.LogAndThrow(New OverflowException($"Factorial({n}) exceeds the range of Int64."))
                 End If
                 result *= i
             Next
@@ -112,13 +112,13 @@ Namespace Resampling
         ''' </para>
         ''' </remarks>
         Public Function ExpectedUniquePermutations(data As Double()) As Long
-            If data Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(data)))
-            If data.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one value is required.", NameOf(data)))
+            If data Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(data)))
+            If data.Length = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least one value is required.", NameOf(data)))
 
             Dim freq As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
             For i As Integer = 0 To data.Length - 1
                 If Double.IsNaN(data(i)) OrElse Double.IsInfinity(data(i)) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Permutation values must be finite.", NameOf(data)))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Permutation values must be finite.", NameOf(data)))
                 End If
                 Dim key As String = data(i).ToString("G17", Globalization.CultureInfo.InvariantCulture)
                 If freq.ContainsKey(key) Then
@@ -132,7 +132,7 @@ Namespace Resampling
             For Each kvp As KeyValuePair(Of String, Integer) In freq
                 Dim f As Long = Factorial(kvp.Value)
                 If denominator > Long.MaxValue \ f Then
-                    AppGlobals.BSerr.LogAndThrow(New OverflowException("The unique permutation denominator exceeds the range of Int64."))
+                    CoreServices.Errors.LogAndThrow(New OverflowException("The unique permutation denominator exceeds the range of Int64."))
                 End If
                 denominator *= f
             Next
@@ -146,13 +146,13 @@ Namespace Resampling
         ''' <param name="data">Numeric data to inspect.</param>
         ''' <returns><c>True</c> if any value occurs more than once; otherwise <c>False</c>.</returns>
         Public Function HasTies(data As Double()) As Boolean
-            If data Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(data)))
+            If data Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(data)))
             If data.Length < 2 Then Return False
 
             Dim seen As New HashSet(Of String)(StringComparer.Ordinal)
             For i As Integer = 0 To data.Length - 1
                 If Double.IsNaN(data(i)) OrElse Double.IsInfinity(data(i)) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Permutation values must be finite.", NameOf(data)))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Permutation values must be finite.", NameOf(data)))
                 End If
                 Dim key As String = data(i).ToString("G17", Globalization.CultureInfo.InvariantCulture)
                 If seen.Contains(key) Then Return True
@@ -167,11 +167,11 @@ Namespace Resampling
         ''' <param name="values">Permuted numeric values.</param>
         ''' <returns>A stable invariant-culture key suitable for tie-aware deduplication.</returns>
         Public Function GetPermutationKey(values As Double()) As String
-            If values Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(values)))
+            If values Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(values)))
             Dim sb As New StringBuilder(values.Length * 8)
             For i As Integer = 0 To values.Length - 1
                 If Double.IsNaN(values(i)) OrElse Double.IsInfinity(values(i)) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Permutation values must be finite.", NameOf(values)))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Permutation values must be finite.", NameOf(values)))
                 End If
                 sb.Append(values(i).ToString("G17", Globalization.CultureInfo.InvariantCulture))
                 sb.Append(";"c)
@@ -187,7 +187,7 @@ Namespace Resampling
         ''' <returns>A new shuffled integer vector.</returns>
         Public Function DrawShuffledIndices(sampleSize As Integer, rng As Random) As Integer()
             ValidatePermutationSampleSize(sampleSize)
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If rng Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             Dim out(sampleSize - 1) As Integer
             For i As Integer = 0 To sampleSize - 1
@@ -209,7 +209,7 @@ Namespace Resampling
                                                         rng As Random) As IEnumerable(Of Integer())
             ValidatePermutationSampleSize(sampleSize)
             ValidatePositiveReplicates(replicates, NameOf(replicates), 1)
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If rng Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             For i As Integer = 1 To replicates
                 Yield DrawShuffledIndices(sampleSize, rng)
@@ -266,11 +266,11 @@ Namespace Resampling
         ''' </para>
         ''' </remarks>
         Public Iterator Function EnumerateUniqueValuePermutations(values As Double()) As IEnumerable(Of Double())
-            If values Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(values)))
-            If values.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one value is required.", NameOf(values)))
+            If values Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(values)))
+            If values.Length = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least one value is required.", NameOf(values)))
             For i As Integer = 0 To values.Length - 1
                 If Double.IsNaN(values(i)) OrElse Double.IsInfinity(values(i)) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Permutation values must be finite.", NameOf(values)))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Permutation values must be finite.", NameOf(values)))
                 End If
             Next
 
@@ -292,7 +292,7 @@ Namespace Resampling
         ''' </returns>
         Public Function DrawSignFlipPattern(sampleSize As Integer, rng As Random) As Integer()
             ValidatePermutationSampleSize(sampleSize)
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If rng Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             Dim signs(sampleSize - 1) As Integer
             For i As Integer = 0 To sampleSize - 1
@@ -313,7 +313,7 @@ Namespace Resampling
                                                             rng As Random) As IEnumerable(Of Integer())
             ValidatePermutationSampleSize(sampleSize)
             ValidatePositiveReplicates(replicates, NameOf(replicates), 1)
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If rng Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             For i As Integer = 1 To replicates
                 Yield DrawSignFlipPattern(sampleSize, rng)
@@ -328,7 +328,7 @@ Namespace Resampling
         Public Iterator Function EnumerateSignFlipPatterns(sampleSize As Integer) As IEnumerable(Of Integer())
             ValidatePermutationSampleSize(sampleSize)
             If sampleSize >= 31 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(sampleSize), "Exact sign-flip enumeration is limited to sample sizes below 31 to avoid integer overflow."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(sampleSize), "Exact sign-flip enumeration is limited to sample sizes below 31 to avoid integer overflow."))
             End If
 
             Dim total As Integer = 1 << sampleSize
@@ -383,8 +383,8 @@ Namespace Resampling
         ''' <param name="values">Vector to shuffle.</param>
         ''' <param name="rng">Random-number generator used to drive the shuffle.</param>
         Public Sub ShuffleInPlace(values As Integer(), rng As Random)
-            If values Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(values)))
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If values Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(values)))
+            If rng Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             For i As Integer = values.Length - 1 To 1 Step -1
                 Dim j As Integer = rng.Next(0, i + 1)

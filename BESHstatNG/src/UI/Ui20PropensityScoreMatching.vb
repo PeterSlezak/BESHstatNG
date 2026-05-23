@@ -273,7 +273,7 @@ Public Class Ui20PropensityScoreMatching
             FinishPsmComputation("Calculation completed.")
 
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         Finally
             EndPsmComputation()
         End Try
@@ -814,7 +814,7 @@ Public Class Ui20PropensityScoreMatching
     Private Sub WriteResultTablesToWorksheet(wb As Excel.Workbook, ws As Excel.Worksheet, tables As List(Of ResultTable))
         If tables Is Nothing OrElse tables.Count = 0 Then Return
 
-        Dim writeRes As New WriteResults()
+        Dim writeRes As New ExcelDnaResultWriter()
         writeRes.wb = wb
         writeRes.ws = ws
         writeRes.setRowPointer(1)

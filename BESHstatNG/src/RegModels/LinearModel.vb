@@ -5,7 +5,6 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 Namespace regression
 
@@ -224,17 +223,17 @@ Namespace regression
                     Optional RowNums() As Integer = Nothing,
                     Optional weights() As Double = Nothing)
 
-            If dataMatrix Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataMatrix)))
+            If dataMatrix Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(dataMatrix)))
             Me.pData = dataMatrix
 
             Me.n = UBound(pData, 1) + 1
-            If n <= 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Data matrix must have at least 2 rows."))
+            If n <= 1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Data matrix must have at least 2 rows."))
 
             '--- varNames incoming includes Y at index 0; store predictors only (drop index 0) ---
             If varNames IsNot Nothing Then
                 Dim expectedCols As Integer = UBound(pData, 2) + 1
                 If varNames.Length <> expectedCols Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("varNames length must match number of columns in dataMatrix (including Y at index 0)."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("varNames length must match number of columns in dataMatrix (including Y at index 0)."))
                 End If
 
                 Dim pPredictors As Integer = expectedCols - 1
@@ -255,7 +254,7 @@ Namespace regression
                     pRowNums(i) = i
                 Next
             Else
-                If RowNums.Length <> n Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("RowNums length must match #rows."))
+                If RowNums.Length <> n Then CoreServices.Errors.LogAndThrow(New ArgumentException("RowNums length must match #rows."))
                 Me.pRowNums = CType(RowNums.Clone(), Integer())
             End If
 
@@ -263,7 +262,7 @@ Namespace regression
                 ' IdentityVect expects last index, so n-1 gives length n
                 Me.pWeights = Matrix.IdentityVect(n - 1, 1.0)
             Else
-                If weights.Length <> n Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("weights length must match #rows."))
+                If weights.Length <> n Then CoreServices.Errors.LogAndThrow(New ArgumentException("weights length must match #rows."))
                 Me.pWeights = CType(weights.Clone(), Double())
             End If
         End Sub
@@ -408,11 +407,11 @@ Namespace regression
         ''' This method mirrors the project pattern used by the GLM implementation: it returns preformatted tables intended for UI/reporting.
         ''' Coefficient and model-diagnostic tables are provided by <see cref="LMresult"/>.
         ''' <seealso cref="ProcessListofResultTables.writeToSheet"/>
-        ''' <seealso cref="WriteResults"/>
+        ''' <seealso cref="ExcelDnaResultWriter"/>
         ''' </remarks>
         Public Function wrapResults() As List(Of ResultTable)
 
-            If results Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Model is not fitted."))
+            If results Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Model is not fitted."))
 
             Dim out As New List(Of ResultTable)
 
@@ -552,12 +551,10 @@ Namespace regression
                    Optional customTermGroups As Dictionary(Of String, Integer()) = Nothing,
                    Optional computeTermAnova As TermSumOfSquaresType = TermSumOfSquaresType.TypeIII)
 
-            If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Call Data(...) first."))
+            If pData Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Call Data(...) first."))
 
             Dim lastCol As Integer = UBound(pData, 2)  '0 means only Y column
-            If lastCol < 0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Data matrix must contain at least one column (Y)."))
-            End If
+            If lastCol < 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Data matrix must contain at least one column (Y)."))
             Dim pPredictors As Integer = lastCol '0.. => number of predictor columns (since col0 is Y)
             Me.pIncludeIntercept = includeIntercept
 
@@ -571,7 +568,7 @@ Namespace regression
             w = CType(pWeights.Clone(), Double())
             For i As Integer = 0 To n - 1
                 If Double.IsNaN(w(i)) OrElse Double.IsInfinity(w(i)) OrElse w(i) <= 0 Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Invalid weight at row {i}: {w(i)}. Weights must be finite and > 0."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Invalid weight at row {i}: {w(i)}. Weights must be finite and > 0."))
                 End If
             Next
 
@@ -635,7 +632,7 @@ Namespace regression
 
             Dim ssr As Double = sst - sse
             Dim dfResid As Integer = n - p
-            If dfResid <= 0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Insufficient degrees of freedom: n - p <= 0."))
+            If dfResid <= 0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Insufficient degrees of freedom: n - p <= 0."))
             Dim dfModel As Integer = If(includeIntercept, p - 1, p)
             Dim dfTotal As Integer = If(includeIntercept, n - 1, n) 'common convention for uncentered total
 
@@ -682,7 +679,7 @@ Namespace regression
             Dim stdRes() As Double = Nothing
             Dim cooks() As Double = Nothing
             If bComputeResiduals Then
-                If cov Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Covariance is required for diagnostics."))
+                If cov Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Covariance is required for diagnostics."))
                 ComputeDiagnostics(X, w, cov, mse)
             End If
 
@@ -951,7 +948,7 @@ Namespace regression
                     Next
 
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(ssType)))
+                    CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(ssType)))
             End Select
 
             'Add residual row

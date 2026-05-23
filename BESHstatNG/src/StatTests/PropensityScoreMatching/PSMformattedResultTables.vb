@@ -11,7 +11,7 @@ Namespace CausalInference
 
     ''' <summary>
     ''' Converts PSM backend/front-end output matrices into ResultTable objects so the GUI
-    ''' can use the same WriteResults / ProcessListofResultTables formatting path as GLM,
+    ''' can use the same ExcelDnaResultWriter / ProcessListofResultTables formatting path as GLM,
     ''' GEE, LMM and MMRM outputs.
     ''' </summary>
     ''' <remarks>

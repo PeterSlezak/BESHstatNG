@@ -84,13 +84,13 @@ Namespace Agreement
                        varY As String,
                        Optional opts As BlandAltmanOptions = Nothing)
 
-            If dataX Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataX)))
-            If dataY Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataY)))
+            If dataX Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(dataX)))
+            If dataY Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(dataY)))
             If dataX.Length <> dataY.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
             End If
             If dataX.Length < 3 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 paired observations are required for Bland–Altman analysis."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("At least 3 paired observations are required for Bland–Altman analysis."))
             End If
 
             Me.pReferenceData = CType(dataX.Clone(), Double())
@@ -206,7 +206,7 @@ Namespace Agreement
             pDroppedPairCount = filtered.DroppedCount
 
             If x.Length < 3 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Fewer than 3 complete finite pairs remain after filtering."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Fewer than 3 complete finite pairs remain after filtering."))
             End If
 
             Dim transformed = TransformPairsForAnalysis(x, y, opts, pVarX, pVarY)
@@ -246,7 +246,7 @@ Namespace Agreement
                         sdForLoA = StatFunc.stDev(d)
                         noteParts.Add(msg & " Ordinary Bland–Altman was used.")
                     Else
-                        AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(msg))
+                        CoreServices.Errors.LogAndThrow(New InvalidOperationException(msg))
                         Return Nothing
                     End If
                 Else
@@ -277,7 +277,7 @@ Namespace Agreement
                             sdForLoA = StatFunc.stDev(d)
                             noteParts.Add("Repeated-measures requirements were not met; ordinary Bland–Altman was used.")
                         Else
-                            AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(If(String.IsNullOrWhiteSpace(repeated.Note), "Repeated-measures requirements were not met.", repeated.Note)))
+                            CoreServices.Errors.LogAndThrow(New InvalidOperationException(If(String.IsNullOrWhiteSpace(repeated.Note), "Repeated-measures requirements were not met.", repeated.Note)))
                             Return Nothing
                         End If
                     End If
@@ -479,7 +479,7 @@ Namespace Agreement
         ''' </list> 
         ''' </remarks> 
         Public Sub AddPlot(ws As Worksheet)
-            If ws Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(ws)))
+            If ws Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(ws)))
             If Not pIsFitted OrElse pResult Is Nothing Then Fit()
 
             Dim mainX As Double() = pResult.PlotX
@@ -531,12 +531,12 @@ Namespace Agreement
         ''' Validates a <see cref="BlandAltmanOptions"/> object.
         ''' </summary>
         Friend Shared Sub ValidateOptions(opts As BlandAltmanOptions)
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
             If opts.Alpha <= 0.0 OrElse opts.Alpha >= 1.0 OrElse Double.IsNaN(opts.Alpha) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Alpha), "Alpha must be in the open interval (0, 1)."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Alpha), "Alpha must be in the open interval (0, 1)."))
             End If
             If (opts.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse opts.CiMethod = AgreementCiMethod.BootstrapBCa) AndAlso opts.BootstrapReplicates < 200 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.BootstrapReplicates), "At least 200 bootstrap replicates are recommended for bootstrap confidence intervals."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.BootstrapReplicates), "At least 200 bootstrap replicates are recommended for bootstrap confidence intervals."))
             End If
             If opts.SubjectIds IsNot Nothing AndAlso opts.SubjectIds.Length = 0 Then
                 opts.SubjectIds = Nothing
@@ -556,13 +556,13 @@ Namespace Agreement
                                                     test As Double(),
                                                     subjectIds As Object(),
                                                     requireSubjectIds As Boolean) As (Reference As Double(), Test As Double(), SubjectIds As Object(), DroppedCount As Integer)
-            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
-            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(test)))
             If reference.Length <> test.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
             End If
             If subjectIds IsNot Nothing AndAlso subjectIds.Length <> reference.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("SubjectIds must have the same length as the paired measurements."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("SubjectIds must have the same length as the paired measurements."))
             End If
 
             Dim xr As New List(Of Double)(reference.Length)
@@ -598,11 +598,11 @@ Namespace Agreement
                                                          opts As BlandAltmanOptions,
                                                          referenceName As String,
                                                          testName As String) As (Differences As Double(), PlotX As Double(), XAxisLabel As String, DifferenceLabel As String, ScaleNote As String)
-            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
-            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If reference Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
             If reference.Length <> test.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
             End If
 
             Dim n As Integer = reference.Length
@@ -625,31 +625,31 @@ Namespace Agreement
 
                     Case BlandAltmanScale.PercentOfMean
                         Dim denom As Double = 0.5 * (x + y)
-                        If denom = 0.0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Percent-of-mean Bland–Altman analysis is undefined when the paired mean equals zero."))
+                        If denom = 0.0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Percent-of-mean Bland–Altman analysis is undefined when the paired mean equals zero."))
                         d(i) = 100.0 * (y - x) / denom
                         yLabel = $"Difference (%) relative to mean({referenceName},{testName})"
                         scaleNote = "Differences are expressed as 100 × (test − reference) / paired mean."
 
                     Case BlandAltmanScale.PercentOfReference
-                        If x = 0.0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Percent-of-reference Bland–Altman analysis is undefined when the reference value equals zero."))
+                        If x = 0.0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Percent-of-reference Bland–Altman analysis is undefined when the reference value equals zero."))
                         d(i) = 100.0 * (y - x) / x
                         yLabel = $"Difference (%) relative to {referenceName}"
                         scaleNote = $"Differences are expressed as 100 × ({testName} − {referenceName}) / {referenceName}."
 
                     Case BlandAltmanScale.PercentOfTest
-                        If y = 0.0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Percent-of-test Bland–Altman analysis is undefined when the test value equals zero."))
+                        If y = 0.0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Percent-of-test Bland–Altman analysis is undefined when the test value equals zero."))
                         d(i) = 100.0 * (y - x) / y
                         yLabel = $"Difference (%) relative to {testName}"
                         scaleNote = $"Differences are expressed as 100 × ({testName} − {referenceName}) / {testName}."
 
                     Case BlandAltmanScale.LogRatio
-                        If x <= 0.0 OrElse y <= 0.0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Log-ratio Bland–Altman analysis requires strictly positive paired values."))
+                        If x <= 0.0 OrElse y <= 0.0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Log-ratio Bland–Altman analysis requires strictly positive paired values."))
                         d(i) = Math.Log(y / x)
                         yLabel = $"Log ratio ln({testName}/{referenceName})"
                         scaleNote = "Differences are analysed on the natural-log ratio scale. Exponentiation converts estimates back to ratio form."
 
                     Case Else
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Scale), "Unsupported Bland–Altman scale."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Scale), "Unsupported Bland–Altman scale."))
                 End Select
             Next
 
@@ -717,9 +717,9 @@ Namespace Agreement
                                                                  leaveOneOutEstimates As Double(),
                                                                  alpha As Double,
                                                                  useTDistribution As Boolean) As ConfidenceIntervalResult
-            If leaveOneOutEstimates Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(leaveOneOutEstimates)))
+            If leaveOneOutEstimates Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(leaveOneOutEstimates)))
             If leaveOneOutEstimates.Length < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two leave-one-out estimates are required for a jackknife confidence interval."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("At least two leave-one-out estimates are required for a jackknife confidence interval."))
             End If
 
             Dim n As Integer = leaveOneOutEstimates.Length
@@ -743,10 +743,10 @@ Namespace Agreement
         End Function
 
         Friend Shared Function ComputeProportionalBiasTrend(plotX As Double(), differences As Double()) As TestResult
-            If plotX Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(plotX)))
-            If differences Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(differences)))
-            If plotX.Length <> differences.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("plotX and differences must have the same length."))
-            If plotX.Length < 3 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 points are required for the proportional-bias trend check."))
+            If plotX Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(plotX)))
+            If differences Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(differences)))
+            If plotX.Length <> differences.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("plotX and differences must have the same length."))
+            If plotX.Length < 3 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least 3 points are required for the proportional-bias trend check."))
 
             Dim n As Integer = plotX.Length
             Dim meanX As Double = plotX.Average()
@@ -946,7 +946,7 @@ Namespace Agreement
                                                     observedBias As Double,
                                                     observedSd As Double,
                                                     opts As BlandAltmanOptions,
-                                                    Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                    Optional progress As IProgressReporter = Nothing,
                                                     Optional randomSeed As Integer = Integer.MinValue) As VectorResamplingResult
             Dim bootOpts As New BootstrapOptions With {
                     .Alpha = opts.Alpha,
@@ -956,11 +956,11 @@ Namespace Agreement
                 }
 
             Dim progressCallback As Action(Of Integer, Integer) = Nothing
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 0)
+            If progress IsNot Nothing Then
+                progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
                                        Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
-                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                       progress.Report(progressValue)
                                    End Sub
             End If
 
@@ -1051,7 +1051,7 @@ Namespace Agreement
                                                       observedBias As Double,
                                                       observedWithinSubjectSD As Double,
                                                       opts As BlandAltmanOptions,
-                                                      Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                      Optional progress As IProgressReporter = Nothing,
                                                       Optional randomSeed As Integer = Integer.MinValue) As VectorResamplingResult
             Dim bootOpts As New BootstrapOptions With {
                     .Alpha = opts.Alpha,
@@ -1063,11 +1063,11 @@ Namespace Agreement
             Dim minSuccessful As Integer = Math.Max(100, CInt(Math.Ceiling(bootOpts.Replicates * 0.5)))
 
             Dim progressCallback As Action(Of Integer, Integer) = Nothing
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 0)
+            If progress IsNot Nothing Then
+                progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
                                        Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
-                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                       progress.Report(progressValue)
                                    End Sub
             End If
 
@@ -1104,7 +1104,7 @@ Namespace Agreement
             Dim blockLengthByRow As New Dictionary(Of Integer, Integer)()
             For Each block As Integer() In clusterBlocks
                 If block Is Nothing OrElse block.Length = 0 Then
-                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Cluster blocks must not contain empty blocks."))
+                    CoreServices.Errors.LogAndThrow(New InvalidOperationException("Cluster blocks must not contain empty blocks."))
                 End If
                 For Each rowIndex As Integer In block
                     blockLengthByRow(rowIndex) = block.Length
@@ -1120,12 +1120,12 @@ Namespace Agreement
             While pos < resampledIndices.Length
                 Dim firstRow As Integer = resampledIndices(pos)
                 If Not blockLengthByRow.ContainsKey(firstRow) Then
-                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Resampled clustered bootstrap index does not map to a known source block."))
+                    CoreServices.Errors.LogAndThrow(New InvalidOperationException("Resampled clustered bootstrap index does not map to a known source block."))
                 End If
 
                 Dim blockLength As Integer = blockLengthByRow(firstRow)
                 If pos + blockLength > resampledIndices.Length Then
-                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Clustered bootstrap sample ended inside a subject block; the sample cannot be reconstructed."))
+                    CoreServices.Errors.LogAndThrow(New InvalidOperationException("Clustered bootstrap sample ended inside a subject block; the sample cannot be reconstructed."))
                 End If
 
                 Dim baseKey As String = Convert.ToString(subjectIds(firstRow), Globalization.CultureInfo.InvariantCulture)
@@ -1183,7 +1183,7 @@ Namespace Agreement
                 Case BlandAltmanXAxisMode.ReferenceMethod : Return reference
                 Case BlandAltmanXAxisMode.TestMethod : Return test
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(mode), "Unsupported Bland–Altman x-axis mode."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(mode), "Unsupported Bland–Altman x-axis mode."))
                     Return Double.NaN
             End Select
         End Function

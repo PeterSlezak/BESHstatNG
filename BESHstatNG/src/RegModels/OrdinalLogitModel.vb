@@ -361,20 +361,19 @@ Namespace regression
         ''' Fits the proportional-odds ordinal logistic model by maximizing the weighted log-likelihood.
         ''' </summary>
         Public Sub Fit(Optional reference As ReferenceCategory = ReferenceCategory.Last,
-                         Optional bStartParams As Boolean = False,
-                         Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                         Optional progressLbl As System.Windows.Forms.Label = Nothing)
-            AppGlobals.BSlogg.Debug($"OrdinalLogitModel.Fit start. startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
-            If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Data not set. Call Data(...)."))
+                       Optional bStartParams As Boolean = False,
+                       Optional progress As IProgressReporter = Nothing)
+            CoreServices.Logger.Debug($"OrdinalLogitModel.Fit start. startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
+            If pData Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Data not set. Call Data(...)."))
             Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
             Me.n = UBound(pData, 1) + 1
             Dim cols As Integer = UBound(pData, 2) + 1
-            If cols < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Data must have at least 1 column: Y."))
+            If cols < 1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Data must have at least 1 column: Y."))
 
             ' categories and mapping
             Dim catsAsc() As Integer = GetSortedCategoriesFromY()   ' always ascending
             pK = catsAsc.Length
-            If pK < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Ordinal model requires at least 2 ordered categories."))
+            If pK < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Ordinal model requires at least 2 ordered categories."))
 
             Me.pReference = reference
 
@@ -399,7 +398,7 @@ Namespace regression
             ReDim pyFit(n - 1)
             For i As Integer = 0 To n - 1
                 Dim yv As Integer = CInt(Math.Round(pData(i, 0)))
-                If Not map.ContainsKey(yv) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Unknown category at row {i}."))
+                If Not map.ContainsKey(yv) Then CoreServices.Errors.LogAndThrow(New ArgumentException($"Unknown category at row {i}."))
                 pyFit(i) = map(yv)
             Next
 
@@ -432,9 +431,9 @@ Namespace regression
             Dim converged As Boolean = False
 
             For pIteration = 0 To pMaxiter
-                AppGlobals.ThrowIfRegressionCancellationRequested("Ordinal logistic regression calculation cancelled by user.")
-                If pIteration > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
-                    AppGlobals.BSlogg.Log("Ordinal logistic regression calculation interrupted by user; returning latest accepted estimates.", AppGlobals.LogMsgType.Warn)
+                CoreServices.Regression.ThrowIfCancellationRequested("Ordinal logistic regression calculation cancelled by user.")
+                If pIteration > 0 AndAlso CoreServices.Regression.IsInterruptionRequested() Then
+                    CoreServices.Log("Ordinal logistic regression calculation interrupted by user; returning latest accepted estimates.", AppInfrastructure.LogMsgType.Warn)
                     Exit For
                 End If
 
@@ -564,7 +563,7 @@ Namespace regression
                 Next
 
                 If Double.IsNegativeInfinity(ll) Then
-                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("OrdinalLogit: invalid step (probability <= 0 or thresholds not increasing)."))
+                    CoreServices.Errors.LogAndThrow(New ApplicationException("OrdinalLogit: invalid step (probability <= 0 or thresholds not increasing)."))
                 End If
 
                 ' information matrix = -H + ridge*I
@@ -597,12 +596,9 @@ Namespace regression
                 pLL = llTry
                 pLastIterLLchange = Math.Abs(pLL - llPrev)
 
-                If progressBar IsNot Nothing Then
-                    progressBar.Invoke(Sub()
-                                           progressBar.Value = CInt(100.0 * (Me.pIteration + 1.0) / (Me.pMaxiter + 1.0))
-                                           If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIteration + 1}   LogLikelihood change = {pLastIterLLchange}"
-                                       End Sub)
-                    System.Windows.Forms.Application.DoEvents()
+               If progress IsNot Nothing Then
+                    progress.Report(CInt(100.0 * (Me.pIteration + 1.0) / (Me.pMaxiter + 1.0)),
+                                    $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIteration + 1}   LogLikelihood change = {pLastIterLLchange}")
                 End If
 
                 'save iteration info
@@ -626,7 +622,7 @@ Namespace regression
             Next pIteration
             If pIteration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIteration)
             pIteration += 1
-            If Not converged Then AppGlobals.BSlogg.Log("Algorithm Is diverging. Convergence not reached.", AppGlobals.LogMsgType.Warn)
+            If Not converged Then CoreServices.Log("Algorithm Is diverging. Convergence not reached.", AppInfrastructure.LogMsgType.Warn)
 
             ' store covariance at final b (one-pass behind is usually tiny at convergence,
             ' but we set pCov here to the last invInfo computed in-loop)
@@ -691,10 +687,8 @@ Namespace regression
             End If
 
             Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
-            AppGlobals.BSlogg.Debug($"OrdinalLogitModel.Fit completed. converged={converged}; iterations={Me.pIteration}; logLikelihood={Me.pLL}; compTime={Me.CompTime}")
-            If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                     progressBar.Value = 100
-                                                                 End Sub)
+            CoreServices.Logger.Debug($"OrdinalLogitModel.Fit completed. converged={converged}; iterations={Me.pIteration}; logLikelihood={Me.pLL}; compTime={Me.CompTime}")
+            If progress IsNot Nothing Then progress.Report(100)
         End Sub
 
         ' ----------------------- Residuals -----------------------
@@ -814,7 +808,7 @@ Namespace regression
         ''' </summary>
         Public Function GetResidualColumnNames(resType As ResidualColumnType) As String()
 
-            If pCats Is Nothing OrElse pCats.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Categories not available. Fit the model first."))
+            If pCats Is Nothing OrElse pCats.Length = 0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Categories not available. Fit the model first."))
 
             Dim cols As Integer = pK
             Dim names(cols - 1) As String
@@ -1419,7 +1413,7 @@ Namespace regression
         ''' </summary>
         Private Sub InitStartParams(ByRef b() As Double)
             If Me.startParams IsNot Nothing Then
-                If Me.startParams.Length <> b.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("starting parameter array length <> b length"))
+                If Me.startParams.Length <> b.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("starting parameter array length <> b length"))
                 Me.startParams.CopyTo(b, 0)
             Else
                 For j As Integer = 0 To p - 1

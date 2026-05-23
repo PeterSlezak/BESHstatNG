@@ -27,7 +27,7 @@ Namespace regression
     ''' </para>
     ''' <para>
     ''' Logging follows the same mixed-model pattern used in the lower-level classes: messages are
-    ''' written to <see cref="AppGlobals.BSlogg"/> and also accumulated in <see cref="strTrace"/> so
+    ''' written to <see cref="CoreServices.logger"/> and also accumulated in <see cref="strTrace"/> so
     ''' that the future UI or UDF layer can expose diagnostics to the user.
     ''' </para>
     ''' </remarks>
@@ -185,17 +185,17 @@ Namespace regression
 
         Private Sub AppendInfo(message As String)
             AppendLogCore("INFO", message)
-            AppGlobals.BSlogg.Info(message)
+            CoreServices.Logger.Info(message)
         End Sub
 
         Private Sub AppendWarn(message As String)
             AppendLogCore("WARN", message)
-            AppGlobals.BSlogg.Warn(message)
+            CoreServices.Logger.Warn(message)
         End Sub
 
         Private Sub AppendTrace(message As String)
             AppendLogCore("TRACE", message)
-            AppGlobals.BSlogg.Trace(message)
+            CoreServices.Logger.Trace(message)
         End Sub
 
         Private Sub AppendLogCore(level As String, message As String)

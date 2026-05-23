@@ -105,7 +105,7 @@ Public Module RegressionFormulaDesignService
         errorMessage = Nothing
         Dim rawRows As Integer = If(rawX Is Nothing, 0, rawX.GetLength(0))
         Dim rawCols As Integer = If(rawX Is Nothing, 0, rawX.GetLength(1))
-        AppGlobals.BSlogg.Trace($"TryBuildExpandedPredictorMatrixFromFormula start. rawShape={rawRows}x{rawCols}; formula='{If(formulaText, String.Empty)}'; omitCategoricalReference={omitCategoricalReference}; allowRelative={allowRelativeColumnLetters}; allowAbsolute={allowAbsoluteColumnLetters}; allowQuoted={allowQuotedVariableNames}")
+        CoreServices.Logger.Trace($"TryBuildExpandedPredictorMatrixFromFormula start. rawShape={rawRows}x{rawCols}; formula='{If(formulaText, String.Empty)}'; omitCategoricalReference={omitCategoricalReference}; allowRelative={allowRelativeColumnLetters}; allowAbsolute={allowAbsoluteColumnLetters}; allowQuoted={allowQuotedVariableNames}")
 
         Try
             Dim catalog As RegressionVariableCatalog = BuildVariableCatalogFromRawPredictors(rawX:=rawX,
@@ -121,7 +121,7 @@ Public Module RegressionFormulaDesignService
                                                                       variableCatalog:=catalog,
                                                                       designSpec:=spec,
                                                                       errorMessage:=errorMessage) Then
-                AppGlobals.BSlogg.Debug($"TryBuildExpandedPredictorMatrixFromFormula parse failed. formula='{If(formulaText, String.Empty)}'; error='{errorMessage}'")
+                CoreServices.Logger.Debug($"TryBuildExpandedPredictorMatrixFromFormula parse failed. formula='{If(formulaText, String.Empty)}'; error='{errorMessage}'")
                 Return False
             End If
 
@@ -159,11 +159,11 @@ Public Module RegressionFormulaDesignService
                 .ExpandedPredictorMatrix = expandedX,
                 .ExpandedPredictorNames = If(expandedNames, New String() {})
             }
-            AppGlobals.BSlogg.Trace($"TryBuildExpandedPredictorMatrixFromFormula success. normalizedFormula='{If(spec.NormalizedFormulaText, String.Empty)}'; requiredRaw={requiredKeyArr.Length}; expandedCols={If(expandedNames Is Nothing, 0, expandedNames.Length)}")
+            CoreServices.Logger.Trace($"TryBuildExpandedPredictorMatrixFromFormula success. normalizedFormula='{If(spec.NormalizedFormulaText, String.Empty)}'; requiredRaw={requiredKeyArr.Length}; expandedCols={If(expandedNames Is Nothing, 0, expandedNames.Length)}")
             Return True
 
         Catch ex As Exception
-            AppGlobals.BSlogg.Error(ex, "TryBuildExpandedPredictorMatrixFromFormula failed.")
+            CoreServices.Logger.Error(ex, "TryBuildExpandedPredictorMatrixFromFormula failed.")
             errorMessage = ex.Message
             result = Nothing
             Return False
@@ -207,7 +207,7 @@ Public Module RegressionFormulaDesignService
                                                           omitCategoricalReference:=omitCategoricalReference,
                                                           result:=result,
                                                           errorMessage:=err) Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException(err))
+            CoreServices.Errors.LogAndThrow(New ArgumentException(err))
         End If
 
         Return result
@@ -323,7 +323,7 @@ Public Module RegressionFormulaDesignService
             Return True
 
         Catch ex As Exception
-            AppGlobals.BSlogg.Error(ex, "TryBuildExpandedRegressionDataMatrixFromFormula failed.")
+            CoreServices.Logger.Error(ex, "TryBuildExpandedRegressionDataMatrixFromFormula failed.")
             errorMessage = ex.Message
             result = Nothing
             Return False
@@ -367,7 +367,7 @@ Public Module RegressionFormulaDesignService
                                                                omitCategoricalReference:=omitCategoricalReference,
                                                                result:=result,
                                                                errorMessage:=err) Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException(err))
+            CoreServices.Errors.LogAndThrow(New ArgumentException(err))
         End If
 
         Return result
@@ -426,7 +426,7 @@ Public Module RegressionFormulaDesignService
             Return True
 
         Catch ex As Exception
-            AppGlobals.BSlogg.Error(ex, "TryBuildExpandedPredictorMatrixFromDesignSpec failed.")
+            CoreServices.Logger.Error(ex, "TryBuildExpandedPredictorMatrixFromDesignSpec failed.")
             errorMessage = ex.Message
             expandedX = Nothing
             expandedPredictorNames = Nothing
@@ -458,7 +458,7 @@ Public Module RegressionFormulaDesignService
                                                              expandedPredictorNames:=expandedNames,
                                                              errorMessage:=err,
                                                              omitCategoricalReference:=omitCategoricalReference) Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException(err))
+            CoreServices.Errors.LogAndThrow(New ArgumentException(err))
         End If
 
         Return New RegressionFormulaMatrixBuildResult With {

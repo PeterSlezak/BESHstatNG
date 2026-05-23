@@ -1,9 +1,7 @@
 ﻿Option Explicit On
-Imports System.IO
-Imports System.Windows.Forms.AxHost
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip
+
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
+
 
 Namespace parametric
 
@@ -251,7 +249,7 @@ Namespace parametric
                 Next
 
                 If outFrq2D.GetLength(0) <> parSubGroupID.GetLength(0) Then
-                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Factor is not nested. The same 'nested' factor category occured in multiple group factor categories."))
+                    CoreServices.Errors.LogAndThrow(New ApplicationException("Error: Factor is not nested. The same 'nested' factor category occured in multiple group factor categories."))
                 End If
 
                 'test if balanced design
@@ -390,8 +388,8 @@ Namespace parametric
             Public Sub New(x()() As Double, varNames() As String)
                 Me.data = x
                 Me.varNames = varNames
-                If x.GetLength(0) <> varNames.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Number of groups and variable names should be the same."))
-                If x.GetLength(0) < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two groups are expected."))
+                If x.GetLength(0) <> varNames.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("Number of groups and variable names should be the same."))
+                If x.GetLength(0) < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least two groups are expected."))
 
                 pNoGroups = x.Length
                 ReDim pNs(pNoGroups - 1)
@@ -1282,9 +1280,9 @@ Namespace parametric
             ''' </param>
             ''' <param name="varNames">Names of the two groups for reporting.</param>
             Public Sub New(x()() As Double, varNames() As String)
-                If x Is Nothing OrElse x.Length <> 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Two groups are expected for the Unpaired t-test"))
-                If x(0) Is Nothing OrElse x(0).Length < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 1"))
-                If x(1) Is Nothing OrElse x(1).Length < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two values are expected in group 2"))
+                If x Is Nothing OrElse x.Length <> 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Two groups are expected for the Unpaired t-test"))
+                If x(0) Is Nothing OrElse x(0).Length < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least two values are expected in group 1"))
+                If x(1) Is Nothing OrElse x(1).Length < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least two values are expected in group 2"))
 
                 Me.data = x
                 Me.varNames = varNames
@@ -1665,7 +1663,7 @@ Namespace parametric
                 Dim n2 As Integer = data2.GetLength(0)
                 Dim p As Integer = data1.GetLength(1)
                 If p <> data2.GetLength(1) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
 
                 If pMeans Is Nothing Then
@@ -1778,10 +1776,10 @@ Namespace parametric
                 Dim n2 As Integer = data2.GetLength(0)
                 Dim p As Integer = data1.GetLength(1)
                 If p <> data2.GetLength(1) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Error: Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
                 If alpha < 0.0 Or alpha > 1.0 Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Independent samples version of Hotelling's T-squared alpha must be (0 to 1)."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Error: Independent samples version of Hotelling's T-squared alpha must be (0 to 1)."))
                 End If
                 Dim diffs(p - 1) As Double
                 Me.pCIs = New List(Of String)
@@ -1922,7 +1920,7 @@ Namespace parametric
                 Dim n As Integer = data.GetLength(0)
                 Dim p As Integer = data.GetLength(1)
                 If p <> H0.Length Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
 
                 Dim diffs(p - 1) As Double
@@ -1990,10 +1988,10 @@ Namespace parametric
                 Dim n As Integer = data.GetLength(0)
                 Dim p As Integer = data.GetLength(1)
                 If p <> H0.Length Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                 End If
                 If alpha < 0.0 Or alpha > 1.0 Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared alpha must be (0 to 1)."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Error: Single sample version of Hotelling's T-squared alpha must be (0 to 1)."))
                 End If
 
                 Dim diffs(p - 1) As Double
@@ -2119,10 +2117,10 @@ Namespace parametric
                     Dim n As Integer = data1.GetLength(0)
                     Dim p As Integer = data1.GetLength(1)
                     If n <> data2.GetLength(0) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of rows in the Input Datasets."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of rows in the Input Datasets."))
                     End If
                     If p <> data2.GetLength(1) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                     End If
 
                     Dim zeros() As Double = Matrix.IdentityVect(p - 1, 0)

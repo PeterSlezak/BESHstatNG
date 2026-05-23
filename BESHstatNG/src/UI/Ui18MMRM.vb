@@ -271,7 +271,7 @@ Public Class Ui18MMRM
         Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
 
         Dim d As New DataObj()
-        d.DataImport(ref, True, CharCols:=0)
+        ExcelDnaDataImporter.ImportInto(d, ref, True, CharCols:=0)
 
         Return New MmrmData With {
             .Raw = d,
@@ -287,15 +287,13 @@ Public Class Ui18MMRM
                                      ByRef x(,) As Double,
                                      ByRef fixedNames() As String)
 
-        If mmrmData Is Nothing OrElse mmrmData.Raw Is Nothing Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(mmrmData)))
-        End If
+        If mmrmData Is Nothing OrElse mmrmData.Raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(mmrmData)))
 
         Dim raw As DataObj = mmrmData.Raw
         Dim nRows As Integer = raw.nRows
 
         If nRows <= 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ApplicationException("No valid observations are available for MMRM."))
+            CoreServices.Errors.LogAndThrow(New ApplicationException("No valid observations are available for MMRM."))
         End If
 
         ' y is extracted explicitly because the MMRM import order is Subject, Response, Visit, predictors.
@@ -326,7 +324,7 @@ Public Class Ui18MMRM
             fixedNames = CombineNamesWithIntercept(expandedNames)
         Else
             If expandedX Is Nothing OrElse expandedNames.Length = 0 Then
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("MMRM fixed-effects design contains no columns. Add at least one fixed effect or enable the intercept."))
+                CoreServices.Errors.LogAndThrow(New ApplicationException("MMRM fixed-effects design contains no columns. Add at least one fixed effect or enable the intercept."))
             End If
 
             x = expandedX
@@ -359,7 +357,7 @@ Public Class Ui18MMRM
             End If
 
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -537,7 +535,7 @@ Public Class Ui18MMRM
                 TryRefreshMMRMContrastControlsFromCurrentSelections()
             End If
         Catch ex As Exception
-            AppGlobals.BSlogg.Debug("MMRM Options tab refresh skipped: " & ex.Message)
+            CoreServices.Logger.Debug("MMRM Options tab refresh skipped: " & ex.Message)
         End Try
 
     End Sub
@@ -635,7 +633,7 @@ Public Class Ui18MMRM
         Try
             UpdateMMRMContrastControlEnabledState()
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("cbMMRMControlLevel_SelectedIndexChanged failed: " & ex.ToString())
+            CoreServices.Logger.Warn("cbMMRMControlLevel_SelectedIndexChanged failed: " & ex.ToString())
         End Try
     End Sub
 
@@ -643,7 +641,7 @@ Public Class Ui18MMRM
         Try
             UpdateMMRMContrastControlEnabledState()
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("cbMMRMContrastMode_SelectedIndexChanged failed: " & ex.ToString())
+            CoreServices.Logger.Warn("cbMMRMContrastMode_SelectedIndexChanged failed: " & ex.ToString())
         End Try
     End Sub
 
@@ -654,7 +652,7 @@ Public Class Ui18MMRM
         Try
             UpdateMMRMContrastControlEnabledState()
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("MMRMReferenceGridControlChanged failed: " & ex.Message)
+            CoreServices.Logger.Warn("MMRMReferenceGridControlChanged failed: " & ex.Message)
         End Try
     End Sub
 
@@ -679,7 +677,7 @@ Public Class Ui18MMRM
             End If
 
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("MMRMContrastControl_CheckedOrSelectedChanged failed: " & ex.Message)
+            CoreServices.Logger.Warn("MMRMContrastControl_CheckedOrSelectedChanged failed: " & ex.Message)
         End Try
     End Sub
 
@@ -707,8 +705,8 @@ Public Class Ui18MMRM
                                  subjectId() As Object,
                                  visit() As Double)
 
-        If result Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(result)))
-        If mmrmGuiData Is Nothing OrElse mmrmGuiData.Raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(mmrmGuiData)))
+        If result Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(result)))
+        If mmrmGuiData Is Nothing OrElse mmrmGuiData.Raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(mmrmGuiData)))
 
         Dim wb As Object = AppGlobals.app.Workbooks.Add()
 
@@ -730,7 +728,7 @@ Public Class Ui18MMRM
                                    subjectId() As Object,
                                    visit() As Double)
 
-        Dim writeRes As New WriteResults
+        Dim writeRes As New ExcelDnaResultWriter
         writeRes.wb = wb
         writeRes.ws = wb.ActiveSheet
         writeRes.ws.Name = "Data"
@@ -790,7 +788,7 @@ Public Class Ui18MMRM
         Dim tables As List(Of ResultTable) = result.wrapResults(alphaValue,
                                                                 includeOptimizerTrace:=Me.ckIterationsDetails.Checked,
                                                                 includeDiagnostics:=Me.cbDiagnostic.Checked)
-        Dim writeRes As New WriteResults
+        Dim writeRes As New ExcelDnaResultWriter
         wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
         wb.ActiveSheet.Name = "MMRM"
         writeRes.wb = wb
@@ -801,7 +799,7 @@ Public Class Ui18MMRM
     End Sub
 
     Private Sub WriteMMRMTraceSheet(wb As Object, traceText As String)
-        Dim writeRes As New WriteResults
+        Dim writeRes As New ExcelDnaResultWriter
         wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
         wb.ActiveSheet.Name = "MMRM Trace"
         writeRes.wb = wb
@@ -855,34 +853,34 @@ Public Class Ui18MMRM
             If result Is Nothing Then Exit Sub
             If result.AdditionalResultTables Is Nothing Then result.AdditionalResultTables = New List(Of ResultTable)()
 
-            AppGlobals.BSlogg.Debug("AppendMMRMEstimatedMeanTables start. classInfo=" & Me.ckMMRMClassInfo.Checked.ToString() &
+            CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables start. classInfo=" & Me.ckMMRMClassInfo.Checked.ToString() &
                                 "; estimatedMeans=" & Me.ckMMRMEstimatedMeans.Checked.ToString() &
                                 "; changeFromBaseline=" & Me.ckMMRMChangeFromBaseline.Checked.ToString() &
                                 "; diffInChange=" & Me.ckMMRMDiffInChange.Checked.ToString() &
                                 "; existingAdditionalTables=" & result.AdditionalResultTables.Count.ToString())
 
             If x Is Nothing Then
-                AppGlobals.BSlogg.Warn("AppendMMRMEstimatedMeanTables skipped: x design matrix is Nothing.")
+                CoreServices.Logger.Warn("AppendMMRMEstimatedMeanTables skipped: x design matrix is Nothing.")
                 Exit Sub
             End If
 
             If visit Is Nothing Then
-                AppGlobals.BSlogg.Warn("AppendMMRMEstimatedMeanTables skipped: visit vector is Nothing.")
+                CoreServices.Logger.Warn("AppendMMRMEstimatedMeanTables skipped: visit vector is Nothing.")
                 Exit Sub
             End If
 
             If result.Beta Is Nothing OrElse result.Beta.Length = 0 Then
-                AppGlobals.BSlogg.Warn("AppendMMRMEstimatedMeanTables skipped: result.Beta is empty.")
+                CoreServices.Logger.Warn("AppendMMRMEstimatedMeanTables skipped: result.Beta is empty.")
                 Exit Sub
             End If
 
             If result.VarBeta Is Nothing Then
-                AppGlobals.BSlogg.Warn("AppendMMRMEstimatedMeanTables skipped: result.VarBeta is Nothing.")
+                CoreServices.Logger.Warn("AppendMMRMEstimatedMeanTables skipped: result.VarBeta is Nothing.")
                 Exit Sub
             End If
 
             If x.GetLength(0) <> visit.Length Then
-                AppGlobals.BSlogg.Warn("AppendMMRMEstimatedMeanTables skipped: row mismatch. x rows=" & x.GetLength(0).ToString() &
+                CoreServices.Logger.Warn("AppendMMRMEstimatedMeanTables skipped: row mismatch. x rows=" & x.GetLength(0).ToString() &
                                     "; visit length=" & visit.Length.ToString())
                 Exit Sub
             End If
@@ -893,7 +891,7 @@ Public Class Ui18MMRM
             Dim groupValues() As Double = Nothing
             Dim hasGroup As Boolean = TryResolveMMRMGroupingVariableFromControls(mmrmData, groupKey, groupValues)
 
-            AppGlobals.BSlogg.Debug("AppendMMRMEstimatedMeanTables grouping resolved. hasGroup=" & hasGroup.ToString() &
+            CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables grouping resolved. hasGroup=" & hasGroup.ToString() &
                                 "; groupKey='" & If(groupKey, String.Empty) & "'")
 
             ' Refresh data-dependent choices such as observed visit levels and group levels.
@@ -901,7 +899,7 @@ Public Class Ui18MMRM
             Try
                 RefreshMMRMContrastControlsFromData(mmrmData, visit, If(hasGroup, groupValues, Nothing))
             Catch ex As Exception
-                AppGlobals.BSlogg.Warn("RefreshMMRMContrastControlsFromData failed inside AppendMMRMEstimatedMeanTables: " & ex.Message)
+                CoreServices.Logger.Warn("RefreshMMRMContrastControlsFromData failed inside AppendMMRMEstimatedMeanTables: " & ex.Message)
             End Try
 
             If Me.ckMMRMClassInfo.Checked Then
@@ -911,7 +909,7 @@ Public Class Ui18MMRM
             End If
 
             If Not Me.ckMMRMEstimatedMeans.Checked Then
-                AppGlobals.BSlogg.Debug("AppendMMRMEstimatedMeanTables finished after class-level output because estimated means are disabled.")
+                CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables finished after class-level output because estimated means are disabled.")
                 Exit Sub
             End If
 
@@ -933,11 +931,11 @@ Public Class Ui18MMRM
                                   controlLevel:=controlLevel,
                                   contrastDirection:=contrastDirection)
 
-                AppGlobals.BSlogg.Debug("AppendMMRMEstimatedMeanTables used reference-grid mode; observed-design-grid tables skipped.")
+                CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables used reference-grid mode; observed-design-grid tables skipped.")
                 Exit Sub
             End If
 
-            AppGlobals.BSlogg.Debug("AppendMMRMEstimatedMeanTables options. baseline=" & baselineVisit.ToString(Globalization.CultureInfo.InvariantCulture) &
+            CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables options. baseline=" & baselineVisit.ToString(Globalization.CultureInfo.InvariantCulture) &
                                 "; contrastMode='" & contrastMode & "'; direction='" & contrastDirection &
                                 "'; controlLevel=" & controlLevel.ToString(Globalization.CultureInfo.InvariantCulture))
 
@@ -974,13 +972,13 @@ Public Class Ui18MMRM
                     End If
                 End If
             Else
-                AppGlobals.BSlogg.Debug("AppendMMRMEstimatedMeanTables: no grouping factor resolved; group-specific LS-means/contrast tables skipped.")
+                CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables: no grouping factor resolved; group-specific LS-means/contrast tables skipped.")
             End If
 
-            AppGlobals.BSlogg.Debug("AppendMMRMEstimatedMeanTables complete. additionalTables=" & result.AdditionalResultTables.Count.ToString())
+            CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables complete. additionalTables=" & result.AdditionalResultTables.Count.ToString())
 
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("AppendMMRMEstimatedMeanTables failed: " & ex.ToString())
+            CoreServices.Logger.Warn("AppendMMRMEstimatedMeanTables failed: " & ex.ToString())
         End Try
     End Sub
 
@@ -1023,7 +1021,7 @@ Public Class Ui18MMRM
                     End If
                 End If
             Catch ex As Exception
-                AppGlobals.BSlogg.Debug("MMRM auto grouping factor skipped '" & key & "': " & ex.Message)
+                CoreServices.Logger.Debug("MMRM auto grouping factor skipped '" & key & "': " & ex.Message)
             End Try
         Next
 
@@ -1106,7 +1104,7 @@ Public Class Ui18MMRM
             rows.Add(New Object() {baseName, uniqueValues.Length, regression.MixedModelFrontEndHelpers.JoinClassValues(uniqueValues)})
             addedKeys.Add(baseName)
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("Class-level row skipped for '" & key & "': " & ex.Message)
+            CoreServices.Logger.Warn("Class-level row skipped for '" & key & "': " & ex.Message)
         End Try
     End Sub
 
@@ -1134,7 +1132,7 @@ Public Class Ui18MMRM
                                    alphaValue:=alphaValue)
 
         If spec Is Nothing Then
-            AppGlobals.BSlogg.Warn("Reference-grid LS-means skipped: specification could not be built.")
+            CoreServices.Logger.Warn("Reference-grid LS-means skipped: specification could not be built.")
             Exit Sub
         End If
 
@@ -1142,7 +1140,7 @@ Public Class Ui18MMRM
         regression.MixedModelReferenceGridService.BuildReferenceGridRows(spec)
 
         If rows Is Nothing OrElse rows.Count = 0 Then
-            AppGlobals.BSlogg.Warn("Reference-grid LS-means skipped: no reference-grid rows were created.")
+            CoreServices.Logger.Warn("Reference-grid LS-means skipped: no reference-grid rows were created.")
             Exit Sub
         End If
 
@@ -1273,7 +1271,7 @@ Public Class Ui18MMRM
             TryRefreshMMRMContrastControlsFromCurrentSelections()
 
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("RefreshMMRMContrastControls failed: " & ex.Message)
+            CoreServices.Logger.Warn("RefreshMMRMContrastControls failed: " & ex.Message)
         End Try
     End Sub
 
@@ -1295,7 +1293,7 @@ Public Class Ui18MMRM
             UpdateMMRMContrastControlEnabledState()
 
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("RefreshMMRMContrastControlsFromData failed: " & ex.Message)
+            CoreServices.Logger.Warn("RefreshMMRMContrastControlsFromData failed: " & ex.Message)
         End Try
     End Sub
 
@@ -1528,7 +1526,7 @@ Public Class Ui18MMRM
             groupValues = values
             Return True
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("Selected MMRM grouping factor could not be used: " & ex.Message)
+            CoreServices.Logger.Warn("Selected MMRM grouping factor could not be used: " & ex.Message)
             Return False
         End Try
     End Function
@@ -1727,7 +1725,7 @@ Public Class Ui18MMRM
                 End If
 
             Catch ex As Exception
-                AppGlobals.BSlogg.Debug("Reference-grid marginal factor skipped '" & key & "': " & ex.Message)
+                CoreServices.Logger.Debug("Reference-grid marginal factor skipped '" & key & "': " & ex.Message)
             End Try
         Next
     End Sub
@@ -1758,7 +1756,7 @@ Public Class Ui18MMRM
                 End If
 
             Catch ex As Exception
-                AppGlobals.BSlogg.Debug("Reference-grid continuous covariate skipped '" & key & "': " & ex.Message)
+                CoreServices.Logger.Debug("Reference-grid continuous covariate skipped '" & key & "': " & ex.Message)
             End Try
         Next
     End Sub
@@ -1922,15 +1920,15 @@ Public Class Ui18MMRM
         Try
             Dim t As ResultTable = tableFactory.Invoke()
             If t Is Nothing Then
-                AppGlobals.BSlogg.Debug("MMRM optional table not created: " & tableLabel)
+                CoreServices.Logger.Debug("MMRM optional table not created: " & tableLabel)
                 Exit Sub
             End If
 
             result.AdditionalResultTables.Add(t)
-            AppGlobals.BSlogg.Debug("MMRM optional table added: " & tableLabel)
+            CoreServices.Logger.Debug("MMRM optional table added: " & tableLabel)
 
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("MMRM optional table failed: " & tableLabel & ": " & ex.ToString())
+            CoreServices.Logger.Warn("MMRM optional table failed: " & tableLabel & ": " & ex.ToString())
         End Try
     End Sub
 
@@ -2080,13 +2078,13 @@ Public Class Ui18MMRM
 
             RefreshMMRMContrastControlsFromData(mmrmData, visitValues, If(hasGroup, groupValues, Nothing))
 
-            AppGlobals.BSlogg.Debug("MMRM contrast controls pre-fit refresh completed. hasGroup=" &
+            CoreServices.Logger.Debug("MMRM contrast controls pre-fit refresh completed. hasGroup=" &
                                     hasGroup.ToString() & "; groupKey='" & If(groupKey, String.Empty) & "'.")
 
         Catch ex As Exception
             ' Non-fatal.  The same controls will be refreshed again after successful
             ' data import during Fit.
-            AppGlobals.BSlogg.Debug("MMRM contrast controls pre-fit refresh skipped: " & ex.Message)
+            CoreServices.Logger.Debug("MMRM contrast controls pre-fit refresh skipped: " & ex.Message)
             UpdateMMRMContrastControlEnabledState()
         End Try
     End Sub

@@ -13,21 +13,16 @@ Namespace Multivariate
                                            Optional nullParamName As String = Nothing)
             If data Is Nothing Then
                 If String.IsNullOrEmpty(nullParamName) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException(nullMessage))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException(nullMessage))
                 ElseIf String.IsNullOrEmpty(nullMessage) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(nullParamName))
+                    CoreServices.Errors.LogAndThrow(New ArgumentNullException(nullParamName))
                 Else
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(nullParamName, nullMessage))
+                    CoreServices.Errors.LogAndThrow(New ArgumentNullException(nullParamName, nullMessage))
                 End If
             End If
 
-            If data.Rank <> 2 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException(rankMessage))
-            End If
-
-            If data.GetUpperBound(0) < 0 OrElse data.GetUpperBound(1) < 0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException(emptyMessage))
-            End If
+            If data.Rank <> 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException(rankMessage))
+            If data.GetUpperBound(0) < 0 OrElse data.GetUpperBound(1) < 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException(emptyMessage))
         End Sub
 
         Friend Function NormalizeRowLabels(rowLabels() As String,
@@ -75,7 +70,7 @@ Namespace Multivariate
                 Return BuildDefaultLabels(expectedLength, defaultPrefix, useSpaceSeparator)
             End If
 
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException(If(mismatchMessage,
+            CoreServices.Errors.LogAndThrow(New ArgumentException(If(mismatchMessage,
                                                                  $"The number of labels does not match the expected length ({expectedLength}).")))
             Return Nothing
         End Function

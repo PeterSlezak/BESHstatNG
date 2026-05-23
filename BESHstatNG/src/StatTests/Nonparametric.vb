@@ -1,16 +1,13 @@
 ﻿Option Explicit On
-Imports System
+
 Imports System.Collections.Generic
 Imports System.Collections.ObjectModel
-Imports System.Drawing
 Imports System.Linq
 Imports System.Text
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.Matrix
 Imports BESHStatNG.Resampling
 Imports Microsoft.Office.Interop.Excel
-
 
 
 ''' <summary>
@@ -448,9 +445,9 @@ Namespace nonparametric
         '''   <item><description><c>ConcatArrays</c> — merges samples</description></item>
         ''' </list>
         ''' </summary>
-        ''' <param name="progressBar">Optional progress bar for exact computation.</param>
+        ''' <param name="progress">Optional host-neutral progress reporter for exact computation.</param>
         ''' <returns>A <see cref="TestResult"/> containing U statistics and p‑values.</returns>
-        Public Function Compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing) As TestResult
+        Public Function Compute(Optional progress As IProgressReporter = Nothing) As TestResult
             'calculate value of U statistics and p-values from group1 and group2 values
 
             Dim P_value As Double, u As Double
@@ -558,19 +555,12 @@ Namespace nonparametric
                         If Uval > Uobs Then pUpper += kvp.Value
                     End If
 
-                    If progressBar IsNot Nothing Then
-                        If s Mod iUpdate = 0 Then
-                            progressBar.Invoke(Sub()
-                                                   progressBar.Value = 100 * s / totalComb
-                                               End Sub)
-                            System.Windows.Forms.Application.DoEvents()
-                        End If
+                    If progress IsNot Nothing Then
+                        If s Mod iUpdate = 0 Then progress.Report(CInt(100 * s / totalComb))
                         s += 1
                     End If
                 Next
-                If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                         progressBar.Value = 100
-                                                                     End Sub)
+                If progress IsNot Nothing Then progress.Report(100)
 
                 Me.MWresult.bExactAvailable = True
                 Me.MWresult.pValueExactLowerSide = pLower / totalComb
@@ -894,9 +884,9 @@ Namespace nonparametric
         '''   <item><description><c>PNorm</c></description></item>
         ''' </list>
         ''' </summary>
-        ''' <param name="progressBar">Optional progress bar for exact computation.</param>
+        ''' <param name="progress">Optional host-neutral progress reporter for exact computation.</param>
         ''' <returns>A <see cref="TestResult"/> containing W, Z, and p-values.</returns>
-        Function Compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing) As TestResult
+        Function Compute(Optional progress As IProgressReporter = Nothing) As TestResult
             'pWpoz - sum of ranks for positive differences
             Dim arDiff() As Double, arSign() As Double, Ranks() As Double, nonZeroDiffs() As Double
             Dim SUMties As Double, Wmean As Double, WsdCor As Double, rr() As Double, z As Double
@@ -976,19 +966,14 @@ Namespace nonparametric
                     ' Right-tailed test: P(W ≥ Wobs)
                     If s >= (Me.pWpoz * 2.0) Then extremeCountUpper += dist(s)
 
-                    If progressBar IsNot Nothing Then
+                    If progress IsNot Nothing Then
                         If s Mod iUpdate = 0 Then
                             Dim k As Integer = s
-                            progressBar.Invoke(Sub()
-                                                   progressBar.Value = 100 * k / maxRankSum
-                                               End Sub)
-                            System.Windows.Forms.Application.DoEvents()
+                            progress.Report(CInt(100 * k / maxRankSum))
                         End If
                     End If
                 Next
-                If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                         progressBar.Value = 100
-                                                                     End Sub)
+                If progress IsNot Nothing Then progress.Report(100)
 
                 Me.WilcoxonTestresult.bExactAvailable = True
                 Me.WilcoxonTestresult.PvalueExact = extremeCount / CDbl(totalComb)
@@ -1265,13 +1250,13 @@ Namespace nonparametric
         '''   <item><description><c>ZCritTwoSided</c></description></item>
         ''' </list>
         ''' </summary>
-        ''' <param name="progressBar">Optional progress bar for permutation enumeration.</param>
+        ''' <param name="progress">Optional host-neutral progress reporter for permutation enumeration.</param>
         ''' <param name="alpha">
         ''' Optional two-sided significance level used for the confidence interval.
         ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>A <see cref="TestResult"/> containing ρ and p-values.</returns>
-        Function Compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing, Optional alpha As Double = 0.05) As TestResult
+        Function Compute(Optional progress As IProgressReporter = Nothing, Optional alpha As Double = 0.05) As TestResult
             Me.CorrelationResult = New TestResult
             Me.n = Me.X.Length
             Dim xRanks = ComputeAvgRanks(X)
@@ -1284,7 +1269,7 @@ Namespace nonparametric
                     observedStatistic:=rhoObs,
                     permutableValues:=yRanks,
                     statisticEvaluator:=Function(yPerm As Double()) correlationCoefficient(xRanks, yPerm),
-                    progressBar:=progressBar,
+                    progress:=progress,
                     alpha:=alpha,
                     statisticLabel:="Spearman's rho")
 
@@ -1385,16 +1370,15 @@ Namespace nonparametric
         Private Protected Function ComputeExactPermutationResult(observedStatistic As Double,
                                                         permutableValues As Double(),
                                                         statisticEvaluator As Func(Of Double(), Double),
-                                                        Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                        Optional progress As IProgressReporter = Nothing,
                                                         Optional alpha As Double = 0.05,
                                                         Optional statisticLabel As String = "") As PermutationResamplingResult
-            If permutableValues Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(permutableValues)))
-            If statisticEvaluator Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(statisticEvaluator)))
-            If permutableValues.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one permutable value is required.", NameOf(permutableValues)))
+            If permutableValues Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(permutableValues)))
+            If statisticEvaluator Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(statisticEvaluator)))
+            If permutableValues.Length = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least one permutable value is required.", NameOf(permutableValues)))
 
             Dim hasTies As Boolean = ResamplingPermutation.HasTies(permutableValues)
-            Dim expectedTotal As Long = If(hasTies,
-                                           ResamplingPermutation.ExpectedUniquePermutations(permutableValues),
+            Dim expectedTotal As Long = If(hasTies, ResamplingPermutation.ExpectedUniquePermutations(permutableValues),
                                            ResamplingPermutation.Factorial(permutableValues.Length))
 
             Dim opts As New PermutationOptions With {
@@ -1420,10 +1404,9 @@ Namespace nonparametric
                     processed += 1
                     If Math.Abs(stat) >= Math.Abs(observedStatistic) Then extremeTwoSided += 1
 
-                    If progressBar IsNot Nothing AndAlso (processed Mod updateEvery = 0 OrElse processed = expectedTotal) Then
+                    If progress IsNot Nothing AndAlso (processed Mod updateEvery = 0 OrElse processed = expectedTotal) Then
                         Dim percent As Integer = CInt(Math.Min(100L, (100L * processed) \ Math.Max(1L, expectedTotal)))
-                        progressBar.Invoke(Sub() progressBar.Value = percent)
-                        System.Windows.Forms.Application.DoEvents()
+                        progress.Report(percent)
                     End If
                 Next
             Else
@@ -1434,15 +1417,14 @@ Namespace nonparametric
                     processed += 1
                     If Math.Abs(stat) >= Math.Abs(observedStatistic) Then extremeTwoSided += 1
 
-                    If progressBar IsNot Nothing AndAlso (processed Mod updateEvery = 0 OrElse processed = expectedTotal) Then
+                    If progress IsNot Nothing AndAlso (processed Mod updateEvery = 0 OrElse processed = expectedTotal) Then
                         Dim percent As Integer = CInt(Math.Min(100L, (100L * processed) \ Math.Max(1L, expectedTotal)))
-                        progressBar.Invoke(Sub() progressBar.Value = percent)
-                        System.Windows.Forms.Application.DoEvents()
+                        progress.Report(percent)
                     End If
                 Next
             End If
 
-            If progressBar IsNot Nothing Then progressBar.Invoke(Sub() progressBar.Value = 100)
+            If progress IsNot Nothing Then progress.Report(100)
             ResamplingCore.CompleteRunInfo(ctx.Info, CInt(Math.Min(Integer.MaxValue, processed)), 0)
 
             Dim result As PermutationResamplingResult = ResamplingPermutation.BuildPermutationResult(
@@ -1675,13 +1657,13 @@ Namespace nonparametric
         '''   <item><description><c>ZCritTwoSided</c></description></item>
         ''' </list>
         ''' </summary>
-        ''' <param name="progressBar">Optional progress bar for permutation enumeration.</param>
+        ''' <param name="progress">Optional host-neutral progress reporter for permutation enumeration.</param>
         ''' <param name="alpha">
         ''' Optional two-sided significance level used for the approximate confidence interval.
         ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
         ''' </param>
         ''' <returns>A <see cref="TestResult"/> containing τ<sub>b</sub> and p-values.</returns>
-        Public Shadows Function compute(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing, Optional alpha As Double = 0.05) As TestResult
+        Public Shadows Function compute(Optional progress As IProgressReporter = Nothing, Optional alpha As Double = 0.05) As TestResult
             CorrelationResult = New TestResult
             Me.n = X.Length
             Dim tauObs As Double = correlationCoefficient(X, Y, True)
@@ -1689,12 +1671,12 @@ Namespace nonparametric
 
             If n <= 10 Then
                 Dim perm = ComputeExactPermutationResult(
-            observedStatistic:=tauObs,
-            permutableValues:=Y,
-            statisticEvaluator:=Function(yPerm As Double()) correlationCoefficient(X, yPerm),
-            progressBar:=progressBar,
-            alpha:=alpha,
-            statisticLabel:="Kendall's tau-b")
+                                observedStatistic:=tauObs,
+                                permutableValues:=Y,
+                                statisticEvaluator:=Function(yPerm As Double()) correlationCoefficient(X, yPerm),
+                                progress:=progress,
+                                alpha:=alpha,
+                                statisticLabel:="Kendall's tau-b")
 
                 Me.CorrelationResult.bExactAvailable = True
                 Me.CorrelationResult.PvalueExact = perm.TwoSidedPValue

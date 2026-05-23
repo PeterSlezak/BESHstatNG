@@ -1,9 +1,9 @@
 ﻿Option Explicit On
-Imports System
+Option Strict On
+
 Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 Namespace Multivariate
 
@@ -693,10 +693,10 @@ Namespace Multivariate
                                   Optional emptyClusterHandling As EmptyClusterHandlingStrategy = EmptyClusterHandlingStrategy.FarthestObservation,
                                   Optional randomSeed As Integer = Integer.MinValue)
 
-            If numberOfClusters < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("numberOfClusters must be at least 1."))
-            If nStarts < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("nStarts must be at least 1."))
-            If maxIterations < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("maxIterations must be at least 1."))
-            If convergenceTolerance < 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("convergenceTolerance must be non-negative."))
+            If numberOfClusters < 1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("numberOfClusters must be at least 1."))
+            If nStarts < 1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("nStarts must be at least 1."))
+            If maxIterations < 1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("maxIterations must be at least 1."))
+            If convergenceTolerance < 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("convergenceTolerance must be non-negative."))
 
             pNumberOfClusters = numberOfClusters
             pInitializationMethod = initialization
@@ -734,7 +734,7 @@ Namespace Multivariate
         ''' <remarks>
         ''' <para>
         ''' Call <see cref="Fit"/> before calling this method. The returned tables are intended to be written to an
-        ''' Excel worksheet using <see cref="ProcessListofResultTables.writeToSheet"/> together with <see cref="WriteResults"/>.
+        ''' Excel worksheet using <see cref="ProcessListofResultTables.writeToSheet"/> together with <see cref="ExcelDnaResultWriter"/>.
         ''' </para>
         ''' <para>
         ''' This method follows the same project pattern used by the other analysis classes that expose
@@ -742,7 +742,7 @@ Namespace Multivariate
         ''' </para>
         ''' </remarks>
         Public Function wrapResults() As List(Of ResultTable)
-            If pResult Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Model is not fitted."))
+            If pResult Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Model is not fitted."))
 
             Dim out As New List(Of ResultTable)
             Dim t As ResultTable = Nothing
@@ -917,25 +917,25 @@ Namespace Multivariate
         ''' or when user-specified centers do not match the data dimensions.
         ''' </exception>
         Public Sub Fit()
-            If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("No data supplied. Call dataInputs() first."))
+            If pData Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentException("No data supplied. Call dataInputs() first."))
 
             Dim prepared As ClusterPreparedData = ClusterAnalysisHelpers.PrepareData(pData, pRowLabels, pVarNames, pStandardization, pMissingValuePolicy)
             Dim n As Integer = prepared.WorkingData.GetUpperBound(0) + 1
             Dim p As Integer = prepared.WorkingData.GetUpperBound(1) + 1
 
             If n < pNumberOfClusters Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The number of active observations must be at least as large as the requested number of clusters."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The number of active observations must be at least as large as the requested number of clusters."))
             End If
 
             If pInitializationMethod = KMeansInitializationMethod.UserSpecifiedCenters Then
                 If Not pHasUserStartingCenters OrElse pUserStartingCenters Is Nothing Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("UserSpecifiedCenters was requested but no starting centers were provided through startingCentersInputs()."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("UserSpecifiedCenters was requested but no starting centers were provided through startingCentersInputs()."))
                 End If
                 If pUserStartingCenters.GetUpperBound(0) + 1 <> pNumberOfClusters Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("The number of supplied starting centers does not match numberOfClusters."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("The number of supplied starting centers does not match numberOfClusters."))
                 End If
                 If pUserStartingCenters.GetUpperBound(1) + 1 <> p Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("The number of columns in the supplied starting centers does not match the number of variables."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("The number of columns in the supplied starting centers does not match the number of variables."))
                 End If
             End If
 
@@ -1023,10 +1023,8 @@ Namespace Multivariate
         Private Function ResolveEffectiveRandomSeed() As Integer
             If pRandomSeed <> Integer.MinValue Then
                 pRandomSeedUsed = pRandomSeed
-            ElseIf AppGlobals.DefaultRandomSeed <> Integer.MinValue Then
-                pRandomSeedUsed = AppGlobals.DefaultRandomSeed
             Else
-                pRandomSeedUsed = Environment.TickCount
+                pRandomSeedUsed = CoreServices.AnalysisDefaults.ResolveRandomSeed(generateWhenMissing:=True)
             End If
 
             Return pRandomSeedUsed
@@ -1063,8 +1061,8 @@ Namespace Multivariate
         End Function
 
         Private Function PredictInternal(arNewData(,) As Double, ByRef distances() As Double) As Integer()
-            If pResult Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("The model has not been fitted yet."))
-            If arNewData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("arNewData must not be Nothing."))
+            If pResult Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("The model has not been fitted yet."))
+            If arNewData Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentException("arNewData must not be Nothing."))
 
             Dim prepared As ClusterPreparedData = ClusterAnalysisHelpers.PreparePredictionData(arNewData, pResult.VariableNames, pResult.Standardization, pResult.StandardizationLocations, pResult.StandardizationScales)
             Dim n As Integer = prepared.WorkingData.GetUpperBound(0) + 1
@@ -1410,10 +1408,10 @@ Namespace Multivariate
         ''' <param name="numberOfClusters">Requested number of clusters.</param>
         ''' <returns>An array of cluster labels for the active observations, numbered from 1 to the requested number of clusters.</returns>
         Public Function GetMembershipByClusterCount(numberOfClusters As Integer) As Integer()
-            If ActiveRowIndices Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("No fitted solution is available."))
+            If ActiveRowIndices Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("No fitted solution is available."))
             Dim n As Integer = ActiveRowIndices.Length
             If numberOfClusters < 1 OrElse numberOfClusters > n Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("numberOfClusters must be between 1 and the number of active observations."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("numberOfClusters must be between 1 and the number of active observations."))
             End If
             Return ClusterAnalysisHelpers.BuildMembershipFromMerges(n, MergeLeftClusterIds, MergeRightClusterIds, n - numberOfClusters)
         End Function
@@ -1424,7 +1422,7 @@ Namespace Multivariate
         ''' <param name="cutHeight">Merge-height threshold. Merges at or below this height are applied.</param>
         ''' <returns>An array of cluster labels for the active observations.</returns>
         Public Function GetMembershipByHeight(cutHeight As Double) As Integer()
-            If ActiveRowIndices Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("No fitted solution is available."))
+            If ActiveRowIndices Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("No fitted solution is available."))
             Dim mergesToApply As Integer = 0
             If MergeHeights IsNot Nothing Then
                 For i As Integer = 0 To MergeHeights.Length - 1
@@ -1505,62 +1503,9 @@ Namespace Multivariate
                                                Optional membershipClusterCount As Integer = 3,
                                                Optional membershipCutHeight As Double = 0.0) As DendrogramLayout
             If ActiveRowIndices Is Nothing OrElse MergeLeftClusterIds Is Nothing OrElse MergeRightClusterIds Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("No fitted hierarchical clustering solution is available."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("No fitted hierarchical clustering solution is available."))
             End If
             Return ClusterAnalysisHelpers.BuildDendrogramLayout(Me, heightMode, orientation, cutMode, membershipClusterCount, membershipCutHeight)
-        End Function
-
-        ''' <summary>
-        ''' Creates an Excel dendrogram chart from the fitted hierarchical clustering result.
-        ''' </summary>
-        ''' <param name="figure">
-        ''' Optional existing chart object to reuse. When supplied, the dendrogram is drawn directly into this chart and
-        ''' the worksheet anchor arguments are ignored.
-        ''' </param>
-        ''' <param name="ws">
-        ''' Optional worksheet used when a new embedded chart must be created. When both <paramref name="figure"/> and
-        ''' <paramref name="ws"/> are omitted, a new chart sheet is created in the active workbook.
-        ''' </param>
-        ''' <param name="topLeftCellAddress">
-        ''' Worksheet address of the upper-left chart anchor when a new embedded chart is created.
-        ''' </param>
-        ''' <param name="chartWidth">Chart width, in Excel points, for a newly created embedded chart.</param>
-        ''' <param name="chartHeight">Chart height, in Excel points, for a newly created embedded chart.</param>
-        ''' <param name="heightMode">Controls whether branch heights follow merge step numbers or fitted merge distances.</param>
-        ''' <param name="orientation">Requested display orientation for the final chart coordinates.</param>
-        ''' <param name="labelMode">Controls whether leaf labels are rendered as point labels, axis-title text, or not at all.</param>
-        ''' <param name="chartTitle">Optional chart title text.</param>
-        ''' <param name="distanceAxisTitle">
-        ''' Optional title for the distance axis. If omitted, a default title is generated from <paramref name="heightMode"/>.
-        ''' </param>
-        ''' <returns>
-        ''' The Excel <see cref="Chart"/> object that was created or updated. The chart series are populated directly
-        ''' from in-memory VB.NET arrays; no worksheet helper ranges are required.
-        ''' </returns>
-        Public Function CreateDendrogramChart(Optional figure As Chart = Nothing,
-                                              Optional ws As Worksheet = Nothing,
-                                              Optional topLeftCellAddress As String = "A1",
-                                              Optional chartWidth As Double = 480.0,
-                                              Optional chartHeight As Double = 320.0,
-                                              Optional heightMode As DendrogramHeightMode = DendrogramHeightMode.MergeDistance,
-                                              Optional orientation As DendrogramOrientation = DendrogramOrientation.Top,
-                                              Optional labelMode As DendrogramLabelMode = DendrogramLabelMode.DataLabels,
-                                              Optional chartTitle As String = "Dendrogram",
-                                              Optional distanceAxisTitle As String = Nothing,
-                                              Optional cutMode As HierarchicalMembershipDisplayMode = HierarchicalMembershipDisplayMode.ByClusterCount,
-                                              Optional membershipClusterCount As Integer = 3,
-                                              Optional membershipCutHeight As Double = 0.0) As Chart
-
-            Dim layout As DendrogramLayout = CreateDendrogramLayout(heightMode, orientation, cutMode, membershipClusterCount, membershipCutHeight)
-            Return DendrogramChartWriter.CreateExcelChart(layout,
-                                                          figure,
-                                                          ws,
-                                                          topLeftCellAddress,
-                                                          chartWidth,
-                                                          chartHeight,
-                                                          labelMode,
-                                                          chartTitle,
-                                                          distanceAxisTitle)
         End Function
 
     End Class
@@ -1664,297 +1609,6 @@ Namespace Multivariate
             Return String.Join(New String(" "c, Math.Max(1, minimumSpacesBetweenLabels)), LeafLabels)
         End Function
 
-        ''' <summary>
-        ''' Draws the prepared dendrogram layout into an Excel chart.
-        ''' </summary>
-        ''' <param name="figure">
-        ''' Optional existing chart object to reuse. When supplied, the layout is drawn directly into this chart.
-        ''' </param>
-        ''' <param name="ws">
-        ''' Optional worksheet used when a new embedded chart must be created. When both <paramref name="figure"/> and
-        ''' <paramref name="ws"/> are omitted, a new chart sheet is created in the active workbook.
-        ''' </param>
-        ''' <param name="topLeftCellAddress">Worksheet address of the upper-left chart anchor when a new embedded chart is created.</param>
-        ''' <param name="chartWidth">Chart width, in Excel points, for a newly created embedded chart.</param>
-        ''' <param name="chartHeight">Chart height, in Excel points, for a newly created embedded chart.</param>
-        ''' <param name="labelMode">Controls whether leaf labels are rendered as point labels, axis-title text, or not at all.</param>
-        ''' <param name="chartTitle">Optional chart title text.</param>
-        ''' <param name="distanceAxisTitle">Optional title for the distance axis.</param>
-        ''' <returns>The Excel <see cref="Chart"/> object that was created or updated.</returns>
-        ''' <remarks>
-        ''' The plotted series are supplied directly from the layout's VB.NET arrays without writing helper ranges to a worksheet.
-        ''' </remarks>
-        Public Function Draw(Optional figure As Chart = Nothing,
-                             Optional ws As Worksheet = Nothing,
-                             Optional topLeftCellAddress As String = "A1",
-                             Optional chartWidth As Double = 480.0,
-                             Optional chartHeight As Double = 320.0,
-                             Optional labelMode As DendrogramLabelMode = DendrogramLabelMode.DataLabels,
-                             Optional chartTitle As String = "Dendrogram",
-                             Optional distanceAxisTitle As String = Nothing) As Chart
-            Return DendrogramChartWriter.CreateExcelChart(Me,
-                                                          figure,
-                                                          ws,
-                                                          topLeftCellAddress,
-                                                          chartWidth,
-                                                          chartHeight,
-                                                          labelMode,
-                                                          chartTitle,
-                                                          distanceAxisTitle)
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' Creates Excel dendrogram charts from a precomputed <see cref="DendrogramLayout"/>.
-    ''' </summary>
-    ''' <remarks>
-    ''' <para>
-    ''' The chart writer uses the Chapter-8 approach of drawing a dendrogram as an X/Y scatter chart with straight
-    ''' lines and, optionally, a separate label series or x-axis title text for leaf labels.
-    ''' </para>
-    ''' <para>
-    ''' All plotted series are supplied directly as in-memory VB.NET arrays. No worksheet helper ranges are needed
-    ''' unless a caller deliberately exports the coordinates separately for debugging.
-    ''' </para>
-    ''' </remarks>
-    Public NotInheritable Class DendrogramChartWriter
-
-        Private Sub New()
-        End Sub
-
-        ''' <summary>
-        ''' Creates or redraws an Excel dendrogram chart from a prepared layout object.
-        ''' </summary>
-        ''' <param name="layout">Prepared dendrogram layout returned by HierarchicalClusterResult.CreateDendrogramLayout(DendrogramHeightMode, DendrogramOrientation).</param>
-        ''' <param name="figure">
-        ''' Optional existing chart object to reuse. When supplied, the dendrogram is rendered directly into this chart.
-        ''' </param>
-        ''' <param name="ws">
-        ''' Optional worksheet used when a new embedded chart must be created. When both <paramref name="figure"/> and
-        ''' <paramref name="ws"/> are omitted, a new chart sheet is created in the active workbook.
-        ''' </param>
-        ''' <param name="topLeftCellAddress">Worksheet address of the upper-left chart anchor when a new embedded chart is created.</param>
-        ''' <param name="chartWidth">Chart width, in Excel points, for a newly created embedded chart.</param>
-        ''' <param name="chartHeight">Chart height, in Excel points, for a newly created embedded chart.</param>
-        ''' <param name="labelMode">Controls how leaf labels are rendered.</param>
-        ''' <param name="chartTitle">Optional chart title text.</param>
-        ''' <param name="distanceAxisTitle">Optional title for the distance axis.</param>
-        ''' <returns>
-        ''' The Excel <see cref="Chart"/> object that was created or updated. The chart series are populated directly
-        ''' from the coordinate arrays stored in <paramref name="layout"/>.
-        ''' </returns>
-        Public Shared Function CreateExcelChart(layout As DendrogramLayout,
-                                                Optional figure As Chart = Nothing,
-                                                Optional ws As Worksheet = Nothing,
-                                                Optional topLeftCellAddress As String = "A1",
-                                                Optional chartWidth As Double = 480.0,
-                                                Optional chartHeight As Double = 320.0,
-                                                Optional labelMode As DendrogramLabelMode = DendrogramLabelMode.DataLabels,
-                                                Optional chartTitle As String = "Dendrogram",
-                                                Optional distanceAxisTitle As String = Nothing) As Chart
-
-            If layout Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(layout)))
-            If layout.PolylineX Is Nothing OrElse layout.PolylineY Is Nothing OrElse layout.PolylineX.Length = 0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The supplied dendrogram layout does not contain any polyline coordinates."))
-            End If
-
-            If figure Is Nothing Then
-                If ws Is Nothing Then
-                    If AppGlobals.app Is Nothing OrElse AppGlobals.app.ActiveWorkbook Is Nothing Then
-                        AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("No active workbook is available for dendrogram chart creation."))
-                    End If
-                    AppGlobals.app.ActiveWorkbook.Charts.Add()
-                    figure = CType(AppGlobals.app.ActiveChart, Chart)
-                Else
-                    Dim anchor As Range = ws.Range(topLeftCellAddress)
-                    figure = ws.Shapes.AddChart(Left:=CDbl(anchor.Left), Top:=CDbl(anchor.Top), Width:=chartWidth, Height:=chartHeight).Chart
-                End If
-            End If
-
-            With figure
-                .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                .HasLegend = False
-                .HasTitle = False
-                If Not String.IsNullOrWhiteSpace(chartTitle) Then
-                    .HasTitle = True
-                    .ChartTitle.Text = chartTitle
-                End If
-
-                Do Until .SeriesCollection.Count = 0
-                    .SeriesCollection(1).Delete
-                Loop
-
-                .HasAxis(XlAxisType.xlCategory, XlAxisGroup.xlPrimary) = True
-                .HasAxis(XlAxisType.xlValue, XlAxisGroup.xlPrimary) = True
-
-                Dim nextSeriesIndex As Integer = 1
-
-                .SeriesCollection.NewSeries()
-                With .SeriesCollection(nextSeriesIndex)
-                    .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                    .Name = "Dendrogram"
-                    .XValues = layout.PolylineX
-                    .Values = layout.PolylineY
-                    .Border.LineStyle = XlLineStyle.xlContinuous
-                    .Border.Weight = XlBorderWeight.xlThin
-                    .Border.Color = RGB(0, 0, 0)
-                    .Format.Line.Visible = True
-                    .Format.Line.ForeColor.RGB = RGB(0, 0, 0)
-                    .Format.Line.Weight = 1.25
-                End With
-                nextSeriesIndex += 1
-
-                If layout.ClusterPolylineX IsNot Nothing AndAlso layout.ClusterPolylineY IsNot Nothing Then
-                    Dim nColored As Integer = Math.Min(layout.ClusterPolylineX.Count, layout.ClusterPolylineY.Count)
-                    For i As Integer = 0 To nColored - 1
-                        If layout.ClusterPolylineX(i) Is Nothing OrElse layout.ClusterPolylineY(i) Is Nothing Then Continue For
-                        If layout.ClusterPolylineX(i).Length = 0 OrElse layout.ClusterPolylineY(i).Length = 0 Then Continue For
-
-                        Dim clr As Integer = ClusterAnalysisHelpers.GetClusterSeriesColor(i)
-                        .SeriesCollection.NewSeries()
-                        With .SeriesCollection(nextSeriesIndex)
-                            .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                            .Name = $"Cluster {i + 1}"
-                            .XValues = layout.ClusterPolylineX(i)
-                            .Values = layout.ClusterPolylineY(i)
-                            .Border.LineStyle = XlLineStyle.xlContinuous
-                            .Border.Weight = XlBorderWeight.xlThin
-                            .Border.Color = clr
-                            .Format.Line.Visible = True
-                            .Format.Line.ForeColor.RGB = clr
-                            .Format.Line.Weight = 2.0
-                        End With
-                        nextSeriesIndex += 1
-                    Next
-                End If
-
-                If layout.CutLineX IsNot Nothing AndAlso layout.CutLineY IsNot Nothing AndAlso layout.CutLineX.Length >= 2 AndAlso layout.CutLineY.Length >= 2 Then
-                    .SeriesCollection.NewSeries()
-                    With .SeriesCollection(nextSeriesIndex)
-                        .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                        .Name = "Cut"
-                        .XValues = layout.CutLineX
-                        .Values = layout.CutLineY
-                        .Border.LineStyle = XlLineStyle.xlContinuous
-                        .Border.Weight = XlBorderWeight.xlThin
-                        .Border.Color = RGB(90, 90, 90)
-                        .Format.Line.Visible = True
-                        .Format.Line.ForeColor.RGB = RGB(90, 90, 90)
-                        .Format.Line.Weight = 1.25
-                        .Format.Line.DashStyle = 4
-                    End With
-                    nextSeriesIndex += 1
-                End If
-
-                If labelMode = DendrogramLabelMode.DataLabels AndAlso layout.LeafX IsNot Nothing AndAlso layout.LeafLabels IsNot Nothing AndAlso layout.LeafLabels.Length > 0 Then
-                    .SeriesCollection.NewSeries()
-                    With .SeriesCollection(nextSeriesIndex)
-                        .ChartType = XlChartType.xlXYScatter
-                        .Name = "LeafLabels"
-                        .XValues = layout.LeafX
-                        .Values = layout.LeafY
-                        .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
-                        For i As Integer = 1 To layout.LeafLabels.Length
-                            .Points(i).HasDataLabel = True
-                            .Points(i).DataLabel.Text = layout.LeafLabels(i - 1)
-                            .Points(i).DataLabel.Font.Size = 9
-                            Select Case layout.Orientation
-                                Case DendrogramOrientation.Top
-                                    .Points(i).DataLabel.Position = XlDataLabelPosition.xlLabelPositionBelow
-                                Case DendrogramOrientation.Bottom
-                                    .Points(i).DataLabel.Position = XlDataLabelPosition.xlLabelPositionAbove
-                                Case DendrogramOrientation.Left
-                                    .Points(i).DataLabel.Position = XlDataLabelPosition.xlLabelPositionRight
-                                Case Else
-                                    .Points(i).DataLabel.Position = XlDataLabelPosition.xlLabelPositionLeft
-                            End Select
-                        Next
-                    End With
-                    nextSeriesIndex += 1
-                End If
-
-                Dim xMin As Double = layout.PolylineX.Min()
-                Dim xMax As Double = layout.PolylineX.Max()
-                Dim yMin As Double = layout.PolylineY.Min()
-                Dim yMax As Double = layout.PolylineY.Max()
-
-                If layout.CutLineX IsNot Nothing AndAlso layout.CutLineX.Length > 0 Then
-                    xMin = Math.Min(xMin, layout.CutLineX.Min())
-                    xMax = Math.Max(xMax, layout.CutLineX.Max())
-                End If
-                If layout.CutLineY IsNot Nothing AndAlso layout.CutLineY.Length > 0 Then
-                    yMin = Math.Min(yMin, layout.CutLineY.Min())
-                    yMax = Math.Max(yMax, layout.CutLineY.Max())
-                End If
-
-                Dim xReference As Double = If(layout.Orientation = DendrogramOrientation.Left OrElse layout.Orientation = DendrogramOrientation.Right,
-                                              If(layout.MaximumHeight <= 0, 1.0, layout.MaximumHeight),
-                                              layout.LeafCount)
-                Dim yReference As Double = If(layout.Orientation = DendrogramOrientation.Left OrElse layout.Orientation = DendrogramOrientation.Right,
-                                              layout.LeafCount,
-                                              If(layout.MaximumHeight <= 0, 1.0, layout.MaximumHeight))
-                Dim xPad As Double = ClusterAnalysisHelpers.AxisPadding(xMin, xMax, xReference)
-                Dim yPad As Double = ClusterAnalysisHelpers.AxisPadding(yMin, yMax, yReference)
-
-                With .Axes(XlAxisType.xlCategory)
-                    .MinimumScaleIsAuto = False
-                    .MaximumScaleIsAuto = False
-                    .MinimumScale = xMin - xPad
-                    .MaximumScale = xMax + xPad
-                    .HasMajorGridlines = False
-                    .HasMinorGridlines = False
-                    Try
-                        .MajorGridlines.Delete()
-                    Catch
-                    End Try
-                End With
-
-                With .Axes(XlAxisType.xlValue)
-                    .MinimumScaleIsAuto = False
-                    .MaximumScaleIsAuto = False
-                    .MinimumScale = yMin - yPad
-                    .MaximumScale = yMax + yPad
-                    .HasMajorGridlines = False
-                    .HasMinorGridlines = False
-                    Try
-                        .MajorGridlines.Delete()
-                    Catch
-                    End Try
-                End With
-
-                If layout.Orientation = DendrogramOrientation.Left OrElse layout.Orientation = DendrogramOrientation.Right Then
-                    With .Axes(XlAxisType.xlCategory)
-                        .MajorTickMark = XlTickMark.xlTickMarkOutside
-                        .MinorTickMark = XlTickMark.xlTickMarkNone
-                        .TickLabelPosition = XlTickLabelPosition.xlTickLabelPositionNextToAxis
-                        .Border.LineStyle = XlLineStyle.xlContinuous
-                    End With
-                    With .Axes(XlAxisType.xlValue)
-                        .MajorTickMark = XlTickMark.xlTickMarkNone
-                        .MinorTickMark = XlTickMark.xlTickMarkNone
-                        .TickLabelPosition = XlTickLabelPosition.xlTickLabelPositionNone
-                        .Border.LineStyle = XlLineStyle.xlLineStyleNone
-                    End With
-                Else
-                    With .Axes(XlAxisType.xlCategory)
-                        .MajorTickMark = XlTickMark.xlTickMarkNone
-                        .MinorTickMark = XlTickMark.xlTickMarkNone
-                        .TickLabelPosition = XlTickLabelPosition.xlTickLabelPositionNone
-                        .Border.LineStyle = XlLineStyle.xlLineStyleNone
-                    End With
-                    With .Axes(XlAxisType.xlValue)
-                        .MajorTickMark = XlTickMark.xlTickMarkOutside
-                        .MinorTickMark = XlTickMark.xlTickMarkNone
-                        .TickLabelPosition = XlTickLabelPosition.xlTickLabelPositionNextToAxis
-                        .Border.LineStyle = XlLineStyle.xlContinuous
-                    End With
-                End If
-
-                ClusterAnalysisHelpers.ApplyDendrogramAxisTitles(figure, layout, labelMode, distanceAxisTitle)
-            End With
-
-            Return figure
-        End Function
     End Class
 
     ''' <summary>
@@ -2015,7 +1669,7 @@ Namespace Multivariate
                                   Optional minkowskiPower As Double = 2.0,
                                   Optional standardization As ClusterStandardizationMode = ClusterStandardizationMode.None,
                                   Optional missingValuePolicy As ClusterMissingValuePolicy = ClusterMissingValuePolicy.ErrorOnMissing)
-            If minkowskiPower <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("minkowskiPower must be greater than 0."))
+            If minkowskiPower <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("minkowskiPower must be greater than 0."))
 
             pLinkage = linkage
             pDistanceMetric = distanceMetric
@@ -2034,7 +1688,7 @@ Namespace Multivariate
         Public Sub reportInputs(Optional cutMode As HierarchicalMembershipDisplayMode = HierarchicalMembershipDisplayMode.ByClusterCount,
                                 Optional membershipClusterCount As Integer = 3,
                                 Optional membershipCutHeight As Double = 0.0)
-            If membershipClusterCount < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("membershipClusterCount must be at least 1."))
+            If membershipClusterCount < 1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("membershipClusterCount must be at least 1."))
             pMembershipDisplayMode = cutMode
             pMembershipClusterCount = membershipClusterCount
             pMembershipCutHeight = membershipCutHeight
@@ -2061,7 +1715,7 @@ Namespace Multivariate
         ''' constants, and rows removed by the selected missing-value policy.
         ''' </returns>
         Public Function wrapResults() As List(Of ResultTable)
-            If pResult Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Model is not fitted."))
+            If pResult Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Model is not fitted."))
 
             Dim out As New List(Of ResultTable)
             Dim t As ResultTable = Nothing
@@ -2243,19 +1897,19 @@ Namespace Multivariate
         ''' Thrown when the inputs are inconsistent or when the selected linkage and distance combination is not supported.
         ''' </exception>
         Public Sub Fit()
-            If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("No data supplied. Call dataInputs() first."))
+            If pData Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentException("No data supplied. Call dataInputs() first."))
 
             If (pLinkage = HierarchicalLinkageMethod.Centroid OrElse
                 pLinkage = HierarchicalLinkageMethod.Median OrElse
                 pLinkage = HierarchicalLinkageMethod.Ward) AndAlso
                (pDistanceMetric <> HierarchicalDistanceMetric.Euclidean AndAlso pDistanceMetric <> HierarchicalDistanceMetric.SquaredEuclidean) Then
 
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Centroid, median, and Ward linkage require Euclidean or squared Euclidean distance."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Centroid, median, and Ward linkage require Euclidean or squared Euclidean distance."))
             End If
 
             Dim prepared As ClusterPreparedData = ClusterAnalysisHelpers.PrepareData(pData, pRowLabels, pVarNames, pStandardization, pMissingValuePolicy)
             Dim n As Integer = prepared.WorkingData.GetUpperBound(0) + 1
-            If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Hierarchical clustering requires at least two active observations."))
+            If n < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Hierarchical clustering requires at least two active observations."))
 
             Dim mergeLeft(n - 2) As Integer
             Dim mergeRight(n - 2) As Integer
@@ -2310,7 +1964,7 @@ Namespace Multivariate
         ''' <param name="numberOfClusters">Requested number of clusters.</param>
         ''' <returns>An array of cluster labels for the active observations.</returns>
         Public Function GetMembershipByClusterCount(numberOfClusters As Integer) As Integer()
-            If pResult Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("The model has not been fitted yet."))
+            If pResult Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("The model has not been fitted yet."))
             Return pResult.GetMembershipByClusterCount(numberOfClusters)
         End Function
 
@@ -2320,7 +1974,7 @@ Namespace Multivariate
         ''' <param name="cutHeight">Merge-height threshold. Merges at or below this height are applied.</param>
         ''' <returns>An array of cluster labels for the active observations.</returns>
         Public Function GetMembershipByHeight(cutHeight As Double) As Integer()
-            If pResult Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("The model has not been fitted yet."))
+            If pResult Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("The model has not been fitted yet."))
             Return pResult.GetMembershipByHeight(cutHeight)
         End Function
 
@@ -2559,13 +2213,13 @@ Namespace Multivariate
                                               Optional membershipClusterCount As Integer = 3,
                                               Optional membershipCutHeight As Double = 0.0) As DendrogramLayout
 
-            If result Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(result)))
+            If result Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(result)))
             If result.ActiveRowIndices Is Nothing OrElse result.ActiveRowLabels Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The hierarchical clustering result does not contain active rows."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The hierarchical clustering result does not contain active rows."))
             End If
 
             Dim n As Integer = result.ActiveRowIndices.Length
-            If n = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("The hierarchical clustering result does not contain any active rows."))
+            If n = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("The hierarchical clustering result does not contain any active rows."))
 
             Dim originalToDisplayX As New Dictionary(Of Integer, Double)
             Dim leafOriginalOrder() As Integer
@@ -2921,52 +2575,8 @@ Namespace Multivariate
             Return 0.5
         End Function
 
-        Public Sub ApplyDendrogramAxisTitles(figure As Chart,
-                                             layout As DendrogramLayout,
-                                             labelMode As DendrogramLabelMode,
-                                             distanceAxisTitle As String)
-
-            If figure Is Nothing OrElse layout Is Nothing Then Return
-
-            Dim resolvedDistanceTitle As String = distanceAxisTitle
-            If String.IsNullOrWhiteSpace(resolvedDistanceTitle) Then
-                resolvedDistanceTitle = If(layout.HeightMode = DendrogramHeightMode.StepLevels,
-                                           "Distance not in proportion",
-                                           "Distance")
-            End If
-
-            Select Case layout.Orientation
-                Case DendrogramOrientation.Top, DendrogramOrientation.Bottom
-                    figure.Axes(XlAxisType.xlValue).HasTitle = True
-                    figure.Axes(XlAxisType.xlValue).AxisTitle.Text = resolvedDistanceTitle
-                    figure.Axes(XlAxisType.xlCategory).HasTitle = (labelMode = DendrogramLabelMode.AxisTitle)
-                    If labelMode = DendrogramLabelMode.AxisTitle Then
-                        figure.Axes(XlAxisType.xlCategory).AxisTitle.Text = layout.GetSuggestedAxisTitle()
-                    End If
-                Case Else
-                    figure.Axes(XlAxisType.xlCategory).HasTitle = True
-                    figure.Axes(XlAxisType.xlCategory).AxisTitle.Text = resolvedDistanceTitle
-                    figure.Axes(XlAxisType.xlValue).HasTitle = (labelMode = DendrogramLabelMode.AxisTitle)
-                    If labelMode = DendrogramLabelMode.AxisTitle Then
-                        figure.Axes(XlAxisType.xlValue).AxisTitle.Text = layout.GetSuggestedAxisTitle()
-                    End If
-            End Select
-        End Sub
-
-        Public Sub WriteObjectTable(ws As Worksheet,
-                                    topLeftCellAddress As String,
-                                    values As Object(,))
-            If ws Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(ws)))
-            If values Is Nothing Then Return
-            Dim rows As Integer = values.GetUpperBound(0) + 1
-            Dim cols As Integer = values.GetUpperBound(1) + 1
-            Dim target As Range = ws.Range(topLeftCellAddress).Resize(rows, cols)
-            target.Value = values
-        End Sub
-
-
         Public Function CreateRandom(seed As Integer) As Random
-            Return AppGlobals.CreateRandom(seed)
+            Return CoreServices.AnalysisDefaults.CreateRandom(seed)
         End Function
 
         Public Function PrepareData(data(,) As Double,
@@ -3001,7 +2611,7 @@ Namespace Multivariate
 
                 If hasMissing Then
                     If missingPolicy = ClusterMissingValuePolicy.ErrorOnMissing Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing or non-finite numeric value found in row {i + 1}."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing or non-finite numeric value found in row {i + 1}."))
                     End If
                     keepRow(i) = False
                     removedIndices.Add(i + 1)
@@ -3012,7 +2622,7 @@ Namespace Multivariate
                 End If
             Next
 
-            If activeCount = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("No complete observations remain after preprocessing."))
+            If activeCount = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("No complete observations remain after preprocessing."))
 
             Dim activeOriginalData(activeCount - 1, p - 1) As Double
             Dim workingData(activeCount - 1, p - 1) As Double
@@ -3063,14 +2673,14 @@ Namespace Multivariate
             Dim n As Integer = data.GetUpperBound(0) + 1
             Dim p As Integer = data.GetUpperBound(1) + 1
             If varNames IsNot Nothing AndAlso varNames.Length <> p Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The new data matrix does not have the expected number of variables."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The new data matrix does not have the expected number of variables."))
             End If
 
             Dim workingData(n - 1, p - 1) As Double
             For i As Integer = 0 To n - 1
                 For j As Integer = 0 To p - 1
                     If Double.IsNaN(data(i, j)) OrElse Double.IsInfinity(data(i, j)) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing or non-finite numeric value found in new-data row {i + 1}."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing or non-finite numeric value found in new-data row {i + 1}."))
                     End If
                     workingData(i, j) = TransformValue(data(i, j), standardization, locations(j), scales(j))
                 Next
@@ -3091,7 +2701,7 @@ Namespace Multivariate
             Dim k As Integer = centersOriginal.GetUpperBound(0) + 1
             Dim p As Integer = centersOriginal.GetUpperBound(1) + 1
             If p <> prepared.WorkingData.GetUpperBound(1) + 1 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The supplied centers do not have the expected number of variables."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The supplied centers do not have the expected number of variables."))
             End If
             Dim output(k - 1, p - 1) As Double
             For i As Integer = 0 To k - 1

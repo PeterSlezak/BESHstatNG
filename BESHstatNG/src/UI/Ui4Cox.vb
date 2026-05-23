@@ -153,11 +153,11 @@ Public Class Ui4Cox
             End If
 
             Dim alphaValue As Double = Me.spinBtnAlpha.Value
-            Dim resu = cox.Fit(m, Me.ProgressBar1, Me.lblProgress)
+            Dim resu = cox.Fit(m, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
             Dim res = cox.wrapResults(If(MyData.bStrata, MyData.StrataVarName, Nothing), alphaValue)
 
             'Dump results
-            Dim WriteRes = New WriteResults
+            Dim WriteRes = New ExcelDnaResultWriter
             WriteRes.wb = AppGlobals.app.Workbooks.Add()
             AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Cox Regression"
             WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -242,7 +242,7 @@ Public Class Ui4Cox
                 .Range(.Cells(2, 5 + 3 * bh.Keys.Count), .Cells(1 + fitVarNames.Length, 5 + 3 * bh.Keys.Count)).Interior.Color = RGB(255, 255, 0)
             End With
 
-            cox.PlotCox(WriteRes.ws, Strata1Times, Strata1SurvProb, 100, 200)
+            graphics.CoxSurvivalPlotExcel.PlotCox(WriteRes.ws, Strata1Times, Strata1SurvProb, 100, 200)
 
             'add new series to adjusted survival curve chart
             Dim strXChartDataAddr As String, strYChartDataAddr As String
@@ -296,7 +296,7 @@ Public Class Ui4Cox
         Catch ex As System.OperationCanceledException
             FinishRegressionComputation("Calculation cancelled.")
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         Finally
             EndRegressionComputation()
         End Try
@@ -360,7 +360,7 @@ Public Class Ui4Cox
         Next
 
         Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
-        MyData.DataImport(ref)
+        ExcelDnaDataImporter.ImportInto(MyData, ref)
         Return MyData
     End Function
 
@@ -369,7 +369,7 @@ Public Class Ui4Cox
         pRegressionInterruptRequested = False
         pRegressionCloseAfterCancel = False
         pRegressionCalculationRunning = True
-        AppGlobals.SetRegressionComputationCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
+        CoreServices.Regression.SetCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
 
         Try
             Me.btCalculate.Enabled = False
@@ -382,7 +382,7 @@ Public Class Ui4Cox
 
     Private Sub EndRegressionComputation()
         pRegressionCalculationRunning = False
-        AppGlobals.ClearRegressionComputationCallbacks()
+        CoreServices.Regression.ClearCallbacks()
 
         Try
             If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then

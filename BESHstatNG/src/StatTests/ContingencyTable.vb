@@ -2,7 +2,6 @@
 Option Strict On
 
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 Namespace contingencytable
 
@@ -60,7 +59,7 @@ Namespace contingencytable
             Dim rowsNo As Integer = data.GetLength(0)
 
             If (rowsNo Mod 2 <> 0) Or (data.GetUpperBound(1) <> 1) Then 'check imput data dimension
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Wrong dimension of the input table! Mantel Haenszel test"))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Wrong dimension of the input table! Mantel Haenszel test"))
             End If
 
             For i = 0 To rowsNo - 1
@@ -260,7 +259,7 @@ Namespace contingencytable
 
             Dim n As Double = a + b + c + d
             If n > 1000 Then
-                AppGlobals.BSlogg.Log("Too large sample size for exact computation.", AppGlobals.LogMsgType.Warn)
+                CoreServices.Log("Too large sample size for exact computation.", AppInfrastructure.LogMsgType.Warn)
                 Return Nothing
             End If
             Dim min As Integer = Minimum(a, b, c, d)

@@ -363,7 +363,7 @@ Public Class Ui19LMM
         Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
 
         Dim d As New DataObj()
-        d.DataImport(ref, True, CharCols:=0)
+        ExcelDnaDataImporter.ImportInto(d, ref, True, CharCols:=0)
 
         Return New LmmGuiData With {
             .Raw = d,
@@ -382,14 +382,14 @@ Public Class Ui19LMM
                                          ByRef randomNames() As String)
 
         If lmmData Is Nothing OrElse lmmData.Raw Is Nothing Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(lmmData)))
+            CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(lmmData)))
         End If
 
         Dim raw As DataObj = lmmData.Raw
         Dim nRows As Integer = raw.nRows
 
         If nRows <= 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ApplicationException("No valid observations are available for LMM."))
+            CoreServices.Errors.LogAndThrow(New ApplicationException("No valid observations are available for LMM."))
         End If
 
         Dim yCol As Integer = ResolveDataColumnIndex(raw, lmmData.ResponseKey, "response")
@@ -453,7 +453,7 @@ Public Class Ui19LMM
             Await Me.RunLMMAsync(myData)
 
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -912,7 +912,7 @@ Public Class Ui19LMM
             t.AddFootnote("Levels are observed numeric/coded values in the cleaned analysis data for variables used as categorical effects.")
             result.AdditionalResultTables.Add(t)
         Catch ex As Exception
-            AppGlobals.BSlogg.Warn("AppendLMMClassInfoTable failed: " & ex.Message)
+            CoreServices.Logger.Warn("AppendLMMClassInfoTable failed: " & ex.Message)
         End Try
     End Sub
 
@@ -963,8 +963,8 @@ Public Class Ui19LMM
                                 subjectId() As Object,
                                 visit() As Double)
 
-        If result Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(result)))
-        If lmmGuiData Is Nothing OrElse lmmGuiData.Raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(lmmGuiData)))
+        If result Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(result)))
+        If lmmGuiData Is Nothing OrElse lmmGuiData.Raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(lmmGuiData)))
 
         Dim wb As Object = AppGlobals.app.Workbooks.Add()
 
@@ -987,7 +987,7 @@ Public Class Ui19LMM
                                   randomNames() As String,
                                   subjectId() As Object,
                                   visit() As Double)
-        Dim writeRes As New WriteResults
+        Dim writeRes As New ExcelDnaResultWriter
         writeRes.wb = wb
         writeRes.ws = wb.ActiveSheet
         writeRes.ws.Name = "Data"
@@ -1077,7 +1077,7 @@ Public Class Ui19LMM
                                                                 includeOptimizerTrace:=Me.ckIterationsDetails.Checked,
                                                                 includeKenwardRogerTermTests:=True,
                                                                 includeDiagnostics:=Me.cbDiagnostic.Checked)
-        Dim writeRes As New WriteResults
+        Dim writeRes As New ExcelDnaResultWriter
         wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
         wb.ActiveSheet.Name = "LMM"
         writeRes.wb = wb
@@ -1088,7 +1088,7 @@ Public Class Ui19LMM
     End Sub
 
     Private Sub WriteLMMTraceSheet(wb As Object, traceText As String)
-        Dim writeRes As New WriteResults
+        Dim writeRes As New ExcelDnaResultWriter
         wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
         wb.ActiveSheet.Name = "LMM Trace"
         writeRes.wb = wb

@@ -41,10 +41,10 @@ Public Class Ui12GlobalSettings
             End If
 
             AppGlobals.gSettingsStore.Save(settings)
-            AppGlobals.BSlogg.Info("Global settings saved.")
+            CoreServices.Logger.Info("Global settings saved.")
             Me.Close()
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True, "Failed to save global settings")
+            CoreServices.Errors.LogAndThrow(ex, False, True, "Failed to save global settings")
         End Try
     End Sub
 

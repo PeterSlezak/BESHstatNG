@@ -256,7 +256,7 @@ Friend Module SheetManagement
 
         'Try to extract worksheet name from the RefEditValue and create a worksheet object
         If strAddr = String.Empty Or InStr(1, strAddr, "!") = 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ApplicationException("Cannot get worksheet name. Probably an invalid reference string. strAddr=" & strAddr))
+            CoreServices.Errors.LogAndThrow(New ApplicationException("Cannot get worksheet name. Probably an invalid reference string. strAddr=" & strAddr))
         End If
 
         countExclm = Len(strAddr) - Len(Replace(strAddr, "!", String.Empty))
@@ -269,12 +269,12 @@ Friend Module SheetManagement
             wks = Left$(strAddr, nIndex - 1)
         ElseIf countExclm > 1 And InStr(1, strAddr, "'") = 0 Then
             'we should be having apostroph if name contains !
-            AppGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .condition 3.. Unrecognized reference range adress string = " & strAddr))
+            CoreServices.Errors.LogAndThrow(New ApplicationException("This should not happen .condition 3.. Unrecognized reference range adress string = " & strAddr))
         ElseIf countExclm > 1 And InStr(1, strAddr, "'") > 0 Then
             'This should not happen. In this case string should contain "'!" which is our first condition.
-            AppGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .condition 4.. Unrecognized reference range adress string = " & strAddr))
+            CoreServices.Errors.LogAndThrow(New ApplicationException("This should not happen .condition 4.. Unrecognized reference range adress string = " & strAddr))
         Else
-            AppGlobals.BSerr.LogAndThrow(New ApplicationException("This should not happen .else condition.. Unrecognized reference range adress string = " & strAddr))
+            CoreServices.Errors.LogAndThrow(New ApplicationException("This should not happen .else condition.. Unrecognized reference range adress string = " & strAddr))
         End If
 
         If WB Is Nothing Then
@@ -321,7 +321,7 @@ Friend Module SheetManagement
 
         Dim info As VarColumnInfo = Nothing
         If Not VarList.TryGetValue(CStr(var), info) OrElse info Is Nothing Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Variable not found in VarList: '{var}'."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException($"Variable not found in VarList: '{var}'."))
         End If
 
         Dim col As String = info.ColumnLetter
@@ -337,9 +337,9 @@ Friend Module SheetManagement
                                       varList As Dictionary(Of String, VarColumnInfo),
                                       Optional skipEmpty As Boolean = True) As String
 
-        If ws Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(ws)))
-        If varKeys Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(varKeys)))
-        If varList Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(varList)))
+        If ws Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(ws)))
+        If varKeys Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(varKeys)))
+        If varList Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(varList)))
 
         Dim parts As New List(Of String)
 

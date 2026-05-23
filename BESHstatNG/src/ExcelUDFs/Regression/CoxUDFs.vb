@@ -970,14 +970,14 @@ Namespace WorksheetFunctions
                 Dim d = h.Model.Residuals(ResidualType.Martingale)
                 If d IsNot Nothing AndAlso d.Count > 0 Then Return True
             Catch ex As Exception
-                AppGlobals.BSlogg.Debug($"BESH.SURV.COX_RESID cache probe failed: {ex.Message}")
+                CoreServices.Logger.Debug($"BESH.SURV.COX_RESID cache probe failed: {ex.Message}")
             End Try
             Try
                 h.Model.bComputeAllResiduals = True
                 h.Result = h.Model.Fit(h.TieMethod)
                 Return True
             Catch ex As Exception
-                AppGlobals.BSlogg.Error(ex, "BESH.SURV.COX_RESID failed while computing residuals.")
+                CoreServices.Logger.Error(ex, "BESH.SURV.COX_RESID failed while computing residuals.")
                 Return False
             End Try
         End Function

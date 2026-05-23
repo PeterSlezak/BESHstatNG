@@ -77,13 +77,13 @@ Namespace Agreement
                        varY As String,
                        Optional opts As DemingOptions = Nothing)
 
-            If dataX Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataX)))
-            If dataY Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataY)))
+            If dataX Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(dataX)))
+            If dataY Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(dataY)))
             If dataX.Length <> dataY.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
             End If
             If dataX.Length < 3 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 paired observations are required for Deming regression."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("At least 3 paired observations are required for Deming regression."))
             End If
 
             Me.pRawReference = DirectCast(dataX.Clone(), Double())
@@ -105,7 +105,7 @@ Namespace Agreement
                 Return Me.pOptions
             End Get
             Set(value As DemingOptions)
-                If value Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(value)))
+                If value Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(value)))
                 ValidateOptions(value)
                 Me.pOptions = value
                 InvalidateFit()
@@ -211,7 +211,7 @@ Namespace Agreement
         ''' <returns>
         ''' A populated <see cref="MethodComparisonFitResult"/> instance.
         ''' </returns>
-        Public Function Fit(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+        Public Function Fit(Optional progress As IProgressReporter = Nothing,
                             Optional randomSeed As Integer = Integer.MinValue) As MethodComparisonFitResult
             If Me.pIsFitted AndAlso Me.pResult IsNot Nothing Then Return Me.pResult
 
@@ -229,9 +229,9 @@ Namespace Agreement
                 Case AgreementCiMethod.Jackknife
                     res = FitJackknifeCore(Me.pFilteredReference, Me.pFilteredTest, sd.SDx, sd.SDy, pointFit)
                 Case AgreementCiMethod.BootstrapPercentile, AgreementCiMethod.BootstrapBCa
-                    res = FitBootstrapCore(Me.pFilteredReference, Me.pFilteredTest, sd.SDx, sd.SDy, pointFit, progressBar, randomSeed)
+                    res = FitBootstrapCore(Me.pFilteredReference, Me.pFilteredTest, sd.SDx, sd.SDy, pointFit, progress, randomSeed)
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New NotSupportedException($"Unsupported CI method: {Me.pOptions.CiMethod}."))
+                    CoreServices.Errors.LogAndThrow(New NotSupportedException($"Unsupported CI method: {Me.pOptions.CiMethod}."))
                     Return Nothing
             End Select
 
@@ -365,7 +365,7 @@ Namespace Agreement
         ''' </summary>
         ''' <param name="ws">Target Excel worksheet.</param>
         Public Sub AddPlot(ws As Worksheet)
-            If ws Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(ws)))
+            If ws Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(ws)))
             If Not Me.pIsFitted OrElse Me.pResult Is Nothing Then Me.Fit()
 
             Dim ch = graphics.GeneralScatterPlot(Me.pFilteredReference, Me.pFilteredTest, Me.pVarY, Me.pVarX, ws, Me.BuildMethodName())
@@ -444,7 +444,7 @@ Namespace Agreement
                 For i As Integer = 0 To x.Length - 1
                     Dim denom As Double = wx(i) + (slope * slope * wy(i))
                     If denom <= 0.0 OrElse Double.IsNaN(denom) OrElse Double.IsInfinity(denom) Then
-                        AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Invalid York weight denominator encountered."))
+                        CoreServices.Errors.LogAndThrow(New InvalidOperationException("Invalid York weight denominator encountered."))
                     End If
                     w(i) = (wx(i) * wy(i)) / denom
                 Next
@@ -462,7 +462,7 @@ Namespace Agreement
                         num += w(i) * betaI * vi
                         den += w(i) * betaI * ui
                     Next
-                    If den = 0.0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("The generalized Deming slope is undefined because the York denominator is zero."))
+                    If den = 0.0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("The generalized Deming slope is undefined because the York denominator is zero."))
                     slopeNew = num / den
                 Else
                     Dim num As Double = 0.0
@@ -471,7 +471,7 @@ Namespace Agreement
                         num += w(i) * x(i) * y(i)
                         den += w(i) * x(i) * x(i)
                     Next
-                    If den = 0.0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("The through-origin generalized Deming slope is undefined because the weighted x sum of squares is zero."))
+                    If den = 0.0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("The through-origin generalized Deming slope is undefined because the weighted x sum of squares is zero."))
                     slopeNew = num / den
                 End If
 
@@ -482,7 +482,7 @@ Namespace Agreement
                 slope = slopeNew
 
                 If iter = maxIterations Then
-                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("York weighted Deming iteration did not converge within the configured iteration limit."))
+                    CoreServices.Errors.LogAndThrow(New InvalidOperationException("York weighted Deming iteration did not converge within the configured iteration limit."))
                 End If
             Next
 
@@ -514,10 +514,10 @@ Namespace Agreement
         Friend Shared Function BuildObservationStandardDeviations(x As Double(),
                                                                   y As Double(),
                                                                   opts As DemingOptions) As (SDx As Double(), SDy As Double())
-            If x Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(x)))
-            If y Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(y)))
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
-            If x.Length <> y.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("x and y must have the same length."))
+            If x Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(x)))
+            If y Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(y)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If x.Length <> y.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("x and y must have the same length."))
 
             Dim n As Integer = x.Length
             Dim sx(n - 1) As Double
@@ -526,7 +526,7 @@ Namespace Agreement
             Select Case opts.VarianceModel
                 Case DemingVarianceModel.ConstantLambda
                     If opts.Lambda <= 0.0 OrElse Double.IsNaN(opts.Lambda) OrElse Double.IsInfinity(opts.Lambda) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Lambda), "Lambda must be finite and > 0."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Lambda), "Lambda must be finite and > 0."))
                     End If
                     Dim sdXConst As Double = Math.Sqrt(opts.Lambda)
                     For i As Integer = 0 To n - 1
@@ -536,10 +536,10 @@ Namespace Agreement
 
                 Case DemingVarianceModel.KnownPointwiseSD
                     If opts.SDx Is Nothing OrElse opts.SDy Is Nothing Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("KnownPointwiseSD requires both SDx and SDy arrays."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("KnownPointwiseSD requires both SDx and SDy arrays."))
                     End If
                     If opts.SDx.Length <> n OrElse opts.SDy.Length <> n Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("SDx and SDy must have the same length as x and y."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("SDx and SDy must have the same length as x and y."))
                     End If
                     For i As Integer = 0 To n - 1
                         sx(i) = SanitizeStandardDeviation(opts.SDx(i))
@@ -548,10 +548,10 @@ Namespace Agreement
 
                 Case DemingVarianceModel.ConstantCV
                     If opts.CVx <= 0.0 OrElse Double.IsNaN(opts.CVx) OrElse Double.IsInfinity(opts.CVx) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.CVx), "CVx must be finite and > 0 for ConstantCV."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.CVx), "CVx must be finite and > 0 for ConstantCV."))
                     End If
                     If opts.CVy <= 0.0 OrElse Double.IsNaN(opts.CVy) OrElse Double.IsInfinity(opts.CVy) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.CVy), "CVy must be finite and > 0 for ConstantCV."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.CVy), "CVy must be finite and > 0 for ConstantCV."))
                     End If
                     For i As Integer = 0 To n - 1
                         sx(i) = Math.Max(Math.Abs(x(i)) * opts.CVx, DEFAULT_SD_FLOOR)
@@ -559,7 +559,7 @@ Namespace Agreement
                     Next
 
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New NotSupportedException($"Unsupported variance model: {opts.VarianceModel}."))
+                    CoreServices.Errors.LogAndThrow(New NotSupportedException($"Unsupported variance model: {opts.VarianceModel}."))
             End Select
 
             Return (sx, sy)
@@ -640,17 +640,15 @@ Namespace Agreement
                                   sdXin As Double(),
                                   sdYin As Double(),
                                   pointFit As (Intercept As Double, Slope As Double),
-                                  Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                  Optional progress As IProgressReporter = Nothing,
                                   Optional randomSeed As Integer = Integer.MinValue) As MethodComparisonFitResult
             Dim b As Integer = Math.Max(200, Me.pOptions.BootstrapReplicates)
             Dim n As Integer = x.Length
             Dim bootIntercept(b - 1) As Double
             Dim bootSlope(b - 1) As Double
-            Dim rng = AppGlobals.CreateRandom(randomSeed)
+            Dim rng = CoreServices.AnalysisDefaults.CreateRandom(randomSeed)
 
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 0)
-            End If
+            If progress IsNot Nothing Then progress.Report(0)
 
             For r As Integer = 0 To b - 1
                 Dim xx(n - 1) As Double
@@ -668,9 +666,9 @@ Namespace Agreement
                 bootIntercept(r) = fitR.Intercept
                 bootSlope(r) = fitR.Slope
 
-                If progressBar IsNot Nothing Then
+                If progress IsNot Nothing Then
                     Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * (r + 1) / b)))
-                    progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                    progress.Report(progressValue)
                 End If
             Next
 
@@ -799,9 +797,9 @@ Namespace Agreement
 
         Private Function FitClassicalAnalyticalClosedFormCore(x As Double(), y As Double()) As MethodComparisonFitResult
             Dim n As Integer = x.Length
-            If n < 3 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 observations are required (n>=3)."))
+            If n < 3 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least 3 observations are required (n>=3)."))
             If Me.pOptions.Lambda <= 0 OrElse Double.IsNaN(Me.pOptions.Lambda) OrElse Double.IsInfinity(Me.pOptions.Lambda) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(Me.pOptions.Lambda), "Error ratio (Lambda) must be finite and > 0."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(Me.pOptions.Lambda), "Error ratio (Lambda) must be finite and > 0."))
             End If
 
             Me.pCItype = "Analytical (closed form / linearization)"
@@ -819,7 +817,7 @@ Namespace Agreement
             Sxx /= (n - 1)
             Syy /= (n - 1)
             Sxy /= (n - 1)
-            If Sxy = 0.0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Deming slope is undefined because Sxy = 0 (degenerate association)."))
+            If Sxy = 0.0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Deming slope is undefined because Sxy = 0 (degenerate association)."))
 
             Dim A As Double = Syy - delta * Sxx
             Dim disc As Double = A * A + 4.0 * delta * Sxy * Sxy
@@ -850,7 +848,7 @@ Namespace Agreement
 
             Dim det As Double = a11 * a22 - a12 * a12
             If det <= 0 OrElse Double.IsNaN(det) OrElse Double.IsInfinity(det) Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Failed to invert information matrix for analytical SE."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Failed to invert information matrix for analytical SE."))
             End If
             Dim inv00 As Double = a22 / det
             Dim inv11 As Double = a11 / det
@@ -885,7 +883,7 @@ Namespace Agreement
 
         Private Function FitClassicalAnalyticalMcrCore(x As Double(), y As Double()) As MethodComparisonFitResult
             Dim n As Integer = x.Length
-            If n < 3 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Deming analytical CI requires at least 3 observations (df = n-2)."))
+            If n < 3 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Deming analytical CI requires at least 3 observations (df = n-2)."))
 
             Dim fit = ComputeClassicDemingCoefficients(x, y, Me.pOptions.Lambda)
             Dim b0 As Double = fit.Intercept
@@ -943,7 +941,7 @@ Namespace Agreement
                                                             sdX As Double(),
                                                             sdY As Double(),
                                                             opts As DemingOptions) As (Intercept As Double, Slope As Double)
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
 
             If opts.VarianceModel = DemingVarianceModel.ConstantLambda AndAlso opts.FitIntercept Then
                 Return ComputeClassicDemingCoefficients(x, y, opts.Lambda)
@@ -1004,7 +1002,7 @@ Namespace Agreement
                                                          y As Double(),
                                                          sdXin As Double(),
                                                          sdYin As Double(),
-                                                         Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                         Optional progress As IProgressReporter = Nothing,
                                                          Optional randomSeed As Integer = Integer.MinValue) As VectorResamplingResult
             Dim bootOpts As New BootstrapOptions With {
                 .Alpha = Me.pOptions.Alpha,
@@ -1014,13 +1012,11 @@ Namespace Agreement
             }
 
             Dim progressCallback As Action(Of Integer, Integer) = Nothing
-            If progressBar IsNot Nothing Then
-                progressBar.Minimum = 0
-                progressBar.Maximum = 100
-                progressBar.Value = 0
+            If progress IsNot Nothing Then
+                progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
                                        Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
-                                       progressBar.Value = progressValue
+                                       progress.Report(progressValue)
                                    End Sub
             End If
 
@@ -1073,13 +1069,13 @@ Namespace Agreement
             End If
 
             If Me.pOptions.SDx Is Nothing OrElse Me.pOptions.SDy Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("KnownPointwiseSD requires both SDx and SDy arrays."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("KnownPointwiseSD requires both SDx and SDy arrays."))
             End If
             If Me.pKeptPairIndices Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Internal kept-pair index map is not available."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Internal kept-pair index map is not available."))
             End If
             If Me.pOptions.SDx.Length <> Me.pRawReference.Length OrElse Me.pOptions.SDy.Length <> Me.pRawReference.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("For KnownPointwiseSD, SDx and SDy must match the original unfiltered data length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("For KnownPointwiseSD, SDx and SDy must match the original unfiltered data length."))
             End If
 
             Dim n As Integer = Me.pKeptPairIndices.Length
@@ -1095,7 +1091,7 @@ Namespace Agreement
 
         Private Shared Function ComputeClassicDemingCoefficients(x As Double(), y As Double(), errorRatio As Double) As (Intercept As Double, Slope As Double)
             Dim n As Integer = x.Length
-            If n <> y.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("x and y must have the same length."))
+            If n <> y.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("x and y must have the same length."))
             If n < 2 Then Return (Double.NaN, Double.NaN)
             If errorRatio <= 0.0 OrElse Double.IsNaN(errorRatio) OrElse Double.IsInfinity(errorRatio) Then Return (Double.NaN, Double.NaN)
 
@@ -1132,42 +1128,42 @@ Namespace Agreement
             Me.pKeptPairIndices = filtered.KeptIndices
             Me.pDroppedPairCount = filtered.DroppedCount
             If Me.pFilteredReference.Length < 3 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fewer than 3 finite paired observations remain after filtering."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Fewer than 3 finite paired observations remain after filtering."))
             End If
         End Sub
 
         Private Shared Sub ValidateOptions(opts As DemingOptions)
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
             If opts.Alpha <= 0.0 OrElse opts.Alpha >= 1.0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Alpha), "Alpha must be in (0,1)."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Alpha), "Alpha must be in (0,1)."))
             End If
             If opts.BootstrapReplicates < 50 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.BootstrapReplicates), "BootstrapReplicates must be at least 50."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.BootstrapReplicates), "BootstrapReplicates must be at least 50."))
             End If
             If opts.VarianceModel = DemingVarianceModel.ConstantLambda Then
                 If opts.Lambda <= 0.0 OrElse Double.IsNaN(opts.Lambda) OrElse Double.IsInfinity(opts.Lambda) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Lambda), "Lambda must be finite and > 0."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Lambda), "Lambda must be finite and > 0."))
                 End If
             End If
         End Sub
 
         Private Shared Sub ValidateCoreInputs(x As Double(), y As Double(), sdX As Double(), sdY As Double())
-            If x Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(x)))
-            If y Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(y)))
-            If sdX Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(sdX)))
-            If sdY Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(sdY)))
+            If x Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(x)))
+            If y Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(y)))
+            If sdX Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(sdX)))
+            If sdY Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(sdY)))
             If x.Length <> y.Length OrElse x.Length <> sdX.Length OrElse x.Length <> sdY.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("All arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("All arrays must have the same length."))
             End If
             If x.Length < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 paired observations are required."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("At least 2 paired observations are required."))
             End If
             For i As Integer = 0 To sdX.Length - 1
                 If sdX(i) <= 0.0 OrElse Double.IsNaN(sdX(i)) OrElse Double.IsInfinity(sdX(i)) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("All SDx values must be finite and > 0."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("All SDx values must be finite and > 0."))
                 End If
                 If sdY(i) <= 0.0 OrElse Double.IsNaN(sdY(i)) OrElse Double.IsInfinity(sdY(i)) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("All SDy values must be finite and > 0."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("All SDy values must be finite and > 0."))
                 End If
             Next
         End Sub
@@ -1205,13 +1201,13 @@ Namespace Agreement
                 sw += weights(i)
                 swx += weights(i) * values(i)
             Next
-            If sw = 0.0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Weighted mean is undefined because the total weight is zero."))
+            If sw = 0.0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Weighted mean is undefined because the total weight is zero."))
             Return swx / sw
         End Function
 
         Private Shared Function SanitizeStandardDeviation(sd As Double) As Double
             If Double.IsNaN(sd) OrElse Double.IsInfinity(sd) OrElse sd <= 0.0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(sd), "Standard deviations must be finite and > 0."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(sd), "Standard deviations must be finite and > 0."))
             End If
             Return Math.Max(sd, DEFAULT_SD_FLOOR)
         End Function

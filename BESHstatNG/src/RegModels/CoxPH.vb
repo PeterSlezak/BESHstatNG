@@ -1,14 +1,9 @@
 ﻿Option Explicit On
 
-Imports System
 Imports System.Collections.Generic
-Imports System.IO
 Imports System.Linq
-Imports System.Resources.ResXFileRef
-Imports System.Windows.Forms
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.regression
-Imports Microsoft.Office.Interop.Excel
 
 
 ''' <summary>
@@ -540,23 +535,17 @@ Public Class CoxPH
     ''' <param name="method">
     ''' Tie-handling method: Breslow, Efron, or Exact.
     ''' </param>
-    ''' <param name="progressBar">
-    ''' Progress Bar control from windows form GUI
-    ''' </param>
-    ''' <param name="progressLbl">
-    ''' Label control from windows form GUI
-    ''' </param>
+    ''' <param name="progress">Optional host-neutral progress reporter.</param>
     ''' <returns>
     ''' Returns <c>True</c> if convergence was achieved, <c>False</c> otherwise.
     ''' Fitted model parameters and diagnostics are always stored in the class.
     ''' </returns>
     Public Function Fit(Optional method As TieMethod = TieMethod.Breslow,
-                        Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                        Optional progressLbl As System.Windows.Forms.Label = Nothing) As CoxResult
-        AppGlobals.BSlogg.Debug($"COX.Fit start. method={method.ToString}; startParams={startParams}; maxIter={pmaxIter}; eps={pEps}; dataShape={Me.pRecords.Count}x{Me.pRecords(0).Covariates.Length}")
+                        Optional progress As IProgressReporter = Nothing) As CoxResult
+        CoreServices.Logger.Debug($"COX.Fit start. method={method.ToString}; startParams={startParams}; maxIter={pmaxIter}; eps={pEps}; dataShape={Me.pRecords.Count}x{Me.pRecords(0).Covariates.Length}")
         Me.pMethod = method
         Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
-        If Me.pRecords.Count = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Empty data"))
+        If Me.pRecords.Count = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Empty data"))
 
         Dim p As Integer = Me.pRecords(0).Covariates.Length
         Dim beta(p - 1) As Double
@@ -570,7 +559,7 @@ Public Class CoxPH
         'starting values. This affects optimization only, not null-model statistics.
         If Me.startParams IsNot Nothing Then
             If Me.startParams.Length <> p Then
-                AppGlobals.BSerr.LogAndThrow(
+                CoreServices.Errors.LogAndThrow(
                     New ArgumentException($"Starting parameter array length ({Me.startParams.Length}) does not match the number of Cox predictors ({p})."))
             End If
 
@@ -578,7 +567,7 @@ Public Class CoxPH
             Me.pLogLikelihood = ComputeLogLikelihood(beta)
 
             If Double.IsNaN(Me.pLogLikelihood) OrElse Double.IsInfinity(Me.pLogLikelihood) Then
-                AppGlobals.BSerr.LogAndThrow(
+                CoreServices.Errors.LogAndThrow(
                     New ArgumentException("Provided starting values lead to an invalid initial Cox partial log-likelihood. Please provide a different set of starting values."))
             End If
         Else
@@ -592,9 +581,9 @@ Public Class CoxPH
         ReDim pIterationDetails(p + 1, Me.pmaxIter - 1) 'parameters + LL + LL change
 
         For Me.pIterations = 0 To Me.pmaxIter - 1
-            AppGlobals.ThrowIfRegressionCancellationRequested("Cox proportional hazards calculation cancelled by user.")
-            If Me.pIterations > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
-                AppGlobals.BSlogg.Log("Cox proportional hazards calculation interrupted by user; returning latest accepted coefficient estimates.", AppGlobals.LogMsgType.Warn)
+            CoreServices.Regression.ThrowIfCancellationRequested("Cox proportional hazards calculation cancelled by user.")
+            If Me.pIterations > 0 AndAlso CoreServices.Regression.IsInterruptionRequested() Then
+                CoreServices.Log("Cox proportional hazards calculation interrupted by user; returning latest accepted coefficient estimates.", AppInfrastructure.LogMsgType.Warn)
                 Exit For
             End If
 
@@ -610,7 +599,7 @@ Public Class CoxPH
 
                 ' For each time with events
                 For Each eventGroup In eventsByTime
-                    AppGlobals.ThrowIfRegressionCancellationRequested("Cox proportional hazards calculation cancelled by user.")
+                    CoreServices.Regression.ThrowIfCancellationRequested("Cox proportional hazards calculation cancelled by user.")
 
                     Dim t As Double = eventGroup.Key
                     Dim events = eventGroup.OrderBy(Function(r) r.Index).ToList()
@@ -662,7 +651,7 @@ Public Class CoxPH
                 If (Not Double.IsNaN(logLikNew) AndAlso logLikNew >= Me.pLogLikelihood) OrElse stepSize < 0.00000001 Then
                     Exit Do
                 Else
-                    AppGlobals.BSlogg.Log($"Step halving. Current stepSize={stepSize}; logLikNew={logLikNew}; old logLike={Me.pLogLikelihood}")
+                    CoreServices.Log($"Step halving. Current stepSize={stepSize}; logLikNew={logLikNew}; old logLike={Me.pLogLikelihood}")
                     stepSize /= 2.0
                 End If
             Loop
@@ -672,7 +661,7 @@ Public Class CoxPH
             beta = CType(betaNew.Clone(), Double())
             Me.pLogLikelihood = logLikNew
 
-            If Me.bTrace Then AppGlobals.BSlogg.Log($"betaNew = {Matrix.array2str(betaNew)}; logLikNew = {logLikNew}; llDiff = {llDiff}")
+            If Me.bTrace Then CoreServices.Log($"betaNew = {Matrix.array2str(betaNew)}; logLikNew = {logLikNew}; llDiff = {llDiff}")
 
             'save iteration info
             For jj = 0 To p + 1
@@ -689,12 +678,9 @@ Public Class CoxPH
                 Exit For
             End If
 
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub()
-                                       progressBar.Value = 100 * (Me.pIterations + 1) / Me.pmaxIter
-                                       If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIterations + 1}   LogLikelihood change = {llDiff}"
-                                   End Sub)
-                System.Windows.Forms.Application.DoEvents()
+            If progress IsNot Nothing Then
+                progress.Report(CInt(100 * (Me.pIterations + 1) / Me.pmaxIter),
+                                $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIterations + 1}   LogLikelihood change = {llDiff}")
             End If
         Next
         If Me.pConverged Then ReDim Preserve Me.pIterationDetails(p + 1, Me.pIterations)
@@ -709,7 +695,7 @@ Public Class CoxPH
             Dim eventsByTime = group.Where(Function(r) r.Censorship = 1).GroupBy(Function(r) r.Time)
 
             For Each eventGroup In eventsByTime
-                AppGlobals.ThrowIfRegressionCancellationRequested("Cox proportional hazards calculation cancelled by user.")
+                CoreServices.Regression.ThrowIfCancellationRequested("Cox proportional hazards calculation cancelled by user.")
 
                 Dim t = eventGroup.Key
                 Dim events = eventGroup.OrderBy(Function(r) r.Index).ToList()
@@ -772,12 +758,10 @@ Public Class CoxPH
             Me.pPHtestRank = Me.ComputePHScoreTest()
         End If
 
-        If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                 progressBar.Value = 100
-                                                             End Sub)
+        If progress IsNot Nothing Then progress.Report(100)
 
         Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
-        AppGlobals.BSlogg.Debug($"GLM.Fit completed. converged={Me.pConverged}; iterations={Me.pIterations}; logLikelihood={Me.pLogLikelihood}; compTime={Me.CompTime}")
+        CoreServices.Logger.Debug($"GLM.Fit completed. converged={Me.pConverged}; iterations={Me.pIterations}; logLikelihood={Me.pLogLikelihood}; compTime={Me.CompTime}")
         Return New CoxResult With {
                 .Coefficients = Me.pCoefficients,
                 .VarCov = Me.pVarCov,
@@ -1429,7 +1413,7 @@ Public Class CoxPH
         For Each r In Me.pRecords
             Dim Ui As Double() = score(r.Index)
 
-            If Ui.Length <> p Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Score residual vector length {Ui.Length} does not match p={p}"))
+            If Ui.Length <> p Then CoreServices.Errors.LogAndThrow(New ArgumentException($"Score residual vector length {Ui.Length} does not match p={p}"))
 
             For i = 0 To p - 1
                 For j = 0 To p - 1
@@ -1487,7 +1471,7 @@ Public Class CoxPH
             Case ResidualType.CoxSnell
                 Return ComputeCoxSnellResiduals()
             Case Else
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Unknown residual type."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Unknown residual type."))
                 Return Nothing
         End Select
     End Function
@@ -2450,7 +2434,7 @@ Public Class CoxPH
                     xt(i) = Math.Log(times(i))
                 Next
             Case Else
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Unknown transform"))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Unknown transform"))
         End Select
 
         ' === Center x (R centers the transformed times) ===
@@ -2690,66 +2674,4 @@ Public Class CoxPH
         Return out
     End Function
 
-    Public Sub PlotCox(ws As Worksheet, SurvTime() As Double, SurvProb() As Double, Optional lTop As Long = 100, Optional lLeft As Long = 100)
-
-        'subrutine add Adjusted survival and Cumulative hazards plots
-        'inputs:
-        '   SurvTime()      - array of distinct survival times
-        '   SurvProb()      - corresponding array of survival probabilities
-        '   lTop            - top coordiante of the plot
-        '   lLeft           - left coordinate of the plot
-
-        'compute optimal scaling
-        Dim udPlotAxisX = graphics.ChartScaling(0, SurvTime.Max())
-        Dim Ymax As Double = 1.0
-        Dim MJunit As Double = 0.2
-
-        With ws.Shapes.AddChart(Left:=lLeft, Top:=lTop)
-            With .Chart
-                .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-
-                'delete extra series
-                Do Until .SeriesCollection.Count = 0
-                    .SeriesCollection(1).Delete
-                Loop
-
-                With .Axes(XlAxisType.xlValue)
-                    .MinimumScale = 0
-                    .MaximumScale = Ymax
-                    .MajorUnit = MJunit
-                    .MajorGridlines.Delete
-                End With
-                .Axes(XlAxisType.xlCategory).MinimumScale = 0
-                .Axes(XlAxisType.xlCategory).MaximumScale = udPlotAxisX.Max
-
-                .SeriesCollection.NewSeries
-                With .SeriesCollection(1)
-                    .Name = "Baseline"
-                    .XValues = SurvTime
-                    .Values = SurvProb
-                    .Border.Color = RGB(155, 0, 0)
-                    With .Format.Line
-                        .Visible = True
-                        .ForeColor.TintAndShade = 0
-                        .ForeColor.Brightness = 0
-                    End With
-                End With
-
-                '.Legend.Delete()
-
-                Try 'add title and axis labels
-                    .HasTitle = False
-                    .HasTitle = True
-                    .ChartTitle.Text = "Cox - Survival plot"
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.text = "Survival Probability"
-                    .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = False
-                    .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = True
-                    .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.text = "Time"
-                Catch
-                End Try
-            End With
-        End With
-    End Sub
 End Class

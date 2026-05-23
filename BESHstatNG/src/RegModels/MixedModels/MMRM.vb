@@ -25,7 +25,7 @@ Namespace regression
     ''' </para>
     ''' <para>
     ''' Logging mirrors the lower-level mixed-model classes: every wrapper message is written to
-    ''' <see cref="AppGlobals.BSlogg"/> and to an in-memory trace string for future UI/user diagnostics.
+    ''' <see cref="CoreServices.logger"/> and to an in-memory trace string for future UI/user diagnostics.
     ''' </para>
     ''' </remarks>
     Public Class MMRM
@@ -202,17 +202,17 @@ Namespace regression
 
         Private Sub AppendInfo(message As String)
             AppendLogCore("INFO", message)
-            AppGlobals.BSlogg.Info(message)
+            CoreServices.Logger.Info(message)
         End Sub
 
         Private Sub AppendWarn(message As String)
             AppendLogCore("WARN", message)
-            AppGlobals.BSlogg.Warn(message)
+            CoreServices.Logger.Warn(message)
         End Sub
 
         Private Sub AppendTrace(message As String)
             AppendLogCore("TRACE", message)
-            AppGlobals.BSlogg.Trace(message)
+            CoreServices.Logger.Trace(message)
         End Sub
 
         Private Sub AppendLogCore(level As String, message As String)

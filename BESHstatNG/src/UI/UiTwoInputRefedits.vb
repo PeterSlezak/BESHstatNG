@@ -96,7 +96,7 @@ Public Class UiTwoInputRefedits
         'join reference address into one (remove sheet name from the second and concatenate).
         'Data can be only form one sheet because of the above check
         refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True, Me.RefEdit2.ExcelWorkBook) & "!", String.Empty) 'Remove "Sheet1!" from string
-        columData.DataImport(refFinal, True)
+        ExcelDnaDataImporter.ImportInto(columData, refFinal, True)
 
         'get unique group IDs
         out.X = columData.DataDbl
@@ -122,7 +122,7 @@ Public Class UiTwoInputRefedits
 
         'Allow character values in both paired columns for categorical agreement analysis.
         Dim iStart As Integer = If(Me.ckFirstRow.Checked, 1, 0)
-        columData.DataImport(refFinal, True, CharCols:=1, iStart)
+        ExcelDnaDataImporter.ImportInto(columData, refFinal, True, CharCols:=1, SkipRow:=iStart)
 
         If columData.bZeroValid Then
             strErr = "No valid paired categorical observations in the input ranges."
@@ -151,7 +151,7 @@ Public Class UiTwoInputRefedits
         End If
 
         refGr1 = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
-        Gr1Data.DataImport(refGr1, True)
+        ExcelDnaDataImporter.ImportInto(Gr1Data, refGr1, True)
         Dim x1(,) As Double = Gr1Data.DataDbl
         If Gr1Data.bZeroValid Then
             strErr = "No valid data in the 1st input."
@@ -159,7 +159,7 @@ Public Class UiTwoInputRefedits
         End If
 
         refGr2 = prepareRef2D(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
-        Gr2Data.DataImport(refGr2, True)
+        ExcelDnaDataImporter.ImportInto(Gr2Data, refGr2, True)
         Dim x2(,) As Double = Gr2Data.DataDbl
         If Gr2Data.bZeroValid Then
             strErr = "No valid data in the 2nd input."
@@ -230,7 +230,7 @@ Public Class UiTwoInputRefedits
                 Me.RunCohensKappa()
             End If
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -242,7 +242,7 @@ Public Class UiTwoInputRefedits
             Exit Sub
         End If
 
-        Dim WriteRes As New WriteResults
+        Dim WriteRes As New ExcelDnaResultWriter
         Dim tt = New Agreement.WeightedKappaAgreement(catData.x, catData.y, catData.name1, catData.name2)
 
         Dim opts As New Agreement.KappaOptions With {
@@ -279,7 +279,7 @@ Public Class UiTwoInputRefedits
             If useResampling Then
                 Me.progressBarExactCalc.Visible = True
                 Me.progressBarExactCalc.Value = 0
-                tt.Fit(Me.progressBarExactCalc)
+                tt.Fit(New AppInfrastructure.WinFormsProgressReporter(Me.progressBarExactCalc))
             Else
                 Me.progressBarExactCalc.Visible = False
                 tt.Fit()
@@ -305,7 +305,7 @@ Public Class UiTwoInputRefedits
     End Sub
 
     Private Sub RunLinsCCC(data As TwoGroupsPairedData)
-        Dim WriteRes As New WriteResults
+        Dim WriteRes As New ExcelDnaResultWriter
 
         Dim tt = New Agreement.LinConcordanceCorrelation(
         Matrix.GetColumnFrom2Darray(data.X, 0),
@@ -365,7 +365,7 @@ Public Class UiTwoInputRefedits
     End Sub
 
     Private Sub RunDeming(data As TwoGroupsPairedData)
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim tt = New Agreement.WeightedDemingRegression(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
         Dim opts As New Agreement.DemingOptions With {
                 .Alpha = CDbl(Me.spinBtnAlphaDeming.Value),
@@ -508,13 +508,13 @@ Public Class UiTwoInputRefedits
 
 
     Private Sub RunPairedTtest(data As TwoGroupsPairedData)
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim tt = New parametric.PairedTtest(data.X, {data.name1, data.name2})
         tt.compute()
         Dim res = tt.wrapResults()
 
         'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then Res.Add(Me.ComputeDescriptiveStatistics(data, tt.Differences))
+        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStatistics(data, tt.Differences))
 
         'Dump outputs
         WriteRes = GetResultWriter() 'pass just table from the main test output
@@ -531,7 +531,7 @@ Public Class UiTwoInputRefedits
     End Sub
 
     Private Sub RunTheilSen(data As TwoGroupsPairedData)
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim alphaValue As Double = CDbl(Me.spinBtnAlphaGlobal.Value)
         Dim ts = New nonparametric.TheilSen(data.X, {data.name1, data.name2})
         ts.compute(alphaValue)
@@ -556,19 +556,19 @@ Public Class UiTwoInputRefedits
     End Sub
 
     Private Sub RunKendall(data As TwoGroupsPairedData)
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim alphaValue As Double = CDbl(Me.spinBtnAlphaGlobal.Value)
         Dim kendall = New nonparametric.KendallsTau(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
         kendall.compute(Me.progressBarExactCalc, alphaValue)
         Dim res = kendall.wrapResults()
 
         'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then Res.Add(Me.ComputeDescriptiveStatistics(data))
+        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStatistics(data))
 
         'Dump outputs
         WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(Res)
-        Dim totrows As Integer = rr.TotRows + Res.Count - 1 'one blank row as a separator
+        Dim rr = New ProcessListofResultTables(res)
+        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -580,7 +580,7 @@ Public Class UiTwoInputRefedits
     End Sub
 
     Private Sub RunSpearman(data As TwoGroupsPairedData)
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim alphaValue As Double = CDbl(Me.spinBtnAlphaGlobal.Value)
 
         Dim spearman = New nonparametric.SpearmanRho(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
@@ -605,7 +605,7 @@ Public Class UiTwoInputRefedits
     End Sub
 
     Private Sub RunWilcoxon(data As TwoGroupsPairedData)
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim alphaValue As Double = CDbl(Me.spinBtnAlphaGlobal.Value)
 
         'Compute test
@@ -679,8 +679,8 @@ Public Class UiTwoInputRefedits
         Return descTable
     End Function
 
-    Private Function GetResultWriter() As WriteResults
-        Dim WriteRes = New WriteResults, rRange As Range
+    Private Function GetResultWriter() As ExcelDnaResultWriter
+        Dim WriteRes = New ExcelDnaResultWriter, rRange As Range
         If Me.optWorkbook.Checked Then
             WriteRes.wb = AppGlobals.app.Workbooks.Add()
             WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -712,7 +712,7 @@ Public Class UiTwoInputRefedits
         Try
             Dim sdData As New DataObj
             Dim refText As String = prepareRef2D(refEdit.Address, refEdit.ExcelWorkBook)
-            sdData.DataImport(refText, True)
+            ExcelDnaDataImporter.ImportInto(sdData, refText, True)
 
             If sdData.bZeroValid Then
                 errText = $"The {labelText} range does not contain valid numeric data."

@@ -39,11 +39,11 @@ Namespace Resampling
     ''' <remarks>
     ''' <para>
     ''' This type uses <see cref="Double.NaN"/> as the sentinel value meaning “no explicit alpha was supplied”.
-    ''' In that case the engine falls back to the application-wide default alpha from <see cref="AppGlobals.DefaultAlpha"/>.
+    ''' In that case the engine falls back to the application-wide default alpha from <see cref="CoreServices.AnalysisDefaults"/>.
     ''' </para>
     ''' <para>
     ''' The random-seed handling mirrors the current project-wide pattern: <see cref="Integer.MinValue"/> means
-    ''' “no explicit seed was supplied”, so the engine falls back to <see cref="AppGlobals.DefaultRandomSeed"/>.
+    ''' “no explicit seed was supplied”, so the engine falls back to <see cref="CoreServices.AnalysisDefaults"/>.
     ''' </para>
     ''' </remarks>
     Public Class BootstrapOptions
@@ -200,7 +200,7 @@ Namespace Resampling
         ''' Explicit alpha requested by the caller. Use <see cref="Double.NaN"/> to indicate that no explicit alpha was supplied.
         ''' </param>
         ''' <returns>
-        ''' The explicit alpha if provided and valid; otherwise the application-wide default alpha from <see cref="AppGlobals.DefaultAlpha"/>.
+        ''' The explicit alpha if provided and valid; otherwise the application-wide default alpha from <see cref="CoreServices.AnalysisDefaults"/>.
         ''' </returns>
         ''' <remarks>
         ''' This function gives the resampling infrastructure the same global-settings behavior for alpha that it already has for random seeds.
@@ -211,9 +211,7 @@ Namespace Resampling
                 Return requestedAlpha
             End If
 
-            Dim appDefault As Double = AppGlobals.DefaultAlpha
-            ValidateAlpha(appDefault)
-            Return appDefault
+            Return CoreServices.AnalysisDefaults.ResolveAlpha()
         End Function
 
         ''' <summary>
@@ -223,16 +221,11 @@ Namespace Resampling
         ''' Explicit seed requested by the caller. Use <see cref="Integer.MinValue"/> to indicate that no explicit seed was supplied.
         ''' </param>
         ''' <returns>
-        ''' The explicit seed if provided; otherwise the application-wide default seed from <see cref="AppGlobals.DefaultRandomSeed"/>;
+        ''' The explicit seed if provided; otherwise the application-wide default seed from <see cref="CoreServices.AnalysisDefaults"/>;
         ''' otherwise a time-based seed derived from <see cref="Environment.TickCount"/>.
         ''' </returns>
         Public Function ResolveSeed(Optional requestedSeed As Integer = Integer.MinValue) As Integer
-            If requestedSeed <> Integer.MinValue Then Return requestedSeed
-
-            Dim appDefault As Integer = AppGlobals.DefaultRandomSeed
-            If appDefault <> Integer.MinValue Then Return appDefault
-
-            Return Environment.TickCount
+            Return CoreServices.AnalysisDefaults.ResolveRandomSeed(requestedSeed, generateWhenMissing:=True)
         End Function
 
         ''' <summary>
@@ -245,8 +238,7 @@ Namespace Resampling
         ''' A tuple containing the initialized random-number generator and the resolved seed used to create it.
         ''' </returns>
         Public Function CreateRandomWithResolvedSeed(Optional requestedSeed As Integer = Integer.MinValue) As (Rng As Random, SeedUsed As Integer)
-            Dim seed As Integer = ResolveSeed(requestedSeed)
-            Return (New Random(seed), seed)
+            Return CoreServices.AnalysisDefaults.CreateRandomWithResolvedSeed(requestedSeed)
         End Function
 
         ''' <summary>
@@ -312,7 +304,7 @@ Namespace Resampling
         ''' </summary>
         ''' <param name="opts">Options to validate.</param>
         Public Sub ValidateBootstrapOptions(opts As BootstrapOptions)
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
             ValidateAlpha(opts.Alpha)
             ValidatePositiveReplicates(opts.Replicates, NameOf(opts.Replicates), 1)
             ValidatePositiveReplicates(opts.MaxFailures, NameOf(opts.MaxFailures), 0)
@@ -323,7 +315,7 @@ Namespace Resampling
         ''' </summary>
         ''' <param name="opts">Options to validate.</param>
         Public Sub ValidateJackknifeOptions(opts As JackknifeOptions)
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
             ValidateAlpha(opts.Alpha)
         End Sub
 
@@ -332,7 +324,7 @@ Namespace Resampling
         ''' </summary>
         ''' <param name="opts">Options to validate.</param>
         Public Sub ValidatePermutationOptions(opts As PermutationOptions)
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
             ValidateAlpha(opts.Alpha)
             ValidatePositiveReplicates(opts.MonteCarloReplicates, NameOf(opts.MonteCarloReplicates), 1)
             ValidatePositiveLong(opts.MaxExactEnumerations, NameOf(opts.MaxExactEnumerations), 1)
@@ -344,7 +336,7 @@ Namespace Resampling
         ''' <param name="info">Run metadata object that will receive the note.</param>
         ''' <param name="note">Note text to append.</param>
         Public Sub AppendNote(info As ResamplingRunInfo, note As String)
-            If info Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(info)))
+            If info Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(info)))
             If String.IsNullOrWhiteSpace(note) Then Exit Sub
             info.Notes.Add(note.Trim())
         End Sub
@@ -356,9 +348,9 @@ Namespace Resampling
         ''' <param name="replicatesUsed">Number of successful resamples used.</param>
         ''' <param name="failedReplicates">Number of failed or discarded resamples.</param>
         Public Sub CompleteRunInfo(info As ResamplingRunInfo, replicatesUsed As Integer, failedReplicates As Integer)
-            If info Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(info)))
-            If replicatesUsed < 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(replicatesUsed)))
-            If failedReplicates < 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(failedReplicates)))
+            If info Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(info)))
+            If replicatesUsed < 0 Then CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(replicatesUsed)))
+            If failedReplicates < 0 Then CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(failedReplicates)))
 
             info.ReplicatesUsed = replicatesUsed
             info.FailedReplicates = failedReplicates

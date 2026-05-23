@@ -74,7 +74,7 @@ Namespace Resampling
         Public Function DrawBootstrapIndices(sampleSize As Integer,
                                              rng As Random) As Integer()
             ValidateSampleSize(sampleSize)
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If rng Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             Dim indices(sampleSize - 1) As Integer
             For i As Integer = 0 To sampleSize - 1
@@ -104,7 +104,7 @@ Namespace Resampling
                                                   rng As Random) As IEnumerable(Of Integer())
             ValidateSampleSize(sampleSize)
             ValidatePositiveReplicates(replicates, NameOf(replicates), 1)
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If rng Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             For rep As Integer = 1 To replicates
                 Yield DrawBootstrapIndices(sampleSize, rng)
@@ -132,8 +132,8 @@ Namespace Resampling
         ''' </para>
         ''' </remarks>
         Public Function BuildClusterIndexBlocks(clusterIds As Object()) As List(Of Integer())
-            If clusterIds Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(clusterIds)))
-            If clusterIds.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one cluster identifier is required.", NameOf(clusterIds)))
+            If clusterIds Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(clusterIds)))
+            If clusterIds.Length = 0 Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("At least one cluster identifier is required.", NameOf(clusterIds)))
 
             Dim order As New List(Of String)()
             Dim blocks As New Dictionary(Of String, List(Of Integer))(StringComparer.Ordinal)
@@ -177,7 +177,7 @@ Namespace Resampling
         ''' </remarks>
         Public Function DrawClusterBootstrapIndices(clusterIds As Object(),
                                                     rng As Random) As Integer()
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If rng Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             Dim blocks As List(Of Integer()) = BuildClusterIndexBlocks(clusterIds)
             Return DrawClusterBootstrapIndices(blocks, rng)
@@ -196,14 +196,14 @@ Namespace Resampling
         Public Function DrawClusterBootstrapIndices(clusterBlocks As List(Of Integer()),
                                                     rng As Random) As Integer()
             ValidateClusterBlocks(clusterBlocks)
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If rng Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             Dim out As New List(Of Integer)()
             For draw As Integer = 1 To clusterBlocks.Count
                 Dim blockIndex As Integer = rng.Next(0, clusterBlocks.Count)
                 Dim block As Integer() = clusterBlocks(blockIndex)
                 If block Is Nothing OrElse block.Length = 0 Then
-                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Cluster blocks must not contain empty blocks."))
+                    Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New InvalidOperationException("Cluster blocks must not contain empty blocks."))
                 End If
                 out.AddRange(block)
             Next
@@ -242,7 +242,7 @@ Namespace Resampling
                                                          rng As Random) As IEnumerable(Of Integer())
             ValidateClusterBlocks(clusterBlocks)
             ValidatePositiveReplicates(replicates, NameOf(replicates), 1)
-            If rng Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(rng)))
+            If rng Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(rng)))
 
             For rep As Integer = 1 To replicates
                 Yield DrawClusterBootstrapIndices(clusterBlocks, rng)
@@ -265,14 +265,14 @@ Namespace Resampling
         ''' </remarks>
         Public Function TakeByIndices(Of T)(values As T(),
                                             indices As Integer()) As T()
-            If values Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(values)))
-            If indices Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(indices)))
+            If values Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(values)))
+            If indices Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(indices)))
 
             Dim out(indices.Length - 1) As T
             For i As Integer = 0 To indices.Length - 1
                 Dim idx As Integer = indices(i)
                 If idx < 0 OrElse idx >= values.Length Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(indices), $"Index {idx} is outside the valid range 0 to {values.Length - 1}."))
+                    Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(indices), $"Index {idx} is outside the valid range 0 to {values.Length - 1}."))
                 End If
                 out(i) = values(idx)
             Next
@@ -297,10 +297,10 @@ Namespace Resampling
         Public Function TakeByIndices(Of T1, T2)(values1 As T1(),
                                                  values2 As T2(),
                                                  indices As Integer()) As (Values1 As T1(), Values2 As T2())
-            If values1 Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(values1)))
-            If values2 Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(values2)))
+            If values1 Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(values1)))
+            If values2 Is Nothing Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(values2)))
             If values1.Length <> values2.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The aligned source arrays must have the same length."))
+                Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("The aligned source arrays must have the same length."))
             End If
 
             Return (TakeByIndices(values1, indices), TakeByIndices(values2, indices))
@@ -317,13 +317,13 @@ Namespace Resampling
         Private Function NormalizeClusterKey(value As Object,
                                              paramName As String) As String
             If value Is Nothing OrElse Convert.IsDBNull(value) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Cluster identifiers must not contain missing values.", paramName))
+                Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("Cluster identifiers must not contain missing values.", paramName))
             End If
 
             If TypeOf value Is String Then
                 Dim s As String = CStr(value).Trim()
                 If s.Length = 0 Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Cluster identifiers must not contain blank strings.", paramName))
+                    Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("Cluster identifiers must not contain blank strings.", paramName))
                 End If
                 Return s
             End If
@@ -331,7 +331,7 @@ Namespace Resampling
             If TypeOf value Is Double Then
                 Dim d As Double = CDbl(value)
                 If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Cluster identifiers must be finite.", paramName))
+                    Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("Cluster identifiers must be finite.", paramName))
                 End If
                 Return d.ToString("R", CultureInfo.InvariantCulture)
             End If
@@ -339,7 +339,7 @@ Namespace Resampling
             If TypeOf value Is Single Then
                 Dim sng As Single = CSng(value)
                 If Single.IsNaN(sng) OrElse Single.IsInfinity(sng) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Cluster identifiers must be finite.", paramName))
+                    Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("Cluster identifiers must be finite.", paramName))
                 End If
                 Return sng.ToString("R", CultureInfo.InvariantCulture)
             End If
@@ -350,7 +350,7 @@ Namespace Resampling
 
             Dim text As String = Convert.ToString(value, CultureInfo.InvariantCulture)
             If String.IsNullOrWhiteSpace(text) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Cluster identifiers must not normalize to an empty key.", paramName))
+                Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("Cluster identifiers must not normalize to an empty key.", paramName))
             End If
             Return text.Trim()
         End Function

@@ -115,7 +115,7 @@ Namespace regression
     ''' <item><description>Central differences are used for the default gradient because they are slower but more stable during early engine validation.</description></item>
     ''' <item><description>Line search requires a finite objective and a strict improvement before accepting a trial point.</description></item>
     ''' <item><description>Optional bounds are supported for future parameters that remain explicitly constrained.  Most covariance structures should instead use internal transformations such as log standard deviations and Fisher/tanh correlations.</description></item>
-    ''' <item><description>All diagnostics are written both to <see cref="AppGlobals.BSlogg"/> and to an optional in-memory trace accumulator so the future UI can expose the same messages to users.</description></item>
+    ''' <item><description>All diagnostics are written both to <see cref="CoreServices.logger"/> and to an optional in-memory trace accumulator so the future UI can expose the same messages to users.</description></item>
     ''' </list>
     ''' </remarks>
     Public Module MixedModelOptimizer
@@ -554,7 +554,7 @@ Namespace regression
                 state.Message = ex.Message
                 state.Converged = False
                 state.strTrace = strTrace
-                AppGlobals.BSlogg.Error(ex, "MixedModelOptimizer.OptimizeProjected failed.")
+                CoreServices.Logger.Error(ex, "MixedModelOptimizer.OptimizeProjected failed.")
                 Return state
             End Try
         End Function
@@ -919,17 +919,17 @@ Namespace regression
         Private Sub LogTrace(message As String, Optional ByRef strTrace As String = Nothing)
             If strTrace Is Nothing Then Return
             AppendTraceLine(message, strTrace)
-            AppGlobals.BSlogg.Trace(message)
+            CoreServices.Logger.Trace(message)
         End Sub
 
         Private Sub LogDebug(message As String, Optional ByRef strTrace As String = Nothing)
             AppendTraceLine(message, strTrace)
-            AppGlobals.BSlogg.Debug(message)
+            CoreServices.Logger.Debug(message)
         End Sub
 
         Private Sub LogWarn(message As String, Optional ByRef strTrace As String = Nothing)
             AppendTraceLine(message, strTrace)
-            AppGlobals.BSlogg.Warn(message)
+            CoreServices.Logger.Warn(message)
         End Sub
 
     End Module

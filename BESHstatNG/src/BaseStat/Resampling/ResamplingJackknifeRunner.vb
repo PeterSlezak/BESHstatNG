@@ -245,8 +245,8 @@ Namespace Resampling
                                                 minimumSuccessfulReplicates As Integer,
                                                 statisticLabel As String,
                                                 progressCallback As Action(Of Integer, Integer)) As ScalarResamplingResult
-            If resamples Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(resamples)))
-            If info Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(info)))
+            If resamples Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(resamples)))
+            If info Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(info)))
 
             Dim estimates As New List(Of Double)(Math.Max(1, info.ReplicatesRequested))
             Dim failed As Integer = 0
@@ -269,7 +269,7 @@ Namespace Resampling
 
             If estimates.Count < minimumSuccessfulReplicates Then
                 Dim msg As String = $"Too few successful jackknife replicates were obtained ({estimates.Count} < {minimumSuccessfulReplicates})."
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(msg, firstFailure))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException(msg, firstFailure))
             End If
 
             ResamplingCore.CompleteRunInfo(info, estimates.Count, failed)
@@ -290,8 +290,8 @@ Namespace Resampling
                                                 minimumSuccessfulReplicates As Integer,
                                                 parameterLabels As String(),
                                                 progressCallback As Action(Of Integer, Integer)) As VectorResamplingResult
-            If resamples Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(resamples)))
-            If info Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(info)))
+            If resamples Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(resamples)))
+            If info Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(info)))
 
             Dim estimates As New List(Of Double())(Math.Max(1, info.ReplicatesRequested))
             Dim failed As Integer = 0
@@ -305,7 +305,7 @@ Namespace Resampling
                     Dim value As Double() = statistic(idx)
                     ValidateFiniteVector(value, "jackknife replicate statistic vector")
                     If value.Length <> parameterCount Then
-                        AppGlobals.BSerr.LogAndThrow(New InvalidOperationException($"Jackknife replicate vector length {value.Length} does not match the observed parameter count {parameterCount}."))
+                        CoreServices.Errors.LogAndThrow(New InvalidOperationException($"Jackknife replicate vector length {value.Length} does not match the observed parameter count {parameterCount}."))
                     End If
                     estimates.Add(DirectCast(value.Clone(), Double()))
                 Catch ex As Exception
@@ -318,7 +318,7 @@ Namespace Resampling
 
             If estimates.Count < minimumSuccessfulReplicates Then
                 Dim msg As String = $"Too few successful jackknife replicates were obtained ({estimates.Count} < {minimumSuccessfulReplicates})."
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException(msg, firstFailure))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException(msg, firstFailure))
             End If
 
             ResamplingCore.CompleteRunInfo(info, estimates.Count, failed)

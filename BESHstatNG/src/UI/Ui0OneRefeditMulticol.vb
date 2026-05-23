@@ -90,7 +90,7 @@ Public Class Ui0OneRefeditMulticol
             Dim columData = New DataObj
             Dim ref As String = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
 
-            columData.DataImport(ref, True)
+            ExcelDnaDataImporter.ImportInto(columData, ref, True)
             out.X = columData.DataDbl()
             out.varNames = columData.varNames
 
@@ -106,9 +106,9 @@ Public Class Ui0OneRefeditMulticol
         Dim ref As String = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
 
         If Me.ckLabels.Checked Then
-            columData.DataImport(ref, True, 0) 'first column will contain row labels
+            ExcelDnaDataImporter.ImportInto(columData, ref, True, 0) 'first column will contain row labels
         Else
-            columData.DataImport(ref, True)
+            ExcelDnaDataImporter.ImportInto(columData, ref, True)
         End If
 
         Return columData
@@ -121,7 +121,7 @@ Public Class Ui0OneRefeditMulticol
         Dim out = New MultiGroupsUnpairedData
 
         columData.bAllowMissing = True 'allow missing values
-        columData.DataImport(ref, True)
+        ExcelDnaDataImporter.ImportInto(columData, ref, True)
         Dim tmp(,) As Double = columData.DataDbl()
         Dim g As Integer = tmp.GetLength(0)
         Dim t As Integer = tmp.GetLength(1)
@@ -183,7 +183,7 @@ Public Class Ui0OneRefeditMulticol
                 Me.RunICC()
             End If
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -304,17 +304,17 @@ Public Class Ui0OneRefeditMulticol
 
         'Add Plots
         If Me.optWorkbook.Checked Then
-            ca.contribPlot(0, True)
-            ca.contribPlot(1, True)
-            ca.contribPlot(0, False)
-            ca.contribPlot(1, False)
-            ca.plot()
+            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, True)
+            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, True)
+            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, False)
+            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, False)
+            graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(ca)
         Else
-            ca.contribPlot(0, True, WriteRes.ws)
-            ca.contribPlot(1, True, WriteRes.ws)
-            ca.contribPlot(0, False, WriteRes.ws)
-            ca.contribPlot(1, False, WriteRes.ws)
-            ca.plot(WriteRes.ws)
+            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, True, WriteRes.ws)
+            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, True, WriteRes.ws)
+            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, False, WriteRes.ws)
+            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, False, WriteRes.ws)
+            graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(ca, WriteRes.ws)
         End If
     End Sub
 
@@ -325,7 +325,7 @@ Public Class Ui0OneRefeditMulticol
         Dim out = New MultiGroupsPairedData
 
         columData.bAllowMissing = True 'allow missing values
-        columData.DataImport(ref, True)
+        ExcelDnaDataImporter.ImportInto(columData, ref, True)
 
         'analyzed table
         Dim head(UBound(columData.FinalData, 2)) As String
@@ -465,7 +465,7 @@ Public Class Ui0OneRefeditMulticol
         Dim rowsNo As Integer = UBound(data.X, 1) + 1
         'check validity of the input
         If UBound(data.X, 2) <> 1 Or (rowsNo Mod 2 <> 0) Then
-            AppGlobals.BSlogg.Log($"Wrong dimensions of the input table. {Matrix.array2str(data.X)}", AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log($"Wrong dimensions of the input table. {Matrix.array2str(data.X)}", AppInfrastructure.LogMsgType.Warn)
             MsgBox("Wrong dimensions of the input table.", vbOKOnly, AppGlobals.gsAPP_TITLE)
             Exit Sub
         End If
@@ -502,7 +502,7 @@ Public Class Ui0OneRefeditMulticol
     Private Sub RunCochran(data As MultiGroupsPairedData)
         Dim strErr As String = Nothing
         Dim prcRes = New ResultTable
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim res = New List(Of ResultTable)
 
         'check if data1 are 1/0
@@ -665,8 +665,8 @@ Public Class Ui0OneRefeditMulticol
         Return descTable
     End Function
 
-    Private Function GetResultWriter() As WriteResults
-        Dim WriteRes = New WriteResults, rRange As Range
+    Private Function GetResultWriter() As ExcelDnaResultWriter
+        Dim WriteRes = New ExcelDnaResultWriter, rRange As Range
         If Me.optWorkbook.Checked Then
             WriteRes.wb = AppGlobals.app.Workbooks.Add()
             WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet

@@ -101,13 +101,13 @@ Namespace Agreement
                        varY As String,
                        Optional opts As LinConcordanceOptions = Nothing)
 
-            If dataX Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataX)))
-            If dataY Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(dataY)))
+            If dataX Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(dataX)))
+            If dataY Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(dataY)))
             If dataX.Length <> dataY.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
             End If
             If dataX.Length < 3 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 paired observations are required for Lin concordance analysis."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("At least 3 paired observations are required for Lin concordance analysis."))
             End If
 
             Me.pReferenceData = DirectCast(dataX.Clone(), Double())
@@ -133,7 +133,7 @@ Namespace Agreement
                 Return Me.pOptions
             End Get
             Set(value As LinConcordanceOptions)
-                If value Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(value)))
+                If value Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(value)))
                 ValidateOptions(value)
                 Me.pOptions = value
                 Me.pIsFitted = False
@@ -172,7 +172,7 @@ Namespace Agreement
         '''   <item><description>compute an approximate hypothesis test for <c>H0: ρ_c = ρ_0</c></description></item>
         ''' </list>
         ''' </remarks>
-        Public Function Fit(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+        Public Function Fit(Optional progress As IProgressReporter = Nothing,
                             Optional randomSeed As Integer = Integer.MinValue) As LinConcordanceResult
             If Me.pIsFitted AndAlso Me.pResult IsNot Nothing Then Return Me.pResult
 
@@ -181,7 +181,7 @@ Namespace Agreement
             Me.pBootstrapRunInfo = Nothing
 
             If Me.pOptions.SubjectIds IsNot Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New NotSupportedException("Repeated-measures/clustered Lin concordance is not implemented in this first version. Supply independent paired measurements only."))
+                CoreServices.Errors.LogAndThrow(New NotSupportedException("Repeated-measures/clustered Lin concordance is not implemented in this first version. Supply independent paired measurements only."))
             End If
 
             Dim filtered = AgreementHelpers.FilterFinitePairs(Me.pReferenceData, Me.pTestData)
@@ -190,17 +190,14 @@ Namespace Agreement
             Me.pDroppedPairCount = filtered.DroppedCount
 
             If Me.pFilteredReference.Length < 3 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fewer than 3 finite paired observations remain after filtering."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Fewer than 3 finite paired observations remain after filtering."))
             End If
 
             Dim core = ComputeLinConcordanceCore(Me.pFilteredReference, Me.pFilteredTest)
             Dim ci As ConfidenceIntervalResult
             If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
                 Dim boot As ScalarResamplingResult = BootstrapConcordanceResamplingResult(Me.pFilteredReference,
-                                                                               Me.pFilteredTest,
-                                                                               Me.pOptions,
-                                                                               progressBar,
-                                                                               randomSeed)
+                                                                               Me.pFilteredTest, Me.pOptions, progress, randomSeed)
                 Me.pBootstrapRunInfo = boot.RunInfo
                 If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
                     Dim jk As ScalarResamplingResult = JackknifeConcordanceResamplingResult(Me.pFilteredReference, Me.pFilteredTest, Me.pOptions)
@@ -244,9 +241,7 @@ Namespace Agreement
                 .HypothesisTest = ht
             }
 
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 100)
-            End If
+            If progress IsNot Nothing Then progress.Report(100)
 
             Me.pIsFitted = True
             Return Me.pResult
@@ -335,9 +330,8 @@ Namespace Agreement
         ''' identity line visually represents perfect agreement.
         ''' </para>
         ''' </remarks>
-        Public Function AddPlot(ws As Worksheet,
-                                Optional chartTitle As String = "Lin concordance plot") As Chart
-            If ws Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(ws)))
+        Public Function AddPlot(ws As Worksheet, Optional chartTitle As String = "Lin concordance plot") As Chart
+            If ws Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(ws)))
             If Not Me.pIsFitted OrElse Me.pResult Is Nothing Then Me.Fit()
 
             Dim chartObj As Chart = graphics.GeneralScatterPlot(Me.pFilteredReference,
@@ -386,29 +380,29 @@ Namespace Agreement
         ''' </list>
         ''' </remarks>
         Friend Shared Sub ValidateOptions(opts As LinConcordanceOptions)
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
             If Double.IsNaN(opts.Alpha) OrElse opts.Alpha <= 0.0 OrElse opts.Alpha >= 1.0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Alpha), "Alpha must lie in the open interval (0, 1)."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.Alpha), "Alpha must lie in the open interval (0, 1)."))
             End If
             If (opts.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse opts.CiMethod = AgreementCiMethod.BootstrapBCa) AndAlso opts.BootstrapReplicates < 200 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.BootstrapReplicates), "At least 200 bootstrap replicates are recommended for bootstrap confidence intervals."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.BootstrapReplicates), "At least 200 bootstrap replicates are recommended for bootstrap confidence intervals."))
             End If
             If Double.IsNaN(opts.NullConcordance) OrElse opts.NullConcordance <= -1.0 OrElse opts.NullConcordance >= 1.0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.NullConcordance), "Null concordance must lie strictly between -1 and 1 for Fisher z-style inference."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(opts.NullConcordance), "Null concordance must lie strictly between -1 and 1 for Fisher z-style inference."))
             End If
         End Sub
 
         Friend Shared Function BootstrapConcordanceResamplingResult(reference As Double(),
                                                             test As Double(),
                                                             opts As LinConcordanceOptions,
-                                                            Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                                            Optional progress As IProgressReporter = Nothing,
                                                             Optional randomSeed As Integer = Integer.MinValue) As ScalarResamplingResult
-            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
-            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(test)))
             If reference.Length <> test.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
             End If
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
 
             Dim bootOpts As New BootstrapOptions With {
                 .Alpha = opts.Alpha,
@@ -418,11 +412,11 @@ Namespace Agreement
             }
 
             Dim progressCallback As Action(Of Integer, Integer) = Nothing
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 0)
+            If progress IsNot Nothing Then
+                progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
                                        Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
-                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                       progress.Report(progressValue)
                                    End Sub
             End If
 
@@ -444,12 +438,12 @@ Namespace Agreement
         Friend Shared Function JackknifeConcordanceResamplingResult(reference As Double(),
                                                             test As Double(),
                                                             opts As LinConcordanceOptions) As ScalarResamplingResult
-            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
-            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(test)))
             If reference.Length <> test.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
             End If
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
 
             Dim jkOpts As New JackknifeOptions With {.Alpha = opts.Alpha}
             Dim result As ScalarResamplingResult = ResamplingJackknifeRunner.RunScalarJackknife(
@@ -498,13 +492,13 @@ Namespace Agreement
                                                                                 MeanTest As Double,
                                                                                 SDReference As Double,
                                                                                 SDTest As Double)
-            If reference Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(reference)))
-            If test Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(test)))
+            If reference Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(reference)))
+            If test Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(test)))
             If reference.Length <> test.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Reference and test arrays must have the same length."))
             End If
             If reference.Length < 3 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 3 paired observations are required."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("At least 3 paired observations are required."))
             End If
 
             Dim n As Integer = reference.Length
@@ -516,7 +510,7 @@ Namespace Agreement
             Dim sdY As Double = Math.Sqrt(varY)
 
             If varX <= 0.0 OrElse varY <= 0.0 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Lin concordance is undefined when either method has zero sample variance."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Lin concordance is undefined when either method has zero sample variance."))
             End If
 
             Dim covXY As Double = 0.0
@@ -528,7 +522,7 @@ Namespace Agreement
             Dim pearsonR As Double = covXY / (sdX * sdY)
             Dim denominator As Double = varX + varY + (meanX - meanY) * (meanX - meanY)
             If denominator <= 0.0 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Lin concordance denominator is non-positive; check the supplied data."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Lin concordance denominator is non-positive; check the supplied data."))
             End If
 
             Dim rhoC As Double = (2.0 * covXY) / denominator
@@ -565,9 +559,9 @@ Namespace Agreement
                                                                     n As Integer,
                                                                     opts As LinConcordanceOptions) As ConfidenceIntervalResult
             If n < 3 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(n), "At least 3 observations are required for concordance inference."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(n), "At least 3 observations are required for concordance inference."))
             End If
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
 
             If opts.CiMethod = AgreementCiMethod.Analytical OrElse opts.CiMethod = AgreementCiMethod.Jackknife Then
                 Dim out As New ConfidenceIntervalResult With {
@@ -592,7 +586,7 @@ Namespace Agreement
                 Return out
             End If
 
-            AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Bootstrap concordance intervals require paired data arrays. Use the overload that takes the paired vectors."))
+            CoreServices.Errors.LogAndThrow(New InvalidOperationException("Bootstrap concordance intervals require paired data arrays. Use the overload that takes the paired vectors."))
             Return Nothing
         End Function
 
@@ -615,7 +609,7 @@ Namespace Agreement
         Friend Shared Function ComputeHypothesisTest(concordance As Double,
                                                      n As Integer,
                                                      opts As LinConcordanceOptions) As TestResult
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
 
             If n <= 3 Then
                 Return New TestResult With {

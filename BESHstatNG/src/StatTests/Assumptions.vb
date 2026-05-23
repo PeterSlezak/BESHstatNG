@@ -1,8 +1,7 @@
 ﻿Option Explicit On
 Option Strict On
-Imports System.Drawing
+
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 Namespace assumptions
 
@@ -425,10 +424,10 @@ Namespace assumptions
             Dim p As Integer = Cov_mat.GetLength(1)
             ' Cov_mat is (group, row, col)
             If Cov_mat.GetLength(1) <> Cov_mat.GetLength(2) Then
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test require the same dimensions of Covariance matrix for each group."))
+                CoreServices.Errors.LogAndThrow(New ApplicationException("Error: Box test require the same dimensions of Covariance matrix for each group."))
             End If
             If n_grp <> SampleSizes.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Error: Box test - incorrect input array dimensions."))
+                CoreServices.Errors.LogAndThrow(New ApplicationException("Error: Box test - incorrect input array dimensions."))
             End If
 
             Dim cov_pooled(p - 1, p - 1) As Double, tmp(p - 1, p - 1) As Double
@@ -1075,11 +1074,11 @@ Namespace assumptions
             Dim n As Integer = x.Length
 
             If n < 15 Then
-                AppGlobals.BSlogg.Log("Rosner: Sample size too small for calucalation (n < 15).", AppGlobals.LogMsgType.Warn)
+                CoreServices.Log("Rosner: Sample size too small for calucalation (n < 15).", AppInfrastructure.LogMsgType.Warn)
                 Return Nothing
             ElseIf n < 25 Then
-                AppGlobals.BSlogg.Log("Rosner: Too small sample size for this test (n < 25). Inference done by the test could be incorect. For more information see (Technometrics, 25(2), 165-172).",
-                        AppGlobals.LogMsgType.Warn)
+                CoreServices.Log("Rosner: Too small sample size for this test (n < 25). Inference done by the test could be incorect. For more information see (Technometrics, 25(2), 165-172).",
+                        AppInfrastructure.LogMsgType.Warn)
             End If
 
             Dim fn = n

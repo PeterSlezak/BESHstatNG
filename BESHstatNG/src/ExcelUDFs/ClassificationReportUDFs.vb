@@ -109,7 +109,7 @@ Namespace WorksheetFunctions
                 Dim summary As regression.BinaryClassificationSummary =
                     regression.BinaryClassificationReporting.ComputeBinarySummary(observed, probs, cutoff, w)
 
-                Return regression.BinaryClassificationReporting.BuildBinaryCrosstabUdfOutput(summary, hdr)
+                Return ConvertBinaryClassificationOutputForExcel(regression.BinaryClassificationReporting.BuildBinaryCrosstabUdfOutput(summary, hdr))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.CONFUSION", ex)
             End Try
@@ -192,7 +192,7 @@ Namespace WorksheetFunctions
                 Dim rows As List(Of regression.BinaryThresholdRow) =
                     regression.BinaryClassificationReporting.BuildThresholdTable(observed, probs, thresholdVector, w)
 
-                Return regression.BinaryClassificationReporting.BuildThresholdTableUdfOutput(rows, hdr)
+                Return ConvertBinaryClassificationOutputForExcel(regression.BinaryClassificationReporting.BuildThresholdTableUdfOutput(rows, hdr))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.THRESH", ex)
             End Try
@@ -283,7 +283,7 @@ Namespace WorksheetFunctions
                 Dim rows As List(Of regression.CalibrationBinSummary) =
                     regression.BinaryClassificationReporting.BuildCalibrationBins(observed, probs, binCount, w, methodName)
 
-                Return BinaryClassificationReporting.BuildCalibrationTableUdfOutput(rows, hdr)
+                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildCalibrationTableUdfOutput(rows, hdr))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.CALIB", ex)
             End Try
@@ -357,7 +357,7 @@ Namespace WorksheetFunctions
                 Dim eventRate As Double = ComputeWeightedEventRate(observed, w)
                 Dim nObs As Double = If(w Is Nothing, observed.Length, w.Sum())
 
-                Return BinaryClassificationReporting.BuildBrierScoreUdfOutput(brier, nObs, eventRate, hdr)
+                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildBrierScoreUdfOutput(brier, nObs, eventRate, hdr))
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.CLASS.BRIER", ex)
             End Try

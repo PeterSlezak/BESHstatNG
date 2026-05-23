@@ -724,7 +724,7 @@ Namespace regression
         ''' <para>
         ''' This first mixed-model output layer uses large-sample Wald normal inference:
         ''' <c>z = beta / SE(beta)</c>, with two-sided normal p-values.  The p-value column is
-        ''' registered as body column 4 so that <see cref="WriteResults"/> highlights the p-values,
+        ''' registered as body column 4 so that <see cref="ExcelDnaResultWriter"/> highlights the p-values,
         ''' not the z-statistics.
         ''' </para>
         ''' <para>

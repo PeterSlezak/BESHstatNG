@@ -86,11 +86,11 @@ Namespace regression
                 OrElse normalized = "un" Then
                 f = New UnstructuredRandomEffects()
             Else
-                AppGlobals.BSlogg.Error($"Unsupported mixed-model random-effects covariance structure. type='{type}'")
+                CoreServices.Logger.Error($"Unsupported mixed-model random-effects covariance structure. type='{type}'")
                 Throw New ApplicationException("Unsupported mixed-model random-effects covariance structure. type = " & type)
             End If
 
-            AppGlobals.BSlogg.Trace($"createMixedModelGStruct created {f.ToString()} for type='{type}'")
+            CoreServices.Logger.Trace($"createMixedModelGStruct created {f.ToString()} for type='{type}'")
             Return f
         End Function
 
@@ -119,7 +119,7 @@ Namespace regression
     ''' <item><description>Variance-like quantities are represented internally on the log scale so that <c>σ² = exp(θ)</c> is always positive.</description></item>
     ''' <item><description>Two-dimensional intercept/slope covariance is parameterized by log standard deviations and an unconstrained correlation mapped by <c>ρ = tanh(θ)</c>.</description></item>
     ''' <item><description>General unstructured covariance is parameterized through a lower-triangular Cholesky factor <c>L</c> with log-diagonal entries, so that <c>G = L L'</c> is symmetric positive-definite by construction.</description></item>
-    ''' <item><description>Every structure emits trace/debug/warn messages both to <see cref="AppGlobals.BSlogg"/> and to an optional in-memory <c>strTrace</c> accumulator. This mirrors the debugging style used elsewhere in the project and makes it easier to surface details later in the UI or result tables.</description></item>
+    ''' <item><description>Every structure emits trace/debug/warn messages both to <see cref="CoreServices.logger"/> and to an optional in-memory <c>strTrace</c> accumulator. This mirrors the debugging style used elsewhere in the project and makes it easier to surface details later in the UI or result tables.</description></item>
     ''' </list>
     ''' </remarks>
     Public MustInherit Class MixedModelGStruct
@@ -293,7 +293,7 @@ Namespace regression
             Else
                 strTrace &= vbNewLine & message
             End If
-            AppGlobals.BSlogg.Trace(message)
+            CoreServices.Logger.Trace(message)
         End Sub
 
         ''' <summary>
@@ -306,7 +306,7 @@ Namespace regression
             Else
                 strTrace &= vbNewLine & message
             End If
-            AppGlobals.BSlogg.Debug(message)
+            CoreServices.Logger.Debug(message)
         End Sub
 
         ''' <summary>
@@ -319,7 +319,7 @@ Namespace regression
             Else
                 strTrace &= vbNewLine & message
             End If
-            AppGlobals.BSlogg.Warn(message)
+            CoreServices.Logger.Warn(message)
         End Sub
 
     End Class
@@ -418,7 +418,7 @@ Namespace regression
             If data.Q <> 1 Then
                 Throw New ApplicationException($"RandomIntercept.StartParams expects data.Q = 1, but found {data.Q}.")
             End If
-            Dim baseVar As Double = Math.Max(olsResidualVar, 1.0E-6)
+            Dim baseVar As Double = Math.Max(olsResidualVar, 0.000001)
             Return {Math.Log(baseVar / 2.0)}
         End Function
 
@@ -503,10 +503,10 @@ Namespace regression
                 Throw New ApplicationException($"RandomInterceptSlope.StartParams expects data.Q = 2, but found {data.Q}.")
             End If
 
-            Dim baseSD As Double = Math.Sqrt(Math.Max(olsResidualVar, 1.0E-6))
+            Dim baseSD As Double = Math.Sqrt(Math.Max(olsResidualVar, 0.000001))
             Return {
-                Math.Log(Math.Max(baseSD / 2.0, 1.0E-6)),
-                Math.Log(Math.Max(baseSD / 4.0, 1.0E-6)),
+                Math.Log(Math.Max(baseSD / 2.0, 0.000001)),
+                Math.Log(Math.Max(baseSD / 4.0, 0.000001)),
                 0.0
             }
         End Function
@@ -581,8 +581,8 @@ Namespace regression
 
             Dim q As Integer = data.Q
             Dim theta(q - 1) As Double
-            Dim baseVar As Double = Math.Max(olsResidualVar, 1.0E-6)
-            Dim startVar As Double = Math.Max(baseVar / 2.0, 1.0E-6)
+            Dim baseVar As Double = Math.Max(olsResidualVar, 0.000001)
+            Dim startVar As Double = Math.Max(baseVar / 2.0, 0.000001)
             For i As Integer = 0 To q - 1
                 theta(i) = Math.Log(startVar)
             Next
@@ -632,7 +632,7 @@ Namespace regression
                                               Optional olsResidualVar As Double = 1.0) As Double()
             If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
             If data.Q < 1 Then Throw New ApplicationException($"IdentityRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
-            Return {Math.Log(Math.Max(olsResidualVar / 2.0, 1.0E-6))}
+            Return {Math.Log(Math.Max(olsResidualVar / 2.0, 0.000001))}
         End Function
 
         Public Overrides Function BuildG(theta() As Double,
@@ -682,7 +682,7 @@ Namespace regression
             If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
             If data.Q < 1 Then Throw New ApplicationException($"CompoundSymmetryRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
             Dim theta(ParamCount(data.Q) - 1) As Double
-            theta(0) = Math.Log(Math.Max(olsResidualVar / 2.0, 1.0E-6))
+            theta(0) = Math.Log(Math.Max(olsResidualVar / 2.0, 0.000001))
             If theta.Length > 1 Then theta(1) = 0.0
             Return theta
         End Function
@@ -730,7 +730,7 @@ Namespace regression
             Return q + 1
         End Function
 
-        Public Overrides Function ParamNames(q As Integer,     Optional randomEffectNames() As String = Nothing) As String()
+        Public Overrides Function ParamNames(q As Integer, Optional randomEffectNames() As String = Nothing) As String()
             ValidateQ(q, 1)
             Dim names(ParamCount(q) - 1) As String
             For i As Integer = 0 To q - 1
@@ -740,11 +740,11 @@ Namespace regression
             Return names
         End Function
 
-        Public Overrides Function StartParams(data As MixedModelBlockData,       Optional olsResidualVar As Double = 1.0) As Double()
+        Public Overrides Function StartParams(data As MixedModelBlockData, Optional olsResidualVar As Double = 1.0) As Double()
             If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
             If data.Q < 1 Then Throw New ApplicationException($"HeterogeneousCompoundSymmetryRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
             Dim theta(ParamCount(data.Q) - 1) As Double
-            Dim startVar As Double = Math.Max(olsResidualVar / 2.0, 1.0E-6)
+            Dim startVar As Double = Math.Max(olsResidualVar / 2.0, 0.000001)
             For i As Integer = 0 To data.Q - 1
                 theta(i) = Math.Log(startVar)
             Next
@@ -809,11 +809,11 @@ Namespace regression
             Return {"logVar(AR1)", "ar1Corr"}
         End Function
 
-        Public Overrides Function StartParams(data As MixedModelBlockData,       Optional olsResidualVar As Double = 1.0) As Double()
+        Public Overrides Function StartParams(data As MixedModelBlockData, Optional olsResidualVar As Double = 1.0) As Double()
             If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
             If data.Q < 1 Then Throw New ApplicationException($"AutoregressiveRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
             Dim theta(ParamCount(data.Q) - 1) As Double
-            theta(0) = Math.Log(Math.Max(olsResidualVar / 2.0, 1.0E-6))
+            theta(0) = Math.Log(Math.Max(olsResidualVar / 2.0, 0.000001))
             If theta.Length > 1 Then theta(1) = 0.0
             Return theta
         End Function
@@ -871,7 +871,7 @@ Namespace regression
             If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
             If data.Q < 1 Then Throw New ApplicationException($"HeterogeneousAutoregressiveRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
             Dim theta(ParamCount(data.Q) - 1) As Double
-            Dim startVar As Double = Math.Max(olsResidualVar / 2.0, 1.0E-6)
+            Dim startVar As Double = Math.Max(olsResidualVar / 2.0, 0.000001)
             For i As Integer = 0 To data.Q - 1
                 theta(i) = Math.Log(startVar)
             Next
@@ -926,7 +926,7 @@ Namespace regression
             Return q
         End Function
 
-        Public Overrides Function ParamNames(q As Integer,  Optional randomEffectNames() As String = Nothing) As String()
+        Public Overrides Function ParamNames(q As Integer, Optional randomEffectNames() As String = Nothing) As String()
             ValidateQ(q, 1)
             Dim names(q - 1) As String
             names(0) = "logVar(TOEP)"
@@ -940,7 +940,7 @@ Namespace regression
             If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
             If data.Q < 1 Then Throw New ApplicationException($"ToeplitzRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
             Dim theta(data.Q - 1) As Double
-            theta(0) = Math.Log(Math.Max(olsResidualVar / 2.0, 1.0E-6))
+            theta(0) = Math.Log(Math.Max(olsResidualVar / 2.0, 0.000001))
             For lag As Integer = 1 To data.Q - 1
                 theta(lag) = 0.0
             Next
@@ -1026,7 +1026,7 @@ Namespace regression
             If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
             If data.Q < 1 Then Throw New ApplicationException($"HeterogeneousToeplitzRandomEffects.StartParams requires data.Q >= 1, but found {data.Q}.")
             Dim theta(ParamCount(data.Q) - 1) As Double
-            Dim startVar As Double = Math.Max(olsResidualVar / 2.0, 1.0E-6)
+            Dim startVar As Double = Math.Max(olsResidualVar / 2.0, 0.000001)
             For i As Integer = 0 To data.Q - 1
                 theta(i) = Math.Log(startVar)
             Next
@@ -1157,12 +1157,12 @@ Namespace regression
 
             Dim q As Integer = data.Q
             Dim theta(ParamCount(q) - 1) As Double
-            Dim baseSD As Double = Math.Sqrt(Math.Max(olsResidualVar, 1.0E-6))
+            Dim baseSD As Double = Math.Sqrt(Math.Max(olsResidualVar, 0.000001))
             Dim k As Integer = 0
             For i As Integer = 0 To q - 1
                 For j As Integer = 0 To i
                     If i = j Then
-                        theta(k) = Math.Log(Math.Max(baseSD / 2.0, 1.0E-6))
+                        theta(k) = Math.Log(Math.Max(baseSD / 2.0, 0.000001))
                     Else
                         theta(k) = 0.0
                     End If

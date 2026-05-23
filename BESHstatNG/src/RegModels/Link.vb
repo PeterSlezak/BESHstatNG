@@ -2,7 +2,6 @@
 Option Strict On
 
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 Namespace regression
 
@@ -23,7 +22,7 @@ Namespace regression
             ElseIf type.ToLower = "inverse" Then
                 f = New regression.Inverse
             Else
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Unsupported link type = " & type))
+                CoreServices.Errors.LogAndThrow(New ApplicationException("Unsupported link type = " & type))
                 f = Nothing
             End If
             Return f
@@ -34,7 +33,7 @@ Namespace regression
             If type.ToLower = "power" Then
                 f = New regression.Power(pwr)
             Else
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Unsupported link type = " & type))
+                CoreServices.Errors.LogAndThrow(New ApplicationException("Unsupported link type = " & type))
                 f = Nothing
             End If
             Return f

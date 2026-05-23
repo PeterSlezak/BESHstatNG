@@ -30,7 +30,7 @@ Namespace WorksheetFunctions
     ''' Unlike the fixed-dispersion Negative Binomial family exposed through the general GLM worksheet functions,
     ''' this module uses <see cref="GLM_NB"/>, which estimates the dispersion parameter from the data by alternating between:
     ''' fitting the mean model for a fixed dispersion value and re-estimating dispersion from the current fitted means.
-    ''' That design mirrors the <c>glm.nb</c>-style outer loop documented in <see cref="GLM_NB.Fit(Integer, Boolean, System.Windows.Forms.ProgressBar, System.Windows.Forms.Label)"/>.
+    ''' That design mirrors the <c>glm.nb</c>-style outer loop documented in <see cref="GLM_NB.Fit(Integer, Boolean, AppInfrastructure.IProgressReporter)"/>.
     ''' </para>
     ''' <para>
     ''' The fit function stores the estimated model in an in-memory cache for the current Excel session and returns a text handle.

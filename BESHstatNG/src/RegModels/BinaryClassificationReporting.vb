@@ -3,8 +3,6 @@
 Imports System
 Imports System.Collections.Generic
 Imports System.Linq
-Imports ExcelDna.Integration
-Imports Microsoft.Office.Interop
 
 Namespace regression
 
@@ -82,6 +80,28 @@ Namespace regression
     Public Module BinaryClassificationReporting
 
         Private Const EPS As Double = 0.000000000001
+
+        ''' <summary>
+        ''' Host-neutral sentinel used in portable tabular outputs to indicate that a cell
+        ''' should be rendered as a missing/not-available value by the caller. Excel UDF
+        ''' wrappers convert this sentinel to <c>ExcelErrorNA</c>; non-Excel callers can
+        ''' map it to <c>null</c>, <c>DBNull</c>, JSON <c>null</c>, or another host-specific
+        ''' missing-value representation.
+        ''' </summary>
+        Public ReadOnly MissingOutputValue As Object = New BinaryClassificationMissingOutputValue()
+
+        ''' <summary>
+        ''' Returns <c>True</c> when <paramref name="value"/> is the host-neutral missing-output sentinel.
+        ''' </summary>
+        Public Function IsMissingOutputValue(value As Object) As Boolean
+            Return Object.ReferenceEquals(value, MissingOutputValue)
+        End Function
+
+        Private NotInheritable Class BinaryClassificationMissingOutputValue
+            Public Overrides Function ToString() As String
+                Return "N/A"
+            End Function
+        End Class
 
         ''' <summary>
         ''' Validates binary outcomes, predicted probabilities, and optional weights.
@@ -597,22 +617,22 @@ Namespace regression
             out(rowOffset + 0, 0) = 0
             out(rowOffset + 0, 1) = summary.TN
             out(rowOffset + 0, 2) = summary.FP
-            out(rowOffset + 0, 3) = PercentOrExcelNa(summary.Specificity)
+            out(rowOffset + 0, 3) = PercentOrMissingValue(summary.Specificity)
 
             out(rowOffset + 1, 0) = 1
             out(rowOffset + 1, 1) = summary.FN
             out(rowOffset + 1, 2) = summary.TP
-            out(rowOffset + 1, 3) = PercentOrExcelNa(summary.Sensitivity)
+            out(rowOffset + 1, 3) = PercentOrMissingValue(summary.Sensitivity)
 
             out(rowOffset + 2, 0) = "Precision % / Overall"
-            out(rowOffset + 2, 1) = PercentOrExcelNa(summary.NPV)
-            out(rowOffset + 2, 2) = PercentOrExcelNa(summary.Precision)
-            out(rowOffset + 2, 3) = PercentOrExcelNa(summary.Accuracy)
+            out(rowOffset + 2, 1) = PercentOrMissingValue(summary.NPV)
+            out(rowOffset + 2, 2) = PercentOrMissingValue(summary.Precision)
+            out(rowOffset + 2, 3) = PercentOrMissingValue(summary.Accuracy)
 
             out(rowOffset + 3, 0) = "Threshold / Balanced accuracy"
             out(rowOffset + 3, 1) = summary.Threshold
-            out(rowOffset + 3, 2) = PercentOrExcelNa(summary.BalancedAccuracy)
-            out(rowOffset + 3, 3) = PercentOrExcelNa(summary.YoudenJ)
+            out(rowOffset + 3, 2) = PercentOrMissingValue(summary.BalancedAccuracy)
+            out(rowOffset + 3, 3) = PercentOrMissingValue(summary.YoudenJ)
 
             Return PrepareResultTableForUdfLocal(out)
         End Function
@@ -622,7 +642,7 @@ Namespace regression
         ''' </summary>
         Public Function BuildThresholdTableUdfOutput(rows As IList(Of BinaryThresholdRow),
                                                      Optional includeHeader As Boolean = True) As Object
-            If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+            If rows Is Nothing OrElse rows.Count = 0 Then Return MissingOutputValue
 
             Dim rowOffset As Integer = If(includeHeader, 1, 0)
             Dim outRows As Integer = rowOffset + rows.Count
@@ -653,15 +673,15 @@ Namespace regression
                 out(rr, 2) = r.FP
                 out(rr, 3) = r.TN
                 out(rr, 4) = r.FN
-                out(rr, 5) = PercentOrExcelNa(r.Sensitivity)
-                out(rr, 6) = PercentOrExcelNa(r.Specificity)
-                out(rr, 7) = PercentOrExcelNa(r.Precision)
-                out(rr, 8) = PercentOrExcelNa(r.Recall)
-                out(rr, 9) = PercentOrExcelNa(r.NPV)
-                out(rr, 10) = PercentOrExcelNa(r.Accuracy)
-                out(rr, 11) = PercentOrExcelNa(r.BalancedAccuracy)
-                out(rr, 12) = PercentOrExcelNa(r.YoudenJ)
-                out(rr, 13) = PercentOrExcelNa(r.F1)
+                out(rr, 5) = PercentOrMissingValue(r.Sensitivity)
+                out(rr, 6) = PercentOrMissingValue(r.Specificity)
+                out(rr, 7) = PercentOrMissingValue(r.Precision)
+                out(rr, 8) = PercentOrMissingValue(r.Recall)
+                out(rr, 9) = PercentOrMissingValue(r.NPV)
+                out(rr, 10) = PercentOrMissingValue(r.Accuracy)
+                out(rr, 11) = PercentOrMissingValue(r.BalancedAccuracy)
+                out(rr, 12) = PercentOrMissingValue(r.YoudenJ)
+                out(rr, 13) = PercentOrMissingValue(r.F1)
             Next
 
             Return PrepareResultTableForUdfLocal(out)
@@ -672,7 +692,7 @@ Namespace regression
         ''' </summary>
         Public Function BuildCalibrationTableUdfOutput(rows As IList(Of CalibrationBinSummary),
                                                        Optional includeHeader As Boolean = True) As Object
-            If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+            If rows Is Nothing OrElse rows.Count = 0 Then Return MissingOutputValue
 
             Dim rowOffset As Integer = If(includeHeader, 1, 0)
             Dim outRows As Integer = rowOffset + rows.Count
@@ -705,7 +725,7 @@ Namespace regression
         ''' Builds an Excel spill range for chart-ready calibration points.
         ''' </summary>
         Public Function BuildCalibrationPointsUdfOutput(rows As IList(Of CalibrationBinSummary)) As Object
-            If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
+            If rows Is Nothing OrElse rows.Count = 0 Then Return MissingOutputValue
 
             Dim out(rows.Count, 7) As Object
             out(0, 0) = "Bin"
@@ -725,8 +745,8 @@ Namespace regression
                 out(i + 1, 3) = r.ObservedRate
                 out(i + 1, 4) = r.LowerCI
                 out(i + 1, 5) = r.UpperCI
-                out(i + 1, 6) = If(Double.IsNaN(r.LowerCI), ExcelError.ExcelErrorNA, r.ObservedRate - r.LowerCI)
-                out(i + 1, 7) = If(Double.IsNaN(r.UpperCI), ExcelError.ExcelErrorNA, r.UpperCI - r.ObservedRate)
+                out(i + 1, 6) = If(Double.IsNaN(r.LowerCI), MissingOutputValue, r.ObservedRate - r.LowerCI)
+                out(i + 1, 7) = If(Double.IsNaN(r.UpperCI), MissingOutputValue, r.UpperCI - r.ObservedRate)
             Next
 
             Return PrepareResultTableForUdfLocal(out)
@@ -861,7 +881,7 @@ Namespace regression
         ''' </para>
         ''' </summary>
         ''' <param name="writer">
-        ''' <see cref="WriteResults"/> instance already pointing at the classification worksheet.
+        ''' <see cref="ExcelDnaResultWriter"/> instance already pointing at the classification worksheet.
         ''' The current row pointer is used as the insertion location for the ROC tables.
         ''' </param>
         ''' <param name="y">Observed binary outcomes encoded as 0/1.</param>
@@ -873,7 +893,7 @@ Namespace regression
         ''' <returns>
         ''' <c>True</c> if the ROC results were successfully computed and written; otherwise <c>False</c>.
         ''' </returns>
-        Public Function AddRocResultsAndPlotToClassificationSheet(writer As WriteResults, y() As Double, p() As Double,
+        Public Function AddRocResultsAndPlotToClassificationSheet(writer As ExcelDnaResultWriter, y() As Double, p() As Double,
                                                                   Optional alphaValue As Double = 0.05R) As Boolean
             If writer Is Nothing OrElse writer.ws Is Nothing Then Return False
 
@@ -1008,8 +1028,8 @@ Namespace regression
             Return 100.0R * value
         End Function
 
-        Private Function PercentOrExcelNa(value As Double) As Object
-            If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return ExcelError.ExcelErrorNA
+        Private Function PercentOrMissingValue(value As Double) As Object
+            If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return MissingOutputValue
             Return 100.0R * value
         End Function
 

@@ -18,41 +18,42 @@ Public Class BESHStatAddIn
         AppGlobals.gXllName = DirectCast(XlCall.Excel(XlCall.xlGetName), String)
         AppGlobals.gXllPath = Path.GetDirectoryName(AppGlobals.gXllName)
         AppGlobals.gLogFile = Path.Combine(AppGlobals.gXllPath, "Logs", "all.log")
-        AppGlobals.gLogger = New AppGlobals.SimpleFileLogger(AppGlobals.gXllPath, GetType(BESHStatAddIn).FullName, resetTraceLog:=True)
+        ExcelDnaHost.ConfigureCoreServicesForExcelDna(AppGlobals.gsAPP_TITLE)
+        AppGlobals.gLogger = New SimpleFileLogger(AppGlobals.gXllPath, GetType(BESHStatAddIn).FullName, resetTraceLog:=True)
 
-        AppGlobals.BSlogg.Info($"AutoOpen starting. Version={AppGlobals.gAddinVersion}; Build={AppGlobals.GetBuildDateIso()}; XllPath={AppGlobals.gXllPath}")
+        Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info($"AutoOpen starting. Version={AppGlobals.gAddinVersion}; Build={AppGlobals.GetBuildDateIso()}; XllPath={AppGlobals.gXllPath}")
 
         Try
             AppGlobals.gSettingsStore = New AppInfrastructure.BeshStatNgSettingsStore(AppGlobals.gXllPath)
             AppGlobals.ApplySettings(AppGlobals.gSettingsStore.Load())
-            AppGlobals.BSlogg.Info("Settings loaded successfully.")
+            Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info("Settings loaded successfully.")
         Catch ex As Exception
             AppGlobals.ApplySettings(New AppInfrastructure.BeshStatNgSettings())
-            AppGlobals.BSlogg.Error(ex, "Failed to load settings. Defaults were applied for this session.")
+            Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Error(ex, "Failed to load settings. Defaults were applied for this session.")
         End Try
 
-        AppGlobals.BSlogg.Info("Trace execution logging enabled = " & AppGlobals.TraceExecutionLoggingEnabled.ToString())
+        Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info("Trace execution logging enabled = " & AppGlobals.TraceExecutionLoggingEnabled.ToString())
 
         Try
             BESHStatUpdate.AutoUpdate.Start(4000)
-            AppGlobals.BSlogg.Debug("Background update check scheduled.")
+            Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Debug("Background update check scheduled.")
         Catch ex As Exception
-            AppGlobals.BSlogg.Error(ex, "Failed to schedule background update check.")
+            Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Error(ex, "Failed to schedule background update check.")
         End Try
 
-        AppGlobals.BSlogg.Info("AutoOpen completed.")
+        Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info("AutoOpen completed.")
     End Sub
 
     Public Sub AutoClose() Implements IExcelAddIn.AutoClose
         Try
-            AppGlobals.BSlogg.Info("AutoClose starting.")
+            Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info("AutoClose starting.")
 
             If AppGlobals.gLogger IsNot Nothing Then
                 AppGlobals.gLogger.Dispose()
                 AppGlobals.gLogger = Nothing
             End If
         Catch ex As Exception
-            AppGlobals.BSlogg.Error(ex, "Error while closing the add-in.")
+            Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Error(ex, "Error while closing the add-in.")
         Finally
             AppGlobals.app = Nothing
         End Try
@@ -64,13 +65,13 @@ Public Class BESHStatAddIn
             ex = New ApplicationException("Unhandled non-exception object received from Excel-DNA: " & If(exception, "<null>").ToString())
         End If
 
-        AppGlobals.BSlogg.Error(ex, "Unhandled Excel-DNA exception")
+        Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Error(ex, "Unhandled Excel-DNA exception")
 
         Try
             Dim erForm As New Ui10ShowLog(ex)
             erForm.Show()
         Catch uiEx As Exception
-            AppGlobals.BSlogg.Error(uiEx, "Failed to show the log window for an unhandled exception.")
+            Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Error(uiEx, "Failed to show the log window for an unhandled exception.")
             MsgBox("An unhandled error occurred: " & ex.Message & vbCrLf & "Check the log for more information.",
                    MsgBoxStyle.Exclamation,
                    AppGlobals.gsAPP_TITLE)
@@ -588,6 +589,24 @@ Public Class Ribbon
     Public Sub OnbtmCohenKappa(control As IRibbonControl)
         Dim mwForm As New UiTwoInputRefedits("Cohen's / Weighted Kappa")
         mwForm.Tag = HelpTopic.CohensKappa
+        mwForm.Show()
+    End Sub
+
+    '--------------------------------------------------------------------------
+    ' Causal Inference
+    '--------------------------------------------------------------------------
+
+    Public Sub OnbtmPSMPressed(control As IRibbonControl)
+        Dim sh As Worksheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
+        Else
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
+        End If
+        Dim mwForm As New Ui20PropensityScoreMatching("Propensity Score Matching")
+        mwForm.Tag = HelpTopic.PropensityScoreMatching
+        mwForm.Populate(sh)
         mwForm.Show()
     End Sub
 

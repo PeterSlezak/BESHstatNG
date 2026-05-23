@@ -227,7 +227,7 @@ Namespace regression
     ''' </summary>
     Public Module MixedModelCovarianceParameterScale
 
-        Private Const MIN_POSITIVE As Double = 1.0E-10
+        Private Const MIN_POSITIVE As Double = 0.0000000001
         Private Const MAX_ABS_RHO As Double = 0.999999
 
         ''' <summary>
@@ -1163,7 +1163,7 @@ Namespace regression
         ''' </summary>
         Public Function FiniteDifferenceStep(covarianceThetaValue As Double) As Double
             Dim scale As Double = Math.Max(1.0, Math.Abs(covarianceThetaValue))
-            Return Math.Max(1.0E-7, 1.0E-5 * scale)
+            Return Math.Max(0.0000001, 0.00001 * scale)
         End Function
 
         ''' <summary>
@@ -1216,7 +1216,7 @@ Namespace regression
             Dim out(kCov - 1, kOpt - 1) As Double
 
             For j As Integer = 0 To kOpt - 1
-                Dim h As Double = Math.Max(1.0E-6, 1.0E-5 * Math.Max(1.0, Math.Abs(optimizerTheta(j))))
+                Dim h As Double = Math.Max(0.000001, 0.00001 * Math.Max(1.0, Math.Abs(optimizerTheta(j))))
 
                 Dim tPlus() As Double = CType(optimizerTheta.Clone(), Double())
                 Dim tMinus() As Double = CType(optimizerTheta.Clone(), Double())

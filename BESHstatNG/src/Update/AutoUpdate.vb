@@ -38,7 +38,7 @@ Namespace BESHStatUpdate
                              Await CheckForUpdateAndPromptAsync().ConfigureAwait(False)
                          Catch ex As Exception
                              ' Never surface update-check exceptions to the user.
-                             AppGlobals.BSlogg.Error(ex, "AutoUpdate background check failed.")
+                             CoreServices.Logger.Error(ex, "AutoUpdate background check failed.")
                          End Try
                      End Function)
         End Sub
@@ -90,7 +90,7 @@ Namespace BESHStatUpdate
                 End If
             Catch ex As Exception
                 ' Ignore malformed state.
-                AppGlobals.BSlogg.Warn($"AutoUpdate could not load state file '{StateFile}': {ex.Message}")
+                CoreServices.Logger.Warn($"AutoUpdate could not load state file '{StateFile}': {ex.Message}")
             End Try
             Return st
         End Function
@@ -117,7 +117,7 @@ Namespace BESHStatUpdate
 
                 doc.Save(StateFile)
             Catch ex As Exception
-                AppGlobals.BSlogg.Warn($"AutoUpdate could not save state file '{StateFile}': {ex.Message}")
+                CoreServices.Logger.Warn($"AutoUpdate could not save state file '{StateFile}': {ex.Message}")
             End Try
         End Sub
 
@@ -151,7 +151,7 @@ Namespace BESHStatUpdate
                                             Try
                                                 ShowPromptAndPersist(info)
                                             Catch ex As Exception
-                                                AppGlobals.BSlogg.Error(ex, "AutoUpdate failed while showing the update prompt.")
+                                                CoreServices.Logger.Error(ex, "AutoUpdate failed while showing the update prompt.")
                                             End Try
                                         End Sub)
         End Function
@@ -181,7 +181,7 @@ Namespace BESHStatUpdate
                     Return New UpdateInfo With {.NewVersion = ver.Trim(), .DetailsUrl = url.Trim()}
                 End Using
             Catch ex As Exception
-                AppGlobals.BSlogg.Debug($"AutoUpdate metadata fetch failed: {ex.Message}")
+                CoreServices.Logger.Debug($"AutoUpdate metadata fetch failed: {ex.Message}")
                 Return Nothing
             End Try
         End Function
@@ -198,7 +198,7 @@ Namespace BESHStatUpdate
                     Return n > c
                 Next
             Catch ex As Exception
-                AppGlobals.BSlogg.Warn($"AutoUpdate version comparison failed for current='{strCurrentVersion}', new='{strNewVersion}': {ex.Message}")
+                CoreServices.Logger.Warn($"AutoUpdate version comparison failed for current='{strCurrentVersion}', new='{strNewVersion}': {ex.Message}")
             End Try
             Return False
         End Function
@@ -212,7 +212,7 @@ Namespace BESHStatUpdate
                 Try
                     owner = New ExcelWindowWrapper(AppGlobals.ExcelMainHwnd)
                 Catch ex As Exception
-                    AppGlobals.BSlogg.Debug($"AutoUpdate could not wrap Excel window handle: {ex.Message}")
+                    CoreServices.Logger.Debug($"AutoUpdate could not wrap Excel window handle: {ex.Message}")
                 End Try
 
                 Dim res As System.Windows.Forms.DialogResult

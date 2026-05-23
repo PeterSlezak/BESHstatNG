@@ -107,11 +107,11 @@ Public Class Ui9ANOVA2nested
                Replace(refNest, wks & "!", String.Empty) & ", " &
                Replace(refData, wks & "!", String.Empty)  'Remove "Sheet1!" from string
 
-        byIdData.DataImport(refFinal, True, 1)
+        ExcelDnaDataImporter.ImportInto(byIdData, refFinal, True, 1)
 
         If byIdData.varNames.Length = 0 Then
             strErr = "Zero valid data!"
-            AppInfrastructure.AppGlobals.BSlogg.Log("Zero valid data!", AppInfrastructure.AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Zero valid data!", AppInfrastructure.LogMsgType.Warn)
             Return Nothing
         End If
 
@@ -146,17 +146,17 @@ Public Class Ui9ANOVA2nested
             refFinal = refGrp & ", " &
                        Replace(refX, wks & "!", String.Empty) & ", " &
                        Replace(refY, wks & "!", String.Empty)  'Remove "Sheet1!" from string
-            byIdData.DataImport(refFinal, True, 1) 'first column can be character
+            ExcelDnaDataImporter.ImportInto(byIdData, refFinal, True, 1) 'first column can be character
         Else
             refFinal = refX & ", " &
                        Replace(refY, wks & "!", String.Empty)
-            byIdData.DataImport(refFinal, True)
+            ExcelDnaDataImporter.ImportInto(byIdData, refFinal, True)
         End If
 
 
         If byIdData.varNames.Length = 0 Then
             strErr = "Zero valid data!"
-            AppInfrastructure.AppGlobals.BSlogg.Log("Zero valid data!", AppInfrastructure.AppGlobals.LogMsgType.Warn)
+            AppInfrastructure.CoreServices.Log("Zero valid data!", AppInfrastructure.LogMsgType.Warn)
             Return Nothing
         End If
 
@@ -167,7 +167,7 @@ Public Class Ui9ANOVA2nested
     End Function
 
     Private Sub RunBlandAltman(d As MultiGroupsPairedDataObj)
-        Dim WriteRes As New WriteResults
+        Dim WriteRes As New ExcelDnaResultWriter
         Dim x() As Double = Nothing, y() As Double = Nothing
         Dim subIds() As Object = Nothing
 
@@ -278,7 +278,7 @@ Public Class Ui9ANOVA2nested
     End Sub
 
     Private Sub RunPassingBablok(d As MultiGroupsPairedDataObj)
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim bGrouped As Boolean = False
         Dim x() As Double = Nothing, y() As Double = Nothing, grp() As Object = Nothing
         Dim pb As Agreement.PassinbBablok = Nothing
@@ -320,7 +320,7 @@ Public Class Ui9ANOVA2nested
     End Sub
 
     Private Sub Run2WayNested(d As MultiGroupsPairedDataObj)
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim nest = New parametric.TwoWayNestedANOVA(d.X, d.varNames)
         nest.compute()
         Dim res = nest.wrapResults()
@@ -344,8 +344,8 @@ Public Class Ui9ANOVA2nested
 
     End Sub
 
-    Private Function GetResultWriter() As WriteResults
-        Dim WriteRes = New WriteResults, rRange As Range
+    Private Function GetResultWriter() As ExcelDnaResultWriter
+        Dim WriteRes = New ExcelDnaResultWriter, rRange As Range
         If Me.optWorkbook.Checked Then
             WriteRes.wb = AppInfrastructure.AppGlobals.app.Workbooks.Add()
             WriteRes.ws = AppInfrastructure.AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -419,7 +419,7 @@ Public Class Ui9ANOVA2nested
             End If
 
         Catch ex As Exception
-            AppInfrastructure.AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 

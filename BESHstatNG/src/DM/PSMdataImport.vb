@@ -122,7 +122,7 @@ Public Class psmData
         modelKeys.AddRange(RawCovariateKeys)
         ModelReference = BuildExcelRefList(spec.Worksheet, modelKeys, spec.VariableColumnsInfo)
         Dim modelReferenceForImport As String = ModelReference
-        MyBase.DataImport(modelReferenceForImport)
+        ExcelDnaDataImporter.ImportInto(Me, modelReferenceForImport)
         If Me.bZeroValid Then Return
 
         OutcomeReference = BuildExcelRefList(spec.Worksheet, New List(Of String) From {spec.OutcomeKey}, spec.VariableColumnsInfo)
@@ -238,25 +238,25 @@ Public Class psmData
     End Sub
 
     Private Shared Sub ValidateWorksheetSpec(spec As PsmDataImportSpec)
-        If spec Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(spec)))
-        If spec.Worksheet Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(spec.Worksheet)))
-        If spec.VariableColumnsInfo Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(spec.VariableColumnsInfo)))
-        If String.IsNullOrWhiteSpace(spec.TreatmentKey) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Treatment variable is required."))
-        If String.IsNullOrWhiteSpace(spec.OutcomeKey) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Outcome variable is required."))
+        If spec Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(spec)))
+        If spec.Worksheet Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(spec.Worksheet)))
+        If spec.VariableColumnsInfo Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(spec.VariableColumnsInfo)))
+        If String.IsNullOrWhiteSpace(spec.TreatmentKey) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Treatment variable is required."))
+        If String.IsNullOrWhiteSpace(spec.OutcomeKey) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Outcome variable is required."))
         If spec.ScoreMethod = PsmScoreMethod.Supplied AndAlso String.IsNullOrWhiteSpace(spec.SuppliedScoreKey) Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Supplied propensity score variable is required when score method is Supplied."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Supplied propensity score variable is required when score method is Supplied."))
         End If
     End Sub
 
     Private Shared Sub ValidateRawMatrixSpec(spec As PsmDataRawMatrixSpec)
-        If spec Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(spec)))
-        If spec.ModelRawInput Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(spec.ModelRawInput)))
-        If spec.ModelVariableNames Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(spec.ModelVariableNames)))
-        If String.IsNullOrWhiteSpace(spec.TreatmentKey) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Treatment variable is required."))
-        If spec.OutcomeRawInput Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(spec.OutcomeRawInput)))
-        If spec.OutcomeVariableNames Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(spec.OutcomeVariableNames)))
+        If spec Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(spec)))
+        If spec.ModelRawInput Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(spec.ModelRawInput)))
+        If spec.ModelVariableNames Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(spec.ModelVariableNames)))
+        If String.IsNullOrWhiteSpace(spec.TreatmentKey) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Treatment variable is required."))
+        If spec.OutcomeRawInput Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(spec.OutcomeRawInput)))
+        If spec.OutcomeVariableNames Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(spec.OutcomeVariableNames)))
         If spec.ScoreMethod = PsmScoreMethod.Supplied AndAlso spec.SuppliedScoreRawInput Is Nothing Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Supplied propensity score data is required when score method is Supplied."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Supplied propensity score data is required when score method is Supplied."))
         End If
     End Sub
 
@@ -272,7 +272,7 @@ Public Class psmData
             Next
         End If
 
-        If keys.Count = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one covariate or propensity-model effect is required."))
+        If keys.Count = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least one covariate or propensity-model effect is required."))
         Return keys
     End Function
 
@@ -306,7 +306,7 @@ Public Class psmData
 
     Private Shared Function ImportWorksheetDataObject(ref As String, charCols As Integer) As DataObj
         Dim d As New DataObj()
-        d.DataImport(ref, CharCols:=charCols)
+        ExcelDnaDataImporter.ImportInto(d, ref, CharCols:=charCols)
         Return d
     End Function
 
@@ -379,7 +379,7 @@ Public Class psmData
                               Optional allowAbsoluteColumnLetters As Boolean = False,
                               Optional allowQuotedVariableNames As Boolean = True)
         If Me.bZeroValid Then Return
-        If OutcomeData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Outcome data was not imported."))
+        If OutcomeData Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentException("Outcome data was not imported."))
 
         If Not String.IsNullOrWhiteSpace(formulaText) Then
             Dim designBuild As RegressionFormulaRegressionDataBuildResult = Nothing
@@ -394,7 +394,7 @@ Public Class psmData
                                                                                                   allowAbsoluteColumnLetters:=allowAbsoluteColumnLetters,
                                                                                                   allowQuotedVariableNames:=allowQuotedVariableNames,
                                                                                                   omitCategoricalReference:=omitCategoricalReference) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Propensity-score formula could not be expanded. " & If(designErr, String.Empty)))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Propensity-score formula could not be expanded. " & If(designErr, String.Empty)))
             End If
             ExpandedData = designBuild.RegressionDataMatrix
             ExpandedVarNames = designBuild.RegressionDataVarNames
@@ -409,7 +409,7 @@ Public Class psmData
         End If
 
         If ExpandedData Is Nothing OrElse ExpandedData.GetLength(1) < 2 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("The propensity-score model matrix contains no covariate columns."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("The propensity-score model matrix contains no covariate columns."))
         End If
 
         Dim n As Integer = ExpandedData.GetLength(0)
@@ -438,7 +438,7 @@ Public Class psmData
                 scores(i) = CDbl(SuppliedScoreData.FinalData(i, 0))
             Next
         ElseIf scoreMethod = PsmScoreMethod.Supplied Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Supplied propensity-score data was not imported."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Supplied propensity-score data was not imported."))
         End If
 
         Dim ids(n - 1) As String

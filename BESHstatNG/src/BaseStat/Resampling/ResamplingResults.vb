@@ -128,7 +128,7 @@ Namespace Resampling
                                                    Optional stdErr As Double = Double.NaN) As Global.BESHStatNG.ConfidenceIntervalResult
             ValidateAlpha(alpha)
             If Double.IsNaN(ObservedStatistic) OrElse Double.IsInfinity(ObservedStatistic) Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("ObservedStatistic must be finite before a confidence interval can be created."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("ObservedStatistic must be finite before a confidence interval can be created."))
             End If
 
             Dim ci As New Global.BESHStatNG.ConfidenceIntervalResult With {
@@ -150,7 +150,7 @@ Namespace Resampling
             ValidateAlpha(alpha)
             Dim sorted As Double() = SortedResampledStatistics()
             If sorted.Length = 0 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("At least one resampled statistic is required to build a percentile confidence interval."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("At least one resampled statistic is required to build a percentile confidence interval."))
             End If
 
             Dim lower As Double = QuantileSorted(sorted, alpha / 2.0)
@@ -162,12 +162,12 @@ Namespace Resampling
             ValidateAlpha(alpha)
             Dim sorted As Double() = SortedResampledStatistics()
             If sorted.Length = 0 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("At least one resampled statistic is required to build a BCa confidence interval."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("At least one resampled statistic is required to build a BCa confidence interval."))
             End If
 
             ValidateFiniteStatistics(jackknifeStatistics, NameOf(jackknifeStatistics))
             If jackknifeStatistics.Length < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("At least two jackknife replicate statistics are required to build a BCa confidence interval."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("At least two jackknife replicate statistics are required to build a BCa confidence interval."))
             End If
 
             Dim z0 As Double = ComputeBcaBiasCorrectionZ0(ObservedStatistic, sorted)
@@ -258,7 +258,7 @@ Namespace Resampling
         Public Function GetParameterReplicates(parameterIndex As Integer) As Double()
             ValidateVectorShape(ObservedStatistics, ResampledStatistics, ParameterLabels)
             If parameterIndex < 0 OrElse parameterIndex >= ObservedStatistics.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(parameterIndex), $"parameterIndex must be between 0 and {ObservedStatistics.Length - 1}."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(parameterIndex), $"parameterIndex must be between 0 and {ObservedStatistics.Length - 1}."))
             End If
 
             Dim out(ResampledStatistics.Length - 1) As Double
@@ -403,7 +403,7 @@ Namespace Resampling
 
         Friend Function ComputeBcaBiasCorrectionZ0(observedStatistic As Double, bootstrapStatistics As Double()) As Double
             If Double.IsNaN(observedStatistic) OrElse Double.IsInfinity(observedStatistic) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Observed statistic must be finite.", NameOf(observedStatistic)))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Observed statistic must be finite.", NameOf(observedStatistic)))
             End If
             ValidateFiniteStatistics(bootstrapStatistics, NameOf(bootstrapStatistics))
 
@@ -444,7 +444,7 @@ Namespace Resampling
         Friend Function ComputeBcaAdjustedProbabilities(alpha As Double, z0 As Double, acceleration As Double, bootstrapCount As Integer) As (Lower As Double, Upper As Double)
             ValidateAlpha(alpha)
             If bootstrapCount < 1 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(bootstrapCount), "bootstrapCount must be positive."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(bootstrapCount), "bootstrapCount must be positive."))
             End If
 
             Dim zLower As Double = Global.BESHStatNG.distributions.NormSInv(alpha / 2.0)
@@ -509,7 +509,7 @@ Namespace Resampling
                                                     alternative As AlternativeHypothesis,
                                                     Optional useAddOneCorrection As Boolean = True) As (Lower As Double, Upper As Double, TwoSided As Double)
             If Double.IsNaN(observedStatistic) OrElse Double.IsInfinity(observedStatistic) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Observed statistic must be finite.", NameOf(observedStatistic)))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Observed statistic must be finite.", NameOf(observedStatistic)))
             End If
             ValidateFiniteStatistics(nullStatistics, NameOf(nullStatistics))
 
@@ -563,23 +563,23 @@ Namespace Resampling
         ''' <param name="replicates">Replicate parameter vectors.</param>
         ''' <param name="parameterLabels">Optional parameter labels.</param>
         Friend Sub ValidateVectorShape(observed As Double(), replicates As Double()(), parameterLabels As String())
-            If observed Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(observed)))
-            If observed.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one observed parameter is required.", NameOf(observed)))
+            If observed Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(observed)))
+            If observed.Length = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least one observed parameter is required.", NameOf(observed)))
             ValidateFiniteStatistics(observed, NameOf(observed))
 
             If parameterLabels IsNot Nothing AndAlso parameterLabels.Length > 0 AndAlso parameterLabels.Length <> observed.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("ParameterLabels must be Nothing or have the same length as ObservedStatistics.", NameOf(parameterLabels)))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("ParameterLabels must be Nothing or have the same length as ObservedStatistics.", NameOf(parameterLabels)))
             End If
 
-            If replicates Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(replicates)))
-            If replicates.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one replicate vector is required.", NameOf(replicates)))
+            If replicates Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(replicates)))
+            If replicates.Length = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least one replicate vector is required.", NameOf(replicates)))
 
             For i As Integer = 0 To replicates.Length - 1
                 If replicates(i) Is Nothing Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Replicate vectors must not be Nothing.", NameOf(replicates)))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Replicate vectors must not be Nothing.", NameOf(replicates)))
                 End If
                 If replicates(i).Length <> observed.Length Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Each replicate vector must have the same length as ObservedStatistics.", NameOf(replicates)))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Each replicate vector must have the same length as ObservedStatistics.", NameOf(replicates)))
                 End If
                 ValidateFiniteStatistics(replicates(i), NameOf(replicates))
             Next

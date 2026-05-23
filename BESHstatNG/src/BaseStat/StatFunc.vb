@@ -158,7 +158,7 @@ Public Module StatFunc
     ''' </remarks>
     Public Function Minimum(Of T As IComparable(Of T))(ParamArray values() As T) As T
         If values Is Nothing OrElse values.Length = 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least one value is required."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("At least one value is required."))
         End If
 
         Dim m As T = values(0)
@@ -525,9 +525,9 @@ Public Module StatFunc
     ''' </para>
     ''' </remarks>
     Public Function Correl(x() As Double, y() As Double) As Double
-        If x Is Nothing OrElse y Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException())
-        If x.Length <> y.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Arrays must have the same length."))
-        If x.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Arrays must not be empty."))
+        If x Is Nothing OrElse y Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException())
+        If x.Length <> y.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("Arrays must have the same length."))
+        If x.Length = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Arrays must not be empty."))
 
         Dim n As Integer = x.Length
         Dim meanX As Double = x.Average()
@@ -696,9 +696,9 @@ Public Module StatFunc
     ''' </para>
     ''' </remarks>
     Public Function Slope(y() As Double, x() As Double) As Double
-        If y Is Nothing OrElse x Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException())
-        If y.Length <> x.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Arrays must have the same length."))
-        If y.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Arrays must not be empty."))
+        If y Is Nothing OrElse x Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException())
+        If y.Length <> x.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("Arrays must have the same length."))
+        If y.Length = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Arrays must not be empty."))
 
         Dim n As Integer = y.Length
 
@@ -714,7 +714,7 @@ Public Module StatFunc
             den += dx * dx
         Next
 
-        If den = 0 Then AppGlobals.BSerr.LogAndThrow(New DivideByZeroException("Variance of X is zero."))
+        If den = 0 Then CoreServices.Errors.LogAndThrow(New DivideByZeroException("Variance of X is zero."))
 
         Return num / den
     End Function
@@ -972,7 +972,7 @@ Public Module StatFunc
     ''' </remarks>
     Public Function Minimum2D(x(,) As Double) As Double
         If x Is Nothing OrElse x.Length = 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Array must contain at least one element."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Array must contain at least one element."))
         End If
 
         Dim r As Integer = x.GetLength(0)
@@ -1029,7 +1029,7 @@ Public Module StatFunc
     ''' </remarks>
     Public Function Maximum2D(x(,) As Double) As Double
         If x Is Nothing OrElse x.Length = 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Array must contain at least one element."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Array must contain at least one element."))
         End If
 
         Dim r As Integer = x.GetLength(0)
@@ -1413,7 +1413,7 @@ Public Module StatFunc
                              0.00000015056327351493116}
 
         If z <= 0 AndAlso z = Math.Floor(z) Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Gamma function is undefined for non-positive integers."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Gamma function is undefined for non-positive integers."))
         End If
 
         If z < 0.5 Then
@@ -1700,7 +1700,7 @@ Public Module StatFunc
     Public Function stDev(Of T)(data() As T, Optional useSampleStandardDeviation As Boolean = True) As Double
         Dim n As Integer = data.Length
         If n <= 1 And useSampleStandardDeviation Then
-            AppGlobals.BSlogg.Log("N<=1 for sample standard deviation computation.")
+            CoreServices.Log("N<=1 for sample standard deviation computation.")
             Return Double.NaN
         End If
 
@@ -1737,7 +1737,7 @@ Public Module StatFunc
     Public Function variance(Of T)(data() As T, Optional useSampleStandardDeviation As Boolean = True) As Double
         Dim n As Integer = data.Length
         If n <= 1 Then
-            AppGlobals.BSlogg.Log("N<=1 for sample variance computation.")
+            CoreServices.Log("N<=1 for sample variance computation.")
             Return Double.NaN
         End If
 
@@ -1759,13 +1759,13 @@ Public Module StatFunc
     ''' equivalent to Excel's DEVSQ, without using LINQ.
     ''' </summary>
     Public Function DevSq(values As IEnumerable(Of Double)) As Double
-        If values Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(values)))
+        If values Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(values)))
 
         ' Materialize once
         Dim arr() As Double = values.ToArray()
         Dim n As Integer = arr.Length
 
-        If n = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Sequence contains no elements.", NameOf(values)))
+        If n = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Sequence contains no elements.", NameOf(values)))
 
         Dim mean As Double = arr.Average()
 
@@ -1982,7 +1982,7 @@ Public Module StatFunc
         ElseIf TypeOf boxed Is ULong Then
             Return CDbl(DirectCast(boxed, ULong))
         End If
-        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Unsupported element type: {GetType(T).FullName}. Expected Double/Integer/Long."))
+        CoreServices.Errors.LogAndThrow(New ArgumentException($"Unsupported element type: {GetType(T).FullName}. Expected Double/Integer/Long."))
         Return Nothing
     End Function
 
@@ -2201,7 +2201,7 @@ Public Class DescriptiveStat
                         out(i, 0) = Me.pSWPvalue
                     End If
                 Else
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Unrecognized statistic"))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Unrecognized statistic"))
                 End If
             Next
         End If

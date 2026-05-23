@@ -77,7 +77,7 @@ Namespace Resampling
         Public Function DrawLeaveOneOutIndices(sampleSize As Integer, excludedIndex As Integer) As Integer()
             ValidateLeaveOneOutSampleSize(sampleSize)
             If excludedIndex < 0 OrElse excludedIndex >= sampleSize Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(excludedIndex), $"excludedIndex must be between 0 and {sampleSize - 1}."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(excludedIndex), $"excludedIndex must be between 0 and {sampleSize - 1}."))
             End If
 
             Dim out(sampleSize - 2) As Integer
@@ -122,7 +122,7 @@ Namespace Resampling
                 If i = excludedClusterIndex Then Continue For
                 Dim block As Integer() = clusterBlocks(i)
                 If block Is Nothing OrElse block.Length = 0 Then
-                    AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Cluster blocks must not contain empty blocks."))
+                    CoreServices.Errors.LogAndThrow(New InvalidOperationException("Cluster blocks must not contain empty blocks."))
                 End If
                 out.AddRange(block)
             Next

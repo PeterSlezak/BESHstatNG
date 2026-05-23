@@ -55,7 +55,7 @@ Public Class Ui4KMandLogRank
                 Me.RunLogrank(data)
             End If
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -70,7 +70,7 @@ Public Class Ui4KMandLogRank
         Dim strErr As String = String.Empty, strMethod As String = String.Empty
         Dim grpData() As String, strataData() As String
         Dim d = data.FinalData
-        Dim WriteRes = New WriteResults
+        Dim WriteRes = New ExcelDnaResultWriter
         Dim n As Integer = UBound(d, 1) + 1
         Dim colId As Integer = 0
         Dim alphaValue As Double = Me.spinBtnAlpha.Value '0.05
@@ -188,7 +188,7 @@ Public Class Ui4KMandLogRank
                        Replace(refCen, wks & "!", String.Empty)  'Remove "Sheet1!" from string
         End If
 
-        byIdData.DataImport(refFinal, True, CharCols)
+        ExcelDnaDataImporter.ImportInto(byIdData, refFinal, True, CharCols)
 
         Return byIdData
 
@@ -239,8 +239,8 @@ Public Class Ui4KMandLogRank
         Return bOut
     End Function
 
-    Private Function GetResultWriter() As WriteResults
-        Dim WriteRes = New WriteResults, rRange As Range
+    Private Function GetResultWriter() As ExcelDnaResultWriter
+        Dim WriteRes = New ExcelDnaResultWriter, rRange As Range
         If Me.optWorkbook.Checked Then
             WriteRes.wb = AppGlobals.app.Workbooks.Add()
             WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet

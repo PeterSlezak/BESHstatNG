@@ -194,7 +194,7 @@ Namespace Agreement
             Private Sub GetGroupCounts(arr() As Object)
                 Dim gg = arr.GroupBy(Function(x) x)
                 Dim counts = gg.Select(Function(g) g.Count()).ToList()
-                If counts.Count = 0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("No groups found"))
+                If counts.Count = 0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("No groups found"))
 
                 Me.pNoGroups = counts.Count
                 Me.pMinGroupSize = counts.Min()
@@ -904,8 +904,8 @@ Namespace Agreement
                 Dim n As Integer = x.GetLength(0) ' number of targets
                 Dim k As Integer = x.GetLength(1) ' number of raters
 
-                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,1) requires at least 2 targets (rows)."))
-                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,1) requires at least 2 raters (columns)."))
+                If n < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("ICC(2,1) requires at least 2 targets (rows)."))
+                If k < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("ICC(2,1) requires at least 2 raters (columns)."))
 
                 Dim vars(k - 1) As String
                 Dim anova = New parametric.OneWayRmANOVA(x, vars)
@@ -922,7 +922,7 @@ Namespace Agreement
                 Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,1) is undefined (check data)."))
+                If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,1) is undefined (check data)."))
 
                 ' ICC(2,1): two-way random, absolute agreement, single measure
                 ' ICC = (MSR - MSE) / (MSR + (k-1)MSE + k*(MSC - MSE)/n)
@@ -989,8 +989,8 @@ Namespace Agreement
                 Dim n As Integer = x.GetLength(0) ' targets
                 Dim k As Integer = x.GetLength(1) ' raters
 
-                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,k) requires at least 2 targets (rows)."))
-                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(2,k) requires at least 2 raters (columns)."))
+                If n < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("ICC(2,k) requires at least 2 targets (rows)."))
+                If k < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("ICC(2,k) requires at least 2 raters (columns)."))
 
                 Dim vars(k - 1) As String
                 Dim anova = New parametric.OneWayRmANOVA(x, vars)
@@ -1007,10 +1007,9 @@ Namespace Agreement
                 Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,k) is undefined (check data)."))
+                If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,k) is undefined (check data)."))
 
-                ' ICC(2,k) formula (absolute agreement, average measures):
-                ' ICC(2,k) = (MSR - MSE) / (MSR + (MSC - MSE)/n)
+                ' ICC(2,k) formula (absolute agreement, average measures):  ICC(2,k) = (MSR - MSE) / (MSR + (MSC - MSE)/n)
                 Dim ICC As Double = (MSR - MSE) / (MSR + (MSC - MSE) / n)
 
                 ' CI via F-based bounds on F = MSR/MSE, then transform.
@@ -1082,8 +1081,8 @@ Namespace Agreement
                 Dim n As Integer = x.GetLength(0) ' number of targets
                 Dim k As Integer = x.GetLength(1) ' number of raters
 
-                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,1) requires at least 2 targets (rows)."))
-                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,1) requires at least 2 raters (columns)."))
+                If n < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("ICC(3,1) requires at least 2 targets (rows)."))
+                If k < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("ICC(3,1) requires at least 2 raters (columns)."))
 
                 Dim vars(k - 1) As String
                 Dim anova = New parametric.OneWayRmANOVA(x, vars)
@@ -1099,7 +1098,7 @@ Namespace Agreement
                 Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,1) is undefined (check data)."))
+                If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,1) is undefined (check data)."))
 
                 ' ICC(3,1) point estimate:
                 ' ICC(3,1) = (MSR - MSE) / (MSR + (k - 1)MSE)
@@ -1169,8 +1168,8 @@ Namespace Agreement
                 Dim n As Integer = x.GetLength(0) ' number of targets
                 Dim k As Integer = x.GetLength(1) ' number of raters
 
-                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,k) requires at least 2 targets (rows)."))
-                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("ICC(3,k) requires at least 2 raters (columns)."))
+                If n < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("ICC(3,k) requires at least 2 targets (rows)."))
+                If k < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("ICC(3,k) requires at least 2 raters (columns)."))
 
                 Dim vars(k - 1) As String
                 Dim anova = New parametric.OneWayRmANOVA(x, vars)
@@ -1186,8 +1185,8 @@ Namespace Agreement
                 Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,k) is undefined (check data)."))
-                If MSR <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSR <= 0; ICC(3,k) is undefined (check data)."))
+                If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,k) is undefined (check data)."))
+                If MSR <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSR <= 0; ICC(3,k) is undefined (check data)."))
 
                 ' ICC(3,k) point estimate:
                 ' ICC(3,k) = (MSR - MSE) / MSR
@@ -1256,14 +1255,14 @@ Namespace Agreement
             ''' </remarks>
             Private Shared Function EffectiveGroupSizeN0_ICC11(x()() As Double) As Double
                 Dim k As Integer = x.Length
-                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two groups are required."))
+                If k < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least two groups are required."))
 
                 Dim n As Integer = 0
                 Dim sumNiSq As Double = 0.0
 
                 For i As Integer = 0 To k - 1
                     Dim ni As Integer = x(i).Length
-                    If ni = 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Group {i} is empty."))
+                    If ni = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException($"Group {i} is empty."))
 
                     n += ni
                     sumNiSq += ni * ni
@@ -1297,7 +1296,7 @@ Namespace Agreement
             Public Function RepeatabilityCoefficient_OneWay(x()() As Double, averageMeasures As Boolean,
                                                             Optional alpha As Double = 0.05) As ConfidenceIntervalResult
 
-                If x Is Nothing OrElse x.Length < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 targets/groups are required."))
+                If x Is Nothing OrElse x.Length < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least 2 targets/groups are required."))
 
                 Dim vars(x.Length - 1) As String
                 Dim anova = New parametric.OneWayANOVA(x, vars)
@@ -1306,19 +1305,19 @@ Namespace Agreement
                 Dim msw As Double = CDbl(atab(1, 2))   ' within/error MS
                 Dim dfw As Integer = CInt(atab(1, 1))  ' within df = n_tot - g
 
-                If dfw <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Invalid within degrees of freedom."))
-                If msw < 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSw < 0 is invalid."))
+                If dfw <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid within degrees of freedom."))
+                If msw < 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSw < 0 is invalid."))
 
                 ' Effective k used for average-measures ICC(1,k)
                 Dim kEff As Double = 1.0
                 If averageMeasures Then
                     kEff = EffectiveGroupSizeN0_ICC11(x)
-                    If kEff <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Effective group size n0 <= 0 is invalid."))
+                    If kEff <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Effective group size n0 <= 0 is invalid."))
                 End If
 
                 ' For average-measures: Var(mean) = MSW / kEff
                 Dim varUsed As Double = msw / kEff
-                If varUsed <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Computed variance <= 0; cannot compute SEM/RC."))
+                If varUsed <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Computed variance <= 0; cannot compute SEM/RC."))
 
                 Dim sem As Double = Math.Sqrt(varUsed)
                 Dim z As Double = distributions.NormSInv(1.0 - alpha / 2.0)
@@ -1381,12 +1380,12 @@ Namespace Agreement
                                                             averageMeasures As Boolean,
                                                             Optional alpha As Double = 0.05) As ConfidenceIntervalResult
 
-                If x Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(x)))
+                If x Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(x)))
 
                 Dim n As Integer = x.GetLength(0) ' targets
                 Dim k As Integer = x.GetLength(1) ' raters
-                If n < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 targets (rows) are required."))
-                If k < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least 2 raters (columns) are required."))
+                If n < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least 2 targets (rows) are required."))
+                If k < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("At least 2 raters (columns) are required."))
 
                 ' Two-way ANOVA without replication (same as ICC(2,·)/ICC(3,·) in this class)
                 Dim vars(k - 1) As String
@@ -1400,8 +1399,8 @@ Namespace Agreement
                 Dim dfC As Integer = CInt(atab(0, 1)) ' k - 1
                 Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
 
-                If dfE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Invalid residual degrees of freedom."))
-                If MSE <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("MSE <= 0; repeatability/SEM is undefined."))
+                If dfE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid residual degrees of freedom."))
+                If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; repeatability/SEM is undefined."))
 
                 ' Variance components (classical two-way random/mixed decomposition)
                 ' σ_e^2 estimated by MSE
@@ -1418,7 +1417,7 @@ Namespace Agreement
                 Dim varSingle As Double = sigmaE2 + sigmaR2
                 Dim varUsed As Double = If(averageMeasures, varSingle / k, varSingle)
 
-                If varUsed <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Computed variance <= 0; cannot compute SEM/RC."))
+                If varUsed <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Computed variance <= 0; cannot compute SEM/RC."))
 
                 ' SEM and RC
                 Dim sem As Double = Math.Sqrt(varUsed)

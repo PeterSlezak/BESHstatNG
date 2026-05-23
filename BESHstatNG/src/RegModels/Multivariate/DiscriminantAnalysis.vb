@@ -232,7 +232,7 @@ Namespace Multivariate
         Private pHoldoutFraction As Double = 0.3
         Private pValidationStratified As Boolean = True
         Private pRandomSeed As Integer = Integer.MinValue
-        Private pCovarianceRegularization As Double = 1.0E-8
+        Private pCovarianceRegularization As Double = 0.00000001
 
         Private pPrepared As DiscriminantPreparedData
         Private pGroupStats As List(Of DiscriminantGroupStatistics)
@@ -271,7 +271,7 @@ Namespace Multivariate
                                   Optional standardization As ClusterStandardizationMode = ClusterStandardizationMode.None,
                                   Optional missingPolicy As ClusterMissingValuePolicy = ClusterMissingValuePolicy.ErrorOnMissing,
                                   Optional priorMode As DiscriminantPriorMode = DiscriminantPriorMode.ProportionalToGroupSizes,
-                                  Optional covarianceRegularization As Double = 1.0E-8)
+                                  Optional covarianceRegularization As Double = 0.00000001)
             pMethod = method
             pStandardization = standardization
             pMissingPolicy = missingPolicy
@@ -281,10 +281,10 @@ Namespace Multivariate
 
         Public Sub priorInputs(categoryLabels() As Object, priorProbabilities() As Double)
             If categoryLabels Is Nothing OrElse priorProbabilities Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentNullException("User priors require both category labels and probabilities."))
+                CoreServices.Errors.LogAndThrow(New ArgumentNullException("User priors require both category labels and probabilities."))
             End If
             If categoryLabels.Length <> priorProbabilities.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The user-prior label and probability arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The user-prior label and probability arrays must have the same length."))
             End If
             ReDim pUserPriorLabels(categoryLabels.Length - 1)
             ReDim pUserPriorValues(priorProbabilities.Length - 1)
@@ -373,7 +373,7 @@ Namespace Multivariate
                                                              emptyMessage:="The data matrix must contain at least one row and one column.")
 
             If pPrepared Is Nothing OrElse pGroupStats Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Model is not fitted."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Model is not fitted."))
             End If
 
             Dim actualLabels() As String = Nothing
@@ -394,7 +394,7 @@ Namespace Multivariate
 
         Public Function wrapResults() As List(Of ResultTable)
             If pPrepared Is Nothing OrElse pGroupStats Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Model is not fitted."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Model is not fitted."))
             End If
 
             Dim out As New List(Of ResultTable)
@@ -481,12 +481,12 @@ Namespace Multivariate
         End Function
 
         Private Sub ValidateInputs()
-            If pRawData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException("Input predictor data were not supplied."))
-            If pRawGroupLabels Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException("The grouping variable was not supplied."))
+            If pRawData Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException("Input predictor data were not supplied."))
+            If pRawGroupLabels Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException("The grouping variable was not supplied."))
             MultivariateInputHelpers.ValidateRectangularData(pRawData, nullParamName:=NameOf(pRawData), rankMessage:="The data matrix must be two-dimensional.", emptyMessage:="The data matrix must contain at least one row and one column.")
             Dim n As Integer = pRawData.GetUpperBound(0) + 1
             If pRawGroupLabels.Length <> n Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The grouping variable length must match the number of data rows."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The grouping variable length must match the number of data rows."))
             End If
         End Sub
 
@@ -508,8 +508,8 @@ Namespace Multivariate
 
             pGroupLabels = labels.ToArray()
             Dim g As Integer = pGroupLabels.Length
-            If g < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Discriminant analysis requires at least two groups."))
-            If n <= g Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("The number of complete observations must exceed the number of groups."))
+            If g < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Discriminant analysis requires at least two groups."))
+            If n <= g Then CoreServices.Errors.LogAndThrow(New ArgumentException("The number of complete observations must exceed the number of groups."))
 
             pGroupStats = New List(Of DiscriminantGroupStatistics)
             pOverallMeanWorking = ColumnMeans(working)
@@ -520,7 +520,7 @@ Namespace Multivariate
             Next
             For i As Integer = 0 To g - 1
                 If counts(i) < 2 Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Group '{pGroupLabels(i)}' must contain at least two complete observations."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Group '{pGroupLabels(i)}' must contain at least two complete observations."))
                 End If
             Next
 
@@ -556,7 +556,7 @@ Namespace Multivariate
             Next
 
             If pMethod = DiscriminantAnalysisMethod.Linear Then
-                If pooledDf <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("The pooled within-group degrees of freedom must be positive for linear discriminant analysis."))
+                If pooledDf <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("The pooled within-group degrees of freedom must be positive for linear discriminant analysis."))
                 pPooledCovarianceWorking = Matrix.MatrixMult(pooledNumerator, 1.0 / pooledDf)
                 Dim pooledPrepared = RegularizeSymmetricMatrix(pPooledCovarianceWorking, pCovarianceRegularization)
                 pPooledCovarianceWorking = pooledPrepared.Matrix
@@ -638,7 +638,7 @@ Namespace Multivariate
             Dim eigW = Matrix.EIGEN_JK(pPooledCovarianceWorking)
             Dim sortedW = MultivariateShared.SortEigenpairsDescending(eigW.Item1, eigW.Item2)
             Dim invSqrtW(p - 1, p - 1) As Double
-            Dim tol As Double = 1.0E-12
+            Dim tol As Double = 0.000000000001
             For k As Integer = 0 To p - 1
                 Dim ev As Double = sortedW.Item1(k)
                 Dim w As Double = If(ev > tol, 1.0 / Math.Sqrt(ev), 0.0)
@@ -658,7 +658,7 @@ Namespace Multivariate
 
             Dim positiveRoots As New List(Of Integer)
             For i As Integer = 0 To sortedA.Item1.Length - 1
-                If sortedA.Item1(i) > 1.0E-10 Then positiveRoots.Add(i)
+                If sortedA.Item1(i) > 0.0000000001 Then positiveRoots.Add(i)
                 If positiveRoots.Count = nRoots Then Exit For
             Next
 
@@ -754,10 +754,10 @@ Namespace Multivariate
             Dim n As Integer = newData.GetUpperBound(0) + 1
             Dim p As Integer = newData.GetUpperBound(1) + 1
             If p <> pPrepared.ActiveOriginalData.GetUpperBound(1) + 1 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The supplied prediction data do not have the expected number of variables."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The supplied prediction data do not have the expected number of variables."))
             End If
             If actualLabels IsNot Nothing AndAlso actualLabels.Length <> n Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The actual-group label array must match the number of prediction rows."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The actual-group label array must match the number of prediction rows."))
             End If
 
             Dim working As Double(,) = TransformExternalData(newData, pPrepared)
@@ -845,7 +845,7 @@ Namespace Multivariate
             Dim countsByGroup = CountByLabel(pPrepared.ActiveGroupLabels)
             For Each lbl In pGroupLabels
                 If countsByGroup(lbl) < 3 Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Leave-one-out validation requires at least three complete observations in group '{lbl}'."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"Leave-one-out validation requires at least three complete observations in group '{lbl}'."))
                 End If
             Next
 
@@ -941,7 +941,7 @@ Namespace Multivariate
         Private Function RunHoldoutValidation() As DiscriminantPredictionResult
             Dim n As Integer = pPrepared.ActiveOriginalData.GetUpperBound(0) + 1
             If pHoldoutFraction <= 0.0 OrElse pHoldoutFraction >= 1.0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Holdout validation requires a fraction strictly between 0 and 1."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Holdout validation requires a fraction strictly between 0 and 1."))
             End If
 
             Dim rng As Random = CreateRandomForValidation()
@@ -956,7 +956,7 @@ Namespace Multivariate
                     Dim nTest As Integer = Math.Max(1, CInt(Math.Round(rows.Count * pHoldoutFraction)))
                     nTest = Math.Min(nTest, rows.Count - 2)
                     If nTest <= 0 Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Group '{lbl}' does not have enough rows for the requested holdout validation."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Group '{lbl}' does not have enough rows for the requested holdout validation."))
                     End If
                     testRows.AddRange(rows.Take(nTest))
                     trainRows.AddRange(rows.Skip(nTest))
@@ -974,7 +974,7 @@ Namespace Multivariate
             Dim trainCounts = CountByLabel(ExtractRows(allGroups, trainArray))
             For Each lbl In pGroupLabels
                 If Not trainCounts.ContainsKey(lbl) OrElse trainCounts(lbl) < 2 Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException($"The requested holdout split leaves fewer than two training observations in group '{lbl}'."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException($"The requested holdout split leaves fewer than two training observations in group '{lbl}'."))
                 End If
             Next
 
@@ -1238,7 +1238,7 @@ Namespace Multivariate
 
                 If hasMissing Then
                     If missingPolicy = ClusterMissingValuePolicy.ErrorOnMissing Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing or non-finite value found in row {i + 1}."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing or non-finite value found in row {i + 1}."))
                     End If
                     keepRow(i) = False
                     removedIndices.Add(i + 1)
@@ -1250,7 +1250,7 @@ Namespace Multivariate
             Next
 
             If activeCount = 0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("No complete observations remain after preprocessing."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("No complete observations remain after preprocessing."))
             End If
 
             Dim activeOriginalData(activeCount - 1, p - 1) As Double
@@ -1310,23 +1310,23 @@ Namespace Multivariate
                     Next
                 Case DiscriminantPriorMode.UserSpecified
                     If pUserPriorLabels Is Nothing OrElse pUserPriorValues Is Nothing Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("User-specified priors were requested but no prior values were supplied."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("User-specified priors were requested but no prior values were supplied."))
                     End If
                     Dim priorMap As New Dictionary(Of String, Double)(StringComparer.Ordinal)
                     For i As Integer = 0 To pUserPriorLabels.Length - 1
                         If pUserPriorValues(i) <= 0 Then
-                            AppGlobals.BSerr.LogAndThrow(New ArgumentException("All user-specified prior probabilities must be positive."))
+                            CoreServices.Errors.LogAndThrow(New ArgumentException("All user-specified prior probabilities must be positive."))
                         End If
                         priorMap(pUserPriorLabels(i)) = pUserPriorValues(i)
                     Next
                     For i As Integer = 0 To g - 1
                         If Not priorMap.ContainsKey(groupLabels(i)) Then
-                            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"No user prior was supplied for group '{groupLabels(i)}'."))
+                            CoreServices.Errors.LogAndThrow(New ArgumentException($"No user prior was supplied for group '{groupLabels(i)}'."))
                         End If
                         priors(i) = priorMap(groupLabels(i))
                     Next
                     Dim s As Double = priors.Sum()
-                    If s <= 0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("The user-specified priors must sum to a positive value."))
+                    If s <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("The user-specified priors must sum to a positive value."))
                     For i As Integer = 0 To g - 1
                         priors(i) /= s
                     Next
@@ -1391,7 +1391,7 @@ Namespace Multivariate
                 For Each lbl In pGroupLabels
                     Dim rows = RowsForGroup(actual, lbl)
                     If rows.Count < k Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"{k}-fold validation requires at least {k} complete observations in group '{lbl}'."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"{k}-fold validation requires at least {k} complete observations in group '{lbl}'."))
                     End If
                     ShuffleInPlace(rows, rng)
                     For i As Integer = 0 To rows.Count - 1
@@ -1412,7 +1412,7 @@ Namespace Multivariate
                 Dim trainCounts = CountByLabel(ExtractRows(actual, trainRows))
                 For Each lbl In pGroupLabels
                     If Not trainCounts.ContainsKey(lbl) OrElse trainCounts(lbl) < 2 Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"The requested validation split leaves fewer than two training observations in group '{lbl}'."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"The requested validation split leaves fewer than two training observations in group '{lbl}'."))
                     End If
                 Next
             Next
@@ -1427,7 +1427,7 @@ Namespace Multivariate
             For i As Integer = 0 To n - 1
                 For j As Integer = 0 To p - 1
                     If Double.IsNaN(data(i, j)) OrElse Double.IsInfinity(data(i, j)) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Missing or non-finite value found in prediction row {i + 1}."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing or non-finite value found in prediction row {i + 1}."))
                     End If
                     out(i, j) = TransformValue(data(i, j), prepared.Standardization, prepared.ColumnLocations(j), prepared.ColumnScales(j))
                 Next
@@ -1462,7 +1462,7 @@ Namespace Multivariate
             For i As Integer = 0 To p - 1
                 trace += Math.Abs(mat(i, i))
             Next
-            Dim unitRidge As Double = Math.Max(1.0E-12, If(trace > 0.0, trace / p * 1.0E-12, 1.0E-12))
+            Dim unitRidge As Double = Math.Max(0.000000000001, If(trace > 0.0, trace / p * 0.000000000001, 0.000000000001))
             If ridge = 0.0 Then ridge = unitRidge
 
             For attempt As Integer = 0 To 10
@@ -1476,7 +1476,7 @@ Namespace Multivariate
                 Dim eig = Matrix.EIGEN_JK(candidate)
                 Dim sorted = MultivariateShared.SortEigenpairsDescending(eig.Item1, eig.Item2)
                 Dim minEigen As Double = sorted.Item1.Min()
-                If minEigen > 1.0E-12 Then
+                If minEigen > 0.000000000001 Then
                     Dim inv = MultivariateShared.SafeInverse(candidate, preferCholesky:=True)
                     Dim logdet As Double = 0.0
                     For Each ev In sorted.Item1
@@ -1501,7 +1501,7 @@ Namespace Multivariate
             Dim sorted2 = MultivariateShared.SortEigenpairsDescending(eig2.Item1, eig2.Item2)
             Dim logdet2 As Double = 0.0
             For Each ev In sorted2.Item1
-                logdet2 += Math.Log(Math.Max(ev, 1.0E-12))
+                logdet2 += Math.Log(Math.Max(ev, 0.000000000001))
             Next
             out.LogDeterminant = logdet2
             out.RidgeUsed = Math.Max(ridge, unitRidge)
@@ -1528,16 +1528,16 @@ Namespace Multivariate
                         locations(j) = col.Average()
                         scales(j) = stDev(col)
                         If scales(j) <= 0.0 OrElse Double.IsNaN(scales(j)) OrElse Double.IsInfinity(scales(j)) Then
-                            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Variable '{j + 1}' cannot be standardized because its sample standard deviation is zero or invalid."))
+                            CoreServices.Errors.LogAndThrow(New ArgumentException($"Variable '{j + 1}' cannot be standardized because its sample standard deviation is zero or invalid."))
                         End If
                     Case ClusterStandardizationMode.RangeZeroToOne
                         locations(j) = col.Min()
                         scales(j) = col.Max() - col.Min()
                         If scales(j) <= 0.0 OrElse Double.IsNaN(scales(j)) OrElse Double.IsInfinity(scales(j)) Then
-                            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Variable '{j + 1}' cannot be range-standardized because its observed range is zero or invalid."))
+                            CoreServices.Errors.LogAndThrow(New ArgumentException($"Variable '{j + 1}' cannot be range-standardized because its observed range is zero or invalid."))
                         End If
                     Case Else
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("Unsupported standardization mode."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("Unsupported standardization mode."))
                 End Select
             Next
         End Sub

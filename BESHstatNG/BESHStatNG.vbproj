@@ -115,7 +115,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="src\AppSettings.vb" />
+    <Compile Include="src\AppInfrastructure\CoreInfrastructure.vb" />
+    <Compile Include="src\AppInfrastructure\ExcelDnaHostInfrastructure.vb" />
+    <Compile Include="src\AppInfrastructure\AppSettings.vb" />
     <Compile Include="src\BaseStat\Distributions.vb" />
     <Compile Include="src\BaseStat\Resampling\ResamplingBootstrap.vb" />
     <Compile Include="src\BaseStat\Resampling\ResamplingBootstrapRunner.vb" />
@@ -125,15 +127,23 @@
     <Compile Include="src\BaseStat\Resampling\ResamplingResults.vb" />
     <Compile Include="src\BaseStat\Resampling\ResamplingValidation.vb" />
     <Compile Include="src\BaseStat\StatFunc.vb" />
-    <Compile Include="src\AppGlobals.vb" />
+    <Compile Include="src\AppInfrastructure\AppGlobals.vb" />
+    <Compile Include="src\DM\CoreDataTable.vb" />
     <Compile Include="src\DM\DataObj.vb" />
+    <Compile Include="src\DM\ExcelDnaDataImporter.vb" />
+    <Compile Include="src\DM\OfficeJsDataImporter.vb" />
+    <Compile Include="src\DM\ResultWriter\ExcelDnaResultWriter.vb" />
     <Compile Include="src\DM\Helpers.vb" />
     <Compile Include="src\DM\NumericGuards.vb" />
+    <Compile Include="src\DM\ResultWriter\OfficeJsResultWriter.vb" />
+    <Compile Include="src\DM\PSMdataImport.vb" />
+    <Compile Include="src\DM\ResultWriter\ResultTableOutput.vb" />
     <Compile Include="src\DM\SheetManagement.vb" />
     <Compile Include="src\ExcelUDFs\AgreementMethodUDFs.vb" />
     <Compile Include="src\ExcelUDFs\AssumptionsUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ClassificationReportUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ContingencyTableUDFs.vb" />
+    <Compile Include="src\ExcelUDFs\PropensityScoreUDFs.vb" />
     <Compile Include="src\ExcelUDFs\Regression\CoxUDFs.vb" />
     <Compile Include="src\ExcelUDFs\DistributionUDFs.vb" />
     <Compile Include="src\ExcelUDFs\ExcelArgModules.vb" />
@@ -161,6 +171,7 @@
     <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportMixedModel.vb" />
     <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportMultivariate.vb" />
     <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportPlot.vb" />
+    <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportPsm.vb" />
     <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportRangeReaders.vb" />
     <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportRegressionOptions.vb" />
     <Compile Include="src\ExcelUDFs\UDFdataImport\UdfDataImportSurvival.vb" />
@@ -174,9 +185,14 @@
     <Compile Include="src\Graphics\CalibrationPlot.vb" />
     <Compile Include="src\Graphics\ChartExport.vb" />
     <Compile Include="src\Graphics\ChartingFunc.vb" />
+    <Compile Include="src\Graphics\ClusterAnalysisPlotExcel.vb" />
+    <Compile Include="src\Graphics\CorrespondenceAnalysisPlotExcel.vb" />
+    <Compile Include="src\Graphics\CoxSurvivalPlotExcel.vb" />
+    <Compile Include="src\Graphics\FactorAnalysisPlotExcel.vb" />
     <Compile Include="src\Graphics\GifAnimator.vb" />
     <Compile Include="src\Graphics\Histogram.vb" />
     <Compile Include="src\Graphics\NormalPlot.vb" />
+    <Compile Include="src\Graphics\PcaPlotExcel.vb" />
     <Compile Include="src\Graphics\ROC.vb" />
     <Compile Include="src\Graphics\ScatterPlotMatrix.vb" />
     <Compile Include="src\Graphics\SymetryPlot.vb" />
@@ -226,21 +242,33 @@
     <Compile Include="src\RegModels\Multivariate\MultivariateShared.vb" />
     <Compile Include="src\RegModels\Multivariate\PCA.vb" />
     <Compile Include="src\RegModels\OrdinalLogitModel.vb" />
-    <Compile Include="src\DM\ResultTable.vb" />
+    <Compile Include="src\DM\ResultWriter\ResultTable.vb" />
     <Compile Include="src\RegModels\RegressionDesignCore.vb" />
     <Compile Include="src\RegModels\RegressionFormulaDesignService.vb" />
     <Compile Include="src\RegModels\RegressionFormulaParser.vb" />
-    <Compile Include="src\StatTests\AgreementBlandAltman.vb" />
-    <Compile Include="src\StatTests\Agreement.vb" />
-    <Compile Include="src\StatTests\AgreementHelpers.vb" />
-    <Compile Include="src\StatTests\AgreementLinConcordance.vb" />
-    <Compile Include="src\StatTests\AgreementWeightedDeming.vb" />
-    <Compile Include="src\StatTests\AgreementWeightedKappa.vb" />
+    <Compile Include="src\StatTests\Agreement\AgreementBlandAltman.vb" />
+    <Compile Include="src\StatTests\Agreement\Agreement.vb" />
+    <Compile Include="src\StatTests\Agreement\AgreementHelpers.vb" />
+    <Compile Include="src\StatTests\Agreement\AgreementLinConcordance.vb" />
+    <Compile Include="src\StatTests\Agreement\AgreementWeightedDeming.vb" />
+    <Compile Include="src\StatTests\Agreement\AgreementWeightedKappa.vb" />
     <Compile Include="src\StatTests\Assumptions.vb" />
     <Compile Include="src\StatTests\ContingencyTable.vb" />
     <Compile Include="src\StatTests\EquivalenceNoninferiorityMethods.vb" />
     <Compile Include="src\StatTests\FisherExact.vb" />
     <Compile Include="src\BaseStat\Resampling\ResamplingCore.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMadvancedDiagnosticsInference.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMadvancedMatching.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMbackendOrchestrationTuning.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMcore.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMdiagnosticsEffectsFacadeTables.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMformattedResultTables.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMfrontEndTables.vb" />
+    <Compile Include="src\Graphics\PsmLovePlotExcel.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMmatchingAndSubclassification.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMmethodCapabilities.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMscoresAndWeights.vb" />
+    <Compile Include="src\StatTests\PropensityScoreMatching\PSMsensitivityAnalysis.vb" />
     <Compile Include="src\StatTests\SampleSize.vb" />
     <Compile Include="src\StatTests\Survival.vb" />
     <Compile Include="src\StatTests\Nonparametric.vb" />
@@ -299,6 +327,12 @@
       <DependentUpon>Ui19LMM.vb</DependentUpon>
     </Compile>
     <Compile Include="src\UI\Ui19LMM.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui20PropensityScoreMatching.Designer.vb">
+      <DependentUpon>Ui20PropensityScoreMatching.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui20PropensityScoreMatching.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\UI\Ui3XYZplot.Designer.vb">
@@ -414,6 +448,9 @@
     <EmbeddedResource Include="src\UI\Ui19LMM.resx">
       <DependentUpon>Ui19LMM.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui20PropensityScoreMatching.resx">
+      <DependentUpon>Ui20PropensityScoreMatching.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui3XYZplot.resx">
       <DependentUpon>Ui3XYZplot.vb</DependentUpon>
     </EmbeddedResource>
@@ -481,6 +518,7 @@
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

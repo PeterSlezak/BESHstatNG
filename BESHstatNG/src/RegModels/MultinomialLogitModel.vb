@@ -4,7 +4,6 @@ Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Text
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 Imports Microsoft.VisualBasic.Devices
 
 Namespace regression
@@ -429,29 +428,27 @@ Namespace regression
         ''' Chooses the baseline category as either the first or last category in sorted order of observed outcome values.
         ''' </param>
         ''' <param name="bStartParams">Reserved. If True, uses <see cref="startParams"/> when provided.</param>
-        ''' <param name="progressBar">Optional UI progress bar.</param>
-        ''' <param name="progressLbl">Optional UI label for progress text.</param>
+        ''' <param name="progress">Optional host-neutral progress reporter.</param>
         Public Sub Fit(Optional intercept As Integer = 1,
-                         Optional reference As ReferenceCategory = ReferenceCategory.Last,
-                         Optional bStartParams As Boolean = False,
-                         Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                         Optional progressLbl As System.Windows.Forms.Label = Nothing)
-            AppGlobals.BSlogg.Debug($"MultinomialLogtModel.Fit start. intercept={intercept}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
-            If pData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException("Data not set. Call dataInputs(x, ...)."))
+                       Optional reference As ReferenceCategory = ReferenceCategory.Last,
+                       Optional bStartParams As Boolean = False,
+                       Optional progress As IProgressReporter = Nothing)
+            CoreServices.Logger.Debug($"MultinomialLogtModel.Fit start. intercept={intercept}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
+            If pData Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException("Data not set. Call dataInputs(x, ...)."))
             Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
             Me.n = UBound(pData, 1) + 1
             Dim cols As Integer = UBound(pData, 2) + 1
-            If cols < 1 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Data must have at least 1 column: Y."))
+            If cols < 1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Data must have at least 1 column: Y."))
 
             ' Intercept-only model is valid only if intercept=1
             If cols = 1 AndAlso intercept <> 1 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("No predictors provided and intercept=0 => model has no parameters. Use intercept=1 or add predictors."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("No predictors provided and intercept=0 => model has no parameters. Use intercept=1 or add predictors."))
             End If
 
             ' ---- categories: unique Y values sorted ascending ----
             Me.pCats = GetSortedCategoriesFromY(n)
             Me.pKuse = pCats.Length
-            If pKuse < 2 Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("Need at least 2 categories for multinomial logit."))
+            If pKuse < 2 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Need at least 2 categories for multinomial logit."))
 
             Dim map As New Dictionary(Of Integer, Integer)()
             For i As Integer = 0 To pKuse - 1
@@ -462,7 +459,7 @@ Namespace regression
             Dim yIdx(n - 1) As Integer
             For i As Integer = 0 To n - 1
                 Dim yv As Integer = CInt(Math.Round(pData(i, 0)))
-                If Not map.ContainsKey(yv) Then AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Unknown category at row {i}."))
+                If Not map.ContainsKey(yv) Then CoreServices.Errors.LogAndThrow(New ArgumentException($"Unknown category at row {i}."))
                 yIdx(i) = map(yv)
             Next
 
@@ -504,7 +501,7 @@ Namespace regression
             Dim q As Integer = p * (pKuse - 1)
             Dim b(q - 1) As Double ' init zeros
             If bStartParams Then
-                If Me.startParams.Length <> b.Length Then AppGlobals.BSerr.LogAndThrow(New ArgumentException("starting parameter array length <> b length"))
+                If Me.startParams.Length <> b.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("starting parameter array length <> b length"))
                 Me.startParams.CopyTo(b, 0)
             End If
 
@@ -515,13 +512,13 @@ Namespace regression
             ReDim pItInfo(q + 1, pMaxiter) 'parameters, LL, LLchange
 
             For pItration = 0 To pMaxiter
-                AppGlobals.ThrowIfRegressionCancellationRequested("Multinomial logistic regression calculation cancelled by user.")
-                If pItration > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
-                    AppGlobals.BSlogg.Log("Multinomial logistic regression calculation interrupted by user; returning latest accepted estimates.", AppGlobals.LogMsgType.Warn)
+                CoreServices.Regression.ThrowIfCancellationRequested("Multinomial logistic regression calculation cancelled by user.")
+                If pItration > 0 AndAlso CoreServices.Regression.IsInterruptionRequested() Then
+                    CoreServices.Log("Multinomial logistic regression calculation interrupted by user; returning latest accepted estimates.", AppInfrastructure.LogMsgType.Warn)
                     Exit For
                 End If
 
-                AppGlobals.BSlogg.Log($"MultinomialLogit iteration #{pItration}")
+                CoreServices.Log($"MultinomialLogit iteration #{pItration}")
                 Dim g(q - 1) As Double
                 Dim H(q - 1, q - 1) As Double
                 Dim ll As Double = 0.0
@@ -605,20 +602,17 @@ Namespace regression
                     llTry = ComputeLogLikMultinom(Me.pX, Me.pyFit, bTry, p, pKuse)
                     If llTry >= ll OrElse stepScale <= 0.000001 Then Exit Do
                     stepScale *= 0.5
-                    AppGlobals.BSlogg.Log($"MultinomialLogit step halving stepScale={stepScale}, LogLike={llTry}, params={Matrix.array2str(bTry)}")
+                    CoreServices.Log($"MultinomialLogit step halving stepScale={stepScale}, LogLike={llTry}, params={Matrix.array2str(bTry)}")
                 Loop
 
                 Array.Copy(bTry, b, q)
                 Me.pLL = llTry
                 pLastIterLLchange = Math.Abs(Me.pLL - llPrev)
-                If progressBar IsNot Nothing Then
-                    progressBar.Invoke(Sub()
-                                           progressBar.Value = CInt(100.0 * (Me.pIteration + 1.0) / (Me.pMaxiter + 1.0))
-                                           If progressLbl IsNot Nothing Then progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIteration + 1}   LogLikelihood change = {pLastIterLLchange}"
-                                       End Sub)
-                    System.Windows.Forms.Application.DoEvents()
+                If progress IsNot Nothing Then
+                    progress.Report(CInt(100.0 * (Me.pIteration + 1.0) / (Me.pMaxiter + 1.0)),
+                                    $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIteration + 1}   LogLikelihood change = {pLastIterLLchange}")
                 End If
-                AppGlobals.BSlogg.Log($"MultinomialLogit iteration loop new esstimates  - LogLike={pLL}, pLastIterLLchange={pLastIterLLchange}, params={Matrix.array2str(b)}")
+                CoreServices.Log($"MultinomialLogit iteration loop new esstimates  - LogLike={pLL}, pLastIterLLchange={pLastIterLLchange}, params={Matrix.array2str(b)}")
                 'save iteration info
                 For i = 0 To q + 1
                     If i = q Then 'LL
@@ -639,7 +633,7 @@ Namespace regression
             Next pItration
             If pIteration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIteration)
             pIteration += 1
-            If Not converged Then AppGlobals.BSlogg.Log("Algorithm Is diverging. Convergence not reached.", AppGlobals.LogMsgType.Warn)
+            If Not converged Then CoreServices.Log("Algorithm Is diverging. Convergence not reached.", AppInfrastructure.LogMsgType.Warn)
 
             ' === Recompute covariance at FINAL coefficients b ===
             ' Observed information: I(b) = -H(b) (plus ridge if you want)
@@ -765,10 +759,8 @@ Namespace regression
             If Me.bComputeResiduals Then Me.ComputeResiduals()
 
             Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
-            AppGlobals.BSlogg.Debug($"MultinomialLogtModel.Fit completed. converged={converged}; iterations={Me.pIteration}; logLikelihood={Me.pLL}; compTime={Me.CompTime}")
-            If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                     progressBar.Value = 100
-                                                                 End Sub)
+            CoreServices.Logger.Debug($"MultinomialLogtModel.Fit completed. converged={converged}; iterations={Me.pIteration}; logLikelihood={Me.pLL}; compTime={Me.CompTime}")
+            If progress IsNot Nothing Then progress.Report(100)
         End Sub
 
         ' ----------------------- Residuals API -----------------------
@@ -801,7 +793,7 @@ Namespace regression
         Private Sub ComputeResiduals(Optional useWeights As Boolean = True,
                                  Optional computeLeverage As Boolean = True)
 
-            If results Is Nothing OrElse results.Coeffs_est Is Nothing Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
+            If results Is Nothing OrElse results.Coeffs_est Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
 
             Dim colsK As Integer = pKuse
             Dim out As New MultinomialResiduals()
@@ -910,7 +902,7 @@ Namespace regression
         ''' </remarks>
         Public Function GetResidualColumnNames(resType As ResidualColumnType) As String()
 
-            If pCats Is Nothing OrElse pCats.Length = 0 Then AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Categories are not available. Fit the model first."))
+            If pCats Is Nothing OrElse pCats.Length = 0 Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Categories are not available. Fit the model first."))
             Dim cols As Integer = pKuse
             Dim names(cols - 1) As String
             Dim prefix As String = ResidualTypePrefix(resType)
@@ -938,7 +930,7 @@ Namespace regression
         ''' </remarks>
         Private Function GetOriginalCategoryValueFromInternalIndex(internalIndex As Integer) As Integer
             If internalIndex < 0 OrElse internalIndex >= pKuse Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(internalIndex)))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(internalIndex)))
             End If
 
             ' If you already store the user's reference choice in a field, use it here.
@@ -989,7 +981,7 @@ Namespace regression
         Private Function ComputeClassificationCrosstab(Optional useWeights As Boolean = True,
                                               Optional tieBreakToSmallestCategory As Boolean = True) As ClassificationCrosstab
             If results Is Nothing OrElse results.Coeffs_est Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
 
             ' Build the confusion matrix in the model's internal category order first. When the
@@ -1097,7 +1089,7 @@ Namespace regression
         ''' </summary>
         Public Sub ComputeFitStatistics()
             If results Is Nothing OrElse results.Coeffs_est Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
 
             ' Full-model loglik
@@ -1168,7 +1160,7 @@ Namespace regression
                                                  Optional keyDigits As Integer = 12) As TestResult
 
             If results Is Nothing OrElse results.Coeffs_est Is Nothing Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Fit the model first (call Fit())."))
             End If
             Dim out As New TestResult
             out.TestStatistics1 = Double.NaN

@@ -264,7 +264,7 @@ Namespace regression
         ''' <remarks>
         ''' <para>
         ''' This mirrors the project's broader pattern where numerical helpers often accept a ByRef strTrace
-        ''' accumulator while also writing to <see cref="AppGlobals.BSlogg"/>. Keeping both channels is useful:
+        ''' accumulator while also writing to <see cref="CoreServices.logger"/>. Keeping both channels is useful:
         ''' </para>
         ''' <list type="bullet">
         ''' <item><description>the global logger provides durable diagnostic output,</description></item>
@@ -406,7 +406,7 @@ Namespace regression
         ''' </summary>
         Public Sub AppendInfo(message As String)
             AppendLogCore("INFO", message)
-            AppGlobals.BSlogg.Info(FormatLogMessage(message))
+            CoreServices.Logger.Info(FormatLogMessage(message))
         End Sub
 
         ''' <summary>
@@ -414,7 +414,7 @@ Namespace regression
         ''' </summary>
         Public Sub AppendWarn(message As String)
             AppendLogCore("WARN", message)
-            AppGlobals.BSlogg.Warn(FormatLogMessage(message))
+            CoreServices.Logger.Warn(FormatLogMessage(message))
         End Sub
 
         ''' <summary>
@@ -422,7 +422,7 @@ Namespace regression
         ''' </summary>
         Public Sub AppendDebug(message As String)
             AppendLogCore("DEBUG", message)
-            AppGlobals.BSlogg.Debug(FormatLogMessage(message))
+            CoreServices.Logger.Debug(FormatLogMessage(message))
         End Sub
 
         ''' <summary>
@@ -430,7 +430,7 @@ Namespace regression
         ''' </summary>
         Public Sub AppendTrace(message As String)
             AppendLogCore("TRACE", message)
-            AppGlobals.BSlogg.Trace(FormatLogMessage(message))
+            CoreServices.Logger.Trace(FormatLogMessage(message))
         End Sub
 
         ''' <summary>

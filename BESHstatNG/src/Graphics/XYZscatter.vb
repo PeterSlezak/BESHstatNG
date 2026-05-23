@@ -588,7 +588,7 @@ Namespace graphics
                     .ChartArea.ClearFormats()
                     .PlotArea.ClearFormats()
                 Catch ex As Exception
-                    BSlogg.Debug("ClearFormats failed: " & ex.Message)
+                    CoreServices.Logger.Debug("ClearFormats failed: " & ex.Message)
                 End Try
 
                 'delete extra series
@@ -634,7 +634,7 @@ Namespace graphics
                     axY.Border.LineStyle = XlLineStyle.xlLineStyleNone   'hide axis line (Excel-only)
 
                 Catch ex As Exception
-                    BSlogg.Debug("Axis setup failed: " & ex.Message)
+                    CoreServices.Logger.Debug("Axis setup failed: " & ex.Message)
                 End Try
 
 

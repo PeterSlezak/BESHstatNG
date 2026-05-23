@@ -231,12 +231,12 @@ Public Class Ui8Proportions
 
             rr.writeToSheet(WriteRes, True)
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
-    Private Function GetResultWriter() As WriteResults
-        Dim WriteRes = New WriteResults, rRange As Range
+    Private Function GetResultWriter() As ExcelDnaResultWriter
+        Dim WriteRes = New ExcelDnaResultWriter, rRange As Range
         If Me.optWorkbook.Checked Then
             WriteRes.wb = AppGlobals.app.Workbooks.Add()
             WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet

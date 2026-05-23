@@ -163,7 +163,7 @@ Namespace regression
                                               residualStructType:=residualStructType,
                                               randomStructType:=randomStructType,
                                               includeFixedInterceptDefault:=includeFixedInterceptDefault) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException(err))
+                CoreServices.Errors.LogAndThrow(New ArgumentException(err))
             End If
             Return build.Request
         End Function
@@ -311,7 +311,7 @@ Namespace regression
                 Return True
 
             Catch ex As Exception
-                AppGlobals.BSlogg.Error(ex, "MixedModelFormulaService.TryBuildRequestFromFormula failed.")
+                CoreServices.Logger.Error(ex, "MixedModelFormulaService.TryBuildRequestFromFormula failed.")
                 errorMessage = ex.Message
                 result = Nothing
                 Return False
@@ -963,17 +963,17 @@ Namespace regression
 
         Private Sub AppendInfo(ByRef strTrace As String, message As String)
             AppendLogCore(strTrace, "INFO", message)
-            AppGlobals.BSlogg.Info(message)
+            CoreServices.Logger.Info(message)
         End Sub
 
         Private Sub AppendWarn(ByRef strTrace As String, message As String)
             AppendLogCore(strTrace, "WARN", message)
-            AppGlobals.BSlogg.Warn(message)
+            CoreServices.Logger.Warn(message)
         End Sub
 
         Private Sub AppendTrace(ByRef strTrace As String, message As String)
             AppendLogCore(strTrace, "TRACE", message)
-            AppGlobals.BSlogg.Trace(message)
+            CoreServices.Logger.Trace(message)
         End Sub
 
         Private Sub AppendLogCore(ByRef strTrace As String, level As String, message As String)

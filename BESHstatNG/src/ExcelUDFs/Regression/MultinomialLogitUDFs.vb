@@ -763,7 +763,7 @@ Namespace WorksheetFunctions
                 Dim removed As MultinomialLogitHandle = Nothing
                 Return _mnCache.TryRemove(key, removed)
             Catch ex As Exception
-                AppGlobals.BSlogg.Error(ex, "BESH.REGR.MNLOGIT_DROP failed.")
+                CoreServices.Logger.Error(ex, "BESH.REGR.MNLOGIT_DROP failed.")
                 Return False
             End Try
         End Function

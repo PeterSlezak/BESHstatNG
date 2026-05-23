@@ -108,8 +108,8 @@ Namespace regression
                                                key As String,
                                                role As String,
                                                Optional analysisLabel As String = "mixed-model") As Integer
-            If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-            If raw.varNames Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("Data object has no variable names."))
+            If raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(raw)))
+            If raw.varNames Is Nothing Then CoreServices.Errors.LogAndThrow(New ApplicationException("Data object has no variable names."))
 
             Dim targetKey As String = If(key, String.Empty).Trim()
             Dim targetBase As String = Global.BESHStatNG.RegressionDesignCore.GetCoefBaseName(targetKey).Trim()
@@ -121,21 +121,21 @@ Namespace regression
                 If String.Equals(Global.BESHStatNG.RegressionDesignCore.GetCoefBaseName(candidate), targetBase, StringComparison.Ordinal) Then Return j
             Next
 
-            AppGlobals.BSerr.LogAndThrow(New ApplicationException("Cannot resolve " & role & " variable '" & key & "' in imported " & analysisLabel & " data."))
+            CoreServices.Errors.LogAndThrow(New ApplicationException("Cannot resolve " & role & " variable '" & key & "' in imported " & analysisLabel & " data."))
             Return -1
         End Function
 
         Friend Function ExtractNumericColumnFromData(raw As Global.BESHStatNG.DataObj,
                                                      columnIndex As Integer,
                                                      Optional analysisLabel As String = "mixed-model") As Double()
-            If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-            If raw.FinalData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("Data object has no FinalData matrix."))
-            If columnIndex < 0 OrElse columnIndex >= raw.nCols Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(columnIndex)))
+            If raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(raw)))
+            If raw.FinalData Is Nothing Then CoreServices.Errors.LogAndThrow(New ApplicationException("Data object has no FinalData matrix."))
+            If columnIndex < 0 OrElse columnIndex >= raw.nCols Then CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(columnIndex)))
 
             Dim out(raw.nRows - 1) As Double
             For i As Integer = 0 To raw.nRows - 1
                 If raw.FinalData(i, columnIndex) Is Nothing Then
-                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("Missing numeric value encountered in " & analysisLabel & " data at row " & CStr(i + 1) & ", column " & CStr(columnIndex + 1) & "."))
+                    CoreServices.Errors.LogAndThrow(New ApplicationException("Missing numeric value encountered in " & analysisLabel & " data at row " & CStr(i + 1) & ", column " & CStr(columnIndex + 1) & "."))
                 End If
                 out(i) = CDbl(raw.FinalData(i, columnIndex))
             Next
@@ -145,9 +145,9 @@ Namespace regression
 
         Friend Function ExtractObjectColumnFromData(raw As Global.BESHStatNG.DataObj,
                                                     columnIndex As Integer) As Object()
-            If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-            If raw.FinalData Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ApplicationException("Data object has no FinalData matrix."))
-            If columnIndex < 0 OrElse columnIndex >= raw.nCols Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(columnIndex)))
+            If raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(raw)))
+            If raw.FinalData Is Nothing Then CoreServices.Errors.LogAndThrow(New ApplicationException("Data object has no FinalData matrix."))
+            If columnIndex < 0 OrElse columnIndex >= raw.nCols Then CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(columnIndex)))
 
             Dim out(raw.nRows - 1) As Object
             For i As Integer = 0 To raw.nRows - 1
@@ -185,8 +185,8 @@ Namespace regression
                                                       ByRef design(,) As Double,
                                                       ByRef designNames() As String,
                                                       Optional analysisLabel As String = "mixed-model")
-            If raw Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(raw)))
-            If effectItems Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
+            If raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(raw)))
+            If effectItems Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(effectItems)))
             If termSpecs Is Nothing Then termSpecs = New Dictionary(Of String, Global.BESHStatNG.TermSpec)(StringComparer.Ordinal)
 
             Dim rawKeys As List(Of String) = Global.BESHStatNG.RegressionDesignCore.GetRequiredRawVarKeys(effectItems, termSpecs)
@@ -212,7 +212,7 @@ Namespace regression
                 designNames = AddInterceptName(expandedNames)
             Else
                 If expanded Is Nothing OrElse expandedNames.Length = 0 Then
-                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("The " & role & " design contains no columns. Add at least one " & role & " or enable its intercept."))
+                    CoreServices.Errors.LogAndThrow(New ApplicationException("The " & role & " design contains no columns. Add at least one " & role & " or enable its intercept."))
                 End If
 
                 design = expanded
@@ -255,7 +255,7 @@ Namespace regression
 
         Friend Function AddInterceptIfRequested(x(,) As Double, includeIntercept As Boolean) As Double(,)
             If Not includeIntercept Then Return x
-            If x Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(x)))
+            If x Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(x)))
             Return AddInterceptColumn(x, x.GetLength(0))
         End Function
 
@@ -460,33 +460,33 @@ Namespace regression
                                                             Optional authoredRandomEffectCount As Integer? = Nothing,
                                                             Optional enforceUiInterceptSemantics As Boolean = False)
             If q <= 0 Then
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("The random-effects design contains no columns. Add at least one random effect or enable Random Intercepts."))
+                CoreServices.Errors.LogAndThrow(New ApplicationException("The random-effects design contains no columns. Add at least one random effect or enable Random Intercepts."))
             End If
 
             If String.Equals(randomStructName, "Random Intercept", StringComparison.OrdinalIgnoreCase) Then
                 If q <> 1 Then
-                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("Random Intercept covariance requires exactly one expanded random-effect column, but the current random-effects design has " & q.ToString(CultureInfo.InvariantCulture) & ". Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for multiple random effects or interactions."))
+                    CoreServices.Errors.LogAndThrow(New ApplicationException("Random Intercept covariance requires exactly one expanded random-effect column, but the current random-effects design has " & q.ToString(CultureInfo.InvariantCulture) & ". Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for multiple random effects or interactions."))
                 End If
 
                 If enforceUiInterceptSemantics Then
                     Dim hasIntercept As Boolean = randomInterceptChecked.HasValue AndAlso randomInterceptChecked.Value
                     Dim authored As Integer = If(authoredRandomEffectCount.HasValue, authoredRandomEffectCount.Value, 0)
                     If Not hasIntercept OrElse authored <> 0 Then
-                        AppGlobals.BSerr.LogAndThrow(New ApplicationException("Random Intercept covariance requires Random Intercepts enabled and no authored random slopes/effects. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for slope-only, categorical, interaction, polynomial, or multiple random effects."))
+                        CoreServices.Errors.LogAndThrow(New ApplicationException("Random Intercept covariance requires Random Intercepts enabled and no authored random slopes/effects. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for slope-only, categorical, interaction, polynomial, or multiple random effects."))
                     End If
                 End If
             End If
 
             If String.Equals(randomStructName, "Random Intercept + Slope", StringComparison.OrdinalIgnoreCase) Then
                 If q <> 2 Then
-                    AppGlobals.BSerr.LogAndThrow(New ApplicationException("Random Intercept + Slope covariance requires exactly two expanded random-effect columns, but the current random-effects design has " & q.ToString(CultureInfo.InvariantCulture) & ". Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for multiple random effects or interactions."))
+                    CoreServices.Errors.LogAndThrow(New ApplicationException("Random Intercept + Slope covariance requires exactly two expanded random-effect columns, but the current random-effects design has " & q.ToString(CultureInfo.InvariantCulture) & ". Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for multiple random effects or interactions."))
                 End If
 
                 If enforceUiInterceptSemantics Then
                     Dim hasIntercept As Boolean = randomInterceptChecked.HasValue AndAlso randomInterceptChecked.Value
                     Dim authored As Integer = If(authoredRandomEffectCount.HasValue, authoredRandomEffectCount.Value, 0)
                     If Not hasIntercept OrElse authored <> 1 Then
-                        AppGlobals.BSerr.LogAndThrow(New ApplicationException("Random Intercept + Slope covariance requires Random Intercepts enabled plus exactly one authored random slope/effect. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for slope-only, categorical, interaction, polynomial, or multiple random effects."))
+                        CoreServices.Errors.LogAndThrow(New ApplicationException("Random Intercept + Slope covariance requires Random Intercepts enabled plus exactly one authored random slope/effect. Choose Identity, Variance Components (VC/Diag), CS, CSH, AR1, ARH1, TOEP, TOEPH, or Unstructured Random Effects for slope-only, categorical, interaction, polynomial, or multiple random effects."))
                     End If
                 End If
             End If

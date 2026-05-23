@@ -218,7 +218,7 @@ Public Class Ui13GEE
         pRegressionInterruptRequested = False
         pRegressionCloseAfterCancel = False
         pRegressionCalculationRunning = True
-        AppGlobals.SetRegressionComputationCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
+        CoreServices.Regression.SetCallbacks(AddressOf IsRegressionCancellationRequested, AddressOf IsRegressionInterruptionRequested)
 
         Try
             Me.btCalculate.Enabled = False
@@ -231,7 +231,7 @@ Public Class Ui13GEE
 
     Private Sub EndRegressionComputation()
         pRegressionCalculationRunning = False
-        AppGlobals.ClearRegressionComputationCallbacks()
+        CoreServices.Regression.ClearCallbacks()
 
         Try
             If pRegressionInterruptRequested AndAlso Not pRegressionCancelRequested Then
@@ -459,7 +459,7 @@ Public Class Ui13GEE
         End If
 
         Dim ref As String = BuildExcelRefList(pWorksheet, keys, Me.VariableColumnsInfo)
-        MyData.DataImport(ref)
+        ExcelDnaDataImporter.ImportInto(MyData, ref)
         Return MyData
     End Function
 
@@ -615,7 +615,7 @@ Public Class Ui13GEE
                 Dim bErr As Boolean = False
                 Dim initVals = GetNumbersFromStrList(Me.tbInitValues.Text, bErr)
                 If bErr Then
-                    AppGlobals.BSlogg.Log("Cannot extract initial parameter values. They will be ignored.")
+                    CoreServices.Log("Cannot extract initial parameter values. They will be ignored.")
                     MsgBox("Cannot extract initial parameter values. They will be ignored.")
                 Else
                     bInitialValues = True
@@ -626,7 +626,7 @@ Public Class Ui13GEE
                 Me.RunGEE(MyData, bInitialValues)
             End If
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -689,10 +689,10 @@ Public Class Ui13GEE
 
             If bInitialValues Then fitGEE.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
 
-            fitGEE.Fit(bInitialValues, , Me.ProgressBar1, Me.lblProgress)
+            fitGEE.Fit(bInitialValues, progress:=New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
 
             ''Dump results
-            Dim WriteRes As WriteResults = New WriteResults
+            Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
             WriteRes.wb = AppGlobals.app.Workbooks.Add()
             AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
             WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -753,7 +753,7 @@ Public Class Ui13GEE
             'Create new worksheet in workbook. It will automaticaly be an activesheet
             'We need to start new writer to start writing on this new sheet
             Dim res = fitGEE.wrapResults()
-            WriteRes = New WriteResults
+            WriteRes = New ExcelDnaResultWriter
             AppGlobals.app.ActiveWorkbook.Worksheets.Add()
             AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "GEE"
             WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -796,7 +796,7 @@ Public Class Ui13GEE
                     summary, thresholdRows, calibrationRows, brier, eventRate, "GEE Binary Classification")
 
                 If clsRes IsNot Nothing AndAlso clsRes.Count > 0 Then
-                    WriteRes = New WriteResults
+                    WriteRes = New ExcelDnaResultWriter
                     AppGlobals.app.ActiveWorkbook.Worksheets.Add(After:=AppGlobals.app.ActiveWorkbook.Worksheets(AppGlobals.app.ActiveWorkbook.Worksheets.Count))
                     AppGlobals.app.ActiveWorkbook.ActiveSheet.Name = "GEE Classification"
                     WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -816,7 +816,7 @@ Public Class Ui13GEE
         Catch ex As System.OperationCanceledException
             FinishRegressionComputation("Calculation cancelled.")
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True, "Failed to write GEE results to the workbook")
+            CoreServices.Errors.LogAndThrow(ex, False, True, "Failed to write GEE results to the workbook")
         Finally
             EndRegressionComputation()
         End Try

@@ -986,7 +986,7 @@ Namespace WorksheetFunctions
 
                 Dim summary As regression.BinaryClassificationSummary = regression.BinaryClassificationReporting.ComputeBinarySummary(y, p, cutoff, w)
 
-                Return BinaryClassificationReporting.BuildBinaryCrosstabUdfOutput(summary, hdr)
+                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildBinaryCrosstabUdfOutput(summary, hdr))
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_CLASS", ex)
@@ -1053,7 +1053,7 @@ Namespace WorksheetFunctions
 
                 Dim rows As List(Of regression.BinaryThresholdRow) = regression.BinaryClassificationReporting.BuildThresholdTable(y, p, thresholdVector, w)
 
-                Return BinaryClassificationReporting.BuildThresholdTableUdfOutput(rows, hdr)
+                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildThresholdTableUdfOutput(rows, hdr))
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_THRESH", ex)
@@ -1126,7 +1126,7 @@ Namespace WorksheetFunctions
 
                 Dim rows As List(Of regression.CalibrationBinSummary) = regression.BinaryClassificationReporting.BuildCalibrationBins(y, p, binCount, w, methodName)
 
-                Return BinaryClassificationReporting.BuildCalibrationTableUdfOutput(rows, hdr)
+                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildCalibrationTableUdfOutput(rows, hdr))
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_CALIB", ex)
@@ -1182,7 +1182,7 @@ Namespace WorksheetFunctions
                 Dim score As Double = regression.BinaryClassificationReporting.ComputeBrierScore(y, p, w)
                 Dim eventRate As Double = ComputeBinaryEventRate(y, w)
 
-                Return BinaryClassificationReporting.BuildBrierScoreUdfOutput(score, y.Length, eventRate, hdr)
+                Return ConvertBinaryClassificationOutputForExcel(BinaryClassificationReporting.BuildBrierScoreUdfOutput(score, y.Length, eventRate, hdr))
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_BRIER", ex)

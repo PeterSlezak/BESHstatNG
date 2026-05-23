@@ -120,7 +120,7 @@ Public Class Ui12SampleSizeTtestSingleProp
                 Me.RunBlandAltman()
             End If
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 

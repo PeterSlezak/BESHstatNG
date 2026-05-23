@@ -22,9 +22,7 @@ Namespace Multivariate
             Dim mean As Double = vector.Average()
             Dim sd As Double = stDev(vector)
 
-            If sd <= 0.0 OrElse Double.IsNaN(sd) OrElse Double.IsInfinity(sd) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException(errorMessage))
-            End If
+            If sd <= 0.0 OrElse Double.IsNaN(sd) OrElse Double.IsInfinity(sd) Then CoreServices.Errors.LogAndThrow(New ArgumentException(errorMessage))
 
             For i As Integer = 0 To vector.Length - 1
                 out(i) = (vector(i) - mean) / sd

@@ -104,13 +104,13 @@ Namespace Agreement
                        varR2 As String,
                        Optional opts As KappaOptions = Nothing)
 
-            If r1 Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(r1)))
-            If r2 Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(r2)))
+            If r1 Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(r1)))
+            If r2 Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(r2)))
             If r1.Length <> r2.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The two rating arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The two rating arrays must have the same length."))
             End If
             If r1.Length < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two paired observations are required for kappa analysis."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("At least two paired observations are required for kappa analysis."))
             End If
 
             Me.pRater1Raw = DirectCast(r1.Clone(), Object())
@@ -143,26 +143,23 @@ Namespace Agreement
         ''' non-negative integers so that the table can be expanded into item-level pairs internally.
         ''' </para>
         ''' </remarks>
-        Public Sub New(table As Double(,),
-                       categoryLabels As Object(),
-                       Optional opts As KappaOptions = Nothing)
-
-            If table Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(table)))
-            If categoryLabels Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(categoryLabels)))
+        Public Sub New(table As Double(,), categoryLabels As Object(), Optional opts As KappaOptions = Nothing)
+            If table Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(table)))
+            If categoryLabels Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(categoryLabels)))
             If table.GetLength(0) <> table.GetLength(1) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The confusion matrix for weighted kappa must be square."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The confusion matrix for weighted kappa must be square."))
             End If
             If table.GetLength(0) <> categoryLabels.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("The number of category labels must match the dimension of the square confusion matrix."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The number of category labels must match the dimension of the square confusion matrix."))
             End If
             If table.GetLength(0) < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("At least two categories are required for kappa analysis."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("At least two categories are required for kappa analysis."))
             End If
 
             For i As Integer = 0 To table.GetLength(0) - 1
                 For j As Integer = 0 To table.GetLength(1) - 1
                     If Double.IsNaN(table(i, j)) OrElse Double.IsInfinity(table(i, j)) OrElse table(i, j) < 0.0 Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("The confusion matrix must contain only finite non-negative counts."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("The confusion matrix must contain only finite non-negative counts."))
                     End If
                 Next
             Next
@@ -191,7 +188,7 @@ Namespace Agreement
                 Return Me.pOptions
             End Get
             Set(value As KappaOptions)
-                If value Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(value)))
+                If value Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(value)))
                 ValidateOptions(value)
                 Me.pOptions = value
                 Me.pIsFitted = False
@@ -231,7 +228,7 @@ Namespace Agreement
         '''   <item><description>compute an approximate z-test for <c>H0: κ = 0</c></description></item>
         ''' </list>
         ''' </remarks>
-        Public Function Fit(Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+        Public Function Fit(Optional progress As IProgressReporter = Nothing,
                             Optional randomSeed As Integer = Integer.MinValue) As KappaResult
             If Me.pIsFitted AndAlso Me.pResult IsNot Nothing Then Return Me.pResult
 
@@ -257,7 +254,7 @@ Namespace Agreement
 
             Dim n As Double = StatFunc.Sum2D(table)
             If n <= 0.0 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("The confusion matrix contains no observations."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("The confusion matrix contains no observations."))
             End If
             Me.pSampleSize = CInt(Math.Round(n))
 
@@ -266,11 +263,11 @@ Namespace Agreement
 
             Dim ci As ConfidenceIntervalResult
             If Me.pOptions.CiMethod = AgreementCiMethod.BootstrapPercentile OrElse Me.pOptions.CiMethod = AgreementCiMethod.BootstrapBCa Then
-                Dim bootResult As ScalarResamplingResult = BootstrapKappaResamplingResult(table, labels, Me.pOptions, metrics.Kappa, progressBar, randomSeed)
+                Dim bootResult As ScalarResamplingResult = BootstrapKappaResamplingResult(table, labels, Me.pOptions, metrics.Kappa, progress, randomSeed)
                 Me.pBootstrapRunInfo = bootResult.RunInfo
                 ci = bootResult.ToPercentileConfidenceInterval(Me.pOptions.Alpha)
             ElseIf Me.pOptions.CiMethod = AgreementCiMethod.Jackknife Then
-                Dim jkResult As ScalarResamplingResult = JackknifeKappaResamplingResult(table, labels, Me.pOptions, metrics.Kappa, progressBar)
+                Dim jkResult As ScalarResamplingResult = JackknifeKappaResamplingResult(table, labels, Me.pOptions, metrics.Kappa, progress)
                 If jkResult IsNot Nothing AndAlso jkResult.ResampledStatistics IsNot Nothing AndAlso jkResult.ResampledStatistics.Length > 1 Then
                     Me.pJackknifeRunInfo = jkResult.RunInfo
                     Dim seJk As Double = ResamplingJackknife.JackknifeStandardError(jkResult.ResampledStatistics)
@@ -335,9 +332,7 @@ Namespace Agreement
                 .WeightMatrix = weights
             }
 
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 100)
-            End If
+            If progress IsNot Nothing Then progress.Report(100)
 
             Me.pIsFitted = True
             Return Me.pResult
@@ -424,19 +419,19 @@ Namespace Agreement
         End Function
 
         Private Sub ValidateOptions(opts As KappaOptions)
-            If opts Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(opts)))
+            If opts Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(opts)))
             If Double.IsNaN(opts.Alpha) OrElse opts.Alpha <= 0.0 OrElse opts.Alpha >= 1.0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Alpha must be strictly between 0 and 1."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Alpha must be strictly between 0 and 1."))
             End If
             If opts.BootstrapReplicates < 200 Then
                 opts.BootstrapReplicates = Math.Max(200, opts.BootstrapReplicates)
             End If
             If opts.Weighting = KappaWeightingScheme.Custom Then
                 If opts.CustomWeights Is Nothing Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Custom weights were requested, but KappaOptions.CustomWeights is Nothing."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Custom weights were requested, but KappaOptions.CustomWeights is Nothing."))
                 End If
                 If opts.CustomWeights.GetLength(0) <> opts.CustomWeights.GetLength(1) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("The custom weight matrix must be square."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("The custom weight matrix must be square."))
                 End If
             End If
         End Sub
@@ -454,7 +449,7 @@ Namespace Agreement
             Next
 
             If pairs.Count < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Fewer than two complete rating pairs remain after filtering missing observations."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Fewer than two complete rating pairs remain after filtering missing observations."))
             End If
 
             Dim labels As Object()
@@ -482,7 +477,7 @@ Namespace Agreement
             End If
 
             If labels.Length < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("At least two categories are required for kappa analysis."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("At least two categories are required for kappa analysis."))
             End If
 
             Dim table(labels.Length - 1, labels.Length - 1) As Double
@@ -490,7 +485,7 @@ Namespace Agreement
                 Dim k1 = CategoryKey(pr.Item1)
                 Dim k2 = CategoryKey(pr.Item2)
                 If Not keyToIndex.ContainsKey(k1) OrElse Not keyToIndex.ContainsKey(k2) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Observed categories are not fully covered by the category order supplied in KappaOptions.Categories."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Observed categories are not fully covered by the category order supplied in KappaOptions.Categories."))
                 End If
                 table(keyToIndex(k1), keyToIndex(k2)) += 1.0
             Next
@@ -502,12 +497,12 @@ Namespace Agreement
             Dim dict As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
             For i As Integer = 0 To labels.Length - 1
                 If IsMissingCategoryValue(labels(i)) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Category labels must not contain missing values."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Category labels must not contain missing values."))
                 End If
                 Dim normalized = NormalizeCategoryValue(labels(i))
                 Dim key = CategoryKey(normalized)
                 If dict.ContainsKey(key) Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Category labels must be unique after normalization to string keys."))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Category labels must be unique after normalization to string keys."))
                 End If
                 labels(i) = normalized
                 dict.Add(key, i)
@@ -569,18 +564,18 @@ Namespace Agreement
 
                 Case KappaWeightingScheme.Custom
                     If opts.CustomWeights.GetLength(0) <> k OrElse opts.CustomWeights.GetLength(1) <> k Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("The custom weight matrix dimension must match the number of categories."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("The custom weight matrix dimension must match the number of categories."))
                     End If
                     w = DirectCast(opts.CustomWeights.Clone(), Double(,))
 
                 Case Else
-                    AppGlobals.BSerr.LogAndThrow(New NotSupportedException("Unsupported weighting scheme."))
+                    CoreServices.Errors.LogAndThrow(New NotSupportedException("Unsupported weighting scheme."))
             End Select
 
             For i As Integer = 0 To k - 1
                 For j As Integer = 0 To k - 1
                     If Double.IsNaN(w(i, j)) OrElse Double.IsInfinity(w(i, j)) Then
-                        AppGlobals.BSerr.LogAndThrow(New ArgumentException("The weight matrix must contain only finite values."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException("The weight matrix must contain only finite values."))
                     End If
                 Next
             Next
@@ -608,7 +603,7 @@ Namespace Agreement
             Next
 
             If Math.Abs(1.0 - peW) < 0.000000000001 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Weighted expected agreement is equal to 1, so kappa is not estimable."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Weighted expected agreement is equal to 1, so kappa is not estimable."))
             End If
 
             Dim kappa As Double = (poW - peW) / (1.0 - peW)
@@ -707,11 +702,11 @@ Namespace Agreement
                                                labels As Object(),
                                                opts As KappaOptions,
                                                observedKappa As Double,
-                                               Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
+                                               Optional progress As IProgressReporter = Nothing,
                                                Optional randomSeed As Integer = Integer.MinValue) As ScalarResamplingResult
             Dim pairs = ExpandTableToPairs(table, labels)
             If pairs Is Nothing OrElse pairs.Item1 Is Nothing OrElse pairs.Item1.Length < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Bootstrap confidence interval requires paired item-level data or an integer-valued contingency table that can be expanded to pairs."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Bootstrap confidence interval requires paired item-level data or an integer-valued contingency table that can be expanded to pairs."))
             End If
 
             Dim bootOpts As New BootstrapOptions With {
@@ -722,11 +717,11 @@ Namespace Agreement
             }
 
             Dim progressCallback As Action(Of Integer, Integer) = Nothing
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 0)
+            If progress IsNot Nothing Then
+                progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
                                        Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
-                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                       progress.Report(progressValue)
                                    End Sub
             End If
 
@@ -752,17 +747,17 @@ Namespace Agreement
                                                 labels As Object(),
                                                 opts As KappaOptions,
                                                 observedKappa As Double,
-                                                Optional progressBar As System.Windows.Forms.ProgressBar = Nothing) As ScalarResamplingResult
+                                                Optional progress As IProgressReporter = Nothing) As ScalarResamplingResult
             Dim pairs = ExpandTableToPairs(table, labels)
             If pairs Is Nothing OrElse pairs.Item1 Is Nothing OrElse pairs.Item1.Length < 3 Then Return Nothing
             Dim jkOpts As New JackknifeOptions With {.Alpha = opts.Alpha}
 
             Dim progressCallback As Action(Of Integer, Integer) = Nothing
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub() progressBar.Value = 0)
+            If progress IsNot Nothing Then
+                progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
                                        Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
-                                       progressBar.Invoke(Sub() progressBar.Value = progressValue)
+                                       progress.Report(progressValue)
                                    End Sub
             End If
 
@@ -790,7 +785,7 @@ Namespace Agreement
                                                observedKappa As Double) As ScalarResamplingResult
             Dim pairs = ExpandTableToPairs(table, labels)
             If pairs Is Nothing OrElse pairs.Item1 Is Nothing OrElse pairs.Item1.Length < 2 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("BCa confidence interval requires paired item-level data or an integer-valued contingency table that can be expanded to pairs."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("BCa confidence interval requires paired item-level data or an integer-valued contingency table that can be expanded to pairs."))
             End If
 
             Dim jkOpts As New JackknifeOptions With {.Alpha = opts.Alpha}

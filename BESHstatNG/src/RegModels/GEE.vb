@@ -1,12 +1,9 @@
 ﻿Option Explicit On
 Option Strict On
 
-Imports System.Drawing
 Imports System.Linq
 Imports System.Security.Cryptography
-Imports System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>
 ''' Fits a marginal regression model for clustered/longitudinal data using
@@ -321,7 +318,7 @@ Public Class GEE
         Me.pDFresid = n - p
 
         If n <= p Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException($"Not enough observations to fit model: n={n}, parameters={p}. Need n > p."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException($"Not enough observations to fit model: n={n}, parameters={p}. Need n > p."))
         End If
 
         If RowNums Is Nothing Then
@@ -936,8 +933,7 @@ Public Class GEE
     ''' Multiplicative scaling applied to the covariance matrices after computation.
     ''' This class stores it as <c>pScalingFactor</c> and applies it in <c>ComputeCovMat</c>/<c>ComputeBScovMat</c>.
     ''' </param>
-    ''' <param name="progressBar">Optional UI progress bar updated during fitting.</param>
-    ''' <param name="progressLbl">Optional UI label updated with iteration/timing and last criterion value.</param>
+    ''' <param name="progress">Optional host-neutral progress reporter.</param>
     ''' <remarks>
     ''' <h3>Iteration structure</h3>
     ''' <para>
@@ -982,9 +978,8 @@ Public Class GEE
     ''' </remarks>
     Public Sub Fit(bStartParams As Boolean,
                          Optional scalingFactor As Double = 1.0#,
-                         Optional progressBar As System.Windows.Forms.ProgressBar = Nothing,
-                         Optional progressLbl As System.Windows.Forms.Label = Nothing)
-        AppGlobals.BSlogg.Debug($"GEE.Fit start. family={pFamily.GetType().Name}; link={pLink.GetType().Name}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
+                         Optional progress As IProgressReporter = Nothing)
+        CoreServices.Logger.Debug($"GEE.Fit start. family={pFamily.GetType().Name}; link={pLink.GetType().Name}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
         Dim update() As Double = Nothing, score() As Double = Nothing, del_params As Double, strTmpTrace As String = String.Empty
         Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
         Me.pScalingFactor = scalingFactor
@@ -1001,15 +996,15 @@ Public Class GEE
         Const SAS_REL_THRESH As Double = 0.08   'SAS GENMOD GEE threshold :contentReference[oaicite:1]{index=1}
 
         For pItration = 0 To Me.pMaxiter
-            AppGlobals.ThrowIfRegressionCancellationRequested("GEE calculation cancelled by user.")
-            If pItration > 0 AndAlso AppGlobals.IsRegressionInterruptionRequested() Then
-                AppGlobals.BSlogg.Log("GEE calculation interrupted by user; returning latest accepted estimating-equation parameters.", AppGlobals.LogMsgType.Warn)
+            CoreServices.Regression.ThrowIfCancellationRequested("GEE calculation cancelled by user.")
+            If pItration > 0 AndAlso CoreServices.Regression.IsInterruptionRequested() Then
+                AppInfrastructure.CoreServices.Log("GEE calculation interrupted by user; returning latest accepted estimating-equation parameters.", AppInfrastructure.LogMsgType.Warn)
                 Exit For
             End If
 
             'Compute step (same as your current code)
             Me.updateMeanParams(update, score)
-            AppGlobals.BSlogg.Log($"Iteration={pItration + 1} update:{Matrix.array2str(update)} score: {Matrix.array2str(score)}")
+            AppInfrastructure.CoreServices.Log($"Iteration={pItration + 1} update:{Matrix.array2str(update)} score: {Matrix.array2str(score)}")
 
             'Apply step (same as your current code)
             meanParams = Matrix.M_ADD(meanParams, update)
@@ -1032,7 +1027,7 @@ Public Class GEE
                 consecOK = 0
             End If
 
-            AppGlobals.BSlogg.Log($"Iteration={pItration + 1} meanParams:{Matrix.array2str(meanParams)} sas_del={del_params} consecOK={consecOK}")
+            AppInfrastructure.CoreServices.Log($"Iteration={pItration + 1} meanParams:{Matrix.array2str(meanParams)} sas_del={del_params} consecOK={consecOK}")
 
             'save iteration info (store criterion in last row, like before)
             For i = 0 To p
@@ -1048,17 +1043,13 @@ Public Class GEE
 
             'Update dependence structure
             pCovStruct.updateAssoc(Me, strTmpTrace)
-            If strTmpTrace <> String.Empty Then AppGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            If strTmpTrace <> String.Empty Then AppInfrastructure.CoreServices.Log($"strTmpTrace= {strTmpTrace}")
 
             'UI progress
-            If progressBar IsNot Nothing Then
-                progressBar.Invoke(Sub()
-                                       progressBar.Value = CInt(100 * (Me.pItration + 1) / (Me.pMaxiter + 1))
-                                       If progressLbl IsNot Nothing Then
-                                           progressLbl.Text = $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]  Iter {Me.pItration + 1}   Last convergence crit. value = {del_params}"
-                                       End If
-                                   End Sub)
-                System.Windows.Forms.Application.DoEvents()
+            'Progress
+            If progress IsNot Nothing Then
+                progress.Report(CInt(100 * (Me.pItration + 1) / (Me.pMaxiter + 1)),
+                                $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]  Iter {Me.pItration + 1}   Last convergence crit. value = {del_params}")
             End If
 
             'update prevParams for next iteration
@@ -1067,7 +1058,7 @@ Public Class GEE
         Next pItration
         '-----------------------------------------------
 
-        If Not pConverged Then AppGlobals.BSlogg.Log($"Iteration limit reached prior to convergence", AppGlobals.LogMsgType.Warn)
+        If Not pConverged Then AppInfrastructure.CoreServices.Log($"Iteration limit reached prior to convergence", AppInfrastructure.LogMsgType.Warn)
         If pItration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pItration)
 
         Me.pScale = EstimateScale(True)
@@ -1117,11 +1108,9 @@ Public Class GEE
                                      {CStr(Me.pConverged), ""}}
 
         Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
-        AppGlobals.BSlogg.Debug($"GEE.Fit completed. converged={Me.pConverged}; iterations={Me.pItration}; logLikelihood={Me.pQL}; compTime={Me.CompTime}")
+        CoreServices.Logger.Debug($"GEE.Fit completed. converged={Me.pConverged}; iterations={Me.pItration}; logLikelihood={Me.pQL}; compTime={Me.CompTime}")
 
-        If progressBar IsNot Nothing Then progressBar.Invoke(Sub()
-                                                                 progressBar.Value = 100
-                                                             End Sub)
+        If progress IsNot Nothing Then progress.Report(100)
     End Sub
 
     ''' <summary>
@@ -1177,7 +1166,7 @@ Public Class GEE
     ''' </remarks>
     Private Function ComputeBScovMat(cnaive(,) As Double) As Double(,)
         'Fit the bias-corrected sandwich estimate of Mancl and DeRouen.
-        AppGlobals.BSlogg.Log("proc started: gee.ComputeBScovMat")
+        AppInfrastructure.CoreServices.Log("proc started: gee.ComputeBScovMat")
 
         Dim strTmpTrace As String = String.Empty, srt() As Double = Nothing
 
@@ -1200,7 +1189,7 @@ Public Class GEE
 
             Dim vinv_d(,) As Double = Nothing, vinv_resid() As Double = Nothing
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, dmat, resid, vinv_d, vinv_resid, strTmpTrace) ' vinv_d, vinv_resid - are results
-            If strTmpTrace <> String.Empty Then AppGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            If strTmpTrace <> String.Empty Then AppInfrastructure.CoreServices.Log($"strTmpTrace= {strTmpTrace}")
 
             vinv_d = Matrix.MatrixMult(vinv_d, 1.0 / pScale)
             Dim hmat(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(vinv_d, cnaive), Matrix.trans(dmat))
@@ -1211,7 +1200,7 @@ Public Class GEE
             Dim aresid = Matrix.CholSolve(tmp, resid)
             strTmpTrace = String.Empty
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, dmat, aresid, tmp2, srt, strTmpTrace) ' tmp2, srt - are results (reusing tmp2)
-            If strTmpTrace <> String.Empty Then AppGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            If strTmpTrace <> String.Empty Then AppInfrastructure.CoreServices.Log($"strTmpTrace= {strTmpTrace}")
 
             srt = Matrix.GetColumnFrom2Darray(Matrix.MatrixMult(Matrix.trans(dmat), srt), 0)
             For j = 0 To UBound(srt)
@@ -1253,7 +1242,7 @@ Public Class GEE
     ''' </remarks>
     Private Sub ComputeCovMat()
         'Returns the sampling covariance matrix of the regression parameters and related quantities.
-        AppGlobals.BSlogg.Log("proc started: gee.ComputeCovMat")
+        AppInfrastructure.CoreServices.Log("proc started: gee.ComputeCovMat")
         Dim strTmpTrace As String = String.Empty
 
         Dim bmat(p - 1, p - 1) As Double, cmat(p - 1, p - 1) As Double
@@ -1274,14 +1263,14 @@ Public Class GEE
             Dim wdmat = dmat
             Dim vinv_d(,) As Double = Nothing, vinv_resid() As Double = Nothing
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, wdmat, wresid, vinv_d, vinv_resid, strTmpTrace) ' vinv_d, vinv_resid - are results
-            If strTmpTrace <> String.Empty Then AppGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            If strTmpTrace <> String.Empty Then AppInfrastructure.CoreServices.Log($"strTmpTrace= {strTmpTrace}")
             bmat = Matrix.M_ADD(bmat, Matrix.MatrixMult(Matrix.trans(dmat), vinv_d))
             Dim dvinv_resid = Matrix.MatrixMult(Matrix.trans(dmat), vinv_resid)
             cmat = Matrix.M_ADD(cmat, Matrix.M_OUTERPRODUCT(Matrix.GetColumnFrom2Darray(dvinv_resid, 0), Matrix.GetColumnFrom2Darray(dvinv_resid, 0)))
         Next
 
         If pScale = 0 Then pScale = EstimateScale()
-        AppGlobals.BSlogg.Log($"bmatfull={Matrix.array2str(bmat)}")
+        AppInfrastructure.CoreServices.Log($"bmatfull={Matrix.array2str(bmat)}")
         ReDim pCovNaive(p - 1, p - 1), pCovRobust(p - 1, p - 1)
         'compute matrix inversion
 
@@ -1330,7 +1319,7 @@ Public Class GEE
     Function EstimateScale(Optional bForce As Boolean = False) As Double
         'The scale parameter is estimated as the sum of squared Pearson residuals divided by
 
-        AppGlobals.BSlogg.Log("proc started: gee.estimateScale")
+        AppInfrastructure.CoreServices.Log("proc started: gee.estimateScale")
         If bForce Then GoTo 1
 
         If pScaleType = 0 And (TypeOf pFamily Is regression.Binomial Or TypeOf pFamily Is regression.Poisson Or TypeOf pFamily Is regression.NegativeBinomial) Then
@@ -1383,7 +1372,7 @@ Public Class GEE
         'update and score is the output
 
         Dim strTmpTrace As String, bmat(p - 1, p - 1) As Double, score_(p - 1, 0) As Double
-        AppGlobals.BSlogg.Log("proc started: gee.updateMeanParams")
+        AppInfrastructure.CoreServices.Log("proc started: gee.updateMeanParams")
         For i = 0 To p - 1 : score_(i, 0) = 0 : Next
 
         For i = 0 To pNoGroup - 1
@@ -1404,14 +1393,14 @@ Public Class GEE
             Dim vinv_d(,) As Double = Nothing, vinv_resid() As Double = Nothing
             strTmpTrace = String.Empty
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, wdmat, wresid, vinv_d, vinv_resid, strTmpTrace) ' vinv_d, vinv_resid - are results
-            If strTmpTrace <> String.Empty Then AppGlobals.BSlogg.Log($"strTmpTrace= {strTmpTrace}")
+            If strTmpTrace <> String.Empty Then AppInfrastructure.CoreServices.Log($"strTmpTrace= {strTmpTrace}")
 
             bmat = Matrix.M_ADD(bmat, Matrix.MatrixMult(Matrix.trans(dmat), vinv_d))
             score_ = Matrix.M_ADD(score_, Matrix.MatrixMult(Matrix.trans(dmat), vinv_resid))
         Next
 
         score = Matrix.GetColumnFrom2Darray(score_, 0)
-        AppGlobals.BSlogg.Log($"bmatfull= {Matrix.array2str(bmat)} scorefull={Matrix.array2str(score)}")
+        AppInfrastructure.CoreServices.Log($"bmatfull= {Matrix.array2str(bmat)} scorefull={Matrix.array2str(score)}")
 
 
         Dim tmp = Matrix.MatInv(bmat, "CHOL",, bPseudInverse:=True)
@@ -1471,7 +1460,7 @@ Public Class GEE
     Private Sub UpdateCachedMeans(mean_params() As Double)
         'pCachedMeans should always contain the most recent calculation of the group-wise mean vectors. This sub should be
         'called every time the regression parameters are changed, to keep the cached means up to date.
-        AppGlobals.BSlogg.Log("proc started: gee.updateCachedMeans")
+        AppInfrastructure.CoreServices.Log("proc started: gee.updateCachedMeans")
 
         Dim bFirstCall As Boolean = If(pCachedMeans.Count = 0, True, False)
 
@@ -1506,7 +1495,7 @@ Public Class GEE
     Private Function GetStartParams() As Double()
         'estimate starting parameters using the GLM fit
 
-        AppGlobals.BSlogg.Log("proc started: gee.getStartParams")
+        AppInfrastructure.CoreServices.Log("proc started: gee.getStartParams")
 
         Dim glm As New GLM(pFamily, pLink)
         With glm
@@ -1521,7 +1510,7 @@ Public Class GEE
             .Fit(1)
             pIndependenceNaiveVarCovar = .VarCovar
         End With
-        AppGlobals.BSlogg.Log($"start params: {Matrix.array2str(glm.results.Coeffs_est)}")
+        AppInfrastructure.CoreServices.Log($"start params: {Matrix.array2str(glm.results.Coeffs_est)}")
 
         Return glm.results.Coeffs_est
     End Function
@@ -1549,7 +1538,7 @@ Public Class GEE
         'Returns quasi-information criteria and quasi-likelihood values.
         'W. Pan (2001).  Akaike's information criterion in generalized estimating equations.  Biometrics (57) 1.
         Dim Trace As Double
-        AppGlobals.BSlogg.Log("proc started: gee.estimateQIC")
+        AppInfrastructure.CoreServices.Log("proc started: gee.estimateQIC")
 
         For i = 0 To pNoGroup - 1
             Dim expval = pCachedMeans(i).Item1
@@ -1588,7 +1577,7 @@ Public Class GEE
     ''' </remarks>
     Private Sub PreProcessData()
 
-        AppGlobals.BSlogg.Log("proc started: Extracted Information:")
+        AppInfrastructure.CoreServices.Log("proc started: Extracted Information:")
         Dim uniqueTimesColl = New Dictionary(Of Double, String)
         'data should be already sorted by repeats (clusetr/subject id) and within cluster order variable (time)
         Dim tmpGrp As Dictionary(Of Object, Integer) = Me.pRepeats.GroupBy(Function(x) x).
@@ -1658,8 +1647,8 @@ Public Class GEE
             pUniqueTimesDict.Add(UniqueTimes(i), i)
         Next
 
-        AppGlobals.BSlogg.Log($"pGroupLabels={Matrix.array2str(pGroupLabels)}")
-        AppGlobals.BSlogg.Log($"# of unique times: {uniqueTimesColl.Count}; UniqueTimes={Matrix.array2str(UniqueTimes)}")
+        AppInfrastructure.CoreServices.Log($"pGroupLabels={Matrix.array2str(pGroupLabels)}")
+        AppInfrastructure.CoreServices.Log($"# of unique times: {uniqueTimesColl.Count}; UniqueTimes={Matrix.array2str(UniqueTimes)}")
     End Sub
 
 

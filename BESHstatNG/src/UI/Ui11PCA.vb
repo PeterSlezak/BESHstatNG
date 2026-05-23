@@ -167,7 +167,7 @@ Public Class Ui11PCA
                 Me.RunDiscriminantAnalysis(MyData)
             End If
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -204,12 +204,12 @@ Public Class Ui11PCA
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
         Dim wsData As Worksheet = CType(wb.Worksheets(1), Worksheet)
         wsData.Name = "Data"
-        Dim wrData As New WriteResults With {.wb = wb, .ws = wsData}
+        Dim wrData As New ExcelDnaResultWriter With {.wb = wb, .ws = wsData}
         wrData.write(Me.BuildDiscriminantInputDataTable(MyData, groupLabels, rowLabels))
 
         Dim wsResults As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
         wsResults.Name = "Discriminant results"
-        Dim wrSummary As New WriteResults With {.wb = wb, .ws = wsResults}
+        Dim wrSummary As New ExcelDnaResultWriter With {.wb = wb, .ws = wsResults}
         Dim rr = New ProcessListofResultTables(fitDA.wrapResults())
         rr.writeToSheet(wrSummary, True)
     End Sub
@@ -235,18 +235,18 @@ Public Class Ui11PCA
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
         Dim wsData As Worksheet = CType(wb.Worksheets(1), Worksheet)
         wsData.Name = "Data"
-        Dim wrData As New WriteResults With {.wb = wb, .ws = wsData}
+        Dim wrData As New ExcelDnaResultWriter With {.wb = wb, .ws = wsData}
         wrData.write(Me.BuildKMeansInputDataTable(MyData, Nothing))
 
         Dim wsResults As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
         wsResults.Name = "Factor analysis results"
-        Dim wrSummary As New WriteResults With {.wb = wb, .ws = wsResults}
+        Dim wrSummary As New ExcelDnaResultWriter With {.wb = wb, .ws = wsResults}
         Dim rr = New ProcessListofResultTables(fitFA.wrapResults())
         rr.writeToSheet(wrSummary, True)
 
-        fitFA.screePlot()
-        fitFA.loadingPlot2D()
-        fitFA.loadingPlot3D()
+        graphics.FactorAnalysisPlotExcel.ScreePlot(fitFA)
+        graphics.FactorAnalysisPlotExcel.LoadingPlot2D(fitFA)
+        graphics.FactorAnalysisPlotExcel.LoadingPlot3D(fitFA)
     End Sub
 
     Private Sub RunHierarchicalClustering(MyData As DataObj)
@@ -267,13 +267,13 @@ Public Class Ui11PCA
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
         Dim wsData As Worksheet = CType(wb.Worksheets(1), Worksheet)
         wsData.Name = "Data"
-        Dim wrData As New WriteResults()
+        Dim wrData As New ExcelDnaResultWriter()
         wrData.wb = wb
         wrData.ws = wsData
         wrData.write(Me.BuildKMeansInputDataTable(MyData, rowLabels))
 
         Dim res = fitHierarchical.wrapResults()
-        Dim wrSummary As New WriteResults()
+        Dim wrSummary As New ExcelDnaResultWriter()
         Dim wsSummary As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
         wsSummary.Name = "Hierarchical results"
         wrSummary.wb = wb
@@ -284,7 +284,7 @@ Public Class Ui11PCA
         If Me.grpHierarchicalDendrogram IsNot Nothing AndAlso Me.ckHierarchicalCreateDendrogram.Checked Then
             Dim wsDendrogram As Worksheet = CType(wb.Worksheets.Add(After:=wsSummary), Worksheet)
             wsDendrogram.Name = "Dendrogram"
-            fitHierarchical.Result.CreateDendrogramChart(ws:=wsDendrogram,
+            graphics.ClusterAnalysisPlotExcel.CreateDendrogramChart(fitHierarchical.Result, ws:=wsDendrogram,
                                              topLeftCellAddress:="A1",
                                              chartWidth:=680.0,
                                              chartHeight:=420.0,
@@ -330,13 +330,13 @@ Public Class Ui11PCA
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
         Dim wsData As Worksheet = CType(wb.Worksheets(1), Worksheet)
         wsData.Name = "Data"
-        Dim wrData As New WriteResults()
+        Dim wrData As New ExcelDnaResultWriter()
         wrData.wb = wb
         wrData.ws = wsData
         wrData.write(Me.BuildKMeansInputDataTable(MyData, rowLabels))
 
         Dim res = fitKmeans.wrapResults()
-        Dim wrSummary As New WriteResults()
+        Dim wrSummary As New ExcelDnaResultWriter()
         Dim wsSummary As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
         wsSummary.Name = "KMeans results"
         wrSummary.wb = wb
@@ -360,7 +360,7 @@ Public Class Ui11PCA
         mca.Calculate()
 
         'Dump results
-        Dim WriteRes As WriteResults = New WriteResults
+        Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -383,7 +383,7 @@ Public Class Ui11PCA
 
         'MCA numerical results
         Dim res = mca.wrapResults()
-        WriteRes = New WriteResults
+        WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "MCA results"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -391,9 +391,9 @@ Public Class Ui11PCA
         rr.writeToSheet(WriteRes, True)
 
         'Add figures
-        mca.plot()
-        mca.contribPlot(0, False)
-        mca.contribPlot(1, False)
+        graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(mca)
+        graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(mca, 0, False)
+        graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(mca, 1, False)
     End Sub
 
     Private Sub RunPCA(MyData As DataObj)
@@ -427,7 +427,7 @@ Public Class Ui11PCA
         End With
 
         'Dump results
-        Dim WriteRes As WriteResults = New WriteResults
+        Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -451,7 +451,7 @@ Public Class Ui11PCA
 
         'PCA numerical results
         Dim res = objPCA.wrapResults()
-        WriteRes = New WriteResults
+        WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "PCA results"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -459,14 +459,14 @@ Public Class Ui11PCA
         rr.writeToSheet(WriteRes, True)
 
         'Figures
-        objPCA.screePlot()
-        objPCA.scorePlot2D()
-        objPCA.loadingPlot2D()
-        objPCA.biplot(0.0)
-        objPCA.biplot(0.5)
-        objPCA.biplot(1.0)
-        objPCA.scorePlot3D()
-        objPCA.loadingPlot3D()
+        graphics.PcaPlotExcel.ScreePlot(objPCA)
+        graphics.PcaPlotExcel.ScorePlot2D(objPCA)
+        graphics.PcaPlotExcel.LoadingPlot2D(objPCA)
+        graphics.PcaPlotExcel.Biplot(objPCA, 0.0)
+        graphics.PcaPlotExcel.Biplot(objPCA, 0.5)
+        graphics.PcaPlotExcel.Biplot(objPCA, 1.0)
+        graphics.PcaPlotExcel.ScorePlot3D(objPCA)
+        graphics.PcaPlotExcel.LoadingPlot3D(objPCA)
 
     End Sub
 
@@ -566,9 +566,9 @@ Public Class Ui11PCA
         End If
 
         If Me.Text = "Multiple Correspondence Analysis" Then
-            MyData.DataImport(ref, False, 20000)
+            ExcelDnaDataImporter.ImportInto(MyData, ref, False, 20000)
         Else
-            MyData.DataImport(ref)
+            ExcelDnaDataImporter.ImportInto(MyData, ref)
         End If
 
         Return MyData
@@ -611,7 +611,7 @@ Public Class Ui11PCA
         Dim MyData As New DataObj
         MyData.bAllowMissing = True
         Dim skipRows As Integer = If(Me.ckFirstRow.Checked, 1, 0)
-        MyData.DataImport(ref, False, 0, skipRows)
+        ExcelDnaDataImporter.ImportInto(MyData, ref, False, 0, skipRows)
 
         If MyData.varNames Is Nothing OrElse MyData.varNames.Length <> importKeys.Count Then
             Throw New ArgumentException("One or more selected variables contain no usable data after import. Please review the grouping variable and predictors.")
@@ -818,7 +818,7 @@ Public Class Ui11PCA
         Me.pWorkbook.Activate()
 
         Dim centersData As New DataObj
-        centersData.DataImport(refText, bStartRow:=True)
+        ExcelDnaDataImporter.ImportInto(centersData, refText, bStartRow:=True)
 
         If centersData.bZeroValid Then
             Throw New ArgumentException("The user-specified starting-centers range does not contain any valid numeric observations.")

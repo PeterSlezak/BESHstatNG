@@ -64,13 +64,13 @@ Namespace regression
     ''' <item><description>All matrix solves use the existing project Cholesky helpers through <c>Matrix.vb</c>.</description></item>
     ''' <item><description>Invalid covariance proposals are converted to a large penalty during optimization.</description></item>
     ''' <item><description>Fixed effects are profiled out at every covariance proposal.</description></item>
-    ''' <item><description>Logging is emitted both to <see cref="AppGlobals.BSlogg"/> and to an in-memory trace string for future UI exposure.</description></item>
+    ''' <item><description>Logging is emitted both to <see cref="CoreServices.logger"/> and to an in-memory trace string for future UI exposure.</description></item>
     ''' <item><description>Satterthwaite and Kenward-Roger inference are not implemented here; the result currently reports large-sample Wald z diagnostics.</description></item>
     ''' </list>
     ''' </remarks>
     Partial Public Class MixedModelEngine
 
-        Private Const TwoPi As Double = 6.2831853071795864769R
+        Private Const TwoPi As Double = 6.2831853071795862R
         Private Const PenaltyObjective As Double = 1.0E+100
 
         Private ReadOnly pRequest As MixedModelFitRequest
@@ -1765,22 +1765,22 @@ Namespace regression
 
         Private Sub AppendInfo(message As String)
             AppendLogCore("INFO", message)
-            AppGlobals.BSlogg.Info(message)
+            CoreServices.Logger.Info(message)
         End Sub
 
         Private Sub AppendWarn(message As String)
             AppendLogCore("WARN", message)
-            AppGlobals.BSlogg.Warn(message)
+            CoreServices.Logger.Warn(message)
         End Sub
 
         Private Sub AppendDebug(message As String)
             AppendLogCore("DEBUG", message)
-            AppGlobals.BSlogg.Debug(message)
+            CoreServices.Logger.Debug(message)
         End Sub
 
         Private Sub AppendTrace(message As String)
             AppendLogCore("TRACE", message)
-            AppGlobals.BSlogg.Trace(message)
+            CoreServices.Logger.Trace(message)
         End Sub
 
         Private Sub AppendLogCore(level As String, message As String)

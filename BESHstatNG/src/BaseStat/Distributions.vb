@@ -20,7 +20,7 @@ Namespace distributions
         ''' </returns>
         Public Function ZCritTwoSided(Optional alpha As Double = 0.05) As Double
             If alpha <= 0.0 OrElse alpha >= 1.0 Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(alpha), "alpha must be in (0,1)."))
+                Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(alpha), "alpha must be in (0,1)."))
             End If
             Return NormSInv(1.0 - alpha / 2.0)
         End Function
@@ -412,7 +412,7 @@ Namespace distributions
         ''' <para>
         ''' Input validation:
         ''' - If <paramref name="p"/> ≤ 0 or ≥ 1, an <see cref="ArgumentOutOfRangeException"/> is thrown
-        '''   (via <c>AppGlobals.BSerr.LogAndThrow</c>).
+        '''   (via <c>Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow</c>).
         ''' </para>
         ''' <para>
         ''' Accuracy: Typically near IEEE double precision for most inputs after refinement; practical agreement
@@ -433,7 +433,7 @@ Namespace distributions
         ''' </example>
         ''' </remarks>
         Public Function NormSInv(p As Double) As Double
-            If p <= 0.0 OrElse p >= 1.0 Then AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException("p must be in (0,1)"))
+            If p <= 0.0 OrElse p >= 1.0 Then Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException("p must be in (0,1)"))
 
             ' Coefficients for AS241
             Dim a() As Double = {

@@ -140,8 +140,8 @@ Public Class UibyID
 
         If Me.optByColumn.Checked Then
             'Group by Column
-            columData.DataImport(prepareRef2D(Me.RefEdit1.Address), True)
-            columData2.DataImport(prepareRef2D(Me.RefEdit2.Address), True)
+            ExcelDnaDataImporter.ImportInto(columData, prepareRef2D(Me.RefEdit1.Address), True)
+            ExcelDnaDataImporter.ImportInto(columData2, prepareRef2D(Me.RefEdit2.Address), True)
 
             out.X1 = Matrix.GetColumnFrom2Darray(columData.DataDbl, 0)
             out.X2 = Matrix.GetColumnFrom2Darray(columData2.DataDbl, 0)
@@ -150,7 +150,7 @@ Public Class UibyID
         Else
             'Group by identifier. We expect only two groups for Mann-Whitney test
             If WorksheetNameFromRefAdress(Me.RefEdit1.Address, True) <> WorksheetNameFromRefAdress(Me.RefEdit2.Address, True) Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input reference range adresses are from different sheets. Input can be only from one sheet."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Input reference range adresses are from different sheets. Input can be only from one sheet."))
             End If
 
             refId = prepareRef2D(Me.RefEdit1.Address)
@@ -158,7 +158,7 @@ Public Class UibyID
             'join reference address into one (remove sheet name from the second and concatenate).
             'Data can be only form one sheet because of the above check
             refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True) & "!", String.Empty) 'Remove "Sheet1!" from string
-            columData.DataImport(refFinal, True, 0)
+            ExcelDnaDataImporter.ImportInto(columData, refFinal, True, 0)
 
             'get unique group IDs
 
@@ -195,7 +195,7 @@ Public Class UibyID
                 Dim ref1 As String = WorksheetNameFromRefAdress(ref, True) & "!" & colList(i)
                 'Debug.Print(ref1)
                 Dim columData = New DataObj
-                columData.DataImport(ref1, True)
+                ExcelDnaDataImporter.ImportInto(columData, ref1, True)
                 If columData.FinalData IsNot Nothing Then 'save data
                     outData(ii) = Matrix.GetColumnFrom2Darray(columData.DataDbl, 0)
                     groupIDs(ii) = columData.varNames(0)
@@ -224,7 +224,7 @@ Public Class UibyID
             'join reference address into one (remove sheet name from the second and concatenate).
             'Data can be only form one sheet because of the above check
             refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True) & "!", String.Empty) 'Remove "Sheet1!" from string
-            byIdData.DataImport(refFinal, True, 0)
+            ExcelDnaDataImporter.ImportInto(byIdData, refFinal, True, 0)
 
             'Debug.Print(array2str(byIdData.FinalData))
             out.X = byIdData.DataByID2ByColumn()
@@ -297,7 +297,7 @@ Public Class UibyID
                 End If
             End If
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -586,7 +586,7 @@ Public Class UibyID
                 Dim sw_res = assumptions.ShapiroWilk(data.X(i), strErr)
                 sw_r = {{""}, {sw_res.TestStatistics1}, {sw_res.Pvalue}}
             Else
-                AppGlobals.BSlogg.Log("N not in range between 3 and 5000")
+                AppInfrastructure.CoreServices.Log("N not in range between 3 and 5000")
                 sw_r = {{"NA n<4 or n>5000"}, {"NA n<4 or n>5000"}, {"NA n<4 or n>5000"}}
             End If
 
@@ -595,7 +595,7 @@ Public Class UibyID
                 Dim da_res = assumptions.DAgostino(data.X(i), strErr)
                 da_r = {{""}, {da_res.TestStatistics1}, {da_res.Pvalue}}
             Else
-                AppGlobals.BSlogg.Log("N not >= 9")
+                AppInfrastructure.CoreServices.Log("N not >= 9")
                 da_r = {{"NA n<9"}, {"NA n<9"}, {"NA n<9"}}
             End If
 
@@ -603,7 +603,7 @@ Public Class UibyID
                 Dim ad_res = assumptions.AndersonDarlingTEST(data.X(i))
                 ad_r = {{""}, {ad_res.TestStatistics1}, {ad_res.Pvalue}}
             Else
-                AppGlobals.BSlogg.Log("N not > 1")
+                AppInfrastructure.CoreServices.Log("N not > 1")
                 ad_r = {{"NA"}, {"NA"}, {"NA"}}
             End If
 
@@ -970,7 +970,7 @@ Public Class UibyID
 
         'Compute test
         Dim MW As New nonparametric.MannWhitney(data.X, data.varNames(0), data.varNames(1))
-        MW.Compute(Me.progressBarExactCalc)
+        MW.Compute(New AppInfrastructure.WinFormsProgressReporter(Me.progressBarExactCalc))
         If Me.ckEstimateOfShift.Checked Then MW.ComputeShift(alphaValue)
         Dim res = MW.wrapResults()
 
@@ -1004,8 +1004,8 @@ Public Class UibyID
         End If
     End Sub
 
-    Private Function GetResultWriter() As WriteResults
-        Dim WriteRes = New WriteResults, rRange As Range
+    Private Function GetResultWriter() As ExcelDnaResultWriter
+        Dim WriteRes = New ExcelDnaResultWriter, rRange As Range
         If Me.optWorkbook.Checked Then
             WriteRes.wb = AppGlobals.app.Workbooks.Add()
             WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
@@ -1142,10 +1142,10 @@ Public Class UibyID
     Private Function GetUnpairedTtestMargin() As Double
         Dim marginValue As Double
         If Not Double.TryParse(Me.tbMargin_UTT.Text, Globalization.NumberStyles.Float, Globalization.CultureInfo.InvariantCulture, marginValue) Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("A numeric positive margin is required for noninferiority / equivalence."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("A numeric positive margin is required for noninferiority / equivalence."))
         End If
         If marginValue <= 0 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Margin must be greater than zero."))
+            CoreServices.Errors.LogAndThrow(New ArgumentException("Margin must be greater than zero."))
         End If
         Return marginValue
     End Function

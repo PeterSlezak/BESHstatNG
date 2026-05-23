@@ -89,15 +89,15 @@ Namespace AppInfrastructure
                     Return settings
                 End Using
             Catch ex As Exception
-                AppGlobals.BSlogg.Warn($"Failed to load settings file '{_settingsPath}'. Defaults will be recreated. {ex.Message}")
+                Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Warn($"Failed to load settings file '{_settingsPath}'. Defaults will be recreated. {ex.Message}")
 
                 Dim defaults = CreateDefault()
 
                 Try
                     Save(defaults)
-                    AppGlobals.BSlogg.Info($"Default settings file recreated at '{_settingsPath}'.")
+                    Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info($"Default settings file recreated at '{_settingsPath}'.")
                 Catch saveEx As Exception
-                    AppGlobals.BSlogg.Error(saveEx, $"Failed to recreate default settings file '{_settingsPath}'.")
+                    Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Error(saveEx, $"Failed to recreate default settings file '{_settingsPath}'.")
                 End Try
 
                 Return defaults

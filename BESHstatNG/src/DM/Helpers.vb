@@ -18,9 +18,7 @@ Public Module Helpers
     ''' Returning the concrete seed value allows the bootstrap run to be reproduced exactly and reported back in the result output.
     ''' </remarks>
     Friend Function ResolveRandomSeed(Optional requestedSeed As Integer = Integer.MinValue) As Integer
-        If requestedSeed <> Integer.MinValue Then Return requestedSeed
-        If AppGlobals.DefaultRandomSeed <> Integer.MinValue Then Return AppGlobals.DefaultRandomSeed
-        Return Environment.TickCount
+        Return CoreServices.AnalysisDefaults.ResolveRandomSeed(requestedSeed, generateWhenMissing:=True)
     End Function
 
     ''' <summary>
@@ -78,7 +76,7 @@ Public Module Helpers
         ' Validate all requested row indices
         For Each key In rIds.Keys
             If key < 0 OrElse key > rowCount Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
             End If
         Next
 
@@ -198,7 +196,7 @@ Public Module Helpers
         ' Validate all requested indices
         For Each key In rIds.Keys
             If key < 0 OrElse key > rowCount Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
+                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
             End If
         Next
 

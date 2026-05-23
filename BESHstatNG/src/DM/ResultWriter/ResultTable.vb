@@ -1,8 +1,6 @@
 ﻿Option Explicit On
+Option Strict On
 
-Imports System.Xml
-Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>
 ''' A flexible table‑construction utility supporting multi‑row top headers,
@@ -215,7 +213,7 @@ Public Class ResultTable
     ''' </param>
     ''' <remarks>
     ''' <para>
-    ''' The value is one-based because <see cref="WriteResults.format"/> later adds the
+    ''' The value is one-based because <see cref="ExcelDnaResultWriter"/> later adds the
     ''' number of left-header columns and uses Excel's one-based range indexing.
     ''' </para>
     ''' <para>
@@ -269,7 +267,7 @@ Public Class ResultTable
                 Me.HeaderTop.Add(tmp)
 
             ElseIf Me.HeaderTop.Last.Length < header.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ArgumentException("Input Header has too many elements."))
+                Throw New ArgumentException("Input Header has too many elements.")
             End If
         End If
     End Sub
@@ -309,7 +307,7 @@ Public Class ResultTable
                 Me.HeaderLeft.Add(tmp)
 
             ElseIf Me.HeaderLeft.Last.Length < header.Length Then
-                AppGlobals.BSerr.LogAndThrow(New ApplicationException("Input Header has too many elements."))
+                Throw New ApplicationException("Input Header has too many elements.")
             End If
         End If
     End Sub
@@ -405,7 +403,7 @@ Public Class ResultTable
             For i = 0 To Me.Footnotes.Count - 1
                 fnotes(i, 0) = Me.Footnotes(i)
             Next
-            Out = Matrix.HorizontalStackArrays(Out, fnotes, True)
+            Out = StackRows(Out, fnotes, True)
         End If
 
         If Me.Titles.Count > 0 Then
@@ -413,353 +411,73 @@ Public Class ResultTable
             For i = 0 To Me.Titles.Count - 1
                 titls(i, 0) = Me.Titles(i)
             Next
-            Out = Matrix.HorizontalStackArrays(titls, Out, True)
+            Out = StackRows(titls, Out, True)
         End If
 
         Return Out
     End Function
 
-End Class
-
-
-''' <summary>
-''' Utility class for writing arrays, matrices, and <c>ResultTable</c> objects
-''' into an Excel worksheet while maintaining row/column pointers and applying
-''' optional statistical‑table formatting.
-''' </summary>
-''' <remarks>
-''' <para>
-''' The class maintains internal write pointers (<c>lastRowID</c>, <c>lastColumID</c>)
-''' that determine where the next write operation begins. These pointers can be
-''' set or shifted manually, and are automatically advanced after each write.
-''' </para>
-''' 
-''' <para><b>Supported Data Types</b></para>
-''' <list type="bullet">
-'''   <item><description>1D arrays (horizontal or vertical)</description></item>
-'''   <item><description>2D arrays</description></item>
-'''   <item><description><c>ResultTable</c> objects (formatted output)</description></item>
-''' </list>
-''' 
-''' <para><b>Formatting</b></para>
-''' <para>
-''' When writing a <c>ResultTable</c>, the class applies header, footer, title,
-''' and p‑value formatting using the private <c>format()</c> method.
-''' </para>
-''' 
-''' <para><b>Pointer Logic</b></para>
-''' <para>
-''' After writing a block of size (rows × columns), the row pointer advances by
-''' <c>rows + 1</c>, allowing sequential table output without overlap.
-''' </para>
-''' </remarks>
-
-Public Class WriteResults
-    Public wb As Workbook
-    Public ws As Worksheet
-
-    'these should be set before .wrtie call
-    Private lastRowID As Integer
-    Private lastColumID As Integer
-
     ''' <summary>
-    ''' Returns the current row pointer indicating where the next write will begin.
+    ''' Vertically stacks two two-dimensional Object arrays, padding shorter rows with blanks when requested.
     ''' </summary>
-    Public ReadOnly Property RowID() As Integer
-        Get
-            Return lastRowID
-        End Get
-    End Property
+    ''' <remarks>
+    ''' This intentionally duplicates the small row-stacking behavior needed by ResultTable so the
+    ''' result DTO layer does not depend on the broader Matrix module. The behavior matches the
+    ''' former <c>Matrix.HorizontalStackArrays(..., bAppendBlanks:=True)</c> calls used for
+    ''' adding title and footnote rows.
+    ''' </remarks>
+    Private Shared Function StackRows(a1(,) As Object, a2(,) As Object, Optional appendBlanks As Boolean = False) As Object(,)
+        If a1 Is Nothing Then Throw New ArgumentNullException(NameOf(a1))
+        If a2 Is Nothing Then Throw New ArgumentNullException(NameOf(a2))
 
-    ''' <summary>
-    ''' Returns the current column pointer indicating where the next write will begin.
-    ''' </summary>
-    Public ReadOnly Property ColID() As Integer
-        Get
-            Return lastColumID
-        End Get
-    End Property
+        Dim rows1 As Integer = a1.GetUpperBound(0) + 1
+        Dim rows2 As Integer = a2.GetUpperBound(0) + 1
+        Dim cols1 As Integer = a1.GetUpperBound(1) + 1
+        Dim cols2 As Integer = a2.GetUpperBound(1) + 1
 
-    ''' <summary>
-    ''' Sets the internal row pointer to a specific row index.
-    ''' </summary>
-    ''' <param name="r">The row number to set (default = 1).</param>
-    Sub setRowPointer(Optional r As Integer = 1)
-        Me.lastRowID = r
-    End Sub
+        If cols1 <> cols2 AndAlso Not appendBlanks Then
+            Throw New ArgumentException("Invalid input array dimensions")
+        End If
 
-    Private Shared Function NormalizeForExcel(value As Object) As Object
-        If value Is Nothing Then Return Nothing
-        If Not IsArray(value) Then Return NormalizeScalarForExcel(value)
+        Dim out(rows1 + rows2 - 1, Math.Max(cols1, cols2) - 1) As Object
 
-        Dim arr As Array = DirectCast(value, Array)
-
-        If arr.Rank = 1 Then
-            Dim out(arr.GetUpperBound(0) - arr.GetLowerBound(0)) As Object
-            For ii As Integer = arr.GetLowerBound(0) To arr.GetUpperBound(0)
-                out(ii - arr.GetLowerBound(0)) = NormalizeScalarForExcel(arr.GetValue(ii))
+        For i As Integer = 0 To rows1 - 1
+            For j As Integer = 0 To cols1 - 1
+                out(i, j) = a1(i, j)
             Next
-            Return out
-        ElseIf arr.Rank = 2 Then
-            Dim out(arr.GetUpperBound(0) - arr.GetLowerBound(0), arr.GetUpperBound(1) - arr.GetLowerBound(1)) As Object
-            For ii As Integer = arr.GetLowerBound(0) To arr.GetUpperBound(0)
-                For jj As Integer = arr.GetLowerBound(1) To arr.GetUpperBound(1)
-                    out(ii - arr.GetLowerBound(0), jj - arr.GetLowerBound(1)) = NormalizeScalarForExcel(arr.GetValue(ii, jj))
-                Next
+        Next
+
+        For i As Integer = 0 To rows2 - 1
+            For j As Integer = 0 To cols2 - 1
+                out(rows1 + i, j) = a2(i, j)
             Next
-            Return out
-        End If
+        Next
 
-        Return value
-    End Function
-
-    Private Shared Function NormalizeScalarForExcel(value As Object) As Object
-        If value Is Nothing Then Return Nothing
-
-        If TypeOf value Is Double Then
-            Dim d As Double = CDbl(value)
-
-            If Double.IsNaN(d) Then Return "#N/A"
-            If Double.IsPositiveInfinity(d) Then Return "#Pinf"
-            If Double.IsNegativeInfinity(d) Then Return "#Ninf"
-
-            Return d
-        End If
-
-        If TypeOf value Is Single Then
-            Dim d As Double = CDbl(value)
-
-            If Double.IsNaN(d) Then Return "#N/A"
-            If Double.IsPositiveInfinity(d) Then Return "#Pinf"
-            If Double.IsNegativeInfinity(d) Then Return "#Ninf"
-
-            Return value
-        End If
-
-        Return value
+        Return out
     End Function
 
     ''' <summary>
-    ''' Shifts the internal row pointer downward by a specified number of rows.
+    ''' Creates a host-neutral representation of this table that can be consumed by
+    ''' Excel-DNA, Office.js, Google Sheets, or any future writer without needing
+    ''' access to the mutable <c>ResultTable</c> internals.
     ''' </summary>
-    ''' <param name="by">Number of rows to shift (default = 1).</param>
-    Sub shiftRowPointer(Optional by As Integer = 1)
-        Me.lastRowID += by
-    End Sub
+    ''' <returns>A portable output model containing values and formatting metadata.</returns>
+    Public Function ToOutputModel() As ResultTableOutputModel
+        Return New ResultTableOutputModel(
+            Me.returnSelf(),
+            Me.HeadersTopCount,
+            Me.HeadersLeftCount,
+            Me.FootersCount,
+            Me.PvalColumns,
+            Me.TitlesCount)
+    End Function
 
-    ''' <summary>
-    ''' Sets the internal column pointer to a specific column index.
-    ''' </summary>
-    ''' <param name="c">The column number to set (default = 1).</param>
-    Sub setColumnPointer(Optional c As Integer = 1)
-        Me.lastColumID = c
-    End Sub
-
-    ''' <summary>
-    ''' Shifts the internal column pointer to the right by a specified number of columns.
-    ''' </summary>
-    ''' <param name="by">Number of columns to shift (default = 1).</param>
-    Sub shiftColumnPointer(Optional by As Integer = 1)
-        Me.lastColumID += by
-    End Sub
-
-    ''' <summary>
-    ''' Initializes a new <c>WriteResults</c> instance with optional starting
-    ''' row and column pointers.
-    ''' </summary>
-    ''' <param name="row">Initial row pointer (default = 1).</param>
-    ''' <param name="col">Initial column pointer (default = 1).</param>
-    Sub New(Optional row As Integer = 1, Optional col As Integer = 1)
-        Me.lastRowID = row
-        Me.lastColumID = col
-    End Sub
-
-    ''' <summary>
-    ''' Writes data into the worksheet at the current pointer location. Supports
-    ''' 1D arrays, 2D arrays, and <c>ResultTable</c> objects. Automatically advances
-    ''' the row pointer after writing.
-    ''' </summary>
-    ''' <param name="ds">
-    ''' The data source to write. May be a 1D array, 2D array, or a
-    ''' <c>ResultTable</c> instance.
-    ''' </param>
-    ''' <param name="bTall">
-    ''' If True, 1D arrays are written vertically; otherwise horizontally.
-    ''' </param>
-    ''' <remarks>
-    ''' <para>
-    ''' If <c>ds</c> is a <c>ResultTable</c>, the method extracts its assembled
-    ''' matrix via <c>returnSelf()</c> and applies formatting using <c>format()</c>.
-    ''' </para>
-    ''' <para>
-    ''' After writing, <c>lastRowID</c> is incremented by the number of rows written
-    ''' plus one blank row.
-    ''' </para>
-    ''' <para>
-    ''' Before writing to Excel, numeric non-finite values are normalized for safe display.
-    ''' <c>NaN</c> values are written as <c>#N/A</c>, positive infinity as <c>#Pinf</c>,
-    ''' and negative infinity as <c>#Ninf</c>.
-    ''' </para>
-    ''' </remarks>
-    Sub write(ds As Object, Optional bTall As Boolean = False)
-        'ds - data to present
-        Dim rowIncr As Integer, colIncr As Integer, _ds As Object, bFormat As Boolean = False
-
-        If ds.GetType() Is GetType(ResultTable) Then
-            _ds = ds.returnSelf()
-            bFormat = True 'Header footer formating is possible now
-        Else
-            _ds = ds
-        End If
-
-        _ds = NormalizeForExcel(_ds)
-
-        If IsArray(_ds) Then
-            If _ds.Rank = 1 Then
-                If bTall Then
-                    colIncr = 0
-                    rowIncr = ds.Length - 1
-                Else
-                    colIncr = ds.Length - 1
-                    rowIncr = 0
-                End If
-            ElseIf _ds.Rank = 2 Then
-                colIncr = UBound(_ds, 2)
-                rowIncr = UBound(_ds, 1)
-            End If
-        End If
-        If bTall Then
-            Me.ws.Range(ws.Cells(Me.lastRowID, Me.lastColumID), ws.Cells(Me.lastRowID + rowIncr, Me.lastColumID + colIncr)).Value = AppGlobals.app.WorksheetFunction.Transpose(_ds)
-        Else
-            Dim rng = Me.ws.Range(ws.Cells(Me.lastRowID, Me.lastColumID), ws.Cells(Me.lastRowID + rowIncr, Me.lastColumID + colIncr))
-            rng.Value = _ds
-            If bFormat Then Me.format(rng, ds.HeadersTopCount, ds.HeadersLeftCount, ds.FootersCount, ds.PvalColumns, ds.TitlesCount)
-        End If
-        Me.lastRowID += rowIncr + 1
-    End Sub
-
-    ''' <summary>
-    ''' Applies statistical‑table formatting to a written range, including borders,
-    ''' header shading, bolding, footer styling, title styling, and p‑value highlighting.
-    ''' </summary>
-    ''' <param name="rng">The Excel range containing the written table.</param>
-    ''' <param name="hTop">Number of top‑header rows.</param>
-    ''' <param name="hLeft">Number of left‑header columns.</param>
-    ''' <param name="foots">Number of footer rows.</param>
-    ''' <param name="Pvals">List of column indices containing p‑values.</param>
-    ''' <param name="TitlesCount">Number of title rows.</param>
-    ''' <remarks>
-    ''' <para>
-    ''' This method is intended only for formatting tables produced by
-    ''' <c>ResultTable</c>. It is not applied to raw arrays.
-    ''' </para>
-    ''' <para>
-    ''' Features include:
-    ''' </para>
-    ''' <list type="bullet">
-    '''   <item><description>Border cleanup and reconstruction</description></item>
-    '''   <item><description>Shaded and bold top headers</description></item>
-    '''   <item><description>Bold left headers</description></item>
-    '''   <item><description>Reduced font size for footnotes</description></item>
-    '''   <item><description>Title styling with bottom border</description></item>
-    '''   <item><description>Conditional p-value highlighting (p ≤ current default alpha)</description></item>
-    ''' </list>
-    ''' </remarks>
-    Private Sub format(rng As Range, hTop As Integer, hLeft As Integer, foots As Integer, Pvals As List(Of Integer), TitlesCount As Integer)
-        With rng
-            'remove borders first
-            .Borders(XlBordersIndex.xlInsideHorizontal).LineStyle = XlLineStyle.xlLineStyleNone
-            .Borders(XlBordersIndex.xlInsideVertical).LineStyle = XlLineStyle.xlLineStyleNone
-            .Borders(XlBordersIndex.xlEdgeLeft).LineStyle = XlLineStyle.xlLineStyleNone
-            .Borders(XlBordersIndex.xlEdgeRight).LineStyle = XlLineStyle.xlLineStyleNone
-            'set them as we want them now
-            If TitlesCount = 0 Then .Borders(XlBordersIndex.xlEdgeTop).LineStyle = XlLineStyle.xlContinuous
-            'set bottom border line (excluding footers)
-            .Rows(.Rows.Count - foots).Borders(XlBordersIndex.xlEdgeBottom).LineStyle = XlLineStyle.xlContinuous
-
-            'HorizontalAlignment is causing error some times. In the help it is stated that:
-            'Some of these constants may not be available to you, depending on the language support (U.S. English, for example)
-            'that you've selected or installed.
-            Try
-                .HorizontalAlignment = XlHAlign.xlHAlignLeft
-                .Interior.ColorIndex = XlColorIndex.xlColorIndexNone
-            Catch
-            End Try
-
-            With .Font
-                .Name = "Calibri Light"
-                .Size = 10
-                .Strikethrough = False
-                .Superscript = False
-                .Subscript = False
-                .OutlineFont = False
-                .Shadow = False
-                .Underline = XlUnderlineStyle.xlUnderlineStyleNone
-                .ColorIndex = XlColorIndex.xlColorIndexAutomatic
-                .TintAndShade = 0
-                .ThemeFont = XlThemeFont.xlThemeFontNone
-                .Italic = False
-                .Bold = False
-            End With
-
-        End With
-
-        'bold Top headers, set background color and borders
-        For i = 1 To hTop
-            With rng.Rows(i + TitlesCount)
-                If i = hTop Then .Borders(XlBordersIndex.xlEdgeBottom).LineStyle = XlLineStyle.xlContinuous
-                .Interior.Color = 14540253
-                .Font.Bold = True
-            End With
-        Next
-
-        'bold Left headers
-        For i = 1 To hLeft - foots
-            With rng.Columns(i)
-                .Font.Bold = True
-            End With
-        Next
-
-        'footers formating
-        For i = rng.Rows.Count - foots + 1 To rng.Rows.Count
-            With rng.Rows(i)
-                .Font.Size = 8
-            End With
-        Next
-
-        'Titles formating
-        For i = 1 To TitlesCount
-            With rng.Rows(i)
-                .Font.Size = 10
-                Try
-                    .Interior.ColorIndex = XlColorIndex.xlColorIndexNone
-                Catch
-                End Try
-                .Font.Bold = False
-                If i = TitlesCount Then .Borders(XlBordersIndex.xlEdgeBottom).LineStyle = XlLineStyle.xlContinuous
-            End With
-        Next
-
-        If Pvals.Count > 0 Then
-            Dim pHighlightAlpha As Double = AppGlobals.DefaultAlpha
-
-            'highlight pvalue <= current default alpha
-            For Each i In Pvals
-                For j = 1 + hTop + TitlesCount To rng.Rows.Count - foots
-                    Try
-                        If CDbl(rng(j, i + hLeft).value) <= pHighlightAlpha Then rng(j, i + hLeft).font.color = RGB(50, 255, 50)
-                    Catch
-                    End Try
-                Next
-            Next
-        End If
-    End Sub
 End Class
 
 
 ''' <summary>
 ''' Processes a list of <c>ResultTable</c> objects and writes them sequentially
-''' to an Excel worksheet using a <c>WriteResults</c> writer. Supports optional
+''' using a <c>ResultTableWriterBase</c> writer. Supports optional
 ''' separator blocks between tables and provides utilities for computing the
 ''' combined row/column footprint of all tables.
 ''' </summary>
@@ -795,7 +513,7 @@ Public Class ProcessListofResultTables
     ''' </summary>
     ''' <param name="xlist">The list of tables to be processed.</param>
     Public Sub New(xlist As List(Of ResultTable))
-        If xlist Is Nothing Then AppGlobals.BSerr.LogAndThrow(New ArgumentNullException(NameOf(xlist)))
+        If xlist Is Nothing Then Throw New ArgumentNullException(NameOf(xlist))
         Me.inList = xlist
     End Sub
 
@@ -878,18 +596,16 @@ Public Class ProcessListofResultTables
     ''' Thrown when the number of separators does not match <c>inList.Count - 1</c>.
     ''' </exception>
     Public Sub SetSeparators(x As List(Of Object(,)))
-        If x.Count <> Me.inList.Count - 1 Then
-            AppGlobals.BSerr.LogAndThrow(New ArgumentException("Incorrect list items count."))
-        End If
+        If x.Count <> Me.inList.Count - 1 Then Throw New ArgumentException("Incorrect list items count.")
         pSep = x
     End Sub
 
     ''' <summary>
-    ''' Writes all tables in sequence to an Excel worksheet using the provided
-    ''' <c>WriteResults</c> writer. Optional separators or blank rows may be inserted
+    ''' Writes all tables in sequence using the provided
+    ''' <c>ResultTableWriterBase</c> writer. Optional separators or blank rows may be inserted
     ''' between tables.
     ''' </summary>
-    ''' <param name="w">The <c>WriteResults</c> instance responsible for writing to Excel.</param>
+    ''' <param name="w">The writer responsible for rendering tables to the current target.</param>
     ''' <param name="bDefaultBlankRowSep">
     ''' If True and no custom separators are defined, a blank row is inserted between tables.
     ''' </param>
@@ -903,15 +619,15 @@ Public Class ProcessListofResultTables
     ''' writer’s row pointer.
     ''' </para>
     ''' </remarks>
-    Public Sub writeToSheet(w As WriteResults, Optional bDefaultBlankRowSep As Boolean = False)
+    Public Sub writeToSheet(w As ResultTableWriterBase, Optional bDefaultBlankRowSep As Boolean = False)
         Dim i As Integer = -1
-        For Each tab In Me.inList
+        For Each tb In Me.inList
             If Me.pSep IsNot Nothing Then
                 If i >= 0 Then w.write(Me.pSep(i))
             ElseIf bDefaultBlankRowSep And i > -1 Then
                 w.shiftRowPointer()
             End If
-            w.write(tab)
+            w.write(tb)
             i += 1
         Next
     End Sub

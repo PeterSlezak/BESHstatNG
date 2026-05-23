@@ -466,7 +466,7 @@ Public Class Ui99ExportChart
                                                                      MessageBox.Show(Me, "Chart exported successfully.", "Export Chart",
                                                                                       MessageBoxButtons.OK, MessageBoxIcon.Information)
                                                                  Catch ex As Exception
-                                                                     AppInfrastructure.AppGlobals.BSlogg.Error(ex, $"Chart export failed. path='{path}'; format={fmt}; dpi={dpi}; widthPx={wPx}; heightPx={hPx}")
+                                                                     CoreServices.Logger.Error(ex, $"Chart export failed. path='{path}'; format={fmt}; dpi={dpi}; widthPx={wPx}; heightPx={hPx}")
                                                                      MessageBox.Show(Me, ex.Message, "Export Chart", MessageBoxButtons.OK, MessageBoxIcon.Error)
                                                                  Finally
                                                                      Me.btExport.Enabled = True

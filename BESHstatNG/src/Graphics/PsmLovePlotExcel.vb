@@ -12,7 +12,7 @@ Namespace graphics
     ''' Excel chart helper for propensity-score-matching Love plots.
     ''' </summary>
     ''' <remarks>
-    ''' The GUI writes the source table using the standard ResultTable / WriteResults
+    ''' The GUI writes the source table using the standard ResultTable / ExcelDnaResultWriter
     ''' pipeline, then calls this helper to add an embedded Excel scatter chart on the
     ''' same worksheet.  Keeping the chart helper separate from the PSM backend avoids
     ''' adding Excel COM dependencies to backend classes.
@@ -62,7 +62,7 @@ Namespace graphics
         ''' <summary>
         ''' Adds a Love plot chart to an existing worksheet.  The chart is built from
         ''' the supplied rows, so it does not depend on exact cell locations produced
-        ''' by WriteResults formatting.
+        ''' by ExcelDnaResultWriter formatting.
         ''' </summary>
         Public Shared Sub AddChart(ws As Worksheet,
                                    rows As IList(Of PsmLovePlotRow),

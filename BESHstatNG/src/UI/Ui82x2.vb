@@ -123,7 +123,7 @@ Public Class Ui82x2
 
             rr.writeToSheet(WriteRes, True)
         Catch ex As Exception
-            AppGlobals.BSerr.LogAndThrow(ex, False, True)
+            CoreServices.Errors.LogAndThrow(ex, False, True)
         End Try
     End Sub
 
@@ -132,15 +132,15 @@ Public Class Ui82x2
         Dim columData = New DataObj
         Dim ref As String = prepareRef2D(Me.RefEdit1_WorksheetData.Address)
 
-        columData.DataImport(ref, True)
+        ExcelDnaDataImporter.ImportInto(columData, ref, True)
         out.X = columData.DataDbl()
         out.varNames = columData.varNames
 
         Return out
     End Function
 
-    Private Function GetResultWriter() As WriteResults
-        Dim WriteRes = New WriteResults, rRange As Range
+    Private Function GetResultWriter() As ExcelDnaResultWriter
+        Dim WriteRes = New ExcelDnaResultWriter, rRange As Range
         If Me.optWorkbook.Checked Then
             WriteRes.wb = AppGlobals.app.Workbooks.Add()
             WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet

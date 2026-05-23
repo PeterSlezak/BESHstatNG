@@ -71,11 +71,11 @@ Namespace regression
             ElseIf normalized = "unstructured" OrElse normalized = "un" Then
                 f = New UnstructuredR()
             Else
-                AppGlobals.BSlogg.Error($"Unsupported mixed-model residual covariance structure. type='{type}'")
+                CoreServices.Logger.Error($"Unsupported mixed-model residual covariance structure. type='{type}'")
                 Throw New ApplicationException("Unsupported mixed-model residual covariance structure. type = " & type)
             End If
 
-            AppGlobals.BSlogg.Trace($"createMixedModelRStruct created {f.ToString()} for type='{type}'")
+            CoreServices.Logger.Trace($"createMixedModelRStruct created {f.ToString()} for type='{type}'")
             Return f
         End Function
 
@@ -427,7 +427,7 @@ Namespace regression
             Else
                 strTrace &= vbNewLine & message
             End If
-            AppGlobals.BSlogg.Trace(message)
+            CoreServices.Logger.Trace(message)
         End Sub
 
         ''' <summary>
@@ -441,7 +441,7 @@ Namespace regression
             Else
                 strTrace &= vbNewLine & message
             End If
-            AppGlobals.BSlogg.Debug(message)
+            CoreServices.Logger.Debug(message)
         End Sub
 
         ''' <summary>
@@ -455,7 +455,7 @@ Namespace regression
             Else
                 strTrace &= vbNewLine & message
             End If
-            AppGlobals.BSlogg.Warn(message)
+            CoreServices.Logger.Warn(message)
         End Sub
 
     End Class

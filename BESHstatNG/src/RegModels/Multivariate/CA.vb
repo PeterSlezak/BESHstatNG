@@ -1,6 +1,7 @@
 ﻿Option Explicit On
+Option Strict On
+
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 Namespace Multivariate
 
@@ -72,7 +73,7 @@ Namespace Multivariate
     ''' <list type="bullet">
     '''   <item><description><b>Axis indexing:</b> factor arrays are zero-based (Factor 1 = index 0).</description></item>
     '''   <item><description><b>Sorting:</b> axes are sorted by descending singular value (thus descending eigenvalue/inertia).</description></item>
-    '''   <item><description><b>Excel plotting:</b> <see cref="plot"/> and <see cref="contribPlot"/> use Excel Interop.</description></item>
+    '''   <item><description><b>Excel plotting:</b> Excel chart rendering is implemented by graphics.CorrespondenceAnalysisPlotExcel in the Excel front-end layer.</description></item>
     '''   <item><description><b>Helper dependencies:</b> this class expects helper functions such as <c>SVD_decomp</c>, <c>MatrixMult</c>, <c>trans</c>, <c>Sum2D</c>, <c>GetColumnFrom2Darray</c>, and logging utilities to exist elsewhere in your project.</description></item>
     ''' </list>
     ''' </remarks>
@@ -154,7 +155,7 @@ Namespace Multivariate
             Else
                 pRowNames = rows
                 If pRowNames.Length <> pR Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Number of Contingency table rows and Row labels don't match!"))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Number of Contingency table rows and Row labels don't match!"))
                 End If
             End If
 
@@ -164,7 +165,7 @@ Namespace Multivariate
             Else
                 pColNames = cols
                 If pColNames.Length <> pC Then
-                    AppGlobals.BSerr.LogAndThrow(New ArgumentException("Number of Contingency table columns And Column labels don't match!"))
+                    CoreServices.Errors.LogAndThrow(New ArgumentException("Number of Contingency table columns And Column labels don't match!"))
                 End If
             End If
         End Sub
@@ -253,6 +254,21 @@ Namespace Multivariate
         ReadOnly Property rowNames() As String()
             Get
                 Return pRowNames
+            End Get
+        End Property
+
+        ''' <summary>Gets whether this object represents a multiple correspondence analysis.</summary>
+        Public ReadOnly Property IsMultiple As Boolean
+            Get
+                Return pbMultiple
+            End Get
+        End Property
+
+        ''' <summary>Gets the number of factor axes currently available.</summary>
+        Public ReadOnly Property FactorCount As Integer
+            Get
+                If pRowFactors Is Nothing Then Return 0
+                Return pRowFactors.GetUpperBound(1) + 1
             End Get
         End Property
 
@@ -731,7 +747,7 @@ Namespace Multivariate
             Dim axesForDisplayedQuality As Integer = Math.Min(2, axesToCompute)
 
             If axesToCompute < 1 Then
-                AppGlobals.BSerr.LogAndThrow(New InvalidOperationException("Not enough dimensions for correspondence analysis."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Not enough dimensions for correspondence analysis."))
             End If
 
             Dim prop(pR - 1, pC - 1) As Double, Dr(pR - 1, pR - 1) As Double, Dc(pC - 1, pC - 1) As Double
@@ -1078,7 +1094,7 @@ Namespace Multivariate
         ''' <param name="bRow">If true, uses <see cref="rowNames"/>; otherwise uses <see cref="ColumNames"/>.</param>
         ''' <param name="splitChar">Character(s) used to split labels (e.g., <c>vbNewLine</c>).</param>
         ''' <returns>Label array aligned with the plotted point set.</returns>
-        Private Function PlotLabels(bRow As Boolean, splitChar As String) As String()
+        Public Function PlotLabels(bRow As Boolean, splitChar As String) As String()
 
             Dim CatNames() As String, Xlabels() As String
 
@@ -1188,216 +1204,5 @@ Namespace Multivariate
 
             Return 180.0 * Math.Acos(Math.Sqrt(corr)) / Math.PI
         End Function
-
-
-        ''' <summary>
-        ''' Creates an Excel chart of contributions to a selected axis.
-        ''' </summary>
-        ''' <param name="lAxis">Axis index (0-based: 0 = Factor 1).</param>
-        ''' <param name="bRow">If true, plots row contributions; otherwise plots column contributions.</param>
-        ''' <param name="ws">Optional Excel worksheet to host the chart. If <c>Nothing</c>, uses the active chart.</param>
-        ''' <remarks>
-        ''' <para>
-        ''' Contributions are computed as <c>mass × coordinate² / eigenvalue</c>.
-        ''' Signed contributions (columns) additionally multiply by the sign of the coordinate to indicate direction.
-        ''' </para>
-        ''' <para>
-        ''' Requires Excel Interop (STA is recommended depending on your host).
-        ''' </para>
-        ''' </remarks>
-        Public Sub contribPlot(lAxis As Integer, bRow As Boolean, Optional ws As Worksheet = Nothing)
-
-            Dim figure As Chart, seriesID As Integer, Contrib() As Double
-
-            If bRow Then
-                Contrib = RowContribution(lAxis)
-            Else
-                Contrib = ColContribution(lAxis)
-            End If
-
-            If ws Is Nothing Then
-                AppGlobals.app.Charts.Add()
-                figure = AppGlobals.app.ActiveWorkbook.ActiveChart
-            Else
-                figure = ws.Shapes.AddChart.Chart
-            End If
-
-            With figure
-                .ChartType = XlChartType.xlColumnClustered
-                .HasTitle = False
-                .HasTitle = True
-                .ChartTitle.Text = "Contribution Plot: Axis " & CStr(lAxis + 1)
-                If pbMultiple Then .Name = "Contribution" & CStr(lAxis + 1)
-                .HasLegend = False
-
-                'delete extra series
-                Do Until .SeriesCollection.Count = 0
-                    .SeriesCollection(1).Delete
-                Loop
-
-                seriesID = 1
-                .SeriesCollection.NewSeries
-                With .SeriesCollection(seriesID)
-                    .XValues = PlotLabels(bRow, vbNewLine)
-                    .Values = Contrib
-                End With
-
-                Try
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.text = "Contribution"
-                    .ChartTitle.Font.Bold = True
-                Catch
-                End Try
-            End With
-        End Sub
-
-        ''' <summary>
-        ''' Creates a 2D correspondence map (Factor 1 vs Factor 2) in Excel.
-        ''' </summary>
-        ''' <param name="ws">Optional Excel worksheet to host the chart. If <c>Nothing</c>, uses the active chart.</param>
-        ''' <remarks>
-        ''' <para>
-        ''' X-axis uses Factor 1 coordinates (<see cref="RowFactors"/>(0), <see cref="ColFactors"/>(0));
-        ''' Y-axis uses Factor 2 coordinates (<see cref="RowFactors"/>(1), <see cref="ColFactors"/>(1)).
-        ''' </para>
-        ''' <para>
-        ''' Ensure that at least two axes are available (i.e., at least two non-trivial dimensions).
-        ''' For very small tables, only one axis may exist.
-        ''' </para>
-        ''' </remarks>
-        Public Sub plot(Optional ws As Worksheet = Nothing)
-            Dim seriesID As Integer
-            Dim figure As Chart
-
-            If UBound(pRowFactors, 2) = 0 Then Exit Sub 'We need two axis to plot (may not be possible for small tables)
-
-            'compute optimal scaling
-            Dim udPlotAxisY As graphics.CHARTscale = graphics.ChartScaling(Math.Min(RowFactors(1).Min(), ColFactors(1).Min()), Math.Max(RowFactors(1).Max(), ColFactors(1).Max()))
-            Dim udPlotAxisX As graphics.CHARTscale = graphics.ChartScaling(Math.Min(RowFactors(0).Min(), ColFactors(0).Min()), Math.Max(RowFactors(0).Max(), ColFactors(0).Max()))
-
-            If ws Is Nothing Then
-                AppGlobals.app.Charts.Add()
-                figure = AppGlobals.app.ActiveWorkbook.ActiveChart
-            Else
-                figure = ws.Shapes.AddChart.Chart
-            End If
-
-            With figure
-                .ChartType = XlChartType.xlXYScatter
-                .ChartStyle = 1
-                .HasTitle = False
-                .HasTitle = True
-                If pbMultiple Then .Name = "CA plot"
-
-                'delete extra series
-                Do Until .SeriesCollection.Count = 0
-                    .SeriesCollection(1).Delete
-                Loop
-
-                .Axes(XlAxisType.xlValue).MajorGridlines.Delete
-                .Axes(XlAxisType.xlCategory).MinimumScale = udPlotAxisX.Min
-                .Axes(XlAxisType.xlCategory).MaximumScale = udPlotAxisX.Max
-                .Axes(XlAxisType.xlCategory).MajorUnit = udPlotAxisX.Scale
-                .Axes(XlAxisType.xlValue).CrossesAt = -1.0E+100
-                .Axes(XlAxisType.xlCategory).CrossesAt = -1.0E+100
-                .Axes(XlAxisType.xlValue).MinimumScale = udPlotAxisY.Min
-                .Axes(XlAxisType.xlValue).MaximumScale = udPlotAxisY.Max
-                .Axes(XlAxisType.xlValue).MajorUnit = udPlotAxisY.Scale
-
-                seriesID = 1
-                .SeriesCollection.NewSeries
-                With .SeriesCollection(seriesID)
-                    .XValues = ColFactors(0)
-                    .Values = ColFactors(1)
-                    .Name = "Columns"
-                    .MarkerStyle = XlMarkerStyle.xlMarkerStyleCircle
-                    .MarkerSize = 6
-                    .MarkerForegroundColor = graphics.GetColor(10) 'tomato
-                    .MarkerBackgroundColor = graphics.GetColor(10) 'tomato
-                    '.Format.Fill.Visible = msoFalse
-
-                    'Attach a label to each data point
-                    For i = 1 To pC
-                        .points(i).HasDataLabel = True
-                        .points(i).DataLabel.text = PlotLabels(False, vbNullString)(i - 1) 'pColNames(i)
-                    Next
-                End With
-
-                If Not pbMultiple Then 'We analyze design matrix in multiple analysis so are not displaying rows
-                    seriesID += 1
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(seriesID)
-                        .XValues = RowFactors(0)
-                        .Values = RowFactors(1)
-                        .Name = "Rows"
-                        .MarkerStyle = XlMarkerStyle.xlMarkerStyleCircle
-                        .MarkerSize = 6
-                        .MarkerForegroundColor = RGB(0, 0, 150)
-                        .MarkerBackgroundColor = RGB(0, 0, 150)
-                        '.Format.Fill.Visible = msoFalse
-
-                        'Attach a label to each data point
-                        For i = 1 To pR
-                            .points(i).HasDataLabel = True
-                            .points(i).DataLabel.text = PlotLabels(True, vbNullString)(i - 1) 'pRowNames(i)
-                        Next
-                    End With
-                End If
-
-                'add and plot zero lines
-                'add zero lines
-                .SeriesCollection.NewSeries
-                seriesID += 1
-                With .SeriesCollection(seriesID)
-                    .XValues = {udPlotAxisX.Min, udPlotAxisX.Max}
-                    .Values = {0, 0}
-                    .Name = "Y Zero Line"
-                    .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
-                    .Border.Color = RGB(0, 0, 0)
-                    With .Format.Line
-                        .Visible = True
-                        .Weight = 0.5
-                    End With
-                End With
-                .SeriesCollection.NewSeries
-                seriesID += 1
-                With .SeriesCollection(seriesID)
-                    .XValues = {0, 0}
-                    .Values = {udPlotAxisY.Min, udPlotAxisY.Max}
-                    .Name = "X Zero Line"
-                    .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
-                    .Border.Color = RGB(0, 0, 0)
-                    With .Format.Line
-                        .Visible = True
-                        .Weight = 0.5
-                    End With
-                End With
-
-                Try
-                    If pbMultiple Then
-                        .HasLegend = False
-                    Else
-                        For i = 4 To 3 Step -1
-                            .Legend.LegendEntries(i).Delete
-                        Next
-                    End If
-                Catch
-                End Try
-
-                Try
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.text = $"Factor 2 [{ Format$(Percents(2, 1), "#0.0#") }%]"
-                    .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = False
-                    .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = True
-                    .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.text = $"Factor 1 [{ Format$(Percents(1, 1), "#0.0#") }%]"
-                    .ChartTitle.Text = "Correspondence Plot"
-                    .ChartTitle.Font.Bold = True
-                Catch
-                End Try
-            End With
-        End Sub
-
     End Class
 End Namespace
