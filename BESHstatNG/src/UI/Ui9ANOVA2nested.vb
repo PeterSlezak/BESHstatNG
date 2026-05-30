@@ -17,12 +17,12 @@ Public Class Ui9ANOVA2nested
         Me.TabPageOptionsBlandAltman.Parent = Nothing
         Me.TabPageDecisionLimitsBlandAltman.Parent = Nothing
 
-        If Me.Text = "Passing-Bablok Regression" Then
+        If Me.Tag = HelpTopic.PassingBablokRegression Then
             Me.lblRefedit1_Group.Text = "Group (optional)"
             Me.lblRefedit2_Nested.Text = "Reference method (X)"
             Me.lblRefedit3_Data.Text = "Test method (Y)"
 
-        ElseIf Me.Text = "Bland–Altman Analysis" Then
+        ElseIf Me.Tag = HelpTopic.BlandAltman Then
             Me.TabPageOptionsBlandAltman.Parent = Me.TabControl1
             Me.TabPageDecisionLimitsBlandAltman.Parent = Me.TabControl1
             Me.lblRefedit1_Group.Text = "Subject ID (optional)"
@@ -48,12 +48,12 @@ Public Class Ui9ANOVA2nested
     Private Function checkInputs() As Boolean
         Dim bOut As Boolean
         'check input data------------------------------
-        If Me.Text = "Two-Way Nested ANOVA" Then
+        If Me.Tag = HelpTopic.TwoWayNestedANOVA Then
             If CheckRefEdit(Me.RefEdit1_Group.Address, True) Then
                 RefEditReset(Me.RefEdit1_Group)
                 bOut = True
             End If
-        ElseIf (Me.Text = "Passing-Bablok Regression" OrElse Me.Text = "Bland–Altman Analysis") And Me.RefEdit1_Group.Address <> String.empty Then
+        ElseIf (Me.Tag = HelpTopic.PassingBablokRegression OrElse Me.Tag = HelpTopic.BlandAltman) And Me.RefEdit1_Group.Address <> String.Empty Then
             If CheckRefEdit(Me.RefEdit1_Group.Address, True) Then
                 RefEditReset(Me.RefEdit1_Group)
                 bOut = True
@@ -66,9 +66,9 @@ Public Class Ui9ANOVA2nested
         End If
 
         Dim bOneColumn As Boolean = True
-        If Me.Text = "Two-Way Nested ANOVA" Then
+        If Me.Tag = HelpTopic.TwoWayNestedANOVA Then
             bOneColumn = False
-        ElseIf Me.Text = "Passing-Bablok Regression" OrElse Me.Text = "Bland–Altman Analysis" Then
+        ElseIf Me.Tag = HelpTopic.PassingBablokRegression OrElse Me.Tag = HelpTopic.BlandAltman Then
             bOneColumn = True
         End If
 
@@ -399,9 +399,9 @@ Public Class Ui9ANOVA2nested
             If Me.checkInputs() Then Exit Sub
 
             'Get Data
-            If Me.Text = "Two-Way Nested ANOVA" Then
+            If Me.Tag = HelpTopic.TwoWayNestedANOVA Then
                 Data = Me.getData(errText)
-            ElseIf Me.Text = "Passing-Bablok Regression" OrElse Me.Text = "Bland–Altman Analysis" Then
+            ElseIf Me.Tag = HelpTopic.PassingBablokRegression OrElse Me.Tag = HelpTopic.BlandAltman Then
                 Data = Me.getDataPB(errText)
             End If
 
@@ -410,11 +410,11 @@ Public Class Ui9ANOVA2nested
                 Exit Sub
             End If
 
-            If Me.Text = "Two-Way Nested ANOVA" Then
+            If Me.Tag = HelpTopic.TwoWayNestedANOVA Then
                 Me.Run2WayNested(Data)
-            ElseIf Me.Text = "Passing-Bablok Regression" Then
+            ElseIf Me.Tag = HelpTopic.PassingBablokRegression Then
                 Me.RunPassingBablok(Data)
-            ElseIf Me.Text = "Bland–Altman Analysis" Then
+            ElseIf Me.Tag = HelpTopic.BlandAltman Then
                 Me.RunBlandAltman(Data)
             End If
 

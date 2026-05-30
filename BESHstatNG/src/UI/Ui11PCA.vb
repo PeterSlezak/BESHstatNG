@@ -24,16 +24,16 @@ Public Class Ui11PCA
         Me.TabPageOptionsFA.Parent = Nothing
         Me.TabPageOptionsDA.Parent = Nothing
 
-        If Me.Text = "Scatter Plot MatrixType" Then
+        If Me.Tag = HelpTopic.ScatterPlotMatrix Then
             Me.TabPageOptionsSPM.Parent = Me.TabControl1
 
-        ElseIf Me.Text = "Principal Component Analysis" Then
+        ElseIf Me.Tag = HelpTopic.PrincipalComponentAnalysis Then
             Me.TabPageOptionsPCA.Parent = Me.TabControl1
 
-        ElseIf Me.Text = "Multiple Correspondence Analysis" Then
+        ElseIf Me.Tag = HelpTopic.MultipleCorrespondenceAnalysis Then
             Me.ckFirstRow.Visible = True
 
-        ElseIf Me.Text = "K-Means Clustering" Then
+        ElseIf Me.Tag = HelpTopic.KMeansClustering Then
             Me.TabPageOptionsKmeans.Parent = Me.TabControl1
             Me.cbKmeansInitialization.Items.AddRange(New Object() {"K-Means++", "Forgy", "Random Partition", "User-Specified Centers"})
             Me.cbKmeansDistance.Items.AddRange(New Object() {"Squared Euclidean", "Euclidean"})
@@ -54,7 +54,7 @@ Public Class Ui11PCA
             AddHandler Me.cbKmeansInitialization.SelectedIndexChanged, AddressOf Me.KMeansInitializationChanged
             Me.KMeansInitializationChanged(Me.cbKmeansInitialization, System.EventArgs.Empty)
 
-        ElseIf Me.Text = "Hierarchical Clustering" Then
+        ElseIf Me.Tag = HelpTopic.HierarchicalClustering Then
             Me.TabPageOptionsHierarchicalClustering.Parent = Me.TabControl1
             Me.lblKmeansRowLabel.Visible = True
             Me.cbKmeansRowLabel.Visible = True
@@ -81,7 +81,7 @@ Public Class Ui11PCA
             Me.HierarchicalDistanceChanged(Me.cbHierarchicalDistance, System.EventArgs.Empty)
             Me.HierarchicalMembershipModeChanged(Me.optHierarchicalCutByClusters, System.EventArgs.Empty)
 
-        ElseIf Me.Text = "Factor Analysis" Then
+        ElseIf Me.Tag = HelpTopic.FactorAnalysis Then
             Me.TabPageOptionsFA.Parent = Me.TabControl1
             Me.cbFAExtraction.Items.AddRange(New Object() {"Principal Components", "Principal Axis", "Maximum Likelihood", "Generalized Least Squares", "Image Factoring", "Alpha Factoring"})
             Me.cbFACommunalityInit.Items.AddRange(New Object() {"Squared multiple correlations", "One / full diagonal"})
@@ -103,7 +103,7 @@ Public Class Ui11PCA
             Me.FactorAnalysisRotationChanged(Me.cbFARotation, System.EventArgs.Empty)
             Me.FactorAnalysisRetentionChanged(Me.optFAExtractFixed, System.EventArgs.Empty)
 
-        ElseIf Me.Text = "Discriminant Analysis" Then
+        ElseIf Me.Tag = HelpTopic.DiscriminantAnalysis Then
             Me.TabPageOptionsDA.Parent = Me.TabControl1
             Me.lblGruppingVar.Visible = True
             Me.cbGruppingVar.Visible = True
@@ -140,7 +140,7 @@ Public Class Ui11PCA
             'activate workbook we are working on (different may  be open if we re-running the analysis)
             Me.pWorkbook.Activate()
 
-            If Me.Text = "Discriminant Analysis" Then
+            If Me.Tag = HelpTopic.DiscriminantAnalysis Then
                 MyData = GetDiscriminantData()
             Else
                 MyData = GetData()
@@ -151,19 +151,19 @@ Public Class Ui11PCA
                 Exit Sub
             End If
 
-            If Me.Text = "Scatter Plot MatrixType" Then
+            If Me.Tag = HelpTopic.ScatterPlotMatrix Then
                 Me.RunSPM(MyData)
-            ElseIf Me.Text = "Principal Component Analysis" Then
+            ElseIf Me.Tag = HelpTopic.PrincipalComponentAnalysis Then
                 Me.RunPCA(MyData)
-            ElseIf Me.Text = "Multiple Correspondence Analysis" Then
+            ElseIf Me.Tag = HelpTopic.MultipleCorrespondenceAnalysis Then
                 Me.RunMCA(MyData)
-            ElseIf Me.Text = "K-Means Clustering" Then
+            ElseIf Me.Tag = HelpTopic.KMeansClustering Then
                 Me.RunKmeans(MyData)
-            ElseIf Me.Text = "Hierarchical Clustering" Then
+            ElseIf Me.Tag = HelpTopic.HierarchicalClustering Then
                 Me.RunHierarchicalClustering(MyData)
-            ElseIf Me.Text = "Factor Analysis" Then
+            ElseIf Me.Tag = HelpTopic.FactorAnalysis Then
                 Me.RunFA(MyData)
-            ElseIf Me.Text = "Discriminant Analysis" Then
+            ElseIf Me.Tag = HelpTopic.DiscriminantAnalysis Then
                 Me.RunDiscriminantAnalysis(MyData)
             End If
         Catch ex As Exception
@@ -477,7 +477,7 @@ Public Class Ui11PCA
     End Sub
 
     Private Sub btAddX_Click(sender As Object, e As System.EventArgs) Handles btAddX.Click
-        If Me.Text = "Discriminant Analysis" Then
+        If Me.Tag = HelpTopic.DiscriminantAnalysis Then
             Dim groupingKey As String = Me.GetSelectedDiscriminantGroupingKey()
             If groupingKey <> String.Empty Then
                 For Each selectedItem As Object In Me.lbAllColumns.SelectedItems
@@ -512,7 +512,7 @@ Public Class Ui11PCA
     End Sub
 
     Private Sub cbGruppingVar_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbGruppingVar.SelectedIndexChanged
-        If Me.Text <> "Discriminant Analysis" Then Exit Sub
+        If Me.Tag <> HelpTopic.DiscriminantAnalysis Then Exit Sub
 
         Dim groupingKey As String = Me.GetSelectedDiscriminantGroupingKey()
         If groupingKey = String.Empty Then Exit Sub
@@ -549,7 +549,7 @@ Public Class Ui11PCA
             Throw New ArgumentException("Please select at least one analysis variable.")
         End If
 
-        If Me.Text = "K-Means Clustering" OrElse Me.Text = "Hierarchical Clustering" OrElse Me.Text = "Factor Analysis" Then
+        If Me.Tag = HelpTopic.KMeansClustering OrElse Me.Tag = HelpTopic.HierarchicalClustering OrElse Me.Tag = HelpTopic.FactorAnalysis Then
             Dim rowLabelKey As String = Me.GetSelectedKMeansRowLabelKey()
             If rowLabelKey <> String.Empty AndAlso keys.Contains(rowLabelKey) Then
                 Throw New ArgumentException("The optional row label variable must not also be selected as an analysis variable.")
@@ -565,7 +565,7 @@ Public Class Ui11PCA
             Throw New ArgumentException("No valid worksheet reference could be constructed from the selected analysis variables.")
         End If
 
-        If Me.Text = "Multiple Correspondence Analysis" Then
+        If Me.Tag = HelpTopic.MultipleCorrespondenceAnalysis Then
             ExcelDnaDataImporter.ImportInto(MyData, ref, False, 20000)
         Else
             ExcelDnaDataImporter.ImportInto(MyData, ref)
@@ -635,7 +635,7 @@ Public Class Ui11PCA
         Dim MaxRows = MaxRowsInSheet(pWorksheet)
         VarRng = pWorksheet.Range(pWorksheet.Cells(1, 1), pWorksheet.Cells(1, FinalCol)) 'Create range object to contain variable names
 
-        If Me.Text = "Multiple Correspondence Analysis" Then
+        If Me.Tag = HelpTopic.MultipleCorrespondenceAnalysis Then
             'we accept character columns
             Me.VariableColumnsInfo = VarNamesToLBox(VarRng, MaxRows, Me.lbAllColumns, False)
         Else
@@ -643,15 +643,13 @@ Public Class Ui11PCA
         End If
 
         Me.AllColumnsInfo = Nothing
-        If Me.Text = "K-Means Clustering" OrElse Me.Text = "Hierarchical Clustering" OrElse Me.Text = "Discriminant Analysis" Then
+        If Me.Tag = HelpTopic.KMeansClustering OrElse Me.Tag = HelpTopic.HierarchicalClustering OrElse Me.Tag = HelpTopic.DiscriminantAnalysis Then
             Dim sink As New System.Windows.Forms.ListBox()
             Me.AllColumnsInfo = VarNamesToLBox(VarRng, MaxRows, sink, False)
 
-            If Me.Text = "K-Means Clustering" OrElse Me.Text = "Hierarchical Clustering" Then
-                Me.PopulateKMeansRowLabelItems()
-            End If
+            If Me.Tag = HelpTopic.KMeansClustering OrElse Me.Tag = HelpTopic.HierarchicalClustering Then Me.PopulateKMeansRowLabelItems()
 
-            If Me.Text = "Discriminant Analysis" Then
+            If Me.Tag = HelpTopic.DiscriminantAnalysis Then
                 Me.PopulateDiscriminantGroupingItems()
                 Me.PopulateOptionalDiscriminantRowLabelItems()
             End If
@@ -1337,7 +1335,7 @@ Public Class Ui11PCA
     End Function
 
     Private Sub UpdateDiscriminantOptionStates()
-        If Me.Text <> "Discriminant Analysis" Then Exit Sub
+        If Me.Tag <> HelpTopic.DiscriminantAnalysis Then Exit Sub
 
         Dim priorMode As Multivariate.DiscriminantPriorMode = Me.GetSelectedDiscriminantPriorMode()
         Dim validationMode As Multivariate.DiscriminantValidationMode = Me.GetSelectedDiscriminantValidationMode()

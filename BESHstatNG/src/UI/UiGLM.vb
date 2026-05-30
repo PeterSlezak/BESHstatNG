@@ -39,7 +39,7 @@ Public Class UiGLM
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         ' Add any initialization after the InitializeComponent() call.
-        If Me.Text = "Generalized Linear Models" Then
+        If Me.Tag = HelpTopic.GeneralizedLinearModelsGLM Then
             Me.TabPageLogisticModel.Parent = Nothing
             Me.TabPageOptions_LinearModel.Parent = Nothing
             Me.grpReference.Visible = False
@@ -52,7 +52,7 @@ Public Class UiGLM
             Me.tbClassificationTreshold.Text = FormatUiDouble(0.5)
             UpdateClassificationOptionsState(False)
 
-        ElseIf Me.Text = "Negative Binomial Regression (NB2)" Then
+        ElseIf Me.Tag = HelpTopic.NegativeBinomialRegressionNB2 Then
             Me.TabPageLogisticModel.Parent = Nothing
             Me.TabPageOptions_LinearModel.Parent = Nothing
             Me.grpReference.Visible = False
@@ -61,7 +61,7 @@ Public Class UiGLM
             Me.cbFamily.SelectedIndex = 0
             RefreshLinkOptionsForSelectedFamily(FamilyUtils.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
 
-        ElseIf Me.Text = "Zero-Inflated Poisson Regression" Then
+        ElseIf Me.Tag = HelpTopic.ZeroInflatedPoissonRegression Then
             Me.TabPageOptions_LinearModel.Parent = Nothing
             Me.grpModelSpecification.Visible = False
             Me.grpReference.Visible = False
@@ -75,15 +75,15 @@ Public Class UiGLM
             Me.btAddWeights.Enabled = False
             Me.btRemoveWeights.Enabled = False
 
-        ElseIf Me.Text = "Multinomial Logistic Regression" Or Me.Text = "Ordinal Logistic Regression" Then
+        ElseIf Me.Tag = HelpTopic.MultinomialLogisticRegression Or Me.Tag = HelpTopic.OrdinalLogisticRegression Then
             Me.TabPageLogisticModel.Parent = Nothing
             Me.TabPageOptions_LinearModel.Parent = Nothing
             Me.grpModelSpecification.Visible = False
             Me.grpReference.Visible = True
             Me.grpReference.Enabled = True
-            If Me.Text = "Ordinal Logistic Regression" Then Me.ckIntercept.Visible = False
+            If Me.Tag = HelpTopic.OrdinalLogisticRegression Then Me.ckIntercept.Visible = False
 
-        ElseIf Me.Text = "Multiple Linear Regression (LM)" Then
+        ElseIf Me.Tag = HelpTopic.MultipleLinearRegressionLM Then
             Me.TabPageLogisticModel.Parent = Nothing
             Me.TabPageOptions.Parent = Nothing
             Me.lbOffset.Visible = False
@@ -256,7 +256,7 @@ Public Class UiGLM
     End Sub
 
     Private Function IsCurrentBinomialGlmFamily() As Boolean
-        If Not String.Equals(Me.Text, "Generalized Linear Models", StringComparison.Ordinal) Then Return False
+        If Me.Tag <> HelpTopic.GeneralizedLinearModelsGLM Then Return False
         If Me.cbFamily.SelectedItem Is Nothing Then Return False
         Return String.Equals(GetFamilyCodeFromDisplayName(Me.cbFamily.SelectedItem.ToString()), "Binomial", StringComparison.OrdinalIgnoreCase)
     End Function
@@ -507,7 +507,7 @@ Public Class UiGLM
         End If
 
         'ZIP logistic initial parameter values
-        If Me.Text = "Zero-Inflated Poisson Regression" AndAlso Me.tbInitValuesLogistic.Text <> String.Empty Then
+        If Me.Tag = HelpTopic.ZeroInflatedPoissonRegression AndAlso Me.tbInitValuesLogistic.Text <> String.Empty Then
             setTextBoxProperties(Me.tbInitValuesLogistic, Color.White, String.Empty)
             vals = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, bErr)
             If bErr Then
@@ -542,7 +542,7 @@ Public Class UiGLM
             Exit Sub
         End If
 
-        If Me.Text = "Zero-Inflated Poisson Regression" Then
+        If Me.Tag = HelpTopic.ZeroInflatedPoissonRegression Then
             If Me.lbSelectedEffectsListLogistic.Items.Count = 0 AndAlso Not Me.ckInterceptLogistic.Checked Then
                 strErr = "No Intercept and Effects were specified for the Logistic part of the ZIP model."
                 bWait = True
@@ -671,7 +671,7 @@ Public Class UiGLM
                 Me.lbSelectedVariables.Items.Clear()
                 Remove_Item(Me.lbSelectedEffectsList, "all", Me.TermSpecs)
 
-                If Me.Text = "Zero-Inflated Poisson Regression" Then
+                If Me.Tag = HelpTopic.ZeroInflatedPoissonRegression Then
                     Me.lbSelectedVariablesLogistic.Items.Clear()
                     Remove_Item(Me.lbSelectedEffectsListLogistic, "all", Me.TermSpecsLogistic)
                 End If
@@ -717,7 +717,7 @@ Public Class UiGLM
                 End If
             End If
 
-            If Me.Text = "Zero-Inflated Poisson Regression" Then
+            If Me.Tag = HelpTopic.ZeroInflatedPoissonRegression Then
                 'we need to import Logistic related data and init values
                 LogisticData = GetData(True)
                 If LogisticData.bZeroValid Then 'check for zero valid data
@@ -742,17 +742,17 @@ Public Class UiGLM
                 MyData.SubsetByRowIdValues(CommonItems(MyData.RowIds, commonRows))
             End If
 
-            If Me.Text = "Generalized Linear Models" Then
+            If Me.Tag = HelpTopic.GeneralizedLinearModelsGLM Then
                 Me.RunGLM(MyData, bInitialValues)
-            ElseIf Me.Text = "Negative Binomial Regression (NB2)" Then
+            ElseIf Me.Tag = HelpTopic.NegativeBinomialRegressionNB2 Then
                 Me.RunGLMNB2(MyData, bInitialValues)
-            ElseIf Me.Text = "Zero-Inflated Poisson Regression" Then
+            ElseIf Me.Tag = HelpTopic.ZeroInflatedPoissonRegression Then
                 Me.RunZIP(MyData, bInitialValues, LogisticData, bLogisticInitialValues)
-            ElseIf Me.Text = "Multinomial Logistic Regression" Then
+            ElseIf Me.Tag = HelpTopic.MultinomialLogisticRegression Then
                 Me.RunMultiLogit(MyData, bInitialValues)
-            ElseIf Me.Text = "Ordinal Logistic Regression" Then
+            ElseIf Me.Tag = HelpTopic.OrdinalLogisticRegression Then
                 Me.RunOrdLogit(MyData, bInitialValues)
-            ElseIf Me.Text = "Multiple Linear Regression (LM)" Then
+            ElseIf Me.Tag = HelpTopic.MultipleLinearRegressionLM Then
                 Me.RunOLS(MyData, bInitialValues)
             End If
 
@@ -1444,7 +1444,7 @@ Public Class UiGLM
                     End If
                 End If
             End If
-            If Me.Text = "Zero-Inflated Poisson Regression" Then
+            If Me.Tag = HelpTopic.ZeroInflatedPoissonRegression Then
                 If Not IsEqualListBox(Me.lbXs, Me.lbSelectedVariablesLogistic) Then
                     'values on 1st tab changed so refresh it with new values
                     If Me.lbSelectedVariablesLogistic.Items.Count > 0 Then
@@ -1466,7 +1466,7 @@ Public Class UiGLM
         Else 'load actual Xvars list for the 1st time
             For i = 0 To Me.lbXs.Items.Count - 1
                 Me.lbSelectedVariables.Items.Add(Me.lbXs.Items(i))
-                If Me.Text = "Zero-Inflated Poisson Regression" Then Me.lbSelectedVariablesLogistic.Items.Add(Me.lbXs.Items(i))
+                If Me.Tag = HelpTopic.ZeroInflatedPoissonRegression Then Me.lbSelectedVariablesLogistic.Items.Add(Me.lbXs.Items(i))
             Next
         End If
     End Sub

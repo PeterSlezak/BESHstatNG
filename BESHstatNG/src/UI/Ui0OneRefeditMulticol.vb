@@ -20,20 +20,20 @@ Public Class Ui0OneRefeditMulticol
         Me.TabPage_OptionsRxC.Parent = Nothing
         Me.TabPage_OptionsICC.Parent = Nothing
 
-        If Me.Text = "Friedman Test" Then
+        If Me.Tag = HelpTopic.FriedmanTest Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
 
-        ElseIf Me.Text = "One-Way Repeated-Measures ANOVA" Then
+        ElseIf Me.Tag = HelpTopic.OneWayRepeatedMeasuresANOVA Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.grpRmANOVAsphericity.Visible = True
             Me.grpMCP.Visible = True
 
-        ElseIf Me.Text = "Cochran's Q Test" Then
-        ElseIf Me.Text = "RxC Table" Then
+        ElseIf Me.Tag = HelpTopic.CochranSQTest Then
+        ElseIf Me.Tag = HelpTopic.RxCTable Then
             Me.TabPage_OptionsRxC.Parent = Me.TabMultipage
             ' Reuse the existing alpha controls for ordinal-association confidence intervals.
             Me.TabPage_OptionsRxC.Controls.Add(Me.lblAlphaICC)
@@ -43,7 +43,7 @@ Public Class Ui0OneRefeditMulticol
             Me.lblAlphaICC.Location = New System.Drawing.Point(20, 132)
             Me.spinBtnAlphaICC.Location = New System.Drawing.Point(68, 130)
 
-        ElseIf Me.Text = "Mantel-Haenszel Test" Then
+        ElseIf Me.Tag = HelpTopic.MantelHaenszelTest Then
             Me.TabPage_OptionsICC.Parent = Me.TabMultipage
             Me.grpICCtype.Visible = False
             Me.ckRepeatabilityCoefficient.Visible = False
@@ -52,11 +52,11 @@ Public Class Ui0OneRefeditMulticol
             Me.lblAlphaICC.Location = New System.Drawing.Point(20, 20)
             Me.spinBtnAlphaICC.Location = New System.Drawing.Point(68, 18)
 
-        ElseIf Me.Text = "Skillings-Mack Test" Then
-        ElseIf Me.Text = "Correspondence Analysis" Then
+        ElseIf Me.Tag = HelpTopic.SkillingsMackTest Then
+        ElseIf Me.Tag = HelpTopic.CorrespondenceAnalysis Then
             Me.ckLabels.Visible = True
 
-        ElseIf Me.Text = "Intraclass Correlation Coefficients" Then
+        ElseIf Me.Tag = HelpTopic.IntraclassCorrelationCoefficients Then
             Me.TabPage_OptionsICC.Parent = Me.TabMultipage
 
         End If
@@ -155,7 +155,7 @@ Public Class Ui0OneRefeditMulticol
             If Me.checkInputs() Then Exit Sub
 
             'Get Data
-            If Me.Text = "Correspondence Analysis" Then
+            If Me.Tag = HelpTopic.CorrespondenceAnalysis Then
                 CAdata = getCAdata(errText)
             Else
                 data = Me.getDataMultipleGroups(errText)
@@ -165,21 +165,21 @@ Public Class Ui0OneRefeditMulticol
                 Exit Sub
             End If
 
-            If Me.Text = "Friedman Test" Then
+            If Me.Tag = HelpTopic.FriedmanTest Then
                 Me.RunFriedman(data)
-            ElseIf Me.Text = "One-Way Repeated-Measures ANOVA" Then
+            ElseIf Me.Tag = HelpTopic.OneWayRepeatedMeasuresANOVA Then
                 Me.Run1WayRmANOVA(data)
-            ElseIf Me.Text = "Cochran's Q Test" Then
+            ElseIf Me.Tag = HelpTopic.CochranSQTest Then
                 Me.RunCochran(data)
-            ElseIf Me.Text = "RxC Table" Then
+            ElseIf Me.Tag = HelpTopic.RxCTable Then
                 Me.RunRxC(data)
-            ElseIf Me.Text = "Mantel-Haenszel Test" Then
+            ElseIf Me.Tag = HelpTopic.MantelHaenszelTest Then
                 Me.RunMantelHaenszel(data)
-            ElseIf Me.Text = "Skillings-Mack Test" Then
+            ElseIf Me.Tag = HelpTopic.SkillingsMackTest Then
                 Me.RunSkillingsMack()
-            ElseIf Me.Text = "Correspondence Analysis" Then
+            ElseIf Me.Tag = HelpTopic.CorrespondenceAnalysis Then
                 Me.RunCA(CAdata)
-            ElseIf Me.Text = "Intraclass Correlation Coefficients" Then
+            ElseIf Me.Tag = HelpTopic.IntraclassCorrelationCoefficients Then
                 Me.RunICC()
             End If
         Catch ex As Exception

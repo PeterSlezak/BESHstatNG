@@ -26,7 +26,7 @@ Public Class Ui13GEE
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         ' Add any initialization after the InitializeComponent() call.
-        If Me.Text = "Generalized Estimating Equations" Then
+        If Me.Tag = HelpTopic.GeneralizedEstimatingEquationsGEE Then
 
             For Each sFam In regression.Family.FamiliesList
                 Me.cbFamily.Items.Add(sFam)
@@ -534,7 +534,7 @@ Public Class Ui13GEE
     ''' Returns <c>True</c> when the currently selected GEE family is binomial.
     ''' </summary>
     Private Function IsCurrentBinomialGeeFamily() As Boolean
-        If Not String.Equals(Me.Text, "Generalized Estimating Equations", StringComparison.Ordinal) Then Return False
+        If Me.Tag <> HelpTopic.GeneralizedEstimatingEquationsGEE Then Return False
         If Me.cbFamily.SelectedItem Is Nothing Then Return False
         Return String.Equals(GetFamilyCodeFromDisplayName(Me.cbFamily.SelectedItem.ToString()), "Binomial", StringComparison.OrdinalIgnoreCase)
     End Function
@@ -622,7 +622,7 @@ Public Class Ui13GEE
                 End If
             End If
 
-            If Me.Text = "Generalized Estimating Equations" Then
+            If Me.Tag = HelpTopic.GeneralizedEstimatingEquationsGEE Then
                 Me.RunGEE(MyData, bInitialValues)
             End If
         Catch ex As Exception

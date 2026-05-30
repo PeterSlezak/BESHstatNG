@@ -27,17 +27,17 @@ Public Class UibyID
         Me.TabPage_OptionsOutliers.Parent = Nothing
         Me.TabPage_OptionsUTT.Parent = Nothing
 
-        If Me.Text = "Kruskal-Wallis Test" Then
+        If Me.Tag = HelpTopic.KruskalWallisTest Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.grpHomogeneityVariances.Visible = True
 
-        ElseIf Me.Text = "Box and Whiskers" Then
+        ElseIf Me.Tag = HelpTopic.BoxAndWhiskers Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
 
-        ElseIf Me.Text = "One-Way ANOVA" Then
+        ElseIf Me.Tag = HelpTopic.OneWayANOVA Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
@@ -45,7 +45,7 @@ Public Class UibyID
             Me.grpANOVA1MCP.Visible = True
             Me.ckWelch.Visible = True
 
-        ElseIf Me.Text = "Mann-Whitney Test" Then
+        ElseIf Me.Tag = HelpTopic.MannWhitneyTest Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
@@ -53,43 +53,43 @@ Public Class UibyID
             Me.spinBtnAlpha.Visible = True
             Me.lblAlpha.Visible = True
 
-        ElseIf Me.Text = "Unpaired T-test" Then
+        ElseIf Me.Tag = HelpTopic.UnpairedTTest Then
             Me.TabPage_OptionsUTT.Parent = Me.TabMultipage
             Me.spinBtnAlpha_UTT.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha_UTT.Minimum, Me.spinBtnAlpha_UTT.Maximum)
             Me.UpdateUnpairedTtestOptionVisibility()
             Me.ApplyUnpairedTtestInputLabels()
 
-        ElseIf Me.Text = "ROC Curve" Then
+        ElseIf Me.Tag = HelpTopic.ROCCurve Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.spinBtnAlpha.Visible = True
             Me.lblAlpha.Visible = True
 
-        ElseIf Me.Text = "Descriptive Statistcs" Then
+        ElseIf Me.Tag = HelpTopic.DescriptiveStatistics Then
             Me.TabPage_OptionsDescriptive.Parent = Me.TabMultipage
             Me.ckBoxPlot_Descriptive.Visible = True
 
-        ElseIf Me.Text = "Normality" Then
+        ElseIf Me.Tag = HelpTopic.NormalityTests Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
 
-        ElseIf Me.Text = "Histogram" Then
+        ElseIf Me.Tag = HelpTopic.Histogram Then
             Me.TabPage_OptionsHistogram.Parent = Me.TabMultipage
 
-        ElseIf Me.Text = "Normal Plot" Then
+        ElseIf Me.Tag = HelpTopic.NormalPlot Then
             Me.TabPage_OptionsNormalPlot.Parent = Me.TabMultipage
 
-        ElseIf Me.Text = "Homogeneity Of Variance" Then
+        ElseIf Me.Tag = HelpTopic.HomogeneityOfVariance Then
             Me.TabPage_Options.Parent = Me.TabMultipage
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.grpHomogeneityVariances.Visible = True
 
-        ElseIf Me.Text = "Symmetry" Then
+        ElseIf Me.Tag = HelpTopic.Symmetry Then
             Me.TabPage_OptionsSymmetry.Parent = Me.TabMultipage
 
-        ElseIf Me.Text = "Outliers" Then
+        ElseIf Me.Tag = HelpTopic.UnivariateOutliers Then
             Me.TabPage_OptionsOutliers.Parent = Me.TabMultipage
 
         End If
@@ -101,7 +101,7 @@ Public Class UibyID
     Private Function checkInputs() As Boolean
         Dim bOut As Boolean
         'check input data------------------------------
-        If Me.Text = "Mann-Whitney Test" Or Me.Text = "Unpaired T-test" Or Me.Text = "ROC Curve" Or Me.optByID.Checked Then
+        If Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Or Me.optByID.Checked Then
             If CheckRefEdit(Me.RefEdit1.Address, True) Then
                 Me.TabMultipage.SelectedIndex = 0
                 RefEditReset(Me.RefEdit1)
@@ -240,13 +240,13 @@ Public Class UibyID
             Dim MWdata As TwoGroupsData, data As MultiGroupsUnpairedData
 
             'Validate Inputs
-            If Me.Text = "Unpaired T-test" Then
+            If Me.Tag = HelpTopic.UnpairedTTest Then
                 If Me.ValidateUnpairedTtestOptionInputs() Then Exit Sub
             Else
                 If Me.checkInputs() Then Exit Sub
             End If
 
-            If Me.Text = "Mann-Whitney Test" Or Me.Text = "Unpaired T-test" Or Me.Text = "ROC Curve" Then
+            If Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Then
 
                 'Get Data
                 MWdata = Me.getData2Groups(errText)
@@ -258,11 +258,11 @@ Public Class UibyID
                 data.X = {MWdata.X1, MWdata.X2}
                 data.varNames = {MWdata.name1, MWdata.name2}
 
-                If Me.Text = "Mann-Whitney Test" Then
+                If Me.Tag = HelpTopic.MannWhitneyTest Then
                     Me.RunMannWhitney(data)
-                ElseIf Me.Text = "Unpaired T-test" Then
+                ElseIf Me.Tag = HelpTopic.UnpairedTTest Then
                     Me.RunTtest(data)
-                ElseIf Me.Text = "ROC Curve" Then
+                ElseIf Me.Tag = HelpTopic.ROCCurve Then
                     Me.RunROC(data)
                 End If
             Else
@@ -274,25 +274,25 @@ Public Class UibyID
                 End If
 
                 'Run analysis
-                If Me.Text = "Kruskal-Wallis Test" Then
+                If Me.Tag = HelpTopic.KruskalWallisTest Then
                     Me.RunKruskallWalis(data)
-                ElseIf Me.Text = "Box And Whiskers" Then
+                ElseIf Me.Tag = HelpTopic.BoxAndWhiskers Then
                     Me.RunBoxAndWhiskers(data)
-                ElseIf Me.Text = "One-Way ANOVA" Then
+                ElseIf Me.Tag = HelpTopic.OneWayANOVA Then
                     Me.RunOneWayANOVA(data)
-                ElseIf Me.Text = "Descriptive Statistcs" Then
+                ElseIf Me.Tag = HelpTopic.DescriptiveStatistics Then
                     Me.RunDescStat(data)
-                ElseIf Me.Text = "Normality" Then
+                ElseIf Me.Tag = HelpTopic.NormalityTests Then
                     Me.RunNormality(data)
-                ElseIf Me.Text = "Histogram" Then
+                ElseIf Me.Tag = HelpTopic.Histogram Then
                     Me.RunHistogram(data)
-                ElseIf Me.Text = "Normal Plot" Then
+                ElseIf Me.Tag = HelpTopic.NormalPlot Then
                     Me.RunNormalPlot(data)
-                ElseIf Me.Text = "Homogeneity Of Variance" Then
+                ElseIf Me.Tag = HelpTopic.HomogeneityOfVariance Then
                     Me.RunHomogeneityVar(data)
-                ElseIf Me.Text = "Symmetry" Then
+                ElseIf Me.Tag = HelpTopic.Symmetry Then
                     Me.RunSymmetry(data)
-                ElseIf Me.Text = "Outliers" Then
+                ElseIf Me.Tag = HelpTopic.UnivariateOutliers Then
                     Me.RunOutliers(data)
                 End If
             End If
@@ -1038,11 +1038,11 @@ Public Class UibyID
     End Sub
 
     Private Sub optByColumn_Click(sender As Object, e As System.EventArgs) Handles optByColumn.Click
-        If Me.Text = "Mann-Whitney Test" Or Me.Text = "Unpaired T-test" Or Me.Text = "ROC Curve" Then
-            If Me.Text = "ROC Curve" Then
+        If Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Then
+            If Me.Tag = HelpTopic.ROCCurve Then
                 Me.lblRefedit1.Text = "Group with characteristic present (patients)"
                 Me.lblRefedit2.Text = "Group with characteristic absent (controls)"
-            ElseIf Me.Text = "Unpaired T-test" Then
+            ElseIf Me.Tag = HelpTopic.UnpairedTTest Then
                 Me.ApplyUnpairedTtestInputLabels()
             Else
                 Me.lblRefedit1.Text = "Data: Group 1"
@@ -1060,7 +1060,7 @@ Public Class UibyID
     End Sub
 
     Private Sub optByID_Click(sender As Object, e As System.EventArgs) Handles optByID.Click
-        If Me.Text = "Mann-Whitney Test" Or Me.Text = "Unpaired T-test" Or Me.Text = "ROC Curve" Then
+        If Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Then
             Me.RefEdit1.txtAddress.Text = String.Empty
             Me.RefEdit1.txtAddress.Select()
             Me.lblRefedit1.Text = "Group ID:"
@@ -1075,7 +1075,7 @@ Public Class UibyID
     Private Sub UnpairedTtestHypothesis_CheckedChanged(sender As Object, e As System.EventArgs) Handles optHypothesisSuperiority_UTT.CheckedChanged,
                                                                                                         optHypothesisNonInferiority_UTT.CheckedChanged,
                                                                                                         optHypothesisEquivalence_UTT.CheckedChanged
-        If Me.Text = "Unpaired T-test" Then
+        If Me.Tag = HelpTopic.UnpairedTTest Then
             Me.UpdateUnpairedTtestOptionVisibility()
             Me.ApplyUnpairedTtestInputLabels()
         End If
@@ -1116,7 +1116,7 @@ Public Class UibyID
     End Sub
 
     Private Function ValidateUnpairedTtestOptionInputs() As Boolean
-        If Me.Text <> "Unpaired T-test" Then Return False
+        If Me.Tag <> HelpTopic.UnpairedTTest Then Return False
 
         If (Me.optHypothesisNonInferiority_UTT.Checked OrElse Me.optHypothesisEquivalence_UTT.Checked) AndAlso Me.optByID.Checked Then
             MsgBox("For noninferiority or equivalence, use 'By Column' input so the direction is explicit: control/reference in Input 1 and experimental/test in Input 2.", vbExclamation)

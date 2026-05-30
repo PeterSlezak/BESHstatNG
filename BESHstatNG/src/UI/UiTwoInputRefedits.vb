@@ -29,10 +29,10 @@ Public Class UiTwoInputRefedits
         Me.ckFirstRow.Visible = False
         Me.SetDemingExtendedControlsVisible(False)
 
-        If Me.Text = "Hotelling's T-Squared Test" Then
+        If Me.Tag = HelpTopic.HotellingSTSquaredTest Then
             Me.TabPageOptionsHotteling.Parent = Me.TabMultipage
 
-        ElseIf Me.Text = "Deming Regression" Then
+        ElseIf Me.Tag = HelpTopic.DemingRegression Then
             Me.TabPageOptionsDeming.Parent = Me.TabMultipage
             Me.lblRefedit1.Text = "Reference method (X)"
             Me.lblRefedit2.Text = "Test method (Y)"
@@ -41,9 +41,8 @@ Public Class UiTwoInputRefedits
             Me.SetDemingExtendedControlsVisible(True)
             Me.ApplyDemingControlState()
 
-        ElseIf analysis = "Kendall's Rank Correlation" Or
-               analysis = "Spearman Rank Correlation" Or
-               analysis = "Theil-Sen Simple Regression" Then
+        ElseIf Me.Tag = HelpTopic.KendallSRankCorrelation Or Me.Tag = HelpTopic.SpearmanRankCorrelation Or
+               Me.Tag = HelpTopic.TheilSenSimpleRegression Then
             Me.TabPageOptions.Parent = Me.TabMultipage
             Me.ckSignTest.Visible = False
             Me.lblAlphaGlobal.Visible = True
@@ -51,23 +50,23 @@ Public Class UiTwoInputRefedits
             Me.spinBtnAlphaGlobal.Visible = True
             Me.spinBtnAlphaGlobal.Location = New System.Drawing.Point(67, 43)
 
-        ElseIf analysis = "Wilcoxon Signed Rank Test" Then
+        ElseIf Me.Tag = HelpTopic.WilcoxonSignedRankTest Then
             Me.TabPageOptions.Parent = Me.TabMultipage
             Me.ckSignTest.Visible = True
 
-        ElseIf Me.Text = "Paired T-test" Then
+        ElseIf Me.Tag = HelpTopic.PairedSingleSampleTTests Then
             Me.TabPageOptions.Parent = Me.TabMultipage
             Me.ckSignTest.Visible = False
             Me.lblAlphaGlobal.Visible = False
             Me.spinBtnAlphaGlobal.Visible = False
 
-        ElseIf Me.Text = "Lin's Concordance Correlation Coefficient" Then
+        ElseIf Me.Tag = HelpTopic.LinsCCC Then
             Me.TabPageOptionsLinCCC.Parent = Me.TabMultipage
             Me.lblRefedit1.Text = "Reference method (X)"
             Me.lblRefedit2.Text = "Test method (Y)"
             Me.ApplyLinCCCControlState()
 
-        ElseIf Me.Text = "Cohen's / Weighted Kappa" Then
+        ElseIf Me.Tag = HelpTopic.CohensKappa Then
             Me.TabPageOptionsKappa.Parent = Me.TabMultipage
             Me.cmbWeightingSchemeKappa.Items.AddRange(New Object() {"Unweighted (Cohen's Kappa)", "Linear weights", "Quadratic weights", "Cicchetti-Allison", "Fleiss-Cohen"})
             Me.cmbWeightingSchemeKappa.SelectedIndex = 0
@@ -196,10 +195,10 @@ Public Class UiTwoInputRefedits
             If Me.checkInputs() Then Exit Sub
 
             'Get Data
-            If Me.Text = "Hotelling's T-Squared Test" Then
+            If Me.Tag = HelpTopic.HotellingSTSquaredTest Then
                 'We have two multicolumn inptus
                 D1 = Me.getDataHotteling(errText)
-            ElseIf Me.Text = "Cohen's / Weighted Kappa" Then
+            ElseIf Me.Tag = HelpTopic.CohensKappa Then
                 ' Kappa loads its own categorical data inside RunCohensKappa().
             Else
                 data = Me.getData(errText)
@@ -210,23 +209,23 @@ Public Class UiTwoInputRefedits
                 Exit Sub
             End If
 
-            If Me.Text = "Wilcoxon Signed Rank Test" Then
+            If Me.Tag = HelpTopic.WilcoxonSignedRankTest Then
                 Me.RunWilcoxon(data)
-            ElseIf Me.Text = "Spearman Rank Correlation" Then
+            ElseIf Me.Tag = HelpTopic.SpearmanRankCorrelation Then
                 Me.RunSpearman(data)
-            ElseIf Me.Text = "Kendall's Rank Correlation" Then
+            ElseIf Me.Tag = HelpTopic.KendallSRankCorrelation Then
                 Me.RunKendall(data)
-            ElseIf Me.Text = "Theil-Sen Simple Regression" Then
+            ElseIf Me.Tag = HelpTopic.TheilSenSimpleRegression Then
                 Me.RunTheilSen(data)
-            ElseIf Me.Text = "Paired T-test" Then
+            ElseIf Me.Tag = HelpTopic.PairedSingleSampleTTests Then
                 Me.RunPairedTtest(data)
-            ElseIf Me.Text = "Hotelling's T-Squared Test" Then
+            ElseIf Me.Tag = HelpTopic.HotellingSTSquaredTest Then
                 Me.RunHotteling(D1.Item1, D1.Item2)
-            ElseIf Me.Text = "Deming Regression" Then
+            ElseIf Me.Tag = HelpTopic.DemingRegression Then
                 Me.RunDeming(data)
-            ElseIf Me.Text = "Lin's Concordance Correlation Coefficient" Then
+            ElseIf Me.Tag = HelpTopic.LinsCCC Then
                 Me.RunLinsCCC(data)
-            ElseIf Me.Text = "Cohen's / Weighted Kappa" Then
+            ElseIf Me.Tag = HelpTopic.CohensKappa Then
                 Me.RunCohensKappa()
             End If
         Catch ex As Exception
@@ -636,12 +635,12 @@ Public Class UiTwoInputRefedits
     Private Function checkInputs() As Boolean
         Dim bOut As Boolean
         'check input data------------------------------
-        If CheckRefEdit(Me.RefEdit1.Address, If(Me.Text = "Hotelling's T-Squared Test", False, True)) Then
+        If CheckRefEdit(Me.RefEdit1.Address, If(Me.Tag = HelpTopic.HotellingSTSquaredTest, False, True)) Then
             Me.TabMultipage.SelectedIndex = 0
             RefEditReset(Me.RefEdit1)
             bOut = True
         End If
-        If CheckRefEdit(Me.RefEdit2.Address, If(Me.Text = "Hotelling's T-Squared Test", False, True)) Then
+        If CheckRefEdit(Me.RefEdit2.Address, If(Me.Tag = HelpTopic.HotellingSTSquaredTest, False, True)) Then
             Me.TabMultipage.SelectedIndex = 0
             RefEditReset(Me.RefEdit2)
             bOut = True
@@ -755,7 +754,7 @@ Public Class UiTwoInputRefedits
     End Sub
 
     Private Sub ApplyDemingControlState()
-        If Me.Text <> "Deming Regression" Then Exit Sub
+        If Me.Tag <> HelpTopic.DemingRegression Then Exit Sub
 
         Dim modelIndex As Integer = Me.cmbDemingVarianceModel.SelectedIndex
         If modelIndex < 0 Then modelIndex = 0

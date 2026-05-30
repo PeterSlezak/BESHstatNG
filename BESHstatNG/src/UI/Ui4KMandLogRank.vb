@@ -24,11 +24,11 @@ Public Class Ui4KMandLogRank
         End With
         Me.cbXunits.SelectedIndex = 0
 
-        If Me.Text = "Kaplan-Meier Plot" Then
+        If Me.Tag = HelpTopic.KaplanMeierPlot Then
             Me.lblGroup.Text = "Group ID (Optional)"
             Me.lblStrata.Visible = False
             Me.RefEdit4_StrataID.Visible = False
-        ElseIf Me.Text = "Logrank Test" Then
+        ElseIf Me.Tag = HelpTopic.LogrankTest Then
             Me.lblGroup.Text = "Group ID"
         End If
         Me.RefEdit1_SurvivalTime.txtAddress.Select()
@@ -49,9 +49,9 @@ Public Class Ui4KMandLogRank
                 Exit Sub
             End If
 
-            If Me.Text = "Kaplan-Meier Plot" Then
+            If Me.Tag = HelpTopic.KaplanMeierPlot Then
                 Me.RunKM(data)
-            ElseIf Me.Text = "Logrank Test" Then
+            ElseIf Me.Tag = HelpTopic.LogrankTest Then
                 Me.RunLogrank(data)
             End If
         Catch ex As Exception
@@ -210,8 +210,8 @@ Public Class Ui4KMandLogRank
         End If
 
         'It's optional for KM plot
-        If (Me.Text = "Kaplan-Meier Plot" And Me.RefEdit3_GroupID.Address <> String.Empty) Or
-            Me.Text = "Logrank Test" Then
+        If (Me.Tag = HelpTopic.KaplanMeierPlot And Me.RefEdit3_GroupID.Address <> String.Empty) Or
+            Me.Tag = HelpTopic.LogrankTest Then
             If CheckRefEdit(Me.RefEdit3_GroupID.Address, True) Then
                 Me.TabMultipage.SelectedIndex = 0
                 RefEditReset(Me.RefEdit3_GroupID)
@@ -220,7 +220,7 @@ Public Class Ui4KMandLogRank
         End If
 
         'It's optional for Logrank and not applicable for KM
-        If Me.Text = "Logrank Test" And Me.RefEdit4_StrataID.Address <> String.Empty Then
+        If Me.Tag = HelpTopic.LogrankTest And Me.RefEdit4_StrataID.Address <> String.Empty Then
             If CheckRefEdit(Me.RefEdit4_StrataID.Address, True) Then
                 Me.TabMultipage.SelectedIndex = 0
                 RefEditReset(Me.RefEdit4_StrataID)

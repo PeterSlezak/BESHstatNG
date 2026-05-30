@@ -352,7 +352,7 @@ Public Class Ui18MMRM
                 Exit Sub
             End If
 
-            If Me.Text = "Mixed Models for Repeated Measures (MMRM)" Then
+            If Me.Tag = HelpTopic.MixedModelsForRepeatedMeasuresMMRM Then
                 Await Me.RunMMRMAsync(MyData)
             End If
 
