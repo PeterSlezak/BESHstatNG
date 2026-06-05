@@ -126,8 +126,6 @@ Current download page:
 
 https://beshstat.eu/download/
 
-If your environment blocks unsigned installers or unmanaged add-ins, consult your IT administrator.
-
 ## Documentation
 
 Online help is published at:
@@ -238,9 +236,6 @@ Current priorities include:
 
 - strengthening LMM, MMRM, and PSM tutorials and workbook examples
 - extending validation summaries and public benchmark coverage
-- improving release automation and CI/test-result visibility
-- polishing GitHub, documentation, and website release synchronization
-- preparing for code signing when the release workflow is stable enough to justify it
 - adding more real-world biomedical, teaching, and formula-driven workbook templates
 
 ## Support and links
