@@ -15,7 +15,7 @@ A compiled `.xll` add-in (built with Excel-DNA) is designed for modern Excel ins
 
 **2) Fewer “macro security” obstacles**  
 `.xlam` add-ins are treated like macro-enabled workbooks, so users can run into macro policy blocks, warnings, or restricted environments.  
-BESHStatNG is a compiled add-in and does not depend on workbook macros. (The installer may still show a Windows warning if it is not code-signed.)
+BESHStatNG is a compiled add-in and does not depend on workbook macros. The MSI installer is digitally signed to reduce installation-trust warnings and make deployment easier in managed Windows environments.
 
 **3) More stable UI and input handling**  
 BESHStatNG uses dedicated Windows Forms dialogs and consistent data import rules.  
@@ -43,7 +43,7 @@ BESHStatNG keeps the same “Excel-first” workflow, but moves the engine from 
 3. Choose a method, select the required data (range picker or variable list), and click **Run**.
 
 !!! tip "New here? Read these two pages first"
-    - [Getting started](getting-started.md) — install, SmartScreen/Trust Center issues, logs
+    - [Getting started](getting-started.md) — install, digital-signature check, Trust Center issues, logs
     - [How to select data](data-selection.md) — range selection vs variable-by-column selection
 
 ## How results are written

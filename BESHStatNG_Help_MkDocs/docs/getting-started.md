@@ -11,20 +11,29 @@ This page covers installation and the first things to check when **BESHStatNG** 
 2. Run the **BESHStatNG** `.msi` installer.
 3. Start Excel and look for the **BESH Stat NG** tab on the ribbon.
 
-!!! warning "Unsigned installer (Windows SmartScreen)"
-    The installer is **not code-signed**, so Windows may show a blue *“Windows protected your PC”* (SmartScreen) or an *Unknown publisher* warning.
+!!! success "Code-signed installer"
+    The BESHStatNG MSI installer is digitally signed.
 
-    - If you trust the file (downloaded from `beshstat.eu`), choose **More info → Run anyway**.
-    - In managed/corporate environments, your IT policies may block unsigned installers.
+    When installing, Windows should show a verified publisher instead of an *Unknown publisher* warning. If you want to check this manually, right-click the downloaded `.msi` file, choose **Properties**, and open the **Digital Signatures** tab.
 
-### Unsigned installer (Windows SmartScreen)
-![Windows SmartScreen](assets/images/000gettingstarted/000gettingstarted_smartscreen1.png)
+    Use installers downloaded from the official BESHStat website or from the project’s GitHub releases page.
 
-### Unsigned installer (Windows SmartScreen - More info → Run anyway)
-![Windows SmartScreen - Run anyway](assets/images/000gettingstarted/000gettingstarted_smartscreen2.png)
+!!! note "Windows SmartScreen and organization policies"
+    Code signing improves installation trust and should reduce SmartScreen / unknown-publisher warnings. However, Windows SmartScreen reputation and corporate endpoint-security policies may still show additional prompts, especially immediately after a new release or in managed environments.
 
-!!! tip "Downloaded file blocked (Mark of the Web)"
-    If Windows blocks execution after download, right‑click the `.msi` → **Properties** → check **Unblock** (if present) → OK.
+    If installation is blocked by your organization, ask your IT administrator to verify the digital signature and allow the signed BESHStatNG installer.
+
+### Verify the installer signature
+
+To verify the installer before running it:
+
+1. Right-click the downloaded `.msi` file.
+2. Choose **Properties**.
+3. Open the **Digital Signatures** tab.
+4. Select the listed signature and click **Details**.
+5. Confirm that Windows reports the signature as valid.
+
+If the **Digital Signatures** tab is missing, the file may not be the signed installer. Download the MSI again from the official BESHStat website or from the GitHub releases page.
 
 ## Confirm the add-in loaded
 
@@ -37,9 +46,9 @@ If you don’t see the **BESH Stat NG** ribbon tab:
     - At the bottom, choose **Manage: Disabled Items → Go…**
     - Re-enable BESHStatNG.
 
-## Excel Trust Center (common reasons add-ins are blocked)
+## Excel Trust Center and managed environments
 
-Excel can block add-ins from locations it doesn’t trust.
+Excel or organization security policies can still block add-ins even when the installer is digitally signed.
 
 - **Trusted Locations**: in **File → Options → Trust Center → Trust Center Settings → Trusted Locations**, add the folder where BESHStatNG is installed.
 - **Protected View**: if your workbook opens in Protected View, click **Enable Editing** before running analysis.
