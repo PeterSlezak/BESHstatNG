@@ -35,6 +35,18 @@ Public Class Ui4KMandLogRank
         Me.WireHelp(Me.btnHelp)
     End Sub
 
+    Friend Sub ApplyHelpTopicConfiguration()
+        If Me.Tag = HelpTopic.KaplanMeierPlot Then
+            Me.lblGroup.Text = "Group ID (Optional)"
+            Me.lblStrata.Visible = False
+            Me.RefEdit4_StrataID.Visible = False
+        ElseIf Me.Tag = HelpTopic.LogrankTest Then
+            Me.lblGroup.Text = "Group ID"
+            Me.lblStrata.Visible = True
+            Me.RefEdit4_StrataID.Visible = True
+        End If
+    End Sub
+
     Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
         Try
             Dim errText As String = String.Empty, data As DataObj

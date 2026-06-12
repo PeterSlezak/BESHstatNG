@@ -474,28 +474,6 @@ Namespace regression
             Return True
         End Function
 
-
-        Friend Shared Function QuadraticFormLMM(v() As Double, a(,) As Double) As Double
-            If v Is Nothing OrElse a Is Nothing Then Return Double.NaN
-            If a.GetLength(0) <> v.Length OrElse a.GetLength(1) <> v.Length Then Return Double.NaN
-
-            Dim tmp(v.Length - 1) As Double
-            For i As Integer = 0 To v.Length - 1
-                Dim s As Double = 0.0
-                For j As Integer = 0 To v.Length - 1
-                    s += a(i, j) * v(j)
-                Next
-                tmp(i) = s
-            Next
-
-            Dim out As Double = 0.0
-            For i As Integer = 0 To v.Length - 1
-                out += v(i) * tmp(i)
-            Next
-
-            Return out
-        End Function
-
         ''' <summary>
         ''' Builds the internal universal Kenward-Roger derivative workspace for the fitted model.
         ''' </summary>

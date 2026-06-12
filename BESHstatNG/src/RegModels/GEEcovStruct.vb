@@ -1,28 +1,52 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 
 Namespace regression
 
     Public Module GEEcovStructUtils
         Public Function createGEEcovMat(type As String) As regression.GEEcovStruct
-            Dim f As GEEcovStruct
+            Dim key As String = NormalizeGeeCovarianceName(type)
 
-            If String.Equals(type, "Independence", StringComparison.OrdinalIgnoreCase) Then
-                f = New regression.Independence
-            ElseIf type.ToLower = "exchangable" Then
-                f = New regression.Exchangable
-            ElseIf type.ToLower = "autoregressive" Then
-                f = New regression.Autoregressive
-            ElseIf type.ToLower = "unstructured" Then
-                f = New regression.Unstructured
-            Else
-                CoreServices.Errors.LogAndThrow(New ApplicationException("Unsupported gee correlation type type = " & type))
-                f = Nothing
-            End If
+            Select Case key
+                Case "Independence"
+                    Return New regression.Independence
+                Case "Exchangable"
+                    Return New regression.Exchangable
+                Case "Autoregressive"
+                    Return New regression.Autoregressive
+                Case "Toeplitz"
+                    Return New regression.Toeplitz
+                Case "Unstructured"
+                    Return New regression.Unstructured
+                Case Else
+                    CoreServices.Errors.LogAndThrow(New ApplicationException("Unsupported gee correlation type = " & If(type, String.Empty)))
+                    Return Nothing
+            End Select
+        End Function
 
-            Return f
+        Friend Function NormalizeGeeCovarianceName(type As String) As String
+            Dim s As String = If(type, String.Empty).Trim()
+            If s = String.Empty Then Return "Independence"
+
+            Dim key As String = New String(s.ToLowerInvariant().Where(Function(ch) Char.IsLetterOrDigit(ch)).ToArray())
+
+            Select Case key
+                Case "independence", "independent", "id", "identity"
+                    Return "Independence"
+                Case "exchangable", "exchangeable", "exch", "cs", "compoundsymmetry", "exchangeablecs", "compoundsymmetrycs"
+                    Return "Exchangable"
+                Case "autoregressive", "ar", "ar1", "arone", "autoregressivear1", "ar1autoregressive"
+                    Return "Autoregressive"
+                Case "toeplitz", "toep", "toeplitztoep", "toeptoeplitz", "stationary", "stationarymdependent"
+                    Return "Toeplitz"
+                Case "unstructured", "un", "uns", "unstructuredun"
+                    Return "Unstructured"
+                Case Else
+                    Return s
+            End Select
         End Function
     End Module
 
@@ -37,12 +61,12 @@ Namespace regression
     '''   <item><description>Returning the current dependence‑parameter matrix</description></item>
     ''' </list>
     ''' Concrete subclasses implement specific structures such as independence,
-    ''' exchangeable, AR(1), and unstructured covariance.
+    ''' exchangeable, AR(1), Toeplitz, and unstructured covariance.
     ''' </summary>
     Public MustInherit Class GEEcovStruct
 
         Protected Friend pDepParams(,) As Double = Nothing 'for Exchangeble, Autoregressive structure it is double; for Unstructured it is a double array
-        Public Shared CovStructsList() As String = {"Independence", "Exchangable", "Autoregressive", "Unstructured"}
+        Public Shared CovStructsList() As String = {"Independence", "Exchangable", "Autoregressive", "Toeplitz", "Unstructured"}
 
         ''' <summary>
         ''' Solves the weighted design‑matrix and residual systems using the
@@ -543,6 +567,214 @@ Namespace regression
 
     End Class
 
+    ''' <summary>
+    ''' Implements a stationary Toeplitz working-correlation structure for GEE.
+    ''' Each lag has its own correlation parameter, so observations one time step apart share
+    ''' one correlation, observations two time steps apart share another, and so on.
+    ''' </summary>
+    Public Class Toeplitz
+        Inherits GEEcovStruct
+
+        Public Overrides Function tostring() As String
+            Return "Toeplitz"
+        End Function
+
+        Public Overrides Function DepParams(gee As GEE, Optional bFullCov As Boolean = True) As Double(,)
+            Dim q As Integer = Math.Max(1, gee.TimesDict.Count)
+            If Me.pDepParams Is Nothing OrElse Me.pDepParams.GetLength(0) <> q Then
+                Me.pDepParams = Matrix.IdentityMat(q - 1)
+            End If
+            Return Me.pDepParams
+        End Function
+
+        Public Overrides Sub covarianceMatrixSolve(expval() As Double, index As Integer, gee As GEE, stDev() As Double,
+                                               wdmat(,) As Double, wresid() As Double,
+                                               ByRef res_wdmat(,) As Double, ByRef res_wresid() As Double,
+                                               ByRef Optional strTrace As String = Nothing)
+
+            Dim vco(,) As Double = Nothing, iErr As Integer, bSuccess As Boolean
+            Dim vmat(,) As Double = covarianceMatrix(expval, gee, index)
+            Dim tmp(,) As Double = Matrix.M_OUTERPRODUCT(stDev, stDev)
+
+            For i = 0 To UBound(vmat)
+                For k = 0 To UBound(vmat, 2)
+                    vmat(i, k) = vmat(i, k) * tmp(i, k)
+                Next
+            Next
+
+            Dim threshold As Double = 0.01
+            For i = 0 To 20
+                iErr = 0
+                vco = Matrix.Cholesky(vmat, iErr, False)
+                If iErr > 0 Then
+                    strTrace &= " WARNING: CHOLESKY. Toeplitz working correlation was not positive-definite. Calling CovNearest." & vbNewLine
+                    bSuccess = False
+                    vmat = CovNearest(vmat, threshold)
+                    threshold *= 2
+                Else
+                    bSuccess = True
+                    Exit For
+                End If
+            Next
+
+            If Not bSuccess Then
+                For i = 0 To UBound(vmat)
+                    For k = 0 To UBound(vmat, 2)
+                        If i <> k Then vmat(i, k) = 0
+                    Next
+                Next
+                CoreServices.Log($"WARNING: Toeplitz CovNearest was Not successful. Using diagonal working covariance. vmat={Matrix.array2str(vmat)}", AppInfrastructure.LogMsgType.Warn)
+                strTrace &= $"WARNING: Toeplitz CovNearest was Not successful. Using diagonal working covariance. vmat={Matrix.array2str(vmat)}"
+                vco = Matrix.Cholesky(vmat, iErr, False)
+            End If
+
+            res_wdmat = Matrix.CholSolve(vco, wdmat)
+            res_wresid = Matrix.CholSolve(vco, wresid)
+        End Sub
+
+        Public Overrides Sub updateAssoc(gee As GEE, ByRef Optional strTrace As String = Nothing)
+            Dim q As Integer = Math.Max(1, gee.TimesDict.Count)
+            Dim corr(q - 1, q - 1) As Double
+            For i = 0 To q - 1
+                corr(i, i) = 1.0R
+            Next
+
+            If q <= 1 Then
+                Me.pDepParams = corr
+                Return
+            End If
+
+            Dim crossProducts(q - 1, q - 1) As Double
+            Dim pairCounts(q - 1, q - 1) As Double
+            Dim tmpTrace As String = String.Empty
+            'For association-parameter estimation we need the Pearson dispersion even for
+            'families such as Poisson and Binomial where the estimating-equation scale is
+            'otherwise fixed at 1.  Using EstimateScale() here would return 1 for Poisson,
+            'which over-inflates Toeplitz lag correlations on overdispersed count data and
+            'then collapses the fitted lags to the +/-0.99 safety clamp.
+            Dim scaleEst As Double = gee.EstimateScale(True)
+            If Double.IsNaN(scaleEst) OrElse Double.IsInfinity(scaleEst) OrElse scaleEst <= 0.0R Then scaleEst = 1.0R
+
+            Dim tmpCachedMeans As List(Of (Double(), Double(,))) = gee.CachedMeans
+            Dim tmpEndogLi As List(Of Double()) = gee.EndogClustered
+            Dim tmpTimeLi As List(Of Double()) = gee.TimeClustered
+            Dim dict As Dictionary(Of Double, Integer) = gee.TimesDict
+
+            For g = 0 To gee.NoGroup - 1
+                Dim expval() As Double = tmpCachedMeans(g).Item1
+                Dim endog() As Double = tmpEndogLi(g)
+                Dim times() As Double = tmpTimeLi(g)
+                Dim n As Integer = expval.Length
+                If n <= 1 Then Continue For
+
+                Dim resid(n - 1) As Double, sdev(n - 1) As Double
+                For j = 0 To n - 1
+                    Dim v As Double = gee.Family.Variance(expval(j))
+                    If v < 0.000000000001 Then v = 0.000000000001
+                    sdev(j) = Math.Sqrt(v)
+                Next
+
+                resid = Matrix.M_DIV(Matrix.M_SUB(endog, expval), sdev, tmpTrace)
+                If tmpTrace <> String.Empty Then strTrace &= vbNewLine & tmpTrace
+
+                For a = 0 To n - 2
+                    If Not dict.ContainsKey(times(a)) Then Continue For
+                    Dim ia As Integer = dict.Item(times(a))
+                    For b = a + 1 To n - 1
+                        If Not dict.ContainsKey(times(b)) Then Continue For
+                        Dim ib As Integer = dict.Item(times(b))
+                        If ia = ib Then Continue For
+
+                        crossProducts(ia, ib) += resid(a) * resid(b)
+                        crossProducts(ib, ia) = crossProducts(ia, ib)
+                        pairCounts(ia, ib) += 1.0R
+                        pairCounts(ib, ia) = pairCounts(ia, ib)
+                    Next
+                Next
+            Next
+
+            For lag = 1 To q - 1
+                Dim lagNumer As Double = 0.0R
+                Dim lagDenom As Double = 0.0R
+
+                For i = 0 To q - 1 - lag
+                    Dim count As Double = pairCounts(i, i + lag)
+                    If count <= 0.0R Then Continue For
+
+                    Dim denom As Double
+                    If gee.UseP Then
+                        If count >= gee.Nparams Then
+                            denom = (count - gee.Nparams) * scaleEst
+                        Else
+                            'Match the existing unstructured-working-correlation fallback for sparse pairs.
+                            denom = count * scaleEst
+                        End If
+                    Else
+                        denom = count * scaleEst
+                    End If
+
+                    If denom <= 0.0R OrElse Double.IsNaN(denom) OrElse Double.IsInfinity(denom) Then Continue For
+
+                    lagNumer += crossProducts(i, i + lag)
+                    lagDenom += denom
+                Next
+
+                Dim rho As Double = 0.0R
+                If lagDenom > 0.0R Then rho = lagNumer / lagDenom
+                If Double.IsNaN(rho) OrElse Double.IsInfinity(rho) Then rho = 0.0R
+                If rho > 0.99R Then rho = 0.99R
+                If rho < -0.99R Then rho = -0.99R
+
+                For i = 0 To q - 1 - lag
+                    corr(i, i + lag) = rho
+                    corr(i + lag, i) = rho
+                Next
+            Next
+
+            Dim iErr As Integer = 0
+            Dim testChol(,) As Double = Matrix.Cholesky(corr, iErr, False)
+            If iErr > 0 Then
+                corr = CovNearest(corr, 0.01)
+                For i = 0 To q - 1
+                    corr(i, i) = 1.0R
+                Next
+            End If
+
+            Me.pDepParams = corr
+        End Sub
+
+        Public Overrides Function covarianceMatrix(endog_expval() As Double, gee As GEE, index As Integer) As Double(,)
+            Dim out(,) As Double
+            If Me.pDepParams Is Nothing Then Me.pDepParams = Matrix.IdentityMat(Math.Max(1, gee.TimesDict.Count) - 1)
+
+            If gee.hasTime Then
+                Dim time_li As List(Of Double()) = gee.TimeClustered
+                Dim dict As Dictionary(Of Double, Integer) = gee.TimesDict
+                ReDim out(UBound(time_li(index)), UBound(time_li(index)))
+
+                Dim i As Integer = 0
+                For Each idi In time_li(index)
+                    Dim j As Integer = 0
+                    For Each idj In time_li(index)
+                        out(i, j) = Me.pDepParams(dict.Item(idi), dict.Item(idj))
+                        j += 1
+                    Next idj
+                    i += 1
+                Next idi
+            Else
+                Dim endog_li As List(Of Double()) = gee.EndogClustered
+                ReDim out(UBound(endog_li(index)), UBound(endog_li(index)))
+                For i = 0 To UBound(endog_li(index))
+                    For j = 0 To UBound(endog_li(index))
+                        out(i, j) = Me.pDepParams(i, j)
+                    Next
+                Next
+            End If
+
+            Return out
+        End Function
+    End Class
+
 
     ''' <summary>
     ''' Implements the unstructured working‑correlation matrix for GEE.  
@@ -586,7 +818,7 @@ Namespace regression
                 iErr = 0
                 vco = Matrix.Cholesky(vmat, iErr, False)
                 If iErr > 0 Then 'MatrixType not positive-definite. Compute pseudoinverse
-                    strTrace = strTrace & " WARNING: CHOLESKY. bmat not positive-definite. Calling CovNearest." & vbNewLine
+                    strTrace = strTrace & " WARNING: CHOLESKY. bmat Not positive-definite. Calling CovNearest." & vbNewLine
                     strTrace = strTrace & " i=" & CStr(i) & " vmat=" & Matrix.array2str(vmat) & " treshold=" & CStr(threshold) & " bSuccess=" & CStr(bSuccess) & vbNewLine
                     bSuccess = False
                     vmat = CovNearest(vmat, threshold)
@@ -604,7 +836,7 @@ Namespace regression
                         If i <> k Then vmat(i, k) = 0
                     Next
                 Next
-                CoreServices.Log($"WARNING: CovNearest was not successful. Using vmat.  vmat={Matrix.array2str(vmat)}", AppInfrastructure.LogMsgType.Warn)
+                CoreServices.Log($"WARNING: CovNearest was Not successful. Using vmat.  vmat={Matrix.array2str(vmat)}", AppInfrastructure.LogMsgType.Warn)
                 strTrace &= $"WARNING: CovNearest was not successful. Using vmat.  vmat={Matrix.array2str(vmat)}"
                 vco = Matrix.Cholesky(vmat, iErr, False)
             End If

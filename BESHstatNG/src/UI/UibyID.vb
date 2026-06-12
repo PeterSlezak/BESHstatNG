@@ -98,6 +98,82 @@ Public Class UibyID
         Me.WireHelp(Me.btnHelp)
     End Sub
 
+    Friend Sub ApplyHelpTopicConfiguration()
+        Me.TabPage_Options.Parent = Nothing
+        Me.TabPage_OptionsDescriptive.Parent = Nothing
+        Me.TabPage_OptionsHistogram.Parent = Nothing
+        Me.TabPage_OptionsNormalPlot.Parent = Nothing
+        Me.TabPage_OptionsSymmetry.Parent = Nothing
+        Me.TabPage_OptionsOutliers.Parent = Nothing
+        Me.TabPage_OptionsUTT.Parent = Nothing
+
+        If Me.Tag = HelpTopic.KruskalWallisTest Then
+            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.ckDescriptiveStatistics.Visible = True
+            Me.ckBoxPlot.Visible = True
+            Me.grpHomogeneityVariances.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.BoxAndWhiskers Then
+            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.ckDescriptiveStatistics.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.OneWayANOVA Then
+            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.ckDescriptiveStatistics.Visible = True
+            Me.ckBoxPlot.Visible = True
+            Me.grpHomogeneityVariances.Visible = True
+            Me.grpANOVA1MCP.Visible = True
+            Me.ckWelch.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.MannWhitneyTest Then
+            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.ckDescriptiveStatistics.Visible = True
+            Me.ckBoxPlot.Visible = True
+            Me.ckEstimateOfShift.Visible = True
+            Me.spinBtnAlpha.Visible = True
+            Me.lblAlpha.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.UnpairedTTest Then
+            Me.TabPage_OptionsUTT.Parent = Me.TabMultipage
+            Me.spinBtnAlpha_UTT.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha_UTT.Minimum, Me.spinBtnAlpha_UTT.Maximum)
+            Me.UpdateUnpairedTtestOptionVisibility()
+            Me.ApplyUnpairedTtestInputLabels()
+
+        ElseIf Me.Tag = HelpTopic.ROCCurve Then
+            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.ckDescriptiveStatistics.Visible = True
+            Me.spinBtnAlpha.Visible = True
+            Me.lblAlpha.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.DescriptiveStatistics Then
+            Me.TabPage_OptionsDescriptive.Parent = Me.TabMultipage
+            Me.ckBoxPlot_Descriptive.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.NormalityTests Then
+            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.ckDescriptiveStatistics.Visible = True
+            Me.ckBoxPlot.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.Histogram Then
+            Me.TabPage_OptionsHistogram.Parent = Me.TabMultipage
+
+        ElseIf Me.Tag = HelpTopic.NormalPlot Then
+            Me.TabPage_OptionsNormalPlot.Parent = Me.TabMultipage
+
+        ElseIf Me.Tag = HelpTopic.HomogeneityOfVariance Then
+            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.ckDescriptiveStatistics.Visible = True
+            Me.ckBoxPlot.Visible = True
+            Me.grpHomogeneityVariances.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.Symmetry Then
+            Me.TabPage_OptionsSymmetry.Parent = Me.TabMultipage
+
+        ElseIf Me.Tag = HelpTopic.UnivariateOutliers Then
+            Me.TabPage_OptionsOutliers.Parent = Me.TabMultipage
+        End If
+    End Sub
+
     Private Function checkInputs() As Boolean
         Dim bOut As Boolean
         'check input data------------------------------

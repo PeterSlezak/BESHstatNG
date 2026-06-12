@@ -610,6 +610,7 @@ Public Class GEE
     ''' <item><description><b>Independence</b>: <c>R_i = I</c>.</description></item>
     ''' <item><description><b>Exchangeable</b>: all off-diagonal entries are equal to a common correlation parameter <c>ρ</c>.</description></item>
     ''' <item><description><b>Autoregressive AR(1)</b>: entry <c>(s,t)</c> is <c>ρ^{|t-s|}</c> under equally spaced repeated measures.</description></item>
+    ''' <item><description><b>Toeplitz</b>: each distinct lag has its own stationary working-correlation parameter.</description></item>
     ''' <item><description><b>Unstructured</b>: each distinct pairwise correlation is estimated separately subject to matrix feasibility.</description></item>
     ''' </list>
     ''' <para>

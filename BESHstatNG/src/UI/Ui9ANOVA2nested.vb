@@ -45,6 +45,38 @@ Public Class Ui9ANOVA2nested
         Me.WireHelp(Me.btnHelp)
     End Sub
 
+    Friend Sub ApplyHelpTopicConfiguration()
+        Me.TabPageOptionsBlandAltman.Parent = Nothing
+        Me.TabPageDecisionLimitsBlandAltman.Parent = Nothing
+        Me.cmbBlandMode.Items.Clear()
+        Me.cmbBlandScale.Items.Clear()
+        Me.cmbBlandXAxis.Items.Clear()
+        Me.cmbBlandPlotMode.Items.Clear()
+
+        If Me.Tag = HelpTopic.PassingBablokRegression Then
+            Me.lblRefedit1_Group.Text = "Group (optional)"
+            Me.lblRefedit2_Nested.Text = "Reference method (X)"
+            Me.lblRefedit3_Data.Text = "Test method (Y)"
+
+        ElseIf Me.Tag = HelpTopic.BlandAltman Then
+            Me.TabPageOptionsBlandAltman.Parent = Me.TabControl1
+            Me.TabPageDecisionLimitsBlandAltman.Parent = Me.TabControl1
+            Me.lblRefedit1_Group.Text = "Subject ID (optional)"
+            Me.lblRefedit2_Nested.Text = "Reference method (X)"
+            Me.lblRefedit3_Data.Text = "Test method (Y)"
+            Me.cmbBlandMode.Items.AddRange(New Object() {"Auto", "Simple pairs", "Repeated by subject"})
+            Me.cmbBlandScale.Items.AddRange(New Object() {"Raw difference", "% of paired mean", "% of reference", "% of test", "Log ratio"})
+            Me.cmbBlandXAxis.Items.AddRange(New Object() {"Mean of methods", "Reference method", "Test method"})
+            Me.cmbBlandPlotMode.Items.AddRange(New Object() {"All observations", "Subject means only", "All observations + subject means"})
+            Me.cmbBlandPlotMode.SelectedIndex = 2
+            Me.cmbBlandXAxis.SelectedIndex = 0
+            Me.cmbBlandScale.SelectedIndex = 0
+            Me.cmbBlandMode.SelectedIndex = 0
+            Me.spinBtnBlandAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnBlandAlpha.Minimum, Me.spinBtnBlandAlpha.Maximum)
+            Me.ApplyBlandDecisionLimitState()
+        End If
+    End Sub
+
     Private Function checkInputs() As Boolean
         Dim bOut As Boolean
         'check input data------------------------------

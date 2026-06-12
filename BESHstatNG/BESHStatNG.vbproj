@@ -561,10 +561,10 @@ echo EXECUTING HARDWARE EXCEL-DNA CODE SIGNING ROUTINE
 echo ========================================================
 
 echo 2. Signing Excel-DNA 32-bit Packed standalone Add-In...
-"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe" sign /sha1 03bddc7d0e73cd746d636189a3ca23f32b482115 /fd sha256 /tr http://timestamp.digicert.com /td sha256 "$(TargetDir)BESHStatNG-AddIn-packed.xll"
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe" sign /sha1 03bddc7d0e73cd746d636189a3ca23f32b482115 /fd sha256 /du "https://beshstat.eu" /d "BESHStatNG Excel 32-bit Add-In" /tr http://time.certum.pl /td sha256 "$(TargetDir)BESHStatNG-AddIn-packed.xll"
 
 echo 3. Signing Excel-DNA 64-bit Packed standalone Add-In...
-"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe" sign /sha1 03bddc7d0e73cd746d636189a3ca23f32b482115 /fd sha256 /tr http://timestamp.digicert.com /td sha256 "$(TargetDir)BESHStatNG-AddIn64-packed.xll"
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\signtool.exe" sign /sha1 03bddc7d0e73cd746d636189a3ca23f32b482115 /fd sha256 /du "https://beshstat.eu" /d "BESHStatNG Excel 64-bit Add-In" /tr http://time.certum.pl /td sha256 "$(TargetDir)BESHStatNG-AddIn64-packed.xll"
 
 echo ========================================================
 echo ALL EXCEL COMPONENTS SIGNED SUCCESSFULLY

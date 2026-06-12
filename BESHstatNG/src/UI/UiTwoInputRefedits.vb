@@ -79,6 +79,63 @@ Public Class UiTwoInputRefedits
         Me.WireHelp(Me.btnHelp)
     End Sub
 
+    Friend Sub ApplyHelpTopicConfiguration()
+        Me.TabPageOptionsHotteling.Parent = Nothing
+        Me.TabPageOptions.Parent = Nothing
+        Me.TabPageOptionsLinCCC.Parent = Nothing
+        Me.TabPageOptionsKappa.Parent = Nothing
+        Me.TabPageOptionsDeming.Parent = Nothing
+        Me.ckFirstRow.Visible = False
+        Me.SetDemingExtendedControlsVisible(False)
+        Me.cmbDemingVarianceModel.Items.Clear()
+        Me.cmbWeightingSchemeKappa.Items.Clear()
+
+        If Me.Tag = HelpTopic.HotellingSTSquaredTest Then
+            Me.TabPageOptionsHotteling.Parent = Me.TabMultipage
+
+        ElseIf Me.Tag = HelpTopic.DemingRegression Then
+            Me.TabPageOptionsDeming.Parent = Me.TabMultipage
+            Me.lblRefedit1.Text = "Reference method (X)"
+            Me.lblRefedit2.Text = "Test method (Y)"
+            Me.cmbDemingVarianceModel.Items.AddRange(New Object() {"Constant lambda", "Constant CV", "Known pointwise SD"})
+            Me.cmbDemingVarianceModel.SelectedIndex = 0
+            Me.SetDemingExtendedControlsVisible(True)
+            Me.ApplyDemingControlState()
+
+        ElseIf Me.Tag = HelpTopic.KendallSRankCorrelation Or Me.Tag = HelpTopic.SpearmanRankCorrelation Or
+                Me.Tag = HelpTopic.TheilSenSimpleRegression Then
+            Me.TabPageOptions.Parent = Me.TabMultipage
+            Me.ckSignTest.Visible = False
+            Me.lblAlphaGlobal.Visible = True
+            Me.lblAlphaGlobal.Location = New System.Drawing.Point(19, 45)
+            Me.spinBtnAlphaGlobal.Visible = True
+            Me.spinBtnAlphaGlobal.Location = New System.Drawing.Point(67, 43)
+
+        ElseIf Me.Tag = HelpTopic.WilcoxonSignedRankTest Then
+            Me.TabPageOptions.Parent = Me.TabMultipage
+            Me.ckSignTest.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.PairedSingleSampleTTests Then
+            Me.TabPageOptions.Parent = Me.TabMultipage
+            Me.ckSignTest.Visible = False
+            Me.lblAlphaGlobal.Visible = False
+            Me.spinBtnAlphaGlobal.Visible = False
+
+        ElseIf Me.Tag = HelpTopic.LinsCCC Then
+            Me.TabPageOptionsLinCCC.Parent = Me.TabMultipage
+            Me.lblRefedit1.Text = "Reference method (X)"
+            Me.lblRefedit2.Text = "Test method (Y)"
+            Me.ApplyLinCCCControlState()
+
+        ElseIf Me.Tag = HelpTopic.CohensKappa Then
+            Me.TabPageOptionsKappa.Parent = Me.TabMultipage
+            Me.cmbWeightingSchemeKappa.Items.AddRange(New Object() {"Unweighted (Cohen's Kappa)", "Linear weights", "Quadratic weights", "Cicchetti-Allison", "Fleiss-Cohen"})
+            Me.cmbWeightingSchemeKappa.SelectedIndex = 0
+            Me.ckFirstRow.Visible = True
+            ApplyKappaControlState()
+        End If
+    End Sub
+
     Private Function getData(ByRef strErr As String) As TwoGroupsPairedData
         Dim out = New TwoGroupsPairedData
         Dim columData = New DataObj

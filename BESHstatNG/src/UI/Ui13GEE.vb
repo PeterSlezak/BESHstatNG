@@ -26,24 +26,21 @@ Public Class Ui13GEE
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         ' Add any initialization after the InitializeComponent() call.
-        If Me.Tag = HelpTopic.GeneralizedEstimatingEquationsGEE Then
 
-            For Each sFam In regression.Family.FamiliesList
-                Me.cbFamily.Items.Add(sFam)
-            Next
-            For Each sCovStruct In regression.GEEcovStruct.CovStructsList
-                Me.cbCovarStruct.Items.Add(sCovStruct)
-            Next
-            For Each sSE In {"Robust", "Naive", "Bias Reduced"}
-                Me.cbStandardErr.Items.Add(sSE)
-            Next
-            Me.cbFamily.SelectedIndex = 0
-            RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
-            Me.cbCovarStruct.SelectedIndex = 0
-            Me.cbStandardErr.SelectedIndex = 0
-            UpdateClassificationOptionsState(False)
-        End If
-
+        For Each sFam In regression.Family.FamiliesList
+            Me.cbFamily.Items.Add(sFam)
+        Next
+        For Each sCovStruct In regression.GEEcovStruct.CovStructsList
+            Me.cbCovarStruct.Items.Add(sCovStruct)
+        Next
+        For Each sSE In {"Robust", "Naive", "Bias Reduced"}
+            Me.cbStandardErr.Items.Add(sSE)
+        Next
+        Me.cbFamily.SelectedIndex = 0
+        RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
+        Me.cbCovarStruct.SelectedIndex = 0
+        Me.cbStandardErr.SelectedIndex = 0
+        UpdateClassificationOptionsState(False)
 
         Me.TabControl1.Anchor = Windows.Forms.AnchorStyles.Left Or
                                 Windows.Forms.AnchorStyles.Bottom Or
@@ -117,6 +114,33 @@ Public Class Ui13GEE
                                                                Me.lbSelectedEffectsList,
                                                                Me.TermSpecs)
         Me.WireHelp(Me.btnHelp)
+    End Sub
+
+    Friend Sub ApplyHelpTopicConfiguration()
+        If Me.Tag <> HelpTopic.GeneralizedEstimatingEquationsGEE Then Return
+
+        Me.cbFamily.Items.Clear()
+        For Each sFam In regression.Family.FamiliesList
+            Me.cbFamily.Items.Add(sFam)
+        Next
+
+        Me.cbCovarStruct.Items.Clear()
+        For Each sCovStruct In regression.GEEcovStruct.CovStructsList
+            Me.cbCovarStruct.Items.Add(sCovStruct)
+        Next
+
+        Me.cbStandardErr.Items.Clear()
+        For Each sSE In {"Robust", "Naive", "Bias Reduced"}
+            Me.cbStandardErr.Items.Add(sSE)
+        Next
+
+        If Me.cbFamily.Items.Count > 0 Then
+            Me.cbFamily.SelectedIndex = 0
+            RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
+        End If
+        If Me.cbCovarStruct.Items.Count > 0 Then Me.cbCovarStruct.SelectedIndex = 0
+        If Me.cbStandardErr.Items.Count > 0 Then Me.cbStandardErr.SelectedIndex = 0
+        UpdateClassificationOptionsState(False)
     End Sub
 
     Sub Populate(ws As Object)
@@ -899,6 +923,7 @@ Public Class Ui13GEE
     End Sub
 
     Private Sub cbFamily_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbFamily.SelectedIndexChanged
+        If Me.cbFamily.SelectedItem Is Nothing Then Return
         RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
     End Sub
 

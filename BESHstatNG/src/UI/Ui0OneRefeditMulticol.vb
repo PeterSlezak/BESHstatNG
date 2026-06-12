@@ -64,6 +64,51 @@ Public Class Ui0OneRefeditMulticol
         Me.WireHelp(Me.btnHelp)
     End Sub
 
+    Friend Sub ApplyHelpTopicConfiguration()
+        Me.TabPage_Options.Parent = Nothing
+        Me.TabPage_OptionsRxC.Parent = Nothing
+        Me.TabPage_OptionsICC.Parent = Nothing
+
+        If Me.Tag = HelpTopic.FriedmanTest Then
+            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.ckDescriptiveStatistics.Visible = True
+            Me.ckBoxPlot.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.OneWayRepeatedMeasuresANOVA Then
+            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.ckDescriptiveStatistics.Visible = True
+            Me.ckBoxPlot.Visible = True
+            Me.grpRmANOVAsphericity.Visible = True
+            Me.grpMCP.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.CochranSQTest Then
+        ElseIf Me.Tag = HelpTopic.RxCTable Then
+            Me.TabPage_OptionsRxC.Parent = Me.TabMultipage
+            Me.TabPage_OptionsRxC.Controls.Add(Me.lblAlphaICC)
+            Me.TabPage_OptionsRxC.Controls.Add(Me.spinBtnAlphaICC)
+            Me.lblAlphaICC.Visible = True
+            Me.spinBtnAlphaICC.Visible = True
+            Me.lblAlphaICC.Location = New System.Drawing.Point(20, 132)
+            Me.spinBtnAlphaICC.Location = New System.Drawing.Point(68, 130)
+
+        ElseIf Me.Tag = HelpTopic.MantelHaenszelTest Then
+            Me.TabPage_OptionsICC.Parent = Me.TabMultipage
+            Me.grpICCtype.Visible = False
+            Me.ckRepeatabilityCoefficient.Visible = False
+            Me.lblAlphaICC.Visible = True
+            Me.spinBtnAlphaICC.Visible = True
+            Me.lblAlphaICC.Location = New System.Drawing.Point(20, 20)
+            Me.spinBtnAlphaICC.Location = New System.Drawing.Point(68, 18)
+
+        ElseIf Me.Tag = HelpTopic.SkillingsMackTest Then
+        ElseIf Me.Tag = HelpTopic.CorrespondenceAnalysis Then
+            Me.ckLabels.Visible = True
+
+        ElseIf Me.Tag = HelpTopic.IntraclassCorrelationCoefficients Then
+            Me.TabPage_OptionsICC.Parent = Me.TabMultipage
+        End If
+    End Sub
+
     Private Function checkInputs() As Boolean
         Dim bOut As Boolean
         'check input data1------------------------------

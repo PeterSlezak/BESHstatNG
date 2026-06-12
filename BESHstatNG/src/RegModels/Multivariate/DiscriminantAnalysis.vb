@@ -778,13 +778,13 @@ Namespace Multivariate
                     If pMethod = DiscriminantAnalysisMethod.Linear Then
                         Dim mu() As Double = pGroupStats(groupIdx).MeanWorking
                         Dim delta = Matrix.M_SUB(x, mu)
-                        d2(groupIdx) = QuadraticForm(delta, pPooledInverseWorking)
+                        d2(groupIdx) = Matrix.QuadraticForm(delta, pPooledInverseWorking)
                         Dim coeff() As Double = Matrix.GetColumnFrom2Darray(pLinearCoefficientsWorking, groupIdx)
                         raw(groupIdx) = Matrix.DotProduct(x, coeff) + pLinearConstantsWorking(groupIdx)
                     Else
                         Dim gs = pGroupStats(groupIdx)
                         Dim delta = Matrix.M_SUB(x, gs.MeanWorking)
-                        d2(groupIdx) = QuadraticForm(delta, gs.InverseCovarianceWorking)
+                        d2(groupIdx) = Matrix.QuadraticForm(delta, gs.InverseCovarianceWorking)
                         raw(groupIdx) = -0.5 * (gs.LogDeterminantWorking + d2(groupIdx)) + Math.Log(Math.Max(gs.PriorProbability, 1.0E-300))
                     End If
                 Next
@@ -1661,11 +1661,6 @@ Namespace Multivariate
                 out(i) = s
             Next
             Return out
-        End Function
-
-        Friend Shared Function QuadraticForm(v() As Double, mat(,) As Double) As Double
-            Dim tmp() As Double = MatVec(mat, v)
-            Return Matrix.DotProduct(v, tmp)
         End Function
 
         Private Function Symmetrize(mat(,) As Double) As Double(,)

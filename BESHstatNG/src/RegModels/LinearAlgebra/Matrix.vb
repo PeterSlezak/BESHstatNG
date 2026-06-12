@@ -397,6 +397,45 @@ Namespace Matrix
         End Function
 
         ''' <summary>
+        ''' Computes the scalar quadratic form <c>v' * A * v</c>.
+        ''' </summary>
+        ''' <param name="v">
+        ''' The vector used on both sides of the quadratic form. Its length must match
+        ''' both dimensions of <paramref name="a"/>.
+        ''' </param>
+        ''' <param name="a">
+        ''' The square matrix in the middle of the quadratic form. The matrix must have
+        ''' the same number of rows and columns as the length of <paramref name="v"/>.
+        ''' </param>
+        ''' <returns>
+        ''' The scalar value of <c>v' * A * v</c>. Returns <see cref="Double.NaN"/>
+        ''' when either input is <c>Nothing</c> or when the matrix dimensions do not
+        ''' match the vector length.
+        ''' </returns>
+        ''' <remarks>
+        ''' This helper is typically used to compute variances of linear estimates,
+        ''' contrasts, or predictions, where <paramref name="v"/> is a contrast or
+        ''' design row and <paramref name="a"/> is a covariance matrix.
+        ''' </remarks>
+        Public Function QuadraticForm(v() As Double, a(,) As Double) As Double
+            If v Is Nothing OrElse a Is Nothing Then Return Double.NaN
+
+            Dim p As Integer = v.Length
+            If a.GetLength(0) <> p OrElse a.GetLength(1) <> p Then Return Double.NaN
+
+            Dim value As Double = 0.0R
+
+            For i As Integer = 0 To p - 1
+                Dim vi As Double = v(i)
+                For j As Integer = 0 To p - 1
+                    value += vi * a(i, j) * v(j)
+                Next
+            Next
+
+            Return value
+        End Function
+
+        ''' <summary>
         ''' Performs element-wise addition of a 2-dimensional matrix and a 1-dimensional vector.  
         ''' The vector is added to each row of the matrix (broadcast across all columns).
         ''' </summary>

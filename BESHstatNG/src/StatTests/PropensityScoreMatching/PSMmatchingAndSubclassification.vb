@@ -226,7 +226,7 @@ Namespace CausalInference
             For j As Integer = 0 To p - 1
                 diff(j) = a.Covariates(j) - b.Covariates(j)
             Next
-            Dim q As Double = DiscriminantAnalysis.QuadraticForm(diff, invCov)
+            Dim q As Double = Matrix.QuadraticForm(diff, invCov)
             If Not AppInfrastructure.IsFinite(q) Then Return Double.PositiveInfinity
             Return Math.Sqrt(Math.Max(0.0, q))
         End Function
