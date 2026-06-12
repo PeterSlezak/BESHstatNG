@@ -233,6 +233,7 @@ BESH Stat NG supports:
 - **Independence**
 - **Exchangeable**
 - **Autoregressive (AR(1))**
+- **Toeplitz**
 - **Unstructured**
 
 ### Independence
@@ -273,7 +274,7 @@ With the \(n-p\) correction enabled, the denominator is additionally adjusted by
 Correlation decays geometrically with lag:
 
 $$
-R_{jk}=\rho^{|j-k|}.
+R_{jk}=\rho^{\lvert j-k\rvert}.
 $$
 
 **Association estimate (as implemented).** Let the within-cluster observations be ordered by the provided ordering variable (equal-spacing assumption). Define standardized residuals for the association update as
@@ -303,6 +304,25 @@ $$
 $$
 
 **Time spacing.** The update uses adjacency in the ordered index (not \(\rho^{\Delta t}\)). Missingness is treated as “right-censored” in the sense that adjacency is defined by the remaining ordered rows.
+
+### Toeplitz
+
+Toeplitz working correlation is stationary by lag but does not require geometric decay. Each position lag has its own correlation parameter:
+
+$$
+R_{jk}=\begin{cases}
+1, & j=k\\
+\rho_{\lvert j-k\rvert}, & j\ne k.
+\end{cases}
+$$
+
+If there are \(q\) distinct ordered positions, the structure estimates \(q-1\) lag-correlation parameters. This is more flexible than AR(1), but usually less parameter-intensive than an unstructured working correlation.
+
+**Association estimates.** For each time-point pair, BESH Stat NG first accumulates Pearson residual cross-products by the ordered time indices and then averages those pairwise moments by lag. The same lag value is used for all pairs separated by the same ordered-position distance. Conceptually, the fitted lag \(\rho_\ell\) is a stationary average of the unstructured pairwise correlations for pairs with \(\lvert j-k\rvert=\ell\).
+
+For count and binary families such as Poisson, Binomial, and NB2, the Toeplitz association update uses a Pearson-type dispersion estimate for the residual cross-products even when the mean-model scale convention fixes \(\phi=1\). This prevents overdispersed data from artificially driving all Toeplitz lag correlations to the boundary.
+
+**Positive definiteness.** As with the unstructured working correlation, a method-of-moments Toeplitz estimate can be non-positive definite. The implementation applies a nearest positive-definite adjustment when necessary before solving the estimating equations.
 
 ### Unstructured
 
@@ -363,7 +383,7 @@ $$
 
 ### Correlation parameter corrections
 
-For the exchangeable/AR(1)/unstructured association updates, the implementation also adjusts the effective denominator to account for \(p\), for example multiplying by \(\frac{n_{\text{pairs}}-p}{n_{\text{pairs}}}\) for estimates based on \(n_{\text{pairs}}\) pairs.
+For the exchangeable/AR(1)/Toeplitz/unstructured association updates, the implementation also adjusts the effective denominator to account for \(p\), for example multiplying by \(\frac{n_{\text{pairs}}-p}{n_{\text{pairs}}}\) for estimates based on \(n_{\text{pairs}}\) pairs.
 
 ## References
 

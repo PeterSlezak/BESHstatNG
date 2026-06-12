@@ -1,6 +1,6 @@
 # Generalized Estimating Equations (GEE)
 
-**Includes:** Families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Covariance structures: Independence, Exchangeable, Autoregressive, Unstructured, SE types: Robust, Naive, Bias-reduced, categorical factors, polynomial terms, continuous and categorical-factor interactions, optional starting values, and—for Binomial models—optional classifier reporting (confusion matrix, threshold table, calibration table/plot, Brier score, ROC tables and ROC plot).  
+**Includes:** Families: Gaussian, Binomial, Poisson, Negative Binomial, Gamma, Covariance structures: Independence, Exchangeable, Autoregressive, Toeplitz, Unstructured, SE types: Robust, Naive, Bias-reduced, categorical factors, polynomial terms, continuous and categorical-factor interactions, optional starting values, and—for Binomial models—optional classifier reporting (confusion matrix, threshold table, calibration table/plot, Brier score, ROC tables and ROC plot).  
 **Purpose:** Fit marginal models for correlated/clustered data using GEE with selectable working correlation, including marginal-probability reporting for fitted binary Binomial models.
 
 ---
@@ -28,7 +28,7 @@ where:
 
 - \(V(\mu)\) is the family variance function
 - \(\phi\) is a scale/dispersion parameter
-- \(\mathbf{R}(\bf \alpha)\) is a **working correlation** (Independence / Exchangeable / AR(1) / Unstructured)
+- \(\mathbf{R}(\bf \alpha)\) is a **working correlation** (Independence / Exchangeable / AR(1) / Toeplitz / Unstructured)
 
 All implemented families, links, and correlation-structure mathematics are documented separately in: **[GLM/GEE families, links, and working correlation structures](family-link-covmat.md)**
 
@@ -45,11 +45,11 @@ All implemented families, links, and correlation-structure mathematics are docum
    For log-link count models this is typically \(\log(\text{exposure})\).
 3. **Weights** (optional): accepted in the UI and echoed in the output header. *(Current implementation does not apply weights in the estimating equations.)*
 4. **Cluster ID**: subject/cluster identifier.
-5. **Within Cluster Ordering**: the visit/time/order variable. **Required** for AR(1) and Unstructured correlation. Used to determine the ordering of repeated measurements within each cluster.
+5. **Within Cluster Ordering**: the visit/time/order variable. Used to determine the ordering of repeated measurements within each cluster, especially for AR(1), Toeplitz, and Unstructured working correlation. If omitted, the current row order within each cluster is used and synthetic sequential positions are assigned.
 6. **Predictor Variable(s)**: covariates in the linear predictor.
 
 !!! note "Within-cluster ordering"
-    The data are expected to be ordered by **Cluster ID** and then **Within Cluster Ordering**. The add-in also builds its internal time index from the ordering variable (or from row order if ordering is omitted).
+    The data are expected to be ordered by **Cluster ID** and then **Within Cluster Ordering**. The add-in also builds its internal time index from the ordering variable, or from row order if ordering is omitted. For AR(1), Toeplitz, and Unstructured working correlation, supplying an explicit ordering column is strongly recommended so the reported working-correlation matrix has meaningful visit/time labels.
 
 ### Build Model
 
@@ -98,7 +98,7 @@ When **Family = Binomial**, the page exposes the additional **Perform Classifica
 
 - **Family**, **Link**, and **Power** (for Power link)
 - **Dispersion Parameter for NB2 Family**: the NB2 dispersion \(\alpha>0\) (see `family-link-covmat.md`).
-- **Covariance Structure**: Independence / Exchangeable / AR(1) / Unstructured.
+- **Covariance Structure**: Independence / Exchangeable / AR(1) / Toeplitz / Unstructured.
 - **Standard Err.**:
   - **Robust** (empirical “sandwich”) — default and recommended.
   - **Naive** (model-based; uses the working correlation and estimated scale).
@@ -441,7 +441,7 @@ For the example Poisson log-link model with offset `Ltime`:
 
 ## R code reference (to reproduce results)
 
-The closest drop-in equivalents are in `geepack`. Use the same **family**, **link**, **offset**, and **working correlation** to match BESH Stat NG as closely as possible.
+The closest drop-in equivalents are in `geepack`. Use the same **family**, **link**, **offset**, and **working correlation** to match BESH Stat NG as closely as possible. For Toeplitz-style comparisons, use an equivalent stationary lag-correlation option in the comparison software when available; otherwise compare against AR(1) and unstructured fits as sensitivity analyses.
 
 ### Fit the model (geepack)
 
@@ -456,10 +456,10 @@ dat <- read.csv("034gee.csv")
 fit <- geeglm(
   Count ~ X1 + Trt + trtx1,
   id      = ID,
-  waves   = Visit,          # within-cluster ordering (important for AR1 / unstructured)
+  waves   = Visit,          # within-cluster ordering (important for AR1 / Toeplitz / unstructured)
   family  = poisson(link = "log"),
   offset  = Ltime,
-  corstr  = "unstructured", # or "ar1", "exchangeable", "independence"
+  corstr  = "unstructured", # or "ar1", "exchangeable", "independence"; use an available Toeplitz option if supported
   data    = dat
 )
 
@@ -476,7 +476,7 @@ QIC(fit)
 
 ### Expected differences vs BESH Stat NG
 
-- **Working-correlation parameter updates (especially AR(1) / Unstructured):** Different packages use different method-of-moments formulas, different normalization (sum vs mean), and different small-sample corrections for the correlation update. Small differences in \(\hat{\alpha}\) can propagate to small differences in \(\hat{\beta}\) and SEs when the working correlation is not independence. 
+- **Working-correlation parameter updates (especially AR(1), Toeplitz, and Unstructured):** Different packages use different method-of-moments formulas, different normalization (sum vs mean), and different small-sample corrections for the correlation update. Small differences in \(\hat{\alpha}\) can propagate to small differences in \(\hat{\beta}\) and SEs when the working correlation is not independence. 
 - **AR(1) “lag-1” definition:** Implementations differ in whether the lag-1 moment uses only *adjacent rows in the supplied order* (equal-spacing assumption) versus using actual time gaps (e.g., \(\rho^{\Delta t}\)) or skipping gaps differently. This mostly affects \(\hat\rho\) and the naive/model-based SEs under AR(1). 
 - **Scale/dispersion handling (\(\phi\)) for Poisson/Binomial/NB2:** Some software fixes \(\phi=1\) (common GLM convention for Poisson/Binomial), while others estimate a Pearson-type scale and/or apply an \(n-p\) correction. BESH Stat NG’s outputs can therefore differ depending on whether \(\phi\) is fixed or estimated, and whether that \(\hat\phi\) is used to scale the **Naive** covariance. 
 - **Finite-sample / bias-corrected SE options:** Not all R packages implement the same “bias-reduced” sandwich (e.g., Mancl–DeRouen) or apply it the same way. If you compare BESH “Bias Reduced” SEs to standard robust SEs in R, Z/P/CI differences can be noticeable with modest cluster counts. 

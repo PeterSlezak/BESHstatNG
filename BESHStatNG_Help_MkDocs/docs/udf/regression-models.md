@@ -401,7 +401,8 @@ Observations with the same identifier are treated as belonging to the same margi
 The identifier may be numeric or text.
 - **time** — Optional within-cluster ordering variable (single column).
 When supplied, observations are ordered within each cluster by this variable before fitting.
-When omitted, the current row order within each cluster is used.
+This is especially important for AR(1), Toeplitz, and Unstructured working-correlation structures.
+When omitted, the current row order within each cluster is used and synthetic sequential positions are assigned.
 - **varNames** — Optional raw predictor names supplied as a comma-separated list or as a one-row/one-column range.
 These names are used by the formula parser and by the returned coefficient table.
 - **family** — Response family for the marginal variance structure.
@@ -416,7 +417,7 @@ constant variance for Gaussian, and
 If omitted, the family's canonical or default link is used.
 Accepted values include `logit`, `probit`, `log`, `identity`, `sqrt`, `inverse`, and `power` when compatible with the chosen family.
 - **covariance** — Working-correlation structure.
-Accepted values include `independence` (default), `exchangeable`, `autoregressive`/`ar1`, and `unstructured`.
+Accepted values include `independence` (default), `exchangeable`, `autoregressive`/`ar1`, `toeplitz`/`toep`, and `unstructured`.
 The working structure affects efficiency and covariance estimation but not the interpretation of the mean model itself.
 - **stdErrType** — Covariance estimator used for coefficient standard errors.
 Accepted values are `robust` (default), `naive`, and `bias reduced`.
@@ -480,7 +481,61 @@ If `formulaAddressing="absolute"` is used, the predictor argument should be a di
 =BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101)
 =BESH.REGR.GEE_FIT(A2:A101,B2:E101,F2:F101,G2:G101,"Age,BMI,Treat,Visit","binomial","logit","exchangeable","robust")
 =BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101,,"Dose,Age,Stage","poisson","log","ar1","robust",H2:H101,,"A + B + factor(C) + factor(C):B")
+=BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101,G2:G101,"Dose,Age,Stage","poisson","log","toeplitz","robust",H2:H101)
 ```
+
+## BESH.REGR.GEE_LSMESTIMATE
+
+Returns custom LS-mean estimates or contrasts for a fitted generalized estimating equation handle.
+
+**Function wizard:** Returns custom LS-mean estimates/contrasts for a fitted generalized estimating equation handle.
+
+### Syntax
+
+`=BESH.REGR.GEE_LSMESTIMATE(handle, spec, covarianceType, alpha, at, scale)`
+
+### Parameters
+
+- **handle** — Handle returned by `BESH.REGR.GEE_FIT`.
+- **spec** — Range with headers: label(optional), weight(required), time(optional), and fitted design profile columns.
+- **covarianceType** — Coefficient covariance type: `robust`, `naive`, or `bias reduced`. Defaults to the fit-time choice.
+- **alpha** — Optional two-sided alpha for confidence intervals. Default is the alpha stored in the fitted handle.
+- **at** — Optional common profile settings supplied as name/value rows or one wide row.
+- **scale** — Output scale: `link` (default) or `response`.
+
+### Returns
+
+A dynamic array with one row per custom estimate/contrast.
+
+### Notes
+
+`BESH.REGR.GEE_LSMESTIMATE` evaluates one or more user-defined linear functions of the fitted
+marginal mean-model coefficients from a previously fitted GEE model. It is intended for custom
+population-averaged estimates, differences, weighted averages, or other worksheet-defined estimands
+that can be expressed by averaging observed fitted design rows and applying user-supplied weights.
+
+The `spec` range must contain a header row and at least one data row. It must include
+a `weight` column. Accepted aliases are `coef`, `coefficient`, and `contrastweight`.
+Rows with the same optional `label` value are accumulated into one final estimate as
+`sum(weight * L(profile)) * beta`, where `L(profile)` is the average fitted design row among
+retained observations matching the requested profile columns.
+
+The optional `time` column restricts a profile contribution to observations with a specific fitted
+time/order value when a time column was supplied to `BESH.REGR.GEE_FIT`. Any additional nonblank
+column header in `spec` must match a fitted coefficient/design column name. Matching
+is case-insensitive and ignores punctuation. Numeric cell values in those columns are matched against
+the saved fitted design rows. The intercept column is supplied automatically by the fitted design and
+should normally be omitted from the specification.
+
+The optional `at` range supplies common profile settings, similar in spirit to the
+SAS `AT` option. It may be a two-column name/value table or a wide one-row table. Values in
+`spec` override values in `at` for the same profile column.
+
+The reported standard errors and confidence intervals use the selected coefficient covariance matrix:
+`robust`, `naive`, or `bias reduced`. GEE inference is large-sample Wald inference.
+If `scale` is `response`, the estimate and confidence limits are transformed
+through the inverse link; the Wald statistic and p-value remain based on the link-scale linear function.
+For contrasts, the link scale is usually the most interpretable scale.
 
 ## BESH.REGR.GEE_PRED
 
@@ -740,6 +795,7 @@ The interpretation depends on the selected working structure:
 independence returns an identity matrix,
 exchangeable returns a matrix with common off-diagonal correlation,
 autoregressive returns a banded-decay structure with entries of the form `ρ^{|t-s|}`,
+Toeplitz returns a stationary lag-correlation structure with one fitted parameter per lag,
 and unstructured returns a fully estimated symmetric correlation matrix.
 
 When within-cluster time was supplied at fitting, the row and column labels correspond to the ordered time values used internally by the model.

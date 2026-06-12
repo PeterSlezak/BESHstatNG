@@ -1,11 +1,15 @@
 # What's New
 
+## version 1.0.1.0 (2026-06-12)
+- Toeplitz GEE covariance options Added
+- GEE_LSMESTIMATE UDFs function added
+- Bug fix: various shared WinForms control initialization issue fixed.
+
 ## version 1.0.0.0 (2026-06-05)
 - The BESHStatNG MSI installer is now digitally signed.
 - The signed installer should reduce Windows SmartScreen / unknown-publisher warnings and make installation easier in managed Windows environments.
 - Users can verify the installer signature from **Properties → Digital Signatures** before installation.
 - Bug fix: Box-and-whisker plot and homogeneity-of-variance backend wiring fixed.
-
 
 ## version 0.9.6.0 (2026-05-23)
 - Added Linear Mixed Models (LMM) as a new regression workflow for modeling clustered and repeated-measures data with subject-specific random effects. The new LMM dialog supports random intercepts, random slopes, multiple random effects, and random-effect interactions, with flexible G-side covariance structures including Random Intercept, Random Intercept + Slope, Identity, Variance Components/Diagonal, CS, CSH, AR(1), ARH(1), Toeplitz, heterogeneous Toeplitz, and Unstructured. LMM also supports optional R-side residual covariance structures, ML/REML fitting, Kenward-Roger and Satterthwaite inference, fitted values, residuals, covariance/correlation output, BLUP/random-effect estimates, diagnostics, and worksheet-function.
