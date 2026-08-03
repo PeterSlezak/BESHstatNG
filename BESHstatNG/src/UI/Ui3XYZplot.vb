@@ -14,10 +14,11 @@ Public Class Ui3XYZplot
     Private pAnimatedGifFinalPath As String = String.Empty
     Private pAnimatedGifWorkDir As String = String.Empty
 
-    Sub New()
+    Sub New(tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
+        Me.Tag = tagn
 
         ' Add any initialization after the InitializeComponent() call.
         Me.RefEdit1_X.ExcelConnector = AppGlobals.app

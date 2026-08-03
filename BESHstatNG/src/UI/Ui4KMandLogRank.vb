@@ -4,7 +4,7 @@ Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui4KMandLogRank
 
-    Sub New(analysis As String)
+    Sub New(analysis As String, tagn As Integer)
         ' This call is required by the designer.
         InitializeComponent()
 
@@ -14,6 +14,7 @@ Public Class Ui4KMandLogRank
         Me.RefEdit4_StrataID.ExcelConnector = AppGlobals.app
         Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
+        Me.Tag = tagn
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         With Me.cbXunits.Items
@@ -33,18 +34,6 @@ Public Class Ui4KMandLogRank
         End If
         Me.RefEdit1_SurvivalTime.txtAddress.Select()
         Me.WireHelp(Me.btnHelp)
-    End Sub
-
-    Friend Sub ApplyHelpTopicConfiguration()
-        If Me.Tag = HelpTopic.KaplanMeierPlot Then
-            Me.lblGroup.Text = "Group ID (Optional)"
-            Me.lblStrata.Visible = False
-            Me.RefEdit4_StrataID.Visible = False
-        ElseIf Me.Tag = HelpTopic.LogrankTest Then
-            Me.lblGroup.Text = "Group ID"
-            Me.lblStrata.Visible = True
-            Me.RefEdit4_StrataID.Visible = True
-        End If
     End Sub
 
     Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click

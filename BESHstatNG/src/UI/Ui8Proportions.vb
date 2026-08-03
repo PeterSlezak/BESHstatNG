@@ -4,11 +4,11 @@ Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui8Proportions
-    Sub New()
+    Sub New(tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
-
+        Me.Tag = tagn
         ' Add any initialization after the InitializeComponent() call.
         Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)

@@ -6,11 +6,11 @@ Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui82x2
 
-    Sub New()
+    Sub New(tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
-
+        Me.Tag = tagn
         ' Add any initialization after the InitializeComponent() call.
         Me.RefEdit1_WorksheetData.ExcelConnector = AppGlobals.app
         Me.RefEditOutput.ExcelConnector = AppGlobals.app

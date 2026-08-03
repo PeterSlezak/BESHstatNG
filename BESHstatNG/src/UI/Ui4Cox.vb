@@ -16,10 +16,11 @@ Public Class Ui4Cox
     Private pRegressionInterruptRequested As Boolean = False
     Private pRegressionCloseAfterCancel As Boolean = False
 
-    Sub New()
+    Sub New(tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
+        Me.Tag = tagn
         Me.btInterrupt.Enabled = False
         Me.tbEps.Text = FormatUiDouble(0.000001)
 

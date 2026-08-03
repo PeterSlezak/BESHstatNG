@@ -8,7 +8,7 @@ Public Class Ui11PCA
     Private VariableColumnsInfo As Dictionary(Of String, VarColumnInfo) 'information of variable/column names inported into the input listbox
     Private AllColumnsInfo As Dictionary(Of String, VarColumnInfo) 'all available columns, including non-numeric, for optional row labels
 
-    Sub New(analysis As String, ws As Worksheet)
+    Sub New(analysis As String, tagn As Integer, ws As Worksheet)
         ' This call is required by the designer.
         InitializeComponent()
         pWorksheet = ws
@@ -17,6 +17,7 @@ Public Class Ui11PCA
 
         ' Add any initialization after the InitializeComponent() call.
         Me.Text = analysis
+        Me.Tag = tagn
         Me.TabPageOptionsPCA.Parent = Nothing
         Me.TabPageOptionsSPM.Parent = Nothing
         Me.TabPageOptionsKmeans.Parent = Nothing
@@ -132,133 +133,6 @@ Public Class Ui11PCA
 
         Me.WireHelp(Me.btnHelp)
         Me.Populate()
-    End Sub
-
-    Friend Sub ApplyHelpTopicConfiguration()
-        Me.TabPageOptionsPCA.Parent = Nothing
-        Me.TabPageOptionsSPM.Parent = Nothing
-        Me.TabPageOptionsKmeans.Parent = Nothing
-        Me.TabPageOptionsHierarchicalClustering.Parent = Nothing
-        Me.TabPageOptionsFA.Parent = Nothing
-        Me.TabPageOptionsDA.Parent = Nothing
-
-        If Me.Tag = HelpTopic.ScatterPlotMatrix Then
-            Me.TabPageOptionsSPM.Parent = Me.TabControl1
-
-        ElseIf Me.Tag = HelpTopic.PrincipalComponentAnalysis Then
-            Me.TabPageOptionsPCA.Parent = Me.TabControl1
-
-        ElseIf Me.Tag = HelpTopic.MultipleCorrespondenceAnalysis Then
-            Me.ckFirstRow.Visible = True
-
-        ElseIf Me.Tag = HelpTopic.KMeansClustering Then
-            Me.TabPageOptionsKmeans.Parent = Me.TabControl1
-            If Me.cbKmeansInitialization.Items.Count = 0 Then Me.cbKmeansInitialization.Items.AddRange(New Object() {"K-Means++", "Forgy", "Random Partition", "User-Specified Centers"})
-            If Me.cbKmeansDistance.Items.Count = 0 Then Me.cbKmeansDistance.Items.AddRange(New Object() {"Squared Euclidean", "Euclidean"})
-            If Me.cbKmeansStandardization.Items.Count = 0 Then Me.cbKmeansStandardization.Items.AddRange(New Object() {"None", "Z-scores", "Range 0 to 1"})
-            If Me.cbKmeansMissingPolicy.Items.Count = 0 Then Me.cbKmeansMissingPolicy.Items.AddRange(New Object() {"Error on missing", "Listwise deletion"})
-            If Me.cbKmeansEmptyCluster.Items.Count = 0 Then Me.cbKmeansEmptyCluster.Items.AddRange(New Object() {"Farthest observation", "Random observation", "Keep previous center"})
-            Me.tbKmeansTolerance.Text = FormatUiDouble(0.000001)
-            Me.tbKmeansSeed.Text = AppGlobals.GetDefaultRandomSeedText()
-            Me.lblKmeansRowLabel.Visible = True
-            Me.cbKmeansRowLabel.Visible = True
-
-            If Me.cbKmeansInitialization.SelectedIndex < 0 Then Me.cbKmeansInitialization.SelectedIndex = 0
-            If Me.cbKmeansDistance.SelectedIndex < 0 Then Me.cbKmeansDistance.SelectedIndex = 0
-            If Me.cbKmeansStandardization.SelectedIndex < 0 Then Me.cbKmeansStandardization.SelectedIndex = 0
-            If Me.cbKmeansMissingPolicy.SelectedIndex < 0 Then Me.cbKmeansMissingPolicy.SelectedIndex = 0
-            If Me.cbKmeansEmptyCluster.SelectedIndex < 0 Then Me.cbKmeansEmptyCluster.SelectedIndex = 0
-            Me.refKmeansCenters.ExcelConnector = AppGlobals.app
-            RemoveHandler Me.cbKmeansInitialization.SelectedIndexChanged, AddressOf Me.KMeansInitializationChanged
-            AddHandler Me.cbKmeansInitialization.SelectedIndexChanged, AddressOf Me.KMeansInitializationChanged
-            Me.KMeansInitializationChanged(Me.cbKmeansInitialization, System.EventArgs.Empty)
-
-        ElseIf Me.Tag = HelpTopic.HierarchicalClustering Then
-            Me.TabPageOptionsHierarchicalClustering.Parent = Me.TabControl1
-            Me.lblKmeansRowLabel.Visible = True
-            Me.cbKmeansRowLabel.Visible = True
-            If Me.cbHierarchicalLinkage.Items.Count = 0 Then Me.cbHierarchicalLinkage.Items.AddRange(New Object() {"Ward", "Complete", "Average", "Weighted Average", "Single Linkage", "Centroid", "Median"})
-            If Me.cbHierarchicalDistance.Items.Count = 0 Then Me.cbHierarchicalDistance.Items.AddRange(New Object() {"Squared Euclidean", "Euclidean", "Manhattan", "Chebyshev", "Minkowski", "Cosine", "Correlation"})
-            If Me.cbHierarchicalStandardization.Items.Count = 0 Then Me.cbHierarchicalStandardization.Items.AddRange(New Object() {"None", "Z-scores", "Range 0 to 1"})
-            If Me.cbHierarchicalMissingPolicy.Items.Count = 0 Then Me.cbHierarchicalMissingPolicy.Items.AddRange(New Object() {"Error on missing", "Listwise deletion"})
-            If Me.cbHierarchicalHeightMode.Items.Count = 0 Then Me.cbHierarchicalHeightMode.Items.AddRange(New Object() {"Merge Distance", "Step Levels"})
-            If Me.cbHierarchicalOrientation.Items.Count = 0 Then Me.cbHierarchicalOrientation.Items.AddRange(New Object() {"Top", "Bottom", "Left", "Right"})
-            If Me.cbHierarchicalLabelMode.Items.Count = 0 Then Me.cbHierarchicalLabelMode.Items.AddRange(New Object() {"Data Labels", "Axis Title", "None"})
-            Me.tbHierarchicalMinkowskiPower.Text = FormatUiDouble(2.0)
-            Me.tbHierarchicalCutHeight.Text = FormatUiDouble(0.0)
-            If Me.cbHierarchicalLinkage.SelectedIndex < 0 Then Me.cbHierarchicalLinkage.SelectedIndex = 0
-            If Me.cbHierarchicalDistance.SelectedIndex < 0 Then Me.cbHierarchicalDistance.SelectedIndex = 0
-            If Me.cbHierarchicalStandardization.SelectedIndex < 0 Then Me.cbHierarchicalStandardization.SelectedIndex = 0
-            If Me.cbHierarchicalMissingPolicy.SelectedIndex < 0 Then Me.cbHierarchicalMissingPolicy.SelectedIndex = 0
-            If Me.cbHierarchicalHeightMode.SelectedIndex < 0 Then Me.cbHierarchicalHeightMode.SelectedIndex = 0
-            If Me.cbHierarchicalOrientation.SelectedIndex < 0 Then Me.cbHierarchicalOrientation.SelectedIndex = 0
-            If Me.cbHierarchicalLabelMode.SelectedIndex < 0 Then Me.cbHierarchicalLabelMode.SelectedIndex = 0
-
-            RemoveHandler Me.cbHierarchicalDistance.SelectedIndexChanged, AddressOf Me.HierarchicalDistanceChanged
-            RemoveHandler Me.optHierarchicalCutByClusters.CheckedChanged, AddressOf Me.HierarchicalMembershipModeChanged
-            RemoveHandler Me.optHierarchicalCutByHeight.CheckedChanged, AddressOf Me.HierarchicalMembershipModeChanged
-            AddHandler Me.cbHierarchicalDistance.SelectedIndexChanged, AddressOf Me.HierarchicalDistanceChanged
-            AddHandler Me.optHierarchicalCutByClusters.CheckedChanged, AddressOf Me.HierarchicalMembershipModeChanged
-            AddHandler Me.optHierarchicalCutByHeight.CheckedChanged, AddressOf Me.HierarchicalMembershipModeChanged
-            Me.HierarchicalDistanceChanged(Me.cbHierarchicalDistance, System.EventArgs.Empty)
-            Me.HierarchicalMembershipModeChanged(Me.optHierarchicalCutByClusters, System.EventArgs.Empty)
-
-        ElseIf Me.Tag = HelpTopic.FactorAnalysis Then
-            Me.TabPageOptionsFA.Parent = Me.TabControl1
-            If Me.cbFAExtraction.Items.Count = 0 Then Me.cbFAExtraction.Items.AddRange(New Object() {"Principal Components", "Principal Axis", "Maximum Likelihood", "Generalized Least Squares", "Image Factoring", "Alpha Factoring"})
-            If Me.cbFACommunalityInit.Items.Count = 0 Then Me.cbFACommunalityInit.Items.AddRange(New Object() {"Squared multiple correlations", "One / full diagonal"})
-            If Me.cbFAMissingPolicy.Items.Count = 0 Then Me.cbFAMissingPolicy.Items.AddRange(New Object() {"Error on missing", "Listwise deletion"})
-            If Me.cbFARotation.Items.Count = 0 Then Me.cbFARotation.Items.AddRange(New Object() {"None", "Varimax", "Quartimax", "Equamax", "Promax"})
-            If Me.cbFAScoreMethod.Items.Count = 0 Then Me.cbFAScoreMethod.Items.AddRange(New Object() {"None", "Regression", "Bartlett"})
-            If Me.cbFAExtraction.SelectedIndex < 0 Then Me.cbFAExtraction.SelectedIndex = 1
-            If Me.cbFACommunalityInit.SelectedIndex < 0 Then Me.cbFACommunalityInit.SelectedIndex = 0
-            If Me.cbFAMissingPolicy.SelectedIndex < 0 Then Me.cbFAMissingPolicy.SelectedIndex = 0
-            If Me.cbFARotation.SelectedIndex < 0 Then Me.cbFARotation.SelectedIndex = 1
-            If Me.cbFAScoreMethod.SelectedIndex < 0 Then Me.cbFAScoreMethod.SelectedIndex = 1
-            Me.tbFAEps.Text = FormatUiDouble(0.000001)
-            RemoveHandler Me.cbFAExtraction.SelectedIndexChanged, AddressOf Me.FactorAnalysisExtractionChanged
-            RemoveHandler Me.cbFARotation.SelectedIndexChanged, AddressOf Me.FactorAnalysisRotationChanged
-            RemoveHandler Me.optFAExtractFixed.CheckedChanged, AddressOf Me.FactorAnalysisRetentionChanged
-            RemoveHandler Me.optFAExtractEigen.CheckedChanged, AddressOf Me.FactorAnalysisRetentionChanged
-            RemoveHandler Me.optFAExtractVariance.CheckedChanged, AddressOf Me.FactorAnalysisRetentionChanged
-            AddHandler Me.cbFAExtraction.SelectedIndexChanged, AddressOf Me.FactorAnalysisExtractionChanged
-            AddHandler Me.cbFARotation.SelectedIndexChanged, AddressOf Me.FactorAnalysisRotationChanged
-            AddHandler Me.optFAExtractFixed.CheckedChanged, AddressOf Me.FactorAnalysisRetentionChanged
-            AddHandler Me.optFAExtractEigen.CheckedChanged, AddressOf Me.FactorAnalysisRetentionChanged
-            AddHandler Me.optFAExtractVariance.CheckedChanged, AddressOf Me.FactorAnalysisRetentionChanged
-            Me.FactorAnalysisExtractionChanged(Me.cbFAExtraction, System.EventArgs.Empty)
-            Me.FactorAnalysisRotationChanged(Me.cbFARotation, System.EventArgs.Empty)
-            Me.FactorAnalysisRetentionChanged(Me.optFAExtractFixed, System.EventArgs.Empty)
-
-        ElseIf Me.Tag = HelpTopic.DiscriminantAnalysis Then
-            Me.TabPageOptionsDA.Parent = Me.TabControl1
-            Me.lblGruppingVar.Visible = True
-            Me.cbGruppingVar.Visible = True
-            Me.lblKmeansRowLabel.Visible = True
-            Me.cbKmeansRowLabel.Visible = True
-            If Me.cbDAMethod.Items.Count = 0 Then Me.cbDAMethod.Items.AddRange(New Object() {"Linear discriminant analysis", "Quadratic discriminant analysis"})
-            If Me.cbDAStandardization.Items.Count = 0 Then Me.cbDAStandardization.Items.AddRange(New Object() {"None", "Z-scores", "Range 0 to 1"})
-            If Me.cbDAMissingPolicy.Items.Count = 0 Then Me.cbDAMissingPolicy.Items.AddRange(New Object() {"Error on missing", "Listwise deletion"})
-            If Me.cbDAPriors.Items.Count = 0 Then Me.cbDAPriors.Items.AddRange(New Object() {"Proportional to group sizes", "Equal", "User-specified"})
-            If Me.cbDAValidation.Items.Count = 0 Then Me.cbDAValidation.Items.AddRange(New Object() {"None", "Leave-one-out", "K-fold", "Holdout"})
-            If Me.cbDAMethod.SelectedIndex < 0 Then Me.cbDAMethod.SelectedIndex = 0
-            If Me.cbDAStandardization.SelectedIndex < 0 Then Me.cbDAStandardization.SelectedIndex = 0
-            If Me.cbDAMissingPolicy.SelectedIndex < 0 Then Me.cbDAMissingPolicy.SelectedIndex = 0
-            If Me.cbDAPriors.SelectedIndex < 0 Then Me.cbDAPriors.SelectedIndex = 0
-            If Me.cbDAValidation.SelectedIndex < 0 Then Me.cbDAValidation.SelectedIndex = 0
-            Me.tbDARegularization.Text = FormatUiDouble(0.00000001)
-            Me.tbDASeed.Text = AppGlobals.GetDefaultRandomSeedText()
-            Me.tbDAHoldoutFraction.Value = FormatUiDouble(0.3)
-            Me.tbDAUserPriors.Enabled = False
-            RemoveHandler Me.cbDAPriors.SelectedIndexChanged, AddressOf Me.DiscriminantPriorModeChanged
-            RemoveHandler Me.cbDAValidation.SelectedIndexChanged, AddressOf Me.DiscriminantValidationChanged
-            AddHandler Me.cbDAPriors.SelectedIndexChanged, AddressOf Me.DiscriminantPriorModeChanged
-            AddHandler Me.cbDAValidation.SelectedIndexChanged, AddressOf Me.DiscriminantValidationChanged
-            Me.UpdateDiscriminantOptionStates()
-            Me.ckFirstRow.Visible = True
-        End If
-
-        If Me.pWorksheet IsNot Nothing Then Me.Populate()
     End Sub
 
     Private Sub btCalculate_Click(sender As Object, e As System.EventArgs) Handles btCalculate.Click

@@ -569,7 +569,9 @@ Namespace WorksheetFunctions
         ''' This extractor computes LS-means from the fitted fixed-effect design rows retained during
         ''' the model fit. When <paramref name="group"/> is blank, the table contains one estimated
         ''' marginal mean for each visit/time value. When <paramref name="group"/> names a numeric
-        ''' design column, the table contains means for each visit-by-group profile.
+        ''' design column, the table contains means for each visit-by-group profile. When
+        ''' <paramref name="group"/> is a worksheet range, it is interpreted as an AT/profile setting
+        ''' range and the visit means are restricted to observed design rows matching that profile.
         ''' </para>
         ''' <para>
         ''' The estimates use the same inference method saved with the fit. For Kenward-Roger fits,
@@ -583,7 +585,7 @@ Namespace WorksheetFunctions
         ''' </para>
         ''' </remarks>
         ''' <param name="handle">Handle returned by <c>BESH.REGR.MMRM_FIT</c>.</param>
-        ''' <param name="group">Optional fitted design column to use as a grouping factor, for example <c>treatment_active</c>. Leave blank for visit-only means.</param>
+        ''' <param name="group">Optional fitted design column to use as a grouping factor, for example <c>treatment_active</c>. Alternatively, provide an AT/profile range in name/value or wide form to compute visit means at a specified observed profile. Leave blank for visit-only means.</param>
         ''' <param name="alpha">Optional two-sided alpha level for confidence intervals. Leave blank to use the alpha value saved with the fit.</param>
         ''' <returns>A dynamic array containing estimated marginal means.</returns>
         <ExcelFunction(
@@ -594,7 +596,7 @@ Namespace WorksheetFunctions
         )>
         Public Function MMRM_LSMEANS(
             <ExcelArgument(Name:="handle", Description:="Handle returned by BESH.REGR.MMRM_FIT.")> handle As Object,
-            <ExcelArgument(Name:="group", Description:="Optional fitted design column used as a grouping factor. Leave blank for visit-only means.")> Optional group As Object = Nothing,
+            <ExcelArgument(Name:="group", Description:="Optional fitted design column name, or an AT/profile range. Leave blank for visit-only means.")> Optional group As Object = Nothing,
             <ExcelArgument(Name:="alpha", Description:="Optional alpha for confidence intervals. Default is the fit alpha.")> Optional alpha As Object = Nothing
         ) As Object
 
@@ -613,31 +615,58 @@ Namespace WorksheetFunctions
                     Return "BESH.REGR.MMRM_LSMEANS error: the fit does not contain visit/time values required for LS-means."
                 End If
 
-                Dim groupName As String = ExcelArgReaders.AsString(group)
                 Dim table As ResultTable = Nothing
 
-                If String.IsNullOrWhiteSpace(groupName) Then
+                If ExcelArgPredicates.IsMissingArg(group) Then
                     table = regression.MMRMPostEstimation.BuildEstimatedMeansByVisitTable(
                         result:=h.Result,
                         x:=h.FittedDesign,
                         visit:=h.VisitValues,
                         alpha:=alphaValue)
+                ElseIf IsMmrmWorksheetRangeArgument(group) Then
+                    Dim atProfile As MmrmLsmEstimateAtProfile = Nothing
+                    Dim errorMessage As String = Nothing
+
+                    If Not Global.BESHStatNG.UdfDataImport.TryGetMmrmLsmEstimateAtSpec(group, h, atProfile, errorMessage) Then
+                        Return "BESH.REGR.MMRM_LSMEANS error: " & errorMessage
+                    End If
+
+                    Dim rowMask() As Boolean = Nothing
+                    Dim profileDescription As String = Nothing
+                    If Not TryBuildMmrmAtProfileRowMask(h, atProfile, rowMask, profileDescription, errorMessage) Then
+                        Return "BESH.REGR.MMRM_LSMEANS error: " & errorMessage
+                    End If
+
+                    table = regression.MMRMPostEstimation.BuildEstimatedMeansByVisitTable(
+                        result:=h.Result,
+                        x:=h.FittedDesign,
+                        visit:=h.VisitValues,
+                        alpha:=alphaValue,
+                        rowMask:=rowMask,
+                        profileDescription:=profileDescription)
                 Else
+                    Dim groupName As String = ExcelArgReaders.AsString(group)
                     Dim groupValues() As Double = Nothing
                     Dim resolvedGroupName As String = Nothing
                     Dim errorMessage As String = Nothing
 
-                    If Not TryGetDesignColumnValues(h, groupName, resolvedGroupName, groupValues, errorMessage) Then
+                    If String.IsNullOrWhiteSpace(groupName) Then
+                        table = regression.MMRMPostEstimation.BuildEstimatedMeansByVisitTable(
+                            result:=h.Result,
+                            x:=h.FittedDesign,
+                            visit:=h.VisitValues,
+                            alpha:=alphaValue)
+                    ElseIf Not TryGetDesignColumnValues(h, groupName, resolvedGroupName, groupValues, errorMessage) Then
                         Return "BESH.REGR.MMRM_LSMEANS error: " & errorMessage
+                    Else
+                        table = regression.MMRMPostEstimation.BuildEstimatedMeansByVisitAndGroupTable(
+                            result:=h.Result,
+                            x:=h.FittedDesign,
+                            visit:=h.VisitValues,
+                            groupValues:=groupValues,
+                            groupName:=resolvedGroupName,
+                            alpha:=alphaValue)
                     End If
-
-                    table = regression.MMRMPostEstimation.BuildEstimatedMeansByVisitAndGroupTable(
-                        result:=h.Result,
-                        x:=h.FittedDesign,
-                        visit:=h.VisitValues,
-                        groupValues:=groupValues,
-                        groupName:=resolvedGroupName,
-                        alpha:=alphaValue)
                 End If
 
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
@@ -1333,6 +1362,90 @@ Namespace WorksheetFunctions
             Next
 
             Return sums
+        End Function
+
+        Private Function IsMmrmWorksheetRangeArgument(arg As Object) As Boolean
+            If ExcelArgPredicates.IsMissingArg(arg) Then Return False
+            Return TypeOf arg Is Object(,)
+        End Function
+
+        Private Function TryBuildMmrmAtProfileRowMask(h As MmrmHandle,
+                                                       atProfile As MmrmLsmEstimateAtProfile,
+                                                       ByRef rowMask() As Boolean,
+                                                       ByRef profileDescription As String,
+                                                       ByRef errorMessage As String) As Boolean
+            rowMask = Nothing
+            profileDescription = Nothing
+            errorMessage = Nothing
+
+            If h Is Nothing OrElse h.FittedDesign Is Nothing OrElse h.VisitValues Is Nothing Then
+                errorMessage = "the fit does not contain the design rows and visit values required for LS-means profiles."
+                Return False
+            End If
+
+            If atProfile Is Nothing OrElse (Not atProfile.VisitSpecified AndAlso atProfile.ProfileValues.Count = 0) Then
+                errorMessage = "the supplied profile range does not contain any visit or fitted design-column settings."
+                Return False
+            End If
+
+            Dim n As Integer = h.FittedDesign.GetLength(0)
+            If h.VisitValues.Length <> n Then
+                errorMessage = "the fit does not contain usable visit values for the saved design rows."
+                Return False
+            End If
+
+            rowMask = New Boolean(n - 1) {}
+            Dim matchedCount As Integer = 0
+
+            For i As Integer = 0 To n - 1
+                Dim keep As Boolean = True
+
+                If atProfile.VisitSpecified AndAlso
+                   Not regression.MixedModelPostEstimation.NearlyEqual(h.VisitValues(i), atProfile.VisitValue) Then
+                    keep = False
+                End If
+
+                If keep Then
+                    For Each profileValue As MmrmLsmEstimateProfileValue In atProfile.ProfileValues
+                        If profileValue.ColumnIndex < 0 OrElse profileValue.ColumnIndex >= h.FittedDesign.GetLength(1) Then
+                            keep = False
+                            Exit For
+                        End If
+
+                        If Not regression.MixedModelPostEstimation.NearlyEqual(h.FittedDesign(i, profileValue.ColumnIndex), profileValue.Value) Then
+                            keep = False
+                            Exit For
+                        End If
+                    Next
+                End If
+
+                rowMask(i) = keep
+                If keep Then matchedCount += 1
+            Next
+
+            If matchedCount <= 0 Then
+                errorMessage = "no observed design rows matched the supplied LS-means profile."
+                Return False
+            End If
+
+            profileDescription = FormatMmrmAtProfileDescription(atProfile)
+            Return True
+        End Function
+
+
+        Private Function FormatMmrmAtProfileDescription(atProfile As MmrmLsmEstimateAtProfile) As String
+            If atProfile Is Nothing Then Return String.Empty
+
+            Dim parts As New List(Of String)()
+            If atProfile.VisitSpecified Then
+                parts.Add("visit=" & regression.MixedModelPostEstimation.FormatProfileValue(atProfile.VisitValue))
+            End If
+
+            For Each profileValue As MmrmLsmEstimateProfileValue In atProfile.ProfileValues
+                parts.Add(profileValue.Name & "=" & regression.MixedModelPostEstimation.FormatProfileValue(profileValue.Value))
+            Next
+
+            Return String.Join(", ", parts)
         End Function
 
         Private Function TryGetDesignColumnValues(h As MmrmHandle,

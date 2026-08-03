@@ -193,6 +193,7 @@
     <Compile Include="src\Graphics\Histogram.vb" />
     <Compile Include="src\Graphics\NormalPlot.vb" />
     <Compile Include="src\Graphics\PcaPlotExcel.vb" />
+    <Compile Include="src\Graphics\PolarPlot.vb" />
     <Compile Include="src\Graphics\ROC.vb" />
     <Compile Include="src\Graphics\ScatterPlotMatrix.vb" />
     <Compile Include="src\Graphics\SymetryPlot.vb" />
@@ -275,6 +276,12 @@
     <Compile Include="src\StatTests\Parametric.vb" />
     <Compile Include="src\UI\ExcelWindowWrapper.vb" />
     <Compile Include="src\UI\RegressionEffectsController.vb" />
+    <Compile Include="src\UI\Ui01PolarPlot.Designer.vb">
+      <DependentUpon>Ui01PolarPlot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui01PolarPlot.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\UI\Ui10ShowLog.Designer.vb">
       <DependentUpon>Ui10ShowLog.vb</DependentUpon>
     </Compile>
@@ -415,6 +422,9 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui01PolarPlot.resx">
+      <DependentUpon>Ui01PolarPlot.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui10ShowLog.resx">
       <DependentUpon>Ui10ShowLog.vb</DependentUpon>

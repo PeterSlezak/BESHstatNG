@@ -22,9 +22,10 @@ Public Class Ui20PropensityScoreMatching
         Public DroppedRowsDuringAlignment As Integer
     End Class
 
-    Sub New(analysis As String)
+    Sub New(analysis As String, tagn As Integer)
         InitializeComponent()
         Me.Text = analysis
+        Me.Tag = tagn
         Me.ProgressBar1.Minimum = 0
         Me.ProgressBar1.Maximum = 100
         Me.ProgressBar1.Value = 0

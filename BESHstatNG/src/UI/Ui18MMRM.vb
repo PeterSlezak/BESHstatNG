@@ -48,12 +48,13 @@ Public Class Ui18MMRM
     Private Const MMRM_GRAD_VALIDATE As String = "Analytic score + finite-difference validation"
     Private Const MMRM_GRAD_NUMERICAL As String = "Numerical finite difference"
 
-    Sub New(analysis As String)
+    Sub New(analysis As String, tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
         Me.tbEps.Text = FormatUiDouble(0.000001)
         Me.Text = analysis
+        Me.Tag = tagn
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
         InitializeMMRMControls()
         Me.btInterrupt.Enabled = False

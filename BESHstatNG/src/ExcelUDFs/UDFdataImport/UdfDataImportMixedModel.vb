@@ -497,8 +497,21 @@ Partial Friend Module UdfDataImport
 
         Dim rows As Integer = arr.GetLength(0)
         Dim cols As Integer = arr.GetLength(1)
-        If rows < 2 OrElse cols < 1 Then
-            errorMessage = "at must contain a header row and at least one data row, or be omitted."
+        If rows < 1 OrElse cols < 1 Then
+            errorMessage = "at must contain at least one nonblank name/value setting, or be omitted."
+            Return False
+        End If
+
+        Dim headerlessAt As New Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile()
+        Dim attemptedHeaderlessAt As Boolean = False
+        If TryGetMmrmHeaderlessNameValueAtSpec(arr, h, headerlessAt, errorMessage, attemptedHeaderlessAt) Then
+            atProfile = headerlessAt
+            Return True
+        End If
+        If attemptedHeaderlessAt Then Return False
+
+        If rows < 2 Then
+            errorMessage = "at must contain a header row and at least one data row, or use two-column headerless name/value form."
             Return False
         End If
 
@@ -625,6 +638,75 @@ Partial Friend Module UdfDataImport
 
         atProfile = parsed
         Return True
+    End Function
+
+    Private Function TryGetMmrmHeaderlessNameValueAtSpec(arr(,) As Object,
+                                                            h As Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmHandle,
+                                                            atProfile As Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile,
+                                                            ByRef errorMessage As String,
+                                                            ByRef attempted As Boolean) As Boolean
+        attempted = False
+        errorMessage = Nothing
+
+        If arr Is Nothing OrElse h Is Nothing OrElse atProfile Is Nothing Then Return False
+        If arr.GetLength(1) <> 2 Then Return False
+
+        Dim rows As Integer = arr.GetLength(0)
+        Dim firstNonblankRow As Integer = -1
+        For r As Integer = 0 To rows - 1
+            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(r, 0)) OrElse
+               Not Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(r, 1)) Then
+                firstNonblankRow = r
+                Exit For
+            End If
+        Next
+
+        If firstNonblankRow < 0 Then Return False
+
+        Dim firstName As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(firstNonblankRow, 0))
+        If String.IsNullOrWhiteSpace(firstName) Then Return False
+
+        Dim firstValue As Double
+        If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(arr(firstNonblankRow, 1), firstValue) Then
+            Return False
+        End If
+
+        Dim probe As New Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile()
+        Dim probeError As String = Nothing
+        If Not AddMmrmLsmEstimateAtValue(probe, h, firstName, firstValue,
+                                         "at row " & (firstNonblankRow + 1).ToString(CultureInfo.InvariantCulture),
+                                         probeError) Then
+            Return False
+        End If
+
+        attempted = True
+
+        For r As Integer = 0 To rows - 1
+            Dim nameBlank As Boolean = Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(r, 0))
+            Dim valueBlank As Boolean = Global.BESHStatNG.WorksheetFunctions.ExcelArgPredicates.IsBlankCell(arr(r, 1))
+            If nameBlank AndAlso valueBlank Then Continue For
+
+            Dim requestedName As String = Global.BESHStatNG.WorksheetFunctions.ExcelArgReaders.CellToTrimmedText(arr(r, 0))
+            If String.IsNullOrWhiteSpace(requestedName) Then
+                errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) & " has a missing name/variable value."
+                Return False
+            End If
+
+            Dim value As Double
+            If Not Global.BESHStatNG.WorksheetFunctions.ExcelArgNumeric.TryGetFiniteDouble(arr(r, 1), value) Then
+                errorMessage = "at row " & (r + 1).ToString(CultureInfo.InvariantCulture) &
+                               " has a missing or nonnumeric value for """ & requestedName & """."
+                Return False
+            End If
+
+            If Not AddMmrmLsmEstimateAtValue(atProfile, h, requestedName, value,
+                                             "at row " & (r + 1).ToString(CultureInfo.InvariantCulture),
+                                             errorMessage) Then
+                Return False
+            End If
+        Next
+
+        Return atProfile.VisitSpecified OrElse atProfile.ProfileValues.Count > 0
     End Function
 
     Private Function AddMmrmLsmEstimateAtValue(atProfile As Global.BESHStatNG.WorksheetFunctions.MixedModelUDFs.MmrmLsmEstimateAtProfile,

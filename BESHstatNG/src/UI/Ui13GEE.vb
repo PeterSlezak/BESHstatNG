@@ -16,13 +16,14 @@ Public Class Ui13GEE
     Private pRegressionInterruptRequested As Boolean = False
     Private pRegressionCloseAfterCancel As Boolean = False
 
-    Sub New(analysis As String)
+    Sub New(analysis As String, tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
         Me.btInterrupt.Enabled = False
         Me.tbEps.Text = FormatUiDouble(0.000001)
         Me.Text = analysis
+        Me.Tag = tagn
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         ' Add any initialization after the InitializeComponent() call.
@@ -114,33 +115,6 @@ Public Class Ui13GEE
                                                                Me.lbSelectedEffectsList,
                                                                Me.TermSpecs)
         Me.WireHelp(Me.btnHelp)
-    End Sub
-
-    Friend Sub ApplyHelpTopicConfiguration()
-        If Me.Tag <> HelpTopic.GeneralizedEstimatingEquationsGEE Then Return
-
-        Me.cbFamily.Items.Clear()
-        For Each sFam In regression.Family.FamiliesList
-            Me.cbFamily.Items.Add(sFam)
-        Next
-
-        Me.cbCovarStruct.Items.Clear()
-        For Each sCovStruct In regression.GEEcovStruct.CovStructsList
-            Me.cbCovarStruct.Items.Add(sCovStruct)
-        Next
-
-        Me.cbStandardErr.Items.Clear()
-        For Each sSE In {"Robust", "Naive", "Bias Reduced"}
-            Me.cbStandardErr.Items.Add(sSE)
-        Next
-
-        If Me.cbFamily.Items.Count > 0 Then
-            Me.cbFamily.SelectedIndex = 0
-            RefreshLinkOptionsForSelectedFamily(regression.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
-        End If
-        If Me.cbCovarStruct.Items.Count > 0 Then Me.cbCovarStruct.SelectedIndex = 0
-        If Me.cbStandardErr.Items.Count > 0 Then Me.cbStandardErr.SelectedIndex = 0
-        UpdateClassificationOptionsState(False)
     End Sub
 
     Sub Populate(ws As Object)

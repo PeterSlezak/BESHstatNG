@@ -2,11 +2,11 @@
 
 Public Class Ui12GlobalSettings
 
-    Public Sub New()
+    Public Sub New(tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
-
+        Me.Tag = tagn
         ' Load current session settings into the form.
         Dim settings = AppGlobals.GetCurrentSettings()
         Me.ckLogging.Checked = settings.Diagnostics.TraceExecutionLoggingEnabled

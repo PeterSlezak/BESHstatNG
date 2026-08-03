@@ -66,11 +66,11 @@ Public Class Ui99ExportChart
         End Try
     End Function
 
-    Sub New()
+    Sub New(tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
-
+        Me.Tag = tagn
         ' Add any initialization after the InitializeComponent() call.
         Me.cbFormat.DropDownStyle = ComboBoxStyle.DropDownList
         Me.cbFormat.DataSource = [Enum].GetValues(GetType(ChartExport.ExportFormat))

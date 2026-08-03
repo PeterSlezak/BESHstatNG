@@ -90,20 +90,6 @@ Public Class Ribbon
     Friend Shared XllName As String = Nothing
     Friend Shared XllPath As String = Nothing
 
-    Private Shared Sub SetFormHelpTopic(form As Form, topic As HelpTopic)
-        If form Is Nothing Then Return
-
-        form.Tag = topic
-
-        Dim applyMethod As MethodInfo = form.GetType().GetMethod("ApplyHelpTopicConfiguration",
-                                                    BindingFlags.Instance Or
-                                                    BindingFlags.Public Or
-                                                    BindingFlags.NonPublic)
-        If applyMethod IsNot Nothing AndAlso applyMethod.GetParameters().Length = 0 Then
-            applyMethod.Invoke(form, Nothing)
-        End If
-    End Sub
-
     Public Overrides Function GetCustomUI(RibbonID As String) As String
         Return My.Resources.RibbonXML ' The name here is the resource name that the ribbon xml has in the BESHStatResources resource file
     End Function
@@ -112,32 +98,27 @@ Public Class Ribbon
     ' Assumptions
     '--------------------------------------------------------------------------
     Public Sub OnbtmNormalityTestsPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Normality")
-        SetFormHelpTopic(mwForm, HelpTopic.NormalityTests)
+        Dim mwForm As New UibyID("Normality", HelpTopic.NormalityTests)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmOutliersPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Outliers")
-        SetFormHelpTopic(mwForm, HelpTopic.UnivariateOutliers)
+        Dim mwForm As New UibyID("Outliers", HelpTopic.UnivariateOutliers)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmHomogeneityVarPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Homogeneity of Variance")
-        SetFormHelpTopic(mwForm, HelpTopic.HomogeneityOfVariance)
+        Dim mwForm As New UibyID("Homogeneity of Variance", HelpTopic.HomogeneityOfVariance)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmSymmetryPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Symmetry")
-        SetFormHelpTopic(mwForm, HelpTopic.Symmetry)
+        Dim mwForm As New UibyID("Symmetry", HelpTopic.Symmetry)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmDescriptivePressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Descriptive Statistcs")
-        SetFormHelpTopic(mwForm, HelpTopic.DescriptiveStatistics)
+        Dim mwForm As New UibyID("Descriptive Statistcs", HelpTopic.DescriptiveStatistics)
         mwForm.Show()
     End Sub
 
@@ -145,38 +126,32 @@ Public Class Ribbon
     ' Graphics
     '--------------------------------------------------------------------------
     Public Sub OnbtmHistogramPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Histogram")
-        SetFormHelpTopic(mwForm, HelpTopic.Histogram)
+        Dim mwForm As New UibyID("Histogram", HelpTopic.Histogram)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmBoxWhiskersPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Box and Whiskers")
-        SetFormHelpTopic(mwForm, HelpTopic.BoxAndWhiskers)
+        Dim mwForm As New UibyID("Box and Whiskers", HelpTopic.BoxAndWhiskers)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmROCPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("ROC Curve")
-        SetFormHelpTopic(mwForm, HelpTopic.ROCCurve)
+        Dim mwForm As New UibyID("ROC Curve", HelpTopic.ROCCurve)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmKMPressed(control As IRibbonControl)
-        Dim mwForm As New Ui4KMandLogRank("Kaplan-Meier Plot")
-        SetFormHelpTopic(mwForm, HelpTopic.KaplanMeierPlot)
+        Dim mwForm As New Ui4KMandLogRank("Kaplan-Meier Plot", HelpTopic.KaplanMeierPlot)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmNormalPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Normal Plot")
-        SetFormHelpTopic(mwForm, HelpTopic.NormalPlot)
+        Dim mwForm As New UibyID("Normal Plot", HelpTopic.NormalPlot)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmXYZPressed(control As IRibbonControl)
-        Dim mwForm As New Ui3XYZplot()
-        SetFormHelpTopic(mwForm, HelpTopic.XYZ3DScatterplot)
+        Dim mwForm As New Ui3XYZplot(HelpTopic.XYZ3DScatterplot)
         mwForm.Show()
     End Sub
 
@@ -189,8 +164,12 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui11PCA("Scatter Plot MatrixType", sh)
-        SetFormHelpTopic(mwForm, HelpTopic.ScatterPlotMatrix)
+        Dim mwForm As New Ui11PCA("Scatter Plot MatrixType", HelpTopic.ScatterPlotMatrix, sh)
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmPolarPressed(control As IRibbonControl)
+        Dim mwForm As New Ui01PolarPlot(HelpTopic.Polarplot)
         mwForm.Show()
     End Sub
 
@@ -198,30 +177,25 @@ Public Class Ribbon
     ' Parametric
     '--------------------------------------------------------------------------
     Public Sub OnbtmPairedTPressed(control As IRibbonControl)
-        Dim mwForm As New UiTwoInputRefedits("Paired T-test")
-        SetFormHelpTopic(mwForm, HelpTopic.PairedSingleSampleTTests)
+        Dim mwForm As New UiTwoInputRefedits("Paired T-test", HelpTopic.PairedSingleSampleTTests)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmUnpairedTPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Unpaired T-test")
-        SetFormHelpTopic(mwForm, HelpTopic.UnpairedTTest)
+        Dim mwForm As New UibyID("Unpaired T-test", HelpTopic.UnpairedTTest)
         mwForm.Show()
     End Sub
 
     Public Sub Onbtm1WayANOVAPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("One-Way ANOVA")
-        SetFormHelpTopic(mwForm, HelpTopic.OneWayANOVA)
+        Dim mwForm As New UibyID("One-Way ANOVA", HelpTopic.OneWayANOVA)
         mwForm.Show()
     End Sub
     Public Sub Onbtm1RMANOVAPressed(control As IRibbonControl)
-        Dim mwForm As New Ui0OneRefeditMulticol("One-Way Repeated-Measures ANOVA")
-        SetFormHelpTopic(mwForm, HelpTopic.OneWayRepeatedMeasuresANOVA)
+        Dim mwForm As New Ui0OneRefeditMulticol("One-Way Repeated-Measures ANOVA", HelpTopic.OneWayRepeatedMeasuresANOVA)
         mwForm.Show()
     End Sub
     Public Sub Onbtm2WayNestedPressed(control As IRibbonControl)
-        Dim mwForm As New Ui9ANOVA2nested("Two-Way Nested ANOVA")
-        SetFormHelpTopic(mwForm, HelpTopic.TwoWayNestedANOVA)
+        Dim mwForm As New Ui9ANOVA2nested("Two-Way Nested ANOVA", HelpTopic.TwoWayNestedANOVA)
         mwForm.Show()
     End Sub
 
@@ -229,56 +203,47 @@ Public Class Ribbon
     ' Non-Parametric
     '--------------------------------------------------------------------------
     Public Sub OnbtmMannWhitneyPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Mann-Whitney Test")
-        SetFormHelpTopic(mwForm, HelpTopic.MannWhitneyTest)
+        Dim mwForm As New UibyID("Mann-Whitney Test", HelpTopic.MannWhitneyTest)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmWilcoxonPressed(control As IRibbonControl)
-        Dim mwForm As New UiTwoInputRefedits("Wilcoxon Signed Rank Test")
-        SetFormHelpTopic(mwForm, HelpTopic.WilcoxonSignedRankTest)
+        Dim mwForm As New UiTwoInputRefedits("Wilcoxon Signed Rank Test", HelpTopic.WilcoxonSignedRankTest)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmKruskalWallisPressed(control As IRibbonControl)
-        Dim mwForm As New UibyID("Kruskal-Wallis Test")
-        SetFormHelpTopic(mwForm, HelpTopic.KruskalWallisTest)
+        Dim mwForm As New UibyID("Kruskal-Wallis Test", HelpTopic.KruskalWallisTest)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmFriedmanPressed(control As IRibbonControl)
-        Dim mwForm As New Ui0OneRefeditMulticol("Friedman Test")
-        SetFormHelpTopic(mwForm, HelpTopic.FriedmanTest)
+        Dim mwForm As New Ui0OneRefeditMulticol("Friedman Test", HelpTopic.FriedmanTest)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmCochranPressed(control As IRibbonControl)
-        Dim mwForm As New Ui0OneRefeditMulticol("Cochran's Q Test")
-        SetFormHelpTopic(mwForm, HelpTopic.CochranSQTest)
+        Dim mwForm As New Ui0OneRefeditMulticol("Cochran's Q Test", HelpTopic.CochranSQTest)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmSkillingsMackPressed(control As IRibbonControl)
-        Dim mwForm As New Ui0OneRefeditMulticol("Skillings-Mack Test")
-        SetFormHelpTopic(mwForm, HelpTopic.SkillingsMackTest)
+        Dim mwForm As New Ui0OneRefeditMulticol("Skillings-Mack Test", HelpTopic.SkillingsMackTest)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmSpearmanPressed(control As IRibbonControl)
-        Dim mwForm As New UiTwoInputRefedits("Spearman Rank Correlation")
-        SetFormHelpTopic(mwForm, HelpTopic.SpearmanRankCorrelation)
+        Dim mwForm As New UiTwoInputRefedits("Spearman Rank Correlation", HelpTopic.SpearmanRankCorrelation)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmKendallPressed(control As IRibbonControl)
-        Dim mwForm As New UiTwoInputRefedits("Kendall's Rank Correlation")
-        SetFormHelpTopic(mwForm, HelpTopic.KendallSRankCorrelation)
+        Dim mwForm As New UiTwoInputRefedits("Kendall's Rank Correlation", HelpTopic.KendallSRankCorrelation)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmTheilSenPressed(control As IRibbonControl)
-        Dim mwForm As New UiTwoInputRefedits("Theil-Sen Simple Regression")
-        SetFormHelpTopic(mwForm, HelpTopic.TheilSenSimpleRegression)
+        Dim mwForm As New UiTwoInputRefedits("Theil-Sen Simple Regression", HelpTopic.TheilSenSimpleRegression)
         mwForm.Show()
     End Sub
 
@@ -286,25 +251,21 @@ Public Class Ribbon
     ' Contingency Tables
     '--------------------------------------------------------------------------
     Public Sub Onbtm2x2Pressed(control As IRibbonControl)
-        Dim mwForm As New Ui82x2()
-        SetFormHelpTopic(mwForm, HelpTopic.T2x2Table)
+        Dim mwForm As New Ui82x2(HelpTopic.T2x2Table)
         mwForm.Show()
     End Sub
     Public Sub OnbtmRxCPressed(control As IRibbonControl)
-        Dim mwForm As New Ui0OneRefeditMulticol("RxC Table")
-        SetFormHelpTopic(mwForm, HelpTopic.RxCTable)
+        Dim mwForm As New Ui0OneRefeditMulticol("RxC Table", HelpTopic.RxCTable)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmMantelPressed(control As IRibbonControl)
-        Dim mwForm As New Ui0OneRefeditMulticol("Mantel-Haenszel Test")
-        SetFormHelpTopic(mwForm, HelpTopic.MantelHaenszelTest)
+        Dim mwForm As New Ui0OneRefeditMulticol("Mantel-Haenszel Test", HelpTopic.MantelHaenszelTest)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmProportionsPressed(control As IRibbonControl)
-        Dim mwForm As New Ui8Proportions()
-        SetFormHelpTopic(mwForm, HelpTopic.Proportions)
+        Dim mwForm As New Ui8Proportions(HelpTopic.Proportions)
         mwForm.Show()
     End Sub
 
@@ -313,13 +274,12 @@ Public Class Ribbon
     ' Survival
     '--------------------------------------------------------------------------
     Public Sub OnbtmLogrankPressed(control As IRibbonControl)
-        Dim mwForm As New Ui4KMandLogRank("Logrank Test")
-        SetFormHelpTopic(mwForm, HelpTopic.LogrankTest)
+        Dim mwForm As New Ui4KMandLogRank("Logrank Test", HelpTopic.LogrankTest)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmCoxPressed(control As IRibbonControl)
-        Dim sh As Worksheet, mwForm As New Ui4Cox()
+        Dim sh As Worksheet, mwForm As New Ui4Cox(HelpTopic.CoxRegression)
 
         If AppGlobals.app.Workbooks.Count > 0 Then
             sh = AppGlobals.app.ActiveSheet
@@ -327,7 +287,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        SetFormHelpTopic(mwForm, HelpTopic.CoxRegression)
+
         mwForm.Populate(sh)
         mwForm.Show()
     End Sub
@@ -351,8 +311,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui13GEE("Generalized Estimating Equations")
-        SetFormHelpTopic(mwForm, HelpTopic.GeneralizedEstimatingEquationsGEE)
+        Dim mwForm As New Ui13GEE("Generalized Estimating Equations", HelpTopic.GeneralizedEstimatingEquationsGEE)
         mwForm.Populate(sh)
         mwForm.Show()
     End Sub
@@ -381,23 +340,23 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New UiGLM(strTitle)
+        Dim tagn As Integer = 0
         If strTitle = "Multiple Linear Regression (LM)" Then
-            SetFormHelpTopic(mwForm, HelpTopic.MultipleLinearRegressionLM)
+            tagn = HelpTopic.MultipleLinearRegressionLM
         ElseIf strTitle = "Generalized Linear Models" Then
-            SetFormHelpTopic(mwForm, HelpTopic.GeneralizedLinearModelsGLM)
+            tagn = HelpTopic.GeneralizedLinearModelsGLM
         ElseIf strTitle = "Negative Binomial Regression (NB2)" Then
-            SetFormHelpTopic(mwForm, HelpTopic.NegativeBinomialRegressionNB2)
+            tagn = HelpTopic.NegativeBinomialRegressionNB2
         ElseIf strTitle = "Zero-Inflated Poisson Regression" Then
-            SetFormHelpTopic(mwForm, HelpTopic.ZeroInflatedPoissonRegression)
+            tagn = HelpTopic.ZeroInflatedPoissonRegression
         ElseIf strTitle = "Multinomial Logistic Regression" Then
-            SetFormHelpTopic(mwForm, HelpTopic.MultinomialLogisticRegression)
+            tagn = HelpTopic.MultinomialLogisticRegression
         ElseIf strTitle = "Ordinal Logistic Regression" Then
-            SetFormHelpTopic(mwForm, HelpTopic.OrdinalLogisticRegression)
+            tagn = HelpTopic.OrdinalLogisticRegression
         End If
+        Dim mwForm As New UiGLM(strTitle, tagn)
         mwForm.Populate(sh)
         mwForm.Show()
-
     End Sub
 
     Public Sub OnbtmMMRMPressed(control As IRibbonControl)
@@ -408,8 +367,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui18MMRM("Mixed Models for Repeated Measures (MMRM)")
-        SetFormHelpTopic(mwForm, HelpTopic.MixedModelsForRepeatedMeasuresMMRM)
+        Dim mwForm As New Ui18MMRM("Mixed Models for Repeated Measures (MMRM)", HelpTopic.MixedModelsForRepeatedMeasuresMMRM)
         mwForm.Populate(sh)
         mwForm.Show()
     End Sub
@@ -422,8 +380,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui19LMM("Liner Mixed Models (LMM)")
-        SetFormHelpTopic(mwForm, HelpTopic.LinearMixedModelsLMM)
+        Dim mwForm As New Ui19LMM("Liner Mixed Models (LMM)", HelpTopic.LinearMixedModelsLMM)
         mwForm.Populate(sh)
         mwForm.Show()
     End Sub
@@ -432,8 +389,7 @@ Public Class Ribbon
     ' Multivariate
     '--------------------------------------------------------------------------
     Public Sub OnbtmHottelingPressed(control As IRibbonControl)
-        Dim mwForm As New UiTwoInputRefedits("Hotelling's T-Squared Test")
-        SetFormHelpTopic(mwForm, HelpTopic.HotellingSTSquaredTest)
+        Dim mwForm As New UiTwoInputRefedits("Hotelling's T-Squared Test", HelpTopic.HotellingSTSquaredTest)
         mwForm.Show()
     End Sub
 
@@ -445,14 +401,12 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui11PCA("Principal Component Analysis", sh)
-        SetFormHelpTopic(mwForm, HelpTopic.PrincipalComponentAnalysis)
+        Dim mwForm As New Ui11PCA("Principal Component Analysis", HelpTopic.PrincipalComponentAnalysis, sh)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmCAPressed(control As IRibbonControl)
-        Dim mwForm As New Ui0OneRefeditMulticol("Correspondence Analysis")
-        SetFormHelpTopic(mwForm, HelpTopic.CorrespondenceAnalysis)
+        Dim mwForm As New Ui0OneRefeditMulticol("Correspondence Analysis", HelpTopic.CorrespondenceAnalysis)
         mwForm.Show()
     End Sub
 
@@ -464,8 +418,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui11PCA("Multiple Correspondence Analysis", sh)
-        SetFormHelpTopic(mwForm, HelpTopic.MultipleCorrespondenceAnalysis)
+        Dim mwForm As New Ui11PCA("Multiple Correspondence Analysis", HelpTopic.MultipleCorrespondenceAnalysis, sh)
         mwForm.Show()
     End Sub
 
@@ -477,8 +430,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui11PCA("K-Means Clustering", sh)
-        SetFormHelpTopic(mwForm, HelpTopic.KMeansClustering)
+        Dim mwForm As New Ui11PCA("K-Means Clustering", HelpTopic.KMeansClustering, sh)
         mwForm.Show()
     End Sub
 
@@ -490,8 +442,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui11PCA("Hierarchical Clustering", sh)
-        SetFormHelpTopic(mwForm, HelpTopic.HierarchicalClustering)
+        Dim mwForm As New Ui11PCA("Hierarchical Clustering", HelpTopic.HierarchicalClustering, sh)
         mwForm.Show()
     End Sub
 
@@ -503,8 +454,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui11PCA("Factor Analysis", sh)
-        SetFormHelpTopic(mwForm, HelpTopic.FactorAnalysis)
+        Dim mwForm As New Ui11PCA("Factor Analysis", HelpTopic.FactorAnalysis, sh)
         mwForm.Show()
     End Sub
 
@@ -516,8 +466,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui11PCA("Discriminant Analysis", sh)
-        SetFormHelpTopic(mwForm, HelpTopic.DiscriminantAnalysis)
+        Dim mwForm As New Ui11PCA("Discriminant Analysis", HelpTopic.DiscriminantAnalysis, sh)
         mwForm.Show()
     End Sub
 
@@ -525,47 +474,39 @@ Public Class Ribbon
     ' Sample Size
     '--------------------------------------------------------------------------
     Public Sub OnbtmSampleSizePairedTPressed(control As IRibbonControl)
-        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Paired T-test")
-        SetFormHelpTopic(mwForm, HelpTopic.PairedTTest)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Paired T-test", HelpTopic.PairedTTest)
         mwForm.Show()
     End Sub
     Public Sub OnbtmSampleSizeUnPairedTPressed(control As IRibbonControl)
-        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Unpaired T-test")
-        SetFormHelpTopic(mwForm, HelpTopic.UnpairedTTest)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Unpaired T-test", HelpTopic.UnpairedTTest)
         mwForm.Show()
     End Sub
     Public Sub OnbtmSinglePropPressed(control As IRibbonControl)
-        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Single Proportion")
-        SetFormHelpTopic(mwForm, HelpTopic.SingleProportion)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Single Proportion", HelpTopic.SingleProportion)
         mwForm.Show()
     End Sub
     Public Sub OnbtmIndPropPressed(control As IRibbonControl)
-        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Independent Proportions")
-        SetFormHelpTopic(mwForm, HelpTopic.IndependentProportions)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Independent Proportions", HelpTopic.IndependentProportions)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmSSlogrankPressed(control As IRibbonControl)
-        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Log-rank Test")
-        SetFormHelpTopic(mwForm, HelpTopic.SSlogrank)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Log-rank Test", HelpTopic.SSlogrank)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmSScoxPressed(control As IRibbonControl)
-        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Cox Regression")
-        SetFormHelpTopic(mwForm, HelpTopic.SScox)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Cox Regression", HelpTopic.SScox)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmSSiccPressed(control As IRibbonControl)
-        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Intraclass Correlation (ICC)")
-        SetFormHelpTopic(mwForm, HelpTopic.SSicc)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Intraclass Correlation (ICC)", HelpTopic.SSicc)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmSSblandaltmanPressed(control As IRibbonControl)
-        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Agreement (Bland-Altman)")
-        SetFormHelpTopic(mwForm, HelpTopic.SSblandaltman)
+        Dim mwForm As New Ui12SampleSizeTtestSingleProp("Sample Size - Agreement (Bland-Altman)", HelpTopic.SSblandaltman)
         mwForm.Show()
     End Sub
 
@@ -573,38 +514,32 @@ Public Class Ribbon
     ' Agreement
     '--------------------------------------------------------------------------
     Public Sub OnbtmPassingBablok(control As IRibbonControl)
-        Dim mwForm As New Ui9ANOVA2nested("Passing-Bablok Regression")
-        SetFormHelpTopic(mwForm, HelpTopic.PassingBablokRegression)
+        Dim mwForm As New Ui9ANOVA2nested("Passing-Bablok Regression", HelpTopic.PassingBablokRegression)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmDeming(control As IRibbonControl)
-        Dim mwForm As New UiTwoInputRefedits("Deming Regression")
-        SetFormHelpTopic(mwForm, HelpTopic.DemingRegression)
+        Dim mwForm As New UiTwoInputRefedits("Deming Regression", HelpTopic.DemingRegression)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmIcc(control As IRibbonControl)
-        Dim mwForm As New Ui0OneRefeditMulticol("Intraclass Correlation Coefficients")
-        SetFormHelpTopic(mwForm, HelpTopic.IntraclassCorrelationCoefficients)
+        Dim mwForm As New Ui0OneRefeditMulticol("Intraclass Correlation Coefficients", HelpTopic.IntraclassCorrelationCoefficients)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmBlandAltman(control As IRibbonControl)
-        Dim mwForm As New Ui9ANOVA2nested("Bland–Altman Analysis")
-        SetFormHelpTopic(mwForm, HelpTopic.BlandAltman)
+        Dim mwForm As New Ui9ANOVA2nested("Bland–Altman Analysis", HelpTopic.BlandAltman)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmLCCC(control As IRibbonControl)
-        Dim mwForm As New UiTwoInputRefedits("Lin's Concordance Correlation Coefficient")
-        SetFormHelpTopic(mwForm, HelpTopic.LinsCCC)
+        Dim mwForm As New UiTwoInputRefedits("Lin's Concordance Correlation Coefficient", HelpTopic.LinsCCC)
         mwForm.Show()
     End Sub
 
     Public Sub OnbtmCohenKappa(control As IRibbonControl)
-        Dim mwForm As New UiTwoInputRefedits("Cohen's / Weighted Kappa")
-        SetFormHelpTopic(mwForm, HelpTopic.CohensKappa)
+        Dim mwForm As New UiTwoInputRefedits("Cohen's / Weighted Kappa", HelpTopic.CohensKappa)
         mwForm.Show()
     End Sub
 
@@ -620,8 +555,7 @@ Public Class Ribbon
             AppGlobals.app.Workbooks.Add()
             sh = AppGlobals.app.ActiveSheet
         End If
-        Dim mwForm As New Ui20PropensityScoreMatching("Propensity Score Matching")
-        SetFormHelpTopic(mwForm, HelpTopic.PropensityScoreMatching)
+        Dim mwForm As New Ui20PropensityScoreMatching("Propensity Score Matching", HelpTopic.PropensityScoreMatching)
         mwForm.Populate(sh)
         mwForm.Show()
     End Sub
@@ -644,8 +578,7 @@ Public Class Ribbon
     End Sub
 
     Public Sub OnbtmSettingsPressed(control As IRibbonControl)
-        Dim mwForm As New Ui12GlobalSettings()
-        SetFormHelpTopic(mwForm, HelpTopic.GlobalSettings)
+        Dim mwForm As New Ui12GlobalSettings(HelpTopic.GlobalSettings)
         mwForm.Show()
     End Sub
 
@@ -666,12 +599,10 @@ Public Class Ribbon
                                                              End If
 
                                                              Dim hwnd As IntPtr = ExcelDnaUtil.WindowHandle
-                                                             Dim f As New Ui99ExportChart()
-                                                             SetFormHelpTopic(f, HelpTopic.ExportChart)
+                                                             Dim f As New Ui99ExportChart(HelpTopic.ExportChart)
                                                              f.Show(New ExcelWindowWrapper(hwnd))
 
                                                          End Sub)
-
     End Sub
 
 End Class

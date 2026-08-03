@@ -29,13 +29,14 @@ Public Class UiGLM
     Private pRegressionInterruptRequested As Boolean = False
     Private pRegressionCloseAfterCancel As Boolean = False
 
-    Sub New(analysis As String)
+    Sub New(analysis As String, tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
         Me.btInterrupt.Enabled = False
         Me.tbEps.Text = FormatUiDouble(0.000001)
         Me.Text = analysis
+        Me.Tag = tagn
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
 
         ' Add any initialization after the InitializeComponent() call.
@@ -169,67 +170,6 @@ Public Class UiGLM
                                                                        Me.lbSelectedEffectsListLogistic,
                                                                        Me.TermSpecsLogistic)
         Me.WireHelp(Me.btnHelp)
-    End Sub
-
-    Friend Sub ApplyHelpTopicConfiguration()
-        Me.cbFamily.Items.Clear()
-
-        If Me.Tag = HelpTopic.GeneralizedLinearModelsGLM Then
-            Me.TabPageLogisticModel.Parent = Nothing
-            Me.TabPageOptions_LinearModel.Parent = Nothing
-            Me.grpReference.Visible = False
-
-            For Each sFam In regression.Family.FamiliesList
-                Me.cbFamily.Items.Add(sFam)
-            Next
-            If Me.cbFamily.Items.Count > 0 Then
-                Me.cbFamily.SelectedIndex = 0
-                RefreshLinkOptionsForSelectedFamily(FamilyUtils.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
-            End If
-            Me.tbClassificationTreshold.Text = FormatUiDouble(0.5)
-            UpdateClassificationOptionsState(False)
-
-        ElseIf Me.Tag = HelpTopic.NegativeBinomialRegressionNB2 Then
-            Me.TabPageLogisticModel.Parent = Nothing
-            Me.TabPageOptions_LinearModel.Parent = Nothing
-            Me.grpReference.Visible = False
-
-            Me.cbFamily.Items.Add("Negative Binomial")
-            Me.cbFamily.SelectedIndex = 0
-            RefreshLinkOptionsForSelectedFamily(FamilyUtils.GetCanonicalLinkFromDisplayName(Me.cbFamily.SelectedItem.ToString()))
-
-        ElseIf Me.Tag = HelpTopic.ZeroInflatedPoissonRegression Then
-            Me.TabPageOptions_LinearModel.Parent = Nothing
-            Me.grpModelSpecification.Visible = False
-            Me.grpReference.Visible = False
-            Me.TabPageLogisticModel.Parent = Me.TabControl1
-            Me.TabPageBuildModel.Text = "Build Model - Poisson"
-            Me.lblEMiterations.Enabled = True
-            Me.tbEMiterations.Enabled = True
-
-            Me.lblWeights.Enabled = False
-            Me.lbWeights.Enabled = False
-            Me.btAddWeights.Enabled = False
-            Me.btRemoveWeights.Enabled = False
-
-        ElseIf Me.Tag = HelpTopic.MultinomialLogisticRegression Or Me.Tag = HelpTopic.OrdinalLogisticRegression Then
-            Me.TabPageLogisticModel.Parent = Nothing
-            Me.TabPageOptions_LinearModel.Parent = Nothing
-            Me.grpModelSpecification.Visible = False
-            Me.grpReference.Visible = True
-            Me.grpReference.Enabled = True
-            If Me.Tag = HelpTopic.OrdinalLogisticRegression Then Me.ckIntercept.Visible = False
-
-        ElseIf Me.Tag = HelpTopic.MultipleLinearRegressionLM Then
-            Me.TabPageLogisticModel.Parent = Nothing
-            Me.TabPageOptions.Parent = Nothing
-            Me.lbOffset.Visible = False
-            Me.lblOffset.Visible = False
-            Me.btAddOffset.Visible = False
-            Me.btRemoveOffset.Visible = False
-            Me.lblInitValues.Visible = False
-            Me.tbInitValues.Visible = False
-        End If
     End Sub
 
     Sub Populate(ws As Object)

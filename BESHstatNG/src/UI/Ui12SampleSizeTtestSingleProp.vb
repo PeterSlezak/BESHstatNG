@@ -6,12 +6,13 @@ Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui12SampleSizeTtestSingleProp
 
-    Sub New(analysis As String)
+    Sub New(analysis As String, tagn As Integer)
 
         ' This call is required by the designer.
         InitializeComponent()
 
         Me.Text = analysis
+        Me.Tag = tagn
         Me.lblSettings.Text = "Use " & Chr(34) & AppGlobals.app.DecimalSeparator & Chr(34) & " as a decimal separator and " &
                                       Chr(34) & AppGlobals.app.ThousandsSeparator & Chr(34) & " as a thousands separator."
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)

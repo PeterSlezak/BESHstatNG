@@ -42,7 +42,9 @@ Namespace regression
         Public Function BuildEstimatedMeansByVisitTable(result As MixedModelResult,
                                                         x(,) As Double,
                                                         visit() As Double,
-                                                        alpha As Double) As Global.BESHStatNG.ResultTable
+                                                        alpha As Double,
+                                                        Optional rowMask() As Boolean = Nothing,
+                                                        Optional profileDescription As String = Nothing) As Global.BESHStatNG.ResultTable
             If result Is Nothing OrElse x Is Nothing OrElse visit Is Nothing Then Return Nothing
 
             Dim visits() As Double = MixedModelPostEstimation.UniqueSortedFiniteValues(visit)
@@ -53,11 +55,11 @@ Namespace regression
             Dim counts As New List(Of Integer)
 
             For Each v As Double In visits
-                Dim l() As Double = MixedModelPostEstimation.AverageDesignRowForProfile(x, visit, Nothing, v, Double.NaN, Nothing)
+                Dim l() As Double = MixedModelPostEstimation.AverageDesignRowForProfile(x, visit, Nothing, v, Double.NaN, rowMask)
                 If l IsNot Nothing Then
                     rows.Add("Visit " & MixedModelPostEstimation.FormatProfileValue(v))
                     lRows.Add(l)
-                    counts.Add(MixedModelPostEstimation.CountProfileRows(visit, Nothing, v, Double.NaN, Nothing))
+                    counts.Add(MixedModelPostEstimation.CountProfileRows(visit, Nothing, v, Double.NaN, rowMask))
                 End If
             Next
 
@@ -70,9 +72,17 @@ Namespace regression
                 counts:=counts,
                 result:=result,
                 alpha:=alpha,
-                footnote:="Estimated means are computed as L*beta, where L is the average fitted fixed-effect design row among observations at the displayed visit.  This is an observed-design-grid estimate; a later LS-means UI can add user-defined reference grids and pairwise contrasts.")
+                footnote:=BuildEstimatedMeansFootnote(profileDescription))
         End Function
 
+        Private Function BuildEstimatedMeansFootnote(profileDescription As String) As String
+            Dim baseText As String = "Estimated means are computed as L*beta, where L is the average fitted fixed-effect design row among observations at the displayed visit."
+            If Not String.IsNullOrWhiteSpace(profileDescription) Then
+                baseText &= " The design rows are additionally restricted to the supplied profile: " & profileDescription.Trim() & "."
+            End If
+
+            Return baseText & " This is an observed-design-grid estimate; a later LS-means UI can add user-defined reference grids and pairwise contrasts."
+        End Function
 
         Public Function BuildEstimatedMeansByVisitAndGroupTable(result As MixedModelResult,
                                                                 x(,) As Double,

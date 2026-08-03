@@ -31,6 +31,7 @@ Public Class Excel2007RefEdit
 
     Private WithEvents xlBook As Excel.Workbook
     Private WithEvents xlSheet As Excel.Worksheet
+    Private WithEvents xlApp As Excel.Application
     Private DisplayState As RefEditState
     Private pbInTextAdressHandler As Boolean = False
 
@@ -82,13 +83,26 @@ Public Class Excel2007RefEdit
 #End Region
 
     Private Sub xlSheetChangeHandle(ByVal target As Excel.Worksheet) Handles xlBook.SheetActivate
+        ' This runs when a sheet in the workbook becomes active
+
         If Me.pbInTextAdressHandler AndAlso
             xlBook.ActiveSheet.name <> xlSheet.Name AndAlso
             xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then
             Try
+
+                ' IMPORTANT: remove handler from old sheet
+                If xlSheet IsNot Nothing Then
+                    Try
+                        RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
+                    Catch ex As Exception
+                        LogRefEdit($"Error removing handler from old sheet {xlSheet.Name} {ex}")
+                    End Try
+                End If
+
                 xlSheet = target
                 AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
-            Catch
+            Catch ex As Exception
+                LogRefEdit($"SheetActivate error {ex}")
             End Try
         End If
     End Sub
@@ -98,7 +112,7 @@ Public Class Excel2007RefEdit
 
     Private _ExcelConnector As Excel.Application
     Private _ImageMinimized As Image = My.Resources.imgMinimized
-    Private _ImageMaximized As Image = My.Resources.imgMinimized
+    Private _ImageMaximized As Image = My.Resources.imgMaximized
     Private _IncludeSheetName As Boolean = True
     Private _ShowRowAbsoluteIndicator As Boolean = True
     Private _ShowColumnAbsoluteIndicator As Boolean = True
@@ -116,6 +130,7 @@ Public Class Excel2007RefEdit
         End Get
         Set(ByVal value As Excel.Application)
             _ExcelConnector = value
+            xlApp = value
 
             If _ExcelConnector Is Nothing Then Return
 
@@ -190,7 +205,11 @@ Public Class Excel2007RefEdit
             Return Me.txtAddress.Text
         End Get
         Set(value As String)
+            Dim prev = Me.txtAddress.Text
             Me.txtAddress.Text = value
+            'LogRefEdit($"Address set; prev='{prev}', new='{value}', Visible={Me.Visible}, Enabled={Me.Enabled}, ForeColor={Me.txtAddress.ForeColor}, BackColor={Me.txtAddress.BackColor}, Color [WindowText]={System.Drawing.SystemColors.WindowText.ToArgb().ToString()}, Color [Window]={System.Drawing.SystemColors.Window.ToArgb().ToString()}")
+            Dim fg As Color = Me.txtAddress.ForeColor
+            Dim bg As Color = Me.txtAddress.BackColor
         End Set
     End Property
 
@@ -388,18 +407,17 @@ Public Class Excel2007RefEdit
             For Each rng As Excel.Range In target.Areas
 
                 If address.Length > 0 Then address &= ","
-
                 If _IncludeSheetName Then address &= SheetName
-
                 address &= rng.Address(_ShowRowAbsoluteIndicator, _ShowColumnAbsoluteIndicator, Excel.XlReferenceStyle.xlA1)
 
+                'LogRefEdit($"SelectionChange: area address fragment='{address}'")
                 Call WriteData(address)
                 Call _NAR(rng)
             Next
 
             'Call _NAR(target)
-        Catch
-            AppInfrastructure.CoreServices.Log($"Excel2007RefEdit.SelectionChange error target={target.ToString()}, address={Address}, SheetName={target.Worksheet.Name}")
+        Catch ex As Exception
+            LogRefEdit($"SelectionChange error: {ex}")
         End Try
     End Sub
 
@@ -409,14 +427,66 @@ Public Class Excel2007RefEdit
     ''' <param name="value"></param>
     ''' <remarks></remarks>
     Private Sub WriteData(ByVal value As String)
-        If Me.InvokeRequired Then
-            Me.Invoke(New WriteValue(AddressOf WriteData), New Object() {value})
-        Else
+
+        Try
+            If Me.IsDisposed Then Return
+
+            If Not Me.IsHandleCreated Then
+                Try
+                    Dim h = Me.Handle ' force handle creation
+                Catch ex As Exception
+                    LogRefEdit($"WriteData: failed to create handle: {ex}; skipping UI update")
+                    Return
+                End Try
+            End If
+
+            If Me.InvokeRequired Then
+                Me.BeginInvoke(New WriteValue(AddressOf WriteData), New Object() {value})
+                Return
+            End If
+
             Me.Address = value
+            Me.EnsureReadableText()
+
+            ' bring to front and select to avoid z-order issues
+            Try
+                Me.txtAddress.BringToFront()
+                Me.txtAddress.Select()
+            Catch ex As Exception
+                LogRefEdit($"BringToFront/Select error: {ex}")
+            End Try
+
+            ' Force repaint/update to avoid invisible text due to focus/paint race
+            Try
+                Me.txtAddress.Invalidate()
+                Me.txtAddress.Update()
+                Me.txtAddress.Refresh()
+
+            Catch ex As Exception
+                LogRefEdit($"WriteData: UI refresh error: {ex}")
+            End Try
+
             RaiseEvent Changed(Me, New System.EventArgs())
-        End If
+        Catch ex As Exception
+            LogRefEdit($"WriteData error: {ex}")
+        End Try
     End Sub
 
+    Private Sub EnsureReadableText()
+        Dim fg = Me.txtAddress.ForeColor
+        Dim bg = Me.txtAddress.BackColor
+        If fg.ToArgb() = bg.ToArgb() Or fg.A < 255 Then
+            ' compute brightness of background
+            Dim brightness = (bg.R * 0.299 + bg.G * 0.587 + bg.B * 0.114)
+            If brightness > 128 Then
+                Me.txtAddress.ForeColor = Color.Black
+                Me.txtAddress.BackColor = Color.White
+            Else
+                Me.txtAddress.ForeColor = Color.White
+                Me.txtAddress.BackColor = Color.Black
+            End If
+        End If
+    End Sub
 #End Region
 
 #Region "Internal txtAddress Events"
@@ -429,9 +499,23 @@ Public Class Excel2007RefEdit
     ''' <remarks></remarks>
     Private Sub txtAddress_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtAddress.Enter
         If ExcelConnector Is Nothing Then Return
-        If xlBook.Name <> ExcelConnector.ActiveWorkbook.Name Then
-            Me.Address = String.Empty
+        If xlBook Is Nothing OrElse xlSheet Is Nothing Then
+            If ExcelConnector.Workbooks.Count = 0 Then Return
+            xlBook = ExcelConnector.ActiveWorkbook
+            If xlBook.Sheets.Count = 0 OrElse xlBook.ActiveSheet.Type <> XlSheetType.xlWorksheet Then Return
+            xlSheet = xlBook.ActiveSheet
         End If
+
+        Try
+            Dim activeWbName = If(ExcelConnector Is Nothing OrElse ExcelConnector.ActiveWorkbook Is Nothing, "<null>", ExcelConnector.ActiveWorkbook.Name)
+            Dim currentWbName = If(xlBook Is Nothing, "<null>", xlBook.Name)
+            If xlBook IsNot Nothing AndAlso ExcelConnector IsNot Nothing AndAlso xlBook.Name <> ExcelConnector.ActiveWorkbook.Name Then
+                Me.Address = String.Empty
+                'LogRefEdit("txtAddress_Enter: workbook changed while entering; cleared Address")
+            End If
+        Catch ex As Exception
+            LogRefEdit($"txtAddress_Enter workbook name check error: {ex}")
+        End Try
 
         If Me.Address <> String.Empty Then
             'we are in different sheet compared to the original worksheet so activate the original one
@@ -453,12 +537,38 @@ Public Class Excel2007RefEdit
             'No selection has been made yet and we are on different sheet compared to the one stored in the xlSheet so update the xlSheet
             If xlSheet.Name <> xlBook.ActiveSheet.name AndAlso xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then xlSheet = xlBook.ActiveSheet
         End If
-        AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
+
+        Try
+            AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
+            'LogRefEdit($"SelectionChange handler attached to sheet={xlSheet.Name}; EnableEvents={IsEnableEventsEnabled()}")
+        Catch ex As Exception
+            LogRefEdit($"txtAddress_Enter AddHandler error: {ex}; EnableEvents={IsEnableEventsEnabled()}")
+        End Try
 
         If Me.FindForm() IsNot Nothing Then Me.FindForm().TopMost = True
-
         Me.pbInTextAdressHandler = True
     End Sub
+
+    'Private Sub xlApp_WorkbookActivate(Wb As Excel.Workbook) Handles xlApp.WorkbookActivate
+    '    LogRefEdit($"WorkbookActivate: {Wb.Name}")
+    '    xlBook = Wb
+
+    '    If xlBook.Sheets.Count > 0 AndAlso xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then
+    '        ' Move selection handler to the active sheet if we are in capture mode
+    '        If pbInTextAdressHandler Then
+    '            If xlSheet IsNot Nothing Then
+    '                RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
+    '                LogRefEdit($"Handler removed from old sheet={xlSheet.Name}")
+    '            End If
+
+    '            xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
+    '            AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
+    '            LogRefEdit($"Handler attached to sheet={xlSheet.Name} in workbook={xlBook.Name}")
+    '        Else
+    '            xlSheet = CType(xlBook.ActiveSheet, Excel.Worksheet)
+    '        End If
+    '    End If
+    'End Sub
 
     ''' <summary>
     ''' Removes the Handler once the textbox is no longer in use.
@@ -468,7 +578,17 @@ Public Class Excel2007RefEdit
     ''' <remarks></remarks>
     Private Sub txtAddress_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtAddress.Leave
         If ExcelConnector Is Nothing Then Return
-        RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
+        If xlSheet IsNot Nothing Then
+            Try
+                'LogRefEdit($"txtAddress_Leave: removing handler from sheet={xlSheet.Name}; EnableEvents={IsEnableEventsEnabled()}")
+                RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
+                'LogRefEdit($"SelectionChange handler removed from sheet={xlSheet.Name}; EnableEvents={IsEnableEventsEnabled()}")
+            Catch ex As Exception
+                LogRefEdit($"txtAddress_Leave RemoveHandler error: {ex}; EnableEvents={IsEnableEventsEnabled()}")
+            End Try
+        Else
+            'LogRefEdit("txtAddress_Leave: xlSheet is Nothing; nothing to remove")
+        End If
         Me.pbInTextAdressHandler = False
     End Sub
 
@@ -602,6 +722,27 @@ Public Class Excel2007RefEdit
 #End Region
 
 #Region "Release of COM objects"
+    Private Sub LogRefEdit(msg As String)
+        Try
+            AppInfrastructure.CoreServices.Log("RefEdit: " & msg)
+        Catch
+        End Try
+    End Sub
+
+    ''' <summary>
+    ''' Safe check for Application.EnableEvents; logs and returns False on any error.
+    ''' </summary>
+    Private Function IsEnableEventsEnabled() As Boolean
+        Try
+            If _ExcelConnector Is Nothing Then
+                Return False
+            End If
+            Return _ExcelConnector.EnableEvents
+        Catch ex As Exception
+            LogRefEdit($"IsEnableEventsEnabled error: {ex}")
+            Return False
+        End Try
+    End Function
 
     ''' <summary>
     ''' Releases a COM object.
@@ -609,15 +750,13 @@ Public Class Excel2007RefEdit
     ''' <param name="ComObj">The COM object to be released and disposed.</param>
     ''' <remarks></remarks>
     Private Sub _NAR(ByVal ComObj As Object)
+        If ComObj Is Nothing Then Return
         Try
             Marshal.ReleaseComObject(ComObj)
-
-            ComObj = Nothing
-
-            GC.Collect()
-            GC.WaitForPendingFinalizers()
         Catch ex As Runtime.InteropServices.COMException
-            MessageBox.Show(ex.ToString)
+            LogRefEdit($"_NAR COMException: {ex}")
+        Finally
+            ComObj = Nothing
         End Try
     End Sub
 
@@ -632,7 +771,16 @@ Public Class Excel2007RefEdit
         Try
             If _ExcelConnector Is Nothing Then Return
 
-            RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
+            If xlSheet IsNot Nothing Then
+                Try
+                    RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
+                    LogRefEdit($"Disposed: removed SelectionChange handler from sheet={xlSheet.Name}")
+                Catch ex As Exception
+                    LogRefEdit($"Disposed: error removing SelectionChange handler: {ex}")
+                End Try
+            Else
+                LogRefEdit("Disposed: xlSheet is Nothing; no handler to remove")
+            End If
 
             'Call _NAR(xlSheet)
             'Call _NAR(xlBook)
