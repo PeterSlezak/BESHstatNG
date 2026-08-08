@@ -7,6 +7,17 @@ Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui0OneRefeditMulticol
+    Private Const KiteChartWidthPoints As Double = 720.0R
+    Private Const KiteChartHeightPoints As Double = 440.0R
+
+    Private NotInheritable Class KiteChartInput
+        Friend Values As Double(,)
+        Friend SeriesNames As String()
+        Friend CategoryLabels As Object()
+        Friend CategoryAxisTitle As String
+        Friend SourceWorksheet As Worksheet
+    End Class
+
     Sub New(analysis As String, tagn As Integer)
         ' This call is required by the designer.
         InitializeComponent()
@@ -60,7 +71,12 @@ Public Class Ui0OneRefeditMulticol
         ElseIf Me.Tag = HelpTopic.IntraclassCorrelationCoefficients Then
             Me.TabPage_OptionsICC.Parent = Me.TabMultipage
 
+        ElseIf Me.Tag = HelpTopic.KiteChart Then
+            Me.ckLabels.Visible = True
+            Me.ckLabels.Checked = True
+
         End If
+
         Me.RefEdit1.txtAddress.Select()
         Me.WireHelp(Me.btnHelp)
     End Sub
@@ -74,6 +90,10 @@ Public Class Ui0OneRefeditMulticol
             bOut = True
         End If
 
+        If Not bOut AndAlso Me.Tag = HelpTopic.KiteChart Then
+            If Me.CheckKiteInputRange() Then bOut = True
+        End If
+
         If Me.optOutputRange.Checked Then
             If CheckRefEdit(Me.RefEditOutput.Address) Then
                 Me.TabMultipage.SelectedIndex = 0
@@ -83,6 +103,56 @@ Public Class Ui0OneRefeditMulticol
         End If
 
         Return bOut
+    End Function
+
+    ''' <summary>
+    ''' Validates the single rectangular kite-chart selection. When labels are selected,
+    ''' the first row contains series names and the first column contains position labels.
+    ''' </summary>
+    ''' <returns><see langword="True"/> when validation failed.</returns>
+    Private Function CheckKiteInputRange() As Boolean
+        Try
+            If Me.RefEdit1.ExcelWorkBook IsNot Nothing Then
+                Me.RefEdit1.ExcelWorkBook.Activate()
+            End If
+
+            Dim ws As Worksheet = WorksheetFromRefAdress(Me.RefEdit1.Address,
+                                                         Me.RefEdit1.ExcelWorkBook)
+            Dim selectedRange As Range = ws.Range(Me.RefEdit1.Address)
+
+            If selectedRange.Areas.Count <> 1 Then
+                MsgBox("The kite-chart input must be one continuous rectangular range.",
+                       vbExclamation,
+                       AppGlobals.gsAPP_TITLE)
+                RefEditReset(Me.RefEdit1)
+                Return True
+            End If
+
+            Dim minimumRows As Integer = If(Me.ckLabels.Checked, 3, 2)
+            Dim minimumColumns As Integer = If(Me.ckLabels.Checked, 2, 1)
+
+            If selectedRange.Rows.Count < minimumRows OrElse
+               selectedRange.Columns.Count < minimumColumns Then
+                Dim message As String
+                If Me.ckLabels.Checked Then
+                    message = "With row and column labels selected, include a header row, " &
+                              "a row-label column, at least two data rows, and at least one data series."
+                Else
+                    message = "A kite chart requires at least two data rows and one data column."
+                End If
+
+                MsgBox(message, vbExclamation, AppGlobals.gsAPP_TITLE)
+                Return True
+            End If
+
+            Return False
+        Catch ex As Exception
+            CoreServices.Errors.LogAndThrow(ex,
+                                            False,
+                                            True,
+                                            "Unable to validate the kite-chart input range")
+            Return True
+        End Try
     End Function
 
     Private Function getDataMultipleGroups(ByRef strErr As String) As MultiGroupsPairedData
@@ -155,6 +225,11 @@ Public Class Ui0OneRefeditMulticol
             'Validate Inputs
             If Me.checkInputs() Then Exit Sub
 
+            If Me.Tag = HelpTopic.KiteChart Then
+                Me.RunKiteChart()
+                Exit Sub
+            End If
+
             'Get Data
             If Me.Tag = HelpTopic.CorrespondenceAnalysis Then
                 CAdata = getCAdata(errText)
@@ -189,6 +264,177 @@ Public Class Ui0OneRefeditMulticol
     End Sub
 
 
+    ''' <summary>
+    ''' Imports the selected kite-chart table. The checked label layout is:
+    ''' top row = series names, first column = ordered position labels.
+    ''' </summary>
+    Private Function GetKiteChartInput(ByRef errorText As String) As KiteChartInput
+        Dim inputWorkbook As Workbook = Me.RefEdit1.ExcelWorkBook
+        If inputWorkbook IsNot Nothing Then inputWorkbook.Activate()
+
+        Dim inputReference As String = prepareRef2D(Me.RefEdit1.Address, inputWorkbook)
+        Dim labelsSelected As Boolean = Me.ckLabels.Checked
+        Dim columnData As New DataObj()
+        columnData.bAllowMissing = True
+
+        ExcelDnaDataImporter.ImportInto(columnData,
+                                        inputReference,
+                                        True,
+                                        CharCols:=If(labelsSelected, 0, -1),
+                                        SkipRow:=If(labelsSelected, 1, 0))
+
+        If columnData.bZeroValid OrElse columnData.FinalData Is Nothing Then
+            errorText = "No usable kite-chart observations were found in the selected range."
+            Return Nothing
+        End If
+
+        Dim firstValueColumn As Integer = If(labelsSelected, 1, 0)
+        Dim rowCount As Integer = columnData.FinalData.GetLength(0)
+        Dim seriesCount As Integer = columnData.FinalData.GetLength(1) - firstValueColumn
+
+        If rowCount < 2 Then
+            errorText = "A kite chart requires at least two ordered positions containing usable data."
+            Return Nothing
+        End If
+        If seriesCount < 1 Then
+            errorText = "The selected range does not contain a numeric kite-chart series."
+            Return Nothing
+        End If
+
+        Dim values(rowCount - 1, seriesCount - 1) As Double
+        For rowIndex As Integer = 0 To rowCount - 1
+            For seriesIndex As Integer = 0 To seriesCount - 1
+                values(rowIndex, seriesIndex) = ToKiteDoubleOrNaN(
+                    columnData.FinalData(rowIndex, firstValueColumn + seriesIndex))
+            Next
+        Next
+
+        Dim seriesNames As String() = Nothing
+        Dim categoryLabels As Object() = Nothing
+        Dim categoryAxisTitle As String = "Position"
+
+        If labelsSelected Then
+            ReDim seriesNames(seriesCount - 1)
+            For seriesIndex As Integer = 0 To seriesCount - 1
+                Dim sourceColumn As Integer = firstValueColumn + seriesIndex
+                If columnData.varNames IsNot Nothing AndAlso
+                   sourceColumn < columnData.varNames.Length AndAlso
+                   Not String.IsNullOrWhiteSpace(columnData.varNames(sourceColumn)) Then
+                    seriesNames(seriesIndex) = columnData.varNames(sourceColumn).Trim()
+                Else
+                    seriesNames(seriesIndex) = "Series " & (seriesIndex + 1).ToString()
+                End If
+            Next
+
+            ReDim categoryLabels(rowCount - 1)
+            For rowIndex As Integer = 0 To rowCount - 1
+                Dim labelValue As Object = columnData.FinalData(rowIndex, 0)
+                If labelValue Is Nothing OrElse
+                   String.IsNullOrWhiteSpace(Convert.ToString(labelValue)) Then
+                    categoryLabels(rowIndex) = "Position " & (rowIndex + 1).ToString()
+                Else
+                    categoryLabels(rowIndex) = labelValue
+                End If
+            Next
+
+            If columnData.varNames IsNot Nothing AndAlso
+               columnData.varNames.Length > 0 AndAlso
+               Not String.IsNullOrWhiteSpace(columnData.varNames(0)) Then
+                categoryAxisTitle = columnData.varNames(0).Trim()
+            End If
+        End If
+
+        Return New KiteChartInput With {
+            .Values = values,
+            .SeriesNames = seriesNames,
+            .CategoryLabels = categoryLabels,
+            .CategoryAxisTitle = categoryAxisTitle,
+            .SourceWorksheet = DirectCast(columnData.ws, Worksheet)
+        }
+    End Function
+
+    ''' <summary>
+    ''' Computes the kite geometry and creates the embedded Excel chart at the selected
+    ''' output range, on a new worksheet, or in a new workbook.
+    ''' </summary>
+    Private Sub RunKiteChart()
+        Dim errorText As String = String.Empty
+        Dim input As KiteChartInput = Me.GetKiteChartInput(errorText)
+        If errorText <> String.Empty Then
+            MsgBox(errorText, vbExclamation, AppGlobals.gsAPP_TITLE)
+            Exit Sub
+        End If
+
+        Dim options As New KiteChartOptions With {
+            .ScaleMode = KiteScaleMode.CommonMaximum,
+            .ValueTransform = KiteValueTransform.Linear,
+            .MissingValueMode = KiteMissingValueMode.Gap,
+            .AddZeroEndpoints = True
+        }
+
+        Dim result As KiteChartResult = KiteChart.Compute(input.Values,
+                                                          input.SeriesNames,
+                                                          input.CategoryLabels,
+                                                          options)
+
+        Dim chartWorksheet As Worksheet = Nothing
+        Dim chartAnchor As Range = Nothing
+        Me.ResolveKiteChartOutput(input.SourceWorksheet, chartWorksheet, chartAnchor)
+
+        Dim appearance As New KiteChartAppearance With {
+            .ChartTitle = "Kite chart",
+            .XAxisTitle = input.CategoryAxisTitle,
+            .ShowSeriesLabels = True,
+            .ShowLegend = False,
+            .ShowCenterLines = True,
+            .ShowOutline = True
+        }
+
+        KiteChartExcel.AddChart(chartWorksheet,
+                                result,
+                                appearance,
+                                CDbl(chartAnchor.Left),
+                                CDbl(chartAnchor.Top),
+                                KiteChartWidthPoints,
+                                KiteChartHeightPoints)
+    End Sub
+
+    ''' <summary>
+    ''' Resolves the chart destination using the form's existing output controls.
+    ''' </summary>
+    Private Sub ResolveKiteChartOutput(sourceWorksheet As Worksheet,
+                                       ByRef chartWorksheet As Worksheet,
+                                       ByRef chartAnchor As Range)
+        If Me.optWorkbook.Checked Then
+            Dim outputWorkbook As Workbook = AppGlobals.app.Workbooks.Add()
+            chartWorksheet = DirectCast(outputWorkbook.ActiveSheet, Worksheet)
+            chartAnchor = DirectCast(chartWorksheet.Cells(1, 1), Range)
+
+        ElseIf Me.optWorksheet.Checked Then
+            Dim sourceWorkbook As Workbook = DirectCast(sourceWorksheet.Parent, Workbook)
+            sourceWorkbook.Activate()
+            sourceWorkbook.Worksheets.Add()
+            chartWorksheet = DirectCast(sourceWorkbook.ActiveSheet, Worksheet)
+            chartAnchor = DirectCast(chartWorksheet.Cells(1, 1), Range)
+
+        Else
+            chartWorksheet = WorksheetFromRefAdress(Me.RefEditOutput.Address,
+                                                    Me.RefEditOutput.ExcelWorkBook)
+            DirectCast(chartWorksheet.Parent, Workbook).Activate()
+            chartWorksheet.Activate()
+            Dim selectedOutput As Range = chartWorksheet.Range(Me.RefEditOutput.Address)
+            chartAnchor = DirectCast(selectedOutput.Cells(1, 1), Range)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Converts an imported numeric value while preserving permitted missing cells.
+    ''' </summary>
+    Private Shared Function ToKiteDoubleOrNaN(value As Object) As Double
+        If value Is Nothing OrElse value Is DBNull.Value Then Return Double.NaN
+        If Not IsNumeric(value) Then Return Double.NaN
+        Return CDbl(value)
+    End Function
 
     Private Sub RunICC()
         Dim errText As String = String.Empty
@@ -547,7 +793,7 @@ Public Class Ui0OneRefeditMulticol
 
         'Dump outputs
         WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(Res)
+        Dim rr = New ProcessListofResultTables(res)
         Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then

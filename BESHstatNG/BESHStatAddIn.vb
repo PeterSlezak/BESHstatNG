@@ -173,6 +173,21 @@ Public Class Ribbon
         mwForm.Show()
     End Sub
 
+    Public Sub OnbtmCHPPressed(control As IRibbonControl)
+        Dim mwForm As New Ui01ConvexHullPlot(HelpTopic.ConvexHull)
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmKitePressed(control As IRibbonControl)
+        Dim mwForm As New Ui0OneRefeditMulticol("Kite Chart", HelpTopic.KiteChart)
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmCatHistogramPressed(control As IRibbonControl)
+        Dim mwForm As New UibyID("Histogram - Categorical", HelpTopic.CategoricalHistogram)
+        mwForm.Show()
+    End Sub
+
     '--------------------------------------------------------------------------
     ' Parametric
     '--------------------------------------------------------------------------
