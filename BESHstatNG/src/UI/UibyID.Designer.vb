@@ -25,18 +25,15 @@ Partial Class UibyID
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UibyID))
         Me.btCompute = New System.Windows.Forms.Button()
         Me.btnHelp = New System.Windows.Forms.Button()
-        Me.TabMultipage = New System.Windows.Forms.TabControl()
+        Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.grpInput = New System.Windows.Forms.GroupBox()
         Me.lblRefedit2 = New System.Windows.Forms.Label()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
-        Me.RefEdit1 = New Global.BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit2 = New Global.BESHStatNG.Excel2007RefEdit()
         Me.optByID = New System.Windows.Forms.RadioButton()
         Me.optByColumn = New System.Windows.Forms.RadioButton()
         Me.TabPage_Options = New System.Windows.Forms.TabPage()
@@ -122,8 +119,28 @@ Partial Class UibyID
         Me.spinBtnAlpha_UTT = New System.Windows.Forms.NumericUpDown()
         Me.ckBoxPlot_UTT = New System.Windows.Forms.CheckBox()
         Me.ckDescriptiveStatistics_UTT = New System.Windows.Forms.CheckBox()
+        Me.TabPage_OptionsCategoricalHistogram = New System.Windows.Forms.TabPage()
         Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
-        Me.TabMultipage.SuspendLayout()
+        Me.grpCatHistBinSize = New System.Windows.Forms.GroupBox()
+        Me.optCatHistScott = New System.Windows.Forms.RadioButton()
+        Me.optCatHistFreedmanDiaconis = New System.Windows.Forms.RadioButton()
+        Me.optCatHistDoan = New System.Windows.Forms.RadioButton()
+        Me.optCatHistSturges = New System.Windows.Forms.RadioButton()
+        Me.grpCatHistPlotType = New System.Windows.Forms.GroupBox()
+        Me.optCatHistDifferentSampleSizes = New System.Windows.Forms.RadioButton()
+        Me.optCatHistStackedBar = New System.Windows.Forms.RadioButton()
+        Me.optCatHistBarsWithLegend = New System.Windows.Forms.RadioButton()
+        Me.grpCatHistAppearance = New System.Windows.Forms.GroupBox()
+        Me.lblCatHistGapWidth = New System.Windows.Forms.Label()
+        Me.nudCatHistGapWidth = New System.Windows.Forms.NumericUpDown()
+        Me.lblCatHistSeriesOverlap = New System.Windows.Forms.Label()
+        Me.nudCatHistSeriesOverlap = New System.Windows.Forms.NumericUpDown()
+        Me.lblCatHistPalette = New System.Windows.Forms.Label()
+        Me.cmbCatHistPalette = New System.Windows.Forms.ComboBox()
+        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit1 = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit2 = New BESHStatNG.Excel2007RefEdit()
+        Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.grpOutput.SuspendLayout()
         Me.grpInput.SuspendLayout()
@@ -147,6 +164,12 @@ Partial Class UibyID
         Me.grpVarianceModel_UTT.SuspendLayout()
         Me.grpHypothesisType_UTT.SuspendLayout()
         CType(Me.spinBtnAlpha_UTT, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage_OptionsCategoricalHistogram.SuspendLayout()
+        Me.grpCatHistBinSize.SuspendLayout()
+        Me.grpCatHistPlotType.SuspendLayout()
+        Me.grpCatHistAppearance.SuspendLayout()
+        CType(Me.nudCatHistGapWidth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudCatHistSeriesOverlap, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btCompute
@@ -167,21 +190,22 @@ Partial Class UibyID
         Me.btnHelp.Text = "Help"
         Me.btnHelp.UseVisualStyleBackColor = True
         '
-        'TabMultipage
+        'TabControl1
         '
-        Me.TabMultipage.Controls.Add(Me.TabPage1)
-        Me.TabMultipage.Controls.Add(Me.TabPage_Options)
-        Me.TabMultipage.Controls.Add(Me.TabPage_OptionsDescriptive)
-        Me.TabMultipage.Controls.Add(Me.TabPage_OptionsHistogram)
-        Me.TabMultipage.Controls.Add(Me.TabPage_OptionsNormalPlot)
-        Me.TabMultipage.Controls.Add(Me.TabPage_OptionsSymmetry)
-        Me.TabMultipage.Controls.Add(Me.TabPage_OptionsOutliers)
-        Me.TabMultipage.Controls.Add(Me.TabPage_OptionsUTT)
-        Me.TabMultipage.Location = New System.Drawing.Point(9, 7)
-        Me.TabMultipage.Name = "TabMultipage"
-        Me.TabMultipage.SelectedIndex = 0
-        Me.TabMultipage.Size = New System.Drawing.Size(462, 364)
-        Me.TabMultipage.TabIndex = 3
+        Me.TabControl1.Controls.Add(Me.TabPage1)
+        Me.TabControl1.Controls.Add(Me.TabPage_Options)
+        Me.TabControl1.Controls.Add(Me.TabPage_OptionsDescriptive)
+        Me.TabControl1.Controls.Add(Me.TabPage_OptionsHistogram)
+        Me.TabControl1.Controls.Add(Me.TabPage_OptionsNormalPlot)
+        Me.TabControl1.Controls.Add(Me.TabPage_OptionsSymmetry)
+        Me.TabControl1.Controls.Add(Me.TabPage_OptionsOutliers)
+        Me.TabControl1.Controls.Add(Me.TabPage_OptionsUTT)
+        Me.TabControl1.Controls.Add(Me.TabPage_OptionsCategoricalHistogram)
+        Me.TabControl1.Location = New System.Drawing.Point(9, 7)
+        Me.TabControl1.Name = "TabControl1"
+        Me.TabControl1.SelectedIndex = 0
+        Me.TabControl1.Size = New System.Drawing.Size(462, 364)
+        Me.TabControl1.TabIndex = 3
         '
         'TabPage1
         '
@@ -207,21 +231,6 @@ Partial Class UibyID
         Me.grpOutput.TabIndex = 4
         Me.grpOutput.TabStop = False
         Me.grpOutput.Text = "Output"
-        '
-        'RefEditOutput
-        '
-        Me.RefEditOutput.Address = ""
-        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
-        Me.RefEditOutput.Enabled = False
-        Me.RefEditOutput.ExcelConnector = Nothing
-        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
-        Me.RefEditOutput.Location = New System.Drawing.Point(168, 16)
-        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEditOutput.Name = "RefEditOutput"
-        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
-        Me.RefEditOutput.TabIndex = 3
         '
         'optWorkbook
         '
@@ -285,34 +294,6 @@ Partial Class UibyID
         Me.lblRefedit1.Size = New System.Drawing.Size(155, 44)
         Me.lblRefedit1.TabIndex = 2
         Me.lblRefedit1.Text = "Group ID:"
-        '
-        'RefEdit1
-        '
-        Me.RefEdit1.Address = ""
-        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit1.ExcelConnector = Nothing
-        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit1.Location = New System.Drawing.Point(159, 64)
-        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit1.Name = "RefEdit1"
-        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit1.TabIndex = 4
-        '
-        'RefEdit2
-        '
-        Me.RefEdit2.Address = ""
-        Me.RefEdit2.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit2.ExcelConnector = Nothing
-        Me.RefEdit2.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit2.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit2.Location = New System.Drawing.Point(159, 104)
-        Me.RefEdit2.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit2.Name = "RefEdit2"
-        Me.RefEdit2.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit2.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit2.TabIndex = 5
         '
         'optByID
         '
@@ -1387,6 +1368,18 @@ Partial Class UibyID
         Me.ckDescriptiveStatistics_UTT.Text = "Full Descriptive Statistics"
         Me.ckDescriptiveStatistics_UTT.UseVisualStyleBackColor = True
         '
+        'TabPage_OptionsCategoricalHistogram
+        '
+        Me.TabPage_OptionsCategoricalHistogram.Controls.Add(Me.grpCatHistAppearance)
+        Me.TabPage_OptionsCategoricalHistogram.Controls.Add(Me.grpCatHistPlotType)
+        Me.TabPage_OptionsCategoricalHistogram.Controls.Add(Me.grpCatHistBinSize)
+        Me.TabPage_OptionsCategoricalHistogram.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage_OptionsCategoricalHistogram.Name = "TabPage_OptionsCategoricalHistogram"
+        Me.TabPage_OptionsCategoricalHistogram.Size = New System.Drawing.Size(454, 335)
+        Me.TabPage_OptionsCategoricalHistogram.TabIndex = 8
+        Me.TabPage_OptionsCategoricalHistogram.Text = "Options"
+        Me.TabPage_OptionsCategoricalHistogram.UseVisualStyleBackColor = True
+        '
         'progressBarExactCalc
         '
         Me.progressBarExactCalc.Location = New System.Drawing.Point(9, 376)
@@ -1394,13 +1387,240 @@ Partial Class UibyID
         Me.progressBarExactCalc.Size = New System.Drawing.Size(296, 23)
         Me.progressBarExactCalc.TabIndex = 4
         '
+        'grpCatHistBinSize
+        '
+        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistScott)
+        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistFreedmanDiaconis)
+        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistDoan)
+        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistSturges)
+        Me.grpCatHistBinSize.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpCatHistBinSize.Location = New System.Drawing.Point(12, 3)
+        Me.grpCatHistBinSize.Name = "grpCatHistBinSize"
+        Me.grpCatHistBinSize.Size = New System.Drawing.Size(173, 128)
+        Me.grpCatHistBinSize.TabIndex = 4
+        Me.grpCatHistBinSize.TabStop = False
+        Me.grpCatHistBinSize.Text = "Bin-sizing Method"
+        '
+        'optCatHistScott
+        '
+        Me.optCatHistScott.AutoSize = True
+        Me.optCatHistScott.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistScott.Location = New System.Drawing.Point(18, 99)
+        Me.optCatHistScott.Name = "optCatHistScott"
+        Me.optCatHistScott.Size = New System.Drawing.Size(58, 20)
+        Me.optCatHistScott.TabIndex = 3
+        Me.optCatHistScott.Text = "Scott"
+        Me.optCatHistScott.UseVisualStyleBackColor = True
+        '
+        'optCatHistFreedmanDiaconis
+        '
+        Me.optCatHistFreedmanDiaconis.AutoSize = True
+        Me.optCatHistFreedmanDiaconis.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistFreedmanDiaconis.Location = New System.Drawing.Point(18, 73)
+        Me.optCatHistFreedmanDiaconis.Name = "optCatHistFreedmanDiaconis"
+        Me.optCatHistFreedmanDiaconis.Size = New System.Drawing.Size(147, 20)
+        Me.optCatHistFreedmanDiaconis.TabIndex = 2
+        Me.optCatHistFreedmanDiaconis.Text = "Freedman-Diaconis"
+        Me.optCatHistFreedmanDiaconis.UseVisualStyleBackColor = True
+        '
+        'optCatHistDoan
+        '
+        Me.optCatHistDoan.AutoSize = True
+        Me.optCatHistDoan.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistDoan.Location = New System.Drawing.Point(18, 47)
+        Me.optCatHistDoan.Name = "optCatHistDoan"
+        Me.optCatHistDoan.Size = New System.Drawing.Size(61, 20)
+        Me.optCatHistDoan.TabIndex = 1
+        Me.optCatHistDoan.Text = "Doan"
+        Me.optCatHistDoan.UseVisualStyleBackColor = True
+        '
+        'optCatHistSturges
+        '
+        Me.optCatHistSturges.AutoSize = True
+        Me.optCatHistSturges.Checked = True
+        Me.optCatHistSturges.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistSturges.Location = New System.Drawing.Point(18, 21)
+        Me.optCatHistSturges.Name = "optCatHistSturges"
+        Me.optCatHistSturges.Size = New System.Drawing.Size(74, 20)
+        Me.optCatHistSturges.TabIndex = 0
+        Me.optCatHistSturges.TabStop = True
+        Me.optCatHistSturges.Text = "Sturges"
+        Me.optCatHistSturges.UseVisualStyleBackColor = True
+        '
+        'grpCatHistPlotType
+        '
+        Me.grpCatHistPlotType.Controls.Add(Me.optCatHistDifferentSampleSizes)
+        Me.grpCatHistPlotType.Controls.Add(Me.optCatHistStackedBar)
+        Me.grpCatHistPlotType.Controls.Add(Me.optCatHistBarsWithLegend)
+        Me.grpCatHistPlotType.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpCatHistPlotType.Location = New System.Drawing.Point(200, 3)
+        Me.grpCatHistPlotType.Name = "grpCatHistPlotType"
+        Me.grpCatHistPlotType.Size = New System.Drawing.Size(235, 128)
+        Me.grpCatHistPlotType.TabIndex = 5
+        Me.grpCatHistPlotType.TabStop = False
+        Me.grpCatHistPlotType.Text = "Histogram Type"
+        '
+        'optCatHistDifferentSampleSizes
+        '
+        Me.optCatHistDifferentSampleSizes.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistDifferentSampleSizes.Location = New System.Drawing.Point(18, 73)
+        Me.optCatHistDifferentSampleSizes.Name = "optCatHistDifferentSampleSizes"
+        Me.optCatHistDifferentSampleSizes.Size = New System.Drawing.Size(190, 46)
+        Me.optCatHistDifferentSampleSizes.TabIndex = 3
+        Me.optCatHistDifferentSampleSizes.Text = "Grouped bars (frequency / different sample sizes)"
+        Me.optCatHistDifferentSampleSizes.UseVisualStyleBackColor = True
+        '
+        'optCatHistStackedBar
+        '
+        Me.optCatHistStackedBar.AutoSize = True
+        Me.optCatHistStackedBar.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistStackedBar.Location = New System.Drawing.Point(18, 47)
+        Me.optCatHistStackedBar.Name = "optCatHistStackedBar"
+        Me.optCatHistStackedBar.Size = New System.Drawing.Size(162, 20)
+        Me.optCatHistStackedBar.TabIndex = 1
+        Me.optCatHistStackedBar.Text = "Stacked bars (density)"
+        Me.optCatHistStackedBar.UseVisualStyleBackColor = True
+        '
+        'optCatHistBarsWithLegend
+        '
+        Me.optCatHistBarsWithLegend.AutoSize = True
+        Me.optCatHistBarsWithLegend.Checked = True
+        Me.optCatHistBarsWithLegend.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistBarsWithLegend.Location = New System.Drawing.Point(18, 21)
+        Me.optCatHistBarsWithLegend.Name = "optCatHistBarsWithLegend"
+        Me.optCatHistBarsWithLegend.Size = New System.Drawing.Size(165, 20)
+        Me.optCatHistBarsWithLegend.TabIndex = 0
+        Me.optCatHistBarsWithLegend.TabStop = True
+        Me.optCatHistBarsWithLegend.Text = "Grouped bars (density)"
+        Me.optCatHistBarsWithLegend.UseVisualStyleBackColor = True
+        '
+        'grpCatHistAppearance
+        '
+        Me.grpCatHistAppearance.Controls.Add(Me.cmbCatHistPalette)
+        Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistPalette)
+        Me.grpCatHistAppearance.Controls.Add(Me.nudCatHistSeriesOverlap)
+        Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistSeriesOverlap)
+        Me.grpCatHistAppearance.Controls.Add(Me.nudCatHistGapWidth)
+        Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistGapWidth)
+        Me.grpCatHistAppearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpCatHistAppearance.Location = New System.Drawing.Point(12, 137)
+        Me.grpCatHistAppearance.Name = "grpCatHistAppearance"
+        Me.grpCatHistAppearance.Size = New System.Drawing.Size(423, 128)
+        Me.grpCatHistAppearance.TabIndex = 5
+        Me.grpCatHistAppearance.TabStop = False
+        Me.grpCatHistAppearance.Text = "Appearance"
+        '
+        'lblCatHistGapWidth
+        '
+        Me.lblCatHistGapWidth.AutoSize = True
+        Me.lblCatHistGapWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCatHistGapWidth.Location = New System.Drawing.Point(6, 29)
+        Me.lblCatHistGapWidth.Name = "lblCatHistGapWidth"
+        Me.lblCatHistGapWidth.Size = New System.Drawing.Size(69, 16)
+        Me.lblCatHistGapWidth.TabIndex = 4
+        Me.lblCatHistGapWidth.Text = "Gap width:"
+        '
+        'nudCatHistGapWidth
+        '
+        Me.nudCatHistGapWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudCatHistGapWidth.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudCatHistGapWidth.Location = New System.Drawing.Point(136, 27)
+        Me.nudCatHistGapWidth.Maximum = New Decimal(New Integer() {500, 0, 0, 0})
+        Me.nudCatHistGapWidth.Name = "nudCatHistGapWidth"
+        Me.nudCatHistGapWidth.Size = New System.Drawing.Size(54, 22)
+        Me.nudCatHistGapWidth.TabIndex = 5
+        Me.nudCatHistGapWidth.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        '
+        'lblCatHistSeriesOverlap
+        '
+        Me.lblCatHistSeriesOverlap.AutoSize = True
+        Me.lblCatHistSeriesOverlap.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCatHistSeriesOverlap.Location = New System.Drawing.Point(6, 57)
+        Me.lblCatHistSeriesOverlap.Name = "lblCatHistSeriesOverlap"
+        Me.lblCatHistSeriesOverlap.Size = New System.Drawing.Size(98, 16)
+        Me.lblCatHistSeriesOverlap.TabIndex = 6
+        Me.lblCatHistSeriesOverlap.Text = "Series overlap:"
+        '
+        'nudCatHistSeriesOverlap
+        '
+        Me.nudCatHistSeriesOverlap.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudCatHistSeriesOverlap.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudCatHistSeriesOverlap.Location = New System.Drawing.Point(136, 55)
+        Me.nudCatHistSeriesOverlap.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.nudCatHistSeriesOverlap.Name = "nudCatHistSeriesOverlap"
+        Me.nudCatHistSeriesOverlap.Size = New System.Drawing.Size(54, 22)
+        Me.nudCatHistSeriesOverlap.TabIndex = 7
+        '
+        'lblCatHistPalette
+        '
+        Me.lblCatHistPalette.AutoSize = True
+        Me.lblCatHistPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCatHistPalette.Location = New System.Drawing.Point(6, 87)
+        Me.lblCatHistPalette.Name = "lblCatHistPalette"
+        Me.lblCatHistPalette.Size = New System.Drawing.Size(124, 16)
+        Me.lblCatHistPalette.TabIndex = 8
+        Me.lblCatHistPalette.Text = "Group color palette:"
+        '
+        'cmbCatHistPalette
+        '
+        Me.cmbCatHistPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCatHistPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbCatHistPalette.FormattingEnabled = True
+        Me.cmbCatHistPalette.Location = New System.Drawing.Point(136, 83)
+        Me.cmbCatHistPalette.Name = "cmbCatHistPalette"
+        Me.cmbCatHistPalette.Size = New System.Drawing.Size(186, 24)
+        Me.cmbCatHistPalette.TabIndex = 9
+        '
+        'RefEditOutput
+        '
+        Me.RefEditOutput.Address = ""
+        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
+        Me.RefEditOutput.Enabled = False
+        Me.RefEditOutput.ExcelConnector = Nothing
+        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
+        Me.RefEditOutput.Location = New System.Drawing.Point(168, 16)
+        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEditOutput.Name = "RefEditOutput"
+        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
+        Me.RefEditOutput.TabIndex = 3
+        '
+        'RefEdit1
+        '
+        Me.RefEdit1.Address = ""
+        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit1.ExcelConnector = Nothing
+        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit1.Location = New System.Drawing.Point(159, 64)
+        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit1.Name = "RefEdit1"
+        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit1.TabIndex = 4
+        '
+        'RefEdit2
+        '
+        Me.RefEdit2.Address = ""
+        Me.RefEdit2.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit2.ExcelConnector = Nothing
+        Me.RefEdit2.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit2.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit2.Location = New System.Drawing.Point(159, 104)
+        Me.RefEdit2.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit2.Name = "RefEdit2"
+        Me.RefEdit2.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit2.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit2.TabIndex = 5
+        '
         'UibyID
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(474, 410)
         Me.Controls.Add(Me.progressBarExactCalc)
-        Me.Controls.Add(Me.TabMultipage)
+        Me.Controls.Add(Me.TabControl1)
         Me.Controls.Add(Me.btnHelp)
         Me.Controls.Add(Me.btCompute)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
@@ -1409,7 +1629,7 @@ Partial Class UibyID
         Me.Name = "UibyID"
         Me.ShowIcon = False
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.TabMultipage.ResumeLayout(False)
+        Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.grpOutput.ResumeLayout(False)
         Me.grpOutput.PerformLayout()
@@ -1452,12 +1672,21 @@ Partial Class UibyID
         Me.grpHypothesisType_UTT.ResumeLayout(False)
         Me.grpHypothesisType_UTT.PerformLayout()
         CType(Me.spinBtnAlpha_UTT, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage_OptionsCategoricalHistogram.ResumeLayout(False)
+        Me.grpCatHistBinSize.ResumeLayout(False)
+        Me.grpCatHistBinSize.PerformLayout()
+        Me.grpCatHistPlotType.ResumeLayout(False)
+        Me.grpCatHistPlotType.PerformLayout()
+        Me.grpCatHistAppearance.ResumeLayout(False)
+        Me.grpCatHistAppearance.PerformLayout()
+        CType(Me.nudCatHistGapWidth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudCatHistSeriesOverlap, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents btCompute As Windows.Forms.Button
     Friend WithEvents btnHelp As Windows.Forms.Button
-    Friend WithEvents TabMultipage As Windows.Forms.TabControl
+    Friend WithEvents TabControl1 As Windows.Forms.TabControl
     Friend WithEvents TabPage1 As Windows.Forms.TabPage
     Friend WithEvents grpInput As Windows.Forms.GroupBox
     Friend WithEvents lblRefedit2 As Windows.Forms.Label
@@ -1555,4 +1784,21 @@ Partial Class UibyID
     Friend WithEvents optVarianceEqual_UTT As Windows.Forms.RadioButton
     Friend WithEvents optVarianceWelch_UTT As Windows.Forms.RadioButton
     Friend WithEvents lblMarginHint_UTT As Windows.Forms.Label
+    Friend WithEvents TabPage_OptionsCategoricalHistogram As Windows.Forms.TabPage
+    Friend WithEvents grpCatHistBinSize As Windows.Forms.GroupBox
+    Friend WithEvents optCatHistScott As Windows.Forms.RadioButton
+    Friend WithEvents optCatHistFreedmanDiaconis As Windows.Forms.RadioButton
+    Friend WithEvents optCatHistDoan As Windows.Forms.RadioButton
+    Friend WithEvents optCatHistSturges As Windows.Forms.RadioButton
+    Friend WithEvents grpCatHistAppearance As Windows.Forms.GroupBox
+    Friend WithEvents grpCatHistPlotType As Windows.Forms.GroupBox
+    Friend WithEvents optCatHistDifferentSampleSizes As Windows.Forms.RadioButton
+    Friend WithEvents optCatHistStackedBar As Windows.Forms.RadioButton
+    Friend WithEvents optCatHistBarsWithLegend As Windows.Forms.RadioButton
+    Friend WithEvents lblCatHistGapWidth As Windows.Forms.Label
+    Friend WithEvents nudCatHistGapWidth As Windows.Forms.NumericUpDown
+    Friend WithEvents nudCatHistSeriesOverlap As Windows.Forms.NumericUpDown
+    Friend WithEvents lblCatHistSeriesOverlap As Windows.Forms.Label
+    Friend WithEvents cmbCatHistPalette As Windows.Forms.ComboBox
+    Friend WithEvents lblCatHistPalette As Windows.Forms.Label
 End Class

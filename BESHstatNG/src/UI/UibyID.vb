@@ -26,19 +26,20 @@ Public Class UibyID
         Me.TabPage_OptionsSymmetry.Parent = Nothing
         Me.TabPage_OptionsOutliers.Parent = Nothing
         Me.TabPage_OptionsUTT.Parent = Nothing
+        Me.TabPage_OptionsCategoricalHistogram.Parent = Nothing
 
         If Me.Tag = HelpTopic.KruskalWallisTest Then
-            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.TabPage_Options.Parent = Me.TabControl1
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.grpHomogeneityVariances.Visible = True
 
         ElseIf Me.Tag = HelpTopic.BoxAndWhiskers Then
-            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.TabPage_Options.Parent = Me.TabControl1
             Me.ckDescriptiveStatistics.Visible = True
 
         ElseIf Me.Tag = HelpTopic.OneWayANOVA Then
-            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.TabPage_Options.Parent = Me.TabControl1
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.grpHomogeneityVariances.Visible = True
@@ -46,7 +47,7 @@ Public Class UibyID
             Me.ckWelch.Visible = True
 
         ElseIf Me.Tag = HelpTopic.MannWhitneyTest Then
-            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.TabPage_Options.Parent = Me.TabControl1
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.ckEstimateOfShift.Visible = True
@@ -54,43 +55,52 @@ Public Class UibyID
             Me.lblAlpha.Visible = True
 
         ElseIf Me.Tag = HelpTopic.UnpairedTTest Then
-            Me.TabPage_OptionsUTT.Parent = Me.TabMultipage
+            Me.TabPage_OptionsUTT.Parent = Me.TabControl1
             Me.spinBtnAlpha_UTT.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha_UTT.Minimum, Me.spinBtnAlpha_UTT.Maximum)
             Me.UpdateUnpairedTtestOptionVisibility()
             Me.ApplyUnpairedTtestInputLabels()
 
         ElseIf Me.Tag = HelpTopic.ROCCurve Then
-            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.TabPage_Options.Parent = Me.TabControl1
             Me.ckDescriptiveStatistics.Visible = True
             Me.spinBtnAlpha.Visible = True
             Me.lblAlpha.Visible = True
 
         ElseIf Me.Tag = HelpTopic.DescriptiveStatistics Then
-            Me.TabPage_OptionsDescriptive.Parent = Me.TabMultipage
+            Me.TabPage_OptionsDescriptive.Parent = Me.TabControl1
             Me.ckBoxPlot_Descriptive.Visible = True
 
         ElseIf Me.Tag = HelpTopic.NormalityTests Then
-            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.TabPage_Options.Parent = Me.TabControl1
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
 
         ElseIf Me.Tag = HelpTopic.Histogram Then
-            Me.TabPage_OptionsHistogram.Parent = Me.TabMultipage
+            Me.TabPage_OptionsHistogram.Parent = Me.TabControl1
 
         ElseIf Me.Tag = HelpTopic.NormalPlot Then
-            Me.TabPage_OptionsNormalPlot.Parent = Me.TabMultipage
+            Me.TabPage_OptionsNormalPlot.Parent = Me.TabControl1
 
         ElseIf Me.Tag = HelpTopic.HomogeneityOfVariance Then
-            Me.TabPage_Options.Parent = Me.TabMultipage
+            Me.TabPage_Options.Parent = Me.TabControl1
             Me.ckDescriptiveStatistics.Visible = True
             Me.ckBoxPlot.Visible = True
             Me.grpHomogeneityVariances.Visible = True
 
         ElseIf Me.Tag = HelpTopic.Symmetry Then
-            Me.TabPage_OptionsSymmetry.Parent = Me.TabMultipage
+            Me.TabPage_OptionsSymmetry.Parent = Me.TabControl1
 
         ElseIf Me.Tag = HelpTopic.UnivariateOutliers Then
-            Me.TabPage_OptionsOutliers.Parent = Me.TabMultipage
+            Me.TabPage_OptionsOutliers.Parent = Me.TabControl1
+
+        ElseIf Me.Tag = HelpTopic.CategoricalHistogram Then
+            Me.TabPage_OptionsCategoricalHistogram.Parent = Me.TabControl1
+            Me.cmbCatHistPalette.Items.AddRange(New Object() {"Tableau 10", "Okabe-Ito", "ColorBrewer Set1", "Grayscale"})
+            Me.cmbCatHistPalette.SelectedIndex = 0
+            Me.optByID.Checked = True
+            Me.optByID.Enabled = False
+            Me.optByColumn.Enabled = False
+            Me.UpdateCategoricalHistogramOptionState()
 
         End If
 
@@ -103,19 +113,19 @@ Public Class UibyID
         'check input data------------------------------
         If Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Or Me.optByID.Checked Then
             If CheckRefEdit(Me.RefEdit1.Address, True) Then
-                Me.TabMultipage.SelectedIndex = 0
+                Me.TabControl1.SelectedIndex = 0
                 RefEditReset(Me.RefEdit1)
                 bOut = True
             End If
 
             If CheckRefEdit(Me.RefEdit2.Address, True) Then
-                Me.TabMultipage.SelectedIndex = 0
+                Me.TabControl1.SelectedIndex = 0
                 RefEditReset(Me.RefEdit2)
                 bOut = True
             End If
         Else
             If CheckRefEdit(Me.RefEdit2.Address) Then
-                Me.TabMultipage.SelectedIndex = 0
+                Me.TabControl1.SelectedIndex = 0
                 RefEditReset(Me.RefEdit2)
                 bOut = True
             End If
@@ -123,7 +133,7 @@ Public Class UibyID
 
         If Me.optOutputRange.Checked Then
             If CheckRefEdit(Me.RefEditOutput.Address) Then
-                Me.TabMultipage.SelectedIndex = 0
+                Me.TabControl1.SelectedIndex = 0
                 RefEditReset(Me.RefEditOutput)
                 bOut = True
             End If
@@ -231,7 +241,81 @@ Public Class UibyID
             out.varNames = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(byIdData.FinalData, 0).Distinct().ToArray())
             Return out
         End If
+    End Function
 
+    Private NotInheritable Class CategoricalHistogramInputData
+        Public Values() As Double
+        Public Groups() As Object
+        Public ContinuousName As String
+        Public GroupName As String
+    End Class
+
+    Private Function getCategoricalHistogramData(ByRef strErr As String) As CategoricalHistogramInputData
+
+        'Resolve the ranges using the workbook associated with each RefEdit.
+        Dim groupWorksheet As Worksheet = WorksheetFromRefAdress(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
+        Dim dataWorksheet As Worksheet = WorksheetFromRefAdress(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
+        Dim groupWorkbook As Workbook = DirectCast(groupWorksheet.Parent, Workbook)
+        Dim dataWorkbook As Workbook = DirectCast(dataWorksheet.Parent, Workbook)
+
+        'Both variables must come from the same workbook and worksheet.
+        If Not String.Equals(groupWorkbook.FullName, dataWorkbook.FullName,
+                         StringComparison.OrdinalIgnoreCase) OrElse
+           Not String.Equals(groupWorksheet.Name, dataWorksheet.Name,
+                             StringComparison.OrdinalIgnoreCase) Then
+
+            strErr = "Categorical and continuous variables must be on the same worksheet."
+            Return Nothing
+        End If
+
+        Dim groupRange As Range = groupWorksheet.Range(Me.RefEdit1.Address)
+        Dim dataRange As Range = dataWorksheet.Range(Me.RefEdit2.Address)
+
+        'Each input must be a single continuous range.
+        If groupRange.Areas.Count <> 1 OrElse dataRange.Areas.Count <> 1 Then
+            strErr = "Each categorical histogram input must be one continuous column range."
+            Return Nothing
+        End If
+
+        'The categorical and continuous observations are paired row-by-row.
+        If groupRange.Row <> dataRange.Row OrElse groupRange.Rows.Count <> dataRange.Rows.Count Then
+            strErr = "Categorical and continuous variable ranges must start on the same row and contain the same number of rows."
+            Return Nothing
+        End If
+
+        Dim imported = New DataObj
+        Dim refId As String = prepareRef2D(Me.RefEdit1.Address)
+        Dim refData As String = prepareRef2D(Me.RefEdit2.Address)
+        Dim refFinal As String = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True) & "!", String.Empty)
+
+        'The first imported column is categorical and may contain text;
+        'the second must be numeric.
+        ExcelDnaDataImporter.ImportInto(imported, refFinal, True, 0)
+
+        If imported.bZeroValid OrElse imported.FinalData Is Nothing OrElse imported.nRows = 0 Then
+            strErr = "No valid paired categorical/continuous observations were found."
+            Return Nothing
+        End If
+
+        If imported.nCols <> 2 Then
+            strErr = "Categorical histogram requires one grouping column and one continuous data column."
+            Return Nothing
+        End If
+
+        Dim out As New CategoricalHistogramInputData With {
+            .ContinuousName = imported.varNames(1),
+            .GroupName = imported.varNames(0)
+        }
+
+        ReDim out.Values(imported.nRows - 1)
+        ReDim out.Groups(imported.nRows - 1)
+
+        For i As Integer = 0 To imported.nRows - 1
+            out.Groups(i) = imported.FinalData(i, 0)
+            out.Values(i) = CDbl(imported.FinalData(i, 1))
+        Next
+
+        Return out
     End Function
 
     Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
@@ -246,7 +330,15 @@ Public Class UibyID
                 If Me.checkInputs() Then Exit Sub
             End If
 
-            If Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Then
+            If Me.Tag = HelpTopic.CategoricalHistogram Then
+                Dim catData As CategoricalHistogramInputData = Me.getCategoricalHistogramData(errText)
+                If errText <> String.Empty Then
+                    MsgBox(errText, vbExclamation)
+                    Exit Sub
+                End If
+                Me.RunCategoricalHistogram(catData)
+
+            ElseIf Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Then
 
                 'Get Data
                 MWdata = Me.getData2Groups(errText)
@@ -405,8 +497,8 @@ Public Class UibyID
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(Res)
-        Dim totrows As Integer = rr.TotRows + Res.Count - 1 'one blank row as a separator
+        Dim rr = New ProcessListofResultTables(res)
+        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -432,7 +524,7 @@ Public Class UibyID
             Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then res.Add(ComputeVarianceHomogeneity(data))
 
         'descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then Res.add(Me.ComputeDescriptiveStats(data))
+        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
 
         'box plot if requested
         If Me.ckBoxPlot.Checked Then
@@ -496,8 +588,8 @@ Public Class UibyID
             res.Add(Me.ComputeDescriptiveStats(data))
 
             'Dump outputs
-            Dim rr = New ProcessListofResultTables(Res)
-            Dim totrows As Integer = rr.TotRows + Res.Count - 1 'one blank row as a separator
+            Dim rr = New ProcessListofResultTables(res)
+            Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
             Dim totcols As Integer = rr.TotCols
             If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
                 If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -514,7 +606,7 @@ Public Class UibyID
 
     Private Sub RunHistogram(data As MultiGroupsUnpairedData)
         Dim HisData = New List(Of Object(,))
-        Dim res = New List(Of  ResultTable)
+        Dim res = New List(Of ResultTable)
         Dim strBiningTyp As String = String.Empty
         Dim histList = New List(Of graphics.Histogram)
 
@@ -522,7 +614,7 @@ Public Class UibyID
             strBiningTyp = "(Sturges)"
         ElseIf Me.optDoane.Checked Then
             strBiningTyp = "(Doane)"
-        ElseIf Me.optScott.checked Then
+        ElseIf Me.optScott.Checked Then
             strBiningTyp = "(Scott)"
         ElseIf Me.optFreedmanDiaconis.Checked Then
             strBiningTyp = "(Freedman-Diaconis)"
@@ -536,7 +628,7 @@ Public Class UibyID
         Next
 
         'descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then Res.add(Me.ComputeDescriptiveStats(data))
+        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
@@ -570,6 +662,63 @@ Public Class UibyID
 
         If Me.ckDescriptiveStatistics.Checked Then rr.writeToSheet(WriteRes, True)
     End Sub
+
+    Private Sub RunCategoricalHistogram(data As CategoricalHistogramInputData)
+        If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+
+        Dim options As New CategoricalHistogramOptions
+
+        If Me.optCatHistStackedBar.Checked Then
+            options.PlotType = CategoricalHistogramPlotType.StackedBar
+        ElseIf Me.optCatHistDifferentSampleSizes.Checked Then
+            options.PlotType = CategoricalHistogramPlotType.DifferentSampleSizes
+        Else
+            options.PlotType = CategoricalHistogramPlotType.BarsWithLegend
+        End If
+
+        If Me.optCatHistDoan.Checked Then
+            options.BinningRule = CategoricalHistogramBinningRule.Doane
+        ElseIf Me.optCatHistScott.Checked Then
+            options.BinningRule = CategoricalHistogramBinningRule.Scott
+        ElseIf Me.optCatHistFreedmanDiaconis.Checked Then
+            options.BinningRule = CategoricalHistogramBinningRule.FreedmanDiaconis
+        Else
+            options.BinningRule = CategoricalHistogramBinningRule.Sturges
+        End If
+
+        Dim result As CategoricalHistogramResult = CategoricalHistogram.Compute(data.Values, data.Groups, options)
+
+        Dim appearance As New CategoricalHistogramAppearance With {
+            .ChartTitle = "Categorical histogram - " & data.ContinuousName & " by " & data.GroupName,
+            .XAxisTitle = data.ContinuousName,
+            .ShowLegend = True,
+            .GapWidth = CInt(Me.nudCatHistGapWidth.Value),
+            .SeriesOverlap = CInt(Me.nudCatHistSeriesOverlap.Value),
+            .SeriesColors = Me.GetCategoricalHistogramPalette()
+        }
+
+        Dim WriteRes = GetResultWriter()
+        Dim chartAnchor As Range = DirectCast(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID), Range)
+
+        CategoricalHistogramExcel.AddChart(WriteRes.ws,
+                                           result,
+                                           appearance,
+                                           CDbl(chartAnchor.Left),
+                                           CDbl(chartAnchor.Top))
+    End Sub
+
+    Private Function GetCategoricalHistogramPalette() As Integer()
+        Select Case Me.cmbCatHistPalette.SelectedIndex
+            Case 1 'Okabe-Ito
+                Return {&H9FE6, &HE9B456, &H739E00, &H42E4F0, &HB27200, &H5ED5, &HA779CC, &H0}
+            Case 2 'ColorBrewer Set1
+                Return {&H1C1AE4, &HB87E37, &H4AAF4D, &HA34E98, &H7FFF, &H33FFFF, &H2856A6, &HBF81F7, &H999999}
+            Case 3 'Grayscale
+                Return {&H404040, &H606060, &H808080, &HA0A0A0, &HC0C0C0, &HE0E0E0}
+            Case Else 'Tableau 10
+                Return {&HB4771F, &HE7FFF, &H2CA02C, &H2827D6, &HBD6794, &H4B568C, &HC277E3, &H7F7F7F, &H22BDBC, &HCFBE17}
+        End Select
+    End Function
 
     Private Sub RunNormality(data As MultiGroupsUnpairedData)
         Dim results(,) As Object, sw_r(,) As Object, da_r(,) As Object, ad_r(,) As Object
@@ -611,10 +760,10 @@ Public Class UibyID
         Next
         rTable.SetBody(results)
         rTable.AddHeaderTopRow(Matrix.ConcatArrays({"Normality Tests"}, data.varNames))
-        res.add(rTable)
+        res.Add(rTable)
 
         'descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then Res.add(Me.ComputeDescriptiveStats(data))
+        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
 
         'box plot if requested
         If Me.ckBoxPlot.Checked Then
@@ -626,8 +775,8 @@ Public Class UibyID
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(Res)
-        Dim totrows As Integer = rr.TotRows + Res.Count - 1 'one blank row as a separator
+        Dim rr = New ProcessListofResultTables(res)
+        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -670,20 +819,20 @@ Public Class UibyID
             stat.Add("swpvalue")
         End If
 
-        Res.add(Me.ComputeDescriptiveStats(data, stat))
+        res.Add(Me.ComputeDescriptiveStats(data, stat))
 
         'box plot if requested
         If Me.ckBoxPlot_Descriptive.Checked Then
             box = New graphics.BoxPlot(data.X, data.varNames)
             box.Calculate()
             box.CalcForPlotting()
-            Res.add(box.wrapResults())
+            res.Add(box.wrapResults())
         End If
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(Res)
-        Dim totrows As Integer = rr.TotRows + Res.Count - 1 'one blank row as a separator
+        Dim rr = New ProcessListofResultTables(res)
+        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -705,13 +854,13 @@ Public Class UibyID
         Dim res = rroc.wrapResults()
 
         'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then Res.add(Me.ComputeDescriptiveStats(data))
+        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
         Dim rr = New ProcessListofResultTables(res)
-        Dim totrows As Integer = RR.TotRows + Res.Count - 1 'one blank row as a separator
-        Dim totcols As Integer = RR.TotCols
+        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
+        Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
                 Exit Sub
@@ -862,23 +1011,23 @@ Public Class UibyID
 
         'homogeneity of variances
         If Me.ckBartlett.Checked Or Me.ckFlignerKilleen.Checked Or
-        Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then Res.add(Me.ComputeVarianceHomogeneity(data))
+        Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then res.Add(Me.ComputeVarianceHomogeneity(data))
 
         'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then Res.add(Me.ComputeDescriptiveStats(data))
+        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
 
         'box plot if requested
         If Me.ckBoxPlot.Checked Then
             box = New graphics.BoxPlot(data.X, data.varNames)
             box.Calculate()
             box.CalcForPlotting()
-            Res.add(box.wrapResults())
+            res.Add(box.wrapResults())
         End If
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(Res)
-        Dim totrows As Integer = rr.TotRows + Res.Count - 1 'one blank row as a separator
+        Dim rr = New ProcessListofResultTables(res)
+        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -933,7 +1082,7 @@ Public Class UibyID
         Dim res = KW.wrapResults()
 
         'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then Res.add(Me.ComputeDescriptiveStats(data))
+        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
         If Me.ckBartlett.Checked Or Me.ckFlignerKilleen.Checked Or
             Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then res.Add(Me.ComputeVarianceHomogeneity(data))
 
@@ -942,13 +1091,13 @@ Public Class UibyID
             box = New graphics.BoxPlot(data.X, data.varNames)
             box.Calculate()
             box.CalcForPlotting()
-            Res.add(box.wrapResults())
+            res.Add(box.wrapResults())
         End If
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(Res)
-        Dim totrows As Integer = rr.TotRows + Res.Count - 1 'one blank row as a separator
+        Dim rr = New ProcessListofResultTables(res)
+        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -975,14 +1124,14 @@ Public Class UibyID
         Dim res = MW.wrapResults()
 
         'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then res.add(Me.ComputeDescriptiveStats(data))
+        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
 
         'box plot if requested
         If Me.ckBoxPlot.Checked Then
             box = New graphics.BoxPlot(data.X, data.varNames)
             box.Calculate()
             box.CalcForPlotting()
-            res.add(box.wrapResults())
+            res.Add(box.wrapResults())
         End If
 
         'Dump outputs
@@ -1072,6 +1221,18 @@ Public Class UibyID
         Me.RefEdit1.txtAddress.Select()
     End Sub
 
+    Private Sub CategoricalHistogramPlotType_CheckedChanged(sender As Object, e As System.EventArgs) Handles optCatHistBarsWithLegend.CheckedChanged,
+                                                                                                            optCatHistStackedBar.CheckedChanged,
+                                                                                                            optCatHistDifferentSampleSizes.CheckedChanged
+        If Me.Tag = HelpTopic.CategoricalHistogram Then Me.UpdateCategoricalHistogramOptionState()
+    End Sub
+
+    Private Sub UpdateCategoricalHistogramOptionState()
+        Dim overlapEnabled As Boolean = Not Me.optCatHistStackedBar.Checked
+        Me.lblCatHistSeriesOverlap.Enabled = overlapEnabled
+        Me.nudCatHistSeriesOverlap.Enabled = overlapEnabled
+    End Sub
+
     Private Sub UnpairedTtestHypothesis_CheckedChanged(sender As Object, e As System.EventArgs) Handles optHypothesisSuperiority_UTT.CheckedChanged,
                                                                                                         optHypothesisNonInferiority_UTT.CheckedChanged,
                                                                                                         optHypothesisEquivalence_UTT.CheckedChanged
@@ -1120,7 +1281,7 @@ Public Class UibyID
 
         If (Me.optHypothesisNonInferiority_UTT.Checked OrElse Me.optHypothesisEquivalence_UTT.Checked) AndAlso Me.optByID.Checked Then
             MsgBox("For noninferiority or equivalence, use 'By Column' input so the direction is explicit: control/reference in Input 1 and experimental/test in Input 2.", vbExclamation)
-            Me.TabMultipage.SelectedIndex = 0
+            Me.TabControl1.SelectedIndex = 0
             Return True
         End If
 
