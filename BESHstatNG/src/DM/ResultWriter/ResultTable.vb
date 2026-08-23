@@ -53,12 +53,22 @@ Public Class ResultTable
 
     Public ReadOnly Property TotalRows() As Integer
         Get
-            Dim i As Integer = 0
-            If Me.Body IsNot Nothing Then i += UBound(Body, 1) + 1
-            i += HeaderTop.Count
-            i += Me.Footnotes.Count
-            i += Me.Titles.Count
-            Return i
+            Dim bodyRows As Integer = If(Me.Body Is Nothing, 0, UBound(Me.Body, 1) + 1)
+            Dim assembledRows As Integer = Me.HeaderTop.Count + bodyRows
+
+            'returnSelf() expands the table when a left header is taller than
+            'the combined top-header and body area. TotalRows must describe the
+            'same final matrix rather than only the stored body components.
+            If Me.HeaderLeft.Count > 0 Then
+                Dim maxLeftLength As Integer = Me.HeaderLeft.Max(Function(header) header.Length)
+                assembledRows = Math.Max(assembledRows, maxLeftLength)
+            End If
+
+            assembledRows += Me.Footnotes.Count
+            assembledRows += Me.Titles.Count
+
+            'returnSelf() always returns at least a 1 x 1 matrix.
+            Return Math.Max(assembledRows, 1)
         End Get
     End Property
 
@@ -70,11 +80,19 @@ Public Class ResultTable
 
     Public ReadOnly Property TotalCols() As Integer
         Get
-            Dim i As Integer = 0
-            If Me.Body IsNot Nothing Then i += UBound(Body, 2) + 1
-            i += HeaderLeft.Count
-            If i = 0 And (Me.Titles.Count > 0 Or Me.Footnotes.Count > 0) Then i = 1
-            Return i
+            Dim bodyCols As Integer = If(Me.Body Is Nothing, 0, UBound(Me.Body, 2) + 1)
+            Dim assembledCols As Integer = Me.HeaderLeft.Count + bodyCols
+
+            'A top header can define the rendered width even when there is no
+            'body (for example an empty SPC warnings table). Match returnSelf().
+            If Me.HeaderTop.Count > 0 Then
+                Dim maxTopLength As Integer = Me.HeaderTop.Max(Function(header) header.Length)
+                assembledCols = Math.Max(assembledCols, maxTopLength)
+            End If
+
+            'Titles and footnotes are one-column rows, and returnSelf() always
+            'returns at least a 1 x 1 matrix even for a completely empty table.
+            Return Math.Max(assembledCols, 1)
         End Get
     End Property
 

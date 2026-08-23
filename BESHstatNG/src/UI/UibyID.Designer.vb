@@ -28,12 +28,15 @@ Partial Class UibyID
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
+        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.grpInput = New System.Windows.Forms.GroupBox()
         Me.lblRefedit2 = New System.Windows.Forms.Label()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
+        Me.RefEdit1 = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit2 = New BESHStatNG.Excel2007RefEdit()
         Me.optByID = New System.Windows.Forms.RadioButton()
         Me.optByColumn = New System.Windows.Forms.RadioButton()
         Me.TabPage_Options = New System.Windows.Forms.TabPage()
@@ -120,26 +123,50 @@ Partial Class UibyID
         Me.ckBoxPlot_UTT = New System.Windows.Forms.CheckBox()
         Me.ckDescriptiveStatistics_UTT = New System.Windows.Forms.CheckBox()
         Me.TabPage_OptionsCategoricalHistogram = New System.Windows.Forms.TabPage()
-        Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
+        Me.grpCatHistAppearance = New System.Windows.Forms.GroupBox()
+        Me.cmbCatHistPalette = New System.Windows.Forms.ComboBox()
+        Me.lblCatHistPalette = New System.Windows.Forms.Label()
+        Me.nudCatHistSeriesOverlap = New System.Windows.Forms.NumericUpDown()
+        Me.lblCatHistSeriesOverlap = New System.Windows.Forms.Label()
+        Me.nudCatHistGapWidth = New System.Windows.Forms.NumericUpDown()
+        Me.lblCatHistGapWidth = New System.Windows.Forms.Label()
+        Me.grpCatHistPlotType = New System.Windows.Forms.GroupBox()
+        Me.optCatHistDifferentSampleSizes = New System.Windows.Forms.RadioButton()
+        Me.optCatHistStackedBar = New System.Windows.Forms.RadioButton()
+        Me.optCatHistBarsWithLegend = New System.Windows.Forms.RadioButton()
         Me.grpCatHistBinSize = New System.Windows.Forms.GroupBox()
         Me.optCatHistScott = New System.Windows.Forms.RadioButton()
         Me.optCatHistFreedmanDiaconis = New System.Windows.Forms.RadioButton()
         Me.optCatHistDoan = New System.Windows.Forms.RadioButton()
         Me.optCatHistSturges = New System.Windows.Forms.RadioButton()
-        Me.grpCatHistPlotType = New System.Windows.Forms.GroupBox()
-        Me.optCatHistDifferentSampleSizes = New System.Windows.Forms.RadioButton()
-        Me.optCatHistStackedBar = New System.Windows.Forms.RadioButton()
-        Me.optCatHistBarsWithLegend = New System.Windows.Forms.RadioButton()
-        Me.grpCatHistAppearance = New System.Windows.Forms.GroupBox()
-        Me.lblCatHistGapWidth = New System.Windows.Forms.Label()
-        Me.nudCatHistGapWidth = New System.Windows.Forms.NumericUpDown()
-        Me.lblCatHistSeriesOverlap = New System.Windows.Forms.Label()
-        Me.nudCatHistSeriesOverlap = New System.Windows.Forms.NumericUpDown()
-        Me.lblCatHistPalette = New System.Windows.Forms.Label()
-        Me.cmbCatHistPalette = New System.Windows.Forms.ComboBox()
-        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit1 = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit2 = New BESHStatNG.Excel2007RefEdit()
+        Me.TabPage_OptionsViolin = New System.Windows.Forms.TabPage()
+        Me.grpScalingDisplay = New System.Windows.Forms.GroupBox()
+        Me.cmdViolinTrimDensity = New System.Windows.Forms.CheckBox()
+        Me.cmdViolinIndividualObs = New System.Windows.Forms.CheckBox()
+        Me.cmdViolinMean = New System.Windows.Forms.CheckBox()
+        Me.cmdViolinMedian = New System.Windows.Forms.CheckBox()
+        Me.cbViolinInnerBoxPlot = New System.Windows.Forms.CheckBox()
+        Me.cmdViolinScaling = New System.Windows.Forms.ComboBox()
+        Me.lblViolinScaling = New System.Windows.Forms.Label()
+        Me.grpViolinDensity = New System.Windows.Forms.GroupBox()
+        Me.nudViolinDensityPoints = New System.Windows.Forms.NumericUpDown()
+        Me.lblViolinDensityPoints = New System.Windows.Forms.Label()
+        Me.nudViolinBandwidthAdjustment = New System.Windows.Forms.NumericUpDown()
+        Me.lblViolinBandwidthAdjustment = New System.Windows.Forms.Label()
+        Me.cmbViolinBandwidth = New System.Windows.Forms.ComboBox()
+        Me.lblViolinBandwidth = New System.Windows.Forms.Label()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.nudViolinChartHeight = New System.Windows.Forms.NumericUpDown()
+        Me.lblViolinChartHeight = New System.Windows.Forms.Label()
+        Me.nudViolinChartWidth = New System.Windows.Forms.NumericUpDown()
+        Me.lblViolinChartWidth = New System.Windows.Forms.Label()
+        Me.cbViolinHorizontalGridlines = New System.Windows.Forms.CheckBox()
+        Me.cbViolinOutline = New System.Windows.Forms.CheckBox()
+        Me.cmbViolinPalette = New System.Windows.Forms.ComboBox()
+        Me.lblViolinPalette = New System.Windows.Forms.Label()
+        Me.nudViolinFillTransparency = New System.Windows.Forms.NumericUpDown()
+        Me.lblViolinFillTransparency = New System.Windows.Forms.Label()
+        Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.grpOutput.SuspendLayout()
@@ -165,11 +192,20 @@ Partial Class UibyID
         Me.grpHypothesisType_UTT.SuspendLayout()
         CType(Me.spinBtnAlpha_UTT, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage_OptionsCategoricalHistogram.SuspendLayout()
-        Me.grpCatHistBinSize.SuspendLayout()
-        Me.grpCatHistPlotType.SuspendLayout()
         Me.grpCatHistAppearance.SuspendLayout()
-        CType(Me.nudCatHistGapWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCatHistSeriesOverlap, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudCatHistGapWidth, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpCatHistPlotType.SuspendLayout()
+        Me.grpCatHistBinSize.SuspendLayout()
+        Me.TabPage_OptionsViolin.SuspendLayout()
+        Me.grpScalingDisplay.SuspendLayout()
+        Me.grpViolinDensity.SuspendLayout()
+        CType(Me.nudViolinDensityPoints, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudViolinBandwidthAdjustment, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.nudViolinChartHeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudViolinChartWidth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudViolinFillTransparency, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btCompute
@@ -201,6 +237,7 @@ Partial Class UibyID
         Me.TabControl1.Controls.Add(Me.TabPage_OptionsOutliers)
         Me.TabControl1.Controls.Add(Me.TabPage_OptionsUTT)
         Me.TabControl1.Controls.Add(Me.TabPage_OptionsCategoricalHistogram)
+        Me.TabControl1.Controls.Add(Me.TabPage_OptionsViolin)
         Me.TabControl1.Location = New System.Drawing.Point(9, 7)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -231,6 +268,21 @@ Partial Class UibyID
         Me.grpOutput.TabIndex = 4
         Me.grpOutput.TabStop = False
         Me.grpOutput.Text = "Output"
+        '
+        'RefEditOutput
+        '
+        Me.RefEditOutput.Address = ""
+        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
+        Me.RefEditOutput.Enabled = False
+        Me.RefEditOutput.ExcelConnector = Nothing
+        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
+        Me.RefEditOutput.Location = New System.Drawing.Point(168, 16)
+        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEditOutput.Name = "RefEditOutput"
+        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
+        Me.RefEditOutput.TabIndex = 3
         '
         'optWorkbook
         '
@@ -294,6 +346,34 @@ Partial Class UibyID
         Me.lblRefedit1.Size = New System.Drawing.Size(155, 44)
         Me.lblRefedit1.TabIndex = 2
         Me.lblRefedit1.Text = "Group ID:"
+        '
+        'RefEdit1
+        '
+        Me.RefEdit1.Address = ""
+        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit1.ExcelConnector = Nothing
+        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit1.Location = New System.Drawing.Point(159, 64)
+        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit1.Name = "RefEdit1"
+        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit1.TabIndex = 4
+        '
+        'RefEdit2
+        '
+        Me.RefEdit2.Address = ""
+        Me.RefEdit2.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit2.ExcelConnector = Nothing
+        Me.RefEdit2.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit2.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit2.Location = New System.Drawing.Point(159, 104)
+        Me.RefEdit2.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit2.Name = "RefEdit2"
+        Me.RefEdit2.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit2.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit2.TabIndex = 5
         '
         'optByID
         '
@@ -870,9 +950,9 @@ Partial Class UibyID
         Me.optDoane.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.optDoane.Location = New System.Drawing.Point(18, 58)
         Me.optDoane.Name = "optDoane"
-        Me.optDoane.Size = New System.Drawing.Size(61, 20)
+        Me.optDoane.Size = New System.Drawing.Size(69, 20)
         Me.optDoane.TabIndex = 1
-        Me.optDoane.Text = "Doan"
+        Me.optDoane.Text = "Doane"
         Me.optDoane.UseVisualStyleBackColor = True
         '
         'optSturges
@@ -1380,72 +1460,82 @@ Partial Class UibyID
         Me.TabPage_OptionsCategoricalHistogram.Text = "Options"
         Me.TabPage_OptionsCategoricalHistogram.UseVisualStyleBackColor = True
         '
-        'progressBarExactCalc
+        'grpCatHistAppearance
         '
-        Me.progressBarExactCalc.Location = New System.Drawing.Point(9, 376)
-        Me.progressBarExactCalc.Name = "progressBarExactCalc"
-        Me.progressBarExactCalc.Size = New System.Drawing.Size(296, 23)
-        Me.progressBarExactCalc.TabIndex = 4
+        Me.grpCatHistAppearance.Controls.Add(Me.cmbCatHistPalette)
+        Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistPalette)
+        Me.grpCatHistAppearance.Controls.Add(Me.nudCatHistSeriesOverlap)
+        Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistSeriesOverlap)
+        Me.grpCatHistAppearance.Controls.Add(Me.nudCatHistGapWidth)
+        Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistGapWidth)
+        Me.grpCatHistAppearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpCatHistAppearance.Location = New System.Drawing.Point(12, 137)
+        Me.grpCatHistAppearance.Name = "grpCatHistAppearance"
+        Me.grpCatHistAppearance.Size = New System.Drawing.Size(423, 128)
+        Me.grpCatHistAppearance.TabIndex = 5
+        Me.grpCatHistAppearance.TabStop = False
+        Me.grpCatHistAppearance.Text = "Appearance"
         '
-        'grpCatHistBinSize
+        'cmbCatHistPalette
         '
-        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistScott)
-        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistFreedmanDiaconis)
-        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistDoan)
-        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistSturges)
-        Me.grpCatHistBinSize.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpCatHistBinSize.Location = New System.Drawing.Point(12, 3)
-        Me.grpCatHistBinSize.Name = "grpCatHistBinSize"
-        Me.grpCatHistBinSize.Size = New System.Drawing.Size(173, 128)
-        Me.grpCatHistBinSize.TabIndex = 4
-        Me.grpCatHistBinSize.TabStop = False
-        Me.grpCatHistBinSize.Text = "Bin-sizing Method"
+        Me.cmbCatHistPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCatHistPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbCatHistPalette.FormattingEnabled = True
+        Me.cmbCatHistPalette.Location = New System.Drawing.Point(136, 83)
+        Me.cmbCatHistPalette.Name = "cmbCatHistPalette"
+        Me.cmbCatHistPalette.Size = New System.Drawing.Size(186, 24)
+        Me.cmbCatHistPalette.TabIndex = 9
         '
-        'optCatHistScott
+        'lblCatHistPalette
         '
-        Me.optCatHistScott.AutoSize = True
-        Me.optCatHistScott.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.optCatHistScott.Location = New System.Drawing.Point(18, 99)
-        Me.optCatHistScott.Name = "optCatHistScott"
-        Me.optCatHistScott.Size = New System.Drawing.Size(58, 20)
-        Me.optCatHistScott.TabIndex = 3
-        Me.optCatHistScott.Text = "Scott"
-        Me.optCatHistScott.UseVisualStyleBackColor = True
+        Me.lblCatHistPalette.AutoSize = True
+        Me.lblCatHistPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCatHistPalette.Location = New System.Drawing.Point(6, 87)
+        Me.lblCatHistPalette.Name = "lblCatHistPalette"
+        Me.lblCatHistPalette.Size = New System.Drawing.Size(124, 16)
+        Me.lblCatHistPalette.TabIndex = 8
+        Me.lblCatHistPalette.Text = "Group color palette:"
         '
-        'optCatHistFreedmanDiaconis
+        'nudCatHistSeriesOverlap
         '
-        Me.optCatHistFreedmanDiaconis.AutoSize = True
-        Me.optCatHistFreedmanDiaconis.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.optCatHistFreedmanDiaconis.Location = New System.Drawing.Point(18, 73)
-        Me.optCatHistFreedmanDiaconis.Name = "optCatHistFreedmanDiaconis"
-        Me.optCatHistFreedmanDiaconis.Size = New System.Drawing.Size(147, 20)
-        Me.optCatHistFreedmanDiaconis.TabIndex = 2
-        Me.optCatHistFreedmanDiaconis.Text = "Freedman-Diaconis"
-        Me.optCatHistFreedmanDiaconis.UseVisualStyleBackColor = True
+        Me.nudCatHistSeriesOverlap.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudCatHistSeriesOverlap.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudCatHistSeriesOverlap.Location = New System.Drawing.Point(136, 55)
+        Me.nudCatHistSeriesOverlap.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
+        Me.nudCatHistSeriesOverlap.Name = "nudCatHistSeriesOverlap"
+        Me.nudCatHistSeriesOverlap.Size = New System.Drawing.Size(54, 22)
+        Me.nudCatHistSeriesOverlap.TabIndex = 7
         '
-        'optCatHistDoan
+        'lblCatHistSeriesOverlap
         '
-        Me.optCatHistDoan.AutoSize = True
-        Me.optCatHistDoan.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.optCatHistDoan.Location = New System.Drawing.Point(18, 47)
-        Me.optCatHistDoan.Name = "optCatHistDoan"
-        Me.optCatHistDoan.Size = New System.Drawing.Size(61, 20)
-        Me.optCatHistDoan.TabIndex = 1
-        Me.optCatHistDoan.Text = "Doan"
-        Me.optCatHistDoan.UseVisualStyleBackColor = True
+        Me.lblCatHistSeriesOverlap.AutoSize = True
+        Me.lblCatHistSeriesOverlap.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCatHistSeriesOverlap.Location = New System.Drawing.Point(6, 57)
+        Me.lblCatHistSeriesOverlap.Name = "lblCatHistSeriesOverlap"
+        Me.lblCatHistSeriesOverlap.Size = New System.Drawing.Size(98, 16)
+        Me.lblCatHistSeriesOverlap.TabIndex = 6
+        Me.lblCatHistSeriesOverlap.Text = "Series overlap:"
         '
-        'optCatHistSturges
+        'nudCatHistGapWidth
         '
-        Me.optCatHistSturges.AutoSize = True
-        Me.optCatHistSturges.Checked = True
-        Me.optCatHistSturges.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.optCatHistSturges.Location = New System.Drawing.Point(18, 21)
-        Me.optCatHistSturges.Name = "optCatHistSturges"
-        Me.optCatHistSturges.Size = New System.Drawing.Size(74, 20)
-        Me.optCatHistSturges.TabIndex = 0
-        Me.optCatHistSturges.TabStop = True
-        Me.optCatHistSturges.Text = "Sturges"
-        Me.optCatHistSturges.UseVisualStyleBackColor = True
+        Me.nudCatHistGapWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudCatHistGapWidth.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudCatHistGapWidth.Location = New System.Drawing.Point(136, 27)
+        Me.nudCatHistGapWidth.Maximum = New Decimal(New Integer() {500, 0, 0, 0})
+        Me.nudCatHistGapWidth.Name = "nudCatHistGapWidth"
+        Me.nudCatHistGapWidth.Size = New System.Drawing.Size(54, 22)
+        Me.nudCatHistGapWidth.TabIndex = 5
+        Me.nudCatHistGapWidth.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        '
+        'lblCatHistGapWidth
+        '
+        Me.lblCatHistGapWidth.AutoSize = True
+        Me.lblCatHistGapWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCatHistGapWidth.Location = New System.Drawing.Point(6, 29)
+        Me.lblCatHistGapWidth.Name = "lblCatHistGapWidth"
+        Me.lblCatHistGapWidth.Size = New System.Drawing.Size(69, 16)
+        Me.lblCatHistGapWidth.TabIndex = 4
+        Me.lblCatHistGapWidth.Text = "Gap width:"
         '
         'grpCatHistPlotType
         '
@@ -1494,125 +1584,391 @@ Partial Class UibyID
         Me.optCatHistBarsWithLegend.Text = "Grouped bars (density)"
         Me.optCatHistBarsWithLegend.UseVisualStyleBackColor = True
         '
-        'grpCatHistAppearance
+        'grpCatHistBinSize
         '
-        Me.grpCatHistAppearance.Controls.Add(Me.cmbCatHistPalette)
-        Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistPalette)
-        Me.grpCatHistAppearance.Controls.Add(Me.nudCatHistSeriesOverlap)
-        Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistSeriesOverlap)
-        Me.grpCatHistAppearance.Controls.Add(Me.nudCatHistGapWidth)
-        Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistGapWidth)
-        Me.grpCatHistAppearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpCatHistAppearance.Location = New System.Drawing.Point(12, 137)
-        Me.grpCatHistAppearance.Name = "grpCatHistAppearance"
-        Me.grpCatHistAppearance.Size = New System.Drawing.Size(423, 128)
-        Me.grpCatHistAppearance.TabIndex = 5
-        Me.grpCatHistAppearance.TabStop = False
-        Me.grpCatHistAppearance.Text = "Appearance"
+        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistScott)
+        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistFreedmanDiaconis)
+        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistDoan)
+        Me.grpCatHistBinSize.Controls.Add(Me.optCatHistSturges)
+        Me.grpCatHistBinSize.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpCatHistBinSize.Location = New System.Drawing.Point(12, 3)
+        Me.grpCatHistBinSize.Name = "grpCatHistBinSize"
+        Me.grpCatHistBinSize.Size = New System.Drawing.Size(173, 128)
+        Me.grpCatHistBinSize.TabIndex = 4
+        Me.grpCatHistBinSize.TabStop = False
+        Me.grpCatHistBinSize.Text = "Bin-sizing Method"
         '
-        'lblCatHistGapWidth
+        'optCatHistScott
         '
-        Me.lblCatHistGapWidth.AutoSize = True
-        Me.lblCatHistGapWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCatHistGapWidth.Location = New System.Drawing.Point(6, 29)
-        Me.lblCatHistGapWidth.Name = "lblCatHistGapWidth"
-        Me.lblCatHistGapWidth.Size = New System.Drawing.Size(69, 16)
-        Me.lblCatHistGapWidth.TabIndex = 4
-        Me.lblCatHistGapWidth.Text = "Gap width:"
+        Me.optCatHistScott.AutoSize = True
+        Me.optCatHistScott.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistScott.Location = New System.Drawing.Point(18, 99)
+        Me.optCatHistScott.Name = "optCatHistScott"
+        Me.optCatHistScott.Size = New System.Drawing.Size(58, 20)
+        Me.optCatHistScott.TabIndex = 3
+        Me.optCatHistScott.Text = "Scott"
+        Me.optCatHistScott.UseVisualStyleBackColor = True
         '
-        'nudCatHistGapWidth
+        'optCatHistFreedmanDiaconis
         '
-        Me.nudCatHistGapWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nudCatHistGapWidth.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.nudCatHistGapWidth.Location = New System.Drawing.Point(136, 27)
-        Me.nudCatHistGapWidth.Maximum = New Decimal(New Integer() {500, 0, 0, 0})
-        Me.nudCatHistGapWidth.Name = "nudCatHistGapWidth"
-        Me.nudCatHistGapWidth.Size = New System.Drawing.Size(54, 22)
-        Me.nudCatHistGapWidth.TabIndex = 5
-        Me.nudCatHistGapWidth.Value = New Decimal(New Integer() {30, 0, 0, 0})
+        Me.optCatHistFreedmanDiaconis.AutoSize = True
+        Me.optCatHistFreedmanDiaconis.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistFreedmanDiaconis.Location = New System.Drawing.Point(18, 73)
+        Me.optCatHistFreedmanDiaconis.Name = "optCatHistFreedmanDiaconis"
+        Me.optCatHistFreedmanDiaconis.Size = New System.Drawing.Size(147, 20)
+        Me.optCatHistFreedmanDiaconis.TabIndex = 2
+        Me.optCatHistFreedmanDiaconis.Text = "Freedman-Diaconis"
+        Me.optCatHistFreedmanDiaconis.UseVisualStyleBackColor = True
         '
-        'lblCatHistSeriesOverlap
+        'optCatHistDoan
         '
-        Me.lblCatHistSeriesOverlap.AutoSize = True
-        Me.lblCatHistSeriesOverlap.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCatHistSeriesOverlap.Location = New System.Drawing.Point(6, 57)
-        Me.lblCatHistSeriesOverlap.Name = "lblCatHistSeriesOverlap"
-        Me.lblCatHistSeriesOverlap.Size = New System.Drawing.Size(98, 16)
-        Me.lblCatHistSeriesOverlap.TabIndex = 6
-        Me.lblCatHistSeriesOverlap.Text = "Series overlap:"
+        Me.optCatHistDoan.AutoSize = True
+        Me.optCatHistDoan.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistDoan.Location = New System.Drawing.Point(18, 47)
+        Me.optCatHistDoan.Name = "optCatHistDoan"
+        Me.optCatHistDoan.Size = New System.Drawing.Size(69, 20)
+        Me.optCatHistDoan.TabIndex = 1
+        Me.optCatHistDoan.Text = "Doane"
+        Me.optCatHistDoan.UseVisualStyleBackColor = True
         '
-        'nudCatHistSeriesOverlap
+        'optCatHistSturges
         '
-        Me.nudCatHistSeriesOverlap.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nudCatHistSeriesOverlap.Increment = New Decimal(New Integer() {5, 0, 0, 0})
-        Me.nudCatHistSeriesOverlap.Location = New System.Drawing.Point(136, 55)
-        Me.nudCatHistSeriesOverlap.Minimum = New Decimal(New Integer() {100, 0, 0, -2147483648})
-        Me.nudCatHistSeriesOverlap.Name = "nudCatHistSeriesOverlap"
-        Me.nudCatHistSeriesOverlap.Size = New System.Drawing.Size(54, 22)
-        Me.nudCatHistSeriesOverlap.TabIndex = 7
+        Me.optCatHistSturges.AutoSize = True
+        Me.optCatHistSturges.Checked = True
+        Me.optCatHistSturges.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistSturges.Location = New System.Drawing.Point(18, 21)
+        Me.optCatHistSturges.Name = "optCatHistSturges"
+        Me.optCatHistSturges.Size = New System.Drawing.Size(74, 20)
+        Me.optCatHistSturges.TabIndex = 0
+        Me.optCatHistSturges.TabStop = True
+        Me.optCatHistSturges.Text = "Sturges"
+        Me.optCatHistSturges.UseVisualStyleBackColor = True
         '
-        'lblCatHistPalette
+        'TabPage_OptionsViolin
         '
-        Me.lblCatHistPalette.AutoSize = True
-        Me.lblCatHistPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCatHistPalette.Location = New System.Drawing.Point(6, 87)
-        Me.lblCatHistPalette.Name = "lblCatHistPalette"
-        Me.lblCatHistPalette.Size = New System.Drawing.Size(124, 16)
-        Me.lblCatHistPalette.TabIndex = 8
-        Me.lblCatHistPalette.Text = "Group color palette:"
+        Me.TabPage_OptionsViolin.Controls.Add(Me.grpScalingDisplay)
+        Me.TabPage_OptionsViolin.Controls.Add(Me.grpViolinDensity)
+        Me.TabPage_OptionsViolin.Controls.Add(Me.GroupBox1)
+        Me.TabPage_OptionsViolin.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage_OptionsViolin.Name = "TabPage_OptionsViolin"
+        Me.TabPage_OptionsViolin.Size = New System.Drawing.Size(454, 335)
+        Me.TabPage_OptionsViolin.TabIndex = 9
+        Me.TabPage_OptionsViolin.Text = "Options"
+        Me.TabPage_OptionsViolin.UseVisualStyleBackColor = True
         '
-        'cmbCatHistPalette
+        'grpScalingDisplay
         '
-        Me.cmbCatHistPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cmbCatHistPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmbCatHistPalette.FormattingEnabled = True
-        Me.cmbCatHistPalette.Location = New System.Drawing.Point(136, 83)
-        Me.cmbCatHistPalette.Name = "cmbCatHistPalette"
-        Me.cmbCatHistPalette.Size = New System.Drawing.Size(186, 24)
-        Me.cmbCatHistPalette.TabIndex = 9
+        Me.grpScalingDisplay.Controls.Add(Me.cmdViolinTrimDensity)
+        Me.grpScalingDisplay.Controls.Add(Me.cmdViolinIndividualObs)
+        Me.grpScalingDisplay.Controls.Add(Me.cmdViolinMean)
+        Me.grpScalingDisplay.Controls.Add(Me.cmdViolinMedian)
+        Me.grpScalingDisplay.Controls.Add(Me.cbViolinInnerBoxPlot)
+        Me.grpScalingDisplay.Controls.Add(Me.cmdViolinScaling)
+        Me.grpScalingDisplay.Controls.Add(Me.lblViolinScaling)
+        Me.grpScalingDisplay.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpScalingDisplay.Location = New System.Drawing.Point(3, 95)
+        Me.grpScalingDisplay.Name = "grpScalingDisplay"
+        Me.grpScalingDisplay.Size = New System.Drawing.Size(446, 97)
+        Me.grpScalingDisplay.TabIndex = 12
+        Me.grpScalingDisplay.TabStop = False
+        Me.grpScalingDisplay.Text = "Scaling and Display"
         '
-        'RefEditOutput
+        'cmdViolinTrimDensity
         '
-        Me.RefEditOutput.Address = ""
-        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
-        Me.RefEditOutput.Enabled = False
-        Me.RefEditOutput.ExcelConnector = Nothing
-        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
-        Me.RefEditOutput.Location = New System.Drawing.Point(168, 16)
-        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEditOutput.Name = "RefEditOutput"
-        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
-        Me.RefEditOutput.TabIndex = 3
+        Me.cmdViolinTrimDensity.AutoSize = True
+        Me.cmdViolinTrimDensity.Checked = True
+        Me.cmdViolinTrimDensity.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cmdViolinTrimDensity.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdViolinTrimDensity.Location = New System.Drawing.Point(184, 71)
+        Me.cmdViolinTrimDensity.Name = "cmdViolinTrimDensity"
+        Me.cmdViolinTrimDensity.Size = New System.Drawing.Size(184, 20)
+        Me.cmdViolinTrimDensity.TabIndex = 14
+        Me.cmdViolinTrimDensity.Text = "Trim density to data range"
+        Me.cmdViolinTrimDensity.UseVisualStyleBackColor = True
         '
-        'RefEdit1
+        'cmdViolinIndividualObs
         '
-        Me.RefEdit1.Address = ""
-        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit1.ExcelConnector = Nothing
-        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit1.Location = New System.Drawing.Point(159, 64)
-        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit1.Name = "RefEdit1"
-        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit1.TabIndex = 4
+        Me.cmdViolinIndividualObs.AutoSize = True
+        Me.cmdViolinIndividualObs.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdViolinIndividualObs.Location = New System.Drawing.Point(11, 71)
+        Me.cmdViolinIndividualObs.Name = "cmdViolinIndividualObs"
+        Me.cmdViolinIndividualObs.Size = New System.Drawing.Size(167, 20)
+        Me.cmdViolinIndividualObs.TabIndex = 13
+        Me.cmdViolinIndividualObs.Text = "Individual observations"
+        Me.cmdViolinIndividualObs.UseVisualStyleBackColor = True
         '
-        'RefEdit2
+        'cmdViolinMean
         '
-        Me.RefEdit2.Address = ""
-        Me.RefEdit2.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit2.ExcelConnector = Nothing
-        Me.RefEdit2.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit2.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit2.Location = New System.Drawing.Point(159, 104)
-        Me.RefEdit2.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit2.Name = "RefEdit2"
-        Me.RefEdit2.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit2.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit2.TabIndex = 5
+        Me.cmdViolinMean.AutoSize = True
+        Me.cmdViolinMean.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdViolinMean.Location = New System.Drawing.Point(368, 51)
+        Me.cmdViolinMean.Name = "cmdViolinMean"
+        Me.cmdViolinMean.Size = New System.Drawing.Size(63, 20)
+        Me.cmdViolinMean.TabIndex = 12
+        Me.cmdViolinMean.Text = "Mean"
+        Me.cmdViolinMean.UseVisualStyleBackColor = True
+        '
+        'cmdViolinMedian
+        '
+        Me.cmdViolinMedian.AutoSize = True
+        Me.cmdViolinMedian.Checked = True
+        Me.cmdViolinMedian.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cmdViolinMedian.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdViolinMedian.Location = New System.Drawing.Point(184, 51)
+        Me.cmdViolinMedian.Name = "cmdViolinMedian"
+        Me.cmdViolinMedian.Size = New System.Drawing.Size(74, 20)
+        Me.cmdViolinMedian.TabIndex = 11
+        Me.cmdViolinMedian.Text = "Median"
+        Me.cmdViolinMedian.UseVisualStyleBackColor = True
+        '
+        'cbViolinInnerBoxPlot
+        '
+        Me.cbViolinInnerBoxPlot.AutoSize = True
+        Me.cbViolinInnerBoxPlot.Checked = True
+        Me.cbViolinInnerBoxPlot.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbViolinInnerBoxPlot.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbViolinInnerBoxPlot.Location = New System.Drawing.Point(11, 51)
+        Me.cbViolinInnerBoxPlot.Name = "cbViolinInnerBoxPlot"
+        Me.cbViolinInnerBoxPlot.Size = New System.Drawing.Size(108, 20)
+        Me.cbViolinInnerBoxPlot.TabIndex = 10
+        Me.cbViolinInnerBoxPlot.Text = "Inner box plot"
+        Me.cbViolinInnerBoxPlot.UseVisualStyleBackColor = True
+        '
+        'cmdViolinScaling
+        '
+        Me.cmdViolinScaling.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmdViolinScaling.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdViolinScaling.FormattingEnabled = True
+        Me.cmdViolinScaling.Location = New System.Drawing.Point(155, 21)
+        Me.cmdViolinScaling.Name = "cmdViolinScaling"
+        Me.cmdViolinScaling.Size = New System.Drawing.Size(200, 24)
+        Me.cmdViolinScaling.TabIndex = 9
+        '
+        'lblViolinScaling
+        '
+        Me.lblViolinScaling.AutoSize = True
+        Me.lblViolinScaling.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblViolinScaling.Location = New System.Drawing.Point(6, 25)
+        Me.lblViolinScaling.Name = "lblViolinScaling"
+        Me.lblViolinScaling.Size = New System.Drawing.Size(89, 16)
+        Me.lblViolinScaling.TabIndex = 8
+        Me.lblViolinScaling.Text = "Violin scaling:"
+        '
+        'grpViolinDensity
+        '
+        Me.grpViolinDensity.Controls.Add(Me.nudViolinDensityPoints)
+        Me.grpViolinDensity.Controls.Add(Me.lblViolinDensityPoints)
+        Me.grpViolinDensity.Controls.Add(Me.nudViolinBandwidthAdjustment)
+        Me.grpViolinDensity.Controls.Add(Me.lblViolinBandwidthAdjustment)
+        Me.grpViolinDensity.Controls.Add(Me.cmbViolinBandwidth)
+        Me.grpViolinDensity.Controls.Add(Me.lblViolinBandwidth)
+        Me.grpViolinDensity.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpViolinDensity.Location = New System.Drawing.Point(3, 3)
+        Me.grpViolinDensity.Name = "grpViolinDensity"
+        Me.grpViolinDensity.Size = New System.Drawing.Size(446, 86)
+        Me.grpViolinDensity.TabIndex = 7
+        Me.grpViolinDensity.TabStop = False
+        Me.grpViolinDensity.Text = "Density"
+        '
+        'nudViolinDensityPoints
+        '
+        Me.nudViolinDensityPoints.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudViolinDensityPoints.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudViolinDensityPoints.Location = New System.Drawing.Point(377, 52)
+        Me.nudViolinDensityPoints.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.nudViolinDensityPoints.Minimum = New Decimal(New Integer() {32, 0, 0, 0})
+        Me.nudViolinDensityPoints.Name = "nudViolinDensityPoints"
+        Me.nudViolinDensityPoints.Size = New System.Drawing.Size(54, 22)
+        Me.nudViolinDensityPoints.TabIndex = 15
+        Me.nudViolinDensityPoints.Value = New Decimal(New Integer() {128, 0, 0, 0})
+        '
+        'lblViolinDensityPoints
+        '
+        Me.lblViolinDensityPoints.AutoSize = True
+        Me.lblViolinDensityPoints.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblViolinDensityPoints.Location = New System.Drawing.Point(261, 54)
+        Me.lblViolinDensityPoints.Name = "lblViolinDensityPoints"
+        Me.lblViolinDensityPoints.Size = New System.Drawing.Size(94, 16)
+        Me.lblViolinDensityPoints.TabIndex = 14
+        Me.lblViolinDensityPoints.Text = "Density points:"
+        '
+        'nudViolinBandwidthAdjustment
+        '
+        Me.nudViolinBandwidthAdjustment.DecimalPlaces = 2
+        Me.nudViolinBandwidthAdjustment.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudViolinBandwidthAdjustment.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.nudViolinBandwidthAdjustment.Location = New System.Drawing.Point(155, 50)
+        Me.nudViolinBandwidthAdjustment.Name = "nudViolinBandwidthAdjustment"
+        Me.nudViolinBandwidthAdjustment.Size = New System.Drawing.Size(54, 22)
+        Me.nudViolinBandwidthAdjustment.TabIndex = 13
+        Me.nudViolinBandwidthAdjustment.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        '
+        'lblViolinBandwidthAdjustment
+        '
+        Me.lblViolinBandwidthAdjustment.AutoSize = True
+        Me.lblViolinBandwidthAdjustment.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblViolinBandwidthAdjustment.Location = New System.Drawing.Point(8, 52)
+        Me.lblViolinBandwidthAdjustment.Name = "lblViolinBandwidthAdjustment"
+        Me.lblViolinBandwidthAdjustment.Size = New System.Drawing.Size(141, 16)
+        Me.lblViolinBandwidthAdjustment.TabIndex = 12
+        Me.lblViolinBandwidthAdjustment.Text = "Bandwidth Adjustment:"
+        '
+        'cmbViolinBandwidth
+        '
+        Me.cmbViolinBandwidth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbViolinBandwidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbViolinBandwidth.FormattingEnabled = True
+        Me.cmbViolinBandwidth.Location = New System.Drawing.Point(155, 21)
+        Me.cmbViolinBandwidth.Name = "cmbViolinBandwidth"
+        Me.cmbViolinBandwidth.Size = New System.Drawing.Size(200, 24)
+        Me.cmbViolinBandwidth.TabIndex = 11
+        '
+        'lblViolinBandwidth
+        '
+        Me.lblViolinBandwidth.AutoSize = True
+        Me.lblViolinBandwidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblViolinBandwidth.Location = New System.Drawing.Point(8, 24)
+        Me.lblViolinBandwidth.Name = "lblViolinBandwidth"
+        Me.lblViolinBandwidth.Size = New System.Drawing.Size(72, 16)
+        Me.lblViolinBandwidth.TabIndex = 10
+        Me.lblViolinBandwidth.Text = "Bandwidth:"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.nudViolinChartHeight)
+        Me.GroupBox1.Controls.Add(Me.lblViolinChartHeight)
+        Me.GroupBox1.Controls.Add(Me.nudViolinChartWidth)
+        Me.GroupBox1.Controls.Add(Me.lblViolinChartWidth)
+        Me.GroupBox1.Controls.Add(Me.cbViolinHorizontalGridlines)
+        Me.GroupBox1.Controls.Add(Me.cbViolinOutline)
+        Me.GroupBox1.Controls.Add(Me.cmbViolinPalette)
+        Me.GroupBox1.Controls.Add(Me.lblViolinPalette)
+        Me.GroupBox1.Controls.Add(Me.nudViolinFillTransparency)
+        Me.GroupBox1.Controls.Add(Me.lblViolinFillTransparency)
+        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.GroupBox1.Location = New System.Drawing.Point(3, 198)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(446, 134)
+        Me.GroupBox1.TabIndex = 6
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Appearance"
+        '
+        'nudViolinChartHeight
+        '
+        Me.nudViolinChartHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudViolinChartHeight.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudViolinChartHeight.Location = New System.Drawing.Point(155, 110)
+        Me.nudViolinChartHeight.Maximum = New Decimal(New Integer() {5000, 0, 0, 0})
+        Me.nudViolinChartHeight.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.nudViolinChartHeight.Name = "nudViolinChartHeight"
+        Me.nudViolinChartHeight.Size = New System.Drawing.Size(78, 22)
+        Me.nudViolinChartHeight.TabIndex = 15
+        Me.nudViolinChartHeight.Value = New Decimal(New Integer() {440, 0, 0, 0})
+        '
+        'lblViolinChartHeight
+        '
+        Me.lblViolinChartHeight.AutoSize = True
+        Me.lblViolinChartHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblViolinChartHeight.Location = New System.Drawing.Point(37, 112)
+        Me.lblViolinChartHeight.Name = "lblViolinChartHeight"
+        Me.lblViolinChartHeight.Size = New System.Drawing.Size(83, 16)
+        Me.lblViolinChartHeight.TabIndex = 14
+        Me.lblViolinChartHeight.Text = "Chart Height:"
+        '
+        'nudViolinChartWidth
+        '
+        Me.nudViolinChartWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudViolinChartWidth.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudViolinChartWidth.Location = New System.Drawing.Point(155, 82)
+        Me.nudViolinChartWidth.Maximum = New Decimal(New Integer() {5000, 0, 0, 0})
+        Me.nudViolinChartWidth.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.nudViolinChartWidth.Name = "nudViolinChartWidth"
+        Me.nudViolinChartWidth.Size = New System.Drawing.Size(78, 22)
+        Me.nudViolinChartWidth.TabIndex = 13
+        Me.nudViolinChartWidth.Value = New Decimal(New Integer() {720, 0, 0, 0})
+        '
+        'lblViolinChartWidth
+        '
+        Me.lblViolinChartWidth.AutoSize = True
+        Me.lblViolinChartWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblViolinChartWidth.Location = New System.Drawing.Point(42, 84)
+        Me.lblViolinChartWidth.Name = "lblViolinChartWidth"
+        Me.lblViolinChartWidth.Size = New System.Drawing.Size(78, 16)
+        Me.lblViolinChartWidth.TabIndex = 12
+        Me.lblViolinChartWidth.Text = "Chart Width:"
+        '
+        'cbViolinHorizontalGridlines
+        '
+        Me.cbViolinHorizontalGridlines.AutoSize = True
+        Me.cbViolinHorizontalGridlines.Checked = True
+        Me.cbViolinHorizontalGridlines.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbViolinHorizontalGridlines.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbViolinHorizontalGridlines.Location = New System.Drawing.Point(286, 57)
+        Me.cbViolinHorizontalGridlines.Name = "cbViolinHorizontalGridlines"
+        Me.cbViolinHorizontalGridlines.Size = New System.Drawing.Size(145, 20)
+        Me.cbViolinHorizontalGridlines.TabIndex = 11
+        Me.cbViolinHorizontalGridlines.Text = "Horizontal Gridlines"
+        Me.cbViolinHorizontalGridlines.UseVisualStyleBackColor = True
+        '
+        'cbViolinOutline
+        '
+        Me.cbViolinOutline.AutoSize = True
+        Me.cbViolinOutline.Checked = True
+        Me.cbViolinOutline.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbViolinOutline.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbViolinOutline.Location = New System.Drawing.Point(286, 83)
+        Me.cbViolinOutline.Name = "cbViolinOutline"
+        Me.cbViolinOutline.Size = New System.Drawing.Size(70, 20)
+        Me.cbViolinOutline.TabIndex = 10
+        Me.cbViolinOutline.Text = "Outline"
+        Me.cbViolinOutline.UseVisualStyleBackColor = True
+        '
+        'cmbViolinPalette
+        '
+        Me.cmbViolinPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbViolinPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbViolinPalette.FormattingEnabled = True
+        Me.cmbViolinPalette.Location = New System.Drawing.Point(155, 21)
+        Me.cmbViolinPalette.Name = "cmbViolinPalette"
+        Me.cmbViolinPalette.Size = New System.Drawing.Size(200, 24)
+        Me.cmbViolinPalette.TabIndex = 9
+        '
+        'lblViolinPalette
+        '
+        Me.lblViolinPalette.AutoSize = True
+        Me.lblViolinPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblViolinPalette.Location = New System.Drawing.Point(6, 25)
+        Me.lblViolinPalette.Name = "lblViolinPalette"
+        Me.lblViolinPalette.Size = New System.Drawing.Size(124, 16)
+        Me.lblViolinPalette.TabIndex = 8
+        Me.lblViolinPalette.Text = "Group color palette:"
+        '
+        'nudViolinFillTransparency
+        '
+        Me.nudViolinFillTransparency.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudViolinFillTransparency.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudViolinFillTransparency.Location = New System.Drawing.Point(155, 55)
+        Me.nudViolinFillTransparency.Name = "nudViolinFillTransparency"
+        Me.nudViolinFillTransparency.Size = New System.Drawing.Size(78, 22)
+        Me.nudViolinFillTransparency.TabIndex = 7
+        Me.nudViolinFillTransparency.Value = New Decimal(New Integer() {20, 0, 0, 0})
+        '
+        'lblViolinFillTransparency
+        '
+        Me.lblViolinFillTransparency.AutoSize = True
+        Me.lblViolinFillTransparency.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblViolinFillTransparency.Location = New System.Drawing.Point(6, 57)
+        Me.lblViolinFillTransparency.Name = "lblViolinFillTransparency"
+        Me.lblViolinFillTransparency.Size = New System.Drawing.Size(114, 16)
+        Me.lblViolinFillTransparency.TabIndex = 6
+        Me.lblViolinFillTransparency.Text = "Fill Transparency:"
+        '
+        'progressBarExactCalc
+        '
+        Me.progressBarExactCalc.Location = New System.Drawing.Point(9, 376)
+        Me.progressBarExactCalc.Name = "progressBarExactCalc"
+        Me.progressBarExactCalc.Size = New System.Drawing.Size(296, 23)
+        Me.progressBarExactCalc.TabIndex = 4
         '
         'UibyID
         '
@@ -1673,14 +2029,26 @@ Partial Class UibyID
         Me.grpHypothesisType_UTT.PerformLayout()
         CType(Me.spinBtnAlpha_UTT, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage_OptionsCategoricalHistogram.ResumeLayout(False)
-        Me.grpCatHistBinSize.ResumeLayout(False)
-        Me.grpCatHistBinSize.PerformLayout()
-        Me.grpCatHistPlotType.ResumeLayout(False)
-        Me.grpCatHistPlotType.PerformLayout()
         Me.grpCatHistAppearance.ResumeLayout(False)
         Me.grpCatHistAppearance.PerformLayout()
-        CType(Me.nudCatHistGapWidth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudCatHistSeriesOverlap, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudCatHistGapWidth, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpCatHistPlotType.ResumeLayout(False)
+        Me.grpCatHistPlotType.PerformLayout()
+        Me.grpCatHistBinSize.ResumeLayout(False)
+        Me.grpCatHistBinSize.PerformLayout()
+        Me.TabPage_OptionsViolin.ResumeLayout(False)
+        Me.grpScalingDisplay.ResumeLayout(False)
+        Me.grpScalingDisplay.PerformLayout()
+        Me.grpViolinDensity.ResumeLayout(False)
+        Me.grpViolinDensity.PerformLayout()
+        CType(Me.nudViolinDensityPoints, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudViolinBandwidthAdjustment, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.nudViolinChartHeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudViolinChartWidth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudViolinFillTransparency, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -1801,4 +2169,31 @@ Partial Class UibyID
     Friend WithEvents lblCatHistSeriesOverlap As Windows.Forms.Label
     Friend WithEvents cmbCatHistPalette As Windows.Forms.ComboBox
     Friend WithEvents lblCatHistPalette As Windows.Forms.Label
+    Friend WithEvents TabPage_OptionsViolin As Windows.Forms.TabPage
+    Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
+    Friend WithEvents cmbViolinPalette As Windows.Forms.ComboBox
+    Friend WithEvents lblViolinPalette As Windows.Forms.Label
+    Friend WithEvents nudViolinFillTransparency As Windows.Forms.NumericUpDown
+    Friend WithEvents lblViolinFillTransparency As Windows.Forms.Label
+    Friend WithEvents cbViolinHorizontalGridlines As Windows.Forms.CheckBox
+    Friend WithEvents cbViolinOutline As Windows.Forms.CheckBox
+    Friend WithEvents grpViolinDensity As Windows.Forms.GroupBox
+    Friend WithEvents nudViolinBandwidthAdjustment As Windows.Forms.NumericUpDown
+    Friend WithEvents lblViolinBandwidthAdjustment As Windows.Forms.Label
+    Friend WithEvents cmbViolinBandwidth As Windows.Forms.ComboBox
+    Friend WithEvents lblViolinBandwidth As Windows.Forms.Label
+    Friend WithEvents nudViolinDensityPoints As Windows.Forms.NumericUpDown
+    Friend WithEvents lblViolinDensityPoints As Windows.Forms.Label
+    Friend WithEvents grpScalingDisplay As Windows.Forms.GroupBox
+    Friend WithEvents cmdViolinMedian As Windows.Forms.CheckBox
+    Friend WithEvents cbViolinInnerBoxPlot As Windows.Forms.CheckBox
+    Friend WithEvents cmdViolinScaling As Windows.Forms.ComboBox
+    Friend WithEvents lblViolinScaling As Windows.Forms.Label
+    Friend WithEvents cmdViolinMean As Windows.Forms.CheckBox
+    Friend WithEvents cmdViolinTrimDensity As Windows.Forms.CheckBox
+    Friend WithEvents cmdViolinIndividualObs As Windows.Forms.CheckBox
+    Friend WithEvents nudViolinChartHeight As Windows.Forms.NumericUpDown
+    Friend WithEvents lblViolinChartHeight As Windows.Forms.Label
+    Friend WithEvents nudViolinChartWidth As Windows.Forms.NumericUpDown
+    Friend WithEvents lblViolinChartWidth As Windows.Forms.Label
 End Class

@@ -188,6 +188,11 @@ Public Class Ribbon
         mwForm.Show()
     End Sub
 
+    Public Sub OnbtmViolinPressed(control As IRibbonControl)
+        Dim mwForm As New UibyID("Violin Plot", HelpTopic.ViolinPlot)
+        mwForm.Show()
+    End Sub
+
     '--------------------------------------------------------------------------
     ' Parametric
     '--------------------------------------------------------------------------
@@ -572,6 +577,34 @@ Public Class Ribbon
         End If
         Dim mwForm As New Ui20PropensityScoreMatching("Propensity Score Matching", HelpTopic.PropensityScoreMatching)
         mwForm.Populate(sh)
+        mwForm.Show()
+    End Sub
+
+    '--------------------------------------------------------------------------
+    ' Statistical process control
+    '--------------------------------------------------------------------------
+
+    Public Sub OnbtmControlChartsPressed(control As IRibbonControl)
+        Dim sh As Worksheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
+        Else
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
+        End If
+        Dim mwForm As New Ui21ControlCharts("Control Charts", HelpTopic.ControlCharts)
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmMultControlChartsPressed(control As IRibbonControl)
+        Dim sh As Worksheet
+        If AppGlobals.app.Workbooks.Count > 0 Then
+            sh = AppGlobals.app.ActiveSheet
+        Else
+            AppGlobals.app.Workbooks.Add()
+            sh = AppGlobals.app.ActiveSheet
+        End If
+        Dim mwForm As New Ui22MultivariateControlCharts("Multivariate Control Charts", HelpTopic.MultivariateControlCharts)
         mwForm.Show()
     End Sub
 

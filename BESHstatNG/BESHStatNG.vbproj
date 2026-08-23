@@ -183,20 +183,25 @@
     <Compile Include="src\Graphics\3Dobjects.vb" />
     <Compile Include="src\Graphics\BoxPlot.vb" />
     <Compile Include="src\Graphics\CalibrationPlot.vb" />
+    <Compile Include="src\Graphics\CategoricalHistogram.vb" />
     <Compile Include="src\Graphics\ChartExport.vb" />
     <Compile Include="src\Graphics\ChartingFunc.vb" />
     <Compile Include="src\Graphics\ClusterAnalysisPlotExcel.vb" />
+    <Compile Include="src\Graphics\ConvexHullPlot.vb" />
     <Compile Include="src\Graphics\CorrespondenceAnalysisPlotExcel.vb" />
     <Compile Include="src\Graphics\CoxSurvivalPlotExcel.vb" />
     <Compile Include="src\Graphics\FactorAnalysisPlotExcel.vb" />
     <Compile Include="src\Graphics\GifAnimator.vb" />
     <Compile Include="src\Graphics\Histogram.vb" />
+    <Compile Include="src\Graphics\KiteChart.vb" />
     <Compile Include="src\Graphics\NormalPlot.vb" />
     <Compile Include="src\Graphics\PcaPlotExcel.vb" />
     <Compile Include="src\Graphics\PolarPlot.vb" />
     <Compile Include="src\Graphics\ROC.vb" />
     <Compile Include="src\Graphics\ScatterPlotMatrix.vb" />
+    <Compile Include="src\Graphics\SpcControlChartExcel.vb" />
     <Compile Include="src\Graphics\SymetryPlot.vb" />
+    <Compile Include="src\Graphics\ViolinPlot.vb" />
     <Compile Include="src\Graphics\XYZscatter.vb" />
     <Compile Include="src\Help\HelpWiring.vb" />
     <Compile Include="src\RegModels\BinaryClassificationReporting.vb" />
@@ -271,10 +276,26 @@
     <Compile Include="src\StatTests\PropensityScoreMatching\PSMscoresAndWeights.vb" />
     <Compile Include="src\StatTests\PropensityScoreMatching\PSMsensitivityAnalysis.vb" />
     <Compile Include="src\StatTests\SampleSize.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcCapability.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcEngine.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcModels.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcMultivariate.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcResultTables.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcRules.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcShewhartCharts.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcStatistics.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcTimeWeightedCharts.vb" />
+    <Compile Include="src\StatTests\StatisticalProcessControl\SpcTypes.vb" />
     <Compile Include="src\StatTests\Survival.vb" />
     <Compile Include="src\StatTests\Nonparametric.vb" />
     <Compile Include="src\StatTests\Parametric.vb" />
     <Compile Include="src\UI\ExcelWindowWrapper.vb" />
+    <Compile Include="src\UI\Ui01ConvexHullPlot.Designer.vb">
+      <DependentUpon>Ui01ConvexHullPlot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui01ConvexHullPlot.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\UI\RegressionEffectsController.vb" />
     <Compile Include="src\UI\Ui01PolarPlot.Designer.vb">
       <DependentUpon>Ui01PolarPlot.vb</DependentUpon>
@@ -340,6 +361,18 @@
       <DependentUpon>Ui20PropensityScoreMatching.vb</DependentUpon>
     </Compile>
     <Compile Include="src\UI\Ui20PropensityScoreMatching.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui21ControlCharts.Designer.vb">
+      <DependentUpon>Ui21ControlCharts.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui21ControlCharts.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui22MultivariateControlCharts.Designer.vb">
+      <DependentUpon>Ui22MultivariateControlCharts.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui22MultivariateControlCharts.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\UI\Ui3XYZplot.Designer.vb">
@@ -423,6 +456,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui01ConvexHullPlot.resx">
+      <DependentUpon>Ui01ConvexHullPlot.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui01PolarPlot.resx">
       <DependentUpon>Ui01PolarPlot.vb</DependentUpon>
     </EmbeddedResource>
@@ -460,6 +496,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui20PropensityScoreMatching.resx">
       <DependentUpon>Ui20PropensityScoreMatching.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui21ControlCharts.resx">
+      <DependentUpon>Ui21ControlCharts.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui22MultivariateControlCharts.resx">
+      <DependentUpon>Ui22MultivariateControlCharts.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui3XYZplot.resx">
       <DependentUpon>Ui3XYZplot.vb</DependentUpon>

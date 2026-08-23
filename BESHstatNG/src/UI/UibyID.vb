@@ -27,6 +27,7 @@ Public Class UibyID
         Me.TabPage_OptionsOutliers.Parent = Nothing
         Me.TabPage_OptionsUTT.Parent = Nothing
         Me.TabPage_OptionsCategoricalHistogram.Parent = Nothing
+        Me.TabPage_OptionsViolin.Parent = Nothing
 
         If Me.Tag = HelpTopic.KruskalWallisTest Then
             Me.TabPage_Options.Parent = Me.TabControl1
@@ -101,6 +102,20 @@ Public Class UibyID
             Me.optByID.Enabled = False
             Me.optByColumn.Enabled = False
             Me.UpdateCategoricalHistogramOptionState()
+
+        ElseIf Me.Tag = HelpTopic.ViolinPlot Then
+            Me.TabPage_OptionsViolin.Parent = Me.TabControl1
+            Me.cmbViolinBandwidth.Items.AddRange(New Object() {"Silverman (automatic)", "Scott", "Manual"})
+            Me.cmbViolinBandwidth.SelectedIndex = 0
+            Me.cmbViolinPalette.Items.AddRange(New Object() {"Tableau 10", "Okabe-Ito", "ColorBrewer Set1", "Grayscale"})
+            Me.cmbViolinPalette.SelectedIndex = 0
+            Me.cmdViolinScaling.Items.AddRange(New Object() {"Equal maximum width", "Equal area", "Width proportional to N"})
+            Me.cmdViolinScaling.SelectedIndex = 0
+            'Violin plots support both long/by-ID and wide/by-column layouts.
+            Me.optByID.Enabled = True
+            Me.optByColumn.Enabled = True
+            Me.lblRefedit1.Text = "Group ID:"
+            Me.lblRefedit2.Text = "Data:"
 
         End If
 
@@ -243,15 +258,128 @@ Public Class UibyID
         End If
     End Function
 
-    Private NotInheritable Class CategoricalHistogramInputData
+    Private NotInheritable Class GroupedContinuousInputData
         Public Values() As Double
         Public Groups() As Object
         Public ContinuousName As String
         Public GroupName As String
     End Class
 
-    Private Function getCategoricalHistogramData(ByRef strErr As String) As CategoricalHistogramInputData
+    Private Function getGroupedContinuousData(ByRef strErr As String) As GroupedContinuousInputData
+        If Me.optByColumn.Checked Then
+            Return Me.getGroupedContinuousDataByColumn(strErr)
+        End If
 
+        Return Me.getGroupedContinuousDataById(strErr)
+    End Function
+
+    Private Function getGroupedContinuousDataByColumn(ByRef strErr As String) As GroupedContinuousInputData
+        'Wide layout: each selected worksheet column is one violin/group. Missing
+        'values are handled independently within each column, so rows do not need
+        'to be paired across groups.
+        Dim dataWorksheet As Worksheet = WorksheetFromRefAdress(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
+        Dim ref As String = prepareRef2D(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
+        Dim colList() As String = ColumListFromRefAdress(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
+
+        If colList Is Nothing OrElse colList.Length = 0 Then
+            strErr = "Select at least one continuous data column."
+            Return Nothing
+        End If
+
+        Dim values As New List(Of Double)()
+        Dim groups As New List(Of Object)()
+        Dim usedGroupNames As New Dictionary(Of String, Integer)(StringComparer.CurrentCultureIgnoreCase)
+
+        For i As Integer = 0 To colList.Length - 1
+            Dim columnAddress As String = LTrim$(colList(i))
+            Dim columnRef As String = WorksheetNameFromRefAdress(ref, True, Me.RefEdit2.ExcelWorkBook) & "!" & columnAddress
+            Dim columnData As New DataObj
+            ExcelDnaDataImporter.ImportInto(columnData, columnRef, True)
+
+            'Completely empty/non-numeric columns are simply omitted, matching the
+            'existing multiple-groups by-column import behaviour.
+            If columnData.bZeroValid OrElse columnData.FinalData Is Nothing OrElse columnData.nRows = 0 Then
+                Continue For
+            End If
+            If columnData.nCols <> 1 Then
+                strErr = "Each by-column violin input must resolve to a single worksheet column."
+                Return Nothing
+            End If
+
+            Dim sourceRange As Range = dataWorksheet.Range(columnAddress)
+            Dim firstRowIsTextLabel As Boolean = False
+            Dim groupName As String = ResolveViolinColumnGroupName(sourceRange, firstRowIsTextLabel)
+            groupName = MakeUniqueViolinGroupName(groupName, usedGroupNames)
+
+            Dim columnValues() As Double = Matrix.GetColumnFrom2Darray(columnData.DataDbl, 0)
+            Dim firstValueIndex As Integer = 0
+
+            'A numeric-looking text header (for example "0") is accepted by DataObj
+            'as numeric data. If that first worksheet row was explicitly text, remove
+            'it from the plotted observations while retaining it as the group label.
+            If firstRowIsTextLabel AndAlso columnData.RowIds IsNot Nothing AndAlso
+               columnData.RowIds.Length > 0 AndAlso columnData.RowIds(0) = sourceRange.Row Then
+                firstValueIndex = 1
+            End If
+
+            For valueIndex As Integer = firstValueIndex To columnValues.Length - 1
+                values.Add(columnValues(valueIndex))
+                groups.Add(groupName)
+            Next
+        Next
+
+        If values.Count = 0 Then
+            strErr = "No valid continuous observations were found in the selected columns."
+            Return Nothing
+        End If
+
+        Return New GroupedContinuousInputData With {
+            .Values = values.ToArray(),
+            .Groups = groups.ToArray(),
+            .ContinuousName = "Value",
+            .GroupName = "Group"
+        }
+    End Function
+
+    Private Shared Function ResolveViolinColumnGroupName(sourceRange As Range,
+                                                         ByRef firstRowIsTextLabel As Boolean) As String
+        firstRowIsTextLabel = False
+        If sourceRange Is Nothing Then Return "Group"
+
+        Dim firstCell As Range = DirectCast(sourceRange.Cells(1, 1), Range)
+        Dim firstValue As Object = ExcelDnaDataImporter.NormalizeExcelValue(firstCell.Value2)
+
+        'Any non-blank text in the first selected row is an explicit group label.
+        'A genuinely numeric first value remains data and falls back to the Excel
+        'column identifier (A, B, C, ...).
+        If TypeOf firstValue Is String Then
+            Dim textLabel As String = CStr(firstValue).Trim()
+            If textLabel <> String.Empty Then
+                firstRowIsTextLabel = True
+                Return textLabel
+            End If
+        End If
+
+        Dim entireColumnAddress As String = DirectCast(sourceRange.Cells(1, 1), Range).EntireColumn.Address(False, False)
+        Dim columnName As String = entireColumnAddress.Split(":"c)(0).Replace("$", String.Empty)
+        Return columnName
+    End Function
+
+    Private Shared Function MakeUniqueViolinGroupName(groupName As String, usedNames As Dictionary(Of String, Integer)) As String
+        Dim baseName As String = If(String.IsNullOrWhiteSpace(groupName), "Group", groupName.Trim())
+        Dim occurrence As Integer = 0
+
+        If usedNames.TryGetValue(baseName, occurrence) Then
+            occurrence += 1
+            usedNames(baseName) = occurrence
+            Return baseName & " (" & occurrence.ToString() & ")"
+        End If
+
+        usedNames.Add(baseName, 1)
+        Return baseName
+    End Function
+
+    Private Function getGroupedContinuousDataById(ByRef strErr As String) As GroupedContinuousInputData
         'Resolve the ranges using the workbook associated with each RefEdit.
         Dim groupWorksheet As Worksheet = WorksheetFromRefAdress(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
         Dim dataWorksheet As Worksheet = WorksheetFromRefAdress(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
@@ -273,7 +401,7 @@ Public Class UibyID
 
         'Each input must be a single continuous range.
         If groupRange.Areas.Count <> 1 OrElse dataRange.Areas.Count <> 1 Then
-            strErr = "Each categorical histogram input must be one continuous column range."
+            strErr = "Each grouping/continuous input must be one continuous column range."
             Return Nothing
         End If
 
@@ -298,11 +426,11 @@ Public Class UibyID
         End If
 
         If imported.nCols <> 2 Then
-            strErr = "Categorical histogram requires one grouping column and one continuous data column."
+            strErr = "This plot requires one grouping column and one continuous data column."
             Return Nothing
         End If
 
-        Dim out As New CategoricalHistogramInputData With {
+        Dim out As New GroupedContinuousInputData With {
             .ContinuousName = imported.varNames(1),
             .GroupName = imported.varNames(0)
         }
@@ -330,13 +458,18 @@ Public Class UibyID
                 If Me.checkInputs() Then Exit Sub
             End If
 
-            If Me.Tag = HelpTopic.CategoricalHistogram Then
-                Dim catData As CategoricalHistogramInputData = Me.getCategoricalHistogramData(errText)
+            If Me.Tag = HelpTopic.CategoricalHistogram OrElse Me.Tag = HelpTopic.ViolinPlot Then
+                Dim groupedData As GroupedContinuousInputData = Me.getGroupedContinuousData(errText)
                 If errText <> String.Empty Then
                     MsgBox(errText, vbExclamation)
                     Exit Sub
                 End If
-                Me.RunCategoricalHistogram(catData)
+
+                If Me.Tag = HelpTopic.CategoricalHistogram Then
+                    Me.RunCategoricalHistogram(groupedData)
+                Else
+                    Me.RunViolinPlot(groupedData)
+                End If
 
             ElseIf Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Then
 
@@ -663,7 +796,7 @@ Public Class UibyID
         If Me.ckDescriptiveStatistics.Checked Then rr.writeToSheet(WriteRes, True)
     End Sub
 
-    Private Sub RunCategoricalHistogram(data As CategoricalHistogramInputData)
+    Private Sub RunCategoricalHistogram(data As GroupedContinuousInputData)
         If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
 
         Dim options As New CategoricalHistogramOptions
@@ -694,7 +827,7 @@ Public Class UibyID
             .ShowLegend = True,
             .GapWidth = CInt(Me.nudCatHistGapWidth.Value),
             .SeriesOverlap = CInt(Me.nudCatHistSeriesOverlap.Value),
-            .SeriesColors = Me.GetCategoricalHistogramPalette()
+            .SeriesColors = Me.GetGroupedPlotPalette(Me.cmbCatHistPalette.SelectedIndex)
         }
 
         Dim WriteRes = GetResultWriter()
@@ -707,8 +840,65 @@ Public Class UibyID
                                            CDbl(chartAnchor.Top))
     End Sub
 
-    Private Function GetCategoricalHistogramPalette() As Integer()
-        Select Case Me.cmbCatHistPalette.SelectedIndex
+    Private Sub RunViolinPlot(data As GroupedContinuousInputData)
+        If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+
+        Dim options As New ViolinPlotOptions With {
+            .GridPoints = CInt(Me.nudViolinDensityPoints.Value),
+            .Trim = Me.cmdViolinTrimDensity.Checked
+        }
+
+        Select Case Me.cmbViolinBandwidth.SelectedIndex
+            Case 1
+                options.BandwidthRule = ViolinBandwidthRule.Scott
+                options.BandwidthAdjustment = CDbl(Me.nudViolinBandwidthAdjustment.Value)
+            Case 2
+                options.BandwidthRule = ViolinBandwidthRule.Manual
+                options.ManualBandwidth = CDbl(Me.nudViolinBandwidthAdjustment.Value)
+            Case Else
+                options.BandwidthRule = ViolinBandwidthRule.Silverman
+                options.BandwidthAdjustment = CDbl(Me.nudViolinBandwidthAdjustment.Value)
+        End Select
+
+        Select Case Me.cmdViolinScaling.SelectedIndex
+            Case 1
+                options.ScaleMode = ViolinScaleMode.EqualArea
+            Case 2
+                options.ScaleMode = ViolinScaleMode.Count
+            Case Else
+                options.ScaleMode = ViolinScaleMode.EqualMaximumWidth
+        End Select
+
+        Dim result As ViolinPlotResult = ViolinPlot.Compute(data.Values, data.Groups, options)
+
+        Dim appearance As New ViolinPlotAppearance With {
+            .ChartTitle = "Violin plot - " & data.ContinuousName & " by " & data.GroupName,
+            .XAxisTitle = data.GroupName,
+            .YAxisTitle = data.ContinuousName,
+            .ShowHorizontalGridlines = Me.cbViolinHorizontalGridlines.Checked,
+            .SeriesColors = Me.GetGroupedPlotPalette(Me.cmbViolinPalette.SelectedIndex),
+            .FillTransparency = CSng(CDbl(Me.nudViolinFillTransparency.Value) / 100.0R),
+            .ShowOutline = Me.cbViolinOutline.Checked,
+            .ShowInnerBox = Me.cbViolinInnerBoxPlot.Checked,
+            .ShowMedian = Me.cmdViolinMedian.Checked,
+            .ShowMean = Me.cmdViolinMean.Checked,
+            .ShowIndividualObservations = Me.cmdViolinIndividualObs.Checked
+        }
+
+        Dim WriteRes = GetResultWriter()
+        Dim chartAnchor As Range = DirectCast(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID), Range)
+
+        ViolinPlotExcel.AddChart(WriteRes.ws,
+                                 result,
+                                 appearance,
+                                 CDbl(chartAnchor.Left),
+                                 CDbl(chartAnchor.Top),
+                                 CDbl(Me.nudViolinChartWidth.Value),
+                                 CDbl(Me.nudViolinChartHeight.Value))
+    End Sub
+
+    Private Function GetGroupedPlotPalette(selectedIndex As Integer) As Integer()
+        Select Case selectedIndex
             Case 1 'Okabe-Ito
                 Return {&H9FE6, &HE9B456, &H739E00, &H42E4F0, &HB27200, &H5ED5, &HA779CC, &H0}
             Case 2 'ColorBrewer Set1
@@ -1204,6 +1394,7 @@ Public Class UibyID
             Me.RefEdit1.txtAddress.Text = String.Empty
             Me.RefEdit1.Enabled = False
             Me.lblRefedit1.Enabled = False
+            If Me.Tag = HelpTopic.ViolinPlot Then Me.lblRefedit2.Text = "Data columns:"
             Me.RefEdit2.txtAddress.Select()
         End If
     End Sub
@@ -1216,9 +1407,35 @@ Public Class UibyID
             Me.lblRefedit2.Text = "Data:"
         Else
             Me.RefEdit1.Enabled = True
-            Me.RefEdit1.Enabled = True
+            Me.lblRefedit1.Enabled = True
+            If Me.Tag = HelpTopic.ViolinPlot OrElse Me.Tag = HelpTopic.CategoricalHistogram Then
+                Me.lblRefedit1.Text = "Group ID:"
+                Me.lblRefedit2.Text = "Data:"
+            End If
         End If
         Me.RefEdit1.txtAddress.Select()
+    End Sub
+
+    Private Sub ViolinBandwidth_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbViolinBandwidth.SelectedIndexChanged
+        If Me.Tag = HelpTopic.ViolinPlot Then Me.UpdateViolinBandwidthOptionState()
+    End Sub
+
+    Private Sub UpdateViolinBandwidthOptionState()
+        Dim manualBandwidth As Boolean = (Me.cmbViolinBandwidth.SelectedIndex = 2)
+
+        If manualBandwidth Then
+            Me.lblViolinBandwidthAdjustment.Text = "Manual bandwidth:"
+            Me.nudViolinBandwidthAdjustment.DecimalPlaces = 6
+            Me.nudViolinBandwidthAdjustment.Increment = 0.01D
+            Me.nudViolinBandwidthAdjustment.Minimum = 0.000001D
+            Me.nudViolinBandwidthAdjustment.Maximum = 1000000000D
+        Else
+            Me.lblViolinBandwidthAdjustment.Text = "Bandwidth Adjustment:"
+            Me.nudViolinBandwidthAdjustment.DecimalPlaces = 2
+            Me.nudViolinBandwidthAdjustment.Increment = 0.1D
+            Me.nudViolinBandwidthAdjustment.Minimum = 0.01D
+            Me.nudViolinBandwidthAdjustment.Maximum = 100D
+        End If
     End Sub
 
     Private Sub CategoricalHistogramPlotType_CheckedChanged(sender As Object, e As System.EventArgs) Handles optCatHistBarsWithLegend.CheckedChanged,
@@ -1362,4 +1579,5 @@ Public Class UibyID
             })
         Return t
     End Function
+
 End Class

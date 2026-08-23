@@ -24,6 +24,7 @@
 							<button id="btm2_9CHP" label="Convex Hull Plot" onAction='OnbtmCHPPressed' imageMso="DrawFilledPolygon"/>
 							<button id="btm2_10kite" label="Kite Chart" onAction='OnbtmKitePressed' imageMso="CreateWebServiceConnection"/>
 							<button id="btm2_11CatHistogram" label="Histogram - Categorical" onAction='OnbtmCatHistogramPressed' imageMso="ChartPlotArea"/>
+							<button id="btm2_12Violin" label="Violin Plot" onAction='OnbtmViolinPressed' imageMso="SmartArtEditIn2D"/>
 						</menu>
 						<menu id='subMenu_Parametric' label='Parametric' >
 							<button id="btm3_1PairedT" label="Paired T tests" onAction='OnbtmPairedTPressed' imageMso="PrintColumns" />
@@ -97,6 +98,10 @@
 						</menu>
 						<menu id="subMenu_Causal" label="Causal Inference">
 							<button id="btmCausal_PSM" label="Propensity Score Matching" onAction="OnbtmPSMPressed" imageMso="ChartTrendline" />
+						</menu>
+						<menu id="subMenu_SPC" label="Statistical Process Control">
+							<button id="btm12_1ControlCharts" label="Control Charts" onAction="OnbtmControlChartsPressed" imageMso="ContentControlRepeating" />
+							<button id="btm12_2MultControlCharts" label="Multivariate Control Charts" onAction="OnbtmMultControlChartsPressed" imageMso="ControlAdvancedProperties" />
 						</menu>
 					</menu>
 
