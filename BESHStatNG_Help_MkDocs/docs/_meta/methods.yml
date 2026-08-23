@@ -43,6 +43,20 @@ methods:
     analysisTitle: Box and Whiskers
   categories:
   - Graphics
+- key: CategoricalHistogram
+  title: Histogram - Categorical
+  slug: categorical-histogram
+  short: "**Includes:** Grouped density histograms, stacked density histograms, grouped frequency histograms for unequal sample sizes."
+  ribbonIds:
+  - btm2_11CatHistogram
+  onActions:
+  - OnbtmCatHistogramPressed
+  forms:
+  - handler: OnbtmCatHistogramPressed
+    form: UibyID
+    analysisTitle: null
+  categories:
+  - Graphics
 - key: CochranSQTest
   title: Cochran's Q Test
   slug: cochrans-q-test
@@ -57,6 +71,34 @@ methods:
     analysisTitle: Cochran's Q Test
   categories:
   - Nonparametric
+- key: ControlCharts
+  title: Control Charts
+  slug: control-charts
+  short: "**Includes:** Individuals, moving-range, I–MR, X-bar, R, S, X-bar–R, X-bar–S, p, np, c, u, CUSUM, EWMA, and moving-average charts; Phase I and Phase II stages; historical or stage-specific limits; wide and stacked subgroup layouts; exact probability limits for attribute charts; special-cause rule presets and custom rules; explicit exclusions; specification and target lines; detailed chart data, signals, settings, and audit output."
+  ribbonIds:
+  - btm12_1ControlCharts
+  onActions:
+  - OnbtmControlChartsPressed
+  forms:
+  - handler: OnbtmControlChartsPressed
+    form: Ui21ControlCharts
+    analysisTitle: Control Charts
+  categories:
+  - Statistical Process Control
+- key: ConvexHull
+  title: Convex Hull Plot
+  slug: convex-hull-plot
+  short: "**Includes:** Convex Hull Plot. Display a point cloud together with the smallest convex boundary containing all observations, either for the complete dataset or separately for each group."
+  ribbonIds:
+  - btm2_9CHP
+  onActions:
+  - OnbtmCHPPressed
+  forms:
+  - handler: OnbtmCHPPressed
+    form: Ui01ConvexHullPlot
+    analysisTitle: null
+  categories:
+  - Graphics
 - key: CorrespondenceAnalysis
   title: Correspondence Analysis
   slug: correspondence-analysis
@@ -285,6 +327,20 @@ methods:
     analysisTitle: Kendall's Rank Correlation
   categories:
   - Nonparametric
+- key: KiteChart
+  title: Kite Chart
+  slug: kite-chart
+  short: "**Includes:** Symmetric multi-series kite diagrams, one-range data selection, optional row and column labels, common scaling across series, missing-value gaps, automatic zero-width endpoints, direct series labels, and selectable chart destination."
+  ribbonIds:
+  - btm2_10kite
+  onActions:
+  - OnbtmKitePressed
+  forms:
+  - handler: OnbtmKitePressed
+    form: Ui0OneRefeditMulticol
+    analysisTitle: null
+  categories:
+  - Graphics
 - key: KMeansClustering
   title: K-Means Clustering
   slug: k-means-clustering
@@ -397,6 +453,20 @@ methods:
     analysisTitle: Multiple Linear Regression (LM)
   categories:
   - Regression
+- key: MultivariateControlCharts
+  title: Multivariate Control Charts
+  slug: multivariate-control-charts
+  short: "**Includes:** Hotelling T-squared charts for individual observations and rational subgroups, generalized-variance charts for subgroup dispersion, PCA T-squared and PCA Q charts, multivariate EWMA (MEWMA), Crosier multivariate CUSUM (MCUSUM), Phase I and Phase II stages, historical mean/covariance models, exclusions, covariance regularization, rank-deficiency handling, point diagnostics, variable contributions, chart data, signals, settings, and audit output.."
+  ribbonIds:
+  - btm12_2MultControlCharts
+  onActions:
+  - OnbtmMultControlChartsPressed
+  forms:
+  - handler: OnbtmMultControlChartsPressed
+    form: Ui22MultivariateControlCharts
+    analysisTitle: Multivariate Control Charts
+  categories:
+  - Statistical Process Control
 - key: NegativeBinomialRegressionNB2
   title: Negative Binomial Regression (NB2)
   slug: negative-binomial-regression-nb2
@@ -551,6 +621,20 @@ methods:
     analysisTitle: Sample Size - Paired T-test
   categories:
   - Sample Size
+- key: Polarplot
+  title: Polar plot
+  slug: polar-plot
+  short: "**Includes:** Paired radius–angle plot, degrees/radians/percentage angles, clockwise or counterclockwise rotation, four zero-angle positions, markers with optional connecting lines, and automatic radial scaling."
+  ribbonIds:
+  - btm2_8Polar
+  onActions:
+  - OnbtmPolarPressed
+  forms:
+  - handler: OnbtmPolarPressed
+    form: Ui01PolarPlot
+    analysisTitle: null
+  categories:
+  - Graphics
 - key: PrincipalComponentAnalysis
   title: Principal Component Analysis
   slug: principal-component-analysis
@@ -803,6 +887,20 @@ methods:
     analysisTitle: Sample Size - Agreement (Bland-Altman)
   categories:
   - Sample Size
+- key: ViolinPlot
+  title: Violin Plot
+  slug: violin-plot
+  short: "**Includes:** Multi-group categorical violin plots, Gaussian kernel-density estimation, Silverman/Scott/manual bandwidths, bandwidth adjustment, configurable density resolution, equal-width/equal-area/sample-size scaling."
+  ribbonIds:
+  - btm2_12Violin
+  onActions:
+  - OnbtmViolinPressed
+  forms:
+  - handler: OnbtmViolinPressed
+    form: UibyID
+    analysisTitle: null
+  categories:
+  - Graphics
 - key: WilcoxonSignedRankTest
   title: Wilcoxon Signed Rank Test
   slug: wilcoxon-signed-rank-test
@@ -982,6 +1080,26 @@ categories:
     ribbonId: btm2_7ScatPlotMat
     title: Scatter Plot Matrix
     slug: scatter-plot-matrix
+  - ref: Polarplot
+    ribbonId: btm2_8Polar
+    title: Polar plot
+    slug: polar-plot
+  - ref: ConvexHull
+    ribbonId: btm2_9CHP
+    title: Convex Hull Plot
+    slug: convex-hull-plot
+  - ref: KiteChart
+    ribbonId: btm2_10kite
+    title: Kite Chart
+    slug: kite-chart
+  - ref: CategoricalHistogram
+    ribbonId: btm2_11CatHistogram
+    title: Histogram - Categorical
+    slug: categorical-histogram
+  - ref: ViolinPlot
+    ribbonId: btm2_12Violin
+    title: Violin Plot
+    slug: violin-plot
 - name: Parametric
   items:
   - ref: PairedSingleSampleTTests
@@ -1220,3 +1338,13 @@ categories:
     ribbonId: btmCausal_PSM
     title: Propensity Score Matching
     slug: propensity-score-matching
+- name: Statistical Process Control
+  items:
+  - ref: ControlCharts
+    ribbonId: btm12_1ControlCharts
+    title: Control Charts
+    slug: control-charts
+  - ref: MultivariateControlCharts
+    ribbonId: btm12_2MultControlCharts
+    title: Multivariate Control Charts
+    slug: multivariate-control-charts

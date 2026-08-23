@@ -80,6 +80,11 @@ Choose a method below. Each page explains what the method does, what data it exp
 - [Normal Plot](methods/normal-plot.md) — *Rank methods: Blom, Rankit, Van der Waerden • Line fits: SPSS, OLS, R-style • Optional descriptive stats.* Create a normal probability plot to visually assess normality and identify deviations such as skewness or heavy tails.
 - [XYZ 3D Scatterplot](methods/xyz-3d-scatterplot.md) — *3D scatter plot (X,Y,Z) • Optional group coloring • Optional point labels • Rotation/zoom + plane projections (optional).* Visualize three-dimensional relationships with interactive rotation controls.
 - [Scatter Plot Matrix](methods/scatter-plot-matrix.md) — *Scatter plot matrix • Optional correlation coefficients • Optional regression lines.* Quickly explore pairwise relationships among many variables.
+- [Polar Plot] (methods/polar-plot.md) - *Polar plot* Paired radius–angle plot, degrees/radians/percentage angles, clockwise or counterclockwise rotation, four zero-angle positions, markers with optional connecting lines, and automatic radial scaling.
+- [Convex Hull Plot] (methods/convex-hull-plot.md) - *Convex Hull plot* Display a point cloud together with the smallest convex boundary containing all observations, either for the complete dataset or separately for each group.
+- [Kite Chart] (methods/kite-chart.md) - *Kite Chart* Symmetric multi-series kite diagrams, one-range data selection, optional row and column labels, common scaling across series, missing-value gaps, automatic zero-width endpoints, direct series labels, and selectable chart destination.
+- [Categorical Histogram] (methods/categorical-histogram.md) - *Categorical Histogram* Grouped density histograms, stacked density histograms, grouped frequency histograms for unequal sample sizes.
+- [Violin Plot] (methods/violin-plot.md) - *Violin Plot* Multi-group categorical violin plots, Gaussian kernel-density estimation, Silverman/Scott/manual bandwidths, bandwidth adjustment, configurable density resolution, equal-width/equal-area/sample-size scaling.
 
 ### Parametric
 - [Paired (single sample) T tests](methods/paired-t-tests.md) — *Paired t-test (matched pairs).* Compare two paired measurements on the same subjects by testing the mean of differences.
@@ -153,6 +158,10 @@ Choose a method below. Each page explains what the method does, what data it exp
 
 ### Causal Inference
 - [Propensity Score Matching](methods/propensity-score-matching.md) — *Linear and quadratic discriminant analysis, group priors, optional preprocessing, posterior probabilities, classification tables, canonical discriminant functions, and leave-one-out / k-fold / holdout validation.*.
+
+### Statistical Process Control
+- [Control Charts](methods/control-charts.md) — *Individuals, moving-range, I–MR, X-bar, R, S, X-bar–R, X-bar–S, p, np, c, u, CUSUM, EWMA, and moving-average charts; Phase I and Phase II stages; historical or stage-specific limits; wide and stacked subgroup layouts; exact probability limits for attribute charts; special-cause rule presets and custom rules; explicit exclusions; specification and target lines; detailed chart data, signals, settings, and audit output.* Monitor an ordered process over time, distinguish common-cause variation from evidence of special causes, and preserve an auditable record of the data, limits, stages, exclusions, and signal rules used.
+- [Multivariate Control Charts](methods/multivariate-control-charts.md) — *Hotelling T-squared charts for individual observations and rational subgroups, generalized-variance charts for subgroup dispersion, PCA T-squared and PCA Q charts, multivariate EWMA (MEWMA), Crosier multivariate CUSUM (MCUSUM), Phase I and Phase II stages, historical mean/covariance models, exclusions, covariance regularization, rank-deficiency handling, point diagnostics, variable contributions, chart data, signals, settings, and audit output.* Monitor several correlated process measurements jointly, detect changes in multivariate location or dispersion, and identify which variables or principal-component directions contribute to a signal.
 
 ## BESH Stat NG - User Defined Functions (UDF)
 - [Distributions](udf/distributions.md) — *Studentized range* Various statistical distribution functions

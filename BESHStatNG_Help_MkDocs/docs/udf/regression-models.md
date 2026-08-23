@@ -401,8 +401,7 @@ Observations with the same identifier are treated as belonging to the same margi
 The identifier may be numeric or text.
 - **time** — Optional within-cluster ordering variable (single column).
 When supplied, observations are ordered within each cluster by this variable before fitting.
-This is especially important for AR(1), Toeplitz, and Unstructured working-correlation structures.
-When omitted, the current row order within each cluster is used and synthetic sequential positions are assigned.
+When omitted, the current row order within each cluster is used.
 - **varNames** — Optional raw predictor names supplied as a comma-separated list or as a one-row/one-column range.
 These names are used by the formula parser and by the returned coefficient table.
 - **family** — Response family for the marginal variance structure.
@@ -481,7 +480,6 @@ If `formulaAddressing="absolute"` is used, the predictor argument should be a di
 =BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101)
 =BESH.REGR.GEE_FIT(A2:A101,B2:E101,F2:F101,G2:G101,"Age,BMI,Treat,Visit","binomial","logit","exchangeable","robust")
 =BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101,,"Dose,Age,Stage","poisson","log","ar1","robust",H2:H101,,"A + B + factor(C) + factor(C):B")
-=BESH.REGR.GEE_FIT(A2:A101,B2:D101,E2:E101,G2:G101,"Dose,Age,Stage","poisson","log","toeplitz","robust",H2:H101)
 ```
 
 ## BESH.REGR.GEE_LSMESTIMATE
@@ -2435,7 +2433,7 @@ Returns observed-design-grid estimated marginal means for a fitted MMRM handle.
 ### Parameters
 
 - **handle** — Handle returned by `BESH.REGR.MMRM_FIT`.
-- **group** — Optional fitted design column to use as a grouping factor, for example `treatment_active`. Leave blank for visit-only means.
+- **group** — Optional fitted design column to use as a grouping factor, for example `treatment_active`. Alternatively, provide an AT/profile range in name/value or wide form to compute visit means at a specified observed profile. Leave blank for visit-only means.
 - **alpha** — Optional two-sided alpha level for confidence intervals. Leave blank to use the alpha value saved with the fit.
 
 ### Returns
@@ -2447,7 +2445,9 @@ A dynamic array containing estimated marginal means.
 This extractor computes LS-means from the fitted fixed-effect design rows retained during
 the model fit. When `group` is blank, the table contains one estimated
 marginal mean for each visit/time value. When `group` names a numeric
-design column, the table contains means for each visit-by-group profile.
+design column, the table contains means for each visit-by-group profile. When
+`group` is a worksheet range, it is interpreted as an AT/profile setting
+range and the visit means are restricted to observed design rows matching that profile.
 
 The estimates use the same inference method saved with the fit. For Kenward-Roger fits,
 standard errors, denominator degrees of freedom, test statistics, p-values, and confidence

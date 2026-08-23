@@ -1,5 +1,14 @@
 # What's New
 
+## version 1.1.0.0 (2026-08-23)
+- Improved `BESH.REGR.MMRM_LSMEANS` so it now accepts profile/range specifications in addition to scalar group names, enabling LS-means to be computed for user-specified covariate or factor profiles directly from worksheet ranges.
+- Added a new *Polar plot* to display observations whose position is defined by a magnitude (radius) and a direction, phase, or position within a cycle (angle).
+- Added a new *2D Convex Hull Plot* with optional grouping, customizable markers and hull lines, collinear-point handling, and axis-specific padding controls.
+- Added a new *Kite chart* - symmetric multi-series kite diagrams, one-range data selection, optional row and column labels, common scaling across series, missing-value gaps, automatic zero-width endpoints, direct series labels, and selectable chart destination.
+- Added a new *Categorical Histogram* - Grouped density histograms, stacked density histograms, grouped frequency histograms for unequal sample sizes.
+- Added a new *Violin plot* - Multi-group categorical violin plots, Gaussian kernel-density estimation, Silverman/Scott/manual bandwidths, bandwidth adjustment, configurable density resolution, equal-width/equal-area/sample-size scaling.
+- Added a new Statistical Process control tools - *Control charts* and *Multivariate control charts*: BESHStatNG now provides a comprehensive statistical process control workflow for monitoring both individual and correlated process characteristics. The new Control Charts procedure supports Individuals, moving-range, X-bar, R, S, p, np, c, u, CUSUM, EWMA, and moving-average charts, including rational subgroups, Phase I/Phase II stages, historical limits, exclusions, exact attribute-chart limits, and configurable signal rules. The Multivariate Control Charts procedure adds Hotelling T-squared and generalized-variance charts for individual or subgroup data, PCA T-squared and PCA Q monitoring, MEWMA, and Crosier MCUSUM, together with covariance diagnostics, variable contributions, model details, signals, chart data, and complete settings and audit output.
+
 ## version 1.0.1.0 (2026-06-12)
 - Toeplitz GEE covariance options Added
 - GEE_LSMESTIMATE UDFs function added
