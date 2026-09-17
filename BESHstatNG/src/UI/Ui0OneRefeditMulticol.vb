@@ -809,13 +809,14 @@ Public Class Ui0OneRefeditMulticol
         Dim Mtest As TestResult, Mout As ResultTable
         Dim box As graphics.BoxPlot = Nothing
 
+        Dim alpha As Double = AppGlobals.DefaultAlpha
         Dim anova = New parametric.OneWayRmANOVA(data.X, data.varNames)
         anova.compute()
         If Me.ckGreenhouse.Checked Then anova.GreenhouseGeisser()
         If Me.ckHuyhn.Checked Then anova.HuyhnFeldt()
         If Me.ckTukey.Checked Then
-            anova.TukeyKramerRM2() 'no sphericity asumption
-            anova.Tukey()
+            anova.TukeyKramerRM2(alpha) 'no sphericity asumption
+            anova.Tukey(alpha)
         End If
         Dim res = anova.wrapResults()
 
@@ -863,7 +864,7 @@ Public Class Ui0OneRefeditMulticol
         'Compute test
         Dim F = New nonparametric.Friedman(data.X, data.varNames)
         F.compute()
-        F.MCP()
+        F.MCP(AppGlobals.DefaultAlpha)
         Dim res = F.wrapResults()
 
         'Compute descriptive statistics

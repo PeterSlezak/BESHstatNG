@@ -514,11 +514,11 @@ Public NotInheritable Class ViolinPlot
 
             Dim whiskerLow As Double
             Dim whiskerHigh As Double
-            ResolveTukeyWhiskers(sorted,
-                                 quartiles.Q1,
-                                 quartiles.Q3,
-                                 whiskerLow,
-                                 whiskerHigh)
+            StatFunc.ResolveTukeyWhiskers(sorted,
+                                          quartiles.Q1,
+                                          quartiles.Q3,
+                                          whiskerLow,
+                                          whiskerHigh)
 
             Dim ws As New WorkingSeries With {
                 .Name = group.Name,
@@ -758,32 +758,6 @@ Public NotInheritable Class ViolinPlot
         Next
         Return area
     End Function
-
-    Private Shared Sub ResolveTukeyWhiskers(sortedValues As Double(),
-                                             q1 As Double,
-                                             q3 As Double,
-                                             ByRef whiskerLow As Double,
-                                             ByRef whiskerHigh As Double)
-        Dim iqr As Double = q3 - q1
-        Dim lowerFence As Double = q1 - 1.5R * iqr
-        Dim upperFence As Double = q3 + 1.5R * iqr
-
-        whiskerLow = sortedValues(0)
-        For i As Integer = 0 To sortedValues.Length - 1
-            If sortedValues(i) >= lowerFence Then
-                whiskerLow = sortedValues(i)
-                Exit For
-            End If
-        Next
-
-        whiskerHigh = sortedValues(sortedValues.Length - 1)
-        For i As Integer = sortedValues.Length - 1 To 0 Step -1
-            If sortedValues(i) <= upperFence Then
-                whiskerHigh = sortedValues(i)
-                Exit For
-            End If
-        Next
-    End Sub
 
     Private Shared Function IsMissingGroupValue(value As Object) As Boolean
         If value Is Nothing OrElse Convert.IsDBNull(value) Then Return True
