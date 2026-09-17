@@ -86,6 +86,7 @@ Public Class Parametric_Tests
         Public i As Integer
         Public j As Integer
         Public diff As Double
+        Public se As Double
         Public t As Double
         Public p As Double
         Public lcl As Double
@@ -97,6 +98,7 @@ Public Class Parametric_Tests
         Public i As Integer
         Public j As Integer
         Public diff As Double
+        Public se As Double
         Public q As Double
         Public p As Double
         Public lcl As Double
@@ -107,6 +109,7 @@ Public Class Parametric_Tests
         Public i As Integer
         Public j As Integer
         Public diff As Double
+        Public se As Double
         Public q As Double
         Public df As Double
         Public p As Double
@@ -189,7 +192,7 @@ Public Class Parametric_Tests
                 Dim tcrit As Double = distributions.T_Inv_2T(alpha, DFerr)
                 Dim lcl As Double = diff - tcrit * se
                 Dim ucl As Double = diff + tcrit * se
-                comps.Add(New CompLSD With {.i = i, .j = j, .diff = diff, .t = t, .p = p, .lcl = lcl, .ucl = ucl})
+                comps.Add(New CompLSD With {.i = i, .j = j, .diff = diff, .se = se, .t = t, .p = p, .lcl = lcl, .ucl = ucl})
             Next
         Next
 
@@ -205,10 +208,13 @@ Public Class Parametric_Tests
             Assert.AreEqual(CSng(comps(k).lcl), alcl, tolCI, "LCI mismatch (FisherLSD)")
             Assert.AreEqual(CSng(comps(k).ucl), aucl, tolCI, "UCI mismatch (FisherLSD)")
 
-            Dim at As Single = ParseSingleWithCulture(CStr(got(k, 2)))
+            Dim aSe As Single = ParseSingleWithCulture(CStr(got(k, 2)))
+            Assert.AreEqual(CSng(comps(k).se), aSe, tolCI, "SE difference mismatch (FisherLSD)")
+
+            Dim at As Single = ParseSingleWithCulture(CStr(got(k, 3)))
             Assert.AreEqual(CSng(comps(k).t), at, tolCI, "t mismatch (FisherLSD)")
 
-            Dim pText As String = CStr(got(k, 3))
+            Dim pText As String = CStr(got(k, 4))
             Assert.IsFalse(pText.IndexOf("stop", StringComparison.OrdinalIgnoreCase) >= 0, "Unexpected stop marker (FisherLSD)")
             Dim ap As Single = ParseSingleWithCulture(pText)
             Assert.AreEqual(CSng(comps(k).p), ap, tolCI, "p mismatch (FisherLSD)")
@@ -246,15 +252,9 @@ Public Class Parametric_Tests
                 Dim halfWidth As Double = (qcrit / Math.Sqrt(2.0)) * Math.Sqrt(MSerr) * Math.Sqrt(1.0 / n(i) + 1.0 / n(j))
                 Dim lcl As Double = diff - halfWidth
                 Dim ucl As Double = diff + halfWidth
-                comps.Add(New CompTK With {.i = i, .j = j, .diff = diff, .q = q, .p = p, .lcl = lcl, .ucl = ucl})
+                comps.Add(New CompTK With {.i = i, .j = j, .diff = diff, .se = Math.Sqrt(MSerr * (1.0 / n(i) + 1.0 / n(j))), .q = q, .p = p, .lcl = lcl, .ucl = ucl})
             Next
         Next
-        ' Sort by p asc, then Q desc (matches QuickSort2D "5,A,2,D")
-        'comps.Sort(Function(a1, a2)
-        '               Dim c As Integer = a1.p.CompareTo(a2.p)
-        '               If c <> 0 Then Return c
-        '               Return a2.q.CompareTo(a1.q)
-        '           End Function)
 
         For k = 0 To comps.Count - 1
             Dim i = comps(k).i, j = comps(k).j
@@ -267,10 +267,13 @@ Public Class Parametric_Tests
             Assert.AreEqual(CSng(comps(k).lcl), alcl, tolCI, "LCI mismatch (TukeyKramer)")
             Assert.AreEqual(CSng(comps(k).ucl), aucl, tolCI, "UCI mismatch (TukeyKramer)")
 
-            Dim aQ As Single = ParseSingleWithCulture(CStr(got(k, 2)))
+            Dim aSe As Single = ParseSingleWithCulture(CStr(got(k, 2)))
+            Assert.AreEqual(CSng(comps(k).se), aSe, tolCI, "SE difference mismatch (TukeyKramer)")
+
+            Dim aQ As Single = ParseSingleWithCulture(CStr(got(k, 3)))
             Assert.AreEqual(CSng(comps(k).q), aQ, tolCI, "Q mismatch (TukeyKramer)")
 
-            Dim pStop = ParsePStop(CStr(got(k, 3)))
+            Dim pStop = ParsePStop(CStr(got(k, 4)))
             Assert.AreEqual(CSng(comps(k).p), pStop.Item1, tolCI, "p mismatch (TukeyKramer)")
         Next
     End Sub
@@ -306,7 +309,7 @@ Public Class Parametric_Tests
                 Dim p As Double = 1.0 - distributions.PRTRNG(q, df, 3.0, ifault)
                 Dim qCrit As Double = distributions.QTRNG(1.0 - alpha, df, 3.0, ifault)
                 Dim margin As Double = qCrit * se
-                comps.Add(New CompGH With {.i = i, .j = j, .diff = diff, .q = q, .df = df, .p = p, .lcl = diff - margin, .ucl = diff + margin})
+                comps.Add(New CompGH With {.i = i, .j = j, .diff = diff, .se = Math.Sqrt(varNi + varNj), .q = q, .df = df, .p = p, .lcl = diff - margin, .ucl = diff + margin})
             Next
         Next
 
@@ -320,13 +323,16 @@ Public Class Parametric_Tests
             Assert.AreEqual(CSng(comps(k).lcl), alcl, tolCI, "LCI mismatch (GamesHowell)")
             Assert.AreEqual(CSng(comps(k).ucl), aucl, tolCI, "UCI mismatch (GamesHowell)")
 
-            Dim qAct As Single = ParseSingleWithCulture(CStr(got(k, 2)))
+            Dim seAct As Single = ParseSingleWithCulture(CStr(got(k, 2)))
+            Assert.AreEqual(CSng(comps(k).se), seAct, tolCI, "SE difference mismatch (GamesHowell)")
+
+            Dim qAct As Single = ParseSingleWithCulture(CStr(got(k, 3)))
             Assert.AreEqual(CSng(comps(k).q), qAct, tolCI, "Q mismatch (GamesHowell)")
 
-            Dim dfAct As Single = ParseSingleWithCulture(CStr(got(k, 3)))
+            Dim dfAct As Single = ParseSingleWithCulture(CStr(got(k, 4)))
             Assert.AreEqual(CSng(comps(k).df), dfAct, tolCI, "DF mismatch (GamesHowell)")
 
-            Dim pText As String = CStr(got(k, 4))
+            Dim pText As String = CStr(got(k, 5))
             Assert.IsFalse(pText.IndexOf("stop", StringComparison.OrdinalIgnoreCase) >= 0, "Unexpected stop marker (GamesHowell)")
             Dim pAct As Single = ParseSingleWithCulture(pText)
             Assert.AreEqual(CSng(comps(k).p), pAct, tolCI, "p mismatch (GamesHowell)")

@@ -184,7 +184,7 @@ Public Class Parametric_Module_Tests
         ' Fisher LSD
         Dim lsd As Object(,) = ow.FisherLSD(False)
         Assert.AreEqual(3, lsd.GetLength(0), "LSD: number of pairwise comparisons for 3 groups should be 3")
-        Assert.AreEqual(4, lsd.GetLength(1), "LSD: expected 4 columns")
+        Assert.AreEqual(5, lsd.GetLength(1), "LSD: expected 5 columns including SE difference")
         Dim names As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
         For i = 0 To lsd.GetLength(0) - 1
             names.Add(CStr(lsd(i, 0)))
@@ -196,12 +196,12 @@ Public Class Parametric_Module_Tests
         ' Tukey-Kramer
         Dim tk As Object(,) = ow.TukeyKramer()
         Assert.AreEqual(3, tk.GetLength(0), "TK: expected 3 comparisons for 3 groups")
-        Assert.IsTrue(tk.GetLength(1) >= 4, "TK: expected at least 4 columns")
+        Assert.IsTrue(tk.GetLength(1) >= 5, "TK: expected at least 5 columns including SE difference")
 
         ' Games-Howell (works for unequal variances too)
         Dim gh As Object(,) = ow.GamesHowell()
         Assert.AreEqual(3, gh.GetLength(0), "GH: expected 3 comparisons for 3 groups")
-        Assert.IsTrue(gh.GetLength(1) >= 4, "GH: expected at least 4 columns")
+        Assert.IsTrue(gh.GetLength(1) >= 6, "GH: expected at least 6 columns including SE difference")
     End Sub
 
     <TestMethod>
