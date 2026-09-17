@@ -6,6 +6,46 @@ Imports Microsoft.Office.Interop.Excel
 Namespace graphics
 
     ''' <summary>
+    ''' Optional display settings for the standalone box-and-whisker chart.
+    ''' <para>
+    ''' <see cref="BoxPlot.AddBoxPlot"/> keeps its historical rendering when this
+    ''' object is omitted, so box plots requested as secondary output by other
+    ''' procedures remain unchanged.
+    ''' </para>
+    ''' </summary>
+    Public Class BoxPlotAppearance
+        ''' <summary>
+        ''' Fill colours, one per group (cycled when there are more groups than
+        ''' colours). Excel OLE RGB integers are expected.
+        ''' </summary>
+        Public Property SeriesColors As Integer() = {&HC0C0C0}
+        ''' <summary>Box fill transparency, from 0 (opaque) to 1 (transparent).</summary>
+        Public Property FillTransparency As Single = 0.0F
+        ''' <summary>Draw an outline around the visible box segments.</summary>
+        Public Property ShowOutline As Boolean = False
+        ''' <summary>Outline colour as an Excel OLE RGB integer.</summary>
+        Public Property OutlineColor As Integer = &H202020
+        ''' <summary>Outline width in points.</summary>
+        Public Property OutlineWeight As Single = 0.75F
+        ''' <summary>Show horizontal major gridlines.</summary>
+        Public Property ShowHorizontalGridlines As Boolean = False
+        ''' <summary>Show the group-mean diamond markers.</summary>
+        Public Property ShowMean As Boolean = True
+        ''' <summary>Connect the group means with a line.</summary>
+        Public Property ConnectMeans As Boolean = False
+        ''' <summary>Optional mean-marker/line colour; Nothing uses the first palette colour.</summary>
+        Public Property MeanColor As Nullable(Of Integer) = Nothing
+        ''' <summary>Mean-connecting-line width in points.</summary>
+        Public Property MeanLineWeight As Single = 1.25F
+        ''' <summary>Plot every original observation with deterministic horizontal jitter.</summary>
+        Public Property ShowIndividualObservations As Boolean = False
+        ''' <summary>Marker size for individual observations.</summary>
+        Public Property ObservationMarkerSize As Integer = 4
+        ''' <summary>Maximum absolute observation jitter in category-coordinate units.</summary>
+        Public Property ObservationJitterHalfWidth As Double = 0.12R
+    End Class
+
+    ''' <summary>
     ''' Implements a full box‑and‑whisker plot engine for grouped numeric data,
     ''' including:
     ''' <list type="bullet">
@@ -191,198 +231,377 @@ Namespace graphics
         ''' 
         ''' Axis scaling is computed using <c>ChartScaling</c>.
         ''' </summary>
-        Sub AddBoxPlot()
-            Dim i As Long, j As Long, ii As Long
+        Sub AddBoxPlot(Optional appearance As BoxPlotAppearance = Nothing,
+                       Optional chartWidth As Nullable(Of Double) = Nothing,
+                       Optional chartHeight As Nullable(Of Double) = Nothing)
+            Dim i As Long, j As Long
             Dim udBoxPlotAxis As CHARTscale 'for axis scaling
+            Dim useLegacyAppearance As Boolean = (appearance Is Nothing)
+
+            If Me.pWS Is Nothing Then Throw New InvalidOperationException("A worksheet must be assigned before creating a box plot.")
+            If Not useLegacyAppearance Then ValidateAppearance(appearance)
+
+            If chartWidth.HasValue AndAlso (Double.IsNaN(chartWidth.Value) OrElse Double.IsInfinity(chartWidth.Value) OrElse chartWidth.Value <= 0.0R) Then
+                Throw New ArgumentOutOfRangeException(NameOf(chartWidth), "Chart width must be finite and positive.")
+            End If
+            If chartHeight.HasValue AndAlso
+               (Double.IsNaN(chartHeight.Value) OrElse Double.IsInfinity(chartHeight.Value) OrElse chartHeight.Value <= 0.0R) Then
+                Throw New ArgumentOutOfRangeException(NameOf(chartHeight), "Chart height must be finite and positive.")
+            End If
 
             'compute optimal axis borders and scale
             udBoxPlotAxis = ChartScaling(pMins.Min(), pMaxs.Max())
 
-            With Me.pWS.Shapes.AddChart
-                With .Chart
-                    .ChartType = XlChartType.xlColumnStacked
+            Dim chartShape As Object = Me.pWS.Shapes.AddChart
+            If chartWidth.HasValue Then chartShape.Width = CSng(chartWidth.Value)
+            If chartHeight.HasValue Then chartShape.Height = CSng(chartHeight.Value)
 
-                    Do Until .SeriesCollection.Count = 0
-                        .SeriesCollection(1).Delete
-                    Loop
+            With chartShape.Chart
+                .ChartType = XlChartType.xlColumnStacked
 
-                    'Plot Blank
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(1)
-                        .Values = pPlotBlank
-                        .XValues = pGroupNames 'Group names i.e. xaxes categories labels
-                        .Name = "PlotBlanks"
-                        .Format.Fill.Visible = False ' MsoTriState.msoFalse
-                    End With
+                Do Until .SeriesCollection.Count = 0
+                    .SeriesCollection(1).Delete
+                Loop
 
-                    'Plot Median
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(2)
-                        .Values = pPlotMedian
-                        .Name = "PlotMedian"
+                'Plot Blank
+                .SeriesCollection.NewSeries
+                With .SeriesCollection(1)
+                    .Values = pPlotBlank
+                    .XValues = pGroupNames
+                    .Name = "PlotBlanks"
+                    .Format.Fill.Visible = False
+                    If Not useLegacyAppearance Then .Format.Line.Visible = False
+                End With
+
+                'Plot Median
+                .SeriesCollection.NewSeries
+                With .SeriesCollection(2)
+                    .Values = pPlotMedian
+                    .Name = "PlotMedian"
+                    If useLegacyAppearance Then
                         With .Format.Fill
-                            .Visible = True 'app.MsoTriState.msoTrue
+                            .Visible = True
                             .ForeColor.RGB = RGB(192, 192, 192)
                         End With
-                    End With
 
-                    'Plot Q3
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(3)
-                        .Values = pPlotQ3
-                        .Name = "PlotQ3"
+                    End If
+                End With
+                If Not useLegacyAppearance Then
+                    ApplyBoxSegmentAppearance(DirectCast(.SeriesCollection(2), Series), appearance, CInt(pNoGroups))
+                End If
+
+                'Plot Q3
+                .SeriesCollection.NewSeries
+                With .SeriesCollection(3)
+                    .Values = pPlotQ3
+                    .Name = "PlotQ3"
+                    If useLegacyAppearance Then
                         With .Format.Fill
-                            .Visible = True 'MsoTriState.msoTrue
+                            .Visible = True
                             .ForeColor.RGB = RGB(192, 192, 192)
                         End With
-                    End With
+                    End If
+                End With
+                If Not useLegacyAppearance Then
+                    ApplyBoxSegmentAppearance(DirectCast(.SeriesCollection(3), Series), appearance, CInt(pNoGroups))
+                End If
 
-                    'Plot Q3 Minus
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(4)
-                        .Values = pPlotQ3Minus
-                        .Name = "PlotQ3Minus"
+                'Plot Q3 Minus
+                .SeriesCollection.NewSeries
+                With .SeriesCollection(4)
+                    .Values = pPlotQ3Minus
+                    .Name = "PlotQ3Minus"
+                    If useLegacyAppearance Then
                         With .Format.Fill
-                            .Visible = True 'MsoTriState.msoTrue
+                            .Visible = True
                             .ForeColor.RGB = RGB(192, 192, 192)
                         End With
-                    End With
+                    End If
+                End With
+                If Not useLegacyAppearance Then
+                    ApplyBoxSegmentAppearance(DirectCast(.SeriesCollection(4), Series), appearance, CInt(pNoGroups))
+                End If
 
-                    'Plot Median Minus
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(5)
-                        .Values = pPlotMedianMinus
-                        .Name = "PlotMedianMinus"
+                'Plot Median Minus
+                .SeriesCollection.NewSeries
+                With .SeriesCollection(5)
+                    .Values = pPlotMedianMinus
+                    .Name = "PlotMedianMinus"
+                    If useLegacyAppearance Then
                         With .Format.Fill
-                            .Visible = True 'MsoTriState.msoTrue
+                            .Visible = True
                             .ForeColor.RGB = RGB(192, 192, 192)
                         End With
-                    End With
+                    End If
+                End With
+                If Not useLegacyAppearance Then
+                    ApplyBoxSegmentAppearance(DirectCast(.SeriesCollection(5), Series), appearance, CInt(pNoGroups))
+                End If
 
-                    'Q3 and Upper Whisker
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(6)
-                        .Values = pQ3
-                        .Name = "Q3"
-                        .ChartType = XlChartType.xlLine
-                        .Format.Line.Visible = False 'MsoTriState.msoFalse
-                        .HasErrorBars = True
-                        .ErrorBar(Direction:=XlErrorBarDirection.xlY, Include:=Constants.xlPlusValues, Type:=XlErrorBarType.xlErrorBarTypeCustom, amount:=pWhiskerQ3)
-                        .ErrorBars.Format.Line.Weight = 1.5
-                    End With
+                'Q3 and Upper Whisker
+                .SeriesCollection.NewSeries
+                With .SeriesCollection(6)
+                    .Values = pQ3
+                    .Name = "Q3"
+                    .ChartType = XlChartType.xlLine
+                    .Format.Line.Visible = False
+                    .HasErrorBars = True
+                    .ErrorBar(Direction:=XlErrorBarDirection.xlY,
+                              Include:=Constants.xlPlusValues,
+                              Type:=XlErrorBarType.xlErrorBarTypeCustom,
+                              amount:=pWhiskerQ3)
+                    .ErrorBars.Format.Line.Weight = 1.5
+                End With
 
-                    'Q1 and Lower Whisker
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(7)
-                        .Values = pQ1
-                        .Name = "Q1"
-                        .ChartType = XlChartType.xlLine
-                        .Format.Line.Visible = False 'MsoTriState.msoFalse
-                        .HasErrorBars = True
-                        .ErrorBar(Direction:=XlErrorBarDirection.xlY, Include:=Constants.xlMinusValues, Type:=XlErrorBarType.xlErrorBarTypeCustom, amount:=-0, MinusValues:=pWhiskerQ1)
-                        .ErrorBars.Format.Line.Weight = 1.5
-                    End With
+                'Q1 and Lower Whisker
+                .SeriesCollection.NewSeries
+                With .SeriesCollection(7)
+                    .Values = pQ1
+                    .Name = "Q1"
+                    .ChartType = XlChartType.xlLine
+                    .Format.Line.Visible = False
+                    .HasErrorBars = True
+                    .ErrorBar(Direction:=XlErrorBarDirection.xlY,
+                              Include:=Constants.xlMinusValues,
+                              Type:=XlErrorBarType.xlErrorBarTypeCustom,
+                              amount:=-0,
+                              MinusValues:=pWhiskerQ1)
+                    .ErrorBars.Format.Line.Weight = 1.5
+                End With
 
-                    'Mean
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(8)
-                        .Values = pPlotMeans
-                        .Name = "Means"
-                        .ChartType = XlChartType.xlLine
-                        .Format.Line.Visible = False 'MsoTriState.msoFalse
+                'Mean
+                .SeriesCollection.NewSeries
+                With .SeriesCollection(8)
+                    .Values = pPlotMeans
+                    .Name = "Means"
+                    .ChartType = XlChartType.xlLine
+
+                    If useLegacyAppearance Then
+                        .Format.Line.Visible = False
                         .MarkerStyle = XlMarkerStyle.xlMarkerStyleDiamond
                         .MarkerSize = 5
                         .MarkerBackgroundColor = RGB(255, 255, 255)
                         .MarkerForegroundColor = RGB(0, 0, 0)
-                    End With
+                    Else
+                        Dim meanColor As Integer = If(appearance.MeanColor.HasValue,
+                                                      appearance.MeanColor.Value,
+                                                      GetSeriesColor(appearance, 0))
+                        If appearance.ShowMean AndAlso appearance.ConnectMeans Then
+                            .Format.Line.Visible = True
+                            .Format.Line.ForeColor.RGB = meanColor
+                            .Format.Line.Weight = appearance.MeanLineWeight
+                        Else
+                            .Format.Line.Visible = False
+                        End If
 
-                    'Median
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(9)
-                        .Values = pMedians
-                        .Name = "Medians"
-                        .ChartType = XlChartType.xlXYScatter
-                        .Format.Line.Visible = False 'MsoTriState.msoFalse
-                        .MarkerStyle = -4142 'no marker
-                        .HasErrorBars = True
-                        .ErrorBar(Direction:=XlErrorBarDirection.xlX, Include:=Constants.xlBoth, Type:=XlErrorBarType.xlErrorBarTypeFixedValue, amount:=0.2)
-                        .ErrorBar(Direction:=XlErrorBarDirection.xlY, Include:=Constants.xlBoth, Type:=XlErrorBarType.xlErrorBarTypeFixedValue, amount:=0) 'don't show Y error bar
-                        With .ErrorBars
-                            .EndStyle = XlEndStyleCap.xlNoCap
-                            .Format.Line.Weight = 1
-                        End With
-                    End With
-
-                    .Legend.Delete()
-                    '.SetElement(MsoChartElementType.msoElementChartTitleAboveChart)
-                    .HasTitle = False
-                    .HasTitle = True
-                    .ChartTitle.Text = "Box and Whiskers plot"
-                    '.SetElement(MsoChartElementType.msoElementPrimaryValueAxisTitleRotated)
-                    If Me.pYName <> String.Empty Then
-                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
-                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.text = pYName
+                        If appearance.ShowMean Then
+                            .MarkerStyle = XlMarkerStyle.xlMarkerStyleDiamond
+                            .MarkerSize = 5
+                            .MarkerBackgroundColor = RGB(255, 255, 255)
+                            .MarkerForegroundColor = meanColor
+                        Else
+                            .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
+                        End If
                     End If
-                    .Axes(XlAxisType.xlValue).CrossesAt = -1.0E+50 'if there are negative values then move the axis intercept down
+                End With
 
-                    With .Axes(XlAxisType.xlValue)
-                        .MinimumScale = udBoxPlotAxis.Min
-                        .MaximumScale = udBoxPlotAxis.Max
-                        .MajorUnit = udBoxPlotAxis.Scale
-                        .MajorGridlines.Delete
+                'Median
+                .SeriesCollection.NewSeries
+                With .SeriesCollection(9)
+                    .Values = pMedians
+                    .Name = "Medians"
+                    .ChartType = XlChartType.xlXYScatter
+                    .Format.Line.Visible = False
+                    .MarkerStyle = -4142
+                    .HasErrorBars = True
+                    .ErrorBar(Direction:=XlErrorBarDirection.xlX,
+                              Include:=Constants.xlBoth,
+                              Type:=XlErrorBarType.xlErrorBarTypeFixedValue,
+                              amount:=0.2)
+                    .ErrorBar(Direction:=XlErrorBarDirection.xlY,
+                              Include:=Constants.xlBoth,
+                              Type:=XlErrorBarType.xlErrorBarTypeFixedValue,
+                              amount:=0)
+                    With .ErrorBars
+                        .EndStyle = XlEndStyleCap.xlNoCap
+                        .Format.Line.Weight = 1
                     End With
+                End With
 
-                    'add outliers. Each outlier point is a separate series
-                    ii = 10 'seriescollection number
+                .Legend.Delete()
+                .HasTitle = False
+                .HasTitle = True
+                .ChartTitle.Text = "Box and Whiskers plot"
+                If Me.pYName <> String.Empty Then
+                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
+                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
+                    .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.text = pYName
+                End If
+                .Axes(XlAxisType.xlValue).CrossesAt = -1.0E+50
+
+                With .Axes(XlAxisType.xlValue)
+                    .MinimumScale = udBoxPlotAxis.Min
+                    .MaximumScale = udBoxPlotAxis.Max
+                    .MajorUnit = udBoxPlotAxis.Scale
+                    If useLegacyAppearance OrElse Not appearance.ShowHorizontalGridlines Then
+                        .MajorGridlines.Delete()
+                    Else
+                        .HasMajorGridlines = True
+                    End If
+                End With
+
+                'Raw observations use scatter series so the points remain tied to the
+                'chart axes when the chart is resized. The jitter is deterministic.
+                If Not useLegacyAppearance AndAlso appearance.ShowIndividualObservations Then
+                    AddIndividualObservationSeries(.SeriesCollection, appearance)
+                End If
+
+                'Do not duplicate Tukey outliers when all observations are already
+                'shown. Legacy callers retain the historical red outlier layer.
+                If useLegacyAppearance OrElse Not appearance.ShowIndividualObservations Then
                     For i = 0 To pNoGroups - 1
+                        Dim outlierColor As Integer = If(useLegacyAppearance,
+                                                         RGB(255, 0, 0),
+                                                         GetSeriesColor(appearance, CInt(i)))
                         If pArNOutliersSmall(i) > 0 Then
                             For j = 0 To pArNOutliersSmall(i) - 1
-                                .SeriesCollection.NewSeries
-                                With .SeriesCollection(ii)
-                                    .Values = pArOutliersSmall(j, i)
-                                    .ChartType = XlChartType.xlXYScatter
-                                    .XValues = i + 1
-                                    With .points(1)
-                                        .MarkerStyle = 8
-                                        .MarkerSize = 4
-                                        .Format.Fill.Visible = False 'MsoTriState.msoFalse
-                                        With .Format.Line
-                                            .Visible = True 'MsoTriState.msoTrue
-                                            .ForeColor.RGB = RGB(255, 0, 0)
-                                            .Weight = 1.25
-                                        End With
-                                    End With
-                                End With
-                                ii += 1
+                                AddOutlierSeries(.SeriesCollection,
+                                                 pArOutliersSmall(j, i),
+                                                 CDbl(i + 1),
+                                                 outlierColor)
                             Next
                         End If
                         If pArNOutliersBig(i) > 0 Then
                             For j = 0 To pArNOutliersBig(i) - 1
-                                .SeriesCollection.NewSeries
-                                With .SeriesCollection(ii)
-                                    .Values = pArOutliersBig(j, i)
-                                    .ChartType = XlChartType.xlXYScatter
-                                    .XValues = i + 1
-                                    With .points(1)
-                                        .MarkerStyle = 8
-                                        .MarkerSize = 4
-                                        .Format.Fill.Visible = False 'MsoTriState.msoFalse
-                                        With .Format.Line
-                                            .Visible = True 'MsoTriState.msoTrue
-                                            .ForeColor.RGB = RGB(255, 0, 0)
-                                            .Weight = 1.25
-                                        End With
-                                    End With
-                                End With
-                                ii += 1
+                                AddOutlierSeries(.SeriesCollection,
+                                                 pArOutliersBig(j, i),
+                                                 CDbl(i + 1),
+                                                 outlierColor)
                             Next
                         End If
                     Next i
+                End If
+            End With
+        End Sub
+
+        Private Shared Sub ValidateAppearance(appearance As BoxPlotAppearance)
+            If appearance Is Nothing Then Throw New ArgumentNullException(NameOf(appearance))
+            If appearance.SeriesColors Is Nothing OrElse appearance.SeriesColors.Length = 0 Then
+                Throw New ArgumentException("SeriesColors must contain at least one color.", NameOf(appearance.SeriesColors))
+            End If
+            If Single.IsNaN(appearance.FillTransparency) OrElse
+               Single.IsInfinity(appearance.FillTransparency) OrElse
+               appearance.FillTransparency < 0.0F OrElse appearance.FillTransparency > 1.0F Then
+                Throw New ArgumentOutOfRangeException(NameOf(appearance.FillTransparency),
+                                                      "FillTransparency must be between zero and one.")
+            End If
+            If Single.IsNaN(appearance.OutlineWeight) OrElse
+               Single.IsInfinity(appearance.OutlineWeight) OrElse appearance.OutlineWeight <= 0.0F Then
+                Throw New ArgumentOutOfRangeException(NameOf(appearance.OutlineWeight),
+                                                      "OutlineWeight must be finite and positive.")
+            End If
+            If Single.IsNaN(appearance.MeanLineWeight) OrElse
+               Single.IsInfinity(appearance.MeanLineWeight) OrElse appearance.MeanLineWeight <= 0.0F Then
+                Throw New ArgumentOutOfRangeException(NameOf(appearance.MeanLineWeight),
+                                                      "MeanLineWeight must be finite and positive.")
+            End If
+            If appearance.ObservationMarkerSize < 1 OrElse appearance.ObservationMarkerSize > 72 Then
+                Throw New ArgumentOutOfRangeException(NameOf(appearance.ObservationMarkerSize),
+                                                      "ObservationMarkerSize must be between 1 and 72 points.")
+            End If
+            If Double.IsNaN(appearance.ObservationJitterHalfWidth) OrElse
+               Double.IsInfinity(appearance.ObservationJitterHalfWidth) OrElse
+               appearance.ObservationJitterHalfWidth < 0.0R OrElse
+               appearance.ObservationJitterHalfWidth >= 0.5R Then
+                Throw New ArgumentOutOfRangeException(NameOf(appearance.ObservationJitterHalfWidth),
+                                                      "ObservationJitterHalfWidth must be non-negative and smaller than 0.5 category units.")
+            End If
+        End Sub
+
+        Private Shared Sub ApplyBoxSegmentAppearance(series As Series,
+                                                     appearance As BoxPlotAppearance,
+                                                     groupCount As Integer)
+            For groupIndex As Integer = 0 To groupCount - 1
+                Dim groupColor As Integer = GetSeriesColor(appearance, groupIndex)
+                Dim point As Object = series.Points(groupIndex + 1)
+                With point.Format.Fill
+                    .Visible = True
+                    .Solid()
+                    .ForeColor.RGB = groupColor
+                    .Transparency = appearance.FillTransparency
+                End With
+                With point.Format.Line
+                    .Visible = appearance.ShowOutline
+                    If appearance.ShowOutline Then
+                        .ForeColor.RGB = appearance.OutlineColor
+                        .Weight = appearance.OutlineWeight
+                    End If
+                End With
+            Next
+        End Sub
+
+        Private Sub AddIndividualObservationSeries(seriesCollection As SeriesCollection,
+                                                   appearance As BoxPlotAppearance)
+            For groupIndex As Integer = 0 To CInt(pNoGroups) - 1
+                Dim observations() As Double = pData(groupIndex)
+                If observations Is Nothing OrElse observations.Length = 0 Then Continue For
+
+                Dim xValues(observations.Length - 1) As Double
+                For observationIndex As Integer = 0 To observations.Length - 1
+                    xValues(observationIndex) =
+                        CDbl(groupIndex + 1) +
+                        DeterministicJitter(observationIndex, appearance.ObservationJitterHalfWidth)
+                Next
+
+                Dim observationSeries As Object = seriesCollection.NewSeries()
+                Dim groupColor As Integer = GetSeriesColor(appearance, groupIndex)
+                With observationSeries
+                    .Name = "Observations_" & pGroupNames(groupIndex)
+                    .ChartType = XlChartType.xlXYScatter
+                    .XValues = xValues
+                    .Values = observations
+                    .Format.Line.Visible = False
+                    .MarkerStyle = XlMarkerStyle.xlMarkerStyleCircle
+                    .MarkerSize = appearance.ObservationMarkerSize
+                    .MarkerBackgroundColor = groupColor
+                    .MarkerForegroundColor = groupColor
+                End With
+            Next
+        End Sub
+
+        Private Shared Sub AddOutlierSeries(seriesCollection As SeriesCollection,
+                                            value As Double,
+                                            xValue As Double,
+                                            markerColor As Integer)
+            Dim outlierSeries As Object = seriesCollection.NewSeries()
+            With outlierSeries
+                .Values = value
+                .ChartType = XlChartType.xlXYScatter
+                .XValues = xValue
+                .Format.Line.Visible = False
+                With .Points(1)
+                    .MarkerStyle = 8
+                    .MarkerSize = 4
+                    .Format.Fill.Visible = False
+                    With .Format.Line
+                        .Visible = True
+                        .ForeColor.RGB = markerColor
+                        .Weight = 1.25
+                    End With
                 End With
             End With
-
         End Sub
+
+        Private Shared Function DeterministicJitter(index As Integer, halfWidth As Double) As Double
+            If halfWidth <= 0.0R Then Return 0.0R
+            Const GoldenFraction As Double = 0.6180339887498949R
+            Dim u As Double = ((index + 1) * GoldenFraction) Mod 1.0R
+            Return (2.0R * u - 1.0R) * halfWidth
+        End Function
+
+        Private Shared Function GetSeriesColor(appearance As BoxPlotAppearance, groupIndex As Integer) As Integer
+            Return appearance.SeriesColors(groupIndex Mod appearance.SeriesColors.Length)
+        End Function
 
         ''' <summary>
         ''' Produces a summary table containing:
@@ -437,7 +656,10 @@ Namespace graphics
 
             'Compute Descpriptive Statistics
             For i = 0 To pNoGroups - 1
-                Dim arTemporal() As Double = pData(i)
+                'DescriptiveStat.QuartilesComp sorts its input in place. Work on a
+                'clone so the original observation order remains available for the
+                'optional jittered raw-point layer.
+                Dim arTemporal() As Double = DirectCast(pData(i).Clone(), Double())
 
                 'Fit quantiles and outliers for each group
                 Dim DescriptiveS As DescriptiveStat = New DescriptiveStat(arTemporal)
@@ -459,7 +681,7 @@ Namespace graphics
                         End If
                     Next
                 End With
-            Next i 'next group
+            Next  'next group
 
         End Sub
 
@@ -544,7 +766,9 @@ Namespace graphics
                         pPlotMedianMinus(i) = 0
                     End If
 
-                    Dim arTemporal() As Double = pData(i)
+                    'Sort a clone for whisker lookup so pData keeps the original
+                    'observation order used by the optional jittered point layer.
+                    Dim arTemporal() As Double = DirectCast(pData(i).Clone(), Double())
                     Array.Sort(arTemporal)
 
                     If .Maximum > .UQuartile Then

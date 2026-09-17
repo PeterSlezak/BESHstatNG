@@ -9,7 +9,7 @@ Imports System.Linq
 Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>
-''' Selects one of the three filled multi-sample histogram presentations used by
+''' Selects the multi-sample histogram presentation used by
 ''' <see cref="CategoricalHistogram"/>.
 ''' </summary>
 Public Enum CategoricalHistogramPlotType
@@ -31,6 +31,23 @@ Public Enum CategoricalHistogramPlotType
     ''' sample sizes and corresponds to the Matplotlib "different sample sizes" example.
     ''' </summary>
     DifferentSampleSizes
+
+    ''' <summary>
+    ''' Mirrored percentages for exactly two groups. The two groups are normalised
+    ''' independently and drawn on opposite sides of zero.
+    ''' </summary>
+    Comparative
+End Enum
+
+''' <summary>
+''' Orientation of the mirrored comparative histogram.
+''' </summary>
+Public Enum CategoricalHistogramComparativeOrientation
+    ''' <summary>Vertical columns, with group 1 above and group 2 below zero.</summary>
+    Vertical
+
+    ''' <summary>Horizontal bars, with group 1 left and group 2 right of zero.</summary>
+    Horizontal
 End Enum
 
 ''' <summary>
@@ -49,6 +66,7 @@ End Enum
 Public Class CategoricalHistogramOptions
     Public Property PlotType As CategoricalHistogramPlotType = CategoricalHistogramPlotType.BarsWithLegend
     Public Property BinningRule As CategoricalHistogramBinningRule = CategoricalHistogramBinningRule.Sturges
+    Public Property ComparativeOrientation As CategoricalHistogramComparativeOrientation = CategoricalHistogramComparativeOrientation.Vertical
 
     ''' <summary>
     ''' Creates an independent copy of the options.
@@ -56,7 +74,8 @@ Public Class CategoricalHistogramOptions
     Friend Function Copy() As CategoricalHistogramOptions
         Return New CategoricalHistogramOptions With {
             .PlotType = PlotType,
-            .BinningRule = BinningRule
+            .BinningRule = BinningRule,
+            .ComparativeOrientation = ComparativeOrientation
         }
     End Function
 End Class
@@ -71,6 +90,7 @@ Public NotInheritable Class CategoricalHistogramSeries
     Private ReadOnly _counts As Double()
     Private ReadOnly _perGroupDensity As Double()
     Private ReadOnly _pooledDensityContribution As Double()
+    Private ReadOnly _perGroupPercent As Double()
     Private ReadOnly _plotValues As Double()
 
     Friend Sub New(name As String,
@@ -79,6 +99,7 @@ Public NotInheritable Class CategoricalHistogramSeries
                    counts As Double(),
                    perGroupDensity As Double(),
                    pooledDensityContribution As Double(),
+                   perGroupPercent As Double(),
                    plotValues As Double())
         _name = name
         _groupValue = groupValue
@@ -86,6 +107,7 @@ Public NotInheritable Class CategoricalHistogramSeries
         _counts = DirectCast(counts.Clone(), Double())
         _perGroupDensity = DirectCast(perGroupDensity.Clone(), Double())
         _pooledDensityContribution = DirectCast(pooledDensityContribution.Clone(), Double())
+        _perGroupPercent = DirectCast(perGroupPercent.Clone(), Double())
         _plotValues = DirectCast(plotValues.Clone(), Double())
     End Sub
 
@@ -133,6 +155,18 @@ Public NotInheritable Class CategoricalHistogramSeries
             Return DirectCast(_pooledDensityContribution.Clone(), Double())
         End Get
     End Property
+
+    ''' <summary>
+    ''' Percentage of this group's usable observations in each common bin. The values
+    ''' sum to 100 (apart from floating-point round-off) and are used by comparative
+    ''' histograms so groups with different sample sizes remain directly comparable.
+    ''' </summary>
+    Public ReadOnly Property PerGroupPercent As Double()
+        Get
+            Return DirectCast(_perGroupPercent.Clone(), Double())
+        End Get
+    End Property
+
 
     ''' <summary>Values selected by the requested plot type and supplied to Excel.</summary>
     Public ReadOnly Property PlotValues As Double()
@@ -330,6 +364,11 @@ Public NotInheritable Class CategoricalHistogram
         If orderedGroups.Count = 0 Then
             Throw New ArgumentException("No usable categorical levels were found.", NameOf(groups))
         End If
+        If resolvedOptions.PlotType = CategoricalHistogramPlotType.Comparative AndAlso orderedGroups.Count <> 2 Then
+            Throw New ArgumentException("Comparative histograms require exactly two usable groups. " &
+                                        "The current input contains " & orderedGroups.Count.ToString(CultureInfo.CurrentCulture) & " usable groups.",
+                                        NameOf(groups))
+        End If
 
         Dim pooled() As Double = pooledValues.ToArray()
         Dim binTable As Object(,) = graphics.ChartingFunc.HistogramBinsComputation(pooled,
@@ -353,11 +392,13 @@ Public NotInheritable Class CategoricalHistogram
             Dim counts As Double() = CountBins(working.Values, binMinimum, binMaximum, binWidth, binCount)
             Dim perGroupDensity(binCount - 1) As Double
             Dim pooledDensityContribution(binCount - 1) As Double
+            Dim perGroupPercent(binCount - 1) As Double
             Dim plotValues(binCount - 1) As Double
 
             For binIndex As Integer = 0 To binCount - 1
                 perGroupDensity(binIndex) = counts(binIndex) / (CDbl(working.Values.Count) * binWidth)
                 pooledDensityContribution(binIndex) = counts(binIndex) / (CDbl(totalN) * binWidth)
+                perGroupPercent(binIndex) = 100.0R * counts(binIndex) / CDbl(working.Values.Count)
 
                 Select Case resolvedOptions.PlotType
                     Case CategoricalHistogramPlotType.BarsWithLegend
@@ -366,6 +407,11 @@ Public NotInheritable Class CategoricalHistogram
                         plotValues(binIndex) = pooledDensityContribution(binIndex)
                     Case CategoricalHistogramPlotType.DifferentSampleSizes
                         plotValues(binIndex) = counts(binIndex)
+                    Case CategoricalHistogramPlotType.Comparative
+                        'Keep numerical results positive. The Excel renderer applies the
+                        'orientation-specific sign so presentation does not leak into
+                        'the statistical computation.
+                        plotValues(binIndex) = perGroupPercent(binIndex)
                     Case Else
                         Throw New ArgumentOutOfRangeException(NameOf(resolvedOptions.PlotType))
                 End Select
@@ -377,6 +423,7 @@ Public NotInheritable Class CategoricalHistogram
                                                                        counts,
                                                                        perGroupDensity,
                                                                        pooledDensityContribution,
+                                                                       perGroupPercent,
                                                                        plotValues)
         Next
 
@@ -397,6 +444,9 @@ Public NotInheritable Class CategoricalHistogram
         End If
         If Not [Enum].IsDefined(GetType(CategoricalHistogramBinningRule), options.BinningRule) Then
             Throw New ArgumentOutOfRangeException(NameOf(options.BinningRule), "The histogram binning rule is not defined.")
+        End If
+        If Not [Enum].IsDefined(GetType(CategoricalHistogramComparativeOrientation), options.ComparativeOrientation) Then
+            Throw New ArgumentOutOfRangeException(NameOf(options.ComparativeOrientation), "The comparative histogram orientation is not defined.")
         End If
     End Sub
 
@@ -593,9 +643,7 @@ Public NotInheritable Class CategoricalHistogramExcel
         Dim resolvedAppearance As CategoricalHistogramAppearance = If(appearance, New CategoricalHistogramAppearance())
         ValidateAppearance(resolvedAppearance)
 
-        Dim chartType As XlChartType = If(result.Options.PlotType = CategoricalHistogramPlotType.StackedBar,
-                                          XlChartType.xlColumnStacked,
-                                          XlChartType.xlColumnClustered)
+        Dim chartType As XlChartType = ResolveChartType(result.Options)
 
         Dim chartShape As Shape = Nothing
         Try
@@ -616,10 +664,11 @@ Public NotInheritable Class CategoricalHistogramExcel
                 Dim style As ResolvedSeriesStyle = ResolveStyle(sourceSeries.Name,
                                                                 seriesIndex,
                                                                 resolvedAppearance)
+                Dim plottedValues As Double() = ResolvePlottedValues(result.Options, sourceSeries, seriesIndex)
                 AddColumnSeries(seriesCollection,
                                 sourceSeries.Name,
                                 binMidpoints,
-                                sourceSeries.PlotValues,
+                                plottedValues,
                                 chartType,
                                 style)
             Next
@@ -652,9 +701,14 @@ Public NotInheritable Class CategoricalHistogramExcel
         If categoryAxis.HasTitle Then categoryAxis.AxisTitle.Text = appearance.XAxisTitle
 
         Dim valueAxis As Object = DirectCast(chart.Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary), Axis)
-        valueAxis.MinimumScale = 0.0R
         valueAxis.HasTitle = True
         valueAxis.AxisTitle.Text = ResolveYAxisTitle(result, appearance)
+
+        If result.Options.PlotType = CategoricalHistogramPlotType.Comparative Then
+            ConfigureComparativeAxes(categoryAxis, valueAxis, result)
+        Else
+            valueAxis.MinimumScale = 0.0R
+        End If
 
         If valueAxis.HasMajorGridlines Then
             If appearance.ShowHorizontalGridlines Then
@@ -666,7 +720,11 @@ Public NotInheritable Class CategoricalHistogramExcel
 
         Dim chartGroup As ChartGroup = DirectCast(chart.ChartGroups(1), ChartGroup)
         chartGroup.GapWidth = appearance.GapWidth
-        If result.Options.PlotType <> CategoricalHistogramPlotType.StackedBar Then
+        If result.Options.PlotType = CategoricalHistogramPlotType.Comparative Then
+            'The two groups must occupy the same bin position and extend in opposite
+            'directions from zero.
+            chartGroup.Overlap = 100
+        ElseIf result.Options.PlotType <> CategoricalHistogramPlotType.StackedBar Then
             chartGroup.Overlap = appearance.SeriesOverlap
         End If
     End Sub
@@ -680,9 +738,113 @@ Public NotInheritable Class CategoricalHistogramExcel
                 Return "Density"
             Case CategoricalHistogramPlotType.DifferentSampleSizes
                 Return "Frequency"
+            Case CategoricalHistogramPlotType.Comparative
+                Return "Percent"
             Case Else
                 Return String.Empty
         End Select
+    End Function
+
+    Private Shared Function ResolveChartType(options As CategoricalHistogramOptions) As XlChartType
+        If options.PlotType = CategoricalHistogramPlotType.StackedBar Then
+            Return XlChartType.xlColumnStacked
+        End If
+
+        If options.PlotType = CategoricalHistogramPlotType.Comparative AndAlso
+           options.ComparativeOrientation = CategoricalHistogramComparativeOrientation.Horizontal Then
+            Return XlChartType.xlBarClustered
+        End If
+
+        Return XlChartType.xlColumnClustered
+    End Function
+
+    Private Shared Function ResolvePlottedValues(options As CategoricalHistogramOptions,
+                                                 sourceSeries As CategoricalHistogramSeries,
+                                                 seriesIndex As Integer) As Double()
+        Dim values As Double() = sourceSeries.PlotValues
+        If options.PlotType <> CategoricalHistogramPlotType.Comparative Then Return values
+
+        'For vertical comparative histograms group 1 is above zero and group 2 below.
+        'For horizontal comparative histograms group 1 is left of zero and group 2 right.
+        Dim negate As Boolean
+        If options.ComparativeOrientation = CategoricalHistogramComparativeOrientation.Horizontal Then
+            negate = (seriesIndex = 0)
+        Else
+            negate = (seriesIndex = 1)
+        End If
+
+        If negate Then
+            For i As Integer = 0 To values.Length - 1
+                values(i) = -values(i)
+            Next
+        End If
+
+        Return values
+    End Function
+
+    Private Shared Sub ConfigureComparativeAxes(categoryAxis As Axis,
+                                                valueAxis As Axis,
+                                                result As CategoricalHistogramResult)
+        Dim axisLimit As Double = ResolveComparativeAxisLimit(result)
+        valueAxis.MinimumScale = -axisLimit
+        valueAxis.MaximumScale = axisLimit
+        valueAxis.MajorUnit = ResolveComparativeMajorUnit(axisLimit)
+
+        'Negative values are only a plotting device. Display both sides as positive
+        'percentages, as is conventional for back-to-back histograms.
+        valueAxis.TickLabels.NumberFormat = "0.##;0.##;0"
+
+        'Keep bin labels at the outer edge (bottom for columns, left for bars) even
+        'though the category-axis line itself crosses through zero in the centre.
+        categoryAxis.TickLabelPosition = XlTickLabelPosition.xlTickLabelPositionLow
+
+        'CrossesAt is set on the value axis and controls where the category/baseline
+        'axis crosses it. Keeping this at zero produces the central mirror baseline.
+        valueAxis.CrossesAt = 0.0R
+    End Sub
+
+    Private Shared Function ResolveComparativeAxisLimit(result As CategoricalHistogramResult) As Double
+        Dim maximumPercent As Double = 0.0R
+
+        For Each item As CategoricalHistogramSeries In result.Series
+            For Each value As Double In item.PerGroupPercent
+                maximumPercent = Math.Max(maximumPercent, Math.Abs(value))
+            Next
+        Next
+
+        If maximumPercent <= 0.0R Then Return 1.0R
+
+        Dim rawMajorUnit As Double = maximumPercent / 5.0R
+        Dim majorUnit As Double = NiceCeiling(rawMajorUnit)
+        Return majorUnit * Math.Ceiling(maximumPercent / majorUnit)
+    End Function
+
+    Private Shared Function ResolveComparativeMajorUnit(axisLimit As Double) As Double
+        If axisLimit <= 0.0R Then Return 1.0R
+        Return NiceCeiling(axisLimit / 5.0R)
+    End Function
+
+    Private Shared Function NiceCeiling(value As Double) As Double
+        If value <= 0.0R OrElse Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Return 1.0R
+
+        Dim exponent As Double = Math.Floor(Math.Log10(value))
+        Dim scale As Double = Math.Pow(10.0R, exponent)
+        Dim fraction As Double = value / scale
+        Dim niceFraction As Double
+
+        If fraction <= 1.0R Then
+            niceFraction = 1.0R
+        ElseIf fraction <= 2.0R Then
+            niceFraction = 2.0R
+        ElseIf fraction <= 2.5R Then
+            niceFraction = 2.5R
+        ElseIf fraction <= 5.0R Then
+            niceFraction = 5.0R
+        Else
+            niceFraction = 10.0R
+        End If
+
+        Return niceFraction * scale
     End Function
 
     Private Shared Sub AddColumnSeries(seriesCollection As SeriesCollection,
