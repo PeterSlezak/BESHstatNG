@@ -30,6 +30,10 @@ Public Class Ui11PCA
 
         ElseIf Me.Tag = HelpTopic.PrincipalComponentAnalysis Then
             Me.TabPageOptionsPCA.Parent = Me.TabControl1
+            Me.lblGruppingVar.Visible = True
+            Me.cbGruppingVar.Visible = True
+            Me.lblRowLabel.Visible = True
+            Me.cbRowLabel.Visible = True
 
         ElseIf Me.Tag = HelpTopic.MultipleCorrespondenceAnalysis Then
             Me.ckFirstRow.Visible = True
@@ -43,8 +47,8 @@ Public Class Ui11PCA
             Me.cbKmeansEmptyCluster.Items.AddRange(New Object() {"Farthest observation", "Random observation", "Keep previous center"})
             Me.tbKmeansTolerance.Text = FormatUiDouble(0.000001)
             Me.tbKmeansSeed.Text = AppGlobals.GetDefaultRandomSeedText()
-            Me.lblKmeansRowLabel.Visible = True
-            Me.cbKmeansRowLabel.Visible = True
+            Me.lblRowLabel.Visible = True
+            Me.cbRowLabel.Visible = True
 
             Me.cbKmeansInitialization.SelectedIndex = 0
             Me.cbKmeansDistance.SelectedIndex = 0
@@ -57,8 +61,8 @@ Public Class Ui11PCA
 
         ElseIf Me.Tag = HelpTopic.HierarchicalClustering Then
             Me.TabPageOptionsHierarchicalClustering.Parent = Me.TabControl1
-            Me.lblKmeansRowLabel.Visible = True
-            Me.cbKmeansRowLabel.Visible = True
+            Me.lblRowLabel.Visible = True
+            Me.cbRowLabel.Visible = True
             Me.cbHierarchicalLinkage.Items.AddRange(New Object() {"Ward", "Complete", "Average", "Weighted Average", "Single Linkage", "Centroid", "Median"})
             Me.cbHierarchicalDistance.Items.AddRange(New Object() {"Squared Euclidean", "Euclidean", "Manhattan", "Chebyshev", "Minkowski", "Cosine", "Correlation"})
             Me.cbHierarchicalStandardization.Items.AddRange(New Object() {"None", "Z-scores", "Range 0 to 1"})
@@ -108,8 +112,8 @@ Public Class Ui11PCA
             Me.TabPageOptionsDA.Parent = Me.TabControl1
             Me.lblGruppingVar.Visible = True
             Me.cbGruppingVar.Visible = True
-            Me.lblKmeansRowLabel.Visible = True
-            Me.cbKmeansRowLabel.Visible = True
+            Me.lblRowLabel.Visible = True
+            Me.cbRowLabel.Visible = True
             Me.cbDAMethod.Items.AddRange(New Object() {"Linear discriminant analysis", "Quadratic discriminant analysis"})
             Me.cbDAStandardization.Items.AddRange(New Object() {"None", "Z-scores", "Range 0 to 1"})
             Me.cbDAMissingPolicy.Items.AddRange(New Object() {"Error on missing", "Listwise deletion"})
@@ -400,18 +404,20 @@ Public Class Ui11PCA
     Private Sub RunPCA(MyData As DataObj)
         Dim strExtractMethod As String = String.Empty, Extractcoef As Double = 0.0, strExtractMethodLong As String = String.Empty
         Dim strMatrix As String = If(Me.optCorr.Checked, "Correlation", "Covariance")
+        Dim rowLabels() As String = Me.GetSelectedPcaRowLabels(MyData)
+        Dim groupLabels() As String = Me.GetSelectedPcaGroupLabels(MyData)
 
         If Me.optExtractEigen.Checked Then
             strExtractMethod = "Eigenvalue"
             Extractcoef = CDbl(Me.spinBtnExtractEigen.Value)
             strExtractMethodLong = "Eigenvalue > " & CStr(Me.spinBtnExtractEigen.Value)
 
-        ElseIf Me.optExtractFixed.checked Then
+        ElseIf Me.optExtractFixed.Checked Then
             strExtractMethod = "Fixed"
             Extractcoef = CDbl(Me.spinBtnExtractComp.Value)
             strExtractMethodLong = "Fixed Number of Components = " & CStr(Me.spinBtnExtractComp.Value)
 
-        ElseIf Me.optExtractVariance.checked Then
+        ElseIf Me.optExtractVariance.Checked Then
             strExtractMethod = "Variance"
             Extractcoef = CDbl(Me.spinBtnExtractVariance.Value)
             strExtractMethodLong = "Explained Variance > " & CStr(Me.spinBtnExtractVariance.Value)
@@ -432,11 +438,27 @@ Public Class Ui11PCA
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
-        WriteRes.write({"Row ID"})
-        WriteRes.setRowPointer(2)
-        WriteRes.write(MyData.RowIds, bTall:=True)
+        Dim metadataColumnCount As Integer = 1
+        If rowLabels IsNot Nothing Then
+            WriteRes.write({"Record ID"})
+            WriteRes.setRowPointer(2)
+            WriteRes.write(rowLabels, bTall:=True)
+        Else
+            WriteRes.write({"Row ID"})
+            WriteRes.setRowPointer(2)
+            WriteRes.write(MyData.RowIds, bTall:=True)
+        End If
+
+        If groupLabels IsNot Nothing Then
+            metadataColumnCount += 1
+            WriteRes.setRowPointer()
+            WriteRes.setColumnPointer(2)
+            WriteRes.write({"Group ID"})
+            WriteRes.setRowPointer(2)
+            WriteRes.write(groupLabels, bTall:=True)
+        End If
         WriteRes.setRowPointer()
-        WriteRes.setColumnPointer(2)
+        WriteRes.setColumnPointer(metadataColumnCount + 1)
         WriteRes.write(MyData.varNames)
         WriteRes.write(MyData.FinalData)
         WriteRes.shiftColumnPointer(MyData.varNames.Length)
@@ -461,12 +483,12 @@ Public Class Ui11PCA
 
         'Figures
         graphics.PcaPlotExcel.ScreePlot(objPCA)
-        graphics.PcaPlotExcel.ScorePlot2D(objPCA)
+        graphics.PcaPlotExcel.ScorePlot2D(objPCA, rowLabels, groupLabels)
         graphics.PcaPlotExcel.LoadingPlot2D(objPCA)
-        graphics.PcaPlotExcel.Biplot(objPCA, 0.0)
-        graphics.PcaPlotExcel.Biplot(objPCA, 0.5)
-        graphics.PcaPlotExcel.Biplot(objPCA, 1.0)
-        graphics.PcaPlotExcel.ScorePlot3D(objPCA)
+        graphics.PcaPlotExcel.Biplot(objPCA, 0.0, rowLabels, groupLabels)
+        graphics.PcaPlotExcel.Biplot(objPCA, 0.5, rowLabels, groupLabels)
+        graphics.PcaPlotExcel.Biplot(objPCA, 1.0, rowLabels, groupLabels)
+        graphics.PcaPlotExcel.ScorePlot3D(objPCA, rowLabels, groupLabels)
         graphics.PcaPlotExcel.LoadingPlot3D(objPCA)
 
     End Sub
@@ -502,10 +524,10 @@ Public Class Ui11PCA
         Me.lbAllColumns.Items.Clear()
 
         If Me.cbSheetsList.SelectedIndex <> -1 Then
-            If pWorksheet.name <> Me.cbSheetsList.SelectedItem.ToString() Then 'new sheet selected clear all listboxes
+            If pWorksheet.Name <> Me.cbSheetsList.SelectedItem.ToString() Then 'new sheet selected clear all listboxes
                 Me.lbXs.Items.Clear()
             End If
-            newSheet = pWorkbook.worksheets(Me.cbSheetsList.SelectedItem.ToString())
+            newSheet = pWorkbook.Worksheets(Me.cbSheetsList.SelectedItem.ToString())
             Me.Populate(newSheet)
         Else
             Me.Populate(pWorksheet)
@@ -513,6 +535,11 @@ Public Class Ui11PCA
     End Sub
 
     Private Sub cbGruppingVar_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbGruppingVar.SelectedIndexChanged
+        If Me.Tag = HelpTopic.PrincipalComponentAnalysis Then
+            Me.RemovePcaAuxiliaryVariableFromAnalysisList(Me.GetSelectedPcaGroupingKey(), "grouping variable")
+            Exit Sub
+        End If
+
         If Me.Tag <> HelpTopic.DiscriminantAnalysis Then Exit Sub
 
         Dim groupingKey As String = Me.GetSelectedDiscriminantGroupingKey()
@@ -529,6 +556,11 @@ Public Class Ui11PCA
         If removed Then
             MsgBox("The selected grouping variable was removed from the analysis-variable list because it cannot be used as both a predictor and a grouping variable.", vbInformation, "Discriminant Analysis")
         End If
+    End Sub
+
+    Private Sub cbRowLabel_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbRowLabel.SelectedIndexChanged
+        If Me.Tag <> HelpTopic.PrincipalComponentAnalysis Then Exit Sub
+        Me.RemovePcaAuxiliaryVariableFromAnalysisList(Me.GetSelectedPcaRowLabelKey(), "row label variable")
     End Sub
 
     Private Sub DiscriminantPriorModeChanged(sender As Object, e As System.EventArgs)
@@ -548,6 +580,21 @@ Public Class Ui11PCA
 
         If keys.Count = 0 Then
             Throw New ArgumentException("Please select at least one analysis variable.")
+        End If
+
+        If Me.Tag = HelpTopic.PrincipalComponentAnalysis Then
+            Dim rowLabelKey As String = Me.GetSelectedPcaRowLabelKey()
+            Dim groupingKey As String = Me.GetSelectedPcaGroupingKey()
+
+            If rowLabelKey <> String.Empty AndAlso keys.Contains(rowLabelKey) Then
+                Throw New ArgumentException("The optional row label variable must not also be selected as an analysis variable.")
+            End If
+            If groupingKey <> String.Empty AndAlso keys.Contains(groupingKey) Then
+                Throw New ArgumentException("The grouping variable must not also be selected as an analysis variable.")
+            End If
+            If rowLabelKey <> String.Empty AndAlso groupingKey <> String.Empty AndAlso rowLabelKey = groupingKey Then
+                Throw New ArgumentException("The optional row label variable and grouping variable must be different columns.")
+            End If
         End If
 
         If Me.Tag = HelpTopic.KMeansClustering OrElse Me.Tag = HelpTopic.HierarchicalClustering OrElse Me.Tag = HelpTopic.FactorAnalysis Then
@@ -644,10 +691,15 @@ Public Class Ui11PCA
         End If
 
         Me.AllColumnsInfo = Nothing
-        If Me.Tag = HelpTopic.KMeansClustering OrElse Me.Tag = HelpTopic.HierarchicalClustering OrElse Me.Tag = HelpTopic.DiscriminantAnalysis Then
+        If Me.Tag = HelpTopic.PrincipalComponentAnalysis OrElse
+            Me.Tag = HelpTopic.KMeansClustering OrElse
+            Me.Tag = HelpTopic.HierarchicalClustering OrElse
+            Me.Tag = HelpTopic.DiscriminantAnalysis Then
+
             Dim sink As New System.Windows.Forms.ListBox()
             Me.AllColumnsInfo = VarNamesToLBox(VarRng, MaxRows, sink, False)
 
+            If Me.Tag = HelpTopic.PrincipalComponentAnalysis Then Me.PopulatePcaAuxiliaryItems()
             If Me.Tag = HelpTopic.KMeansClustering OrElse Me.Tag = HelpTopic.HierarchicalClustering Then Me.PopulateKMeansRowLabelItems()
 
             If Me.Tag = HelpTopic.DiscriminantAnalysis Then
@@ -663,14 +715,22 @@ Public Class Ui11PCA
         Me.cbSheetsList.SelectedIndex = Me.cbSheetsList.FindStringExact(Me.pWorkbook.ActiveSheet.name)
     End Sub
 
-    Private Sub PopulateKMeansRowLabelItems()
-        If Me.cbKmeansRowLabel Is Nothing Then Exit Sub
+    '--------------------------------------------------------------------------
+    ' PCA score-plot row-label/grouping helpers
+    '--------------------------------------------------------------------------
+    Private Sub PopulatePcaAuxiliaryItems()
+        Me.PopulatePcaAuxiliaryCombo(Me.cbGruppingVar)
+        Me.PopulatePcaAuxiliaryCombo(Me.cbRowLabel)
+    End Sub
+
+    Private Sub PopulatePcaAuxiliaryCombo(combo As System.Windows.Forms.ComboBox)
+        If combo Is Nothing Then Exit Sub
 
         Dim previous As String = String.Empty
-        If Me.cbKmeansRowLabel.SelectedItem IsNot Nothing Then previous = CStr(Me.cbKmeansRowLabel.SelectedItem)
+        If combo.SelectedItem IsNot Nothing Then previous = CStr(combo.SelectedItem)
 
-        Me.cbKmeansRowLabel.Items.Clear()
-        Me.cbKmeansRowLabel.Items.Add("(none)")
+        combo.Items.Clear()
+        combo.Items.Add("(none)")
 
         If Me.AllColumnsInfo IsNot Nothing Then
             Dim infos As New List(Of VarColumnInfo)
@@ -680,22 +740,125 @@ Public Class Ui11PCA
             infos.Sort(Function(a As VarColumnInfo, b As VarColumnInfo) a.ColumnNumber.CompareTo(b.ColumnNumber))
 
             For Each info As VarColumnInfo In infos
-                Me.cbKmeansRowLabel.Items.Add(info.DisplayText)
+                combo.Items.Add(info.DisplayText)
             Next
         End If
 
-        If previous <> String.Empty AndAlso Me.cbKmeansRowLabel.Items.Contains(previous) Then
-            Me.cbKmeansRowLabel.SelectedItem = previous
+        If previous <> String.Empty AndAlso combo.Items.Contains(previous) Then
+            combo.SelectedItem = previous
+        ElseIf combo.Items.Count > 0 Then
+            combo.SelectedIndex = 0
+        End If
+    End Sub
+
+    Private Function GetSelectedPcaRowLabelKey() As String
+        Return Me.GetSelectedPcaAuxiliaryKey(Me.cbRowLabel)
+    End Function
+
+    Private Function GetSelectedPcaGroupingKey() As String
+        Return Me.GetSelectedPcaAuxiliaryKey(Me.cbGruppingVar)
+    End Function
+
+    Private Function GetSelectedPcaAuxiliaryKey(combo As System.Windows.Forms.ComboBox) As String
+        If combo Is Nothing OrElse combo.SelectedIndex <= 0 OrElse combo.SelectedItem Is Nothing Then Return String.Empty
+        Return CStr(combo.SelectedItem)
+    End Function
+
+    Private Function GetSelectedPcaRowLabels(MyData As DataObj) As String()
+        Dim key As String = Me.GetSelectedPcaRowLabelKey()
+        If key = String.Empty Then Return Nothing
+        Return Me.ReadPcaAuxiliaryColumn(MyData, key, useRowIdForBlank:=True)
+    End Function
+
+    Private Function GetSelectedPcaGroupLabels(MyData As DataObj) As String()
+        Dim key As String = Me.GetSelectedPcaGroupingKey()
+        If key = String.Empty Then Return Nothing
+        Return Me.ReadPcaAuxiliaryColumn(MyData, key, useRowIdForBlank:=False)
+    End Function
+
+    Private Function ReadPcaAuxiliaryColumn(MyData As DataObj,
+                                            key As String,
+                                            useRowIdForBlank As Boolean) As String()
+        If MyData Is Nothing Then Throw New ArgumentNullException(NameOf(MyData))
+        If Me.AllColumnsInfo Is Nothing OrElse Not Me.AllColumnsInfo.ContainsKey(key) Then
+            Throw New ArgumentException("The selected PCA auxiliary variable could not be found on the active worksheet.")
+        End If
+
+        Dim info As VarColumnInfo = Me.AllColumnsInfo(key)
+        Dim out(MyData.nRows - 1) As String
+
+        For i As Integer = 0 To MyData.nRows - 1
+            Dim raw As Object = Me.pWorksheet.Cells(MyData.RowIds(i), info.ColumnNumber).Value
+            Dim text As String = String.Empty
+            Try
+                If raw IsNot Nothing Then text = CStr(raw).Trim()
+            Catch
+            End Try
+
+            If text = String.Empty Then
+                If useRowIdForBlank Then
+                    text = CStr(MyData.RowIds(i))
+                Else
+                    text = "(missing)"
+                End If
+            End If
+            out(i) = text
+        Next
+
+        Return out
+    End Function
+
+    Private Sub RemovePcaAuxiliaryVariableFromAnalysisList(key As String, roleName As String)
+        If key = String.Empty Then Exit Sub
+
+        Dim removed As Boolean = False
+        For i As Integer = Me.lbXs.Items.Count - 1 To 0 Step -1
+            If CStr(Me.lbXs.Items(i)) = key Then
+                Me.lbXs.Items.RemoveAt(i)
+                removed = True
+            End If
+        Next
+
+        If removed Then
+            MsgBox("The selected " & roleName & " was removed from the analysis-variable list because PCA auxiliary variables are used only to identify/style observations and are not included in the PCA calculation.",
+                   vbInformation,
+                   "Principal Component Analysis")
+        End If
+    End Sub
+
+    Private Sub PopulateKMeansRowLabelItems()
+        If Me.cbRowLabel Is Nothing Then Exit Sub
+
+        Dim previous As String = String.Empty
+        If Me.cbRowLabel.SelectedItem IsNot Nothing Then previous = CStr(Me.cbRowLabel.SelectedItem)
+
+        Me.cbRowLabel.Items.Clear()
+        Me.cbRowLabel.Items.Add("(none)")
+
+        If Me.AllColumnsInfo IsNot Nothing Then
+            Dim infos As New List(Of VarColumnInfo)
+            For Each kvp In Me.AllColumnsInfo
+                infos.Add(kvp.Value)
+            Next
+            infos.Sort(Function(a As VarColumnInfo, b As VarColumnInfo) a.ColumnNumber.CompareTo(b.ColumnNumber))
+
+            For Each info As VarColumnInfo In infos
+                Me.cbRowLabel.Items.Add(info.DisplayText)
+            Next
+        End If
+
+        If previous <> String.Empty AndAlso Me.cbRowLabel.Items.Contains(previous) Then
+            Me.cbRowLabel.SelectedItem = previous
         Else
-            Me.cbKmeansRowLabel.SelectedIndex = 0
+            Me.cbRowLabel.SelectedIndex = 0
         End If
     End Sub
 
     Private Function GetSelectedKMeansRowLabelKey() As String
-        If Me.cbKmeansRowLabel Is Nothing OrElse Me.cbKmeansRowLabel.SelectedIndex <= 0 OrElse Me.cbKmeansRowLabel.SelectedItem Is Nothing Then
+        If Me.cbRowLabel Is Nothing OrElse Me.cbRowLabel.SelectedIndex <= 0 OrElse Me.cbRowLabel.SelectedItem Is Nothing Then
             Return String.Empty
         End If
-        Return CStr(Me.cbKmeansRowLabel.SelectedItem)
+        Return CStr(Me.cbRowLabel.SelectedItem)
     End Function
 
     Private Function GetSelectedKMeansRowLabels(MyData As DataObj) As String()
@@ -1266,7 +1429,7 @@ Public Class Ui11PCA
     End Function
 
     Private Sub PopulateOptionalDiscriminantRowLabelItems()
-        Dim cb = Me.cbKmeansRowLabel
+        Dim cb = Me.cbRowLabel
         If cb Is Nothing Then Exit Sub
 
         Dim previous As String = String.Empty
@@ -1324,7 +1487,7 @@ Public Class Ui11PCA
     End Function
 
     Private Function GetSelectedDiscriminantRandomSeed() As Integer
-        Dim txt As String = Me.tbDASeed.text
+        Dim txt As String = Me.tbDASeed.Text
         If txt.Trim() = String.Empty Then Return Integer.MinValue
         Return ParseUiInteger(txt, "Random seed")
     End Function
@@ -1374,10 +1537,10 @@ Public Class Ui11PCA
     End Sub
 
     Private Function GetSelectedDiscriminantRowLabelKey() As String
-        If Me.cbKmeansRowLabel Is Nothing OrElse Me.cbKmeansRowLabel.SelectedIndex <= 0 OrElse Me.cbKmeansRowLabel.SelectedItem Is Nothing Then
+        If Me.cbRowLabel Is Nothing OrElse Me.cbRowLabel.SelectedIndex <= 0 OrElse Me.cbRowLabel.SelectedItem Is Nothing Then
             Return String.Empty
         End If
-        Return CStr(Me.cbKmeansRowLabel.SelectedItem)
+        Return CStr(Me.cbRowLabel.SelectedItem)
     End Function
 
 End Class

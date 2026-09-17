@@ -29,8 +29,8 @@ Partial Class Ui11PCA
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.cbGruppingVar = New System.Windows.Forms.ComboBox()
         Me.lblGruppingVar = New System.Windows.Forms.Label()
-        Me.cbKmeansRowLabel = New System.Windows.Forms.ComboBox()
-        Me.lblKmeansRowLabel = New System.Windows.Forms.Label()
+        Me.cbRowLabel = New System.Windows.Forms.ComboBox()
+        Me.lblRowLabel = New System.Windows.Forms.Label()
         Me.ckFirstRow = New System.Windows.Forms.CheckBox()
         Me.lbXs = New System.Windows.Forms.ListBox()
         Me.cbSheetsList = New System.Windows.Forms.ComboBox()
@@ -84,6 +84,7 @@ Partial Class Ui11PCA
         Me.lblInit = New System.Windows.Forms.Label()
         Me.lblK = New System.Windows.Forms.Label()
         Me.nudKmeansClusters = New System.Windows.Forms.NumericUpDown()
+        Me.refKmeansCenters = New BESHStatNG.Excel2007RefEdit()
         Me.TabPageOptionsHierarchicalClustering = New System.Windows.Forms.TabPage()
         Me.grpHierarchicalDendrogram = New System.Windows.Forms.GroupBox()
         Me.ckHierarchicalCreateDendrogram = New System.Windows.Forms.CheckBox()
@@ -169,7 +170,6 @@ Partial Class Ui11PCA
         Me.lblDAMethod = New System.Windows.Forms.Label()
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCalculate = New System.Windows.Forms.Button()
-        Me.refKmeansCenters = New Global.BESHStatNG.Excel2007RefEdit()
         Me.TabPageOptionsSPM.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.TabControl1.SuspendLayout()
@@ -253,8 +253,8 @@ Partial Class Ui11PCA
         '
         Me.TabPage1.Controls.Add(Me.cbGruppingVar)
         Me.TabPage1.Controls.Add(Me.lblGruppingVar)
-        Me.TabPage1.Controls.Add(Me.cbKmeansRowLabel)
-        Me.TabPage1.Controls.Add(Me.lblKmeansRowLabel)
+        Me.TabPage1.Controls.Add(Me.cbRowLabel)
+        Me.TabPage1.Controls.Add(Me.lblRowLabel)
         Me.TabPage1.Controls.Add(Me.ckFirstRow)
         Me.TabPage1.Controls.Add(Me.lbXs)
         Me.TabPage1.Controls.Add(Me.cbSheetsList)
@@ -294,26 +294,26 @@ Partial Class Ui11PCA
         Me.lblGruppingVar.Text = "Grouping Variable:"
         Me.lblGruppingVar.Visible = False
         '
-        'cbKmeansRowLabel
+        'cbRowLabel
         '
-        Me.cbKmeansRowLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cbKmeansRowLabel.FormattingEnabled = True
-        Me.cbKmeansRowLabel.Location = New System.Drawing.Point(579, 154)
-        Me.cbKmeansRowLabel.Name = "cbKmeansRowLabel"
-        Me.cbKmeansRowLabel.Size = New System.Drawing.Size(240, 24)
-        Me.cbKmeansRowLabel.TabIndex = 27
-        Me.cbKmeansRowLabel.Visible = False
+        Me.cbRowLabel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cbRowLabel.FormattingEnabled = True
+        Me.cbRowLabel.Location = New System.Drawing.Point(579, 154)
+        Me.cbRowLabel.Name = "cbRowLabel"
+        Me.cbRowLabel.Size = New System.Drawing.Size(240, 24)
+        Me.cbRowLabel.TabIndex = 27
+        Me.cbRowLabel.Visible = False
         '
-        'lblKmeansRowLabel
+        'lblRowLabel
         '
-        Me.lblKmeansRowLabel.AutoSize = True
-        Me.lblKmeansRowLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblKmeansRowLabel.Location = New System.Drawing.Point(576, 135)
-        Me.lblKmeansRowLabel.Name = "lblKmeansRowLabel"
-        Me.lblKmeansRowLabel.Size = New System.Drawing.Size(209, 16)
-        Me.lblKmeansRowLabel.TabIndex = 26
-        Me.lblKmeansRowLabel.Text = "Optional Row Label Variable:"
-        Me.lblKmeansRowLabel.Visible = False
+        Me.lblRowLabel.AutoSize = True
+        Me.lblRowLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRowLabel.Location = New System.Drawing.Point(576, 135)
+        Me.lblRowLabel.Name = "lblRowLabel"
+        Me.lblRowLabel.Size = New System.Drawing.Size(209, 16)
+        Me.lblRowLabel.TabIndex = 26
+        Me.lblRowLabel.Text = "Optional Row Label Variable:"
+        Me.lblRowLabel.Visible = False
         '
         'ckFirstRow
         '
@@ -890,6 +890,20 @@ Partial Class Ui11PCA
         Me.nudKmeansClusters.Size = New System.Drawing.Size(56, 22)
         Me.nudKmeansClusters.TabIndex = 0
         Me.nudKmeansClusters.Value = New Decimal(New Integer() {3, 0, 0, 0})
+        '
+        'refKmeansCenters
+        '
+        Me.refKmeansCenters.Address = ""
+        Me.refKmeansCenters.BackColor = System.Drawing.Color.Transparent
+        Me.refKmeansCenters.ExcelConnector = Nothing
+        Me.refKmeansCenters.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.refKmeansCenters.ImageMinimized = CType(resources.GetObject("refKmeansCenters.ImageMinimized"), System.Drawing.Image)
+        Me.refKmeansCenters.Location = New System.Drawing.Point(15, 312)
+        Me.refKmeansCenters.Margin = New System.Windows.Forms.Padding(4)
+        Me.refKmeansCenters.Name = "refKmeansCenters"
+        Me.refKmeansCenters.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.refKmeansCenters.Size = New System.Drawing.Size(300, 32)
+        Me.refKmeansCenters.TabIndex = 16
         '
         'TabPageOptionsHierarchicalClustering
         '
@@ -1815,20 +1829,6 @@ Partial Class Ui11PCA
         Me.btCalculate.Text = "Fit"
         Me.btCalculate.UseVisualStyleBackColor = True
         '
-        'refKmeansCenters
-        '
-        Me.refKmeansCenters.Address = ""
-        Me.refKmeansCenters.BackColor = System.Drawing.Color.Transparent
-        Me.refKmeansCenters.ExcelConnector = Nothing
-        Me.refKmeansCenters.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.refKmeansCenters.ImageMinimized = CType(resources.GetObject("refKmeansCenters.ImageMinimized"), System.Drawing.Image)
-        Me.refKmeansCenters.Location = New System.Drawing.Point(15, 312)
-        Me.refKmeansCenters.Margin = New System.Windows.Forms.Padding(4)
-        Me.refKmeansCenters.Name = "refKmeansCenters"
-        Me.refKmeansCenters.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.refKmeansCenters.Size = New System.Drawing.Size(300, 32)
-        Me.refKmeansCenters.TabIndex = 16
-        '
         'Ui11PCA
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -1962,8 +1962,8 @@ Partial Class Ui11PCA
     Friend WithEvents tbKmeansTolerance As Windows.Forms.TextBox
     Friend WithEvents lblSeed As Windows.Forms.Label
     Friend WithEvents tbKmeansSeed As Windows.Forms.TextBox
-    Friend WithEvents cbKmeansRowLabel As Windows.Forms.ComboBox
-    Friend WithEvents lblKmeansRowLabel As Windows.Forms.Label
+    Friend WithEvents cbRowLabel As Windows.Forms.ComboBox
+    Friend WithEvents lblRowLabel As Windows.Forms.Label
     Friend WithEvents lblCenterHint As Windows.Forms.Label
     Friend WithEvents refKmeansCenters As Global.BESHStatNG.Excel2007RefEdit
     Friend WithEvents lblCenterRef As Windows.Forms.Label
