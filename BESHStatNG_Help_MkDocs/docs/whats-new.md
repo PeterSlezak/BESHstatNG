@@ -1,5 +1,18 @@
 # What's New
 
+## version 1.2.0.0 (2026-09-17)
+- Enhanced ANOVA multiple comparisons: One-way ANOVA post-hoc results now report the standard error of pairwise differences for Fisher’s LSD, Bonferroni, Tukey-Kramer, and Games–Howell tests, consistently respect the global alpha/confidence-level setting, and include new confidence-interval plots showing pairwise mean differences, interval estimates, and the zero-difference reference line. Global alpha handling was also corrected for post-hoc comparisons following repeated-measures ANOVA, Kruskal–Wallis, and Friedman tests.
+- Histogram now has an option to show horizontal box plot immediately below the histogram while retaining the same horizontal measurement scale.
+- Categorical histogram GUI now allows by-column data input
+- *Horizontal and vertical comparative histogram* option added to the categorical histogram GUI
+- Enhanced *Box and Whiskers plots* with configurable color palettes and appearance, optional jittered individual data points, mean markers with connected mean lines, and a legacy BESHStat rendering preset for backward-compatible output.
+- Enhanced *PCA* score plots and biplots with optional row-label and grouping variables, allowing observations to be identified by meaningful record IDs and displayed with group-specific colors, marker shapes, and legends without affecting the PCA calculation.
+- Added a new *Sankey Chart* for visualizing weighted flows between categorical stages, with support for both staged and Source/Target input formats, intermediate entry points, automatic layout, customizable labels, colors, ribbons, and chart sizing.
+- Added a new *Dumbbell Plot* for comparing paired values across categories, with sorting, customizable markers and connectors, optional repeated observations with jitter, and support for both numeric and date/time axes.
+- Added *Ladder Plot* for visualizing paired before–after measurements with connecting lines, optional grouping and endpoint labels, plus collision-aware horizontal jitter to separate overlapping observations.
+- Added a new *Bullet Chart* for compact KPI dashboards, combining actual values, target markers, configurable qualitative performance ranges, independent scales, and support for both higher-is-better and lower-is-better measures.
+- Added new *CDF/ECDF plots* with grouped comparisons, exact empirical and Minitab-style plotting positions, percentile reference lines, and optional fitted distribution curves including Normal, Lognormal, Gamma, Weibull, Logistic, and related families.
+
 ## version 1.1.0.0 (2026-08-23)
 - Improved `BESH.REGR.MMRM_LSMEANS` so it now accepts profile/range specifications in addition to scalar group names, enabling LS-means to be computed for user-specified covariate or factor profiles directly from worksheet ranges.
 - Added a new *Polar plot* to display observations whose position is defined by a magnitude (radius) and a direction, phase, or position within a cycle (angle).

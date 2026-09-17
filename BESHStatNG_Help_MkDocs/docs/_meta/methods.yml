@@ -43,6 +43,20 @@ methods:
     analysisTitle: Box and Whiskers
   categories:
   - Graphics
+- key: BulletChart
+  title: Bullet Chart
+  slug: bullet-chart
+  short: "**Includes:** Bullet Chart. Compare an observed value with a target while simultaneously showing qualitative performance ranges in a compact dashboard-style display."
+  ribbonIds:
+  - btm2_16Bullet
+  onActions:
+  - Ui01BulletChart
+  forms:
+  - handler: Ui01BulletChart
+    form: Ui01BulletChart
+    analysisTitle: Bullet Chart
+  categories:
+  - Graphics
 - key: CategoricalHistogram
   title: Histogram - Categorical
   slug: categorical-histogram
@@ -139,6 +153,20 @@ methods:
   categories:
   - Regression
   - Survival Analysis
+- key: CDFplot
+  title: Cumulative Distribution Function Plot
+  slug: cdf-plot
+  short: "**Includes:** Cumulative Distribution Function Plot. Display the cumulative distribution of one or more continuous samples, compare groups across the full distribution, read empirical percentiles, and visually compare observed cumulative behaviour with a fitted theoretical distribution."
+  ribbonIds:
+  - btm2_17CDF
+  onActions:
+  - OnbtmCDFPressed
+  forms:
+  - handler: OnbtmCDFPressed
+    form: UibyID
+    analysisTitle: Cumulative Distribution Function Plot
+  categories:
+  - Graphics
 - key: DescriptiveStatistics
   title: Descriptive Statistics
   slug: descriptive-statistics
@@ -167,6 +195,20 @@ methods:
     analysisTitle: Discriminant Analysis
   categories:
   - Multivariate Analysis
+- key: DumbbellPlot
+  title: Dumbbell Plot
+  slug: dumbbell-plot
+  short: "**Includes:** Dumbbell Plot. Horizontal two-endpoint dumbbell charts, numeric or date/time X axes, optional repeated observations/events. Compare two values for each category while showing both the direction and magnitude of the difference, with optional additional observations displayed along the same horizontal scale."
+  ribbonIds:
+  - btm2_14Dumbbell
+  onActions:
+  - OnbtmDumbbellPressed
+  forms:
+  - handler: OnbtmDumbbellPressed
+    form: Ui01DumbbellPlot
+    analysisTitle: DumbbellPlot
+  categories:
+  - Graphics
 - key: FactorAnalysis
   title: Factor Analysis
   slug: factor-analysis
@@ -369,6 +411,20 @@ methods:
     analysisTitle: Kruskal-Wallis Test
   categories:
   - Nonparametric
+- key: LadderPlot
+  title: Ladder Plot
+  slug: ladder-plot
+  short: "**Includes:** Paired First-Second ladder plots, optional record labels, optional grouping, single-colour by-observation by-group colouring, connected markers, collision-aware horizontal jitter, independent endpoint labels, automatic label-overlap reduction, automatic Y-axis intervals, custom Y-axis limits and number formats, horizontal gridlines, and configurable chart size."
+  ribbonIds:
+  - btm2_15Ladder
+  onActions:
+  - OnbtmLadderPressed
+  forms:
+  - handler: OnbtmLadderPressed
+    form: Ui01LadderPlot
+    analysisTitle: Ladder Plot
+  categories:
+  - Graphics
 - key: LogrankTest
   title: Logrank Test
   slug: logrank-test
@@ -691,6 +747,20 @@ methods:
     analysisTitle: RxC Table
   categories:
   - Contingency Table Analysis
+- key: SankeyPlot
+  title: Sankey Plot
+  slug: sankey-plot
+  short: "**Includes:** Sankey Plot. Weighted Sankey/alluvial diagrams, staged row-by-row pathways, Source/Target link tables, optional frequency or continuous positive weights, automatic or explicit stage placement. Visualize how counts, frequencies, or other non-negative quantities flow between categorical states across two or more stages."
+  ribbonIds:
+  - btm2_13Sankey
+  onActions:
+  - OnbtmSankeyPressed
+  forms:
+  - handler: OnbtmSankeyPressed
+    form: Ui01SankeyPlot
+    analysisTitle: Sankey Plot
+  categories:
+  - Graphics
 - key: ScatterPlotMatrix
   title: Scatter Plot Matrix
   slug: scatter-plot-matrix
@@ -1100,6 +1170,22 @@ categories:
     ribbonId: btm2_12Violin
     title: Violin Plot
     slug: violin-plot
+  - ref: SankeyPlot
+    ribbonId: btm2_13Sankey
+    title: Sankey Plot
+    slug: sankey-plot
+  - ref: DumbbellPlot
+    ribbonId: btm2_14Dumbbell
+    title: Dumbbell Plot
+    slug: dumbbell-plot
+  - ref: LadderPlot
+    ribbonId: btm2_15Ladder
+    title: Ladder Plot
+    slug: ladder-plot
+  - ref: CDFplot
+    ribbonId: btm2_17CDF
+    title: Cumulative Distribution Function Plot
+    slug: cdf-plot
 - name: Parametric
   items:
   - ref: PairedSingleSampleTTests
