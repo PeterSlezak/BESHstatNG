@@ -4,6 +4,7 @@ Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Public Class UibyID
+    Private Const BoxPlotLegacyPaletteIndex As Integer = 4
 
     Sub New(analysis As String, tagn As Integer)
         ' This call is required by the designer.
@@ -28,6 +29,9 @@ Public Class UibyID
         Me.TabPage_OptionsUTT.Parent = Nothing
         Me.TabPage_OptionsCategoricalHistogram.Parent = Nothing
         Me.TabPage_OptionsViolin.Parent = Nothing
+        Me.TabPage_OptionsBoxPlot.Parent = Nothing
+        Me.TabPage_CDFplot.Parent = Nothing
+        Me.TabPage_CDFplotAppearance.Parent = Nothing
 
         If Me.Tag = HelpTopic.KruskalWallisTest Then
             Me.TabPage_Options.Parent = Me.TabControl1
@@ -36,8 +40,10 @@ Public Class UibyID
             Me.grpHomogeneityVariances.Visible = True
 
         ElseIf Me.Tag = HelpTopic.BoxAndWhiskers Then
-            Me.TabPage_Options.Parent = Me.TabControl1
-            Me.ckDescriptiveStatistics.Visible = True
+            Me.TabPage_OptionsBoxPlot.Parent = Me.TabControl1
+            Me.cmbBoxPalette.Items.AddRange(New Object() {"Tableau 10", "Okabe-Ito", "ColorBrewer Set1", "Grayscale", "Legacy BESHStat box plot"})
+            Me.cmbBoxPalette.SelectedIndex = 0
+            Me.UpdateBoxPlotOptionState()
 
         ElseIf Me.Tag = HelpTopic.OneWayANOVA Then
             Me.TabPage_Options.Parent = Me.TabControl1
@@ -98,9 +104,12 @@ Public Class UibyID
             Me.TabPage_OptionsCategoricalHistogram.Parent = Me.TabControl1
             Me.cmbCatHistPalette.Items.AddRange(New Object() {"Tableau 10", "Okabe-Ito", "ColorBrewer Set1", "Grayscale"})
             Me.cmbCatHistPalette.SelectedIndex = 0
+            'Categorical histograms support both long/by-ID and wide/by-column layouts.
             Me.optByID.Checked = True
-            Me.optByID.Enabled = False
-            Me.optByColumn.Enabled = False
+            Me.optByID.Enabled = True
+            Me.optByColumn.Enabled = True
+            Me.lblRefedit1.Text = "Group ID:"
+            Me.lblRefedit2.Text = "Data:"
             Me.UpdateCategoricalHistogramOptionState()
 
         ElseIf Me.Tag = HelpTopic.ViolinPlot Then
@@ -116,6 +125,50 @@ Public Class UibyID
             Me.optByColumn.Enabled = True
             Me.lblRefedit1.Text = "Group ID:"
             Me.lblRefedit2.Text = "Data:"
+
+        ElseIf Me.Tag = HelpTopic.CDFplot Then
+            Me.TabPage_CDFplot.Parent = Me.TabControl1
+            Me.TabPage_CDFplotAppearance.Parent = Me.TabControl1
+            Me.cmbCDFPlotType.Items.AddRange(New Object() {"Empirical CDF", "Empirical CDF + fitted distribution", "Fitted distribution only"})
+            Me.cmbCDFPlotType.SelectedIndex = 1
+
+            Me.cmbCDFDistribution.Items.AddRange(New Object() {
+                "Normal",
+                "Lognormal",
+                "3-parameter Lognormal",
+                "Gamma",
+                "3-parameter Gamma",
+                "Exponential",
+                "2-parameter Exponential",
+                "Smallest Extreme Value",
+                "Weibull",
+                "3-parameter Weibull",
+                "Largest Extreme Value",
+                "Logistic",
+                "Loglogistic",
+                "3-parameter Loglogistic"})
+            Me.cmbCDFDistribution.SelectedIndex = 0
+
+            Me.cmbCDFYScale.Items.AddRange(New Object() {"Probability", "Percent"})
+            Me.cmbCDFYScale.SelectedIndex = 1
+
+            Me.cmbCDFEmpiricalMethod.Items.AddRange(New Object() {"Exact ECDF", "Minitab median rank"})
+            Me.cmbCDFEmpiricalMethod.SelectedIndex = 0
+
+            Me.cmbCDFLegendMode.Items.AddRange(New Object() {"Groups only", "All curves"})
+            Me.cmbCDFLegendMode.SelectedIndex = 0
+
+            Me.cmbCDFPalette.Items.AddRange(New Object() {"Tableau 10", "Okabe-Ito", "ColorBrewer Set1", "Grayscale"})
+            Me.cmbCDFPalette.SelectedIndex = 0
+
+            'CDF/ECDF plots support both long/by-ID and wide/by-column layouts.
+            Me.optByID.Checked = True
+            Me.optByID.Enabled = True
+            Me.optByColumn.Enabled = True
+            Me.lblRefedit1.Text = "Group ID:"
+            Me.lblRefedit2.Text = "Data:"
+
+            Me.UpdateCDFOptionState()
 
         End If
 
@@ -274,9 +327,10 @@ Public Class UibyID
     End Function
 
     Private Function getGroupedContinuousDataByColumn(ByRef strErr As String) As GroupedContinuousInputData
-        'Wide layout: each selected worksheet column is one violin/group. Missing
-        'values are handled independently within each column, so rows do not need
-        'to be paired across groups.
+        'Wide layout: each selected worksheet column is one group. Missing values
+        'are handled independently within each column, so rows do not need to be
+        'paired across groups. This path is shared by violin plots and categorical
+        'histograms.
         Dim dataWorksheet As Worksheet = WorksheetFromRefAdress(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
         Dim ref As String = prepareRef2D(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
         Dim colList() As String = ColumListFromRefAdress(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
@@ -302,14 +356,14 @@ Public Class UibyID
                 Continue For
             End If
             If columnData.nCols <> 1 Then
-                strErr = "Each by-column violin input must resolve to a single worksheet column."
+                strErr = "Each by-column input must resolve to a single worksheet column."
                 Return Nothing
             End If
 
             Dim sourceRange As Range = dataWorksheet.Range(columnAddress)
             Dim firstRowIsTextLabel As Boolean = False
-            Dim groupName As String = ResolveViolinColumnGroupName(sourceRange, firstRowIsTextLabel)
-            groupName = MakeUniqueViolinGroupName(groupName, usedGroupNames)
+            Dim groupName As String = ResolveGroupedColumnName(sourceRange, firstRowIsTextLabel)
+            groupName = MakeUniqueGroupedColumnName(groupName, usedGroupNames)
 
             Dim columnValues() As Double = Matrix.GetColumnFrom2Darray(columnData.DataDbl, 0)
             Dim firstValueIndex As Integer = 0
@@ -341,8 +395,7 @@ Public Class UibyID
         }
     End Function
 
-    Private Shared Function ResolveViolinColumnGroupName(sourceRange As Range,
-                                                         ByRef firstRowIsTextLabel As Boolean) As String
+    Private Shared Function ResolveGroupedColumnName(sourceRange As Range, ByRef firstRowIsTextLabel As Boolean) As String
         firstRowIsTextLabel = False
         If sourceRange Is Nothing Then Return "Group"
 
@@ -365,7 +418,7 @@ Public Class UibyID
         Return columnName
     End Function
 
-    Private Shared Function MakeUniqueViolinGroupName(groupName As String, usedNames As Dictionary(Of String, Integer)) As String
+    Private Shared Function MakeUniqueGroupedColumnName(groupName As String, usedNames As Dictionary(Of String, Integer)) As String
         Dim baseName As String = If(String.IsNullOrWhiteSpace(groupName), "Group", groupName.Trim())
         Dim occurrence As Integer = 0
 
@@ -519,6 +572,8 @@ Public Class UibyID
                     Me.RunSymmetry(data)
                 ElseIf Me.Tag = HelpTopic.UnivariateOutliers Then
                     Me.RunOutliers(data)
+                ElseIf Me.Tag = HelpTopic.CDFplot Then
+                    Me.RunCDFPlot(data)
                 End If
             End If
         Catch ex As Exception
@@ -755,18 +810,18 @@ Public Class UibyID
 
         For i = 0 To data.X.Length - 1
             Dim hist = New graphics.Histogram(data.X(i))
-            Dim d = hist.compute(Me.ckOverlay.Checked, strBiningTyp)
+            Dim d = hist.compute(Me.ckOverlay.Checked, strBiningTyp, Me.ckBoxPlot_Histogram.Checked)
             HisData.Add(d)
             histList.Add(hist)
         Next
 
         'descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
+        If Me.ckDescriptive_Histogram.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
         Dim rr = New ProcessListofResultTables(res)
-        If Me.ckDescriptiveStatistics.Checked Then
+        If Me.ckDescriptive_Histogram.Checked Then
             Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
             Dim totcols As Integer = rr.TotCols
             If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
@@ -781,19 +836,18 @@ Public Class UibyID
             Dim col As Integer = WriteRes.ColID
 
             histList(i).SetWs = WriteRes.ws
-            'WriteRes.write({data.varNames(i)})
-            'WriteRes.write({"Bins MidPoints", "Frequencies"})
-            'WriteRes.write(HisData(i))
-
             Dim strHistogramTitle As String = $"Histogram {strBiningTyp} - {data.varNames(i)}"
 
-            histList(i).addChart(WriteRes.ws, row + 1, col, strHistogramTitle)
+            'Place the chart to the right of the descriptive table (when requested).
+            'For multiple variables, stack charts vertically instead of overlapping them.
+            Dim chartCol As Integer = col
+            If Me.ckDescriptive_Histogram.Checked Then chartCol += rr.TotCols + 1
+            Dim chartRow As Integer = row + 1 + i * If(Me.ckBoxPlot_Histogram.Checked, 24, 21)
 
-            'WriteRes.setRowPointer(row)
-            'WriteRes.setColumnPointer(col + 2)
+            histList(i).addChart(WriteRes.ws, chartRow, chartCol, strHistogramTitle, Me.ckBoxPlot_Histogram.Checked)
         Next i
 
-        If Me.ckDescriptiveStatistics.Checked Then rr.writeToSheet(WriteRes, True)
+        If Me.ckDescriptive_Histogram.Checked Then rr.writeToSheet(WriteRes, True)
     End Sub
 
     Private Sub RunCategoricalHistogram(data As GroupedContinuousInputData)
@@ -805,6 +859,12 @@ Public Class UibyID
             options.PlotType = CategoricalHistogramPlotType.StackedBar
         ElseIf Me.optCatHistDifferentSampleSizes.Checked Then
             options.PlotType = CategoricalHistogramPlotType.DifferentSampleSizes
+        ElseIf Me.optCatHistComparativeHorizontal.Checked Then
+            options.PlotType = CategoricalHistogramPlotType.Comparative
+            options.ComparativeOrientation = CategoricalHistogramComparativeOrientation.Horizontal
+        ElseIf Me.optCatHistComparativeVertical.Checked Then
+            options.PlotType = CategoricalHistogramPlotType.Comparative
+            options.ComparativeOrientation = CategoricalHistogramComparativeOrientation.Vertical
         Else
             options.PlotType = CategoricalHistogramPlotType.BarsWithLegend
         End If
@@ -821,12 +881,13 @@ Public Class UibyID
 
         Dim result As CategoricalHistogramResult = CategoricalHistogram.Compute(data.Values, data.Groups, options)
 
+        Dim isComparative As Boolean = (options.PlotType = CategoricalHistogramPlotType.Comparative)
         Dim appearance As New CategoricalHistogramAppearance With {
-            .ChartTitle = "Categorical histogram - " & data.ContinuousName & " by " & data.GroupName,
+            .ChartTitle = If(isComparative, "Comparative histogram - ", "Categorical histogram - ") & data.ContinuousName & " by " & data.GroupName,
             .XAxisTitle = data.ContinuousName,
             .ShowLegend = True,
             .GapWidth = CInt(Me.nudCatHistGapWidth.Value),
-            .SeriesOverlap = CInt(Me.nudCatHistSeriesOverlap.Value),
+            .SeriesOverlap = If(isComparative, 100, CInt(Me.nudCatHistSeriesOverlap.Value)),
             .SeriesColors = Me.GetGroupedPlotPalette(Me.cmbCatHistPalette.SelectedIndex)
         }
 
@@ -896,6 +957,150 @@ Public Class UibyID
                                  CDbl(Me.nudViolinChartWidth.Value),
                                  CDbl(Me.nudViolinChartHeight.Value))
     End Sub
+
+    Private Sub RunCDFPlot(data As MultiGroupsUnpairedData)
+        If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
+        If data.X Is Nothing OrElse data.X.Length = 0 Then
+            Throw New ArgumentException("No data are available for the CDF/ECDF plot.", NameOf(data))
+        End If
+
+        Dim options As New CumulativeDistributionPlotOptions
+
+        Select Case Me.cmbCDFPlotType.SelectedIndex
+            Case 0
+                options.Mode = CumulativeDistributionPlotMode.EmpiricalOnly
+            Case 2
+                options.Mode = CumulativeDistributionPlotMode.FittedDistributionOnly
+            Case Else
+                options.Mode = CumulativeDistributionPlotMode.EmpiricalWithFittedDistribution
+        End Select
+
+        If Me.cmbCDFDistribution.SelectedIndex < 0 OrElse Me.cmbCDFDistribution.SelectedIndex > 13 Then
+            Throw New ArgumentException("Select a fitted distribution.")
+        End If
+        options.Distribution = CType(Me.cmbCDFDistribution.SelectedIndex, CumulativeDistributionKind)
+
+        options.YScale = If(Me.cmbCDFYScale.SelectedIndex = 0,
+                            CumulativeDistributionYScale.Probability,
+                            CumulativeDistributionYScale.Percent)
+
+        options.EmpiricalMethod = If(Me.cmbCDFEmpiricalMethod.SelectedIndex = 1,
+                                     CumulativeDistributionEmpiricalMethod.MinitabMedianRank,
+                                     CumulativeDistributionEmpiricalMethod.ExactEcdf)
+
+        If Me.ckCDFPercentileLines.Checked Then
+            options.Percentiles = Me.ParseCDFPercentiles()
+        Else
+            options.Percentiles = Array.Empty(Of Double)()
+        End If
+
+        Dim results(data.X.Length - 1) As CumulativeDistributionPlotResult
+        For i As Integer = 0 To data.X.Length - 1
+            If data.X(i) Is Nothing OrElse data.X(i).Length = 0 Then
+                Throw New ArgumentException("One of the selected samples contains no valid numeric observations.")
+            End If
+
+            Dim seriesName As String = "Sample " & (i + 1).ToString()
+            If data.varNames IsNot Nothing AndAlso i < data.varNames.Length AndAlso
+               Not String.IsNullOrWhiteSpace(data.varNames(i)) Then
+                seriesName = data.varNames(i)
+            End If
+
+            results(i) = CumulativeDistributionPlot.Compute(data.X(i), seriesName, options)
+        Next
+
+        Dim resultSet As New CumulativeDistributionPlotSetResult(results)
+        Dim palette() As Integer = Me.GetGroupedPlotPalette(Me.cmbCDFPalette.SelectedIndex)
+        Dim appearance As New CumulativeDistributionPlotAppearance With {
+            .ShowLegend = Me.ckCDFShowLegend.Checked,
+            .LegendMode = If(Me.cmbCDFLegendMode.SelectedIndex = 1,
+                             CumulativeDistributionLegendMode.AllCurves,
+                             CumulativeDistributionLegendMode.GroupsOnly),
+            .PaletteColors = palette,
+            .SingleSeriesColor = palette(0),
+            .ShowHorizontalGridlines = Me.ckCDFHorizontalGridlines.Checked,
+            .ShowVerticalGridlines = Me.ckCDFVerticalGridlines.Checked,
+            .ExtendEmpiricalToAxisBounds = Me.ckCDFExtendEmpirical.Checked,
+            .ShowPercentileReferenceLines = Me.ckCDFPercentileLines.Checked,
+            .ShowPercentileLabels = Me.ckCDFPercentileLines.Checked AndAlso Me.ckCDFPercentileLabels.Checked
+        }
+
+        Dim WriteRes = GetResultWriter()
+        Dim chartAnchor As Range = DirectCast(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID), Range)
+        Dim chartLeft As Double = CDbl(chartAnchor.Left)
+        Dim chartTop As Double = CDbl(chartAnchor.Top)
+        Dim chartWidth As Double = CDbl(Me.nudCDFChartWidth.Value)
+        Dim chartHeight As Double = CDbl(Me.nudCDFChartHeight.Value)
+
+        If Me.optCDFSeparate.Checked Then
+            CumulativeDistributionPlotExcel.AddSeparateCharts(WriteRes.ws,
+                                                              resultSet,
+                                                              appearance,
+                                                              chartLeft,
+                                                              chartTop,
+                                                              chartWidth,
+                                                              chartHeight)
+        Else
+            CumulativeDistributionPlotExcel.AddOverlayChart(WriteRes.ws,
+                                                             resultSet,
+                                                             appearance,
+                                                             chartLeft,
+                                                             chartTop,
+                                                             chartWidth,
+                                                             chartHeight)
+        End If
+    End Sub
+
+    Private Function ParseCDFPercentiles() As Double()
+        Dim textValue As String = If(Me.txtCDFPercentiles.Text, String.Empty).Trim()
+        If textValue = String.Empty Then
+            Throw New ArgumentException("Enter at least one percentile between 0 and 100.")
+        End If
+
+        textValue = textValue.Replace(ControlChars.Cr, ";").Replace(ControlChars.Lf, ";").Replace(ControlChars.Tab, ";")
+
+        Dim decimalSeparator As String = Globalization.CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator
+        If decimalSeparator <> "," Then textValue = textValue.Replace(",", ";")
+
+        Dim tokens() As String = textValue.Split(New Char() {";"c}, StringSplitOptions.RemoveEmptyEntries)
+        Dim values As New List(Of Double)()
+
+        For Each token As String In tokens
+            Dim trimmed As String = token.Trim()
+            If trimmed = String.Empty Then Continue For
+
+            Dim percentile As Double
+            Dim parsed As Boolean = Double.TryParse(trimmed,
+                                                    Globalization.NumberStyles.Float,
+                                                    Globalization.CultureInfo.CurrentCulture,
+                                                    percentile)
+            If Not parsed Then
+                parsed = Double.TryParse(trimmed,
+                                         Globalization.NumberStyles.Float,
+                                         Globalization.CultureInfo.InvariantCulture,
+                                         percentile)
+            End If
+
+            If Not parsed Then
+                Throw New ArgumentException("Invalid percentile value '" & trimmed & "'. Use semicolons to separate values, for example 25; 50; 75.")
+            End If
+            If Double.IsNaN(percentile) OrElse Double.IsInfinity(percentile) OrElse percentile <= 0.0R OrElse percentile >= 100.0R Then
+                Throw New ArgumentOutOfRangeException(NameOf(txtCDFPercentiles),
+                                                      "Percentiles must be greater than 0 and less than 100.")
+            End If
+
+            If Not values.Any(Function(value As Double) Math.Abs(value - percentile) <= 0.000000000001R) Then
+                values.Add(percentile)
+            End If
+        Next
+
+        If values.Count = 0 Then
+            Throw New ArgumentException("Enter at least one percentile between 0 and 100.")
+        End If
+
+        values.Sort()
+        Return values.ToArray()
+    End Function
 
     Private Function GetGroupedPlotPalette(selectedIndex As Integer) As Integer()
         Select Case selectedIndex
@@ -1190,13 +1395,14 @@ Public Class UibyID
 
     Private Sub RunOneWayANOVA(data As MultiGroupsUnpairedData)
         Dim box As graphics.BoxPlot = Nothing
+        Dim alpha As Double = AppGlobals.DefaultAlpha
         Dim anova = New parametric.OneWayANOVA(data.X, data.varNames)
         anova.compute()
         If Me.ckWelch.Checked Then anova.WelshANOVA()
-        If Me.ckLSD.Checked Then anova.FisherLSD()
-        If Me.ckBonferroni.Checked Then anova.FisherLSD(True)
-        If Me.ckTukey.Checked Then anova.TukeyKramer()
-        If Me.ckGamesHowell.Checked Then anova.GamesHowell()
+        If Me.ckLSD.Checked Then anova.FisherLSD(False, alpha)
+        If Me.ckBonferroni.Checked Then anova.FisherLSD(True, alpha)
+        If Me.ckTukey.Checked Then anova.TukeyKramer(alpha)
+        If Me.ckGamesHowell.Checked Then anova.GamesHowell(alpha)
         Dim res = anova.wrapResults()
 
         'homogeneity of variances
@@ -1231,6 +1437,24 @@ Public Class UibyID
             box.SetWs = WriteRes.ws
             box.AddBoxPlot()
         End If
+
+        'For GUI one-way ANOVA output, add one confidence-interval chart for each
+        'selected multiple-comparison procedure. Charts use the same numeric limits
+        'and alpha as the result tables and are placed to the right of the output.
+        Dim plotData As New List(Of parametric.MultipleComparisonPlotData)
+        If Me.ckLSD.Checked AndAlso anova.FisherLSDPlotData IsNot Nothing Then plotData.Add(anova.FisherLSDPlotData)
+        If Me.ckBonferroni.Checked AndAlso anova.BonferroniPlotData IsNot Nothing Then plotData.Add(anova.BonferroniPlotData)
+        If Me.ckTukey.Checked AndAlso anova.TukeyKramerPlotData IsNot Nothing Then plotData.Add(anova.TukeyKramerPlotData)
+        If Me.ckGamesHowell.Checked AndAlso anova.GamesHowellPlotData IsNot Nothing Then plotData.Add(anova.GamesHowellPlotData)
+
+        If plotData.Count > 0 Then
+            Dim chartLeft As Double = CDbl(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID + totcols + 2).Left)
+            Dim chartTop As Double = CDbl(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID).Top)
+            For Each pd As parametric.MultipleComparisonPlotData In plotData
+                graphics.MultipleComparisonPlotExcel.AddPlot(WriteRes.ws, pd, chartLeft, chartTop)
+                chartTop += graphics.MultipleComparisonPlotExcel.SuggestedHeight(pd) + 15.0
+            Next
+        End If
     End Sub
 
     Private Sub RunBoxAndWhiskers(data As MultiGroupsUnpairedData)
@@ -1240,8 +1464,10 @@ Public Class UibyID
         box.CalcForPlotting()
         res.Add(box.wrapResults())
 
-        'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
+        'Compute descriptive statistics. The standalone box-plot page has its own
+        'checkbox; the generic option remains reserved for analyses that optionally
+        'add a box plot to another statistical procedure.
+        If Me.ckDescriptiveStatistics_Box.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
@@ -1256,11 +1482,33 @@ Public Class UibyID
 
         rr.writeToSheet(WriteRes, True)
 
-        If Me.ckBoxPlot.Checked Then
-            box.SetWs = WriteRes.ws
+        box.SetWs = WriteRes.ws
+        Dim appearance As graphics.BoxPlotAppearance = Me.GetStandaloneBoxPlotAppearance()
+        If appearance Is Nothing Then
+            'The special legacy preset intentionally uses the original AddBoxPlot()
+            'path without custom dimensions or display settings, so its output is
+            'identical to the historical BESHStat box plot.
             box.AddBoxPlot()
+        Else
+            box.AddBoxPlot(appearance,
+                           CDbl(Me.nudBoxChartWidth.Value),
+                           CDbl(Me.nudBoxChartHeight.Value))
         End If
     End Sub
+
+    Private Function GetStandaloneBoxPlotAppearance() As graphics.BoxPlotAppearance
+        If Me.cmbBoxPalette.SelectedIndex = BoxPlotLegacyPaletteIndex Then Return Nothing
+
+        Return New graphics.BoxPlotAppearance With {
+            .SeriesColors = Me.GetGroupedPlotPalette(Me.cmbBoxPalette.SelectedIndex),
+            .FillTransparency = CSng(CDbl(Me.nudBoxFillTransparency.Value) / 100.0R),
+            .ShowOutline = Me.cbBoxOutline.Checked,
+            .ShowHorizontalGridlines = Me.cbBoxHorizontalGridlines.Checked,
+            .ShowMean = Me.cmdBoxMean.Checked,
+            .ConnectMeans = Me.cmdBoxMean.Checked AndAlso Me.ckBoxConnectMeans.Checked,
+            .ShowIndividualObservations = Me.cmdBoxIndividualObs.Checked
+        }
+    End Function
 
     Private Sub RunKruskallWalis(data As MultiGroupsUnpairedData)
         Dim box As graphics.BoxPlot = Nothing
@@ -1268,7 +1516,7 @@ Public Class UibyID
         'Compute test
         Dim KW As New nonparametric.KruskallWalis(data.X, data.varNames)
         KW.compute()
-        KW.MCP()
+        KW.MCP(AppGlobals.DefaultAlpha)
         Dim res = KW.wrapResults()
 
         'Compute descriptive statistics
@@ -1394,7 +1642,9 @@ Public Class UibyID
             Me.RefEdit1.txtAddress.Text = String.Empty
             Me.RefEdit1.Enabled = False
             Me.lblRefedit1.Enabled = False
-            If Me.Tag = HelpTopic.ViolinPlot Then Me.lblRefedit2.Text = "Data columns:"
+            If Me.Tag = HelpTopic.ViolinPlot OrElse Me.Tag = HelpTopic.CategoricalHistogram OrElse Me.Tag = HelpTopic.CDFplot Then
+                Me.lblRefedit2.Text = "Data columns:"
+            End If
             Me.RefEdit2.txtAddress.Select()
         End If
     End Sub
@@ -1408,12 +1658,74 @@ Public Class UibyID
         Else
             Me.RefEdit1.Enabled = True
             Me.lblRefedit1.Enabled = True
-            If Me.Tag = HelpTopic.ViolinPlot OrElse Me.Tag = HelpTopic.CategoricalHistogram Then
+            If Me.Tag = HelpTopic.ViolinPlot OrElse Me.Tag = HelpTopic.CategoricalHistogram OrElse Me.Tag = HelpTopic.CDFplot Then
                 Me.lblRefedit1.Text = "Group ID:"
                 Me.lblRefedit2.Text = "Data:"
             End If
         End If
         Me.RefEdit1.txtAddress.Select()
+    End Sub
+
+    Private Sub cmbCDFPlotType_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbCDFPlotType.SelectedIndexChanged
+        If Me.Tag = HelpTopic.CDFplot Then Me.UpdateCDFOptionState()
+    End Sub
+
+    Private Sub ckCDFPercentileLines_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckCDFPercentileLines.CheckedChanged
+        If Me.Tag = HelpTopic.CDFplot Then Me.UpdateCDFOptionState()
+    End Sub
+
+    Private Sub ckCDFShowLegend_CheckedChanged(sender As Object, e As System.EventArgs) Handles ckCDFShowLegend.CheckedChanged
+        If Me.Tag = HelpTopic.CDFplot Then Me.UpdateCDFOptionState()
+    End Sub
+
+    Private Sub UpdateCDFOptionState()
+        Dim empiricalOnly As Boolean = (Me.cmbCDFPlotType.SelectedIndex = 0)
+        Dim fittedOnly As Boolean = (Me.cmbCDFPlotType.SelectedIndex = 2)
+
+        Me.cmbCDFDistribution.Enabled = Not empiricalOnly
+        Me.lblCDFDistribution.Enabled = Not empiricalOnly
+
+        Me.cmbCDFEmpiricalMethod.Enabled = Not fittedOnly
+        Me.lblCDFEmpiricalMethod.Enabled = Not fittedOnly
+        Me.ckCDFExtendEmpirical.Enabled = Not fittedOnly
+
+        Dim percentileOptionsEnabled As Boolean = Me.ckCDFPercentileLines.Checked
+        Me.lblCDFPercentiles.Enabled = percentileOptionsEnabled
+        Me.txtCDFPercentiles.Enabled = percentileOptionsEnabled
+        Me.ckCDFPercentileLabels.Enabled = percentileOptionsEnabled
+
+        Me.cmbCDFLegendMode.Enabled = Me.ckCDFShowLegend.Checked
+        Me.lblCDFLegendMode.Enabled = Me.ckCDFShowLegend.Checked
+    End Sub
+
+    Private Sub cmdBoxMean_CheckedChanged(sender As Object, e As System.EventArgs) Handles cmdBoxMean.CheckedChanged
+        If Me.Tag = HelpTopic.BoxAndWhiskers Then Me.UpdateBoxPlotOptionState()
+    End Sub
+
+    Private Sub cmbBoxPalette_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbBoxPalette.SelectedIndexChanged
+        If Me.Tag = HelpTopic.BoxAndWhiskers Then Me.UpdateBoxPlotOptionState()
+    End Sub
+
+    Private Sub UpdateBoxPlotOptionState()
+        Dim useLegacyAppearance As Boolean = (Me.cmbBoxPalette.SelectedIndex = BoxPlotLegacyPaletteIndex)
+        Dim customAppearanceEnabled As Boolean = Not useLegacyAppearance
+
+        'The legacy palette is a preset for the complete historical renderer, not
+        'only a grey colour palette. Disable controls that are intentionally ignored
+        'while preserving their values so they are restored when another palette is
+        'selected.
+        Me.cmdBoxMean.Enabled = customAppearanceEnabled
+        Me.cmdBoxIndividualObs.Enabled = customAppearanceEnabled
+        Me.ckBoxConnectMeans.Enabled = customAppearanceEnabled AndAlso Me.cmdBoxMean.Checked
+
+        Me.nudBoxFillTransparency.Enabled = customAppearanceEnabled
+        Me.lblBoxFillTransparency.Enabled = customAppearanceEnabled
+        Me.cbBoxHorizontalGridlines.Enabled = customAppearanceEnabled
+        Me.cbBoxOutline.Enabled = customAppearanceEnabled
+        Me.nudBoxChartWidth.Enabled = customAppearanceEnabled
+        Me.lblBoxChartWidth.Enabled = customAppearanceEnabled
+        Me.nudBoxChartHeight.Enabled = customAppearanceEnabled
+        Me.lblBoxChartHeight.Enabled = customAppearanceEnabled
     End Sub
 
     Private Sub ViolinBandwidth_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cmbViolinBandwidth.SelectedIndexChanged
@@ -1439,13 +1751,16 @@ Public Class UibyID
     End Sub
 
     Private Sub CategoricalHistogramPlotType_CheckedChanged(sender As Object, e As System.EventArgs) Handles optCatHistBarsWithLegend.CheckedChanged,
-                                                                                                            optCatHistStackedBar.CheckedChanged,
-                                                                                                            optCatHistDifferentSampleSizes.CheckedChanged
+                                                                                                             optCatHistStackedBar.CheckedChanged,
+                                                                                                             optCatHistDifferentSampleSizes.CheckedChanged,
+                                                                                                             optCatHistComparativeHorizontal.CheckedChanged,
+                                                                                                             optCatHistComparativeVertical.CheckedChanged
         If Me.Tag = HelpTopic.CategoricalHistogram Then Me.UpdateCategoricalHistogramOptionState()
     End Sub
 
     Private Sub UpdateCategoricalHistogramOptionState()
-        Dim overlapEnabled As Boolean = Not Me.optCatHistStackedBar.Checked
+        Dim isComparative As Boolean = Me.optCatHistComparativeHorizontal.Checked OrElse Me.optCatHistComparativeVertical.Checked
+        Dim overlapEnabled As Boolean = Not Me.optCatHistStackedBar.Checked AndAlso Not isComparative
         Me.lblCatHistSeriesOverlap.Enabled = overlapEnabled
         Me.nudCatHistSeriesOverlap.Enabled = overlapEnabled
     End Sub

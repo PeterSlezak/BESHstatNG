@@ -28,15 +28,12 @@ Partial Class UibyID
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.grpOutput = New System.Windows.Forms.GroupBox()
-        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
         Me.optWorkbook = New System.Windows.Forms.RadioButton()
         Me.optWorksheet = New System.Windows.Forms.RadioButton()
         Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.grpInput = New System.Windows.Forms.GroupBox()
         Me.lblRefedit2 = New System.Windows.Forms.Label()
         Me.lblRefedit1 = New System.Windows.Forms.Label()
-        Me.RefEdit1 = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit2 = New BESHStatNG.Excel2007RefEdit()
         Me.optByID = New System.Windows.Forms.RadioButton()
         Me.optByColumn = New System.Windows.Forms.RadioButton()
         Me.TabPage_Options = New System.Windows.Forms.TabPage()
@@ -76,6 +73,7 @@ Partial Class UibyID
         Me.ckN = New System.Windows.Forms.CheckBox()
         Me.ckBoxPlot_Descriptive = New System.Windows.Forms.CheckBox()
         Me.TabPage_OptionsHistogram = New System.Windows.Forms.TabPage()
+        Me.ckBoxPlot_Histogram = New System.Windows.Forms.CheckBox()
         Me.ckOverlay = New System.Windows.Forms.CheckBox()
         Me.grpBinSize = New System.Windows.Forms.GroupBox()
         Me.optScott = New System.Windows.Forms.RadioButton()
@@ -131,6 +129,8 @@ Partial Class UibyID
         Me.nudCatHistGapWidth = New System.Windows.Forms.NumericUpDown()
         Me.lblCatHistGapWidth = New System.Windows.Forms.Label()
         Me.grpCatHistPlotType = New System.Windows.Forms.GroupBox()
+        Me.optCatHistComparativeVertical = New System.Windows.Forms.RadioButton()
+        Me.optCatHistComparativeHorizontal = New System.Windows.Forms.RadioButton()
         Me.optCatHistDifferentSampleSizes = New System.Windows.Forms.RadioButton()
         Me.optCatHistStackedBar = New System.Windows.Forms.RadioButton()
         Me.optCatHistBarsWithLegend = New System.Windows.Forms.RadioButton()
@@ -155,7 +155,7 @@ Partial Class UibyID
         Me.lblViolinBandwidthAdjustment = New System.Windows.Forms.Label()
         Me.cmbViolinBandwidth = New System.Windows.Forms.ComboBox()
         Me.lblViolinBandwidth = New System.Windows.Forms.Label()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.grpAppearnceViolin = New System.Windows.Forms.GroupBox()
         Me.nudViolinChartHeight = New System.Windows.Forms.NumericUpDown()
         Me.lblViolinChartHeight = New System.Windows.Forms.Label()
         Me.nudViolinChartWidth = New System.Windows.Forms.NumericUpDown()
@@ -166,7 +166,58 @@ Partial Class UibyID
         Me.lblViolinPalette = New System.Windows.Forms.Label()
         Me.nudViolinFillTransparency = New System.Windows.Forms.NumericUpDown()
         Me.lblViolinFillTransparency = New System.Windows.Forms.Label()
+        Me.TabPage_OptionsBoxPlot = New System.Windows.Forms.TabPage()
+        Me.grpBoxDisplay = New System.Windows.Forms.GroupBox()
+        Me.ckBoxConnectMeans = New System.Windows.Forms.CheckBox()
+        Me.cmdBoxIndividualObs = New System.Windows.Forms.CheckBox()
+        Me.cmdBoxMean = New System.Windows.Forms.CheckBox()
+        Me.ckDescriptiveStatistics_Box = New System.Windows.Forms.CheckBox()
+        Me.grpAppearnceBox = New System.Windows.Forms.GroupBox()
+        Me.nudBoxChartHeight = New System.Windows.Forms.NumericUpDown()
+        Me.lblBoxChartHeight = New System.Windows.Forms.Label()
+        Me.nudBoxChartWidth = New System.Windows.Forms.NumericUpDown()
+        Me.lblBoxChartWidth = New System.Windows.Forms.Label()
+        Me.cbBoxHorizontalGridlines = New System.Windows.Forms.CheckBox()
+        Me.cbBoxOutline = New System.Windows.Forms.CheckBox()
+        Me.cmbBoxPalette = New System.Windows.Forms.ComboBox()
+        Me.lblBoxPalette = New System.Windows.Forms.Label()
+        Me.nudBoxFillTransparency = New System.Windows.Forms.NumericUpDown()
+        Me.lblBoxFillTransparency = New System.Windows.Forms.Label()
         Me.progressBarExactCalc = New System.Windows.Forms.ProgressBar()
+        Me.TabPage_CDFplot = New System.Windows.Forms.TabPage()
+        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit1 = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit2 = New BESHStatNG.Excel2007RefEdit()
+        Me.grpCDFPlot = New System.Windows.Forms.GroupBox()
+        Me.cmbCDFPlotType = New System.Windows.Forms.ComboBox()
+        Me.lblCDFPlotType = New System.Windows.Forms.Label()
+        Me.cmbCDFDistribution = New System.Windows.Forms.ComboBox()
+        Me.lblCDFDistribution = New System.Windows.Forms.Label()
+        Me.cmbCDFYScale = New System.Windows.Forms.ComboBox()
+        Me.lblCDFYScale = New System.Windows.Forms.Label()
+        Me.cmbCDFEmpiricalMethod = New System.Windows.Forms.ComboBox()
+        Me.lblCDFEmpiricalMethod = New System.Windows.Forms.Label()
+        Me.grpCDFReference = New System.Windows.Forms.GroupBox()
+        Me.lblCDFPercentiles = New System.Windows.Forms.Label()
+        Me.ckCDFPercentileLines = New System.Windows.Forms.CheckBox()
+        Me.txtCDFPercentiles = New System.Windows.Forms.TextBox()
+        Me.ckCDFPercentileLabels = New System.Windows.Forms.CheckBox()
+        Me.ckCDFExtendEmpirical = New System.Windows.Forms.CheckBox()
+        Me.TabPage_CDFplotAppearance = New System.Windows.Forms.TabPage()
+        Me.grpCDFAppearance = New System.Windows.Forms.GroupBox()
+        Me.nudCDFChartHeight = New System.Windows.Forms.NumericUpDown()
+        Me.lblCDFChartHeight = New System.Windows.Forms.Label()
+        Me.nudCDFChartWidth = New System.Windows.Forms.NumericUpDown()
+        Me.lblCDFChartWidth = New System.Windows.Forms.Label()
+        Me.ckCDFHorizontalGridlines = New System.Windows.Forms.CheckBox()
+        Me.ckCDFVerticalGridlines = New System.Windows.Forms.CheckBox()
+        Me.cmbCDFPalette = New System.Windows.Forms.ComboBox()
+        Me.lblCDFPalette = New System.Windows.Forms.Label()
+        Me.optCDFOverlay = New System.Windows.Forms.RadioButton()
+        Me.optCDFSeparate = New System.Windows.Forms.RadioButton()
+        Me.ckCDFShowLegend = New System.Windows.Forms.CheckBox()
+        Me.cmbCDFLegendMode = New System.Windows.Forms.ComboBox()
+        Me.lblCDFLegendMode = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.grpOutput.SuspendLayout()
@@ -202,10 +253,23 @@ Partial Class UibyID
         Me.grpViolinDensity.SuspendLayout()
         CType(Me.nudViolinDensityPoints, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudViolinBandwidthAdjustment, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
+        Me.grpAppearnceViolin.SuspendLayout()
         CType(Me.nudViolinChartHeight, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudViolinChartWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudViolinFillTransparency, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage_OptionsBoxPlot.SuspendLayout()
+        Me.grpBoxDisplay.SuspendLayout()
+        Me.grpAppearnceBox.SuspendLayout()
+        CType(Me.nudBoxChartHeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudBoxChartWidth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudBoxFillTransparency, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage_CDFplot.SuspendLayout()
+        Me.grpCDFPlot.SuspendLayout()
+        Me.grpCDFReference.SuspendLayout()
+        Me.TabPage_CDFplotAppearance.SuspendLayout()
+        Me.grpCDFAppearance.SuspendLayout()
+        CType(Me.nudCDFChartHeight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudCDFChartWidth, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'btCompute
@@ -238,6 +302,9 @@ Partial Class UibyID
         Me.TabControl1.Controls.Add(Me.TabPage_OptionsUTT)
         Me.TabControl1.Controls.Add(Me.TabPage_OptionsCategoricalHistogram)
         Me.TabControl1.Controls.Add(Me.TabPage_OptionsViolin)
+        Me.TabControl1.Controls.Add(Me.TabPage_OptionsBoxPlot)
+        Me.TabControl1.Controls.Add(Me.TabPage_CDFplot)
+        Me.TabControl1.Controls.Add(Me.TabPage_CDFplotAppearance)
         Me.TabControl1.Location = New System.Drawing.Point(9, 7)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
@@ -268,21 +335,6 @@ Partial Class UibyID
         Me.grpOutput.TabIndex = 4
         Me.grpOutput.TabStop = False
         Me.grpOutput.Text = "Output"
-        '
-        'RefEditOutput
-        '
-        Me.RefEditOutput.Address = ""
-        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
-        Me.RefEditOutput.Enabled = False
-        Me.RefEditOutput.ExcelConnector = Nothing
-        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
-        Me.RefEditOutput.Location = New System.Drawing.Point(168, 16)
-        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEditOutput.Name = "RefEditOutput"
-        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
-        Me.RefEditOutput.TabIndex = 3
         '
         'optWorkbook
         '
@@ -346,34 +398,6 @@ Partial Class UibyID
         Me.lblRefedit1.Size = New System.Drawing.Size(155, 44)
         Me.lblRefedit1.TabIndex = 2
         Me.lblRefedit1.Text = "Group ID:"
-        '
-        'RefEdit1
-        '
-        Me.RefEdit1.Address = ""
-        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit1.ExcelConnector = Nothing
-        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit1.Location = New System.Drawing.Point(159, 64)
-        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit1.Name = "RefEdit1"
-        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit1.TabIndex = 4
-        '
-        'RefEdit2
-        '
-        Me.RefEdit2.Address = ""
-        Me.RefEdit2.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit2.ExcelConnector = Nothing
-        Me.RefEdit2.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit2.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit2.Location = New System.Drawing.Point(159, 104)
-        Me.RefEdit2.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit2.Name = "RefEdit2"
-        Me.RefEdit2.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit2.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit2.TabIndex = 5
         '
         'optByID
         '
@@ -886,6 +910,7 @@ Partial Class UibyID
         '
         'TabPage_OptionsHistogram
         '
+        Me.TabPage_OptionsHistogram.Controls.Add(Me.ckBoxPlot_Histogram)
         Me.TabPage_OptionsHistogram.Controls.Add(Me.ckOverlay)
         Me.TabPage_OptionsHistogram.Controls.Add(Me.grpBinSize)
         Me.TabPage_OptionsHistogram.Controls.Add(Me.ckDescriptive_Histogram)
@@ -895,6 +920,18 @@ Partial Class UibyID
         Me.TabPage_OptionsHistogram.TabIndex = 3
         Me.TabPage_OptionsHistogram.Text = "Options"
         Me.TabPage_OptionsHistogram.UseVisualStyleBackColor = True
+        '
+        'ckBoxPlot_Histogram
+        '
+        Me.ckBoxPlot_Histogram.AutoSize = True
+        Me.ckBoxPlot_Histogram.Checked = True
+        Me.ckBoxPlot_Histogram.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckBoxPlot_Histogram.Location = New System.Drawing.Point(22, 77)
+        Me.ckBoxPlot_Histogram.Name = "ckBoxPlot_Histogram"
+        Me.ckBoxPlot_Histogram.Size = New System.Drawing.Size(177, 20)
+        Me.ckBoxPlot_Histogram.TabIndex = 5
+        Me.ckBoxPlot_Histogram.Text = "Show Horizontal Box Plot"
+        Me.ckBoxPlot_Histogram.UseVisualStyleBackColor = True
         '
         'ckOverlay
         '
@@ -915,7 +952,7 @@ Partial Class UibyID
         Me.grpBinSize.Controls.Add(Me.optDoane)
         Me.grpBinSize.Controls.Add(Me.optSturges)
         Me.grpBinSize.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpBinSize.Location = New System.Drawing.Point(22, 103)
+        Me.grpBinSize.Location = New System.Drawing.Point(22, 115)
         Me.grpBinSize.Name = "grpBinSize"
         Me.grpBinSize.Size = New System.Drawing.Size(319, 142)
         Me.grpBinSize.TabIndex = 3
@@ -1469,9 +1506,9 @@ Partial Class UibyID
         Me.grpCatHistAppearance.Controls.Add(Me.nudCatHistGapWidth)
         Me.grpCatHistAppearance.Controls.Add(Me.lblCatHistGapWidth)
         Me.grpCatHistAppearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpCatHistAppearance.Location = New System.Drawing.Point(12, 137)
+        Me.grpCatHistAppearance.Location = New System.Drawing.Point(3, 204)
         Me.grpCatHistAppearance.Name = "grpCatHistAppearance"
-        Me.grpCatHistAppearance.Size = New System.Drawing.Size(423, 128)
+        Me.grpCatHistAppearance.Size = New System.Drawing.Size(446, 128)
         Me.grpCatHistAppearance.TabIndex = 5
         Me.grpCatHistAppearance.TabStop = False
         Me.grpCatHistAppearance.Text = "Appearance"
@@ -1539,16 +1576,40 @@ Partial Class UibyID
         '
         'grpCatHistPlotType
         '
+        Me.grpCatHistPlotType.Controls.Add(Me.optCatHistComparativeVertical)
+        Me.grpCatHistPlotType.Controls.Add(Me.optCatHistComparativeHorizontal)
         Me.grpCatHistPlotType.Controls.Add(Me.optCatHistDifferentSampleSizes)
         Me.grpCatHistPlotType.Controls.Add(Me.optCatHistStackedBar)
         Me.grpCatHistPlotType.Controls.Add(Me.optCatHistBarsWithLegend)
         Me.grpCatHistPlotType.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpCatHistPlotType.Location = New System.Drawing.Point(200, 3)
+        Me.grpCatHistPlotType.Location = New System.Drawing.Point(182, 3)
         Me.grpCatHistPlotType.Name = "grpCatHistPlotType"
-        Me.grpCatHistPlotType.Size = New System.Drawing.Size(235, 128)
+        Me.grpCatHistPlotType.Size = New System.Drawing.Size(267, 195)
         Me.grpCatHistPlotType.TabIndex = 5
         Me.grpCatHistPlotType.TabStop = False
         Me.grpCatHistPlotType.Text = "Histogram Type"
+        '
+        'optCatHistComparativeVertical
+        '
+        Me.optCatHistComparativeVertical.AutoSize = True
+        Me.optCatHistComparativeVertical.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistComparativeVertical.Location = New System.Drawing.Point(17, 151)
+        Me.optCatHistComparativeVertical.Name = "optCatHistComparativeVertical"
+        Me.optCatHistComparativeVertical.Size = New System.Drawing.Size(213, 20)
+        Me.optCatHistComparativeVertical.TabIndex = 5
+        Me.optCatHistComparativeVertical.Text = "Comparative histogram vertical"
+        Me.optCatHistComparativeVertical.UseVisualStyleBackColor = True
+        '
+        'optCatHistComparativeHorizontal
+        '
+        Me.optCatHistComparativeHorizontal.AutoSize = True
+        Me.optCatHistComparativeHorizontal.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCatHistComparativeHorizontal.Location = New System.Drawing.Point(18, 125)
+        Me.optCatHistComparativeHorizontal.Name = "optCatHistComparativeHorizontal"
+        Me.optCatHistComparativeHorizontal.Size = New System.Drawing.Size(227, 20)
+        Me.optCatHistComparativeHorizontal.TabIndex = 4
+        Me.optCatHistComparativeHorizontal.Text = "Comparative histogram horizontal"
+        Me.optCatHistComparativeHorizontal.UseVisualStyleBackColor = True
         '
         'optCatHistDifferentSampleSizes
         '
@@ -1591,7 +1652,7 @@ Partial Class UibyID
         Me.grpCatHistBinSize.Controls.Add(Me.optCatHistDoan)
         Me.grpCatHistBinSize.Controls.Add(Me.optCatHistSturges)
         Me.grpCatHistBinSize.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.grpCatHistBinSize.Location = New System.Drawing.Point(12, 3)
+        Me.grpCatHistBinSize.Location = New System.Drawing.Point(3, 3)
         Me.grpCatHistBinSize.Name = "grpCatHistBinSize"
         Me.grpCatHistBinSize.Size = New System.Drawing.Size(173, 128)
         Me.grpCatHistBinSize.TabIndex = 4
@@ -1648,7 +1709,7 @@ Partial Class UibyID
         '
         Me.TabPage_OptionsViolin.Controls.Add(Me.grpScalingDisplay)
         Me.TabPage_OptionsViolin.Controls.Add(Me.grpViolinDensity)
-        Me.TabPage_OptionsViolin.Controls.Add(Me.GroupBox1)
+        Me.TabPage_OptionsViolin.Controls.Add(Me.grpAppearnceViolin)
         Me.TabPage_OptionsViolin.Location = New System.Drawing.Point(4, 25)
         Me.TabPage_OptionsViolin.Name = "TabPage_OptionsViolin"
         Me.TabPage_OptionsViolin.Size = New System.Drawing.Size(454, 335)
@@ -1833,25 +1894,25 @@ Partial Class UibyID
         Me.lblViolinBandwidth.TabIndex = 10
         Me.lblViolinBandwidth.Text = "Bandwidth:"
         '
-        'GroupBox1
+        'grpAppearnceViolin
         '
-        Me.GroupBox1.Controls.Add(Me.nudViolinChartHeight)
-        Me.GroupBox1.Controls.Add(Me.lblViolinChartHeight)
-        Me.GroupBox1.Controls.Add(Me.nudViolinChartWidth)
-        Me.GroupBox1.Controls.Add(Me.lblViolinChartWidth)
-        Me.GroupBox1.Controls.Add(Me.cbViolinHorizontalGridlines)
-        Me.GroupBox1.Controls.Add(Me.cbViolinOutline)
-        Me.GroupBox1.Controls.Add(Me.cmbViolinPalette)
-        Me.GroupBox1.Controls.Add(Me.lblViolinPalette)
-        Me.GroupBox1.Controls.Add(Me.nudViolinFillTransparency)
-        Me.GroupBox1.Controls.Add(Me.lblViolinFillTransparency)
-        Me.GroupBox1.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.GroupBox1.Location = New System.Drawing.Point(3, 198)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(446, 134)
-        Me.GroupBox1.TabIndex = 6
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Appearance"
+        Me.grpAppearnceViolin.Controls.Add(Me.nudViolinChartHeight)
+        Me.grpAppearnceViolin.Controls.Add(Me.lblViolinChartHeight)
+        Me.grpAppearnceViolin.Controls.Add(Me.nudViolinChartWidth)
+        Me.grpAppearnceViolin.Controls.Add(Me.lblViolinChartWidth)
+        Me.grpAppearnceViolin.Controls.Add(Me.cbViolinHorizontalGridlines)
+        Me.grpAppearnceViolin.Controls.Add(Me.cbViolinOutline)
+        Me.grpAppearnceViolin.Controls.Add(Me.cmbViolinPalette)
+        Me.grpAppearnceViolin.Controls.Add(Me.lblViolinPalette)
+        Me.grpAppearnceViolin.Controls.Add(Me.nudViolinFillTransparency)
+        Me.grpAppearnceViolin.Controls.Add(Me.lblViolinFillTransparency)
+        Me.grpAppearnceViolin.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpAppearnceViolin.Location = New System.Drawing.Point(3, 198)
+        Me.grpAppearnceViolin.Name = "grpAppearnceViolin"
+        Me.grpAppearnceViolin.Size = New System.Drawing.Size(446, 134)
+        Me.grpAppearnceViolin.TabIndex = 6
+        Me.grpAppearnceViolin.TabStop = False
+        Me.grpAppearnceViolin.Text = "Appearance"
         '
         'nudViolinChartHeight
         '
@@ -1963,12 +2024,617 @@ Partial Class UibyID
         Me.lblViolinFillTransparency.TabIndex = 6
         Me.lblViolinFillTransparency.Text = "Fill Transparency:"
         '
+        'TabPage_OptionsBoxPlot
+        '
+        Me.TabPage_OptionsBoxPlot.Controls.Add(Me.grpBoxDisplay)
+        Me.TabPage_OptionsBoxPlot.Controls.Add(Me.ckDescriptiveStatistics_Box)
+        Me.TabPage_OptionsBoxPlot.Controls.Add(Me.grpAppearnceBox)
+        Me.TabPage_OptionsBoxPlot.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage_OptionsBoxPlot.Name = "TabPage_OptionsBoxPlot"
+        Me.TabPage_OptionsBoxPlot.Size = New System.Drawing.Size(454, 335)
+        Me.TabPage_OptionsBoxPlot.TabIndex = 10
+        Me.TabPage_OptionsBoxPlot.Text = "Options"
+        Me.TabPage_OptionsBoxPlot.UseVisualStyleBackColor = True
+        '
+        'grpBoxDisplay
+        '
+        Me.grpBoxDisplay.Controls.Add(Me.ckBoxConnectMeans)
+        Me.grpBoxDisplay.Controls.Add(Me.cmdBoxIndividualObs)
+        Me.grpBoxDisplay.Controls.Add(Me.cmdBoxMean)
+        Me.grpBoxDisplay.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpBoxDisplay.Location = New System.Drawing.Point(3, 13)
+        Me.grpBoxDisplay.Name = "grpBoxDisplay"
+        Me.grpBoxDisplay.Size = New System.Drawing.Size(446, 80)
+        Me.grpBoxDisplay.TabIndex = 13
+        Me.grpBoxDisplay.TabStop = False
+        Me.grpBoxDisplay.Text = "Display"
+        '
+        'ckBoxConnectMeans
+        '
+        Me.ckBoxConnectMeans.AutoSize = True
+        Me.ckBoxConnectMeans.Checked = True
+        Me.ckBoxConnectMeans.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckBoxConnectMeans.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckBoxConnectMeans.Location = New System.Drawing.Point(88, 21)
+        Me.ckBoxConnectMeans.Name = "ckBoxConnectMeans"
+        Me.ckBoxConnectMeans.Size = New System.Drawing.Size(122, 20)
+        Me.ckBoxConnectMeans.TabIndex = 14
+        Me.ckBoxConnectMeans.Text = "Connect means"
+        Me.ckBoxConnectMeans.UseVisualStyleBackColor = True
+        '
+        'cmdBoxIndividualObs
+        '
+        Me.cmdBoxIndividualObs.AutoSize = True
+        Me.cmdBoxIndividualObs.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdBoxIndividualObs.Location = New System.Drawing.Point(9, 47)
+        Me.cmdBoxIndividualObs.Name = "cmdBoxIndividualObs"
+        Me.cmdBoxIndividualObs.Size = New System.Drawing.Size(167, 20)
+        Me.cmdBoxIndividualObs.TabIndex = 13
+        Me.cmdBoxIndividualObs.Text = "Individual observations"
+        Me.cmdBoxIndividualObs.UseVisualStyleBackColor = True
+        '
+        'cmdBoxMean
+        '
+        Me.cmdBoxMean.AutoSize = True
+        Me.cmdBoxMean.Checked = True
+        Me.cmdBoxMean.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cmdBoxMean.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmdBoxMean.Location = New System.Drawing.Point(9, 21)
+        Me.cmdBoxMean.Name = "cmdBoxMean"
+        Me.cmdBoxMean.Size = New System.Drawing.Size(63, 20)
+        Me.cmdBoxMean.TabIndex = 12
+        Me.cmdBoxMean.Text = "Mean"
+        Me.cmdBoxMean.UseVisualStyleBackColor = True
+        '
+        'ckDescriptiveStatistics_Box
+        '
+        Me.ckDescriptiveStatistics_Box.AutoSize = True
+        Me.ckDescriptiveStatistics_Box.Checked = True
+        Me.ckDescriptiveStatistics_Box.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckDescriptiveStatistics_Box.Location = New System.Drawing.Point(12, 99)
+        Me.ckDescriptiveStatistics_Box.Name = "ckDescriptiveStatistics_Box"
+        Me.ckDescriptiveStatistics_Box.Size = New System.Drawing.Size(177, 20)
+        Me.ckDescriptiveStatistics_Box.TabIndex = 9
+        Me.ckDescriptiveStatistics_Box.Text = "Full Descriptive Statistics"
+        Me.ckDescriptiveStatistics_Box.UseVisualStyleBackColor = True
+        '
+        'grpAppearnceBox
+        '
+        Me.grpAppearnceBox.Controls.Add(Me.nudBoxChartHeight)
+        Me.grpAppearnceBox.Controls.Add(Me.lblBoxChartHeight)
+        Me.grpAppearnceBox.Controls.Add(Me.nudBoxChartWidth)
+        Me.grpAppearnceBox.Controls.Add(Me.lblBoxChartWidth)
+        Me.grpAppearnceBox.Controls.Add(Me.cbBoxHorizontalGridlines)
+        Me.grpAppearnceBox.Controls.Add(Me.cbBoxOutline)
+        Me.grpAppearnceBox.Controls.Add(Me.cmbBoxPalette)
+        Me.grpAppearnceBox.Controls.Add(Me.lblBoxPalette)
+        Me.grpAppearnceBox.Controls.Add(Me.nudBoxFillTransparency)
+        Me.grpAppearnceBox.Controls.Add(Me.lblBoxFillTransparency)
+        Me.grpAppearnceBox.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpAppearnceBox.Location = New System.Drawing.Point(3, 125)
+        Me.grpAppearnceBox.Name = "grpAppearnceBox"
+        Me.grpAppearnceBox.Size = New System.Drawing.Size(446, 141)
+        Me.grpAppearnceBox.TabIndex = 7
+        Me.grpAppearnceBox.TabStop = False
+        Me.grpAppearnceBox.Text = "Appearance"
+        '
+        'nudBoxChartHeight
+        '
+        Me.nudBoxChartHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudBoxChartHeight.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudBoxChartHeight.Location = New System.Drawing.Point(155, 110)
+        Me.nudBoxChartHeight.Maximum = New Decimal(New Integer() {5000, 0, 0, 0})
+        Me.nudBoxChartHeight.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.nudBoxChartHeight.Name = "nudBoxChartHeight"
+        Me.nudBoxChartHeight.Size = New System.Drawing.Size(78, 22)
+        Me.nudBoxChartHeight.TabIndex = 15
+        Me.nudBoxChartHeight.Value = New Decimal(New Integer() {440, 0, 0, 0})
+        '
+        'lblBoxChartHeight
+        '
+        Me.lblBoxChartHeight.AutoSize = True
+        Me.lblBoxChartHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBoxChartHeight.Location = New System.Drawing.Point(37, 112)
+        Me.lblBoxChartHeight.Name = "lblBoxChartHeight"
+        Me.lblBoxChartHeight.Size = New System.Drawing.Size(83, 16)
+        Me.lblBoxChartHeight.TabIndex = 14
+        Me.lblBoxChartHeight.Text = "Chart Height:"
+        '
+        'nudBoxChartWidth
+        '
+        Me.nudBoxChartWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudBoxChartWidth.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudBoxChartWidth.Location = New System.Drawing.Point(155, 82)
+        Me.nudBoxChartWidth.Maximum = New Decimal(New Integer() {5000, 0, 0, 0})
+        Me.nudBoxChartWidth.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.nudBoxChartWidth.Name = "nudBoxChartWidth"
+        Me.nudBoxChartWidth.Size = New System.Drawing.Size(78, 22)
+        Me.nudBoxChartWidth.TabIndex = 13
+        Me.nudBoxChartWidth.Value = New Decimal(New Integer() {720, 0, 0, 0})
+        '
+        'lblBoxChartWidth
+        '
+        Me.lblBoxChartWidth.AutoSize = True
+        Me.lblBoxChartWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBoxChartWidth.Location = New System.Drawing.Point(42, 84)
+        Me.lblBoxChartWidth.Name = "lblBoxChartWidth"
+        Me.lblBoxChartWidth.Size = New System.Drawing.Size(78, 16)
+        Me.lblBoxChartWidth.TabIndex = 12
+        Me.lblBoxChartWidth.Text = "Chart Width:"
+        '
+        'cbBoxHorizontalGridlines
+        '
+        Me.cbBoxHorizontalGridlines.AutoSize = True
+        Me.cbBoxHorizontalGridlines.Checked = True
+        Me.cbBoxHorizontalGridlines.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbBoxHorizontalGridlines.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbBoxHorizontalGridlines.Location = New System.Drawing.Point(286, 57)
+        Me.cbBoxHorizontalGridlines.Name = "cbBoxHorizontalGridlines"
+        Me.cbBoxHorizontalGridlines.Size = New System.Drawing.Size(145, 20)
+        Me.cbBoxHorizontalGridlines.TabIndex = 11
+        Me.cbBoxHorizontalGridlines.Text = "Horizontal Gridlines"
+        Me.cbBoxHorizontalGridlines.UseVisualStyleBackColor = True
+        '
+        'cbBoxOutline
+        '
+        Me.cbBoxOutline.AutoSize = True
+        Me.cbBoxOutline.Checked = True
+        Me.cbBoxOutline.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.cbBoxOutline.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cbBoxOutline.Location = New System.Drawing.Point(286, 83)
+        Me.cbBoxOutline.Name = "cbBoxOutline"
+        Me.cbBoxOutline.Size = New System.Drawing.Size(70, 20)
+        Me.cbBoxOutline.TabIndex = 10
+        Me.cbBoxOutline.Text = "Outline"
+        Me.cbBoxOutline.UseVisualStyleBackColor = True
+        '
+        'cmbBoxPalette
+        '
+        Me.cmbBoxPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbBoxPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbBoxPalette.FormattingEnabled = True
+        Me.cmbBoxPalette.Location = New System.Drawing.Point(155, 21)
+        Me.cmbBoxPalette.Name = "cmbBoxPalette"
+        Me.cmbBoxPalette.Size = New System.Drawing.Size(200, 24)
+        Me.cmbBoxPalette.TabIndex = 9
+        '
+        'lblBoxPalette
+        '
+        Me.lblBoxPalette.AutoSize = True
+        Me.lblBoxPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBoxPalette.Location = New System.Drawing.Point(6, 25)
+        Me.lblBoxPalette.Name = "lblBoxPalette"
+        Me.lblBoxPalette.Size = New System.Drawing.Size(124, 16)
+        Me.lblBoxPalette.TabIndex = 8
+        Me.lblBoxPalette.Text = "Group color palette:"
+        '
+        'nudBoxFillTransparency
+        '
+        Me.nudBoxFillTransparency.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudBoxFillTransparency.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudBoxFillTransparency.Location = New System.Drawing.Point(155, 55)
+        Me.nudBoxFillTransparency.Name = "nudBoxFillTransparency"
+        Me.nudBoxFillTransparency.Size = New System.Drawing.Size(78, 22)
+        Me.nudBoxFillTransparency.TabIndex = 7
+        Me.nudBoxFillTransparency.Value = New Decimal(New Integer() {20, 0, 0, 0})
+        '
+        'lblBoxFillTransparency
+        '
+        Me.lblBoxFillTransparency.AutoSize = True
+        Me.lblBoxFillTransparency.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBoxFillTransparency.Location = New System.Drawing.Point(6, 57)
+        Me.lblBoxFillTransparency.Name = "lblBoxFillTransparency"
+        Me.lblBoxFillTransparency.Size = New System.Drawing.Size(114, 16)
+        Me.lblBoxFillTransparency.TabIndex = 6
+        Me.lblBoxFillTransparency.Text = "Fill Transparency:"
+        '
         'progressBarExactCalc
         '
         Me.progressBarExactCalc.Location = New System.Drawing.Point(9, 376)
         Me.progressBarExactCalc.Name = "progressBarExactCalc"
         Me.progressBarExactCalc.Size = New System.Drawing.Size(296, 23)
         Me.progressBarExactCalc.TabIndex = 4
+        '
+        'TabPage_CDFplot
+        '
+        Me.TabPage_CDFplot.Controls.Add(Me.grpCDFReference)
+        Me.TabPage_CDFplot.Controls.Add(Me.grpCDFPlot)
+        Me.TabPage_CDFplot.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage_CDFplot.Name = "TabPage_CDFplot"
+        Me.TabPage_CDFplot.Size = New System.Drawing.Size(454, 335)
+        Me.TabPage_CDFplot.TabIndex = 11
+        Me.TabPage_CDFplot.Text = "Options"
+        Me.TabPage_CDFplot.UseVisualStyleBackColor = True
+        '
+        'RefEditOutput
+        '
+        Me.RefEditOutput.Address = ""
+        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
+        Me.RefEditOutput.Enabled = False
+        Me.RefEditOutput.ExcelConnector = Nothing
+        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
+        Me.RefEditOutput.Location = New System.Drawing.Point(168, 16)
+        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEditOutput.Name = "RefEditOutput"
+        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
+        Me.RefEditOutput.TabIndex = 3
+        '
+        'RefEdit1
+        '
+        Me.RefEdit1.Address = ""
+        Me.RefEdit1.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit1.ExcelConnector = Nothing
+        Me.RefEdit1.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit1.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit1.Location = New System.Drawing.Point(159, 64)
+        Me.RefEdit1.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit1.Name = "RefEdit1"
+        Me.RefEdit1.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit1.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit1.TabIndex = 4
+        '
+        'RefEdit2
+        '
+        Me.RefEdit2.Address = ""
+        Me.RefEdit2.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit2.ExcelConnector = Nothing
+        Me.RefEdit2.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit2.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit2.Location = New System.Drawing.Point(159, 104)
+        Me.RefEdit2.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit2.Name = "RefEdit2"
+        Me.RefEdit2.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit2.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit2.TabIndex = 5
+        '
+        'grpCDFPlot
+        '
+        Me.grpCDFPlot.Controls.Add(Me.cmbCDFEmpiricalMethod)
+        Me.grpCDFPlot.Controls.Add(Me.lblCDFEmpiricalMethod)
+        Me.grpCDFPlot.Controls.Add(Me.cmbCDFYScale)
+        Me.grpCDFPlot.Controls.Add(Me.lblCDFYScale)
+        Me.grpCDFPlot.Controls.Add(Me.cmbCDFDistribution)
+        Me.grpCDFPlot.Controls.Add(Me.lblCDFDistribution)
+        Me.grpCDFPlot.Controls.Add(Me.cmbCDFPlotType)
+        Me.grpCDFPlot.Controls.Add(Me.lblCDFPlotType)
+        Me.grpCDFPlot.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpCDFPlot.Location = New System.Drawing.Point(3, 3)
+        Me.grpCDFPlot.Name = "grpCDFPlot"
+        Me.grpCDFPlot.Size = New System.Drawing.Size(446, 144)
+        Me.grpCDFPlot.TabIndex = 14
+        Me.grpCDFPlot.TabStop = False
+        Me.grpCDFPlot.Text = "Plot"
+        '
+        'cmbCDFPlotType
+        '
+        Me.cmbCDFPlotType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCDFPlotType.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbCDFPlotType.FormattingEnabled = True
+        Me.cmbCDFPlotType.Location = New System.Drawing.Point(157, 21)
+        Me.cmbCDFPlotType.Name = "cmbCDFPlotType"
+        Me.cmbCDFPlotType.Size = New System.Drawing.Size(237, 24)
+        Me.cmbCDFPlotType.TabIndex = 16
+        '
+        'lblCDFPlotType
+        '
+        Me.lblCDFPlotType.AutoSize = True
+        Me.lblCDFPlotType.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCDFPlotType.Location = New System.Drawing.Point(8, 25)
+        Me.lblCDFPlotType.Name = "lblCDFPlotType"
+        Me.lblCDFPlotType.Size = New System.Drawing.Size(62, 16)
+        Me.lblCDFPlotType.TabIndex = 15
+        Me.lblCDFPlotType.Text = "Plot type:"
+        '
+        'cmbCDFDistribution
+        '
+        Me.cmbCDFDistribution.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCDFDistribution.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbCDFDistribution.FormattingEnabled = True
+        Me.cmbCDFDistribution.Location = New System.Drawing.Point(157, 51)
+        Me.cmbCDFDistribution.Name = "cmbCDFDistribution"
+        Me.cmbCDFDistribution.Size = New System.Drawing.Size(237, 24)
+        Me.cmbCDFDistribution.TabIndex = 18
+        '
+        'lblCDFDistribution
+        '
+        Me.lblCDFDistribution.AutoSize = True
+        Me.lblCDFDistribution.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCDFDistribution.Location = New System.Drawing.Point(8, 55)
+        Me.lblCDFDistribution.Name = "lblCDFDistribution"
+        Me.lblCDFDistribution.Size = New System.Drawing.Size(76, 16)
+        Me.lblCDFDistribution.TabIndex = 17
+        Me.lblCDFDistribution.Text = "Distribution:"
+        '
+        'cmbCDFYScale
+        '
+        Me.cmbCDFYScale.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCDFYScale.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbCDFYScale.FormattingEnabled = True
+        Me.cmbCDFYScale.Location = New System.Drawing.Point(157, 81)
+        Me.cmbCDFYScale.Name = "cmbCDFYScale"
+        Me.cmbCDFYScale.Size = New System.Drawing.Size(237, 24)
+        Me.cmbCDFYScale.TabIndex = 20
+        '
+        'lblCDFYScale
+        '
+        Me.lblCDFYScale.AutoSize = True
+        Me.lblCDFYScale.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCDFYScale.Location = New System.Drawing.Point(8, 85)
+        Me.lblCDFYScale.Name = "lblCDFYScale"
+        Me.lblCDFYScale.Size = New System.Drawing.Size(55, 16)
+        Me.lblCDFYScale.TabIndex = 19
+        Me.lblCDFYScale.Text = "Y scale:"
+        '
+        'cmbCDFEmpiricalMethod
+        '
+        Me.cmbCDFEmpiricalMethod.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCDFEmpiricalMethod.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbCDFEmpiricalMethod.FormattingEnabled = True
+        Me.cmbCDFEmpiricalMethod.Location = New System.Drawing.Point(157, 111)
+        Me.cmbCDFEmpiricalMethod.Name = "cmbCDFEmpiricalMethod"
+        Me.cmbCDFEmpiricalMethod.Size = New System.Drawing.Size(237, 24)
+        Me.cmbCDFEmpiricalMethod.TabIndex = 22
+        '
+        'lblCDFEmpiricalMethod
+        '
+        Me.lblCDFEmpiricalMethod.AutoSize = True
+        Me.lblCDFEmpiricalMethod.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCDFEmpiricalMethod.Location = New System.Drawing.Point(8, 115)
+        Me.lblCDFEmpiricalMethod.Name = "lblCDFEmpiricalMethod"
+        Me.lblCDFEmpiricalMethod.Size = New System.Drawing.Size(114, 16)
+        Me.lblCDFEmpiricalMethod.TabIndex = 21
+        Me.lblCDFEmpiricalMethod.Text = "Empirical method:"
+        '
+        'grpCDFReference
+        '
+        Me.grpCDFReference.Controls.Add(Me.ckCDFExtendEmpirical)
+        Me.grpCDFReference.Controls.Add(Me.ckCDFPercentileLabels)
+        Me.grpCDFReference.Controls.Add(Me.txtCDFPercentiles)
+        Me.grpCDFReference.Controls.Add(Me.lblCDFPercentiles)
+        Me.grpCDFReference.Controls.Add(Me.ckCDFPercentileLines)
+        Me.grpCDFReference.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpCDFReference.Location = New System.Drawing.Point(3, 153)
+        Me.grpCDFReference.Name = "grpCDFReference"
+        Me.grpCDFReference.Size = New System.Drawing.Size(446, 151)
+        Me.grpCDFReference.TabIndex = 23
+        Me.grpCDFReference.TabStop = False
+        Me.grpCDFReference.Text = "Reference lines"
+        '
+        'lblCDFPercentiles
+        '
+        Me.lblCDFPercentiles.AutoSize = True
+        Me.lblCDFPercentiles.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCDFPercentiles.Location = New System.Drawing.Point(8, 54)
+        Me.lblCDFPercentiles.Name = "lblCDFPercentiles"
+        Me.lblCDFPercentiles.Size = New System.Drawing.Size(100, 16)
+        Me.lblCDFPercentiles.TabIndex = 15
+        Me.lblCDFPercentiles.Text = "Percentiles (%):"
+        '
+        'ckCDFPercentileLines
+        '
+        Me.ckCDFPercentileLines.AutoSize = True
+        Me.ckCDFPercentileLines.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckCDFPercentileLines.Location = New System.Drawing.Point(6, 25)
+        Me.ckCDFPercentileLines.Name = "ckCDFPercentileLines"
+        Me.ckCDFPercentileLines.Size = New System.Drawing.Size(215, 20)
+        Me.ckCDFPercentileLines.TabIndex = 13
+        Me.ckCDFPercentileLines.Text = "Show percentile reference lines"
+        Me.ckCDFPercentileLines.UseVisualStyleBackColor = True
+        '
+        'txtCDFPercentiles
+        '
+        Me.txtCDFPercentiles.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCDFPercentiles.Location = New System.Drawing.Point(157, 51)
+        Me.txtCDFPercentiles.Name = "txtCDFPercentiles"
+        Me.txtCDFPercentiles.Size = New System.Drawing.Size(237, 22)
+        Me.txtCDFPercentiles.TabIndex = 16
+        Me.txtCDFPercentiles.Text = "25; 50; 75"
+        '
+        'ckCDFPercentileLabels
+        '
+        Me.ckCDFPercentileLabels.AutoSize = True
+        Me.ckCDFPercentileLabels.Checked = True
+        Me.ckCDFPercentileLabels.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckCDFPercentileLabels.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckCDFPercentileLabels.Location = New System.Drawing.Point(6, 88)
+        Me.ckCDFPercentileLabels.Name = "ckCDFPercentileLabels"
+        Me.ckCDFPercentileLabels.Size = New System.Drawing.Size(164, 20)
+        Me.ckCDFPercentileLabels.TabIndex = 17
+        Me.ckCDFPercentileLabels.Text = "Show percentile labels"
+        Me.ckCDFPercentileLabels.UseVisualStyleBackColor = True
+        '
+        'ckCDFExtendEmpirical
+        '
+        Me.ckCDFExtendEmpirical.AutoSize = True
+        Me.ckCDFExtendEmpirical.Checked = True
+        Me.ckCDFExtendEmpirical.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckCDFExtendEmpirical.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckCDFExtendEmpirical.Location = New System.Drawing.Point(6, 114)
+        Me.ckCDFExtendEmpirical.Name = "ckCDFExtendEmpirical"
+        Me.ckCDFExtendEmpirical.Size = New System.Drawing.Size(198, 20)
+        Me.ckCDFExtendEmpirical.TabIndex = 18
+        Me.ckCDFExtendEmpirical.Text = "Extend ECDF to axis bounds"
+        Me.ckCDFExtendEmpirical.UseVisualStyleBackColor = True
+        '
+        'TabPage_CDFplotAppearance
+        '
+        Me.TabPage_CDFplotAppearance.Controls.Add(Me.grpCDFAppearance)
+        Me.TabPage_CDFplotAppearance.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage_CDFplotAppearance.Name = "TabPage_CDFplotAppearance"
+        Me.TabPage_CDFplotAppearance.Size = New System.Drawing.Size(454, 335)
+        Me.TabPage_CDFplotAppearance.TabIndex = 12
+        Me.TabPage_CDFplotAppearance.Text = "Appearance"
+        Me.TabPage_CDFplotAppearance.UseVisualStyleBackColor = True
+        '
+        'grpCDFAppearance
+        '
+        Me.grpCDFAppearance.Controls.Add(Me.cmbCDFLegendMode)
+        Me.grpCDFAppearance.Controls.Add(Me.lblCDFLegendMode)
+        Me.grpCDFAppearance.Controls.Add(Me.ckCDFShowLegend)
+        Me.grpCDFAppearance.Controls.Add(Me.optCDFSeparate)
+        Me.grpCDFAppearance.Controls.Add(Me.optCDFOverlay)
+        Me.grpCDFAppearance.Controls.Add(Me.nudCDFChartHeight)
+        Me.grpCDFAppearance.Controls.Add(Me.lblCDFChartHeight)
+        Me.grpCDFAppearance.Controls.Add(Me.nudCDFChartWidth)
+        Me.grpCDFAppearance.Controls.Add(Me.lblCDFChartWidth)
+        Me.grpCDFAppearance.Controls.Add(Me.ckCDFHorizontalGridlines)
+        Me.grpCDFAppearance.Controls.Add(Me.ckCDFVerticalGridlines)
+        Me.grpCDFAppearance.Controls.Add(Me.cmbCDFPalette)
+        Me.grpCDFAppearance.Controls.Add(Me.lblCDFPalette)
+        Me.grpCDFAppearance.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.grpCDFAppearance.Location = New System.Drawing.Point(5, 3)
+        Me.grpCDFAppearance.Name = "grpCDFAppearance"
+        Me.grpCDFAppearance.Size = New System.Drawing.Size(446, 245)
+        Me.grpCDFAppearance.TabIndex = 8
+        Me.grpCDFAppearance.TabStop = False
+        Me.grpCDFAppearance.Text = "Appearance"
+        '
+        'nudCDFChartHeight
+        '
+        Me.nudCDFChartHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudCDFChartHeight.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudCDFChartHeight.Location = New System.Drawing.Point(155, 209)
+        Me.nudCDFChartHeight.Maximum = New Decimal(New Integer() {5000, 0, 0, 0})
+        Me.nudCDFChartHeight.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.nudCDFChartHeight.Name = "nudCDFChartHeight"
+        Me.nudCDFChartHeight.Size = New System.Drawing.Size(78, 22)
+        Me.nudCDFChartHeight.TabIndex = 15
+        Me.nudCDFChartHeight.Value = New Decimal(New Integer() {440, 0, 0, 0})
+        '
+        'lblCDFChartHeight
+        '
+        Me.lblCDFChartHeight.AutoSize = True
+        Me.lblCDFChartHeight.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCDFChartHeight.Location = New System.Drawing.Point(37, 211)
+        Me.lblCDFChartHeight.Name = "lblCDFChartHeight"
+        Me.lblCDFChartHeight.Size = New System.Drawing.Size(83, 16)
+        Me.lblCDFChartHeight.TabIndex = 14
+        Me.lblCDFChartHeight.Text = "Chart Height:"
+        '
+        'nudCDFChartWidth
+        '
+        Me.nudCDFChartWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudCDFChartWidth.Increment = New Decimal(New Integer() {5, 0, 0, 0})
+        Me.nudCDFChartWidth.Location = New System.Drawing.Point(155, 181)
+        Me.nudCDFChartWidth.Maximum = New Decimal(New Integer() {5000, 0, 0, 0})
+        Me.nudCDFChartWidth.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.nudCDFChartWidth.Name = "nudCDFChartWidth"
+        Me.nudCDFChartWidth.Size = New System.Drawing.Size(78, 22)
+        Me.nudCDFChartWidth.TabIndex = 13
+        Me.nudCDFChartWidth.Value = New Decimal(New Integer() {720, 0, 0, 0})
+        '
+        'lblCDFChartWidth
+        '
+        Me.lblCDFChartWidth.AutoSize = True
+        Me.lblCDFChartWidth.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCDFChartWidth.Location = New System.Drawing.Point(42, 183)
+        Me.lblCDFChartWidth.Name = "lblCDFChartWidth"
+        Me.lblCDFChartWidth.Size = New System.Drawing.Size(78, 16)
+        Me.lblCDFChartWidth.TabIndex = 12
+        Me.lblCDFChartWidth.Text = "Chart Width:"
+        '
+        'ckCDFHorizontalGridlines
+        '
+        Me.ckCDFHorizontalGridlines.AutoSize = True
+        Me.ckCDFHorizontalGridlines.Checked = True
+        Me.ckCDFHorizontalGridlines.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckCDFHorizontalGridlines.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckCDFHorizontalGridlines.Location = New System.Drawing.Point(9, 155)
+        Me.ckCDFHorizontalGridlines.Name = "ckCDFHorizontalGridlines"
+        Me.ckCDFHorizontalGridlines.Size = New System.Drawing.Size(145, 20)
+        Me.ckCDFHorizontalGridlines.TabIndex = 11
+        Me.ckCDFHorizontalGridlines.Text = "Horizontal Gridlines"
+        Me.ckCDFHorizontalGridlines.UseVisualStyleBackColor = True
+        '
+        'ckCDFVerticalGridlines
+        '
+        Me.ckCDFVerticalGridlines.AutoSize = True
+        Me.ckCDFVerticalGridlines.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckCDFVerticalGridlines.Location = New System.Drawing.Point(217, 155)
+        Me.ckCDFVerticalGridlines.Name = "ckCDFVerticalGridlines"
+        Me.ckCDFVerticalGridlines.Size = New System.Drawing.Size(130, 20)
+        Me.ckCDFVerticalGridlines.TabIndex = 10
+        Me.ckCDFVerticalGridlines.Text = "Vertical Gridlines"
+        Me.ckCDFVerticalGridlines.UseVisualStyleBackColor = True
+        '
+        'cmbCDFPalette
+        '
+        Me.cmbCDFPalette.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCDFPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbCDFPalette.FormattingEnabled = True
+        Me.cmbCDFPalette.Location = New System.Drawing.Point(155, 118)
+        Me.cmbCDFPalette.Name = "cmbCDFPalette"
+        Me.cmbCDFPalette.Size = New System.Drawing.Size(200, 24)
+        Me.cmbCDFPalette.TabIndex = 9
+        '
+        'lblCDFPalette
+        '
+        Me.lblCDFPalette.AutoSize = True
+        Me.lblCDFPalette.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCDFPalette.Location = New System.Drawing.Point(6, 122)
+        Me.lblCDFPalette.Name = "lblCDFPalette"
+        Me.lblCDFPalette.Size = New System.Drawing.Size(86, 16)
+        Me.lblCDFPalette.TabIndex = 8
+        Me.lblCDFPalette.Text = "Color palette:"
+        '
+        'optCDFOverlay
+        '
+        Me.optCDFOverlay.AutoSize = True
+        Me.optCDFOverlay.Checked = True
+        Me.optCDFOverlay.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCDFOverlay.Location = New System.Drawing.Point(28, 21)
+        Me.optCDFOverlay.Name = "optCDFOverlay"
+        Me.optCDFOverlay.Size = New System.Drawing.Size(130, 20)
+        Me.optCDFOverlay.TabIndex = 16
+        Me.optCDFOverlay.TabStop = True
+        Me.optCDFOverlay.Text = "Overlay samples"
+        Me.optCDFOverlay.UseVisualStyleBackColor = True
+        '
+        'optCDFSeparate
+        '
+        Me.optCDFSeparate.AutoSize = True
+        Me.optCDFSeparate.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.optCDFSeparate.Location = New System.Drawing.Point(213, 21)
+        Me.optCDFSeparate.Name = "optCDFSeparate"
+        Me.optCDFSeparate.Size = New System.Drawing.Size(123, 20)
+        Me.optCDFSeparate.TabIndex = 17
+        Me.optCDFSeparate.Text = "Separate charts"
+        Me.optCDFSeparate.UseVisualStyleBackColor = True
+        '
+        'ckCDFShowLegend
+        '
+        Me.ckCDFShowLegend.AutoSize = True
+        Me.ckCDFShowLegend.Checked = True
+        Me.ckCDFShowLegend.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckCDFShowLegend.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ckCDFShowLegend.Location = New System.Drawing.Point(9, 59)
+        Me.ckCDFShowLegend.Name = "ckCDFShowLegend"
+        Me.ckCDFShowLegend.Size = New System.Drawing.Size(107, 20)
+        Me.ckCDFShowLegend.TabIndex = 18
+        Me.ckCDFShowLegend.Text = "Show legend"
+        Me.ckCDFShowLegend.UseVisualStyleBackColor = True
+        '
+        'cmbCDFLegendMode
+        '
+        Me.cmbCDFLegendMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.cmbCDFLegendMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbCDFLegendMode.FormattingEnabled = True
+        Me.cmbCDFLegendMode.Location = New System.Drawing.Point(155, 88)
+        Me.cmbCDFLegendMode.Name = "cmbCDFLegendMode"
+        Me.cmbCDFLegendMode.Size = New System.Drawing.Size(200, 24)
+        Me.cmbCDFLegendMode.TabIndex = 20
+        '
+        'lblCDFLegendMode
+        '
+        Me.lblCDFLegendMode.AutoSize = True
+        Me.lblCDFLegendMode.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCDFLegendMode.Location = New System.Drawing.Point(6, 92)
+        Me.lblCDFLegendMode.Name = "lblCDFLegendMode"
+        Me.lblCDFLegendMode.Size = New System.Drawing.Size(99, 16)
+        Me.lblCDFLegendMode.TabIndex = 19
+        Me.lblCDFLegendMode.Text = "Legend entries:"
         '
         'UibyID
         '
@@ -2044,11 +2710,30 @@ Partial Class UibyID
         Me.grpViolinDensity.PerformLayout()
         CType(Me.nudViolinDensityPoints, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudViolinBandwidthAdjustment, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
+        Me.grpAppearnceViolin.ResumeLayout(False)
+        Me.grpAppearnceViolin.PerformLayout()
         CType(Me.nudViolinChartHeight, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudViolinChartWidth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.nudViolinFillTransparency, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage_OptionsBoxPlot.ResumeLayout(False)
+        Me.TabPage_OptionsBoxPlot.PerformLayout()
+        Me.grpBoxDisplay.ResumeLayout(False)
+        Me.grpBoxDisplay.PerformLayout()
+        Me.grpAppearnceBox.ResumeLayout(False)
+        Me.grpAppearnceBox.PerformLayout()
+        CType(Me.nudBoxChartHeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudBoxChartWidth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudBoxFillTransparency, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage_CDFplot.ResumeLayout(False)
+        Me.grpCDFPlot.ResumeLayout(False)
+        Me.grpCDFPlot.PerformLayout()
+        Me.grpCDFReference.ResumeLayout(False)
+        Me.grpCDFReference.PerformLayout()
+        Me.TabPage_CDFplotAppearance.ResumeLayout(False)
+        Me.grpCDFAppearance.ResumeLayout(False)
+        Me.grpCDFAppearance.PerformLayout()
+        CType(Me.nudCDFChartHeight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudCDFChartWidth, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -2170,7 +2855,7 @@ Partial Class UibyID
     Friend WithEvents cmbCatHistPalette As Windows.Forms.ComboBox
     Friend WithEvents lblCatHistPalette As Windows.Forms.Label
     Friend WithEvents TabPage_OptionsViolin As Windows.Forms.TabPage
-    Friend WithEvents GroupBox1 As Windows.Forms.GroupBox
+    Friend WithEvents grpAppearnceViolin As Windows.Forms.GroupBox
     Friend WithEvents cmbViolinPalette As Windows.Forms.ComboBox
     Friend WithEvents lblViolinPalette As Windows.Forms.Label
     Friend WithEvents nudViolinFillTransparency As Windows.Forms.NumericUpDown
@@ -2196,4 +2881,55 @@ Partial Class UibyID
     Friend WithEvents lblViolinChartHeight As Windows.Forms.Label
     Friend WithEvents nudViolinChartWidth As Windows.Forms.NumericUpDown
     Friend WithEvents lblViolinChartWidth As Windows.Forms.Label
+    Friend WithEvents ckBoxPlot_Histogram As Windows.Forms.CheckBox
+    Friend WithEvents optCatHistComparativeHorizontal As Windows.Forms.RadioButton
+    Friend WithEvents optCatHistComparativeVertical As Windows.Forms.RadioButton
+    Friend WithEvents TabPage_OptionsBoxPlot As Windows.Forms.TabPage
+    Friend WithEvents ckDescriptiveStatistics_Box As Windows.Forms.CheckBox
+    Friend WithEvents grpAppearnceBox As Windows.Forms.GroupBox
+    Friend WithEvents nudBoxChartHeight As Windows.Forms.NumericUpDown
+    Friend WithEvents lblBoxChartHeight As Windows.Forms.Label
+    Friend WithEvents nudBoxChartWidth As Windows.Forms.NumericUpDown
+    Friend WithEvents lblBoxChartWidth As Windows.Forms.Label
+    Friend WithEvents cbBoxHorizontalGridlines As Windows.Forms.CheckBox
+    Friend WithEvents cbBoxOutline As Windows.Forms.CheckBox
+    Friend WithEvents cmbBoxPalette As Windows.Forms.ComboBox
+    Friend WithEvents lblBoxPalette As Windows.Forms.Label
+    Friend WithEvents nudBoxFillTransparency As Windows.Forms.NumericUpDown
+    Friend WithEvents lblBoxFillTransparency As Windows.Forms.Label
+    Friend WithEvents grpBoxDisplay As Windows.Forms.GroupBox
+    Friend WithEvents ckBoxConnectMeans As Windows.Forms.CheckBox
+    Friend WithEvents cmdBoxIndividualObs As Windows.Forms.CheckBox
+    Friend WithEvents cmdBoxMean As Windows.Forms.CheckBox
+    Friend WithEvents TabPage_CDFplot As Windows.Forms.TabPage
+    Friend WithEvents grpCDFPlot As Windows.Forms.GroupBox
+    Friend WithEvents cmbCDFDistribution As Windows.Forms.ComboBox
+    Friend WithEvents lblCDFDistribution As Windows.Forms.Label
+    Friend WithEvents cmbCDFPlotType As Windows.Forms.ComboBox
+    Friend WithEvents lblCDFPlotType As Windows.Forms.Label
+    Friend WithEvents cmbCDFYScale As Windows.Forms.ComboBox
+    Friend WithEvents lblCDFYScale As Windows.Forms.Label
+    Friend WithEvents cmbCDFEmpiricalMethod As Windows.Forms.ComboBox
+    Friend WithEvents lblCDFEmpiricalMethod As Windows.Forms.Label
+    Friend WithEvents grpCDFReference As Windows.Forms.GroupBox
+    Friend WithEvents lblCDFPercentiles As Windows.Forms.Label
+    Friend WithEvents ckCDFPercentileLines As Windows.Forms.CheckBox
+    Friend WithEvents ckCDFExtendEmpirical As Windows.Forms.CheckBox
+    Friend WithEvents ckCDFPercentileLabels As Windows.Forms.CheckBox
+    Friend WithEvents txtCDFPercentiles As Windows.Forms.TextBox
+    Friend WithEvents TabPage_CDFplotAppearance As Windows.Forms.TabPage
+    Friend WithEvents grpCDFAppearance As Windows.Forms.GroupBox
+    Friend WithEvents optCDFSeparate As Windows.Forms.RadioButton
+    Friend WithEvents optCDFOverlay As Windows.Forms.RadioButton
+    Friend WithEvents nudCDFChartHeight As Windows.Forms.NumericUpDown
+    Friend WithEvents lblCDFChartHeight As Windows.Forms.Label
+    Friend WithEvents nudCDFChartWidth As Windows.Forms.NumericUpDown
+    Friend WithEvents lblCDFChartWidth As Windows.Forms.Label
+    Friend WithEvents ckCDFHorizontalGridlines As Windows.Forms.CheckBox
+    Friend WithEvents ckCDFVerticalGridlines As Windows.Forms.CheckBox
+    Friend WithEvents cmbCDFPalette As Windows.Forms.ComboBox
+    Friend WithEvents lblCDFPalette As Windows.Forms.Label
+    Friend WithEvents ckCDFShowLegend As Windows.Forms.CheckBox
+    Friend WithEvents cmbCDFLegendMode As Windows.Forms.ComboBox
+    Friend WithEvents lblCDFLegendMode As Windows.Forms.Label
 End Class
