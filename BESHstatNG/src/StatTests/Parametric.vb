@@ -5,6 +5,20 @@ Imports BESHStatNG.AppInfrastructure
 
 Namespace parametric
 
+    ''' <summary>
+    ''' Numeric data used to draw a multiple-comparison confidence-interval plot.
+    ''' This is kept separate from the formatted ResultTable output so plotting does
+    ''' not depend on parsing locale-specific display strings.
+    ''' </summary>
+    Public Class MultipleComparisonPlotData
+        Public Property ProcedureName As String
+        Public Property Alpha As Double
+        Public Property Labels As String()
+        Public Property Estimates As Double()
+        Public Property LowerLimits As Double()
+        Public Property UpperLimits As Double()
+    End Class
+
     Public Module Parametric
 
         Friend Function BuildMcpCiFootnote(alpha As Double) As String
@@ -376,6 +390,60 @@ Namespace parametric
             Private MCP_Bonferroni_Alpha As Double = 0.05
             Private MCP_Tukey_Alpha As Double = 0.05
             Private MCP_GamesHowell_Alpha As Double = 0.05
+            Private MCP_LSD_PlotData As MultipleComparisonPlotData = Nothing
+            Private MCP_Bonferroni_PlotData As MultipleComparisonPlotData = Nothing
+            Private MCP_Tukey_PlotData As MultipleComparisonPlotData = Nothing
+            Private MCP_GamesHowell_PlotData As MultipleComparisonPlotData = Nothing
+
+            Public ReadOnly Property FisherLSDPlotData As MultipleComparisonPlotData
+                Get
+                    Return MCP_LSD_PlotData
+                End Get
+            End Property
+
+            Public ReadOnly Property BonferroniPlotData As MultipleComparisonPlotData
+                Get
+                    Return MCP_Bonferroni_PlotData
+                End Get
+            End Property
+
+            Public ReadOnly Property TukeyKramerPlotData As MultipleComparisonPlotData
+                Get
+                    Return MCP_Tukey_PlotData
+                End Get
+            End Property
+
+            Public ReadOnly Property GamesHowellPlotData As MultipleComparisonPlotData
+                Get
+                    Return MCP_GamesHowell_PlotData
+                End Get
+            End Property
+
+            Private Function BuildMcpPlotData(arDiffs(,) As Object,
+                                              count As Integer,
+                                              procedureName As String,
+                                              alpha As Double) As MultipleComparisonPlotData
+                Dim plotData = New MultipleComparisonPlotData With {
+                        .ProcedureName = procedureName,
+                        .Alpha = alpha
+                    }
+                Dim labels(count - 1) As String
+                Dim estimates(count - 1) As Double
+                Dim lowerLimits(count - 1) As Double
+                Dim upperLimits(count - 1) As Double
+
+                For i As Integer = 0 To count - 1
+                    labels(i) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
+                    estimates(i) = CDbl(arDiffs(i, 1))
+                    lowerLimits(i) = CDbl(arDiffs(i, 6))
+                    upperLimits(i) = CDbl(arDiffs(i, 7))
+                Next
+                plotData.Labels = labels
+                plotData.Estimates = estimates
+                plotData.LowerLimits = lowerLimits
+                plotData.UpperLimits = upperLimits
+                Return plotData
+            End Function
 
             ''' <summary>
             ''' Initializes the one‑way ANOVA model with grouped numeric data.
@@ -438,7 +506,7 @@ Namespace parametric
                 If MCP_LSD IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_LSD)
-                    t.AddHeaderTopRow({"Fisher's LSD multiple comparisons", "Mean difference (CI)", "t", "P-value"})
+                    t.AddHeaderTopRow({"Fisher's LSD multiple comparisons", "Mean difference (CI)", "SE difference", "t", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.MCP_LSD_Alpha))
                     out.Add(t)
                 End If
@@ -446,7 +514,7 @@ Namespace parametric
                 If MCP_Bonferroni IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_Bonferroni)
-                    t.AddHeaderTopRow({"Bonferroni adjusted multiple comparisons", "Mean difference (CI)", "t", "P-value"})
+                    t.AddHeaderTopRow({"Bonferroni adjusted multiple comparisons", "Mean difference (CI)", "SE difference", "t", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.MCP_Bonferroni_Alpha) & " Bonferroni-adjusted critical values were used.")
                     out.Add(t)
                 End If
@@ -454,7 +522,7 @@ Namespace parametric
                 If MCP_Tukey IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_Tukey)
-                    t.AddHeaderTopRow({"Tukey-Kramer multiple comparisons", "Mean difference (CI)", "q", "P-value"})
+                    t.AddHeaderTopRow({"Tukey-Kramer multiple comparisons", "Mean difference (CI)", "SE difference", "q", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.MCP_Tukey_Alpha))
                     out.Add(t)
                 End If
@@ -462,7 +530,7 @@ Namespace parametric
                 If MCP_GamesHowell IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_GamesHowell)
-                    t.AddHeaderTopRow({"Games-Howell multiple comparisons", "Mean difference (CI)", "q", "DF", "P-value"})
+                    t.AddHeaderTopRow({"Games-Howell multiple comparisons", "Mean difference (CI)", "SE difference", "q", "DF", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.MCP_GamesHowell_Alpha))
                     out.Add(t)
                 End If
@@ -615,7 +683,7 @@ Namespace parametric
                 ValidateAlpha(alpha)
                 Dim out(,) As Object
                 Dim nContrasts As Integer = (pNoGroups * (pNoGroups - 1)) / 2
-                ReDim out(nContrasts - 1, 3)
+                ReDim out(nContrasts - 1, 4)
 
                 Dim arMean(pNoGroups - 1) As Double
                 Dim arDiffs(nContrasts - 1, 7) As Object
@@ -660,16 +728,19 @@ Namespace parametric
                 For i = 0 To ii - 1
                     out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
                     out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
-                    out(i, 2) = CStr(CSng(arDiffs(i, 2)))
-                    out(i, 3) = CStr(CSng(arDiffs(i, 5)))
+                    out(i, 2) = CStr(CSng(arDiffs(i, 0)))
+                    out(i, 3) = CStr(CSng(arDiffs(i, 2)))
+                    out(i, 4) = CStr(CSng(arDiffs(i, 5)))
                 Next
 
                 If bBonferroni Then
                     Me.MCP_Bonferroni = out
                     Me.MCP_Bonferroni_Alpha = alpha
+                    Me.MCP_Bonferroni_PlotData = BuildMcpPlotData(arDiffs, ii, "Bonferroni", alpha)
                 Else
                     Me.MCP_LSD = out
                     Me.MCP_LSD_Alpha = alpha
+                    Me.MCP_LSD_PlotData = BuildMcpPlotData(arDiffs, ii, "Fisher's LSD", alpha)
                 End If
 
                 Return out
@@ -685,7 +756,7 @@ Namespace parametric
             ''' </param>
             ''' <returns>
             ''' A 2D Object array containing comparison labels, mean differences with
-            ''' confidence intervals, Q-statistics, and p-values.
+            ''' confidence intervals, standard errors of the differences, Q-statistics, and p-values.
             ''' </returns>
             ''' <remarks>
             ''' Pairwise comparisons are returned in natural pair-generation order and
@@ -697,7 +768,7 @@ Namespace parametric
                 Dim out(,) As Object
                 Dim iFault As Integer = 0
                 Dim nContrasts As Integer = (pNoGroups * (pNoGroups - 1)) / 2
-                ReDim out(nContrasts - 1, 3)
+                ReDim out(nContrasts - 1, 4)
 
                 Dim arMean(pNoGroups - 1) As Double
                 Dim arDiffs(nContrasts - 1, 7) As Object
@@ -714,10 +785,13 @@ Namespace parametric
                 For i = 0 To pNoGroups - 1
                     For j = i + 1 To pNoGroups - 1
                         Dim diff As Double = arMean(i) - arMean(j)
-                        Dim qStat As Double = Math.Abs(diff) / Math.Sqrt(0.5 * MSerr * (1.0 / pNs(i) + 1.0 / pNs(j)))
+                        Dim seDiff As Double = Math.Sqrt(MSerr * (1.0 / pNs(i) + 1.0 / pNs(j)))
+                        Dim seQ As Double = seDiff / Math.Sqrt(2.0)
+                        Dim qStat As Double = Math.Abs(diff) / seQ
                         Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, CDbl(df), CDbl(pNoGroups), iFault)
-                        Dim margin As Double = (Qcrit / Math.Sqrt(2.0)) * Math.Sqrt(MSerr) * Math.Sqrt(1.0 / pNs(i) + 1.0 / pNs(j))
+                        Dim margin As Double = Qcrit * seQ
 
+                        arDiffs(ii, 0) = seDiff
                         arDiffs(ii, 1) = diff
                         arDiffs(ii, 2) = qStat
                         arDiffs(ii, 3) = i
@@ -732,12 +806,14 @@ Namespace parametric
                 For i = 0 To ii - 1
                     out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
                     out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
-                    out(i, 2) = CStr(CSng(arDiffs(i, 2)))
-                    out(i, 3) = CStr(CSng(arDiffs(i, 5)))
+                    out(i, 2) = CStr(CSng(arDiffs(i, 0)))
+                    out(i, 3) = CStr(CSng(arDiffs(i, 2)))
+                    out(i, 4) = CStr(CSng(arDiffs(i, 5)))
                 Next
 
                 Me.MCP_Tukey = out
                 Me.MCP_Tukey_Alpha = alpha
+                Me.MCP_Tukey_PlotData = BuildMcpPlotData(arDiffs, ii, "Tukey-Kramer", alpha)
                 Return out
             End Function
 
@@ -751,7 +827,7 @@ Namespace parametric
             ''' </param>
             ''' <returns>
             ''' A 2D Object array containing comparison labels, mean differences with
-            ''' confidence intervals, Q-statistics, degrees of freedom, and p-values.
+            ''' confidence intervals, standard errors of the differences, Q-statistics, degrees of freedom, and p-values.
             ''' </returns>
             ''' <remarks>
             ''' Pairwise comparisons are returned in natural pair-generation order and
@@ -764,7 +840,7 @@ Namespace parametric
                 Dim iFault As Integer = 0
                 Dim arTemp() As Double
                 Dim nContrasts As Integer = (pNoGroups * (pNoGroups - 1)) / 2
-                ReDim out(nContrasts - 1, 4)
+                ReDim out(nContrasts - 1, 5)
 
                 Dim arMean(pNoGroups - 1) As Double
                 Dim arVars(pNoGroups - 1) As Double
@@ -783,13 +859,15 @@ Namespace parametric
                     For j = i + 1 To pNoGroups - 1
                         Dim VarNj As Double = arVars(j) / pNs(j)
                         Dim diff As Double = arMean(i) - arMean(j)
-                        Dim se As Double = Math.Sqrt(0.5 * (VarNi + VarNj))
-                        Dim qStat As Double = Math.Abs(diff) / se
+                        Dim seDiff As Double = Math.Sqrt(VarNi + VarNj)
+                        Dim seQ As Double = seDiff / Math.Sqrt(2.0)
+                        Dim qStat As Double = Math.Abs(diff) / seQ
                         Dim df As Double = ((VarNi + VarNj) ^ 2) / (((VarNi ^ 2) / (pNs(i) - 1)) + ((VarNj ^ 2) / (pNs(j) - 1)))
                         Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, df, CDbl(pNoGroups), iFault)
                         Dim qCrit As Double = distributions.QTRNG(1.0 - alpha, df, CDbl(pNoGroups), iFault)
-                        Dim margin As Double = qCrit * se
+                        Dim margin As Double = qCrit * seQ
 
+                        arDiffs(ii, 0) = seDiff
                         arDiffs(ii, 1) = diff
                         arDiffs(ii, 2) = qStat
                         arDiffs(ii, 3) = i
@@ -805,13 +883,15 @@ Namespace parametric
                 For i = 0 To ii - 1
                     out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
                     out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
-                    out(i, 2) = CStr(CSng(arDiffs(i, 2)))
-                    out(i, 3) = CStr(CSng(arDiffs(i, 8)))
-                    out(i, 4) = CStr(CSng(arDiffs(i, 5)))
+                    out(i, 2) = CStr(CSng(arDiffs(i, 0)))
+                    out(i, 3) = CStr(CSng(arDiffs(i, 2)))
+                    out(i, 4) = CStr(CSng(arDiffs(i, 8)))
+                    out(i, 5) = CStr(CSng(arDiffs(i, 5)))
                 Next
 
                 Me.MCP_GamesHowell = out
                 Me.MCP_GamesHowell_Alpha = alpha
+                Me.MCP_GamesHowell_PlotData = BuildMcpPlotData(arDiffs, ii, "Games-Howell", alpha)
                 Return out
             End Function
         End Class

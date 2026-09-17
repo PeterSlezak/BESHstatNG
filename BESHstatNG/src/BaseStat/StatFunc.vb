@@ -1880,7 +1880,44 @@ Public Module StatFunc
         Return out
     End Function
 
+    ''' <summary>
+    ''' Resolves Tukey box-plot whiskers from sorted observations and supplied quartiles.
+    ''' Whiskers end at the most extreme observations still inside the 1.5 x IQR fences.
+    ''' </summary>
+    ''' <param name="sortedValues">Observations sorted in ascending order.</param>
+    ''' <param name="q1">First quartile.</param>
+    ''' <param name="q3">Third quartile.</param>
+    ''' <param name="whiskerLow">Receives the lower Tukey whisker.</param>
+    ''' <param name="whiskerHigh">Receives the upper Tukey whisker.</param>
+    Public Sub ResolveTukeyWhiskers(sortedValues As Double(),
+                                    q1 As Double,
+                                    q3 As Double,
+                                    ByRef whiskerLow As Double,
+                                    ByRef whiskerHigh As Double)
+        If sortedValues Is Nothing OrElse sortedValues.Length = 0 Then
+            Throw New ArgumentException("At least one observation is required.", NameOf(sortedValues))
+        End If
 
+        Dim iqr As Double = q3 - q1
+        Dim lowerFence As Double = q1 - 1.5R * iqr
+        Dim upperFence As Double = q3 + 1.5R * iqr
+
+        whiskerLow = sortedValues(0)
+        For i As Integer = 0 To sortedValues.Length - 1
+            If sortedValues(i) >= lowerFence Then
+                whiskerLow = sortedValues(i)
+                Exit For
+            End If
+        Next
+
+        whiskerHigh = sortedValues(sortedValues.Length - 1)
+        For i As Integer = sortedValues.Length - 1 To 0 Step -1
+            If sortedValues(i) <= upperFence Then
+                whiskerHigh = sortedValues(i)
+                Exit For
+            End If
+        Next
+    End Sub
 
 
     ''' <summary>

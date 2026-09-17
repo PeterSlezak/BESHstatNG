@@ -182,6 +182,8 @@
     <Compile Include="src\ExcelUDFs\UdfScalarUtilities.vb" />
     <Compile Include="src\Graphics\3Dobjects.vb" />
     <Compile Include="src\Graphics\BoxPlot.vb" />
+    <Compile Include="src\Graphics\BulletChart.vb" />
+    <Compile Include="src\Graphics\BulletChartExcel.vb" />
     <Compile Include="src\Graphics\CalibrationPlot.vb" />
     <Compile Include="src\Graphics\CategoricalHistogram.vb" />
     <Compile Include="src\Graphics\ChartExport.vb" />
@@ -190,14 +192,23 @@
     <Compile Include="src\Graphics\ConvexHullPlot.vb" />
     <Compile Include="src\Graphics\CorrespondenceAnalysisPlotExcel.vb" />
     <Compile Include="src\Graphics\CoxSurvivalPlotExcel.vb" />
+    <Compile Include="src\Graphics\CumulativeDistributionPlot.vb" />
+    <Compile Include="src\Graphics\CumulativeDistributionPlotExcel.vb" />
+    <Compile Include="src\Graphics\DumbbellPlot.vb" />
+    <Compile Include="src\Graphics\DumbbellPlotExcel.vb" />
     <Compile Include="src\Graphics\FactorAnalysisPlotExcel.vb" />
     <Compile Include="src\Graphics\GifAnimator.vb" />
     <Compile Include="src\Graphics\Histogram.vb" />
     <Compile Include="src\Graphics\KiteChart.vb" />
+    <Compile Include="src\Graphics\LadderPlot.vb" />
+    <Compile Include="src\Graphics\LadderPlotExcel.vb" />
+    <Compile Include="src\Graphics\MultipleComparisonPlotExcel.vb" />
     <Compile Include="src\Graphics\NormalPlot.vb" />
     <Compile Include="src\Graphics\PcaPlotExcel.vb" />
     <Compile Include="src\Graphics\PolarPlot.vb" />
     <Compile Include="src\Graphics\ROC.vb" />
+    <Compile Include="src\Graphics\SankeyPlot.vb" />
+    <Compile Include="src\Graphics\SankeyPlotExcel.vb" />
     <Compile Include="src\Graphics\ScatterPlotMatrix.vb" />
     <Compile Include="src\Graphics\SpcControlChartExcel.vb" />
     <Compile Include="src\Graphics\SymetryPlot.vb" />
@@ -290,6 +301,12 @@
     <Compile Include="src\StatTests\Nonparametric.vb" />
     <Compile Include="src\StatTests\Parametric.vb" />
     <Compile Include="src\UI\ExcelWindowWrapper.vb" />
+    <Compile Include="src\UI\Ui01BulletChart.Designer.vb">
+      <DependentUpon>Ui01BulletChart.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui01BulletChart.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\UI\Ui01ConvexHullPlot.Designer.vb">
       <DependentUpon>Ui01ConvexHullPlot.vb</DependentUpon>
     </Compile>
@@ -297,10 +314,28 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\UI\RegressionEffectsController.vb" />
+    <Compile Include="src\UI\Ui01DumbbellPlot.Designer.vb">
+      <DependentUpon>Ui01DumbbellPlot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui01DumbbellPlot.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui01LadderPlot.Designer.vb">
+      <DependentUpon>Ui01LadderPlot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui01LadderPlot.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="src\UI\Ui01PolarPlot.Designer.vb">
       <DependentUpon>Ui01PolarPlot.vb</DependentUpon>
     </Compile>
     <Compile Include="src\UI\Ui01PolarPlot.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="src\UI\Ui01SankeyPlot.Designer.vb">
+      <DependentUpon>Ui01SankeyPlot.vb</DependentUpon>
+    </Compile>
+    <Compile Include="src\UI\Ui01SankeyPlot.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\UI\Ui10ShowLog.Designer.vb">
@@ -456,11 +491,23 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui01BulletChart.resx">
+      <DependentUpon>Ui01BulletChart.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui01ConvexHullPlot.resx">
       <DependentUpon>Ui01ConvexHullPlot.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui01DumbbellPlot.resx">
+      <DependentUpon>Ui01DumbbellPlot.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui01LadderPlot.resx">
+      <DependentUpon>Ui01LadderPlot.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui01PolarPlot.resx">
       <DependentUpon>Ui01PolarPlot.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\UI\Ui01SankeyPlot.resx">
+      <DependentUpon>Ui01SankeyPlot.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\UI\Ui10ShowLog.resx">
       <DependentUpon>Ui10ShowLog.vb</DependentUpon>

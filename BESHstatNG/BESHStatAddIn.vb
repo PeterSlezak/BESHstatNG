@@ -193,6 +193,31 @@ Public Class Ribbon
         mwForm.Show()
     End Sub
 
+    Public Sub OnbtmSankeyPressed(control As IRibbonControl)
+        Dim mwForm As New Ui01SankeyPlot(HelpTopic.SankeyPlot)
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmDumbbellPressed(control As IRibbonControl)
+        Dim mwForm As New Ui01DumbbellPlot(HelpTopic.DumbbellPlot)
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmLadderPressed(control As IRibbonControl)
+        Dim mwForm As New Ui01LadderPlot(HelpTopic.LadderPlot)
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmBulletPressed(control As IRibbonControl)
+        Dim mwForm As New Ui01BulletChart(HelpTopic.BulletChart)
+        mwForm.Show()
+    End Sub
+
+    Public Sub OnbtmCDFPressed(control As IRibbonControl)
+        Dim mwForm As New UibyID("Cumulative Distribution Function Plot", HelpTopic.CDFplot)
+        mwForm.Show()
+    End Sub
+
     '--------------------------------------------------------------------------
     ' Parametric
     '--------------------------------------------------------------------------
