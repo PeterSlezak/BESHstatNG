@@ -118,6 +118,7 @@ Namespace parametric
                 Dim out = New List(Of ResultTable)
                 Dim t = New ResultTable
                 t.SetBody(Me.pANOVAtable)
+                t.AddPvalueToFormat(5)
                 t.AddHeaderLeftRow({"Between Groups", "Subgroups within Groups", "Within SubGroups", "Total"})
                 t.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value", "Variance Compontent %"})
                 out.Add(t)
@@ -127,6 +128,7 @@ Namespace parametric
                     t2.SetBody({{"Not Applicable"}})
                 Else
                     t2.SetBody(Me.pANOVAtabSW)
+                    t2.AddPvalueToFormat(5)
                     t2.AddHeaderLeftRow({"Between Groups", "Subgroups within Groups", "Within SubGroups", "Total"})
                     t2.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value"})
                 End If
@@ -491,6 +493,7 @@ Namespace parametric
 
                 If Me.WANOVA Is Nothing Then
                     anTable.SetBody(Me.ANOVAtable)
+                    anTable.AddPvalueToFormat(5)
                     anTable.AddHeaderLeftRow({"Between Groups", "Within Groups", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value"})
                 Else
@@ -498,6 +501,8 @@ Namespace parametric
                                                         {{Me.WANOVA.DF1, Me.WANOVA.TestStatistics1, Me.WANOVA.Pvalue},
                                                          {"", "", ""},
                                                          {"", "", ""}}))
+                    anTable.AddPvalueToFormat(5)
+                    anTable.AddPvalueToFormat(8)
                     anTable.AddHeaderLeftRow({"Between Groups", "Within Groups", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value", "Welch DF Error", "Welch F", "Welch P-value"})
                 End If
@@ -506,6 +511,7 @@ Namespace parametric
                 If MCP_LSD IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_LSD)
+                    t.AddPvalueToFormat(5)
                     t.AddHeaderTopRow({"Fisher's LSD multiple comparisons", "Mean difference (CI)", "SE difference", "t", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.MCP_LSD_Alpha))
                     out.Add(t)
@@ -514,6 +520,7 @@ Namespace parametric
                 If MCP_Bonferroni IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_Bonferroni)
+                    t.AddPvalueToFormat(5)
                     t.AddHeaderTopRow({"Bonferroni adjusted multiple comparisons", "Mean difference (CI)", "SE difference", "t", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.MCP_Bonferroni_Alpha) & " Bonferroni-adjusted critical values were used.")
                     out.Add(t)
@@ -522,6 +529,7 @@ Namespace parametric
                 If MCP_Tukey IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_Tukey)
+                    t.AddPvalueToFormat(5)
                     t.AddHeaderTopRow({"Tukey-Kramer multiple comparisons", "Mean difference (CI)", "SE difference", "q", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.MCP_Tukey_Alpha))
                     out.Add(t)
@@ -530,6 +538,7 @@ Namespace parametric
                 If MCP_GamesHowell IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.MCP_GamesHowell)
+                    t.AddPvalueToFormat(6)
                     t.AddHeaderTopRow({"Games-Howell multiple comparisons", "Mean difference (CI)", "SE difference", "q", "DF", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.MCP_GamesHowell_Alpha))
                     out.Add(t)
@@ -982,24 +991,32 @@ Namespace parametric
 
                 If Me.HuyhnFeldtTest Is Nothing And Me.GreenhouseGeisserTest Is Nothing Then
                     anTable.SetBody(Me.ANOVAtable)
+                    anTable.AddPvalueToFormat(5)
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value"})
                 ElseIf Me.HuyhnFeldtTest IsNot Nothing And Me.GreenhouseGeisserTest IsNot Nothing Then
                     anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
                                                         {{Me.GreenhouseGeisserTest.TestStatistics1, Me.GreenhouseGeisserTest.Pvalue, Me.HuyhnFeldtTest.TestStatistics1, Me.HuyhnFeldtTest.Pvalue},
                                                          {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}}))
+                    anTable.AddPvalueToFormat(5)
+                    anTable.AddPvalueToFormat(7)
+                    anTable.AddPvalueToFormat(9)
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value", "Epsilon Greenhouse - Geisser", "P-value GG", "Epsilon Huyhn-Feldt", "P-value HF"})
                 ElseIf Me.HuyhnFeldtTest IsNot Nothing Then
                     anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
                                                         {{Me.HuyhnFeldtTest.TestStatistics1, Me.HuyhnFeldtTest.Pvalue},
                                                          {"", ""}, {"", ""}, {"", ""}}))
+                    anTable.AddPvalueToFormat(5)
+                    anTable.AddPvalueToFormat(7)
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value", "Epsilon Huyhn-Feldt", "P-value HF"})
                 ElseIf Me.GreenhouseGeisserTest IsNot Nothing Then
                     anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
                                                         {{Me.GreenhouseGeisserTest.TestStatistics1, Me.GreenhouseGeisserTest.Pvalue},
                                                          {"", ""}, {"", ""}, {"", ""}}))
+                    anTable.AddPvalueToFormat(5)
+                    anTable.AddPvalueToFormat(7)
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value", "Epsilon Greenhouse - Geisser", "P-value GG"})
                 End If
@@ -1008,6 +1025,7 @@ Namespace parametric
                 If TuekyRM2 IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.TuekyRM2)
+                    t.AddPvalueToFormat(4)
                     t.AddHeaderTopRow({"Tukey-Kramer multiple comparisons not assuming sphericity. Recommended", "", "", ""})
                     t.AddHeaderTopRow({"Comparison", "Mean difference (CI)", "q", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.TuekyRM2Alpha))
@@ -1017,6 +1035,7 @@ Namespace parametric
                 If TukeyOut IsNot Nothing Then
                     t = New ResultTable
                     t.SetBody(Me.TukeyOut)
+                    t.AddPvalueToFormat(4)
                     t.AddHeaderTopRow({"Tukey-Kramer multiple comparisons assuming sphericity (using single pooled variance)", "", "", ""})
                     t.AddHeaderTopRow({"Comparison", "Mean difference (CI)", "q", "P-value"})
                     t.AddFootnote(BuildMcpCiFootnote(Me.TukeyOutAlpha))
@@ -1406,6 +1425,7 @@ Namespace parametric
                         {"df", Me.TtestRes.DF1},
                         {"Two sided p-value", Me.TtestRes.Pvalue},
                         {"mean diff (" & Me.diffCI.CIlabel & ")", Me.diffCI.strConfidenceInterval}})
+                t.AddPvalueCellToFormat(4, 2)
                 t.AddHeaderTopRow({"Unpaired T-test", ""})
                 t.AddHeaderTopRow({"Assuming equal variance", ""})
                 out.Add(t)
@@ -1417,6 +1437,8 @@ Namespace parametric
                         {"Two sided p-value", Me.TtestRes.Pvalue2},
                         {"mean diff (" & Me.diffCIunq.CIlabel & ")", Me.diffCIunq.strConfidenceInterval},
                         {"F test p-value", FTest(data(0), data(1))}})
+                t.AddPvalueCellToFormat(4, 2)
+                t.AddPvalueCellToFormat(6, 2)
                 t.AddHeaderTopRow({"Assuming unequal variance", ""})
                 out.Add(t)
                 Return out
@@ -1563,6 +1585,7 @@ Namespace parametric
                         {"t", Me.TtestRes.TestStatistics1},
                         {"Two-sided p-value", Me.TtestRes.Pvalue}
                        })
+                t.AddPvalueCellToFormat(7, 2)
                 t.AddHeaderTopRow({"Paired T-test", ""})
                 out.Add(t)
                 Return out
@@ -1697,6 +1720,8 @@ Namespace parametric
                 t.SetBody({{data1.GetLength(0)}, {data2.GetLength(0)}, {data1.GetLength(1)},
                            {Me.HT_eq.TestStatistics1}, {Me.HT_eq.Pvalue}, {Me.pAlpha}, {""},
                            {Me.HT_uneq.TestStatistics1}, {Me.HT_uneq.DF1}, {Me.HT_uneq.Pvalue}})
+                t.AddPvalueCellToFormat(5, 1)
+                t.AddPvalueCellToFormat(10, 1)
                 t.AddHeaderTopRow({"Two independent samples Hotelling's T-squared", "Equal Covariance Structure Assumed"})
                 t.AddHeaderLeftRow({"Number of records Grp1", "Number of records Grp2", "Number of Variables",
                                    "T2", "Two-sided p-value", "Alpha", "",
@@ -1957,6 +1982,9 @@ Namespace parametric
                 Next
 
                 t.SetBody(o)
+                For i = 0 To Me.pVarNames.Length - 1
+                    t.AddPvalueCellToFormat(5, i + 1)
+                Next
                 t.AddHeaderTopRow(Me.pVarNames)
                 t.AddHeaderLeftRow({"H0 Mean Diffs", "Mean of Differences", "StdErr", "Individual T-test", "T-test two-sided p-value", ciLabel})
                 out.Add(t)
@@ -1966,6 +1994,7 @@ Namespace parametric
                 t = New ResultTable
                 t.SetBody({{UBound(Me.data) + 1}, {UBound(Me.data, 2) + 1},
                            {Me.pHT.TestStatistics1}, {Me.pHT.Pvalue}, {Me.pAlpha}})
+                t.AddPvalueCellToFormat(4, 1)
                 Dim strT As String = If(bPaired, "Paired Samples Hotelling's T-squared", "Single Sample Hotelling's T-squared")
                 t.AddHeaderTopRow({strT, ""})
                 t.AddHeaderLeftRow({"Number of records", "Number of Variables", "T2", "Two-sided p-value", "Alpha"})

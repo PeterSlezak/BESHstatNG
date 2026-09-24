@@ -82,6 +82,7 @@ Public Class Ui8Proportions
                             {"Proportion", SingleProp.Estimate},
                             {ciLabel, SingleProp.strConfidenceInterval(CIformat.LL_to_UL)},
                             {"two-sided P-value", PtwoTAIL}})
+                t.AddPvalueCellToFormat(5, 2)
                 res.Add(t)
 
             ElseIf Me.optIndependent.Checked Then
@@ -126,6 +127,7 @@ Public Class Ui8Proportions
                                         {"One-sided P-value", ni.PValue},
                                         {"Conclusion", ni.Conclusion}
                                     })
+                        t.AddPvalueCellToFormat(13, 2)
                         res.Add(t)
 
                         Case "Equivalence"
@@ -159,6 +161,9 @@ Public Class Ui8Proportions
                                         {"TOST P-value", eq.TostPValue},
                                         {"Conclusion", eq.Conclusion}
                                     })
+                        t.AddPvalueCellToFormat(12, 2)
+                        t.AddPvalueCellToFormat(14, 2)
+                        t.AddPvalueCellToFormat(15, 2)
                         res.Add(t)
 
                         Case Else
@@ -182,6 +187,8 @@ Public Class Ui8Proportions
                                         {ciLabel, TwoIdependent.strConfidenceInterval(CIformat.LL_to_UL)},
                                         {"Exact two-sided P-value", Fisher.Pvalue},
                                         {"Exact Mid two-sided P-value", Fisher.Pvalue2}})
+                        t.AddPvalueCellToFormat(9, 2)
+                        t.AddPvalueCellToFormat(10, 2)
                         res.Add(t)
                     End Select
 
@@ -215,6 +222,7 @@ Public Class Ui8Proportions
                             {"Proportions Difference", PairedProp.Estimate},
                             {ciLabel, PairedProp.strConfidenceInterval(CIformat.LL_to_UL)},
                             {"Two-sided P-value", Liddell.Item1.Pvalue}})
+                t.AddPvalueCellToFormat(9, 2)
                 res.Add(t)
             End If
 

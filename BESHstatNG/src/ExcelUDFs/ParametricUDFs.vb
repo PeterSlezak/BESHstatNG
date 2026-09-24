@@ -138,6 +138,7 @@ Namespace WorksheetFunctions
 
                 Dim t As New ResultTable
                 t.SetBody(body)
+                t.AddPvalueToFormat(4)
                 t.AddHeaderLeftRow({"Welch ANOVA"})
                 t.AddHeaderTopRow({"Source", "df numerator", "df denominator", "F", "P-value"})
                 Return PrepareResultTableForUdf(t.returnSelf())

@@ -325,6 +325,10 @@ Namespace nonparametric
             'put all together
             t.AddHeaderTopRow({"Mann-Whitney test", Me.var1, Me.var2})
             t.SetBody(HorizontalStackArrays(MWout1, pexactOut, True))
+            t.AddPvalueCellToFormat(6, 2)
+            t.AddPvalueCellToFormat(7, 2)
+            t.AddPvalueCellToFormat(8, 2)
+            t.AddPvalueCellToFormat(9, 2)
             out.Add(t)
 
             If Me.bShift Then
@@ -773,6 +777,10 @@ Namespace nonparametric
 
             'put all together
             t.SetBody(HorizontalStackArrays(wOut1, pexactOut))
+            t.AddPvalueCellToFormat(4, 2)
+            t.AddPvalueCellToFormat(5, 2)
+            t.AddPvalueCellToFormat(6, 2)
+            t.AddPvalueCellToFormat(7, 2)
             t.AddHeaderTopRow({"Wilcoxon Signed Rank Test", ""})
             out.Add(t)
 
@@ -783,6 +791,7 @@ Namespace nonparametric
             If signOut IsNot Nothing Then
                 t = New ResultTable
                 t.SetBody(signOut)
+                t.AddPvalueCellToFormat(2, 2)
                 t.AddHeaderTopRow({"Sign Test", ""})
                 out.Add(t)
             End If
@@ -1173,6 +1182,12 @@ Namespace nonparametric
                 {"Upper-sid p-value (approx.)", Me.CorrelationResult.PvalueUpperSide}
             }
             t.SetBody(HorizontalStackArrays(o, pexactOut))
+            t.AddPvalueCellToFormat(4, 2)
+            t.AddPvalueCellToFormat(5, 2)
+            t.AddPvalueCellToFormat(6, 2)
+            t.AddPvalueCellToFormat(7, 2)
+            t.AddPvalueCellToFormat(8, 2)
+            t.AddPvalueCellToFormat(9, 2)
             t.AddHeaderTopRow({"Spearman rank correlation coefficient", ""})
             out.Add(t)
             Return out
@@ -1541,6 +1556,12 @@ Namespace nonparametric
                 }
 
             t.SetBody(HorizontalStackArrays(o, pexactOut))
+            t.AddPvalueCellToFormat(4, 2)
+            t.AddPvalueCellToFormat(5, 2)
+            t.AddPvalueCellToFormat(6, 2)
+            t.AddPvalueCellToFormat(7, 2)
+            t.AddPvalueCellToFormat(8, 2)
+            t.AddPvalueCellToFormat(9, 2)
             t.AddHeaderTopRow({"Kendall's tau-b correlation coefficient", ""})
             out.Add(t)
             Return out
@@ -1891,12 +1912,15 @@ Namespace nonparametric
                   {"Test statistics Hcor", Me.KWResult.TestStatistics2, ""},
                   {"Two sided p-value", Me.KWResult.Pvalue2, "ties corrected"}
                  })
+            t.AddPvalueCellToFormat(4, 2)
+            t.AddPvalueCellToFormat(6, 2)
             t.AddHeaderTopRow({"Kruskal-Wallis Test", "", ""})
             out.Add(t)
 
             If Me.pMCP IsNot Nothing Then
                 t = New ResultTable
                 t.SetBody(Me.pMCP)
+                t.AddPvalueToFormat(4)
                 t.AddHeaderTopRow({"Dunn's multiple comparison test", "Mean rank diff.", "Z", "Two sided P-value"})
                 out.Add(t)
             End If
@@ -2139,6 +2163,8 @@ Namespace nonparametric
                 }
 
             t.SetBody(Fout)
+            t.AddPvalueCellToFormat(4, 2)
+            t.AddPvalueCellToFormat(6, 2)
             t.AddHeaderTopRow({"Friedman Test", ""})
             out.Add(t)
 
@@ -2157,12 +2183,14 @@ Namespace nonparametric
             If Me.Conover IsNot Nothing Then
                 t = New ResultTable
                 t.SetBody(Me.Conover)
+                t.AddPvalueToFormat(4)
                 t.AddHeaderTopRow({"Conover multiple comparison test", "Mean rank diff.", "T", "Two sided P-value"})
                 out.Add(t)
             End If
             If Me.SPSS IsNot Nothing Then
                 t = New ResultTable
                 t.SetBody(Me.SPSS)
+                t.AddPvalueToFormat(4)
                 t.AddHeaderTopRow({"Dunn's multiple comparison test", "Mean rank diff.", "Z", "Two sided P-value"})
                 out.Add(t)
             End If

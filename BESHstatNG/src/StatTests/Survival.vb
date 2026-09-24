@@ -328,6 +328,7 @@ Namespace survival
                 t.SetBody({{"Chi2", Me.pBrookmeyerCrowleyMedianTestResult.TestStatistics1},
                           {"df", Me.pBrookmeyerCrowleyMedianTestResult.DF1},
                           {"Two-sided p-value", Me.pBrookmeyerCrowleyMedianTestResult.Pvalue}})
+                t.AddPvalueCellToFormat(3, 2)
                 t.AddHeaderTopRow({"Test for Equality of Median Survival Times", ""})
                 out.Add(t)
             End If
@@ -345,6 +346,7 @@ Namespace survival
                     Lr = Matrix.HorizontalStackArrays(Lr,
                                            {{"Hazard ratio(" & grpIDs(0) & " vs. " & grpIDs(1) & ")", HRres.Estimate},
                                             {"Approximate " & HRres.CIlabel, HRres.strConfidenceInterval(CIformat.LL_to_UL)}})
+                    t.AddPvalueCellToFormat(3, 2)
                     t.SetBody(Lr)
                     out.Add(t)
                 End If
@@ -352,12 +354,14 @@ Namespace survival
                 'Compare curves at fixed time points -------------------------------------------------
                 rTable = New ResultTable
                 rTable.SetBody(Me.pFixTimePointComparisonResults)
+                rTable.AddPvalueToFormat(3)
                 rTable.AddHeaderTopRow({"Comparison of Curves at Fixed Time Points", "", ""})
                 rTable.AddHeaderTopRow({"Time", "Surv.Prob. difference (Group " & Me.grpIDs(0) & " vs " & Me.grpIDs(1) & " )", "Two-sided p-value"})
                 out.Add(rTable)
             Else
                 If LogRankres IsNot Nothing Then
                     t.SetBody(Lr)
+                    t.AddPvalueCellToFormat(3, 2)
                     out.Add(t)
                 End If
             End If

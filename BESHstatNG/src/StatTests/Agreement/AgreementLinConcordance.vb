@@ -298,6 +298,7 @@ Namespace Agreement
             t.SetBody({
                 {Me.pOptions.NullConcordance, Me.pResult.HypothesisTest.TestStatistics1, Me.pResult.HypothesisTest.Pvalue}
             })
+            t.AddPvalueToFormat(3)
             t.AddHeaderTopRow({"Null concordance", "z statistic", "Two-sided p-value"})
             If Not String.IsNullOrWhiteSpace(Me.pResult.HypothesisTest.strSpecialInformation) Then
                 t.AddFootnote(Me.pResult.HypothesisTest.strSpecialInformation)

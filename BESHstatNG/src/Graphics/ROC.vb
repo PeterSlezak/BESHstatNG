@@ -119,6 +119,7 @@ Namespace graphics
                         {"Hanley–McNeil " & Me.pCI.CIlabel, Me.pCI.strConfidenceInterval(CIformat.LL_to_UL)},
                         {"Hanley–McNeil Standard error", Me.pseAUC},
                         {"Two-sided p-value (AUC different from 0.5)", Me.pPvalue}})
+            t.AddPvalueCellToFormat(6, 2)
             t.AddHeaderTopRow({"Receiver Operating Characteristic (ROC) Curve", ""})
             out.Add(t)
 

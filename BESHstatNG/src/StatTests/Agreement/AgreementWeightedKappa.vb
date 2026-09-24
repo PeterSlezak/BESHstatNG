@@ -385,6 +385,7 @@ Namespace Agreement
             t.SetBody({
                 {Me.pResult.HypothesisTest.TestStatistics1, Me.pResult.HypothesisTest.Pvalue, "Approximate test of H0: kappa = 0."}
             })
+            t.AddPvalueToFormat(2)
             out.Add(t)
 
             t = New ResultTable

@@ -489,6 +489,7 @@ Public Class UiTwoInputRefedits
             t.AddHeaderTopRow({"Box 's test of Equality of Cov. Mat.", ""})
             t.AddHeaderLeftRow({"M", "Two-sided p-value"})
             t.SetBody({{BoxStat.TestStatistics1}, {BoxStat.Pvalue}})
+            t.AddPvalueCellToFormat(2, 1)
             res.Add(t)
         End If
 
@@ -663,17 +664,26 @@ Public Class UiTwoInputRefedits
         ds1.compute()
         ds2.compute()
 
+        Dim tableBody(,) As Object
         If diffs IsNot Nothing Then
             Dim dsDiff = New DescriptiveStat(diffs)
             dsDiff.compute()
-            descTable.SetBody(Matrix.VerticalStackArrays(Matrix.VerticalStackArrays(ds1.wrapSelf(True),
+            tableBody = Matrix.VerticalStackArrays(Matrix.VerticalStackArrays(ds1.wrapSelf(True),
                                                                       ds2.wrapSelf(False)),
-                                                  dsDiff.wrapSelf(False)))
+                                                  dsDiff.wrapSelf(False))
             descTable.AddHeaderTopRow({"", data.name1, data.name2, "Difference: " & data.name1 & " - " & data.name2})
         Else
-            descTable.SetBody(Matrix.VerticalStackArrays(ds1.wrapSelf(True), ds2.wrapSelf(False)))
+            tableBody = Matrix.VerticalStackArrays(ds1.wrapSelf(True), ds2.wrapSelf(False))
             descTable.AddHeaderTopRow({"", data.name1, data.name2})
         End If
+        descTable.SetBody(tableBody)
+        For rowIndex = 0 To tableBody.GetLength(0) - 1
+            If String.Equals(CStr(tableBody(rowIndex, 0)), "Two-sided p-value", StringComparison.OrdinalIgnoreCase) Then
+                For columnIndex = 1 To tableBody.GetLength(1) - 1
+                    descTable.AddPvalueCellToFormat(rowIndex + 1, columnIndex + 1)
+                Next
+            End If
+        Next
         descTable.AddTitle("Descriptive Statistics")
 
         Return descTable

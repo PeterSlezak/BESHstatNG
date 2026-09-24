@@ -673,6 +673,9 @@ Public Class UibyID
             If Me.ckSymmetryPlot.Checked Then plots.Add(New graphics.SymetryPlot(data.X(i)))
         Next
         asymTable.SetBody(out)
+        For i = 0 To k - 1
+            asymTable.AddPvalueCellToFormat(2, i + 1)
+        Next
         Dim tmp(UBound(data.varNames)) As String
         tmp(0) = strTest
         asymTable.AddHeaderTopRow(tmp)
@@ -1154,6 +1157,11 @@ Public Class UibyID
             results = Matrix.VerticalStackArrays(results, Matrix.HorizontalStackArrays(Matrix.HorizontalStackArrays(sw_r, da_r), ad_r))
         Next
         rTable.SetBody(results)
+        For i = 0 To data.X.Length - 1
+            rTable.AddPvalueCellToFormat(3, i + 2)
+            rTable.AddPvalueCellToFormat(6, i + 2)
+            rTable.AddPvalueCellToFormat(9, i + 2)
+        Next
         rTable.AddHeaderTopRow(Matrix.ConcatArrays({"Normality Tests"}, data.varNames))
         res.Add(rTable)
 
@@ -1371,9 +1379,14 @@ Public Class UibyID
             End If
             t.AddHeaderTopRow({"Homogeneity of Variances", ""})
             t.SetBody(o)
+            For rowIndex = 0 To o.GetLength(0) - 1
+                If String.Equals(CStr(o(rowIndex, 0)), "P-value", StringComparison.OrdinalIgnoreCase) Then
+                    t.AddPvalueCellToFormat(rowIndex + 1, 2)
+                End If
+            Next
         End If
 
-        Return t
+                Return t
     End Function
 
     Private Function ComputeDescriptiveStats(data As MultiGroupsUnpairedData, Optional statsToReturn As List(Of String) = Nothing) As ResultTable
@@ -1387,6 +1400,13 @@ Public Class UibyID
             tableBody = Matrix.VerticalStackArrays(tableBody, ds2.wrapSelf(False, statsToReturn))
         Next
         descTable.SetBody(tableBody)
+        For rowIndex = 0 To tableBody.GetLength(0) - 1
+            If String.Equals(CStr(tableBody(rowIndex, 0)), "Two-sided p-value", StringComparison.OrdinalIgnoreCase) Then
+                For columnIndex = 1 To tableBody.GetLength(1) - 1
+                    descTable.AddPvalueCellToFormat(rowIndex + 1, columnIndex + 1)
+                Next
+            End If
+        Next
         descTable.AddTitle("Descriptive Statistics")
         descTable.AddHeaderTopRow(Matrix.ConcatArrays({""}, data.varNames))
 
@@ -1865,6 +1885,7 @@ Public Class UibyID
                 {"Two-sided confidence interval", resNi.TwoSidedEquivalentConfidenceInterval.strConfidenceInterval(CIformat.LL_to_UL)},
                 {"Conclusion", resNi.Conclusion}
             })
+        t.AddPvalueCellToFormat(11, 2)
         Return t
     End Function
 
@@ -1892,6 +1913,9 @@ Public Class UibyID
                 {"Equivalent confidence interval", resEq.EquivalentConfidenceInterval.strConfidenceInterval(CIformat.LL_to_UL)},
                 {"Conclusion", resEq.Conclusion}
             })
+        t.AddPvalueCellToFormat(11, 2)
+        t.AddPvalueCellToFormat(13, 2)
+        t.AddPvalueCellToFormat(14, 2)
         Return t
     End Function
 

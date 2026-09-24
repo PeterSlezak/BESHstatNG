@@ -583,6 +583,7 @@ Public Class Ui0OneRefeditMulticol
         Dim sm = nonparametric.SkillingsMack(columData.DataDbl())
         t.AddHeaderTopRow({"Skillings-Mack", ""})
         t.SetBody({{"Test Statistic", sm.TestStatistics1}, {"two-sided P-value", sm.Pvalue}})
+        t.AddPvalueCellToFormat(2, 2)
         res.Add(t)
         res.Add(tdata)
 
@@ -615,6 +616,7 @@ Public Class Ui0OneRefeditMulticol
         t = New ResultTable
         t.AddHeaderTopRow({"Pearson's Chi-squared Test", ""})
         t.SetBody({{"Chi-Square", chi2indep.Item1.TestStatistics1}, {"two-sided P-value", chi2indep.Item1.Pvalue}})
+        t.AddPvalueCellToFormat(2, 2)
         res.Add(t)
 
         If Me.ckNominalAssociation.Checked Then
@@ -627,18 +629,19 @@ Public Class Ui0OneRefeditMulticol
         End If
 
         If Me.ckFFH.Checked Then
-            Dim strP As String
+            Dim fisherP As Object
             Try
                 Dim fexact = New contingencytable.FisherExactEngine(tab)
                 fexact.Run()
-                strP = CStr(fexact.PValue)
+                fisherP = fexact.PValue
             Catch
-                strP = ".error. not possible to compute"
+                fisherP = ".error. not possible to compute"
             End Try
 
             t = New ResultTable
             t.AddHeaderTopRow({"Fisher-Freeman-Halton Exact Test", ""})
-            t.SetBody({{"two-sided P-value", strP}})
+            t.SetBody({{"two-sided P-value", fisherP}})
+            t.AddPvalueCellToFormat(1, 2)
             res.Add(t)
         End If
 
@@ -665,6 +668,10 @@ Public Class Ui0OneRefeditMulticol
                        {"Std.Err.", ordinal.Item4.DF1},
                        {ciLabel, ordinal.Item4.strSpecialInformation},
                        {"two-sided P-value", ordinal.Item4.Pvalue}})
+            t.AddPvalueCellToFormat(4, 2)
+            t.AddPvalueCellToFormat(8, 2)
+            t.AddPvalueCellToFormat(12, 2)
+            t.AddPvalueCellToFormat(16, 2)
             res.Add(t)
         End If
 
@@ -689,6 +696,8 @@ Public Class Ui0OneRefeditMulticol
                        {"two-sided P-value for Linear Trend", Cochran.Pvalue},
                        {"Chi2 for Departure from Linear Trend", Cochran.TestStatistics2},
                        {"two-sided P-value for Linear Trend", Cochran.Pvalue2}})
+                t.AddPvalueCellToFormat(2, 2)
+                t.AddPvalueCellToFormat(4, 2)
                 res.Add(t)
             End If
         End If
@@ -729,6 +738,7 @@ Public Class Ui0OneRefeditMulticol
                     {"two-sided P-value", mh.Item1.Pvalue},
                     {"pooled Or", mh.Item2.Estimate},
                     {mh.Item2.CIlabel, mh.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
+        t.AddPvalueCellToFormat(2, 2)
         t.AddHeaderTopRow({"Mantel-Haenszel test", ""})
         res.Add(t)
 
@@ -779,6 +789,7 @@ Public Class Ui0OneRefeditMulticol
         Dim t = New ResultTable
         t.SetBody({{"Q", tr.TestStatistics1},
                    {"Two-sided p-value", tr.Pvalue}})
+        t.AddPvalueCellToFormat(2, 2)
         t.AddHeaderTopRow({"Cochran's Q Test", ""})
         res.Add(t)
 
@@ -825,6 +836,7 @@ Public Class Ui0OneRefeditMulticol
             Mout = New ResultTable
             Mout.SetBody({{"Chi2", Mtest.TestStatistics1}, {"P-value", Mtest.Pvalue}})
             Mout.AddHeaderTopRow({"Mauchly 's Test of Sphericity", ""})
+            Mout.AddPvalueCellToFormat(2, 2)
             res.Add(Mout)
         End If
 
@@ -908,6 +920,13 @@ Public Class Ui0OneRefeditMulticol
             tableBody = Matrix.VerticalStackArrays(tableBody, ds2.wrapSelf(False))
         Next
         descTable.SetBody(tableBody)
+        For rowIndex = 0 To tableBody.GetLength(0) - 1
+            If String.Equals(CStr(tableBody(rowIndex, 0)), "Two-sided p-value", StringComparison.OrdinalIgnoreCase) Then
+                For columnIndex = 1 To tableBody.GetLength(1) - 1
+                    descTable.AddPvalueCellToFormat(rowIndex + 1, columnIndex + 1)
+                Next
+            End If
+        Next
         descTable.AddTitle("Descriptive Statistics")
         descTable.AddHeaderTopRow(Matrix.ConcatArrays({""}, data.varNames))
         Return descTable

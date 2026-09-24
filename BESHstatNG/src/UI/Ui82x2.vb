@@ -59,6 +59,7 @@ Public Class Ui82x2
                                {"two-sided P-value", Fisher.Pvalue},
                                {"one-sided mid P-value", Fisher.pValueExactLowerSide},
                                {"two-sided mid P-value", Fisher.Pvalue2}})
+                    t.AddPvalueToFormat(2)
                     res.Add(t)
                 End If
             End If
@@ -68,6 +69,7 @@ Public Class Ui82x2
                 t = New ResultTable
                 t.AddHeaderTopRow({"Pearson's Chi-squared Test", ""})
                 t.SetBody({{"Chi-Square", chi2indep.Item1.TestStatistics1}, {"two-sided P-value", chi2indep.Item1.Pvalue}})
+                t.AddPvalueCellToFormat(2, 2)
                 res.Add(t)
 
                 t = New ResultTable
@@ -84,6 +86,7 @@ Public Class Ui82x2
                 t.SetBody({{"P-value", Liddel.Item1.Pvalue},
                             {"Risk ratio", Liddel.Item2.Estimate},
                             {Liddel.Item2.CIlabel, Liddel.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
+                t.AddPvalueCellToFormat(1, 2)
                 res.Add(t)
             End If
             If Me.ckOR.Checked Then

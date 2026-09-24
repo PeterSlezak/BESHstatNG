@@ -792,7 +792,7 @@ Namespace Multivariate
             summary(15, 0) = "RMSR"
             summary(15, 1) = pRmsr
             t.SetBody(summary)
-            t.AddPvalueToFormat(1)
+            t.AddPvalueCellToFormat(15, 2)
             out.Add(t)
 
             ' Working matrix
@@ -819,7 +819,7 @@ Namespace Multivariate
             factDiag(4, 0) = "Bartlett p-value"
             factDiag(4, 1) = pBartlettPValue
             t.SetBody(factDiag)
-            t.AddPvalueToFormat(1)
+            t.AddPvalueCellToFormat(5, 2)
             out.Add(t)
 
             ' MSA / anti-image diagonal table

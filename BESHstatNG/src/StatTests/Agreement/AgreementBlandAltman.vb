@@ -452,6 +452,7 @@ Namespace Agreement
                        {pResult.ProportionalBias.TestStatistics2, "Student-t statistic for the slope."},
                        {pResult.ProportionalBias.DF1, "Residual degrees of freedom for the trend model."},
                        {pResult.ProportionalBias.Pvalue, "Two-sided p-value for testing slope = 0."}})
+                tTrend.AddPvalueCellToFormat(4, 1)
                 If Not String.IsNullOrWhiteSpace(pResult.ProportionalBias.strSpecialInformation) Then
                     tTrend.AddFootnote(pResult.ProportionalBias.strSpecialInformation)
                 End If

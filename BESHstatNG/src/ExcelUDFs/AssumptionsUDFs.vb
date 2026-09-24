@@ -718,6 +718,7 @@ Namespace WorksheetFunctions
         Private Function BuildTwoValueTable(title As String, label1 As String, value1 As Object, label2 As String, value2 As Object) As Object(,)
             Dim t As New ResultTable
             t.SetBody(New Object(,) {{label1, value1}, {label2, value2}})
+            t.AddPvalueCellToFormat(2, 2)
             t.AddHeaderTopRow({title, ""})
             Return PrepareResultTableForUdf(t.returnSelf())
         End Function

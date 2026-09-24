@@ -485,6 +485,9 @@ Public Class LMresult
         End If
         resTab.AddHeaderLeftRow(Me.ModelTableLabels)
         resTab.SetBody(Me.ModelTableVals)
+        If Me.ModelTableVals IsNot Nothing AndAlso Me.ModelTableVals.GetLength(1) >= 3 Then
+            resTab.AddPvalueToFormat(3)
+        End If
         Return resTab
     End Function
 End Class

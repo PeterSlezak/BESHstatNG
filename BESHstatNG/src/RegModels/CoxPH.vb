@@ -362,8 +362,8 @@ Public Class CoxPH
             chi2p = 1.0 - distributions.ChiSquareCDF(chi2, Me.pVarNames.Length)
         Catch
         End Try
-        t.SetBody({{chi2, $"p-value={chi2p}"},
-                   {Me.pScoreStat.TestStatistics1, $"p-value={Me.pScoreStat.Pvalue}"},
+        t.SetBody({{chi2, chi2p},
+                   {Me.pScoreStat.TestStatistics1, Me.pScoreStat.Pvalue},
                    {Me.pLogLikelihoodNull, ""},
                    {Me.pLogLikelihood, ""},
                    {Me.pIterations, ""},
@@ -371,7 +371,8 @@ Public Class CoxPH
                    {Me.pRecords.Count, ""},
                    {Me.pRecords.Where(Function(c) c.Censorship = 1).Count, ""},
                    {strName, ""}})
-        t.AddHeaderTopRow({"Model Info", ""})
+        t.AddPvalueToFormat(2)
+        t.AddHeaderTopRow({"Model Info", "p-value"})
         t.AddHeaderLeftRow({"Chi2(Null model - final solution)", "Chi2 Score Test", "Log likelihood with no covariates",
                             "Final Log likelihood", "Number of iterations", "Converged?", "N", "Events", "Method"})
         out.Add(t)
@@ -406,6 +407,9 @@ Public Class CoxPH
                 body(i, 5) = Me.pPHtestRank(i).Pvalue
             Next
             t.SetBody(body)
+            t.AddPvalueToFormat(2)
+            t.AddPvalueToFormat(4)
+            t.AddPvalueToFormat(6)
             t.AddHeaderTopRow({"Score Test of Proportionality Assumption", "", "", "", "", ""})
             t.AddHeaderTopRow({"Time", "", "Log(Time)", "", "Rank(Time)", ""})
             t.AddHeaderTopRow({"chi2", "p -value", "chi2", "p -value", "chi2", "p -value"})
