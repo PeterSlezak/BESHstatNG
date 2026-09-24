@@ -12,6 +12,14 @@ Public Class Ui12GlobalSettings
         Me.ckLogging.Checked = settings.Diagnostics.TraceExecutionLoggingEnabled
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
         Me.tbDefaultRandomSeed.Text = AppGlobals.GetDefaultRandomSeedText()
+        Me.spinBtnPvalueDP.Value = AppGlobals.GetPValueDecimalPlacesDecimal(Me.spinBtnPvalueDP.Minimum, Me.spinBtnPvalueDP.Maximum)
+
+        Me.cbPvalueSmallValueDisplay.DropDownStyle = Windows.Forms.ComboBoxStyle.DropDownList
+        If Me.cbPvalueSmallValueDisplay.Items.Count = 0 Then
+            Me.cbPvalueSmallValueDisplay.Items.AddRange(New Object() {"< threshold", "Scientific notation", "Fixed decimal"})
+        End If
+        Me.cbPvalueSmallValueDisplay.SelectedIndex = CInt(AppGlobals.PValueSmallValueDisplay)
+        Me.ckPvalueUpperBound.Checked = AppGlobals.PValueUseUpperBound
 
         Me.WireHelp(Me.btnHelp)
     End Sub
@@ -21,6 +29,15 @@ Public Class Ui12GlobalSettings
 
         settings.Diagnostics.TraceExecutionLoggingEnabled = Me.ckLogging.Checked
         settings.DefaultAlpha = CDbl(Me.spinBtnAlpha.Value)
+        settings.PValuePresentation.DecimalPlaces = Decimal.ToInt32(Me.spinBtnPvalueDP.Value)
+
+        If Me.cbPvalueSmallValueDisplay.SelectedIndex < 0 Then
+            settings.PValuePresentation.SmallValueDisplay = PValueSmallValueDisplay.LessThanThreshold
+        Else
+            settings.PValuePresentation.SmallValueDisplay = CType(Me.cbPvalueSmallValueDisplay.SelectedIndex, PValueSmallValueDisplay)
+        End If
+
+        settings.PValuePresentation.UseUpperBound = Me.ckPvalueUpperBound.Checked
 
         Dim seedText = Me.tbDefaultRandomSeed.Text.Trim()
         If seedText = String.Empty Then

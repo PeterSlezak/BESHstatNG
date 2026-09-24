@@ -40,6 +40,7 @@ Public Class ExcelDnaResultWriter
                 block.Model.HeaderLeftColumns,
                 block.Model.FooterRows,
                 block.Model.PvalueColumns,
+                block.Model.PvalueCells,
                 block.Model.TitleRows)
         End If
     End Sub
@@ -48,7 +49,13 @@ Public Class ExcelDnaResultWriter
     ''' Applies statistical-table formatting to a written Excel range, including borders,
     ''' header shading, bolding, footer styling, title styling, and p-value highlighting.
     ''' </summary>
-    Private Sub format(rng As Range, hTop As Integer, hLeft As Integer, foots As Integer, Pvals As List(Of Integer), TitlesCount As Integer)
+    Private Sub format(rng As Range,
+                       hTop As Integer,
+                       hLeft As Integer,
+                       foots As Integer,
+                       Pvals As List(Of Integer),
+                       PvalueCells As List(Of ResultTableCellAddress),
+                       TitlesCount As Integer)
         With rng
             'remove borders first
             .Borders(XlBordersIndex.xlInsideHorizontal).LineStyle = XlLineStyle.xlLineStyleNone
@@ -124,18 +131,88 @@ Public Class ExcelDnaResultWriter
             End With
         Next
 
-        If Pvals IsNot Nothing AndAlso Pvals.Count > 0 Then
-            Dim pHighlightAlpha As Double = AppGlobals.DefaultAlpha
+        ApplyPValueFormatting(rng, hTop, hLeft, foots, Pvals, PvalueCells, TitlesCount)
+    End Sub
 
-            'highlight pvalue <= current default alpha
-            For Each i As Integer In Pvals
-                For j As Integer = 1 + hTop + TitlesCount To rng.Rows.Count - foots
+    ''' <summary>
+    ''' Applies display formatting and significance highlighting to p-value columns and cells.
+    ''' Excel custom number formats preserve the underlying numeric values and full precision.
+    ''' </summary>
+    Private Sub ApplyPValueFormatting(rng As Range,
+                                      hTop As Integer,
+                                      hLeft As Integer,
+                                      foots As Integer,
+                                      pvalueColumns As List(Of Integer),
+                                      pvalueCells As List(Of ResultTableCellAddress),
+                                      titlesCount As Integer)
+        Dim hasColumns As Boolean = pvalueColumns IsNot Nothing AndAlso pvalueColumns.Count > 0
+        Dim hasCells As Boolean = pvalueCells IsNot Nothing AndAlso pvalueCells.Count > 0
+        If Not hasColumns AndAlso Not hasCells Then Exit Sub
+
+        Dim firstBodyRow As Integer = 1 + hTop + titlesCount
+        Dim lastBodyRow As Integer = rng.Rows.Count - foots
+        If firstBodyRow > lastBodyRow Then Exit Sub
+
+        Dim numberFormat As String = PValuePresentation.BuildExcelNumberFormat(AppGlobals.PValuePresentation)
+        Dim pHighlightAlpha As Double = AppGlobals.DefaultAlpha
+
+        If hasColumns Then
+            For Each bodyColumn As Integer In pvalueColumns
+                Dim rangeColumn As Integer = bodyColumn + hLeft
+                If rangeColumn < 1 OrElse rangeColumn > rng.Columns.Count Then Continue For
+
+                Try
+                    Dim firstCell As Range = DirectCast(rng.Cells(firstBodyRow, rangeColumn), Range)
+                    Dim lastCell As Range = DirectCast(rng.Cells(lastBodyRow, rangeColumn), Range)
+                    Dim pvalueRange As Range = Me.ws.Range(firstCell, lastCell)
+                    pvalueRange.NumberFormat = numberFormat
+                Catch ex As Exception
+                    CoreServices.Logger.Warn("Failed to apply p-value number format to a result column. " & ex.Message)
+                End Try
+
+                For rowIndex As Integer = firstBodyRow To lastBodyRow
                     Try
-                        If CDbl(rng(j, i + hLeft).value) <= pHighlightAlpha Then rng(j, i + hLeft).font.color = RGB(50, 255, 50)
+                        ApplyPValueHighlight(DirectCast(rng.Cells(rowIndex, rangeColumn), Range), pHighlightAlpha)
                     Catch
+                        'A non-addressable cell in a marked column is intentionally ignored.
                     End Try
                 Next
             Next
         End If
+
+        If hasCells Then
+            For Each address As ResultTableCellAddress In pvalueCells
+                Dim rangeRow As Integer = firstBodyRow + address.BodyRow - 1
+                Dim rangeColumn As Integer = hLeft + address.BodyColumn
+
+                If rangeRow < firstBodyRow OrElse rangeRow > lastBodyRow OrElse
+                   rangeColumn < 1 OrElse rangeColumn > rng.Columns.Count Then Continue For
+
+                Try
+                    Dim pvalueCell As Range = DirectCast(rng.Cells(rangeRow, rangeColumn), Range)
+                    pvalueCell.NumberFormat = numberFormat
+                    ApplyPValueHighlight(pvalueCell, pHighlightAlpha)
+                Catch ex As Exception
+                    CoreServices.Logger.Warn("Failed to apply p-value formatting to a result cell. " & ex.Message)
+                End Try
+            Next
+        End If
+    End Sub
+
+    Private Shared Sub ApplyPValueHighlight(cell As Range, alpha As Double)
+        If cell Is Nothing Then Exit Sub
+
+        Try
+            Dim rawValue As Object = cell.Value2
+            If rawValue Is Nothing OrElse TypeOf rawValue Is Boolean Then Exit Sub
+
+            Dim pvalue As Double = Convert.ToDouble(rawValue, Globalization.CultureInfo.CurrentCulture)
+            If Not Double.IsNaN(pvalue) AndAlso Not Double.IsInfinity(pvalue) AndAlso
+               pvalue >= 0.0 AndAlso pvalue <= alpha Then
+                cell.Font.Color = RGB(50, 255, 50)
+            End If
+        Catch
+            'Text/error cells in a marked column are intentionally left unchanged.
+        End Try
     End Sub
 End Class

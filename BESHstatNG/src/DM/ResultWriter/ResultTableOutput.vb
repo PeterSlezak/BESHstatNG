@@ -1,6 +1,21 @@
 ﻿Option Explicit On
 
 ''' <summary>
+''' Identifies a cell within a <see cref="ResultTable"/> body using one-based row and column indices.
+''' Titles, top headers, and left headers are deliberately excluded from these coordinates.
+''' </summary>
+Public Structure ResultTableCellAddress
+
+    Public Sub New(bodyRow As Integer, bodyColumn As Integer)
+        Me.BodyRow = bodyRow
+        Me.BodyColumn = bodyColumn
+    End Sub
+
+    Public ReadOnly Property BodyRow As Integer
+    Public ReadOnly Property BodyColumn As Integer
+End Structure
+
+''' <summary>
 ''' Host-neutral representation of a table that is ready to be written by a target-specific writer.
 ''' </summary>
 ''' <remarks>
@@ -14,6 +29,7 @@ Public Class ResultTableOutputModel
     Public ReadOnly Property HeaderLeftColumns As Integer
     Public ReadOnly Property FooterRows As Integer
     Public ReadOnly Property PvalueColumns As List(Of Integer)
+    Public ReadOnly Property PvalueCells As List(Of ResultTableCellAddress)
     Public ReadOnly Property TitleRows As Integer
     Public ReadOnly Property IsResultTable As Boolean
 
@@ -23,12 +39,14 @@ Public Class ResultTableOutputModel
                    Optional footerRows As Integer = 0,
                    Optional pvalueColumns As IEnumerable(Of Integer) = Nothing,
                    Optional titleRows As Integer = 0,
-                   Optional isResultTable As Boolean = True)
+                   Optional isResultTable As Boolean = True,
+                   Optional pvalueCells As IEnumerable(Of ResultTableCellAddress) = Nothing)
         Me.Values = values
         Me.HeaderTopRows = headerTopRows
         Me.HeaderLeftColumns = headerLeftColumns
         Me.FooterRows = footerRows
         Me.PvalueColumns = If(pvalueColumns Is Nothing, New List(Of Integer), New List(Of Integer)(pvalueColumns))
+        Me.PvalueCells = If(pvalueCells Is Nothing, New List(Of ResultTableCellAddress), New List(Of ResultTableCellAddress)(pvalueCells))
         Me.TitleRows = titleRows
         Me.IsResultTable = isResultTable
     End Sub
@@ -156,7 +174,8 @@ Public MustInherit Class ResultTableWriterBase
             model.FooterRows,
             model.PvalueColumns,
             model.TitleRows,
-            model.IsResultTable)
+            model.IsResultTable,
+            model.PvalueCells)
 
         Return New ResultTableOutputBlock(Me.lastRowID, Me.lastColumID, safeModel)
     End Function

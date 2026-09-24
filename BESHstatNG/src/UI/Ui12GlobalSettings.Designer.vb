@@ -31,6 +31,9 @@ Partial Class Ui12GlobalSettings
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.lblDefaultRandomSeed = New System.Windows.Forms.Label()
         Me.tbDefaultRandomSeed = New System.Windows.Forms.TextBox()
+        Me.cbPvalueSmallValueDisplay = New System.Windows.Forms.ComboBox()
+        Me.lblPvalueSmallValueDisplay = New System.Windows.Forms.Label()
+        Me.ckPvalueUpperBound = New System.Windows.Forms.CheckBox()
         CType(Me.spinBtnPvalueDP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.spinBtnAlpha, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -38,7 +41,7 @@ Partial Class Ui12GlobalSettings
         'ckLogging
         '
         Me.ckLogging.AutoSize = True
-        Me.ckLogging.Location = New System.Drawing.Point(73, 12)
+        Me.ckLogging.Location = New System.Drawing.Point(38, 12)
         Me.ckLogging.Name = "ckLogging"
         Me.ckLogging.Size = New System.Drawing.Size(181, 20)
         Me.ckLogging.TabIndex = 0
@@ -47,7 +50,7 @@ Partial Class Ui12GlobalSettings
         '
         'btnOK
         '
-        Me.btnOK.Location = New System.Drawing.Point(403, 151)
+        Me.btnOK.Location = New System.Drawing.Point(403, 188)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(75, 23)
         Me.btnOK.TabIndex = 1
@@ -56,9 +59,8 @@ Partial Class Ui12GlobalSettings
         '
         'spinBtnPvalueDP
         '
-        Me.spinBtnPvalueDP.Enabled = False
         Me.spinBtnPvalueDP.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.spinBtnPvalueDP.Location = New System.Drawing.Point(260, 79)
+        Me.spinBtnPvalueDP.Location = New System.Drawing.Point(223, 72)
         Me.spinBtnPvalueDP.Maximum = New Decimal(New Integer() {16, 0, 0, 0})
         Me.spinBtnPvalueDP.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
         Me.spinBtnPvalueDP.Name = "spinBtnPvalueDP"
@@ -69,18 +71,17 @@ Partial Class Ui12GlobalSettings
         'lblPvalueDecimalPlaces
         '
         Me.lblPvalueDecimalPlaces.AutoSize = True
-        Me.lblPvalueDecimalPlaces.Enabled = False
-        Me.lblPvalueDecimalPlaces.Location = New System.Drawing.Point(18, 81)
+        Me.lblPvalueDecimalPlaces.Location = New System.Drawing.Point(43, 74)
         Me.lblPvalueDecimalPlaces.Name = "lblPvalueDecimalPlaces"
-        Me.lblPvalueDecimalPlaces.Size = New System.Drawing.Size(236, 16)
+        Me.lblPvalueDecimalPlaces.Size = New System.Drawing.Size(174, 16)
         Me.lblPvalueDecimalPlaces.TabIndex = 8
-        Me.lblPvalueDecimalPlaces.Text = "Decimal Places for P-value Presenting"
+        Me.lblPvalueDecimalPlaces.Text = "Decimal places for p-values"
         '
         'lblAlpha
         '
         Me.lblAlpha.AutoSize = True
         Me.lblAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAlpha.Location = New System.Drawing.Point(170, 53)
+        Me.lblAlpha.Location = New System.Drawing.Point(133, 49)
         Me.lblAlpha.Name = "lblAlpha"
         Me.lblAlpha.Size = New System.Drawing.Size(86, 16)
         Me.lblAlpha.TabIndex = 10
@@ -91,7 +92,7 @@ Partial Class Ui12GlobalSettings
         Me.spinBtnAlpha.DecimalPlaces = 3
         Me.spinBtnAlpha.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.spinBtnAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 196608})
-        Me.spinBtnAlpha.Location = New System.Drawing.Point(260, 51)
+        Me.spinBtnAlpha.Location = New System.Drawing.Point(223, 47)
         Me.spinBtnAlpha.Maximum = New Decimal(New Integer() {999, 0, 0, 196608})
         Me.spinBtnAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})
         Me.spinBtnAlpha.Name = "spinBtnAlpha"
@@ -101,7 +102,7 @@ Partial Class Ui12GlobalSettings
         '
         'btnHelp
         '
-        Me.btnHelp.Location = New System.Drawing.Point(322, 151)
+        Me.btnHelp.Location = New System.Drawing.Point(322, 188)
         Me.btnHelp.Name = "btnHelp"
         Me.btnHelp.Size = New System.Drawing.Size(75, 23)
         Me.btnHelp.TabIndex = 11
@@ -111,7 +112,7 @@ Partial Class Ui12GlobalSettings
         'lblDefaultRandomSeed
         '
         Me.lblDefaultRandomSeed.AutoSize = True
-        Me.lblDefaultRandomSeed.Location = New System.Drawing.Point(114, 111)
+        Me.lblDefaultRandomSeed.Location = New System.Drawing.Point(77, 163)
         Me.lblDefaultRandomSeed.Name = "lblDefaultRandomSeed"
         Me.lblDefaultRandomSeed.Size = New System.Drawing.Size(140, 16)
         Me.lblDefaultRandomSeed.TabIndex = 12
@@ -119,16 +120,46 @@ Partial Class Ui12GlobalSettings
         '
         'tbDefaultRandomSeed
         '
-        Me.tbDefaultRandomSeed.Location = New System.Drawing.Point(260, 108)
+        Me.tbDefaultRandomSeed.Location = New System.Drawing.Point(223, 160)
         Me.tbDefaultRandomSeed.Name = "tbDefaultRandomSeed"
         Me.tbDefaultRandomSeed.Size = New System.Drawing.Size(218, 22)
         Me.tbDefaultRandomSeed.TabIndex = 13
+        '
+        'cbPvalueSmallValueDisplay
+        '
+        Me.cbPvalueSmallValueDisplay.FormattingEnabled = True
+        Me.cbPvalueSmallValueDisplay.Location = New System.Drawing.Point(223, 100)
+        Me.cbPvalueSmallValueDisplay.Name = "cbPvalueSmallValueDisplay"
+        Me.cbPvalueSmallValueDisplay.Size = New System.Drawing.Size(218, 24)
+        Me.cbPvalueSmallValueDisplay.TabIndex = 17
+        '
+        'lblPvalueSmallValueDisplay
+        '
+        Me.lblPvalueSmallValueDisplay.AutoSize = True
+        Me.lblPvalueSmallValueDisplay.Location = New System.Drawing.Point(92, 103)
+        Me.lblPvalueSmallValueDisplay.Name = "lblPvalueSmallValueDisplay"
+        Me.lblPvalueSmallValueDisplay.Size = New System.Drawing.Size(125, 16)
+        Me.lblPvalueSmallValueDisplay.TabIndex = 16
+        Me.lblPvalueSmallValueDisplay.Text = "Very small p-values"
+        '
+        'ckPvalueUpperBound
+        '
+        Me.ckPvalueUpperBound.AutoSize = True
+        Me.ckPvalueUpperBound.Location = New System.Drawing.Point(223, 128)
+        Me.ckPvalueUpperBound.Name = "ckPvalueUpperBound"
+        Me.ckPvalueUpperBound.Size = New System.Drawing.Size(255, 20)
+        Me.ckPvalueUpperBound.TabIndex = 18
+        Me.ckPvalueUpperBound.Text = "Use > threshold for p-values close to 1"
+        Me.ckPvalueUpperBound.UseVisualStyleBackColor = True
         '
         'Ui12GlobalSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(494, 186)
+        Me.ClientSize = New System.Drawing.Size(494, 218)
+        Me.Controls.Add(Me.ckPvalueUpperBound)
+        Me.Controls.Add(Me.cbPvalueSmallValueDisplay)
+        Me.Controls.Add(Me.lblPvalueSmallValueDisplay)
         Me.Controls.Add(Me.tbDefaultRandomSeed)
         Me.Controls.Add(Me.lblDefaultRandomSeed)
         Me.Controls.Add(Me.btnHelp)
@@ -139,8 +170,8 @@ Partial Class Ui12GlobalSettings
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.ckLogging)
         Me.MaximizeBox = False
-        Me.MaximumSize = New System.Drawing.Size(512, 233)
-        Me.MinimumSize = New System.Drawing.Size(512, 233)
+        Me.MaximumSize = New System.Drawing.Size(512, 265)
+        Me.MinimumSize = New System.Drawing.Size(512, 265)
         Me.Name = "Ui12GlobalSettings"
         Me.ShowIcon = False
         Me.Text = "Global Settings"
@@ -160,4 +191,7 @@ Partial Class Ui12GlobalSettings
     Friend WithEvents btnHelp As Windows.Forms.Button
     Friend WithEvents lblDefaultRandomSeed As Windows.Forms.Label
     Friend WithEvents tbDefaultRandomSeed As Windows.Forms.TextBox
+    Friend WithEvents cbPvalueSmallValueDisplay As Windows.Forms.ComboBox
+    Friend WithEvents lblPvalueSmallValueDisplay As Windows.Forms.Label
+    Friend WithEvents ckPvalueUpperBound As Windows.Forms.CheckBox
 End Class

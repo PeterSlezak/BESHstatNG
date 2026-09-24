@@ -107,6 +107,40 @@ Namespace AppInfrastructure
             End Get
         End Property
 
+        ''' <summary>
+        ''' Gets the current global p-value presentation settings.
+        ''' </summary>
+        Public ReadOnly Property PValuePresentation As PValuePresentationSettings
+            Get
+                Return GetCurrentSettings().PValuePresentation
+            End Get
+        End Property
+
+        Public ReadOnly Property PValueDecimalPlaces As Integer
+            Get
+                Return PValuePresentation.DecimalPlaces
+            End Get
+        End Property
+
+        Public ReadOnly Property PValueSmallValueDisplay As Global.BESHStatNG.AppInfrastructure.PValueSmallValueDisplay
+            Get
+                Return PValuePresentation.SmallValueDisplay
+            End Get
+        End Property
+
+        Public ReadOnly Property PValueUseUpperBound As Boolean
+            Get
+                Return PValuePresentation.UseUpperBound
+            End Get
+        End Property
+
+        Public Function GetPValueDecimalPlacesDecimal(minimum As Decimal, maximum As Decimal) As Decimal
+            Dim value As Decimal = CDec(PValueDecimalPlaces)
+            If value < minimum Then value = minimum
+            If value > maximum Then value = maximum
+            Return value
+        End Function
+
         Public Function GetDefaultAlphaDecimal(minimum As Decimal, maximum As Decimal) As Decimal
             Dim value As Decimal = CDec(DefaultAlpha)
             If value < minimum Then value = minimum

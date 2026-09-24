@@ -11,8 +11,9 @@ Namespace AppInfrastructure
     Public Class BeshStatNgSettings
 
         Public Sub New()
-            Version = 2
+            Version = 3
             Diagnostics = New DiagnosticsSettings()
+            PValuePresentation = New PValuePresentationSettings()
             DefaultAlpha = 0.05
             DefaultRandomSeed = Integer.MinValue
         End Sub
@@ -21,6 +22,12 @@ Namespace AppInfrastructure
         Public Property Version As Integer
 
         Public Property Diagnostics As DiagnosticsSettings
+
+        ''' <summary>
+        ''' Controls how p-values are displayed in generated result tables. These settings affect
+        ''' presentation only; the underlying numeric values retain their full precision.
+        ''' </summary>
+        Public Property PValuePresentation As PValuePresentationSettings
 
         ''' <summary>
         ''' Default two-sided significance level used to initialize UI alpha controls.
@@ -37,6 +44,11 @@ Namespace AppInfrastructure
         Public Sub EnsureDefaults()
             If Diagnostics Is Nothing Then Diagnostics = New DiagnosticsSettings()
 
+            If PValuePresentation Is Nothing Then PValuePresentation = New PValuePresentationSettings()
+            PValuePresentation.EnsureDefaults()
+
+            If Version < 3 Then Version = 3
+
             If DefaultAlpha <= 0.0 OrElse DefaultAlpha >= 1.0 Then
                 DefaultAlpha = 0.05
             End If
@@ -52,6 +64,47 @@ Namespace AppInfrastructure
         End Sub
 
         Public Property TraceExecutionLoggingEnabled As Boolean
+    End Class
+
+    ''' <summary>
+    ''' Determines how a p-value smaller than the fixed-decimal display threshold is presented.
+    ''' </summary>
+    Public Enum PValueSmallValueDisplay
+        LessThanThreshold = 0
+        ScientificNotation = 1
+        FixedDecimal = 2
+    End Enum
+
+    ''' <summary>
+    ''' Persisted global options for p-value presentation.
+    ''' </summary>
+    Public Class PValuePresentationSettings
+
+        Public Const MinimumDecimalPlaces As Integer = 2
+        Public Const MaximumDecimalPlaces As Integer = 16
+        Public Const DefaultDecimalPlaces As Integer = 8
+
+        Public Sub New()
+            DecimalPlaces = DefaultDecimalPlaces
+            SmallValueDisplay = PValueSmallValueDisplay.LessThanThreshold
+            UseUpperBound = True
+        End Sub
+
+        Public Property DecimalPlaces As Integer
+
+        Public Property SmallValueDisplay As PValueSmallValueDisplay
+
+        Public Property UseUpperBound As Boolean
+
+        Public Sub EnsureDefaults()
+            If DecimalPlaces < MinimumDecimalPlaces OrElse DecimalPlaces > MaximumDecimalPlaces Then
+                DecimalPlaces = DefaultDecimalPlaces
+            End If
+
+            If Not [Enum].IsDefined(GetType(PValueSmallValueDisplay), SmallValueDisplay) Then
+                SmallValueDisplay = PValueSmallValueDisplay.LessThanThreshold
+            End If
+        End Sub
     End Class
 
     Public Class BeshStatNgSettingsStore

@@ -11,7 +11,7 @@ Option Strict On
 ''' <para>
 ''' A <c>ResultTable</c> object stores all table components separately:
 ''' top headers, left headers, body matrix, titles, footnotes, and
-''' p‑value column indices. The final assembled table is produced by
+''' p-value column/cell indices. The final assembled table is produced by
 ''' <c>returnSelf()</c>.
 ''' </para>
 ''' 
@@ -23,6 +23,7 @@ Option Strict On
 '''   <item><description><b>Titles</b>: Rows inserted above everything.</description></item>
 '''   <item><description><b>Footnotes</b>: Rows appended below everything.</description></item>
 '''   <item><description><b>PvalueColumns</b>: Column indices flagged for p‑value formatting.</description></item>
+'''   <item><description><b>PvalueCells</b>: Individual body cells flagged for p‑value formatting.</description></item>
 ''' </list>
 ''' 
 ''' <para><b>Assembly Order</b></para>
@@ -43,6 +44,7 @@ Public Class ResultTable
     Private Footnotes As List(Of String) = New List(Of String)
     Private Titles As List(Of String) = New List(Of String)
     Private PvalueColumns As List(Of Integer) = New List(Of Integer)
+    Private PvalueCells As List(Of ResultTableCellAddress) = New List(Of ResultTableCellAddress)
     Private Body(,) As Object = Nothing
     Public bLeftHeaderAdjustUp As Boolean = False
 
@@ -107,7 +109,16 @@ Public Class ResultTable
     End Property
 
     ''' <summary>
-    ''' Returns the number of top‑header rows.
+    ''' Returns individual body-relative cells that should be formatted as p-values.
+    ''' </summary>
+    Public ReadOnly Property PvalCells() As List(Of ResultTableCellAddress)
+        Get
+            Return Me.PvalueCells
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Returns the number of top-header rows.
     ''' </summary>
 
     Public ReadOnly Property HeadersTopCount() As Integer
@@ -247,6 +258,27 @@ Public Class ResultTable
 
         If columnNumber >= 1 AndAlso columnNumber <= bodyCols Then
             If Not Me.PvalueColumns.Contains(columnNumber) Then Me.PvalueColumns.Add(columnNumber)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' Marks one body cell as containing a p-value for statistical formatting.
+    ''' </summary>
+    ''' <param name="bodyRow">One-based row number within the body, excluding titles and top headers.</param>
+    ''' <param name="bodyColumn">One-based column number within the body, excluding left headers.</param>
+    Public Sub AddPvalueCellToFormat(bodyRow As Integer, bodyColumn As Integer)
+        If Me.Body Is Nothing Then Exit Sub
+
+        Dim bodyRows As Integer = UBound(Me.Body, 1) + 1
+        Dim bodyCols As Integer = UBound(Me.Body, 2) + 1
+
+        If bodyRow < 1 OrElse bodyRow > bodyRows OrElse bodyColumn < 1 OrElse bodyColumn > bodyCols Then Exit Sub
+
+        Dim alreadyPresent As Boolean = Me.PvalueCells.Any(
+            Function(address) address.BodyRow = bodyRow AndAlso address.BodyColumn = bodyColumn)
+
+        If Not alreadyPresent Then
+            Me.PvalueCells.Add(New ResultTableCellAddress(bodyRow, bodyColumn))
         End If
     End Sub
 
@@ -487,7 +519,8 @@ Public Class ResultTable
             Me.HeadersLeftCount,
             Me.FootersCount,
             Me.PvalColumns,
-            Me.TitlesCount)
+            Me.TitlesCount,
+            PvalueCells:=Me.PvalCells)
     End Function
 
 End Class
