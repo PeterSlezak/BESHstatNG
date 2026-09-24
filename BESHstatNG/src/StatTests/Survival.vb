@@ -346,8 +346,8 @@ Namespace survival
                     Lr = Matrix.HorizontalStackArrays(Lr,
                                            {{"Hazard ratio(" & grpIDs(0) & " vs. " & grpIDs(1) & ")", HRres.Estimate},
                                             {"Approximate " & HRres.CIlabel, HRres.strConfidenceInterval(CIformat.LL_to_UL)}})
-                    t.AddPvalueCellToFormat(3, 2)
                     t.SetBody(Lr)
+                    t.AddPvalueCellToFormat(3, 2)
                     out.Add(t)
                 End If
 

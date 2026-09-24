@@ -356,7 +356,8 @@ Public Class CoxPH
         'Model Info
         Dim strName As String = [Enum].GetName(GetType(TieMethod), Me.pMethod)
         t = New ResultTable
-        Dim chi2 As Double, chi2p As Double
+        Dim chi2 As Double = Double.NaN
+        Dim chi2p As Double = Double.NaN
         Try
             chi2 = -2.0 * (Me.pLogLikelihoodNull - Me.pLogLikelihood)
             chi2p = 1.0 - distributions.ChiSquareCDF(chi2, Me.pVarNames.Length)
