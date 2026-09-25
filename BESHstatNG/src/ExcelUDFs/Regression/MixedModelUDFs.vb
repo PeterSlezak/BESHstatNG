@@ -411,7 +411,7 @@ Namespace WorksheetFunctions
                     Return PrepareResultTableForUdf(StackResultTables(tables))
                 End If
 
-                Dim selected As Object(,) = FindResultTableByTitle(tables, tableName)
+                Dim selected As ResultTable = FindResultTableByTitle(tables, tableName)
                 If selected Is Nothing Then Return ExcelError.ExcelErrorNA
                 Return PrepareResultTableForUdf(selected)
 
@@ -670,7 +670,7 @@ Namespace WorksheetFunctions
                 End If
 
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
-                Return PrepareResultTableForUdf(table.returnSelf())
+                Return PrepareResultTableForUdf(table)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.MMRM_LSMEANS", ex)
@@ -783,7 +783,7 @@ Namespace WorksheetFunctions
                         direction:=dir)
 
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
-                Return PrepareResultTableForUdf(table.returnSelf())
+                Return PrepareResultTableForUdf(table)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.MMRM_CONTRASTS", ex)
@@ -1016,7 +1016,7 @@ Namespace WorksheetFunctions
                     footnote:="Custom LS-mean estimates are computed as sum(weight * L(profile))*beta. L(profile) is the observed-design-grid average fixed-effect row among observations matching each profile row in the spec range after applying any AT settings.")
 
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
-                Return PrepareResultTableForUdf(table.returnSelf())
+                Return PrepareResultTableForUdf(table)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.MMRM_LSMESTIMATE", ex)
@@ -1539,7 +1539,7 @@ Namespace WorksheetFunctions
 
             For Each t As ResultTable In tables
                 If t Is Nothing Then Continue For
-                Dim arr As Object(,) = t.returnSelf()
+                Dim arr As Object(,) = PrepareResultTableForUdf(t)
                 If arr Is Nothing Then Continue For
                 rendered.Add(arr)
                 totalRows += arr.GetLength(0)

@@ -965,7 +965,7 @@ Namespace WorksheetFunctions
                 test.MCP(alphaValue)
 
                 Dim tables = test.wrapResults()
-                Return PrepareResultTableForUdf(tables(1).returnSelf())
+                Return PrepareResultTableForUdf(tables(1))
             Catch
                 Return ExcelError.ExcelErrorValue
             End Try
@@ -1036,14 +1036,14 @@ Namespace WorksheetFunctions
 
                 Select Case which
                     Case "", "DUNN", "SPSS"
-                        Return PrepareResultTableForUdf(tables(3).returnSelf())
+                        Return PrepareResultTableForUdf(tables(3))
 
                     Case "CONOVER", "CON"
-                        Return PrepareResultTableForUdf(tables(2).returnSelf())
+                        Return PrepareResultTableForUdf(tables(2))
 
                     Case "ALL", "BOTH"
-                        Dim stacked As Object(,) = TryCast(tables(2).returnSelf(), Object(,))
-                        stacked = ParametricUDFs.StackWithBlankRow(stacked, TryCast(tables(3).returnSelf(), Object(,)))
+                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(2))
+                        stacked = ParametricUDFs.StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(3)))
                         Return PrepareResultTableForUdf(stacked)
 
                     Case Else

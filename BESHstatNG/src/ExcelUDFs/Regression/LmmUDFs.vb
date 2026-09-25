@@ -452,7 +452,7 @@ Namespace WorksheetFunctions
                     Return PrepareResultTableForUdf(StackResultTables(tables))
                 End If
 
-                Dim selected As Object(,) = FindResultTableByTitle(tables, tableName)
+                Dim selected As ResultTable = FindResultTableByTitle(tables, tableName)
                 If selected Is Nothing Then Return ExcelError.ExcelErrorNA
                 Return PrepareResultTableForUdf(selected)
 

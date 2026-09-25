@@ -385,7 +385,7 @@ Namespace WorksheetFunctions
                 out(r0 + i, 7) = ucl
             Next
 
-            Return out
+            Return PreparePValueTableForUdf(out, 5)
         End Function
 
         ''' <summary>
@@ -568,7 +568,7 @@ Namespace WorksheetFunctions
                     out(r + 5, 3) = ""
                 End If
 
-                Return out
+                Return PreparePValueTableForUdf(out, 4)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.SURV.COX_TESTS", ex)

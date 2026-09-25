@@ -72,7 +72,7 @@ Namespace WorksheetFunctions
                 Dim mdl As New parametric.OneWayANOVA(data, names)
                 mdl.compute()
                 Dim tables = mdl.wrapResults()
-                Return PrepareResultTableForUdf(tables(0).returnSelf())
+                Return PrepareResultTableForUdf(tables(0))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.ANOVA1", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -141,7 +141,7 @@ Namespace WorksheetFunctions
                 t.AddPvalueToFormat(4)
                 t.AddHeaderLeftRow({"Welch ANOVA"})
                 t.AddHeaderTopRow({"Source", "df numerator", "df denominator", "F", "P-value"})
-                Return PrepareResultTableForUdf(t.returnSelf())
+                Return PrepareResultTableForUdf(t)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.ANOVA1_WELCH", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -227,7 +227,7 @@ Namespace WorksheetFunctions
                 End Select
 
                 Dim tables = mdl.wrapResults()
-                Return PrepareResultTableForUdf(tables(0).returnSelf())
+                Return PrepareResultTableForUdf(tables(0))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.RMANOVA1", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -301,11 +301,11 @@ Namespace WorksheetFunctions
                 Dim which As String = NormalizeText(outputType)
 
                 If which = "" OrElse which = "BOTH" OrElse which = "ALL" Then
-                    Return PrepareResultTableForUdf(StackWithBlankRow(tables(0).returnSelf(), tables(1).returnSelf()))
+                    Return StackWithBlankRow(PrepareResultTableForUdf(tables(0)), PrepareResultTableForUdf(tables(1)))
                 ElseIf which = "MAIN" OrElse which = "CLASSICAL" Then
-                    Return PrepareResultTableForUdf(tables(0).returnSelf())
+                    Return PrepareResultTableForUdf(tables(0))
                 ElseIf which = "SATTERTHWAITE" OrElse which = "SW" OrElse which = "ADJUSTED" Then
-                    Return PrepareResultTableForUdf(tables(1).returnSelf())
+                    Return PrepareResultTableForUdf(tables(1))
                 Else
                     Return ExcelError.ExcelErrorValue
                 End If
@@ -378,22 +378,22 @@ Namespace WorksheetFunctions
                     Case "", "TUKEY", "TUKEYKRAMER", "TUKEY-KRAMER", "TK"
                         mdl.TukeyKramer(alphaValue)
                         Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1).returnSelf())
+                        Return PrepareResultTableForUdf(tables(1))
 
                     Case "GAMESHOWELL", "GAMES-HOWELL", "GH", "GAMES"
                         mdl.GamesHowell(alphaValue)
                         Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1).returnSelf())
+                        Return PrepareResultTableForUdf(tables(1))
 
                     Case "LSD", "FISHER", "FISHERLSD", "FISHER-LSD"
                         mdl.FisherLSD(False, alphaValue)
                         Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1).returnSelf())
+                        Return PrepareResultTableForUdf(tables(1))
 
                     Case "BONF", "BONFERRONI"
                         mdl.FisherLSD(True, alphaValue)
                         Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1).returnSelf())
+                        Return PrepareResultTableForUdf(tables(1))
 
                     Case "ALL", "BOTH"
                         mdl.FisherLSD(False, alphaValue)
@@ -402,9 +402,9 @@ Namespace WorksheetFunctions
                         mdl.GamesHowell(alphaValue)
 
                         Dim tables = mdl.wrapResults()
-                        Dim stacked As Object(,) = TryCast(tables(1).returnSelf(), Object(,))
+                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))
                         For i As Integer = 2 To tables.Count - 1
-                            stacked = StackWithBlankRow(stacked, TryCast(tables(i).returnSelf(), Object(,)))
+                            stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))
                         Next
                         Return PrepareResultTableForUdf(stacked)
 
@@ -476,21 +476,21 @@ Namespace WorksheetFunctions
                     Case "", "RM2", "TUKEYRM2", "TUKEY-RM2", "RECOMMENDED", "NOSPHERICITY", "NO-SPHERICITY"
                         mdl.TukeyKramerRM2(alphaValue)
                         Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1).returnSelf())
+                        Return PrepareResultTableForUdf(tables(1))
 
                     Case "TUKEY", "SPHERICITY", "ASSUME-SPHERICITY", "ASSUMESPHERICITY", "CLASSICAL"
                         mdl.Tukey(alphaValue)
                         Dim tables = mdl.wrapResults()
-                        Return PrepareResultTableForUdf(tables(1).returnSelf())
+                        Return PrepareResultTableForUdf(tables(1))
 
                     Case "ALL", "BOTH"
                         mdl.TukeyKramerRM2(alphaValue)
                         mdl.Tukey(alphaValue)
 
                         Dim tables = mdl.wrapResults()
-                        Dim stacked As Object(,) = TryCast(tables(1).returnSelf(), Object(,))
+                        Dim stacked As Object(,) = PrepareResultTableForUdf(tables(1))
                         For i As Integer = 2 To tables.Count - 1
-                            stacked = StackWithBlankRow(stacked, TryCast(tables(i).returnSelf(), Object(,)))
+                            stacked = StackWithBlankRow(stacked, PrepareResultTableForUdf(tables(i)))
                         Next
                         Return PrepareResultTableForUdf(stacked)
 
@@ -596,11 +596,11 @@ Namespace WorksheetFunctions
                 Dim which As String = NormalizeText(outputType)
                 Select Case which
                     Case "", "BOTH", "ALL"
-                        Return PrepareResultTableForUdf(StackWithBlankRow(tables(0).returnSelf(), tables(1).returnSelf()))
+                        Return StackWithBlankRow(PrepareResultTableForUdf(tables(0)), PrepareResultTableForUdf(tables(1)))
                     Case "EQUAL", "POOLED", "STUDENT", "ASSUME-EQUAL", "ASSUMEEQUAL"
-                        Return PrepareResultTableForUdf(tables(0).returnSelf())
+                        Return PrepareResultTableForUdf(tables(0))
                     Case "UNEQUAL", "WELCH", "ASSUME-UNEQUAL", "ASSUMEUNEQUAL"
-                        Return PrepareResultTableForUdf(tables(1).returnSelf())
+                        Return PrepareResultTableForUdf(tables(1))
                     Case Else
                         Return ExcelError.ExcelErrorValue
                 End Select
@@ -672,7 +672,7 @@ Namespace WorksheetFunctions
                 Dim mdl As New parametric.PairedTtest(mat, names)
                 mdl.compute()
                 Dim tables = mdl.wrapResults()
-                Return PrepareResultTableForUdf(tables(0).returnSelf())
+                Return PrepareResultTableForUdf(tables(0))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.PAR.TTEST_PAIRED", ex, ExcelError.ExcelErrorValue)
             End Try

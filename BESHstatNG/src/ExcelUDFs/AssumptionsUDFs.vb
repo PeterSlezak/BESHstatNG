@@ -720,7 +720,7 @@ Namespace WorksheetFunctions
             t.SetBody(New Object(,) {{label1, value1}, {label2, value2}})
             t.AddPvalueCellToFormat(2, 2)
             t.AddHeaderTopRow({title, ""})
-            Return PrepareResultTableForUdf(t.returnSelf())
+            Return PrepareResultTableForUdf(t)
         End Function
 
         Private Function BuildGrubbsTable(alpha As Double, res As TestResult) As Object(,)
@@ -732,7 +732,7 @@ Namespace WorksheetFunctions
                 {"Result", If(String.IsNullOrWhiteSpace(res.strSpecialInformation), "", res.strSpecialInformation)}
             })
             t.AddHeaderTopRow({"Grubbs Test", ""})
-            Return PrepareResultTableForUdf(t.returnSelf())
+            Return PrepareResultTableForUdf(t)
         End Function
 
         Private Function BuildRosnerTable(alpha As Double, outliers() As Double, addCaution As Boolean) As Object(,)
@@ -764,7 +764,7 @@ Namespace WorksheetFunctions
             If addCaution Then
                 t.AddFootnote("Interpret with caution for sample sizes below 25.")
             End If
-            Return PrepareResultTableForUdf(t.returnSelf())
+            Return PrepareResultTableForUdf(t)
         End Function
 
         Private Function TryParseLeveneCenter(arg As Object, ByRef useMedian As Boolean, ByRef title As String) As Boolean

@@ -292,8 +292,8 @@ Namespace WorksheetFunctions
                     .PredictorCount = fitPredictorNames.Length,
                     .Alpha = alphaValue,
                     .PredictorCodingFootnotes = If(codingNotes Is Nothing, New String() {}, codingNotes.ToArray()),
-                    .TypeIAnovaTable = PrepareResultTableForUdf(lmTypeI.AnovaTypeI_toPrint.returnSelf()),
-                    .TypeIIIAnovaTable = PrepareResultTableForUdf(lm.AnovaTypeIII_toPrint.returnSelf())
+                    .TypeIAnovaTable = PrepareResultTableForUdf(lmTypeI.AnovaTypeI_toPrint),
+                    .TypeIIIAnovaTable = PrepareResultTableForUdf(lm.AnovaTypeIII_toPrint)
                 }
 
                 _lmCache(handleKey) = h
@@ -390,7 +390,7 @@ Namespace WorksheetFunctions
                 Next
 
                 AppendFootnotesInPlace(out, q + If(hdr, 1, 0), h.PredictorCodingFootnotes)
-                Return PrepareResultTableForUdf(out)
+                Return PreparePValueTableForUdf(out, 6)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.LM_SUMMARY", ex)
@@ -453,7 +453,7 @@ Namespace WorksheetFunctions
                 Next
 
                 AppendFootnotesInPlace(out, n + If(hdr, 1, 0), h.PredictorCodingFootnotes)
-                Return PrepareResultTableForUdf(out)
+                Return PreparePValueTableForUdf(out, 4)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.LM_TESTS", ex)
@@ -502,7 +502,7 @@ Namespace WorksheetFunctions
                     Case "type3"
                         table = h.TypeIIIAnovaTable
                     Case Else
-                        table = PrepareResultTableForUdf(h.Model.AnovaOverall_toPrint.returnSelf())
+                        table = PrepareResultTableForUdf(h.Model.AnovaOverall_toPrint)
                 End Select
 
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
@@ -549,7 +549,7 @@ Namespace WorksheetFunctions
                 Dim h As LinearModelHandle = Nothing
                 If Not UdfCacheHelpers.TryGetCachedHandle(handle, _lmCache, h) Then Return ExcelError.ExcelErrorNA
 
-                Dim table As Object(,) = PrepareResultTableForUdf(h.Model.VIF_toPrint.returnSelf())
+                Dim table As Object(,) = PrepareResultTableForUdf(h.Model.VIF_toPrint)
                 If table Is Nothing Then Return ExcelError.ExcelErrorNA
 
                 table = AppendFootnotes(table, h.PredictorCodingFootnotes)

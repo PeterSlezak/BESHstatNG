@@ -952,7 +952,7 @@ Namespace WorksheetFunctions
                 out(r0 + 5, 0) = "RMSR"
                 out(r0 + 5, 1) = h.Model.RMSR
 
-                Return PrepareResultTableForUdf(out)
+                Return PreparePValueRowsForUdf(out)
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.MULTI.FA_FACTORABILITY", ex)
             End Try

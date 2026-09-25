@@ -597,7 +597,7 @@ Namespace WorksheetFunctions
                 out(i, 0) = summaryTable(i, 0)
                 out(i, 1) = summaryTable(i, 1)
             Next
-            Return out
+            Return PreparePValueRowsForUdf(out)
         End Function
 
         Private Function BuildKaplanMeierStepTable(rawCurves As Object()) As Object(,)

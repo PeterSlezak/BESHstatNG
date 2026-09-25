@@ -519,7 +519,7 @@ Namespace WorksheetFunctions
                     out(r0 + i, 7) = beta(i) + zCrit * se(i)
                 Next
 
-                Return out
+                Return PreparePValueTableForUdf(out, 6)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_SUMMARY", ex)
@@ -596,7 +596,7 @@ Namespace WorksheetFunctions
                 out(r, 2) = ""
                 out(r, 3) = ""
 
-                Return out
+                Return PreparePValueTableForUdf(out, 4)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_TESTS", ex)
@@ -1391,7 +1391,7 @@ Namespace WorksheetFunctions
                     out(r + 1, 8) = covName
                 Next
 
-                Return out
+                Return PreparePValueTableForUdf(out, 5)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GEE_LSMESTIMATE", ex)

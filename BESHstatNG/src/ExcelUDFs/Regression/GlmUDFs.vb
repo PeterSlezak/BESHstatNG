@@ -452,7 +452,7 @@ Namespace WorksheetFunctions
                     out(r0 + i, 7) = beta(i) + zCrit * se(i)
                 Next
 
-                Return out
+                Return PreparePValueTableForUdf(out, 6)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GLM_SUMMARY", ex)
@@ -556,7 +556,7 @@ Namespace WorksheetFunctions
                     out(r, 3) = ""
                 End If
 
-                Return out
+                Return PreparePValueTableForUdf(out, 4)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.GLM_TESTS", ex)

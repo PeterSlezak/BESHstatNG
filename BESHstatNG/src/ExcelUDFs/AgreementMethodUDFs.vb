@@ -166,7 +166,7 @@ Namespace WorksheetFunctions
                     {fit.SlopeCI.Estimate, fit.SlopeCI.strConfidenceInterval(CIformat.LL_to_UL), fit.SlopeCI.LowerLimit, fit.SlopeCI.UpperLimit},
                     {fit.InterceptCI.Estimate, fit.InterceptCI.strConfidenceInterval(CIformat.LL_to_UL), fit.InterceptCI.LowerLimit, fit.InterceptCI.UpperLimit}
                 })
-                Return PrepareResultTableForUdf(t.returnSelf())
+                Return PrepareResultTableForUdf(t)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.PASSINGBABLOK_COEF", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -351,7 +351,7 @@ Namespace WorksheetFunctions
                     {mdl.SlopeCI.Estimate, mdl.SlopeCI.strConfidenceInterval(CIformat.LL_to_UL), mdl.SlopeCI.LowerLimit, mdl.SlopeCI.UpperLimit},
                     {mdl.InterceptCI.Estimate, mdl.InterceptCI.strConfidenceInterval(CIformat.LL_to_UL), mdl.InterceptCI.LowerLimit, mdl.InterceptCI.UpperLimit}
                 })
-                Return PrepareResultTableForUdf(t.returnSelf())
+                Return PrepareResultTableForUdf(t)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.DEMING_COEF", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -541,7 +541,7 @@ Namespace WorksheetFunctions
                     {res.SdDifference, "", "", ""},
                     {res.RepeatabilityCoefficient, "", "", ""}
                 })
-                Return PrepareResultTableForUdf(t.returnSelf())
+                Return PrepareResultTableForUdf(t)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.BLANDALTMAN_STATS", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -1216,7 +1216,7 @@ Namespace WorksheetFunctions
 
                 Dim tables As List(Of ResultTable) = icc.wrapResults(result, typeLabel)
                 If tables Is Nothing OrElse tables.Count = 0 Then Return ExcelError.ExcelErrorNum
-                Return PrepareResultTableForUdf(tables(0).returnSelf())
+                Return PrepareResultTableForUdf(tables(0))
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.ICC_FIT", ex, ExcelError.ExcelErrorValue)
             End Try
@@ -1402,7 +1402,7 @@ Namespace WorksheetFunctions
                         {"SEM (standard error of measurement)", rc.StdErr}
                     })
                 t.AddHeaderTopRow({title, ""})
-                Return PrepareResultTableForUdf(t.returnSelf())
+                Return PrepareResultTableForUdf(t)
             Catch ex As Exception
                 Return LoggedUdfError("BESH.AGREE.ICC_RC", ex, ExcelError.ExcelErrorValue)
             End Try

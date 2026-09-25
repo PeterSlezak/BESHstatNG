@@ -4,6 +4,7 @@ Option Strict On
 Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
+Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.WorksheetFunctions
 Imports ExcelDna.Integration
 
@@ -26,8 +27,9 @@ Friend Module UdfOutputTables
     Friend Function BuildResultTable(title As String, body As Object(,)) As Object(,)
         Dim t As New ResultTable
         t.SetBody(body)
+        MarkPValueRows(t, body)
         t.AddHeaderTopRow({title, ""})
-        Return PrepareResultTableForUdf(t.returnSelf())
+        Return PrepareResultTableForUdf(t)
     End Function
 
     ''' <summary>
@@ -239,6 +241,132 @@ Friend Module UdfOutputTables
     End Function
 
     ''' <summary>
+    ''' Converts a metadata-bearing result table into a worksheet spill range and applies
+    ''' the common p-value presentation rules to its marked body cells.
+    ''' </summary>
+    ''' <remarks>
+    ''' Excel-DNA UDFs cannot assign a number format to individual cells in their spill range.
+    ''' Marked p-values are therefore returned as display text. Scalar p-value UDFs remain numeric.
+    ''' </remarks>
+    Friend Function PrepareResultTableForUdf(table As ResultTable) As Object(,)
+        If table Is Nothing Then Return Nothing
+
+        Dim model As ResultTableOutputModel = table.ToOutputModel()
+        Dim out As Object(,) = PrepareResultTableForUdf(model.Values)
+        If out Is Nothing Then Return Nothing
+
+        Dim firstBodyRow As Integer = model.TitleRows + model.HeaderTopRows
+        Dim lastBodyRow As Integer = out.GetLength(0) - model.FooterRows - 1
+
+        For Each bodyColumn As Integer In model.PvalueColumns
+            Dim columnIndex As Integer = model.HeaderLeftColumns + bodyColumn - 1
+            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For
+
+            For rowIndex As Integer = Math.Max(0, firstBodyRow) To Math.Min(lastBodyRow, out.GetLength(0) - 1)
+                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))
+            Next
+        Next
+
+        For Each address As ResultTableCellAddress In model.PvalueCells
+            Dim rowIndex As Integer = firstBodyRow + address.BodyRow - 1
+            Dim columnIndex As Integer = model.HeaderLeftColumns + address.BodyColumn - 1
+            If rowIndex < firstBodyRow OrElse rowIndex > lastBodyRow Then Continue For
+            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For
+            out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))
+        Next
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Prepares a plain object table and formats the supplied one-based p-value columns.
+    ''' </summary>
+    Friend Function PreparePValueTableForUdf(table As Object, ParamArray pvalueColumns() As Integer) As Object(,)
+        Dim out As Object(,) = PrepareResultTableForUdf(table)
+        If out Is Nothing OrElse pvalueColumns Is Nothing Then Return out
+
+        For Each columnNumber As Integer In pvalueColumns
+            Dim columnIndex As Integer = columnNumber - 1
+            If columnIndex < 0 OrElse columnIndex >= out.GetLength(1) Then Continue For
+
+            For rowIndex As Integer = 0 To out.GetLength(0) - 1
+                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))
+            Next
+        Next
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' Prepares a row-oriented metric/value table and formats numeric values on rows whose
+    ''' first-column label identifies a p-value.
+    ''' </summary>
+    Friend Function PreparePValueRowsForUdf(table As Object) As Object(,)
+        Dim out As Object(,) = PrepareResultTableForUdf(table)
+        If out Is Nothing OrElse out.GetLength(1) < 2 Then Return out
+
+        For rowIndex As Integer = 0 To out.GetLength(0) - 1
+            If Not IsPValueLabel(out(rowIndex, 0)) Then Continue For
+            For columnIndex As Integer = 1 To out.GetLength(1) - 1
+                out(rowIndex, columnIndex) = FormatPValueForUdf(out(rowIndex, columnIndex))
+            Next
+        Next
+
+        Return out
+    End Function
+
+    Private Sub MarkPValueRows(table As ResultTable, body As Object(,))
+        If table Is Nothing OrElse body Is Nothing OrElse body.GetLength(1) < 2 Then Return
+
+        For rowIndex As Integer = 0 To body.GetLength(0) - 1
+            If Not IsPValueLabel(body(rowIndex, 0)) Then Continue For
+            For columnIndex As Integer = 1 To body.GetLength(1) - 1
+                If IsNumericValue(body(rowIndex, columnIndex)) Then
+                    table.AddPvalueCellToFormat(rowIndex + 1, columnIndex + 1)
+                End If
+            Next
+        Next
+    End Sub
+
+    Private Function IsPValueLabel(value As Object) As Boolean
+        If value Is Nothing OrElse TypeOf value Is DBNull Then Return False
+        Dim label As String = Convert.ToString(value, CultureInfo.InvariantCulture)
+        If String.IsNullOrWhiteSpace(label) Then Return False
+
+        Dim normalized As New System.Text.StringBuilder(label.Length)
+        For Each ch As Char In label
+            If Char.IsLetterOrDigit(ch) Then normalized.Append(Char.ToLowerInvariant(ch))
+        Next
+        Return normalized.ToString().Contains("pvalue")
+    End Function
+
+    Private Function FormatPValueForUdf(value As Object) As Object
+        If Not IsNumericValue(value) Then Return value
+
+        Dim pvalue As Double
+        Try
+            pvalue = Convert.ToDouble(value, CultureInfo.InvariantCulture)
+        Catch ex As Exception
+            Return value
+        End Try
+
+        Return PValuePresentation.FormatForDisplay(pvalue, AppGlobals.PValuePresentation)
+    End Function
+
+    Private Function IsNumericValue(value As Object) As Boolean
+        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is Boolean Then Return False
+
+        Select Case Type.GetTypeCode(value.GetType())
+            Case TypeCode.Byte, TypeCode.SByte, TypeCode.Int16, TypeCode.UInt16,
+                 TypeCode.Int32, TypeCode.UInt32, TypeCode.Int64, TypeCode.UInt64,
+                 TypeCode.Single, TypeCode.Double, TypeCode.Decimal
+                Return True
+            Case Else
+                Return False
+        End Select
+    End Function
+
+    ''' <summary>
     ''' Ensures probabilities lie in [0,1] and are finite; otherwise returns #NUM!.
     ''' </summary>
     Friend Function ClampProb(p As Double) As Object
@@ -252,7 +380,7 @@ Friend Module UdfOutputTables
         If tables Is Nothing OrElse tables.Count = 0 Then Return Nothing
         Dim stacked As Object(,) = Nothing
         For Each t In tables
-            Dim arr As Object(,) = PrepareResultTableForUdf(t.returnSelf())
+            Dim arr As Object(,) = PrepareResultTableForUdf(t)
             stacked = PrepareResultTableForUdf(ParametricUDFs.StackWithBlankRow(stacked, arr))
         Next
         Return stacked
@@ -264,9 +392,9 @@ Friend Module UdfOutputTables
     ''' <param name="tables">Wrapped result tables returned by an analysis object.</param>
     ''' <param name="title">Requested table title or a punctuation-insensitive partial title.</param>
     ''' <returns>
-    ''' The matching two-dimensional result table, or <c>Nothing</c> when no table matches.
+    ''' The matching result table, or <c>Nothing</c> when no table matches.
     ''' </returns>
-    Friend Function FindResultTableByTitle(tables As List(Of ResultTable), title As String) As Object(,)
+    Friend Function FindResultTableByTitle(tables As List(Of ResultTable), title As String) As ResultTable
         If tables Is Nothing OrElse String.IsNullOrWhiteSpace(title) Then Return Nothing
         Dim wanted As String = NormalizeResultTableTitle(title)
 
@@ -276,7 +404,7 @@ Friend Module UdfOutputTables
             If arr Is Nothing OrElse arr.GetLength(0) = 0 OrElse arr.GetLength(1) = 0 Then Continue For
 
             Dim first As String = Convert.ToString(arr(0, 0), CultureInfo.InvariantCulture)
-            If NormalizeResultTableTitle(first) = wanted Then Return arr
+            If NormalizeResultTableTitle(first) = wanted Then Return t
         Next
 
         For Each t As ResultTable In tables
@@ -286,7 +414,7 @@ Friend Module UdfOutputTables
 
             Dim first As String = Convert.ToString(arr(0, 0), CultureInfo.InvariantCulture)
             Dim normalizedFirst As String = NormalizeResultTableTitle(first)
-            If normalizedFirst.Contains(wanted) OrElse wanted.Contains(normalizedFirst) Then Return arr
+            If normalizedFirst.Contains(wanted) OrElse wanted.Contains(normalizedFirst) Then Return t
         Next
 
         Return Nothing

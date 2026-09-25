@@ -457,9 +457,10 @@ Namespace WorksheetFunctions
                                          ciAlpha:=ciAlpha)
                 End If
 
-                Return MaterializeRows(rows,
-                                       GetOptionalBool(includeHeader, True),
-                                       New String() {"Component", "Parameter", "Type", "Coef", "SE", "Z", "P-value", "CI Lower", "CI Upper"})
+                Return PreparePValueTableForUdf(MaterializeRows(rows,
+                                                GetOptionalBool(includeHeader, True),
+                                                New String() {"Component", "Parameter", "Type", "Coef", "SE", "Z", "P-value", "CI Lower", "CI Upper"}),
+                                                +7)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.ZIP_SUMMARY", ex)
@@ -533,9 +534,11 @@ Namespace WorksheetFunctions
                     End If
                 End If
 
-                Return MaterializeRows(rows,
-                                       GetOptionalBool(includeHeader, True),
-                                       New String() {"Item", "Value", "df", "P-value"})
+                Return PreparePValueTableForUdf(
+                            MaterializeRows(rows,
+                            GetOptionalBool(includeHeader, True),
+                            New String() {"Item", "Value", "df", "P-value"}),
+                            4)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.ZIP_TESTS", ex)

@@ -391,7 +391,7 @@ Namespace WorksheetFunctions
                     End If
                 Next
 
-                Return out
+                Return PreparePValueTableForUdf(out, 6)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.MNLOGIT_SUMMARY", ex)
@@ -452,7 +452,7 @@ Namespace WorksheetFunctions
                     out(r0 + i, 3) = vals(i, 2)
                 Next
 
-                Return out
+                Return PreparePValueTableForUdf(out, 4)
 
             Catch ex As Exception
                 Return LoggedUdfExceptionText("BESH.REGR.MNLOGIT_TESTS", ex)
