@@ -22,21 +22,16 @@ Partial Class Ui01ConvexHullPlot
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Ui01ConvexHullPlot))
         Me.btnHelp = New System.Windows.Forms.Button()
         Me.btCompute = New System.Windows.Forms.Button()
         Me.TabMultipage = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
-        Me.grpOptions = New System.Windows.Forms.GroupBox()
-        Me.lblToleranceHint = New System.Windows.Forms.Label()
-        Me.tbCollinearityTolerance = New System.Windows.Forms.TextBox()
-        Me.lblCollinearityTolerance = New System.Windows.Forms.Label()
-        Me.nudPaddingPercentY = New System.Windows.Forms.NumericUpDown()
-        Me.lblPaddingPercentY = New System.Windows.Forms.Label()
-        Me.nudPaddingPercentX = New System.Windows.Forms.NumericUpDown()
-        Me.lblPaddingPercentX = New System.Windows.Forms.Label()
-        Me.ckIncludeCollinearBoundaryPoints = New System.Windows.Forms.CheckBox()
         Me.grpInput = New System.Windows.Forms.GroupBox()
+        Me.RefEdit_GroupID = New BESHStatNG.Excel2007RefEdit()
         Me.lblGroup = New System.Windows.Forms.Label()
+        Me.RefEdit_Y = New BESHStatNG.Excel2007RefEdit()
+        Me.RefEdit_X = New BESHStatNG.Excel2007RefEdit()
         Me.lblY = New System.Windows.Forms.Label()
         Me.lblX = New System.Windows.Forms.Label()
         Me.TabPage_Appearance = New System.Windows.Forms.TabPage()
@@ -59,14 +54,23 @@ Partial Class Ui01ConvexHullPlot
         Me.grpDisplay = New System.Windows.Forms.GroupBox()
         Me.ckShowMajorGridlines = New System.Windows.Forms.CheckBox()
         Me.ckShowLegend = New System.Windows.Forms.CheckBox()
-        Me.RefEdit_GroupID = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit_Y = New BESHStatNG.Excel2007RefEdit()
-        Me.RefEdit_X = New BESHStatNG.Excel2007RefEdit()
+        Me.TabPage_Options = New System.Windows.Forms.TabPage()
+        Me.grpOptions = New System.Windows.Forms.GroupBox()
+        Me.lblToleranceHint = New System.Windows.Forms.Label()
+        Me.tbCollinearityTolerance = New System.Windows.Forms.TextBox()
+        Me.lblCollinearityTolerance = New System.Windows.Forms.Label()
+        Me.nudPaddingPercentY = New System.Windows.Forms.NumericUpDown()
+        Me.lblPaddingPercentY = New System.Windows.Forms.Label()
+        Me.nudPaddingPercentX = New System.Windows.Forms.NumericUpDown()
+        Me.lblPaddingPercentX = New System.Windows.Forms.Label()
+        Me.ckIncludeCollinearBoundaryPoints = New System.Windows.Forms.CheckBox()
+        Me.grpOutput = New System.Windows.Forms.GroupBox()
+        Me.RefEditOutput = New BESHStatNG.Excel2007RefEdit()
+        Me.optWorkbook = New System.Windows.Forms.RadioButton()
+        Me.optWorksheet = New System.Windows.Forms.RadioButton()
+        Me.optOutputRange = New System.Windows.Forms.RadioButton()
         Me.TabMultipage.SuspendLayout()
         Me.TabPage1.SuspendLayout()
-        Me.grpOptions.SuspendLayout()
-        CType(Me.nudPaddingPercentY, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.nudPaddingPercentX, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpInput.SuspendLayout()
         Me.TabPage_Appearance.SuspendLayout()
         Me.grpMarkerLineAppearance.SuspendLayout()
@@ -74,6 +78,11 @@ Partial Class Ui01ConvexHullPlot
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpGroupAppearance.SuspendLayout()
         Me.grpDisplay.SuspendLayout()
+        Me.TabPage_Options.SuspendLayout()
+        Me.grpOptions.SuspendLayout()
+        CType(Me.nudPaddingPercentY, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.nudPaddingPercentX, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.grpOutput.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnHelp
@@ -97,8 +106,9 @@ Partial Class Ui01ConvexHullPlot
         'TabMultipage
         '
         Me.TabMultipage.Controls.Add(Me.TabPage1)
+        Me.TabMultipage.Controls.Add(Me.TabPage_Options)
         Me.TabMultipage.Controls.Add(Me.TabPage_Appearance)
-        Me.TabMultipage.Location = New System.Drawing.Point(3, 6)
+        Me.TabMultipage.Location = New System.Drawing.Point(-2, 6)
         Me.TabMultipage.Name = "TabMultipage"
         Me.TabMultipage.SelectedIndex = 0
         Me.TabMultipage.Size = New System.Drawing.Size(456, 432)
@@ -106,7 +116,7 @@ Partial Class Ui01ConvexHullPlot
         '
         'TabPage1
         '
-        Me.TabPage1.Controls.Add(Me.grpOptions)
+        Me.TabPage1.Controls.Add(Me.grpOutput)
         Me.TabPage1.Controls.Add(Me.grpInput)
         Me.TabPage1.Location = New System.Drawing.Point(4, 25)
         Me.TabPage1.Name = "TabPage1"
@@ -116,97 +126,6 @@ Partial Class Ui01ConvexHullPlot
         Me.TabPage1.Text = "Input"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
-        'grpOptions
-        '
-        Me.grpOptions.Controls.Add(Me.lblToleranceHint)
-        Me.grpOptions.Controls.Add(Me.tbCollinearityTolerance)
-        Me.grpOptions.Controls.Add(Me.lblCollinearityTolerance)
-        Me.grpOptions.Controls.Add(Me.nudPaddingPercentY)
-        Me.grpOptions.Controls.Add(Me.lblPaddingPercentY)
-        Me.grpOptions.Controls.Add(Me.nudPaddingPercentX)
-        Me.grpOptions.Controls.Add(Me.lblPaddingPercentX)
-        Me.grpOptions.Controls.Add(Me.ckIncludeCollinearBoundaryPoints)
-        Me.grpOptions.Location = New System.Drawing.Point(9, 165)
-        Me.grpOptions.Name = "grpOptions"
-        Me.grpOptions.Size = New System.Drawing.Size(436, 232)
-        Me.grpOptions.TabIndex = 6
-        Me.grpOptions.TabStop = False
-        Me.grpOptions.Text = "Options"
-        '
-        'lblToleranceHint
-        '
-        Me.lblToleranceHint.AutoSize = True
-        Me.lblToleranceHint.Location = New System.Drawing.Point(225, 120)
-        Me.lblToleranceHint.Name = "lblToleranceHint"
-        Me.lblToleranceHint.Size = New System.Drawing.Size(133, 16)
-        Me.lblToleranceHint.TabIndex = 9
-        Me.lblToleranceHint.Text = "0 = exact comparison"
-        '
-        'tbCollinearityTolerance
-        '
-        Me.tbCollinearityTolerance.Location = New System.Drawing.Point(155, 117)
-        Me.tbCollinearityTolerance.Name = "tbCollinearityTolerance"
-        Me.tbCollinearityTolerance.Size = New System.Drawing.Size(61, 22)
-        Me.tbCollinearityTolerance.TabIndex = 8
-        Me.tbCollinearityTolerance.Text = "0"
-        '
-        'lblCollinearityTolerance
-        '
-        Me.lblCollinearityTolerance.AutoSize = True
-        Me.lblCollinearityTolerance.Location = New System.Drawing.Point(17, 120)
-        Me.lblCollinearityTolerance.Name = "lblCollinearityTolerance"
-        Me.lblCollinearityTolerance.Size = New System.Drawing.Size(132, 16)
-        Me.lblCollinearityTolerance.TabIndex = 7
-        Me.lblCollinearityTolerance.Text = "Collinearity tolerance"
-        '
-        'nudPaddingPercentY
-        '
-        Me.nudPaddingPercentY.DecimalPlaces = 2
-        Me.nudPaddingPercentY.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nudPaddingPercentY.Location = New System.Drawing.Point(155, 85)
-        Me.nudPaddingPercentY.Name = "nudPaddingPercentY"
-        Me.nudPaddingPercentY.Size = New System.Drawing.Size(59, 22)
-        Me.nudPaddingPercentY.TabIndex = 6
-        '
-        'lblPaddingPercentY
-        '
-        Me.lblPaddingPercentY.AutoSize = True
-        Me.lblPaddingPercentY.Location = New System.Drawing.Point(58, 87)
-        Me.lblPaddingPercentY.Name = "lblPaddingPercentY"
-        Me.lblPaddingPercentY.Size = New System.Drawing.Size(92, 16)
-        Me.lblPaddingPercentY.TabIndex = 5
-        Me.lblPaddingPercentY.Text = "Y padding (%)"
-        '
-        'nudPaddingPercentX
-        '
-        Me.nudPaddingPercentX.DecimalPlaces = 2
-        Me.nudPaddingPercentX.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.nudPaddingPercentX.Location = New System.Drawing.Point(155, 58)
-        Me.nudPaddingPercentX.Name = "nudPaddingPercentX"
-        Me.nudPaddingPercentX.Size = New System.Drawing.Size(59, 22)
-        Me.nudPaddingPercentX.TabIndex = 4
-        '
-        'lblPaddingPercentX
-        '
-        Me.lblPaddingPercentX.AutoSize = True
-        Me.lblPaddingPercentX.Location = New System.Drawing.Point(58, 60)
-        Me.lblPaddingPercentX.Name = "lblPaddingPercentX"
-        Me.lblPaddingPercentX.Size = New System.Drawing.Size(91, 16)
-        Me.lblPaddingPercentX.TabIndex = 1
-        Me.lblPaddingPercentX.Text = "X padding (%)"
-        '
-        'ckIncludeCollinearBoundaryPoints
-        '
-        Me.ckIncludeCollinearBoundaryPoints.AutoSize = True
-        Me.ckIncludeCollinearBoundaryPoints.Checked = True
-        Me.ckIncludeCollinearBoundaryPoints.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.ckIncludeCollinearBoundaryPoints.Location = New System.Drawing.Point(155, 32)
-        Me.ckIncludeCollinearBoundaryPoints.Name = "ckIncludeCollinearBoundaryPoints"
-        Me.ckIncludeCollinearBoundaryPoints.Size = New System.Drawing.Size(225, 20)
-        Me.ckIncludeCollinearBoundaryPoints.TabIndex = 0
-        Me.ckIncludeCollinearBoundaryPoints.Text = "Include collinear boundary points"
-        Me.ckIncludeCollinearBoundaryPoints.UseVisualStyleBackColor = True
-        '
         'grpInput
         '
         Me.grpInput.Controls.Add(Me.RefEdit_GroupID)
@@ -215,12 +134,26 @@ Partial Class Ui01ConvexHullPlot
         Me.grpInput.Controls.Add(Me.RefEdit_X)
         Me.grpInput.Controls.Add(Me.lblY)
         Me.grpInput.Controls.Add(Me.lblX)
-        Me.grpInput.Location = New System.Drawing.Point(9, 19)
+        Me.grpInput.Location = New System.Drawing.Point(3, 19)
         Me.grpInput.Name = "grpInput"
-        Me.grpInput.Size = New System.Drawing.Size(436, 140)
+        Me.grpInput.Size = New System.Drawing.Size(442, 140)
         Me.grpInput.TabIndex = 2
         Me.grpInput.TabStop = False
         Me.grpInput.Text = "Input"
+        '
+        'RefEdit_GroupID
+        '
+        Me.RefEdit_GroupID.Address = ""
+        Me.RefEdit_GroupID.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit_GroupID.ExcelConnector = Nothing
+        Me.RefEdit_GroupID.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit_GroupID.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit_GroupID.Location = New System.Drawing.Point(152, 101)
+        Me.RefEdit_GroupID.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit_GroupID.Name = "RefEdit_GroupID"
+        Me.RefEdit_GroupID.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit_GroupID.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit_GroupID.TabIndex = 7
         '
         'lblGroup
         '
@@ -230,6 +163,34 @@ Partial Class Ui01ConvexHullPlot
         Me.lblGroup.Size = New System.Drawing.Size(119, 16)
         Me.lblGroup.TabIndex = 6
         Me.lblGroup.Text = "Group ID (optional)"
+        '
+        'RefEdit_Y
+        '
+        Me.RefEdit_Y.Address = ""
+        Me.RefEdit_Y.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit_Y.ExcelConnector = Nothing
+        Me.RefEdit_Y.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit_Y.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit_Y.Location = New System.Drawing.Point(152, 62)
+        Me.RefEdit_Y.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit_Y.Name = "RefEdit_Y"
+        Me.RefEdit_Y.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit_Y.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit_Y.TabIndex = 5
+        '
+        'RefEdit_X
+        '
+        Me.RefEdit_X.Address = ""
+        Me.RefEdit_X.BackColor = System.Drawing.Color.Transparent
+        Me.RefEdit_X.ExcelConnector = Nothing
+        Me.RefEdit_X.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEdit_X.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
+        Me.RefEdit_X.Location = New System.Drawing.Point(152, 22)
+        Me.RefEdit_X.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEdit_X.Name = "RefEdit_X"
+        Me.RefEdit_X.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEdit_X.Size = New System.Drawing.Size(283, 32)
+        Me.RefEdit_X.TabIndex = 4
         '
         'lblY
         '
@@ -456,47 +417,166 @@ Partial Class Ui01ConvexHullPlot
         Me.ckShowLegend.Text = "Show legend"
         Me.ckShowLegend.UseVisualStyleBackColor = True
         '
-        'RefEdit_GroupID
+        'TabPage_Options
         '
-        Me.RefEdit_GroupID.Address = ""
-        Me.RefEdit_GroupID.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit_GroupID.ExcelConnector = Nothing
-        Me.RefEdit_GroupID.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit_GroupID.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit_GroupID.Location = New System.Drawing.Point(136, 101)
-        Me.RefEdit_GroupID.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit_GroupID.Name = "RefEdit_GroupID"
-        Me.RefEdit_GroupID.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit_GroupID.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit_GroupID.TabIndex = 7
+        Me.TabPage_Options.Controls.Add(Me.grpOptions)
+        Me.TabPage_Options.Location = New System.Drawing.Point(4, 25)
+        Me.TabPage_Options.Name = "TabPage_Options"
+        Me.TabPage_Options.Size = New System.Drawing.Size(448, 403)
+        Me.TabPage_Options.TabIndex = 2
+        Me.TabPage_Options.Text = "Options"
+        Me.TabPage_Options.UseVisualStyleBackColor = True
         '
-        'RefEdit_Y
+        'grpOptions
         '
-        Me.RefEdit_Y.Address = ""
-        Me.RefEdit_Y.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit_Y.ExcelConnector = Nothing
-        Me.RefEdit_Y.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit_Y.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit_Y.Location = New System.Drawing.Point(136, 62)
-        Me.RefEdit_Y.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit_Y.Name = "RefEdit_Y"
-        Me.RefEdit_Y.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit_Y.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit_Y.TabIndex = 5
+        Me.grpOptions.Controls.Add(Me.lblToleranceHint)
+        Me.grpOptions.Controls.Add(Me.tbCollinearityTolerance)
+        Me.grpOptions.Controls.Add(Me.lblCollinearityTolerance)
+        Me.grpOptions.Controls.Add(Me.nudPaddingPercentY)
+        Me.grpOptions.Controls.Add(Me.lblPaddingPercentY)
+        Me.grpOptions.Controls.Add(Me.nudPaddingPercentX)
+        Me.grpOptions.Controls.Add(Me.lblPaddingPercentX)
+        Me.grpOptions.Controls.Add(Me.ckIncludeCollinearBoundaryPoints)
+        Me.grpOptions.Location = New System.Drawing.Point(3, 18)
+        Me.grpOptions.Name = "grpOptions"
+        Me.grpOptions.Size = New System.Drawing.Size(436, 151)
+        Me.grpOptions.TabIndex = 7
+        Me.grpOptions.TabStop = False
+        Me.grpOptions.Text = "Options"
         '
-        'RefEdit_X
+        'lblToleranceHint
         '
-        Me.RefEdit_X.Address = ""
-        Me.RefEdit_X.BackColor = System.Drawing.Color.Transparent
-        Me.RefEdit_X.ExcelConnector = Nothing
-        Me.RefEdit_X.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
-        Me.RefEdit_X.ImageMinimized = Global.BESHStatNG.My.Resources.Resources.imgMinimized
-        Me.RefEdit_X.Location = New System.Drawing.Point(136, 22)
-        Me.RefEdit_X.Margin = New System.Windows.Forms.Padding(4)
-        Me.RefEdit_X.Name = "RefEdit_X"
-        Me.RefEdit_X.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RefEdit_X.Size = New System.Drawing.Size(283, 32)
-        Me.RefEdit_X.TabIndex = 4
+        Me.lblToleranceHint.AutoSize = True
+        Me.lblToleranceHint.Location = New System.Drawing.Point(225, 120)
+        Me.lblToleranceHint.Name = "lblToleranceHint"
+        Me.lblToleranceHint.Size = New System.Drawing.Size(133, 16)
+        Me.lblToleranceHint.TabIndex = 9
+        Me.lblToleranceHint.Text = "0 = exact comparison"
+        '
+        'tbCollinearityTolerance
+        '
+        Me.tbCollinearityTolerance.Location = New System.Drawing.Point(155, 117)
+        Me.tbCollinearityTolerance.Name = "tbCollinearityTolerance"
+        Me.tbCollinearityTolerance.Size = New System.Drawing.Size(61, 22)
+        Me.tbCollinearityTolerance.TabIndex = 8
+        Me.tbCollinearityTolerance.Text = "0"
+        '
+        'lblCollinearityTolerance
+        '
+        Me.lblCollinearityTolerance.AutoSize = True
+        Me.lblCollinearityTolerance.Location = New System.Drawing.Point(17, 120)
+        Me.lblCollinearityTolerance.Name = "lblCollinearityTolerance"
+        Me.lblCollinearityTolerance.Size = New System.Drawing.Size(132, 16)
+        Me.lblCollinearityTolerance.TabIndex = 7
+        Me.lblCollinearityTolerance.Text = "Collinearity tolerance"
+        '
+        'nudPaddingPercentY
+        '
+        Me.nudPaddingPercentY.DecimalPlaces = 2
+        Me.nudPaddingPercentY.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudPaddingPercentY.Location = New System.Drawing.Point(155, 85)
+        Me.nudPaddingPercentY.Name = "nudPaddingPercentY"
+        Me.nudPaddingPercentY.Size = New System.Drawing.Size(59, 22)
+        Me.nudPaddingPercentY.TabIndex = 6
+        '
+        'lblPaddingPercentY
+        '
+        Me.lblPaddingPercentY.AutoSize = True
+        Me.lblPaddingPercentY.Location = New System.Drawing.Point(58, 87)
+        Me.lblPaddingPercentY.Name = "lblPaddingPercentY"
+        Me.lblPaddingPercentY.Size = New System.Drawing.Size(92, 16)
+        Me.lblPaddingPercentY.TabIndex = 5
+        Me.lblPaddingPercentY.Text = "Y padding (%)"
+        '
+        'nudPaddingPercentX
+        '
+        Me.nudPaddingPercentX.DecimalPlaces = 2
+        Me.nudPaddingPercentX.Font = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.nudPaddingPercentX.Location = New System.Drawing.Point(155, 58)
+        Me.nudPaddingPercentX.Name = "nudPaddingPercentX"
+        Me.nudPaddingPercentX.Size = New System.Drawing.Size(59, 22)
+        Me.nudPaddingPercentX.TabIndex = 4
+        '
+        'lblPaddingPercentX
+        '
+        Me.lblPaddingPercentX.AutoSize = True
+        Me.lblPaddingPercentX.Location = New System.Drawing.Point(58, 60)
+        Me.lblPaddingPercentX.Name = "lblPaddingPercentX"
+        Me.lblPaddingPercentX.Size = New System.Drawing.Size(91, 16)
+        Me.lblPaddingPercentX.TabIndex = 1
+        Me.lblPaddingPercentX.Text = "X padding (%)"
+        '
+        'ckIncludeCollinearBoundaryPoints
+        '
+        Me.ckIncludeCollinearBoundaryPoints.AutoSize = True
+        Me.ckIncludeCollinearBoundaryPoints.Checked = True
+        Me.ckIncludeCollinearBoundaryPoints.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ckIncludeCollinearBoundaryPoints.Location = New System.Drawing.Point(155, 32)
+        Me.ckIncludeCollinearBoundaryPoints.Name = "ckIncludeCollinearBoundaryPoints"
+        Me.ckIncludeCollinearBoundaryPoints.Size = New System.Drawing.Size(225, 20)
+        Me.ckIncludeCollinearBoundaryPoints.TabIndex = 0
+        Me.ckIncludeCollinearBoundaryPoints.Text = "Include collinear boundary points"
+        Me.ckIncludeCollinearBoundaryPoints.UseVisualStyleBackColor = True
+        '
+        'grpOutput
+        '
+        Me.grpOutput.Controls.Add(Me.RefEditOutput)
+        Me.grpOutput.Controls.Add(Me.optWorkbook)
+        Me.grpOutput.Controls.Add(Me.optWorksheet)
+        Me.grpOutput.Controls.Add(Me.optOutputRange)
+        Me.grpOutput.Location = New System.Drawing.Point(3, 187)
+        Me.grpOutput.Name = "grpOutput"
+        Me.grpOutput.Size = New System.Drawing.Size(442, 130)
+        Me.grpOutput.TabIndex = 5
+        Me.grpOutput.TabStop = False
+        Me.grpOutput.Text = "Output"
+        '
+        'RefEditOutput
+        '
+        Me.RefEditOutput.Address = ""
+        Me.RefEditOutput.BackColor = System.Drawing.Color.Transparent
+        Me.RefEditOutput.Enabled = False
+        Me.RefEditOutput.ExcelConnector = Nothing
+        Me.RefEditOutput.ImageMaximized = Global.BESHStatNG.My.Resources.Resources.imgMaximized
+        Me.RefEditOutput.ImageMinimized = CType(resources.GetObject("RefEditOutput.ImageMinimized"), System.Drawing.Image)
+        Me.RefEditOutput.Location = New System.Drawing.Point(168, 16)
+        Me.RefEditOutput.Margin = New System.Windows.Forms.Padding(4)
+        Me.RefEditOutput.Name = "RefEditOutput"
+        Me.RefEditOutput.RefEditFont = New System.Drawing.Font("Microsoft Sans Serif", 7.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RefEditOutput.Size = New System.Drawing.Size(267, 32)
+        Me.RefEditOutput.TabIndex = 3
+        '
+        'optWorkbook
+        '
+        Me.optWorkbook.AutoSize = True
+        Me.optWorkbook.Location = New System.Drawing.Point(19, 80)
+        Me.optWorkbook.Name = "optWorkbook"
+        Me.optWorkbook.Size = New System.Drawing.Size(121, 20)
+        Me.optWorkbook.TabIndex = 2
+        Me.optWorkbook.Text = "New Workbook"
+        Me.optWorkbook.UseVisualStyleBackColor = True
+        '
+        'optWorksheet
+        '
+        Me.optWorksheet.AutoSize = True
+        Me.optWorksheet.Checked = True
+        Me.optWorksheet.Location = New System.Drawing.Point(19, 54)
+        Me.optWorksheet.Name = "optWorksheet"
+        Me.optWorksheet.Size = New System.Drawing.Size(123, 20)
+        Me.optWorksheet.TabIndex = 1
+        Me.optWorksheet.TabStop = True
+        Me.optWorksheet.Text = "New Worksheet"
+        Me.optWorksheet.UseVisualStyleBackColor = True
+        '
+        'optOutputRange
+        '
+        Me.optOutputRange.AutoSize = True
+        Me.optOutputRange.Location = New System.Drawing.Point(20, 28)
+        Me.optOutputRange.Name = "optOutputRange"
+        Me.optOutputRange.Size = New System.Drawing.Size(110, 20)
+        Me.optOutputRange.TabIndex = 0
+        Me.optOutputRange.Text = "Output Range"
+        Me.optOutputRange.UseVisualStyleBackColor = True
         '
         'Ui01ConvexHullPlot
         '
@@ -514,10 +594,6 @@ Partial Class Ui01ConvexHullPlot
         Me.Text = "Convex Hull Plot"
         Me.TabMultipage.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
-        Me.grpOptions.ResumeLayout(False)
-        Me.grpOptions.PerformLayout()
-        CType(Me.nudPaddingPercentY, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.nudPaddingPercentX, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpInput.ResumeLayout(False)
         Me.grpInput.PerformLayout()
         Me.TabPage_Appearance.ResumeLayout(False)
@@ -529,6 +605,13 @@ Partial Class Ui01ConvexHullPlot
         Me.grpGroupAppearance.PerformLayout()
         Me.grpDisplay.ResumeLayout(False)
         Me.grpDisplay.PerformLayout()
+        Me.TabPage_Options.ResumeLayout(False)
+        Me.grpOptions.ResumeLayout(False)
+        Me.grpOptions.PerformLayout()
+        CType(Me.nudPaddingPercentY, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.nudPaddingPercentX, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.grpOutput.ResumeLayout(False)
+        Me.grpOutput.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -537,7 +620,6 @@ Partial Class Ui01ConvexHullPlot
     Friend WithEvents btCompute As Windows.Forms.Button
     Friend WithEvents TabMultipage As Windows.Forms.TabControl
     Friend WithEvents TabPage1 As Windows.Forms.TabPage
-    Friend WithEvents grpOptions As Windows.Forms.GroupBox
     Friend WithEvents grpInput As Windows.Forms.GroupBox
     Friend WithEvents RefEdit_GroupID As Excel2007RefEdit
     Friend WithEvents lblGroup As Windows.Forms.Label
@@ -546,14 +628,6 @@ Partial Class Ui01ConvexHullPlot
     Friend WithEvents lblY As Windows.Forms.Label
     Friend WithEvents lblX As Windows.Forms.Label
     Friend WithEvents TabPage_Appearance As Windows.Forms.TabPage
-    Friend WithEvents lblPaddingPercentX As Windows.Forms.Label
-    Friend WithEvents ckIncludeCollinearBoundaryPoints As Windows.Forms.CheckBox
-    Friend WithEvents nudPaddingPercentX As Windows.Forms.NumericUpDown
-    Friend WithEvents nudPaddingPercentY As Windows.Forms.NumericUpDown
-    Friend WithEvents lblPaddingPercentY As Windows.Forms.Label
-    Friend WithEvents lblToleranceHint As Windows.Forms.Label
-    Friend WithEvents tbCollinearityTolerance As Windows.Forms.TextBox
-    Friend WithEvents lblCollinearityTolerance As Windows.Forms.Label
     Friend WithEvents grpDisplay As Windows.Forms.GroupBox
     Friend WithEvents ckShowLegend As Windows.Forms.CheckBox
     Friend WithEvents grpGroupAppearance As Windows.Forms.GroupBox
@@ -573,4 +647,19 @@ Partial Class Ui01ConvexHullPlot
     Friend WithEvents lblHullLineWeight As Windows.Forms.Label
     Friend WithEvents cbHullLineStyle As Windows.Forms.ComboBox
     Friend WithEvents lblHullLineStyle As Windows.Forms.Label
+    Friend WithEvents TabPage_Options As Windows.Forms.TabPage
+    Friend WithEvents grpOptions As Windows.Forms.GroupBox
+    Friend WithEvents lblToleranceHint As Windows.Forms.Label
+    Friend WithEvents tbCollinearityTolerance As Windows.Forms.TextBox
+    Friend WithEvents lblCollinearityTolerance As Windows.Forms.Label
+    Friend WithEvents nudPaddingPercentY As Windows.Forms.NumericUpDown
+    Friend WithEvents lblPaddingPercentY As Windows.Forms.Label
+    Friend WithEvents nudPaddingPercentX As Windows.Forms.NumericUpDown
+    Friend WithEvents lblPaddingPercentX As Windows.Forms.Label
+    Friend WithEvents ckIncludeCollinearBoundaryPoints As Windows.Forms.CheckBox
+    Friend WithEvents grpOutput As Windows.Forms.GroupBox
+    Friend WithEvents RefEditOutput As Excel2007RefEdit
+    Friend WithEvents optWorkbook As Windows.Forms.RadioButton
+    Friend WithEvents optWorksheet As Windows.Forms.RadioButton
+    Friend WithEvents optOutputRange As Windows.Forms.RadioButton
 End Class

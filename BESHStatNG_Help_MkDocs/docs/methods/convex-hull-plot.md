@@ -80,9 +80,9 @@ The headings may be included in the selected ranges. BESHStatNG uses the X and Y
 
 ## Worked example: grouped convex hulls
 
-### Input and calculation options
+### Input and output
 
-![Convex Hull Plot – input and calculation options](../assets/images/111convexhull/111convexhull_input.png)
+![Convex Hull Plot – input ranges and output destination](../assets/images/111convexhull/111convexhull_input.png)
 
 Use these settings:
 
@@ -91,6 +91,18 @@ Use these settings:
 | X | **X** (`A:A`) |
 | Y | **Y** (`B:B`) |
 | Group ID | **Group** (`C:C`) |
+| Output | **New Worksheet** |
+
+The example creates the chart on a new worksheet in the workbook that contains the input data.
+
+### Calculation options
+
+![Convex Hull Plot – calculation options](../assets/images/111convexhull/111convexhull_options.png)
+
+Use these settings:
+
+| Setting | Value |
+|---|---|
 | Include collinear boundary points | Selected |
 | X padding (%) | `0.00` |
 | Y padding (%) | `0.00` |
@@ -183,7 +195,19 @@ Example:
 - **Y** — select the paired numeric vertical-coordinate column.
 - **Group ID (optional)** — select a row-aligned text or numeric grouping column to calculate and display one hull per level.
 
-The chart is inserted on the input worksheet, normally two columns to the right of the right-most selected input range.
+#### Output destination
+
+Choose where the chart will be created:
+
+| Option | Result |
+|---|---|
+| **Output Range** | Places the chart on an existing worksheet, anchored at the upper-left cell of the selected range. The range box is enabled only when this option is selected. |
+| **New Worksheet** | Adds a worksheet to the input workbook and anchors the chart at cell A1. This is the default. |
+| **New Workbook** | Creates a workbook and anchors the chart at cell A1 on its first worksheet. |
+
+Selecting an output range positions the chart; it does not write data into the selected cells. A continuous range may be selected, but only its upper-left cell determines the chart position.
+
+### Options tab
 
 #### Include collinear boundary points
 
@@ -361,6 +385,7 @@ The current dialog opens with:
 
 | Setting | Default |
 |---|---|
+| Output | **New Worksheet** |
 | Include collinear boundary points | Selected |
 | X padding | `0.00` |
 | Y padding | `0.00` |
@@ -403,17 +428,18 @@ Rows with valid X and Y values but a missing Group ID are omitted from a grouped
 2. Select the **X** range.
 3. Select the row-aligned **Y** range.
 4. Optionally select a row-aligned **Group ID** range.
-5. Choose whether to include collinear boundary points.
-6. Enter optional X and Y padding percentages.
-7. Leave **Collinearity tolerance** at `0`, or enter a justified small positive value.
-8. Open the **Appearance** tab and select the legend, gridlines, group differentiation, marker, and line settings.
-9. Click **Compute**.
+5. Choose **Output Range**, **New Worksheet**, or **New Workbook**. If using Output Range, select the chart anchor range.
+6. On the **Options** tab, choose whether to include collinear boundary points.
+7. Enter optional X and Y padding percentages.
+8. Leave **Collinearity tolerance** at `0`, or enter a justified small positive value.
+9. Open the **Appearance** tab and select the legend, gridlines, group differentiation, marker, and line settings.
+10. Click **Compute**.
 
 ---
 
 ## Output
 
-BESHStatNG creates an embedded Excel XY scatter chart on the input worksheet. The default output contains:
+BESHStatNG creates an embedded Excel XY scatter chart at the selected destination: at an output range, on a new worksheet in the input workbook, or in a new workbook. The default output contains:
 
 - one marker series and one hull-line series for every group;
 - all valid source observations as markers;
@@ -423,7 +449,7 @@ BESHStatNG creates an embedded Excel XY scatter chart on the input worksheet. Th
 - automatic Excel axis limits;
 - optional major gridlines and legend entries.
 
-The chart is created at approximately 620 × 420 points and is normally anchored two worksheet columns to the right of the selected data.
+The chart is created at approximately 620 × 420 points. With **New Worksheet** or **New Workbook**, it is anchored at cell A1. With **Output Range**, the upper-left cell of the selected range determines the chart position.
 
 The result is a standard Excel chart and can be moved, resized, formatted, copied, or exported after creation. See [Export Chart](../export-chart.md) for high-resolution image export.
 
@@ -551,6 +577,7 @@ Use a convex hull when enclosing every observation is important and a convex out
 ## Implementation details and limitations
 
 - Geometry is calculated independently of Excel chart creation.
+- The chart can be placed at an output range, on a new worksheet in the input workbook, or in a new workbook.
 - The backend uses Andrew's monotone-chain algorithm separately for each group.
 - All original observations are passed directly to Excel marker series; no worksheet helper columns are written.
 - The hull boundary is rendered as straight Excel XY-scatter line segments without polygon fill.
@@ -575,6 +602,8 @@ Use a convex hull when enclosing every observation is important and a convex out
 - Selecting ranges from different worksheets.
 - Selecting ranges that start on different rows or contain different numbers of rows.
 - Supplying a Group ID range that is not aligned with X and Y.
+- Selecting **Output Range** without choosing a valid continuous output range.
+- Assuming the Output Range cells will contain numerical results; the selection is used only to position the chart.
 - Interpreting the hull as a confidence region or tolerance region.
 - Comparing hull areas from groups with very different sample sizes without qualification.
 - Assuming the hull follows gaps or inward curves in the point cloud.

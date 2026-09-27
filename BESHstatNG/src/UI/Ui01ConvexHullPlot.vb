@@ -8,7 +8,6 @@ Imports Microsoft.Office.Interop.Excel
 Public Class Ui01ConvexHullPlot
     Private Const DefaultChartWidthPoints As Double = 620.0R
     Private Const DefaultChartHeightPoints As Double = 420.0R
-    Private Const ChartColumnGap As Integer = 2
 
     Private NotInheritable Class ComboItem(Of T)
         Public Sub New(displayText As String, value As T)
@@ -33,9 +32,32 @@ Public Class Ui01ConvexHullPlot
         Me.RefEdit_Y.ExcelConnector = AppGlobals.app
         Me.RefEdit_X.ExcelConnector = AppGlobals.app
         Me.RefEdit_GroupID.ExcelConnector = AppGlobals.app
-
+        Me.RefEditOutput.ExcelConnector = AppGlobals.app
         InitializeOptionControls()
+        Me.UpdateOutputRangeState()
         Me.WireHelp(Me.btnHelp)
+    End Sub
+
+    Private Sub optOutputRange_CheckedChanged(sender As Object, e As System.EventArgs) Handles optOutputRange.CheckedChanged
+        Me.UpdateOutputRangeState()
+    End Sub
+
+    Private Sub optWorksheet_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorksheet.CheckedChanged
+        Me.UpdateOutputRangeState()
+    End Sub
+
+    Private Sub optWorkbook_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorkbook.CheckedChanged
+        Me.UpdateOutputRangeState()
+    End Sub
+
+    ''' <summary>
+    ''' Enables the output RefEdit only when an explicit output range is selected.
+    ''' </summary>
+    Private Sub UpdateOutputRangeState()
+        Me.RefEditOutput.Enabled = Me.optOutputRange.Checked
+        If Me.optOutputRange.Checked AndAlso Me.RefEditOutput.CanFocus Then
+            Me.RefEditOutput.txtAddress.Select()
+        End If
     End Sub
 
     ''' <summary>
@@ -269,6 +291,22 @@ Public Class Ui01ConvexHullPlot
                 Return True
             End If
 
+            If Me.optOutputRange.Checked Then
+                Dim outputRange As Range = Nothing
+                If Not Me.TryResolveRange(Me.RefEditOutput,
+                                          "Output range",
+                                          requireSingleColumn:=False,
+                                          requireSingleArea:=True,
+                                          resolvedRange:=outputRange) Then
+                    Return True
+                End If
+            ElseIf Not Me.optWorksheet.Checked AndAlso Not Me.optWorkbook.Checked Then
+                MsgBox("Select an output destination for the convex hull plot.",
+                       vbExclamation,
+                       AppGlobals.gsAPP_TITLE)
+                Return True
+            End If
+
             Return False
         Catch ex As Exception
             CoreServices.Errors.LogAndThrow(ex,
@@ -289,6 +327,56 @@ Public Class Ui01ConvexHullPlot
                String.Equals(firstWorksheet.Name,
                              secondWorksheet.Name,
                              StringComparison.OrdinalIgnoreCase)
+    End Function
+
+    ''' <summary>
+    ''' Resolves a RefEdit against the workbook captured when the range was selected.
+    ''' </summary>
+    Private Function TryResolveRange(refEdit As Excel2007RefEdit,
+                                     displayName As String,
+                                     requireSingleColumn As Boolean,
+                                     requireSingleArea As Boolean,
+                                     ByRef resolvedRange As Range) As Boolean
+        resolvedRange = Nothing
+
+        If refEdit Is Nothing OrElse String.IsNullOrWhiteSpace(refEdit.Address) Then
+            MsgBox(displayName & " is empty. Please select a range.",
+                   vbExclamation,
+                   AppGlobals.gsAPP_TITLE)
+            Return False
+        End If
+
+        Try
+            Dim workbook As Workbook = refEdit.ExcelWorkBook
+            If workbook Is Nothing Then workbook = AppGlobals.app.ActiveWorkbook
+            If workbook Is Nothing Then Throw New InvalidOperationException("No active Excel workbook is available.")
+
+            Dim worksheet As Worksheet = WorksheetFromRefAdress(refEdit.Address, workbook)
+            If worksheet Is Nothing Then Throw New InvalidOperationException("Unable to resolve the selected worksheet.")
+
+            resolvedRange = worksheet.Range(refEdit.Address)
+
+            If requireSingleArea AndAlso resolvedRange.Areas.Count <> 1 Then
+                MsgBox(displayName & " must be one continuous range.",
+                       vbExclamation,
+                       AppGlobals.gsAPP_TITLE)
+                Return False
+            End If
+
+            If requireSingleColumn AndAlso resolvedRange.Columns.Count <> 1 Then
+                MsgBox(displayName & " must contain exactly one column.",
+                       vbExclamation,
+                       AppGlobals.gsAPP_TITLE)
+                Return False
+            End If
+
+            Return True
+        Catch
+            MsgBox(displayName & " is not a valid Excel range.",
+                   vbExclamation,
+                   AppGlobals.gsAPP_TITLE)
+            Return False
+        End Try
     End Function
 
     ''' <summary>
@@ -408,7 +496,7 @@ Public Class Ui01ConvexHullPlot
 
     ''' <summary>
     ''' Computes grouped or ungrouped hulls and creates an embedded XY-scatter chart
-    ''' beside the selected input columns.
+    ''' at the selected output destination.
     ''' </summary>
     Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
         Try
@@ -452,30 +540,18 @@ Public Class Ui01ConvexHullPlot
             End If
 
             Dim inputWorksheet As Worksheet = DirectCast(data.ws, Worksheet)
-            DirectCast(inputWorksheet.Parent, Workbook).Activate()
-            inputWorksheet.Activate()
+            Dim inputWorkbook As Workbook = DirectCast(inputWorksheet.Parent, Workbook)
+            Dim outputWorksheet As Worksheet = Nothing
+            Dim chartAnchor As Range = Nothing
+            Me.ResolveOutputTarget(inputWorkbook, outputWorksheet, chartAnchor)
 
-            Dim xRange As Range = inputWorksheet.Range(Me.RefEdit_X.Address)
-            Dim yRange As Range = inputWorksheet.Range(Me.RefEdit_Y.Address)
-            Dim lastInputColumn As Integer = Math.Max(xRange.Column + xRange.Columns.Count - 1,
-                                                      yRange.Column + yRange.Columns.Count - 1)
-            Dim anchorRow As Integer = Math.Min(xRange.Row, yRange.Row)
-
-            If hasGrouping Then
-                Dim groupRange As Range = inputWorksheet.Range(Me.RefEdit_GroupID.Address)
-                lastInputColumn = Math.Max(lastInputColumn,
-                                           groupRange.Column + groupRange.Columns.Count - 1)
-                anchorRow = Math.Min(anchorRow, groupRange.Row)
-            End If
-
-            Dim anchorColumn As Integer = lastInputColumn + ChartColumnGap
-            If anchorColumn > inputWorksheet.Columns.Count Then anchorColumn = 1
-            Dim chartAnchor As Range = DirectCast(inputWorksheet.Cells(anchorRow, anchorColumn), Range)
+            DirectCast(outputWorksheet.Parent, Workbook).Activate()
+            outputWorksheet.Activate()
 
             Dim appearance As ConvexHullPlotAppearance = Me.GetPlotAppearance(data,
                                                                               xColumn,
                                                                               yColumn)
-            Dim createdChart As Chart = ConvexHullPlotExcel.AddChart(inputWorksheet,
+            Dim createdChart As Chart = ConvexHullPlotExcel.AddChart(outputWorksheet,
                                                                      result,
                                                                      appearance,
                                                                      CDbl(chartAnchor.Left),
@@ -488,6 +564,51 @@ Public Class Ui01ConvexHullPlot
                                             True,
                                             "Unable to create the convex-hull plot")
         End Try
+    End Sub
+
+    ''' <summary>
+    ''' Resolves the selected graphical-output option to a worksheet and chart anchor.
+    ''' </summary>
+    Private Sub ResolveOutputTarget(inputWorkbook As Workbook,
+                                    ByRef outputWorksheet As Worksheet,
+                                    ByRef chartAnchor As Range)
+        outputWorksheet = Nothing
+        chartAnchor = Nothing
+
+        If Me.optWorkbook.Checked Then
+            Dim outputWorkbook As Workbook = AppGlobals.app.Workbooks.Add()
+            outputWorksheet = DirectCast(outputWorkbook.Worksheets(1), Worksheet)
+            chartAnchor = DirectCast(outputWorksheet.Cells(1, 1), Range)
+            Return
+        End If
+
+        If Me.optWorksheet.Checked Then
+            If inputWorkbook Is Nothing Then Throw New ArgumentNullException(NameOf(inputWorkbook))
+            inputWorkbook.Activate()
+            outputWorksheet = DirectCast(inputWorkbook.Worksheets.Add(), Worksheet)
+            chartAnchor = DirectCast(outputWorksheet.Cells(1, 1), Range)
+            Return
+        End If
+
+        If Me.optOutputRange.Checked Then
+            Dim selectedRange As Range = Nothing
+            If Not Me.TryResolveRange(Me.RefEditOutput,
+                                      "Output range",
+                                      requireSingleColumn:=False,
+                                      requireSingleArea:=True,
+                                      resolvedRange:=selectedRange) Then
+                Throw New ArgumentException("A valid output range is required.")
+            End If
+
+            outputWorksheet = TryCast(selectedRange.Parent, Worksheet)
+            If outputWorksheet Is Nothing Then
+                Throw New InvalidOperationException("Unable to resolve the output worksheet.")
+            End If
+            chartAnchor = DirectCast(selectedRange.Cells(1, 1), Range)
+            Return
+        End If
+
+        Throw New InvalidOperationException("Select an output destination for the convex hull plot.")
     End Sub
 
     Private Sub btnMarkerColor_Click(sender As Object, e As System.EventArgs) Handles btnMarkerColor.Click
