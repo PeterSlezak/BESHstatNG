@@ -2660,14 +2660,13 @@ Public NotInheritable Class PolarPlotExcel
     ''' <param name="color">OLE RGB line color.</param>
     ''' <param name="weight">Line width in points.</param>
     ''' <returns>The one-based index of the new Excel series.</returns>
-    Private Shared Function AddLineSeries(seriesCollection As SeriesCollection,
+    Private Shared Function AddLineSeries(seriesCollection As Object,
                                           coordinates As PolarPlotSeries,
                                           seriesName As String,
                                           color As Integer,
                                           weight As Single) As Integer
         seriesCollection.NewSeries()
-        'Dim series As Object = DirectCast(seriesCollection.Item(seriesCollection.Count), Series)
-        With seriesCollection(seriesCollection.Count - 1)
+        With seriesCollection.Item(seriesCollection.Count)
             .Name = seriesName
             .ChartType = XlChartType.xlXYScatterLinesNoMarkers
             .XValues = coordinates.XValues
@@ -2690,7 +2689,7 @@ Public NotInheritable Class PolarPlotExcel
     ''' <param name="seriesName">Internal descriptive series name.</param>
     ''' <param name="appearance">Resolved label appearance.</param>
     ''' <returns>The one-based index of the new Excel series, or zero when no labels were supplied.</returns>
-    Private Shared Function AddLabelSeries(seriesCollection As SeriesCollection,
+    Private Shared Function AddLabelSeries(seriesCollection As Object,
                                            labels As PolarPlotLabel(),
                                            seriesName As String,
                                            appearance As PolarPlotAppearance) As Integer
@@ -2704,8 +2703,7 @@ Public NotInheritable Class PolarPlotExcel
         Next
 
         seriesCollection.NewSeries()
-        'Dim series As Series = DirectCast(seriesCollection.Item(seriesCollection.Count), Series)
-        With seriesCollection(seriesCollection.Count - 1)
+        With seriesCollection.Item(seriesCollection.Count)
             .Name = seriesName
             .ChartType = XlChartType.xlXYScatter
             .XValues = xValues
@@ -2781,7 +2779,7 @@ Public NotInheritable Class PolarPlotExcel
     ''' <param name="connectPoints">Whether the section uses a connecting line.</param>
     ''' <param name="segmentNumber">One-based section number used to create a unique internal name.</param>
     ''' <returns>The one-based index of the new Excel series.</returns>
-    Private Shared Function AddDataSeries(seriesCollection As SeriesCollection,
+    Private Shared Function AddDataSeries(seriesCollection As Object,
                                           coordinates As PolarPlotSeries,
                                           seriesName As String,
                                           seriesColor As Integer,
@@ -2790,8 +2788,7 @@ Public NotInheritable Class PolarPlotExcel
                                           connectPoints As Boolean,
                                           segmentNumber As Integer) As Integer
         seriesCollection.NewSeries()
-        'Dim series As Series = DirectCast(seriesCollection.Item(seriesCollection.Count), Series)
-        With seriesCollection(seriesCollection.Count - 1)
+        With seriesCollection.Item(seriesCollection.Count)
             Dim baseName As String = If(String.IsNullOrWhiteSpace(seriesName), "Data", seriesName)
             .Name = If(segmentNumber = 1, baseName, $"{baseName} {segmentNumber}")
             .ChartType = If(connectPoints,

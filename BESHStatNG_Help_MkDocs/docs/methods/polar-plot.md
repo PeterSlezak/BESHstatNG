@@ -1,6 +1,6 @@
 # Polar Plot
 
-**Includes:** Paired radius–angle plots, degrees/radians/percentage angles, clockwise or counterclockwise rotation, four zero-angle positions, optional connecting lines, optional text or numeric grouping, automatic radial scaling, and configurable radial and angular tick intervals.  
+**Includes:** Paired radius–angle plots, degrees/radians/percentage angles, clockwise or counterclockwise rotation, four zero-angle positions, optional connecting lines, optional text or numeric grouping, automatic radial scaling, configurable radial and angular tick intervals, and output to a selected range, new worksheet, or new workbook.  
 **Purpose:** Display observations whose position is defined by a magnitude (radius) and a direction, phase, or position within a cycle (angle).
 
 ---
@@ -63,17 +63,27 @@ After opening the CSV in Excel, select **Distance** (column B) as Radius and **A
 
 ## Example 1: marker-only plot with automatic ticks
 
-### Dialog settings
+### Input and output
 
-![Polar Plot example 1 – input and basic options](../assets/images/110polarplot/110polarplot_input.png)
+![Polar Plot – input ranges and output destination](../assets/images/110polarplot/110polarplot_input.png)
 
-Use the following settings:
+Both examples use the same input ranges and create the chart on a new worksheet:
 
 | Setting | Value |
 |---|---|
 | Radius | **Distance** (`B:B`) |
 | Angle | **Angle** (`A:A`) |
 | Group ID | Blank |
+| Output | **New Worksheet** |
+
+### Options
+
+![Polar Plot example 1 – automatic intervals and marker-only settings](../assets/images/110polarplot/110polarplot_options1.png)
+
+Use the following settings:
+
+| Setting | Value |
+|---|---|
 | Angle Unit | **Degrees** |
 | Rotation | **Clockwise** |
 | Zero Angle | **East** |
@@ -81,7 +91,7 @@ Use the following settings:
 | Angular Tick Interval | Blank (automatic) |
 | Radial Tick Interval | Blank (automatic) |
 
-With blank interval boxes, the backend resolves an angular interval of 45° and a radial interval of 1. The data range of -2.5 to 2.5 is expanded to readable radial limits of -3 to 3.
+With blank interval boxes, BESHStatNG resolves an angular interval of 45° and a radial interval of 1. The data range of -2.5 to 2.5 is expanded to readable radial limits of -3 to 3.
 
 ### Output
 
@@ -93,21 +103,16 @@ The angle labels start at 0° on the right-hand side and increase clockwise. Eac
 
 ## Example 2: connected plot with custom tick intervals
 
-### Input and basic options
+Example 2 uses the same Radius, Angle, Group ID, and **New Worksheet** output selections shown in the shared Input screenshot above.
 
-![Polar Plot example 2 – input and basic options](../assets/images/110polarplot/110polarplot_input2.png)
+### Options
 
-### Tick interval options
+![Polar Plot example 2 – custom intervals and connected-line settings](../assets/images/110polarplot/110polarplot_options2.png)
 
-![Polar Plot example 2 – tick interval options](../assets/images/110polarplot/110polarplot_options2.png)
-
-Use the same data with these settings:
+Use these options:
 
 | Setting | Value |
 |---|---|
-| Radius | **Distance** (`B:B`) |
-| Angle | **Angle** (`A:A`) |
-| Group ID | Blank |
 | Angle Unit | **Degrees** |
 | Rotation | **Counterclockwise** |
 | Zero Angle | **North** |
@@ -164,13 +169,25 @@ Example with grouping:
 
 ### Input tab
 
-#### Inputs
+#### Input ranges
 
 - **Radius** — select the numeric radius column.
 - **Angle** — select the paired numeric angle column.
 - **Group ID (optional)** — select a row-aligned text or numeric grouping column to create one series per group.
 
-The chart is inserted on the input worksheet, normally two columns to the right of the right-most selected input range.
+#### Output destination
+
+Choose where the chart will be created:
+
+| Option | Result |
+|---|---|
+| **Output Range** | Places the chart on an existing worksheet, anchored at the upper-left cell of the selected range. The range box is enabled only when this option is selected. |
+| **New Worksheet** | Adds a worksheet to the input workbook and anchors the chart at cell A1. This is the default. |
+| **New Workbook** | Creates a workbook and anchors the chart at cell A1 on its first worksheet. |
+
+Selecting an output range positions the chart; it does not write data into the selected cells. A continuous range may be selected, but only its upper-left cell determines the chart position.
+
+### Options tab
 
 #### Angle Unit
 
@@ -217,8 +234,6 @@ The final observation is not connected automatically to the first. Repeat the fi
 !!! tip
     Connect points only when worksheet order has substantive meaning, such as time, measurement sequence, or a deliberately ordered angular profile. Connecting unordered observations can imply a trajectory that is not present in the data.
 
-### Options tab
-
 #### Angular Tick Interval
 
 Controls the interval between angular spokes and labels. The value is interpreted in the selected **Angle Unit**:
@@ -237,7 +252,7 @@ When radial limits are automatic, BESHStatNG expands them outwards to multiples 
 
 ### Initial dialog selections
 
-The current Windows dialog opens with **Degrees**, **Clockwise**, **East**, and **Connect Points** selected. Both tick interval boxes are blank, requesting automatic intervals.
+The dialog opens with **New Worksheet**, **Degrees**, **Clockwise**, **East**, and **Connect Points** selected. Both tick interval boxes are blank, requesting automatic intervals.
 
 ---
 
@@ -266,16 +281,17 @@ Rows with a valid radius and angle but a missing Group ID are omitted from a gro
 2. Select the **Radius** range.
 3. Select the row-aligned **Angle** range.
 4. Optionally select a row-aligned **Group ID** range.
-5. Choose the **Angle Unit**, **Rotation**, and **Zero Angle**.
-6. Select or clear **Connect Points**.
-7. On the **Options** tab, enter optional angular and radial tick intervals, or leave either box blank for automatic spacing.
-8. Click **Compute**.
+5. Choose **Output Range**, **New Worksheet**, or **New Workbook**. If using Output Range, select the chart anchor range.
+6. On the **Options** tab, choose the **Angle Unit**, **Rotation**, and **Zero Angle**.
+7. Select or clear **Connect Points**.
+8. Enter optional angular and radial tick intervals, or leave either box blank for automatic spacing.
+9. Click **Compute**.
 
 ---
 
 ## Output
 
-BESHStatNG creates a square embedded Excel chart on the input worksheet. Depending on the selected options, it contains:
+BESHStatNG creates a square embedded Excel chart at the selected destination: at an output range, on a new worksheet in the input workbook, or in a new workbook. Depending on the selected options, the chart contains:
 
 - a marker for every plotted radius–angle pair;
 - one differently styled series and legend entry per group;
@@ -360,8 +376,6 @@ r_{\min}=h\left\lfloor\frac{r_{\mathrm{raw,min}}}{h}\right\rfloor,
 r_{\max}=h\left\lceil\frac{r_{\mathrm{raw,max}}}{h}\right\rceil.
 $$
 
-The numerical backend also supports explicit `RadialMinimum` and `RadialMaximum` settings. These limits are not currently exposed in the Windows dialog. When supplied programmatically, values outside the resolved limits are retained in the result metadata but are not rendered.
-
 ### 4. Shift the radial origin and convert to Cartesian coordinates
 
 The resolved lower radial limit maps to the centre. For observation \(i\), the nonnegative plotted distance is
@@ -404,7 +418,7 @@ This preserves the ordering of the radius variable. It differs from the alternat
 - A missing or non-numeric radius or angle makes that observation missing.
 - Missing observations are not drawn.
 - With **Connect Points** selected, missing observations create line gaps; lines do not bridge the relevant missing row.
-- Fully blank rows are preserved logically as line breaks even though the common importer removes them from its cleaned matrix.
+- A completely blank selected row is retained as a line break.
 - A missing Group ID omits an otherwise valid observation from a grouped plot.
 - At least one complete numeric radius–angle pair, and for grouped plots at least one usable Group ID, is required.
 - Infinite radius, angle, group, or interval values are rejected.
@@ -448,15 +462,14 @@ Use Polar Plot when every row already supplies an angle and a radius. The tool d
 
 ---
 
-## Implementation details and limitations
+## Technical notes and limitations
 
-- Numerical geometry is computed independently of Excel chart creation.
 - Circular gridlines use 72 straight segments (73 points including the repeated endpoint), equivalent to one point every 5°.
 - Grid circles, spokes, labels, and data are passed directly to Excel series; no worksheet helper cells are written.
 - Group order follows first plotted appearance, and style palettes repeat when necessary.
 - Connected sections separated by missing observations are rendered as separate Excel series.
 - Excel supports at most 255 chart series. Very dense grid settings, many groups, or highly fragmented connected data can exceed this limit. Increase a tick interval, clear **Connect Points**, or reduce missing-value gaps if this occurs.
-- Radial minimum and maximum are automatic in the current dialog; manual limits are available only through the backend options.
+- Radial minimum and maximum are selected automatically.
 - The dialog does not currently expose custom colours, marker shapes, line styles, partial-circle limits, logarithmic radial scales, or angle sorting.
 - Lines are straight in Cartesian chart space between adjacent polar observations.
 - The tool creates a chart through the ribbon; it is not a worksheet UDF.
@@ -471,6 +484,7 @@ Use Polar Plot when every row already supplies an angle and a radius. The tool d
 - Treating `1` as a complete turn in Percentage mode; one complete turn is `100`.
 - Selecting ranges that start on different rows or contain different numbers of rows.
 - Supplying a Group ID range that is not aligned with radius and angle.
+- Selecting **Output Range** without choosing a valid continuous range.
 - Entering an angular tick interval in degrees while Radians or Percentage is selected.
 - Entering zero or a negative tick interval.
 - Connecting observations whose worksheet order is arbitrary.

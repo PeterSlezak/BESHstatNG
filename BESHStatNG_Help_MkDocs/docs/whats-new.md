@@ -1,5 +1,10 @@
 # What's New
 
+## version 1.x.0.0 (2026-xx-xx)
+- p-value formatting global settings implemention
+- Ploar plot output options added to allow new sheet, new workbook, and specific location in current sheet.
+
+
 ## version 1.2.0.0 (2026-09-17)
 - Enhanced ANOVA multiple comparisons: One-way ANOVA post-hoc results now report the standard error of pairwise differences for Fisher’s LSD, Bonferroni, Tukey-Kramer, and Games–Howell tests, consistently respect the global alpha/confidence-level setting, and include new confidence-interval plots showing pairwise mean differences, interval estimates, and the zero-difference reference line. Global alpha handling was also corrected for post-hoc comparisons following repeated-measures ANOVA, Kruskal–Wallis, and Friedman tests.
 - Histogram now has an option to show horizontal box plot immediately below the histogram while retaining the same horizontal measurement scale.

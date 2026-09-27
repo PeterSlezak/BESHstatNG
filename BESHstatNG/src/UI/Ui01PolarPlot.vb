@@ -5,7 +5,6 @@ Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui01PolarPlot
     Private Const DefaultChartSizePoints As Double = 420.0R
-    Private Const ChartColumnGap As Integer = 2
 
     Sub New(tagn As Integer)
 
@@ -17,7 +16,31 @@ Public Class Ui01PolarPlot
         Me.RefEdit_Angle.ExcelConnector = AppGlobals.app
         Me.RefEdit_Radius.ExcelConnector = AppGlobals.app
         Me.RefEdit_GroupID.ExcelConnector = AppGlobals.app
+        Me.RefEditOutput.ExcelConnector = AppGlobals.app
+        Me.UpdateOutputRangeState()
         Me.WireHelp(Me.btnHelp)
+    End Sub
+
+    Private Sub optOutputRange_CheckedChanged(sender As Object, e As System.EventArgs) Handles optOutputRange.CheckedChanged
+        Me.UpdateOutputRangeState()
+    End Sub
+
+    Private Sub optWorksheet_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorksheet.CheckedChanged
+        Me.UpdateOutputRangeState()
+    End Sub
+
+    Private Sub optWorkbook_CheckedChanged(sender As Object, e As System.EventArgs) Handles optWorkbook.CheckedChanged
+        Me.UpdateOutputRangeState()
+    End Sub
+
+    ''' <summary>
+    ''' Enables the output RefEdit only when the user chooses an explicit output range.
+    ''' </summary>
+    Private Sub UpdateOutputRangeState()
+        Me.RefEditOutput.Enabled = Me.optOutputRange.Checked
+        If Me.optOutputRange.Checked AndAlso Me.RefEditOutput.CanFocus Then
+            Me.RefEditOutput.txtAddress.Select()
+        End If
     End Sub
 
     ''' <summary>
@@ -105,6 +128,15 @@ Public Class Ui01PolarPlot
                 Return True
             End If
 
+            If radiusRange.Columns.Count <> 1 OrElse
+               angleRange.Columns.Count <> 1 OrElse
+               (hasGrouping AndAlso groupRange.Columns.Count <> 1) Then
+                MsgBox("Each polar-plot input must contain exactly one column.",
+                       vbExclamation,
+                       AppGlobals.gsAPP_TITLE)
+                Return True
+            End If
+
             If hasGrouping AndAlso
                (groupRange.Row <> radiusRange.Row OrElse
                 groupRange.Rows.Count <> radiusRange.Rows.Count) Then
@@ -125,6 +157,22 @@ Public Class Ui01PolarPlot
             If Not CheckNumeric(Me.tbAngularTickInterval) Then Return True
             If Not CheckNumeric(Me.tbRadialTickInterval) Then Return True
 
+            If Me.optOutputRange.Checked Then
+                Dim outputRange As Range = Nothing
+                If Not Me.TryResolveRange(Me.RefEditOutput,
+                                          "Output range",
+                                          requireSingleColumn:=False,
+                                          requireSingleArea:=True,
+                                          resolvedRange:=outputRange) Then
+                    Return True
+                End If
+            ElseIf Not Me.optWorksheet.Checked AndAlso Not Me.optWorkbook.Checked Then
+                MsgBox("Select an output destination for the polar plot.",
+                       vbExclamation,
+                       AppGlobals.gsAPP_TITLE)
+                Return True
+            End If
+
             Return False
         Catch ex As Exception
             CoreServices.Errors.LogAndThrow(ex,
@@ -132,6 +180,62 @@ Public Class Ui01PolarPlot
                                             True,
                                             "Unable to validate the polar-plot input ranges")
             Return True
+        End Try
+    End Function
+
+    ''' <summary>
+    ''' Resolves a RefEdit against the workbook captured when the range was selected.
+    ''' </summary>
+    ''' <param name="refEdit">RefEdit containing the Excel address.</param>
+    ''' <param name="displayName">User-facing name used in validation messages.</param>
+    ''' <param name="requireSingleColumn">Whether the selected range must contain exactly one column.</param>
+    ''' <param name="requireSingleArea">Whether the selected range must be continuous.</param>
+    ''' <param name="resolvedRange">Receives the resolved Excel range.</param>
+    ''' <returns><see langword="True"/> when the range is valid; otherwise <see langword="False"/>.</returns>
+    Private Function TryResolveRange(refEdit As Excel2007RefEdit,
+                                     displayName As String,
+                                     requireSingleColumn As Boolean,
+                                     requireSingleArea As Boolean,
+                                     ByRef resolvedRange As Range) As Boolean
+        resolvedRange = Nothing
+
+        If refEdit Is Nothing OrElse String.IsNullOrWhiteSpace(refEdit.Address) Then
+            MsgBox(displayName & " is empty. Please select a range.",
+                   vbExclamation,
+                   AppGlobals.gsAPP_TITLE)
+            Return False
+        End If
+
+        Try
+            Dim workbook As Workbook = refEdit.ExcelWorkBook
+            If workbook Is Nothing Then workbook = AppGlobals.app.ActiveWorkbook
+            If workbook Is Nothing Then Throw New InvalidOperationException("No active Excel workbook is available.")
+
+            Dim worksheet As Worksheet = WorksheetFromRefAdress(refEdit.Address, workbook)
+            If worksheet Is Nothing Then Throw New InvalidOperationException("Unable to resolve the selected worksheet.")
+
+            resolvedRange = worksheet.Range(refEdit.Address)
+
+            If requireSingleArea AndAlso resolvedRange.Areas.Count <> 1 Then
+                MsgBox(displayName & " must be one continuous range.",
+                       vbExclamation,
+                       AppGlobals.gsAPP_TITLE)
+                Return False
+            End If
+
+            If requireSingleColumn AndAlso resolvedRange.Columns.Count <> 1 Then
+                MsgBox(displayName & " must contain exactly one column.",
+                       vbExclamation,
+                       AppGlobals.gsAPP_TITLE)
+                Return False
+            End If
+
+            Return True
+        Catch
+            MsgBox(displayName & " is not a valid Excel range.",
+                   vbExclamation,
+                   AppGlobals.gsAPP_TITLE)
+            Return False
         End Try
     End Function
 
@@ -250,7 +354,7 @@ Public Class Ui01PolarPlot
 
 
     ''' <summary>
-    ''' Computes the polar geometry and creates a square embedded chart beside the input columns.
+    ''' Computes the polar geometry and creates a square embedded chart at the selected output destination.
     ''' </summary>
     Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
         Try
@@ -305,28 +409,13 @@ Public Class Ui01PolarPlot
             Dim result As PolarPlotResult = plot.Compute()
 
             Dim inputWorksheet As Worksheet = DirectCast(data.ws, Worksheet)
-            DirectCast(inputWorksheet.Parent, Workbook).Activate()
-            inputWorksheet.Activate()
+            Dim inputWorkbook As Workbook = DirectCast(inputWorksheet.Parent, Workbook)
+            Dim outputWorksheet As Worksheet = Nothing
+            Dim chartAnchor As Range = Nothing
+            Me.ResolveOutputTarget(inputWorkbook, outputWorksheet, chartAnchor)
 
-            Dim radiusRange As Range = inputWorksheet.Range(Me.RefEdit_Radius.Address)
-            Dim angleRange As Range = inputWorksheet.Range(Me.RefEdit_Angle.Address)
-            Dim lastInputColumn As Integer = Math.Max(radiusRange.Column + radiusRange.Columns.Count - 1,
-                                                      angleRange.Column + angleRange.Columns.Count - 1)
-            If hasGrouping Then
-                Dim groupRange As Range = inputWorksheet.Range(Me.RefEdit_GroupID.Address)
-                lastInputColumn = Math.Max(lastInputColumn,
-                                           groupRange.Column + groupRange.Columns.Count - 1)
-            End If
-            Dim maximumColumn As Integer = inputWorksheet.Columns.Count
-            Dim anchorColumn As Integer = lastInputColumn + ChartColumnGap
-            If anchorColumn > maximumColumn Then anchorColumn = 1
-
-            Dim anchorRow As Integer = Math.Min(radiusRange.Row, angleRange.Row)
-            If hasGrouping Then
-                Dim groupRange As Range = inputWorksheet.Range(Me.RefEdit_GroupID.Address)
-                anchorRow = Math.Min(anchorRow, groupRange.Row)
-            End If
-            Dim chartAnchor As Range = DirectCast(inputWorksheet.Cells(anchorRow, anchorColumn), Range)
+            DirectCast(outputWorksheet.Parent, Workbook).Activate()
+            outputWorksheet.Activate()
 
             Dim seriesName As String = "Data"
             If data.varNames IsNot Nothing AndAlso
@@ -342,7 +431,7 @@ Public Class Ui01PolarPlot
                 .GroupStyleMode = PolarGroupStyleMode.ColorAndMarker
             }
 
-            Dim createdChart As Chart = PolarPlotExcel.AddChart(inputWorksheet,
+            Dim createdChart As Chart = PolarPlotExcel.AddChart(outputWorksheet,
                                                                 result,
                                                                 appearance,
                                                                 CDbl(chartAnchor.Left),
@@ -356,6 +445,54 @@ Public Class Ui01PolarPlot
                                             True,
                                             "Unable to create the polar plot")
         End Try
+    End Sub
+
+    ''' <summary>
+    ''' Resolves the selected standard graphical-output option to a worksheet and chart anchor.
+    ''' </summary>
+    ''' <param name="inputWorkbook">Workbook containing the polar-plot input data.</param>
+    ''' <param name="outputWorksheet">Receives the worksheet on which the chart will be created.</param>
+    ''' <param name="chartAnchor">Receives the cell whose upper-left corner anchors the chart.</param>
+    Private Sub ResolveOutputTarget(inputWorkbook As Workbook,
+                                    ByRef outputWorksheet As Worksheet,
+                                    ByRef chartAnchor As Range)
+        outputWorksheet = Nothing
+        chartAnchor = Nothing
+
+        If Me.optWorkbook.Checked Then
+            Dim outputWorkbook As Workbook = AppGlobals.app.Workbooks.Add()
+            outputWorksheet = DirectCast(outputWorkbook.Worksheets(1), Worksheet)
+            chartAnchor = DirectCast(outputWorksheet.Cells(1, 1), Range)
+            Return
+        End If
+
+        If Me.optWorksheet.Checked Then
+            If inputWorkbook Is Nothing Then Throw New ArgumentNullException(NameOf(inputWorkbook))
+            inputWorkbook.Activate()
+            outputWorksheet = DirectCast(inputWorkbook.Worksheets.Add(), Worksheet)
+            chartAnchor = DirectCast(outputWorksheet.Cells(1, 1), Range)
+            Return
+        End If
+
+        If Me.optOutputRange.Checked Then
+            Dim selectedRange As Range = Nothing
+            If Not Me.TryResolveRange(Me.RefEditOutput,
+                                      "Output range",
+                                      requireSingleColumn:=False,
+                                      requireSingleArea:=True,
+                                      resolvedRange:=selectedRange) Then
+                Throw New ArgumentException("A valid output range is required.")
+            End If
+
+            outputWorksheet = TryCast(selectedRange.Parent, Worksheet)
+            If outputWorksheet Is Nothing Then
+                Throw New InvalidOperationException("Unable to resolve the output worksheet.")
+            End If
+            chartAnchor = DirectCast(selectedRange.Cells(1, 1), Range)
+            Return
+        End If
+
+        Throw New InvalidOperationException("Select an output destination for the polar plot.")
     End Sub
 
     ''' <summary>
