@@ -115,7 +115,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="src\AppInfrastructure\CoreInfrastructure.vb" />
     <Compile Include="src\AppInfrastructure\ExcelDnaHostInfrastructure.vb" />
     <Compile Include="src\AppInfrastructure\AppSettings.vb" />
     <Compile Include="src\BaseStat\Distributions.vb" />
@@ -128,7 +127,6 @@
     <Compile Include="src\BaseStat\Resampling\ResamplingValidation.vb" />
     <Compile Include="src\BaseStat\StatFunc.vb" />
     <Compile Include="src\AppInfrastructure\AppGlobals.vb" />
-    <Compile Include="src\DM\CoreDataTable.vb" />
     <Compile Include="src\DM\DataObj.vb" />
     <Compile Include="src\DM\ExcelDnaDataImporter.vb" />
     <Compile Include="src\DM\OfficeJsDataImporter.vb" />
@@ -137,6 +135,7 @@
     <Compile Include="src\DM\NumericGuards.vb" />
     <Compile Include="src\DM\ResultWriter\OfficeJsResultWriter.vb" />
     <Compile Include="src\DM\PSMdataImport.vb" />
+    <Compile Include="src\DM\ResultWriter\PValuePresentation.vb" />
     <Compile Include="src\DM\ResultWriter\ResultTableOutput.vb" />
     <Compile Include="src\DM\SheetManagement.vb" />
     <Compile Include="src\ExcelUDFs\AgreementMethodUDFs.vb" />
@@ -626,7 +625,12 @@
   <ItemGroup>
     <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BESHStat.Core\BESHStat.Core.vbproj">
+      <Project>{3ec64692-7b74-413e-bac6-f53a813c9d77}</Project>
+      <Name>BESHStat.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

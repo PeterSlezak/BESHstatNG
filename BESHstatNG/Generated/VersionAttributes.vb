@@ -1,5 +1,5 @@
 ﻿Imports System.Reflection
-<Assembly: AssemblyVersion("1.2.0.0")>
-<Assembly: AssemblyFileVersion("1.2.0.0")>
-<Assembly: AssemblyInformationalVersion("1.2.0.0")>
-<Assembly: AssemblyMetadata("BuildDate", "2026-09-17")>
+<Assembly: AssemblyVersion("1.2.3.0")>
+<Assembly: AssemblyFileVersion("1.2.3.0")>
+<Assembly: AssemblyInformationalVersion("1.2.3.0")>
+<Assembly: AssemblyMetadata("BuildDate", "2026-09-30")>

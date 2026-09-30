@@ -2,7 +2,7 @@
 
 ## version 1.x.0.0 (2026-xx-xx)
 - p-value formatting global settings implemention
-- Ploar plot output options added to allow new sheet, new workbook, and specific location in current sheet.
+- *Polar plot* and *Convex Hull plot* output options added to allow new sheet, new workbook, and specific location in current sheet.
 
 
 ## version 1.2.0.0 (2026-09-17)
