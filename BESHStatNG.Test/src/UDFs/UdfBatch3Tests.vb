@@ -206,7 +206,12 @@ Public Class AssumptionsUdfBatch3Tests
         Assert.AreEqual("W statistic", Convert.ToString(tbl(1, 0), CultureInfo.InvariantCulture))
         Assert.AreEqual("Two-sided p-value", Convert.ToString(tbl(2, 0), CultureInfo.InvariantCulture))
         Assert.AreEqual(core.TestStatistics1, Convert.ToDouble(tbl(1, 1), CultureInfo.InvariantCulture), 0.0000000001R)
-        Assert.AreEqual(core.Pvalue, Convert.ToDouble(tbl(2, 1), CultureInfo.InvariantCulture), 0.0000000001R)
+        'Assert.AreEqual(core.Pvalue, Convert.ToDouble(tbl(2, 1), CultureInfo.InvariantCulture), 0.0000000001R)
+        Dim expectedP As String = Global.BESHStatNG.PValuePresentation.FormatForDisplay(
+                                            core.Pvalue,
+                                            Global.BESHStatNG.AppInfrastructure.AppGlobals.PValuePresentation)
+
+        Assert.AreEqual(expectedP, Convert.ToString(tbl(2, 1), CultureInfo.CurrentCulture))
     End Sub
 
     <TestMethod>
@@ -266,7 +271,11 @@ Public Class AssumptionsUdfBatch3Tests
 
         Assert.AreEqual("Mauchly's Test of Sphericity", Convert.ToString(tbl(0, 0), CultureInfo.InvariantCulture))
         Assert.AreEqual(core.TestStatistics1, Convert.ToDouble(tbl(1, 1), CultureInfo.InvariantCulture), 0.000000001R)
-        Assert.AreEqual(core.Pvalue, Convert.ToDouble(tbl(2, 1), CultureInfo.InvariantCulture), 0.000000001R)
+        Dim expectedP As String = Global.BESHStatNG.PValuePresentation.FormatForDisplay(
+                                            core.Pvalue,
+                                            Global.BESHStatNG.AppInfrastructure.AppGlobals.PValuePresentation)
+
+        Assert.AreEqual(expectedP, Convert.ToString(tbl(2, 1), CultureInfo.CurrentCulture))
     End Sub
 
     <TestMethod>
@@ -313,7 +322,13 @@ Public Class ParametricUdfBatch3Tests
         Assert.AreEqual(2.0R, Convert.ToDouble(tbl(1, 1), CultureInfo.InvariantCulture), 0.0R)
         Assert.AreEqual(welch.DF1, Convert.ToDouble(tbl(1, 2), CultureInfo.InvariantCulture), 0.000000000001R)
         Assert.AreEqual(welch.TestStatistics1, Convert.ToDouble(tbl(1, 3), CultureInfo.InvariantCulture), 0.000000000001R)
-        Assert.AreEqual(welch.Pvalue, Convert.ToDouble(tbl(1, 4), CultureInfo.InvariantCulture), 0.000000000001R)
+        'Assert.AreEqual(welch.Pvalue, Convert.ToDouble(tbl(1, 4), CultureInfo.InvariantCulture), 0.000000000001R)
+
+        Dim expectedP As String = Global.BESHStatNG.PValuePresentation.FormatForDisplay(
+                                        welch.Pvalue,
+                                        Global.BESHStatNG.AppInfrastructure.AppGlobals.PValuePresentation)
+
+        Assert.AreEqual(expectedP, Convert.ToString(tbl(1, 4), CultureInfo.CurrentCulture))
     End Sub
 
     <TestMethod>

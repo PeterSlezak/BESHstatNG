@@ -275,6 +275,10 @@
     <None Include="TestData\zip_expected_residuals_full.csv" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BESHStat.Core\BESHStat.Core.vbproj">
+      <Project>{63e332f3-a455-8f27-72a4-8b7afa1e040c}</Project>
+      <Name>BESHStat.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BESHStatNG\BESHStatNG.vbproj">
       <Project>{A4A3C057-C520-462B-AD91-F481B2D797DE}</Project>
       <Name>BESHStatNG</Name>
