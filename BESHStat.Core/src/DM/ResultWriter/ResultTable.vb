@@ -1,6 +1,8 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports System.Collections.Generic
+Imports System.Linq
 
 ''' <summary>
 ''' A flexible table‑construction utility supporting multi‑row top headers,
@@ -55,7 +57,7 @@ Public Class ResultTable
 
     Public ReadOnly Property TotalRows() As Integer
         Get
-            Dim bodyRows As Integer = If(Me.Body Is Nothing, 0, UBound(Me.Body, 1) + 1)
+            Dim bodyRows As Integer = If(Me.Body Is Nothing, 0, Me.Body.GetLength(0))
             Dim assembledRows As Integer = Me.HeaderTop.Count + bodyRows
 
             'returnSelf() expands the table when a left header is taller than
@@ -82,7 +84,7 @@ Public Class ResultTable
 
     Public ReadOnly Property TotalCols() As Integer
         Get
-            Dim bodyCols As Integer = If(Me.Body Is Nothing, 0, UBound(Me.Body, 2) + 1)
+            Dim bodyCols As Integer = If(Me.Body Is Nothing, 0, Me.Body.GetLength(1))
             Dim assembledCols As Integer = Me.HeaderLeft.Count + bodyCols
 
             'A top header can define the rendered width even when there is no
@@ -174,8 +176,8 @@ Public Class ResultTable
 
     Public Sub SetBody(b() As Object)
         Dim out(,) As Object
-        ReDim out(UBound(b), 0)
-        For i = 0 To UBound(b)
+        ReDim out(b.GetUpperBound(0), 0)
+        For i As Integer = 0 To b.GetUpperBound(0)
             out(i, 0) = b(i)
         Next
         Me.Body = out
@@ -189,9 +191,9 @@ Public Class ResultTable
 
     Public Sub SetBody(b(,) As Double)
         Dim out(,) As Object
-        ReDim out(UBound(b, 1), UBound(b, 2))
-        For i = 0 To UBound(b, 1)
-            For j = 0 To UBound(b, 2)
+        ReDim out(b.GetUpperBound(0), b.GetUpperBound(1))
+        For i As Integer = 0 To b.GetUpperBound(0)
+            For j As Integer = 0 To b.GetUpperBound(1)
                 out(i, j) = b(i, j)
             Next
         Next
@@ -206,9 +208,9 @@ Public Class ResultTable
 
     Public Sub SetBody(b(,) As Integer)
         Dim out(,) As Object
-        ReDim out(UBound(b, 1), UBound(b, 2))
-        For i = 0 To UBound(b, 1)
-            For j = 0 To UBound(b, 2)
+        ReDim out(b.GetUpperBound(0), b.GetUpperBound(1))
+        For i As Integer = 0 To b.GetUpperBound(0)
+            For j As Integer = 0 To b.GetUpperBound(1)
                 out(i, j) = b(i, j)
             Next
         Next
@@ -242,19 +244,19 @@ Public Class ResultTable
     ''' </param>
     ''' <remarks>
     ''' <para>
-    ''' The value is one-based because <see cref="ExcelDnaResultWriter"/> later adds the
-    ''' number of left-header columns and uses Excel's one-based range indexing.
+    ''' The value is one-based because target-specific writers later add the
+    ''' number of left-header columns and use the host's output-range indexing.
     ''' </para>
     ''' <para>
     ''' This method validates against the number of body columns.  The older implementation
-    ''' accidentally used <c>UBound(Me.Body)</c>, which refers to the first dimension
+    ''' accidentally checked the first array dimension the first dimension
     ''' (rows) and could either reject valid p-value columns or allow incorrect ones.
     ''' </para>
     ''' </remarks>
     Public Sub AddPvalueToFormat(columnNumber As Integer)
         If Me.Body Is Nothing Then Exit Sub
 
-        Dim bodyCols As Integer = UBound(Me.Body, 2) + 1
+        Dim bodyCols As Integer = Me.Body.GetLength(1)
 
         If columnNumber >= 1 AndAlso columnNumber <= bodyCols Then
             If Not Me.PvalueColumns.Contains(columnNumber) Then Me.PvalueColumns.Add(columnNumber)
@@ -269,8 +271,8 @@ Public Class ResultTable
     Public Sub AddPvalueCellToFormat(bodyRow As Integer, bodyColumn As Integer)
         If Me.Body Is Nothing Then Exit Sub
 
-        Dim bodyRows As Integer = UBound(Me.Body, 1) + 1
-        Dim bodyCols As Integer = UBound(Me.Body, 2) + 1
+        Dim bodyRows As Integer = Me.Body.GetLength(0)
+        Dim bodyCols As Integer = Me.Body.GetLength(1)
 
         If bodyRow < 1 OrElse bodyRow > bodyRows OrElse bodyColumn < 1 OrElse bodyColumn > bodyCols Then Exit Sub
 
@@ -304,12 +306,12 @@ Public Class ResultTable
                 ReDim tmp(Me.HeaderTop.Last.Length - 1)
 
                 If bPadleft Then
-                    For i = 0 To UBound(header)
+                    For i = 0 To header.GetUpperBound(0)
                         tmp(i) = header(i)
                     Next
                 Else
                     j = Me.HeaderTop.Last.Length - 1
-                    For i = UBound(header) To 0 Step -1
+                    For i = header.GetUpperBound(0) To 0 Step -1
                         tmp(j) = header(i)
                         j -= 1
                     Next
@@ -344,12 +346,12 @@ Public Class ResultTable
                 ReDim tmp(Me.HeaderLeft.Last.Length - 1)
 
                 If bPadleft Then
-                    For i = 0 To UBound(header)
+                    For i = 0 To header.GetUpperBound(0)
                         tmp(i) = header(i)
                     Next
                 Else
                     j = Me.HeaderLeft.Last.Length - 1
-                    For i = UBound(header) To 0 Step -1
+                    For i = header.GetUpperBound(0) To 0 Step -1
                         tmp(j) = header(i)
                         j -= 1
                     Next
@@ -381,8 +383,8 @@ Public Class ResultTable
         Dim Out(,) As Object
         Dim i As Integer, j As Integer, ii As Integer, jj As Integer
 
-        Dim bodyRows As Integer = If(Me.Body Is Nothing, 0, UBound(Me.Body, 1) + 1)
-        Dim bodyCols As Integer = If(Me.Body Is Nothing, 0, UBound(Me.Body, 2) + 1)
+        Dim bodyRows As Integer = If(Me.Body Is Nothing, 0, Me.Body.GetLength(0))
+        Dim bodyCols As Integer = If(Me.Body Is Nothing, 0, Me.Body.GetLength(1))
 
         Dim nRows As Integer = Me.HeaderTop.Count + bodyRows
         Dim nCols As Integer = Me.HeaderLeft.Count + bodyCols
@@ -437,9 +439,9 @@ Public Class ResultTable
         ' Add Body (only if present)
         If Me.Body IsNot Nothing Then
             ii = If(Me.HeaderTop.Count > 0, Me.HeaderTop.Count, 0)
-            For i = 0 To UBound(Me.Body, 1)
+            For i = 0 To Me.Body.GetUpperBound(0)
                 jj = If(Me.HeaderLeft.Count > 0, Me.HeaderLeft.Count, 0)
-                For j = 0 To UBound(Me.Body, 2)
+                For j = 0 To Me.Body.GetUpperBound(1)
                     Out(ii, jj) = Me.Body(i, j)
                     jj += 1
                 Next
@@ -480,10 +482,10 @@ Public Class ResultTable
         If a1 Is Nothing Then Throw New ArgumentNullException(NameOf(a1))
         If a2 Is Nothing Then Throw New ArgumentNullException(NameOf(a2))
 
-        Dim rows1 As Integer = a1.GetUpperBound(0) + 1
-        Dim rows2 As Integer = a2.GetUpperBound(0) + 1
-        Dim cols1 As Integer = a1.GetUpperBound(1) + 1
-        Dim cols2 As Integer = a2.GetUpperBound(1) + 1
+        Dim rows1 As Integer = a1.GetLength(0)
+        Dim rows2 As Integer = a2.GetLength(0)
+        Dim cols1 As Integer = a1.GetLength(1)
+        Dim cols2 As Integer = a2.GetLength(1)
 
         If cols1 <> cols2 AndAlso Not appendBlanks Then
             Throw New ArgumentException("Invalid input array dimensions")
@@ -592,7 +594,7 @@ Public Class ProcessListofResultTables
                 Dim t As Object(,) = x.returnSelf()
                 If t Is Nothing Then Continue For  ' <-- critical
 
-                Dim rows As Integer = UBound(t, 1) + 1
+                Dim rows As Integer = t.GetLength(0)
                 If below Then
                     nR += rows
                 Else
@@ -626,7 +628,7 @@ Public Class ProcessListofResultTables
                 Dim t As Object(,) = x.returnSelf()
                 If t Is Nothing Then Continue For  ' <-- critical
 
-                Dim cols As Integer = UBound(t, 2) + 1
+                Dim cols As Integer = t.GetLength(1)
                 If below Then
                     nC = Math.Max(nC, cols)
                 Else

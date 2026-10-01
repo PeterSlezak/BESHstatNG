@@ -1,5 +1,7 @@
 ﻿Option Explicit On
 
+Imports System.Collections.Generic
+
 ''' <summary>
 ''' Identifies a cell within a <see cref="ResultTable"/> body using one-based row and column indices.
 ''' Titles, top headers, and left headers are deliberately excluded from these coordinates.
@@ -54,14 +56,14 @@ Public Class ResultTableOutputModel
     Public ReadOnly Property RowCount As Integer
         Get
             If Me.Values Is Nothing Then Return 0
-            Return UBound(Me.Values, 1) + 1
+            Return Me.Values.GetLength(0)
         End Get
     End Property
 
     Public ReadOnly Property ColumnCount As Integer
         Get
             If Me.Values Is Nothing Then Return 0
-            Return UBound(Me.Values, 2) + 1
+            Return Me.Values.GetLength(1)
         End Get
     End Property
 End Class
@@ -189,7 +191,7 @@ Public MustInherit Class ResultTableWriterBase
             Return empty
         End If
 
-        If Not IsArray(value) Then
+        If Not TypeOf value Is Array Then
             Dim scalar(0, 0) As Object
             scalar(0, 0) = value
             Return scalar
@@ -235,9 +237,9 @@ Public MustInherit Class ResultTableWriterBase
     Protected Shared Function NormalizeMatrixForOutput(values As Object(,)) As Object(,)
         If values Is Nothing Then Return Nothing
 
-        Dim out(UBound(values, 1), UBound(values, 2)) As Object
-        For i As Integer = 0 To UBound(values, 1)
-            For j As Integer = 0 To UBound(values, 2)
+        Dim out(values.GetUpperBound(0), values.GetUpperBound(1)) As Object
+        For i As Integer = 0 To values.GetUpperBound(0)
+            For j As Integer = 0 To values.GetUpperBound(1)
                 out(i, j) = NormalizeScalarForOutput(values(i, j))
             Next
         Next

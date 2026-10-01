@@ -1,0 +1,25 @@
+# Normalize all text files to LF in the repository and working tree
+* text=auto eol=lf
+
+# Windows command scripts are safest with CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files - never perform line-ending conversion
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.zip binary
+*.7z binary
+*.dll binary
+*.exe binary
+*.xll binary
+*.msi binary
+*.pdb binary
+*.pdf binary
+*.xlsx binary
+*.xlsm binary
+*.xlsb binary
+*.xls binary
