@@ -151,8 +151,7 @@ Public Class CoreDataTable
         Return mask
     End Function
 
-    Private Shared Function TryConvertToDouble(value As Object,
-                                           ByRef result As Double) As Boolean
+    Friend Shared Function TryConvertToDouble(value As Object, ByRef result As Double) As Boolean
         result = Double.NaN
 
         If value Is Nothing OrElse value Is DBNull.Value Then

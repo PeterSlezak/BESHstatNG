@@ -1,5 +1,10 @@
 ﻿Option Explicit On
+Option Strict On
+Option Infer On
 
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
 Imports BESHStatNG.DataManagement
 
 ''' <summary>
@@ -91,15 +96,16 @@ Public Class DataObj
     ''' </example>
     Public ReadOnly Property DataDbl() As Double(,)
         Get
-            Dim d(,) As Double
-            ReDim d(UBound(Me.FinalData, 1), UBound(Me.FinalData, 2))
-            For i = 0 To UBound(Me.FinalData, 1)
-                For j = 0 To UBound(Me.FinalData, 2)
+            Dim rowCount As Integer = Me.FinalData.GetLength(0)
+            Dim columnCount As Integer = Me.FinalData.GetLength(1)
+            Dim d(rowCount - 1, columnCount - 1) As Double
+
+            For i As Integer = 0 To rowCount - 1
+                For j As Integer = 0 To columnCount - 1
                     If Me.pbAllowMissing AndAlso Me.FinalData(i, j) Is Nothing Then
-                        'when missing is allowed we set everything that is not a number to Nothing
                         d(i, j) = Double.NaN
                     Else
-                        d(i, j) = CDbl(Me.FinalData(i, j))
+                        d(i, j) = Convert.ToDouble(Me.FinalData(i, j), CultureInfo.CurrentCulture)
                     End If
                 Next
             Next
@@ -121,27 +127,31 @@ Public Class DataObj
     ''' </example>
     Public ReadOnly Property DataByID2ByColumn() As Double()()
         Get
-            Dim groupIDs() As Object, arDataColumn(,) As Double, NoGroups As Integer, arN() As Integer, n As Integer
-            groupIDs = ArrayUtilities.GetColumn(Me.FinalData, 0).Distinct().ToArray()
-            NoGroups = UBound(groupIDs, 1)
-            n = UBound(Me.FinalData, 1)
+            Dim rowCount As Integer = Me.FinalData.GetLength(0)
+            Dim groupIds As New List(Of Object)()
+            For i As Integer = 0 To rowCount - 1
+                Dim groupId As Object = Me.FinalData(i, 0)
+                If Not groupIds.Contains(groupId) Then groupIds.Add(groupId)
+            Next
 
-            'rewrite data to 2D array, by column
-            Dim out()() As Double = New Double(NoGroups)() {}
-            ReDim arDataColumn(n, NoGroups), arN(NoGroups)
-            For i = 0 To n
-                For j = 0 To NoGroups
-                    If groupIDs(j) = Me.FinalData(i, 0) Then
-                        arDataColumn(arN(j), j) = Me.FinalData(i, 1)
-                        arN(j) += 1
+            Dim groupCount As Integer = groupIds.Count
+            Dim arDataColumn(rowCount - 1, groupCount - 1) As Double
+            Dim counts(groupCount - 1) As Integer
+
+            For i As Integer = 0 To rowCount - 1
+                For j As Integer = 0 To groupCount - 1
+                    If Object.Equals(groupIds(j), Me.FinalData(i, 0)) Then
+                        arDataColumn(counts(j), j) = Convert.ToDouble(Me.FinalData(i, 1), CultureInfo.CurrentCulture)
+                        counts(j) += 1
                     End If
                 Next
             Next
-            For j = 0 To NoGroups
-                out(j) = ArrayUtilities.Slice(ArrayUtilities.GetColumn(arDataColumn, j), 0, arN(j) - 1)
+            Dim output()() As Double = New Double(groupCount - 1)() {}
+            For j As Integer = 0 To groupCount - 1
+                output(j) = ArrayUtilities.Slice(ArrayUtilities.GetColumn(arDataColumn, j), 0, counts(j) - 1)
             Next
 
-            Return out
+            Return output
         End Get
 
     End Property
@@ -275,153 +285,153 @@ Public Class DataObj
     ''' Console.WriteLine("Cleaned rows: " + Me.nRows)
     ''' </example>
     Private Sub RemoveMissing(Optional CharCols As Integer = -1, Optional SkipRow As Integer = 0)
-        'Subroutine removes rows from the input matrix that contain missing values. The returned matrix is redimensioned.
-        Dim NoMissing As Integer, cnt As Integer, i As Integer, j As Integer
-        Dim haveChar = New List(Of Integer)
-        'Dimension temporal matrix and return missing obs vector
+        Dim noMissing As Integer = 0
+        Dim count As Integer = 0
+        Dim haveChar As New List(Of Integer)()
         Me.bZeroValid = False
         Me.FinalData = Nothing
 
-        'Dimension return missing obs vector
-        ReDim RowIds(Me.nRows + Me.StartRow - 1)
+        ReDim Me.RowIds(Me.nRows + Me.StartRow - 1)
 
-        For i = (Me.StartRow + SkipRow) To (Me.nRows + Me.StartRow - 1)
-            cnt += 1
-            Dim tmpChars = New List(Of Integer)
+        For sourceRow As Integer = (Me.StartRow + SkipRow) To (Me.nRows + Me.StartRow - 1)
+            count += 1
+            Dim tmpChars As New List(Of Integer)()
             Dim currentMiss As Integer = 0
-            For j = 0 To Me.nCols - 1
-                'If TypeOf Me.RawData(i, j) Is ExcelEmpty Or TypeOf Me.RawData(i, j) Is ExcelMissing Or TypeOf Me.RawData(i, j) Is ExcelError Then
-                If CoreDataTable.IsMissingValue(Me.RawData(i, j)) Then
-                    If Me.pbAllowMissing Then
-                        currentMiss += 1
-                        Me.RawData(i, j) = Nothing
-                    Else
-                        NoMissing += 1
-                        cnt -= 1
-                        Exit For 'Remove entire row
-                    End If
-                ElseIf IsNumeric(Me.RawData(i, j)) Then
-                    If TypeOf Me.RawData(i, j) Is String Then tmpChars.Add(j) 'number stored as text. Convert everything to text because we may sort by this column
-                    Continue For
-                ElseIf Not IsNumeric(Me.RawData(i, j)) And CharCols = -1 Then
-                    If Me.pbAllowMissing Then
-                        currentMiss += 1
-                        Me.RawData(i, j) = Nothing
-                    Else
-                        NoMissing += 1
-                        cnt -= 1
-                        Exit For 'Remove entire row
-                    End If
-                ElseIf Not IsNumeric(Me.RawData(i, j)) And CharCols > -1 And j <= CharCols Then 'accept char data but only in the 1st # of specified columns
-                    tmpChars.Add(j)
-                    Continue For
-                ElseIf Not IsNumeric(Me.RawData(i, j)) And j > CharCols Then
-                    If Me.pbAllowMissing Then
-                        currentMiss += 1
-                        Me.RawData(i, j) = Nothing
-                    Else
-                        NoMissing += 1
-                        cnt -= 1
-                        Exit For 'Remove entire row
-                    End If
-                End If
-            Next j
+            Dim scannedAllColumns As Boolean = True
 
-            If Me.pbAllowMissing Then 'we can have missing
-                If currentMiss = Me.nCols Then 'all columns are missing, even if we allow missing drop the record
-                    NoMissing += 1
-                    cnt -= 1
+            For columnIndex As Integer = 0 To Me.nCols - 1
+                Dim value As Object = Me.RawData(sourceRow, columnIndex)
+                If CoreDataTable.IsMissingValue(value) Then
+                    If Me.pbAllowMissing Then
+                        currentMiss += 1
+                        Me.RawData(sourceRow, columnIndex) = Nothing
+                    Else
+                        noMissing += 1
+                        count -= 1
+                        scannedAllColumns = False
+                        Exit For
+                    End If
+                    Continue For
+                End If
+
+                Dim numericValue As Double
+                Dim isNumericValue As Boolean = CoreDataTable.TryConvertToDouble(value, numericValue)
+
+                If isNumericValue Then
+                    If TypeOf value Is String Then tmpChars.Add(columnIndex)
+                    Continue For
+                End If
+
+                If CharCols = -1 Then
+                    If Me.pbAllowMissing Then
+                        currentMiss += 1
+                        Me.RawData(sourceRow, columnIndex) = Nothing
+                    Else
+                        noMissing += 1
+                        count -= 1
+                        scannedAllColumns = False
+                        Exit For
+                    End If
+                ElseIf columnIndex <= CharCols Then
+                    tmpChars.Add(columnIndex)
                 Else
-                    RowIds(cnt - 1) = i
-                    If CharCols > -1 Or tmpChars.Count > 0 Then
-                        For Each xxx In tmpChars
-                            If Not haveChar.Contains(xxx) Then haveChar.Add(xxx)
-                        Next
+                    If Me.pbAllowMissing Then
+                        currentMiss += 1
+                        Me.RawData(sourceRow, columnIndex) = Nothing
+                    Else
+                        noMissing += 1
+                        count -= 1
+                        scannedAllColumns = False
+                        Exit For
                     End If
                 End If
-            Else
-                If j = Me.nCols Then 'check for character columns
-                    RowIds(cnt - 1) = i
-                    If CharCols > -1 Or tmpChars.Count > 0 Then
-                        For Each xxx In tmpChars
-                            If Not haveChar.Contains(xxx) Then haveChar.Add(xxx)
-                        Next
-                    End If
+            Next
+
+            If Me.pbAllowMissing Then
+                If currentMiss = Me.nCols Then
+                    noMissing += 1
+                    count -= 1
+                Else
+
+                    Me.RowIds(count - 1) = sourceRow
+                    For Each charColumn As Integer In tmpChars
+                        If Not haveChar.Contains(charColumn) Then haveChar.Add(charColumn)
+                    Next
                 End If
+            ElseIf scannedAllColumns Then
+                Me.RowIds(count - 1) = sourceRow
+                For Each charColumn As Integer In tmpChars
+                    If Not haveChar.Contains(charColumn) Then haveChar.Add(charColumn)
+                Next
             End If
         Next
 
-        If cnt = 0 Then 'zero valid data
+        If count = 0 Then 'zero valid data
             AppInfrastructure.CoreServices.Log("Zero valid matched data!")
             Me.bZeroValid = True
             Me.nRows = 0
             Me.FinalData = Nothing
-            Me.RowIds = New Integer() {}
+            Me.RowIds = Array.Empty(Of Integer)()
             Exit Sub
         End If
 
-        ReDim Preserve RowIds(cnt - 1)
-        Me.nRows = cnt
+        ReDim Preserve Me.RowIds(count - 1)
+        Me.nRows = count
 
         'check if any variable have all values missing
         Dim originalCols As Integer = Me.nCols
-        Dim ColToDrop = New List(Of Integer)
+        Dim columnsToDrop As New List(Of Integer)()
         If Me.pbAllowMissing Then
-            For j = 0 To originalCols - 1
+            For columnIndex As Integer = 0 To originalCols - 1
                 Dim nMiss As Integer = 0
-                For i = 0 To cnt - 1
-                    If Me.RawData(RowIds(i), j) Is Nothing Then nMiss += 1
+                For rowIndex As Integer = 0 To count - 1
+                    If Me.RawData(Me.RowIds(rowIndex), columnIndex) Is Nothing Then nMiss += 1
                 Next
-                If nMiss = cnt Then ColToDrop.Add(j) 'delete whole column
+                If nMiss = count Then columnsToDrop.Add(columnIndex) 'delete whole column
             Next
         End If
 
-        Dim retainedCols As Integer = originalCols - ColToDrop.Count
+        Dim retainedCols As Integer = originalCols - columnsToDrop.Count
         If retainedCols <= 0 Then
             AppInfrastructure.CoreServices.Log("Zero valid variables after dropping all-missing columns!")
             Me.bZeroValid = True
             Me.nCols = 0
             Me.FinalData = Nothing
-            Me.varNames = New String() {}
+            Me.varNames = Array.Empty(Of String)()
             Exit Sub
         End If
 
-        ReDim Me.FinalData(cnt - 1, retainedCols - 1)
-
-        'Dump the matrix with deleted rows into the resized array
-        For i = 0 To cnt - 1
-            Dim jj As Integer = 0
-            For j = 0 To originalCols - 1
-                If Not ColToDrop.Contains(j) Then
-                    If (CharCols > -1 AndAlso j <= CharCols) OrElse haveChar.Contains(j) Then 'convert only declared/text columns to text
-                        If Me.RawData(RowIds(i), j) Is Nothing Then
-                            Me.FinalData(i, jj) = Nothing
-                        Else
-                            Me.FinalData(i, jj) = CStr(Me.RawData(RowIds(i), j))
-                        End If
+        ReDim Me.FinalData(count - 1, retainedCols - 1)
+        For rowIndex As Integer = 0 To count - 1
+            Dim targetColumn As Integer = 0
+            For columnIndex As Integer = 0 To originalCols - 1
+                If Not columnsToDrop.Contains(columnIndex) Then
+                    Dim value As Object = Me.RawData(Me.RowIds(rowIndex), columnIndex)
+                    If (CharCols > -1 AndAlso columnIndex <= CharCols) OrElse haveChar.Contains(columnIndex) Then
+                        Me.FinalData(rowIndex, targetColumn) = If(value Is Nothing,
+                                                                 Nothing,
+                                                                 Convert.ToString(value, CultureInfo.CurrentCulture))
                     Else
-                        Me.FinalData(i, jj) = Me.RawData(RowIds(i), j)
+                        Me.FinalData(rowIndex, targetColumn) = value
                     End If
-                    jj += 1
+                    targetColumn += 1
                 End If
             Next
-        Next i
+        Next
 
         'If we dropped any variable then update the variable name list also
-        If ColToDrop.Count > 0 Then
+        If columnsToDrop.Count > 0 Then
             Dim newNames(retainedCols - 1) As String
-            Dim jj As Integer = 0
-            For j = 0 To originalCols - 1
-                If Not ColToDrop.Contains(j) Then
-                    newNames(jj) = Me.varNames(j)
-                    jj += 1
+            Dim targetColumn As Integer = 0
+            For columnIndex As Integer = 0 To originalCols - 1
+                If Not columnsToDrop.Contains(columnIndex) Then
+                    newNames(targetColumn) = Me.varNames(columnIndex)
+                    targetColumn += 1
                 End If
             Next
             Me.varNames = newNames
-            Me.nCols = retainedCols
-        Else
-            Me.nCols = originalCols
         End If
+        Me.nCols = retainedCols
     End Sub
 
     ''' <summary>
@@ -439,6 +449,7 @@ Public Class DataObj
     ''' </example>
     Public Overridable Sub SubsetByRowIdValues(rIds As Dictionary(Of Integer, Integer))
         Me.FinalData = RowArrayUtilities.SubsetRowsByIds(Me.FinalData, rIds.Keys)
-        Me.RowIds = rIds.Values.ToArray()
+        Me.RowIds = New List(Of Integer)(rIds.Values).ToArray()
+        Me.nRows = Me.RowIds.Length
     End Sub
 End Class

@@ -1,5 +1,10 @@
 ﻿Option Explicit On
+Option Strict On
+Option Infer On
 
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
 Imports BESHStatNG.DataManagement
 
 Public Class geeData
@@ -45,7 +50,8 @@ Public Class geeData
         If Me.bOffset Then Me.OffsetData = RowArrayUtilities.SubsetItemsByIds(Me.OffsetData, rIds.Keys)
         If Me.bWeights Then Me.WeightData = RowArrayUtilities.SubsetItemsByIds(Me.WeightData, rIds.Keys)
         If Me.bTime Then Me.TimeData = RowArrayUtilities.SubsetItemsByIds(Me.TimeData, rIds.Keys)
-        Me.RowIds = rIds.Values.ToArray()
+        Me.RowIds = New List(Of Integer)(rIds.Values).ToArray()
+        Me.nRows = Me.RowIds.Length
     End Sub
 
     Public Overrides Sub DataImportRawMatrix(rawInput(,) As Object,
@@ -75,7 +81,7 @@ Public Class geeData
             data2(i, Me.nCols) = Me.RowIds(i)
         Next
 
-        Dim iClasterPos = Me.nCols - 1  'will be the clusterID column position in the array. Time is right after it
+        Dim iClasterPos As Integer = Me.nCols - 1  'will be the clusterID column position in the array. Time is right after it
         If bWeights Then iClasterPos -= 1
         If bOffset Then iClasterPos -= 1
         If bTime Then iClasterPos -= 1
@@ -91,7 +97,7 @@ Public Class geeData
             For j = 0 To Me.nCols - 1
                 Me.FinalData(i, j) = data2(i, j)
             Next
-            Me.RowIds(i) = data2(i, Me.nCols)
+            Me.RowIds(i) = Convert.ToInt32(data2(i, Me.nCols), CultureInfo.CurrentCulture)
         Next
 
         'process offset and weights
@@ -99,7 +105,7 @@ Public Class geeData
             'Last column is offset. Put it to separate array
             ReDim Me.WeightData(Me.nRows - 1)
             For i = 0 To Me.nRows - 1
-                Me.WeightData(i) = Me.FinalData(i, Me.nCols - 1)
+                Me.WeightData(i) = Convert.ToDouble(Me.FinalData(i, Me.nCols - 1), CultureInfo.CurrentCulture)
             Next
             Me.WeightVarName = Me.varNames(Me.nCols - 1)
             ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 2)
@@ -110,7 +116,7 @@ Public Class geeData
             'Last column is offset. Put it to separate array
             ReDim Me.OffsetData(Me.nRows - 1)
             For i = 0 To Me.nRows - 1
-                Me.OffsetData(i) = Me.FinalData(i, Me.nCols - 1)
+                Me.OffsetData(i) = Convert.ToDouble(Me.FinalData(i, Me.nCols - 1), CultureInfo.CurrentCulture)
             Next
             Me.OffsetVarName = Me.varNames(Me.nCols - 1)
             ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 2)
@@ -122,7 +128,7 @@ Public Class geeData
             'Last column now is Time. Put it to separate array
             ReDim Me.TimeData(Me.nRows - 1)
             For i = 0 To Me.nRows - 1
-                Me.TimeData(i) = Me.FinalData(i, Me.nCols - 1)
+                Me.TimeData(i) = Convert.ToDouble(Me.FinalData(i, Me.nCols - 1), CultureInfo.CurrentCulture)
             Next
             Me.TimeVarName = Me.varNames(Me.nCols - 1)
             ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 2)

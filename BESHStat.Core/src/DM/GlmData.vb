@@ -1,5 +1,10 @@
 ﻿Option Explicit On
+Option Strict On
+Option Infer On
 
+Imports System
+Imports System.Collections.Generic
+Imports System.Globalization
 Imports BESHStatNG.DataManagement
 
 ''' <summary>
@@ -69,7 +74,8 @@ Public Class glmData
         Me.FinalData = RowArrayUtilities.SubsetRowsByIds(Me.FinalData, rIds.Keys)
         If Me.bOffset Then Me.OffsetData = RowArrayUtilities.SubsetItemsByIds(Me.OffsetData, rIds.Keys)
         If Me.bWeights Then Me.WeightData = RowArrayUtilities.SubsetItemsByIds(Me.WeightData, rIds.Keys)
-        Me.RowIds = rIds.Values.ToArray()
+        Me.RowIds = New List(Of Integer)(rIds.Values).ToArray()
+        Me.nRows = Me.RowIds.Length
     End Sub
 
     Protected Overrides Sub OnDataImported()
@@ -81,7 +87,7 @@ Public Class glmData
         If Me.bWeights Then
             ReDim Me.WeightData(Me.nRows - 1)
             For i = 0 To Me.nRows - 1
-                Me.WeightData(i) = CDbl(Me.FinalData(i, Me.nCols - 1))
+                Me.WeightData(i) = Convert.ToDouble(Me.FinalData(i, Me.nCols - 1), CultureInfo.CurrentCulture)
             Next
             Me.WeightVarName = Me.varNames(Me.nCols - 1)
             ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 2)
@@ -92,7 +98,7 @@ Public Class glmData
         If Me.bOffset Then
             ReDim Me.OffsetData(Me.nRows - 1)
             For i = 0 To Me.nRows - 1
-                Me.OffsetData(i) = CDbl(Me.FinalData(i, Me.nCols - 1))
+                Me.OffsetData(i) = Convert.ToDouble(Me.FinalData(i, Me.nCols - 1), CultureInfo.CurrentCulture)
             Next
             Me.OffsetVarName = Me.varNames(Me.nCols - 1)
             ReDim Preserve Me.FinalData(Me.nRows - 1, Me.nCols - 2)
