@@ -88,7 +88,6 @@ Public Class ExcelDnaDataImporter
                                  Optional SkipRow As Integer = 0)
         If target Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(target)))
         Dim table As CoreDataTable = Import(ref, bStartRow)
-        target.ws = WorksheetFromRefAdress(ref)
         target.LoadCoreDataTable(table, CharCols:=CharCols, SkipRow:=SkipRow, cloneTable:=False)
     End Sub
 

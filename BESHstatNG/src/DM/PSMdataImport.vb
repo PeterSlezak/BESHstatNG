@@ -65,7 +65,7 @@ Public Class PsmDataRawMatrixSpec
     Public Property ExactGroupRawInput As Object(,)
     Public Property ExactGroupVariableNames As String()
     Public Property FirstSourceRow As Integer = 1
-    Public Property SourceWorksheet As Worksheet = Nothing
+    Public Property SourceInfo As DataSourceInfo = Nothing
 End Class
 
 ''' <summary>
@@ -166,7 +166,7 @@ Public Class psmData
         MyBase.DataImportRawMatrix(spec.ModelRawInput,
                                    spec.ModelVariableNames,
                                    firstSourceRow:=spec.FirstSourceRow,
-                                   sourceWorksheet:=spec.SourceWorksheet,
+                                   sourceInfo:=spec.SourceInfo,
                                    CharCols:=-1,
                                    SkipRow:=0)
         ModelReference = "RawMatrix: model"
@@ -175,7 +175,7 @@ Public Class psmData
         OutcomeData = ImportRawDataObject(spec.OutcomeRawInput,
                                           spec.OutcomeVariableNames,
                                           spec.FirstSourceRow,
-                                          spec.SourceWorksheet,
+                                          spec.SourceInfo,
                                           charCols:=-1)
         OutcomeReference = "RawMatrix: outcome"
 
@@ -183,7 +183,7 @@ Public Class psmData
             SuppliedScoreData = ImportRawDataObject(spec.SuppliedScoreRawInput,
                                                     spec.SuppliedScoreVariableNames,
                                                     spec.FirstSourceRow,
-                                                    spec.SourceWorksheet,
+                                                    spec.SourceInfo,
                                                     charCols:=-1)
             SuppliedScoreReference = "RawMatrix: supplied score"
         End If
@@ -192,7 +192,7 @@ Public Class psmData
             IdData = ImportRawDataObject(spec.IdRawInput,
                                          spec.IdVariableNames,
                                          spec.FirstSourceRow,
-                                         spec.SourceWorksheet,
+                                         spec.SourceInfo,
                                          charCols:=0)
             IdReference = "RawMatrix: ID"
         End If
@@ -202,7 +202,7 @@ Public Class psmData
             ExactGroupData = ImportRawDataObject(spec.ExactGroupRawInput,
                                                  spec.ExactGroupVariableNames,
                                                  spec.FirstSourceRow,
-                                                 spec.SourceWorksheet,
+                                                 spec.SourceInfo,
                                                  charCols:=exactCols - 1)
             ExactGroupReference = "RawMatrix: exact groups"
         End If
@@ -313,13 +313,13 @@ Public Class psmData
     Private Shared Function ImportRawDataObject(rawInput(,) As Object,
                                                 variableNames() As String,
                                                 firstSourceRow As Integer,
-                                                sourceWorksheet As Worksheet,
+                                                sourceInfo As DataSourceInfo,
                                                 charCols As Integer) As DataObj
         Dim d As New DataObj()
         d.DataImportRawMatrix(rawInput,
                               variableNames,
                               firstSourceRow:=firstSourceRow,
-                              sourceWorksheet:=sourceWorksheet,
+                              sourceInfo:=sourceInfo,
                               CharCols:=charCols,
                               SkipRow:=0)
         Return d

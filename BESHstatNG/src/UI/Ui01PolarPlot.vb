@@ -244,8 +244,8 @@ Public Class Ui01PolarPlot
     ''' </summary>
     ''' <param name="errorText">Receives a user-facing validation message when no usable data were imported.</param>
     ''' <returns>The imported two- or three-column data object, or <see langword="Nothing"/> on validation failure.</returns>
-    Private Function GetData(ByRef errorText As String) As DataObj
-        Dim inputWorkbook As Workbook = Me.RefEdit_Radius.ExcelWorkBook
+    Private Function GetData(ByRef errorText As String, ByRef inputWorkbook As Workbook) As DataObj
+        inputWorkbook = Me.RefEdit_Radius.ExcelWorkBook
         If inputWorkbook IsNot Nothing Then inputWorkbook.Activate()
 
         Dim radiusReference As String = prepareRef2D(Me.RefEdit_Radius.Address, inputWorkbook)
@@ -361,7 +361,8 @@ Public Class Ui01PolarPlot
             If Me.CheckInputs() Then Exit Sub
 
             Dim errorText As String = String.Empty
-            Dim data As DataObj = Me.GetData(errorText)
+            Dim inputWorkbook As Workbook = Nothing
+            Dim data As DataObj = Me.GetData(errorText, inputWorkbook)
             If errorText <> String.Empty Then
                 MsgBox(errorText, vbExclamation, AppGlobals.gsAPP_TITLE)
                 Exit Sub
@@ -408,8 +409,6 @@ Public Class Ui01PolarPlot
             End If
             Dim result As PolarPlotResult = plot.Compute()
 
-            Dim inputWorksheet As Worksheet = DirectCast(data.ws, Worksheet)
-            Dim inputWorkbook As Workbook = DirectCast(inputWorksheet.Parent, Workbook)
             Dim outputWorksheet As Worksheet = Nothing
             Dim chartAnchor As Range = Nothing
             Me.ResolveOutputTarget(inputWorkbook, outputWorksheet, chartAnchor)

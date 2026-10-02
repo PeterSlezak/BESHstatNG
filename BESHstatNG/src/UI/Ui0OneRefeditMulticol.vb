@@ -349,7 +349,7 @@ Public Class Ui0OneRefeditMulticol
             .SeriesNames = seriesNames,
             .CategoryLabels = categoryLabels,
             .CategoryAxisTitle = categoryAxisTitle,
-            .SourceWorksheet = DirectCast(columnData.ws, Worksheet)
+            .SourceWorksheet = WorksheetFromRefAdress(inputReference)
         }
     End Function
 

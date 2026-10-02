@@ -244,11 +244,9 @@ End Class
 ''' Unit tests for the mixed-model formula/data bridge.
 ''' </summary>
 ''' <remarks>
-''' These tests intentionally avoid direct calls to DataObj.DataImportRawMatrix from the test
-''' project.  DataImportRawMatrix exposes Microsoft.Office.Interop.Excel.Worksheet in its public
-''' signature, and the test project does not need an Excel interop reference just to validate the
-''' mixed-model formula service.  Instead the tests call MixedModelFormulaService.BuildRequestFromRawMatrix,
-''' which keeps the Excel-interop-dependent import detail inside the main BESHStatNG assembly.
+''' These tests exercise the mixed-model formula bridge through
+''' <c>MixedModelFormulaService.BuildRequestFromRawMatrix</c>. The underlying DataObj raw-matrix
+''' import path is now host-neutral and is covered directly by the DataManagement contract tests.
 ''' </remarks>
 <TestClass>
 Public Class MixedModelFormulaServiceTests
