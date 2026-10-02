@@ -2,6 +2,7 @@
 Option Strict On
 
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.DataManagement
 
 Public Module Helpers
 
@@ -70,31 +71,7 @@ Public Module Helpers
     ''' </code>
     ''' </example>
     Public Function SubsetArrayByIds(Of T)(data(,) As T, rIds As Dictionary(Of Integer, Integer)) As T(,)
-        Dim rowCount As Integer = UBound(data, 1)
-        Dim colCount As Integer = UBound(data, 2)
-
-        ' Validate all requested row indices
-        For Each key In rIds.Keys
-            If key < 0 OrElse key > rowCount Then
-                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
-            End If
-        Next
-
-        ' Prepare output array
-        Dim newRowCount As Integer = rIds.Count - 1
-        Dim tmp = data
-        ReDim data(newRowCount, colCount)
-
-        ' Copy selected rows
-        Dim i As Integer = 0
-        For Each key In rIds.Keys
-            For j As Integer = 0 To colCount
-                data(i, j) = tmp(key, j)
-            Next
-            i += 1
-        Next
-
-        Return data
+        Return RowArrayUtilities.SubsetRowsByIds(data, rIds.Keys)
     End Function
 
 
@@ -137,17 +114,7 @@ Public Module Helpers
     ''' </example>
     Public Function CommonItems(Of T)(arr1() As T, arr2() As T,
                                       Optional comparer As IEqualityComparer(Of T) = Nothing) As Dictionary(Of Integer, T)
-        If comparer Is Nothing Then comparer = EqualityComparer(Of T).Default
-
-        Dim set2 As New HashSet(Of T)(arr2, comparer)
-        Dim result As New Dictionary(Of Integer, T)
-
-        For i As Integer = 0 To arr1.Length - 1
-            Dim value As T = arr1(i)
-            If set2.Contains(value) Then result.Add(i, value)
-        Next
-
-        Return result
+        Return RowArrayUtilities.FindCommonItems(arr1, arr2, comparer)
     End Function
 
     ''' <summary>
@@ -191,28 +158,7 @@ Public Module Helpers
     ''' </code>
     ''' </example>
     Public Function Subset1DArrayByIds(Of T)(data() As T, rIds As Dictionary(Of Integer, Integer)) As T()
-        Dim rowCount As Integer = UBound(data)
-
-        ' Validate all requested indices
-        For Each key In rIds.Keys
-            If key < 0 OrElse key > rowCount Then
-                CoreServices.Errors.LogAndThrow(New ArgumentOutOfRangeException(NameOf(rIds), $"Row index {key} is outside the valid range 0 to {rowCount}."))
-            End If
-        Next
-
-        ' Prepare output array
-        Dim newRowCount As Integer = rIds.Count - 1
-        Dim tmp = data
-        ReDim data(newRowCount)
-
-        ' Copy selected elements
-        Dim i As Integer = 0
-        For Each key In rIds.Keys
-            data(i) = tmp(key)
-            i += 1
-        Next
-
-        Return data
+        Return RowArrayUtilities.SubsetItemsByIds(data, rIds.Keys)
     End Function
 
     ''' <summary>
@@ -250,120 +196,7 @@ Public Module Helpers
     ''' QuickSort2D(Of String)(data, "0,A,1,D", 0, UBound(data, 1))
     ''' </example>
     Public Sub QuickSort2D(Of T)(arr(,) As T, Crit As String, Low As Integer, Up As Integer)
-        Dim Cr() As String = Split(Crit, ",")
-        Dim a As Integer = (UBound(Cr) - 1) \ 2
-        Dim Col(a) As Integer
-        Dim AorD(a) As String
-
-        a = 0
-        For i = 0 To UBound(Cr) Step 2
-            Col(a) = Integer.Parse(Cr(i))
-            AorD(a) = Cr(i + 1)
-            a += 1
-        Next
-
-        QuicksortCalc(arr, Col, AorD, Low, Up)
+        RowArrayUtilities.SortRows(arr, Crit, Low, Up)
     End Sub
-
-    ''' <summary>
-    ''' Recursive QuickSort partitioning routine for two-dimensional arrays.
-    ''' </summary>
-    ''' <param name="varray">The array being sorted.</param>
-    ''' <param name="Col">An array of column indices used for sorting.</param>
-    ''' <param name="AorD">An array of "A"/"D" flags indicating ascending or descending order for each column.</param>
-    ''' <param name="Low">The lower bound (row index) of the current partition.</param>
-    ''' <param name="Up">The upper bound (row index) of the current partition.</param>
-    ''' <remarks>
-    ''' - Chooses a pivot row and partitions the array into two halves.  
-    ''' - Recursively sorts each half until the entire array is ordered.  
-    ''' - Swaps entire rows when necessary.  
-    ''' </remarks>
-    Private Sub QuicksortCalc(Of T)(varray(,) As T, Col() As Integer, AorD() As String, Low As Integer, Up As Integer)
-        Dim tmpLow As Integer = Low
-        Dim tmpHi As Integer = Up
-        Dim pval(UBound(Col)) As T
-
-        For i = 0 To UBound(pval)
-            pval(i) = varray((Low + Up) \ 2, Col(i))
-        Next
-
-        Do While tmpLow <= tmpHi
-            Do While Checkstr1(varray, tmpLow, Col, AorD, pval) AndAlso tmpLow < Up
-                tmpLow += 1
-            Loop
-            Do While Checkstr2(varray, tmpHi, Col, AorD, pval) AndAlso tmpHi > Low
-                tmpHi -= 1
-            Loop
-
-            If tmpLow <= tmpHi Then
-                For i = 0 To UBound(varray, 2)
-                    Dim vSwap As T = varray(tmpLow, i)
-                    varray(tmpLow, i) = varray(tmpHi, i)
-                    varray(tmpHi, i) = vSwap
-                Next
-                tmpLow += 1
-                tmpHi -= 1
-            End If
-        Loop
-
-        If Low < tmpHi Then QuicksortCalc(varray, Col, AorD, Low, tmpHi)
-        If tmpLow < Up Then QuicksortCalc(varray, Col, AorD, tmpLow, Up)
-    End Sub
-
-    ''' <summary>
-    ''' Compares a row against the pivot values to determine if it should move forward in QuickSort.
-    ''' </summary>
-    ''' <param name="arr">The array being sorted.</param>
-    ''' <param name="tmpLow">The current row index being checked.</param>
-    ''' <param name="Col">Column indices used for sorting.</param>
-    ''' <param name="AorD">Ascending/descending flags for each column.</param>
-    ''' <param name="pval">Pivot values for each column.</param>
-    ''' <returns>
-    ''' <c>True</c> if the row should move forward (less than pivot for ascending, greater for descending).  
-    ''' Otherwise <c>False</c>.
-    ''' </returns>
-    Private Function Checkstr1(Of T)(arr(,) As T, tmpLow As Integer, Col() As Integer, AorD() As String, pval() As T) As Boolean
-        Dim cmp As Comparer(Of T) = Comparer(Of T).Default
-        For i = 0 To UBound(pval)
-            Dim Str1 As T = arr(tmpLow, Col(i))
-            If String.Equals(AorD(i), "A", StringComparison.OrdinalIgnoreCase) Then
-                'If Str1.GetType() Is pval(i).GetType() Then
-                If cmp.Compare(Str1, pval(i)) < 0 Then Return True
-                If cmp.Compare(Str1, pval(i)) > 0 Then Return False
-                'End If
-            Else
-                If cmp.Compare(Str1, pval(i)) > 0 Then Return True
-                If cmp.Compare(Str1, pval(i)) < 0 Then Return False
-            End If
-        Next
-        Return False
-    End Function
-
-    ''' <summary>
-    ''' Compares a row against the pivot values to determine if it should move backward in QuickSort.
-    ''' </summary>
-    ''' <param name="arr">The array being sorted.</param>
-    ''' <param name="tmpHi">The current row index being checked.</param>
-    ''' <param name="Col">Column indices used for sorting.</param>
-    ''' <param name="AorD">Ascending/descending flags for each column.</param>
-    ''' <param name="pval">Pivot values for each column.</param>
-    ''' <returns>
-    ''' <c>True</c> if the row should move backward (greater than pivot for ascending, less for descending).  
-    ''' Otherwise <c>False</c>.
-    ''' </returns>
-    Private Function Checkstr2(Of T)(arr(,) As T, tmpHi As Integer, Col() As Integer, AorD() As String, pval() As T) As Boolean
-        Dim cmp As Comparer(Of T) = Comparer(Of T).Default
-        For i = 0 To UBound(pval)
-            Dim Str1 As T = arr(tmpHi, Col(i))
-            If String.Equals(AorD(i), "A", StringComparison.OrdinalIgnoreCase) Then
-                If cmp.Compare(pval(i), Str1) < 0 Then Return True
-                If cmp.Compare(pval(i), Str1) > 0 Then Return False
-            Else
-                If cmp.Compare(pval(i), Str1) > 0 Then Return True
-                If cmp.Compare(pval(i), Str1) < 0 Then Return False
-            End If
-        Next
-        Return False
-    End Function
 
 End Module

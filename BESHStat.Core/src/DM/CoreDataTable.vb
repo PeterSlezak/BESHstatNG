@@ -177,7 +177,7 @@ Public Class CoreDataTable
                     Return True
 
                 Case TypeCode.String
-                    Return Double.TryParse(CStr(value), result)
+                    Return Double.TryParse(DirectCast(value, String), result)
 
                 Case Else
                     Return False

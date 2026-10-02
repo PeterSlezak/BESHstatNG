@@ -480,6 +480,33 @@ Public Class Matrix_Statistics_Tests
     End Sub
 
     <TestMethod()>
+    Public Sub RegrL_with_intercept_preserves_legacy_facade()
+        Dim x(,) As Double = {{0.0}, {1.0}, {2.0}, {3.0}}
+        Dim y() As Double = {1.0, 3.0, 5.0, 7.0}
+
+        Dim result = RegrL(y, x, True)
+
+        Assert.AreEqual(1.0, result(0, 0), 0.00000001)
+        Assert.AreEqual(2.0, result(1, 0), 0.00000001)
+    End Sub
+
+    <TestMethod()>
+    Public Sub MinimalWLS_zero_weight_preserves_legacy_facade()
+        Dim design(,) As Double = {
+            {1.0, 0.0},
+            {1.0, 1.0},
+            {1.0, 2.0}
+        }
+        Dim y() As Double = {1.0, 3.0, 100.0}
+        Dim weights() As Double = {1.0, 1.0, 0.0}
+
+        Dim result = MinimalWLS(y, design, weights)
+
+        Assert.AreEqual(1.0, result(0, 0), 0.00000001)
+        Assert.AreEqual(2.0, result(1, 0), 0.00000001)
+    End Sub
+
+    <TestMethod()>
     Public Sub DiagMatFromVector_basic()
         Dim v() As Double = {1, 2, 3}
         Dim d = DiagMatFromVector(v)

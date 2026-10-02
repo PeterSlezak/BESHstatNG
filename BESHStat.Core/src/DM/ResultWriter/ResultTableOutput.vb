@@ -251,7 +251,7 @@ Public MustInherit Class ResultTableWriterBase
         If value Is Nothing Then Return Nothing
 
         If TypeOf value Is Double Then
-            Dim d As Double = CDbl(value)
+            Dim d As Double = DirectCast(value, Double)
             If Double.IsNaN(d) Then Return "#N/A"
             If Double.IsPositiveInfinity(d) Then Return "#Pinf"
             If Double.IsNegativeInfinity(d) Then Return "#Ninf"
@@ -259,7 +259,7 @@ Public MustInherit Class ResultTableWriterBase
         End If
 
         If TypeOf value Is Single Then
-            Dim d As Double = CDbl(value)
+            Dim d As Double = Convert.ToDouble(DirectCast(value, Single))
             If Double.IsNaN(d) Then Return "#N/A"
             If Double.IsPositiveInfinity(d) Then Return "#Pinf"
             If Double.IsNegativeInfinity(d) Then Return "#Ninf"

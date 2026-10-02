@@ -1,8 +1,8 @@
 ﻿Option Explicit On
 
 Imports System.Numerics
-Imports System.Reflection
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.DataManagement
 
 Namespace Matrix
 
@@ -56,39 +56,11 @@ Namespace Matrix
         ''' </code>
         ''' </example>
         Public Function M_OUTERPRODUCT(Of T)(mat1() As T, mat2() As T) As T(,)
-            Dim out(mat1.Length - 1, mat2.Length - 1) As T
-
-            ' Restrict to supported numeric types
-            If Not (GetType(T) Is GetType(Double) OrElse
-            GetType(T) Is GetType(Integer) OrElse
-            GetType(T) Is GetType(Single) OrElse
-            GetType(T) Is GetType(Long)) Then
-
-                CoreServices.Errors.LogAndThrow(New NotSupportedException($"Type {GetType(T).Name} is not supported. " &
-                                                "Allowed types: Double, Integer, Single, Long."))
-            End If
-
-            For i = 0 To mat1.Length - 1
-                For j = 0 To mat2.Length - 1
-                    ' Use Convert.ToDouble for safe numeric multiplication
-                    Dim v = Convert.ToDouble(mat1(i)) * Convert.ToDouble(mat2(j))
-                    out(i, j) = CType(Convert.ChangeType(v, GetType(T)), T)
-                Next
-            Next
-
-            Return out
+            Return MatrixArithmeticCore.OuterProduct(mat1, mat2)
         End Function
 
         Public Function MatrixTrace(a(,) As Double) As Double
-            If a Is Nothing Then Return Double.NaN
-            If a.GetLength(0) <> a.GetLength(1) Then Return Double.NaN
-
-            Dim out As Double = 0.0
-            For i As Integer = 0 To a.GetLength(0) - 1
-                out += a(i, i)
-            Next
-
-            Return out
+            Return MatrixArithmeticCore.Trace(a)
         End Function
 
         ''' <summary>
@@ -128,25 +100,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function MatrixMult(Matrix1(,) As Double, Matrix2(,) As Double) As Double(,)
-
-            Dim NoRow1 As Integer = Matrix1.GetUpperBound(0)
-            Dim NoRow2 As Integer = Matrix2.GetUpperBound(0)
-            Dim NoColumn1 As Integer = Matrix1.GetUpperBound(1)
-            Dim NoColumn2 As Integer = Matrix2.GetUpperBound(1)
-
-            If NoRow2 <> NoColumn1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Inapropriate matrix dimensions in input matrix."))
-
-            Dim MatrixOut(NoRow1, NoColumn2) As Double
-            For i = 0 To NoRow1
-                For j = 0 To NoColumn2
-                    Dim dTemp As Double = 0.0
-                    For ii = 0 To NoRow2
-                        dTemp += Matrix1(i, ii) * Matrix2(ii, j)
-                    Next
-                    MatrixOut(i, j) = dTemp
-                Next
-            Next
-            MatrixMult = MatrixOut
+            Return MatrixArithmeticCore.Multiply(Matrix1, Matrix2)
         End Function
 
         ''' <summary>
@@ -176,12 +130,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function MatrixMult(Matrix1() As Double, Matrix2(,) As Double) As Double(,)
-            Dim Matrix1_2D(0, Matrix1.Length - 1) As Double
-            For ii = 0 To Matrix1.Length - 1
-                Matrix1_2D(0, ii) = Matrix1(ii)
-            Next
-
-            Return MatrixMult(Matrix1_2D, Matrix2)
+            Return MatrixArithmeticCore.Multiply(Matrix1, Matrix2)
         End Function
 
         ''' <summary>
@@ -215,12 +164,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Public Function MatrixMult(Matrix1(,) As Double, Matrix2() As Double) As Double(,)
-            'overloading MatrixMult to have Matrix2 of rank = 1
-            Dim Matrix2_2D(Matrix2.Length - 1, 0) As Double
-            For ii = 0 To Matrix2.Length - 1
-                Matrix2_2D(ii, 0) = Matrix2(ii)
-            Next
-            Return MatrixMult(Matrix1, Matrix2_2D)
+            Return MatrixArithmeticCore.Multiply(Matrix1, Matrix2)
         End Function
 
         ''' <summary>
@@ -252,13 +196,7 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Function MatrixMult(Matrix1(,) As Double, c As Double) As Double(,)
-            Dim MatrixOut(Matrix1.GetUpperBound(0), Matrix1.GetUpperBound(1)) As Double
-            For i = 0 To Matrix1.GetUpperBound(0)
-                For j = 0 To Matrix1.GetUpperBound(1)
-                    MatrixOut(i, j) = Matrix1(i, j) * c
-                Next
-            Next
-            Return MatrixOut
+            Return MatrixArithmeticCore.Multiply(Matrix1, c)
         End Function
 
         ''' <summary>
@@ -289,29 +227,15 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Public Function MatrixMult(Matrix1() As Double, c As Double) As Double()
-            Dim MatrixOut(Matrix1.Length - 1) As Double
-            For i = 0 To Matrix1.Length - 1
-                MatrixOut(i) = Matrix1(i) * c
-            Next
-            Return MatrixOut
+            Return MatrixArithmeticCore.Multiply(Matrix1, c)
         End Function
 
         Public Function NegativeVector(x() As Double) As Double()
-            If x Is Nothing Then Return Nothing
-            Return MatrixMult(x, -1.0)
+            Return MatrixArithmeticCore.NegateVector(x)
         End Function
 
         Public Function MatrixVectorMultiply(a(,) As Double, x() As Double) As Double()
-            If a Is Nothing Then Throw New ArgumentNullException(NameOf(a))
-            If x Is Nothing Then Throw New ArgumentNullException(NameOf(x))
-            If a.GetLength(1) <> x.Length Then Throw New ApplicationException($"MatrixVectorMultiply dimension mismatch: matrix columns={a.GetLength(1)}, vector length={x.Length}.")
-
-            Dim tmp(,) As Double = Matrix.MatrixMult(a, x)
-            Dim out(tmp.GetLength(0) - 1) As Double
-            For i As Integer = 0 To tmp.GetLength(0) - 1
-                out(i) = tmp(i, 0)
-            Next
-            Return out
+            Return MatrixArithmeticCore.MultiplyVector(a, x)
         End Function
 
         ''' <summary>
@@ -344,14 +268,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Public Function DotProduct(a() As Double, b() As Double) As Double
-            If a Is Nothing Then Throw New ArgumentNullException(NameOf(a))
-            If b Is Nothing Then Throw New ArgumentNullException(NameOf(b))
-            If a.Length <> b.Length Then Throw New ApplicationException("DotProduct vectors must have the same length.")
-            Dim Out As Double
-            For i = 0 To a.Length - 1
-                Out += a(i) * b(i)
-            Next
-            Return Out
+            Return MatrixArithmeticCore.DotProduct(a, b)
         End Function
 
         ''' <summary>
@@ -383,17 +300,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_ADD(mat1(,) As Double, mat2(,) As Double) As Double(,) 'matrix addition
-
-            If mat1.GetLength(0) <> mat2.GetLength(0) Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-            If mat1.GetLength(1) <> mat2.GetLength(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("2st dimension of input matrices is not equal."))
-
-            Dim c(mat1.GetUpperBound(0), mat1.GetUpperBound(1)) As Double
-            For i = 0 To mat1.GetUpperBound(0)
-                For j = 0 To mat1.GetUpperBound(1)
-                    c(i, j) = mat1(i, j) + mat2(i, j)
-                Next
-            Next
-            Return c
+            Return MatrixArithmeticCore.Add(mat1, mat2)
         End Function
 
         ''' <summary>
@@ -418,21 +325,7 @@ Namespace Matrix
         ''' design row and <paramref name="a"/> is a covariance matrix.
         ''' </remarks>
         Public Function QuadraticForm(v() As Double, a(,) As Double) As Double
-            If v Is Nothing OrElse a Is Nothing Then Return Double.NaN
-
-            Dim p As Integer = v.Length
-            If a.GetLength(0) <> p OrElse a.GetLength(1) <> p Then Return Double.NaN
-
-            Dim value As Double = 0.0R
-
-            For i As Integer = 0 To p - 1
-                Dim vi As Double = v(i)
-                For j As Integer = 0 To p - 1
-                    value += vi * a(i, j) * v(j)
-                Next
-            Next
-
-            Return value
+            Return MatrixArithmeticCore.QuadraticForm(v, a)
         End Function
 
         ''' <summary>
@@ -472,15 +365,7 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Function M_ADD(mat1(,) As Double, mat2() As Double) As Double(,) 'matrix addition
-            If mat1.GetLength(0) <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-
-            Dim c(mat1.GetUpperBound(0), mat2.Length - 1) As Double
-            For i = 0 To mat1.GetUpperBound(0)
-                For j = 0 To mat1.GetUpperBound(1)
-                    c(i, j) = mat1(i, j) + mat2(i)
-                Next
-            Next
-            Return c
+            Return MatrixArithmeticCore.Add(mat1, mat2)
         End Function
 
         ''' <summary>
@@ -510,13 +395,7 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Function M_ADD(mat1() As Double, mat2() As Double) As Double() 'matrix addition
-            If mat1.Length <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ApplicationException("1st dimension of input matrices is not equal."))
-
-            Dim c(mat1.Length - 1) As Double
-            For i = 0 To mat1.Length - 1
-                c(i) = mat1(i) + mat2(i)
-            Next
-            Return c
+            Return MatrixArithmeticCore.Add(mat1, mat2)
         End Function
 
         ''' <summary>
@@ -546,11 +425,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_ADD(mat1() As Double, c As Double) As Double() 'matrix addition
-            Dim out(mat1.Length - 1) As Double
-            For i = 0 To mat1.Length - 1
-                out(i) = mat1(i) + c
-            Next
-            Return out
+            Return MatrixArithmeticCore.Add(mat1, c)
         End Function
 
         ''' <summary>
@@ -586,16 +461,7 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Function M_SUB(mat1(,) As Double, mat2(,) As Double) As Double(,) 'matrix elementwise subtraction
-            If mat1.GetUpperBound(0) <> mat2.GetUpperBound(0) Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-            If mat1.GetUpperBound(1) <> mat2.GetUpperBound(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("2st dimension of input matrices is not equal."))
-
-            Dim c(mat1.GetUpperBound(0), UBound(mat1, 2)) As Double
-            For i = 0 To mat1.GetUpperBound(0)
-                For j = 0 To mat1.GetUpperBound(1)
-                    c(i, j) = mat1(i, j) - mat2(i, j)
-                Next
-            Next
-            Return c
+            Return MatrixArithmeticCore.Subtract(mat1, mat2)
         End Function
 
         ''' <summary>
@@ -628,13 +494,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_SUB(mat1() As Double, mat2() As Double) As Double()
-            If mat1.Length <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-
-            Dim c(mat1.Length - 1) As Double
-            For i = 0 To mat1.Length - 1
-                c(i) = mat1(i) - mat2(i)
-            Next
-            Return c
+            Return MatrixArithmeticCore.Subtract(mat1, mat2)
         End Function
 
         ''' <summary>
@@ -664,11 +524,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_SUB(mat1() As Double, c As Double) As Double()
-            Dim out(mat1.Length - 1) As Double
-            For i = 0 To mat1.Length - 1
-                out(i) = mat1(i) - c
-            Next
-            Return out
+            Return MatrixArithmeticCore.Subtract(mat1, c)
         End Function
 
         ''' <summary>
@@ -713,20 +569,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_DIV(mat1(,) As Double, mat2(,) As Double, ByRef Optional strTrace As String = "") As Double(,)
-            If mat1.GetLength(0) <> mat2.GetLength(0) Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-            If mat1.GetLength(1) <> mat2.GetLength(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("2st dimension of input matrices is not equal."))
-
-            Dim out(mat1.GetUpperBound(0), mat1.GetUpperBound(1)) As Double
-            For i = 0 To mat1.GetUpperBound(0)
-                For j = 0 To mat1.GetUpperBound(1)
-                    If mat2(i, j) <> 0 Then
-                        out(i, j) = mat1(i, j) / mat2(i, j)
-                    Else
-                        strTrace = strTrace + " WARNING: M_DIV Division by zero. mat2=" ' & array2str(mat2)
-                    End If
-                Next
-            Next
-            M_DIV = out
+            Return MatrixArithmeticCore.Divide(mat1, mat2, strTrace)
         End Function
 
         ''' <summary>
@@ -769,17 +612,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_DIV(mat1() As Double, mat2() As Double, ByRef Optional strTrace As String = "") As Double()
-            If mat1.Length <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-
-            Dim out(mat1.Length - 1) As Double
-            For i = 0 To mat1.Length - 1
-                If mat2(i) <> 0 Then
-                    out(i) = mat1(i) / mat2(i)
-                Else
-                    strTrace = strTrace + " WARNING: M_DIV Division by zero. mat2="
-                End If
-            Next
-            Return out
+            Return MatrixArithmeticCore.Divide(mat1, mat2, strTrace)
         End Function
 
         ''' <summary>
@@ -829,20 +662,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_DIV(mat1(,) As Double, mat2() As Double, ByRef Optional strTrace As String = "") As Double(,)
-
-            If mat1.GetLength(0) <> mat2.Length Then CoreServices.Errors.LogAndThrow(New ArgumentException("1st dimension of input matrices is not equal."))
-
-            Dim out(mat1.GetUpperBound(0), mat1.GetUpperBound(1)) As Double
-            For i = 0 To mat1.GetUpperBound(0)
-                For j = 0 To mat1.GetUpperBound(1)
-                    If mat2(i) <> 0 Then
-                        out(i, j) = mat1(i, j) / mat2(i)
-                    Else
-                        strTrace = strTrace + " WARNING: M_DIV Division by zero. mat2=" ' & array2str(mat2)
-                    End If
-                Next
-            Next
-            Return out
+            Return MatrixArithmeticCore.Divide(mat1, mat2, strTrace)
         End Function
 
         ''' <summary>
@@ -875,17 +695,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_DIV(mat1(,) As Double, c As Double, ByRef Optional strTrace As String = "") As Double(,)
-            Dim out(mat1.GetUpperBound(0), mat1.GetUpperBound(1)) As Double
-            For i = 0 To mat1.GetUpperBound(0)
-                For j = 0 To mat1.GetUpperBound(1)
-                    If c <> 0 Then
-                        out(i, j) = mat1(i, j) / c
-                    Else
-                        strTrace = strTrace + " WARNING: M_DIV Division by zero. mat2=" ' & array2str(mat2)
-                    End If
-                Next
-            Next
-            Return out
+            Return MatrixArithmeticCore.Divide(mat1, c, strTrace)
         End Function
 
         ''' <summary>
@@ -916,15 +726,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function M_DIV(mat1() As Double, c As Double, ByRef Optional strTrace As String = "") As Double()
-            Dim out(mat1.Length - 1) As Double
-            For i = 0 To mat1.Length - 1
-                If c <> 0 Then
-                    out(i) = mat1(i) / c
-                Else
-                    strTrace += " WARNING: M_DIV Division by zero. mat2=" ' & array2str(mat2)
-                End If
-            Next
-            Return out
+            Return MatrixArithmeticCore.Divide(mat1, c, strTrace)
         End Function
 
         ''' <summary>
@@ -986,33 +788,7 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Function Cholesky(a(,) As Double, ByRef Optional iFault As Integer = 0, Optional bErrorRaise As Boolean = True) As Double(,)
-            Dim S As Double
-            Dim n As Integer = a.GetUpperBound(0)
-            Dim L(n, n) As Double
-
-            For i = 0 To n
-                S = 0.0
-                For j = 0 To i - 1
-                    S += L(i, j) * L(i, j)
-                Next
-                L(i, i) = a(i, i) - S
-                If L(i, i) <= 0 Then 'MatrixType not positive-definite
-                    iFault = 2
-                    If bErrorRaise Then CoreServices.Errors.LogAndThrow(New ApplicationException($"MatrixType not positive-definite. {array2str(a)}"))
-                    Return L
-                End If
-                L(i, i) = Math.Sqrt(L(i, i))
-
-                For k = i + 1 To n
-                    S = 0
-                    For j = 0 To i - 1
-                        S += L(k, j) * L(i, j)
-                    Next j
-                    L(k, i) = (a(k, i) - S) / L(i, i)
-                Next
-            Next
-
-            Return L
+            Return MatrixFactorizationCore.Cholesky(a, iFault, bErrorRaise)
         End Function
 
         ''' <summary>
@@ -1054,29 +830,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function CholSolve(L(,) As Double, b() As Double) As Double()
-            Dim temp As Double
-            Dim rows As Integer = L.GetUpperBound(0)
-            Dim y(rows) As Double, x(rows) As Double
-
-            'Forward substitution
-            For i = 0 To rows
-                temp = b(i)
-                For j = i - 1 To 0 Step -1
-                    temp = temp - L(i, j) * y(j)
-                Next
-                y(i) = temp / L(i, i)
-            Next
-
-            'Back substitution
-            For i = rows To 0 Step -1
-                temp = y(i)
-                For j = i + 1 To rows
-                    temp = temp - L(j, i) * x(j)
-                Next
-                x(i) = temp / L(i, i)
-            Next
-
-            Return x
+            Return MatrixFactorizationCore.CholeskySolve(L, b)
         End Function
 
         ''' <summary>
@@ -1093,31 +847,7 @@ Namespace Matrix
         ''' Solution matrix X (n x m) satisfying A·X = B.
         ''' </returns>
         Function CholSolve(L(,) As Double, b(,) As Double) As Double(,)
-            Dim temp As Double
-            Dim rows As Integer = L.GetUpperBound(0)
-            Dim y(rows, b.GetUpperBound(1)) As Double, x(rows, b.GetUpperBound(1)) As Double
-
-            'Forward substitution
-            For r = 0 To b.GetUpperBound(1) 'multiple right hand sides
-                For i = 0 To rows
-                    temp = b(i, r)
-                    For j = i - 1 To 0 Step -1
-                        temp -= L(i, j) * y(j, r)
-                    Next
-                    y(i, r) = temp / L(i, i)
-                Next
-
-                'Back substitution
-                For i = rows To 0 Step -1
-                    temp = y(i, r)
-                    For j = i + 1 To rows
-                        temp -= L(j, i) * x(j, r)
-                    Next
-                    x(i, r) = temp / L(i, i)
-                Next
-            Next
-
-            Return x
+            Return MatrixFactorizationCore.CholeskySolve(L, b)
         End Function
 
         ''' <summary>
@@ -1168,30 +898,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function CholInv(L(,) As Double) As Double(,)
-            Dim p As Integer = L.GetUpperBound(0)
-            Dim u(p, p) As Double, x(p, p) As Double
-
-            'Back substitution to produce upper triangular matrix inverse U = L^-1
-            For j = p To 0 Step -1
-                u(j, j) = 1 / L(j, j)
-                For k = j - 1 To 0 Step -1
-                    For i = k + 1 To j
-                        u(k, j) -= L(i, k) * u(i, j) / L(k, k)
-                    Next
-                Next
-            Next
-
-            'Multiplication of U by U' to produce (LL')^-1
-            For i = 0 To p
-                For j = i To p
-                    For k = j To p
-                        x(i, j) += u(i, k) * u(j, k)
-                    Next
-                    x(j, i) = x(i, j)
-                Next
-            Next
-
-            Return x
+            Return MatrixFactorizationCore.CholeskyInverse(L)
         End Function
 
         Public Class LUdecompOutput
@@ -1257,85 +964,11 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function LUdecomp(mat(,) As Double, ByRef d As Double, ByRef Optional iErr As Integer = 0) As LUdecompOutput
-            Const tiny As Double = 0.000000000000002
-            Dim j As Integer, k As Integer, imax As Integer, indx() As Double, a(,) As Double
-            Dim Aamax As Double, dum As Double, sum As Double, VV() As Double 'vv stores the implicit scaling of each row
-            Dim LUout As LUdecompOutput = New LUdecompOutput
-
-            a = DirectCast(mat.Clone(), Double(,))
-            Dim n As Integer = UBound(a, 1)
-            'decomposed matrix have to be squared
-            If n <> a.GetUpperBound(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Input matrix is not squared."))
-
-            ReDim VV(n), indx(n)
-
-            'implicit pivoting
-            'Loop over rows to get the implicit scaling information
-            'from press et al. Numerical recipies
-
-            For i = 0 To n
-                Aamax = 0.0
-                For j = 0 To n
-                    If (Math.Abs(a(i, j)) > Aamax) Then Aamax = Math.Abs(a(i, j))
-                Next
-
-                If Aamax = 0 Then
-                    iErr = 2
-                    CoreServices.Errors.LogAndThrow(New ApplicationException("Singular matrix.")) 'singular matrix in LUdcemop, No nonzero largest element.
-                End If
-                VV(i) = 1.0 / Aamax 'Save the scaling.
-            Next
-
-            'start Crout's algorithm
-            For j = 0 To n 'This is the loop over columns of Crout's method.
-                For i = 0 To j - 1 'This is equation (2.3.12) except for i = j.
-                    sum = a(i, j)
-                    For k = 0 To i - 1
-                        sum -= a(i, k) * a(k, j)
-                    Next
-                    a(i, j) = sum
-                Next
-
-                Aamax = 0.0
-                'Initialize for the search for largest pivot element.
-                For i = j To n 'This is i = j of equation (2.3.12) and i = j+1...N of equation (2.3.13).
-                    sum = a(i, j)
-                    For k = 0 To j - 1
-                        sum -= a(i, k) * a(k, j)
-                    Next
-                    a(i, j) = sum
-                    dum = VV(i) * Math.Abs(sum) 'Figure of merit for the pivot.
-                    If (dum >= Aamax) Then 'Is it better than the best so far?
-                        imax = i
-                        Aamax = dum
-                    End If
-                Next
-
-                If j <> imax Then 'Do we need to interchange rows?
-                    For k = 0 To n 'Yes, do so...
-                        dum = a(imax, k)
-                        a(imax, k) = a(j, k)
-                        a(j, k) = dum
-                    Next
-                    d = -d '...and change the parity of d.
-                    VV(imax) = VV(j) 'Also interchange the scale factor.
-                End If
-
-                indx(j) = imax
-                If a(j, j) = 0.0 Then a(j, j) = tiny
-                'If the pivot element is zero the matrix is singular (at least to the precision of the algorithm).
-                'For some applications on singular matrices, it is desirable to substitute TINY for zero.
-                If j <> n Then 'Now, finally, divide by the pivot element.
-                    dum = 1.0 / a(j, j)
-                    For i = j + 1 To n
-                        a(i, j) = a(i, j) * dum
-                    Next
-                End If
-            Next j
-
-            LUout.LUindex = indx
-            LUout.LUdecomp = a
-            LUdecomp = LUout
+            Dim coreResult As MatrixFactorizationCore.LUDecompositionResult = MatrixFactorizationCore.LUDecompose(mat, d, iErr)
+            Return New LUdecompOutput With {
+                    .LUdecomp = coreResult.Factors,
+                    .LUindex = coreResult.PivotIndices
+                }
         End Function
 
         ''' <summary>
@@ -1387,42 +1020,11 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Function LUbacksub(LU As LUdecompOutput, RighthandSideVector() As Double) As Double()
-            Dim j As Integer, LL As Integer, sum As Double
-            Dim LUA(,) As Double = LU.LUdecomp
-            Dim indx() As Double = LU.LUindex
-            Dim b() As Double = RighthandSideVector
-            Dim n As Integer = LUA.GetUpperBound(0)
-
-            If n <> LUA.GetUpperBound(1) And n <> UBound(indx) And n <> b.GetUpperBound(0) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Wrong input matrices dimensions."))
-
-            Dim ii As Integer = -1
-            'When ii is set to a positive value, it will become the index of the 1st nonvanishing element of b. We now do
-            'the forward substitution, equation (2.3.6). The only new wrinkle is to unscramble the permutation as we go.
-            For i As Integer = 0 To n
-                LL = indx(i)
-                sum = b(LL)
-                b(LL) = b(i)
-                If ii <> -1 Then
-                    For j = ii To i - 1
-                        sum -= LUA(i, j) * b(j)
-                    Next
-                ElseIf sum <> 0 Then
-                    ii = i
-                    'A nonzero element was encountered, so from now on we will
-                    'have to do the sums in the loop above.
-                End If
-                b(i) = sum
-            Next
-
-            For i As Integer = n To 0 Step -1 'Now we do the backsubstitution, equation (2.3.7).
-                sum = b(i)
-                For j = i + 1 To n
-                    sum -= LUA(i, j) * b(j)
-                Next
-                b(i) = sum / LUA(i, i)
-                'Store a component of the solution vector X.
-            Next
-            Return b
+            Dim coreResult As New MatrixFactorizationCore.LUDecompositionResult With {
+                     .Factors = LU.LUdecomp,
+                     .PivotIndices = LU.LUindex
+                }
+            Return MatrixFactorizationCore.LUSolve(coreResult, RighthandSideVector)
         End Function
 
 
@@ -1463,24 +1065,7 @@ Namespace Matrix
         ''' </para>
         ''' </remarks>
         Public Function MDeterm(matrix As Double(,)) As Double
-            Dim n As Integer = matrix.GetLength(0)
-            If n <> matrix.GetLength(1) Then Return Double.NaN
-            Dim d As Double = 1.0
-            Dim iErr As Integer = 0
-
-            ' Perform LU decomposition using your existing routine
-            Dim LU As LUdecompOutput = LUdecomp(matrix, d, iErr)
-
-            ' If LUdecomp flagged a singular matrix, return 0 (Excel behavior)
-            If iErr <> 0 Then Return 0.0
-            Dim det As Double = d
-
-            ' Multiply diagonal elements of U
-            For i As Integer = 0 To n - 1
-                det *= LU.LUdecomp(i, i)
-            Next
-
-            Return det
+            Return MatrixFactorizationCore.Determinant(matrix)
         End Function
 
 
@@ -1514,72 +1099,23 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Public Function IdentityMat(n As Integer) As Double(,)
-            Dim out(n, n) As Double
-            For i = 0 To n
-                out(i, i) = 1.0
-            Next
-            Return out
+            Return MatrixArithmeticCore.IdentityMatrix(n)
         End Function
 
         Public Function VectorNorm(x() As Double) As Double
-            If x Is Nothing Then Return Double.NaN
-
-            Dim s As Double = 0.0
-            For i As Integer = 0 To x.Length - 1
-                s += x(i) * x(i)
-            Next
-            Return Math.Sqrt(s)
+            Return MatrixArithmeticCore.VectorNorm(x)
         End Function
 
         Public Function MatrixIsFinite(a(,) As Double) As Boolean
-            If a Is Nothing Then Return False
-            For r As Integer = 0 To a.GetLength(0) - 1
-                For c As Integer = 0 To a.GetLength(1) - 1
-                    If Not AppInfrastructure.IsFinite(a(r, c)) Then Return False
-                Next
-            Next
-            Return True
+            Return MatrixArithmeticCore.MatrixIsFinite(a)
         End Function
 
         Public Function VectorIsFinite(values() As Double) As Boolean
-            If values Is Nothing Then Return False
-            For Each value As Double In values
-                If Not AppInfrastructure.IsFinite(value) Then Return False
-            Next
-            Return True
+            Return MatrixArithmeticCore.VectorIsFinite(values)
         End Function
 
         Public Function MatrixIsFiniteAndSymmetric(a(,) As Double, tolerance As Double, ByRef message As String) As Boolean
-            message = String.Empty
-
-            If a Is Nothing Then
-                message = "matrix is Nothing."
-                Return False
-            End If
-
-            If a.GetLength(0) <> a.GetLength(1) Then
-                message = "matrix is not square."
-                Return False
-            End If
-
-            Dim n As Integer = a.GetLength(0)
-
-            For r As Integer = 0 To n - 1
-                For c As Integer = 0 To n - 1
-                    Dim v As Double = a(r, c)
-                    If Not AppInfrastructure.IsFinite(v) Then
-                        message = "matrix contains a non-finite value at (" & r.ToString() & ", " & c.ToString() & ")."
-                        Return False
-                    End If
-
-                    If Math.Abs(v - a(c, r)) > tolerance Then
-                        message = "matrix is not symmetric within tolerance at (" & r.ToString() & ", " & c.ToString() & ")."
-                        Return False
-                    End If
-                Next
-            Next
-
-            Return True
+            Return MatrixArithmeticCore.MatrixIsFiniteAndSymmetric(a, tolerance, message)
         End Function
 
         ''' <summary>
@@ -1616,11 +1152,7 @@ Namespace Matrix
         ''' </code>
         ''' </remarks>
         Public Function IdentityVect(n As Integer, Optional val As Double = 1) As Double()
-            Dim out(n) As Double
-            For i = 0 To n
-                out(i) = val
-            Next
-            Return out
+            Return MatrixArithmeticCore.ConstantVector(n, val)
         End Function
 
         ''' <summary>
@@ -1692,82 +1224,7 @@ Namespace Matrix
                                Optional method As String = "LU",
                                ByRef Optional iErr As Integer = 0,
                                Optional bPseudInverse As Boolean = True) As Double(,)
-
-            Dim n As Integer = mat.GetUpperBound(0)
-            If n <> mat.GetUpperBound(1) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Wrong input matrices dimensions."))
-            Dim out(n, n) As Double
-            Dim matCopy(,) As Double = DirectCast(mat.Clone(), Double(,))
-            Dim methodNorm As String = method.ToUpper.Trim
-
-            If methodNorm = "LU" Then
-                Dim d As Double
-                Dim decomp = LUdecomp(matCopy, d, iErr)
-                For j = 0 To n 'Find inverse by columns.
-                    Dim vect1(n) As Double
-                    vect1(j) = 1
-                    Dim arTemp = LUbacksub(decomp, vect1)
-                    For i = 0 To n
-                        out(i, j) = arTemp(i)
-                    Next
-                Next
-
-            ElseIf methodNorm = "CHOL" Then
-                Dim ch = Cholesky(matCopy, iErr)
-                If iErr = 2 Then
-                    If bPseudInverse Then
-                        'try pseudoinverse
-                        AppInfrastructure.CoreServices.Log($"WARNING: CHOLESKY. mat not positive-definite. Calling pseudoInverse. mat={array2str(matCopy)}", AppInfrastructure.LogMsgType.Warn)
-                        out = pseudoInverse(matCopy)
-                        AppInfrastructure.CoreServices.Log($"NOTE: pseudoInverse output ={array2str(out)}")
-                    Else
-                        CoreServices.Errors.LogAndThrow(New ApplicationException("MatrixType not positive definite"))
-                    End If
-                Else
-                    out = CholInv(ch)
-                End If
-
-            ElseIf methodNorm = "SVD" Then
-                'Strict SVD inverse for square, full-rank matrices only.
-                'This branch does NOT return a pseudoinverse.
-                'If any singular value is numerically zero, the matrix is treated as singular
-                'and an exception is raised.
-
-                Dim svd As SVDoutput = SVD_decomp(matCopy)
-                Dim nS As Integer = svd.Wvect.GetUpperBound(0)
-
-                Dim wMax As Double = 0.0
-                For i As Integer = 0 To nS
-                    Dim aw As Double = Math.Abs(svd.Wvect(i))
-                    If aw > wMax Then wMax = aw
-                Next
-                'Numerical rank threshold for Double precision
-                Const MachineEps As Double = 0.00000000000000022204460492503131
-                Dim tol As Double = MachineEps * (nS + 1) * wMax
-
-                'Require full rank for a true inverse
-                For i As Integer = 0 To nS
-                    If Math.Abs(svd.Wvect(i)) <= tol Then
-                        iErr = 1
-                        CoreServices.Errors.LogAndThrow(New ApplicationException(
-                                                        $"Matrix is singular or numerically rank-deficient for strict SVD inverse. " &
-                                                        $"sigma[{i}]={svd.Wvect(i)}, tol={tol}"))
-                    End If
-                Next
-
-                'Build Sigma^{-1}
-                Dim Winv(nS, nS) As Double
-                For i As Integer = 0 To nS
-                    Winv(i, i) = 1.0 / svd.Wvect(i)
-                Next
-
-                'A^{-1} = V * Sigma^{-1} * U^T
-                out = MatrixMult(MatrixMult(svd.V, Winv), trans(svd.U))
-                iErr = 0
-            Else
-                CoreServices.Errors.LogAndThrow(New NotImplementedException("Not implemented error. method = " & method))
-            End If
-
-            Return out
+            Return MatrixDecompositionCore.InvertMatrix(mat, method, iErr, bPseudInverse)
         End Function
 
         ''' <summary>
@@ -1812,38 +1269,7 @@ Namespace Matrix
         ''' Thrown if <paramref name="A"/> is <c>Nothing</c>.
         ''' </exception>
         Public Function pseudoInverse(ByVal A(,) As Double, Optional tol As Double = -1.0) As Double(,)
-            If A Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(A)))
-            Const eps As Double = 0.00000000000000022204460492503131
-
-            ' Work on a copy so the input A is not overwritten by SVD_decomp
-            Dim Acopy As Double(,) = DirectCast(A.Clone(), Double(,))
-            Dim svd As SVDoutput = SVD_decomp(Acopy)
-            Dim n As Integer = svd.Wvect.GetUpperBound(0)
-
-            ' If tol not supplied (tol < 0), choose a standard relative tolerance:
-            ' tol = eps * max(m,n) * max(singular value)
-            If tol < 0.0 Then
-                Dim mRows As Integer = svd.U.GetLength(0)
-                Dim nCols As Integer = svd.U.GetLength(1)
-
-                Dim wMax As Double = 0.0
-                For i As Integer = 0 To n
-                    Dim aw As Double = Math.Abs(svd.Wvect(i))
-                    If aw > wMax Then wMax = aw
-                Next
-
-                tol = eps * Math.Max(mRows, nCols) * wMax
-            End If
-
-            ' Build W^+ (diagonal)
-            Dim Wplus(n, n) As Double
-            For i As Integer = 0 To n
-                Dim wi As Double = svd.Wvect(i)
-                Wplus(i, i) = If(Math.Abs(wi) > tol, 1.0 / wi, 0.0)
-            Next
-
-            ' A^+ = V * W^+ * U^T
-            Return MatrixMult(MatrixMult(svd.V, Wplus), trans(svd.U))
+            Return MatrixDecompositionCore.ComputePseudoInverse(A, tol)
         End Function
 
 
@@ -1901,284 +1327,13 @@ Namespace Matrix
         ''' Thrown when the QR iteration fails to converge (message: <c>"SVD: No convergence!"</c>).
         ''' </exception>
         Function SVD_decomp(ByVal matrix(,) As Double) As SVDoutput
-            Dim SVDout As New SVDoutput()
-            Dim i As Integer, L As Integer, Nm As Integer
-            Dim c As Double, F As Double, H As Double, S As Double, x As Double, y As Double, z As Double
-            Dim a(,) As Double = DirectCast(matrix.Clone(), Double(,))
-
-            Dim m As Integer = a.GetUpperBound(0)
-            Dim n As Integer = a.GetUpperBound(1)
-
-            Dim W(n) As Double, V(n, n) As Double, rv1(n) As Double
-
-            Dim G As Double = 0.0
-            Dim scale_ As Double = 0.0
-            Dim Anorm As Double = 0.0
-
-            ' --- Householder reduction to bidiagonal form ---
-            For i = 0 To n
-                L = i + 1
-                rv1(i) = scale_ * G
-                G = 0.0
-                S = 0.0
-                scale_ = 0.0
-
-                If i <= m Then
-                    For k = i To m
-                        scale_ += Math.Abs(a(k, i))
-                    Next
-                    If scale_ <> 0.0 Then
-                        For k = i To m
-                            a(k, i) /= scale_
-                            S += a(k, i) * a(k, i)
-                        Next
-
-                        F = a(i, i)
-                        If F >= 0 Then G = -Math.Sqrt(S) Else G = Math.Sqrt(S)
-                        H = F * G - S
-                        a(i, i) = F - G
-
-                        For j = L To n
-                            S = 0.0
-                            For k = i To m
-                                S += a(k, i) * a(k, j)
-                            Next
-
-                            ' (This line is correct in NR; the earlier "bug" comment is misleading unless H=0)
-                            F = S / H
-                            For k = i To m
-                                a(k, j) += F * a(k, i)
-                            Next
-                        Next j
-
-                        For k = i To m
-                            a(k, i) = scale_ * a(k, i)
-                        Next
-                    End If
-                End If
-
-                W(i) = scale_ * G
-                G = 0.0
-                S = 0.0
-                scale_ = 0.0
-
-                If i <= m AndAlso i <> n Then
-                    For k = L To n
-                        scale_ += Math.Abs(a(i, k))
-                    Next
-                    If scale_ <> 0.0 Then
-                        For k = L To n
-                            a(i, k) /= scale_
-                            S += a(i, k) * a(i, k)
-                        Next
-
-                        F = a(i, L)
-                        If F >= 0 Then G = -Math.Sqrt(S) Else G = Math.Sqrt(S)
-                        H = F * G - S
-                        a(i, L) = F - G
-
-                        For k = L To n
-                            rv1(k) = a(i, k) / H
-                        Next
-
-                        For j = L To m
-                            S = 0.0
-                            For k = L To n
-                                S += a(j, k) * a(i, k)
-                            Next
-                            For k = L To n
-                                a(j, k) += S * rv1(k)
-                            Next
-                        Next j
-
-                        For k = L To n
-                            a(i, k) = scale_ * a(i, k)
-                        Next
-                    End If
-                End If
-
-                If Anorm < (Math.Abs(W(i)) + Math.Abs(rv1(i))) Then Anorm = Math.Abs(W(i)) + Math.Abs(rv1(i))
-            Next i
-
-            ' --- Accumulation of right-hand transformations ---
-            For i = n To 0 Step -1
-                If i < n Then
-                    If G <> 0.0 Then
-                        For j = L To n
-                            V(j, i) = (a(i, j) / a(i, L)) / G
-                        Next
-
-                        For j = L To n
-                            S = 0.0
-                            For k = L To n
-                                S += a(i, k) * V(k, j)
-                            Next
-                            For k = L To n
-                                V(k, j) += S * V(k, i)
-                            Next
-                        Next
-                    End If
-
-                    For j = L To n
-                        V(i, j) = 0.0
-                        V(j, i) = 0.0
-                    Next
-                End If
-
-                V(i, i) = 1.0
-                G = rv1(i)
-                L = i
-            Next i
-
-            ' --- Accumulation of left-hand transformations ---
-            Dim lMin As Integer = Math.Min(m, n)
-            For i = lMin To 0 Step -1
-                L = i + 1
-                G = W(i)
-
-                For j = L To n
-                    a(i, j) = 0.0
-                Next
-
-                If G <> 0.0 Then
-                    G = 1.0 / G
-                    For j = L To n
-                        S = 0.0
-                        For k = L To m
-                            S += a(k, i) * a(k, j)
-                        Next
-                        F = (S / a(i, i)) * G
-                        For k = i To m
-                            a(k, j) += F * a(k, i)
-                        Next
-                    Next
-
-                    For j = i To m
-                        a(j, i) *= G
-                    Next
-                Else
-                    For j = i To m
-                        a(j, i) = 0.0
-                    Next
-                End If
-                a(i, i) += 1.0
-            Next i
-
-            ' --- Diagonalization of the bidiagonal form ---
-            For k = n To 0 Step -1
-                For its = 1 To 100
-                    For L = k To 0 Step -1
-                        Nm = L - 1
-                        If (Math.Abs(rv1(L)) + Anorm) = Anorm Then GoTo SplitOk
-                        If (Math.Abs(W(Nm)) + Anorm) = Anorm Then Exit For
-                    Next
-
-                    c = 0.0
-                    S = 1.0
-
-                    ' FIX 1: Nm must be i-1 inside this loop
-                    For i = L To k
-                        Nm = i - 1
-
-                        F = S * rv1(i)
-                        rv1(i) = c * rv1(i)
-                        If (Math.Abs(F) + Anorm) = Anorm Then Exit For
-
-                        G = W(i)
-                        H = Pythag(F, G)
-                        W(i) = H
-                        H = 1.0 / H
-                        c = (G * H)
-                        S = -(F * H)
-
-                        For j = 0 To m
-                            y = a(j, Nm)
-                            z = a(j, i)
-                            a(j, Nm) = (y * c) + (z * S)
-                            a(j, i) = -(y * S) + (z * c)
-                        Next
-                    Next
-
-SplitOk:
-                    z = W(k)
-                    If L = k Then
-                        If z < 0.0 Then
-                            W(k) = -z
-                            For j = 0 To n
-                                V(j, k) = -V(j, k)
-                            Next
-                        End If
-                        Exit For
-                    End If
-
-                    If its = 30 Then AppInfrastructure.CoreServices.Log("SVD: No convergence!", AppInfrastructure.LogMsgType.Warn)
-
-                    x = W(L)
-                    Nm = k - 1
-                    y = W(Nm)
-                    G = rv1(Nm)
-                    H = rv1(k)
-                    F = ((y - z) * (y + z) + (G - H) * (G + H)) / (2.0 * H * y)
-                    G = Pythag(F, 1.0)
-                    If F >= 0 Then G = Math.Abs(G) Else G = -Math.Abs(G)
-
-                    F = ((x - z) * (x + z) + H * ((y / (F + G)) - H)) / x
-                    c = 1.0
-                    S = 1.0
-
-                    For j = L To Nm
-                        i = j + 1
-                        G = rv1(i)
-                        y = W(i)
-                        H = S * G
-                        G = c * G
-                        z = Pythag(F, H)
-                        rv1(j) = z
-                        c = F / z
-                        S = H / z
-                        F = (x * c) + (G * S)
-                        G = -(x * S) + (G * c)
-                        H = y * S
-                        y = y * c
-
-                        For jj = 0 To n
-                            x = V(jj, j)
-                            z = V(jj, i)
-                            V(jj, j) = (x * c) + (z * S)
-                            V(jj, i) = -(x * S) + (z * c)
-                        Next
-
-                        z = Pythag(F, H)
-                        W(j) = z
-                        If z <> 0.0 Then
-                            z = 1.0 / z
-                            c = F * z
-                            S = H * z
-                        End If
-
-                        F = (c * G) + (S * y)
-                        x = -(S * G) + (c * y)
-
-                        For jj = 0 To m
-                            y = a(jj, j)
-                            z = a(jj, i)
-                            a(jj, j) = (y * c) + (z * S)
-                            a(jj, i) = -(y * S) + (z * c)
-                        Next
-                    Next j
-
-                    rv1(L) = 0.0
-                    rv1(k) = F
-                    W(k) = x
-                Next its
-            Next k
-
-            ' populate result
-            SVDout.Wvect = W
-            SVDout.Wmat = DiagMatFromVector(W)
-            SVDout.V = V
-            SVDout.U = a
-            Return SVDout
+            Dim coreResult As MatrixDecompositionCore.SvdResult = MatrixDecompositionCore.DecomposeSvd(matrix)
+            Return New SVDoutput With {
+                    .U = coreResult.U,
+                    .Wvect = coreResult.SingularValues,
+                    .Wmat = coreResult.SingularValueMatrix,
+                    .V = coreResult.V
+                }
         End Function
 
 
@@ -2360,157 +1515,7 @@ SplitOk:
         ''' </para>
         ''' </remarks>
         Function RegrL(y() As Double, x(,) As Double, bIntcpt As Boolean) As Double(,)
-            Dim ErSS As Double = 0.0
-            Dim Xs(,) As Double
-            AppInfrastructure.CoreServices.Log(MethodBase.GetCurrentMethod.Name & " execution start")
-
-            Dim n As Integer = x.GetUpperBound(0)
-            Dim p As Integer = x.GetUpperBound(1) ' upper bound of predictor columns (before optional intercept)
-            Dim y2d(n, 0) As Double
-
-            If bIntcpt Then ' add intercept
-                p += 1
-                ReDim Xs(n, p)
-
-                For i As Integer = 0 To n
-                    For j As Integer = 0 To p
-                        If j = 0 Then
-                            Xs(i, j) = 1.0
-                        Else
-                            Xs(i, j) = x(i, j - 1)
-                        End If
-                    Next
-                Next
-            Else
-                Xs = DirectCast(x.Clone(), Double(,))
-            End If
-
-            For i As Integer = 0 To n
-                y2d(i, 0) = y(i)
-            Next
-
-            ' ------------------------------------------------------------
-            ' Column scaling around the current strict-SVD solve.
-            '
-            ' Let Xscaled = X * D^{-1}, where D is diagonal with column 2-norms.
-            ' Solve y = Xscaled * gamma, then transform back:
-            '   beta = D^{-1} * gamma
-            '
-            ' Keep the intercept column unscaled.
-            ' ------------------------------------------------------------
-            Dim Xscaled(n, p) As Double
-            Dim colScale(p) As Double
-            Dim invColScale(p) As Double
-
-            For j As Integer = 0 To p
-                If bIntcpt AndAlso j = 0 Then
-                    colScale(j) = 1.0
-                Else
-                    Dim ss As Double = 0.0
-                    For i As Integer = 0 To n
-                        ss += Xs(i, j) * Xs(i, j)
-                    Next
-
-                    colScale(j) = Math.Sqrt(ss)
-
-                    ' Guard against a zero column
-                    If colScale(j) = 0.0 Then colScale(j) = 1.0
-                End If
-
-                invColScale(j) = 1.0 / colScale(j)
-
-                For i As Integer = 0 To n
-                    Xscaled(i, j) = Xs(i, j) * invColScale(j)
-                Next
-            Next
-
-            ' ------------------------------------------------------------
-            ' Solve least squares directly on the scaled design matrix
-            ' using strict SVD pseudoinverse (tol = 0.0 means no truncation).
-            ' ------------------------------------------------------------
-            Dim XplusScaled(,) As Double = pseudoInverse(Xscaled, 0.0)
-            Dim GammaEst(,) As Double = MatrixMult(XplusScaled, y2d)
-
-            ' ------------------------------------------------------------
-            ' Iterative refinement in the scaled parameterization:
-            '   r = y - Xscaled * gamma
-            '   delta = Xscaled^+ * r
-            '   gamma = gamma + delta
-            '
-            ' Use a few more passes for very ill-conditioned problems
-            ' such as Filip.
-            ' ------------------------------------------------------------
-            Const MaxRefineIters As Integer = 6
-
-            For iter As Integer = 1 To MaxRefineIters
-                Dim fitted(,) As Double = MatrixMult(Xscaled, GammaEst)
-                Dim resid(n, 0) As Double
-
-                For i As Integer = 0 To n
-                    resid(i, 0) = y(i) - fitted(i, 0)
-                Next
-
-                Dim delta(,) As Double = MatrixMult(XplusScaled, resid)
-
-                Dim maxAbsGamma As Double = 0.0
-                Dim maxAbsDelta As Double = 0.0
-
-                For j As Integer = 0 To p
-                    GammaEst(j, 0) += delta(j, 0)
-
-                    Dim ag As Double = Math.Abs(GammaEst(j, 0))
-                    Dim ad As Double = Math.Abs(delta(j, 0))
-
-                    If ag > maxAbsGamma Then maxAbsGamma = ag
-                    If ad > maxAbsDelta Then maxAbsDelta = ad
-                Next
-
-                ' Stop only when the correction is extremely small
-                If maxAbsDelta <= 0.00000000000001 * Math.Max(1.0, maxAbsGamma) Then Exit For
-            Next
-
-            ' Transform scaled coefficients gamma back to original coefficients beta
-            Dim ParametersEst(p, 0) As Double
-            For j As Integer = 0 To p
-                ParametersEst(j, 0) = GammaEst(j, 0) * invColScale(j)
-            Next
-
-            ' ------------------------------------------------------------
-            ' Covariance transform:
-            '
-            ' If Xscaled = X * D^{-1}, then
-            '   (X'X)^(-1) = D^{-1} * (Xscaled'Xscaled)^(-1) * D^{-1}
-            '
-            ' For full-column-rank designs:
-            '   (Xscaled'Xscaled)^(-1) = Xscaled^+ * (Xscaled^+)'
-            ' ------------------------------------------------------------
-            Dim XtXinvScaled(,) As Double = MatrixMult(XplusScaled, trans(XplusScaled))
-            Dim XtXinv(p, p) As Double
-
-            For i As Integer = 0 To p
-                For j As Integer = 0 To p
-                    XtXinv(i, j) = XtXinvScaled(i, j) * invColScale(i) * invColScale(j)
-                Next
-            Next
-
-            ' Compute residual sum of squares with refined coefficients on original X
-            Dim fittedFinal(,) As Double = MatrixMult(Xs, ParametersEst)
-            For i As Integer = 0 To n
-                Dim e As Double = y(i) - fittedFinal(i, 0)
-                ErSS += e * e
-            Next
-
-            Dim VarCov(,) As Double = MatrixMult(XtXinv, ErSS / (n - p))
-
-            ' Put together output: coefficients + standard errors
-            Dim out(p, 1) As Double
-            For i As Integer = 0 To p
-                out(i, 0) = ParametersEst(i, 0)
-                out(i, 1) = Math.Sqrt(Math.Max(0.0, VarCov(i, i)))
-            Next
-
-            AppInfrastructure.CoreServices.Log(MethodBase.GetCurrentMethod.Name & " execution end")
-            Return out
+            Return MatrixStatisticsCore.FitLinearRegression(y, x, bIntcpt)
         End Function
 
         ''' <summary>
@@ -2637,15 +1642,7 @@ SplitOk:
         ''' Console.WriteLine(String.Join(", ", subset))
         ''' </example>
         Public Function SubsetArray(Of T)(mat() As T, Optional lStart As Integer = 0, Optional lEnd As Integer = -1) As T()
-            If lEnd = -1 Then lEnd = mat.GetUpperBound(0)
-            If lStart > lEnd Then lStart = lEnd
-            Dim out(lEnd - lStart) As T
-            Dim k As Integer = 0
-            For i = lStart To lEnd
-                out(k) = mat(i)
-                k += 1
-            Next
-            Return out
+            Return ArrayUtilities.Slice(mat, lStart, lEnd)
         End Function
 
         ''' <summary>
@@ -2679,13 +1676,7 @@ SplitOk:
         ''' ' {3, 6}
         ''' </example>
         Public Function trans(Of T)(mat(,) As T) As T(,)
-            Dim out(mat.GetUpperBound(1), mat.GetUpperBound(0)) As T
-            For i = 0 To mat.GetUpperBound(0)
-                For j = 0 To mat.GetUpperBound(1)
-                    out(j, i) = mat(i, j)
-                Next
-            Next
-            Return out
+            Return MatrixArithmeticCore.Transpose(mat)
         End Function
 
         Public Function CloneMatrix(Of T)(mat(,) As T) As T(,)
@@ -2742,19 +1733,7 @@ SplitOk:
         ''' </list>
         ''' </remarks>
         Function MinimalWLS(endog() As Double, exog(,) As Double, weights() As Double) As Double(,)
-            Dim n As Integer = weights.GetUpperBound(0)
-            Dim p As Integer = exog.GetUpperBound(1)
-            Dim w_half(n) As Double, wendog(n) As Double, wexog(n, p) As Double
-
-            For i = 0 To n
-                w_half(i) = If(weights(i) > 0, Math.Sqrt(weights(i)), 0.0)
-                wendog(i) = w_half(i) * endog(i)
-                For j = 0 To p
-                    wexog(i, j) = exog(i, j) * w_half(i)
-                Next
-            Next
-
-            Return RegrL(wendog, wexog, False) 'Fit; false because intercept is already in wexog
+            Return MatrixStatisticsCore.FitWeightedLeastSquares(endog, exog, weights)
         End Function
 
         ''' <summary>
@@ -2808,21 +1787,11 @@ SplitOk:
         ''' </code>
         ''' </remarks>
         Function QRsolve(qr As QRout, b(,) As Double) As Double(,)
-            Dim Qt_b(,) As Double = MatrixMult(trans(qr.Q), b)
-            Dim n As Integer = qr.R.GetUpperBound(0)
-            Dim beta(n, b.GetUpperBound(1)) As Double
-
-            For col As Integer = 0 To b.GetUpperBound(1)
-                For i As Integer = n To 0 Step -1
-                    Dim sum As Double = 0.0
-                    For j As Integer = i + 1 To n
-                        sum += qr.R(i, j) * beta(j, col)
-                    Next
-                    beta(i, col) = (Qt_b(i, col) - sum) / qr.R(i, i)
-                Next
-            Next
-
-            Return beta
+            Dim coreQr As New MatrixDecompositionCore.QrResult With {
+                 .Q = qr.Q,
+                 .R = qr.R
+                }
+            Return MatrixDecompositionCore.SolveQr(coreQr, b)
         End Function
 
         ''' <summary>
@@ -2873,145 +1842,11 @@ SplitOk:
         ''' Thrown when the input matrix is empty or has fewer rows than columns.
         ''' </exception>
         Function QRdecomp(mat(,) As Double, Optional prec As Double = 0.000000000001) As QRout
-            If mat Is Nothing Then
-                CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(mat)))
-            End If
-
-            Dim m As Integer = mat.GetUpperBound(0) + 1
-            Dim n As Integer = mat.GetUpperBound(1) + 1
-
-            If m <= 0 OrElse n <= 0 Then
-                CoreServices.Errors.LogAndThrow(New ArgumentException("Input matrix must be non-empty."))
-            End If
-
-            If m < n Then
-                CoreServices.Errors.LogAndThrow(New ArgumentException("QRdecomp requires rows >= columns (m >= n)."))
-            End If
-
-            Dim out As New QRout
-            Dim R(,) As Double = DirectCast(mat.Clone(), Double(,))
-
-            Dim reflectors As New System.Collections.Generic.List(Of Double())()
-            Dim taus As New System.Collections.Generic.List(Of Double)()
-
-            For k As Integer = 0 To n - 1
-                Dim len As Integer = m - k
-                Dim x(len - 1) As Double
-
-                For i As Integer = 0 To len - 1
-                    x(i) = R(k + i, k)
-                Next
-
-                ' Stable 2-norm of x
-                Dim scale As Double = 0.0
-                Dim ssq As Double = 1.0
-                For i As Integer = 0 To len - 1
-                    Dim ax As Double = Math.Abs(x(i))
-                    If ax <> 0.0 Then
-                        If scale < ax Then
-                            Dim t As Double = If(scale = 0.0, 0.0, scale / ax)
-                            ssq = 1.0 + ssq * t * t
-                            scale = ax
-                        Else
-                            Dim t As Double = ax / scale
-                            ssq += t * t
-                        End If
-                    End If
-                Next
-                Dim normX As Double = If(scale = 0.0, 0.0, scale * Math.Sqrt(ssq))
-
-                Dim v(len - 1) As Double
-                Dim tau As Double = 0.0
-
-                If normX <= prec Then
-                    v(0) = 1.0
-                    reflectors.Add(v)
-                    taus.Add(tau)
-                    Continue For
-                End If
-
-                Array.Copy(x, v, len)
-
-                Dim alpha As Double = x(0)
-                Dim signAlpha As Double = If(alpha >= 0.0, 1.0, -1.0)
-                Dim beta As Double = -signAlpha * normX
-                Dim denom As Double = alpha - beta
-
-                v(0) = 1.0
-                If Math.Abs(denom) > prec Then
-                    For i As Integer = 1 To len - 1
-                        v(i) = v(i) / denom
-                    Next
-                    tau = (beta - alpha) / beta
-                Else
-                    tau = 0.0
-                End If
-
-                reflectors.Add(v)
-                taus.Add(tau)
-
-                If tau <> 0.0 Then
-                    For j As Integer = k To n - 1
-                        Dim dot As Double = 0.0
-                        For i As Integer = 0 To len - 1
-                            dot += v(i) * R(k + i, j)
-                        Next
-                        dot *= tau
-
-                        For i As Integer = 0 To len - 1
-                            R(k + i, j) -= dot * v(i)
-                        Next
-                    Next
-                End If
-
-                R(k, k) = beta
-                For i As Integer = k + 1 To m - 1
-                    R(i, k) = 0.0
-                Next
-            Next
-
-            ' Build thin/economy Q = H0 * H1 * ... * H_{n-1}
-            ' as the first n columns of the full m x m orthogonal factor.
-            '
-            ' Because R is formed by left-applying reflectors to A in forward order,
-            ' Q must be accumulated on the identity in REVERSE order.
-            Dim QThin(m - 1, n - 1) As Double
-            For i As Integer = 0 To m - 1
-                For j As Integer = 0 To n - 1
-                    QThin(i, j) = If(i = j, 1.0, 0.0)
-                Next
-            Next
-
-            For k As Integer = n - 1 To 0 Step -1
-                Dim v() As Double = reflectors(k)
-                Dim tau As Double = taus(k)
-                Dim len As Integer = v.Length
-
-                If tau <> 0.0 Then
-                    For j As Integer = 0 To n - 1
-                        Dim dot As Double = 0.0
-                        For i As Integer = 0 To len - 1
-                            dot += v(i) * QThin(k + i, j)
-                        Next
-                        dot *= tau
-
-                        For i As Integer = 0 To len - 1
-                            QThin(k + i, j) -= dot * v(i)
-                        Next
-                    Next
-                End If
-            Next
-
-            Dim RUpper(n - 1, n - 1) As Double
-            For i As Integer = 0 To n - 1
-                For j As Integer = i To n - 1
-                    RUpper(i, j) = R(i, j)
-                Next
-            Next
-
-            out.Q = QThin
-            out.R = RUpper
-            Return out
+            Dim coreResult As MatrixDecompositionCore.QrResult = MatrixDecompositionCore.DecomposeQr(mat, prec)
+            Return New QRout With {
+                    .Q = coreResult.Q,
+                    .R = coreResult.R
+                }
         End Function
 
         ''' <summary>
@@ -3315,14 +2150,7 @@ SplitOk:
         ''' Console.WriteLine(String.Join(", ", col))
         ''' </example>
         Public Function GetColumnFrom2Darray(Of T)(x(,) As T, nCol As Integer) As T()
-            Dim out(x.GetUpperBound(0)) As T
-            If nCol > x.GetUpperBound(1) Then
-                CoreServices.Errors.LogAndThrow(New ArgumentException("Provided column number is larger than array 2nd dimension."))
-            End If
-            For i = 0 To x.GetUpperBound(0)
-                out(i) = x(i, nCol)
-            Next
-            Return out
+            Return ArrayUtilities.GetColumn(x, nCol)
         End Function
 
         ''' <summary>
@@ -3589,38 +2417,7 @@ SplitOk:
         ''' <param name="mat">An <c>n × p</c> numeric matrix.</param>
         ''' <returns>A <c>p × p</c> sample covariance matrix.</returns>
         Public Function MatCovar(mat(,) As Double) As Double(,)
-            'returns the sample covariance matrix of a given mat (sample matrix becasuse of (n-1) division)
-            'Input Mat (n x p); Returns (p x p) matrix
-
-            Dim S As Double
-            Dim tmp() As Double
-            Dim a(,) As Double = DirectCast(mat.Clone(), Double(,))
-            Dim n As Integer = a.GetLength(0)
-            Dim m As Integer = a.GetLength(1)
-            Dim b(m - 1, m - 1) As Double, xm(m - 1) As Double 'average for each column
-
-            'compute average for each column
-            For j As Integer = 0 To m - 1
-                tmp = GetColumnFrom2Darray(a, j)
-                xm(j) = tmp.Average()
-            Next
-
-            'compute the cross covariance matrix
-            For i As Integer = 0 To m - 1
-                For j As Integer = 0 To m - 1
-                    If j < i Then
-                        b(i, j) = b(j, i)
-                    Else
-                        S = 0
-                        For k As Integer = 0 To n - 1
-                            S += (a(k, i) - xm(i)) * (a(k, j) - xm(j))
-                        Next
-                        If n > 1 Then b(i, j) = S / CDbl(n - 1)
-                    End If
-                Next
-            Next
-
-            Return b
+            Return MatrixStatisticsCore.SampleCovariance(mat)
         End Function
 
         ''' <summary>
@@ -3655,47 +2452,7 @@ SplitOk:
         ''' </code>
         ''' </remarks>
         Function MatDoubleCenter(mat(,) As Double) As Double(,)
-            'returns the double centered MatrixType. It is used to estimate population covariance matrix
-            'from sample covariance matrix. Input Mat (p x p); Returns (p x p) matrix
-            Dim a(,) As Double
-
-            a = mat
-            Dim n As Integer = a.GetUpperBound(0)
-            Dim m As Integer = a.GetUpperBound(1)
-            If n <> m Then CoreServices.Errors.LogAndThrow(New ArgumentException("Input matrix is not square (p x p)"))
-
-            Dim CMeans(n, m) As Double 'average for each column
-            Dim RMeans(n, m) As Double 'average for each row
-            Dim TotMean(n, m) As Double 'all elements will contain total mean
-
-            'compute the column averages
-            For j As Integer = 0 To m
-                Dim tmp() As Double = GetColumnFrom2Darray(a, j)
-                CMeans(0, j) = tmp.Average()
-                For i As Integer = 1 To n
-                    CMeans(i, j) = CMeans(0, j)
-                Next
-            Next
-
-            'compute the row averages
-            For j As Integer = 0 To n
-                Dim tmp() As Double = rowFromArray(a, j)
-                RMeans(j, 0) = tmp.Average()
-                For i As Integer = 1 To m
-                    RMeans(j, i) = RMeans(j, 0)
-                Next
-            Next
-
-            'total mean
-            TotMean(0, 0) = a.Average2D()
-            For j As Integer = 0 To m
-                For i As Integer = 0 To n
-                    TotMean(i, j) = TotMean(0, 0)
-                Next
-            Next
-
-            'compute double centered matrix
-            Return M_ADD(M_SUB(M_SUB(a, CMeans), RMeans), TotMean)
+            Return MatrixStatisticsCore.DoubleCenter(mat)
         End Function
 
         ''' <summary>
@@ -3828,84 +2585,8 @@ SplitOk:
         ''' </code>
         ''' </remarks>
         Function EIGEN_JK(ByVal m(,) As Double, Optional maxiter As Integer = 20, Optional eps As Double = 0.0000000001) As (Double(), Double(,))
-
-            Dim Iter As Integer, Cot2 As Double, tmp As Double, Sin2 As Double, Cos2 As Double, Tan2 As Double
-            Dim a(,) As Double = DirectCast(m.Clone(), Double(,))
-            Dim p As Integer = a.GetUpperBound(0)
-
-            For Iter = 1 To maxiter
-                Dim maxAbsNum As Double = 0.0
-
-                'Orthogonalize pairs of columns in upper off diag
-                For j As Integer = 0 To p - 1
-                    For k As Integer = j + 1 To p
-
-                        Dim Den As Double = 0.0
-                        Dim Num As Double = 0.0
-                        'Perform single plane rotation
-                        For i As Integer = 0 To p
-                            Num += 2.0 * a(i, j) * a(i, k) ': numerator eq. 11
-                            Den += (a(i, j) + a(i, k)) * (a(i, j) - a(i, k)) ': denominator eq. 11
-                        Next
-
-                        maxAbsNum = Math.Max(maxAbsNum, Math.Abs(Num))
-
-                        ' Columns are already orthogonal (no rotation needed)
-                        If Math.Abs(Num) < eps Then Continue For
-
-                        'Perform Rotation
-                        If Math.Abs(Num) <= Math.Abs(Den) Then
-                            Tan2 = Math.Abs(Num) / Math.Abs(Den)      ': eq. 11
-                            Cos2 = 1.0 / Math.Sqrt(1.0 + Tan2 * Tan2) ': eq. 12
-                            Sin2 = Tan2 * Cos2              ': eq. 13
-                        Else
-                            Cot2 = Math.Abs(Den) / Math.Abs(Num)      ': eq. 16
-                            Sin2 = 1.0 / Math.Sqrt(1.0 + Cot2 * Cot2) ': eq. 17
-                            Cos2 = Cot2 * Sin2              ': eq. 18
-                        End If
-
-                        Dim Cos_ As Double = Math.Sqrt((1.0 + Cos2) / 2.0)          ': eq. 14/19
-                        Dim Sin_ As Double = Sin2 / (2.0 * Cos_)            ': eq. 15/20
-
-                        If Den < 0 Then
-                            tmp = Cos_
-                            Cos_ = Sin_                     ': table 21
-                            Sin_ = tmp
-                        End If
-
-                        Sin_ = Math.Sign(Num) * Sin_              ': sign table 21
-
-                        'Rotate
-                        For i As Integer = 0 To p
-                            tmp = a(i, j)
-                            a(i, j) = tmp * Cos_ + a(i, k) * Sin_
-                            a(i, k) = -tmp * Sin_ + a(i, k) * Cos_
-                        Next
-                    Next k
-                Next j
-
-                'Test for convergence
-                If maxAbsNum < eps AndAlso Iter > 1 Then Exit For
-            Next Iter
-
-            If Iter >= maxiter Then AppInfrastructure.CoreServices.Log("JK Iteration has not converged.", AppInfrastructure.LogMsgType.Warn)
-
-            'Compute eigenvalues/eigenvectors
-            Dim EigenVal(p) As Double, EigenVec(p, p) As Double
-            For j As Integer = 0 To p
-                'Compute eigenvalues
-                For k As Integer = 0 To p
-                    EigenVal(j) += a(k, j) * a(k, j)
-                Next
-                EigenVal(j) = Math.Sqrt(EigenVal(j))
-
-                'Normalize eigenvectors
-                For i As Integer = 0 To p
-                    EigenVec(i, j) = If(EigenVal(j) <= 0.0, 0.0, a(i, j) / EigenVal(j))
-                Next
-            Next
-
-            Return (EigenVal, EigenVec)
+            Dim result As MatrixStatisticsCore.EigenResult = MatrixStatisticsCore.EigenJk(m, maxiter, eps)
+            Return (result.Eigenvalues, result.Eigenvectors)
         End Function
 
         ''' <summary>
@@ -3992,4 +2673,5 @@ SplitOk:
         End Function
 
     End Module
+
 End Namespace
