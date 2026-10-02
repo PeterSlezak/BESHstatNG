@@ -2,187 +2,8 @@
 
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 Namespace survival
-
-    ''' <summary>
-    ''' Utility functions for constructing and formatting survival‑analysis data
-    ''' structures, including:
-    ''' <list type="bullet">
-    '''   <item><description>Conversion of <see cref="SurvivalRecord"/> objects to readable text</description></item>
-    '''   <item><description>Conversion of <see cref="SurvivalTableRecord"/> objects to array form</description></item>
-    '''   <item><description>Construction of survival records from raw input vectors</description></item>
-    ''' </list>
-    ''' 
-    ''' These helpers support Kaplan–Meier estimation, log‑rank tests, stratified
-    ''' survival analysis, and downstream reporting.
-    ''' 
-    ''' External dependencies:
-    ''' <list type="bullet">
-    '''   <item><description><c>SurvivalRecord</c> — structure containing time, censoring, group, and stratum</description></item>
-    '''   <item><description><c>SurvivalTableRecord</c> — structure containing survival table row values</description></item>
-    '''   <item><description><c>gLogger</c> — logging utility</description></item>
-    ''' </list>
-    ''' </summary>
-    Public Module Survival
-
-        Public Structure SurvivalTableRecord
-            'sturcture used for the KM tabular output
-            Public Time As Double        ' Time to event or censoring
-            Public Group As Integer      ' Group identifier (e.g., 0 or 1)
-            Public strGroup As String    ' String version of Group ID
-            Public AtRisk As Integer     ' subject at risk in this group at time = me.Time
-            Public Prob As Double        ' survival probability in this group at time = me.Time
-            Public SE As Double          ' standard error of survival probability
-            Public ProbCILL As Double    ' confidence interval lower limit of survival probability
-            Public ProbCIUL As Double    ' confidence interval upper limit of survival probability
-        End Structure
-
-        Public Structure SurvivalRecord
-            'structure representing one Survival item record used in KM and Logrank
-            Public Time As Double        ' Time to event or censoring
-            Public Censorship As Integer ' 1 = event, 0 = censored
-            Public Group As Integer      ' Group identifier (e.g., 0 or 1)
-            Public strGroup As String    ' String version of Group ID
-            Public Stratum As String     ' Stratum identifier for stratified analysis
-            Public strStratum As String  ' String version of Strata ID
-            Public Covariates As Double() 'for Cox PH model
-            Public Index As Integer      'variable that uniquely identify the record.
-        End Structure
-
-        ''' <summary>
-        ''' Converts a <see cref="SurvivalRecord"/> into a human‑readable string
-        ''' summarizing:
-        ''' <list type="bullet">
-        '''   <item><description>Event or censoring time</description></item>
-        '''   <item><description>Censoring indicator (0 = censored, 1 = event)</description></item>
-        '''   <item><description>Numeric and string group identifiers</description></item>
-        '''   <item><description>Numeric and string stratum identifiers</description></item>
-        ''' </list>
-        ''' </summary>
-        ''' <param name="x">The survival record to convert.</param>
-        ''' <returns>A formatted string describing the record.</returns>
-        Public Function survivalRecord2str(x As SurvivalRecord) As String
-            Return $"Time:{x.Time}; censor:{x.Censorship}; group:{x.Group}; strGroup:{x.strGroup}; strata:{x.Stratum}; strStrata:{x.strStratum}"
-        End Function
-
-        ''' <summary>
-        ''' Converts a list of <see cref="SurvivalRecord"/> objects into a
-        ''' multi‑line string, one record per line.
-        ''' Useful for debugging and logging survival data structures.
-        ''' </summary>
-        ''' <param name="x">List of survival records.</param>
-        ''' <returns>A multi‑line string representation of the list.</returns>
-        Public Function survRecList2str(x As List(Of SurvivalRecord)) As String
-            Dim s As String = survivalRecord2str(x(0))
-            For i = 1 To x.Count - 1
-                s &= vbNewLine & survivalRecord2str(x(i))
-            Next
-            Return s
-        End Function
-
-        ''' <summary>
-        ''' Converts a <see cref="SurvivalTableRecord"/> into an object array
-        ''' suitable for table output or grid display.
-        ''' 
-        ''' The returned array contains:
-        ''' <list type="number">
-        '''   <item><description>Event time</description></item>
-        '''   <item><description>Group label</description></item>
-        '''   <item><description>Number at risk</description></item>
-        '''   <item><description>Estimated survival probability</description></item>
-        '''   <item><description>Standard error</description></item>
-        '''   <item><description>Lower confidence limit</description></item>
-        '''   <item><description>Upper confidence limit</description></item>
-        ''' </list>
-        ''' </summary>
-        ''' <param name="x">A survival table record.</param>
-        ''' <returns>An array of values representing the record.</returns>
-        Public Function SurvivalTableRecord2array(x As SurvivalTableRecord) As Object()
-            Return {x.Time, x.strGroup, x.AtRisk, x.Prob, x.SE, x.ProbCILL, x.ProbCIUL}
-        End Function
-
-        ''' <summary>
-        ''' Constructs a list of <see cref="SurvivalRecord"/> objects from
-        ''' parallel input vectors:
-        ''' <list type="bullet">
-        '''   <item><description><paramref name="t"/> — event or censoring times</description></item>
-        '''   <item><description><paramref name="s"/> — censoring indicators (0 = censored, 1 = event)</description></item>
-        '''   <item><description><paramref name="g"/> — group labels</description></item>
-        '''   <item><description><paramref name="strat"/> — stratum labels</description></item>
-        ''' </list>
-        ''' 
-        ''' Each record is assigned:
-        ''' <list type="bullet">
-        '''   <item><description>Time</description></item>
-        '''   <item><description>Censorship indicator</description></item>
-        '''   <item><description>Group index (based on distinct group labels)</description></item>
-        '''   <item><description>Stratum index (based on distinct stratum labels)</description></item>
-        ''' </list>
-        ''' 
-        ''' Validation rules:
-        ''' <list type="bullet">
-        '''   <item><description>All input arrays must have equal length</description></item>
-        '''   <item><description>Times must be ≥ 0</description></item>
-        '''   <item><description>Censoring indicators must be 0 or 1</description></item>
-        ''' </list>
-        ''' 
-        ''' On validation failure, the function returns <c>Nothing</c> and sets
-        ''' <paramref name="strErr"/> with a descriptive message.
-        ''' </summary>
-        ''' <param name="t">Event or censoring times.</param>
-        ''' <param name="s">Censoring indicators (0/1).</param>
-        ''' <param name="g">Group labels.</param>
-        ''' <param name="strat">Stratum labels.</param>
-        ''' <param name="strErr">Output parameter containing error message if validation fails.</param>
-        ''' <returns>
-        ''' A list of <see cref="SurvivalRecord"/> objects, or <c>Nothing</c> on error.
-        ''' </returns>
-        Public Function CreatSurvivalData(t() As Double, s() As Integer, g() As String, strat() As String, ByRef strErr As String) As List(Of SurvivalRecord)
-            Dim out = New List(Of SurvivalRecord)
-
-            If t.Length <> s.Length Or t.Length <> g.Length Or t.Length <> strat.Length Then
-                strErr = "Invalid input dimensions"
-                CoreServices.Log(strErr)
-                Return Nothing
-            End If
-
-
-            Dim grpIds = g.Distinct().ToList()
-            Dim stratumIds = strat.Distinct().ToList()
-
-            'build list of individual survivalRecords
-            Dim n As Integer = t.Length
-            For i = 0 To n - 1
-                Dim sr As New SurvivalRecord
-                If t(i) < 0 Then
-                    strErr = "Unexpected time value (values less then zero are expected) but got = " & CStr(s(i))
-                    CoreServices.Log(strErr)
-                    Return Nothing
-                End If
-
-                If s(i) < 0 Or s(i) > 1 Then
-                    strErr = "Unexpected censoring indictor (0/1 values are expected) but got = " & CStr(s(i))
-                    CoreServices.Log(strErr)
-                    Return Nothing
-                End If
-
-                sr.Time = t(i)
-                sr.Censorship = s(i)
-                sr.strGroup = g(i)
-                sr.Group = grpIds.IndexOf(g(i))
-                sr.strStratum = strat(i)
-                sr.Stratum = stratumIds.IndexOf(strat(i))
-
-                out.Add(sr)
-            Next
-
-            Return out
-        End Function
-
-    End Module
-
 
     ''' <summary>
     ''' Implements Kaplan–Meier survival estimation, log‑rank tests (with multiple
@@ -211,7 +32,7 @@ Namespace survival
     '''   <item><description><c>gLogger</c> — logging utility</description></item>
     ''' </list>
     ''' </summary>
-    Public Class Survival_KM_LR
+    Partial Public Class Survival_KM_LR
 
         ''' <summary>Raw survival records (time, censoring, group, stratum).</summary>
         Private pRecords As List(Of SurvivalRecord)
@@ -326,8 +147,8 @@ Namespace survival
             If Me.pBrookmeyerCrowleyMedianTestResult IsNot Nothing Then
                 t = New ResultTable
                 t.SetBody({{"Chi2", Me.pBrookmeyerCrowleyMedianTestResult.TestStatistics1},
-                          {"df", Me.pBrookmeyerCrowleyMedianTestResult.DF1},
-                          {"Two-sided p-value", Me.pBrookmeyerCrowleyMedianTestResult.Pvalue}})
+                              {"df", Me.pBrookmeyerCrowleyMedianTestResult.DF1},
+                              {"Two-sided p-value", Me.pBrookmeyerCrowleyMedianTestResult.Pvalue}})
                 t.AddPvalueCellToFormat(3, 2)
                 t.AddHeaderTopRow({"Test for Equality of Median Survival Times", ""})
                 out.Add(t)
@@ -337,15 +158,15 @@ Namespace survival
             If LogRankres IsNot Nothing Then
                 t = New ResultTable
                 Lr = {{"Weights", Me.pWeightMethod},
-                  {"Chi-square", LogRankres.TestStatistics1},
-                  {"Two-sided P-value", LogRankres.Pvalue}}
+                      {"Chi-square", LogRankres.TestStatistics1},
+                      {"Two-sided P-value", LogRankres.Pvalue}}
                 t.AddHeaderTopRow({"Log-rank test", ""})
             End If
             If Me.NoGroups = 2 Then
                 If LogRankres IsNot Nothing Then
                     Lr = Matrix.HorizontalStackArrays(Lr,
-                                           {{"Hazard ratio(" & grpIDs(0) & " vs. " & grpIDs(1) & ")", HRres.Estimate},
-                                            {"Approximate " & HRres.CIlabel, HRres.strConfidenceInterval(CIformat.LL_to_UL)}})
+                                               {{"Hazard ratio(" & grpIDs(0) & " vs. " & grpIDs(1) & ")", HRres.Estimate},
+                                                {"Approximate " & HRres.CIlabel, HRres.strConfidenceInterval(CIformat.LL_to_UL)}})
                     t.SetBody(Lr)
                     t.AddPvalueCellToFormat(3, 2)
                     out.Add(t)
@@ -877,7 +698,7 @@ Namespace survival
             ''' Positive if <c>x.Time &gt; y.Time</c>.
             ''' </returns>
             Public Function Compare(x As SurvivalTableRecord, y As SurvivalTableRecord) As Integer _
-            Implements IComparer(Of SurvivalTableRecord).Compare
+                Implements IComparer(Of SurvivalTableRecord).Compare
 
                 Return x.Time.CompareTo(y.Time)
             End Function
@@ -1370,247 +1191,50 @@ Namespace survival
         End Function
 
         ''' <summary>
-        ''' Adds a Kaplan–Meier plot to an Excel worksheet, including:
-        ''' <list type="bullet">
-        '''   <item><description>Step-function survival curves for each group</description></item>
-        '''   <item><description>Censoring markers</description></item>
-        '''   <item><description>Optional confidence limits at level <c>1 - alpha</c></description></item>
-        '''   <item><description>Optional legend and chart title</description></item>
-        ''' </list>
-        ''' 
-        ''' The method uses precomputed KM quantities from:
-        ''' <list type="bullet">
-        '''   <item><description><c>pSurvivalProb</c> — survival probabilities</description></item>
-        '''   <item><description><c>pSEGreenwood</c> — Greenwood standard errors</description></item>
-        '''   <item><description><c>pSortedRecords</c> — sorted survival records</description></item>
-        ''' </list>
-        ''' 
-        ''' Plotting details:
-        ''' <list type="number">
-        '''   <item><description>Constructs step-function curves by duplicating each event time.</description></item>
-        '''   <item><description>Plots censoring markers at the last survival probability before censoring.</description></item>
-        '''   <item><description>Plots upper and lower confidence-limit curves using log-SE transformation.</description></item>
-        '''   <item><description>Applies consistent group-specific colors via <c>GetColor()</c>.</description></item>
-        ''' </list>
-        ''' 
-        ''' External dependencies:
-        ''' <list type="bullet">
-        '''   <item><description><c>KaplanMeierPlotDataPrep</c> — prepares arrays for plotting</description></item>
-        '''   <item><description><c>GetColor</c> — group color selection</description></item>
-        '''   <item><description>Excel interop (<c>Worksheet</c>, <c>Chart</c>, <c>SeriesCollection</c>)</description></item>
-        ''' </list>
+        ''' Returns a host-neutral Kaplan-Meier plotting payload. Excel chart creation is performed
+        ''' by the Windows/Excel adapter layer rather than by this statistical calculation class.
         ''' </summary>
-        ''' <param name="ws">Excel worksheet where the KM plot will be created.</param>
-        ''' <param name="bPlotCI">If <c>True</c>, plots confidence limits at level <c>1 - alpha</c>.</param>
-        ''' <param name="bLegend">If <c>True</c>, includes a legend.</param>
-        ''' <param name="sTitle">Chart title (empty string removes title).</param>
-        ''' <param name="sXaxisUnit">Label for the time axis (e.g., “days”, “months”).</param>
-        ''' <param name="alpha">
-        ''' Optional two-sided significance level used for Kaplan–Meier confidence limits.
-        ''' The default is <c>0.05</c>, corresponding to a 95% confidence interval.
-        ''' </param>
-        Public Sub AddKMplot(ws As Worksheet, bPlotCI As Boolean, bLegend As Boolean, sTitle As String, sXaxisUnit As String, Optional alpha As Double = 0.05)
+        Public Function GetKaplanMeierPlotData(Optional alpha As Double = 0.05) As KaplanMeierPlotData
             Me.pAlpha = alpha
-            Dim bCen As Boolean
-            Dim CenProbability() As Double, CenTimes() As Double, UpCI() As Double, LowCI() As Double, time() As Double, Probability() As Double
+            Dim censorMarkerTime(,) As Double = Nothing
+            Dim censorMarkerProbability(,) As Double = Nothing
+            Dim survivalTime() As Double = Nothing
+            Dim survivalProbability(,) As Double = Nothing
+            Dim lowerConfidenceLimit(,) As Double = Nothing
+            Dim upperConfidenceLimit(,) As Double = Nothing
 
-            Dim n As Integer = Me.pSortedRecords.Count()
+            Me.KaplanMeierPlotDataPrep(censorMarkerProbability,
+                                           censorMarkerTime,
+                                           lowerConfidenceLimit,
+                                           upperConfidenceLimit,
+                                           survivalTime,
+                                           survivalProbability)
 
-            Dim MaxTime() As Double = Me.pSortedRecords.GroupBy(Function(r) r.Group) _
-                                                       .OrderBy(Function(g) g.Key) _
-                                                       .Select(Function(g) g.Max(Function(r) r.Time)).ToList().ToArray()
-
-            'Get data to display in the plot
-            Dim CenMarkersTime(,) As Double = Nothing, CenMarkersProb(,) As Double = Nothing
-            Dim SurvivalTimePlot() As Double = Nothing, SurvivalProbPlot(,) As Double = Nothing
-            Dim LLCI(,) As Double = Nothing, ULCI(,) As Double = Nothing
-            Me.KaplanMeierPlotDataPrep(CenMarkersProb, CenMarkersTime, LLCI, ULCI, SurvivalTimePlot, SurvivalProbPlot)
+            Dim maximumTime() As Double = Me.pSortedRecords.GroupBy(Function(r) r.Group) _
+                                                           .OrderBy(Function(g) g.Key) _
+                                                           .Select(Function(g) g.Max(Function(r) r.Time)).ToArray()
 
             'Get number of censored subjects by group
-            Dim CensoredNo() As Integer = Me.pSortedRecords.Where(Function(r) r.Censorship = 0) _
-                                                          .GroupBy(Function(r) r.Group) _
-                                                          .OrderBy(Function(g) g.Key) _
-                                                          .Select(Function(g) g.Count()).ToArray()
+            Dim censoredCount() As Integer = Me.pSortedRecords.Where(Function(r) r.Censorship = 0) _
+                                                              .GroupBy(Function(r) r.Group) _
+                                                              .OrderBy(Function(g) g.Key) _
+                                                              .Select(Function(g) g.Count()).ToArray()
 
 
-            With ws.Shapes.AddChart
-                With .Chart
-                    .ChartType = XlChartType.xlXYScatterLinesNoMarkers
 
-                    'delete extra series
-                    Do Until .SeriesCollection.Count = 0
-                        .SeriesCollection(1).Delete
-                    Loop
-
-                    With .Axes(XlAxisType.xlValue)
-                        .MinimumScale = 0
-                        .MaximumScale = 1
-                        .MajorUnit = 0.2
-                        .MajorGridlines.Delete
-                    End With
-                    .Axes(XlAxisType.xlCategory).MinimumScale = 0
-
-                    'plot survival plots for each group
-                    For i = 0 To NoGroups - 1
-                        ReDim Probability(UBound(SurvivalProbPlot, 1) + 1), time(UBound(SurvivalProbPlot, 1) + 1)
-                        Probability(0) = 1
-                        time(0) = 0
-                        For j = 0 To UBound(SurvivalProbPlot, 1)
-                            If SurvivalTimePlot(j) <= MaxTime(i) Then
-                                Probability(j + 1) = SurvivalProbPlot(j, i)
-                                time(j + 1) = SurvivalTimePlot(j)
-                            Else
-                                ReDim Preserve Probability(j), time(j)
-                                Exit For
-                            End If
-                        Next
-
-                        .SeriesCollection.NewSeries
-                        With .SeriesCollection(i + 1)
-                            .Name = Me.grpIDs(i)
-                            .XValues = time 'SurvivalTimePlot()
-                            .Values = Probability
-
-                            'Formal.Line.ForeColor.RGB does not work for excel 2007, therefore we use .Border.Color that works OK
-                            'for both excel 2007 as well as 2010
-                            .Border.Color = graphics.GetColor(i + 1)
-                            With .Format.Line
-                                .Visible = True
-                                .ForeColor.TintAndShade = 0
-                                .Weight = 2.25
-                                .ForeColor.Brightness = 0
-                            End With
-                        End With
-                    Next i
-
-                    'plot censoring markers for each group
-                    For i = NoGroups To 2 * NoGroups - 1
-                        If CensoredNo(i - NoGroups) > 0 Then
-                            ReDim CenProbability(CensoredNo(i - NoGroups) - 1), CenTimes(CensoredNo(i - NoGroups) - 1)
-                            bCen = True
-                        Else
-                            ReDim CenProbability(0), CenTimes(0)
-                            bCen = False
-                        End If
-                        For j = 0 To CensoredNo(i - NoGroups) - 1
-                            CenProbability(j) = CenMarkersProb(j, i - NoGroups)
-                            CenTimes(j) = CenMarkersTime(j, i - NoGroups)
-                        Next
-
-                        .SeriesCollection.NewSeries
-                        If bCen Then
-                            With .SeriesCollection(i + 1)
-                                .XValues = CenTimes
-                                .Values = CenProbability
-                                .Name = "Censored " + Me.grpIDs(i - NoGroups)
-
-                                With .Format.Line
-                                    .Visible = True
-                                    .ForeColor.TintAndShade = 0
-                                    .ForeColor.Brightness = 0
-                                End With
-                                .MarkerStyle = 9
-                                .MarkerSize = 5
-                                .ChartType = XlChartType.xlXYScatter
-                                .MarkerForegroundColor = graphics.GetColor(i - NoGroups + 1)
-                            End With
-                        End If
-                    Next i
-
-                    If bPlotCI Then
-                        'plot confidence limits at the selected level
-                        For i = 2 * NoGroups To 3 * NoGroups - 1
-                            'upper limits
-                            ReDim UpCI(UBound(SurvivalProbPlot, 1) + 1), time(UBound(SurvivalTimePlot) + 1)
-                            UpCI(0) = 1
-                            time(0) = 0
-                            For j = 0 To UBound(SurvivalProbPlot, 1)
-                                If SurvivalTimePlot(j) <= MaxTime(i - 2 * NoGroups) Then
-                                    UpCI(j + 1) = ULCI(j, i - 2 * NoGroups)
-                                    time(j + 1) = SurvivalTimePlot(j)
-                                Else
-                                    ReDim Preserve UpCI(j), time(j)
-                                    Exit For
-                                End If
-                            Next
-
-                            .SeriesCollection.NewSeries
-                            With .SeriesCollection(i + 1)
-                                .Name = $"{100.0 * (1.0 - Me.pAlpha):0.##}% CI " + Me.grpIDs(i - 2 * NoGroups)
-                                .XValues = time
-                                .Values = UpCI
-                                .Border.Color = graphics.GetColor(i - 2 * NoGroups + 1)
-                                With .Format.Line
-                                    .Visible = True
-                                    .ForeColor.TintAndShade = 0
-                                    .ForeColor.Brightness = 0
-                                    .Weight = 1
-                                    .DashStyle = 4 'msoLineSysDash
-                                End With
-                            End With
-                        Next i
-
-                        For i = 3 * NoGroups To 4 * NoGroups - 1
-                            'lower limits
-                            ReDim LowCI(UBound(SurvivalProbPlot, 1) + 1), time(UBound(SurvivalTimePlot) + 1)
-                            LowCI(0) = 1
-                            time(0) = 0
-                            For j = 0 To UBound(SurvivalProbPlot, 1)
-                                If SurvivalTimePlot(j) <= MaxTime(i - 3 * NoGroups) Then
-                                    LowCI(j + 1) = LLCI(j, i - 3 * NoGroups)
-                                    time(j + 1) = SurvivalTimePlot(j)
-                                Else
-                                    ReDim Preserve LowCI(j), time(j)
-                                    Exit For
-                                End If
-                            Next
-
-                            .SeriesCollection.NewSeries
-                            With .SeriesCollection(i + 1)
-                                .Name = $"{100.0 * (1.0 - Me.pAlpha):0.##}% CI " + Me.grpIDs(i - 3 * NoGroups)
-                                .XValues = time
-                                .Values = LowCI
-                                .Border.Color = graphics.GetColor(i - 3 * NoGroups + 1)
-                                With .Format.Line
-                                    .Visible = True
-                                    .ForeColor.TintAndShade = 0
-                                    .ForeColor.Brightness = 0
-                                    .Weight = 1
-                                    .DashStyle = 4 'msoLineSysDash
-                                End With
-                            End With
-                        Next i
-                    End If
-
-                    Try
-                        .HasTitle = False
-                        .HasTitle = True
-                        If sTitle <> String.Empty Then .ChartTitle.Text = sTitle
-                        If sTitle = String.Empty Then .HasTitle = False
-                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = False
-                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).HasTitle = True
-                        .Axes(XlAxisType.xlValue, XlAxisGroup.xlPrimary).AxisTitle.text = "Survival Probability"
-                        .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = False
-                        .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).HasTitle = True
-                        .Axes(XlAxisType.xlCategory, XlAxisGroup.xlPrimary).AxisTitle.text = $"Time ({sXaxisUnit})"
-                    Catch
-                    End Try
-
-                    'delete legend for censoring seriescollections
-                    For i = .SeriesCollection.Count To NoGroups + 1 Step -1
-                        .Legend.LegendEntries(i).Delete
-                    Next
-
-                    'If there is only one group, then delete whole legend
-                    If NoGroups = 1 Or Not bLegend Then
-                        Try
-                            .Legend.Delete()
-                        Catch
-                        End Try
-                    End If
-                End With
-            End With
-        End Sub
+            Return New KaplanMeierPlotData With {
+                     .Alpha = alpha,
+                     .GroupLabels = Me.grpIDs.ToArray(),
+                     .MaximumTimeByGroup = maximumTime,
+                     .CensoredCountByGroup = censoredCount,
+                     .CensorMarkerProbability = censorMarkerProbability,
+                     .CensorMarkerTime = censorMarkerTime,
+                     .LowerConfidenceLimit = lowerConfidenceLimit,
+                     .UpperConfidenceLimit = upperConfidenceLimit,
+                     .SurvivalTime = survivalTime,
+                     .SurvivalProbability = survivalProbability
+                }
+        End Function
 
         ''' <summary>
         ''' Prepares all arrays required for Kaplan–Meier plotting, including:
@@ -1658,18 +1282,18 @@ Namespace survival
         ''' <param name="SurvivalTimePlot">Output: duplicated time points for step curves.</param>
         ''' <param name="SurvivalProbPlot">Output: survival probabilities for each group.</param>
         Private Sub KaplanMeierPlotDataPrep(ByRef CenMarkersProb(,) As Double, ByRef CenMarkersTime(,) As Double,
-                                            ByRef LLCI(,) As Double, ByRef ULCI(,) As Double,
-                                            ByRef SurvivalTimePlot() As Double, ByRef SurvivalProbPlot(,) As Double)
+                                                ByRef LLCI(,) As Double, ByRef ULCI(,) As Double,
+                                                ByRef SurvivalTimePlot() As Double, ByRef SurvivalProbPlot(,) As Double)
             Dim k As Integer
             Dim n As Integer = Me.pSortedRecords.Count()
             Dim MaxTime() As Double = Me.pSortedRecords.GroupBy(Function(r) r.Group) _
-                                                       .OrderBy(Function(g) g.Key) _
-                                                       .Select(Function(g) g.Max(Function(r) r.Time)).ToList().ToArray()
+                                                           .OrderBy(Function(g) g.Key) _
+                                                           .Select(Function(g) g.Max(Function(r) r.Time)).ToList().ToArray()
             'Get number of censored subjects by group
             Dim CensoredNo() As Integer = Me.pSortedRecords.Where(Function(r) r.Censorship = 0) _
-                                                          .GroupBy(Function(r) r.Group) _
-                                                          .OrderBy(Function(g) g.Key) _
-                                                          .Select(Function(g) g.Count()).ToArray()
+                                                              .GroupBy(Function(r) r.Group) _
+                                                              .OrderBy(Function(g) g.Key) _
+                                                              .Select(Function(g) g.Count()).ToArray()
 
             Dim z As Double = distributions.ZCritTwoSided(Me.pAlpha)
             Dim LogSE = Me.SurvivalCurveLogSE()
@@ -1804,8 +1428,8 @@ Namespace survival
         Private Sub SurvivalProbability()
 
             Me.pSortedRecords = pRecords.OrderBy(Function(r) r.Time) _
-                                       .ThenByDescending(Function(r) r.Censorship) _
-                                       .ThenBy(Function(r) r.Group).ToList()
+                                           .ThenByDescending(Function(r) r.Censorship) _
+                                           .ThenBy(Function(r) r.Group).ToList()
 
             Dim n As Integer = pSortedRecords.Count()
 

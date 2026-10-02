@@ -122,6 +122,21 @@ Public Class Survival_Tests
         Assert.AreEqual(9, second.AtRisk, "AtRisk at 2nd event (group 0)")
     End Sub
 
+    <TestMethod>
+    Public Sub KM_plot_payload_is_host_neutral_and_dimensionally_aligned()
+        Dim recs = LoadSurvivalCsv("survival_dataset_2group.csv")
+        Dim km = NewKm(recs)
+
+        Dim plotData As survival.KaplanMeierPlotData = km.GetKaplanMeierPlotData(0.05)
+
+        Assert.IsNotNull(plotData)
+        Assert.AreEqual(2, plotData.GroupLabels.Length)
+        Assert.AreEqual(plotData.SurvivalTime.Length, plotData.SurvivalProbability.GetLength(0))
+        Assert.AreEqual(plotData.GroupLabels.Length, plotData.SurvivalProbability.GetLength(1))
+        Assert.AreEqual(plotData.GroupLabels.Length, plotData.MaximumTimeByGroup.Length)
+        Assert.AreEqual(0.05, plotData.Alpha, 0.0)
+    End Sub
+
 
     <TestMethod>
     Public Sub WeightedLogRank_all_methods_match_reference()
