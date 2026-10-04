@@ -27,7 +27,7 @@ Public Class DescriptiveStat
     Private pRange As Double
     Private pSWstat As Double = Double.NaN
     Private pSWPvalue As Double = Double.NaN
-    Sub New(x() As Double)
+    Public Sub New(x() As Double)
         pData = x
     End Sub
 
@@ -223,7 +223,7 @@ Public Class DescriptiveStat
         Return out
     End Function
 
-    Sub compute(Optional bShapiroWilk As Boolean = True)
+    Public Sub compute(Optional bShapiroWilk As Boolean = True)
 
         Dim Quartiles As udQuartiles, arData() As Double
         Dim strErrTmp As String = String.Empty, SWout = New TestResult
@@ -248,12 +248,12 @@ Public Class DescriptiveStat
         pRange = pMaximum - pMinimum
         If pValidN > 1 Then pVariance = variance(pData)
         If pValidN > 1 Then pSD = stDev(pData)
-        If pValidN > 0 Then pSEM = pSD / Math.Sqrt(CDbl(pValidN))
+        If pValidN > 0 Then pSEM = pSD / Math.Sqrt(pValidN)
         If pMean <> 0 Then pCoefficientofVariation = pSD / pMean
 
         'Compute Shapiro-Wilk test
         If pValidN > 3 And pValidN < 5000 And bShapiroWilk = True Then
-            SWout = assumptions.ShapiroWilk(arData, strErrTmp)
+            SWout = BESHStatNG.assumptions.ShapiroWilk(arData, strErrTmp)
             pSWstat = SWout.TestStatistics1
             pSWPvalue = SWout.Pvalue
         Else

@@ -2613,9 +2613,8 @@ Namespace Matrix
         ''' </returns>
         ''' <remarks>
         ''' <para>
-        ''' For Pearson correlation (<c>strCorrTyp = "r"</c>), the function uses Excel’s
-        ''' <see cref="Correl"/> and <c>T_Dist_2T</c>
-        ''' to compute correlation and two-tailed significance.
+        ''' For Pearson correlation (<c>strCorrTyp = "r"</c>), the host-neutral Core implementation
+        ''' uses the shared correlation and Student-t distribution routines to compute the coefficient and significance.
         ''' </para>
         ''' 
         ''' <para>
@@ -2636,40 +2635,8 @@ Namespace Matrix
         ''' No missing-value handling is performed; the caller must pre-clean the data.
         ''' </para>
         ''' </remarks>
-        Function CorrelMatrix(InputData(,) As Double, strCorrTyp As String) As Double(,)
-
-            Dim n As Integer = InputData.GetLength(0)
-            Dim NoVar As Integer = InputData.GetLength(1)
-            Dim corrmat(NoVar - 1, NoVar - 1) As Double
-
-            For i As Integer = 0 To NoVar - 1
-                Dim temp1() As Double = GetColumnFrom2Darray(InputData, i)
-
-                For j As Integer = 0 To NoVar - 1
-                    If i >= j Then
-                        Dim temp2() As Double = GetColumnFrom2Darray(InputData, j)
-
-                        If strCorrTyp = "r" Then
-                            corrmat(j, i) = Correl(temp1, temp2)
-                            If i <> j Then
-                                corrmat(i, j) = distributions.T_2T(Math.Abs((corrmat(j, i) * Math.Sqrt(n - 2) / (1.0 - Math.Sqrt(corrmat(j, i) ^ 2)))), CDbl(n))
-                            End If
-                        ElseIf strCorrTyp = "rho" Then
-                            Dim s = New nonparametric.SpearmanRho(temp1, temp2, "x", "pY")
-                            s.Compute()
-                            corrmat(i, j) = s.pvalue
-                            corrmat(j, i) = s.correlCoef
-                        ElseIf strCorrTyp = "tau" Then
-                            Dim tau = New nonparametric.KendallsTau(temp1, temp2, "x", "pY")
-                            tau.compute()
-                            corrmat(i, j) = tau.pvalue
-                            corrmat(j, i) = tau.correlCoef
-                        End If
-                    End If
-                Next
-            Next
-
-            Return corrmat
+        Public Function CorrelMatrix(InputData(,) As Double, strCorrTyp As String) As Double(,)
+            Return CorrelationMatrixCore.Compute(InputData, strCorrTyp)
         End Function
 
     End Module

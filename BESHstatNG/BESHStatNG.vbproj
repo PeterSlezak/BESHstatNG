@@ -116,7 +116,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="src\AppInfrastructure\ExcelDnaHostInfrastructure.vb" />
-    <Compile Include="src\BaseStat\StatFunc.vb" />
     <Compile Include="src\AppInfrastructure\AppGlobals.vb" />
     <Compile Include="src\DM\DataObjContracts.vb" />
     <Compile Include="src\DM\ExcelDnaDataImporter.vb" />
@@ -252,7 +251,6 @@
     <Compile Include="src\StatTests\Agreement\AgreementLinConcordance.vb" />
     <Compile Include="src\StatTests\Agreement\AgreementWeightedDeming.vb" />
     <Compile Include="src\StatTests\Agreement\AgreementWeightedKappa.vb" />
-    <Compile Include="src\StatTests\Assumptions.vb" />
     <Compile Include="src\StatTests\EquivalenceNoninferiorityMethods.vb" />
     <Compile Include="src\StatTests\PropensityScoreMatching\PSMadvancedDiagnosticsInference.vb" />
     <Compile Include="src\StatTests\PropensityScoreMatching\PSMadvancedMatching.vb" />
@@ -607,6 +605,9 @@
       <Project>{3ec64692-7b74-413e-bac6-f53a813c9d77}</Project>
       <Name>BESHStat.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\BaseStat\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Imports System.Text
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports BESHStatNG
@@ -393,13 +393,13 @@ Public Class Matrix_Factorization_Tests
         Dim ei = EIGEN_JK(a, maxiter:=5, eps:=0.000000000001)
         ' ei(j,0) holds non-negative values (column norms after orthogonalization).
         ' For a diagonal matrix, these equal the diagonal entries.
-        Dim vals As Double() = ei.item1
+        Dim vals As Double() = ei.Item1
         Array.Sort(vals)
         Assert.AreEqual(2.0, vals(0), 0.000000001)
         Assert.AreEqual(3.0, vals(1), 0.000000001)
 
         ' Eigenvectors should be orthonormal-ish: columns 1..n
-        Dim evecs(,) As Double = ei.item2
+        Dim evecs(,) As Double = ei.Item2
         Dim vt_v = MatrixMult(trans(evecs), evecs)
         AssertMatrixAlmostEqual(IdentityMat(UBound(vt_v, 1)), vt_v, 0.000000001)
     End Sub
@@ -507,6 +507,27 @@ Public Class Matrix_Statistics_Tests
     End Sub
 
     <TestMethod()>
+    Public Sub CorrelMatrix_pearson_preserves_legacy_facade()
+        Dim data(,) As Double = {
+            {1.0, 2.0},
+            {2.0, 1.0},
+            {3.0, 4.0},
+            {4.0, 3.0},
+            {5.0, 6.0},
+            {6.0, 5.0}
+        }
+
+        Dim result = CorrelMatrix(data, "r")
+
+        Assert.AreEqual(1.0, result(0, 0), 0.000000000001)
+        Assert.AreEqual(1.0, result(1, 1), 0.000000000001)
+        Assert.AreEqual(BESHStatNG.StatFunc.Correl(New Double() {1, 2, 3, 4, 5, 6},
+                               New Double() {2, 1, 4, 3, 6, 5}),
+                        result(0, 1), 0.000000000001)
+        Assert.IsTrue(result(1, 0) >= 0.0 AndAlso result(1, 0) <= 1.0)
+    End Sub
+
+    <TestMethod()>
     Public Sub DiagMatFromVector_basic()
         Dim v() As Double = {1, 2, 3}
         Dim d = DiagMatFromVector(v)
@@ -515,3 +536,4 @@ Public Class Matrix_Statistics_Tests
     End Sub
 
 End Class
+

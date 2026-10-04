@@ -1,7 +1,10 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports System
+Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.Matrix
 
 Namespace assumptions
 
@@ -55,11 +58,11 @@ Namespace assumptions
             Dim xi As Double, ASA As Double, XSX As Double, w1 As Double, y As Double, m As Double, S As Double, Gamma As Double
 
             strErr = String.Empty
-            Dim n As Double = data.Length
-            ReDim a(CInt(n)), x(CInt(n))
+            Dim n As Integer = data.Length
+            ReDim a(n), x(n)
             'original code use 1 based arrays. Shift data by 1
             Array.Sort(data)
-            For i = 0 To CInt(n) - 1
+            For i = 0 To n - 1
                 x(i + 1) = data(i)
             Next
 
@@ -69,13 +72,13 @@ Namespace assumptions
             If W >= 0 Then W = 1
 
             Dim an As Double = n
-            Dim n2 As Integer = CInt(n / 2)
+            Dim n2 As Integer = Convert.ToInt32(n / 2.0R)
             Dim nn2 As Integer = n2
 
             If n Mod 2 = 0 Then ' N2 = 1/2N if N is even, 1/2(N-1) if N is odd
-                n2 = CInt(n / 2)
+                n2 = Convert.ToInt32(n / 2.0R)
             Else
-                n2 = CInt((n - 1) / 2)
+                n2 = Convert.ToInt32((n - 1) / 2.0R)
             End If
 
             ' IF N2 < NN2 Then RETURN
@@ -133,7 +136,7 @@ Namespace assumptions
             If W < 0.0 Then w1 = 1.0 + W
 
             ' Check for zero range
-            Dim Range As Double = x(CInt(n)) - x(1)
+            Dim Range As Double = x(n) - x(1)
             If Range < 1.0E-19 Then
                 strErr = "The  data  have  zero  range. For more info see (Remark AS R94)."
                 Return Nothing
@@ -143,8 +146,8 @@ Namespace assumptions
             Dim xx As Double = x(1) / Range
             Dim sx As Double = xx
             Dim SA As Double = -a(1)
-            Dim j As Integer = CInt(n) - 1
-            For i = 2 To CInt(n)
+            Dim j As Integer = n - 1
+            For i = 2 To n
                 xi = x(i) / Range
                 sx += xi
                 If i > j Then ' originaly: if i<> j then SA = SA + SIGN(1, I - J) * A(MIN(I, J))
@@ -167,8 +170,8 @@ Namespace assumptions
             Dim SSA As Double = 0.0
             Dim SSX As Double = 0.0
             Dim SAX As Double = 0.0
-            j = CInt(n)
-            For i = 1 To CInt(n)
+            j = n
+            For i = 1 To n
                 If i > j Then
                     ASA = 1 * a(Math.Min(i, j)) - SA
                 ElseIf i < j Then
@@ -448,11 +451,11 @@ Namespace assumptions
                         tmp(i, j) = Cov_mat(k, i, j)
                     Next
                 Next
-                test_stat += (Math.Log(Matrix.MDeterm(tmp)) * (SampleSizes(k) - 1))
+                test_stat += (Math.Log(MatrixFactorizationCore.Determinant(tmp)) * (SampleSizes(k) - 1))
                 nn += (1.0 / (SampleSizes(k) - 1))
                 nn2 += ((1.0 / (SampleSizes(k) - 1)) ^ 2)
             Next
-            test_stat = (Math.Log(Matrix.MDeterm(cov_pooled)) * (tot - n_grp)) - test_stat
+            test_stat = (Math.Log(MatrixFactorizationCore.Determinant(cov_pooled)) * (tot - n_grp)) - test_stat
             nn -= (1.0 / (tot - n_grp))
             nn2 -= (1.0 / (tot - n_grp)) ^ 2
 
@@ -867,11 +870,11 @@ Namespace assumptions
             Dim NoSub As Integer = arData.GetLength(0)
             Dim NoGroups As Integer = arData.GetLength(1)
 
-            Dim VarCovar(,) As Double = Matrix.MatCovar(arData) 'create variance-covariance matrix
+            Dim VarCovar(,) As Double = MatrixStatisticsCore.SampleCovariance(arData) 'create variance-covariance matrix
             'double center sample var-covar matrix to estimate population var-covar matrix
-            Dim PopVarCovar(,) As Double = Matrix.MatDoubleCenter(VarCovar)
-            Dim eig = Matrix.EIGEN_JK(PopVarCovar) 'calculate eigenvector and eigenvalues
-            Dim Eigenval() As Double = eig.Item1
+            Dim PopVarCovar(,) As Double = MatrixStatisticsCore.DoubleCenter(VarCovar)
+            Dim eig = MatrixStatisticsCore.EigenJk(PopVarCovar) 'calculate eigenvector and eigenvalues
+            Dim Eigenval() As Double = eig.Eigenvalues
 
             Dim Num As Double = 1.0
             For i = 0 To Eigenval.GetUpperBound(0) - 1
@@ -1068,7 +1071,8 @@ Namespace assumptions
         Public Function Rosner(x() As Double, Optional Alpha As Double = 0.05#) As Double()
 
             Dim r(9) As Double, Outliers(9) As Double, Lambda(9) As Double, NoOutliers As Integer
-            Dim Mean As Double, ss As Double, ibig As Double
+            Dim Mean As Double, ss As Double
+            Dim ibig As Integer
             Dim sd As Double, a As Double, p As Double, Tcrit As Double, big As Double, i As Integer
 
             Dim n As Integer = x.Length
@@ -1104,11 +1108,11 @@ Namespace assumptions
                 Next
 
                 r(ii) = big / sd
-                q(CInt(ibig)) = 1
-                Outliers(ii) = x(CInt(ibig))
+                q(ibig) = 1
+                Outliers(ii) = x(ibig)
                 ii += 1
-                sum -= x(CInt(ibig))
-                sums -= x(CInt(ibig)) * x(CInt(ibig))
+                sum -= x(ibig)
+                sums -= x(ibig) * x(ibig)
                 fn -= 1
             Loop
 
