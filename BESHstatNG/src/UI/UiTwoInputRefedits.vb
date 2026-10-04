@@ -338,7 +338,7 @@ Public Class UiTwoInputRefedits
             If useBootstrap Then
                 Me.progressBarExactCalc.Visible = True
                 Me.progressBarExactCalc.Value = 0
-                tt.Fit(Me.progressBarExactCalc)
+                tt.Fit(New AppInfrastructure.WinFormsProgressReporter(Me.progressBarExactCalc))
             Else
                 Me.progressBarExactCalc.Visible = False
                 tt.Fit()
@@ -423,7 +423,7 @@ Public Class UiTwoInputRefedits
             ElseIf useBootstrap Then
                 Me.progressBarExactCalc.Visible = True
                 Me.progressBarExactCalc.Value = 0
-                tt.Fit(Me.progressBarExactCalc)
+                tt.Fit(New AppInfrastructure.WinFormsProgressReporter(Me.progressBarExactCalc))
             Else
                 Me.progressBarExactCalc.Visible = False
                 tt.Fit()
