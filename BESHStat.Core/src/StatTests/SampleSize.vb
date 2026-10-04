@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+
 Imports BESHStatNG.AppInfrastructure
 
 Namespace SampleSizeCalc
@@ -201,7 +202,7 @@ Namespace SampleSizeCalc
             Dim pExperimental As Double
             GetAllocationProportions(controlToExperimentalRatio, pControl, pExperimental)
 
-            Dim requiredEvents As Integer = CInt(Math.Ceiling(CalculateRequiredEventsFromHazardRatio(hazardRatio,
+            Dim requiredEvents As Integer = Convert.ToInt32(Math.Ceiling(CalculateRequiredEventsFromHazardRatio(hazardRatio,
                                                                                                      pControl,
                                                                                                      pExperimental,
                                                                                                      alpha,
@@ -212,9 +213,9 @@ Namespace SampleSizeCalc
             Dim averageEventProportion As Double = (pControl * controlEventProportion) + (pExperimental * experimentalEventProportion)
             ValidateOpenUnitInterval(averageEventProportion, "averageEventProportion")
 
-            Dim totalSubjects As Integer = CInt(Math.Ceiling(requiredEvents / averageEventProportion))
-            Dim experimentalSubjects As Integer = CInt(Math.Ceiling(totalSubjects / (1.0 + controlToExperimentalRatio)))
-            Dim controlSubjects As Integer = CInt(Math.Ceiling(experimentalSubjects * controlToExperimentalRatio))
+            Dim totalSubjects As Integer = Convert.ToInt32(Math.Ceiling(requiredEvents / averageEventProportion))
+            Dim experimentalSubjects As Integer = Convert.ToInt32(Math.Ceiling(totalSubjects / (1.0 + controlToExperimentalRatio)))
+            Dim controlSubjects As Integer = Convert.ToInt32(Math.Ceiling(experimentalSubjects * controlToExperimentalRatio))
 
             Return New LogRankSampleSizeResult With {
                 .RequiredEvents = requiredEvents,
@@ -267,7 +268,7 @@ Namespace SampleSizeCalc
             GetAllocationProportions(controlToExperimentalRatio, pControl, pExperimental)
 
             Dim effectiveVariance As Double = pControl * pExperimental
-            Dim requiredEvents As Integer = CInt(Math.Ceiling(CalculateRequiredEventsFromHazardRatio(hazardRatio,
+            Dim requiredEvents As Integer = Convert.ToInt32(Math.Ceiling(CalculateRequiredEventsFromHazardRatio(hazardRatio,
                                                                                                      pControl,
                                                                                                      pExperimental,
                                                                                                      alpha,
@@ -278,7 +279,7 @@ Namespace SampleSizeCalc
             Dim nSubjects As Integer = 0
             If Not Double.IsNaN(overallEventProportion) Then
                 ValidateOpenUnitInterval(overallEventProportion, NameOf(overallEventProportion))
-                nSubjects = CInt(Math.Ceiling(requiredEvents / overallEventProportion))
+                nSubjects = Convert.ToInt32(Math.Ceiling(requiredEvents / overallEventProportion))
             End If
 
             Return New CoxEventCountPlanningResult With {
@@ -329,12 +330,12 @@ Namespace SampleSizeCalc
             Dim requiredEventsRaw As Double = ((zAlpha + zBeta) * (zAlpha + zBeta)) /
                                               (attenuation * effectiveVariance * logHr * logHr)
 
-            Dim requiredEvents As Integer = CInt(Math.Ceiling(requiredEventsRaw))
+            Dim requiredEvents As Integer = Convert.ToInt32(Math.Ceiling(requiredEventsRaw))
 
             Dim nSubjects As Integer = 0
             If Not Double.IsNaN(overallEventProportion) Then
                 ValidateOpenUnitInterval(overallEventProportion, NameOf(overallEventProportion))
-                nSubjects = CInt(Math.Ceiling(requiredEvents / overallEventProportion))
+                nSubjects = Convert.ToInt32(Math.Ceiling(requiredEvents / overallEventProportion))
             End If
 
             Return New CoxEventCountPlanningResult With {
@@ -679,14 +680,14 @@ Namespace SampleSizeCalc
             Dim crit As Double
 
             Dim nEst As Double = (sd * (distributions.NormSInv(1.0 - alpha / 2.0) + distributions.NormSInv(1.0 - beta)) / diff) ^ 2
-            nEst = RoundUp(nEst, 0)
+            nEst = StatFunc.RoundUp(nEst, 0)
 
-            Dim n As Integer = Int(nEst)
+            Dim n As Integer = Convert.ToInt32(Math.Floor(nEst))
 
             If n > 1 Then
                 For i = 0 To 1000
                     crit = (distributions.T_Inv(alpha / 2, n - 1) + distributions.T_Inv(beta, n - 1)) ^ 2 / (diff / sd) ^ 2
-                    If CDbl(n) > crit Then Exit For
+                    If n > crit Then Exit For
                     n += 1
                 Next
             End If
@@ -727,20 +728,20 @@ Namespace SampleSizeCalc
             Dim crit As Double
 
             Dim nEst As Double = (1.0 + 1.0 / kappa) * (sd * (distributions.NormSInv(1.0 - alpha / 2.0) + distributions.NormSInv(1.0 - beta)) / diff) ^ 2
-            nEst = RoundUp(nEst, 0)
+            nEst = StatFunc.RoundUp(nEst, 0)
 
-            Dim nExperimental As Integer = Int(nEst)
+            Dim nExperimental As Integer = Convert.ToInt32(Math.Floor(nEst))
 
             If nExperimental > 1 Then
                 For i = 0 To 1000
                     crit = (1 + 1 / kappa) * (distributions.T_Inv(alpha / 2, nExperimental * (kappa + 1) - 2) + distributions.T_Inv(beta, nExperimental * (kappa + 1) - 2)) ^ 2 / (diff / sd) ^ 2
-                    If CDbl(nExperimental) > crit Then Exit For
+                    If nExperimental > crit Then Exit For
                     nExperimental += 1
                 Next
             End If
 
             Dim result As New UnpairedTTestSampleSizeResult
-            result.NumberOfControls = Int(nExperimental * kappa)
+            result.NumberOfControls = Convert.ToInt32(Math.Floor(nExperimental * kappa))
             result.NumberOfExperimental = nExperimental
             Return result
         End Function
@@ -769,10 +770,10 @@ Namespace SampleSizeCalc
         ''' </remarks>
         Public Function CalculateSingleProportion(prop As Double, h0Prop As Double, alpha As Double, beta As Double) As SingleProportionSampleSizeResult
             Dim nEst As Double = prop * (1.0 - prop) * ((distributions.NormSInv(1.0 - alpha / 2.0) + distributions.NormSInv(1.0 - beta)) / (prop - h0Prop)) ^ 2
-            nEst = RoundUp(nEst, 0)
+            nEst = StatFunc.RoundUp(nEst, 0)
 
             Dim result As New SingleProportionSampleSizeResult
-            result.NumberOfSubjects = Int(nEst)
+            result.NumberOfSubjects = Convert.ToInt32(Math.Floor(nEst))
             Return result
         End Function
 
@@ -812,16 +813,16 @@ Namespace SampleSizeCalc
             Dim uncorrectedNExperimental As Double = distributions.NormSInv(1.0 - alpha / 2.0) * Math.Sqrt((1.0 + kappa) * pooledProp * (1.0 - pooledProp))
             uncorrectedNExperimental = (uncorrectedNExperimental + (distributions.NormSInv(1.0 - beta) * Math.Sqrt(controlProp * (1.0 - controlProp) + kappa * experimentalProp * (1.0 - experimentalProp)))) ^ 2
             uncorrectedNExperimental = (uncorrectedNExperimental / (experimentalProp - controlProp) ^ 2) / kappa
-            uncorrectedNExperimental = RoundUp(uncorrectedNExperimental, 0)
+            uncorrectedNExperimental = StatFunc.RoundUp(uncorrectedNExperimental, 0)
 
-            Dim uncorrectedExperimental As Integer = Int(uncorrectedNExperimental)
-            Dim correctedNExperimental As Double = (uncorrectedExperimental / 4.0) * (1.0 + Math.Sqrt(1.0 + (2.0 * (kappa + 1.0)) / (CDbl(uncorrectedExperimental) * kappa * Math.Abs(controlProp - experimentalProp)))) ^ 2
-            Dim correctedExperimental As Integer = Int(RoundUp(correctedNExperimental, 0))
+            Dim uncorrectedExperimental As Integer = Convert.ToInt32(Math.Floor(uncorrectedNExperimental))
+            Dim correctedNExperimental As Double = (uncorrectedExperimental / 4.0) * (1.0 + Math.Sqrt(1.0 + (2.0 * (kappa + 1.0)) / (uncorrectedExperimental * kappa * Math.Abs(controlProp - experimentalProp)))) ^ 2
+            Dim correctedExperimental As Integer = Convert.ToInt32(Math.Floor(StatFunc.RoundUp(correctedNExperimental, 0)))
 
             Dim result As New IndependentProportionsSampleSizeResult
-            result.UncorrectedNumberOfControls = Int(uncorrectedExperimental * kappa)
+            result.UncorrectedNumberOfControls = Convert.ToInt32(Math.Floor(uncorrectedExperimental * kappa))
             result.UncorrectedNumberOfExperimental = uncorrectedExperimental
-            result.CorrectedNumberOfControls = Int(correctedExperimental * kappa)
+            result.CorrectedNumberOfControls = Convert.ToInt32(Math.Floor(correctedExperimental * kappa))
             result.CorrectedNumberOfExperimental = correctedExperimental
             Return result
         End Function
@@ -878,14 +879,14 @@ Namespace SampleSizeCalc
             uncorrectedNExperimental = (uncorrectedNExperimental + (zBeta * Math.Sqrt(controlProp * (1.0 - controlProp) + controlToExperimentalRatio * experimentalProp * (1.0 - experimentalProp)))) ^ 2
             uncorrectedNExperimental = (uncorrectedNExperimental / (effectDistance * effectDistance)) / controlToExperimentalRatio
 
-            Dim uncorrectedExperimental As Integer = CInt(Math.Ceiling(uncorrectedNExperimental))
-            Dim correctedNExperimental As Double = (uncorrectedExperimental / 4.0) * (1.0 + Math.Sqrt(1.0 + (2.0 * (controlToExperimentalRatio + 1.0)) / (CDbl(uncorrectedExperimental) * controlToExperimentalRatio * Math.Abs(effectDistance)))) ^ 2
-            Dim correctedExperimental As Integer = CInt(Math.Ceiling(correctedNExperimental))
+            Dim uncorrectedExperimental As Integer = Convert.ToInt32(Math.Ceiling(uncorrectedNExperimental))
+            Dim correctedNExperimental As Double = (uncorrectedExperimental / 4.0) * (1.0 + Math.Sqrt(1.0 + (2.0 * (controlToExperimentalRatio + 1.0)) / (uncorrectedExperimental * controlToExperimentalRatio * Math.Abs(effectDistance)))) ^ 2
+            Dim correctedExperimental As Integer = Convert.ToInt32(Math.Ceiling(correctedNExperimental))
 
             Return New IndependentProportionsSampleSizeResult With {
-                .UncorrectedNumberOfControls = CInt(Math.Ceiling(uncorrectedExperimental * controlToExperimentalRatio)),
+                .UncorrectedNumberOfControls = Convert.ToInt32(Math.Ceiling(uncorrectedExperimental * controlToExperimentalRatio)),
                 .UncorrectedNumberOfExperimental = uncorrectedExperimental,
-                .CorrectedNumberOfControls = CInt(Math.Ceiling(correctedExperimental * controlToExperimentalRatio)),
+                .CorrectedNumberOfControls = Convert.ToInt32(Math.Ceiling(correctedExperimental * controlToExperimentalRatio)),
                 .CorrectedNumberOfExperimental = correctedExperimental
             }
         End Function

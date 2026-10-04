@@ -1,11 +1,11 @@
-Option Explicit On
+﻿Option Explicit On
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports BESHStatNG.SampleSizeCalc
 
 <TestClass()>
 Public Class SampleSizeCalculator_Tests
 
-    Private Const DOUBLE_TOL As Double = 1.0E-8
+    Private Const DOUBLE_TOL As Double = 0.00000001
 
     <TestCategory("SampleSize")>
     <TestMethod()>
@@ -149,8 +149,8 @@ Public Class SampleSizeCalculator_Tests
         Assert.AreEqual(expectedExperimental, result.NumberOfExperimental)
         Assert.AreEqual(expectedTotal, result.TotalNumberOfSubjects)
         Assert.AreEqual(expectedAverageEventProportion, result.AverageEventProportion, DOUBLE_TOL)
-        Assert.AreEqual(CDbl(expectedControls) / expectedTotal, result.ControlAllocationProportion, DOUBLE_TOL)
-        Assert.AreEqual(CDbl(expectedExperimental) / expectedTotal, result.ExperimentalAllocationProportion, DOUBLE_TOL)
+        Assert.AreEqual(Convert.ToDouble(expectedControls) / expectedTotal, result.ControlAllocationProportion, DOUBLE_TOL)
+        Assert.AreEqual(Convert.ToDouble(expectedExperimental) / expectedTotal, result.ExperimentalAllocationProportion, DOUBLE_TOL)
     End Sub
 
     <TestCategory("SampleSize")>
@@ -174,7 +174,7 @@ Public Class SampleSizeCalculator_Tests
     <TestCategory("SampleSize")>
     <TestMethod()>
     <DataRow(0.7#, 1.0#, 0.05#, 0.2#, 0.0#, 0.35#, True, 247, 706, 0.25#)>
-    <DataRow(1.5#, 2.0#, 0.01#, 0.1#, 0.25#, 0.4#, False, 476, 1190, 0.2222222222222222#)>
+    <DataRow(1.5#, 2.0#, 0.01#, 0.1#, 0.25#, 0.4#, False, 476, 1190, 0.22222222222222221#)>
     Public Sub CalculateCoxEventCountBinaryCovariate_matches_reference(hazardRatio As Double,
                                                                         controlToExperimentalRatio As Double,
                                                                         alpha As Double,
@@ -513,3 +513,4 @@ Public Class SampleSizeCalculator_Tests
     End Sub
 
 End Class
+
