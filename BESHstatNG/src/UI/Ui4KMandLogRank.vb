@@ -1,5 +1,6 @@
 ﻿Imports System.Security.Cryptography
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.survival
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui4KMandLogRank

@@ -2,6 +2,7 @@
 Option Strict Off
 
 Imports Microsoft.Office.Interop.Excel
+Imports System.Runtime.CompilerServices
 
 Namespace graphics
 
@@ -225,19 +226,23 @@ End Namespace
 
 Namespace survival
 
-    'Windows-host compatibility surface for the historical Survival_KM_LR.AddKMplot API.
-    'Keeping this partial declaration in the Excel project isolates Interop from the calculation source file.
-    Partial Public Class Survival_KM_LR
+    ''' <summary>
+    ''' Windows-host compatibility extension for the historical <c>Survival_KM_LR.AddKMplot</c> call pattern.
+    ''' The survival calculation type itself lives in BESHStat.Core; all Excel Interop remains here.
+    ''' </summary>
+    Public Module KaplanMeierPlotExcelCompatibility
 
-        Public Sub AddKMplot(ws As Worksheet,
-                             bPlotCI As Boolean,
-                             bLegend As Boolean,
-                             sTitle As String,
-                             sXaxisUnit As String,
-                             Optional alpha As Double = 0.05)
-            graphics.KaplanMeierPlotExcel.Plot(Me, ws, bPlotCI, bLegend, sTitle, sXaxisUnit, alpha)
+        <Extension()>
+        Public Sub AddKMplot(analysis As Survival_KM_LR,
+                         ws As Worksheet,
+                         bPlotCI As Boolean,
+                         bLegend As Boolean,
+                         sTitle As String,
+                         sXaxisUnit As String,
+                         Optional alpha As Double = 0.05)
+            graphics.KaplanMeierPlotExcel.Plot(analysis, ws, bPlotCI, bLegend, sTitle, sXaxisUnit, alpha)
         End Sub
 
-    End Class
+    End Module
 
 End Namespace

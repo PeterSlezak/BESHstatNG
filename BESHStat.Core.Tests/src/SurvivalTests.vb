@@ -1,9 +1,12 @@
-Option Explicit On
+﻿Option Explicit On
+
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports System
 Imports System.IO
 Imports System.Globalization
 Imports System.Collections.Generic
+Imports BESHStatNG
+
 
 <TestClass()>
 Public Class Survival_Tests
@@ -14,19 +17,18 @@ Public Class Survival_Tests
     ' Assumes CSV files are stored under TestData in the test project.
     Private Shared Function GetTestDataPath(fileName As String) As String
         Dim baseDir As String = AppDomain.CurrentDomain.BaseDirectory
-        Dim c1 As String = Path.Combine(baseDir, fileName)
-        If File.Exists(c1) Then Return c1
+        Dim candidates As String() = {
+            Path.Combine(baseDir, fileName),
+            Path.Combine(baseDir, "TestData", "Survival", fileName),
+            Path.GetFullPath(Path.Combine(baseDir, "..", "..", "TestData", "Survival", fileName)),
+            Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "TestData", "Survival", fileName))
+        }
 
-        Dim c2 As String = Path.Combine(baseDir, "TestData", fileName)
-        If File.Exists(c2) Then Return c2
+        For Each candidate As String In candidates
+            If File.Exists(candidate) Then Return candidate
+        Next
 
-        Dim c3 As String = Path.GetFullPath(Path.Combine(baseDir, "..\..\TestData", fileName))
-        If File.Exists(c3) Then Return c3
-
-        Dim c4 As String = Path.GetFullPath(Path.Combine(baseDir, "..\..\..\TestData", fileName))
-        If File.Exists(c4) Then Return c4
-
-        Throw New FileNotFoundException("Test data file not found", fileName)
+        Throw New FileNotFoundException("Survival test data file not found", fileName)
     End Function
 
     Private Shared Sub AssertAlmostEqual(expected As Double, actual As Double, tol As Double, msg As String)
@@ -195,10 +197,10 @@ Public Class Survival_Tests
 
         ' Ensure median is reached for both groups in this dataset
         For r = 0 To ci.GetLength(0) - 1
-            Dim median As Double = CDbl(ci(r, 0))
+            Dim median As Double = Convert.ToDouble(ci(r, 0), Invariant)
             Assert.IsTrue(median > 0, $"Expected median > 0 for row {r}.")
-            Dim lcl As Double = CDbl(ci(r, 1))
-            Dim ucl As Double = CDbl(ci(r, 2))
+            Dim lcl As Double = Convert.ToDouble(ci(r, 1), Invariant)
+            Dim ucl As Double = Convert.ToDouble(ci(r, 2), Invariant)
             Assert.IsTrue(lcl <= median AndAlso median <= ucl, $"Median not within CI for row {r}.")
         Next
     End Sub
@@ -214,7 +216,7 @@ Public Class Survival_Tests
         Assert.IsTrue(out.GetLength(0) >= 2, "Expected multiple time points.")
         ' p-values should be within [0,1]
         For r = 0 To out.GetLength(0) - 1
-            Dim p As Double = CDbl(out(r, 2))
+            Dim p As Double = Convert.ToDouble(out(r, 2), Invariant)
             Assert.IsTrue(p >= 0 AndAlso p <= 1, $"p out of range at row {r}.")
         Next
     End Sub

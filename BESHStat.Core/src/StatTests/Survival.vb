@@ -1,5 +1,6 @@
 ﻿Option Explicit On
 
+Imports System.Globalization
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 
@@ -32,7 +33,7 @@ Namespace survival
     '''   <item><description><c>gLogger</c> — logging utility</description></item>
     ''' </list>
     ''' </summary>
-    Partial Public Class Survival_KM_LR
+    Public Class Survival_KM_LR
 
         ''' <summary>Raw survival records (time, censoring, group, stratum).</summary>
         Private pRecords As List(Of SurvivalRecord)
@@ -56,7 +57,7 @@ Namespace survival
         Private groups As List(Of Integer)
 
         ''' <summary>String labels for groups.</summary>
-        Private grpIDs = New List(Of String)
+        Private grpIDs As New List(Of String)()
 
         ''' <summary>Kaplan–Meier survival probabilities S(t) for each group.</summary>
         Private pSurvivalProb(,) As Double
@@ -83,7 +84,7 @@ Namespace survival
         Private pBrookmeyerCrowleyMedianTestResult As TestResult = Nothing
 
         ''' <summary>Tabular KM output for each group.</summary>
-        Private pKMtabularOutput() As Object = Nothing
+        Private pKMtabularOutput() As List(Of SurvivalTableRecord) = Nothing
 
 
         ''' <summary>
@@ -100,11 +101,32 @@ Namespace survival
             If Double.IsNaN(x) Then Return "#N/A"
             If Double.IsPositiveInfinity(x) Then Return "#Pinf"
             If Double.IsNegativeInfinity(x) Then Return "#Ninf"
-            Return CStr(x)
+            Return x.ToString(CultureInfo.CurrentCulture)
         End Function
 
         Private Shared Function FormatIntervalForDisplay(lower As Double, upper As Double) As String
             Return $"{FormatValueForDisplay(lower)} to {FormatValueForDisplay(upper)}"
+        End Function
+
+        Private Shared Function AppendRows(top(,) As Object, bottom(,) As Object) As Object(,)
+            If top Is Nothing Then Return bottom
+            If bottom Is Nothing Then Return top
+            If top.GetLength(1) <> bottom.GetLength(1) Then
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid input array dimensions"))
+            End If
+
+            Dim output(top.GetLength(0) + bottom.GetLength(0) - 1, top.GetLength(1) - 1) As Object
+            For rowIndex As Integer = 0 To top.GetLength(0) - 1
+                For columnIndex As Integer = 0 To top.GetLength(1) - 1
+                    output(rowIndex, columnIndex) = top(rowIndex, columnIndex)
+                Next
+            Next
+            For rowIndex As Integer = 0 To bottom.GetLength(0) - 1
+                For columnIndex As Integer = 0 To bottom.GetLength(1) - 1
+                    output(top.GetLength(0) + rowIndex, columnIndex) = bottom(rowIndex, columnIndex)
+                Next
+            Next
+            Return output
         End Function
 
         ''' <summary>
@@ -164,9 +186,9 @@ Namespace survival
             End If
             If Me.NoGroups = 2 Then
                 If LogRankres IsNot Nothing Then
-                    Lr = Matrix.HorizontalStackArrays(Lr,
-                                               {{"Hazard ratio(" & grpIDs(0) & " vs. " & grpIDs(1) & ")", HRres.Estimate},
-                                                {"Approximate " & HRres.CIlabel, HRres.strConfidenceInterval(CIformat.LL_to_UL)}})
+                    Lr = AppendRows(Lr,
+                                    {{"Hazard ratio(" & grpIDs(0) & " vs. " & grpIDs(1) & ")", HRres.Estimate},
+                                    {"Approximate " & HRres.CIlabel, HRres.strConfidenceInterval(CIformat.LL_to_UL)}})
                     t.SetBody(Lr)
                     t.AddPvalueCellToFormat(3, 2)
                     out.Add(t)
@@ -189,14 +211,15 @@ Namespace survival
 
             'Tabular KM curve results by group -------------------------------------------------
             If Me.pKMtabularOutput IsNot Nothing Then
-                Dim totLen As Integer = Me.pKMtabularOutput.Select(Function(g) g.count()).ToArray().Sum(Function(x) Int(x))
+                'Dim totLen As Integer = Me.pKMtabularOutput.Select(Function(g) g.Count()).ToArray().Sum(Function(x) Int(x))
+                Dim totLen As Integer = Me.pKMtabularOutput.Sum(Function(g) g.Count)
                 totLen += NoGroups - 1 'blank line separators
                 Dim KMtab(totLen, 6) As Object
 
 
                 Dim k As Integer = 0
                 For i = 0 To NoGroups - 1
-                    For j = 0 To Me.pKMtabularOutput(i).count() - 1
+                    For j = 0 To Me.pKMtabularOutput(i).Count - 1
                         Dim tmp2 = SurvivalTableRecord2array(Me.pKMtabularOutput(i)(j))
                         For g = 0 To 6
                             KMtab(k, g) = tmp2(g)
@@ -421,13 +444,13 @@ Namespace survival
             Next
 
             'Compute test statistic (quadratic form)
-            Dim VarINV = Matrix.MatInv(Var2)
-            Dim Zj2(UBound(Zj) - 1, 0) As Double, Zj2T(0, UBound(Zj) - 1) As Double
-            For i = 0 To UBound(Zj2)
+            Dim VarINV(,) As Double = Matrix.MatrixDecompositionCore.InvertMatrix(Var2)
+            Dim Zj2(Zj.Length - 2, 0) As Double, Zj2T(0, Zj.Length - 2) As Double
+            For i = 0 To Zj2.GetUpperBound(0)
                 Zj2(i, 0) = Zj(i)
                 Zj2T(0, i) = Zj(i)
             Next
-            Dim chi2(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(Zj2T, VarINV), Zj2)
+            Dim chi2(,) As Double = Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Multiply(Zj2T, VarINV), Zj2)
 
             'calculate HR and confidence interval if there are two groups
             If NoGroups = 2 Then
@@ -526,7 +549,7 @@ Namespace survival
             Dim LogSE = Me.SurvivalCurveLogSE()
             Dim AtRiskOUT = SurvivalCurveAtRisk()
             Dim n As Integer = Me.pSortedRecords.Count()
-            Dim out(NoGroups - 1) As Object
+            Dim out(NoGroups - 1) As List(Of SurvivalTableRecord)
 
             'Prepare Survival curve tabular output
             For j = 0 To NoGroups - 1
@@ -579,7 +602,7 @@ Namespace survival
             Next j
 
             Me.pKMtabularOutput = out
-            Return out
+            Return out.Cast(Of Object)().ToArray()
 
         End Function
 
@@ -821,7 +844,8 @@ Namespace survival
             End If
 
             ' --- Compute pseudocounts ---
-            Dim x = Me.SurvivalCurveTabularOutput()
+            Me.SurvivalCurveTabularOutput()
+            Dim x() As List(Of SurvivalTableRecord) = Me.pKMtabularOutput
 
             Dim nhat1 = New Double(NoGroups - 1) {}
             For i As Integer = 0 To NoGroups - 1
@@ -853,7 +877,7 @@ Namespace survival
             Dim nTotal As Double = Me.pSortedRecords.Count
             Dim aboveCounts = nhat1
             Dim groupNs = (From g In Me.pSortedRecords.GroupBy(Function(r) r.Group)
-                           Select CDbl(g.Count())).ToArray()
+                           Select Convert.ToDouble(g.Count(), CultureInfo.InvariantCulture)).ToArray()
 
             Dim N_above As Double = aboveCounts.Sum()
             Dim N_below As Double = nTotal - N_above
@@ -1121,7 +1145,7 @@ Namespace survival
 
             'if there are multiple event at the same time point, than keep only the last probability and sigma for that time
             k = 0
-            For i = 1 To UBound(t)
+            For i = 1 To t.Length - 1
                 If t(i) = t(i - 1) Then
                     t(k) = t(i)
                     p(0, k) = p(0, i)
@@ -1142,7 +1166,7 @@ Namespace survival
             Dim out(k, 2) As Object
 
             'compute outputs
-            For i = 0 To UBound(t)
+            For i = 0 To t.Length - 1
                 out(i, 1) = p(0, i) - p(1, i)
                 out(i, 0) = t(i)
                 chi2 = (Math.Log(-Math.Log(p(0, i))) - Math.Log(-Math.Log(p(1, i)))) ^ 2
