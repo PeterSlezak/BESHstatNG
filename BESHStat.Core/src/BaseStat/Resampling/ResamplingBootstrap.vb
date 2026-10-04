@@ -321,7 +321,7 @@ Namespace Resampling
             End If
 
             If TypeOf value Is String Then
-                Dim s As String = CStr(value).Trim()
+                Dim s As String = DirectCast(value, String).Trim()
                 If s.Length = 0 Then
                     Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("Cluster identifiers must not contain blank strings.", paramName))
                 End If
@@ -329,7 +329,7 @@ Namespace Resampling
             End If
 
             If TypeOf value Is Double Then
-                Dim d As Double = CDbl(value)
+                Dim d As Double = DirectCast(value, Double)
                 If Double.IsNaN(d) OrElse Double.IsInfinity(d) Then
                     Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("Cluster identifiers must be finite.", paramName))
                 End If
@@ -337,7 +337,7 @@ Namespace Resampling
             End If
 
             If TypeOf value Is Single Then
-                Dim sng As Single = CSng(value)
+                Dim sng As Single = DirectCast(value, Single)
                 If Single.IsNaN(sng) OrElse Single.IsInfinity(sng) Then
                     Global.BESHStatNG.AppInfrastructure.CoreServices.Errors.LogAndThrow(New ArgumentException("Cluster identifiers must be finite.", paramName))
                 End If

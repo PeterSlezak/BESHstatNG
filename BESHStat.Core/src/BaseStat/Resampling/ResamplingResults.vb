@@ -393,8 +393,8 @@ Namespace Resampling
             If probability >= 1.0 Then Return sortedValues(sortedValues.Length - 1)
 
             Dim h As Double = (sortedValues.Length - 1) * probability
-            Dim lo As Integer = CInt(Math.Floor(h))
-            Dim hi As Integer = CInt(Math.Ceiling(h))
+            Dim lo As Integer = Convert.ToInt32(Math.Floor(h))
+            Dim hi As Integer = Convert.ToInt32(Math.Ceiling(h))
             If lo = hi Then Return sortedValues(lo)
 
             Dim frac As Double = h - lo
