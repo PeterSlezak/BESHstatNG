@@ -538,7 +538,7 @@ Namespace distributions
 
             ' PDF = 1/(2^(k/2) Γ(k/2)) * x^(k/2 - 1) * exp(-x/2)
             Dim k As Double = df / 2.0
-            Return Math.Exp((k - 1.0) * Math.Log(x) - x / 2.0 - (k * Math.Log(2.0) + LogGamma(k)))
+            Return Math.Exp((k - 1.0) * Math.Log(x) - x / 2.0 - (k * Math.Log(2.0) + Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma(k)))
         End Function
 
 
@@ -599,7 +599,7 @@ Namespace distributions
             ' For extremely large x, CDF is effectively 1 (prevents numerical issues).
             If x > 1000000000000.0 Then Return 1.0
 
-            Return LowerIncompleteGamma(df / 2.0, x / 2.0)
+            Return Global.BESHStatNG.StatisticalSpecialFunctions.LowerIncompleteGamma(df / 2.0, x / 2.0)
         End Function
 
 
@@ -811,7 +811,7 @@ Namespace distributions
         Public Function T_PDF(x As Double, df As Double) As Double
             If df <= 0.0 Then Return Double.NaN
 
-            Dim lg As Double = LogGamma((df + 1.0) / 2.0) - LogGamma(df / 2.0)
+            Dim lg As Double = Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma((df + 1.0) / 2.0) - Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma(df / 2.0)
             Dim c As Double = Math.Exp(lg) / (Math.Sqrt(df * Math.PI))
             Return c * Math.Pow(1.0 + (x * x) / df, -(df + 1.0) / 2.0)
         End Function
@@ -878,7 +878,7 @@ Namespace distributions
             If x = 0.0 OrElse x = 1.0 Then
                 bt = 0.0
             Else
-                bt = Math.Exp(LogGamma(a + b) - LogGamma(a) - LogGamma(b) +
+                bt = Math.Exp(Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma(a + b) - Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma(a) - Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma(b) +
                       a * Math.Log(x) + b * Math.Log(1 - x))
             End If
 
@@ -1160,7 +1160,7 @@ Namespace distributions
         ''' </para>
         ''' </remarks>
         Private Function LogBeta(a As Double, b As Double) As Double
-            Return LogGamma(a) + LogGamma(b) - LogGamma(a + b)
+            Return Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma(a) + Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma(b) - Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma(a + b)
         End Function
 
 
@@ -1199,7 +1199,7 @@ Namespace distributions
         Public Function PoissonPMF(x As Double, lambda As Double) As Double
             If lambda < 0.0 OrElse Double.IsNaN(x) OrElse Double.IsNaN(lambda) Then Return Double.NaN
 
-            Dim k As Integer = CInt(Math.Floor(x))
+            Dim k As Integer = Convert.ToInt32(Math.Floor(x))
             If k < 0 Then Return 0.0
 
             If lambda = 0.0 Then Return If(k = 0, 1.0, 0.0)
@@ -1210,7 +1210,7 @@ Namespace distributions
                 Return Math.Exp(-lambda)
             End If
 
-            Dim logP As Double = -lambda + k * Math.Log(lambda) - LogGamma(k + 1.0)
+            Dim logP As Double = -lambda + k * Math.Log(lambda) - Global.BESHStatNG.StatisticalSpecialFunctions.LogGamma(k + 1.0)
 
             Return Math.Exp(logP)
         End Function
@@ -1234,7 +1234,7 @@ Namespace distributions
         Public Function PoissonCDF(x As Double, lambda As Double) As Double
             If lambda < 0.0 Then Return Double.NaN
 
-            Dim k As Integer = CInt(Math.Floor(x))
+            Dim k As Integer = Convert.ToInt32(Math.Floor(x))
             If k < 0 Then Return 0.0
 
             If lambda <= 20.0 Then
@@ -1319,7 +1319,7 @@ Namespace distributions
 
 
         Private Function PoissonCDF_Recursive(k As Integer, lambda As Double) As Double
-            Dim mode As Integer = CInt(Math.Floor(lambda))
+            Dim mode As Integer = Convert.ToInt32(Math.Floor(lambda))
             Dim pm As Double = PoissonPMF(mode, lambda)
             Dim sum As Double = pm
             Dim p As Double = pm
@@ -1344,7 +1344,7 @@ Namespace distributions
 
 
         Private Function PoissonCDF_Gamma(k As Integer, lambda As Double) As Double
-            Return LowerIncompleteGamma(k + 1, lambda)
+            Return Global.BESHStatNG.StatisticalSpecialFunctions.LowerIncompleteGamma(k + 1, lambda)
         End Function
 
 
@@ -1357,7 +1357,7 @@ Namespace distributions
             Dim z As Double = NormSInv(p)
             Dim guess As Double = lambda + z * Math.Sqrt(lambda)
 
-            Dim k As Integer = Math.Max(0, CInt(Math.Floor(guess)))
+            Dim k As Integer = Math.Max(0, Convert.ToInt32(Math.Floor(guess)))
 
             While PoissonCDF(k, lambda) >= p AndAlso k > 0
                 k -= 1
@@ -1535,7 +1535,7 @@ Namespace distributions
             If p = 0.0 Then Return If(x = 0, 1.0, 0.0)
             If p = 1.0 Then Return If(x = n, 1.0, 0.0)
 
-            Dim logC As Double = LogCombin(n, x)
+            Dim logC As Double = Global.BESHStatNG.StatisticalSpecialFunctions.LogCombin(n, x)
             Dim logP As Double = logC + x * Math.Log(p) + (n - x) * Math.Log(1 - p)
 
             Return Math.Exp(logP)
@@ -1548,7 +1548,8 @@ Namespace distributions
         ''' <paramref name="V"/> degrees of freedom.
         ''' </summary>
         ''' <param name="q">
-        ''' The upper limit of integration for the Studentized range distribution (q &gt; 0).
+        ''' The upper limit of integration for the Studentized range distribution. For q &lt;= 0,
+        ''' the legacy AS 190 behavior is to return 0 without setting a fault code.
         ''' </param>
         ''' <param name="V">
         ''' The degrees of freedom (must be ≥ 1). Values greater than 120 use an asymptotic 
@@ -1558,12 +1559,12 @@ Namespace distributions
         ''' The number of samples (must be ≥ 2).
         ''' </param>
         ''' <param name="iFault">
-        ''' Returns 0 on success.  
-        ''' Returns 1 if input parameters are invalid (V &lt; 1 or r &lt; 2 or q ≤ 0).
+        ''' Returns 0 on success, including q &lt;= 0.
+        ''' Returns 1 if V &lt; 1 or r &lt; 2.
         ''' </param>
         ''' <returns>
         ''' The probability P(0 ≤ R ≤ q), where R is the Studentized range statistic.
-        ''' Returns 0 if inputs are invalid.
+        ''' Returns 0 for q &lt;= 0 and for invalid V or r.
         ''' </returns>
         ''' <remarks>
         ''' <para>
