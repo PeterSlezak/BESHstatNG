@@ -52,8 +52,8 @@ Namespace contingencytable
 
         Public Sub New(table As Integer(,), Optional expect As Double = 5.0#, Optional percnt As Double = 80.0#,
                    Optional emin As Double = 1.0#, Optional mult As Integer = 30)
-            _nrow = UBound(table, 1) + 1
-            _ncol = UBound(table, 2) + 1
+            _nrow = table.GetLength(0)
+            _ncol = table.GetLength(1)
             _table = table
             _expect = expect
             _percnt = percnt
@@ -97,7 +97,7 @@ Namespace contingencytable
             ' fact(k) = log(k!) = lgamma(k+1)
             ReDim fact(ntot)
             For k As Integer = 0 To ntot
-                fact(k) = LogGamma(k + 1.0)
+                fact(k) = StatFunc.LogGamma(k + 1.0)
             Next
 
             ' --- row/column workspace arrays (1-based)
@@ -289,11 +289,11 @@ Namespace contingencytable
             ' -----------------------------
             kyy(1) = 1
             For i = 1 To nro - 1
-                Dim mult As Long = CLng(kyy(i)) * (CLng(iro(i)) + 1L)
+                Dim mult As Long = Convert.ToInt64(kyy(i)) * (Convert.ToInt64(iro(i)) + 1L)
                 If mult > Integer.MaxValue Then CoreServices.Errors.LogAndThrow(New ApplicationException("kyy overflow; increase workspace / change encoding."))
-                kyy(i + 1) = CInt(mult)
+                kyy(i + 1) = Convert.ToInt32(mult)
             Next
-            If (CLng(iro(nro)) + 1L) > (CLng(Integer.MaxValue) \ CLng(kyy(nro))) Then
+            If (Convert.ToInt64(iro(nro)) + 1L) > (Convert.ToInt64(Integer.MaxValue) \ Convert.ToInt64(kyy(nro))) Then
                 CoreServices.Errors.LogAndThrow(New ApplicationException("kyy overflow (final check)."))
             End If
 
@@ -461,7 +461,7 @@ L150:
 
 L300:
             If pastp <= obs3 Then
-                pre += CDbl(ifreq) * Math.Exp(pastp + drn)
+                pre += ifreq * Math.Exp(pastp + drn)
 
             ElseIf pastp < obs2 Then
                 Dim d1 As Double = pastp + ddf
@@ -720,11 +720,11 @@ LnewNode:
             Dim nrt As Integer = iroW(irl)
             Dim nct As Integer = icoW(1)
 
-            lbW(1) = CInt(Math.Truncate((((CDbl(nrt) + 1.0) * (CDbl(nct) + 1.0)) /
-                                 CDbl(nn + nr1 * nc1s + 1)) - tol)) - 1
+            lbW(1) = Convert.ToInt32(Math.Truncate((((nrt + 1.0) * (nct + 1.0)) /
+                                 (nn + nr1 * nc1s + 1)) - tol)) - 1
 
-            nuW(1) = CInt(Math.Truncate(((CDbl(nrt) + nc1s) * (CDbl(nct) + nr1)) /
-                                CDbl(nn + nr1 + nc1s))) - lbW(1) + 1
+            nuW(1) = Convert.ToInt32(Math.Truncate(((nrt + nc1s) * (nct + nr1)) /
+                                (nn + nr1 + nc1s))) - lbW(1) + 1
 
             nrW(1) = nrt - lbW(1)
 
@@ -750,11 +750,11 @@ LoopNode:
                 Dim nc1 As Integer = nco - lev
                 nct = icoW(lev)
 
-                lbW(lev) = CInt(Math.Truncate((((CDbl(nrt) + 1.0) * (CDbl(nct) + 1.0)) /
-                                       CDbl(nn1 + nr1 * nc1 + 1)) - tol))
+                lbW(lev) = Convert.ToInt32(Math.Truncate((((nrt + 1.0) * (nct + 1.0)) /
+                                       (nn1 + nr1 * nc1 + 1)) - tol))
 
-                nuW(lev) = CInt(Math.Truncate(((CDbl(nrt) + nc1) * (CDbl(nct) + nr1)) /
-                                      CDbl(nn1 + nr1 + nc1))) - lbW(lev) + 1
+                nuW(lev) = Convert.ToInt32(Math.Truncate(((nrt + nc1) * (nct + nr1)) /
+                                      (nn1 + nr1 + nc1))) - lbW(lev) + 1
 
                 nrW(lev) = nrt - lbW(lev)
             End While
@@ -795,14 +795,14 @@ LoopNode:
                 End If
 
                 ' Compute hash key
-                Dim keyVal As Long = CLng(itW(1)) * CLng(kyy) + CLng(itW(2))
+                Dim keyVal As Long = Convert.ToInt64(itW(1)) * Convert.ToInt64(kyy) + Convert.ToInt64(itW(2))
                 For i = 3 To nco
-                    keyVal = CLng(itW(i)) + keyVal * CLng(kyy)
+                    keyVal = Convert.ToInt64(itW(i)) + keyVal * Convert.ToInt64(kyy)
                 Next
 
                 If keyVal < -1 Then CoreServices.Errors.LogAndThrow(New ApplicationException("Bug in FEXACT: negative key computed in F3xact."))
 
-                Dim ipn As Integer = CInt((keyVal Mod ldst) + 1)
+                Dim ipn As Integer = Convert.ToInt32((keyVal Mod ldst) + 1)
 
                 ' Find empty/occupied position in hash table bank
                 Dim itp As Integer
@@ -851,10 +851,10 @@ L200:
                 ' Decode marginals into icoW(1..nco)
                 Dim kk As Long = keyVal2
                 For i = nco To 2 Step -1
-                    icoW(i) = CInt(kk Mod kyy)
+                    icoW(i) = Convert.ToInt32(kk Mod kyy)
                     kk \= kyy
                 Next
-                icoW(1) = CInt(kk)
+                icoW(1) = Convert.ToInt32(kk)
 
                 ' Set up ntW
                 ntW(1) = nn - icoW(1)

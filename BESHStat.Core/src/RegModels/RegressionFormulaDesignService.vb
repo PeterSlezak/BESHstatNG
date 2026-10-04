@@ -477,8 +477,8 @@ Public Module RegressionFormulaDesignService
             Throw New ArgumentNullException(NameOf(rawX))
         End If
 
-        nRows = UBound(rawX, 1) + 1
-        p = UBound(rawX, 2) + 1
+        nRows = rawX.GetLength(0)
+        p = rawX.GetLength(1)
 
         If nRows < 1 Then
             Throw New ArgumentException("Predictor matrix must contain at least one row.")

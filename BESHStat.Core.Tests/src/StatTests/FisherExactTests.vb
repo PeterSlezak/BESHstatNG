@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports System
 
@@ -23,8 +23,8 @@ Public Class FisherExactEngine_Tests
     End Function
 
     Private Shared Function RowSums(t(,) As Integer) As Integer()
-        Dim r As Integer = UBound(t, 1)
-        Dim c As Integer = UBound(t, 2)
+        Dim r As Integer = t.GetLength(0) - 1
+        Dim c As Integer = t.GetLength(1) - 1
         Dim rs(r) As Integer
         For i As Integer = 0 To r
             Dim s As Integer = 0
@@ -37,8 +37,8 @@ Public Class FisherExactEngine_Tests
     End Function
 
     Private Shared Function ColSums(t(,) As Integer) As Integer()
-        Dim r As Integer = UBound(t, 1)
-        Dim c As Integer = UBound(t, 2)
+        Dim r As Integer = t.GetLength(0) - 1
+        Dim c As Integer = t.GetLength(1) - 1
         Dim cs(c) As Integer
         For j As Integer = 0 To c
             Dim s As Integer = 0
@@ -51,8 +51,8 @@ Public Class FisherExactEngine_Tests
     End Function
 
     Private Shared Function TotalSum(t(,) As Integer) As Integer
-        Dim r As Integer = UBound(t, 1)
-        Dim c As Integer = UBound(t, 2)
+        Dim r As Integer = t.GetLength(0) - 1
+        Dim c As Integer = t.GetLength(1) - 1
         Dim s As Integer = 0
         For i As Integer = 0 To r
             For j As Integer = 0 To c
@@ -64,8 +64,8 @@ Public Class FisherExactEngine_Tests
 
     Private Shared Function LogProbTable(t(,) As Integer, rs() As Integer, cs() As Integer, nTot As Integer, logConst As Double) As Double
         ' log P = logConst - sum log(cell!)
-        Dim r As Integer = UBound(t, 1)
-        Dim c As Integer = UBound(t, 2)
+        Dim r As Integer = t.GetLength(0) - 1
+        Dim c As Integer = t.GetLength(1) - 1
         Dim s As Double = 0.0#
         For i As Integer = 0 To r
             For j As Integer = 0 To c
@@ -196,7 +196,7 @@ Public Class FisherExactEngine_Tests
         Dim expObs As Double, expP As Double
         ComputeExactFisherReference(t, expObs, expP)
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.AreEqual(expObs, eng.PObserved, 0.000000001, "PObserved mismatch.")
@@ -212,7 +212,7 @@ Public Class FisherExactEngine_Tests
         Dim expObs As Double, expP As Double
         ComputeExactFisherReference(t, expObs, expP)
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.AreEqual(expObs, eng.PObserved, 0.0000001, "PObserved mismatch.")
@@ -229,7 +229,7 @@ Public Class FisherExactEngine_Tests
         Dim expObs As Double, expP As Double
         ComputeExactFisherReference(t, expObs, expP)
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.AreEqual(expObs, eng.PObserved, 0.0000001, "PObserved mismatch.")
@@ -241,7 +241,7 @@ Public Class FisherExactEngine_Tests
         Dim t(,) As Integer = {{0, 0},
                                {0, 0}}
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.IsTrue(Double.IsNaN(eng.PObserved), "Expected PObserved NaN for all-zero table.")
@@ -254,7 +254,7 @@ Public Class FisherExactEngine_Tests
                                {0, 1}}
         Assert.ThrowsException(Of ArgumentException)(
             Sub()
-                Dim eng As New contingencytable.FisherExactEngine(t)
+                Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
                 eng.Run()
             End Sub)
     End Sub
@@ -264,7 +264,7 @@ Public Class FisherExactEngine_Tests
         Dim t(,) As Integer = {{24, 7, 3, 8, 1}, {9, 5, 5, 0, 3}, {2, 0, 2, 0, 1}}
         Dim expectedP As Double = 0.01993  ' from Clarkson (1993)
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.AreEqual(expectedP, eng.PValue, 0.000001)
@@ -275,7 +275,7 @@ Public Class FisherExactEngine_Tests
         Dim t(,) As Integer = {{22, 13, 5, 4, 5, 3, 2, 1}, {7, 1, 4, 3, 1, 2, 3, 4}}
         Dim expectedP As Double = 0.035954  ' from Clarkson (1993)
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.AreEqual(expectedP, eng.PValue, 0.000001)
@@ -286,7 +286,7 @@ Public Class FisherExactEngine_Tests
         Dim t(,) As Integer = {{1, 8, 5, 4, 4, 2, 2}, {5, 3, 3, 4, 3, 1, 0}, {10, 1, 4, 0, 0, 0, 0}}
         Dim expectedP As Double = 0.00355998  ' from Clarkson (1993)
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.AreEqual(expectedP, eng.PValue, 0.000001)
@@ -304,7 +304,7 @@ Public Class FisherExactEngine_Tests
         Const expectedP As Double = 0.04948
         Const tolP As Double = 0.000001
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.AreEqual(expectedP, eng.PValue, tolP, "PValue mismatch vs Clarkson (1993) Table I.")
@@ -321,7 +321,7 @@ Public Class FisherExactEngine_Tests
         Const expectedP As Double = 0.085524
         Const tolP As Double = 0.000001
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.AreEqual(expectedP, eng.PValue, tolP, "PValue mismatch vs Clarkson (1993) Table I.")
@@ -338,9 +338,10 @@ Public Class FisherExactEngine_Tests
         Const expectedP As Double = 0.082538
         Const tolP As Double = 0.000001
 
-        Dim eng As New contingencytable.FisherExactEngine(t)
+        Dim eng As New BESHStatNG.contingencytable.FisherExactEngine(t)
         eng.Run()
 
         Assert.AreEqual(expectedP, eng.PValue, tolP, "PValue mismatch vs Clarkson (1993) Table I.")
     End Sub
 End Class
+

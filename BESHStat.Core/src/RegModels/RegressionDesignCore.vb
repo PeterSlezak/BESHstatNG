@@ -1,6 +1,11 @@
 Option Explicit On
 Option Strict On
 
+Imports System
+Imports System.Collections
+Imports System.Collections.Generic
+Imports System.Globalization
+Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 
 Public Enum PredictorScale
@@ -53,7 +58,7 @@ Public Module RegressionDesignCore
     ''' polynomial effect identifier.
     ''' </returns>
     Public Function MakePolynomialEffectKey(baseKey As String, degree As Integer) As String
-        Return """" & baseKey & """" & "^" & CStr(degree)
+        Return """" & baseKey & """" & "^" & degree.ToString(CultureInfo.InvariantCulture)
     End Function
 
     Public Function MakeCategoricalEffectKey(baseKey As String) As String
@@ -138,7 +143,7 @@ Public Module RegressionDesignCore
         If effectItems Is Nothing Then Return raw
 
         For Each obj As Object In effectItems
-            Dim effKey As String = CStr(obj)
+            Dim effKey As String = Convert.ToString(obj, CultureInfo.CurrentCulture)
 
             '1) Prefer TermSpecs mapping
             If termSpecs IsNot Nothing AndAlso termSpecs.ContainsKey(effKey) Then
@@ -182,20 +187,20 @@ Public Module RegressionDesignCore
         End If
 
         'Polynomial: "<base>"^k or <base>^k
-        Dim pCaret As Integer = InStrRev(s, "^")
-        If pCaret > 0 AndAlso pCaret < Len(s) Then
-            Dim expStr As String = Mid$(s, pCaret + 1)
+        Dim pCaret As Integer = s.LastIndexOf("^"c)
+        If pCaret >= 0 AndAlso pCaret < s.Length - 1 Then
+            Dim expStr As String = s.Substring(pCaret + 1)
             Dim expVal As Integer
             If Integer.TryParse(expStr, expVal) Then
-                Dim baseKey As String = Left$(s, pCaret - 1).Trim()
+                Dim baseKey As String = s.Substring(0, pCaret).Trim()
                 out.Add(StripOuterDoubleQuotesPublic(baseKey))
                 Return out
             End If
         End If
 
         'Interaction: "A":"B":"C"...
-        If InStr(s, ":") > 0 AndAlso InStr(s, ChrW(34)) > 0 Then
-            Dim parts() As String = Split(s, ":")
+        If s.IndexOf(":"c) >= 0 AndAlso s.IndexOf(""""c) >= 0 Then
+            Dim parts() As String = s.Split(":"c)
             For Each p As String In parts
                 Dim k As String = StripOuterDoubleQuotesPublic(p.Trim())
                 If k <> String.Empty Then out.Add(k)
@@ -226,8 +231,8 @@ Public Module RegressionDesignCore
     ''' </remarks>
     Public Function StripOuterDoubleQuotesPublic(s As String) As String
         Dim t As String = If(s, String.Empty).Trim()
-        If Len(t) >= 2 AndAlso Left$(t, 1) = ChrW(34) AndAlso Right$(t, 1) = ChrW(34) Then
-            t = Mid$(t, 2, Len(t) - 2)
+        If t.Length >= 2 AndAlso t(0) = """"c AndAlso t(t.Length - 1) = """"c Then
+            t = t.Substring(1, t.Length - 2)
         End If
         Return t.Trim()
     End Function
@@ -255,7 +260,7 @@ Public Module RegressionDesignCore
 
         Dim i As Integer = 0
         For Each obj As Object In effectItems
-            Dim k As String = CStr(obj)
+            Dim k As String = Convert.ToString(obj, CultureInfo.CurrentCulture)
             If termSpecs.ContainsKey(k) Then termSpecs(k).Order = i
             i += 1
         Next
@@ -380,7 +385,7 @@ Public Module RegressionDesignCore
 
         Dim effects As New List(Of String)
         For Each obj As Object In effectItems
-            effects.Add(CStr(obj))
+            effects.Add(Convert.ToString(obj, CultureInfo.CurrentCulture))
         Next
 
         Dim nRows As Integer = raw.nRows
@@ -448,7 +453,7 @@ Public Module RegressionDesignCore
 
                 predictorCols.Add(newCol)
                 Dim displayBase As String = If(baseDisplayNames.ContainsKey(bk), baseDisplayNames(bk), GetCoefBaseName(bk))
-                predictorNames.Add(If(String.IsNullOrWhiteSpace(coefName), displayBase & "^" & CStr(degree), coefName))
+                predictorNames.Add(If(String.IsNullOrWhiteSpace(coefName), displayBase & "^" & degree.ToString(CultureInfo.InvariantCulture), coefName))
 
                 Dim gName As String = displayBase
                 If Not groups.ContainsKey(gName) Then groups(gName) = New List(Of Integer)
@@ -676,7 +681,7 @@ Public Module RegressionDesignCore
         If items Is Nothing Then Return out
 
         For Each obj As Object In items
-            out.Add(CStr(obj))
+            out.Add(Convert.ToString(obj, CultureInfo.CurrentCulture))
         Next
 
         Return out
@@ -777,8 +782,8 @@ Public Module RegressionDesignCore
         Dim rawColCount As Integer = 0
 
         If rawX IsNot Nothing Then
-            nRows = UBound(rawX, 1) + 1
-            rawColCount = UBound(rawX, 2) + 1
+            nRows = rawX.GetLength(0)
+            rawColCount = rawX.GetLength(1)
         End If
 
         If rawColCount <> rawKeyList.Count Then
@@ -845,7 +850,7 @@ Public Module RegressionDesignCore
                 Dim displayBase As String = If(baseDisplayNames.ContainsKey(bk),
                                                baseDisplayNames(bk),
                                                GetCoefBaseName(bk))
-                outPredictorNames.Add(If(String.IsNullOrWhiteSpace(coefName), displayBase & "^" & CStr(degree), coefName))
+                outPredictorNames.Add(If(String.IsNullOrWhiteSpace(coefName), displayBase & "^" & degree.ToString(CultureInfo.InvariantCulture), coefName))
 
             ElseIf String.Equals(kind, "Interaction", StringComparison.OrdinalIgnoreCase) Then
                 If baseKeys.Count < 2 Then
@@ -1168,7 +1173,7 @@ Public Module RegressionDesignCore
 
         Dim effects As New List(Of String)
         For Each obj As Object In effectItems
-            effects.Add(CStr(obj))
+            effects.Add(Convert.ToString(obj, CultureInfo.CurrentCulture))
         Next
 
         Dim baseDisplayNames As New Dictionary(Of String, String)(StringComparer.Ordinal)
@@ -1289,7 +1294,7 @@ Public Module RegressionDesignCore
         Dim seen As New HashSet(Of String)(StringComparer.Ordinal)
 
         For Each obj As Object In effectItems
-            Dim effKey As String = CStr(obj)
+            Dim effKey As String = Convert.ToString(obj, CultureInfo.CurrentCulture)
 
             If Not termSpecs.ContainsKey(effKey) Then Continue For
             Dim spec As TermSpec = termSpecs(effKey)
@@ -1417,7 +1422,7 @@ Public Module RegressionDesignCore
 
             out.Add(New InteractionColumnDefinition With {
                 .Values = values,
-                .Name = displayBase & "[" & CStr(lev) & "]"
+                .Name = displayBase & "[" & lev.ToString(CultureInfo.CurrentCulture) & "]"
             })
         Next
 

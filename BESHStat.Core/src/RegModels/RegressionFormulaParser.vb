@@ -207,7 +207,7 @@ Public Class RegressionVariableCatalog
         Dim chars As New List(Of Char)()
         While n > 0
             n -= 1
-            chars.Add(ChrW(AscW("A"c) + (n Mod 26)))
+            chars.Add(Convert.ToChar(Convert.ToInt32("A"c) + (n Mod 26)))
             n \= 26
         End While
         chars.Reverse()

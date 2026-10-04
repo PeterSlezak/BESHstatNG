@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
@@ -377,3 +377,4 @@ Public Class RegressionFormulaParserBuilderTests
         Assert.AreEqual(5, result.ExpandedPredictorMatrix.GetLength(1))
     End Sub
 End Class
+
