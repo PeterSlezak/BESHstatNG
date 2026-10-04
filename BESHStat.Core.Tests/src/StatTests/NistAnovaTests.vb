@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports System
 Imports System.Collections.Generic
@@ -10,9 +10,9 @@ Imports BESHStatNG
 <TestClass()>
 Public Class NistAnova_Tests
 
-    Private Const ABS_TOL As Double = 1.0E-12
-    Private Const REL_TOL_DEFAULT As Double = 1.0E-8
-    Private Const REL_TOL_HIGHER As Double = 2.0E-4
+    Private Const ABS_TOL As Double = 0.000000000001
+    Private Const REL_TOL_DEFAULT As Double = 0.00000001
+    Private Const REL_TOL_HIGHER As Double = 0.0002
 
     <DataTestMethod>
     <DataRow("SiRstv")>
@@ -141,8 +141,8 @@ Public Class NistAnova_Tests
         Dim candidates As String() = {
             Path.Combine(baseDir, fileName),
             Path.Combine(baseDir, "TestData", "NIST_ANOVA", fileName),
-            Path.GetFullPath(Path.Combine(baseDir, "..\..\TestData\NIST_ANOVA", fileName)),
-            Path.GetFullPath(Path.Combine(baseDir, "..\..\..\TestData\NIST_ANOVA", fileName))
+            Path.GetFullPath(Path.Combine(baseDir, "..", "..", "TestData", "NIST_ANOVA", fileName)),
+            Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "TestData", "NIST_ANOVA", fileName))
         }
 
         For Each c As String In candidates
@@ -161,3 +161,4 @@ Public Class NistAnova_Tests
                                       ", tol=" & tol.ToString("R", CultureInfo.InvariantCulture))
     End Sub
 End Class
+

@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports System
 Imports System.Globalization
@@ -46,7 +46,7 @@ Public Class Parametric_Module_Tests
         Dim g1() As Double = {1, 2, 3, 4, 5}
         Dim g2() As Double = {2, 3, 4, 5, 6}
 
-        Dim tt As New parametric.UnpairedTtest(New Double()() {g1, g2}, New String() {"G1", "G2"})
+        Dim tt As New BESHStatNG.parametric.UnpairedTtest(New Double()() {g1, g2}, New String() {"G1", "G2"})
         Dim res = tt.compute()
 
         Dim n1 = g1.Length
@@ -68,10 +68,10 @@ Public Class Parametric_Module_Tests
         Dim dfWelch = (seWelch ^ 4) / (((s1 / n1) ^ 2 / (n1 - 1.0)) + ((s2 / n2) ^ 2 / (n2 - 1.0)))
         Dim tWelch = diff / seWelch
 
-        AssertAlmostEqual(tPooled, res.TestStatistics1, 1.0E-12, "Pooled t")
-        AssertAlmostEqual(tWelch, res.TestStatistics2, 1.0E-12, "Welch t")
+        AssertAlmostEqual(tPooled, res.TestStatistics1, 0.000000000001, "Pooled t")
+        AssertAlmostEqual(tWelch, res.TestStatistics2, 0.000000000001, "Welch t")
         AssertAlmostEqual(dfPooled, res.DF1, 0.0, "Pooled df")
-        AssertAlmostEqual(dfWelch, res.DF2, 1.0E-12, "Welch df")
+        AssertAlmostEqual(dfWelch, res.DF2, 0.000000000001, "Welch df")
 
         ' p-values are computed using your distribution functions; check they are consistent and within [0,1]
         Assert.IsTrue(res.Pvalue >= 0 AndAlso res.Pvalue <= 1, "Two-sided p out of range")
@@ -90,7 +90,7 @@ Public Class Parametric_Module_Tests
             {14, 14.0}
         }
 
-        Dim pt As New parametric.PairedTtest(x, New String() {"pre", "post"})
+        Dim pt As New BESHStatNG.parametric.PairedTtest(x, New String() {"pre", "post"})
         Dim res = pt.compute()
 
         Dim n As Integer = x.GetLength(0)
@@ -116,7 +116,7 @@ Public Class Parametric_Module_Tests
         Dim b() As Double = {2, 3, 4}
         Dim c() As Double = {5, 6, 7}
 
-        Dim ow As New parametric.OneWayANOVA(New Double()() {a, b, c}, New String() {"A", "B", "C"})
+        Dim ow As New BESHStatNG.parametric.OneWayANOVA(New Double()() {a, b, c}, New String() {"A", "B", "C"})
         Dim tab As Object(,) = ow.compute()
 
         ' Closed-form ANOVA components (matches Parametric.vb)
@@ -154,9 +154,9 @@ Public Class Parametric_Module_Tests
         Dim b() As Double = {2, 2, 2, 2, 2}
         Dim c() As Double = {3, 3, 3, 3, 3}
 
-        Dim ow As New parametric.OneWayANOVA(New Double()() {a, b, c}, New String() {"A", "B", "C"})
+        Dim ow As New BESHStatNG.parametric.OneWayANOVA(New Double()() {a, b, c}, New String() {"A", "B", "C"})
         ow.compute() ' ensure ANOVA table exists for post-hoc dependencies
-        Dim welch As TestResult = ow.WelshANOVA()
+        Dim welch As BESHStatNG.TestResult = ow.WelshANOVA()
 
         ' In Parametric.vb WelshANOVA returns:
         '   TestStatistics1 = F*
@@ -178,7 +178,7 @@ Public Class Parametric_Module_Tests
         Dim b() As Double = {2, 3, 4}
         Dim c() As Double = {5, 6, 7}
 
-        Dim ow As New parametric.OneWayANOVA(New Double()() {a, b, c}, New String() {"A", "B", "C"})
+        Dim ow As New BESHStatNG.parametric.OneWayANOVA(New Double()() {a, b, c}, New String() {"A", "B", "C"})
         ow.compute()
 
         ' Fisher LSD
@@ -216,15 +216,15 @@ Public Class Parametric_Module_Tests
             {9, 10, 12}
         }
 
-        Dim rm As New parametric.OneWayRmANOVA(x, New String() {"C1", "C2", "C3"})
+        Dim rm As New BESHStatNG.parametric.OneWayRmANOVA(x, New String() {"C1", "C2", "C3"})
         Dim tab As Object(,) = rm.compute()
         Assert.IsNotNull(tab)
 
-        Dim gg As TestResult = rm.GreenhouseGeisser()
+        Dim gg As BESHStatNG.TestResult = rm.GreenhouseGeisser()
         Assert.IsTrue(gg.TestStatistics1 >= 0, "GG statistic should be non-negative")
         Assert.IsTrue(gg.Pvalue >= 0 AndAlso gg.Pvalue <= 1, "GG p out of range")
 
-        Dim hf As TestResult = rm.HuyhnFeldt()
+        Dim hf As BESHStatNG.TestResult = rm.HuyhnFeldt()
         Assert.IsTrue(hf.TestStatistics1 >= 0, "HF statistic should be non-negative")
         Assert.IsTrue(hf.Pvalue >= 0 AndAlso hf.Pvalue <= 1, "HF p out of range")
     End Sub
@@ -240,7 +240,7 @@ Public Class Parametric_Module_Tests
             {9, 10, 12}
         }
 
-        Dim rm As New parametric.OneWayRmANOVA(x, New String() {"C1", "C2", "C3"})
+        Dim rm As New BESHStatNG.parametric.OneWayRmANOVA(x, New String() {"C1", "C2", "C3"})
         rm.compute()
 
         Dim tuk As Object(,) = rm.Tukey()
@@ -273,7 +273,7 @@ Public Class Parametric_Module_Tests
             {"G2", "S4", 19.0}
         }
 
-        Dim tw As New parametric.TwoWayNestedANOVA(x, {"var1", "var2", "var3"})
+        Dim tw As New BESHStatNG.parametric.TwoWayNestedANOVA(x, {"var1", "var2", "var3"})
         Dim tab As Object(,) = tw.compute()
         Assert.IsNotNull(tab)
         Assert.IsTrue(tab.GetLength(0) >= 3, "Expected at least 3 rows in nested ANOVA table")
@@ -298,8 +298,8 @@ Public Class Parametric_Module_Tests
             {4, 4}
         }
 
-        Dim ht As New parametric.HotelingsT_independent(x1, x2, New String() {"V1", "V2"})
-        Dim resEq As TestResult = ht.calculate(True)
+        Dim ht As New BESHStatNG.parametric.HotelingsT_independent(x1, x2, New String() {"V1", "V2"})
+        Dim resEq As BESHStatNG.TestResult = ht.calculate(True)
         Assert.IsTrue(resEq.TestStatistics1 >= 0, "Hotelling T2 should be non-negative")
         Assert.IsTrue(resEq.Pvalue >= 0 AndAlso resEq.Pvalue <= 1, "p out of range")
 
@@ -322,7 +322,7 @@ Public Class Parametric_Module_Tests
         }
         Dim mu() As Double = {2.5, 2.0}
 
-        Dim ht As New parametric.HotelingsT_single(x, mu, New String() {"V1", "V2"})
+        Dim ht As New BESHStatNG.parametric.HotelingsT_single(x, mu, New String() {"V1", "V2"})
         Dim res = ht.calculate()
         Assert.IsTrue(res.TestStatistics1 >= 0, "T2 should be non-negative")
         Assert.IsTrue(res.Pvalue >= 0 AndAlso res.Pvalue <= 1, "p out of range")
@@ -349,7 +349,7 @@ Public Class Parametric_Module_Tests
             {4, 4}
         }
 
-        Dim ht As New parametric.HotelingsT_paired(x1, x2, New String() {"V1", "V2"})
+        Dim ht As New BESHStatNG.parametric.HotelingsT_paired(x1, x2, New String() {"V1", "V2"})
         Dim res = ht.calculate()
         Assert.IsTrue(res.TestStatistics1 >= 0, "Paired T2 should be non-negative")
         Assert.IsTrue(res.Pvalue >= 0 AndAlso res.Pvalue <= 1, "p out of range")
@@ -366,7 +366,7 @@ Public Class Parametric_Module_Tests
 
         Assert.ThrowsException(Of ArgumentException)(
             Sub()
-                Dim a_ = New parametric.UnpairedTtest(New Double()() {g1, g2}, New String() {"G1", "G2"})
+                Dim a_ = New BESHStatNG.parametric.UnpairedTtest(New Double()() {g1, g2}, New String() {"G1", "G2"})
             End Sub)
     End Sub
 
@@ -375,8 +375,9 @@ Public Class Parametric_Module_Tests
         Dim a() As Double = {1, 2, 3}
         Assert.ThrowsException(Of ArgumentException)(
             Sub()
-                Dim a_ = New parametric.OneWayANOVA(New Double()() {a}, New String() {"A"})
+                Dim a_ = New BESHStatNG.parametric.OneWayANOVA(New Double()() {a}, New String() {"A"})
             End Sub)
     End Sub
 
 End Class
+

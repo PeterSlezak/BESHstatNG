@@ -21,6 +21,36 @@ Namespace parametric
 
     Public Module Parametric
 
+        Private Function AppendColumns(left(,) As Object, right(,) As Object) As Object(,)
+            If left.GetUpperBound(0) <> right.GetUpperBound(0) Then
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid input array dimensions"))
+            End If
+
+            Dim output(left.GetUpperBound(0), left.GetUpperBound(1) + right.GetUpperBound(1) + 1) As Object
+
+            For rowIndex As Integer = 0 To left.GetUpperBound(0)
+                For columnIndex As Integer = 0 To left.GetUpperBound(1)
+                    output(rowIndex, columnIndex) = left(rowIndex, columnIndex)
+                Next
+            Next
+
+            For rowIndex As Integer = 0 To right.GetUpperBound(0)
+                For columnIndex As Integer = 0 To right.GetUpperBound(1)
+                    output(rowIndex, left.GetUpperBound(1) + 1 + columnIndex) = right(rowIndex, columnIndex)
+                Next
+            Next
+
+            Return output
+        End Function
+
+        Private Function GetRow(matrix(,) As Double, rowIndex As Integer) As Double()
+            Dim output(matrix.GetUpperBound(1)) As Double
+            For columnIndex As Integer = 0 To matrix.GetUpperBound(1)
+                output(columnIndex) = matrix(rowIndex, columnIndex)
+            Next
+            Return output
+        End Function
+
         Friend Function BuildMcpCiFootnote(alpha As Double) As String
             Return "Confidence interval level = " & ((1.0 - alpha) * 100.0).ToString("0.##") & "% (alpha = " & alpha.ToString("0.####") & ")."
         End Function
@@ -92,10 +122,10 @@ Namespace parametric
 
                 Me.data = x
                 Me.varNames = varNames
-                QuickSort2D(Me.data, "0,A,1,A", 0, UBound(Me.data, 1)) 'sort by 1st and 2nd column
-                ReDim parGroupS(UBound(Me.data, 1)), parSubGroupS(UBound(Me.data, 1)), parRes(UBound(Me.data, 1))
+                DataManagement.RowArrayUtilities.SortRows(Me.data, "0,A,1,A", 0, Me.data.GetUpperBound(0)) 'sort by 1st and 2nd column
+                ReDim parGroupS(Me.data.GetUpperBound(0)), parSubGroupS(Me.data.GetUpperBound(0)), parRes(Me.data.GetUpperBound(0))
 
-                For i = 0 To UBound(data, 1)
+                For i = 0 To data.GetUpperBound(0)
                     Me.parGroupS(i) = data(i, 0)
                     Me.parSubGroupS(i) = data(i, 1)
                     Me.parRes(i) = data(i, 2)
@@ -124,7 +154,7 @@ Namespace parametric
                 out.Add(t)
 
                 Dim t2 = New ResultTable
-                If pANOVAtabSW(0, 3) = -99 Then
+                If Convert.ToDouble(Me.pANOVAtabSW(0, 3)) = -99.0R Then
                     t2.SetBody({{"Not Applicable"}})
                 Else
                     t2.SetBody(Me.pANOVAtabSW)
@@ -274,7 +304,7 @@ Namespace parametric
                 End If
 
                 Dim SSsubwgroup As Double = SStot - SSgroup - ssError
-                Dim DFgroup As Integer = UBound(Me.parGroupID, 1)
+                Dim DFgroup As Integer = Me.parGroupID.Length - 1
                 Dim DFtot As Integer = Me.parSubGroupFrq.Sum() - 1
                 Dim MSgroup As Double = SSgroup / DFgroup
 
@@ -435,10 +465,10 @@ Namespace parametric
                 Dim upperLimits(count - 1) As Double
 
                 For i As Integer = 0 To count - 1
-                    labels(i) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
-                    estimates(i) = CDbl(arDiffs(i, 1))
-                    lowerLimits(i) = CDbl(arDiffs(i, 6))
-                    upperLimits(i) = CDbl(arDiffs(i, 7))
+                    labels(i) = varNames(Convert.ToInt32(arDiffs(i, 3))) & " vs. " & varNames(Convert.ToInt32(arDiffs(i, 4)))
+                    estimates(i) = Convert.ToDouble(arDiffs(i, 1))
+                    lowerLimits(i) = Convert.ToDouble(arDiffs(i, 6))
+                    upperLimits(i) = Convert.ToDouble(arDiffs(i, 7))
                 Next
                 plotData.Labels = labels
                 plotData.Estimates = estimates
@@ -497,7 +527,7 @@ Namespace parametric
                     anTable.AddHeaderLeftRow({"Between Groups", "Within Groups", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value"})
                 Else
-                    anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
+                    anTable.SetBody(AppendColumns(Me.ANOVAtable,
                                                         {{Me.WANOVA.DF1, Me.WANOVA.TestStatistics1, Me.WANOVA.Pvalue},
                                                          {"", "", ""},
                                                          {"", "", ""}}))
@@ -595,7 +625,7 @@ Namespace parametric
 
                 'Test statistic and P-value
                 Dim F As Double = MSb / MSerr
-                Dim Pvalue As Double = distributions.F_RT(F, CDbl(DFb), CDbl(DFerr))
+                Dim Pvalue As Double = distributions.F_RT(F, Convert.ToDouble(DFb), Convert.ToDouble(DFerr))
 
                 'output
                 out(0, 0) = SSb : out(0, 1) = DFb : out(0, 2) = MSb : out(0, 3) = F : out(0, 4) = Pvalue 'Between groups
@@ -696,8 +726,8 @@ Namespace parametric
 
                 Dim arMean(pNoGroups - 1) As Double
                 Dim arDiffs(nContrasts - 1, 7) As Object
-                Dim DFerr As Double = CDbl(Me.ANOVAtable(1, 1))
-                Dim MSerr As Double = CDbl(Me.ANOVAtable(1, 2))
+                Dim DFerr As Double = Convert.ToDouble(Me.ANOVAtable(1, 1))
+                Dim MSerr As Double = Convert.ToDouble(Me.ANOVAtable(1, 2))
 
                 For i = 0 To pNoGroups - 1
                     arMean(i) = data(i).Average()
@@ -735,11 +765,11 @@ Namespace parametric
                 Next
 
                 For i = 0 To ii - 1
-                    out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
-                    out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
-                    out(i, 2) = CStr(CSng(arDiffs(i, 0)))
-                    out(i, 3) = CStr(CSng(arDiffs(i, 2)))
-                    out(i, 4) = CStr(CSng(arDiffs(i, 5)))
+                    out(i, 0) = varNames(Convert.ToInt32(arDiffs(i, 3))) & " vs. " & varNames(Convert.ToInt32(arDiffs(i, 4)))
+                    out(i, 1) = Convert.ToSingle(arDiffs(i, 1)) & " (" & Convert.ToSingle(arDiffs(i, 6)) & " to " & Convert.ToSingle(arDiffs(i, 7)) & ")"
+                    out(i, 2) = Convert.ToString(Convert.ToSingle(arDiffs(i, 0)))
+                    out(i, 3) = Convert.ToString(Convert.ToSingle(arDiffs(i, 2)))
+                    out(i, 4) = Convert.ToString(Convert.ToSingle(arDiffs(i, 5)))
                 Next
 
                 If bBonferroni Then
@@ -781,14 +811,14 @@ Namespace parametric
 
                 Dim arMean(pNoGroups - 1) As Double
                 Dim arDiffs(nContrasts - 1, 7) As Object
-                Dim MSerr As Double = CDbl(Me.ANOVAtable(1, 2))
+                Dim MSerr As Double = Convert.ToDouble(Me.ANOVAtable(1, 2))
 
                 For i = 0 To pNoGroups - 1
                     arMean(i) = data(i).Average()
                 Next
 
                 Dim df As Integer = pNs.Sum() - pNoGroups
-                Dim Qcrit As Double = distributions.QTRNG(1.0 - alpha, CDbl(df), CDbl(pNoGroups), iFault)
+                Dim Qcrit As Double = distributions.QTRNG(1.0 - alpha, Convert.ToDouble(df), Convert.ToDouble(pNoGroups), iFault)
 
                 Dim ii As Integer = 0
                 For i = 0 To pNoGroups - 1
@@ -797,7 +827,7 @@ Namespace parametric
                         Dim seDiff As Double = Math.Sqrt(MSerr * (1.0 / pNs(i) + 1.0 / pNs(j)))
                         Dim seQ As Double = seDiff / Math.Sqrt(2.0)
                         Dim qStat As Double = Math.Abs(diff) / seQ
-                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, CDbl(df), CDbl(pNoGroups), iFault)
+                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, Convert.ToDouble(df), Convert.ToDouble(pNoGroups), iFault)
                         Dim margin As Double = Qcrit * seQ
 
                         arDiffs(ii, 0) = seDiff
@@ -813,11 +843,11 @@ Namespace parametric
                 Next
 
                 For i = 0 To ii - 1
-                    out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
-                    out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
-                    out(i, 2) = CStr(CSng(arDiffs(i, 0)))
-                    out(i, 3) = CStr(CSng(arDiffs(i, 2)))
-                    out(i, 4) = CStr(CSng(arDiffs(i, 5)))
+                    out(i, 0) = varNames(Convert.ToInt32(arDiffs(i, 3))) & " vs. " & varNames(Convert.ToInt32(arDiffs(i, 4)))
+                    out(i, 1) = Convert.ToSingle(arDiffs(i, 1)) & " (" & Convert.ToSingle(arDiffs(i, 6)) & " to " & Convert.ToSingle(arDiffs(i, 7)) & ")"
+                    out(i, 2) = Convert.ToString(Convert.ToSingle(arDiffs(i, 0)))
+                    out(i, 3) = Convert.ToString(Convert.ToSingle(arDiffs(i, 2)))
+                    out(i, 4) = Convert.ToString(Convert.ToSingle(arDiffs(i, 5)))
                 Next
 
                 Me.MCP_Tukey = out
@@ -872,8 +902,8 @@ Namespace parametric
                         Dim seQ As Double = seDiff / Math.Sqrt(2.0)
                         Dim qStat As Double = Math.Abs(diff) / seQ
                         Dim df As Double = ((VarNi + VarNj) ^ 2) / (((VarNi ^ 2) / (pNs(i) - 1)) + ((VarNj ^ 2) / (pNs(j) - 1)))
-                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, df, CDbl(pNoGroups), iFault)
-                        Dim qCrit As Double = distributions.QTRNG(1.0 - alpha, df, CDbl(pNoGroups), iFault)
+                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, df, Convert.ToDouble(pNoGroups), iFault)
+                        Dim qCrit As Double = distributions.QTRNG(1.0 - alpha, df, Convert.ToDouble(pNoGroups), iFault)
                         Dim margin As Double = qCrit * seQ
 
                         arDiffs(ii, 0) = seDiff
@@ -890,12 +920,12 @@ Namespace parametric
                 Next
 
                 For i = 0 To ii - 1
-                    out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
-                    out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
-                    out(i, 2) = CStr(CSng(arDiffs(i, 0)))
-                    out(i, 3) = CStr(CSng(arDiffs(i, 2)))
-                    out(i, 4) = CStr(CSng(arDiffs(i, 8)))
-                    out(i, 5) = CStr(CSng(arDiffs(i, 5)))
+                    out(i, 0) = varNames(Convert.ToInt32(arDiffs(i, 3))) & " vs. " & varNames(Convert.ToInt32(arDiffs(i, 4)))
+                    out(i, 1) = Convert.ToSingle(arDiffs(i, 1)) & " (" & Convert.ToSingle(arDiffs(i, 6)) & " to " & Convert.ToSingle(arDiffs(i, 7)) & ")"
+                    out(i, 2) = Convert.ToString(Convert.ToSingle(arDiffs(i, 0)))
+                    out(i, 3) = Convert.ToString(Convert.ToSingle(arDiffs(i, 2)))
+                    out(i, 4) = Convert.ToString(Convert.ToSingle(arDiffs(i, 8)))
+                    out(i, 5) = Convert.ToString(Convert.ToSingle(arDiffs(i, 5)))
                 Next
 
                 Me.MCP_GamesHowell = out
@@ -995,7 +1025,7 @@ Namespace parametric
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value"})
                 ElseIf Me.HuyhnFeldtTest IsNot Nothing And Me.GreenhouseGeisserTest IsNot Nothing Then
-                    anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
+                    anTable.SetBody(AppendColumns(Me.ANOVAtable,
                                                         {{Me.GreenhouseGeisserTest.TestStatistics1, Me.GreenhouseGeisserTest.Pvalue, Me.HuyhnFeldtTest.TestStatistics1, Me.HuyhnFeldtTest.Pvalue},
                                                          {"", "", "", ""}, {"", "", "", ""}, {"", "", "", ""}}))
                     anTable.AddPvalueToFormat(5)
@@ -1004,7 +1034,7 @@ Namespace parametric
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value", "Epsilon Greenhouse - Geisser", "P-value GG", "Epsilon Huyhn-Feldt", "P-value HF"})
                 ElseIf Me.HuyhnFeldtTest IsNot Nothing Then
-                    anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
+                    anTable.SetBody(AppendColumns(Me.ANOVAtable,
                                                         {{Me.HuyhnFeldtTest.TestStatistics1, Me.HuyhnFeldtTest.Pvalue},
                                                          {"", ""}, {"", ""}, {"", ""}}))
                     anTable.AddPvalueToFormat(5)
@@ -1012,7 +1042,7 @@ Namespace parametric
                     anTable.AddHeaderLeftRow({"Between Groups(columns)", "Between Subjects(rows)", "Residual(error)", "Total"})
                     anTable.AddHeaderTopRow({"Source of Variation", "SS", "df", "MS", "F", "P-value", "Epsilon Huyhn-Feldt", "P-value HF"})
                 ElseIf Me.GreenhouseGeisserTest IsNot Nothing Then
-                    anTable.SetBody(Matrix.VerticalStackArrays(Me.ANOVAtable,
+                    anTable.SetBody(AppendColumns(Me.ANOVAtable,
                                                         {{Me.GreenhouseGeisserTest.TestStatistics1, Me.GreenhouseGeisserTest.Pvalue},
                                                          {"", ""}, {"", ""}, {"", ""}}))
                     anTable.AddPvalueToFormat(5)
@@ -1078,7 +1108,7 @@ Namespace parametric
 
                 'compute groups means, between groups sum-of-squares, and totoal sum-of-sqares
                 For i = 0 To NoGroups - 1
-                    arTemp = Matrix.GetColumnFrom2Darray(data, i)
+                    arTemp = DataManagement.ArrayUtilities.GetColumn(data, i)
                     For j = 0 To NoBlocks - 1
                         SStot += (arTemp(j) - MeanTot) ^ 2
                     Next
@@ -1089,7 +1119,7 @@ Namespace parametric
 
                 'compute subject means and sum-of-squares
                 For j = 0 To NoBlocks - 1
-                    arTemp = Matrix.rowFromArray(data, j)
+                    arTemp = GetRow(data, j)
                     arSMeans(j) = arTemp.Average()
                     SSsub += (arSMeans(j) - MeanTot) ^ 2
                 Next
@@ -1105,8 +1135,8 @@ Namespace parametric
                 If MSerr > 0 Then Fb = MSb / MSerr
                 If MSerr > 0 Then Fsub = MSsub / MSerr
 
-                Dim Pb As Double = distributions.F_RT(Fb, CDbl(DFb), CDbl(DFerr))
-                Dim Psub As Double = distributions.F_RT(Fsub, CDbl(DFsub), CDbl(DFerr))
+                Dim Pb As Double = distributions.F_RT(Fb, Convert.ToDouble(DFb), Convert.ToDouble(DFerr))
+                Dim Psub As Double = distributions.F_RT(Fsub, Convert.ToDouble(DFsub), Convert.ToDouble(DFerr))
 
                 'output
                 ANOVAtable(0, 0) = SSb : ANOVAtable(0, 1) = DFb : ANOVAtable(0, 2) = MSb : ANOVAtable(0, 3) = Fb : ANOVAtable(0, 4) = Pb 'Between groups
@@ -1138,24 +1168,24 @@ Namespace parametric
                 Dim Num As Double, Den As Double
                 GreenhouseGeisserTest = New TestResult
 
-                Dim VarCovar(,) As Double = Matrix.MatCovar(data) 'create variance-covariance matrix
+                Dim VarCovar(,) As Double = Matrix.MatrixStatisticsCore.SampleCovariance(data) 'create variance-covariance matrix
                 'double center sample var-covar matrix to estimate population var-covar matrix
-                Dim PopVarCovar(,) As Double = Matrix.MatDoubleCenter(VarCovar)
-                Dim eig = Matrix.EIGEN_JK(PopVarCovar) 'calculate eigenvector and eigenvalues
-                Dim Eigenval() As Double = eig.Item1
+                Dim PopVarCovar(,) As Double = Matrix.MatrixStatisticsCore.DoubleCenter(VarCovar)
+                Dim eig = Matrix.MatrixStatisticsCore.EigenJk(PopVarCovar) 'calculate eigenvector and eigenvalues
+                Dim Eigenval() As Double = eig.Eigenvalues
 
-                For i = 0 To UBound(Eigenval) - 1
+                For i = 0 To Eigenval.Length - 2
                     Num += Eigenval(i) 'numerator
                     Den += Eigenval(i) * Eigenval(i) 'denominator
                 Next
                 Num = Num * Num
                 Dim V As Double = Num / Den
                 Dim Epsilon As Double = V / (NoGroups - 1)
-                Dim DFb As Double = Epsilon * ANOVAtable(0, 1)
-                Dim DFerr As Double = Epsilon * ANOVAtable(2, 1)
+                Dim DFb As Double = Epsilon * Convert.ToDouble(Me.ANOVAtable(0, 1))
+                Dim DFerr As Double = Epsilon * Convert.ToDouble(Me.ANOVAtable(2, 1))
 
                 'Excel Fdist truncates non-integer DF values so approximate F distribution by beta distribution.
-                Dim Pvalue As Double = 1.0 - distributions.F_CDF(ANOVAtable(0, 3), DFb, DFerr)
+                Dim Pvalue As Double = 1.0R - distributions.F_CDF(Convert.ToDouble(Me.ANOVAtable(0, 3)), DFb, DFerr)
 
                 'output
                 Me.GreenhouseGeisserTest.Pvalue = Pvalue
@@ -1184,13 +1214,13 @@ Namespace parametric
                 Dim Num As Double, Den As Double
                 HuyhnFeldtTest = New TestResult
 
-                Dim VarCovar(,) As Double = Matrix.MatCovar(data) 'create variance-covariance matrix
+                Dim VarCovar(,) As Double = Matrix.MatrixStatisticsCore.SampleCovariance(data) 'create variance-covariance matrix
                 'double center sample var-covar matrix to estimate population var-covar matrix
-                Dim PopVarCovar(,) As Double = Matrix.MatDoubleCenter(VarCovar)
-                Dim eig = Matrix.EIGEN_JK(PopVarCovar) 'calculate eigenvector and eigenvalues
-                Dim Eigenval() As Double = eig.Item1
+                Dim PopVarCovar(,) As Double = Matrix.MatrixStatisticsCore.DoubleCenter(VarCovar)
+                Dim eig = Matrix.MatrixStatisticsCore.EigenJk(PopVarCovar) 'calculate eigenvector and eigenvalues
+                Dim Eigenval() As Double = eig.Eigenvalues
 
-                For i = 0 To UBound(Eigenval, 1) - 1
+                For i = 0 To Eigenval.Length - 2
                     Num += Eigenval(i) 'numerator
                     Den += Eigenval(i) * Eigenval(i) 'denominator
                 Next
@@ -1199,9 +1229,9 @@ Namespace parametric
                 Dim V As Double = Num / Den
                 Dim EpsilonGG As Double = V / (NoGroups - 1)
                 Dim EpsilonHF As Double = (NoBlocks * (NoGroups - 1) * EpsilonGG - 2) / ((NoGroups - 1) * (NoBlocks - 1 - (NoGroups - 1) * EpsilonGG))
-                Dim DFb As Double = EpsilonHF * ANOVAtable(0, 1)
-                Dim DFerr As Double = EpsilonHF * ANOVAtable(2, 1)
-                Dim Pvalue As Double = 1.0 - distributions.F_CDF(ANOVAtable(0, 3), DFb, DFerr)
+                Dim DFb As Double = EpsilonHF * Convert.ToDouble(Me.ANOVAtable(0, 1))
+                Dim DFerr As Double = EpsilonHF * Convert.ToDouble(Me.ANOVAtable(2, 1))
+                Dim Pvalue As Double = 1.0R - distributions.F_CDF(Convert.ToDouble(Me.ANOVAtable(0, 3)), DFb, DFerr)
 
                 'output
                 Me.HuyhnFeldtTest.Pvalue = Pvalue
@@ -1234,7 +1264,7 @@ Namespace parametric
 
                 Dim arDiffs(((NoGroups * (NoGroups - 1)) / 2 - 1), 7) As Object
                 Dim df As Integer = NoBlocks - 1
-                Dim Qcrit As Double = distributions.QTRNG(1.0 - alpha, CDbl(df), CDbl(NoGroups), iFault)
+                Dim Qcrit As Double = distributions.QTRNG(1.0 - alpha, Convert.ToDouble(df), Convert.ToDouble(NoGroups), iFault)
 
                 Dim ii As Integer = 0
                 Dim arTemp(NoBlocks - 1) As Double
@@ -1248,7 +1278,7 @@ Namespace parametric
                         Dim diff As Double = arTemp.Average()
                         Dim seDiff As Double = stDev(arTemp) / Math.Sqrt(NoBlocks)
                         Dim qStat As Double = Math.Abs(diff) / ((1.0 / Math.Sqrt(2.0)) * seDiff)
-                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, CDbl(df), CDbl(NoGroups), iFault)
+                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, Convert.ToDouble(df), Convert.ToDouble(NoGroups), iFault)
                         Dim margin As Double = (Qcrit / Math.Sqrt(2.0)) * seDiff
 
                         arDiffs(ii, 0) = qStat
@@ -1263,10 +1293,10 @@ Namespace parametric
                 Next
 
                 For i = 0 To ii - 1
-                    TuekyRM2(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
-                    TuekyRM2(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
-                    TuekyRM2(i, 2) = CStr(CSng(arDiffs(i, 0)))
-                    TuekyRM2(i, 3) = CStr(CSng(arDiffs(i, 5)))
+                    TuekyRM2(i, 0) = varNames(Convert.ToInt32(arDiffs(i, 3))) & " vs. " & varNames(Convert.ToInt32(arDiffs(i, 4)))
+                    TuekyRM2(i, 1) = Convert.ToSingle(arDiffs(i, 1)) & " (" & Convert.ToSingle(arDiffs(i, 6)) & " to " & Convert.ToSingle(arDiffs(i, 7)) & ")"
+                    TuekyRM2(i, 2) = Convert.ToString(Convert.ToSingle(arDiffs(i, 0)))
+                    TuekyRM2(i, 3) = Convert.ToString(Convert.ToSingle(arDiffs(i, 5)))
                 Next
 
                 Me.TuekyRM2Alpha = alpha
@@ -1300,22 +1330,22 @@ Namespace parametric
 
                 Dim arMean(NoGroups - 1) As Double
                 Dim arDiffs(nContrasts - 1, 7) As Object
-                Dim MSerr As Double = CDbl(Me.ANOVAtable(2, 2)) ' residual/error MS CDbl(Me.ANOVAtable(1, 2))
+                Dim MSerr As Double = Convert.ToDouble(Me.ANOVAtable(2, 2)) ' residual/error MS Convert.ToDouble(Me.ANOVAtable(1, 2))
 
                 For i = 0 To NoGroups - 1
-                    arTemp = Matrix.GetColumnFrom2Darray(data, i)
+                    arTemp = DataManagement.ArrayUtilities.GetColumn(data, i)
                     arMean(i) = arTemp.Average()
                 Next
 
                 Dim df As Integer = (NoGroups * NoBlocks) + 1 - NoGroups - NoBlocks
-                Dim Qcrit As Double = distributions.QTRNG(1.0 - alpha, CDbl(df), CDbl(NoGroups), iFault)
+                Dim Qcrit As Double = distributions.QTRNG(1.0 - alpha, Convert.ToDouble(df), Convert.ToDouble(NoGroups), iFault)
 
                 Dim ii As Integer = 0
                 For i = 0 To NoGroups - 1
                     For j = i + 1 To NoGroups - 1
                         Dim diff As Double = arMean(i) - arMean(j)
                         Dim qStat As Double = Math.Abs(diff) / Math.Sqrt(0.5 * MSerr * (1.0 / NoBlocks + 1.0 / NoBlocks))
-                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, CDbl(df), CDbl(NoGroups), iFault)
+                        Dim pVal As Double = 1.0 - distributions.PRTRNG(qStat, Convert.ToDouble(df), Convert.ToDouble(NoGroups), iFault)
                         Dim margin As Double = (Qcrit / Math.Sqrt(2.0)) * Math.Sqrt(MSerr) * Math.Sqrt(1.0 / NoBlocks + 1.0 / NoBlocks)
 
                         arDiffs(ii, 1) = diff
@@ -1330,10 +1360,10 @@ Namespace parametric
                 Next
 
                 For i = 0 To ii - 1
-                    out(i, 0) = varNames(CInt(arDiffs(i, 3))) & " vs. " & varNames(CInt(arDiffs(i, 4)))
-                    out(i, 1) = CSng(arDiffs(i, 1)) & " (" & CSng(arDiffs(i, 6)) & " to " & CSng(arDiffs(i, 7)) & ")"
-                    out(i, 2) = CStr(CSng(arDiffs(i, 2)))
-                    out(i, 3) = CStr(CSng(arDiffs(i, 5)))
+                    out(i, 0) = varNames(Convert.ToInt32(arDiffs(i, 3))) & " vs. " & varNames(Convert.ToInt32(arDiffs(i, 4)))
+                    out(i, 1) = Convert.ToSingle(arDiffs(i, 1)) & " (" & Convert.ToSingle(arDiffs(i, 6)) & " to " & Convert.ToSingle(arDiffs(i, 7)) & ")"
+                    out(i, 2) = Convert.ToString(Convert.ToSingle(arDiffs(i, 2)))
+                    out(i, 3) = Convert.ToString(Convert.ToSingle(arDiffs(i, 5)))
                 Next
 
                 Me.TukeyOut = out
@@ -1619,7 +1649,7 @@ Namespace parametric
                 Me.SE = Math.Sqrt(var) / Math.Sqrt(n)
                 out.DF1 = n - 1
                 out.TestStatistics1 = pDiffMean / Math.Sqrt(var / n)
-                out.Pvalue = distributions.T_2T(Math.Abs(out.TestStatistics1), CDbl(out.DF1))
+                out.Pvalue = distributions.T_2T(Math.Abs(out.TestStatistics1), Convert.ToDouble(out.DF1))
 
                 Me.TtestRes = out
                 Return out
@@ -1774,56 +1804,56 @@ Namespace parametric
                 If pMeans Is Nothing Then
                     ReDim pMeans(p - 1)
                     For i = 0 To p - 1
-                        Dim tmp1 = Matrix.GetColumnFrom2Darray(data1, i)
-                        Dim tmp2 = Matrix.GetColumnFrom2Darray(data2, i)
+                        Dim tmp1 = DataManagement.ArrayUtilities.GetColumn(data1, i)
+                        Dim tmp2 = DataManagement.ArrayUtilities.GetColumn(data2, i)
                         pMeans(i) = tmp1.Average() - tmp2.Average()
                     Next
                 End If
 
                 'Convariance MatrixType of 1st Group
-                Dim covar1(,) As Double = Matrix.MatCovar(data1)
+                Dim covar1(,) As Double = Matrix.MatrixStatisticsCore.SampleCovariance(data1)
                 If bCovEqual Then
-                    covar1 = Matrix.MatrixMult(covar1, n1 - 1)
+                    covar1 = Matrix.MatrixArithmeticCore.Multiply(covar1, n1 - 1)
                 Else
-                    covar1 = Matrix.MatrixMult(covar1, 1 / n1)
+                    covar1 = Matrix.MatrixArithmeticCore.Multiply(covar1, 1 / n1)
                 End If
 
                 'Convariance MatrixType of 2nd Group
-                Dim covar2(,) As Double = Matrix.MatCovar(data2)
+                Dim covar2(,) As Double = Matrix.MatrixStatisticsCore.SampleCovariance(data2)
                 If bCovEqual Then
-                    covar2 = Matrix.MatrixMult(covar2, n2 - 1)
+                    covar2 = Matrix.MatrixArithmeticCore.Multiply(covar2, n2 - 1)
                 Else
-                    covar2 = Matrix.MatrixMult(covar2, 1 / n2)
+                    covar2 = Matrix.MatrixArithmeticCore.Multiply(covar2, 1 / n2)
                 End If
 
                 'Pooled Convariance MatrixType
-                Dim covar(,) As Double = Matrix.M_ADD(covar1, covar2)
+                Dim covar(,) As Double = Matrix.MatrixArithmeticCore.Add(covar1, covar2)
                 Dim tot_covar(p - 1, p - 1) As Double
                 If bCovEqual Then
-                    tot_covar = Matrix.MatrixMult(covar, (1.0 / n1 + 1.0 / n2) * (1.0 / (n1 + n2 - 2)))
+                    tot_covar = Matrix.MatrixArithmeticCore.Multiply(covar, (1.0 / n1 + 1.0 / n2) * (1.0 / (n1 + n2 - 2)))
                 Else
                     tot_covar = covar
                 End If
 
-                Dim covarinv(,) As Double = Matrix.MatInv(tot_covar, "CHOL")
-                Dim H(,) As Double = Matrix.MatrixMult(pMeans, Matrix.MatrixMult(covarinv, pMeans))
+                Dim covarinv(,) As Double = Matrix.MatrixDecompositionCore.InvertMatrix(tot_covar, "CHOL")
+                Dim H(,) As Double = Matrix.MatrixArithmeticCore.Multiply(pMeans, Matrix.MatrixArithmeticCore.Multiply(covarinv, pMeans))
                 Dim out As New TestResult
                 If bCovEqual Then
                     out.TestStatistics1 = H(0, 0)
-                    out.Pvalue = distributions.F_RT((n1 + n2 - 1 - p) * out.TestStatistics1 / (p * (n1 + n2 - 2)), CDbl(p), n1 + n2 - 1 - p)
+                    out.Pvalue = distributions.F_RT((n1 + n2 - 1 - p) * out.TestStatistics1 / (p * (n1 + n2 - 2)), Convert.ToDouble(p), n1 + n2 - 1 - p)
                     Me.HT_eq = out
                 Else
                     'compute adjusted DF
-                    Dim k1(,) As Double = Matrix.MatrixMult(pMeans, covarinv)
-                    Dim k2(,) As Double = Matrix.MatrixMult(covarinv, pMeans)
-                    Dim h1(,) As Double = Matrix.MatrixMult(k1, Matrix.MatrixMult(covar1, k2))
-                    Dim h2(,) As Double = Matrix.MatrixMult(k1, Matrix.MatrixMult(covar2, k2))
-                    H = Matrix.MatrixMult(k1, pMeans) 're-using the h array
+                    Dim k1(,) As Double = Matrix.MatrixArithmeticCore.Multiply(pMeans, covarinv)
+                    Dim k2(,) As Double = Matrix.MatrixArithmeticCore.Multiply(covarinv, pMeans)
+                    Dim h1(,) As Double = Matrix.MatrixArithmeticCore.Multiply(k1, Matrix.MatrixArithmeticCore.Multiply(covar1, k2))
+                    Dim h2(,) As Double = Matrix.MatrixArithmeticCore.Multiply(k1, Matrix.MatrixArithmeticCore.Multiply(covar2, k2))
+                    H = Matrix.MatrixArithmeticCore.Multiply(k1, pMeans) 're-using the h array
 
                     Dim df As Double = 1.0 / ((h1(0, 0) / H(0, 0)) ^ 2 / (n1 - 1) + (h2(0, 0) / H(0, 0)) ^ 2 / (n2 - 1))
                     out.DF1 = df
                     out.TestStatistics1 = H(0, 0)
-                    out.Pvalue = distributions.F_RT((n1 + n2 - 1 - p) * out.TestStatistics1 / (p * (n1 + n2 - 2)), CDbl(p), df)
+                    out.Pvalue = distributions.F_RT((n1 + n2 - 1 - p) * out.TestStatistics1 / (p * (n1 + n2 - 2)), Convert.ToDouble(p), df)
                     Me.HT_uneq = out
                 End If
 
@@ -1890,11 +1920,11 @@ Namespace parametric
                 Me.pCIs = New List(Of String)
                 ReDim pMeans(p - 1), pSE(p - 1)
 
-                Dim Tcrit As Double = Math.Sqrt(distributions.F_Inv_RT(alpha, CDbl(p), n1 + n2 - 1 - p) * p * (n1 + n2 - 2) / (n1 + n2 - 1 - p))
+                Dim Tcrit As Double = Math.Sqrt(distributions.F_Inv_RT(alpha, Convert.ToDouble(p), n1 + n2 - 1 - p) * p * (n1 + n2 - 2) / (n1 + n2 - 1 - p))
 
                 For i = 0 To p - 1
-                    Dim tmp1 = Matrix.GetColumnFrom2Darray(data1, i)
-                    Dim tmp2 = Matrix.GetColumnFrom2Darray(data2, i)
+                    Dim tmp1 = DataManagement.ArrayUtilities.GetColumn(data1, i)
+                    Dim tmp2 = DataManagement.ArrayUtilities.GetColumn(data2, i)
                     pMeans(i) = tmp1.Average() - tmp2.Average()
                     pSE(i) = Math.Sqrt(((n1 - 1) * variance(tmp1) + (n2 - 1) * variance(tmp2)) / (n1 + n2 - 2)) * Math.Sqrt(1.0 / n1 + 1.0 / n2)
 
@@ -1971,13 +2001,13 @@ Namespace parametric
                 Dim ciLabel As String = $"{(1.0 - Me.pAlpha) * 100.0:0.##}% CI (Simultaneous)"
 
                 If Me.pCIs Is Nothing Then Me.CI(Me.pAlpha) 'if no CIs then calculate them
-                Dim o(5, Me.pVarNames.Length - 1) As Object, n As Integer = UBound(Me.data, 1) + 1
+                Dim o(5, Me.pVarNames.Length - 1) As Object, n As Integer = Me.data.GetLength(0)
                 For i = 0 To Me.pVarNames.Length - 1
                     o(0, i) = H0(i)
                     o(1, i) = pMeans(i)
                     o(2, i) = pSE(i)
                     o(3, i) = (pMeans(i) - H0(i)) / pSE(i) 'Individual T-test test statistic
-                    o(4, i) = distributions.T_2T(Math.Abs(CDbl(o(3, i))), n - 1) 'p-value of Individual T-test
+                    o(4, i) = distributions.T_2T(Math.Abs(Convert.ToDouble(o(3, i))), n - 1) 'p-value of Individual T-test
                     o(5, i) = Me.pCIs(i)
                 Next
 
@@ -1992,7 +2022,7 @@ Namespace parametric
                 'Test result
                 If Me.pHT Is Nothing Then Me.pHT = Me.calculate()
                 t = New ResultTable
-                t.SetBody({{UBound(Me.data) + 1}, {UBound(Me.data, 2) + 1},
+                t.SetBody({{Me.data.GetLength(0)}, {Me.data.GetLength(1)},
                            {Me.pHT.TestStatistics1}, {Me.pHT.Pvalue}, {Me.pAlpha}})
                 t.AddPvalueCellToFormat(4, 1)
                 Dim strT As String = If(bPaired, "Paired Samples Hotelling's T-squared", "Single Sample Hotelling's T-squared")
@@ -2036,18 +2066,18 @@ Namespace parametric
                 ReDim pMeans(p - 1)
 
                 For i = 0 To p - 1
-                    Dim tmp = Matrix.GetColumnFrom2Darray(data, i)
+                    Dim tmp = DataManagement.ArrayUtilities.GetColumn(data, i)
                     pMeans(i) = tmp.Average()
                     diffs(i) = pMeans(i) - H0(i)
                 Next
 
-                Dim covar(,) As Double = Matrix.MatCovar(data)
-                Dim covarinv(,) As Double = Matrix.MatInv(covar, "CHOL")
-                Dim H(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(diffs, covarinv), diffs)
+                Dim covar(,) As Double = Matrix.MatrixStatisticsCore.SampleCovariance(data)
+                Dim covarinv(,) As Double = Matrix.MatrixDecompositionCore.InvertMatrix(covar, "CHOL")
+                Dim H(,) As Double = Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Multiply(diffs, covarinv), diffs)
 
                 Dim out As New TestResult
                 out.TestStatistics1 = H(0, 0) * n
-                out.Pvalue = distributions.F_RT((n - p) * out.TestStatistics1 / (p * (n - 1)), CDbl(p), n - p)
+                out.Pvalue = distributions.F_RT((n - p) * out.TestStatistics1 / (p * (n - 1)), Convert.ToDouble(p), n - p)
                 Me.pHT = out
                 Return out
             End Function
@@ -2106,10 +2136,10 @@ Namespace parametric
                 Dim diffs(p - 1) As Double
                 ReDim pMeans(p - 1), pSE(p - 1)
 
-                Dim Tcrit As Double = Math.Sqrt(p * (n - 1) / (n - p) * distributions.F_Inv_RT(alpha, CDbl(p), n - p))
+                Dim Tcrit As Double = Math.Sqrt(p * (n - 1) / (n - p) * distributions.F_Inv_RT(alpha, Convert.ToDouble(p), n - p))
                 Me.pCIs = New List(Of String)
                 For i = 0 To p - 1
-                    Dim tmp = Matrix.GetColumnFrom2Darray(data, i)
+                    Dim tmp = DataManagement.ArrayUtilities.GetColumn(data, i)
                     pMeans(i) = tmp.Average()
                     pSE(i) = stDev(tmp) / Math.Sqrt(n)
                     diffs(i) = pMeans(i) - H0(i)
@@ -2232,8 +2262,8 @@ Namespace parametric
                         CoreServices.Errors.LogAndThrow(New ArgumentException("Error: Paired version of Hotelling's T-squared requied The same number of columns in the Input Datasets."))
                     End If
 
-                    Dim zeros() As Double = Matrix.IdentityVect(p - 1, 0)
-                    Dim diff(,) As Double = Matrix.M_SUB(data1, data2)
+                    Dim zeros() As Double = Matrix.MatrixArithmeticCore.ConstantVector(p - 1, 0)
+                    Dim diff(,) As Double = Matrix.MatrixArithmeticCore.Subtract(data1, data2)
 
                     Me.pHt = New HotelingsT_single(diff, zeros, Me.pVarNames)
                 End If
