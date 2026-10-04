@@ -1,6 +1,8 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports System
+Imports System.Linq
 
 ''' <summary>
 ''' Likelihood‑model result container providing coefficient estimates, standard errors,
@@ -149,7 +151,7 @@ Public Class LMresult
     '''   <item>
     '''     <description>
     '''     Otherwise, the residual degrees of freedom is computed as <c>n - p</c>, where
-    '''     <c>p</c> is the number of estimated coefficients (<c>UBound(Coeffs_est) + 1</c>).
+    '''     <c>p</c> is the number of estimated coefficients (<c>Coeffs_est.Length</c>).
     '''     </description>
     '''   </item>
     ''' </list>
@@ -167,7 +169,7 @@ Public Class LMresult
         Get
             If Not Double.IsNaN(Me.dfResid) AndAlso Me.dfResid > 0 Then Return Me.dfResid
             If Me.Coeffs_est Is Nothing Then Return Double.NaN
-            Dim p As Integer = UBound(Me.Coeffs_est) + 1
+            Dim p As Integer = Me.Coeffs_est.Length
             Return Me.n - p
         End Get
     End Property
@@ -181,8 +183,8 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property Coeffs_Zstat() As Double()
         Get
-            Dim out(UBound(Me.Coeffs_est)) As Double
-            For i = 0 To UBound(Me.Coeffs_est)
+            Dim out(Me.Coeffs_est.Length - 1) As Double
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i) = Me.Coeffs_est(i) / Me.Coeffs_SEs(i)
             Next
             Return out
@@ -197,8 +199,8 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property Coeffs_Tstat() As Double()
         Get
-            Dim out(UBound(Me.Coeffs_est)) As Double
-            For i = 0 To UBound(Me.Coeffs_est)
+            Dim out(Me.Coeffs_est.Length - 1) As Double
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i) = Me.Coeffs_est(i) / Me.Coeffs_SEsT(i)
             Next
             Return out
@@ -213,8 +215,8 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property Coeffs_PvaluesZ() As Double()
         Get
-            Dim out(UBound(Me.Coeffs_est)) As Double
-            For i = 0 To UBound(Me.Coeffs_est)
+            Dim out(Me.Coeffs_est.Length - 1) As Double
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i) = (1.0 - distributions.PNorm(Math.Abs(Me.Coeffs_Zstat(i)))) * 2.0
             Next
             Return out
@@ -229,8 +231,8 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property Coeffs_PvaluesT() As Double()
         Get
-            Dim out(UBound(Me.Coeffs_est)) As Double
-            For i = 0 To UBound(Me.Coeffs_est)
+            Dim out(Me.Coeffs_est.Length - 1) As Double
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i) = distributions.T_2T(Math.Abs(Coeffs_Tstat(i)), Me.DF_T)
             Next
             Return out
@@ -245,9 +247,9 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property Coeffs_CIlowZ() As Double()
         Get
-            Dim out(UBound(Me.Coeffs_est)) As Double
+            Dim out(Me.Coeffs_est.Length - 1) As Double
             Dim tmp1 As Double = distributions.NormSInv(1.0 - Me.alpha / 2.0)
-            For i = 0 To UBound(Me.Coeffs_est)
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i) = Me.Coeffs_est(i) - Me.Coeffs_SEs(i) * tmp1
             Next
             Return out
@@ -262,8 +264,8 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property Coeffs_CIlowT() As Double()
         Get
-            Dim out(UBound(Me.Coeffs_est)) As Double
-            For i = 0 To UBound(Me.Coeffs_est)
+            Dim out(Me.Coeffs_est.Length - 1) As Double
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i) = Me.Coeffs_est(i) - Me.Coeffs_SEsT(i) * distributions.T_Inv_2T(Me.alpha, Me.DF_T)
             Next
             Return out
@@ -278,9 +280,9 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property Coeffs_CIhighZ() As Double()
         Get
-            Dim out(UBound(Me.Coeffs_est)) As Double
+            Dim out(Me.Coeffs_est.Length - 1) As Double
             Dim tmp1 As Double = distributions.NormSInv(1.0 - Me.alpha / 2.0)
-            For i = 0 To UBound(Me.Coeffs_est)
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i) = Me.Coeffs_est(i) + Me.Coeffs_SEs(i) * tmp1
             Next
             Return out
@@ -295,8 +297,8 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property Coeffs_CIhighT() As Double()
         Get
-            Dim out(UBound(Me.Coeffs_est)) As Double
-            For i = 0 To UBound(Me.Coeffs_est)
+            Dim out(Me.Coeffs_est.Length - 1) As Double
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i) = Me.Coeffs_est(i) + Me.Coeffs_SEsT(i) * distributions.T_Inv_2T(Me.alpha, Me.DF_T)
             Next
             Return out
@@ -312,8 +314,8 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property CoeffsZ_vals() As Double(,)
         Get
-            Dim out(UBound(Me.Coeffs_est), 5) As Double
-            For i = 0 To UBound(Me.Coeffs_est)
+            Dim out(Me.Coeffs_est.Length - 1, 5) As Double
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i, 0) = Me.Coeffs_est(i)
                 out(i, 1) = Me.Coeffs_SEs(i)
                 out(i, 2) = Me.Coeffs_Zstat(i)
@@ -333,9 +335,9 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property CoeffsZ_toPrint() As ResultTable
         Get
-            Dim out(UBound(Me.Coeffs_est), 5) As Object, rowLbls() As String
+            Dim out(Me.Coeffs_est.Length - 1, 5) As Object, rowLbls() As String
             Dim resTab As ResultTable = New ResultTable
-            For i = 0 To UBound(Me.Coeffs_est)
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i, 0) = Me.Coeffs_est(i)
                 out(i, 1) = Me.Coeffs_SEs(i)
                 out(i, 2) = Me.Coeffs_Zstat(i)
@@ -346,7 +348,7 @@ Public Class LMresult
             resTab.SetBody(out)
             resTab.AddHeaderTopRow(Me.CoeffsZ_table_labels)
             If Me.bIntercept Then
-                rowLbls = Matrix.ConcatArrays({"Variable", "Intercept"}, Me.varNames)
+                rowLbls = {"Variable", "Intercept"}.Concat(Me.varNames).ToArray()
             Else
                 rowLbls = Me.varNames
             End If
@@ -363,10 +365,10 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property CoeffsT_toPrint() As ResultTable
         Get
-            Dim out(UBound(Me.Coeffs_est), 5) As Object, rowLbls() As String
+            Dim out(Me.Coeffs_est.Length - 1, 5) As Object, rowLbls() As String
             Dim resTab As ResultTable = New ResultTable
 
-            For i = 0 To UBound(Me.Coeffs_est)
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i, 0) = Me.Coeffs_est(i)
                 out(i, 1) = Me.Coeffs_SEsT(i)
                 out(i, 2) = Me.Coeffs_Tstat(i)
@@ -377,7 +379,7 @@ Public Class LMresult
             resTab.SetBody(out)
             resTab.AddHeaderTopRow(Me.CoeffsT_table_labels)
             If Me.bIntercept Then
-                rowLbls = Matrix.ConcatArrays({"Intercept"}, Me.varNames)
+                rowLbls = {"Intercept"}.Concat(Me.varNames).ToArray()
             Else
                 rowLbls = Me.varNames
             End If
@@ -395,8 +397,8 @@ Public Class LMresult
     ''' </remarks>
     ReadOnly Property CoeffsT_vals() As Double(,)
         Get
-            Dim out(UBound(Me.Coeffs_est), 5) As Double
-            For i = 0 To UBound(Me.Coeffs_est)
+            Dim out(Me.Coeffs_est.Length - 1, 5) As Double
+            For i = 0 To Me.Coeffs_est.Length - 1
                 out(i, 0) = Me.Coeffs_est(i)
                 out(i, 1) = Me.Coeffs_SEsT(i)
                 out(i, 2) = Me.Coeffs_Tstat(i)
@@ -409,6 +411,25 @@ Public Class LMresult
         End Get
     End Property
 
+    ''' <summary>
+    ''' Safely exponentiates a regression coefficient for neutral result-table output.
+    ''' </summary>
+    Private Shared Function ExpForDisplay(exponent As Double) As Object
+        If Double.IsNaN(exponent) Then Return Double.NaN
+        If Double.IsPositiveInfinity(exponent) Then Return "Inf"
+        If Double.IsNegativeInfinity(exponent) Then Return 0.0R
+
+        Dim maxLog As Double = Math.Log(Double.MaxValue)
+        Dim minLog As Double = Math.Log(Double.Epsilon)
+
+        If exponent > maxLog Then Return "Inf"
+        If exponent < minLog Then Return 0.0R
+
+        Dim value As Double = Math.Exp(exponent)
+        If Double.IsPositiveInfinity(value) Then Return "Inf"
+        If Double.IsNaN(value) Then Return Double.NaN
+        Return value
+    End Function
 
     ''' <summary>
     ''' Computes odds ratios, Wald χ², p-values, and CI bounds for non-intercept parameters.
@@ -420,7 +441,7 @@ Public Class LMresult
         'Odds Rations exp(parameter estimate)
         Get
             Dim out(,) As Object
-            Dim NoParams As Integer = UBound(Me.Coeffs_est)
+            Dim NoParams As Integer = Me.Coeffs_est.Length - 1
             If Me.bIntercept Then NoParams -= 1 'Do not compute odds ration for the intercept
             If NoParams < 0 Then
                 ReDim out(0, 4)
@@ -431,7 +452,7 @@ Public Class LMresult
             For i = 0 To NoParams
                 Dim k = If(Me.bIntercept, i + 1, i)
                 Dim pname As String = Nothing
-                If Me.varNames IsNot Nothing AndAlso k >= 0 AndAlso k <= UBound(Me.varNames) Then
+                If Me.varNames IsNot Nothing AndAlso k >= 0 AndAlso k <= Me.varNames.Length - 1 Then
                     pname = Me.varNames(k)
                 End If
                 Dim isExplicitIntercept As Boolean = pname IsNot Nothing AndAlso pname.Trim().EndsWith(": Intercept", StringComparison.OrdinalIgnoreCase)

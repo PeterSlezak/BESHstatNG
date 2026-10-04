@@ -5,6 +5,8 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.DataManagement
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -76,12 +78,12 @@ Namespace regression
     ''' </para>
     ''' <list type="bullet">
     '''   <item><description>
-    '''     Coefficients are estimated using <see cref="Matrix.MinimalWLS"/>, which applies the
+    '''     Coefficients are estimated using <see cref="MatrixStatisticsCore.FitWeightedLeastSquares"/>, which applies the
     '''     usual WLS transformation and solves the transformed OLS problem.
     '''   </description></item>
     '''   <item><description>
     '''     The (scaled) coefficient covariance is computed as <c>Var(β̂) = MSE · (X'WX)^{-1}</c> with
-    '''     <c>MSE = SSE / (n − p)</c>. The matrix inverse is obtained via <see cref="Matrix.MatInv"/> ("CHOL").
+    '''     <c>MSE = SSE / (n − p)</c>. The matrix inverse is obtained via <see cref="MatrixDecompositionCore.InvertMatrix"/> ("CHOL").
     '''   </description></item>
     '''   <item><description>
     '''     T-based inference (p-values and confidence intervals) uses the Student t distribution functions in
@@ -216,7 +218,7 @@ Namespace regression
         ''' This method stores the provided inputs; estimation is performed by <see cref="Fit"/>.
         ''' </para>
         ''' <seealso cref="Fit"/>
-        ''' <seealso cref="Matrix.IdentityVect(Integer, Double)"/>
+        ''' <seealso cref="MatrixArithmeticCore.ConstantVector(Integer, Double)"/>
         ''' </remarks>
         Public Sub Data(dataMatrix(,) As Double,
                     Optional varNames() As String = Nothing,
@@ -226,12 +228,12 @@ Namespace regression
             If dataMatrix Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(dataMatrix)))
             Me.pData = dataMatrix
 
-            Me.n = UBound(pData, 1) + 1
+            Me.n = pData.GetLength(0)
             If n <= 1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Data matrix must have at least 2 rows."))
 
             '--- varNames incoming includes Y at index 0; store predictors only (drop index 0) ---
             If varNames IsNot Nothing Then
-                Dim expectedCols As Integer = UBound(pData, 2) + 1
+                Dim expectedCols As Integer = pData.GetLength(1)
                 If varNames.Length <> expectedCols Then
                     CoreServices.Errors.LogAndThrow(New ArgumentException("varNames length must match number of columns in dataMatrix (including Y at index 0)."))
                 End If
@@ -260,7 +262,7 @@ Namespace regression
 
             If weights Is Nothing Then
                 ' IdentityVect expects last index, so n-1 gives length n
-                Me.pWeights = Matrix.IdentityVect(n - 1, 1.0)
+                Me.pWeights = MatrixArithmeticCore.ConstantVector(n - 1, 1.0R)
             Else
                 If weights.Length <> n Then CoreServices.Errors.LogAndThrow(New ArgumentException("weights length must match #rows."))
                 Me.pWeights = CType(weights.Clone(), Double())
@@ -319,7 +321,7 @@ Namespace regression
         ''' </summary>
         ''' <remarks>
         ''' Computed as <c>MSE · (X'WX)^{-1}</c>, where <c>MSE = SSE/(n−p)</c>.
-        ''' See also <see cref="Matrix.MatInv"/>.
+        ''' See also <see cref="MatrixDecompositionCore.InvertMatrix"/>.
         ''' </remarks>
         Public ReadOnly Property Covariance() As Double(,)
             Get
@@ -406,8 +408,6 @@ Namespace regression
         ''' <remarks>
         ''' This method mirrors the project pattern used by the GLM implementation: it returns preformatted tables intended for UI/reporting.
         ''' Coefficient and model-diagnostic tables are provided by <see cref="LMresult"/>.
-        ''' <seealso cref="ProcessListofResultTables.writeToSheet"/>
-        ''' <seealso cref="ExcelDnaResultWriter"/>
         ''' </remarks>
         Public Function wrapResults() As List(Of ResultTable)
 
@@ -448,7 +448,7 @@ Namespace regression
                 Dim t As New ResultTable
                 t.SetBody(Me.pCovariance)
                 Dim vars = Me.pVarNames
-                If Me.pIncludeIntercept Then vars = Matrix.ConcatArrays({"Intercept"}, Me.pVarNames)
+                If Me.pIncludeIntercept Then vars = {"Intercept"}.Concat(Me.pVarNames).ToArray()
 
                 Dim h(vars.Length) As String
                 h(0) = "Covariance MatrixType of Parameters"
@@ -484,7 +484,7 @@ Namespace regression
         ''' <para>
         ''' The fitted coefficients solve:
         ''' <c>β̂ = argmin_β Σ_i w_i (y_i − x_i'β)^2</c>.
-        ''' This is computed by <see cref="Matrix.MinimalWLS"/>.
+        ''' This is computed by <see cref="MatrixStatisticsCore.FitWeightedLeastSquares"/>.
         ''' </para>
         ''' <para><b>Sums of squares</b></para>
         ''' <para>
@@ -535,7 +535,7 @@ Namespace regression
         ''' <para><b>VIF</b></para>
         ''' <para>
         ''' Variance inflation factors are computed from the inverse of the weighted predictor correlation matrix (excluding the intercept):
-        ''' <c>VIF_j = (R^{-1})_{jj}</c>. The inversion uses <see cref="Matrix.MatInv"/>.
+        ''' <c>VIF_j = (R^{-1})_{jj}</c>. The inversion uses <see cref="MatrixDecompositionCore.InvertMatrix"/>.
         ''' If the correlation matrix is singular or not positive definite, VIFs are reported as <c>+∞</c>.
         ''' The same output table also reports coefficient-level partial correlations, computed as
         ''' <c>r_partial,j = t_j / sqrt(t_j² + df_resid)</c>.
@@ -553,7 +553,7 @@ Namespace regression
 
             If pData Is Nothing Then CoreServices.Errors.LogAndThrow(New InvalidOperationException("Call Data(...) first."))
 
-            Dim lastCol As Integer = UBound(pData, 2)  '0 means only Y column
+            Dim lastCol As Integer = pData.GetUpperBound(1)  '0 means only Y column
             If lastCol < 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Data matrix must contain at least one column (Y)."))
             Dim pPredictors As Integer = lastCol '0.. => number of predictor columns (since col0 is Y)
             Me.pIncludeIntercept = includeIntercept
@@ -592,7 +592,7 @@ Namespace regression
             termGroups = BuildDefaultTermGroups(includeIntercept, pPredictors, customTermGroups)
 
             '=== Fit via MinimalWLS ===
-            Dim params As Double(,) = Matrix.MinimalWLS(y, X, w)
+            Dim params As Double(,) = MatrixStatisticsCore.FitWeightedLeastSquares(y, X, w)
 
             Dim beta(p - 1) As Double
             Dim seFromMinimal(p - 1) As Double
@@ -603,7 +603,7 @@ Namespace regression
 
             'Predicted / residuals
             Dim yhat() As Double = Predict1D(X, beta)
-            Dim resid() As Double = Matrix.M_SUB(y, yhat)
+            Dim resid() As Double = MatrixArithmeticCore.Subtract(y, yhat)
             Me.pFitted = yhat
             Me.pResiduals = resid
 
@@ -650,8 +650,8 @@ Namespace regression
             'Covariance: mse*(X'WX)^-1 using your MatInv
             Dim cov(,) As Double = Nothing
             If bReturnCov OrElse bComputeResiduals Then
-                Dim invXtWX As Double(,) = InvertXtWX_UsingMatrixVB(X, w)
-                cov = Matrix.MatrixMult(invXtWX, mse) 'ScaleMatrix(invXtWX, mse)
+                Dim invXtWX As Double(,) = InvertXtWX(X, w)
+                cov = MatrixArithmeticCore.Multiply(invXtWX, mse) 'ScaleMatrix(invXtWX, mse)
             End If
             Me.pCovariance = cov
 
@@ -664,7 +664,7 @@ Namespace regression
             'Overall F-test (also shown in overall ANOVA)
             Dim msr As Double = If(dfModel > 0, ssr / dfModel, Double.NaN)
             Dim fStat As Double = If(dfModel > 0 AndAlso mse > 0, msr / mse, Double.NaN)
-            Dim pStat As Double = If(dfModel > 0 AndAlso mse > 0, 1.0 - distributions.F_CDF(fStat, CDbl(dfModel), CDbl(dfResid)), Double.NaN)
+            Dim pStat As Double = If(dfModel > 0 AndAlso mse > 0, 1.0 - distributions.F_CDF(fStat, Convert.ToDouble(dfModel), Convert.ToDouble(dfResid)), Double.NaN)
 
             'Gaussian LL/AIC/BIC (common convention)
             Dim sigma2ML As Double = Math.Max(sse / n, 1.0E-300R)
@@ -879,7 +879,7 @@ Namespace regression
         '''   </item>
         ''' </list>
         ''' <para>
-        ''' Reduced-model fits are performed using <see cref="Matrix.MinimalWLS(Double(), Double(,), Double())"/> inside <see cref="SSEForDesign"/>.
+        ''' Reduced-model fits are performed using <see cref="MatrixStatisticsCore.FitWeightedLeastSquares(Double(), Double(,), Double())"/> inside <see cref="SSEForDesign"/>.
         ''' F-tests use <see cref="Distributions.F_CDF"/>.
         ''' </para>
         ''' </remarks>
@@ -919,7 +919,7 @@ Namespace regression
                         Dim dfTerm As Integer = dfNew - dfPrev
                         Dim msTerm As Double = If(dfTerm > 0, ssTerm / dfTerm, Double.NaN)
                         Dim fTerm As Double = If(dfTerm > 0, msTerm / mseFull, Double.NaN)
-                        Dim pTerm As Double = If(dfTerm > 0, 1.0 - distributions.F_CDF(fTerm, CDbl(dfTerm), CDbl(dfResidFull)), Double.NaN)
+                        Dim pTerm As Double = If(dfTerm > 0, 1.0 - distributions.F_CDF(fTerm, Convert.ToDouble(dfTerm), Convert.ToDouble(dfResidFull)), Double.NaN)
 
                         rows.Add(term)
                         vals.Add(New Object() {dfTerm, ssTerm, msTerm, fTerm, pTerm})
@@ -941,7 +941,7 @@ Namespace regression
                         Dim dfTerm As Integer = dropCols.Length
                         Dim msTerm As Double = ssTerm / dfTerm
                         Dim fTerm As Double = msTerm / mseFull
-                        Dim pTerm As Double = 1.0 - distributions.F_CDF(fTerm, CDbl(dfTerm), CDbl(dfResidFull))
+                        Dim pTerm As Double = 1.0 - distributions.F_CDF(fTerm, Convert.ToDouble(dfTerm), Convert.ToDouble(dfResidFull))
 
                         rows.Add(term)
                         vals.Add(New Object() {dfTerm, ssTerm, msTerm, fTerm, pTerm})
@@ -990,13 +990,13 @@ Namespace regression
         ''' <returns>Weighted residual sum of squares, <c>SSE = Σ wᵢ (yᵢ − ŷᵢ)²</c>.</returns>
         ''' <remarks>
         ''' <para>
-        ''' Coefficients are computed using <see cref="Matrix.MinimalWLS(Double(), Double(,), Double())"/> and predictions using <see cref="Predict1D"/>.
+        ''' Coefficients are computed using <see cref="MatrixStatisticsCore.FitWeightedLeastSquares(Double(), Double(,), Double())"/> and predictions using <see cref="Predict1D"/>.
         ''' This function is the computational core used by term-wise ANOVA (Type I/III), where many reduced models are fit.
         ''' </para>
         ''' </remarks>
         Private Function SSEForDesign(Xdesign(,) As Double) As Double
-            Dim params As Double(,) = Matrix.MinimalWLS(y, Xdesign, w)
-            Dim betaLocal() As Double = Matrix.GetColumnFrom2Darray(params, 0)
+            Dim params As Double(,) = MatrixStatisticsCore.FitWeightedLeastSquares(y, Xdesign, w)
+            Dim betaLocal() As Double = ArrayUtilities.GetColumn(params, 0)
             Dim yhat() As Double = Predict1D(Xdesign, betaLocal)
 
             Dim sse As Double = 0.0
@@ -1033,9 +1033,9 @@ Namespace regression
         ''' </remarks>
         Private Sub ComputeDiagnostics(Xfull(,) As Double, wvec() As Double, covBeta(,) As Double, mse As Double)
 
-            Dim invXtWX As Double(,) = Matrix.MatrixMult(covBeta, 1.0 / mse) 'undo sigma^2 scaling
-            Dim nLocal As Integer = UBound(Xfull, 1) + 1
-            Dim pLocal As Integer = UBound(Xfull, 2) + 1
+            Dim invXtWX As Double(,) = MatrixArithmeticCore.Multiply(covBeta, 1.0R / mse) 'undo sigma^2 scaling
+            Dim nLocal As Integer = Xfull.GetLength(0)
+            Dim pLocal As Integer = Xfull.GetLength(1)
 
             ReDim Me.pLeverage(nLocal - 1), Me.pStdResidual(nLocal - 1), Me.pCooksD(nLocal - 1), Me.pJackknifeResidual(nLocal - 1)
 
@@ -1076,7 +1076,7 @@ Namespace regression
         ''' Weighted covariance is computed using the weighted mean and
         ''' <c>Cov(a,b) = Σ w_i (a_i − ā_w)(b_i − b̄_w) / (Σ w_i − 1)</c>.
         ''' The correlation matrix is formed by normalizing covariances by standard deviations. The inverse is obtained via
-        ''' <see cref="Matrix.MatInv"/> with Cholesky ("CHOL").
+        ''' <see cref="MatrixDecompositionCore.InvertMatrix"/> with Cholesky ("CHOL").
         ''' </para>
         ''' <para>
         ''' If the predictor correlation matrix is singular or not positive definite (perfect/multi-collinearity), the inversion may fail.
@@ -1089,7 +1089,7 @@ Namespace regression
             Dim t As New ResultTable
             t.AddTitle("VIF")
 
-            Dim pLocal As Integer = UBound(Xfull, 2) + 1
+            Dim pLocal As Integer = Xfull.GetLength(1)
             Dim startCol As Integer = If(includeIntercept, 1, 0)
             Dim m As Integer = pLocal - startCol
             If m <= 0 Then Return t
@@ -1105,7 +1105,7 @@ Namespace regression
             ' Weighted means
             Dim mean(m - 1) As Double
             For j As Integer = 0 To m - 1
-                Dim col() As Double = Matrix.GetColumnFrom2Darray(Z, j)
+                Dim col() As Double = ArrayUtilities.GetColumn(Z, j)
                 mean(j) = WeightedMean(col, wvec)
             Next
 
@@ -1145,7 +1145,7 @@ Namespace regression
             Dim body(m - 1, 1) As Object
 
             Try
-                invR = Matrix.MatInv(R, "CHOL")
+                invR = MatrixDecompositionCore.InvertMatrix(R, "CHOL")
                 For j As Integer = 0 To m - 1
                     rowNames.Add(If(namesOK, pVarNames(j), $"X{j + 1}"))
                     body(j, 0) = invR(j, j)
@@ -1176,7 +1176,7 @@ Namespace regression
         ''' </remarks>
         Private Shared Function PartialCorrelationFromCoefficient(beta() As Double, se() As Double, coefIndex As Integer, dfResid As Double) As Double
             If beta Is Nothing OrElse se Is Nothing Then Return Double.NaN
-            If coefIndex < 0 OrElse coefIndex > UBound(beta) OrElse coefIndex > UBound(se) Then Return Double.NaN
+            If coefIndex < 0 OrElse coefIndex > beta.Length - 1 OrElse coefIndex > se.Length - 1 Then Return Double.NaN
             If Double.IsNaN(dfResid) OrElse Double.IsInfinity(dfResid) OrElse dfResid <= 0.0 Then Return Double.NaN
 
             Dim estimate As Double = beta(coefIndex)
@@ -1224,9 +1224,9 @@ Namespace regression
         ''' <param name="Xfull">Full design matrix X (including intercept column if present).</param>
         ''' <param name="wvec">Observation weights.</param>
         ''' <returns>The covariance factor (X' W X)^(-1).</returns>
-        Private Function InvertXtWX_UsingMatrixVB(Xfull(,) As Double, wvec() As Double) As Double(,)
-            Dim nR As Integer = UBound(Xfull, 1) + 1
-            Dim nC As Integer = UBound(Xfull, 2) + 1
+        Private Function InvertXtWX(Xfull(,) As Double, wvec() As Double) As Double(,)
+            Dim nR As Integer = Xfull.GetLength(0)
+            Dim nC As Integer = Xfull.GetLength(1)
 
             ' ------------------------------------------------------------
             ' Detect an intercept column in Xfull.
@@ -1295,7 +1295,7 @@ Namespace regression
             Next
 
             ' Strict SVD pseudoinverse on the scaled weighted design matrix
-            Dim XwPlusScaled(,) As Double = Matrix.pseudoInverse(XwScaled, 0.0)
+            Dim XwPlusScaled(,) As Double = MatrixDecompositionCore.ComputePseudoInverse(XwScaled, 0.0R)
 
             ' ------------------------------------------------------------
             ' Recover (XwScaled' XwScaled)^(-1) as:
@@ -1305,7 +1305,7 @@ Namespace regression
             ' generic MatrixMult to reduce roundoff in the covariance diagonals.
             ' ------------------------------------------------------------
             Dim XtWXinvScaled(nC - 1, nC - 1) As Double
-            Dim nK As Integer = UBound(XwPlusScaled, 2) + 1  ' = nR
+            Dim nK As Integer = XwPlusScaled.GetLength(1)  ' = nR
 
             For i As Integer = 0 To nC - 1
                 For j As Integer = i To nC - 1
@@ -1359,17 +1359,17 @@ Namespace regression
         ''' <returns>Vector of fitted values <c>ŷ</c>.</returns>
         ''' <remarks>
         ''' This method converts <paramref name="beta"/> into a <c>p×1</c> matrix and multiplies using
-        ''' <see cref="Matrix.MatrixMult(Double(,), Double(,))"/>, then extracts the single output column using
-        ''' <see cref="Matrix.GetColumnFrom2Darray"/>.
+        ''' <see cref="MatrixArithmeticCore.Multiply(Double(,), Double(,))"/>, then extracts the single output column using
+        ''' <see cref="ArrayUtilities.GetColumn"/>.
         ''' </remarks>
         Private Function Predict1D(Xdesign(,) As Double, beta() As Double) As Double()
-            Dim beta2D(UBound(beta), 0) As Double
-            For j As Integer = 0 To UBound(beta)
+            Dim beta2D(beta.Length - 1, 0) As Double
+            For j As Integer = 0 To beta.Length - 1
                 beta2D(j, 0) = beta(j)
             Next
 
-            Dim yhat2D As Double(,) = Matrix.MatrixMult(Xdesign, beta2D)
-            Return Matrix.GetColumnFrom2Darray(yhat2D, 0)
+            Dim yhat2D As Double(,) = MatrixArithmeticCore.Multiply(Xdesign, beta2D)
+            Return ArrayUtilities.GetColumn(yhat2D, 0)
         End Function
 
         ''' <summary>
@@ -1382,7 +1382,7 @@ Namespace regression
         ''' Used to construct reduced design matrices for term-wise ANOVA refits.
         ''' </remarks>
         Private Function SubMatrixColumns(A(,) As Double, cols As Integer()) As Double(,)
-            Dim nR As Integer = UBound(A, 1) + 1
+            Dim nR As Integer = A.GetLength(0)
             Dim nC As Integer = cols.Length
             Dim out(nR - 1, nC - 1) As Double
             For i As Integer = 0 To nR - 1

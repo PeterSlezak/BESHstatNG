@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports System
 Imports System.IO
@@ -23,10 +23,10 @@ Public Class LinearModel_Tests
         Dim c2 As String = Path.Combine(baseDir, "TestData", fileName)
         If File.Exists(c2) Then Return c2
 
-        Dim c3 As String = Path.GetFullPath(Path.Combine(baseDir, "..\..\TestData", fileName))
+        Dim c3 As String = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "TestData", fileName))
         If File.Exists(c3) Then Return c3
 
-        Dim c4 As String = Path.GetFullPath(Path.Combine(baseDir, "..\..\..\TestData", fileName))
+        Dim c4 As String = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "TestData", fileName))
         If File.Exists(c4) Then Return c4
 
         Throw New FileNotFoundException("Test data file not found", fileName)
