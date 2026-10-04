@@ -352,8 +352,8 @@ Namespace equivalencetests
             ValidatePositive(nonInferiorityMargin, NameOf(nonInferiorityMargin))
             ValidateAlphaOneSided(alphaOneSided, NameOf(alphaOneSided))
 
-            Dim pControl As Double = controlResponders / CDbl(controlTotal)
-            Dim pExperimental As Double = experimentalResponders / CDbl(experimentalTotal)
+            Dim pControl As Double = controlResponders / Convert.ToDouble(controlTotal)
+            Dim pExperimental As Double = experimentalResponders / Convert.ToDouble(experimentalTotal)
             Dim diff As Double = pExperimental - pControl
             Dim se As Double = Math.Sqrt((pControl * (1.0 - pControl) / controlTotal) + (pExperimental * (1.0 - pExperimental) / experimentalTotal))
             If se <= 0.0 OrElse Double.IsNaN(se) OrElse Double.IsInfinity(se) Then
@@ -414,8 +414,8 @@ Namespace equivalencetests
             ValidateMargins(lowerMargin, upperMargin)
             ValidateAlphaOneSided(alphaOneSided, NameOf(alphaOneSided))
 
-            Dim pControl As Double = controlResponders / CDbl(controlTotal)
-            Dim pExperimental As Double = experimentalResponders / CDbl(experimentalTotal)
+            Dim pControl As Double = controlResponders / Convert.ToDouble(controlTotal)
+            Dim pExperimental As Double = experimentalResponders / Convert.ToDouble(experimentalTotal)
             Dim diff As Double = pExperimental - pControl
 
             If diff <= lowerMargin OrElse diff >= upperMargin Then
