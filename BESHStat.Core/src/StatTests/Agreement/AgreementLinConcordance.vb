@@ -5,7 +5,6 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.Resampling
-Imports Microsoft.Office.Interop.Excel
 
 Namespace Agreement
 
@@ -331,16 +330,8 @@ Namespace Agreement
         ''' identity line visually represents perfect agreement.
         ''' </para>
         ''' </remarks>
-        Public Function AddPlot(ws As Worksheet, Optional chartTitle As String = "Lin concordance plot") As Chart
-            If ws Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(ws)))
+        Friend Function GetPlotData(Optional chartTitle As String = "Lin concordance plot") As LinConcordancePlotData
             If Not Me.pIsFitted OrElse Me.pResult Is Nothing Then Me.Fit()
-
-            Dim chartObj As Chart = graphics.GeneralScatterPlot(Me.pFilteredReference,
-                                                                Me.pFilteredTest,
-                                                                Me.pVarY,
-                                                                Me.pVarX,
-                                                                ws,
-                                                                chartTitle)
 
             Dim minVal As Double = Math.Min(Me.pFilteredReference.Min(), Me.pFilteredTest.Min())
             Dim maxVal As Double = Math.Max(Me.pFilteredReference.Max(), Me.pFilteredTest.Max())
@@ -349,23 +340,15 @@ Namespace Agreement
                 maxVal += 0.5
             End If
 
-            With chartObj
-                .Axes(XlAxisType.xlCategory).MinimumScale = minVal
-                .Axes(XlAxisType.xlCategory).MaximumScale = maxVal
-                .Axes(XlAxisType.xlValue).MinimumScale = minVal
-                .Axes(XlAxisType.xlValue).MaximumScale = maxVal
-
-                .SeriesCollection.NewSeries()
-                With .SeriesCollection(.SeriesCollection.Count)
-                    .Name = "Identity"
-                    .XValues = New Double() {minVal, maxVal}
-                    .Values = New Double() {minVal, maxVal}
-                    .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
-                    .Format.Line.Visible = True
-                End With
-            End With
-
-            Return chartObj
+            Return New LinConcordancePlotData With {
+                 .XValues = DirectCast(Me.pFilteredReference.Clone(), Double()),
+                 .YValues = DirectCast(Me.pFilteredTest.Clone(), Double()),
+                 .XName = Me.pVarX,
+                 .YName = Me.pVarY,
+                 .Title = chartTitle,
+                 .MinValue = minVal,
+                 .MaxValue = maxVal
+            }
         End Function
 
         ''' <summary>
@@ -416,7 +399,7 @@ Namespace Agreement
             If progress IsNot Nothing Then
                 progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
-                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       Dim progressValue As Integer = Convert.ToInt32(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
                                        progress.Report(progressValue)
                                    End Sub
             End If
@@ -632,7 +615,7 @@ Namespace Agreement
                 .TestStatistics2 = concordance,
                 .DF1 = n,
                 .Pvalue = p,
-                .strSpecialInformation = $"Approximate Fisher z-style test of H0: concordance = {CSng(opts.NullConcordance)}."
+                .strSpecialInformation = $"Approximate Fisher z-style test of H0: concordance = {Convert.ToSingle(opts.NullConcordance)}."
             }
         End Function
 

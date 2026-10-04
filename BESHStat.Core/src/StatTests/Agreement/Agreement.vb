@@ -2,8 +2,8 @@
 
 Imports System
 Imports System.Collections.Generic
+Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 
 
 Namespace Agreement
@@ -199,7 +199,7 @@ Namespace Agreement
                 Me.pNoGroups = counts.Count
                 Me.pMinGroupSize = counts.Min()
                 Me.pMaxGroupSize = counts.Max()
-                Me.pMeanGroupSize = counts.Average(Function(c) CDbl(c))
+                Me.pMeanGroupSize = counts.Average(Function(c) Convert.ToDouble(c))
             End Sub
 
             Public Function wrapResults() As List(Of ResultTable)
@@ -306,8 +306,8 @@ Namespace Agreement
                 Dim M2 As Double = N - M1 + 1.0
 
                 ' Indices for CI bounds (pb.py: S[int(M1)+K-1], S[int(M2)+K-1])
-                Dim idxL As Integer = CInt(Math.Truncate(M1)) + K - 1
-                Dim idxU As Integer = CInt(Math.Truncate(M2)) + K - 1
+                Dim idxL As Integer = Convert.ToInt32(Math.Truncate(M1)) + K - 1
+                Dim idxU As Integer = Convert.ToInt32(Math.Truncate(M2)) + K - 1
 
                 If idxL < 0 OrElse idxL >= N OrElse idxU < 0 OrElse idxU >= N Then
                     Throw New InvalidOperationException("Computed CI indices are out of range. Check inputs / alpha.")
@@ -427,8 +427,8 @@ Namespace Agreement
                 Dim M1 As Double = Math.Round((N - Cgamma) / 2.0, 0, MidpointRounding.ToEven)
                 Dim M2 As Double = N - M1 + 1.0
 
-                Dim idxL As Integer = CInt(Math.Truncate(M1)) + K - 1
-                Dim idxU As Integer = CInt(Math.Truncate(M2)) + K - 1
+                Dim idxL As Integer = Convert.ToInt32(Math.Truncate(M1)) + K - 1
+                Dim idxU As Integer = Convert.ToInt32(Math.Truncate(M2)) + K - 1
 
                 If idxL < 0 OrElse idxL >= N OrElse idxU < 0 OrElse idxU >= N Then
                     Throw New InvalidOperationException("Computed CI indices are out of range. Check inputs / alpha.")
@@ -455,48 +455,21 @@ Namespace Agreement
                 Return (Me.pInterceptCI, Me.pSlopeCI)
             End Function
 
-            Public Sub AddPlot(ws As Worksheet)
-                Dim ch = graphics.GeneralScatterPlot(Me.x, Me.y, Me.pVarY, Me.pVarX, ws, "Passing-Bablok Regression")
-                Dim dMinX As Double = Me.x.Min()
-                Dim dMaxX As Double = Me.x.Max()
+            Friend Function GetPlotData() As PassingBablokPlotData
+                If Me.pInterceptCI Is Nothing OrElse Me.pSlopeCI Is Nothing Then Me.PassingBablokCI()
 
-                If Me.pInterceptCI Is Nothing Then Me.PassingBablokCI()
-
-                With ch
-                    .HasLegend = False
-                    .HasLegend = True
-
-                    'add and plot fit line
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(2)
-                        .XValues = {dMinX, dMaxX}
-                        .Values = {Me.pInterceptCI.Estimate + Me.pSlopeCI.Estimate * dMinX,
-                                   Me.pInterceptCI.Estimate + Me.pSlopeCI.Estimate * dMaxX}
-                        .Name = "Regression line"
-                        .MarkerStyle = -4142
-                        .Border.Color = RGB(255, 0, 0)
-                        With .Format.Line
-                            .Visible = True
-                            .Weight = 1.5
-                        End With
-                    End With
-
-                    'Zero x=y refline
-                    .SeriesCollection.NewSeries
-                    With .SeriesCollection(3)
-                        .XValues = {dMinX, dMaxX}
-                        .Values = {dMinX, dMaxX}
-                        .Name = "Unity line (y = x)"
-                        .MarkerStyle = -4142 'no marker
-                        .Border.Color = RGB(0, 0, 255)
-                        With .Format.Line
-                            .Visible = True
-                            .DashStyle = 4 'msoLineDash
-                            .Weight = 0.5
-                        End With
-                    End With
-                End With
-            End Sub
+                Return New PassingBablokPlotData With {
+                    .XValues = DirectCast(Me.x.Clone(), Double()),
+                    .YValues = DirectCast(Me.y.Clone(), Double()),
+                    .XName = Me.pVarX,
+                    .YName = Me.pVarY,
+                    .Title = "Passing-Bablok Regression",
+                    .MinX = Me.x.Min(),
+                    .MaxX = Me.x.Max(),
+                    .Intercept = Me.pInterceptCI.Estimate,
+                    .Slope = Me.pSlopeCI.Estimate
+                }
+            End Function
 
             ' ----------------------------
             ' Helpers (internal)
@@ -780,9 +753,9 @@ Namespace Agreement
                 Dim anova = New parametric.OneWayANOVA(x, vars)
                 Dim atab = anova.compute()
 
-                Dim MSb As Double = CDbl(atab(0, 2))
-                Dim MSw As Double = CDbl(atab(1, 2))
-                Dim F As Double = CDbl(atab(0, 3))
+                Dim MSb As Double = Convert.ToDouble(atab(0, 2))
+                Dim MSw As Double = Convert.ToDouble(atab(1, 2))
+                Dim F As Double = Convert.ToDouble(atab(0, 3))
                 Dim df1 As Integer = atab(0, 1)
                 Dim df2 As Integer = atab(1, 1)
                 Dim n0 As Double = EffectiveGroupSizeN0_ICC11(x)
@@ -838,8 +811,8 @@ Namespace Agreement
                 Dim anova = New parametric.OneWayANOVA(x, vars)
                 Dim atab = anova.compute()
 
-                Dim MSb As Double = CDbl(atab(0, 2))
-                Dim MSw As Double = CDbl(atab(1, 2))
+                Dim MSb As Double = Convert.ToDouble(atab(0, 2))
+                Dim MSw As Double = Convert.ToDouble(atab(1, 2))
                 Dim ICC As Double = (MSb - MSw) / MSb
                 Dim out As New ConfidenceIntervalResult
                 out.Estimate = ICC
@@ -915,12 +888,12 @@ Namespace Agreement
                 ' 0 = Between groups (columns/raters): SS, df, MS, F, p
                 ' 1 = Subjects (rows/targets):         SS, df, MS, F, p
                 ' 2 = Error:                           SS, df, MS
-                Dim MSC As Double = CDbl(atab(0, 2)) ' columns (raters)
-                Dim MSR As Double = CDbl(atab(1, 2)) ' rows (targets)
-                Dim MSE As Double = CDbl(atab(2, 2)) ' residual
+                Dim MSC As Double = Convert.ToDouble(atab(0, 2)) ' columns (raters)
+                Dim MSR As Double = Convert.ToDouble(atab(1, 2)) ' rows (targets)
+                Dim MSE As Double = Convert.ToDouble(atab(2, 2)) ' residual
 
-                Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
-                Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
+                Dim dfR As Integer = Convert.ToInt32(atab(1, 1)) ' n - 1
+                Dim dfE As Integer = Convert.ToInt32(atab(2, 1)) ' (n - 1)(k - 1)
 
                 If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,1) is undefined (check data)."))
 
@@ -1000,12 +973,12 @@ Namespace Agreement
                 ' 0 = Between groups (columns/raters): SS, df, MS, F, p
                 ' 1 = Subjects (rows/targets):         SS, df, MS, F, p
                 ' 2 = Error:                           SS, df, MS
-                Dim MSC As Double = CDbl(atab(0, 2)) ' columns (raters)
-                Dim MSR As Double = CDbl(atab(1, 2)) ' rows (targets)
-                Dim MSE As Double = CDbl(atab(2, 2)) ' residual
+                Dim MSC As Double = Convert.ToDouble(atab(0, 2)) ' columns (raters)
+                Dim MSR As Double = Convert.ToDouble(atab(1, 2)) ' rows (targets)
+                Dim MSE As Double = Convert.ToDouble(atab(2, 2)) ' residual
 
-                Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
-                Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
+                Dim dfR As Integer = Convert.ToInt32(atab(1, 1)) ' n - 1
+                Dim dfE As Integer = Convert.ToInt32(atab(2, 1)) ' (n - 1)(k - 1)
 
                 If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; ICC(2,k) is undefined (check data)."))
 
@@ -1092,11 +1065,11 @@ Namespace Agreement
                 ' 0 = Between groups (columns/raters): SS, df, MS, F, p
                 ' 1 = Subjects (rows/targets):         SS, df, MS, F, p
                 ' 2 = Error:                           SS, df, MS
-                Dim MSR As Double = CDbl(atab(1, 2)) ' rows (targets)
-                Dim MSE As Double = CDbl(atab(2, 2)) ' residual (interaction + error)
+                Dim MSR As Double = Convert.ToDouble(atab(1, 2)) ' rows (targets)
+                Dim MSE As Double = Convert.ToDouble(atab(2, 2)) ' residual (interaction + error)
 
-                Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
-                Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
+                Dim dfR As Integer = Convert.ToInt32(atab(1, 1)) ' n - 1
+                Dim dfE As Integer = Convert.ToInt32(atab(2, 1)) ' (n - 1)(k - 1)
 
                 If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,1) is undefined (check data)."))
 
@@ -1179,11 +1152,11 @@ Namespace Agreement
                 ' 0 = Between groups (columns/raters): SS, df, MS, F, p
                 ' 1 = Subjects (rows/targets):         SS, df, MS, F, p
                 ' 2 = Error:                           SS, df, MS
-                Dim MSR As Double = CDbl(atab(1, 2)) ' rows (targets)
-                Dim MSE As Double = CDbl(atab(2, 2)) ' residual (interaction + error)
+                Dim MSR As Double = Convert.ToDouble(atab(1, 2)) ' rows (targets)
+                Dim MSE As Double = Convert.ToDouble(atab(2, 2)) ' residual (interaction + error)
 
-                Dim dfR As Integer = CInt(atab(1, 1)) ' n - 1
-                Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
+                Dim dfR As Integer = Convert.ToInt32(atab(1, 1)) ' n - 1
+                Dim dfE As Integer = Convert.ToInt32(atab(2, 1)) ' (n - 1)(k - 1)
 
                 If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; ICC(3,k) is undefined (check data)."))
                 If MSR <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSR <= 0; ICC(3,k) is undefined (check data)."))
@@ -1302,8 +1275,8 @@ Namespace Agreement
                 Dim anova = New parametric.OneWayANOVA(x, vars)
                 Dim atab = anova.compute()
 
-                Dim msw As Double = CDbl(atab(1, 2))   ' within/error MS
-                Dim dfw As Integer = CInt(atab(1, 1))  ' within df = n_tot - g
+                Dim msw As Double = Convert.ToDouble(atab(1, 2))   ' within/error MS
+                Dim dfw As Integer = Convert.ToInt32(atab(1, 1))  ' within df = n_tot - g
 
                 If dfw <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid within degrees of freedom."))
                 If msw < 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSw < 0 is invalid."))
@@ -1392,12 +1365,12 @@ Namespace Agreement
                 Dim anova = New parametric.OneWayRmANOVA(x, vars)
                 Dim atab = anova.compute()
 
-                Dim MSC As Double = CDbl(atab(0, 2)) ' columns (raters)
-                Dim MSR As Double = CDbl(atab(1, 2)) ' rows (targets)
-                Dim MSE As Double = CDbl(atab(2, 2)) ' residual (interaction + error)
+                Dim MSC As Double = Convert.ToDouble(atab(0, 2)) ' columns (raters)
+                Dim MSR As Double = Convert.ToDouble(atab(1, 2)) ' rows (targets)
+                Dim MSE As Double = Convert.ToDouble(atab(2, 2)) ' residual (interaction + error)
 
-                Dim dfC As Integer = CInt(atab(0, 1)) ' k - 1
-                Dim dfE As Integer = CInt(atab(2, 1)) ' (n - 1)(k - 1)
+                Dim dfC As Integer = Convert.ToInt32(atab(0, 1)) ' k - 1
+                Dim dfE As Integer = Convert.ToInt32(atab(2, 1)) ' (n - 1)(k - 1)
 
                 If dfE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid residual degrees of freedom."))
                 If MSE <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("MSE <= 0; repeatability/SEM is undefined."))

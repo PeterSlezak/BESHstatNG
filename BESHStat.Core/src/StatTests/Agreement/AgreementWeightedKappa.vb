@@ -4,7 +4,6 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
-Imports BESHStatNG.Multivariate
 Imports BESHStatNG.Resampling
 
 Namespace Agreement
@@ -256,7 +255,7 @@ Namespace Agreement
             If n <= 0.0 Then
                 CoreServices.Errors.LogAndThrow(New InvalidOperationException("The confusion matrix contains no observations."))
             End If
-            Me.pSampleSize = CInt(Math.Round(n))
+            Me.pSampleSize = Convert.ToInt32(Math.Round(n))
 
             Dim weights = BuildWeightMatrix(table.GetLength(0), Me.pOptions)
             Dim metrics = ComputeKappaMetrics(table, weights)
@@ -390,7 +389,7 @@ Namespace Agreement
 
             t = New ResultTable
             t.AddTitle("Confusion Matrix")
-            categoryHeaders = UIprocedures.ConvertCategoriesToStrings(Me.pResult.Categories)
+            categoryHeaders = ConvertCategoriesToStrings(Me.pResult.Categories)
             t.AddHeaderLeftRow(categoryHeaders)
             t.AddHeaderTopRow(categoryHeaders)
             t.SetBody(Me.pResult.ConfusionMatrix)
@@ -513,20 +512,20 @@ Namespace Agreement
 
         Private Function IsMissingCategoryValue(value As Object) As Boolean
             If value Is Nothing OrElse Convert.IsDBNull(value) Then Return True
-            If TypeOf value Is String Then Return String.IsNullOrWhiteSpace(CStr(value))
-            If TypeOf value Is Double Then Return Double.IsNaN(CDbl(value)) OrElse Double.IsInfinity(CDbl(value))
-            If TypeOf value Is Single Then Return Single.IsNaN(CSng(value)) OrElse Single.IsInfinity(CSng(value))
+            If TypeOf value Is String Then Return String.IsNullOrWhiteSpace(Convert.ToString(value, Globalization.CultureInfo.CurrentCulture))
+            If TypeOf value Is Double Then Return Double.IsNaN(Convert.ToDouble(value)) OrElse Double.IsInfinity(Convert.ToDouble(value))
+            If TypeOf value Is Single Then Return Single.IsNaN(Convert.ToSingle(value)) OrElse Single.IsInfinity(Convert.ToSingle(value))
             Return False
         End Function
 
         Private Function NormalizeCategoryValue(value As Object) As Object
-            If TypeOf value Is String Then Return CStr(value).Trim()
+            If TypeOf value Is String Then Return Convert.ToString(value, Globalization.CultureInfo.CurrentCulture).Trim()
             Return value
         End Function
 
         Private Function CategoryKey(value As Object) As String
-            If TypeOf value Is Double Then Return CDbl(value).ToString("R", Globalization.CultureInfo.InvariantCulture)
-            If TypeOf value Is Single Then Return CSng(value).ToString("R", Globalization.CultureInfo.InvariantCulture)
+            If TypeOf value Is Double Then Return Convert.ToDouble(value).ToString("R", Globalization.CultureInfo.InvariantCulture)
+            If TypeOf value Is Single Then Return Convert.ToSingle(value).ToString("R", Globalization.CultureInfo.InvariantCulture)
             If TypeOf value Is IFormattable Then
                 Return DirectCast(value, IFormattable).ToString(Nothing, Globalization.CultureInfo.InvariantCulture)
             End If
@@ -551,14 +550,14 @@ Namespace Agreement
                 Case KappaWeightingScheme.Linear, KappaWeightingScheme.CicchettiAllison
                     For i As Integer = 0 To k - 1
                         For j As Integer = 0 To k - 1
-                            w(i, j) = 1.0 - (Math.Abs(i - j) / CDbl(k - 1))
+                            w(i, j) = 1.0 - (Math.Abs(i - j) / Convert.ToDouble(k - 1))
                         Next
                     Next
 
                 Case KappaWeightingScheme.Quadratic, KappaWeightingScheme.FleissCohen
                     For i As Integer = 0 To k - 1
                         For j As Integer = 0 To k - 1
-                            Dim d As Double = Math.Abs(i - j) / CDbl(k - 1)
+                            Dim d As Double = Math.Abs(i - j) / Convert.ToDouble(k - 1)
                             w(i, j) = 1.0 - d * d
                         Next
                     Next
@@ -721,7 +720,7 @@ Namespace Agreement
             If progress IsNot Nothing Then
                 progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
-                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       Dim progressValue As Integer = Convert.ToInt32(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
                                        progress.Report(progressValue)
                                    End Sub
             End If
@@ -757,7 +756,7 @@ Namespace Agreement
             If progress IsNot Nothing Then
                 progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
-                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       Dim progressValue As Integer = Convert.ToInt32(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
                                        progress.Report(progressValue)
                                    End Sub
             End If
@@ -808,7 +807,7 @@ Namespace Agreement
         End Function
 
         Private Function ExpandTableToPairs(table As Double(,), labels As Object()) As Tuple(Of Object(), Object())
-            Dim n As Integer = CInt(Math.Round(StatFunc.Sum2D(table)))
+            Dim n As Integer = Convert.ToInt32(Math.Round(StatFunc.Sum2D(table)))
             If n <= 0 Then Return Nothing
 
             For i As Integer = 0 To table.GetLength(0) - 1
@@ -822,7 +821,7 @@ Namespace Agreement
             Dim r2 As New List(Of Object)(n)
             For i As Integer = 0 To table.GetLength(0) - 1
                 For j As Integer = 0 To table.GetLength(1) - 1
-                    Dim count As Integer = CInt(Math.Round(table(i, j)))
+                    Dim count As Integer = Convert.ToInt32(Math.Round(table(i, j)))
                     For c As Integer = 1 To count
                         r1.Add(labels(i))
                         r2.Add(labels(j))
@@ -849,7 +848,7 @@ Namespace Agreement
         End Function
 
         Private Function MatrixToProbabilities(table As Double(,), n As Double) As Double(,)
-            Return Matrix.M_DIV(table, n)
+            Return Matrix.MatrixArithmeticCore.Divide(table, Convert.ToDouble(n))
         End Function
 
         Private Function RowMarginals(probs As Double(,)) As Double()
@@ -872,6 +871,23 @@ Namespace Agreement
                 Next
             Next
             Return out
+        End Function
+
+        Private Shared Function ConvertCategoriesToStrings(categories As Object()) As String()
+            If categories Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(categories)))
+
+            Dim headers(categories.Length - 1) As String
+            For i As Integer = 0 To categories.Length - 1
+                Dim value As Object = categories(i)
+                If value Is Nothing OrElse Convert.IsDBNull(value) Then
+                    headers(i) = String.Empty
+                ElseIf TypeOf value Is IFormattable Then
+                    headers(i) = DirectCast(value, IFormattable).ToString(Nothing, Globalization.CultureInfo.InvariantCulture)
+                Else
+                    headers(i) = Convert.ToString(value, Globalization.CultureInfo.InvariantCulture)
+                End If
+            Next
+            Return headers
         End Function
 
         Private Function FlattenMatrix(m As Double(,)) As Double()

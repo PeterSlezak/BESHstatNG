@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Imports System
 Imports BESHStatNG
 Imports BESHStatNG.Resampling
@@ -519,11 +519,11 @@ Public Class Agreement_Tests
         AssertAlmostEqual(0.9944951179, res.ConcordanceCI.Estimate, TOL_CI, "Lin CCC estimate")
         AssertAlmostEqual(0.9945856655, res.PearsonR, TOL_CI, "Lin Pearson r")
         AssertAlmostEqual(0.9999089595, res.BiasCorrectionFactor, TOL_CI, "Lin bias correction factor")
-        AssertAlmostEqual(-0.0126783720, res.LocationShift, TOL_CI, "Lin location shift")
+        AssertAlmostEqual(-0.012678372, res.LocationShift, TOL_CI, "Lin location shift")
         AssertAlmostEqual(1.0046319853, res.ScaleShift, TOL_CI, "Lin scale shift")
         AssertAlmostEqual(0.9154774013, res.ConcordanceCI.LowerLimit, 0.0001, "Lin CCC CI lower")
         AssertAlmostEqual(0.9996547853, res.ConcordanceCI.UpperLimit, 0.0001, "Lin CCC CI upper")
-        AssertAlmostEqual(4.1666343990, res.HypothesisTest.TestStatistics1, 0.0001, "Lin CCC z statistic")
+        AssertAlmostEqual(4.166634399, res.HypothesisTest.TestStatistics1, 0.0001, "Lin CCC z statistic")
     End Sub
 
     ' ---------------- Weighted kappa ----------------

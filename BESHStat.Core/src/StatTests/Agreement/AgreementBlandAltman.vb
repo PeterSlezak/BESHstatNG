@@ -4,7 +4,6 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 Imports BESHStatNG.Resampling
 
 Namespace Agreement
@@ -388,8 +387,8 @@ Namespace Agreement
             tSummary.AddTitle("Method Comparison Summary")
             tSummary.SetBody(New Object(,) {{"Reference method", pVarX},
                                     {"Test method", pVarY},
-                                    {"Complete finite pairs", CStr(pResult.ObservationCount)},
-                                    {"Dropped non-finite pairs", CStr(pDroppedPairCount)},
+                                    {"Complete finite pairs", pResult.ObservationCount.ToString(Globalization.CultureInfo.CurrentCulture)},
+                                    {"Dropped non-finite pairs", pDroppedPairCount.ToString(Globalization.CultureInfo.CurrentCulture)},
                                     {"Requested mode", Me.Options.Mode.ToString()},
                                     {"Model used", If(pResult.UsedRepeatedModel, "Repeated Bland–Altman", "Simple Bland–Altman")},
                                     {"Scale", GetScaleDisplayText(Me.Options.Scale)},
@@ -479,46 +478,42 @@ Namespace Agreement
         ''' <item><description><see cref="RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans"/> shows both</description></item> 
         ''' </list> 
         ''' </remarks> 
-        Public Sub AddPlot(ws As Worksheet)
-            If ws Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(ws)))
+        Friend Function GetPlotData() As BlandAltmanPlotData
             If Not pIsFitted OrElse pResult Is Nothing Then Fit()
 
             Dim mainX As Double() = pResult.PlotX
             Dim mainY As Double() = pResult.PlotY
             Dim chartTitle As String = pResult.MethodName
+            Dim subjectMeanX As Double() = Nothing
+            Dim subjectMeanY As Double() = Nothing
+            Dim showSubjectMeans As Boolean = False
 
-            If pResult.UsedRepeatedModel AndAlso Me.Options.PlotMode = RepeatedBlandAltmanPlotMode.SubjectMeansOnly AndAlso pResult.SubjectMeanPlotX IsNot Nothing AndAlso pResult.SubjectMeanPlotY IsNot Nothing AndAlso pResult.SubjectMeanPlotX.Length > 0 Then
+            If pResult.UsedRepeatedModel AndAlso Me.Options.PlotMode = RepeatedBlandAltmanPlotMode.SubjectMeansOnly AndAlso
+                    pResult.SubjectMeanPlotX IsNot Nothing AndAlso pResult.SubjectMeanPlotY IsNot Nothing AndAlso pResult.SubjectMeanPlotX.Length > 0 Then
                 mainX = pResult.SubjectMeanPlotX
                 mainY = pResult.SubjectMeanPlotY
                 chartTitle &= " (subject means)"
+            ElseIf pResult.UsedRepeatedModel AndAlso Me.Options.PlotMode = RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans AndAlso
+                    pResult.SubjectMeanPlotX IsNot Nothing AndAlso pResult.SubjectMeanPlotY IsNot Nothing AndAlso pResult.SubjectMeanPlotX.Length > 0 Then
+                subjectMeanX = pResult.SubjectMeanPlotX
+                subjectMeanY = pResult.SubjectMeanPlotY
+                showSubjectMeans = True
             End If
 
-            Dim ch As Chart = graphics.GeneralScatterPlot(mainX, mainY, pPlotYLabel, pPlotXLabel, ws, chartTitle)
-            Dim xMin As Double = mainX.Min()
-            Dim xMax As Double = mainX.Max()
-
-            If xMin = xMax Then
-                xMin -= 0.5
-                xMax += 0.5
-            End If
-
-            Dim lineX As Double() = {xMin, xMax}
-            AddHorizontalReferenceLine(ch, lineX, pResult.BiasCI.Estimate, "Bias", RGB(31, 119, 180))
-            AddHorizontalReferenceLine(ch, lineX, pResult.LowerLoACI.Estimate, "Lower LoA", RGB(214, 39, 40))
-            AddHorizontalReferenceLine(ch, lineX, pResult.UpperLoACI.Estimate, "Upper LoA", RGB(214, 39, 40))
-
-            If pResult.UsedRepeatedModel AndAlso Me.Options.PlotMode = RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans AndAlso pResult.SubjectMeanPlotX IsNot Nothing AndAlso pResult.SubjectMeanPlotY IsNot Nothing AndAlso pResult.SubjectMeanPlotX.Length > 0 Then
-                ch.SeriesCollection.NewSeries()
-                With ch.SeriesCollection(ch.SeriesCollection.Count)
-                    .XValues = pResult.SubjectMeanPlotX
-                    .Values = pResult.SubjectMeanPlotY
-                    .Name = "Subject means"
-                    .MarkerStyle = XlMarkerStyle.xlMarkerStyleDiamond
-                    .MarkerSize = 7
-                    .Format.Line.Visible = False
-                End With
-            End If
-        End Sub
+            Return New BlandAltmanPlotData With {
+                 .XValues = DirectCast(mainX.Clone(), Double()),
+                 .YValues = DirectCast(mainY.Clone(), Double()),
+                 .XLabel = pPlotXLabel,
+                 .YLabel = pPlotYLabel,
+                 .Title = chartTitle,
+                 .Bias = pResult.BiasCI.Estimate,
+                 .LowerLoA = pResult.LowerLoACI.Estimate,
+                 .UpperLoA = pResult.UpperLoACI.Estimate,
+                 .subjectMeanX = If(subjectMeanX Is Nothing, Nothing, DirectCast(subjectMeanX.Clone(), Double())),
+                 .subjectMeanY = If(subjectMeanY Is Nothing, Nothing, DirectCast(subjectMeanY.Clone(), Double())),
+                 .showSubjectMeans = showSubjectMeans
+            }
+        End Function
 
         ''' <summary>
         ''' Returns a normalized options instance, creating a new default object when needed.
@@ -792,7 +787,7 @@ Namespace Agreement
                 .TestStatistics1 = slope,
                 .TestStatistics2 = tValue,
                 .DF1 = df,
-                .strSpecialInformation = $"OLS trend of differences on the selected x-axis quantity. Intercept = {CSng(intercept)}, SE(slope) = {CSng(seSlope)}."
+                .strSpecialInformation = $"OLS trend of differences on the selected x-axis quantity. Intercept = {Convert.ToSingle(intercept)}, SE(slope) = {Convert.ToSingle(seSlope)}."
             }
         End Function
 
@@ -960,7 +955,7 @@ Namespace Agreement
             If progress IsNot Nothing Then
                 progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
-                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       Dim progressValue As Integer = Convert.ToInt32(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
                                        progress.Report(progressValue)
                                    End Sub
             End If
@@ -1061,13 +1056,13 @@ Namespace Agreement
                     .MaxFailures = Math.Max(opts.BootstrapReplicates * 20, 1000)
                 }
             Dim clusterBlocks As List(Of Integer()) = ResamplingBootstrap.BuildClusterIndexBlocks(subjectIds)
-            Dim minSuccessful As Integer = Math.Max(100, CInt(Math.Ceiling(bootOpts.Replicates * 0.5)))
+            Dim minSuccessful As Integer = Math.Max(100, Convert.ToInt32(Math.Ceiling(bootOpts.Replicates * 0.5)))
 
             Dim progressCallback As Action(Of Integer, Integer) = Nothing
             If progress IsNot Nothing Then
                 progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
-                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       Dim progressValue As Integer = Convert.ToInt32(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
                                        progress.Report(progressValue)
                                    End Sub
             End If
@@ -1146,33 +1141,14 @@ Namespace Agreement
             Return (outIds.ToArray(), outX.ToArray(), outD.ToArray())
         End Function
 
-        Private Shared Sub AddHorizontalReferenceLine(ch As Chart,
-                                                      lineX As Double(),
-                                                      yValue As Double,
-                                                      seriesName As String,
-                                                      lineColor As Integer)
-            If ch Is Nothing Then Exit Sub
-            Dim lineY As Double() = {yValue, yValue}
-            ch.SeriesCollection.NewSeries()
-            With ch.SeriesCollection(ch.SeriesCollection.Count)
-                .XValues = lineX
-                .Values = lineY
-                .Name = seriesName
-                .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
-                .Format.Line.Visible = True
-                .Format.Line.ForeColor.RGB = lineColor
-                .Format.Line.Weight = 1.5
-            End With
-        End Sub
-
         Private Shared Function IsMissingSubjectId(value As Object) As Boolean
             If value Is Nothing OrElse Convert.IsDBNull(value) Then Return True
-            If TypeOf value Is String Then Return String.IsNullOrWhiteSpace(CStr(value))
+            If TypeOf value Is String Then Return String.IsNullOrWhiteSpace(Convert.ToString(value, Globalization.CultureInfo.CurrentCulture))
             Return False
         End Function
 
         Private Shared Function NormalizeSubjectId(value As Object) As Object
-            If TypeOf value Is String Then Return CStr(value).Trim()
+            If TypeOf value Is String Then Return Convert.ToString(value, Globalization.CultureInfo.CurrentCulture).Trim()
             Return value
         End Function
 

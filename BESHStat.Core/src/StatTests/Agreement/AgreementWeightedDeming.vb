@@ -4,7 +4,6 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.Office.Interop.Excel
 Imports BESHStatNG.Resampling
 
 Namespace Agreement
@@ -324,15 +323,15 @@ Namespace Agreement
 
             Select Case Me.pOptions.VarianceModel
                 Case DemingVarianceModel.ConstantLambda
-                    tmp = Matrix.HorizontalStackArrays(tmp, {{"Error ratio (λ = σx² / σy²)", Me.pOptions.Lambda}})
+                    tmp = AppendRows(tmp, {{"Error ratio (λ = σx² / σy²)", Me.pOptions.Lambda}})
 
                 Case DemingVarianceModel.ConstantCV
-                    tmp = Matrix.HorizontalStackArrays(tmp,
+                    tmp = AppendRows(tmp,
                                                        {{"Reference CV", Me.pOptions.CVx},
                                                         {"Test CV", Me.pOptions.CVy}})
 
                 Case DemingVarianceModel.KnownPointwiseSD
-                    tmp = Matrix.HorizontalStackArrays(tmp, {{"Pointwise SD model", "Provided per observation"}})
+                    tmp = AppendRows(tmp, {{"Pointwise SD model", "Provided per observation"}})
 
             End Select
             t.SetBody(tmp)
@@ -364,48 +363,21 @@ Namespace Agreement
         ''' Adds a scatter plot with fitted regression line and identity line to the supplied worksheet.
         ''' </summary>
         ''' <param name="ws">Target Excel worksheet.</param>
-        Public Sub AddPlot(ws As Worksheet)
-            If ws Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(ws)))
+        Friend Function GetPlotData() As DemingPlotData
             If Not Me.pIsFitted OrElse Me.pResult Is Nothing Then Me.Fit()
 
-            Dim ch = graphics.GeneralScatterPlot(Me.pFilteredReference, Me.pFilteredTest, Me.pVarY, Me.pVarX, ws, Me.BuildMethodName())
-            Dim dMinX As Double = Me.pFilteredReference.Min()
-            Dim dMaxX As Double = Me.pFilteredReference.Max()
-
-            With ch
-                .HasLegend = True
-
-                .SeriesCollection.NewSeries()
-                With .SeriesCollection(2)
-                    .XValues = {dMinX, dMaxX}
-                    .Values = {
-                        Me.pResult.InterceptCI.Estimate + Me.pResult.SlopeCI.Estimate * dMinX,
-                        Me.pResult.InterceptCI.Estimate + Me.pResult.SlopeCI.Estimate * dMaxX
-                    }
-                    .Name = "Regression line"
-                    .MarkerStyle = -4142
-                    .Border.Color = RGB(255, 0, 0)
-                    With .Format.Line
-                        .Visible = True
-                        .Weight = 1.5
-                    End With
-                End With
-
-                .SeriesCollection.NewSeries()
-                With .SeriesCollection(3)
-                    .XValues = {dMinX, dMaxX}
-                    .Values = {dMinX, dMaxX}
-                    .Name = "Unity line (y = x)"
-                    .MarkerStyle = -4142
-                    .Border.Color = RGB(0, 0, 255)
-                    With .Format.Line
-                        .Visible = True
-                        .DashStyle = 4
-                        .Weight = 0.5
-                    End With
-                End With
-            End With
-        End Sub
+            Return New DemingPlotData With {
+                 .XValues = DirectCast(Me.pFilteredReference.Clone(), Double()),
+                 .YValues = DirectCast(Me.pFilteredTest.Clone(), Double()),
+                 .XName = Me.pVarX,
+                 .YName = Me.pVarY,
+                 .Title = Me.BuildMethodName(),
+                 .MinX = Me.pFilteredReference.Min(),
+                 .MaxX = Me.pFilteredReference.Max(),
+                 .Intercept = Me.pResult.InterceptCI.Estimate,
+                 .Slope = Me.pResult.SlopeCI.Estimate
+            }
+        End Function
 
         ''' <summary>
         ''' Computes York-style weighted errors-in-variables coefficients from paired data and observation-level standard deviations.
@@ -667,7 +639,7 @@ Namespace Agreement
                 bootSlope(r) = fitR.Slope
 
                 If progress IsNot Nothing Then
-                    Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * (r + 1) / b)))
+                    Dim progressValue As Integer = Convert.ToInt32(Math.Min(100.0, Math.Round(100.0 * (r + 1) / b)))
                     progress.Report(progressValue)
                 End If
             Next
@@ -751,7 +723,7 @@ Namespace Agreement
             For i As Integer = 0 To sortedBootstrapEstimates.Length - 1
                 If sortedBootstrapEstimates(i) < observedEstimate Then countLess += 1
             Next
-            Dim p As Double = ClampOpenUnitProbability(countLess / CDbl(sortedBootstrapEstimates.Length))
+            Dim p As Double = ClampOpenUnitProbability(countLess / Convert.ToDouble(sortedBootstrapEstimates.Length))
             Return distributions.NormSInv(p)
         End Function
 
@@ -1015,7 +987,7 @@ Namespace Agreement
             If progress IsNot Nothing Then
                 progress.Report(0)
                 progressCallback = Sub(completed As Integer, total As Integer)
-                                       Dim progressValue As Integer = CInt(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
+                                       Dim progressValue As Integer = Convert.ToInt32(Math.Min(100.0, Math.Round(100.0 * completed / Math.Max(1, total))))
                                        progress.Report(progressValue)
                                    End Sub
             End If
@@ -1226,6 +1198,32 @@ Namespace Agreement
                 ss += (v * v) / scale
             Next
             Return Math.Sqrt(ss / denom)
+        End Function
+
+        Private Shared Function AppendRows(top(,) As Object, bottom(,) As Object) As Object(,)
+            If top Is Nothing Then Return bottom
+            If bottom Is Nothing Then Return top
+            If top.GetLength(1) <> bottom.GetLength(1) Then
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Arrays must have the same number of columns."))
+            End If
+
+            Dim rowsTop As Integer = top.GetLength(0)
+            Dim rowsBottom As Integer = bottom.GetLength(0)
+            Dim cols As Integer = top.GetLength(1)
+            Dim output(rowsTop + rowsBottom - 1, cols - 1) As Object
+
+            For r As Integer = 0 To rowsTop - 1
+                For c As Integer = 0 To cols - 1
+                    output(r, c) = top(r, c)
+                Next
+            Next
+            For r As Integer = 0 To rowsBottom - 1
+                For c As Integer = 0 To cols - 1
+                    output(rowsTop + r, c) = bottom(r, c)
+                Next
+            Next
+
+            Return output
         End Function
 
         Private Function BuildMethodName() As String
