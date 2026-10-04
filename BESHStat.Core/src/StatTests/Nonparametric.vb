@@ -4,13 +4,52 @@ Imports System.Collections.Generic
 Imports System.Collections.ObjectModel
 Imports System.Linq
 Imports System.Text
+Imports System.Globalization
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.DataManagement
 Imports BESHStatNG.Matrix
 Imports BESHStatNG.Resampling
-Imports Microsoft.Office.Interop.Excel
 
 
 Namespace nonparametric
+
+    Friend NotInheritable Class NonparametricArrayHelpers
+
+        Private Sub New()
+        End Sub
+
+        Friend Shared Function Concat(Of T)(first() As T, second() As T) As T()
+            Dim output(first.Length + second.Length - 1) As T
+            Array.Copy(first, 0, output, 0, first.Length)
+            Array.Copy(second, 0, output, first.Length, second.Length)
+            Return output
+        End Function
+
+        Friend Shared Function AppendRows(Of T)(top(,) As T,
+                                                bottom(,) As T,
+                                                Optional appendBlanks As Boolean = False) As T(,)
+            If top.GetLength(1) <> bottom.GetLength(1) AndAlso Not appendBlanks Then
+                CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid input array dimensions"))
+            End If
+
+            Dim output(top.GetLength(0) + bottom.GetLength(0) - 1,
+                       Math.Max(top.GetLength(1), bottom.GetLength(1)) - 1) As T
+            For rowIndex As Integer = 0 To top.GetLength(0) - 1
+                For columnIndex As Integer = 0 To top.GetLength(1) - 1
+                    output(rowIndex, columnIndex) = top(rowIndex, columnIndex)
+                Next
+            Next
+
+            For rowIndex As Integer = 0 To bottom.GetLength(0) - 1
+                For columnIndex As Integer = 0 To bottom.GetLength(1) - 1
+                    output(top.GetLength(0) + rowIndex, columnIndex) = bottom(rowIndex, columnIndex)
+                Next
+            Next
+
+            Return output
+        End Function
+
+    End Class
     '------------------------------------------------------------------------------
     ' Mann-Whitney or Wilcoxon ranks sum test
     '------------------------------------------------------------------------------
@@ -24,10 +63,10 @@ Namespace nonparametric
     '''   <item><description>Confidence interval for the shift parameter</description></item>
     '''   <item><description>Summary tables for reporting</description></item>
     ''' </list>
-    ''' 
+    '''
     ''' The test compares two independent samples <c>X</c> and <c>Y</c> and evaluates
     ''' whether one distribution tends to yield larger values than the other.
-    ''' 
+    '''
     ''' Mathematically, the Mann–Whitney U statistic is:
     ''' <code>
     ''' U = Σ Σ I(Xᵢ &lt; Yⱼ)
@@ -38,7 +77,7 @@ Namespace nonparametric
     ''' U₂ = n₁n₂ − U₁
     ''' </code>
     ''' where R₁ is the sum of ranks for group 1.
-    ''' 
+    '''
     ''' Exact p‑values are computed using the distribution of U via dynamic programming.
     ''' For larger samples, a normal approximation with tie correction is used:
     ''' <code>
@@ -102,11 +141,11 @@ Namespace nonparametric
         '''   <item><description>Exact and asymptotic p‑values</description></item>
         '''   <item><description>Optional Hodges–Lehmann shift estimate</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>QuartilesComp</c> — computes Q1, median, Q3</description></item>
-        '''   <item><description><c>HorizontalStackArrays</c> — merges tables</description></item>
+        '''   <item><description><c>NonparametricArrayHelpers.AppendRows</c> — merges tables</description></item>
         '''   <item><description><c>ResultTable</c> — table formatting class</description></item>
         ''' </list>
         ''' </summary>
@@ -138,7 +177,7 @@ Namespace nonparametric
 
             'put all together
             t.AddHeaderTopRow({"Mann-Whitney test", Me.var1, Me.var2})
-            t.SetBody(HorizontalStackArrays(MWout1, pexactOut, True))
+            t.SetBody(NonparametricArrayHelpers.AppendRows(MWout1, pexactOut, True))
             t.AddPvalueCellToFormat(6, 2)
             t.AddPvalueCellToFormat(7, 2)
             t.AddPvalueCellToFormat(8, 2)
@@ -157,19 +196,19 @@ Namespace nonparametric
 
         ''' <summary>
         ''' Computes the Hodges–Lehmann estimator of shift between two distributions.
-        ''' 
+        '''
         ''' The estimator is the median of all pairwise differences:
         ''' <code>
         ''' Δ = median( Xᵢ − Yⱼ )
         ''' </code>
-        ''' 
+        '''
         ''' Confidence intervals are computed using:
         ''' <list type="bullet">
         '''   <item><description>Exact table-based quantiles when <c>n₁,n₂ ≤ 20</c> and <c>alpha = 0.05</c></description></item>
         '''   <item><description>Normal-approximation quantiles for other confidence levels or larger samples</description></item>
         '''   <item><description>Direct indexing for very large samples</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>Median</c> — computes sample median</description></item>
@@ -212,16 +251,16 @@ Namespace nonparametric
             ElseIf Me.n1 * Me.n2 < 1048576 Then 'use build in excel functions to find median/quantiles
                 Me.Shift.Estimate = Median(diffs)
 
-                Quantile = CDbl(Me.n1) * (Me.n + 1.0) / 2.0 - zCrit * Math.Sqrt(CDbl(Me.n1) * CDbl(Me.n2) * (Me.n + 1) / 12.0)
+                Quantile = Convert.ToDouble(Me.n1) * (Me.n + 1.0) / 2.0 - zCrit * Math.Sqrt(Convert.ToDouble(Me.n1) * Convert.ToDouble(Me.n2) * (Me.n + 1) / 12.0)
                 k = Quantile - Me.n1 * (Me.n1 + 1) / 2
-                low_k = CDbl(k) / (CDbl(Me.n1) * CDbl(Me.n2))
+                low_k = Convert.ToDouble(k) / (Convert.ToDouble(Me.n1) * Convert.ToDouble(Me.n2))
                 up_k = 1.0 - low_k
 
                 Me.Shift.LowerLimit = Percentile_Exc(diffs, low_k)
                 Me.Shift.UpperLimit = Percentile_Exc(diffs, up_k)
             Else
-                Me.Shift.Estimate = diffs(CLng((n1 * n2) / 2))
-                Quantile = CDbl(Me.n1) * (Me.n + 1.0) / 2.0 - zCrit * Math.Sqrt(CDbl(Me.n1) * CDbl(n2) * (Me.n + 1.0) / 12.0)
+                Me.Shift.Estimate = diffs(Convert.ToInt64((n1 * n2) / 2))
+                Quantile = Convert.ToDouble(Me.n1) * (Me.n + 1.0) / 2.0 - zCrit * Math.Sqrt(Convert.ToDouble(Me.n1) * Convert.ToDouble(n2) * (Me.n + 1.0) / 12.0)
                 k = Quantile - Me.n1 * (Me.n1 + 1) / 2
                 Me.Shift.LowerLimit = diffs(k - 1)
                 Me.Shift.UpperLimit = diffs(Me.n1 * Me.n2 - (k - 1) - 1)
@@ -239,13 +278,13 @@ Namespace nonparametric
         '''   <item><description>Exact p‑values via dynamic programming (n ≤ 50)</description></item>
         '''   <item><description>Normal approximation with tie correction</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' Exact p‑value computation:
         ''' <para>
         ''' Uses dynamic programming to enumerate all possible allocations of ranks
         ''' to the smaller group. This yields the exact distribution of U.
         ''' </para>
-        ''' 
+        '''
         ''' Normal approximation:
         ''' <code>
         ''' Z = (U − n₁n₂/2 + 0.5) / sqrt( n₁n₂(n+1)/12 × (1 − T) )
@@ -254,13 +293,13 @@ Namespace nonparametric
         ''' <code>
         ''' T = Σ (tᵢ³ − tᵢ) / (n³ − n)
         ''' </code>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>TiesCorrection</c> — computes tie correction factor</description></item>
         '''   <item><description><c>PNorm</c> — normal CDF</description></item>
         '''   <item><description><c>ChiSquareCDF</c> — chi‑square CDF</description></item>
-        '''   <item><description><c>ConcatArrays</c> — merges samples</description></item>
+        '''   <item><description><c>NonparametricArrayHelpers.Concat</c> — merges samples</description></item>
         ''' </list>
         ''' </summary>
         ''' <param name="progress">Optional host-neutral progress reporter for exact computation.</param>
@@ -374,7 +413,7 @@ Namespace nonparametric
                     End If
 
                     If progress IsNot Nothing Then
-                        If s Mod iUpdate = 0 Then progress.Report(CInt(100 * s / totalComb))
+                        If s Mod iUpdate = 0 Then progress.Report(Convert.ToInt32(100 * s / totalComb))
                         s += 1
                     End If
                 Next
@@ -389,10 +428,10 @@ Namespace nonparametric
             'Normal approximation
             u = Math.Min(U1, U2) 'smaller value represent the U statistics
             'ties corrected normal approximation p-value (continutity corrected)
-            Me.G12 = ConcatArrays(Me.data(0), Me.data(1))
+            Me.G12 = NonparametricArrayHelpers.Concat(Me.data(0), Me.data(1))
             Dim Cties As Double = TiesCorrection(Me.G12)
             Cties /= (Me.n ^ 3 - Me.n)
-            Dim sig As Double = ((CDbl(Me.n1) * CDbl(Me.n2) * (Me.n + 1.0)) / 12.0) * (1.0 - Cties) 'using CDbl because of othe verflow error with large sample sizes
+            Dim sig As Double = ((Convert.ToDouble(Me.n1) * Convert.ToDouble(Me.n2) * (Me.n + 1.0)) / 12.0) * (1.0 - Cties) 'using CDbl because of othe verflow error with large sample sizes
             Dim z As Double = (u - (Me.n1 * Me.n2) / 2.0 + 0.5) / Math.Sqrt(sig)
 
             'we want negative Z, therefore -abs(Z) to obtain one side p-value from distribution function
@@ -412,7 +451,7 @@ Namespace nonparametric
         ''' <summary>
         ''' Returns exact Mann–Whitney quantiles for small samples using
         ''' Conover (1999), Practical Nonparametric Statistics, Table A7.
-        ''' 
+        '''
         ''' Used for exact Hodges–Lehmann confidence intervals.
         ''' </summary>
         ''' <param name="n">Sample size of group 1.</param>
@@ -451,7 +490,7 @@ Namespace nonparametric
     '------------------------------------------------------------------------------
     ''' <summary>
     ''' Implements the Wilcoxon Signed-Rank Test for paired or matched samples.
-    ''' 
+    '''
     ''' This nonparametric test evaluates whether the median of paired differences
     ''' differs from zero. It is appropriate when:
     ''' <list type="bullet">
@@ -459,27 +498,27 @@ Namespace nonparametric
     '''   <item><description>The distribution of differences is symmetric</description></item>
     '''   <item><description>The measurement scale is at least ordinal</description></item>
     ''' </list>
-    ''' 
+    '''
     ''' The test statistic W is the sum of ranks of positive differences:
     ''' <code>
     ''' dᵢ = Xᵢ − Yᵢ
     ''' W = Σ rank(|dᵢ|) for dᵢ > 0
     ''' </code>
-    ''' 
+    '''
     ''' Exact p-values are computed via dynamic programming for n ≤ 60.
     ''' For larger samples, a normal approximation with tie correction and
     ''' continuity correction is used:
     ''' <code>
     ''' Z = (W − 0.5 − n(n+1)/4) / sqrt( (n(n+1)(2n+1) − Σ(tᵢ³ − tᵢ)/2) / 24 )
     ''' </code>
-    ''' 
+    '''
     ''' The class also computes:
     ''' <list type="bullet">
     '''   <item><description>Hodges–Lehmann estimator of shift</description></item>
     '''   <item><description>Confidence interval for the shift</description></item>
     '''   <item><description>Optional Sign Test</description></item>
     ''' </list>
-    ''' 
+    '''
     ''' External dependencies:
     ''' <list type="bullet">
     '''   <item><description><c>ComputeAvgRanks</c> — computes average ranks with ties</description></item>
@@ -487,7 +526,7 @@ Namespace nonparametric
     '''   <item><description><c>PNorm</c> — normal CDF</description></item>
     '''   <item><description><c>BinomDist</c> — binomial distribution CDF</description></item>
     '''   <item><description><c>Median</c> — sample median</description></item>
-    '''   <item><description><c>HorizontalStackArrays</c> — table formatting</description></item>
+    '''   <item><description><c>NonparametricArrayHelpers.AppendRows</c> — table formatting</description></item>
     '''   <item><description><c>ResultTable</c>, <c>TestResult</c>, <c>ConfidenceIntervalResult</c></description></item>
     ''' </list>
     ''' </summary>
@@ -554,10 +593,10 @@ Namespace nonparametric
         '''   <item><description>Hodges–Lehmann shift estimate</description></item>
         '''   <item><description>Optional Sign Test results</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
-        '''   <item><description><c>HorizontalStackArrays</c></description></item>
+        '''   <item><description><c>NonparametricArrayHelpers.AppendRows</c></description></item>
         '''   <item><description><c>ResultTable</c></description></item>
         ''' </list>
         ''' </summary>
@@ -590,7 +629,7 @@ Namespace nonparametric
             wOut2 = {{"mean/median diff (" & Me.Shift.CIlabel & ")", Me.Shift.strConfidenceInterval}}
 
             'put all together
-            t.SetBody(HorizontalStackArrays(wOut1, pexactOut))
+            t.SetBody(NonparametricArrayHelpers.AppendRows(wOut1, pexactOut))
             t.AddPvalueCellToFormat(4, 2)
             t.AddPvalueCellToFormat(5, 2)
             t.AddPvalueCellToFormat(6, 2)
@@ -614,19 +653,19 @@ Namespace nonparametric
 
         ''' <summary>
         ''' Computes the Hodges–Lehmann estimator of shift for paired data.
-        ''' 
+        '''
         ''' The estimator is the median of all Walsh averages:
         ''' <code>
         ''' wᵢⱼ = (dᵢ + dⱼ) / 2
         ''' HL = median( wᵢⱼ )
         ''' </code>
-        ''' 
+        '''
         ''' Confidence intervals are computed using:
         ''' <list type="bullet">
         '''   <item><description>Exact table-based quantiles for <c>n ≤ 50</c> when <c>alpha = 0.05</c></description></item>
         '''   <item><description>Normal-approximation quantiles for other confidence levels or larger samples</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>Median</c></description></item>
@@ -647,7 +686,7 @@ Namespace nonparametric
                                 236, 250, 265, 280, 295, 311, 328, 344, 362, 379, 397, 416, 435}
 
             Me.Shift = New ConfidenceIntervalResult
-            Dim n As Integer = UBound(arG12, 1) + 1
+            Dim n As Integer = arG12.GetLength(0)
 
             'Fit Hodges-Lehmann estimate of shift
             Dim MeanOfDiffs(n * (n - 1) / 2 + n - 1) As Double
@@ -667,11 +706,11 @@ Namespace nonparametric
 
             If n > 3 And n <= 50 AndAlso Math.Abs(alpha - exactAlpha) < 0.0000001 Then 'exact quantiles
                 Me.Shift.LowerLimit = MeanOfDiffs(W25(n) - 1)
-                Me.Shift.UpperLimit = MeanOfDiffs(UBound(MeanOfDiffs) - W25(n))
+                Me.Shift.UpperLimit = MeanOfDiffs(MeanOfDiffs.Length - 1 - W25(n))
             ElseIf n > 3 Then 'normal approximation
                 Wquantil = (n * (n + 1) / 4) - zCrit * Math.Sqrt(n * (n + 1) * (2 * n + 1) / 24)
                 Me.Shift.LowerLimit = MeanOfDiffs(Wquantil - 1)
-                Me.Shift.UpperLimit = MeanOfDiffs(UBound(MeanOfDiffs) - Wquantil - 1)
+                Me.Shift.UpperLimit = MeanOfDiffs(MeanOfDiffs.Length - 1 - Wquantil - 1)
             End If
 
             Return Me.Shift
@@ -686,20 +725,20 @@ Namespace nonparametric
         '''   <item><description>Normal approximation with tie correction</description></item>
         '''   <item><description>Exact p-values via dynamic programming (n ≤ 60)</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' Normal approximation:
         ''' <code>
         ''' Wmean = n(n+1)/4
         ''' Wsd = sqrt( (n(n+1)(2n+1) − Σ(tᵢ³ − tᵢ)/2) / 24 )
         ''' Z = (W − 0.5 − Wmean) / Wsd
         ''' </code>
-        ''' 
+        '''
         ''' Exact p-values:
         ''' <para>
         ''' Computed by enumerating all 2ⁿ sign assignments using dynamic programming
         ''' on scaled integer ranks.
         ''' </para>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>ComputeAvgRanks</c></description></item>
@@ -715,7 +754,7 @@ Namespace nonparametric
             Dim SUMties As Double, Wmean As Double, WsdCor As Double, rr() As Double, z As Double
             Me.WilcoxonTestresult = New TestResult
 
-            Dim n As Integer = UBound(arG12, 1) + 1
+            Dim n As Integer = arG12.GetLength(0)
             ReDim arDiff(n - 1), arSign(n - 1), rr(n - 1), Me.pDifferences(n - 1), nonZeroDiffs(n - 1)
 
             'get absolute difference between groups and remember sign in 2nd range
@@ -760,16 +799,16 @@ Namespace nonparametric
 
             ' Exact pvalue using Dynamic programming distribution
             If Me.pNact <= 60 Then
-                Dim totalComb As Long = 1L << CLng(Me.pNact)
+                Dim totalComb As Long = 1L << Convert.ToInt64(Me.pNact)
                 Dim iUpdate As Long
 
                 ' Step 6: Scale ranks by 2 to handle fractional ranks as integers
                 Dim scaledRanks(Me.pNact - 1) As Integer
                 For i = 0 To Me.pNact - 1
-                    scaledRanks(i) = CInt(Ranks(i) * 2)
+                    scaledRanks(i) = Convert.ToInt32(Ranks(i) * 2)
                 Next
                 Dim maxRankSum As Long = scaledRanks.Sum()
-                iUpdate = CLng(maxRankSum / 100L)
+                iUpdate = Convert.ToInt64(maxRankSum / 100L)
                 Dim extremeCount As Long, extremeCountLower As Long, extremeCountUpper As Long
                 Dim meanW = maxRankSum / 2.0
                 ' Distribution array: counts of combinations yielding sum s
@@ -792,16 +831,16 @@ Namespace nonparametric
                     If progress IsNot Nothing Then
                         If s Mod iUpdate = 0 Then
                             Dim k As Integer = s
-                            progress.Report(CInt(100 * k / maxRankSum))
+                            progress.Report(Convert.ToInt32(100 * k / maxRankSum))
                         End If
                     End If
                 Next
                 If progress IsNot Nothing Then progress.Report(100)
 
                 Me.WilcoxonTestresult.bExactAvailable = True
-                Me.WilcoxonTestresult.PvalueExact = extremeCount / CDbl(totalComb)
-                Me.WilcoxonTestresult.pValueExactLowerSide = extremeCountLower / CDbl(totalComb)
-                Me.WilcoxonTestresult.pValueExactUpperSide = extremeCountUpper / CDbl(totalComb)
+                Me.WilcoxonTestresult.PvalueExact = extremeCount / Convert.ToDouble(totalComb)
+                Me.WilcoxonTestresult.pValueExactLowerSide = extremeCountLower / Convert.ToDouble(totalComb)
+                Me.WilcoxonTestresult.pValueExactUpperSide = extremeCountUpper / Convert.ToDouble(totalComb)
             Else
                 Me.WilcoxonTestresult.bExactAvailable = False
             End If
@@ -811,23 +850,23 @@ Namespace nonparametric
 
         ''' <summary>
         ''' Computes the Sign Test as a complementary nonparametric test.
-        ''' 
+        '''
         ''' The Sign Test counts positive and negative differences:
         ''' <code>
         ''' N₊ = #{dᵢ > 0}
         ''' N₋ = #{dᵢ .lt. 0}
         ''' </code>
-        ''' 
+        '''
         ''' Under the null hypothesis median(dᵢ) = 0:
         ''' <code>
         ''' N₊ ~ Binomial(N₊ + N₋, 0.5)
         ''' </code>
-        ''' 
+        '''
         ''' Two-sided p-value:
         ''' <code>
         ''' p = 2 * BinomCDF( min(N₊, N₋), N, 0.5 )
         ''' </code>
-        ''' 
+        '''
         ''' External dependency:
         ''' <list type="bullet">
         '''   <item><description><c>BinomDist</c> — binomial CDF</description></item>
@@ -839,7 +878,7 @@ Namespace nonparametric
             Me.pSignTestResults = New TestResult
 
             'count positive and negative differences
-            For i = 0 To UBound(arG12, 1)
+            For i = 0 To arG12.GetUpperBound(0)
                 If arG12(i, 0) - arG12(i, 1) > 0 Then
                     Npoz += 1
                 ElseIf arG12(i, 0) - arG12(i, 1) < 0 Then
@@ -871,30 +910,30 @@ Namespace nonparametric
     '''   <item><description>t-distribution approximation for general n</description></item>
     '''   <item><description>Fisher z-transformation confidence interval at level <c>1 - alpha</c></description></item>
     ''' </list>
-    ''' 
+    '''
     ''' Spearman's ρ is defined as the Pearson correlation of the ranked variables:
     ''' <code>
     ''' ρ = cor(rank(X), rank(Y))
     ''' </code>
-    ''' 
+    '''
     ''' When no ties are present, the classical formula applies:
     ''' <code>
     ''' ρ = 1 − (6 Σ dᵢ²) / (n(n² − 1))
     ''' </code>
     ''' where <c>dᵢ = rank(Xᵢ) − rank(Yᵢ)</c>.
-    ''' 
+    '''
     ''' Exact p-values are computed by permutation enumeration.
     ''' For larger samples or when ties are present, an approximate t-based test is used:
     ''' <code>
     ''' t = ρ √((n − 2) / (1 − ρ²))
     ''' </code>
-    ''' 
+    '''
     ''' The confidence interval is based on the Fisher z transform:
     ''' <code>
     ''' z = atanh(ρ)
     ''' CI = tanh(z ± z_(1 − alpha/2) / √(n − 3))
     ''' </code>
-    ''' 
+    '''
     ''' External dependencies:
     ''' <list type="bullet">
     '''   <item><description><c>ComputeAvgRanks</c> — rank computation with ties</description></item>
@@ -902,7 +941,7 @@ Namespace nonparametric
     '''   <item><description><c>T_2T</c>, <c>T_RT</c>, <c>T_CDF</c> — t-distribution functions</description></item>
     '''   <item><description><c>Atanhhhh</c> — inverse hyperbolic tangent</description></item>
     '''   <item><description><c>ZCritTwoSided</c> — two-sided normal critical value</description></item>
-    '''   <item><description><c>HorizontalStackArrays</c> — table formatting</description></item>
+    '''   <item><description><c>NonparametricArrayHelpers.AppendRows</c> — table formatting</description></item>
     '''   <item><description><c>ResultTable</c>, <c>TestResult</c>, <c>ConfidenceIntervalResult</c></description></item>
     ''' </list>
     ''' </summary>
@@ -970,9 +1009,9 @@ Namespace nonparametric
         '''   <item><description>Approximate p-values</description></item>
         '''   <item><description>Exact p-values (if available)</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependency:
-        ''' <c>HorizontalStackArrays</c> for table formatting.
+        ''' <c>NonparametricArrayHelpers.AppendRows</c> for table formatting.
         ''' </summary>
         ''' <returns>A list of <see cref="ResultTable"/> objects.</returns>
         Public Function wrapResults() As List(Of ResultTable)
@@ -995,7 +1034,7 @@ Namespace nonparametric
                 {"Low-side p-value (approx.)", Me.CorrelationResult.PvalueLowerSide},
                 {"Upper-sid p-value (approx.)", Me.CorrelationResult.PvalueUpperSide}
             }
-            t.SetBody(HorizontalStackArrays(o, pexactOut))
+            t.SetBody(NonparametricArrayHelpers.AppendRows(o, pexactOut))
             t.AddPvalueCellToFormat(4, 2)
             t.AddPvalueCellToFormat(5, 2)
             t.AddPvalueCellToFormat(6, 2)
@@ -1013,7 +1052,7 @@ Namespace nonparametric
         ''' <code>
         ''' ρ = cov(rank(X), rank(Y)) / (sd(rank(X)) sd(rank(Y)))
         ''' </code>
-        ''' 
+        '''
         ''' This implementation uses centered ranks and avoids overflow for large n.
         ''' </summary>
         ''' <param name="xRanks">Rank-transformed X.</param>
@@ -1051,25 +1090,25 @@ Namespace nonparametric
         '''   <item><description>t-distribution approximation for general n</description></item>
         '''   <item><description>Fisher z-transformation confidence interval at level <c>1 - alpha</c></description></item>
         ''' </list>
-        ''' 
+        '''
         ''' Exact permutation test:
         ''' <para>
         ''' Enumerates permutations of Y (or unique permutations when ties are present),
         ''' computes ρ for each permutation, and compares it with the observed value.
         ''' </para>
-        ''' 
+        '''
         ''' Approximate p-values:
         ''' <code>
         ''' t = ρ √((n − 2) / (1 − ρ²))
         ''' p = 2 * (1 − T_CDF(|t|))
         ''' </code>
-        ''' 
+        '''
         ''' Confidence interval:
         ''' <code>
         ''' z = atanh(ρ)
         ''' CI = tanh(z ± z_(1 − alpha/2) / √(n − 3))
         ''' </code>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>ComputeAvgRanks</c></description></item>
@@ -1137,13 +1176,13 @@ Namespace nonparametric
         ''' <summary>
         ''' Computes approximate tail probabilities for Spearman's ρ using the
         ''' Edgeworth-series expansion (Algorithm AS 89, Best and Roberts, 1975).
-        ''' 
+        '''
         ''' Valid for:
         ''' <code>
         ''' 4 ≤ n ≤ 50
         ''' </code>
         ''' and only when no ties are present.
-        ''' 
+        '''
         ''' External dependency:
         ''' <c>PNorm</c> — normal CDF.
         ''' </summary>
@@ -1165,7 +1204,7 @@ Namespace nonparametric
             End If
 
             ' Coefficients from AS 89 (Best & Roberts, 1975)
-            Dim b As Double = 1.0 / CDbl(n)
+            Dim b As Double = 1.0 / Convert.ToDouble(n)
             Dim x As Double = (6 * (Js - 1) * b / (1 / (b * b) - 1) - 1) * Math.Sqrt(1 / b - 1)
             Dim Y As Double = x * x
             Dim T1 As Double = 0.2531 + 0.1745 * b
@@ -1234,7 +1273,7 @@ Namespace nonparametric
                     If Math.Abs(stat) >= Math.Abs(observedStatistic) Then extremeTwoSided += 1
 
                     If progress IsNot Nothing AndAlso (processed Mod updateEvery = 0 OrElse processed = expectedTotal) Then
-                        Dim percent As Integer = CInt(Math.Min(100L, (100L * processed) \ Math.Max(1L, expectedTotal)))
+                        Dim percent As Integer = Convert.ToInt32(Math.Min(100L, (100L * processed) \ Math.Max(1L, expectedTotal)))
                         progress.Report(percent)
                     End If
                 Next
@@ -1247,14 +1286,14 @@ Namespace nonparametric
                     If Math.Abs(stat) >= Math.Abs(observedStatistic) Then extremeTwoSided += 1
 
                     If progress IsNot Nothing AndAlso (processed Mod updateEvery = 0 OrElse processed = expectedTotal) Then
-                        Dim percent As Integer = CInt(Math.Min(100L, (100L * processed) \ Math.Max(1L, expectedTotal)))
+                        Dim percent As Integer = Convert.ToInt32(Math.Min(100L, (100L * processed) \ Math.Max(1L, expectedTotal)))
                         progress.Report(percent)
                     End If
                 Next
             End If
 
             If progress IsNot Nothing Then progress.Report(100)
-            ResamplingCore.CompleteRunInfo(ctx.Info, CInt(Math.Min(Integer.MaxValue, processed)), 0)
+            ResamplingCore.CompleteRunInfo(ctx.Info, Convert.ToInt32(Math.Min(Integer.MaxValue, processed)), 0)
 
             Dim result As PermutationResamplingResult = ResamplingPermutation.BuildPermutationResult(
                 observedStatistic:=observedStatistic,
@@ -1264,7 +1303,7 @@ Namespace nonparametric
                 runInfo:=ctx.Info)
 
             If processed > 0 Then
-                result.TwoSidedPValue = extremeTwoSided / CDbl(processed)
+                result.TwoSidedPValue = extremeTwoSided / Convert.ToDouble(processed)
             End If
 
             Return result
@@ -1282,7 +1321,7 @@ Namespace nonparametric
     '''   <item><description>Normal approximation for general n</description></item>
     '''   <item><description>Approximate confidence interval at level <c>1 - alpha</c></description></item>
     ''' </list>
-    ''' 
+    '''
     ''' Kendall's τ<sub>b</sub> measures the strength of monotonic association between two variables.
     ''' It is defined as:
     ''' <code>
@@ -1295,25 +1334,25 @@ Namespace nonparametric
     '''   <item><description>Tₓ = number of ties in X</description></item>
     '''   <item><description>Tᵧ = number of ties in Y</description></item>
     ''' </list>
-    ''' 
+    '''
     ''' Exact p-values are computed by permutation enumeration.
     ''' For larger samples, a normal approximation is used:
     ''' <code>
     ''' Z = τ / √((4n + 10) / (9n(n − 1)))
     ''' </code>
-    ''' 
+    '''
     ''' The approximate confidence interval is computed as:
     ''' <code>
     ''' CI = τ ± z_(1 − alpha/2) × SE(τ)
     ''' </code>
     ''' and truncated to the valid correlation range [-1, 1].
-    ''' 
+    '''
     ''' External dependencies:
     ''' <list type="bullet">
     '''   <item><description><c>ComputeAvgRanks</c> — rank computation for inherited utilities</description></item>
     '''   <item><description><c>PNorm</c> — normal CDF</description></item>
     '''   <item><description><c>ZCritTwoSided</c> — two-sided normal critical value</description></item>
-    '''   <item><description><c>HorizontalStackArrays</c>, <c>ResultTable</c>, <c>TestResult</c>, <c>ConfidenceIntervalResult</c></description></item>
+    '''   <item><description><c>NonparametricArrayHelpers.AppendRows</c>, <c>ResultTable</c>, <c>TestResult</c>, <c>ConfidenceIntervalResult</c></description></item>
     ''' </list>
     ''' </summary>
     Class KendallsTau
@@ -1344,9 +1383,9 @@ Namespace nonparametric
         '''   <item><description>Approximate p-values</description></item>
         '''   <item><description>Exact p-values (if available)</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependency:
-        ''' <c>HorizontalStackArrays</c> for table formatting.
+        ''' <c>NonparametricArrayHelpers.AppendRows</c> for table formatting.
         ''' </summary>
         ''' <returns>A list of <see cref="ResultTable"/> objects.</returns>
         Public Shadows Function wrapResults() As List(Of ResultTable)
@@ -1369,7 +1408,7 @@ Namespace nonparametric
                  {"Upper-sid p-value (approx.)", Me.CorrelationResult.PvalueUpperSide}
                 }
 
-            t.SetBody(HorizontalStackArrays(o, pexactOut))
+            t.SetBody(NonparametricArrayHelpers.AppendRows(o, pexactOut))
             t.AddPvalueCellToFormat(4, 2)
             t.AddPvalueCellToFormat(5, 2)
             t.AddPvalueCellToFormat(6, 2)
@@ -1384,7 +1423,7 @@ Namespace nonparametric
         ''' <summary>
         ''' Computes Kendall’s τ<sub>b</sub> using the algorithm from
         ''' Numerical Recipes in Fortran 77, Chapter 14.
-        ''' 
+        '''
         ''' For each pair (i, j), determines whether the pair is:
         ''' <list type="bullet">
         '''   <item><description>Concordant (C)</description></item>
@@ -1392,7 +1431,7 @@ Namespace nonparametric
         '''   <item><description>Tied in X</description></item>
         '''   <item><description>Tied in Y</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' τ<sub>b</sub> is computed as:
         ''' <code>
         ''' τ = S / √(n₁ n₂)
@@ -1403,7 +1442,7 @@ Namespace nonparametric
         '''   <item><description>n₁ = total non-tied comparisons in X</description></item>
         '''   <item><description>n₂ = total non-tied comparisons in Y</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' When <paramref name="bComputeSE"/> is True, computes the standard error
         ''' using the variance estimator from Hollander and Wolfe (1999).
         ''' </summary>
@@ -1448,8 +1487,8 @@ Namespace nonparametric
 
             'Confidence interval caluclation
             If bComputeSE Then
-                Ci = M_SUB(Sc, sd)
-                Dim Cbar As Double = Ci.Sum() / CDbl(n)
+                Ci = MatrixArithmeticCore.Subtract(Sc, sd)
+                Dim Cbar As Double = Ci.Sum() / Convert.ToDouble(n)
 
                 For i = 0 To n - 1
                     Sigma += (Ci(i) - Cbar) ^ 2
@@ -1473,19 +1512,19 @@ Namespace nonparametric
         '''   <item><description>Normal approximation for general n</description></item>
         '''   <item><description>Approximate confidence interval at level <c>1 - alpha</c></description></item>
         ''' </list>
-        ''' 
+        '''
         ''' Normal approximation:
         ''' <code>
         ''' Z = τ / √((4n + 10) / (9n(n − 1)))
         ''' </code>
-        ''' 
+        '''
         ''' Confidence interval:
         ''' <code>
         ''' CI = τ ± z_(1 − alpha/2) × SE(τ)
         ''' </code>
-        ''' 
+        '''
         ''' The interval is truncated to the valid correlation range [-1, 1].
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>PNorm</c> — normal CDF</description></item>
@@ -1548,13 +1587,13 @@ Namespace nonparametric
         ''' <summary>
         ''' Computes approximate tail probabilities for Kendall’s τ using the
         ''' Edgeworth-series expansion (Algorithm AS 89, Best and Roberts, 1975).
-        ''' 
+        '''
         ''' Valid for:
         ''' <code>
         ''' 4 ≤ n ≤ 50
         ''' </code>
         ''' and only when no ties are present.
-        ''' 
+        '''
         ''' External dependency:
         ''' <c>PNorm</c> — normal CDF.
         ''' </summary>
@@ -1574,11 +1613,11 @@ Namespace nonparametric
             H(1) = X
             H(2) = X * X - 1
             For i = 3 To 15
-                H(i) = X * H(i - 1) - CDbl(i - 1) * H(i - 2)
+                H(i) = X * H(i - 1) - Convert.ToDouble(i - 1) * H(i - 2)
             Next
 
             'PROBABILITIES CALCULATED BY MODIFIED EDGEWORTH SERIES FOR N GREATER THAN 8
-            Dim r As Double = 1.0 / CDbl(n)
+            Dim r As Double = 1.0 / Convert.ToDouble(n)
             Dim c1 As Double = (-0.09 + r * (0.045 + r * (-0.5325 + r * 0.506)))
             Dim c2 As Double = (0.036735 + r * (-0.036735 + r * 0.3214))
             Dim c3 As Double = (0.00405 + r * (-0.023336 + r * 0.07787))
@@ -1626,7 +1665,7 @@ Namespace nonparametric
     ''' <summary>
     ''' Implements the Kruskal–Wallis H test, a nonparametric alternative to
     ''' one‑way ANOVA for comparing k independent groups.
-    ''' 
+    '''
     ''' The test evaluates whether the distributions of the groups differ by
     ''' comparing their mean ranks. It is based on:
     ''' <code>
@@ -1638,13 +1677,13 @@ Namespace nonparametric
     '''   <item><description>nᵢ = sample size of group i</description></item>
     '''   <item><description>N = total sample size</description></item>
     ''' </list>
-    ''' 
+    '''
     ''' A tie‑corrected statistic is also computed:
     ''' <code>
     ''' H<sub>cor</sub> = H / (1 − T / (N³ − N))
     ''' </code>
     ''' where T = Σ(tⱼ³ − tⱼ) over all tied groups.
-    ''' 
+    '''
     ''' Post‑hoc pairwise comparisons are computed using **Dunn’s test**, with
     ''' Bonferroni correction:
     ''' <code>
@@ -1654,7 +1693,7 @@ Namespace nonparametric
     ''' <code>
     ''' a = N(N+1)/12 − T/(12(N−1))
     ''' </code>
-    ''' 
+    '''
     ''' External dependencies:
     ''' <list type="bullet">
     '''   <item><description><c>ComputeAvgRanks</c> — rank computation with ties</description></item>
@@ -1710,7 +1749,7 @@ Namespace nonparametric
         '''   <item><description>Corresponding chi‑square p‑values</description></item>
         '''   <item><description>Dunn’s post‑hoc comparisons (if computed)</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependency:
         ''' <c>ResultTable</c> for formatting.
         ''' </summary>
@@ -1744,7 +1783,7 @@ Namespace nonparametric
 
         ''' <summary>
         ''' Computes the Kruskal–Wallis H statistic and tie‑corrected H<sub>cor</sub>.
-        ''' 
+        '''
         ''' Steps:
         ''' <list type="number">
         '''   <item><description>Combine all values and compute average ranks.</description></item>
@@ -1753,7 +1792,7 @@ Namespace nonparametric
         '''   <item><description>Apply tie correction using T = Σ(tⱼ³ − tⱼ).</description></item>
         '''   <item><description>Compute chi‑square p-values with df = k − 1.</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>ComputeAvgRanks</c></description></item>
@@ -1809,14 +1848,14 @@ Namespace nonparametric
         ''' <summary>
         ''' Computes Dunn’s post‑hoc pairwise comparisons following a significant
         ''' Kruskal–Wallis test.
-        ''' 
+        '''
         ''' For each pair of groups (i, j), computes:
         ''' <list type="bullet">
         '''   <item><description>Mean rank difference</description></item>
         '''   <item><description>Z statistic</description></item>
         '''   <item><description>Bonferroni‑adjusted p-value</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' Z statistic:
         ''' <code>
         ''' Z = |mean rank diff| / √( a (1/nᵢ + 1/nⱼ) )
@@ -1825,7 +1864,7 @@ Namespace nonparametric
         ''' <code>
         ''' a = N(N+1)/12 − T/(12(N−1))
         ''' </code>
-        ''' 
+        '''
         ''' External dependency:
         ''' <c>PNorm</c> — normal CDF.
         ''' </summary>
@@ -1854,9 +1893,9 @@ Namespace nonparametric
                 For j = i + 1 To NoGroups - 1
                     pMCP(ii, 0) = varNames(i) & " vs " & varNames(j)  'contrast name
                     pMCP(ii, 1) = (Me.rankSums(i) / data(i).Length) - (Me.rankSums(j) / data(j).Length) 'mean rank difference
-                    pMCP(ii, 2) = Math.Abs(pMCP(ii, 1)) / Math.Sqrt(a * (1 / data(i).Length + 1 / data(j).Length))
-                    pMCP(ii, 3) = 2.0 * (1.0 - distributions.PNorm(CDbl(pMCP(ii, 2)))) * (NoGroups * (NoGroups - 1) / 2)
-                    If pMCP(ii, 3) >= 1 Then pMCP(ii, 3) = 1
+                    pMCP(ii, 2) = Math.Abs(Convert.ToDouble(pMCP(ii, 1))) / Math.Sqrt(a * (1 / data(i).Length + 1 / data(j).Length))
+                    pMCP(ii, 3) = 2.0 * (1.0 - distributions.PNorm(Convert.ToDouble(pMCP(ii, 2)))) * (NoGroups * (NoGroups - 1) / 2)
+                    If Convert.ToDouble(pMCP(ii, 3)) >= 1.0 Then pMCP(ii, 3) = 1.0
                     ii += 1
                 Next
             Next
@@ -1870,10 +1909,10 @@ Namespace nonparametric
     ''' <summary>
     ''' Implements the Friedman test for randomized block designs, a nonparametric
     ''' alternative to one‑way repeated‑measures ANOVA.
-    ''' 
+    '''
     ''' The test evaluates whether k treatments differ in central tendency across
     ''' b blocks by ranking treatments within each block and comparing mean ranks.
-    ''' 
+    '''
     ''' The Friedman chi‑square statistic is:
     ''' <code>
     ''' T₁ = (12 / (b k (k + 1))) Σ (Rⱼ²) − 3 b (k + 1)
@@ -1884,18 +1923,18 @@ Namespace nonparametric
     '''   <item><description>b = number of blocks</description></item>
     '''   <item><description>k = number of treatments</description></item>
     ''' </list>
-    ''' 
+    '''
     ''' A second statistic T₂ provides an F‑approximation:
     ''' <code>
     ''' T₂ = ((b − 1) T₁) / (b (k − 1) − T₁)
     ''' </code>
-    ''' 
+    '''
     ''' Post‑hoc multiple comparisons include:
     ''' <list type="bullet">
     '''   <item><description>Conover’s test (t‑approximation)</description></item>
     '''   <item><description>Dunn’s test (normal approximation, SPSS style)</description></item>
     ''' </list>
-    ''' 
+    '''
     ''' External dependencies:
     ''' <list type="bullet">
     '''   <item><description><c>ComputeAvgRanks</c> — rank computation with ties</description></item>
@@ -1903,7 +1942,7 @@ Namespace nonparametric
     '''   <item><description><c>F_RT</c> — F‑distribution right‑tail probability</description></item>
     '''   <item><description><c>PNorm</c> — normal CDF</description></item>
     '''   <item><description><c>T_2T</c> — two‑tailed t‑distribution probability</description></item>
-    '''   <item><description><c>HorizontalStackArrays</c>, <c>ResultTable</c>, <c>TestResult</c></description></item>
+    '''   <item><description><c>NonparametricArrayHelpers.AppendRows</c>, <c>ResultTable</c>, <c>TestResult</c></description></item>
     ''' </list>
     ''' </summary>
     Public Class Friedman
@@ -1958,7 +1997,7 @@ Namespace nonparametric
         '''   <item><description>Mean ranks for each treatment</description></item>
         '''   <item><description>Conover and Dunn post‑hoc comparisons (if computed)</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependency:
         ''' <c>ResultTable</c> for formatting.
         ''' </summary>
@@ -2019,25 +2058,25 @@ Namespace nonparametric
         '''   <item><description>Conover’s test (t‑approximation)</description></item>
         '''   <item><description>Dunn’s test (normal approximation, SPSS style)</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' Conover statistic:
         ''' <code>
         ''' T = |R̄ᵢ − R̄ⱼ| / √(CompCrit)
         ''' </code>
-        ''' 
+        '''
         ''' Dunn statistic:
         ''' <code>
         ''' Z = |mean rank diff| / √( SE )
         ''' </code>
-        ''' 
+        '''
         ''' Bonferroni correction is applied to Dunn’s p-values.
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>ComputeAvgRanks</c></description></item>
         '''   <item><description><c>T_2T</c> — t‑distribution p-value</description></item>
         '''   <item><description><c>PNorm</c> — normal CDF</description></item>
-        '''   <item><description><c>HorizontalStackArrays</c></description></item>
+        '''   <item><description><c>NonparametricArrayHelpers.AppendRows</c></description></item>
         ''' </list>
         ''' </summary>
         ''' <param name="alpha">
@@ -2083,32 +2122,32 @@ Namespace nonparametric
                 For j = i + 1 To NoGroups - 1
                     Conover(ii, 0) = varNames(i) & " vs " & varNames(j)  'contrast name
                     Conover(ii, 1) = MeanRanks(i) * NoBlocks - MeanRanks(j) * NoBlocks
-                    Conover(ii, 2) = Math.Abs(Conover(ii, 1)) / CompCrit
-                    Conover(ii, 3) = distributions.T_2T(CDbl(Conover(ii, 2)), (NoBlocks - 1) * (NoGroups - 1))
+                    Conover(ii, 2) = Math.Abs(Convert.ToDouble(Conover(ii, 1))) / CompCrit
+                    Conover(ii, 3) = distributions.T_2T(Convert.ToDouble(Conover(ii, 2)), (NoBlocks - 1) * (NoGroups - 1))
 
                     'MCP according the SPSS
                     SPSS(ii, 0) = Conover(ii, 0)  'contrast name
                     SPSS(ii, 1) = Conover(ii, 1)
-                    SPSS(ii, 2) = Math.Abs(Conover(ii, 1) / NoBlocks) / Math.Sqrt(SE)
-                    SPSS(ii, 3) = 2.0 * (1.0 - distributions.PNorm(CDbl(SPSS(ii, 2))))
-                    SPSS(ii, 3) = SPSS(ii, 3) * Ncontrast 'now it is adjusted for MC
-                    If SPSS(ii, 3) > 1 Then SPSS(ii, 3) = 1
+                    SPSS(ii, 2) = Math.Abs(Convert.ToDouble(Conover(ii, 1)) / NoBlocks) / Math.Sqrt(SE)
+                    SPSS(ii, 3) = 2.0 * (1.0 - distributions.PNorm(Convert.ToDouble(SPSS(ii, 2))))
+                    SPSS(ii, 3) = Convert.ToDouble(SPSS(ii, 3)) * Ncontrast 'now it is adjusted for MC
+                    If Convert.ToDouble(SPSS(ii, 3)) > 1.0 Then SPSS(ii, 3) = 1.0
 
                     ii += 1
                 Next
             Next
 
-            Me.pMCP = HorizontalStackArrays({{"Conover multiple comparison test", "Mean rank diff.", "T", "Two sided P-value"}}, Conover)
-            Me.pMCP = HorizontalStackArrays(Me.pMCP,
+            Me.pMCP = NonparametricArrayHelpers.AppendRows({{"Conover multiple comparison test", "Mean rank diff.", "T", "Two sided P-value"}}, Conover)
+            Me.pMCP = NonparametricArrayHelpers.AppendRows(Me.pMCP,
                                         {{"", "", "", ""},
                                          {"Dunn's multiple comparison test", "Mean rank diff.", "Z", "Two sided P-value"}})
-            Me.pMCP = HorizontalStackArrays(Me.pMCP, SPSS)
+            Me.pMCP = NonparametricArrayHelpers.AppendRows(Me.pMCP, SPSS)
             Return Me.pMCP
         End Function
 
         ''' <summary>
         ''' Computes the Friedman test statistics T₁ (chi‑square) and T₂ (F‑approximation).
-        ''' 
+        '''
         ''' Steps:
         ''' <list type="number">
         '''   <item><description>Rank treatments within each block using average ranks.</description></item>
@@ -2117,7 +2156,7 @@ Namespace nonparametric
         '''   <item><description>Compute T₂ using the Iman–Davenport F‑approximation.</description></item>
         '''   <item><description>Compute chi‑square and F‑distribution p‑values.</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>ComputeAvgRanks</c></description></item>
@@ -2175,12 +2214,12 @@ Namespace nonparametric
 
     ''' <summary>
     ''' Represents the results of the Theil–Sen estimator for robust linear regression.
-    ''' 
+    '''
     ''' The Theil–Sen method estimates the slope as the median of all pairwise slopes:
     ''' <code>
     ''' slope = median( (yⱼ − yᵢ) / (xⱼ − xᵢ) )
     ''' </code>
-    ''' 
+    '''
     ''' It is highly robust to outliers and valid under minimal assumptions.
     ''' Confidence limits are typically computed using Kendall’s τ‑based variance
     ''' or via rank‑based inversion of the Sen slope distribution.
@@ -2189,7 +2228,7 @@ Namespace nonparametric
 
         ''' <summary>
         ''' Number of non‑tied slope pairs used in the computation.
-        ''' 
+        '''
         ''' This equals the number of (i, j) pairs where xⱼ ≠ xᵢ.
         ''' Ties reduce the effective sample size for the slope distribution.
         ''' </summary>
@@ -2239,40 +2278,53 @@ Namespace nonparametric
         End Property
     End Class
 
+    ''' <summary>
+    ''' Host-neutral numeric payload used by the Windows Excel renderer for a Theil-Sen plot.
+    ''' </summary>
+    Public Class TheilSenPlotData
+        Public Property XValues As Double()
+        Public Property YValues As Double()
+        Public Property XName As String
+        Public Property YName As String
+        Public Property MinX As Double
+        Public Property MaxX As Double
+        Public Property FittedYAtMinX As Double
+        Public Property FittedYAtMaxX As Double
+    End Class
+
 
     ''' <summary>
     ''' Implements the Theil–Sen nonparametric simple linear regression estimator.
-    ''' 
+    '''
     ''' The Theil–Sen slope is defined as the median of all pairwise slopes:
     ''' <code>
     ''' slope = median( (yⱼ − yᵢ) / (xⱼ − xᵢ) ),  for all i .lt. j and xⱼ ≠ xᵢ
     ''' </code>
-    ''' 
+    '''
     ''' This estimator is:
     ''' <list type="bullet">
     '''   <item><description>Highly robust to outliers</description></item>
     '''   <item><description>Invariant to monotone transformations of X</description></item>
     '''   <item><description>Distribution‑free under minimal assumptions</description></item>
     ''' </list>
-    ''' 
+    '''
     ''' Confidence limits for the slope are computed using the large‑sample
     ''' approximation described in Sen (1968) and Conover (1980):
     ''' <code>
     ''' L = slope(rank_L),   U = slope(rank_U)
     ''' rank limits = (N ± z * sqrt( n(n−1)(2n+5)/18 )) / 2
     ''' </code>
-    ''' 
+    '''
     ''' The intercept is computed using the robust estimator:
     ''' <code>
     ''' intercept = median(Y) − slope × median(X)
     ''' </code>
-    ''' 
+    '''
     ''' External dependencies:
     ''' <list type="bullet">
     '''   <item><description><c>Median</c> — sample median</description></item>
-    '''   <item><description><c>GetColumnFrom2Darray</c> — extracts X or Y column</description></item>
+    '''   <item><description><c>ArrayUtilities.GetColumn</c> — extracts X or Y column</description></item>
     '''   <item><description><c>NormSInv</c> — inverse standard normal CDF</description></item>
-    '''   <item><description><c>GeneralScatterPlot</c> — Excel scatter plot generator</description></item>
     '''   <item><description><c>ResultTable</c>, <c>TheilSenResults</c></description></item>
     ''' </list>
     ''' </summary>
@@ -2307,7 +2359,7 @@ Namespace nonparametric
         '''   <item><description>Intercept estimate</description></item>
         '''   <item><description>Regression equation</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' External dependency:
         ''' <c>ResultTable</c> for formatting.
         ''' </summary>
@@ -2317,11 +2369,11 @@ Namespace nonparametric
             Dim t = New ResultTable
             Dim strYname As String = If(varNames(0) = String.Empty, "Y", varNames(0))
             Dim strXNameEq As String = If(varNames(1) = String.Empty, "X", varNames(1))
-            t.SetBody({{"Number of data points", UBound(Me.data, 1) + 1},
+            t.SetBody({{"Number of data points", Me.data.GetLength(0)},
                   {"Number of X-ties", Me.TSresults.lNoTies},
-                  {"Median Slope (" & Me.TSresults.CIlabel & ")", CStr(TSresults.MedianSlope) & " (" & CStr(TSresults.LLslope) & " to " & CStr(TSresults.ULslope) & ")"},
+                  {"Median Slope (" & Me.TSresults.CIlabel & ")", TSresults.MedianSlope.ToString(CultureInfo.CurrentCulture) & " (" & TSresults.LLslope.ToString(CultureInfo.CurrentCulture) & " to " & TSresults.ULslope.ToString(CultureInfo.CurrentCulture) & ")"},
                   {"Intercept", Me.TSresults.Intercept},
-                  {"Equation", strYname & " = " & CStr(TSresults.MedianSlope) & " " & strXNameEq & " + " & CStr(TSresults.Intercept)}
+                  {"Equation", strYname & " = " & TSresults.MedianSlope.ToString(CultureInfo.CurrentCulture) & " " & strXNameEq & " + " & TSresults.Intercept.ToString(CultureInfo.CurrentCulture)}
                  })
             t.AddHeaderTopRow({"Theil-Sen nonparametric linear regression", ""})
             out.Add(t)
@@ -2330,7 +2382,7 @@ Namespace nonparametric
 
         ''' <summary>
         ''' Computes the Theil–Sen slope, intercept, and confidence interval.
-        ''' 
+        '''
         ''' Steps:
         ''' <list type="number">
         '''   <item><description>Compute medians of X and Y.</description></item>
@@ -2340,17 +2392,17 @@ Namespace nonparametric
         '''   <item><description>Compute confidence limits using Sen’s large‑sample approximation.</description></item>
         '''   <item><description>Compute intercept using Conover’s robust formula.</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' Confidence interval:
         ''' <code>
         ''' rank_L = (N − z √(n(n−1)(2n+5)/18)) / 2
         ''' rank_U = (N + z √(n(n−1)(2n+5)/18)) / 2
         ''' </code>
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>Median</c></description></item>
-        '''   <item><description><c>GetColumnFrom2Darray</c></description></item>
+        '''   <item><description><c>ArrayUtilities.GetColumn</c></description></item>
         '''   <item><description><c>NormSInv</c></description></item>
         ''' </list>
         ''' </summary>
@@ -2369,9 +2421,9 @@ Namespace nonparametric
             TSresults.alpha = alpha
 
             'calculate nonparametric regression parameters
-            dYmedian = Median(GetColumnFrom2Darray(Me.data, 0))
-            dXmedian = Median(GetColumnFrom2Darray(Me.data, 1))
-            Dim n As Long = UBound(Me.data, 1) + 1
+            dYmedian = Median(ArrayUtilities.GetColumn(Me.data, 0))
+            dXmedian = Median(ArrayUtilities.GetColumn(Me.data, 1))
+            Dim n As Long = Me.data.GetLength(0)
 
             'calculate all posible slopes from data points with distinc X-axis coordinate
             ReDim arSlopes(n * (n - 1) / 2 - 1) 'all pairwise slopes between two data points will be caluculated
@@ -2422,44 +2474,26 @@ Namespace nonparametric
         End Function
 
         ''' <summary>
-        ''' Adds a scatter plot with the Theil–Sen regression line to an Excel worksheet.
-        ''' 
-        ''' The fitted line is drawn between:
-        ''' <code>
-        ''' (min(X), intercept + slope × min(X))
-        ''' (max(X), intercept + slope × max(X))
-        ''' </code>
-        ''' 
-        ''' External dependency:
-        ''' <c>GeneralScatterPlot</c> — creates the base scatter plot.
+        ''' Returns the host-neutral numeric data required to render a Theil-Sen scatter plot
+        ''' and fitted regression line.
         ''' </summary>
-        ''' <param name="ws">Excel worksheet to receive the plot.</param>
-        Sub AddPlot(ws As Worksheet)
-            Dim ch = graphics.GeneralScatterPlot(GetColumnFrom2Darray(data, 1),
-                                             GetColumnFrom2Darray(data, 0),
-                                             varNames(0),
-                                             varNames(1),
-                                             ws)
-            Dim dMinX As Double = GetColumnFrom2Darray(data, 1).Min()
-            Dim dMaxX As Double = GetColumnFrom2Darray(data, 1).Max()
+        Public Function GetPlotData() As TheilSenPlotData
+            Dim xValues() As Double = ArrayUtilities.GetColumn(Me.data, 1)
+            Dim yValues() As Double = ArrayUtilities.GetColumn(Me.data, 0)
+            Dim minX As Double = xValues.Min()
+            Dim maxX As Double = xValues.Max()
 
-            With ch
-                'add and plot nonparametric fit line
-                .SeriesCollection.NewSeries
-                With .SeriesCollection(2)
-                    .XValues = {dMinX, dMaxX}
-                    .Values = {TSresults.Intercept + TSresults.MedianSlope * dMinX,
-                           TSresults.Intercept + TSresults.MedianSlope * dMaxX}
-                    .Name = "Nonparametric Fit"
-                    .MarkerStyle = -4142
-                    .Border.Color = RGB(255, 0, 0)
-                    With .Format.Line
-                        .Visible = True
-                        .Weight = 1.5
-                    End With
-                End With
-            End With
-        End Sub
+            Return New TheilSenPlotData With {
+                .XValues = xValues,
+                .YValues = yValues,
+                .XName = Me.varNames(1),
+                .YName = Me.varNames(0),
+                .MinX = minX,
+                .MaxX = maxX,
+                .FittedYAtMinX = Me.TSresults.Intercept + Me.TSresults.MedianSlope * minX,
+                .FittedYAtMaxX = Me.TSresults.Intercept + Me.TSresults.MedianSlope * maxX
+            }
+        End Function
 
     End Class
 
@@ -2468,8 +2502,8 @@ Namespace nonparametric
     Public Module Nonparametric
 
         ''' <summary>
-        ''' Computes the tie‑correction term 
-        ''' <c>T = Σ (tᵢ³ − tᵢ)</c> 
+        ''' Computes the tie‑correction term
+        ''' <c>T = Σ (tᵢ³ − tᵢ)</c>
         ''' used in rank‑based nonparametric tests such as:
         ''' <list type="bullet">
         '''   <item><description>Kruskal–Wallis H test</description></item>
@@ -2477,19 +2511,19 @@ Namespace nonparametric
         '''   <item><description>Kendall’s τ and τ‑b</description></item>
         '''   <item><description>Wilcoxon and Mann–Whitney tie adjustments</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' For each distinct value in <paramref name="x"/>, let tᵢ be the number of
         ''' tied observations. The tie‑correction factor is:
         ''' <code>
         ''' T = Σ (tᵢ³ − tᵢ)
         ''' </code>
-        ''' 
+        '''
         ''' This quantity is used to adjust the variance of rank‑based statistics
         ''' when ties are present. For example, in the Kruskal–Wallis test:
         ''' <code>
         ''' H_corrected = H / (1 − T / (N³ − N))
         ''' </code>
-        ''' 
+        '''
         ''' The function returns only the numerator T; callers apply the appropriate
         ''' scaling depending on the statistical test.
         ''' </summary>
@@ -2500,7 +2534,7 @@ Namespace nonparametric
         Function TiesCorrection(x() As Double) As Double
             Dim c As Double, dict As New Dictionary(Of Double, Integer)
             dict.Add(x(0), 1)
-            For i = 1 To UBound(x)
+            For i = 1 To x.Length - 1
                 If dict.ContainsKey(x(i)) Then
                     dict.Item(x(i)) += 1
                 Else
@@ -2508,27 +2542,27 @@ Namespace nonparametric
                 End If
             Next
             For Each key In dict.Keys
-                c += (CDbl(dict.Item(key)) ^ 3 - CDbl(dict.Item(key)))
+                c += (Convert.ToDouble(dict.Item(key)) ^ 3 - Convert.ToDouble(dict.Item(key)))
             Next key
             Return c
         End Function
 
         ''' <summary>
         ''' Computes average ranks for a numeric vector, with full tie handling.
-        ''' 
+        '''
         ''' This function assigns ranks to the values in <paramref name="arData"/> by:
         ''' <list type="number">
         '''   <item><description>Sorting the values while preserving original indices.</description></item>
         '''   <item><description>Identifying tied groups (equal values).</description></item>
         '''   <item><description>Assigning each tied group the average of their rank positions.</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' Ranking convention:
         ''' <code>
         ''' If values at sorted positions i … j are tied,
         ''' average rank = (i + j + 2) / 2
         ''' </code>
-        ''' 
+        '''
         ''' This corresponds to the standard “midrank” method used in:
         ''' <list type="bullet">
         '''   <item><description>Mann–Whitney U test</description></item>
@@ -2537,7 +2571,7 @@ Namespace nonparametric
         '''   <item><description>Friedman test</description></item>
         '''   <item><description>Spearman’s rank correlation</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' The returned array preserves the original ordering of <paramref name="arData"/>.
         ''' </summary>
         ''' <param name="arData">A one‑dimensional array of numeric values to be ranked.</param>
@@ -2573,14 +2607,14 @@ Namespace nonparametric
 
         ''' <summary>
         ''' Computes the Skillings–Mack test statistic for incomplete block designs.
-        ''' 
+        '''
         ''' The Skillings–Mack test is a generalization of the Friedman test that allows:
         ''' <list type="bullet">
         '''   <item><description>Unequal numbers of observations per block</description></item>
         '''   <item><description>Missing values within blocks</description></item>
         '''   <item><description>Arbitrary block sizes (≥ 2 non‑missing values)</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' The test ranks treatments **within each block**, standardizes the ranks,
         ''' and forms a quadratic statistic:
         ''' <code>
@@ -2591,13 +2625,13 @@ Namespace nonparametric
         '''   <item><description>R = vector of standardized rank sums</description></item>
         '''   <item><description>Σ = covariance matrix of standardized ranks</description></item>
         ''' </list>
-        ''' 
+        '''
         ''' Blocks with fewer than two non‑missing observations are removed, as they
         ''' contribute no ranking information.
-        ''' 
+        '''
         ''' The asymptotic distribution of T is chi‑square with (k − 1) degrees of freedom,
         ''' where k is the number of treatments.
-        ''' 
+        '''
         ''' External dependencies:
         ''' <list type="bullet">
         '''   <item><description><c>ComputeAvgRanks</c> — computes average ranks with ties</description></item>
@@ -2629,8 +2663,8 @@ Namespace nonparametric
             'SMoutcome user defined type (test statistic, asymptotic p-value and simulated p-value)
 
             'assumes that treatments are in columns and block are in rows
-            Dim NoColumns As Integer = UBound(data, 2) + 1 '# of treatments
-            Dim NoRows As Integer = UBound(data, 1) + 1
+            Dim NoColumns As Integer = data.GetLength(1) '# of treatments
+            Dim NoRows As Integer = data.GetLength(0)
             Dim nanCount As Integer = data.Cast(Of Double)().Count(Function(x) Double.IsNaN(x)) 'data.Cast(Of Double)() flattens the 2D array into a sequence of doubles.
             Dim n As Integer = NoRows * NoColumns - nanCount
 
@@ -2650,7 +2684,7 @@ Namespace nonparametric
                 Next
             Next
 
-            Dim NoBlocks As Integer = UBound(arData, 1) + 1
+            Dim NoBlocks As Integer = arData.GetLength(0)
             'compute ranks
             Dim Ranks(NoBlocks - 1, NoColumns - 1) As Double, NonMiss(NoBlocks - 1, NoColumns - 1) As Boolean
             Dim ki(NoBlocks - 1) As Double 'reference array in the ranking when there are missing data
@@ -2713,8 +2747,8 @@ Namespace nonparametric
                 Next
             Next
 
-            Dim CovInv = MatInv(CovMat2, method:="CHOL") 'find inverese using LU decomposition
-            Dim TestStatistic = MatrixMult(MatrixMult(trans(RanksSum2), CovInv), RanksSum2)
+            Dim CovInv = MatrixDecompositionCore.InvertMatrix(CovMat2, method:="CHOL") 'find inverese using LU decomposition
+            Dim TestStatistic = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Transpose(RanksSum2), CovInv), RanksSum2)
 
             Dim P_value As Double = 1.0 - distributions.ChiSquareCDF(TestStatistic(0, 0), NoColumns - 1)
 

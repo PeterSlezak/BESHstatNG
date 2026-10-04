@@ -112,6 +112,15 @@ Public Class NonparametricReferenceTests
         Assert.AreEqual(0, result.lNoTies)
         AssertClose(0.05, result.alpha, 0.000000000001)
 
+        Dim plotData As BESHStatNG.nonparametric.TheilSenPlotData = test.GetPlotData()
+        Assert.AreEqual(6, plotData.XValues.Length)
+        Assert.AreEqual(6, plotData.YValues.Length)
+        Assert.AreEqual("X", plotData.XName)
+        Assert.AreEqual("Y", plotData.YName)
+        AssertClose(1.0, plotData.MinX, 0.000000000001)
+        AssertClose(6.0, plotData.MaxX, 0.000000000001)
+        AssertClose(3.0, plotData.FittedYAtMinX, 0.000000000001)
+        AssertClose(13.0, plotData.FittedYAtMaxX, 0.000000000001)
     End Sub
 
     <TestMethod()>

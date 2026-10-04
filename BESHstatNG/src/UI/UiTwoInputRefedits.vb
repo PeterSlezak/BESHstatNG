@@ -1,5 +1,6 @@
 ﻿Imports System.Security.Cryptography
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.nonparametric
 Imports Microsoft.Office.Interop.Excel
 
 
@@ -560,7 +561,7 @@ Public Class UiTwoInputRefedits
         Dim WriteRes = New ExcelDnaResultWriter
         Dim alphaValue As Double = CDbl(Me.spinBtnAlphaGlobal.Value)
         Dim kendall = New nonparametric.KendallsTau(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
-        kendall.compute(Me.progressBarExactCalc, alphaValue)
+        kendall.compute(New AppInfrastructure.WinFormsProgressReporter(Me.progressBarExactCalc), alphaValue)
         Dim res = kendall.wrapResults()
 
         'Compute descriptive statistics
@@ -585,7 +586,7 @@ Public Class UiTwoInputRefedits
         Dim alphaValue As Double = CDbl(Me.spinBtnAlphaGlobal.Value)
 
         Dim spearman = New nonparametric.SpearmanRho(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
-        spearman.Compute(Me.progressBarExactCalc, alphaValue)
+        spearman.Compute(New AppInfrastructure.WinFormsProgressReporter(Me.progressBarExactCalc), alphaValue)
         Dim res = spearman.wrapResults()
 
         'Compute descriptive statistics
@@ -611,7 +612,7 @@ Public Class UiTwoInputRefedits
 
         'Compute test
         Dim Wilcoxon = New nonparametric.WilcoxonTest(data.X, data.name1, data.name2)
-        Wilcoxon.Compute(Me.progressBarExactCalc)
+        Wilcoxon.Compute(New AppInfrastructure.WinFormsProgressReporter(Me.progressBarExactCalc))
         Wilcoxon.ComputeShift(alphaValue)
         If Me.ckSignTest.Checked Then Wilcoxon.signTest()
 
