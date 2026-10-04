@@ -1,106 +1,108 @@
-Option Explicit On
+﻿Option Explicit On
+Imports BESHStatNG
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports BESHStatNG.contingencytable
 
 ' Unit tests for ContingencyTable.vb
 ' These tests use fixed reference values (computed independently of the implementation)
 ' and validate key numeric outputs: estimates, test statistics, and p-values.
 
 <TestClass()>
-    Public Class ContingencyTableTestHelpers
+Public Class ContingencyTableTestHelpers
 
-        Public Shared Sub AssertAlmostEqual(expected As Double, actual As Double, tol As Double, Optional msg As String = "")
-            If Double.IsNaN(actual) OrElse Double.IsInfinity(actual) Then
-                Assert.Fail($"NaN/Inf encountered. {msg}")
-            End If
-            Dim diff As Double = Math.Abs(expected - actual)
-            If diff > tol Then
-                Assert.Fail($"Expected {expected} but got {actual}. |diff|={diff} > tol={tol}. {msg}")
-            End If
-        End Sub
+    Public Shared Sub AssertAlmostEqual(expected As Double, actual As Double, tol As Double, Optional msg As String = "")
+        If Double.IsNaN(actual) OrElse Double.IsInfinity(actual) Then
+            Assert.Fail($"NaN/Inf encountered. {msg}")
+        End If
+        Dim diff As Double = Math.Abs(expected - actual)
+        If diff > tol Then
+            Assert.Fail($"Expected {expected} but got {actual}. |diff|={diff} > tol={tol}. {msg}")
+        End If
+    End Sub
 
-        Public Shared Sub AssertPValueValid(p As Double, Optional msg As String = "")
-            Assert.IsFalse(Double.IsNaN(p), "P-value is NaN. " & msg)
-            Assert.IsFalse(Double.IsInfinity(p), "P-value is infinite. " & msg)
-            Assert.IsTrue(p >= 0.0 AndAlso p <= 1.0, $"P-value out of range: {p}. {msg}")
-        End Sub
+    Public Shared Sub AssertPValueValid(p As Double, Optional msg As String = "")
+        Assert.IsFalse(Double.IsNaN(p), "P-value is NaN. " & msg)
+        Assert.IsFalse(Double.IsInfinity(p), "P-value is infinite. " & msg)
+        Assert.IsTrue(p >= 0.0 AndAlso p <= 1.0, $"P-value out of range: {p}. {msg}")
+    End Sub
 
-    End Class
+End Class
 
-    ' ---------- FisherExact2x2 reference helpers (match ContingencyTable.FisherExact2x2 definition) ----------
+' ---------- FisherExact2x2 reference helpers (match ContingencyTable.FisherExact2x2 definition) ----------
 
-    Friend Module FisherExact2x2Reference
+Friend Module FisherExact2x2Reference
 
-        Private Function LogFact_CT(n As Integer) As Double
-            If n < 2 Then Return 0.0#
-            Dim s As Double = 0.0#
-            For k As Integer = 2 To n
-                s += Math.Log(k)
-            Next
-            Return s
-        End Function
+    Private Function LogFact_CT(n As Integer) As Double
+        If n < 2 Then Return 0.0#
+        Dim s As Double = 0.0#
+        For k As Integer = 2 To n
+            s += Math.Log(k)
+        Next
+        Return s
+    End Function
 
-        Private Function LogChoose_CT(n As Integer, k As Integer) As Double
-            If k < 0 OrElse k > n Then Return Double.NegativeInfinity
-            Return LogFact_CT(n) - LogFact_CT(k) - LogFact_CT(n - k)
-        End Function
+    Private Function LogChoose_CT(n As Integer, k As Integer) As Double
+        If k < 0 OrElse k > n Then Return Double.NegativeInfinity
+        Return LogFact_CT(n) - LogFact_CT(k) - LogFact_CT(n - k)
+    End Function
 
-        Private Function HyperProb_CT(a As Integer, b As Integer, c As Integer, d As Integer) As Double
-            Dim n As Integer = a + b + c + d
-            Dim lp As Double = LogChoose_CT(a + c, a) + LogChoose_CT(b + d, b) - LogChoose_CT(n, a + b)
-            Return Math.Exp(lp)
-        End Function
+    Private Function HyperProb_CT(a As Integer, b As Integer, c As Integer, d As Integer) As Double
+        Dim n As Integer = a + b + c + d
+        Dim lp As Double = LogChoose_CT(a + c, a) + LogChoose_CT(b + d, b) - LogChoose_CT(n, a + b)
+        Return Math.Exp(lp)
+    End Function
 
-        Friend Sub ComputeFisherExact2x2Reference(a0 As Integer, b0 As Integer, c0 As Integer, d0 As Integer,
-                                             ByRef pObs As Double,
-                                             ByRef oneTailMin As Double,
-                                             ByRef twoTail As Double,
-                                             ByRef midOneTail As Double,
-                                             ByRef midTwoTail As Double)
+    Friend Sub ComputeFisherExact2x2Reference(a0 As Integer, b0 As Integer, c0 As Integer, d0 As Integer,
+                                         ByRef pObs As Double,
+                                         ByRef oneTailMin As Double,
+                                         ByRef twoTail As Double,
+                                         ByRef midOneTail As Double,
+                                         ByRef midTwoTail As Double)
 
-            ' Replicate production's rotation so min cell becomes "a"
-            Dim a As Integer = a0, b As Integer = b0, c As Integer = c0, d As Integer = d0
-            Dim mn As Integer = Math.Min(Math.Min(a, b), Math.Min(c, d))
-            Dim buffer As Integer
-            Do Until a = mn
-                buffer = a : a = b : b = d : d = c : c = buffer
-            Loop
+        ' Replicate production's rotation so min cell becomes "a"
+        Dim a As Integer = a0, b As Integer = b0, c As Integer = c0, d As Integer = d0
+        Dim mn As Integer = Math.Min(Math.Min(a, b), Math.Min(c, d))
+        Dim buffer As Integer
+        Do Until a = mn
+            buffer = a : a = b : b = d : d = c : c = buffer
+        Loop
 
-            pObs = HyperProb_CT(a, b, c, d)
+        pObs = HyperProb_CT(a, b, c, d)
 
-            Dim r1 As Integer = a + b
-            Dim c1 As Integer = a + c
-            Dim n As Integer = a + b + c + d
+        Dim r1 As Integer = a + b
+        Dim c1 As Integer = a + c
+        Dim n As Integer = a + b + c + d
 
-            Dim amin As Integer = Math.Max(0, r1 - (n - c1))
-            Dim amax As Integer = Math.Min(r1, c1)
+        Dim amin As Integer = Math.Max(0, r1 - (n - c1))
+        Dim amax As Integer = Math.Min(r1, c1)
 
-            ' Tail 1: a' <= a (production iterates downward from observed a)
-            Dim p1 As Double = 0.0#
-            For ap As Integer = amin To a
-                Dim bp As Integer = r1 - ap
-                Dim cp As Integer = c1 - ap
-                Dim dp As Integer = n - ap - bp - cp
-                Dim p As Double = HyperProb_CT(ap, bp, cp, dp)
-                If p <= pObs + 0.000000000000001 Then p1 += p
-            Next
+        ' Tail 1: a' <= a (production iterates downward from observed a)
+        Dim p1 As Double = 0.0#
+        For ap As Integer = amin To a
+            Dim bp As Integer = r1 - ap
+            Dim cp As Integer = c1 - ap
+            Dim dp As Integer = n - ap - bp - cp
+            Dim p As Double = HyperProb_CT(ap, bp, cp, dp)
+            If p <= pObs + 0.000000000000001 Then p1 += p
+        Next
 
-            ' Tail 2: a' >= a (production iterates upward from observed a)
-            Dim p2 As Double = 0.0#
-            For ap As Integer = a To amax
-                Dim bp As Integer = r1 - ap
-                Dim cp As Integer = c1 - ap
-                Dim dp As Integer = n - ap - bp - cp
-                Dim p As Double = HyperProb_CT(ap, bp, cp, dp)
-                If p <= pObs + 0.000000000000001 Then p2 += p
-            Next
+        ' Tail 2: a' >= a (production iterates upward from observed a)
+        Dim p2 As Double = 0.0#
+        For ap As Integer = a To amax
+            Dim bp As Integer = r1 - ap
+            Dim cp As Integer = c1 - ap
+            Dim dp As Integer = n - ap - bp - cp
+            Dim p As Double = HyperProb_CT(ap, bp, cp, dp)
+            If p <= pObs + 0.000000000000001 Then p2 += p
+        Next
 
-            oneTailMin = Math.Min(p1, p2)
-            twoTail = p1 + p2 - pObs
-            midOneTail = oneTailMin - pObs / 2.0#
-            midTwoTail = midOneTail * 2.0#
-        End Sub
+        oneTailMin = Math.Min(p1, p2)
+        twoTail = p1 + p2 - pObs
+        midOneTail = oneTailMin - pObs / 2.0#
+        midTwoTail = midOneTail * 2.0#
+    End Sub
 
-    End Module
+End Module
 
 
 <TestClass()>
@@ -120,7 +122,7 @@ Public Class ContingencyTable_Function_Tests
             }
 
         Dim got = ContingencyTable.MantelHaenszel(data)
-        Dim tst As TestResult = got.Item1
+        Dim tst As BESHStatNG.TestResult = got.Item1
         Dim ci As ConfidenceIntervalResult = got.Item2
 
         Const expChi As Double = 8.3344705068989686#
@@ -211,7 +213,7 @@ Public Class ContingencyTable_Function_Tests
         Dim tbl(,) As Integer = {{10, 20}, {5, 40}}
         Dim got = ContingencyTable.Liddell_McNemar(tbl)
 
-        Dim tst As TestResult = got.Item1
+        Dim tst As BESHStatNG.TestResult = got.Item1
         Dim ci As ConfidenceIntervalResult = got.Item2
 
         Const expP As Double = 0.0040773153305053711#
@@ -236,7 +238,7 @@ Public Class ContingencyTable_Function_Tests
             }
         Dim got = ContingencyTable.Chi2TESTindependence(tbl)
 
-        Dim tst As TestResult = got.Item1
+        Dim tst As BESHStatNG.TestResult = got.Item1
         Dim cramerv As Double = got.Item2
         Dim pearson As Double = got.Item3
         Dim phi As Double = got.Item4
@@ -334,10 +336,10 @@ Public Class ContingencyTable_Function_Tests
 
         Dim got = ContingencyTable.cTableORDINALassoc(tbl)
 
-        Dim taub As TestResult = got.Item1
-        Dim tauC As TestResult = got.Item2
-        Dim gamma As TestResult = got.Item3
-        Dim somers As TestResult = got.Item4
+        Dim taub As BESHStatNG.TestResult = got.Item1
+        Dim tauC As BESHStatNG.TestResult = got.Item2
+        Dim gamma As BESHStatNG.TestResult = got.Item3
+        Dim somers As BESHStatNG.TestResult = got.Item4
 
         Const expTaub As Double = 0.017365521707076833#
         Const expTaubSE As Double = 0.082334804371603745#
@@ -387,3 +389,4 @@ Public Class ContingencyTable_Function_Tests
     End Sub
 
 End Class
+

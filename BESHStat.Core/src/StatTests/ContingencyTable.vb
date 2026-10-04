@@ -1,6 +1,7 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports System.Globalization
 Imports BESHStatNG.AppInfrastructure
 
 Namespace contingencytable
@@ -64,7 +65,7 @@ Namespace contingencytable
 
             For i = 0 To rowsNo - 1
                 For j = 0 To 1
-                    data(i, j) = Int(data(i, j))
+                    data(i, j) = Math.Floor(data(i, j))
                 Next
             Next
 
@@ -453,7 +454,7 @@ Namespace contingencytable
             ElseIf S = 0 Then
                 ci.Estimate = 1.0E+30 'infinity
                 ci.LowerLimit = r / ((S + 1) * distributions.F_Inv_RT(alpha / 2.0, 2.0 * (S + 1), 2.0 * r))
-                ci.strConfidenceInterval = CStr(CSng(ci.LowerLimit)) + " to infinity"
+                ci.strConfidenceInterval = Convert.ToSingle(ci.LowerLimit).ToString(CultureInfo.CurrentCulture) + " to infinity"
             End If
 
             If r > S Then
@@ -541,7 +542,7 @@ Namespace contingencytable
 
             Dim out = New TestResult
             out.TestStatistics1 = chisq
-            out.Pvalue = 1.0 - distributions.ChiSquareCDF(chisq, CDbl(df))
+            out.Pvalue = 1.0 - distributions.ChiSquareCDF(chisq, df)
             Dim cramerv As Double = Math.Sqrt(chisq / (sum * Math.Min(nrows - 1, Ncolumns - 1)))  'Cramer V
             Dim pearson As Double = Math.Sqrt(chisq / (chisq + sum))  'Pearson Contingency Coefficient
             Dim phi As Double = Math.Sqrt(chisq / sum)  'Phi
@@ -716,10 +717,10 @@ Namespace contingencytable
         ''' ' Output: Risk ratio ≈ 3.86, CI ≈ 2.02 to 7.37
         ''' </example>
         Public Function RiskRatio(table(,) As Integer, Optional alpha As Double = 0.05) As ConfidenceIntervalResult
-            Dim a As Double = CDbl(table(0, 0))
-            Dim b As Double = CDbl(table(0, 1))
-            Dim c As Double = CDbl(table(1, 0))
-            Dim d As Double = CDbl(table(1, 1))
+            Dim a As Double = table(0, 0)
+            Dim b As Double = table(0, 1)
+            Dim c As Double = table(1, 0)
+            Dim d As Double = table(1, 1)
             Dim out As New ConfidenceIntervalResult
             out.alpha = alpha
             out.Estimate = (a / (a + c)) / (b / (b + d))
@@ -883,13 +884,13 @@ Namespace contingencytable
             Dim points As Double = table(i - 1, j - 1)
 
             For k = 0 To nn - 2                           'Loop over entries in table,
-                ki = CInt(RoundDown(k / j, 0))            'decoding a row index,
+                ki = Convert.ToInt32(RoundDown(k / j, 0)) 'decoding a row index,
                 kj = k - j * ki                           'and a column index.
                 points += table(ki, kj)
 
-                For L = k + 1 To nn - 1                   'Loop over other member of the pair,
-                    li = CInt(RoundDown(L / j, 0))        'decoding its row
-                    lj = L - j * li                       'and column.
+                For L = k + 1 To nn - 1                       'Loop over other member of the pair,
+                    li = Convert.ToInt32(RoundDown(L / j, 0)) 'decoding its row
+                    lj = L - j * li                           'and column.
                     m1 = li - ki
                     m2 = lj - kj
                     Mm = m1 * m2
@@ -970,7 +971,7 @@ Namespace contingencytable
                     sum1 = 0 : sum2 = 0
 
                     'Somers' D SE
-                    v_sas2 += (CDbl(table(k, L)) * (wr_sas * (Cij - Dij) - 2 * (p - q) * (n_sas - nidot_sas(k))) ^ 2)
+                    v_sas2 += (table(k, L) * (wr_sas * (Cij - Dij) - 2 * (p - q) * (n_sas - nidot_sas(k))) ^ 2)
                 Next L
             Next k
 
@@ -981,10 +982,10 @@ Namespace contingencytable
             SomersD.DF1 = (2.0 / wr_sas ^ 2) * Math.Sqrt(v_sas2)
             'confidence interval at the selected level
             Dim qq = distributions.NormSInv(1.0 - alpha / 2.0)
-            taub.strSpecialInformation = $"{Format$(taub.TestStatistics1 - qq * taub.DF1, "0.#########")} to {Format$(taub.TestStatistics1 + qq * taub.DF1, "0.#########")}"
-            tauC.strSpecialInformation = $"{Format$(tauC.TestStatistics1 - qq * tauC.DF1, "0.#########")} to {Format$(tauC.TestStatistics1 + qq * tauC.DF1, "0.#########")}"
-            Gamma.strSpecialInformation = $"{Format$(Gamma.TestStatistics1 - qq * Gamma.DF1, "0.#########")} to {Format$(Gamma.TestStatistics1 + qq * Gamma.DF1, "0.#########")}"
-            SomersD.strSpecialInformation = $"{Format$(SomersD.TestStatistics1 - qq * SomersD.DF1, "0.#########")} to {Format$(SomersD.TestStatistics1 + qq * SomersD.DF1, "0.#########")}"
+            taub.strSpecialInformation = (taub.TestStatistics1 - qq * taub.DF1).ToString("0.#########", CultureInfo.CurrentCulture) & " to " & (taub.TestStatistics1 + qq * taub.DF1).ToString("0.#########", CultureInfo.CurrentCulture)
+            tauC.strSpecialInformation = (tauC.TestStatistics1 - qq * tauC.DF1).ToString("0.#########", CultureInfo.CurrentCulture) & " to " & (tauC.TestStatistics1 + qq * tauC.DF1).ToString("0.#########", CultureInfo.CurrentCulture)
+            Gamma.strSpecialInformation = (Gamma.TestStatistics1 - qq * Gamma.DF1).ToString("0.#########", CultureInfo.CurrentCulture) & " to " & (Gamma.TestStatistics1 + qq * Gamma.DF1).ToString("0.#########", CultureInfo.CurrentCulture)
+            SomersD.strSpecialInformation = (SomersD.TestStatistics1 - qq * SomersD.DF1).ToString("0.#########", CultureInfo.CurrentCulture) & " to " & (SomersD.TestStatistics1 + qq * SomersD.DF1).ToString("0.#########", CultureInfo.CurrentCulture)
             'two-sided P-values
             taub.Pvalue = (1.0 - distributions.PNorm(Math.Abs(taub.TestStatistics1 / taub.DF1))) * 2.0
             tauC.Pvalue = (1.0 - distributions.PNorm(Math.Abs(tauC.TestStatistics1 / tauC.DF1))) * 2.0
