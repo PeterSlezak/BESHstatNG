@@ -431,33 +431,33 @@ Namespace regression
 
         ''' <summary>Computes g(μ) = Φ⁻¹(μ).</summary>
         Public Overrides Function transform(p As Double) As Double
-            Return distributions.NormSInv(p)
+            Return Global.BESHStatNG.distributions.Distributions.NormSInv(p)
         End Function
 
         ''' <summary>Computes g⁻¹(η) = Φ(η).</summary>
         Public Overrides Function inverse(p As Double) As Double
-            Return distributions.PNorm(p)
+            Return Global.BESHStatNG.distributions.Distributions.PNorm(p)
         End Function
 
         ''' <summary>Computes g′(μ) = 1 / φ(Φ⁻¹(μ)).</summary>
         Public Overrides Function deriv(p As Double) As Double
-            Return 1.0 / distributions.DNorm(distributions.NormSInv(p))
+            Return 1.0 / Global.BESHStatNG.distributions.Distributions.DNorm(Global.BESHStatNG.distributions.Distributions.NormSInv(p))
         End Function
 
         ''' <summary>Computes g″(μ) = v / φ(v)², where v = Φ⁻¹(μ).</summary>
         Public Overrides Function deriv2(p As Double) As Double
-            Dim v As Double = distributions.NormSInv(p)
-            Return v / distributions.DNorm(v) ^ 2
+            Dim v As Double = Global.BESHStatNG.distributions.Distributions.NormSInv(p)
+            Return v / Global.BESHStatNG.distributions.Distributions.DNorm(v) ^ 2
         End Function
 
         ''' <summary>Computes (g⁻¹)′(η) = φ(η).</summary>
         Public Overrides Function inverseDeriv(p As Double) As Double
-            Return distributions.DNorm(p)
+            Return Global.BESHStatNG.distributions.Distributions.DNorm(p)
         End Function
 
         ''' <summary>Computes (g⁻¹)″(η) = −η φ(η).</summary>
         Public Overrides Function inverseDeriv2(p As Double) As Double
-            inverseDeriv2 = -p * distributions.DNorm(p)
+            inverseDeriv2 = -p * Global.BESHStatNG.distributions.Distributions.DNorm(p)
         End Function
     End Class
 

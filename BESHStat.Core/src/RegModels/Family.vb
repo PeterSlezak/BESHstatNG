@@ -1,7 +1,6 @@
 ﻿Option Explicit On
 Option Strict On
 
-Imports System.Math
 Imports BESHStatNG.AppInfrastructure
 
 Namespace regression
@@ -243,7 +242,7 @@ Namespace regression
             'mu: The inverse of the link function at the linear predicted values.
             Dim sum As Double
 
-            For i = 0 To UBound(y)
+            For i = 0 To y.Length - 1
                 sum += Me.residDev_(y(i), mu(i))
             Next
             Return sum
@@ -280,7 +279,7 @@ Namespace regression
             ' Return LL defined as: ll = \sum(ll_i * freq\_weights_i)
             Dim ll_obs As Double
 
-            For i = 0 To UBound(y)
+            For i = 0 To y.Length - 1
                 ll_obs += loglike_obs(y(i), mu(i), scaleCoef)
             Next
             Return ll_obs
@@ -340,7 +339,7 @@ Namespace regression
                 Return Double.NegativeInfinity
             End If
 
-            Dim ll As Double = y * Math.Log(mu) - mu - LogGamma(y + 1.0)
+            Dim ll As Double = y * Math.Log(mu) - mu - Global.BESHStatNG.StatFunc.LogGamma(y + 1.0)
             Return ll / scaleCoef
         End Function
 
@@ -555,7 +554,7 @@ Namespace regression
         Public Overrides Function loglike_obs(y As Double, mu As Double, scaleCoef As Double) As Double
             Dim ll_obs As Double
             If mu <> 0.0 Then ll_obs = 1.0 / scaleCoef * Math.Log(1.0 / scaleCoef * y / mu) - (1.0 / scaleCoef * y / mu)
-            If y <> 0.0 Then ll_obs = ll_obs - LogGamma(1.0 / scaleCoef) - Math.Log(y)
+            If y <> 0.0 Then ll_obs = ll_obs - Global.BESHStatNG.StatFunc.LogGamma(1.0 / scaleCoef) - Math.Log(y)
             Return ll_obs
         End Function
 
@@ -700,8 +699,8 @@ Namespace regression
         ''' </summary>
         Public Overrides Function geeQuasiLike(y As Double, mu As Double) As Double
             Dim tmpqq As Double
-            tmpqq = LogGamma(y + 1.0 / Me.pdAlpha)
-            tmpqq -= LogGamma(1.0 / Me.pdAlpha)
+            tmpqq = Global.BESHStatNG.StatFunc.LogGamma(y + 1.0 / Me.pdAlpha)
+            tmpqq -= Global.BESHStatNG.StatFunc.LogGamma(1.0 / Me.pdAlpha)
             tmpqq += (y * Math.Log((Me.pdAlpha * mu) / (1.0 + Me.pdAlpha * mu)))
             tmpqq += (1.0 / Me.pdAlpha * Math.Log(1.0 / (1.0 + Me.pdAlpha * mu)))
             Return tmpqq
@@ -749,9 +748,9 @@ Namespace regression
             ll_obs -= (y + 1.0 / alpha) * Math.Log(denom)
 
             ' Remaining gamma terms (defined for y>=0, alpha>0)
-            ll_obs += LogGamma(y + 1.0 / alpha)
-            ll_obs -= LogGamma(1.0 / alpha)
-            ll_obs -= LogGamma(y + 1.0)
+            ll_obs += Global.BESHStatNG.StatFunc.LogGamma(y + 1.0 / alpha)
+            ll_obs -= Global.BESHStatNG.StatFunc.LogGamma(1.0 / alpha)
+            ll_obs -= Global.BESHStatNG.StatFunc.LogGamma(y + 1.0)
 
             Return ll_obs / scaleCoef
         End Function

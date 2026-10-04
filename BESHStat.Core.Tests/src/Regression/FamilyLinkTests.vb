@@ -1,18 +1,19 @@
-Option Explicit On
+﻿Option Explicit On
 Option Infer On
 Option Strict Off
 
 Imports System
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
+Imports System.Security.Principal
 Imports BESHStatNG
 Imports BESHStatNG.regression
+Imports Microsoft.VisualStudio.TestTools.UnitTesting
 'Imports NLog
 
 <TestClass>
 Public Class FamilyLink_Tests
 
-    Private Const TOL As Double = 1.0E-9
-    Private Const TOL_DERIV As Double = 1.0E-6
+    Private Const TOL As Double = 0.000000001
+    Private Const TOL_DERIV As Double = 0.000001
     Private Const H As Double = 0.000001
 
     '<TestInitialize>
@@ -126,7 +127,7 @@ Public Class FamilyLink_Tests
             For Each mu In mus
                 Dim eta As Double = l.transform(mu)
                 Dim mu2 As Double = l.inverse(eta)
-                Assert.AreEqual(mu, mu2, 1.0E-8, $"{l.tostring()} inverse(transform(mu)) mismatch at mu={mu}")
+                Assert.AreEqual(mu, mu2, 0.00000001, $"{l.tostring()} inverse(transform(mu)) mismatch at mu={mu}")
             Next
         Next
     End Sub
@@ -159,23 +160,23 @@ Public Class FamilyLink_Tests
             ' g'(mu)
             Dim num1 As Double = CentralDiff(Function(x) l.transform(x), mu, H)
             Dim ana1 As Double = l.deriv(mu)
-            Assert.AreEqual(num1, ana1, 1.0E-5, $"{l.tostring()} deriv(mu) mismatch")
+            Assert.AreEqual(num1, ana1, 0.00001, $"{l.tostring()} deriv(mu) mismatch")
 
             ' g''(mu)
-            Dim num2 As Double = SecondDiff(Function(x) l.transform(x), mu, 1.0E-4)
+            Dim num2 As Double = SecondDiff(Function(x) l.transform(x), mu, 0.0001)
             Dim ana2 As Double = l.deriv2(mu)
-            Assert.AreEqual(num2, ana2, 1.0E-3, $"{l.tostring()} deriv2(mu) mismatch")
+            Assert.AreEqual(num2, ana2, 0.001, $"{l.tostring()} deriv2(mu) mismatch")
 
             ' (g^-1)'(eta)
             Dim eta As Double = l.transform(mu)
             Dim numInv1 As Double = CentralDiff(Function(z) l.inverse(z), eta, H)
             Dim anaInv1 As Double = l.inverseDeriv(eta)
-            Assert.AreEqual(numInv1, anaInv1, 1.0E-5, $"{l.tostring()} inverseDeriv(eta) mismatch")
+            Assert.AreEqual(numInv1, anaInv1, 0.00001, $"{l.tostring()} inverseDeriv(eta) mismatch")
 
             ' (g^-1)''(eta)
-            Dim numInv2 As Double = SecondDiff(Function(z) l.inverse(z), eta, 1.0E-4)
+            Dim numInv2 As Double = SecondDiff(Function(z) l.inverse(z), eta, 0.0001)
             Dim anaInv2 As Double = l.inverseDeriv2(eta)
-            Assert.AreEqual(numInv2, anaInv2, 1.0E-3, $"{l.tostring()} inverseDeriv2(eta) mismatch")
+            Assert.AreEqual(numInv2, anaInv2, 0.001, $"{l.tostring()} inverseDeriv2(eta) mismatch")
         Next
     End Sub
 
@@ -280,9 +281,9 @@ Public Class FamilyLink_Tests
         Dim links As regression.Link() = {New Sqrt(), New Inverse(), New Power(2.0)}
         For Each l In links
             Dim mu As Double = If(TypeOf l Is Inverse, 2.0, 1.3)
-            Dim num2 As Double = SecondDiff(Function(x) l.transform(x), mu, 1.0E-4)
+            Dim num2 As Double = SecondDiff(Function(x) l.transform(x), mu, 0.0001)
             Dim ana2 As Double = l.deriv2(mu)
-            Assert.AreEqual(num2, ana2, 1.0E-3, $"{l.tostring()} deriv2(mu) mismatch")
+            Assert.AreEqual(num2, ana2, 0.001, $"{l.tostring()} deriv2(mu) mismatch")
         Next
     End Sub
 
