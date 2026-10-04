@@ -3,12 +3,15 @@ Option Strict On
 
 ''' <summary>
 ''' Host-neutral special functions shared by probability-distribution calculations.
-''' These members are internal implementation details; the legacy public StatFunc
-''' entry points remain in the .NET Framework host as compatibility forwarders.
+''' These members are internal implementation details; the public StatFunc
+''' entry points remain compatibility forwarders.
 ''' </summary>
-Friend Module StatisticalSpecialFunctions
+Friend NotInheritable Class StatisticalSpecialFunctions
 
-    Friend Function LogCombin(n As Integer, k As Integer) As Double
+    Private Sub New()
+    End Sub
+
+    Friend Shared Function LogCombin(n As Integer, k As Integer) As Double
         If k < 0 OrElse k > n Then Return Double.NegativeInfinity
         If k = 0 OrElse k = n Then Return 0.0
 
@@ -22,7 +25,7 @@ Friend Module StatisticalSpecialFunctions
         Return sum
     End Function
 
-    Friend Function LogGamma(z As Double) As Double
+    Friend Shared Function LogGamma(z As Double) As Double
         Dim p() As Double = {
             0.99999999999980993,
             676.5203681218851,
@@ -55,7 +58,7 @@ Friend Module StatisticalSpecialFunctions
                (z + 0.5) * Math.Log(t) - t + Math.Log(x)
     End Function
 
-    Friend Function LowerIncompleteGamma(a As Double, x As Double) As Double
+    Friend Shared Function LowerIncompleteGamma(a As Double, x As Double) As Double
         If Double.IsNaN(a) OrElse Double.IsNaN(x) Then Return Double.NaN
         If x < 0.0 OrElse a <= 0.0 Then Return Double.NaN
         If x = 0.0 Then Return 0.0
@@ -132,4 +135,4 @@ Friend Module StatisticalSpecialFunctions
         Return p
     End Function
 
-End Module
+End Class
