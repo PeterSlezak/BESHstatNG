@@ -1,10 +1,10 @@
 ﻿Option Strict On
 Option Explicit On
 Imports System.Collections.Generic
+Imports System.Diagnostics
 Imports System.Globalization
 Imports System.Text
 Imports BESHStatNG.AppInfrastructure
-Imports Microsoft.VisualBasic.Devices
 
 Namespace regression
 
@@ -144,8 +144,8 @@ Namespace regression
             Me.pData = x
             Me.pVarNames = names
             If RowNums Is Nothing Then
-                ReDim pRowNums(UBound(x, 1))
-                For i As Integer = 0 To UBound(x, 1)
+                ReDim pRowNums(x.GetLength(0) - 1)
+                For i As Integer = 0 To x.GetLength(0) - 1
                     pRowNums(i) = i
                 Next
             Else
@@ -154,7 +154,7 @@ Namespace regression
 
             If offset Is Nothing Then
                 pbOffset = False
-                pOffset = Matrix.IdentityVect(UBound(x, 1), 0.9)
+                pOffset = Matrix.MatrixArithmeticCore.ConstantVector(x.GetLength(0) - 1, 0.9R)
             Else
                 pOffset = offset
                 pbOffset = True
@@ -162,7 +162,7 @@ Namespace regression
 
             If weights Is Nothing Then
                 pbWeights = False
-                pWeights = Matrix.IdentityVect(UBound(x, 1), 1.0)
+                pWeights = Matrix.MatrixArithmeticCore.ConstantVector(x.GetLength(0) - 1, 1.0R)
             Else
                 pWeights = weights
                 pbWeights = True
@@ -178,7 +178,7 @@ Namespace regression
             t.AddPvalueToFormat(4)
             If strOffsetVar IsNot Nothing Then t.AddFootnote($"Offset Variable: {strOffsetVar}")
             If strWeightsVar IsNot Nothing Then t.AddFootnote($"Weights Variable: {strWeightsVar}")
-            If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParams)}")
+            If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {CategoricalLogitUtils.ArrayToString(Me.startParams)}")
             t.AddFootnote($"Computational time: {Me.CompTime} seconds.")
             out.Add(t)
 
@@ -202,12 +202,12 @@ Namespace regression
             Next
 
             t.SetBody(o2)
-            Dim strCats(UBound(Me.pCats)) As String, strCats2(UBound(Me.pCats) + 2) As String
-            For i = 0 To UBound(pCats) : strCats(i) = pCats(i).ToString : Next
+            Dim strCats(Me.pCats.Length - 1) As String, strCats2(Me.pCats.Length + 1) As String
+            For i = 0 To pCats.Length - 1 : strCats(i) = pCats(i).ToString : Next
             strCats2(1) = "Predicted"
             t.AddHeaderTopRow(strCats2)
-            t.AddHeaderTopRow(Matrix.ConcatArrays(Matrix.ConcatArrays({"Observed"}, strCats), {"Classification Accuracy"}))
-            t.AddHeaderLeftRow(Matrix.ConcatArrays(strCats, {"Overall Percentage"}))
+            t.AddHeaderTopRow(CategoricalLogitUtils.Concatenate(CategoricalLogitUtils.Concatenate({"Observed"}, strCats), {"Classification Accuracy"}))
+            t.AddHeaderLeftRow(CategoricalLogitUtils.Concatenate(strCats, {"Overall Percentage"}))
             out.Add(t)
 
             'iteration info
@@ -217,7 +217,7 @@ Namespace regression
                 Dim ItLabels(Me.pIteration - 1) As String
                 For i = 0 To Me.pIteration - 1 : ItLabels(i) = $"Iteration {i + 1}" : Next
                 t.AddHeaderTopRow(ItLabels)
-                Dim vars = Matrix.ConcatArrays(Me.results.varNames, {"LogLikelihood", "LogLikelihood Change"})
+                Dim vars = CategoricalLogitUtils.Concatenate(Me.results.varNames, {"LogLikelihood", "LogLikelihood Change"})
                 t.AddHeaderLeftRow(vars)
                 out.Add(t)
             End If
@@ -240,23 +240,23 @@ Namespace regression
         Public Function wrapResiduals() As Object(,)
             'call this sub only after we have parameters estimated
             Dim t As New ResultTable, tmp2(n - 1, 2) As Double
-            Dim tmp = Matrix.VerticalStackArrays(Me.pResiduals.FittedMeans, Me.pResiduals.Probabilities)
-            tmp = Matrix.VerticalStackArrays(tmp, Me.pResiduals.ResponseResiduals)
-            tmp = Matrix.VerticalStackArrays(tmp, Me.pResiduals.PearsonResiduals)
-            tmp = Matrix.VerticalStackArrays(tmp, Me.pResiduals.StdPearsonResiduals)
+            Dim tmp = CategoricalLogitUtils.ConcatenateColumns(Me.pResiduals.FittedMeans, Me.pResiduals.Probabilities)
+            tmp = CategoricalLogitUtils.ConcatenateColumns(tmp, Me.pResiduals.ResponseResiduals)
+            tmp = CategoricalLogitUtils.ConcatenateColumns(tmp, Me.pResiduals.PearsonResiduals)
+            tmp = CategoricalLogitUtils.ConcatenateColumns(tmp, Me.pResiduals.StdPearsonResiduals)
 
-            Dim resnames = Matrix.ConcatArrays(GetResidualColumnNames(ResidualColumnType.FittedMean),
+            Dim resnames = CategoricalLogitUtils.Concatenate(GetResidualColumnNames(ResidualColumnType.FittedMean),
                                     GetResidualColumnNames(ResidualColumnType.FittedProbability))
-            resnames = Matrix.ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.ResponseResidual))
-            resnames = Matrix.ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.PearsonResidual))
-            resnames = Matrix.ConcatArrays(resnames, GetResidualColumnNames(ResidualColumnType.StdPearsonResidual))
-            resnames = Matrix.ConcatArrays(resnames, {"DevianceResiduals", "StdDevianceResiduals", "Leverage"})
+            resnames = CategoricalLogitUtils.Concatenate(resnames, GetResidualColumnNames(ResidualColumnType.ResponseResidual))
+            resnames = CategoricalLogitUtils.Concatenate(resnames, GetResidualColumnNames(ResidualColumnType.PearsonResidual))
+            resnames = CategoricalLogitUtils.Concatenate(resnames, GetResidualColumnNames(ResidualColumnType.StdPearsonResidual))
+            resnames = CategoricalLogitUtils.Concatenate(resnames, {"DevianceResiduals", "StdDevianceResiduals", "Leverage"})
             For i = 0 To n - 1
                 tmp2(i, 0) = Me.pResiduals.DevianceResiduals(i)
                 tmp2(i, 1) = Me.pResiduals.StdDevianceResiduals(i)
                 tmp2(i, 2) = Me.pResiduals.Leverage(i)
             Next
-            t.SetBody(Matrix.VerticalStackArrays(tmp, tmp2))
+            t.SetBody(CategoricalLogitUtils.ConcatenateColumns(tmp, tmp2))
             t.AddHeaderTopRow(resnames)
 
             Return t.returnSelf()
@@ -282,9 +282,9 @@ Namespace regression
                        Optional progress As IProgressReporter = Nothing)
             CoreServices.Logger.Debug($"MultinomialLogtModel.Fit start. intercept={intercept}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
             If pData Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException("Data not set. Call dataInputs(x, ...)."))
-            Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
-            Me.n = UBound(pData, 1) + 1
-            Dim cols As Integer = UBound(pData, 2) + 1
+            Dim fitTimer As Stopwatch = Stopwatch.StartNew()
+            Me.n = pData.GetLength(0)
+            Dim cols As Integer = pData.GetLength(1)
             If cols < 1 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Data must have at least 1 column: Y."))
 
             ' Intercept-only model is valid only if intercept=1
@@ -305,7 +305,7 @@ Namespace regression
             ' yIdx: 0..K-1 in ascending category order
             Dim yIdx(n - 1) As Integer
             For i As Integer = 0 To n - 1
-                Dim yv As Integer = CInt(Math.Round(pData(i, 0)))
+                Dim yv As Integer = Convert.ToInt32(Math.Round(pData(i, 0)))
                 If Not map.ContainsKey(yv) Then CoreServices.Errors.LogAndThrow(New ArgumentException($"Unknown category at row {i}."))
                 yIdx(i) = map(yv)
             Next
@@ -435,7 +435,7 @@ Namespace regression
                     minusH(r, r) += pRidge
                 Next
 
-                invMinusH = Matrix.MatInv(minusH, "CHOL")
+                invMinusH = Matrix.MatrixDecompositionCore.InvertMatrix(minusH, "CHOL")
                 Dim stepVec() As Double = CategoricalLogitUtils.MatTimesVec(invMinusH, g)
 
                 ' Line search to keep LL non-decreasing
@@ -449,17 +449,17 @@ Namespace regression
                     llTry = ComputeLogLikMultinom(Me.pX, Me.pyFit, bTry, p, pKuse)
                     If llTry >= ll OrElse stepScale <= 0.000001 Then Exit Do
                     stepScale *= 0.5
-                    CoreServices.Log($"MultinomialLogit step halving stepScale={stepScale}, LogLike={llTry}, params={Matrix.array2str(bTry)}")
+                    CoreServices.Log($"MultinomialLogit step halving stepScale={stepScale}, LogLike={llTry}, params={CategoricalLogitUtils.ArrayToString(bTry)}")
                 Loop
 
                 Array.Copy(bTry, b, q)
                 Me.pLL = llTry
                 pLastIterLLchange = Math.Abs(Me.pLL - llPrev)
                 If progress IsNot Nothing Then
-                    progress.Report(CInt(100.0 * (Me.pIteration + 1.0) / (Me.pMaxiter + 1.0)),
-                                    $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIteration + 1}   LogLikelihood change = {pLastIterLLchange}")
+                    progress.Report(Convert.ToInt32(100.0R * (Me.pIteration + 1.0R) / (Me.pMaxiter + 1.0R)),
+                                    $"Elapsed Time: {Math.Round(fitTimer.Elapsed.TotalSeconds, 2)}[s]   Iterations: {Me.pIteration + 1}   LogLikelihood change = {pLastIterLLchange}")
                 End If
-                CoreServices.Log($"MultinomialLogit iteration loop new esstimates  - LogLike={pLL}, pLastIterLLchange={pLastIterLLchange}, params={Matrix.array2str(b)}")
+                CoreServices.Log($"MultinomialLogit iteration loop new esstimates  - LogLike={pLL}, pLastIterLLchange={pLastIterLLchange}, params={CategoricalLogitUtils.ArrayToString(b)}")
                 'save iteration info
                 For i = 0 To q + 1
                     If i = q Then 'LL
@@ -478,7 +478,7 @@ Namespace regression
 
                 llPrev = Me.pLL
             Next pItration
-            If pIteration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pIteration)
+            If pIteration > -1 Then ReDim Preserve pItInfo(pItInfo.GetLength(0) - 1, pIteration)
             pIteration += 1
             If Not converged Then CoreServices.Log("Algorithm Is diverging. Convergence not reached.", AppInfrastructure.LogMsgType.Warn)
 
@@ -542,7 +542,7 @@ Namespace regression
             Next
 
             ' Final covariance approximation at final b
-            pCov = Matrix.MatInv(minusHfinal, "CHOL")
+            pCov = Matrix.MatrixDecompositionCore.InvertMatrix(minusHfinal, "CHOL")
             ' === end covariance recompute ===
 
 
@@ -600,12 +600,12 @@ Namespace regression
                                      {Me.pBIC, Me.results.Coeffs_est.Length, ""},
                                      {Me.pIteration, "", ""},
                                      {Me.pLastIterLLchange, "", ""},
-                                     {CStr(converged), "", ""}}
+                                     {converged.ToString(), "", ""}}
 
             Me.pPredAccuary = ComputeClassificationCrosstab()
             If Me.bComputeResiduals Then Me.ComputeResiduals()
 
-            Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
+            Me.CompTime = fitTimer.Elapsed.TotalSeconds
             CoreServices.Logger.Debug($"MultinomialLogtModel.Fit completed. converged={converged}; iterations={Me.pIteration}; logLikelihood={Me.pLL}; compTime={Me.CompTime}")
             If progress IsNot Nothing Then progress.Report(100)
         End Sub
@@ -955,8 +955,8 @@ Namespace regression
             Dim kNull As Integer = (pKuse - 1) ' intercept-only has one intercept per non-baseline category
 
             ' Effective N for IC / pseudo-R2 (use sum of weights if provided)
-            Dim nEff As Double = If(pbWeights, Me.pWeights.Sum(), CDbl(n))
-            If nEff <= 0 Then nEff = CDbl(n)
+            Dim nEff As Double = If(pbWeights, Me.pWeights.Sum(), Convert.ToDouble(n))
+            If nEff <= 0 Then nEff = Convert.ToDouble(n)
 
             ' Information criteria
             Me.pAIC = -2.0 * ll1 + 2.0 * kFull
@@ -1179,7 +1179,7 @@ Namespace regression
             ' Use rounding to reduce key instability from floating noise.
             Dim sb As New StringBuilder(128)
             Dim fmt As String = "F" & Math.Max(0, keyDigits).ToString(CultureInfo.InvariantCulture)
-            For j As Integer = 0 To UBound(pX, 2)
+            For j As Integer = 0 To pX.GetLength(1) - 1
                 sb.Append(pX(row, j).ToString(fmt, CultureInfo.InvariantCulture)).Append("|"c)
             Next
             If includeOffset AndAlso pbOffset Then
@@ -1290,7 +1290,7 @@ Namespace regression
                     minusH(r, r) += Me.pRidge
                 Next
 
-                Dim invMinusH(,) As Double = Matrix.MatInv(minusH, "CHOL")
+                Dim invMinusH(,) As Double = Matrix.MatrixDecompositionCore.InvertMatrix(minusH, "CHOL")
                 Dim stepVec() As Double = CategoricalLogitUtils.MatTimesVec(invMinusH, g)
 
                 Dim stepScale As Double = 1.0
@@ -1351,7 +1351,7 @@ Namespace regression
         Private Function GetSortedCategoriesFromY(n As Integer) As Integer()
             Dim setCat As New Dictionary(Of Integer, Boolean)()
             For i As Integer = 0 To n - 1
-                Dim v As Integer = CInt(Math.Round(pData(i, 0)))
+                Dim v As Integer = Convert.ToInt32(Math.Round(pData(i, 0)))
                 If Not setCat.ContainsKey(v) Then setCat(v) = True
             Next
             Dim cats As Integer() = setCat.Keys.ToArray()
