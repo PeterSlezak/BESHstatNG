@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports System
 Imports System.IO
@@ -28,10 +28,10 @@ Public Class CoxPH_Tests
         Dim c2 As String = Path.Combine(baseDir, "TestData", fileName)
         If File.Exists(c2) Then Return c2
 
-        Dim c3 As String = Path.GetFullPath(Path.Combine(baseDir, "..\..\TestData", fileName))
+        Dim c3 As String = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "TestData", fileName))
         If File.Exists(c3) Then Return c3
 
-        Dim c4 As String = Path.GetFullPath(Path.Combine(baseDir, "..\..\..\TestData", fileName))
+        Dim c4 As String = Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "TestData", fileName))
         If File.Exists(c4) Then Return c4
 
         Throw New FileNotFoundException("Test data file not found", fileName)
@@ -80,7 +80,7 @@ Public Class CoxPH_Tests
                 .Censorship = st,
                 .Group = 0,
                 .strGroup = "0",
-                .stratum = stratum,
+                .Stratum = stratum,
                 .strStratum = stratum,
                 .Covariates = New Double() {x1, x2},
                 .Index = id
@@ -140,12 +140,12 @@ Public Class CoxPH_Tests
 
         Dim pi = t.GetProperty(memberName, BindingFlags.Instance Or BindingFlags.Public Or BindingFlags.NonPublic)
         If pi IsNot Nothing Then
-            Return CDbl(pi.GetValue(trObj))
+            Return Convert.ToDouble(pi.GetValue(trObj), CultureInfo.InvariantCulture)
         End If
 
         Dim fi = t.GetField(memberName, BindingFlags.Instance Or BindingFlags.Public Or BindingFlags.NonPublic)
         Assert.IsNotNull(fi, $"Could not access {memberName} as field or property on {t.FullName}.")
-        Return CDbl(fi.GetValue(trObj))
+        Return Convert.ToDouble(fi.GetValue(trObj), CultureInfo.InvariantCulture)
     End Function
 
 
@@ -407,6 +407,35 @@ Public Class CoxPH_Tests
             Assert.IsTrue(v(0) >= -0.000000000001, "Cox-Snell residual should be >= 0.")
         Next
 
+    End Sub
+
+    <TestCategory("CoxPH")>
+    <TestMethod()>
+    Public Sub CoxPH_Baseline_and_step_plot_payload_are_host_neutral_and_well_formed()
+        Dim recs = LoadCoxRecords("coxph_dataset_strata_ties.csv")
+        Dim cox As New CoxPH(recs, New String() {"x1", "x2"}, 200, 0.000000000001)
+        Dim coxres As CoxResult = cox.Fit(TieMethod.Breslow)
+
+        Assert.IsTrue(coxres.Converged, "Model did not converge.")
+
+        Dim baseline As Dictionary(Of Object, Double(,)) = cox.ComputeBaseline(bZeroBetas:=False)
+        Assert.IsTrue(baseline.Count > 0, "Expected at least one baseline-survival stratum.")
+
+        For Each entry In baseline
+            Dim raw(,) As Double = entry.Value
+            Assert.AreEqual(3, raw.GetLength(1), "Baseline payload should contain time, survival, and cumulative hazard columns.")
+            Assert.IsTrue(raw.GetLength(0) > 0, "Baseline payload should contain at least one time point.")
+
+            Dim stepped(,) As Double = cox.BaseSurvivalForPloting(raw)
+            Assert.AreEqual(3, stepped.GetLength(1), "Step-plot payload should contain three columns.")
+            Assert.AreEqual(1.0R, stepped(0, 1), 0.0R, "Step-plot payload should start at survival probability 1.")
+
+            For i As Integer = 1 To stepped.GetLength(0) - 1
+                Assert.IsTrue(stepped(i, 0) >= stepped(i - 1, 0), "Step-plot time must be nondecreasing.")
+                Assert.IsTrue(stepped(i, 1) <= stepped(i - 1, 1) + 0.000000000001R, "Baseline survival must be nonincreasing.")
+                Assert.IsTrue(stepped(i, 2) >= stepped(i - 1, 2) - 0.000000000001R, "Cumulative hazard must be nondecreasing.")
+            Next
+        Next
     End Sub
 
 End Class

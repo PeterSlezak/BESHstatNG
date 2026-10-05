@@ -1,8 +1,12 @@
 ﻿Option Explicit On
 
+Imports System
 Imports System.Collections.Generic
+Imports System.Diagnostics
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.DataManagement
+Imports BESHStatNG.Matrix
 Imports BESHStatNG.regression
 
 
@@ -100,6 +104,27 @@ End Enum
 ''' 
 ''' </summary>
 Public Class CoxPH
+
+    Private Shared Function ConcatArrays(Of T)(first() As T, second() As T) As T()
+        If first Is Nothing Then Throw New ArgumentNullException(NameOf(first))
+        If second Is Nothing Then Throw New ArgumentNullException(NameOf(second))
+
+        Dim output(first.Length + second.Length - 1) As T
+        Array.Copy(first, 0, output, 0, first.Length)
+        Array.Copy(second, 0, output, first.Length, second.Length)
+        Return output
+    End Function
+
+    Private Shared Function ArrayToString(values() As Double) As String
+        If values Is Nothing Then Return "Nothing"
+
+        Dim parts(values.Length - 1) As String
+        For i As Integer = 0 To values.Length - 1
+            parts(i) = values(i).ToString()
+        Next
+        Return "[" & String.Join(", ", parts) & "]"
+    End Function
+
     Private pRecords As List(Of survival.SurvivalRecord)
     Private pVarNames As String()
     Private pmaxIter As Integer
@@ -329,8 +354,8 @@ Public Class CoxPH
 
         'coefficients, SE table
         Dim t = New ResultTable
-        Dim o(UBound(Me.pVarNames, 1), 6) As Double
-        For i = 0 To UBound(Me.pVarNames, 1)
+        Dim o(Me.pVarNames.Length - 1, 6) As Double
+        For i = 0 To Me.pVarNames.Length - 1
             o(i, 0) = Me.pCoefficients(i)
             If Me.bRobustVariance Then
                 o(i, 1) = Math.Sqrt(Me.pVarCovRobust(i, i))
@@ -349,7 +374,7 @@ Public Class CoxPH
         t.AddHeaderLeftRow(Me.pVarNames)
         If bRobustVariance Then t.AddFootnote("Standard Errors are based on Lin–Wei–Ying robust sandwich variance.")
         If strStrataVar IsNot Nothing Then t.AddFootnote($"Strata Variable: {strStrataVar}")
-        If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParams)}")
+        If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {ArrayToString(Me.startParams)}")
         t.AddFootnote($"Computational time: {Me.CompTime} seconds.")
         out.Add(t)
 
@@ -414,7 +439,7 @@ Public Class CoxPH
             t.AddHeaderTopRow({"Score Test of Proportionality Assumption", "", "", "", "", ""})
             t.AddHeaderTopRow({"Time", "", "Log(Time)", "", "Rank(Time)", ""})
             t.AddHeaderTopRow({"chi2", "p -value", "chi2", "p -value", "chi2", "p -value"})
-            t.AddHeaderLeftRow(Matrix.ConcatArrays(Me.pVarNames, {"Global Test"}))
+            t.AddHeaderLeftRow(ConcatArrays(Me.pVarNames, {"Global Test"}))
             out.Add(t)
         End If
 
@@ -425,7 +450,7 @@ Public Class CoxPH
             Dim ItLabels(Me.pIterations - 1) As String
             For i = 0 To Me.pIterations - 1 : ItLabels(i) = $"Iteration {i + 1}" : Next
             t.AddHeaderTopRow(ItLabels)
-            t.AddHeaderLeftRow(Matrix.ConcatArrays(Me.pVarNames, {"LogLikelihood", "LogLikelihood Change"}))
+            t.AddHeaderLeftRow(ConcatArrays(Me.pVarNames, {"LogLikelihood", "LogLikelihood Change"}))
             out.Add(t)
         End If
 
@@ -549,7 +574,7 @@ Public Class CoxPH
                         Optional progress As IProgressReporter = Nothing) As CoxResult
         CoreServices.Logger.Debug($"COX.Fit start. method={method.ToString}; startParams={startParams}; maxIter={pmaxIter}; eps={pEps}; dataShape={Me.pRecords.Count}x{Me.pRecords(0).Covariates.Length}")
         Me.pMethod = method
-        Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
+        Dim stopwatch As Stopwatch = Stopwatch.StartNew()
         If Me.pRecords.Count = 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("Empty data"))
 
         Dim p As Integer = Me.pRecords(0).Covariates.Length
@@ -616,13 +641,13 @@ Public Class CoxPH
                     ' Precompute exp(η) for risk set
                     Dim exbRisk(riskSet.Count - 1) As Double
                     For i = 0 To riskSet.Count - 1
-                        exbRisk(i) = Math.Exp(Matrix.DotProduct(riskSet(i).Covariates, beta))
+                        exbRisk(i) = Math.Exp(MatrixArithmeticCore.DotProduct(riskSet(i).Covariates, beta))
                     Next
 
                     ' Precompute exp(η) for tied events
                     Dim exbEvents(d - 1) As Double
                     For i = 0 To d - 1
-                        exbEvents(i) = Math.Exp(Matrix.DotProduct(events(i).Covariates, beta))
+                        exbEvents(i) = Math.Exp(MatrixArithmeticCore.DotProduct(events(i).Covariates, beta))
                     Next
 
                     ' Handle ties depending on method
@@ -666,7 +691,7 @@ Public Class CoxPH
             beta = CType(betaNew.Clone(), Double())
             Me.pLogLikelihood = logLikNew
 
-            If Me.bTrace Then CoreServices.Log($"betaNew = {Matrix.array2str(betaNew)}; logLikNew = {logLikNew}; llDiff = {llDiff}")
+            If Me.bTrace Then CoreServices.Log($"betaNew = {ArrayToString(betaNew)}; logLikNew = {logLikNew}; llDiff = {llDiff}")
 
             'save iteration info
             For jj = 0 To p + 1
@@ -684,8 +709,8 @@ Public Class CoxPH
             End If
 
             If progress IsNot Nothing Then
-                progress.Report(CInt(100 * (Me.pIterations + 1) / Me.pmaxIter),
-                                $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pIterations + 1}   LogLikelihood change = {llDiff}")
+                progress.Report(Convert.ToInt32(100.0R * (Me.pIterations + 1) / Me.pmaxIter),
+                                $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)}[s]   Iterations: {Me.pIterations + 1}   LogLikelihood change = {llDiff}")
             End If
         Next
         If Me.pConverged Then ReDim Preserve Me.pIterationDetails(p + 1, Me.pIterations)
@@ -711,12 +736,12 @@ Public Class CoxPH
                 Dim nRisk As Integer = riskSet.Count
                 Dim exbRisk(nRisk - 1) As Double
                 For i = 0 To nRisk - 1
-                    exbRisk(i) = Math.Exp(Matrix.DotProduct(riskSet(i).Covariates, beta))
+                    exbRisk(i) = Math.Exp(MatrixArithmeticCore.DotProduct(riskSet(i).Covariates, beta))
                 Next
 
                 Dim exbEvents(d - 1) As Double
                 For i = 0 To d - 1
-                    exbEvents(i) = Math.Exp(Matrix.DotProduct(events(i).Covariates, beta))
+                    exbEvents(i) = Math.Exp(MatrixArithmeticCore.DotProduct(events(i).Covariates, beta))
                 Next
 
                 Select Case method
@@ -765,7 +790,8 @@ Public Class CoxPH
 
         If progress IsNot Nothing Then progress.Report(100)
 
-        Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
+        stopwatch.Stop()
+        Me.CompTime = stopwatch.Elapsed.TotalSeconds
         CoreServices.Logger.Debug($"GLM.Fit completed. converged={Me.pConverged}; iterations={Me.pIterations}; logLikelihood={Me.pLogLikelihood}; compTime={Me.CompTime}")
         Return New CoxResult With {
                 .Coefficients = Me.pCoefficients,
@@ -844,12 +870,12 @@ Public Class CoxPH
                 ' exp(η) = 1 at β = 0, but we keep general formula
                 Dim exbRisk(nRisk - 1) As Double
                 For i = 0 To nRisk - 1
-                    exbRisk(i) = Math.Exp(Matrix.DotProduct(riskSet(i).Covariates, beta0))
+                    exbRisk(i) = Math.Exp(MatrixArithmeticCore.DotProduct(riskSet(i).Covariates, beta0))
                 Next
 
                 Dim exbEvents(d - 1) As Double
                 For i = 0 To d - 1
-                    exbEvents(i) = Math.Exp(Matrix.DotProduct(events(i).Covariates, beta0))
+                    exbEvents(i) = Math.Exp(MatrixArithmeticCore.DotProduct(events(i).Covariates, beta0))
                 Next
 
                 ' Apply chosen tie method
@@ -1118,7 +1144,7 @@ Public Class CoxPH
 
         ' Efron approximation loop: l = number of events already removed
         For l = 0 To d - 1
-            Dim frac = l / CDbl(d)
+            Dim frac = l / Convert.ToDouble(d)
 
             ' Denominator for this sub-step
             Dim denom = totalExp - frac * totalEventExp
@@ -1386,8 +1412,8 @@ Public Class CoxPH
 
     Private Function InvertNegHessian(info(,) As Double) As Double(,)
         ' A = -info (positive definite)
-        Dim A(,) As Double = Matrix.MatrixMult(info, -1.0)
-        Return Matrix.MatInv(A, "CHOL")
+        Dim A(,) As Double = MatrixArithmeticCore.Multiply(info, -1.0R)
+        Return MatrixDecompositionCore.InvertMatrix(A, "CHOL")
     End Function
 
 
@@ -1567,7 +1593,7 @@ Public Class CoxPH
         ' Precompute exp(η)
         Dim exb As New Dictionary(Of Integer, Double)()
         For Each r In pRecords
-            exb(r.Index) = Math.Exp(Matrix.DotProduct(r.Covariates, Me.pCoefficients))
+            exb(r.Index) = Math.Exp(MatrixArithmeticCore.DotProduct(r.Covariates, Me.pCoefficients))
         Next
 
         Dim strataGroups = pRecords.GroupBy(Function(r) r.Stratum)
@@ -1644,7 +1670,7 @@ Public Class CoxPH
                     ' For each tied event l = 0..d-1, apply fractional Efron risk
                     For l = 0 To d - 1
                         Dim ev = events(l)
-                        Dim frac As Double = l / CDbl(d)
+                        Dim frac As Double = l / Convert.ToDouble(d)
 
                         Dim denomL As Double = denom - frac * sumExpEvents
 
@@ -1852,7 +1878,7 @@ Public Class CoxPH
         ' --------------------------------------------------------
         Dim exb(n - 1) As Double
         For pos As Integer = 0 To n - 1
-            exb(pos) = Math.Exp(Matrix.DotProduct(Me.pRecords(pos).Covariates, beta))
+            exb(pos) = Math.Exp(MatrixArithmeticCore.DotProduct(Me.pRecords(pos).Covariates, beta))
         Next
 
         ' --------------------------------------------------------
@@ -1930,7 +1956,7 @@ Public Class CoxPH
                     Next
 
                     For l As Integer = 0 To d - 1
-                        Dim frac As Double = l / CDbl(d)
+                        Dim frac As Double = l / Convert.ToDouble(d)
                         Dim denomL As Double = denom - frac * sumExpEvents
                         dH += 1.0 / denomL
                     Next
@@ -2007,7 +2033,7 @@ Public Class CoxPH
         For Each r In pRecords
 
             ' compute exp(eta)
-            Dim eta As Double = Matrix.DotProduct(r.Covariates, beta)
+            Dim eta As Double = MatrixArithmeticCore.DotProduct(r.Covariates, beta)
             Dim exb As Double = Math.Exp(eta)
 
             ' lookup H0 at THIS subject's observed time
@@ -2016,7 +2042,7 @@ Public Class CoxPH
 
             ' R uses H0(t_i), where t_i may be censored
             ' find last H0(t_k) where t_k <= t_i OR exact match
-            For i = 0 To UBound(bl, 1)
+            For i = 0 To bl.GetLength(0) - 1
                 If bl(i, 0) <= r.Time Then
                     H0 = bl(i, 2) 'cumulative hazard
                 Else
@@ -2058,7 +2084,7 @@ Public Class CoxPH
         ' 2) For each subject: r_i = H0(t_i) * exp(eta)
         For Each r In Me.pRecords
 
-            Dim eta As Double = Matrix.DotProduct(r.Covariates, beta)
+            Dim eta As Double = MatrixArithmeticCore.DotProduct(r.Covariates, beta)
             Dim risk As Double = Math.Exp(eta)
 
             Dim H0 As Double = 0.0
@@ -2067,7 +2093,7 @@ Public Class CoxPH
             Dim basePts = baseline(r.Stratum)
 
             ' Binary search not required; list is sorted by time
-            For i = 0 To UBound(basePts)
+            For i = 0 To basePts.GetLength(0) - 1
                 If basePts(i, 0) <= r.Time Then
                     H0 = basePts(i, 2)
                 Else
@@ -2110,12 +2136,12 @@ Public Class CoxPH
         Next
 
         ' Compute QR decomposition
-        Dim QR As Matrix.QRout = Matrix.QRdecomp(A)
+        Dim qr As MatrixDecompositionCore.QrResult = MatrixDecompositionCore.DecomposeQr(A)
         ' Solve R x = Q^T b using user QRsolve routine
-        Dim xCol(,) As Double = Matrix.QRsolve(QR, bCol)
+        Dim xCol(,) As Double = MatrixDecompositionCore.SolveQr(qr, bCol)
 
         ' Convert column vector back to 1D array
-        Dim x = Matrix.GetColumnFrom2Darray(xCol, 0)
+        Dim x() As Double = ArrayUtilities.GetColumn(xCol, 0)
         Return x
     End Function
 
@@ -2229,7 +2255,7 @@ Public Class CoxPH
             ' Precompute exp(η) for all subjects in this stratum
             Dim exb(group.Count - 1) As Double
             For i = 0 To group.Count - 1
-                exb(i) = Math.Exp(Matrix.DotProduct(group(i).Covariates, beta))
+                exb(i) = Math.Exp(MatrixArithmeticCore.DotProduct(group(i).Covariates, beta))
             Next
 
             ' Event times (only where Censorship = 1)
@@ -2280,7 +2306,7 @@ Public Class CoxPH
 
                         loglik += sumEtaEvents
                         For l = 0 To d - 1
-                            Dim frac As Double = l / CDbl(d)
+                            Dim frac As Double = l / Convert.ToDouble(d)
                             Dim denom As Double = sumRiskExp - frac * sumExpEvents
                             loglik -= Math.Log(denom)
                         Next
@@ -2573,7 +2599,7 @@ Public Class CoxPH
             ' Precompute exp(η)
             Dim exb(n - 1) As Double
             For i = 0 To n - 1
-                exb(i) = Math.Exp(Matrix.DotProduct(group(i).Covariates, beta))
+                exb(i) = Math.Exp(MatrixArithmeticCore.DotProduct(group(i).Covariates, beta))
             Next
 
             ' Collect event times
@@ -2612,7 +2638,7 @@ Public Class CoxPH
                     Next
 
                     For l = 0 To d - 1
-                        dH += 1.0 / (sumRisk - (l / CDbl(d)) * sumExpEvents)
+                        dH += 1.0 / (sumRisk - (l / Convert.ToDouble(d)) * sumExpEvents)
                     Next
 
                 Else
@@ -2654,11 +2680,11 @@ Public Class CoxPH
     ''' Array of survival time, porbability, and hazard formated for step plot output.
     ''' </returns>
     Public Function BaseSurvivalForPloting(inX(,) As Double) As Double(,)
-        Dim n As Integer = UBound(inX, 1)
-        Dim inX_(n + 1, 2)
+        Dim n As Integer = inX.GetLength(0) - 1
+        Dim inX_(n + 1, 2) As Double
         inX_(0, 1) = 1 'Probability at time 0
         For i = 0 To n
-            For j = 0 To UBound(inX, 2)
+            For j = 0 To inX.GetLength(1) - 1
                 inX_(i + 1, j) = inX(i, j)
             Next
         Next
