@@ -1743,22 +1743,3 @@ Public Class GLM
         Next
     End Sub
 End Class
-
-
-''' <summary>
-''' Negative Binomial GLM fitted by alternating between GLM coefficient updates and dispersion (theta/alpha) updates.
-''' </summary>
-''' <remarks>
-''' <para>
-''' This class inherits <see cref="GLM"/> but implements a <see cref="Fit"/> procedure modeled after
-''' the MASS::glm.nb algorithm in R (iterating between:
-''' </para>
-''' <list type="bullet">
-''' <item><description>fitting a Negative Binomial GLM for fixed dispersion, and</description></item>
-''' <item><description>re-estimating dispersion by (approximate) maximum likelihood given the fitted means.</description></item>
-''' </list>
-''' <para>
-''' Parameterization used in code:
-''' <c>alpha = 1/theta</c>, exposed by <see cref="NBalpha"/>.
-''' </para>
-''' </remarks>
