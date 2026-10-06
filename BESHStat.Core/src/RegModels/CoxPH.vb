@@ -2107,9 +2107,7 @@ Public Class CoxPH
         Return res
     End Function
 
-    '------------------
     ' QR-based SolveLinearSystem wrapper for CoxPH
-    '------------------
     ''' <summary>
     ''' Solves a linear system of equations A * x = b using the QR decomposition method.
     ''' This implementation leverages user-provided QR routines:

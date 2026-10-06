@@ -15,7 +15,7 @@ Imports System.Runtime.CompilerServices
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("www.beshstat.eu")>
 <Assembly: AssemblyProduct("BESHStatNG")>
-<Assembly: AssemblyCopyright("Copyright ©  2025")>
+<Assembly: AssemblyCopyright("Copyright ©  2026")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>

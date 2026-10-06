@@ -2,6 +2,10 @@
   <PropertyGroup>
     <OutputType>Bundle</OutputType>
     <OutputName>$(MSBuildProjectName)-$(BeshVersion3)</OutputName>
+    <DefineConstants>
+	    $(DefineConstants);
+	    BundleVersion=$(BeshVersion);
+	</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Resources\EULA.rtf" />
