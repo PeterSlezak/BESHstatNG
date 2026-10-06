@@ -1,9 +1,66 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports System.Diagnostics
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.regression
 
+''' <summary>
+''' Zero-Inflated Poisson (ZIP) regression fitted by an EM algorithm combining a Poisson count model and a logistic zero model.
+''' </summary>
+''' <remarks>
+''' <h3>Model</h3>
+''' <para>
+''' For observation <c>i</c>, let:
+''' </para>
+''' <list type="bullet">
+''' <item><description><c>λᵢ = exp(xᵢᵀ β)</c> be the Poisson mean (log link).</description></item>
+''' <item><description><c>πᵢ = logistic(zᵢᵀ γ)</c> be the probability of belonging to the “structural zero” component (logit link).</description></item>
+''' </list>
+''' <para>
+''' The ZIP pmf is:
+''' </para>
+''' <para>
+''' <c>P(Yᵢ=0) = πᵢ + (1−πᵢ)·exp(−λᵢ)</c>
+''' </para>
+''' <para>
+''' <c>P(Yᵢ=k&gt;0) = (1−πᵢ)·exp(−λᵢ)·λᵢ^k / k!</c>
+''' </para>
+'''
+''' <h3>EM algorithm as implemented</h3>
+''' <para>
+''' Introduce latent indicator <c>Sᵢ</c> where <c>Sᵢ=1</c> means “structural zero” and <c>Sᵢ=0</c> means “Poisson component”.
+''' For nonzero counts, <c>P(Sᵢ=1|Yᵢ&gt;0)=0</c>.
+''' For <c>Yᵢ=0</c>:
+''' </para>
+''' <para>
+''' <c>τᵢ = P(Sᵢ=1 | Yᵢ=0) = πᵢ / ( πᵢ + (1−πᵢ)·P_Pois(0; λᵢ) )</c>
+''' </para>
+''' <para>
+''' where <c>P_Pois(0; λ)=exp(−λ)</c>.
+''' </para>
+''' <para>
+''' The code stores <c>τᵢ</c> in <c>probi(i)</c> and <c>1−τᵢ</c> in <c>probi1(i)</c>.
+''' </para>
+''' <para>
+''' M-step updates are performed by fitting two GLMs:
+''' </para>
+''' <list type="bullet">
+''' <item><description><b>Poisson</b>: fit on the original counts with observation weights <c>probi1</c>
+''' (posterior probability of the Poisson component).</description></item>
+''' <item><description><b>Logistic</b>: fit on a “fractional” response column set to <c>probi</c>
+''' (posterior probability of structural-zero membership), using a Binomial/logit GLM.</description></item>
+''' </list>
+'''
+''' <h3>Acceleration (over-relaxation) and monotone fallback</h3>
+''' <para>
+''' After computing the plain EM parameter updates, the code attempts an over-relaxed step:
+''' </para>
+''' <para><c>θ_try = θ_old + s(θ_new − θ_old)</c> with <c>s=1.2</c></para>
+''' <para>
+''' and backtracks toward <c>s=1</c> if the observed-data log-likelihood decreases, guaranteeing monotonicity.
+''' </para>
+''' </remarks>
 Public Class ZeroInflatedPoisson
 
     ''' <summary>
@@ -228,7 +285,7 @@ Public Class ZeroInflatedPoisson
         Me.pOffsetVarName = strOffsetVarName
 
         If Offset Is Nothing Then
-            Me.pOffset = Matrix.IdentityVect(arPoisData.GetUpperBound(0), 0.0)
+            Me.pOffset = Matrix.MatrixArithmeticCore.ConstantVector(arPoisData.GetUpperBound(0), 0.0)
         Else
             If Offset.Length <> arPoisData.GetLength(0) Then
                 CoreServices.Errors.LogAndThrow(New ArgumentException("ZIP offset array length does Not match the number of observations."))
@@ -365,7 +422,7 @@ Public Class ZeroInflatedPoisson
         t.AddTitle("Poisson Model Estimates")
         If strOffsetVar IsNot Nothing Then t.AddFootnote($"Offset Variable {strOffsetVar}")
         If strWeightsVar IsNot Nothing Then t.AddFootnote($"Weights Variable {strWeightsVar}")
-        If Me.startParamsPois IsNot Nothing Then t.AddFootnote($"Starting values {Matrix.array2str(Me.startParamsPois)}")
+        If Me.startParamsPois IsNot Nothing Then t.AddFootnote($"Starting values {ArrayToString(Me.startParamsPois)}")
         out.Add(t)
 
         'Logistic Coefficients, SE table
@@ -377,7 +434,7 @@ Public Class ZeroInflatedPoisson
         ElseIf Me.pFinalZeroModel.bQuasiSeparation Then
             t.AddFootnote("Quasi-separation of the iterative algorithm. Results may be misleading.")
         End If
-        If Me.startParamsLog IsNot Nothing Then t.AddFootnote($"Starting values {Matrix.array2str(Me.startParamsLog)}")
+        If Me.startParamsLog IsNot Nothing Then t.AddFootnote($"Starting values {ArrayToString(Me.startParamsLog)}")
         t.AddFootnote($"Computational time {Me.CompTime} seconds.")
         out.Add(t)
 
@@ -391,7 +448,7 @@ Public Class ZeroInflatedPoisson
             Dim ItLabels(Me.pEMiterations - 1) As String
             For i = 0 To Me.pEMiterations - 1 : ItLabels(i) = $"Iteration {i + 1}" : Next
             t.AddHeaderTopRow(ItLabels)
-            t.AddHeaderLeftRow(Matrix.ConcatArrays(Matrix.ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero), {"LogLikelihood", "LogLikelihood Change"}))
+            t.AddHeaderLeftRow(ConcatArrays(ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero), {"LogLikelihood", "LogLikelihood Change"}))
             out.Add(t)
         End If
 
@@ -402,8 +459,8 @@ Public Class ZeroInflatedPoisson
             Dim h(Me.pVarNames_count.Length + Me.pVarNames_zero.Length - 1) As String
             h(0) = "Covariance matrix of parameters"
             t.AddHeaderTopRow(h)
-            t.AddHeaderTopRow(Matrix.ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero))
-            t.AddHeaderLeftRow(Matrix.ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero))
+            t.AddHeaderTopRow(ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero))
+            t.AddHeaderLeftRow(ConcatArrays(Me.pVarNames_count, Me.pVarNames_zero))
             out.Add(t)
         End If
 
@@ -441,7 +498,7 @@ Public Class ZeroInflatedPoisson
                    Optional bStartParamsLog As Boolean = False,
                    Optional progress As IProgressReporter = Nothing)
         Dim y0 As Integer, LL_old As Double, LL_new As Double
-        Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
+        Dim stopwatch As Stopwatch = Stopwatch.StartNew()
         Me.resultsPoisson = New LMresult
         Me.resultsPoisson.varNames = GLM.SafePredictorNames(Me.pVarNames_count)
         Me.resultsLogistic = New LMresult
@@ -465,7 +522,7 @@ Public Class ZeroInflatedPoisson
         ReDim y(n - 1), pItInfo(p_zero + p_count + 1, pMaxEMIter) 'stores params estimates, LL at each iteration
 
         'prepare Logistic data as required in EM algorithm
-        y = Matrix.GetColumnFrom2Darray(Data_zero, 0)
+        y = DataManagement.ArrayUtilities.GetColumn(Data_zero, 0)
         For i = 0 To n - 1
             'Response for initial Logisitc model. Swap Zeros and Ones
             YX_zero(i, 0) = If(y(i) = 0, 1, 0)
@@ -474,7 +531,7 @@ Public Class ZeroInflatedPoisson
                 YX_zero(i, j) = Data_zero(i, j)
             Next
         Next
-        pY0count = $"{y0} ({Format$((100 * y0 / n), "##0.00")}%)"
+        pY0count = $"{y0} ({100.0 * y0 / n:##0.00}%)"
         If y0 = 0 Then
             CoreServices.Errors.LogAndThrow(New ArgumentException("No zero present in the data. ZIP cannot be fitted. Aborting exectution."))
             Exit Sub
@@ -509,7 +566,7 @@ Public Class ZeroInflatedPoisson
             Next
         Else
             ' Fall back to full-data init (or user provided start params)
-            wInit = Matrix.IdentityVect(n - 1, 1.0)
+            wInit = Matrix.MatrixArithmeticCore.ConstantVector(n - 1, 1.0)
         End If
 
         With model_count
@@ -563,8 +620,8 @@ Public Class ZeroInflatedPoisson
             LL_old = LL_new
 
             ' >>> SAVE OLD PARAMS BEFORE M-STEP UPDATES <<<
-            Dim countOld() As Double = CType(countParam.Clone(), Double())
-            Dim zeroOld() As Double = CType(zeroParam.Clone(), Double())
+            Dim countOld() As Double = DirectCast(countParam.Clone(), Double())
+            Dim zeroOld() As Double = DirectCast(zeroParam.Clone(), Double())
 
             'M step - Poisson -------------------------------
             With model_count
@@ -626,8 +683,8 @@ Public Class ZeroInflatedPoisson
             Next
 
             If accepted Then
-                countParam = CType(countTry.Clone(), Double())
-                zeroParam = CType(zeroTry.Clone(), Double())
+                countParam = DirectCast(countTry.Clone(), Double())
+                zeroParam = DirectCast(zeroTry.Clone(), Double())
                 LL_new = LL_try
             Else
                 countParam = countNew
@@ -658,8 +715,8 @@ Public Class ZeroInflatedPoisson
                 pItInfo(pItInfo.GetUpperBound(0), pEMiterations) = pLastIterLLchange
             End If
             If progress IsNot Nothing Then
-                progress.Report(CInt(100 * Me.pEMiterations / Me.pMaxEMIter),
-                                $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Iterations: {Me.pEMiterations + 1}   LogLikelihood change = {pLastIterLLchange}")
+                progress.Report(Convert.ToInt32(100.0 * Me.pEMiterations / Me.pMaxEMIter),
+                                $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)}[s]   Iterations: {Me.pEMiterations + 1}   LogLikelihood change = {pLastIterLLchange}")
             End If
 
             pEMiterations += 1
@@ -701,7 +758,7 @@ Public Class ZeroInflatedPoisson
 
         'update userform label
         If progress IsNot Nothing Then
-            progress.Report(100, $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]   Finalizing ...")
+            progress.Report(100, $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)}[s]   Finalizing ...")
         End If
 
         Dim tmp1 = distributions.NormSInv(1.0 - pAlpha / 2.0)
@@ -731,9 +788,33 @@ Public Class ZeroInflatedPoisson
                               {Me.BIC, ""},
                               {Me.pEMiterations, ""},
                               {Me.pLastIterLLchange, ""},
-                              {CStr(Me.pConverged), ""}})
-        Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
+                              {Me.pConverged.ToString(), ""}})
+        stopwatch.Stop()
+        Me.CompTime = stopwatch.Elapsed.TotalSeconds
     End Sub
+
+    Private Shared Function ConcatArrays(Of T)(first() As T, second() As T) As T()
+        If first Is Nothing Then Throw New ArgumentNullException(NameOf(first))
+        If second Is Nothing Then Throw New ArgumentNullException(NameOf(second))
+
+        Dim output(first.Length + second.Length - 1) As T
+        Array.Copy(first, 0, output, 0, first.Length)
+        Array.Copy(second, 0, output, first.Length, second.Length)
+        Return output
+    End Function
+
+    Private Shared Function ArrayToString(Of T)(values() As T) As String
+        If values Is Nothing Then Return "[]"
+
+        Dim builder As New System.Text.StringBuilder("[")
+        For i As Integer = 0 To values.Length - 1
+            If i > 0 Then builder.Append(", ")
+            Dim boxed As Object = values(i)
+            If boxed IsNot Nothing Then builder.Append(boxed.ToString())
+        Next
+        builder.Append("]")
+        Return builder.ToString()
+    End Function
 
     Private Function LinearPredictor(ByVal X As Double(,), ByVal b As Double()) As Double()
         Dim nLocal As Integer = X.GetLength(0)
@@ -1070,8 +1151,8 @@ Public Class ZeroInflatedPoisson
             dd(n + i, n + i) = Dgg(i, i)
         Next
 
-        Dim tmp2 = Matrix.MatrixMult(Matrix.MatrixMult(Matrix.trans(xx), dd), xx)
-        Return Matrix.MatInv(tmp2, "CHOL")
+        Dim tmp2 = Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Transpose(xx), dd), xx)
+        Return Matrix.MatrixDecompositionCore.InvertMatrix(tmp2, "CHOL")
     End Function
 
     Sub Residuals()
@@ -1120,7 +1201,7 @@ Public Class ZeroInflatedPoisson
             zeroP(i, 0) = zero_params(i)
         Next
 
-        Dim phiMat(,) As Double = Matrix.MatrixMult(Xzero, zeroP)
+        Dim phiMat(,) As Double = Matrix.MatrixArithmeticCore.Multiply(Xzero, zeroP)
         Dim pi(n - 1) As Double
         For i = 0 To n - 1
             pi(i) = regression.Logit.LogisticStable(phiMat(i, 0))
@@ -1131,7 +1212,7 @@ Public Class ZeroInflatedPoisson
             If y(i) = 0 Then
                 loglik += LogZIPZeroTerm(pi(i), mu(i))
             Else
-                loglik += LogZIPPositiveTerm(pi(i), CInt(y(i)), mu(i))
+                loglik += LogZIPPositiveTerm(pi(i), Convert.ToInt32(y(i)), mu(i))
             End If
         Next
 
