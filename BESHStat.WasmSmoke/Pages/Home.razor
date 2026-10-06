@@ -1,0 +1,194 @@
+@page "/"
+@using System.Globalization
+@using BESHStatCoreSmoke
+@using BESHStatNG
+
+<PageTitle>BESHStat.Core WASM GLM test</PageTitle>
+
+<h1>BESHStat.Core WebAssembly GLM smoke test</h1>
+
+<p>
+    This test fits the real 250-observation Poisson/log GLM used by the
+    BESHStat.Core regression tests. It exercises IRLS, matrix algebra,
+    distributions, fitted values, residual diagnostics, covariance calculation,
+    and host-neutral ResultTable output inside Blazor WebAssembly.
+</p>
+
+<button class="btn btn-primary" @onclick="RunTest">
+    Run Poisson/log GLM in BESHStat.Core
+</button>
+
+<p class="mt-3">
+    <strong>Status:</strong> @status
+</p>
+
+@if (output is not null)
+{
+    <div class="mt-3">
+        <p>
+            <strong>Model:</strong> Poisson family, log link; @output.ObservationCount observations;
+            converged successfully.
+        </p>
+
+        <p>
+            <strong>Reference checks:</strong>
+            Intercept = @(output.CoefficientEstimates[0].ToString("G12", CultureInfo.InvariantCulture)),
+            x1 = @(output.CoefficientEstimates[1].ToString("G12", CultureInfo.InvariantCulture)),
+            x2 = @(output.CoefficientEstimates[2].ToString("G12", CultureInfo.InvariantCulture)),
+            AIC = @(output.AIC.ToString("G12", CultureInfo.InvariantCulture)).
+        </p>
+
+        <p>
+            <strong>Model statistics:</strong>
+            log-likelihood = @(output.LogLikelihood.ToString("G12", CultureInfo.InvariantCulture));
+            pseudo R² = @(output.PseudoR2.ToString("G12", CultureInfo.InvariantCulture));
+            deviance GOF p = @(output.DevianceGOFP.ToString("G12", CultureInfo.InvariantCulture));
+            Pearson GOF p = @(output.PearsonGOFP.ToString("G12", CultureInfo.InvariantCulture)).
+        </p>
+
+        <p>
+            <strong>Additional WASM checks:</strong>
+            residuals = @(output.Residuals.GetLength(0) - 1) rows;
+            iteration table = @output.IterationDetails.RowCount × @output.IterationDetails.ColumnCount;
+            covariance table = @output.Covariance.RowCount × @output.Covariance.ColumnCount;
+            coefficient p-value body column(s) = @string.Join(", ", output.Coefficients.PvalueColumns);
+            diagnostic p-value body column(s) = @string.Join(", ", output.Diagnostics.PvalueColumns).
+        </p>
+
+        <h3 class="mt-4">Coefficient ResultTable</h3>
+        <table class="table table-bordered table-sm" style="max-width: 1100px;">
+            <tbody>
+                @for (var row = 0; row < output.Coefficients.RowCount; row++)
+                {
+                    <tr>
+                        @for (var col = 0; col < output.Coefficients.ColumnCount; col++)
+                        {
+                            if (IsHeaderCell(output.Coefficients, row, col))
+                            {
+                                <th>@FormatCell(output.Coefficients.Values[row, col])</th>
+                            }
+                            else
+                            {
+                                <td>@FormatCell(output.Coefficients.Values[row, col])</td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h3 class="mt-4">Model diagnostic ResultTable</h3>
+        <table class="table table-bordered table-sm" style="max-width: 1000px;">
+            <tbody>
+                @for (var row = 0; row < output.Diagnostics.RowCount; row++)
+                {
+                    <tr>
+                        @for (var col = 0; col < output.Diagnostics.ColumnCount; col++)
+                        {
+                            if (IsHeaderCell(output.Diagnostics, row, col))
+                            {
+                                <th>@FormatCell(output.Diagnostics.Values[row, col])</th>
+                            }
+                            else
+                            {
+                                <td>@FormatCell(output.Diagnostics.Values[row, col])</td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h3 class="mt-4">Covariance ResultTable</h3>
+        <table class="table table-bordered table-sm" style="max-width: 800px;">
+            <tbody>
+                @for (var row = 0; row < output.Covariance.RowCount; row++)
+                {
+                    <tr>
+                        @for (var col = 0; col < output.Covariance.ColumnCount; col++)
+                        {
+                            if (IsHeaderCell(output.Covariance, row, col))
+                            {
+                                <th>@FormatCell(output.Covariance.Values[row, col])</th>
+                            }
+                            else
+                            {
+                                <td>@FormatCell(output.Covariance.Values[row, col])</td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <h3 class="mt-4">Residual preview</h3>
+        <p>Header plus the first five of @output.ObservationCount observations:</p>
+        <table class="table table-bordered table-sm" style="max-width: 1200px;">
+            <tbody>
+                @for (var row = 0; row < Math.Min(6, output.Residuals.GetLength(0)); row++)
+                {
+                    <tr>
+                        @for (var col = 0; col < output.Residuals.GetLength(1); col++)
+                        {
+                            if (row == 0)
+                            {
+                                <th>@FormatCell(output.Residuals[row, col])</th>
+                            }
+                            else
+                            {
+                                <td>@FormatCell(output.Residuals[row, col])</td>
+                            }
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    private GlmWasmSmokeResult? output;
+    private string status = "Not run yet.";
+
+    private void RunTest()
+    {
+        try
+        {
+            output = WasmSmokeProbe.RunPoissonLogGlm();
+
+            status = $"PASS — Poisson/log GLM executed in WebAssembly. " +
+                     $"β = ({output.CoefficientEstimates[0]:G9}, " +
+                     $"{output.CoefficientEstimates[1]:G9}, " +
+                     $"{output.CoefficientEstimates[2]:G9}); AIC = {output.AIC:G12}.";
+        }
+        catch (Exception ex)
+        {
+            output = null;
+            status = "FAIL — " + ex;
+        }
+    }
+
+    private static bool IsHeaderCell(ResultTableOutputModel model, int row, int col)
+    {
+        var topHeaderEnd = model.TitleRows + model.HeaderTopRows;
+        if (row < topHeaderEnd)
+            return true;
+
+        return col < model.HeaderLeftColumns &&
+               row < model.RowCount - model.FooterRows;
+    }
+
+    private static string FormatCell(object? value)
+    {
+        if (value is null)
+            return string.Empty;
+
+        if (value is double d)
+            return d.ToString("G12", CultureInfo.InvariantCulture);
+
+        if (value is float f)
+            return f.ToString("G9", CultureInfo.InvariantCulture);
+
+        return Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
+    }
+}
