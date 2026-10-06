@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Infer On
 Option Strict Off
 
@@ -74,7 +74,7 @@ Public Class GLM_Tests
         If tl = "-inf" OrElse tl = "-infinity" Then Return Double.NegativeInfinity
 
         ' Normalize non-breaking spaces (Excel sometimes emits these)
-        t = t.Replace(ChrW(&HA0), " "c)
+        t = t.Replace(Convert.ToChar(&HA0), " "c)
 
         ' Handle EU decimal comma when no dot present
         If t.Contains(","c) AndAlso Not t.Contains("."c) Then
