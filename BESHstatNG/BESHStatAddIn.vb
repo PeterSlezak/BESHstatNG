@@ -21,6 +21,10 @@ Public Class BESHStatAddIn
         AppGlobals.gXllPath = Path.GetDirectoryName(AppGlobals.gXllName)
         AppGlobals.gLogFile = Path.Combine(AppGlobals.gXllPath, "Logs", "all.log")
         ExcelDnaHost.ConfigureCoreServicesForExcelDna(AppGlobals.gsAPP_TITLE)
+        regression.GLMHostInteraction.ConfigureQuasiSeparationDecision(
+                Function(prompt As String, title As String) As Boolean
+                    Return MsgBox(Prompt:=prompt, Title:=title) <> vbNo
+                End Function)
         AppGlobals.gLogger = New SimpleFileLogger(AppGlobals.gXllPath, GetType(BESHStatAddIn).FullName, resetTraceLog:=True)
 
         Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info($"AutoOpen starting. Version={AppGlobals.gAddinVersion}; Build={AppGlobals.GetBuildDateIso()}; XllPath={AppGlobals.gXllPath}")
@@ -57,6 +61,7 @@ Public Class BESHStatAddIn
         Catch ex As Exception
             Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Error(ex, "Error while closing the add-in.")
         Finally
+            regression.GLMHostInteraction.ClearQuasiSeparationDecision()
             AppGlobals.app = Nothing
         End Try
     End Sub

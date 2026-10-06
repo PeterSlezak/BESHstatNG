@@ -1,5 +1,8 @@
 # What's New
 
+## version 1.x.0.0 (2026-xx-xx)
+
+
 ## version 1.2.5.0 (2026-10-06)
 - p-value formatting global settings implementation
 - *Polar plot* and *Convex Hull plot* output options added to allow new sheet, new workbook, and specific location in current sheet.

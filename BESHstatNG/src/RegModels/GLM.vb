@@ -1517,7 +1517,7 @@ Public Class GLM
         ElseIf Sep / CDbl(n) >= 0.05 Then 'Quasi-separation
             AppInfrastructure.CoreServices.Log("Quasi-separation of the iterative algorithm.", AppInfrastructure.LogMsgType.Warn)
             Me.bQuasiSeparation = True
-            If MsgBox(Prompt:="Quasi-separation of the iterative algorithm." & vbCr & vbCr & "Results may be misleading.", Title:="Continue?") = vbNo Then
+            If Not regression.GLMHostInteraction.ShouldContinueAfterQuasiSeparation() Then
                 QSEP = True
                 Me.strError += " Quasi-separation of the iterative algorithm."
                 Exit Function
