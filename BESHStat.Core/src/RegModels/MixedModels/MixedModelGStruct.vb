@@ -237,7 +237,7 @@ Namespace regression
         ''' </summary>
         Protected Function CompoundSymmetryCorrelationLowerBound(q As Integer) As Double
             If q <= 1 Then Return -0.999999999
-            Return -1.0 / CDbl(q - 1)
+            Return -1.0 / Convert.ToDouble(q - 1)
         End Function
 
         ''' <summary>

@@ -657,7 +657,7 @@ Namespace regression
             If lag <= 0 Then Return 0.0
             If lag = 1 Then Return 1.0
             If rho = 0.0 Then Return 0.0
-            Return CDbl(lag) * (rho ^ (lag - 1))
+            Return Convert.ToDouble(lag) * (rho ^ (lag - 1))
         End Function
 
     End Module
