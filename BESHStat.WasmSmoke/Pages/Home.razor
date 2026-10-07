@@ -1,75 +1,97 @@
 @page "/"
 @using System.Globalization
+@using Microsoft.JSInterop
 @using BESHStatCoreSmoke
 @using BESHStatNG
+@inject IJSRuntime JS
 
-<PageTitle>BESHStat.Core WASM GLM test</PageTitle>
+<PageTitle>BESHStat.Core Office.js Stage 2</PageTitle>
 
-<h1>BESHStat.Core WebAssembly GLM smoke test</h1>
+<h1>BESHStat.Core + Office.js Stage 2</h1>
 
 <p>
-    This test fits the real 250-observation Poisson/log GLM used by the
-    BESHStat.Core regression tests. It exercises IRLS, matrix algebra,
-    distributions, fitted values, residual diagnostics, covariance calculation,
-    and host-neutral ResultTable output inside Blazor WebAssembly.
+    This proof of concept reads the currently selected Excel range through Office.js,
+    passes the grouped numeric data into the real BESHStat.Core one-way ANOVA running
+    in WebAssembly, and writes the returned host-neutral ResultTable to a new worksheet.
 </p>
 
-<button class="btn btn-primary" @onclick="RunTest">
-    Run Poisson/log GLM in BESHStat.Core
-</button>
+<div class="alert @(officeHost?.IsExcel == true ? "alert-success" : "alert-secondary")">
+    <strong>Office host:</strong> @officeStatus
+</div>
 
-<p class="mt-3">
+<div class="mb-3">
+    <button class="btn btn-outline-secondary me-2" @onclick="RefreshOfficeStatus">
+        Check Excel host
+    </button>
+    <button class="btn btn-outline-primary me-2" @onclick="ReadSelection">
+        Read selected range
+    </button>
+    <button class="btn btn-primary" @onclick="RunAnovaAndWrite" disabled="@isBusy">
+        Run ANOVA and write result
+    </button>
+</div>
+
+<p>
     <strong>Status:</strong> @status
 </p>
 
+<div class="card mb-4" style="max-width: 1000px;">
+    <div class="card-body">
+        <h5 class="card-title">Expected Excel input</h5>
+        <p class="card-text mb-2">
+            Select one rectangular range. The first row contains group names; each remaining
+            column contains numeric observations for that group. Blank data cells are ignored,
+            which allows unequal group sizes.
+        </p>
+        <table class="table table-bordered table-sm mb-0" style="max-width: 420px;">
+            <thead>
+                <tr><th>Group A</th><th>Group B</th><th>Group C</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>2</td><td>5</td></tr>
+                <tr><td>2</td><td>3</td><td>6</td></tr>
+                <tr><td>3</td><td>4</td><td>7</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (selection is not null)
+{
+    <div class="mb-4">
+        <h3>Selected Excel data</h3>
+        <p>
+            <strong>Worksheet:</strong> @selection.WorksheetName<br />
+            <strong>Range:</strong> @selection.Address<br />
+            <strong>Groups:</strong>
+            @string.Join(", ", selection.Headers.Select((name, index) => $"{name} (n={selection.Columns[index].Length})"))
+        </p>
+    </div>
+}
+
 @if (output is not null)
 {
-    <div class="mt-3">
+    <div class="mt-4">
+        <h3>BESHStat.Core ANOVA result</h3>
         <p>
-            <strong>Model:</strong> Poisson family, log link; @output.ObservationCount observations;
-            converged successfully.
+            <strong>F:</strong> @output.FStatistic.ToString("G12", CultureInfo.InvariantCulture)<br />
+            <strong>p-value:</strong> @output.PValue.ToString("G12", CultureInfo.InvariantCulture)
         </p>
 
-        <p>
-            <strong>Reference checks:</strong>
-            Intercept = @(output.CoefficientEstimates[0].ToString("G12", CultureInfo.InvariantCulture)),
-            x1 = @(output.CoefficientEstimates[1].ToString("G12", CultureInfo.InvariantCulture)),
-            x2 = @(output.CoefficientEstimates[2].ToString("G12", CultureInfo.InvariantCulture)),
-            AIC = @(output.AIC.ToString("G12", CultureInfo.InvariantCulture)).
-        </p>
-
-        <p>
-            <strong>Model statistics:</strong>
-            log-likelihood = @(output.LogLikelihood.ToString("G12", CultureInfo.InvariantCulture));
-            pseudo R² = @(output.PseudoR2.ToString("G12", CultureInfo.InvariantCulture));
-            deviance GOF p = @(output.DevianceGOFP.ToString("G12", CultureInfo.InvariantCulture));
-            Pearson GOF p = @(output.PearsonGOFP.ToString("G12", CultureInfo.InvariantCulture)).
-        </p>
-
-        <p>
-            <strong>Additional WASM checks:</strong>
-            residuals = @(output.Residuals.GetLength(0) - 1) rows;
-            iteration table = @output.IterationDetails.RowCount × @output.IterationDetails.ColumnCount;
-            covariance table = @output.Covariance.RowCount × @output.Covariance.ColumnCount;
-            coefficient p-value body column(s) = @string.Join(", ", output.Coefficients.PvalueColumns);
-            diagnostic p-value body column(s) = @string.Join(", ", output.Diagnostics.PvalueColumns).
-        </p>
-
-        <h3 class="mt-4">Coefficient ResultTable</h3>
-        <table class="table table-bordered table-sm" style="max-width: 1100px;">
+        <table class="table table-bordered table-sm" style="max-width: 950px;">
             <tbody>
-                @for (var row = 0; row < output.Coefficients.RowCount; row++)
+                @for (var row = 0; row < output.Table.RowCount; row++)
                 {
                     <tr>
-                        @for (var col = 0; col < output.Coefficients.ColumnCount; col++)
+                        @for (var col = 0; col < output.Table.ColumnCount; col++)
                         {
-                            if (IsHeaderCell(output.Coefficients, row, col))
+                            if (IsHeaderCell(output.Table, row, col))
                             {
-                                <th>@FormatCell(output.Coefficients.Values[row, col])</th>
+                                <th>@FormatCell(output.Table.Values[row, col])</th>
                             }
                             else
                             {
-                                <td>@FormatCell(output.Coefficients.Values[row, col])</td>
+                                <td>@FormatCell(output.Table.Values[row, col])</td>
                             }
                         }
                     </tr>
@@ -77,95 +99,131 @@
             </tbody>
         </table>
 
-        <h3 class="mt-4">Model diagnostic ResultTable</h3>
-        <table class="table table-bordered table-sm" style="max-width: 1000px;">
-            <tbody>
-                @for (var row = 0; row < output.Diagnostics.RowCount; row++)
-                {
-                    <tr>
-                        @for (var col = 0; col < output.Diagnostics.ColumnCount; col++)
-                        {
-                            if (IsHeaderCell(output.Diagnostics, row, col))
-                            {
-                                <th>@FormatCell(output.Diagnostics.Values[row, col])</th>
-                            }
-                            else
-                            {
-                                <td>@FormatCell(output.Diagnostics.Values[row, col])</td>
-                            }
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <h3 class="mt-4">Covariance ResultTable</h3>
-        <table class="table table-bordered table-sm" style="max-width: 800px;">
-            <tbody>
-                @for (var row = 0; row < output.Covariance.RowCount; row++)
-                {
-                    <tr>
-                        @for (var col = 0; col < output.Covariance.ColumnCount; col++)
-                        {
-                            if (IsHeaderCell(output.Covariance, row, col))
-                            {
-                                <th>@FormatCell(output.Covariance.Values[row, col])</th>
-                            }
-                            else
-                            {
-                                <td>@FormatCell(output.Covariance.Values[row, col])</td>
-                            }
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <h3 class="mt-4">Residual preview</h3>
-        <p>Header plus the first five of @output.ObservationCount observations:</p>
-        <table class="table table-bordered table-sm" style="max-width: 1200px;">
-            <tbody>
-                @for (var row = 0; row < Math.Min(6, output.Residuals.GetLength(0)); row++)
-                {
-                    <tr>
-                        @for (var col = 0; col < output.Residuals.GetLength(1); col++)
-                        {
-                            if (row == 0)
-                            {
-                                <th>@FormatCell(output.Residuals[row, col])</th>
-                            }
-                            else
-                            {
-                                <td>@FormatCell(output.Residuals[row, col])</td>
-                            }
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
+        @if (writeResult is not null)
+        {
+            <p class="alert alert-success" style="max-width: 950px;">
+                Excel output written to <strong>@writeResult.WorksheetName</strong>
+                at <strong>@writeResult.Address</strong>.
+            </p>
+        }
     </div>
 }
 
 @code {
-    private GlmWasmSmokeResult? output;
-    private string status = "Not run yet.";
+    private OfficeHostStatus? officeHost;
+    private OfficeSelection? selection;
+    private AnovaExcelBridgeResult? output;
+    private OfficeWriteResult? writeResult;
+    private string officeStatus = "Checking...";
+    private string status = "Select a range in Excel, then run the Stage 2 test.";
+    private bool isBusy;
 
-    private void RunTest()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+            return;
+
+        await RefreshOfficeStatus();
+        StateHasChanged();
+    }
+
+    private async Task RefreshOfficeStatus()
     {
         try
         {
-            output = WasmSmokeProbe.RunPoissonLogGlm();
+            officeHost = await JS.InvokeAsync<OfficeHostStatus>("beshOffice.getHostStatus", 2500);
+            officeStatus = officeHost.Message;
 
-            status = $"PASS — Poisson/log GLM executed in WebAssembly. " +
-                     $"β = ({output.CoefficientEstimates[0]:G9}, " +
-                     $"{output.CoefficientEstimates[1]:G9}, " +
-                     $"{output.CoefficientEstimates[2]:G9}); AIC = {output.AIC:G12}.";
+            if (officeHost.IsExcel)
+            {
+                var details = new List<string>();
+                if (!string.IsNullOrWhiteSpace(officeHost.Host))
+                    details.Add(officeHost.Host);
+                if (!string.IsNullOrWhiteSpace(officeHost.Platform))
+                    details.Add(officeHost.Platform);
+
+                if (details.Count > 0)
+                    officeStatus += " " + string.Join(" / ", details) + ".";
+            }
+        }
+        catch (Exception ex)
+        {
+            officeHost = null;
+            officeStatus = "Unable to query Office.js: " + ex.Message;
+        }
+    }
+
+    private async Task ReadSelection()
+    {
+        try
+        {
+            isBusy = true;
+            selection = await JS.InvokeAsync<OfficeSelection>("beshOffice.getSelectedAnovaData");
+            output = null;
+            writeResult = null;
+            status = $"Read {selection.Address} from worksheet '{selection.WorksheetName}' successfully.";
+        }
+        catch (Exception ex)
+        {
+            status = "FAIL — " + ex.Message;
+        }
+        finally
+        {
+            isBusy = false;
+        }
+    }
+
+    private async Task RunAnovaAndWrite()
+    {
+        try
+        {
+            isBusy = true;
+            writeResult = null;
+
+            selection = await JS.InvokeAsync<OfficeSelection>("beshOffice.getSelectedAnovaData");
+            output = WasmSmokeProbe.RunOneWayAnova(selection.Columns, selection.Headers);
+
+            var payload = new ResultTableWritePayload
+            {
+                Values = ToJagged(output.Table.Values),
+                HeaderTopRows = output.Table.HeaderTopRows,
+                HeaderLeftColumns = output.Table.HeaderLeftColumns,
+                FooterRows = output.Table.FooterRows,
+                TitleRows = output.Table.TitleRows,
+                PvalueColumns = output.Table.PvalueColumns.ToArray()
+            };
+
+            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeResultTable", payload);
+
+            status = $"PASS — Excel → Office.js → WebAssembly → BESHStat.Core → ResultTable → Excel completed. " +
+                     $"F = {output.FStatistic:G12}; p = {output.PValue:G12}.";
         }
         catch (Exception ex)
         {
             output = null;
-            status = "FAIL — " + ex;
+            writeResult = null;
+            status = "FAIL — " + ex.Message;
         }
+        finally
+        {
+            isBusy = false;
+        }
+    }
+
+    private static object?[][] ToJagged(object[,] values)
+    {
+        var rows = values.GetLength(0);
+        var columns = values.GetLength(1);
+        var output = new object?[rows][];
+
+        for (var row = 0; row < rows; row++)
+        {
+            output[row] = new object?[columns];
+            for (var col = 0; col < columns; col++)
+                output[row][col] = values[row, col];
+        }
+
+        return output;
     }
 
     private static bool IsHeaderCell(ResultTableOutputModel model, int row, int col)
@@ -190,5 +248,41 @@
             return f.ToString("G9", CultureInfo.InvariantCulture);
 
         return Convert.ToString(value, CultureInfo.InvariantCulture) ?? string.Empty;
+    }
+
+    private sealed class OfficeHostStatus
+    {
+        public bool OfficeJsLoaded { get; set; }
+        public bool IsExcel { get; set; }
+        public string Host { get; set; } = string.Empty;
+        public string Platform { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+    }
+
+    private sealed class OfficeSelection
+    {
+        public string WorksheetName { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+        public int RowCount { get; set; }
+        public int ColumnCount { get; set; }
+        public string[] Headers { get; set; } = Array.Empty<string>();
+        public double[][] Columns { get; set; } = Array.Empty<double[]>();
+    }
+
+    private sealed class ResultTableWritePayload
+    {
+        public object?[][] Values { get; set; } = Array.Empty<object?[]>();
+        public int HeaderTopRows { get; set; }
+        public int HeaderLeftColumns { get; set; }
+        public int FooterRows { get; set; }
+        public int TitleRows { get; set; }
+        public int[] PvalueColumns { get; set; } = Array.Empty<int>();
+    }
+
+    private sealed class OfficeWriteResult
+    {
+        public string WorksheetName { get; set; } = string.Empty;
+        public string Address { get; set; } = string.Empty;
+        public int[] PvalueColumns { get; set; } = Array.Empty<int>();
     }
 }
