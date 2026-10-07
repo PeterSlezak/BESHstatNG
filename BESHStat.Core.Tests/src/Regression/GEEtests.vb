@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Infer On
 Option Strict Off
 
@@ -254,7 +254,7 @@ Public Class GEE_Tests
         For i As Integer = 0 To 2
             Dim zCalc As Double = res.Coeffs_est(i) / res.Coeffs_SEs(i)
             AssertClose(res.Coeffs_Zstat(i), zCalc, 0.000001, spec.Name & " z internal consistency idx " & i)
-            Dim pCalc As Double = 2.0 * (1.0 - distributions.PNorm(Math.Abs(res.Coeffs_Zstat(i)), 0.0, 1.0))
+            Dim pCalc As Double = 2.0 * (1.0 - Distributions.PNorm(Math.Abs(res.Coeffs_Zstat(i)), 0.0, 1.0))
             AssertClose(res.Coeffs_PvaluesZ(i), pCalc, 0.000001, spec.Name & " p internal consistency idx " & i)
         Next
 
@@ -667,8 +667,8 @@ Public Class GEE_Tests
         glm.Fit(1)
         Dim naive As Double(,) = glm.VarCovar
 
-        Dim naiveInv As Double(,) = Matrix.MatInv(naive)
-        Dim tmp As Double(,) = Matrix.MatrixMult(naiveInv, covRobust)
+        Dim naiveInv As Double(,) = Matrix.MatrixDecompositionCore.InvertMatrix(naive)
+        Dim tmp As Double(,) = Matrix.MatrixArithmeticCore.Multiply(naiveInv, covRobust)
         Dim trace As Double = 0.0
         For k As Integer = 0 To tmp.GetLength(0) - 1
             trace += tmp(k, k)

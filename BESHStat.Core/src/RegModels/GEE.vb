@@ -1,8 +1,9 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports System
 Imports System.Linq
-Imports System.Security.Cryptography
+Imports System.Diagnostics
 Imports BESHStatNG.AppInfrastructure
 
 ''' <summary>
@@ -312,8 +313,8 @@ Public Class GEE
         pData = data 'it is assumed that dependent variable is in the first column
         pRepeats = repeat
 
-        Me.n = UBound(pRepeats) + 1
-        Me.p = UBound(pData, 2) + 1 '# of independent vars + intercept (pData 1st column is dependent var it should be equal to dims itself)
+        Me.n = pRepeats.GetUpperBound(0) + 1
+        Me.p = pData.GetUpperBound(1) + 1 '# of independent vars + intercept (pData 1st column is dependent var it should be equal to dims itself)
         Me.pDFmodel = p - 1
         Me.pDFresid = n - p
 
@@ -339,7 +340,7 @@ Public Class GEE
         End If
 
         If Weights Is Nothing Then
-            Me.pWeights = Matrix.IdentityVect(Me.n - 1, 1) 'it automaticaly assign zeros
+            Me.pWeights = Matrix.MatrixArithmeticCore.ConstantVector(Me.n - 1, 1) 'it automaticaly assign zeros
             Me.pbWeights = False
         Else
             Me.pbWeights = True
@@ -397,7 +398,7 @@ Public Class GEE
             Dim mu(n - 1) As Double
             Dim k As Integer = 0
             For i = 0 To pNoGroup - 1
-                For j = 0 To UBound(pCachedMeans(i).Item1)
+                For j = 0 To pCachedMeans(i).Item1.GetUpperBound(0)
                     mu(k) = pCachedMeans(i).Item1(j)
                     k += 1
                 Next
@@ -434,7 +435,7 @@ Public Class GEE
                 Dim upper As Integer = Math.Min(idx.Length, y.Length) - 1
                 For j As Integer = 0 To upper
                     Dim row As Integer = idx(j)
-                    If row >= 0 AndAlso row <= UBound(yFlat) Then yFlat(row) = y(j)
+                    If row >= 0 AndAlso row <= yFlat.GetUpperBound(0) Then yFlat(row) = y(j)
                 Next
             Next
 
@@ -462,10 +463,10 @@ Public Class GEE
             For g As Integer = 0 To pNoGroup - 1
                 Dim idx() As Integer = pGroupIndices(pGroupLabels(g))
                 Dim eta(,) As Double = pCachedMeans(g).Item2
-                Dim upper As Integer = Math.Min(idx.Length, UBound(eta, 1) + 1) - 1
+                Dim upper As Integer = Math.Min(idx.Length, eta.GetUpperBound(0) + 1) - 1
                 For j As Integer = 0 To upper
                     Dim row As Integer = idx(j)
-                    If row >= 0 AndAlso row <= UBound(etaFlat) Then etaFlat(row) = eta(j, 0)
+                    If row >= 0 AndAlso row <= etaFlat.GetUpperBound(0) Then etaFlat(row) = eta(j, 0)
                 Next
             Next
 
@@ -864,7 +865,7 @@ Public Class GEE
         t.AddPvalueToFormat(4)
         If Me.pOffsetVarName IsNot Nothing Then t.AddFootnote($"Offset Variable: {Me.pOffsetVarName}")
         If Me.pWeightsVarName IsNot Nothing Then t.AddFootnote($"Weights Variable: {Me.pWeightsVarName}")
-        If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {Matrix.array2str(Me.startParams)}")
+        If Me.startParams IsNot Nothing Then t.AddFootnote($"Starting values: {regression.GEECoreFormatting.ArrayToString(Me.startParams)}")
         'If Me.bSeparation Then
         '    t.AddFootnote("Complete separation of data points. Maximum likelihood estimates may not exist.")
         'ElseIf Me.bQuasiSeparation Then
@@ -883,7 +884,7 @@ Public Class GEE
         out.Add(t)
 
         'Covariance MatrixType - Model based (Naive)
-        Dim strVars() As String = Matrix.ConcatArrays({"Intercept"}, Matrix.SubsetArray(pVarNames, 1))
+        Dim strVars() As String = Enumerable.Concat(New String() {"Intercept"}, DataManagement.ArrayUtilities.Slice(pVarNames, 1)).ToArray()
         t = New ResultTable
         t.SetBody(Me.pCovNaive)
         t.AddHeaderLeftRow(strVars)
@@ -916,7 +917,7 @@ Public Class GEE
             Dim ItLabels(Me.pItration) As String
             For i = 0 To Me.pItration : ItLabels(i) = $"Iteration {i + 1}" : Next
             t.AddHeaderTopRow(ItLabels)
-            t.AddHeaderLeftRow(Matrix.ConcatArrays(Me.pVarNames, {"Parameter Change"}))
+            t.AddHeaderLeftRow(Enumerable.Concat(Me.pVarNames, New String() {"Parameter Change"}).ToArray())
             out.Add(t)
         End If
 
@@ -982,10 +983,10 @@ Public Class GEE
                          Optional progress As IProgressReporter = Nothing)
         CoreServices.Logger.Debug($"GEE.Fit start. family={pFamily.GetType().Name}; link={pLink.GetType().Name}; startParams={bStartParams}; maxIter={pMaxiter}; eps={pEps}; dataShape={pData.GetLength(0)}x{pData.GetLength(1)}; offset={pbOffset}")
         Dim update() As Double = Nothing, score() As Double = Nothing, del_params As Double, strTmpTrace As String = String.Empty
-        Dim startTime As Double = Microsoft.VisualBasic.DateAndTime.Timer
+        Dim stopwatch As Stopwatch = Stopwatch.StartNew()
         Me.pScalingFactor = scalingFactor
         Me.results = New LMresult
-        Me.results.varNames = Matrix.SubsetArray(pVarNames, 1)
+        Me.results.varNames = DataManagement.ArrayUtilities.Slice(pVarNames, 1)
         ReDim pItInfo(p, pMaxiter)
 
         'starting parameters
@@ -1005,15 +1006,15 @@ Public Class GEE
 
             'Compute step (same as your current code)
             Me.updateMeanParams(update, score)
-            AppInfrastructure.CoreServices.Log($"Iteration={pItration + 1} update:{Matrix.array2str(update)} score: {Matrix.array2str(score)}")
+            AppInfrastructure.CoreServices.Log($"Iteration={pItration + 1} update:{regression.GEECoreFormatting.ArrayToString(update)} score: {regression.GEECoreFormatting.ArrayToString(score)}")
 
             'Apply step (same as your current code)
-            meanParams = Matrix.M_ADD(meanParams, update)
+            meanParams = Matrix.MatrixArithmeticCore.Add(meanParams, update)
             Me.UpdateCachedMeans(meanParams)
 
             '--- SAS-style convergence criterion: max change in beta (abs or relative) ---
             del_params = 0.0
-            For j = 0 To UBound(meanParams)
+            For j = 0 To meanParams.GetUpperBound(0)
                 Dim d As Double = Math.Abs(meanParams(j) - prevParams(j))
                 If Math.Abs(meanParams(j)) > SAS_REL_THRESH Then
                     d = d / Math.Abs(meanParams(j))   'relative change
@@ -1028,7 +1029,7 @@ Public Class GEE
                 consecOK = 0
             End If
 
-            AppInfrastructure.CoreServices.Log($"Iteration={pItration + 1} meanParams:{Matrix.array2str(meanParams)} sas_del={del_params} consecOK={consecOK}")
+            AppInfrastructure.CoreServices.Log($"Iteration={pItration + 1} meanParams:{regression.GEECoreFormatting.ArrayToString(meanParams)} sas_del={del_params} consecOK={consecOK}")
 
             'save iteration info (store criterion in last row, like before)
             For i = 0 To p
@@ -1049,8 +1050,8 @@ Public Class GEE
             'UI progress
             'Progress
             If progress IsNot Nothing Then
-                progress.Report(CInt(100 * (Me.pItration + 1) / (Me.pMaxiter + 1)),
-                                $"Elapsed Time: {Math.Round((Microsoft.VisualBasic.DateAndTime.Timer - startTime), 2)}[s]  Iter {Me.pItration + 1}   Last convergence crit. value = {del_params}")
+                progress.Report(Convert.ToInt32(100 * (Me.pItration + 1) / (Me.pMaxiter + 1)),
+                                $"Elapsed Time: {Math.Round(stopwatch.Elapsed.TotalSeconds, 2)}[s]  Iter {Me.pItration + 1}   Last convergence crit. value = {del_params}")
             End If
 
             'update prevParams for next iteration
@@ -1060,7 +1061,7 @@ Public Class GEE
         '-----------------------------------------------
 
         If Not pConverged Then AppInfrastructure.CoreServices.Log($"Iteration limit reached prior to convergence", AppInfrastructure.LogMsgType.Warn)
-        If pItration > -1 Then ReDim Preserve pItInfo(UBound(pItInfo, 1), pItration)
+        If pItration > -1 Then ReDim Preserve pItInfo(pItInfo.GetUpperBound(0), pItration)
 
         Me.pScale = EstimateScale(True)
         Me.ComputeCovMat()
@@ -1106,9 +1107,10 @@ Public Class GEE
                                      {Me.pQL, ""},
                                      {Me.pItration, ""},
                                      {del_params, ""},
-                                     {CStr(Me.pConverged), ""}}
+                                     {Me.pConverged.ToString(), ""}}
 
-        Me.CompTime = Microsoft.VisualBasic.DateAndTime.Timer - startTime
+        stopwatch.Stop()
+        Me.CompTime = stopwatch.Elapsed.TotalSeconds
         CoreServices.Logger.Debug($"GEE.Fit completed. converged={Me.pConverged}; iterations={Me.pItration}; logLikelihood={Me.pQL}; compTime={Me.CompTime}")
 
         If progress IsNot Nothing Then progress.Report(100)
@@ -1171,7 +1173,7 @@ Public Class GEE
 
         Dim strTmpTrace As String = String.Empty, srt() As Double = Nothing
 
-        cnaive = Matrix.MatrixMult(cnaive, 1.0 / pScalingFactor)
+        cnaive = Matrix.MatrixArithmeticCore.Multiply(cnaive, 1.0 / pScalingFactor)
         If pScale = 0 Then pScale = EstimateScale()
 
         Dim bcm(p - 1, p - 1) As Double
@@ -1181,10 +1183,10 @@ Public Class GEE
             Dim endog = pEndogLi(i)
             Dim exog = pExogLi(i)
 
-            Dim sdev(UBound(expval)) As Double ', resid(1 To UBound(expval))
-            Dim resid = Matrix.M_SUB(endog, expval)
+            Dim sdev(expval.GetUpperBound(0)) As Double ', resid(1 To expval.GetUpperBound(0))
+            Dim resid = Matrix.MatrixArithmeticCore.Subtract(endog, expval)
             Dim dmat = MeanDeriv(exog, lin_pred, i, False)
-            For j = 0 To UBound(expval)
+            For j = 0 To expval.GetUpperBound(0)
                 sdev(j) = SafeStDevFromMu(expval(j))
             Next
 
@@ -1192,27 +1194,27 @@ Public Class GEE
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, dmat, resid, vinv_d, vinv_resid, strTmpTrace) ' vinv_d, vinv_resid - are results
             If strTmpTrace <> String.Empty Then AppInfrastructure.CoreServices.Log($"strTmpTrace= {strTmpTrace}")
 
-            vinv_d = Matrix.MatrixMult(vinv_d, 1.0 / pScale)
-            Dim hmat(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(vinv_d, cnaive), Matrix.trans(dmat))
-            hmat = Matrix.trans(hmat)
+            vinv_d = Matrix.MatrixArithmeticCore.Multiply(vinv_d, 1.0 / pScale)
+            Dim hmat(,) As Double = Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Multiply(vinv_d, cnaive), Matrix.MatrixArithmeticCore.Transpose(dmat))
+            hmat = Matrix.MatrixArithmeticCore.Transpose(hmat)
 
-            Dim tmp2 = Matrix.M_SUB(Matrix.IdentityMat(UBound(resid)), hmat)
-            Dim tmp = Matrix.Cholesky(tmp2)
-            Dim aresid = Matrix.CholSolve(tmp, resid)
+            Dim tmp2 = Matrix.MatrixArithmeticCore.Subtract(Matrix.MatrixArithmeticCore.IdentityMatrix(resid.GetUpperBound(0)), hmat)
+            Dim tmp = Matrix.MatrixFactorizationCore.Cholesky(tmp2)
+            Dim aresid = Matrix.MatrixFactorizationCore.CholeskySolve(tmp, resid)
             strTmpTrace = String.Empty
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, dmat, aresid, tmp2, srt, strTmpTrace) ' tmp2, srt - are results (reusing tmp2)
             If strTmpTrace <> String.Empty Then AppInfrastructure.CoreServices.Log($"strTmpTrace= {strTmpTrace}")
 
-            srt = Matrix.GetColumnFrom2Darray(Matrix.MatrixMult(Matrix.trans(dmat), srt), 0)
-            For j = 0 To UBound(srt)
+            srt = DataManagement.ArrayUtilities.GetColumn(Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Transpose(dmat), srt), 0)
+            For j = 0 To srt.GetUpperBound(0)
                 srt(j) /= pScale
             Next
-            bcm = Matrix.M_ADD(bcm, Matrix.M_OUTERPRODUCT(srt, srt))
+            bcm = Matrix.MatrixArithmeticCore.Add(bcm, Matrix.MatrixArithmeticCore.OuterProduct(srt, srt))
         Next
 
         ReDim pCovBiasCorr(p - 1, p - 1)
-        Me.pCovBiasCorr = Matrix.MatrixMult(cnaive, Matrix.MatrixMult(bcm, cnaive))
-        Me.pCovBiasCorr = Matrix.MatrixMult(Me.pCovBiasCorr, pScalingFactor)
+        Me.pCovBiasCorr = Matrix.MatrixArithmeticCore.Multiply(cnaive, Matrix.MatrixArithmeticCore.Multiply(bcm, cnaive))
+        Me.pCovBiasCorr = Matrix.MatrixArithmeticCore.Multiply(Me.pCovBiasCorr, pScalingFactor)
 
         Return pCovBiasCorr
     End Function
@@ -1253,10 +1255,10 @@ Public Class GEE
             Dim endog = pEndogLi(i)
             Dim exog = pExogLi(i)
 
-            Dim resid(UBound(expval)) As Double, sdev(UBound(expval)) As Double
-            resid = Matrix.M_SUB(endog, expval)
+            Dim resid(expval.GetUpperBound(0)) As Double, sdev(expval.GetUpperBound(0)) As Double
+            resid = Matrix.MatrixArithmeticCore.Subtract(endog, expval)
             Dim dmat = MeanDeriv(exog, lin_pred, i, False)
-            For j = 0 To UBound(expval)
+            For j = 0 To expval.GetUpperBound(0)
                 sdev(j) = SafeStDevFromMu(expval(j))
             Next
 
@@ -1265,18 +1267,18 @@ Public Class GEE
             Dim vinv_d(,) As Double = Nothing, vinv_resid() As Double = Nothing
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, wdmat, wresid, vinv_d, vinv_resid, strTmpTrace) ' vinv_d, vinv_resid - are results
             If strTmpTrace <> String.Empty Then AppInfrastructure.CoreServices.Log($"strTmpTrace= {strTmpTrace}")
-            bmat = Matrix.M_ADD(bmat, Matrix.MatrixMult(Matrix.trans(dmat), vinv_d))
-            Dim dvinv_resid = Matrix.MatrixMult(Matrix.trans(dmat), vinv_resid)
-            cmat = Matrix.M_ADD(cmat, Matrix.M_OUTERPRODUCT(Matrix.GetColumnFrom2Darray(dvinv_resid, 0), Matrix.GetColumnFrom2Darray(dvinv_resid, 0)))
+            bmat = Matrix.MatrixArithmeticCore.Add(bmat, Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Transpose(dmat), vinv_d))
+            Dim dvinv_resid = Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Transpose(dmat), vinv_resid)
+            cmat = Matrix.MatrixArithmeticCore.Add(cmat, Matrix.MatrixArithmeticCore.OuterProduct(DataManagement.ArrayUtilities.GetColumn(dvinv_resid, 0), DataManagement.ArrayUtilities.GetColumn(dvinv_resid, 0)))
         Next
 
         If pScale = 0 Then pScale = EstimateScale()
-        AppInfrastructure.CoreServices.Log($"bmatfull={Matrix.array2str(bmat)}")
+        AppInfrastructure.CoreServices.Log($"bmatfull={regression.GEECoreFormatting.ArrayToString(bmat)}")
         ReDim pCovNaive(p - 1, p - 1), pCovRobust(p - 1, p - 1)
         'compute matrix inversion
 
-        Dim bmatInv(,) As Double = Matrix.MatInv(bmat, "CHOL",, bPseudInverse:=True)
-        Me.pCovRobust = Matrix.MatrixMult(bmatInv, Matrix.MatrixMult(cmat, bmatInv))
+        Dim bmatInv(,) As Double = Matrix.MatrixDecompositionCore.InvertMatrix(bmat, method:="CHOL", allowPseudoinverse:=True)
+        Me.pCovRobust = Matrix.MatrixArithmeticCore.Multiply(bmatInv, Matrix.MatrixArithmeticCore.Multiply(cmat, bmatInv))
 
         For i = 0 To p - 1
             For j = 0 To p - 1
@@ -1331,18 +1333,18 @@ Public Class GEE
             For i = 0 To pNoGroup - 1
                 Dim expval = pCachedMeans(i).Item1
                 Dim endog = pEndogLi(i)
-                Dim ResId(UBound(expval)) As Double, sdev(UBound(expval)) As Double
+                Dim ResId(expval.GetUpperBound(0)) As Double, sdev(expval.GetUpperBound(0)) As Double
 
-                For j = 0 To UBound(expval)
+                For j = 0 To expval.GetUpperBound(0)
                     sdev(j) = SafeStDevFromMu(expval(j))
                 Next
 
                 ' If any NaN stdev appears, bail out safely
                 If sdev.Any(Function(z) Double.IsNaN(z)) Then Return Double.NaN
 
-                ResId = Matrix.M_DIV(Matrix.M_SUB(endog, expval), sdev)
+                ResId = Matrix.MatrixArithmeticCore.Divide(Matrix.MatrixArithmeticCore.Subtract(endog, expval), sdev)
 
-                For j = 0 To UBound(ResId)
+                For j = 0 To ResId.GetUpperBound(0)
                     estScale += ResId(j) * ResId(j)
                 Next
                 fSum += ResId.Length()
@@ -1382,10 +1384,10 @@ Public Class GEE
             Dim endog = pEndogLi(i)
             Dim exog = pExogLi(i)
 
-            Dim resid(UBound(expval)) As Double, sdev(UBound(expval)) As Double
-            resid = Matrix.M_SUB(endog, expval)
+            Dim resid(expval.GetUpperBound(0)) As Double, sdev(expval.GetUpperBound(0)) As Double
+            resid = Matrix.MatrixArithmeticCore.Subtract(endog, expval)
             Dim dmat(,) As Double = MeanDeriv(exog, lin_pred, i)
-            For j = 0 To UBound(expval)
+            For j = 0 To expval.GetUpperBound(0)
                 sdev(j) = SafeStDevFromMu(expval(j))
             Next
 
@@ -1396,16 +1398,15 @@ Public Class GEE
             pCovStruct.covarianceMatrixSolve(expval, i, Me, sdev, wdmat, wresid, vinv_d, vinv_resid, strTmpTrace) ' vinv_d, vinv_resid - are results
             If strTmpTrace <> String.Empty Then AppInfrastructure.CoreServices.Log($"strTmpTrace= {strTmpTrace}")
 
-            bmat = Matrix.M_ADD(bmat, Matrix.MatrixMult(Matrix.trans(dmat), vinv_d))
-            score_ = Matrix.M_ADD(score_, Matrix.MatrixMult(Matrix.trans(dmat), vinv_resid))
+            bmat = Matrix.MatrixArithmeticCore.Add(bmat, Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Transpose(dmat), vinv_d))
+            score_ = Matrix.MatrixArithmeticCore.Add(score_, Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Transpose(dmat), vinv_resid))
         Next
 
-        score = Matrix.GetColumnFrom2Darray(score_, 0)
-        AppInfrastructure.CoreServices.Log($"bmatfull= {Matrix.array2str(bmat)} scorefull={Matrix.array2str(score)}")
+        score = DataManagement.ArrayUtilities.GetColumn(score_, 0)
+        AppInfrastructure.CoreServices.Log($"bmatfull= {regression.GEECoreFormatting.ArrayToString(bmat)} scorefull={regression.GEECoreFormatting.ArrayToString(score)}")
 
-
-        Dim tmp = Matrix.MatInv(bmat, "CHOL",, bPseudInverse:=True)
-        update = Matrix.GetColumnFrom2Darray(Matrix.MatrixMult(tmp, score_), 0)
+        Dim tmp = Matrix.MatrixDecompositionCore.InvertMatrix(bmat, method:="CHOL", allowPseudoinverse:=True)
+        update = DataManagement.ArrayUtilities.GetColumn(Matrix.MatrixArithmeticCore.Multiply(tmp, score_), 0)
 
     End Sub
 
@@ -1434,14 +1435,14 @@ Public Class GEE
         'Returns: The value of the derivative of the expected endog with respect to the parameter vector.
         'Notes: If there is exposure, it should be added to lin_pred prior to calling this function.
 
-        Dim idl(UBound(lin_pred)) As Double, dmat(UBound(exog), UBound(exog, 2)) As Double
-        For i = 0 To UBound(lin_pred)
+        Dim idl(lin_pred.GetUpperBound(0)) As Double, dmat(exog.GetUpperBound(0), exog.GetUpperBound(1)) As Double
+        For i = 0 To lin_pred.GetUpperBound(0)
             If pbOffset And bUseOffset Then lin_pred(i, 0) += pOffsetLi(idx)(i)
             idl(i) = pLink.inverseDeriv(lin_pred(i, 0))
         Next
 
-        For i = 0 To UBound(exog)
-            For j = 0 To UBound(exog, 2)
+        For i = 0 To exog.GetUpperBound(0)
+            For j = 0 To exog.GetUpperBound(1)
                 dmat(i, j) = exog(i, j) * idl(i)
             Next
         Next
@@ -1468,10 +1469,10 @@ Public Class GEE
         For i = 0 To pNoGroup - 1
             'Debug.Print(array2str(pExogLi(i)))
             Dim tmpExog(,) As Double = pExogLi(i)
-            Dim lin_pred(,) As Double = Matrix.MatrixMult(tmpExog, mean_params)
+            Dim lin_pred(,) As Double = Matrix.MatrixArithmeticCore.Multiply(tmpExog, mean_params)
 
-            Dim expval(UBound(tmpExog, 1)) As Double
-            For j = 0 To UBound(tmpExog, 1)
+            Dim expval(tmpExog.GetUpperBound(0)) As Double
+            For j = 0 To tmpExog.GetUpperBound(0)
                 If pbOffset Then lin_pred(j, 0) = lin_pred(j, 0) + pOffsetLi(i)(j)
                 expval(j) = pLink.inverse(lin_pred(j, 0))
             Next
@@ -1511,7 +1512,7 @@ Public Class GEE
             .Fit(1)
             pIndependenceNaiveVarCovar = .VarCovar
         End With
-        AppInfrastructure.CoreServices.Log($"start params: {Matrix.array2str(glm.results.Coeffs_est)}")
+        AppInfrastructure.CoreServices.Log($"start params: {regression.GEECoreFormatting.ArrayToString(glm.results.Coeffs_est)}")
 
         Return glm.results.Coeffs_est
     End Function
@@ -1543,15 +1544,15 @@ Public Class GEE
 
         For i = 0 To pNoGroup - 1
             Dim expval = pCachedMeans(i).Item1
-            For j = 0 To UBound(expval)
-                pQL += pFamily.geeQuasiLike(CDbl(pEndogLi(i)(j)), expval(j))
+            For j = 0 To expval.GetUpperBound(0)
+                pQL += pFamily.geeQuasiLike(Convert.ToDouble(pEndogLi(i)(j)), expval(j))
             Next
         Next
 
-        Dim NaiveInv(,) As Double = Matrix.MatInv(pIndependenceNaiveVarCovar)
-        Dim tmp = Matrix.MatrixMult(NaiveInv, pCovRobust)
+        Dim NaiveInv(,) As Double = Matrix.MatrixDecompositionCore.InvertMatrix(pIndependenceNaiveVarCovar)
+        Dim tmp = Matrix.MatrixArithmeticCore.Multiply(NaiveInv, pCovRobust)
 
-        For i = 0 To UBound(tmp)
+        For i = 0 To tmp.GetUpperBound(0)
             Trace += tmp(i, i)
         Next
         pQICu = -2.0 * pQL + 2.0 * Me.p
@@ -1604,8 +1605,8 @@ Public Class GEE
                     tmpOffset(k) = pOffset(j)
                     If Not pbMissingTime Then
                         tmpTime(k) = pTimeRaw(j)
-                        If Not uniqueTimesColl.ContainsKey(CDbl(pTimeRaw(j))) Then
-                            uniqueTimesColl.Add(CDbl(pTimeRaw(j)), CStr(pTimeRaw(j)))
+                        If Not uniqueTimesColl.ContainsKey(Convert.ToDouble(pTimeRaw(j), System.Globalization.CultureInfo.CurrentCulture)) Then
+                            uniqueTimesColl.Add(Convert.ToDouble(pTimeRaw(j), System.Globalization.CultureInfo.CurrentCulture), Convert.ToString(pTimeRaw(j), System.Globalization.CultureInfo.CurrentCulture))
                         End If
                     End If
 
@@ -1626,9 +1627,9 @@ Public Class GEE
             pOffsetLi.Add(tmpOffset)
             If pbMissingTime Then
                 For k = 0 To pClusterSize(i) - 1
-                    tmpTime(k) = CDbl(k)
+                    tmpTime(k) = Convert.ToDouble(k)
                     Try
-                        uniqueTimesColl.Add(CDbl(k), CStr(k))
+                        uniqueTimesColl.Add(Convert.ToDouble(k), Convert.ToString(k, System.Globalization.CultureInfo.CurrentCulture))
                     Catch
                     End Try
                 Next
@@ -1648,8 +1649,8 @@ Public Class GEE
             pUniqueTimesDict.Add(UniqueTimes(i), i)
         Next
 
-        AppInfrastructure.CoreServices.Log($"pGroupLabels={Matrix.array2str(pGroupLabels)}")
-        AppInfrastructure.CoreServices.Log($"# of unique times: {uniqueTimesColl.Count}; UniqueTimes={Matrix.array2str(UniqueTimes)}")
+        AppInfrastructure.CoreServices.Log($"pGroupLabels={regression.GEECoreFormatting.ArrayToString(pGroupLabels)}")
+        AppInfrastructure.CoreServices.Log($"# of unique times: {uniqueTimesColl.Count}; UniqueTimes={regression.GEECoreFormatting.ArrayToString(UniqueTimes)}")
     End Sub
 
 
