@@ -3,6 +3,7 @@ Option Strict On
 
 Imports System
 Imports System.Collections.Generic
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -312,7 +313,7 @@ Namespace regression
                 body(i, 8) = one.DiagnosticMessage
             Next
 
-            Dim levelText As String = Format((1.0 - AppInfrastructure.NormalizeAlpha(alpha)) * 100.0, "0.###") & "% CI"
+            Dim levelText As String = ((1.0 - AppInfrastructure.NormalizeAlpha(alpha)) * 100.0).ToString("0.###", Globalization.CultureInfo.InvariantCulture) & "% CI"
 
             Dim t As New Global.BESHStatNG.ResultTable
             t.AddTitle(title)
@@ -408,7 +409,7 @@ Namespace regression
                 Return False
             End If
 
-            Dim unscaledF As Double = qform / CDbl(q)
+            Dim unscaledF As Double = qform / Convert.ToDouble(q)
             Dim scaling As Double = 1.0
             Dim denDf As Double = Double.NaN
             Dim dfDiagnostic As String = String.Empty
@@ -429,7 +430,7 @@ Namespace regression
             Dim fStat As Double = scaling * unscaledF
             Dim pVal As Double = Double.NaN
             If hasDf Then
-                pVal = Global.BESHStatNG.distributions.Distributions.F_RT(fStat, CDbl(q), denDf)
+                pVal = Global.BESHStatNG.distributions.Distributions.F_RT(fStat, Convert.ToDouble(q), denDf)
                 If pVal < 0.0 Then pVal = 0.0
                 If pVal > 1.0 Then pVal = 1.0
             End If
@@ -445,8 +446,8 @@ Namespace regression
                 .EffectiveL = DirectCast(effectiveL.Clone(), Double(,)),
                 .EstimateVector = est,
                 .CovarianceMatrix = covL,
-                .RequestedNumDF = CDbl(requestedQ),
-                .NumDF = CDbl(q),
+                .RequestedNumDF = Convert.ToDouble(requestedQ),
+                .NumDF = Convert.ToDouble(q),
                 .Rank = q,
                 .RankReduced = rankReduced,
                 .DenDF = denDf,
@@ -597,7 +598,7 @@ Namespace regression
             Dim used As Integer = 0
 
             For r As Integer = 0 To q - 1
-                Dim lRow() As Double = Matrix.rowFromArray(lMatrix, r)
+                Dim lRow() As Double = GetMatrixRow(lMatrix, r)
                 Dim v As Double = adjustedCovarianceForL(r, r)
 
                 Dim oneDf As Double = Double.NaN
@@ -616,7 +617,7 @@ Namespace regression
                 Return False
             End If
 
-            df = CDbl(used) / sumInvDf
+            df = Convert.ToDouble(used) / sumInvDf
 
             If Not AppInfrastructure.IsFinite(df) OrElse df <= 0.0 Then
                 diagnostic = "Computed harmonic-mean denominator DF is not positive and finite."
@@ -626,6 +627,18 @@ Namespace regression
             df = Math.Max(1.0, Math.Min(1000000.0, df))
             diagnostic = "Multi-df denominator DF approximated by harmonic mean of " & used.ToString() & " row-wise univariate KR DFs."
             Return True
+        End Function
+
+        Private Function GetMatrixRow(matrix(,) As Double, rowIndex As Integer) As Double()
+            If matrix Is Nothing Then Return Nothing
+            If rowIndex < 0 OrElse rowIndex >= matrix.GetLength(0) Then Return Nothing
+
+            Dim output(matrix.GetLength(1) - 1) As Double
+            For c As Integer = 0 To matrix.GetLength(1) - 1
+                output(c) = matrix(rowIndex, c)
+            Next
+
+            Return output
         End Function
 
         Private Function TryBuildFullRowRankRestriction(lMatrix(,) As Double,
@@ -661,7 +674,7 @@ Namespace regression
                 Return False
             End If
 
-            Dim tol As Double = Math.Max(0.000000000001, 0.0000000001 * CDbl(Math.Max(q, p)) * maxRowNorm)
+            Dim tol As Double = Math.Max(0.000000000001, 0.0000000001 * Convert.ToDouble(Math.Max(q, p)) * maxRowNorm)
             Dim basis As New List(Of Double())()
 
             For r As Integer = 0 To q - 1
@@ -671,13 +684,13 @@ Namespace regression
                 Next
 
                 For Each basisRow As Double() In basis
-                    Dim projection As Double = Matrix.DotProduct(work, basisRow)
+                    Dim projection As Double = MatrixArithmeticCore.DotProduct(work, basisRow)
                     For c As Integer = 0 To p - 1
                         work(c) -= projection * basisRow(c)
                     Next
                 Next
 
-                Dim norm As Double = Matrix.VectorNorm(work)
+                Dim norm As Double = MatrixArithmeticCore.VectorNorm(work)
                 If norm > tol AndAlso AppInfrastructure.IsFinite(norm) Then
                     For c As Integer = 0 To p - 1
                         work(c) /= norm
@@ -747,7 +760,7 @@ Namespace regression
                 Next
             Next
 
-            MixedModelEngine.SymmetrizeInPlace(out)
+            MixedModelCovariance.SymmetrizeInPlace(out)
             Return out
         End Function
 
@@ -786,7 +799,7 @@ Namespace regression
                 Next
             Next
 
-            MixedModelEngine.SymmetrizeInPlace(out)
+            MixedModelCovariance.SymmetrizeInPlace(out)
             Return out
         End Function
 

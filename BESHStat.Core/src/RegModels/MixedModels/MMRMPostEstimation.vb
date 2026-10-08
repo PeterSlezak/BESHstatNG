@@ -1,6 +1,8 @@
 Option Explicit On
 Option Strict On
 
+Imports BESHStatNG.Matrix
+
 Namespace regression
 
     ''' <summary>
@@ -12,7 +14,7 @@ Namespace regression
     ''' originally implemented as private helpers in <c>Ui18MMRM</c>.
     ''' </para>
     ''' <para>
-    ''' It intentionally has no WinForms dependency, so the same calculations can be
+    ''' It intentionally has no host-UI dependency, so the same calculations can be
     ''' reused by:
     ''' </para>
     ''' <list type="bullet">
@@ -196,7 +198,7 @@ Namespace regression
                              groupBaseName & "=" & MixedModelPostEstimation.FormatProfileValue(firstLevel) & " - " &
                              groupBaseName & "=" & MixedModelPostEstimation.FormatProfileValue(secondLevel))
 
-                    lRows.Add(Matrix.M_SUB(lFirst, lSecond))
+                    lRows.Add(MatrixArithmeticCore.Subtract(lFirst, lSecond))
                 Next
 
                 If lRows.Count = 0 Then Return Nothing
@@ -264,7 +266,7 @@ Namespace regression
                         rows.Add("Visit " & MixedModelPostEstimation.FormatProfileValue(v) & ": " &
                                  groupBaseName & " " & MixedModelPostEstimation.FormatProfileValue(g2) &
                                  " - " & MixedModelPostEstimation.FormatProfileValue(g1))
-                        lRows.Add(Matrix.M_SUB(l2, l1))
+                        lRows.Add(MatrixArithmeticCore.Subtract(l2, l1))
                     Next
                 Next
             Next
@@ -317,7 +319,7 @@ Namespace regression
 
                 rows.Add("Visit " & MixedModelPostEstimation.FormatProfileValue(v) &
                          " - baseline visit " & MixedModelPostEstimation.FormatProfileValue(baseline))
-                lRows.Add(Matrix.M_SUB(lVisit, lBase))
+                lRows.Add(MatrixArithmeticCore.Subtract(lVisit, lBase))
             Next
 
             If lRows.Count = 0 Then Return Nothing
@@ -377,7 +379,7 @@ Namespace regression
                     rows.Add(groupBaseName & "=" & MixedModelPostEstimation.FormatProfileValue(g) &
                              ": visit " & MixedModelPostEstimation.FormatProfileValue(v) &
                              " - baseline visit " & MixedModelPostEstimation.FormatProfileValue(baseline))
-                    lRows.Add(Matrix.M_SUB(lVisit, lBase))
+                    lRows.Add(MatrixArithmeticCore.Subtract(lVisit, lBase))
                 Next
             Next
 
@@ -468,15 +470,15 @@ Namespace regression
 
                     If lFirstBase Is Nothing OrElse lFirstVisit Is Nothing OrElse lSecondBase Is Nothing OrElse lSecondVisit Is Nothing Then Continue For
 
-                    Dim changeFirst() As Double = Matrix.M_SUB(lFirstVisit, lFirstBase)
-                    Dim changeSecond() As Double = Matrix.M_SUB(lSecondVisit, lSecondBase)
+                    Dim changeFirst() As Double = MatrixArithmeticCore.Subtract(lFirstVisit, lFirstBase)
+                    Dim changeSecond() As Double = MatrixArithmeticCore.Subtract(lSecondVisit, lSecondBase)
 
                     rows.Add("Visit " & MixedModelPostEstimation.FormatProfileValue(v) &
                              " vs baseline " & MixedModelPostEstimation.FormatProfileValue(baseline) & ": Δ(" &
                              groupBaseName & "=" & MixedModelPostEstimation.FormatProfileValue(firstLevel) & " - " &
                              groupBaseName & "=" & MixedModelPostEstimation.FormatProfileValue(secondLevel) & ")")
 
-                    lRows.Add(Matrix.M_SUB(changeFirst, changeSecond))
+                    lRows.Add(MatrixArithmeticCore.Subtract(changeFirst, changeSecond))
                 Next
 
                 If lRows.Count = 0 Then Return Nothing
@@ -498,7 +500,7 @@ Namespace regression
                 Dim lControlVisit() As Double = MixedModelPostEstimation.AverageDesignRowForProfile(x, visit, groupValues, v, controlLevel, Nothing)
                 If lControlBase Is Nothing OrElse lControlVisit Is Nothing Then Continue For
 
-                Dim changeControl() As Double = Matrix.M_SUB(lControlVisit, lControlBase)
+                Dim changeControl() As Double = MatrixArithmeticCore.Subtract(lControlVisit, lControlBase)
 
                 For Each g As Double In groups
                     If MixedModelPostEstimation.NearlyEqual(g, controlLevel) Then Continue For
@@ -507,7 +509,7 @@ Namespace regression
                     Dim lTreatVisit() As Double = MixedModelPostEstimation.AverageDesignRowForProfile(x, visit, groupValues, v, g, Nothing)
                     If lTreatBase Is Nothing OrElse lTreatVisit Is Nothing Then Continue For
 
-                    Dim changeTreat() As Double = Matrix.M_SUB(lTreatVisit, lTreatBase)
+                    Dim changeTreat() As Double = MatrixArithmeticCore.Subtract(lTreatVisit, lTreatBase)
                     Dim lDiff() As Double = MixedModelPostEstimation.MakeDirectedDifference(changeTreat, changeControl, direction, DIR_TREATMENT_MINUS_CONTROL, DIR_CONTROL_MINUS_TREATMENT)
 
                     rows.Add("Visit " & MixedModelPostEstimation.FormatProfileValue(v) &
@@ -558,9 +560,9 @@ Namespace regression
 
                         If lG1Base Is Nothing OrElse lG1Visit Is Nothing OrElse lG2Base Is Nothing OrElse lG2Visit Is Nothing Then Continue For
 
-                        Dim changeG1() As Double = Matrix.M_SUB(lG1Visit, lG1Base)
-                        Dim changeG2() As Double = Matrix.M_SUB(lG2Visit, lG2Base)
-                        Dim diffChange() As Double = Matrix.M_SUB(changeG2, changeG1)
+                        Dim changeG1() As Double = MatrixArithmeticCore.Subtract(lG1Visit, lG1Base)
+                        Dim changeG2() As Double = MatrixArithmeticCore.Subtract(lG2Visit, lG2Base)
+                        Dim diffChange() As Double = MatrixArithmeticCore.Subtract(changeG2, changeG1)
 
                         rows.Add("Visit " & MixedModelPostEstimation.FormatProfileValue(v) &
                                  " vs baseline " & MixedModelPostEstimation.FormatProfileValue(baseline) &

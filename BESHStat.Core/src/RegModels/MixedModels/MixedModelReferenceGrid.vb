@@ -5,6 +5,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Linq
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -329,7 +330,7 @@ Namespace regression
                                " - " & factorName & "=" & MixedModelPostEstimation.FormatProfileValue(first.Profile(factorName)) &
                                OtherProfileSuffix(first.Profile, factorName))
 
-                    lRows.Add(Matrix.M_SUB(second.L, first.L))
+                    lRows.Add(MatrixArithmeticCore.Subtract(second.L, first.L))
                 Next
             Next
 
@@ -402,7 +403,7 @@ Namespace regression
 
             Dim statLabel As String = If(String.IsNullOrWhiteSpace(result.BetaStatisticLabel), "z", result.BetaStatisticLabel)
             Dim pLabel As String = If(String.IsNullOrWhiteSpace(result.BetaPValueLabel), "Pr(>|z|)", result.BetaPValueLabel)
-            Dim ciLabel As String = Format((1.0 - alphaUse) * 100.0, "0.###") & "% CI"
+            Dim ciLabel As String = ((1.0 - alphaUse) * 100.0).ToString("0.###", CultureInfo.InvariantCulture) & "% CI"
 
             Dim t As New Global.BESHStatNG.ResultTable
             t.AddTitle(title)
@@ -444,13 +445,13 @@ Namespace regression
 
                 Case MixedModelMultiplicityAdjustment.Bonferroni
                     For i As Integer = 0 To n - 1
-                        out(i) = AppInfrastructure.ClampProbability(pValues(i) * CDbl(n))
+                        out(i) = AppInfrastructure.ClampProbability(pValues(i) * Convert.ToDouble(n))
                     Next
 
                 Case MixedModelMultiplicityAdjustment.Sidak
                     For i As Integer = 0 To n - 1
                         Dim p As Double = AppInfrastructure.ClampProbability(pValues(i))
-                        out(i) = AppInfrastructure.ClampProbability(1.0 - Math.Pow(1.0 - p, CDbl(n)))
+                        out(i) = AppInfrastructure.ClampProbability(1.0 - Math.Pow(1.0 - p, Convert.ToDouble(n)))
                     Next
 
                 Case MixedModelMultiplicityAdjustment.Holm
@@ -460,7 +461,7 @@ Namespace regression
 
                     For rank As Integer = 0 To n - 1
                         Dim originalIndex As Integer = idx(rank)
-                        Dim candidate As Double = AppInfrastructure.ClampProbability(CDbl(n - rank) * AppInfrastructure.ClampProbability(pValues(originalIndex)))
+                        Dim candidate As Double = AppInfrastructure.ClampProbability(Convert.ToDouble(n - rank) * AppInfrastructure.ClampProbability(pValues(originalIndex)))
 
                         If candidate < runningMax Then candidate = runningMax
                         runningMax = candidate
@@ -809,7 +810,7 @@ Namespace regression
                 Return If(observedCount > 0, 1.0, 0.0)
             End If
 
-            Return CDbl(Math.Max(0, observedCount))
+            Return Convert.ToDouble(Math.Max(0, observedCount))
         End Function
 
 

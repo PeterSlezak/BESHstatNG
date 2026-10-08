@@ -53,7 +53,7 @@ Namespace regression
     End Class
 
     ''' <summary>
-    ''' Result container returned by <see cref="MixedModelEngine.Fit"/>.
+    ''' Host-neutral result container returned by mixed-model fitting engines.
     ''' </summary>
     ''' <remarks>
     ''' <para>
@@ -599,7 +599,7 @@ Namespace regression
         ''' <para>
         ''' This first mixed-model output layer uses large-sample Wald normal inference:
         ''' <c>z = beta / SE(beta)</c>, with two-sided normal p-values.  The p-value column is
-        ''' registered as body column 4 so that <see cref="ExcelDnaResultWriter"/> highlights the p-values,
+        ''' registered as body column 4 so that host result writers can apply p-value formatting,
         ''' not the z-statistics.
         ''' </para>
         ''' <para>
@@ -617,7 +617,7 @@ Namespace regression
             Dim alphaUse As Double = alpha
             If Double.IsNaN(alphaUse) OrElse Double.IsInfinity(alphaUse) OrElse alphaUse <= 0.0 OrElse alphaUse >= 1.0 Then alphaUse = 0.05
 
-            Dim levelText As String = Format((1.0 - alphaUse) * 100.0, "0.###") & "% CI"
+            Dim levelText As String = ((1.0 - alphaUse) * 100.0).ToString("0.###", Globalization.CultureInfo.InvariantCulture) & "% CI"
             Dim hasDF As Boolean = HasFiniteDFVector(Me.BetaDF, p)
 
             If hasDF Then
@@ -625,7 +625,7 @@ Namespace regression
                 Dim rowNames(Math.Max(0, p - 1)) As String
 
                 For j As Integer = 0 To p - 1
-                    rowNames(j) = SafeName(Me.FixedEffectNames, j, "b" & CStr(j))
+                    rowNames(j) = SafeName(Me.FixedEffectNames, j, "b" & j.ToString(Globalization.CultureInfo.InvariantCulture))
 
                     Dim est As Double = SafeVectorValue(Me.Beta, j)
                     Dim se As Double = SafeVectorValue(Me.BetaSE, j)
@@ -682,7 +682,7 @@ Namespace regression
                 Dim zCrit As Double = Global.BESHStatNG.distributions.Distributions.NormSInv(1.0 - alphaUse / 2.0)
 
                 For j As Integer = 0 To p - 1
-                    rowNames(j) = SafeName(Me.FixedEffectNames, j, "b" & CStr(j))
+                    rowNames(j) = SafeName(Me.FixedEffectNames, j, "b" & j.ToString(Globalization.CultureInfo.InvariantCulture))
 
                     Dim est As Double = SafeVectorValue(Me.Beta, j)
                     Dim se As Double = SafeVectorValue(Me.BetaSE, j)
@@ -745,14 +745,14 @@ Namespace regression
 
             For j As Integer = 0 To gN - 1
                 body(row, 0) = "G"
-                body(row, 1) = SafeName(Me.ThetaGNames, j, "G" & CStr(j + 1))
+                body(row, 1) = SafeName(Me.ThetaGNames, j, "G" & (j + 1).ToString(Globalization.CultureInfo.InvariantCulture))
                 body(row, 2) = Me.ThetaG(j)
                 row += 1
             Next
 
             For j As Integer = 0 To rN - 1
                 body(row, 0) = "R"
-                body(row, 1) = SafeName(Me.ThetaRNames, j, "R" & CStr(j + 1))
+                body(row, 1) = SafeName(Me.ThetaRNames, j, "R" & (j + 1).ToString(Globalization.CultureInfo.InvariantCulture))
                 body(row, 2) = Me.ThetaR(j)
                 row += 1
             Next
@@ -1254,7 +1254,7 @@ Namespace regression
             Dim colLabels(q - 1) As String
 
             For j As Integer = 0 To q - 1
-                colLabels(j) = SafeMatrixLabel(Me.RandomCovarianceLabels, j, "b" & CStr(j + 1))
+                colLabels(j) = SafeMatrixLabel(Me.RandomCovarianceLabels, j, "b" & (j + 1).ToString(Globalization.CultureInfo.InvariantCulture))
             Next
 
             For i As Integer = 0 To subjects.Count - 1
@@ -1336,14 +1336,14 @@ Namespace regression
             Dim colLabels(nCols - 1) As String
 
             For i As Integer = 0 To nRows - 1
-                rowLabels(i) = SafeMatrixLabel(labels, i, "V" & CStr(i + 1))
+                rowLabels(i) = SafeMatrixLabel(labels, i, "V" & (i + 1).ToString(Globalization.CultureInfo.InvariantCulture))
                 For j As Integer = 0 To nCols - 1
                     body(i, j) = mat(i, j)
                 Next
             Next
 
             For j As Integer = 0 To nCols - 1
-                colLabels(j) = SafeMatrixLabel(labels, j, "V" & CStr(j + 1))
+                colLabels(j) = SafeMatrixLabel(labels, j, "V" & (j + 1).ToString(Globalization.CultureInfo.InvariantCulture))
             Next
 
             t.SetBody(body)
@@ -1380,7 +1380,7 @@ Namespace regression
             If ts.TotalHours >= 1.0 Then
                 Return String.Format(Globalization.CultureInfo.InvariantCulture,
                                      "{0}:{1:00}:{2:00}.{3:000}",
-                                     CInt(Math.Floor(ts.TotalHours)),
+                                     Convert.ToInt32(Math.Floor(ts.TotalHours)),
                                      ts.Minutes,
                                      ts.Seconds,
                                      ts.Milliseconds)
@@ -1389,7 +1389,7 @@ Namespace regression
             If ts.TotalMinutes >= 1.0 Then
                 Return String.Format(Globalization.CultureInfo.InvariantCulture,
                                      "{0}:{1:00}.{2:000}",
-                                     CInt(Math.Floor(ts.TotalMinutes)),
+                                     Convert.ToInt32(Math.Floor(ts.TotalMinutes)),
                                      ts.Seconds,
                                      ts.Milliseconds)
             End If

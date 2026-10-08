@@ -1,6 +1,8 @@
 Option Explicit On
 Option Strict On
 
+Imports BESHStatNG.Matrix
+
 Namespace regression
 
     ''' <summary>
@@ -47,7 +49,7 @@ Namespace regression
 
         Public Function FormatProfileValue(v As Double) As String
             If Not AppInfrastructure.IsFinite(v) Then Return String.Empty
-            If Math.Abs(v - Math.Round(v)) < 0.000000001 Then Return CStr(CLng(Math.Round(v)))
+            If Math.Abs(v - Math.Round(v)) < 0.000000001 Then Return Convert.ToInt64(Math.Round(v)).ToString(System.Globalization.CultureInfo.InvariantCulture)
             Return v.ToString("G6", System.Globalization.CultureInfo.InvariantCulture)
         End Function
 
@@ -83,7 +85,7 @@ Namespace regression
             If count <= 0 Then Return Nothing
 
             For j As Integer = 0 To p - 1
-                out(j) /= CDbl(count)
+                out(j) /= Convert.ToDouble(count)
             Next
 
             Return out
@@ -117,10 +119,10 @@ Namespace regression
                                                treatmentMinusControlText As String,
                                                controlMinusTreatmentText As String) As Double()
             If String.Equals(direction, controlMinusTreatmentText, StringComparison.OrdinalIgnoreCase) Then
-                Return Matrix.M_SUB(lControl, lTreatment)
+                Return MatrixArithmeticCore.Subtract(lControl, lTreatment)
             End If
 
-            Return Matrix.M_SUB(lTreatment, lControl)
+            Return MatrixArithmeticCore.Subtract(lTreatment, lControl)
         End Function
 
 
@@ -301,7 +303,7 @@ Namespace regression
 
             Dim statLabel As String = If(String.IsNullOrWhiteSpace(result.BetaStatisticLabel), "z", result.BetaStatisticLabel)
             Dim pLabel As String = If(String.IsNullOrWhiteSpace(result.BetaPValueLabel), "Pr(>|z|)", result.BetaPValueLabel)
-            Dim levelText As String = Format((1.0 - alphaUse) * 100.0, "0.###") & "% CI"
+            Dim levelText As String = ((1.0 - alphaUse) * 100.0).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture) & "% CI"
 
             For i As Integer = 0 To n - 1
                 Dim est As Double = Double.NaN
@@ -364,7 +366,7 @@ Namespace regression
 
             Dim statLabel As String = If(String.IsNullOrWhiteSpace(result.BetaStatisticLabel), "z", result.BetaStatisticLabel)
             Dim pLabel As String = If(String.IsNullOrWhiteSpace(result.BetaPValueLabel), "Pr(>|z|)", result.BetaPValueLabel)
-            Dim levelText As String = Format((1.0 - alphaUse) * 100.0, "0.###") & "% CI"
+            Dim levelText As String = ((1.0 - alphaUse) * 100.0).ToString("0.###", System.Globalization.CultureInfo.InvariantCulture) & "% CI"
 
             For i As Integer = 0 To n - 1
                 Dim est As Double = Double.NaN
