@@ -2,8 +2,8 @@ Option Explicit On
 Option Strict On
 
 Imports System
-Imports System.Text
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -13,9 +13,8 @@ Namespace regression
     ''' <remarks>
     ''' <para>
     ''' This module is the numerical bridge between the model specification layer
-    ''' (<see cref="MixedModelFitRequest"/>, <see cref="MixedModelGStruct"/>,
-    ''' <see cref="MixedModelRStruct"/>) and the eventual likelihood evaluator
-    ''' (<c>MixedModelEngine</c>).  It deliberately contains only matrix/block
+    ''' (<see cref="MixedModelGStruct"/> and <see cref="MixedModelRStruct"/>) and
+    ''' higher-level mixed-model likelihood evaluation. It deliberately contains only matrix/block
     ''' operations and does not know anything about Excel ranges, UI dialogs, or
     ''' formula parsing.
     ''' </para>
@@ -34,7 +33,7 @@ Namespace regression
     ''' </para>
     ''' <list type="bullet">
     ''' <item><description>All covariance work is subject-block based; this matches the likelihood needed for LMM and MMRM.</description></item>
-    ''' <item><description>Positive-definite solves are delegated to the existing project Cholesky routines in <c>Matrix.vb</c>.</description></item>
+    ''' <item><description>Positive-definite solves are delegated to the host-neutral Core Cholesky routines.</description></item>
     ''' <item><description>No Moore-Penrose fallback is used here.  During likelihood optimization, non-SPD covariance proposals should be rejected or penalized, not silently pseudo-inverted.</description></item>
     ''' <item><description>Optional diagonal jitter is available only through explicit helper methods, mainly for diagnostics and controlled optimizer retry logic.</description></item>
     ''' <item><description>Each public operation accepts an optional in-memory trace buffer while also writing through <see cref="CoreServices.logger"/>.  This mirrors the GLM/GEE logging style and allows the future engine/UI to expose detailed diagnostics to the user.</description></item>
@@ -85,7 +84,7 @@ Namespace regression
             Dim ri(,) As Double = rStruct.BuildRi(thetaR, block, data, strTrace)
             ValidateSquareMatrix(ri, block.Nobs, "R_i")
 
-            Dim vi(,) As Double = Matrix.CloneMatrix(ri)
+            Dim vi(,) As Double = DirectCast(ri.Clone(), Double(,))
 
             Dim addGSide As Boolean = False
             If gStruct IsNot Nothing AndAlso Not gStruct.IsDegenerateZeroG() Then
@@ -105,7 +104,7 @@ Namespace regression
                 Else
                     ValidateSquareMatrix(gMat, block.Q, "G")
                     Dim zigzit(,) As Double = BuildZiGZiT(block, gMat, strTrace)
-                    vi = Matrix.M_ADD(vi, zigzit)
+                    vi = MatrixArithmeticCore.Add(vi, zigzit)
                     LogTrace($"MixedModelCovariance.BuildVi added Z_i G Z_i' contribution for subject='{block.SubjectKey}'.", strTrace)
                 End If
             Else
@@ -113,7 +112,7 @@ Namespace regression
             End If
 
             WarnIfNotSymmetric(vi, "V_i", strTrace)
-            regression.MixedModelEngine.SymmetrizeInPlace(vi)
+            SymmetrizeInPlace(vi)
 
             LogTrace($"MixedModelCovariance.BuildVi completed subject='{block.SubjectKey}', dim={vi.GetLength(0)}.", strTrace)
             Return vi
@@ -138,13 +137,13 @@ Namespace regression
             Dim q As Integer = block.Q
             ValidateSquareMatrix(gMat, q, "G")
 
-            Dim zg(,) As Double = Matrix.MatrixMult(z, gMat)
-            Dim zt(,) As Double = Matrix.trans(z)
-            Dim out(,) As Double = Matrix.MatrixMult(zg, zt)
+            Dim zg(,) As Double = MatrixArithmeticCore.Multiply(z, gMat)
+            Dim zt(,) As Double = MatrixArithmeticCore.Transpose(z)
+            Dim out(,) As Double = MatrixArithmeticCore.Multiply(zg, zt)
 
             ValidateSquareMatrix(out, n, "Z_i G Z_i'")
             WarnIfNotSymmetric(out, "Z_i G Z_i'", strTrace)
-            MixedModelEngine.SymmetrizeInPlace(out)
+            SymmetrizeInPlace(out)
             LogTrace($"MixedModelCovariance.BuildZiGZiT subject='{block.SubjectKey}', n={n}, q={q}.", strTrace)
             Return out
         End Function
@@ -169,7 +168,7 @@ Namespace regression
                                     Optional ByRef strTrace As String = Nothing) As Boolean
             ValidateSquareMatrix(vMat, -1, "V")
             Dim iErr As Integer = 0
-            chol = Global.BESHStatNG.Matrix.Matrix.Cholesky(Matrix.CloneMatrix(vMat), iErr, False)
+            chol = MatrixFactorizationCore.Cholesky(DirectCast(vMat.Clone(), Double(,)), iErr, False)
             If iErr <> 0 Then
                 LogTrace($"MixedModelCovariance.TryCholesky failed with iErr={iErr}; dim={vMat.GetLength(0)}.", strTrace)
                 Return False
@@ -242,7 +241,7 @@ Namespace regression
         ''' </summary>
         Public Function AddDiagonalJitter(mat(,) As Double, jitter As Double) As Double(,)
             ValidateSquareMatrix(mat, -1, "matrix")
-            Dim out(,) As Double = Matrix.CloneMatrix(mat)
+            Dim out(,) As Double = DirectCast(mat.Clone(), Double(,))
             For i As Integer = 0 To out.GetUpperBound(0)
                 out(i, i) += jitter
             Next
@@ -279,7 +278,7 @@ Namespace regression
             If rhs Is Nothing Then Throw New ArgumentNullException(NameOf(rhs))
             ValidateSquareMatrix(vMat, rhs.GetLength(0), "V")
             Dim chol(,) As Double = CholeskyStrict(vMat, "V", strTrace)
-            Dim out(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(chol, rhs)
+            Dim out(,) As Double = MatrixFactorizationCore.CholeskySolve(chol, rhs)
             LogTrace($"MixedModelCovariance.SolveSPD solved dim={vMat.GetLength(0)} with rhsCols={rhs.GetLength(1)}.", strTrace)
             Return out
         End Function
@@ -293,7 +292,7 @@ Namespace regression
             If rhs Is Nothing Then Throw New ArgumentNullException(NameOf(rhs))
             ValidateSquareMatrix(vMat, rhs.Length, "V")
             Dim chol(,) As Double = CholeskyStrict(vMat, "V", strTrace)
-            Dim out() As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(chol, rhs)
+            Dim out() As Double = MatrixFactorizationCore.CholeskySolve(chol, rhs)
             LogTrace($"MixedModelCovariance.SolveSPDVector solved dim={vMat.GetLength(0)}.", strTrace)
             Return out
         End Function
@@ -309,7 +308,7 @@ Namespace regression
         Public Function InverseSPD(vMat(,) As Double,
                                    Optional ByRef strTrace As String = Nothing) As Double(,)
             Dim chol(,) As Double = CholeskyStrict(vMat, "V", strTrace)
-            Dim out(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholInv(chol)
+            Dim out(,) As Double = MatrixFactorizationCore.CholeskyInverse(chol)
             LogTrace($"MixedModelCovariance.InverseSPD inverted dim={vMat.GetLength(0)}.", strTrace)
             Return out
         End Function
@@ -322,8 +321,8 @@ Namespace regression
                                                   Optional ByRef strTrace As String = Nothing) As Double
             If residual Is Nothing Then Throw New ArgumentNullException(NameOf(residual))
             ValidateSquareMatrix(chol, residual.Length, "Cholesky factor")
-            Dim solved() As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(chol, residual)
-            Dim out As Double = Matrix.DotProduct(residual, solved)
+            Dim solved() As Double = MatrixFactorizationCore.CholeskySolve(chol, residual)
+            Dim out As Double = MatrixArithmeticCore.DotProduct(residual, solved)
             LogTrace($"MixedModelCovariance.QuadraticFormFromCholesky q={out}.", strTrace)
             Return out
         End Function
@@ -346,7 +345,7 @@ Namespace regression
             If block Is Nothing Then Throw New ArgumentNullException(NameOf(block))
             If betaHat Is Nothing Then Throw New ArgumentNullException(NameOf(betaHat))
             If betaHat.Length <> block.P Then Throw New ApplicationException($"betaHat length ({betaHat.Length}) must equal block.P ({block.P}).")
-            Return Matrix.MatrixVectorMultiply(block.X, betaHat)
+            Return MatrixArithmeticCore.MultiplyVector(block.X, betaHat)
         End Function
 
         ''' <summary>
@@ -391,10 +390,10 @@ Namespace regression
 
             Dim resid() As Double = ComputeMarginalResidual(block, betaHat)
             Dim z(,) As Double = block.Z
-            Dim zt(,) As Double = Matrix.trans(z)
-            Dim ztVinv(,) As Double = Matrix.MatrixMult(zt, vInv)
-            Dim ztVinvResid() As Double = Matrix.MatrixVectorMultiply(ztVinv, resid)
-            Dim out() As Double = Matrix.MatrixVectorMultiply(gMat, ztVinvResid)
+            Dim zt(,) As Double = MatrixArithmeticCore.Transpose(z)
+            Dim ztVinv(,) As Double = MatrixArithmeticCore.Multiply(zt, vInv)
+            Dim ztVinvResid() As Double = MatrixArithmeticCore.MultiplyVector(ztVinv, resid)
+            Dim out() As Double = MatrixArithmeticCore.MultiplyVector(gMat, ztVinvResid)
 
             LogTrace($"MixedModelCovariance.ComputeBLUP subject='{block.SubjectKey}', q={out.Length}.", strTrace)
             Return out
@@ -410,7 +409,7 @@ Namespace regression
         ''' <param name="yVinvY">Accumulated scalar <c>y' V^-1 y</c>.</param>
         ''' <param name="strTrace">Optional in-memory trace accumulator.</param>
         ''' <remarks>
-        ''' This routine is designed for the future <c>MixedModelEngine</c>.  For each subject it solves
+        ''' For each subject this routine solves
         ''' <c>V_i^-1 X_i</c> and <c>V_i^-1 y_i</c>, then accumulates the sufficient cross-products used to
         ''' profile out <c>beta</c> in the ML/REML objective.
         ''' </remarks>
@@ -435,12 +434,12 @@ Namespace regression
 
             Dim x(,) As Double = block.X
             Dim y() As Double = block.Y
-            Dim vinvX(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(cholV, x)
-            Dim vinvY() As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(cholV, y)
+            Dim vinvX(,) As Double = MatrixFactorizationCore.CholeskySolve(cholV, x)
+            Dim vinvY() As Double = MatrixFactorizationCore.CholeskySolve(cholV, y)
 
-            Dim xt(,) As Double = Matrix.trans(x)
-            Dim blockXtVinvX(,) As Double = Matrix.MatrixMult(xt, vinvX)
-            Dim blockXtVinvY() As Double = Matrix.MatrixVectorMultiply(xt, vinvY)
+            Dim xt(,) As Double = MatrixArithmeticCore.Transpose(x)
+            Dim blockXtVinvX(,) As Double = MatrixArithmeticCore.Multiply(xt, vinvX)
+            Dim blockXtVinvY() As Double = MatrixArithmeticCore.MultiplyVector(xt, vinvY)
 
             For r As Integer = 0 To block.P - 1
                 xtVinvY(r) += blockXtVinvY(r)
@@ -449,7 +448,7 @@ Namespace regression
                 Next
             Next
 
-            yVinvY += Matrix.DotProduct(y, vinvY)
+            yVinvY += MatrixArithmeticCore.DotProduct(y, vinvY)
             LogTrace($"MixedModelCovariance.AccumulateProfileCrossProducts subject='{block.SubjectKey}', p={block.P}, n={block.Nobs}.", strTrace)
         End Sub
 
@@ -472,10 +471,23 @@ Namespace regression
         ''' Returns a symmetrized copy <c>(A + A') / 2</c>.
         ''' </summary>
         Public Function SymmetrizedCopy(mat(,) As Double) As Double(,)
-            Dim out(,) As Double = Matrix.CloneMatrix(mat)
-            MixedModelEngine.SymmetrizeInPlace(out)
+            Dim out(,) As Double = DirectCast(mat.Clone(), Double(,))
+            SymmetrizeInPlace(out)
             Return out
         End Function
+
+        Private Sub SymmetrizeInPlace(mat(,) As Double)
+            If mat Is Nothing Then Throw New ArgumentNullException(NameOf(mat))
+            If mat.GetLength(0) <> mat.GetLength(1) Then Throw New ApplicationException("matrix must be square.")
+
+            For i As Integer = 0 To mat.GetLength(0) - 1
+                For j As Integer = i + 1 To mat.GetLength(1) - 1
+                    Dim value As Double = 0.5 * (mat(i, j) + mat(j, i))
+                    mat(i, j) = value
+                    mat(j, i) = value
+                Next
+            Next
+        End Sub
 
         Private Sub ValidateSquareMatrix(mat(,) As Double, expectedDim As Integer, label As String)
             If mat Is Nothing Then Throw New ArgumentNullException(label)
@@ -497,7 +509,7 @@ Namespace regression
             If strTrace Is Nothing OrElse strTrace = String.Empty Then
                 strTrace = message
             Else
-                strTrace &= vbNewLine & message
+                strTrace &= Environment.NewLine & message
             End If
         End Sub
 

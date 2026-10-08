@@ -5,6 +5,8 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Text
+Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -65,14 +67,14 @@ Namespace regression
                 Return False
             End If
 
-            If Not Matrix.MatrixIsFinite(a) Then
+            If Not MatrixArithmeticCore.MatrixIsFinite(a) Then
                 diagnostic = "Matrix contains non-finite values."
                 detail.DiagnosticMessage = diagnostic
                 Return False
             End If
 
             Dim work(,) As Double = DirectCast(a.Clone(), Double(,))
-            MixedModelEngine.SymmetrizeInPlace(work)
+            SymmetrizeInPlace(work)
 
             Dim condition As Double = EstimateConditionNumberBySvd(work, relativeTolerance, absoluteTolerance)
             Dim rank As Integer = NumericRankBySvd(work, relativeTolerance, absoluteTolerance)
@@ -83,8 +85,8 @@ Namespace regression
             Dim trace As String = String.Empty
             If MixedModelCovariance.TryCholesky(work, chol, trace) Then
                 Try
-                    inv = Global.BESHStatNG.Matrix.Matrix.CholInv(chol)
-                    If inv IsNot Nothing AndAlso Matrix.MatrixIsFinite(inv) Then
+                    inv = MatrixFactorizationCore.CholeskyInverse(chol)
+                    If inv IsNot Nothing AndAlso MatrixArithmeticCore.MatrixIsFinite(inv) Then
                         detail.Success = True
                         detail.Method = "Cholesky"
                         detail.UsedPseudoInverse = False
@@ -105,14 +107,14 @@ Namespace regression
 
             Try
                 Dim singularTol As Double = ResolveSvdTolerance(work, relativeTolerance, absoluteTolerance)
-                inv = Global.BESHStatNG.Matrix.Matrix.pseudoInverse(work, singularTol)
-                If inv Is Nothing OrElse Not Matrix.MatrixIsFinite(inv) Then
+                inv = MatrixDecompositionCore.ComputePseudoInverse(work, singularTol)
+                If inv Is Nothing OrElse Not MatrixArithmeticCore.MatrixIsFinite(inv) Then
                     diagnostic = "SVD pseudoinverse returned an invalid matrix."
                     detail.DiagnosticMessage = diagnostic
                     Return False
                 End If
 
-                MixedModelEngine.SymmetrizeInPlace(inv)
+                SymmetrizeInPlace(inv)
                 detail.Success = True
                 detail.Method = "SVD pseudoinverse"
                 detail.UsedPseudoInverse = True
@@ -134,21 +136,21 @@ Namespace regression
 
             Try
                 Dim copy(,) As Double = DirectCast(a.Clone(), Double(,))
-                Dim svd As Global.BESHStatNG.Matrix.Matrix.SVDoutput = Global.BESHStatNG.Matrix.Matrix.SVD_decomp(copy)
-                If svd Is Nothing OrElse svd.Wvect Is Nothing OrElse svd.Wvect.Length = 0 Then Return Double.NaN
+                Dim svd As MatrixDecompositionCore.SvdResult = MatrixDecompositionCore.DecomposeSvd(copy)
+                If svd Is Nothing OrElse svd.SingularValues Is Nothing OrElse svd.SingularValues.Length = 0 Then Return Double.NaN
 
                 Dim maxS As Double = 0.0
-                For Each s As Double In svd.Wvect
-                    If AppInfrastructure.IsFinite(s) Then maxS = Math.Max(maxS, Math.Abs(s))
+                For Each s As Double In svd.SingularValues
+                    If NumericGuards.IsFinite(s) Then maxS = Math.Max(maxS, Math.Abs(s))
                 Next
                 If maxS <= 0.0 Then Return Double.PositiveInfinity
 
-                Dim tol As Double = Math.Max(absoluteTolerance, Math.Abs(relativeTolerance) * maxS * CDbl(Math.Max(a.GetLength(0), a.GetLength(1))))
+                Dim tol As Double = Math.Max(absoluteTolerance, Math.Abs(relativeTolerance) * maxS * Convert.ToDouble(Math.Max(a.GetLength(0), a.GetLength(1))))
                 Dim minS As Double = Double.PositiveInfinity
 
-                For Each s As Double In svd.Wvect
+                For Each s As Double In svd.SingularValues
                     Dim asv As Double = Math.Abs(s)
-                    If AppInfrastructure.IsFinite(asv) AndAlso asv > tol Then minS = Math.Min(minS, asv)
+                    If NumericGuards.IsFinite(asv) AndAlso asv > tol Then minS = Math.Min(minS, asv)
                 Next
 
                 If Double.IsPositiveInfinity(minS) OrElse minS <= 0.0 Then Return Double.PositiveInfinity
@@ -166,19 +168,19 @@ Namespace regression
 
             Try
                 Dim copy(,) As Double = DirectCast(a.Clone(), Double(,))
-                Dim svd As Global.BESHStatNG.Matrix.Matrix.SVDoutput = Global.BESHStatNG.Matrix.Matrix.SVD_decomp(copy)
-                If svd Is Nothing OrElse svd.Wvect Is Nothing Then Return 0
+                Dim svd As MatrixDecompositionCore.SvdResult = MatrixDecompositionCore.DecomposeSvd(copy)
+                If svd Is Nothing OrElse svd.SingularValues Is Nothing Then Return 0
 
                 Dim maxS As Double = 0.0
-                For Each s As Double In svd.Wvect
-                    If AppInfrastructure.IsFinite(s) Then maxS = Math.Max(maxS, Math.Abs(s))
+                For Each s As Double In svd.SingularValues
+                    If NumericGuards.IsFinite(s) Then maxS = Math.Max(maxS, Math.Abs(s))
                 Next
                 If maxS <= 0.0 Then Return 0
 
-                Dim tol As Double = Math.Max(absoluteTolerance, Math.Abs(relativeTolerance) * maxS * CDbl(Math.Max(a.GetLength(0), a.GetLength(1))))
+                Dim tol As Double = Math.Max(absoluteTolerance, Math.Abs(relativeTolerance) * maxS * Convert.ToDouble(Math.Max(a.GetLength(0), a.GetLength(1))))
                 Dim rank As Integer = 0
-                For Each s As Double In svd.Wvect
-                    If AppInfrastructure.IsFinite(s) AndAlso Math.Abs(s) > tol Then rank += 1
+                For Each s As Double In svd.SingularValues
+                    If NumericGuards.IsFinite(s) AndAlso Math.Abs(s) > tol Then rank += 1
                 Next
                 Return rank
 
@@ -203,7 +205,7 @@ Namespace regression
         End Function
 
         Public Function WarningForConditionNumber(label As String, conditionNumber As Double) As String
-            If Not AppInfrastructure.IsFinite(conditionNumber) Then
+            If Not NumericGuards.IsFinite(conditionNumber) Then
                 If Double.IsPositiveInfinity(conditionNumber) Then Return label & " is numerically rank deficient."
                 Return String.Empty
             End If
@@ -223,24 +225,34 @@ Namespace regression
             warnings.Add(message)
         End Sub
 
+        Private Sub SymmetrizeInPlace(a(,) As Double)
+            For i As Integer = 0 To a.GetLength(0) - 1
+                For j As Integer = i + 1 To a.GetLength(1) - 1
+                    Dim value As Double = 0.5 * (a(i, j) + a(j, i))
+                    a(i, j) = value
+                    a(j, i) = value
+                Next
+            Next
+        End Sub
+
         Private Function ResolveSvdTolerance(a(,) As Double, relativeTolerance As Double, absoluteTolerance As Double) As Double
             Try
                 Dim copy(,) As Double = DirectCast(a.Clone(), Double(,))
-                Dim svd As Global.BESHStatNG.Matrix.Matrix.SVDoutput = Global.BESHStatNG.Matrix.Matrix.SVD_decomp(copy)
+                Dim svd As MatrixDecompositionCore.SvdResult = MatrixDecompositionCore.DecomposeSvd(copy)
                 Dim maxS As Double = 0.0
-                If svd IsNot Nothing AndAlso svd.Wvect IsNot Nothing Then
-                    For Each s As Double In svd.Wvect
-                        If AppInfrastructure.IsFinite(s) Then maxS = Math.Max(maxS, Math.Abs(s))
+                If svd IsNot Nothing AndAlso svd.SingularValues IsNot Nothing Then
+                    For Each s As Double In svd.SingularValues
+                        If NumericGuards.IsFinite(s) Then maxS = Math.Max(maxS, Math.Abs(s))
                     Next
                 End If
-                Return Math.Max(absoluteTolerance, Math.Abs(relativeTolerance) * maxS * CDbl(Math.Max(a.GetLength(0), a.GetLength(1))))
+                Return Math.Max(absoluteTolerance, Math.Abs(relativeTolerance) * maxS * Convert.ToDouble(Math.Max(a.GetLength(0), a.GetLength(1))))
             Catch
                 Return Math.Max(absoluteTolerance, Math.Abs(relativeTolerance))
             End Try
         End Function
 
         Private Function BuildInverseDiagnostic(detail As MixedModelNumericalInverseResult) As String
-            Dim conditionText As String = If(AppInfrastructure.IsFinite(detail.ConditionNumber),
+            Dim conditionText As String = If(NumericGuards.IsFinite(detail.ConditionNumber),
                                              detail.ConditionNumber.ToString("G6", CultureInfo.InvariantCulture),
                                              If(Double.IsPositiveInfinity(detail.ConditionNumber), "Infinity", "NaN"))
             Return "Inversion method=" & detail.Method & "; rank=" & detail.Rank.ToString(CultureInfo.InvariantCulture) & "; condition=" & conditionText & "."
