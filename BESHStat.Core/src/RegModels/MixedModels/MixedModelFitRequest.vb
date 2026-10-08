@@ -275,7 +275,7 @@ Namespace regression
 
         ''' <summary>
         ''' Fixed-effect inference method used when computing coefficient test statistics, p-values,
-        ''' and confidence intervals in <see cref="MixedModelResult.wrapResults"/>.
+        ''' and confidence intervals in mixed-model result reporting.
         ''' </summary>
         ''' <remarks>
         ''' The numerical likelihood fit itself is unchanged by this option.  It affects only the
@@ -587,7 +587,7 @@ Namespace regression
             If String.IsNullOrEmpty(strTrace) Then
                 strTrace = line
             Else
-                strTrace &= vbNewLine & line
+                strTrace &= Environment.NewLine & line
             End If
         End Sub
 

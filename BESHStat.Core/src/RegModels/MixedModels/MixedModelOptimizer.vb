@@ -4,6 +4,7 @@ Option Strict On
 Imports System
 Imports System.Collections.Generic
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -216,7 +217,7 @@ Namespace regression
                 End If
             Next
 
-            LogTrace($"MixedModelOptimizer.NumericalGradient completed. dim={point.Length}; gradNorm={Matrix.VectorNorm(g)}", strTrace)
+            LogTrace($"MixedModelOptimizer.NumericalGradient completed. dim={point.Length}; gradNorm={MatrixArithmeticCore.VectorNorm(g)}", strTrace)
             Return g
         End Function
 
@@ -337,7 +338,7 @@ Namespace regression
                 End If
 
                 Dim traceRows As New List(Of Double())()
-                Dim inverseHessianApprox(,) As Double = Matrix.IdentityMat(theta.Length - 1)
+                Dim inverseHessianApprox(,) As Double = MatrixArithmeticCore.IdentityMatrix(theta.Length - 1)
                 Dim previousThetaForBfgs() As Double = Nothing
                 Dim previousGradientForBfgs() As Double = Nothing
                 Dim bfgsEnabled As Boolean = useBfgsDirection AndAlso theta.Length > 0
@@ -371,15 +372,15 @@ Namespace regression
                     Dim pg() As Double = ProjectedGradient(theta, g, lower, upper)
 
                     If bfgsEnabled AndAlso previousThetaForBfgs IsNot Nothing AndAlso previousGradientForBfgs IsNot Nothing Then
-                        Dim sStep() As Double = Matrix.M_SUB(theta, previousThetaForBfgs)
-                        Dim yStep() As Double = Matrix.M_SUB(g, previousGradientForBfgs)
+                        Dim sStep() As Double = MatrixArithmeticCore.Subtract(theta, previousThetaForBfgs)
+                        Dim yStep() As Double = MatrixArithmeticCore.Subtract(g, previousGradientForBfgs)
                         If Not TryUpdateInverseBfgs(inverseHessianApprox, sStep, yStep, strTrace) Then
-                            inverseHessianApprox = Matrix.IdentityMat(theta.Length - 1)
+                            inverseHessianApprox = MatrixArithmeticCore.IdentityMatrix(theta.Length - 1)
                             state.BfgsResetCount += 1
                         End If
                     End If
 
-                    Dim gradNorm As Double = Matrix.VectorNorm(pg)
+                    Dim gradNorm As Double = MatrixArithmeticCore.VectorNorm(pg)
                     state.GradNorm = gradNorm
                     state.Iterations = iter - 1
 
@@ -390,7 +391,7 @@ Namespace regression
                         Exit For
                     End If
 
-                    Dim steepestDirection() As Double = Matrix.NegativeVector(pg)
+                    Dim steepestDirection() As Double = MatrixArithmeticCore.NegateVector(pg)
                     Dim directionCandidates As New List(Of Double())()
                     Dim usedBfgsCandidate As Boolean = False
 
@@ -412,7 +413,7 @@ Namespace regression
 
                     For directionIndex As Integer = 0 To directionCandidates.Count - 1
                         Dim direction() As Double = directionCandidates(directionIndex)
-                        Dim slope As Double = Matrix.DotProduct(g, direction)
+                        Dim slope As Double = MatrixArithmeticCore.DotProduct(g, direction)
 
                         If slope >= 0.0 OrElse Not IsFinite(slope) Then
                             If directionIndex = 0 AndAlso usedBfgsCandidate Then
@@ -468,7 +469,7 @@ Namespace regression
 
                         If accepted Then Exit For
                         If directionIndex = 0 AndAlso usedBfgsCandidate Then
-                            inverseHessianApprox = Matrix.IdentityMat(theta.Length - 1)
+                            inverseHessianApprox = MatrixArithmeticCore.IdentityMatrix(theta.Length - 1)
                             state.BfgsResetCount += 1
                             LogTrace($"MixedModelOptimizer BFGS line search failed at iteration {iter}; retrying steepest descent fallback and resetting BFGS memory.", strTrace)
                         End If
@@ -505,7 +506,7 @@ Namespace regression
                     If iterationCallback IsNot Nothing Then iterationCallback(state)
 
                     If storeTraceTable Then
-                        traceRows.Add(New Double() {CDbl(iter), fOld, gradNorm, stepNorm, alpha, f})
+                        traceRows.Add(New Double() {Convert.ToDouble(iter), fOld, gradNorm, stepNorm, alpha, f})
                     End If
 
                     If iter = 1 OrElse iter Mod 5 = 0 Then
@@ -624,7 +625,7 @@ Namespace regression
         Private Function BfgsSearchDirection(inverseHessianApprox(,) As Double, gradient() As Double) As Double()
             Dim hg() As Double = MatrixVectorProduct(inverseHessianApprox, gradient)
             If hg Is Nothing Then Return Nothing
-            Return Matrix.NegativeVector(hg)
+            Return MatrixArithmeticCore.NegateVector(hg)
         End Function
 
         Private Function TryUpdateInverseBfgs(ByRef inverseHessianApprox(,) As Double,
@@ -636,8 +637,8 @@ Namespace regression
             If n = 0 OrElse yStep.Length <> n Then Return False
             If inverseHessianApprox.GetLength(0) <> n OrElse inverseHessianApprox.GetLength(1) <> n Then Return False
 
-            Dim ys As Double = Matrix.DotProduct(yStep, sStep)
-            Dim scale As Double = Math.Max(1.0, Matrix.VectorNorm(yStep) * Matrix.VectorNorm(sStep))
+            Dim ys As Double = MatrixArithmeticCore.DotProduct(yStep, sStep)
+            Dim scale As Double = Math.Max(1.0, MatrixArithmeticCore.VectorNorm(yStep) * MatrixArithmeticCore.VectorNorm(sStep))
             If Not IsFinite(ys) OrElse ys <= 0.000000000001 * scale Then
                 LogTrace("MixedModelOptimizer skipped BFGS update because curvature was non-positive or too small.", strTrace)
                 Return False
@@ -645,7 +646,7 @@ Namespace regression
 
             Dim hy() As Double = MatrixVectorProduct(inverseHessianApprox, yStep)
             If hy Is Nothing Then Return False
-            Dim yhy As Double = Matrix.DotProduct(yStep, hy)
+            Dim yhy As Double = MatrixArithmeticCore.DotProduct(yStep, hy)
             If Not IsFinite(yhy) Then Return False
 
             Dim rho As Double = 1.0 / ys
@@ -912,7 +913,7 @@ Namespace regression
             If strTrace Is Nothing OrElse strTrace = String.Empty Then
                 strTrace = message
             Else
-                strTrace &= vbNewLine & message
+                strTrace &= Environment.NewLine & message
             End If
         End Sub
 
