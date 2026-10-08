@@ -5,6 +5,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Text
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -642,7 +643,7 @@ Namespace regression
                                        pMats,
                                        qMats,
                                        rMats,
-                                       CDbl(group.Count))
+                                       Convert.ToDouble(group.Count))
                 Next
 
                 NormalizeKrFirstOrderMatrixSymmetry(pMats, qMats)
@@ -881,7 +882,7 @@ Namespace regression
                                            targetR(,,,) As Double,
                                            multiplier As Double)
             Dim leftVInv(,) As Double = XTransposeTimesMatrix(block.X, block.VInv)
-            Dim rightVInvX(,) As Double = Matrix.MatrixMult(block.VInv, block.X)
+            Dim rightVInvX(,) As Double = MatrixArithmeticCore.Multiply(block.VInv, block.X)
             Dim leftDerivative As New List(Of Double(,))(k)
             Dim rightDerivative As New List(Of Double(,))(k)
 
@@ -889,7 +890,7 @@ Namespace regression
                 Dim leftTimesDvh(,) As Double = MatrixTimesTensor3Slice(leftVInv, block.DV, h)
                 AddMatrixProductIntoSlice3D(targetP, h, leftTimesDvh, rightVInvX, multiplier)
 
-                leftDerivative.Add(Matrix.MatrixMult(leftTimesDvh, block.VInv))
+                leftDerivative.Add(MatrixArithmeticCore.Multiply(leftTimesDvh, block.VInv))
                 rightDerivative.Add(Tensor3SliceTimesMatrix(block.DV, h, rightVInvX))
             Next
 
@@ -945,13 +946,13 @@ Namespace regression
 
             For h As Integer = 0 To k - 1
                 Dim dVh(,) As Double = Slice3D(block.DV, h)
-                Dim vinvDvhVinv(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(block.VInv, dVh), block.VInv)
+                Dim vinvDvhVinv(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(block.VInv, dVh), block.VInv)
                 Dim ph(,) As Double = XtAX(block.X, vinvDvhVinv)
                 AddIntoSlice3D(localP, h, ph)
 
                 For j As Integer = h To k - 1
                     Dim dVj(,) As Double = Slice3D(block.DV, j)
-                    Dim qCore(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(vinvDvhVinv, dVj), block.VInv)
+                    Dim qCore(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(vinvDvhVinv, dVj), block.VInv)
                     Dim qhj(,) As Double = XtAX(block.X, qCore)
                     AddIntoSlice4D(localQ, h, j, qhj)
                     pairDiagnostics.QPairMatricesComputed += 1
@@ -967,7 +968,7 @@ Namespace regression
                 For h As Integer = 0 To k - 1
                     For j As Integer = h To k - 1
                         Dim d2(,) As Double = Slice4D(block.D2V, h, j)
-                        Dim core(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(block.VInv, d2), block.VInv)
+                        Dim core(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(block.VInv, d2), block.VInv)
                         Dim rhj(,) As Double = XtAX(block.X, core)
                         AddIntoSlice4D(localR, h, j, rhj)
                         pairDiagnostics.RPairMatricesComputed += 1
@@ -1202,7 +1203,7 @@ Namespace regression
                     Dim qhj(,) As Double = Slice4D(ws.Qmats, h, j)
                     Dim rhj(,) As Double = If(applySecondOrder, Slice4D(ws.Rmats, h, j), Nothing)
 
-                    Dim phPhiPj(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(ph, phi), pj)
+                    Dim phPhiPj(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(ph, phi), pj)
 
                     For r As Integer = 0 To p - 1
                         For c As Integer = 0 To p - 1
@@ -1218,7 +1219,7 @@ Namespace regression
                 Next
             Next
 
-            Dim add(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(phi, middle), phi)
+            Dim add(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(phi, middle), phi)
             ReDim adjustedVarBeta(p - 1, p - 1)
 
             For r As Integer = 0 To p - 1
@@ -1227,10 +1228,10 @@ Namespace regression
                 Next
             Next
 
-            MixedModelEngine.SymmetrizeInPlace(adjustedVarBeta)
+            MixedModelCovariance.SymmetrizeInPlace(adjustedVarBeta)
 
             Dim checkMessage As String = String.Empty
-            If Not Matrix.MatrixIsFiniteAndSymmetric(adjustedVarBeta, 0.00000001, checkMessage) Then
+            If Not MatrixArithmeticCore.MatrixIsFiniteAndSymmetric(adjustedVarBeta, 0.00000001, checkMessage) Then
                 diagnostic = "KR adjusted Var(beta) failed numerical sanity checks: " & checkMessage
                 ws.DiagnosticMessage = diagnostic
                 ws.AdjustmentUsed = MixedModelKenwardRogerAdjustmentKind.None

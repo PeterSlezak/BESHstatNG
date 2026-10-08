@@ -5,6 +5,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Text
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -115,7 +116,7 @@ Namespace regression
                     .OptimizerThetaCovariance = CType(optimizerThetaCovariance.Clone(), Double(,)),
                     .KrTheta = CType(optimizerTheta.Clone(), Double()),
                     .KrThetaCovariance = CType(optimizerThetaCovariance.Clone(), Double(,)),
-                    .OptimizerToKrJacobian = Matrix.IdentityMat(optimizerTheta.Length - 1),
+                    .OptimizerToKrJacobian = MatrixArithmeticCore.IdentityMatrix(optimizerTheta.Length - 1),
                     .ParameterNames = GetOptimizerParameterNames(request),
                     .ParameterScale = MixedModelKrParameterScale.MmrmTheta,
                     .RequiresMmrmThetaBackTransform = False,
@@ -131,7 +132,7 @@ Namespace regression
                     .OptimizerThetaCovariance = CType(optimizerThetaCovariance.Clone(), Double(,)),
                     .KrTheta = CType(optimizerTheta.Clone(), Double()),
                     .KrThetaCovariance = CType(optimizerThetaCovariance.Clone(), Double(,)),
-                    .OptimizerToKrJacobian = Matrix.IdentityMat(optimizerTheta.Length - 1),
+                    .OptimizerToKrJacobian = MatrixArithmeticCore.IdentityMatrix(optimizerTheta.Length - 1),
                     .ParameterNames = GetOptimizerParameterNames(request),
                     .ParameterScale = MixedModelKrParameterScale.OptimizerInternal,
                     .RequiresMmrmThetaBackTransform = False,
@@ -216,7 +217,7 @@ Namespace regression
             Dim kCov As Integer = workspace.CovarianceTheta.Length
             Dim kOpt As Integer = workspace.OptimizerTheta.Length
 
-            If Not Matrix.VectorIsFinite(workspace.CovarianceTheta) Then
+            If Not MatrixArithmeticCore.VectorIsFinite(workspace.CovarianceTheta) Then
                 diagnostic = "covariance theta contains non-finite values."
                 Return False
             End If
@@ -233,7 +234,7 @@ Namespace regression
                 Return False
             End If
 
-            If Not Matrix.MatrixIsFinite(workspace.OptimizerToCovarianceJacobian) Then
+            If Not MatrixArithmeticCore.MatrixIsFinite(workspace.OptimizerToCovarianceJacobian) Then
                 diagnostic = "optimizer-to-covariance Jacobian contains non-finite values."
                 Return False
             End If
@@ -245,13 +246,13 @@ Namespace regression
                 Return False
             End If
 
-            If Not Matrix.MatrixIsFinite(transformedCovariance) Then
+            If Not MatrixArithmeticCore.MatrixIsFinite(transformedCovariance) Then
                 diagnostic = "transformed covariance-theta covariance contains non-finite values."
                 Return False
             End If
 
             Dim symMessage As String = String.Empty
-            If Not Matrix.MatrixIsFiniteAndSymmetric(transformedCovariance, 0.00000001, symMessage) Then
+            If Not MatrixArithmeticCore.MatrixIsFiniteAndSymmetric(transformedCovariance, 0.00000001, symMessage) Then
                 diagnostic = "transformed covariance-theta covariance failed finite/symmetry checks: " & symMessage
                 Return False
             End If
@@ -261,7 +262,7 @@ Namespace regression
                 Return False
             End If
 
-            regression.MixedModelEngine.SymmetrizeInPlace(transformedCovariance)
+            MixedModelCovariance.SymmetrizeInPlace(transformedCovariance)
 
             Dim jacobianRank As Integer = MixedModelNumericalDiagnostics.NumericRankBySvd(workspace.OptimizerToCovarianceJacobian)
             Dim thetaCovRank As Integer = MixedModelNumericalDiagnostics.NumericRankBySvd(transformedCovariance)
@@ -559,7 +560,7 @@ Namespace regression
             Dim rho As Double = Math.Tanh(optimizerCorrTheta)
 
             If isCompoundSymmetry Then
-                Dim a As Double = 1.0 / CDbl(m - 1)
+                Dim a As Double = 1.0 / Convert.ToDouble(m - 1)
                 If rho <= -a + 0.000000000001 OrElse rho >= 1.0 - 0.000000000001 Then
                     diagnostic = "Cannot map CS/HCS correlation to R mmrm theta: rho is outside the admissible open interval."
                     Return False
@@ -611,7 +612,7 @@ Namespace regression
             Dim corrMmrmTheta As Double = mmrmTheta(gCount + varianceCount)
             Dim rho As Double
             If isCompoundSymmetry Then
-                Dim a As Double = 1.0 / CDbl(m - 1)
+                Dim a As Double = 1.0 / Convert.ToDouble(m - 1)
                 rho = Logit.LogisticStable(corrMmrmTheta) * (1.0 + a) - a
             Else
                 Dim t As Double = corrMmrmTheta
@@ -984,7 +985,7 @@ Namespace regression
                 Next
             Next
 
-            regression.MixedModelEngine.SymmetrizeInPlace(out)
+            MixedModelCovariance.SymmetrizeInPlace(out)
             Return out
         End Function
 
@@ -1958,7 +1959,7 @@ Namespace regression
                 If data IsNot Nothing AndAlso data.UniqueVisitValues IsNot Nothing AndAlso data.UniqueVisitValues.Length = m Then
                     visit(i) = data.UniqueVisitValues(i)
                 Else
-                    visit(i) = CDbl(i + 1)
+                    visit(i) = Convert.ToDouble(i + 1)
                 End If
 
                 x(i, 0) = 1.0
@@ -2044,7 +2045,7 @@ Namespace regression
 
         Private Function CompoundSymmetryCorrelationLowerBound(q As Integer) As Double
             If q <= 1 Then Return -MAX_ABS_RHO
-            Return -1.0 / CDbl(q - 1)
+            Return -1.0 / Convert.ToDouble(q - 1)
         End Function
 
 

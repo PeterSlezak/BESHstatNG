@@ -287,7 +287,7 @@ Namespace regression
                     Dim ph(,) As Double = Slice3D(workspace.KR_P, h, p)
                     Dim pj(,) As Double = Slice3D(workspace.KR_P, j, p)
 
-                    Dim phPhiPj(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(ph, phi), pj)
+                    Dim phPhiPj(,) As Double = Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Multiply(ph, phi), pj)
 
                     For r As Integer = 0 To p - 1
                         For c As Integer = 0 To p - 1
@@ -298,7 +298,7 @@ Namespace regression
                 Next
             Next
 
-            Dim add(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(phi, middle), phi)
+            Dim add(,) As Double = Matrix.MatrixArithmeticCore.Multiply(Matrix.MatrixArithmeticCore.Multiply(phi, middle), phi)
 
             ReDim adjustedVarBeta(p - 1, p - 1)
             For r As Integer = 0 To p - 1
@@ -307,7 +307,7 @@ Namespace regression
                 Next
             Next
 
-            MixedModelEngine.SymmetrizeInPlace(adjustedVarBeta)
+            MixedModelCovariance.SymmetrizeInPlace(adjustedVarBeta)
             Return True
         End Function
 

@@ -476,7 +476,7 @@ Namespace regression
             Return out
         End Function
 
-        Private Sub SymmetrizeInPlace(mat(,) As Double)
+        Friend Sub SymmetrizeInPlace(mat(,) As Double)
             If mat Is Nothing Then Throw New ArgumentNullException(NameOf(mat))
             If mat.GetLength(0) <> mat.GetLength(1) Then Throw New ApplicationException("matrix must be square.")
 
