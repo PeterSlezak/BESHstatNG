@@ -4,6 +4,7 @@ Option Strict On
 Imports System
 Imports System.Collections.Generic
 Imports System.Diagnostics
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -122,7 +123,7 @@ Namespace regression
                     state.ObjectiveEvaluationCount += 2 ' TryEvaluateAverageInformation evaluates the profile for the analytic score and AI matrix.
 
                     Dim grad() As Double = aiResult.Gradient
-                    Dim gradNorm As Double = Matrix.VectorNorm(grad)
+                    Dim gradNorm As Double = MatrixArithmeticCore.VectorNorm(grad)
                     state.GradNorm = gradNorm
                     state.Iterations = iter - 1
                     state.Objective = aiResult.Criterion
@@ -198,7 +199,7 @@ Namespace regression
                     state.StepSize = stepScale
                     state.FunctionChange = fChange
                     diagnostics.IterationCount = iter
-                    traceRows.Add(New Double() {CDbl(iter), fOld, gradNorm, stepNorm, stepScale, current.Criterion})
+                    traceRows.Add(New Double() {Convert.ToDouble(iter), fOld, gradNorm, stepNorm, stepScale, current.Criterion})
 
                     If stepNorm <= stepTol Then
                         state.Converged = True
@@ -314,15 +315,15 @@ Namespace regression
 
                 Dim x(,) As Double = block.X
                 Dim y() As Double = block.Y
-                Dim vinv(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholInv(chol)
+                Dim vinv(,) As Double = MatrixFactorizationCore.CholeskyInverse(chol)
                 Dim pMatrix(,) As Double = vinv
                 If request.FitMethod = MixedModelFitMethod.REML Then
-                    Dim vinvX(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(chol, x)
+                    Dim vinvX(,) As Double = MatrixFactorizationCore.CholeskySolve(chol, x)
                     pMatrix = BuildRemlProjectionTraceMatrix(vinv, vinvX, profile.VarBeta)
                 End If
 
                 Dim residual() As Double = BuildResidualVector(y, x, profile.Beta)
-                Dim a() As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(chol, residual)
+                Dim a() As Double = MatrixFactorizationCore.CholeskySolve(chol, residual)
 
                 Dim derivatives As New List(Of Double(,))()
                 Dim derivativeMessage As String = Nothing
@@ -355,7 +356,7 @@ Namespace regression
                 For h As Integer = 0 To paramCount - 1
                     Dim dVhA() As Double = MatrixVectorProduct(derivatives(h), a)
                     For j As Integer = 0 To h
-                        Dim value As Double = Matrix.DotProduct(dVhA, qVectors(j))
+                        Dim value As Double = MatrixArithmeticCore.DotProduct(dVhA, qVectors(j))
                         If request.FitMethod = MixedModelFitMethod.REML Then
                             ' The criterion minimized by the engine is -2 log L, so the AI matrix is
                             ' criterion-scaled.  This is the 2*AI(logLik) equivalent of the standard
@@ -414,8 +415,8 @@ Namespace regression
                 Dim chol(,) As Double = Nothing
                 Dim tmpTrace As String = Nothing
                 If MixedModelCovariance.TryCholesky(stabilized, chol, tmpTrace) Then
-                    Dim solved() As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(chol, rhs)
-                    If Matrix.VectorIsFinite(solved) Then
+                    Dim solved() As Double = MatrixFactorizationCore.CholeskySolve(chol, rhs)
+                    If MatrixArithmeticCore.VectorIsFinite(solved) Then
                         stepDirection = solved
                         Return True
                     End If

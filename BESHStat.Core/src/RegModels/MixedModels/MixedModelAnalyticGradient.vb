@@ -5,6 +5,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Diagnostics
 Imports System.Text
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -245,7 +246,7 @@ Namespace regression
                     Dim y() As Double = block.Y
 
                     Dim residual() As Double = BuildResidualVector(y, x, profile.Beta)
-                    Dim a() As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(entry.Cholesky, residual)
+                    Dim a() As Double = MatrixFactorizationCore.CholeskySolve(entry.Cholesky, residual)
 
                     Dim contractionStopwatch As Stopwatch = Stopwatch.StartNew()
                     For h As Integer = 0 To gCount - 1
@@ -371,10 +372,10 @@ Namespace regression
             cacheStats.DerivativeMatricesBuilt += gCount + rCount
 
             Dim x(,) As Double = block.X
-            Dim vinv(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholInv(chol)
+            Dim vinv(,) As Double = MatrixFactorizationCore.CholeskyInverse(chol)
             Dim traceMatrix(,) As Double = vinv
             If request.FitMethod = MixedModelFitMethod.REML Then
-                Dim vinvX(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(chol, x)
+                Dim vinvX(,) As Double = MatrixFactorizationCore.CholeskySolve(chol, x)
                 traceMatrix = BuildRemlProjectionTraceMatrix(vinv, vinvX, profile.VarBeta)
             End If
 

@@ -9,24 +9,6 @@ Imports BESHStatNG.AppInfrastructure
 Namespace regression
 
     ''' <summary>
-    ''' Internal profiled-likelihood evaluation used by <see cref="MixedModelEngine"/>.
-    ''' </summary>
-    Friend Structure MixedModelProfileEvaluation
-        Public Success As Boolean
-        Public Message As String
-        Public Criterion As Double
-        Public LogLik As Double
-        Public Beta() As Double
-        Public VarBeta(,) As Double
-        Public XtVinvX(,) As Double
-        Public XtVinvY() As Double
-        Public QForm As Double
-        Public LogDetV As Double
-        Public LogDetXtVinvX As Double
-        Public Sigma2Profile As Double
-    End Structure
-
-    ''' <summary>
     ''' Gaussian subject-block likelihood engine for linear mixed models and MMRM.
     ''' </summary>
     ''' <remarks>
