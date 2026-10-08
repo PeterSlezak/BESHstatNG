@@ -5,6 +5,7 @@ Imports System
 Imports System.Collections.Generic
 Imports System.Text
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -43,7 +44,7 @@ Namespace regression
     ''' Implementation decisions:
     ''' </para>
     ''' <list type="bullet">
-    ''' <item><description>All matrix solves use the existing project Cholesky helpers through <c>Matrix.vb</c>.</description></item>
+    ''' <item><description>All matrix solves use the host-neutral Core linear-algebra helpers.</description></item>
     ''' <item><description>Invalid covariance proposals are converted to a large penalty during optimization.</description></item>
     ''' <item><description>Fixed effects are profiled out at every covariance proposal.</description></item>
     ''' <item><description>Logging is emitted both to <see cref="CoreServices.logger"/> and to an in-memory trace string for future UI exposure.</description></item>
@@ -341,11 +342,11 @@ Namespace regression
                     Return ev
                 End If
 
-                Dim beta() As Double = Global.BESHStatNG.Matrix.Matrix.CholSolve(cholX, xtVinvY)
-                Dim betaDot As Double = Global.BESHStatNG.Matrix.Matrix.DotProduct(beta, xtVinvY)
+                Dim beta() As Double = MatrixFactorizationCore.CholeskySolve(cholX, xtVinvY)
+                Dim betaDot As Double = MatrixArithmeticCore.DotProduct(beta, xtVinvY)
                 Dim qForm As Double = Math.Max(0.0, yVinvY - betaDot)
                 Dim logDetX As Double = MixedModelCovariance.LogDetFromCholesky(cholX)
-                Dim varBeta(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholInv(cholX)
+                Dim varBeta(,) As Double = MatrixFactorizationCore.CholeskyInverse(cholX)
 
                 Dim df As Integer = If(pRequest.FitMethod = MixedModelFitMethod.REML, n - p, n)
                 If df <= 0 Then
@@ -356,9 +357,9 @@ Namespace regression
 
                 Dim criterion As Double
                 If pRequest.FitMethod = MixedModelFitMethod.REML Then
-                    criterion = logDetV + logDetX + qForm + CDbl(n - p) * Math.Log(TwoPi)
+                    criterion = logDetV + logDetX + qForm + Convert.ToDouble(n - p) * Math.Log(TwoPi)
                 Else
-                    criterion = logDetV + qForm + CDbl(n) * Math.Log(TwoPi)
+                    criterion = logDetV + qForm + Convert.ToDouble(n) * Math.Log(TwoPi)
                 End If
 
                 If Not IsFinite(criterion) Then
@@ -378,7 +379,7 @@ Namespace regression
                 ev.QForm = qForm
                 ev.LogDetV = logDetV
                 ev.LogDetXtVinvX = logDetX
-                ev.Sigma2Profile = qForm / CDbl(df)
+                ev.Sigma2Profile = qForm / Convert.ToDouble(df)
 
                 If collectTrace AndAlso Not String.IsNullOrEmpty(evalTrace) Then
                     pStrTrace = MergeTraces(pStrTrace, evalTrace)
@@ -525,7 +526,7 @@ Namespace regression
                     Dim krMsg As String = Nothing
 
                     If MixedModelKenwardRogerInference.TryUnivariateInference(res,
-                                                                      regression.MixedModelResult.SafeName(res.FixedEffectNames, j, "b" & CStr(j)),
+                                                                      regression.MixedModelResult.SafeName(res.FixedEffectNames, j, "b" & j.ToString(Global.System.Globalization.CultureInfo.InvariantCulture)),
                                                                       l,
                                                                       krInf,
                                                                       alpha:=0.05,
@@ -695,7 +696,7 @@ Namespace regression
                 ElseIf j = 0 Then
                     labels(j) = "(Intercept)"
                 Else
-                    labels(j) = "Random " & CStr(j + 1)
+                    labels(j) = "Random " & (j + 1).ToString(Global.System.Globalization.CultureInfo.InvariantCulture)
                 End If
             Next
 
@@ -753,7 +754,7 @@ Namespace regression
                 k = Math.Max(1, pRequest.Data.MaxClusterSize())
                 ReDim visits(k - 1)
                 For i As Integer = 0 To k - 1
-                    visits(i) = CDbl(i + 1)
+                    visits(i) = Convert.ToDouble(i + 1)
                 Next
             End If
 
@@ -789,7 +790,7 @@ Namespace regression
                 If visits IsNot Nothing AndAlso i < visits.Length Then
                     labels(i) = "Visit " & Convert.ToString(visits(i), System.Globalization.CultureInfo.InvariantCulture)
                 Else
-                    labels(i) = "Position " & CStr(i + 1)
+                    labels(i) = "Position " & (i + 1).ToString(Global.System.Globalization.CultureInfo.InvariantCulture)
                 End If
             Next
 
@@ -833,9 +834,9 @@ Namespace regression
                 k += res.P
             End If
 
-            res.AIC = -2.0 * res.LogLik + 2.0 * CDbl(k)
+            res.AIC = -2.0 * res.LogLik + 2.0 * Convert.ToDouble(k)
             If res.Nobs > 0 Then
-                res.BIC = -2.0 * res.LogLik + Math.Log(CDbl(res.Nobs)) * CDbl(k)
+                res.BIC = -2.0 * res.LogLik + Math.Log(Convert.ToDouble(res.Nobs)) * Convert.ToDouble(k)
             End If
         End Sub
 
@@ -1347,9 +1348,9 @@ Namespace regression
                 ThrowIfCancellationRequested()
                 Dim x(,) As Double = block.X
                 Dim y() As Double = block.Y
-                Dim xt(,) As Double = Matrix.trans(x)
-                Dim blockXtx(,) As Double = Matrix.MatrixMult(xt, x)
-                Dim blockXty() As Double = Matrix.MatrixVectorMultiply(xt, y)
+                Dim xt(,) As Double = MatrixArithmeticCore.Transpose(x)
+                Dim blockXtx(,) As Double = MatrixArithmeticCore.Multiply(xt, x)
+                Dim blockXty() As Double = MatrixArithmeticCore.MultiplyVector(xt, y)
 
                 For r As Integer = 0 To p - 1
                     xty(r) += blockXty(r)
@@ -1357,22 +1358,22 @@ Namespace regression
                         xtx(r, c) += blockXtx(r, c)
                     Next
                 Next
-                yty += Matrix.DotProduct(y, y)
+                yty += MatrixArithmeticCore.DotProduct(y, y)
             Next
 
             Dim iErr As Integer = 0
-            Dim chol(,) As Double = Matrix.Cholesky(CType(xtx.Clone(), Double(,)), iErr, False)
+            Dim chol(,) As Double = MatrixFactorizationCore.Cholesky(DirectCast(xtx.Clone(), Double(,)), iErr, False)
             If iErr = 0 Then
-                beta = Matrix.CholSolve(chol, xty)
+                beta = MatrixFactorizationCore.CholeskySolve(chol, xty)
             Else
                 AppendWarn("OLS start X'X was not SPD; zero beta start will be used for residual-scale initialization.")
                 ReDim beta(p - 1)
             End If
 
-            Dim betaDot As Double = Matrix.DotProduct(beta, xty)
+            Dim betaDot As Double = MatrixArithmeticCore.DotProduct(beta, xty)
             Dim rss As Double = Math.Max(0.0, yty - betaDot)
             Dim df As Integer = Math.Max(1, pRequest.Data.Nobs - p)
-            Dim s2 As Double = rss / CDbl(df)
+            Dim s2 As Double = rss / Convert.ToDouble(df)
             If Not IsFinite(s2) OrElse s2 <= 0.0 Then s2 = 1.0
             Return s2
         End Function
@@ -1428,7 +1429,7 @@ Namespace regression
                     Next
                 Else
                     For i As Integer = 0 To block.Nobs - 1
-                        Dim pseudoVisit As Double = CDbl(i + 1)
+                        Dim pseudoVisit As Double = Convert.ToDouble(i + 1)
                         If Not observedVisits.Contains(pseudoVisit) Then observedVisits.Add(pseudoVisit)
                     Next
                 End If
@@ -1499,7 +1500,7 @@ Namespace regression
 
             If visitCount <= 1 Then Return configured
             Dim k As Integer = (visitCount * (visitCount + 1)) \ 2
-            Return Math.Max(configured, CInt(Math.Ceiling(CDbl(k) / 2.0)))
+            Return Math.Max(configured, Convert.ToInt32(Math.Ceiling(Convert.ToDouble(k) / 2.0)))
         End Function
 
         Private Shared Function BuildVisitPairKey(a As Double, b As Double) As String
@@ -1570,8 +1571,8 @@ Namespace regression
             If optState.GradientEvaluationCount <= 0 Then Return 0
             If String.Equals(If(optState.GradientProviderName, String.Empty), "Numerical finite difference", StringComparison.OrdinalIgnoreCase) Then Return 0
 
-            Dim expectedCentralDifferenceCalls As Long = CLng(2 * optState.Theta.Length) * CLng(optState.GradientEvaluationCount)
-            Dim observedNumericalCalls As Long = CLng(Math.Max(0, optState.NumericalGradientObjectiveEvaluationCount))
+            Dim expectedCentralDifferenceCalls As Long = Convert.ToInt64(2 * optState.Theta.Length) * Convert.ToInt64(optState.GradientEvaluationCount)
+            Dim observedNumericalCalls As Long = Convert.ToInt64(Math.Max(0, optState.NumericalGradientObjectiveEvaluationCount))
             Return Math.Max(0L, expectedCentralDifferenceCalls - observedNumericalCalls)
         End Function
 
@@ -1641,7 +1642,7 @@ Namespace regression
 
         Private Sub ReportOptimizerProgress(state As MixedModelOptimizationState)
             Dim maxIter As Integer = If(pRequest Is Nothing, 100, Math.Max(1, pRequest.Control.MaxIter))
-            Dim pct As Integer = 20 + CInt(Math.Min(70.0, 70.0 * CDbl(Math.Max(0, state.Iterations)) / CDbl(maxIter)))
+            Dim pct As Integer = 20 + Convert.ToInt32(Math.Min(70.0, 70.0 * Convert.ToDouble(Math.Max(0, state.Iterations)) / Convert.ToDouble(maxIter)))
 
             ReportProgress(stage:="Optimizing covariance parameters",
                    percent:=pct,
@@ -1770,7 +1771,7 @@ Namespace regression
             If String.IsNullOrEmpty(pStrTrace) Then
                 pStrTrace = line
             Else
-                pStrTrace &= vbNewLine & line
+                pStrTrace &= Environment.NewLine & line
             End If
         End Sub
 
@@ -1778,7 +1779,7 @@ Namespace regression
             If String.IsNullOrEmpty(a) Then Return If(b, String.Empty)
             If String.IsNullOrEmpty(b) Then Return a
             If a.Contains(b) Then Return a
-            Return a & vbNewLine & b
+            Return a & Environment.NewLine & b
         End Function
 
     End Class

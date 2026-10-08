@@ -216,11 +216,11 @@ Namespace regression
         End Sub
 
         Private Sub AppendLogCore(level As String, message As String)
-            Dim line As String = Date.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff") & "|" & level & "|MMRM|" & If(message, String.Empty)
+            Dim line As String = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff", Global.System.Globalization.CultureInfo.InvariantCulture) & "|" & level & "|MMRM|" & If(message, String.Empty)
             If String.IsNullOrEmpty(pStrTrace) Then
                 pStrTrace = line
             Else
-                pStrTrace &= vbNewLine & line
+                pStrTrace &= Environment.NewLine & line
             End If
         End Sub
 
@@ -228,7 +228,7 @@ Namespace regression
             If String.IsNullOrEmpty(a) Then Return If(b, String.Empty)
             If String.IsNullOrEmpty(b) Then Return a
             If a.Contains(b) Then Return a
-            Return a & vbNewLine & b
+            Return a & Environment.NewLine & b
         End Function
 
     End Class

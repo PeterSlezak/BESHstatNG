@@ -613,11 +613,11 @@ Namespace regression
         End Function
 
         Private Function NextNonSpaceChar(text As String, startIndex As Integer) As Char
-            If text Is Nothing Then Return ChrW(0)
+            If text Is Nothing Then Return Convert.ToChar(0)
             For i As Integer = Math.Max(0, startIndex) To text.Length - 1
                 If Not Char.IsWhiteSpace(text.Chars(i)) Then Return text.Chars(i)
             Next
-            Return ChrW(0)
+            Return Convert.ToChar(0)
         End Function
 
         Private Function IsValidRelativeColumnLetter(token As String, predictorMatrix(,) As Double) As Boolean
@@ -804,7 +804,7 @@ Namespace regression
         Private Function ExpandStarParts(parts As List(Of String)) As List(Of String)
             Dim out As New List(Of String)()
             Dim n As Integer = parts.Count
-            Dim maxMask As Integer = CInt(Math.Pow(2, n)) - 1
+            Dim maxMask As Integer = Convert.ToInt32(Math.Pow(2, n)) - 1
 
             For mask As Integer = 1 To maxMask
                 Dim combo As New List(Of String)()
@@ -908,7 +908,7 @@ Namespace regression
             Next
             Dim value As Integer = 0
             For Each ch As Char In s
-                value = value * 26 + (AscW(ch) - AscW("A"c) + 1)
+                value = value * 26 + (Convert.ToInt32(ch) - Convert.ToInt32("A"c) + 1)
             Next
             Return value - 1
         End Function
@@ -981,7 +981,7 @@ Namespace regression
             If String.IsNullOrEmpty(strTrace) Then
                 strTrace = line
             Else
-                strTrace &= vbNewLine & line
+                strTrace &= Environment.NewLine & line
             End If
         End Sub
 
@@ -989,7 +989,7 @@ Namespace regression
             If String.IsNullOrEmpty(a) Then Return If(b, String.Empty)
             If String.IsNullOrEmpty(b) Then Return a
             If a.Contains(b) Then Return a
-            Return a & vbNewLine & b
+            Return a & Environment.NewLine & b
         End Function
 
     End Module

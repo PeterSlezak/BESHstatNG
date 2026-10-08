@@ -4,6 +4,7 @@ Option Strict On
 Imports System
 Imports System.Collections.Generic
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.Matrix
 
 Namespace regression
 
@@ -188,7 +189,7 @@ Namespace regression
 
         Private Function ComputeResidualDenominatorDFs(p As Integer) As Double()
             Dim out(p - 1) As Double
-            Dim residualDF As Double = Math.Max(1.0, CDbl(pRequest.Data.Nobs - pRequest.Data.P))
+            Dim residualDF As Double = Math.Max(1.0, Convert.ToDouble(pRequest.Data.Nobs - pRequest.Data.P))
 
             For j As Integer = 0 To p - 1
                 out(j) = residualDF
@@ -214,8 +215,8 @@ Namespace regression
             Dim betweenRank As Integer = ComputeSubjectLevelDesignRank(betweenCols)
             Dim withinRank As Integer = Math.Max(0, pRequest.Data.P - betweenRank)
 
-            Dim betweenDF As Double = Math.Max(1.0, CDbl(pRequest.Data.NoSubjects - betweenRank))
-            Dim withinDF As Double = Math.Max(1.0, CDbl(pRequest.Data.Nobs - pRequest.Data.NoSubjects - withinRank))
+            Dim betweenDF As Double = Math.Max(1.0, Convert.ToDouble(pRequest.Data.NoSubjects - betweenRank))
+            Dim withinDF As Double = Math.Max(1.0, Convert.ToDouble(pRequest.Data.Nobs - pRequest.Data.NoSubjects - withinRank))
 
             For j As Integer = 0 To p - 1
                 ' mmrm treats the intercept specially: although it is subject-constant,
@@ -334,7 +335,7 @@ Namespace regression
 
                 SymmetrizeInPlace(hess)
 
-                Dim invH(,) As Double = Global.BESHStatNG.Matrix.Matrix.pseudoInverse(hess)
+                Dim invH(,) As Double = MatrixDecompositionCore.ComputePseudoInverse(hess)
                 If invH Is Nothing Then Return Nothing
 
                 Dim m As Integer = invH.GetLength(0)
@@ -764,7 +765,7 @@ Namespace regression
                     Return False
                 End If
 
-                Dim vinv(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholInv(chol)
+                Dim vinv(,) As Double = MatrixFactorizationCore.CholeskyInverse(chol)
                 If vinv Is Nothing OrElse Not MatrixLooksUsable(vinv, block.Nobs) Then
                     diagnostic = "analytic LMM KR derivative path produced an unusable V_i inverse for subject '" & block.SubjectKey & "'."
                     Return False
@@ -793,7 +794,7 @@ Namespace regression
                 End If
 
                 out.Add(New MixedModelKrBlock With {
-                    .X = Matrix.CloneMatrix(block.X),
+                    .X = DirectCast(block.X.Clone(), Double(,)),
                     .VInv = vinv,
                     .DV = dv,
                     .D2V = d2v
@@ -1013,8 +1014,8 @@ Namespace regression
                     End If
 
                     out.Add(New MixedModelKrBlock With {
-                        .X = Matrix.CloneMatrix(block.X),
-                        .VInv = Matrix.CloneMatrix(cachedBundle.VInv),
+                        .X = DirectCast(block.X.Clone(), Double(,)),
+                        .VInv = DirectCast(cachedBundle.VInv.Clone(), Double(,)),
                         .DV = CloneTensor3D(cachedBundle.DV),
                         .D2V = CloneTensor4D(cachedBundle.D2V)
                     })
@@ -1042,7 +1043,7 @@ Namespace regression
                     Continue For
                 End If
 
-                Dim vinv(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholInv(chol)
+                Dim vinv(,) As Double = MatrixFactorizationCore.CholeskyInverse(chol)
                 If Not MatrixLooksUsable(vinv, n) Then
                     If _krDerivativePatternCacheDiagnostics IsNot Nothing AndAlso usePatternCache Then _krDerivativePatternCacheDiagnostics.InvalidBuilds += 1
                     AppendWarn("KR derivative block skipped for subject '" & block.SubjectKey & "': V_i inverse is not usable.")
@@ -1078,7 +1079,7 @@ Namespace regression
                 End If
 
                 out.Add(New MixedModelKrBlock With {
-                    .X = Matrix.CloneMatrix(block.X),
+                    .X = DirectCast(block.X.Clone(), Double(,)),
                     .VInv = vinv,
                     .DV = dv,
                     .D2V = d2v
@@ -1088,7 +1089,7 @@ Namespace regression
 
                 If usePatternCache AndAlso Not String.IsNullOrWhiteSpace(patternKey) Then
                     patternCache(patternKey) = New KrPatternDerivativeBundle With {
-                        .VInv = Matrix.CloneMatrix(vinv),
+                        .VInv = DirectCast(vinv.Clone(), Double(,)),
                         .DV = CloneTensor3D(dv),
                         .D2V = CloneTensor4D(d2v)
                     }
@@ -1223,7 +1224,7 @@ Namespace regression
                     Continue For
                 End If
 
-                Dim vinv(,) As Double = Global.BESHStatNG.Matrix.Matrix.CholInv(chol)
+                Dim vinv(,) As Double = MatrixFactorizationCore.CholeskyInverse(chol)
                 If Not MatrixLooksUsable(vinv, n) Then
                     AppendWarn("KR covariance-scale derivative block skipped for subject '" & block.SubjectKey & "': V_i inverse is not usable.")
                     Continue For
@@ -1253,7 +1254,7 @@ Namespace regression
                 End If
 
                 out.Add(New MixedModelKrBlock With {
-                        .X = Matrix.CloneMatrix(block.X),
+                        .X = DirectCast(block.X.Clone(), Double(,)),
                         .VInv = vinv,
                         .DV = dv,
                         .D2V = d2v
