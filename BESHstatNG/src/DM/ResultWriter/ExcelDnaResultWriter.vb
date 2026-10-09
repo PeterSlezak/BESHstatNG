@@ -22,6 +22,33 @@ Public Class ExcelDnaResultWriter
     End Sub
 
     Protected Overrides Sub WriteOutputBlock(block As ResultTableOutputBlock)
+        WriteOutputBlockCore(block, Nothing, Nothing, False)
+    End Sub
+
+    ''' <summary>
+    ''' Writes a host-neutral shared-layer request using the already configured Windows
+    ''' workbook/worksheet and row/column pointers. This is the Excel-DNA counterpart to
+    ''' the Office.js writer used by the WebAssembly host.
+    ''' </summary>
+    Public Sub WriteSharedRequest(request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest)
+        If request Is Nothing Then Throw New ArgumentNullException(NameOf(request))
+
+        Dim model As ResultTableOutputModel = ToOutputModel(request)
+        Dim block As New ResultTableOutputBlock(Me.RowID, Me.ColID, model)
+
+        WriteOutputBlockCore(
+            block,
+            request.PvalueNumberFormat,
+            request.PvalueHighlightAlpha,
+            request.AutoFit)
+
+        Me.shiftRowPointer(model.RowCount)
+    End Sub
+
+    Private Sub WriteOutputBlockCore(block As ResultTableOutputBlock,
+                                     pvalueNumberFormatOverride As String,
+                                     pvalueAlphaOverride As Nullable(Of Double),
+                                     autoFit As Boolean)
         If block Is Nothing OrElse block.Model Is Nothing Then Exit Sub
         If block.Model.Values Is Nothing OrElse block.Model.RowCount = 0 OrElse block.Model.ColumnCount = 0 Then Exit Sub
 
@@ -41,9 +68,61 @@ Public Class ExcelDnaResultWriter
                 block.Model.FooterRows,
                 block.Model.PvalueColumns,
                 block.Model.PvalueCells,
-                block.Model.TitleRows)
+                block.Model.TitleRows,
+                pvalueNumberFormatOverride,
+                pvalueAlphaOverride)
+        End If
+
+        If autoFit Then
+            Try
+                rng.Columns.AutoFit()
+            Catch ex As Exception
+                CoreServices.Logger.Warn("Failed to autofit a shared result range. " & ex.Message)
+            End Try
         End If
     End Sub
+
+    Private Shared Function ToOutputModel(request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest) As ResultTableOutputModel
+        If request.Values Is Nothing OrElse request.Values.Count = 0 Then
+            Throw New ArgumentException("The shared result request contains no rows.", NameOf(request))
+        End If
+        If request.Values(0) Is Nothing OrElse request.Values(0).Count = 0 Then
+            Throw New ArgumentException("The shared result request contains no columns.", NameOf(request))
+        End If
+
+        Dim rowCount As Integer = request.Values.Count
+        Dim columnCount As Integer = request.Values(0).Count
+        Dim values(rowCount - 1, columnCount - 1) As Object
+
+        For rowIndex As Integer = 0 To rowCount - 1
+            Dim row As List(Of Object) = request.Values(rowIndex)
+            If row Is Nothing OrElse row.Count <> columnCount Then
+                Throw New ArgumentException("The shared result request is not rectangular.", NameOf(request))
+            End If
+
+            For columnIndex As Integer = 0 To columnCount - 1
+                values(rowIndex, columnIndex) = row(columnIndex)
+            Next
+        Next
+
+        Dim pvalueCells As New List(Of ResultTableCellAddress)()
+        If request.PvalueCells IsNot Nothing Then
+            For Each address As Global.BESHStatNG.ExcelCommon.ResultTableBodyCellAddress In request.PvalueCells
+                pvalueCells.Add(New ResultTableCellAddress(address.BodyRow, address.BodyColumn))
+            Next
+        End If
+
+        Return New ResultTableOutputModel(
+            values,
+            request.HeaderTopRows,
+            request.HeaderLeftColumns,
+            request.FooterRows,
+            request.PvalueColumns,
+            request.TitleRows,
+            request.IsResultTable,
+            pvalueCells)
+    End Function
+
 
     ''' <summary>
     ''' Applies statistical-table formatting to a written Excel range, including borders,
@@ -55,7 +134,9 @@ Public Class ExcelDnaResultWriter
                        foots As Integer,
                        Pvals As List(Of Integer),
                        PvalueCells As List(Of ResultTableCellAddress),
-                       TitlesCount As Integer)
+                       TitlesCount As Integer,
+                       Optional pvalueNumberFormatOverride As String = Nothing,
+                       Optional pvalueAlphaOverride As Nullable(Of Double) = Nothing)
         With rng
             'remove borders first
             .Borders(XlBordersIndex.xlInsideHorizontal).LineStyle = XlLineStyle.xlLineStyleNone
@@ -131,7 +212,16 @@ Public Class ExcelDnaResultWriter
             End With
         Next
 
-        ApplyPValueFormatting(rng, hTop, hLeft, foots, Pvals, PvalueCells, TitlesCount)
+        ApplyPValueFormatting(
+            rng,
+            hTop,
+            hLeft,
+            foots,
+            Pvals,
+            PvalueCells,
+            TitlesCount,
+            pvalueNumberFormatOverride,
+            pvalueAlphaOverride)
     End Sub
 
     ''' <summary>
@@ -144,7 +234,9 @@ Public Class ExcelDnaResultWriter
                                       foots As Integer,
                                       pvalueColumns As List(Of Integer),
                                       pvalueCells As List(Of ResultTableCellAddress),
-                                      titlesCount As Integer)
+                                      titlesCount As Integer,
+                                      Optional pvalueNumberFormatOverride As String = Nothing,
+                                      Optional pvalueAlphaOverride As Nullable(Of Double) = Nothing)
         Dim hasColumns As Boolean = pvalueColumns IsNot Nothing AndAlso pvalueColumns.Count > 0
         Dim hasCells As Boolean = pvalueCells IsNot Nothing AndAlso pvalueCells.Count > 0
         If Not hasColumns AndAlso Not hasCells Then Exit Sub
@@ -153,8 +245,19 @@ Public Class ExcelDnaResultWriter
         Dim lastBodyRow As Integer = rng.Rows.Count - foots
         If firstBodyRow > lastBodyRow Then Exit Sub
 
-        Dim numberFormat As String = PValuePresentation.BuildExcelNumberFormat(AppGlobals.PValuePresentation)
+        Dim numberFormat As String = pvalueNumberFormatOverride
+        If String.IsNullOrWhiteSpace(numberFormat) Then
+            numberFormat = PValuePresentation.BuildExcelNumberFormat(AppGlobals.PValuePresentation)
+        End If
+
         Dim pHighlightAlpha As Double = AppGlobals.DefaultAlpha
+        If pvalueAlphaOverride.HasValue Then
+            Dim requestedAlpha As Double = pvalueAlphaOverride.Value
+            If Not Double.IsNaN(requestedAlpha) AndAlso Not Double.IsInfinity(requestedAlpha) AndAlso
+               requestedAlpha > 0.0 AndAlso requestedAlpha < 1.0 Then
+                pHighlightAlpha = requestedAlpha
+            End If
+        End If
 
         If hasColumns Then
             For Each bodyColumn As Integer In pvalueColumns

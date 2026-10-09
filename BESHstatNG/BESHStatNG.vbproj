@@ -119,6 +119,7 @@
     <Compile Include="src\AppInfrastructure\AppGlobals.vb" />
     <Compile Include="src\DM\DataObjContracts.vb" />
     <Compile Include="src\DM\ExcelDnaDataImporter.vb" />
+    <Compile Include="src\DM\ExcelDnaSharedApplicationAdapter.vb" />
     <Compile Include="src\DM\OfficeJsDataImporter.vb" />
     <Compile Include="src\DM\ResultWriter\ExcelDnaResultWriter.vb" />
     <Compile Include="src\DM\Helpers.vb" />
@@ -555,6 +556,10 @@
     <ProjectReference Include="..\BESHStat.Core\BESHStat.Core.vbproj">
       <Project>{3ec64692-7b74-413e-bac6-f53a813c9d77}</Project>
       <Name>BESHStat.Core</Name>
+      <Private>True</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\BESHStat.Excel.Common\BESHStat.Excel.Common.vbproj">
+      <Name>BESHStat.Excel.Common</Name>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

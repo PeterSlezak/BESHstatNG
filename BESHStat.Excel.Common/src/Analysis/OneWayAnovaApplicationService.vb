@@ -37,7 +37,16 @@ Namespace ExcelCommon
         End Sub
 
         Public Shared Function Run(input As SpreadsheetRangeData) As OneWayAnovaApplicationResult
-            Dim grouped As GroupedNumericData = GroupedNumericRangeParser.Parse(input)
+            Return Run(GroupedNumericRangeParser.Parse(input))
+        End Function
+
+        ''' <summary>
+        ''' Runs the same shared ANOVA workflow from grouped numeric data that has already
+        ''' been imported/validated by a host adapter. This is used by the Windows
+        ''' Excel-DNA host, whose legacy importer already produces grouped arrays.
+        ''' </summary>
+        Public Shared Function Run(grouped As GroupedNumericData) As OneWayAnovaApplicationResult
+            If grouped Is Nothing Then Throw New ArgumentNullException(NameOf(grouped))
 
             Dim model As New Global.BESHStatNG.parametric.OneWayANOVA(grouped.Groups, grouped.GroupNames)
             Dim raw As Object(,) = model.compute()

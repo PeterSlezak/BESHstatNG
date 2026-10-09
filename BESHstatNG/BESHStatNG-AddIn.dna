@@ -2,6 +2,7 @@
 <DnaLibrary Name="BESHStatNG Add-In" RuntimeVersion="v4.0" xmlns="http://schemas.excel-dna.net/addin/2020/07/dnalibrary">
   <ExternalLibrary Path="BESHStatNG.dll" ExplicitExports="true" LoadFromBytes="true" Pack="true" IncludePdb="false" />
   <Reference Path="BESHStat.Core.dll" Pack="true" />
+  <Reference Path="BESHStat.Excel.Common.dll" Pack="true" />
   <!--
        The RuntimeVersion attribute above allows the following settings:
        * RuntimeVersion="v4.0" - for .NET Framework 4.6.2 or higher

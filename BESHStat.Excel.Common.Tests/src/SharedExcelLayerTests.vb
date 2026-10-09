@@ -66,6 +66,24 @@ Public Class SharedExcelLayerTests
     End Sub
 
     <TestMethod>
+    Public Sub OneWayAnovaApplicationService_AcceptsPreparsedGroupedData()
+        Dim grouped As New GroupedNumericData(
+            New String() {"Group A", "Group B", "Group C"},
+            New Double()() {
+                New Double() {1.0, 2.0, 3.0},
+                New Double() {2.0, 3.0, 4.0},
+                New Double() {5.0, 6.0, 7.0}
+            })
+
+        Dim result As OneWayAnovaApplicationResult = OneWayAnovaApplicationService.Run(grouped)
+
+        Assert.AreEqual(13.0, result.FStatistic, 0.000000000001)
+        Assert.AreEqual(0.006591796875, result.PValue, 0.000000000001)
+        CollectionAssert.AreEqual(New Integer() {3, 3, 3}, result.GroupCounts)
+        CollectionAssert.AreEqual(New String() {"Group A", "Group B", "Group C"}, result.GroupNames)
+    End Sub
+
+    <TestMethod>
     Public Sub ResultTableWriteRequestFactory_CarriesFormattingAndOutputTarget()
         Dim input As SpreadsheetRangeData = BuildRange(
             New Object()() {
