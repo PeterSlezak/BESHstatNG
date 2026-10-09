@@ -1,18 +1,19 @@
 @page "/"
 @using System.Globalization
 @using Microsoft.JSInterop
-@using BESHStatCoreSmoke
 @using BESHStatNG
+@using BESHStatNG.AppInfrastructure
+@using BESHStatNG.ExcelCommon
 @inject IJSRuntime JS
 
-<PageTitle>BESHStat.Core Office.js Stage 2</PageTitle>
+<PageTitle>BESHStat shared Excel layer Stage 3</PageTitle>
 
-<h1>BESHStat.Core + Office.js Stage 2</h1>
+<h1>BESHStat shared Excel application layer</h1>
 
 <p>
-    This proof of concept reads the currently selected Excel range through Office.js,
-    passes the grouped numeric data into the real BESHStat.Core one-way ANOVA running
-    in WebAssembly, and writes the returned host-neutral ResultTable to a new worksheet.
+    Stage 3 moves spreadsheet parsing, analysis orchestration, ResultTable transfer metadata,
+    and p-value presentation instructions into a host-neutral .NET Standard layer. Office.js
+    is now only the Excel adapter that reads cells and writes the supplied result request.
 </p>
 
 <div class="alert @(officeHost?.IsExcel == true ? "alert-success" : "alert-secondary")">
@@ -23,7 +24,7 @@
     <button class="btn btn-outline-secondary me-2" @onclick="RefreshOfficeStatus">
         Check Excel host
     </button>
-    <button class="btn btn-outline-primary me-2" @onclick="ReadSelection">
+    <button class="btn btn-outline-primary me-2" @onclick="ReadSelection" disabled="@isBusy">
         Read selected range
     </button>
     <button class="btn btn-primary" @onclick="RunAnovaAndWrite" disabled="@isBusy">
@@ -31,17 +32,80 @@
     </button>
 </div>
 
-<p>
-    <strong>Status:</strong> @status
-</p>
+<p><strong>Status:</strong> @status</p>
+
+<div class="card mb-4" style="max-width: 1000px;">
+    <div class="card-body">
+        <h5 class="card-title">Shared writer options</h5>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <label class="form-label">Output destination</label>
+                <select class="form-select" @bind="outputDestination">
+                    <option value="@SpreadsheetOutputDestination.NewWorksheet">New worksheet</option>
+                    <option value="@SpreadsheetOutputDestination.CurrentWorksheet">Current worksheet</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Worksheet name</label>
+                <input class="form-control" @bind="outputWorksheetName" disabled="@(outputDestination != SpreadsheetOutputDestination.NewWorksheet)" />
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Start row</label>
+                <input class="form-control" type="number" min="1" @bind="outputStartRow" />
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Start column</label>
+                <input class="form-control" type="number" min="1" @bind="outputStartColumn" />
+            </div>
+        </div>
+
+        <hr />
+
+        <h6>P-value presentation passed to the host writer</h6>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label">Decimal places</label>
+                <input class="form-control" type="number"
+                       min="@PValuePresentationSettings.MinimumDecimalPlaces"
+                       max="@PValuePresentationSettings.MaximumDecimalPlaces"
+                       @bind="pvalueDecimalPlaces" />
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Very small p-values</label>
+                <select class="form-select" @bind="pvalueSmallValueDisplay">
+                    <option value="@PValueSmallValueDisplay.LessThanThreshold">&lt; threshold</option>
+                    <option value="@PValueSmallValueDisplay.ScientificNotation">Scientific notation</option>
+                    <option value="@PValueSmallValueDisplay.FixedDecimal">Fixed decimal</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Alpha</label>
+                <input class="form-control" type="number" min="0.0001" max="0.9999" step="0.01" @bind="pvalueHighlightAlpha" />
+            </div>
+
+            <div class="col-md-3 d-flex align-items-end">
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" @bind="pvalueUseUpperBound" id="upperBoundCheck" />
+                    <label class="form-check-label" for="upperBoundCheck">Show &gt; upper threshold</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="card mb-4" style="max-width: 1000px;">
     <div class="card-body">
         <h5 class="card-title">Expected Excel input</h5>
         <p class="card-text mb-2">
             Select one rectangular range. The first row contains group names; each remaining
-            column contains numeric observations for that group. Blank data cells are ignored,
-            which allows unequal group sizes.
+            column contains numeric observations for that group. Blank data cells are ignored.
+            Input validation is performed in BESHStat.Excel.Common, not in Office.js.
         </p>
         <table class="table table-bordered table-sm mb-0" style="max-width: 420px;">
             <thead>
@@ -62,10 +126,16 @@
         <h3>Selected Excel data</h3>
         <p>
             <strong>Worksheet:</strong> @selection.WorksheetName<br />
-            <strong>Range:</strong> @selection.Address<br />
-            <strong>Groups:</strong>
-            @string.Join(", ", selection.Headers.Select((name, index) => $"{name} (n={selection.Columns[index].Length})"))
+            <strong>Range:</strong> @selection.Address
         </p>
+
+        @if (groupedPreview is not null)
+        {
+            <p>
+                <strong>Shared parser:</strong>
+                @string.Join(", ", groupedPreview.GroupNames.Select((name, index) => $"{name} (n={groupedPreview.Groups[index].Length})"))
+            </p>
+        }
     </div>
 }
 
@@ -103,7 +173,8 @@
         {
             <p class="alert alert-success" style="max-width: 950px;">
                 Excel output written to <strong>@writeResult.WorksheetName</strong>
-                at <strong>@writeResult.Address</strong>.
+                at <strong>@writeResult.Address</strong>.<br />
+                <small>Shared p-value number format: <code>@writeResult.PvalueNumberFormat</code></small>
             </p>
         }
     </div>
@@ -111,12 +182,24 @@
 
 @code {
     private OfficeHostStatus? officeHost;
-    private OfficeSelection? selection;
-    private AnovaExcelBridgeResult? output;
+    private SpreadsheetRangeData? selection;
+    private GroupedNumericData? groupedPreview;
+    private OneWayAnovaApplicationResult? output;
     private OfficeWriteResult? writeResult;
+
     private string officeStatus = "Checking...";
-    private string status = "Select a range in Excel, then run the Stage 2 test.";
+    private string status = "Select a range in Excel, then run the Stage 3 shared-layer test.";
     private bool isBusy;
+
+    private SpreadsheetOutputDestination outputDestination = SpreadsheetOutputDestination.NewWorksheet;
+    private string outputWorksheetName = "BESHStat_WASM_Result";
+    private int outputStartRow = 1;
+    private int outputStartColumn = 1;
+
+    private int pvalueDecimalPlaces = PValuePresentationSettings.DefaultDecimalPlaces;
+    private PValueSmallValueDisplay pvalueSmallValueDisplay = PValueSmallValueDisplay.LessThanThreshold;
+    private bool pvalueUseUpperBound = true;
+    private double pvalueHighlightAlpha = 0.05;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -158,13 +241,17 @@
         try
         {
             isBusy = true;
-            selection = await JS.InvokeAsync<OfficeSelection>("beshOffice.getSelectedAnovaData");
+            selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
+            groupedPreview = GroupedNumericRangeParser.Parse(selection);
             output = null;
             writeResult = null;
-            status = $"Read {selection.Address} from worksheet '{selection.WorksheetName}' successfully.";
+            status = $"PASS — host adapter read {selection.Address}; BESHStat.Excel.Common validated the grouped input.";
         }
         catch (Exception ex)
         {
+            groupedPreview = null;
+            output = null;
+            writeResult = null;
             status = "FAIL — " + ex.Message;
         }
         finally
@@ -180,22 +267,36 @@
             isBusy = true;
             writeResult = null;
 
-            selection = await JS.InvokeAsync<OfficeSelection>("beshOffice.getSelectedAnovaData");
-            output = WasmSmokeProbe.RunOneWayAnova(selection.Columns, selection.Headers);
+            selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
+            groupedPreview = GroupedNumericRangeParser.Parse(selection);
+            output = OneWayAnovaApplicationService.Run(selection);
 
-            var payload = new ResultTableWritePayload
+            var settings = new PValuePresentationSettings
             {
-                Values = ToJagged(output.Table.Values),
-                HeaderTopRows = output.Table.HeaderTopRows,
-                HeaderLeftColumns = output.Table.HeaderLeftColumns,
-                FooterRows = output.Table.FooterRows,
-                TitleRows = output.Table.TitleRows,
-                PvalueColumns = output.Table.PvalueColumns.ToArray()
+                DecimalPlaces = pvalueDecimalPlaces,
+                SmallValueDisplay = pvalueSmallValueDisplay,
+                UseUpperBound = pvalueUseUpperBound
+            };
+            settings.EnsureDefaults();
+
+            var target = new SpreadsheetOutputTarget
+            {
+                Destination = outputDestination,
+                WorksheetName = outputWorksheetName,
+                StartRow = outputStartRow,
+                StartColumn = outputStartColumn
             };
 
-            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeResultTable", payload);
+            var request = ResultTableWriteRequestFactory.Create(
+                output.Table,
+                settings,
+                pvalueHighlightAlpha,
+                target);
 
-            status = $"PASS — Excel → Office.js → WebAssembly → BESHStat.Core → ResultTable → Excel completed. " +
+            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeResultTable", request);
+
+            status = $"PASS — Excel adapter → shared input parser → shared ANOVA service → BESHStat.Core → " +
+                     $"shared ResultTable write request → Office.js writer completed. " +
                      $"F = {output.FStatistic:G12}; p = {output.PValue:G12}.";
         }
         catch (Exception ex)
@@ -208,22 +309,6 @@
         {
             isBusy = false;
         }
-    }
-
-    private static object?[][] ToJagged(object[,] values)
-    {
-        var rows = values.GetLength(0);
-        var columns = values.GetLength(1);
-        var output = new object?[rows][];
-
-        for (var row = 0; row < rows; row++)
-        {
-            output[row] = new object?[columns];
-            for (var col = 0; col < columns; col++)
-                output[row][col] = values[row, col];
-        }
-
-        return output;
     }
 
     private static bool IsHeaderCell(ResultTableOutputModel model, int row, int col)
@@ -259,30 +344,11 @@
         public string Message { get; set; } = string.Empty;
     }
 
-    private sealed class OfficeSelection
-    {
-        public string WorksheetName { get; set; } = string.Empty;
-        public string Address { get; set; } = string.Empty;
-        public int RowCount { get; set; }
-        public int ColumnCount { get; set; }
-        public string[] Headers { get; set; } = Array.Empty<string>();
-        public double[][] Columns { get; set; } = Array.Empty<double[]>();
-    }
-
-    private sealed class ResultTableWritePayload
-    {
-        public object?[][] Values { get; set; } = Array.Empty<object?[]>();
-        public int HeaderTopRows { get; set; }
-        public int HeaderLeftColumns { get; set; }
-        public int FooterRows { get; set; }
-        public int TitleRows { get; set; }
-        public int[] PvalueColumns { get; set; } = Array.Empty<int>();
-    }
-
     private sealed class OfficeWriteResult
     {
         public string WorksheetName { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public int[] PvalueColumns { get; set; } = Array.Empty<int>();
+        public string PvalueNumberFormat { get; set; } = string.Empty;
     }
 }

@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
@@ -422,11 +422,11 @@ Namespace CausalInference
             Dim list As List(Of Double) = values.Where(Function(v) AppInfrastructure.IsFinite(v)).OrderBy(Function(v) v).ToList()
             If list.Count = 0 Then Return Double.NaN
             Dim p As Double = Clamp(probability, 0.0, 1.0)
-            Dim pos As Double = p * CDbl(list.Count - 1)
-            Dim lo As Integer = CInt(Math.Floor(pos))
-            Dim hi As Integer = CInt(Math.Ceiling(pos))
+            Dim pos As Double = p * Convert.ToDouble(list.Count - 1)
+            Dim lo As Integer = Convert.ToInt32(Math.Floor(pos))
+            Dim hi As Integer = Convert.ToInt32(Math.Ceiling(pos))
             If lo = hi Then Return list(lo)
-            Dim h As Double = pos - CDbl(lo)
+            Dim h As Double = pos - Convert.ToDouble(lo)
             Return list(lo) * (1.0 - h) + list(hi) * h
         End Function
 
@@ -458,7 +458,7 @@ Namespace CausalInference
                 sumAbs += d
                 If d > maxAbs Then maxAbs = d
             Next
-            Return Tuple.Create(sumAbs / CDbl(grid.Count), maxAbs)
+            Return Tuple.Create(sumAbs / Convert.ToDouble(grid.Count), maxAbs)
         End Function
 
         Private Shared Function WeightedEcdfAt(values As Double(), weights As Double(), threshold As Double, totalWeight As Double) As Double

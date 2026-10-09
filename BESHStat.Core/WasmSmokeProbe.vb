@@ -54,92 +54,10 @@ Namespace Global.BESHStatCoreSmoke
         Public ReadOnly Property ObservationCount As Integer
     End Class
 
-    ''' <summary>
-    ''' Host-neutral result returned by the Excel/Office.js one-way ANOVA bridge.
-    ''' </summary>
-    Public NotInheritable Class AnovaExcelBridgeResult
-
-        Public Sub New(table As Global.BESHStatNG.ResultTableOutputModel,
-                       fStatistic As Double,
-                       pValue As Double,
-                       groupNames As String(),
-                       groupCounts As Integer())
-            Me.Table = table
-            Me.FStatistic = fStatistic
-            Me.PValue = pValue
-            Me.GroupNames = groupNames
-            Me.GroupCounts = groupCounts
-        End Sub
-
-        Public ReadOnly Property Table As Global.BESHStatNG.ResultTableOutputModel
-        Public ReadOnly Property FStatistic As Double
-        Public ReadOnly Property PValue As Double
-        Public ReadOnly Property GroupNames As String()
-        Public ReadOnly Property GroupCounts As Integer()
-    End Class
-
     Public NotInheritable Class WasmSmokeProbe
 
         Private Sub New()
         End Sub
-
-        ''' <summary>
-        ''' Runs a classical one-way ANOVA on grouped values supplied by a host such as
-        ''' Office.js and returns the host-neutral ResultTable output.
-        ''' </summary>
-        Public Shared Function RunOneWayAnova(groupedData As Double()(),
-                                              groupNames As String()) As AnovaExcelBridgeResult
-            If groupedData Is Nothing Then
-                Throw New ArgumentNullException(NameOf(groupedData))
-            End If
-            If groupNames Is Nothing Then
-                Throw New ArgumentNullException(NameOf(groupNames))
-            End If
-            If groupedData.Length < 2 Then
-                Throw New ArgumentException("At least two groups are required.", NameOf(groupedData))
-            End If
-            If groupedData.Length <> groupNames.Length Then
-                Throw New ArgumentException("The number of groups and group names must match.")
-            End If
-
-            Dim counts(groupedData.Length - 1) As Integer
-            For i As Integer = 0 To groupedData.Length - 1
-                If groupedData(i) Is Nothing OrElse groupedData(i).Length < 2 Then
-                    Throw New ArgumentException(
-                        "Each group must contain at least two numeric observations. Group index: " &
-                        i.ToString(Globalization.CultureInfo.InvariantCulture) & ".",
-                        NameOf(groupedData))
-                End If
-
-                counts(i) = groupedData(i).Length
-
-                For j As Integer = 0 To groupedData(i).Length - 1
-                    Dim value As Double = groupedData(i)(j)
-                    If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then
-                        Throw New ArgumentException("ANOVA input contains a non-finite value.", NameOf(groupedData))
-                    End If
-                Next
-            Next
-
-            Dim model As New Global.BESHStatNG.parametric.OneWayANOVA(groupedData, groupNames)
-            Dim raw As Object(,) = model.compute()
-            Dim tables As System.Collections.Generic.List(Of Global.BESHStatNG.ResultTable) = model.wrapResults()
-
-            If tables Is Nothing OrElse tables.Count = 0 Then
-                Throw New InvalidOperationException("One-way ANOVA did not produce a ResultTable.")
-            End If
-
-            Dim output As Global.BESHStatNG.ResultTableOutputModel = tables(0).ToOutputModel()
-            Dim fStatistic As Double = Convert.ToDouble(raw(0, 3), Globalization.CultureInfo.InvariantCulture)
-            Dim pValue As Double = Convert.ToDouble(raw(0, 4), Globalization.CultureInfo.InvariantCulture)
-
-            Return New AnovaExcelBridgeResult(
-                output,
-                fStatistic,
-                pValue,
-                DirectCast(groupNames.Clone(), String()),
-                counts)
-        End Function
 
         ''' <summary>
         ''' Fits the same 250-observation Poisson/log GLM used by the Core GLM
