@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
@@ -195,8 +195,8 @@ Namespace CausalInference
                     sumC += weights(i)
                 End If
             Next
-            Dim scaleT As Double = If(sumT > 0, CDbl(nT) / sumT, 1.0)
-            Dim scaleC As Double = If(sumC > 0, CDbl(nC) / sumC, 1.0)
+            Dim scaleT As Double = If(sumT > 0, Convert.ToDouble(nT) / sumT, 1.0)
+            Dim scaleC As Double = If(sumC > 0, Convert.ToDouble(nC) / sumC, 1.0)
             For i As Integer = 0 To input.RowCount - 1
                 If input.Treatment(i) >= 0.5 Then
                     weights(i) *= scaleT
