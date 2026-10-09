@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
@@ -131,9 +131,9 @@ Namespace StatisticalProcessControl
         End Sub
 
         Private Shared Sub ValidatePhaseScope(scope As SpcRulePhaseScope)
-            Dim numericScope As Integer = CInt(scope)
+            Dim numericScope As Integer = Convert.ToInt32(scope)
             If numericScope < 0 OrElse
-               (numericScope And Not CInt(SpcRulePhaseScope.All)) <> 0 Then
+               (numericScope And Not Convert.ToInt32(SpcRulePhaseScope.All)) <> 0 Then
                 Throw New ArgumentOutOfRangeException("RulePhaseScope")
             End If
         End Sub
@@ -591,7 +591,7 @@ Namespace StatisticalProcessControl
             If left Is Nothing Then Return If(right Is Nothing, 0, -1)
             If right Is Nothing Then Return 1
 
-            Dim comparison As Integer = CInt(left.PanelType).CompareTo(CInt(right.PanelType))
+            Dim comparison As Integer = Convert.ToInt32(left.PanelType).CompareTo(Convert.ToInt32(right.PanelType))
             If comparison <> 0 Then Return comparison
 
             comparison = StringComparer.OrdinalIgnoreCase.Compare(left.StageId, right.StageId)
@@ -604,7 +604,7 @@ Namespace StatisticalProcessControl
             comparison = left.RuleNumber.CompareTo(right.RuleNumber)
             If comparison <> 0 Then Return comparison
 
-            comparison = CInt(left.TriggeredSide).CompareTo(CInt(right.TriggeredSide))
+            comparison = Convert.ToInt32(left.TriggeredSide).CompareTo(Convert.ToInt32(right.TriggeredSide))
             If comparison <> 0 Then Return comparison
 
             comparison = left.WindowStartPointIndex.CompareTo(

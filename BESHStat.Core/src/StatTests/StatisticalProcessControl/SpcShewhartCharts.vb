@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
@@ -297,7 +297,7 @@ Namespace StatisticalProcessControl
 
                 result(row) = New RawChartPoint With {
                     .LogicalIndex = row,
-                    .Value = value,
+                    .value = value,
                     .Label = GetRowLabel(labels, row),
                     .SequenceValue = GetSequenceValue(sequenceValues, row),
                     .SourceRowIndices = {sourceRows(row)},
@@ -367,7 +367,7 @@ Namespace StatisticalProcessControl
 
                 result(row) = New RawChartPoint With {
                     .LogicalIndex = row,
-                    .Subgroup = subgroup,
+                    .subgroup = subgroup,
                     .Label = GetRowLabel(labels, row),
                     .SequenceValue = GetSequenceValue(sequenceValues, row),
                     .SourceRowIndices = {sourceRows(row)},
@@ -465,7 +465,7 @@ Namespace StatisticalProcessControl
                 If pointLabel.Length = 0 Then pointLabel = group.SubgroupId
                 result(pointIndex) = New RawChartPoint With {
                     .LogicalIndex = pointIndex,
-                    .Subgroup = subgroup,
+                    .subgroup = subgroup,
                     .Label = pointLabel,
                     .SequenceValue = group.SequenceValue,
                     .SourceRowIndices = group.SourceRows.ToArray(),
@@ -527,8 +527,8 @@ Namespace StatisticalProcessControl
                 result(row) = New RawChartPoint With {
                     .LogicalIndex = row,
                     .CountValue = count,
-                    .SampleSize = sampleSize,
-                    .Exposure = exposure,
+                    .sampleSize = sampleSize,
+                    .exposure = exposure,
                     .Label = GetRowLabel(labels, row),
                     .SequenceValue = GetSequenceValue(sequenceValues, row),
                     .SourceRowIndices = {sourceRows(row)},
@@ -757,7 +757,7 @@ Namespace StatisticalProcessControl
                     If IsEstimationEligible(point) Then
                         values(logicalIndex - stage.Definition.FirstPointIndex) = point.Value
                         meanCount += 1
-                        mean += (point.Value - mean) / CDbl(meanCount)
+                        mean += (point.Value - mean) / Convert.ToDouble(meanCount)
                     End If
                 Next
                 If meanCount = 0 Then
@@ -775,7 +775,7 @@ Namespace StatisticalProcessControl
                 Return New StageParameters With {
                     .Center = mean,
                     .Sigma = estimate.Value,
-                    .CenterStandardError = estimate.Value / Math.Sqrt(CDbl(meanCount)),
+                    .CenterStandardError = estimate.Value / Math.Sqrt(Convert.ToDouble(meanCount)),
                     .EstimationPointCount = meanCount,
                     .SigmaEstimationPointCount = estimate.ContributingPointCount,
                     .LimitMode = SpcStageLimitMode.EstimateFromStageData,
@@ -794,7 +794,7 @@ Namespace StatisticalProcessControl
                     subgroups.Add(point.Subgroup)
                     Dim newTotal As Integer = totalMeasurements + point.Subgroup.Count
                     pooledMean += (point.Subgroup.Mean - pooledMean) *
-                                  CDbl(point.Subgroup.Count) / CDbl(newTotal)
+                                  Convert.ToDouble(point.Subgroup.Count) / Convert.ToDouble(newTotal)
                     totalMeasurements = newTotal
                 End If
             Next
@@ -817,7 +817,7 @@ Namespace StatisticalProcessControl
                 .Center = pooledMean,
                 .Sigma = sigmaEstimate.Value,
                 .CenterStandardError = sigmaEstimate.Value /
-                                       Math.Sqrt(CDbl(totalMeasurements)),
+                                       Math.Sqrt(Convert.ToDouble(totalMeasurements)),
                 .EstimationPointCount = subgroups.Count,
                 .SigmaEstimationPointCount = sigmaEstimate.ContributingPointCount,
                 .LimitMode = SpcStageLimitMode.EstimateFromStageData,
@@ -882,7 +882,7 @@ Namespace StatisticalProcessControl
                     End If
 
                     result = New StageParameters With {
-                        .Center = center.Value,
+                        .center = center.Value,
                         .Sigma = Double.NaN,
                         .CenterStandardError = Double.NaN,
                         .EstimationPointCount = -1,
@@ -959,7 +959,7 @@ Namespace StatisticalProcessControl
             End Select
 
             Return New StageParameters With {
-                .Center = center,
+                .center = center,
                 .Sigma = Double.NaN,
                 .CenterStandardError = centerSe,
                 .EstimationPointCount = pointCount,
@@ -1135,7 +1135,7 @@ Namespace StatisticalProcessControl
                     lowerTwoSigmaLimit:=limits.LowerTwoSigmaLimit,
                     upperTwoSigmaLimit:=limits.UpperTwoSigmaLimit,
                     effectiveSampleSize:=If(window.HasValue,
-                                             CDbl(movingRangeLength),
+                                             Convert.ToDouble(movingRangeLength),
                                              Double.NaN),
                     sourceRowIndices:=window.SourceRowIndices,
                     includedInParameterEstimation:=includedInEstimation,
@@ -1189,7 +1189,7 @@ Namespace StatisticalProcessControl
                         value = raw.Subgroup.Mean
                         center = parameters.Center
                         standardError = parameters.Sigma /
-                                        Math.Sqrt(CDbl(raw.Subgroup.Count))
+                                        Math.Sqrt(Convert.ToDouble(raw.Subgroup.Count))
 
                     Case SpcPanelType.SubgroupRange
                         Dim constants As SpcControlChartConstants =
@@ -1224,7 +1224,7 @@ Namespace StatisticalProcessControl
                                        center,
                                        standardError,
                                        limits,
-                                       CDbl(raw.Subgroup.Count),
+                                       Convert.ToDouble(raw.Subgroup.Count),
                                        Double.NaN))
             Next
 
@@ -1461,26 +1461,26 @@ Namespace StatisticalProcessControl
                                                                  sampleSize,
                                                                  parameterCenter)
                     If chartType = SpcChartType.PChart Then
-                        lower = CDbl(lowerCount) / raw.SampleSize
-                        upper = CDbl(upperCount) / raw.SampleSize
+                        lower = Convert.ToDouble(lowerCount) / raw.SampleSize
+                        upper = Convert.ToDouble(upperCount) / raw.SampleSize
                         displayedCenter = parameterCenter
                     Else
-                        lower = CDbl(lowerCount)
-                        upper = CDbl(upperCount)
+                        lower = Convert.ToDouble(lowerCount)
+                        upper = Convert.ToDouble(upperCount)
                         displayedCenter = raw.SampleSize * parameterCenter
                     End If
 
                 Case SpcChartType.CChart
-                    lower = CDbl(PoissonQuantile(oneTailProbability, parameterCenter))
-                    upper = CDbl(PoissonQuantile(1.0 - oneTailProbability,
+                    lower = Convert.ToDouble(PoissonQuantile(oneTailProbability, parameterCenter))
+                    upper = Convert.ToDouble(PoissonQuantile(1.0 - oneTailProbability,
                                                   parameterCenter))
                     displayedCenter = parameterCenter
 
                 Case SpcChartType.UChart
                     Dim lambda As Double = parameterCenter * raw.Exposure
-                    lower = CDbl(PoissonQuantile(oneTailProbability, lambda)) /
+                    lower = Convert.ToDouble(PoissonQuantile(oneTailProbability, lambda)) /
                             raw.Exposure
-                    upper = CDbl(PoissonQuantile(1.0 - oneTailProbability, lambda)) /
+                    upper = Convert.ToDouble(PoissonQuantile(1.0 - oneTailProbability, lambda)) /
                             raw.Exposure
                     displayedCenter = parameterCenter
 
@@ -1534,13 +1534,13 @@ Namespace StatisticalProcessControl
             If count >= sampleSize Then Return 1.0
             Return Global.BESHStatNG.distributions.Distributions.RegularizedIncompleteBeta(
                 1.0 - proportion,
-                CDbl(sampleSize - count),
-                CDbl(count + 1))
+                Convert.ToDouble(sampleSize - count),
+                Convert.ToDouble(count + 1))
         End Function
 
         Private Shared Function PoissonQuantile(probability As Double,
                                                 mean As Double) As Integer
-            If mean > CDbl(Integer.MaxValue - 100000) Then
+            If mean > Convert.ToDouble(Integer.MaxValue - 100000) Then
                 Throw New ArgumentOutOfRangeException(
                     NameOf(mean),
                     "The Poisson mean is too large for exact integer limits; use sigma limits.")
@@ -1555,12 +1555,12 @@ Namespace StatisticalProcessControl
 
         Private Shared Function ToExactInteger(value As Double,
                                                valueName As String) As Integer
-            If value > CDbl(Integer.MaxValue) Then
+            If value > Convert.ToDouble(Integer.MaxValue) Then
                 Throw New ArgumentOutOfRangeException(
                     valueName,
                     "The value is too large for exact discrete limits; use sigma limits.")
             End If
-            Return CInt(value)
+            Return Convert.ToInt32(value)
         End Function
 
 #End Region

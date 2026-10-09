@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
@@ -220,7 +220,7 @@ Namespace StatisticalProcessControl
 
                 result(row) = New RawTimePoint With {
                     .LogicalIndex = row,
-                    .Value = value,
+                    .value = value,
                     .Label = GetRowLabel(labels, row),
                     .SequenceValue = GetSequenceValue(sequenceValues, row),
                     .SourceRowIndices = {sourceRows(row)},
@@ -439,7 +439,7 @@ Namespace StatisticalProcessControl
                 If IsEstimationEligible(point) Then
                     values(logicalIndex - stage.Definition.FirstPointIndex) = point.Value
                     meanCount += 1
-                    mean += (point.Value - mean) / CDbl(meanCount)
+                    mean += (point.Value - mean) / Convert.ToDouble(meanCount)
                 End If
             Next
 
@@ -467,7 +467,7 @@ Namespace StatisticalProcessControl
             Return New StageParameters With {
                 .Center = mean,
                 .Sigma = sigmaEstimate.Value,
-                .CenterStandardError = sigmaEstimate.Value / Math.Sqrt(CDbl(meanCount)),
+                .CenterStandardError = sigmaEstimate.Value / Math.Sqrt(Convert.ToDouble(meanCount)),
                 .EstimationPointCount = meanCount,
                 .SigmaEstimationPointCount = sigmaEstimate.ContributingPointCount,
                 .LimitMode = SpcStageLimitMode.EstimateFromStageData,
@@ -815,7 +815,7 @@ Namespace StatisticalProcessControl
 
                 Dim varianceFactor As Double = lambda / (2.0 - lambda)
                 If Not steadyState Then
-                    varianceFactor *= 1.0 - Math.Pow(1.0 - lambda, 2.0 * CDbl(pointRecursionAge))
+                    varianceFactor *= 1.0 - Math.Pow(1.0 - lambda, 2.0 * Convert.ToDouble(pointRecursionAge))
                 End If
                 Dim standardError As Double = parameters.Sigma * Math.Sqrt(Math.Max(0.0, varianceFactor))
                 Dim limits As LimitValues = BuildSymmetricLimits(parameters.Center, standardError, limitMultiplier)
@@ -966,7 +966,7 @@ Namespace StatisticalProcessControl
 
                 If hasValue Then
                     value = AverageWindow(calculationWindow)
-                    effectiveSampleSize = CDbl(calculationWindow.Count)
+                    effectiveSampleSize = Convert.ToDouble(calculationWindow.Count)
                     standardError = parameters.Sigma / Math.Sqrt(effectiveSampleSize)
                     limits = BuildSymmetricLimits(parameters.Center, standardError, limitMultiplier)
                     finiteMovingAverages += 1
@@ -1052,7 +1052,7 @@ Namespace StatisticalProcessControl
                     rawPoints,
                     cache,
                     SpcPanelType.MovingAverage,
-                    CDbl(span),
+                    Convert.ToDouble(span),
                     limitMultiplier,
                     If(steadyState, 1.0, 0.0)),
                 signals.ToArray())
@@ -1061,7 +1061,7 @@ Namespace StatisticalProcessControl
         Private Shared Function AverageWindow(window As List(Of RawTimePoint)) As Double
             Dim mean As Double = 0.0
             For i As Integer = 0 To window.Count - 1
-                mean += (window(i).Value - mean) / CDbl(i + 1)
+                mean += (window(i).Value - mean) / Convert.ToDouble(i + 1)
             Next
             Return mean
         End Function

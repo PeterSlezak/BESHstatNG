@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
@@ -84,7 +84,7 @@ Namespace StatisticalProcessControl
         ''' <remarks>
         ''' This constructor is useful for deterministic unit tests. Normal callers
         ''' should use the shared <see cref="Fit"/> method, which discovers bundled
-        ''' calculators in the BESHStatNG assembly once and caches the registry.
+        ''' calculators in the Core assembly once and caches the registry.
         ''' </remarks>
         Public Sub New(calculators As IEnumerable(Of ISpcChartCalculator))
             If calculators Is Nothing Then Throw New ArgumentNullException(NameOf(calculators))
@@ -148,7 +148,7 @@ Namespace StatisticalProcessControl
         Public Shared Function GetChartFamily(chartType As SpcChartType) As SpcChartFamily
             ValidateEnum(chartType, NameOf(chartType))
 
-            Dim numericValue As Integer = CInt(chartType)
+            Dim numericValue As Integer = Convert.ToInt32(chartType)
             If chartType = SpcChartType.RunChart Then Return SpcChartFamily.Run
             If numericValue >= 100 AndAlso numericValue < 200 Then Return SpcChartFamily.ShewhartVariables
             If numericValue >= 200 AndAlso numericValue < 220 Then Return SpcChartFamily.ShewhartAttributes
@@ -374,7 +374,7 @@ Namespace StatisticalProcessControl
                         "Exclusions", "An exclusion refers to a point beyond the available input rows.")
                 End If
                 Dim key As String = exclusion.PointIndex.ToString(Globalization.CultureInfo.InvariantCulture) &
-                                    ":" & CInt(exclusion.Scope).ToString(Globalization.CultureInfo.InvariantCulture)
+                                    ":" & Convert.ToInt32(exclusion.Scope).ToString(Globalization.CultureInfo.InvariantCulture)
                 If Not seen.Add(key) Then
                     Throw New ArgumentException(
                         "Duplicate exclusions for the same point and scope are not permitted.")
