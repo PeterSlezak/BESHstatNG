@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
@@ -677,7 +677,7 @@ Namespace StatisticalProcessControl
             Dim errorCode As Integer = 0
             Try
                 Dim ignoredInverse As Double(,) =
-                    Matrix.MatInv(values, "CHOL", errorCode, False)
+                    Global.BESHStatNG.Matrix.MatrixDecompositionCore.InvertMatrix(values, "CHOL", errorCode, False)
             Catch ex As Exception
                 Throw New ArgumentException(
                     "The historical covariance matrix must be positive definite.",
@@ -1227,7 +1227,7 @@ Namespace StatisticalProcessControl
                 Next
                 result.Add(New WorkingObservation With {
                     .PointIndex = i,
-                    .Values = row,
+                    .values = row,
                     .Label = labels(i),
                     .Phase = phases(i),
                     .StageId = stages(i),
@@ -1255,7 +1255,7 @@ Namespace StatisticalProcessControl
                 CheckCancellationPeriodically(i, cancellationRequested)
                 Dim observation As WorkingObservation = observations(i)
                 Dim group As WorkingGroup = Nothing
-                Dim groupKey As String = observation.StageId & ChrW(31) &
+                Dim groupKey As String = observation.StageId & Convert.ToChar(31) &
                     observation.SubgroupId
                 If Not map.TryGetValue(groupKey, group) Then
                     group = New WorkingGroup With {
@@ -1297,7 +1297,7 @@ Namespace StatisticalProcessControl
                 Dim matrix As Double(,) = ObservationsToMatrix(group.Observations)
                 group.MeanVector = ColumnMeans(matrix)
                 group.Covariance = If(group.Observations.Count > 1,
-                                      beshstatng.Matrix.MatCovar(matrix),
+                                      Global.BESHStatNG.Matrix.MatrixStatisticsCore.SampleCovariance(matrix),
                                       Nothing)
                 group.SourceRowIndices = CollectSourceRows(group.Observations)
                 Dim firstLabel As String = group.Observations(0).Label
@@ -1337,7 +1337,7 @@ Namespace StatisticalProcessControl
                 End If
                 Dim baselineMatrix As Double(,) = ObservationsToMatrix(baseline)
                 mean = ColumnMeans(baselineMatrix)
-                covariance = Matrix.MatCovar(baselineMatrix)
+                covariance = Global.BESHStatNG.Matrix.MatrixStatisticsCore.SampleCovariance(baselineMatrix)
                 covarianceDf = baseline.Count - 1
             End If
 
@@ -1659,7 +1659,7 @@ Namespace StatisticalProcessControl
                     subgroupSize,
                     model.EffectiveDimension,
                     request.ModelSource = SpcMultivariateModelSource.UseHistoricalParameters)
-                Dim center As Double = Math.Min(CDbl(model.EffectiveDimension), limits.Upper)
+                Dim center As Double = Math.Min(Convert.ToDouble(model.EffectiveDimension), limits.Upper)
                 Dim contribution As Double() = QuadraticContributions(difference, inverse)
                 For j As Integer = 0 To contribution.Length - 1
                     contribution(j) *= subgroupSize
@@ -1738,7 +1738,7 @@ Namespace StatisticalProcessControl
                 End If
                 Dim subgroupCovarianceForStatistic As Double(,) =
                     AddDiagonal(group.Covariance, determinantRidge)
-                Dim statistic As Double = Math.Max(0.0, Matrix.MDeterm(
+                Dim statistic As Double = Math.Max(0.0, Global.BESHStatNG.Matrix.MatrixFactorizationCore.Determinant(
                     subgroupCovarianceForStatistic))
                 Dim moments As DeterminantMoments = GeneralizedVarianceMoments(
                     subgroupSize, request.VariableCount)
@@ -1994,14 +1994,14 @@ Namespace StatisticalProcessControl
                 For j As Integer = 0 To contributions.Length - 1
                     contributions(j) /= varianceFactor
                 Next
-                Dim limits As New LimitPair With {.Lower = 0.0, .Upper = upper}
+                Dim limits As New LimitPair With {.Lower = 0.0, .upper = upper}
                 Dim signalled As Boolean = IsRuleEligible(observation) AndAlso statistic > upper
                 AddPointAndSignal(points,
                                   signals,
                                   SpcPanelType.Mewma,
                                   observation,
                                   statistic,
-                                  Math.Min(CDbl(model.EffectiveDimension), upper),
+                                  Math.Min(Convert.ToDouble(model.EffectiveDimension), upper),
                                   limits,
                                   1.0,
                                   signalled,
@@ -2195,7 +2195,7 @@ Namespace StatisticalProcessControl
             If phase = SpcPhase.PhaseI Then
                 Dim shapeA As Double = dimension / 2.0
                 Dim shapeB As Double = (baselineCount - dimension - 1) / 2.0
-                Dim multiplier As Double = CDbl((baselineCount - 1) * (baselineCount - 1)) /
+                Dim multiplier As Double = Convert.ToDouble((baselineCount - 1) * (baselineCount - 1)) /
                     baselineCount
                 Return New LimitPair With {
                     .Lower = If(useLowerLimit,
@@ -2207,7 +2207,7 @@ Namespace StatisticalProcessControl
                 }
             End If
 
-            Dim factor As Double = CDbl(dimension * (baselineCount + 1) * (baselineCount - 1)) /
+            Dim factor As Double = Convert.ToDouble(dimension * (baselineCount + 1) * (baselineCount - 1)) /
                 (baselineCount * (baselineCount - dimension))
             Return New LimitPair With {
                 .Lower = If(useLowerLimit,
@@ -2255,7 +2255,7 @@ Namespace StatisticalProcessControl
                     subgroupSize * dimension + dimension
                 factor = numerator / denominatorDf
             Else
-                factor = CDbl(dimension * (baselineGroupCount + 1) * (subgroupSize - 1)) /
+                factor = Convert.ToDouble(dimension * (baselineGroupCount + 1) * (subgroupSize - 1)) /
                          denominatorDf
             End If
             Return New LimitPair With {
@@ -2275,9 +2275,9 @@ Namespace StatisticalProcessControl
             Dim center As Double = dimension
             If Not historical Then
                 If phase = SpcPhase.PhaseI Then
-                    center = CDbl(dimension * (baselineCount - 1)) / baselineCount
+                    center = Convert.ToDouble(dimension * (baselineCount - 1)) / baselineCount
                 ElseIf baselineCount > dimension + 2 Then
-                    center = CDbl(dimension * (baselineCount + 1) * (baselineCount - 1)) /
+                    center = Convert.ToDouble(dimension * (baselineCount + 1) * (baselineCount - 1)) /
                              (baselineCount * (baselineCount - dimension - 2))
                 End If
             End If
@@ -2305,8 +2305,8 @@ Namespace StatisticalProcessControl
             Dim b2 As Double = firstProduct * (secondProduct - firstProduct) /
                 (denominator * denominator)
             Return New DeterminantMoments With {
-                .B1 = b1,
-                .B2 = Math.Max(0.0, b2)
+                .b1 = b1,
+                .b2 = Math.Max(0.0, b2)
             }
         End Function
 
@@ -2359,9 +2359,9 @@ Namespace StatisticalProcessControl
         End Function
 
         Private Shared Function ComputeEigenInformation(covariance As Double(,)) As EigenInformation
-            Dim raw = Matrix.EIGEN_JK(covariance, 100, 0.000000000001)
-            Dim sorted = Global.BESHStatNG.Multivariate.MultivariateShared.SortEigenpairsDescending(
-                raw.Item1, raw.Item2)
+            Dim raw = Global.BESHStatNG.Matrix.MatrixStatisticsCore.EigenJk(covariance, 100, 0.000000000001)
+            Dim sorted = Global.BESHStatNG.Matrix.MatrixStatisticsCore.SortEigenpairsDescending(
+                raw.Eigenvalues, raw.Eigenvectors)
             Dim values As Double() = sorted.Item1
             Dim vectors As Double(,) = sorted.Item2
             Dim maximum As Double = 0.0
@@ -2385,10 +2385,10 @@ Namespace StatisticalProcessControl
                     "The fitted covariance matrix has zero numerical rank.")
             End If
             Return New EigenInformation With {
-                .Values = values,
-                .Vectors = vectors,
-                .Rank = rank,
-                .Tolerance = tolerance
+                .values = values,
+                .vectors = vectors,
+                .rank = rank,
+                .tolerance = tolerance
             }
         End Function
 
@@ -2403,21 +2403,21 @@ Namespace StatisticalProcessControl
                         "The covariance matrix is singular or numerically rank deficient.")
                 End If
                 Return New InverseInformation With {
-                    .Inverse = Matrix.pseudoInverse(covariance, tolerance),
+                    .Inverse = Global.BESHStatNG.Matrix.MatrixDecompositionCore.ComputePseudoInverse(covariance, tolerance),
                     .UsedPseudoInverse = True
                 }
             End If
 
             Dim errorCode As Integer = 0
             Try
-                Dim inverse As Double(,) = Matrix.MatInv(
+                Dim inverse As Double(,) = Global.BESHStatNG.Matrix.MatrixDecompositionCore.InvertMatrix(
                     covariance,
                     "CHOL",
                     errorCode,
                     False)
                 If errorCode = 0 Then
                     Return New InverseInformation With {
-                        .Inverse = inverse,
+                        .inverse = inverse,
                         .UsedPseudoInverse = False
                     }
                 End If
@@ -2429,7 +2429,7 @@ Namespace StatisticalProcessControl
                     "The covariance matrix is singular or not positive definite.")
             End If
             Return New InverseInformation With {
-                .Inverse = Matrix.pseudoInverse(covariance, tolerance),
+                .Inverse = Global.BESHStatNG.Matrix.MatrixDecompositionCore.ComputePseudoInverse(covariance, tolerance),
                 .UsedPseudoInverse = True
             }
         End Function
@@ -2538,8 +2538,8 @@ Namespace StatisticalProcessControl
             Next
             Return New PcaProjection With {
                 .WorkingDifference = difference,
-                .Scores = scores,
-                .Residual = residual
+                .scores = scores,
+                .residual = residual
             }
         End Function
 
@@ -2663,7 +2663,7 @@ Namespace StatisticalProcessControl
             displayName As String) As SpcRuleDefinition
 
             Return New SpcRuleDefinition(
-                "MV" & CInt(panelType).ToString(CultureInfo.InvariantCulture),
+                "MV" & Convert.ToInt32(panelType).ToString(CultureInfo.InvariantCulture),
                 ruleNumber,
                 SpcRuleKind.BeyondSigma,
                 1,
@@ -2939,15 +2939,15 @@ Namespace StatisticalProcessControl
             Array.Sort(sorted)
             If sorted.Length = 1 Then Return sorted(0)
             Dim position As Double = probability * (sorted.Length - 1)
-            Dim lower As Integer = CInt(Math.Floor(position))
-            Dim upper As Integer = CInt(Math.Ceiling(position))
+            Dim lower As Integer = Convert.ToInt32(Math.Floor(position))
+            Dim upper As Integer = Convert.ToInt32(Math.Ceiling(position))
             If lower = upper Then Return sorted(lower)
             Dim fraction As Double = position - lower
             Return sorted(lower) + fraction * (sorted(upper) - sorted(lower))
         End Function
 
         Private Shared Function PositiveDeterminant(values As Double(,)) As Double
-            Dim determinant As Double = Matrix.MDeterm(CType(values.Clone(), Double(,)))
+            Dim determinant As Double = Global.BESHStatNG.Matrix.MatrixFactorizationCore.Determinant(CType(values.Clone(), Double(,)))
             If determinant <= 0.0 OrElse Not SpcModelGuards.IsFinite(determinant) Then
                 Throw New InvalidOperationException(
                     "The fitted covariance matrix must have a positive determinant.")

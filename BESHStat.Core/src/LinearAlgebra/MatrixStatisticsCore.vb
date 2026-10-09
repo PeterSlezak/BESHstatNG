@@ -2,6 +2,7 @@
 Option Strict On
 
 Imports System
+Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 
 Namespace Matrix
@@ -17,6 +18,24 @@ Namespace Matrix
             Public Property Eigenvalues As Double()
             Public Property Eigenvectors As Double(,)
         End Class
+
+        ''' <summary>Sorts paired eigenvalues and eigenvector columns in descending order.</summary>
+        Public Function SortEigenpairsDescending(vals() As Double,
+                                                 vecs(,) As Double) As (Double(), Double(,))
+            Dim order = Enumerable.Range(0, vals.Length).OrderByDescending(Function(i) vals(i)).ToArray()
+            Dim vals2(vals.Length - 1) As Double
+            Dim vecs2(vecs.GetLength(0) - 1, vecs.GetLength(1) - 1) As Double
+
+            For newJ As Integer = 0 To order.Length - 1
+                Dim oldJ As Integer = order(newJ)
+                vals2(newJ) = vals(oldJ)
+                For i As Integer = 0 To vecs.GetLength(0) - 1
+                    vecs2(i, newJ) = vecs(i, oldJ)
+                Next
+            Next
+
+            Return (vals2, vecs2)
+        End Function
 
         Public Function SampleCovariance(matrix(,) As Double) As Double(,)
             Dim rowCount As Integer = matrix.GetLength(0)

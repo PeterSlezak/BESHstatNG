@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
@@ -734,7 +734,7 @@ Namespace StatisticalProcessControl
             Dim normalized As String = If(message, String.Empty).Trim()
             If normalized.Length = 0 Then Return
 
-            Dim key As String = scope & ChrW(30) & panel & ChrW(30) & normalized
+            Dim key As String = scope & Convert.ToChar(30) & panel & Convert.ToChar(30) & normalized
             If seen.Add(key) Then rows.Add(Row(scope, panel, normalized))
         End Sub
 
