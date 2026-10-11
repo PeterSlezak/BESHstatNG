@@ -1,11 +1,10 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
 Imports System
 Imports System.Collections.Generic
 Imports System.Linq
-Imports BESHStatNG.Multivariate
 
 Namespace CausalInference
 
@@ -99,7 +98,7 @@ Namespace CausalInference
                         .PropensityDistance = s.Item3,
                         .MahalanobisDistance = s.Item4,
                         .ExactGroupLabel = f.ExactGroupLabel,
-                        .MatchedWeight = 1.0 / CDbl(selected.Count)
+                        .MatchedWeight = 1.0 / Convert.ToDouble(selected.Count)
                     })
                     If Not options.WithReplacement Then available.Remove(s.Item1.RowIndex)
                 Next
@@ -119,7 +118,7 @@ Namespace CausalInference
                     weights(first.TreatedRowIndex) = 1.0
                     Dim k As Integer = setGroup.Count()
                     For Each m In setGroup
-                        weights(m.ControlRowIndex) += 1.0 / CDbl(k)
+                        weights(m.ControlRowIndex) += 1.0 / Convert.ToDouble(k)
                     Next
                 Next
             ElseIf options.Estimand = PsmEstimand.ATC Then
@@ -128,7 +127,7 @@ Namespace CausalInference
                     weights(first.ControlRowIndex) = 1.0
                     Dim k As Integer = setGroup.Count()
                     For Each m In setGroup
-                        weights(m.TreatedRowIndex) += 1.0 / CDbl(k)
+                        weights(m.TreatedRowIndex) += 1.0 / Convert.ToDouble(k)
                     Next
                 Next
             End If
@@ -212,12 +211,12 @@ Namespace CausalInference
                 Next
             Next
 
-            Dim cov As Double(,) = Matrix.MatCovar(covariateMatrix)
+            Dim cov As Double(,) = Global.BESHStatNG.Matrix.MatrixStatisticsCore.SampleCovariance(covariateMatrix)
 
             For j As Integer = 0 To p - 1
                 cov(j, j) += 0.0000001
             Next
-            Return Matrix.MatInv(cov, "CHOL")
+            Return Global.BESHStatNG.Matrix.MatrixDecompositionCore.InvertMatrix(cov, "CHOL")
         End Function
 
         Private Shared Function MahalanobisDistance(a As PsmObservation, b As PsmObservation, invCov As Double(,)) As Double
@@ -226,7 +225,7 @@ Namespace CausalInference
             For j As Integer = 0 To p - 1
                 diff(j) = a.Covariates(j) - b.Covariates(j)
             Next
-            Dim q As Double = Matrix.QuadraticForm(diff, invCov)
+            Dim q As Double = Global.BESHStatNG.Matrix.MatrixArithmeticCore.QuadraticForm(diff, invCov)
             If Not AppInfrastructure.IsFinite(q) Then Return Double.PositiveInfinity
             Return Math.Sqrt(Math.Max(0.0, q))
         End Function
@@ -273,7 +272,7 @@ Namespace CausalInference
 
             Dim cuts As New List(Of Double)()
             For s As Integer = 0 To options.SubclassificationStrata
-                cuts.Add(PsmMath.Quantile(scores, CDbl(s) / CDbl(options.SubclassificationStrata)))
+                cuts.Add(PsmMath.Quantile(scores, Convert.ToDouble(s) / Convert.ToDouble(options.SubclassificationStrata)))
             Next
             cuts(0) = Math.Min(cuts(0), scores.Min()) - 0.000000000001
             cuts(cuts.Count - 1) = Math.Max(cuts(cuts.Count - 1), scores.Max()) + 0.000000000001
@@ -304,7 +303,7 @@ Namespace CausalInference
                     .TreatedOutcomeMean = mt,
                     .ControlOutcomeMean = mc,
                     .Effect = mt - mc,
-                    .Weight = CDbl(treatedOutcomes.Count + controlOutcomes.Count) / CDbl(input.RowCount)
+                    .Weight = Convert.ToDouble(treatedOutcomes.Count + controlOutcomes.Count) / Convert.ToDouble(input.RowCount)
                 })
             Next
             Return rows

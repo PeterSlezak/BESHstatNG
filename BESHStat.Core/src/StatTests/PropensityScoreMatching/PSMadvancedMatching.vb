@@ -1,4 +1,4 @@
-Option Explicit On
+﻿Option Explicit On
 Option Strict On
 Option Infer On
 
@@ -305,11 +305,11 @@ Namespace CausalInference
                     x(i, j) = rows(i).Covariates(j)
                 Next
             Next
-            Dim cov As Double(,) = Matrix.MatCovar(x)
+            Dim cov As Double(,) = Global.BESHStatNG.Matrix.MatrixStatisticsCore.SampleCovariance(x)
             For j As Integer = 0 To p - 1
                 cov(j, j) += 0.0000001
             Next
-            Return Matrix.MatInv(cov, "CHOL")
+            Return Global.BESHStatNG.Matrix.MatrixDecompositionCore.InvertMatrix(cov, "CHOL")
         End Function
 
         Private Shared Function MahalanobisDistance(a As PsmObservation, b As PsmObservation, invCov As Double(,)) As Double
@@ -431,7 +431,7 @@ Namespace CausalInference
             If k <= 1 Then Return New Double() {}
             Dim cuts As New List(Of Double)()
             For b As Integer = 1 To k - 1
-                Dim q As Double = PsmMath.Quantile(values, CDbl(b) / CDbl(k))
+                Dim q As Double = PsmMath.Quantile(values, Convert.ToDouble(b) / Convert.ToDouble(k))
                 If AppInfrastructure.IsFinite(q) AndAlso Not cuts.Contains(q) Then cuts.Add(q)
             Next
             cuts.Sort()
@@ -473,15 +473,15 @@ Namespace CausalInference
             If nT <= 0 OrElse nC <= 0 Then Return Tuple.Create(0.0, 0.0)
             Select Case estimand
                 Case PsmEstimand.ATT
-                    Return Tuple.Create(1.0, CDbl(nT) / CDbl(nC))
+                    Return Tuple.Create(1.0, Convert.ToDouble(nT) / Convert.ToDouble(nC))
                 Case PsmEstimand.ATC
-                    Return Tuple.Create(CDbl(nC) / CDbl(nT), 1.0)
+                    Return Tuple.Create(Convert.ToDouble(nC) / Convert.ToDouble(nT), 1.0)
                 Case PsmEstimand.ATE
-                    Dim total As Double = CDbl(nT + nC)
-                    Return Tuple.Create(total / CDbl(2 * nT), total / CDbl(2 * nC))
+                    Dim total As Double = Convert.ToDouble(nT + nC)
+                    Return Tuple.Create(total / Convert.ToDouble(2 * nT), total / Convert.ToDouble(2 * nC))
                 Case PsmEstimand.ATO
-                    Dim minCell As Double = CDbl(Math.Min(nT, nC))
-                    Return Tuple.Create(minCell / CDbl(nT), minCell / CDbl(nC))
+                    Dim minCell As Double = Convert.ToDouble(Math.Min(nT, nC))
+                    Return Tuple.Create(minCell / Convert.ToDouble(nT), minCell / Convert.ToDouble(nC))
                 Case Else
                     Return Tuple.Create(1.0, 1.0)
             End Select
@@ -501,8 +501,8 @@ Namespace CausalInference
                     sumC += weights(i)
                 End If
             Next
-            Dim scaleT As Double = If(sumT > 0.0, CDbl(nT) / sumT, 1.0)
-            Dim scaleC As Double = If(sumC > 0.0, CDbl(nC) / sumC, 1.0)
+            Dim scaleT As Double = If(sumT > 0.0, Convert.ToDouble(nT) / sumT, 1.0)
+            Dim scaleC As Double = If(sumC > 0.0, Convert.ToDouble(nC) / sumC, 1.0)
             For i As Integer = 0 To input.RowCount - 1
                 If input.Treatment(i) >= 0.5 Then
                     weights(i) *= scaleT
