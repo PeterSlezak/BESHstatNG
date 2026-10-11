@@ -157,7 +157,7 @@ Namespace CausalInference
             Else
                 Dim header(colCount - 1) As String
                 For c As Integer = 0 To colCount - 1
-                    header(c) = If(matrix(0, c) Is Nothing, "", CStr(matrix(0, c)))
+                    header(c) = If(matrix(0, c) Is Nothing, "", Convert.ToString(matrix(0, c)))
                 Next
                 rt.AddHeaderTopRow(header)
 

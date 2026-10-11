@@ -110,7 +110,7 @@ Namespace CausalInference
             If result.ScoreModel.Warnings IsNot Nothing Then result.Warnings.AddRange(result.ScoreModel.Warnings)
             result.Observations = PsmMatchingEngine.BuildObservations(input, result.ScoreModel, options)
             result.BalancingWeights = PsmWeightEngine.ComputeBalancingWeights(input, result.ScoreModel.Scores, options)
-            result.Balance.AddRange(PsmBalanceDiagnostics.ComputeBalance(input, Matrix.IdentityVect(input.RowCount - 1), PsmBalanceSample.Before, options))
+            result.Balance.AddRange(PsmBalanceDiagnostics.ComputeBalance(input, Matrix.MatrixArithmeticCore.ConstantVector(input.RowCount - 1), PsmBalanceSample.Before, options))
             result.Balance.AddRange(PsmBalanceDiagnostics.ComputeBalance(input, result.BalancingWeights, PsmBalanceSample.AfterWeighting, options))
             result.Matches = PsmAdvancedMatching.MatchOptimalPairs(input, result.Observations, options)
             result.MatchingWeights = PsmMatchingEngine.ComputeMatchingWeights(input, result.Matches, options)
@@ -136,7 +136,7 @@ Namespace CausalInference
 
             result.BalancingWeights = output.CoarsenedExactResult.Weights
             result.MatchingWeights = output.CoarsenedExactResult.Weights
-            result.Balance.AddRange(PsmBalanceDiagnostics.ComputeBalance(input, Matrix.IdentityVect(input.RowCount - 1), PsmBalanceSample.Before, options))
+            result.Balance.AddRange(PsmBalanceDiagnostics.ComputeBalance(input, Matrix.MatrixArithmeticCore.ConstantVector(input.RowCount - 1), PsmBalanceSample.Before, options))
             result.Balance.AddRange(PsmBalanceDiagnostics.ComputeBalance(input, result.BalancingWeights, PsmBalanceSample.AfterWeighting, options))
             result.WeightedEffect = PsmAdvancedMatching.EstimateCoarsenedExactEffect(input, output.CoarsenedExactResult, options.Estimand)
             result.SampleSize = BuildSampleSummary(input, result)
@@ -318,7 +318,7 @@ Namespace CausalInference
             row.MatchedTreatedRows = If(fit.Matches Is Nothing, 0, fit.Matches.Select(Function(m) m.TreatedRowIndex).Distinct().Count())
             row.MatchedControlRows = If(fit.Matches Is Nothing, 0, fit.Matches.Select(Function(m) m.ControlRowIndex).Distinct().Count())
             Dim matchedFocal As Integer = If(fit.Options.Estimand = PsmEstimand.ATC, row.MatchedControlRows, row.MatchedTreatedRows)
-            row.MatchedFraction = If(focalTotal > 0, CDbl(matchedFocal) / CDbl(focalTotal), 0.0)
+            row.MatchedFraction = If(focalTotal > 0, Convert.ToDouble(matchedFocal) / Convert.ToDouble(focalTotal), 0.0)
 
             Dim afterRows As List(Of PsmBalanceRow) = fit.Balance.Where(Function(b) b.Sample = PsmBalanceSample.AfterMatching AndAlso AppInfrastructure.IsFinite(b.StandardizedMeanDifference)).ToList()
             If afterRows.Count > 0 Then

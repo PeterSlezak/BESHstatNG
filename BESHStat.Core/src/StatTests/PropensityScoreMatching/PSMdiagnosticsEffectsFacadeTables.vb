@@ -25,7 +25,7 @@ Namespace CausalInference
 
             result.Observations = PsmMatchingEngine.BuildObservations(input, result.ScoreModel, options)
             result.BalancingWeights = PsmWeightEngine.ComputeBalancingWeights(input, result.ScoreModel.Scores, options)
-            result.Balance.AddRange(PsmBalanceDiagnostics.ComputeBalance(input, Matrix.IdentityVect(input.RowCount - 1), PsmBalanceSample.Before, options))
+            result.Balance.AddRange(PsmBalanceDiagnostics.ComputeBalance(input, Matrix.MatrixArithmeticCore.ConstantVector(input.RowCount - 1), PsmBalanceSample.Before, options))
             result.Balance.AddRange(PsmBalanceDiagnostics.ComputeBalance(input, result.BalancingWeights, PsmBalanceSample.AfterWeighting, options))
 
             If options.MatchingMethod = PsmMatchingMethod.NearestNeighbor Then
