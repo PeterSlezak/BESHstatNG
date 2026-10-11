@@ -290,7 +290,7 @@ Namespace Multivariate
     End Enum
 
     ''' <summary>
-    ''' Specifies how leaf labels are rendered in an Excel dendrogram chart.
+    ''' Specifies how leaf labels are rendered in a host dendrogram chart.
     ''' </summary>
     Public Enum DendrogramLabelMode
         ''' <summary>
@@ -734,7 +734,7 @@ Namespace Multivariate
         ''' <remarks>
         ''' <para>
         ''' Call <see cref="Fit"/> before calling this method. The returned tables are intended to be written to an
-        ''' Excel worksheet using <see cref="ProcessListofResultTables.writeToSheet"/> together with <see cref="ExcelDnaResultWriter"/>.
+        ''' a worksheet or other destination through the Framework host result-table writer.
         ''' </para>
         ''' <para>
         ''' This method follows the same project pattern used by the other analysis classes that expose
@@ -1488,7 +1488,7 @@ Namespace Multivariate
         ''' <param name="orientation">Requested display orientation for the final chart coordinates.</param>
         ''' <returns>
         ''' A <see cref="DendrogramLayout"/> object containing the polyline coordinates, leaf coordinates, and labels
-        ''' required to draw the dendrogram as an Excel X/Y scatter chart.
+        ''' required to draw the dendrogram as a host X/Y scatter chart.
         ''' </returns>
         ''' <remarks>
         ''' <para>
@@ -2183,7 +2183,7 @@ Namespace Multivariate
             Dim hdr(nCols - 1) As String
 
             For j As Integer = 0 To nCols - 1
-                hdr(j) = If(table(0, j) Is Nothing, String.Empty, CStr(table(0, j)))
+                hdr(j) = If(table(0, j) Is Nothing, String.Empty, Convert.ToString(table(0, j)))
             Next
             t.AddHeaderTopRow(hdr)
 
@@ -2234,7 +2234,7 @@ Namespace Multivariate
                     If idx >= 0 AndAlso idx < result.ActiveRowLabels.Length Then
                         leafLabels(i) = result.ActiveRowLabels(idx)
                     Else
-                        leafLabels(i) = CStr(result.LeafOrder(i))
+                        leafLabels(i) = Convert.ToString(result.LeafOrder(i))
                     End If
                 Next
             Else
@@ -2269,8 +2269,8 @@ Namespace Multivariate
                 End If
 
                 Dim height As Double = If(heightMode = DendrogramHeightMode.StepLevels,
-                                          CDbl(stepIndex + 1),
-                                          If(result.MergeHeights Is Nothing, CDbl(stepIndex + 1), result.MergeHeights(stepIndex)))
+                                          Convert.ToDouble(stepIndex + 1),
+                                          If(result.MergeHeights Is Nothing, Convert.ToDouble(stepIndex + 1), result.MergeHeights(stepIndex)))
 
                 Dim node As New DendrogramNode With {
                     .Id = newId,
@@ -2482,16 +2482,21 @@ Namespace Multivariate
             Return 0.5 * (lowHeight + highHeight)
         End Function
 
+        Private Function OleRgb(red As Integer, green As Integer, blue As Integer) As Integer
+            ' Preserve the original VBA RGB/OLE_COLOR byte order.
+            Return red Or (green << 8) Or (blue << 16)
+        End Function
+
         Public Function GetClusterSeriesColor(index As Integer) As Integer
             Dim palette() As Integer = {
-                RGB(0, 114, 178),
-                RGB(213, 94, 0),
-                RGB(0, 158, 115),
-                RGB(204, 121, 167),
-                RGB(230, 159, 0),
-                RGB(86, 180, 233),
-                RGB(240, 228, 66),
-                RGB(0, 0, 0)
+                OleRgb(0, 114, 178),
+                OleRgb(213, 94, 0),
+                OleRgb(0, 158, 115),
+                OleRgb(204, 121, 167),
+                OleRgb(230, 159, 0),
+                OleRgb(86, 180, 233),
+                OleRgb(240, 228, 66),
+                OleRgb(0, 0, 0)
             }
             Return palette(index Mod palette.Length)
         End Function
@@ -2925,7 +2930,7 @@ Namespace Multivariate
                     Return ComputeVectorDistance(nodeA.LinkageCentroid, nodeB.LinkageCentroid, distanceMetric, 2.0)
                 Case Else
                     Dim sq As Double = SquaredEuclideanVectors(nodeA.TrueCentroid, nodeB.TrueCentroid)
-                    Return (nodeA.Size * nodeB.Size / CDbl(nodeA.Size + nodeB.Size)) * sq
+                    Return (nodeA.Size * nodeB.Size / Convert.ToDouble(nodeA.Size + nodeB.Size)) * sq
             End Select
         End Function
 
