@@ -1,6 +1,9 @@
 ﻿Option Explicit On
 Option Strict On
+Imports System
+Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.Matrix
 
 Namespace Multivariate
 
@@ -55,19 +58,7 @@ Namespace Multivariate
         '''''' </remarks>
         Friend Function SortEigenpairsDescending(vals() As Double,
                                                  vecs(,) As Double) As (Double(), Double(,))
-            Dim order = Enumerable.Range(0, vals.Length).OrderByDescending(Function(i) vals(i)).ToArray()
-            Dim vals2(vals.Length - 1) As Double
-            Dim vecs2(vecs.GetLength(0) - 1, vecs.GetLength(1) - 1) As Double
-
-            For newJ As Integer = 0 To order.Length - 1
-                Dim oldJ As Integer = order(newJ)
-                vals2(newJ) = vals(oldJ)
-                For i As Integer = 0 To vecs.GetLength(0) - 1
-                    vecs2(i, newJ) = vecs(i, oldJ)
-                Next
-            Next
-
-            Return (vals2, vecs2)
+            Return MatrixStatisticsCore.SortEigenpairsDescending(vals, vecs)
         End Function
 
         ''' <summary>
@@ -106,7 +97,7 @@ Namespace Multivariate
         ''' Forms a diagonal matrix from a vector.
         ''' </summary>
         Friend Function DiagonalMatrix(diag() As Double) As Double(,)
-            Return Matrix.DiagMatFromVector(diag)
+            Return MatrixDecompositionCore.DiagonalMatrixFromVector(diag)
         End Function
 
         ''' <summary>
@@ -139,15 +130,15 @@ Namespace Multivariate
                                     Optional preferCholesky As Boolean = True) As Double(,)
             Try
                 If preferCholesky Then
-                    Return Matrix.MatInv(mat, method:="CHOL")
+                    Return MatrixDecompositionCore.InvertMatrix(mat, method:="CHOL")
                 Else
-                    Return Matrix.MatInv(mat, method:="LU")
+                    Return MatrixDecompositionCore.InvertMatrix(mat, method:="LU")
                 End If
             Catch
                 Try
-                    Return Matrix.MatInv(mat, method:="LU")
+                    Return MatrixDecompositionCore.InvertMatrix(mat, method:="LU")
                 Catch
-                    Return Matrix.pseudoInverse(mat)
+                    Return MatrixDecompositionCore.ComputePseudoInverse(mat)
                 End Try
             End Try
         End Function

@@ -595,7 +595,7 @@ SplitOk:
             }
         End Function
 
-        Private Function DiagonalMatrixFromVector(values() As Double) As Double(,)
+        Public Function DiagonalMatrixFromVector(values() As Double) As Double(,)
             Dim output(values.GetUpperBound(0), values.GetUpperBound(0)) As Double
             For i As Integer = 0 To values.GetUpperBound(0)
                 output(i, i) = values(i)
