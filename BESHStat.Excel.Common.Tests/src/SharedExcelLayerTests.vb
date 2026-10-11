@@ -178,6 +178,77 @@ Public Class SharedExcelLayerTests
     End Sub
 
     <TestMethod>
+    Public Sub KruskalWallisApplicationService_WithTies_MatchesReferenceAndReturnsDunnTable()
+        Dim grouped As New GroupedNumericData(
+            New String() {"A", "B", "C"},
+            New Double()() {
+                New Double() {1.0, 2.0, 2.0, 3.0},
+                New Double() {2.0, 3.0, 4.0, 4.0},
+                New Double() {4.0, 5.0, 5.0, 6.0}
+            })
+        Dim options As New KruskalWallisAnalysisOptions With {
+            .IncludeDunnComparisons = True,
+            .Alpha = 0.05
+        }
+
+        Dim result As KruskalWallisApplicationResult = KruskalWallisApplicationService.Run(grouped, options)
+
+        Assert.AreEqual(7.875, result.HStatistic, 0.000000000001)
+        Assert.AreEqual(8.1603260869565215, result.TieCorrectedHStatistic, 0.000000000001)
+        Assert.AreEqual(0.019496896108597995, result.PValue, 0.000000000001)
+        Assert.AreEqual(0.016904709225411534, result.TieCorrectedPValue, 0.000000000001)
+        CollectionAssert.AreEqual(New Integer() {4, 4, 4}, result.GroupCounts)
+
+        Assert.AreEqual(2, result.Tables.Count, "Kruskal-Wallis plus Dunn comparison table expected.")
+        Assert.AreEqual(2, result.Table.PvalueCells.Count)
+        Assert.AreEqual(1, result.Tables(1).PvalueColumns.Count)
+        Assert.AreEqual(4, result.Tables(1).PvalueColumns(0))
+    End Sub
+
+    <TestMethod>
+    Public Sub KruskalWallisApplicationService_CanOmitDunnComparisons()
+        Dim grouped As New GroupedNumericData(
+            New String() {"A", "B", "C"},
+            New Double()() {
+                New Double() {1.0, 2.0, 2.0, 3.0},
+                New Double() {2.0, 3.0, 4.0, 4.0},
+                New Double() {4.0, 5.0, 5.0, 6.0}
+            })
+
+        Dim result As KruskalWallisApplicationResult = KruskalWallisApplicationService.Run(
+            grouped,
+            New KruskalWallisAnalysisOptions With {.IncludeDunnComparisons = False})
+
+        Assert.AreEqual(1, result.Tables.Count)
+    End Sub
+
+    <TestMethod>
+    Public Sub SharedAnalysisApplicationService_DispatchesKruskalWallisAndReturnsGenericMetrics()
+        Dim input As SpreadsheetRangeData = BuildRange(
+            New Object()() {
+                New Object() {"A", "B", "C"},
+                New Object() {1.0, 2.0, 4.0},
+                New Object() {2.0, 3.0, 5.0},
+                New Object() {2.0, 4.0, 5.0},
+                New Object() {3.0, 4.0, 6.0}
+            })
+        Dim request As New SpreadsheetAnalysisRequest(
+            SpreadsheetAnalysisKind.KruskalWallis,
+            input,
+            New KruskalWallisAnalysisOptions With {.IncludeDunnComparisons = True})
+
+        Dim result As SpreadsheetAnalysisResult = SharedAnalysisApplicationService.Run(request)
+
+        Assert.AreEqual(SpreadsheetAnalysisKind.KruskalWallis, result.AnalysisKind)
+        Assert.AreEqual(2, result.Tables.Count)
+        Assert.AreEqual(7.875, result.Metrics(AnalysisMetricNames.HStatistic), 0.000000000001)
+        Assert.AreEqual(8.1603260869565215, result.Metrics(AnalysisMetricNames.TieCorrectedHStatistic), 0.000000000001)
+        Assert.AreEqual(0.019496896108597995, result.Metrics(AnalysisMetricNames.PValue), 0.000000000001)
+        Assert.AreEqual(0.016904709225411534, result.Metrics(AnalysisMetricNames.TieCorrectedPValue), 0.000000000001)
+        Assert.IsInstanceOfType(result.Detail, GetType(KruskalWallisApplicationResult))
+    End Sub
+
+    <TestMethod>
     Public Sub ResultTableWriteRequestFactory_CarriesFormattingAndOutputTarget()
         Dim input As SpreadsheetRangeData = BuildRange(
             New Object()() {

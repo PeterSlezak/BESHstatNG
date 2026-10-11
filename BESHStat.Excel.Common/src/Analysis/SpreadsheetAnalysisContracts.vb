@@ -12,6 +12,7 @@ Namespace ExcelCommon
     ''' </summary>
     Public Enum SpreadsheetAnalysisKind
         OneWayAnova = 1
+        KruskalWallis = 2
     End Enum
 
     ''' <summary>
@@ -37,6 +38,24 @@ Namespace ExcelCommon
         Public Property IncludeBonferroni As Boolean
         Public Property IncludeTukeyKramer As Boolean
         Public Property IncludeGamesHowell As Boolean
+        Public Property Alpha As Double
+    End Class
+
+
+    ''' <summary>
+    ''' Options for the Kruskal-Wallis workflow. The Windows GUI historically always
+    ''' produces Dunn's Bonferroni-adjusted pairwise comparisons, while other hosts can
+    ''' choose whether to request that supplementary table.
+    ''' </summary>
+    Public Class KruskalWallisAnalysisOptions
+        Inherits SpreadsheetAnalysisOptions
+
+        Public Sub New()
+            IncludeDunnComparisons = True
+            Alpha = 0.05
+        End Sub
+
+        Public Property IncludeDunnComparisons As Boolean
         Public Property Alpha As Double
     End Class
 
@@ -78,6 +97,9 @@ Namespace ExcelCommon
         Public Const WelchFStatistic As String = "WelchFStatistic"
         Public Const WelchPValue As String = "WelchPValue"
         Public Const WelchDenominatorDf As String = "WelchDenominatorDf"
+        Public Const HStatistic As String = "HStatistic"
+        Public Const TieCorrectedHStatistic As String = "TieCorrectedHStatistic"
+        Public Const TieCorrectedPValue As String = "TieCorrectedPValue"
     End Class
 
     ''' <summary>

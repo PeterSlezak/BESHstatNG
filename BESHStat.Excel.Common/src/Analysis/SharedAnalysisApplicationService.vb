@@ -22,6 +22,8 @@ Namespace ExcelCommon
             Select Case request.AnalysisKind
                 Case SpreadsheetAnalysisKind.OneWayAnova
                     Return RunOneWayAnova(request)
+                Case SpreadsheetAnalysisKind.KruskalWallis
+                    Return RunKruskalWallis(request)
                 Case Else
                     Throw New NotSupportedException(
                         "The shared Excel application layer does not support analysis kind " &
@@ -73,6 +75,49 @@ Namespace ExcelCommon
                 metrics,
                 result)
         End Function
+
+
+        Private Shared Function RunKruskalWallis(request As SpreadsheetAnalysisRequest) As SpreadsheetAnalysisResult
+            Dim options As KruskalWallisAnalysisOptions = Nothing
+            If request.Options IsNot Nothing Then
+                options = TryCast(request.Options, KruskalWallisAnalysisOptions)
+                If options Is Nothing Then
+                    Throw New ArgumentException(
+                        "Kruskal-Wallis requires KruskalWallisAnalysisOptions.",
+                        NameOf(request))
+                End If
+            End If
+
+            Dim result As KruskalWallisApplicationResult
+
+            If TypeOf request.Input Is SpreadsheetRangeData Then
+                result = KruskalWallisApplicationService.Run(
+                    DirectCast(request.Input, SpreadsheetRangeData),
+                    options)
+            ElseIf TypeOf request.Input Is GroupedNumericData Then
+                result = KruskalWallisApplicationService.Run(
+                    DirectCast(request.Input, GroupedNumericData),
+                    options)
+            Else
+                Throw New ArgumentException(
+                    "Kruskal-Wallis requires SpreadsheetRangeData or GroupedNumericData input.",
+                    NameOf(request))
+            End If
+
+            Dim metrics As New Dictionary(Of String, Double)(StringComparer.Ordinal) From {
+                {AnalysisMetricNames.HStatistic, result.HStatistic},
+                {AnalysisMetricNames.TieCorrectedHStatistic, result.TieCorrectedHStatistic},
+                {AnalysisMetricNames.PValue, result.PValue},
+                {AnalysisMetricNames.TieCorrectedPValue, result.TieCorrectedPValue}
+            }
+
+            Return New SpreadsheetAnalysisResult(
+                SpreadsheetAnalysisKind.KruskalWallis,
+                result.Tables,
+                metrics,
+                result)
+        End Function
+
     End Class
 
 End Namespace

@@ -329,9 +329,7 @@
             columnCount);
     }
 
-    async function writeResultTable(payload) {
-        await ensureExcelHost();
-
+    function validateResultPayload(payload) {
         if (!payload || !Array.isArray(payload.values) || payload.values.length === 0) {
             throw new Error("No result table values were supplied to the Office.js writer.");
         }
@@ -349,15 +347,36 @@
             }
         }
 
-        const target = payload.outputTarget || {};
-        const destination = Number.isInteger(Number(target.destination))
-            ? Number(target.destination)
+        return { payload, rowCount, columnCount };
+    }
+
+    async function writeResultTables(payloads) {
+        await ensureExcelHost();
+
+        if (!Array.isArray(payloads) || payloads.length === 0) {
+            throw new Error("No result-table requests were supplied to the Office.js writer.");
+        }
+
+        const tables = payloads.map(validateResultPayload);
+        const firstTarget = tables[0].payload.outputTarget || {};
+        const destination = Number.isInteger(Number(firstTarget.destination))
+            ? Number(firstTarget.destination)
             : OUTPUT_DESTINATION.newWorksheet;
-        const startRow = Math.max(1, Number(target.startRow) || 1) - 1;
-        const startColumn = Math.max(1, Number(target.startColumn) || 1) - 1;
+        const startRow = Math.max(1, Number(firstTarget.startRow) || 1) - 1;
+        const startColumn = Math.max(1, Number(firstTarget.startColumn) || 1) - 1;
 
         if (destination === OUTPUT_DESTINATION.newWorkbook) {
-            throw new Error("New-workbook output is reserved for the next Stage 3 host-capability batch.");
+            throw new Error("New-workbook output is reserved for a later Office.js host-capability batch.");
+        }
+
+        for (const table of tables) {
+            const target = table.payload.outputTarget || {};
+            const tableDestination = Number.isInteger(Number(target.destination))
+                ? Number(target.destination)
+                : destination;
+            if (tableDestination !== destination) {
+                throw new Error("All result tables in one batch must use the same output destination.");
+            }
         }
 
         return Excel.run(async context => {
@@ -373,49 +392,84 @@
 
                 const sheetName = nextWorksheetName(
                     worksheets.items.map(item => item.name),
-                    target.worksheetName);
+                    firstTarget.worksheetName);
                 worksheet = worksheets.add(sheetName);
                 worksheet.load("name");
             }
 
-            const outputRange = worksheet.getRangeByIndexes(
-                startRow,
-                startColumn,
-                rowCount,
-                columnCount);
+            let cursorRow = startRow;
+            let maxColumnCount = 0;
+            const writtenRanges = [];
 
-            outputRange.values = payload.values;
-            applyResultTableFormatting(
-                worksheet,
-                startRow,
-                startColumn,
-                payload,
-                rowCount,
-                columnCount);
+            for (let index = 0; index < tables.length; index++) {
+                const table = tables[index];
+                const payload = table.payload;
+                const outputRange = worksheet.getRangeByIndexes(
+                    cursorRow,
+                    startColumn,
+                    table.rowCount,
+                    table.columnCount);
 
-            if (payload.autoFit !== false) {
-                outputRange.format.autofitColumns();
-                outputRange.format.autofitRows();
+                outputRange.values = payload.values;
+                applyResultTableFormatting(
+                    worksheet,
+                    cursorRow,
+                    startColumn,
+                    payload,
+                    table.rowCount,
+                    table.columnCount);
+
+                if (payload.autoFit !== false) {
+                    outputRange.format.autofitColumns();
+                    outputRange.format.autofitRows();
+                }
+
+                outputRange.load("address");
+                writtenRanges.push(outputRange);
+                maxColumnCount = Math.max(maxColumnCount, table.columnCount);
+                cursorRow += table.rowCount;
+                if (index < tables.length - 1) {
+                    cursorRow += 1;
+                }
             }
 
+            const totalRows = Math.max(1, cursorRow - startRow);
+            const overallRange = worksheet.getRangeByIndexes(
+                startRow,
+                startColumn,
+                totalRows,
+                Math.max(1, maxColumnCount));
+
             worksheet.activate();
-            outputRange.select();
-            outputRange.load("address");
+            overallRange.select();
+            overallRange.load("address");
 
             await context.sync();
 
             return {
                 worksheetName: worksheet.name,
-                address: outputRange.address,
-                pvalueColumns: Array.isArray(payload.pvalueColumns) ? payload.pvalueColumns : [],
-                pvalueNumberFormat: payload.pvalueNumberFormat || ""
+                address: overallRange.address,
+                tableAddresses: writtenRanges.map(range => range.address),
+                pvalueColumns: Array.isArray(tables[0].payload.pvalueColumns)
+                    ? tables[0].payload.pvalueColumns
+                    : [],
+                pvalueNumberFormat: tables[0].payload.pvalueNumberFormat || ""
             };
         });
+    }
+
+    async function writeResultTable(payload) {
+        const result = await writeResultTables([payload]);
+        if (Array.isArray(result.tableAddresses) && result.tableAddresses.length > 0) {
+            result.address = result.tableAddresses[0];
+        }
+        return result;
     }
 
     window.beshOffice = {
         getHostStatus,
         getSelectedRangeData,
-        writeResultTable
+        writeResultTable,
+        writeResultTables
     };
 })();

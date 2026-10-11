@@ -1703,7 +1703,7 @@ Namespace nonparametric
     '''   <item><description><c>ResultTable</c>, <c>TestResult</c></description></item>
     ''' </list>
     ''' </summary>
-    Class KruskallWalis
+    Public Class KruskallWalis
         ''' <summary>Input data grouped as data(g)(i).</summary>
         Private data()() As Double
 
@@ -1733,7 +1733,7 @@ Namespace nonparametric
         ''' </summary>
         ''' <param name="x">Array of groups, each containing numeric observations.</param>
         ''' <param name="strNames">Names of the groups.</param>
-        Sub New(x()() As Double, strNames() As String)
+        Public Sub New(x()() As Double, strNames() As String)
             Me.data = x
             Me.varNames = strNames
             Me.NoGroups = varNames.Length

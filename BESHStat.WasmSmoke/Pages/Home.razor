@@ -6,14 +6,14 @@
 @using BESHStatNG.ExcelCommon
 @inject IJSRuntime JS
 
-<PageTitle>BESHStat shared Excel layer Stage 3.03</PageTitle>
+<PageTitle>BESHStat shared Excel layer Stage 3.04</PageTitle>
 
 <h1>BESHStat shared Excel application layer</h1>
 
 <p>
-    Stage 3.03 adds a generic shared-analysis request/result dispatcher. The Office.js and
-    Excel-DNA hosts can now submit the same host-neutral input/options contract, while the
-    shared layer owns ANOVA orchestration including optional Welch inference.
+    Stage 3.04 proves that the generic shared-analysis boundary supports more than one
+    analysis family. One-way ANOVA and Kruskal-Wallis now use the same host-neutral
+    request/result contracts from both Office.js and the Windows Excel-DNA host.
 </p>
 
 <div class="alert @(officeHost?.IsExcel == true ? "alert-success" : "alert-secondary")">
@@ -27,7 +27,7 @@
     <button class="btn btn-outline-primary me-2" @onclick="ReadSelection" disabled="@isBusy">
         Read selected range
     </button>
-    <button class="btn btn-primary" @onclick="RunAnovaAndWrite" disabled="@isBusy">
+    <button class="btn btn-primary" @onclick="RunSharedAnalysisAndWrite" disabled="@isBusy">
         Run shared analysis and write result
     </button>
 </div>
@@ -37,12 +37,34 @@
 <div class="card mb-4" style="max-width: 1000px;">
     <div class="card-body">
         <h5 class="card-title">Shared analysis options</h5>
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" @bind="includeWelch" id="welchCheck" />
-            <label class="form-check-label" for="welchCheck">
-                Include Welch ANOVA columns in the primary result table
-            </label>
+        <div class="row g-3">
+            <div class="col-md-5">
+                <label class="form-label">Analysis</label>
+                <select class="form-select" @bind="analysisKind">
+                    <option value="@SpreadsheetAnalysisKind.OneWayAnova">One-way ANOVA</option>
+                    <option value="@SpreadsheetAnalysisKind.KruskalWallis">Kruskal-Wallis</option>
+                </select>
+            </div>
         </div>
+
+        @if (analysisKind == SpreadsheetAnalysisKind.OneWayAnova)
+        {
+            <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" @bind="includeWelch" id="welchCheck" />
+                <label class="form-check-label" for="welchCheck">
+                    Include Welch ANOVA columns in the primary result table
+                </label>
+            </div>
+        }
+        else if (analysisKind == SpreadsheetAnalysisKind.KruskalWallis)
+        {
+            <div class="form-check mt-3">
+                <input class="form-check-input" type="checkbox" @bind="includeDunn" id="dunnCheck" />
+                <label class="form-check-label" for="dunnCheck">
+                    Include Dunn's Bonferroni-adjusted pairwise comparisons
+                </label>
+            </div>
+        }
 
         <hr />
 
@@ -115,18 +137,32 @@
         <p class="card-text mb-2">
             Select one rectangular range. The first row contains group names; each remaining
             column contains numeric observations for that group. Blank data cells are ignored.
-            Input validation is performed in BESHStat.Excel.Common, not in Office.js.
+            The same shared grouped-data parser is used by both analysis families.
         </p>
-        <table class="table table-bordered table-sm mb-0" style="max-width: 420px;">
-            <thead>
-                <tr><th>Group A</th><th>Group B</th><th>Group C</th></tr>
-            </thead>
-            <tbody>
-                <tr><td>1</td><td>2</td><td>5</td></tr>
-                <tr><td>2</td><td>3</td><td>6</td></tr>
-                <tr><td>3</td><td>4</td><td>7</td></tr>
-            </tbody>
-        </table>
+
+        @if (analysisKind == SpreadsheetAnalysisKind.OneWayAnova)
+        {
+            <table class="table table-bordered table-sm mb-0" style="max-width: 420px;">
+                <thead><tr><th>Group A</th><th>Group B</th><th>Group C</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>2</td><td>5</td></tr>
+                    <tr><td>2</td><td>3</td><td>6</td></tr>
+                    <tr><td>3</td><td>4</td><td>7</td></tr>
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <table class="table table-bordered table-sm mb-0" style="max-width: 420px;">
+                <thead><tr><th>A</th><th>B</th><th>C</th></tr></thead>
+                <tbody>
+                    <tr><td>1</td><td>2</td><td>4</td></tr>
+                    <tr><td>2</td><td>3</td><td>5</td></tr>
+                    <tr><td>2</td><td>4</td><td>5</td></tr>
+                    <tr><td>3</td><td>4</td><td>6</td></tr>
+                </tbody>
+            </table>
+        }
     </div>
 </div>
 
@@ -149,50 +185,73 @@
     </div>
 }
 
-@if (output is not null)
+@if (sharedOutput is not null)
 {
     <div class="mt-4">
-        <h3>BESHStat.Core ANOVA result</h3>
-        <p>
-            <strong>F:</strong> @output.FStatistic.ToString("G12", CultureInfo.InvariantCulture)<br />
-            <strong>p-value:</strong> @output.PValue.ToString("G12", CultureInfo.InvariantCulture)
-        </p>
+        <h3>BESHStat.Core @AnalysisDisplayName(sharedOutput.AnalysisKind) result</h3>
 
-        @if (output.HasWelch)
+        @if (anovaOutput is not null)
         {
             <p>
-                <strong>Welch F:</strong> @output.WelchFStatistic.ToString("G12", CultureInfo.InvariantCulture)<br />
-                <strong>Welch denominator df:</strong> @output.WelchDenominatorDf.ToString("G12", CultureInfo.InvariantCulture)<br />
-                <strong>Welch p-value:</strong> @output.WelchPValue.ToString("G12", CultureInfo.InvariantCulture)
+                <strong>F:</strong> @anovaOutput.FStatistic.ToString("G12", CultureInfo.InvariantCulture)<br />
+                <strong>p-value:</strong> @anovaOutput.PValue.ToString("G12", CultureInfo.InvariantCulture)
+            </p>
+
+            @if (anovaOutput.HasWelch)
+            {
+                <p>
+                    <strong>Welch F:</strong> @anovaOutput.WelchFStatistic.ToString("G12", CultureInfo.InvariantCulture)<br />
+                    <strong>Welch denominator df:</strong> @anovaOutput.WelchDenominatorDf.ToString("G12", CultureInfo.InvariantCulture)<br />
+                    <strong>Welch p-value:</strong> @anovaOutput.WelchPValue.ToString("G12", CultureInfo.InvariantCulture)
+                </p>
+            }
+        }
+        else if (kruskalOutput is not null)
+        {
+            <p>
+                <strong>H:</strong> @kruskalOutput.HStatistic.ToString("G12", CultureInfo.InvariantCulture)<br />
+                <strong>p-value:</strong> @kruskalOutput.PValue.ToString("G12", CultureInfo.InvariantCulture)<br />
+                <strong>Tie-corrected H:</strong> @kruskalOutput.TieCorrectedHStatistic.ToString("G12", CultureInfo.InvariantCulture)<br />
+                <strong>Tie-corrected p-value:</strong> @kruskalOutput.TieCorrectedPValue.ToString("G12", CultureInfo.InvariantCulture)
             </p>
         }
 
-        <table class="table table-bordered table-sm" style="max-width: 950px;">
-            <tbody>
-                @for (var row = 0; row < output.Table.RowCount; row++)
-                {
-                    <tr>
-                        @for (var col = 0; col < output.Table.ColumnCount; col++)
-                        {
-                            if (IsHeaderCell(output.Table, row, col))
+        @for (var tableIndex = 0; tableIndex < sharedOutput.Tables.Count; tableIndex++)
+        {
+            var table = sharedOutput.Tables[tableIndex];
+            if (sharedOutput.Tables.Count > 1)
+            {
+                <h5 class="mt-4">Result table @(tableIndex + 1)</h5>
+            }
+
+            <table class="table table-bordered table-sm" style="max-width: 950px;">
+                <tbody>
+                    @for (var row = 0; row < table.RowCount; row++)
+                    {
+                        <tr>
+                            @for (var col = 0; col < table.ColumnCount; col++)
                             {
-                                <th>@FormatCell(output.Table.Values[row, col])</th>
+                                if (IsHeaderCell(table, row, col))
+                                {
+                                    <th>@FormatCell(table.Values[row, col])</th>
+                                }
+                                else
+                                {
+                                    <td>@FormatCell(table.Values[row, col])</td>
+                                }
                             }
-                            else
-                            {
-                                <td>@FormatCell(output.Table.Values[row, col])</td>
-                            }
-                        }
-                    </tr>
-                }
-            </tbody>
-        </table>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
 
         @if (writeResult is not null)
         {
             <p class="alert alert-success" style="max-width: 950px;">
                 Excel output written to <strong>@writeResult.WorksheetName</strong>
                 at <strong>@writeResult.Address</strong>.<br />
+                <small>@writeResult.TableAddresses.Length table(s) written through the generic Office.js batch writer.</small><br />
                 <small>Shared p-value number format: <code>@writeResult.PvalueNumberFormat</code></small>
             </p>
         }
@@ -204,13 +263,15 @@
     private SpreadsheetRangeData? selection;
     private GroupedNumericData? groupedPreview;
     private SpreadsheetAnalysisResult? sharedOutput;
-    private OneWayAnovaApplicationResult? output;
+    private OneWayAnovaApplicationResult? anovaOutput;
+    private KruskalWallisApplicationResult? kruskalOutput;
     private OfficeWriteResult? writeResult;
 
     private string officeStatus = "Checking...";
-    private string status = "Select a range in Excel, then run the Stage 3 shared-layer test.";
+    private string status = "Select a range in Excel, choose an analysis, then run the Stage 3.04 shared-layer test.";
     private bool isBusy;
 
+    private SpreadsheetAnalysisKind analysisKind = SpreadsheetAnalysisKind.OneWayAnova;
     private SpreadsheetOutputDestination outputDestination = SpreadsheetOutputDestination.NewWorksheet;
     private string outputWorksheetName = "BESHStat_WASM_Result";
     private int outputStartRow = 1;
@@ -221,6 +282,7 @@
     private bool pvalueUseUpperBound = true;
     private double pvalueHighlightAlpha = 0.05;
     private bool includeWelch;
+    private bool includeDunn = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -265,7 +327,8 @@
             selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
             groupedPreview = GroupedNumericRangeParser.Parse(selection);
             sharedOutput = null;
-            output = null;
+            anovaOutput = null;
+            kruskalOutput = null;
             writeResult = null;
             status = $"PASS — host adapter read {selection.Address}; BESHStat.Excel.Common validated the grouped input.";
         }
@@ -273,7 +336,8 @@
         {
             groupedPreview = null;
             sharedOutput = null;
-            output = null;
+            anovaOutput = null;
+            kruskalOutput = null;
             writeResult = null;
             status = "FAIL — " + ex.Message;
         }
@@ -283,7 +347,7 @@
         }
     }
 
-    private async Task RunAnovaAndWrite()
+    private async Task RunSharedAnalysisAndWrite()
     {
         try
         {
@@ -293,21 +357,37 @@
             selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
             groupedPreview = GroupedNumericRangeParser.Parse(selection);
 
+            SpreadsheetAnalysisOptions options;
+            switch (analysisKind)
+            {
+                case SpreadsheetAnalysisKind.OneWayAnova:
+                    options = new OneWayAnovaAnalysisOptions
+                    {
+                        IncludeWelch = includeWelch,
+                        Alpha = pvalueHighlightAlpha
+                    };
+                    break;
+
+                case SpreadsheetAnalysisKind.KruskalWallis:
+                    options = new KruskalWallisAnalysisOptions
+                    {
+                        IncludeDunnComparisons = includeDunn,
+                        Alpha = pvalueHighlightAlpha
+                    };
+                    break;
+
+                default:
+                    throw new NotSupportedException($"Unsupported shared analysis kind: {analysisKind}.");
+            }
+
             var analysisRequest = new SpreadsheetAnalysisRequest(
-                SpreadsheetAnalysisKind.OneWayAnova,
+                analysisKind,
                 selection,
-                new OneWayAnovaAnalysisOptions
-                {
-                    IncludeWelch = includeWelch,
-                    Alpha = pvalueHighlightAlpha
-                });
+                options);
 
             sharedOutput = SharedAnalysisApplicationService.Run(analysisRequest);
-            output = sharedOutput.Detail as OneWayAnovaApplicationResult
-                     ?? throw new InvalidOperationException("The shared dispatcher did not return one-way ANOVA detail.");
-
-            var primaryTable = sharedOutput.PrimaryTable
-                               ?? throw new InvalidOperationException("The shared analysis returned no primary result table.");
+            anovaOutput = sharedOutput.Detail as OneWayAnovaApplicationResult;
+            kruskalOutput = sharedOutput.Detail as KruskalWallisApplicationResult;
 
             var settings = new PValuePresentationSettings
             {
@@ -325,26 +405,23 @@
                 StartColumn = outputStartColumn
             };
 
-            var writeRequest = ResultTableWriteRequestFactory.Create(
-                primaryTable,
+            var writeRequests = ResultTableWriteRequestFactory.CreateMany(
+                sharedOutput.Tables,
                 settings,
                 pvalueHighlightAlpha,
                 target);
 
-            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeResultTable", writeRequest);
+            if (writeRequests.Count == 0)
+                throw new InvalidOperationException("The shared analysis returned no result tables.");
 
-            var welchStatus = output.HasWelch
-                ? $" Welch F = {output.WelchFStatistic:G12}; Welch p = {output.WelchPValue:G12}."
-                : string.Empty;
-
-            status = $"PASS — Excel adapter → generic shared analysis dispatcher → BESHStat.Core → " +
-                     $"shared ResultTable write request → Office.js writer completed. " +
-                     $"F = {output.FStatistic:G12}; p = {output.PValue:G12}." + welchStatus;
+            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeResultTables", writeRequests);
+            status = BuildSuccessStatus();
         }
         catch (Exception ex)
         {
             sharedOutput = null;
-            output = null;
+            anovaOutput = null;
+            kruskalOutput = null;
             writeResult = null;
             status = "FAIL — " + ex.Message;
         }
@@ -352,6 +429,38 @@
         {
             isBusy = false;
         }
+    }
+
+    private string BuildSuccessStatus()
+    {
+        if (anovaOutput is not null)
+        {
+            var welchStatus = anovaOutput.HasWelch
+                ? $" Welch F = {anovaOutput.WelchFStatistic:G12}; Welch p = {anovaOutput.WelchPValue:G12}."
+                : string.Empty;
+
+            return $"PASS — generic shared dispatcher ran one-way ANOVA and the Office.js batch writer returned all shared tables. " +
+                   $"F = {anovaOutput.FStatistic:G12}; p = {anovaOutput.PValue:G12}." + welchStatus;
+        }
+
+        if (kruskalOutput is not null)
+        {
+            return $"PASS — generic shared dispatcher ran Kruskal-Wallis and the Office.js batch writer returned all shared tables. " +
+                   $"H = {kruskalOutput.HStatistic:G12}; tie-corrected H = {kruskalOutput.TieCorrectedHStatistic:G12}; " +
+                   $"tie-corrected p = {kruskalOutput.TieCorrectedPValue:G12}.";
+        }
+
+        return "PASS — shared analysis completed and result tables were written to Excel.";
+    }
+
+    private static string AnalysisDisplayName(SpreadsheetAnalysisKind kind)
+    {
+        return kind switch
+        {
+            SpreadsheetAnalysisKind.OneWayAnova => "one-way ANOVA",
+            SpreadsheetAnalysisKind.KruskalWallis => "Kruskal-Wallis",
+            _ => kind.ToString()
+        };
     }
 
     private static bool IsHeaderCell(ResultTableOutputModel model, int row, int col)
@@ -391,6 +500,7 @@
     {
         public string WorksheetName { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
+        public string[] TableAddresses { get; set; } = Array.Empty<string>();
         public int[] PvalueColumns { get; set; } = Array.Empty<int>();
         public string PvalueNumberFormat { get; set; } = string.Empty;
     }

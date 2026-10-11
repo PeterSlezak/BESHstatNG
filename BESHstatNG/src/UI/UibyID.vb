@@ -1625,20 +1625,43 @@ Public Class UibyID
     End Function
 
     Private Sub RunKruskallWalis(data As MultiGroupsUnpairedData)
+        'Stage 3.04: Kruskal-Wallis is the second analysis family routed through the
+        'generic BESHStat.Excel.Common request/result boundary. Dunn comparisons are
+        'computed once in the shared application service; Windows-only supplementary
+        'tables/charts remain host-side in this batch.
+        Dim alpha As Double = AppGlobals.DefaultAlpha
         Dim box As graphics.BoxPlot = Nothing
 
-        'Compute test
-        Dim KW As New nonparametric.KruskallWalis(data.X, data.varNames)
-        KW.compute()
-        KW.MCP(AppGlobals.DefaultAlpha)
-        Dim res = KW.wrapResults()
+        Dim grouped As Global.BESHStatNG.ExcelCommon.GroupedNumericData = ExcelDnaSharedApplicationAdapter.ToGroupedNumericData(data)
 
-        'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
-        If Me.ckBartlett.Checked Or Me.ckFlignerKilleen.Checked Or
-            Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then res.Add(Me.ComputeVarianceHomogeneity(data))
+        Dim analysisOptions As New Global.BESHStatNG.ExcelCommon.KruskalWallisAnalysisOptions With {
+             .IncludeDunnComparisons = True,
+             .Alpha = alpha
+        }
 
-        'box plot if requested
+        Dim analysisRequest As New Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisRequest(
+            Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisKind.KruskalWallis,
+            grouped,
+            analysisOptions)
+
+        Dim analysisResult As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult =
+            Global.BESHStatNG.ExcelCommon.SharedAnalysisApplicationService.Run(analysisRequest)
+
+        Dim sharedResult As Global.BESHStatNG.ExcelCommon.KruskalWallisApplicationResult =
+            TryCast(analysisResult.Detail, Global.BESHStatNG.ExcelCommon.KruskalWallisApplicationResult)
+        If sharedResult Is Nothing Then
+            Throw New InvalidOperationException("The shared Kruskal-Wallis dispatcher did not return its typed detail result.")
+        End If
+
+        Dim res As New List(Of ResultTable)
+
+        If Me.ckDescriptiveStatistics.Checked Then
+            res.Add(Me.ComputeDescriptiveStats(data))
+        End If
+        If Me.ckBartlett.Checked Or Me.ckFlignerKilleen.Checked Or Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then
+            res.Add(Me.ComputeVarianceHomogeneity(data))
+        End If
+
         If Me.ckBoxPlot.Checked Then
             box = New graphics.BoxPlot(data.X, data.varNames)
             box.Calculate()
@@ -1646,18 +1669,83 @@ Public Class UibyID
             res.Add(box.wrapResults())
         End If
 
-        'Dump outputs
-        Dim WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(res)
-        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
-        Dim totcols As Integer = rr.TotCols
+        Dim WriteRes As ExcelDnaResultWriter = GetResultWriter()
+
+        Dim destination As Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination =
+            Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.CurrentWorksheet
+        If Me.optWorkbook.Checked Then
+            destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorkbook
+        ElseIf Me.optWorksheet.Checked Then
+            destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorksheet
+        End If
+
+        Dim outputTarget As New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
+            .Destination = destination,
+            .WorksheetName = CStr(WriteRes.ws.Name),
+            .StartRow = WriteRes.RowID,
+            .StartColumn = WriteRes.ColID
+        }
+
+        Dim sharedRequests As List(Of Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest) =
+            Global.BESHStatNG.ExcelCommon.ResultTableWriteRequestFactory.CreateMany(
+                analysisResult.Tables,
+                AppGlobals.PValuePresentation,
+                alpha,
+                outputTarget)
+
+        If sharedRequests.Count = 0 Then
+            Throw New InvalidOperationException("The shared Kruskal-Wallis workflow returned no result tables.")
+        End If
+
+        For Each request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest In sharedRequests
+            request.AutoFit = False
+        Next
+
+        Dim sharedRows As Integer = 0
+        Dim sharedCols As Integer = 0
+        For i As Integer = 0 To sharedRequests.Count - 1
+            Dim request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest = sharedRequests(i)
+            Dim tableRows As Integer = request.Values.Count
+            Dim tableCols As Integer = If(tableRows = 0, 0, request.Values(0).Count)
+
+            If i > 0 Then sharedRows += 1
+            sharedRows += tableRows
+            sharedCols = Math.Max(sharedCols, tableCols)
+        Next
+
+        Dim rr As ProcessListofResultTables = Nothing
+        Dim extraRows As Integer = 0
+        Dim extraCols As Integer = 0
+        If res.Count > 0 Then
+            rr = New ProcessListofResultTables(res)
+            extraRows = rr.TotRows + res.Count - 1
+            extraCols = rr.TotCols
+        End If
+
+        Dim totrows As Integer = sharedRows
+        If res.Count > 0 Then totrows += 1 + extraRows
+        Dim totcols As Integer = Math.Max(sharedCols, extraCols)
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
                 Exit Sub
             End If
         End If
 
-        rr.writeToSheet(WriteRes, True)
+        For i As Integer = 0 To sharedRequests.Count - 1
+            If i > 0 Then WriteRes.shiftRowPointer()
+            WriteRes.WriteSharedRequest(sharedRequests(i))
+        Next
+
+        If rr IsNot Nothing Then
+            WriteRes.shiftRowPointer()
+            rr.writeToSheet(WriteRes, True)
+        End If
+
+        Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info(
+            "Windows Kruskal-Wallis executed through the generic BESHStat.Excel.Common dispatcher. " &
+            "H=" & sharedResult.HStatistic.ToString("G15", Globalization.CultureInfo.InvariantCulture) &
+            "; tie-corrected H=" & sharedResult.TieCorrectedHStatistic.ToString("G15", Globalization.CultureInfo.InvariantCulture) &
+            "; shared tables=" & sharedRequests.Count.ToString(Globalization.CultureInfo.InvariantCulture) & ".")
 
         If Me.ckBoxPlot.Checked Then
             box.SetWs = WriteRes.ws
