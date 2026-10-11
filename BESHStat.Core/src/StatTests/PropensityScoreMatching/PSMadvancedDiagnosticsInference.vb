@@ -5,7 +5,6 @@ Option Infer On
 Imports System
 Imports System.Collections.Generic
 Imports System.Linq
-Imports BESHStatNG.Resampling
 
 Namespace CausalInference
 
@@ -171,7 +170,7 @@ Namespace CausalInference
             row.WeightVariance = If(nonZero.Length > 1, PsmMath.Variance(nonZero, True), 0.0)
             row.CoefficientOfVariation = If(row.MeanWeight > 0.0 AndAlso AppInfrastructure.IsFinite(row.WeightVariance), Math.Sqrt(Math.Max(0.0, row.WeightVariance)) / row.MeanWeight, Double.NaN)
             row.EffectiveSampleSize = PsmMath.EffectiveSampleSize(nonZero)
-            row.EffectiveSampleSizeRatio = If(row.N > 0, row.EffectiveSampleSize / CDbl(row.N), Double.NaN)
+            row.EffectiveSampleSizeRatio = If(row.N > 0, row.EffectiveSampleSize / Convert.ToDouble(row.N), Double.NaN)
             row.ExtremeWeightN = System.Linq.Enumerable.Count(nonZero, Function(w) w > extremeWeightCutoff)
 
             Dim flags As New List(Of String)()
@@ -187,7 +186,7 @@ Namespace CausalInference
             If scores Is Nothing OrElse scores.Length <> input.RowCount Then Throw New ArgumentException("Scores length must match input row count.")
             If weights IsNot Nothing AndAlso weights.Length <> input.RowCount Then Throw New ArgumentException("Weights length must match input row count.")
             If binCount < 2 Then binCount = 20
-            If weights Is Nothing Then weights = Matrix.IdentityVect(input.RowCount - 1)
+            If weights Is Nothing Then weights = Matrix.MatrixArithmeticCore.ConstantVector(input.RowCount - 1)
 
             Dim result As New PsmOverlapDiagnosticsResult()
             Dim treatedScores = ScoresForGroup(input, scores, True)
@@ -247,14 +246,14 @@ Namespace CausalInference
         Private Shared Function BuildOverlapBins(input As PsmInputData, scores As Double(), weights As Double(), binCount As Integer) As List(Of PsmOverlapBinRow)
             Dim rows As New List(Of PsmOverlapBinRow)()
             For b As Integer = 0 To binCount - 1
-                Dim lo As Double = CDbl(b) / CDbl(binCount)
-                Dim hi As Double = CDbl(b + 1) / CDbl(binCount)
+                Dim lo As Double = Convert.ToDouble(b) / Convert.ToDouble(binCount)
+                Dim hi As Double = Convert.ToDouble(b + 1) / Convert.ToDouble(binCount)
                 rows.Add(New PsmOverlapBinRow With {.BinIndex = b + 1, .LowerBound = lo, .UpperBound = hi})
             Next
 
             For i As Integer = 0 To input.RowCount - 1
                 Dim p As Double = PsmMath.Clamp(scores(i), 0.0, 1.0)
-                Dim index As Integer = Math.Min(binCount - 1, Math.Max(0, CInt(Math.Floor(p * CDbl(binCount)))))
+                Dim index As Integer = Math.Min(binCount - 1, Math.Max(0, Convert.ToInt32(Math.Floor(p * Convert.ToDouble(binCount)))))
                 If input.Treatment(i) >= 0.5 Then
                     rows(index).TreatedN += 1
                     rows(index).TreatedWeight += weights(i)
@@ -360,7 +359,7 @@ Namespace CausalInference
                         numerators(i) = h * (m1(i) - m0(i)) + (1.0 - e) * t * (y - m1(i)) - e * (1.0 - t) * (y - m0(i))
                     Next
                     If overlapSum <= 0 OrElse Not AppInfrastructure.IsFinite(overlapSum) Then Throw New ArgumentException("AIPW ATO could not be estimated because the overlap weights sum to zero.")
-                    Dim scale As Double = CDbl(input.RowCount) / overlapSum
+                    Dim scale As Double = Convert.ToDouble(input.RowCount) / overlapSum
                     For i As Integer = 0 To input.RowCount - 1
                         contributions.Add(numerators(i) * scale)
                     Next
@@ -371,7 +370,7 @@ Namespace CausalInference
                         Dim e As Double = PsmMath.Clamp(scores(i), 0.00000001, 0.99999999)
                         Dim y As Double = input.Outcome(i)
                         Dim c As Double = t * (y - m0(i)) - (1.0 - t) * e / (1.0 - e) * (y - m0(i))
-                        contributions.Add(c * CDbl(input.RowCount) / CDbl(Math.Max(1, nT)))
+                        contributions.Add(c * Convert.ToDouble(input.RowCount) / Convert.ToDouble(Math.Max(1, nT)))
                     Next
                 Case PsmEstimand.ATC
                     Dim nC As Integer = System.Linq.Enumerable.Count(input.Treatment, Function(v) v < 0.5)
@@ -380,14 +379,14 @@ Namespace CausalInference
                         Dim e As Double = PsmMath.Clamp(scores(i), 0.00000001, 0.99999999)
                         Dim y As Double = input.Outcome(i)
                         Dim c As Double = t * (1.0 - e) / e * (y - m1(i)) - (1.0 - t) * (y - m1(i))
-                        contributions.Add(c * CDbl(input.RowCount) / CDbl(Math.Max(1, nC)))
+                        contributions.Add(c * Convert.ToDouble(input.RowCount) / Convert.ToDouble(Math.Max(1, nC)))
                     Next
             End Select
 
             Dim vals As Double() = contributions.Where(Function(v) AppInfrastructure.IsFinite(v)).ToArray()
             If vals.Length = 0 Then Return result
             Dim est As Double = vals.Average()
-            Dim se As Double = If(vals.Length > 1, Math.Sqrt(PsmMath.Variance(vals, True) / CDbl(vals.Length)), Double.NaN)
+            Dim se As Double = If(vals.Length > 1, Math.Sqrt(PsmMath.Variance(vals, True) / Convert.ToDouble(vals.Length)), Double.NaN)
             result.IndividualContributions = vals
             result.Effect = New PsmEffectResult With {
                 .Estimand = options.Estimand,
@@ -440,12 +439,12 @@ Namespace CausalInference
             Dim warnings As New List(Of String)()
             Try
                 Dim fault As Integer = 0
-                Dim chol As Double(,) = Matrix.Cholesky(xtx, fault, False)
+                Dim chol As Double(,) = Matrix.MatrixFactorizationCore.Cholesky(xtx, fault, False)
                 If fault = 0 Then
-                    coefficients = Matrix.CholSolve(chol, xty)
+                    coefficients = Matrix.MatrixFactorizationCore.CholeskySolve(chol, xty)
                 Else
                     warnings.Add("Outcome model information matrix was not positive definite; using Matrix.MatInv fallback.")
-                    coefficients = Matrix.MatrixVectorMultiply(Matrix.MatInv(xtx, "CHOL"), xty)
+                    coefficients = Matrix.MatrixArithmeticCore.MultiplyVector(Matrix.MatrixDecompositionCore.InvertMatrix(xtx, "CHOL"), xty)
                 End If
             Catch ex As Exception
                 warnings.Add("Outcome model could not be fitted: " & ex.Message)
@@ -467,7 +466,7 @@ Namespace CausalInference
                 .TreatmentLevel = If(treated, 1, 0),
                 .Coefficients = coefficients,
                 .VariableNames = names,
-                .ResidualVariance = If(residuals.Count > p, residuals.Select(Function(r) r * r).Sum() / CDbl(residuals.Count - p), Double.NaN),
+                .ResidualVariance = If(residuals.Count > p, residuals.Select(Function(r) r * r).Sum() / Convert.ToDouble(residuals.Count - p), Double.NaN),
                 .N = n,
                 .Warnings = warnings
             }
@@ -499,116 +498,6 @@ Namespace CausalInference
                 If (input.Treatment(i) >= 0.5) = treated Then vals.Add(input.Outcome(i))
             Next
             Return If(vals.Count > 0, vals.Average(), Double.NaN)
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' Simple non-parametric bootstrap wrapper for backend effect estimates.
-    ''' The bootstrap refits the score model in each replicate when options.ScoreMethod is logistic regression.
-    ''' </summary>
-    Public NotInheritable Class PsmBootstrapRunner
-        Private Sub New()
-        End Sub
-
-        Public Shared Function BootstrapEffect(input As PsmInputData, options As PsmOptions, target As PsmBootstrapTarget, Optional replications As Integer = 200, Optional seed As Integer = 12345) As PsmBootstrapResult
-            If input Is Nothing Then Throw New ArgumentNullException("input")
-            If options Is Nothing Then options = New PsmOptions()
-            If replications < 2 Then Throw New ArgumentOutOfRangeException("replications", "At least two bootstrap replications are required.")
-
-            Dim original As Double = EstimateTarget(input, options, target)
-            Dim rng As New Random(seed)
-            Dim estimates As New List(Of Double)()
-            Dim warnings As New List(Of String)()
-
-            Dim replicateNumber As Integer = 0
-            For Each indices As Integer() In ResamplingBootstrap.BootstrapIndices(input.RowCount, replications, rng)
-                replicateNumber += 1
-                Try
-                    Dim bootInput As PsmInputData = ResampleInput(input, indices)
-                    Dim estimate As Double = EstimateTarget(bootInput, options, target)
-                    If AppInfrastructure.IsFinite(estimate) Then estimates.Add(estimate)
-                Catch ex As Exception
-                    If warnings.Count < 10 Then warnings.Add("Bootstrap replicate " & replicateNumber.ToString() & " failed: " & ex.Message)
-                End Try
-            Next
-
-            Dim arr As Double() = estimates.ToArray()
-            Dim result As New PsmBootstrapResult With {
-                .Target = target,
-                .ReplicationsRequested = replications,
-                .ReplicationsUsed = arr.Length,
-                .EstimateOriginal = original,
-                .ReplicateEstimates = arr,
-                .Warnings = warnings
-            }
-
-            If arr.Length > 0 Then
-                result.BootstrapMean = arr.Average()
-                result.BootstrapStandardError = If(arr.Length > 1, Math.Sqrt(PsmMath.Variance(arr, True)), Double.NaN)
-                result.PercentileLower95 = PsmMath.Quantile(arr, 0.025)
-                result.PercentileUpper95 = PsmMath.Quantile(arr, 0.975)
-            Else
-                result.BootstrapMean = Double.NaN
-                result.BootstrapStandardError = Double.NaN
-                result.PercentileLower95 = Double.NaN
-                result.PercentileUpper95 = Double.NaN
-                result.Warnings.Add("No valid bootstrap estimates were produced.")
-            End If
-            Return result
-        End Function
-
-        Private Shared Function EstimateTarget(input As PsmInputData, options As PsmOptions, target As PsmBootstrapTarget) As Double
-            Dim fit As PsmResult = PsmBackend.Fit(input, options)
-            Select Case target
-                Case PsmBootstrapTarget.WeightedEffect
-                    Return If(fit.WeightedEffect Is Nothing, Double.NaN, fit.WeightedEffect.Estimate)
-                Case PsmBootstrapTarget.MatchedEffect
-                    Return If(fit.MatchedEffect Is Nothing, Double.NaN, fit.MatchedEffect.Estimate)
-                Case PsmBootstrapTarget.SubclassificationEffect
-                    Return If(fit.SubclassificationEffect Is Nothing, Double.NaN, fit.SubclassificationEffect.Estimate)
-                Case PsmBootstrapTarget.DoublyRobustAipw
-                    Dim dr As PsmDoublyRobustResult = PsmDoublyRobustEstimator.EstimateAipw(input, fit.ScoreModel.Scores, options)
-                    Return If(dr Is Nothing OrElse dr.Effect Is Nothing, Double.NaN, dr.Effect.Estimate)
-                Case Else
-                    Return Double.NaN
-            End Select
-        End Function
-
-        Private Shared Function ResampleInput(input As PsmInputData, indices As Integer()) As PsmInputData
-            If indices Is Nothing Then Throw New ArgumentNullException("indices")
-            Dim n As Integer = indices.Length
-            Dim p As Integer = input.CovariateCount
-            Dim ids(n - 1) As String
-            Dim treatment(n - 1) As Double
-            Dim outcome As Double() = Nothing
-            If input.Outcome IsNot Nothing Then outcome = New Double(n - 1) {}
-            Dim covariates(n - 1, p - 1) As Double
-            Dim scores As Double() = Nothing
-            If input.SuppliedPropensityScores IsNot Nothing Then scores = New Double(n - 1) {}
-            Dim groups As String() = Nothing
-            If input.ExactGroupLabels IsNot Nothing Then groups = New String(n - 1) {}
-
-            For i As Integer = 0 To n - 1
-                Dim src As Integer = indices(i)
-                ids(i) = input.GetId(src) & ":b" & (i + 1).ToString()
-                treatment(i) = input.Treatment(src)
-                If outcome IsNot Nothing Then outcome(i) = input.Outcome(src)
-                For j As Integer = 0 To p - 1
-                    covariates(i, j) = input.Covariates(src, j)
-                Next
-                If scores IsNot Nothing Then scores(i) = input.SuppliedPropensityScores(src)
-                If groups IsNot Nothing Then groups(i) = If(input.ExactGroupLabels(src), "")
-            Next
-
-            Return New PsmInputData With {
-                .Ids = ids,
-                .Treatment = treatment,
-                .Outcome = outcome,
-                .Covariates = covariates,
-                .CovariateNames = input.CovariateNames,
-                .SuppliedPropensityScores = scores,
-                .ExactGroupLabels = groups
-            }
         End Function
     End Class
 
