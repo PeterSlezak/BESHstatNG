@@ -1,9 +1,12 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports System
 Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.DataManagement
+Imports BESHStatNG.Matrix
 
 Namespace Multivariate
 
@@ -681,7 +684,7 @@ Namespace Multivariate
             If pNoFactors <= 0 Then Return New String() {}
             Dim out(pNoFactors - 1) As String
             For i As Integer = 0 To pNoFactors - 1
-                out(i) = prefix & CStr(i + 1)
+                out(i) = prefix & Convert.ToString(i + 1)
             Next
             Return out
         End Function
@@ -903,7 +906,7 @@ Namespace Multivariate
             ' Unrotated loadings
             t = New ResultTable
             t.AddTitle("Unrotated Loadings")
-            t.AddHeaderTopRow(Matrix.ConcatArrays({"Variable"}, factorNames))
+            t.AddHeaderTopRow(Enumerable.Concat(New String() {"Variable"}, factorNames).ToArray())
             Dim unl(pp - 1, pNoFactors) As Object
             For i As Integer = 0 To pp - 1
                 unl(i, 0) = pVarNames(i)
@@ -917,7 +920,7 @@ Namespace Multivariate
             ' Pattern matrix
             t = New ResultTable
             t.AddTitle($"Rotated Pattern Matrix ({pRotationLabel})")
-            t.AddHeaderTopRow(Matrix.ConcatArrays({"Variable"}, factorNames))
+            t.AddHeaderTopRow(Enumerable.Concat(New String() {"Variable"}, factorNames).ToArray())
             Dim pat(pp - 1, pNoFactors) As Object
             For i As Integer = 0 To pp - 1
                 pat(i, 0) = pVarNames(i)
@@ -931,7 +934,7 @@ Namespace Multivariate
             ' Structure matrix (only distinct for oblique rotation, but emitting it consistently simplifies downstream UI wiring)
             t = New ResultTable
             t.AddTitle($"Structure Matrix ({pRotationLabel})")
-            t.AddHeaderTopRow(Matrix.ConcatArrays({"Variable"}, factorNames))
+            t.AddHeaderTopRow(Enumerable.Concat(New String() {"Variable"}, factorNames).ToArray())
             Dim structTbl(pp - 1, pNoFactors) As Object
             For i As Integer = 0 To pp - 1
                 structTbl(i, 0) = pVarNames(i)
@@ -972,7 +975,7 @@ Namespace Multivariate
             If pScores IsNot Nothing Then
                 t = New ResultTable
                 t.AddTitle($"Factor Scores ({pScoreMethod})")
-                t.AddHeaderTopRow(Matrix.ConcatArrays({"Observation"}, factorNames))
+                t.AddHeaderTopRow(Enumerable.Concat(New String() {"Observation"}, factorNames).ToArray())
                 Dim scoreTbl(pn - 1, pNoFactors) As Object
                 For i As Integer = 0 To pn - 1
                     scoreTbl(i, 0) = pAnalysisRowNums(i)
@@ -1095,7 +1098,7 @@ Namespace Multivariate
             ReDim pStandardizedData(pn - 1, pp - 1)
 
             For j As Integer = 0 To pp - 1
-                Dim col() As Double = Matrix.GetColumnFrom2Darray(pAnalysisData, j)
+                Dim col() As Double = ArrayUtilities.GetColumn(pAnalysisData, j)
                 Dim centered() As Double = MultivariateShared.Center(col)
                 Dim standardized() As Double = MultivariateShared.Standardize(col)
                 For i As Integer = 0 To pn - 1
@@ -1104,11 +1107,11 @@ Namespace Multivariate
                 Next
             Next
 
-            pCorrelationMatrix = Matrix.MatCovar(pStandardizedData)
+            pCorrelationMatrix = MatrixStatisticsCore.SampleCovariance(pStandardizedData)
             If pMatrixType = FactorAnalysisMatrixType.Correlation Then
                 pWorkingMatrix = DirectCast(pCorrelationMatrix.Clone(), Double(,))
             Else
-                pWorkingMatrix = Matrix.MatCovar(pCenteredData)
+                pWorkingMatrix = MatrixStatisticsCore.SampleCovariance(pCenteredData)
             End If
         End Sub
 
@@ -1151,8 +1154,8 @@ Namespace Multivariate
             Next
 
             pKmoOverall = If(sumR2 + sumP2 <= 0.0, 0.0, sumR2 / (sumR2 + sumP2))
-            pDeterminantCorrelation = Math.Max(Matrix.MDeterm(DirectCast(pCorrelationMatrix.Clone(), Double(,))), 0.0)
-            pBartlettDf = CInt(pp * (pp - 1) / 2)
+            pDeterminantCorrelation = Math.Max(MatrixFactorizationCore.Determinant(DirectCast(pCorrelationMatrix.Clone(), Double(,))), 0.0)
+            pBartlettDf = Convert.ToInt32(pp * (pp - 1) / 2)
             If pDeterminantCorrelation <= 0.0 Then
                 pBartlettChiSquare = Double.PositiveInfinity
                 pBartlettPValue = 0.0
@@ -1166,8 +1169,9 @@ Namespace Multivariate
         ''' Eigen-decomposes the full working analysis matrix and stores the eigenpairs in descending order.
         ''' </summary>
         Private Sub ComputeInitialEigenpairs()
-            Dim raw = Matrix.EIGEN_JK(pWorkingMatrix, pMaxiter, pEps)
-            Dim sorted = MultivariateShared.SortEigenpairsDescending(raw.Item1, raw.Item2)
+            Dim raw = MatrixStatisticsCore.EigenJk(pWorkingMatrix, pMaxiter, pEps)
+
+            Dim sorted = MultivariateShared.SortEigenpairsDescending(raw.Eigenvalues, raw.Eigenvectors)
             pInitialEigenvalues = sorted.Item1
             pInitialEigenvectors = sorted.Item2
         End Sub
@@ -1178,7 +1182,7 @@ Namespace Multivariate
         Private Sub DetermineNumberOfFactors()
             Select Case pRetentionMethod
                 Case FactorAnalysisRetentionMethod.Fixed
-                    pNoFactors = CInt(Math.Round(pRetentionValue))
+                    pNoFactors = Convert.ToInt32(Math.Round(pRetentionValue))
 
                 Case FactorAnalysisRetentionMethod.Eigenvalue
                     pNoFactors = pInitialEigenvalues.TakeWhile(Function(x) x >= pRetentionValue).Count()
@@ -1287,8 +1291,10 @@ Namespace Multivariate
                     reduced(i, i) = h2(i)
                 Next
 
-                Dim raw = Matrix.EIGEN_JK(reduced, pMaxiter, pEps)
-                Dim sorted = MultivariateShared.SortEigenpairsDescending(raw.Item1, raw.Item2)
+                Dim raw = MatrixStatisticsCore.EigenJk(reduced, pMaxiter, pEps)
+
+
+                Dim sorted = MultivariateShared.SortEigenpairsDescending(raw.Eigenvalues, raw.Eigenvectors)
                 loadings = MultivariateShared.BuildLoadingsFromEigenpairs(sorted.Item1, sorted.Item2, pNoFactors)
                 Dim newH2() As Double = RowSumsOfSquares(loadings)
                 For i As Integer = 0 To pp - 1
@@ -1346,8 +1352,8 @@ Namespace Multivariate
                     rotation = New FactorRotationResult With {
                         .Loadings = DirectCast(pUnrotatedLoadings.Clone(), Double(,)),
                         .StructureMatrix = DirectCast(pUnrotatedLoadings.Clone(), Double(,)),
-                        .Phi = Matrix.IdentityMat(pNoFactors - 1),
-                        .Transform = Matrix.IdentityMat(pNoFactors - 1),
+                        .Phi = MatrixArithmeticCore.IdentityMatrix(pNoFactors - 1),
+                        .Transform = MatrixArithmeticCore.IdentityMatrix(pNoFactors - 1),
                         .Iterations = 0,
                         .Converged = True,
                         .Label = "None"
@@ -1412,8 +1418,8 @@ Namespace Multivariate
                 Dim maxAngle As Double = 0.0
                 For j As Integer = 0 To m - 2
                     For k As Integer = j + 1 To m - 1
-                        Dim x() As Double = Matrix.GetColumnFrom2Darray(work, j)
-                        Dim y() As Double = Matrix.GetColumnFrom2Darray(work, k)
+                        Dim x() As Double = ArrayUtilities.GetColumn(work, j)
+                        Dim y() As Double = ArrayUtilities.GetColumn(work, k)
                         Dim u(p - 1) As Double
                         Dim v(p - 1) As Double
                         Dim sumU As Double = 0.0
@@ -1453,7 +1459,7 @@ Namespace Multivariate
             Return New FactorRotationResult With {
                 .Loadings = finalLoadings,
                 .StructureMatrix = struct,
-                .Phi = Matrix.IdentityMat(m - 1),
+                .Phi = MatrixArithmeticCore.IdentityMatrix(m - 1),
                 .Transform = rot,
                 .Iterations = Math.Min(iter, pMaxiter),
                 .Converged = converged,
@@ -1480,21 +1486,21 @@ Namespace Multivariate
                 Next
             Next
 
-            Dim ata As Double(,) = Matrix.MatrixMult(Matrix.trans(a), a)
-            Dim atq As Double(,) = Matrix.MatrixMult(Matrix.trans(a), target)
-            Dim u As Double(,) = Matrix.MatrixMult(MultivariateShared.SafeInverse(ata, preferCholesky:=True), atq)
-            Dim phi As Double(,) = MultivariateShared.SafeInverse(Matrix.MatrixMult(Matrix.trans(u), u), preferCholesky:=True)
+            Dim ata As Double(,) = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Transpose(a), a)
+            Dim atq As Double(,) = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Transpose(a), target)
+            Dim u As Double(,) = MatrixArithmeticCore.Multiply(MultivariateShared.SafeInverse(ata, preferCholesky:=True), atq)
+            Dim phi As Double(,) = MultivariateShared.SafeInverse(MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Transpose(u), u), preferCholesky:=True)
 
             Dim d(m - 1) As Double
             For i As Integer = 0 To m - 1
                 d(i) = Math.Sqrt(Math.Max(phi(i, i), pEps))
             Next
             Dim dMat(,) As Double = MultivariateShared.DiagonalMatrix(d)
-            Dim transform(,) As Double = Matrix.MatrixMult(u, dMat)
-            Dim pattern(,) As Double = Matrix.MatrixMult(a, transform)
-            Dim phiStd(,) As Double = MultivariateShared.SafeInverse(Matrix.MatrixMult(Matrix.trans(transform), transform), preferCholesky:=True)
-            Dim struct(,) As Double = Matrix.MatrixMult(pattern, phiStd)
-            Dim totalTransform(,) As Double = Matrix.MatrixMult(orth.Transform, transform)
+            Dim transform(,) As Double = MatrixArithmeticCore.Multiply(u, dMat)
+            Dim pattern(,) As Double = MatrixArithmeticCore.Multiply(a, transform)
+            Dim phiStd(,) As Double = MultivariateShared.SafeInverse(MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Transpose(transform), transform), preferCholesky:=True)
+            Dim struct(,) As Double = MatrixArithmeticCore.Multiply(pattern, phiStd)
+            Dim totalTransform(,) As Double = MatrixArithmeticCore.Multiply(orth.Transform, transform)
 
             Return New FactorRotationResult With {
                 .Loadings = pattern,
@@ -1511,7 +1517,7 @@ Namespace Multivariate
         ''' Reconstructs the common, reproduced, and residual matrices implied by the fitted factor model.
         ''' </summary>
         Private Sub BuildModelMatrices()
-            pCommonVarianceMatrix = Matrix.MatrixMult(Matrix.MatrixMult(pPatternMatrix, pPhi), Matrix.trans(pPatternMatrix))
+            pCommonVarianceMatrix = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(pPatternMatrix, pPhi), MatrixArithmeticCore.Transpose(pPatternMatrix))
             ReDim pCommunalities(pp - 1)
             ReDim pUniquenesses(pp - 1)
             For i As Integer = 0 To pp - 1
@@ -1524,7 +1530,7 @@ Namespace Multivariate
             For i As Integer = 0 To pp - 1
                 pReproducedMatrix(i, i) += pUniquenesses(i)
             Next
-            pResidualMatrix = Matrix.M_SUB(pWorkingMatrix, pReproducedMatrix)
+            pResidualMatrix = MatrixArithmeticCore.Subtract(pWorkingMatrix, pReproducedMatrix)
             pRmsr = ComputeRmsrOffDiagonal(pResidualMatrix)
         End Sub
 
@@ -1544,12 +1550,12 @@ Namespace Multivariate
             Select Case pScoreMethod
                 Case FactorAnalysisScoreMethod.Regression
                     Dim sigmaInv As Double(,) = MultivariateShared.SafeInverse(pWorkingMatrix, preferCholesky:=True)
-                    pScoreCoefficientMatrix = Matrix.MatrixMult(Matrix.MatrixMult(sigmaInv, pPatternMatrix), pPhi)
+                    pScoreCoefficientMatrix = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(sigmaInv, pPatternMatrix), pPhi)
 
                 Case FactorAnalysisScoreMethod.Bartlett
-                    Dim ptPsiInv As Double(,) = Matrix.MatrixMult(Matrix.trans(pPatternMatrix), psiInv)
-                    Dim mid As Double(,) = Matrix.MatrixMult(ptPsiInv, pPatternMatrix)
-                    pScoreCoefficientMatrix = Matrix.MatrixMult(psiInv, Matrix.MatrixMult(pPatternMatrix, MultivariateShared.SafeInverse(mid, preferCholesky:=True)))
+                    Dim ptPsiInv As Double(,) = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Transpose(pPatternMatrix), psiInv)
+                    Dim mid As Double(,) = MatrixArithmeticCore.Multiply(ptPsiInv, pPatternMatrix)
+                    pScoreCoefficientMatrix = MatrixArithmeticCore.Multiply(psiInv, MatrixArithmeticCore.Multiply(pPatternMatrix, MultivariateShared.SafeInverse(mid, preferCholesky:=True)))
 
                 Case Else
                     CoreServices.Errors.LogAndThrow(New NotSupportedException($"Unsupported factor score method: {pScoreMethod}."))
@@ -1558,7 +1564,7 @@ Namespace Multivariate
             Dim scoreInput(,) As Double = If(pMatrixType = FactorAnalysisMatrixType.Correlation,
                                              pStandardizedData,
                                              pCenteredData)
-            pScores = Matrix.MatrixMult(scoreInput, pScoreCoefficientMatrix)
+            pScores = MatrixArithmeticCore.Multiply(scoreInput, pScoreCoefficientMatrix)
         End Sub
 
         ''' <summary>
@@ -2046,7 +2052,7 @@ Namespace Multivariate
                 u2(i) = 1.0 / Math.Max(invR(i, i), epsilon)
             Next
 
-            Dim antiImageCov(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(MultivariateShared.DiagonalMatrix(u2), invR), MultivariateShared.DiagonalMatrix(u2))
+            Dim antiImageCov(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(MultivariateShared.DiagonalMatrix(u2), invR), MultivariateShared.DiagonalMatrix(u2))
             Dim imageCov(,) As Double = DirectCast(correlationMatrix.Clone(), Double(,))
             For i As Integer = 0 To imageCov.GetLength(0) - 1
                 For j As Integer = 0 To imageCov.GetLength(1) - 1
@@ -2119,7 +2125,7 @@ Namespace Multivariate
                 Dim working(,) As Double = CovarianceToCorrelation(reduced, epsilon)
                 Dim sorted = SortedEigen(working)
                 Dim provisional(,) As Double = MultivariateShared.BuildLoadingsFromEigenpairs(sorted.Item1, sorted.Item2, numberOfFactors)
-                Dim model(,) As Double = Matrix.MatrixMult(provisional, Matrix.trans(provisional))
+                Dim model(,) As Double = MatrixArithmeticCore.Multiply(provisional, MatrixArithmeticCore.Transpose(provisional))
                 Dim newH2(h2.Length - 1) As Double
 
                 For i As Integer = 0 To h2.Length - 1
@@ -2143,7 +2149,7 @@ Namespace Multivariate
             End If
 
             Dim sqrtH2() As Double = h2.Select(Function(x) Math.Sqrt(Math.Max(x, 0.0))).ToArray()
-            loadCorr = Matrix.MatrixMult(MultivariateShared.DiagonalMatrix(sqrtH2), loadCorr)
+            loadCorr = MatrixArithmeticCore.Multiply(MultivariateShared.DiagonalMatrix(sqrtH2), loadCorr)
 
             Dim communalitiesCorr() As Double = RowSumsOfSquares(loadCorr)
             communalitiesCorr = ClampCommunalities(communalitiesCorr, Enumerable.Repeat(1.0, communalitiesCorr.Length).ToArray(), epsilon)
@@ -2263,7 +2269,7 @@ Namespace Multivariate
                 sqrtPsi(i) = Math.Sqrt(Math.Max(psi(i), 0.0))
             Next
 
-            Dim sStar(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(sc, s), sc)
+            Dim sStar(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(sc, s), sc)
             Dim sorted = SortedEigen(sStar)
             Dim nVar As Integer = s.GetLength(0)
             Dim loadingScale(q - 1, q - 1) As Double
@@ -2276,7 +2282,7 @@ Namespace Multivariate
                 Next
             Next
 
-            Return Matrix.MatrixMult(Matrix.MatrixMult(MultivariateShared.DiagonalMatrix(sqrtPsi), left), loadingScale)
+            Return MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(MultivariateShared.DiagonalMatrix(sqrtPsi), left), loadingScale)
         End Function
 
         ''' <summary>
@@ -2301,7 +2307,7 @@ Namespace Multivariate
                 sc(i, i) = 1.0 / Math.Sqrt(Math.Max(psi(i), 0.0000000001))
             Next
 
-            Dim sStar(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(sc, s), sc)
+            Dim sStar(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(sc, s), sc)
             Dim eig = SortedEigen(sStar).Item1
 
             Dim total As Double = 0.0
@@ -2318,7 +2324,7 @@ Namespace Multivariate
         ''' </summary>
         Private Function GeneralizedLeastSquaresObjective(psi() As Double, s(,) As Double, sInv(,) As Double, q As Integer) As Double
             Dim loadings(,) As Double = BuildReducedMatrixLoadings(psi, s, q)
-            Dim model(,) As Double = Matrix.MatrixMult(loadings, Matrix.trans(loadings))
+            Dim model(,) As Double = MatrixArithmeticCore.Multiply(loadings, MatrixArithmeticCore.Transpose(loadings))
             Dim residual(s.GetLength(0) - 1, s.GetLength(1) - 1) As Double
 
             For i As Integer = 0 To s.GetLength(0) - 1
@@ -2327,7 +2333,7 @@ Namespace Multivariate
                 Next
             Next
 
-            Dim weighted(,) As Double = Matrix.MatrixMult(sInv, residual)
+            Dim weighted(,) As Double = MatrixArithmeticCore.Multiply(sInv, residual)
             Return SumSquares(weighted)
         End Function
 
@@ -2336,7 +2342,7 @@ Namespace Multivariate
         ''' </summary>
         Private Function MaximumLikelihoodGradient(psi() As Double, s(,) As Double, q As Integer) As Double()
             Dim loadings(,) As Double = BuildMaximumLikelihoodLoadings(psi, s, q)
-            Dim model(,) As Double = Matrix.MatrixMult(loadings, Matrix.trans(loadings))
+            Dim model(,) As Double = MatrixArithmeticCore.Multiply(loadings, MatrixArithmeticCore.Transpose(loadings))
             Dim out(psi.Length - 1) As Double
 
             For i As Integer = 0 To psi.Length - 1
@@ -2372,7 +2378,7 @@ Namespace Multivariate
                     Return New OptimizationState With {.Psi = psi, .ObjectiveValue = f, .Iterations = iter, .Converged = True}
                 End If
 
-                Dim grad2 As Double = Matrix.DotProduct(g, g)
+                Dim grad2 As Double = MatrixArithmeticCore.DotProduct(g, g)
                 Dim alpha As Double = stepSize
                 Dim improved As Boolean = False
                 Dim bestPsi() As Double = psi
@@ -2433,8 +2439,9 @@ Namespace Multivariate
         ''' Sorts an eigen decomposition in descending eigenvalue order.
         ''' </summary>
         Private Function SortedEigen(mat(,) As Double) As Tuple(Of Double(), Double(,))
-            Dim raw = Matrix.EIGEN_JK(mat, 250, 0.000000001)
-            Dim sorted = MultivariateShared.SortEigenpairsDescending(raw.Item1, raw.Item2)
+            Dim raw = MatrixStatisticsCore.EigenJk(mat, 250, 0.000000001)
+
+            Dim sorted = MultivariateShared.SortEigenpairsDescending(raw.Eigenvalues, raw.Eigenvectors)
             Return Tuple.Create(sorted.Item1, sorted.Item2)
         End Function
 
