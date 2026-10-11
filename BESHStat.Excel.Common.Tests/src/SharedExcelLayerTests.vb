@@ -84,6 +84,100 @@ Public Class SharedExcelLayerTests
     End Sub
 
     <TestMethod>
+    Public Sub OneWayAnovaApplicationService_WelchAndPostHoc_AreProducedInOneSharedRun()
+        Dim grouped As New GroupedNumericData(
+            New String() {"G1", "G2", "G3"},
+            New Double()() {
+                New Double() {1.0, 2.0, 3.0},
+                New Double() {2.0, 3.0, 4.0},
+                New Double() {5.0, 6.0, 7.0}
+            })
+        Dim options As New OneWayAnovaAnalysisOptions With {
+            .IncludeWelch = True,
+            .IncludeTukeyKramer = True,
+            .Alpha = 0.05
+        }
+
+        Dim result As OneWayAnovaApplicationResult = OneWayAnovaApplicationService.Run(grouped, options)
+
+        Assert.IsTrue(result.HasWelch)
+        Assert.AreEqual(11.142857142857142, result.WelchFStatistic, 0.000000001)
+        Assert.AreEqual(0.023156899810964086, result.WelchPValue, 0.00000005)
+        Assert.AreEqual(4.0, result.WelchDenominatorDf, 0.000000000001)
+        Assert.AreEqual(9, result.Table.ColumnCount)
+        Assert.AreEqual(2, result.Table.PvalueColumns.Count)
+        Assert.AreEqual(5, result.Table.PvalueColumns(0))
+        Assert.AreEqual(8, result.Table.PvalueColumns(1))
+
+        Assert.AreEqual(2, result.Tables.Count, "Primary ANOVA plus Tukey-Kramer table expected.")
+        Assert.IsNotNull(result.TukeyKramerPlotData)
+        Assert.IsTrue(result.TukeyKramerPlotData.Labels.Length > 0)
+    End Sub
+
+    <TestMethod>
+    Public Sub SharedAnalysisApplicationService_DispatchesRangeInputAndReturnsGenericMetrics()
+        Dim input As SpreadsheetRangeData = BuildRange(
+            New Object()() {
+                New Object() {"Group A", "Group B", "Group C"},
+                New Object() {1.0, 2.0, 5.0},
+                New Object() {2.0, 3.0, 6.0},
+                New Object() {3.0, 4.0, 7.0}
+            })
+        Dim request As New SpreadsheetAnalysisRequest(
+            SpreadsheetAnalysisKind.OneWayAnova,
+            input,
+            New OneWayAnovaAnalysisOptions With {.IncludeWelch = True})
+
+        Dim result As SpreadsheetAnalysisResult = SharedAnalysisApplicationService.Run(request)
+
+        Assert.AreEqual(SpreadsheetAnalysisKind.OneWayAnova, result.AnalysisKind)
+        Assert.IsNotNull(result.PrimaryTable)
+        Assert.AreEqual(9, result.PrimaryTable.ColumnCount)
+        Assert.AreEqual(13.0, result.Metrics(AnalysisMetricNames.FStatistic), 0.000000000001)
+        Assert.AreEqual(0.006591796875, result.Metrics(AnalysisMetricNames.PValue), 0.000000000001)
+        Assert.AreEqual(11.142857142857142, result.Metrics(AnalysisMetricNames.WelchFStatistic), 0.000000001)
+        Assert.AreEqual(0.023156899810964086, result.Metrics(AnalysisMetricNames.WelchPValue), 0.00000005)
+        Assert.IsInstanceOfType(result.Detail, GetType(OneWayAnovaApplicationResult))
+    End Sub
+
+    <TestMethod>
+    Public Sub SharedAnalysisApplicationService_DispatchesPreparsedGroupedInput()
+        Dim grouped As New GroupedNumericData(
+            New String() {"A", "B", "C"},
+            New Double()() {
+                New Double() {1.0, 2.0, 3.0},
+                New Double() {2.0, 3.0, 4.0},
+                New Double() {5.0, 6.0, 7.0}
+            })
+        Dim request As New SpreadsheetAnalysisRequest(
+            SpreadsheetAnalysisKind.OneWayAnova,
+            grouped,
+            New OneWayAnovaAnalysisOptions())
+
+        Dim result As SpreadsheetAnalysisResult = SharedAnalysisApplicationService.Run(request)
+
+        Assert.AreEqual(13.0, result.Metrics(AnalysisMetricNames.FStatistic), 0.000000000001)
+        Assert.AreEqual(1, result.Tables.Count)
+    End Sub
+
+    <TestMethod>
+    Public Sub SharedAnalysisApplicationService_RejectsUnsupportedAnalysisKind()
+        Dim grouped As New GroupedNumericData(
+            New String() {"A", "B"},
+            New Double()() {
+                New Double() {1.0, 2.0},
+                New Double() {3.0, 4.0}
+            })
+        Dim request As New SpreadsheetAnalysisRequest With {
+            .AnalysisKind = CType(999, SpreadsheetAnalysisKind),
+            .Input = grouped
+        }
+
+        Assert.ThrowsException(Of NotSupportedException)(
+            Function() SharedAnalysisApplicationService.Run(request))
+    End Sub
+
+    <TestMethod>
     Public Sub ResultTableWriteRequestFactory_CarriesFormattingAndOutputTarget()
         Dim input As SpreadsheetRangeData = BuildRange(
             New Object()() {
@@ -122,6 +216,14 @@ Public Class SharedExcelLayerTests
         Assert.AreEqual(SpreadsheetOutputDestination.CurrentWorksheet, request.OutputTarget.Destination)
         Assert.AreEqual(4, request.OutputTarget.StartRow)
         Assert.AreEqual(3, request.OutputTarget.StartColumn)
+
+        Dim requests As List(Of ResultTableWriteRequest) = ResultTableWriteRequestFactory.CreateMany(
+            New List(Of BESHStatNG.ResultTableOutputModel) From {result.Table, result.Table},
+            settings,
+            0.01,
+            target)
+        Assert.AreEqual(2, requests.Count)
+        Assert.AreEqual(request.PvalueNumberFormat, requests(1).PvalueNumberFormat)
     End Sub
 
     Private Shared Function BuildRange(rows As Object()()) As SpreadsheetRangeData

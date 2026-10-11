@@ -10,6 +10,7 @@ Namespace ExcelCommon
     ''' Parsed grouped numeric input used by one-way ANOVA and other grouped-data workflows.
     ''' </summary>
     Public Class GroupedNumericData
+        Inherits SpreadsheetAnalysisInput
 
         Public Sub New(groupNames As String(), groups As Double()())
             If groupNames Is Nothing Then Throw New ArgumentNullException(NameOf(groupNames))

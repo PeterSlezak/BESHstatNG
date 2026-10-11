@@ -1414,15 +1414,9 @@ Public Class UibyID
     End Function
 
     Private Sub RunOneWayANOVA(data As MultiGroupsUnpairedData)
-        'Stage 3.02: the normal one-way ANOVA path now crosses the same
-        'BESHStat.Excel.Common application boundary used by the Office.js host.
-        'Welch output still uses the legacy combined-table path for this prototype
-        'because Core currently embeds Welch columns into the primary ANOVA table.
-        If Me.ckWelch.Checked Then
-            RunOneWayANOVALegacy(data)
-            Exit Sub
-        End If
-
+        'Stage 3.03: all one-way ANOVA variants now cross the generic shared-analysis
+        'request/result boundary. Welch and post-hoc procedures are orchestrated once in
+        'BESHStat.Excel.Common instead of recreating a second Core ANOVA model in the host.
         RunOneWayANOVAThroughSharedLayer(data)
     End Sub
 
@@ -1433,44 +1427,43 @@ Public Class UibyID
         Dim grouped As Global.BESHStatNG.ExcelCommon.GroupedNumericData =
             ExcelDnaSharedApplicationAdapter.ToGroupedNumericData(data)
 
+        Dim analysisOptions As New Global.BESHStatNG.ExcelCommon.OneWayAnovaAnalysisOptions With {
+             .IncludeWelch = Me.ckWelch.Checked,
+             .IncludeFisherLsd = Me.ckLSD.Checked,
+             .IncludeBonferroni = Me.ckBonferroni.Checked,
+             .IncludeTukeyKramer = Me.ckTukey.Checked,
+             .IncludeGamesHowell = Me.ckGamesHowell.Checked,
+             .Alpha = alpha
+        }
+
+        Dim analysisRequest As New Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisRequest(
+            Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisKind.OneWayAnova,
+            grouped,
+            analysisOptions)
+
+        Dim analysisResult As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult =
+            Global.BESHStatNG.ExcelCommon.SharedAnalysisApplicationService.Run(analysisRequest)
+
         Dim sharedResult As Global.BESHStatNG.ExcelCommon.OneWayAnovaApplicationResult =
-            Global.BESHStatNG.ExcelCommon.OneWayAnovaApplicationService.Run(grouped)
-
-        'Multiple-comparison procedures still need their Core model instance because
-        'the Windows host also consumes the plot payloads. Their additional tables are
-        'appended after the shared-layer primary ANOVA table.
-        Dim anova As parametric.OneWayANOVA = Nothing
-        Dim res As New List(Of ResultTable)
-
-        If Me.ckLSD.Checked OrElse Me.ckBonferroni.Checked OrElse
-           Me.ckTukey.Checked OrElse Me.ckGamesHowell.Checked Then
-
-            anova = New parametric.OneWayANOVA(data.X, data.varNames)
-            anova.compute()
-
-            If Me.ckLSD.Checked Then anova.FisherLSD(False, alpha)
-            If Me.ckBonferroni.Checked Then anova.FisherLSD(True, alpha)
-            If Me.ckTukey.Checked Then anova.TukeyKramer(alpha)
-            If Me.ckGamesHowell.Checked Then anova.GamesHowell(alpha)
-
-            Dim mcpResults As List(Of ResultTable) = anova.wrapResults()
-            For i As Integer = 1 To mcpResults.Count - 1
-                res.Add(mcpResults(i))
-            Next
+            TryCast(analysisResult.Detail, Global.BESHStatNG.ExcelCommon.OneWayAnovaApplicationResult)
+        If sharedResult Is Nothing Then
+            Throw New InvalidOperationException("The shared one-way ANOVA dispatcher did not return its typed detail result.")
         End If
 
-        'Homogeneity of variances.
+        'Windows-only supplementary analyses remain host-side for now. The ANOVA primary
+        'table, Welch columns, post-hoc tables, and post-hoc plot payloads are already in
+        'analysisResult/sharedResult and are not recomputed here.
+        Dim res As New List(Of ResultTable)
+
         If Me.ckBartlett.Checked Or Me.ckFlignerKilleen.Checked Or
            Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then
             res.Add(Me.ComputeVarianceHomogeneity(data))
         End If
 
-        'Descriptive statistics.
         If Me.ckDescriptiveStatistics.Checked Then
             res.Add(Me.ComputeDescriptiveStats(data))
         End If
 
-        'Box plot result table if requested.
         If Me.ckBoxPlot.Checked Then
             box = New graphics.BoxPlot(data.X, data.varNames)
             box.Calculate()
@@ -1478,9 +1471,6 @@ Public Class UibyID
             res.Add(box.wrapResults())
         End If
 
-        'Keep the established Windows output-selection behavior. The shared request
-        'records the same destination/pointer, while ExcelDnaResultWriter performs the
-        'actual COM write using its already configured workbook and worksheet.
         Dim WriteRes As ExcelDnaResultWriter = GetResultWriter()
 
         Dim destination As Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination =
@@ -1492,24 +1482,39 @@ Public Class UibyID
         End If
 
         Dim outputTarget As New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
-            .destination = destination,
+            .Destination = destination,
             .WorksheetName = CStr(WriteRes.ws.Name),
             .StartRow = WriteRes.RowID,
             .StartColumn = WriteRes.ColID
         }
 
-        Dim sharedRequest As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest =
-            Global.BESHStatNG.ExcelCommon.ResultTableWriteRequestFactory.Create(
-                sharedResult.Table,
+        Dim sharedRequests As List(Of Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest) =
+            Global.BESHStatNG.ExcelCommon.ResultTableWriteRequestFactory.CreateMany(
+                analysisResult.Tables,
                 AppGlobals.PValuePresentation,
                 alpha,
                 outputTarget)
 
-        'Preserve historical Windows behavior: existing GUI output does not auto-fit.
-        sharedRequest.AutoFit = False
+        If sharedRequests.Count = 0 Then
+            Throw New InvalidOperationException("The shared one-way ANOVA workflow returned no result tables.")
+        End If
 
-        Dim mainRows As Integer = sharedRequest.Values.Count
-        Dim mainCols As Integer = If(mainRows = 0, 0, sharedRequest.Values(0).Count)
+        'Preserve historical Windows behavior: existing GUI output does not auto-fit.
+        For Each request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest In sharedRequests
+            request.AutoFit = False
+        Next
+
+        Dim sharedRows As Integer = 0
+        Dim sharedCols As Integer = 0
+        For i As Integer = 0 To sharedRequests.Count - 1
+            Dim request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest = sharedRequests(i)
+            Dim tableRows As Integer = request.Values.Count
+            Dim tableCols As Integer = If(tableRows = 0, 0, request.Values(0).Count)
+
+            If i > 0 Then sharedRows += 1 'blank separator between shared tables
+            sharedRows += tableRows
+            sharedCols = Math.Max(sharedCols, tableCols)
+        Next
 
         Dim rr As ProcessListofResultTables = Nothing
         Dim extraRows As Integer = 0
@@ -1520,9 +1525,9 @@ Public Class UibyID
             extraCols = rr.TotCols
         End If
 
-        Dim totrows As Integer = mainRows
+        Dim totrows As Integer = sharedRows
         If res.Count > 0 Then totrows += 1 + extraRows
-        Dim totcols As Integer = Math.Max(mainCols, extraCols)
+        Dim totcols As Integer = Math.Max(sharedCols, extraCols)
 
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -1530,7 +1535,10 @@ Public Class UibyID
             End If
         End If
 
-        WriteRes.WriteSharedRequest(sharedRequest)
+        For i As Integer = 0 To sharedRequests.Count - 1
+            If i > 0 Then WriteRes.shiftRowPointer()
+            WriteRes.WriteSharedRequest(sharedRequests(i))
+        Next
 
         If rr IsNot Nothing Then
             WriteRes.shiftRowPointer()
@@ -1538,7 +1546,9 @@ Public Class UibyID
         End If
 
         Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info(
-            "Windows one-way ANOVA primary table executed through BESHStat.Excel.Common.")
+            "Windows one-way ANOVA executed through the generic BESHStat.Excel.Common dispatcher. " &
+            "Welch=" & Me.ckWelch.Checked.ToString() &
+            "; shared tables=" & sharedRequests.Count.ToString(Globalization.CultureInfo.InvariantCulture) & ".")
 
         If Me.ckBoxPlot.Checked Then
             box.SetWs = WriteRes.ws
@@ -1546,76 +1556,10 @@ Public Class UibyID
         End If
 
         Dim plotData As New List(Of parametric.MultipleComparisonPlotData)
-        If anova IsNot Nothing Then
-            If Me.ckLSD.Checked AndAlso anova.FisherLSDPlotData IsNot Nothing Then plotData.Add(anova.FisherLSDPlotData)
-            If Me.ckBonferroni.Checked AndAlso anova.BonferroniPlotData IsNot Nothing Then plotData.Add(anova.BonferroniPlotData)
-            If Me.ckTukey.Checked AndAlso anova.TukeyKramerPlotData IsNot Nothing Then plotData.Add(anova.TukeyKramerPlotData)
-            If Me.ckGamesHowell.Checked AndAlso anova.GamesHowellPlotData IsNot Nothing Then plotData.Add(anova.GamesHowellPlotData)
-        End If
-
-        If plotData.Count > 0 Then
-            Dim chartLeft As Double = CDbl(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID + totcols + 2).Left)
-            Dim chartTop As Double = CDbl(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID).Top)
-            For Each pd As parametric.MultipleComparisonPlotData In plotData
-                graphics.MultipleComparisonPlotExcel.AddPlot(WriteRes.ws, pd, chartLeft, chartTop)
-                chartTop += graphics.MultipleComparisonPlotExcel.SuggestedHeight(pd) + 15.0
-            Next
-        End If
-    End Sub
-
-    Private Sub RunOneWayANOVALegacy(data As MultiGroupsUnpairedData)
-        Dim box As graphics.BoxPlot = Nothing
-        Dim alpha As Double = AppGlobals.DefaultAlpha
-        Dim anova = New parametric.OneWayANOVA(data.X, data.varNames)
-        anova.compute()
-        If Me.ckWelch.Checked Then anova.WelshANOVA()
-        If Me.ckLSD.Checked Then anova.FisherLSD(False, alpha)
-        If Me.ckBonferroni.Checked Then anova.FisherLSD(True, alpha)
-        If Me.ckTukey.Checked Then anova.TukeyKramer(alpha)
-        If Me.ckGamesHowell.Checked Then anova.GamesHowell(alpha)
-        Dim res = anova.wrapResults()
-
-        'homogeneity of variances
-        If Me.ckBartlett.Checked Or Me.ckFlignerKilleen.Checked Or
-        Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then res.Add(Me.ComputeVarianceHomogeneity(data))
-
-        'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then res.Add(Me.ComputeDescriptiveStats(data))
-
-        'box plot if requested
-        If Me.ckBoxPlot.Checked Then
-            box = New graphics.BoxPlot(data.X, data.varNames)
-            box.Calculate()
-            box.CalcForPlotting()
-            res.Add(box.wrapResults())
-        End If
-
-        'Dump outputs
-        Dim WriteRes = GetResultWriter() 'pass just table from the main test output
-        Dim rr = New ProcessListofResultTables(res)
-        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
-        Dim totcols As Integer = rr.TotCols
-        If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
-            If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
-                Exit Sub
-            End If
-        End If
-
-        rr.writeToSheet(WriteRes, True)
-
-        If Me.ckBoxPlot.Checked Then
-            box.SetWs = WriteRes.ws
-            box.AddBoxPlot()
-        End If
-
-        'For GUI one-way ANOVA output, add one confidence-interval chart for each
-        'selected multiple-comparison procedure. Charts use the same numeric limits
-        'and alpha as the result tables and are placed to the right of the output.
-        Dim plotData As New List(Of parametric.MultipleComparisonPlotData)
-        If Me.ckLSD.Checked AndAlso anova.FisherLSDPlotData IsNot Nothing Then plotData.Add(anova.FisherLSDPlotData)
-        If Me.ckBonferroni.Checked AndAlso anova.BonferroniPlotData IsNot Nothing Then plotData.Add(anova.BonferroniPlotData)
-        If Me.ckTukey.Checked AndAlso anova.TukeyKramerPlotData IsNot Nothing Then plotData.Add(anova.TukeyKramerPlotData)
-        If Me.ckGamesHowell.Checked AndAlso anova.GamesHowellPlotData IsNot Nothing Then plotData.Add(anova.GamesHowellPlotData)
+        If Me.ckLSD.Checked AndAlso sharedResult.FisherLsdPlotData IsNot Nothing Then plotData.Add(sharedResult.FisherLsdPlotData)
+        If Me.ckBonferroni.Checked AndAlso sharedResult.BonferroniPlotData IsNot Nothing Then plotData.Add(sharedResult.BonferroniPlotData)
+        If Me.ckTukey.Checked AndAlso sharedResult.TukeyKramerPlotData IsNot Nothing Then plotData.Add(sharedResult.TukeyKramerPlotData)
+        If Me.ckGamesHowell.Checked AndAlso sharedResult.GamesHowellPlotData IsNot Nothing Then plotData.Add(sharedResult.GamesHowellPlotData)
 
         If plotData.Count > 0 Then
             Dim chartLeft As Double = CDbl(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID + totcols + 2).Left)

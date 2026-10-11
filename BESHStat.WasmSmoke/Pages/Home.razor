@@ -6,14 +6,14 @@
 @using BESHStatNG.ExcelCommon
 @inject IJSRuntime JS
 
-<PageTitle>BESHStat shared Excel layer Stage 3</PageTitle>
+<PageTitle>BESHStat shared Excel layer Stage 3.03</PageTitle>
 
 <h1>BESHStat shared Excel application layer</h1>
 
 <p>
-    Stage 3 moves spreadsheet parsing, analysis orchestration, ResultTable transfer metadata,
-    and p-value presentation instructions into a host-neutral .NET Standard layer. Office.js
-    is now only the Excel adapter that reads cells and writes the supplied result request.
+    Stage 3.03 adds a generic shared-analysis request/result dispatcher. The Office.js and
+    Excel-DNA hosts can now submit the same host-neutral input/options contract, while the
+    shared layer owns ANOVA orchestration including optional Welch inference.
 </p>
 
 <div class="alert @(officeHost?.IsExcel == true ? "alert-success" : "alert-secondary")">
@@ -28,7 +28,7 @@
         Read selected range
     </button>
     <button class="btn btn-primary" @onclick="RunAnovaAndWrite" disabled="@isBusy">
-        Run ANOVA and write result
+        Run shared analysis and write result
     </button>
 </div>
 
@@ -36,6 +36,16 @@
 
 <div class="card mb-4" style="max-width: 1000px;">
     <div class="card-body">
+        <h5 class="card-title">Shared analysis options</h5>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" @bind="includeWelch" id="welchCheck" />
+            <label class="form-check-label" for="welchCheck">
+                Include Welch ANOVA columns in the primary result table
+            </label>
+        </div>
+
+        <hr />
+
         <h5 class="card-title">Shared writer options</h5>
 
         <div class="row g-3">
@@ -148,6 +158,15 @@
             <strong>p-value:</strong> @output.PValue.ToString("G12", CultureInfo.InvariantCulture)
         </p>
 
+        @if (output.HasWelch)
+        {
+            <p>
+                <strong>Welch F:</strong> @output.WelchFStatistic.ToString("G12", CultureInfo.InvariantCulture)<br />
+                <strong>Welch denominator df:</strong> @output.WelchDenominatorDf.ToString("G12", CultureInfo.InvariantCulture)<br />
+                <strong>Welch p-value:</strong> @output.WelchPValue.ToString("G12", CultureInfo.InvariantCulture)
+            </p>
+        }
+
         <table class="table table-bordered table-sm" style="max-width: 950px;">
             <tbody>
                 @for (var row = 0; row < output.Table.RowCount; row++)
@@ -184,6 +203,7 @@
     private OfficeHostStatus? officeHost;
     private SpreadsheetRangeData? selection;
     private GroupedNumericData? groupedPreview;
+    private SpreadsheetAnalysisResult? sharedOutput;
     private OneWayAnovaApplicationResult? output;
     private OfficeWriteResult? writeResult;
 
@@ -200,6 +220,7 @@
     private PValueSmallValueDisplay pvalueSmallValueDisplay = PValueSmallValueDisplay.LessThanThreshold;
     private bool pvalueUseUpperBound = true;
     private double pvalueHighlightAlpha = 0.05;
+    private bool includeWelch;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -243,6 +264,7 @@
             isBusy = true;
             selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
             groupedPreview = GroupedNumericRangeParser.Parse(selection);
+            sharedOutput = null;
             output = null;
             writeResult = null;
             status = $"PASS — host adapter read {selection.Address}; BESHStat.Excel.Common validated the grouped input.";
@@ -250,6 +272,7 @@
         catch (Exception ex)
         {
             groupedPreview = null;
+            sharedOutput = null;
             output = null;
             writeResult = null;
             status = "FAIL — " + ex.Message;
@@ -269,7 +292,22 @@
 
             selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
             groupedPreview = GroupedNumericRangeParser.Parse(selection);
-            output = OneWayAnovaApplicationService.Run(selection);
+
+            var analysisRequest = new SpreadsheetAnalysisRequest(
+                SpreadsheetAnalysisKind.OneWayAnova,
+                selection,
+                new OneWayAnovaAnalysisOptions
+                {
+                    IncludeWelch = includeWelch,
+                    Alpha = pvalueHighlightAlpha
+                });
+
+            sharedOutput = SharedAnalysisApplicationService.Run(analysisRequest);
+            output = sharedOutput.Detail as OneWayAnovaApplicationResult
+                     ?? throw new InvalidOperationException("The shared dispatcher did not return one-way ANOVA detail.");
+
+            var primaryTable = sharedOutput.PrimaryTable
+                               ?? throw new InvalidOperationException("The shared analysis returned no primary result table.");
 
             var settings = new PValuePresentationSettings
             {
@@ -287,20 +325,25 @@
                 StartColumn = outputStartColumn
             };
 
-            var request = ResultTableWriteRequestFactory.Create(
-                output.Table,
+            var writeRequest = ResultTableWriteRequestFactory.Create(
+                primaryTable,
                 settings,
                 pvalueHighlightAlpha,
                 target);
 
-            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeResultTable", request);
+            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeResultTable", writeRequest);
 
-            status = $"PASS — Excel adapter → shared input parser → shared ANOVA service → BESHStat.Core → " +
+            var welchStatus = output.HasWelch
+                ? $" Welch F = {output.WelchFStatistic:G12}; Welch p = {output.WelchPValue:G12}."
+                : string.Empty;
+
+            status = $"PASS — Excel adapter → generic shared analysis dispatcher → BESHStat.Core → " +
                      $"shared ResultTable write request → Office.js writer completed. " +
-                     $"F = {output.FStatistic:G12}; p = {output.PValue:G12}.";
+                     $"F = {output.FStatistic:G12}; p = {output.PValue:G12}." + welchStatus;
         }
         catch (Exception ex)
         {
+            sharedOutput = null;
             output = null;
             writeResult = null;
             status = "FAIL — " + ex.Message;

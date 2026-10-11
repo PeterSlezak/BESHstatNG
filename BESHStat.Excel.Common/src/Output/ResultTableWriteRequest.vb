@@ -106,6 +106,27 @@ Namespace ExcelCommon
             Return request
         End Function
 
+        ''' <summary>
+        ''' Converts an ordered set of result tables into independent host-neutral write requests.
+        ''' The host controls spacing and pointer movement between tables.
+        ''' </summary>
+        Public Shared Function CreateMany(models As IEnumerable(Of Global.BESHStatNG.ResultTableOutputModel),
+                                          pvalueSettings As PValuePresentationSettings,
+                                          alpha As Double,
+                                          outputTarget As SpreadsheetOutputTarget) As List(Of ResultTableWriteRequest)
+            If models Is Nothing Then Throw New ArgumentNullException(NameOf(models))
+
+            Dim requests As New List(Of ResultTableWriteRequest)()
+            For Each model As Global.BESHStatNG.ResultTableOutputModel In models
+                If model Is Nothing Then
+                    Throw New ArgumentException("The result-table collection contains a null table.", NameOf(models))
+                End If
+                requests.Add(Create(model, pvalueSettings, alpha, outputTarget))
+            Next
+
+            Return requests
+        End Function
+
         Private Shared Function ToRows(values As Object(,)) As List(Of List(Of Object))
             Dim rows As New List(Of List(Of Object))(values.GetLength(0))
 

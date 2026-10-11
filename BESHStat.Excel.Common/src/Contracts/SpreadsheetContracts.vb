@@ -6,6 +6,14 @@ Imports System.Collections.Generic
 Namespace ExcelCommon
 
     ''' <summary>
+    ''' Marker base class for host-neutral analysis inputs consumed by the shared Excel
+    ''' application layer. Concrete analyses can introduce strongly typed input contracts
+    ''' without coupling the application dispatcher to Office.js, Excel-DNA, COM, or UI code.
+    ''' </summary>
+    Public MustInherit Class SpreadsheetAnalysisInput
+    End Class
+
+    ''' <summary>
     ''' Portable representation of the small set of primitive spreadsheet values used by
     ''' BESHStatNG analysis-input adapters. Host adapters translate Excel/Office.js/COM cells
     ''' into this type before any analysis-specific validation occurs.
@@ -68,6 +76,7 @@ Namespace ExcelCommon
     ''' RowCount/ColumnCount describe the original host range.
     ''' </summary>
     Public Class SpreadsheetRangeData
+        Inherits SpreadsheetAnalysisInput
 
         Public Sub New()
             WorksheetName = String.Empty
@@ -84,7 +93,7 @@ Namespace ExcelCommon
 
     ''' <summary>
     ''' Where a host-specific result writer should place an output table.
-    ''' NewWorkbook is reserved for a later host capability batch.
+    ''' NewWorkbook is part of the shared contract; individual hosts may report it as unsupported.
     ''' </summary>
     Public Enum SpreadsheetOutputDestination
         CurrentWorksheet = 0
