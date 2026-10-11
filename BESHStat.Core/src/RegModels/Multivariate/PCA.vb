@@ -1,5 +1,10 @@
 ﻿Option Explicit On
+Option Strict On
+Option Infer On
+Imports System
 Imports System.Linq
+Imports BESHStatNG.DataManagement
+Imports BESHStatNG.Matrix
 Imports BESHStatNG.AppInfrastructure
 
 Namespace Multivariate
@@ -43,9 +48,9 @@ Namespace Multivariate
     '''''' </list>
     '''''' </para>
     '''''' </remarks>
-    '''''' <seealso cref="MatrixType.MatCovar" />
-    '''''' <seealso cref="MatrixType.EIGEN_JK" />
-    '''''' <seealso cref="MatrixType.MatrixMult" />
+    '''''' <seealso cref="MatrixStatisticsCore.SampleCovariance" />
+    '''''' <seealso cref="MatrixStatisticsCore.EigenJk" />
+    '''''' <seealso cref="MatrixArithmeticCore.Multiply" />
     '''''' <seealso cref="StatFunc.stDev" />
     Public Class PCA
 
@@ -111,7 +116,7 @@ Namespace Multivariate
         '''''' <remarks>
         '''''' <para>Computed by <c>MatCovar</c> (MatrixType.vb) with sample divisor (n−1).</para>
         '''''' </remarks>
-        '''''' <seealso cref="MatrixType.MatCovar" />
+        '''''' <seealso cref="MatrixStatisticsCore.SampleCovariance" />
         ReadOnly Property VarCovarMat() As Double(,)
             Get
                 Return pVarCovar
@@ -165,7 +170,7 @@ Namespace Multivariate
         '''''' <remarks>
         '''''' <para>Scores are computed as T = Xc * V_k (covariance PCA) or T = Z * V_k (correlation PCA).</para>
         '''''' </remarks>
-        '''''' <seealso cref="MatrixType.MatrixMult" />
+        '''''' <seealso cref="MatrixArithmeticCore.Multiply" />
         ReadOnly Property ReducedDataset() As Double(,)
             Get
                 Return pFinalDataset
@@ -294,7 +299,7 @@ Namespace Multivariate
             Get
                 Dim out(pNoExtractComponents - 1) As String
                 For i As Integer = 0 To pNoExtractComponents - 1
-                    out(i) = prefix & CStr(i + 1)
+                    out(i) = prefix & (i + 1).ToString()
                 Next
                 Return out
             End Get
@@ -387,21 +392,21 @@ Namespace Multivariate
         '''''' </list>
         '''''' </para>
         '''''' </remarks>
-        '''''' <seealso cref="MatrixType.MatCovar" />
-        '''''' <seealso cref="MatrixType.EIGEN_JK" />
-        '''''' <seealso cref="MatrixType.MatrixMult" />
+        '''''' <seealso cref="MatrixStatisticsCore.SampleCovariance" />
+        '''''' <seealso cref="MatrixStatisticsCore.EigenJk" />
+        '''''' <seealso cref="MatrixArithmeticCore.Multiply" />
         '''''' <seealso cref="StatFunc.stDev" />
         Public Sub Calculate(extract_method As String, extract_coef As Double)
 
-            Me.p = UBound(pData, 2) + 1 'Columns of predictor variables and responses
-            Me.n = UBound(pData, 1) + 1   '# of observations
+            Me.p = pData.GetLength(1) 'Columns of predictor variables and responses
+            Me.n = pData.GetLength(0)   '# of observations
             ReDim pStandardData(n - 1, p - 1), pEigenvect(p - 1, p - 1)
             Dim CenteredData(n - 1, p - 1) As Double
 
             '1. standardize and center data
             '   center data - (required only for covariance matrix but we always compute it)
             For i As Integer = 0 To p - 1
-                Dim tmp() As Double = Matrix.GetColumnFrom2Darray(Me.pData, i)
+                Dim tmp() As Double = ArrayUtilities.GetColumn(Me.pData, i)
                 Dim tmp2() As Double = MultivariateShared.Center(tmp)
                 tmp = MultivariateShared.Standardize(tmp)
 
@@ -413,15 +418,15 @@ Namespace Multivariate
 
             '2. get variance-covariance matrix
             If MatrixType = "Correlation" Then
-                Me.pVarCovar = Matrix.MatCovar(Me.pStandardData)
+                Me.pVarCovar = MatrixStatisticsCore.SampleCovariance(Me.pStandardData)
             Else 'Covariance matrix
-                Me.pVarCovar = Matrix.MatCovar(CenteredData)
+                Me.pVarCovar = MatrixStatisticsCore.SampleCovariance(CenteredData)
             End If
 
             '3. Compute the eigenvectors and eigenvalues
             'The 1st column of the eigen_raw matrix contains eigenvalues and the rest of the p+1 columns are eigenvectors
-            Dim eigen_raw = Matrix.EIGEN_JK(pVarCovar, pMaxiter, pEps)
-            Dim sorted = MultivariateShared.SortEigenpairsDescending(eigen_raw.Item1, eigen_raw.Item2)
+            Dim eigenRaw As MatrixStatisticsCore.EigenResult = MatrixStatisticsCore.EigenJk(pVarCovar, pMaxiter, pEps)
+            Dim sorted = MultivariateShared.SortEigenpairsDescending(eigenRaw.Eigenvalues, eigenRaw.Eigenvectors)
             Me.pEigenval = sorted.Item1
             Me.pEigenvect = sorted.Item2
 
@@ -431,7 +436,7 @@ Namespace Multivariate
                 pNoExtractComponents = pEigenval.TakeWhile(Function(x) x >= extract_coef).Count()
 
             ElseIf extract_method = "Fixed" Then
-                pNoExtractComponents = CInt(extract_coef)
+                pNoExtractComponents = Convert.ToInt32(extract_coef)
 
             ElseIf extract_method = "Variance" Then
                 Dim i As Integer
@@ -448,7 +453,7 @@ Namespace Multivariate
             'create Feature vector/matrix
             ReDim pLoadings(p - 1, pNoExtractComponents - 1)
             For j As Integer = 0 To pNoExtractComponents - 1
-                Dim col() As Double = Matrix.GetColumnFrom2Darray(pEigenvect, j)
+                Dim col() As Double = ArrayUtilities.GetColumn(pEigenvect, j)
                 Dim minv As Double = col.Min()
                 Dim maxv As Double = col.Max()
                 Dim flip As Boolean = If(Math.Abs(minv) > Math.Abs(maxv), (minv < 0), (maxv < 0))
@@ -459,9 +464,9 @@ Namespace Multivariate
 
 
             If MatrixType = "Correlation" Then
-                pFinalDataset = Matrix.MatrixMult(pStandardData, pLoadings)
+                pFinalDataset = MatrixArithmeticCore.Multiply(pStandardData, pLoadings)
             Else
-                pFinalDataset = Matrix.MatrixMult(CenteredData, pLoadings)
+                pFinalDataset = MatrixArithmeticCore.Multiply(CenteredData, pLoadings)
             End If
 
         End Sub
@@ -475,8 +480,8 @@ Namespace Multivariate
         '''''' <para>Used for labeling standardized variables in outputs; does not modify PCA computation.</para>
         '''''' </remarks>
         Public Function StandardizedVarNames(varNames() As String) As String()
-            Dim varOut(UBound(varNames)) As String
-            For i As Integer = 0 To UBound(varNames)
+            Dim varOut(varNames.GetUpperBound(0)) As String
+            For i As Integer = 0 To varNames.GetUpperBound(0)
                 varOut(i) = "Standardized_" & varNames(i)
             Next
             Return varOut
