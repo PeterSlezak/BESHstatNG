@@ -5,6 +5,7 @@ Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.DataManagement
 
 Namespace Multivariate
 
@@ -281,10 +282,10 @@ Namespace Multivariate
 
         Public Sub priorInputs(categoryLabels() As Object, priorProbabilities() As Double)
             If categoryLabels Is Nothing OrElse priorProbabilities Is Nothing Then
-                CoreServices.Errors.LogAndThrow(New ArgumentNullException("User priors require both category labels and probabilities."))
+                CoreServices.Errors.LogAndThrow(New ArgumentNullException("User priors require both category labels And probabilities."))
             End If
             If categoryLabels.Length <> priorProbabilities.Length Then
-                CoreServices.Errors.LogAndThrow(New ArgumentException("The user-prior label and probability arrays must have the same length."))
+                CoreServices.Errors.LogAndThrow(New ArgumentException("The user-prior label And probability arrays must have the same length."))
             End If
             ReDim pUserPriorLabels(categoryLabels.Length - 1)
             ReDim pUserPriorValues(priorProbabilities.Length - 1)
@@ -370,10 +371,10 @@ Namespace Multivariate
                                         Optional actualGroupLabels As Object() = Nothing) As DiscriminantPredictionResult
             MultivariateInputHelpers.ValidateRectangularData(newData, nullParamName:=NameOf(newData),
                                                              rankMessage:="The data matrix must be two-dimensional.",
-                                                             emptyMessage:="The data matrix must contain at least one row and one column.")
+                                                             emptyMessage:="The data matrix must contain at least one row And one column.")
 
             If pPrepared Is Nothing OrElse pGroupStats Is Nothing Then
-                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Model is not fitted."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Model Is Not fitted."))
             End If
 
             Dim actualLabels() As String = Nothing
@@ -394,7 +395,7 @@ Namespace Multivariate
 
         Public Function wrapResults() As List(Of ResultTable)
             If pPrepared Is Nothing OrElse pGroupStats Is Nothing Then
-                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Model is not fitted."))
+                CoreServices.Errors.LogAndThrow(New InvalidOperationException("Model Is Not fitted."))
             End If
 
             Dim out As New List(Of ResultTable)
@@ -481,9 +482,9 @@ Namespace Multivariate
         End Function
 
         Private Sub ValidateInputs()
-            If pRawData Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException("Input predictor data were not supplied."))
-            If pRawGroupLabels Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException("The grouping variable was not supplied."))
-            MultivariateInputHelpers.ValidateRectangularData(pRawData, nullParamName:=NameOf(pRawData), rankMessage:="The data matrix must be two-dimensional.", emptyMessage:="The data matrix must contain at least one row and one column.")
+            If pRawData Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException("Input predictor data were Not supplied."))
+            If pRawGroupLabels Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException("The grouping variable was Not supplied."))
+            MultivariateInputHelpers.ValidateRectangularData(pRawData, nullParamName:=NameOf(pRawData), rankMessage:="The data matrix must be two-dimensional.", emptyMessage:="The data matrix must contain at least one row And one column.")
             Dim n As Integer = pRawData.GetUpperBound(0) + 1
             If pRawGroupLabels.Length <> n Then
                 CoreServices.Errors.LogAndThrow(New ArgumentException("The grouping variable length must match the number of data rows."))
@@ -532,7 +533,7 @@ Namespace Multivariate
                 Dim rowIds As List(Of Integer) = RowsForGroup(prepared.ActiveGroupLabels, pGroupLabels(groupIdx))
                 Dim groupWorking = ExtractRows(working, rowIds.ToArray())
                 Dim groupOriginal = ExtractRows(original, rowIds.ToArray())
-                Dim cov As Double(,) = Matrix.MatCovar(groupWorking)
+                Dim cov As Double(,) = Matrix.MatrixStatisticsCore.SampleCovariance(groupWorking)
                 Dim meanWorking() As Double = ColumnMeans(groupWorking)
                 Dim meanOriginal() As Double = ColumnMeans(groupOriginal)
                 Dim regularized = RegularizeSymmetricMatrix(cov, pCovarianceRegularization)
@@ -557,7 +558,7 @@ Namespace Multivariate
 
             If pMethod = DiscriminantAnalysisMethod.Linear Then
                 If pooledDf <= 0 Then CoreServices.Errors.LogAndThrow(New ArgumentException("The pooled within-group degrees of freedom must be positive for linear discriminant analysis."))
-                pPooledCovarianceWorking = Matrix.MatrixMult(pooledNumerator, 1.0 / pooledDf)
+                pPooledCovarianceWorking = Matrix.MatrixArithmeticCore.Multiply(pooledNumerator, 1.0 / pooledDf)
                 Dim pooledPrepared = RegularizeSymmetricMatrix(pPooledCovarianceWorking, pCovarianceRegularization)
                 pPooledCovarianceWorking = pooledPrepared.Matrix
                 pPooledInverseWorking = pooledPrepared.Inverse
@@ -599,7 +600,7 @@ Namespace Multivariate
                     If scale = 0 Then scale = 1.0
                     pLinearCoefficientsOriginal(j, groupIdx) = coeffWorking(j) / scale
                 Next
-                Dim constantWorking As Double = -0.5 * Matrix.DotProduct(mu, coeffWorking) + Math.Log(Math.Max(pGroupStats(groupIdx).PriorProbability, 1.0E-300))
+                Dim constantWorking As Double = -0.5 * Matrix.MatrixArithmeticCore.DotProduct(mu, coeffWorking) + Math.Log(Math.Max(pGroupStats(groupIdx).PriorProbability, 1.0E-300))
                 pLinearConstantsWorking(groupIdx) = constantWorking
 
                 Dim adjust As Double = 0.0
@@ -630,13 +631,13 @@ Namespace Multivariate
 
             Dim between(p - 1, p - 1) As Double
             For Each gs In pGroupStats
-                Dim delta() As Double = Matrix.M_SUB(gs.MeanWorking, pOverallMeanWorking)
-                Dim outer = Matrix.M_OUTERPRODUCT(delta, delta)
+                Dim delta() As Double = Matrix.MatrixArithmeticCore.Subtract(gs.MeanWorking, pOverallMeanWorking)
+                Dim outer = Matrix.MatrixArithmeticCore.OuterProduct(delta, delta)
                 AddScaledMatrixInPlace(between, outer, gs.Count / Math.Max(n - 1.0, 1.0))
             Next
 
-            Dim eigW = Matrix.EIGEN_JK(pPooledCovarianceWorking)
-            Dim sortedW = MultivariateShared.SortEigenpairsDescending(eigW.Item1, eigW.Item2)
+            Dim eigW = Matrix.MatrixStatisticsCore.EigenJk(pPooledCovarianceWorking)
+            Dim sortedW = MultivariateShared.SortEigenpairsDescending(eigW.Eigenvalues, eigW.Eigenvectors)
             Dim invSqrtW(p - 1, p - 1) As Double
             Dim tol As Double = 0.000000000001
             For k As Integer = 0 To p - 1
@@ -649,12 +650,12 @@ Namespace Multivariate
                 Next
             Next
 
-            Dim tmp = Matrix.MatrixMult(invSqrtW, between)
-            Dim a = Matrix.MatrixMult(tmp, invSqrtW)
+            Dim tmp = Matrix.MatrixArithmeticCore.Multiply(invSqrtW, between)
+            Dim a = Matrix.MatrixArithmeticCore.Multiply(tmp, invSqrtW)
             a = Symmetrize(a)
 
-            Dim eigA = Matrix.EIGEN_JK(a)
-            Dim sortedA = MultivariateShared.SortEigenpairsDescending(eigA.Item1, eigA.Item2)
+            Dim eigA = Matrix.MatrixStatisticsCore.EigenJk(a)
+            Dim sortedA = MultivariateShared.SortEigenpairsDescending(eigA.Eigenvalues, eigA.Eigenvectors)
 
             Dim positiveRoots As New List(Of Integer)
             For i As Integer = 0 To sortedA.Item1.Length - 1
@@ -692,7 +693,7 @@ Namespace Multivariate
                 For i As Integer = 0 To p - 1
                     v(i, 0) = sortedA.Item2(i, idx)
                 Next
-                Dim coeff = Matrix.MatrixMult(invSqrtW, v)
+                Dim coeff = Matrix.MatrixArithmeticCore.Multiply(invSqrtW, v)
                 For i As Integer = 0 To p - 1
                     pCanonicalCoefficients(i, root) = coeff(i, 0)
                 Next
@@ -708,7 +709,7 @@ Namespace Multivariate
                 pCanonicalWilksLambda(root) = wilks
             Next
 
-            pCanonicalScores = Matrix.MatrixMult(prepared.WorkingData, pCanonicalCoefficients)
+            pCanonicalScores = Matrix.MatrixArithmeticCore.Multiply(prepared.WorkingData, pCanonicalCoefficients)
             ReDim pCanonicalGroupCentroids(g - 1, nRoots - 1)
             For groupIdx As Integer = 0 To g - 1
                 Dim rows = RowsForGroup(prepared.ActiveGroupLabels, pGroupLabels(groupIdx))
@@ -771,20 +772,20 @@ Namespace Multivariate
             If actualLabels IsNot Nothing Then ReDim correct(n - 1)
 
             For i As Integer = 0 To n - 1
-                Dim x() As Double = Matrix.rowFromArray(working, i)
+                Dim x() As Double = GetMatrixRow(working, i)
                 Dim raw(g - 1) As Double
                 Dim d2(g - 1) As Double
                 For groupIdx As Integer = 0 To g - 1
                     If pMethod = DiscriminantAnalysisMethod.Linear Then
                         Dim mu() As Double = pGroupStats(groupIdx).MeanWorking
-                        Dim delta = Matrix.M_SUB(x, mu)
-                        d2(groupIdx) = Matrix.QuadraticForm(delta, pPooledInverseWorking)
-                        Dim coeff() As Double = Matrix.GetColumnFrom2Darray(pLinearCoefficientsWorking, groupIdx)
-                        raw(groupIdx) = Matrix.DotProduct(x, coeff) + pLinearConstantsWorking(groupIdx)
+                        Dim delta = Matrix.MatrixArithmeticCore.Subtract(x, mu)
+                        d2(groupIdx) = Matrix.MatrixArithmeticCore.QuadraticForm(delta, pPooledInverseWorking)
+                        Dim coeff() As Double = ArrayUtilities.GetColumn(pLinearCoefficientsWorking, groupIdx)
+                        raw(groupIdx) = Matrix.MatrixArithmeticCore.DotProduct(x, coeff) + pLinearConstantsWorking(groupIdx)
                     Else
                         Dim gs = pGroupStats(groupIdx)
-                        Dim delta = Matrix.M_SUB(x, gs.MeanWorking)
-                        d2(groupIdx) = Matrix.QuadraticForm(delta, gs.InverseCovarianceWorking)
+                        Dim delta = Matrix.MatrixArithmeticCore.Subtract(x, gs.MeanWorking)
+                        d2(groupIdx) = Matrix.MatrixArithmeticCore.QuadraticForm(delta, gs.InverseCovarianceWorking)
                         raw(groupIdx) = -0.5 * (gs.LogDeterminantWorking + d2(groupIdx)) + Math.Log(Math.Max(gs.PriorProbability, 1.0E-300))
                     End If
                 Next
@@ -953,7 +954,7 @@ Namespace Multivariate
                 For Each lbl In pGroupLabels
                     Dim rows = RowsForGroup(allGroups, lbl)
                     ShuffleInPlace(rows, rng)
-                    Dim nTest As Integer = Math.Max(1, CInt(Math.Round(rows.Count * pHoldoutFraction)))
+                    Dim nTest As Integer = Math.Max(1, Convert.ToInt32(Math.Round(rows.Count * pHoldoutFraction)))
                     nTest = Math.Min(nTest, rows.Count - 2)
                     If nTest <= 0 Then
                         CoreServices.Errors.LogAndThrow(New ArgumentException($"Group '{lbl}' does not have enough rows for the requested holdout validation."))
@@ -964,7 +965,7 @@ Namespace Multivariate
             Else
                 Dim all = Enumerable.Range(0, n).ToList()
                 ShuffleInPlace(all, rng)
-                Dim nTest As Integer = Math.Max(1, CInt(Math.Round(n * pHoldoutFraction)))
+                Dim nTest As Integer = Math.Max(1, Convert.ToInt32(Math.Round(n * pHoldoutFraction)))
                 testRows.AddRange(all.Take(nTest))
                 trainRows.AddRange(all.Skip(nTest))
             End If
@@ -1213,7 +1214,7 @@ Namespace Multivariate
                                      varNames() As String,
                                      standardization As ClusterStandardizationMode,
                                      missingPolicy As ClusterMissingValuePolicy) As DiscriminantPreparedData
-            MultivariateInputHelpers.ValidateRectangularData(data, nullParamName:=NameOf(data), rankMessage:="The data matrix must be two-dimensional.", emptyMessage:="The data matrix must contain at least one row and one column.")
+            MultivariateInputHelpers.ValidateRectangularData(data, nullParamName:=NameOf(data), rankMessage:="The data matrix must be two-dimensional.", emptyMessage:="The data matrix must contain at least one row And one column.")
             Dim n As Integer = data.GetUpperBound(0) + 1
             Dim p As Integer = data.GetUpperBound(1) + 1
             Dim finalRowLabels() As String = MultivariateInputHelpers.NormalizeRowLabels(rowLabels, n, defaultPrefix:="Row", allowDefaultOnLengthMismatch:=True)
@@ -1238,7 +1239,7 @@ Namespace Multivariate
 
                 If hasMissing Then
                     If missingPolicy = ClusterMissingValuePolicy.ErrorOnMissing Then
-                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing or non-finite value found in row {i + 1}."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing Or non-finite value found in row {i + 1}."))
                     End If
                     keepRow(i) = False
                     removedIndices.Add(i + 1)
@@ -1427,7 +1428,7 @@ Namespace Multivariate
             For i As Integer = 0 To n - 1
                 For j As Integer = 0 To p - 1
                     If Double.IsNaN(data(i, j)) OrElse Double.IsInfinity(data(i, j)) Then
-                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing or non-finite value found in prediction row {i + 1}."))
+                        CoreServices.Errors.LogAndThrow(New ArgumentException($"Missing Or non-finite value found in prediction row {i + 1}."))
                     End If
                     out(i, j) = TransformValue(data(i, j), prepared.Standardization, prepared.ColumnLocations(j), prepared.ColumnScales(j))
                 Next
@@ -1473,8 +1474,8 @@ Namespace Multivariate
                     candidate = AddDiagonalRidge(mat, ridge)
                 End If
                 candidate = Symmetrize(candidate)
-                Dim eig = Matrix.EIGEN_JK(candidate)
-                Dim sorted = MultivariateShared.SortEigenpairsDescending(eig.Item1, eig.Item2)
+                Dim eig = Matrix.MatrixStatisticsCore.EigenJk(candidate)
+                Dim sorted = MultivariateShared.SortEigenpairsDescending(eig.Eigenvalues, eig.Eigenvectors)
                 Dim minEigen As Double = sorted.Item1.Min()
                 If minEigen > 0.000000000001 Then
                     Dim inv = MultivariateShared.SafeInverse(candidate, preferCholesky:=True)
@@ -1497,8 +1498,8 @@ Namespace Multivariate
             Dim out As New RegularizedMatrixInfo
             out.Matrix = fallback
             out.Inverse = MultivariateShared.SafeInverse(fallback, preferCholesky:=False)
-            Dim eig2 = Matrix.EIGEN_JK(fallback)
-            Dim sorted2 = MultivariateShared.SortEigenpairsDescending(eig2.Item1, eig2.Item2)
+            Dim eig2 = Matrix.MatrixStatisticsCore.EigenJk(fallback)
+            Dim sorted2 = MultivariateShared.SortEigenpairsDescending(eig2.Eigenvalues, eig2.Eigenvectors)
             Dim logdet2 As Double = 0.0
             For Each ev In sorted2.Item1
                 logdet2 += Math.Log(Math.Max(ev, 0.000000000001))
@@ -1519,7 +1520,7 @@ Namespace Multivariate
                                                      ByRef locations() As Double, ByRef scales() As Double)
             Dim p As Integer = data.GetUpperBound(1) + 1
             For j As Integer = 0 To p - 1
-                Dim col = Matrix.GetColumnFrom2Darray(data, j)
+                Dim col = ArrayUtilities.GetColumn(data, j)
                 Select Case mode
                     Case ClusterStandardizationMode.None
                         locations(j) = 0.0
@@ -1647,6 +1648,15 @@ Namespace Multivariate
                 End If
             Next
             Return idx
+        End Function
+
+        Private Shared Function GetMatrixRow(mat(,) As Double, rowIndex As Integer) As Double()
+            Dim colCount As Integer = mat.GetLength(1)
+            Dim result(colCount - 1) As Double
+            For col As Integer = 0 To colCount - 1
+                result(col) = mat(rowIndex, col)
+            Next
+            Return result
         End Function
 
         Friend Shared Function MatVec(mat(,) As Double, v() As Double) As Double()
