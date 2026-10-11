@@ -1972,20 +1972,7 @@ Namespace Matrix
         ''' Console.WriteLine(String.Join(", ", result))
         ''' </example>
         Public Function ConcatArrays(Of T)(a1() As T, a2() As T) As T()
-            Dim out(a1.Length + a2.Length - 1) As T
-            Dim i As Integer
-
-            For i = 0 To a1.Length - 1
-                out(i) = a1(i)
-            Next
-
-            Dim j As Integer = i
-            For i = 0 To a2.Length - 1
-                out(j) = a2(i)
-                j += 1
-            Next
-
-            Return out
+            Return ArrayUtilities.ConcatArrays(a1, a2)
         End Function
 
         ''' <summary>
@@ -2029,26 +2016,7 @@ Namespace Matrix
         ''' ' {3, 4, 7, 8}
         ''' </example>
         Public Function VerticalStackArrays(Of T)(a1(,) As T, a2(,) As T, Optional bAppendBlanks As Boolean = False) As T(,)
-
-            If a1.GetUpperBound(0) <> a2.GetUpperBound(0) AndAlso Not bAppendBlanks Then
-                CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid input array dimensions"))
-            End If
-
-            Dim out(Math.Max(a1.GetUpperBound(0), a2.GetUpperBound(0)), a1.GetUpperBound(1) + a2.GetUpperBound(1) + 1) As T
-
-            For i = 0 To a1.GetUpperBound(0)
-                For j = 0 To a1.GetUpperBound(1)
-                    out(i, j) = a1(i, j)
-                Next
-            Next
-
-            For i = 0 To a2.GetUpperBound(0)
-                For j = 0 To a2.GetUpperBound(1)
-                    out(i, a1.GetUpperBound(1) + 1 + j) = a2(i, j)
-                Next
-            Next
-
-            Return out
+            Return ArrayUtilities.VerticalStackArrays(a1, a2, bAppendBlanks)
         End Function
 
 
@@ -2095,26 +2063,7 @@ Namespace Matrix
         ''' ' {7, 8}
         ''' </example>
         Public Function HorizontalStackArrays(Of T)(a1(,) As T, a2(,) As T, Optional bAppendBlanks As Boolean = False) As T(,)
-
-            If a1.GetUpperBound(1) <> a2.GetUpperBound(1) AndAlso Not bAppendBlanks Then
-                CoreServices.Errors.LogAndThrow(New ArgumentException("Invalid input array dimensions"))
-            End If
-
-            Dim out(a1.GetUpperBound(0) + a2.GetUpperBound(0) + 1, Math.Max(a1.GetUpperBound(1), a2.GetUpperBound(1))) As T
-
-            For i = 0 To a1.GetUpperBound(0)
-                For j = 0 To a1.GetUpperBound(1)
-                    out(i, j) = a1(i, j)
-                Next
-            Next
-
-            For i = 0 To a2.GetUpperBound(0)
-                For j = 0 To a2.GetUpperBound(1)
-                    out(a1.GetUpperBound(0) + 1 + i, j) = a2(i, j)
-                Next
-            Next
-
-            Return out
+            Return ArrayUtilities.HorizontalStackArrays(a1, a2, bAppendBlanks)
         End Function
 
 
@@ -2178,15 +2127,7 @@ Namespace Matrix
         ''' Console.WriteLine(String.Join(", ", strArr))
         ''' </example>
         Public Function Array2strArray(Of T)(x() As T) As String()
-            Dim out(x.GetUpperBound(0)) As String
-            For i = 0 To x.GetUpperBound(0)
-                If x(i) Is Nothing Then
-                    out(i) = ""
-                Else
-                    out(i) = x(i).ToString()
-                End If
-            Next
-            Return out
+            Return ArrayUtilities.Array2strArray(x)
         End Function
 
         ''' <summary>
@@ -2220,17 +2161,7 @@ Namespace Matrix
         ''' '    {"3.5", "4.5"}}
         ''' </example>
         Public Function Array2strArray(Of T)(x(,) As T) As String(,)
-            Dim out(x.GetUpperBound(0), x.GetUpperBound(1)) As String
-            For i = 0 To x.GetUpperBound(0)
-                For j = 0 To x.GetUpperBound(1)
-                    If x(i, j) Is Nothing Then
-                        out(i, j) = ""
-                    Else
-                        out(i, j) = Convert.ToString(x(i, j))
-                    End If
-                Next
-            Next
-            Return out
+            Return ArrayUtilities.Array2strArray(x)
         End Function
 
         ''' <summary>
@@ -2258,15 +2189,7 @@ Namespace Matrix
         ''' Console.WriteLine(String.Join(", ", dblArr))
         ''' </example>
         Public Function Array2dblArray(Of T)(x() As T) As Double()
-            Dim out(x.GetUpperBound(0)) As Double
-            For i = 0 To x.GetUpperBound(0)
-                If x(i) Is Nothing Then
-                    out(i) = 0.0
-                Else
-                    out(i) = Convert.ToDouble(x(i))
-                End If
-            Next
-            Return out
+            Return ArrayUtilities.Array2dblArray(x)
         End Function
 
 
@@ -2295,15 +2218,7 @@ Namespace Matrix
         ''' Console.WriteLine(String.Join(", ", intArr))
         ''' </example>
         Public Function Array2intArray(Of T)(x() As T) As Integer()
-            Dim out(x.GetUpperBound(0)) As Integer
-            For i = 0 To x.GetUpperBound(0)
-                If x(i) Is Nothing Then
-                    out(i) = 0
-                Else
-                    out(i) = Convert.ToInt32(x(i))
-                End If
-            Next
-            Return out
+            Return ArrayUtilities.Array2intArray(x)
         End Function
 
 
@@ -2336,17 +2251,7 @@ Namespace Matrix
         ''' Console.WriteLine(intMat(0,0) + ", " + intMat(0,1))
         ''' </example>
         Public Function Array2intArray(Of T)(x(,) As T) As Integer(,)
-            Dim out(x.GetUpperBound(0), x.GetUpperBound(1)) As Integer
-            For i = 0 To x.GetUpperBound(0)
-                For j = 0 To x.GetUpperBound(1)
-                    If x(i, j) Is Nothing Then
-                        out(i, j) = 0
-                    Else
-                        out(i, j) = Convert.ToInt32(x(i, j))
-                    End If
-                Next
-            Next
-            Return out
+            Return ArrayUtilities.Array2intArray(x)
         End Function
 
 
@@ -2377,13 +2282,7 @@ Namespace Matrix
         ''' Console.WriteLine(objMat(0,0))
         ''' </example>
         Public Function Array2objArray(Of T)(x(,) As T) As Object(,)
-            Dim out(x.GetUpperBound(0), x.GetUpperBound(1)) As Object
-            For i = 0 To x.GetUpperBound(0)
-                For j = 0 To x.GetUpperBound(1)
-                    out(i, j) = x(i, j)
-                Next
-            Next
-            Return out
+            Return ArrayUtilities.Array2objArray(x)
         End Function
 
         ''' <summary>
