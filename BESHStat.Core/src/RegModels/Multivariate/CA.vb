@@ -1,7 +1,11 @@
 ﻿Option Explicit On
 Option Strict On
 
+Imports System
+Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.DataManagement
+Imports BESHStatNG.Matrix
 
 Namespace Multivariate
 
@@ -74,7 +78,7 @@ Namespace Multivariate
     '''   <item><description><b>Axis indexing:</b> factor arrays are zero-based (Factor 1 = index 0).</description></item>
     '''   <item><description><b>Sorting:</b> axes are sorted by descending singular value (thus descending eigenvalue/inertia).</description></item>
     '''   <item><description><b>Excel plotting:</b> Excel chart rendering is implemented by graphics.CorrespondenceAnalysisPlotExcel in the Excel front-end layer.</description></item>
-    '''   <item><description><b>Helper dependencies:</b> this class expects helper functions such as <c>SVD_decomp</c>, <c>MatrixMult</c>, <c>trans</c>, <c>Sum2D</c>, <c>GetColumnFrom2Darray</c>, and logging utilities to exist elsewhere in your project.</description></item>
+    '''   <item><description><b>Helper dependencies:</b> this class uses Core matrix decomposition/arithmetic utilities, the portable array helpers, and Core logging.</description></item>
     ''' </list>
     ''' </remarks>
     Public Class CA
@@ -145,13 +149,13 @@ Namespace Multivariate
 
             pData = x
             pbMultiple = False
-            pR = UBound(pData, 1) + 1
-            pC = UBound(pData, 2) + 1
+            pR = pData.GetUpperBound(0) + 1
+            pC = pData.GetUpperBound(1) + 1
             pDim = Math.Min(pR, pC) - 2
 
             If rows Is Nothing Then
                 ReDim pRowNames(pR - 1)
-                For i As Integer = 1 To pR : pRowNames(i - 1) = "Row " & CStr(i) : Next i
+                For i As Integer = 1 To pR : pRowNames(i - 1) = "Row " & Convert.ToString(i, Globalization.CultureInfo.CurrentCulture) : Next i
             Else
                 pRowNames = rows
                 If pRowNames.Length <> pR Then
@@ -161,7 +165,7 @@ Namespace Multivariate
 
             If cols Is Nothing Then
                 ReDim pColNames(pC - 1)
-                For i As Integer = 1 To pC : pColNames(i - 1) = "Col " & CStr(i) : Next i
+                For i As Integer = 1 To pC : pColNames(i - 1) = "Col " & Convert.ToString(i, Globalization.CultureInfo.CurrentCulture) : Next i
             Else
                 pColNames = cols
                 If pColNames.Length <> pC Then
@@ -206,8 +210,8 @@ Namespace Multivariate
             CreateBurtTable()      ' now uses pIndCatIdx in one pass
 
             pData = pDesignMatrix
-            pR = UBound(pDesignMatrix, 1) + 1
-            pC = UBound(pDesignMatrix, 2) + 1
+            pR = pDesignMatrix.GetUpperBound(0) + 1
+            pC = pDesignMatrix.GetUpperBound(1) + 1
         End Sub
 
         'Get Values
@@ -329,9 +333,9 @@ Namespace Multivariate
         ReadOnly Property RowFactors(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pRowFactors, 0)
+                    Return ArrayUtilities.GetColumn(pRowFactors, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pRowFactors, id)
+                    Return ArrayUtilities.GetColumn(pRowFactors, id)
                 End If
             End Get
         End Property
@@ -345,9 +349,9 @@ Namespace Multivariate
         ReadOnly Property ColFactors(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pColFactors, 0)
+                    Return ArrayUtilities.GetColumn(pColFactors, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pColFactors, id)
+                    Return ArrayUtilities.GetColumn(pColFactors, id)
                 End If
             End Get
         End Property
@@ -407,9 +411,9 @@ Namespace Multivariate
         ReadOnly Property RowCorr(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pRowCorr, 0)
+                    Return ArrayUtilities.GetColumn(pRowCorr, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pRowCorr, id)
+                    Return ArrayUtilities.GetColumn(pRowCorr, id)
                 End If
             End Get
         End Property
@@ -419,9 +423,9 @@ Namespace Multivariate
         ReadOnly Property ColCorr(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pColCorr, 0)
+                    Return ArrayUtilities.GetColumn(pColCorr, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pColCorr, id)
+                    Return ArrayUtilities.GetColumn(pColCorr, id)
                 End If
             End Get
         End Property
@@ -434,9 +438,9 @@ Namespace Multivariate
         ReadOnly Property RowContribution(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pRowContribution, 0)
+                    Return ArrayUtilities.GetColumn(pRowContribution, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pRowContribution, id)
+                    Return ArrayUtilities.GetColumn(pRowContribution, id)
                 End If
             End Get
         End Property
@@ -449,9 +453,9 @@ Namespace Multivariate
         ReadOnly Property ColContributionSigned(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pColContributionSigned, 0)
+                    Return ArrayUtilities.GetColumn(pColContributionSigned, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pColContributionSigned, id)
+                    Return ArrayUtilities.GetColumn(pColContributionSigned, id)
                 End If
             End Get
         End Property
@@ -462,9 +466,9 @@ Namespace Multivariate
         ReadOnly Property ColContribution(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pColContribution, 0)
+                    Return ArrayUtilities.GetColumn(pColContribution, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pColContribution, id)
+                    Return ArrayUtilities.GetColumn(pColContribution, id)
                 End If
             End Get
         End Property
@@ -475,9 +479,9 @@ Namespace Multivariate
         ReadOnly Property RowAngle(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pRowAngle, 0)
+                    Return ArrayUtilities.GetColumn(pRowAngle, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pRowAngle, id)
+                    Return ArrayUtilities.GetColumn(pRowAngle, id)
                 End If
             End Get
         End Property
@@ -487,9 +491,9 @@ Namespace Multivariate
         ReadOnly Property ColAngle(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pColAngle, 0)
+                    Return ArrayUtilities.GetColumn(pColAngle, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pColAngle, id)
+                    Return ArrayUtilities.GetColumn(pColAngle, id)
                 End If
             End Get
         End Property
@@ -499,9 +503,9 @@ Namespace Multivariate
         ReadOnly Property RowEigenvalueContrib(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pRowEigencontrib, 0)
+                    Return ArrayUtilities.GetColumn(pRowEigencontrib, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pRowEigencontrib, id)
+                    Return ArrayUtilities.GetColumn(pRowEigencontrib, id)
                 End If
             End Get
         End Property
@@ -511,9 +515,9 @@ Namespace Multivariate
         ReadOnly Property ColEigenvalueContrib(Optional id As Integer = -1) As Double()
             Get
                 If id = -1 Then
-                    Return Matrix.GetColumnFrom2Darray(pColEigencontrib, 0)
+                    Return ArrayUtilities.GetColumn(pColEigencontrib, 0)
                 Else
-                    Return Matrix.GetColumnFrom2Darray(pColEigencontrib, id)
+                    Return ArrayUtilities.GetColumn(pColEigencontrib, id)
                 End If
             End Get
         End Property
@@ -547,23 +551,23 @@ Namespace Multivariate
         Public Function wrapResults() As List(Of ResultTable)
             Dim out As New List(Of ResultTable)
             Dim t = New ResultTable
-            Dim axesAvail As Integer = UBound(Me.Eigenvalues) + 1
+            Dim axesAvail As Integer = Me.Eigenvalues.GetUpperBound(0) + 1
 
             If Me.pbMultiple Then
                 'Burt table
                 t.AddTitle("Burt Table")
-                t.AddHeaderTopRow(Matrix.ConcatArrays({"Variable", ""}, Me.BurtVarNames))
-                t.AddHeaderTopRow(Matrix.ConcatArrays({"", "Category"}, Me.rowNames))
+                t.AddHeaderTopRow(New String() {"Variable", ""}.Concat(Me.BurtVarNames).ToArray())
+                t.AddHeaderTopRow(New String() {"", "Category"}.Concat(Me.rowNames).ToArray())
                 t.AddHeaderLeftRow(Me.BurtVarNames)
                 t.AddHeaderLeftRow(Me.rowNames)
-                t.SetBody(Matrix.Array2objArray(Me.BurtTable))
+                t.SetBody(Me.BurtTable)
                 out.Add(t)
 
                 'Eigenvalues
                 t = New ResultTable
                 t.AddHeaderTopRow({"Factor #", "Axis Inertia Contribution", "Percent", "Percent Cumulative"})
-                Dim o(UBound(Me.Eigenvalues, 1), 3) As Object
-                For i = 0 To UBound(Me.Eigenvalues, 1)
+                Dim o(Me.Eigenvalues.GetUpperBound(0), 3) As Object
+                For i = 0 To Me.Eigenvalues.GetUpperBound(0)
                     o(i, 0) = i + 1
                     o(i, 1) = Me.Eigenvalues(i)
                     o(i, 2) = Me.Percents(i, 0)
@@ -592,7 +596,7 @@ Namespace Multivariate
                 'Axis diagnostics for categories / columns
                 For axisIdx As Integer = 0 To axesAvail - 1
                     t = New ResultTable
-                    t.AddTitle("Axis " & CStr(axisIdx + 1))
+                    t.AddTitle("Axis " & Convert.ToString(axisIdx + 1, Globalization.CultureInfo.CurrentCulture))
                     t.AddHeaderLeftRow(Me.BurtVarNames)
                     t.AddHeaderLeftRow(Me.rowNames)
                     t.AddHeaderTopRow({"Variable", "Category", "Factor", "Cos²", "Contribution", "Angle", "Axis Inertia Contribution"})
@@ -614,8 +618,8 @@ Namespace Multivariate
 
                 'Eigenvalues
                 t.AddHeaderTopRow({"Factor #", "Axis Inertia Contribution", "Percent", "Percent Cumulative"})
-                Dim o(UBound(Me.Eigenvalues, 1), 3) As Object
-                For i = 0 To UBound(Me.Eigenvalues, 1)
+                Dim o(Me.Eigenvalues.GetUpperBound(0), 3) As Object
+                For i = 0 To Me.Eigenvalues.GetUpperBound(0)
                     o(i, 0) = i + 1
                     o(i, 1) = Me.Eigenvalues(i)
                     o(i, 2) = Me.Percents(i, 0)
@@ -643,7 +647,7 @@ Namespace Multivariate
                 'Axis diagnostics for rows
                 For axisIdx As Integer = 0 To axesAvail - 1
                     t = New ResultTable
-                    t.AddTitle("Axis " & CStr(axisIdx + 1))
+                    t.AddTitle("Axis " & Convert.ToString(axisIdx + 1, Globalization.CultureInfo.CurrentCulture))
                     t.AddHeaderLeftRow(Me.rowNames)
                     t.AddHeaderTopRow({"Row Name", "Factor", "Cos²", "Contribution", "Angle", "Axis Inertia Contribution"})
 
@@ -678,7 +682,7 @@ Namespace Multivariate
                 'Axis diagnostics for columns
                 For axisIdx As Integer = 0 To axesAvail - 1
                     t = New ResultTable
-                    t.AddTitle("Axis " & CStr(axisIdx + 1))
+                    t.AddTitle("Axis " & Convert.ToString(axisIdx + 1, Globalization.CultureInfo.CurrentCulture))
                     t.AddHeaderLeftRow(Me.ColumNames)
                     t.AddHeaderTopRow({"Column Name", "Factor", "Cos²", "Contribution", "Angle", "Axis Inertia Contribution"})
 
@@ -776,7 +780,7 @@ Namespace Multivariate
                 Next
             Next
 
-            Dim scaledMat(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(Dr, resid), Dc)
+            Dim scaledMat(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(Dr, resid), Dc)
 
             'Do the SVD
             'Given a matrix a(1:m,1:n), this routine computes its singular value decomposition, A = U * W * V ^t .
@@ -784,16 +788,16 @@ Namespace Multivariate
             'The matrix V (not the transpose V T ) is output as V(1:n,1:n).
 
             'Do the computation for Rows ------------------------------------------------------------------
-            Dim svd As Matrix.SVDoutput = Matrix.SVD_decomp(scaledMat) 'W is the square root of eigenvalues
-            Dim tmp2(,) As Double = Matrix.MatrixMult(Matrix.MatrixMult(Dr, svd.U), svd.Wmat) 'is the CA row factor matrix
+            Dim svd As MatrixDecompositionCore.SvdResult = MatrixDecompositionCore.DecomposeSvd(scaledMat) 'W is the square root of eigenvalues
+            Dim tmp2(,) As Double = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(Dr, svd.U), svd.SingularValueMatrix) 'is the CA row factor matrix
 
             'We need to reorder Factor based on the Eigenvalues (largest -> smallest)
-            Dim Ordr(svd.Wvect.Length - 1) As Integer
+            Dim Ordr(svd.SingularValues.Length - 1) As Integer
             For k As Integer = 0 To Ordr.Length - 1
                 Ordr(k) = k
             Next
 
-            Dim Wtemp() As Double = CType(svd.Wvect.Clone(), Double())
+            Dim Wtemp() As Double = CType(svd.SingularValues.Clone(), Double())
             Array.Sort(Wtemp, Ordr)   'ascending
             Array.Reverse(Wtemp)      'descending
             Array.Reverse(Ordr)
@@ -856,7 +860,7 @@ Namespace Multivariate
 
 
             'Do the computation for Columns ---------------------------------------------------------------
-            tmp2 = Matrix.MatrixMult(Matrix.MatrixMult(Dc, svd.V), Matrix.trans(svd.Wmat)) 'is the CA column factor matrix
+            tmp2 = MatrixArithmeticCore.Multiply(MatrixArithmeticCore.Multiply(Dc, svd.V), MatrixArithmeticCore.Transpose(svd.SingularValueMatrix)) 'is the CA column factor matrix
             'ReDim factors the same way as rows: axis 0 stored in column 0
             ReDim pColFactors(pC - 1, pDim)
             For k As Integer = 0 To pDim
@@ -940,8 +944,8 @@ Namespace Multivariate
         ''' Thrown if an observed category value is not present in the level map for its variable.
         ''' </exception>
         Private Sub CreateDesignMatrix()
-            Dim r As Integer = UBound(pDataMultiple, 1) + 1 ' records
-            Dim p As Integer = UBound(pDataMultiple, 2) + 1 ' variables
+            Dim r As Integer = pDataMultiple.GetUpperBound(0) + 1 ' records
+            Dim p As Integer = pDataMultiple.GetUpperBound(1) + 1 ' variables
 
             If pLevels Is Nothing OrElse pLevels.Count <> p Then
                 Throw New InvalidOperationException("CreateDesignMatrix: category levels were not built correctly.")
@@ -998,17 +1002,17 @@ Namespace Multivariate
             pCrossTab.Clear()
             pLevels.Clear()
 
-            Dim p As Integer = UBound(pVarNames) + 1 ' number of variables
+            Dim p As Integer = pVarNames.GetUpperBound(0) + 1 ' number of variables
             ReDim pCatTots(p - 1)
 
             'pre-allocate row names (will shrink later)
-            ReDim pRowNames((UBound(pDataMultiple, 1) + 1) * (UBound(pDataMultiple, 2) + 1) - 1)
+            ReDim pRowNames((pDataMultiple.GetUpperBound(0) + 1) * (pDataMultiple.GetUpperBound(1) + 1) - 1)
 
             pR = 0
             Dim nameIdx As Integer = 0
 
             For varIdx As Integer = 0 To p - 1
-                Dim col() As String = Matrix.GetColumnFrom2Darray(pDataMultiple, varIdx)
+                Dim col() As String = ArrayUtilities.GetColumn(pDataMultiple, varIdx)
 
                 'normalize (optional, but reduces "same category with trailing spaces" issues)
                 For i As Integer = 0 To col.Length - 1
@@ -1060,7 +1064,7 @@ Namespace Multivariate
         Private Sub CreateBurtTable()
 
             Dim p As Integer = pLevels.Count            ' number of variables
-            Dim n As Integer = UBound(pDataMultiple, 1) + 1
+            Dim n As Integer = pDataMultiple.GetUpperBound(0) + 1
 
             ReDim pVarNamesToPresent(pR - 1)
             ReDim pBurtTable(pR - 1, pC - 1) ' square matrix
@@ -1101,12 +1105,12 @@ Namespace Multivariate
             If bRow Then CatNames = pRowNames Else CatNames = pColNames
 
             If pbMultiple Then
-                ReDim Xlabels(UBound(pVarNamesToPresent))
+                ReDim Xlabels(pVarNamesToPresent.GetUpperBound(0))
             Else
-                ReDim Xlabels(UBound(CatNames))
+                ReDim Xlabels(CatNames.GetUpperBound(0))
             End If
 
-            For i As Integer = 0 To UBound(Xlabels)
+            For i As Integer = 0 To Xlabels.GetUpperBound(0)
                 If pbMultiple Then
                     Xlabels(i) = pVarNamesToPresent(i) & ":" & splitChar & CatNames(i)
                 Else
