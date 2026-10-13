@@ -199,68 +199,14 @@ Namespace graphics
         ''' <param name="dMax">Maximum data value.</param>
         ''' <returns>A <see cref="CHARTscale"/> object.</returns>
         Function ChartScaling(dMin As Double, dMax As Double) As CHARTscale
-            'Function to calculate optimal Chart Axes Scales
-            'Taken from:    Rob Bovey, Dennis Wallentin, Stephen Bullen, John Green.:
-            '               Professional Excel Development 2nd ed., Addison-Wesley Professional, 2009, page 706
-            Dim dPower As Double, dScale As Double
-            Dim out = New CHARTscale
-            Dim localDMin As Double = dMin
-            Dim localDMax As Double = dMax
-
-            'Check if the max and min are the same
-            If localDMax = localDMin Then
-                dScale = localDMax
-                localDMax = localDMax * 1.01
-                localDMin = localDMin * 0.99
-            End If
-
-            'Check if dMax is bigger than dMin - swap them if not
-            If localDMax < localDMin Then
-                dScale = localDMax
-                localDMax = localDMin
-                localDMin = dScale
-            End If
-
-            'Make dMax a little bigger and dMin a little smaller
-            If localDMax > 0 Then
-                localDMax = localDMax + (localDMax - localDMin) * 0.01
-            Else
-                localDMax = localDMax - (localDMax - localDMin) * 0.01
-            End If
-            If localDMin > 0 Then
-                localDMin = localDMin + (localDMax - localDMin) * 0.01
-            Else
-                localDMin = localDMin - (localDMax - localDMin) * 0.01
-            End If
-
-            'What if they are both 0?
-            If localDMax = 0 And localDMin = 0 Then localDMax = 1
-
-            'This bit rounds the maximum and minimum values to reasonable values to chart.
-            'Find the range of values covered
-            dPower = Math.Log(localDMax - localDMin) / Math.Log(10)
-            dScale = 10 ^ (dPower - Int(dPower))
-
-            'Find the scaling factor
-            Select Case dScale
-                Case 0.0 To 2.5
-                    dScale = 0.2
-                Case 2.5 To 5.0
-                    dScale = 0.5
-                Case 5.0 To 7.5
-                    dScale = 1.0
-                Case Else
-                    dScale = 2.0
-            End Select
-
-            'Fit the scaling factor (major unit)
-            dScale = dScale * 10 ^ Int(dPower)
-
-            'Round the axis values to the nearest scaling factor
-            out.Min = dScale * Int(localDMin / dScale)
-            out.Max = dScale * (Int(localDMax / dScale) + 1)
-            out.Scale = dScale
-            Return out
+            'Keep the Framework result contract and all existing Excel chart callers.
+            Dim coreScale As Global.BESHStatNG.ChartAxisScaleResult =
+                Global.BESHStatNG.ChartAxisScalingCore.Compute(dMin, dMax)
+            Return New CHARTscale With {
+                .Min = coreScale.Min,
+                .Max = coreScale.Max,
+                .Scale = coreScale.Scale
+            }
         End Function
 
         ''' <summary>Preserves the legacy histogram UDF and chart helper API.</summary>
