@@ -1,0 +1,71 @@
+{
+  "fixtureVersion": 1,
+  "fixtureId": "kw-base",
+  "analysisIdProposed": "nonparametric.kruskal-wallis",
+  "legacyEnumValue": 2,
+  "groups": {
+    "names": [
+      "A",
+      "B",
+      "C"
+    ],
+    "values": [
+      [
+        1,
+        2,
+        2,
+        3
+      ],
+      [
+        2,
+        3,
+        4,
+        4
+      ],
+      [
+        4,
+        5,
+        5,
+        6
+      ]
+    ]
+  },
+  "options": {
+    "dunn": false
+  },
+  "metrics": {
+    "HStatistic": 7.875,
+    "TieCorrectedHStatistic": 8.160326086956522,
+    "PValue": 0.019496896108597995,
+    "TieCorrectedPValue": 0.016904709225411534
+  },
+  "tables": [
+    {
+      "topLeft": "Kruskal-Wallis Test",
+      "rows": 7,
+      "columns": 3,
+      "headerTopRows": 1,
+      "footerRows": 0,
+      "pvalueColumns": [],
+      "pvalueCells": [
+        [
+          4,
+          2
+        ],
+        [
+          6,
+          2
+        ]
+      ]
+    }
+  ],
+  "cells": [
+    {
+      "table": 0,
+      "row": 3,
+      "column": 1,
+      "expectedNumber": 7.875,
+      "tolerance": 1e-10
+    }
+  ]
+}

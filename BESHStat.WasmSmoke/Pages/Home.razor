@@ -41,8 +41,13 @@
             <div class="col-md-5">
                 <label class="form-label">Analysis</label>
                 <select class="form-select" @bind="analysisKind">
-                    <option value="@SpreadsheetAnalysisKind.OneWayAnova">One-way ANOVA</option>
-                    <option value="@SpreadsheetAnalysisKind.KruskalWallis">Kruskal-Wallis</option>
+                    @foreach (var descriptor in AnalysisCatalog.All)
+                    {
+                        if (descriptor.LegacyKind.HasValue)
+                        {
+                            <option value="@descriptor.LegacyKind.Value">@descriptor.DisplayName</option>
+                        }
+                    }
                 </select>
             </div>
         </div>
@@ -455,12 +460,13 @@
 
     private static string AnalysisDisplayName(SpreadsheetAnalysisKind kind)
     {
-        return kind switch
+        foreach (var descriptor in AnalysisCatalog.All)
         {
-            SpreadsheetAnalysisKind.OneWayAnova => "one-way ANOVA",
-            SpreadsheetAnalysisKind.KruskalWallis => "Kruskal-Wallis",
-            _ => kind.ToString()
-        };
+            if (descriptor.LegacyKind == kind)
+                return descriptor.DisplayName;
+        }
+
+        return kind.ToString();
     }
 
     private static bool IsHeaderCell(ResultTableOutputModel model, int row, int col)

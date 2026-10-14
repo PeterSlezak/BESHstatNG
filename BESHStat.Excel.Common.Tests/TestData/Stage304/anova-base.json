@@ -1,0 +1,64 @@
+{
+  "fixtureVersion": 1,
+  "fixtureId": "anova-base",
+  "analysisIdProposed": "anova.oneway",
+  "legacyEnumValue": 1,
+  "groups": {
+    "names": [
+      "A",
+      "B",
+      "C"
+    ],
+    "values": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6,
+        7
+      ]
+    ]
+  },
+  "options": {},
+  "metrics": {
+    "FStatistic": 13.0,
+    "PValue": 0.006591796875
+  },
+  "tables": [
+    {
+      "topLeft": "Source of Variation",
+      "rows": 4,
+      "columns": 6,
+      "headerTopRows": 1,
+      "footerRows": 0,
+      "pvalueColumns": [
+        5
+      ],
+      "pvalueCells": []
+    }
+  ],
+  "cells": [
+    {
+      "table": 0,
+      "row": 1,
+      "column": 4,
+      "expectedNumber": 13.0,
+      "tolerance": 1e-10
+    },
+    {
+      "table": 0,
+      "row": 1,
+      "column": 5,
+      "expectedNumber": 0.006591796875,
+      "tolerance": 1e-10
+    }
+  ]
+}

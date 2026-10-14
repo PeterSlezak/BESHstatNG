@@ -1,0 +1,111 @@
+{
+  "fixtureVersion": 1,
+  "fixtureId": "anova-all-posthoc",
+  "analysisIdProposed": "anova.oneway",
+  "legacyEnumValue": 1,
+  "groups": {
+    "names": [
+      "A",
+      "B",
+      "C"
+    ],
+    "values": [
+      [
+        1,
+        2,
+        3
+      ],
+      [
+        2,
+        3,
+        4
+      ],
+      [
+        5,
+        6,
+        7
+      ]
+    ]
+  },
+  "options": {
+    "welch": true,
+    "fisherLsd": true,
+    "bonferroni": true,
+    "tukeyKramer": true,
+    "gamesHowell": true
+  },
+  "metrics": {
+    "FStatistic": 13.0,
+    "PValue": 0.006591796875,
+    "WelchFStatistic": 11.142857142857142,
+    "WelchPValue": 0.023156899810964086,
+    "WelchDenominatorDf": 4.0
+  },
+  "tables": [
+    {
+      "topLeft": "Source of Variation",
+      "rows": 4,
+      "columns": 9,
+      "headerTopRows": 1,
+      "footerRows": 0,
+      "pvalueColumns": [
+        5,
+        8
+      ],
+      "pvalueCells": []
+    },
+    {
+      "topLeft": "Fisher's LSD multiple comparisons",
+      "rows": 5,
+      "columns": 5,
+      "headerTopRows": 1,
+      "footerRows": 1,
+      "pvalueColumns": [
+        5
+      ],
+      "pvalueCells": []
+    },
+    {
+      "topLeft": "Bonferroni adjusted multiple comparisons",
+      "rows": 5,
+      "columns": 5,
+      "headerTopRows": 1,
+      "footerRows": 1,
+      "pvalueColumns": [
+        5
+      ],
+      "pvalueCells": []
+    },
+    {
+      "topLeft": "Tukey-Kramer multiple comparisons",
+      "rows": 5,
+      "columns": 5,
+      "headerTopRows": 1,
+      "footerRows": 1,
+      "pvalueColumns": [
+        5
+      ],
+      "pvalueCells": []
+    },
+    {
+      "topLeft": "Games-Howell multiple comparisons",
+      "rows": 5,
+      "columns": 6,
+      "headerTopRows": 1,
+      "footerRows": 1,
+      "pvalueColumns": [
+        6
+      ],
+      "pvalueCells": []
+    }
+  ],
+  "cells": [
+    {
+      "table": 0,
+      "row": 1,
+      "column": 4,
+      "expectedNumber": 13,
+      "tolerance": 1e-10
+    }
+  ]
+}

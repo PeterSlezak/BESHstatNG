@@ -56,6 +56,33 @@ Handles are stored in memory for the current Excel session so that output functi
 Cleanup is optional but useful in long sessions, large workbooks, or automated examples that fit many analyses.
 Closing Excel also clears the stored results.
 
+## BESH.PS.EFFECT
+
+Returns treatment-effect estimates for the fitted propensity-score analysis.
+
+**Function wizard:** Returns treatment-effect estimates for a fitted propensity-score handle.
+
+### Syntax
+
+`=BESH.PS.EFFECT(handle, includeHeader)`
+
+### Parameters
+
+- **handle** — Text handle returned by `BESH.PS.FIT`.
+- **includeHeader** — Optional TRUE/FALSE value indicating whether to include the header row. The default is TRUE.
+
+### Returns
+
+A spill table containing the requested treatment-effect estimate, the adjustment method used for the estimate,
+the number of contributing rows or matched sets, standard error and confidence interval where available,
+test statistic, p-value, and notes about the inference method.
+
+### Notes
+
+Effect estimates should be interpreted for the selected target population: treated subjects for ATT, controls
+for ATC, the full input population for ATE, or the overlap population for ATO. The estimate is conditional on
+measured covariates and depends on the quality of overlap and balance after adjustment.
+
 ## BESH.PS.FIT
 
 Fits a propensity-score analysis and returns a reusable handle for subsequent table functions.
@@ -165,6 +192,33 @@ A Love plot visualizes whether covariate imbalance has been reduced by the adjus
 right indicate larger imbalance. The threshold column can be used to add a reference line, commonly at an
 absolute standardized mean difference of 0.1.
 
+## BESH.PS.SCORES
+
+Returns row-level propensity scores, transformed scores, inclusion flags, weights, and match status.
+
+**Function wizard:** Returns row-level propensity scores, logits, inclusion flags, weights and match status.
+
+### Syntax
+
+`=BESH.PS.SCORES(handle, includeHeader)`
+
+### Parameters
+
+- **handle** — Text handle returned by `BESH.PS.FIT`.
+- **includeHeader** — Optional TRUE/FALSE value indicating whether to include the header row. The default is TRUE.
+
+### Returns
+
+A spill table with one row per analyzed subject, including identifiers, source row numbers, treatment and
+outcome values, propensity scores, logit-transformed scores, common-support and trimming flags, matching
+status, balancing weights, and matching weights where relevant.
+
+### Notes
+
+This table is the main row-level audit output. It is useful for verifying which rows were included in the
+final analysis, which rows were removed by common-support or trimming rules, and how much each row
+contributes to matched or weighted estimates.
+
 ## BESH.PS.SUMMARY
 
 Returns a stacked summary report for a fitted propensity-score analysis.
@@ -193,6 +247,64 @@ diagnostic thresholds, and any rows dropped during data preparation.
 
 The summary is intended for auditability and interpretation. It does not show every row-level score or
 matched pair; use the dedicated score, match, balance, and effect functions for those details.
+
+## BESH.PS.TABLE
+
+Returns a named output table from a fitted propensity-score analysis.
+
+**Function wizard:** Returns a named PSM output table such as summary, scores, matches, weights, balance, effect, loveplot, overlap, diagnostics, matcheddata, subclasses, cemstrata, cemweights, or warnings.
+
+### Syntax
+
+`=BESH.PS.TABLE(handle, table, includeHeader)`
+
+### Parameters
+
+- **handle** — Text handle returned by `BESH.PS.FIT`.
+- **table** — Name of the requested table. Accepted names include `summary`, `options`, `import`,
+`sample`, `scoremodel`, `scores`, `weights`, `matches`, `matcheddata`,
+`balance`, `effect`, `aipw`, `weightdiagnostics`, `overlap`,
+`overlapbins`, `loveplot`, `subclasses`, `cemstrata`, `cemweights`, and
+`warnings`. Several aliases are accepted for common names.
+- **includeHeader** — Optional TRUE/FALSE value indicating whether to include the header row. The default is TRUE.
+
+### Returns
+
+The requested spill table. If the table name is not recognized, a one-cell explanatory table is returned.
+
+### Notes
+
+This convenience function is useful when building dashboards or documentation examples where the desired
+output table is selected from a cell. It can return all major outputs available through the dedicated worksheet
+functions, plus additional diagnostic and method-specific tables.
+
+## BESH.PS.WEIGHTS
+
+Returns row-level weights used by matching, weighting, subclassification, or coarsened exact matching.
+
+**Function wizard:** Returns row-level matching and balancing weights for a fitted propensity-score handle.
+
+### Syntax
+
+`=BESH.PS.WEIGHTS(handle, includeHeader)`
+
+### Parameters
+
+- **handle** — Text handle returned by `BESH.PS.FIT`.
+- **includeHeader** — Optional TRUE/FALSE value indicating whether to include the header row. The default is TRUE.
+
+### Returns
+
+A spill table with one row per analyzed subject and columns for propensity scores, inclusion flags, matching
+weights, balancing weights, normalized or stabilized weights where applicable, and indicators showing whether
+the row contributed to the adjusted comparison.
+
+### Notes
+
+The meaning of the weight columns depends on the adjustment method. Matching weights describe contribution
+to matched comparisons. Balancing weights describe contribution to inverse-probability, overlap, subclassified,
+or coarsened-exact weighted estimates. Very large weights can indicate poor overlap and should be interpreted
+together with the balance and overlap diagnostics.
 
 ## BESH.PSM.MATCHES
 

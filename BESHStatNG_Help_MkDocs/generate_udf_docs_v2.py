@@ -114,6 +114,63 @@ def _load_method_links_yaml(path: Optional[Path]) -> Tuple[List[Tuple[str, str]]
     return patterns, groups
 
 
+def _load_methods_yml(path: Optional[Path], docs_root: Path, exported_names: set[str]) -> Dict[str, List[str]]:
+    """Resolve curated UDF associations to existing canonical method pages.
+
+    The method *key* and *slug* come from methods.yml, whereas ExcelFunction
+    attributes remain the authority for actual worksheet function names.
+    This is independent of the legacy --method-links-yaml patterns/groups schema.
+    """
+    if path is None:
+        return {}
+    if not path.is_file():
+        raise ValueError(f"methods-yml does not exist: {path}")
+    import yaml  # optional dependency (required only with --methods-yml)
+
+    meta = yaml.safe_load(path.read_text(encoding="utf-8"))
+    if not isinstance(meta, dict) or not isinstance(meta.get("methods"), list):
+        raise ValueError("methods-yml must contain a methods list")
+    result: Dict[str, List[str]] = {}
+    seen_keys: set[str] = set()
+    for method in meta["methods"]:
+        if not isinstance(method, dict):
+            raise ValueError("methods-yml methods entries must be mappings")
+        key, slug = method.get("key"), method.get("slug")
+        if not isinstance(key, str) or not key or key in seen_keys:
+            raise ValueError(f"methods-yml duplicate/invalid method key: {key!r}")
+        seen_keys.add(key)
+        if not isinstance(slug, str) or not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", slug):
+            raise ValueError(f"methods-yml invalid slug for {key}: {slug!r}")
+        rel = f"methods/{slug}.md"
+        names = method.get("udfNames", [])
+        patterns = method.get("udfPatterns", [])
+        if not isinstance(names, list) or not isinstance(patterns, list):
+            raise ValueError(f"methods-yml {key}: udfNames/udfPatterns must be lists")
+        if (names or patterns) and not (docs_root / rel).is_file():
+            raise ValueError(f"methods-yml {key}: referenced help document does not exist: {rel}")
+        for name in names:
+            if not isinstance(name, str) or not name or name not in exported_names:
+                raise ValueError(f"methods-yml {key}: unknown exported Excel function {name!r}")
+            result.setdefault(name, [])
+            if rel not in result[name]:
+                result[name].append(rel)
+        for pattern in patterns:
+            if not isinstance(pattern, str) or not pattern:
+                raise ValueError(f"methods-yml {key}: empty udfPattern")
+            try:
+                rx = re.compile(pattern, flags=re.IGNORECASE)
+            except re.error as exc:
+                raise ValueError(f"methods-yml {key}: invalid udfPattern {pattern!r}: {exc}") from exc
+            matches = [name for name in sorted(exported_names) if rx.search(name)]
+            if not matches:
+                raise ValueError(f"methods-yml {key}: udfPattern {pattern!r} matches no exported UDF")
+            for name in matches:
+                result.setdefault(name, [])
+                if rel not in result[name]:
+                    result[name].append(rel)
+    return result
+
+
 # ---------------------------------------------------------------------------
 # Parsing Excel-DNA attributes + VB XML doc comments
 # ---------------------------------------------------------------------------
@@ -223,11 +280,13 @@ def parse_udfs_from_vb(vb_path: Path) -> List[UdfDoc]:
         if _RE_EXCELFUNC_START.search(line):
             # Collect attribute block (may span multiple lines) and preceding XML doc comments.
             attr_lines = [line]
-            j = i + 1
-            while j < len(lines) and not _RE_ATTR_END.search(lines[j]):
-                attr_lines.append(lines[j])
+            j = i
+            # Check the *starting* line: single-line ExcelFunction attributes
+            # otherwise swallowed the next attribute/function (4 PSM exports).
+            while not _RE_ATTR_END.search(attr_lines[-1]):
                 j += 1
-            if j < len(lines):
+                if j >= len(lines) or j - i > 100:
+                    raise ValueError(f"Unterminated ExcelFunction attribute in {vb_path} at line {i + 1}")
                 attr_lines.append(lines[j])
 
             attr_text = "\n".join(attr_lines)
@@ -332,9 +391,10 @@ def _links_for_doc(
     doc: UdfDoc,
     docs_root: Path,
     patterns: List[Tuple[str, str]],
+    named_method_links: Optional[Dict[str, List[str]]] = None,
 ) -> List[str]:
-    """Return a list of existing docs paths (relative to docs_root) related to this UDF."""
-    hits: List[str] = []
+    """Return existing docs paths related to this UDF (curated links take priority)."""
+    hits: List[str] = list((named_method_links or {}).get(doc.excel_name, []))
     hay = f"{doc.excel_name}".upper()
 
     for pat, rel in patterns:
@@ -448,6 +508,7 @@ def _render_overview(
     cat_to_page: Dict[str, Path],
     method_patterns: List[Tuple[str, str]],
     group_links_override: Dict[str, str],
+    named_method_links: Optional[Dict[str, List[str]]] = None,
 ) -> str:
     """Build docs/udf/index.md content."""
     index_path = out_dir / "index.md"
@@ -484,7 +545,7 @@ def _render_overview(
                 related.append(rel)
 
         for d in docs:
-            related.extend(_links_for_doc(d, docs_root, method_patterns))
+            related.extend(_links_for_doc(d, docs_root, method_patterns, named_method_links))
 
         # unique
         seen=set(); rel_u=[]
@@ -532,6 +593,11 @@ def main() -> int:
         default=None,
         help="Optional YAML file to extend/override UDF→method doc links (see script header)",
     )
+    ap.add_argument(
+        "--methods-yml",
+        default=None,
+        help="Canonical docs/_meta/methods.yml (optional curated udfNames/udfPatterns links)",
+    )
     args = ap.parse_args()
 
     udfs_dir = Path(args.udfs_dir).resolve()
@@ -552,6 +618,17 @@ def main() -> int:
     all_docs: List[UdfDoc] = []
     for f in vb_files:
         all_docs.extend(parse_udfs_from_vb(f))
+
+    names = [doc.excel_name for doc in all_docs]
+    if len(set(names)) != len(names):
+        from collections import Counter
+        dup = sorted(name for name, count in Counter(names).items() if count > 1)
+        raise ValueError(f"Duplicate ExcelFunction names in source: {dup}")
+    named_method_links = _load_methods_yml(
+        Path(args.methods_yml).resolve() if args.methods_yml else None,
+        docs_root,
+        set(names),
+    )
 
     # Group by category
     by_cat: Dict[str, List[UdfDoc]] = {}
@@ -577,7 +654,7 @@ def main() -> int:
             if (docs_root / rel).exists():
                 related_rel.append(rel)
         for d in docs:
-            related_rel.extend(_links_for_doc(d, docs_root, method_patterns))
+            related_rel.extend(_links_for_doc(d, docs_root, method_patterns, named_method_links))
         # unique
         seen=set(); related_rel_unique=[]
         for r in related_rel:
@@ -597,7 +674,7 @@ def main() -> int:
         print(f"Wrote {out_path} ({len(docs)} functions)")
 
     # Write overview page
-    overview = _render_overview(out_dir, docs_root, by_cat, cat_to_page, method_patterns, group_links_override)
+    overview = _render_overview(out_dir, docs_root, by_cat, cat_to_page, method_patterns, group_links_override, named_method_links)
     (out_dir / "index.md").write_text(overview, encoding="utf-8")
     print(f"Wrote {out_dir / 'index.md'}")
 

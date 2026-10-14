@@ -1,6 +1,26 @@
 site:
   title: BESHStatNG Help
   baseUrl: https://www.beshstat.eu/beshstatng/help
+# Non-analysis ribbon utilities are tracked separately from documented methods.
+# Their IDs and actions must match Resources/RibbonXML.xml.
+commands:
+- key: About
+  ribbonId: btn00_1About
+  onAction: OnbtmAboutPressed
+- key: Help
+  ribbonId: btn00_2Help
+  onAction: OnbtmHelpPressed
+- key: Settings
+  ribbonId: btn00_3Settings
+  onAction: OnbtmSettingsPressed
+  pageKey: GlobalSettings
+- key: ShowLog
+  ribbonId: btn00_4logShow
+  onAction: OnbtmShowLogPressed
+- key: ExportChart
+  ribbonId: btn00_5ExportChart
+  onAction: OnbtmShowExportChart
+  pageKey: ExportChart
 pages:
 - key: ExportChart
   title: Export Chart
@@ -50,9 +70,9 @@ methods:
   ribbonIds:
   - btm2_16Bullet
   onActions:
-  - Ui01BulletChart
+  - OnbtmBulletPressed
   forms:
-  - handler: Ui01BulletChart
+  - handler: OnbtmBulletPressed
     form: Ui01BulletChart
     analysisTitle: Bullet Chart
   categories:
@@ -398,6 +418,11 @@ methods:
   categories:
   - Multivariate Analysis
 - key: KruskalWallisTest
+  analysisId: nonparametric.kruskal-wallis
+  udfNames:
+  - BESH.NP.KW_STAT
+  - BESH.NP.KW_P
+  - BESH.NP.KW_MCP
   title: Kruskal-Wallis Test
   slug: kruskal-wallis-test
   short: "**Includes:** H statistic (uncorrected), H statistic (tie-corrected), Dunn’s post-hoc comparisons (optional).  \nNonparametric one-way ANOVA alternative for comparing more than two independent groups."
@@ -566,6 +591,11 @@ methods:
   categories:
   - Assumptions
 - key: OneWayANOVA
+  analysisId: anova.oneway
+  udfNames:
+  - BESH.PAR.ANOVA1
+  - BESH.PAR.ANOVA1_WELCH
+  - BESH.PAR.ANOVA1_MCP
   title: One-Way ANOVA
   slug: one-way-anova
   short: "**Includes:** Classic one-way ANOVA, Welch ANOVA, Post-hoc: LSD, Bonferroni, Tukey–Kramer, Games–Howell.  \nCompare means across multiple independent groups and run common post-hoc procedures when differences are detected."
@@ -1046,7 +1076,7 @@ methods:
   slug: bland-altman
   short: '**Includes:** Simple paired Bland–Altman analysis, repeated-measures Bland–Altman by subject, bias and limits of agreement (LoA), analytical / jackknife / bootstrap confidence intervals, optional proportional-bias check, optional allowable-bias / decision-limit reporting, raw-difference / percentage / log-ratio scales, several x-axis conventions, and Bland–Altman plots with optional subject means.'
   ribbonIds:
-  - Ui9ANOVA2nested
+  - btn10_3Bland
   onActions:
   - OnbtmBlandAltman
   forms:
@@ -1060,7 +1090,7 @@ methods:
   slug: lins-ccc
   short: '**Includes:** Lin CCC, Pearson r, bias-correction factor Cb, analytical or bootstrap confidence intervals, null-concordance test, and identity-line plot.'
   ribbonIds:
-  - UiTwoInputRefedits
+  - btn10_4LCCC
   onActions:
   - OnbtmLCCC
   forms:
@@ -1074,7 +1104,7 @@ methods:
   slug: cohens-kappa
   short: '**Includes:** Cohen''s / weighted kappa for paired categorical ratings, with unweighted, linear, quadratic, Cicchetti–Allison, and Fleiss–Cohen weighting schemes; analytical and bootstrap confidence intervals; confusion-matrix output; and weight-matrix output.'
   ribbonIds:
-  - UiTwoInputRefedits
+  - btn10_5Cohen
   onActions:
   - OnbtmCohenKappa
   forms:
@@ -1088,7 +1118,7 @@ methods:
   slug: intraclass-correlation-coefficients
   short: "**Includes:** ICC(1,1), ICC(1,k), ICC(2,1), ICC(2,k), ICC(3,1), ICC(3,k) with confidence intervals.  \nQuantify reliability/agreement of measurements across raters/replicates using standard ICC families."
   ribbonIds:
-  - btn10_3icc
+  - btn10_6icc
   onActions:
   - OnbtmIcc
   forms:
@@ -1182,6 +1212,10 @@ categories:
     ribbonId: btm2_15Ladder
     title: Ladder Plot
     slug: ladder-plot
+  - ref: BulletChart
+    ribbonId: btm2_16Bullet
+    title: Bullet Chart
+    slug: bullet-chart
   - ref: CDFplot
     ribbonId: btm2_17CDF
     title: Cumulative Distribution Function Plot
@@ -1191,7 +1225,7 @@ categories:
   - ref: PairedSingleSampleTTests
     ribbonId: btm3_1PairedT
     title: Paired (single sample) T tests
-    slug: paired-single-sample-t-tests
+    slug: paired-t-tests
   - ref: UnpairedTwoSampleTTests
     ribbonId: btm3_2UnpairedT
     title: Unpaired (two sample) T tests
@@ -1363,19 +1397,19 @@ categories:
   - ref: PairedTTest
     ribbonId: btn9_1PairedT
     title: Paired T-test
-    slug: paired-t-test
+    slug: sample-size-paired-t-test
   - ref: UnpairedTTest
     ribbonId: btn9_2UnPairedT
     title: Unpaired T-test
-    slug: unpaired-t-test
+    slug: sample-size-unpaired-t-test
   - ref: SingleProportion
     ribbonId: btn9_3SingleProp
     title: Single Proportion
-    slug: single-proportion
+    slug: sample-size-single-proportion
   - ref: IndependentProportions
     ribbonId: btn9_4IndProp
     title: Independent Proportions
-    slug: independent-proportions
+    slug: sample-size-independent-proportions
   - ref: SSlogrank
     ribbonId: btn9_5logrank
     title: Sample Size - Log-rank Test
@@ -1415,7 +1449,7 @@ categories:
     title: Cohen's / Weighted Kappa
     slug: cohens-kappa
   - ref: IntraclassCorrelationCoefficients
-    ribbonId: btn10_3icc
+    ribbonId: btn10_6icc
     title: Intraclass Correlation Coefficients
     slug: intraclass-correlation-coefficients
 - name: Causal Inference

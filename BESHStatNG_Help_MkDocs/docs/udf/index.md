@@ -11,7 +11,7 @@ Excel Function Wizard category (e.g. `BESHStatNG - Nonparametric`).
 |---|---|---:|---|
 | [Agreement](agreement.md) | Worksheet functions in this category. | 16 | [Bland Altman](../methods/bland-altman.md), [Deming Regression](../methods/deming-regression.md), [Intraclass Correlation Coefficients](../methods/intraclass-correlation-coefficients.md), [Cohens Kappa](../methods/cohens-kappa.md), [Lins Ccc](../methods/lins-ccc.md), [Passing Bablok Regression](../methods/passing-bablok-regression.md) |
 | [Assumptions](assumptions.md) | Worksheet functions in this category. | 12 | [Univariate Outliers](../methods/univariate-outliers.md), [Homogeneity Of Variance](../methods/homogeneity-of-variance.md), [Normality Tests](../methods/normality-tests.md), [Symmetry](../methods/symmetry.md) |
-| [Causal Inference](causal-inference.md) | Worksheet functions in this category. | 6 | — |
+| [Causal Inference](causal-inference.md) | Worksheet functions in this category. | 10 | — |
 | [Contingency Tables](contingency-tables.md) | Worksheet functions in this category. | 15 | [2X2 Table](../methods/2x2-table.md), [Mantel Haenszel Test](../methods/mantel-haenszel-test.md), [Proportions](../methods/proportions.md), [Rxc Table](../methods/rxc-table.md) |
 | [Distributions](distributions.md) | Probability distribution helper functions (PDF/CDF/quantiles and related utilities). | 3 | — |
 | [Multivariate Analysis](multivariate-analysis.md) | Worksheet functions in this category. | 70 | [Correspondence Analysis](../methods/correspondence-analysis.md), [Discriminant Analysis](../methods/discriminant-analysis.md), [Factor Analysis](../methods/factor-analysis.md), [Hierarchical Clustering](../methods/hierarchical-clustering.md), [K Means Clustering](../methods/k-means-clustering.md), [Multiple Correspondence Analysis](../methods/multiple-correspondence-analysis.md), [Principal Component Analysis](../methods/principal-component-analysis.md) |
@@ -66,9 +66,13 @@ See: [Assumptions UDFs](assumptions.md)
 
 - `BESH.PS.BALANCE` — Returns balance diagnostics before and after matching/weighting.
 - `BESH.PS.CLEANUP` — Removes one PSM handle from the session cache, or all PSM handles when handle is blank or ALL.
+- `BESH.PS.EFFECT` — Returns treatment-effect estimates for a fitted propensity-score handle.
 - `BESH.PS.FIT` — Fits a propensity-score analysis and returns a reusable handle.
 - `BESH.PS.LOVEPLOT_DATA` — Returns chart-ready Love plot data for a fitted propensity-score handle.
+- `BESH.PS.SCORES` — Returns row-level propensity scores, logits, inclusion flags, weights and match status.
 - `BESH.PS.SUMMARY` — Returns stacked summary tables for a fitted propensity-score handle.
+- `BESH.PS.TABLE` — Returns a named PSM output table such as summary, scores, matches, weights, balance, effect, loveplot, overlap, diagnostics, matcheddata, subclasses, cemstrata, cemweights, or warnings.
+- `BESH.PS.WEIGHTS` — Returns row-level matching and balancing weights for a fitted propensity-score handle.
 - `BESH.PSM.MATCHES` — Returns the matched-pair/set table for a fitted propensity-score handle.
 
 See: [Causal Inference UDFs](causal-inference.md)
