@@ -1488,6 +1488,8 @@ Public Class UibyID
             .StartColumn = WriteRes.ColID
         }
 
+        ExcelDnaHostCapabilities.EnsureCanWrite(Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, outputTarget)
+
         Dim sharedRequests As List(Of Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest) =
             Global.BESHStatNG.ExcelCommon.ResultTableWriteRequestFactory.CreateMany(
                 analysisResult.Tables,
@@ -1685,6 +1687,8 @@ Public Class UibyID
             .StartRow = WriteRes.RowID,
             .StartColumn = WriteRes.ColID
         }
+
+        ExcelDnaHostCapabilities.EnsureCanWrite(Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis, outputTarget)
 
         Dim sharedRequests As List(Of Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest) =
             Global.BESHStatNG.ExcelCommon.ResultTableWriteRequestFactory.CreateMany(

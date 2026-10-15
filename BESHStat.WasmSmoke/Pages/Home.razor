@@ -18,16 +18,20 @@
 
 <div class="alert @(officeHost?.IsExcel == true ? "alert-success" : "alert-secondary")">
     <strong>Office host:</strong> @officeStatus
+    @if (hostCapabilities is not null)
+    {
+        <div><small>Available operations: @string.Join(", ", hostCapabilities.Capabilities ?? new List<string>())</small></div>
+    }
 </div>
 
 <div class="mb-3">
     <button class="btn btn-outline-secondary me-2" @onclick="RefreshOfficeStatus">
         Check Excel host
     </button>
-    <button class="btn btn-outline-primary me-2" @onclick="ReadSelection" disabled="@isBusy">
+    <button class="btn btn-outline-primary me-2" @onclick="ReadSelection" disabled="@(isBusy || !CanReadSelection)">
         Read selected range
     </button>
-    <button class="btn btn-primary" @onclick="RunSharedAnalysisAndWrite" disabled="@isBusy">
+    <button class="btn btn-primary" @onclick="RunSharedAnalysisAndWrite" disabled="@(isBusy || !CanRunSelectedDestination)">
         Run shared analysis and write result
     </button>
 </div>
@@ -79,8 +83,9 @@
             <div class="col-md-4">
                 <label class="form-label">Output destination</label>
                 <select class="form-select" @bind="outputDestination">
-                    <option value="@SpreadsheetOutputDestination.NewWorksheet">New worksheet</option>
-                    <option value="@SpreadsheetOutputDestination.CurrentWorksheet">Current worksheet</option>
+                    <option value="@SpreadsheetOutputDestination.NewWorksheet" disabled="@(!SupportsDestination(SpreadsheetOutputDestination.NewWorksheet))">New worksheet</option>
+                    <option value="@SpreadsheetOutputDestination.CurrentWorksheet" disabled="@(!SupportsDestination(SpreadsheetOutputDestination.CurrentWorksheet))">Current worksheet</option>
+                    <option value="@SpreadsheetOutputDestination.NewWorkbook" disabled="@(!SupportsDestination(SpreadsheetOutputDestination.NewWorkbook))">New workbook (unavailable in Office.js)</option>
                 </select>
             </div>
 
@@ -265,6 +270,17 @@
 
 @code {
     private OfficeHostStatus? officeHost;
+    private HostCapabilitySnapshot? hostCapabilities;
+    private bool CanReadSelection => hostCapabilities?.Supports(HostCapabilityIds.ReadSelectedRange) == true;
+    private bool CanRunSelectedDestination => CanReadSelection &&
+        hostCapabilities?.Supports(HostCapabilityIds.WriteResultTables) == true && SupportsDestination(outputDestination);
+
+    private bool SupportsDestination(SpreadsheetOutputDestination destination)
+    {
+        var capability = HostCapabilityIds.ForDestination(destination);
+        return capability is not null && hostCapabilities?.Supports(capability) == true;
+    }
+
     private SpreadsheetRangeData? selection;
     private GroupedNumericData? groupedPreview;
     private SpreadsheetAnalysisResult? sharedOutput;
@@ -303,6 +319,7 @@
         try
         {
             officeHost = await JS.InvokeAsync<OfficeHostStatus>("beshOffice.getHostStatus", 2500);
+            hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
             officeStatus = officeHost.Message;
 
             if (officeHost.IsExcel)
@@ -320,6 +337,7 @@
         catch (Exception ex)
         {
             officeHost = null;
+            hostCapabilities = null;
             officeStatus = "Unable to query Office.js: " + ex.Message;
         }
     }
@@ -329,6 +347,8 @@
         try
         {
             isBusy = true;
+            hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
+            HostCapabilityPreflight.CheckSelection(hostCapabilities).EnsureSupported();
             selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
             groupedPreview = GroupedNumericRangeParser.Parse(selection);
             sharedOutput = null;
@@ -359,6 +379,18 @@
             isBusy = true;
             writeResult = null;
 
+            // Preflight MUST run before reading the selection or running the statistical engine.
+            hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
+            var target = new SpreadsheetOutputTarget
+            {
+                Destination = outputDestination,
+                WorksheetName = outputWorksheetName,
+                StartRow = outputStartRow,
+                StartColumn = outputStartColumn
+            };
+            var analysisId = AnalysisCatalog.GetByLegacyKind(analysisKind).Id;
+            HostCapabilityPreflight.CheckRunAndWrite(analysisId, hostCapabilities, target).EnsureSupported();
+
             selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
             groupedPreview = GroupedNumericRangeParser.Parse(selection);
 
@@ -387,7 +419,6 @@
 
             // The Office prototype exercises the stable-ID facade while the Windows
             // Excel-DNA caller retains the original enum-based request facade.
-            var analysisId = AnalysisCatalog.GetByLegacyKind(analysisKind).Id;
             sharedOutput = SharedAnalysisApplicationService.Run(analysisId, selection, options);
             anovaOutput = sharedOutput.Detail as OneWayAnovaApplicationResult;
             kruskalOutput = sharedOutput.Detail as KruskalWallisApplicationResult;
@@ -399,14 +430,6 @@
                 UseUpperBound = pvalueUseUpperBound
             };
             settings.EnsureDefaults();
-
-            var target = new SpreadsheetOutputTarget
-            {
-                Destination = outputDestination,
-                WorksheetName = outputWorksheetName,
-                StartRow = outputStartRow,
-                StartColumn = outputStartColumn
-            };
 
             var writeRequests = ResultTableWriteRequestFactory.CreateMany(
                 sharedOutput.Tables,

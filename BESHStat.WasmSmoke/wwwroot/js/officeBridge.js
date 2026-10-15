@@ -74,6 +74,38 @@
         };
     }
 
+    // All capability IDs must match HostCapabilityIds in BESHStat.Excel.Common.
+    // No new-workbook capability: the prototype Office writer cannot create one.
+    const HOST_CAPABILITY = Object.freeze({
+        readSelectedRange: "input.read-selected-range",
+        writeResultTables: "output.write-result-tables",
+        currentWorksheet: "output.current-worksheet",
+        newWorksheet: "output.new-worksheet"
+    });
+
+    async function getHostCapabilities() {
+        const status = await getHostStatus(5000);
+        const requirements = typeof Office !== "undefined" && Office.context
+            ? Office.context.requirements : null;
+        const excelApiSupported = requirements && typeof requirements.isSetSupported === "function"
+            ? requirements.isSetSupported("ExcelApi", "1.1") === true
+            : false;
+        const ready = status.isExcel && typeof Excel !== "undefined" &&
+            typeof Excel.run === "function" && excelApiSupported;
+
+        return {
+            host: "OfficeJs",
+            platform: status.platform || "",
+            isExcel: status.isExcel,
+            capabilities: ready ? [
+                HOST_CAPABILITY.readSelectedRange,
+                HOST_CAPABILITY.writeResultTables,
+                HOST_CAPABILITY.currentWorksheet,
+                HOST_CAPABILITY.newWorksheet
+            ] : []
+        };
+    }
+
     async function ensureExcelHost() {
         const status = await getHostStatus(5000);
         if (!status.isExcel) {
@@ -365,8 +397,21 @@
         const startRow = Math.max(1, Number(firstTarget.startRow) || 1) - 1;
         const startColumn = Math.max(1, Number(firstTarget.startColumn) || 1) - 1;
 
+        const snapshot = await getHostCapabilities();
+        if (!snapshot.isExcel || !snapshot.capabilities.includes(HOST_CAPABILITY.writeResultTables)) {
+            throw new Error("Office.js result writing is unavailable in this Excel host.");
+        }
         if (destination === OUTPUT_DESTINATION.newWorkbook) {
-            throw new Error("New-workbook output is reserved for a later Office.js host-capability batch.");
+            throw new Error("New-workbook output is not supported by the Office.js host.");
+        }
+        if (destination !== OUTPUT_DESTINATION.currentWorksheet &&
+            destination !== OUTPUT_DESTINATION.newWorksheet) {
+            throw new Error("Unknown result output destination.");
+        }
+        const destinationCapability = destination === OUTPUT_DESTINATION.currentWorksheet
+            ? HOST_CAPABILITY.currentWorksheet : HOST_CAPABILITY.newWorksheet;
+        if (!snapshot.capabilities.includes(destinationCapability)) {
+            throw new Error("The requested result output destination is unavailable.");
         }
 
         for (const table of tables) {
@@ -468,6 +513,7 @@
 
     window.beshOffice = {
         getHostStatus,
+        getHostCapabilities,
         getSelectedRangeData,
         writeResultTable,
         writeResultTables
