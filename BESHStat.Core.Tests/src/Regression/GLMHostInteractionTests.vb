@@ -5,6 +5,7 @@ Imports BESHStatNG.regression
 Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass>
+<DoNotParallelize>
 Public Class GLMHostInteractionTests
 
     <TestCleanup>

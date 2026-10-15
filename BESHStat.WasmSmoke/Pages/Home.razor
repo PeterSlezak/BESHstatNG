@@ -385,12 +385,10 @@
                     throw new NotSupportedException($"Unsupported shared analysis kind: {analysisKind}.");
             }
 
-            var analysisRequest = new SpreadsheetAnalysisRequest(
-                analysisKind,
-                selection,
-                options);
-
-            sharedOutput = SharedAnalysisApplicationService.Run(analysisRequest);
+            // The Office prototype exercises the stable-ID facade while the Windows
+            // Excel-DNA caller retains the original enum-based request facade.
+            var analysisId = AnalysisCatalog.GetByLegacyKind(analysisKind).Id;
+            sharedOutput = SharedAnalysisApplicationService.Run(analysisId, selection, options);
             anovaOutput = sharedOutput.Detail as OneWayAnovaApplicationResult;
             kruskalOutput = sharedOutput.Detail as KruskalWallisApplicationResult;
 

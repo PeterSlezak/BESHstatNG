@@ -15,7 +15,7 @@ Public Class GeneratedMethodMetadataTests
     Public Sub GeneratedMethods_DescribeAllAuthoredFeatures_ButOnlyTwoHaveRuntimeIds()
         Assert.AreEqual(76, GeneratedMethodMetadata.All.Count)
         Assert.AreEqual(76, GeneratedMethodMetadata.All.Select(Function(m) m.Key).Distinct(StringComparer.Ordinal).Count())
-        Assert.AreEqual(2, GeneratedMethodMetadata.All.Count(Function(m) m.AnalysisId IsNot Nothing))
+        Assert.AreEqual(2, GeneratedMethodMetadata.All.Where(Function(m) m.AnalysisId IsNot Nothing).Count())
         For Each method As AnalysisMethodMetadata In GeneratedMethodMetadata.All
             Assert.IsFalse(String.IsNullOrWhiteSpace(method.DisplayName))
             Assert.IsFalse(String.IsNullOrWhiteSpace(method.Category))

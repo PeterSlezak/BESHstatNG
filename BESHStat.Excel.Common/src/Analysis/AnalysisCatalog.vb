@@ -6,9 +6,9 @@ Imports System.Collections.Generic
 
 Namespace ExcelCommon
 
-    ''' <summary>Explicit compile-time feature catalog; no reflection or dispatch is performed here.</summary>
-    ''' <remarks>Batch 00.03 will add typed handler registration. The existing enum dispatcher
-    ''' and current request/result types remain untouched in 00.02.</remarks>
+    ''' <summary>Explicit compile-time feature catalog of metadata and type contracts.</summary>
+    ''' <remarks>Executable handlers live in AnalysisHandlerRegistry; documentation-only
+    ''' methods never become executable merely by appearing in generated metadata.</remarks>
     Public NotInheritable Class AnalysisCatalog
 
         Private Shared ReadOnly _all As IReadOnlyList(Of IAnalysisDescriptor) = BuildDescriptors()
