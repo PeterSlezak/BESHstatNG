@@ -11,6 +11,8 @@ BESHStatNG is designed for researchers, analysts, teachers, students, biomedical
 - **Validation:** https://beshstat.eu/validation/
 - **GitHub Releases:** https://github.com/PeterSlezak/BESHstatNG/releases
 
+**Product availability:** The **Windows desktop Excel-DNA add-in** is the established, supported implementation. Portable statistical libraries and an experimental Office.js/WebAssembly integration are being developed toward future Excel on the web and Mac support. Those experimental components are **not** currently a production Mac or Excel Online release. For installation and supported features, use the [official Windows download](https://beshstat.eu/download/) and [published help](https://beshstat.eu/beshstatng/help/latest/).
+
 ![BESHStatNG ribbon](.github/assets/beshstatng_ribbon2.png)
 
 ## Why BESHStatNG?
@@ -27,6 +29,10 @@ Key design goals include:
 - **Consistent statistical presentation**, including application-wide alpha and p-value display settings
 - **Transparent validation** with unit tests, reference datasets, NIST benchmarks, and public validation materials
 - **Open development** with source code, documentation, issue templates, and release history available in this repository
+
+## Development direction
+
+BESHStatNG is evolving toward a shared, cross-platform statistical foundation: one portable calculation engine, a common Excel-facing application layer, and host-specific integrations for Windows Excel-DNA and future Office.js-based Excel clients. This is ongoing work; the existing Windows ribbon, dialogs, worksheet functions, and MSI remain the supported product. The experimental browser/Office integration is a technical proving ground rather than a feature-complete alternative. Implementation details and development milestones may change.
 
 ## Major capabilities
 
@@ -276,55 +282,40 @@ BESHStatNG provides separate builds for 32-bit and 64-bit Excel where applicable
 
 ## Build from source
 
-### Prerequisites
+This repository includes the **Windows add-in** and portable/experimental supporting projects. For ordinary users, the [signed Windows installer](https://beshstat.eu/download/) is recommended instead of a source build.
 
-- Windows
-- Microsoft Excel desktop
-- Visual Studio with **.NET Framework 4.8** support
-- NuGet package restore enabled
+### Windows add-in
 
-### Main project stack
+- Windows with Microsoft Excel desktop (match the add-in build to Excel's 32-bit or 64-bit architecture)
+- Visual Studio with .NET Framework 4.8 targeting support, the relevant .NET SDKs, and NuGet package restore
+- Open `BESHStatNG.sln`, restore dependencies, and build `BESHStatNG` in the appropriate configuration.
+- Run the applicable unit tests and real-Excel smoke tests before packaging. Windows installation packaging is maintained separately under [`BESHStatNG_Installer/`](BESHStatNG_Installer/README.md).
 
-- Visual Basic .NET
-- Excel-DNA
-- .NET Framework 4.8
-- MkDocs for documentation
-- WiX for installer packaging
+The portable projects target **.NET Standard 2.0**; the modern test projects target **.NET 8**, and the WebAssembly experiment targets **.NET 9**. They can be built and tested separately with compatible SDKs. For example:
 
-### Build the add-in
+```powershell
+dotnet test BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj -c Release
+dotnet test BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj -c Release
+dotnet build BESHStat.WasmSmoke/BESHStat.WasmSmoke.csproj -c Release
+```
 
-1. Clone this repository.
-2. Restore NuGet packages.
-3. Open `BESHStatNG.sln` in Visual Studio.
-4. Build the required configuration in `Release` mode.
-5. Run the relevant tests in `BESHStatNG.Test`.
-6. Package the installer with the installer project or the project's release packaging workflow.
+The legacy `BESHStatNG.Test` project targets .NET Framework 4.8 and is usually run from Visual Studio/Test Explorer on Windows. The WebAssembly project is a development harness; building it does **not** install a Mac/Excel Online product. Consult the project-level README files for details.
 
 ## Repository structure
 
-```text
-BESHStatNG.sln
-/BESHstatNG/                         Excel-DNA add-in project
-    src/
-        AppInfrastructure/           global settings and shared application infrastructure
-        BaseStat/                    core statistical functions and resampling infrastructure
-        DM/                          data import, result tables, and output writers
-        ExcelUDFs/                   Excel worksheet functions
-        Graphics/                    chart generation and export support
-        Help/                        help-link integration
-        RegModels/                   regression, mixed models, survival, PSM, and multivariate models
-        StatTests/                   statistical tests
-        UI/                          Windows Forms dialogs and ribbon handlers
-        Update/                      update/version support
-    tools/                           project helper scripts
-/BESHStatNG.Test/                    unit tests, reference datasets, and validation artifacts
-/BESHStatNG_Help_MkDocs/             MkDocs documentation source and worked-example assets
-/BESHStatNG_Installer/               WiX installer project
-/.github/                            contribution files, issue templates, and README assets
-README.md
-```
+| Project / folder | Purpose | Maturity |
+| --- | --- | --- |
+| [`BESHstatNG/`](BESHstatNG/README.md) | Excel-DNA add-in, Ribbon/WinForms UI, worksheet functions, Excel COM integration and native charting | **Stable Windows host** |
+| [`BESHStat.Core/`](BESHStat.Core/README.md) | Portable numerical, statistical and graphics calculation engine | Shared library under active development |
+| [`BESHStat.Excel.Common/`](BESHStat.Excel.Common/README.md) | Host-neutral spreadsheet input, analysis orchestration and result contracts | Shared layer under active development |
+| [`BESHStat.WasmSmoke/`](BESHStat.WasmSmoke/README.md) | Blazor WASM + Office.js proof-of-concept and regression harness | **Experimental; not a production add-in** |
+| [`BESHStatNG.Test/`](BESHStatNG.Test/README.md) | Windows/legacy regression and validation tests | Tests |
+| [`BESHStat.Core.Tests/`](BESHStat.Core.Tests/README.md) | Core numerical and statistical unit tests | Tests |
+| [`BESHStat.Excel.Common.Tests/`](BESHStat.Excel.Common.Tests/README.md) | Shared Excel contract, catalog and application-layer tests | Tests |
+| [`BESHStatNG_Help_MkDocs/`](BESHStatNG_Help_MkDocs/README.md) | MkDocs help, screenshots, examples and generated UDF documentation | Published Windows help source |
+| [`BESHStatNG_Installer/`](BESHStatNG_Installer/README.md) | WiX/MSI packaging for the Windows Excel-DNA release | Windows release packaging |
 
-The codebase also contains abstractions separating core data/result handling from Excel-specific infrastructure, supporting continued work on portability without changing the current Windows/Excel-DNA user interface.
+`Directory.Build.props` centralizes solution version values; the Windows installer and published help are released through their own packaging/publishing steps. Public method/help metadata are authored in `BESHStatNG_Help_MkDocs/docs/_meta/methods.yml`, with Ribbon registration and worksheet function declarations validated against their actual Windows sources. Test and validation assets accompany the relevant projects.
 
 ## Contributing and issue reporting
 
@@ -352,19 +343,9 @@ Useful links:
 
 ## Project status
 
-BESHStatNG is under active development. Recent development has focused on:
+The **Windows Excel-DNA add-in is the supported product** and continues to receive improvements to methods, graphics, documentation, and numerical validation. Alongside it, portable statistical components and shared Excel contracts are being developed to support additional Excel hosts in the future. The Office.js/WebAssembly prototype is experimental; there is **no general-availability Mac or Excel Online edition** represented by this repository today.
 
-- MMRM and LMM workflows and inference
-- propensity-score and causal-inference tools
-- statistical process control
-- expanded statistical graphics
-- ANOVA multiple-comparison reporting and plots
-- PCA visualization enhancements
-- reusable resampling infrastructure
-- consistent global alpha and p-value presentation
-- validation, worked examples, tutorials, and formula-driven workflows
-
-For the detailed change history, see [What's New](https://beshstat.eu/beshstatng/help/latest/whats-new/).
+See [What's New](https://beshstat.eu/beshstatng/help/latest/whats-new/) for released Windows functionality and the [Releases](https://github.com/PeterSlezak/BESHstatNG/releases) page for distributable builds.
 
 ## Support and links
 
@@ -385,3 +366,7 @@ For the detailed change history, see [What's New](https://beshstat.eu/beshstatng
 ![3D scatter plot example](BESHStatNG_Help_MkDocs/docs/assets/images/0113dscatterplot/0113dscatterplot_result.png)
 
 ![Animated 3D scatter plot example](BESHStatNG_Help_MkDocs/docs/assets/images/0113dscatterplot/0113dscatterplot_result_animation.gif)
+
+## License
+
+BESHStatNG is released under the [Apache License 2.0](LICENSE).
