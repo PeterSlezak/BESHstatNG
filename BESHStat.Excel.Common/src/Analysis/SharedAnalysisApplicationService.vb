@@ -35,6 +35,29 @@ Namespace ExcelCommon
                                    Optional options As SpreadsheetAnalysisOptions = Nothing) As SpreadsheetAnalysisResult
             Return AnalysisHandlerRegistry.Run(analysisId, input, options)
         End Function
+
+        ''' <summary>
+        ''' Opt-in host-facing document API: known validation/unsupported/computation failures
+        ''' become stable fault codes. Legacy Run overloads still throw as before.
+        ''' Does not catch unexpected programming errors such as NullReferenceException.
+        ''' </summary>
+        Public Shared Function RunDocument(analysisId As String,
+                                           input As SpreadsheetAnalysisInput,
+                                           Optional options As SpreadsheetAnalysisOptions = Nothing) As AnalysisResultDocument
+            Dim safeId As String = If(String.IsNullOrWhiteSpace(analysisId), "analysis.unknown", analysisId)
+            Try
+                Return Run(analysisId, input, options).Document
+            Catch ex As NotSupportedException
+                Return AnalysisResultDocument.Failure(safeId,
+                    New AnalysisFault(AnalysisFaultCodes.UnsupportedAnalysis, "The requested analysis is not supported.", "analysisId"))
+            Catch ex As ArgumentException
+                Return AnalysisResultDocument.Failure(safeId,
+                    New AnalysisFault(AnalysisFaultCodes.InvalidRequest, "The analysis request contains invalid inputs or options.", "request"))
+            Catch ex As InvalidOperationException
+                Return AnalysisResultDocument.Failure(safeId,
+                    New AnalysisFault(AnalysisFaultCodes.ExecutionFailed, "The analysis could not complete.", "execution"))
+            End Try
+        End Function
     End Class
 
 End Namespace

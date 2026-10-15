@@ -54,6 +54,13 @@ Namespace ExcelCommon
                     If descriptor.LegacyKind.HasValue AndAlso result.AnalysisKind <> descriptor.LegacyKind.Value Then
                         Throw New InvalidOperationException("Handler returned an incompatible analysis kind for " & analysisId & ".")
                     End If
+                    If options IsNot Nothing Then
+                        Dim reported As IEnumerable(Of AnalysisWarning) = options.GetWarnings()
+                        If reported IsNot Nothing Then
+                            Dim warnings As New List(Of AnalysisWarning)(reported)
+                            If warnings.Count > 0 Then result = result.WithWarnings(warnings)
+                        End If
+                    End If
                     Return result
                 End If
             Next

@@ -20,6 +20,10 @@ Namespace ExcelCommon
     ''' extensible without relying on late binding or host-specific dictionaries.
     ''' </summary>
     Public MustInherit Class SpreadsheetAnalysisOptions
+        ''' <summary>Option validation notes that do not change existing calculation defaults.</summary>
+        Public Overridable Function GetWarnings() As IEnumerable(Of AnalysisWarning)
+            Return Array.Empty(Of AnalysisWarning)()
+        End Function
     End Class
 
     ''' <summary>
@@ -39,6 +43,14 @@ Namespace ExcelCommon
         Public Property IncludeTukeyKramer As Boolean
         Public Property IncludeGamesHowell As Boolean
         Public Property Alpha As Double
+
+        Public Overrides Function GetWarnings() As IEnumerable(Of AnalysisWarning)
+            If Not Double.IsNaN(Alpha) AndAlso Not Double.IsInfinity(Alpha) AndAlso Alpha > 0.0 AndAlso Alpha < 1.0 Then
+                Return Array.Empty(Of AnalysisWarning)()
+            End If
+            Return New AnalysisWarning() {New AnalysisWarning(AnalysisWarningCodes.AlphaDefaulted,
+                "Invalid alpha was replaced by the existing default (0.05).", "options.alpha")}
+        End Function
     End Class
 
 
@@ -57,6 +69,14 @@ Namespace ExcelCommon
 
         Public Property IncludeDunnComparisons As Boolean
         Public Property Alpha As Double
+
+        Public Overrides Function GetWarnings() As IEnumerable(Of AnalysisWarning)
+            If Not Double.IsNaN(Alpha) AndAlso Not Double.IsInfinity(Alpha) AndAlso Alpha > 0.0 AndAlso Alpha < 1.0 Then
+                Return Array.Empty(Of AnalysisWarning)()
+            End If
+            Return New AnalysisWarning() {New AnalysisWarning(AnalysisWarningCodes.AlphaDefaulted,
+                "Invalid alpha was replaced by the existing default (0.05).", "options.alpha")}
+        End Function
     End Class
 
     ''' <summary>
@@ -109,10 +129,19 @@ Namespace ExcelCommon
     ''' </summary>
     Public Class SpreadsheetAnalysisResult
 
+        ''' <summary>Original four-parameter constructor; retained for binary and source compatibility.</summary>
         Public Sub New(analysisKind As SpreadsheetAnalysisKind,
                        tables As List(Of Global.BESHStatNG.ResultTableOutputModel),
                        metrics As Dictionary(Of String, Double),
                        detail As Object)
+            Me.New(analysisKind, tables, metrics, detail, Nothing)
+        End Sub
+
+        Public Sub New(analysisKind As SpreadsheetAnalysisKind,
+                       tables As List(Of Global.BESHStatNG.ResultTableOutputModel),
+                       metrics As Dictionary(Of String, Double),
+                       detail As Object,
+                       warnings As IEnumerable(Of AnalysisWarning))
             If tables Is Nothing Then Throw New ArgumentNullException(NameOf(tables))
             If metrics Is Nothing Then Throw New ArgumentNullException(NameOf(metrics))
 
@@ -120,12 +149,24 @@ Namespace ExcelCommon
             Me.Tables = tables
             Me.Metrics = metrics
             Me.Detail = detail
+            Dim descriptor As IAnalysisDescriptor = Nothing
+            Dim analysisId As String = If(AnalysisCatalog.TryGetByLegacyKind(analysisKind, descriptor),
+                                          descriptor.Id, "legacy.unknown")
+            Dim typedDetail As AnalysisDetailArtifact = Nothing
+            If detail IsNot Nothing Then typedDetail = AnalysisDetailArtifact.FromValue(detail)
+            Document = New AnalysisResultDocument(analysisId, tables, metrics, typedDetail, warnings)
         End Sub
 
         Public ReadOnly Property AnalysisKind As SpreadsheetAnalysisKind
         Public ReadOnly Property Tables As List(Of Global.BESHStatNG.ResultTableOutputModel)
         Public ReadOnly Property Metrics As Dictionary(Of String, Double)
         Public ReadOnly Property Detail As Object
+        ''' <summary>Immutable typed v1 document; the existing table/metric/detail APIs remain unchanged.</summary>
+        Public ReadOnly Property Document As AnalysisResultDocument
+
+        Friend Function WithWarnings(warnings As IEnumerable(Of AnalysisWarning)) As SpreadsheetAnalysisResult
+            Return New SpreadsheetAnalysisResult(AnalysisKind, Tables, Metrics, Detail, warnings)
+        End Function
 
         Public ReadOnly Property PrimaryTable As Global.BESHStatNG.ResultTableOutputModel
             Get
