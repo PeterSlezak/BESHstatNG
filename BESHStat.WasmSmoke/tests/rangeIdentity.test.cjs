@@ -58,7 +58,7 @@ test("selected range uses range.worksheet rather than active worksheet", async (
     assert.equal(data.workbookId, "");
     assert.equal(data.rows[1][0].numberValue, 1);
     assert.equal(calls.active, 0);
-    assert.equal(calls.syncs, 1);
+    assert.equal(calls.syncs, 2); // dimension preflight, then cell payload
 });
 
 test("named worksheet read does not activate the worksheet", async () => {
@@ -79,7 +79,7 @@ test("multi-worksheet read batches all range snapshots in one Excel.run", async 
     assert.equal(data.ranges[0].worksheetId, "stable-id");
     assert.equal(data.ranges[1].worksheetId, "followup-id");
     assert.equal(calls.runs, 1);
-    assert.equal(calls.syncs, 1);
+    assert.equal(calls.syncs, 2); // batched metadata preflight, then values
 });
 
 test("stale worksheet identity is rejected after acquisition", async () => {

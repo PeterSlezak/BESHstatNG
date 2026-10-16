@@ -1,0 +1,14 @@
+{
+  "name": "beshstat-wasmsmoke-js-tests",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Dependency-free Office.js bridge regression tests for the WASM smoke harness",
+  "scripts": {
+    "test": "node --check wwwroot/js/officeBridge.js && node --test",
+    "test:js": "node --test",
+    "check:js": "node --check wwwroot/js/officeBridge.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

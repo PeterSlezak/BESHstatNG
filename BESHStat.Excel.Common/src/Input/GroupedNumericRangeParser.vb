@@ -97,6 +97,23 @@ Namespace ExcelCommon
             Return New GroupedNumericData(names, groups)
         End Function
 
+        ''' <summary>
+        ''' Opt-in configured parsing with structured diagnostics; the original Parse(input)
+        ''' remains unchanged for Stage 3.04 compatibility.
+        ''' </summary>
+        Public Shared Function ParseWithDiagnostics(input As SpreadsheetRangeData,
+                              Optional options As SpreadsheetGroupedParseOptions = Nothing) As SpreadsheetGroupedParseResult
+            Return ConfigurableGroupedNumericParser.Parse(input, options)
+        End Function
+
+        ''' <summary>Throwing configured facade. Use ParseWithDiagnostics for issue locations/codes.</summary>
+        Public Shared Function Parse(input As SpreadsheetRangeData,
+                                     options As SpreadsheetGroupedParseOptions) As GroupedNumericData
+            Dim result As SpreadsheetGroupedParseResult = ParseWithDiagnostics(input, options)
+            If Not result.Success Then Throw New SpreadsheetInputValidationException(result.Validation)
+            Return result.Data
+        End Function
+
         Private Shared Function HeaderText(cell As SpreadsheetCellValue, columnIndex As Integer) As String
             If cell Is Nothing OrElse cell.Kind = SpreadsheetCellKind.Blank Then
                 Return "Group " & (columnIndex + 1).ToString(CultureInfo.InvariantCulture)

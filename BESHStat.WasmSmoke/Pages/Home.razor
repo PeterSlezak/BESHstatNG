@@ -53,7 +53,50 @@
     </div>
 </div>
 
+<div class="card mb-3" style="max-width: 1000px;">
+    <div class="card-body">
+        <div class="form-check">
+            <input id="configurableParsing" class="form-check-input" type="checkbox" @bind="useConfiguredParsing" />
+            <label class="form-check-label" for="configurableParsing">Use configurable grouped-input interpretation (Phase 01.03 preview)</label>
+        </div>
+        @if (useConfiguredParsing)
+        {
+            <p class="small text-muted mt-2">Opt-in test of the shared validation and orientation policies. The default unchecked path still uses the original Stage 3.04 parser.</p>
+            <div class="row g-2 mt-1">
+                <div class="col-md-4">
+                    <label class="form-label">Group arrangement</label>
+                    <select class="form-select" @bind="groupOrientation">
+                        <option value="@SpreadsheetGroupedOrientation.GroupsInColumns">Groups in columns</option>
+                        <option value="@SpreadsheetGroupedOrientation.GroupsInRows">Groups in rows</option>
+                        <option value="@SpreadsheetGroupedOrientation.LongFormat">Long (category + value)</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Header policy</label>
+                    <select class="form-select" @bind="groupHeaderMode">
+                        <option value="@SpreadsheetHeaderMode.Required">Header required</option>
+                        <option value="@SpreadsheetHeaderMode.None">No header</option>
+                        <option value="@SpreadsheetHeaderMode.Auto">Auto (reject ambiguous)</option>
+                    </select>
+                </div>
+                @if (groupOrientation == SpreadsheetGroupedOrientation.LongFormat)
+                {
+                    <div class="col-md-2">
+                        <label class="form-label">Category column (1-based)</label>
+                        <input class="form-control" type="number" min="1" @bind="categoryColumn" />
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Value column (1-based)</label>
+                        <input class="form-control" type="number" min="1" @bind="valueColumn" />
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
 <p><strong>Status:</strong> @status</p>
+
 
 @if (selection is not null)
 {
@@ -71,6 +114,27 @@
                 A date-formatted number remains <code>Number (1)</code>; an Excel error is
                 <code>CellError (4)</code>, while literal error-looking text is <code>Text (2)</code>.
             </p>
+            @if (groupedIssues is not null && groupedIssues.Count > 0)
+            {
+                <div class="mb-2">
+                    <strong class="small">Structured grouped-input diagnostics:</strong>
+                    <ul class="small mb-0">
+                        @foreach (var issue in groupedIssues.Take(12))
+                        {
+                            <li><code>@issue.Code</code> (@issue.Severity): @issue.Message
+                                @if (issue.SelectedRow > 0)
+                                {
+                                    <span> — selected row @issue.SelectedRow, column @issue.SelectedColumn</span>
+                                }
+                                @if (issue.WorksheetRow > 0 && issue.WorksheetColumn > 0)
+                                {
+                                    <span> (worksheet row @issue.WorksheetRow, column @issue.WorksheetColumn)</span>
+                                }
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
             @if (!string.IsNullOrWhiteSpace(groupedValidationMessage))
             {
                 <div class="alert alert-warning py-2 mb-2">
@@ -212,7 +276,7 @@
         <p class="card-text mb-2">
             Select one rectangular range, or specify its worksheet and A1 address above. The first row contains group names; each remaining
             column contains numeric observations for that group. Blank data cells are ignored.
-            The same shared grouped-data parser is used by both analysis families.
+            The original grouped-data parser is the default for both families. Enable the optional Phase 01.03 preview above to test other orientations and header policies.
         </p>
 
         @if (analysisKind == SpreadsheetAnalysisKind.OneWayAnova)
@@ -359,6 +423,34 @@
         var reference = SpreadsheetRangeReference.FromUserInput(sourceWorksheetName, sourceAddress);
         return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getRangeDataByReference", reference);
     }
+    private bool useConfiguredParsing;
+    private SpreadsheetGroupedOrientation groupOrientation = SpreadsheetGroupedOrientation.GroupsInColumns;
+    private SpreadsheetHeaderMode groupHeaderMode = SpreadsheetHeaderMode.Required;
+    private int categoryColumn = 1;
+    private int valueColumn = 2;
+    private List<SpreadsheetValidationIssue>? groupedIssues;
+
+    private SpreadsheetGroupedParseOptions MakeGroupedOptions() => new()
+    {
+        Orientation = groupOrientation,
+        Header = groupHeaderMode,
+        CategoryColumnIndex = categoryColumn - 1,
+        ValueColumnIndex = valueColumn - 1
+    };
+
+    private GroupedNumericData ParseSelectedInput(SpreadsheetRangeData source)
+    {
+        groupedIssues = null;
+        if (!useConfiguredParsing)
+            return GroupedNumericRangeParser.Parse(source);
+
+        var parsed = GroupedNumericRangeParser.ParseWithDiagnostics(source, MakeGroupedOptions());
+        groupedIssues = parsed.Validation.Issues.ToList();
+        if (!parsed.Success)
+            throw new SpreadsheetInputValidationException(parsed.Validation);
+        return parsed.Data;
+    }
+
     private string? groupedValidationMessage;
     private GroupedNumericData? groupedPreview;
     private SpreadsheetAnalysisResult? sharedOutput;
@@ -428,6 +520,7 @@
             selection = null;
             groupedPreview = null;
             groupedValidationMessage = null;
+            groupedIssues = null;
             sharedOutput = null;
             anovaOutput = null;
             kruskalOutput = null;
@@ -441,7 +534,7 @@
             // correctly rejects error, text, or Boolean observations.
             try
             {
-                groupedPreview = GroupedNumericRangeParser.Parse(selection);
+                groupedPreview = ParseSelectedInput(selection);
                 status = $"PASS — acquired typed cells from {selection.Address}; grouped analysis input is valid.";
             }
             catch (ArgumentException ex)
@@ -455,6 +548,7 @@
             selection = null;
             groupedPreview = null;
             groupedValidationMessage = null;
+            groupedIssues = null;
             status = "FAIL — unable to read the source range: " + ex.Message;
         }
         finally
@@ -472,6 +566,7 @@
             selection = null;
             groupedPreview = null;
             groupedValidationMessage = null;
+            groupedIssues = null;
 
             // Preflight MUST run before reading the selection or running the statistical engine.
             hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
@@ -486,7 +581,7 @@
             HostCapabilityPreflight.CheckRunAndWrite(analysisId, hostCapabilities, target).EnsureSupported();
 
             selection = await AcquireRangeAsync();
-            groupedPreview = GroupedNumericRangeParser.Parse(selection);
+            groupedPreview = ParseSelectedInput(selection);
 
             SpreadsheetAnalysisOptions options;
             switch (analysisKind)
@@ -513,7 +608,8 @@
 
             // The Office prototype exercises the stable-ID facade while the Windows
             // Excel-DNA caller retains the original enum-based request facade.
-            sharedOutput = SharedAnalysisApplicationService.Run(analysisId, selection, options);
+            SpreadsheetAnalysisInput analysisInput = useConfiguredParsing ? groupedPreview! : selection;
+            sharedOutput = SharedAnalysisApplicationService.Run(analysisId, analysisInput, options);
             anovaOutput = sharedOutput.Detail as OneWayAnovaApplicationResult;
             kruskalOutput = sharedOutput.Detail as KruskalWallisApplicationResult;
 

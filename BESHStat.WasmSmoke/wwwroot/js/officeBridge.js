@@ -194,7 +194,9 @@
         const worksheet = context.workbook.worksheets.getItem(reference.worksheetName);
         const range = worksheet.getRange(reference.address);
         worksheet.load(["name", "id"]);
-        range.load(["address", "values", "valueTypes", "numberFormat", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
+        // Only metadata is requested here. The caller enforces the payload limit
+        // before loading values, valueTypes or numberFormat.
+        range.load(["rowCount", "columnCount"]);
         return { worksheet, range, reference };
     }
 
@@ -224,16 +226,68 @@
         };
     }
 
+    // A full-column selection in Excel contains 1,048,576 rows. Never load its
+    // cell matrices before asking Excel for the occupied portion of that range.
+    // A conservative temporary ceiling protects the smoke harness; large-range
+    // chunking and quota policy are reserved for the later input-acquisition batch.
+    const MAX_SOURCE_CELLS = 10000;
+
+    function requireBoundedSource(range) {
+        const rows = Number(range.rowCount);
+        const columns = Number(range.columnCount);
+        if (!Number.isSafeInteger(rows) || !Number.isSafeInteger(columns) || rows < 1 || columns < 1) {
+            throw new Error("The Excel source range has invalid dimensions.");
+        }
+        if (rows * columns > MAX_SOURCE_CELLS) {
+            throw new Error(`The source contains ${rows * columns} cells. The WasmSmoke input preview ` +
+                `currently supports at most ${MAX_SOURCE_CELLS} cells; select a smaller populated range.`);
+        }
+    }
+
+    function loadRangeCells(range) {
+        range.load(["address", "values", "valueTypes", "numberFormat", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
+    }
+
     async function getSelectedRangeData() {
         await ensureExcelHost();
         return Excel.run(async context => {
-            const range = context.workbook.getSelectedRange();
-            // The selected range owns its worksheet; never substitute the active sheet.
-            const worksheet = range.worksheet;
+            const selected = context.workbook.getSelectedRange();
+            // The selection owns the worksheet, even when it is not active.
+            const worksheet = selected.worksheet;
             worksheet.load(["name", "id"]);
-            range.load(["address", "values", "valueTypes", "numberFormat", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
+            // Load dimensions only. Loading values here can exceed Office.js response limits.
+            selected.load(["rowCount", "columnCount"]);
             await context.sync();
-            return toRangeSnapshot({ worksheet, range, reference: null });
+
+            let source = selected;
+            const isWholeRowsOrColumns = selected.rowCount === 1048576 || selected.columnCount === 16384;
+            if (isWholeRowsOrColumns) {
+                // Scope the used range to the SELECTION, not the whole worksheet.
+                // ExcelApi 1.4 provides a null-safe version; fall back to 1.1 otherwise.
+                const requirements = typeof Office !== "undefined" && Office.context
+                    ? Office.context.requirements : null;
+                const canUseNullSafeRange = requirements &&
+                    typeof requirements.isSetSupported === "function" &&
+                    requirements.isSetSupported("ExcelApi", "1.4") === true;
+                if (canUseNullSafeRange && typeof selected.getUsedRangeOrNullObject === "function") {
+                    source = selected.getUsedRangeOrNullObject(true);
+                } else if (typeof selected.getUsedRange === "function") {
+                    source = selected.getUsedRange(true);
+                } else {
+                    throw new Error("This Excel host cannot inspect populated cells in whole-row or whole-column selections.");
+                }
+                source.load(["rowCount", "columnCount"]);
+                await context.sync();
+                if (source.isNullObject) {
+                    throw new Error("The selected whole rows or columns contain no populated cells.");
+                }
+            }
+
+            // Do not silently truncate populated data when it exceeds the smoke limit.
+            requireBoundedSource(source);
+            loadRangeCells(source);
+            await context.sync();
+            return toRangeSnapshot({ worksheet, range: source, reference: null });
         });
     }
 
@@ -242,6 +296,9 @@
         await ensureExcelHost();
         return Excel.run(async context => {
             const entry = prepareRange(context, reference);
+            await context.sync();
+            requireBoundedSource(entry.range);
+            loadRangeCells(entry.range);
             await context.sync();
             return toRangeSnapshot(entry);
         });
@@ -255,6 +312,14 @@
         await ensureExcelHost();
         return Excel.run(async context => {
             const entries = selection.ranges.map(reference => prepareRange(context, reference));
+            await context.sync();
+            entries.forEach(entry => requireBoundedSource(entry.range));
+            const totalCells = entries.reduce((sum, entry) =>
+                sum + entry.range.rowCount * entry.range.columnCount, 0);
+            if (totalCells > MAX_SOURCE_CELLS) {
+                throw new Error(`The selected range set contains ${totalCells} cells; select fewer than ${MAX_SOURCE_CELLS + 1}.`);
+            }
+            entries.forEach(entry => loadRangeCells(entry.range));
             await context.sync();
             return {
                 selectionId: selection.selectionId || "",
