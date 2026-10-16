@@ -156,4 +156,81 @@ Public Class HostCapabilitiesTests
         Dim check As CapabilityPreflightResult = HostCapabilityPreflight.CheckSelection(host)
         Assert.AreEqual(CapabilityPreflightCodes.MissingCapability, check.Code)
     End Sub
+    <TestMethod>
+    Public Sub NonExcelSpreadsheet_WithExplicitCapabilities_IsAccepted()
+        Dim host As New HostCapabilitySnapshot With {
+            .Host = "TestSpreadsheet", .Platform = "Test", .IsExcel = False, .IsSpreadsheetHost = True,
+            .Capabilities = New List(Of String) From {
+                HostCapabilityIds.ReadSelectedRange, HostCapabilityIds.WriteResultTables,
+                HostCapabilityIds.CurrentWorksheet, HostCapabilityIds.NewWorksheet
+            }
+        }
+        Assert.IsFalse(host.IsExcel)
+        Assert.IsTrue(host.Supports(HostCapabilityIds.ReadSelectedRange))
+        Assert.IsTrue(HostCapabilityPreflight.CheckSelection(host).IsSupported)
+        Assert.IsTrue(HostCapabilityPreflight.CheckRunAndWrite(AnalysisIds.OneWayAnova, host,
+            Target(SpreadsheetOutputDestination.NewWorksheet)).IsSupported)
+        Dim unsupported = HostCapabilityPreflight.CheckOutput(host, Target(SpreadsheetOutputDestination.NewWorkbook))
+        Assert.AreEqual(CapabilityPreflightCodes.UnsupportedDestination, unsupported.Code)
+        Assert.AreEqual(HostCapabilityIds.NewWorkbook, unsupported.MissingCapability)
+        Assert.IsFalse(host.Supports(HostCapabilityIds.NewWorkbook))
+    End Sub
+
+    <TestMethod>
+    Public Sub NonExcelSpreadsheet_MissingReadOrWrite_IsRejectedPrecisely()
+        Dim host As New HostCapabilitySnapshot With {
+            .Host = "TestSpreadsheet", .IsSpreadsheetHost = True,
+            .Capabilities = New List(Of String) From {HostCapabilityIds.ReadSelectedRange, HostCapabilityIds.NewWorksheet}
+        }
+        Dim writeResult = HostCapabilityPreflight.CheckRunAndWrite(AnalysisIds.KruskalWallis, host,
+            Target(SpreadsheetOutputDestination.NewWorksheet))
+        Assert.AreEqual(CapabilityPreflightCodes.MissingCapability, writeResult.Code)
+        Assert.AreEqual(HostCapabilityIds.WriteResultTables, writeResult.MissingCapability)
+        host.Capabilities.Remove(HostCapabilityIds.ReadSelectedRange)
+        Dim readResult = HostCapabilityPreflight.CheckSelection(host)
+        Assert.AreEqual(CapabilityPreflightCodes.MissingCapability, readResult.Code)
+        Assert.AreEqual(HostCapabilityIds.ReadSelectedRange, readResult.MissingCapability)
+        Assert.IsFalse(host.Supports(HostCapabilityIds.ReadSelectedRange))
+    End Sub
+
+    <TestMethod>
+    Public Sub NonExcelOrUnknownHost_RequiresExplicitSpreadsheetIdentity()
+        Dim host As New HostCapabilitySnapshot With {
+            .Host = "Word", .IsExcel = False,
+            .Capabilities = New List(Of String) From {HostCapabilityIds.ReadSelectedRange}
+        }
+        Assert.IsFalse(host.Supports(HostCapabilityIds.ReadSelectedRange))
+        Assert.AreEqual(CapabilityPreflightCodes.HostUnavailable, HostCapabilityPreflight.CheckSelection(host).Code)
+        host.IsSpreadsheetHost = True
+        host.Host = String.Empty
+        Assert.IsFalse(host.Supports(HostCapabilityIds.ReadSelectedRange))
+        Assert.AreEqual(CapabilityPreflightCodes.HostUnavailable, HostCapabilityPreflight.CheckSelection(host).Code)
+        host.Host = "TestSpreadsheet"
+        host.Capabilities = Nothing
+        Assert.AreEqual(CapabilityPreflightCodes.MissingCapability, HostCapabilityPreflight.CheckSelection(host).Code)
+    End Sub
+
+    <TestMethod>
+    Public Sub LegacyExcelJson_WithoutNewFlag_StillWorksAndIsExcelRoundTrips()
+        Dim legacy As String = "{""Host"":""OfficeJs"",""Platform"":""Web"",""IsExcel"":true,""Capabilities"":[""input.read-selected-range""]}"
+        Dim restored = JsonSerializer.Deserialize(Of HostCapabilitySnapshot)(legacy)
+        Assert.IsNotNull(restored)
+        Assert.IsTrue(restored.IsExcel)
+        Assert.IsFalse(restored.IsSpreadsheetHost)
+        Assert.IsTrue(HostCapabilityPreflight.CheckSelection(restored).IsSupported)
+        Dim serialized = JsonSerializer.Serialize(restored)
+        Using doc = JsonDocument.Parse(serialized)
+            Assert.IsTrue(doc.RootElement.GetProperty("IsExcel").GetBoolean())
+        End Using
+        Dim other As New HostCapabilitySnapshot With {
+            .Host = "TestSpreadsheet", .IsSpreadsheetHost = True,
+            .Capabilities = New List(Of String) From {HostCapabilityIds.ReadSelectedRange}
+        }
+        Dim otherRoundtrip = JsonSerializer.Deserialize(Of HostCapabilitySnapshot)(JsonSerializer.Serialize(other))
+        Assert.IsNotNull(otherRoundtrip)
+        Assert.IsFalse(otherRoundtrip.IsExcel)
+        Assert.IsTrue(otherRoundtrip.IsSpreadsheetHost)
+        Assert.IsTrue(HostCapabilityPreflight.CheckSelection(otherRoundtrip).IsSupported)
+    End Sub
+
 End Class

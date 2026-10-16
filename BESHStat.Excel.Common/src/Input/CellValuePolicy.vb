@@ -58,14 +58,23 @@ Namespace ExcelCommon
         End Function
     End Class
 
-    ''' <summary>Explicit Excel error value, never confused with a text cell containing '#N/A'.</summary>
+    ''' <summary>Preserved spreadsheet error payload with an optional canonical Excel error code.</summary>
     Public NotInheritable Class SpreadsheetExcelErrorValue
         Public Sub New(rawText As String)
-            RawText = If(rawText, String.Empty)
-            Code = SpreadsheetExcelErrors.Canonicalize(RawText)
+            Me.New(rawText, Nothing)
         End Sub
+
+        Public Sub New(rawText As String, nativeCode As String)
+            Me.RawText = If(rawText, String.Empty)
+            Me.NativeCode = If(nativeCode, String.Empty)
+            Me.Code = SpreadsheetExcelErrors.Canonicalize(Me.RawText)
+        End Sub
+        ''' <summary>Original host-provided error display, preserved even when not an Excel error.</summary>
         Public ReadOnly Property RawText As String
+        ''' <summary>Recognized Excel error spelling, or empty if unknown to Excel.</summary>
         Public ReadOnly Property Code As String
+        ''' <summary>Opaque host-specific error identifier. Never treated as an Excel code.</summary>
+        Public ReadOnly Property NativeCode As String
     End Class
 
     Public NotInheritable Class SpreadsheetExcelErrors
@@ -105,6 +114,14 @@ Namespace ExcelCommon
                                         Optional options As SpreadsheetCellPolicyOptions = Nothing,
                                         Optional dateSystem As SpreadsheetDateSystem = SpreadsheetDateSystem.Unknown,
                                         Optional interpretNumberAsDate As Boolean = False) As SpreadsheetCellEvaluation
+            Return Evaluate(cell, options, dateSystem, interpretNumberAsDate, Nothing)
+        End Function
+
+        Public Shared Function Evaluate(cell As SpreadsheetCellValue,
+                                        options As SpreadsheetCellPolicyOptions,
+                                        dateSystem As SpreadsheetDateSystem,
+                                        interpretNumberAsDate As Boolean,
+                                        dateSerialOrigin As Nullable(Of DateTime)) As SpreadsheetCellEvaluation
             Dim policy As SpreadsheetCellPolicyOptions = If(options, New SpreadsheetCellPolicyOptions())
             Dim answer As New SpreadsheetCellEvaluation()
             If cell Is Nothing OrElse cell.Kind = SpreadsheetCellKind.Blank Then
@@ -114,7 +131,7 @@ Namespace ExcelCommon
             Select Case cell.Kind
                 Case SpreadsheetCellKind.CellError
                     answer.IsError = True
-                    answer.Error = New SpreadsheetExcelErrorValue(cell.TextValue)
+                    answer.Error = New SpreadsheetExcelErrorValue(cell.TextValue, cell.NativeErrorCode)
                     answer.IsMissing = policy.Errors = SpreadsheetErrorPolicy.TreatAsMissing
                     Return answer
 
@@ -125,9 +142,15 @@ Namespace ExcelCommon
                     answer.NumericValue = cell.NumberValue
                     answer.HasNumericValue = Not interpretNumberAsDate OrElse policy.AllowDateSerialNumbers
                     If interpretNumberAsDate Then
-                        Dim d As DateTime
-                        If Not ExcelDateSerialConverter.TryToDateTime(cell.NumberValue, dateSystem, d) Then
-                            Throw New ArgumentException("Invalid date serial or unverified workbook date system.", NameOf(cell))
+                        Dim d As DateTime = DateTime.MinValue
+                        If dateSerialOrigin.HasValue AndAlso dateSystem <> SpreadsheetDateSystem.Unknown Then
+                            Throw New ArgumentException("Specify either an Excel date system or a host date origin, not both.", NameOf(dateSerialOrigin))
+                        End If
+                        Dim validDate As Boolean = If(dateSerialOrigin.HasValue,
+                            SpreadsheetDateSerialConverter.TryToDateTime(cell.NumberValue, dateSerialOrigin.GetValueOrDefault(), d),
+                            ExcelDateSerialConverter.TryToDateTime(cell.NumberValue, dateSystem, d))
+                        If Not validDate Then
+                            Throw New ArgumentException("Invalid date serial or unverified date origin.", NameOf(cell))
                         End If
                         answer.HasDateValue = True
                         answer.DateValue = d
@@ -166,12 +189,33 @@ Namespace ExcelCommon
             Dim policy As SpreadsheetCellPolicyOptions = If(options, New SpreadsheetCellPolicyOptions())
             Dim result As SpreadsheetCellEvaluation = Evaluate(cell, policy)
             If result.IsError AndAlso policy.Errors = SpreadsheetErrorPolicy.Reject Then
-                Throw New ArgumentException("An Excel error cell cannot be used as a numeric observation.", NameOf(cell))
+                Throw New ArgumentException("A spreadsheet error cell cannot be used as a numeric observation.", NameOf(cell))
             End If
             If Not result.HasNumericValue OrElse result.IsMissing Then
                 Throw New ArgumentException("The cell is not a permitted numeric observation.", NameOf(cell))
             End If
             Return result.NumericValue
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' Explicit host-origin date conversion: serial units are days from the supplied
+    ''' midnight DateTime. No Excel 1900 phantom leap-day convention is applied.
+    ''' Host adapters must normalize their serial units before invoking this converter.
+    ''' </summary>
+    Public NotInheritable Class SpreadsheetDateSerialConverter
+        Private Sub New()
+        End Sub
+
+        Public Shared Function TryToDateTime(serial As Double, origin As DateTime, ByRef value As DateTime) As Boolean
+            value = DateTime.MinValue
+            If Double.IsNaN(serial) OrElse Double.IsInfinity(serial) OrElse origin.TimeOfDay <> TimeSpan.Zero Then Return False
+            Try
+                value = origin.AddDays(serial)
+                Return True
+            Catch ex As ArgumentOutOfRangeException
+                Return False
+            End Try
         End Function
     End Class
 

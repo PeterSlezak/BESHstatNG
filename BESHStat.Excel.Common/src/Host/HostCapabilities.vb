@@ -43,11 +43,24 @@ Namespace ExcelCommon
 
         Public Property Host As String
         Public Property Platform As String
+        ''' <summary>Compatibility indicator: True only for an Excel host. Existing JSON payloads retain this field.</summary>
         Public Property IsExcel As Boolean
+        ''' <summary>
+        ''' Explicit spreadsheet-host declaration. Non-Excel hosts must set this to True;
+        ''' pre-01.05A Excel reports continue to work through IsExcel=True.
+        ''' This is an admission flag, not an assertion that any operation is available.
+        ''' </summary>
+        Public Property IsSpreadsheetHost As Boolean
         Public Property Capabilities As List(Of String)
 
+        Friend ReadOnly Property IsUsableSpreadsheetHost As Boolean
+            Get
+                Return Not String.IsNullOrWhiteSpace(Host) AndAlso (IsExcel OrElse IsSpreadsheetHost)
+            End Get
+        End Property
+
         Public Function Supports(capabilityId As String) As Boolean
-            If Not IsExcel OrElse String.IsNullOrWhiteSpace(capabilityId) OrElse Capabilities Is Nothing Then Return False
+            If Not IsUsableSpreadsheetHost OrElse String.IsNullOrWhiteSpace(capabilityId) OrElse Capabilities Is Nothing Then Return False
             For Each item As String In Capabilities
                 If String.Equals(item, capabilityId, StringComparison.Ordinal) Then Return True
             Next
@@ -65,6 +78,7 @@ Namespace ExcelCommon
                 .Host = "ExcelDna",
                 .Platform = "Windows",
                 .IsExcel = True,
+                .IsSpreadsheetHost = True,
                 .Capabilities = New List(Of String) From {
                     HostCapabilityIds.ReadSelectedRange,
                     HostCapabilityIds.WriteResultTables,
@@ -82,6 +96,7 @@ Namespace ExcelCommon
                 .Host = "OfficeJs",
                 .Platform = If(platform, String.Empty),
                 .IsExcel = True,
+                .IsSpreadsheetHost = True,
                 .Capabilities = New List(Of String) From {
                     HostCapabilityIds.ReadSelectedRange,
                     HostCapabilityIds.WriteResultTables,
@@ -151,9 +166,9 @@ Namespace ExcelCommon
         End Sub
 
         Private Shared Function CheckHost(snapshot As HostCapabilitySnapshot) As CapabilityPreflightResult
-            If snapshot Is Nothing OrElse Not snapshot.IsExcel Then
+            If snapshot Is Nothing OrElse Not snapshot.IsUsableSpreadsheetHost Then
                 Return CapabilityPreflightResult.Rejected(CapabilityPreflightCodes.HostUnavailable,
-                    "An available Excel host is required.")
+                    "An identified spreadsheet host is required.")
             End If
             Return CapabilityPreflightResult.Success()
         End Function
@@ -163,7 +178,7 @@ Namespace ExcelCommon
             If snapshot.Supports(capabilityId) Then Return CapabilityPreflightResult.Success()
             Return CapabilityPreflightResult.Rejected(
                 If(destination, CapabilityPreflightCodes.UnsupportedDestination, CapabilityPreflightCodes.MissingCapability),
-                operationName & " is not supported by the current Excel host.", capabilityId)
+                operationName & " is not supported by the current spreadsheet host.", capabilityId)
         End Function
 
         Public Shared Function CheckSelection(snapshot As HostCapabilitySnapshot) As CapabilityPreflightResult

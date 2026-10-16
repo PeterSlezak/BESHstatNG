@@ -159,4 +159,61 @@ Public Class SpreadsheetRangeIdentityTests
         empty.Ranges.Add(SpreadsheetRangeReference.FromAddress("A1:C5"))
         Assert.ThrowsException(Of ArgumentException)(Sub() empty.Validate())
     End Sub
+    <TestMethod>
+    Public Sub LegacyExcelRangeDialectAndBounds_AreUnchanged()
+        Dim reference = SpreadsheetRangeReference.FromAddress("'Data'!XFD1048576")
+        Assert.AreEqual(SpreadsheetAddressDialect.ExcelA1, reference.AddressDialect)
+        Assert.AreEqual(1048576, SpreadsheetRangeAddress.ExcelMaxRows)
+        Assert.AreEqual(16384, SpreadsheetRangeAddress.ExcelMaxColumns)
+        Assert.AreEqual("'Data'!XFD1048576:XFD1048576", reference.QualifiedAddress)
+        Dim restored = JsonSerializer.Deserialize(Of SpreadsheetRangeReference)(
+            "{""WorksheetName"":""Data"",""Address"":""B3:C6"",""StartRow"":3,""StartColumn"":2,""RowCount"":4,""ColumnCount"":2}")
+        Assert.IsNotNull(restored)
+        Assert.AreEqual(SpreadsheetAddressDialect.ExcelA1, restored.AddressDialect)
+        Assert.AreEqual("'Data'!B3:C6", restored.QualifiedAddress)
+    End Sub
+
+    <TestMethod>
+    Public Sub NativeRange_UsesCoordinatesWithoutExcelA1ParsingOrBounds()
+        Dim reference = SpreadsheetRangeReference.FromCoordinates("Study", 1048577, 16385, 2, 3, "native:row1048577-column16385")
+        Assert.AreEqual(SpreadsheetAddressDialect.HostNative, reference.AddressDialect)
+        Assert.AreEqual("native:row1048577-column16385", reference.QualifiedAddress)
+        Assert.AreEqual(1048577, reference.StartRow)
+        Dim ranges As New SpreadsheetRangeSelection()
+        ranges.Ranges.Add(reference)
+        ranges.Validate()
+        Dim roundtrip = JsonSerializer.Deserialize(Of SpreadsheetRangeSelection)(JsonSerializer.Serialize(ranges))
+        Assert.IsNotNull(roundtrip)
+        Assert.AreEqual(SpreadsheetAddressDialect.HostNative, roundtrip.Ranges(0).AddressDialect)
+        Assert.AreEqual(1048577, roundtrip.Ranges(0).StartRow)
+
+        Dim source As New SpreadsheetRangeData With {
+            .WorkbookId = "doc-1", .WorksheetId = "sheet-2", .WorksheetName = "Study",
+            .AddressDialect = SpreadsheetAddressDialect.HostNative, .Address = "host://opaque",
+            .StartRow = 1048577, .StartColumn = 16385, .RowCount = 2, .ColumnCount = 3
+        }
+        Assert.AreEqual("host://opaque", source.QualifiedAddress)
+        Dim converted = source.ToReference()
+        Assert.AreEqual("doc-1", converted.WorkbookId)
+        Assert.AreEqual("sheet-2", converted.WorksheetId)
+        Assert.AreEqual("host://opaque", converted.QualifiedAddress)
+        Assert.AreEqual(SpreadsheetAddressDialect.HostNative, converted.AddressDialect)
+    End Sub
+
+    <TestMethod>
+    Public Sub NativeRange_RequiresValidCoordinatesAndExplicitDialect()
+        Assert.ThrowsException(Of ArgumentOutOfRangeException)(Function() SpreadsheetRangeReference.FromCoordinates("Data", 0, 1, 2, 2))
+        Assert.ThrowsException(Of ArgumentOutOfRangeException)(Function() SpreadsheetRangeReference.FromCoordinates("Data", Integer.MaxValue, 1, 2, 1))
+        Assert.ThrowsException(Of ArgumentException)(Function() SpreadsheetRangeReference.FromCoordinates("", 1, 1, 1, 1))
+        Dim ranges As New SpreadsheetRangeSelection()
+        ranges.Ranges.Add(New SpreadsheetRangeReference With {
+            .WorksheetName = "Data", .AddressDialect = SpreadsheetAddressDialect.HostNative, .StartRow = 1,
+            .StartColumn = 1, .RowCount = 1, .ColumnCount = 0
+        })
+        Assert.ThrowsException(Of ArgumentException)(Sub() ranges.Validate())
+        ranges.Ranges(0).ColumnCount = 1
+        ranges.Ranges(0).AddressDialect = SpreadsheetAddressDialect.Unknown
+        Assert.ThrowsException(Of ArgumentException)(Sub() ranges.Validate())
+    End Sub
+
 End Class

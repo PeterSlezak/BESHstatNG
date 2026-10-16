@@ -214,4 +214,49 @@ Public Class CellValuePolicyTests
         input.Rows(1)(1) = SpreadsheetCellValue.ErrorCell("#N/A")
         Assert.ThrowsException(Of ArgumentException)(Function() GroupedNumericRangeParser.Parse(input))
     End Sub
+    <TestMethod>
+    Public Sub NonExcelSerialDate_RequiresExplicitOriginAndIntent()
+        Dim cell = SpreadsheetCellValue.NumberCell(1.5R)
+        Dim source As New SpreadsheetRangeData With {
+            .WorksheetName = "Data", .DateSystem = SpreadsheetDateSystem.Unknown,
+            .DateSerialOrigin = New DateTime(2001, 1, 1)
+        }
+        Dim number = SpreadsheetCellValuePolicy.Evaluate(cell)
+        Assert.IsTrue(number.HasNumericValue)
+        Assert.IsFalse(number.HasDateValue)
+        Assert.ThrowsException(Of ArgumentException)(Function() SpreadsheetCellValuePolicy.Evaluate(
+            cell, Nothing, source.DateSystem, True))
+        Dim asDate = SpreadsheetCellValuePolicy.Evaluate(cell, Nothing, source.DateSystem, True, source.DateSerialOrigin)
+        Assert.IsFalse(asDate.HasNumericValue)
+        Assert.AreEqual(New DateTime(2001, 1, 2, 12, 0, 0), asDate.DateValue)
+        Assert.ThrowsException(Of ArgumentException)(Function() SpreadsheetCellValuePolicy.Evaluate(
+            cell, Nothing, SpreadsheetDateSystem.Excel1900, True, source.DateSerialOrigin))
+    End Sub
+
+    <TestMethod>
+    Public Sub HostDateOrigin_RejectsUnverifiedOrInvalidOrigins()
+        Dim d As DateTime
+        Assert.IsFalse(SpreadsheetDateSerialConverter.TryToDateTime(Double.NaN, New DateTime(2000, 1, 1), d))
+        Assert.IsFalse(SpreadsheetDateSerialConverter.TryToDateTime(Double.PositiveInfinity, New DateTime(2000, 1, 1), d))
+        Assert.IsFalse(SpreadsheetDateSerialConverter.TryToDateTime(1.0R, New DateTime(2000, 1, 1, 10, 0, 0), d))
+        Assert.IsFalse(SpreadsheetDateSerialConverter.TryToDateTime(1.0R, DateTime.MaxValue.Date, d))
+        Assert.IsTrue(SpreadsheetDateSerialConverter.TryToDateTime(-1.0R, New DateTime(2000, 1, 1), d))
+        Assert.AreEqual(New DateTime(1999, 12, 31), d)
+        Assert.IsFalse(ExcelDateSerialConverter.TryToDateTime(1.0R, SpreadsheetDateSystem.Unknown, d))
+    End Sub
+
+    <TestMethod>
+    Public Sub NativeErrorCode_IsPreservedWithoutInventingExcelErrorCode()
+        Dim input = SpreadsheetCellValue.ErrorCell("HOST_ERR_47", "error:47")
+        Dim result = SpreadsheetCellValuePolicy.Evaluate(input,
+            New SpreadsheetCellPolicyOptions With {.Errors = SpreadsheetErrorPolicy.Preserve})
+        Assert.IsTrue(result.IsError)
+        Assert.AreEqual("HOST_ERR_47", result.Error.RawText)
+        Assert.AreEqual("error:47", result.Error.NativeCode)
+        Assert.AreEqual(String.Empty, result.Error.Code)
+        Dim literal = SpreadsheetCellValuePolicy.Evaluate(SpreadsheetCellValue.TextCell("HOST_ERR_47"))
+        Assert.IsFalse(literal.IsError)
+        Assert.AreEqual("#N/A", SpreadsheetCellValuePolicy.Evaluate(SpreadsheetCellValue.ErrorCell("#N/A")).Error.Code)
+    End Sub
+
 End Class

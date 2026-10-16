@@ -1,6 +1,7 @@
 Option Explicit On
 Option Strict On
 
+Imports System
 Imports System.Collections.Generic
 
 Namespace ExcelCommon
@@ -40,6 +41,8 @@ Namespace ExcelCommon
         Public Property BooleanValue As Boolean
         ' Optional Excel number-format hint; this is never sufficient by itself to treat a numeric cell as a date.
         Public Property NumberFormat As String
+        ''' <summary>Optional native host error identity, independent of Excel error text.</summary>
+        Public Property NativeErrorCode As String = String.Empty
 
         Public Shared Function BlankCell() As SpreadsheetCellValue
             Return New SpreadsheetCellValue()
@@ -67,9 +70,14 @@ Namespace ExcelCommon
         End Function
 
         Public Shared Function ErrorCell(value As String) As SpreadsheetCellValue
+            Return ErrorCell(value, Nothing)
+        End Function
+
+        Public Shared Function ErrorCell(value As String, nativeErrorCode As String) As SpreadsheetCellValue
             Return New SpreadsheetCellValue With {
                 .Kind = SpreadsheetCellKind.CellError,
-                .TextValue = If(value, String.Empty)
+                .TextValue = If(value, String.Empty),
+                .NativeErrorCode = If(nativeErrorCode, String.Empty)
             }
         End Function
     End Class
@@ -89,6 +97,7 @@ Namespace ExcelCommon
             WorksheetId = String.Empty
             Rows = New List(Of List(Of SpreadsheetCellValue))()
             DateSystem = SpreadsheetDateSystem.Unknown
+            AddressDialect = SpreadsheetAddressDialect.ExcelA1
         End Sub
 
         Public Property WorksheetName As String
@@ -99,6 +108,12 @@ Namespace ExcelCommon
         Public Property WorksheetId As String
         ' Unknown means the host has not verified this workbook setting.
         Public Property DateSystem As SpreadsheetDateSystem
+        ''' <summary>
+        ''' Non-Excel hosts may explicitly specify the midnight origin for serial day values.
+        ''' Nothing means unknown. Do not use with a known Excel DateSystem.
+        ''' </summary>
+        Public Property DateSerialOrigin As Nullable(Of DateTime)
+        Public Property AddressDialect As SpreadsheetAddressDialect
         Public Property SelectionId As String
         Public Property SelectionRevision As String
         ' One-based worksheet coordinates; zero means legacy/unknown.
@@ -107,11 +122,23 @@ Namespace ExcelCommon
         Public ReadOnly Property QualifiedAddress As String
             Get
                 If String.IsNullOrWhiteSpace(Address) Then Return String.Empty
+                If AddressDialect = SpreadsheetAddressDialect.HostNative Then Return If(Address, String.Empty)
+                If AddressDialect <> SpreadsheetAddressDialect.ExcelA1 Then Return String.Empty
                 Return SpreadsheetRangeAddress.Parse(Address, WorksheetName).QualifiedAddress
             End Get
         End Property
         Public Function ToReference() As SpreadsheetRangeReference
-            Dim reference As SpreadsheetRangeReference = SpreadsheetRangeReference.FromAddress(Address, WorksheetName, WorkbookName)
+            Dim reference As SpreadsheetRangeReference
+            Select Case AddressDialect
+                Case SpreadsheetAddressDialect.ExcelA1
+                    reference = SpreadsheetRangeReference.FromAddress(Address, WorksheetName, WorkbookName)
+                Case SpreadsheetAddressDialect.HostNative
+                    reference = SpreadsheetRangeReference.FromCoordinates(WorksheetName, StartRow, StartColumn,
+                                                                         RowCount, ColumnCount, Address)
+                    reference.WorkbookName = If(WorkbookName, String.Empty)
+                Case Else
+                    Throw New ArgumentException("Unknown source address dialect.", NameOf(AddressDialect))
+            End Select
             reference.WorkbookId = If(WorkbookId, String.Empty)
             reference.WorksheetId = If(WorksheetId, String.Empty)
             reference.SelectionId = If(SelectionId, String.Empty)

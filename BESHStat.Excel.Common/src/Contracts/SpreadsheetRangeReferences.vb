@@ -8,8 +8,20 @@ Imports System.Text.RegularExpressions
 
 Namespace ExcelCommon
 
+    ''' <summary>
+    ''' Identifies how a host-supplied display address is interpreted. ExcelA1 is the
+    ''' legacy/default contract; HostNative addresses are never parsed as Excel A1.
+    ''' </summary>
+    Public Enum SpreadsheetAddressDialect
+        Unknown = 0
+        ExcelA1 = 1
+        HostNative = 2
+    End Enum
+
     ''' <summary>A bounded, rectangular Excel A1 address. No host objects or I/O.</summary>
     Public NotInheritable Class SpreadsheetRangeAddress
+        Public Const ExcelMaxRows As Integer = 1048576
+        Public Const ExcelMaxColumns As Integer = 16384
         Private Shared ReadOnly CellPattern As New Regex("^\$?([A-Za-z]{1,3})\$?([1-9][0-9]{0,6})$", RegexOptions.CultureInvariant)
         Private Sub New()
         End Sub
@@ -111,7 +123,7 @@ Namespace ExcelCommon
             For Each c As Char In match.Groups(1).Value.ToUpperInvariant()
                 column = column * 26 + (Convert.ToInt32(c) - 64)
             Next
-            If column > 16384 OrElse Not Integer.TryParse(match.Groups(2).Value, NumberStyles.None, CultureInfo.InvariantCulture, row) OrElse row > 1048576 Then
+            If column > ExcelMaxColumns OrElse Not Integer.TryParse(match.Groups(2).Value, NumberStyles.None, CultureInfo.InvariantCulture, row) OrElse row > ExcelMaxRows Then
                 Throw New ArgumentOutOfRangeException(NameOf(text), "The address exceeds Excel worksheet boundaries.")
             End If
         End Sub
@@ -143,6 +155,8 @@ Namespace ExcelCommon
         Public Property WorksheetName As String
         ''' <summary>Unqualified rectangular A1 address. Use QualifiedAddress for display.</summary>
         Public Property Address As String
+        ''' <summary>Legacy references use Excel A1; other hosts must explicitly declare HostNative.</summary>
+        Public Property AddressDialect As SpreadsheetAddressDialect = SpreadsheetAddressDialect.ExcelA1
         Public Property StartRow As Integer
         Public Property StartColumn As Integer
         Public Property RowCount As Integer
@@ -152,12 +166,35 @@ Namespace ExcelCommon
 
         Public ReadOnly Property QualifiedAddress As String
             Get
+                If AddressDialect = SpreadsheetAddressDialect.HostNative Then Return If(Address, String.Empty)
+                If AddressDialect <> SpreadsheetAddressDialect.ExcelA1 Then Return String.Empty
                 If String.IsNullOrWhiteSpace(Address) Then Return String.Empty
                 Dim parsed As SpreadsheetRangeAddress = SpreadsheetRangeAddress.Parse(Address, WorksheetName)
                 If String.IsNullOrWhiteSpace(WorkbookName) Then Return parsed.QualifiedAddress
                 Return "'[" & WorkbookName.Replace("'", "''") & "]" & WorksheetName.Replace("'", "''") & "'!" & parsed.Address
             End Get
         End Property
+
+        ''' <summary>
+        ''' Constructs a coordinate-based host-native reference. Coordinates are one-based;
+        ''' displayAddress is opaque and must not be evaluated as a formula or parsed as A1.
+        ''' The acquiring host must validate its own address dialect and grid bounds.
+        ''' </summary>
+        Public Shared Function FromCoordinates(worksheetName As String, startRow As Integer, startColumn As Integer,
+                                               rowCount As Integer, columnCount As Integer,
+                                               Optional displayAddress As String = Nothing) As SpreadsheetRangeReference
+            If String.IsNullOrWhiteSpace(worksheetName) Then Throw New ArgumentException("Worksheet name is required.", NameOf(worksheetName))
+            If startRow < 1 OrElse startColumn < 1 OrElse rowCount < 1 OrElse columnCount < 1 OrElse
+               CLng(startRow) + CLng(rowCount) - 1 > Integer.MaxValue OrElse
+               CLng(startColumn) + CLng(columnCount) - 1 > Integer.MaxValue Then
+                Throw New ArgumentOutOfRangeException(NameOf(startRow), "Source coordinates must describe a positive, representable rectangle.")
+            End If
+            Return New SpreadsheetRangeReference With {
+                .WorksheetName = worksheetName, .AddressDialect = SpreadsheetAddressDialect.HostNative,
+                .Address = If(displayAddress, String.Empty), .StartRow = startRow, .StartColumn = startColumn,
+                .RowCount = rowCount, .ColumnCount = columnCount
+            }
+        End Function
 
         ''' <summary>
         ''' Interprets separate task-pane worksheet/address fields. The worksheet field normally
@@ -231,8 +268,20 @@ Namespace ExcelCommon
                 If reference Is Nothing OrElse String.IsNullOrWhiteSpace(reference.WorksheetName) Then
                     Throw New ArgumentException("Every range must identify a worksheet.")
                 End If
-                Dim parsed As SpreadsheetRangeAddress = SpreadsheetRangeAddress.Parse(reference.Address, reference.WorksheetName)
-                If parsed.RowCount < 1 OrElse parsed.ColumnCount < 1 Then Throw New ArgumentException("Range dimensions must be positive.")
+                Select Case reference.AddressDialect
+                    Case SpreadsheetAddressDialect.ExcelA1
+                        Dim parsed As SpreadsheetRangeAddress = SpreadsheetRangeAddress.Parse(reference.Address, reference.WorksheetName)
+                        If parsed.RowCount < 1 OrElse parsed.ColumnCount < 1 Then Throw New ArgumentException("Range dimensions must be positive.")
+                    Case SpreadsheetAddressDialect.HostNative
+                        If reference.StartRow < 1 OrElse reference.StartColumn < 1 OrElse
+                           reference.RowCount < 1 OrElse reference.ColumnCount < 1 OrElse
+                           CLng(reference.StartRow) + CLng(reference.RowCount) - 1 > Integer.MaxValue OrElse
+                           CLng(reference.StartColumn) + CLng(reference.ColumnCount) - 1 > Integer.MaxValue Then
+                            Throw New ArgumentException("Host-native ranges require positive, representable coordinates.")
+                        End If
+                    Case Else
+                        Throw New ArgumentException("Unknown range address dialect.")
+                End Select
             Next
         End Sub
     End Class
