@@ -144,34 +144,119 @@
         return { kind: CELL_KIND.text, numberValue: 0, textValue: String(value), booleanValue: false };
     }
 
+    // A range reference addresses the workbook currently hosting this task pane.
+    // Worksheet.id is host-supplied; we do not manufacture workbook/selection IDs.
+    function currentWorkbookName() {
+        const url = typeof Office !== "undefined" && Office.context && Office.context.document
+            ? Office.context.document.url : "";
+        if (!url || typeof url !== "string") return "";
+        const tail = url.split(/[\\/]/).pop().split(/[?#]/)[0];
+        try { return decodeURIComponent(tail); } catch (_) { return tail; }
+    }
+
+    function validateReference(reference) {
+        if (!reference || typeof reference.worksheetName !== "string" || !reference.worksheetName.trim()) {
+            throw new Error("A worksheet name is required for an addressed range.");
+        }
+        if (/!\$?[a-z]{1,3}\$?[1-9][0-9]{0,6}(?::\$?[a-z]{1,3}\$?[1-9][0-9]{0,6})?$/i.test(reference.worksheetName)) {
+            throw new Error("The worksheetName field must contain only the sheet name, not a qualified A1 address.");
+        }
+        if (typeof reference.address !== "string" ||
+            !/^\$?[a-z]{1,3}\$?[1-9][0-9]{0,6}(?::\$?[a-z]{1,3}\$?[1-9][0-9]{0,6})?$/i.test(reference.address)) {
+            throw new Error("A rectangular, unqualified A1 range address is required.");
+        }
+        const endpoints = reference.address.split(":");
+        const readCell = value => {
+            const match = /^\$?([a-z]{1,3})\$?([1-9][0-9]{0,6})$/i.exec(value);
+            let column = 0;
+            for (const character of match[1].toUpperCase()) column = column * 26 + character.charCodeAt(0) - 64;
+            return { row: Number(match[2]), column };
+        };
+        const first = readCell(endpoints[0]);
+        const last = readCell(endpoints[endpoints.length - 1]);
+        if (first.column > 16384 || last.column > 16384 || first.row > 1048576 || last.row > 1048576 ||
+            first.column > last.column || first.row > last.row) {
+            throw new Error("The requested address exceeds Excel bounds or has reversed endpoints.");
+        }
+        if (reference.workbookId) {
+            // Workbook IDs cannot currently be confirmed through ExcelApi 1.1.
+            throw new Error("A workbook ID cannot be verified by this Office.js adapter.");
+        }
+        const actualBook = currentWorkbookName();
+        if (reference.workbookName && (!actualBook || reference.workbookName.toLowerCase() !== actualBook.toLowerCase())) {
+            throw new Error("The requested workbook is not the current Office workbook.");
+        }
+    }
+
+    function prepareRange(context, reference) {
+        validateReference(reference);
+        const worksheet = context.workbook.worksheets.getItem(reference.worksheetName);
+        const range = worksheet.getRange(reference.address);
+        worksheet.load(["name", "id"]);
+        range.load(["address", "values", "valueTypes", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
+        return { worksheet, range, reference };
+    }
+
+    function toRangeSnapshot(entry) {
+        const { range, worksheet, reference } = entry;
+        if (reference && reference.worksheetId && reference.worksheetId !== worksheet.id) {
+            throw new Error("The source worksheet identity changed; refresh the selection.");
+        }
+        const rows = [];
+        for (let r = 0; r < range.rowCount; r++) {
+            const row = [];
+            for (let c = 0; c < range.columnCount; c++) {
+                row.push(toPortableCell(range.values[r][c], range.valueTypes[r][c]));
+            }
+            rows.push(row);
+        }
+        const localAddress = range.address.indexOf("!") >= 0
+            ? range.address.slice(range.address.lastIndexOf("!") + 1) : range.address;
+        return {
+            workbookId: "", workbookName: currentWorkbookName(),
+            worksheetId: worksheet.id || "", worksheetName: worksheet.name,
+            address: localAddress, startRow: range.rowIndex + 1, startColumn: range.columnIndex + 1,
+            rowCount: range.rowCount, columnCount: range.columnCount,
+            selectionId: reference && reference.selectionId ? reference.selectionId : "",
+            selectionRevision: "", rows
+        };
+    }
+
     async function getSelectedRangeData() {
         await ensureExcelHost();
-
         return Excel.run(async context => {
             const range = context.workbook.getSelectedRange();
-            const worksheet = context.workbook.worksheets.getActiveWorksheet();
-
-            range.load(["address", "values", "valueTypes", "rowCount", "columnCount"]);
-            worksheet.load("name");
+            // The selected range owns its worksheet; never substitute the active sheet.
+            const worksheet = range.worksheet;
+            worksheet.load(["name", "id"]);
+            range.load(["address", "values", "valueTypes", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
             await context.sync();
+            return toRangeSnapshot({ worksheet, range, reference: null });
+        });
+    }
 
-            const rows = [];
-            for (let rowIndex = 0; rowIndex < range.rowCount; rowIndex++) {
-                const row = [];
-                for (let columnIndex = 0; columnIndex < range.columnCount; columnIndex++) {
-                    row.push(toPortableCell(
-                        range.values[rowIndex][columnIndex],
-                        range.valueTypes[rowIndex][columnIndex]));
-                }
-                rows.push(row);
-            }
+    async function getRangeDataByReference(reference) {
+        validateReference(reference); // fail before Excel.run
+        await ensureExcelHost();
+        return Excel.run(async context => {
+            const entry = prepareRange(context, reference);
+            await context.sync();
+            return toRangeSnapshot(entry);
+        });
+    }
 
+    async function getRangeSetData(selection) {
+        if (!selection || !Array.isArray(selection.ranges) || selection.ranges.length === 0) {
+            throw new Error("A nonempty structured range selection is required.");
+        }
+        selection.ranges.forEach(validateReference);
+        await ensureExcelHost();
+        return Excel.run(async context => {
+            const entries = selection.ranges.map(reference => prepareRange(context, reference));
+            await context.sync();
             return {
-                worksheetName: worksheet.name,
-                address: range.address,
-                rowCount: range.rowCount,
-                columnCount: range.columnCount,
-                rows: rows
+                selectionId: selection.selectionId || "",
+                ranges: entries.map(toRangeSnapshot)
             };
         });
     }
@@ -515,6 +600,8 @@
         getHostStatus,
         getHostCapabilities,
         getSelectedRangeData,
+        getRangeDataByReference,
+        getRangeSetData,
         writeResultTable,
         writeResultTables
     };

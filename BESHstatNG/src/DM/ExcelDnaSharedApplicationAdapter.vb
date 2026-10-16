@@ -12,6 +12,21 @@ Public NotInheritable Class ExcelDnaSharedApplicationAdapter
     Private Sub New()
     End Sub
 
+    ''' <summary>Capture identity and coordinates of an existing Excel COM range.
+    ''' This does not read cell values or replace the existing Windows importer.</summary>
+    Public Shared Function ToRangeReference(source As Microsoft.Office.Interop.Excel.Range) As Global.BESHStatNG.ExcelCommon.SpreadsheetRangeReference
+        If source Is Nothing Then Throw New ArgumentNullException(NameOf(source))
+        If source.Areas.Count <> 1 Then Throw New ArgumentException("Use one rectangular area per range reference.", NameOf(source))
+        Dim sheet As Microsoft.Office.Interop.Excel.Worksheet = DirectCast(source.Worksheet, Microsoft.Office.Interop.Excel.Worksheet)
+        Dim book As Microsoft.Office.Interop.Excel.Workbook = DirectCast(sheet.Parent, Microsoft.Office.Interop.Excel.Workbook)
+        Dim localAddress As String = CStr(source.Address(False, False))
+        Dim result As Global.BESHStatNG.ExcelCommon.SpreadsheetRangeReference =
+            Global.BESHStatNG.ExcelCommon.SpreadsheetRangeReference.FromAddress(localAddress, CStr(sheet.Name), CStr(book.Name))
+        result.WorksheetId = CStr(sheet.CodeName)
+        ' WorkbookId is deliberately unset: Excel COM does not provide a durable universal workbook ID.
+        Return result
+    End Function
+
     Public Shared Function ToGroupedNumericData(data As MultiGroupsUnpairedData) As Global.BESHStatNG.ExcelCommon.GroupedNumericData
         If data Is Nothing Then Throw New ArgumentNullException(NameOf(data))
         If data.X Is Nothing Then Throw New ArgumentException("Grouped data are missing.", NameOf(data))

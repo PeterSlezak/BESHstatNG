@@ -81,11 +81,39 @@ Namespace ExcelCommon
         Public Sub New()
             WorksheetName = String.Empty
             Address = String.Empty
+            WorkbookId = String.Empty
+            WorkbookName = String.Empty
+            WorksheetId = String.Empty
             Rows = New List(Of List(Of SpreadsheetCellValue))()
         End Sub
 
         Public Property WorksheetName As String
         Public Property Address As String
+        ' Source identity is optional for older Stage 3.04 payloads.
+        Public Property WorkbookId As String
+        Public Property WorkbookName As String
+        Public Property WorksheetId As String
+        Public Property SelectionId As String
+        Public Property SelectionRevision As String
+        ' One-based worksheet coordinates; zero means legacy/unknown.
+        Public Property StartRow As Integer
+        Public Property StartColumn As Integer
+        Public ReadOnly Property QualifiedAddress As String
+            Get
+                If String.IsNullOrWhiteSpace(Address) Then Return String.Empty
+                Return SpreadsheetRangeAddress.Parse(Address, WorksheetName).QualifiedAddress
+            End Get
+        End Property
+        Public Function ToReference() As SpreadsheetRangeReference
+            Dim reference As SpreadsheetRangeReference = SpreadsheetRangeReference.FromAddress(Address, WorksheetName, WorkbookName)
+            reference.WorkbookId = If(WorkbookId, String.Empty)
+            reference.WorksheetId = If(WorksheetId, String.Empty)
+            reference.SelectionId = If(SelectionId, String.Empty)
+            reference.SelectionRevision = If(SelectionRevision, String.Empty)
+            If StartRow > 0 Then reference.StartRow = StartRow
+            If StartColumn > 0 Then reference.StartColumn = StartColumn
+            Return reference
+        End Function
         Public Property RowCount As Integer
         Public Property ColumnCount As Integer
         Public Property Rows As List(Of List(Of SpreadsheetCellValue))

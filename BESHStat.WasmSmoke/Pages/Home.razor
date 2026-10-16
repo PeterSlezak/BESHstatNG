@@ -29,11 +29,28 @@
         Check Excel host
     </button>
     <button class="btn btn-outline-primary me-2" @onclick="ReadSelection" disabled="@(isBusy || !CanReadSelection)">
-        Read selected range
+        Read source range
     </button>
     <button class="btn btn-primary" @onclick="RunSharedAnalysisAndWrite" disabled="@(isBusy || !CanRunSelectedDestination)">
         Run shared analysis and write result
     </button>
+</div>
+
+<div class="card mb-3" style="max-width: 1000px;">
+    <div class="card-body">
+        <h5 class="card-title">Source range (optional)</h5>
+        <p class="small text-muted">Leave both fields empty to use the selected Excel range. Otherwise enter a worksheet name (for example <code>Hárok1</code>) and an A1 address (<code>A1:C4</code>), or leave the worksheet name empty and enter <code>'Hárok1'!A1:C4</code> in the address field. A qualified reference pasted into the worksheet field is also accepted when the two fields agree.</p>
+        <div class="row g-2">
+            <div class="col-md-5">
+                <label class="form-label">Worksheet name</label>
+                <input class="form-control" @bind="sourceWorksheetName" placeholder="Study Data" />
+            </div>
+            <div class="col-md-5">
+                <label class="form-label">A1 address</label>
+                <input class="form-control" @bind="sourceAddress" placeholder="B2:D12" />
+            </div>
+        </div>
+    </div>
 </div>
 
 <p><strong>Status:</strong> @status</p>
@@ -145,7 +162,7 @@
     <div class="card-body">
         <h5 class="card-title">Expected Excel input</h5>
         <p class="card-text mb-2">
-            Select one rectangular range. The first row contains group names; each remaining
+            Select one rectangular range, or specify its worksheet and A1 address above. The first row contains group names; each remaining
             column contains numeric observations for that group. Blank data cells are ignored.
             The same shared grouped-data parser is used by both analysis families.
         </p>
@@ -182,7 +199,9 @@
         <h3>Selected Excel data</h3>
         <p>
             <strong>Worksheet:</strong> @selection.WorksheetName<br />
-            <strong>Range:</strong> @selection.Address
+            <strong>Range:</strong> @selection.QualifiedAddress<br />
+            <strong>Worksheet identity:</strong> @selection.WorksheetId<br />
+            <strong>Top-left cell:</strong> row @selection.StartRow, column @selection.StartColumn
         </p>
 
         @if (groupedPreview is not null)
@@ -282,6 +301,16 @@
     }
 
     private SpreadsheetRangeData? selection;
+    private string sourceWorksheetName = string.Empty;
+    private string sourceAddress = string.Empty;
+
+    private async Task<SpreadsheetRangeData> AcquireRangeAsync()
+    {
+        if (string.IsNullOrWhiteSpace(sourceAddress) && string.IsNullOrWhiteSpace(sourceWorksheetName))
+            return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
+        var reference = SpreadsheetRangeReference.FromUserInput(sourceWorksheetName, sourceAddress);
+        return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getRangeDataByReference", reference);
+    }
     private GroupedNumericData? groupedPreview;
     private SpreadsheetAnalysisResult? sharedOutput;
     private OneWayAnovaApplicationResult? anovaOutput;
@@ -349,7 +378,7 @@
             isBusy = true;
             hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
             HostCapabilityPreflight.CheckSelection(hostCapabilities).EnsureSupported();
-            selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
+            selection = await AcquireRangeAsync();
             groupedPreview = GroupedNumericRangeParser.Parse(selection);
             sharedOutput = null;
             anovaOutput = null;
@@ -391,7 +420,7 @@
             var analysisId = AnalysisCatalog.GetByLegacyKind(analysisKind).Id;
             HostCapabilityPreflight.CheckRunAndWrite(analysisId, hostCapabilities, target).EnsureSupported();
 
-            selection = await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
+            selection = await AcquireRangeAsync();
             groupedPreview = GroupedNumericRangeParser.Parse(selection);
 
             SpreadsheetAnalysisOptions options;
