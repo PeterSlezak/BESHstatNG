@@ -31,12 +31,15 @@ Namespace ExcelCommon
         Public Sub New()
             Kind = SpreadsheetCellKind.Blank
             TextValue = String.Empty
+            NumberFormat = String.Empty
         End Sub
 
         Public Property Kind As SpreadsheetCellKind
         Public Property NumberValue As Double
         Public Property TextValue As String
         Public Property BooleanValue As Boolean
+        ' Optional Excel number-format hint; this is never sufficient by itself to treat a numeric cell as a date.
+        Public Property NumberFormat As String
 
         Public Shared Function BlankCell() As SpreadsheetCellValue
             Return New SpreadsheetCellValue()
@@ -85,6 +88,7 @@ Namespace ExcelCommon
             WorkbookName = String.Empty
             WorksheetId = String.Empty
             Rows = New List(Of List(Of SpreadsheetCellValue))()
+            DateSystem = SpreadsheetDateSystem.Unknown
         End Sub
 
         Public Property WorksheetName As String
@@ -93,6 +97,8 @@ Namespace ExcelCommon
         Public Property WorkbookId As String
         Public Property WorkbookName As String
         Public Property WorksheetId As String
+        ' Unknown means the host has not verified this workbook setting.
+        Public Property DateSystem As SpreadsheetDateSystem
         Public Property SelectionId As String
         Public Property SelectionRevision As String
         ' One-based worksheet coordinates; zero means legacy/unknown.

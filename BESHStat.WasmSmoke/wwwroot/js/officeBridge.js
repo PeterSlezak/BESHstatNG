@@ -117,31 +117,32 @@
         return status;
     }
 
-    function toPortableCell(value, valueType) {
+    // Preserve Excel's reported kind rather than retyping a formatted value.
+    // An empty string returned for a String cell (e.g. ="") is text, not a blank.
+    function toPortableCell(value, valueType, numberFormat) {
         const typeName = valueType === null || valueType === undefined
             ? ""
             : String(valueType).toLowerCase();
-
-        if (typeName === "empty" || value === null || value === undefined || value === "") {
-            return { kind: CELL_KIND.blank, numberValue: 0, textValue: "", booleanValue: false };
-        }
-
+        const format = typeof numberFormat === "string" ? numberFormat : "";
+        const base = { kind: CELL_KIND.blank, numberValue: 0, textValue: "", booleanValue: false, numberFormat: format };
         if (typeName === "error") {
-            return { kind: CELL_KIND.error, numberValue: 0, textValue: String(value), booleanValue: false };
+            return { ...base, kind: CELL_KIND.error, textValue: String(value ?? "") };
         }
-
+        if (typeName === "empty" || value === null || value === undefined) return base;
         if (typeName === "boolean" || typeof value === "boolean") {
-            return { kind: CELL_KIND.boolean, numberValue: 0, textValue: "", booleanValue: Boolean(value) };
+            return { ...base, kind: CELL_KIND.boolean, booleanValue: Boolean(value) };
         }
-
-        if (typeName === "integer" || typeName === "double" || typeof value === "number") {
+        if (typeName === "integer" || typeName === "double" || (typeName === "" && typeof value === "number")) {
             if (typeof value !== "number" || !Number.isFinite(value)) {
-                return { kind: CELL_KIND.error, numberValue: 0, textValue: String(value), booleanValue: false };
+                return { ...base, kind: CELL_KIND.error, textValue: String(value) };
             }
-            return { kind: CELL_KIND.number, numberValue: value, textValue: "", booleanValue: false };
+            return { ...base, kind: CELL_KIND.number, numberValue: value };
         }
-
-        return { kind: CELL_KIND.text, numberValue: 0, textValue: String(value), booleanValue: false };
+        if (typeName === "string" || typeName === "richvalue" || typeof value === "string") {
+            if (value === "" && typeName === "") return base; // old hosts with no valueTypes
+            return { ...base, kind: CELL_KIND.text, textValue: String(value) };
+        }
+        return { ...base, kind: CELL_KIND.text, textValue: String(value) };
     }
 
     // A range reference addresses the workbook currently hosting this task pane.
@@ -193,7 +194,7 @@
         const worksheet = context.workbook.worksheets.getItem(reference.worksheetName);
         const range = worksheet.getRange(reference.address);
         worksheet.load(["name", "id"]);
-        range.load(["address", "values", "valueTypes", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
+        range.load(["address", "values", "valueTypes", "numberFormat", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
         return { worksheet, range, reference };
     }
 
@@ -206,14 +207,15 @@
         for (let r = 0; r < range.rowCount; r++) {
             const row = [];
             for (let c = 0; c < range.columnCount; c++) {
-                row.push(toPortableCell(range.values[r][c], range.valueTypes[r][c]));
+                row.push(toPortableCell(range.values[r][c], range.valueTypes[r][c],
+                    range.numberFormat && range.numberFormat[r] ? range.numberFormat[r][c] : ""));
             }
             rows.push(row);
         }
         const localAddress = range.address.indexOf("!") >= 0
             ? range.address.slice(range.address.lastIndexOf("!") + 1) : range.address;
         return {
-            workbookId: "", workbookName: currentWorkbookName(),
+            workbookId: "", workbookName: currentWorkbookName(), dateSystem: 0,
             worksheetId: worksheet.id || "", worksheetName: worksheet.name,
             address: localAddress, startRow: range.rowIndex + 1, startColumn: range.columnIndex + 1,
             rowCount: range.rowCount, columnCount: range.columnCount,
@@ -229,7 +231,7 @@
             // The selected range owns its worksheet; never substitute the active sheet.
             const worksheet = range.worksheet;
             worksheet.load(["name", "id"]);
-            range.load(["address", "values", "valueTypes", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
+            range.load(["address", "values", "valueTypes", "numberFormat", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
             await context.sync();
             return toRangeSnapshot({ worksheet, range, reference: null });
         });

@@ -55,6 +55,54 @@
 
 <p><strong>Status:</strong> @status</p>
 
+@if (selection is not null)
+{
+    var sourceCells = PreviewSourceCells(selection, 60);
+    <div class="card mb-3" style="max-width: 1000px;">
+        <div class="card-body">
+            <h5 class="card-title">Raw Excel cell kinds (before analysis parsing)</h5>
+            <p class="small mb-2">
+                <strong>Source:</strong> @selection.QualifiedAddress
+                (@selection.RowCount rows × @selection.ColumnCount columns).
+                <strong>Date system:</strong> @selection.DateSystem.
+            </p>
+            <p class="small text-muted mb-2">
+                This is the typed snapshot returned by Office.js, not a result of numeric coercion.
+                A date-formatted number remains <code>Number (1)</code>; an Excel error is
+                <code>CellError (4)</code>, while literal error-looking text is <code>Text (2)</code>.
+            </p>
+            @if (!string.IsNullOrWhiteSpace(groupedValidationMessage))
+            {
+                <div class="alert alert-warning py-2 mb-2">
+                    <strong>Grouped-analysis validation:</strong> @groupedValidationMessage
+                    <div class="small mt-1">The source read succeeded. This range is not valid ANOVA/Kruskal–Wallis input; the raw cell kinds below are still available for inspection.</div>
+                </div>
+            }
+            <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">
+                <table class="table table-sm table-bordered mb-0">
+                    <thead><tr><th>Cell</th><th>Kind</th><th>Underlying value</th><th>Number format</th></tr></thead>
+                    <tbody>
+                        @foreach (var sourceCell in sourceCells)
+                        {
+                            <tr class="@(sourceCell.IsInvalidGroupedObservation ? "table-warning" : "")">
+                                <td><code>@sourceCell.Address</code></td>
+                                <td>@sourceCell.Kind</td>
+                                <td>@sourceCell.Value</td>
+                                <td><code>@sourceCell.NumberFormat</code></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            @if ((long)selection.RowCount * selection.ColumnCount > sourceCells.Count)
+            {
+                <p class="small text-muted mt-2 mb-0">Preview limited to the first @sourceCells.Count cells. Select a smaller range to inspect later cells.</p>
+            }
+            <p class="small text-muted mt-2 mb-0">Highlighted rows contain a nonnumeric/nonblank observation after the first header row and are not accepted by the legacy grouped parser.</p>
+        </div>
+    </div>
+}
+
 <div class="card mb-4" style="max-width: 1000px;">
     <div class="card-body">
         <h5 class="card-title">Shared analysis options</h5>
@@ -311,6 +359,7 @@
         var reference = SpreadsheetRangeReference.FromUserInput(sourceWorksheetName, sourceAddress);
         return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getRangeDataByReference", reference);
     }
+    private string? groupedValidationMessage;
     private GroupedNumericData? groupedPreview;
     private SpreadsheetAnalysisResult? sharedOutput;
     private OneWayAnovaApplicationResult? anovaOutput;
@@ -376,24 +425,37 @@
         try
         {
             isBusy = true;
+            selection = null;
+            groupedPreview = null;
+            groupedValidationMessage = null;
+            sharedOutput = null;
+            anovaOutput = null;
+            kruskalOutput = null;
+            writeResult = null;
+
             hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
             HostCapabilityPreflight.CheckSelection(hostCapabilities).EnsureSupported();
             selection = await AcquireRangeAsync();
-            groupedPreview = GroupedNumericRangeParser.Parse(selection);
-            sharedOutput = null;
-            anovaOutput = null;
-            kruskalOutput = null;
-            writeResult = null;
-            status = $"PASS — host adapter read {selection.Address}; BESHStat.Excel.Common validated the grouped input.";
+
+            // A successful read must remain inspectable even when a grouped analysis
+            // correctly rejects error, text, or Boolean observations.
+            try
+            {
+                groupedPreview = GroupedNumericRangeParser.Parse(selection);
+                status = $"PASS — acquired typed cells from {selection.Address}; grouped analysis input is valid.";
+            }
+            catch (ArgumentException ex)
+            {
+                groupedValidationMessage = ex.Message;
+                status = $"PASS — acquired typed cells from {selection.Address}; grouped-analysis validation failed (see preview).";
+            }
         }
         catch (Exception ex)
         {
+            selection = null;
             groupedPreview = null;
-            sharedOutput = null;
-            anovaOutput = null;
-            kruskalOutput = null;
-            writeResult = null;
-            status = "FAIL — " + ex.Message;
+            groupedValidationMessage = null;
+            status = "FAIL — unable to read the source range: " + ex.Message;
         }
         finally
         {
@@ -407,6 +469,9 @@
         {
             isBusy = true;
             writeResult = null;
+            selection = null;
+            groupedPreview = null;
+            groupedValidationMessage = null;
 
             // Preflight MUST run before reading the selection or running the statistical engine.
             hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
@@ -474,6 +539,8 @@
         }
         catch (Exception ex)
         {
+            if (selection is not null && groupedPreview is null && ex is ArgumentException)
+                groupedValidationMessage = ex.Message;
             sharedOutput = null;
             anovaOutput = null;
             kruskalOutput = null;
@@ -506,6 +573,54 @@
         }
 
         return "PASS — shared analysis completed and result tables were written to Excel.";
+    }
+
+    private sealed record SourceCellPreview(string Address, string Kind, string Value,
+                                             string NumberFormat, bool IsInvalidGroupedObservation);
+
+    private static List<SourceCellPreview> PreviewSourceCells(SpreadsheetRangeData source, int maximum)
+    {
+        var cells = new List<SourceCellPreview>();
+        if (source.Rows is null) return cells;
+        for (var row = 0; row < source.Rows.Count && cells.Count < maximum; row++)
+        {
+            var values = source.Rows[row];
+            if (values is null) continue;
+            for (var column = 0; column < values.Count && cells.Count < maximum; column++)
+            {
+                var cell = values[column];
+                var kind = cell is null ? "Null" : $"{cell.Kind} ({(int)cell.Kind})";
+                var value = cell is null ? "<null>" : cell.Kind switch
+                {
+                    SpreadsheetCellKind.Blank => "<blank>",
+                    SpreadsheetCellKind.Number => cell.NumberValue.ToString("G17", CultureInfo.InvariantCulture),
+                    SpreadsheetCellKind.Bool => cell.BooleanValue ? "TRUE" : "FALSE",
+                    SpreadsheetCellKind.Text => cell.TextValue?.Length > 0 ? cell.TextValue : "<empty text>",
+                    SpreadsheetCellKind.CellError => cell.TextValue ?? "<error>",
+                    _ => "<unknown>"
+                };
+                var rowNumber = source.StartRow > 0 ? source.StartRow + row : row + 1;
+                var columnNumber = source.StartColumn > 0 ? source.StartColumn + column : column + 1;
+                cells.Add(new SourceCellPreview(
+                    ExcelColumnLabel(columnNumber) + rowNumber.ToString(CultureInfo.InvariantCulture),
+                    kind, value, cell?.NumberFormat ?? string.Empty,
+                    row > 0 && (cell is null || (cell.Kind != SpreadsheetCellKind.Blank &&
+                                                 cell.Kind != SpreadsheetCellKind.Number))));
+            }
+        }
+        return cells;
+    }
+
+    private static string ExcelColumnLabel(int column)
+    {
+        var label = string.Empty;
+        while (column > 0)
+        {
+            column--;
+            label = (char)('A' + column % 26) + label;
+            column /= 26;
+        }
+        return label;
     }
 
     private static string AnalysisDisplayName(SpreadsheetAnalysisKind kind)
