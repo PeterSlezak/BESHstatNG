@@ -25,6 +25,7 @@ Namespace ExcelCommon
             Me.TextValue = If(value.TextValue, String.Empty)
             Me.BooleanValue = value.BooleanValue
             Me.NumberFormat = If(value.NumberFormat, String.Empty)
+            Me.NativeErrorCode = If(value.NativeErrorCode, String.Empty)
             Me.SelectedRow = selectedRow
             Me.SelectedColumn = selectedColumn
             Me.WorksheetRow = worksheetRow
@@ -35,13 +36,15 @@ Namespace ExcelCommon
         Public ReadOnly Property TextValue As String
         Public ReadOnly Property BooleanValue As Boolean
         Public ReadOnly Property NumberFormat As String
+        Public ReadOnly Property NativeErrorCode As String
         Public ReadOnly Property SelectedRow As Integer
         Public ReadOnly Property SelectedColumn As Integer
         Public ReadOnly Property WorksheetRow As Integer
         Public ReadOnly Property WorksheetColumn As Integer
         Public Function ToCellValue() As SpreadsheetCellValue
             Return New SpreadsheetCellValue With {.Kind = Kind, .NumberValue = NumberValue,
-                .TextValue = TextValue, .BooleanValue = BooleanValue, .NumberFormat = NumberFormat}
+                .TextValue = TextValue, .BooleanValue = BooleanValue, .NumberFormat = NumberFormat,
+                .NativeErrorCode = NativeErrorCode}
         End Function
     End Class
 
