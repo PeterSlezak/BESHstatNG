@@ -4,6 +4,8 @@ param(
     [switch]$Legacy,
     [switch]$Wasm,
     [switch]$Js,
+    [switch]$Python,
+    [string]$PythonExe = $env:PythonExe,
     [ValidateSet('Debug','Release')][string]$Configuration = 'Debug',
     [ValidateSet('2022','2026')][string]$VisualStudio = '2022'
 )
@@ -23,6 +25,17 @@ function Invoke-Checked([string]$Exe,[string[]]$Arguments) {
 Write-Host 'BESHStatNG portable regression validation' -ForegroundColor Green
 Invoke-Checked 'dotnet' @('test', '.\BESHStat.Core.Tests\BESHStat.Core.Tests.vbproj', '-c', $Configuration, '--logger', 'trx;LogFileName=Core.trx', '--results-directory', $results)
 Invoke-Checked 'dotnet' @('test', '.\BESHStat.Excel.Common.Tests\BESHStat.Excel.Common.Tests.vbproj', '-c', $Configuration, '--logger', 'trx;LogFileName=Common.trx', '--results-directory', $results)
+
+if ($Python) {
+    $resolvedPython = & (Join-Path $PSScriptRoot 'resolve-beshstatng-python.ps1') -PythonExe $PythonExe
+    Invoke-Checked $resolvedPython @('-B', '.\tools\verify_stage304_inventory.py')
+    Invoke-Checked $resolvedPython @('-B', '.\BESHstatNG\tools\validate_methods_catalog.py')
+    Invoke-Checked $resolvedPython @('-B', '.\BESHstatNG\tools\generate_analysis_metadata.py', '--check')
+    Invoke-Checked $resolvedPython @('-B', '.\BESHstatNG\tools\audit_transitional_officejs.py')
+    Invoke-Checked $resolvedPython @('-B', '-m', 'unittest', 'discover', '-s', '.\BESHstatNG\tools\tests', '-p', 'test_*.py', '-v')
+    Invoke-Checked $resolvedPython @('-B', '-m', 'unittest', 'discover', '-s', '.\BESHStatNG_Help_MkDocs\tests', '-p', 'test_*.py', '-v')
+    Invoke-Checked $resolvedPython @('-B', '-m', 'unittest', 'discover', '-s', '.\scripts\tests', '-p', 'test_*.py', '-v')
+}
 
 if ($Wasm) {
     Invoke-Checked 'dotnet' @('build', '.\BESHStat.WasmSmoke\BESHStat.WasmSmoke.csproj', '-c', $Configuration)
@@ -45,7 +58,9 @@ if ($Legacy) {
     if (-not $msbuild -or -not (Test-Path $msbuild)) { throw "MSBuild not found for VS $VisualStudio" }
     if (-not $vsroot) { throw "Visual Studio $VisualStudio installation not found" }
     # Legacy project uses packages.config; restore packages once in VS or via nuget restore beforehand.
-    Invoke-Checked $msbuild @('.\BESHStatNG.Test\BESHStatNG.Tests.vbproj', '/t:Build', "/p:Configuration=$Configuration", '/m')
+    $legacyArguments = @('.\BESHStatNG.Test\BESHStatNG.Tests.vbproj', '/t:Build', "/p:Configuration=$Configuration", '/m')
+    if ($PythonExe) { $legacyArguments += "/p:PythonExe=$PythonExe" }
+    Invoke-Checked $msbuild $legacyArguments
     $dll = Join-Path $root "BESHStatNG.Test\bin\$Configuration\BESHStatNG.Test.dll"
     if (-not (Test-Path $dll)) { throw "Expected legacy test assembly missing: $dll" }
     $vstest = Join-Path $vsroot 'Common7\IDE\Extensions\TestPlatform\vstest.console.exe'

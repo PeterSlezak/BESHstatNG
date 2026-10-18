@@ -1,12 +1,17 @@
 # BESHStatNG — Cross-platform Excel application master development plan
 
-**Revision:** 1.2 · 16 October 2026.  
-**Source-of-truth ZIP:** `BESHstatNG(20261016-163911).zip`.  
-**Implementation checkpoint:** **00.01, 00.02, 00.02A, 00.02B, 00.03–00.06 and 01.01–01.05 implemented** (13 batches; validated by supplied source and test declarations, with user-reported local completion).  
-**Recommended next batch:** **01.05A — host-neutral spreadsheet contract hardening (no LibreOffice adapter)**, then **01.06**.  
-**Batch count:** **148 total**, **13 completed**, **135 outstanding** (including new 01.05A).  
+**Revision:** 1.3 · 18 October 2026.
+
+**Source of truth:** current checked-out Git repository; the `BESHstatNG(20261016-163911).zip` review below is historical context.
+
+**Implementation checkpoint:** **00.01, 00.02, 00.02A, 00.02B, 00.03–00.06, 01.01–01.05, 01.05A, 01.06 and 01.07 implemented** (16 batches; source and automated tests present; host integration acceptance remains separate).
+
+**Recommended next batch:** **01.08 — matrix, classification, PSM, SPC and chart-source parsers**, only after explicit batch approval.
+
+**Batch count:** **148 total**, **16 completed**, **132 outstanding** (including completed 01.05A).
+
 **Scope:** Excel-DNA and Office.js/WASM implementation remain the active workstream. LibreOffice is an *architectural portability consideration only*, explicitly not part of implementation batches or Excel release criteria.  
-**Supersedes:** revision 1.1 (14 October 2026); the full original multi-phase roadmap is retained below, updated for progress and portable-host readiness.
+**Supersedes:** revision 1.2 (16 October 2026); the full original multi-phase roadmap and dependencies are retained below, updated for repository progress and portable-host readiness.
 
 ## Executive recommendation
 
@@ -16,7 +21,13 @@ Continue the existing *two-host, one-engine* design, but establish reusable cont
 
 The plan is deliberately **incremental**: finish the foundational architecture and parity checks first, then build a real reusable UI, then expand analysis families, then graphics and custom functions, and finally release engineering. A late feature may be piloted earlier to validate architectural assumptions, but it must not bypass stable shared contracts.
 
-## 0. Review of the 16 October source checkpoint
+## 0. Current repository checkpoint and historical 16 October review
+
+**18 October repository update:** 01.05A is implemented in `HostCapabilities.vb`, range/cell contracts and compatibility tests. Identified non-Excel spreadsheet hosts can pass capability preflight through `IsSpreadsheetHost`; Excel compatibility flags, A1 APIs and date policies remain. 01.06 adds `LongitudinalInputs.vb`, `LongitudinalParsers.vb` and `LongitudinalParserTests.vb` for survival/repeated/mixed input validation. 01.07 adds `ModelInput.vb`, `ModelInputCompiler.vb` and `ModelInputCompilerTests.vb`, reusing Core formula/design services with aligned source rows and typed factors. These are Common input contracts, not new host UI or fitted-analysis handlers. Core/Common remain `netstandard2.0`; Windows remains .NET Framework 4.8. No LibreOffice implementation is authorized.
+
+The repository review ran the portable verification script: **Core 1,024 passed; Common 208 passed; zero failures/skips**. Office bridge Node tests: **29 passed**; method catalog validation, generated metadata `--check` and retired-helper audit passed. This checkpoint does not certify live Windows/Online/Mac Excel behavior. Infrastructure verification commands and limitations are documented in `docs/architecture/development-validation.md`.
+
+**Historical 16 October review follows.** Its counts and runtime limitations describe that review environment, not the current repository. Later completed batches supersede its proposed next steps.
 
 **What changed since revision 1.1.** The source package contains the implemented method catalog validator and deterministic generated metadata; the typed handler registry; typed read-only analysis-result artifact envelope; removal/guard of the old Windows Office.js placeholders; host capability preflight; range/document/selection references; explicit cell/error/date policies; configurable grouped parsing and structured diagnostics; typed scalar/vector/pair/group parsers; and rectangular frame, typed-category and contingency-count/pair parsers. The original ANOVA and Kruskal–Wallis services remain the two executable shared-analysis examples. Catalog entries for the other documented methods do not execute automatically.
 
@@ -31,7 +42,7 @@ The plan is deliberately **incremental**: finish the foundational architecture a
 
 **Independent checks performed in this review:** methods manifest validator **PASS** (76 method entries, 84 Ribbon buttons, 79 mappings, five utility commands); generated metadata `--check` **PASS**; retired-helper audit **PASS**; Python tooling unit tests **21 passed**, MkDocs Python tests **5 passed**; `officeBridge.js` syntax **PASS**; Office bridge Node tests **29 passed**. These check only their stated scopes. A .NET SDK and Excel/LibreOffice desktop runtimes were not available here: **no new Core/Common/legacy MSTest, Visual Studio build, Excel GUI smoke or LibreOffice runtime validation was performed**. Accept the user-reported completed batches as the development checkpoint, not as independently certified full-platform behavior.
 
-**Architecture review conclusion:** no need to redo any completed batch. Preserve the `netstandard2.0` Core/Common boundary, generated `methods.yml` metadata and source-native typed registry. There is, however, one small cross-host contract adjustment worth performing **before** the next input-family expansion (01.05A). See §2B and §13.
+**Architecture review conclusion:** no need to redo any completed batch. Preserve the `netstandard2.0` Core/Common boundary, generated `methods.yml` metadata and source-native typed registry. The cross-host contract adjustment proposed by the historical review (01.05A) is now implemented, followed by 01.06 and 01.07. See §2B and §13 for the retained architectural rationale.
 
 ## 1. Basis and limitations of the audit
 
@@ -179,9 +190,9 @@ The **previous 14 October baseline** was inspected, including `.vb`, `.vbproj`, 
                               [not in current roadmap]
 ```
 
-**The 16 October source exposes five portability seams to protect now:**
+**The 16 October review identified five portability seams (01.05A now implements the targeted contract hardening; retain these constraints in later batches):**
 
-1. **Host identity is not a capability.** `HostCapabilitySnapshot.Supports()` and `HostCapabilityPreflight.CheckHost()` currently reject `IsExcel=False`, even if a non-Excel spreadsheet host implements the same operations. Model neutral `HostKind`/`IsSpreadsheetHost` (or equivalent) and check actual capability IDs, with the existing `IsExcel` field retained as a compatibility indicator. Do not advertise a capability merely because the host is a spreadsheet. This is the central purpose of proposed 01.05A.
+1. **Host identity is not a capability.** Implemented in 01.05A: `HostCapabilitySnapshot.Supports()` and `HostCapabilityPreflight.CheckHost()` admit identified hosts through `IsExcel` or explicit `IsSpreadsheetHost`, then check actual capability IDs. The existing `IsExcel` field remains a compatibility indicator. Do not advertise a capability merely because the host is a spreadsheet. This contract is not evidence of an implemented non-Excel adapter.
 2. **Separate addresses/limits from mathematical inputs.** `SpreadsheetRangeAddress` uses Excel A1 syntax and `16384` columns / `1048576` rows; its existing `FromAddress` is useful for Excel. Keep those as an **Excel address dialect/host bounds profile**, not a universal `SpreadsheetRangeReference` limit. Neutral parsed ranges should store row/column coordinates and source identifiers; future adapters normalize their local qualified addresses before Core/Common analysis. Avoid introducing Calc syntax into Common in this Excel delivery.
 3. **Represent dates with explicit origin or normalized value.** `SpreadsheetDateSystem.Excel1900/Excel1904`, phantom leap-day treatment, and `ExcelDateSerialConverter` are correctly Excel-specific. LibreOffice’s UNO number-format settings expose a configurable `NullDate`. Future hosts must supply a defined date basis (or normalized `DateTime` value); never silently reinterpret a Calc serial using Excel1900. Keep existing Excel default behavior unchanged.
 4. **Keep cell/error/category provenance semantically neutral.** `SpreadsheetCellKind.CellError` and type-tagged categorical values are reusable. `SpreadsheetExcelErrorValue` and Excel error spellings should be regarded as one host’s error-code mapping, not the universal taxonomy. A future adapter must preserve blank vs empty text, boolean, number, formula result, error, missing policy, locale and source row identity before invoking the current parsers. UNO’s `getDataArray` alone may not retain every one of those distinctions; host-specific cell inspection may be necessary.
@@ -195,7 +206,7 @@ The **previous 14 October baseline** was inspected, including `.vb`, `.vbproj`, 
 
 | Planned work | Portable-design acceptance addition (no Calc implementation) |
 |---|---|
-| **01.05A (new)** | Remove the *logical requirement* that a host must be Excel; document value/date/address policies and preserve existing Excel behavior. Unit-test a simulated non-Excel capability report, not a live UNO adapter. |
+| **01.05A (complete)** | Removed the *logical requirement* that a host must be Excel; documented value/date/address policies and preserved existing Excel behavior. Tests use simulated non-Excel capability reports, not a live UNO adapter. |
 | 01.06–01.08 | Survival, repeated, formula, time-series and multivariate parsers consume typed values and source row/column IDs, not Excel formulas/COM ranges. |
 | 01.09–01.10 | Excel readers translate from host data into neutral snapshots; Common size/time quotas use requested host bounds, not fixed Excel limits as universal truths. |
 | 02.01–02.08 | Shared result layout/format/style intents are workbook-neutral; native writer APIs and host-specific formats stay in adapters. |
@@ -442,10 +453,10 @@ Development: trusted local HTTPS + sideloading on Excel Online first, Windows de
 | **01.03 — COMPLETE** | Common validation/reporting and configurable header/orientation; `Common/Input/Validation.vb; GroupedNumericRangeParser.vb` | 01.02 | W=Small O=Small | No-header; long/wide; bad coordinates; errors | ANOVA headers vs no-header sample | Legacy grouped preset preserved exactly | **Medium** |
 | **01.04 — COMPLETE** | Scalar, vector, paired and grouped typed input parsers; `Common/Input/TypedNumericInputs.vb; TypedNumericRangeParsers.vb` | 01.03 | W=No O=No (Common-only delivery) | Pairwise complete cases; unequal groups; bounds | Paired and independent ranges preview | Typed and row-aligned payloads usable | **Medium** |
 | **01.05 — COMPLETE** | Rectangular data frame, category and contingency contracts; `Common/Input/RectangularCategoricalInputs.vb; RectangularCategoricalParsers.vb; CoreDataTable bridge` | 01.03 | W=No O=No (Common-only delivery) | Categorical levels; row IDs; RxC shape | Select mixed predictor matrix | No dropped row IDs; exact category coding | **High** |
-| **01.05A — NEXT / NEW** | Harden the *shared spreadsheet host boundary*, without implementing LibreOffice: `Common/Host/HostCapabilities.vb`, `Common/Contracts/SpreadsheetRangeReferences.vb`, `Common/Input/CellValuePolicy.vb`, related tests and brief compatibility note. Keep `IsExcel` and existing Excel APIs working; introduce neutral spreadsheet host/capability admission; specify host-specific A1 bounds, date origins, normalized cell error policy as extensibility seams (avoid implementing new dialect parsers now). | 00.06,01.05 | W=Compatibility smoke only O=Compatibility smoke only | Simulated non-Excel capability snapshot can pass supported operations while unavailable operations fail; existing Excel profiles unchanged; date/coordinate/error seam contract tests | Windows ANOVA/KW output and Office prototype selected range/new worksheet | No Excel requirement hidden in generic `Supports`/preflight; no calculation/parser output change; no UNO/Python/.NET bridge code | **Medium** |
-| **01.06** | Survival/time/subject/repeated/mixed data parsers; `Common/Input/LongitudinalInputs.vb` | 01.05A | W=Adapter O=Yes | Censor/strata/ID/visit/cluster checks | Preview subject/visit data | All family-specific input constraints enforced | **High** |
-| **01.07** | Formula/design matrix and model-input compilation; `Common/Input/ModelInput.vb; Core regression formula parser` | 01.05A | W=Small O=Yes | Contrasts; missingness; interactions; rank | Preview LM predictor/response roles | Canonical model input matches Windows model matrix | **High** |
-| **01.08** | Matrix, classification, PSM, SPC and chart-source parsers; `Common/Input/AdvancedInputs.vb` | 01.05A | W=Adapter O=Yes | Dimensions; treatment; class labels; time order | Matrix/SPC/PSM preview fixtures | Validated inputs and source rows supported | **High** |
+| **01.05A — COMPLETE** | Harden the *shared spreadsheet host boundary*, without implementing LibreOffice: `Common/Host/HostCapabilities.vb`, `Common/Contracts/SpreadsheetRangeReferences.vb`, `Common/Input/CellValuePolicy.vb`, related tests and brief compatibility note. Keep `IsExcel` and existing Excel APIs working; introduce neutral spreadsheet host/capability admission; specify host-specific A1 bounds, date origins, normalized cell error policy as extensibility seams (avoid implementing new dialect parsers now). | 00.06,01.05 | W=Compatibility smoke only O=Compatibility smoke only | Simulated non-Excel capability snapshot can pass supported operations while unavailable operations fail; existing Excel profiles unchanged; date/coordinate/error seam contract tests | Windows ANOVA/KW output and Office prototype selected range/new worksheet | No Excel requirement hidden in generic `Supports`/preflight; no calculation/parser output change; no UNO/Python/.NET bridge code | **Medium** |
+| **01.06 — COMPLETE** | Survival/time/subject/repeated/mixed data parsers; `Common/Input/LongitudinalInputs.vb` | 01.05A | W=Adapter O=Yes | Censor/strata/ID/visit/cluster checks | Preview subject/visit data | All family-specific input constraints enforced | **High** |
+| **01.07 — COMPLETE** | Formula/design matrix and model-input compilation; `Common/Input/ModelInput.vb; Core regression formula parser` | 01.05A | W=Small O=Yes | Contrasts; missingness; interactions; rank | Preview LM predictor/response roles | Canonical model input matches Windows model matrix | **High** |
+| **01.08 — NEXT** | Matrix, classification, PSM, SPC and chart-source parsers; `Common/Input/AdvancedInputs.vb` | 01.05A | W=Adapter O=Yes | Dimensions; treatment; class labels; time order | Matrix/SPC/PSM preview fixtures | Validated inputs and source rows supported | **High** |
 | **01.09** | Improve Office and Windows acquisition adapters; `Windows/DM/ExcelDnaDataImporter.vb; Office/js/RangeAdapter` | 01.01,01.05 | W=Yes O=Yes | Adapter equivalence; multiple ranges; empty cells | Choose 2 ranges on either host | Identical canonical source snapshots | **Medium** |
 | **01.10** | Implement safe large-range acquisition and quotas; `Office range batching; Common/InputSizeLimits.vb` | 01.09 | W=Optional O=Yes | Chunking, memory and cancellation preflight | Read a large rectangular dataset | Bounded batching with informative limit messages | **High** |
 
@@ -673,8 +684,10 @@ Stage 3.04 baseline
             └─ 00.02A–00.02B metadata + UDF docs [COMPLETE]
                 └─ 00.03–00.06 registry, result contracts, host preflight [COMPLETE]
                     └─ 01.01–01.05 typed source/input parsers [COMPLETE]
-                        └─ 01.05A host-neutral contract hardening [NEXT]
-                            └─ 01.06–01.10 advanced inputs and host acquisition
+                        └─ 01.05A host-neutral contract hardening [COMPLETE]
+                            └─ 01.06–01.07 longitudinal/model inputs [COMPLETE]
+                                └─ 01.08 advanced inputs [NEXT]
+                                    └─ 01.09–01.10 host acquisition
             ├─ 01.xx input shapes & host acquisition
             ├─ 02.xx output document/semantic formatting/layout
             └─ 03.xx execution, settings, progress/fault contracts
@@ -778,11 +791,19 @@ Batch ID / ZIP baseline / exact changes / backward-compatible API implications
 
 At the end of every batch, user supplies a new complete ZIP as the source of truth, confirms Windows build and Core/Common/legacy tests, and reports host smoke results. The next patch must **re-audit current files** rather than apply changes against the previous ZIP.
 
-## 17. Recommended next implementation batch — **01.05A**, then **01.06**
+## 17. Recommended next implementation batch — **01.08**
 
-**Current checkpoint:** batches through **01.05** implemented. Source and read-only Python/JS test inspection confirm the implementation artefacts listed in §0; the user reports local acceptance. No .NET/Excel desktop or Mac runtime checks were performed during this planning audit.
+**Current checkpoint:** batches through **01.07**, including **01.05A**, are implemented. See §0 for repository evidence and portable validation. Live Excel and Mac acceptance remains separate. Infrastructure work does not authorize implementing 01.08.
 
-### 01.05A — protect host-neutral spreadsheet semantics before complex inputs (**new, targeted batch**)
+### 01.08 — matrix, classification, PSM, SPC and chart-source parsers (next; not implemented)
+
+Use the existing typed frame/category/numeric inputs, cell policies, source identities and structured diagnostics to add the next input families in Common. Reuse Core math; do not introduce another formula grammar, statistical implementation, production GUI or LibreOffice adapter. Retain `netstandard2.0` and native error/missing-value metadata. The §13 dependency remains **01.05A**; completed 01.06/01.07 contracts are available for reuse without changing the roadmap dependencies.
+
+Required acceptance remains dimension checks, treatment/class-label validation, time/order checks and source-row alignment, with ordinary, edge and compatibility tests. Matrix/SPC/PSM preview fixtures and later host-adapter integration must be assessed separately. Begin only after explicit approval on a dedicated feature branch.
+
+### Completed 01.05A/01.06 acceptance rationale (retained)
+
+### 01.05A — protect host-neutral spreadsheet semantics before complex inputs (**complete**)
 
 **Objective:** allow `BESHStat.Excel.Common` to remain usable by any future spreadsheet host **without adding LibreOffice code now**. Fix the assumption in `HostCapabilityPreflight` that a usable spreadsheet host necessarily has `IsExcel=True`; separate host-reported capabilities from brand. Document precise interpretation of source addresses, Excel-only date serials and spreadsheet errors as host-supplied metadata. **Preserve existing Office.js and Windows behavior by default**.
 
@@ -796,13 +817,13 @@ At the end of every batch, user supplies a new complete ZIP as the source of tru
 
 **Acceptance:** every existing Excel flow remains stable, `HostCapabilityPreflight` no longer makes Excel branding a universal spreadsheet requirement, and future date/address/error variability is documented without speculative Calc adapters.
 
-### 01.06 — original next statistical input family, unchanged in scope
+### 01.06 — survival and longitudinal inputs (**complete**)
 
-Once 01.05A is accepted, proceed with **01.06 — survival, time/status, subject/repeated and mixed-model grouping input parsers**, using the existing typed frame/category/validation contracts. Add tests for censoring/strata, cluster/subject identity, visit ordering, zero/negative times when disallowed, duplicate subject/visit pairs, missing values and diagnostic source rows. These remain Common-only input contracts in the first iteration; **no Office GUI or Python bridge** is required. Respect the current ZIP rather than auto-applying an old 01.06 patch.
+Implemented **01.06 — survival, time/status, subject/repeated and mixed-model grouping input parsers**, using the existing typed frame/category/validation contracts. Tests cover censoring/strata, cluster/subject identity, visit ordering, zero/negative times when disallowed, duplicate subject/visit pairs, missing values and diagnostic source rows. These remain Common-only input contracts; **no Office GUI or Python bridge** was added. 01.07 likewise compiles model inputs through existing Core formula/design services; it does not fit models or add host UI.
 
 ### Already completed, not to be repeated
 
-00.01 → 00.02 → 00.02A → 00.02B → 00.03 → 00.04 → 00.05 → 00.06 → 01.01 → 01.02 → 01.03 → 01.04 → 01.05.
+00.01 → 00.02 → 00.02A → 00.02B → 00.03 → 00.04 → 00.05 → 00.06 → 01.01 → 01.02 → 01.03 → 01.04 → 01.05 → 01.05A → 01.06 → 01.07.
 
 ## 18. Reference documents for Office product assumptions
 
@@ -819,7 +840,7 @@ These are external Microsoft documentation links used to qualify **future** desi
 
 ---
 
-**Planning deliverable (revision 1.2):** revised master plan against the **16 October** ZIP and the accompanying LibreOffice strategy file. **13 source-implemented batches** through 01.05 are marked complete, **01.05A** is a small new shared-host-compatibility batch, and original 01.06 onward remain scheduled. `methods.yml` remains the authoritative authored user-facing method catalog (Ribbon XML controls actual Windows registration; VB `<ExcelFunction>` attributes control UDF exports). Historical Ribbon/UDF CSVs are derived archives, not separately authored truth. **No statistical, .NET, Office.js, YAML or Python application source files were modified for this planning review.**
+**Planning deliverable (revision 1.3):** repository checkpoint updated to **16 source-implemented batches** through 01.07, including 01.05A; **01.08 is next**, pending explicit approval. The full roadmap, dependency columns and LibreOffice architecture-only constraints are retained. `methods.yml` remains the authoritative authored user-facing method catalog (Ribbon XML controls actual Windows registration; VB `<ExcelFunction>` attributes control UDF exports). Historical Ribbon/UDF CSVs remain frozen regression inventories, not separately authored current catalogs. This update accompanies development-infrastructure changes only; no statistical implementation or 01.08 input parser is added.
 
 ## 19. External technical references for future-host feasibility (not implementation authorization)
 

@@ -41,6 +41,44 @@ BESHStatNG_Help_MkDocs/process.txt
 docs/
 tools/
 
+# Reproducible architecture contracts and frozen regression inputs only.
+!/docs/
+/docs/*
+!/docs/architecture/
+/docs/architecture/*
+!/docs/architecture/*.md
+!/docs/architecture/manifests/
+/docs/architecture/manifests/*
+!/docs/architecture/manifests/ribbon-inventory-stage304.csv
+!/docs/architecture/manifests/ribbon-workflow-map-stage304.csv
+!/docs/architecture/manifests/udf-inventory-stage304.csv
+!/docs/architecture/golden-inputs/
+/docs/architecture/golden-inputs/*
+!/docs/architecture/golden-inputs/anova-stage304.csv
+!/docs/architecture/golden-inputs/kruskal-wallis-stage304.csv
+
+# Source tooling only; keep all other tools and local files ignored.
+!/tools/
+/tools/*
+!/tools/verify_stage304_inventory.py
+!/BESHstatNG/tools/
+/BESHstatNG/tools/*
+!/BESHstatNG/tools/generate_help_links.py
+!/BESHstatNG/tools/generate_analysis_metadata.py
+!/BESHstatNG/tools/validate_methods_catalog.py
+!/BESHstatNG/tools/audit_transitional_officejs.py
+!/BESHstatNG/tools/tests/
+/BESHstatNG/tools/tests/*
+!/BESHstatNG/tools/tests/test_generate_analysis_metadata.py
+!/BESHstatNG/tools/tests/test_validate_methods_catalog.py
+!/BESHstatNG/tools/tests/test_audit_transitional_officejs.py
+
+# Python caches and local interpreter environments are never source artifacts.
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
 # other files
 sign_xll2.bat
 release_process.txt
