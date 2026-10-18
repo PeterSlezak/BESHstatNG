@@ -31,6 +31,9 @@
     <button class="btn btn-outline-primary me-2" @onclick="ReadSelection" disabled="@(isBusy || !CanReadSelection)">
         Read source range
     </button>
+    <button class="btn btn-outline-primary me-2" @onclick="ReadSelectedAreas" disabled="@(isBusy || !CanReadSelection)">
+        Read selected areas (01.09)
+    </button>
     <button class="btn btn-primary" @onclick="RunSharedAnalysisAndWrite" disabled="@(isBusy || !CanRunSelectedDestination)">
         Run shared analysis and write result
     </button>
@@ -97,6 +100,38 @@
 
 <p><strong>Status:</strong> @status</p>
 
+@if (selectedAreas is not null)
+{
+    <div class="card mb-3" style="max-width: 1000px;">
+        <div class="card-body">
+            <h5 class="card-title">Selected areas preview (01.09)</h5>
+            <p><strong>Ranges:</strong> @selectedAreas.Ranges.Count</p>
+            <p class="small text-muted">Current Excel selection in the order reported by the host. Areas are previewed separately; this read does not run an analysis. The optional source fields apply only to the single-range operations.</p>
+            @for (var rangeIndex = 0; rangeIndex < selectedAreas.Ranges.Count; rangeIndex++)
+            {
+                var area = selectedAreas.Ranges[rangeIndex];
+                <h6>Range @(rangeIndex + 1): @area.WorksheetName — @area.Address</h6>
+                <p class="small">@area.RowCount rows × @area.ColumnCount columns; top-left row @area.StartRow, column @area.StartColumn.</p>
+                <div class="table-responsive mb-3" style="max-height: 280px; overflow-y: auto;">
+                    <table class="table table-sm table-bordered mb-0">
+                        <thead><tr><th>Cell</th><th>Kind</th><th>Underlying value</th><th>Number format</th></tr></thead>
+                        <tbody>
+                            @foreach (var sourceCell in PreviewSourceCells(area, int.MaxValue))
+                            {
+                                <tr>
+                                    <td><code>@sourceCell.Address</code></td>
+                                    <td>@sourceCell.Kind</td>
+                                    <td>@sourceCell.Value</td>
+                                    <td><code>@sourceCell.NumberFormat</code></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+}
 
 @if (selection is not null)
 {
@@ -413,6 +448,7 @@
     }
 
     private SpreadsheetRangeData? selection;
+    private SpreadsheetRangeSetData? selectedAreas;
     private string sourceWorksheetName = string.Empty;
     private string sourceAddress = string.Empty;
 
@@ -518,6 +554,7 @@
         {
             isBusy = true;
             selection = null;
+            selectedAreas = null;
             groupedPreview = null;
             groupedValidationMessage = null;
             groupedIssues = null;
@@ -549,13 +586,52 @@
             groupedPreview = null;
             groupedValidationMessage = null;
             groupedIssues = null;
-            status = "FAIL — unable to read the source range: " + ex.Message;
+            status = "FAIL — unable to read the source range: " + ReadErrorMessage(ex);
         }
         finally
         {
             isBusy = false;
         }
     }
+
+    private async Task ReadSelectedAreas()
+    {
+        try
+        {
+            isBusy = true;
+            selectedAreas = null;
+            selection = null;
+            groupedPreview = null;
+            groupedValidationMessage = null;
+            groupedIssues = null;
+            sharedOutput = null;
+            anovaOutput = null;
+            kruskalOutput = null;
+            writeResult = null;
+
+            hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
+            HostCapabilityPreflight.CheckSelection(hostCapabilities).EnsureSupported();
+            selectedAreas = await JS.InvokeAsync<SpreadsheetRangeSetData>("beshOffice.getSelectedRangeSetData");
+            if (selectedAreas?.Ranges is not { Count: > 0 })
+                throw new InvalidOperationException("Excel returned no selected areas. Select worksheet cells and try again.");
+            status = $"PASS — acquired {selectedAreas.Ranges.Count} selected range(s); see the separate area previews.";
+        }
+        catch (Exception ex)
+        {
+            selectedAreas = null;
+            status = "FAIL — unable to read selected areas: " + ReadErrorMessage(ex);
+        }
+        finally
+        {
+            isBusy = false;
+        }
+    }
+
+    // JS interop appends a JavaScript stack to Message. Show the bridge's concise
+    // explanation while retaining normal .NET validation messages unchanged.
+    private static string ReadErrorMessage(Exception error) => error is JSException
+        ? error.Message.Split('\n', 2)[0].TrimEnd('\r')
+        : error.Message;
 
     private async Task RunSharedAnalysisAndWrite()
     {
@@ -564,6 +640,7 @@
             isBusy = true;
             writeResult = null;
             selection = null;
+            selectedAreas = null;
             groupedPreview = null;
             groupedValidationMessage = null;
             groupedIssues = null;
@@ -641,7 +718,7 @@
             anovaOutput = null;
             kruskalOutput = null;
             writeResult = null;
-            status = "FAIL — " + ex.Message;
+            status = "FAIL — " + ReadErrorMessage(ex);
         }
         finally
         {

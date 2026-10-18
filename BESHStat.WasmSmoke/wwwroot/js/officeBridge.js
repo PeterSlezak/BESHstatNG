@@ -124,7 +124,8 @@
             ? ""
             : String(valueType).toLowerCase();
         const format = typeof numberFormat === "string" ? numberFormat : "";
-        const base = { kind: CELL_KIND.blank, numberValue: 0, textValue: "", booleanValue: false, numberFormat: format };
+        const base = { kind: CELL_KIND.blank, numberValue: 0, textValue: "", booleanValue: false,
+            numberFormat: format, nativeErrorCode: "" };
         if (typeName === "error") {
             return { ...base, kind: CELL_KIND.error, textValue: String(value ?? "") };
         }
@@ -183,10 +184,24 @@
             // Workbook IDs cannot currently be confirmed through ExcelApi 1.1.
             throw new Error("A workbook ID cannot be verified by this Office.js adapter.");
         }
+        if (reference.addressDialect !== undefined && reference.addressDialect !== 1) {
+            throw new Error("Office acquisition requires Excel A1 references.");
+        }
+        if (reference.selectionRevision) {
+            throw new Error("A selection revision cannot be verified by this Office.js adapter.");
+        }
+        const expected = { startRow: first.row, startColumn: first.column,
+            rowCount: last.row - first.row + 1, columnCount: last.column - first.column + 1 };
+        for (const key of Object.keys(expected)) {
+            if (reference[key] !== undefined && reference[key] !== 0 && reference[key] !== expected[key]) {
+                throw new Error("Source coordinates conflict with the requested address.");
+            }
+        }
         const actualBook = currentWorkbookName();
         if (reference.workbookName && (!actualBook || reference.workbookName.toLowerCase() !== actualBook.toLowerCase())) {
             throw new Error("The requested workbook is not the current Office workbook.");
         }
+        return expected;
     }
 
     function prepareRange(context, reference) {
@@ -196,15 +211,28 @@
         worksheet.load(["name", "id"]);
         // Only metadata is requested here. The caller enforces the payload limit
         // before loading values, valueTypes or numberFormat.
-        range.load(["rowCount", "columnCount"]);
+        range.load(["rowCount", "columnCount", "rowIndex", "columnIndex"]);
         return { worksheet, range, reference };
     }
 
-    function toRangeSnapshot(entry) {
+    function verifyEntry(entry) {
         const { range, worksheet, reference } = entry;
         if (reference && reference.worksheetId && reference.worksheetId !== worksheet.id) {
             throw new Error("The source worksheet identity changed; refresh the selection.");
         }
+        if (reference) {
+            const expected = validateReference(reference);
+            if (worksheet.name.toLowerCase() !== reference.worksheetName.toLowerCase() ||
+                range.rowIndex + 1 !== expected.startRow || range.columnIndex + 1 !== expected.startColumn ||
+                range.rowCount !== expected.rowCount || range.columnCount !== expected.columnCount) {
+                throw new Error("The source identity or coordinates changed; refresh the selection.");
+            }
+        }
+    }
+
+    function toRangeSnapshot(entry) {
+        const { range, worksheet, reference } = entry;
+        verifyEntry(entry);
         const rows = [];
         for (let r = 0; r < range.rowCount; r++) {
             const row = [];
@@ -216,10 +244,18 @@
         }
         const localAddress = range.address.indexOf("!") >= 0
             ? range.address.slice(range.address.lastIndexOf("!") + 1) : range.address;
+        // Check the host-reported address against its actual rectangle, then use the
+        // Common A1 convention (uppercase, no $, explicit endpoints even for one cell).
+        validateReference({ worksheetName: worksheet.name, address: localAddress,
+            startRow: range.rowIndex + 1, startColumn: range.columnIndex + 1,
+            rowCount: range.rowCount, columnCount: range.columnCount });
+        const endpoints = localAddress.replace(/\$/g, "").toUpperCase().split(":");
+        const canonicalAddress = endpoints[0] + ":" + endpoints[endpoints.length - 1];
         return {
             workbookId: "", workbookName: currentWorkbookName(), dateSystem: 0,
+            dateSerialOrigin: null, addressDialect: 1,
             worksheetId: worksheet.id || "", worksheetName: worksheet.name,
-            address: localAddress, startRow: range.rowIndex + 1, startColumn: range.columnIndex + 1,
+            address: canonicalAddress, startRow: range.rowIndex + 1, startColumn: range.columnIndex + 1,
             rowCount: range.rowCount, columnCount: range.columnCount,
             selectionId: reference && reference.selectionId ? reference.selectionId : "",
             selectionRevision: "", rows
@@ -248,47 +284,103 @@
         range.load(["address", "values", "valueTypes", "numberFormat", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
     }
 
+    function requireBoundedRangeSet(entries) {
+        entries.forEach(entry => requireBoundedSource(entry.range));
+        const totalCells = entries.reduce((sum, entry) => sum + entry.range.rowCount * entry.range.columnCount, 0);
+        if (totalCells > MAX_SOURCE_CELLS) {
+            throw new Error(`The selected range set contains ${totalCells} cells; select fewer than ${MAX_SOURCE_CELLS + 1}.`);
+        }
+    }
+
+    async function readSelectedEntries(context, entries) {
+        let narrowed = false;
+        for (const entry of entries) {
+            const selected = entry.range;
+            if (selected.rowCount !== 1048576 && selected.columnCount !== 16384) continue;
+            const requirements = typeof Office !== "undefined" && Office.context ? Office.context.requirements : null;
+            const canUseNullSafeRange = requirements && typeof requirements.isSetSupported === "function" &&
+                requirements.isSetSupported("ExcelApi", "1.4") === true;
+            if (canUseNullSafeRange && typeof selected.getUsedRangeOrNullObject === "function") {
+                entry.range = selected.getUsedRangeOrNullObject(true);
+            } else if (typeof selected.getUsedRange === "function") {
+                entry.range = selected.getUsedRange(true);
+            } else {
+                throw new Error("This Excel host cannot inspect populated cells in whole-row or whole-column selections.");
+            }
+            entry.range.load(["rowCount", "columnCount"]);
+            narrowed = true;
+        }
+        if (narrowed) await context.sync();
+        if (entries.some(entry => entry.range.isNullObject)) {
+            throw new Error("The selected whole rows or columns contain no populated cells.");
+        }
+        requireBoundedRangeSet(entries);
+        entries.forEach(entry => loadRangeCells(entry.range));
+        await context.sync();
+        return entries.map(toRangeSnapshot);
+    }
+
+    function selectionReadError(error, message) {
+        if (error && (error.code === "InvalidSelection" ||
+            (error.debugInfo && error.debugInfo.code === "InvalidSelection"))) {
+            const explanation = new Error(message);
+            explanation.code = "InvalidSelection";
+            return explanation;
+        }
+        return error;
+    }
+
     async function getSelectedRangeData() {
         await ensureExcelHost();
-        return Excel.run(async context => {
-            const selected = context.workbook.getSelectedRange();
-            // The selection owns the worksheet, even when it is not active.
-            const worksheet = selected.worksheet;
-            worksheet.load(["name", "id"]);
-            // Load dimensions only. Loading values here can exceed Office.js response limits.
-            selected.load(["rowCount", "columnCount"]);
-            await context.sync();
-
-            let source = selected;
-            const isWholeRowsOrColumns = selected.rowCount === 1048576 || selected.columnCount === 16384;
-            if (isWholeRowsOrColumns) {
-                // Scope the used range to the SELECTION, not the whole worksheet.
-                // ExcelApi 1.4 provides a null-safe version; fall back to 1.1 otherwise.
-                const requirements = typeof Office !== "undefined" && Office.context
-                    ? Office.context.requirements : null;
-                const canUseNullSafeRange = requirements &&
-                    typeof requirements.isSetSupported === "function" &&
-                    requirements.isSetSupported("ExcelApi", "1.4") === true;
-                if (canUseNullSafeRange && typeof selected.getUsedRangeOrNullObject === "function") {
-                    source = selected.getUsedRangeOrNullObject(true);
-                } else if (typeof selected.getUsedRange === "function") {
-                    source = selected.getUsedRange(true);
-                } else {
-                    throw new Error("This Excel host cannot inspect populated cells in whole-row or whole-column selections.");
-                }
-                source.load(["rowCount", "columnCount"]);
+        try {
+            return await Excel.run(async context => {
+                const selected = context.workbook.getSelectedRange();
+                // The selection owns the worksheet, even when it is not active.
+                const worksheet = selected.worksheet;
+                worksheet.load(["name", "id"]);
+                // Load dimensions only. Loading values here can exceed Office.js response limits.
+                selected.load(["rowCount", "columnCount"]);
                 await context.sync();
-                if (source.isNullObject) {
-                    throw new Error("The selected whole rows or columns contain no populated cells.");
-                }
-            }
 
-            // Do not silently truncate populated data when it exceeds the smoke limit.
-            requireBoundedSource(source);
-            loadRangeCells(source);
-            await context.sync();
-            return toRangeSnapshot({ worksheet, range: source, reference: null });
-        });
+                const snapshots = await readSelectedEntries(context, [{ worksheet, range: selected, reference: null }]);
+                return snapshots[0];
+            });
+        } catch (error) {
+            throw selectionReadError(error, "Select one rectangular range for this operation. " +
+                "To preview multiple selected areas, use Read selected areas (01.09).");
+        }
+    }
+
+    // ExcelApi 1.9 exposes RangeAreas. Preserve its order, never its bounding rectangle.
+    // Older hosts retain the single-range API (which rejects disjoint selections).
+    async function getSelectedRangeSetData() {
+        await ensureExcelHost();
+        const requirements = Office.context && Office.context.requirements;
+        const supportsAreas = requirements && typeof requirements.isSetSupported === "function" &&
+            requirements.isSetSupported("ExcelApi", "1.9") === true;
+        try {
+            if (!supportsAreas) return { selectionId: "", ranges: [await getSelectedRangeData()] };
+            return await Excel.run(async context => {
+                const areas = context.workbook.getSelectedRanges().areas;
+                // Loading bare "items" can request default Range properties. Name only
+                // dimensions so whole-column areas cannot trigger an early cell payload.
+                areas.load(["items/rowCount", "items/columnCount"]);
+                await context.sync();
+                if (!areas.items.length) throw new Error("At least one range must be selected.");
+                const entries = areas.items.map(range => {
+                    const worksheet = range.worksheet;
+                    worksheet.load(["name", "id"]);
+                    range.load(["rowCount", "columnCount"]);
+                    return { worksheet, range, reference: null };
+                });
+                await context.sync();
+                return { selectionId: "", ranges: await readSelectedEntries(context, entries) };
+            });
+        } catch (error) {
+            throw selectionReadError(error, supportsAreas
+                ? "Select worksheet cells and try Read selected areas (01.09) again."
+                : "This Excel host needs ExcelApi 1.9 to read multiple selected areas. Select one rectangular range and try again.");
+        }
     }
 
     async function getRangeDataByReference(reference) {
@@ -297,6 +389,7 @@
         return Excel.run(async context => {
             const entry = prepareRange(context, reference);
             await context.sync();
+            verifyEntry(entry);
             requireBoundedSource(entry.range);
             loadRangeCells(entry.range);
             await context.sync();
@@ -313,12 +406,8 @@
         return Excel.run(async context => {
             const entries = selection.ranges.map(reference => prepareRange(context, reference));
             await context.sync();
-            entries.forEach(entry => requireBoundedSource(entry.range));
-            const totalCells = entries.reduce((sum, entry) =>
-                sum + entry.range.rowCount * entry.range.columnCount, 0);
-            if (totalCells > MAX_SOURCE_CELLS) {
-                throw new Error(`The selected range set contains ${totalCells} cells; select fewer than ${MAX_SOURCE_CELLS + 1}.`);
-            }
+            requireBoundedRangeSet(entries);
+            entries.forEach(verifyEntry);
             entries.forEach(entry => loadRangeCells(entry.range));
             await context.sync();
             return {
@@ -667,6 +756,7 @@
         getHostStatus,
         getHostCapabilities,
         getSelectedRangeData,
+        getSelectedRangeSetData,
         getRangeDataByReference,
         getRangeSetData,
         writeResultTable,

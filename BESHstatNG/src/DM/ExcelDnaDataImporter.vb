@@ -11,6 +11,24 @@ Imports Microsoft.Office.Interop.Excel
 ''' Keep Excel object-model code here rather than in <see cref="DataObj"/>.
 ''' </summary>
 Public Class ExcelDnaDataImporter
+    ''' <summary>Lossless snapshot; the legacy Import/ImportInto behavior below is unchanged.</summary>
+    Public Shared Function AcquireRangeData(source As Range) As Global.BESHStatNG.ExcelCommon.SpreadsheetRangeData
+        Return ExcelDnaSharedApplicationAdapter.ToRangeData(source)
+    End Function
+
+    Public Shared Function AcquireRangeSetData(source As Range) As Global.BESHStatNG.ExcelCommon.SpreadsheetRangeSetData
+        Return ExcelDnaSharedApplicationAdapter.ToRangeSetData(New Range() {source})
+    End Function
+
+    Public Shared Function AcquireRangeSetData(sources As IEnumerable(Of Range)) As Global.BESHStatNG.ExcelCommon.SpreadsheetRangeSetData
+        Return ExcelDnaSharedApplicationAdapter.ToRangeSetData(sources)
+    End Function
+
+    Public Shared Function AcquireRangeSetData(selection As Global.BESHStatNG.ExcelCommon.SpreadsheetRangeSelection,
+                                               book As Workbook) As Global.BESHStatNG.ExcelCommon.SpreadsheetRangeSetData
+        Return ExcelDnaSharedApplicationAdapter.ToRangeSetData(selection, book)
+    End Function
+
     Public Shared Function Import(ref As String, Optional bStartRow As Boolean = False) As CoreDataTable
         If String.IsNullOrWhiteSpace(ref) Then CoreServices.Errors.LogAndThrow(New ArgumentException("Excel range reference cannot be empty.", NameOf(ref)))
 

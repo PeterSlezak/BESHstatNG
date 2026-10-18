@@ -62,6 +62,7 @@
       <HintPath>packages\MSTest.TestFramework.2.2.10\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -97,6 +98,10 @@
     <Compile Include="src\CoreUtilityForwarderTests.vb" />
     <Compile Include="src\CumulativeDistributionPlotTests.vb" />
     <Compile Include="src\DataManagement\DataObjPreparationTests.vb" />
+    <Compile Include="src\DataManagement\AcquisitionAdapterTests.vb" />
+    <Compile Include="..\BESHStat.Excel.Common.Tests\TestSupport\AcquisitionFixture.vb">
+      <Link>TestSupport\AcquisitionFixture.vb</Link>
+    </Compile>
     <Compile Include="src\MatrixTests.vb" />
     <Compile Include="src\MixedModels\KenwardRogerDerivativeTests.vb" />
     <Compile Include="src\MixedModels\KenwardRogerInferenceTests.vb" />
@@ -171,6 +176,10 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="packages.config" />
+    <None Include="..\BESHStat.Excel.Common.Tests\TestData\Acquisition\canonical-two-ranges.json">
+      <Link>TestData\Acquisition\canonical-two-ranges.json</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="test.runsettings" />
     <None Include="TestData\cluster_dataset_basic.csv" />
     <None Include="TestData\cluster_dataset_missing.csv" />
@@ -249,6 +258,9 @@
     <ProjectReference Include="..\BESHStat.Core\BESHStat.Core.vbproj">
       <Project>{63e332f3-a455-8f27-72a4-8b7afa1e040c}</Project>
       <Name>BESHStat.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BESHStat.Excel.Common\BESHStat.Excel.Common.vbproj">
+      <Name>BESHStat.Excel.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\BESHStatNG\BESHStatNG.vbproj">
       <Project>{A4A3C057-C520-462B-AD91-F481B2D797DE}</Project>
