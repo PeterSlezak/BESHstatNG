@@ -567,7 +567,9 @@
     <WriteLinesToFile File="$(ProjectDir)Generated\VersionAttributes.vb" Lines="@(_VersionLines)" Overwrite="true" Encoding="UTF-8" />
   </Target>
   <PropertyGroup>
-    <PythonExe>C:\Users\peter\Desktop\WPy64-31150\python-3.11.5.amd64\python.exe</PythonExe>
+    <!-- Override with /p:PythonExe=... or the PythonExe environment variable.
+         Empty means discover Python on PATH, then the Windows Python launcher. -->
+    <PythonExe Condition="'$(PythonExe)' == ''"></PythonExe>
     <HelpMethodsYml>$(MSBuildProjectDirectory)\..\BESHStatNG_Help_MkDocs\docs\_meta\methods.yml</HelpMethodsYml>
   </PropertyGroup>
   <PropertyGroup>
@@ -588,7 +590,13 @@ echo ========================================================
 echo ALL EXCEL COMPONENTS SIGNED SUCCESSFULLY
 echo ========================================================</PostBuildEvent>
   </PropertyGroup>
+  <Target Name="ResolveHelpPython" BeforeTargets="GenerateHelpLinks">
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="powershell.exe -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\..\scripts\resolve-beshstatng-python.ps1&quot; -PythonExe &quot;$(PythonExe)&quot;" ConsoleToMSBuild="true" StandardOutputImportance="Low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_HelpPythonExe" />
+    </Exec>
+    <Error Condition="'$(_HelpPythonExe)' == ''" Text="Python discovery returned no executable. Set /p:PythonExe to Python 3.10+ with PyYAML installed." />
+  </Target>
   <Target Name="GenerateHelpLinks" BeforeTargets="BeforeBuild">
-    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="&quot;$(PythonExe)&quot; &quot;$(MSBuildProjectDirectory)\tools\generate_help_links.py&quot; --methods-yml &quot;$(HelpMethodsYml)&quot; --project-dir &quot;$(MSBuildProjectDirectory)&quot;" />
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)" Command="&quot;$(_HelpPythonExe)&quot; -B &quot;$(MSBuildProjectDirectory)\tools\generate_help_links.py&quot; --methods-yml &quot;$(HelpMethodsYml)&quot; --project-dir &quot;$(MSBuildProjectDirectory)&quot;" />
   </Target>
 </Project>
