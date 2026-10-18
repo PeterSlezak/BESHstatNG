@@ -13,6 +13,9 @@ WASM workload. MSTest 3.6.4 and Microsoft.NET.Test.Sdk 17.12.0 are retained;
 both modern suites pass on .NET 10. See the separate
 [migration validation](dotnet-10-migration.md) and
 [batch 01.09 adapter notes](batch-01-09-acquisition-adapters.md).
+The [batch 01.10 quota notes](batch-01-10-large-range-acquisition.md) document
+bounded opt-in acquisition, deterministic chunk fixtures and separate manual
+large-range/cancellation checks; live Office acceptance remains manual.
 Windows legacy builds require VS 2022 or 2026, the .NET Framework 4.8 targeting
 pack and the existing `packages.config` packages restored. The script does not
 install Python packages, workloads, Visual Studio or legacy packages.

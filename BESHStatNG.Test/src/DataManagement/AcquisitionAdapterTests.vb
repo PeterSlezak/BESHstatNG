@@ -4,6 +4,7 @@ Option Strict On
 Imports System
 Imports System.Collections.Generic
 Imports System.Runtime.InteropServices
+Imports System.Threading
 Imports ExcelDna.Integration
 Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.AcquisitionTestSupport
@@ -11,6 +12,131 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 <TestClass>
 Public Class AcquisitionAdapterTests
+    <TestMethod>
+    Public Sub WindowsExplicitAcquisition_KeepsActualIdentityWhenRequestOmitsOptionalFields()
+        Dim requested = SpreadsheetRangeReference.FromAddress("A1", "Data")
+        requested.SelectionId = "caller-correlation"
+        Dim actual = SpreadsheetRangeReference.FromAddress("A1", "Data", "ActualBook.xlsx")
+        actual.WorksheetId = "SheetCodeName"
+        Dim verified = ExcelDnaSharedApplicationAdapter.VerifiedSnapshotReference(requested, actual)
+        Dim snapshot = ExcelDnaSharedApplicationAdapter.SnapshotValueReader(verified, Function() 2.0R,
+            Nothing, Nothing, SpreadsheetDateSystem.Excel1900)
+        Assert.AreEqual("ActualBook.xlsx", snapshot.WorkbookName)
+        Assert.AreEqual("SheetCodeName", snapshot.WorksheetId)
+        Assert.AreEqual("caller-correlation", snapshot.SelectionId)
+        Assert.AreEqual(2.0R, snapshot.Rows(0)(0).NumberValue)
+    End Sub
+
+    <TestMethod>
+    Public Sub WindowsOversizedRange_IsRejectedBeforeValueReader()
+        Dim invoked As Boolean = False
+        Dim reference = SpreadsheetRangeReference.FromAddress("A1:B5001", "Data")
+        Dim ex = Assert.ThrowsException(Of SpreadsheetInputValidationException)(
+            Function() ExcelDnaSharedApplicationAdapter.SnapshotValueReader(reference,
+                Function()
+                    invoked = True
+                    Return Nothing
+                End Function, Nothing, Nothing, SpreadsheetDateSystem.Unknown))
+        Assert.IsFalse(invoked)
+        Assert.AreEqual("input.range-cells", ex.Report.Issues(0).Code)
+    End Sub
+
+    <TestMethod>
+    Public Sub WindowsAggregatePreflight_RejectsBeforeAnyAcquisitionDelegate()
+        Dim invoked As Boolean = False
+        Dim selection As New SpreadsheetRangeSelection()
+        selection.Ranges.Add(SpreadsheetRangeReference.FromAddress("A1:B3000", "Data"))
+        selection.Ranges.Add(SpreadsheetRangeReference.FromAddress("D1:E3000", "Other"))
+        Dim ex = Assert.ThrowsException(Of SpreadsheetInputValidationException)(
+            Function() ExcelDnaSharedApplicationAdapter.SnapshotSelection(selection,
+                Function(reference)
+                    invoked = True
+                    Return Nothing
+                End Function))
+        Assert.IsFalse(invoked)
+        Assert.AreEqual("input.total-cells", ex.Report.Issues(0).Code)
+    End Sub
+
+    <TestMethod>
+    Public Sub WindowsLargerPolicy_CannotEnableUnchunkedLargeValue2()
+        Dim selection As New SpreadsheetRangeSelection()
+        selection.Ranges.Add(SpreadsheetRangeReference.FromAddress("A1:B6000", "Data"))
+        Dim invoked As Boolean = False
+        Dim ex = Assert.ThrowsException(Of SpreadsheetInputValidationException)(
+            Function() ExcelDnaSharedApplicationAdapter.SnapshotSelection(selection,
+                Function(reference)
+                    invoked = True
+                    Return Nothing
+                End Function, New InputSizeLimits(maxRangeCells:=20000, maxTotalCells:=20000, maxChunkCells:=20000)))
+        Assert.AreEqual("input.windows-response", ex.Report.Issues(0).Code)
+        Assert.IsFalse(invoked)
+    End Sub
+
+    <TestMethod>
+    Public Sub WindowsExplicitSmallerResponseBudget_IsHonored()
+        Dim selection As New SpreadsheetRangeSelection()
+        selection.Ranges.Add(SpreadsheetRangeReference.FromAddress("A1:B2", "Data"))
+        Dim ex = Assert.ThrowsException(Of SpreadsheetInputValidationException)(
+            Function() ExcelDnaSharedApplicationAdapter.SnapshotSelection(selection, Function(reference) Nothing,
+                New InputSizeLimits(maxChunkCells:=3)))
+        Assert.AreEqual("input.windows-response", ex.Report.Issues(0).Code)
+    End Sub
+
+    <TestMethod>
+    Public Sub WindowsCancelledRequest_DoesNotInvokeAcquisitionDelegate()
+        Dim selection As New SpreadsheetRangeSelection()
+        selection.Ranges.Add(SpreadsheetRangeReference.FromAddress("A1", "Data"))
+        Dim invoked As Boolean = False
+        Using source As New CancellationTokenSource()
+            source.Cancel()
+            Assert.ThrowsException(Of OperationCanceledException)(
+                Function() ExcelDnaSharedApplicationAdapter.SnapshotSelection(selection,
+                    Function(reference)
+                        invoked = True
+                        Return Nothing
+                    End Function, cancellation:=source.Token))
+        End Using
+        Assert.IsFalse(invoked)
+    End Sub
+
+    <TestMethod>
+    Public Sub WindowsExactDefaultLimit_UsesSameLosslessReader()
+        Dim reference = SpreadsheetRangeReference.FromAddress("C4:CX103", "Data") ' 100 x 100
+        Dim values(99, 99) As Object
+        values(0, 0) = ""
+        values(99, 99) = False
+        Dim calls As Integer = 0
+        Dim actual = ExcelDnaSharedApplicationAdapter.SnapshotValueReader(reference,
+            Function()
+                calls += 1
+                Return values
+            End Function, Nothing, Nothing, SpreadsheetDateSystem.Excel1900)
+        Assert.AreEqual(1, calls)
+        Assert.AreEqual(100, actual.Rows.Count)
+        Assert.AreEqual(100, actual.ColumnCount)
+        Assert.AreEqual(SpreadsheetCellKind.Text, actual.Rows(0)(0).Kind)
+        Assert.AreEqual(SpreadsheetCellKind.Blank, actual.Rows(1)(1).Kind)
+        Assert.AreEqual(SpreadsheetCellKind.Bool, actual.Rows(99)(99).Kind)
+    End Sub
+
+    <TestMethod>
+    Public Sub WindowsCancellationBetweenAreas_ReturnsNoPartialSet()
+        Dim selection As New SpreadsheetRangeSelection()
+        selection.Ranges.Add(SpreadsheetRangeReference.FromAddress("A1", "Data"))
+        selection.Ranges.Add(SpreadsheetRangeReference.FromAddress("B1", "Data"))
+        Dim calls As Integer = 0
+        Using source As New CancellationTokenSource()
+            Assert.ThrowsException(Of OperationCanceledException)(
+                Function() ExcelDnaSharedApplicationAdapter.SnapshotSelection(selection,
+                    Function(reference)
+                        calls += 1
+                        source.Cancel()
+                        Return ExcelDnaSharedApplicationAdapter.SnapshotValues(reference, 1.0R, Nothing, Nothing, SpreadsheetDateSystem.Unknown)
+                    End Function, cancellation:=source.Token))
+        End Using
+        Assert.AreEqual(1, calls)
+    End Sub
+
     Private Shared Function Capture(expected As SpreadsheetRangeData, values As Object) As SpreadsheetRangeData
         Dim reference = expected.ToReference()
         reference.WorksheetId = "windows-" & expected.WorksheetName

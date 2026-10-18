@@ -120,6 +120,9 @@
     // Preserve Excel's reported kind rather than retyping a formatted value.
     // An empty string returned for a String cell (e.g. ="") is text, not a blank.
     function toPortableCell(value, valueType, numberFormat) {
+        if (valueType !== null && valueType !== undefined && typeof valueType !== "string") {
+            throw new Error("Unsupported host cell type metadata.");
+        }
         const typeName = valueType === null || valueType === undefined
             ? ""
             : String(valueType).toLowerCase();
@@ -127,23 +130,27 @@
         const base = { kind: CELL_KIND.blank, numberValue: 0, textValue: "", booleanValue: false,
             numberFormat: format, nativeErrorCode: "" };
         if (typeName === "error") {
-            return { ...base, kind: CELL_KIND.error, textValue: String(value ?? "") };
+            if (typeof value !== "string") throw new Error("Unsupported host error value.");
+            return { ...base, kind: CELL_KIND.error, textValue: value };
         }
         if (typeName === "empty" || value === null || value === undefined) return base;
         if (typeName === "boolean" || typeof value === "boolean") {
-            return { ...base, kind: CELL_KIND.boolean, booleanValue: Boolean(value) };
+            if (typeof value !== "boolean") throw new Error("Unsupported host Boolean value.");
+            return { ...base, kind: CELL_KIND.boolean, booleanValue: value };
         }
         if (typeName === "integer" || typeName === "double" || (typeName === "" && typeof value === "number")) {
-            if (typeof value !== "number" || !Number.isFinite(value)) {
+            if (typeof value !== "number") throw new Error("Unsupported host numeric value.");
+            if (!Number.isFinite(value)) {
                 return { ...base, kind: CELL_KIND.error, textValue: String(value) };
             }
             return { ...base, kind: CELL_KIND.number, numberValue: value };
         }
-        if (typeName === "string" || typeName === "richvalue" || typeof value === "string") {
+        if (typeName === "string" || typeof value === "string") {
+            if (typeof value !== "string") throw new Error("Unsupported host text value.");
             if (value === "" && typeName === "") return base; // old hosts with no valueTypes
             return { ...base, kind: CELL_KIND.text, textValue: String(value) };
         }
-        return { ...base, kind: CELL_KIND.text, textValue: String(value) };
+        throw new Error("Unsupported host cell value; refresh with primitive cell values.");
     }
 
     // A range reference addresses the workbook currently hosting this task pane.
@@ -211,7 +218,7 @@
         worksheet.load(["name", "id"]);
         // Only metadata is requested here. The caller enforces the payload limit
         // before loading values, valueTypes or numberFormat.
-        range.load(["rowCount", "columnCount", "rowIndex", "columnIndex"]);
+        range.load(["address", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
         return { worksheet, range, reference };
     }
 
@@ -230,18 +237,9 @@
         }
     }
 
-    function toRangeSnapshot(entry) {
+    function toRangeSnapshot(entry, rows) {
         const { range, worksheet, reference } = entry;
         verifyEntry(entry);
-        const rows = [];
-        for (let r = 0; r < range.rowCount; r++) {
-            const row = [];
-            for (let c = 0; c < range.columnCount; c++) {
-                row.push(toPortableCell(range.values[r][c], range.valueTypes[r][c],
-                    range.numberFormat && range.numberFormat[r] ? range.numberFormat[r][c] : ""));
-            }
-            rows.push(row);
-        }
         const localAddress = range.address.indexOf("!") >= 0
             ? range.address.slice(range.address.lastIndexOf("!") + 1) : range.address;
         // Check the host-reported address against its actual rectangle, then use the
@@ -262,21 +260,68 @@
         };
     }
 
-    // A full-column selection in Excel contains 1,048,576 rows. Never load its
-    // cell matrices before asking Excel for the occupied portion of that range.
-    // A conservative temporary ceiling protects the smoke harness; large-range
-    // chunking and quota policy are reserved for the later input-acquisition batch.
+    // Mirrors Common InputSizeLimits defaults; Excel-specific ceilings stay here.
     const MAX_SOURCE_CELLS = 10000;
+    const INPUT_DEFAULTS = Object.freeze({ maxRangeCells: MAX_SOURCE_CELLS,
+        maxTotalCells: MAX_SOURCE_CELLS, maxRanges: 64, maxChunkCells: 2000,
+        maxEstimatedBytes: 67108864, estimatedBytesPerCell: 1024, timeBudgetMilliseconds: 30000 });
 
-    function requireBoundedSource(range) {
-        const rows = Number(range.rowCount);
-        const columns = Number(range.columnCount);
+    function acquisitionOperation(options) {
+        if (options !== undefined && (!options || typeof options !== "object" || Array.isArray(options))) {
+            throw new Error("Acquisition options must be an object.");
+        }
+        const limits = { ...INPUT_DEFAULTS, ...options };
+        for (const key of Object.keys(INPUT_DEFAULTS)) {
+            const value = limits[key];
+            if (typeof value !== "number" || !Number.isFinite(value) || value <= 0 ||
+                value > Number.MAX_SAFE_INTEGER || (key !== "timeBudgetMilliseconds" &&
+                key !== "estimatedBytesPerCell" && key !== "maxEstimatedBytes" && !Number.isSafeInteger(value))) {
+                throw new Error(`Invalid acquisition budget ${key}: a finite positive bounded value is required.`);
+            }
+        }
+        // Bounded opt-in, never an unlimited mode or a single giant host response.
+        if (limits.maxRangeCells > 1000000 || limits.maxTotalCells > 1000000 ||
+            limits.maxRanges > 1024 || limits.maxChunkCells > 10000 ||
+            limits.maxEstimatedBytes > 268435456 || limits.estimatedBytesPerCell < 1024 ||
+            limits.timeBudgetMilliseconds > 300000) {
+            throw new Error("Acquisition options exceed Office safety ceilings (1,000,000 cells, 1024 ranges, " +
+                "10,000 cells/chunk, 256 MiB estimate, 300,000 ms; estimate at least 1024 bytes/cell).");
+        }
+        if (limits.signal !== undefined && (!limits.signal || typeof limits.signal.aborted !== "boolean")) {
+            throw new Error("Cancellation signal must expose an aborted Boolean.");
+        }
+        const now = () => typeof performance !== "undefined" ? performance.now() : Date.now();
+        const started = now();
+        const operation = { limits, check() {
+            if (limits.signal && limits.signal.aborted) {
+                const error = new Error("Acquisition cancelled; no snapshot returned.");
+                error.code = "input.cancelled";
+                throw error;
+            }
+            const elapsed = now() - started;
+            if (elapsed > limits.timeBudgetMilliseconds) quotaError("input.time-budget", "timeBudgetMilliseconds", elapsed, limits.timeBudgetMilliseconds);
+        } };
+        operation.check();
+        return operation;
+    }
+
+    function quotaError(code, limit, requested, allowed, message) {
+        const error = new Error(message || `Acquisition limit ${limit}: requested ${requested}; allowed ${allowed}. ` +
+            "Select less data or supply explicit bounded acquisition options.");
+        Object.assign(error, { code, limit, requested, allowed });
+        throw error;
+    }
+
+    function requireBoundedSource(range, limits) {
+        const rows = range.rowCount;
+        const columns = range.columnCount;
         if (!Number.isSafeInteger(rows) || !Number.isSafeInteger(columns) || rows < 1 || columns < 1) {
             throw new Error("The Excel source range has invalid dimensions.");
         }
-        if (rows * columns > MAX_SOURCE_CELLS) {
-            throw new Error(`The source contains ${rows * columns} cells. The WasmSmoke input preview ` +
-                `currently supports at most ${MAX_SOURCE_CELLS} cells; select a smaller populated range.`);
+        if (!Number.isSafeInteger(rows * columns) || rows * columns > limits.maxRangeCells) {
+            quotaError("input.range-cells", "maxRangeCells", rows * columns, limits.maxRangeCells,
+                `The source contains ${rows * columns} cells. The WasmSmoke input preview ` +
+                `supports at most ${limits.maxRangeCells} cells; select a smaller populated range or supply explicit bounded options.`);
         }
     }
 
@@ -284,15 +329,106 @@
         range.load(["address", "values", "valueTypes", "numberFormat", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
     }
 
-    function requireBoundedRangeSet(entries) {
-        entries.forEach(entry => requireBoundedSource(entry.range));
-        const totalCells = entries.reduce((sum, entry) => sum + entry.range.rowCount * entry.range.columnCount, 0);
-        if (totalCells > MAX_SOURCE_CELLS) {
-            throw new Error(`The selected range set contains ${totalCells} cells; select fewer than ${MAX_SOURCE_CELLS + 1}.`);
+    function requireRangeCount(count, limits) {
+        if (count > limits.maxRanges) quotaError("input.range-count", "maxRanges", count, limits.maxRanges);
+    }
+
+    function requireBoundedRangeSet(entries, operation) {
+        operation.check();
+        const limits = operation.limits;
+        requireRangeCount(entries.length, limits);
+        entries.forEach(entry => requireBoundedSource(entry.range, limits));
+        let totalCells = 0;
+        for (const entry of entries) {
+            const cells = entry.range.rowCount * entry.range.columnCount;
+            if (cells > limits.maxTotalCells - totalCells) {
+                quotaError("input.total-cells", "maxTotalCells", totalCells + cells, limits.maxTotalCells,
+                    `The selected range set contains ${totalCells + cells} cells; select fewer than ${limits.maxTotalCells + 1}.`);
+            }
+            totalCells += cells;
+        }
+        const estimate = totalCells * limits.estimatedBytesPerCell;
+        if (estimate > limits.maxEstimatedBytes) quotaError("input.estimated-bytes", "maxEstimatedBytes", estimate, limits.maxEstimatedBytes);
+    }
+
+    // Lazy rectangular planner: columns first only when a single row exceeds the cap.
+    function* tiles(range, cap) {
+        const width = Math.min(range.columnCount, cap);
+        const height = Math.max(1, Math.floor(cap / width));
+        for (let row = 0; row < range.rowCount; row += height) {
+            for (let column = 0; column < range.columnCount; column += width) {
+                yield { row, column, rows: Math.min(height, range.rowCount - row),
+                    columns: Math.min(width, range.columnCount - column) };
+            }
         }
     }
 
-    async function readSelectedEntries(context, entries) {
+    function verifyMetadata(entry) {
+        // Snapshot construction validates host address/coordinates too, before payload.
+        toRangeSnapshot(entry, []);
+        const { range, worksheet } = entry;
+        if (typeof worksheet.id !== "string" || !worksheet.id || typeof worksheet.name !== "string" || !worksheet.name ||
+            !Number.isSafeInteger(range.rowIndex) || !Number.isSafeInteger(range.columnIndex) ||
+            range.rowIndex < 0 || range.columnIndex < 0 ||
+            range.rowIndex + range.rowCount > 1048576 || range.columnIndex + range.columnCount > 16384) {
+            throw new Error("Unverified worksheet identity or Excel range bounds.");
+        }
+    }
+
+    function verifyMatrix(matrix, tile, name) {
+        if (!Array.isArray(matrix) || matrix.length !== tile.rows ||
+            matrix.some(row => !Array.isArray(row) || row.length !== tile.columns)) {
+            throw new Error(`Host chunk ${name} dimensions do not match the requested tile.`);
+        }
+    }
+
+    async function readEntries(context, entries, operation) {
+        requireBoundedRangeSet(entries, operation); // preserve aggregate-before-identity precedence
+        entries.forEach(verifyMetadata);
+        const snapshots = [];
+        try {
+            for (const entry of entries) {
+                const source = entry.range;
+                // Freeze the plan: a one-tile payload may refresh the source proxy's
+                // own metadata, so comparisons must not use that same mutable proxy.
+                const geometry = { rowIndex: source.rowIndex, columnIndex: source.columnIndex,
+                    rowCount: source.rowCount, columnCount: source.columnCount };
+                const rows = Array.from({ length: geometry.rowCount }, () => []);
+                for (const tile of tiles(geometry, operation.limits.maxChunkCells)) {
+                    operation.check();
+                    const single = tile.rows === geometry.rowCount && tile.columns === geometry.columnCount;
+                    const chunk = single ? source : entry.worksheet.getRangeByIndexes(
+                        geometry.rowIndex + tile.row, geometry.columnIndex + tile.column, tile.rows, tile.columns);
+                    loadRangeCells(chunk);
+                    await context.sync(); // one bounded payload in flight, never a full large source
+                    operation.check();
+                    if (chunk.rowIndex !== geometry.rowIndex + tile.row || chunk.columnIndex !== geometry.columnIndex + tile.column ||
+                        chunk.rowCount !== tile.rows || chunk.columnCount !== tile.columns) {
+                        throw new Error("Host chunk positions or dimensions changed; refresh the selection.");
+                    }
+                    verifyMetadata({ ...entry, range: chunk, reference: null });
+                    verifyMatrix(chunk.values, tile, "values");
+                    verifyMatrix(chunk.valueTypes, tile, "valueTypes");
+                    if (chunk.numberFormat !== undefined) verifyMatrix(chunk.numberFormat, tile, "numberFormat");
+                    for (let row = 0; row < tile.rows; row++) {
+                        for (let column = 0; column < tile.columns; column++) {
+                            rows[tile.row + row][tile.column + column] = toPortableCell(chunk.values[row][column],
+                                chunk.valueTypes[row][column], chunk.numberFormat ? chunk.numberFormat[row][column] : "");
+                        }
+                    }
+                }
+                snapshots.push(toRangeSnapshot(entry, rows));
+            }
+            operation.check();
+            return snapshots;
+        } catch (error) {
+            snapshots.length = 0; // no partial usable result escapes; host request cannot be forcibly aborted
+            throw error;
+        }
+    }
+
+    async function readSelectedEntries(context, entries, operation) {
+        operation.check();
         let narrowed = false;
         for (const entry of entries) {
             const selected = entry.range;
@@ -307,17 +443,14 @@
             } else {
                 throw new Error("This Excel host cannot inspect populated cells in whole-row or whole-column selections.");
             }
-            entry.range.load(["rowCount", "columnCount"]);
+            entry.range.load(["address", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
             narrowed = true;
         }
-        if (narrowed) await context.sync();
+        if (narrowed) { await context.sync(); operation.check(); }
         if (entries.some(entry => entry.range.isNullObject)) {
             throw new Error("The selected whole rows or columns contain no populated cells.");
         }
-        requireBoundedRangeSet(entries);
-        entries.forEach(entry => loadRangeCells(entry.range));
-        await context.sync();
-        return entries.map(toRangeSnapshot);
+        return readEntries(context, entries, operation);
     }
 
     function selectionReadError(error, message) {
@@ -330,8 +463,14 @@
         return error;
     }
 
-    async function getSelectedRangeData() {
+    async function getSelectedRangeData(options) {
+        const operation = acquisitionOperation(options);
         await ensureExcelHost();
+        return readSelectedRange(operation);
+    }
+
+    async function readSelectedRange(operation) {
+        operation.check();
         try {
             return await Excel.run(async context => {
                 const selected = context.workbook.getSelectedRange();
@@ -339,10 +478,10 @@
                 const worksheet = selected.worksheet;
                 worksheet.load(["name", "id"]);
                 // Load dimensions only. Loading values here can exceed Office.js response limits.
-                selected.load(["rowCount", "columnCount"]);
+                selected.load(["address", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
                 await context.sync();
 
-                const snapshots = await readSelectedEntries(context, [{ worksheet, range: selected, reference: null }]);
+                const snapshots = await readSelectedEntries(context, [{ worksheet, range: selected, reference: null }], operation);
                 return snapshots[0];
             });
         } catch (error) {
@@ -353,28 +492,36 @@
 
     // ExcelApi 1.9 exposes RangeAreas. Preserve its order, never its bounding rectangle.
     // Older hosts retain the single-range API (which rejects disjoint selections).
-    async function getSelectedRangeSetData() {
+    async function getSelectedRangeSetData(options) {
+        const operation = acquisitionOperation(options);
         await ensureExcelHost();
+        operation.check();
         const requirements = Office.context && Office.context.requirements;
         const supportsAreas = requirements && typeof requirements.isSetSupported === "function" &&
             requirements.isSetSupported("ExcelApi", "1.9") === true;
         try {
-            if (!supportsAreas) return { selectionId: "", ranges: [await getSelectedRangeData()] };
+            if (!supportsAreas) {
+                const range = await readSelectedRange(operation);
+                operation.check();
+                return { selectionId: "", ranges: [range] };
+            }
             return await Excel.run(async context => {
                 const areas = context.workbook.getSelectedRanges().areas;
                 // Loading bare "items" can request default Range properties. Name only
                 // dimensions so whole-column areas cannot trigger an early cell payload.
                 areas.load(["items/rowCount", "items/columnCount"]);
                 await context.sync();
+                operation.check();
                 if (!areas.items.length) throw new Error("At least one range must be selected.");
+                requireRangeCount(areas.items.length, operation.limits);
                 const entries = areas.items.map(range => {
                     const worksheet = range.worksheet;
                     worksheet.load(["name", "id"]);
-                    range.load(["rowCount", "columnCount"]);
+                    range.load(["address", "rowCount", "columnCount", "rowIndex", "columnIndex"]);
                     return { worksheet, range, reference: null };
                 });
                 await context.sync();
-                return { selectionId: "", ranges: await readSelectedEntries(context, entries) };
+                return { selectionId: "", ranges: await readSelectedEntries(context, entries, operation) };
             });
         } catch (error) {
             throw selectionReadError(error, supportsAreas
@@ -383,36 +530,33 @@
         }
     }
 
-    async function getRangeDataByReference(reference) {
+    async function getRangeDataByReference(reference, options) {
+        const operation = acquisitionOperation(options);
         validateReference(reference); // fail before Excel.run
         await ensureExcelHost();
+        operation.check();
         return Excel.run(async context => {
             const entry = prepareRange(context, reference);
             await context.sync();
-            verifyEntry(entry);
-            requireBoundedSource(entry.range);
-            loadRangeCells(entry.range);
-            await context.sync();
-            return toRangeSnapshot(entry);
+            return (await readEntries(context, [entry], operation))[0];
         });
     }
 
-    async function getRangeSetData(selection) {
+    async function getRangeSetData(selection, options) {
+        const operation = acquisitionOperation(options);
         if (!selection || !Array.isArray(selection.ranges) || selection.ranges.length === 0) {
             throw new Error("A nonempty structured range selection is required.");
         }
+        requireRangeCount(selection.ranges.length, operation.limits);
         selection.ranges.forEach(validateReference);
         await ensureExcelHost();
+        operation.check();
         return Excel.run(async context => {
             const entries = selection.ranges.map(reference => prepareRange(context, reference));
             await context.sync();
-            requireBoundedRangeSet(entries);
-            entries.forEach(verifyEntry);
-            entries.forEach(entry => loadRangeCells(entry.range));
-            await context.sync();
             return {
                 selectionId: selection.selectionId || "",
-                ranges: entries.map(toRangeSnapshot)
+                ranges: await readEntries(context, entries, operation)
             };
         });
     }

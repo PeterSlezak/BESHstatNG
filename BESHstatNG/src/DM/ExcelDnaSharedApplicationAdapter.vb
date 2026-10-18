@@ -4,6 +4,7 @@ Option Strict On
 Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Runtime.InteropServices
+Imports System.Threading
 Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop.Excel
 Imports BESHStatNG.ExcelCommon
@@ -35,65 +36,154 @@ Public NotInheritable Class ExcelDnaSharedApplicationAdapter
 
     ''' <summary>Lossless raw acquisition, separate from legacy error-to-missing import.</summary>
     Public Shared Function ToRangeData(source As Range) As SpreadsheetRangeData
+        Return ToRangeData(source, Nothing, CancellationToken.None)
+    End Function
+
+    Public Shared Function ToRangeData(source As Range, limits As InputSizeLimits, cancellation As CancellationToken) As SpreadsheetRangeData
+        Dim budget As InputAcquisitionBudget = WindowsBudget(limits, cancellation)
         Dim reference As SpreadsheetRangeReference = ToRangeReference(source)
+        PreflightWindowsRange(reference, budget, limits)
+        Return ReadRange(source, reference, budget)
+    End Function
+
+    Private Shared Function ReadRange(source As Range, reference As SpreadsheetRangeReference, budget As InputAcquisitionBudget) As SpreadsheetRangeData
         Dim sheet As Worksheet = DirectCast(source.Worksheet, Worksheet)
         Dim book As Workbook = DirectCast(sheet.Parent, Workbook)
         ' Value2 avoids Currency/Date coercion. Number formats remain hints, never types.
-        Dim values As Object = source.Value2
-        Return SnapshotValues(reference, values,
+        Return SnapshotValueReader(reference, Function() source.Value2,
             Function(row, column) CStr(DirectCast(source.Cells.Item(row, column), Range).NumberFormat),
             Function(row, column) CStr(DirectCast(source.Cells.Item(row, column), Range).Text),
-            If(book.Date1904, SpreadsheetDateSystem.Excel1904, SpreadsheetDateSystem.Excel1900))
+            If(book.Date1904, SpreadsheetDateSystem.Excel1904, SpreadsheetDateSystem.Excel1900), budget)
     End Function
 
     ''' <summary>Each area remains a separate rectangle in host enumeration order.</summary>
     Public Shared Function ToRangeSetData(sources As IEnumerable(Of Range)) As SpreadsheetRangeSetData
+        Return ToRangeSetData(sources, Nothing, CancellationToken.None)
+    End Function
+
+    Public Shared Function ToRangeSetData(sources As IEnumerable(Of Range), limits As InputSizeLimits, cancellation As CancellationToken) As SpreadsheetRangeSetData
         If sources Is Nothing Then Throw New ArgumentNullException(NameOf(sources))
-        Dim result As New SpreadsheetRangeSetData()
+        Dim budget As InputAcquisitionBudget = WindowsBudget(limits, cancellation)
+        Dim areas As New List(Of Range)()
+        Dim references As New List(Of SpreadsheetRangeReference)()
         For Each source As Range In sources
+            budget.Checkpoint()
             If source Is Nothing Then Throw New ArgumentException("A source range is missing.", NameOf(sources))
             For index As Integer = 1 To source.Areas.Count
-                result.Ranges.Add(ToRangeData(source.Areas.Item(index)))
+                Dim area As Range = source.Areas.Item(index)
+                Dim reference As SpreadsheetRangeReference = ToRangeReference(area)
+                PreflightWindowsRange(reference, budget, limits)
+                areas.Add(area)
+                references.Add(reference)
             Next
         Next
-        If result.Ranges.Count = 0 Then Throw New ArgumentException("At least one range is required.", NameOf(sources))
+        If areas.Count = 0 Then Throw New ArgumentException("At least one range is required.", NameOf(sources))
+        Dim result As New SpreadsheetRangeSetData()
+        For index As Integer = 0 To areas.Count - 1
+            VerifyReference(references(index), ToRangeReference(areas(index)))
+            result.Ranges.Add(ReadRange(areas(index), references(index), budget))
+        Next
+        budget.Checkpoint()
         Return result
     End Function
 
     ''' <summary>Read explicit ordered rectangles, including different sheets in the supplied workbook.</summary>
     Public Shared Function ToRangeSetData(selection As SpreadsheetRangeSelection, book As Workbook) As SpreadsheetRangeSetData
+        Return ToRangeSetData(selection, book, Nothing, CancellationToken.None)
+    End Function
+
+    Public Shared Function ToRangeSetData(selection As SpreadsheetRangeSelection, book As Workbook,
+                                        limits As InputSizeLimits, cancellation As CancellationToken) As SpreadsheetRangeSetData
         If book Is Nothing Then Throw New ArgumentNullException(NameOf(book))
-        Return SnapshotSelection(selection,
-            Function(reference)
-                If reference.WorkbookName.Length > 0 AndAlso Not String.Equals(reference.WorkbookName, book.Name, StringComparison.OrdinalIgnoreCase) Then
-                    Throw New ArgumentException("The requested workbook is not the supplied workbook.")
-                End If
-                Dim sheet As Worksheet = DirectCast(book.Worksheets.Item(reference.WorksheetName), Worksheet)
-                Dim source As Range = sheet.Range(reference.Address)
-                VerifyReference(reference, ToRangeReference(source))
-                Return ToRangeData(source)
-            End Function)
+        Dim budget As InputAcquisitionBudget = WindowsBudget(limits, cancellation)
+        Dim references As List(Of SpreadsheetRangeReference) = PreflightSelection(selection, budget, limits)
+        Dim sources As New List(Of Range)()
+        Dim hostReferences As New List(Of SpreadsheetRangeReference)()
+        For Each reference As SpreadsheetRangeReference In references
+            budget.Checkpoint()
+            If reference.WorkbookName.Length > 0 AndAlso Not String.Equals(reference.WorkbookName, book.Name, StringComparison.OrdinalIgnoreCase) Then
+                Throw New ArgumentException("The requested workbook is not the supplied workbook.")
+            End If
+            Dim sheet As Worksheet = DirectCast(book.Worksheets.Item(reference.WorksheetName), Worksheet)
+            Dim source As Range = sheet.Range(reference.Address)
+            hostReferences.Add(VerifiedSnapshotReference(reference, ToRangeReference(source)))
+            sources.Add(source)
+        Next
+        Dim result As New SpreadsheetRangeSetData With {.SelectionId = If(selection.SelectionId, String.Empty)}
+        For index As Integer = 0 To sources.Count - 1
+            VerifyReference(hostReferences(index), ToRangeReference(sources(index)))
+            result.Ranges.Add(ReadRange(sources(index), hostReferences(index), budget))
+        Next
+        budget.Checkpoint()
+        Return result
     End Function
 
     ' The callback isolates COM from controlled host-value tests without introducing a provider hierarchy.
     Friend Shared Function SnapshotSelection(selection As SpreadsheetRangeSelection,
-                                            acquire As Func(Of SpreadsheetRangeReference, SpreadsheetRangeData)) As SpreadsheetRangeSetData
-        If selection Is Nothing Then Throw New ArgumentNullException(NameOf(selection))
-        selection.Validate()
-        ' Validate every request before accessing COM or reading any cell values.
-        Dim references As New List(Of SpreadsheetRangeReference)()
-        For Each reference As SpreadsheetRangeReference In selection.Ranges
-            references.Add(ValidateAcquisitionReference(reference))
-        Next
+                                            acquire As Func(Of SpreadsheetRangeReference, SpreadsheetRangeData),
+                                            Optional limits As InputSizeLimits = Nothing,
+                                            Optional cancellation As CancellationToken = Nothing) As SpreadsheetRangeSetData
+        Dim budget As InputAcquisitionBudget = WindowsBudget(limits, cancellation)
+        Dim references As List(Of SpreadsheetRangeReference) = PreflightSelection(selection, budget, limits)
         If acquire Is Nothing Then Throw New ArgumentNullException(NameOf(acquire))
         Dim result As New SpreadsheetRangeSetData With {.SelectionId = If(selection.SelectionId, String.Empty)}
         For Each reference As SpreadsheetRangeReference In references
+            budget.Checkpoint()
             Dim snapshot As SpreadsheetRangeData = acquire(reference)
+            budget.Checkpoint()
             VerifyReference(reference, snapshot.ToReference())
             ' SelectionId is caller correlation metadata, not a host-issued revision token.
             snapshot.SelectionId = If(reference.SelectionId, String.Empty)
             result.Ranges.Add(snapshot)
         Next
+        Return result
+    End Function
+
+    Private Shared Function PreflightSelection(selection As SpreadsheetRangeSelection, budget As InputAcquisitionBudget,
+                                              limits As InputSizeLimits) As List(Of SpreadsheetRangeReference)
+        If selection Is Nothing Then Throw New ArgumentNullException(NameOf(selection))
+        selection.Validate()
+        ' Validate every request before accessing COM or reading any cell values.
+        Dim references As New List(Of SpreadsheetRangeReference)()
+        For Each reference As SpreadsheetRangeReference In selection.Ranges
+            Dim normalized As SpreadsheetRangeReference = ValidateAcquisitionReference(reference)
+            PreflightWindowsRange(normalized, budget, limits)
+            references.Add(normalized)
+        Next
+        Return references
+    End Function
+
+    Private Shared Function WindowsBudget(limits As InputSizeLimits, cancellation As CancellationToken) As InputAcquisitionBudget
+        Return New InputAcquisitionBudget(If(limits, New InputSizeLimits(maxChunkCells:=10000)), cancellation)
+    End Function
+
+    Private Shared Sub PreflightWindowsRange(reference As SpreadsheetRangeReference, budget As InputAcquisitionBudget, limits As InputSizeLimits)
+        budget.AddRange(reference.RowCount, reference.ColumnCount)
+        ' This optional Windows implementation deliberately does not chunk COM reads.
+        Dim maximum As Long = Math.Min(10000, If(limits Is Nothing, 10000, limits.MaxChunkCells))
+        Dim cells As Long = CLng(reference.RowCount) * reference.ColumnCount
+        If cells > maximum Then
+            Throw New SpreadsheetInputValidationException(New SpreadsheetValidationReport(
+                {New SpreadsheetValidationIssue("input.windows-response", SpreadsheetValidationSeverity.Error,
+                    String.Format(CultureInfo.InvariantCulture, "Windows lossless acquisition requested {0} cells; allowed {1} per unchunked Value2 read. Select smaller rectangles.", cells, maximum), "maxChunkCells")}))
+        End If
+    End Sub
+
+    ' Test seam used by the live Value2 path: preflight must precede the delegate.
+    Friend Shared Function SnapshotValueReader(reference As SpreadsheetRangeReference, readValues As Func(Of Object),
+                                               numberFormatAt As Func(Of Integer, Integer, String),
+                                               errorTextAt As Func(Of Integer, Integer, String), dateSystem As SpreadsheetDateSystem,
+                                               Optional budget As InputAcquisitionBudget = Nothing) As SpreadsheetRangeData
+        Dim operation As InputAcquisitionBudget = budget
+        If operation Is Nothing Then
+            operation = WindowsBudget(Nothing, CancellationToken.None)
+            PreflightWindowsRange(ValidateAcquisitionReference(reference), operation, Nothing)
+        End If
+        operation.Checkpoint()
+        Dim values As Object = readValues()
+        operation.Checkpoint()
+        Dim result As SpreadsheetRangeData = SnapshotValues(reference, values, numberFormatAt, errorTextAt, dateSystem, operation)
+        operation.Checkpoint()
         Return result
     End Function
 
@@ -127,12 +217,21 @@ Public NotInheritable Class ExcelDnaSharedApplicationAdapter
         End If
     End Sub
 
+    Friend Shared Function VerifiedSnapshotReference(requested As SpreadsheetRangeReference,
+                                                     actual As SpreadsheetRangeReference) As SpreadsheetRangeReference
+        VerifyReference(requested, actual)
+        ' Optional request identity fields are constraints, not replacement host provenance.
+        actual.SelectionId = If(requested.SelectionId, String.Empty)
+        Return actual
+    End Function
+
     ' Controlled Value2 fixtures exercise exactly the conversion used by live COM acquisition.
     ' Array lower bounds are host-defined; scalar Value2 is valid only for a single cell.
     Friend Shared Function SnapshotValues(reference As SpreadsheetRangeReference, values As Object,
                                          numberFormatAt As Func(Of Integer, Integer, String),
                                          errorTextAt As Func(Of Integer, Integer, String),
-                                         dateSystem As SpreadsheetDateSystem) As SpreadsheetRangeData
+                                         dateSystem As SpreadsheetDateSystem,
+                                         Optional budget As InputAcquisitionBudget = Nothing) As SpreadsheetRangeData
         Dim normalized As SpreadsheetRangeReference = ValidateAcquisitionReference(reference)
         Dim matrix As Array = TryCast(values, Array)
         If matrix IsNot Nothing Then
@@ -151,6 +250,7 @@ Public NotInheritable Class ExcelDnaSharedApplicationAdapter
             .SelectionRevision = String.Empty
         }
         For row As Integer = 1 To result.RowCount
+            If budget IsNot Nothing Then budget.Checkpoint()
             Dim cells As New List(Of SpreadsheetCellValue)()
             For column As Integer = 1 To result.ColumnCount
                 Dim value As Object = If(matrix Is Nothing, values,

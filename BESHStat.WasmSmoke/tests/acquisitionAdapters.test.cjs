@@ -89,7 +89,7 @@ test("Office two-range acquisition matches the same canonical fixture as Windows
     actual.ranges.forEach(range => { range.worksheetId = ""; }); // host-scoped IDs are compared separately below
     assert.deepEqual(actual, expected);
     assert.equal(calls.runs, 1);
-    assert.equal(calls.syncs, 2);
+    assert.equal(calls.syncs, 3); // metadata, then one bounded response per area
     assert.deepEqual(calls.valueLoads, ["C4:F5", "B9:C10"]);
 });
 
@@ -196,6 +196,9 @@ test("Office single-cell and absolute addresses use the same canonical A1 spelli
     range.address = "'Study Data'!$c$4";
     range.rowCount = 1;
     range.columnCount = 1;
+    range.values = [[range.values[0][0]]];
+    range.valueTypes = [[range.valueTypes[0][0]]];
+    range.numberFormat = [[range.numberFormat[0][0]]];
     const actual = await bridge.getSelectedRangeData();
     assert.equal(actual.address, "C4:C4");
     assert.equal(actual.startRow, 4);

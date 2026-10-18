@@ -4,11 +4,11 @@
 
 **Source of truth:** current checked-out Git repository; the `BESHstatNG(20261016-163911).zip` review below is historical context.
 
-**Implementation checkpoint:** **00.01, 00.02, 00.02A, 00.02B, 00.03–00.06, 01.01–01.05, 01.05A, 01.06, 01.07 and 01.08 implemented** (17 batches; source and automated tests present; host integration acceptance remains separate).
+**Implementation checkpoint:** **00.01, 00.02, 00.02A, 00.02B, 00.03–00.06, 01.01–01.05, 01.05A, 01.06, 01.07, 01.08 and 01.09 implemented** (18 batches; source and automated tests present; host integration acceptance remains separate).
 
-**Recommended next batch:** **01.09 — Improve Office and Windows acquisition adapters**, only after explicit batch approval.
+**Current authorized batch:** **01.10 — Safe large-range acquisition and quotas**, in progress on `codex/01-10`; independent acceptance pending. Do not begin 02.01 without explicit approval.
 
-**Batch count:** **148 total**, **17 completed**, **131 outstanding** (including completed 01.05A).
+**Batch count:** **148 total**, **18 completed**, **130 outstanding** (including in-progress 01.10; completed 01.05A retained).
 
 **Scope:** Excel-DNA and Office.js/WASM implementation remain the active workstream. LibreOffice is an *architectural portability consideration only*, explicitly not part of implementation batches or Excel release criteria.  
 **Supersedes:** revision 1.2 (16 October 2026); the full original multi-phase roadmap and dependencies are retained below, updated for repository progress and portable-host readiness.
@@ -28,6 +28,8 @@ The plan is deliberately **incremental**: finish the foundational architecture a
 The repository review ran the portable verification script: **Core 1,024 passed; Common 208 passed; zero failures/skips**. Office bridge Node tests: **29 passed**; method catalog validation, generated metadata `--check` and retired-helper audit passed. This checkpoint does not certify live Windows/Online/Mac Excel behavior. Infrastructure verification commands and limitations are documented in `docs/architecture/development-validation.md`.
 
 **Batch 01.08 completion:** commit `5d5986d` implements **Matrix, Classification, PSM, SPC and Chart-Source Input Parsers** in `AdvancedInputs.vb`, `AdvancedInputParsers.vb` and `AdvancedInputParserTests.vb`. These are additive Common input contracts, not fitted analyses or host UI. See [batch 01.08 architecture and acceptance notes](../docs/architecture/batch-01-08-advanced-inputs.md) for dimension, class/treatment, order and source-row validation, native error/missing-value preservation, and deterministic matrix/SPC/PSM preview fixtures. The note records final Core **1,024 passed**, Common **231 passed** (including 23 new tests), JS **29 passed**, and a successful WASM Debug build with zero warnings/errors. Python validation and legacy MSTests remain incomplete because Python discovery / `ResolveHelpPython` failed; live host smoke checks were not run. These are recorded implementation results, not tests rerun for this planning-only update. Core/Common remain `netstandard2.0`; no LibreOffice implementation is authorized.
+
+**Batch 01.09 accepted checkpoint:** commit `2d9f418` implements lossless Windows/Office acquisition adapters, canonical parity fixtures and the selected-areas preview, following .NET 10 migration commit `caba668`. Recorded validation: Core **1,024**, Common **236**, legacy **553**, Office.js **50**, Python **21 + 5 + 5** passed; WASM and Windows x86/x64 packaging built. See [01.09 evidence and host limitations](../docs/architecture/batch-01-09-acquisition-adapters.md). Core/Common remain `netstandard2.0`, modern tests/WasmSmoke `net10.0`, and legacy host/tests .NET Framework 4.8. Live host acceptance remains separate. Batch 01.10 is authorized/in progress, not accepted complete.
 
 **Historical 16 October review follows.** Its counts and runtime limitations describe that review environment, not the current repository. Later completed batches supersede its proposed next steps.
 
@@ -459,8 +461,8 @@ Development: trusted local HTTPS + sideloading on Excel Online first, Windows de
 | **01.06 — COMPLETE** | Survival/time/subject/repeated/mixed data parsers; `Common/Input/LongitudinalInputs.vb` | 01.05A | W=Adapter O=Yes | Censor/strata/ID/visit/cluster checks | Preview subject/visit data | All family-specific input constraints enforced | **High** |
 | **01.07 — COMPLETE** | Formula/design matrix and model-input compilation; `Common/Input/ModelInput.vb; Core regression formula parser` | 01.05A | W=Small O=Yes | Contrasts; missingness; interactions; rank | Preview LM predictor/response roles | Canonical model input matches Windows model matrix | **High** |
 | **01.08 — COMPLETE** | Matrix, classification, PSM, SPC and chart-source parsers; `Common/Input/AdvancedInputs.vb` | 01.05A | W=Adapter O=Yes | Dimensions; treatment; class labels; time order | Matrix/SPC/PSM preview fixtures | Validated inputs and source rows supported | **High** |
-| **01.09 — NEXT** | Improve Office and Windows acquisition adapters; `Windows/DM/ExcelDnaDataImporter.vb; Office/js/RangeAdapter` | 01.01,01.05 | W=Yes O=Yes | Adapter equivalence; multiple ranges; empty cells | Choose 2 ranges on either host | Identical canonical source snapshots | **Medium** |
-| **01.10** | Implement safe large-range acquisition and quotas; `Office range batching; Common/InputSizeLimits.vb` | 01.09 | W=Optional O=Yes | Chunking, memory and cancellation preflight | Read a large rectangular dataset | Bounded batching with informative limit messages | **High** |
+| **01.09 — complete** | Improve Office and Windows acquisition adapters; `Windows/DM/ExcelDnaDataImporter.vb; Office/js/RangeAdapter` | 01.01,01.05 | W=Yes O=Yes | Adapter equivalence; multiple ranges; empty cells | Choose 2 ranges on either host | Identical canonical source snapshots | **Medium** |
+| **01.10 — IN PROGRESS** | Implement safe large-range acquisition and quotas; `Office range batching; Common/InputSizeLimits.vb` | 01.09 | W=Optional O=Yes | Chunking, memory and cancellation preflight | Read a large rectangular dataset | Bounded batching with informative limit messages | **High** |
 
 ### Phase 02 — Result document and output adapters
 
@@ -689,7 +691,7 @@ Stage 3.04 baseline
                         └─ 01.05A host-neutral contract hardening [COMPLETE]
                             └─ 01.06–01.07 longitudinal/model inputs [COMPLETE]
                                 └─ 01.08 advanced inputs [COMPLETE]
-                                    └─ 01.09 host acquisition [NEXT] → 01.10 large-range acquisition and quotas
+                                    └─ 01.09 host acquisition [complete] → 01.10 large-range acquisition and quotas [IN PROGRESS]
             ├─ 01.xx input shapes & host acquisition
             ├─ 02.xx output document/semantic formatting/layout
             └─ 03.xx execution, settings, progress/fault contracts
@@ -703,7 +705,7 @@ Stage 3.04 baseline
                                  └─ 13.xx cross-host release gates
 ```
 
-**The remaining critical path** is host acquisition → output semantics/layout → host adapters → production shell. Once those contracts are settled, several analysis families can proceed independently and graphics specifications can be developed in parallel. Do not spend months completing every Windows graphics renderer before validating a single production OfficeAddin UI. Conversely, **do not bulk-migrate UDFs** before proving a custom-function-managed warm WASM runtime across real Office clients.
+**The remaining critical path** is large-range acquisition/quotas → output semantics/layout → host adapters → production shell. Once those contracts are settled, several analysis families can proceed independently and graphics specifications can be developed in parallel. Do not spend months completing every Windows graphics renderer before validating a single production OfficeAddin UI. Conversely, **do not bulk-migrate UDFs** before proving a custom-function-managed warm WASM runtime across real Office clients.
 
 **Suggested overlap without violating gates:** From the current checkpoint, prototype chart-spec serialization (`10.01`) and Custom Functions runtime feasibility (part of `11.03`) in disposable test branches while implementing 01/02. Do not merge a feasibility shortcut into production without its declared dependencies. Prepare GUI test harness while writing reusable components, not after the entire catalog is exposed. Run Windows parity smoke after **every** batch that edits the Windows host.
 
@@ -793,17 +795,17 @@ Batch ID / ZIP baseline / exact changes / backward-compatible API implications
 
 At the end of every batch, user supplies a new complete ZIP as the source of truth, confirms Windows build and Core/Common/legacy tests, and reports host smoke results. The next patch must **re-audit current files** rather than apply changes against the previous ZIP.
 
-## 17. Recommended next implementation batch — **01.09**
+## 17. Current implementation batch — **01.10**
 
-**Current checkpoint:** batches through **01.08**, including **01.05A**, are implemented (17 completed; 131 outstanding). See §0, commit `5d5986d` and [the batch 01.08 architecture note](../docs/architecture/batch-01-08-advanced-inputs.md) for evidence and recorded validation limitations. Live Excel and Mac acceptance remains separate. This documentation update does not authorize implementing 01.09.
+**Current checkpoint:** batches through **01.09**, including **01.05A**, are implemented (18 completed; 130 outstanding). See §0, commit `2d9f418` and [the batch 01.09 architecture note](../docs/architecture/batch-01-09-acquisition-adapters.md). Live Excel and Mac acceptance remains separate. The user authorized only 01.10 on the existing `codex/01-10` branch; implementation and independent review do not authorize the next batch.
 
-### 01.09 — Improve Office and Windows acquisition adapters (next; not implemented)
+### 01.10 — Safe large-range acquisition and quotas (in progress; acceptance pending)
 
-**Approved scope / likely files:** Improve Office and Windows acquisition adapters; `Windows/DM/ExcelDnaDataImporter.vb; Office/js/RangeAdapter`. **Dependencies:** 01.01,01.05. **Host changes:** W=Yes O=Yes. **Risk:** Medium.
+**Approved scope / likely files:** Office range batching and host-neutral `Common/InputSizeLimits.vb`, with narrow optional Windows preflight. **Dependency:** 01.09. **Host changes:** W=Optional O=Yes. **Risk:** High.
 
-**Required automated tests:** Adapter equivalence; multiple ranges; empty cells. **Manual smoke:** Choose 2 ranges on either host. **Acceptance criterion:** Identical canonical source snapshots.
+**Required automated tests:** Chunking, memory and cancellation preflight. **Manual smoke:** Read a large rectangular dataset. **Acceptance criterion:** Bounded batching with informative limit messages. Retain 01.09 canonical parity, ordering, identity verification and single-range analysis semantics. See [01.10 implementation/review notes](../docs/architecture/batch-01-10-large-range-acquisition.md).
 
-These are the unchanged §13 requirements. Begin only after explicit approval on a dedicated feature branch; no 01.09 implementation is included here.
+These are the unchanged §13 requirements. This status correction records accepted 01.09; it does not declare 01.10 complete or authorize 02.01.
 
 ### 01.08 — Matrix, Classification, PSM, SPC and Chart-Source Input Parsers (**complete**)
 
@@ -831,7 +833,7 @@ Implemented **01.06 — survival, time/status, subject/repeated and mixed-model 
 
 ### Already completed, not to be repeated
 
-00.01 → 00.02 → 00.02A → 00.02B → 00.03 → 00.04 → 00.05 → 00.06 → 01.01 → 01.02 → 01.03 → 01.04 → 01.05 → 01.05A → 01.06 → 01.07 → 01.08.
+00.01 → 00.02 → 00.02A → 00.02B → 00.03 → 00.04 → 00.05 → 00.06 → 01.01 → 01.02 → 01.03 → 01.04 → 01.05 → 01.05A → 01.06 → 01.07 → 01.08 → 01.09.
 
 ## 18. Reference documents for Office product assumptions
 
@@ -848,7 +850,7 @@ These are external Microsoft documentation links used to qualify **future** desi
 
 ---
 
-**Planning deliverable (revision 1.3):** repository checkpoint updated to **17 source-implemented batches** through 01.08, including 01.05A; **01.09 — Improve Office and Windows acquisition adapters is next**, pending explicit approval. The full roadmap, dependency columns and LibreOffice architecture-only constraints are retained. `methods.yml` remains the authoritative authored user-facing method catalog (Ribbon XML controls actual Windows registration; VB `<ExcelFunction>` attributes control UDF exports). Historical Ribbon/UDF CSVs remain frozen regression inventories, not separately authored current catalogs. This planning-only update records batch 01.08 completion from commit `5d5986d` and its architecture note; no source code is changed and 01.09 is not implemented.
+**Current-checkpoint correction (18 October):** **18 source-implemented batches** through accepted 01.09, including 01.05A; **01.10 is authorized/in progress and awaits independent acceptance**. The full roadmap, dependency columns, historical checkpoint sections and LibreOffice architecture-only constraints are retained. `methods.yml` remains the authoritative authored method catalog; Ribbon XML and VB `<ExcelFunction>` declarations retain their authority. No later batch is authorized by this correction.
 
 ## 19. External technical references for future-host feasibility (not implementation authorization)
 

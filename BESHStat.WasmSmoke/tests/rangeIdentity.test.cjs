@@ -79,7 +79,7 @@ test("multi-worksheet read batches all range snapshots in one Excel.run", async 
     assert.equal(data.ranges[0].worksheetId, "stable-id");
     assert.equal(data.ranges[1].worksheetId, "followup-id");
     assert.equal(calls.runs, 1);
-    assert.equal(calls.syncs, 2); // batched metadata preflight, then values
+    assert.equal(calls.syncs, 3); // batched metadata preflight, then sequential area payloads
 });
 
 test("stale worksheet identity is rejected after acquisition", async () => {
