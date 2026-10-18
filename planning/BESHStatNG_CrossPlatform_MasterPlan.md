@@ -4,11 +4,11 @@
 
 **Source of truth:** current checked-out Git repository; the `BESHstatNG(20261016-163911).zip` review below is historical context.
 
-**Implementation checkpoint:** **00.01, 00.02, 00.02A, 00.02B, 00.03–00.06, 01.01–01.05, 01.05A, 01.06 and 01.07 implemented** (16 batches; source and automated tests present; host integration acceptance remains separate).
+**Implementation checkpoint:** **00.01, 00.02, 00.02A, 00.02B, 00.03–00.06, 01.01–01.05, 01.05A, 01.06, 01.07 and 01.08 implemented** (17 batches; source and automated tests present; host integration acceptance remains separate).
 
-**Recommended next batch:** **01.08 — matrix, classification, PSM, SPC and chart-source parsers**, only after explicit batch approval.
+**Recommended next batch:** **01.09 — Improve Office and Windows acquisition adapters**, only after explicit batch approval.
 
-**Batch count:** **148 total**, **16 completed**, **132 outstanding** (including completed 01.05A).
+**Batch count:** **148 total**, **17 completed**, **131 outstanding** (including completed 01.05A).
 
 **Scope:** Excel-DNA and Office.js/WASM implementation remain the active workstream. LibreOffice is an *architectural portability consideration only*, explicitly not part of implementation batches or Excel release criteria.  
 **Supersedes:** revision 1.2 (16 October 2026); the full original multi-phase roadmap and dependencies are retained below, updated for repository progress and portable-host readiness.
@@ -26,6 +26,8 @@ The plan is deliberately **incremental**: finish the foundational architecture a
 **18 October repository update:** 01.05A is implemented in `HostCapabilities.vb`, range/cell contracts and compatibility tests. Identified non-Excel spreadsheet hosts can pass capability preflight through `IsSpreadsheetHost`; Excel compatibility flags, A1 APIs and date policies remain. 01.06 adds `LongitudinalInputs.vb`, `LongitudinalParsers.vb` and `LongitudinalParserTests.vb` for survival/repeated/mixed input validation. 01.07 adds `ModelInput.vb`, `ModelInputCompiler.vb` and `ModelInputCompilerTests.vb`, reusing Core formula/design services with aligned source rows and typed factors. These are Common input contracts, not new host UI or fitted-analysis handlers. Core/Common remain `netstandard2.0`; Windows remains .NET Framework 4.8. No LibreOffice implementation is authorized.
 
 The repository review ran the portable verification script: **Core 1,024 passed; Common 208 passed; zero failures/skips**. Office bridge Node tests: **29 passed**; method catalog validation, generated metadata `--check` and retired-helper audit passed. This checkpoint does not certify live Windows/Online/Mac Excel behavior. Infrastructure verification commands and limitations are documented in `docs/architecture/development-validation.md`.
+
+**Batch 01.08 completion:** commit `5d5986d` implements **Matrix, Classification, PSM, SPC and Chart-Source Input Parsers** in `AdvancedInputs.vb`, `AdvancedInputParsers.vb` and `AdvancedInputParserTests.vb`. These are additive Common input contracts, not fitted analyses or host UI. See [batch 01.08 architecture and acceptance notes](../docs/architecture/batch-01-08-advanced-inputs.md) for dimension, class/treatment, order and source-row validation, native error/missing-value preservation, and deterministic matrix/SPC/PSM preview fixtures. The note records final Core **1,024 passed**, Common **231 passed** (including 23 new tests), JS **29 passed**, and a successful WASM Debug build with zero warnings/errors. Python validation and legacy MSTests remain incomplete because Python discovery / `ResolveHelpPython` failed; live host smoke checks were not run. These are recorded implementation results, not tests rerun for this planning-only update. Core/Common remain `netstandard2.0`; no LibreOffice implementation is authorized.
 
 **Historical 16 October review follows.** Its counts and runtime limitations describe that review environment, not the current repository. Later completed batches supersede its proposed next steps.
 
@@ -456,8 +458,8 @@ Development: trusted local HTTPS + sideloading on Excel Online first, Windows de
 | **01.05A — COMPLETE** | Harden the *shared spreadsheet host boundary*, without implementing LibreOffice: `Common/Host/HostCapabilities.vb`, `Common/Contracts/SpreadsheetRangeReferences.vb`, `Common/Input/CellValuePolicy.vb`, related tests and brief compatibility note. Keep `IsExcel` and existing Excel APIs working; introduce neutral spreadsheet host/capability admission; specify host-specific A1 bounds, date origins, normalized cell error policy as extensibility seams (avoid implementing new dialect parsers now). | 00.06,01.05 | W=Compatibility smoke only O=Compatibility smoke only | Simulated non-Excel capability snapshot can pass supported operations while unavailable operations fail; existing Excel profiles unchanged; date/coordinate/error seam contract tests | Windows ANOVA/KW output and Office prototype selected range/new worksheet | No Excel requirement hidden in generic `Supports`/preflight; no calculation/parser output change; no UNO/Python/.NET bridge code | **Medium** |
 | **01.06 — COMPLETE** | Survival/time/subject/repeated/mixed data parsers; `Common/Input/LongitudinalInputs.vb` | 01.05A | W=Adapter O=Yes | Censor/strata/ID/visit/cluster checks | Preview subject/visit data | All family-specific input constraints enforced | **High** |
 | **01.07 — COMPLETE** | Formula/design matrix and model-input compilation; `Common/Input/ModelInput.vb; Core regression formula parser` | 01.05A | W=Small O=Yes | Contrasts; missingness; interactions; rank | Preview LM predictor/response roles | Canonical model input matches Windows model matrix | **High** |
-| **01.08 — NEXT** | Matrix, classification, PSM, SPC and chart-source parsers; `Common/Input/AdvancedInputs.vb` | 01.05A | W=Adapter O=Yes | Dimensions; treatment; class labels; time order | Matrix/SPC/PSM preview fixtures | Validated inputs and source rows supported | **High** |
-| **01.09** | Improve Office and Windows acquisition adapters; `Windows/DM/ExcelDnaDataImporter.vb; Office/js/RangeAdapter` | 01.01,01.05 | W=Yes O=Yes | Adapter equivalence; multiple ranges; empty cells | Choose 2 ranges on either host | Identical canonical source snapshots | **Medium** |
+| **01.08 — COMPLETE** | Matrix, classification, PSM, SPC and chart-source parsers; `Common/Input/AdvancedInputs.vb` | 01.05A | W=Adapter O=Yes | Dimensions; treatment; class labels; time order | Matrix/SPC/PSM preview fixtures | Validated inputs and source rows supported | **High** |
+| **01.09 — NEXT** | Improve Office and Windows acquisition adapters; `Windows/DM/ExcelDnaDataImporter.vb; Office/js/RangeAdapter` | 01.01,01.05 | W=Yes O=Yes | Adapter equivalence; multiple ranges; empty cells | Choose 2 ranges on either host | Identical canonical source snapshots | **Medium** |
 | **01.10** | Implement safe large-range acquisition and quotas; `Office range batching; Common/InputSizeLimits.vb` | 01.09 | W=Optional O=Yes | Chunking, memory and cancellation preflight | Read a large rectangular dataset | Bounded batching with informative limit messages | **High** |
 
 ### Phase 02 — Result document and output adapters
@@ -686,8 +688,8 @@ Stage 3.04 baseline
                     └─ 01.01–01.05 typed source/input parsers [COMPLETE]
                         └─ 01.05A host-neutral contract hardening [COMPLETE]
                             └─ 01.06–01.07 longitudinal/model inputs [COMPLETE]
-                                └─ 01.08 advanced inputs [NEXT]
-                                    └─ 01.09–01.10 host acquisition
+                                └─ 01.08 advanced inputs [COMPLETE]
+                                    └─ 01.09 host acquisition [NEXT] → 01.10 large-range acquisition and quotas
             ├─ 01.xx input shapes & host acquisition
             ├─ 02.xx output document/semantic formatting/layout
             └─ 03.xx execution, settings, progress/fault contracts
@@ -701,7 +703,7 @@ Stage 3.04 baseline
                                  └─ 13.xx cross-host release gates
 ```
 
-**The remaining critical path** is shared-host seam → advanced input types → output semantics/layout → host adapters → production shell. Once those contracts are settled, several analysis families can proceed independently and graphics specifications can be developed in parallel. Do not spend months completing every Windows graphics renderer before validating a single production OfficeAddin UI. Conversely, **do not bulk-migrate UDFs** before proving a custom-function-managed warm WASM runtime across real Office clients.
+**The remaining critical path** is host acquisition → output semantics/layout → host adapters → production shell. Once those contracts are settled, several analysis families can proceed independently and graphics specifications can be developed in parallel. Do not spend months completing every Windows graphics renderer before validating a single production OfficeAddin UI. Conversely, **do not bulk-migrate UDFs** before proving a custom-function-managed warm WASM runtime across real Office clients.
 
 **Suggested overlap without violating gates:** From the current checkpoint, prototype chart-spec serialization (`10.01`) and Custom Functions runtime feasibility (part of `11.03`) in disposable test branches while implementing 01/02. Do not merge a feasibility shortcut into production without its declared dependencies. Prepare GUI test harness while writing reusable components, not after the entire catalog is exposed. Run Windows parity smoke after **every** batch that edits the Windows host.
 
@@ -791,15 +793,21 @@ Batch ID / ZIP baseline / exact changes / backward-compatible API implications
 
 At the end of every batch, user supplies a new complete ZIP as the source of truth, confirms Windows build and Core/Common/legacy tests, and reports host smoke results. The next patch must **re-audit current files** rather than apply changes against the previous ZIP.
 
-## 17. Recommended next implementation batch — **01.08**
+## 17. Recommended next implementation batch — **01.09**
 
-**Current checkpoint:** batches through **01.07**, including **01.05A**, are implemented. See §0 for repository evidence and portable validation. Live Excel and Mac acceptance remains separate. Infrastructure work does not authorize implementing 01.08.
+**Current checkpoint:** batches through **01.08**, including **01.05A**, are implemented (17 completed; 131 outstanding). See §0, commit `5d5986d` and [the batch 01.08 architecture note](../docs/architecture/batch-01-08-advanced-inputs.md) for evidence and recorded validation limitations. Live Excel and Mac acceptance remains separate. This documentation update does not authorize implementing 01.09.
 
-### 01.08 — matrix, classification, PSM, SPC and chart-source parsers (next; not implemented)
+### 01.09 — Improve Office and Windows acquisition adapters (next; not implemented)
 
-Use the existing typed frame/category/numeric inputs, cell policies, source identities and structured diagnostics to add the next input families in Common. Reuse Core math; do not introduce another formula grammar, statistical implementation, production GUI or LibreOffice adapter. Retain `netstandard2.0` and native error/missing-value metadata. The §13 dependency remains **01.05A**; completed 01.06/01.07 contracts are available for reuse without changing the roadmap dependencies.
+**Approved scope / likely files:** Improve Office and Windows acquisition adapters; `Windows/DM/ExcelDnaDataImporter.vb; Office/js/RangeAdapter`. **Dependencies:** 01.01,01.05. **Host changes:** W=Yes O=Yes. **Risk:** Medium.
 
-Required acceptance remains dimension checks, treatment/class-label validation, time/order checks and source-row alignment, with ordinary, edge and compatibility tests. Matrix/SPC/PSM preview fixtures and later host-adapter integration must be assessed separately. Begin only after explicit approval on a dedicated feature branch.
+**Required automated tests:** Adapter equivalence; multiple ranges; empty cells. **Manual smoke:** Choose 2 ranges on either host. **Acceptance criterion:** Identical canonical source snapshots.
+
+These are the unchanged §13 requirements. Begin only after explicit approval on a dedicated feature branch; no 01.09 implementation is included here.
+
+### 01.08 — Matrix, Classification, PSM, SPC and Chart-Source Input Parsers (**complete**)
+
+Commit `5d5986d` implements the five Common input families using existing typed frame/category/numeric inputs, cell policies, source identities and structured diagnostics. Dimension checks, treatment/class-label validation, time/order checks and source-row alignment have ordinary, edge and compatibility tests, including deterministic matrix/SPC/PSM preview fixtures. The §13 dependency remains **01.05A**. Core math and `netstandard2.0` targets are unchanged; native error/missing-value metadata is preserved. Later host-adapter integration remains separate; no production GUI or LibreOffice adapter is added. See §0 and the architecture note for recorded validation and outstanding host acceptance.
 
 ### Completed 01.05A/01.06 acceptance rationale (retained)
 
@@ -823,7 +831,7 @@ Implemented **01.06 — survival, time/status, subject/repeated and mixed-model 
 
 ### Already completed, not to be repeated
 
-00.01 → 00.02 → 00.02A → 00.02B → 00.03 → 00.04 → 00.05 → 00.06 → 01.01 → 01.02 → 01.03 → 01.04 → 01.05 → 01.05A → 01.06 → 01.07.
+00.01 → 00.02 → 00.02A → 00.02B → 00.03 → 00.04 → 00.05 → 00.06 → 01.01 → 01.02 → 01.03 → 01.04 → 01.05 → 01.05A → 01.06 → 01.07 → 01.08.
 
 ## 18. Reference documents for Office product assumptions
 
@@ -840,7 +848,7 @@ These are external Microsoft documentation links used to qualify **future** desi
 
 ---
 
-**Planning deliverable (revision 1.3):** repository checkpoint updated to **16 source-implemented batches** through 01.07, including 01.05A; **01.08 is next**, pending explicit approval. The full roadmap, dependency columns and LibreOffice architecture-only constraints are retained. `methods.yml` remains the authoritative authored user-facing method catalog (Ribbon XML controls actual Windows registration; VB `<ExcelFunction>` attributes control UDF exports). Historical Ribbon/UDF CSVs remain frozen regression inventories, not separately authored current catalogs. This update accompanies development-infrastructure changes only; no statistical implementation or 01.08 input parser is added.
+**Planning deliverable (revision 1.3):** repository checkpoint updated to **17 source-implemented batches** through 01.08, including 01.05A; **01.09 — Improve Office and Windows acquisition adapters is next**, pending explicit approval. The full roadmap, dependency columns and LibreOffice architecture-only constraints are retained. `methods.yml` remains the authoritative authored user-facing method catalog (Ribbon XML controls actual Windows registration; VB `<ExcelFunction>` attributes control UDF exports). Historical Ribbon/UDF CSVs remain frozen regression inventories, not separately authored current catalogs. This planning-only update records batch 01.08 completion from commit `5d5986d` and its architecture note; no source code is changed and 01.09 is not implemented.
 
 ## 19. External technical references for future-host feasibility (not implementation authorization)
 
