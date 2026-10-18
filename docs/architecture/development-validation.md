@@ -1,14 +1,18 @@
-# Development validation before batch 01.08
+# Development validation
 
-Core/Common remain `netstandard2.0`; portable MSTest projects run on `net8.0`.
-The Windows host and legacy tests remain .NET Framework 4.8. No 01.08 parser,
-production Office UI, framework migration or LibreOffice adapter is included.
+Core/Common remain `netstandard2.0`; portable MSTest projects run on `net10.0`.
+The Windows host and legacy tests remain .NET Framework 4.8. WasmSmoke remains
+an experimental smoke host and targets `net10.0`; installers retain their targets.
 
 ## Reproducing validation from a checkout
 
-Prerequisites: a suitable .NET SDK/runtime (including .NET 8 for portable tests),
+Prerequisites: .NET 10 SDK/runtime for portable tests and WasmSmoke,
 Node 20+ for JS tests, and Python 3.10+ with PyYAML for generators and Python tests.
-WASM requires the existing .NET 9 dependencies and a compatible WASM workload.
+WASM uses matching stable 10.0.13 WebAssembly/DevServer packages and a compatible
+WASM workload. MSTest 3.6.4 and Microsoft.NET.Test.Sdk 17.12.0 are retained;
+both modern suites pass on .NET 10. See the separate
+[migration validation](dotnet-10-migration.md) and
+[batch 01.09 adapter notes](batch-01-09-acquisition-adapters.md).
 Windows legacy builds require VS 2022 or 2026, the .NET Framework 4.8 targeting
 pack and the existing `packages.config` packages restored. The script does not
 install Python packages, workloads, Visual Studio or legacy packages.
