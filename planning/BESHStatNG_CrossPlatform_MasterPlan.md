@@ -4,11 +4,11 @@
 
 **Source of truth:** uploaded `BESHstatNG(20261018-140903).zip`, including its checked-in Revision 1.3 plan, batch 01.10 acceptance notes and .NET 10 updates. Earlier ZIP reviews are historical.
 
-**Implementation checkpoint:** **00.01 through 01.10 implemented as reported by user**, including 00.02A/B, 01.05A and 01.06–01.10 (**19 existing batches**). The 01.10 source and full Windows validation log summary are present; live Excel and Mac acceptance is still separate.
+**Implementation checkpoint:** **00.01 through 02.01 accepted**, including 00.02A/B and 01.05A (**20 completed batches**). Accepted 02.01 commit `57aa52f` is present on `main`; live Excel and Mac acceptance is still separate.
 
-**Current planning status:** 01.10 is the latest implemented input batch. **02.01** is the next existing numbered implementation candidate, subject to explicit authorization. **04A.01** is the first new Phase 04A batch, dependent on completing 04.07.
+**Current planning status:** 02.01 is accepted. **02.02** is the current authorized implementation batch, pending independent review; it is not marked accepted. **04A.01** is the first new Phase 04A batch, dependent on completing 04.07.
 
-**Batch count:** **222 total** (original 148 + 74 new Phase 04A), **19 existing implemented by user report**, **203 planned/outstanding**. None of the 04A batches is implemented.
+**Batch count:** **222 total** (original 148 + 74 new Phase 04A), **20 completed**, **202 planned/outstanding**. None of the 04A batches is implemented.
 
 **Scope:** Excel-DNA and Office.js/WASM implementation remain the active workstream. LibreOffice is an *architectural portability consideration only*, explicitly not part of implementation batches or Excel release criteria.  
 **Supersedes:** revision 1.2 (16 October 2026); the full original multi-phase roadmap and dependencies are retained below, updated for repository progress and portable-host readiness.
@@ -906,7 +906,7 @@ At the end of every batch, user supplies a new complete ZIP as the source of tru
 
 ## 17. Implementation checkpoint, next batch and historical 01.10 acceptance notes
 
-**Current Revision 1.4 planning checkpoint:** User reports 01.10 implemented in the attached 18 October package, and source + validation records corroborate it; `npm test` rerun 74/74 independently. The **next existing sequential batch is 02.01** (unchanged scope) *if authorized*. Phase 04A is intentionally **after** full Phase 04, so the first new batch **04A.01** should not start until **04.07** is accepted. Phase 04A work can use the ledger-style audit below for advance planning, but must not silently overtake Phase 02/03/04 dependencies.
+**Current Revision 1.4 planning checkpoint:** 02.01 is accepted on `main` (`57aa52f`); **02.02 is current**, pending independent review. The accepted checkpoint is **222 total / 20 completed / 202 outstanding**. Phase 04A is intentionally **after** full Phase 04, so the first new batch **04A.01** should not start until **04.07** is accepted. Phase 04A work can use the ledger-style audit below for advance planning, but must not silently overtake Phase 02/03/04 dependencies.
 
 
 **Historical Revision 1.3 checkpoint (superseded):** batches through **01.09**, including **01.05A**, were implemented (18 completed; 130 outstanding). See §0, commit `2d9f418` and [the batch 01.09 architecture note](../docs/architecture/batch-01-09-acquisition-adapters.md). Live Excel and Mac acceptance remains separate. The user authorized only 01.10 on the existing `codex/01-10` branch; implementation and independent review do not authorize the next batch.
