@@ -45,18 +45,35 @@ Public Class ExcelDnaResultWriter
         Me.shiftRowPointer(model.RowCount)
     End Sub
 
-    Private Sub WriteOutputBlockCore(block As ResultTableOutputBlock,
+    ' The UI prepares all commands and obtains overwrite consent before entering here.
+    Friend Sub WritePlannedSharedRequests(prepared As ExcelDnaPreparedSharedOutput)
+        If prepared Is Nothing Then Throw New ArgumentNullException(NameOf(prepared))
+        If Me.ws Is Nothing Then Throw New InvalidOperationException("ExcelDnaResultWriter.ws must be set before writing.")
+        Dim target As New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
+            .Destination = prepared.Layout.Destination, .WorksheetName = CStr(Me.ws.Name),
+            .StartRow = Me.RowID, .StartColumn = Me.ColID}
+        prepared.Execute(target, CStr(Me.ws.Name),
+            Sub(command) WriteOutputBlockCore(
+                New ResultTableOutputBlock(command.Bounds.StartRow, command.Bounds.StartColumn, command.Model),
+                command.PvalueNumberFormat, command.PvalueHighlightAlpha, command.AutoFit, command.Bounds),
+            Sub(row) Me.setRowPointer(row))
+    End Sub
+
+    Friend Overridable Sub WriteOutputBlockCore(block As ResultTableOutputBlock,
                                      pvalueNumberFormatOverride As String,
                                      pvalueAlphaOverride As Nullable(Of Double),
-                                     autoFit As Boolean)
+                                     autoFit As Boolean,
+                                     Optional plannedBounds As Global.BESHStatNG.ExcelCommon.OutputRectangle = Nothing)
         If block Is Nothing OrElse block.Model Is Nothing Then Exit Sub
         If block.Model.Values Is Nothing OrElse block.Model.RowCount = 0 OrElse block.Model.ColumnCount = 0 Then Exit Sub
 
         If Me.ws Is Nothing Then Throw New InvalidOperationException("ExcelDnaResultWriter.ws must be set before writing.")
 
         Dim rng = Me.ws.Range(
-            ws.Cells(block.StartRow, block.StartColumn),
-            ws.Cells(block.EndRow, block.EndColumn))
+            ws.Cells(If(plannedBounds Is Nothing, block.StartRow, plannedBounds.StartRow),
+                     If(plannedBounds Is Nothing, block.StartColumn, plannedBounds.StartColumn)),
+            ws.Cells(If(plannedBounds Is Nothing, block.EndRow, plannedBounds.EndRow),
+                     If(plannedBounds Is Nothing, block.EndColumn, plannedBounds.EndColumn)))
 
         rng.Value = block.Model.Values
 
@@ -245,19 +262,8 @@ Public Class ExcelDnaResultWriter
         Dim lastBodyRow As Integer = rng.Rows.Count - foots
         If firstBodyRow > lastBodyRow Then Exit Sub
 
-        Dim numberFormat As String = pvalueNumberFormatOverride
-        If String.IsNullOrWhiteSpace(numberFormat) Then
-            numberFormat = PValuePresentation.BuildExcelNumberFormat(AppGlobals.PValuePresentation)
-        End If
-
-        Dim pHighlightAlpha As Double = AppGlobals.DefaultAlpha
-        If pvalueAlphaOverride.HasValue Then
-            Dim requestedAlpha As Double = pvalueAlphaOverride.Value
-            If Not Double.IsNaN(requestedAlpha) AndAlso Not Double.IsInfinity(requestedAlpha) AndAlso
-               requestedAlpha > 0.0 AndAlso requestedAlpha < 1.0 Then
-                pHighlightAlpha = requestedAlpha
-            End If
-        End If
+        Dim numberFormat As String = ResolvePValueNumberFormat(pvalueNumberFormatOverride, AppGlobals.PValuePresentation)
+        Dim pHighlightAlpha As Double = ResolvePValueAlpha(pvalueAlphaOverride, AppGlobals.DefaultAlpha)
 
         If hasColumns Then
             For Each bodyColumn As Integer In pvalueColumns
@@ -306,16 +312,35 @@ Public Class ExcelDnaResultWriter
         If cell Is Nothing Then Exit Sub
 
         Try
-            Dim rawValue As Object = cell.Value2
-            If rawValue Is Nothing OrElse TypeOf rawValue Is Boolean Then Exit Sub
-
-            Dim pvalue As Double = Convert.ToDouble(rawValue, Globalization.CultureInfo.CurrentCulture)
-            If Not Double.IsNaN(pvalue) AndAlso Not Double.IsInfinity(pvalue) AndAlso
-               pvalue >= 0.0 AndAlso pvalue <= alpha Then
+            If LegacyPValueIsHighlighted(cell.Value2, alpha, Globalization.CultureInfo.CurrentCulture) Then
                 cell.Font.Color = RGB(50, 255, 50)
             End If
         Catch
             'Text/error cells in a marked column are intentionally left unchanged.
         End Try
     End Sub
+
+    ' Pure seams for the historical Windows rules; intentionally independent of the
+    ' canonical numeric-only semantic predicate. Numeric-looking text stays historical.
+    Friend Shared Function LegacyPValueIsHighlighted(rawValue As Object, alpha As Double,
+                                                     culture As Globalization.CultureInfo) As Boolean
+        If rawValue Is Nothing OrElse TypeOf rawValue Is Boolean Then Return False
+        Try
+            Dim pvalue As Double = Convert.ToDouble(rawValue, culture)
+            Return Not Double.IsNaN(pvalue) AndAlso Not Double.IsInfinity(pvalue) AndAlso
+                pvalue >= 0.0 AndAlso pvalue <= alpha
+        Catch
+            Return False
+        End Try
+    End Function
+
+    Friend Shared Function ResolvePValueAlpha(requested As Double?, defaultAlpha As Double) As Double
+        If requested.HasValue AndAlso Not Double.IsNaN(requested.Value) AndAlso Not Double.IsInfinity(requested.Value) AndAlso
+           requested.Value > 0.0 AndAlso requested.Value < 1.0 Then Return requested.Value
+        Return defaultAlpha
+    End Function
+
+    Friend Shared Function ResolvePValueNumberFormat(requested As String, settings As PValuePresentationSettings) As String
+        Return If(String.IsNullOrWhiteSpace(requested), PValuePresentation.BuildExcelNumberFormat(settings), requested)
+    End Function
 End Class

@@ -99,6 +99,7 @@
     <Compile Include="src\CumulativeDistributionPlotTests.vb" />
     <Compile Include="src\DataManagement\DataObjPreparationTests.vb" />
     <Compile Include="src\DataManagement\AcquisitionAdapterTests.vb" />
+    <Compile Include="src\DataManagement\SharedOutputPlanTests.vb" />
     <Compile Include="..\BESHStat.Excel.Common.Tests\TestSupport\AcquisitionFixture.vb">
       <Link>TestSupport\AcquisitionFixture.vb</Link>
     </Compile>
@@ -181,6 +182,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="test.runsettings" />
+    <None Include="..\BESHStat.Excel.Common.Tests\TestData\Stage304\*.json">
+      <Link>TestData\Stage304\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="TestData\cluster_dataset_basic.csv" />
     <None Include="TestData\cluster_dataset_missing.csv" />
     <None Include="TestData\coxph_dataset_strata_ties.csv" />

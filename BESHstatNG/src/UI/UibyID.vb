@@ -1506,41 +1506,13 @@ Public Class UibyID
             request.AutoFit = False
         Next
 
-        Dim sharedRows As Integer = 0
-        Dim sharedCols As Integer = 0
-        For i As Integer = 0 To sharedRequests.Count - 1
-            Dim request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest = sharedRequests(i)
-            Dim tableRows As Integer = request.Values.Count
-            Dim tableCols As Integer = If(tableRows = 0, 0, request.Values(0).Count)
-
-            If i > 0 Then sharedRows += 1 'blank separator between shared tables
-            sharedRows += tableRows
-            sharedCols = Math.Max(sharedCols, tableCols)
-        Next
-
         Dim rr As ProcessListofResultTables = Nothing
-        Dim extraRows As Integer = 0
-        Dim extraCols As Integer = 0
-        If res.Count > 0 Then
-            rr = New ProcessListofResultTables(res)
-            extraRows = rr.TotRows + res.Count - 1
-            extraCols = rr.TotCols
-        End If
-
-        Dim totrows As Integer = sharedRows
-        If res.Count > 0 Then totrows += 1 + extraRows
-        Dim totcols As Integer = Math.Max(sharedCols, extraCols)
-
-        If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
-            If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
-                Exit Sub
-            End If
-        End If
-
-        For i As Integer = 0 To sharedRequests.Count - 1
-            If i > 0 Then WriteRes.shiftRowPointer()
-            WriteRes.WriteSharedRequest(sharedRequests(i))
-        Next
+        If res.Count > 0 Then rr = New ProcessListofResultTables(res)
+        Dim totcols As Integer
+        Dim prepared As ExcelDnaPreparedSharedOutput = PrepareSharedOutput(
+            WriteRes, analysisResult, sharedRequests, outputTarget, res, totcols)
+        If prepared Is Nothing Then Exit Sub 'Overwrite declined; no shared/supplementary writes.
+        WriteRes.WritePlannedSharedRequests(prepared)
 
         If rr IsNot Nothing Then
             WriteRes.shiftRowPointer()
@@ -1705,40 +1677,13 @@ Public Class UibyID
             request.AutoFit = False
         Next
 
-        Dim sharedRows As Integer = 0
-        Dim sharedCols As Integer = 0
-        For i As Integer = 0 To sharedRequests.Count - 1
-            Dim request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest = sharedRequests(i)
-            Dim tableRows As Integer = request.Values.Count
-            Dim tableCols As Integer = If(tableRows = 0, 0, request.Values(0).Count)
-
-            If i > 0 Then sharedRows += 1
-            sharedRows += tableRows
-            sharedCols = Math.Max(sharedCols, tableCols)
-        Next
-
         Dim rr As ProcessListofResultTables = Nothing
-        Dim extraRows As Integer = 0
-        Dim extraCols As Integer = 0
-        If res.Count > 0 Then
-            rr = New ProcessListofResultTables(res)
-            extraRows = rr.TotRows + res.Count - 1
-            extraCols = rr.TotCols
-        End If
-
-        Dim totrows As Integer = sharedRows
-        If res.Count > 0 Then totrows += 1 + extraRows
-        Dim totcols As Integer = Math.Max(sharedCols, extraCols)
-        If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
-            If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
-                Exit Sub
-            End If
-        End If
-
-        For i As Integer = 0 To sharedRequests.Count - 1
-            If i > 0 Then WriteRes.shiftRowPointer()
-            WriteRes.WriteSharedRequest(sharedRequests(i))
-        Next
+        If res.Count > 0 Then rr = New ProcessListofResultTables(res)
+        Dim totcols As Integer
+        Dim prepared As ExcelDnaPreparedSharedOutput = PrepareSharedOutput(
+            WriteRes, analysisResult, sharedRequests, outputTarget, res, totcols)
+        If prepared Is Nothing Then Exit Sub 'Overwrite declined; no shared/supplementary writes.
+        WriteRes.WritePlannedSharedRequests(prepared)
 
         If rr IsNot Nothing Then
             WriteRes.shiftRowPointer()
@@ -1797,6 +1742,29 @@ Public Class UibyID
         End If
     End Sub
 
+    ' Only the two shared grouped-analysis routes use this preflight. GetResultWriter has
+    ' already resolved (and may have created) the legacy Windows workbook/worksheet.
+    Private Function PrepareSharedOutput(writer As ExcelDnaResultWriter,
+                                         result As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult,
+                                         requests As List(Of Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest),
+                                         target As Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget,
+                                         supplementary As List(Of ResultTable), ByRef totalColumns As Integer) As ExcelDnaPreparedSharedOutput
+        Dim document = Global.BESHStatNG.ExcelCommon.OutputDocument.FromResult(result)
+        Dim layout = Global.BESHStatNG.ExcelCommon.OutputLayoutPlanner.Create(
+            document, target, New Global.BESHStatNG.ExcelCommon.OutputLayoutOptions(blankRowsBetweenTables:=1))
+        Dim prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(layout, requests, target, CStr(writer.ws.Name))
+        Dim extraModels As New List(Of ResultTableOutputModel)
+        For Each table As ResultTable In supplementary
+            extraModels.Add(table.ToOutputModel())
+        Next
+        Dim bounds = ExcelDnaSharedOutputPlanAdapter.PreflightBounds(prepared, extraModels)
+        totalColumns = bounds.EndColumn - bounds.StartColumn + 1
+        Dim occupied As Boolean = AreaCheck(bounds.StartRow, bounds.StartColumn,
+            bounds.EndRow - bounds.StartRow + 1, totalColumns, writer.ws)
+        If Not ExcelDnaSharedOutputPlanAdapter.ConfirmOverwrite(occupied,
+            Function() MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") <> vbNo) Then Return Nothing
+        Return prepared
+    End Function
     Private Function GetResultWriter() As ExcelDnaResultWriter
         Dim WriteRes = New ExcelDnaResultWriter, rRange As Range
         If Me.optWorkbook.Checked Then
