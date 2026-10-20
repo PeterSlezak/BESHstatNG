@@ -1471,7 +1471,8 @@ Public Class UibyID
             res.Add(box.wrapResults())
         End If
 
-        Dim WriteRes As ExcelDnaResultWriter = GetResultWriter()
+        Dim WriteRes As ExcelDnaResultWriter = GetSharedResultWriter(
+            Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, analysisResult, res)
 
         Dim destination As Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination =
             Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.CurrentWorksheet
@@ -1643,7 +1644,8 @@ Public Class UibyID
             res.Add(box.wrapResults())
         End If
 
-        Dim WriteRes As ExcelDnaResultWriter = GetResultWriter()
+        Dim WriteRes As ExcelDnaResultWriter = GetSharedResultWriter(
+            Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis, analysisResult, res)
 
         Dim destination As Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination =
             Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.CurrentWorksheet
@@ -1758,6 +1760,8 @@ Public Class UibyID
             extraModels.Add(table.ToOutputModel())
         Next
         Dim bounds = ExcelDnaSharedOutputPlanAdapter.PreflightBounds(prepared, extraModels)
+        Global.BESHStatNG.ExcelCommon.TargetPlanner.Create(target, ExcelDnaHostCapabilities.GetSnapshot(),
+            ExcelDnaOutputTargetAdapter.Inspect(writer.wb, writer.ws, target.Destination, bounds)).EnsureSupported()
         totalColumns = bounds.EndColumn - bounds.StartColumn + 1
         Dim occupied As Boolean = AreaCheck(bounds.StartRow, bounds.StartColumn,
             bounds.EndRow - bounds.StartRow + 1, totalColumns, writer.ws)
@@ -1765,6 +1769,45 @@ Public Class UibyID
             Function() MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") <> vbNo) Then Return Nothing
         Return prepared
     End Function
+    ' Only ANOVA/KW: inspect and validate before the unchanged legacy destination creation.
+    Private Function GetSharedResultWriter(analysisId As String,
+                                          result As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult,
+                                          supplementary As List(Of ResultTable)) As ExcelDnaResultWriter
+        Dim target As New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
+            .Destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.CurrentWorksheet,
+            .WorksheetName = Nothing, .StartRow = 1, .StartColumn = 1}
+        Dim workbook As Workbook = Nothing
+        Dim worksheet As Worksheet = Nothing
+        If Me.optWorkbook.Checked Then
+            target.Destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorkbook
+        ElseIf Me.optWorksheet.Checked Then
+            target.Destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorksheet
+            workbook = AppGlobals.app.ActiveWorkbook
+        Else
+            workbook = AppGlobals.app.ActiveWorkbook
+            worksheet = WorksheetFromRefAdress(Me.RefEditOutput.Address)
+            If worksheet IsNot Nothing Then
+                Dim region As Range = worksheet.Range(Me.RefEditOutput.Address)
+                target.StartRow = region.Row
+                target.StartColumn = region.Column
+                target.WorksheetName = worksheet.Name
+            End If
+        End If
+        ExcelDnaHostCapabilities.EnsureCanWrite(analysisId, target)
+        Dim extras As New List(Of ResultTableOutputModel)
+        For Each table As ResultTable In supplementary
+            extras.Add(table.ToOutputModel())
+        Next
+        Dim facts = ExcelDnaOutputTargetAdapter.Inspect(workbook, worksheet, target.Destination)
+        Dim bounds = ExcelDnaOutputTargetAdapter.Preflight(target, facts,
+            Global.BESHStatNG.ExcelCommon.OutputDocument.FromResult(result), extras)
+        If worksheet IsNot Nothing Then
+            Global.BESHStatNG.ExcelCommon.TargetPlanner.Create(target, ExcelDnaHostCapabilities.GetSnapshot(),
+                ExcelDnaOutputTargetAdapter.Inspect(workbook, worksheet, target.Destination, bounds)).EnsureSupported()
+        End If
+        Return GetResultWriter()
+    End Function
+
     Private Function GetResultWriter() As ExcelDnaResultWriter
         Dim WriteRes = New ExcelDnaResultWriter, rRange As Range
         If Me.optWorkbook.Checked Then

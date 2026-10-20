@@ -279,3 +279,95 @@ test("Home active statistical writer uses Common document/semantic/layout and pl
     assert.ok(!method.includes("beshOffice.writeResultTables"));
     assert.equal((method.match(/SharedAnalysisApplicationService.Run\(/g) || []).length, 1);
 });
+
+// Batch 02.06 uses the same reviewed plans; only target/absolute translation changes.
+function movePlan(plan, row, column, destination) {
+    const dr = row - plan.target.startRow, dc = column - plan.target.startColumn;
+    plan.target.startRow = row; plan.target.startColumn = column; plan.target.destination = destination;
+    for (const b of [plan.usedBounds, ...plan.tables.map(t => t.bounds)]) {
+        b.startRow += dr; b.endRow += dr; b.startColumn += dc; b.endColumn += dc;
+    }
+    return plan;
+}
+
+for (const [destination, row, column] of [[1, 10, 3], [0, 20, 4], [1, 10, 1]]) {
+    test(`target ${destination} at ${row},${column} reaches actual absolute host coordinates`, async () => {
+        const plan = movePlan(fixture("anova-base"), row, column, destination);
+        plan.target.worksheetName = "Unique";
+        const mock = recordingWorkbook({ probes: true });
+        const result = await mock.bridge.writeOutputPlan(plan);
+        const first = plan.tables[0];
+        assert.deepEqual(mock.trace.writes[0].indexes, [row - 1, column - 1, first.rowCount, first.columnCount]);
+        assert.equal(result.tableAddresses[0], `HOST:${destination ? "Unique" : "Actual"}!${address(row - 1, column - 1, first.rowCount, first.columnCount)}`);
+        const b = plan.usedBounds;
+        assert.equal(result.address, `HOST:${destination ? "Unique" : "Actual"}!${address(row - 1, column - 1, b.endRow - row + 1, b.endColumn - column + 1)}`);
+        if (row === 10 && column === 3) assert.equal(result.tableAddresses[0], "HOST:Unique!C10:H13");
+    });
+}
+
+for (const [options, code] of [
+    [{ probes: true, protectedSheet: true }, "output.target-unwritable"],
+    [{ probes: true, mergedConflict: true }, "output.target-merged"],
+    [{ missingSheet: true }, "output.target-invalid"],
+    [{ missingWorkbook: true }, "output.target-invalid"]
+]) {
+    test(`read-only target probe rejects ${JSON.stringify(options)} before content or selection`, async () => {
+        const mock = recordingWorkbook(options);
+        await assert.rejects(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), e => e.code === code);
+        for (const field of ["adds", "clears", "writes", "styles", "activations", "selections"]) assert.deepEqual(mock.trace[field], []);
+        assert.equal(mock.trace.runs, 1);
+    });
+}
+
+for (const options of [{ probes: true, failMergeProbe: true }, { probes: true, failSync: 1 }]) {
+    test(`failed read-only API probe ${JSON.stringify(options)} aborts before mutation`, async () => {
+        const mock = recordingWorkbook(options);
+        await assert.rejects(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), /Injected/);
+        for (const field of ["adds", "clears", "writes", "activations", "selections"]) assert.deepEqual(mock.trace[field], []);
+    });
+}
+
+test("protected workbook prevents new-sheet creation after one read-only sync", async () => {
+    const mock = recordingWorkbook({ probes: true, protectedWorkbook: true });
+    const plan = fixture("four-tables-c6"); plan.target.destination = 1;
+    await assert.rejects(mock.bridge.writeOutputPlan(plan), e => e.code === "output.target-unwritable");
+    assert.equal(mock.trace.syncs, 1);
+    for (const field of ["adds", "clears", "writes", "activations", "selections"]) assert.deepEqual(mock.trace[field], []);
+});
+
+for (const [requested, names, expected] of [
+    ["\u0394\u03bf\u03ba\u03b9\u03bc\u03ae:\u7ed3\u679c", ["\u03b4\u03bf\u03ba\u03b9\u03bc\u03ae_\u7ed3\u679c", "\u0394\u039f\u039a\u0399\u039c\u0389_\u7ed3\u679c_2"], "\u0394\u03bf\u03ba\u03b9\u03bc\u03ae_\u7ed3\u679c_3"],
+    ["X".repeat(40), ["X".repeat(31), "x".repeat(29) + "_2"], "X".repeat(29) + "_3"],
+    ["'Results'", [], "_Results_"],
+    ["history", [], "history_"],
+    ["a/b?c*d[e]:f", [], "a_b_c_d_e__f"],
+    ["   ", [], "BESHStat_Result"]
+]) {
+    test(`new worksheet deterministically resolves ${requested}`, async () => {
+        const plan = fixture("four-tables-c6"); plan.target.destination = 1; plan.target.worksheetName = requested;
+        const mock = recordingWorkbook({ names });
+        const result = await mock.bridge.writeOutputPlan(plan);
+        assert.deepEqual(mock.trace.adds, [expected]);
+        assert.equal(result.worksheetName, expected);
+        assert.equal(mock.trace.activeResolutions, 0);
+        assert.ok(mock.trace.writes.every(write => write.indexes[1] === 2));
+    });
+}
+
+test("suffix exhaustion and inaccessible enumeration never reuse or create a sheet", async () => {
+    for (const names of [["Results", ...Array.from({ length: 998 }, (_, i) => `Results_${i + 2}`)], [""]]) {
+        const mock = recordingWorkbook({ names });
+        const plan = fixture("four-tables-c6"); plan.target.destination = 1; plan.target.worksheetName = "Results";
+        await assert.rejects(mock.bridge.writeOutputPlan(plan), /unused|inaccessible/);
+        for (const field of ["adds", "clears", "writes", "activations", "selections"]) assert.deepEqual(mock.trace[field], []);
+        assert.equal(mock.trace.syncs, 1);
+    }
+});
+
+test("runtime host loss is rechecked even after a successful capability snapshot", async () => {
+    const mock = recordingWorkbook();
+    assert.ok((await mock.bridge.getHostCapabilities()).capabilities.includes("output.current-worksheet"));
+    mock.sandbox.Office.context.host = "Word";
+    await assert.rejects(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), /unavailable/);
+    assert.equal(mock.trace.runs, 0); assert.equal(mock.trace.syncs, 0);
+});

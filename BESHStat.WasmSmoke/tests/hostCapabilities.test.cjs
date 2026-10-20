@@ -82,3 +82,20 @@ test("writer rejects mixed destinations before Excel.run", async () => {
     await assert.rejects(bridge.writeResultTables([makePayload(0), makePayload(1)]), /same output destination/);
     assert.equal(getRunCount(), 0);
 });
+
+for (const [row, column] of [[0, 1], [-1, 1], [1, 0], [1048577, 1], [1, 16385], [1.5, 1]]) {
+    test(`legacy illegal start ${row},${column} rejects before Excel.run`, async () => {
+        const { bridge, getRunCount } = loadBridge();
+        const payload = makePayload(1); payload.outputTarget.startRow = row; payload.outputTarget.startColumn = column;
+        await assert.rejects(bridge.writeResultTables([payload]), /outside the worksheet grid/);
+        assert.equal(getRunCount(), 0);
+    });
+}
+
+for (const destination of ["invalid", 1.5, null, false, ""]) {
+    test(`legacy malformed destination ${JSON.stringify(destination)} has no silent fallback`, async () => {
+        const { bridge, getRunCount } = loadBridge();
+        await assert.rejects(bridge.writeResultTables([makePayload(destination)]), /Unknown result output destination/);
+        assert.equal(getRunCount(), 0);
+    });
+}

@@ -24,7 +24,7 @@ function recordingWorkbook(options = {}) {
         return cells.get(key);
     };
     function worksheet(name) {
-        return { name, load() {}, activate() { trace.activations.push(name); },
+        return { name, protection: { protected: !!options.protectedSheet, load() {} }, load() {}, activate() { trace.activations.push(name); },
             getRangeByIndexes(r, c, rows, columns) {
                 const indexes = [r, c, rows, columns];
                 trace.ranges.push(indexes);
@@ -46,6 +46,10 @@ function recordingWorkbook(options = {}) {
                 return {
                     // Host-returned prefix deliberately differs from fabricated A1-only addresses.
                     address: `HOST:${name}!${a}`, load() {},
+                    getMergedAreasOrNullObject() {
+                        if (options.failMergeProbe) throw new Error("Injected merge probe failure");
+                        return { isNullObject: !options.mergedConflict };
+                    },
                     select() { trace.selections.push(a); },
                     clear(applyTo) {
                         if (applyTo !== "Contents") throw new Error("Unexpected clear mode");
@@ -73,17 +77,17 @@ function recordingWorkbook(options = {}) {
     }
     const sheets = (options.names || ["Actual", "BESHStat_Result"]).map(worksheet);
     const worksheets = { items: sheets, load() {},
-        getActiveWorksheet() { trace.activeResolutions++; return sheets[0]; },
+        getActiveWorksheet() { trace.activeResolutions++; return options.missingSheet ? null : sheets[0]; },
         add(name) { trace.adds.push(name); const sheet = worksheet(name); sheets.push(sheet); return sheet; } };
-    const context = { workbook: { worksheets }, async sync() {
+    const context = { workbook: options.missingWorkbook ? null : { worksheets, protection: { protected: !!options.protectedWorkbook, load() {} } }, async sync() {
         trace.syncs++;
         if (trace.syncs === options.failSync) throw new Error("Injected Office sync failure");
     } };
     const sandbox = { window: {}, setTimeout,
         Office: { context: { host: options.nonExcel ? "Word" : "Excel", platform: "OfficeOnline",
-            requirements: { isSetSupported: () => options.apiAvailable !== false } }, HostType: { Excel: "Excel" } },
+            requirements: { isSetSupported: (_, version) => options.apiAvailable !== false && (version === "1.1" || !!options.probes) } }, HostType: { Excel: "Excel" } },
         Excel: { async run(action) { trace.runs++; return action(context); } } };
     vm.runInNewContext(source, sandbox, { filename: "officeBridge.js" });
-    return { bridge: sandbox.window.beshOffice, trace, cells, cellAt };
+    return { bridge: sandbox.window.beshOffice, trace, cells, cellAt, sandbox };
 }
 module.exports = { recordingWorkbook, copy, address };

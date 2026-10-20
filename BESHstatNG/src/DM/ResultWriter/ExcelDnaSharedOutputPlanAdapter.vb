@@ -175,8 +175,17 @@ Friend NotInheritable Class ExcelDnaSharedOutputPlanAdapter
     Public Shared Function PreflightBounds(prepared As ExcelDnaPreparedSharedOutput,
                                            supplementary As IEnumerable(Of ResultTableOutputModel)) As OutputRectangle
         If prepared Is Nothing Then Throw New ArgumentNullException(NameOf(prepared))
-        Dim used = prepared.Layout.UsedBounds
+        Return PreflightBounds(prepared.Layout, supplementary)
+    End Function
+
+    Friend Shared Function PreflightBounds(layout As OutputLayoutPlan,
+                                           supplementary As IEnumerable(Of ResultTableOutputModel)) As OutputRectangle
+        If layout Is Nothing Then Throw New ArgumentNullException(NameOf(layout))
+        Dim used = layout.UsedBounds
         If used Is Nothing Then Throw New ArgumentException("This UI workflow requires occupied shared tables.")
+        Dim rowLimit As Integer = Math.Min(MaxRows, layout.Options.MaxRows)
+        Dim columnLimit As Integer = Math.Min(MaxColumns, layout.Options.MaxColumns)
+        If used.EndRow >= rowLimit Then Throw New ArgumentException("Output leaves no next Windows cursor row.")
         Dim endRow As Long = used.EndRow
         Dim endColumn As Long = used.EndColumn
         If supplementary IsNot Nothing Then
@@ -184,7 +193,7 @@ Friend NotInheritable Class ExcelDnaSharedOutputPlanAdapter
                 If model Is Nothing OrElse model.RowCount < 1 OrElse model.ColumnCount < 1 Then Throw New ArgumentException("Invalid supplementary table.")
                 endRow += 1L + model.RowCount
                 endColumn = Math.Max(endColumn, CLng(used.StartColumn) + model.ColumnCount - 1L)
-                If endRow >= MaxRows OrElse endColumn > MaxColumns Then Throw New ArgumentException("Combined output exceeds the Windows grid or leaves no next cursor row.")
+                If endRow >= rowLimit OrElse endColumn > columnLimit Then Throw New ArgumentException("Combined output exceeds the Windows grid or leaves no next cursor row.")
             Next
         End If
         Return New OutputRectangle(used.StartRow, used.StartColumn, CInt(endRow), CInt(endColumn))

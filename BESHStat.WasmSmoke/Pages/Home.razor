@@ -251,6 +251,10 @@
                     <option value="@SpreadsheetOutputDestination.CurrentWorksheet" disabled="@(!SupportsDestination(SpreadsheetOutputDestination.CurrentWorksheet))">Current worksheet</option>
                     <option value="@SpreadsheetOutputDestination.NewWorkbook" disabled="@(!SupportsDestination(SpreadsheetOutputDestination.NewWorkbook))">New workbook (unavailable in Office.js)</option>
                 </select>
+                @if (!SupportsDestination(outputDestination))
+                {
+                    <small class="text-danger">This destination is unavailable in the current host. Select a supported worksheet destination explicitly.</small>
+                }
             </div>
 
             <div class="col-md-4">
@@ -656,6 +660,8 @@
             };
             var analysisId = AnalysisCatalog.GetByLegacyKind(analysisKind).Id;
             HostCapabilityPreflight.CheckRunAndWrite(analysisId, hostCapabilities, target).EnsureSupported();
+            var targetDecision = TargetPlanner.Create(target, hostCapabilities);
+            target = targetDecision.ToTarget(); // preserves both one-based inputs; no fallback/default repair
 
             selection = await AcquireRangeAsync();
             groupedPreview = ParseSelectedInput(selection);

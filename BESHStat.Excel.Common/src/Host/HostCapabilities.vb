@@ -114,6 +114,9 @@ Namespace ExcelCommon
         Public Const MissingCapability As String = "host.capability-missing"
         Public Const UnsupportedDestination As String = "output.destination-unsupported"
         Public Const InvalidTarget As String = "output.target-invalid"
+        Public Const SheetNameCollision As String = "output.sheet-name-collision"
+        Public Const UnwritableTarget As String = "output.target-unwritable"
+        Public Const MergedTarget As String = "output.target-merged"
 
         Private Sub New()
         End Sub
@@ -219,6 +222,14 @@ Namespace ExcelCommon
             End If
             check = Require(snapshot, HostCapabilityIds.WriteResultTables, "Write result tables")
             If Not check.IsSupported Then Return check
+            ' The accepted Office executor has no create-workbook operation, even if a stale
+            ' or incorrect runtime report claims it. Never infer an action from the enum.
+            If target.Destination = SpreadsheetOutputDestination.NewWorkbook AndAlso
+               String.Equals(snapshot.Host, "OfficeJs", StringComparison.Ordinal) Then
+                Return CapabilityPreflightResult.Rejected(CapabilityPreflightCodes.UnsupportedDestination,
+                    "New-workbook output is unavailable in Office.js. Select current or new worksheet explicitly.",
+                    HostCapabilityIds.NewWorkbook)
+            End If
             Return Require(snapshot, requiredDestination, "Selected output destination", True)
         End Function
 

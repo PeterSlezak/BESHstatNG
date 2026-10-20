@@ -424,6 +424,65 @@ Public Class SharedOutputPlanTests
         Assert.AreEqual(0.05, factory.PvalueHighlightAlpha, "Factory fallback differs from live invalid-override fallback.")
     End Sub
 
+    <DataTestMethod>
+    <DataRow(0)> <DataRow(1)> <DataRow(2)>
+    Public Sub TargetPreflight_AllWindowsDestinationsPreserveC10BeforeHostCreation(destination As Integer)
+        Dim requested = Target()
+        requested.Destination = CType(destination, SpreadsheetOutputDestination)
+        requested.StartRow = 10
+        Dim bounds = ExcelDnaOutputTargetAdapter.Preflight(requested, New OutputTargetFacts(), Document(Models()), Nothing)
+        Assert.AreEqual(10, bounds.StartRow)
+        Assert.AreEqual(3, bounds.StartColumn)
+        Assert.AreEqual(20, bounds.EndRow)
+        Dim prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(OutputLayoutPlanner.Create(Document(Models()), requested),
+            Requests(Models(), requested), requested, "Results")
+        Dim writer As New RecordingWriter(10, 3)
+        prepared.Execute(requested, "Results", Sub(c) writer.Record(c), Sub(row) writer.setRowPointer(row))
+        Assert.AreEqual(4, writer.Written.Count)
+        Assert.AreEqual(21, writer.RowID)
+        Assert.AreEqual(3, writer.ColID)
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("protected")> <DataRow("merged")> <DataRow("missing")> <DataRow("readonly")>
+    <DataRow("row")> <DataRow("column")> <DataRow("unknown")> <DataRow("unsupported")>
+    <DataRow("geometry")> <DataRow("supplementary")> <DataRow("structure")>
+    Public Sub TargetPreflight_KnownInvalidRequestDoesNotReachMutationOrConfirmation(reason As String)
+        Dim requested = Target()
+        Dim facts As New OutputTargetFacts()
+        Dim host = ExcelDnaHostCapabilities.GetSnapshot()
+        Dim extras As IEnumerable(Of ResultTableOutputModel) = Nothing
+        Select Case reason
+            Case "protected" : facts = New OutputTargetFacts(protectedSheet:=True)
+            Case "merged" : facts = New OutputTargetFacts(mergedConflict:=True)
+            Case "missing" : facts = New OutputTargetFacts(sheetExists:=False)
+            Case "readonly" : facts = New OutputTargetFacts(writable:=False)
+            Case "row" : requested.StartRow = 0
+            Case "column" : requested.StartColumn = 16385
+            Case "unknown" : requested.Destination = CType(99, SpreadsheetOutputDestination)
+            Case "unsupported" : host.Capabilities.Remove(HostCapabilityIds.CurrentWorksheet)
+            Case "geometry" : requested.StartRow = 1048575
+            Case "supplementary" : requested.StartRow = 1048550 : extras = {New ResultTableOutputModel(New Object(29, 1) {})}
+            Case "structure" : requested.Destination = SpreadsheetOutputDestination.NewWorksheet : facts = New OutputTargetFacts(canCreateWorksheet:=False)
+        End Select
+        Dim mutations As Integer = 0
+        Dim confirmations As Integer = 0
+        Dim rejected As Boolean = False
+        Try
+            ExcelDnaOutputTargetAdapter.Preflight(requested, facts, Document(Models()), extras, host)
+            mutations += 1 ' represents GetResultWriter destination creation after the real pure seam
+            confirmations += 1
+        Catch ex As HostCapabilityException
+            Assert.IsFalse(String.IsNullOrWhiteSpace(ex.Code))
+            rejected = True
+        Catch ex As ArgumentException
+            rejected = True
+        End Try
+        Assert.IsTrue(rejected)
+        Assert.AreEqual(0, mutations)
+        Assert.AreEqual(0, confirmations)
+    End Sub
+
     Private Class RecordingWriter
         Inherits ExcelDnaResultWriter
         Public ReadOnly Written As New List(Of ExcelDnaSharedWriteCommand)

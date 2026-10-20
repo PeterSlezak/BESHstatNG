@@ -567,14 +567,21 @@
             value = "BESHStat_Result";
         }
 
-        value = value.replace(/[\\/\?\*\[\]:]/g, "_");
+        value = value.replace(/[\\/\?\*\[\]:\x00-\x1f]/g, "_");
         if (value.length > 31) {
             value = value.substring(0, 31);
         }
+        // Excel also forbids boundary apostrophes and the reserved History name.
+        if (/[\uD800-\uDBFF]$/.test(value)) value = value.slice(0, -1);
+        value = value.replace(/^'+|'+$/g, "_");
+        if (value.toLowerCase() === "history") value += "_";
         return value || "BESHStat_Result";
     }
 
     function nextWorksheetName(existingNames, requestedBaseName) {
+        if (!Array.isArray(existingNames) || existingNames.some(name => typeof name !== "string" || !name)) {
+            throw targetError("output.target-invalid", "Worksheet names are inaccessible. Retry in an accessible workbook.");
+        }
         const baseName = sanitizeWorksheetBaseName(requestedBaseName);
         const used = new Set(existingNames.map(name => String(name).toLowerCase()));
 
@@ -584,14 +591,15 @@
 
         for (let i = 2; i < 1000; i++) {
             const suffix = `_${i}`;
-            const prefix = baseName.substring(0, Math.max(1, 31 - suffix.length));
+            let prefix = baseName.substring(0, Math.max(1, 31 - suffix.length));
+            if (/[\uD800-\uDBFF]$/.test(prefix)) prefix = prefix.slice(0, -1);
             const candidate = prefix + suffix;
             if (!used.has(candidate.toLowerCase())) {
                 return candidate;
             }
         }
 
-        throw new Error("Unable to find an unused result worksheet name.");
+        throw targetError("output.sheet-name-collision", "Unable to find an unused result worksheet name. Choose another name.");
     }
 
     // 02.05 internal adapter v1. These guards reuse the 01.10 prototype defaults
@@ -635,7 +643,7 @@
             startColumn: integer(input.target.startColumn, 1, 16384)
         };
         if (target.destination === OUTPUT_DESTINATION.newWorkbook) {
-            throw new Error("New-workbook output is not supported by the Office.js host.");
+            throw targetError("output.destination-unsupported", "New-workbook output is not supported by the Office.js host.");
         }
         const artifactCount = integer(input.artifactCount, 0, 64);
         const sourceTableCount = integer(input.sourceTableCount, 0, artifactCount);
@@ -738,6 +746,54 @@
         }
     }
 
+    function targetError(code, message) {
+        const error = new Error(message);
+        error.code = code;
+        return error;
+    }
+
+    function supportsExcelApi(version) {
+        return Office.context.requirements.isSetSupported("ExcelApi", version) === true;
+    }
+
+    // Read-only inspection. Missing optional API sets mean unverified, not safe to
+    // overwrite. A supported probe that fails aborts; never swallow permission errors.
+    async function resolveOutputWorksheet(context, target, rectangles) {
+        if (!context.workbook || !context.workbook.worksheets) {
+            throw targetError("output.target-invalid", "The target workbook is inaccessible.");
+        }
+        const worksheets = context.workbook.worksheets;
+        if (target.destination === OUTPUT_DESTINATION.newWorksheet) {
+            worksheets.load("items/name");
+            const protection = supportsExcelApi("1.7") ? context.workbook.protection : null;
+            if (supportsExcelApi("1.7") && !protection) throw targetError("output.target-invalid", "Workbook protection is inaccessible.");
+            if (protection) protection.load("protected");
+            await context.sync();
+            if (protection && protection.protected) throw targetError("output.target-unwritable", "Workbook structure is protected. Choose another workbook.");
+            if (!Array.isArray(worksheets.items)) throw targetError("output.target-invalid", "Worksheet enumeration is inaccessible.");
+            const name = nextWorksheetName(worksheets.items.map(item => item.name), target.worksheetName);
+            // A newly created empty worksheet has no pre-existing merge/protection regions.
+            // Creation can persist if a later API/write fails; this is not a transaction.
+            return worksheets.add(name);
+        }
+        const worksheet = worksheets.getActiveWorksheet();
+        if (!worksheet) throw targetError("output.target-invalid", "The active worksheet is missing or inaccessible.");
+        worksheet.load("name");
+        const protection = supportsExcelApi("1.2") ? worksheet.protection : null;
+        if (supportsExcelApi("1.2") && !protection) throw targetError("output.target-invalid", "Worksheet protection is inaccessible.");
+        if (protection) protection.load("protected");
+        const merges = supportsExcelApi("1.13") ? rectangles.map(b => {
+            const range = worksheet.getRangeByIndexes(b.startRow - 1, b.startColumn - 1,
+                b.endRow - b.startRow + 1, b.endColumn - b.startColumn + 1);
+            return range.getMergedAreasOrNullObject();
+        }) : [];
+        await context.sync();
+        if (!worksheet.name) throw targetError("output.target-invalid", "The active worksheet is inaccessible.");
+        if (protection && protection.protected) throw targetError("output.target-unwritable", "The target worksheet is protected. Choose an unprotected worksheet.");
+        if (merges.some(areas => !areas.isNullObject)) throw targetError("output.target-merged", "Planned output intersects merged cells. Choose an unmerged destination.");
+        return worksheet;
+    }
+
     async function writeOutputPlan(input) {
         const plan = validateOutputPlan(input); // ALL wire checks before Excel.run or creation
         const snapshot = await getHostCapabilities();
@@ -750,15 +806,7 @@
         if (!plan.tables.length) return { worksheetName: "", address: "", tableAddresses: [],
             pvalueColumns: [], pvalueNumberFormat: plan.pvalueNumberFormat };
         return Excel.run(async context => {
-            const worksheets = context.workbook.worksheets;
-            let worksheet;
-            if (plan.target.destination === OUTPUT_DESTINATION.currentWorksheet) {
-                worksheet = worksheets.getActiveWorksheet();
-            } else {
-                worksheets.load("items/name");
-                await context.sync();
-                worksheet = worksheets.add(nextWorksheetName(worksheets.items.map(item => item.name), plan.target.worksheetName));
-            }
+            const worksheet = await resolveOutputWorksheet(context, plan.target, plan.tables.map(table => table.bounds));
             worksheet.load("name");
             const writtenRanges = [];
             for (const table of plan.tables) {
@@ -979,18 +1027,27 @@
 
         const tables = payloads.map(validateResultPayload);
         const firstTarget = tables[0].payload.outputTarget || {};
-        const destination = Number.isInteger(Number(firstTarget.destination))
-            ? Number(firstTarget.destination)
-            : OUTPUT_DESTINATION.newWorksheet;
-        const startRow = Math.max(1, Number(firstTarget.startRow) || 1) - 1;
-        const startColumn = Math.max(1, Number(firstTarget.startColumn) || 1) - 1;
+        const destination = firstTarget.destination === undefined
+            ? OUTPUT_DESTINATION.newWorksheet : Number(firstTarget.destination);
+        if (firstTarget.destination === null || typeof firstTarget.destination === "boolean" ||
+            (typeof firstTarget.destination === "string" && !firstTarget.destination.trim()) || !Number.isInteger(destination)) {
+            throw targetError("output.target-invalid", "Unknown result output destination.");
+        }
+        const row = firstTarget.startRow === undefined ? 1 : Number(firstTarget.startRow);
+        const column = firstTarget.startColumn === undefined ? 1 : Number(firstTarget.startColumn);
+        if (!Number.isSafeInteger(row) || row < 1 || row > 1048576 ||
+            !Number.isSafeInteger(column) || column < 1 || column > 16384) {
+            throw targetError("output.target-invalid", "Output start row/column is outside the worksheet grid.");
+        }
+        const startRow = row - 1;
+        const startColumn = column - 1;
 
         const snapshot = await getHostCapabilities();
         if (!snapshot.isExcel || !snapshot.capabilities.includes(HOST_CAPABILITY.writeResultTables)) {
             throw new Error("Office.js result writing is unavailable in this Excel host.");
         }
         if (destination === OUTPUT_DESTINATION.newWorkbook) {
-            throw new Error("New-workbook output is not supported by the Office.js host.");
+            throw targetError("output.destination-unsupported", "New-workbook output is not supported by the Office.js host.");
         }
         if (destination !== OUTPUT_DESTINATION.currentWorksheet &&
             destination !== OUTPUT_DESTINATION.newWorksheet) {
@@ -1004,9 +1061,11 @@
 
         for (const table of tables) {
             const target = table.payload.outputTarget || {};
-            const tableDestination = Number.isInteger(Number(target.destination))
-                ? Number(target.destination)
-                : destination;
+            const tableDestination = target.destination === undefined ? destination : Number(target.destination);
+            if (target.destination === null || typeof target.destination === "boolean" ||
+                (typeof target.destination === "string" && !target.destination.trim()) || !Number.isInteger(tableDestination)) {
+                throw targetError("output.target-invalid", "Unknown result output destination.");
+            }
             if (tableDestination !== destination) {
                 throw new Error("All result tables in one batch must use the same output destination.");
             }
