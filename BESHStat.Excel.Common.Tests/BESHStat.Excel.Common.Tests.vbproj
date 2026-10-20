@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\BESHStat.WasmSmoke\tests\fixtures\composite-output\*.json" Link="TestData\CompositeOutput\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\BESHStat.WasmSmoke\tests\fixtures\output-plans\*.json" Link="TestData\OfficeOutput\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
     <None Update="TestData\Stage304\*.json" CopyToOutputDirectory="PreserveNewest" />
     <None Update="TestData\Acquisition\*.json" CopyToOutputDirectory="PreserveNewest" />

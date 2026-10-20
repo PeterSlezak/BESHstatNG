@@ -24,6 +24,18 @@
     }
 </div>
 
+<details class="mb-3">
+    <summary>Developer demo: composite output (02.07)</summary>
+    <p>Synthetic fixture only. Creates a new empty worksheet at C10 with tables, a warning,
+        a chart placeholder, an additional note and an inactive HTTPS link. Fixed block dimensions;
+        long text may clip visually but remains stored in full. This does not run an analysis.</p>
+    <button class="btn btn-outline-secondary" @onclick="WriteCompositeDemo" disabled="@(isBusy || !CanRunSelectedDestination)">Write synthetic composite to new worksheet</button>
+    @if (compositeTrace is not null)
+    {
+        <pre>@compositeTrace</pre>
+    }
+</details>
+
 <div class="mb-3">
     <button class="btn btn-outline-secondary me-2" @onclick="RefreshOfficeStatus">
         Check Excel host
@@ -439,6 +451,30 @@
 }
 
 @code {
+    private string? compositeTrace;
+
+    private async Task WriteCompositeDemo()
+    {
+        try
+        {
+            isBusy = true;
+            var host = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
+            var decision = TargetPlanner.Create(new SpreadsheetOutputTarget {
+                Destination = SpreadsheetOutputDestination.NewWorksheet, WorksheetName = "BESHStat_Composite_Demo",
+                StartRow = 10, StartColumn = 3 }, host);
+            var plan = CompositeOutputExample.Create(decision);
+            var wire = OfficeCompositeOutputPlanAdapter.Prepare(plan, OutputSemanticPlanner.Create(plan.SourceDocument, null, 0.05));
+            var result = await JS.InvokeAsync<System.Text.Json.JsonElement>("beshOffice.writeCompositeOutputPlan", wire);
+            compositeTrace = System.Text.Json.JsonSerializer.Serialize(result, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            status = "Synthetic composite written; chart not rendered and links inactive. Inspect addresses and stored text in Excel.";
+        }
+        catch (Exception ex)
+        {
+            compositeTrace = null;
+            status = "Composite failed: " + ReadErrorMessage(ex) + " A new worksheet or partial output may remain; no rollback is provided.";
+        }
+        finally { isBusy = false; }
+    }
     private OfficeHostStatus? officeHost;
     private HostCapabilitySnapshot? hostCapabilities;
     private bool CanReadSelection => hostCapabilities?.Supports(HostCapabilityIds.ReadSelectedRange) == true;

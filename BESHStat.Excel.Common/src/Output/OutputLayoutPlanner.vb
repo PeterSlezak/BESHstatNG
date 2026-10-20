@@ -199,15 +199,8 @@ Namespace ExcelCommon
                     gap = If(placedBounds.Count = 0, 0, limits.BlankRowsBetweenTables)
                     ' Every operand is Int32-bounded; these Int64 sums cannot overflow Int64.
                     ' Check grid limits before narrowing to Int32. No worksheet-sized allocation.
-                    Dim startRow As Long = If(placedBounds.Count = 0, CLng(resolved.StartRow), previousEndRow + 1L + gap)
-                    Dim endRow As Long = startRow + CLng(rows) - 1L
-                    Dim endColumn As Long = CLng(resolved.StartColumn) + CLng(columns) - 1L
-                    If endRow > limits.MaxRows OrElse endColumn > limits.MaxColumns Then
-                        Throw New ArgumentOutOfRangeException(NameOf(document), String.Format(CultureInfo.InvariantCulture,
-                            "Artifact '{0}' needs R{1}C{2}:R{3}C{4}, beyond grid {5}x{6}.",
-                            artifact.Id, startRow, resolved.StartColumn, endRow, endColumn, limits.MaxRows, limits.MaxColumns))
-                    End If
-                    bounds = New OutputRectangle(CInt(startRow), resolved.StartColumn, CInt(endRow), CInt(endColumn))
+                    bounds = OutputSpatialGeometry.NextBounds(resolved.StartRow, resolved.StartColumn,
+                        previousEndRow, rows, columns, limits, New OutputRectangle() {})
                     For reservationIndex As Integer = 0 To reservations.Count - 1
                         If bounds.Intersects(reservations(reservationIndex)) Then
                             Throw New InvalidOperationException(String.Format(CultureInfo.InvariantCulture,
@@ -218,7 +211,7 @@ Namespace ExcelCommon
                         If bounds.Intersects(prior) Then Throw New InvalidOperationException("Internal layout overlap: " & artifact.Id & " at " & bounds.ToString())
                     Next
                     placedBounds.Add(bounds)
-                    previousEndRow = endRow
+                    previousEndRow = bounds.EndRow
                     rightmost = Math.Max(rightmost, bounds.EndColumn)
                 End If
                 placements.Add(New OutputBlockPlacement(artifact, index, rows, columns, bounds, resolved.StartRow, resolved.StartColumn, gap))

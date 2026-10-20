@@ -843,6 +843,169 @@
         });
     }
 
+    // 02.07 opt-in composite wire v1, separate from the accepted table-only wire.
+    function validateCompositeOutputPlan(input) {
+        const fail = message => { throw new Error("Invalid composite output plan: " + message); };
+        const object = (value, keys) => {
+            if (!value || typeof value !== "object" || Array.isArray(value) ||
+                Object.keys(value).length !== keys.length || keys.some(key => !Object.hasOwn(value, key))) fail("object fields/types");
+        };
+        const integer = (value, min, max) => {
+            if (!Number.isSafeInteger(value) || value < min || value > max) fail("integer/grid bound");
+            return value;
+        };
+        let bytes = 0;
+        const text = (value, required = false, max = 32767) => {
+            if (typeof value !== "string" || value.length > max || (required && !value.trim()) ||
+                /[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f-\u009f]/.test(value)) fail("text bound/type/control");
+            bytes += 1024 + value.length * 2;
+            if (bytes > 67108864) fail("byte limit");
+            return value;
+        };
+        const nullableText = value => value === null ? null : text(value);
+        const rectangle = value => {
+            object(value, ["startRow", "startColumn", "endRow", "endColumn"]);
+            const startRow = integer(value.startRow, 1, 1048576), startColumn = integer(value.startColumn, 1, 16384);
+            return { startRow, startColumn, endRow: integer(value.endRow, startRow, 1048576), endColumn: integer(value.endColumn, startColumn, 16384) };
+        };
+        const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+        const intersects = (a, b) => a.startRow <= b.endRow && b.startRow <= a.endRow && a.startColumn <= b.endColumn && b.startColumn <= a.endColumn;
+        object(input, ["schemaVersion", "documentId", "target", "items", "reservations", "usedBounds", "tablePlan"]);
+        if (input.schemaVersion !== 1) fail("schema version");
+        const documentId = text(input.documentId, true);
+        object(input.target, ["destination", "worksheetName", "startRow", "startColumn"]);
+        if (input.target.destination !== OUTPUT_DESTINATION.newWorksheet) fail("new worksheet required until 02.08");
+        const target = { destination: input.target.destination, worksheetName: text(input.target.worksheetName, true),
+            startRow: integer(input.target.startRow, 1, 1048576), startColumn: integer(input.target.startColumn, 1, 16384) };
+        const tablePlan = validateOutputPlan(input.tablePlan); // unchanged table validation and literal scalar policy
+        if (tablePlan.target.destination !== target.destination || tablePlan.target.worksheetName !== target.worksheetName) fail("table target identity");
+        if (!Array.isArray(input.items) || input.items.length > 64 || !Array.isArray(input.reservations) || input.reservations.length > 64) fail("item/reservation count");
+        const reservations = input.reservations.map(rectangle), ids = new Set(), artifactIds = new Set(), occupied = [];
+        let sourceIndex = 0, tableOrdinal = 0, cells = 0;
+        const items = input.items.map((item, index) => {
+            object(item, ["id", "kind", "index", "sourceIndex", "artifactId", "relatedArtifactId", "bounds", "rowCount", "columnCount", "text", "linkTarget", "state",
+                "caption", "severity", "code", "fieldPath", "message", "referenceKey", "purpose", "description"]);
+            const id = text(item.id, true), kind = text(item.kind, true), content = text(item.text);
+            if (ids.has(id) || item.index !== index || !["Table", "Diagnostic", "PlotPlaceholder", "Note", "Link"].includes(kind)) fail("item identity/kind/order");
+            ids.add(id);
+            const artifactId = nullableText(item.artifactId), relatedArtifactId = nullableText(item.relatedArtifactId);
+            const metadata = {};
+            for (const key of ["caption", "severity", "code", "fieldPath", "message", "referenceKey", "purpose", "description", "linkTarget"]) metadata[key] = nullableText(item[key]);
+            const fromArtifact = ["Table", "Diagnostic", "PlotPlaceholder"].includes(kind);
+            if (fromArtifact) {
+                if (item.sourceIndex !== sourceIndex++ || artifactId !== id || relatedArtifactId !== null || artifactIds.has(artifactId)) fail("source reference/order");
+                artifactIds.add(artifactId);
+                if (metadata.caption === null) fail("caption");
+            } else if (item.sourceIndex !== null || artifactId !== null || metadata.caption !== null) fail("annotation source");
+            if (kind !== "Diagnostic" && [metadata.severity, metadata.code, metadata.fieldPath, metadata.message].some(v => v !== null)) fail("diagnostic union");
+            if (kind !== "PlotPlaceholder" && [metadata.referenceKey, metadata.purpose, metadata.description].some(v => v !== null)) fail("plot union");
+            if (kind !== "Link" && metadata.linkTarget !== null) fail("link union");
+            if (kind === "Diagnostic") {
+                if (!["Warning", "Fault"].includes(metadata.severity) || !metadata.code || !metadata.message || metadata.fieldPath === null || metadata.caption !== "" ||
+                    content !== metadata.severity.toUpperCase() + " [" + metadata.code + "] " + metadata.message + (metadata.fieldPath ? " (" + metadata.fieldPath + ")" : "")) fail("diagnostic severity/code/text");
+            }
+            if (kind === "PlotPlaceholder") {
+                if (!metadata.referenceKey || !metadata.purpose || metadata.description === null ||
+                    content !== `CHART PLACEHOLDER (not rendered): ${metadata.purpose}\n${metadata.caption}\n${metadata.description}\nLogical reference: ${metadata.referenceKey}`) fail("plot placeholder metadata");
+            }
+            let raw = content;
+            if (kind === "Link") {
+                const url = metadata.linkTarget;
+                // Deliberately narrow HTTPS grammar, matching Common; no URI execution/fetch.
+                if (!url || url.length > 2048 || !/^https:\/\/[A-Za-z0-9.-]+(?:[/?#][^\s\\]*)?$/.test(url) ||
+                    url.includes("@") || /[\s\\]/.test(url)) fail("unsafe HTTPS link");
+                const host = url.slice(8).split(/[/?#]/, 1)[0];
+                if (host.length > 253 || !/^(?:[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?$/.test(host)) fail("HTTPS hostname");
+                raw = text(content + " [link not active: " + url + "]", true);
+            }
+            if (["Note", "Link"].includes(kind) && !content.trim()) fail("empty annotation");
+            const rowCount = integer(item.rowCount, 0, 1048576), columnCount = integer(item.columnCount, 0, 16384);
+            cells += rowCount * columnCount;
+            if (cells > 10000) fail("cell limit");
+            const spatial = rowCount > 0 && columnCount > 0;
+            if (kind !== "Table" && ((rowCount === 0) !== (columnCount === 0))) fail("nonspatial dimensions");
+            if (["Note", "Link"].includes(kind) && !spatial) fail("annotation dimensions");
+            const bounds = item.bounds === null ? null : rectangle(item.bounds);
+            if (spatial !== (bounds !== null)) fail("placement state");
+            const state = spatial ? (kind === "PlotPlaceholder" ? "placeholder-not-rendered" : kind === "Link" ? "linked-text-only" : "visible") : "nonspatial";
+            if (item.state !== state) fail("render state");
+            if (bounds) {
+                if (bounds.endRow - bounds.startRow + 1 !== rowCount || bounds.endColumn - bounds.startColumn + 1 !== columnCount ||
+                    bounds.startRow < target.startRow || bounds.startColumn !== target.startColumn ||
+                    (occupied.length && bounds.startRow <= occupied[occupied.length - 1].endRow) ||
+                    occupied.concat(reservations).some(b => intersects(b, bounds))) fail("shape/order/overlap/reservation");
+                occupied.push(bounds);
+            }
+            let table = null;
+            if (kind === "Table") {
+                if (content !== "") fail("table text");
+                if (spatial) {
+                    table = tablePlan.tables.find(t => t.tableOrdinal === tableOrdinal);
+                    if (!table || table.artifactId !== artifactId || table.documentIndex !== item.sourceIndex || !same(table.bounds, bounds) ||
+                        table.rowCount !== rowCount || table.columnCount !== columnCount || table.autoFit) fail("table placement/semantics alignment");
+                }
+                tableOrdinal++;
+            }
+            return { id, kind, bounds, rowCount, columnCount, raw, state, relatedArtifactId, table };
+        });
+        if (sourceIndex !== input.tablePlan.artifactCount || tableOrdinal !== input.tablePlan.sourceTableCount ||
+            items.filter(i => i.table).length !== tablePlan.tables.length || items.some(i => i.relatedArtifactId !== null && !artifactIds.has(i.relatedArtifactId))) fail("missing source/anchor/table");
+        const usedBounds = input.usedBounds === null ? null : rectangle(input.usedBounds);
+        const envelope = occupied.length ? { startRow: occupied[0].startRow, startColumn: target.startColumn,
+            endRow: occupied[occupied.length - 1].endRow, endColumn: Math.max(...occupied.map(b => b.endColumn)) } : null;
+        if (!same(usedBounds, envelope) || (usedBounds && usedBounds.startRow !== target.startRow)) fail("envelope identity");
+        // Count the already validated table transport too, without changing its wire or parser.
+        for (const table of tablePlan.tables) for (const cell of table.cells) {
+            // v1 already validated the original scalar. raw text includes the host
+            // apostrophe escape, which is not part of the 32767-unit cell content.
+            bytes += 1024 + (typeof cell.raw === "string" ? cell.raw.length * 2 : 0) + cell.numberFormat.length * 2;
+            if (bytes > 67108864) fail("aggregate byte limit");
+        }
+        return { documentId, target, items, usedBounds };
+    }
+
+    async function writeCompositeOutputPlan(input) {
+        const plan = validateCompositeOutputPlan(input);
+        const snapshot = await getHostCapabilities();
+        if (!snapshot.isExcel || !snapshot.capabilities.includes(HOST_CAPABILITY.writeResultTables) ||
+            !snapshot.capabilities.includes(HOST_CAPABILITY.newWorksheet)) throw new Error("Composite output unavailable in this host.");
+        const degraded = plan.items.filter(i => i.kind === "Link" || i.kind === "PlotPlaceholder" || !i.bounds)
+            .map(i => ({ id: i.id, state: i.state }));
+        if (!plan.usedBounds) return { documentId: plan.documentId, worksheetName: "", address: "", itemAddresses: [], degraded };
+        return Excel.run(async context => {
+            const worksheet = await resolveOutputWorksheet(context, plan.target, plan.items.filter(i => i.bounds).map(i => i.bounds));
+            worksheet.load("name");
+            const ranges = [];
+            for (const item of plan.items) {
+                if (!item.bounds) continue;
+                const b = item.bounds;
+                const range = worksheet.getRangeByIndexes(b.startRow - 1, b.startColumn - 1, item.rowCount, item.columnCount);
+                // New empty worksheet only: no clearing, AutoFit, formula or native chart operations.
+                if (item.table) {
+                    range.values = Array.from({ length: item.rowCount }, (_, row) => item.table.cells.slice(row * item.columnCount, (row + 1) * item.columnCount).map(c => c.raw));
+                    range.format.font.name = "Calibri Light";
+                    applyPlannedStyles(worksheet, item.table);
+                } else {
+                    range.merge(); // confined to the exact owned block on this new empty worksheet
+                    const anchor = worksheet.getRangeByIndexes(b.startRow - 1, b.startColumn - 1, 1, 1);
+                    anchor.numberFormat = [["@"]];
+                    anchor.values = [["'" + item.raw]];
+                    range.format.font.name = "Calibri Light";
+                    range.format.font.bold = item.kind === "Diagnostic";
+                    range.format.font.color = "#000000";
+                    range.format.wrapText = true;
+                }
+                range.load("address"); ranges.push({ id: item.id, range });
+            }
+            const b = plan.usedBounds;
+            const overall = worksheet.getRangeByIndexes(b.startRow - 1, b.startColumn - 1, b.endRow - b.startRow + 1, b.endColumn - b.startColumn + 1);
+            overall.load("address"); worksheet.activate();
+            await context.sync();
+            return { documentId: plan.documentId, worksheetName: worksheet.name, address: overall.address,
+                itemAddresses: ranges.map(p => ({ id: p.id, address: p.range.address })), degraded };
+        }); // Failures propagate; a new sheet/earlier writes may remain. No rollback promise (02.08).
+    }
+
     // Deprecated pre-02.05 compatibility implementation. No active statistical UI
     // caller uses these helpers; they do not participate in writeOutputPlan.
     function matrixOf(rowCount, columnCount, value) {
@@ -1166,6 +1329,7 @@
         getRangeDataByReference,
         getRangeSetData,
         writeOutputPlan,
+        writeCompositeOutputPlan,
         writeResultTable,
         writeResultTables
     };

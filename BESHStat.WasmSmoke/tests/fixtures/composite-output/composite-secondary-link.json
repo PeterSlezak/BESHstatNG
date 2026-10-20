@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "documentId": "second-link",
+  "target": {
+    "destination": 1,
+    "worksheetName": "Composite",
+    "startRow": 10,
+    "startColumn": 3
+  },
+  "items": [
+    {
+      "id": "first",
+      "kind": "Table",
+      "index": 0,
+      "sourceIndex": 0,
+      "artifactId": "first",
+      "relatedArtifactId": null,
+      "bounds": {
+        "startRow": 10,
+        "startColumn": 3,
+        "endRow": 11,
+        "endColumn": 5
+      },
+      "rowCount": 2,
+      "columnCount": 3,
+      "text": "",
+      "linkTarget": null,
+      "state": "visible",
+      "caption": "",
+      "severity": null,
+      "code": null,
+      "fieldPath": null,
+      "message": null,
+      "referenceKey": null,
+      "purpose": null,
+      "description": null
+    },
+    {
+      "id": "zero",
+      "kind": "Table",
+      "index": 1,
+      "sourceIndex": 1,
+      "artifactId": "zero",
+      "relatedArtifactId": null,
+      "bounds": null,
+      "rowCount": 0,
+      "columnCount": 3,
+      "text": "",
+      "linkTarget": null,
+      "state": "nonspatial",
+      "caption": "",
+      "severity": null,
+      "code": null,
+      "fieldPath": null,
+      "message": null,
+      "referenceKey": null,
+      "purpose": null,
+      "description": null
+    },
+    {
+      "id": "plot",
+      "kind": "PlotPlaceholder",
+      "index": 2,
+      "sourceIndex": 2,
+      "artifactId": "plot",
+      "relatedArtifactId": null,
+      "bounds": null,
+      "rowCount": 0,
+      "columnCount": 0,
+      "text": "CHART PLACEHOLDER (not rendered): not requested\n\n\nLogical reference: opaque",
+      "linkTarget": null,
+      "state": "nonspatial",
+      "caption": "",
+      "severity": null,
+      "code": null,
+      "fieldPath": null,
+      "message": null,
+      "referenceKey": "opaque",
+      "purpose": "not requested",
+      "description": ""
+    },
+    {
+      "id": "fault",
+      "kind": "Diagnostic",
+      "index": 3,
+      "sourceIndex": 3,
+      "artifactId": "fault",
+      "relatedArtifactId": null,
+      "bounds": {
+        "startRow": 13,
+        "startColumn": 3,
+        "endRow": 14,
+        "endColumn": 7
+      },
+      "rowCount": 2,
+      "columnCount": 5,
+      "text": "FAULT [bad] line one\nline two",
+      "linkTarget": null,
+      "state": "visible",
+      "caption": "",
+      "severity": "Fault",
+      "code": "bad",
+      "fieldPath": "",
+      "message": "line one\nline two",
+      "referenceKey": null,
+      "purpose": null,
+      "description": null
+    },
+    {
+      "id": "link",
+      "kind": "Link",
+      "index": 4,
+      "sourceIndex": null,
+      "artifactId": null,
+      "relatedArtifactId": null,
+      "bounds": {
+        "startRow": 16,
+        "startColumn": 3,
+        "endRow": 16,
+        "endColumn": 5
+      },
+      "rowCount": 1,
+      "columnCount": 3,
+      "text": "Example",
+      "linkTarget": "https://example.org/report",
+      "state": "linked-text-only",
+      "caption": null,
+      "severity": null,
+      "code": null,
+      "fieldPath": null,
+      "message": null,
+      "referenceKey": null,
+      "purpose": null,
+      "description": null
+    }
+  ],
+  "reservations": [
+    {
+      "startRow": 12,
+      "startColumn": 3,
+      "endRow": 12,
+      "endColumn": 10
+    }
+  ],
+  "usedBounds": {
+    "startRow": 10,
+    "startColumn": 3,
+    "endRow": 16,
+    "endColumn": 7
+  },
+  "tablePlan": {
+    "schemaVersion": 1,
+    "target": {
+      "destination": 1,
+      "worksheetName": "Composite",
+      "startRow": 10,
+      "startColumn": 3
+    },
+    "artifactCount": 4,
+    "sourceTableCount": 2,
+    "tableCount": 1,
+    "tables": [
+      {
+        "artifactId": "first",
+        "documentIndex": 0,
+        "tableOrdinal": 0,
+        "bounds": {
+          "startRow": 10,
+          "startColumn": 3,
+          "endRow": 11,
+          "endColumn": 5
+        },
+        "rowCount": 2,
+        "columnCount": 3,
+        "cells": [
+          {
+            "row": 0,
+            "column": 0,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          }
+        ],
+        "autoFit": false
+      }
+    ],
+    "usedBounds": {
+      "startRow": 10,
+      "startColumn": 3,
+      "endRow": 11,
+      "endColumn": 5
+    },
+    "pvalueNumberFormat": "[\u003C0.00000001]\u0022\u003C0.00000001\u0022;[\u003E0.99999999]\u0022\u003E0.99999999\u0022;0.00000000"
+  }
+}

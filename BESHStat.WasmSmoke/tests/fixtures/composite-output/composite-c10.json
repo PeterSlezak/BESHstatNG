@@ -1,0 +1,684 @@
+{
+  "schemaVersion": 1,
+  "documentId": "composite-demo-v1",
+  "target": {
+    "destination": 1,
+    "worksheetName": "Composite",
+    "startRow": 10,
+    "startColumn": 3
+  },
+  "items": [
+    {
+      "id": "main",
+      "kind": "Table",
+      "index": 0,
+      "sourceIndex": 0,
+      "artifactId": "main",
+      "relatedArtifactId": null,
+      "bounds": {
+        "startRow": 10,
+        "startColumn": 3,
+        "endRow": 13,
+        "endColumn": 8
+      },
+      "rowCount": 4,
+      "columnCount": 6,
+      "text": "",
+      "linkTarget": null,
+      "state": "visible",
+      "caption": "",
+      "severity": null,
+      "code": null,
+      "fieldPath": null,
+      "message": null,
+      "referenceKey": null,
+      "purpose": null,
+      "description": null
+    },
+    {
+      "id": "warning",
+      "kind": "Diagnostic",
+      "index": 1,
+      "sourceIndex": 1,
+      "artifactId": "warning",
+      "relatedArtifactId": null,
+      "bounds": {
+        "startRow": 15,
+        "startColumn": 3,
+        "endRow": 15,
+        "endColumn": 8
+      },
+      "rowCount": 1,
+      "columnCount": 6,
+      "text": "WARNING [demo.warning] Synthetic warning; no analysis was run. (demo.input)",
+      "linkTarget": null,
+      "state": "visible",
+      "caption": "",
+      "severity": "Warning",
+      "code": "demo.warning",
+      "fieldPath": "demo.input",
+      "message": "Synthetic warning; no analysis was run.",
+      "referenceKey": null,
+      "purpose": null,
+      "description": null
+    },
+    {
+      "id": "plot",
+      "kind": "PlotPlaceholder",
+      "index": 2,
+      "sourceIndex": 2,
+      "artifactId": "plot",
+      "relatedArtifactId": null,
+      "bounds": {
+        "startRow": 17,
+        "startColumn": 3,
+        "endRow": 24,
+        "endColumn": 8
+      },
+      "rowCount": 8,
+      "columnCount": 6,
+      "text": "CHART PLACEHOLDER (not rendered): Synthetic distribution\nChart preview\nNo statistical chart data or native chart is supplied.\nLogical reference: demo-distribution",
+      "linkTarget": null,
+      "state": "placeholder-not-rendered",
+      "caption": "Chart preview",
+      "severity": null,
+      "code": null,
+      "fieldPath": null,
+      "message": null,
+      "referenceKey": "demo-distribution",
+      "purpose": "Synthetic distribution",
+      "description": "No statistical chart data or native chart is supplied."
+    },
+    {
+      "id": "note",
+      "kind": "Note",
+      "index": 3,
+      "sourceIndex": null,
+      "artifactId": null,
+      "relatedArtifactId": "main",
+      "bounds": {
+        "startRow": 26,
+        "startColumn": 3,
+        "endRow": 26,
+        "endColumn": 8
+      },
+      "rowCount": 1,
+      "columnCount": 6,
+      "text": "Additional note: synthetic demonstration only.",
+      "linkTarget": null,
+      "state": "visible",
+      "caption": null,
+      "severity": null,
+      "code": null,
+      "fieldPath": null,
+      "message": null,
+      "referenceKey": null,
+      "purpose": null,
+      "description": null
+    },
+    {
+      "id": "link",
+      "kind": "Link",
+      "index": 4,
+      "sourceIndex": null,
+      "artifactId": null,
+      "relatedArtifactId": "main",
+      "bounds": {
+        "startRow": 28,
+        "startColumn": 3,
+        "endRow": 28,
+        "endColumn": 8
+      },
+      "rowCount": 1,
+      "columnCount": 6,
+      "text": "Example report",
+      "linkTarget": "https://example.org/report",
+      "state": "linked-text-only",
+      "caption": null,
+      "severity": null,
+      "code": null,
+      "fieldPath": null,
+      "message": null,
+      "referenceKey": null,
+      "purpose": null,
+      "description": null
+    },
+    {
+      "id": "second",
+      "kind": "Table",
+      "index": 5,
+      "sourceIndex": 3,
+      "artifactId": "second",
+      "relatedArtifactId": null,
+      "bounds": {
+        "startRow": 30,
+        "startColumn": 3,
+        "endRow": 31,
+        "endColumn": 5
+      },
+      "rowCount": 2,
+      "columnCount": 3,
+      "text": "",
+      "linkTarget": null,
+      "state": "visible",
+      "caption": "",
+      "severity": null,
+      "code": null,
+      "fieldPath": null,
+      "message": null,
+      "referenceKey": null,
+      "purpose": null,
+      "description": null
+    }
+  ],
+  "reservations": [],
+  "usedBounds": {
+    "startRow": 10,
+    "startColumn": 3,
+    "endRow": 31,
+    "endColumn": 8
+  },
+  "tablePlan": {
+    "schemaVersion": 1,
+    "target": {
+      "destination": 1,
+      "worksheetName": "Composite",
+      "startRow": 10,
+      "startColumn": 3
+    },
+    "artifactCount": 4,
+    "sourceTableCount": 2,
+    "tableCount": 2,
+    "tables": [
+      {
+        "artifactId": "main",
+        "documentIndex": 0,
+        "tableOrdinal": 0,
+        "bounds": {
+          "startRow": 10,
+          "startColumn": 3,
+          "endRow": 13,
+          "endColumn": 8
+        },
+        "rowCount": 4,
+        "columnCount": 6,
+        "cells": [
+          {
+            "row": 0,
+            "column": 0,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "Composite demo",
+              "booleanValue": null
+            },
+            "role": "Title",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Title",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Title",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 0,
+            "column": 3,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Title",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 0,
+            "column": 4,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Title",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 0,
+            "column": 5,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Title",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "Group",
+              "booleanValue": null
+            },
+            "role": "TopColumnHeader",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": true
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "N",
+              "booleanValue": null
+            },
+            "role": "TopColumnHeader",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": true
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "Mean",
+              "booleanValue": null
+            },
+            "role": "TopColumnHeader",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": true
+          },
+          {
+            "row": 1,
+            "column": 3,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "Flag",
+              "booleanValue": null
+            },
+            "role": "TopColumnHeader",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": true
+          },
+          {
+            "row": 1,
+            "column": 4,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "Literal",
+              "booleanValue": null
+            },
+            "role": "TopColumnHeader",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": true
+          },
+          {
+            "row": 1,
+            "column": 5,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "p",
+              "booleanValue": null
+            },
+            "role": "TopColumnHeader",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": true
+          },
+          {
+            "row": 2,
+            "column": 0,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "Synthetic",
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 2,
+            "column": 1,
+            "value": {
+              "kind": "number",
+              "numberValue": 3,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 2,
+            "column": 2,
+            "value": {
+              "kind": "number",
+              "numberValue": 1.5,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 2,
+            "column": 3,
+            "value": {
+              "kind": "boolean",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": true
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 2,
+            "column": 4,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "=1\u002B1",
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 2,
+            "column": 5,
+            "value": {
+              "kind": "number",
+              "numberValue": 0.01,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "[\u003C0.00000001]\u0022\u003C0.00000001\u0022;[\u003E0.99999999]\u0022\u003E0.99999999\u0022;0.00000000",
+            "isPValue": true,
+            "isSignificant": true,
+            "strongEmphasis": true
+          },
+          {
+            "row": 3,
+            "column": 0,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "Embedded footer (already in table)",
+              "booleanValue": null
+            },
+            "role": "Footer",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 3,
+            "column": 1,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Footer",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 3,
+            "column": 2,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Footer",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 3,
+            "column": 3,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Footer",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 3,
+            "column": 4,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Footer",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 3,
+            "column": 5,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Footer",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          }
+        ],
+        "autoFit": false
+      },
+      {
+        "artifactId": "second",
+        "documentIndex": 3,
+        "tableOrdinal": 1,
+        "bounds": {
+          "startRow": 30,
+          "startColumn": 3,
+          "endRow": 31,
+          "endColumn": 5
+        },
+        "rowCount": 2,
+        "columnCount": 3,
+        "cells": [
+          {
+            "row": 0,
+            "column": 0,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "Additional table",
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "value": {
+              "kind": "blank",
+              "numberValue": null,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "value": {
+              "kind": "text",
+              "numberValue": null,
+              "textValue": "Synthetic",
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "value": {
+              "kind": "number",
+              "numberValue": 2,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "value": {
+              "kind": "number",
+              "numberValue": 0.5,
+              "textValue": null,
+              "booleanValue": null
+            },
+            "role": "Body",
+            "numberFormat": "General",
+            "isPValue": false,
+            "isSignificant": false,
+            "strongEmphasis": false
+          }
+        ],
+        "autoFit": false
+      }
+    ],
+    "usedBounds": {
+      "startRow": 10,
+      "startColumn": 3,
+      "endRow": 31,
+      "endColumn": 8
+    },
+    "pvalueNumberFormat": "[\u003C0.00000001]\u0022\u003C0.00000001\u0022;[\u003E0.99999999]\u0022\u003E0.99999999\u0022;0.00000000"
+  }
+}
