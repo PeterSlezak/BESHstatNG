@@ -26,24 +26,24 @@ Public NotInheritable Class HistogramBinningCore
         Dim min As Double = arInput.Min()
         Select Case strType
             Case Is = "(Sturges)"
-                iNoBins = Convert.ToInt32(Math.Ceiling(1 + Math.Log(nn, 2)))
+                iNoBins = Convert.ToInt32(Math.Round(1 + Math.Log(nn, 2)))
                 sBinSize = (arInput.Max() - min) / iNoBins
 
             Case Is = "(Doane)"
                 sDenominator = Math.Sqrt(6 * (nn - 2) / ((nn + 1) * (nn + 3)))
-                iNoBins = Convert.ToInt32(Math.Ceiling(1 + Math.Log(nn, 2) + Math.Log(1.0 + (Math.Abs(StatFunc.Skewness(arInput)) / sDenominator), 2)))
+                iNoBins = Convert.ToInt32(Math.Round(1 + Math.Log(nn, 2) + Math.Log(1.0 + (Math.Abs(StatFunc.Skewness(arInput)) / sDenominator), 2)))
                 sBinSize = (arInput.Max() - min) / iNoBins
 
             Case Is = "(Scott)"
                 sBinSize = 3.5 * StatFunc.stDev(arInput) / Math.Pow(nn, 1.0R / 3.0R)
-                iNoBins = Convert.ToInt32(Math.Ceiling((arInput.Max() - min) / sBinSize))
+                iNoBins = Convert.ToInt32(Math.Round((arInput.Max() - min) / sBinSize))
 
             Case Is = "(Freedman-Diaconis)"
                 'compute quartiles with user defined function
                 Quartiles = StatFunc.QuartilesComp(arInput)
 
                 sBinSize = 2.0 * (Quartiles.Q3 - Quartiles.Q1) / Math.Pow(nn, 1.0R / 3.0R)
-                iNoBins = Convert.ToInt32(Math.Ceiling((arInput.Max() - min) / sBinSize))
+                iNoBins = Convert.ToInt32(Math.Round((arInput.Max() - min) / sBinSize))
         End Select
 
 
