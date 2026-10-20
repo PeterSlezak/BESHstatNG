@@ -17,6 +17,20 @@ class TransitionalOfficeJsAuditTests(unittest.TestCase):
     def test_supplied_solution_uses_current_host_contracts(self):
         self.assertEqual([], audit_solution(ROOT))
 
+    def test_each_planned_office_caller_contract_is_required(self):
+        caller = Path('BESHStat.WasmSmoke/Pages/Home.razor')
+        for missing_token in REQUIRED_PATHS[caller]:
+            with self.subTest(missing_token=missing_token), tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                for relative, tokens in REQUIRED_PATHS.items():
+                    target = root / relative
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_text('\n'.join(token for token in tokens
+                                                if relative != caller or token != missing_token), encoding='utf-8')
+                issues = audit_solution(root)
+                self.assertEqual(1, len(issues), issues)
+                self.assertIn(repr(missing_token), issues[0])
+
     def test_retired_source_file_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

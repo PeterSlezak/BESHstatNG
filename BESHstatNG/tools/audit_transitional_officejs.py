@@ -39,8 +39,12 @@ REQUIRED_PATHS = {
     Path('BESHStat.Excel.Common/src/Contracts/SpreadsheetContracts.vb'): ('SpreadsheetRangeData',),
     Path('BESHStat.Excel.Common/src/Input/GroupedNumericRangeParser.vb'): ('GroupedNumericRangeParser',),
     Path('BESHStat.Excel.Common/src/Output/ResultTableWriteRequest.vb'): ('ResultTableWriteRequestFactory',),
-    Path('BESHStat.WasmSmoke/Pages/Home.razor'): ('SharedAnalysisApplicationService', 'ResultTableWriteRequestFactory'),
-    Path('BESHStat.WasmSmoke/wwwroot/js/officeBridge.js'): ('getSelectedRangeData', 'Excel.run'),
+    Path('BESHStat.WasmSmoke/Pages/Home.razor'): (
+        'SharedAnalysisApplicationService', 'OutputDocument.FromResult',
+        'OutputSemanticPlanner.Create', 'OutputLayoutPlanner.Create',
+        'OfficeOutputPlanAdapter.Prepare', 'beshOffice.writeOutputPlan'),
+    Path('BESHStat.Excel.Common/src/Output/OfficeOutputPlanAdapter.vb'): ('OfficeOutputPlanAdapter',),
+    Path('BESHStat.WasmSmoke/wwwroot/js/officeBridge.js'): ('getSelectedRangeData', 'Excel.run', 'writeOutputPlan'),
     Path('BESHStat.Excel.Common.Tests/src/Stage304ContractSnapshotTests.vb'): ('Stage304GoldenCases',),
 }
 TOKEN_PATTERN = re.compile(r'\b(?:' + '|'.join(map(re.escape, RETIRED_SYMBOLS)) + r')\b', re.IGNORECASE)

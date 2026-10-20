@@ -17,99 +17,99 @@ Public NotInheritable Class HistogramBinningCore
 
         Public Shared Function HistogramBinsComputation(arInput() As Double, strType As String) As Object(,)
 
-            Dim iNoBins As Integer, sBinSize As Double, i As Integer
-            Dim sDenominator As Double, out(,) As Object
-            Dim Quartiles As udQuartiles
-            Dim nn As Integer = arInput.Length
+        Dim iNoBins As Integer, sBinSize As Double, i As Integer
+        Dim sDenominator As Double, out(,) As Object
+        Dim Quartiles As udQuartiles
+        Dim nn As Integer = arInput.Length
 
-            'select method used for Bin number determination
-            Dim min As Double = arInput.Min()
-            Select Case strType
-                Case Is = "(Sturges)"
-                    iNoBins = Convert.ToInt32(Math.Round(1 + Math.Log(nn, 2)))
-                    sBinSize = (arInput.Max() - min) / iNoBins
+        'select method used for Bin number determination
+        Dim min As Double = arInput.Min()
+        Select Case strType
+            Case Is = "(Sturges)"
+                iNoBins = Convert.ToInt32(Math.Ceiling(1 + Math.Log(nn, 2)))
+                sBinSize = (arInput.Max() - min) / iNoBins
 
-                Case Is = "(Doane)"
-                    sDenominator = Math.Sqrt(6 * (nn - 2) / ((nn + 1) * (nn + 3)))
-                    iNoBins = Convert.ToInt32(Math.Round(1 + Math.Log(nn, 2) + Math.Log(1.0 + (Math.Abs(StatFunc.Skewness(arInput)) / sDenominator), 2)))
-                    sBinSize = (arInput.Max() - min) / iNoBins
+            Case Is = "(Doane)"
+                sDenominator = Math.Sqrt(6 * (nn - 2) / ((nn + 1) * (nn + 3)))
+                iNoBins = Convert.ToInt32(Math.Ceiling(1 + Math.Log(nn, 2) + Math.Log(1.0 + (Math.Abs(StatFunc.Skewness(arInput)) / sDenominator), 2)))
+                sBinSize = (arInput.Max() - min) / iNoBins
 
-                Case Is = "(Scott)"
-                    sBinSize = 3.5 * StatFunc.stDev(arInput) / Math.Pow(nn, 1.0R / 3.0R)
-                    iNoBins = Convert.ToInt32(Math.Round((arInput.Max() - min) / sBinSize))
+            Case Is = "(Scott)"
+                sBinSize = 3.5 * StatFunc.stDev(arInput) / Math.Pow(nn, 1.0R / 3.0R)
+                iNoBins = Convert.ToInt32(Math.Ceiling((arInput.Max() - min) / sBinSize))
 
-                Case Is = "(Freedman-Diaconis)"
-                    'compute quartiles with user defined function
-                    Quartiles = StatFunc.QuartilesComp(arInput)
+            Case Is = "(Freedman-Diaconis)"
+                'compute quartiles with user defined function
+                Quartiles = StatFunc.QuartilesComp(arInput)
 
-                    sBinSize = 2.0 * (Quartiles.Q3 - Quartiles.Q1) / Math.Pow(nn, 1.0R / 3.0R)
-                    iNoBins = Convert.ToInt32(Math.Round((arInput.Max() - min) / sBinSize))
-            End Select
+                sBinSize = 2.0 * (Quartiles.Q3 - Quartiles.Q1) / Math.Pow(nn, 1.0R / 3.0R)
+                iNoBins = Convert.ToInt32(Math.Ceiling((arInput.Max() - min) / sBinSize))
+        End Select
 
 
-            If iNoBins < 1 Then iNoBins = 1
+        If iNoBins < 1 Then iNoBins = 1
 
-            'Snap bin edges to "pretty" rounded numbers (R-style pretty())
-            Dim dMax As Double = arInput.Max()
-            Dim breaks() As Double = PrettyBreaks(min, dMax, iNoBins)
+        'Snap bin edges to "pretty" rounded numbers (R-style pretty())
+        Dim dMax As Double = arInput.Max()
+        Dim breaks() As Double = PrettyBreaks(min, dMax, iNoBins)
 
-            'Update min/bin size/bin count to the snapped breaks
-            min = breaks(0)
-            iNoBins = breaks.Length - 1
-            If iNoBins < 1 Then iNoBins = 1
-            sBinSize = breaks(1) - breaks(0)
+        'Update min/bin size/bin count to the snapped breaks
+        min = breaks(0)
+        iNoBins = breaks.Length - 1
+        If iNoBins < 1 Then iNoBins = 1
+        sBinSize = breaks(1) - breaks(0)
 
-            ReDim out(iNoBins - 1, 1)
-            Dim digs As Integer = DecimalsForStep(sBinSize)
+        ReDim out(iNoBins - 1, 1)
+        Dim digs As Integer = DecimalsForStep(sBinSize)
 
-            ' Midpoints may require more decimals than the bin width (e.g. step=1 => midpoint ends with .5)
-            Dim midDigs As Integer = digs
-            Dim halfStep As Double = sBinSize / 2.0
-            If Math.Abs(halfStep - Math.Round(halfStep, midDigs)) > 0.000000000001 Then
-                midDigs += 1
+        ' Midpoints may require more decimals than the bin width (e.g. step=1 => midpoint ends with .5)
+        Dim midDigs As Integer = digs
+        Dim halfStep As Double = sBinSize / 2.0
+        If Math.Abs(halfStep - Math.Round(halfStep, midDigs)) > 0.000000000001 Then
+            midDigs += 1
+        End If
+
+        'Midpoints and initialize frequencies
+        For i = 0 To iNoBins - 1
+            out(i, 0) = Math.Round((breaks(i) + breaks(i + 1)) / 2.0, midDigs)
+            out(i, 1) = 0
+        Next
+
+        'Count frequencies (include the right-most edge in the last bin)
+        For i = 0 To nn - 1
+            Dim x As Double = arInput(i)
+            Dim idx As Integer
+
+            If x >= breaks(breaks.Length - 1) Then
+                idx = iNoBins - 1
+            Else
+                idx = Convert.ToInt32(Math.Floor((x - min) / sBinSize))
+                If idx < 0 Then idx = 0
+                If idx > iNoBins - 1 Then idx = iNoBins - 1
             End If
 
-            'Midpoints and initialize frequencies
-            For i = 0 To iNoBins - 1
-                out(i, 0) = Math.Round((breaks(i) + breaks(i + 1)) / 2.0, midDigs)
-                out(i, 1) = 0
-            Next
+            out(idx, 1) = Convert.ToInt32(out(idx, 1)) + 1
+        Next
 
-            'Count frequencies (include the right-most edge in the last bin)
-            For i = 0 To nn - 1
-                Dim x As Double = arInput(i)
-                Dim idx As Integer
+        Return out
+    End Function
 
-                If x >= breaks(breaks.Length - 1) Then
-                    idx = iNoBins - 1
-                Else
-                    idx = Convert.ToInt32(Math.Floor((x - min) / sBinSize))
-                    If idx < 0 Then idx = 0
-                    If idx > iNoBins - 1 Then idx = iNoBins - 1
-                End If
-
-                out(idx, 1) = Convert.ToInt32(out(idx, 1)) + 1
-            Next
-
-            Return out
-        End Function
-
-        ''' <summary>
-        ''' Returns a "nice" step size close to <paramref name="rawStep"/> using the common 1-2-5-10 rule.
-        ''' </summary>
-        ''' <param name="rawStep">
-        ''' The raw (unrounded) step size, typically computed as (max - min) / targetBins.
-        ''' The sign is ignored; the result is always positive.
-        ''' </param>
-        ''' <returns>
-        ''' A positive "nice" step size of the form {1, 2, 5, 10} × 10^k that is greater than or equal to
-        ''' the magnitude of <paramref name="rawStep"/> (except for 0, which yields 1).
-        ''' </returns>
-        ''' <remarks>
-        ''' This mirrors the idea used by major statistical tools when producing human-friendly axis ticks
-        ''' and histogram breaks. The chosen step is intentionally simple (powers of ten scaled by 1/2/5/10).
-        ''' </remarks>
-        Private Shared Function NiceStep125(rawStep As Double) As Double
+    ''' <summary>
+    ''' Returns a "nice" step size close to <paramref name="rawStep"/> using the common 1-2-5-10 rule.
+    ''' </summary>
+    ''' <param name="rawStep">
+    ''' The raw (unrounded) step size, typically computed as (max - min) / targetBins.
+    ''' The sign is ignored; the result is always positive.
+    ''' </param>
+    ''' <returns>
+    ''' A positive "nice" step size of the form {1, 2, 5, 10} × 10^k that is greater than or equal to
+    ''' the magnitude of <paramref name="rawStep"/> (except for 0, which yields 1).
+    ''' </returns>
+    ''' <remarks>
+    ''' This mirrors the idea used by major statistical tools when producing human-friendly axis ticks
+    ''' and histogram breaks. The chosen step is intentionally simple (powers of ten scaled by 1/2/5/10).
+    ''' </remarks>
+    Private Shared Function NiceStep125(rawStep As Double) As Double
             rawStep = Math.Abs(rawStep)
             If rawStep = 0 Then Return 1.0
 

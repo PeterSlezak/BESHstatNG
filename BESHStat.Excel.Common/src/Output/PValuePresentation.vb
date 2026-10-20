@@ -88,7 +88,7 @@ Namespace ExcelCommon
                     artifacts.Add(New OutputArtifactStylePlan(artifact, 0, 0, New OutputCellStyle() {}, role))
                 End If
             Next
-            Return New OutputSemanticPlan(policy, alpha, If(culture Is Nothing, Nothing, culture.Name), artifacts, diagnostics)
+            Return New OutputSemanticPlan(document, policy, alpha, If(culture Is Nothing, Nothing, culture.Name), artifacts, diagnostics)
         End Function
 
         Private Shared Function PlanTable(artifact As OutputTableArtifact, policy As OutputPValuePolicy, alpha As Double,

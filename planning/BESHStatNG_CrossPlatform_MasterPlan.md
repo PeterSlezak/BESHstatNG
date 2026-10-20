@@ -4,11 +4,11 @@
 
 **Source of truth:** uploaded `BESHstatNG(20261018-140903).zip`, including its checked-in Revision 1.3 plan, batch 01.10 acceptance notes and .NET 10 updates. Earlier ZIP reviews are historical.
 
-**Implementation checkpoint:** **00.01 through 02.03 accepted/merged**, including 00.02A/B and 01.05A (**22 completed batches**). Verified accepted 02.03 commit `1df75a8` is the current source checkpoint; live Excel and Mac acceptance is still separate.
+**Implementation checkpoint:** **00.01 through 02.04 accepted/merged**, including 00.02A/B and 01.05A (**23 completed batches**). Accepted 02.04 commit `c923927` is verified in the current ancestry, including user-accepted live Windows Excel-DNA smoke tests. Office Online/Mac acceptance remains separate.
 
-**Current planning status:** 02.03 is accepted/merged. **02.04** is the current authorized batch, implementation underway / pending independent review; it is not marked accepted. **04A.01** is the first new Phase 04A batch, dependent on completing 04.07.
+**Current planning status:** 02.04 is accepted/merged, including live Windows smoke. **02.05** is the current authorized batch, implementation in progress / pending independent review; it is not marked accepted. **04A.01** remains dependent on completing 04.07.
 
-**Batch count:** **222 total** (original 148 + 74 new Phase 04A), **22 completed**, **200 planned/outstanding**. None of the 04A batches is implemented.
+**Batch count:** **222 total** (original 148 + 74 new Phase 04A), **23 completed**, **199 planned/outstanding**. None of the 04A batches is implemented.
 
 **Scope:** Excel-DNA and Office.js/WASM implementation remain the active workstream. LibreOffice is an *architectural portability consideration only*, explicitly not part of implementation batches or Excel release criteria.  
 **Supersedes:** revision 1.2 (16 October 2026); the full original multi-phase roadmap and dependencies are retained below, updated for repository progress and portable-host readiness.
@@ -476,7 +476,7 @@ Development: trusted local HTTPS + sideloading on Excel Online first, Windows de
 | **02.01 — COMPLETE** | Create output-document/artifact model from ResultTable; `Common/Output/OutputDocument.vb; Core ResultTable bridge` | 00.04 | W=Small O=Small | Table/footer/title/diag/plot artifact fixtures | ANOVA multi-table preview | No table metadata loss or host API coupling | **Medium** |
 | **02.02 — COMPLETE** | Define canonical cell and semantic style/p-value instructions; `Common/Output/OutputCell.vb; Styles.vb; PValuePresentation.vb` | 02.01 | W=Small O=Small | Error mapping; alpha; styles and locale formatting | Inspect p-value display in both hosts | Same semantic formatting document | **Medium** |
 | **02.03 — COMPLETE** | Centralize ordered placement/overlap calculations; `Common/Output/OutputLayoutPlanner.vb` | 02.01 | W=Small O=Small | Rows/cols, separators, target, collision bounds | 4-table output starting at C6 | Identical planned blocks and coordinates | **Medium** |
-| **02.04** | Refactor Windows WriteSharedRequest to consume output plan; `Windows/DM/ResultWriter/ExcelDnaResultWriter.vb; UI/UibyID.vb` | 02.02,02.03 | W=Yes O=No | Interop plan adapter tests; Windows parity fixtures | Multi-table ANOVA output and overwrites | Legacy styling/placement unchanged | **High** |
+| **02.04 — COMPLETE** | Refactor Windows WriteSharedRequest to consume output plan; `Windows/DM/ResultWriter/ExcelDnaResultWriter.vb; UI/UibyID.vb` | 02.02,02.03 | W=Yes O=No | Interop plan adapter tests; Windows parity fixtures | Multi-table ANOVA output and overwrites | Legacy styling/placement unchanged | **High** |
 | **02.05** | Refactor Office.js writer to consume same output plan; `Office/js/officeBridge.js replacement; output bridge` | 02.02,02.03 | W=No O=Yes | JS mocked workbook adapter; normalized style tests | Multiple tables with p-value annotations | No policy/layout duplication in JS | **High** |
 | **02.06** | Output capability, start-cell/new-sheet/new-workbook fallbacks; `Common/Output/TargetPlanner.vb; host capability adapters` | 02.04,02.05,00.06 | W=Yes O=Yes | Sheet collision, protected and unsupported cases | Current/new worksheet; unsupported new workbook | No unsupported option falsely advertised | **Medium** |
 | **02.07** | Combine diagnostics, charts, footnotes, links in one plan; `Common/Output/CompositeOutput.vb; host insertion adapters` | 02.05 | W=Small O=Yes | Block placement and cross-type bounding | Table plus chart placeholder | Complete multi-artifact result with no overlap | **High** |
@@ -906,7 +906,7 @@ At the end of every batch, user supplies a new complete ZIP as the source of tru
 
 ## 17. Implementation checkpoint, next batch and historical 01.10 acceptance notes
 
-**Current Revision 1.4 planning checkpoint:** 02.03 is accepted/merged (verified commit `1df75a8`); **02.04 is current**, implementation underway / pending independent review. The accepted checkpoint is **222 total / 22 completed / 200 outstanding**. Phase 04A is intentionally **after** full Phase 04, so the first new batch **04A.01** should not start until **04.07** is accepted. Phase 04A work can use the ledger-style audit below for advance planning, but must not silently overtake Phase 02/03/04 dependencies.
+**Current Revision 1.4 planning checkpoint:** 02.04 is accepted/merged (verified commit `c923927`), including live Windows Excel-DNA smoke; **02.05 is current**, implementation in progress / pending independent review. The accepted checkpoint is **222 total / 23 completed / 199 outstanding**. Phase 04A remains after full Phase 04: preserve **04.07 → 04A.01–04A.74 → dependent Phase 05+ work**. No Phase 04A batch is implemented or authorized.
 
 
 **Historical Revision 1.3 checkpoint (superseded):** batches through **01.09**, including **01.05A**, were implemented (18 completed; 130 outstanding). See §0, commit `2d9f418` and [the batch 01.09 architecture note](../docs/architecture/batch-01-09-acquisition-adapters.md). Live Excel and Mac acceptance remains separate. The user authorized only 01.10 on the existing `codex/01-10` branch; implementation and independent review do not authorize the next batch.

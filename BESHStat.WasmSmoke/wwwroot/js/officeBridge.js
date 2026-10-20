@@ -594,6 +594,209 @@
         throw new Error("Unable to find an unused result worksheet name.");
     }
 
+    // 02.05 internal adapter v1. These guards reuse the 01.10 prototype defaults
+    // (64 artifacts, 10,000 cells, 64 MiB estimate), not a production output quota.
+    function validateOutputPlan(input) {
+        const fail = message => { throw new Error("Invalid output plan: " + message); };
+        const object = (value, keys) => {
+            if (!value || typeof value !== "object" || Array.isArray(value) ||
+                Object.keys(value).length !== keys.length || keys.some(key => !Object.hasOwn(value, key))) {
+                fail("object fields/types");
+            }
+        };
+        const integer = (value, min, max) => {
+            if (!Number.isSafeInteger(value) || value < min || value > max) fail("integer/grid bound");
+            return value;
+        };
+        const text = (value, max) => {
+            if (typeof value !== "string" || value.length > max) fail("string bound/type");
+            return value;
+        };
+        const boolean = value => {
+            if (typeof value !== "boolean") fail("Boolean type");
+            return value;
+        };
+        const rectangle = value => {
+            object(value, ["startRow", "startColumn", "endRow", "endColumn"]);
+            const startRow = integer(value.startRow, 1, 1048576);
+            const startColumn = integer(value.startColumn, 1, 16384);
+            return { startRow, startColumn,
+                endRow: integer(value.endRow, startRow, 1048576),
+                endColumn: integer(value.endColumn, startColumn, 16384) };
+        };
+        object(input, ["schemaVersion", "target", "artifactCount", "sourceTableCount", "tableCount",
+            "tables", "usedBounds", "pvalueNumberFormat"]);
+        if (input.schemaVersion !== 1) fail("unsupported schema version");
+        object(input.target, ["destination", "worksheetName", "startRow", "startColumn"]);
+        const target = {
+            destination: integer(input.target.destination, 0, 2),
+            worksheetName: text(input.target.worksheetName, 32767),
+            startRow: integer(input.target.startRow, 1, 1048576),
+            startColumn: integer(input.target.startColumn, 1, 16384)
+        };
+        if (target.destination === OUTPUT_DESTINATION.newWorkbook) {
+            throw new Error("New-workbook output is not supported by the Office.js host.");
+        }
+        const artifactCount = integer(input.artifactCount, 0, 64);
+        const sourceTableCount = integer(input.sourceTableCount, 0, artifactCount);
+        const tableCount = integer(input.tableCount, 0, sourceTableCount);
+        if (!Array.isArray(input.tables) || input.tables.length !== tableCount) fail("table count");
+        const pvalueNumberFormat = text(input.pvalueNumberFormat, 4096);
+        if (!pvalueNumberFormat) fail("missing resolved p-value format");
+        const usedBounds = input.usedBounds === null ? null : rectangle(input.usedBounds);
+        if ((tableCount === 0) !== (usedBounds === null)) fail("empty envelope");
+        let documentIndex = -1, tableOrdinal = -1, cellCount = 0, estimatedBytes = 0;
+        let bottom = 0, right = 0, top = 1048576, left = 16384;
+        const ids = new Set();
+        const tables = Array.from(input.tables, table => {
+            object(table, ["artifactId", "documentIndex", "tableOrdinal", "bounds", "rowCount", "columnCount", "cells", "autoFit"]);
+            const artifactId = text(table.artifactId, 32767);
+            if (!artifactId.trim() || ids.has(artifactId)) fail("duplicate/missing artifact ID");
+            ids.add(artifactId);
+            documentIndex = integer(table.documentIndex, documentIndex + 1, artifactCount - 1);
+            tableOrdinal = integer(table.tableOrdinal, tableOrdinal + 1, sourceTableCount - 1);
+            if (tableOrdinal > documentIndex) fail("table/document order");
+            const bounds = rectangle(table.bounds);
+            const rowCount = integer(table.rowCount, 1, 1048576);
+            const columnCount = integer(table.columnCount, 1, 16384);
+            const count = rowCount * columnCount;
+            cellCount += count;
+            if (cellCount > 10000) fail("adapter cell limit"); // before mapping/allocating cells
+            if (bounds.endRow - bounds.startRow + 1 !== rowCount ||
+                bounds.endColumn - bounds.startColumn + 1 !== columnCount) fail("rectangle shape");
+            if (!Array.isArray(table.cells) || table.cells.length !== count) fail("cell/style cardinality");
+            top = Math.min(top, bounds.startRow); left = Math.min(left, bounds.startColumn);
+            bottom = Math.max(bottom, bounds.endRow); right = Math.max(right, bounds.endColumn);
+            const cells = Array.from(table.cells, (cell, index) => {
+                object(cell, ["row", "column", "value", "role", "numberFormat", "isPValue", "isSignificant", "strongEmphasis"]);
+                if (cell.row !== Math.floor(index / columnCount) || cell.column !== index % columnCount) fail("cell row-major identity");
+                integer(cell.row, 0, rowCount - 1); integer(cell.column, 0, columnCount - 1);
+                const value = cell.value;
+                object(value, ["kind", "numberValue", "textValue", "booleanValue"]);
+                let raw;
+                switch (value.kind) {
+                    case "blank": raw = null; break;
+                    case "number":
+                        if (typeof value.numberValue !== "number" || !Number.isFinite(value.numberValue)) fail("finite number required");
+                        raw = value.numberValue; break;
+                    case "text":
+                        // Excel values interprets formula prefixes. A leading apostrophe
+                        // explicitly transports literal text, including empty text and '#'.
+                        raw = "'" + text(value.textValue, 32767); break;
+                    case "boolean": raw = boolean(value.booleanValue); break;
+                    default: fail("unsupported scalar kind/formula/error");
+                }
+                if ((value.kind !== "number" && value.numberValue !== null) ||
+                    (value.kind !== "text" && value.textValue !== null) ||
+                    (value.kind !== "boolean" && value.booleanValue !== null)) fail("scalar union fields");
+                if (!["Title", "TopColumnHeader", "LeftRowHeader", "Body", "Footer"].includes(cell.role)) fail("unsupported role");
+                const numberFormat = text(cell.numberFormat, 4096);
+                const isPValue = boolean(cell.isPValue);
+                const isSignificant = boolean(cell.isSignificant);
+                const strongEmphasis = boolean(cell.strongEmphasis);
+                if (isSignificant && (!isPValue || value.kind !== "number")) fail("inconsistent significance directive");
+                if (numberFormat !== (isPValue ? pvalueNumberFormat : "General")) fail("resolved format mismatch");
+                estimatedBytes += 1024 + (typeof raw === "string" ? raw.length * 2 : 0) + numberFormat.length * 2;
+                if (estimatedBytes > 67108864) fail("adapter byte limit");
+                return { row: cell.row, column: cell.column, raw, role: cell.role,
+                    numberFormat, isPValue, isSignificant, strongEmphasis };
+            });
+            return { artifactId, documentIndex, tableOrdinal, bounds, rowCount, columnCount,
+                cells, autoFit: boolean(table.autoFit) };
+        });
+        for (let i = 0; i < tables.length; i++) {
+            const a = tables[i].bounds;
+            for (let j = 0; j < i; j++) {
+                const b = tables[j].bounds;
+                if (a.startRow <= b.endRow && b.startRow <= a.endRow &&
+                    a.startColumn <= b.endColumn && b.startColumn <= a.endColumn) fail("overlapping rectangles");
+            }
+        }
+        if (usedBounds && (usedBounds.startRow !== top || usedBounds.startColumn !== left ||
+            usedBounds.endRow !== bottom || usedBounds.endColumn !== right ||
+            usedBounds.startRow !== target.startRow || usedBounds.startColumn !== target.startColumn)) fail("target/envelope identity");
+        // Only copied primitives survive the asynchronous host probe; caller mutation cannot
+        // change an already validated command while awaiting Office readiness.
+        return { target, tables, usedBounds, pvalueNumberFormat };
+    }
+
+    function applyPlannedStyles(worksheet, table) {
+        const signature = cell => JSON.stringify([cell.role, cell.numberFormat, cell.isSignificant, cell.strongEmphasis]);
+        for (let index = 0; index < table.cells.length;) {
+            const cell = table.cells[index];
+            let end = index + 1;
+            const key = signature(cell);
+            while (end < table.cells.length && table.cells[end].row === cell.row && signature(table.cells[end]) === key) end++;
+            const range = worksheet.getRangeByIndexes(table.bounds.startRow - 1 + cell.row,
+                table.bounds.startColumn - 1 + cell.column, 1, end - index);
+            range.numberFormat = [Array(end - index).fill(cell.numberFormat)];
+            range.format.font.bold = cell.strongEmphasis;
+            range.format.font.size = cell.role === "Footer" ? 8 : 10;
+            range.format.font.color = cell.isSignificant ? "#32FF32" : "#000000";
+            if (cell.role === "TopColumnHeader") range.format.fill.color = "#DDDDDD";
+            index = end;
+        }
+    }
+
+    async function writeOutputPlan(input) {
+        const plan = validateOutputPlan(input); // ALL wire checks before Excel.run or creation
+        const snapshot = await getHostCapabilities();
+        if (!snapshot.isExcel || !snapshot.capabilities.includes(HOST_CAPABILITY.writeResultTables)) {
+            throw new Error("Office.js result writing is unavailable in this Excel host.");
+        }
+        const destinationCapability = plan.target.destination === OUTPUT_DESTINATION.currentWorksheet
+            ? HOST_CAPABILITY.currentWorksheet : HOST_CAPABILITY.newWorksheet;
+        if (!snapshot.capabilities.includes(destinationCapability)) throw new Error("The requested result output destination is unavailable.");
+        if (!plan.tables.length) return { worksheetName: "", address: "", tableAddresses: [],
+            pvalueColumns: [], pvalueNumberFormat: plan.pvalueNumberFormat };
+        return Excel.run(async context => {
+            const worksheets = context.workbook.worksheets;
+            let worksheet;
+            if (plan.target.destination === OUTPUT_DESTINATION.currentWorksheet) {
+                worksheet = worksheets.getActiveWorksheet();
+            } else {
+                worksheets.load("items/name");
+                await context.sync();
+                worksheet = worksheets.add(nextWorksheetName(worksheets.items.map(item => item.name), plan.target.worksheetName));
+            }
+            worksheet.load("name");
+            const writtenRanges = [];
+            for (const table of plan.tables) {
+                const b = table.bounds;
+                const range = worksheet.getRangeByIndexes(b.startRow - 1, b.startColumn - 1, table.rowCount, table.columnCount);
+                const values = [];
+                for (let row = 0; row < table.rowCount; row++) {
+                    values.push(table.cells.slice(row * table.columnCount, (row + 1) * table.columnCount).map(cell => cell.raw));
+                }
+                // null in Range.values is ignored by Excel, so explicitly clear table
+                // contents first to make true blanks deterministic on an existing sheet.
+                range.clear("Contents");
+                range.values = values;
+                range.format.fill.clear();
+                range.format.font.name = "Calibri Light";
+                applyPlannedStyles(worksheet, table);
+                if (table.autoFit) {
+                    range.format.autofitColumns();
+                    range.format.autofitRows();
+                }
+                range.load("address");
+                writtenRanges.push(range);
+            }
+            const b = plan.usedBounds;
+            const overall = worksheet.getRangeByIndexes(b.startRow - 1, b.startColumn - 1,
+                b.endRow - b.startRow + 1, b.endColumn - b.startColumn + 1);
+            worksheet.activate();
+            overall.select();
+            overall.load("address");
+            await context.sync();
+            return { worksheetName: worksheet.name, address: overall.address,
+                tableAddresses: writtenRanges.map(range => range.address),
+                pvalueColumns: [], pvalueNumberFormat: plan.pvalueNumberFormat };
+        });
+    }
+
+    // Deprecated pre-02.05 compatibility implementation. No active statistical UI
+    // caller uses these helpers; they do not participate in writeOutputPlan.
     function matrixOf(rowCount, columnCount, value) {
         return Array.from({ length: rowCount }, () =>
             Array.from({ length: columnCount }, () => value));
@@ -903,6 +1106,7 @@
         getSelectedRangeSetData,
         getRangeDataByReference,
         getRangeSetData,
+        writeOutputPlan,
         writeResultTable,
         writeResultTables
     };

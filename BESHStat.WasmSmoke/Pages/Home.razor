@@ -698,16 +698,16 @@
             };
             settings.EnsureDefaults();
 
-            var writeRequests = ResultTableWriteRequestFactory.CreateMany(
-                sharedOutput.Tables,
-                settings,
-                pvalueHighlightAlpha,
-                target);
+            var document = OutputDocument.FromResult(sharedOutput);
+            var semantics = OutputSemanticPlanner.Create(document, settings, pvalueHighlightAlpha);
+            var layout = OutputLayoutPlanner.Create(document, target,
+                new OutputLayoutOptions(blankRowsBetweenTables: 1), semanticPlan: semantics);
+            var preparedPlan = OfficeOutputPlanAdapter.Prepare(document, semantics, layout);
 
-            if (writeRequests.Count == 0)
+            if (preparedPlan.TableCount == 0)
                 throw new InvalidOperationException("The shared analysis returned no result tables.");
 
-            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeResultTables", writeRequests);
+            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan);
             status = BuildSuccessStatus();
         }
         catch (Exception ex)

@@ -122,8 +122,9 @@ Namespace ExcelCommon
     ''' annotations. No host branches, layout, colors, fonts, or executable rendering commands.
     ''' </summary>
     Public NotInheritable Class OutputSemanticPlan
-        Friend Sub New(policy As OutputPValuePolicy, alpha As Double, previewCultureName As String,
+        Friend Sub New(sourceDocument As OutputDocument, policy As OutputPValuePolicy, alpha As Double, previewCultureName As String,
                        artifacts As IEnumerable(Of OutputArtifactStylePlan), diagnostics As IEnumerable(Of OutputPlanDiagnostic))
+            Me.SourceDocument = sourceDocument
             Me.Policy = policy
             Me.Alpha = alpha
             Me.PreviewCultureName = previewCultureName
@@ -131,6 +132,8 @@ Namespace ExcelCommon
             Me.Diagnostics = New List(Of OutputPlanDiagnostic)(diagnostics).AsReadOnly()
         End Sub
         Public ReadOnly Property SchemaVersion As Integer = 1
+        ' Adapter provenance only; not a public DTO field or serialized member.
+        Friend ReadOnly Property SourceDocument As OutputDocument
         Public ReadOnly Property Policy As OutputPValuePolicy
         Public ReadOnly Property Alpha As Double
         ''' <summary>Nothing means no preview; empty string means explicit invariant culture.</summary>
