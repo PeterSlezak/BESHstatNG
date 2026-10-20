@@ -746,9 +746,11 @@
         }
     }
 
+    const safeTargetErrors = new WeakSet();
     function targetError(code, message) {
         const error = new Error(message);
         error.code = code;
+        safeTargetErrors.add(error);
         return error;
     }
 
@@ -758,27 +760,33 @@
 
     // Read-only inspection. Missing optional API sets mean unverified, not safe to
     // overwrite. A supported probe that fails aborts; never swallow permission errors.
-    async function resolveOutputWorksheet(context, target, rectangles) {
+    async function resolveOutputWorksheet(context, target, rectangles, mutation = () => {}) {
         if (!context.workbook || !context.workbook.worksheets) {
             throw targetError("output.target-invalid", "The target workbook is inaccessible.");
         }
         const worksheets = context.workbook.worksheets;
         if (target.destination === OUTPUT_DESTINATION.newWorksheet) {
+            if (!supportsExcelApi("1.7")) throw targetError("output.occupancy-unverified", "Workbook structure protection cannot be verified (ExcelApi 1.7 required).");
             worksheets.load("items/name");
             const protection = supportsExcelApi("1.7") ? context.workbook.protection : null;
             if (supportsExcelApi("1.7") && !protection) throw targetError("output.target-invalid", "Workbook protection is inaccessible.");
             if (protection) protection.load("protected");
             await context.sync();
+            if (typeof protection.protected !== "boolean") throw targetError("output.occupancy-unverified", "Workbook structure protection could not be verified.");
             if (protection && protection.protected) throw targetError("output.target-unwritable", "Workbook structure is protected. Choose another workbook.");
             if (!Array.isArray(worksheets.items)) throw targetError("output.target-invalid", "Worksheet enumeration is inaccessible.");
             const name = nextWorksheetName(worksheets.items.map(item => item.name), target.worksheetName);
             // A newly created empty worksheet has no pre-existing merge/protection regions.
             // Creation can persist if a later API/write fails; this is not a transaction.
+            mutation(name);
             return worksheets.add(name);
         }
         const worksheet = worksheets.getActiveWorksheet();
         if (!worksheet) throw targetError("output.target-invalid", "The active worksheet is missing or inaccessible.");
-        worksheet.load("name");
+        if (!supportsExcelApi("1.2") || !supportsExcelApi("1.13")) {
+            throw targetError("output.occupancy-unverified", "Current-sheet output requires protection and merged-cell inspection (ExcelApi 1.13). Choose a supported host.");
+        }
+        worksheet.load("name,id");
         const protection = supportsExcelApi("1.2") ? worksheet.protection : null;
         if (supportsExcelApi("1.2") && !protection) throw targetError("output.target-invalid", "Worksheet protection is inaccessible.");
         if (protection) protection.load("protected");
@@ -787,15 +795,84 @@
                 b.endRow - b.startRow + 1, b.endColumn - b.startColumn + 1);
             return range.getMergedAreasOrNullObject();
         }) : [];
+        const ranges = rectangles.map(b => {
+            const range = worksheet.getRangeByIndexes(b.startRow - 1, b.startColumn - 1,
+                b.endRow - b.startRow + 1, b.endColumn - b.startColumn + 1);
+            range.load("values,formulas,valueTypes,address");
+            return range;
+        });
         await context.sync();
-        if (!worksheet.name) throw targetError("output.target-invalid", "The active worksheet is inaccessible.");
+        if (typeof worksheet.name !== "string" || !worksheet.name) throw targetError("output.target-invalid", "The active worksheet is inaccessible.");
+        if (typeof protection.protected !== "boolean") throw targetError("output.occupancy-unverified", "Worksheet protection could not be verified.");
         if (protection && protection.protected) throw targetError("output.target-unwritable", "The target worksheet is protected. Choose an unprotected worksheet.");
         if (merges.some(areas => !areas.isNullObject)) throw targetError("output.target-merged", "Planned output intersects merged cells. Choose an unmerged destination.");
-        return worksheet;
+        if (typeof worksheet.id !== "string" || !worksheet.id) throw targetError("output.occupancy-unverified", "Worksheet identity could not be verified.");
+        return { worksheet, ranges };
     }
 
-    async function writeOutputPlan(input) {
+    // Tokens never contain cell data. Observations remain private to this task-pane instance,
+    // which Office binds to one workbook. They are single-use and expire after five minutes.
+    const pendingOverwrites = new Map();
+    let overwriteSequence = 0;
+    function outcome(state, code, message, extra = {}) {
+        return { schemaVersion: 1, state, code, message, mutationMayHaveOccurred: state === "PartiallyWritten",
+            undoSupported: false, rollbackAttempted: false, rollbackSucceeded: false,
+            confirmationRequired: null, overwriteApproved: null,
+            worksheetName: "", address: "", tableAddresses: [], planned: [], confirmedWritten: [], ...extra };
+    }
+    function inspectOccupancy(ranges, tables) {
+        let bytes = 0;
+        const occupied = [], observations = [];
+        let hasValues = false, hasFormulas = false;
+        for (let index = 0; index < ranges.length; index++) {
+            const range = ranges[index], table = tables[index];
+            const values = range.values, formulas = range.formulas, valueTypes = range.valueTypes;
+            let nonempty = false;
+            for (const matrix of [values, formulas, valueTypes]) {
+                if (!Array.isArray(matrix) || matrix.length !== table.rowCount || matrix.some(row => !Array.isArray(row) || row.length !== table.columnCount)) {
+                    throw targetError("output.occupancy-unverified", "The host did not return complete occupancy observations.");
+                }
+            }
+            for (let r = 0; r < table.rowCount; r++) for (let c = 0; c < table.columnCount; c++) {
+                const value = values[r][c], formula = formulas[r][c], type = valueTypes[r][c];
+                if (!["Empty", "String", "Integer", "Double", "Boolean", "Error"].includes(type) ||
+                    !["string", "number", "boolean"].includes(typeof value) ||
+                    !["string", "number", "boolean"].includes(typeof formula) ||
+                    (typeof value === "number" && !Number.isFinite(value))) {
+                    throw targetError("output.occupancy-unverified", "The host returned unsupported or uncertain cell data.");
+                }
+                const isFormula = typeof formula === "string" && formula.startsWith("=");
+                const isValue = type !== "Empty" || value !== "" || formula !== "";
+                nonempty ||= isFormula || isValue;
+                hasFormulas ||= isFormula; hasValues ||= isValue && !isFormula;
+                bytes += 64 + (typeof value === "string" ? value.length * 2 : 0) + (typeof formula === "string" ? formula.length * 2 : 0);
+                if (bytes > 67108864) throw targetError("output.occupancy-unverified", "Occupancy inspection exceeded the 64 MiB safety budget.");
+            }
+            observations.push([values, formulas, valueTypes]);
+            if (nonempty) occupied.push(table.artifactId);
+        }
+        return { fingerprint: JSON.stringify(observations), occupied, hasValues, hasFormulas };
+    }
+
+    async function writeOutputPlan(input, consent = null) {
+        let mutation = false, worksheetName = "", planned = [], phase = "validation", destination = null,
+            confirmationRequired = null, overwriteApproved = null;
+        try {
         const plan = validateOutputPlan(input); // ALL wire checks before Excel.run or creation
+        const planIdentity = JSON.stringify(plan);
+        destination = plan.target.destination;
+        let approval = null;
+        if (consent !== null) {
+            approval = pendingOverwrites.get(consent.token);
+            pendingOverwrites.delete(consent.token);
+            if (!approval || approval.expires < Date.now() || approval.planIdentity !== planIdentity ||
+                approval.document !== Office.context.document || typeof consent.approved !== "boolean") {
+                return outcome("RejectedBeforeWrite", "output.consent-stale", "The overwrite request expired or changed. Inspect and confirm again.");
+            }
+            if (!consent.approved) return outcome("CancelledByUser", "output.cancelled", "Overwrite cancelled. No workbook changes were made.", { ...approval.summary, overwriteApproved: false });
+            confirmationRequired = true; overwriteApproved = true;
+        }
+        phase = "capability";
         const snapshot = await getHostCapabilities();
         if (!snapshot.isExcel || !snapshot.capabilities.includes(HOST_CAPABILITY.writeResultTables)) {
             throw new Error("Office.js result writing is unavailable in this Excel host.");
@@ -803,10 +880,36 @@
         const destinationCapability = plan.target.destination === OUTPUT_DESTINATION.currentWorksheet
             ? HOST_CAPABILITY.currentWorksheet : HOST_CAPABILITY.newWorksheet;
         if (!snapshot.capabilities.includes(destinationCapability)) throw new Error("The requested result output destination is unavailable.");
-        if (!plan.tables.length) return { worksheetName: "", address: "", tableAddresses: [],
-            pvalueColumns: [], pvalueNumberFormat: plan.pvalueNumberFormat };
-        return Excel.run(async context => {
-            const worksheet = await resolveOutputWorksheet(context, plan.target, plan.tables.map(table => table.bounds));
+        if (!plan.tables.length) return outcome("Completed", "output.completed", "No spatial output was requested.");
+        planned = plan.tables.map(t => ({ artifactId: t.artifactId, bounds: t.bounds }));
+        phase = "inspection";
+        return await Excel.run(async context => {
+            const resolved = await resolveOutputWorksheet(context, plan.target, plan.tables.map(table => table.bounds), name => { mutation = true; worksheetName = name; });
+            const worksheet = resolved.worksheet || resolved;
+            if (resolved.ranges) {
+                worksheetName = worksheet.name; // loaded by the current-sheet read-only sync
+                const observed = inspectOccupancy(resolved.ranges, plan.tables);
+                confirmationRequired = observed.occupied.length > 0;
+                const summary = { worksheetName, destination: plan.target.destination, startRow: plan.target.startRow,
+                    startColumn: plan.target.startColumn, planned, occupancy: observed.occupied.length ? "occupied" : "empty",
+                    confirmationRequired,
+                    occupiedRegionCount: observed.occupied.length, hasValues: observed.hasValues, hasFormulas: observed.hasFormulas };
+                if (approval && (approval.worksheetId !== worksheet.id || approval.worksheetName !== worksheet.name || approval.fingerprint !== observed.fingerprint)) {
+                    return outcome("RejectedBeforeWrite", "output.consent-stale", "The worksheet or its contents changed. Inspect and confirm again.", summary);
+                }
+                if (observed.occupied.length && !approval) {
+                    for (const [key, value] of pendingOverwrites) if (value.expires < Date.now()) pendingOverwrites.delete(key);
+                    if (pendingOverwrites.size >= 8) pendingOverwrites.delete(pendingOverwrites.keys().next().value);
+                    const token = `overwrite-${++overwriteSequence}-${Date.now()}`;
+                    pendingOverwrites.set(token, { planIdentity, worksheetId: worksheet.id, worksheetName: worksheet.name,
+                        fingerprint: observed.fingerprint, document: Office.context.document, expires: Date.now() + 300000, summary });
+                    return outcome("AwaitingConfirmation", "output.confirmation-required", "Occupied output requires explicit overwrite approval.", {
+                        ...summary, confirmationRequired: true, confirmation: { token, worksheetName,
+                            rectangles: resolved.ranges.map(r => r.address), occupiedRegionCount: observed.occupied.length,
+                            message: "Overwrite replaces values and formulas and changes formatting in these output rectangles. Cancel makes no workbook changes." } });
+                }
+            }
+            phase = "execution";
             worksheet.load("name");
             const writtenRanges = [];
             for (const table of plan.tables) {
@@ -818,6 +921,7 @@
                 }
                 // null in Range.values is ignored by Excel, so explicitly clear table
                 // contents first to make true blanks deterministic on an existing sheet.
+                mutation = true; // A queued clear may execute even if a later setter/sync throws.
                 range.clear("Contents");
                 range.values = values;
                 range.format.fill.clear();
@@ -837,10 +941,24 @@
             overall.select();
             overall.load("address");
             await context.sync();
-            return { worksheetName: worksheet.name, address: overall.address,
+            return outcome("Completed", "output.completed", "All planned tables were written.", { worksheetName: worksheet.name, address: overall.address,
+                destination: plan.target.destination, planned, mutationMayHaveOccurred: mutation,
+                startRow: plan.target.startRow, startColumn: plan.target.startColumn,
+                confirmationRequired: !!approval, overwriteApproved,
+                confirmedWritten: planned.map((p, i) => ({ ...p, address: writtenRanges[i].address })),
                 tableAddresses: writtenRanges.map(range => range.address),
-                pvalueColumns: [], pvalueNumberFormat: plan.pvalueNumberFormat };
+                pvalueColumns: [], pvalueNumberFormat: plan.pvalueNumberFormat });
         });
+        } catch (error) {
+            if (!error || (typeof error !== "object" && typeof error !== "function")) error = {};
+            const rejected = phase === "validation" || phase === "capability" || /^output\./.test(error.code || "");
+            return outcome(mutation ? "PartiallyWritten" : rejected ? "RejectedBeforeWrite" : "FailedBeforeWrite",
+                mutation ? "output.mutation-uncertain" : /^output\.[a-z-]+$/.test(error.code || "") ? error.code : rejected ? "output.rejected" : "output.host-failed",
+                mutation ? "Output may be partially written, including a new worksheet. No rollback was attempted." :
+                    phase === "validation" || phase === "capability" || safeTargetErrors.has(error) ? error.message : "Destination safety inspection failed. No write was started.",
+                { worksheetName, destination, planned, confirmationRequired, overwriteApproved,
+                    hostCode: /^[A-Za-z0-9_.-]{1,80}$/.test(error.code || "") ? error.code : null });
+        }
     }
 
     // 02.07 opt-in composite wire v1, separate from the accepted table-only wire.
@@ -874,7 +992,7 @@
         if (input.schemaVersion !== 1) fail("schema version");
         const documentId = text(input.documentId, true);
         object(input.target, ["destination", "worksheetName", "startRow", "startColumn"]);
-        if (input.target.destination !== OUTPUT_DESTINATION.newWorksheet) fail("new worksheet required until 02.08");
+        if (input.target.destination !== OUTPUT_DESTINATION.newWorksheet) fail("new worksheet required; current-sheet composite insertion is disabled");
         const target = { destination: input.target.destination, worksheetName: text(input.target.worksheetName, true),
             startRow: integer(input.target.startRow, 1, 1048576), startColumn: integer(input.target.startColumn, 1, 16384) };
         const tablePlan = validateOutputPlan(input.tablePlan); // unchanged table validation and literal scalar policy
@@ -965,15 +1083,21 @@
     }
 
     async function writeCompositeOutputPlan(input) {
+        let mutation = false, worksheetName = "", planned = [], phase = "validation";
+        try {
         const plan = validateCompositeOutputPlan(input);
+        planned = plan.items.filter(i => i.bounds).map(i => ({ artifactId: i.id, bounds: i.bounds }));
+        phase = "capability";
         const snapshot = await getHostCapabilities();
         if (!snapshot.isExcel || !snapshot.capabilities.includes(HOST_CAPABILITY.writeResultTables) ||
             !snapshot.capabilities.includes(HOST_CAPABILITY.newWorksheet)) throw new Error("Composite output unavailable in this host.");
         const degraded = plan.items.filter(i => i.kind === "Link" || i.kind === "PlotPlaceholder" || !i.bounds)
             .map(i => ({ id: i.id, state: i.state }));
-        if (!plan.usedBounds) return { documentId: plan.documentId, worksheetName: "", address: "", itemAddresses: [], degraded };
-        return Excel.run(async context => {
-            const worksheet = await resolveOutputWorksheet(context, plan.target, plan.items.filter(i => i.bounds).map(i => i.bounds));
+        if (!plan.usedBounds) return outcome("Completed", "output.completed", "No spatial output was requested.", { documentId: plan.documentId, itemAddresses: [], degraded });
+        phase = "inspection";
+        return await Excel.run(async context => {
+            const worksheet = await resolveOutputWorksheet(context, plan.target, plan.items.filter(i => i.bounds).map(i => i.bounds), name => { mutation = true; worksheetName = name; });
+            phase = "execution";
             worksheet.load("name");
             const ranges = [];
             for (const item of plan.items) {
@@ -1001,9 +1125,21 @@
             const overall = worksheet.getRangeByIndexes(b.startRow - 1, b.startColumn - 1, b.endRow - b.startRow + 1, b.endColumn - b.startColumn + 1);
             overall.load("address"); worksheet.activate();
             await context.sync();
-            return { documentId: plan.documentId, worksheetName: worksheet.name, address: overall.address,
-                itemAddresses: ranges.map(p => ({ id: p.id, address: p.range.address })), degraded };
-        }); // Failures propagate; a new sheet/earlier writes may remain. No rollback promise (02.08).
+            return outcome("Completed", "output.completed", "Composite output written; chart is a placeholder and links are inactive.",
+                { documentId: plan.documentId, worksheetName: worksheet.name, address: overall.address,
+                    planned, mutationMayHaveOccurred: mutation,
+                    destination: plan.target.destination, confirmationRequired: false,
+                    confirmedWritten: planned.map((p, i) => ({ ...p, address: ranges[i].range.address })),
+                    itemAddresses: ranges.map(p => ({ id: p.id, address: p.range.address })), degraded });
+        });
+        } catch (error) {
+            if (!error || (typeof error !== "object" && typeof error !== "function")) error = {};
+            const rejected = phase === "validation" || phase === "capability" || /^output\./.test(error.code || "");
+            return outcome(mutation ? "PartiallyWritten" : rejected ? "RejectedBeforeWrite" : "FailedBeforeWrite",
+                mutation ? "output.mutation-uncertain" : /^output\.[a-z-]+$/.test(error.code || "") ? error.code : rejected ? "output.rejected" : "output.host-failed",
+                mutation ? "Composite output may be partially written, including a new worksheet. No rollback was attempted." :
+                    phase === "validation" || phase === "capability" || safeTargetErrors.has(error) ? error.message : "Destination safety inspection failed. No write was started.", { worksheetName, planned });
+        }
     }
 
     // Deprecated pre-02.05 compatibility implementation. No active statistical UI
@@ -1232,6 +1368,12 @@
             if (tableDestination !== destination) {
                 throw new Error("All result tables in one batch must use the same output destination.");
             }
+        }
+
+        // Retain deprecated exports and their new-sheet signature, but never leave a
+        // current-sheet bypass around the scoped v1 plan/consent protocol.
+        if (destination === OUTPUT_DESTINATION.currentWorksheet) {
+            throw targetError("output.legacy-current-unsupported", "Current-sheet output requires writeOutputPlan and scoped overwrite consent.");
         }
 
         return Excel.run(async context => {

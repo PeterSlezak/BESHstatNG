@@ -4,11 +4,11 @@
 
 **Source of truth:** the current checked-out Git repository. Uploaded packages, including `BESHstatNG(20261018-140903).zip` and the accepted 02.06 package, are historical reference context; subsequent checked-in source and planning updates are authoritative.
 
-**Implementation checkpoint:** **00.01 through 02.06 accepted/merged**, including 00.02A/B and 01.05A (**25 completed batches**). Last accepted/merged batch: **02.06**, confirmed by the user after Windows and Excel Online acceptance. Accepted 02.04 Windows Excel-DNA and 02.05 Excel Online new worksheet C10 evidence remain recorded; Mac acceptance is not claimed.
+**Implementation checkpoint:** **00.01 through 02.07 accepted/merged**, including 00.02A/B and 01.05A (**26 completed batches**). Last accepted/merged batch: **02.07**, confirmed by the owner, including the live Excel Online C10 composite demonstration. Accepted 02.04 Windows Excel-DNA and 02.05 Excel Online new worksheet C10 evidence remain recorded; Mac acceptance is not claimed.
 
-**Current planning status:** **02.07** is the current authorized implementation batch, pending independent review and live-host acceptance; it is not complete or accepted. See [02.07 composite planning and host limitations](../docs/architecture/batch-02-07-composite-output.md). **04A.01** remains dependent on completing 04.07.
+**Current planning status:** **02.08** is the current authorized implementation batch, in progress / pending independent review and live-host acceptance; it is not complete or accepted. See [02.08 safe overwrite and write outcomes](../docs/architecture/batch-02-08-safe-overwrite-and-write-outcomes.md). **04A.01** remains dependent on completing 04.07.
 
-**Batch count:** **222 total** (original 148 + 74 new Phase 04A), **25 completed**, **197 planned/outstanding**, including active 02.07. None of the 04A batches is implemented.
+**Batch count:** **222 total** (original 148 + 74 new Phase 04A), **26 completed**, **196 planned/outstanding**, including active 02.08. None of the 04A batches is implemented.
 
 **Scope:** Excel-DNA and Office.js/WASM implementation remain the active workstream. LibreOffice is an *architectural portability consideration only*, explicitly not part of implementation batches or Excel release criteria.  
 **Supersedes:** revision 1.2 (16 October 2026); the full original multi-phase roadmap and dependencies are retained below, updated for repository progress and portable-host readiness.
@@ -479,8 +479,8 @@ Development: trusted local HTTPS + sideloading on Excel Online first, Windows de
 | **02.04 — COMPLETE** | Refactor Windows WriteSharedRequest to consume output plan; `Windows/DM/ResultWriter/ExcelDnaResultWriter.vb; UI/UibyID.vb` | 02.02,02.03 | W=Yes O=No | Interop plan adapter tests; Windows parity fixtures | Multi-table ANOVA output and overwrites | Legacy styling/placement unchanged | **High** |
 | **02.05 — COMPLETE** | Refactor Office.js writer to consume same output plan; `Office/js/officeBridge.js replacement; output bridge` | 02.02,02.03 | W=No O=Yes | JS mocked workbook adapter; normalized style tests | Multiple tables with p-value annotations | No policy/layout duplication in JS | **High** |
 | **02.06 — COMPLETE** | Output capability, start-cell/new-sheet/new-workbook fallbacks; `Common/Output/TargetPlanner.vb; host capability adapters` | 02.04,02.05,00.06 | W=Yes O=Yes | Sheet collision, protected and unsupported cases | Current/new worksheet; unsupported new workbook | No unsupported option falsely advertised | **Medium** |
-| **02.07** | Combine diagnostics, charts, footnotes, links in one plan; `Common/Output/CompositeOutput.vb; host insertion adapters` | 02.05 | W=Small O=Yes | Block placement and cross-type bounding | Table plus chart placeholder | Complete multi-artifact result with no overlap | **High** |
-| **02.08** | Implement safe overwrite and structured write outcomes; `Common/Output/WriteResult.vb; two host adapters` | 02.06 | W=Yes O=Yes | Cancel/partial failure/undo capability; diagnostics | Cancel overwrite of occupied range | No unexpected destructive write | **High** |
+| **02.07 — COMPLETE** | Combine diagnostics, charts, footnotes, links in one plan; `Common/Output/CompositeOutput.vb; host insertion adapters` | 02.05 | W=Small O=Yes | Block placement and cross-type bounding | Table plus chart placeholder | Complete multi-artifact result with no overlap | **High** |
+| **02.08 — IN PROGRESS / PENDING INDEPENDENT REVIEW** | Implement safe overwrite and structured write outcomes; `Common/Output/WriteResult.vb; two host adapters` | 02.06 | W=Yes O=Yes | Cancel/partial failure/undo capability; diagnostics | Cancel overwrite of occupied range | No unexpected destructive write | **High** |
 
 ### Phase 03 — Common infrastructure, lifecycle and execution
 
@@ -906,9 +906,11 @@ At the end of every batch, user supplies a new complete ZIP as the source of tru
 
 ## 17. Implementation checkpoint, next batch and historical 01.10 acceptance notes
 
-**Current Revision 1.4 planning checkpoint:** **02.06 is accepted/merged**, confirmed by the user after Windows and Excel Online acceptance. **02.07 is the current implementation**, pending independent review and live-host acceptance, not complete or accepted. The accepted checkpoint is **222 total / 25 completed / 197 outstanding**, including 02.07. Phase 04A remains after full Phase 04: preserve **04.07 → 04A.01–04A.74 → dependent Phase 05+ work**. No Phase 04A batch is implemented or authorized.
+**Current Revision 1.4 planning checkpoint:** **02.07 is accepted/merged**, confirmed by the owner including the live Excel Online C10 composite demonstration. **02.08 is the current implementation**, in progress / pending independent review and live-host acceptance, not complete or accepted. The accepted checkpoint is **222 total / 26 completed / 196 outstanding**, including 02.08. Phase 04A remains after full Phase 04: preserve **04.07 → 04A.01–04A.74 → dependent Phase 05+ work**. No Phase 04A batch is implemented or authorized.
 
 **02.08 safety handoff:** In Excel Online, 02.06 currently overwrites existing cells in the planned table rectangles without prompting. The user tested this and confirmed it; it was intentionally deferred to 02.08. That later batch MUST check **all** planned composite/table rectangles (not just the bounding envelope or first table), obtain consent when occupied, perform no destructive write when the user selects No, and truthfully report partial writes. The 02.07 opt-in composite path must not make this more dangerous; it writes only to a new empty worksheet and rejects current-sheet requests before mutation.
+
+**02.08 active handoff:** [Safe overwrite implementation and validation](../docs/architecture/batch-02-08-safe-overwrite-and-write-outcomes.md) records the current review candidate. Current-sheet composite insertion remains explicitly disabled. Gate B after 02.08 requires independent agreement on the additive Common v1 intent/inspection/consent/outcome envelope before freezing it; implementation alone does not pass Gate B or authorize 02.09. The preceding safety handoff is retained as the historical motivation.
 
 
 **Historical Revision 1.3 checkpoint (superseded):** batches through **01.09**, including **01.05A**, were implemented (18 completed; 130 outstanding). See §0, commit `2d9f418` and [the batch 01.09 architecture note](../docs/architecture/batch-01-09-acquisition-adapters.md). Live Excel and Mac acceptance remains separate. The user authorized only 01.10 on the existing `codex/01-10` branch; implementation and independent review do not authorize the next batch.

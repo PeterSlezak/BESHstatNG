@@ -5,6 +5,16 @@ const fs = require("node:fs");
 const path = require("node:path");
 const { recordingWorkbook, copy, address } = require("./helpers/recordingWorkbook.cjs");
 const fixture = name => JSON.parse(fs.readFileSync(path.join(__dirname, "fixtures/output-plans", name + ".json"), "utf8"));
+async function assertWriteOutcome(promise, expected) {
+    const result = await promise;
+    assert.ok(["RejectedBeforeWrite", "FailedBeforeWrite", "PartiallyWritten"].includes(result.state), JSON.stringify(result));
+    if (typeof expected === "string") assert.equal(result.state, expected);
+    else if (typeof expected === "function") assert.ok(expected(result));
+    else if (expected) assert.match(result.message, expected);
+    assert.equal(result.mutationMayHaveOccurred, result.state === "PartiallyWritten");
+    assert.deepEqual(Array.from(result.confirmedWritten), []);
+    for (const key of ["undoSupported", "rollbackAttempted", "rollbackSucceeded"]) assert.equal(result[key], false);
+}
 
 test("four Common-planned C6 tables record exact writes, gap isolation, envelope and host addresses", async () => {
     const plan = fixture("four-tables-c6");
@@ -161,7 +171,7 @@ test("finite binary64 extremes and signed zero reach range.values without coerci
 test("sync failure after new sheet creation is propagated without claiming rollback", async () => {
     const plan = fixture("four-tables-c6"); plan.target.destination = 1;
     const mock = recordingWorkbook({ failSync: 2 });
-    await assert.rejects(mock.bridge.writeOutputPlan(plan), /Injected Office sync failure/);
+    await assertWriteOutcome(mock.bridge.writeOutputPlan(plan), "PartiallyWritten");
     assert.equal(mock.trace.adds.length, 1);
     assert.equal(mock.trace.writes.length, 4);
     assert.equal(mock.trace.selections.length, 1);
@@ -170,7 +180,7 @@ test("sync failure after new sheet creation is propagated without claiming rollb
 for (const options of [{ nonExcel: true }, { apiAvailable: false }]) {
     test(`unavailable host ${JSON.stringify(options)} has zero workbook effects`, async () => {
         const mock = recordingWorkbook(options);
-        await assert.rejects(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), /unavailable/);
+        await assertWriteOutcome(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), /unavailable/);
         assert.equal(mock.trace.runs, 0);
         assert.equal(mock.trace.syncs, 0);
         assert.deepEqual(mock.trace.adds, []);
@@ -181,7 +191,7 @@ for (const destination of [0, 1]) {
     test(`later host failure at destination ${destination} reports error with recorded partial effects`, async () => {
         const plan = fixture("four-tables-c6"); plan.target.destination = destination;
         const mock = recordingWorkbook({ failWrite: 2 });
-        await assert.rejects(mock.bridge.writeOutputPlan(plan), /Injected Office write failure/);
+        await assertWriteOutcome(mock.bridge.writeOutputPlan(plan), "PartiallyWritten");
         assert.equal(mock.trace.runs, 1);
         assert.equal(mock.trace.writes.length, 2);
         assert.equal(mock.trace.clears.length, 2);
@@ -264,7 +274,7 @@ for (const [name, mutate] of Object.entries(mutations)) {
         const original = fixture("four-tables-c6");
         const mutated = mutate(original);
         const mock = recordingWorkbook();
-        await assert.rejects(mock.bridge.writeOutputPlan(mutated === undefined ? original : mutated), /Invalid output plan|New-workbook/);
+        await assertWriteOutcome(mock.bridge.writeOutputPlan(mutated === undefined ? original : mutated), /Invalid output plan|New-workbook/);
         assert.deepEqual(mock.trace, { runs: 0, syncs: 0, adds: [], writes: [], clears: [], styles: [], autoFits: [],
             selections: [], activations: [], ranges: [], activeResolutions: 0 });
         assert.equal(mock.cells.size, 0);
@@ -313,7 +323,7 @@ for (const [options, code] of [
 ]) {
     test(`read-only target probe rejects ${JSON.stringify(options)} before content or selection`, async () => {
         const mock = recordingWorkbook(options);
-        await assert.rejects(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), e => e.code === code);
+        await assertWriteOutcome(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), e => e.code === code);
         for (const field of ["adds", "clears", "writes", "styles", "activations", "selections"]) assert.deepEqual(mock.trace[field], []);
         assert.equal(mock.trace.runs, 1);
     });
@@ -322,7 +332,7 @@ for (const [options, code] of [
 for (const options of [{ probes: true, failMergeProbe: true }, { probes: true, failSync: 1 }]) {
     test(`failed read-only API probe ${JSON.stringify(options)} aborts before mutation`, async () => {
         const mock = recordingWorkbook(options);
-        await assert.rejects(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), /Injected/);
+        await assertWriteOutcome(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), "FailedBeforeWrite");
         for (const field of ["adds", "clears", "writes", "activations", "selections"]) assert.deepEqual(mock.trace[field], []);
     });
 }
@@ -330,7 +340,7 @@ for (const options of [{ probes: true, failMergeProbe: true }, { probes: true, f
 test("protected workbook prevents new-sheet creation after one read-only sync", async () => {
     const mock = recordingWorkbook({ probes: true, protectedWorkbook: true });
     const plan = fixture("four-tables-c6"); plan.target.destination = 1;
-    await assert.rejects(mock.bridge.writeOutputPlan(plan), e => e.code === "output.target-unwritable");
+    await assertWriteOutcome(mock.bridge.writeOutputPlan(plan), e => e.code === "output.target-unwritable");
     assert.equal(mock.trace.syncs, 1);
     for (const field of ["adds", "clears", "writes", "activations", "selections"]) assert.deepEqual(mock.trace[field], []);
 });
@@ -358,7 +368,7 @@ test("suffix exhaustion and inaccessible enumeration never reuse or create a she
     for (const names of [["Results", ...Array.from({ length: 998 }, (_, i) => `Results_${i + 2}`)], [""]]) {
         const mock = recordingWorkbook({ names });
         const plan = fixture("four-tables-c6"); plan.target.destination = 1; plan.target.worksheetName = "Results";
-        await assert.rejects(mock.bridge.writeOutputPlan(plan), /unused|inaccessible/);
+        await assertWriteOutcome(mock.bridge.writeOutputPlan(plan), e => ["output.sheet-name-collision", "output.target-invalid"].includes(e.code));
         for (const field of ["adds", "clears", "writes", "activations", "selections"]) assert.deepEqual(mock.trace[field], []);
         assert.equal(mock.trace.syncs, 1);
     }
@@ -368,6 +378,6 @@ test("runtime host loss is rechecked even after a successful capability snapshot
     const mock = recordingWorkbook();
     assert.ok((await mock.bridge.getHostCapabilities()).capabilities.includes("output.current-worksheet"));
     mock.sandbox.Office.context.host = "Word";
-    await assert.rejects(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), /unavailable/);
+    await assertWriteOutcome(mock.bridge.writeOutputPlan(fixture("four-tables-c6")), /unavailable/);
     assert.equal(mock.trace.runs, 0); assert.equal(mock.trace.syncs, 0);
 });

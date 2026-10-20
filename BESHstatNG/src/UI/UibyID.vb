@@ -1471,79 +1471,34 @@ Public Class UibyID
             res.Add(box.wrapResults())
         End If
 
-        Dim WriteRes As ExcelDnaResultWriter = GetSharedResultWriter(
-            Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, analysisResult, res)
-
-        Dim destination As Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination =
-            Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.CurrentWorksheet
-        If Me.optWorkbook.Checked Then
-            destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorkbook
-        ElseIf Me.optWorksheet.Checked Then
-            destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorksheet
-        End If
-
-        Dim outputTarget As New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
-            .Destination = destination,
-            .WorksheetName = CStr(WriteRes.ws.Name),
-            .StartRow = WriteRes.RowID,
-            .StartColumn = WriteRes.ColID
-        }
-
-        ExcelDnaHostCapabilities.EnsureCanWrite(Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, outputTarget)
-
-        Dim sharedRequests As List(Of Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest) =
-            Global.BESHStatNG.ExcelCommon.ResultTableWriteRequestFactory.CreateMany(
-                analysisResult.Tables,
-                AppGlobals.PValuePresentation,
-                alpha,
-                outputTarget)
-
-        If sharedRequests.Count = 0 Then
-            Throw New InvalidOperationException("The shared one-way ANOVA workflow returned no result tables.")
-        End If
-
-        'Preserve historical Windows behavior: existing GUI output does not auto-fit.
-        For Each request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest In sharedRequests
-            request.AutoFit = False
-        Next
-
-        Dim rr As ProcessListofResultTables = Nothing
-        If res.Count > 0 Then rr = New ProcessListofResultTables(res)
-        Dim totcols As Integer
-        Dim prepared As ExcelDnaPreparedSharedOutput = PrepareSharedOutput(
-            WriteRes, analysisResult, sharedRequests, outputTarget, res, totcols)
-        If prepared Is Nothing Then Exit Sub 'Overwrite declined; no shared/supplementary writes.
-        WriteRes.WritePlannedSharedRequests(prepared)
-
-        If rr IsNot Nothing Then
-            WriteRes.shiftRowPointer()
-            rr.writeToSheet(WriteRes, True)
-        End If
-
-        Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info(
-            "Windows one-way ANOVA executed through the generic BESHStat.Excel.Common dispatcher. " &
-            "Welch=" & Me.ckWelch.Checked.ToString() &
-            "; shared tables=" & sharedRequests.Count.ToString(Globalization.CultureInfo.InvariantCulture) & ".")
-
-        If Me.ckBoxPlot.Checked Then
-            box.SetWs = WriteRes.ws
-            box.AddBoxPlot()
-        End If
-
         Dim plotData As New List(Of parametric.MultipleComparisonPlotData)
         If Me.ckLSD.Checked AndAlso sharedResult.FisherLsdPlotData IsNot Nothing Then plotData.Add(sharedResult.FisherLsdPlotData)
         If Me.ckBonferroni.Checked AndAlso sharedResult.BonferroniPlotData IsNot Nothing Then plotData.Add(sharedResult.BonferroniPlotData)
         If Me.ckTukey.Checked AndAlso sharedResult.TukeyKramerPlotData IsNot Nothing Then plotData.Add(sharedResult.TukeyKramerPlotData)
         If Me.ckGamesHowell.Checked AndAlso sharedResult.GamesHowellPlotData IsNot Nothing Then plotData.Add(sharedResult.GamesHowellPlotData)
-
-        If plotData.Count > 0 Then
-            Dim chartLeft As Double = CDbl(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID + totcols + 2).Left)
-            Dim chartTop As Double = CDbl(WriteRes.ws.Cells(WriteRes.RowID, WriteRes.ColID).Top)
-            For Each pd As parametric.MultipleComparisonPlotData In plotData
-                graphics.MultipleComparisonPlotExcel.AddPlot(WriteRes.ws, pd, chartLeft, chartTop)
-                chartTop += graphics.MultipleComparisonPlotExcel.SuggestedHeight(pd) + 15.0
-            Next
-        End If
+        If Not RunSharedOutput(Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, analysisResult, res, alpha,
+            Function(writer, totalColumns)
+                Dim charts As New List(Of System.Action)()
+                If Me.ckBoxPlot.Checked Then charts.Add(Sub()
+                                                           box.SetWs = writer.ws
+                                                           box.AddBoxPlot()
+                                                       End Sub)
+                Dim chartTop As Double? = Nothing
+                For Each pd As parametric.MultipleComparisonPlotData In plotData
+                    Dim captured = pd
+                    charts.Add(Sub()
+                                   Dim chartLeft As Double = CDbl(writer.ws.Cells(writer.RowID, writer.ColID + totalColumns + 2).Left)
+                                   If Not chartTop.HasValue Then chartTop = CDbl(writer.ws.Cells(writer.RowID, writer.ColID).Top)
+                                   graphics.MultipleComparisonPlotExcel.AddPlot(writer.ws, captured, chartLeft, chartTop.Value)
+                                   chartTop += graphics.MultipleComparisonPlotExcel.SuggestedHeight(captured) + 15.0
+                               End Sub)
+                Next
+                Return charts
+            End Function) Then Exit Sub
+        Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info(
+            "Windows one-way ANOVA executed through the generic BESHStat.Excel.Common dispatcher. " &
+            "Welch=" & Me.ckWelch.Checked.ToString() &
+            "; shared tables=" & analysisResult.Tables.Count.ToString(Globalization.CultureInfo.InvariantCulture) & ".")
     End Sub
 
     Private Sub RunBoxAndWhiskers(data As MultiGroupsUnpairedData)
@@ -1644,64 +1599,20 @@ Public Class UibyID
             res.Add(box.wrapResults())
         End If
 
-        Dim WriteRes As ExcelDnaResultWriter = GetSharedResultWriter(
-            Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis, analysisResult, res)
-
-        Dim destination As Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination =
-            Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.CurrentWorksheet
-        If Me.optWorkbook.Checked Then
-            destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorkbook
-        ElseIf Me.optWorksheet.Checked Then
-            destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorksheet
-        End If
-
-        Dim outputTarget As New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
-            .Destination = destination,
-            .WorksheetName = CStr(WriteRes.ws.Name),
-            .StartRow = WriteRes.RowID,
-            .StartColumn = WriteRes.ColID
-        }
-
-        ExcelDnaHostCapabilities.EnsureCanWrite(Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis, outputTarget)
-
-        Dim sharedRequests As List(Of Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest) =
-            Global.BESHStatNG.ExcelCommon.ResultTableWriteRequestFactory.CreateMany(
-                analysisResult.Tables,
-                AppGlobals.PValuePresentation,
-                alpha,
-                outputTarget)
-
-        If sharedRequests.Count = 0 Then
-            Throw New InvalidOperationException("The shared Kruskal-Wallis workflow returned no result tables.")
-        End If
-
-        For Each request As Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest In sharedRequests
-            request.AutoFit = False
-        Next
-
-        Dim rr As ProcessListofResultTables = Nothing
-        If res.Count > 0 Then rr = New ProcessListofResultTables(res)
-        Dim totcols As Integer
-        Dim prepared As ExcelDnaPreparedSharedOutput = PrepareSharedOutput(
-            WriteRes, analysisResult, sharedRequests, outputTarget, res, totcols)
-        If prepared Is Nothing Then Exit Sub 'Overwrite declined; no shared/supplementary writes.
-        WriteRes.WritePlannedSharedRequests(prepared)
-
-        If rr IsNot Nothing Then
-            WriteRes.shiftRowPointer()
-            rr.writeToSheet(WriteRes, True)
-        End If
-
+        If Not RunSharedOutput(Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis, analysisResult, res, alpha,
+            Function(writer, totalColumns)
+                Dim charts As New List(Of System.Action)()
+                If Me.ckBoxPlot.Checked Then charts.Add(Sub()
+                                                           box.SetWs = writer.ws
+                                                           box.AddBoxPlot()
+                                                       End Sub)
+                Return charts
+            End Function) Then Exit Sub
         Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info(
             "Windows Kruskal-Wallis executed through the generic BESHStat.Excel.Common dispatcher. " &
             "H=" & sharedResult.HStatistic.ToString("G15", Globalization.CultureInfo.InvariantCulture) &
             "; tie-corrected H=" & sharedResult.TieCorrectedHStatistic.ToString("G15", Globalization.CultureInfo.InvariantCulture) &
-            "; shared tables=" & sharedRequests.Count.ToString(Globalization.CultureInfo.InvariantCulture) & ".")
-
-        If Me.ckBoxPlot.Checked Then
-            box.SetWs = WriteRes.ws
-            box.AddBoxPlot()
-        End If
+            "; shared tables=" & analysisResult.Tables.Count.ToString(Globalization.CultureInfo.InvariantCulture) & ".")
     End Sub
 
     Private Sub RunMannWhitney(data As MultiGroupsUnpairedData)
@@ -1744,32 +1655,34 @@ Public Class UibyID
         End If
     End Sub
 
-    ' Only the two shared grouped-analysis routes use this preflight. GetResultWriter has
-    ' already resolved (and may have created) the legacy Windows workbook/worksheet.
-    Private Function PrepareSharedOutput(writer As ExcelDnaResultWriter,
-                                         result As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult,
-                                         requests As List(Of Global.BESHStatNG.ExcelCommon.ResultTableWriteRequest),
-                                         target As Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget,
-                                         supplementary As List(Of ResultTable), ByRef totalColumns As Integer) As ExcelDnaPreparedSharedOutput
-        Dim document = Global.BESHStatNG.ExcelCommon.OutputDocument.FromResult(result)
-        Dim layout = Global.BESHStatNG.ExcelCommon.OutputLayoutPlanner.Create(
-            document, target, New Global.BESHStatNG.ExcelCommon.OutputLayoutOptions(blankRowsBetweenTables:=1))
-        Dim prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(layout, requests, target, CStr(writer.ws.Name))
-        Dim extraModels As New List(Of ResultTableOutputModel)
-        For Each table As ResultTable In supplementary
-            extraModels.Add(table.ToOutputModel())
-        Next
-        Dim bounds = ExcelDnaSharedOutputPlanAdapter.PreflightBounds(prepared, extraModels)
-        Global.BESHStatNG.ExcelCommon.TargetPlanner.Create(target, ExcelDnaHostCapabilities.GetSnapshot(),
-            ExcelDnaOutputTargetAdapter.Inspect(writer.wb, writer.ws, target.Destination, bounds)).EnsureSupported()
-        totalColumns = bounds.EndColumn - bounds.StartColumn + 1
-        Dim occupied As Boolean = AreaCheck(bounds.StartRow, bounds.StartColumn,
-            bounds.EndRow - bounds.StartRow + 1, totalColumns, writer.ws)
-        If Not ExcelDnaSharedOutputPlanAdapter.ConfirmOverwrite(occupied,
-            Function() MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") <> vbNo) Then Return Nothing
-        Return prepared
+    Friend Property LastSharedWriteOutcome As Global.BESHStatNG.ExcelCommon.WriteResult
+    Private activeSharedOutputRun As ExcelDnaSharedOutputRun
+
+    Private Function RunSharedOutput(analysisId As String, result As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult,
+                                     supplementary As List(Of ResultTable), alpha As Double,
+                                     charts As Func(Of ExcelDnaResultWriter, Integer, IReadOnlyList(Of System.Action))) As Boolean
+        activeSharedOutputRun = New ExcelDnaSharedOutputRun()
+        Dim host As New ExcelDnaSharedOutputHost With {
+            .Acquire = Function(run) GetSharedResultWriter(analysisId, result, supplementary),
+            .Target = Function(writer) New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
+                .Destination = activeSharedOutputRun.RequestedTarget.Destination, .WorksheetName = CStr(writer.ws.Name),
+                .StartRow = writer.RowID, .StartColumn = writer.ColID},
+            .Identities = Function(writer) Tuple.Create(ExcelDnaOutputTargetAdapter.TargetIdentity(writer.wb), ExcelDnaOutputTargetAdapter.TargetIdentity(writer.ws)),
+            .InspectCharts = Function(writer, intent) ExcelDnaOutputTargetAdapter.InspectChartSafety(intent, writer.wb, writer.ws),
+            .ConfirmCharts = Function(observed) MsgBox("This sheet contains " & observed.ExistingShapeCount.ToString() &
+                " existing chart(s) or shape(s). New charts will be added. Excel chooses some chart positions, so visual overlap cannot be checked in advance." &
+                vbCrLf & "Continue adding charts and writing output?", vbYesNo + vbExclamation, "Add charts?") = vbYes,
+            .Charts = charts,
+            .Inspect = Function(writer, intent) ExcelDnaOutputTargetAdapter.InspectWrite(intent, writer.wb, writer.ws),
+            .Confirm = Function(observed) MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbYes}
+        LastSharedWriteOutcome = activeSharedOutputRun.Execute(result, supplementary, AppGlobals.PValuePresentation, alpha, host)
+        If LastSharedWriteOutcome.State = Global.BESHStatNG.ExcelCommon.OutputWriteState.Completed Then Return True
+        If LastSharedWriteOutcome.State <> Global.BESHStatNG.ExcelCommon.OutputWriteState.CancelledByUser Then
+            MsgBox(LastSharedWriteOutcome.Message, vbExclamation, "Output " & LastSharedWriteOutcome.State.ToString())
+        End If
+        Return False
     End Function
-    ' Only ANOVA/KW: inspect and validate before the unchanged legacy destination creation.
+    ' Only ANOVA/KW: preserve validated target objects through native destination creation.
     Private Function GetSharedResultWriter(analysisId As String,
                                           result As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult,
                                           supplementary As List(Of ResultTable)) As ExcelDnaResultWriter
@@ -1778,6 +1691,7 @@ Public Class UibyID
             .WorksheetName = Nothing, .StartRow = 1, .StartColumn = 1}
         Dim workbook As Workbook = Nothing
         Dim worksheet As Worksheet = Nothing
+        activeSharedOutputRun.RequestedTarget = target
         If Me.optWorkbook.Checked Then
             target.Destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorkbook
         ElseIf Me.optWorksheet.Checked Then
@@ -1787,25 +1701,50 @@ Public Class UibyID
             workbook = AppGlobals.app.ActiveWorkbook
             worksheet = WorksheetFromRefAdress(Me.RefEditOutput.Address)
             If worksheet IsNot Nothing Then
+                workbook = DirectCast(worksheet.Parent, Workbook)
                 Dim region As Range = worksheet.Range(Me.RefEditOutput.Address)
                 target.StartRow = region.Row
                 target.StartColumn = region.Column
                 target.WorksheetName = worksheet.Name
             End If
         End If
-        ExcelDnaHostCapabilities.EnsureCanWrite(analysisId, target)
         Dim extras As New List(Of ResultTableOutputModel)
         For Each table As ResultTable In supplementary
             extras.Add(table.ToOutputModel())
         Next
+        activeSharedOutputRun.Stage = "precreation-plan"
+        Dim document = Global.BESHStatNG.ExcelCommon.OutputDocument.FromResult(result)
+        activeSharedOutputRun.Stage = "capability-check"
+        ExcelDnaHostCapabilities.EnsureCanWrite(analysisId, target)
+        activeSharedOutputRun.Stage = "target-facts"
         Dim facts = ExcelDnaOutputTargetAdapter.Inspect(workbook, worksheet, target.Destination)
+        activeSharedOutputRun.Stage = "preflight"
         Dim bounds = ExcelDnaOutputTargetAdapter.Preflight(target, facts,
-            Global.BESHStatNG.ExcelCommon.OutputDocument.FromResult(result), extras)
+            document, extras)
         If worksheet IsNot Nothing Then
             Global.BESHStatNG.ExcelCommon.TargetPlanner.Create(target, ExcelDnaHostCapabilities.GetSnapshot(),
                 ExcelDnaOutputTargetAdapter.Inspect(workbook, worksheet, target.Destination, bounds)).EnsureSupported()
         End If
-        Return GetResultWriter()
+        activeSharedOutputRun.RequestedTarget = target
+        activeSharedOutputRun.Stage = "destination-creation"
+        ' Keep the exact objects validated above; do not re-read ActiveWorkbook after
+        ' adding a sheet/book or re-resolve a potentially changed RefEdit destination.
+        Dim writer As New ExcelDnaResultWriter(target.StartRow, target.StartColumn)
+        If target.Destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorkbook Then
+            activeSharedOutputRun.CreationAttempted = True
+            writer.wb = AppGlobals.app.Workbooks.Add()
+            activeSharedOutputRun.DestinationCreated = True
+            writer.ws = DirectCast(writer.wb.Worksheets(1), Worksheet)
+        ElseIf target.Destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorksheet Then
+            writer.wb = workbook
+            activeSharedOutputRun.CreationAttempted = True
+            writer.ws = DirectCast(workbook.Worksheets.Add(), Worksheet)
+            activeSharedOutputRun.DestinationCreated = True
+        Else
+            writer.wb = workbook
+            writer.ws = worksheet
+        End If
+        Return writer
     End Function
 
     Private Function GetResultWriter() As ExcelDnaResultWriter

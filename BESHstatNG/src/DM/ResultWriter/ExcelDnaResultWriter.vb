@@ -16,6 +16,7 @@ Public Class ExcelDnaResultWriter
 
     Public wb As Workbook
     Public ws As Worksheet
+    Friend Property LastSharedWriteResult As Global.BESHStatNG.ExcelCommon.WriteResult
 
     Public Sub New(Optional row As Integer = 1, Optional col As Integer = 1)
         MyBase.New(row, col)
@@ -57,6 +58,13 @@ Public Class ExcelDnaResultWriter
                 New ResultTableOutputBlock(command.Bounds.StartRow, command.Bounds.StartColumn, command.Model),
                 command.PvalueNumberFormat, command.PvalueHighlightAlpha, command.AutoFit, command.Bounds),
             Sub(row) Me.setRowPointer(row))
+    End Sub
+
+    Friend Sub WriteSharedCommand(command As ExcelDnaSharedWriteCommand)
+        Me.setRowPointer(command.Bounds.StartRow)
+        WriteOutputBlockCore(New ResultTableOutputBlock(command.Bounds.StartRow, command.Bounds.StartColumn, command.Model),
+            command.PvalueNumberFormat, command.PvalueHighlightAlpha, command.AutoFit, command.Bounds)
+        Me.setRowPointer(command.Bounds.EndRow + 1)
     End Sub
 
     Friend Overridable Sub WriteOutputBlockCore(block As ResultTableOutputBlock,

@@ -6,6 +6,175 @@ Imports System.Collections.Generic
 Imports System.Globalization
 Imports System.Linq
 Imports BESHStatNG.ExcelCommon
+Imports BESHStatNG.AppInfrastructure
+
+' The form's complete shared-output orchestration, with only native host operations
+' injected. Tests use real analysis results and the real projection/intent/actions gate.
+Friend NotInheritable Class ExcelDnaSharedOutputHost
+    Friend Property Acquire As Func(Of ExcelDnaSharedOutputRun, ExcelDnaResultWriter)
+    Friend Property Target As Func(Of ExcelDnaResultWriter, SpreadsheetOutputTarget)
+    Friend Property Identities As Func(Of ExcelDnaResultWriter, Tuple(Of String, String))
+    Friend Property InspectCharts As Func(Of ExcelDnaResultWriter, WriteIntent, ExcelDnaChartSafetySnapshot)
+    Friend Property ConfirmCharts As Func(Of ExcelDnaChartSafetySnapshot, Boolean)
+    Friend Property Charts As Func(Of ExcelDnaResultWriter, Integer, IReadOnlyList(Of Action))
+    Friend Property Inspect As Func(Of ExcelDnaResultWriter, WriteIntent, WriteInspection)
+    Friend Property Confirm As Func(Of WriteInspection, Boolean)
+End Class
+
+Friend NotInheritable Class ExcelDnaSharedOutputRun
+    Friend Property Stage As String = "precreation-plan"
+    Friend Property CreationAttempted As Boolean
+    Friend Property DestinationCreated As Boolean
+    Friend Property RequestedTarget As SpreadsheetOutputTarget
+    Friend Property Intent As WriteIntent
+    Friend Property Writer As ExcelDnaResultWriter
+    Friend Property Failure As Exception
+
+    Friend Sub LogFailure(failure As Exception)
+        Me.Failure = failure
+        CoreServices.Logger.Error(failure, "Shared Windows output stage=" & Stage &
+            "; creationAttempted=" & CreationAttempted.ToString() & "; destinationCreated=" & DestinationCreated.ToString())
+    End Sub
+
+    Friend Function Execute(result As SpreadsheetAnalysisResult, supplementary As List(Of ResultTable),
+                            settings As PValuePresentationSettings, alpha As Double, host As ExcelDnaSharedOutputHost) As WriteResult
+        Try
+            If result Is Nothing OrElse supplementary Is Nothing OrElse host Is Nothing Then Throw New ArgumentNullException("shared output")
+            Stage = "target-resolution"
+            Writer = host.Acquire(Me)
+            Stage = "shared-request-projection"
+            Dim target = host.Target(Writer)
+            RequestedTarget = target
+            Dim document = OutputDocument.FromResult(result)
+            Dim requests = ResultTableWriteRequestFactory.CreateMany(result.Tables, settings, alpha, target)
+            For Each request In requests
+                request.AutoFit = False
+            Next
+            Dim layout = OutputLayoutPlanner.Create(document, target, New OutputLayoutOptions(blankRowsBetweenTables:=1))
+            Dim prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(layout, requests, target, target.WorksheetName)
+            Dim extras = supplementary.Select(Function(t) t.ToOutputModel()).ToList()
+            Dim bounds = ExcelDnaSharedOutputPlanAdapter.PreflightBounds(prepared, extras)
+            Stage = "chart-intents"
+            Dim charts = host.Charts(Writer, bounds.EndColumn - bounds.StartColumn + 1)
+            Stage = "intent-construction"
+            Dim identities = host.Identities(Writer)
+            Intent = ExcelDnaSharedOutputPlanAdapter.CreateWriteIntent(prepared, extras,
+                charts.Select(Function(c, i) "native-chart-" & i.ToString(CultureInfo.InvariantCulture)), Nothing, identities.Item1, identities.Item2)
+            Stage = "action-validation"
+            Dim writes = ExcelDnaSharedOutputPlanAdapter.CreateWriteActions(prepared, Writer, supplementary, charts)
+            ' SafeWrite's public preconditions precede its Try. Keep that contract intact;
+            ' validate and call inside THIS host Try so failures are logged and classified.
+            If writes.Count <> Intent.Regions.Count OrElse writes.Any(Function(a) a Is Nothing) Then Throw New ArgumentException("Shared write action/region mismatch.")
+            Dim actions As New List(Of Action)()
+            For Each write As Action In writes
+                Dim captured = write
+                actions.Add(Sub()
+                                Stage = "execution"
+                                Try
+                                    captured()
+                                Catch ex As Exception
+                                    LogFailure(ex)
+                                    Throw
+                                End Try
+                            End Sub)
+            Next
+            Dim inspections As Integer = 0
+            Dim chartObservation As ExcelDnaChartSafetySnapshot = Nothing
+            Dim inspect As Func(Of WriteInspection) = Function()
+                                                       inspections += 1
+                                                       Stage = If(inspections = 1, "occupancy-inspection", "occupancy-revalidation")
+                                                       Try
+                                                           Dim observed = host.Inspect(Writer, Intent)
+                                                           If chartObservation IsNot Nothing Then
+                                                               Stage = "chart-revalidation"
+                                                               Dim currentCharts = host.InspectCharts(Writer, Intent)
+                                                               If currentCharts Is Nothing Then Throw New InvalidOperationException("Missing shape inspection.")
+                                                               LogCharts(currentCharts, charts.Count)
+                                                               If currentCharts.ObservationIdentity <> chartObservation.ObservationIdentity OrElse
+                                                                   currentCharts.ExistingShapeCount <> chartObservation.ExistingShapeCount Then
+                                                                   Return New WriteInspection(Intent, OutputOccupancy.Rejected, "chart-changed", Nothing,
+                                                                       explanation:="Existing chart objects changed. Inspect and confirm again.")
+                                                               End If
+                                                           End If
+                                                           Return observed
+                                                       Catch ex As Exception
+                                                           LogFailure(ex)
+                                                           Throw
+                                                       End Try
+                                                   End Function
+            ' Read every planned cell before either kind of prompt. Cache only this first
+            ' observation; SafeWrite always obtains a fresh inspection before any action.
+            Dim firstObservation = inspect()
+            If charts.Count > 0 AndAlso firstObservation IsNot Nothing AndAlso
+                (firstObservation.State = OutputOccupancy.Empty OrElse firstObservation.State = OutputOccupancy.Occupied) Then
+                Stage = "chart-inspection"
+                chartObservation = host.InspectCharts(Writer, Intent)
+                If chartObservation Is Nothing Then Throw New InvalidOperationException("Missing shape inspection.")
+                LogCharts(chartObservation, charts.Count)
+                If chartObservation.ExistingShapeCount > 0 Then
+                    Stage = "chart-consent"
+                    If Not host.ConfirmCharts(chartObservation) Then
+                        Dim cancelled As New WriteResult(If(CreationAttempted, OutputWriteState.PartiallyWritten, OutputWriteState.CancelledByUser),
+                            "output.chart-cancelled", If(CreationAttempted, "Chart addition cancelled; a created destination may remain. No rollback was attempted.",
+                            "Chart addition cancelled. No output writes performed."), Intent, CreationAttempted,
+                            confirmationRequired:=True, overwriteApproved:=False)
+                        Writer.LastSharedWriteResult = cancelled
+                        Return cancelled
+                    End If
+                End If
+            End If
+            Dim useCached As Boolean = True
+            Dim outcome = SafeWrite.Execute(Intent, Function()
+                                                       If useCached Then
+                                                           useCached = False
+                                                           Return firstObservation
+                                                       End If
+                                                       Return inspect()
+                                                   End Function,
+                Function(observed)
+                    Stage = "consent"
+                    Try
+                        Return host.Confirm(observed)
+                    Catch ex As Exception
+                        LogFailure(ex)
+                        Throw
+                    End Try
+                End Function, actions, destinationCreated:=CreationAttempted)
+            If outcome.State = OutputWriteState.Completed AndAlso chartObservation IsNot Nothing AndAlso chartObservation.ExistingShapeCount > 0 Then
+                outcome = New WriteResult(outcome.State, "output.completed.chart-overlap-approved",
+                    "Output completed. Possible chart overlap with existing shapes was approved; exact placement was not predicted.",
+                    Intent, outcome.MutationMayHaveOccurred, outcome.ConfirmedWritten.Select(Function(r) r.ArtifactId),
+                    outcome.ConfirmationRequired, outcome.OverwriteApproved)
+            End If
+            Writer.LastSharedWriteResult = outcome
+            Return outcome
+        Catch ex As Exception
+            LogFailure(ex)
+            ' Minimal unresolved failure scope: no synthetic full intent before the
+            ' established target preflight, and no fabricated physical sheet identity.
+            Dim target = If(RequestedTarget, New SpreadsheetOutputTarget())
+            Dim fallback As New SpreadsheetOutputTarget With {.Destination = target.Destination,
+                .WorksheetName = If(String.IsNullOrWhiteSpace(target.WorksheetName), "Unresolved destination", target.WorksheetName),
+                .StartRow = Math.Max(1, Math.Min(1048576, target.StartRow)), .StartColumn = Math.Max(1, Math.Min(16384, target.StartColumn))}
+            Dim scope = If(Intent, New WriteIntent("unresolved-plan", "unresolved-target", fallback, New WriteRegion() {}))
+            Dim rejected = TryCast(ex, HostCapabilityException)
+            Dim outcome As New WriteResult(If(CreationAttempted, OutputWriteState.PartiallyWritten,
+                If(rejected IsNot Nothing, OutputWriteState.RejectedBeforeWrite, OutputWriteState.FailedBeforeWrite)),
+                If(CreationAttempted, WriteCodes.MutationUncertain, If(rejected IsNot Nothing, rejected.Code, WriteCodes.Failed)),
+                If(CreationAttempted, If(DestinationCreated, "Output preparation failed; a created worksheet or workbook may remain. No rollback was attempted.",
+                    "Destination creation was attempted and may have changed the workbook. No rollback was attempted."),
+                    If(rejected IsNot Nothing, rejected.Message, "Output preparation failed before any write was started.")), scope, CreationAttempted)
+            If Writer IsNot Nothing Then Writer.LastSharedWriteResult = outcome
+            Return outcome
+        End Try
+    End Function
+
+    Private Sub LogCharts(snapshot As ExcelDnaChartSafetySnapshot, plannedCount As Integer)
+        CoreServices.Logger.Debug("Shared Windows output stage=" & Stage & "; role=append-only-shape; plannedCharts=" &
+            plannedCount.ToString(CultureInfo.InvariantCulture) & "; existingShapes=" & snapshot.ExistingShapeCount.ToString(CultureInfo.InvariantCulture) &
+            "; placement=host-dependent; exactCollisionFootprint=unverified")
+    End Sub
+End Class
 
 ' Bounded Windows bridge: no COM, live occupancy, or workbook-creation policy here.
 Friend NotInheritable Class ExcelDnaSharedWriteCommand
@@ -202,5 +371,70 @@ Friend NotInheritable Class ExcelDnaSharedOutputPlanAdapter
     Public Shared Function ConfirmOverwrite(occupied As Boolean, confirm As Func(Of Boolean)) As Boolean
         If confirm Is Nothing Then Throw New ArgumentNullException(NameOf(confirm))
         Return Not occupied OrElse confirm()
+    End Function
+
+    ' Exact supplementary cursor policy mirrors ProcessListofResultTables(..., True).
+    ' Chart additions are ordered non-cell mutations; their conservative inspection guards
+    ' are supplied separately by the Windows host, never substituted for table bounds.
+    Friend Shared Function CreateWriteIntent(prepared As ExcelDnaPreparedSharedOutput,
+                                             supplementary As IEnumerable(Of ResultTableOutputModel),
+                                             chartIds As IEnumerable(Of String), guards As IEnumerable(Of OutputRectangle),
+                                             workbookIdentity As String, worksheetIdentity As String) As WriteIntent
+        If prepared Is Nothing Then Throw New ArgumentNullException(NameOf(prepared))
+        Return CreateWriteIntent(prepared.Layout, supplementary, chartIds, guards, workbookIdentity, worksheetIdentity)
+    End Function
+
+    Friend Shared Function CreateWriteIntent(layout As OutputLayoutPlan,
+                                             supplementary As IEnumerable(Of ResultTableOutputModel),
+                                             chartIds As IEnumerable(Of String), guards As IEnumerable(Of OutputRectangle),
+                                             workbookIdentity As String, worksheetIdentity As String) As WriteIntent
+        If layout Is Nothing OrElse layout.UsedBounds Is Nothing Then Throw New ArgumentException("Shared output requires spatial tables.")
+        Dim regions = layout.Placements.Where(Function(p) p.IsPlaced).Select(Function(p) New WriteRegion(p.ArtifactId, p.Bounds)).ToList()
+        Dim lastRow As Integer = layout.UsedBounds.EndRow
+        If supplementary IsNot Nothing Then
+            Dim index As Integer = 0
+            For Each model In supplementary
+                If model Is Nothing OrElse model.RowCount < 1 OrElse model.ColumnCount < 1 Then Throw New ArgumentException("Invalid supplementary table.")
+                Dim start As Long = CLng(lastRow) + 2
+                Dim finish As Long = start + model.RowCount - 1L
+                Dim right As Long = CLng(layout.StartColumn) + model.ColumnCount - 1L
+                If finish >= MaxRows OrElse right > MaxColumns Then Throw New ArgumentException("Supplementary output exceeds grid.")
+                regions.Add(New WriteRegion("supplementary-" & index.ToString(CultureInfo.InvariantCulture),
+                    New OutputRectangle(CInt(start), layout.StartColumn, CInt(finish), CInt(right))))
+                lastRow = CInt(finish) : index += 1
+            Next
+        End If
+        If chartIds IsNot Nothing Then
+            For Each id In chartIds
+                regions.Add(New WriteRegion(id, Nothing, nonCellMutation:=True))
+            Next
+        End If
+        Dim target As New SpreadsheetOutputTarget With {.Destination = layout.Destination,
+            .WorksheetName = layout.WorksheetName, .StartRow = layout.StartRow, .StartColumn = layout.StartColumn}
+        Return New WriteIntent(Guid.NewGuid().ToString("N"), Guid.NewGuid().ToString("N"), target,
+            regions, layout.Reservations, guards, workbookIdentity, worksheetIdentity)
+    End Function
+
+    Friend Shared Function CreateWriteActions(prepared As ExcelDnaPreparedSharedOutput, writer As ExcelDnaResultWriter,
+                                              supplementary As IEnumerable(Of ResultTable), charts As IEnumerable(Of Action)) As IReadOnlyList(Of Action)
+        If prepared Is Nothing OrElse writer Is Nothing OrElse supplementary Is Nothing OrElse charts Is Nothing Then Throw New ArgumentNullException("write sink")
+        Dim actions As New List(Of Action)()
+        For Each command As ExcelDnaSharedWriteCommand In prepared.Commands
+            Dim captured = command
+            actions.Add(Sub() writer.WriteSharedCommand(captured))
+        Next
+        For Each table In supplementary
+            If table Is Nothing Then Throw New ArgumentException("Null supplementary table.")
+            Dim captured = table
+            actions.Add(Sub()
+                            writer.shiftRowPointer()
+                            writer.write(captured)
+                        End Sub)
+        Next
+        For Each chart In charts
+            If chart Is Nothing Then Throw New ArgumentException("Null chart sink.")
+            actions.Add(chart)
+        Next
+        Return actions.AsReadOnly()
     End Function
 End Class

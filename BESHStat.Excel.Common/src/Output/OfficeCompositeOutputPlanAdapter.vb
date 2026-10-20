@@ -70,7 +70,7 @@ Namespace ExcelCommon
     Public NotInheritable Class OfficeCompositeOutputPlanAdapter
         Public Shared Function Prepare(plan As CompositeOutputPlan, semantics As OutputSemanticPlan) As OfficeCompositeOutputPlan
             If plan Is Nothing Then Throw New ArgumentNullException(NameOf(plan))
-            If plan.Target.EffectiveDestination <> SpreadsheetOutputDestination.NewWorksheet Then Throw New ArgumentException("Composite live output supports new worksheets only until 02.08.")
+            If plan.Target.EffectiveDestination <> SpreadsheetOutputDestination.NewWorksheet Then Throw New ArgumentException("Composite live output requires a new worksheet; current-sheet composite insertion is disabled.")
             Dim limits As New InputSizeLimits()
             If plan.Items.Count > limits.MaxRanges OrElse plan.Reservations.Count > limits.MaxRanges Then Throw New ArgumentException("Composite item/reservation limit exceeded.")
             Dim cells As Long = 0

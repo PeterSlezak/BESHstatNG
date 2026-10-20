@@ -483,10 +483,533 @@ Public Class SharedOutputPlanTests
         Assert.AreEqual(0, confirmations)
     End Sub
 
+    <DataTestMethod>
+    <DataRow(0, False)> <DataRow(0, True)> <DataRow(1, True)> <DataRow(2, True)>
+    Public Sub SafeSharedRoute_ExactPrimarySupplementaryChartOrderAndOnePrompt(destinationKind As Integer, approved As Boolean)
+        Dim destination = Target() : destination.Destination = CType(destinationKind, SpreadsheetOutputDestination)
+        Dim source = Models(), prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(
+            OutputLayoutPlanner.Create(Document(source), destination), Requests(source, destination), destination, "Results")
+        Dim extra As New ResultTable() : extra.SetBody(New Object(,) {{"supplementary", 0.01}, {"literal", "=1+1"}})
+        extra.AddPvalueToFormat(2)
+        Dim extras As New List(Of ResultTable) From {extra, extra}
+        Dim guard As New OutputRectangle(1, 1, 100, 20)
+        Dim scope = ExcelDnaSharedOutputPlanAdapter.CreateWriteIntent(prepared, extras.Select(Function(t) t.ToOutputModel()),
+            {"boxplot", "posthoc-chart"}, {guard}, "Workbook", "Sheet1")
+        CollectionAssert.AreEqual(New String() {"R6C3:R7C5", "R9C3:R11C4", "R13C3:R13C6", "R15C3:R16C3", "R18C3:R19C4", "R21C3:R22C4"},
+            scope.Regions.Where(Function(r) r.Bounds IsNot Nothing).Select(Function(r) r.Bounds.ToString()).ToArray())
+        Assert.AreEqual(1, scope.Guards.Count) : Assert.AreSame(guard, scope.Guards(0))
+        Dim writer As New RecordingWriter(6, 3), chartCalls As Integer = 0, prompts As Integer = 0, probes As Integer = 0
+        Dim actions = ExcelDnaSharedOutputPlanAdapter.CreateWriteActions(prepared, writer, extras,
+            New Action() {Sub() chartCalls += 1, Sub() chartCalls += 1})
+        Dim result = SafeWrite.Execute(scope, Function()
+                                                 probes += 1
+                                                 Return New WriteInspection(scope, OutputOccupancy.Occupied, "observed-content", {"supplementary-1"}, hasFormulas:=True)
+                                             End Function,
+            Function(observed)
+                prompts += 1
+                Return approved
+            End Function, actions)
+        Assert.AreEqual(1, prompts) : Assert.AreEqual(If(approved, 2, 1), probes)
+        Assert.AreEqual(If(approved, OutputWriteState.Completed, OutputWriteState.CancelledByUser), result.State)
+        Assert.AreEqual(If(approved, 6, 0), writer.Blocks.Count) : Assert.AreEqual(If(approved, 2, 0), chartCalls)
+        Assert.AreEqual(If(approved, 23, 6), writer.RowID) : Assert.AreEqual(3, writer.ColID)
+        Assert.IsFalse(result.UndoSupported) : Assert.IsFalse(result.RollbackAttempted)
+        If approved Then
+            CollectionAssert.AreEqual(scope.Regions.Where(Function(r) r.Bounds IsNot Nothing).Select(Function(r) r.Bounds.StartRow).ToArray(),
+                writer.Blocks.Select(Function(b) b.StartRow).ToArray())
+            Assert.IsTrue(writer.AutoFits.All(Function(value) Not value))
+            CollectionAssert.AreEqual(prepared.Commands.Select(Function(c) c.PvalueNumberFormat).ToArray(), writer.Formats.Take(4).ToArray())
+            Assert.AreEqual(0.01, writer.Blocks(4).Model.Values(0, 1))
+        End If
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("protected")> <DataRow("merged")> <DataRow("unknown")> <DataRow("changed")>
+    Public Sub SafeSharedRoute_InvalidOrChangedInspectionNeverWrites(reason As String)
+        Dim destination = Target(), source = Models()
+        Dim prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(OutputLayoutPlanner.Create(Document(source), destination), Requests(source, destination), destination, "Results")
+        Dim scope = ExcelDnaSharedOutputPlanAdapter.CreateWriteIntent(prepared, Nothing, Nothing, Nothing, "Workbook", "Sheet1")
+        Dim writer As New RecordingWriter(6, 3), probes As Integer = 0, prompts As Integer = 0
+        Dim result = SafeWrite.Execute(scope, Function()
+                                                 probes += 1
+                                                 If reason = "protected" OrElse reason = "merged" Then Throw New InvalidOperationException("Read-only target rejection")
+                                                 Return New WriteInspection(scope, If(reason = "unknown", OutputOccupancy.Unknown, OutputOccupancy.Empty), probes.ToString(), Nothing)
+                                             End Function, Function(observed)
+                                                               prompts += 1
+                                                               Return True
+                                                           End Function,
+            ExcelDnaSharedOutputPlanAdapter.CreateWriteActions(prepared, writer, New ResultTable() {}, New Action() {}))
+        Assert.AreEqual(0, writer.Blocks.Count) : Assert.AreEqual(0, prompts)
+        Assert.IsTrue(result.State = OutputWriteState.FailedBeforeWrite OrElse result.State = OutputWriteState.RejectedBeforeWrite)
+        Assert.IsFalse(result.MutationMayHaveOccurred)
+    End Sub
+
+    <DataTestMethod>
+    <DataRow(1, 0)> <DataRow(2, 1)> <DataRow(5, 4)>
+    Public Sub SafeSharedRoute_FailureAfterBlockOrDuringSupplementReportsPartial(failAt As Integer, confirmed As Integer)
+        Dim destination = Target(), source = Models()
+        Dim prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(OutputLayoutPlanner.Create(Document(source), destination), Requests(source, destination), destination, "Results")
+        Dim extra As New ResultTable() : extra.SetBody(New Object(,) {{1, 0.01}})
+        Dim scope = ExcelDnaSharedOutputPlanAdapter.CreateWriteIntent(prepared, {extra.ToOutputModel()}, Nothing, Nothing, "Workbook", "Sheet1")
+        Dim writer As New RecordingWriter(6, 3) With {.FailAt = failAt}
+        Dim result = SafeWrite.Execute(scope, Function() New WriteInspection(scope, OutputOccupancy.Empty, "empty", Nothing), Function(o) True,
+            ExcelDnaSharedOutputPlanAdapter.CreateWriteActions(prepared, writer, {extra}, New Action() {}))
+        Assert.AreEqual(OutputWriteState.PartiallyWritten, result.State) : Assert.AreEqual(WriteCodes.MutationUncertain, result.Code)
+        Assert.AreEqual(confirmed, result.ConfirmedWritten.Count) : Assert.IsTrue(result.MutationMayHaveOccurred)
+        Assert.IsFalse(result.RollbackSucceeded)
+    End Sub
+
+    Private Shared Function FixtureResult(name As String) As SpreadsheetAnalysisResult
+        Dim fixture As GoldenCase
+        Using stream = File.OpenRead(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "TestData", "Stage304", name & ".json"))
+            fixture = DirectCast(New DataContractJsonSerializer(GetType(GoldenCase)).ReadObject(stream), GoldenCase)
+        End Using
+        Dim options As SpreadsheetAnalysisOptions
+        If fixture.Kind = 1 Then
+            options = New OneWayAnovaAnalysisOptions With {.IncludeWelch = fixture.Options.Welch, .IncludeFisherLsd = fixture.Options.FisherLsd,
+                .IncludeBonferroni = fixture.Options.Bonferroni, .IncludeTukeyKramer = fixture.Options.TukeyKramer, .IncludeGamesHowell = fixture.Options.GamesHowell}
+        Else
+            options = New KruskalWallisAnalysisOptions With {.IncludeDunnComparisons = fixture.Options.Dunn}
+        End If
+        Return SharedAnalysisApplicationService.Run(New SpreadsheetAnalysisRequest(CType(fixture.Kind, SpreadsheetAnalysisKind),
+            New GroupedNumericData(fixture.Groups.Names, fixture.Groups.Values), options))
+    End Function
+
+    ' Matches the production RunSharedOutput lifecycle. Only native destination/facts,
+    ' reads and user interaction are simulated, rather than bypassing intent construction.
+    Private Class WorkflowRecordingHost
+        Public ReadOnly Analysis As SpreadsheetAnalysisResult
+        Public ReadOnly Extras As New List(Of ResultTable)
+        Public ReadOnly NativeWriter As RecordingWriter
+        Public ReadOnly Host As ExcelDnaSharedOutputHost
+        Public ReadOnly Session As New ExcelDnaSharedOutputRun
+        Public ReadOnly OriginalFailure As New InvalidOperationException("Injected host failure")
+        Public Prompts As Integer, Inspections As Integer, Creations As Integer, ChartCalls As Integer
+        Public Approved As Boolean, IncludeCharts As Boolean, ChangeAfterConsent As Boolean
+        Public DistantInput As Boolean
+        Public ShapePrompts As Integer, ShapeInspections As Integer, ShapeCount As Integer
+        Public ShapesApproved As Boolean, ChangeShapesAfterConsent As Boolean, FailShapeInspection As Boolean
+        Public ReadOnly CellReads As New List(Of OutputRectangle)
+        Public OccupiedId As String
+        Public OccupiedValue As Object = "existing"
+        Public OccupiedFormula As Object
+        Public CreationFailure As Integer = -1
+        Public FailInspection As Boolean, FailChart As Boolean
+
+        Public Sub New(name As String, destination As SpreadsheetOutputDestination)
+            Analysis = FixtureResult(name)
+            Dim requested As New SpreadsheetOutputTarget With {.Destination = destination,
+                .WorksheetName = If(destination = SpreadsheetOutputDestination.CurrentWorksheet, "anova-stage304", Nothing),
+                .StartRow = If(destination = SpreadsheetOutputDestination.CurrentWorksheet, 11, 1),
+                .StartColumn = If(destination = SpreadsheetOutputDestination.CurrentWorksheet, 6, 1)}
+            NativeWriter = New RecordingWriter(requested.StartRow, requested.StartColumn)
+            Host = New ExcelDnaSharedOutputHost With {
+                .Acquire = Function(run)
+                               run.RequestedTarget = requested
+                               run.Stage = "capability-check"
+                               ExcelDnaHostCapabilities.EnsureCanWrite(Analysis.Document.AnalysisId, requested)
+                               run.Stage = "preflight"
+                               ExcelDnaOutputTargetAdapter.Preflight(requested, New OutputTargetFacts(workbookAvailable:=True,
+                                   sheetExists:=True, identityUnambiguous:=True, writable:=True, protectedSheet:=False, mergedConflict:=False, canCreateWorksheet:=True),
+                                   OutputDocument.FromResult(Analysis), Extras.Select(Function(t) t.ToOutputModel()))
+                               If CreationFailure = 0 Then Throw OriginalFailure
+                               If destination <> SpreadsheetOutputDestination.CurrentWorksheet Then
+                                   run.Stage = "destination-creation"
+                                   run.CreationAttempted = True : Creations += 1
+                                   If CreationFailure = 1 Then Throw OriginalFailure
+                                   run.DestinationCreated = True
+                                   If CreationFailure = 2 Then Throw OriginalFailure
+                               End If
+                               Return NativeWriter
+                           End Function,
+                .Target = Function(w) New SpreadsheetOutputTarget With {.Destination = destination, .WorksheetName = "Resolved sheet",
+                    .StartRow = w.RowID, .StartColumn = w.ColID},
+                .Identities = Function(w) Tuple.Create("native-workbook", "native-sheet"),
+                .InspectCharts = Function(w, intent)
+                                     ShapeInspections += 1
+                                     If FailShapeInspection Then Throw OriginalFailure
+                                     Return New ExcelDnaChartSafetySnapshot(ShapeCount, If(ChangeShapesAfterConsent AndAlso ShapeInspections > 1, "changed-shapes", "observed-shapes"))
+                                 End Function,
+                .ConfirmCharts = Function(observed)
+                                     ShapePrompts += 1
+                                     Return ShapesApproved
+                                 End Function,
+                .Charts = Function(w, columns)
+                              Dim actions As New List(Of Action)()
+                              If IncludeCharts Then
+                                  For i As Integer = 1 To 2
+                                      actions.Add(Sub()
+                                                      ChartCalls += 1
+                                                      If FailChart Then Throw OriginalFailure
+                                                  End Sub)
+                                  Next
+                              End If
+                              Return actions
+                          End Function,
+                .Inspect = Function(w, intent)
+                               Inspections += 1
+                               If FailInspection Then Throw OriginalFailure
+                               Return ExcelDnaOutputTargetAdapter.InspectWriteCore(intent, Sub(r)
+                                                                                         End Sub,
+                                   Function(bounds)
+                                       CellReads.Add(bounds)
+                                       Dim region = intent.Regions.FirstOrDefault(Function(r) Object.ReferenceEquals(r.Bounds, bounds))
+                                       Dim occupied As Boolean = region IsNot Nothing AndAlso region.ArtifactId = OccupiedId
+                                       Dim value = If(occupied, OccupiedValue, Nothing)
+                                       If DistantInput AndAlso bounds.StartRow = 1 AndAlso bounds.StartColumn = 1 Then value = 1.0
+                                       If ChangeAfterConsent AndAlso Inspections = 2 Then value = "changed"
+                                       Return NativeSnapshot(bounds, value, If(occupied, OccupiedFormula, Nothing))
+                                   End Function)
+                           End Function,
+                .Confirm = Function(observed)
+                               Prompts += 1
+                               Return Approved
+                           End Function}
+        End Sub
+
+        Public Function Execute() As WriteResult
+            Return Session.Execute(Analysis, Extras, New PValuePresentationSettings With {.DecimalPlaces = 5}, 0.01, Host)
+        End Function
+    End Class
+
+    <DataTestMethod>
+    <DataRow("anova-all-posthoc", False)> <DataRow("anova-all-posthoc", True)>
+    <DataRow("kw-dunn", False)> <DataRow("kw-dunn", True)>
+    Public Sub FullSharedOrchestration_DistantInputNeverOccupiesEmptyF11(name As String, charts As Boolean)
+        Dim recording As New WorkflowRecordingHost(name, SpreadsheetOutputDestination.CurrentWorksheet) With {
+            .DistantInput = True, .IncludeCharts = charts}
+        Dim extra As New ResultTable() : extra.SetBody(New Object(,) {{0.01}}) : recording.Extras.Add(extra)
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(OutputWriteState.Completed, outcome.State)
+        Assert.AreEqual(0, recording.Prompts)
+        Assert.AreEqual(If(charts, 2, 0), recording.ChartCalls)
+        Assert.AreEqual(recording.Analysis.Tables.Count + 1, recording.NativeWriter.Blocks.Count)
+        Assert.AreEqual(0, outcome.Intent.Guards.Count)
+        Assert.AreEqual(0, recording.ShapePrompts)
+        Assert.IsTrue(recording.CellReads.All(Function(b) b.StartRow >= 11 AndAlso b.StartColumn = 6))
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("anova-all-posthoc", False)> <DataRow("anova-all-posthoc", True)>
+    <DataRow("kw-dunn", False)> <DataRow("kw-dunn", True)>
+    Public Sub FullSharedOrchestration_ExistingShapesRequireDistinctOverlapDecision(name As String, approved As Boolean)
+        Dim recording As New WorkflowRecordingHost(name, SpreadsheetOutputDestination.CurrentWorksheet) With {
+            .IncludeCharts = True, .DistantInput = True, .ShapeCount = 1, .ShapesApproved = approved}
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(If(approved, OutputWriteState.Completed, OutputWriteState.CancelledByUser), outcome.State)
+        Assert.AreEqual(1, recording.ShapePrompts) : Assert.AreEqual(0, recording.Prompts)
+        Assert.AreEqual(If(approved, 2, 1), recording.ShapeInspections)
+        Assert.AreEqual(If(approved, 2, 0), recording.ChartCalls)
+        StringAssert.Contains(outcome.Code, If(approved, "chart-overlap-approved", "chart-cancelled"))
+        Assert.IsFalse(outcome.Message.Contains("range not empty"))
+        If Not approved Then
+            Assert.AreEqual(0, recording.NativeWriter.Blocks.Count) : Assert.AreEqual(0, recording.NativeWriter.Formats.Count)
+            Assert.IsFalse(outcome.MutationMayHaveOccurred)
+        End If
+    End Sub
+
+    <DataTestMethod>
+    <DataRow(False)> <DataRow(True)>
+    Public Sub FullSharedOrchestration_UnknownShapeInventoryFailsClosedBeforeWrites(afterCreation As Boolean)
+        Dim recording As New WorkflowRecordingHost("anova-base", If(afterCreation, SpreadsheetOutputDestination.NewWorksheet,
+            SpreadsheetOutputDestination.CurrentWorksheet)) With {.IncludeCharts = True, .FailShapeInspection = True}
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(If(afterCreation, OutputWriteState.PartiallyWritten, OutputWriteState.FailedBeforeWrite), outcome.State)
+        Assert.AreEqual(afterCreation, outcome.MutationMayHaveOccurred)
+        Assert.AreEqual(0, recording.NativeWriter.Blocks.Count) : Assert.AreEqual(0, recording.Prompts)
+        Assert.AreEqual(0, recording.ShapePrompts) : Assert.AreEqual(0, recording.ChartCalls)
+        Assert.AreSame(recording.OriginalFailure, recording.Session.Failure)
+        Assert.AreEqual("chart-inspection", recording.Session.Stage)
+        Assert.IsFalse(outcome.RollbackAttempted)
+    End Sub
+
+    <DataTestMethod>
+    <DataRow(0)> <DataRow(1)>
+    Public Sub FullSharedOrchestration_ChangedCellsOrShapesAfterConsentNeverWrite(change As Integer)
+        Dim recording As New WorkflowRecordingHost("kw-dunn", SpreadsheetOutputDestination.CurrentWorksheet) With {
+            .IncludeCharts = True, .ShapeCount = 1, .ShapesApproved = True, .OccupiedId = "table-0", .Approved = True,
+            .ChangeAfterConsent = change = 0, .ChangeShapesAfterConsent = change = 1}
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(OutputWriteState.RejectedBeforeWrite, outcome.State)
+        Assert.AreEqual(WriteCodes.Changed, outcome.Code)
+        Assert.AreEqual(1, recording.Prompts) : Assert.AreEqual(1, recording.ShapePrompts)
+        Assert.AreEqual(0, recording.NativeWriter.Blocks.Count) : Assert.AreEqual(0, recording.ChartCalls)
+        Assert.IsFalse(outcome.MutationMayHaveOccurred)
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("anova-all-posthoc", 1)> <DataRow("anova-all-posthoc", 2)>
+    <DataRow("kw-dunn", 1)> <DataRow("kw-dunn", 2)>
+    Public Sub FullSharedOrchestration_ChartsAndSupplementaryNewDestinationsStillComplete(name As String, destination As Integer)
+        Dim recording As New WorkflowRecordingHost(name, CType(destination, SpreadsheetOutputDestination)) With {.IncludeCharts = True}
+        Dim extra As New ResultTable() : extra.SetBody(New Object(,) {{0.01}}) : recording.Extras.Add(extra)
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(OutputWriteState.Completed, outcome.State)
+        Assert.AreEqual(1, recording.Creations) : Assert.AreEqual(2, recording.ChartCalls)
+        Assert.AreEqual(0, recording.Prompts) : Assert.AreEqual(0, recording.ShapePrompts)
+        Assert.AreEqual(recording.Analysis.Tables.Count + 1, recording.NativeWriter.Blocks.Count)
+        Assert.IsTrue(recording.NativeWriter.AutoFits.All(Function(v) Not v))
+        Assert.AreEqual("native-sheet", outcome.Intent.WorksheetIdentity)
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("anova-all-posthoc", "table-0", False)> <DataRow("anova-all-posthoc", "table-0", True)>
+    <DataRow("anova-all-posthoc", "table-1", False)> <DataRow("anova-all-posthoc", "table-1", True)>
+    <DataRow("anova-all-posthoc", "supplementary-1", False)> <DataRow("anova-all-posthoc", "supplementary-1", True)>
+    <DataRow("kw-dunn", "table-0", False)> <DataRow("kw-dunn", "table-0", True)>
+    <DataRow("kw-dunn", "table-1", False)> <DataRow("kw-dunn", "table-1", True)>
+    <DataRow("kw-dunn", "supplementary-1", False)> <DataRow("kw-dunn", "supplementary-1", True)>
+    Public Sub FullSharedOrchestration_BlankFormulaInAnyTableWithChartsRetainsCellConsent(name As String, id As String, approved As Boolean)
+        Dim recording As New WorkflowRecordingHost(name, SpreadsheetOutputDestination.CurrentWorksheet) With {
+            .OccupiedId = id, .OccupiedValue = String.Empty, .OccupiedFormula = "=""""", .Approved = approved, .IncludeCharts = True, .DistantInput = True}
+        For index As Integer = 0 To 1
+            Dim extra As New ResultTable() : extra.SetBody(New Object(,) {{0.01}}) : recording.Extras.Add(extra)
+        Next
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(If(approved, OutputWriteState.Completed, OutputWriteState.CancelledByUser), outcome.State)
+        Assert.AreEqual(1, recording.Prompts) : Assert.AreEqual(0, recording.ShapePrompts)
+        Assert.AreEqual(If(approved, recording.Analysis.Tables.Count + 2, 0), recording.NativeWriter.Blocks.Count)
+        Assert.AreEqual(If(approved, 2, 0), recording.ChartCalls)
+        If Not approved Then
+            Assert.AreEqual(0, recording.NativeWriter.Formats.Count) : Assert.AreEqual(0, recording.Creations)
+            Assert.IsFalse(outcome.MutationMayHaveOccurred)
+        End If
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("anova-base", 0)> <DataRow("anova-base", 1)> <DataRow("anova-base", 2)>
+    <DataRow("anova-welch-tukey", 0)> <DataRow("anova-welch-tukey", 1)> <DataRow("anova-welch-tukey", 2)>
+    <DataRow("anova-all-posthoc", 0)> <DataRow("anova-all-posthoc", 1)> <DataRow("anova-all-posthoc", 2)>
+    <DataRow("kw-base", 0)> <DataRow("kw-base", 1)> <DataRow("kw-base", 2)>
+    <DataRow("kw-dunn", 0)> <DataRow("kw-dunn", 1)> <DataRow("kw-dunn", 2)>
+    Public Sub FullSharedOrchestration_RealFixturesAllDestinationsReachWriter(name As String, destination As Integer)
+        Dim recording As New WorkflowRecordingHost(name, CType(destination, SpreadsheetOutputDestination))
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(OutputWriteState.Completed, outcome.State)
+        Assert.AreEqual(recording.Analysis.Tables.Count, recording.NativeWriter.Blocks.Count)
+        Assert.AreEqual(If(destination = 0, 11, 1), recording.NativeWriter.Blocks(0).StartRow)
+        Assert.AreEqual(If(destination = 0, 6, 1), recording.NativeWriter.Blocks(0).StartColumn)
+        Assert.AreEqual(If(destination = 0, 0, 1), recording.Creations)
+        Assert.AreEqual(0, recording.Prompts) : Assert.AreEqual(2, recording.Inspections)
+        Assert.AreEqual("native-sheet", outcome.Intent.WorksheetIdentity, "Physical identity does not depend on a nonempty VBA CodeName.")
+        Assert.IsTrue(recording.NativeWriter.AutoFits.All(Function(v) Not v))
+        For index As Integer = 0 To recording.Analysis.Tables.Count - 1
+            AssertModelMatchesRequest(ResultTableWriteRequestFactory.Create(recording.Analysis.Tables(index), Nothing, 0.01, Nothing), recording.NativeWriter.Blocks(index).Model)
+        Next
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("anova-base", False)> <DataRow("anova-base", True)>
+    <DataRow("kw-dunn", False)> <DataRow("kw-dunn", True)>
+    Public Sub FullSharedOrchestration_OccupiedF11PromptsOnceWithoutDeclinedWrites(name As String, approved As Boolean)
+        Dim recording As New WorkflowRecordingHost(name, SpreadsheetOutputDestination.CurrentWorksheet) With {.OccupiedId = "table-0", .Approved = approved}
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(If(approved, OutputWriteState.Completed, OutputWriteState.CancelledByUser), outcome.State)
+        Assert.AreEqual(1, recording.Prompts) : Assert.AreEqual(If(approved, 2, 1), recording.Inspections)
+        Assert.AreEqual(If(approved, recording.Analysis.Tables.Count, 0), recording.NativeWriter.Blocks.Count)
+        If Not approved Then
+            Assert.AreEqual(0, recording.NativeWriter.Formats.Count) : Assert.AreEqual(0, recording.NativeWriter.AutoFits.Count)
+            Assert.AreEqual(11, recording.NativeWriter.RowID) : Assert.AreEqual(0, recording.Creations)
+            Assert.IsFalse(outcome.MutationMayHaveOccurred)
+        End If
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("anova-base")> <DataRow("kw-dunn")>
+    Public Sub FullSharedOrchestration_SecondSupplementaryTableAndBlankFormulaRequireConsent(name As String)
+        Dim recording As New WorkflowRecordingHost(name, SpreadsheetOutputDestination.CurrentWorksheet) With {
+            .OccupiedId = "supplementary-1", .OccupiedValue = String.Empty, .OccupiedFormula = "="""""}
+        For i As Integer = 0 To 1
+            Dim extra As New ResultTable() : extra.SetBody(New Object(,) {{"supplement", 0.01}})
+            recording.Extras.Add(extra)
+        Next
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(OutputWriteState.CancelledByUser, outcome.State)
+        Assert.AreEqual(1, recording.Prompts) : Assert.AreEqual(0, recording.NativeWriter.Blocks.Count)
+        Assert.IsTrue(outcome.ConfirmationRequired.Value)
+    End Sub
+
+    <DataTestMethod>
+    <DataRow(1, 0)> <DataRow(1, 1)> <DataRow(1, 2)> <DataRow(2, 0)> <DataRow(2, 1)> <DataRow(2, 2)>
+    Public Sub FullSharedOrchestration_CreationAttemptVersusConfirmedDestination(destination As Integer, failure As Integer)
+        Dim recording As New WorkflowRecordingHost("anova-base", CType(destination, SpreadsheetOutputDestination)) With {.CreationFailure = failure}
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(If(failure = 0, OutputWriteState.FailedBeforeWrite, OutputWriteState.PartiallyWritten), outcome.State)
+        Assert.AreEqual(failure > 0, recording.Session.CreationAttempted)
+        Assert.AreEqual(failure = 2, recording.Session.DestinationCreated)
+        Assert.AreSame(recording.OriginalFailure, recording.Session.Failure)
+        Assert.AreEqual(0, recording.NativeWriter.Blocks.Count)
+        Assert.AreEqual(failure > 0, outcome.MutationMayHaveOccurred)
+        Assert.IsFalse(outcome.RollbackSucceeded)
+    End Sub
+
+    <DataTestMethod>
+    <DataRow(False)> <DataRow(True)>
+    Public Sub FullSharedOrchestration_ChartsAndSupplementsKeepActionOrderAndPartialReporting(failChart As Boolean)
+        Dim recording As New WorkflowRecordingHost("anova-all-posthoc", SpreadsheetOutputDestination.CurrentWorksheet) With {.IncludeCharts = True, .FailChart = failChart}
+        Dim extra As New ResultTable() : extra.SetBody(New Object(,) {{0.01}}) : recording.Extras.Add(extra)
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(If(failChart, OutputWriteState.PartiallyWritten, OutputWriteState.Completed), outcome.State)
+        Assert.AreEqual(recording.Analysis.Tables.Count + 1, recording.NativeWriter.Blocks.Count)
+        Assert.AreEqual(If(failChart, 1, 2), recording.ChartCalls)
+        Assert.AreEqual(recording.Analysis.Tables.Count + 3, outcome.Intent.Regions.Count)
+        If failChart Then
+            Assert.AreEqual("execution", recording.Session.Stage)
+            Assert.AreSame(recording.OriginalFailure, recording.Session.Failure)
+        End If
+    End Sub
+
+    <TestMethod>
+    Public Sub FullSharedOrchestration_InspectionFailureIsLoggedAndStaleConsentNeverWrites()
+        Dim recording As New WorkflowRecordingHost("kw-dunn", SpreadsheetOutputDestination.CurrentWorksheet) With {.FailInspection = True}
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(OutputWriteState.FailedBeforeWrite, outcome.State)
+        Assert.AreSame(recording.OriginalFailure, recording.Session.Failure)
+        Assert.AreEqual("occupancy-inspection", recording.Session.Stage)
+        recording = New WorkflowRecordingHost("kw-dunn", SpreadsheetOutputDestination.CurrentWorksheet) With {.OccupiedId = "table-0", .Approved = True, .ChangeAfterConsent = True}
+        outcome = recording.Execute()
+        Assert.AreEqual(OutputWriteState.RejectedBeforeWrite, outcome.State)
+        Assert.AreEqual(0, recording.NativeWriter.Blocks.Count)
+        recording = New WorkflowRecordingHost("anova-base", SpreadsheetOutputDestination.CurrentWorksheet)
+        recording.Host.Charts = Function(w, columns) New Action() {Nothing}
+        outcome = recording.Execute()
+        Assert.AreEqual(OutputWriteState.FailedBeforeWrite, outcome.State)
+        Assert.AreEqual("action-validation", recording.Session.Stage)
+        Assert.IsInstanceOfType(recording.Session.Failure, GetType(ArgumentException))
+        Assert.AreEqual(0, recording.NativeWriter.Blocks.Count)
+    End Sub
+
+    <DataTestMethod>
+    <DataRow("blank-scalar")> <DataRow("blank-matrix")> <DataRow("formula-scalar")> <DataRow("zero-based-malformed")>
+    Public Sub NativeShapeRegression_ObservedScalarAndOneBasedMatrixResponses(kind As String)
+        Dim scope As New WriteIntent("native", "target", Target(), {New WriteRegion("cell", New OutputRectangle(11, 6, 11, 6))})
+        Dim snapshot As ExcelDnaOccupancySnapshot
+        Select Case kind
+            Case "blank-scalar" : snapshot = New ExcelDnaOccupancySnapshot(Nothing, String.Empty)
+            Case "blank-matrix" : snapshot = NativeSnapshot(scope.Regions(0).Bounds, Nothing, Nothing)
+            Case "formula-scalar" : snapshot = New ExcelDnaOccupancySnapshot(String.Empty, "=""""")
+            Case Else : snapshot = New ExcelDnaOccupancySnapshot(New Object(0, 0) {}, New Object(0, 0) {})
+        End Select
+        If kind = "zero-based-malformed" Then
+            Assert.ThrowsException(Of InvalidOperationException)(Sub() ExcelDnaOutputTargetAdapter.InspectWriteCore(scope, Sub(r)
+                                                                                                                        End Sub, Function(b) snapshot))
+        Else
+            Dim observed = ExcelDnaOutputTargetAdapter.InspectWriteCore(scope, Sub(r)
+                                                                            End Sub, Function(b) snapshot)
+            Assert.AreEqual(If(kind = "formula-scalar", OutputOccupancy.Occupied, OutputOccupancy.Empty), observed.State)
+        End If
+    End Sub
+
+    Private Shared Function NativeSnapshot(bounds As OutputRectangle, value As Object, formula As Object) As ExcelDnaOccupancySnapshot
+        Dim shape = {bounds.EndRow - bounds.StartRow + 1, bounds.EndColumn - bounds.StartColumn + 1}
+        Dim values = Array.CreateInstance(GetType(Object), shape, {1, 1})
+        Dim formulas = Array.CreateInstance(GetType(Object), shape, {1, 1})
+        values.SetValue(value, 1, 1) : formulas.SetValue(formula, 1, 1)
+        Return New ExcelDnaOccupancySnapshot(values, formulas)
+    End Function
+
+    <DataTestMethod>
+    <DataRow("empty")> <DataRow("number")> <DataRow("boolean")> <DataRow("error")>
+    <DataRow("text")> <DataRow("empty-string")> <DataRow("formula")> <DataRow("blank-formula")>
+    <DataRow("dbnull")> <DataRow("shape")>
+    Public Sub NativeOccupancySeam_InspectsExactRectanglesAndDetectsBlankFormulas(kind As String)
+        Dim destination = Target(), source = Models()
+        Dim prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(OutputLayoutPlanner.Create(Document(source), destination), Requests(source, destination), destination, "Results")
+        Dim scope = ExcelDnaSharedOutputPlanAdapter.CreateWriteIntent(prepared, Nothing, Nothing, Nothing, "Workbook", "Sheet1")
+        Dim value As Object = Nothing, formula As Object = Nothing
+        Select Case kind
+            Case "number" : value = 0
+            Case "boolean" : value = False
+            Case "error" : value = New Runtime.InteropServices.ErrorWrapper(2023)
+            Case "text" : value = "sentinel"
+            Case "empty-string" : value = String.Empty
+            Case "formula" : value = 2 : formula = "=1+1"
+            Case "blank-formula" : value = String.Empty : formula = "="""""
+            Case "dbnull" : value = DBNull.Value
+        End Select
+        Dim checks As New List(Of String), reads As New List(Of String)
+        Dim inspect As Func(Of WriteInspection) = Function() ExcelDnaOutputTargetAdapter.InspectWriteCore(scope,
+            Sub(region) checks.Add(region.Bounds.ToString()), Function(bounds)
+                                                                 reads.Add(bounds.ToString())
+                                                                 If bounds.StartRow <> 9 Then Return NativeSnapshot(bounds, Nothing, Nothing)
+                                                                 If kind = "shape" Then Return New ExcelDnaOccupancySnapshot(New Object(1, 1) {}, Nothing)
+                                                                 Return NativeSnapshot(bounds, value, If(formula, value))
+                                                             End Function)
+        If kind = "shape" OrElse kind = "dbnull" Then
+            Dim prompts As Integer = 0, writes As Integer = 0
+            Dim result = SafeWrite.Execute(scope, inspect, Function(o)
+                                                              prompts += 1
+                                                              Return True
+                                                          End Function,
+                scope.Regions.Select(Function(r) CType(Sub() writes += 1, Action)).ToArray())
+            Assert.AreEqual(OutputWriteState.FailedBeforeWrite, result.State)
+            Assert.AreEqual(0, prompts) : Assert.AreEqual(0, writes)
+            Return
+        End If
+        Dim observed = inspect()
+        CollectionAssert.AreEqual(scope.Regions.Select(Function(r) r.Bounds.ToString()).ToArray(), checks.ToArray())
+        CollectionAssert.AreEqual(checks.ToArray(), reads.ToArray())
+        Assert.AreEqual(If(kind = "empty", OutputOccupancy.Empty, OutputOccupancy.Occupied), observed.State)
+        Assert.AreEqual(kind <> "empty", observed.ConfirmationRequired)
+        Assert.AreEqual(kind = "formula" OrElse kind = "blank-formula", observed.HasFormulas)
+        If kind <> "empty" Then CollectionAssert.AreEqual(New String() {"table-1"}, observed.OccupiedRegionIds.ToArray())
+        Dim token = observed.ObservationIdentity
+        value = "changed"
+        Assert.AreNotEqual(token, inspect().ObservationIdentity)
+    End Sub
+
+    <TestMethod>
+    Public Sub NativeOccupancySeam_RejectsObsoleteBroadChartCellGuards()
+        Dim destination = Target(), source = Models()
+        Dim prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(OutputLayoutPlanner.Create(Document(source), destination), Requests(source, destination), destination, "Results")
+        Dim guard As New OutputRectangle(1, 1, 100, 20)
+        Dim scope = ExcelDnaSharedOutputPlanAdapter.CreateWriteIntent(prepared, Nothing, {"chart"}, {guard}, "Workbook", "Sheet1")
+        Dim reads As New List(Of String)
+        Assert.ThrowsException(Of InvalidOperationException)(Sub() ExcelDnaOutputTargetAdapter.InspectWriteCore(scope, Sub(r)
+                                                                                                                   End Sub, Function(bounds)
+                                                                                                                                reads.Add(bounds.ToString())
+                                                                                                                                Return NativeSnapshot(bounds, Nothing, Nothing)
+                                                                                                                            End Function))
+        Assert.AreEqual(0, reads.Count)
+        Assert.IsNull(scope.Regions.Last().Bounds) : Assert.IsTrue(scope.Regions.Last().MayMutate)
+        Assert.AreEqual(4, scope.Regions.Where(Function(r) r.Bounds IsNot Nothing).Count())
+    End Sub
+
+    <TestMethod>
+    Public Sub NativeOccupancySeam_NonCellChartNeverAddsCellReadsOrOccupancy()
+        Dim destination = Target(), source = Models()
+        Dim prepared = ExcelDnaSharedOutputPlanAdapter.Prepare(OutputLayoutPlanner.Create(Document(source), destination), Requests(source, destination), destination, "Results")
+        Dim scope = ExcelDnaSharedOutputPlanAdapter.CreateWriteIntent(prepared, Nothing, {"chart"}, Nothing, "Workbook", "Sheet1")
+        Dim reads As New List(Of String)
+        Dim observed = ExcelDnaOutputTargetAdapter.InspectWriteCore(scope, Sub(r)
+                                                                          End Sub, Function(bounds)
+                                                                                       reads.Add(bounds.ToString())
+                                                                                       Return NativeSnapshot(bounds, Nothing, Nothing)
+                                                                                   End Function)
+        Assert.AreEqual(4, reads.Count) : Assert.AreEqual(OutputOccupancy.Empty, observed.State)
+        Assert.AreEqual(0, observed.OccupiedRegionIds.Count)
+        CollectionAssert.AreEqual(scope.Regions.Where(Function(r) r.Bounds IsNot Nothing).Select(Function(r) r.Bounds.ToString()).ToArray(), reads.ToArray())
+    End Sub
+
+    <TestMethod>
+    Public Sub NativeOccupancySeam_QuotaRejectsBeforeAnyReadOrPrompt()
+        Dim scope As New WriteIntent("plan", "target", Target(), {New WriteRegion("table", New OutputRectangle(6, 3, 100006, 3))})
+        Dim observed = ExcelDnaOutputTargetAdapter.InspectWriteCore(scope, Sub(r) Assert.Fail("unexpected validation/read"),
+            Function(b)
+                Assert.Fail("oversized read")
+                Return Nothing
+            End Function)
+        Assert.AreEqual(OutputOccupancy.Unknown, observed.State) : Assert.IsFalse(observed.ConfirmationRequired)
+        StringAssert.Contains(observed.Message, "100,000-cell")
+    End Sub
+
     Private Class RecordingWriter
         Inherits ExcelDnaResultWriter
         Public ReadOnly Written As New List(Of ExcelDnaSharedWriteCommand)
         Public ReadOnly Blocks As New List(Of ResultTableOutputBlock)
+        Public ReadOnly Formats As New List(Of String)
+        Public ReadOnly AutoFits As New List(Of Boolean)
+        Public Property FailAt As Integer
         Public Sub New(row As Integer, column As Integer)
             MyBase.New(row, column)
         End Sub
@@ -496,6 +1019,8 @@ Public Class SharedOutputPlanTests
         Friend Overrides Sub WriteOutputBlockCore(block As ResultTableOutputBlock, numberFormat As String,
                                                   alpha As Double?, autoFit As Boolean, Optional plannedBounds As OutputRectangle = Nothing)
             Blocks.Add(block)
+            Formats.Add(numberFormat) : AutoFits.Add(autoFit)
+            If FailAt > 0 AndAlso Blocks.Count = FailAt Then Throw New InvalidOperationException("Injected formatter failure")
         End Sub
     End Class
 

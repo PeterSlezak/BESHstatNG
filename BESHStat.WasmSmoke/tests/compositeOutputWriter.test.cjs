@@ -1,6 +1,15 @@
 "use strict";
 const test = require("node:test");
 const assert = require("node:assert/strict");
+async function assertWriteOutcome(promise, expected) {
+    const result = await promise;
+    assert.ok(["RejectedBeforeWrite", "FailedBeforeWrite", "PartiallyWritten"].includes(result.state), JSON.stringify(result));
+    if (typeof expected === "string") assert.equal(result.state, expected);
+    else if (expected) assert.match(result.message, expected);
+    assert.equal(result.mutationMayHaveOccurred, result.state === "PartiallyWritten");
+    assert.deepEqual(Array.from(result.confirmedWritten), []);
+    for (const key of ["undoSupported", "rollbackAttempted", "rollbackSucceeded"]) assert.equal(result[key], false);
+}
 const fs = require("node:fs");
 const path = require("node:path");
 const { compositeWorkbook } = require("./helpers/compositeWorkbook.cjs");
@@ -91,7 +100,7 @@ const invalid = {
 };
 for (const [name, mutate] of Object.entries(invalid)) test(`invalid composite ${name} has zero host mutations`, async () => {
     const plan = fixture(), mock = compositeWorkbook(); mutate(plan);
-    await assert.rejects(mock.bridge.writeCompositeOutputPlan(plan));
+    await assertWriteOutcome(mock.bridge.writeCompositeOutputPlan(plan));
     assert.equal(mock.trace.runs, 0); assert.equal(mock.trace.syncs, 0);
     assert.deepEqual(mock.trace.adds, []); assert.deepEqual(mock.trace.writes, []);
 });
@@ -134,14 +143,14 @@ test("unique worksheet naming uses accepted 02.06 acquisition", async () => {
 for (const options of [{ nonExcel: true }, { apiAvailable: false }, { protectedWorkbook: true }, { missingWorkbook: true }]) {
     test(`unavailable composite destination ${JSON.stringify(options)} never writes`, async () => {
         const mock = compositeWorkbook(options);
-        await assert.rejects(mock.bridge.writeCompositeOutputPlan(fixture()));
+        await assertWriteOutcome(mock.bridge.writeCompositeOutputPlan(fixture()));
         assert.deepEqual(mock.trace.adds, []); assert.deepEqual(mock.trace.writes, []);
     });
 }
 
 test("write failure propagates and leaves an explicit partial-output limitation", async () => {
     const mock = compositeWorkbook({ failWrite: 3 });
-    await assert.rejects(mock.bridge.writeCompositeOutputPlan(fixture()), /Injected write failure/);
+    await assertWriteOutcome(mock.bridge.writeCompositeOutputPlan(fixture()), "PartiallyWritten");
     assert.deepEqual(mock.trace.adds, ["Composite"]);
     assert.equal(mock.trace.writes.length, 3);
     assert.match(mock.sheets.get("Composite").cellAt(14, 2).value, /^WARNING/);
@@ -205,13 +214,13 @@ function largeTextPlan(rows, notes) {
 
 test("large table text has a bounded byte estimate before Excel.run", async () => {
     const mock = compositeWorkbook();
-    await assert.rejects(mock.bridge.writeCompositeOutputPlan(largeTextPlan(1100, 0)), /Invalid output plan: adapter byte limit/);
+    await assertWriteOutcome(mock.bridge.writeCompositeOutputPlan(largeTextPlan(1100, 0)), /Invalid output plan: adapter byte limit/);
     assert.equal(mock.trace.runs, 0);
 });
 
 test("combined table and annotation byte estimate is bounded independently of individual limits", async () => {
     const mock = compositeWorkbook();
-    await assert.rejects(mock.bridge.writeCompositeOutputPlan(largeTextPlan(990, 20)), /Invalid composite output plan: (aggregate )?byte limit/);
+    await assertWriteOutcome(mock.bridge.writeCompositeOutputPlan(largeTextPlan(990, 20)), /Invalid composite output plan: (aggregate )?byte limit/);
     assert.equal(mock.trace.runs, 0); assert.deepEqual(mock.trace.adds, []);
 });
 

@@ -51,6 +51,22 @@
     </button>
 </div>
 
+@if (overwriteChoice is not null && writeResult?.Confirmation is { } confirmation)
+{
+    <div class="alert alert-warning" role="alertdialog" aria-label="Overwrite occupied output">
+        <strong>Overwrite output on @confirmation.WorksheetName?</strong>
+        <p>@confirmation.OccupiedRegionCount occupied output region(s). @confirmation.Message</p>
+        <ul>
+            @foreach (var rectangle in confirmation.Rectangles)
+            {
+                <li>@rectangle</li>
+            }
+        </ul>
+        <button class="btn btn-danger me-2" @onclick="() => ChooseOverwrite(true)">Overwrite</button>
+        <button class="btn btn-secondary" @onclick="() => ChooseOverwrite(false)">Cancel</button>
+    </div>
+}
+
 <div class="card mb-3" style="max-width: 1000px;">
     <div class="card-body">
         <h5 class="card-title">Source range (optional)</h5>
@@ -438,7 +454,7 @@
             </table>
         }
 
-        @if (writeResult is not null)
+        @if (writeResult?.State == "Completed")
         {
             <p class="alert alert-success" style="max-width: 950px;">
                 Excel output written to <strong>@writeResult.WorksheetName</strong>
@@ -447,10 +463,19 @@
                 <small>Shared p-value number format: <code>@writeResult.PvalueNumberFormat</code></small>
             </p>
         }
+        else if (writeResult is not null && writeResult.State != "AwaitingConfirmation")
+        {
+            <p class="alert @(writeResult.State == "CancelledByUser" ? "alert-secondary" : "alert-warning")" style="max-width: 950px;">
+                <strong>@writeResult.State</strong> — @writeResult.Message<br />
+                <small>@writeResult.Code</small>
+            </p>
+        }
     </div>
 }
 
 @code {
+    private TaskCompletionSource<bool>? overwriteChoice;
+    private void ChooseOverwrite(bool approved) => overwriteChoice?.TrySetResult(approved);
     private string? compositeTrace;
 
     private async Task WriteCompositeDemo()
@@ -466,7 +491,7 @@
             var wire = OfficeCompositeOutputPlanAdapter.Prepare(plan, OutputSemanticPlanner.Create(plan.SourceDocument, null, 0.05));
             var result = await JS.InvokeAsync<System.Text.Json.JsonElement>("beshOffice.writeCompositeOutputPlan", wire);
             compositeTrace = System.Text.Json.JsonSerializer.Serialize(result, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
-            status = "Synthetic composite written; chart not rendered and links inactive. Inspect addresses and stored text in Excel.";
+            status = result.GetProperty("state").GetString() + " — " + result.GetProperty("message").GetString();
         }
         catch (Exception ex)
         {
@@ -750,7 +775,19 @@
                 throw new InvalidOperationException("The shared analysis returned no result tables.");
 
             writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan);
-            status = BuildSuccessStatus();
+            if (writeResult.State == "AwaitingConfirmation" && writeResult.Confirmation is not null)
+            {
+                overwriteChoice = new TaskCompletionSource<bool>();
+                status = "Output is occupied. Choose Overwrite or Cancel below.";
+                await InvokeAsync(StateHasChanged);
+                var approved = await overwriteChoice.Task;
+                var token = writeResult.Confirmation.Token;
+                overwriteChoice = null;
+                writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan,
+                    new { token, approved });
+            }
+            status = writeResult.State == "Completed" ? BuildSuccessStatus() :
+                writeResult.State + " — " + writeResult.Message;
         }
         catch (Exception ex)
         {
@@ -764,6 +801,7 @@
         }
         finally
         {
+            overwriteChoice = null;
             isBusy = false;
         }
     }
@@ -884,10 +922,31 @@
 
     private sealed class OfficeWriteResult
     {
+        public string State { get; set; } = string.Empty;
+        public string Code { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
+        public bool MutationMayHaveOccurred { get; set; }
+        public bool UndoSupported { get; set; }
+        public bool RollbackAttempted { get; set; }
+        public bool RollbackSucceeded { get; set; }
+        public bool? ConfirmationRequired { get; set; }
+        public bool? OverwriteApproved { get; set; }
+        public int? Destination { get; set; }
+        public System.Text.Json.JsonElement[] Planned { get; set; } = Array.Empty<System.Text.Json.JsonElement>();
+        public System.Text.Json.JsonElement[] ConfirmedWritten { get; set; } = Array.Empty<System.Text.Json.JsonElement>();
+        public OfficeOverwriteConfirmation? Confirmation { get; set; }
         public string WorksheetName { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
         public string[] TableAddresses { get; set; } = Array.Empty<string>();
         public int[] PvalueColumns { get; set; } = Array.Empty<int>();
         public string PvalueNumberFormat { get; set; } = string.Empty;
+    }
+    private sealed class OfficeOverwriteConfirmation
+    {
+        public string Token { get; set; } = string.Empty;
+        public string WorksheetName { get; set; } = string.Empty;
+        public string[] Rectangles { get; set; } = Array.Empty<string>();
+        public int OccupiedRegionCount { get; set; }
+        public string Message { get; set; } = string.Empty;
     }
 }

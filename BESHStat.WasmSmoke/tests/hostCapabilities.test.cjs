@@ -83,6 +83,14 @@ test("writer rejects mixed destinations before Excel.run", async () => {
     assert.equal(getRunCount(), 0);
 });
 
+test("deprecated single and batch exports cannot bypass current-sheet scoped consent", async () => {
+    const { bridge, getRunCount } = loadBridge();
+    for (const call of [() => bridge.writeResultTables([makePayload(0)]), () => bridge.writeResultTable(makePayload(0))]) {
+        await assert.rejects(call(), e => e.code === "output.legacy-current-unsupported");
+    }
+    assert.equal(getRunCount(), 0);
+});
+
 for (const [row, column] of [[0, 1], [-1, 1], [1, 0], [1048577, 1], [1, 16385], [1.5, 1]]) {
     test(`legacy illegal start ${row},${column} rejects before Excel.run`, async () => {
         const { bridge, getRunCount } = loadBridge();

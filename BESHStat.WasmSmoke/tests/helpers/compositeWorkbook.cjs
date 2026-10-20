@@ -1,5 +1,5 @@
 "use strict";
-// Independent composite mock. Existing table-only mocked workbook and fixtures stay unchanged.
+// Independent composite mock with the real load/sync boundary for newly added sheet names.
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
@@ -8,13 +8,16 @@ function compositeWorkbook(options = {}) {
     const trace = { runs: 0, syncs: 0, adds: [], writes: [], merges: [], styles: [], ranges: [] };
     const oldCells = new Map([["9:2", { value: "Existing workbook data", kind: "text", style: {} }]]);
     const sheets = new Map();
-    function sheet(name, cells = new Map()) {
+    function sheet(name, cells = new Map(), added = false) {
+        let nameLoaded = !added, nameRequested = false;
         const cellAt = (r, c) => {
             const key = `${r}:${c}`;
             if (!cells.has(key)) cells.set(key, { value: null, kind: "blank", style: {} });
             return cells.get(key);
         };
-        const result = { name, cells, cellAt, load() {}, activate() {}, getRangeByIndexes(r, c, rows, columns) {
+        const result = { get name() { if (!nameLoaded) throw new Error("PropertyNotLoaded: worksheet.name"); return name; },
+            cells, cellAt, load(properties) { if (properties.includes("name")) nameRequested = true; },
+            syncLoads() { if (nameRequested) nameLoaded = true; }, activate() {}, getRangeByIndexes(r, c, rows, columns) {
             if (![r, c, rows, columns].every(Number.isInteger) || r < 0 || c < 0 || rows < 1 || columns < 1 || r + rows > 1048576 || c + columns > 16384) throw new Error("Out-of-grid range");
             const indexes = [r, c, rows, columns], a = address(r, c, rows, columns);
             trace.ranges.push(indexes);
@@ -46,9 +49,10 @@ function compositeWorkbook(options = {}) {
     const existing = sheet("Existing", oldCells);
     const worksheets = { items: [...(options.names || ["Existing"])].map(name => ({ name })), load() {},
         getActiveWorksheet() { throw new Error("Composite may not acquire current worksheet"); },
-        add(name) { trace.adds.push(name); return sheet(name); } };
+        add(name) { trace.adds.push(name); return sheet(name, new Map(), true); } };
     const context = { workbook: options.missingWorkbook ? null : { worksheets, protection: { protected: !!options.protectedWorkbook, load() {} } },
-        async sync() { trace.syncs++; if (trace.syncs === options.failSync) throw new Error("Injected sync failure"); } };
+        async sync() { trace.syncs++; for (const sheet of sheets.values()) sheet.syncLoads();
+            if (trace.syncs === options.failSync) throw new Error("Injected sync failure"); } };
     const sandbox = { window: {}, setTimeout, Office: { context: { host: options.nonExcel ? "Word" : "Excel", platform: "OfficeOnline",
         requirements: { isSetSupported: () => options.apiAvailable !== false } }, HostType: { Excel: "Excel" } },
         Excel: { async run(action) { trace.runs++; return action(context); } } };
