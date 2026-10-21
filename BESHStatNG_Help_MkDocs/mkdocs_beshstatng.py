@@ -217,6 +217,11 @@ def main():
         if rc_l != 0:
             rc_l = run([sys.executable, "-m", "mkdocs", "build", "-f", str(latest_cfg)], cwd=project_root)
     
+        if rc_v or rc_l:
+            print(f"\n[ERROR] Build failed (versioned exit code: {rc_v}, latest exit code: {rc_l}).",
+                  file=sys.stderr)
+            sys.exit(rc_v or rc_l)
+
         print("\n[INFO] Build complete.")
         print(f"       Versioned output: .site/{version_tag} -> {args.base_url}/{version_tag}/")
         print(f"       Latest output:    .site/latest       -> {args.base_url}/latest/")

@@ -31,6 +31,8 @@ if ($Python) {
     Invoke-Checked $resolvedPython @('-B', '.\tools\verify_stage304_inventory.py')
     Invoke-Checked $resolvedPython @('-B', '.\BESHstatNG\tools\validate_methods_catalog.py')
     Invoke-Checked $resolvedPython @('-B', '.\BESHstatNG\tools\generate_analysis_metadata.py', '--check')
+    Invoke-Checked $resolvedPython @('-B', '.\BESHStatNG_Help_MkDocs\generate_help_resolver_routes.py', '--check')
+    Invoke-Checked $resolvedPython @('-B', '.\BESHstatNG\tools\generate_help_links.py', '--methods-yml', '.\BESHStatNG_Help_MkDocs\docs\_meta\methods.yml', '--project-dir', '.\BESHstatNG', '--check')
     Invoke-Checked $resolvedPython @('-B', '.\BESHstatNG\tools\audit_transitional_officejs.py')
     Invoke-Checked $resolvedPython @('-B', '-m', 'unittest', 'discover', '-s', '.\BESHstatNG\tools\tests', '-p', 'test_*.py', '-v')
     Invoke-Checked $resolvedPython @('-B', '-m', 'unittest', 'discover', '-s', '.\BESHStatNG_Help_MkDocs\tests', '-p', 'test_*.py', '-v')
@@ -44,6 +46,7 @@ if ($Wasm) {
 }
 
 if ($Js) {
+    Invoke-Checked 'node' @('--test', '.\BESHStatNG_Help_MkDocs\tests\help-resolver.test.mjs')
     Push-Location (Join-Path $root 'BESHStat.WasmSmoke')
     try { Invoke-Checked 'npm.cmd' @('test') }
     finally { Pop-Location }

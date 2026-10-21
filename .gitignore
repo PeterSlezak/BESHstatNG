@@ -70,8 +70,22 @@ tools/
 !/BESHstatNG/tools/tests/
 /BESHstatNG/tools/tests/*
 !/BESHstatNG/tools/tests/test_generate_analysis_metadata.py
+!/BESHstatNG/tools/tests/test_help_metadata.py
 !/BESHstatNG/tools/tests/test_validate_methods_catalog.py
 !/BESHstatNG/tools/tests/test_audit_transitional_officejs.py
+
+# Batch 03.05 deployable, unlisted documentation resolver sources only.
+!/BESHStatNG_Help_MkDocs/docs/
+/BESHStatNG_Help_MkDocs/docs/*
+!/BESHStatNG_Help_MkDocs/docs/help-resolver/
+/BESHStatNG_Help_MkDocs/docs/help-resolver/*
+!/BESHStatNG_Help_MkDocs/docs/help-resolver/index.html
+!/BESHStatNG_Help_MkDocs/docs/assets/
+/BESHStatNG_Help_MkDocs/docs/assets/*
+!/BESHStatNG_Help_MkDocs/docs/assets/javascripts/
+/BESHStatNG_Help_MkDocs/docs/assets/javascripts/*
+!/BESHStatNG_Help_MkDocs/docs/assets/javascripts/help-resolver.mjs
+!/BESHStatNG_Help_MkDocs/docs/assets/javascripts/help-routes.mjs
 
 # Python caches and local interpreter environments are never source artifacts.
 __pycache__/

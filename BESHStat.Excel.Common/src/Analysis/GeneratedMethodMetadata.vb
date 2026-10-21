@@ -32,6 +32,10 @@ Namespace ExcelCommon
         Private Sub New()
         End Sub
 
+        Public Const SiteBaseUrl As String = "https://www.beshstat.eu/beshstatng/help"
+        Public Const SourceRevision As String = "6ed831b8789426cf4a88d82776a27d1317df64d6212e8d3eb815b8cff2dbf1d2"
+        Public Const HomeUrl As String = SiteBaseUrl & "/latest/"
+
         Private Shared ReadOnly _all As IReadOnlyList(Of AnalysisMethodMetadata) = Build()
         Private Shared ReadOnly _byKey As Dictionary(Of String, AnalysisMethodMetadata) = IndexByKey(_all)
         Private Shared ReadOnly _byAnalysisId As Dictionary(Of String, AnalysisMethodMetadata) = IndexByAnalysisId(_all)
@@ -50,6 +54,11 @@ Namespace ExcelCommon
         Public Shared Function TryGetByAnalysisId(id As String, ByRef metadata As AnalysisMethodMetadata) As Boolean
             metadata = Nothing
             Return id IsNot Nothing AndAlso _byAnalysisId.TryGetValue(id, metadata)
+        End Function
+
+        Public Shared Function TryGetByKey(key As String, ByRef metadata As AnalysisMethodMetadata) As Boolean
+            metadata = Nothing
+            Return key IsNot Nothing AndAlso _byKey.TryGetValue(key, metadata)
         End Function
 
         Public Shared Function GetByAnalysisId(id As String) As AnalysisMethodMetadata
@@ -139,6 +148,11 @@ Namespace ExcelCommon
             }
             Return Array.AsReadOnly(entries)
         End Function
+
+        Public Shared ReadOnly Property Pages As IReadOnlyList(Of AnalysisMethodMetadata) = Array.AsReadOnly(New AnalysisMethodMetadata() {
+            New AnalysisMethodMetadata("ExportChart", Nothing, "Export Chart", "", "", "https://www.beshstat.eu/beshstatng/help/latest/export-chart/"),
+            New AnalysisMethodMetadata("GlobalSettings", Nothing, "Global Settings", "", "", "https://www.beshstat.eu/beshstatng/help/latest/global-settings/")
+        })
 
         Private Shared Function IndexByKey(items As IEnumerable(Of AnalysisMethodMetadata)) As Dictionary(Of String, AnalysisMethodMetadata)
             Dim result As New Dictionary(Of String, AnalysisMethodMetadata)(StringComparer.Ordinal)

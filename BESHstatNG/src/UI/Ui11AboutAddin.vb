@@ -10,7 +10,7 @@ Public Class Ui11AboutAddin
 
         ' Add any initialization after the InitializeComponent() call.
         Me.Text = "About " & AppGlobals.gsAPP_TITLE
-        lblVersion.Text = $"Version {AppGlobals.gAddinVersion} ({AppGlobals.GetBuildDateIso})"
+        lblVersion.Text = $"{AppGlobals.InstalledProductVersion.DisplayLabel} ({AppGlobals.GetBuildDateIso})"
 
         Me.tbLicense.ReadOnly = True
         Me.tbLicense.ForeColor = Color.Red

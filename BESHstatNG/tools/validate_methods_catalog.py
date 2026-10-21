@@ -254,6 +254,8 @@ def validate_catalog(root: Path, methods_yml: Path | None = None) -> tuple[list[
 
     if not isinstance(meta.get("site"), dict) or not _str(meta["site"].get("baseUrl")):
         issues.append("site.baseUrl is required for generated help URLs")
+    elif meta['site']['baseUrl'] != 'https://www.beshstat.eu/beshstatng/help':
+        issues.append("site.baseUrl must be the trusted HTTPS BESHStatNG help root")
     if any(not isinstance(c, dict) or not _str(c.get("key")) for c in commands):
         issues.append("commands must contain mappings with key")
     cmd_ids: dict[str, str] = {}

@@ -86,6 +86,12 @@ Namespace AppInfrastructure
             End Get
         End Property
 
+        Public ReadOnly Property InstalledProductVersion As BESHStatNG.ExcelCommon.ProductVersionDescriptor
+            Get
+                Return BESHStatNG.ExcelCommon.ProductVersionDescriptor.FromVersion(Assembly.GetExecutingAssembly().GetName().Version)
+            End Get
+        End Property
+
         Public Function GetBuildDateIso() As String
             Dim asm = Assembly.GetExecutingAssembly()
             Dim meta = asm.GetCustomAttributes(GetType(AssemblyMetadataAttribute), False) _

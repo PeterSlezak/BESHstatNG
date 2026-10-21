@@ -21,7 +21,9 @@ class GenerateAnalysisMetadataTests(unittest.TestCase):
         self.assertIn('New AnalysisMethodMetadata("OneWayANOVA", "anova.oneway"', expected)
         self.assertIn('New AnalysisMethodMetadata("KruskalWallisTest", "nonparametric.kruskal-wallis"', expected)
         self.assertNotIn('GetType(OneWayAnovaAnalysisOptions)', expected)
-        self.assertEqual(76, expected.count('New AnalysisMethodMetadata('))
+        methods, pages = expected.split('Public Shared ReadOnly Property Pages')
+        self.assertEqual(76, methods.count('New AnalysisMethodMetadata("'))
+        self.assertEqual(2, pages.count('New AnalysisMethodMetadata("'))
 
     def test_generator_check_mode_succeeds_then_detects_stale_output(self):
         proc = subprocess.run([sys.executable, str(TOOLS / 'generate_analysis_metadata.py'), '--check'],

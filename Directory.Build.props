@@ -15,5 +15,9 @@
     <!-- Docs version folder (pick one) -->
     <HelpVersion>v$(BeshVersion)</HelpVersion>
     <!-- or if you prefer docs per MSI version: v$(BeshVersion3) -->
+
+    <!-- Enable only AFTER the owner publishes and verifies the documentation resolver.
+         Shared Common build flag applies equally to Windows and the WASM pilot. -->
+    <BeshHelpResolverPublished Condition="'$(BeshHelpResolverPublished)' == ''">true</BeshHelpResolverPublished>
   </PropertyGroup>
 </Project>

@@ -5,6 +5,15 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(BeshHelpResolverPublished)' == 'true'">
+    <DefineConstants>$(DefineConstants),BESH_HELP_RESOLVER_PUBLISHED=True</DefineConstants>
+  </PropertyGroup>
+
+  <Target Name="ValidateHelpResolverActivation" BeforeTargets="CoreCompile">
+    <Error Condition="'$(BeshHelpResolverPublished)' != 'true' And '$(BeshHelpResolverPublished)' != 'false'"
+           Text="BeshHelpResolverPublished must be true or false. Enable only after owner verifies the published resolver." />
+  </Target>
+
   <ItemGroup>
     <ProjectReference Include="..\BESHStat.Core\BESHStat.Core.vbproj" />
   </ItemGroup>

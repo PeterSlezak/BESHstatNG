@@ -69,6 +69,9 @@ def render_catalog(root: Path) -> str:
         '    End Class', '',
         '    Public NotInheritable Class GeneratedMethodMetadata',
         '        Private Sub New()', '        End Sub', '',
+        f'        Public Const SiteBaseUrl As String = {_vb_literal(base_url)}',
+        f'        Public Const SourceRevision As String = {_vb_literal(source_hash)}',
+        '        Public Const HomeUrl As String = SiteBaseUrl & "/latest/"', '',
         '        Private Shared ReadOnly _all As IReadOnlyList(Of AnalysisMethodMetadata) = Build()',
         '        Private Shared ReadOnly _byKey As Dictionary(Of String, AnalysisMethodMetadata) = IndexByKey(_all)',
         '        Private Shared ReadOnly _byAnalysisId As Dictionary(Of String, AnalysisMethodMetadata) = IndexByAnalysisId(_all)',
@@ -81,6 +84,10 @@ def render_catalog(root: Path) -> str:
         '        Public Shared Function TryGetByAnalysisId(id As String, ByRef metadata As AnalysisMethodMetadata) As Boolean',
         '            metadata = Nothing',
         '            Return id IsNot Nothing AndAlso _byAnalysisId.TryGetValue(id, metadata)',
+        '        End Function', '',
+        '        Public Shared Function TryGetByKey(key As String, ByRef metadata As AnalysisMethodMetadata) As Boolean',
+        '            metadata = Nothing',
+        '            Return key IsNot Nothing AndAlso _byKey.TryGetValue(key, metadata)',
         '        End Function', '',
         '        Public Shared Function GetByAnalysisId(id As String) As AnalysisMethodMetadata',
         '            Dim metadata As AnalysisMethodMetadata = Nothing',
@@ -97,6 +104,14 @@ def render_catalog(root: Path) -> str:
         lines.append('                New AnalysisMethodMetadata(' + ', '.join(_vb_literal(f) for f in fields) + ')' + suffix)
     lines += [
         '            }', '            Return Array.AsReadOnly(entries)', '        End Function', '',
+        '        Public Shared ReadOnly Property Pages As IReadOnlyList(Of AnalysisMethodMetadata) = Array.AsReadOnly(New AnalysisMethodMetadata() {',
+    ]
+    for idx, page in enumerate(catalog['pages']):
+        fields = [page['key'], None, page['title'], '', '', f"{base_url}/latest/{page['slug']}/"]
+        suffix = ',' if idx != len(catalog['pages']) - 1 else ''
+        lines.append('            New AnalysisMethodMetadata(' + ', '.join(_vb_literal(f) for f in fields) + ')' + suffix)
+    lines += [
+        '        })', '',
         '        Private Shared Function IndexByKey(items As IEnumerable(Of AnalysisMethodMetadata)) As Dictionary(Of String, AnalysisMethodMetadata)',
         '            Dim result As New Dictionary(Of String, AnalysisMethodMetadata)(StringComparer.Ordinal)',
         '            For Each item As AnalysisMethodMetadata In items',

@@ -12,6 +12,8 @@
 
 <h1>BESHStat shared Excel application layer</h1>
 
+<p><a href="@SelectedAnalysisHelp.GetLaunchTarget(PilotProductVersion).Url" target="_blank" rel="noopener noreferrer">Help for selected analysis</a></p>
+
 <p>
     Stage 3.04 proves that the generic shared-analysis boundary supports more than one
     analysis family. One-way ANOVA and Kruskal-Wallis now use the same host-neutral
@@ -568,6 +570,18 @@
     }
     private OfficeHostStatus? officeHost;
     private HostCapabilitySnapshot? hostCapabilities;
+    private static readonly ProductVersionDescriptor PilotProductVersion =
+        ProductVersionDescriptor.FromVersion(typeof(App).Assembly.GetName().Version);
+    private HelpDestination SelectedAnalysisHelp
+    {
+        get
+        {
+            IAnalysisDescriptor descriptor = null!;
+            return AnalysisCatalog.TryGetByLegacyKind(analysisKind, ref descriptor)
+                ? HelpDestination.ForAnalysisId(descriptor.Id)
+                : HelpDestination.ForAnalysisId(null);
+        }
+    }
     private bool CanReadSelection => hostCapabilities?.Supports(HostCapabilityIds.ReadSelectedRange) == true;
     private bool CanRunSelectedDestination => CanReadSelection &&
         hostCapabilities?.Supports(HostCapabilityIds.WriteResultTables) == true && SupportsDestination(outputDestination);
