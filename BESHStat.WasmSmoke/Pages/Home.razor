@@ -203,14 +203,15 @@
                     <ul class="small mb-0">
                         @foreach (var issue in groupedIssues.Take(12))
                         {
-                            <li><code>@issue.Code</code> (@issue.Severity): @issue.Message
-                                @if (issue.SelectedRow > 0)
+                            var safeIssue = UserFaultMapper.FromValidation(issue);
+                            <li><code>@safeIssue.Code</code> (@safeIssue.Severity): @safeIssue.Action
+                                @if (safeIssue.OriginalCode is not null)
                                 {
-                                    <span> — selected row @issue.SelectedRow, column @issue.SelectedColumn</span>
+                                    <span> (<code>@safeIssue.OriginalCode</code>)</span>
                                 }
-                                @if (issue.WorksheetRow > 0 && issue.WorksheetColumn > 0)
+                                @if (safeIssue.SelectedRow > 0)
                                 {
-                                    <span> (worksheet row @issue.WorksheetRow, column @issue.WorksheetColumn)</span>
+                                    <span> — selected row @safeIssue.SelectedRow, column @safeIssue.SelectedColumn</span>
                                 }
                             </li>
                         }
@@ -489,8 +490,8 @@
         else if (writeResult is not null && writeResult.State != "AwaitingConfirmation")
         {
             <p class="alert @(writeResult.State == "CancelledByUser" ? "alert-secondary" : "alert-warning")" style="max-width: 950px;">
-                <strong>@writeResult.State</strong> — @writeResult.Message<br />
-                <small>@writeResult.Code</small>
+                @UserFaultMapper.FormatDisplay(OfficeFaultPresentation.WriteFault(writeResult.State, writeResult.Code,
+                    writeResult.MutationMayHaveOccurred), activeExecution?.Diagnostics?.RunId)
             </p>
         }
     </div>
@@ -723,7 +724,7 @@
         {
             officeHost = null;
             hostCapabilities = null;
-            officeStatus = "Unable to query Office.js: " + ex.Message;
+            officeStatus = ReadErrorMessage(ex);
         }
     }
 
@@ -755,7 +756,7 @@
             }
             catch (ArgumentException ex)
             {
-                groupedValidationMessage = ex.Message;
+                groupedValidationMessage = UserFaultMapper.FormatDisplay(UserFaultMapper.FromException(ex));
                 status = $"PASS — acquired typed cells from {selection.Address}; grouped-analysis validation failed (see preview).";
             }
         }
@@ -806,11 +807,8 @@
         }
     }
 
-    // JS interop appends a JavaScript stack to Message. Show the bridge's concise
-    // explanation while retaining normal .NET validation messages unchanged.
-    private static string ReadErrorMessage(Exception error) => error is JSException
-        ? error.Message.Split('\n', 2)[0].TrimEnd('\r')
-        : error.Message;
+    private static string ReadErrorMessage(Exception error) =>
+        UserFaultMapper.FormatDisplay(UserFaultMapper.FromException(error));
 
     private async Task RunSharedAnalysisAndWrite()
     {
@@ -818,6 +816,8 @@
         using var execution = RegisterExecution();
         var diagnosticStage = "validation";
         string? confirmationToken = null;
+        var writeInFlight = false;
+        writeResult = null; // Do not let a previous invocation mask an early failure.
         try
         {
             var runKind = analysisKind;
@@ -849,7 +849,11 @@
                 // Preflight MUST run before reading the selection or running the statistical engine.
                 hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
                 session.Execution.ThrowIfCancellationRequested();
-                var analysisId = AnalysisCatalog.GetByLegacyKind(runKind).Id;
+                IAnalysisDescriptor descriptor = null!;
+                if (!AnalysisCatalog.TryGetByLegacyKind(runKind, ref descriptor))
+                    throw new HostCapabilityException(CapabilityPreflightResult.Rejected(
+                        CapabilityPreflightCodes.UnsupportedAnalysis, "Unsupported analysis."));
+                var analysisId = descriptor.Id;
                 HostCapabilityPreflight.CheckRunAndWrite(analysisId, hostCapabilities, target).EnsureSupported();
                 var targetDecision = TargetPlanner.Create(target, hostCapabilities);
                 target = targetDecision.ToTarget(); // preserves both one-based inputs; no fallback/default repair
@@ -870,7 +874,18 @@
                     if (!parsed.Success) throw new SpreadsheetInputValidationException(parsed.Validation);
                     groupedPreview = parsed.Data;
                 }
-                else groupedPreview = GroupedNumericRangeParser.Parse(selection);
+                else
+                {
+                    // Narrow legacy parser boundary only; arbitrary ArgumentExceptions elsewhere
+                    // remain unexpected failures. Preserve the original parser semantics.
+                    try { groupedPreview = GroupedNumericRangeParser.Parse(selection); }
+                    catch (ArgumentException)
+                    {
+                        throw new SpreadsheetInputValidationException(new SpreadsheetValidationReport(new[] {
+                            new SpreadsheetValidationIssue("input.legacy-invalid", SpreadsheetValidationSeverity.Error,
+                                "Invalid grouped input.", "input") }));
+                    }
+                }
                 SpreadsheetAnalysisOptions options;
                 switch (runKind)
                 {
@@ -915,7 +930,11 @@
                     throw new InvalidOperationException("The shared analysis returned no result tables.");
 
                 await run.ReportAsync("diagnostic.output.attempted", diagnosticStage);
-                writeResult = await session.WriteAsync(() => JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan).AsTask());
+                writeResult = await session.WriteAsync(() => {
+                    writeInFlight = true;
+                    return JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan).AsTask();
+                });
+                writeInFlight = false;
                 if (writeResult.State == "AwaitingConfirmation" && writeResult.Confirmation is not null)
                 {
                     confirmationToken = writeResult.Confirmation.Token;
@@ -923,11 +942,16 @@
                     var overwriteChoice = session.BeginConfirmation(() => { if (!disposed) _ = InvokeAsync(StateHasChanged); });
                     var approved = await overwriteChoice.Task;
                     var token = writeResult.Confirmation.Token;
-                    writeResult = await session.WriteAsync(() => JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan,
-                        new { token, approved }).AsTask());
+                    writeResult = await session.WriteAsync(() => {
+                        writeInFlight = true;
+                        return JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan,
+                            new { token, approved }).AsTask();
+                    });
+                    writeInFlight = false;
                 }
                 status = writeResult.State == "Completed" ? BuildSuccessStatus() :
-                    writeResult.State + " — " + writeResult.Message;
+                    UserFaultMapper.FormatDisplay(OfficeFaultPresentation.WriteFault(writeResult.State, writeResult.Code,
+                        writeResult.MutationMayHaveOccurred), run.RunId);
                 var outputCode = writeResult.State == "Completed" ? "diagnostic.output.completed" : "diagnostic.output.incomplete";
                 await run.ReportAsync(outputCode, diagnosticStage, new Dictionary<string, string> {
                     ["outcome"] = writeResult.State == "Completed" ? "completed" : writeResult.State == "CancelledByUser" ? "cancelled" : "incomplete" });
@@ -937,27 +961,30 @@
         }
         catch (OperationCanceledException ex) when (ex.CancellationToken == execution.Execution.Token && execution.Execution.Snapshot.IsCancellationRequested)
         {
-            status = "Cancelled. No further analysis or output will start.";
+            status = UserFaultMapper.FormatDisplay(writeResult?.State == "CancelledByUser"
+                ? OfficeFaultPresentation.WriteFault(writeResult.State, writeResult.Code, writeResult.MutationMayHaveOccurred)
+                : UserFaultMapper.FromOutcome(execution.Execution.Snapshot), execution.Diagnostics?.RunId);
             diagnosticStatus = $"Run {execution.Diagnostics?.RunId} | Cancelled | {diagnosticStage}. Diagnostic end is emitted in finally.";
         }
         catch (Exception ex)
         {
             var run = execution.Diagnostics;
             execution.Execution.TryFail(ex);
-            var code = diagnosticStage != "output" && ex is ArgumentException
+            var code = diagnosticStage != "output" && ex is SpreadsheetInputValidationException
                 ? "diagnostic.validation.rejected" : "diagnostic.run.failed";
             if (run is not null) await run.ReportAsync(code, diagnosticStage, new Dictionary<string, string> {
                 ["category"] = code == "diagnostic.validation.rejected" ? "input" : "unexpected" });
-            var safeMessage = diagnosticStage == "output"
-                ? "Check the output destination and permissions before retrying. Partial output may remain; no rollback is provided."
-                : "Check the source worksheet/range, numeric grouped input and analysis options, then retry.";
+            var safeMessage = UserFaultMapper.FormatDisplay(
+                writeResult is not null && writeResult.State != "AwaitingConfirmation" && !writeInFlight
+                    ? OfficeFaultPresentation.WriteFault(writeResult.State, writeResult.Code, writeResult.MutationMayHaveOccurred)
+                    : OfficeFaultPresentation.Failure(execution, ex, writeInFlight), run?.RunId);
             if (selection is not null && groupedPreview is null)
                 groupedValidationMessage = safeMessage;
             sharedOutput = null;
             anovaOutput = null;
             kruskalOutput = null;
-            writeResult = null;
-            status = "FAIL — " + safeMessage;
+            // Retain any real writer outcome, including completion. Display cannot relabel it.
+            status = writeResult?.State == "Completed" && !writeInFlight ? BuildSuccessStatus() : safeMessage;
             diagnosticStatus = $"Run {run?.RunId} | {code} | {diagnosticStage}. Console diagnostics only; delivery is best effort.";
         }
         finally

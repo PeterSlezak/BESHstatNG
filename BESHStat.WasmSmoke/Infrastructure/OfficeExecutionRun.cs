@@ -43,7 +43,7 @@ public sealed class OfficeExecutionRun : IDisposable
                 var stage = Execution.Snapshot.Stage switch {
                     ExecutionStage.Acquisition => "acquisition", ExecutionStage.Analysis => "analysis",
                     ExecutionStage.Output or ExecutionStage.Confirmation => "output", _ => "validation" };
-                var rejected = stage != "output" && ex is ArgumentException;
+                var rejected = stage != "output" && ex is SpreadsheetInputValidationException;
                 await Diagnostics.ReportAsync(rejected ? "diagnostic.validation.rejected" : "diagnostic.run.failed",
                     stage, new Dictionary<string, string> { ["category"] = rejected ? "input" : "unexpected" });
             }

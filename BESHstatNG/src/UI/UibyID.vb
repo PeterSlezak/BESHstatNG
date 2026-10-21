@@ -11,9 +11,9 @@ Public Class UibyID
     Private executionRun As WindowsExecutionRun
     Private executionPanel As System.Windows.Forms.TableLayoutPanel
     Private executionCancel As System.Windows.Forms.Button
-    Private executionDemo As System.Windows.Forms.CheckBox
     Private executionLabel As System.Windows.Forms.Label
     Private executionToolTip As System.Windows.Forms.ToolTip
+    Private lastPilotFault As UserFault
 
     Sub New(analysis As String, tagn As Integer)
         ' This call is required by the designer.
@@ -28,27 +28,21 @@ Public Class UibyID
             ' Real WinForms controls (rather than unbordered ToolStrip text items) make
             ' cancellation discoverable in the Excel-DNA modeless form.
             executionCancel = New System.Windows.Forms.Button With {
-                .Text = "Cancel execution", .Enabled = False, .Dock = DockStyle.Fill,
+                .Text = "&Cancel execution", .Enabled = False, .Dock = DockStyle.Fill,
                 .UseVisualStyleBackColor = True}
-            executionDemo = New System.Windows.Forms.CheckBox With {
-                .Text = "Safe yielding demo before run", .AutoSize = False,
-                .Dock = DockStyle.Fill, .AutoEllipsis = True}
             executionLabel = New System.Windows.Forms.Label With {
                 .Text = "Ready", .Dock = DockStyle.Fill, .AutoEllipsis = True,
                 .TextAlign = System.Drawing.ContentAlignment.MiddleLeft}
             executionPanel = New System.Windows.Forms.TableLayoutPanel With {
-                .Dock = DockStyle.Bottom, .ColumnCount = 2, .RowCount = 2,
-                .Height = 68, .Padding = New Padding(6, 4, 6, 4)}
+                .Dock = DockStyle.Bottom, .ColumnCount = 2, .RowCount = 1,
+                .Height = 36, .Padding = New Padding(6, 4, 6, 4), .TabIndex = 100}
             executionPanel.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 152))
             executionPanel.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100))
-            executionPanel.RowStyles.Add(New RowStyle(SizeType.Absolute, 32))
             executionPanel.RowStyles.Add(New RowStyle(SizeType.Percent, 100))
             executionPanel.Controls.Add(executionCancel, 0, 0)
-            executionPanel.Controls.Add(executionDemo, 1, 0)
-            executionPanel.Controls.Add(executionLabel, 0, 1)
-            executionPanel.SetColumnSpan(executionLabel, 2)
-            ' Reserve a separate, two-row footer without moving designer controls.
-            ClientSize = New System.Drawing.Size(ClientSize.Width, ClientSize.Height + 68)
+            executionPanel.Controls.Add(executionLabel, 1, 0)
+            ' Reserve only the operational Cancel/status row without moving designer controls.
+            ClientSize = New System.Drawing.Size(ClientSize.Width, ClientSize.Height + 36)
             Controls.Add(executionPanel)
             AddHandler executionCancel.Click, Sub() executionRun?.Execution.RequestCancellation()
             executionToolTip = New ToolTip()
@@ -568,13 +562,14 @@ Public Class UibyID
                 run = executionDispatcher.TryBegin()
                 If run Is Nothing Then Return
                 executionRun = run
+                LastSharedWriteOutcome = Nothing
+                lastPilotFault = Nothing
                 For Each control As Control In Controls
                     If control Is executionPanel Then Continue For
                     enabledControls.Add(control, control.Enabled)
                     control.Enabled = False
                 Next
                 executionCancel.Enabled = True
-                executionDemo.Enabled = False
                 AddHandler run.Execution.Changed, Sub(snapshot)
                                                       Dim current = run.Execution.Snapshot
                                                       executionLabel.Text = current.State.ToString() & " | " & current.Stage.ToString() &
@@ -585,9 +580,12 @@ Public Class UibyID
                     Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis),
                     CoreServices.TraceExecutionLoggingEnabled, ExcelDnaHost.Diagnostics)
                 executionLabel.AccessibleDescription = "Run " & diagnostic.RunId
-                If executionDemo.Checked Then Await run.SyntheticFixtureAsync()
+                ' Explicit developer opt-in only, retained for 03.06 close-during-run acceptance.
+                If WindowsExecutionRun.DeveloperFixtureEnabled(Environment.GetEnvironmentVariable("BESHSTAT_DEV_EXECUTION_FIXTURE")) Then
+                    Await run.SyntheticFixtureAsync()
+                End If
                 ' Yield once with the normal message loop; all continuations retain UI ownership.
-                Await System.Threading.Tasks.Task.Delay(100, run.Execution.Token)
+                Await System.Threading.Tasks.Task.Yield()
                 run.Checkpoint(ExecutionStage.Validation, 5)
             End If
             Dim errText As String = String.Empty
@@ -600,7 +598,7 @@ Public Class UibyID
                 If Me.checkInputs() Then
                     If diagnostic IsNot Nothing Then
                         diagnostic.Reject()
-                        MsgBox(diagnostic.FailureDisplay, vbExclamation)
+                        ShowPilotFault(UserFaultMapper.FromAnalysisFault(New AnalysisFault(AnalysisFaultCodes.InvalidRequest, "Invalid selection")), diagnostic)
                     End If
                     Exit Sub
                 End If
@@ -647,7 +645,7 @@ Public Class UibyID
                 If errText <> String.Empty Then
                     If diagnostic IsNot Nothing Then
                         diagnostic.Reject()
-                        MsgBox(diagnostic.FailureDisplay, vbExclamation)
+                        ShowPilotFault(UserFaultMapper.FromAnalysisFault(New AnalysisFault(AnalysisFaultCodes.InvalidRequest, "Invalid grouped input")), diagnostic)
                     Else
                         MsgBox(errText, vbExclamation)
                     End If
@@ -682,7 +680,7 @@ Public Class UibyID
             End If
         Catch ex As OperationCanceledException When run IsNot Nothing AndAlso ex.CancellationToken = run.Execution.Token AndAlso run.Execution.Snapshot.IsCancellationRequested
             run.Execution.TryFail(ex)
-            executionLabel.Text = "Cancelled | Run " & If(diagnostic Is Nothing, "", diagnostic.RunId)
+            executionLabel.Text = run.FailureDisplay(ex, LastSharedWriteOutcome, If(diagnostic Is Nothing, Nothing, diagnostic.RunId))
         Catch ex As Exception
             If run IsNot Nothing Then run.Execution.TryFail(ex)
             If diagnostic IsNot Nothing Then
@@ -694,23 +692,25 @@ Public Class UibyID
                 Catch
                     ' A logging failure must never mask the original host exception.
                 End Try
-                If TypeOf ex Is ArgumentException Then
+                If TypeOf ex Is SpreadsheetInputValidationException Then
                     diagnostic.Reject()
                 Else
                     diagnostic.Fail()
                 End If
-                MsgBox(diagnostic.FailureDisplay, vbExclamation)
+                ShowPilotFault(UserFaultMapper.FromOutcome(run.Execution.Snapshot, LastSharedWriteOutcome, ex), diagnostic)
             Else
                 CoreServices.Errors.LogAndThrow(ex, False, True)
             End If
         Finally
             If run IsNot Nothing Then
                 If Not run.Execution.Snapshot.IsTerminal Then run.Execution.TryFail(New InvalidOperationException("Invocation did not complete."))
-                executionLabel.Text = run.Execution.Snapshot.State.ToString() & " | Run " & If(diagnostic Is Nothing, "", diagnostic.RunId)
+                Dim terminalFault = If(lastPilotFault, UserFaultMapper.FromOutcome(run.Execution.Snapshot, LastSharedWriteOutcome))
+                executionLabel.Text = run.Execution.Snapshot.State.ToString() &
+                    If(terminalFault Is Nothing, "", " | " & terminalFault.Code) & " | Run " & If(diagnostic Is Nothing, "", diagnostic.RunId)
+                executionToolTip.SetToolTip(executionLabel, UserFaultMapper.FormatDisplay(terminalFault, If(diagnostic Is Nothing, Nothing, diagnostic.RunId)))
                 run.Dispose()
                 executionRun = Nothing
                 executionCancel.Enabled = False
-                executionDemo.Enabled = True
                 For Each pair In enabledControls
                     pair.Key.Enabled = pair.Value
                 Next
@@ -1797,6 +1797,13 @@ Public Class UibyID
     Friend Property LastSharedWriteOutcome As Global.BESHStatNG.ExcelCommon.WriteResult
     Private activeSharedOutputRun As ExcelDnaSharedOutputRun
 
+    Private Sub ShowPilotFault(fault As UserFault, diagnostic As WindowsDiagnosticRun)
+        If fault Is Nothing Then Return
+        lastPilotFault = fault
+        MsgBox(UserFaultMapper.FormatDisplay(fault, If(diagnostic Is Nothing, Nothing, diagnostic.RunId)),
+               If(fault.Severity = UserFaultSeverity.Information, vbInformation, vbExclamation), fault.Title)
+    End Sub
+
     Private Function RunSharedOutput(analysisId As String, result As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult,
                                      supplementary As List(Of ResultTable), alpha As Double,
                                      charts As Func(Of ExcelDnaResultWriter, Integer, IReadOnlyList(Of System.Action)),
@@ -1825,7 +1832,7 @@ Public Class UibyID
                            End Function)
         If LastSharedWriteOutcome.State = Global.BESHStatNG.ExcelCommon.OutputWriteState.Completed Then Return True
         If LastSharedWriteOutcome.State <> Global.BESHStatNG.ExcelCommon.OutputWriteState.CancelledByUser Then
-            MsgBox(LastSharedWriteOutcome.Message & vbCrLf & diagnostic.FailureDisplay, vbExclamation, "Output " & LastSharedWriteOutcome.State.ToString())
+            ShowPilotFault(UserFaultMapper.FromWriteResult(LastSharedWriteOutcome), diagnostic)
         End If
         Return False
     End Function

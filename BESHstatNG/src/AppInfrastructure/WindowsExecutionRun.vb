@@ -48,6 +48,14 @@ Namespace AppInfrastructure
             End If
             Return result
         End Function
+        Friend Function FailureDisplay(failureException As Exception, result As WriteResult, runId As String) As String
+            Return UserFaultMapper.FormatDisplay(UserFaultMapper.FromOutcome(Execution.Snapshot, result, failureException), runId)
+        End Function
+        ' Temporary 03.06 close/cancel smoke seam. No visible demo controls in the normal form.
+        ' Mandatory Phase 03 exit: remove this opt-in and SyntheticFixtureAsync after host acceptance.
+        Friend Shared Function DeveloperFixtureEnabled(value As String) As Boolean
+            Return String.Equals(value, "1", StringComparison.Ordinal)
+        End Function
         Friend Async Function SyntheticFixtureAsync() As Task
             For stepIndex As Integer = 0 To 49
                 Checkpoint(ExecutionStage.SyntheticFixture, stepIndex \ 10)
