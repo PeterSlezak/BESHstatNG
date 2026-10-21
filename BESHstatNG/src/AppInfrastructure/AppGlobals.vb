@@ -3,6 +3,7 @@ Option Strict On
 
 Imports System.Linq
 Imports System.Reflection
+Imports BESHStatNG.ExcelCommon
 Imports Excel = Microsoft.Office.Interop.Excel
 
 Namespace AppInfrastructure
@@ -47,6 +48,27 @@ Namespace AppInfrastructure
         Public gLogFile As String
         Public gSettingsStore As BeshStatNgSettingsStore
         Public gSettings As BeshStatNgSettings
+        Public Property PreferenceState As PreferenceResult = PreferenceSnapshot.Normalize(Nothing)
+
+        Public Sub LoadPreferences()
+            Dim result = New LegacyPreferenceStore(gSettingsStore).Load()
+            ApplySettings(LegacyPreferenceStore.ToLegacy(result.Snapshot))
+            PreferenceState = result
+            If Not result.CanUseStoredData OrElse result.Persistence <> PreferencePersistence.Persisted Then
+                CoreServices.Logger.Warn("Settings use session defaults or normalized values; persistence status: " & result.Persistence.ToString() & "; " & result.Status.ToString())
+            End If
+        End Sub
+
+        Public Function SavePreferences(candidate As BeshStatNgSettings) As PreferenceResult
+            Dim normalized = LegacyPreferenceStore.FromLegacy(candidate)
+            If Not normalized.CanUseStoredData Then Return normalized
+            Dim result = New LegacyPreferenceStore(gSettingsStore).Save(normalized.Snapshot)
+            If result.Status = PreferenceStatus.Saved Then
+                ApplySettings(LegacyPreferenceStore.ToLegacy(result.Snapshot))
+                PreferenceState = result
+            End If
+            Return result
+        End Function
 
         Public Property gLogger As IAppLogger
             Get
@@ -81,19 +103,11 @@ Namespace AppInfrastructure
 
         Public Function GetCurrentSettings() As BeshStatNgSettings
             If gSettings Is Nothing Then
-                gSettings = New BeshStatNgSettings()
-                gSettings.EnsureDefaults()
-                ConfigureAnalysisDefaults(gSettings)
+                ApplySettings(New BeshStatNgSettings())
             End If
 
             Return gSettings
         End Function
-
-        Private Sub ConfigureAnalysisDefaults(settings As BeshStatNgSettings)
-            If settings Is Nothing Then settings = New BeshStatNgSettings()
-            settings.EnsureDefaults()
-            CoreServices.AnalysisDefaults = New AnalysisDefaultsOptions(settings.DefaultAlpha, settings.DefaultRandomSeed)
-        End Sub
 
         Public ReadOnly Property TraceExecutionLoggingEnabled As Boolean
             Get
@@ -165,11 +179,9 @@ Namespace AppInfrastructure
         End Function
 
         Public Sub ApplySettings(settings As BeshStatNgSettings)
-            If settings Is Nothing Then settings = New BeshStatNgSettings()
-            settings.EnsureDefaults()
-            gSettings = settings
-            ConfigureAnalysisDefaults(settings)
-            CoreServices.TraceExecutionLoggingEnabled = settings.Diagnostics.TraceExecutionLoggingEnabled
+            Dim normalized = LegacyPreferenceStore.FromLegacy(settings)
+            gSettings = LegacyPreferenceStore.ToLegacy(normalized.Snapshot)
+            normalized.Snapshot.ApplyToCoreDefaults()
         End Sub
 
     End Module

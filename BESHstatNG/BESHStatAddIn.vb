@@ -31,8 +31,8 @@ Public Class BESHStatAddIn
 
         Try
             AppGlobals.gSettingsStore = New AppInfrastructure.BeshStatNgSettingsStore(AppGlobals.gXllPath)
-            AppGlobals.ApplySettings(AppGlobals.gSettingsStore.Load())
-            Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info("Settings loaded successfully.")
+            AppGlobals.LoadPreferences()
+            Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info("Settings load outcome: " & AppGlobals.PreferenceState.Status.ToString())
         Catch ex As Exception
             AppGlobals.ApplySettings(New AppInfrastructure.BeshStatNgSettings())
             Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Error(ex, "Failed to load settings. Defaults were applied for this session.")

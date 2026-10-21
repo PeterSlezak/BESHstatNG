@@ -4,6 +4,7 @@
 @using BESHStatNG
 @using BESHStatNG.AppInfrastructure
 @using BESHStatNG.ExcelCommon
+@using BESHStat.WasmSmoke.Infrastructure
 @inject IJSRuntime JS
 
 <PageTitle>BESHStat shared Excel layer Stage 3.04</PageTitle>
@@ -304,6 +305,8 @@
         <hr />
 
         <h6>P-value presentation passed to the host writer</h6>
+        <p class="small">These fields apply to this analysis. Save/apply preferences intentionally makes them
+            defaults for this task-pane URL. Unsaved changes do not alter stored preferences.</p>
         <div class="row g-3">
             <div class="col-md-3">
                 <label class="form-label">Decimal places</label>
@@ -334,6 +337,8 @@
                 </div>
             </div>
         </div>
+        <button class="btn btn-outline-secondary mt-3" @onclick="SavePreferences" disabled="@(isBusy || !preferencesLoaded)">Save/apply preferences</button>
+        <p class="small mt-2" role="status">@preferenceStatus</p>
     </div>
 </div>
 
@@ -573,6 +578,51 @@
     private PValueSmallValueDisplay pvalueSmallValueDisplay = PValueSmallValueDisplay.LessThanThreshold;
     private bool pvalueUseUpperBound = true;
     private double pvalueHighlightAlpha = 0.05;
+    private PreferenceSnapshot preferences = PreferenceSnapshot.Defaults();
+    private bool preferencesLoaded;
+    private string preferenceStatus = "Loading preferences…";
+
+    private void PopulatePreferences(PreferenceSnapshot snapshot)
+    {
+        preferences = snapshot;
+        PopulatePreferenceFields(snapshot);
+    }
+
+    private void PopulatePreferenceFields(PreferenceSnapshot snapshot)
+    {
+        pvalueHighlightAlpha = snapshot.DefaultAlpha;
+        pvalueDecimalPlaces = snapshot.DecimalPlaces;
+        pvalueSmallValueDisplay = snapshot.SmallValueDisplay;
+        pvalueUseUpperBound = snapshot.UseUpperBound;
+    }
+
+    private PreferenceResult NormalizeLocalPreferences()
+    {
+        var data = preferences.ToData(); // Retain unexposed seed and trace preferences.
+        data.DefaultAlpha = pvalueHighlightAlpha;
+        data.PValues.DecimalPlaces = pvalueDecimalPlaces;
+        data.PValues.SmallValueDisplay = pvalueSmallValueDisplay;
+        data.PValues.UseUpperBound = pvalueUseUpperBound;
+        return PreferenceSnapshot.Normalize(data);
+    }
+
+    private void ShowPreferenceStatus(PreferenceResult result)
+    {
+        preferenceStatus = result.Persistence == PreferencePersistence.Persisted
+            ? $"Preferences {result.Status}; saved for this task-pane URL. Applied default alpha: {preferences.DefaultAlpha.ToString("G", CultureInfo.InvariantCulture)}."
+            : $"Session-only preferences ({result.Status}). Reload persistence is unavailable or unconfirmed; stored data was not replaced. Applied default alpha: {preferences.DefaultAlpha.ToString("G", CultureInfo.InvariantCulture)}.";
+    }
+
+    private async Task SavePreferences()
+    {
+        var normalized = NormalizeLocalPreferences();
+        var snapshot = normalized.Snapshot;
+        var result = await new BrowserPreferenceStore(JS).SaveAsync(snapshot);
+        PopulatePreferences(snapshot); // Explicit apply remains useful when storage is denied.
+        ShowPreferenceStatus(result);
+        if (normalized.Status == PreferenceStatus.Normalized)
+            preferenceStatus += " Invalid local fields were reset to supported defaults.";
+    }
     private bool includeWelch;
     private bool includeDunn = true;
 
@@ -581,6 +631,10 @@
         if (!firstRender)
             return;
 
+        var loaded = await new BrowserPreferenceStore(JS).LoadAsync();
+        PopulatePreferences(loaded.Snapshot);
+        ShowPreferenceStatus(loaded);
+        preferencesLoaded = true;
         await RefreshOfficeStatus();
         StateHasChanged();
     }
@@ -727,23 +781,24 @@
             selection = await AcquireRangeAsync();
             groupedPreview = ParseSelectedInput(selection);
 
+            var normalizedPreferences = NormalizeLocalPreferences();
+            var effective = normalizedPreferences.Snapshot;
+            PopulatePreferenceFields(effective);
+            if (normalizedPreferences.Status == PreferenceStatus.Normalized)
+                preferenceStatus = "Invalid local fields were reset to supported defaults for this run. Stored preferences were not changed; use Save/apply to change defaults.";
             SpreadsheetAnalysisOptions options;
             switch (analysisKind)
             {
                 case SpreadsheetAnalysisKind.OneWayAnova:
-                    options = new OneWayAnovaAnalysisOptions
-                    {
-                        IncludeWelch = includeWelch,
-                        Alpha = pvalueHighlightAlpha
-                    };
+                    var anovaOptions = effective.CreateAnovaOptions();
+                    anovaOptions.IncludeWelch = includeWelch;
+                    options = anovaOptions;
                     break;
 
                 case SpreadsheetAnalysisKind.KruskalWallis:
-                    options = new KruskalWallisAnalysisOptions
-                    {
-                        IncludeDunnComparisons = includeDunn,
-                        Alpha = pvalueHighlightAlpha
-                    };
+                    var kwOptions = effective.CreateKruskalWallisOptions();
+                    kwOptions.IncludeDunnComparisons = includeDunn;
+                    options = kwOptions;
                     break;
 
                 default:
@@ -757,16 +812,10 @@
             anovaOutput = sharedOutput.Detail as OneWayAnovaApplicationResult;
             kruskalOutput = sharedOutput.Detail as KruskalWallisApplicationResult;
 
-            var settings = new PValuePresentationSettings
-            {
-                DecimalPlaces = pvalueDecimalPlaces,
-                SmallValueDisplay = pvalueSmallValueDisplay,
-                UseUpperBound = pvalueUseUpperBound
-            };
-            settings.EnsureDefaults();
+            var settings = effective.CreateDisplaySettings();
 
             var document = OutputDocument.FromResult(sharedOutput);
-            var semantics = OutputSemanticPlanner.Create(document, settings, pvalueHighlightAlpha);
+            var semantics = OutputSemanticPlanner.Create(document, settings, effective.DefaultAlpha);
             var layout = OutputLayoutPlanner.Create(document, target,
                 new OutputLayoutOptions(blankRowsBetweenTables: 1), semanticPlan: semantics);
             var preparedPlan = OfficeOutputPlanAdapter.Prepare(document, semantics, layout);

@@ -7,6 +7,7 @@ Public Class Ui12GlobalSettings
         ' This call is required by the designer.
         InitializeComponent()
         Me.Tag = tagn
+        Me.Text &= " — " & AppGlobals.PreferenceState.Persistence.ToString() & " / " & AppGlobals.PreferenceState.Status.ToString()
         ' Load current session settings into the form.
         Dim settings = AppGlobals.GetCurrentSettings()
         Me.ckLogging.Checked = settings.Diagnostics.TraceExecutionLoggingEnabled
@@ -25,7 +26,7 @@ Public Class Ui12GlobalSettings
     End Sub
 
     Private Sub btnOK_Click(sender As Object, e As System.EventArgs) Handles btnOK.Click
-        Dim settings = AppGlobals.GetCurrentSettings()
+        Dim settings = LegacyPreferenceStore.ToLegacy(LegacyPreferenceStore.FromLegacy(AppGlobals.GetCurrentSettings()).Snapshot)
 
         settings.Diagnostics.TraceExecutionLoggingEnabled = Me.ckLogging.Checked
         settings.DefaultAlpha = CDbl(Me.spinBtnAlpha.Value)
@@ -50,14 +51,15 @@ Public Class Ui12GlobalSettings
             settings.DefaultRandomSeed = parsedSeed
         End If
 
-        AppGlobals.ApplySettings(settings)
-
         Try
             If AppGlobals.gSettingsStore Is Nothing Then
                 AppGlobals.gSettingsStore = New AppInfrastructure.BeshStatNgSettingsStore(AppGlobals.gXllPath)
             End If
 
-            AppGlobals.gSettingsStore.Save(settings)
+            Dim saved = AppGlobals.SavePreferences(settings)
+            If saved.Status <> ExcelCommon.PreferenceStatus.Saved Then
+                Throw New InvalidOperationException("Preferences were not saved (" & saved.Status.ToString() & "). Existing session settings remain active.")
+            End If
             CoreServices.Logger.Info("Global settings saved.")
             Me.Close()
         Catch ex As Exception

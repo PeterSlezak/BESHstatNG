@@ -1,8 +1,9 @@
 # Gate B — Common v1 output-contract review and freeze proposal
 
-**OWNER DECISION: PENDING. Recommendation: READY WITH DOCUMENTED EXCEPTIONS.**
-This proposes acceptance of the scoped Common v1 API and semantic envelope below.
-It does not record an owner decision, declare v1 frozen, or authorize 03.01.
+**OWNER DECISION: APPROVED WITH DOCUMENTED EXCEPTIONS E1–E7; merged into main.**
+Status reconciled in 03.01 with the owner's explicit acceptance and merge
+confirmation. The scoped Common v1 API and semantic envelope below is frozen
+with E1–E7 retained. Batch 03.01 is separately authorized and pending owner review.
 Gate B is an architectural decision gate after 02.08, not a numbered batch.
 There is no 02.09. The checkpoint remains **222 total / 27 completed / 195
 outstanding**, including all **74 Phase 04A batches after 04.07**.
@@ -635,15 +636,13 @@ six-region geometry. Those are future checks, not claims of fresh execution.
 
 ## Independent owner decision
 
-**Recommendation: READY WITH DOCUMENTED EXCEPTIONS (E1–E7). Status: PENDING OWNER
-DECISION.** Automated evidence supports freezing the scoped existing Common v1
-API/semantic envelope and retaining separately versioned host/legacy boundaries.
-Independent acceptance must explicitly include those boundaries or identify the
-smallest separately authorized remediation before a freeze is recorded.
-
-Owner decision: **not yet supplied**. Common v1 frozen: **not yet declared**.
-03.01: **NOT STARTED / not authorized by this review**. No commit, push, branch
-switch/merge, deployment, installer, signing, schema mutation or Phase 04A work.
+**Owner decision: APPROVED WITH DOCUMENTED EXCEPTIONS (E1–E7), committed and
+merged into main**, explicitly confirmed by the owner when authorizing 03.01.
+Common v1 is frozen within the reviewed scope and separate host/legacy version
+boundaries above. The original review evidence and E1–E7 are retained unchanged.
+Batch 03.01 is separately authorized, IN PROGRESS / PENDING OWNER REVIEW; its
+additive settings contract does not expand the frozen output envelope. Gate B
+does not increment the 222 / 27 / 195 batch checkpoint. No later batch is authorized.
 
 Proposed commit message, for later owner approval:
 `docs(architecture): review Gate B Common v1 output contract stability`
