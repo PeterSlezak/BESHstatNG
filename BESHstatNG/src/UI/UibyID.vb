@@ -500,7 +500,13 @@ Public Class UibyID
     End Function
 
     Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
+        Dim diagnostic As WindowsDiagnosticRun = Nothing
         Try
+            If Me.Tag = HelpTopic.OneWayANOVA OrElse Me.Tag = HelpTopic.KruskalWallisTest Then
+                diagnostic = New WindowsDiagnosticRun(If(Me.Tag = HelpTopic.OneWayANOVA,
+                    Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis),
+                    CoreServices.TraceExecutionLoggingEnabled, ExcelDnaHost.Diagnostics)
+            End If
             Dim errText As String = String.Empty
             Dim MWdata As TwoGroupsData, data As MultiGroupsUnpairedData
 
@@ -508,8 +514,15 @@ Public Class UibyID
             If Me.Tag = HelpTopic.UnpairedTTest Then
                 If Me.ValidateUnpairedTtestOptionInputs() Then Exit Sub
             Else
-                If Me.checkInputs() Then Exit Sub
+                If Me.checkInputs() Then
+                    If diagnostic IsNot Nothing Then
+                        diagnostic.Reject()
+                        MsgBox(diagnostic.FailureDisplay, vbExclamation)
+                    End If
+                    Exit Sub
+                End If
             End If
+            If diagnostic IsNot Nothing Then diagnostic.EnterStage("acquisition")
 
             If Me.Tag = HelpTopic.CategoricalHistogram OrElse Me.Tag = HelpTopic.ViolinPlot Then
                 Dim groupedData As GroupedContinuousInputData = Me.getGroupedContinuousData(errText)
@@ -547,17 +560,23 @@ Public Class UibyID
                 'Get Data
                 data = Me.getDataMultipleGroups(errText)
                 If errText <> String.Empty Then
-                    MsgBox(errText, vbExclamation)
+                    If diagnostic IsNot Nothing Then
+                        diagnostic.Reject()
+                        MsgBox(diagnostic.FailureDisplay, vbExclamation)
+                    Else
+                        MsgBox(errText, vbExclamation)
+                    End If
                     Exit Sub
                 End If
+                If diagnostic IsNot Nothing Then diagnostic.EnterStage("analysis")
 
                 'Run analysis
                 If Me.Tag = HelpTopic.KruskalWallisTest Then
-                    Me.RunKruskallWalis(data)
+                    Me.RunKruskallWalis(data, diagnostic)
                 ElseIf Me.Tag = HelpTopic.BoxAndWhiskers Then
                     Me.RunBoxAndWhiskers(data)
                 ElseIf Me.Tag = HelpTopic.OneWayANOVA Then
-                    Me.RunOneWayANOVA(data)
+                    Me.RunOneWayANOVA(data, diagnostic)
                 ElseIf Me.Tag = HelpTopic.DescriptiveStatistics Then
                     Me.RunDescStat(data)
                 ElseIf Me.Tag = HelpTopic.NormalityTests Then
@@ -577,7 +596,21 @@ Public Class UibyID
                 End If
             End If
         Catch ex As Exception
-            CoreServices.Errors.LogAndThrow(ex, False, True)
+            If diagnostic IsNot Nothing Then
+                If TypeOf ex Is ArgumentException Then
+                    diagnostic.Reject()
+                Else
+                    diagnostic.Fail()
+                End If
+                MsgBox(diagnostic.FailureDisplay, vbExclamation)
+            Else
+                CoreServices.Errors.LogAndThrow(ex, False, True)
+            End If
+        Finally
+            If diagnostic IsNot Nothing Then
+                diagnostic.Dispose()
+                If activeSharedOutputRun IsNot Nothing Then activeSharedOutputRun.Diagnostics = Nothing
+            End If
         End Try
     End Sub
 
@@ -1413,14 +1446,14 @@ Public Class UibyID
         Return descTable
     End Function
 
-    Private Sub RunOneWayANOVA(data As MultiGroupsUnpairedData)
+    Private Sub RunOneWayANOVA(data As MultiGroupsUnpairedData, diagnostic As WindowsDiagnosticRun)
         'Stage 3.03: all one-way ANOVA variants now cross the generic shared-analysis
         'request/result boundary. Welch and post-hoc procedures are orchestrated once in
         'BESHStat.Excel.Common instead of recreating a second Core ANOVA model in the host.
-        RunOneWayANOVAThroughSharedLayer(data)
+        RunOneWayANOVAThroughSharedLayer(data, diagnostic)
     End Sub
 
-    Private Sub RunOneWayANOVAThroughSharedLayer(data As MultiGroupsUnpairedData)
+    Private Sub RunOneWayANOVAThroughSharedLayer(data As MultiGroupsUnpairedData, diagnostic As WindowsDiagnosticRun)
         Dim alpha As Double = AppGlobals.DefaultAlpha
         Dim box As graphics.BoxPlot = Nothing
 
@@ -1494,11 +1527,7 @@ Public Class UibyID
                                End Sub)
                 Next
                 Return charts
-            End Function) Then Exit Sub
-        Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info(
-            "Windows one-way ANOVA executed through the generic BESHStat.Excel.Common dispatcher. " &
-            "Welch=" & Me.ckWelch.Checked.ToString() &
-            "; shared tables=" & analysisResult.Tables.Count.ToString(Globalization.CultureInfo.InvariantCulture) & ".")
+            End Function, diagnostic) Then Exit Sub
     End Sub
 
     Private Sub RunBoxAndWhiskers(data As MultiGroupsUnpairedData)
@@ -1554,7 +1583,7 @@ Public Class UibyID
         }
     End Function
 
-    Private Sub RunKruskallWalis(data As MultiGroupsUnpairedData)
+    Private Sub RunKruskallWalis(data As MultiGroupsUnpairedData, diagnostic As WindowsDiagnosticRun)
         'Stage 3.04: Kruskal-Wallis is the second analysis family routed through the
         'generic BESHStat.Excel.Common request/result boundary. Dunn comparisons are
         'computed once in the shared application service; Windows-only supplementary
@@ -1607,12 +1636,7 @@ Public Class UibyID
                                                            box.AddBoxPlot()
                                                        End Sub)
                 Return charts
-            End Function) Then Exit Sub
-        Global.BESHStatNG.AppInfrastructure.CoreServices.Logger.Info(
-            "Windows Kruskal-Wallis executed through the generic BESHStat.Excel.Common dispatcher. " &
-            "H=" & sharedResult.HStatistic.ToString("G15", Globalization.CultureInfo.InvariantCulture) &
-            "; tie-corrected H=" & sharedResult.TieCorrectedHStatistic.ToString("G15", Globalization.CultureInfo.InvariantCulture) &
-            "; shared tables=" & analysisResult.Tables.Count.ToString(Globalization.CultureInfo.InvariantCulture) & ".")
+            End Function, diagnostic) Then Exit Sub
     End Sub
 
     Private Sub RunMannWhitney(data As MultiGroupsUnpairedData)
@@ -1660,8 +1684,10 @@ Public Class UibyID
 
     Private Function RunSharedOutput(analysisId As String, result As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult,
                                      supplementary As List(Of ResultTable), alpha As Double,
-                                     charts As Func(Of ExcelDnaResultWriter, Integer, IReadOnlyList(Of System.Action))) As Boolean
-        activeSharedOutputRun = New ExcelDnaSharedOutputRun()
+                                     charts As Func(Of ExcelDnaResultWriter, Integer, IReadOnlyList(Of System.Action)),
+                                     diagnostic As WindowsDiagnosticRun) As Boolean
+        diagnostic.OutputAttempted()
+        activeSharedOutputRun = New ExcelDnaSharedOutputRun() With {.Diagnostics = diagnostic}
         Dim host As New ExcelDnaSharedOutputHost With {
             .Acquire = Function(run) GetSharedResultWriter(analysisId, result, supplementary),
             .Target = Function(writer) New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
@@ -1676,9 +1702,10 @@ Public Class UibyID
             .Inspect = Function(writer, intent) ExcelDnaOutputTargetAdapter.InspectWrite(intent, writer.wb, writer.ws),
             .Confirm = Function(observed) MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbYes}
         LastSharedWriteOutcome = activeSharedOutputRun.Execute(result, supplementary, AppGlobals.PValuePresentation, alpha, host)
+        diagnostic.OutputFinished(LastSharedWriteOutcome.State)
         If LastSharedWriteOutcome.State = Global.BESHStatNG.ExcelCommon.OutputWriteState.Completed Then Return True
         If LastSharedWriteOutcome.State <> Global.BESHStatNG.ExcelCommon.OutputWriteState.CancelledByUser Then
-            MsgBox(LastSharedWriteOutcome.Message, vbExclamation, "Output " & LastSharedWriteOutcome.State.ToString())
+            MsgBox(LastSharedWriteOutcome.Message & vbCrLf & diagnostic.FailureDisplay, vbExclamation, "Output " & LastSharedWriteOutcome.State.ToString())
         End If
         Return False
     End Function

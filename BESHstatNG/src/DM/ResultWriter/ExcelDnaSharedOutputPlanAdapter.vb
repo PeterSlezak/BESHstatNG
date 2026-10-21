@@ -22,6 +22,7 @@ Friend NotInheritable Class ExcelDnaSharedOutputHost
 End Class
 
 Friend NotInheritable Class ExcelDnaSharedOutputRun
+    Friend Property Diagnostics As WindowsDiagnosticRun
     Friend Property Stage As String = "precreation-plan"
     Friend Property CreationAttempted As Boolean
     Friend Property DestinationCreated As Boolean
@@ -32,8 +33,7 @@ Friend NotInheritable Class ExcelDnaSharedOutputRun
 
     Friend Sub LogFailure(failure As Exception)
         Me.Failure = failure
-        CoreServices.Logger.Error(failure, "Shared Windows output stage=" & Stage &
-            "; creationAttempted=" & CreationAttempted.ToString() & "; destinationCreated=" & DestinationCreated.ToString())
+        If Diagnostics IsNot Nothing Then Diagnostics.Fail()
     End Sub
 
     Friend Function Execute(result As SpreadsheetAnalysisResult, supplementary As List(Of ResultTable),
@@ -170,9 +170,7 @@ Friend NotInheritable Class ExcelDnaSharedOutputRun
     End Function
 
     Private Sub LogCharts(snapshot As ExcelDnaChartSafetySnapshot, plannedCount As Integer)
-        CoreServices.Logger.Debug("Shared Windows output stage=" & Stage & "; role=append-only-shape; plannedCharts=" &
-            plannedCount.ToString(CultureInfo.InvariantCulture) & "; existingShapes=" & snapshot.ExistingShapeCount.ToString(CultureInfo.InvariantCulture) &
-            "; placement=host-dependent; exactCollisionFootprint=unverified")
+        If Diagnostics IsNot Nothing Then Diagnostics.EnterStage("output")
     End Sub
 End Class
 

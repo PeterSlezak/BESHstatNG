@@ -128,6 +128,10 @@
 </div>
 
 <p><strong>Status:</strong> @status</p>
+@if (diagnosticStatus is not null)
+{
+    <p class="small" role="status"><strong>Run diagnostics:</strong> @diagnosticStatus</p>
+}
 
 @if (selectedAreas is not null)
 {
@@ -479,6 +483,7 @@
 }
 
 @code {
+    private string? diagnosticStatus;
     private TaskCompletionSource<bool>? overwriteChoice;
     private void ChooseOverwrite(bool approved) => overwriteChoice?.TrySetResult(approved);
     private string? compositeTrace;
@@ -754,9 +759,15 @@
 
     private async Task RunSharedAnalysisAndWrite()
     {
+        isBusy = true;
+        var runKind = analysisKind;
+        var operation = runKind == SpreadsheetAnalysisKind.OneWayAnova ? AnalysisIds.OneWayAnova :
+            runKind == SpreadsheetAnalysisKind.KruskalWallis ? AnalysisIds.KruskalWallis : "redacted";
+        var run = await new DiagnosticEmitter(new BrowserDiagnosticSink(JS)).StartAsync(operation, preferences.TraceEnabled);
+        var diagnosticStage = "validation";
+        diagnosticStatus = $"Run {run.RunId} | diagnostic.run.started | invocation. Diagnostics use the browser console only; no reload persistence.";
         try
         {
-            isBusy = true;
             writeResult = null;
             selection = null;
             selectedAreas = null;
@@ -773,11 +784,13 @@
                 StartRow = outputStartRow,
                 StartColumn = outputStartColumn
             };
-            var analysisId = AnalysisCatalog.GetByLegacyKind(analysisKind).Id;
+            var analysisId = AnalysisCatalog.GetByLegacyKind(runKind).Id;
             HostCapabilityPreflight.CheckRunAndWrite(analysisId, hostCapabilities, target).EnsureSupported();
             var targetDecision = TargetPlanner.Create(target, hostCapabilities);
             target = targetDecision.ToTarget(); // preserves both one-based inputs; no fallback/default repair
 
+            diagnosticStage = "acquisition";
+            await run.ReportAsync("diagnostic.stage.entered", diagnosticStage);
             selection = await AcquireRangeAsync();
             groupedPreview = ParseSelectedInput(selection);
 
@@ -787,7 +800,7 @@
             if (normalizedPreferences.Status == PreferenceStatus.Normalized)
                 preferenceStatus = "Invalid local fields were reset to supported defaults for this run. Stored preferences were not changed; use Save/apply to change defaults.";
             SpreadsheetAnalysisOptions options;
-            switch (analysisKind)
+            switch (runKind)
             {
                 case SpreadsheetAnalysisKind.OneWayAnova:
                     var anovaOptions = effective.CreateAnovaOptions();
@@ -802,18 +815,21 @@
                     break;
 
                 default:
-                    throw new NotSupportedException($"Unsupported shared analysis kind: {analysisKind}.");
+                    throw new NotSupportedException("Unsupported shared analysis kind.");
             }
 
             // The Office prototype exercises the stable-ID facade while the Windows
             // Excel-DNA caller retains the original enum-based request facade.
             SpreadsheetAnalysisInput analysisInput = useConfiguredParsing ? groupedPreview! : selection;
+            diagnosticStage = "analysis";
+            await run.ReportAsync("diagnostic.stage.entered", diagnosticStage);
             sharedOutput = SharedAnalysisApplicationService.Run(analysisId, analysisInput, options);
             anovaOutput = sharedOutput.Detail as OneWayAnovaApplicationResult;
             kruskalOutput = sharedOutput.Detail as KruskalWallisApplicationResult;
 
             var settings = effective.CreateDisplaySettings();
 
+            diagnosticStage = "output";
             var document = OutputDocument.FromResult(sharedOutput);
             var semantics = OutputSemanticPlanner.Create(document, settings, effective.DefaultAlpha);
             var layout = OutputLayoutPlanner.Create(document, target,
@@ -823,6 +839,7 @@
             if (preparedPlan.TableCount == 0)
                 throw new InvalidOperationException("The shared analysis returned no result tables.");
 
+            await run.ReportAsync("diagnostic.output.attempted", diagnosticStage);
             writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan);
             if (writeResult.State == "AwaitingConfirmation" && writeResult.Confirmation is not null)
             {
@@ -837,19 +854,32 @@
             }
             status = writeResult.State == "Completed" ? BuildSuccessStatus() :
                 writeResult.State + " — " + writeResult.Message;
+            var outputCode = writeResult.State == "Completed" ? "diagnostic.output.completed" : "diagnostic.output.incomplete";
+            await run.ReportAsync(outputCode, diagnosticStage, new Dictionary<string, string> {
+                ["outcome"] = writeResult.State == "Completed" ? "completed" : writeResult.State == "CancelledByUser" ? "cancelled" : "incomplete" });
+            diagnosticStatus = $"Run {run.RunId} | {outputCode} | {diagnosticStage}. Console diagnostics only; delivery is best effort.";
         }
         catch (Exception ex)
         {
-            if (selection is not null && groupedPreview is null && ex is ArgumentException)
-                groupedValidationMessage = ex.Message;
+            var code = diagnosticStage != "output" && ex is ArgumentException
+                ? "diagnostic.validation.rejected" : "diagnostic.run.failed";
+            await run.ReportAsync(code, diagnosticStage, new Dictionary<string, string> {
+                ["category"] = code == "diagnostic.validation.rejected" ? "input" : "unexpected" });
+            var safeMessage = diagnosticStage == "output"
+                ? "Check the output destination and permissions before retrying. Partial output may remain; no rollback is provided."
+                : "Check the source worksheet/range, numeric grouped input and analysis options, then retry.";
+            if (selection is not null && groupedPreview is null)
+                groupedValidationMessage = safeMessage;
             sharedOutput = null;
             anovaOutput = null;
             kruskalOutput = null;
             writeResult = null;
-            status = "FAIL — " + ReadErrorMessage(ex);
+            status = "FAIL — " + safeMessage;
+            diagnosticStatus = $"Run {run.RunId} | {code} | {diagnosticStage}. Console diagnostics only; delivery is best effort.";
         }
         finally
         {
+            await run.EndAsync();
             overwriteChoice = null;
             isBusy = false;
         }

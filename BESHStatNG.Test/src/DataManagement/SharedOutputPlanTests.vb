@@ -72,6 +72,57 @@ Public Class SharedOutputPlanTests
     End Sub
 
     <DataTestMethod>
+    <DataRow(0, False)> <DataRow(0, True)> <DataRow(1, False)> <DataRow(1, True)> <DataRow(2, False)> <DataRow(2, True)>
+    Public Sub Diagnostics_DoNotChangeRealAnalysisWriterDestinationOrConsent(destination As Integer, throwing As Boolean)
+        Dim logger As New DiagnosticRecordingLogger With {.ThrowOnWrite = throwing}
+        Dim reference As New WorkflowRecordingHost("anova-base", CType(destination, SpreadsheetOutputDestination))
+        Dim expected = reference.Execute()
+        Dim observed As New WorkflowRecordingHost("anova-base", CType(destination, SpreadsheetOutputDestination))
+        Dim before = AppGlobals.DefaultAlpha
+        Dim id As String
+        Using run As New WindowsDiagnosticRun(AnalysisIds.OneWayAnova, False, New CoreLoggerDiagnosticSink(logger))
+            id = run.RunId
+            observed.Session.Diagnostics = run
+            run.EnterStage("analysis")
+            run.OutputAttempted()
+            Dim result = observed.Execute()
+            run.OutputFinished(result.State)
+            Assert.AreEqual(expected.State, result.State)
+            Assert.AreEqual(expected.Code, result.Code)
+            Assert.AreEqual(reference.NativeWriter.Written.Count, observed.NativeWriter.Written.Count)
+            Assert.AreEqual(reference.NativeWriter.RowID, observed.NativeWriter.RowID)
+            Assert.AreEqual(reference.NativeWriter.ColID, observed.NativeWriter.ColID)
+            Assert.AreEqual(reference.Prompts, observed.Prompts)
+            Assert.AreEqual(reference.Creations, observed.Creations)
+        End Using
+        Assert.AreEqual(before, AppGlobals.DefaultAlpha)
+        If Not throwing Then
+            Assert.IsTrue(logger.Lines.All(Function(line) line.Contains("run=" & id)))
+            Assert.IsTrue(logger.Lines.Any(Function(line) line.StartsWith("diagnostic.output.completed", StringComparison.Ordinal)))
+        End If
+    End Sub
+
+    <DataTestMethod>
+    <DataRow(False)> <DataRow(True)>
+    Public Sub Diagnostics_ThrowingLoggerCannotChangeOverwriteNoOrYes(approved As Boolean)
+        Dim reference As New WorkflowRecordingHost("kw-base", SpreadsheetOutputDestination.CurrentWorksheet) With {
+            .OccupiedId = "table-0", .Approved = approved}
+        Dim expected = reference.Execute()
+        Dim observed As New WorkflowRecordingHost("kw-base", SpreadsheetOutputDestination.CurrentWorksheet) With {
+            .OccupiedId = "table-0", .Approved = approved}
+        Using run As New WindowsDiagnosticRun(AnalysisIds.KruskalWallis, False, New CoreLoggerDiagnosticSink(New DiagnosticRecordingLogger With {.ThrowOnWrite = True}))
+            observed.Session.Diagnostics = run
+            run.OutputAttempted()
+            Dim result = observed.Execute()
+            run.OutputFinished(result.State)
+            Assert.AreEqual(expected.State, result.State)
+            Assert.AreEqual(reference.Prompts, observed.Prompts)
+            Assert.AreEqual(reference.NativeWriter.Written.Count, observed.NativeWriter.Written.Count)
+            Assert.AreEqual(expected.OverwriteApproved, result.OverwriteApproved)
+        End Using
+    End Sub
+
+    <DataTestMethod>
     <DataRow("count")> <DataRow("order")> <DataRow("id")> <DataRow("duplicate-id")>
     <DataRow("null")> <DataRow("shape")> <DataRow("ragged")> <DataRow("values")>
     <DataRow("type")> <DataRow("metadata")> <DataRow("annotations")> <DataRow("null-cell")>

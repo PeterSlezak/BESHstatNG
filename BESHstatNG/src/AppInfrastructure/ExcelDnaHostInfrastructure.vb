@@ -11,6 +11,7 @@ Namespace AppInfrastructure
     ''' Excel-DNA/WinForms host services. Keep this module out of future portable core projects.
     ''' </summary>
     Public Module ExcelDnaHost
+        Public Property Diagnostics As CoreLoggerDiagnosticSink
         Public Property ExcelApplication As Excel.Application
         Public Property XllName As String
         Public Property XllPath As String
