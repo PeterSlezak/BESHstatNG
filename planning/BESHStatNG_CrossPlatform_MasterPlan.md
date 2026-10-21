@@ -4,11 +4,11 @@
 
 **Source of truth:** the current checked-out Git repository. Uploaded packages, including `BESHstatNG(20261018-140903).zip` and the accepted 02.06 package, are historical reference context; subsequent checked-in source and planning updates are authoritative.
 
-**Implementation checkpoint:** **00.01 through 03.01 accepted/merged**, including 00.02A/B and 01.05A (**28 completed numbered batches**). Last accepted/merged batch: **03.01**, confirmed by the owner after Windows Excel-DNA and Excel Online preference-persistence smoke tests. Accepted 02.08 remains the Windows/Office safe-overwrite checkpoint; Mac acceptance is not claimed.
+**Implementation checkpoint:** **00.01 through 03.02 accepted/merged**, including 00.02A/B and 01.05A (**29 completed numbered batches**). Last accepted/merged batch: **03.02**, confirmed by the owner following Windows Excel-DNA and Excel Online validation. This supersedes the stale 21 October ZIP acceptance header. Accepted 02.08 remains the safe-overwrite checkpoint; Mac acceptance is not claimed.
 
-**Current planning status:** **03.01 COMPLETE**, accepted and merged following owner smoke acceptance; see the [settings report](../docs/architecture/batch-03-01-versioned-application-settings.md). **Gate B — APPROVED WITH E1–E7 EXCEPTIONS, merged**; see the [Common v1 freeze](../docs/architecture/gate-b-common-v1-contract-freeze.md). Gate B is not a numbered batch. **03.02 IN PROGRESS / PENDING OWNER REVIEW**. The newly requested **04A.75** is planning-only and remains deferred until Phase 04A after 04.07.
+**Current planning status:** **03.02 COMPLETE**, accepted and merged. **Gate B — APPROVED WITH E1–E7 EXCEPTIONS, merged**; see the [Common v1 freeze](../docs/architecture/gate-b-common-v1-contract-freeze.md). Gate B is not a numbered batch. **03.03 IN PROGRESS / PENDING OWNER REVIEW**; see the [execution coordination report](../docs/architecture/batch-03-03-execution-coordination.md). **04A.75** is planning-only and remains deferred until Phase 04A after 04.07.
 
-**Batch count:** **223 total** (original 148 + 75 Phase 04A), **28 completed**, **195 planned/outstanding**. Gate B does not increment batch totals. All **75 Phase 04A batches** remain planned, not implemented.
+**Batch count:** **223 total** (original 148 + 75 Phase 04A), **29 completed**, **194 planned/outstanding**. Gate B does not increment batch totals. All **75 Phase 04A batches** remain planned, not implemented.
 
 **Scope:** Excel-DNA and Office.js/WASM implementation remain the active workstream. LibreOffice is an *architectural portability consideration only*, explicitly not part of implementation batches or Excel release criteria.  
 **Supersedes:** revision 1.2 (16 October 2026); the full original multi-phase roadmap and dependencies are retained below, updated for repository progress and portable-host readiness.
@@ -489,8 +489,8 @@ Development: trusted local HTTPS + sideloading on Excel Online first, Windows de
 | Batch | Objective and likely files/classes | Depends on | Host changes | Required new automated tests | Manual smoke | Acceptance criterion | Risk |
 |---|---|---|---|---|---|---|---|
 | **03.01 — COMPLETE** | Create versioned app settings DTOs and preference store contracts; `Common/Infrastructure/Settings.vb; Core/AppSettings.vb` | 00.04 | W=Small O=Small | Defaults, migration, bounds, alpha parity | Change alpha and reopen add-in | Persisted and effective settings visible | **Medium** |
-| **03.02 — IN PROGRESS / PENDING OWNER REVIEW** | Host-specific logging, diagnostics and run correlation; `Common/Infrastructure/Diagnostics.vb; host log sinks` | 03.01 | W=Small O=Yes | Redaction; run ID; noncrashing logger | Trigger expected validation error | No raw worksheet data logged automatically | **Medium** |
-| **03.03** | Define execution state, task progress and cooperative cancel; `Common/Infrastructure/ExecutionCoordinator.vb; IProgressReporter` | 00.04 | W=Small O=Yes | State transitions; cancel-before-run; progress | Cancel a safe long-running fixture | Truthful cancellation support and no UI lock | **High** |
+| **03.02 — COMPLETE** | Host-specific logging, diagnostics and run correlation; `Common/Infrastructure/Diagnostics.vb; host log sinks` | 03.01 | W=Small O=Yes | Redaction; run ID; noncrashing logger | Trigger expected validation error | No raw worksheet data logged automatically | **Medium** |
+| **03.03 — IN PROGRESS / PENDING OWNER REVIEW** | Define execution state, task progress and cooperative cancel; `Common/Infrastructure/ExecutionCoordinator.vb; IProgressReporter` | 00.04 | W=Small O=Yes | State transitions; cancel-before-run; progress | Cancel a safe long-running fixture | Truthful cancellation support and no UI lock | **High** |
 | **03.04** | Create stable fault-code mapping and user error model; `Common/Results/Faults.vb; Core fault adapters` | 03.02,03.03 | W=Small O=Yes | Exceptions vs validation/convergence faults | Trigger invalid model and retry | Clear actionable error without stack dump | **Medium** |
 | **03.05** | Common help/version/feature availability metadata linked to validated `methods.yml`; `Common/Infrastructure/HelpVersion.vb; generated method metadata; Win HelpLinks.vb` | 00.02B,03.01 | W=Small O=Yes | Help URLs; unknown feature fallback | Open help from both hosts | No duplicated hard-coded help mapping | **Low** |
 | **03.06** | Workbook/sheet/selection changes and disposal hooks; `Common/Host/DocumentLifecycle.vb; Win/Office adapters` | 01.01,03.03 | W=Yes O=Yes | Stale selection; close/rename/switch simulation | Change active sheet mid-preview | No writes to stale or wrong workbook | **High** |
@@ -907,7 +907,7 @@ At the end of every batch, user supplies a new complete ZIP as the source of tru
 
 ## 17. Implementation checkpoint, next batch and historical 01.10 acceptance notes
 
-**Current Revision 1.5 planning checkpoint:** **03.01 is COMPLETE and accepted/merged**, confirmed by the owner following Windows Excel-DNA and Excel Online acceptance. The accepted checkpoint is **223 total / 28 completed / 195 outstanding**. **Gate B is APPROVED WITH E1–E7 EXCEPTIONS, merged; 03.02 is IN PROGRESS / PENDING OWNER REVIEW**. Gate B does not count as a numbered batch. Phase 04A remains after full Phase 04: preserve **04.07 → 04A.01–04A.75 (04A.74 final acceptance gate) → dependent Phase 05+ work**. The additional 04A.75 histogram option is **planned only**, not implemented or authorized in 03.02. All Phase 04A rows are pending.
+**Current Revision 1.5 planning checkpoint (owner reconciliation for 03.03):** **03.02 is COMPLETE and accepted/merged**, confirmed by the owner following Windows Excel-DNA and Excel Online validation. The accepted checkpoint is **223 total / 29 completed / 194 outstanding**. **Gate B is APPROVED WITH E1–E7 EXCEPTIONS, merged; 03.03 is IN PROGRESS / PENDING OWNER REVIEW**. See the [execution coordination report](../docs/architecture/batch-03-03-execution-coordination.md). Gate B does not count as a numbered batch. Preserve **04.07 → 04A.01–04A.75 (04A.74 final acceptance gate) → dependent Phase 05+ work**. All 75 Phase 04A batches remain planned and unauthorized here. Historical 03.01/03.02 status and authorization language elsewhere in this document is superseded by this checkpoint. 03.04 is the next potential dependent batch, not authorized implementation.
 
 **Historical 02.08 safety handoff (resolved by accepted 02.08):** In Excel Online, 02.06 overwrote existing cells in the planned table rectangles without prompting. The user tested this and confirmed it; it was intentionally deferred to 02.08. That batch had to check **all** planned composite/table rectangles (not just the bounding envelope or first table), obtain consent when occupied, perform no destructive write when the user selects No, and truthfully report partial writes. The 02.07 opt-in composite path writes only to a new empty worksheet and rejects current-sheet requests before mutation; this restriction remains.
 
@@ -990,6 +990,8 @@ These are external Microsoft documentation links used to qualify **future** desi
 
 
 ## 21. Revision 1.5 change record (21 October 2026)
+
+Historical revision record: its 28/195 counts and 03.02 authorization language are superseded by the active owner-accepted 03.02 checkpoint above. The 223-batch schedule is unchanged.
 
 - Recorded **03.01 as accepted and merged**, with Gate B approval and exceptions E1–E7 preserved. Began planning 03.02 only.
 - Added **04A.75 — Histogram PrettyBreaks on/off and method-derived raw bin counts**; Core numerical logic, pooled categorical options, existing histogram UI choices and backward-compatible chart/UDF entry points all belong to the later batch.

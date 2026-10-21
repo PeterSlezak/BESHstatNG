@@ -38,6 +38,7 @@ if ($Python) {
 }
 
 if ($Wasm) {
+    Invoke-Checked 'dotnet' @('test', '.\BESHStat.WasmSmoke\tests\Execution\Execution.Tests.csproj', '-c', $Configuration, '--logger', 'trx;LogFileName=OfficeExecution.trx', '--results-directory', $results)
     Invoke-Checked 'dotnet' @('build', '.\BESHStat.WasmSmoke\BESHStat.WasmSmoke.csproj', '-c', $Configuration)
     Write-Host 'WASM project build only; browser/Excel smoke tests remain manual.' -ForegroundColor Yellow
 }

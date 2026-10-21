@@ -2,9 +2,18 @@
 Imports System.Security.Cryptography
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
+Imports BESHStatNG.ExcelCommon
+Imports System.Windows.Forms
 
 Public Class UibyID
     Private Const BoxPlotLegacyPaletteIndex As Integer = 4
+    Private ReadOnly executionDispatcher As New WindowsExecutionDispatcher()
+    Private executionRun As WindowsExecutionRun
+    Private executionPanel As System.Windows.Forms.TableLayoutPanel
+    Private executionCancel As System.Windows.Forms.Button
+    Private executionDemo As System.Windows.Forms.CheckBox
+    Private executionLabel As System.Windows.Forms.Label
+    Private executionToolTip As System.Windows.Forms.ToolTip
 
     Sub New(analysis As String, tagn As Integer)
         ' This call is required by the designer.
@@ -15,6 +24,38 @@ Public Class UibyID
         Me.RefEditOutput.ExcelConnector = AppGlobals.app
         Me.Text = analysis
         Me.Tag = tagn
+        If tagn = HelpTopic.OneWayANOVA OrElse tagn = HelpTopic.KruskalWallisTest Then
+            ' Real WinForms controls (rather than unbordered ToolStrip text items) make
+            ' cancellation discoverable in the Excel-DNA modeless form.
+            executionCancel = New System.Windows.Forms.Button With {
+                .Text = "Cancel execution", .Enabled = False, .Dock = DockStyle.Fill,
+                .UseVisualStyleBackColor = True}
+            executionDemo = New System.Windows.Forms.CheckBox With {
+                .Text = "Safe yielding demo before run", .AutoSize = False,
+                .Dock = DockStyle.Fill, .AutoEllipsis = True}
+            executionLabel = New System.Windows.Forms.Label With {
+                .Text = "Ready", .Dock = DockStyle.Fill, .AutoEllipsis = True,
+                .TextAlign = System.Drawing.ContentAlignment.MiddleLeft}
+            executionPanel = New System.Windows.Forms.TableLayoutPanel With {
+                .Dock = DockStyle.Bottom, .ColumnCount = 2, .RowCount = 2,
+                .Height = 68, .Padding = New Padding(6, 4, 6, 4)}
+            executionPanel.ColumnStyles.Add(New ColumnStyle(SizeType.Absolute, 152))
+            executionPanel.ColumnStyles.Add(New ColumnStyle(SizeType.Percent, 100))
+            executionPanel.RowStyles.Add(New RowStyle(SizeType.Absolute, 32))
+            executionPanel.RowStyles.Add(New RowStyle(SizeType.Percent, 100))
+            executionPanel.Controls.Add(executionCancel, 0, 0)
+            executionPanel.Controls.Add(executionDemo, 1, 0)
+            executionPanel.Controls.Add(executionLabel, 0, 1)
+            executionPanel.SetColumnSpan(executionLabel, 2)
+            ' Reserve a separate, two-row footer without moving designer controls.
+            ClientSize = New System.Drawing.Size(ClientSize.Width, ClientSize.Height + 68)
+            Controls.Add(executionPanel)
+            AddHandler executionCancel.Click, Sub() executionRun?.Execution.RequestCancellation()
+            executionToolTip = New ToolTip()
+            executionToolTip.SetToolTip(executionCancel,
+                "Cancellation is observed at the next checkpoint. Synchronous calculations and writes cannot be interrupted.")
+            AddHandler Me.Disposed, Sub() executionToolTip.Dispose()
+        End If
         Me.spinBtnAlpha.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlpha.Minimum, Me.spinBtnAlpha.Maximum)
         Me.spinBtnAlphaOutliers.Value = AppGlobals.GetDefaultAlphaDecimal(Me.spinBtnAlphaOutliers.Minimum, Me.spinBtnAlphaOutliers.Maximum)
 
@@ -270,6 +311,7 @@ Public Class UibyID
             Dim outData()() As Double = New Double()() {}
             ReDim groupIDs(NoGroups - 1), outData(NoGroups - 1)
             For i = 0 To NoGroups - 1
+                executionRun?.Checkpoint(ExecutionStage.Acquisition)
                 Dim ref1 As String = WorksheetNameFromRefAdress(ref, True) & "!" & colList(i)
                 'Debug.Print(ref1)
                 Dim columData = New DataObj
@@ -499,13 +541,54 @@ Public Class UibyID
         Return out
     End Function
 
-    Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
+    Private Sub ExecutionFormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        If executionRun Is Nothing Then Return
+        e.Cancel = True
+        executionRun.Execution.RequestCancellation()
+    End Sub
+
+    Private Async Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
         Dim diagnostic As WindowsDiagnosticRun = Nothing
+        Dim run As WindowsExecutionRun = Nothing
+        Dim enabledControls As New Dictionary(Of Control, Boolean)()
+        Dim priorSynchronizationContext As System.Threading.SynchronizationContext = Nothing
+        Dim installedUiContext As Boolean = False
         Try
             If Me.Tag = HelpTopic.OneWayANOVA OrElse Me.Tag = HelpTopic.KruskalWallisTest Then
+                ' Excel-DNA shows this form modelessly from a Ribbon callback. It may
+                ' not have installed a WinForms synchronization context, in which case
+                ' Await Task.Delay would continue on a pool thread. The entire Excel COM
+                ' and WinForms continuation must execute on the owning Excel UI thread.
+                priorSynchronizationContext = System.Threading.SynchronizationContext.Current
+                If Not TypeOf priorSynchronizationContext Is WindowsFormsSynchronizationContext Then
+                    System.Threading.SynchronizationContext.SetSynchronizationContext(
+                        New WindowsFormsSynchronizationContext())
+                    installedUiContext = True
+                End If
+                run = executionDispatcher.TryBegin()
+                If run Is Nothing Then Return
+                executionRun = run
+                For Each control As Control In Controls
+                    If control Is executionPanel Then Continue For
+                    enabledControls.Add(control, control.Enabled)
+                    control.Enabled = False
+                Next
+                executionCancel.Enabled = True
+                executionDemo.Enabled = False
+                AddHandler run.Execution.Changed, Sub(snapshot)
+                                                      Dim current = run.Execution.Snapshot
+                                                      executionLabel.Text = current.State.ToString() & " | " & current.Stage.ToString() &
+                                                          If(current.Percent.HasValue, " | " & current.Percent.ToString() & "%", "")
+                                                  End Sub
+                run.Execution.Start()
                 diagnostic = New WindowsDiagnosticRun(If(Me.Tag = HelpTopic.OneWayANOVA,
                     Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis),
                     CoreServices.TraceExecutionLoggingEnabled, ExcelDnaHost.Diagnostics)
+                executionLabel.AccessibleDescription = "Run " & diagnostic.RunId
+                If executionDemo.Checked Then Await run.SyntheticFixtureAsync()
+                ' Yield once with the normal message loop; all continuations retain UI ownership.
+                Await System.Threading.Tasks.Task.Delay(100, run.Execution.Token)
+                run.Checkpoint(ExecutionStage.Validation, 5)
             End If
             Dim errText As String = String.Empty
             Dim MWdata As TwoGroupsData, data As MultiGroupsUnpairedData
@@ -523,6 +606,7 @@ Public Class UibyID
                 End If
             End If
             If diagnostic IsNot Nothing Then diagnostic.EnterStage("acquisition")
+            If run IsNot Nothing Then run.Checkpoint(ExecutionStage.Acquisition, 10)
 
             If Me.Tag = HelpTopic.CategoricalHistogram OrElse Me.Tag = HelpTopic.ViolinPlot Then
                 Dim groupedData As GroupedContinuousInputData = Me.getGroupedContinuousData(errText)
@@ -559,6 +643,7 @@ Public Class UibyID
             Else
                 'Get Data
                 data = Me.getDataMultipleGroups(errText)
+                If run IsNot Nothing Then run.Checkpoint(ExecutionStage.Analysis, 30)
                 If errText <> String.Empty Then
                     If diagnostic IsNot Nothing Then
                         diagnostic.Reject()
@@ -595,8 +680,20 @@ Public Class UibyID
                     Me.RunCDFPlot(data)
                 End If
             End If
+        Catch ex As OperationCanceledException When run IsNot Nothing AndAlso ex.CancellationToken = run.Execution.Token AndAlso run.Execution.Snapshot.IsCancellationRequested
+            run.Execution.TryFail(ex)
+            executionLabel.Text = "Cancelled | Run " & If(diagnostic Is Nothing, "", diagnostic.RunId)
         Catch ex As Exception
+            If run IsNot Nothing Then run.Execution.TryFail(ex)
             If diagnostic IsNot Nothing Then
+                ' Keep the user-facing message redacted, but retain the real exception
+                ' (type, message and stack) in the existing local troubleshooting log.
+                Try
+                    CoreServices.Logger.Error(ex, "ANOVA/KW execution failed. Run " & diagnostic.RunId &
+                        " | stage " & If(run Is Nothing, "unknown", run.Execution.Snapshot.Stage.ToString()))
+                Catch
+                    ' A logging failure must never mask the original host exception.
+                End Try
                 If TypeOf ex Is ArgumentException Then
                     diagnostic.Reject()
                 Else
@@ -607,9 +704,23 @@ Public Class UibyID
                 CoreServices.Errors.LogAndThrow(ex, False, True)
             End If
         Finally
+            If run IsNot Nothing Then
+                If Not run.Execution.Snapshot.IsTerminal Then run.Execution.TryFail(New InvalidOperationException("Invocation did not complete."))
+                executionLabel.Text = run.Execution.Snapshot.State.ToString() & " | Run " & If(diagnostic Is Nothing, "", diagnostic.RunId)
+                run.Dispose()
+                executionRun = Nothing
+                executionCancel.Enabled = False
+                executionDemo.Enabled = True
+                For Each pair In enabledControls
+                    pair.Key.Enabled = pair.Value
+                Next
+            End If
             If diagnostic IsNot Nothing Then
                 diagnostic.Dispose()
                 If activeSharedOutputRun IsNot Nothing Then activeSharedOutputRun.Diagnostics = Nothing
+            End If
+            If installedUiContext Then
+                System.Threading.SynchronizationContext.SetSynchronizationContext(priorSynchronizationContext)
             End If
         End Try
     End Sub
@@ -1477,6 +1588,8 @@ Public Class UibyID
         Dim analysisResult As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult =
             Global.BESHStatNG.ExcelCommon.SharedAnalysisApplicationService.Run(analysisRequest)
 
+        executionRun.Checkpoint(ExecutionStage.Analysis, 60)
+
         Dim sharedResult As Global.BESHStatNG.ExcelCommon.OneWayAnovaApplicationResult =
             TryCast(analysisResult.Detail, Global.BESHStatNG.ExcelCommon.OneWayAnovaApplicationResult)
         If sharedResult Is Nothing Then
@@ -1606,6 +1719,8 @@ Public Class UibyID
         Dim analysisResult As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult =
             Global.BESHStatNG.ExcelCommon.SharedAnalysisApplicationService.Run(analysisRequest)
 
+        executionRun.Checkpoint(ExecutionStage.Analysis, 60)
+
         Dim sharedResult As Global.BESHStatNG.ExcelCommon.KruskalWallisApplicationResult =
             TryCast(analysisResult.Detail, Global.BESHStatNG.ExcelCommon.KruskalWallisApplicationResult)
         If sharedResult Is Nothing Then
@@ -1686,6 +1801,8 @@ Public Class UibyID
                                      supplementary As List(Of ResultTable), alpha As Double,
                                      charts As Func(Of ExcelDnaResultWriter, Integer, IReadOnlyList(Of System.Action)),
                                      diagnostic As WindowsDiagnosticRun) As Boolean
+        executionRun.Checkpoint(ExecutionStage.Output, 90)
+        executionCancel.Enabled = False ' No interruption/rollback of the synchronous write.
         diagnostic.OutputAttempted()
         activeSharedOutputRun = New ExcelDnaSharedOutputRun() With {.Diagnostics = diagnostic}
         Dim host As New ExcelDnaSharedOutputHost With {
@@ -1701,8 +1818,11 @@ Public Class UibyID
             .Charts = charts,
             .Inspect = Function(writer, intent) ExcelDnaOutputTargetAdapter.InspectWrite(intent, writer.wb, writer.ws),
             .Confirm = Function(observed) MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbYes}
-        LastSharedWriteOutcome = activeSharedOutputRun.Execute(result, supplementary, AppGlobals.PValuePresentation, alpha, host)
-        diagnostic.OutputFinished(LastSharedWriteOutcome.State)
+        executionRun.Write(Function()
+                               LastSharedWriteOutcome = activeSharedOutputRun.Execute(result, supplementary, AppGlobals.PValuePresentation, alpha, host)
+                               diagnostic.OutputFinished(LastSharedWriteOutcome.State)
+                               Return LastSharedWriteOutcome.State
+                           End Function)
         If LastSharedWriteOutcome.State = Global.BESHStatNG.ExcelCommon.OutputWriteState.Completed Then Return True
         If LastSharedWriteOutcome.State <> Global.BESHStatNG.ExcelCommon.OutputWriteState.CancelledByUser Then
             MsgBox(LastSharedWriteOutcome.Message & vbCrLf & diagnostic.FailureDisplay, vbExclamation, "Output " & LastSharedWriteOutcome.State.ToString())

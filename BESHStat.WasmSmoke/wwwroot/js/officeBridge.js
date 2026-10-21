@@ -1471,6 +1471,8 @@
         getRangeDataByReference,
         getRangeSetData,
         writeOutputPlan,
+        // Invalidate a cancelled/disposed UI's consent without starting Excel.run.
+        discardOutputConfirmation: token => pendingOverwrites.delete(token),
         writeCompositeOutputPlan,
         writeResultTable,
         writeResultTables

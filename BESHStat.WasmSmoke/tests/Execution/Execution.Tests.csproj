@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="MSTest" Version="3.6.4" />
+    <ProjectReference Include="..\..\..\BESHStat.Excel.Common\BESHStat.Excel.Common.vbproj" />
+    <Compile Include="..\..\Infrastructure\OfficeExecutionRun.cs" Link="OfficeExecutionRun.cs" />
+  </ItemGroup>
+</Project>

@@ -1,4 +1,5 @@
 @page "/"
+@implements IDisposable
 @using System.Globalization
 @using Microsoft.JSInterop
 @using BESHStatNG
@@ -38,6 +39,7 @@
 </details>
 
 <div class="mb-3">
+    <button class="btn btn-outline-danger me-2" @onclick="CancelCurrentExecution" disabled="@(activeExecution?.CanCancel != true)">Cancel current execution</button>
     <button class="btn btn-outline-secondary me-2" @onclick="RefreshOfficeStatus">
         Check Excel host
     </button>
@@ -52,7 +54,19 @@
     </button>
 </div>
 
-@if (overwriteChoice is not null && writeResult?.Confirmation is { } confirmation)
+<details class="mb-3">
+    <summary>Developer demo: cooperative cancellation (03.03)</summary>
+    <p>Bounded synthetic fixture with asynchronous yields, about five seconds. No worksheet data or output.
+        Blocking statistical calls and Office.js writes cannot be interrupted by this action.</p>
+    <button class="btn btn-outline-secondary" @onclick="RunExecutionDemo" disabled="@isBusy">Start safe yielding fixture</button>
+</details>
+@if (executionSnapshot is not null)
+{
+    <p role="status">Execution: @executionSnapshot.State | @executionSnapshot.Stage |
+        @(executionSnapshot.Percent.HasValue ? $"{executionSnapshot.Percent}%" : "progress unknown")</p>
+}
+
+@if (activeExecution?.AwaitingConsent == true && writeResult?.Confirmation is { } confirmation)
 {
     <div class="alert alert-warning" role="alertdialog" aria-label="Overwrite occupied output">
         <strong>Overwrite output on @confirmation.WorksheetName?</strong>
@@ -484,8 +498,49 @@
 
 @code {
     private string? diagnosticStatus;
-    private TaskCompletionSource<bool>? overwriteChoice;
-    private void ChooseOverwrite(bool approved) => overwriteChoice?.TrySetResult(approved);
+    private OfficeExecutionRun? activeExecution;
+    private ExecutionSnapshot? executionSnapshot;
+    private bool disposed;
+    private void ChooseOverwrite(bool approved) => activeExecution?.ChooseOverwrite(approved);
+    private void CancelCurrentExecution() => activeExecution?.Cancel();
+    public void Dispose()
+    {
+        disposed = true;
+        activeExecution?.Dispose();
+    }
+    private OfficeExecutionRun RegisterExecution()
+    {
+        isBusy = true;
+        var execution = new OfficeExecutionRun();
+        activeExecution = execution;
+        execution.Execution.Changed += snapshot =>
+        {
+            executionSnapshot = execution.Execution.Snapshot;
+            if (!disposed) _ = InvokeAsync(StateHasChanged);
+        };
+        executionSnapshot = execution.Execution.Snapshot;
+        return execution;
+    }
+
+    private async Task RunExecutionDemo()
+    {
+        if (isBusy || disposed) return;
+        using var execution = RegisterExecution();
+        try
+        {
+            await execution.RunAsync(new DiagnosticEmitter(new BrowserDiagnosticSink(JS)), AnalysisIds.OneWayAnova,
+                preferences.TraceEnabled, async session =>
+                {
+                    diagnosticStatus = $"Synthetic fixture | Run {session.Diagnostics!.RunId}";
+                    await session.SyntheticFixtureAsync();
+                    status = "Completed synthetic fixture. No analysis or output was scheduled.";
+                });
+        }
+        catch (OperationCanceledException ex) when (ex.CancellationToken == execution.Execution.Token && execution.Execution.Snapshot.IsCancellationRequested)
+        { status = "Cancelled synthetic fixture. No analysis or output was scheduled."; }
+        catch { status = "Synthetic fixture failed."; }
+        finally { activeExecution = null; isBusy = false; }
+    }
     private string? compositeTrace;
 
     private async Task WriteCompositeDemo()
@@ -759,111 +814,139 @@
 
     private async Task RunSharedAnalysisAndWrite()
     {
-        isBusy = true;
-        var runKind = analysisKind;
-        var operation = runKind == SpreadsheetAnalysisKind.OneWayAnova ? AnalysisIds.OneWayAnova :
-            runKind == SpreadsheetAnalysisKind.KruskalWallis ? AnalysisIds.KruskalWallis : "redacted";
-        var run = await new DiagnosticEmitter(new BrowserDiagnosticSink(JS)).StartAsync(operation, preferences.TraceEnabled);
+        if (isBusy || disposed) return;
+        using var execution = RegisterExecution();
         var diagnosticStage = "validation";
-        diagnosticStatus = $"Run {run.RunId} | diagnostic.run.started | invocation. Diagnostics use the browser console only; no reload persistence.";
+        string? confirmationToken = null;
         try
         {
-            writeResult = null;
-            selection = null;
-            selectedAreas = null;
-            groupedPreview = null;
-            groupedValidationMessage = null;
-            groupedIssues = null;
-
-            // Preflight MUST run before reading the selection or running the statistical engine.
-            hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
-            var target = new SpreadsheetOutputTarget
+            var runKind = analysisKind;
+            // Capture all editable run options and source identity before the first await.
+            var target = new SpreadsheetOutputTarget { Destination = outputDestination,
+                WorksheetName = outputWorksheetName, StartRow = outputStartRow, StartColumn = outputStartColumn };
+            var runWorksheet = sourceWorksheetName;
+            var runAddress = sourceAddress;
+            var configured = useConfiguredParsing;
+            var groupedOptions = MakeGroupedOptions();
+            var effective = NormalizeLocalPreferences().Snapshot;
+            var runWelch = includeWelch;
+            var runDunn = includeDunn;
+            var trace = preferences.TraceEnabled;
+            var operation = runKind == SpreadsheetAnalysisKind.OneWayAnova ? AnalysisIds.OneWayAnova :
+                runKind == SpreadsheetAnalysisKind.KruskalWallis ? AnalysisIds.KruskalWallis : "redacted";
+            await execution.RunAsync(new DiagnosticEmitter(new BrowserDiagnosticSink(JS)), operation, trace, async session =>
             {
-                Destination = outputDestination,
-                WorksheetName = outputWorksheetName,
-                StartRow = outputStartRow,
-                StartColumn = outputStartColumn
-            };
-            var analysisId = AnalysisCatalog.GetByLegacyKind(runKind).Id;
-            HostCapabilityPreflight.CheckRunAndWrite(analysisId, hostCapabilities, target).EnsureSupported();
-            var targetDecision = TargetPlanner.Create(target, hostCapabilities);
-            target = targetDecision.ToTarget(); // preserves both one-based inputs; no fallback/default repair
+                var run = session.Diagnostics!;
+                diagnosticStatus = $"Run {run.RunId} | diagnostic.run.started | invocation. Diagnostics use the browser console only; no reload persistence.";
+                session.Checkpoint(ExecutionStage.Validation, 5);
+                writeResult = null;
+                selection = null;
+                selectedAreas = null;
+                groupedPreview = null;
+                groupedValidationMessage = null;
+                groupedIssues = null;
 
-            diagnosticStage = "acquisition";
-            await run.ReportAsync("diagnostic.stage.entered", diagnosticStage);
-            selection = await AcquireRangeAsync();
-            groupedPreview = ParseSelectedInput(selection);
+                // Preflight MUST run before reading the selection or running the statistical engine.
+                hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
+                session.Execution.ThrowIfCancellationRequested();
+                var analysisId = AnalysisCatalog.GetByLegacyKind(runKind).Id;
+                HostCapabilityPreflight.CheckRunAndWrite(analysisId, hostCapabilities, target).EnsureSupported();
+                var targetDecision = TargetPlanner.Create(target, hostCapabilities);
+                target = targetDecision.ToTarget(); // preserves both one-based inputs; no fallback/default repair
 
-            var normalizedPreferences = NormalizeLocalPreferences();
-            var effective = normalizedPreferences.Snapshot;
-            PopulatePreferenceFields(effective);
-            if (normalizedPreferences.Status == PreferenceStatus.Normalized)
-                preferenceStatus = "Invalid local fields were reset to supported defaults for this run. Stored preferences were not changed; use Save/apply to change defaults.";
-            SpreadsheetAnalysisOptions options;
-            switch (runKind)
-            {
-                case SpreadsheetAnalysisKind.OneWayAnova:
-                    var anovaOptions = effective.CreateAnovaOptions();
-                    anovaOptions.IncludeWelch = includeWelch;
-                    options = anovaOptions;
-                    break;
+                diagnosticStage = "acquisition";
+                await run.ReportAsync("diagnostic.stage.entered", diagnosticStage);
+                selection = await session.AcquireAsync(async () =>
+                {
+                    if (string.IsNullOrWhiteSpace(runAddress) && string.IsNullOrWhiteSpace(runWorksheet))
+                        return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
+                    return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getRangeDataByReference",
+                        SpreadsheetRangeReference.FromUserInput(runWorksheet, runAddress));
+              });
+                if (configured)
+                {
+                    var parsed = GroupedNumericRangeParser.ParseWithDiagnostics(selection, groupedOptions);
+                    groupedIssues = parsed.Validation.Issues.ToList();
+                    if (!parsed.Success) throw new SpreadsheetInputValidationException(parsed.Validation);
+                    groupedPreview = parsed.Data;
+                }
+                else groupedPreview = GroupedNumericRangeParser.Parse(selection);
+                SpreadsheetAnalysisOptions options;
+                switch (runKind)
+                {
+                    case SpreadsheetAnalysisKind.OneWayAnova:
+                        var anovaOptions = effective.CreateAnovaOptions();
+                        anovaOptions.IncludeWelch = runWelch;
+                        options = anovaOptions;
+                        break;
 
-                case SpreadsheetAnalysisKind.KruskalWallis:
-                    var kwOptions = effective.CreateKruskalWallisOptions();
-                    kwOptions.IncludeDunnComparisons = includeDunn;
-                    options = kwOptions;
-                    break;
+                    case SpreadsheetAnalysisKind.KruskalWallis:
+                        var kwOptions = effective.CreateKruskalWallisOptions();
+                        kwOptions.IncludeDunnComparisons = runDunn;
+                        options = kwOptions;
+                        break;
 
-                default:
-                    throw new NotSupportedException("Unsupported shared analysis kind.");
-            }
+                    default:
+                        throw new NotSupportedException("Unsupported shared analysis kind.");
+                }
 
-            // The Office prototype exercises the stable-ID facade while the Windows
-            // Excel-DNA caller retains the original enum-based request facade.
-            SpreadsheetAnalysisInput analysisInput = useConfiguredParsing ? groupedPreview! : selection;
-            diagnosticStage = "analysis";
-            await run.ReportAsync("diagnostic.stage.entered", diagnosticStage);
-            sharedOutput = SharedAnalysisApplicationService.Run(analysisId, analysisInput, options);
-            anovaOutput = sharedOutput.Detail as OneWayAnovaApplicationResult;
-            kruskalOutput = sharedOutput.Detail as KruskalWallisApplicationResult;
+                // The Office prototype exercises the stable-ID facade while the Windows
+                // Excel-DNA caller retains the original enum-based request facade.
+                SpreadsheetAnalysisInput analysisInput = configured ? groupedPreview! : selection;
+                diagnosticStage = "analysis";
+                session.Checkpoint(ExecutionStage.Analysis, 35);
+                await run.ReportAsync("diagnostic.stage.entered", diagnosticStage);
+                session.Execution.ThrowIfCancellationRequested();
+                sharedOutput = SharedAnalysisApplicationService.Run(analysisId, analysisInput, options);
+                session.Checkpoint(ExecutionStage.Output, 80);
+                anovaOutput = sharedOutput.Detail as OneWayAnovaApplicationResult;
+                kruskalOutput = sharedOutput.Detail as KruskalWallisApplicationResult;
 
-            var settings = effective.CreateDisplaySettings();
+                var settings = effective.CreateDisplaySettings();
 
-            diagnosticStage = "output";
-            var document = OutputDocument.FromResult(sharedOutput);
-            var semantics = OutputSemanticPlanner.Create(document, settings, effective.DefaultAlpha);
-            var layout = OutputLayoutPlanner.Create(document, target,
-                new OutputLayoutOptions(blankRowsBetweenTables: 1), semanticPlan: semantics);
-            var preparedPlan = OfficeOutputPlanAdapter.Prepare(document, semantics, layout);
+                diagnosticStage = "output";
+                var document = OutputDocument.FromResult(sharedOutput);
+                var semantics = OutputSemanticPlanner.Create(document, settings, effective.DefaultAlpha);
+                var layout = OutputLayoutPlanner.Create(document, target,
+                    new OutputLayoutOptions(blankRowsBetweenTables: 1), semanticPlan: semantics);
+                var preparedPlan = OfficeOutputPlanAdapter.Prepare(document, semantics, layout);
 
-            if (preparedPlan.TableCount == 0)
-                throw new InvalidOperationException("The shared analysis returned no result tables.");
+                if (preparedPlan.TableCount == 0)
+                    throw new InvalidOperationException("The shared analysis returned no result tables.");
 
-            await run.ReportAsync("diagnostic.output.attempted", diagnosticStage);
-            writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan);
-            if (writeResult.State == "AwaitingConfirmation" && writeResult.Confirmation is not null)
-            {
-                overwriteChoice = new TaskCompletionSource<bool>();
-                status = "Output is occupied. Choose Overwrite or Cancel below.";
-                await InvokeAsync(StateHasChanged);
-                var approved = await overwriteChoice.Task;
-                var token = writeResult.Confirmation.Token;
-                overwriteChoice = null;
-                writeResult = await JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan,
-                    new { token, approved });
-            }
-            status = writeResult.State == "Completed" ? BuildSuccessStatus() :
-                writeResult.State + " — " + writeResult.Message;
-            var outputCode = writeResult.State == "Completed" ? "diagnostic.output.completed" : "diagnostic.output.incomplete";
-            await run.ReportAsync(outputCode, diagnosticStage, new Dictionary<string, string> {
-                ["outcome"] = writeResult.State == "Completed" ? "completed" : writeResult.State == "CancelledByUser" ? "cancelled" : "incomplete" });
-            diagnosticStatus = $"Run {run.RunId} | {outputCode} | {diagnosticStage}. Console diagnostics only; delivery is best effort.";
+                await run.ReportAsync("diagnostic.output.attempted", diagnosticStage);
+                writeResult = await session.WriteAsync(() => JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan).AsTask());
+                if (writeResult.State == "AwaitingConfirmation" && writeResult.Confirmation is not null)
+                {
+                    confirmationToken = writeResult.Confirmation.Token;
+                    status = "Output is occupied. Choose Overwrite or Cancel below.";
+                    var overwriteChoice = session.BeginConfirmation(() => { if (!disposed) _ = InvokeAsync(StateHasChanged); });
+                    var approved = await overwriteChoice.Task;
+                    var token = writeResult.Confirmation.Token;
+                    writeResult = await session.WriteAsync(() => JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan,
+                        new { token, approved }).AsTask());
+                }
+                status = writeResult.State == "Completed" ? BuildSuccessStatus() :
+                    writeResult.State + " — " + writeResult.Message;
+                var outputCode = writeResult.State == "Completed" ? "diagnostic.output.completed" : "diagnostic.output.incomplete";
+                await run.ReportAsync(outputCode, diagnosticStage, new Dictionary<string, string> {
+                    ["outcome"] = writeResult.State == "Completed" ? "completed" : writeResult.State == "CancelledByUser" ? "cancelled" : "incomplete" });
+                diagnosticStatus = $"Run {run.RunId} | {outputCode} | {diagnosticStage}. Console diagnostics only; delivery is best effort.";
+                session.FinishOutput(writeResult.State);
+            });
+        }
+        catch (OperationCanceledException ex) when (ex.CancellationToken == execution.Execution.Token && execution.Execution.Snapshot.IsCancellationRequested)
+        {
+            status = "Cancelled. No further analysis or output will start.";
+            diagnosticStatus = $"Run {execution.Diagnostics?.RunId} | Cancelled | {diagnosticStage}. Diagnostic end is emitted in finally.";
         }
         catch (Exception ex)
         {
+            var run = execution.Diagnostics;
+            execution.Execution.TryFail(ex);
             var code = diagnosticStage != "output" && ex is ArgumentException
                 ? "diagnostic.validation.rejected" : "diagnostic.run.failed";
-            await run.ReportAsync(code, diagnosticStage, new Dictionary<string, string> {
+            if (run is not null) await run.ReportAsync(code, diagnosticStage, new Dictionary<string, string> {
                 ["category"] = code == "diagnostic.validation.rejected" ? "input" : "unexpected" });
             var safeMessage = diagnosticStage == "output"
                 ? "Check the output destination and permissions before retrying. Partial output may remain; no rollback is provided."
@@ -875,12 +958,16 @@
             kruskalOutput = null;
             writeResult = null;
             status = "FAIL — " + safeMessage;
-            diagnosticStatus = $"Run {run.RunId} | {code} | {diagnosticStage}. Console diagnostics only; delivery is best effort.";
+            diagnosticStatus = $"Run {run?.RunId} | {code} | {diagnosticStage}. Console diagnostics only; delivery is best effort.";
         }
         finally
         {
-            await run.EndAsync();
-            overwriteChoice = null;
+            if (confirmationToken is not null)
+            {
+                try { await JS.InvokeVoidAsync("beshOffice.discardOutputConfirmation", confirmationToken); }
+                catch { /* Best effort cleanup only; never approve or write on disposal. */ }
+            }
+            activeExecution = null;
             isBusy = false;
         }
     }
