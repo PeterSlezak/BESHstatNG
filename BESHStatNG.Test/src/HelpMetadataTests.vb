@@ -118,7 +118,8 @@ Public Class HelpMetadataTests
         StringAssert.Contains(source, "Me.WireHelp(Me.btnHelp)")
         StringAssert.Contains(source, "ClientSize.Height + 36")
         StringAssert.Contains(source, "ColumnCount = 2, .RowCount = 1")
-        StringAssert.Contains(source, "BESHSTAT_DEV_EXECUTION_FIXTURE")
+        Assert.IsFalse(source.Contains("BESHSTAT_DEV_EXECUTION_FIXTURE"))
+        Assert.IsFalse(source.Contains("SyntheticFixtureAsync"))
         StringAssert.Contains(source, "ExecutionFormClosing")
         Assert.IsFalse(source.Contains("executionDemo"))
     End Sub

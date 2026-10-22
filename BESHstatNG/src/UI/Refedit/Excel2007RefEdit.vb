@@ -83,28 +83,33 @@ Public Class Excel2007RefEdit
 #End Region
 
     Private Sub xlSheetChangeHandle(ByVal target As Excel.Worksheet) Handles xlBook.SheetActivate
-        ' This runs when a sheet in the workbook becomes active
+        ' A deleted worksheet leaves its RCW non-Nothing but disconnected (0x800401A8).
+        ' Rebind from the event argument; never read properties of the old worksheet.
+        If Me.IsDisposed OrElse Not Me.pbInTextAdressHandler Then Return
 
-        If Me.pbInTextAdressHandler AndAlso
-            xlBook.ActiveSheet.name <> xlSheet.Name AndAlso
-            xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then
+        Try
+            If target Is Nothing Then Return
+
+            If xlSheet IsNot Nothing Then
+                Try
+                    RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
+                Catch ex As Exception
+                    ' The previous sheet may already have been deleted by Excel.
+                    LogRefEdit($"SheetActivate: previous SelectionChange handler unavailable:  {ex}")
+                End Try
+            End If
+
+            xlSheet = target
+
             Try
-
-                ' IMPORTANT: remove handler from old sheet
-                If xlSheet IsNot Nothing Then
-                    Try
-                        RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
-                    Catch ex As Exception
-                        LogRefEdit($"Error removing handler from old sheet {xlSheet.Name} {ex}")
-                    End Try
-                End If
-
-                xlSheet = target
                 AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
             Catch ex As Exception
                 LogRefEdit($"SheetActivate error {ex}")
             End Try
-        End If
+        Catch ex As Exception
+            Me.pbInTextAdressHandler = False
+            LogRefEdit($"SheetActivate error: {ex}")
+        End Try
     End Sub
 
 
@@ -499,54 +504,87 @@ Public Class Excel2007RefEdit
     ''' <remarks></remarks>
     Private Sub txtAddress_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtAddress.Enter
         If ExcelConnector Is Nothing Then Return
-        If xlBook Is Nothing OrElse xlSheet Is Nothing Then
-            If ExcelConnector.Workbooks.Count = 0 Then Return
-            xlBook = ExcelConnector.ActiveWorkbook
-            If xlBook.Sheets.Count = 0 OrElse xlBook.ActiveSheet.Type <> XlSheetType.xlWorksheet Then Return
-            xlSheet = xlBook.ActiveSheet
-        End If
 
         Try
-            Dim activeWbName = If(ExcelConnector Is Nothing OrElse ExcelConnector.ActiveWorkbook Is Nothing, "<null>", ExcelConnector.ActiveWorkbook.Name)
-            Dim currentWbName = If(xlBook Is Nothing, "<null>", xlBook.Name)
-            If xlBook IsNot Nothing AndAlso ExcelConnector IsNot Nothing AndAlso xlBook.Name <> ExcelConnector.ActiveWorkbook.Name Then
-                Me.Address = String.Empty
-                'LogRefEdit("txtAddress_Enter: workbook changed while entering; cleared Address")
+            If xlBook Is Nothing OrElse xlSheet Is Nothing Then
+                If ExcelConnector.Workbooks.Count = 0 Then Return
+                xlBook = ExcelConnector.ActiveWorkbook
+                If xlBook.Sheets.Count = 0 OrElse xlBook.ActiveSheet.Type <> XlSheetType.xlWorksheet Then Return
+                xlSheet = xlBook.ActiveSheet
             End If
-        Catch ex As Exception
-            LogRefEdit($"txtAddress_Enter workbook name check error: {ex}")
-        End Try
 
-        If Me.Address <> String.Empty Then
-            'we are in different sheet compared to the original worksheet so activate the original one
-            If xlSheet.Name <> xlBook.ActiveSheet.name Then xlSheet.Activate()
             Try
-                xlSheet.Range(Me.Address).Select()
+                Dim activeWbName = If(ExcelConnector Is Nothing OrElse ExcelConnector.ActiveWorkbook Is Nothing, "<null>", ExcelConnector.ActiveWorkbook.Name)
+                Dim currentWbName = If(xlBook Is Nothing, "<null>", xlBook.Name)
+                If xlBook IsNot Nothing AndAlso ExcelConnector IsNot Nothing AndAlso xlBook.Name <> ExcelConnector.ActiveWorkbook.Name Then
+                    Me.Address = String.Empty
+                    'LogRefEdit("txtAddress_Enter: workbook changed while entering; cleared Address")
+                End If
             Catch ex As Exception
-                Try
-                    If WorksheetNameFromRefAdress(Me.Address, True) <> xlSheet.Name Then
-                        xlSheet = WorksheetFromRefAdress(Me.Address)
-                        xlSheet.Activate()
-                        xlSheet.Range(Me.Address).Select()
-                    End If
-                Catch
-                End Try
-
+                LogRefEdit($"txtAddress_Enter workbook name check error: {ex}")
             End Try
-        Else
-            'No selection has been made yet and we are on different sheet compared to the one stored in the xlSheet so update the xlSheet
-            If xlSheet.Name <> xlBook.ActiveSheet.name AndAlso xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then xlSheet = xlBook.ActiveSheet
-        End If
 
-        Try
-            AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
-            'LogRefEdit($"SelectionChange handler attached to sheet={xlSheet.Name}; EnableEvents={IsEnableEventsEnabled()}")
+            If Me.Address <> String.Empty Then
+                'we are in different sheet compared to the original worksheet so activate the original one
+                If xlSheet.Name <> xlBook.ActiveSheet.name Then xlSheet.Activate()
+
+                Try
+                    xlSheet.Range(Me.Address).Select()
+                Catch ex As Exception
+                    Try
+                        If WorksheetNameFromRefAdress(Me.Address, True) <> xlSheet.Name Then
+                            xlSheet = WorksheetFromRefAdress(Me.Address)
+                            xlSheet.Activate()
+                            xlSheet.Range(Me.Address).Select()
+                        End If
+                    Catch
+                    End Try
+                End Try
+            Else
+                'No selection has been made yet and we are on different sheet compared to the one stored in the xlSheet so update the xlSheet
+                If xlSheet.Name <> xlBook.ActiveSheet.name AndAlso xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then xlSheet = xlBook.ActiveSheet
+            End If
+
+            Try
+                AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
+                'LogRefEdit($"SelectionChange handler attached to sheet={xlSheet.Name}; EnableEvents={IsEnableEventsEnabled()}")
+            Catch ex As Exception
+                LogRefEdit($"txtAddress_Enter AddHandler error: {ex}; EnableEvents={IsEnableEventsEnabled()}")
+            End Try
+
+
+            If Me.FindForm() IsNot Nothing Then Me.FindForm().TopMost = True
+            Me.pbInTextAdressHandler = True
         Catch ex As Exception
-            LogRefEdit($"txtAddress_Enter AddHandler error: {ex}; EnableEvents={IsEnableEventsEnabled()}")
+            LogRefEdit($"txtAddress_Enter: stale workbook/worksheet reference: {ex}")
+            Try
+                If xlSheet IsNot Nothing Then
+                    RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
+                End If
+            Catch detachEx As Exception
+                LogRefEdit($"txtAddress_Enter: stale SelectionChange handler: {detachEx}")
+            End Try
+            xlSheet = Nothing
+            Me.pbInTextAdressHandler = False
+            ' Keep Address unchanged: the 03.06 lifecycle validator must reject stale output.
+            ' A fresh user selection can still replace the obsolete address.
+            Try
+                Dim activeBook As Excel.Workbook = ExcelConnector.ActiveWorkbook
+                If activeBook IsNot Nothing Then
+                    Dim activeSheetObject As Object = activeBook.ActiveSheet
+                    If TypeOf activeSheetObject Is Excel.Worksheet Then
+                        xlBook = activeBook
+                        xlSheet = DirectCast(activeSheetObject, Excel.Worksheet)
+                        AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
+                        Me.pbInTextAdressHandler = True
+                    End If
+                End If
+            Catch rebindEx As Exception
+                LogRefEdit($"txtAddress_Enter: cannot rebind to active worksheet: {rebindEx}")
+                xlSheet = Nothing
+                Me.pbInTextAdressHandler = False
+            End Try
         End Try
-
-        If Me.FindForm() IsNot Nothing Then Me.FindForm().TopMost = True
-        Me.pbInTextAdressHandler = True
     End Sub
 
     'Private Sub xlApp_WorkbookActivate(Wb As Excel.Workbook) Handles xlApp.WorkbookActivate

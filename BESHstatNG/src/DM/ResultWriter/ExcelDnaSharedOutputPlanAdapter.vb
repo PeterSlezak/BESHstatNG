@@ -11,6 +11,8 @@ Imports BESHStatNG.AppInfrastructure
 ' The form's complete shared-output orchestration, with only native host operations
 ' injected. Tests use real analysis results and the real projection/intent/actions gate.
 Friend NotInheritable Class ExcelDnaSharedOutputHost
+    Friend Property Revalidate As Action = Sub()
+                                          End Sub
     Friend Property Acquire As Func(Of ExcelDnaSharedOutputRun, ExcelDnaResultWriter)
     Friend Property Target As Func(Of ExcelDnaResultWriter, SpreadsheetOutputTarget)
     Friend Property Identities As Func(Of ExcelDnaResultWriter, Tuple(Of String, String))
@@ -41,6 +43,7 @@ Friend NotInheritable Class ExcelDnaSharedOutputRun
         Try
             If result Is Nothing OrElse supplementary Is Nothing OrElse host Is Nothing Then Throw New ArgumentNullException("shared output")
             Stage = "target-resolution"
+            host.Revalidate.Invoke()
             Writer = host.Acquire(Me)
             Stage = "shared-request-projection"
             Dim target = host.Target(Writer)
@@ -84,6 +87,7 @@ Friend NotInheritable Class ExcelDnaSharedOutputRun
                                                        inspections += 1
                                                        Stage = If(inspections = 1, "occupancy-inspection", "occupancy-revalidation")
                                                        Try
+                                                           host.Revalidate.Invoke()
                                                            Dim observed = host.Inspect(Writer, Intent)
                                                            If chartObservation IsNot Nothing Then
                                                                Stage = "chart-revalidation"
@@ -140,6 +144,13 @@ Friend NotInheritable Class ExcelDnaSharedOutputRun
                         Throw
                     End Try
                 End Function, actions, destinationCreated:=CreationAttempted)
+            If TypeOf Failure Is DocumentLifecycleException AndAlso outcome.State <> OutputWriteState.Completed Then
+                outcome = New WriteResult(If(outcome.MutationMayHaveOccurred, OutputWriteState.PartiallyWritten, OutputWriteState.RejectedBeforeWrite),
+                    If(outcome.MutationMayHaveOccurred, WriteCodes.MutationUncertain, "output.lifecycle-stale"),
+                    "The bound document or destination changed. Refresh the source and destination before retrying.", Intent,
+                    outcome.MutationMayHaveOccurred, outcome.ConfirmedWritten.Select(Function(r) r.ArtifactId),
+                    outcome.ConfirmationRequired, outcome.OverwriteApproved)
+            End If
             If outcome.State = OutputWriteState.Completed AndAlso chartObservation IsNot Nothing AndAlso chartObservation.ExistingShapeCount > 0 Then
                 outcome = New WriteResult(outcome.State, "output.completed.chart-overlap-approved",
                     "Output completed. Possible chart overlap with existing shapes was approved; exact placement was not predicted.",
@@ -158,9 +169,10 @@ Friend NotInheritable Class ExcelDnaSharedOutputRun
                 .StartRow = Math.Max(1, Math.Min(1048576, target.StartRow)), .StartColumn = Math.Max(1, Math.Min(16384, target.StartColumn))}
             Dim scope = If(Intent, New WriteIntent("unresolved-plan", "unresolved-target", fallback, New WriteRegion() {}))
             Dim rejected = TryCast(ex, HostCapabilityException)
+            Dim stale = TypeOf ex Is DocumentLifecycleException
             Dim outcome As New WriteResult(If(CreationAttempted, OutputWriteState.PartiallyWritten,
-                If(rejected IsNot Nothing, OutputWriteState.RejectedBeforeWrite, OutputWriteState.FailedBeforeWrite)),
-                If(CreationAttempted, WriteCodes.MutationUncertain, If(rejected IsNot Nothing, rejected.Code, WriteCodes.Failed)),
+                If(rejected IsNot Nothing OrElse stale, OutputWriteState.RejectedBeforeWrite, OutputWriteState.FailedBeforeWrite)),
+                If(CreationAttempted, WriteCodes.MutationUncertain, If(stale, "output.lifecycle-stale", If(rejected IsNot Nothing, rejected.Code, WriteCodes.Failed))),
                 If(CreationAttempted, If(DestinationCreated, "Output preparation failed; a created worksheet or workbook may remain. No rollback was attempted.",
                     "Destination creation was attempted and may have changed the workbook. No rollback was attempted."),
                     If(rejected IsNot Nothing, rejected.Message, "Output preparation failed before any write was started.")), scope, CreationAttempted)

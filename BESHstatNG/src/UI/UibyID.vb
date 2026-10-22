@@ -14,6 +14,56 @@ Public Class UibyID
     Private executionLabel As System.Windows.Forms.Label
     Private executionToolTip As System.Windows.Forms.ToolTip
     Private lastPilotFault As UserFault
+    Private pilotWorkbook As Workbook
+    Private pilotWorksheet As Worksheet
+    Private pilotTarget As SpreadsheetOutputTarget
+    Private pilotAcquisitionBookId As String
+
+    Private Sub BindPilotLifecycle(run As WindowsExecutionRun)
+        Dim app = AppGlobals.app
+        Dim owner As Workbook = app.ActiveWorkbook
+        run.BindInputAddresses(Me.RefEdit2.Address, Me.RefEdit1.Address)
+        run.Lifecycle = WindowsDocumentLifecycle.Create(app)
+        Dim sourceSheet = WorksheetFromRefAdress(run.SourceAddress, If(Me.RefEdit2.ExcelWorkBook, owner))
+        Dim sourceBook = DirectCast(sourceSheet.Parent, Workbook)
+        pilotAcquisitionBookId = ExcelDnaOutputTargetAdapter.TargetIdentity(sourceBook)
+        run.Lifecycle.Watch(Function() WindowsDocumentLifecycle.Observe(app, sourceBook, sourceSheet))
+        If Me.optByID.Checked Then
+            Dim groupSheet = WorksheetFromRefAdress(run.GroupAddress, If(Me.RefEdit1.ExcelWorkBook, owner))
+            Dim groupBook = DirectCast(groupSheet.Parent, Workbook)
+            If ExcelDnaOutputTargetAdapter.TargetIdentity(groupBook) <> pilotAcquisitionBookId Then Throw New DocumentLifecycleException(DocumentInvalidationReason.DocumentChanged)
+            run.Lifecycle.Watch(Function() WindowsDocumentLifecycle.Observe(app, groupBook, groupSheet))
+        End If
+        pilotTarget = New SpreadsheetOutputTarget With {.Destination = SpreadsheetOutputDestination.CurrentWorksheet,
+            .WorksheetName = Nothing, .StartRow = 1, .StartColumn = 1}
+        pilotWorkbook = Nothing : pilotWorksheet = Nothing
+        If Me.optWorkbook.Checked Then
+            pilotTarget.Destination = SpreadsheetOutputDestination.NewWorkbook
+        ElseIf Me.optWorksheet.Checked Then
+            pilotTarget.Destination = SpreadsheetOutputDestination.NewWorksheet
+            pilotWorkbook = owner
+            run.Lifecycle.Watch(Function() WindowsDocumentLifecycle.Observe(app, owner, Nothing), requiresWorksheet:=False)
+        Else
+            pilotWorksheet = WorksheetFromRefAdress(Me.RefEditOutput.Address, If(Me.RefEditOutput.ExcelWorkBook, owner))
+            pilotWorkbook = DirectCast(pilotWorksheet.Parent, Workbook)
+            Dim region As Range = pilotWorksheet.Range(Me.RefEditOutput.Address)
+            pilotTarget.StartRow = region.Row : pilotTarget.StartColumn = region.Column
+            pilotTarget.WorksheetName = pilotWorksheet.Name
+            Dim boundBook = pilotWorkbook, boundSheet = pilotWorksheet
+            run.Lifecycle.Watch(Function() WindowsDocumentLifecycle.Observe(app, boundBook, boundSheet))
+        End If
+        run.Lifecycle.EnsureCurrent()
+    End Sub
+
+    Private Sub EnsurePilotAcquisition()
+        If executionRun Is Nothing Then Return
+        executionRun.Lifecycle.EnsureCurrent()
+        ' The existing importer resolves legacy sheet-qualified strings in the active book.
+        ' Reject a switch instead of allowing it to read a same-named sheet in another book.
+        If ExcelDnaOutputTargetAdapter.TargetIdentity(AppGlobals.app.ActiveWorkbook) <> pilotAcquisitionBookId Then
+            Throw New DocumentLifecycleException(DocumentInvalidationReason.ActiveDocumentSwitched)
+        End If
+    End Sub
 
     Sub New(analysis As String, tagn As Integer)
         ' This call is required by the designer.
@@ -289,6 +339,9 @@ Public Class UibyID
     End Function
 
     Private Function getDataMultipleGroups(ByRef strErr As String) As MultiGroupsUnpairedData
+        EnsurePilotAcquisition()
+        Dim dataAddress = If(executionRun Is Nothing, Me.RefEdit2.Address, executionRun.SourceAddress)
+        Dim groupAddress = If(executionRun Is Nothing, Me.RefEdit1.Address, executionRun.GroupAddress)
         Dim byIdData = New DataObj
         Dim out = New MultiGroupsUnpairedData
         'for by ID declarations
@@ -297,15 +350,16 @@ Public Class UibyID
 
         If Me.optByColumn.Checked Then
             'Group by Column. Loop throug each column separately because data are not paired
-            Dim colList() As String = ColumListFromRefAdress(Me.RefEdit2.Address)
+            Dim colList() As String = ColumListFromRefAdress(dataAddress)
             NoGroups = colList.Length
-            Dim ref As String = prepareRef2D(Me.RefEdit2.Address)
+            Dim ref As String = prepareRef2D(dataAddress)
             ii = 0 'use separate column counter so we can drop completely missing columns
 
             Dim outData()() As Double = New Double()() {}
             ReDim groupIDs(NoGroups - 1), outData(NoGroups - 1)
             For i = 0 To NoGroups - 1
                 executionRun?.Checkpoint(ExecutionStage.Acquisition)
+                EnsurePilotAcquisition()
                 Dim ref1 As String = WorksheetNameFromRefAdress(ref, True) & "!" & colList(i)
                 'Debug.Print(ref1)
                 Dim columData = New DataObj
@@ -329,12 +383,12 @@ Public Class UibyID
             Return out
         Else
             'Group by identifier
-            If WorksheetNameFromRefAdress(Me.RefEdit1.Address, True) <> WorksheetNameFromRefAdress(Me.RefEdit2.Address, True) Then
+            If WorksheetNameFromRefAdress(groupAddress, True) <> WorksheetNameFromRefAdress(dataAddress, True) Then
                 strErr = "Input reference range adresses are from different sheets. Input can be only from one sheet."
             End If
 
-            refId = prepareRef2D(Me.RefEdit1.Address)
-            refData = prepareRef2D(Me.RefEdit2.Address)
+            refId = prepareRef2D(groupAddress)
+            refData = prepareRef2D(dataAddress)
             'join reference address into one (remove sheet name from the second and concatenate).
             'Data can be only form one sheet because of the above check
             refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True) & "!", String.Empty) 'Remove "Sheet1!" from string
@@ -541,6 +595,11 @@ Public Class UibyID
         executionRun.Execution.RequestCancellation()
     End Sub
 
+    Private Sub ExecutionFormDisposed(sender As Object, e As System.EventArgs) Handles Me.Disposed
+        executionRun?.Execution.RequestCancellation()
+        executionRun?.Lifecycle?.Dispose()
+    End Sub
+
     Private Async Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
         Dim diagnostic As WindowsDiagnosticRun = Nothing
         Dim run As WindowsExecutionRun = Nothing
@@ -551,7 +610,7 @@ Public Class UibyID
             If Me.Tag = HelpTopic.OneWayANOVA OrElse Me.Tag = HelpTopic.KruskalWallisTest Then
                 ' Excel-DNA shows this form modelessly from a Ribbon callback. It may
                 ' not have installed a WinForms synchronization context, in which case
-                ' Await Task.Delay would continue on a pool thread. The entire Excel COM
+                ' a continuation could leave the UI thread. The entire Excel COM
                 ' and WinForms continuation must execute on the owning Excel UI thread.
                 priorSynchronizationContext = System.Threading.SynchronizationContext.Current
                 If Not TypeOf priorSynchronizationContext Is WindowsFormsSynchronizationContext Then
@@ -571,6 +630,7 @@ Public Class UibyID
                 Next
                 executionCancel.Enabled = True
                 AddHandler run.Execution.Changed, Sub(snapshot)
+                                                      If IsDisposed Then Return
                                                       Dim current = run.Execution.Snapshot
                                                       executionLabel.Text = current.State.ToString() & " | " & current.Stage.ToString() &
                                                           If(current.Percent.HasValue, " | " & current.Percent.ToString() & "%", "")
@@ -580,10 +640,12 @@ Public Class UibyID
                     Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis),
                     CoreServices.TraceExecutionLoggingEnabled, ExcelDnaHost.Diagnostics)
                 executionLabel.AccessibleDescription = "Run " & diagnostic.RunId
-                ' Explicit developer opt-in only, retained for 03.06 close-during-run acceptance.
-                If WindowsExecutionRun.DeveloperFixtureEnabled(Environment.GetEnvironmentVariable("BESHSTAT_DEV_EXECUTION_FIXTURE")) Then
-                    Await run.SyntheticFixtureAsync()
+                If Me.checkInputs() Then
+                    diagnostic.Reject()
+                    ShowPilotFault(UserFaultMapper.FromAnalysisFault(New AnalysisFault(AnalysisFaultCodes.InvalidRequest, "Invalid selection")), diagnostic)
+                    Exit Sub
                 End If
+                BindPilotLifecycle(run)
                 ' Yield once with the normal message loop; all continuations retain UI ownership.
                 Await System.Threading.Tasks.Task.Yield()
                 run.Checkpoint(ExecutionStage.Validation, 5)
@@ -595,7 +657,7 @@ Public Class UibyID
             If Me.Tag = HelpTopic.UnpairedTTest Then
                 If Me.ValidateUnpairedTtestOptionInputs() Then Exit Sub
             Else
-                If Me.checkInputs() Then
+                If run Is Nothing AndAlso Me.checkInputs() Then
                     If diagnostic IsNot Nothing Then
                         diagnostic.Reject()
                         ShowPilotFault(UserFaultMapper.FromAnalysisFault(New AnalysisFault(AnalysisFaultCodes.InvalidRequest, "Invalid selection")), diagnostic)
@@ -641,6 +703,7 @@ Public Class UibyID
             Else
                 'Get Data
                 data = Me.getDataMultipleGroups(errText)
+                run?.Lifecycle.EnsureCurrent()
                 If run IsNot Nothing Then run.Checkpoint(ExecutionStage.Analysis, 30)
                 If errText <> String.Empty Then
                     If diagnostic IsNot Nothing Then
@@ -680,15 +743,16 @@ Public Class UibyID
             End If
         Catch ex As OperationCanceledException When run IsNot Nothing AndAlso ex.CancellationToken = run.Execution.Token AndAlso run.Execution.Snapshot.IsCancellationRequested
             run.Execution.TryFail(ex)
-            executionLabel.Text = run.FailureDisplay(ex, LastSharedWriteOutcome, If(diagnostic Is Nothing, Nothing, diagnostic.RunId))
+            If Not IsDisposed Then executionLabel.Text = run.FailureDisplay(ex, LastSharedWriteOutcome, If(diagnostic Is Nothing, Nothing, diagnostic.RunId))
         Catch ex As Exception
             If run IsNot Nothing Then run.Execution.TryFail(ex)
             If diagnostic IsNot Nothing Then
-                ' Keep the user-facing message redacted, but retain the real exception
-                ' (type, message and stack) in the existing local troubleshooting log.
+                ' Native exception text can contain workbook paths/values. Retain only
+                ' the run/stage and a mapped code in the default pilot diagnostic log.
                 Try
-                    CoreServices.Logger.Error(ex, "ANOVA/KW execution failed. Run " & diagnostic.RunId &
-                        " | stage " & If(run Is Nothing, "unknown", run.Execution.Snapshot.Stage.ToString()))
+                    CoreServices.Logger.Warn("ANOVA/KW execution failed. Run " & diagnostic.RunId &
+                        " | stage " & If(run Is Nothing, "unknown", run.Execution.Snapshot.Stage.ToString()) &
+                        " | code " & UserFaultMapper.FromException(ex).Code)
                 Catch
                     ' A logging failure must never mask the original host exception.
                 End Try
@@ -705,19 +769,24 @@ Public Class UibyID
             If run IsNot Nothing Then
                 If Not run.Execution.Snapshot.IsTerminal Then run.Execution.TryFail(New InvalidOperationException("Invocation did not complete."))
                 Dim terminalFault = If(lastPilotFault, UserFaultMapper.FromOutcome(run.Execution.Snapshot, LastSharedWriteOutcome))
-                executionLabel.Text = run.Execution.Snapshot.State.ToString() &
-                    If(terminalFault Is Nothing, "", " | " & terminalFault.Code) & " | Run " & If(diagnostic Is Nothing, "", diagnostic.RunId)
-                executionToolTip.SetToolTip(executionLabel, UserFaultMapper.FormatDisplay(terminalFault, If(diagnostic Is Nothing, Nothing, diagnostic.RunId)))
                 run.Dispose()
+                pilotWorkbook = Nothing : pilotWorksheet = Nothing : pilotTarget = Nothing
+                pilotAcquisitionBookId = Nothing
                 executionRun = Nothing
-                executionCancel.Enabled = False
-                For Each pair In enabledControls
-                    pair.Key.Enabled = pair.Value
-                Next
+                If Not IsDisposed Then
+                    executionLabel.Text = run.Execution.Snapshot.State.ToString() &
+                        If(terminalFault Is Nothing, "", " | " & terminalFault.Code) & " | Run " & If(diagnostic Is Nothing, "", diagnostic.RunId)
+                    executionToolTip.SetToolTip(executionLabel, UserFaultMapper.FormatDisplay(terminalFault, If(diagnostic Is Nothing, Nothing, diagnostic.RunId)))
+                    executionCancel.Enabled = False
+                    For Each pair In enabledControls
+                        pair.Key.Enabled = pair.Value
+                    Next
+                End If
             End If
             If diagnostic IsNot Nothing Then
                 diagnostic.Dispose()
                 If activeSharedOutputRun IsNot Nothing Then activeSharedOutputRun.Diagnostics = Nothing
+                activeSharedOutputRun = Nothing
             End If
             If installedUiContext Then
                 System.Threading.SynchronizationContext.SetSynchronizationContext(priorSynchronizationContext)
@@ -1800,6 +1869,7 @@ Public Class UibyID
     Private Sub ShowPilotFault(fault As UserFault, diagnostic As WindowsDiagnosticRun)
         If fault Is Nothing Then Return
         lastPilotFault = fault
+        If IsDisposed Then Return
         MsgBox(UserFaultMapper.FormatDisplay(fault, If(diagnostic Is Nothing, Nothing, diagnostic.RunId)),
                If(fault.Severity = UserFaultSeverity.Information, vbInformation, vbExclamation), fault.Title)
     End Sub
@@ -1813,6 +1883,10 @@ Public Class UibyID
         diagnostic.OutputAttempted()
         activeSharedOutputRun = New ExcelDnaSharedOutputRun() With {.Diagnostics = diagnostic}
         Dim host As New ExcelDnaSharedOutputHost With {
+            .Revalidate = Sub()
+                              executionRun.Execution.ThrowIfCancellationRequested()
+                              executionRun.Lifecycle.EnsureCurrent()
+                          End Sub,
             .Acquire = Function(run) GetSharedResultWriter(analysisId, result, supplementary),
             .Target = Function(writer) New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
                 .Destination = activeSharedOutputRun.RequestedTarget.Destination, .WorksheetName = CStr(writer.ws.Name),
@@ -1840,28 +1914,12 @@ Public Class UibyID
     Private Function GetSharedResultWriter(analysisId As String,
                                           result As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult,
                                           supplementary As List(Of ResultTable)) As ExcelDnaResultWriter
-        Dim target As New Global.BESHStatNG.ExcelCommon.SpreadsheetOutputTarget With {
-            .Destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.CurrentWorksheet,
-            .WorksheetName = Nothing, .StartRow = 1, .StartColumn = 1}
-        Dim workbook As Workbook = Nothing
-        Dim worksheet As Worksheet = Nothing
+        executionRun.Lifecycle.EnsureCurrent()
+        Dim target As New SpreadsheetOutputTarget With {.Destination = pilotTarget.Destination,
+            .WorksheetName = pilotTarget.WorksheetName, .StartRow = pilotTarget.StartRow, .StartColumn = pilotTarget.StartColumn}
+        Dim workbook As Workbook = pilotWorkbook
+        Dim worksheet As Worksheet = pilotWorksheet
         activeSharedOutputRun.RequestedTarget = target
-        If Me.optWorkbook.Checked Then
-            target.Destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorkbook
-        ElseIf Me.optWorksheet.Checked Then
-            target.Destination = Global.BESHStatNG.ExcelCommon.SpreadsheetOutputDestination.NewWorksheet
-            workbook = AppGlobals.app.ActiveWorkbook
-        Else
-            workbook = AppGlobals.app.ActiveWorkbook
-            worksheet = WorksheetFromRefAdress(Me.RefEditOutput.Address)
-            If worksheet IsNot Nothing Then
-                workbook = DirectCast(worksheet.Parent, Workbook)
-                Dim region As Range = worksheet.Range(Me.RefEditOutput.Address)
-                target.StartRow = region.Row
-                target.StartColumn = region.Column
-                target.WorksheetName = worksheet.Name
-            End If
-        End If
         Dim extras As New List(Of ResultTableOutputModel)
         For Each table As ResultTable In supplementary
             extras.Add(table.ToOutputModel())
@@ -1881,6 +1939,7 @@ Public Class UibyID
         End If
         activeSharedOutputRun.RequestedTarget = target
         activeSharedOutputRun.Stage = "destination-creation"
+        executionRun.Lifecycle.EnsureCurrent()
         ' Keep the exact objects validated above; do not re-read ActiveWorkbook after
         ' adding a sheet/book or re-resolve a potentially changed RefEdit destination.
         Dim writer As New ExcelDnaResultWriter(target.StartRow, target.StartColumn)
@@ -1898,6 +1957,8 @@ Public Class UibyID
             writer.wb = workbook
             writer.ws = worksheet
         End If
+        Dim createdBook = writer.wb, createdSheet = writer.ws
+        executionRun.Lifecycle.Watch(Function() WindowsDocumentLifecycle.Observe(AppGlobals.app, createdBook, createdSheet))
         Return writer
     End Function
 

@@ -293,6 +293,7 @@
         const now = () => typeof performance !== "undefined" ? performance.now() : Date.now();
         const started = now();
         const operation = { limits, check() {
+            if (limits.lifecycleHandle) requireLifecycle(limits.lifecycleHandle);
             if (limits.signal && limits.signal.aborted) {
                 const error = new Error("Acquisition cancelled; no snapshot returned.");
                 error.code = "input.cancelled";
@@ -755,12 +756,13 @@
     }
 
     function supportsExcelApi(version) {
-        return Office.context.requirements.isSetSupported("ExcelApi", version) === true;
+        const requirements = typeof Office !== "undefined" && Office.context && Office.context.requirements;
+        return !!requirements && typeof requirements.isSetSupported === "function" && requirements.isSetSupported("ExcelApi", version) === true;
     }
 
     // Read-only inspection. Missing optional API sets mean unverified, not safe to
     // overwrite. A supported probe that fails aborts; never swallow permission errors.
-    async function resolveOutputWorksheet(context, target, rectangles, mutation = () => {}) {
+    async function resolveOutputWorksheet(context, target, rectangles, mutation = () => {}, boundSheet = null) {
         if (!context.workbook || !context.workbook.worksheets) {
             throw targetError("output.target-invalid", "The target workbook is inaccessible.");
         }
@@ -781,7 +783,7 @@
             mutation(name);
             return worksheets.add(name);
         }
-        const worksheet = worksheets.getActiveWorksheet();
+        const worksheet = boundSheet ? worksheets.getItem(boundSheet.id) : worksheets.getActiveWorksheet();
         if (!worksheet) throw targetError("output.target-invalid", "The active worksheet is missing or inaccessible.");
         if (!supportsExcelApi("1.2") || !supportsExcelApi("1.13")) {
             throw targetError("output.occupancy-unverified", "Current-sheet output requires protection and merged-cell inspection (ExcelApi 1.13). Choose a supported host.");
@@ -807,12 +809,243 @@
         if (protection && protection.protected) throw targetError("output.target-unwritable", "The target worksheet is protected. Choose an unprotected worksheet.");
         if (merges.some(areas => !areas.isNullObject)) throw targetError("output.target-merged", "Planned output intersects merged cells. Choose an unmerged destination.");
         if (typeof worksheet.id !== "string" || !worksheet.id) throw targetError("output.occupancy-unverified", "Worksheet identity could not be verified.");
+        if (boundSheet && (worksheet.id !== boundSheet.id || worksheet.name !== boundSheet.name)) throw lifecycleError();
         return { worksheet, ranges };
     }
 
     // Tokens never contain cell data. Observations remain private to this task-pane instance,
     // which Office binds to one workbook. They are single-use and expire after five minutes.
     const pendingOverwrites = new Map();
+    // Operation-owned metadata, never workbook IDs, cell values, or paths. A retained
+    // Office document object proves only this task pane's workbook context continuity.
+    const documentLeases = new Map();
+    const documentContexts = new WeakMap();
+    let lifecycleSequence = 0, contextSequence = 0, hostUnloaded = false, lifecycleEventsDisabled = false;
+    function lifecycleError() {
+        return targetError("output.lifecycle-stale", "The original document, worksheet or selection changed or could not be verified. Refresh the source and destination, then retry.");
+    }
+    function currentDocument() {
+        return !hostUnloaded && typeof Office !== "undefined" && Office.context && Office.context.document;
+    }
+    function requireLifecycle(handle) {
+        const lease = documentLeases.get(handle);
+        if (!lease || lease.closed || lease.invalid || !lease.document || lease.document !== currentDocument()) {
+            if (lease) invalidateLifecycle(lease, "document-changed");
+            throw lifecycleError();
+        }
+        return lease;
+    }
+    function clearLifecycleConsents(handle) {
+        for (const [token, approval] of pendingOverwrites) if (approval.lifecycleHandle === handle) pendingOverwrites.delete(token);
+    }
+    function invalidateLifecycle(lease, reason) {
+        if (lease.closed || lease.invalid) return;
+        lease.invalid = reason;
+        clearLifecycleConsents(lease.handle);
+        const observer = lease.observer;
+        if (observer && typeof observer.invokeMethodAsync === "function") {
+            // No Excel.run/context.sync in event handlers; late .NET callbacks are guarded too.
+            try { Promise.resolve(observer.invokeMethodAsync("DocumentLifecycleChanged", lease.handle)).catch(() => {}); }
+            catch { /* A disconnected component is not permission to write. */ }
+        }
+        // Detach outside the native event callback, using only its owning context.
+        Promise.resolve().then(() => disposeDocumentLifecycle(lease.handle, lease.document !== currentDocument())).catch(() => {});
+    }
+    function sourceMetadata(entry) {
+        const { worksheet, range } = entry;
+        if (typeof worksheet.id !== "string" || !worksheet.id.trim() || worksheet.id.length > 1024 ||
+            typeof worksheet.name !== "string" || !worksheet.name || worksheet.name.length > 256 ||
+            ![range.rowIndex, range.columnIndex, range.rowCount, range.columnCount].every(Number.isSafeInteger) ||
+            range.rowIndex < 0 || range.columnIndex < 0 || range.rowCount < 1 || range.columnCount < 1 ||
+            range.rowIndex + range.rowCount > 1048576 || range.columnIndex + range.columnCount > 16384) throw lifecycleError();
+        return { id: worksheet.id, name: worksheet.name, row: range.rowIndex, column: range.columnIndex,
+            rows: range.rowCount, columns: range.columnCount };
+    }
+    async function lifecycleEntries(context, options) {
+        let ranges;
+        if (options.sourceReference) return [prepareRange(context, options.sourceReference)];
+        if (options.selectedAreas && supportsExcelApi("1.9")) {
+            const areas = context.workbook.getSelectedRanges().areas;
+            areas.load("items/rowCount,items/columnCount");
+            await context.sync();
+            if (!Array.isArray(areas.items) || !areas.items.length || areas.items.length > 1024) throw lifecycleError();
+            ranges = areas.items;
+        } else ranges = [context.workbook.getSelectedRange()];
+        return ranges.map(range => {
+            const worksheet = range.worksheet;
+            worksheet.load("id,name");
+            range.load("rowIndex,columnIndex,rowCount,columnCount,address");
+            return { worksheet, range };
+        });
+    }
+    function registerLifecycleEvents(context, lease) {
+        if (lifecycleEventsDisabled) return; // A failed detach must not accumulate new native sinks.
+        const sheets = context.workbook.worksheets;
+        for (const [name, version, kind] of [["onDeleted", "1.7", "worksheet-removed"],
+            ["onActivated", "1.7", "selection-changed"], ["onSelectionChanged", "1.7", "selection-changed"],
+            ["onNameChanged", "1.17", "worksheet-renamed"]]) {
+            if (!supportsExcelApi(version) || !sheets[name] || typeof sheets[name].add !== "function") continue;
+            const callback = event => {
+                if (lease.closed || lease.invalid) return;
+                if (!event || typeof event.worksheetId !== "string") { invalidateLifecycle(lease, "unverifiable"); return; }
+                if (lease.document !== currentDocument()) { invalidateLifecycle(lease, "document-changed"); return; }
+                const source = lease.sources.find(item => item.id === event.worksheetId);
+                if (kind === "selection-changed") {
+                    if (!lease.selectionBound || lease.copied) return;
+                    // Activation of the already-bound sheet is benign. A same-address
+                    // selection notification is also benign; no selection revision is invented.
+                    if (name === "onActivated" && source) return;
+                    if (name === "onSelectionChanged" && source && typeof event.address === "string") {
+                        try {
+                            const actual = validateReference({ worksheetName: source.name, address: event.address });
+                            if (actual.startRow - 1 === source.row && actual.startColumn - 1 === source.column &&
+                                actual.rowCount === source.rows && actual.columnCount === source.columns && lease.sources.length === 1) return;
+                        } catch { /* Unknown notification: invalidate a volatile selection. */ }
+                    }
+                    invalidateLifecycle(lease, kind);
+                } else if (source || lease.target?.id === event.worksheetId) invalidateLifecycle(lease, kind);
+            };
+            const registration = sheets[name].add(callback);
+            if (!registration || typeof registration.remove !== "function") throw lifecycleError();
+            lease.registrations.push(registration);
+        }
+    }
+    async function beginDocumentLifecycle(options = {}, observer = null) {
+        const source = options.sourceReference;
+        const target = options.target;
+        if (source && (typeof source.worksheetName !== "string" || source.worksheetName.length > 256 ||
+            typeof source.address !== "string" || source.address.length > 256 ||
+            (source.worksheetId && (typeof source.worksheetId !== "string" || source.worksheetId.length > 1024)) ||
+            (source.workbookName && (typeof source.workbookName !== "string" || source.workbookName.length > 1024)))) throw lifecycleError();
+        if (target && (typeof target.worksheetName !== "string" || target.worksheetName.length > 256)) throw lifecycleError();
+        if (source) validateReference(source);
+        options = { sourceReference: source ? { worksheetName: source.worksheetName, address: source.address,
+            worksheetId: source.worksheetId || "", workbookName: source.workbookName || "" } : null,
+            target: target ? { destination: target.destination, worksheetName: target.worksheetName,
+                startRow: target.startRow, startColumn: target.startColumn } : null, selectedAreas: options.selectedAreas === true };
+        await ensureExcelHost();
+        const document = currentDocument();
+        if (!document || (typeof document !== "object" && typeof document !== "function") || documentLeases.size >= 8) throw lifecycleError();
+        if (options.sourceReference) validateReference(options.sourceReference);
+        if (!documentContexts.has(document)) documentContexts.set(document, `context-${++contextSequence}`);
+        const lease = { handle: `lifecycle-${++lifecycleSequence}`, document, observer, sources: [], target: null,
+            selectionBound: !options.sourceReference, options, copied: false, closed: false, invalid: null, registrations: [] };
+        documentLeases.set(lease.handle, lease);
+        try {
+            await Excel.run(async context => {
+                lease.context = context;
+                const entries = await lifecycleEntries(context, options);
+                const target = options.target?.destination === OUTPUT_DESTINATION.currentWorksheet ? context.workbook.worksheets.getActiveWorksheet() : null;
+                if (options.target?.destination === OUTPUT_DESTINATION.currentWorksheet && !target) throw lifecycleError();
+                if (target) target.load("id,name");
+                await context.sync();
+                requireLifecycle(lease.handle);
+                lease.sources = entries.map(sourceMetadata);
+                if (target) {
+                    if (typeof target.id !== "string" || !target.id.trim() || target.id.length > 1024 || !target.name) throw lifecycleError();
+                    lease.target = { id: target.id, name: target.name };
+                }
+                try {
+                    registerLifecycleEvents(context, lease);
+                    if (lease.registrations.length) await context.sync();
+                } catch {
+                    // Reconcile at every boundary even when event APIs exist but registration fails.
+                    for (const item of lease.registrations) { try { item.remove(); } catch { lifecycleEventsDisabled = true; } }
+                    lease.registrations = [];
+                    try { if (lease.document === currentDocument()) await context.sync(); } catch { lifecycleEventsDisabled = true; }
+                }
+                requireLifecycle(lease.handle);
+            });
+            // The registration sync is not authorization. Recheck all captured facts once more.
+            await verifyDocumentLifecycle(lease.handle);
+            return { handle: lease.handle, contextIdentity: documentContexts.get(document), workbookIdentity: "",
+                worksheetIdentity: lease.sources[0].id, worksheetName: lease.sources[0].name,
+                selectionRevision: "", eventsRegistered: lease.registrations.length };
+        } catch (error) {
+            await disposeDocumentLifecycle(lease.handle);
+            throw lifecycleError();
+        }
+    }
+    async function prepareLifecycleCheck(context, lease) {
+        requireLifecycle(lease.handle);
+        const facts = [...lease.sources, ...(lease.target ? [lease.target] : [])].map(bound => {
+            let sheet;
+            try { sheet = context.workbook.worksheets.getItem(bound.id); }
+            catch { invalidateLifecycle(lease, "worksheet-removed"); throw lifecycleError(); }
+            sheet.load("id,name");
+            return { bound, sheet };
+        });
+        const selected = lease.selectionBound && !lease.copied ? await lifecycleEntries(context, lease.options) : null;
+        return () => {
+            requireLifecycle(lease.handle);
+            for (const { bound, sheet } of facts) {
+                if (sheet.id !== bound.id || sheet.name !== bound.name) { invalidateLifecycle(lease, "worksheet-changed"); throw lifecycleError(); }
+            }
+            if (selected && JSON.stringify(selected.map(sourceMetadata)) !== JSON.stringify(lease.sources)) {
+                invalidateLifecycle(lease, "selection-changed"); throw lifecycleError();
+            }
+        };
+    }
+    async function verifyDocumentLifecycle(handle) {
+        const lease = requireLifecycle(handle);
+        try {
+            await Excel.run(async context => {
+                const verify = await prepareLifecycleCheck(context, lease);
+                await context.sync();
+                verify();
+            });
+            requireLifecycle(handle);
+            return true;
+        } catch {
+            invalidateLifecycle(lease, "unverifiable");
+            throw lifecycleError();
+        }
+    }
+    async function acceptLifecycleInput(handle, data, copied = true) {
+        const lease = requireLifecycle(handle);
+        const ranges = data.ranges || [data];
+        if (ranges.length !== lease.sources.length || ranges.some((range, index) => {
+            const source = lease.sources[index];
+            const exact = range.startRow - 1 === source.row && range.startColumn - 1 === source.column &&
+                range.rowCount === source.rows && range.columnCount === source.columns;
+            const narrowed = (source.rows === 1048576 || source.columns === 16384) &&
+                range.startRow - 1 >= source.row && range.startColumn - 1 >= source.column &&
+                range.startRow - 1 + range.rowCount <= source.row + source.rows &&
+                range.startColumn - 1 + range.columnCount <= source.column + source.columns;
+            return range.worksheetId !== source.id || range.worksheetName !== source.name || (!exact && !narrowed);
+        })) { invalidateLifecycle(lease, "selection-changed"); throw lifecycleError(); }
+        await verifyDocumentLifecycle(handle);
+        requireLifecycle(handle);
+        lease.copied = copied;
+    }
+    async function disposeDocumentLifecycle(handle, unavailable = false) {
+        const lease = documentLeases.get(handle);
+        if (!lease || lease.closed) return false;
+        lease.closed = true;
+        lease.observer = null;
+        documentLeases.delete(handle);
+        clearLifecycleConsents(handle);
+        const registrations = lease.registrations;
+        lease.registrations = [];
+        // Do not open a host batch on unload or against a different document context.
+        if (!unavailable && lease.document === currentDocument() && registrations.length && lease.context) {
+            try {
+                await Excel.run(lease.context, async context => {
+                    for (const item of registrations) { try { item.remove(); } catch { lifecycleEventsDisabled = true; } }
+                    await context.sync();
+                });
+            } catch { lifecycleEventsDisabled = true; /* Closed guards prohibit every late callback. */ }
+        } else if (registrations.length) {
+            lifecycleEventsDisabled = true;
+        }
+        return true;
+    }
+    if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+        window.addEventListener("pagehide", () => {
+            hostUnloaded = true;
+            for (const lease of documentLeases.values()) void disposeDocumentLifecycle(lease.handle, true);
+        });
+    }
     let overwriteSequence = 0;
     function outcome(state, code, message, extra = {}) {
         return { schemaVersion: 1, state, code, message, mutationMayHaveOccurred: state === "PartiallyWritten",
@@ -854,11 +1087,14 @@
         return { fingerprint: JSON.stringify(observations), occupied, hasValues, hasFormulas };
     }
 
-    async function writeOutputPlan(input, consent = null) {
+    async function writeOutputPlan(input, consent = null, lifecycleHandle = null) {
         let mutation = false, worksheetName = "", planned = [], phase = "validation", destination = null,
             confirmationRequired = null, overwriteApproved = null;
         try {
         const plan = validateOutputPlan(input); // ALL wire checks before Excel.run or creation
+        const lease = lifecycleHandle === null ? null : requireLifecycle(lifecycleHandle);
+        if (lease && (!lease.options.target || ["destination", "worksheetName", "startRow", "startColumn"].some(
+            key => lease.options.target[key] !== plan.target[key]))) throw lifecycleError();
         const planIdentity = JSON.stringify(plan);
         destination = plan.target.destination;
         let approval = null;
@@ -866,7 +1102,7 @@
             approval = pendingOverwrites.get(consent.token);
             pendingOverwrites.delete(consent.token);
             if (!approval || approval.expires < Date.now() || approval.planIdentity !== planIdentity ||
-                approval.document !== Office.context.document || typeof consent.approved !== "boolean") {
+                approval.document !== Office.context.document || approval.lifecycleHandle !== lifecycleHandle || typeof consent.approved !== "boolean") {
                 return outcome("RejectedBeforeWrite", "output.consent-stale", "The overwrite request expired or changed. Inspect and confirm again.");
             }
             if (!consent.approved) return outcome("CancelledByUser", "output.cancelled", "Overwrite cancelled. No workbook changes were made.", { ...approval.summary, overwriteApproved: false });
@@ -884,7 +1120,10 @@
         planned = plan.tables.map(t => ({ artifactId: t.artifactId, bounds: t.bounds }));
         phase = "inspection";
         return await Excel.run(async context => {
-            const resolved = await resolveOutputWorksheet(context, plan.target, plan.tables.map(table => table.bounds), name => { mutation = true; worksheetName = name; });
+            const verify = lease ? await prepareLifecycleCheck(context, lease) : () => {};
+            const resolved = await resolveOutputWorksheet(context, plan.target, plan.tables.map(table => table.bounds),
+                name => { verify(); mutation = true; worksheetName = name; }, lease?.target);
+            verify();
             const worksheet = resolved.worksheet || resolved;
             if (resolved.ranges) {
                 worksheetName = worksheet.name; // loaded by the current-sheet read-only sync
@@ -902,7 +1141,7 @@
                     if (pendingOverwrites.size >= 8) pendingOverwrites.delete(pendingOverwrites.keys().next().value);
                     const token = `overwrite-${++overwriteSequence}-${Date.now()}`;
                     pendingOverwrites.set(token, { planIdentity, worksheetId: worksheet.id, worksheetName: worksheet.name,
-                        fingerprint: observed.fingerprint, document: Office.context.document, expires: Date.now() + 300000, summary });
+                        fingerprint: observed.fingerprint, document: Office.context.document, lifecycleHandle, expires: Date.now() + 300000, summary });
                     return outcome("AwaitingConfirmation", "output.confirmation-required", "Occupied output requires explicit overwrite approval.", {
                         ...summary, confirmationRequired: true, confirmation: { token, worksheetName,
                             rectangles: resolved.ranges.map(r => r.address), occupiedRegionCount: observed.occupied.length,
@@ -1464,6 +1703,10 @@
     }
 
     window.beshOffice = {
+        beginDocumentLifecycle,
+        verifyDocumentLifecycle,
+        acceptLifecycleInput,
+        disposeDocumentLifecycle,
         getHostStatus,
         getHostCapabilities,
         getSelectedRangeData,
@@ -1472,7 +1715,10 @@
         getRangeSetData,
         writeOutputPlan,
         // Invalidate a cancelled/disposed UI's consent without starting Excel.run.
-        discardOutputConfirmation: token => pendingOverwrites.delete(token),
+        discardOutputConfirmation: (token, lifecycleHandle = null) => {
+            if (pendingOverwrites.get(token)?.lifecycleHandle !== lifecycleHandle) return false;
+            return pendingOverwrites.delete(token);
+        },
         writeCompositeOutputPlan,
         writeResultTable,
         writeResultTables

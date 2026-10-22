@@ -628,6 +628,41 @@ Public Class SharedOutputPlanTests
 
     ' Matches the production RunSharedOutput lifecycle. Only native destination/facts,
     ' reads and user interaction are simulated, rather than bypassing intent construction.
+    <DataTestMethod> <DataRow(0)> <DataRow(1)> <DataRow(2)>
+    Public Sub DocumentLifecycleRejectsBeforeDestinationCreation(destination As Integer)
+        Dim recording As New WorkflowRecordingHost("anova-base", CType(destination, SpreadsheetOutputDestination))
+        recording.Host.Revalidate = Sub() Throw New DocumentLifecycleException(DocumentInvalidationReason.WorkbookClosed)
+        Dim outcome = recording.Execute()
+        Assert.AreEqual(OutputWriteState.RejectedBeforeWrite, outcome.State)
+        Assert.AreEqual("output.lifecycle-stale", outcome.Code)
+        Assert.AreEqual(0, recording.Creations)
+        Assert.AreEqual(0, recording.NativeWriter.Blocks.Count)
+        Assert.IsFalse(outcome.MutationMayHaveOccurred)
+    End Sub
+
+    <DataTestMethod> <DataRow(False)> <DataRow(True)>
+    Public Sub DocumentLifecycleRechecksAfterCellOrChartConsent(chartConsent As Boolean)
+        Dim recording As New WorkflowRecordingHost("anova-base", SpreadsheetOutputDestination.CurrentWorksheet) With {
+            .OccupiedId = If(chartConsent, Nothing, "table-0"), .IncludeCharts = chartConsent, .ShapeCount = 1}
+        Dim observed = New DocumentLifecycleSnapshot("book", "sheet", "Results")
+        Using scope As New WindowsDocumentLifecycle()
+            scope.Watch(Function() observed)
+            recording.Host.Revalidate = AddressOf scope.EnsureCurrent
+            Dim invalidate As Func(Of Boolean) = Function()
+                observed = New DocumentLifecycleSnapshot("book", "replacement", "Results")
+                Return True
+            End Function
+            recording.Host.Confirm = Function(o) invalidate()
+            recording.Host.ConfirmCharts = Function(o) invalidate()
+            Dim outcome = recording.Execute()
+            Assert.AreEqual(OutputWriteState.RejectedBeforeWrite, outcome.State)
+            Assert.AreEqual("output.lifecycle-stale", outcome.Code)
+            Assert.AreEqual(0, recording.NativeWriter.Blocks.Count)
+            Assert.AreEqual(0, recording.ChartCalls)
+            Assert.IsFalse(outcome.MutationMayHaveOccurred)
+        End Using
+    End Sub
+
     Private Class WorkflowRecordingHost
         Public ReadOnly Analysis As SpreadsheetAnalysisResult
         Public ReadOnly Extras As New List(Of ResultTable)

@@ -1,5 +1,5 @@
 @page "/"
-@implements IDisposable
+@implements IAsyncDisposable
 @using System.Globalization
 @using Microsoft.JSInterop
 @using BESHStatNG
@@ -504,12 +504,91 @@
     private OfficeExecutionRun? activeExecution;
     private ExecutionSnapshot? executionSnapshot;
     private bool disposed;
+    private OfficeDocumentLifecycle? previewLifecycle;
+    private DotNetObjectReference<Home>? lifecycleObserver;
     private void ChooseOverwrite(bool approved) => activeExecution?.ChooseOverwrite(approved);
     private void CancelCurrentExecution() => activeExecution?.Cancel();
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
+        if (disposed) return;
         disposed = true;
         activeExecution?.Dispose();
+        if (activeExecution?.Lifecycle is { } running) await running.DisposeAsync();
+        if (previewLifecycle is { } preview) await preview.DisposeAsync();
+        lifecycleObserver?.Dispose();
+        lifecycleObserver = null;
+    }
+    private async Task RefreshSafelyAsync()
+    {
+        if (disposed) return;
+        try { await InvokeAsync(() => { if (!disposed) StateHasChanged(); }); }
+        catch (InvalidOperationException) when (disposed) { }
+    }
+    [JSInvokable]
+    public async Task DocumentLifecycleChanged(string handle)
+    {
+        if (disposed) return;
+        var previewChanged = previewLifecycle?.NotifyInvalidated(handle) == true;
+        var runChanged = activeExecution?.NotifyLifecycleChanged(handle) == true;
+        if (previewChanged)
+        {
+            selection = null;
+            selectedAreas = null;
+            groupedPreview = null;
+        }
+        if (previewChanged || runChanged)
+        {
+            status = UserFaultMapper.FormatDisplay(UserFaultMapper.FromException(
+                new DocumentLifecycleException(DocumentInvalidationReason.DocumentChanged)), activeExecution?.Diagnostics?.RunId);
+            await RefreshSafelyAsync();
+        }
+    }
+    private SpreadsheetRangeReference? SourceReference() =>
+        string.IsNullOrWhiteSpace(sourceAddress) && string.IsNullOrWhiteSpace(sourceWorksheetName) ? null :
+            SpreadsheetRangeReference.FromUserInput(sourceWorksheetName, sourceAddress);
+
+    private async Task<OfficeDocumentLifecycle> BeginLifecycleAsync(SpreadsheetRangeReference? reference,
+        SpreadsheetOutputTarget? target = null, bool areas = false)
+    {
+        if (disposed) throw new DocumentLifecycleException(DocumentInvalidationReason.ContextDisposed);
+        lifecycleObserver ??= DotNetObjectReference.Create(this);
+        OfficeLifecycleBinding binding;
+        try
+        {
+            binding = await JS.InvokeAsync<OfficeLifecycleBinding>("beshOffice.beginDocumentLifecycle",
+                new { sourceReference = reference, target, selectedAreas = areas }, lifecycleObserver);
+        }
+        catch (JSException) { throw new DocumentLifecycleException(DocumentInvalidationReason.Unverifiable); }
+        OfficeDocumentLifecycle lifecycle;
+        try
+        {
+            lifecycle = new OfficeDocumentLifecycle(binding,
+                handle => JS.InvokeVoidAsync("beshOffice.disposeDocumentLifecycle", handle).AsTask());
+        }
+        catch
+        {
+            try { await JS.InvokeVoidAsync("beshOffice.disposeDocumentLifecycle", binding.Handle); } catch { }
+            throw new DocumentLifecycleException(DocumentInvalidationReason.Unverifiable);
+        }
+        if (disposed)
+        {
+            await lifecycle.DisposeAsync();
+            throw new DocumentLifecycleException(DocumentInvalidationReason.ContextDisposed);
+        }
+        return lifecycle;
+    }
+    private async Task AcceptLifecycleInputAsync(OfficeDocumentLifecycle lifecycle, IEnumerable<SpreadsheetRangeData> ranges, bool copied)
+    {
+        // Send bounded identity/coordinate metadata only, never the copied worksheet values.
+        try
+        {
+            await JS.InvokeVoidAsync("beshOffice.acceptLifecycleInput", lifecycle.Handle, new {
+                ranges = ranges.Select(range => new { range.WorksheetId, range.WorksheetName, range.StartRow,
+                    range.StartColumn, range.RowCount, range.ColumnCount }).ToArray()
+            }, copied);
+        }
+        catch (JSException) { throw new DocumentLifecycleException(DocumentInvalidationReason.Unverifiable); }
+        lifecycle.EnsureCurrent();
     }
     private OfficeExecutionRun RegisterExecution()
     {
@@ -519,7 +598,7 @@
         execution.Execution.Changed += snapshot =>
         {
             executionSnapshot = execution.Execution.Snapshot;
-            if (!disposed) _ = InvokeAsync(StateHasChanged);
+            if (!disposed) _ = RefreshSafelyAsync();
         };
         executionSnapshot = execution.Execution.Snapshot;
         return execution;
@@ -597,12 +676,12 @@
     private string sourceWorksheetName = string.Empty;
     private string sourceAddress = string.Empty;
 
-    private async Task<SpreadsheetRangeData> AcquireRangeAsync()
+    private async Task<SpreadsheetRangeData> AcquireRangeAsync(string? lifecycleHandle = null)
     {
         if (string.IsNullOrWhiteSpace(sourceAddress) && string.IsNullOrWhiteSpace(sourceWorksheetName))
-            return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
+            return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData", new { lifecycleHandle });
         var reference = SpreadsheetRangeReference.FromUserInput(sourceWorksheetName, sourceAddress);
-        return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getRangeDataByReference", reference);
+        return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getRangeDataByReference", reference, new { lifecycleHandle });
     }
     private bool useConfiguredParsing;
     private SpreadsheetGroupedOrientation groupOrientation = SpreadsheetGroupedOrientation.GroupsInColumns;
@@ -744,6 +823,7 @@
 
     private async Task ReadSelection()
     {
+        if (isBusy || disposed) return;
         try
         {
             isBusy = true;
@@ -759,7 +839,11 @@
 
             hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
             HostCapabilityPreflight.CheckSelection(hostCapabilities).EnsureSupported();
-            selection = await AcquireRangeAsync();
+            if (previewLifecycle is not null) await previewLifecycle.DisposeAsync();
+            previewLifecycle = await BeginLifecycleAsync(SourceReference());
+            var acquired = await AcquireRangeAsync(previewLifecycle.Handle);
+            await AcceptLifecycleInputAsync(previewLifecycle, new[] { acquired }, false);
+            selection = acquired;
 
             // A successful read must remain inspectable even when a grouped analysis
             // correctly rejects error, text, or Boolean observations.
@@ -780,6 +864,8 @@
             groupedPreview = null;
             groupedValidationMessage = null;
             groupedIssues = null;
+            if (previewLifecycle is not null) await previewLifecycle.DisposeAsync();
+            previewLifecycle = null;
             status = "FAIL — unable to read the source range: " + ReadErrorMessage(ex);
         }
         finally
@@ -790,6 +876,7 @@
 
     private async Task ReadSelectedAreas()
     {
+        if (isBusy || disposed) return;
         try
         {
             isBusy = true;
@@ -805,7 +892,11 @@
 
             hostCapabilities = await JS.InvokeAsync<HostCapabilitySnapshot>("beshOffice.getHostCapabilities");
             HostCapabilityPreflight.CheckSelection(hostCapabilities).EnsureSupported();
-            selectedAreas = await JS.InvokeAsync<SpreadsheetRangeSetData>("beshOffice.getSelectedRangeSetData");
+            if (previewLifecycle is not null) await previewLifecycle.DisposeAsync();
+            previewLifecycle = await BeginLifecycleAsync(null, areas: true);
+            var acquired = await JS.InvokeAsync<SpreadsheetRangeSetData>("beshOffice.getSelectedRangeSetData", new { lifecycleHandle = previewLifecycle.Handle });
+            await AcceptLifecycleInputAsync(previewLifecycle, acquired.Ranges, false);
+            selectedAreas = acquired;
             if (selectedAreas?.Ranges is not { Count: > 0 })
                 throw new InvalidOperationException("Excel returned no selected areas. Select worksheet cells and try again.");
             status = $"PASS — acquired {selectedAreas.Ranges.Count} selected range(s); see the separate area previews.";
@@ -813,6 +904,8 @@
         catch (Exception ex)
         {
             selectedAreas = null;
+            if (previewLifecycle is not null) await previewLifecycle.DisposeAsync();
+            previewLifecycle = null;
             status = "FAIL — unable to read selected areas: " + ReadErrorMessage(ex);
         }
         finally
@@ -871,16 +964,22 @@
                 HostCapabilityPreflight.CheckRunAndWrite(analysisId, hostCapabilities, target).EnsureSupported();
                 var targetDecision = TargetPlanner.Create(target, hostCapabilities);
                 target = targetDecision.ToTarget(); // preserves both one-based inputs; no fallback/default repair
+                if (previewLifecycle is not null) await previewLifecycle.DisposeAsync();
+                previewLifecycle = null;
+                var reference = string.IsNullOrWhiteSpace(runAddress) && string.IsNullOrWhiteSpace(runWorksheet) ? null :
+                    SpreadsheetRangeReference.FromUserInput(runWorksheet, runAddress);
+                session.Lifecycle = await BeginLifecycleAsync(reference, target);
 
                 diagnosticStage = "acquisition";
                 await run.ReportAsync("diagnostic.stage.entered", diagnosticStage);
                 selection = await session.AcquireAsync(async () =>
                 {
                     if (string.IsNullOrWhiteSpace(runAddress) && string.IsNullOrWhiteSpace(runWorksheet))
-                        return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData");
+                        return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getSelectedRangeData", new { lifecycleHandle = session.Lifecycle.Handle });
                     return await JS.InvokeAsync<SpreadsheetRangeData>("beshOffice.getRangeDataByReference",
-                        SpreadsheetRangeReference.FromUserInput(runWorksheet, runAddress));
+                        reference, new { lifecycleHandle = session.Lifecycle.Handle });
               });
+                await AcceptLifecycleInputAsync(session.Lifecycle, new[] { selection }, true);
                 if (configured)
                 {
                     var parsed = GroupedNumericRangeParser.ParseWithDiagnostics(selection, groupedOptions);
@@ -946,20 +1045,20 @@
                 await run.ReportAsync("diagnostic.output.attempted", diagnosticStage);
                 writeResult = await session.WriteAsync(() => {
                     writeInFlight = true;
-                    return JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan).AsTask();
+                    return JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan, null, session.Lifecycle.Handle).AsTask();
                 });
                 writeInFlight = false;
                 if (writeResult.State == "AwaitingConfirmation" && writeResult.Confirmation is not null)
                 {
                     confirmationToken = writeResult.Confirmation.Token;
                     status = "Output is occupied. Choose Overwrite or Cancel below.";
-                    var overwriteChoice = session.BeginConfirmation(() => { if (!disposed) _ = InvokeAsync(StateHasChanged); });
+                    var overwriteChoice = session.BeginConfirmation(() => { if (!disposed) _ = RefreshSafelyAsync(); });
                     var approved = await overwriteChoice.Task;
                     var token = writeResult.Confirmation.Token;
                     writeResult = await session.WriteAsync(() => {
                         writeInFlight = true;
                         return JS.InvokeAsync<OfficeWriteResult>("beshOffice.writeOutputPlan", preparedPlan,
-                            new { token, approved }).AsTask();
+                            new { token, approved }, session.Lifecycle.Handle).AsTask();
                     });
                     writeInFlight = false;
                 }
@@ -1005,7 +1104,7 @@
         {
             if (confirmationToken is not null)
             {
-                try { await JS.InvokeVoidAsync("beshOffice.discardOutputConfirmation", confirmationToken); }
+                try { await JS.InvokeVoidAsync("beshOffice.discardOutputConfirmation", confirmationToken, execution.Lifecycle?.Handle); }
                 catch { /* Best effort cleanup only; never approve or write on disposal. */ }
             }
             activeExecution = null;

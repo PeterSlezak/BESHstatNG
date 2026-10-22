@@ -139,12 +139,6 @@ Public Class ExecutionAdapterTests
         End Using
     End Sub
 
-    <DataTestMethod> <DataRow(Nothing, False)> <DataRow("", False)> <DataRow("true", False)>
-    <DataRow("1", True)> <DataRow(" 1", False)>
-    Public Sub DeveloperFixtureRequiresExplicitOptIn(value As String, expected As Boolean)
-        Assert.AreEqual(expected, WindowsExecutionRun.DeveloperFixtureEnabled(value))
-    End Sub
-
     <TestMethod>
     Public Sub PilotFormHasNoDemoControlsOrArtificialNormalDelayAndKeepsUiOwnership()
         Dim directory = New DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory)
@@ -161,6 +155,18 @@ Public Class ExecutionAdapterTests
         StringAssert.Contains(source, "Task.Yield()")
         StringAssert.Contains(source, "ExecutionFormClosing")
         StringAssert.Contains(source, "ShowPilotFault(UserFaultMapper.FromWriteResult(LastSharedWriteOutcome)")
-        StringAssert.Contains(source, "BESHSTAT_DEV_EXECUTION_FIXTURE")
+        Assert.IsFalse(source.Contains("BESHSTAT_DEV_EXECUTION_FIXTURE"))
+        Assert.IsFalse(source.Contains("SyntheticFixtureAsync"))
+        StringAssert.Contains(source, "BindPilotLifecycle(run)")
+        StringAssert.Contains(source, "executionRun.SourceAddress")
+        StringAssert.Contains(source, "executionRun.GroupAddress")
+        StringAssert.Contains(source, "executionCancel")
+        StringAssert.Contains(source, "executionLabel")
+        Assert.IsFalse(source.Contains("CoreServices.Logger.Error(ex,"), "Native exception text must not enter the default pilot log.")
+        StringAssert.Contains(source, "UserFaultMapper.FromException(ex).Code")
+        Dim adapter = File.ReadAllText(Path.Combine(directory.FullName, "BESHstatNG", "src", "AppInfrastructure", "WindowsExecutionRun.vb"))
+        Assert.IsFalse(adapter.Contains("DeveloperFixtureEnabled"))
+        Assert.IsFalse(adapter.Contains("SyntheticFixtureAsync"))
+        Assert.IsFalse(adapter.Contains("Task.Delay"))
     End Sub
 End Class

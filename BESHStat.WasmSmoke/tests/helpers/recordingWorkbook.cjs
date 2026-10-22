@@ -29,6 +29,14 @@ function recordingWorkbook(options = {}) {
         return { get name() { if (!nameLoaded) throw new Error("PropertyNotLoaded: worksheet.name"); return name; },
             set name(value) { name = value; }, cells: storage, id: `sheet-id:${name}`,
             protection: { protected: !!options.protectedSheet, load() {} },
+            getRange(text) {
+                const match = /^([A-Z]+)([1-9][0-9]*):([A-Z]+)([1-9][0-9]*)$/.exec(text);
+                if (!match) throw new Error("Bad test address");
+                const column = s => [...s].reduce((n, ch) => n * 26 + ch.charCodeAt(0) - 64, 0) - 1;
+                const r = +match[2] - 1, c = column(match[1]), rows = +match[4] - r, columns = column(match[3]) - c + 1;
+                return { ...this.getRangeByIndexes(r, c, rows, columns), worksheet: this,
+                    rowIndex: r, columnIndex: c, rowCount: rows, columnCount: columns };
+            },
             load(properties) { if (properties.includes("name")) nameRequested = true; },
             syncLoads() { if (nameRequested) nameLoaded = true; }, activate() { trace.activations.push(name); },
             getRangeByIndexes(r, c, rows, columns) {
@@ -97,20 +105,50 @@ function recordingWorkbook(options = {}) {
     }
     const sheets = (options.names || ["Actual", "BESHStat_Result"]).map((name, i) => worksheet(name, i === 0 ? cells : new Map()));
     const worksheets = { items: sheets, load() {},
+        getItem(identity) {
+            const found = sheets.find(sheet => sheet.id === identity || sheet.name === identity);
+            if (!found) throw new Error("ItemNotFound");
+            return found;
+        },
         getActiveWorksheet() { trace.activeResolutions++; return options.missingSheet ? null : sheets[options.activeIndex || 0]; },
         add(name) { trace.adds.push(name); if (options.failAdd) throw new Error("Injected worksheet add failure");
             const sheet = worksheet(name, new Map(), true); sheets.push(sheet); cells = sheet.cells; return sheet; } };
-    const context = { workbook: options.missingWorkbook ? null : { worksheets, protection: { protected: !!options.protectedWorkbook, load() {} } }, async sync() {
+    const handlers = new Map();
+    if (options.lifecycleEvents) { trace.eventAdds = []; trace.eventRemoves = []; }
+    if (options.lifecycleEvents) for (const name of ["onDeleted", "onActivated", "onSelectionChanged", "onNameChanged"]) {
+        worksheets[name] = { add(callback) {
+            if (options.failEventRegistration === name) throw new Error("Registration failed");
+            const registration = { callback, removed: false, context: null, remove() {
+                if (options.failEventRemoval) throw new Error("Event removal failed");
+                if (!this.removed) trace.eventRemoves.push(name);
+                this.removed = true;
+            } };
+            if (!handlers.has(name)) handlers.set(name, []);
+            handlers.get(name).push(registration);
+            trace.eventAdds.push(name);
+            return registration;
+        } };
+    }
+    function selectedRange() {
+        const sheet = sheets[options.selectedIndex || 0], b = options.selection || [0, 0, 3, 2];
+        return { ...sheet.getRangeByIndexes(...b), worksheet: sheet, rowIndex: b[0], columnIndex: b[1], rowCount: b[2], columnCount: b[3] };
+    }
+    const context = { workbook: options.missingWorkbook ? null : { worksheets, getSelectedRange: selectedRange,
+        getSelectedRanges: () => ({ areas: { items: [selectedRange()], load() {} } }),
+        protection: { protected: !!options.protectedWorkbook, load() {} } }, async sync() {
         trace.syncs++;
         if (options.onSync) options.onSync(trace.syncs, { sheets, cells, options });
         for (const sheet of sheets) sheet.syncLoads();
         if (trace.syncs === options.failSync) throw new Error("Injected Office sync failure");
     } };
-    const sandbox = { window: {}, setTimeout,
+    const windowHandlers = new Map();
+    const sandbox = { window: { addEventListener(name, callback) { windowHandlers.set(name, callback); } }, setTimeout,
         Office: { context: { host: options.nonExcel ? "Word" : "Excel", platform: "OfficeOnline",
             document: {}, requirements: { isSetSupported: (_, version) => options.apiAvailable !== false && (version === "1.1" || options.probes !== false) } }, HostType: { Excel: "Excel" } },
-        Excel: { async run(action) { trace.runs++; return action(context); } } };
+        Excel: { async run(contextOrAction, action) { trace.runs++; return (action || contextOrAction)(context); } } };
     vm.runInNewContext(source, sandbox, { filename: "officeBridge.js" });
-    return { bridge: sandbox.window.beshOffice, trace, get cells() { return cells; }, cellAt, sandbox, sheets, options };
+    return { bridge: sandbox.window.beshOffice, trace, get cells() { return cells; }, cellAt, sandbox, sheets, options, context,
+        handlers, fire(name, args) { for (const item of handlers.get(name) || []) if (!item.removed) item.callback(args); },
+        unload() { windowHandlers.get("pagehide")?.(); } };
 }
 module.exports = { recordingWorkbook, copy, address };

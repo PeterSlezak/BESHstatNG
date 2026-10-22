@@ -2,7 +2,6 @@ Option Explicit On
 Option Strict On
 
 Imports System.Threading
-Imports System.Threading.Tasks
 Imports BESHStatNG.ExcelCommon
 
 Namespace AppInfrastructure
@@ -22,11 +21,31 @@ Namespace AppInfrastructure
         Friend ReadOnly Property Execution As New ExecutionCoordinator()
         Private ReadOnly _release As Action
         Private _disposed As Integer
+        Friend Property Lifecycle As WindowsDocumentLifecycle
+        Private _sourceAddress As String
+        Private _groupAddress As String
+        Friend ReadOnly Property SourceAddress As String
+            Get
+                Return _sourceAddress
+            End Get
+        End Property
+        Friend ReadOnly Property GroupAddress As String
+            Get
+                Return _groupAddress
+            End Get
+        End Property
+        Friend Sub BindInputAddresses(sourceAddress As String, groupAddress As String)
+            If _disposed <> 0 OrElse _sourceAddress IsNot Nothing OrElse String.IsNullOrWhiteSpace(sourceAddress) OrElse sourceAddress.Length > 16384 OrElse
+                (groupAddress IsNot Nothing AndAlso groupAddress.Length > 16384) Then Throw New DocumentLifecycleException(DocumentInvalidationReason.Unverifiable)
+            _sourceAddress = sourceAddress : _groupAddress = groupAddress
+        End Sub
         Friend Sub New(release As Action)
             _release = release
         End Sub
         Friend Sub Checkpoint(stage As ExecutionStage, Optional percent As Integer? = Nothing)
             Execution.ThrowIfCancellationRequested()
+            If _disposed <> 0 OrElse Execution.Snapshot.IsTerminal Then Throw New DocumentLifecycleException(DocumentInvalidationReason.ContextDisposed)
+            Lifecycle?.EnsureCurrent()
             Execution.EnterStage(stage, percent)
         End Sub
         Friend Function InvokeStage(Of T)(stage As ExecutionStage, work As Func(Of T)) As T
@@ -51,22 +70,16 @@ Namespace AppInfrastructure
         Friend Function FailureDisplay(failureException As Exception, result As WriteResult, runId As String) As String
             Return UserFaultMapper.FormatDisplay(UserFaultMapper.FromOutcome(Execution.Snapshot, result, failureException), runId)
         End Function
-        ' Temporary 03.06 close/cancel smoke seam. No visible demo controls in the normal form.
-        ' Mandatory Phase 03 exit: remove this opt-in and SyntheticFixtureAsync after host acceptance.
-        Friend Shared Function DeveloperFixtureEnabled(value As String) As Boolean
-            Return String.Equals(value, "1", StringComparison.Ordinal)
-        End Function
-        Friend Async Function SyntheticFixtureAsync() As Task
-            For stepIndex As Integer = 0 To 49
-                Checkpoint(ExecutionStage.SyntheticFixture, stepIndex \ 10)
-                Await Task.Delay(100, Execution.Token)
-            Next
-            Execution.ThrowIfCancellationRequested()
-        End Function
         Public Sub Dispose() Implements IDisposable.Dispose
             If Interlocked.Exchange(_disposed, 1) <> 0 Then Return
-            Execution.Dispose()
-            _release()
+            Try
+                Lifecycle?.Dispose()
+            Finally
+                Lifecycle = Nothing
+                _sourceAddress = Nothing : _groupAddress = Nothing
+                Execution.Dispose()
+                _release()
+            End Try
         End Sub
     End Class
 End Namespace

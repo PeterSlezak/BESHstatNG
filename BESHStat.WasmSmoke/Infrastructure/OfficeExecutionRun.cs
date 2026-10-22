@@ -6,6 +6,7 @@ namespace BESHStat.WasmSmoke.Infrastructure;
 public sealed class OfficeExecutionRun : IDisposable
 {
     public ExecutionCoordinator Execution { get; } = new();
+    public OfficeDocumentLifecycle? Lifecycle { get; set; }
     public DiagnosticRunContext? Diagnostics { get; private set; }
     public bool IsBusy { get; private set; } = true;
     public bool CanCancel => IsBusy && !writing && !Execution.Snapshot.IsTerminal &&
@@ -54,7 +55,12 @@ public sealed class OfficeExecutionRun : IDisposable
             consent?.TrySetResult(false);
             consent = null;
             try { if (Diagnostics is not null) await Diagnostics.EndAsync(); }
-            finally { IsBusy = false; Execution.Dispose(); }
+            finally
+            {
+                if (Lifecycle is not null) await Lifecycle.DisposeAsync();
+                IsBusy = false;
+                Execution.Dispose();
+            }
         }
     }
 
@@ -63,6 +69,7 @@ public sealed class OfficeExecutionRun : IDisposable
         Checkpoint(ExecutionStage.Acquisition, 10);
         var result = await acquire(); // Do not claim to interrupt the host transaction.
         Execution.ThrowIfCancellationRequested();
+        Lifecycle?.EnsureCurrent();
         return result;
     }
 
@@ -70,6 +77,8 @@ public sealed class OfficeExecutionRun : IDisposable
     {
         if (disposed) Execution.RequestCancellation();
         Execution.ThrowIfCancellationRequested();
+        if (disposed || Execution.Snapshot.IsTerminal) throw new DocumentLifecycleException(DocumentInvalidationReason.ContextDisposed);
+        Lifecycle?.EnsureCurrent();
         Execution.EnterStage(stage, percent);
     }
 
@@ -98,6 +107,12 @@ public sealed class OfficeExecutionRun : IDisposable
     public ConsentWait BeginConfirmation(Action showDialog) => new(ConfirmAsync(showDialog));
     public bool AwaitingConsent => consent is not null;
     public void ChooseOverwrite(bool approved) => consent?.TrySetResult(approved);
+    public bool NotifyLifecycleChanged(string handle)
+    {
+        if (disposed || Execution.Snapshot.IsTerminal || Lifecycle?.NotifyInvalidated(handle) != true) return false;
+        consent?.TrySetResult(false);
+        return true;
+    }
 
     public void FinishOutput(string state)
     {

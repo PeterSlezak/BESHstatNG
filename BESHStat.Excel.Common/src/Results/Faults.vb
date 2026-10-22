@@ -31,6 +31,7 @@ Namespace ExcelCommon
         Public Const InputInformation As String = "user.input-information"
         Public Const Cancelled As String = "user.cancelled"
         Public Const HostUnavailable As String = "user.host-unavailable"
+        Public Const DocumentChanged As String = "user.document-changed"
         Public Const Unexpected As String = "user.unexpected"
     End Class
 
@@ -146,6 +147,7 @@ Namespace ExcelCommon
         End Function
 
         Public Shared Function FromException(failureException As Exception) As UserFault
+            If TypeOf failureException Is DocumentLifecycleException Then Return LifecycleFault()
             ' Deliberately closed whitelist. No base ArgumentException/InvalidOperationException,
             ' JS exception, message matching, inner exception inspection or inferred convergence.
             Dim validation = TryCast(failureException, SpreadsheetInputValidationException)
@@ -196,6 +198,8 @@ Namespace ExcelCommon
             End If
             If state <> OutputWriteState.RejectedBeforeWrite Then Return Unexpected()
             Select Case code
+                Case "output.lifecycle-stale"
+                    Return LifecycleFault()
                 Case WriteCodes.Changed
                     Return New UserFault(code, UserFaultCategory.Output, UserFaultSeverity.Warning,
                         "Destination changed", "The previous overwrite consent is no longer valid. No output was written.",
@@ -217,6 +221,12 @@ Namespace ExcelCommon
             Return New UserFault(WriteCodes.ConfirmationRequired, UserFaultCategory.Output, UserFaultSeverity.Information,
                 "Confirm overwrite", "The output destination contains existing content.",
                 "Choose Overwrite to approve this destination, or Cancel to keep its content.")
+        End Function
+
+        Private Shared Function LifecycleFault() As UserFault
+            Return New UserFault(UserFaultCodes.DocumentChanged, UserFaultCategory.Host, UserFaultSeverity.Warning,
+                "Document or selection changed", "The original source or destination could not be verified.",
+                "Refresh the source and destination and run again. Review any remaining output before retrying.")
         End Function
 
         ''' <summary>Authoritative write outcome first, then confirmed terminal state, errors,
