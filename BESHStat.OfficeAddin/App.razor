@@ -6,7 +6,7 @@
 
 <main>
     <h1>BESHStatNG Office foundation</h1>
-    <p>Development host · Batch 04.02</p>
+    <p>Development host · Batch 04.03</p>
     <section aria-live="polite" aria-busy="@loading.ToString().ToLowerInvariant()">
         <h2>Office host</h2>
         <p id="host-status">@(loading ? "Waiting for Office initialization…" : status.Message)</p>
@@ -27,6 +27,7 @@
             <p>Diagnostic: <code>@probe.Code</code></p>
         }
     </section>
+    <AnalysisShell />
     @if (!loading && status.IsExcel)
     {
         <section aria-live="polite" aria-busy="@reading.ToString().ToLowerInvariant()">

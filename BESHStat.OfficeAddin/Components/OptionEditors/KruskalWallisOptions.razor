@@ -1,0 +1,9 @@
+@implements IAnalysisOptionEditor<KruskalWallisOptionDraft>
+<fieldset>
+    <legend>Statistical options</legend>
+    <AlphaEditor Draft="Draft" />
+    <BooleanOption Id="kw-dunn" Label="Include Dunn comparisons" @bind-Value="Draft.IncludeDunnComparisons" />
+</fieldset>
+@code {
+    [Parameter, EditorRequired] public KruskalWallisOptionDraft Draft { get; set; } = default!;
+}

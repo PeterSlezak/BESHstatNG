@@ -2,7 +2,12 @@
 
 Batch **04.01 owner-accepted / committed on main at d7888cd**. The owner confirmed
 real Excel Online/standalone, probes, Retry and independent WasmSmoke.
-Batch **04.02 implemented / pending owner review and real selected-range smoke**.
+Batch **04.02 owner-accepted / merged on main at 6b1e978**, including genuine
+selected-range reading and diagnostics. This supersedes historical pending
+acceptance wording in the 04.02 architecture report and investigation below.
+Batch **04.03 implemented / uncommitted / pending owner review and live Excel acceptance**.
+The owner reports the original 04.03 functionality and genuine Excel Online smoke
+passed; the requested two-level dropdown amendment still awaits owner acceptance.
 The minimal production host runs real Core/Common probes and offers an explicit
 read-only selected-range check when Excel-ready. Page load and Retry do not read
 workbook cells. No analysis or production output write is enabled.
@@ -10,7 +15,60 @@ workbook cells. No analysis or production output write is enabled.
 `BESHStat.WasmSmoke` remains an independent regression harness with its own
 manifest, identity and `https://localhost:7131/` endpoint. Neither project depends
 on the other. Future workbook adapters and reusable analysis screens belong to
-04.03–04.07; Gate C has not been reached.
+04.04–04.07; Gate C has not been reached.
+
+## Batch 04.03 method navigation and options
+
+Launch on **7141** using the existing `https` profile and unchanged manifest.
+The **Analysis options** section works even when Office is unavailable or still
+initializing. Choose **Analysis group**, then **Statistical method**, using the
+two labelled native dropdowns. Tab/arrow keys/Enter and visible focus are supported.
+All **12 groups / 76 documented methods** come from `GeneratedMethodMetadata.All`,
+using the generated primary category. Groups sort ordinally by category; methods
+sort by display name then metadata key. Generated metadata has no Ribbon-order
+field, so this UI does not claim exact Ribbon ordering.
+
+Only **Parametric → One-Way ANOVA** and **Nonparametric → Kruskal-Wallis Test**
+currently have verified Common handlers and supported typed Office editors.
+Other methods are labelled **Not yet available** and disabled. Multivariate
+Analysis, Graphics and other unsupported groups announce **Not yet available in
+this Office add-in**; their documented methods remain listed. Listing a method
+does not imply calculation or output support. Below the dropdowns, the selected
+method's Common descriptor supplies its title/description and active option schema.
+
+ANOVA offers alpha and Welch, Fisher LSD, Bonferroni, Tukey–Kramer and
+Games–Howell flags. Kruskal–Wallis offers alpha and Dunn comparisons. Defaults
+come from Common: alpha **0.05**, ANOVA flags **false**, Dunn **true**. Alpha uses
+an invariant decimal point and must be finite and strictly between zero and one.
+Invalid text stays visible with an inline error; it cannot produce a snapshot.
+
+Changing groups clears the selected method and closes its draft. Changing methods
+**resets options to Common defaults**. Reselecting the same group/method and Retry
+initialization preserve its draft, including invalid alpha text. Closing/reopening
+or reloading starts with no selected group or method.
+There is no draft storage. Editing never reads cells, writes output or executes
+an analysis. **Run analysis** is disabled with a 04.04 explanation. Help launch,
+range picker, validation preview and output/consent UI are deferred.
+
+Owner acceptance (record genuine host results separately from automated simulations):
+
+- Standalone: `office.unavailable`, Core **0.5**, Common **2 / 4**. Choose
+  Parametric → ANOVA, edit alpha/two flags; choose Nonparametric → KW and edit
+  alpha/Dunn; switch back and confirm defaults. Enter `0`, `1`, `NaN` or `0,05`:
+  inline error. Multivariate Analysis and Graphics show unavailable explanations.
+- Genuine Edge Excel Online: `office.excel-ready` / `OfficeOnline`, same probes.
+  Check all 12 groups and filtered methods; no per-method button list remains.
+  Select Parametric → ANOVA then Nonparametric → KW; verify description/schema,
+  unavailable methods cannot be selected, labelled controls,
+  visible keyboard focus and narrow-pane layout. Retry retains the current
+  group/method/draft. Reopen starts unselected. Editing leaves cells and selection unchanged.
+- Explicit 04.02 read-only check still returns `workbook.ok` and dimensions for
+  a small selection. Writer remains unavailable; Run stays disabled. Confirm
+  independent WasmSmoke **7131** separately.
+- Capture both ANOVA and KW screens and record any UI defects. Codex screenshots
+  use simulated Office and do not establish genuine Excel acceptance.
+
+See [04.03 architecture and test evidence](../docs/architecture/batch-04-03-method-navigation-options-ui.md).
 
 ## Prerequisites and launch
 
@@ -87,12 +145,13 @@ Confirm independent WasmSmoke **7131**; desktop Excel/Mac are optional owner che
 unperformed by Codex for 04.02. The canonical mixed-cell parity is automated, not
 an instruction to export workbook contents for comparison.
 
-### Investigating the owner-observed read timeout (04.02 pending)
+### Historical investigation of the owner-observed read timeout (04.02 now accepted)
 
-The owner observed `input.time-budget` for a small selection in genuine Excel
+During 04.02 the owner observed `input.time-budget` for a small selection in genuine Excel
 Online. The failing stage and root cause are **not yet established**. Parent-shell
 CSP/Office.js messages are not task-pane evidence. The reader/deadlines remain
-unchanged; the new instrumentation is for obtaining that evidence.
+unchanged; the instrumentation was added for obtaining that evidence. Subsequent
+owner-confirmed genuine selected-range success supersedes this pending gate.
 
 1. Run the host in **Debug** with the current dev manifest re-sideloaded. In Edge
    DevTools select **https://localhost:7141/** from the execution-context/frame
@@ -169,7 +228,7 @@ unchanged; the new instrumentation is for obtaining that evidence.
    The accepted 04.01 bootstrap diagnostic remains unchanged in availability.
 
 See the [timeout amendment](../docs/architecture/batch-04-02-office-workbook-adapter.md#owner-smoke-timeout-investigation-amendment--22-october-2026)
-for stage interpretation, simulations and the still-pending real-host gate.
+for historical stage interpretation and simulations; its live gate is now accepted.
 
 ### Adapter limits and ownership
 
@@ -348,6 +407,20 @@ neither authenticates to Office or proves native `context.sync()` health.
 
 ## Automated checks
 
+With the same isolated Edge/CDP setup above and a Debug server on 7141, exercise
+the two dropdowns and typed options in actual Blazor, with simulated Office only:
+
+```powershell
+node BESHStat.OfficeAddin/tests/browser/options-browser.mjs
+node BESHStat.OfficeAddin/tests/browser/options-browser.mjs --standalone
+```
+
+These check native Tab/arrow/Enter, unavailable methods/groups, alpha/flags,
+reset/Retry/reload behavior, narrow layout and no automatic workbook operations.
+The Excel simulation also clicks the explicit read-only diagnostic. Sanitized
+JSON and six screenshots for this amendment are under `TestResults/04-03-dropdown`.
+They do not certify the owner's genuine Excel Online acceptance checklist.
+
 From the repository root, with dependencies already available:
 
 ```powershell
@@ -355,10 +428,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-office-founda
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-office-foundation.ps1 -Configuration Release
 ```
 
-Each command builds the host, runs **78 host-free C# cases**, runs **136 Node
+Each command builds the host, runs **153 C# cases**, runs **136 Node
 cases**, validates manifest/launch identity and checks built static assets and
 Core/Common WASM assemblies. The C# project links the exact production bootstrap
-sources; it does not host the browser runtime. No live Office, public network or
+sources and compiles the exact production Razor components. Real HtmlRenderer
+output and a dependency-free Blazor event renderer exercise UI bindings and
+lifecycle; bUnit is not installed. These tests do not host the browser runtime.
+No live Office, public network or
 workbook is required by tests. `npm.cmd test` can also be run in this directory
 without `npm install`.
 
@@ -366,7 +442,8 @@ The opt-in seven-scenario browser run is separate from these distinct-case count
 The [readiness debugging amendment](../docs/architecture/batch-04-01-office-host-foundation.md#post-implementation-readiness-debugging-amendment--22-october-2026)
 records the proven interop defect, remaining live Excel gate and actual results.
 That report's historical 04.01 pending gate is superseded by the owner acceptance
-recorded at the top of this README; 04.02's selected-range smoke is still pending.
+recorded at the top of this README. 04.02 selected-range smoke is owner-accepted;
+04.03 navigation/options live acceptance remains pending.
 
 Run the existing `scripts/verify-beshstatng.ps1` separately with
 `-Configuration Debug` / `Release -VisualStudio 2026 -Legacy -Wasm -Js -Python`.

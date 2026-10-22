@@ -1,0 +1,59 @@
+@implements IDisposable
+@inject IAnalysisNavigationCatalog Catalog
+@inject AnalysisEditorRegistry Editors
+@inject AnalysisNavigationMenu Menu
+
+<section aria-labelledby="analysis-navigation-title">
+    <h2 id="analysis-navigation-title">Analysis options</h2>
+    <p>Edit an analysis specification. Editing options does not run calculations.</p>
+    <div class="analysis-navigation">
+        <label for="analysis-group">Analysis group</label>
+        <select id="analysis-group" value="@(state?.SelectedGroup?.Category ?? "")" @onchange="ChangeGroup"
+                aria-describedby="analysis-availability">
+            <option value="">Select an analysis group</option>
+            @foreach (var group in Menu.Groups)
+            {
+                <option @key="group.Category" value="@group.Category">@group.Category</option>
+            }
+        </select>
+        <label for="analysis-method">Statistical method</label>
+        <select id="analysis-method" @key="state?.SelectedGroup?.Category" value="@(state?.Selected?.Id ?? "")"
+                @onchange="ChangeMethod" disabled="@(state?.SelectedGroup is null)"
+                aria-describedby="analysis-availability analysis-navigation-status">
+            <option value="">Select a statistical method</option>
+            @if (state?.SelectedGroup is { } selectedGroup)
+            {
+                @foreach (var method in selectedGroup.Methods)
+                {
+                    <option @key="method.Key" value="@method.Value" disabled="@(!method.CanEdit)">@method.DisplayName@(!method.CanEdit ? " — Not yet available" : "")</option>
+                }
+            }
+        </select>
+        <p id="analysis-availability" class="option-hint">Documented methods are listed by group. Methods labelled “Not yet available” have no supported options editor in this Office add-in.</p>
+        <p id="analysis-navigation-status" role="status">@(state?.Rejection ?? (state?.SelectedGroup is { HasSupportedEditor: false } ? AnalysisNavigationState.GroupUnavailableReason : ""))</p>
+    </div>
+    @if (state?.Selected is { } selected)
+    {
+        <div @key="selected.Id" class="analysis-editor" aria-labelledby="selected-analysis-title">
+            <h3 id="selected-analysis-title">@selected.DisplayName</h3>
+            <p>@selected.Description</p>
+            <p>Active option schema: <code id="option-schema">@selected.OptionsSchemaId</code></p>
+            @if (state.Editor is { } editor)
+            {
+                <DynamicComponent Type="editor.ComponentType" Parameters="@(new Dictionary<string, object> { ["Draft"] = editor.Draft })" />
+            }
+        </div>
+    }
+    else { <p>Select a method to edit its options.</p> }
+    <p id="analysis-run-unavailable">Run is not available until 04.04. Range selection, validation preview and output consent are deferred.</p>
+    <button type="button" disabled aria-describedby="analysis-run-unavailable">Run analysis</button>
+    <p class="option-hint">Changing groups or methods resets options to Common defaults. Retry initialization preserves the current draft; reopening the pane resets navigation.</p>
+</section>
+
+@code {
+    private AnalysisNavigationState? state;
+    protected override void OnInitialized() => state = new(Catalog, Editors, Menu);
+    private void ChangeGroup(ChangeEventArgs args) => state?.SelectGroup(args.Value as string);
+    private void ChangeMethod(ChangeEventArgs args) => state?.Select(args.Value as string);
+    public void Dispose() => state?.Dispose();
+}

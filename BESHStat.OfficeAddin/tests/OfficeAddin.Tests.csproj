@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <IsTestProject>true</IsTestProject>
+    <RootNamespace>BESHStat.OfficeAddin</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
@@ -13,5 +14,8 @@
     <ProjectReference Include="..\..\BESHStat.Excel.Common\BESHStat.Excel.Common.vbproj" />
     <Compile Include="..\Infrastructure\*.cs" Link="Infrastructure\%(Filename)%(Extension)" />
     <Compile Include="..\Services\*.cs" Link="Services\%(Filename)%(Extension)" />
+    <RazorComponent Include="..\_Imports.razor" Link="_Imports.razor" />
+    <RazorComponent Include="..\App.razor" Link="App.razor" />
+    <RazorComponent Include="..\Components\**\*.razor" Link="Components\%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

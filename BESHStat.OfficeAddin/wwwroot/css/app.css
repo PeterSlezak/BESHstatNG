@@ -5,6 +5,22 @@ h1 { font-size: 1.5rem; }
 h2 { font-size: 1.15rem; }
 section { background: white; padding: 1rem; margin-block: 1rem; border: 1px solid #cad9d1; border-radius: .4rem; }
 button { padding: .6rem; cursor: pointer; }
-button:disabled { cursor: wait; }
+button:disabled { cursor: not-allowed; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #166bba; outline-offset: 3px; }
+.analysis-navigation { display: grid; gap: .5rem; min-width: 0; }
+.analysis-navigation label { font-weight: 600; }
+.analysis-navigation select { box-sizing: border-box; width: 100%; min-width: 0; max-width: 100%; padding: .5rem; font: inherit; color: inherit; background: white; border: 1px solid #647d72; border-radius: .3rem; }
+.analysis-navigation p { margin-block: .25rem; }
+#analysis-navigation-status:empty { margin: 0; }
+fieldset { min-width: 0; padding: .75rem; border: 1px solid #cad9d1; }
+legend { font-weight: 600; }
+.alpha-editor label { display: block; margin-bottom: .4rem; }
+.alpha-editor input { box-sizing: border-box; width: 100%; max-width: 15rem; padding: .5rem; font: inherit; }
+input[aria-invalid="true"] { border: 2px solid #ad2525; }
+.boolean-option { display: flex; gap: .65rem; align-items: baseline; padding-block: .55rem; cursor: pointer; }
+.boolean-option input { flex-shrink: 0; }
+.option-hint { font-size: .9rem; color: #405a4f; }
+.option-error { color: #9c2020; }
+@media (max-width: 380px) { main { padding: .6rem; } section { padding: .75rem; } }
 code { overflow-wrap: anywhere; }
 #blazor-error-ui { display: none; position: fixed; bottom: 0; background: #fff0c4; padding: 1rem; }

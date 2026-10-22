@@ -15,6 +15,9 @@ public static class FoundationServices
             new Uri(navigation.Uri).Query.TrimStart('?').Split('&').Contains("beshOfficeDiagnostics=1")));
         services.TryAddScoped<IWorkbookTransport, WorkbookTransport>();
         services.TryAddScoped<IWorkbookAdapter, WorkbookAdapter>();
+        services.TryAddScoped<IAnalysisNavigationCatalog, AnalysisNavigationCatalog>();
+        services.TryAddScoped<AnalysisEditorRegistry>();
+        services.TryAddScoped<AnalysisNavigationMenu>();
         return services;
     }
 }

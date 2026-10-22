@@ -1,0 +1,12 @@
+<div class="alpha-editor">
+    <label for="analysis-alpha">Significance level (alpha)</label>
+    <input id="analysis-alpha" type="text" inputmode="decimal" value="@Draft.AlphaText" @oninput="Change"
+        aria-invalid="@(!Draft.IsValid ? "true" : "false")"
+        aria-describedby="@(Draft.AlphaError is null ? "alpha-hint" : "alpha-hint alpha-error")" />
+    <p id="alpha-hint" class="option-hint">Use a decimal point; alpha must be greater than 0 and less than 1.</p>
+    @if (Draft.AlphaError is { } error) { <p id="alpha-error" class="option-error" aria-live="polite">@error</p> }
+</div>
+@code {
+    [Parameter, EditorRequired] public AnalysisOptionDraft Draft { get; set; } = default!;
+    private void Change(ChangeEventArgs args) => Draft.SetAlpha(args.Value?.ToString());
+}

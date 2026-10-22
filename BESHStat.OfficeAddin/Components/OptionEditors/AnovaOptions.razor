@@ -1,0 +1,13 @@
+@implements IAnalysisOptionEditor<AnovaOptionDraft>
+<fieldset>
+    <legend>Statistical options</legend>
+    <AlphaEditor Draft="Draft" />
+    <BooleanOption Id="anova-welch" Label="Include Welch ANOVA" @bind-Value="Draft.IncludeWelch" />
+    <BooleanOption Id="anova-fisher" Label="Include Fisher LSD comparisons" @bind-Value="Draft.IncludeFisherLsd" />
+    <BooleanOption Id="anova-bonferroni" Label="Include Bonferroni comparisons" @bind-Value="Draft.IncludeBonferroni" />
+    <BooleanOption Id="anova-tukey" Label="Include Tukey–Kramer comparisons" @bind-Value="Draft.IncludeTukeyKramer" />
+    <BooleanOption Id="anova-games" Label="Include Games–Howell comparisons" @bind-Value="Draft.IncludeGamesHowell" />
+</fieldset>
+@code {
+    [Parameter, EditorRequired] public AnovaOptionDraft Draft { get; set; } = default!;
+}

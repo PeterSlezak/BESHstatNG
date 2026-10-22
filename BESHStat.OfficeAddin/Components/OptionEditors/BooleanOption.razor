@@ -1,0 +1,11 @@
+<label class="boolean-option" for="@Id">
+    <input id="@Id" type="checkbox" checked="@Value" @onchange="Change" />
+    <span>@Label</span>
+</label>
+@code {
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public bool Value { get; set; }
+    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+    private Task Change(ChangeEventArgs args) => ValueChanged.InvokeAsync(args.Value is true);
+}
