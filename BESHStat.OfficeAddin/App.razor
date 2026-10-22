@@ -1,0 +1,66 @@
+@implements IAsyncDisposable
+@inject IOfficeHostReadiness Host
+@inject IFoundationProbe Probe
+
+<main>
+    <h1>BESHStatNG Office foundation</h1>
+    <p>Development host · Batch 04.01</p>
+    <section aria-live="polite" aria-busy="@loading.ToString().ToLowerInvariant()">
+        <h2>Office host</h2>
+        <p id="host-status">@(loading ? "Waiting for Office initialization…" : status.Message)</p>
+        @if (!loading)
+        {
+            <p>Diagnostic: <code>@status.Code</code></p>
+            @if (status.Platform.Length > 0) { <p>Platform: @status.Platform</p> }
+        }
+        <button @onclick="RetryAsync" disabled="@loading">Retry initialization</button>
+    </section>
+    <section>
+        <h2>Core and Common checks</h2>
+        @if (probe is null) { <p>Loading local probes…</p> }
+        else
+        {
+            <p id="core-probe">Core: @(probe.CorePassed ? "passed" : "failed") · standard normal CDF(0) = @probe.NormalCdf.ToString("G17", System.Globalization.CultureInfo.InvariantCulture)</p>
+            <p id="common-probe">Common: @(probe.CommonPassed ? "passed" : "failed") · @probe.DescriptorCount descriptors, @probe.HandlerCount registered handlers</p>
+            <p>Diagnostic: <code>@probe.Code</code></p>
+        }
+    </section>
+    <p>No workbook data is read or written. Analysis screens will follow in later batches.</p>
+</main>
+
+@code {
+    private readonly CancellationTokenSource lifetime = new();
+    private HostStatus status = HostStatus.Unavailable;
+    private ProbeResult? probe;
+    private bool loading = true;
+    private bool disposed;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender) await StartAsync(false);
+    }
+
+    private Task RetryAsync() => StartAsync(true);
+
+    private async Task StartAsync(bool retry)
+    {
+        loading = true;
+        // Render waiting state before asynchronous Office readiness.
+        StateHasChanged();
+        probe = Probe.Run();
+        var result = await Host.InitializeAsync(lifetime.Token, retry);
+        if (disposed) return;
+        status = result;
+        loading = false;
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (disposed) return;
+        disposed = true;
+        lifetime.Cancel();
+        await Host.DisposeAsync();
+        lifetime.Dispose();
+    }
+}

@@ -13,6 +13,10 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BESHStat.Excel.Common", "BE
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "BESHStat.Excel.Common.Tests", "BESHStat.Excel.Common.Tests\BESHStat.Excel.Common.Tests.vbproj", "{D2B07ED1-649D-4A65-9B76-7C538491680E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BESHStat.OfficeAddin", "BESHStat.OfficeAddin\BESHStat.OfficeAddin.csproj", "{CE804873-CCFB-4DD1-90DC-7605A97C9639}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OfficeAddin.Tests", "BESHStat.OfficeAddin\tests\OfficeAddin.Tests.csproj", "{CB116EB4-1308-409A-B92A-4679B907A4EF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +24,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE804873-CCFB-4DD1-90DC-7605A97C9639}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE804873-CCFB-4DD1-90DC-7605A97C9639}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE804873-CCFB-4DD1-90DC-7605A97C9639}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE804873-CCFB-4DD1-90DC-7605A97C9639}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE804873-CCFB-4DD1-90DC-7605A97C9639}.PreRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{CE804873-CCFB-4DD1-90DC-7605A97C9639}.PreRelease|Any CPU.Build.0 = Release|Any CPU
+		{CB116EB4-1308-409A-B92A-4679B907A4EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB116EB4-1308-409A-B92A-4679B907A4EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB116EB4-1308-409A-B92A-4679B907A4EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB116EB4-1308-409A-B92A-4679B907A4EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB116EB4-1308-409A-B92A-4679B907A4EF}.PreRelease|Any CPU.ActiveCfg = Release|Any CPU
+		{CB116EB4-1308-409A-B92A-4679B907A4EF}.PreRelease|Any CPU.Build.0 = Release|Any CPU
 		{A4A3C057-C520-462B-AD91-F481B2D797DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4A3C057-C520-462B-AD91-F481B2D797DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4A3C057-C520-462B-AD91-F481B2D797DE}.PreRelease|Any CPU.ActiveCfg = PreRelease|Any CPU
