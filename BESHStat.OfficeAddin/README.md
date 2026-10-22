@@ -1,14 +1,16 @@
 # BESHStat.OfficeAddin — production host foundation
 
-Batch **04.01 implemented / pending owner source review and real Excel acceptance**.
-This is the beginning of the production Office.js host, with a minimal task pane.
-It runs a real Core standard normal CDF probe and validates the actual Common
-catalog/handler registry. It does not read or write a workbook or run user analyses.
+Batch **04.01 owner-accepted / committed on main at d7888cd**. The owner confirmed
+real Excel Online/standalone, probes, Retry and independent WasmSmoke.
+Batch **04.02 implemented / pending owner review and real selected-range smoke**.
+The minimal production host runs real Core/Common probes and offers an explicit
+read-only selected-range check when Excel-ready. Page load and Retry do not read
+workbook cells. No analysis or production output write is enabled.
 
 `BESHStat.WasmSmoke` remains an independent regression harness with its own
 manifest, identity and `https://localhost:7131/` endpoint. Neither project depends
 on the other. Future workbook adapters and reusable analysis screens belong to
-04.02–04.07; Gate C has not been reached.
+04.03–04.07; Gate C has not been reached.
 
 ## Prerequisites and launch
 
@@ -36,10 +38,12 @@ configured. This manifest is development-only and is not a release package.
 Upload **`BESHStat.OfficeAddin/manifest-dev.xml`**. Its display name is
 **BESHStatNG Office Foundation Dev**, GUID
 **`5f70b95c-dc4a-4f38-b78d-0a7348657e19`**. It is an add-in-only XML `TaskPaneApp`
-for `Workbook`, requiring ExcelApi **1.1**, with **Restricted** permission.
-ReadWriteDocument is unnecessary for readiness and local probes; any later
-workbook adapter must separately review its permissions. There are no Ribbon
-commands or VersionOverrides in this batch.
+for `Workbook`, requiring ExcelApi **1.1**, with **ReadWriteDocument** permission.
+Microsoft requires this permission for application-specific Excel APIs even when
+only reading. Higher permission permits writes in principle; this batch's UI
+does not authorize or perform them. The production writer remains fail closed.
+There are no Ribbon commands or VersionOverrides. **Remove/re-sideload this
+development manifest after rebuilding so the changed permission takes effect.**
 
 1. First open the HTTPS URL in a normal browser to confirm certificate trust and
    successful WASM loading. Expect **Office host not available**, Core CDF(0)
@@ -62,6 +66,152 @@ commands or VersionOverrides in this batch.
    probes should repeat deterministically; the selection, sheets and values must
    remain unchanged. Check WasmSmoke separately on **7131** with its original
    `office-manifest.xml` and original display name.
+
+### Batch 04.02 selected-range acceptance
+
+Use a disposable workbook and the re-sideloaded manifest. In standalone **7141**,
+expect `office.unavailable`, **0.5 / 2 / 4**, working Retry and no read button.
+In genuine Excel Online expect `office.excel-ready`, `OfficeOnline` and those same
+probes. Select a small rectangle containing headers, numeric/zero values, a true
+blank, Boolean, text, `=""` and an error formula such as `=NA()`. Click **Read
+selected range (read-only)** once. Expect `workbook.ok`, correct rows/columns/cell
+count, and no echoed values, worksheet/workbook names or addresses.
+
+Repeat with an alternate small rectangle and a single cell. Select an oversized
+rectangle (over 10,000 cells): expect `input.range-cells` before value transfer.
+A disjoint selection must reject; its bounding rectangle is never substituted.
+Retry clears the previous summary and performs no background read. Close/reopen
+the pane and inspect again. Verify unchanged sheet count, values, formulas,
+formatting and selection. No result/write controls or worksheet creation exist.
+Confirm independent WasmSmoke **7131**; desktop Excel/Mac are optional owner checks,
+unperformed by Codex for 04.02. The canonical mixed-cell parity is automated, not
+an instruction to export workbook contents for comparison.
+
+### Investigating the owner-observed read timeout (04.02 pending)
+
+The owner observed `input.time-budget` for a small selection in genuine Excel
+Online. The failing stage and root cause are **not yet established**. Parent-shell
+CSP/Office.js messages are not task-pane evidence. The reader/deadlines remain
+unchanged; the new instrumentation is for obtaining that evidence.
+
+1. Run the host in **Debug** with the current dev manifest re-sideloaded. In Edge
+   DevTools select **https://localhost:7141/** from the execution-context/frame
+   dropdown, not `baseFrame`, `about:blank` or the Excel parent shell. Evaluate
+   `location.origin === "https://localhost:7141"`; continue only if **true**.
+2. Enable local diagnostics in that frame, retaining Office's existing parameters:
+
+   ```js
+   { const u = new URL(location.href); u.searchParams.set("beshOfficeDiagnostics", "1"); location.replace(u); }
+   ```
+
+   After reload, confirm genuine readiness/probes again. Select the same small
+   rectangle. Click **Inspect selection metadata only (read-only)**, record only
+   status/dimensions, then **Read selected range (read-only)** and record its
+   status/dimensions. The second action still acquires the full typed snapshot;
+   metadata-only success is insufficient for acceptance. Neither reads on load
+   or Retry. While an operation is pending or after it ends, **Refresh stage
+   summary** shows C# fixed codes/timings. In the same frame capture:
+
+   ```js
+   JSON.stringify(__beshOfficeDebug.snapshot())
+   ```
+
+   Share only that sanitized snapshot and the C# stage summary. Both are bounded
+   to 80 events and contain no workbook/sheet IDs, names, addresses, values,
+   formulas, exception messages/stacks or URLs. No telemetry or storage is used.
+   C# milliseconds start at scoped recorder creation; JS milliseconds start at
+   page diagnostic installation. Compare adjacent stage differences within each
+   trace, not absolute timestamps across traces. `cs.timeout` identifies the C#
+   deadline/checkpoint; `read.js-timeout` and `cs.js-timeout-received` identify a JS
+   deadline/reply. Closely racing deadlines can leave both traces; the returned
+   public code remains `input.time-budget`.
+3. If needed run this independent **read-only** control in that same frame. It
+   reports only a fixed stage/status, dimensions on success, and elapsed time:
+
+   ```js
+   (async () => {
+     if (location.origin !== "https://localhost:7141") {
+       console.log({status:"control.wrong-frame"}); return;
+     }
+     const start = performance.now();
+     let timer, stage = "control.run-started";
+     try {
+       const native = Excel.run(async context => {
+         stage = "control.run-entered";
+         const r = context.workbook.getSelectedRange();
+         r.load("rowCount,columnCount");
+         stage = "control.sync-started";
+         await context.sync();
+         stage = "control.sync-completed";
+         return {status:"excel-read-ok", rows:r.rowCount, columns:r.columnCount};
+       }).catch(() => ({status:"excel-read-failed"}));
+       const result = await Promise.race([native, new Promise(resolve => {
+         timer = setTimeout(() => resolve({status:"excel-read-timeout"}), 10000);
+       })]);
+       console.log({...result, stage, elapsedMs:Math.round(performance.now()-start)});
+     } catch {
+       console.log({status:"excel-read-failed", stage, elapsedMs:Math.round(performance.now()-start)});
+     } finally { clearTimeout(timer); }
+   })();
+   ```
+
+   A timeout cannot abort an already submitted native request. Do not run repeated
+   controls while one is pending; close/reopen the pane before the next attempt.
+   If the control also hangs, report its fixed stage and sanitized dependency
+   statuses from this frame. Do not share HARs, request headers/bodies, credentials
+   or workbook data. Compare independent WasmSmoke/Edge versus Opera only within
+   owner-approved tenant/browser policy; do not weaken CSP/sandbox settings.
+4. Disable by removing only `beshOfficeDiagnostics` from the frame URL and
+   reloading. The added workbook traces and metadata button are disabled by
+   default. The C# recorder and button are compiled **off in Release**, even with
+   the query parameter; the production transport passes `false` to the JS
+   diagnostic option in that configuration.
+   The accepted 04.01 bootstrap diagnostic remains unchanged in availability.
+
+See the [timeout amendment](../docs/architecture/batch-04-02-office-workbook-adapter.md#owner-smoke-timeout-investigation-amendment--22-october-2026)
+for stage interpretation, simulations and the still-pending real-host gate.
+
+### Adapter limits and ownership
+
+`IWorkbookAdapter` borrows the accepted scoped readiness service and returns typed
+Common ranges. It advertises only `input.read-selected-range`; writing and new
+workbooks are unavailable. Its metadata-only query returns dimensions and a typed
+Common reference for later selectors, without cell values. Explicit references additionally require the actual worksheet ID,
+name and canonical coordinates; unverifiable book/selection identities reject.
+References address only the workbook currently hosting the pane; they do not
+establish persistent identity across operations or workbooks.
+
+Default ceilings: **10,000 cells**, **2,000 cells per interop tile**, **64 MiB
+estimated bytes**, **30 seconds**. Callers can lower budgets, not raise them in
+this batch. All source metadata is checked before allocating rows/loading cells.
+Wide single rows tile across columns. Byte estimates include a conservative base
+and actual transported string lengths, but cannot guarantee Office/browser heap
+use. Retained snapshots still contain the entire accepted input.
+
+Each tile uses a fresh `Excel.run`, actual type metadata and fresh identity/
+selection observations before and after payload sync. No Excel proxy/context
+crosses a run. A changed document session, worksheet identity/name or selection
+bounds rejects the operation; no partial Common snapshot escapes. Verification
+uses current selection at checkpoints, not a persistent selection ID or an
+atomic historical cell-value snapshot. Transient changes that return to identical
+metadata between checkpoints, and concurrent cell edits, cannot all be detected;
+reads are not transactionally isolated. No whole-row/column narrowing is applied.
+Physical workbook ID/name and selection revision stay unknown; DateSystem stays
+Unknown and numeric serials remain numeric. Native error text is preserved only
+for actual Error cells; ExcelApi 1.1 supplies no separate native error code here.
+
+Cancel/dispose stops further payload scheduling and discards the pending snapshot.
+An already submitted native sync cannot be forcibly aborted. Concurrent requests
+on one adapter return `host.busy`; separate panes own separate adapters. The
+readiness service lifetime is independent. Cleanup releases module/object references
+and operation metadata; there are no workbook event listeners or background reads.
+
+`WriteAsync` accepts existing Common `OfficeOutputPlan` / `WriteIntent` /
+`WriteConsent` and returns existing `WriteResult`. Production JavaScript has **no
+writer installed**, so requests reject before mutation. Injected, explicitly
+simulated test ports exercise occupancy/consent revalidation, actual mock identity,
+successful sync, cancellation and mutation uncertainty. They are not a production
+writer or a promise of 04.04 destination/consent UI. No rollback or undo is claimed.
 
 The two add-ins can coexist. To replace an older sideload of this foundation,
 remove only **BESHStatNG Office Foundation Dev** in My Add-ins (or remove its
@@ -182,6 +332,20 @@ regression. They do not certify genuine Excel, platform metadata or pane reopeni
 Close the isolated browser after testing. If assets were rebuilt while the server
 was running, restart the server so its static-asset manifest is current.
 
+With a **Debug** host and the same isolated browser, the 04.02 browser driver
+uses the shared canonical fixture and mocked Office/Excel boundaries, while
+exercising real ES-module import, Blazor WASM, typed interop and explicit buttons:
+
+```powershell
+node BESHStat.OfficeAddin/tests/browser/workbook-browser.mjs
+node BESHStat.OfficeAddin/tests/browser/workbook-browser.mjs --pending-sync
+```
+
+The second run deliberately stalls a simulated payload sync for the unchanged
+30-second budget, reports which timer wins, then checks a successful simulated
+retry. Both runs are **simulations**, excluded from distinct unit-test counts;
+neither authenticates to Office or proves native `context.sync()` health.
+
 ## Automated checks
 
 From the repository root, with dependencies already available:
@@ -191,7 +355,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-office-founda
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-office-foundation.ps1 -Configuration Release
 ```
 
-Each command builds the host, runs **29 host-free C# cases**, runs **56 Node
+Each command builds the host, runs **78 host-free C# cases**, runs **136 Node
 cases**, validates manifest/launch identity and checks built static assets and
 Core/Common WASM assemblies. The C# project links the exact production bootstrap
 sources; it does not host the browser runtime. No live Office, public network or
@@ -201,15 +365,21 @@ without `npm install`.
 The opt-in seven-scenario browser run is separate from these distinct-case counts.
 The [readiness debugging amendment](../docs/architecture/batch-04-01-office-host-foundation.md#post-implementation-readiness-debugging-amendment--22-october-2026)
 records the proven interop defect, remaining live Excel gate and actual results.
+That report's historical 04.01 pending gate is superseded by the owner acceptance
+recorded at the top of this README; 04.02's selected-range smoke is still pending.
 
 Run the existing `scripts/verify-beshstatng.ps1` separately with
 `-Configuration Debug` / `Release -VisualStudio 2026 -Legacy -Wasm -Js -Python`.
-That accepted gate still tests WasmSmoke; it does not include this new host.
+The `-Wasm` gate now includes the production host assembly/build as well as
+WasmSmoke; `-Js` includes both hosts' Node tests and the resolver.
 See the [04.01 architecture/evidence report](../docs/architecture/batch-04-01-office-host-foundation.md)
 for exact commands, suite counts, limitations and the owner evidence checklist.
+See the [04.02 adapter report](../docs/architecture/batch-04-02-office-workbook-adapter.md)
+for this batch's source mapping, test inventory and pending owner checklist.
 
 Microsoft references: [initialization](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/initialize-add-in),
 [XML manifest](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/xml-manifest-overview),
 [host/requirements and CDN](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/specify-office-hosts-and-api-requirements),
 [permissions](https://learn.microsoft.com/en-us/javascript/api/manifest/permissions),
+[application-specific API permission requirement](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/requesting-permissions-for-api-use-in-content-and-task-pane-add-ins),
 [Excel Online sideloading](https://learn.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing).

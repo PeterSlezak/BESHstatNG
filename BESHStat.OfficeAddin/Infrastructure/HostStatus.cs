@@ -11,7 +11,7 @@ public sealed record HostStatus(HostState State, string Code, string Platform = 
     public bool IsExcel => State == HostState.Excel;
     public string Message => State switch
     {
-        HostState.Excel => "Excel host initialized; ExcelApi 1.1 is available. Workbook operations are not implemented in this foundation.",
+        HostState.Excel => "Excel host initialized; ExcelApi 1.1 is available. Selected-range inspection is available on request.",
         HostState.Standalone => "Office host not available. Office readiness could not be established. Open the development add-in in Excel or check Office.js access and retry.",
         HostState.Unsupported => "Office host or ExcelApi requirement is unsupported. Open this add-in in a supported Excel host.",
         HostState.Disposed => "Initialization cancelled.",

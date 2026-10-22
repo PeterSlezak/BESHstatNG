@@ -40,12 +40,17 @@ if ($Python) {
 }
 
 if ($Wasm) {
+    Invoke-Checked 'dotnet' @('test', '.\BESHStat.OfficeAddin\tests\OfficeAddin.Tests.csproj', '-c', $Configuration, '--logger', 'trx;LogFileName=OfficeAddin.trx', '--results-directory', $results)
+    Invoke-Checked 'dotnet' @('build', '.\BESHStat.OfficeAddin\BESHStat.OfficeAddin.csproj', '-c', $Configuration)
     Invoke-Checked 'dotnet' @('test', '.\BESHStat.WasmSmoke\tests\Execution\Execution.Tests.csproj', '-c', $Configuration, '--logger', 'trx;LogFileName=OfficeExecution.trx', '--results-directory', $results)
     Invoke-Checked 'dotnet' @('build', '.\BESHStat.WasmSmoke\BESHStat.WasmSmoke.csproj', '-c', $Configuration)
     Write-Host 'WASM project build only; browser/Excel smoke tests remain manual.' -ForegroundColor Yellow
 }
 
 if ($Js) {
+    Push-Location (Join-Path $root 'BESHStat.OfficeAddin')
+    try { Invoke-Checked 'npm.cmd' @('test') }
+    finally { Pop-Location }
     Invoke-Checked 'node' @('--test', '.\BESHStatNG_Help_MkDocs\tests\help-resolver.test.mjs')
     Push-Location (Join-Path $root 'BESHStat.WasmSmoke')
     try { Invoke-Checked 'npm.cmd' @('test') }

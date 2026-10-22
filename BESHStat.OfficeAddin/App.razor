@@ -1,10 +1,12 @@
 @implements IAsyncDisposable
 @inject IOfficeHostReadiness Host
 @inject IFoundationProbe Probe
+@inject BESHStat.OfficeAddin.Services.IWorkbookAdapter Workbook
+@inject BESHStat.OfficeAddin.Services.WorkbookDiagnostics ReadDiagnostics
 
 <main>
     <h1>BESHStatNG Office foundation</h1>
-    <p>Development host · Batch 04.01</p>
+    <p>Development host · Batch 04.02</p>
     <section aria-live="polite" aria-busy="@loading.ToString().ToLowerInvariant()">
         <h2>Office host</h2>
         <p id="host-status">@(loading ? "Waiting for Office initialization…" : status.Message)</p>
@@ -13,7 +15,7 @@
             <p>Diagnostic: <code>@status.Code</code></p>
             @if (status.Platform.Length > 0) { <p>Platform: @status.Platform</p> }
         }
-        <button @onclick="RetryAsync" disabled="@loading">Retry initialization</button>
+        <button @onclick="RetryAsync" disabled="@(loading || reading)">Retry initialization</button>
     </section>
     <section>
         <h2>Core and Common checks</h2>
@@ -25,7 +27,28 @@
             <p>Diagnostic: <code>@probe.Code</code></p>
         }
     </section>
-    <p>No workbook data is read or written. Analysis screens will follow in later batches.</p>
+    @if (!loading && status.IsExcel)
+    {
+        <section aria-live="polite" aria-busy="@reading.ToString().ToLowerInvariant()">
+            <h2>Read-only development check</h2>
+            <button @onclick="InspectAsync" disabled="@reading">Read selected range (read-only)</button>
+            @if (ReadDiagnostics.Enabled)
+            {
+                <button @onclick="InspectMetadataAsync" disabled="@reading">Inspect selection metadata only (read-only)</button>
+            }
+            @if (readCode is not null) { <p id="range-status">Status: @readCode</p> }
+            @if (rangeRows > 0) { <p>@rangeRows rows × @rangeColumns columns · @((long)rangeRows * rangeColumns) cells</p> }
+        </section>
+    }
+    @if (ReadDiagnostics.Enabled)
+    {
+        <section aria-label="Local development read stages">
+            <h2>Local development read stages</h2>
+            <button @onclick="RefreshStages">Refresh stage summary</button>
+            <pre>@stageSummary</pre>
+        </section>
+    }
+    <p>Workbook data is read only when inspection is requested. No workbook data is written. Values, names and addresses are not displayed.</p>
 </main>
 
 @code {
@@ -34,6 +57,39 @@
     private ProbeResult? probe;
     private bool loading = true;
     private bool disposed;
+    private bool reading;
+    private string? readCode;
+    private int rangeRows, rangeColumns;
+    private string stageSummary = "";
+    private void RefreshStages() => stageSummary = string.Join("\n", ReadDiagnostics.Snapshot().Select(e => $"{e.Code} {e.ElapsedMs}ms"));
+
+    private async Task InspectMetadataAsync()
+    {
+        if (reading || !status.IsExcel || disposed || !ReadDiagnostics.Enabled) return;
+        reading = true;
+        readCode = null;
+        rangeRows = rangeColumns = 0;
+        var result = await Workbook.InspectSelectionAsync(lifetime.Token);
+        if (disposed) return;
+        readCode = result.Code;
+        if (result.Succeeded) { rangeRows = result.Value!.RowCount; rangeColumns = result.Value.ColumnCount; }
+        reading = false;
+        RefreshStages();
+    }
+
+    private async Task InspectAsync()
+    {
+        if (reading || !status.IsExcel || disposed) return;
+        reading = true;
+        readCode = null;
+        rangeRows = rangeColumns = 0;
+        var result = await Workbook.ReadSelectionAsync(cancellationToken: lifetime.Token);
+        if (disposed) return;
+        readCode = result.Code;
+        if (result.Succeeded) { rangeRows = result.Value!.RowCount; rangeColumns = result.Value.ColumnCount; }
+        reading = false;
+        RefreshStages();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -45,6 +101,8 @@
     private async Task StartAsync(bool retry)
     {
         loading = true;
+        readCode = null;
+        rangeRows = rangeColumns = 0;
         // Render waiting state before asynchronous Office readiness.
         StateHasChanged();
         probe = Probe.Run();
@@ -60,6 +118,7 @@
         if (disposed) return;
         disposed = true;
         lifetime.Cancel();
+        await Workbook.DisposeAsync();
         await Host.DisposeAsync();
         lifetime.Dispose();
     }

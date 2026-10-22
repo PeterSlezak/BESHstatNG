@@ -12,5 +12,6 @@
     <ProjectReference Include="..\..\BESHStat.Core\BESHStat.Core.vbproj" />
     <ProjectReference Include="..\..\BESHStat.Excel.Common\BESHStat.Excel.Common.vbproj" />
     <Compile Include="..\Infrastructure\*.cs" Link="Infrastructure\%(Filename)%(Extension)" />
+    <Compile Include="..\Services\*.cs" Link="Services\%(Filename)%(Extension)" />
   </ItemGroup>
 </Project>

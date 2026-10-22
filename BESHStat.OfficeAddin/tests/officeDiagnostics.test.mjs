@@ -77,3 +77,17 @@ test("frame categories use only the selected frame origin without reading parent
     scope.location.origin = "https://excel.cloud.microsoft";
     assert.equal(scope.__beshOfficeDebug.snapshot().frame, "other");
 });
+
+test("read stages require development opt-in as well as query opt-in and reject arbitrary payloads", () => {
+    for (const enabled of [false,true]) {
+        const {scope}=fixture(enabled);
+        const debug=scope.__beshOfficeDebug;
+        debug.record("read.payload-sync-started");
+        assert.equal(debug.snapshot().events.length,0);
+        debug.enableWorkbookDevelopment();
+        debug.record("read.payload-sync-started");
+        debug.record("read.SECRET");
+        assert.equal(debug.snapshot().events.length,enabled?1:0);
+        assert.equal(JSON.stringify(debug.snapshot()).includes("SECRET"),false);
+    }
+});

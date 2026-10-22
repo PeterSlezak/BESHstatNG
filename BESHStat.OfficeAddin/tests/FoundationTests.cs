@@ -225,7 +225,7 @@ public sealed class FoundationTests
         var set = app.Element(ns + "Requirements")!.Element(ns + "Sets")!.Element(ns + "Set")!;
         Assert.AreEqual("ExcelApi", (string?)set.Attribute("Name"));
         Assert.AreEqual("1.1", (string?)set.Attribute("MinVersion"));
-        Assert.AreEqual("Restricted", app.Element(ns + "Permissions")!.Value);
+        Assert.AreEqual("ReadWriteDocument", app.Element(ns + "Permissions")!.Value);
         Assert.IsFalse(app.Descendants().Any(x => x.Name.LocalName == "VersionOverrides"));
         var url = new Uri((string)app.Element(ns + "DefaultSettings")!.Element(ns + "SourceLocation")!.Attribute("DefaultValue")!);
         using var profile = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "BESHStat.OfficeAddin/Properties/launchSettings.json")));

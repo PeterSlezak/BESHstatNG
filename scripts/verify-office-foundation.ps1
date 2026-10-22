@@ -25,7 +25,7 @@ finally { Pop-Location }
 # not physically copy index.html into bin/wwwroot (publish is deliberately not invoked).
 $project = Join-Path $root 'BESHStat.OfficeAddin'
 $manifest = Get-Content (Join-Path $project "obj/$Configuration/net10.0/staticwebassets.build.json") -Raw | ConvertFrom-Json
-foreach ($asset in @('index.html','js/officeHost.mjs','js/officeDiagnostics.js','css/app.css')) {
+foreach ($asset in @('index.html','js/officeHost.mjs','js/officeDiagnostics.js','js/workbookAdapter.mjs','css/app.css')) {
     $expectedIdentity = Join-Path $project ('wwwroot/' + $asset)
     $matches = @($manifest.Assets | Where-Object { $_.Identity -eq $expectedIdentity })
     if ($matches.Count -ne 1 -or -not (Test-Path -LiteralPath $matches[0].Identity)) {
