@@ -1,5 +1,7 @@
 # Gate C — production Office application-layer formal exit review
 
+> **CURRENT OWNER DISPOSITION — 25 October 2026:** **GATE C APPROVED — GO WITH DOCUMENTED EXCEPTIONS.** The project owner explicitly confirmed the four residual genuine Excel Online checks as passed and approved Gate C with E1–E7 carried forward and GC3–GC8 deferred. Authorization to begin **04A.01** is granted. This is an owner attestation, not an independent rerun or a cryptographically signed record. The historical NO_GO audit and all prior evidence classifications below are retained unchanged as an audit trail. See [Owner decision](gate-c-owner-decision-20261025.md) and the final addendum at the end of this report.
+
 **Recommendation: NO_GO. Owner decision: UNSIGNED. Gate C is NOT APPROVED.**
 
 The deterministic source/contract/build/simulation evidence passes. Required
@@ -676,3 +678,20 @@ README files, matched again and `git diff --check` exited 0. Only the untracked
 audit document is versionable; local index/summary/integrity artifacts are ignored.
 Nothing is staged/committed. Windows desktop and Mac remain NOT TESTED/deferred;
 E1–E7 and GC3–GC8 are not waived. No roadmap status or Phase 04A authorization changes.
+
+## Gate C owner decision addendum — 25 October 2026 (supersedes earlier NO_GO for current governance)
+
+**Current disposition: GO WITH DOCUMENTED EXCEPTIONS — OWNER APPROVED.**
+
+The project owner confirmed in the conversation that all four remaining genuine Excel Online checks passed: (1) actual Help-page opening, (2) keyboard navigation and About focus-return behavior, (3) repeated-subject and duplicate validation, and (4) busy/Cancel/Retry behavior. When asked explicitly whether to approve **Gate C — GO WITH DOCUMENTED EXCEPTIONS**, accepting **E1–E7** and deferred **GC3–GC8**, and authorize **04A.01**, the owner answered: **“yes, approved.”** This is an explicit owner decision dated 25 October 2026; it is **not** a handwritten, cryptographic, or independently witnessed signature.
+
+Evidence classification and audit-history preservation:
+
+- **GC1: closed by owner acceptance for Gate C.** The earlier genuinely observed source-bound Ribbon, ANOVA/KW, five verified writes, p-value readback, numeric styles and LM widths 3→4→5 remain supported by the previously recorded live evidence. The four residual checks are **OWNER-ATTESTED PASS** only; this addendum does not invent missing screenshots, native browser logs, automated assertions or source-bound capture for those individual interactions.
+- **GC2: owner approval recorded.** The owner explicitly approved **GO WITH DOCUMENTED EXCEPTIONS** and granted authorization to begin **04A.01**. The decision is documented in this addendum and [owner decision record](gate-c-owner-decision-20261025.md), subject to incorporation into the actual local evidence index without destroying prior history.
+- **E1–E7:** accepted Gate B exceptions remain **OPEN / CARRIED FORWARD**. They are not silently closed or treated as implemented features.
+- **GC3–GC8:** acknowledged and **DEFERRED** to their documented owners, triggers and later work/release gates; not considered waived or repaired.
+- **Desktop/Mac:** Windows desktop Office GUI/XLL loading and Mac desktop qualification remain **NOT TESTED / DEFERRED TO RELEASE GATE**. Gate C approval does not authorize deployment, Marketplace claims, or Mac/Windows release qualification.
+- **No numbered batch completion:** acceptance remains **40 of 223**, with **183 remaining** and all **75 Phase 04A batches unimplemented** at the time of this decision. Authorization permits starting **04A.01** as a separate feature branch; it does not claim 04A.01 was executed or accepted.
+
+**Historical record:** the original criterion matrix, initial NO_GO findings, earlier “UNSIGNED” lines, and incomplete-audit narrative above describe the state *at their respective audit times*. They are retained, not rewritten as if Codex performed tests that it did not. For the current owner-governance decision, **C14 is accepted with an explicit OWNER-ATTESTED evidence limitation and C16 is approved by owner decision**. See the owner decision record for scope and traceability. Update any local `TestResults/GateC/evidence-index.json` and exception register by *appending* owner-decision evidence to their latest on-disk versions; the ignored audit artifacts were not included in the uploaded repository ZIP and must not be reconstructed from stale copies.
