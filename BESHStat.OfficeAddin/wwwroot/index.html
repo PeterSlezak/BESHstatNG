@@ -9,8 +9,10 @@
     <!-- Opt-in, local-only diagnostics attach before the CDN's load/error events. -->
     <script src="js/officeDiagnostics.js"></script>
     <script id="office-js" src="https://officeapis.public.onecdn.static.microsoft/1/office.js"></script>
+    <script type="module" src="js/ribbonCommands.mjs"></script>
 </head>
 <body>
+    <p id="command-bootstrap-status" role="status"></p>
     <div id="app">Loading BESHStatNG Core and Common… If loading fails, check the local HTTPS server and reload.</div>
     <div id="blazor-error-ui" role="alert">The application could not continue. <a href="/">Reload</a></div>
     <script src="_framework/blazor.webassembly.js"></script>

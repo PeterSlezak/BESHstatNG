@@ -4,7 +4,11 @@ main { box-sizing: border-box; max-width: 42rem; width: 100%; height: 100%; heig
 .workspace-header { flex: 0 0 auto; position: sticky; top: 0; z-index: 10; background: #f5f8f6; }
 .workspace-header h1 { margin-block: .25rem; font-size: 1.1rem; }
 .workspace-header h1 small { font-size: .75em; white-space: nowrap; font-weight: 400; }
-.workspace-header > p { margin-block: .25rem; font-size: .8rem; }
+.workspace-menu { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .65rem; margin-block: .25rem; font-size: .8rem; }
+.workspace-menu nav { display: flex; flex-wrap: wrap; align-items: baseline; gap: .1rem .65rem; }
+.menu-link { padding: .2rem 0; border: 0; background: transparent; font: inherit; text-decoration: underline; color: #075a8f; }
+a { color: #075a8f; }
+a:focus-visible { outline: 3px solid #166bba; outline-offset: 3px; }
 .workspace-note { margin-block: .35rem; font-size: .8rem; }
 h1 { font-size: 1.5rem; }
 h2 { font-size: 1.15rem; }
@@ -43,6 +47,7 @@ code { overflow-wrap: anywhere; }
 .workspace-tabs { display: flex; gap: .35rem; border-bottom: 1px solid #647d72; }
 .workspace-tabs button { flex: 1; min-width: 0; padding: .45rem .35rem; overflow-wrap: anywhere; font: inherit; font-size: .85rem; background: white; color: inherit; border: 1px solid #647d72; border-radius: .3rem .3rem 0 0; }
 .workspace-tabs [aria-selected="true"] { background: #18352e; color: white; border-bottom: 3px solid #42bd87; }
+@media (max-width: 480px) { .workspace-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .global-options label { display: block; margin-top: .8rem; }
 .global-options input:not([type="checkbox"]), .global-options select { width: 100%; box-sizing: border-box; font: inherit; padding: .5rem; }
 .global-options input[type="checkbox"] { margin-inline-end: .4rem; }
@@ -50,7 +55,11 @@ code { overflow-wrap: anywhere; }
 .global-options dd { margin-inline-start: 1rem; overflow-wrap: anywhere; }
 .help-action { display: inline-flex; align-items: center; flex-wrap: wrap; gap: .35rem; font-size: .85rem; }
 progress { max-width: 100%; }
-@media (max-height: 420px) { .workspace-header > p, .workspace-header h1 small { display: none; } .workspace-header button { padding-block: .25rem; } main { padding: .35rem; } }
+#command-bootstrap-status:empty { display: none; }
+#command-bootstrap-status:not(:empty) { position: fixed; bottom: 0; z-index: 200; margin: 0; padding: .5rem; background: #fff0c4; }
+.about-dialog { max-height: 85dvh; overflow-y: auto; max-width: min(30rem,90vw); box-sizing: border-box; border: 1px solid #647d72; padding: 1rem; }
+.about-dialog::backdrop { background: #0008; }
+@media (max-height: 420px) { .workspace-build, .workspace-header h1 small { display: none; } .workspace-header button { padding-block: .25rem; } main { padding: .35rem; } }
 .availability { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; margin-block: .35rem; font-size: .9rem; }
 [role="tabpanel"] { flex: 1 1 auto; min-height: 0; min-width: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: contain; padding: .25rem; scroll-padding-block: .5rem; }
 [role="alert"] { overflow-wrap: anywhere; }

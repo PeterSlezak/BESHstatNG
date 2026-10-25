@@ -2,30 +2,39 @@
 @inject OfficeStrings Text
 @implements IDisposable
 <span class="help-action">
-    <button type="button" @onclick="Open">@(Label ?? Text["Help"])</button>
+    @if (AsLink)
+    { <a id="@Id" href="@LinkUrl" @onclick="Open" @onclick:preventDefault="true">@(Label ?? Text["Help"])</a> }
+    else
+    { <button id="@Id" type="button" @onclick="Open">@(Label ?? Text["Help"])</button> }
     @if (message is not null)
     {
         <span role="status">@Text[message]</span>
-        <a href="@HomeUrl" target="_blank" rel="noopener noreferrer">@Text["HelpHomeFallback"]</a>
+        @if (!AsLink || message is "HelpBlocked" or "HelpFallback")
+        { <a href="@HomeUrl" target="_blank" rel="noopener noreferrer">@Text["HelpHomeFallback"]</a> }
     }
 </span>
 @code {
     [Parameter] public string? AnalysisId { get; set; }
     [Parameter] public bool GlobalSettings { get; set; }
+    [Parameter] public string? PageKey { get; set; }
     [Parameter] public string? Label { get; set; }
+    [Parameter] public string? Id { get; set; }
+    [Parameter] public bool AsLink { get; set; }
     private string? message;
     private bool disposed;
     protected override void OnInitialized() => Text.Changed += Refresh;
     private void Refresh() { if (!disposed) _ = InvokeAsync(() => { if (!disposed) StateHasChanged(); }); }
     public void Dispose() { disposed = true; Text.Changed -= Refresh; }
     private string HomeUrl => BESHStatNG.ExcelCommon.HelpLaunchTarget.SafeOpenUrl(BESHStatNG.ExcelCommon.GeneratedMethodMetadata.HomeUrl);
+    private BESHStatNG.ExcelCommon.HelpLaunchTarget Target => GlobalSettings ? Help.Settings : AnalysisId is { } id ? Help.Method(id) : PageKey is { } page ? Help.Page(page) : Help.Home;
+    private string LinkUrl => BESHStatNG.ExcelCommon.HelpLaunchTarget.SafeOpenUrl(Target.Url);
     private async Task Open()
     {
-        var target = GlobalSettings ? Help.Settings : AnalysisId is { } id ? Help.Method(id) : Help.Home;
+        var target = Target;
         string result;
         try { result = await Help.OpenAsync(target); } catch { result = "unavailable"; }
         if (disposed) return;
-        var fallback = (GlobalSettings || AnalysisId is not null) && target.LatestUrl == target.HomeUrl;
+        var fallback = (GlobalSettings || AnalysisId is not null || PageKey is not null) && target.LatestUrl == target.HomeUrl;
         message = result == "requested" ? fallback ? "HelpFallback" : "HelpRequested" : "HelpBlocked";
     }
 }

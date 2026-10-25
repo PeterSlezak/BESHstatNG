@@ -81,7 +81,7 @@ try {
     await send("Fetch.enable", { patterns: [{ urlPattern: "https://officeapis.public.onecdn.static.microsoft/1/office.js" }] });
     await send("Page.navigate", { url: "https://localhost:7141/?beshOfficeDiagnostics=1" });
     const expected = mode === "excel" ? "office.excel-ready" : "office.unavailable";
-    await wait(`document.querySelector('#host-code')?.textContent==='${expected}' && !document.querySelector('button')?.disabled`);
+    await wait(`document.querySelector('#host-code')?.textContent==='${expected}' && !document.querySelector('#retry-initialization')?.disabled`);
     assert.equal(await evaluate("document.querySelector('#core-probe').textContent.includes('CDF(0) = 0.5')"), true);
     assert.equal(await evaluate("document.querySelector('#common-probe').textContent.includes('2 descriptors, 4 registered handlers')"), true);
     assert.equal(await evaluate("document.querySelectorAll('[data-analysis-id]').length"), 0);
@@ -90,7 +90,7 @@ try {
     assert.equal(await evaluate("!!document.querySelector('label[for=analysis-group]') && !!document.querySelector('label[for=analysis-method]')"), true);
     // Native Tab and arrow keys operate the dependent selects; method identity remains its stable ID.
     summary.stage = "keyboard-anova";
-    await evaluate("document.querySelector('button').focus()");
+    await evaluate("document.querySelector('#retry-initialization').focus()");
     await key("Tab");
     assert.equal(await evaluate("document.activeElement.id"), "analysis-tab");
     await key("Tab");
@@ -136,8 +136,8 @@ try {
     await wait("document.querySelector('#kw-dunn').checked");
     await screenshot("kw");
     summary.stage = "retry-and-reset";
-    await evaluate("document.querySelector('button').click()");
-    await wait(`document.querySelector('#host-code')?.textContent==='${expected}' && !document.querySelector('button')?.disabled`);
+    await evaluate("document.querySelector('#retry-initialization').click()");
+    await wait(`document.querySelector('#host-code')?.textContent==='${expected}' && !document.querySelector('#retry-initialization')?.disabled`);
     assert.equal(await evaluate("document.querySelector('#analysis-alpha').value"), "0.025");
     assert.equal(await evaluate("document.querySelector('#kw-dunn').checked"), true);
     // Same-group/method events retain the draft rather than recreate it.
@@ -169,7 +169,7 @@ try {
     } else assert.equal(await evaluate("[...document.querySelectorAll('button')].some(b=>b.textContent==='Read selected range (read-only)')"), false);
     await send("Page.reload", { ignoreCache: true });
     summary.stage = "reopen";
-    await wait(`document.querySelector('#host-code')?.textContent==='${expected}' && !document.querySelector('button')?.disabled`);
+    await wait(`document.querySelector('#host-code')?.textContent==='${expected}' && !document.querySelector('#retry-initialization')?.disabled`);
     assert.equal(await evaluate("document.querySelector('#analysis-alpha')===null"), true, "reload resets selection");
     assert.equal(await evaluate("document.querySelector('#analysis-group').value==='' && document.querySelector('#analysis-method').disabled"), true);
     assert.equal(summary.applicationExceptions, 0);

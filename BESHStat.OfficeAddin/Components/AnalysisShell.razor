@@ -73,6 +73,20 @@
     private bool pilotBusy;
     private bool builderActive, builderBusy, switching;
     private ModelSpecificationEditor? builder;
+    public async Task<bool> NavigateFromCommandAsync(string analysisId)
+    {
+        if (disposed || pilotBusy || builderBusy || switching || Preferences.Applying || !Catalog.TryGet(analysisId,out var descriptor)) return false;
+        if (state?.Selected?.Id == analysisId && !builderActive) return true;
+        switching = true;
+        try {
+            if (builderActive && builder is not null) await builder.RetireAsync();
+            await PreviewHost.InvalidateAsync();
+            if (disposed) return false;
+            builderActive = false;
+            if (state?.SelectGroup(descriptor!.Category) != true || !state.Select(analysisId)) return false;
+            ObserveDraft(); StateHasChanged(); return true;
+        } finally { switching = false; }
+    }
     private async Task ToggleBuilder()
     {
         if (pilotBusy || builderBusy || switching) return;

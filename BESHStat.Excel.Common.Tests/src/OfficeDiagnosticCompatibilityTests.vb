@@ -14,6 +14,9 @@ Public Class OfficeDiagnosticCompatibilityTests
     <DataRow("diagnostic.user.cancelled", DiagnosticSeverity.Information)>
     <DataRow("diagnostic.output.consent", DiagnosticSeverity.Information)>
     <DataRow("diagnostic.analysis.completed", DiagnosticSeverity.Information)>
+    <DataRow("diagnostic.command.invoked", DiagnosticSeverity.Information)>
+    <DataRow("diagnostic.command.completed", DiagnosticSeverity.Information)>
+    <DataRow("diagnostic.command.rejected", DiagnosticSeverity.Warning)>
     Public Sub OfficeCodesAreAdditiveAndRedactAllSourceMetadata(code As String, severity As DiagnosticSeverity)
         Dim record = DiagnosticRecord.Create(code, "office", Guid.NewGuid(), "output", metadata:=New Dictionary(Of String, String) From {
             {"host", "office"}, {"RequestedName", "PRIVATE"}, {"ResolvedName", "PRIVATE2"}, {"range", "PRIVATE!A1"}})

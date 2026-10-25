@@ -90,7 +90,7 @@ async function waitForStatus() {
     const deadline = Date.now() + 30000;
     while (Date.now() < deadline) {
         const status = await evaluate("document.querySelector('#host-code')?.textContent");
-        if (status?.startsWith("office.") && await evaluate("document.querySelector('button')?.disabled === false")) return status;
+        if (status?.startsWith("office.") && await evaluate("document.querySelector('#retry-initialization')?.disabled === false")) return status;
         await new Promise(resolve => setTimeout(resolve, 100));
     }
     throw new Error("browser.startup-timeout");
@@ -128,7 +128,7 @@ try {
         : fixture === "bridge-regression" ? "office.initialization-failed" : "office.unavailable");
     assert.equal(summary.errors.filter(error => error.category.startsWith("localhost")).length, 0);
     for (let i = 0; i < 3; i++) {
-        await evaluate("(async () => { document.querySelector('button').click(); await new Promise(resolve => setTimeout(resolve, 50)); })()");
+        await evaluate("(async () => { document.querySelector('#retry-initialization').click(); await new Promise(resolve => setTimeout(resolve, 50)); })()");
         assert.equal(await waitForStatus(), summary.status);
     }
     if (["excel", "pending", "unsupported", "dependency"].includes(fixture))

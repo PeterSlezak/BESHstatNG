@@ -1,15 +1,1917 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Development only. Separate identity from WasmSmoke; no commands or VersionOverrides. -->
-<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TaskPaneApp">
+<?xml version="1.0" encoding="utf-8"?>
+<OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TaskPaneApp">
   <Id>5f70b95c-dc4a-4f38-b78d-0a7348657e19</Id>
-  <Version>1.0.0.0</Version>
+  <Version>1.0.1.0</Version>
   <ProviderName>BESHStatNG</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="BESHStatNG Office Foundation Dev" />
-  <Description DefaultValue="Development-only Office host: readiness, Core/Common probes and explicit read-only selected-range inspection." />
-  <Hosts><Host Name="Workbook" /></Hosts>
-  <Requirements><Sets DefaultMinVersion="1.1"><Set Name="ExcelApi" MinVersion="1.1" /></Sets></Requirements>
-  <DefaultSettings><SourceLocation DefaultValue="https://localhost:7141/" /></DefaultSettings>
+  <Description DefaultValue="BESHStatNG development analysis workspace and capability-guarded Ribbon commands." />
+  <IconUrl DefaultValue="https://localhost:7141/icons/ribbon-32.png" />
+  <HighResolutionIconUrl DefaultValue="https://localhost:7141/icons/ribbon-80.png" />
+  <SupportUrl DefaultValue="https://www.beshstat.eu/beshstatng/help/latest/" />
+  <Hosts>
+    <Host Name="Workbook" />
+  </Hosts>
+  <Requirements>
+    <Sets DefaultMinVersion="1.1">
+      <Set Name="ExcelApi" MinVersion="1.1" />
+    </Sets>
+  </Requirements>
+  <DefaultSettings>
+    <SourceLocation DefaultValue="https://localhost:7141/" />
+  </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
+  <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
+    <Requirements>
+      <bt:Sets DefaultMinVersion="1.1">
+        <bt:Set Name="AddinCommands" MinVersion="1.1" />
+        <bt:Set Name="SharedRuntime" MinVersion="1.1" />
+        <bt:Set Name="RibbonApi" MinVersion="1.1" />
+      </bt:Sets>
+    </Requirements>
+    <Hosts>
+      <Host xsi:type="Workbook">
+        <Runtimes>
+          <Runtime resid="Taskpane.Url" lifetime="long" />
+        </Runtimes>
+        <DesktopFormFactor>
+          <FunctionFile resid="Taskpane.Url" />
+          <ExtensionPoint xsi:type="PrimaryCommandSurface">
+            <CustomTab id="Besh.Tab">
+              <Group id="Besh.Workspace">
+                <Label resid="Workspace.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16" />
+                  <bt:Image size="32" resid="Icon.32" />
+                  <bt:Image size="80" resid="Icon.80" />
+                </Icon>
+                <Control xsi:type="Button" id="Besh.Open">
+                  <Label resid="Open.Label" />
+                  <Supertip>
+                    <Title resid="Open.Title" />
+                    <Description resid="Open.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="Taskpane.Url" />
+                  </Action>
+                </Control>
+                <Control xsi:type="Button" id="Besh.btn00_1About">
+                  <Label resid="U0.Label" />
+                  <Supertip>
+                    <Title resid="U0.Title" />
+                    <Description resid="U0.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>BeshAbout</FunctionName>
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+                <Control xsi:type="Button" id="Besh.btn00_2Help">
+                  <Label resid="U1.Label" />
+                  <Supertip>
+                    <Title resid="U1.Title" />
+                    <Description resid="U1.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>BeshHelp</FunctionName>
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+                <Control xsi:type="Button" id="Besh.btn00_3Settings">
+                  <Label resid="U2.Label" />
+                  <Supertip>
+                    <Title resid="U2.Title" />
+                    <Description resid="U2.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>BeshSettings</FunctionName>
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+                <Control xsi:type="Button" id="Besh.btn00_4logShow">
+                  <Label resid="U3.Label" />
+                  <Supertip>
+                    <Title resid="U3.Title" />
+                    <Description resid="U3.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>BeshLog</FunctionName>
+                  </Action>
+                  <Enabled>true</Enabled>
+                </Control>
+                <Control xsi:type="Button" id="Besh.btn00_5ExportChart">
+                  <Label resid="U4.Label" />
+                  <Supertip>
+                    <Title resid="U4.Title" />
+                    <Description resid="U4.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Action xsi:type="ExecuteFunction">
+                    <FunctionName>BeshUnavailable</FunctionName>
+                  </Action>
+                  <Enabled>false</Enabled>
+                </Control>
+              </Group>
+              <Group id="Besh.Analysis1">
+                <Label resid="G0.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16" />
+                  <bt:Image size="32" resid="Icon.32" />
+                  <bt:Image size="80" resid="Icon.80" />
+                </Icon>
+                <Control xsi:type="Menu" id="Besh.Category0">
+                  <Label resid="C0.Label" />
+                  <Supertip>
+                    <Title resid="C0.Title" />
+                    <Description resid="C0.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btm1_1Normaility">
+                      <Label resid="M0.Label" />
+                      <Supertip>
+                        <Title resid="M0.Title" />
+                        <Description resid="M0.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm1_2Outliers">
+                      <Label resid="M1.Label" />
+                      <Supertip>
+                        <Title resid="M1.Title" />
+                        <Description resid="M1.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm1_3HomogeneityVar">
+                      <Label resid="M2.Label" />
+                      <Supertip>
+                        <Title resid="M2.Title" />
+                        <Description resid="M2.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm1_4Symmetry">
+                      <Label resid="M3.Label" />
+                      <Supertip>
+                        <Title resid="M3.Title" />
+                        <Description resid="M3.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm1_5Desc">
+                      <Label resid="M4.Label" />
+                      <Supertip>
+                        <Title resid="M4.Title" />
+                        <Description resid="M4.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+                <Control xsi:type="Menu" id="Besh.Category1">
+                  <Label resid="C1.Label" />
+                  <Supertip>
+                    <Title resid="C1.Title" />
+                    <Description resid="C1.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btm2_1Histogram">
+                      <Label resid="M5.Label" />
+                      <Supertip>
+                        <Title resid="M5.Title" />
+                        <Description resid="M5.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_2Box">
+                      <Label resid="M6.Label" />
+                      <Supertip>
+                        <Title resid="M6.Title" />
+                        <Description resid="M6.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_3ROC">
+                      <Label resid="M7.Label" />
+                      <Supertip>
+                        <Title resid="M7.Title" />
+                        <Description resid="M7.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_4KM">
+                      <Label resid="M8.Label" />
+                      <Supertip>
+                        <Title resid="M8.Title" />
+                        <Description resid="M8.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_5Normal">
+                      <Label resid="M9.Label" />
+                      <Supertip>
+                        <Title resid="M9.Title" />
+                        <Description resid="M9.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_6XYZ">
+                      <Label resid="M10.Label" />
+                      <Supertip>
+                        <Title resid="M10.Title" />
+                        <Description resid="M10.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_7ScatPlotMat">
+                      <Label resid="M11.Label" />
+                      <Supertip>
+                        <Title resid="M11.Title" />
+                        <Description resid="M11.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_8Polar">
+                      <Label resid="M12.Label" />
+                      <Supertip>
+                        <Title resid="M12.Title" />
+                        <Description resid="M12.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_9CHP">
+                      <Label resid="M13.Label" />
+                      <Supertip>
+                        <Title resid="M13.Title" />
+                        <Description resid="M13.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_10kite">
+                      <Label resid="M14.Label" />
+                      <Supertip>
+                        <Title resid="M14.Title" />
+                        <Description resid="M14.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_11CatHistogram">
+                      <Label resid="M15.Label" />
+                      <Supertip>
+                        <Title resid="M15.Title" />
+                        <Description resid="M15.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_12Violin">
+                      <Label resid="M16.Label" />
+                      <Supertip>
+                        <Title resid="M16.Title" />
+                        <Description resid="M16.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_13Sankey">
+                      <Label resid="M17.Label" />
+                      <Supertip>
+                        <Title resid="M17.Title" />
+                        <Description resid="M17.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_14Dumbbell">
+                      <Label resid="M18.Label" />
+                      <Supertip>
+                        <Title resid="M18.Title" />
+                        <Description resid="M18.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_15Ladder">
+                      <Label resid="M19.Label" />
+                      <Supertip>
+                        <Title resid="M19.Title" />
+                        <Description resid="M19.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_16Bullet">
+                      <Label resid="M20.Label" />
+                      <Supertip>
+                        <Title resid="M20.Title" />
+                        <Description resid="M20.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm2_17CDF">
+                      <Label resid="M21.Label" />
+                      <Supertip>
+                        <Title resid="M21.Title" />
+                        <Description resid="M21.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+                <Control xsi:type="Menu" id="Besh.Category2">
+                  <Label resid="C2.Label" />
+                  <Supertip>
+                    <Title resid="C2.Title" />
+                    <Description resid="C2.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btm3_1PairedT">
+                      <Label resid="M22.Label" />
+                      <Supertip>
+                        <Title resid="M22.Title" />
+                        <Description resid="M22.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm3_2UnpairedT">
+                      <Label resid="M23.Label" />
+                      <Supertip>
+                        <Title resid="M23.Title" />
+                        <Description resid="M23.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm3_3OneWayANOVA">
+                      <Label resid="M24.Label" />
+                      <Supertip>
+                        <Title resid="M24.Title" />
+                        <Description resid="M24.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshAnova</FunctionName>
+                      </Action>
+                      <Enabled>true</Enabled>
+                    </Item>
+                    <Item id="Besh.btm3_4OneWayRMANOVA">
+                      <Label resid="M25.Label" />
+                      <Supertip>
+                        <Title resid="M25.Title" />
+                        <Description resid="M25.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm3_5TwoWayNested">
+                      <Label resid="M26.Label" />
+                      <Supertip>
+                        <Title resid="M26.Title" />
+                        <Description resid="M26.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+                <Control xsi:type="Menu" id="Besh.Category3">
+                  <Label resid="C3.Label" />
+                  <Supertip>
+                    <Title resid="C3.Title" />
+                    <Description resid="C3.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btm4_1MannWhiteny">
+                      <Label resid="M27.Label" />
+                      <Supertip>
+                        <Title resid="M27.Title" />
+                        <Description resid="M27.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm4_2Wilcoxon">
+                      <Label resid="M28.Label" />
+                      <Supertip>
+                        <Title resid="M28.Title" />
+                        <Description resid="M28.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm4_3KruskallWalis">
+                      <Label resid="M29.Label" />
+                      <Supertip>
+                        <Title resid="M29.Title" />
+                        <Description resid="M29.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshKruskal</FunctionName>
+                      </Action>
+                      <Enabled>true</Enabled>
+                    </Item>
+                    <Item id="Besh.btm4_4Friedman">
+                      <Label resid="M30.Label" />
+                      <Supertip>
+                        <Title resid="M30.Title" />
+                        <Description resid="M30.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm4_5CochranQ">
+                      <Label resid="M31.Label" />
+                      <Supertip>
+                        <Title resid="M31.Title" />
+                        <Description resid="M31.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm4_6Skilling">
+                      <Label resid="M32.Label" />
+                      <Supertip>
+                        <Title resid="M32.Title" />
+                        <Description resid="M32.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm4_7Spearman">
+                      <Label resid="M33.Label" />
+                      <Supertip>
+                        <Title resid="M33.Title" />
+                        <Description resid="M33.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm4_8Kendall">
+                      <Label resid="M34.Label" />
+                      <Supertip>
+                        <Title resid="M34.Title" />
+                        <Description resid="M34.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm4_9TheilSen">
+                      <Label resid="M35.Label" />
+                      <Supertip>
+                        <Title resid="M35.Title" />
+                        <Description resid="M35.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+              </Group>
+              <Group id="Besh.Analysis2">
+                <Label resid="G1.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16" />
+                  <bt:Image size="32" resid="Icon.32" />
+                  <bt:Image size="80" resid="Icon.80" />
+                </Icon>
+                <Control xsi:type="Menu" id="Besh.Category4">
+                  <Label resid="C4.Label" />
+                  <Supertip>
+                    <Title resid="C4.Title" />
+                    <Description resid="C4.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btm5_12x2">
+                      <Label resid="M36.Label" />
+                      <Supertip>
+                        <Title resid="M36.Title" />
+                        <Description resid="M36.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm5_2RxC">
+                      <Label resid="M37.Label" />
+                      <Supertip>
+                        <Title resid="M37.Title" />
+                        <Description resid="M37.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm5_3Mantel">
+                      <Label resid="M38.Label" />
+                      <Supertip>
+                        <Title resid="M38.Title" />
+                        <Description resid="M38.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm5_4Proportions">
+                      <Label resid="M39.Label" />
+                      <Supertip>
+                        <Title resid="M39.Title" />
+                        <Description resid="M39.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm5_5CA">
+                      <Label resid="M40.Label" />
+                      <Supertip>
+                        <Title resid="M40.Title" />
+                        <Description resid="M40.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+                <Control xsi:type="Menu" id="Besh.Category5">
+                  <Label resid="C5.Label" />
+                  <Supertip>
+                    <Title resid="C5.Title" />
+                    <Description resid="C5.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btm6_1KM">
+                      <Label resid="M41.Label" />
+                      <Supertip>
+                        <Title resid="M41.Title" />
+                        <Description resid="M41.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm6_2Logrank">
+                      <Label resid="M42.Label" />
+                      <Supertip>
+                        <Title resid="M42.Title" />
+                        <Description resid="M42.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm6_3Cox">
+                      <Label resid="M43.Label" />
+                      <Supertip>
+                        <Title resid="M43.Title" />
+                        <Description resid="M43.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+                <Control xsi:type="Menu" id="Besh.Category6">
+                  <Label resid="C6.Label" />
+                  <Supertip>
+                    <Title resid="C6.Title" />
+                    <Description resid="C6.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btm7_1LM">
+                      <Label resid="M44.Label" />
+                      <Supertip>
+                        <Title resid="M44.Title" />
+                        <Description resid="M44.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm7_2GLM">
+                      <Label resid="M45.Label" />
+                      <Supertip>
+                        <Title resid="M45.Title" />
+                        <Description resid="M45.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm7_3GLM_NB2">
+                      <Label resid="M46.Label" />
+                      <Supertip>
+                        <Title resid="M46.Title" />
+                        <Description resid="M46.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm7_4_GEE">
+                      <Label resid="M47.Label" />
+                      <Supertip>
+                        <Title resid="M47.Title" />
+                        <Description resid="M47.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm7_9MMRM">
+                      <Label resid="M48.Label" />
+                      <Supertip>
+                        <Title resid="M48.Title" />
+                        <Description resid="M48.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm7_10LMM">
+                      <Label resid="M49.Label" />
+                      <Supertip>
+                        <Title resid="M49.Title" />
+                        <Description resid="M49.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm7_5Cox">
+                      <Label resid="M50.Label" />
+                      <Supertip>
+                        <Title resid="M50.Title" />
+                        <Description resid="M50.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm7_6ZIP">
+                      <Label resid="M51.Label" />
+                      <Supertip>
+                        <Title resid="M51.Title" />
+                        <Description resid="M51.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm7_7MultiLogit">
+                      <Label resid="M52.Label" />
+                      <Supertip>
+                        <Title resid="M52.Title" />
+                        <Description resid="M52.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm7_8OrdLogit">
+                      <Label resid="M53.Label" />
+                      <Supertip>
+                        <Title resid="M53.Title" />
+                        <Description resid="M53.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+                <Control xsi:type="Menu" id="Besh.Category7">
+                  <Label resid="C7.Label" />
+                  <Supertip>
+                    <Title resid="C7.Title" />
+                    <Description resid="C7.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btn8_1Hotteling">
+                      <Label resid="M54.Label" />
+                      <Supertip>
+                        <Title resid="M54.Title" />
+                        <Description resid="M54.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn8_2PCA">
+                      <Label resid="M55.Label" />
+                      <Supertip>
+                        <Title resid="M55.Title" />
+                        <Description resid="M55.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm8_3CA">
+                      <Label resid="M56.Label" />
+                      <Supertip>
+                        <Title resid="M56.Title" />
+                        <Description resid="M56.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm8_4MCA">
+                      <Label resid="M57.Label" />
+                      <Supertip>
+                        <Title resid="M57.Title" />
+                        <Description resid="M57.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm8_5KMC">
+                      <Label resid="M58.Label" />
+                      <Supertip>
+                        <Title resid="M58.Title" />
+                        <Description resid="M58.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm8_6HC">
+                      <Label resid="M59.Label" />
+                      <Supertip>
+                        <Title resid="M59.Title" />
+                        <Description resid="M59.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm8_7FA">
+                      <Label resid="M60.Label" />
+                      <Supertip>
+                        <Title resid="M60.Title" />
+                        <Description resid="M60.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm8_8Discr">
+                      <Label resid="M61.Label" />
+                      <Supertip>
+                        <Title resid="M61.Title" />
+                        <Description resid="M61.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+              </Group>
+              <Group id="Besh.Analysis3">
+                <Label resid="G2.Label" />
+                <Icon>
+                  <bt:Image size="16" resid="Icon.16" />
+                  <bt:Image size="32" resid="Icon.32" />
+                  <bt:Image size="80" resid="Icon.80" />
+                </Icon>
+                <Control xsi:type="Menu" id="Besh.Category8">
+                  <Label resid="C8.Label" />
+                  <Supertip>
+                    <Title resid="C8.Title" />
+                    <Description resid="C8.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btn9_1PairedT">
+                      <Label resid="M62.Label" />
+                      <Supertip>
+                        <Title resid="M62.Title" />
+                        <Description resid="M62.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn9_2UnPairedT">
+                      <Label resid="M63.Label" />
+                      <Supertip>
+                        <Title resid="M63.Title" />
+                        <Description resid="M63.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn9_3SingleProp">
+                      <Label resid="M64.Label" />
+                      <Supertip>
+                        <Title resid="M64.Title" />
+                        <Description resid="M64.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn9_4IndProp">
+                      <Label resid="M65.Label" />
+                      <Supertip>
+                        <Title resid="M65.Title" />
+                        <Description resid="M65.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn9_5logrank">
+                      <Label resid="M66.Label" />
+                      <Supertip>
+                        <Title resid="M66.Title" />
+                        <Description resid="M66.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn9_6cox">
+                      <Label resid="M67.Label" />
+                      <Supertip>
+                        <Title resid="M67.Title" />
+                        <Description resid="M67.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn9_7icc">
+                      <Label resid="M68.Label" />
+                      <Supertip>
+                        <Title resid="M68.Title" />
+                        <Description resid="M68.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn9_8ba">
+                      <Label resid="M69.Label" />
+                      <Supertip>
+                        <Title resid="M69.Title" />
+                        <Description resid="M69.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+                <Control xsi:type="Menu" id="Besh.Category9">
+                  <Label resid="C9.Label" />
+                  <Supertip>
+                    <Title resid="C9.Title" />
+                    <Description resid="C9.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btn10_1PassingBablok">
+                      <Label resid="M70.Label" />
+                      <Supertip>
+                        <Title resid="M70.Title" />
+                        <Description resid="M70.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn10_2Deming">
+                      <Label resid="M71.Label" />
+                      <Supertip>
+                        <Title resid="M71.Title" />
+                        <Description resid="M71.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn10_3Bland">
+                      <Label resid="M72.Label" />
+                      <Supertip>
+                        <Title resid="M72.Title" />
+                        <Description resid="M72.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn10_4LCCC">
+                      <Label resid="M73.Label" />
+                      <Supertip>
+                        <Title resid="M73.Title" />
+                        <Description resid="M73.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn10_5Cohen">
+                      <Label resid="M74.Label" />
+                      <Supertip>
+                        <Title resid="M74.Title" />
+                        <Description resid="M74.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btn10_6icc">
+                      <Label resid="M75.Label" />
+                      <Supertip>
+                        <Title resid="M75.Title" />
+                        <Description resid="M75.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+                <Control xsi:type="Menu" id="Besh.Category10">
+                  <Label resid="C10.Label" />
+                  <Supertip>
+                    <Title resid="C10.Title" />
+                    <Description resid="C10.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btmCausal_PSM">
+                      <Label resid="M76.Label" />
+                      <Supertip>
+                        <Title resid="M76.Title" />
+                        <Description resid="M76.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+                <Control xsi:type="Menu" id="Besh.Category11">
+                  <Label resid="C11.Label" />
+                  <Supertip>
+                    <Title resid="C11.Title" />
+                    <Description resid="C11.Tip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="Icon.16" />
+                    <bt:Image size="32" resid="Icon.32" />
+                    <bt:Image size="80" resid="Icon.80" />
+                  </Icon>
+                  <Items>
+                    <Item id="Besh.btm12_1ControlCharts">
+                      <Label resid="M77.Label" />
+                      <Supertip>
+                        <Title resid="M77.Title" />
+                        <Description resid="M77.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                    <Item id="Besh.btm12_2MultControlCharts">
+                      <Label resid="M78.Label" />
+                      <Supertip>
+                        <Title resid="M78.Title" />
+                        <Description resid="M78.Tip" />
+                      </Supertip>
+                      <Icon>
+                        <bt:Image size="16" resid="Icon.16" />
+                        <bt:Image size="32" resid="Icon.32" />
+                        <bt:Image size="80" resid="Icon.80" />
+                      </Icon>
+                      <Action xsi:type="ExecuteFunction">
+                        <FunctionName>BeshUnavailable</FunctionName>
+                      </Action>
+                      <Enabled>false</Enabled>
+                    </Item>
+                  </Items>
+                </Control>
+              </Group>
+              <Label resid="Tab.Label" />
+            </CustomTab>
+          </ExtensionPoint>
+        </DesktopFormFactor>
+      </Host>
+    </Hosts>
+    <Resources>
+      <bt:Images>
+        <bt:Image id="Icon.16" DefaultValue="https://localhost:7141/icons/ribbon-16.png" />
+        <bt:Image id="Icon.32" DefaultValue="https://localhost:7141/icons/ribbon-32.png" />
+        <bt:Image id="Icon.80" DefaultValue="https://localhost:7141/icons/ribbon-80.png" />
+      </bt:Images>
+      <bt:Urls>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://localhost:7141/" />
+      </bt:Urls>
+      <bt:ShortStrings>
+        <bt:String id="Workspace.Label" DefaultValue="BESHStatNG" />
+        <bt:String id="Open.Label" DefaultValue="Open BESHStatNG" />
+        <bt:String id="Open.Title" DefaultValue="Open BESHStatNG" />
+        <bt:String id="U0.Label" DefaultValue="About" />
+        <bt:String id="U0.Title" DefaultValue="About" />
+        <bt:String id="U1.Label" DefaultValue="Help" />
+        <bt:String id="U1.Title" DefaultValue="Help" />
+        <bt:String id="U2.Label" DefaultValue="Settings" />
+        <bt:String id="U2.Title" DefaultValue="Settings" />
+        <bt:String id="U3.Label" DefaultValue="Show Log" />
+        <bt:String id="U3.Title" DefaultValue="Show Log" />
+        <bt:String id="U4.Label" DefaultValue="Export Chart (unavailable)" />
+        <bt:String id="U4.Title" DefaultValue="Export Chart (unavailable)" />
+        <bt:String id="G0.Label" DefaultValue="Analysis 1" />
+        <bt:String id="C0.Label" DefaultValue="Assumptions" />
+        <bt:String id="C0.Title" DefaultValue="Assumptions" />
+        <bt:String id="M0.Label" DefaultValue="Normality Tests (not yet available)" />
+        <bt:String id="M0.Title" DefaultValue="Normality Tests" />
+        <bt:String id="M1.Label" DefaultValue="Univariate Outliers (not yet available)" />
+        <bt:String id="M1.Title" DefaultValue="Univariate Outliers" />
+        <bt:String id="M2.Label" DefaultValue="Homogeneity of Variance (not yet available)" />
+        <bt:String id="M2.Title" DefaultValue="Homogeneity of Variance" />
+        <bt:String id="M3.Label" DefaultValue="Symmetry (not yet available)" />
+        <bt:String id="M3.Title" DefaultValue="Symmetry" />
+        <bt:String id="M4.Label" DefaultValue="Descriptive Statistics (not yet available)" />
+        <bt:String id="M4.Title" DefaultValue="Descriptive Statistics" />
+        <bt:String id="C1.Label" DefaultValue="Graphics" />
+        <bt:String id="C1.Title" DefaultValue="Graphics" />
+        <bt:String id="M5.Label" DefaultValue="Histogram (not yet available)" />
+        <bt:String id="M5.Title" DefaultValue="Histogram" />
+        <bt:String id="M6.Label" DefaultValue="Box and Whiskers (not yet available)" />
+        <bt:String id="M6.Title" DefaultValue="Box and Whiskers" />
+        <bt:String id="M7.Label" DefaultValue="ROC Curve (not yet available)" />
+        <bt:String id="M7.Title" DefaultValue="ROC Curve" />
+        <bt:String id="M8.Label" DefaultValue="Kaplan-Meier Plot (not yet available)" />
+        <bt:String id="M8.Title" DefaultValue="Kaplan-Meier Plot" />
+        <bt:String id="M9.Label" DefaultValue="Normal Plot (not yet available)" />
+        <bt:String id="M9.Title" DefaultValue="Normal Plot" />
+        <bt:String id="M10.Label" DefaultValue="XYZ 3D Scatterplot (not yet available)" />
+        <bt:String id="M10.Title" DefaultValue="XYZ 3D Scatterplot" />
+        <bt:String id="M11.Label" DefaultValue="Scatter Plot Matrix (not yet available)" />
+        <bt:String id="M11.Title" DefaultValue="Scatter Plot Matrix" />
+        <bt:String id="M12.Label" DefaultValue="Polar Plot (not yet available)" />
+        <bt:String id="M12.Title" DefaultValue="Polar Plot" />
+        <bt:String id="M13.Label" DefaultValue="Convex Hull Plot (not yet available)" />
+        <bt:String id="M13.Title" DefaultValue="Convex Hull Plot" />
+        <bt:String id="M14.Label" DefaultValue="Kite Chart (not yet available)" />
+        <bt:String id="M14.Title" DefaultValue="Kite Chart" />
+        <bt:String id="M15.Label" DefaultValue="Histogram - Categorical (not yet available)" />
+        <bt:String id="M15.Title" DefaultValue="Histogram - Categorical" />
+        <bt:String id="M16.Label" DefaultValue="Violin Plot (not yet available)" />
+        <bt:String id="M16.Title" DefaultValue="Violin Plot" />
+        <bt:String id="M17.Label" DefaultValue="Sankey Plot (not yet available)" />
+        <bt:String id="M17.Title" DefaultValue="Sankey Plot" />
+        <bt:String id="M18.Label" DefaultValue="Dumbbell Plot (not yet available)" />
+        <bt:String id="M18.Title" DefaultValue="Dumbbell Plot" />
+        <bt:String id="M19.Label" DefaultValue="Ladder Plot (not yet available)" />
+        <bt:String id="M19.Title" DefaultValue="Ladder Plot" />
+        <bt:String id="M20.Label" DefaultValue="Bullet Chart (not yet available)" />
+        <bt:String id="M20.Title" DefaultValue="Bullet Chart" />
+        <bt:String id="M21.Label" DefaultValue="Cumulative Distribution Function Plot (not yet available)" />
+        <bt:String id="M21.Title" DefaultValue="Cumulative Distribution Function Plot" />
+        <bt:String id="C2.Label" DefaultValue="Parametric" />
+        <bt:String id="C2.Title" DefaultValue="Parametric" />
+        <bt:String id="M22.Label" DefaultValue="Paired T tests (not yet available)" />
+        <bt:String id="M22.Title" DefaultValue="Paired T tests" />
+        <bt:String id="M23.Label" DefaultValue="Unpaired (two sample) T tests (not yet available)" />
+        <bt:String id="M23.Title" DefaultValue="Unpaired (two sample) T tests" />
+        <bt:String id="M24.Label" DefaultValue="One-Way ANOVA" />
+        <bt:String id="M24.Title" DefaultValue="One-Way ANOVA" />
+        <bt:String id="M25.Label" DefaultValue="One-Way Repeated-Measures ANOVA (not yet available)" />
+        <bt:String id="M25.Title" DefaultValue="One-Way Repeated-Measures ANOVA" />
+        <bt:String id="M26.Label" DefaultValue="Two-Way Nested ANOVA (not yet available)" />
+        <bt:String id="M26.Title" DefaultValue="Two-Way Nested ANOVA" />
+        <bt:String id="C3.Label" DefaultValue="Nonparametric" />
+        <bt:String id="C3.Title" DefaultValue="Nonparametric" />
+        <bt:String id="M27.Label" DefaultValue="Mann-Whitney Test (not yet available)" />
+        <bt:String id="M27.Title" DefaultValue="Mann-Whitney Test" />
+        <bt:String id="M28.Label" DefaultValue="Wilcoxon Signed Rank Test (not yet available)" />
+        <bt:String id="M28.Title" DefaultValue="Wilcoxon Signed Rank Test" />
+        <bt:String id="M29.Label" DefaultValue="Kruskal-Wallis Test" />
+        <bt:String id="M29.Title" DefaultValue="Kruskal-Wallis Test" />
+        <bt:String id="M30.Label" DefaultValue="Friedman Test (not yet available)" />
+        <bt:String id="M30.Title" DefaultValue="Friedman Test" />
+        <bt:String id="M31.Label" DefaultValue="Cochran's Q Test (not yet available)" />
+        <bt:String id="M31.Title" DefaultValue="Cochran's Q Test" />
+        <bt:String id="M32.Label" DefaultValue="Skillings-Mack Test (not yet available)" />
+        <bt:String id="M32.Title" DefaultValue="Skillings-Mack Test" />
+        <bt:String id="M33.Label" DefaultValue="Spearman Rank Correlation (not yet available)" />
+        <bt:String id="M33.Title" DefaultValue="Spearman Rank Correlation" />
+        <bt:String id="M34.Label" DefaultValue="Kendall's Rank Correlation (not yet available)" />
+        <bt:String id="M34.Title" DefaultValue="Kendall's Rank Correlation" />
+        <bt:String id="M35.Label" DefaultValue="Theil-Sen Simple Regression (not yet available)" />
+        <bt:String id="M35.Title" DefaultValue="Theil-Sen Simple Regression" />
+        <bt:String id="G1.Label" DefaultValue="Analysis 2" />
+        <bt:String id="C4.Label" DefaultValue="Contingency Table Analysis" />
+        <bt:String id="C4.Title" DefaultValue="Contingency Table Analysis" />
+        <bt:String id="M36.Label" DefaultValue="2x2 Table (not yet available)" />
+        <bt:String id="M36.Title" DefaultValue="2x2 Table" />
+        <bt:String id="M37.Label" DefaultValue="RxC Table (not yet available)" />
+        <bt:String id="M37.Title" DefaultValue="RxC Table" />
+        <bt:String id="M38.Label" DefaultValue="Mantel-Haenszel Test (not yet available)" />
+        <bt:String id="M38.Title" DefaultValue="Mantel-Haenszel Test" />
+        <bt:String id="M39.Label" DefaultValue="Proportions (not yet available)" />
+        <bt:String id="M39.Title" DefaultValue="Proportions" />
+        <bt:String id="M40.Label" DefaultValue="Correspondence Analysis (not yet available)" />
+        <bt:String id="M40.Title" DefaultValue="Correspondence Analysis" />
+        <bt:String id="C5.Label" DefaultValue="Survival Analysis" />
+        <bt:String id="C5.Title" DefaultValue="Survival Analysis" />
+        <bt:String id="M41.Label" DefaultValue="Kaplan-Meier Plot (not yet available)" />
+        <bt:String id="M41.Title" DefaultValue="Kaplan-Meier Plot" />
+        <bt:String id="M42.Label" DefaultValue="Logrank Test (not yet available)" />
+        <bt:String id="M42.Title" DefaultValue="Logrank Test" />
+        <bt:String id="M43.Label" DefaultValue="Cox Regression (not yet available)" />
+        <bt:String id="M43.Title" DefaultValue="Cox Regression" />
+        <bt:String id="C6.Label" DefaultValue="Regression" />
+        <bt:String id="C6.Title" DefaultValue="Regression" />
+        <bt:String id="M44.Label" DefaultValue="Multiple Linear Regression (LM) (not yet available)" />
+        <bt:String id="M44.Title" DefaultValue="Multiple Linear Regression (LM)" />
+        <bt:String id="M45.Label" DefaultValue="Generalized Linear Models (GLM) (not yet available)" />
+        <bt:String id="M45.Title" DefaultValue="Generalized Linear Models (GLM)" />
+        <bt:String id="M46.Label" DefaultValue="Negative Binomial Regression (NB2) (not yet available)" />
+        <bt:String id="M46.Title" DefaultValue="Negative Binomial Regression (NB2)" />
+        <bt:String id="M47.Label" DefaultValue="Generalized Estimating Equations (GEE) (not yet available)" />
+        <bt:String id="M47.Title" DefaultValue="Generalized Estimating Equations (GEE)" />
+        <bt:String id="M48.Label" DefaultValue="Mixed Models for Repeated Measures (MMRM) (not yet available)" />
+        <bt:String id="M48.Title" DefaultValue="Mixed Models for Repeated Measures (MMRM)" />
+        <bt:String id="M49.Label" DefaultValue="Linear Mixed Model (LMM) (not yet available)" />
+        <bt:String id="M49.Title" DefaultValue="Linear Mixed Model (LMM)" />
+        <bt:String id="M50.Label" DefaultValue="Cox Regression (not yet available)" />
+        <bt:String id="M50.Title" DefaultValue="Cox Regression" />
+        <bt:String id="M51.Label" DefaultValue="Zero-Inflated Poisson Regression (not yet available)" />
+        <bt:String id="M51.Title" DefaultValue="Zero-Inflated Poisson Regression" />
+        <bt:String id="M52.Label" DefaultValue="Multinomial Logistic Regression (not yet available)" />
+        <bt:String id="M52.Title" DefaultValue="Multinomial Logistic Regression" />
+        <bt:String id="M53.Label" DefaultValue="Ordinal Logistic Regression (not yet available)" />
+        <bt:String id="M53.Title" DefaultValue="Ordinal Logistic Regression" />
+        <bt:String id="C7.Label" DefaultValue="Multivariate Analysis" />
+        <bt:String id="C7.Title" DefaultValue="Multivariate Analysis" />
+        <bt:String id="M54.Label" DefaultValue="Hotelling's T-Squared Test (not yet available)" />
+        <bt:String id="M54.Title" DefaultValue="Hotelling's T-Squared Test" />
+        <bt:String id="M55.Label" DefaultValue="Principal Component Analysis (not yet available)" />
+        <bt:String id="M55.Title" DefaultValue="Principal Component Analysis" />
+        <bt:String id="M56.Label" DefaultValue="Correspondence Analysis (not yet available)" />
+        <bt:String id="M56.Title" DefaultValue="Correspondence Analysis" />
+        <bt:String id="M57.Label" DefaultValue="Multiple Correspondence Analysis (not yet available)" />
+        <bt:String id="M57.Title" DefaultValue="Multiple Correspondence Analysis" />
+        <bt:String id="M58.Label" DefaultValue="K-Means Clustering (not yet available)" />
+        <bt:String id="M58.Title" DefaultValue="K-Means Clustering" />
+        <bt:String id="M59.Label" DefaultValue="Hierarchical Clustering (not yet available)" />
+        <bt:String id="M59.Title" DefaultValue="Hierarchical Clustering" />
+        <bt:String id="M60.Label" DefaultValue="Factor Analysis (not yet available)" />
+        <bt:String id="M60.Title" DefaultValue="Factor Analysis" />
+        <bt:String id="M61.Label" DefaultValue="Discriminant Analysis (not yet available)" />
+        <bt:String id="M61.Title" DefaultValue="Discriminant Analysis" />
+        <bt:String id="G2.Label" DefaultValue="Analysis 3" />
+        <bt:String id="C8.Label" DefaultValue="Sample Size" />
+        <bt:String id="C8.Title" DefaultValue="Sample Size" />
+        <bt:String id="M62.Label" DefaultValue="Paired T-test (not yet available)" />
+        <bt:String id="M62.Title" DefaultValue="Paired T-test" />
+        <bt:String id="M63.Label" DefaultValue="Unpaired T-test (not yet available)" />
+        <bt:String id="M63.Title" DefaultValue="Unpaired T-test" />
+        <bt:String id="M64.Label" DefaultValue="Single Proportion (not yet available)" />
+        <bt:String id="M64.Title" DefaultValue="Single Proportion" />
+        <bt:String id="M65.Label" DefaultValue="Independent Proportions (not yet available)" />
+        <bt:String id="M65.Title" DefaultValue="Independent Proportions" />
+        <bt:String id="M66.Label" DefaultValue="Log-rank Test (not yet available)" />
+        <bt:String id="M66.Title" DefaultValue="Log-rank Test" />
+        <bt:String id="M67.Label" DefaultValue="Cox Regression (not yet available)" />
+        <bt:String id="M67.Title" DefaultValue="Cox Regression" />
+        <bt:String id="M68.Label" DefaultValue="Intraclass Correlation (ICC) (not yet available)" />
+        <bt:String id="M68.Title" DefaultValue="Intraclass Correlation (ICC)" />
+        <bt:String id="M69.Label" DefaultValue="Agreement (Bland-Altman) (not yet available)" />
+        <bt:String id="M69.Title" DefaultValue="Agreement (Bland-Altman)" />
+        <bt:String id="C9.Label" DefaultValue="Agreement" />
+        <bt:String id="C9.Title" DefaultValue="Agreement" />
+        <bt:String id="M70.Label" DefaultValue="Passing-Bablok Regression (not yet available)" />
+        <bt:String id="M70.Title" DefaultValue="Passing-Bablok Regression" />
+        <bt:String id="M71.Label" DefaultValue="Deming Regression (not yet available)" />
+        <bt:String id="M71.Title" DefaultValue="Deming Regression" />
+        <bt:String id="M72.Label" DefaultValue="Bland–Altman Analysis (not yet available)" />
+        <bt:String id="M72.Title" DefaultValue="Bland–Altman Analysis" />
+        <bt:String id="M73.Label" DefaultValue="Lin's Concordance Correlation Coefficient (not yet available)" />
+        <bt:String id="M73.Title" DefaultValue="Lin's Concordance Correlation Coefficient" />
+        <bt:String id="M74.Label" DefaultValue="Cohen's / Weighted Kappa (not yet available)" />
+        <bt:String id="M74.Title" DefaultValue="Cohen's / Weighted Kappa" />
+        <bt:String id="M75.Label" DefaultValue="Intraclass Correlation Coefficients (not yet available)" />
+        <bt:String id="M75.Title" DefaultValue="Intraclass Correlation Coefficients" />
+        <bt:String id="C10.Label" DefaultValue="Causal Inference" />
+        <bt:String id="C10.Title" DefaultValue="Causal Inference" />
+        <bt:String id="M76.Label" DefaultValue="Propensity Score Matching (not yet available)" />
+        <bt:String id="M76.Title" DefaultValue="Propensity Score Matching" />
+        <bt:String id="C11.Label" DefaultValue="Statistical Process Control" />
+        <bt:String id="C11.Title" DefaultValue="Statistical Process Control" />
+        <bt:String id="M77.Label" DefaultValue="Control Charts (not yet available)" />
+        <bt:String id="M77.Title" DefaultValue="Control Charts" />
+        <bt:String id="M78.Label" DefaultValue="Multivariate Control Charts (not yet available)" />
+        <bt:String id="M78.Title" DefaultValue="Multivariate Control Charts" />
+        <bt:String id="Tab.Label" DefaultValue="BESHStatNG" />
+      </bt:ShortStrings>
+      <bt:LongStrings>
+        <bt:String id="Open.Tip" DefaultValue="Open the existing analysis workspace. No analysis runs automatically." />
+        <bt:String id="U0.Tip" DefaultValue="Open about in this BESHStatNG pane." />
+        <bt:String id="U1.Tip" DefaultValue="Open help in this BESHStatNG pane." />
+        <bt:String id="U2.Tip" DefaultValue="Open options in this BESHStatNG pane." />
+        <bt:String id="U3.Tip" DefaultValue="Open diagnostics in this BESHStatNG pane." />
+        <bt:String id="U4.Tip" DefaultValue="Chart export is not implemented in Office." />
+        <bt:String id="C0.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M0.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M1.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M2.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M3.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M4.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C1.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M5.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M6.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M7.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M8.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M9.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M10.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M11.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M12.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M13.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M14.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M15.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M16.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M17.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M18.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M19.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M20.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M21.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C2.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M22.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M23.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M24.Tip" DefaultValue="Open the supported editor; no automatic calculation." />
+        <bt:String id="M25.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M26.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C3.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M27.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M28.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M29.Tip" DefaultValue="Open the supported editor; no automatic calculation." />
+        <bt:String id="M30.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M31.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M32.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M33.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M34.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M35.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C4.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M36.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M37.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M38.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M39.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M40.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C5.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M41.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M42.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M43.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C6.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M44.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M45.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M46.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M47.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M48.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M49.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M50.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M51.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M52.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M53.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C7.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M54.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M55.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M56.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M57.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M58.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M59.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M60.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M61.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C8.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M62.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M63.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M64.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M65.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M66.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M67.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M68.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M69.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C9.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M70.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M71.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M72.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M73.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M74.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M75.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C10.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M76.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="C11.Tip" DefaultValue="Only ANOVA and Kruskal-Wallis have Office editors. Other entries are disabled." />
+        <bt:String id="M77.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+        <bt:String id="M78.Tip" DefaultValue="Not yet available in Office. The specification builder is read-only, not a fitted method." />
+      </bt:LongStrings>
+    </Resources>
+  </VersionOverrides>
 </OfficeApp>

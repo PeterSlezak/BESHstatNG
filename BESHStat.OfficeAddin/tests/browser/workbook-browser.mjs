@@ -60,7 +60,7 @@ try {
     await send("Network.setCacheDisabled",{cacheDisabled:true});
     await send("Fetch.enable",{patterns:[{urlPattern:"https://officeapis.public.onecdn.static.microsoft/1/office.js"}]});
     await send("Page.navigate",{url:"https://localhost:7141/?beshOfficeDiagnostics=1"});
-    await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready' && !document.querySelector('button')?.disabled");
+    await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready' && !document.querySelector('#retry-initialization')?.disabled");
     assert.equal(await evaluate("document.querySelector('#core-probe')?.textContent.includes('CDF(0) = 0.5')"),true);
     assert.equal(await evaluate("document.querySelector('#common-probe')?.textContent.includes('2 descriptors, 4 registered handlers')"),true);
     assert.equal(await evaluate("getComputedStyle(document.querySelector('#blazor-error-ui')).display==='none'"),true);
@@ -93,7 +93,7 @@ try {
     assert.ok(summary.moduleResponses.some(r=>r.module==="workbook"&&r.status===200&&r.mime.includes("javascript")));
     assert.equal(summary.applicationExceptions,0);
     await click("Retry initialization");
-    await wait("!document.querySelector('button')?.disabled && !document.querySelector('#range-status')");
+    await wait("!document.querySelector('#retry-initialization')?.disabled && !document.querySelector('#range-status')");
     assert.equal(await evaluate("__simulatedWorkbook.payloads.length"),1,"Retry must not read");
     console.log(JSON.stringify(summary,null,2));
 } catch {

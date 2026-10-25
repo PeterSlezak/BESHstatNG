@@ -85,16 +85,18 @@ public sealed class GlobalOptionsComponentTests
         Assert.AreEqual(2, workbook.Reads); Assert.AreEqual(0, workbook.Writes); Assert.AreEqual(2, host.Inspections);
     }
     [TestMethod]
-    public async Task ThreeTabsRoveWrapAndRetainDraftsWithScreenReaderLinks()
+    public async Task FourTabsRoveWrapAndRetainDraftsWithScreenReaderLinks()
     {
         await using var services = Services(new()).BuildServiceProvider(); await using var ui = new AnalysisComponentTests.EventRenderer(services); await ui.Mount<App>();
-        Assert.AreEqual(3, ui.Count("role", "tab")); Assert.AreEqual("true", ui.Attribute("id", "analysis-tab", "aria-selected"));
-        foreach (var tuple in new[] { ("analysis-tab", "ArrowRight", "options-tab"), ("options-tab", "ArrowRight", "diagnostics-tab"), ("diagnostics-tab", "ArrowRight", "analysis-tab"), ("analysis-tab", "ArrowLeft", "diagnostics-tab"), ("diagnostics-tab", "Home", "analysis-tab"), ("analysis-tab", "End", "diagnostics-tab") }) {
+        Assert.AreEqual(4, ui.Count("role", "tab")); Assert.AreEqual("true", ui.Attribute("id", "analysis-tab", "aria-selected"));
+        foreach (var tuple in new[] { ("analysis-tab", "ArrowRight", "options-tab"), ("options-tab", "ArrowRight", "export-tab"), ("export-tab", "ArrowRight", "diagnostics-tab"), ("diagnostics-tab", "ArrowRight", "analysis-tab"), ("analysis-tab", "ArrowLeft", "diagnostics-tab"), ("diagnostics-tab", "ArrowLeft", "export-tab"), ("export-tab", "ArrowLeft", "options-tab"), ("options-tab", "Home", "analysis-tab"), ("analysis-tab", "End", "diagnostics-tab") }) {
             await ui.Event("id", tuple.Item1, "onkeydown", new KeyboardEventArgs { Key = tuple.Item2 });
             Assert.AreEqual("true", ui.Attribute("id", tuple.Item3, "aria-selected")); Assert.AreEqual("0", ui.Attribute("id", tuple.Item3, "tabindex"));
         }
         Assert.AreEqual("options-panel", ui.Attribute("id", "options-tab", "aria-controls"));
         Assert.AreEqual("options-tab", ui.Attribute("id", "options-panel", "aria-labelledby"));
+        Assert.AreEqual("export-panel", ui.Attribute("id", "export-tab", "aria-controls"));
+        Assert.AreEqual("export-tab", ui.Attribute("id", "export-panel", "aria-labelledby"));
         Assert.IsFalse(ui.Has("text", "Read selected range (read-only)"));
     }
     [TestMethod]
@@ -129,6 +131,7 @@ public sealed class GlobalOptionsComponentTests
         await ui.Event("id", "global-force-english", "onchange", new ChangeEventArgs { Value = false });
         await ui.Event("id", "global-save", "onclick", new MouseEventArgs());
         Assert.IsFalse(owner.ForceEnglish); Assert.IsTrue(ui.Has("text", "Možnosti")); Assert.IsTrue(ui.Has("text", "Analýza"));
+        Assert.IsTrue(ui.Has("text", "Export grafu")); Assert.IsTrue(ui.Has("text", "O BESHStatNG"));
         Assert.IsTrue(ui.Has("text", "Diagnostika / Záznam")); Assert.IsTrue(ui.Has("text", "Uložiť")); Assert.IsTrue(ui.Has("text", "Záznam bol skopírovaný."));
         Assert.IsTrue(ui.Has("text", "Pomocníka sa nepodarilo otvoriť. Použite odkaz na dokumentáciu."));
         Assert.AreEqual("true", ui.Attribute("id", "options-tab", "aria-selected"));

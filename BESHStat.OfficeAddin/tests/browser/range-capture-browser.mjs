@@ -36,7 +36,7 @@ try {
     await send("Emulation.setDeviceMetricsOverride", { width: 360, height: 1000, deviceScaleFactor: 1, mobile: false });
     await send("Fetch.enable", { patterns: [{ urlPattern: "https://officeapis.public.onecdn.static.microsoft/1/office.js" }] });
     await send("Page.navigate", { url: "https://localhost:7141/?beshOfficeDiagnostics=1" });
-    await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready' && !document.querySelector('button').disabled");
+    await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready' && !document.querySelector('#retry-initialization').disabled");
     // Synthetic sheet contents only. The application still uses actual typed reader/parser/writer paths.
     await evaluate(`{
         const x=__pilotFake, g=${JSON.stringify(golden.groups)};
@@ -150,7 +150,7 @@ try {
     summary.stage="manual-invalid-and-retry";
     await change("values-reference","'[Other.xlsx]Study'!A1","input");
     assert.equal(await evaluate("document.querySelector('#values-reference').getAttribute('aria-invalid')"),"true");
-    await change("analysis-alpha","0.1","input");await click("Retry initialization");await wait("!document.querySelector('button').disabled");
+    await change("analysis-alpha","0.1","input");await click("Retry initialization");await wait("!document.querySelector('#retry-initialization').disabled");
     assert.equal(await evaluate("document.querySelector('#analysis-alpha').value"),"0.1");
     assert.equal(await evaluate("document.querySelector('#group-arrangement').value"),"2");
     assert.equal(await evaluate("document.querySelector('#group-headers').value"),"0");

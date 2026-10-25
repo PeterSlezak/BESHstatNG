@@ -226,7 +226,7 @@ public sealed class FoundationTests
         Assert.AreEqual("ExcelApi", (string?)set.Attribute("Name"));
         Assert.AreEqual("1.1", (string?)set.Attribute("MinVersion"));
         Assert.AreEqual("ReadWriteDocument", app.Element(ns + "Permissions")!.Value);
-        Assert.IsFalse(app.Descendants().Any(x => x.Name.LocalName == "VersionOverrides"));
+        Assert.AreEqual(1, app.Descendants().Count(x => x.Name.LocalName == "VersionOverrides"));
         var url = new Uri((string)app.Element(ns + "DefaultSettings")!.Element(ns + "SourceLocation")!.Attribute("DefaultValue")!);
         using var profile = JsonDocument.Parse(File.ReadAllText(Path.Combine(root, "BESHStat.OfficeAddin/Properties/launchSettings.json")));
         var launchUrl = new Uri(profile.RootElement.GetProperty("profiles").GetProperty("https").GetProperty("applicationUrl").GetString()!);
@@ -235,7 +235,7 @@ public sealed class FoundationTests
         Assert.AreEqual("localhost", url.Host);
         Assert.AreEqual(7141, url.Port);
         Assert.AreEqual("https://localhost:7131/", (string?)old.Element(ns + "DefaultSettings")!.Element(ns + "SourceLocation")!.Attribute("DefaultValue"));
-        CollectionAssert.AreEqual(new[] { "Id", "Version", "ProviderName", "DefaultLocale", "DisplayName", "Description", "Hosts", "Requirements", "DefaultSettings", "Permissions" },
+        CollectionAssert.AreEqual(new[] { "Id", "Version", "ProviderName", "DefaultLocale", "DisplayName", "Description", "IconUrl", "HighResolutionIconUrl", "SupportUrl", "Hosts", "Requirements", "DefaultSettings", "Permissions", "VersionOverrides" },
             app.Elements().Select(x => x.Name.LocalName).ToArray());
     }
 

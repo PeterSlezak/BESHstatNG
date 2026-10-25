@@ -37,7 +37,7 @@ try {
     await send('Emulation.setDeviceMetricsOverride', { width: 320, height: 800, deviceScaleFactor: 1, mobile: false });
     await send('Fetch.enable', { patterns: [{ urlPattern: 'https://officeapis.public.onecdn.static.microsoft/1/office.js' }] });
     await send('Page.navigate', { url: 'https://localhost:7141/' }); await wait("!!document.querySelector('#analysis-group') && !document.querySelector('#retry-initialization').disabled");
-    assert.equal(await evaluate("document.querySelectorAll('[role=tab]').length"), 3);
+    assert.equal(await evaluate("document.querySelectorAll('[role=tab]').length"), 4);
     assert.equal(await evaluate("document.querySelector('#options-tab').textContent"), 'Options');
     assert.equal(await evaluate("document.querySelector('#global-force-english').checked"), true);
     if (amendment) {
@@ -108,6 +108,9 @@ try {
     await evaluate('globalThis.__blockHelp=true'); await clickId('options-tab'); await click(slovak ? 'Pomocník ku globálnym nastaveniam' : 'Global settings Help');
     await wait(`document.querySelector('.global-options .help-action [role=status]')?.textContent.includes(${JSON.stringify(slovak ? 'nepodarilo' : 'could not')})`);
     summary.stage = 'keyboard-and-narrow'; await evaluate("document.querySelector('#options-tab').focus()");
+    await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowRight', code: 'ArrowRight', windowsVirtualKeyCode: 39 });
+    await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'ArrowRight', code: 'ArrowRight', windowsVirtualKeyCode: 39 });
+    await wait("document.activeElement.id==='export-tab' && document.querySelector('#export-tab').getAttribute('aria-selected')==='true'");
     await send('Input.dispatchKeyEvent', { type: 'keyDown', key: 'ArrowRight', code: 'ArrowRight', windowsVirtualKeyCode: 39 });
     await send('Input.dispatchKeyEvent', { type: 'keyUp', key: 'ArrowRight', code: 'ArrowRight', windowsVirtualKeyCode: 39 });
     await wait("document.activeElement.id==='diagnostics-tab' && document.querySelector('#diagnostics-tab').getAttribute('aria-selected')==='true'");

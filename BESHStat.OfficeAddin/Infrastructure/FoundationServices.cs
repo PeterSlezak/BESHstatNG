@@ -26,6 +26,9 @@ public static class FoundationServices
         services.TryAddScoped<OfficePreferenceSession>();
         services.TryAddScoped<OfficeStrings>();
         services.TryAddScoped<OfficeHelp>();
+        services.TryAddScoped<OfficeCommandRegistry>();
+        services.TryAddScoped<OfficeCommandCoordinator>();
+        services.TryAddScoped<IOfficeCommandBridge, OfficeCommandBridge>();
         services.TryAddScoped<OfficeDiagnosticLog>();
         services.TryAddScoped<BESHStatNG.ExcelCommon.IDiagnosticSink>(p => p.GetRequiredService<OfficeDiagnosticLog>());
         services.TryAddScoped<BESHStatNG.ExcelCommon.DiagnosticEmitter>();

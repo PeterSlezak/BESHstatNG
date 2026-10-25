@@ -53,7 +53,7 @@ public sealed class AnalysisComponentTests
         await renderer.ClickText("Validate specification / Preview design");
         StringAssert.Contains((string)renderer.Attribute("id", "spec-status", "text")!, "spec.invalid");
         await renderer.ClickText("Return to analysis"); Assert.IsFalse(renderer.Has("id", "spec-worksheet"));
-        Assert.AreEqual(3, renderer.Count("role", "tab"));
+        Assert.AreEqual(4, renderer.Count("role", "tab"));
         Assert.AreEqual(0, workbook.Writes);
     }
 

@@ -45,13 +45,14 @@ Namespace ExcelCommon
                 "diagnostic.output.attempted", "diagnostic.output.completed", "diagnostic.output.incomplete",
                 "diagnostic.run.failed", "diagnostic.run.ended", "diagnostic.stage.entered",
                 "output.sheet-name-adjusted", "diagnostic.host.ready", "diagnostic.host.unavailable",
-                "diagnostic.host.retry", "diagnostic.user.cancelled", "diagnostic.output.consent", "diagnostic.analysis.completed")
+                "diagnostic.host.retry", "diagnostic.user.cancelled", "diagnostic.output.consent", "diagnostic.analysis.completed",
+                "diagnostic.command.invoked", "diagnostic.command.completed", "diagnostic.command.rejected")
             If code = "redacted" Then code = "diagnostic.event.redacted"
             Dim severity = DiagnosticSeverity.Information
             Select Case code
                 Case "diagnostic.stage.entered" : severity = DiagnosticSeverity.Debug
                 Case "diagnostic.validation.rejected", "diagnostic.output.incomplete", "diagnostic.event.redacted",
-                     "output.sheet-name-adjusted", "diagnostic.host.unavailable"
+                     "output.sheet-name-adjusted", "diagnostic.host.unavailable", "diagnostic.command.rejected"
                     severity = DiagnosticSeverity.Warning
                 Case "diagnostic.run.failed" : severity = DiagnosticSeverity.Error
             End Select

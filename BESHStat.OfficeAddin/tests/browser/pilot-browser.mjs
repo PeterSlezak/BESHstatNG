@@ -40,7 +40,7 @@ try {
     await send("Fetch.enable", { patterns: [{ urlPattern: "https://officeapis.public.onecdn.static.microsoft/1/office.js" }] });
     await send("Page.navigate", { url: "https://localhost:7141/?beshOfficeDiagnostics=1" });
     summary.stage = "startup";
-    await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready' && !document.querySelector('button').disabled");
+    await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready' && !document.querySelector('#retry-initialization').disabled");
     assert.equal(await evaluate("document.querySelector('#core-probe').textContent.includes('0.5') && document.querySelector('#common-probe').textContent.includes('2 descriptors, 4 registered handlers')"), true);
     await choose("Parametric", "anova.oneway");
     assert.equal(await evaluate("__pilotFake.state.runs"), 0);
@@ -107,7 +107,7 @@ try {
     await wait("document.querySelector('#pilot-status code')?.textContent==='input.preview-stale'");
     assert.equal(await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Run analysis').disabled"), false);
     await change("analysis-alpha", "0.1", "input"); await click("Retry initialization");
-    await wait("!document.querySelector('button').disabled");
+    await wait("!document.querySelector('#retry-initialization').disabled");
     assert.equal(await evaluate("document.querySelector('#analysis-alpha').value"), "0.1");
     assert.equal(await evaluate("document.documentElement.scrollWidth<=innerWidth"), true);
     await click("Diagnostics / Log");
@@ -128,7 +128,7 @@ try {
         await change("input-reference", "'Input'!A1:C4", "input"); await click("Select range");
         await wait("document.querySelector('#input-reference-status code')?.textContent==='output.mutation-uncertain'");
         assert.equal(await evaluate("document.querySelector('#input-reference-status').textContent.includes('Close and reopen')"), true);
-        await click("Retry initialization"); await wait("!document.querySelector('button').disabled");
+        await click("Retry initialization"); await wait("!document.querySelector('#retry-initialization').disabled");
         await change("input-reference", "'Input'!A1:C4", "input");
         assert.equal(await evaluate("document.body.textContent.includes('PartiallyWritten') && document.body.textContent.includes('wait for the previous native operation to finish')"), true);
         assert.equal(await evaluate("__pilotFake.state.mutations"), mutations);
