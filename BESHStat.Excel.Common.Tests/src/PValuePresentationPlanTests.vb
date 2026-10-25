@@ -16,6 +16,69 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Public Class PValuePresentationPlanTests
     Public Property TestContext As TestContext
 
+    <DataTestMethod>
+    <DataRow(1, "Fisher's LSD", 4)>
+    <DataRow(2, "Bonferroni", 4)>
+    <DataRow(3, "Tukey-Kramer", 4)>
+    <DataRow(4, "Games-Howell", 5)>
+    Public Sub PostHocProbabilities_RemainBinary64ThroughSemanticAndWirePlans(tableIndex As Integer,
+                                                                                 procedure As String,
+                                                                                 pvalueColumn As Integer)
+        ' LoadAnalysis runs the real SharedAnalysisApplicationService against immutable Stage304 input.
+        Dim document As OutputDocument = LoadAnalysis("anova-all-posthoc")
+        Dim table As OutputTableArtifact = DirectCast(document.Artifacts(tableIndex), OutputTableArtifact)
+        StringAssert.Contains(CStr(table.Model.Values(0, 0)), procedure)
+        Dim settings As New PValuePresentationSettings With {.DecimalPlaces = 3}
+        Dim firstProbability As Double = CDbl(table.Model.Values(1, pvalueColumn))
+        For Each alpha As Double In New Double() {0.05, 0.01, firstProbability}
+            Dim semantics = OutputSemanticPlanner.Create(document, settings, alpha, "")
+            Dim styled = semantics.Artifacts(tableIndex)
+            Dim target As New SpreadsheetOutputTarget With {.StartRow = 6, .StartColumn = 3}
+            Dim wire = OfficeOutputPlanAdapter.Prepare(document, semantics,
+                OutputLayoutPlanner.Create(document, target, semanticPlan:=semantics))
+            Dim wireTable = wire.Tables.Single(Function(t) t.DocumentIndex = tableIndex)
+            Dim probabilities = styled.Cells.Where(Function(c) c.IsPValue).ToArray()
+            Assert.AreEqual(3, probabilities.Length)
+            For Each cell As OutputCellStyle In probabilities
+                Assert.AreEqual(pvalueColumn, cell.Column)
+                Assert.IsInstanceOfType(table.Model.Values(cell.Row, cell.Column), GetType(Double))
+                Assert.AreEqual(OutputCellKind.Number, cell.Cell.Kind)
+                Assert.AreEqual(OutputNumberKind.Binary64, cell.Cell.NumberKind.Value)
+                Dim probability As Double = cell.Cell.BinaryValue.Value
+                Assert.AreEqual(BitConverter.DoubleToInt64Bits(CDbl(table.Model.Values(cell.Row, cell.Column))),
+                                BitConverter.DoubleToInt64Bits(probability))
+                Assert.AreEqual(OutputStyleRole.Body, cell.Role)
+                Assert.AreEqual(OutputNumberFormatKind.PValue, cell.NumberFormat.Kind)
+                Assert.AreEqual(3, cell.NumberFormat.DecimalPlaces.Value)
+                Assert.AreEqual(probability <= alpha, cell.IsSignificant)
+                Assert.AreEqual(cell.IsSignificant, cell.StrongEmphasis)
+                Assert.AreEqual(If(cell.IsSignificant, "significant", ""), cell.AccessibilityIndicator)
+                Assert.AreEqual(PValuePresentation.FormatForDisplay(probability, settings, CultureInfo.InvariantCulture), cell.DisplayPreview)
+                Dim projected = wireTable.Cells.Single(Function(c) c.Row = cell.Row AndAlso c.Column = cell.Column)
+                Assert.AreEqual("number", projected.Value.Kind)
+                Assert.IsNull(projected.Value.TextValue)
+                Assert.AreEqual(BitConverter.DoubleToInt64Bits(probability), BitConverter.DoubleToInt64Bits(projected.Value.NumberValue.Value))
+                Assert.IsTrue(projected.IsPValue)
+                Assert.AreEqual(cell.IsSignificant, projected.IsSignificant)
+                Assert.AreEqual(cell.StrongEmphasis, projected.StrongEmphasis)
+                Assert.AreEqual(PValuePresentation.BuildExcelNumberFormat(settings), projected.NumberFormat)
+            Next
+            If alpha = 0.05 Then
+                Assert.IsTrue(probabilities.Any(Function(c) c.IsSignificant), "Fixture must exercise significance.")
+                Assert.IsTrue(probabilities.Any(Function(c) Not c.IsSignificant), "Fixture must exercise a nonsignificant probability.")
+            End If
+            ' Comparison, mean/CI, SE/statistic (and Games-Howell DF) remain historical text.
+            For Each cell As OutputCellStyle In styled.Cells.Where(Function(c) c.Role = OutputStyleRole.Body AndAlso Not c.IsPValue)
+                Assert.AreEqual(OutputCellKind.Text, cell.Cell.Kind)
+                Dim projected = wireTable.Cells.Single(Function(c) c.Row = cell.Row AndAlso c.Column = cell.Column)
+                Assert.AreEqual("text", projected.Value.Kind)
+                Assert.AreEqual(cell.Cell.TextValue, projected.Value.TextValue)
+                Assert.IsFalse(projected.IsPValue)
+                Assert.AreEqual("General", projected.NumberFormat)
+            Next
+        Next
+    End Sub
+
     <TestMethod>
     Public Sub Annotations_TranslateOnceDeduplicateAndDiagnoseWithoutMutatingRawLists()
         Dim model As New ResultTableOutputModel(New Object(,) {

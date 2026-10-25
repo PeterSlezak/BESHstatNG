@@ -175,6 +175,14 @@ public sealed class RangeReferenceState : IAsyncDisposable
         }
         catch (ArgumentException) { Code = "input.invalid-reference"; return null; }
     }
+    /// <summary>Explicit preview retry after a transient host rejection. Keep the physical handle:
+    /// a renamed, removed or replaced sheet must still be rejected by the existing resolver.</summary>
+    public void PrepareResolutionRetry()
+    {
+        if (disposed || Armed || Busy) return;
+        try { Parse(Text, output); Code = "range.edited"; }
+        catch (ArgumentException) { Code = "input.invalid-reference"; }
+    }
     private async Task EndHost(bool cancel)
     { if (host is not null) try { using var bound = new CancellationTokenSource(TimeSpan.FromSeconds(2)); await host.EndCaptureAsync(owner, cancel, bound.Token); } catch (Exception) { } }
     public void Stop()

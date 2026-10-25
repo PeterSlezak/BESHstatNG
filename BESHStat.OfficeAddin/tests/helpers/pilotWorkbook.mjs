@@ -39,9 +39,11 @@ export function pilotWorkbook() {
         }
         function sheet(data) {
             if (!data) throw Object.assign(new Error(), { code: "ItemNotFound" });
-            const obj = { load() { check(); queue.push(() => { if (!sheets.has(data.id)) throw Object.assign(new Error(), { code: "ItemNotFound" }); obj.id = data.id; obj.name = data.name; }); return obj; },
+            const obj = { load() { check(); queue.push(() => { if (!sheets.has(data.id)) throw Object.assign(new Error(), { code: "ItemNotFound" }); obj.id = data.id; obj.name = data.name; obj.visibility=data.visibility||'Visible'; }); return obj; },
+                getUsedRangeOrNullObject(valuesOnly) {return range(data,1,1,1048576,16384).getUsedRangeOrNullObject(valuesOnly);},
                 protection: { protected: false, load() { queue.push(() => { this.protected = state.protected; }); } },
                 getRange(text) {
+                    if(text===undefined)return range(data,1,1,1048576,16384);
                     const m = /^([A-Z]+)(\d+):([A-Z]+)(\d+)$/.exec(text);
                     const col = s => [...s].reduce((n, c) => n * 26 + c.charCodeAt(0) - 64, 0);
                     if (!m) throw new Error("Invalid test generated bounds");
@@ -83,7 +85,7 @@ export function pilotWorkbook() {
                     queue.push(() => {
                         const selected = [...cells].map(([k,v])=>({coordinates:k.split(':'),v})).filter(x=>x.coordinates[0]===data.id&&x.v.hasFormula&&
                             Number(x.coordinates[1])>=row&&Number(x.coordinates[1])<row+rows&&Number(x.coordinates[2])>=col&&Number(x.coordinates[2])<col+cols)
-                            .map(x=>({rowIndex:Number(x.coordinates[1])-1,columnIndex:Number(x.coordinates[2])-1,rowCount:1})).sort((a,b)=>a.columnIndex-b.columnIndex||a.rowIndex-b.rowIndex);
+                            .map(x=>({rowIndex:Number(x.coordinates[1])-1,columnIndex:Number(x.coordinates[2])-1,rowCount:1,columnCount:1})).sort((a,b)=>a.columnIndex-b.columnIndex||a.rowIndex-b.rowIndex);
                         const areas=[];for(const item of selected){const last=areas.at(-1);if(last&&last.columnIndex===item.columnIndex&&last.rowIndex+last.rowCount===item.rowIndex)last.rowCount++;else areas.push({...item});}
                         o.isNullObject=areas.length===0;o.areaCount=areas.length;o.areas.items=areas;
                     });return o;
@@ -126,7 +128,9 @@ export function pilotWorkbook() {
                 } };
             return obj;
         }
-        const collection = { items: [], load() { queue.push(() => { collection.items = [...sheets.values()].map(d => ({ ...d })); }); },
+        const collection = { items: [], load() { queue.push(() => { collection.items = [...sheets.values()].map(d => ({ ...d,visibility:d.visibility||'Visible' })); }); },
+            getCount(){const result={};queue.push(()=>{result.value=sheets.size;});return result;},
+            getActiveWorksheet(){return sheet(sheets.get(state.sheetId));},
             getItem(id) { return sheet(sheets.get(id) || [...sheets.values()].find(s => s.name === id)); }, add(name) {
                 const data = { id: `new-${++state.added}`, name };
                 queue.push(() => { if ([...sheets.values()].some(s => s.name.toUpperCase() === name.toUpperCase())) throw new Error("name collision"); sheets.set(data.id, data); state.mutations++; state.emit("onAdded"); });

@@ -1,0 +1,20 @@
+<p>Subject ID identifies one individual across visits. Treatment group identifies an arm/category shared by multiple subjects. These roles must use different columns.</p>
+<ColumnRoleEditor Id="repeat-subject" Label="Subject ID" Columns="Columns" Value="Draft.Subject" ValueChanged="v => Draft.Subject = v" />
+<ColumnRoleEditor Id="repeat-visit" Label="Visit / time" Columns="Columns" Value="Draft.Visit" ValueChanged="v => Draft.Visit = v" Optional="@(Draft.Family == SpecificationFamily.Mixed)" Hint="Numeric visits are required for ordering or calendar-date interpretation." />
+<ColumnRoleEditor Id="repeat-response" Label="Numeric response" Columns="Columns" Value="Draft.Response" ValueChanged="v => Draft.Response = v" />
+<ColumnRoleEditor Id="repeat-group" Label="Treatment group (optional)" Columns="Columns" Value="Draft.Group" ValueChanged="v => Draft.Group = v" Optional="true" />
+@if (new[] { Draft.Subject, Draft.Visit, Draft.Response, Draft.Group }.Where(c => c >= 0).GroupBy(c => c).Any(g => g.Count() > 1))
+{ <p role="alert">Subject, visit, response and treatment group must use distinct columns.</p> }
+<label for="repeat-order"><input id="repeat-order" type="checkbox" checked="@Draft.AscendingVisits" @onchange="e => Draft.AscendingVisits = e.Value is true" /> Require strictly ascending visits within each subject in source row order</label>
+<label for="repeat-dates"><input id="repeat-dates" type="checkbox" checked="@Draft.DateVisits" @onchange="e => Draft.DateVisits = e.Value is true" /> Interpret numeric visits as dates using the verified workbook date system</label>
+<p>Duplicate subject + visit pairs always reject. Rows are never silently sorted.</p>
+<p>Calendar interpretation rejects when the host has not supplied a verified date system. The current Office reader does not supply that metadata; numeric visits remain available.</p>
+@if (Draft.Family == SpecificationFamily.Mixed)
+{
+    <VariableList Id="mixed-fixed" Label="Fixed-effect covariates (source typed)" Columns="Columns" Selected="Draft.FixedEffects" SelectedChanged="Draft.SetFixedEffects" Hint="These roles validate source covariates only; they do not fit a model or create a fixed-effect design." />
+    <VariableList Id="mixed-random" Label="Random grouping covariates" Columns="Columns" Selected="Draft.RandomGroups" SelectedChanged="Draft.SetRandomGroups" Hint="Subject may also be a random grouping covariate. Response cannot be a covariate." />
+}
+@code {
+    [Parameter, EditorRequired] public SpecificationDraft Draft { get; set; } = default!;
+    [Parameter] public IReadOnlyList<SpecificationColumn> Columns { get; set; } = [];
+}

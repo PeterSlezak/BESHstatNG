@@ -18,6 +18,98 @@ namespace BESHStat.OfficeAddin.Tests;
 public sealed class AnalysisComponentTests
 {
     [TestMethod]
+    public async Task SpecificationPreviewIsOptInAccessibleAndLocalEditingDoesNotReadOrWrite()
+    {
+        var workbook = new AnalysisPilotTests.Workbook(WorksheetDiscoveryTests.AtRowOne(SpecificationBuilderTests.Model()));
+        var host = new AnalysisPilotTests.Host();
+        host.ConfigureWorksheet(workbook.Range);
+        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+            .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
+        await using var renderer = new EventRenderer(services); await renderer.Mount<App>();
+        Assert.IsFalse(renderer.Has("id", "spec-worksheet"));
+        await renderer.ClickText("Open specification builder preview (no fit / write)");
+        Assert.AreEqual("true", renderer.Attribute("id", "spec-toggle", "aria-expanded"));
+        Assert.AreEqual(true, renderer.Attribute("id", "analysis-group", "disabled"));
+        foreach (var id in new[] { "spec-worksheet", "spec-family", "spec-header", "spec-missing", "spec-case" }) Assert.IsTrue(renderer.Labelled(id), id);
+        Assert.IsFalse(renderer.Has("id", "spec-source"));
+        Assert.AreEqual("sheet-1",renderer.Attribute("id","spec-worksheet","value"));
+        Assert.IsTrue(renderer.Options("model-response").Any(o=>o.Label=="Response | VarB"));
+        await renderer.Change("model-response", "document-1/sheet-1/2");
+        await renderer.Change("model-predictors-1", true); await renderer.Change("model-predictors-2", true);
+        await renderer.Change("model-factors-2", true);
+        Assert.AreNotEqual(true, renderer.Attribute("id", "formula-manual", "checked"));
+        await renderer.Change("term-first", "document-1/sheet-1/3"); await renderer.ClickText("Add term");
+        await renderer.Change("term-first", "document-1/sheet-1/4"); await renderer.ClickText("Add term");
+        Assert.AreEqual(1, workbook.Reads); Assert.AreEqual(0, workbook.Writes); Assert.AreEqual(1, host.Pins);
+        await renderer.ClickText("Validate specification / Preview design");
+        Assert.AreEqual(2, workbook.Reads); Assert.AreEqual(0, workbook.Writes); Assert.AreEqual(0, host.Inspections);
+        Assert.IsTrue(renderer.Has("id", "normalized-rhs"));
+        StringAssert.Contains((string)renderer.Attribute("id", "normalized-rhs", "text")!, "factor('Treatment')");
+        foreach (var id in new[] { "model-response", "model-intercept", "formula-manual", "factor-reference-2" }) Assert.IsTrue(renderer.Labelled(id), id);
+        await renderer.ClickText("Diagnostics / Log"); await renderer.ClickText("Analysis");
+        Assert.IsTrue(renderer.Has("id", "normalized-rhs")); Assert.AreEqual(2, workbook.Reads);
+        await renderer.Change("model-response", "document-1/sheet-1/3");
+        Assert.AreEqual("true", renderer.Attribute("id", "model-response", "aria-invalid"));
+        await renderer.ClickText("Validate specification / Preview design");
+        StringAssert.Contains((string)renderer.Attribute("id", "spec-status", "text")!, "spec.invalid");
+        await renderer.ClickText("Return to analysis"); Assert.IsFalse(renderer.Has("id", "spec-worksheet"));
+        Assert.AreEqual(2, renderer.Count("role", "tab"));
+        Assert.AreEqual(0, workbook.Writes);
+    }
+
+    [TestMethod]
+    public async Task BuilderHandoffRetiresPilotConsentAndReturningRequiresFreshRun()
+    {
+        using var fixture = AnalysisPilotTests.Fixture("anova-base");
+        var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
+        var host = new AnalysisPilotTests.Host { Occupancy = OutputOccupancy.Occupied };
+        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+            .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
+        await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
+        await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" });
+        await renderer.ClickText("Run analysis"); await renderer.ClickText("Inspect output destination");
+        Assert.IsTrue(renderer.Has("text", "Yes, overwrite inspected output"));
+        var reads = workbook.Reads;
+        await renderer.ClickText("Open specification builder preview (no fit / write)");
+        Assert.IsFalse(renderer.Has("text", "Yes, overwrite inspected output"));
+        Assert.AreEqual(reads+1, workbook.Reads); Assert.AreEqual(0, workbook.Writes);
+        await renderer.ClickText("Return to analysis");
+        Assert.AreEqual("'Input'!A1:C4", renderer.Attribute("id", "input-reference", "value"));
+        await renderer.ClickText("Run analysis"); Assert.AreEqual(reads + 2, workbook.Reads);
+        Assert.IsTrue(renderer.Has("text", "Write results")); Assert.AreEqual(0, workbook.Writes);
+    }
+
+    [TestMethod]
+    public async Task RepeatedRoleControlsAreWiredAndRetryRediscoversWithoutStaleRoles()
+    {
+        var workbook = new AnalysisPilotTests.Workbook(WorksheetDiscoveryTests.AtRowOne(SpecificationBuilderTests.Repeated())); var host = new AnalysisPilotTests.Host();
+        host.ConfigureWorksheet(workbook.Range);
+        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+            .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
+        await using var renderer = new EventRenderer(services); await renderer.Mount<App>();
+        await renderer.ClickText("Open specification builder preview (no fit / write)");
+        Assert.IsFalse(renderer.Has("id","spec-source"));
+        await renderer.Change("spec-family", "Repeated");
+        await renderer.Change("repeat-subject", "document-1/sheet-1/2"); await renderer.Change("repeat-visit", "document-1/sheet-1/3");
+        await renderer.Change("repeat-response", "document-1/sheet-1/4"); await renderer.Change("repeat-group", "document-1/sheet-1/5");
+        await renderer.Change("repeat-order", true);
+        Assert.AreNotEqual(true, renderer.Attribute("id", "repeat-dates", "checked"));
+        Assert.AreEqual(true, renderer.Attribute("id", "repeat-order", "checked"));
+        foreach (var id in new[] { "repeat-subject", "repeat-visit", "repeat-response", "repeat-group", "repeat-order", "repeat-dates" }) Assert.IsTrue(renderer.Labelled(id), id);
+        Assert.AreEqual(1, workbook.Reads);
+        await renderer.ClickText("Validate specification / Preview design");
+        StringAssert.Contains((string)renderer.Attribute("id", "spec-status", "text")!, "spec.ready");
+        await renderer.ClickText("Retry initialization");
+        Assert.AreEqual("-1", renderer.Attribute("id", "repeat-response", "value"));
+        Assert.IsFalse(renderer.Has("id", "normalized-rhs"));
+        await renderer.Change("repeat-subject","document-1/sheet-1/2");await renderer.Change("repeat-visit","document-1/sheet-1/3");await renderer.Change("repeat-response","document-1/sheet-1/4");await renderer.Change("repeat-group","document-1/sheet-1/5");
+        await renderer.ClickText("Validate specification / Preview design");
+        Assert.AreEqual(4, workbook.Reads); Assert.AreEqual(0, workbook.Writes);
+        await renderer.Change("spec-family", "Mixed");
+        Assert.IsTrue(renderer.Labelled("mixed-fixed-4")); Assert.IsTrue(renderer.Labelled("mixed-random-0"));
+    }
+
+    [TestMethod]
     public async Task RealHtmlRenderContainsDescriptorNavigationAndDisabledHonestRun()
     {
         using var services = Services().BuildServiceProvider();
@@ -417,6 +509,7 @@ public sealed class AnalysisComponentTests
                     }
         }
         public bool Has(string attr, string value) => Elements().Any(e => e.TryGetValue(attr, out var actual) && Equals(actual, value));
+        public int Count(string attr, string value) => Elements().Count(e => e.TryGetValue(attr, out var actual) && Equals(actual, value));
         public bool Labelled(string id) => Has("for", id) || StaticMarkup.Contains($"for=\"{id}\"");
         public object? Attribute(string attr, string value, string target) =>
             Elements().Single(e => e.TryGetValue(attr, out var actual) && Equals(actual, value)).GetValueOrDefault(target);

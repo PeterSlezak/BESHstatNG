@@ -47,3 +47,12 @@ code { overflow-wrap: anywhere; }
 [role="tabpanel"] { flex: 1 1 auto; min-height: 0; min-width: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: contain; padding: .25rem; scroll-padding-block: .5rem; }
 [role="alert"] { overflow-wrap: anywhere; }
 pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.specification-builder { min-width: 0; }
+.specification-builder fieldset { margin-block: .75rem; }
+.specification-builder label, .specification-builder small { display: block; margin-block: .4rem; }
+.specification-builder select, .specification-builder textarea, .specification-builder input:not([type="checkbox"]) { box-sizing: border-box; width: 100%; max-width: 100%; padding: .5rem; font: inherit; }
+.specification-builder textarea { min-height: 5rem; }
+.specification-builder button { margin: .25rem .25rem .25rem 0; }
+.specification-builder li, .specification-builder p { overflow-wrap: anywhere; }
+.specification-builder input[type="checkbox"] { margin-inline-end: .4rem; }
+.specification-builder input[type="checkbox"] + label { display: inline; }

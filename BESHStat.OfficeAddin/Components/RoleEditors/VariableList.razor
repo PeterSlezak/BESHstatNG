@@ -1,0 +1,20 @@
+<fieldset aria-describedby="@(Id + "-hint")">
+    <legend>@Label</legend>
+    <small id="@(Id + "-hint")">@Hint</small>
+    @foreach (var column in Columns)
+    {
+        var id = Id + "-" + column.Index;
+        <div><input id="@id" type="checkbox" data-variable-id="@column.Identity" checked="@Selected.Contains(column.Index)" @onchange="e => Toggle(column, e.Value is true)" />
+        <label for="@id">@column.DisplayText</label></div>
+    }
+</fieldset>
+@code {
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+    [Parameter] public string Label { get; set; } = "Variables";
+    [Parameter] public string Hint { get; set; } = "";
+    [Parameter] public IReadOnlyList<SpecificationColumn> Columns { get; set; } = [];
+    [Parameter] public IReadOnlyList<int> Selected { get; set; } = [];
+    [Parameter] public EventCallback<int[]> SelectedChanged { get; set; }
+    private Task Toggle(SpecificationColumn column, bool selected) => !Columns.Any(c=>c.Identity==column.Identity) ? Task.CompletedTask : SelectedChanged.InvokeAsync(selected
+        ? Selected.Append(column.Index).Order().ToArray() : Selected.Where(c => c != column.Index).ToArray());
+}

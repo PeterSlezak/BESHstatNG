@@ -1,0 +1,81 @@
+@implements IAsyncDisposable
+@inject IWorkbookAdapter Workbook
+@inject IPilotHost Host
+@using BESHStatNG.ExcelCommon
+@if (state is { } s)
+{
+    var documentIdentity=s.Worksheets?.DocumentIdentity;
+    <section class="specification-builder" aria-labelledby="spec-title" aria-busy="@s.Busy.ToString().ToLowerInvariant()">
+        <h3 id="spec-title">Specification builder preview</h3>
+        <p>Build and validate input specifications for future methods. This surface cannot fit a model or write to Excel. Variables come from the chosen worksheet, independently of selected cells.</p>
+        <label for="spec-worksheet">Source worksheet</label>
+        <select @key="documentIdentity" id="spec-worksheet" value="@s.SelectedWorksheetId" @onchange="e => s.SelectWorksheetAsync(e.Value as string ?? string.Empty,documentIdentity)" disabled="@(!HostAvailable || s.RequiresRecovery)" aria-describedby="spec-discovery-hint">
+            <option value="">Select a worksheet</option>
+            @foreach (var sheet in s.Worksheets?.Worksheets ?? Array.Empty<SourceWorksheet>())
+            { <option value="@sheet.Id">@sheet.Name@(sheet.Visibility == "Visible" ? "" : " (hidden)")</option> }
+        </select>
+        <button id="spec-refresh" type="button" disabled="@(s.Busy || !HostAvailable || s.RequiresRecovery)" @onclick="s.RefreshAsync">Refresh variables</button>
+        <p id="spec-discovery-hint">Variables load automatically in worksheet order. Names follow Excel-DNA: header | VarA, or VarA without a usable row-1 header. Empty columns are omitted; physical Excel letters are preserved. Hidden worksheets are included. Discovery reads bounded data; editing roles and terms is local.</p>
+        @if (s.Notice is not null) { <p role="status">@s.Notice</p> }
+        @if (s.Code == "spec.empty-sheet") { <p>No variables found. Add data to this worksheet or choose another worksheet.</p> }
+        <fieldset disabled="@(s.Busy || !HostAvailable || s.RequiresRecovery)">
+            <legend>Source and roles</legend>
+            <label for="spec-family">Specification family</label>
+            <select id="spec-family" @bind="s.Draft.Family"><option value="Model">Linear model design (no fit)</option><option value="Repeated">Repeated subject / visit input</option><option value="Mixed">Mixed-model roles (no fit)</option><option value="Categorical">Categorical input</option></select>
+            <label for="spec-header">Headers</label>
+            <select id="spec-header" @bind="s.Draft.Header"><option value="Required">Required</option><option value="None">None</option><option value="Auto">Auto — reject ambiguous</option></select>
+            <label for="spec-missing">Incomplete observations</label>
+            <select id="spec-missing" @bind="s.Draft.Missing"><option value="Reject">Reject</option><option value="Skip">Skip with explicit warnings</option></select>
+            <label for="spec-case"><input id="spec-case" type="checkbox" @bind="s.Draft.IgnoreCase" /> Ignore text-category case (typed numbers and text remain distinct)</label>
+            @if (s.Columns.Count > 0)
+            {
+                <div @key="s.VariableRevision">
+                <p>Variables: @string.Join("; ", s.Columns.Select(c => c.DisplayText))</p>
+                @if (s.Draft.Family == SpecificationFamily.Model)
+                {
+                    <ColumnRoleEditor Id="model-response" Label="Numeric response" Columns="s.Columns" Value="s.Draft.Response" ValueChanged="v => s.Draft.Response = v" Invalid="@s.Draft.Predictors.Contains(s.Draft.Response)" />
+                    <VariableList Id="model-predictors" Label="Predictors" Columns="s.Columns" Selected="s.Draft.Predictors" SelectedChanged="s.Draft.SetPredictors" Hint="Select numeric predictors and categorical factors. Response must not also be a predictor." />
+                    @if (s.Draft.Predictors.Contains(s.Draft.Response)) { <p role="alert">Response overlaps the selected predictors. Change the response or predictor selection.</p> }
+                    <CategoricalRoleEditor Draft="s.Draft" Columns="s.Columns" Categories="s.FactorLevels" />
+                    <label for="model-intercept"><input id="model-intercept" type="checkbox" @bind="s.Draft.IncludeIntercept" /> Include intercept</label>
+                    <FormulaBuilder @key="s.Columns.FirstOrDefault()?.Identity" Draft="s.Draft" Columns="s.Columns" />
+                }
+                else if (s.Draft.Family == SpecificationFamily.Categorical)
+                { <ColumnRoleEditor Id="category-column" Label="Categorical outcome / input" Columns="s.Columns" Value="s.Draft.Category" ValueChanged="v => s.Draft.Category = v" /> }
+                else { <SubjectVisitRoleEditor Draft="s.Draft" Columns="s.Columns" /> }
+                </div>
+            }
+            <button id="spec-preview" type="button" disabled="@(!s.CanPreview)" @onclick="s.PreviewAsync">Validate specification / Preview design</button>
+        </fieldset>
+        <button type="button" disabled="@(!s.Busy)" @onclick="s.Cancel">Cancel specification operation</button>
+        <p id="spec-status" role="status"><code>@s.Code</code> · @s.Status</p>
+        <p role="@(s.Status == SpecificationStatus.Invalid || s.Status == SpecificationStatus.DocumentChanged ? "alert" : "status")">@s.Guidance</p>
+        @if (s.RequiresRecovery) { <p role="alert">@AnalysisPilotState.RecoveryGuidance</p> }
+        else if (s.Status != SpecificationStatus.Ready) { <p>Choose roles and click Preview to compile a fresh specification. Source changes retire the preview and refresh variables. Size/column limits require a smaller data footprint; no rows or columns are silently truncated.</p> }
+        <SpecificationPreview State="s" />
+    </section>
+}
+@code {
+    [Parameter] public bool HostAvailable { get; set; }
+    [Parameter] public int ReadinessGeneration { get; set; }
+    [Parameter] public EventCallback<bool> BusyChanged { get; set; }
+    private SpecificationBuilderState? state;
+    private int readiness;
+    private bool available, disposed;
+    private int initializedGeneration = -1;
+    public async Task RetireAsync() { if (state is not null) await state.DisposeAsync(); }
+    protected override void OnInitialized() { state = new(Workbook, Host); state.Changed += Refresh; readiness = ReadinessGeneration; available = HostAvailable; }
+    protected override void OnParametersSet()
+    {
+        if (readiness != ReadinessGeneration || available && !HostAvailable) state?.DocumentChanged();
+        readiness = ReadinessGeneration; available = HostAvailable;
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if(disposed || !HostAvailable || initializedGeneration == ReadinessGeneration)return;
+        initializedGeneration=ReadinessGeneration;
+        await state!.InitializeAsync();
+    }
+    private void Refresh() { if (!disposed) _ = InvokeAsync(async () => { if (disposed) return; await BusyChanged.InvokeAsync(state?.Busy == true); StateHasChanged(); }); }
+    public async ValueTask DisposeAsync() { disposed = true; if (state is not null) { state.Changed -= Refresh; await state.DisposeAsync(); } }
+}

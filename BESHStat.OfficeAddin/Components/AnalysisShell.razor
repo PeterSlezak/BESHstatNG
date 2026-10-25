@@ -2,12 +2,13 @@
 @inject IAnalysisNavigationCatalog Catalog
 @inject AnalysisEditorRegistry Editors
 @inject AnalysisNavigationMenu Menu
+@inject IPilotHost PreviewHost
 
 <section aria-labelledby="analysis-navigation-title">
     <h2 id="analysis-navigation-title">Choose an analysis</h2>
     <div class="analysis-navigation">
         <label for="analysis-group">Analysis group</label>
-        <select id="analysis-group" value="@(state?.SelectedGroup?.Category ?? "")" @onchange="ChangeGroup" disabled="@pilotBusy"
+        <select id="analysis-group" value="@(state?.SelectedGroup?.Category ?? "")" @onchange="ChangeGroup" disabled="@(pilotBusy || builderActive)"
                 aria-describedby="analysis-availability">
             <option value="">Select an analysis group</option>
             @foreach (var group in Menu.Groups)
@@ -17,7 +18,7 @@
         </select>
         <label for="analysis-method">Statistical method</label>
         <select id="analysis-method" @key="state?.SelectedGroup?.Category" value="@(state?.Selected?.Id ?? "")"
-                @onchange="ChangeMethod" disabled="@(state?.SelectedGroup is null || pilotBusy)"
+                @onchange="ChangeMethod" disabled="@(state?.SelectedGroup is null || pilotBusy || builderActive)"
                 aria-describedby="analysis-availability analysis-navigation-status">
             <option value="">Select a statistical method</option>
             @if (state?.SelectedGroup is { } selectedGroup)
@@ -31,6 +32,15 @@
         <p id="analysis-availability" class="option-hint">Documented methods are listed by group. Methods labelled “Not yet available” have no supported options editor in this Office add-in.</p>
         <p id="analysis-navigation-status" role="status">@(state?.Rejection ?? (state?.SelectedGroup is { HasSupportedEditor: false } ? AnalysisNavigationState.GroupUnavailableReason : ""))</p>
     </div>
+    <button id="spec-toggle" type="button" disabled="@(pilotBusy || builderBusy || switching)" aria-expanded="@builderActive.ToString().ToLowerInvariant()" @onclick="ToggleBuilder">
+        @(builderActive ? "Return to analysis" : "Open specification builder preview (no fit / write)")
+    </button>
+    @if (builderActive)
+    {
+        <p>Opening this preview retires analysis results and overwrite consent. Returning preserves the analysis draft; Run reads fresh data.</p>
+        <ModelSpecificationEditor @ref="builder" HostAvailable="HostAvailable" ReadinessGeneration="ReadinessGeneration" BusyChanged="BuilderBusyChanged" />
+    }
+    <div hidden="@builderActive">
     @if (state?.Selected is { } selected)
     {
         <div @key="selected.Id" class="analysis-editor" aria-labelledby="selected-analysis-title">
@@ -42,11 +52,12 @@
                 <fieldset disabled="@pilotBusy"><legend>Analysis specification</legend>
                     <DynamicComponent Type="editor.ComponentType" Parameters="@(new Dictionary<string, object> { ["Draft"] = editor.Draft })" />
                 </fieldset>
-                <AnalysisPilot Descriptor="selected" Draft="editor.Draft" HostAvailable="HostAvailable" ReadinessGeneration="ReadinessGeneration" BusyChanged="PilotBusyChanged" />
+                <AnalysisPilot Descriptor="selected" Draft="editor.Draft" HostAvailable="@(HostAvailable && !builderActive)" ReadinessGeneration="ReadinessGeneration" BusyChanged="PilotBusyChanged" />
             }
         </div>
     }
     else { <p>Select a method to edit its options.</p> }
+    </div>
     <p class="option-hint">Changing groups or methods resets options to Common defaults. Retry initialization preserves the current draft; reopening the pane resets navigation.</p>
 </section>
 
@@ -56,9 +67,22 @@
     [Parameter] public int ReadinessGeneration { get; set; }
     [Parameter] public EventCallback<bool> BusyChanged { get; set; }
     private bool pilotBusy;
+    private bool builderActive, builderBusy, switching;
+    private ModelSpecificationEditor? builder;
+    private async Task ToggleBuilder()
+    {
+        if (pilotBusy || builderBusy || switching) return;
+        switching = true;
+        try {
+            if (builderActive && builder is not null) await builder.RetireAsync();
+            await PreviewHost.InvalidateAsync();
+            builderActive = !builderActive;
+        } finally { switching = false; }
+    }
+    private async Task BuilderBusyChanged(bool busy) { builderBusy = busy; await BusyChanged.InvokeAsync(busy || pilotBusy); }
     private AnalysisOptionDraft? observedDraft;
     private bool disposed;
-    private async Task PilotBusyChanged(bool busy) { pilotBusy = busy; await BusyChanged.InvokeAsync(busy); }
+    private async Task PilotBusyChanged(bool busy) { pilotBusy = busy; await BusyChanged.InvokeAsync(busy || builderBusy); }
     protected override void OnInitialized() => state = new(Catalog, Editors, Menu);
     private void ObserveDraft()
     {
@@ -68,7 +92,7 @@
         if (observedDraft is not null) observedDraft.Changed += DraftChanged;
     }
     private void DraftChanged() { if (!disposed) _ = InvokeAsync(() => { if (!disposed) StateHasChanged(); }); }
-    private void ChangeGroup(ChangeEventArgs args) { state?.SelectGroup(args.Value as string); ObserveDraft(); }
-    private void ChangeMethod(ChangeEventArgs args) { state?.Select(args.Value as string); ObserveDraft(); }
+    private void ChangeGroup(ChangeEventArgs args) { if (builderActive) return; state?.SelectGroup(args.Value as string); ObserveDraft(); }
+    private void ChangeMethod(ChangeEventArgs args) { if (builderActive) return; state?.Select(args.Value as string); ObserveDraft(); }
     public void Dispose() { disposed = true; if (observedDraft is not null) observedDraft.Changed -= DraftChanged; state?.Dispose(); }
 }

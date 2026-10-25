@@ -1,0 +1,33 @@
+<label for="formula-manual"><input id="formula-manual" type="checkbox" checked="@Draft.ManualFormula" @onchange="e => Draft.ManualFormula = e.Value is true" /> Edit RHS manually</label>
+<p>Response and intercept are separate. Use relative letters A/B or single-quoted column names, for example 'Dose' + factor('Treatment', ref=1). Core supports interactions using : and numeric polynomial terms using ^. No y ~ x or +/− 1.</p>
+@if (Draft.ManualFormula)
+{
+    <label for="formula-rhs">Formula right-hand side</label>
+    <textarea id="formula-rhs" maxlength="2048" value="@Draft.FormulaText" @oninput="e => Draft.FormulaText = e.Value as string ?? string.Empty" aria-describedby="formula-sync"></textarea>
+    <p id="formula-sync">Manual text is retained separately from the visual terms. Switching back restores the visual draft; manual text is never parsed or rewritten by the UI. Relative A/B letters refer to the selected predictor list.</p>
+}
+else
+{
+    <p>Without explicit terms, all selected predictors become main effects. Once terms are added, only listed terms are used.</p>
+    <label for="term-kind">Term type</label>
+    <select id="term-kind" @bind="kind"><option value="Main">Main effect</option><option value="Interaction">Interaction</option><option value="Polynomial">Polynomial power</option></select>
+    <ColumnRoleEditor Id="term-first" Label="Term variable" Columns="Predictors" @bind-Value="first" />
+    @if (kind == SpecificationTermKind.Interaction) { <ColumnRoleEditor Id="term-second" Label="Interaction variable" Columns="Predictors" @bind-Value="second" /> }
+    @if (kind == SpecificationTermKind.Polynomial) { <label for="term-degree">Power (2–6)</label><input id="term-degree" type="number" min="2" max="6" @bind="degree" /> }
+    <button type="button" disabled="@(first < 0 || Draft.Terms.Count >= 32 || kind == SpecificationTermKind.Interaction && (second < 0 || first == second) || kind == SpecificationTermKind.Polynomial && (degree < 2 || degree > 6 || Draft.Factors.Contains(first)))" @onclick="Add">Add term</button>
+    <ol aria-label="Visual formula terms">
+        @for (var i = 0; i < Draft.Terms.Count; i++)
+        { var index = i; <li>@Draft.TermCaption(Draft.Terms[i], Columns) <button type="button" aria-label="@($"Remove term {i + 1}")" @onclick="() => Draft.RemoveTerm(index)">Remove</button></li> }
+    </ol>
+    <p>RHS: <code id="visual-rhs">@Draft.Rhs(Columns)</code></p>
+}
+@code {
+    [Parameter, EditorRequired] public SpecificationDraft Draft { get; set; } = default!;
+    [Parameter] public IReadOnlyList<SpecificationColumn> Columns { get; set; } = [];
+    private IReadOnlyList<SpecificationColumn> Predictors => Columns.Where(c => Draft.Predictors.Contains(c.Index)).ToArray();
+    private SpecificationTermKind kind;
+    private int first = -1, second = -1, degree = 2;
+    protected override void OnParametersSet()
+    { if(!Predictors.Any(c=>c.Index==first))first=-1;if(!Predictors.Any(c=>c.Index==second))second=-1; }
+    private void Add() => Draft.AddTerm(new(kind, first, second, degree));
+}

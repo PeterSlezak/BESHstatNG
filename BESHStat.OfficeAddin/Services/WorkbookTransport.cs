@@ -8,7 +8,7 @@ public sealed class WorkbookTransportException(string code) : Exception(code)
     public string Code { get; } = code;
 }
 
-public sealed class WorkbookTransport(IJSRuntime js, WorkbookDiagnostics? diagnostics = null) : IWorkbookTransport, IPilotHost, IRangeCaptureHost, ICompositeSourceHost, IPilotSafetyHost, IWorksheetNameHost
+public sealed class WorkbookTransport(IJSRuntime js, WorkbookDiagnostics? diagnostics = null) : IWorkbookTransport, IPilotHost, IRangeCaptureHost, ICompositeSourceHost, IPilotSafetyHost, IWorksheetNameHost, IWorksheetDiscoveryHost
 {
     private IJSObjectReference? module, adapter;
     private readonly object gate = new();
@@ -27,6 +27,8 @@ public sealed class WorkbookTransport(IJSRuntime js, WorkbookDiagnostics? diagno
     }
     public event Action? Invalidated;
     public event Action<RangeCaptureReply>? RangeCaptured;
+    public event Action<string, string>? WorksheetsInvalidated;
+    [JSInvokable] public void WorksheetCatalogInvalidated(string owner, string code) { if (!disposed) WorksheetsInvalidated?.Invoke(owner, code == "user.document-changed" ? code : "spec.source-stale"); }
     [JSInvokable] public void SourceInvalidated(string sourceToken) { if (!disposed && !string.IsNullOrEmpty(activeSourceToken) && activeSourceToken == sourceToken) Invalidated?.Invoke(); }
     [JSInvokable] public void RangeCapturedCallback(RangeCaptureReply reply) { if (!disposed) RangeCaptured?.Invoke(reply); }
 
@@ -87,6 +89,17 @@ public sealed class WorkbookTransport(IJSRuntime js, WorkbookDiagnostics? diagno
 
     public Task<ReadReply?> BeginReadAsync(string id, InputSizeLimits limits, SpreadsheetRangeReference? reference, bool metadataOnly, CancellationToken token)
         => InvokeAsync<ReadReply>("beginRead", token, id, limits, reference, metadataOnly);
+    public Task<WorksheetCatalogReply?> GetWorksheetsAsync(string owner, CancellationToken token) =>
+        InvokeAsync<WorksheetCatalogReply>("getWorksheets", token, owner, callback ??= DotNetObjectReference.Create(this));
+    public Task<WorksheetBoundsReply?> GetWorksheetBoundsAsync(string owner, string documentIdentity, string worksheetId, CancellationToken token) =>
+        InvokeAsync<WorksheetBoundsReply>("getWorksheetBounds", token, owner, documentIdentity, worksheetId);
+    public async Task StopWorksheetDiscoveryAsync(string owner)
+    {
+        if (adapter is null || disposed) return;
+        using var bound = new CancellationTokenSource(TimeSpan.FromSeconds(6));
+        try { await adapter.InvokeVoidAsync("stopWorksheetDiscovery", bound.Token, owner); }
+        catch (Exception) { /* The component has already unsubscribed; late owner callbacks stay inert. */ }
+    }
     public Task<ReadReply?> ReadNextAsync(string id, CancellationToken token) => InvokeAsync<ReadReply>("readNext", token, id);
     public Task<ReadReply?> FinishReadAsync(string id, CancellationToken token) => InvokeAsync<ReadReply>("finishRead", token, id);
     public Task<WriteReply?> WriteAsync(OfficeOutputPlan plan, WriteIntent intent, WriteConsent? consent, CancellationToken token)
@@ -181,7 +194,7 @@ public sealed class WorkbookTransport(IJSRuntime js, WorkbookDiagnostics? diagno
         using var bound = new CancellationTokenSource(TimeSpan.FromSeconds(2));
         if (pending is not null) try { await pending.WaitAsync(bound.Token); } catch (Exception) { }
         await ReleaseAsync(module, adapter);
-        callback?.Dispose(); callback = null; Invalidated = null; RangeCaptured = null;
+        callback?.Dispose(); callback = null; Invalidated = null; RangeCaptured = null; WorksheetsInvalidated = null;
     }
 
     private static async Task ReleaseAsync(IJSObjectReference? acquiredModule, IJSObjectReference? acquiredAdapter)

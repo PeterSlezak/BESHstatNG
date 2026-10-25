@@ -1,0 +1,41 @@
+@using BESHStatNG.ExcelCommon
+@if (State.Preview is { } p)
+{
+    <section aria-label="Read-only specification preview" role="@(p.Valid ? "status" : "alert")" tabindex="0">
+        <h4>Specification preview — no fitting or writing</h4>
+        <p>@p.Observations complete observations; expanded design width @p.DesignWidth. State: @State.Status.</p>
+        @if (p.NormalizedFormula.Length > 0) { <p>Normalized RHS: <code id="normalized-rhs">@p.NormalizedFormula</code></p> }
+        <p>Source: '@p.WorksheetName'!@p.Address; physical worksheet identity @p.WorksheetId; snapshot revision @(string.IsNullOrEmpty(p.SelectionRevision) ? "not supplied by this host; native source session verified" : p.SelectionRevision). Current at the last explicit host check.</p>
+        <p>Raw observations and design matrix values are hidden. Factor labels appear only when explicitly expanded below.</p>
+        @if (p.Specification is SpreadsheetModelInput model)
+        {
+            <p>Response: @(State.Columns.FirstOrDefault(c=>c.Index==State.Draft.Response)?.DisplayText ?? model.ResponseName); intercept: @model.IncludesIntercept; rank: @model.MatrixRank. Design columns (Core names): @string.Join(", ", model.PredictorNames).</p>
+            <details><summary>Factor levels (source labels)</summary>
+                @foreach (var factor in model.CategoricalColumns)
+                { <p>@(State.Columns.FirstOrDefault(c=>c.SelectedColumn==factor.SelectedColumn)?.DisplayText ?? factor.ColumnName) — @factor.Levels.Count levels</p><ul>@foreach (var level in factor.Levels) { <li>@level.Value.Kind: @level.Value.DisplayText → code @level.Code.ToString("R", System.Globalization.CultureInfo.InvariantCulture)</li> }</ul> }
+            </details>
+            <details><summary>Source row provenance</summary><p>Selected/worksheet row pairs: @string.Join(", ", model.SourceRows.Take(100).Select(r => $"{r.SelectedRow}/{r.WorksheetRow}")).</p></details>
+        }
+        @if (p.Specification is SpreadsheetRepeatedSubjectInput repeated)
+        {
+            <p>@repeated.Subjects.Count subjects; @repeated.Count observations. Subject and treatment group retain typed identities.</p>
+            <details><summary>Source row provenance</summary><p>Selected/worksheet row pairs: @string.Join(", ", repeated.Observations.Take(100).Select(r => $"{r.SelectedRow}/{r.WorksheetRow}")).</p></details>
+        }
+        @if (p.Specification is SpreadsheetMixedModelInput mixed)
+        {
+            <p>Fixed covariates: @string.Join(", ", State.Columns.Where(c=>State.Draft.FixedEffects.Contains(c.Index)).Select(c=>c.DisplayText)). Random groups: @string.Join(", ", State.Columns.Where(c=>State.Draft.RandomGroups.Contains(c.Index)).Select(c=>c.DisplayText)). No LMM/MMRM design or fit is calculated.</p>
+            <details><summary>Source row provenance</summary><p>Selected/worksheet row pairs: @string.Join(", ", mixed.Rows.Take(100).Select(r => $"{r.Repeated.SelectedRow}/{r.Repeated.WorksheetRow}")).</p></details>
+        }
+        @if (p.Specification is SpreadsheetCategoricalVectorInput category)
+        { <details><summary>Category levels (source labels)</summary><ul>@foreach (var level in category.Levels) { <li>@level.Kind: @level.DisplayText</li> }</ul></details> }
+        @if (p.Issues.Count > 0)
+        {
+            <ul aria-label="Specification validation issues">
+                @foreach (var issue in p.Issues.Take(40))
+                { <li><code>@issue.Code</code> · @issue.Severity · @issue.FieldPath: @issue.Message Selected row/column @issue.SelectedRow/@issue.SelectedColumn; worksheet row/column @issue.WorksheetRow/@issue.WorksheetColumn.</li> }
+            </ul>
+            @if (p.Issues.Count > 40) { <p>@(p.Issues.Count - 40) further issues. Narrow the range and preview again.</p> }
+        }
+    </section>
+}
+@code { [Parameter, EditorRequired] public SpecificationBuilderState State { get; set; } = default!; }

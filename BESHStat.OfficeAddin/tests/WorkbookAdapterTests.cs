@@ -11,6 +11,25 @@ namespace BESHStat.OfficeAddin.Tests;
 [TestClass]
 public sealed class WorkbookAdapterTests
 {
+    [TestMethod]
+    public async Task WorksheetDiscoveryUsesTypedTransportAndOwnerFilteredRedactedCallbacks()
+    {
+        var js=new Runtime{CatalogReply=new(){Code="workbook.ok",DocumentIdentity="doc",ActiveWorksheetId="sheet",Worksheets=[new("sheet","Hárok 1","Visible")]}};
+        await using var transport=new WorkbookTransport(js);
+        var response=await transport.GetWorksheetsAsync("owner",default);Assert.AreSame(js.CatalogReply,response);Assert.IsTrue(js.Calls.Contains("getWorksheets"));
+        var codes=new List<string>();transport.WorksheetsInvalidated+=(owner,code)=>{Assert.AreEqual("owner",owner);codes.Add(code);};
+        transport.WorksheetCatalogInvalidated("owner","SECRET");Assert.AreEqual("spec.source-stale",codes.Single());
+        await transport.DisposeAsync();transport.WorksheetCatalogInvalidated("owner","user.document-changed");Assert.AreEqual(1,codes.Count);
+    }
+
+    [TestMethod]
+    public async Task WorksheetDiscoveryInteropFailureNeverExposesNativeException()
+    {
+        var js=new Runtime{FailAt="getWorksheets"};await using var transport=new WorkbookTransport(js);
+        var error=await Assert.ThrowsExceptionAsync<WorkbookTransportException>(()=>transport.GetWorksheetsAsync("owner",default));
+        Assert.AreEqual("host.interop-invoke-failed",error.Code);Assert.IsFalse(error.Message.Contains("SECRET"));
+    }
+
     private static readonly JsonSerializerOptions Wire = new(JsonSerializerDefaults.Web);
     private static string Root()
     {
@@ -534,6 +553,7 @@ public sealed class WorkbookAdapterTests
 
     private sealed class Runtime : IJSRuntime, IJSObjectReference
     {
+        public WorksheetCatalogReply? CatalogReply;
         public PilotReply? PinReply;
         public string? FailAt;
         public string? BlockAt;
@@ -548,6 +568,7 @@ public sealed class WorkbookAdapterTests
             if (identifier == BlockAt) await Pause!.Task;
             if (identifier is "import" or "create") return (T)(object)this;
             if (identifier == "pinSource") return (T)(object?)PinReply!;
+            if (identifier == "getWorksheets") return (T)(object?)CatalogReply!;
             return default!;
         }
         public ValueTask DisposeAsync() { Disposals++; return ValueTask.CompletedTask; }

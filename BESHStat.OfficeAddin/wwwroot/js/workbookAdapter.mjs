@@ -1,5 +1,6 @@
 import { createOfficeHost } from "./officeHost.mjs";
 import { createProductionWriter } from "./productionWriter.mjs";
+import { createWorksheetDiscovery } from "./worksheetDiscovery.mjs";
 
 const OK = "workbook.ok";
 const defaults = Object.freeze({ maxRangeCells: 10000, maxTotalCells: 10000, maxRanges: 64,
@@ -85,6 +86,7 @@ function cell(value, type, format) {
 // Production create() explicitly installs the source-bound writer protocol.
 export function createWorkbookTransport(scope = globalThis, { now = () => performance.now(), writer = null, diagnostics = false } = {}) {
     const readiness = createOfficeHost(scope);
+    const worksheets = createWorksheetDiscovery(scope);
     let active = null, disposed = false;
     if (diagnostics === true) try { scope.__beshOfficeDebug?.enableWorkbookDevelopment?.(); } catch { /* Optional local recorder. */ }
     function mark(op, code) {
@@ -299,8 +301,18 @@ export function createWorkbookTransport(scope = globalThis, { now = () => perfor
         active = { id: "pilot" };
         try { return await writer[method](...args); } finally { active = null; }
     }
-    async function dispose() { disposed = true; if (active) cancel(active.id); readiness.dispose(); await writer?.dispose?.(); }
+    async function worksheetCall(method, ...args) {
+        if(disposed || active)return {code:'host.busy'};
+        const op={id:'worksheet-discovery',started:now(),elapsed:0,limits:defaults,cancelled:false};active=op;
+        try{await ready(op);check(op);return await worksheets[method](...args);}
+        catch(error){return {code:safeCode(error)};}
+        finally{if(active===op)active=null;}
+    }
+    async function dispose() { disposed = true; if (active) cancel(active.id); readiness.dispose(); await worksheets.dispose(); await writer?.dispose?.(); }
     return Object.freeze({ beginRead, readNext, finishRead, cancel, write, dispose,
+        getWorksheets: (owner, callback) => worksheetCall('catalog',owner,callback),
+        getWorksheetBounds: (owner, identity, id) => worksheetCall('bounds',owner,identity,id),
+        stopWorksheetDiscovery: owner => worksheets.stop(owner),
         pinSource: (snapshot, callback, handle) => pilot("pinSource", snapshot, callback, handle),
         pinSources: (sources, callback) => pilot("pinSources", sources, callback),
         resolveReference: (reference, handle) => pilot("resolveReference", reference, handle),

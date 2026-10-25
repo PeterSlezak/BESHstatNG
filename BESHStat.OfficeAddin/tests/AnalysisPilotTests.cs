@@ -8,9 +8,29 @@ namespace BESHStat.OfficeAddin.Tests;
 [TestClass]
 public sealed class AnalysisPilotTests
 {
-    internal sealed class Host : IPilotHost, IRangeCaptureHost, ICompositeSourceHost, IPilotSafetyHost, IWorksheetNameHost
+    internal sealed class Host : IPilotHost, IRangeCaptureHost, ICompositeSourceHost, IPilotSafetyHost, IWorksheetNameHost, IWorksheetDiscoveryHost
     {
         public event Action? Invalidated;
+        public event Action<string,string>? WorksheetsInvalidated;
+        public string? DiscoveryOwner;
+        public WorksheetCatalogReply Catalog = new() { Code="workbook.ok", DocumentIdentity="document-1", ActiveWorksheetId="sheet-1", Worksheets=[new("sheet-1","Input","Visible")] };
+        public Func<string,WorksheetBoundsReply>? BoundsReply;
+        public TaskCompletionSource<WorksheetCatalogReply?>? PendingCatalog;
+        public int Catalogs, Bounds;
+        public void ConfigureWorksheet(SpreadsheetRangeData source)
+        {
+            Catalog=new(){Code="workbook.ok",DocumentIdentity="document-1",ActiveWorksheetId=source.WorksheetId,Worksheets=[new(source.WorksheetId,source.WorksheetName,"Visible")]};
+            BoundsReply=id=>new(){Code="workbook.ok",DocumentIdentity=Catalog.DocumentIdentity,Empty=false,
+                Reference=SpreadsheetRangeReference.FromAddress(source.Address,source.WorksheetName)};
+            var previous=BoundsReply;
+            BoundsReply=id=>{var reply=previous(id);reply.Reference!.WorksheetId=source.WorksheetId;return reply;};
+        }
+        public void EmitWorksheet(string? owner=null,string code="spec.source-stale")=>WorksheetsInvalidated?.Invoke(owner??DiscoveryOwner!,code);
+        public Task<WorksheetCatalogReply?> GetWorksheetsAsync(string owner,CancellationToken token)
+        {DiscoveryOwner=owner;Catalogs++;return PendingCatalog?.Task.WaitAsync(token)??Task.FromResult<WorksheetCatalogReply?>(Catalog);}
+        public Task<WorksheetBoundsReply?> GetWorksheetBoundsAsync(string owner,string documentIdentity,string id,CancellationToken token)
+        {Bounds++;var reference=SpreadsheetRangeReference.FromAddress(Reference.Address,Reference.WorksheetName);reference.WorksheetId=Reference.WorksheetId.Length>0?Reference.WorksheetId:"sheet-1";return Task.FromResult<WorksheetBoundsReply?>(BoundsReply?.Invoke(id)??new(){Code="workbook.ok",DocumentIdentity=Catalog.DocumentIdentity,Empty=false,Reference=reference});}
+        public Task StopWorksheetDiscoveryAsync(string owner)=>Task.CompletedTask;
         public bool RequiresRecovery { get; private set; }
         public WriteResult? LastWriteOutcome { get; private set; }
         public void RecordWriteOutcome(WriteResult outcome) { LastWriteOutcome = outcome; RequiresRecovery |= outcome.State == OutputWriteState.PartiallyWritten && outcome.MutationMayHaveOccurred; }

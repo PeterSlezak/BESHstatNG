@@ -1,0 +1,20 @@
+<div class="column-role">
+    <label for="@Id">@Label</label>
+    <select id="@Id" data-column-role="true" value="@(Columns.FirstOrDefault(c=>c.Index==Value)?.Identity ?? "-1")" @onchange="Change" aria-describedby="@(Id + "-hint")" aria-invalid="@Invalid.ToString().ToLowerInvariant()">
+        <option value="-1">@(Optional ? "None" : "Select a column")</option>
+        @foreach (var column in Columns)
+        { <option value="@column.Identity" data-parser-index="@column.Index">@column.DisplayText</option> }
+    </select>
+    <small id="@(Id + "-hint")">@Hint</small>
+</div>
+@code {
+    [Parameter, EditorRequired] public string Id { get; set; } = "";
+    [Parameter, EditorRequired] public string Label { get; set; } = "";
+    [Parameter] public string Hint { get; set; } = "";
+    [Parameter] public bool Optional { get; set; }
+    [Parameter] public bool Invalid { get; set; }
+    [Parameter] public int Value { get; set; }
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+    [Parameter] public IReadOnlyList<SpecificationColumn> Columns { get; set; } = [];
+    private Task Change(ChangeEventArgs e) => ValueChanged.InvokeAsync(Columns.FirstOrDefault(c=>c.Identity==e.Value as string)?.Index ?? -1);
+}

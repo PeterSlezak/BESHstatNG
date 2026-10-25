@@ -1,0 +1,29 @@
+<VariableList Id="model-factors" Label="Categorical factors" Columns="Columns" Selected="Draft.Factors" SelectedChanged="Draft.SetFactors"
+    Hint="Factors must also be selected as predictors. Text, numeric and Boolean levels retain distinct typed identities." />
+@if (Draft.Factors.Any(c => !Draft.Predictors.Contains(c)))
+{ <p role="alert">Select each factor as a predictor, or remove its factor role.</p> }
+<p>Core uses numeric factor reference codes. Text/mixed levels receive codes in complete-case first-appearance order; numeric levels retain their values. Preview once to inspect the mapping, then choose a reference and preview again.</p>
+@foreach (var column in Draft.Factors)
+{
+    var id = "factor-reference-" + column;
+    var mapped = Columns.FirstOrDefault(c => c.Index == column);
+    var factor = Categories.FirstOrDefault(c => c.SelectedColumn == mapped?.SelectedColumn);
+    <label for="@id">Reference code for @(mapped?.DisplayText ?? "Unselected variable")</label>
+    <input id="@id" type="number" step="any" value="@Draft.Reference(column)?.ToString("R", System.Globalization.CultureInfo.InvariantCulture)"
+        @onchange="e => SetReference(column, e.Value as string)" aria-describedby="@(id + "-hint")" />
+    <small id="@(id + "-hint")">Blank uses Core's default reference. An explicit code must be present in the validated levels.</small>
+    @if (factor is not null) { <p>@factor.Levels.Count typed levels available in the last preview. Expand “Factor levels” in the preview to inspect codes and labels.</p> }
+}
+@code {
+    [Parameter, EditorRequired] public SpecificationDraft Draft { get; set; } = default!;
+    [Parameter] public IReadOnlyList<SpecificationColumn> Columns { get; set; } = [];
+    [Parameter] public IReadOnlyList<BESHStatNG.ExcelCommon.SpreadsheetModelCategoricalColumn> Categories { get; set; } = [];
+    private void SetReference(int column, string? value)
+    {
+        double? code = string.IsNullOrWhiteSpace(value) ? null : double.TryParse(value, System.Globalization.NumberStyles.Float,
+            System.Globalization.CultureInfo.InvariantCulture, out var parsed) ? parsed : double.NaN;
+        var selected = Columns.FirstOrDefault(c=>c.Index==column)?.SelectedColumn;
+        var key = Categories.FirstOrDefault(c => c.SelectedColumn == selected)?.Levels.FirstOrDefault(l => l.Code == code)?.Value.Key;
+        Draft.SetReference(column, code, key);
+    }
+}

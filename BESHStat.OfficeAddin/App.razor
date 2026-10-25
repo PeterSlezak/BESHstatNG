@@ -7,7 +7,7 @@
 <main>
     <header class="workspace-header">
     <h1>BESHStatNG <small>Office workspace</small></h1>
-    <p>Development build - 04.04</p>
+    <p>Development build - 04.05</p>
     <div class="availability" role="status">
         <span>@(loading ? "Connecting to Office…" : status.IsExcel ? "Excel ready" : status.Message)</span>
         <button @onclick="RetryAsync" disabled="@(loading || reading || pilotBusy)">Retry initialization</button>
