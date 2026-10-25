@@ -32,7 +32,11 @@ Key design goals include:
 
 ## Development direction
 
-BESHStatNG is evolving toward a shared, cross-platform statistical foundation: one portable calculation engine, a common Excel-facing application layer, and host-specific integrations for Windows Excel-DNA and future Office.js-based Excel clients. This is ongoing work; the existing Windows ribbon, dialogs, worksheet functions, and MSI remain the supported product. The dedicated Office add-in includes a tested host foundation, read-only workbook diagnostics, method/options navigation, and a controlled ANOVA/Kruskal–Wallis analysis-and-write pilot. The latest pilot is implemented but not yet owner-accepted; the independent WASM smoke project remains a regression harness. Neither constitutes a released alternative. The remaining work includes reusable cross-platform analysis interfaces, careful extraction of portable policies still embedded in Windows forms, more supported methods and charts, future custom-function evaluation, and release-quality testing across Windows, web and Mac. The statistical engine stays in Core, workbook-independent application rules stay in Common, and platform integration stays in each host. LibreOffice Calc compatibility is a future design consideration, not an active integration.
+BESHStatNG is evolving toward a **portable statistical engine**, a common spreadsheet application layer and separate host integrations. The existing Windows ribbon, WinForms dialogs, native Excel charts, UDFs and MSI remain the **supported user product**. `BESHStat.Core` owns statistical and graphics calculations; `BESHStat.Excel.Common` owns validated spreadsheet inputs, typed analysis requests, output semantics and lifecycle contracts; Excel-DNA and Office.js perform their respective host-specific operations.
+
+The independent Office.js/Blazor WebAssembly development host now has owner-accepted Excel Online workflows for One-Way ANOVA and Kruskal–Wallis, including source capture, live results, post-hoc comparisons, guarded output, readback and fresh overwrite consent. Its four-tab task pane provides **Analysis, Options, Export Chart (not implemented), and Diagnostics / Log**, alongside a capability-aware Ribbon, Help, About, global p-value settings, and read-only worksheet-based model-specification previews. Other documented methods may appear as unavailable; **this is not a production Mac or Excel Online release**.
+
+The next engineering decision is the formal **shared-host exit review**, followed by a thorough Windows source audit to migrate remaining portable functions—including calculations embedded in WinForms—without changing Windows behavior. Later development will broaden Office statistical workflows, graphics, custom-function options and cross-host validation. LibreOffice remains a portability consideration, not an implemented client.
 
 ## Major capabilities
 
@@ -282,11 +286,13 @@ BESHStatNG provides separate builds for 32-bit and 64-bit Excel where applicable
 
 ## Cross-platform development status
 
-The Windows Excel-DNA version remains the product used for published releases. Its statistical and numerical algorithms are increasingly implemented in `BESHStat.Core`; `BESHStat.Excel.Common` now contains typed inputs (including model, survival and other advanced inputs), spreadsheet source identity and validation, output planning, formatting semantics, operation diagnostics, execution state and host capability contracts. The Office.js/WebAssembly host is separate from the original WASM smoke harness.
+The source includes two portable **.NET Standard 2.0** libraries, the supported Windows **.NET Framework 4.8** Excel-DNA host, a **.NET 10** Office.js/Blazor WebAssembly development host and a separate WebAssembly smoke/regression harness.
 
-The Office development host has completed its startup, workbook-reader and navigation foundations in real Excel Online owner checks. A limited ANOVA and Kruskal–Wallis workflow is implemented for explicit selection, preview, analysis, destination inspection and guarded output, but the current read/write pilot still requires owner validation before it is accepted. Other methods may appear in the catalog without having runnable Office editors. Mac Excel acceptance, complete chart parity, Office Custom Functions and production deployment are not yet claimed.
+The Office development host implements typed, bounded workbook input; a method catalog and capability-limited Ribbon; runnable **One-Way ANOVA and Kruskal–Wallis**; grouped-column, grouped-row and long-format data; guarded existing/new-worksheet result writing; settings, Help, sanitized diagnostics and a read-only model/specification builder. Excel Online owner checks have accepted these scoped capabilities; the application is **not** a generally distributed Mac, Excel Online or Office desktop product. Its Chart Export tab is currently informational, New Workbook output is unavailable, and the broader documented method catalog does not imply executable Office support.
 
-Later development will extend shared handlers and reusable UI, complete the portable/Windows separation (including WinForms calculation/presentation helpers), build cross-platform chart specifications and renderers, and extend automated and manual testing. The code should remain suitable for future non-Excel spreadsheet adapters where practical, but no LibreOffice integration is implemented here.
+Cross-platform completion still requires formal application-layer review, extraction of remaining portable Windows logic, expansion of registered shared workflows, chart renderer/export work, possible Office Custom Functions and explicit Excel Online, Windows desktop and Mac qualification. Local builds, simulated browser tests and selected genuine Excel Online acceptance do not establish release-wide platform support.
+
+Consult [`BESHStat.OfficeAddin/README.md`](BESHStat.OfficeAddin/README.md), the [shared application layer](BESHStat.Excel.Common/README.md) and the [roadmap](planning/README.md) for current scope and development boundaries.
 
 ## Build from source
 
@@ -317,7 +323,7 @@ The legacy `BESHStatNG.Test` project targets .NET Framework 4.8 and is usually r
 | [`BESHstatNG/`](BESHstatNG/README.md) | Excel-DNA add-in, Ribbon/WinForms UI, worksheet functions, Excel COM integration and native charting | **Stable Windows host** |
 | [`BESHStat.Core/`](BESHStat.Core/README.md) | Portable numerical, statistical and graphics calculation engine | Shared library under active development |
 | [`BESHStat.Excel.Common/`](BESHStat.Excel.Common/README.md) | Host-neutral spreadsheet input, analysis orchestration and result contracts | Shared layer under active development |
-| [`BESHStat.OfficeAddin/`](BESHStat.OfficeAddin/README.md) | Blazor WebAssembly/Office.js production-oriented host, safe workbook adapter, method/options navigation and limited analysis/write pilot | **Development-only; not yet a supported release** |
+| [`BESHStat.OfficeAddin/`](BESHStat.OfficeAddin/README.md) | Blazor WebAssembly/Office.js development host, four-tab workspace and Ribbon, settings, read-only builders and guarded ANOVA/KW writes | **Development host; owner-accepted scoped flows, not a released product** |
 | [`BESHStat.WasmSmoke/`](BESHStat.WasmSmoke/README.md) | Independent Blazor WASM + Office.js compatibility and regression harness | **Experimental test harness** |
 | [`BESHStatNG.Test/`](BESHStatNG.Test/README.md) | Windows/legacy regression and validation tests | Tests |
 | [`BESHStat.Core.Tests/`](BESHStat.Core.Tests/README.md) | Core numerical and statistical unit tests | Tests |
@@ -352,9 +358,9 @@ Useful links:
 
 ## Project status
 
-The **Windows Excel-DNA add-in is the supported product** and continues to receive improvements to methods, graphics, documentation, and numerical validation. Alongside it, portable statistical components and shared Excel contracts are being developed to support additional Excel hosts in the future. The dedicated Office.js/WebAssembly development host can initialize, read selections and expose a narrow ANOVA/Kruskal–Wallis workflow with guarded output. These are development capabilities; the latest analysis/write pilot is still awaiting owner acceptance. There is **no general-availability Mac or Excel Online edition** represented by this repository today.
+The **Windows Excel-DNA add-in remains the supported and distributed product**, with active updates to statistical methods, native Excel charts, documentation and numerical verification. The portable Core/Common projects and the Office.js/Blazor host form a **separate, actively validated cross-platform development path**. The Office prototype has advanced beyond connectivity demonstrations to real Excel Online acceptance of selected analysis, navigation and safe-write workflows, but **no general-availability Mac or Excel Online edition is released**.
 
-See [What's New](https://beshstat.eu/beshstatng/help/latest/whats-new/) for released Windows functionality and the [Releases](https://github.com/PeterSlezak/BESHstatNG/releases) page for distributable builds.
+The immediate engineering priority is a formal application-layer readiness review followed by portability improvements in the Windows codebase and additional Office method implementations. Published Windows release information is in [What's New](https://beshstat.eu/beshstatng/help/latest/whats-new/) and [Releases](https://github.com/PeterSlezak/BESHstatNG/releases).
 
 ## Support and links
 

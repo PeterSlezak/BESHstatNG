@@ -10,6 +10,6 @@ Tests cover typed range/cell and host-identity contracts, date/error/missing pol
 dotnet test BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj -c Release
 ```
 
-Each contract change should test both accepted inputs and explicit failures: invalid ranges, inconsistent sources, missing headers, nonfinite numbers, date-system ambiguity, oversize acquisitions, unsupported host capabilities, stale operations and conflicting destinations. Do not silently rebaseline accepted output or error codes.
+Each contract change should test both accepted inputs and explicit failures: invalid ranges, inconsistent sources, missing headers, nonfinite numbers, date-system ambiguity, oversize acquisitions, unsupported host capabilities, stale operations and conflicting destinations. Do not silently rebaseline accepted output or error codes. Post-hoc probabilities remain numeric; fixture refreshes must compare semantic values, types, p-value flags and Office wire presentation independently. Tests for worksheet discovery and sparse physical-column provenance should protect the Common builder seam.
 
 These tests check shared semantics only. Actual Office.js request ordering and Excel mutations are covered by host adapter tests and owner-performed Excel smoke tests.

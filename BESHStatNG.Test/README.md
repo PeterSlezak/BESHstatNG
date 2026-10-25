@@ -16,4 +16,4 @@ Execute from the repository root. Some older Visual Studio test discovery adviso
 
 ## Validation scope
 
-Run this suite alongside Core/Common tests when migrating Windows calculation or UI-adjacent logic. Automated tests do not replace owner-operated Excel GUI, workbook lifecycle, Ribbon callback, UDF, chart-output and MSI checks. Retain historical tolerances and golden data unless a reviewed numerical change requires updating them.
+Run this suite alongside Core/Common tests when migrating Windows calculation or UI-adjacent logic. Automated tests do not replace owner-operated Excel GUI, workbook lifecycle, Ribbon callback, UDF, chart-output and MSI checks. Retain historical tolerances and golden data unless a reviewed numerical change requires updating them. Validate cross-host p-value display and ANOVA/post-hoc outputs by keeping statistical numbers numeric; a passed legacy fixture alone does not establish Office native-style readback.

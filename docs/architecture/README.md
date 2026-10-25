@@ -8,9 +8,9 @@ This folder contains implementation decisions, contract descriptions, migration 
 - [`development-validation.md`](development-validation.md) covers repository-wide verification, prerequisites and reproducibility.
 - [`dotnet-10-migration.md`](dotnet-10-migration.md) describes the modern SDK/test/WASM toolchain update.
 - [`gate-b-common-v1-contract-freeze.md`](gate-b-common-v1-contract-freeze.md) captures approved Common contract stability and exceptions.
-- Additional topic-specific reports cover metadata, input parsing, output semantics, host lifecycle, Office readiness, selected-range acquisition, method editing and guarded write flows.
+- Additional topic-specific reports cover metadata, input parsing, output semantics, host lifecycle, Office readiness, selected-range acquisition, guarded writes, worksheet-based model specification, global Options/localization and Office Ribbon integration.
 
-Some historical reports retain **pending** wording from the time they were authored. Read them as contemporary evidence, then consult the current checked-in [`planning`](../../planning/README.md) and project READMEs for the reconciled status. A simulated browser test is not a substitute for real Excel Online/Mac/Windows desktop host acceptance.
+Some historical reports retain **pending** wording from the time they were authored. Read them as **historical evidence**, then consult the current [`cross-platform master plan`](../../planning/BESHStatNG_CrossPlatform_MasterPlan.md) and project READMEs for reconciled status. The accepted Office application-layer implementation precedes a separate formal Gate C exit review; accepted batches alone do not certify Mac/desktop deployment. A simulated browser test is not a substitute for real Excel Online/Mac/Windows desktop host acceptance.
 
 ## Documentation maintenance
 

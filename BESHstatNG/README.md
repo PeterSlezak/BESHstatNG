@@ -16,9 +16,9 @@ Statistical algorithms and chart calculations are increasingly owned by [`BESHSt
 
 ## Current development direction
 
-Preserve all existing Ribbon, UDF, output and chart behavior while finishing extraction of portable calculations and business rules still mixed into Windows source—**including the form code**, model builders, chart preparation, regression/survival/multivariate/SPC/PSM report assembly and UDF wrappers. New methods and chart enhancements should put their statistics in Core and their host-neutral result/plot contracts in Common so they can later be exposed in the Office add-in without reimplementing numerical algorithms in JavaScript. Improvements planned for distribution/normality, comparisons, categorical and ordinal association, paired tests and advanced charts will be introduced with independent statistical validation.
+Preserve all existing Ribbon, UDF, output and chart behavior while finishing extraction of portable calculations and business rules still mixed into Windows source—**including the form code**, model builders, chart preparation, regression/survival/multivariate/SPC/PSM report assembly and UDF wrappers. New methods and chart enhancements should put their statistics in Core and their host-neutral result/plot contracts in Common so they can later be exposed in the Office add-in without reimplementing numerical algorithms in JavaScript. The Office host now has owner-accepted ANOVA/KW, read-only model builders and capability-based Ribbon navigation; these provide integration reference cases but are not a replacement for Windows feature parity. Improvements planned for distribution/normality, comparisons, categorical and ordinal association, paired tests and advanced charts will be introduced with independent statistical validation.
 
-The Windows application remains the behavioral reference during migration, **not** the desired home for new host-neutral algorithms. Host-specific controls, native Excel rendering, file export and COM events stay here.
+The Windows application remains the behavioral reference during the upcoming full portability audit, **not** the desired home for new host-neutral algorithms. Host-specific controls, native Excel rendering, file export and COM events stay here.
 
 ## Build and verify
 

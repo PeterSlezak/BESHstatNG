@@ -2,7 +2,7 @@
 
 `BESHStat.WasmSmoke` is a **.NET 10 Blazor WebAssembly proof-of-compatibility application**. It executes real `BESHStat.Core` calculations under WASM and exercises selected spreadsheet acquisition/output paths via Office.js and `BESHStat.Excel.Common`. It deliberately remains separate from the production-oriented [`BESHStat.OfficeAddin`](../BESHStat.OfficeAddin/README.md).
 
-This project is **not** a released Excel Online/Mac add-in. It is useful for catching WebAssembly runtime regressions and testing the original Office.js bridge independently of the newer host.
+This project is **not** a released Excel Online/Mac add-in and does not supply the main production-oriented Ribbon or Options UI. It is useful for catching WebAssembly runtime regressions and testing the original Office.js bridge independently of the newer host.
 
 ## Key files and behavior
 
@@ -25,4 +25,4 @@ Node's built-in test runner executes `.test.cjs` tests; these do not appear in M
 
 ## Future maintenance
 
-Keep this project intentionally small: statistical/WASM compatibility, bridge regression fixtures and early interoperability experiments. General-purpose navigation, validated analysis editors, guarded production writers and the eventual multi-platform product belong in `BESHStat.OfficeAddin`.
+Keep this project intentionally small: statistical/WASM compatibility, bridge regression fixtures and early interoperability experiments. The production-oriented four-tab workspace, capability-aware Ribbon, read-only model builders, persisted Options and guarded ANOVA/KW writer belong in `BESHStat.OfficeAddin`. Maintain separate manifests/ports and run both hosts during cross-platform regression work.

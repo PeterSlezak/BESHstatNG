@@ -10,7 +10,7 @@ From the repository root:
 dotnet test BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj -c Release
 ```
 
-Prefer deterministic input/expected-output fixtures and explicit numerical tolerances. Check singular matrices, missing or invalid observations, convergence warnings, tie-handling and boundary cases as appropriate to each method. Avoid dependencies on workbook state, native Excel or UI controls. Do not replace golden data without a reviewed statistical reason.
+Prefer deterministic input/expected-output fixtures and explicit numerical tolerances. Check singular matrices, missing or invalid observations, convergence warnings, tie-handling and boundary cases as appropriate to each method. Avoid dependencies on workbook state, native Excel or UI controls. Do not replace golden data without a reviewed statistical reason. Accepted corrections to numeric post-hoc p-values must retain numeric precision and independent significance/presentation tests; do not restore obsolete string-valued probability outputs to satisfy a snapshot.
 
 ## Role in development
 

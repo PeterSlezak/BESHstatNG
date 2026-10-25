@@ -1,184 +1,76 @@
 # BESHStatNG — Cross-platform Excel application master development plan
 
-**Revision:** 1.9 · 25 October 2026 (04.06 including Force English owner-accepted and committed/merged on local main; 04.07 implemented / pending owner acceptance; Gate C incomplete; Phase 04A deferred and planning-only).
+**Revision:** 2.0 · 25 October 2026 — post-04.07 acceptance and roadmap consolidation.
 
-**Source of truth:** the current checked-out Git repository. Uploaded packages, including `BESHstatNG(20261018-140903).zip` and the accepted 02.06 package, are historical reference context; subsequent checked-in source and planning updates are authoritative.
+**Source of truth:** the current committed Git repository. This revision is based on the latest available 04.07 source package (`BESHstatNG(20261025-161012).zip`) and the owner's subsequent confirmation that 04.07 passed, was committed and merged into `main`. The repository takes precedence over earlier ZIPs, batch reports and historical planning checkpoints.
 
-**Implementation checkpoint:** **00.01 through 04.06 accepted/merged**, including 00.02A/B and 01.05A (**39 accepted numbered batches**). Last accepted batch: **04.06**, including Force English ON by default, owner-confirmed and merged on local main `52458098f2bd0dde0709a14cb49d3c35700d08af`. This supersedes historical pending wording in preserved reports and READMEs. Accepted 04.04 guarded ANOVA/KW Run/Write, 04.05 read-only builders, 04.06 preferences/Help/diagnostics/localization, 03.05 published Help/MIME and Gate B E1–E7 remain intact. Prior host acceptance is owner-reported; 04.07 does not claim new genuine Excel or Mac acceptance.
+**Implementation checkpoint:** **Phases 00–04 completed, owner-accepted and merged** (including 00.02A/B and 01.05A). **40 of 223 numbered batches accepted; 183 outstanding**. The last accepted batch is **04.07 — Office Ribbon integration and end-to-end wiring**. Acceptance incorporates the 04.04 production UX and post-hoc numeric p-values, the 04.05 worksheet-based specification builders, the 04.06 Options/Help/Diagnostics and Force English default, and the 04.07 Ribbon and task-pane navigation refinement.
 
-**Current planning status:** **Phase 03 COMPLETE / ACCEPTED / MERGED**. **Gate B — APPROVED WITH E1–E7 EXCEPTIONS, merged**; see the [Common v1 freeze](../docs/architecture/gate-b-common-v1-contract-freeze.md). **04.01–04.06 COMPLETE / ACCEPTED / MERGED**. **04.07 IMPLEMENTED / PENDING OWNER ACCEPTANCE**: Office Ribbon parity/commands, capability guards and shared pane routing; see the [04.07 report](../docs/architecture/batch-04-07-office-ribbon-e2e.md). Genuine Excel Ribbon activation/E2E remains NOT TESTED and required for acceptance or explicit owner disposition. Gate C remains incomplete; Phase 04A remains deferred and planning-only.
+**Gates:** **Gate B approved with E1–E7 exceptions** ([Common v1 freeze](../docs/architecture/gate-b-common-v1-contract-freeze.md)); **Gate C is due for formal exit review** following the accepted 04.07 batch, **not yet independently recorded as approved**. Any residual Windows-desktop/Mac compatibility limitations must be explicitly documented rather than claimed tested; Mac remains a later cross-platform release requirement. Phase **04A.01–04A.75** remains **entirely planned**, with no work started. Gate C, Gate C2 and Gate C3 are milestones, not numbered batches.
 
-**Batch count:** **223 total** (original 148 + 75 Phase 04A), **39 accepted**, **184 planned/outstanding**. 04.07 remains outstanding pending acceptance; only after acceptance would counts become **40 accepted / 183 outstanding**. Gate B and Gate C do not increment batch totals. All **75 Phase 04A batches** remain planned, not implemented.
+**Total roadmap:** **223 unique batches = 148 original + 75 Phase 04A**. Completion counts are derived from the numbered roadmap: Phase 00 = 8; 01 = 11; 02 = 8; 03 = 6; 04 = 7 (**40 total**). Phases 04A and 05–13 account for **183 outstanding batches**.
 
-**Scope:** Excel-DNA and Office.js/WASM implementation remain the active workstream. LibreOffice is an *architectural portability consideration only*, explicitly not part of implementation batches or Excel release criteria.  
-**Supersedes:** revision 1.2 (16 October 2026); the full original multi-phase roadmap and dependencies are retained below, updated for repository progress and portable-host readiness.
+**Last reported automated evidence:** 04.07 final amendment: **4,075 passed in each Debug and Release configuration**, 21 simulated Edge scenarios, Office/Help/WasmSmoke JavaScript regression suites and packed-XLL checks (see the [04.07 implementation report](../docs/architecture/batch-04-07-office-ribbon-e2e.md)). The owner accepted 04.07 in genuine Excel; this does not itself establish a complete Windows desktop or Mac qualification. Historic batch-by-batch numerical inventories belong in the linked implementation reports, not in the active plan.
+
+**Scope:** Excel-DNA and Office.js/WASM are the active workstreams. LibreOffice/Calc is an architectural portability consideration only, with no implementation batches or Excel release commitment.
 
 ## Executive recommendation
 
-Continue the existing *two-host, one-engine* design, but establish reusable contracts and registry/discovery before migrating more UI handlers. Preserve Windows Excel-DNA as a working .NET Framework 4.8 production application. Create a new **BESHStat.OfficeAddin** production-oriented Blazor WebAssembly/Office.js host, leaving **BESHStat.WasmSmoke** intact as the small independent Core/WASM regression harness. The statistical algorithms remain in **BESHStat.Core**; analysis coordination, validation, output semantics, chart specifications, and function argument conversion belong in **BESHStat.Excel.Common**; COM/Excel-DNA and Office.js remain thin adapters. Avoid translating WinForms screen-by-screen.
+Maintain the **two-host, one-engine** architecture: `BESHStat.Core` owns portable calculations; `BESHStat.Excel.Common` owns typed spreadsheet input, application orchestration, result/presentation semantics and portable contracts; `BESHStatNG` remains the .NET Framework 4.8 Excel-DNA host; `BESHStat.OfficeAddin` is the production Office.js/Blazor WASM host; `BESHStat.WasmSmoke` stays an independent regression probe.
 
-**New catalog decision (14 October):** `BESHStatNG_Help_MkDocs/docs/_meta/methods.yml` is the **canonical authored catalog of user-facing BESHStatNG analysis methods and their help/navigation identity**. It is already used by `BESHstatNG/tools/generate_help_links.py` to generate Windows `HelpLinks.vb` and `HelpContext.vb`. It supersedes the **manually maintained Ribbon CSV as an analysis-method inventory**. But the actual `Resources/RibbonXML.xml` remains the authority for what the current Windows Ribbon *really declares*, and `<ExcelFunction>` attributes in the VB source remain the authority for the UDF export surface. A build-time reconciler/generator should compare these sources; the historical CSVs become optional derived audit reports, not a separate maintained catalog. Stage 00.02's `AnalysisCatalog` is already present and currently has two descriptors; its **display/help metadata**, but **not its handler implementations**, should eventually derive from `methods.yml`.
+The production Office foundation, input/output semantics, two working statistical editors, specification builders, global options, Help, diagnostics and Ribbon command entry points are now **implemented and accepted**. The next step is a **formal Gate C exit audit**, followed—if approved—by the planned **Phase 04A Windows portability completion and selected enhancements**. Phases 05–11 then expose reusable computations and charts through Office rather than reimplementing them. Do not translate WinForms screen-by-screen or enable unavailable Office analyses prematurely.
 
-The new Phase **04A**, inserted after 04.07, is a mandatory Windows portable-code completion and selected feature-enhancement gate. It must avoid duplicate implementation in Phases 05–11. The plan is deliberately **incremental**: finish the foundational architecture and parity checks first, then build a real reusable UI, then expand analysis families, then graphics and custom functions, and finally release engineering. A late feature may be piloted earlier to validate architectural assumptions, but it must not bypass stable shared contracts.
+`BESHStatNG_Help_MkDocs/docs/_meta/methods.yml` remains the **canonical authored method/help/navigation catalog**. `BESHstatNG/Resources/RibbonXML.xml` remains authoritative for deployed Windows Ribbon declarations; compiled Common handlers/capabilities control execution; `<ExcelFunction>` declarations remain authoritative for Excel-DNA UDF exports. Generated metadata and reconciliation tests must prevent these surfaces from drifting.
 
-## 0. Current repository checkpoint and historical 16 October review
+## 0. Current implementation baseline and evidence
 
-**18 October package re-audit (Revision 1.4):** The uploaded ZIP contains `InputSizeLimits.vb`, bounded Windows/Office range readers, `batch-01-10-large-range-acquisition.md`, and 15 new Common/8 legacy/24 JavaScript tests described in that note. That note records Core **1,024**, Common **251**, legacy **561**, Office.js **74**, and Python **21+5+5**, plus successful Debug WASM and VS 2026 x86/x64 builds. I also independently ran `npm test` on the extracted Office.js tests in this review environment: **74/74 passed**. This container has no `dotnet` CLI or live Excel, so VB test/build and GUI successes are **documented repository results**, not fresh independent re-runs. Revision 1.3's “01.10 in progress” language below is retained as history and superseded by this checkpoint. Existing sources confirm Core/Common `netstandard2.0`; modern tests and WasmSmoke `net10.0`; Windows Excel-DNA and legacy tests Framework 4.8.
-
-
-**18 October repository update:** 01.05A is implemented in `HostCapabilities.vb`, range/cell contracts and compatibility tests. Identified non-Excel spreadsheet hosts can pass capability preflight through `IsSpreadsheetHost`; Excel compatibility flags, A1 APIs and date policies remain. 01.06 adds `LongitudinalInputs.vb`, `LongitudinalParsers.vb` and `LongitudinalParserTests.vb` for survival/repeated/mixed input validation. 01.07 adds `ModelInput.vb`, `ModelInputCompiler.vb` and `ModelInputCompilerTests.vb`, reusing Core formula/design services with aligned source rows and typed factors. These are Common input contracts, not new host UI or fitted-analysis handlers. Core/Common remain `netstandard2.0`; Windows remains .NET Framework 4.8. No LibreOffice implementation is authorized.
-
-The repository review ran the portable verification script: **Core 1,024 passed; Common 208 passed; zero failures/skips**. Office bridge Node tests: **29 passed**; method catalog validation, generated metadata `--check` and retired-helper audit passed. This checkpoint does not certify live Windows/Online/Mac Excel behavior. Infrastructure verification commands and limitations are documented in `docs/architecture/development-validation.md`.
-
-**Batch 01.08 completion:** commit `5d5986d` implements **Matrix, Classification, PSM, SPC and Chart-Source Input Parsers** in `AdvancedInputs.vb`, `AdvancedInputParsers.vb` and `AdvancedInputParserTests.vb`. These are additive Common input contracts, not fitted analyses or host UI. See [batch 01.08 architecture and acceptance notes](../docs/architecture/batch-01-08-advanced-inputs.md) for dimension, class/treatment, order and source-row validation, native error/missing-value preservation, and deterministic matrix/SPC/PSM preview fixtures. The note records final Core **1,024 passed**, Common **231 passed** (including 23 new tests), JS **29 passed**, and a successful WASM Debug build with zero warnings/errors. Python validation and legacy MSTests remain incomplete because Python discovery / `ResolveHelpPython` failed; live host smoke checks were not run. These are recorded implementation results, not tests rerun for this planning-only update. Core/Common remain `netstandard2.0`; no LibreOffice implementation is authorized.
-
-**Batch 01.09 accepted checkpoint:** commit `2d9f418` implements lossless Windows/Office acquisition adapters, canonical parity fixtures and the selected-areas preview, following .NET 10 migration commit `caba668`. Recorded validation: Core **1,024**, Common **236**, legacy **553**, Office.js **50**, Python **21 + 5 + 5** passed; WASM and Windows x86/x64 packaging built. See [01.09 evidence and host limitations](../docs/architecture/batch-01-09-acquisition-adapters.md). Core/Common remain `netstandard2.0`, modern tests/WasmSmoke `net10.0`, and legacy host/tests .NET Framework 4.8. Live host acceptance remains separate. **Historical 01.09 note, superseded by Revision 1.4:** batch 01.10 was then in progress; its implementation and full validation are recorded in the uploaded 18 October package.
-
-**Historical 16 October review follows.** Its counts and runtime limitations describe that review environment, not the current repository. Later completed batches supersede its proposed next steps.
-
-**What changed since revision 1.1.** The source package contains the implemented method catalog validator and deterministic generated metadata; the typed handler registry; typed read-only analysis-result artifact envelope; removal/guard of the old Windows Office.js placeholders; host capability preflight; range/document/selection references; explicit cell/error/date policies; configurable grouped parsing and structured diagnostics; typed scalar/vector/pair/group parsers; and rectangular frame, typed-category and contingency-count/pair parsers. The original ANOVA and Kruskal–Wallis services remain the two executable shared-analysis examples. Catalog entries for the other documented methods do not execute automatically.
-
-| Delivered batch | Source evidence | Review outcome |
+| Area | Accepted state | Continued obligations |
 |---|---|---|
-| 00.01–00.02 | `Stage304ContractSnapshotTests.vb`, five golden JSON fixtures; `AnalysisIds.vb`, `AnalysisDescriptor.vb`, `AnalysisCatalog.vb` and catalog tests | **Implemented**; frozen compatibility fixtures should remain regression gates |
-| 00.02A–00.02B | `docs/_meta/methods.yml`, `validate_methods_catalog.py`, `generate_analysis_metadata.py`, `GeneratedMethodMetadata.vb`, generator and UDF documentation tests | **Implemented**; YAML validator and generated-metadata `--check` pass; 268-source-UDF parser coverage is asserted by tests |
-| 00.03–00.04 | `IAnalysisHandler.vb`, `AnalysisHandlerRegistry.vb`, registry tests, `AnalysisResultDocument.vb` and result document tests | **Implemented**; typed registry provides ANOVA/KW handlers, legacy façade remains; typed detail is intentionally not a serializable general-purpose DTO yet |
-| 00.05–00.06 | `audit_transitional_officejs.py`, `HostCapabilities.vb`, capability tests, JS host bridge | **Implemented**; retired Windows placeholder classes absent; **host preflight still requires `IsExcel=True`**, a future portability constraint |
-| 01.01–01.03 | `SpreadsheetRangeReferences.vb`, `CellValuePolicy.vb`, `SpreadsheetValidation.vb`, `ConfigurableGroupedNumericParser.vb` and associated tests | **Implemented**; A1 bounds/date systems/error names currently express Excel conventions |
-| 01.04–01.05 | `TypedNumericInputs.vb`, `TypedNumericRangeParsers.vb`, `RectangularCategoricalInputs.vb`, `RectangularCategoricalParsers.vb`, `SpreadsheetCoreTableBridge.vb`; detailed batch architecture notes and tests | **Implemented**; input types preserve source coordinates and typed categories; these are contracts, **not** new GUI/model/Office executions |
+| Catalog, contracts and registry (00) | Stable IDs, typed handlers, generated method metadata, UDF documentation parity, host capability preflight | Keep `methods.yml`, Windows Ribbon XML and executable capabilities distinct and reconciled |
+| Input/parsers and acquisition (01) | Typed cell/range/data-model, group/longitudinal/model/multivariate inputs, bounded host readers | Preserve source identity, source-row provenance, missing/error/date policies and quotas |
+| Output document and safety (02) | Shared semantic output/style and placement plans; typed write outcomes; overwrite inspection and consent | Preserve no-silent-overwrite, stale-source rejection, readback and truthful partial-write state |
+| Execution infrastructure (03) | Preferences, diagnostics, progress/cancellation, Help resolver, host lifecycle leases | Keep Gate B E1–E7, privacy and version-aware Help fallback behavior |
+| Production Office host (04.01–04.03) | Production WASM host, typed Office bridge, method group/navigation and safe component lifecycle | Do not promote unsupported methods to executable actions |
+| Real analysis/formatting (04.04) | ANOVA/KW, reusable grouped input, wide/long/whole-column selections, guarded outputs, numeric significant post-hoc p-values | Strict native readback, source leases, one-time consent and uncertainty latch |
+| Specification builders (04.05) | Read-only formula, categorical, subject/visit and mixed roles; worksheet dropdown; Excel-DNA-style variable names | Do not fit/write unsupported models; preserve sparse physical-column identity |
+| Production settings/UI (04.06) | Alpha, seed, p-value display, logging, Help, Options, diagnostics, localization; Force English ON by default | Persist safely; prevent rejected settings writes; apply settings to future runs correctly |
+| Ribbon and navigation (04.07) | Supported commands, disabled unavailable methods/Export Chart, persistent About/Help header, Export Chart placeholder tab | Gate C formal review, genuine-host evidence, chart export still not implemented |
 
-**Independent checks performed in this review:** methods manifest validator **PASS** (76 method entries, 84 Ribbon buttons, 79 mappings, five utility commands); generated metadata `--check` **PASS**; retired-helper audit **PASS**; Python tooling unit tests **21 passed**, MkDocs Python tests **5 passed**; `officeBridge.js` syntax **PASS**; Office bridge Node tests **29 passed**. These check only their stated scopes. A .NET SDK and Excel/LibreOffice desktop runtimes were not available here: **no new Core/Common/legacy MSTest, Visual Studio build, Excel GUI smoke or LibreOffice runtime validation was performed**. Accept the user-reported completed batches as the development checkpoint, not as independently certified full-platform behavior.
+**Evidence rule:** an accepted batch means the owner accepted its stated scope, not that every future method, desktop host or platform is supported. The authoritative detailed acceptance history is in `docs/architecture/batch-*.md`, the [Common v1 freeze](../docs/architecture/gate-b-common-v1-contract-freeze.md), and test results retained by the repository. Historical reports need not be rewritten to remove their old pending wording.
 
-**Architecture review conclusion:** no need to redo any completed batch. Preserve the `netstandard2.0` Core/Common boundary, generated `methods.yml` metadata and source-native typed registry. The cross-host contract adjustment proposed by the historical review (01.05A) is now implemented, followed by 01.06 and 01.07. See §2B and §13 for the retained architectural rationale.
+## 1. Audit basis and planning boundaries
 
-## 1. Basis and limitations of the audit
+The initial October baseline was statically audited against Core, Common, Windows Excel-DNA, WasmSmoke, Office.js, the method catalog, WinForms, RibbonXML, graphics and Excel UDFs. Subsequent source/test evidence and owner acceptance supersede its incomplete-project findings. **Do not treat an old baseline inventory as the present implementation status.** The most recent 04.07 ZIP was reviewed separately; the owner's merged `main` is authoritative for any later changes.
 
-The **previous 14 October baseline** was inspected, including `.vb`, `.vbproj`, `.razor`, `.js`, `.xml`, YAML help metadata, source declarations, solution/project manifests, tests and Ribbon XML. This is **static source analysis**, not an independent successful Visual Studio/Excel/Mac run; developer-reported builds, tests and smoke tests (including successful 00.01/00.02) are accepted as the working baseline but were **not rerun** for this proposal. The 14 October ZIP did not contain a separate WiX installer project, so MSI design can be discussed based on the Windows host and known process but installer details are **not re-audited** in this checkpoint. Likewise, a Mac desktop Excel smoke test is not established by this ZIP. Inventory counts describe **source declarations**, not a guarantee that every exposed function/control is semantically independent.
+The current portable boundary is **Core/Common `netstandard2.0`**, the Windows Excel-DNA host is **.NET Framework 4.8**, and current WASM/modern testing targets use **.NET 10** as applicable. Preserve separate XLL x86/x64 packing, Windows MSI and Office add-in deployment. No supported Mac desktop Excel acceptance or LibreOffice bridge should be inferred from browser tests alone.
 
-**Historical 14 October inventory (superseded by §0 for implemented batches; do not use the old "currently" wording below to determine present status):**
+## 2. Remaining portability and product gaps
 
-| Component | Confirmed current contents | Status / observation |
+These are **future responsibilities**, not unfinished work to repeat from accepted Phases 00–04:
+
+| Area | Remaining work | Primary phases / gate |
 |---|---|---|
-| `BESHStat.Core` (`netstandard2.0`) | Numerical/data/statistical modules, 12 portable graphics calculation files, `ResultTable` and `ResultTableOutput`, common settings/logger/progress contracts | Broad portable calculation foundation; some legacy files still carry `Option Strict Off`, so modernization must be incremental |
-| `BESHStat.Excel.Common` (`netstandard2.0`) | Stage 3.04 services plus 00.02 `AnalysisIds.vb`, `AnalysisDescriptor.vb`, `AnalysisCatalog.vb`; still uses the original two-case dispatcher | ID/descriptor catalog implemented for ANOVA and Kruskal–Wallis; handler registry is next, not yet implemented |
-| `BESHStat.Excel.Common.Tests` (`net8.0`) | Existing `SharedExcelLayerTests.vb`, new `Stage304ContractSnapshotTests.vb`, `AnalysisCatalogTests.vb`, and five `TestData/Stage304/*.json` fixtures | 00.01/00.02 artifacts found in ZIP; build/test pass reported by developer, not executed in this audit |
-| `BESHStat.WasmSmoke` (`net9.0`) | `Home.razor`, `wwwroot/js/officeBridge.js`, `office-manifest.xml` | Working Stage 3.04 spike, not production UX/deployment architecture |
-| `BESHStatNG` | Windows Excel-DNA / .NET Framework 4.8, interop writer and importer, major WinForms/graphics code, Ribbon and Excel UDF modules | Retain as production host and parity oracle |
-| `BESHStatNG.Test` and `BESHStat.Core.Tests` | Legacy regression suite and portable numerical tests | Keep both; expand app/Office/browser coverage |
-| Windows Ribbon | **84** `<button>` declarations in current `RibbonXML.xml` | Real registration authority for Ribbon; reconcile automatically with `methods.yml` (76 authored methods / 79 mapping entries, 78 unique IDs) |
-| Excel-DNA UDFs | **268** `<ExcelFunction>` declarations in current source; `generate_udf_docs_v2.py` currently extracts only **264** | Code annotations define exports; fix the four missing PSM documentation entries and generate any audit inventory automatically |
+| Windows-only statistical/GUI calculations | Inventory all backend, WinForms, RefEdit, graphics and UDF code; migrate remaining reusable calculation/orchestration to Core/Common without changing Excel-DNA behavior | 04A.01–04A.48 / Gate C2 |
+| Selected Windows enhancements | Implement requested selected methods/plots and histogram PrettyBreaks/raw-bin option with portable numerics/specs and Windows integration | 04A.49–04A.75 / Gate C3 |
+| Office method coverage | Register and expose additional validated analysis families using accepted Common input, output and UI builders | 05–09 |
+| Office graphics and chart export | Implement native/SVG/browser renderers and real export; placeholder UI and disabled Ribbon export are **not** implemented export functionality | 10 |
+| Office Custom Functions | Validate runtime/manifest, argument/result contracts, recalculation and performance; reuse Core math | 11 |
+| Distribution and release | Production identity/deployment, host capability matrix, full Windows desktop/Mac acceptance, security/performance/accessibility | 12–13 |
+| Future non-Excel host | Preserve neutral contracts only; no LibreOffice/Python bridge now | Out of scope |
 
-**Previous CSV audit inventories are retained only as historical snapshots.** The revised plan does **not** require editing/maintaining either CSV. Future inventories should be reproducibly generated from `methods.yml`, `RibbonXML.xml` and `<ExcelFunction>` declarations, together with a discrepancy report. The old UDF complexity labels are preliminary and should not be considered validated classifications.
+**Non-negotiable rule:** new Office statistical screens call typed Common handlers and host adapters. They do not instantiate ad hoc Core models, duplicate output semantics, reimplement statistical formulas in JavaScript or silently bypass consent/lifecycle checks. Existing Windows code remains authoritative for parity until a migration batch proves equivalence.
 
-### Source landmarks from the 14 October baseline (superseded changes marked in §0)
+## 2A. Authored catalog, Ribbon and UDF authority
 
-- `BESHStatNG_Help_MkDocs/docs/_meta/methods.yml`: **76** method entries, **2** utility/help pages, **12** curated categories; presently drives generated Windows help mapping but not Ribbon construction or UDF docs generation.
-- `BESHstatNG/tools/generate_help_links.py`: consumes `methods.yml`, generates `src/Help/HelpLinks.vb` and `src/Help/HelpContext.vb`; requires a clean/validated method schema.
-- `BESHStat.Excel.Common/src/Analysis/AnalysisIds.vb`, `AnalysisDescriptor.vb`, `AnalysisCatalog.vb`: **00.02 implemented**, with two stable IDs and registered descriptors; metadata currently duplicated from documentation YAML.
-- `BESHStat.Excel.Common.Tests/src/Stage304ContractSnapshotTests.vb`, `AnalysisCatalogTests.vb` and `TestData/Stage304/*.json`: **00.01 and 00.02** compatibility artifacts in the new source.
-- `BESHStat.Excel.Common/src/Contracts/SpreadsheetContracts.vb`: `SpreadsheetAnalysisInput`, `SpreadsheetCellValue`, `SpreadsheetRangeData`, `SpreadsheetOutputTarget`.
-- `.../Input/GroupedNumericRangeParser.vb`: two-or-more numeric columns, a mandatory first-row header assumption, blank-skip semantics and finite numeric validation.
-- `.../Analysis/SpreadsheetAnalysisContracts.vb` and `SharedAnalysisApplicationService.vb`: enum `OneWayAnova`, `KruskalWallis`, switch dispatcher, mutable request; generic `Detail As Object` and metrics dictionary.
-- `.../Analysis/OneWayAnovaApplicationService.vb`, `KruskalWallisApplicationService.vb`: typed application services, Core computation and multi-table results.
-- `.../Output/ResultTableWriteRequest.vb`: `Object` rows, result-table row/column metadata, p-value targets/Excel number-format string, alpha, output destination, `AutoFit`.
-- `BESHStat.Core/src/DM/ResultWriter/ResultTable.vb`, `ResultTableOutput.vb`, `PValuePresentation.vb`: portable table semantics and established result-table writer inheritance.
-- `BESHstatNG/src/DM/ExcelDnaSharedApplicationAdapter.vb`: converts legacy `MultiGroupsUnpairedData` into shared `GroupedNumericData`.
-- `BESHstatNG/src/DM/ResultWriter/ExcelDnaResultWriter.vb`: actual COM writes, formatting, and `WriteSharedRequest`.
-- `BESHstatNG/src/UI/UibyID.vb`: current ANOVA/Kruskal paths through Common; variance tests, descriptive statistics, box-plot and comparison graphics still orchestrated in Windows GUI.
-- `BESHstatNG/src/DM/OfficeJsDataImporter.vb` and `.../ResultWriter/OfficeJsResultWriter.vb`: older VB Office.js-oriented transitional helpers **inside Windows project**, not the current Blazor/Office.js implementation. `OfficeJsDataImporter.vb` explicitly sets `Option Strict Off`.
-- `BESHStat.WasmSmoke/wwwroot/js/officeBridge.js`: selected-range read/typing, sheet naming, p-value/formatting, multiple result-table writes; rejects `NewWorkbook` explicitly.
-- `BESHStat.WasmSmoke/Pages/Home.razor`: UI uses an analysis `switch`, typecasts `Detail`, prepares settings/output, runs Core synchronously and writes via JS interop; still a prototype.
-- `BESHStat.WasmSmoke/office-manifest.xml`: development task-pane-only XML manifest with HTTPS localhost, minimum ExcelApi 1.1, no custom-functions declaration or production command surface.
-- `BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb`: multiple `ConcurrentDictionary` model-handle caches; UDF state, lifecycle and recalc need an explicit design, not a simple signature translation.
+| Surface | Source of authority | Required practice |
+|---|---|---|
+| Analysis name, category and documentation/help identity | `BESHStatNG_Help_MkDocs/docs/_meta/methods.yml` | Validate generated display metadata, stable slugs/IDs, docs and curated navigation |
+| Windows Ribbon callbacks and buttons | `BESHstatNG/Resources/RibbonXML.xml` | Inventory deployed commands independently of YAML; reconcile rather than infer runtime availability |
+| Executable Office methods/options | `BESHStat.Excel.Common` typed registrations and host capability checks | Metadata-only methods remain disabled; currently executable Office editors include ANOVA/KW |
+| Excel-DNA worksheet functions | VB `<ExcelFunction>` declarations and source XML comments | Keep deterministic UDF manifest/docs generation and regression coverage |
+| Help navigation/resolution | MkDocs, generated Help maps and version-aware resolver | Version-specific Help when published; validated latest fallback and MIME serving |
 
-## 2. Historical pre-implementation gap audit (14 October; see §0 and §2B for current disposition)
-
-| Priority | Finding and evidence | Consequence | Decision |
-|---|---|---|---|
-| **P0** | Dispatcher remains a two-value `Select Case`; **00.02 has already introduced** two stable IDs and `AnalysisCatalog`, but without handler registration | Two hosts still require wiring changes for every feature | Continue with 00.03 typed handler registry; do not reimplement 00.02 |
-| **P0** | `SpreadsheetAnalysisResult.Detail As Object` and free-form double metrics | Lost compile-time type guarantees and poor typed serialization for model/plot payloads | Move to typed result/artifact union, explicit metric metadata, optional per-analysis typed detail accessible through typed handlers |
-| **P0** | Windows ANOVA supplements are still UI-calculated in `UibyID.vb`; equivalent UI options absent in WASM demo | Same analysis name can produce different output by host | Separate complete analysis *workflow orchestration* from GUI; include optional reports and chart specs in service |
-| **P0** | `ResultTableWriteRequestFactory.CreateMany` does not own table spacing: Office.js adds a blank row, Windows caller adds blank rows | Output layout duplicated and likely to drift | Introduce immutable ordered output-document/placement plan with precomputed coordinates and overlap bounds |
-| **P0** | `officeBridge.js` applies p-value color/formatting and result-table style directly; Windows writer does the same in COM | Presentation policy can diverge | Shared semantic formatting/style tokens; host translates tokens into its API calls |
-| **P0** | Older Windows `OfficeJsDataImporter` / `OfficeJsResultWriter` coexist with new Common DTOs and the actual JS bridge | Competing representations and misleading host ownership | Mark legacy helpers transitional, add compatibility tests, then relocate/replace or delete only after consumers are gone |
-| **P1** | Range DTO holds sheet name/address but no stable workbook/sheet identity, multiple ranges, orientation/header/missing policies or selection revision | Nontrivial analyses and workbooks fragile | Define source provenance, multiple-range sources, data schemas and validation diagnostics |
-| **P1** | `GroupedNumericRangeParser` always expects a header row and >=2 numeric columns | Won't cover no-header, long-format grouping, unequal types or other family-specific ingestion | Keep legacy behavior as named preset; add configurable parsers with parity tests |
-| **P1** | Core's `CoreDataTable` already stores typed/untyped matrices, row IDs and source metadata; Common now has a second rectangular `SpreadsheetRangeData` | Duplication if both become analysis domain models | Treat `SpreadsheetRangeData` as raw transport, `CoreDataTable` as computational tabular representation, and typed Common inputs as schema-validated interpretations |
-| **P1** | Raw output `Object` cells and string replacements `#Pinf`/`#Ninf`/`#N/A` are not a fully defined typed Excel-value/error contract | Formula-looking strings, Excel error and nonfinite semantics are ambiguous | Explicit output-cell discriminated kind (number/text/boolean/blank/error/formula), proper Excel error mapping and test fixtures |
-| **P1** | `NewWorkbook` exists in shared destination enum but Office.js writer explicitly throws | Host capability difference | Expose capability and fallback; research/test product-specific new-workbook behavior rather than promising unsupported UI |
-| **P1** | `OfficeJsDataImporter.vb` has `Option Strict Off`; Windows `.vbproj` also defaults Strict Off | Risk of portable late-binding propagation | Set Strict On for all **new** Common/Core/UI-independent modules; modernize transitional files in bounded patches |
-| **P1** | No production Office add-in project, reusable UX, shared runtime/custom-functions manifest or deployment pipeline | Prototype shouldn't accumulate production-specific complexity | New `BESHStat.OfficeAddin` plus adapter/functional test assets; preserve WasmSmoke |
-| **P1** | Model UDF handles are cached in-process in the Windows add-in | Workbook reopen/host change/multi-instance behavior not portable | Explicit session-scoped handle manager, invalidation and recalculation strategy |
-| **P2** | Additional Windows chart modules `ROC.vb`, `NormalPlot.vb`, `XYZscatter.vb`, `GifAnimator.vb`, `ChartExport.vb` mix host graphics and calculations | Risk of treating graphics migration as just chart rendering | Isolate last portable plot calculations then define chart-spec/renderer boundary |
-
-**Non-negotiable early rule:** No major new analysis screen may directly instantiate a Core model, assemble Excel output tables or apply statistical formatting policy; it must call a Common handler and host adapter. Existing Windows code remains until parity is proven.
-
-## 2A. Authoritative method metadata audit and compatibility plan (14 October baseline; 00.02A/B now delivered)
-
-> **Historical audit only:** references below to missing scripts, inaccurate ribbon IDs or a 264-UDF parser describe the **14 October** starting state, **not** the inspected 16 October state. §0 contains the latest verified status.
-
-### 2A.1 What is authoritative, and for what purpose?
-
-**Decision: use `BESHStatNG_Help_MkDocs/docs/_meta/methods.yml` instead of the Ribbon CSV for authored analysis-method identity, title, category, short description, help slug, and GUI mapping.** It is an existing maintained semantic catalog and already has proven consumers. Its method `key` (e.g. `OneWayANOVA`) identifies a documentation method; a new optional `analysisId` should bridge to the stable execution identifiers implemented in batch 00.02 (`anova.oneway`, `nonparametric.kruskal-wallis`). Do not equate a documentation `key` with the newer runtime `AnalysisId`, do not rename the existing keys, and do not reassign the already published runtime IDs.
-
-| Surface | Authoritative source | Derived/validated outputs | Why |
-|---|---|---|---|
-| User-facing analysis identity, help pages, descriptions and method category | `docs/_meta/methods.yml` (authored) | Windows generated help topics; Office catalog display metadata, navigation and help URLs | Existing metadata contains 76 method records and help linkage |
-| Windows Ribbon registration and exact callbacks | `BESHstatNG/Resources/RibbonXML.xml` (deployed source) | Validation of `methods.yml.ribbonIds` and `onActions`; optional generated audit CSV | Ribbon XML, **not** YAML, is what Excel-DNA actually loads |
-| Cross-platform executable analysis handlers, options, type contracts and supported capabilities | `BESHStat.Excel.Common` typed handler registrations + descriptors | Runtime registry; validation against YAML `analysisId` | YAML cannot supply compiled handlers or reliable host capabilities |
-| Actual exported worksheet functions, signatures and XML-doc summaries | VB `<ExcelFunction>` attributes and XML doc comments under `src/ExcelUDFs/` | Generated UDF manifest and docs; optional catalog references to methods | 268 functions cannot be inferred from 76 dialog/method records |
-| Curated help navigation and independent method pages | `mkdocs.base.yml` and content markdown (currently manually maintained) | Optional navigation/slug checks; future generated nav when explicitly adopted | The runner does not currently generate navigation from `methods.yml` |
-
-`methods.yml` is **not currently the authoritative executable runtime catalog or Ribbon XML generator**. Transition in stages rather than declaring the data in sync before checking it.
-
-### 2A.2 Historical findings from the 14 October ZIP (resolved items are now tested)
-
-- Parsed `methods.yml`: **76 unique method keys, 76 unique slugs, 2 non-method pages, 12 categories**, and **78 curated category-navigation entries** (three intentionally repeated method references: Kaplan–Meier, correspondence analysis, Cox regression; the Bullet Chart method is absent from that curated list). The YAML has **79 `ribbonIds` entries but only 78 distinct IDs**. All 76 method slugs currently resolve to `docs/methods/<slug>.md`; this does not imply complete source coverage because `resampling.md` and `family-link-covmat.md` are additional top-level method pages not represented as YAML methods.
-- Current Windows Ribbon XML defines **84 buttons**. YAML currently omits **five utility buttons** that are not analysis methods: About, Help, Settings, Show Log and Export Chart. These need not become analysis methods; keep them as `pages`/`commands` with explicit semantics. `pages` already includes `GlobalSettings` and `ExportChart`, but has no mapping to the corresponding Ribbon buttons.
-- Four **agreement-method** Ribbon entries are inconsistent between YAML and actual Ribbon XML: Bland–Altman has `Ui9ANOVA2nested` instead of `btn10_3Bland`; Lin CCC has `UiTwoInputRefedits` instead of `btn10_4LCCC`; Cohen Kappa has `UiTwoInputRefedits` instead of `btn10_5Cohen`; ICC has `btn10_3icc` instead of `btn10_6icc`. The two `UiTwoInputRefedits` values are form names, not Ribbon IDs. The curated `categories[].items` records contain some of the correct IDs but are not consistently synchronized with `methods[].ribbonIds`.
-- The Bullet Chart method has `onActions: [Ui01BulletChart]` and a matching `forms[].handler`, while Ribbon XML declares **`OnbtmBulletPressed`**. Preserve `forms[].form: Ui01BulletChart`, but correct the action/handler mapping using the actual production callback.
-- Exactly **79 YAML method-to-Ribbon mapping entries** would be expected to correspond to 79 analysis buttons in XML (84 total minus five utilities). They do not currently match, so **YAML cannot yet be used as an unvalidated generated registry**. Correct these fields, then fail CI on broken method references, duplicate Ribbon IDs across unrelated method mappings, unknown Ribbon IDs and mismatched callback targets.
-- `generate_help_links.py` reads `methods.yml` to produce `HelpLinks.vb` and `HelpContext.vb`, using `key`, `slug`, `title` and `forms[].form/analysisTitle`. It does **not** validate `ribbonIds` or `onActions`. Adding optional `analysisId`/cross-platform display fields will not break this generator if existing fields and shapes are retained. Regenerate Windows help files whenever form/help mappings change, and test form-title conflicts and fallback behavior.
-- The current `AnalysisCatalog.vb` created in **00.02** has hard-coded English labels, categories and full `latest` URLs for the two analyses; these overlap with `methods.yml`. **Never replace the stable runtime IDs or typed options with YAML-driven dynamic dispatch.** Generate/cross-check immutable descriptive metadata at build time while leaving strong type registration in VB.
-- The source contains **268 `<ExcelFunction>` exports**. The current `generate_udf_docs_v2.py` and generated `docs/udf/*.md` account for **264**. Four functions are absent as headings: `BESH.PS.SCORES`, `BESH.PS.WEIGHTS`, `BESH.PS.EFFECT`, `BESH.PS.TABLE`. The parser's `parse_udfs_from_vb()` always advances to *later* lines when finding the attribute close, even if `<ExcelFunction(...)>` ends **on the same starting line**; it can inadvertently swallow the following single-line attribute. Fix its tokenization before relying on generated UDF counts. UDF `HelpTopic:=HelpLinks.FallbackBaseUrl & ...` expressions are also not picked up by the current quoted-string-only help-topic regex; use semantic method associations instead of attempting to evaluate arbitrary VB expressions.
-
-### 2A.3 Original `methods.yml` changes proposed on 14 October (**now implemented; retained for provenance**)
-
-1. **Repair verified stale mappings** listed above and the missing Bullet Chart category reference; keep the method `key`/`slug`/forms and existing published help URLs stable.
-2. Extend **only already-implemented** methods with optional `analysisId`, aligned with `AnalysisIds.vb`. Initial examples: `OneWayANOVA → anova.oneway`, `KruskalWallisTest → nonparametric.kruskal-wallis`. A missing `analysisId` means **documented method not yet registered in Common**, not a broken record; assign future IDs when each handler is implemented and explicitly approved.
-3. Preserve `categories` as curated navigation (including deliberate cross-listings) and `methods[].categories` as classification; enforce that category entries reference known method keys and that declared Ribbon mappings reconcile with deployed XML. Add an explicit `commands` subsection or extend `pages` for About/Help/Settings/Show Log/Export Chart, **without** treating them as analysis handlers.
-4. Optional future fields should be additive and well-defined: e.g. `featureKind` (`analysis`/`chart`/`tool`) and `udfNames`/`udfPatterns` for **curated** method-to-UDF cross-links. Avoid a 268-function hand-maintained duplicate list in YAML. Keep runtime availability, Core type names, options factories and function signatures in code or generated source manifests.
-5. Validate uniqueness of `key`, `slug`, `analysisId` (when supplied), canonicalized help URL, `ribbonIds` where applicable, handler existence, referenced file existence and normalized form-title disambiguation. Do not silently resolve conflicting metadata by taking the first entry. Detect and report unknown/unimplemented analyses without failing simply because a documented feature has not yet been ported.
-
-**Example of an additive field for an existing entry (illustrative only):**
-
-```yaml
-- key: OneWayANOVA
-  analysisId: anova.oneway
-  title: One-Way ANOVA
-  slug: one-way-anova
-  # existing short, ribbonIds, onActions, forms and categories remain
-```
-
-**Important compatibility rule:** the YAML is the **authored descriptor metadata authority**, and the Ribbon and UDF declarations are **verified implementation sources**. Do not make the VB runtime parse YAML dynamically on every calculation. For .NET Standard 2.0/.NET Framework 4.8/WASM use generated checked-in strongly typed constants/DTO metadata (or a build-generated static JSON asset with schema validation) and a separately compiled typed handler registry.
-
-### 2A.4 Effect on documentation scripts — actual call-graph audit
-
-| File | Current behavior | Changes required **if adding `analysisId` only** | Recommended future improvements |
-|---|---|---|---|
-| `BESHstatNG/tools/generate_help_links.py` | **Directly reads** `methods.yml`; emits `HelpLinks.vb` and `HelpContext.vb` | **No parser change**; preserve `key`, `slug`, `forms`, and re-run generator after fixing existing metadata | Preflight YAML schema + Ribbon callback checks; deterministic output independent of timestamp where practical; regression checks for `Form`+title collisions |
-| `BESHStatNG_Help_MkDocs/mkdocs_beshstatng.py` | Version-aware MkDocs serve/build runner; reads `Directory.Build.props`, writes inherited config, runs MkDocs | **No functional change needed**: currently does **not read** `methods.yml` | Add optional `--validate-methods`/pre-build validator invocation, with fail-fast errors for broken slugs/navigation/IDs; keep versioned URL behavior unchanged |
-| `BESHStatNG_Help_MkDocs/generate_udf_docs_v2.py` | Reads VB `<ExcelFunction>` declarations/XML doc comments; optional `--method-links-yaml` accepts a **different** schema: `patterns`/`groups`; currently does **not read** `methods.yml` | **No change** unless you want to use the new canonical method catalog for UDF↔method cross-linking | **First fix** the one-line attribute parser (268/268 fixture), then add explicit `--methods-yml` support for `key`/`slug`/optional UDF associations and validated relative links; preserve optional legacy `--method-links-yaml` overrides; do not evaluate `HelpTopic` VB expressions; retain code XML doc comments as canonical UDF argument/return help |
-| `BESHStatNG_Help_MkDocs/mkdocs.base.yml` | Static MkDocs navigation including method/UDF pages; not generated from `methods.yml` | **No change needed** for extra YAML fields | Add a validation comparison or **optional** navigation generation later; preserve manual subpages and special groups (MMRM/LMM), and independently documented `resampling.md`/`family-link-covmat.md` |
-| `tools/validate_methods_catalog.py` and `tools/generate_analysis_metadata.py` | **Implemented in 00.02A/B** | Maintain as dedicated read-only validator / deterministic generator, not runtime YAML loading | Parse YAML once; validate against XML, Common IDs, docs and UDF source; emit deterministic checked-in metadata plus optional CSV discrepancy reports |
-
-`generate_udf_docs_v2.py --method-links-yaml docs/_meta/methods.yml` is **not** a correct migration shortcut: it expects root-level `patterns`/`groups` fields and will not automatically interpret `methods`. The new `--methods-yml` would be explicitly distinct and additive. Regression-test old generation without `--methods-yml`, generation with it, and preservation of links (including source slugs and category titles).
-
-### 2A.5 Original build and acceptance sequence (**completed, retained for provenance**)
-
-- **00.02A:** first fix/validate `methods.yml` and add read-only manifest validation with tests; do not change the 00.02 runtime catalog API. Run generation of `HelpLinks.vb`/`HelpContext.vb` only if the YAML help/form mapping corrections require it, and confirm Windows About/Help/Settings still resolve correctly. Compare YAML method button mappings to **all 84** XML buttons with five explicit utility exclusions.
-- **00.02B:** add a deterministic metadata projection from YAML and parity tests against 00.02 `AnalysisCatalog` and its existing two IDs; fix and test UDF parser completeness (268/268) and optionally enable UDF docs cross-links via `--methods-yml`. Avoid merging a generated all-feature executable registry: unported method rows are metadata-only. Keep generator run as an explicit development/CI step, not a runtime YAML dependency.
-- **00.03 (unchanged conceptual purpose):** build the typed handler registry on top of the now reconciled catalog metadata; use the already frozen 00.01 JSON fixtures to prove ANOVA/Kruskal–Wallis equivalence.
+The historical inventory recorded **76 documented methods, 12 categories, 84 Windows Ribbon buttons and 268 UDF declarations**. Counts describe source inventory and must be regenerated/validated as the catalog changes. The XML's five utility commands are **not** additional executable analysis methods. `methods.yml` is not an executable handler registry and does not replace actual Ribbon XML.
 
 ## 2B. Long-term LibreOffice/Calc feasibility and shared-library design constraints (16 October 2026)
 
@@ -197,7 +89,7 @@ The **previous 14 October baseline** was inspected, including `.vb`, `.vbproj`, 
                               [not in current roadmap]
 ```
 
-**The 16 October review identified five portability seams (01.05A now implements the targeted contract hardening; retain these constraints in later batches):**
+**The earlier portability review identified five architectural seams; 01.05A implemented the targeted contract hardening, and their future-host constraints remain applicable:**
 
 1. **Host identity is not a capability.** Implemented in 01.05A: `HostCapabilitySnapshot.Supports()` and `HostCapabilityPreflight.CheckHost()` admit identified hosts through `IsExcel` or explicit `IsSpreadsheetHost`, then check actual capability IDs. The existing `IsExcel` field remains a compatibility indicator. Do not advertise a capability merely because the host is a spreadsheet. This contract is not evidence of an implemented non-Excel adapter.
 2. **Separate addresses/limits from mathematical inputs.** `SpreadsheetRangeAddress` uses Excel A1 syntax and `16384` columns / `1048576` rows; its existing `FromAddress` is useful for Excel. Keep those as an **Excel address dialect/host bounds profile**, not a universal `SpreadsheetRangeReference` limit. Neutral parsed ranges should store row/column coordinates and source identifiers; future adapters normalize their local qualified addresses before Core/Common analysis. Avoid introducing Calc syntax into Common in this Excel delivery.
@@ -316,7 +208,7 @@ Excel range(s) ──host adapter──> SpreadsheetRangeData / source refs
 
 ## 5. Shared input design
 
-**Transport:** `SpreadsheetRangeData` represents a rectangular cell snapshot; extend with workbook/worksheet identifiers, qualified address, source orientation, top-left coordinates, source selection ID/revision and header/formula/error metadata where available. Add `SpreadsheetRangeSet` for multiple selections, including source identity. Don't assume a workbook will remain active during a long calculation. An Excel 1900/1904 date-system flag is needed for date/time semantics when these are relevant; numerical date serials must not be confused with unitless numeric data.
+**Transport:** `SpreadsheetRangeData` represents a rectangular cell snapshot. The established range-reference and source-lease contracts capture workbook/worksheet identity, qualified addresses, physical coordinates, headers and cell provenance. Preserve those contracts when extending multi-source inputs and source-revision tracking; do not invent an incompatible second identity model. Never assume that an active workbook or worksheet stays unchanged during a calculation. An Excel 1900/1904 date-system flag is needed for date/time semantics when these are relevant; numerical date serials must not be confused with unitless numeric data.
 
 **Generic computational bridge:** preserve Core's `CoreDataTable`, which already includes `ObjectMatrix`, `NumericMatrix`, `MissingMask`, `RowIds`, `DataSourceInfo`. Common converts validated spreadsheet snapshots into such Core containers or family-specific domain inputs; don't add a competing general-purpose table engine.
 
@@ -373,11 +265,11 @@ Use one shared `OutputDocument` / `OutputPlan` with ordered `OutputBlock`s rathe
 
 ## 8. UI design
 
-Build **one Blazor task-pane application** with navigation/catalog/search, not dozens of independently ported WinForms dialogs. A feature screen is composed of shared components: `SelectionPicker`, `InputRolePicker`, `VariableList`, `Paired/GroupSelector`, `FormulaBuilder`, `AnalysisOptionsPanel`, `OutputTargetPicker`, `ResultPreview`, `WarningPanel`, `ProgressPanel`, `ChartPreview`, and contextual help. Large model builders may open larger dialogs or supported separate views; ordinary analyses remain within task pane.
+**Implemented Office UX foundation (04.03–04.07):** one Blazor task pane provides catalog/group navigation, the operational ANOVA/KW editors, shared range capture and typed grouped options, guarded result preview/Write, worksheet-based read-only formula/category/subject/visit builders, and sticky navigation for **Analysis, Options, Export Chart (placeholder), Diagnostics/Log**. The persistent header exposes About (with Apache 2.0 license text) and version-aware Help. The actual Ribbon exposes only supported commands; unimplemented methods and Chart Export remain disabled.
 
-Common owns option defaults, validation rules, input roles, feature metadata, help paths, execution rules and durable analysis state **DTOs**. Blazor owns component rendering, focus/keyboard accessibility, navigation, transient form state and visual feedback. Windows forms remain intact at first; optionally consume shared validation later. Range selection is a host service (current selection, explicit address, worksheet picker) with a 'reacquire/refresh data' action. Never assume the selection stays unchanged between preview and run.
+**Reusable design for later features:** compose new workflows from host range/worksheet selection, typed role editors, method option builders, source-backed validation, output-plan previews, progress/warning panels and contextual Help. Common owns defaults, input policy, help metadata, application rules and typed result/format contracts. Blazor owns focus/keyboard navigation and transient form state. Do not duplicate the Windows WinForms screens; adapt their reusable validation and model semantics through Core/Common. Input acquisition/validation occurs at Run as needed, without mandatory preview steps. Capture source identity/revision, and retire stale previews and overwrite consent on source or option changes.
 
-Localization: start with English UI plus locale-sensitive numeric display and a Slovak Excel smoke fixture. Store **numeric values** independently of their displayed localized strings; translate label/help/error keys later. Treat multi-workbook, selection changes, inactive sheets and stale selections explicitly. Provide progress and cancellation **only** where the called algorithm supports it. Hide options requiring unsupported Office APIs instead of allowing a late exception.
+**Current localization:** English is forced **ON by default** even in Slovak Excel; switching Force English OFF follows available Office/browser language resources with English fallback. Locale-sensitive display cannot change numeric stored values or serialized probabilities. Some older controls remain English when translation is unavailable; do not claim comprehensive multilingual coverage. Keep source/workbook lifecycle, stale-selection, quota, cancel and write safeguards. Unsupported API-dependent actions must remain disabled rather than fail only after a click.
 
 ## 9. Excel UDF / Office Custom Functions strategy
 
@@ -391,7 +283,7 @@ Historical 14 October observation: **268 Excel-DNA functions** were declared but
 6. Classify candidates **provisionally**: low/medium = stateless descriptive/distribution/simple tests and fixed-size tabular outputs; medium = contingency, matrices, agreement, plot-data tables and rich arrays; high = formula-based regressions, model-handle families, large multivariate/PSM computations, dynamic result schemas or heavy recalc. Confirm risk on each function's actual code before its batch.
 7. Long-running custom functions can be asynchronous/cancelable. In shared runtimes, intensive synchronous work may block the task-pane UI. Benchmark a worker or chunked orchestration if needed. A Custom Function must not mutate unrelated workbook cells as a side effect.
 
-**Microsoft Office constraint to validate at implementation:** custom functions and task panes may be separate runtimes unless a shared runtime is configured; a shared runtime can coordinate state but incurs startup/memory/UI-blocking tradeoffs. For production, Microsoft's September 2026 samples still caution that custom functions under the **unified manifest** are preview, so prefer the supported add-in-only XML manifest for the initial production custom-function release, revisiting unified manifest later. See links in §17.
+**Microsoft Office constraint to validate at implementation:** custom functions and task panes may be separate runtimes unless a shared runtime is configured; a shared runtime can coordinate state but incurs startup/memory/UI-blocking tradeoffs. Recheck manifest feature support when Phase 11 begins; initial planning favors a supported add-in-only XML manifest until any unified-manifest feature is fully available on the targeted Excel clients. See the authoritative Microsoft links in §18. These are future Custom Functions decisions, not unresolved 04.07 work.
 
 ## 10. Infrastructure, lifecycle, reliability
 
@@ -486,7 +378,7 @@ Development: trusted local HTTPS + sideloading on Excel Online first, Windows de
 
 **Phase exit:** Defaults, fault handling, progress, cancellation and workbook/run identity consistent across hosts.
 
-**Mandatory Phase 03 exit / 03.06 acceptance criterion — restore ordinary ANOVA/KW UI (OWNER-ACCEPTED / COMPLETE):** The owner confirms completion of Phase 03 smoke, including **Restored ANOVA/KW appearance and actual output** and deleted-sheet RefEdit safe rejection. Local main `db85ff8` contains fixture removal, real Cancel/status UI, scoped lifecycle coordination and the final RefEdit fix. This reconciles the historical report; no fresh Codex live host test is claimed. Totals are 223 / 33 accepted / 190 outstanding. Do not claim interruption of synchronous Core/COM or active Office.js writes.
+**Phase 03 exit — accepted:** Windows ANOVA/KW UI and output remain intact; deleting a selected worksheet fails safely through the RefEdit lifecycle guard. Synthetic execution fixtures were removed and the real progress/cancel UI retained. Cancellation remains cooperative; synchronous Core/COM or active Office.js writes cannot be arbitrarily interrupted. See the 03.06 report for the historical fix and evidence.
 
 | Batch | Objective and likely files/classes | Depends on | Host changes | Required new automated tests | Manual smoke | Acceptance criterion | Risk |
 |---|---|---|---|---|---|---|---|
@@ -499,68 +391,27 @@ Development: trusted local HTTPS + sideloading on Excel Online first, Windows de
 
 ### Phase 04 — Production Office.js host and reusable task-pane UX
 
-**Phase exit:** Real OfficeAddin can run any registered basic analysis using generated/reusable screens and host services.
+**Phase exit — ACCEPTED:** Production OfficeAddin runs the registered ANOVA/KW methods with typed host services; read-only model builders, settings, diagnostics and Office Ribbon navigation are established. This is not blanket support for all catalog methods or all host platforms.
 
 | Batch | Objective and likely files/classes | Depends on | Host changes | Required new automated tests | Manual smoke | Acceptance criterion | Risk |
 |---|---|---|---|---|---|---|---|
 | **04.01 — COMPLETE** | New production BESHStat.OfficeAddin foundation; scoped readiness DI, read-only Core/Common probes, small JS initializer, separate localhost dev manifest; [report](../docs/architecture/batch-04-01-office-host-foundation.md) | 00.03,00.06 | W=No O=Yes | WASM build/assets; DI and host-free startup tests; Node readiness tests | Owner-confirmed Excel Online/standalone, probes, Retry and independent WasmSmoke | Core+Common load in real Excel owner-accepted; Gate C remains incomplete | **Medium** |
 | **04.02 — COMPLETE** | Typed production `Services/IWorkbookAdapter`, bounded tiled JS transport, fail-closed write seam and explicit read-only diagnostic; [report](../docs/architecture/batch-04-02-office-workbook-adapter.md) | 04.01,01.09 | W=No O=Yes | Typed C# transport/lifecycle tests and mocked range/sheet/write JS tests | Owner accepted genuine selected-range reading and diagnostics | No direct Office.js use in Blazor; owner-accepted on main `6b1e978` | **Medium** |
 | **04.03 — COMPLETE** | Two-level group/method dropdowns from generated `methods.yml` metadata, verified descriptor/editor availability and reusable options UI; `OfficeAddin/Components/AnalysisShell; OptionEditors`; [report](../docs/architecture/batch-04-03-method-navigation-options-ui.md) | 04.01,00.03,00.02B | W=No O=Yes | Real select render/change events, 12 groups / 76 documented methods, typed editor availability, state/lifecycle; existing dependencies | Owner accepted both dropdowns and genuine Excel options/Retry/reopen smoke | Accepted/merged on main `30d77ac`; historical pending wording superseded | **Medium** |
-| **04.04 — COMPLETE** | Reusable grouped input/constraints and output presentation, bounded whole columns, physical-row long intersection, sticky tabs, direct Run and one-click guarded Write; [report](../docs/architecture/batch-04-04-range-preview-destination-ui.md) | 04.02,01.03,02.06 | W=No O=Yes | Golden ANOVA/Welch/post-hoc and KW/Dunn values/styles/preferences; original/effective footprints, overhang warnings, source/consent/readback/uncertainty and independent-next-run guards | Owner accepted genuine Excel Online numeric post-hoc p-values, write/overwrite and option-change rerun | Accepted on main `659d4fb`; Common v1/E1–E7 unchanged; New Workbook remains a Phase 04 exit item | **Medium** |
-| **04.05 — COMPLETE** | Reusable formula, subject/visit and categorical builders; `OfficeAddin/Components/ModelBuilder and RoleEditors`; [report](../docs/architecture/batch-04-05-model-role-builders.md) | 04.04,01.06,01.07 | W=No O=Yes | Common/Core design equivalence, worksheet/active-sheet discovery, Excel-DNA captions, sparse physical provenance, typed roles/categories and accessible lifecycle controls; numeric post-hoc fixtures remain green | Genuine Excel LM-design and repeated-data preview smoke remains owner-only | No workbook reads/Core parsing during local editing; no model fitting/write; automated gates green, genuine Excel owner acceptance still pending | **High** |
-| **04.06 — COMPLETE** | Production Options/Global Settings tab, Help/progress/errors/localization using accepted PreferenceSnapshot, IPreferenceStore, PValuePresentationSettings, diagnostics and host stores; no parallel settings schema | 04.03,03.01-03.05 | W=No O=Yes | Persistence/session-only fallback, settings validation, resource/culture, changed-settings consent invalidation and Windows Ui12GlobalSettings parity tests | Persist global alpha, random seed, diagnostic logging, p-value digits, threshold/scientific/fixed small-value mode and upper-bound setting; honest session-only notice if durable browser storage is unavailable; Slovak Excel/help | Accessible Options tab matching Windows semantics; effective preferences applied consistently to execution/presentation; failure recovery and Help verified | **Medium** |
-| **04.07** | Office Ribbon commands, lifecycle and component E2E; inventory actual Windows Resources/RibbonXML.xml separately from methods.yml method/help catalog | 04.01-04.06 | W=No O=Yes | Inventory/parity and activation tests for About, Help, Settings, Show Log, Export Chart and relevant method groups; supported manifest/requirement-set checks | Expose supported utilities/groups in genuine Excel; unavailable analyses/chart export disabled or clearly marked, never clickable dead ends; no premature export claim | Office-supported command integration and help/navigation parity verified; chart export exposed only after its renderer/export capability exists | **High** |
+| **04.04 — COMPLETE** | Reusable grouped input/constraints and output presentation, bounded whole columns, physical-row long intersection, sticky tabs, direct Run and one-click guarded Write; [report](../docs/architecture/batch-04-04-range-preview-destination-ui.md) | 04.02,01.03,02.06 | W=No O=Yes | Golden ANOVA/Welch/post-hoc and KW/Dunn values/styles/preferences; original/effective footprints, overhang warnings, source/consent/readback/uncertainty and independent-next-run guards | Owner accepted genuine Excel Online numeric post-hoc p-values, write/overwrite and option-change rerun | Accepted on main `659d4fb`; Common v1/E1–E7 unchanged; New Workbook remains unsupported by the Office writer; carry its feasibility assessment into the Gate C exception/limitation log | **Medium** |
+| **04.05 — COMPLETE** | Reusable formula, subject/visit and categorical builders; `OfficeAddin/Components/ModelBuilder and RoleEditors`; [report](../docs/architecture/batch-04-05-model-role-builders.md) | 04.04,01.06,01.07 | W=No O=Yes | Common/Core design equivalence, worksheet/active-sheet discovery, Excel-DNA captions, sparse physical provenance, typed roles/categories and accessible lifecycle controls; numeric post-hoc fixtures remain green | Owner-accepted genuine Excel worksheet/variable and specification preview smoke | Read-only preview, no unsupported model fitting/write; passed full gates and owner acceptance | **High** |
+| **04.06 — COMPLETE** | Production Options/Global Settings, versioned Help, diagnostics, progress, English/Slovak resources and **Force English ON by default**; reused shared preference/store contracts; [report](../docs/architecture/batch-04-06-production-options-help-diagnostics.md) | 04.03,03.01–03.05 | W=No O=Yes | Preference persistence and failure/retirement ordering, migration/defaults, localization override, consent retirement and security | Owner accepted Slovak Excel: English default, OFF → Slovak, ON → English, persistence/reopen and Run/Write parity | Shared settings effective without duplicate policy; failed retirement never persists rejected changes; Help/diagnostics and consent remain safe | **Medium** |
+| **04.07 — COMPLETE** | Actual Office Ribbon commands and capability reconciliation; shared pane routing; compact persistent About/Help header, Apache 2.0 About dialog, four tabs (Analysis, Options, Export Chart placeholder, Diagnostics); [report](../docs/architecture/batch-04-07-office-ribbon-e2e.md) | 04.01–04.06 | W=No O=Yes | Generator/manifest and runtime-command inventory; dispatch and accessibility; options, Help, lifecycle, E2E regression | Owner accepted genuine Excel activation/UI and guard behavior; Windows desktop/Mac platform evidence remains distinct | Real ANOVA/KW editors and utilities reachable; unavailable methods and actual Chart Export disabled; no duplicate command panel or bypass of write safeguards | **High** |
 
-**04.04 mandatory production UX acceptance amendment (23 October, pending):** The
-owner must verify the default Analysis / Diagnostics tabs, arrangement-first
-RefEdit controls (one bounded rectangle or safely normalized whole columns for
-columns/rows; independent long vectors paired by actual overlapping worksheet rows,
-with blank/populated ignored-overhang notices and explicit header rules), direct Run without prior Acquire,
-optional/on-error validation preview, Reset and typed/picked existing/other/new-sheet
-output. Header/readiness/tabs stay visible while the selected panel scrolls, including
-narrow panes/high zoom/keyboard navigation. One-click Write automatically inspects
-and revalidates before mutation, pauses for occupied-target No/Yes, and never retries
-a possibly submitted mutation. Match Windows/WasmSmoke formatting using the same
-effective preferences: stored values, number formats, emphasis, alignment, p-value
-display/significance, fill/borders and authorized table spacing. No implicit whole-column
-autofit or writes outside inspected regions. Common parsing, original/effective-source identity/revision revalidation, cumulative
-budgets, single-use No/Yes consent and the uncertain-write latch remain mandatory.
-Genuine Edge Excel Online must verify output/table/style/readback and an independent
-second analysis after verified Completed on a new sheet; capture reference/after
-worksheet screenshots and sanitized first-failing native stage if uncertain. Shared
-grouped constraints must demonstrate future exactly-two-group and complete matched-block
-input reuse without enabling Mann–Whitney/Friedman statistics. Settings/Options and
-Ribbon implementation remain scheduled in 04.06/04.07, with the strengthened rows above.
-New Workbook remains disabled and separately reviewed at Phase 04 exit until populated-file
-creation, independent-workbook handoff and verification are proven. Uncertain output must stop
-with sanitized stage evidence, never automatic retry. Simulated browser evidence
-does not close the independent real-writer blocker. See the
-[production UX amendment](../docs/architecture/batch-04-04-range-preview-destination-ui.md#23-october-owner-amendment-formatting-bounded-columns-and-reusable-workflows).
-**04.04 remains pending; 36 / 223 accepted, 187 outstanding; 04.05 unstarted.**
+**Phase 04 status — ACCEPTED / MERGED:** All seven production Office batches are complete. The detailed 04.04 UX/recovery and numbered-new-sheet amendments were incorporated into the accepted implementation; their design evidence is preserved in the linked [04.04 report](../docs/architecture/batch-04-04-range-preview-destination-ui.md), not repeated as pending acceptance requirements. Office **New Workbook** and actual **Chart Export** remain unavailable until separately demonstrated; see Gate C limitations and Phases 10–13.
 
-**04.04 corrective acceptance amendment (23 October, pending):** After verified
-Completed, changing Welch/post-hoc options must retire derived results/consent and
-permit direct Run with unchanged input/output drafts, then fresh occupied No/Yes
-consent at the same destination. Pending asynchronous retirement and browser focus
-events must not strand or invalidate a fresh run. New worksheet names allocate the
-lowest available positive numeric suffix from the unchanged requested base, including
-case-insensitive collisions and 31-character truncation; no existing sheet is reused
-or overwritten and no occupied-output prompt applies. The resolved name must bind
-Common plan/intent, fresh inspection, mutation and strict readback. Show accessible
-`output.sheet-name-adjusted` notice locally; forward the redacted warning event to
-04.06 persistent logging when that scheduled feature is implemented. Genuine Edge
-must verify numbered-sheet completion, repeated runs and tab-return recovery. Safe
-preflight conflicts do not latch uncertainty; possibly submitted mutations never
-retry automatically. This supersedes rejecting a duplicate new-sheet name and asking
-for manual renaming; all other source/consent/readback guards remain mandatory.
-
-### Phase 04A — Finish Windows code migration and add selected Excel-DNA enhancements (new, 18 October 2026)
+### Phase 04A — Finish Windows code migration and add selected Excel-DNA enhancements (planned)
 
 **Companion source ledger:** [Windows portability audit, 18 October 2026](BESHStatNG_Phase04A_Windows_Portability_Audit_20261018.md).
 
 **Placement:** immediately after **04.07**, before **05.01**. This deliberately changes the execution critical path while preserving all existing Phase 05–13 batch IDs. The phase has **75 small batches**: **04A.01–04A.48** for comprehensive Windows migration inventory, incremental extraction and parity gate; **04A.49–04A.70** for the previously selected PDF enhancements; **04A.75** for optional histogram PrettyBreaks versus raw bin counts across histogram entry points; **04A.71–04A.74** for chart semantics, documentation, portable compatibility and final exit validation. IDs 04A.01–04A.74 are preserved. **All 75 are planned, not implemented.**
 
-**Scope and ownership:** The existing Excel-DNA product receives the new features **now**, but the numerical tests/geometry belong in `BESHStat.Core`, analysis inputs/options/result documents/chart specifications in `BESHStat.Excel.Common`, and WinForms controls/COM chart placement only in `BESHstatNG`. A future Office.js host should invoke the same compiled services. This does **not** prematurely implement Office.js screens or LibreOffice integration, and it does **not** port WinForms visuals verbatim. Phase 04 must first prove the production Office shell, but Phase 04A features can be smoke-tested in Windows without adding UI in that shell.
+**Scope and ownership:** As each planned 04A enhancement is implemented, the existing Excel-DNA product receives its host UI/renderer additions, but the numerical tests/geometry belong in `BESHStat.Core`, analysis inputs/options/result documents/chart specifications in `BESHStat.Excel.Common`, and WinForms controls/COM chart placement only in `BESHstatNG`. A future Office.js host should invoke the same compiled services. This does **not** prematurely implement Office.js screens or LibreOffice integration, and it does **not** port WinForms visuals verbatim. Phase 04 has already established the production Office shell; Phase 04A features can be smoke-tested in Windows without prematurely adding Office-specific method screens.
 
 **No false code-migration target:** A *complete portable-code extraction* is not deletion of every Windows file. Excel-DNA Ribbon registration, COM `Range` access, WinForms `.Designer.vb`, clipboard/file dialogs, Excel chart objects and MSI signing are legitimate Windows adapters and remain there. Conversely, any algorithm, model specification, statistical report rule, input validation, chart geometry or reusable settings policy found inside a form must be considered for Core/Common. `Option Strict On` and host-dependency guards apply to new portable code. Existing Core APIs must be reused when present, not copied.
 
@@ -656,7 +507,7 @@ for manual renaming; all other source/consent/readback guards remain mandatory.
 
 ### Phase 05 — Low-to-medium complexity statistical workflows
 
-**Changed prerequisite (Revision 1.4):** Complete **04A.74** first. For methods already extracted and regression-tested during 04A, these batches are **Office task-pane exposure/feature wiring/parity**, not a second migration of calculations. Existing IDs, batch intent, and other listed prerequisites remain; treat the 04A gate as an additional implicit dependency of every 05.xx–11.xx implementation batch.
+**Additional prerequisite:** Complete **04A.74** first. For methods already extracted and regression-tested during 04A, these batches are **Office task-pane exposure/feature wiring/parity**, not a second migration of calculations. Existing IDs, batch intent, and other listed prerequisites remain; treat the 04A gate as an additional implicit dependency of every 05.xx–11.xx implementation batch.
 
 **Phase exit:** First large usable Office feature set; input/output shapes and shared validation proven.
 
@@ -831,36 +682,23 @@ for manual renaming; all other source/consent/readback guards remain mandatory.
 
 ### Main dependency chain
 
-**Revision 1.4/1.5 critical-path update:** `01.10 (complete, per user + source validation) → 02.xx → 03.xx → 04.01–04.07 → 04A.01–04A.48 (full Windows audit/extraction gate) → 04A.49–04A.75 (selected Windows features, histogram control, and portability gate) → Phase 05–11 Office exposure/rendering/UDF workflows → Phase 12–13 release gates`. Where independent infrastructure can proceed in parallel, retain its original smaller dependency graph; this is the primary acceptance chain for mass feature migration. All Phase 04A numerical methods belong in Core, all typed application/plot semantics in Common, and Windows retains only host UI/rendering.
-
+**Active critical path (post-04.07):** `Gate C formal exit/sign-off → 04A.01–04A.48 Windows extraction/audit → Gate C2 → 04A.49–04A.75 enhancements and portable plot specs → Gate C3 (04A.74 acceptance, including dependency 04A.75) → Phases 05–11 Office analysis/chart/UDF coverage → Phases 12–13 product/release gates`. Every Phase 05–11 batch inherits the 04A parity/reuse gate even if its original dependency column predates Phase 04A.
 
 ```text
-Stage 3.04 baseline
-    └─ 00.01 golden fixtures [COMPLETE]
-        └─ 00.02 IDs/descriptors [COMPLETE]
-            └─ 00.02A–00.02B metadata + UDF docs [COMPLETE]
-                └─ 00.03–00.06 registry, result contracts, host preflight [COMPLETE]
-                    └─ 01.01–01.05 typed source/input parsers [COMPLETE]
-                        └─ 01.05A host-neutral contract hardening [COMPLETE]
-                            └─ 01.06–01.07 longitudinal/model inputs [COMPLETE]
-                                └─ 01.08 advanced inputs [COMPLETE]
-                                    └─ 01.09 host acquisition [complete] → 01.10 large-range acquisition and quotas [implemented; host smoke separate]
-            ├─ 01.xx input shapes & host acquisition
-            ├─ 02.xx output document/semantic formatting/layout
-            └─ 03.xx execution, settings, progress/fault contracts
-                └─ 04.xx production OfficeAddin shell + reusable GUI
-                    ├─ 05.xx basic analysis parity
-                    ├─ 06.xx regression → 07.xx survival/mixed
-                    ├─ 08.xx multivariate → 09.xx SPC/PSM
-                    └─ 10.xx chart specification/rendering (starts early)
-                         └─ 11.xx UDF full migration (bridge spike starts earlier)
-                             └─ 12.xx production distribution
-                                 └─ 13.xx cross-host release gates
+Phases 00–03: Common registry, inputs, outputs and infrastructure       [ACCEPTED]
+Phase 04: Production Office host, usable analyses, UI, settings, Ribbon  [ACCEPTED]
+    └─ Gate C: production-host exit decision                              [REVIEW DUE]
+        └─ Phase 04A.01–04A.48: full Windows portability ledger           [PLANNED]
+            └─ Gate C2: extraction closure                                [PLANNED]
+                └─ Phase 04A.49–04A.75: enhancements + histogram controls [PLANNED]
+                    └─ Gate C3: 04A.74 final parity sign-off              [PLANNED]
+                        └─ Phases 05–09: Office statistical workflows
+                            ├─ Phase 10: graphics + real chart export
+                            └─ Phase 11: Office custom functions
+                                └─ Phases 12–13: deployment, Mac/Win/Web release matrix
 ```
 
-**The remaining critical path** is large-range acquisition/quotas → output semantics/layout → host adapters → production shell. Once those contracts are settled, several analysis families can proceed independently and graphics specifications can be developed in parallel. Do not spend months completing every Windows graphics renderer before validating a single production OfficeAddin UI. Conversely, **do not bulk-migrate UDFs** before proving a custom-function-managed warm WASM runtime across real Office clients.
-
-**Suggested overlap without violating gates:** From the current checkpoint, prototype chart-spec serialization (`10.01`) and Custom Functions runtime feasibility (part of `11.03`) in disposable test branches while implementing 01/02. Do not merge a feasibility shortcut into production without its declared dependencies. Prepare GUI test harness while writing reusable components, not after the entire catalog is exposed. Run Windows parity smoke after **every** batch that edits the Windows host.
+**Parallelization:** Prepare renderer/Custom Functions feasibility in disposable branches when their interfaces are stable; do not mark the corresponding numbered batch complete or merge production code before its declared prerequisites. Keep `BESHStat.WasmSmoke` as a small independent regression probe. Windows Excel-DNA must pass smoke/parity checks after each future Windows-touching 04A patch. There is **no remaining authorization to implement 01/02/03/04 foundational batches**; they are complete.
 
 ### Decisions to approve before mass migration
 
@@ -884,8 +722,8 @@ Stage 3.04 baseline
 ### Decision gates and reversal costs
 
 - **Gate A / after 00.04 [SOURCE IMPLEMENTED; FULL HOST TESTS USER-REPORTED]:** 00.01 snapshots and 00.02 IDs/descriptors retained; 00.02A–B metadata reconciliation and full UDF docs parser parity passed; typed registry/dispatch and existing ANOVA/Kruskal output parity established.
-- **Gate B / after 02.08 — APPROVED WITH E1–E7 EXCEPTIONS, merged:** owner accepted the [Common v1 freeze and documented exceptions](../docs/architecture/gate-b-common-v1-contract-freeze.md), permitting compatible additive versioning only. Gate B is not counted as a batch. Phase 03 and 04.01 are owner-accepted/merged on local main; 04.02 is implemented pending owner review/live selected-range smoke. 04.03–04.07 and Phase 04A remain unstarted.
-- **Gate C / after 04.07:** new production Office host and reusable GUI with reliable tests; stop adding features to WasmSmoke.
+- **Gate B / after 02.08 — APPROVED WITH E1–E7 EXCEPTIONS, merged:** owner accepted the [Common v1 freeze and documented exceptions](../docs/architecture/gate-b-common-v1-contract-freeze.md), permitting compatible additive versioning only. All 03.xx and 04.xx batches have since been accepted and merged. Gate B is not counted as a batch.
+- **Gate C / after 04.07 — FORMAL REVIEW DUE, NOT YET SIGNED OFF:** verify 04.01–04.07 acceptance and architecture contracts; genuine Excel Online Ribbon/run/write/Help/settings evidence; accepted 04.05 model-builder read-only behavior; test baseline and protection; capability-disabled unsupported methods/new-workbook/chart export; lifecycle, single-use overwrite consent, verified readback and uncertain-write lock; genuine-host/desktop/Mac evidence classification. Record exceptions/limitations, owner decision and linked evidence before authorizing Phase 04A. Mac release qualification belongs to Gate G unless deliberately made a Gate C requirement. Keep WasmSmoke as an independent regression harness, not a production feature host.
 - **Gate C2 / after 04A.48:** Windows-wide portable-code audit and extraction closure with source-to-owner ledger, including WinForms, nested `UI/Refedit/Excel2007RefEdit.vb`, graphics and UDF wrappers.
 - **Gate C3 / after 04A.74:** 13 selected PDF enhancement topics plus optional raw/PrettyBreaks histogram bins numerically validated in Core/Common, visible in Excel-DNA, renderer-independent chart payloads verified and Phase 05 reuse map signed off.
 - **Gate D / after 06.01:** real formula-model vertical slice proves multi-column/mixed-type inputs, model builder and diagnostic results. Reassess regression family scale-up.
@@ -950,52 +788,22 @@ Batch ID / ZIP baseline / exact changes / backward-compatible API implications
 
 At the end of every batch, user supplies a new complete ZIP as the source of truth, confirms Windows build and Core/Common/legacy tests, and reports host smoke results. The next patch must **re-audit current files** rather than apply changes against the previous ZIP.
 
-## 17. Implementation checkpoint, next batch and historical 01.10 acceptance notes
+## 17. Current handoff — Gate C and Phase 04A authorization
 
-**Current Revision 1.9 planning checkpoint:** **Phase 03 and 04.01–04.04 COMPLETE / ACCEPTED / MERGED**. Local main `659d4fb` contains owner-accepted 04.04, including genuine Excel write/overwrite, numeric post-hoc p-values and option-change rerun, retaining accepted 04.03 navigation, 04.02 acquisition/diagnostics and 04.01 readiness. Phase 03's deleted-sheet RefEdit fix remains in `db85ff8640523004f23175e3aa6c082dcb83e6f0`; historical reports are retained. Accepted 03.05 Help/MIME and Gate B E1–E7 remain unchanged. **223 total / 37 accepted / 186 outstanding**. **04.05 IMPLEMENTED / PENDING OWNER ACCEPTANCE**, on local `codex/04-05`: read-only worksheet-based model/role builders, automatic Excel-DNA variable captions and physical provenance, reviewed numeric post-hoc fixtures reconciled and both full configurations green; genuine Excel smoke remains owner-only; see the [04.05 report](../docs/architecture/batch-04-05-model-role-builders.md). **04.06–04.07 and Phase 04A remain unstarted; Gate C is not complete**. Preserve **04.07 → 04A.01–04A.75 (04A.74 final acceptance gate) → dependent Phase 05+ work**. All 75 Phase 04A batches remain planned. Historical checkpoint/authorization language elsewhere is superseded by this active checkpoint, not rewritten.
+**Owner-accepted baseline:** **00.01–04.07 complete, accepted and merged to `main`**; `40/223` accepted, `183/223` outstanding. This includes the 04.04 native-readback and p-value fixes, 04.05 worksheet-based model-role builders, 04.06 Force English/local settings and 04.07 Ribbon/header/Export Chart placeholder. Historical reports may retain their then-current pending wording, but they do **not** supersede this owner-confirmed checkpoint.
 
-**Historical 02.08 safety handoff (resolved by accepted 02.08):** In Excel Online, 02.06 overwrote existing cells in the planned table rectangles without prompting. The user tested this and confirmed it; it was intentionally deferred to 02.08. That batch had to check **all** planned composite/table rectangles (not just the bounding envelope or first table), obtain consent when occupied, perform no destructive write when the user selects No, and truthfully report partial writes. The 02.07 opt-in composite path writes only to a new empty worksheet and rejects current-sheet requests before mutation; this restriction remains.
+**Immediate next action: a Gate C exit review, not a new implementation batch.** Produce or update a concise decision record that:
 
-**Gate B active handoff:** [Safe overwrite implementation and validation](../docs/architecture/batch-02-08-safe-overwrite-and-write-outcomes.md) records the accepted implementation history; its earlier pending-acceptance wording is superseded by the owner's accepted merge checkpoint above. Current-sheet composite insertion remains explicitly disabled. The [Common v1 freeze](../docs/architecture/gate-b-common-v1-contract-freeze.md) is **APPROVED WITH E1–E7 EXCEPTIONS, merged** by the owner's explicit confirmation. Accepted 03.01 adds an independent settings schema; accepted 03.02/03.03 add diagnostics/execution. The authorized 03.04 presentation layer must retain the frozen output contracts. There is no Batch 02.09. The preceding safety handoff is retained as historical motivation.
+1. References the accepted 04.01–04.07 implementation reports, protected-file hashes and accepted full regression baseline (last reported 4,075 Debug and 4,075 Release distinct checks).
+2. States which genuine Excel Online scenarios are owner-accepted, and distinguishes them from simulated Edge/browser runs. Record Windows desktop Excel and Mac as untested where there is no evidence; do not imply platform-wide certification.
+3. Reconciles the 04.07 XML manifest/Ribbon requirement sets, capability-disabled commands, metadata catalog and Help routes with the validated current source.
+4. Confirms the Core/Common v1 Gate B E1–E7 exception freeze, settings/privacy/security, source leases, original/effective input ranges, write consent, number-format/style readback, partial-write/uncertainty guard and lifecycle clean-up.
+5. Lists **known functional limits explicitly:** only ANOVA/KW editors currently execute; model-role builders are read-only; Office New Workbook output is unavailable; Chart Export tab is informational and its Ribbon action remains disabled; additional desktop/Mac host testing is a later product gate unless specifically required by the reviewer.
+6. Records an explicit **Approve / Approve with named exceptions / Hold** decision, responsible owner, date and links to evidence. Gate approval does not change the numbered batch count.
 
+**After a Gate C approval**, the next planned implementation is **04A.01**, followed by the complete Phase 04A Windows code migration and enhancement sequence in §13. All **75** Phase 04A batches remain unimplemented as of this revision. The companion source inventory is [BESHStatNG Phase 04A Windows portability audit](BESHStatNG_Phase04A_Windows_Portability_Audit_20261018.md). Do not start Phase 05–11 duplication of calculations while 04A's reuse ledger is unresolved.
 
-**Historical Revision 1.3 checkpoint (superseded):** batches through **01.09**, including **01.05A**, were implemented (18 completed; 130 outstanding). See §0, commit `2d9f418` and [the batch 01.09 architecture note](../docs/architecture/batch-01-09-acquisition-adapters.md). Live Excel and Mac acceptance remains separate. The user authorized only 01.10 on the existing `codex/01-10` branch; implementation and independent review do not authorize the next batch.
-
-### 01.10 — Safe large-range acquisition and quotas (source-implemented and validated by reported full run; no fresh live Excel acceptance)
-
-**Approved scope / likely files:** Office range batching and host-neutral `Common/InputSizeLimits.vb`, with narrow optional Windows preflight. **Dependency:** 01.09. **Host changes:** W=Optional O=Yes. **Risk:** High.
-
-**Required automated tests:** Chunking, memory and cancellation preflight. **Manual smoke:** Read a large rectangular dataset. **Acceptance criterion:** Bounded batching with informative limit messages. Retain 01.09 canonical parity, ordering, identity verification and single-range analysis semantics. See [01.10 implementation/review notes](../docs/architecture/batch-01-10-large-range-acquisition.md).
-
-These are the unchanged §13 requirements. This status correction records accepted 01.09; it does not declare 01.10 complete or authorize 02.01.
-
-### 01.08 — Matrix, Classification, PSM, SPC and Chart-Source Input Parsers (**complete**)
-
-Commit `5d5986d` implements the five Common input families using existing typed frame/category/numeric inputs, cell policies, source identities and structured diagnostics. Dimension checks, treatment/class-label validation, time/order checks and source-row alignment have ordinary, edge and compatibility tests, including deterministic matrix/SPC/PSM preview fixtures. The §13 dependency remains **01.05A**. Core math and `netstandard2.0` targets are unchanged; native error/missing-value metadata is preserved. Later host-adapter integration remains separate; no production GUI or LibreOffice adapter is added. See §0 and the architecture note for recorded validation and outstanding host acceptance.
-
-### Completed 01.05A/01.06 acceptance rationale (retained)
-
-### 01.05A — protect host-neutral spreadsheet semantics before complex inputs (**complete**)
-
-**Objective:** allow `BESHStat.Excel.Common` to remain usable by any future spreadsheet host **without adding LibreOffice code now**. Fix the assumption in `HostCapabilityPreflight` that a usable spreadsheet host necessarily has `IsExcel=True`; separate host-reported capabilities from brand. Document precise interpretation of source addresses, Excel-only date serials and spreadsheet errors as host-supplied metadata. **Preserve existing Office.js and Windows behavior by default**.
-
-**Scope / likely edits:** `BESHStat.Excel.Common/src/Host/HostCapabilities.vb`, small contract additions only when needed to `Contracts/SpreadsheetRangeReferences.vb` and `Input/CellValuePolicy.vb`; tests in `HostCapabilitiesTests.vb` and corresponding contract tests; `docs/architecture/` compatibility note. Avoid introducing a full platform-provider interface hierarchy or any new .NET project prematurely. `BESHStat.Core` algorithms should not change. Existing shared analysis IDs and generated YAML metadata should not change. **No UNO, Python, pythonnet, Wasmtime, Calc GUI or extension packaging work.**
-
-**Dependencies:** 00.06, 01.05. **Risk:** Medium, limited to shared contract compatibility.
-
-**Required tests:** unchanged success/failure for `WindowsExcelDna()` and `OfficeJsExcel()` capability profiles, including Office `NewWorkbook` rejection; simulated non-Excel host with explicitly provided read/write capabilities accepted; simulated non-Excel host missing a requested operation rejected; unknown/incomplete host rejected; `IsExcel` preserved for existing serialized consumers; current Excel A1 validation and Excel 1900/1904 date-policy tests unchanged. Add unit tests or documentation for a non-Excel source declaring an unknown/explicit date origin without silently assuming 1900 dates. Run Core/Common/legacy suites and node/browser tests on the actual development machine.
-
-**Manual smoke:** Windows Ribbon ANOVA/Kruskal output (current/new worksheet) and Excel Online task-pane selected range/new worksheet. No LibreOffice smoke test required.
-
-**Acceptance:** every existing Excel flow remains stable, `HostCapabilityPreflight` no longer makes Excel branding a universal spreadsheet requirement, and future date/address/error variability is documented without speculative Calc adapters.
-
-### 01.06 — survival and longitudinal inputs (**complete**)
-
-Implemented **01.06 — survival, time/status, subject/repeated and mixed-model grouping input parsers**, using the existing typed frame/category/validation contracts. Tests cover censoring/strata, cluster/subject identity, visit ordering, zero/negative times when disallowed, duplicate subject/visit pairs, missing values and diagnostic source rows. These remain Common-only input contracts; **no Office GUI or Python bridge** was added. 01.07 likewise compiles model inputs through existing Core formula/design services; it does not fit models or add host UI.
-
-### Already completed, not to be repeated
-
-00.01 → 00.02 → 00.02A → 00.02B → 00.03 → 00.04 → 00.05 → 00.06 → 01.01 → 01.02 → 01.03 → 01.04 → 01.05 → 01.05A → 01.06 → 01.07 → 01.08 → 01.09.
+**Historical status detail:** See the [Common v1 freeze](../docs/architecture/gate-b-common-v1-contract-freeze.md) and `docs/architecture/batch-*.md` for earlier decisions, test counts and corrective amendments. Those reports are maintained as historical evidence; superseded chronological notes have been removed from the active roadmap.
 
 ## 18. Reference documents for Office product assumptions
 
@@ -1024,22 +832,11 @@ These are external Microsoft documentation links used to qualify **future** desi
 
 **Boundary:** this appendix only influences Core/Common abstractions. It does **not** add a LibreOffice Python bridge phase, implementation batch, or release requirement.
 
-## 20. Revision 1.4 change record (18 October 2026)
+## 20. Revision history and status precedence
 
-- Adopted the checked-in Revision 1.3 planning baseline from the **18 October** ZIP rather than the older 16 October standalone master plan.
-- Reconciled user-reported completion through **01.10**, documented source/test evidence and independently reran **74/74** Office.js Node tests. No `.NET`/Excel live rerun was possible here.
-- Inserted **74 new batches (04A.01–04A.74)** immediately after Phase 04; preserved **all original IDs and descriptions** in Phases 00–13, except for additive dependency/reuse notes and current status.
-- Added a complete **WinForms-inclusive** Windows portability audit and incremental Core/Common completion gate before enhancements, spanning backend, 32 behavioral UI files, 29 Designer files, 38 Graphics modules, 41 UDF files and shared infrastructure. The detailed static coverage ledger is available as a companion file: `BESHStatNG_Phase04A_Windows_Portability_Audit_20261018.md`.
-- Scoped selected `Content.pdf` requests to **1, 2, 4, 5, 6, 7, 9, 13, 14, 15, 25, 38 and 39 only**, with existing-statistic reuse and statistical calibration gates.
-- Kept LibreOffice an architectural constraint only; no PyUNO or external host implementation batch added. No source code or documentation generator files were modified.
+- **1.4 · 18 October 2026:** audited the then-current portable/shared code and introduced the Windows portability and selected-feature Phase 04A workstream (04A.01–04A.74). Prior batch summaries and test inventories are retained in architecture reports.
+- **1.5 · 21 October 2026:** added **04A.75**, the backward-compatible histogram raw-bin/PrettyBreaks option, yielding **223 numbered batches**. The 13 selected enhancements and all pre-existing roadmap batch IDs were retained.
+- **1.9 · 25 October 2026:** tracked acceptance through 04.06 and the implementation of 04.07; historical 04.04 corrective text remained in the planning document after the batch was accepted.
+- **2.0 · 25 October 2026 (this revision):** reconciled owner-accepted/merged **04.07**, advanced counts to **40/223**, removed obsolete pending 04.04/04.05/04.06 narratives and historical duplicated progress notes, corrected Gate B and critical-path language, and identified **Gate C formal exit review** as the next action. The 223-row implementation roadmap, 75 Phase 04A batches, accepted Core/Common boundary and E1–E7 exceptions are unchanged.
 
-
-## 21. Revision 1.5 change record (21 October 2026)
-
-Historical revision record: its 28/195 counts and 03.02 authorization language are superseded by the active owner-accepted 03.02 checkpoint above. The 223-batch schedule is unchanged.
-
-- Recorded **03.01 as accepted and merged**, with Gate B approval and exceptions E1–E7 preserved. Began planning 03.02 only.
-- Added **04A.75 — Histogram PrettyBreaks on/off and method-derived raw bin counts**; Core numerical logic, pooled categorical options, existing histogram UI choices and backward-compatible chart/UDF entry points all belong to the later batch.
-- Kept all existing **04A.01–04A.74 IDs** and the 13 original PDF-selected enhancements. Updated 04A.71 and 04A.74 prerequisites so the new binning option is covered by cross-feature semantics and the final phase acceptance gate. The dated 18 October companion audit remains historical and unchanged.
-- Updated the numbered batch totals to **223 = 148 original + 75 Phase 04A**; **28 completed, 195 outstanding**. No 04A histogram implementation is authorized during 03.02.
-- The future 04A.75 implementation must audit all actual UI consumers of the histogram engine, including ordinary/categorical Options tabs and `HIST_BINS` / `HIST_NORMAL` compatibility; raw histogram semantics must not affect unrelated PSM display bins.
+**Status precedence:** Current `main` + explicit owner acceptance > latest master-plan checkpoint > per-batch implementation reports (historical) > archived ZIP or earlier revisions. Historical reports can retain original acceptance wording for traceability; the *active roadmap* must not present it as a current blocker.
