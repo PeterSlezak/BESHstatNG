@@ -1,15 +1,17 @@
-# BESHStat.Core.Tests — portable numerical validation
+# BESHStat.Core.Tests — statistical correctness and portability
 
-This **.NET 8 / MSTest** project verifies the behavior of [`BESHStat.Core`](../BESHStat.Core/README.md). It includes numerical regression checks, reference cases, model tests, and test datasets (including NIST benchmark material), independently of desktop Excel.
+This **.NET 10 MSTest** project validates [`BESHStat.Core`](../BESHStat.Core/README.md) independently of Excel. Its tests cover statistical accuracy, edge cases, numerical conditioning, regression models and portable calculations. Reference fixtures include NIST ANOVA/linear-regression cases and model data for GLM, GEE, survival, mixed models, multivariate procedures and other supported algorithms.
 
 ## Run
 
-From the repository root with a compatible SDK:
+From the repository root:
 
 ```powershell
 dotnet test BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj -c Release
 ```
 
-The test project uses `../test.runsettings` where configured. Several cases test numerical tolerances, singular/ill-conditioned cases, statistical reference outputs, or host-neutral callback behavior. Add focused tests with changes to the corresponding Core methods; keep shared-state tests isolated when test parallelism could interfere.
+Prefer deterministic input/expected-output fixtures and explicit numerical tolerances. Check singular matrices, missing or invalid observations, convergence warnings, tie-handling and boundary cases as appropriate to each method. Avoid dependencies on workbook state, native Excel or UI controls. Do not replace golden data without a reviewed statistical reason.
 
-This suite is a **portable computation gate**, not a replacement for Windows Excel GUI, output-writer, installer, or future Office.js integration tests. See the [main README](../README.md) for project status.
+## Role in development
+
+This is the portable calculation gate. It works alongside [`BESHStat.Excel.Common.Tests`](../BESHStat.Excel.Common.Tests/README.md), the Windows legacy suite and the browser/Office adapter suites. A passing Core test run does **not** demonstrate that a Ribbon form, chart renderer, Excel writer or Mac/Online host works.

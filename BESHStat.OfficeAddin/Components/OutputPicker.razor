@@ -1,0 +1,43 @@
+@using BESHStatNG.ExcelCommon
+<fieldset disabled="@State.Busy">
+    <legend>Output destination</legend>
+    <label for="output-destination">Destination</label>
+    <select id="output-destination" value="@((int)State.Destination)" disabled="@State.Picking" @onchange="DestinationChanged">
+        <option value="0">Existing worksheet</option><option value="1">New worksheet</option>
+        <option value="2" disabled>New workbook — unavailable</option>
+    </select>
+    @if (State.Destination == SpreadsheetOutputDestination.CurrentWorksheet)
+    {
+        <RangeReferencePicker State="State.OutputReference" Id="output-start" Label="Output start cell (worksheet-qualified A1)" PickLabel="Pick output cell" SingleCell="true" HostAvailable="HostAvailable" />
+        <p>The input worksheet is the default. Pick output cell explicitly permits selection movement and rechecks the unchanged source at Finish; ordinary selection changes invalidate the input. Capturing a rectangle is rejected.</p>
+    }
+    else
+    {
+        <label for="output-name">New worksheet name</label>
+        <input id="output-name" maxlength="31" value="@State.NewSheetName" @oninput="e => Change(State.Destination, State.StartCell, e.Value as string ?? string.Empty)" />
+        @if (State.SheetNameNotice is { } notice)
+        {
+            <p role="status" class="option-hint">Worksheet '@notice.RequestedName' already exists.
+                @if (notice.Created) { <span>Created '@notice.ResolvedName' after verified completion.</span> }
+                else if (State.Inspection is not null || State.Busy) { <span>Will use '@notice.ResolvedName'.</span> }
+                else { <span>Allocated '@notice.ResolvedName'; creation is not confirmed. Another Write checks availability afresh.</span> }
+                <code>@notice.Code</code>
+            </p>
+        }
+        <label for="output-start">Start cell on new sheet (A1)</label>
+        <input id="output-start" value="@State.StartCell" @oninput="e => Change(State.Destination, e.Value as string ?? string.Empty, State.NewSheetName)" />
+        <p>Writing creates exactly one sheet. If the requested name exists, the first available positive numeric suffix is used, shortening the prefix if needed. The requested base stays unchanged. Inspection never creates a sheet; the new sheet cannot be picked before creation.</p>
+    }
+    <p>New Workbook is unavailable: populated XLSX generation and verification in the separately opened workbook are not implemented. This remains a Phase 04 exit review follow-up.</p>
+    <p>Only exact table regions are written. Input overlap, merged/protected cells, spills, Excel tables and pivot tables reject. Auto-fit and plots are unavailable.</p>
+</fieldset>
+@code {
+    [Parameter, EditorRequired] public AnalysisPilotState State { get; set; } = default!;
+    [Parameter] public bool HostAvailable { get; set; }
+    private void Change(SpreadsheetOutputDestination d, string c, string n) => State.SetDestination(d, c, n);
+    private void DestinationChanged(ChangeEventArgs e)
+    {
+        var destination = int.TryParse(e.Value as string, out var v) && v is 0 or 1 ? (SpreadsheetOutputDestination)v : SpreadsheetOutputDestination.NewWorkbook;
+        Change(destination, destination == SpreadsheetOutputDestination.NewWorksheet ? "A1" : State.OutputReference.Text, State.NewSheetName);
+    }
+}

@@ -195,7 +195,8 @@ test("Razor uses only typed injected services and no permanent route",()=>{
     const razor=readFileSync(new URL("../App.razor",import.meta.url),"utf8");
     assert.doesNotMatch(razor,/IJSRuntime|Excel\.run|Office\.context|window\.|@page/);
     assert.equal((razor.match(/@inject.*IWorkbookAdapter/g)||[]).length,1);
-    assert.match(razor,/if \(!loading && status.IsExcel\)/);
+    assert.match(razor,/if \(!loading && status.IsExcel && ReadDiagnostics.Enabled\)/);
+    assert.equal((razor.match(/<AnalysisShell /g)||[]).length,1);
     assert.match(razor,/Read selected range \(read-only\)/);
     assert.match(razor,/if \(ReadDiagnostics.Enabled\)/);
     assert.match(razor,/Workbook\.InspectSelectionAsync\(lifetime.Token\)/);

@@ -15,7 +15,7 @@ public sealed class WorkbookDiagnostics
         "cs.import-started", "cs.import-completed", "cs.create-started", "cs.create-completed",
         "cs.import-failed", "cs.create-failed", "cs.invoke-failed",
         "cs.begin-started", "cs.begin-completed", "cs.tile-started", "cs.tile-completed",
-        "cs.finish-started", "cs.finish-completed", "cs.read-completed", "cs.cancelled", "cs.timeout",
+        "cs.finish-started", "cs.finish-completed", "cs.read-completed", "cs.cancelled", "cs.timeout", "output.sheet-name-adjusted",
         "cs.js-timeout-received", "cs.read-rejected", "cs.cleanup-started", "cs.cleanup-completed"
     ];
     public bool Enabled { get; }

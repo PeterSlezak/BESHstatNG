@@ -1,462 +1,241 @@
-# BESHStat.OfficeAddin — production host foundation
+# BESHStat.OfficeAddin — Office.js / Blazor WebAssembly development host
 
-Batch **04.01 owner-accepted / committed on main at d7888cd**. The owner confirmed
-real Excel Online/standalone, probes, Retry and independent WasmSmoke.
-Batch **04.02 owner-accepted / merged on main at 6b1e978**, including genuine
-selected-range reading and diagnostics. This supersedes historical pending
-acceptance wording in the 04.02 architecture report and investigation below.
-Batch **04.03 implemented / uncommitted / pending owner review and live Excel acceptance**.
-The owner reports the original 04.03 functionality and genuine Excel Online smoke
-passed; the requested two-level dropdown amendment still awaits owner acceptance.
-The minimal production host runs real Core/Common probes and offers an explicit
-read-only selected-range check when Excel-ready. Page load and Retry do not read
-workbook cells. No analysis or production output write is enabled.
+`BESHStat.OfficeAddin` is the **production-oriented, not-yet-released** cross-platform Excel host. It targets **.NET 10** and runs a Blazor WebAssembly task pane with Office.js adapters. Statistical computations execute in [`BESHStat.Core`](../BESHStat.Core/README.md); typed input, analysis orchestration, output semantics, diagnostics and capability policies come from [`BESHStat.Excel.Common`](../BESHStat.Excel.Common/README.md). JavaScript should remain a thin adapter rather than a second statistical engine.
 
-`BESHStat.WasmSmoke` remains an independent regression harness with its own
-manifest, identity and `https://localhost:7131/` endpoint. Neither project depends
-on the other. Future workbook adapters and reusable analysis screens belong to
-04.04–04.07; Gate C has not been reached.
+**Release status:** this is an active development project, **not** a supported Mac, Excel Online or Windows Office.js distribution. The host foundation, selected-range adapter and method/options UI have passed owner-reported real Excel Online tests. The newer ANOVA/Kruskal–Wallis acquisition/run/write pilot is implemented and covered by simulations, but its genuine workbook writer acceptance is still pending. Mac Excel validation and production deployment are not claimed.
 
-## Batch 04.03 method navigation and options
+## Implemented capabilities
 
-Launch on **7141** using the existing `https` profile and unchanged manifest.
-The **Analysis options** section works even when Office is unavailable or still
-initializing. Choose **Analysis group**, then **Statistical method**, using the
-two labelled native dropdowns. Tab/arrow keys/Enter and visible focus are supported.
-All **12 groups / 76 documented methods** come from `GeneratedMethodMetadata.All`,
-using the generated primary category. Groups sort ordinally by category; methods
-sort by display name then metadata key. Generated metadata has no Ribbon-order
-field, so this UI does not claim exact Ribbon ordering.
+- **Host lifecycle:** Office initialization/readiness, standalone-browser fallback, bounded probing, Retry, safe failure states and no workbook reads merely from loading the pane.
+- **Workbook adapter:** explicitly requested selected-range reading, typed cell snapshots, host identity, read limits, error/missing-value handling and sanitized diagnostics.
+- **Method navigation:** two-level group/method dropdowns using generated shared metadata. All **12 groups / 76 documented methods** can be represented in the catalog; this is **not** a claim that all are runnable.
+- **Typed analysis editors:** one-way ANOVA options (alpha, Welch and selected post-hoc tests) and Kruskal–Wallis options (alpha and Dunn). Other method entries remain unavailable until there are verified Common handlers and editors.
+- **Narrow analysis pilot:** explicit range selection, grouped-data validation preview, ANOVA/Kruskal–Wallis execution via Common/Core, ordered result tables, current/new worksheet target inspection, occupied-output confirmation and guarded writes through the production Office.js writer.
+- **Lifecycle protections:** source/selection/destination revalidation, document-operation identity, stale consent invalidation, structured rejection/fault codes and qualified partial-write outcomes. A native Excel mutation cannot be rolled back atomically or assumed cancellable after submission.
 
-Only **Parametric → One-Way ANOVA** and **Nonparametric → Kruskal-Wallis Test**
-currently have verified Common handlers and supported typed Office editors.
-Other methods are labelled **Not yet available** and disabled. Multivariate
-Analysis, Graphics and other unsupported groups announce **Not yet available in
-this Office add-in**; their documented methods remain listed. Listing a method
-does not imply calculation or output support. Below the dropdowns, the selected
-method's Common descriptor supplies its title/description and active option schema.
+The Office host intentionally **does not** implement the complete Windows Ribbon method set, Office Custom Functions, full chart rendering/export, general-purpose model GUIs or a production deployment manifest. New workbook output is not supported by the current pilot. Wider reusable screens and final desktop/Mac acceptance remain development work.
 
-ANOVA offers alpha and Welch, Fisher LSD, Bonferroni, Tukey–Kramer and
-Games–Howell flags. Kruskal–Wallis offers alpha and Dunn comparisons. Defaults
-come from Common: alpha **0.05**, ANOVA flags **false**, Dunn **true**. Alpha uses
-an invariant decimal point and must be finite and strictly between zero and one.
-Invalid text stays visible with an inline error; it cannot produce a snapshot.
+## Important source files
 
-Changing groups clears the selected method and closes its draft. Changing methods
-**resets options to Common defaults**. Reselecting the same group/method and Retry
-initialization preserve its draft, including invalid alpha text. Closing/reopening
-or reloading starts with no selected group or method.
-There is no draft storage. Editing never reads cells, writes output or executes
-an analysis. **Run analysis** is disabled with a 04.04 explanation. Help launch,
-range picker, validation preview and output/consent UI are deferred.
+| Area | Location |
+| --- | --- |
+| Task-pane navigation and analysis UI | `Components/AnalysisShell.razor`, `Components/AnalysisPilot.razor`, `Components/RangePicker.razor`, `Components/ValidationPreview.razor`, `Components/OutputPicker.razor` |
+| Strongly typed editors | `Components/OptionEditors/` |
+| State, catalog, analysis and workbook services | `Services/` |
+| Office readiness and safe probe/fault infrastructure | `Infrastructure/` |
+| Office JavaScript transport and writer | `wwwroot/js/officeHost.mjs`, `workbookAdapter.mjs`, `productionWriter.mjs` |
+| Development manifest | `manifest-dev.xml` |
+| C# component and JS adapter tests | `tests/` |
 
-Owner acceptance (record genuine host results separately from automated simulations):
+Historical rationale, detailed browser traces and acceptance matrices are under [`../docs/architecture/`](../docs/architecture/README.md); the README describes the current behavior rather than repeating investigative logs.
 
-- Standalone: `office.unavailable`, Core **0.5**, Common **2 / 4**. Choose
-  Parametric → ANOVA, edit alpha/two flags; choose Nonparametric → KW and edit
-  alpha/Dunn; switch back and confirm defaults. Enter `0`, `1`, `NaN` or `0,05`:
-  inline error. Multivariate Analysis and Graphics show unavailable explanations.
-- Genuine Edge Excel Online: `office.excel-ready` / `OfficeOnline`, same probes.
-  Check all 12 groups and filtered methods; no per-method button list remains.
-  Select Parametric → ANOVA then Nonparametric → KW; verify description/schema,
-  unavailable methods cannot be selected, labelled controls,
-  visible keyboard focus and narrow-pane layout. Retry retains the current
-  group/method/draft. Reopen starts unselected. Editing leaves cells and selection unchanged.
-- Explicit 04.02 read-only check still returns `workbook.ok` and dimensions for
-  a small selection. Writer remains unavailable; Run stays disabled. Confirm
-  independent WasmSmoke **7131** separately.
-- Capture both ANOVA and KW screens and record any UI defects. Codex screenshots
-  use simulated Office and do not establish genuine Excel acceptance.
+## Local development
 
-See [04.03 architecture and test evidence](../docs/architecture/batch-04-03-method-navigation-options-ui.md).
-
-## Prerequisites and launch
-
-Use Visual Studio 2026 with .NET 10 Blazor/WebAssembly development support, the
-.NET 10 SDK (verified here: **10.0.402**), and Node.js for dependency-free tests
-(verified here: **24.20.0**). Core/Common remain `netstandard2.0`; Windows Excel-DNA
-remains .NET Framework 4.8. Blazor packages match WasmSmoke's **10.0.13**.
-No Node packages, extensions or SDKs are installed by the test scripts.
-
-The owner must trust a developer HTTPS certificate, if not already trusted:
+Use **Visual Studio 2026** with the .NET 10 SDK/WebAssembly workload, **Node.js 20+**, a trusted local HTTPS certificate and a supported Excel test tenant/browser. From the repository root:
 
 ```powershell
-dotnet dev-certs https --check --trust
+dotnet build BESHStat.OfficeAddin/BESHStat.OfficeAddin.csproj -c Debug
 dotnet run --project BESHStat.OfficeAddin/BESHStat.OfficeAddin.csproj --launch-profile https
 ```
 
-Certificate trust is an owner setup action; it was not run by Codex. Alternatively,
-select this project as the Visual Studio startup project and choose `https`.
-The URL is **https://localhost:7141/**. Keep the server running while sideloaded.
-The profile does not automatically open a browser. No production/published URL is
-configured. This manifest is development-only and is not a release package.
+The development host uses **https://localhost:7141/**. The checked-in `manifest-dev.xml` is sideloaded for a **disposable** workbook; it is **development-only** and may require tenant/admin configuration. Its minimum manifest requirement is not a guarantee that all pilot operations are available: the guarded writer requires additional Excel API/host capabilities and rejects otherwise. The application should display host readiness and Core/Common checks when opened in a standalone browser even if Office is unavailable.
 
-## Distinct manifest and owner smoke
+Do **not** use the separate WasmSmoke manifest or its **7131** endpoint for this host. Build or reload the appropriate manifest after permission changes. No source-controlled file needs to point to a production hostname during ordinary local testing.
 
-Upload **`BESHStat.OfficeAddin/manifest-dev.xml`**. Its display name is
-**BESHStatNG Office Foundation Dev**, GUID
-**`5f70b95c-dc4a-4f38-b78d-0a7348657e19`**. It is an add-in-only XML `TaskPaneApp`
-for `Workbook`, requiring ExcelApi **1.1**, with **ReadWriteDocument** permission.
-Microsoft requires this permission for application-specific Excel APIs even when
-only reading. Higher permission permits writes in principle; this batch's UI
-does not authorize or perform them. The production writer remains fail closed.
-There are no Ribbon commands or VersionOverrides. **Remove/re-sideload this
-development manifest after rebuilding so the changed permission takes effect.**
+## User-operated verification of the current pilot
 
-1. First open the HTTPS URL in a normal browser to confirm certificate trust and
-   successful WASM loading. Expect **Office host not available**, Core CDF(0)
-   **0.5**, and Common **2 descriptors / 4 registered handlers**, both passed.
-   This is browser evidence only; it must not report Excel connectivity.
-2. In a disposable workbook in Excel Online, open **Home → Add-ins → More Settings →
-   Upload My Add-in** (older clients may use More Add-ins / My Add-ins), browse to the new
-   XML, then open **BESHStatNG Office Foundation Dev**. Sideloading may require
-   administrator permission for the tenant. Keep local HTTPS reachable from the
-   browser. Record the display name, host diagnostic `office.excel-ready`, actual
-   Core/Common values, client/platform and absence of uncaught console errors.
-3. For Windows desktop Excel, use the same development manifest through an
-   owner-configured trusted shared-folder catalog: **File → Options → Trust
-   Center → Trust Center Settings → Trusted Add-in Catalogs**, add the shared
-   folder URL containing the XML, enable its menu entry, restart Excel, then
-   select the add-in from **My Add-ins → Shared Folder**. Some Microsoft 365
-   clients also expose a custom upload route. No catalog, registry, share or
-   Office installation is configured by this repository's tests.
-4. Retry initialization and repeatedly reload, close and reopen the pane. The
-   probes should repeat deterministically; the selection, sheets and values must
-   remain unchanged. Check WasmSmoke separately on **7131** with its original
-   `office-manifest.xml` and original display name.
+Use a disposable workbook with a control sheet. Start with a wide numeric grouped range with column headers. Choose **Parametric → One-Way ANOVA** or **Nonparametric → Kruskal–Wallis Test**, set supported options, and explicitly click **Use current selection**. Preview validation and then click **Run analysis**. Verify numerical statistics, optional post-hoc tables, issue/warning codes and preserved order against accepted Windows fixtures.
 
-### Batch 04.02 selected-range acceptance
+Choose a start cell (for example `J1`) on the current worksheet or choose a new worksheet name, then **Inspect output destination**. Test an empty destination, occupied destination with **No** and **Yes** confirmation, a name collision, sheet protection and a changed source/target before writing. Only an explicit accepted write may mutate workbook cells. Check result formats, table spacing and unchanged surrounding cells. Cancel/Retry/reopen and independent read diagnostics must not cause silent writes. A failed or uncertain write may require manual workbook inspection; do not assume transactional rollback.
 
-Use a disposable workbook and the re-sideloaded manifest. In standalone **7141**,
-expect `office.unavailable`, **0.5 / 2 / 4**, working Retry and no read button.
-In genuine Excel Online expect `office.excel-ready`, `OfficeOnline` and those same
-probes. Select a small rectangle containing headers, numeric/zero values, a true
-blank, Boolean, text, `=""` and an error formula such as `=NA()`. Click **Read
-selected range (read-only)** once. Expect `workbook.ok`, correct rows/columns/cell
-count, and no echoed values, worksheet/workbook names or addresses.
+Run the [WASM smoke harness](../BESHStat.WasmSmoke/README.md) separately to ensure its previous bridge still works. Genuine Mac/Windows desktop host checks are independent of Excel Online and should be reported explicitly, not inferred from simulated tests.
 
-Repeat with an alternate small rectangle and a single cell. Select an oversized
-rectangle (over 10,000 cells): expect `input.range-cells` before value transfer.
-A disjoint selection must reject; its bounding rectangle is never substituted.
-Retry clears the previous summary and performs no background read. Close/reopen
-the pane and inspect again. Verify unchanged sheet count, values, formulas,
-formatting and selection. No result/write controls or worksheet creation exist.
-Confirm independent WasmSmoke **7131**; desktop Excel/Mac are optional owner checks,
-unperformed by Codex for 04.02. The canonical mixed-cell parity is automated, not
-an instruction to export workbook contents for comparison.
+## Automated testing
 
-### Historical investigation of the owner-observed read timeout (04.02 now accepted)
-
-During 04.02 the owner observed `input.time-budget` for a small selection in genuine Excel
-Online. The failing stage and root cause are **not yet established**. Parent-shell
-CSP/Office.js messages are not task-pane evidence. The reader/deadlines remain
-unchanged; the instrumentation was added for obtaining that evidence. Subsequent
-owner-confirmed genuine selected-range success supersedes this pending gate.
-
-1. Run the host in **Debug** with the current dev manifest re-sideloaded. In Edge
-   DevTools select **https://localhost:7141/** from the execution-context/frame
-   dropdown, not `baseFrame`, `about:blank` or the Excel parent shell. Evaluate
-   `location.origin === "https://localhost:7141"`; continue only if **true**.
-2. Enable local diagnostics in that frame, retaining Office's existing parameters:
-
-   ```js
-   { const u = new URL(location.href); u.searchParams.set("beshOfficeDiagnostics", "1"); location.replace(u); }
-   ```
-
-   After reload, confirm genuine readiness/probes again. Select the same small
-   rectangle. Click **Inspect selection metadata only (read-only)**, record only
-   status/dimensions, then **Read selected range (read-only)** and record its
-   status/dimensions. The second action still acquires the full typed snapshot;
-   metadata-only success is insufficient for acceptance. Neither reads on load
-   or Retry. While an operation is pending or after it ends, **Refresh stage
-   summary** shows C# fixed codes/timings. In the same frame capture:
-
-   ```js
-   JSON.stringify(__beshOfficeDebug.snapshot())
-   ```
-
-   Share only that sanitized snapshot and the C# stage summary. Both are bounded
-   to 80 events and contain no workbook/sheet IDs, names, addresses, values,
-   formulas, exception messages/stacks or URLs. No telemetry or storage is used.
-   C# milliseconds start at scoped recorder creation; JS milliseconds start at
-   page diagnostic installation. Compare adjacent stage differences within each
-   trace, not absolute timestamps across traces. `cs.timeout` identifies the C#
-   deadline/checkpoint; `read.js-timeout` and `cs.js-timeout-received` identify a JS
-   deadline/reply. Closely racing deadlines can leave both traces; the returned
-   public code remains `input.time-budget`.
-3. If needed run this independent **read-only** control in that same frame. It
-   reports only a fixed stage/status, dimensions on success, and elapsed time:
-
-   ```js
-   (async () => {
-     if (location.origin !== "https://localhost:7141") {
-       console.log({status:"control.wrong-frame"}); return;
-     }
-     const start = performance.now();
-     let timer, stage = "control.run-started";
-     try {
-       const native = Excel.run(async context => {
-         stage = "control.run-entered";
-         const r = context.workbook.getSelectedRange();
-         r.load("rowCount,columnCount");
-         stage = "control.sync-started";
-         await context.sync();
-         stage = "control.sync-completed";
-         return {status:"excel-read-ok", rows:r.rowCount, columns:r.columnCount};
-       }).catch(() => ({status:"excel-read-failed"}));
-       const result = await Promise.race([native, new Promise(resolve => {
-         timer = setTimeout(() => resolve({status:"excel-read-timeout"}), 10000);
-       })]);
-       console.log({...result, stage, elapsedMs:Math.round(performance.now()-start)});
-     } catch {
-       console.log({status:"excel-read-failed", stage, elapsedMs:Math.round(performance.now()-start)});
-     } finally { clearTimeout(timer); }
-   })();
-   ```
-
-   A timeout cannot abort an already submitted native request. Do not run repeated
-   controls while one is pending; close/reopen the pane before the next attempt.
-   If the control also hangs, report its fixed stage and sanitized dependency
-   statuses from this frame. Do not share HARs, request headers/bodies, credentials
-   or workbook data. Compare independent WasmSmoke/Edge versus Opera only within
-   owner-approved tenant/browser policy; do not weaken CSP/sandbox settings.
-4. Disable by removing only `beshOfficeDiagnostics` from the frame URL and
-   reloading. The added workbook traces and metadata button are disabled by
-   default. The C# recorder and button are compiled **off in Release**, even with
-   the query parameter; the production transport passes `false` to the JS
-   diagnostic option in that configuration.
-   The accepted 04.01 bootstrap diagnostic remains unchanged in availability.
-
-See the [timeout amendment](../docs/architecture/batch-04-02-office-workbook-adapter.md#owner-smoke-timeout-investigation-amendment--22-october-2026)
-for historical stage interpretation and simulations; its live gate is now accepted.
-
-### Adapter limits and ownership
-
-`IWorkbookAdapter` borrows the accepted scoped readiness service and returns typed
-Common ranges. It advertises only `input.read-selected-range`; writing and new
-workbooks are unavailable. Its metadata-only query returns dimensions and a typed
-Common reference for later selectors, without cell values. Explicit references additionally require the actual worksheet ID,
-name and canonical coordinates; unverifiable book/selection identities reject.
-References address only the workbook currently hosting the pane; they do not
-establish persistent identity across operations or workbooks.
-
-Default ceilings: **10,000 cells**, **2,000 cells per interop tile**, **64 MiB
-estimated bytes**, **30 seconds**. Callers can lower budgets, not raise them in
-this batch. All source metadata is checked before allocating rows/loading cells.
-Wide single rows tile across columns. Byte estimates include a conservative base
-and actual transported string lengths, but cannot guarantee Office/browser heap
-use. Retained snapshots still contain the entire accepted input.
-
-Each tile uses a fresh `Excel.run`, actual type metadata and fresh identity/
-selection observations before and after payload sync. No Excel proxy/context
-crosses a run. A changed document session, worksheet identity/name or selection
-bounds rejects the operation; no partial Common snapshot escapes. Verification
-uses current selection at checkpoints, not a persistent selection ID or an
-atomic historical cell-value snapshot. Transient changes that return to identical
-metadata between checkpoints, and concurrent cell edits, cannot all be detected;
-reads are not transactionally isolated. No whole-row/column narrowing is applied.
-Physical workbook ID/name and selection revision stay unknown; DateSystem stays
-Unknown and numeric serials remain numeric. Native error text is preserved only
-for actual Error cells; ExcelApi 1.1 supplies no separate native error code here.
-
-Cancel/dispose stops further payload scheduling and discards the pending snapshot.
-An already submitted native sync cannot be forcibly aborted. Concurrent requests
-on one adapter return `host.busy`; separate panes own separate adapters. The
-readiness service lifetime is independent. Cleanup releases module/object references
-and operation metadata; there are no workbook event listeners or background reads.
-
-`WriteAsync` accepts existing Common `OfficeOutputPlan` / `WriteIntent` /
-`WriteConsent` and returns existing `WriteResult`. Production JavaScript has **no
-writer installed**, so requests reject before mutation. Injected, explicitly
-simulated test ports exercise occupancy/consent revalidation, actual mock identity,
-successful sync, cancellation and mutation uncertainty. They are not a production
-writer or a promise of 04.04 destination/consent UI. No rollback or undo is claimed.
-
-The two add-ins can coexist. To replace an older sideload of this foundation,
-remove only **BESHStatNG Office Foundation Dev** in My Add-ins (or remove its
-catalog entry), close its task pane, then upload/select the new XML. Do not reuse
-WasmSmoke's GUID or remove its separate entry. For stale developer assets, close
-the pane, remove this development sideload, reload/clear this localhost origin's
-browser cache as appropriate, and add it again. Avoid broad Office cache cleanup.
-
-**Mac Excel is a later acceptance target and has not been verified.** Automated
-Mac platform metadata cases do not establish Mac host support.
-
-## Diagnostics and troubleshooting
-
-Only fixed diagnostic codes and a whitelisted platform are displayed. Do not
-paste workbook contents, URLs, addresses, HTTP response bodies or credentials
-into logs or bug reports. There is no telemetry or diagnostic export service.
-
-- `office.unavailable`: outside Office, missing/blocked CDN, or no Office.js after
-  the five-second bound. The browser page remains usable; load the sideloaded pane
-  or resolve CDN access and click **Retry initialization**.
-- `office.timeout`: readiness did not finish in an embedded/unknown context, or
-  the outer interop deadline expired. A top-level standalone window with a pending
-  Office promise falls back to `office.unavailable` after five seconds. Retry
-  after checking connectivity/tenant restrictions. Office context is never used
-  as a shortcut around `Office.onReady`.
-- `office.unsupported-host` / `office.unsupported-api`: a non-Excel/unknown Office
-  host or missing ExcelApi 1.1 support. Workbook features are not advertised.
-- `office.initialization-failed`: safe projection of JS/interop failure. Check
-  the local server, TLS certificate and browser network panel for asset-loading
-  failures. The UI does not display raw exception text.
-- WASM never starts: verify the HTTPS server and `_framework` requests; reload
-  once the server/certificate is working. An unrecoverable framework error offers
-  a reload link. No offline service worker is installed.
-- `probe.failed`: record the displayed check results and build configuration.
-  The probes run without Office and never acquire workbook input.
-
-Office.js is loaded by a blocking script tag in the HTML head before Blazor startup,
-matching WasmSmoke's script ordering. Blazor renders the local probes/progress UI
-independently; the adapter calls `Office.onReady` after the first render and gates
-all Office requirement metadata on its completion. A blocked
-CDN may delay the HTML page load; the five-second JS readiness bound starts only
-once the application is running. .NET interop has a twelve-second outer bound.
-Retry is explicit.
-Promise-based Office readiness cannot be unsubscribed from Office.js. Retry shares
-one pending wait for the same Office/onReady identity, with removable attempt
-subscribers. Late completion can be used by a later explicit Retry. Timed-out or
-disposed attempts cannot inspect Office context; their listeners/timers are removed.
-
-### Read-only owner diagnostic (no workbook access)
-
-In Excel Online DevTools, use the Console **execution-context/frame dropdown** to
-select **`https://localhost:7141/`**, not a `baseFrame...`, Excel shell or
-`about:blank` context. First run this Boolean check:
-
-```javascript
-location.origin === "https://localhost:7141"
-```
-
-If false, select the task-pane context before continuing. Enable the local-only
-diagnostic and reload **that frame**, preserving Office's existing query/hash:
-
-```javascript
-(() => {
-  const url = new URL(location.href);
-  url.searchParams.set("beshOfficeDiagnostics", "1");
-  location.replace(url.href);
-})();
-```
-
-Reselect the localhost context after reloading. After readiness settles, run:
-
-```javascript
-JSON.stringify(globalThis.__beshOfficeDebug.snapshot())
-```
-
-The snapshot contains only a frame category, fixed stage codes, relative timings
-and allowlisted resource categories/status numbers. It has no Office APIs, network
-telemetry, workbook data, raw errors or URLs. `status: 0`/`null` in resource timing
-is **inconclusive**, particularly across origins; it does not prove blocking.
-The collector is inactive by default, bounds event history and detaches on pagehide.
-`__beshOfficeDebug.stop()` removes its listeners immediately. Remove the diagnostic
-query parameter and reload to disable it completely.
-
-In Network, disable cache and group/filter by the **localhost frame/initiator**.
-Inspect primary `office.js` and its actual strings/locale/host dependencies. Record
-only category, HTTP status, MIME type, redirect yes/no and blocked/abort reason.
-Do not export a HAR, headers, response bodies or full request URLs. A pending
-`onReady` alone never produces `bootstrap.office-dependency-failed-or-blocked`;
-that stage requires a captured Office script error or CSP violation. Network
-blocking can still require manual inspection when the browser hides the event.
-
-For `people.aspx`, sandboxed `about:blank`, icon and preload errors, identify the
-source frame first. Errors in Microsoft's shell are not automatically task-pane
-failures. Do not alter Office iframe sandbox permissions. If dependencies fail in
-both add-ins, compare an owner-run Edge session without VPN/content blockers with
-Opera under the same tenant policy; do not bypass organizational restrictions.
-
-### Opt-in actual-browser regression runner
-
-An installed Edge and Node are sufficient; no npm/browser installation is needed.
-With the HTTPS dev server running, launch a **fresh isolated** headless browser:
-
-```powershell
-Start-Process -FilePath 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe' -WindowStyle Hidden -ArgumentList @('--headless=new','--disable-gpu','--no-first-run','--remote-debugging-port=9227','--user-data-dir=C:/Users/peter/source/repos/BESHstatNG/TestResults/04-01/edge-readiness','about:blank')
-node BESHStat.OfficeAddin/tests/browser/readiness-browser.mjs
-foreach ($fixtureName in @('excel','pending','unsupported','missing','dependency','bridge-regression')) {
-    node BESHStat.OfficeAddin/tests/browser/readiness-browser.mjs "--fixture=$fixtureName"
-    if ($LASTEXITCODE -ne 0) { throw "Browser fixture failed: $fixtureName" }
-}
-```
-
-Use this isolated debug endpoint only, never an authenticated browser profile.
-The driver creates/closes its own tabs, disables stale browser caching and emits
-sanitized JSON. The default checks real CDN standalone startup, actual module
-import, Blazor interop, probes and three retries. All `--fixture` cases are
-**simulated**, including Excel readiness and a deliberately restored double-wrap
-regression. They do not certify genuine Excel, platform metadata or pane reopening.
-Close the isolated browser after testing. If assets were rebuilt while the server
-was running, restart the server so its static-asset manifest is current.
-
-With a **Debug** host and the same isolated browser, the 04.02 browser driver
-uses the shared canonical fixture and mocked Office/Excel boundaries, while
-exercising real ES-module import, Blazor WASM, typed interop and explicit buttons:
-
-```powershell
-node BESHStat.OfficeAddin/tests/browser/workbook-browser.mjs
-node BESHStat.OfficeAddin/tests/browser/workbook-browser.mjs --pending-sync
-```
-
-The second run deliberately stalls a simulated payload sync for the unchanged
-30-second budget, reports which timer wins, then checks a successful simulated
-retry. Both runs are **simulations**, excluded from distinct unit-test counts;
-neither authenticates to Office or proves native `context.sync()` health.
-
-## Automated checks
-
-With the same isolated Edge/CDP setup above and a Debug server on 7141, exercise
-the two dropdowns and typed options in actual Blazor, with simulated Office only:
-
-```powershell
-node BESHStat.OfficeAddin/tests/browser/options-browser.mjs
-node BESHStat.OfficeAddin/tests/browser/options-browser.mjs --standalone
-```
-
-These check native Tab/arrow/Enter, unavailable methods/groups, alpha/flags,
-reset/Retry/reload behavior, narrow layout and no automatic workbook operations.
-The Excel simulation also clicks the explicit read-only diagnostic. Sanitized
-JSON and six screenshots for this amendment are under `TestResults/04-03-dropdown`.
-They do not certify the owner's genuine Excel Online acceptance checklist.
-
-From the repository root, with dependencies already available:
+The `tests/OfficeAddin.Tests.csproj` project tests actual linked C# services and Razor components; Node's built-in test runner covers Office JavaScript modules and writer behavior. Use the project verification script for host/build/asset consistency:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-office-foundation.ps1 -Configuration Debug
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-office-foundation.ps1 -Configuration Release
 ```
 
-Each command builds the host, runs **153 C# cases**, runs **136 Node
-cases**, validates manifest/launch identity and checks built static assets and
-Core/Common WASM assemblies. The C# project links the exact production bootstrap
-sources and compiles the exact production Razor components. Real HtmlRenderer
-output and a dependency-free Blazor event renderer exercise UI bindings and
-lifecycle; bUnit is not installed. These tests do not host the browser runtime.
-No live Office, public network or
-workbook is required by tests. `npm.cmd test` can also be run in this directory
-without `npm install`.
+Or run the JS suite alone:
 
-The opt-in seven-scenario browser run is separate from these distinct-case counts.
-The [readiness debugging amendment](../docs/architecture/batch-04-01-office-host-foundation.md#post-implementation-readiness-debugging-amendment--22-october-2026)
-records the proven interop defect, remaining live Excel gate and actual results.
-That report's historical 04.01 pending gate is superseded by the owner acceptance
-recorded at the top of this README. 04.02 selected-range smoke is owner-accepted;
-04.03 navigation/options live acceptance remains pending.
+```powershell
+cd BESHStat.OfficeAddin
+npm test
+```
 
-Run the existing `scripts/verify-beshstatng.ps1` separately with
-`-Configuration Debug` / `Release -VisualStudio 2026 -Legacy -Wasm -Js -Python`.
-The `-Wasm` gate now includes the production host assembly/build as well as
-WasmSmoke; `-Js` includes both hosts' Node tests and the resolver.
-See the [04.01 architecture/evidence report](../docs/architecture/batch-04-01-office-host-foundation.md)
-for exact commands, suite counts, limitations and the owner evidence checklist.
-See the [04.02 adapter report](../docs/architecture/batch-04-02-office-workbook-adapter.md)
-for this batch's source mapping, test inventory and pending owner checklist.
+For **opt-in simulated browser** validation, the repository also contains `tests/browser/readiness-browser.mjs`, `workbook-browser.mjs`, `options-browser.mjs` and `pilot-browser.mjs`. These use a locally running Debug host and an isolated Edge debugging session; see the architecture notes for their setup. Simulations validate wiring and cross-layer execution but **cannot certify a genuine Excel workbook, Office tenant, platform capability or Mac installation**.
 
-Microsoft references: [initialization](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/initialize-add-in),
-[XML manifest](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/xml-manifest-overview),
-[host/requirements and CDN](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/specify-office-hosts-and-api-requirements),
-[permissions](https://learn.microsoft.com/en-us/javascript/api/manifest/permissions),
-[application-specific API permission requirement](https://learn.microsoft.com/en-us/office/dev/add-ins/develop/requesting-permissions-for-api-use-in-content-and-task-pane-add-ins),
-[Excel Online sideloading](https://learn.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing).
+The repository-wide verifier is [`../scripts/verify-beshstatng.ps1`](../scripts/verify-beshstatng.ps1). Re-run relevant suites in both Debug and Release and keep owner-operated workbook checks separate from automated pass counts.
+
+## Next development priorities
+
+Finish the owner acceptance of the guarded analysis/write pilot, then strengthen reusable form/selection/output components, broaden supported shared analysis workflows, implement portable chart specifications and host renderers, evaluate Office Custom Functions/runtime reuse, and prepare secure hosting/manifest/release procedures. Continue preserving the existing Windows Excel-DNA application as the fully supported host throughout this work.
+
+## 04.04 amendment: capture after output
+
+The reported `output.mutation-uncertain` below the range field comes from the
+writer's fail-closed outcome latch. It is not evidence that the input sheet changed.
+The initiating failure in the owner's genuine Excel Online write is still under
+investigation; a populated new sheet alone cannot establish verified completion.
+No unevidenced color/number-format normalization or forced latch reset was added.
+
+After a verified Completed write, the pane retires the source/consent and old event
+listeners so another range can be captured, acquired and analysed in the same pane.
+Fresh source tokens and token-bound callbacks prevent stale events/consent from
+affecting the next run. Timeouts retain the busy lease until native work settles.
+Late Cancel cannot downgrade verified completion. The previous write outcome stays
+visible while the current form is edited or initialization is retried.
+
+After PartiallyWritten/`output.mutation-uncertain`, inspect the workbook manually
+and wait for the previous native operation to finish. Do not retry that write.
+Close and reopen the task pane before another operation; no rollback is available.
+Capture remains blocked in that writer session, including after Retry/navigation.
+
+For opt-in sanitized stage traces, use the task-pane DevTools frame:
+
+```javascript
+const writerTrace = await import('/js/productionWriter.mjs');
+writerTrace.enableWriterTrace();
+// Perform one explicit write, record its displayed outcome, then:
+copy(JSON.stringify(writerTrace.getWriterTrace(), null, 2));
+writerTrace.enableWriterTrace(false);
+```
+
+The memory-only trace is bounded to 256 entries and relative timings of 0–60,000 ms.
+It records native mutation/readback stages, verification categories, lifecycle
+events, result state/count and capture guards, without workbook data or native
+exception details. See the [amendment report](../docs/architecture/batch-04-04-range-preview-destination-ui.md#22-october-amendment-capture-after-new-sheet-output)
+for exact recovery, commands/results, limitations and genuine two-operation owner
+acceptance steps. Automated Edge uses simulated Office objects; genuine Excel
+writer acceptance remains pending. **36 / 223 batches accepted; 04.04 pending.**
+
+## 23 October 04.04 production UX amendment
+
+This section supersedes the acquisition/Run instructions above while preserving
+the existing README content. **04.04 remains pending owner acceptance**, including
+the independent genuine-Excel uncertain-write investigation; 04.05 is unstarted.
+
+The default **Analysis** tab contains group/method navigation, typed options and
+the workflow. Choose **Grouped data arrangement first**, then Header mode.
+Columns/rows use one worksheet-qualified RefEdit range. Long format uses two
+independent **Group/category (ID) range** and **Numeric values range** pickers;
+nonadjacent columns are supported, with no integer column-index controls. The two
+vectors must be distinct single columns in the same physical workbook/worksheet,
+with exactly matching first/last rows. Category ID identifies a group, not a
+repeated-measures subject. Manual qualified addresses, arm/Finish/Cancel and explicit
+capture fallback remain available. Only one picker can own capture.
+
+Click **Run analysis** directly: one bounded operation reads fresh sources,
+validates with Common and runs the registered ANOVA/KW handler. **Validate input
+(optional)** validates without statistics or output. The redacted preview appears
+on request or failed Run; ordinary successful Runs show result readiness. Edits
+clear stale issues. Locations use the actual category/value column and worksheet row.
+
+**Reset form** keeps group/method and restores input, arrangement, headers, options
+and output defaults, retaining any uncertain-write latch. **Diagnostics / Log**
+contains Office/platform and Core/Common checks; development read controls and safe
+stage summaries require Debug plus `?beshOfficeDiagnostics=1`. Opening it performs
+no workbook read/write and preserves the live analysis. Tabs support keyboard and
+screen-reader navigation. Retry stays above them and invalidates derived state
+while preserving drafts; pane reopen starts fresh.
+
+Save explicitly: choose an existing worksheet with a typed/picked qualified start
+cell (including another sheet), or a new sheet name/start cell; **Inspect output
+destination**, then **Write** or occupied-target **Yes/No**. Every write rechecks both
+physical sources and fresh occupancy, consumes consent once and never retries
+automatically. New Workbook remains disabled. Verified Completed permits a second
+independent analysis in the same pane. Uncertain/partial output blocks work across
+Reset, methods, tabs and Retry: inspect manually, wait for native settlement, never
+retry that write, then close/reopen the pane.
+
+Exact state/lifecycle contracts, automated evidence, complete file inventory and
+still-required genuine Excel/control-sheet steps are in the
+[production UX amendment report](../docs/architecture/batch-04-04-range-preview-destination-ui.md#23-october-production-ux-amendment-0404-remains-pending).
+
+## Current 04.04 formatting, bounded input and Write workflow
+
+This amendment supersedes the earlier equal-length long-input and mandatory Inspect
+instructions above, preserving their history and owner-authored README content.
+**04.04 remains pending genuine Excel Online acceptance (36/223; 187 outstanding).**
+
+- Header/readiness and **Analysis | Diagnostics / Log** stay visible; only the
+  selected panel scrolls. Tabs retain the draft, result, lease and scroll position.
+- Qualified input may select entire columns, such as `'Hárok 1'!$F:$F` or
+  `'Data'!$A:$C`. Capture/Run/optional Validate resolves the selected columns' used
+  value/formula footprint before bounded reads. Original scope stays in the RefEdit
+  field; a short note describes narrowing. Every selected column and interior blank
+  stays in place. Zeros are data, errors remain errors, empty-string formulas remain
+  text, and formatting-only blanks do not extend the footprint. Empty/oversized or
+  unverified inputs reject; row-only/whole-sheet/multi-area/external inputs are unavailable.
+- Long inputs use only matching **physical worksheet rows**. F1:F10/E1:E12 succeeds
+  with blank extra rows. Ignored overhang is reported by role/count; populated extras
+  get a prominent warning. None can intersect different starts; Required/Auto must
+  start on the same header row. Original ranges, including ignored cells and whole-
+  column scopes, remain protected by source revalidation and overlap safeguards.
+- After Run, click **Write results** once. It inspects afresh, writes an empty safe
+  destination, or pauses for occupied-target **No / Yes**. Advanced Inspect is optional.
+  No makes no changes; verified source/results can remain for another explicit Write
+  with new inspection/consent. No potentially submitted write is automatically retried.
+- Table presentation now follows the existing Windows/WasmSmoke source conventions:
+  Common roles/emphasis and effective p-value formats, Calibri Light, gray headers,
+  left alignment, footer size and table borders; numeric significant p-values use
+  the same green convention. Values stay numeric and Common significance is unchanged.
+  Formatting/readback is confined to inspected table regions; autofit/column widths,
+  charts and New Workbook remain unavailable. Native mismatches still latch uncertainty.
+
+Settings/Options implementation remains **04.06**, using existing PreferenceSnapshot,
+IPreferenceStore and PValuePresentationSettings (global alpha, seed, logging, digits,
+small-value mode/upper bound and honest session-only fallback). Ribbon utility/method
+inventory/parity remains **04.07**. No parallel settings schema or future statistical
+handler is added: reusable grouped constraints demonstrate exactly-two-group and
+matched-block input checks without enabling Mann–Whitney/Friedman.
+
+The genuine native writer blocker is **not resolved by simulations**. Before/after
+worksheet screenshots and a safe first-failing writerTrace stage remain owner checks.
+After verified Completed, test a second independent analysis in the same pane; after
+uncertainty, inspect manually, wait, never retry that write, then close/reopen.
+See the [current source audit, policies, test evidence and owner checklist](../docs/architecture/batch-04-04-range-preview-destination-ui.md#23-october-owner-amendment-formatting-bounded-columns-and-reusable-workflows).
+
+## Corrective 04.04 workflow: rerun options and numbered new sheets
+
+This supersedes duplicate-name rejection/manual-renaming guidance above. After a
+verified Completed write, change Welch/post-hoc options and click **Run analysis**
+directly with the same references. Old results/inspection/consent retire; Run waits
+for outstanding retirement, reads fresh input and applies the new options. Write
+to the same existing cell obtains a new occupied **No / Yes** inspection/consent.
+Options changes never write automatically. Browser/tab return may invalidate a
+lease; another explicit Run resolves the retained physical references without reload.
+Renamed/deleted/replaced sheets still require correcting or explicitly repicking the
+reference. Whole-column reacquisition can refresh its used footprint on the same
+physical sheet; an old result/consent cannot use that changed source.
+
+For **New worksheet**, keep a requested base such as `ANOVAresults`. If free, that
+exact name is used without a warning. If occupied (case-insensitively), Write picks
+the first free positive suffix: base, base1 and base3 occupied gives **base2**.
+The prefix shortens as needed to keep 31 characters; invalid/reserved names reject
+instead of being repaired. The editable base never changes. The actual target name
+appears separately in an accessible `output.sheet-name-adjusted` notice: “Will use”
+before mutation and “Created” only after verified Completed. New-sheet output never
+reuses another sheet and never requests occupied-cell overwrite consent. Inspection
+creates nothing; Write submits one new sheet at the chosen start cell.
+
+If a concurrent addition takes the allocated name before submission, the attempt
+rejects safely; click Write again for a fresh allocation and inspection. There is
+no automatic mutation retry. A conflict/fault after submission stays uncertain and
+requires the existing manual recovery; a populated sheet alone does not prove Completed.
+
+Names stay in the intended local output UI. The existing opt-in bounded memory
+diagnostics and sanitized writer trace receive only `output.sheet-name-adjusted`,
+without names, addresses or contents. **04.06 must forward this event to its scheduled
+persistent logging feature**, with the same opt-in/redaction policy and fail-isolated
+delivery. No persistent log store or Settings implementation is added in 04.04.
+
+Use a disposable genuine Edge workbook to verify option rerun at J1 with fresh No/Yes,
+base/base1/base3 → base2, another independent run with the unchanged base, browser
+tab return, 31-character/case/invalid names and strict Completed readback. Stop after
+uncertainty and collect a sanitized first-failing writerTrace; never bypass the latch.
+See the [corrective evidence and owner checklist](../docs/architecture/batch-04-04-range-preview-destination-ui.md#23-october-corrective-amendment-rerun-numbered-worksheets-and-tab-return).
+**04.04 remains pending: 36/223 accepted, 187 outstanding; 04.05 unstarted.**

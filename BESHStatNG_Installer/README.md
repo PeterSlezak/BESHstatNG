@@ -1,22 +1,20 @@
-# BESHStatNG_Installer — Windows MSI packaging
+# BESHStatNG_Installer — Windows distribution and signing
 
-This project contains the **WiX-based installer packaging** for the supported **Windows Excel-DNA** edition of [BESHStatNG](../README.md).
+This directory contains the **WiX-based Windows installer** for the supported Excel-DNA BESHStatNG add-in. It packages Windows XLL output and Windows-only setup components. It does **not** build or distribute the Office.js/WebAssembly application, a Mac add-in or LibreOffice extension.
 
-## Role in a Windows release
+## Project areas
 
-The installer distributes the built Windows Excel-DNA add-in, including the correct packaged `.xll` payload for the intended Excel architecture. It is not used to ship the experimental Office.js/WebAssembly harness or a native Mac add-in.
+- `ExcelAddInDeploy/` — WiX MSI authoring, localization, packaged Excel add-in files and installer resources.
+- `ExcelAddInBundle/` — WiX bundle/Bootstrapper resources and project definitions, maintained separately from the application code.
+- `InstallerCA/` — Windows-only custom action code, including close-Excel prompting behavior.
+- `Installer.sln` — installer projects/solution; separate from routine portable-library builds.
 
-A typical release sequence is:
+## Windows release workflow
 
-1. Build and validate the Windows add-in and its Core/Common dependencies in the intended configuration(s).
-2. Produce and verify the packed Excel-DNA XLL payload(s), including any required DLL packing.
-3. Set and reconcile the application and MSI version using the repository's release process and `../Directory.Build.props`.
-4. Build the WiX/MSI project using the **WiX toolset and Visual Studio integration required by its actual project version**.
-5. Verify installation, upgrade/uninstall behavior, Excel registration/activation and both supported Excel bitness variants as applicable.
-6. Apply the established signing and release checks before distributing the MSI.
+Build/test the Windows add-in, Core/Common and the applicable x86/x64 packed XLL files first. Use `../Directory.Build.props` as the version source (`BeshVersion` four-part application version and `BeshVersion3` three-part MSI representation). Build the WiX projects with the compatible **Visual Studio 2026/WiX HeatWave** tooling, then validate file inclusion, installation, registration/activation, upgrade, removal and Excel bitness. Follow the established XLL/MSI signing procedure separately and verify signatures on the final artifacts.
 
-## User installation
+Avoid broad file harvesting: the release package should include only intended XLL payloads and explicitly required installer files. Do not add development WASM assets or local test logs to the production MSI.
 
-Users should download the published **signed MSI** from [beshstat.eu/download](https://beshstat.eu/download/) or [GitHub Releases](https://github.com/PeterSlezak/BESHstatNG/releases), close Excel before installation, and follow the [getting started guide](https://beshstat.eu/beshstatng/help/latest/getting-started/).
+## For users
 
-**Status:** release packaging for the stable Windows host.
+Published installers and installation instructions are available at [beshstat.eu/download](https://beshstat.eu/download/) and in [Getting started](https://beshstat.eu/beshstatng/help/latest/getting-started/). Close Excel before installation. The released Windows build, not these installer sources, determines supported features.

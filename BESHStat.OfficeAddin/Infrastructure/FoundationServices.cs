@@ -14,6 +14,7 @@ public static class FoundationServices
             provider.GetService<Microsoft.AspNetCore.Components.NavigationManager>() is { } navigation &&
             new Uri(navigation.Uri).Query.TrimStart('?').Split('&').Contains("beshOfficeDiagnostics=1")));
         services.TryAddScoped<IWorkbookTransport, WorkbookTransport>();
+        services.TryAddScoped<IPilotHost>(provider => (IPilotHost)provider.GetRequiredService<IWorkbookTransport>());
         services.TryAddScoped<IWorkbookAdapter, WorkbookAdapter>();
         services.TryAddScoped<IAnalysisNavigationCatalog, AnalysisNavigationCatalog>();
         services.TryAddScoped<AnalysisEditorRegistry>();

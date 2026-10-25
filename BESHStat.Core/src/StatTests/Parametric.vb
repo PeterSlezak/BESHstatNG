@@ -769,7 +769,7 @@ Namespace parametric
                     out(i, 1) = Convert.ToSingle(arDiffs(i, 1)) & " (" & Convert.ToSingle(arDiffs(i, 6)) & " to " & Convert.ToSingle(arDiffs(i, 7)) & ")"
                     out(i, 2) = Convert.ToString(Convert.ToSingle(arDiffs(i, 0)))
                     out(i, 3) = Convert.ToString(Convert.ToSingle(arDiffs(i, 2)))
-                    out(i, 4) = Convert.ToString(Convert.ToSingle(arDiffs(i, 5)))
+                    out(i, 4) = Convert.ToDouble(arDiffs(i, 5))
                 Next
 
                 If bBonferroni Then
@@ -847,7 +847,7 @@ Namespace parametric
                     out(i, 1) = Convert.ToSingle(arDiffs(i, 1)) & " (" & Convert.ToSingle(arDiffs(i, 6)) & " to " & Convert.ToSingle(arDiffs(i, 7)) & ")"
                     out(i, 2) = Convert.ToString(Convert.ToSingle(arDiffs(i, 0)))
                     out(i, 3) = Convert.ToString(Convert.ToSingle(arDiffs(i, 2)))
-                    out(i, 4) = Convert.ToString(Convert.ToSingle(arDiffs(i, 5)))
+                    out(i, 4) = Convert.ToDouble(arDiffs(i, 5))
                 Next
 
                 Me.MCP_Tukey = out
@@ -925,7 +925,7 @@ Namespace parametric
                     out(i, 2) = Convert.ToString(Convert.ToSingle(arDiffs(i, 0)))
                     out(i, 3) = Convert.ToString(Convert.ToSingle(arDiffs(i, 2)))
                     out(i, 4) = Convert.ToString(Convert.ToSingle(arDiffs(i, 8)))
-                    out(i, 5) = Convert.ToString(Convert.ToSingle(arDiffs(i, 5)))
+                    out(i, 5) = Convert.ToDouble(arDiffs(i, 5))
                 Next
 
                 Me.MCP_GamesHowell = out

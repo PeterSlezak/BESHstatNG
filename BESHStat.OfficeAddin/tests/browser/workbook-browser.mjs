@@ -60,11 +60,12 @@ try {
     await send("Network.setCacheDisabled",{cacheDisabled:true});
     await send("Fetch.enable",{patterns:[{urlPattern:"https://officeapis.public.onecdn.static.microsoft/1/office.js"}]});
     await send("Page.navigate",{url:"https://localhost:7141/?beshOfficeDiagnostics=1"});
-    await wait("document.querySelector('code')?.textContent==='office.excel-ready' && !document.querySelector('button')?.disabled");
+    await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready' && !document.querySelector('button')?.disabled");
     assert.equal(await evaluate("document.querySelector('#core-probe')?.textContent.includes('CDF(0) = 0.5')"),true);
     assert.equal(await evaluate("document.querySelector('#common-probe')?.textContent.includes('2 descriptors, 4 registered handlers')"),true);
     assert.equal(await evaluate("getComputedStyle(document.querySelector('#blazor-error-ui')).display==='none'"),true);
     assert.equal(await evaluate("__simulatedWorkbook.runs"),0,"no automatic read");
+    await click("Diagnostics / Log");
     await click("Inspect selection metadata only (read-only)");
     await wait("document.querySelector('#range-status')?.textContent==='Status: workbook.ok'");
     assert.equal(await evaluate("__simulatedWorkbook.payloads.length"),0);

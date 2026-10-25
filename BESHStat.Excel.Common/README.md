@@ -1,22 +1,30 @@
-# BESHStat.Excel.Common — shared Excel application layer
+# BESHStat.Excel.Common — shared spreadsheet application services
 
-`BESHStat.Excel.Common` provides host-neutral spreadsheet-facing contracts above [`BESHStat.Core`](../BESHStat.Core/README.md). It targets **.NET Standard 2.0** so the Windows add-in and future Office.js/WASM hosts can reuse spreadsheet analysis rules without duplicating the statistics.
+`BESHStat.Excel.Common` is the **.NET Standard 2.0** application layer between [`BESHStat.Core`](../BESHStat.Core/README.md) and spreadsheet hosts. It is shared by the existing .NET Framework 4.8 Excel-DNA add-in and the .NET 10 Office.js/WebAssembly development application. It is a library, not an installable add-in.
 
-## Responsibilities
+## What is implemented
 
-The present shared layer includes spreadsheet cell/range and output-target DTOs, grouped-numeric parsing, typed scalar/vector/paired numeric input adapters, immutable rectangular frames, categorical vectors and contingency tables, a small typed analysis catalog/handler registry, analysis request/result contracts, ordered result tables, metadata and fault/warning artifacts, result-write requests, and host-capability/preflight contracts. This is a growing application layer, **not** a complete cross-platform copy of every Windows analysis.
+- **Source contracts:** workbook, worksheet, range and selection identity; normalized cell types; explicit error, missing-value and date policies; bounded acquisition limits and host capability/preflight metadata.
+- **Typed inputs and validation:** scalar/vector/paired/grouped data, rectangular and categorical frames, contingency tables, survival/subject/repeated-measures data, formulas and model inputs, matrix/classification/PSM/SPC/chart-source inputs. Parsing emits structured diagnostics rather than host exceptions.
+- **Analysis orchestration:** stable analysis identifiers, a typed descriptor/handler registry, strongly typed options, validated requests and safe result artifacts. The currently runnable shared handlers include **one-way ANOVA** and **Kruskal–Wallis**, with supported post-hoc options. Metadata for other methods are available but are **not** runnable handlers by themselves.
+- **Result and output semantics:** ordered tables and other artifacts; cell/style/p-value presentation; output-document conversion, layout and target planning; composite outputs; safe-write inspection/consent/outcome contracts. Actual workbook mutations are implemented by host adapters.
+- **Application infrastructure:** versioned settings, diagnostics/run correlation, safe faults/warnings, help/version/availability metadata, progress/cancellation coordination, and document/operation lifecycle protection.
 
-The supported shared analysis vertical slices include one-way ANOVA and Kruskal–Wallis. Descriptive/help metadata for additional methods are not automatically executable handlers. Core owns statistical algorithms; this project owns interpretation/orchestration and host-neutral Excel semantics; host adapters perform actual Excel reads/writes.
+See [`src/Input`](src/Input), [`src/Analysis`](src/Analysis), [`src/Output`](src/Output), [`src/Host`](src/Host) and [`src/Infrastructure`](src/Infrastructure) for the actual source. Detailed design decisions and historical validation reports are maintained in [`../docs/architecture/`](../docs/architecture/README.md).
 
-Numeric input parsing is diagnostics-first: Phase 01.04 offers `TypedNumericRangeParsers.ParseScalar`, `ParseVector`, `ParsePaired` and `ParseGrouped` with explicit cell/missing/header policies. See [Batch 01.04 architecture notes](../docs/architecture/batch-01.04-typed-numeric-inputs.md). The older grouped-parser entry point remains unchanged. Batch 01.05 adds `RectangularCategoricalParsers.ParseDataFrame`, `ParseCategoricalVector`, `ParseContingencyCounts` and `ParseContingencyPairs`, with type-tagged categories, strict count validation and structured diagnostics. See [Batch 01.05 architecture notes](../docs/architecture/batch-01.05-rectangular-categories-contingency.md).
+## Boundary rules
 
-## Build and tests
+Core computes statistical results. Common interprets typed spreadsheet data, coordinates analyses and describes output. The Windows host performs COM/Excel-DNA read/write and WinForms presentation; OfficeAddin performs Office.js read/write and Blazor presentation. No COM types, Office.js handles, WinForms controls or platform-specific runtime dependencies should enter Common. Shared host-neutral operation and data semantics should also allow a future non-Excel adapter without promising an implemented LibreOffice integration.
+
+## Development direction
+
+Extend the typed handler registry method by method; complete reuse of shared input/output and lifecycle rules; extract application policies still embedded in Windows UI, charting and UDF wrappers; and add portable chart specifications and reusable UDF argument conversion. Keep existing Windows behavior and approved result fixtures stable while each new Office capability is introduced.
+
+## Build and test
 
 ```powershell
 dotnet build BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj -c Release
 dotnet test BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj -c Release
 ```
 
-Keep this assembly free of Office.js browser objects, Excel COM/Interop, Windows Forms and Excel-DNA. Stable runtime IDs and public metadata are reconciled with the documentation method catalog by repository generator/validation scripts.
-
-**Status:** active cross-platform development infrastructure, not an independently installable Excel product. See the [main README](../README.md).
+The library targets `netstandard2.0`; its tests target `net10.0`. Actual workbook behavior must additionally be verified in the relevant hosts.

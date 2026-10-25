@@ -89,7 +89,7 @@ async function evaluate(expression) {
 async function waitForStatus() {
     const deadline = Date.now() + 30000;
     while (Date.now() < deadline) {
-        const status = await evaluate("document.querySelector('code')?.textContent");
+        const status = await evaluate("document.querySelector('#host-code')?.textContent");
         if (status?.startsWith("office.") && await evaluate("document.querySelector('button')?.disabled === false")) return status;
         await new Promise(resolve => setTimeout(resolve, 100));
     }

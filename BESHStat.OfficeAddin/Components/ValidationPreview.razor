@@ -1,0 +1,42 @@
+@if (Preview is { } p)
+{
+    <div @ref="panel" tabindex="-1" role="@(p.Valid ? "status" : "alert")" aria-label="Redacted input preview">
+        <h4>Input validation preview</h4>
+        <p>@Guidance</p>
+        <p id="input-preview-status">@(Current ? "Current at the last explicit host check" : "Correct input and Run again")</p>
+        <p>@p.Rows rows × @p.Columns columns. Numbers: @p.Numbers; blanks: @p.Blanks; text: @p.Text; Boolean: @p.Booleans; errors: @p.Errors.</p>
+        @if (p.Valid) { <p>Selected interpretation validated. @p.GroupCounts.Count groups; numeric observations per group: @string.Join(", ", p.GroupCounts).</p> }
+        <p>Values, formulas, group labels, names and addresses are hidden. Snapshot interpretation: @Interpretation.</p>
+        @if (p.Issues.Count > 0)
+        {
+            <ul aria-label="Input issues">
+                @foreach (var issue in p.Issues.Take(20))
+                { <li><code>@issue.Code</code> · @issue.Field · effective range row/column @issue.SelectedRow/@issue.SelectedColumn; worksheet row/column @issue.WorksheetRow/@issue.WorksheetColumn</li> }
+            </ul>
+            @if (p.Issues.Count > 20) { <p>@(p.Issues.Count - 20) additional issues. Narrow the selection and reacquire.</p> }
+        }
+    </div>
+}
+else
+{
+    <div @ref="panel" tabindex="-1" role="alert" aria-label="Input validation issues">
+        <h4>Input validation</h4>
+        <p><code>@Code</code>: @Guidance</p>
+    </div>
+}
+@code {
+    [Parameter] public InputPreview? Preview { get; set; }
+    [Parameter] public bool Current { get; set; }
+    [Parameter] public string Interpretation { get; set; } = "";
+    [Parameter] public string Code { get; set; } = "";
+    [Parameter] public string Guidance { get; set; } = "";
+    private ElementReference panel;
+    private InputPreview? focused;
+    private string? focusedCode;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Preview is { Valid: true } || (ReferenceEquals(focused, Preview) && focusedCode == Code)) return;
+        focused = Preview; focusedCode = Code;
+        try { await panel.FocusAsync(); } catch (InvalidOperationException) { }
+    }
+}

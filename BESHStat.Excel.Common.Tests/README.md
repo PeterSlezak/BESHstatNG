@@ -1,17 +1,15 @@
-# BESHStat.Excel.Common.Tests — shared contract and application tests
+# BESHStat.Excel.Common.Tests — shared contract and workflow tests
 
-This **.NET 8 / MSTest** project exercises [`BESHStat.Excel.Common`](../BESHStat.Excel.Common/README.md), including spreadsheet input parsing, ANOVA/Kruskal–Wallis workflows, the analysis catalog/registry, typed result contracts and host-capability preflight.
+This **.NET 10 MSTest** project validates [`BESHStat.Excel.Common`](../BESHStat.Excel.Common/README.md) without using a real Excel workbook. It protects the shared boundary used by both the Windows and Office.js hosts.
 
-It also maintains frozen regression fixtures under `TestData/Stage304/` so schema and numerical/output changes can be checked against the approved shared-layer baseline.
+Tests cover typed range/cell and host-identity contracts, date/error/missing policies, numeric/categorical/longitudinal/model/SPC/PSM parsers, stable method metadata, analysis-handler dispatch, statistical workflow assembly, output formatting/layout/targets, safe-write contracts, settings, diagnostics, faults, cancellation and lifecycle safeguards. Approved regression snapshots live under `TestData/Stage304/` and related fixture folders.
 
 ## Run
-
-From the repository root:
 
 ```powershell
 dotnet test BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj -c Release
 ```
 
-Test changes to data parsing, result presentation, analysis identifiers and capabilities with positive and rejection cases. Preserve approved golden fixtures unless a separately reviewed behavior change justifies updating them. Integration into actual Excel and Office.js remains the host projects' responsibility.
+Each contract change should test both accepted inputs and explicit failures: invalid ranges, inconsistent sources, missing headers, nonfinite numbers, date-system ambiguity, oversize acquisitions, unsupported host capabilities, stale operations and conflicting destinations. Do not silently rebaseline accepted output or error codes.
 
-**Status:** active test project; refer to [main README](../README.md) for release status.
+These tests check shared semantics only. Actual Office.js request ordering and Excel mutations are covered by host adapter tests and owner-performed Excel smoke tests.

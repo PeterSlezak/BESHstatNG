@@ -1,24 +1,29 @@
-# BESHStatNG — Windows Excel-DNA add-in
+# BESHStatNG — supported Windows Excel-DNA add-in
 
-This is the **supported Windows desktop Excel implementation** of [BESHStatNG](../README.md). It provides Ribbon commands, WinForms analysis dialogs, worksheet functions (UDFs), Excel data acquisition, result formatting, chart creation and export, and Windows-specific integration.
+This project is the existing, released **Windows desktop Excel** implementation. It targets **.NET Framework 4.8** and uses VB.NET, Excel-DNA, Microsoft Excel COM/Interop, WinForms and native Excel charting. Users should install an official signed package from [beshstat.eu/download](https://beshstat.eu/download/), not this source directory.
 
-For **end users**, install a published build from [beshstat.eu/download](https://beshstat.eu/download/) rather than this source project. The complete method and UDF help is available in the [online documentation](https://beshstat.eu/beshstatng/help/latest/).
+## Responsibilities and source layout
 
-## Technology and responsibilities
+- `Resources/RibbonXML.xml`: actual Windows Ribbon commands/callbacks.
+- `src/UI/`: Windows dialogs, selection controls and host UI handling, including RefEdit lifecycle integration.
+- `src/DM/`: Excel data/import, workbook and result-writer adapters.
+- `src/ExcelUDFs/`: registered worksheet functions and Windows-specific registration/Excel value conversion.
+- `src/Graphics/`: native Excel chart construction, renderers and export.
+- `src/Help/`: Windows help launch and generated route integration.
+- `tools/`: metadata generation, validation and support scripts.
 
-- Visual Basic .NET targeting **.NET Framework 4.8**, using **Excel-DNA** and Microsoft Excel COM/Interop.
-- `Resources/RibbonXML.xml` declares the current Windows Ribbon buttons and callbacks; `src/UI/` contains the Windows interaction logic.
-- `src/ExcelUDFs/` exposes the worksheet functions; `src/DM/` holds Windows data/writer adapters; `src/Graphics/` contains Excel chart renderers; `src/Help/` contains help integration.
-- Statistical computation increasingly comes from [`../BESHStat.Core/`](../BESHStat.Core/README.md). Shared spreadsheet-analysis workflows and contracts are in [`../BESHStat.Excel.Common/`](../BESHStat.Excel.Common/README.md).
-- Windows-specific behavior stays here; Core and Common should not depend on WinForms, Excel COM objects or Excel-DNA APIs.
+Statistical algorithms and chart calculations are increasingly owned by [`BESHStat.Core`](../BESHStat.Core/README.md). Shared parsing, analysis options/orchestration, result/output semantics and lifecycle contracts belong to [`BESHStat.Excel.Common`](../BESHStat.Excel.Common/README.md). Windows-specific API calls and the WinForms presentation layer remain here.
 
-## Build and test
+## Current development direction
 
-1. Use Windows, desktop Excel, Visual Studio with .NET Framework 4.8 support, and NuGet restore.
-2. Open `../BESHStatNG.sln`, restore packages and build the add-in for the intended Excel bitness/configuration.
-3. Run the legacy and portable tests, then smoke-test representative Ribbon analyses, UDF formulas, result placement and charting in **real Excel**.
-4. Create signed/packed release artifacts through the established release workflow and [`../BESHStatNG_Installer/`](../BESHStatNG_Installer/README.md). A successful source build alone is not a released MSI.
+Preserve all existing Ribbon, UDF, output and chart behavior while finishing extraction of portable calculations and business rules still mixed into Windows source—**including the form code**, model builders, chart preparation, regression/survival/multivariate/SPC/PSM report assembly and UDF wrappers. New methods and chart enhancements should put their statistics in Core and their host-neutral result/plot contracts in Common so they can later be exposed in the Office add-in without reimplementing numerical algorithms in JavaScript. Improvements planned for distribution/normality, comparisons, categorical and ordinal association, paired tests and advanced charts will be introduced with independent statistical validation.
 
-**Development status:** This Windows host is the stable reference implementation. Portable and Office.js work elsewhere in the repository is ongoing and does not change its published support scope.
+The Windows application remains the behavioral reference during migration, **not** the desired home for new host-neutral algorithms. Host-specific controls, native Excel rendering, file export and COM events stay here.
 
-For change history and usage instructions see [What's New](https://beshstat.eu/beshstatng/help/latest/whats-new/) and the [main README](../README.md).
+## Build and verify
+
+Use **Visual Studio 2026 on Windows**, the .NET Framework 4.8 targeting pack, restored Excel-DNA/Interop packages, and an appropriate Excel installation. Open `../BESHStatNG.sln`, restore packages and build the matching x86/x64 configuration. Run Core/Common and the legacy regression suites and perform real-Excel smoke tests for representative Ribbon actions, UDF spill/results, output targets, Help and charts.
+
+The Windows XLL release is built/packed/signed through the existing Windows process and delivered using [`BESHStatNG_Installer`](../BESHStatNG_Installer/README.md). A passing `dotnet build` for a portable project does not validate Excel COM behavior or an MSI.
+
+See the [online method and UDF help](https://beshstat.eu/beshstatng/help/latest/) and the [root README](../README.md) for public capabilities and support scope.

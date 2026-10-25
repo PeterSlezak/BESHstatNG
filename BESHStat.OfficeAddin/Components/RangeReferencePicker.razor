@@ -1,0 +1,46 @@
+<div class="range-reference" aria-busy="@State.Busy.ToString().ToLowerInvariant()">
+    <label for="@Id">@Label</label>
+    <input @ref="textbox" id="@Id" type="text" spellcheck="false" autocomplete="off" maxlength="1024" value="@State.Text"
+           disabled="@(Disabled || State.Busy)" aria-invalid="@(State.Code == "input.invalid-reference" ? "true" : "false")"
+           aria-describedby="@(Id + "-status")" @oninput="e => State.Edit(e.Value as string ?? string.Empty)" />
+    @if (State.Armed)
+    {
+        <p role="status">Selection capture is armed. Select or drag cells in Excel, then finish. Typing stops capture.</p>
+        <button type="button" disabled="@(Disabled || State.Busy)" @onclick="Finish">Finish selection</button>
+        <button type="button" disabled="@(Disabled || State.Busy)" @onclick="Cancel">Cancel selection</button>
+    }
+    else
+    {
+        <button type="button" disabled="@(Disabled || !HostAvailable || State.Busy)" @onclick="State.ArmAsync">@PickLabel</button>
+        <button type="button" disabled="@(Disabled || !HostAvailable || State.Busy)" @onclick="State.CaptureAsync">Capture selected range</button>
+    }
+    <p id="@(Id + "-status")" role="status"><code>@State.Code</code>
+        @if (State.Code == "range.capture-unavailable" || State.Code == "office.unavailable")
+        { <span>Event capture is unavailable. Use explicit capture or type a qualified reference.</span> }
+        @if (State.Code == "input.invalid-reference")
+        { <span>Enter one worksheet-qualified A1 reference. Multiple areas and external workbooks are unavailable. Output requires one cell.</span> }
+        @if (State.Code == "input.invalid-selection")
+        { <span>Select one contiguous range for this field. Multiple areas are unavailable; long-format roles each require one column.</span> }
+        @if (State.Code == "output.mutation-uncertain")
+        { <span>@AnalysisPilotState.RecoveryGuidance</span> }
+    </p>
+</div>
+@code {
+    [Parameter, EditorRequired] public RangeReferenceState State { get; set; } = default!;
+    [Parameter, EditorRequired] public string Id { get; set; } = "range-reference";
+    [Parameter] public string Label { get; set; } = "Worksheet-qualified reference";
+    [Parameter] public string PickLabel { get; set; } = "Select range";
+    [Parameter] public bool SingleCell { get; set; }
+    [Parameter] public bool Disabled { get; set; }
+    [Parameter] public bool HostAvailable { get; set; }
+    private ElementReference textbox;
+    private bool focusRequested;
+    private async Task Finish() { await State.FinishAsync(); focusRequested = true; }
+    private async Task Cancel() { await State.CancelAsync(); focusRequested = true; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!focusRequested || State.Busy) return;
+        focusRequested = false;
+        try { await textbox.FocusAsync(); } catch (InvalidOperationException) { /* A static renderer has no browser focus. */ }
+    }
+}

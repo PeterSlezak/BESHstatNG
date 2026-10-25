@@ -31,7 +31,7 @@ function setup(options = {}) {
     return {adapter,scope,state,plan,intent,consent};
 }
 
-test("production writer remains fail closed despite valid plan and permissions",async()=>{
+test("transport without a writer remains fail closed despite valid plan and permissions",async()=>{
     const {adapter,state,plan,intent}=setup({production:true});
     const result=await adapter.write(plan,intent);
     assert.equal(result.state,2);assert.equal(result.code,"output.rejected");assert.equal(state.mutations,0);assert.equal(state.runs,0);

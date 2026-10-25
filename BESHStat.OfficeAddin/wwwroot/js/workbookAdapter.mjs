@@ -1,4 +1,5 @@
 import { createOfficeHost } from "./officeHost.mjs";
+import { createProductionWriter } from "./productionWriter.mjs";
 
 const OK = "workbook.ok";
 const defaults = Object.freeze({ maxRangeCells: 10000, maxTotalCells: 10000, maxRanges: 64,
@@ -80,7 +81,8 @@ function cell(value, type, format) {
 
 // Only primitive operation metadata and the actual Office document session object
 // survive a call. No Excel proxy, RequestContext, cell matrix or event sink is retained.
-// writer is an injected test port; create() never supplies it, so production cannot write.
+// The no-writer default remains fail-closed for independent reader/test consumers.
+// Production create() explicitly installs the source-bound writer protocol.
 export function createWorkbookTransport(scope = globalThis, { now = () => performance.now(), writer = null, diagnostics = false } = {}) {
     const readiness = createOfficeHost(scope);
     let active = null, disposed = false;
@@ -248,9 +250,14 @@ export function createWorkbookTransport(scope = globalThis, { now = () => perfor
         return { state, code, mutationMayHaveOccurred, confirmedWrittenIds, confirmationRequired: required, overwriteApproved: approved };
     }
     async function write(plan, intent, consent = null) {
-        // No production writer is installed. Higher manifest permission never enables it.
+        // A missing writer always fails closed; permissions alone never authorize writing.
         if (!writer) return writeOutcome(2, intent?.destination === 2 ? "output.destination-unsupported" : "output.rejected");
         if (active || disposed) return writeOutcome(2, "output.rejected");
+        if (typeof writer.execute === "function") {
+            active = { id: "production-write" };
+            try { return await writer.execute(plan, intent, consent); }
+            finally { active = null; }
+        }
         const op = { id: "test-write", limits: defaults, started: now(), elapsed: 0, cancelled: false, document: null };
         active = op;
         let mutation = false, required = null, approved = null;
@@ -287,9 +294,24 @@ export function createWorkbookTransport(scope = globalThis, { now = () => perfor
             return writeOutcome(mutation ? 4 : 2, mutation ? "output.mutation-uncertain" : code.startsWith("output.") ? code : "output.rejected", mutation, [], required, approved);
         } finally { if (active === op) active = null; op.cancelled = true; op.document = null; }
     }
-    function dispose() { disposed = true; if (active) cancel(active.id); readiness.dispose(); }
-    return Object.freeze({ beginRead, readNext, finishRead, cancel, write, dispose });
+    async function pilot(method, ...args) {
+        if (disposed || active || typeof writer?.[method] !== "function") return { code: "host.busy" };
+        active = { id: "pilot" };
+        try { return await writer[method](...args); } finally { active = null; }
+    }
+    async function dispose() { disposed = true; if (active) cancel(active.id); readiness.dispose(); await writer?.dispose?.(); }
+    return Object.freeze({ beginRead, readNext, finishRead, cancel, write, dispose,
+        pinSource: (snapshot, callback, handle) => pilot("pinSource", snapshot, callback, handle),
+        pinSources: (sources, callback) => pilot("pinSources", sources, callback),
+        resolveReference: (reference, handle) => pilot("resolveReference", reference, handle),
+        captureSelection: single => pilot("captureSelection", single),
+        beginCapture: (owner, output, callback) => pilot("beginCapture", owner, output, callback),
+        endCapture: (owner, cancel) => pilot("endCapture", owner, cancel), checkSource: id => pilot("checkSource", id),
+        prepareOutput: (plan, intent, id) => pilot("prepareOutput", plan, intent, id),
+        resolveNewWorksheetName: (name, id) => pilot("resolveNewWorksheetName", name, id),
+        invalidate: () => writer?.invalidate?.(), clearOutput: () => writer?.clearOutput?.() });
 }
 
 // Blazor performs the single IJSObjectReference wrapping.
-export function create(developmentDiagnostics = false) { return createWorkbookTransport(globalThis, { diagnostics: developmentDiagnostics === true }); }
+export function create(developmentDiagnostics = false) { return createWorkbookTransport(globalThis, {
+    diagnostics: developmentDiagnostics === true, writer: createProductionWriter(globalThis) }); }

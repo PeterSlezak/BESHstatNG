@@ -287,6 +287,53 @@ public sealed class WorkbookAdapterTests
             workbookIdentity: "fixture-workbook", worksheetIdentity: "native-sheet"));
     }
 
+    [TestMethod]
+    public async Task SourceCallbacksAreBoundToTheCurrentPinAndRetiredByWriteAndInvalidation()
+    {
+        var js = new Runtime { PinReply = new() { Code = "workbook.ok", SourceToken = "first", SessionIdentity = "first" } };
+        await using var transport = new WorkbookTransport(js); var invalidations = 0;
+        transport.Invalidated += () => invalidations++;
+        await transport.PinSourceAsync(new(), default);
+        transport.SourceInvalidated("first"); Assert.AreEqual(1, invalidations);
+        js.PinReply = new() { Code = "workbook.ok", SourceToken = "second", SessionIdentity = "second" };
+        await transport.PinSourceAsync(new(), default);
+        transport.SourceInvalidated("first"); Assert.AreEqual(1, invalidations);
+        transport.SourceInvalidated("second"); Assert.AreEqual(2, invalidations);
+        var output = Output(); await transport.WriteAsync(output.Plan, output.Intent, null, default);
+        transport.SourceInvalidated("second"); Assert.AreEqual(2, invalidations);
+        await transport.PinSourceAsync(new(), default); await transport.InvalidateAsync();
+        transport.SourceInvalidated("second"); Assert.AreEqual(2, invalidations);
+        transport.SourceInvalidated(null!); Assert.AreEqual(2, invalidations);
+    }
+
+    [TestMethod]
+    public async Task LatePinReplyAfterInvalidationCannotRebindCallbacks()
+    {
+        var js = new Runtime { PinReply = new() { Code = "workbook.ok", SourceToken = "late", SessionIdentity = "late" }, BlockAt = "pinSource", Pause = new() };
+        await using var transport = new WorkbookTransport(js); var invalidations = 0;
+        transport.Invalidated += () => invalidations++;
+        var pending = transport.PinSourceAsync(new(), default); await transport.InvalidateAsync();
+        js.Pause.SetResult(true); await pending; transport.SourceInvalidated("late");
+        Assert.AreEqual(0, invalidations);
+    }
+
+    [TestMethod]
+    public async Task SharedTransportWaitsForPreviousOwnersRetirementBeforeFreshPinAndIgnoresOldCallbacks()
+    {
+        var js = new Runtime { PinReply = new() { Code = "workbook.ok", SourceToken = "first", SessionIdentity = "first" } };
+        await using var transport = new WorkbookTransport(js); int invalidations = 0;
+        transport.Invalidated += () => invalidations++;
+        await transport.PinSourceAsync(new(), default);
+        js.BlockAt = "invalidate"; js.Pause = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        var retirement = transport.InvalidateAsync();
+        js.PinReply = new() { Code = "workbook.ok", SourceToken = "second", SessionIdentity = "second" };
+        var next = transport.PinSourceAsync(new(), default);
+        Assert.AreEqual(1, js.Calls.Count(c => c == "pinSource"));
+        js.Pause.SetResult(true); await retirement; await next;
+        transport.SourceInvalidated("first"); Assert.AreEqual(0, invalidations);
+        transport.SourceInvalidated("second"); Assert.AreEqual(1, invalidations);
+    }
+
     [DataTestMethod]
     [DataRow(OutputWriteState.Completed, "output.completed", true)]
     [DataRow(OutputWriteState.PartiallyWritten, "output.mutation-uncertain", true)]
@@ -487,6 +534,7 @@ public sealed class WorkbookAdapterTests
 
     private sealed class Runtime : IJSRuntime, IJSObjectReference
     {
+        public PilotReply? PinReply;
         public string? FailAt;
         public string? BlockAt;
         public TaskCompletionSource<bool>? Pause;
@@ -499,6 +547,7 @@ public sealed class WorkbookAdapterTests
             if (identifier == FailAt) throw new JSException("SECRET worksheet URL/values");
             if (identifier == BlockAt) await Pause!.Task;
             if (identifier is "import" or "create") return (T)(object)this;
+            if (identifier == "pinSource") return (T)(object?)PinReply!;
             return default!;
         }
         public ValueTask DisposeAsync() { Disposals++; return ValueTask.CompletedTask; }

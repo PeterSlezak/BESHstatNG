@@ -231,7 +231,8 @@ public sealed class WorkbookAdapter : IWorkbookAdapter
             invoked = true;
             var reply = await transport.WriteAsync(plan, intent, consent, bound.Token).WaitAsync(bound.Token);
             if (reply is null || reply.Code is not ("output.completed" or "output.cancelled" or "output.rejected" or "output.destination-unsupported" or
-                "output.occupancy-unverified" or "output.confirmation-required" or "output.consent-stale" or "output.mutation-uncertain" or "output.host-failed"))
+                "output.occupancy-unverified" or "output.confirmation-required" or "output.consent-stale" or "output.mutation-uncertain" or "output.host-failed" or
+                "output.target-unwritable" or "output.target-merged" or "output.target-invalid" or "output.sheet-name-collision"))
                 return Uncertain(intent);
             if ((reply.State == OutputWriteState.Completed && reply.Code != WriteCodes.Completed) ||
                 (reply.State == OutputWriteState.CancelledByUser && reply.Code != WriteCodes.Cancelled) ||

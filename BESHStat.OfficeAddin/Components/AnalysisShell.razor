@@ -4,11 +4,10 @@
 @inject AnalysisNavigationMenu Menu
 
 <section aria-labelledby="analysis-navigation-title">
-    <h2 id="analysis-navigation-title">Analysis options</h2>
-    <p>Edit an analysis specification. Editing options does not run calculations.</p>
+    <h2 id="analysis-navigation-title">Choose an analysis</h2>
     <div class="analysis-navigation">
         <label for="analysis-group">Analysis group</label>
-        <select id="analysis-group" value="@(state?.SelectedGroup?.Category ?? "")" @onchange="ChangeGroup"
+        <select id="analysis-group" value="@(state?.SelectedGroup?.Category ?? "")" @onchange="ChangeGroup" disabled="@pilotBusy"
                 aria-describedby="analysis-availability">
             <option value="">Select an analysis group</option>
             @foreach (var group in Menu.Groups)
@@ -18,7 +17,7 @@
         </select>
         <label for="analysis-method">Statistical method</label>
         <select id="analysis-method" @key="state?.SelectedGroup?.Category" value="@(state?.Selected?.Id ?? "")"
-                @onchange="ChangeMethod" disabled="@(state?.SelectedGroup is null)"
+                @onchange="ChangeMethod" disabled="@(state?.SelectedGroup is null || pilotBusy)"
                 aria-describedby="analysis-availability analysis-navigation-status">
             <option value="">Select a statistical method</option>
             @if (state?.SelectedGroup is { } selectedGroup)
@@ -37,23 +36,39 @@
         <div @key="selected.Id" class="analysis-editor" aria-labelledby="selected-analysis-title">
             <h3 id="selected-analysis-title">@selected.DisplayName</h3>
             <p>@selected.Description</p>
-            <p>Active option schema: <code id="option-schema">@selected.OptionsSchemaId</code></p>
+            <span id="option-schema" hidden>@selected.OptionsSchemaId</span>
             @if (state.Editor is { } editor)
             {
-                <DynamicComponent Type="editor.ComponentType" Parameters="@(new Dictionary<string, object> { ["Draft"] = editor.Draft })" />
+                <fieldset disabled="@pilotBusy"><legend>Analysis specification</legend>
+                    <DynamicComponent Type="editor.ComponentType" Parameters="@(new Dictionary<string, object> { ["Draft"] = editor.Draft })" />
+                </fieldset>
+                <AnalysisPilot Descriptor="selected" Draft="editor.Draft" HostAvailable="HostAvailable" ReadinessGeneration="ReadinessGeneration" BusyChanged="PilotBusyChanged" />
             }
         </div>
     }
     else { <p>Select a method to edit its options.</p> }
-    <p id="analysis-run-unavailable">Run is not available until 04.04. Range selection, validation preview and output consent are deferred.</p>
-    <button type="button" disabled aria-describedby="analysis-run-unavailable">Run analysis</button>
     <p class="option-hint">Changing groups or methods resets options to Common defaults. Retry initialization preserves the current draft; reopening the pane resets navigation.</p>
 </section>
 
 @code {
     private AnalysisNavigationState? state;
+    [Parameter] public bool HostAvailable { get; set; }
+    [Parameter] public int ReadinessGeneration { get; set; }
+    [Parameter] public EventCallback<bool> BusyChanged { get; set; }
+    private bool pilotBusy;
+    private AnalysisOptionDraft? observedDraft;
+    private bool disposed;
+    private async Task PilotBusyChanged(bool busy) { pilotBusy = busy; await BusyChanged.InvokeAsync(busy); }
     protected override void OnInitialized() => state = new(Catalog, Editors, Menu);
-    private void ChangeGroup(ChangeEventArgs args) => state?.SelectGroup(args.Value as string);
-    private void ChangeMethod(ChangeEventArgs args) => state?.Select(args.Value as string);
-    public void Dispose() => state?.Dispose();
+    private void ObserveDraft()
+    {
+        if (ReferenceEquals(observedDraft, state?.Editor?.Draft)) return;
+        if (observedDraft is not null) observedDraft.Changed -= DraftChanged;
+        observedDraft = state?.Editor?.Draft;
+        if (observedDraft is not null) observedDraft.Changed += DraftChanged;
+    }
+    private void DraftChanged() { if (!disposed) _ = InvokeAsync(() => { if (!disposed) StateHasChanged(); }); }
+    private void ChangeGroup(ChangeEventArgs args) { state?.SelectGroup(args.Value as string); ObserveDraft(); }
+    private void ChangeMethod(ChangeEventArgs args) { state?.Select(args.Value as string); ObserveDraft(); }
+    public void Dispose() { disposed = true; if (observedDraft is not null) observedDraft.Changed -= DraftChanged; state?.Dispose(); }
 }

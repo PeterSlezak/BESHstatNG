@@ -1,0 +1,84 @@
+@implements IAsyncDisposable
+@inject BESHStat.OfficeAddin.Services.IWorkbookAdapter Workbook
+@inject IPilotHost Host
+
+@if (state is { } s)
+{
+    <div class="analysis-pilot" aria-busy="@s.Busy.ToString().ToLowerInvariant()">
+        <RangePicker State="s" HostAvailable="HostAvailable" />
+        @foreach (var notice in s.InputNotices)
+        {
+            <p role="@(notice.Populated > 0 ? "alert" : "status")" class="@(notice.Populated > 0 ? "option-error" : "option-hint")">@notice.Message <code>@notice.Code</code></p>
+        }
+        @if (s.ShowPreview) { <ValidationPreview Preview="s.Preview" Current="s.Current" Interpretation="@s.Interpretation" Code="@s.Code" Guidance="@s.Guidance" /> }
+        <p id="pilot-status" role="status">Status: <code>@s.Code</code></p>
+        @if (!s.ShowPreview) { <p role="@(s.RequiresRecovery ? "alert" : null)">@s.Guidance</p> }
+        <p id="run-guidance">Run reads and validates fresh input, then calculates. Finish or cancel selection capture first. Synchronous calculation and submitted Excel writes cannot be interrupted safely.</p>
+        <button type="button" disabled="@(!HostAvailable || !s.CanRun)" @onclick="s.RunAsync" aria-describedby="run-guidance">Run analysis</button>
+        <button type="button" disabled="@(!s.Busy)" @onclick="s.Cancel">Cancel operation</button>
+        @if (s.Tables.Count > 0)
+        {
+            <h4>Read-only result preview</h4>
+            <ul>@foreach (var t in s.Tables.Take(64)) { <li>@t.Id: @t.Rows rows × @t.Columns columns</li> }</ul>
+            <p>Preview shows statistics and table sizes. Write results saves the complete tables to Excel.</p>
+            <dl>@foreach (var metric in s.Metrics.Take(12)) { <dt>@metric.Name</dt><dd>@metric.Value.ToString("G10", System.Globalization.CultureInfo.InvariantCulture)</dd> }</dl>
+            @foreach (var issueCode in s.WarningCodes.Take(20)) { <p>Warning: <code>@issueCode</code></p> }
+            @foreach (var issueCode in s.FaultCodes.Take(20)) { <p role="alert">Fault: <code>@issueCode</code></p> }
+            @if (s.NonCellArtifacts > 0) { <p>This analysis produces @s.NonCellArtifacts additional items. This version writes result tables only.</p> }
+            <OutputPicker State="s" HostAvailable="HostAvailable" />
+            <p>Write results checks the destination first. Occupied cells require an explicit Yes or No.</p>
+            @if (s.Inspection?.ConfirmationRequired != true)
+            { <button type="button" disabled="@(!HostAvailable || !s.CanInspect)" @onclick="s.WriteResultsAsync">Write results</button> }
+            <details><summary>Advanced output check</summary>
+                <button type="button" disabled="@(!s.CanInspect)" @onclick="s.InspectAsync">Inspect output destination</button>
+            </details>
+            @if (s.Geometry is not null) { <p>@s.Geometry. Spacing gaps are not inspected or overwritten.</p> }
+            @if (s.Inspection is { } inspection)
+            {
+                @if (inspection.ConfirmationRequired)
+                {
+                    <div role="alert" aria-labelledby="overwrite-heading">
+                        <h4 id="overwrite-heading">Overwrite occupied output?</h4>
+                        <p>@inspection.OccupiedRegionIds.Count occupied regions; values: @inspection.HasValues; formulas: @inspection.HasFormulas. Only the inspected table regions may change. Yes rechecks the same plan and contents; No makes no changes.</p>
+                        <button type="button" disabled="@(!s.CanWrite)" @onclick="() => s.WriteAsync(true)">Yes, overwrite inspected output</button>
+                        <button type="button" disabled="@(!s.CanWrite)" @onclick="() => s.WriteAsync(false)">No, keep existing output</button>
+                    </div>
+                }
+            }
+        }
+        @if (s.WriteOutcome is { } outcome)
+        {
+            @if (s.CreatedWorksheetName is { } created) { <p role="status">Created worksheet '@created'. Completed and verified.</p> }
+            <p role="status">Last write outcome: @outcome.State · <code>@outcome.Code</code>. Confirmed artifacts: @outcome.ConfirmedWritten.Count. Mutation may have occurred: @outcome.MutationMayHaveOccurred. No rollback or automatic retry.</p>
+        }
+    </div>
+}
+@code {
+    [Parameter, EditorRequired] public BESHStatNG.ExcelCommon.IAnalysisDescriptor Descriptor { get; set; } = default!;
+    [Parameter, EditorRequired] public AnalysisOptionDraft Draft { get; set; } = default!;
+    [Parameter] public bool HostAvailable { get; set; }
+    [Parameter] public int ReadinessGeneration { get; set; }
+    [Parameter] public EventCallback<bool> BusyChanged { get; set; }
+    private AnalysisPilotState? state;
+    private int readiness;
+    private bool disposed;
+    private bool previousHostAvailable, reportedBusy;
+    protected override void OnInitialized() { state = new(Descriptor, Draft, Workbook, Host); state.Changed += Refresh; readiness = ReadinessGeneration; previousHostAvailable = HostAvailable; }
+    protected override void OnParametersSet()
+    {
+        var invalidate = readiness != ReadinessGeneration || (previousHostAvailable && !HostAvailable);
+        readiness = ReadinessGeneration; previousHostAvailable = HostAvailable;
+        if (invalidate) state?.Invalidate();
+    }
+    private void Refresh()
+    {
+        if (!disposed) _ = InvokeAsync(async () => {
+            if (disposed) return;
+            var busy = state?.Busy == true || state?.Picking == true;
+            if (reportedBusy != busy) { reportedBusy = busy; await BusyChanged.InvokeAsync(busy); }
+            StateHasChanged();
+        });
+    }
+    private void ChangeDestination((BESHStatNG.ExcelCommon.SpreadsheetOutputDestination Destination, string Cell, string Name) value) => state?.SetDestination(value.Destination, value.Cell, value.Name);
+    public async ValueTask DisposeAsync() { disposed = true; if (state is not null) { state.Changed -= Refresh; await state.DisposeAsync(); } }
+}

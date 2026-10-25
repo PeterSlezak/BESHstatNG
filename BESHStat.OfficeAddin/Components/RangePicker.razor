@@ -1,0 +1,38 @@
+﻿@using BESHStatNG.ExcelCommon
+<fieldset disabled="@State.Busy">
+    <legend>Input data</legend>
+    <label for="group-arrangement">Grouped data arrangement</label>
+    <select id="group-arrangement" value="@((int)State.Orientation)" @onchange="e => Interpret(e, true)">
+        <option value="0">Groups in columns</option><option value="1">Groups in rows</option>
+        <option value="2">Long format — group/category and numeric value</option>
+    </select>
+    <label for="group-headers">Header mode</label>
+    <select id="group-headers" value="@((int)State.Header)" @onchange="e => Interpret(e, false)">
+        <option value="0">Required</option><option value="1">None</option><option value="2">Auto — reject ambiguous</option>
+    </select>
+    @if (State.Orientation == SpreadsheetGroupedOrientation.LongFormat)
+    {
+        <RangeReferencePicker State="State.CategoryReference" Id="category-reference" Label="Group/category (ID) range — Group / category column" HostAvailable="HostAvailable" />
+        <RangeReferencePicker State="State.ValueReference" Id="values-reference" Label="Numeric values range — Values column" HostAvailable="HostAvailable" />
+        <p>Choose distinct columns on the same worksheet. Only matching worksheet rows are paired; extra selected rows are reported. Required/Auto headers must start on the same row. Group/category ID identifies a group, not a repeated-measures subject.</p>
+    }
+    else
+    {
+        <RangeReferencePicker State="State.InputReference" Id="input-reference" Label="Input range (worksheet-qualified A1)" HostAvailable="HostAvailable" />
+    }
+    <p>Whole columns are supported for input; Run reads only a bounded used-data span. Whole rows/sheets are unavailable. Required uses the first row for columns/long format, or first column for rows. None uses no header. Auto uses Common header inference. Long-format cells stay paired by physical worksheet row, including blanks. At least two groups and two numeric observations per group are required.</p>
+    <button type="button" disabled="@(!HostAvailable || State.Picking || State.RequiresRecovery)" @onclick="State.ValidateAsync">Validate input (optional)</button>
+    <button type="button" @onclick="State.Reset">Reset form</button>
+    <p class="option-hint">Reset keeps the selected group and method; input, headers, options and output return to defaults.</p>
+    @if (!HostAvailable) { <p role="status">Input reading requires an Excel-ready host.</p> }
+</fieldset>
+@code {
+    [Parameter, EditorRequired] public AnalysisPilotState State { get; set; } = default!;
+    [Parameter] public bool HostAvailable { get; set; }
+    private void Interpret(ChangeEventArgs e, bool arrangement)
+    {
+        if (!int.TryParse(e.Value as string, out var v)) v = -1;
+        State.SetInterpretation(arrangement ? (SpreadsheetGroupedOrientation)v : State.Orientation,
+            arrangement ? State.Header : (SpreadsheetHeaderMode)v);
+    }
+}

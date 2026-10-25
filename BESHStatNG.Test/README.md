@@ -1,13 +1,19 @@
-# BESHStatNG.Test — legacy Windows regression tests
+# BESHStatNG.Test — Windows legacy and host regression tests
 
-This is the existing **.NET Framework 4.8** VB.NET test project for the Windows BESHStatNG codebase and historical validation scenarios. It preserves compatibility checks while statistical implementation is shared with portable Core.
+This project (`BESHStatNG.Tests.vbproj`) preserves the existing **.NET Framework 4.8** VB.NET/MSTest compatibility and validation suite for the Windows Excel-DNA add-in. It covers legacy statistical and model workflows, host-related transformations, reference outputs and behavior that must not change while code moves to Core/Common.
+
+Its test folders contain historical numeric/model fixtures, NIST/reference data, regression outputs and specialist comparison cases. This project is deliberately separate from the modern `net10.0` Core/Common tests.
 
 ## Run
 
-Use **Visual Studio on Windows** with .NET Framework 4.8 targeting support and the project's restored test adapter/dependencies. Open `BESHStatNG.Test/BESHStatNG.Test.sln` (or your established Windows test solution) and run the tests through Test Explorer. The project also contains reference datasets and validation outputs under its test folders.
+On Windows, open `../BESHStatNG.sln` in **Visual Studio 2026** with the .NET Framework 4.8 developer/targeting tools installed. Restore packages, build the test project and run its tests from Test Explorer or through the repository's legacy validation script:
 
-These are not the same as [`BESHStat.Core.Tests`](../BESHStat.Core.Tests/README.md) or [`BESHStat.Excel.Common.Tests`](../BESHStat.Excel.Common.Tests/README.md), which target .NET 8 and exercise portable/shared layers. Run the relevant suites together when changing code shared with Windows Excel.
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify-beshstatng.ps1 -Legacy -VisualStudio 2026
+```
 
-For releases, complete **real-Excel** manual tests of Ribbon callbacks, worksheet UDFs, output positions and charting; no headless test suite by itself proves GUI behavior.
+Execute from the repository root. Some older Visual Studio test discovery advisories may remain without implying failure; review the actual results/TRX report.
 
-See the [main README](../README.md) and [validation page](https://beshstat.eu/validation/).
+## Validation scope
+
+Run this suite alongside Core/Common tests when migrating Windows calculation or UI-adjacent logic. Automated tests do not replace owner-operated Excel GUI, workbook lifecycle, Ribbon callback, UDF, chart-output and MSI checks. Retain historical tolerances and golden data unless a reviewed numerical change requires updating them.

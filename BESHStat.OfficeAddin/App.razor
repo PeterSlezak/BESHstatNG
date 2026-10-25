@@ -5,40 +5,53 @@
 @inject BESHStat.OfficeAddin.Services.WorkbookDiagnostics ReadDiagnostics
 
 <main>
-    <h1>BESHStatNG Office foundation</h1>
-    <p>Development host · Batch 04.03</p>
+    <header class="workspace-header">
+    <h1>BESHStatNG <small>Office workspace</small></h1>
+    <p>Development build - 04.04</p>
+    <div class="availability" role="status">
+        <span>@(loading ? "Connecting to Office…" : status.IsExcel ? "Excel ready" : status.Message)</span>
+        <button @onclick="RetryAsync" disabled="@(loading || reading || pilotBusy)">Retry initialization</button>
+    </div>
+    <div role="tablist" aria-label="Workspace views" class="workspace-tabs">
+        <button @ref="analysisTab" id="analysis-tab" role="tab" aria-selected="@((!diagnosticsTab).ToString().ToLowerInvariant())" aria-controls="analysis-panel" tabindex="@(diagnosticsTab ? -1 : 0)" @onclick="() => diagnosticsTab = false" @onkeydown="TabKey">Analysis</button>
+        <button @ref="logTab" id="diagnostics-tab" role="tab" aria-selected="@diagnosticsTab.ToString().ToLowerInvariant()" aria-controls="diagnostics-panel" tabindex="@(diagnosticsTab ? 0 : -1)" @onclick="() => diagnosticsTab = true" @onkeydown="TabKey">Diagnostics / Log</button>
+    </div>
+    </header>
+    <div id="analysis-panel" role="tabpanel" aria-labelledby="analysis-tab" tabindex="0" hidden="@diagnosticsTab">
+        <AnalysisShell HostAvailable="@(!loading && status.IsExcel)" ReadinessGeneration="readinessGeneration" BusyChanged="busy => pilotBusy = busy" />
+        <p class="workspace-note">Workbook reads and output writes require explicit actions. Raw input values, names and addresses are hidden from diagnostics.</p>
+    </div>
+    <div id="diagnostics-panel" role="tabpanel" aria-labelledby="diagnostics-tab" tabindex="0" hidden="@(!diagnosticsTab)">
     <section aria-live="polite" aria-busy="@loading.ToString().ToLowerInvariant()">
         <h2>Office host</h2>
-        <p id="host-status">@(loading ? "Waiting for Office initialization…" : status.Message)</p>
+        <p id="host-status">@(loading ? "Waiting for Office initialization..." : status.Message)</p>
         @if (!loading)
         {
-            <p>Diagnostic: <code>@status.Code</code></p>
+            <p>Diagnostic: <code id="host-code">@status.Code</code></p>
             @if (status.Platform.Length > 0) { <p>Platform: @status.Platform</p> }
         }
-        <button @onclick="RetryAsync" disabled="@(loading || reading)">Retry initialization</button>
     </section>
     <section>
         <h2>Core and Common checks</h2>
-        @if (probe is null) { <p>Loading local probes…</p> }
+        @if (probe is null) { <p>Loading local probes...</p> }
         else
         {
-            <p id="core-probe">Core: @(probe.CorePassed ? "passed" : "failed") · standard normal CDF(0) = @probe.NormalCdf.ToString("G17", System.Globalization.CultureInfo.InvariantCulture)</p>
-            <p id="common-probe">Common: @(probe.CommonPassed ? "passed" : "failed") · @probe.DescriptorCount descriptors, @probe.HandlerCount registered handlers</p>
+            <p id="core-probe">Core: @(probe.CorePassed ? "passed" : "failed") - standard normal CDF(0) = @probe.NormalCdf.ToString("G17", System.Globalization.CultureInfo.InvariantCulture)</p>
+            <p id="common-probe">Common: @(probe.CommonPassed ? "passed" : "failed") - @probe.DescriptorCount descriptors, @probe.HandlerCount registered handlers</p>
             <p>Diagnostic: <code>@probe.Code</code></p>
         }
     </section>
-    <AnalysisShell />
-    @if (!loading && status.IsExcel)
+    @if (!loading && status.IsExcel && ReadDiagnostics.Enabled)
     {
         <section aria-live="polite" aria-busy="@reading.ToString().ToLowerInvariant()">
             <h2>Read-only development check</h2>
-            <button @onclick="InspectAsync" disabled="@reading">Read selected range (read-only)</button>
+            <button @onclick="InspectAsync" disabled="@(reading || pilotBusy)">Read selected range (read-only)</button>
             @if (ReadDiagnostics.Enabled)
             {
-                <button @onclick="InspectMetadataAsync" disabled="@reading">Inspect selection metadata only (read-only)</button>
+                <button @onclick="InspectMetadataAsync" disabled="@(reading || pilotBusy)">Inspect selection metadata only (read-only)</button>
             }
             @if (readCode is not null) { <p id="range-status">Status: @readCode</p> }
-            @if (rangeRows > 0) { <p>@rangeRows rows × @rangeColumns columns · @((long)rangeRows * rangeColumns) cells</p> }
+            @if (rangeRows > 0) { <p>@rangeRows rows by @rangeColumns columns - @((long)rangeRows * rangeColumns) cells</p> }
         </section>
     }
     @if (ReadDiagnostics.Enabled)
@@ -49,7 +62,7 @@
             <pre>@stageSummary</pre>
         </section>
     }
-    <p>Workbook data is read only when inspection is requested. No workbook data is written. Values, names and addresses are not displayed.</p>
+    </div>
 </main>
 
 @code {
@@ -59,6 +72,16 @@
     private bool loading = true;
     private bool disposed;
     private bool reading;
+    private bool pilotBusy;
+    private bool diagnosticsTab;
+    private ElementReference analysisTab, logTab;
+    private async Task TabKey(KeyboardEventArgs e)
+    {
+        if (e.Key is not ("ArrowLeft" or "ArrowRight" or "Home" or "End")) return;
+        diagnosticsTab = e.Key == "End" || (e.Key != "Home" && !diagnosticsTab);
+        try { await (diagnosticsTab ? logTab : analysisTab).FocusAsync(); } catch (InvalidOperationException) { }
+    }
+    private int readinessGeneration;
     private string? readCode;
     private int rangeRows, rangeColumns;
     private string stageSummary = "";
@@ -66,7 +89,7 @@
 
     private async Task InspectMetadataAsync()
     {
-        if (reading || !status.IsExcel || disposed || !ReadDiagnostics.Enabled) return;
+        if (reading || pilotBusy || !status.IsExcel || disposed || !ReadDiagnostics.Enabled) return;
         reading = true;
         readCode = null;
         rangeRows = rangeColumns = 0;
@@ -80,7 +103,7 @@
 
     private async Task InspectAsync()
     {
-        if (reading || !status.IsExcel || disposed) return;
+        if (reading || pilotBusy || !status.IsExcel || disposed || !ReadDiagnostics.Enabled) return;
         reading = true;
         readCode = null;
         rangeRows = rangeColumns = 0;
@@ -101,6 +124,7 @@
 
     private async Task StartAsync(bool retry)
     {
+        if (retry) readinessGeneration++;
         loading = true;
         readCode = null;
         rangeRows = rangeColumns = 0;

@@ -33,8 +33,7 @@ public sealed class AnalysisComponentTests
         StringAssert.Contains(html, "for=\"analysis-group\"");
         StringAssert.Contains(html, "for=\"analysis-method\"");
         Assert.IsFalse(html.Contains("data-analysis-id"));
-        StringAssert.Contains(html, "disabled aria-describedby=\"analysis-run-unavailable\"");
-        StringAssert.Contains(html, "not available until 04.04");
+        Assert.IsFalse(html.Contains("Run analysis")); // No selected method/input, so no runnable pilot.
         Assert.IsFalse(html.Contains("analysis-alpha"));
     }
 
@@ -138,7 +137,156 @@ public sealed class AnalysisComponentTests
     private static IServiceCollection Services() => new ServiceCollection().AddLogging()
         .AddSingleton<IAnalysisNavigationCatalog, AnalysisNavigationCatalog>().AddSingleton<AnalysisEditorRegistry>()
         .AddSingleton<AnalysisNavigationMenu>()
-        .AddSingleton<IFoundationProbe, FoundationProbe>().AddSingleton(new WorkbookDiagnostics(false));
+        .AddSingleton<IFoundationProbe, FoundationProbe>().AddSingleton(new WorkbookDiagnostics(false))
+        .AddSingleton<IWorkbookAdapter>(new CountingWorkbook()).AddSingleton<IPilotHost>(new PilotHostStub());
+
+    [TestMethod]
+    public async Task TabsPreserveOneLiveDraftResultAndConsentWithoutWorkbookCalls()
+    {
+        using var fixture = AnalysisPilotTests.Fixture("anova-base");
+        var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
+        var host = new AnalysisPilotTests.Host { Occupancy = OutputOccupancy.Occupied };
+        var readiness = new Ready(HostState.Excel);
+        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+            .AddSingleton<IOfficeHostReadiness>(readiness).BuildServiceProvider();
+        await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
+        Assert.AreEqual("true", renderer.Attribute("id", "analysis-tab", "aria-selected"));
+        Assert.AreEqual("analysis-panel", renderer.Attribute("id", "analysis-tab", "aria-controls"));
+        Assert.AreEqual("analysis-tab", renderer.Attribute("id", "analysis-panel", "aria-labelledby"));
+        Assert.IsFalse(renderer.Has("text", "Read selected range (read-only)")); // Opt-in only.
+        await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" });
+        await renderer.ClickText("Run analysis"); await renderer.ClickText("Inspect output destination");
+        var reads = workbook.Reads; var checks = host.Checks;
+        await renderer.Event("id", "diagnostics-tab", "onclick", new MouseEventArgs());
+        Assert.AreEqual("true", renderer.Attribute("id", "diagnostics-tab", "aria-selected"));
+        Assert.AreEqual(true, renderer.Attribute("id", "analysis-panel", "hidden"));
+        await renderer.Event("id", "diagnostics-tab", "onkeydown", new KeyboardEventArgs { Key = "Home" });
+        Assert.AreEqual("true", renderer.Attribute("id", "analysis-tab", "aria-selected"));
+        Assert.IsTrue(renderer.Has("text", "Yes, overwrite inspected output"));
+        Assert.AreEqual("'Input'!A1:C4", renderer.Attribute("id", "input-reference", "value"));
+        Assert.AreEqual(reads, workbook.Reads); Assert.AreEqual(checks, host.Checks); Assert.AreEqual(1, readiness.Calls); Assert.AreEqual(0, workbook.Writes);
+        await renderer.ClickText("Yes, overwrite inspected output"); Assert.AreEqual(1, workbook.Writes);
+    }
+
+    [TestMethod]
+    public async Task RenderedValidationIsOptionalAndClearsOnEditAndResetKeepsMethod()
+    {
+        using var fixture = AnalysisPilotTests.Fixture("anova-base");
+        var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
+        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(new AnalysisPilotTests.Host())
+            .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
+        await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
+        await renderer.ClickText("Run analysis"); Assert.IsTrue(renderer.Has("aria-label", "Input validation issues")); Assert.AreEqual(0, workbook.Reads);
+        await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" });
+        Assert.IsFalse(renderer.Has("aria-label", "Input validation issues"));
+        await renderer.ClickText("Validate input (optional)"); Assert.IsTrue(renderer.Has("aria-label", "Redacted input preview"));
+        Assert.IsFalse(renderer.Has("id", "output-start")); Assert.AreEqual(0, workbook.Writes);
+        await renderer.Event("id", "analysis-alpha", "oninput", new ChangeEventArgs { Value = "0.1" });
+        Assert.IsFalse(renderer.Has("aria-label", "Redacted input preview"));
+        await renderer.ClickText("Run analysis"); Assert.IsFalse(renderer.Has("aria-label", "Redacted input preview"));
+        Assert.IsTrue(renderer.Has("id", "output-start"));
+        await renderer.ClickText("Reset form");
+        Assert.AreEqual(AnalysisIds.OneWayAnova, renderer.Attribute("id", "analysis-method", "value"));
+        Assert.AreEqual("0.05", renderer.Attribute("id", "analysis-alpha", "value"));
+        Assert.AreEqual("", renderer.Attribute("id", "input-reference", "value")); Assert.IsFalse(renderer.Has("id", "output-start"));
+        Assert.AreEqual(2, workbook.Reads); Assert.AreEqual(0, workbook.Writes);
+    }
+
+    [DataTestMethod]
+    [DataRow(false)] [DataRow(true)]
+    public async Task RenderedPilotAcquiresRunsInspectsAndRequiresExplicitConsent(bool approve)
+    {
+        using var fixture = AnalysisPilotTests.Fixture("anova-base");
+        var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
+        var host = new AnalysisPilotTests.Host { Occupancy = OutputOccupancy.Occupied };
+        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+            .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
+        await using var renderer = new EventRenderer(services);
+        await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
+        Assert.AreNotEqual(true, renderer.Attribute("text", "Run analysis", "disabled"));
+        Assert.IsTrue(renderer.Labelled("analysis-alpha")); Assert.AreEqual(0, workbook.Reads);
+        await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" }); Assert.AreEqual(0, workbook.Reads);
+        Assert.AreNotEqual(true, renderer.Attribute("text", "Run analysis", "disabled"));
+        await renderer.ClickText("Run analysis"); Assert.AreEqual(0, workbook.Writes); Assert.AreEqual(1, workbook.Reads);
+        Assert.IsFalse(renderer.Has("aria-label", "Redacted input preview"));
+        Assert.IsTrue(renderer.Labelled("output-start"));
+        Assert.AreEqual("'Input'!J1:J1", renderer.Attribute("id", "output-start", "value"));
+        await renderer.Change("output-destination", "1");
+        Assert.AreEqual("BESHStat results", renderer.Attribute("id", "output-name", "value"));
+        await renderer.Change("output-destination", "0");
+        await renderer.Event("id", "output-start", "oninput", new ChangeEventArgs { Value = "'Input'!M7" });
+        await renderer.ClickText("Inspect output destination"); Assert.AreEqual(0, workbook.Writes);
+        await renderer.ClickText(approve ? "Yes, overwrite inspected output" : "No, keep existing output");
+        Assert.AreEqual(1, workbook.Writes); Assert.AreEqual(approve, workbook.Consent!.Approved);
+        Assert.AreEqual(7, workbook.Intent!.StartRow); Assert.AreEqual(13, workbook.Intent.StartColumn);
+        Assert.IsTrue(renderer.Labelled("analysis-group"));
+        await renderer.Choose(AnalysisIds.KruskalWallis);
+        Assert.IsFalse(renderer.Has("id", "output-start"));
+        Assert.AreNotEqual(true, renderer.Attribute("text", "Run analysis", "disabled"));
+    }
+
+    [TestMethod]
+    public async Task RenderedRangePickerCapturesOnlyWhileArmedAndSharesInterpretationControls()
+    {
+        using var fixture = AnalysisPilotTests.Fixture("anova-base");
+        var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
+        var host = new AnalysisPilotTests.Host();
+        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+            .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
+        await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
+        Assert.IsTrue(renderer.Labelled("input-reference")); Assert.IsTrue(renderer.Labelled("group-arrangement")); Assert.IsTrue(renderer.Labelled("group-headers"));
+        await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Manual Δ'!B2:D5" });
+        Assert.AreEqual(0, workbook.Reads);
+        await renderer.ClickText("Select range"); Assert.IsTrue(renderer.Has("text", "Finish selection"));
+        await renderer.Dispatcher.InvokeAsync(() => host.EmitCapture(new() { Owner = host.Owner, Code = "workbook.ok", Handle = "event", Reference = SpreadsheetRangeReference.FromAddress("B2:D5", "O'Brien Δ") }));
+        Assert.AreEqual("'O''Brien Δ'!B2:D5", renderer.Attribute("id", "input-reference", "value"));
+        await renderer.ClickText("Cancel selection"); Assert.AreEqual("", renderer.Attribute("id", "input-reference", "value"));
+        await renderer.Change("group-arrangement", "2"); Assert.IsTrue(renderer.Labelled("category-reference")); Assert.IsTrue(renderer.Labelled("values-reference"));
+        Assert.IsFalse(renderer.Has("id", "input-reference")); Assert.IsFalse(renderer.Has("id", "group-category")); Assert.IsFalse(renderer.Has("id", "group-value"));
+        await renderer.Change("group-headers", "1");
+        Assert.AreEqual(0, workbook.Reads); Assert.AreEqual(0, workbook.Writes);
+        await renderer.ClickText("Run analysis"); Assert.IsTrue(renderer.Has("text", "input.invalid-reference"));
+    }
+
+    [TestMethod]
+    public async Task RenderedOutputPickerFinishUsesQualifiedIdentityAndInvalidatesOldConsent()
+    {
+        using var fixture = AnalysisPilotTests.Fixture("anova-base");
+        var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
+        var host = new AnalysisPilotTests.Host { Occupancy = OutputOccupancy.Occupied };
+        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+            .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
+        await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
+        await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" }); await renderer.ClickText("Run analysis"); await renderer.ClickText("Inspect output destination");
+        Assert.IsTrue(renderer.Has("text", "Yes, overwrite inspected output"));
+        await renderer.ClickText("Pick output cell"); Assert.IsFalse(renderer.Has("text", "Yes, overwrite inspected output"));
+        host.Reference = SpreadsheetRangeReference.FromAddress("D12", "Result's Δ"); host.Reference.WorksheetId = "output-id";
+        await renderer.ClickText("Finish selection"); Assert.AreEqual("'Result''s Δ'!D12:D12", renderer.Attribute("id", "output-start", "value"));
+        Assert.AreEqual(1, workbook.Reads); Assert.AreEqual(0, workbook.Writes);
+        await renderer.ClickText("Inspect output destination"); await renderer.ClickText("No, keep existing output");
+        Assert.AreEqual("output-id", workbook.Intent!.WorksheetIdentity); Assert.AreEqual("Result's Δ", workbook.Intent.WorksheetName);
+        Assert.AreEqual(12, workbook.Intent.StartRow); Assert.AreEqual(4, workbook.Intent.StartColumn); Assert.IsFalse(workbook.Consent!.Approved);
+    }
+
+    [TestMethod]
+    public async Task RenderedUncertainWriteKeepsOutcomeAndRecoveryInstructionsAfterInputEditingAndRetry()
+    {
+        using var fixture = AnalysisPilotTests.Fixture("anova-base");
+        var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement)) { Uncertain = true };
+        var host = new AnalysisPilotTests.Host { CaptureCode = "output.mutation-uncertain" };
+        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+            .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
+        await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
+        await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" }); await renderer.ClickText("Run analysis"); await renderer.ClickText("Inspect output destination");
+        await renderer.ClickText("Write results");
+        Assert.IsTrue(renderer.Has("text", AnalysisPilotState.RecoveryGuidance));
+        await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!B1:C4" });
+        await renderer.ClickText("Select range");
+        Assert.IsTrue(renderer.Has("text", AnalysisPilotState.RecoveryGuidance));
+        await renderer.ClickText("Retry initialization"); await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" });
+        Assert.IsTrue(renderer.Has("text", AnalysisPilotState.RecoveryGuidance));
+        Assert.AreEqual(1, workbook.Writes); Assert.AreEqual(1, workbook.Reads);
+    }
 
     [TestMethod]
     public async Task ActualDropdownEventsRepresentAllMethodsAndRejectUnsupportedGroupsAndForgedChoices()
@@ -191,7 +339,7 @@ public sealed class AnalysisComponentTests
         await renderer.Change("analysis-group", 123); // Malformed event payload safely clears.
         Assert.AreEqual("", renderer.Attribute("id", "analysis-group", "value"));
         Assert.IsFalse(renderer.Has("id", "analysis-alpha"));
-        StringAssert.Contains(renderer.StaticMarkup, "<button type=\"button\" disabled aria-describedby=\"analysis-run-unavailable\"");
+        Assert.AreEqual(true, renderer.Attribute("id", "analysis-method", "disabled"));
     }
 
     private sealed class Ready(HostState state) : IOfficeHostReadiness
@@ -205,6 +353,16 @@ public sealed class AnalysisComponentTests
                 state == HostState.Excel ? "office.excel-ready" : state == HostState.Failed ? "office.timeout" : "office.unavailable"));
         }
         public ValueTask DisposeAsync() { Disposals++; return ValueTask.CompletedTask; }
+    }
+
+    private sealed class PilotHostStub : IPilotHost
+    {
+        public event Action? Invalidated { add { } remove { } }
+        public Task<PilotReply?> PinSourceAsync(SpreadsheetRangeData snapshot, CancellationToken token) => Task.FromResult<PilotReply?>(new() { Code = "office.unavailable" });
+        public Task<PilotReply?> CheckSourceAsync(string id, CancellationToken token) => Task.FromResult<PilotReply?>(new() { Code = "office.unavailable" });
+        public Task<PilotReply?> PrepareOutputAsync(OfficeOutputPlan plan, WriteIntent intent, string id, CancellationToken token) => Task.FromResult<PilotReply?>(new() { Code = "office.unavailable" });
+        public Task InvalidateAsync() => Task.CompletedTask;
+        public Task InvalidateOutputAsync() => Task.CompletedTask;
     }
 
     private sealed class CountingWorkbook : IWorkbookAdapter
@@ -259,11 +417,12 @@ public sealed class AnalysisComponentTests
                     }
         }
         public bool Has(string attr, string value) => Elements().Any(e => e.TryGetValue(attr, out var actual) && Equals(actual, value));
+        public bool Labelled(string id) => Has("for", id) || StaticMarkup.Contains($"for=\"{id}\"");
         public object? Attribute(string attr, string value, string target) =>
             Elements().Single(e => e.TryGetValue(attr, out var actual) && Equals(actual, value)).GetValueOrDefault(target);
         public Task Event(string attr, string value, string name, EventArgs args) => Dispatcher.InvokeAsync(() =>
         {
-            var element = Elements().Single(e => e.TryGetValue(attr, out var actual) && Equals(actual, value));
+            var element = Elements().Single(e => e.TryGetValue(attr, out var actual) && Equals(actual, value) && e.ContainsKey(name + ":event"));
             return DispatchEventAsync((ulong)element[name + ":event"], null, args);
         });
         public Task ClickText(string text) => Event("text", text, "onclick", new MouseEventArgs());

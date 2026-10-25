@@ -68,7 +68,7 @@ async function screenshot(name) {
     const metrics = await send("Page.getLayoutMetrics");
     const screenshot = await send("Page.captureScreenshot", { captureBeyondViewport: true,
         clip: { x: 0, y: 0, width: 360, height: metrics.cssContentSize.height, scale: 1 } });
-    const folder = new URL("../../../TestResults/04-03-dropdown/screenshots/", import.meta.url);
+    const folder = new URL("../../../TestResults/04-04/format-input/screenshots-options/", import.meta.url);
     mkdirSync(folder, { recursive: true });
     writeFileSync(new URL(`${mode}-${name}.png`, folder), Buffer.from(screenshot.data, "base64"));
     summary.screenshots.push(`${mode}-${name}.png`);
@@ -79,9 +79,9 @@ try {
     await send("Network.setCacheDisabled", { cacheDisabled: true });
     await send("Emulation.setDeviceMetricsOverride", { width: 360, height: 1000, deviceScaleFactor: 1, mobile: false });
     await send("Fetch.enable", { patterns: [{ urlPattern: "https://officeapis.public.onecdn.static.microsoft/1/office.js" }] });
-    await send("Page.navigate", { url: "https://localhost:7141/" });
+    await send("Page.navigate", { url: "https://localhost:7141/?beshOfficeDiagnostics=1" });
     const expected = mode === "excel" ? "office.excel-ready" : "office.unavailable";
-    await wait(`document.querySelector('code')?.textContent==='${expected}' && !document.querySelector('button')?.disabled`);
+    await wait(`document.querySelector('#host-code')?.textContent==='${expected}' && !document.querySelector('button')?.disabled`);
     assert.equal(await evaluate("document.querySelector('#core-probe').textContent.includes('CDF(0) = 0.5')"), true);
     assert.equal(await evaluate("document.querySelector('#common-probe').textContent.includes('2 descriptors, 4 registered handlers')"), true);
     assert.equal(await evaluate("document.querySelectorAll('[data-analysis-id]').length"), 0);
@@ -91,6 +91,10 @@ try {
     // Native Tab and arrow keys operate the dependent selects; method identity remains its stable ID.
     summary.stage = "keyboard-anova";
     await evaluate("document.querySelector('button').focus()");
+    await key("Tab");
+    assert.equal(await evaluate("document.activeElement.id"), "analysis-tab");
+    await key("Tab");
+    assert.equal(await evaluate("document.activeElement.id"), "analysis-panel");
     await key("Tab");
     assert.equal(await evaluate("document.activeElement.id"), "analysis-group");
     assert.equal(await evaluate("getComputedStyle(document.activeElement).outlineStyle"), "solid");
@@ -133,7 +137,7 @@ try {
     await screenshot("kw");
     summary.stage = "retry-and-reset";
     await evaluate("document.querySelector('button').click()");
-    await wait(`document.querySelector('code')?.textContent==='${expected}' && !document.querySelector('button')?.disabled`);
+    await wait(`document.querySelector('#host-code')?.textContent==='${expected}' && !document.querySelector('button')?.disabled`);
     assert.equal(await evaluate("document.querySelector('#analysis-alpha').value"), "0.025");
     assert.equal(await evaluate("document.querySelector('#kw-dunn').checked"), true);
     // Same-group/method events retain the draft rather than recreate it.
@@ -153,18 +157,19 @@ try {
     await wait("!!document.querySelector('#anova-welch')");
     assert.equal(await evaluate("document.querySelector('#analysis-alpha').value"), "0.05");
     assert.equal(await evaluate("document.querySelector('#anova-welch').checked"), false);
-    assert.equal(await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Run analysis').disabled"), true);
+    assert.equal(await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Run analysis').disabled"), mode !== "excel");
     assert.equal(await evaluate("document.documentElement.scrollWidth <= innerWidth"), true, "narrow-pane overflow");
     if (mode === "excel") {
         summary.stage = "explicit-read";
         assert.equal(await evaluate("__simulatedWorkbook.runs"), 0, "option editing must not acquire workbook content");
+        await evaluate("document.querySelector('#diagnostics-tab').click()");
         await evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent==='Read selected range (read-only)').click()");
         await wait("document.querySelector('#range-status')?.textContent==='Status: workbook.ok'");
         assert.equal(await evaluate("__simulatedWorkbook.mutations"), 0);
     } else assert.equal(await evaluate("[...document.querySelectorAll('button')].some(b=>b.textContent==='Read selected range (read-only)')"), false);
     await send("Page.reload", { ignoreCache: true });
     summary.stage = "reopen";
-    await wait(`document.querySelector('code')?.textContent==='${expected}' && !document.querySelector('button')?.disabled`);
+    await wait(`document.querySelector('#host-code')?.textContent==='${expected}' && !document.querySelector('button')?.disabled`);
     assert.equal(await evaluate("document.querySelector('#analysis-alpha')===null"), true, "reload resets selection");
     assert.equal(await evaluate("document.querySelector('#analysis-group').value==='' && document.querySelector('#analysis-method').disabled"), true);
     assert.equal(summary.applicationExceptions, 0);
