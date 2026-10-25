@@ -23,7 +23,7 @@ public sealed class AnalysisComponentTests
         var workbook = new AnalysisPilotTests.Workbook(WorksheetDiscoveryTests.AtRowOne(SpecificationBuilderTests.Model()));
         var host = new AnalysisPilotTests.Host();
         host.ConfigureWorksheet(workbook.Range);
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
             .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
         await using var renderer = new EventRenderer(services); await renderer.Mount<App>();
         Assert.IsFalse(renderer.Has("id", "spec-worksheet"));
@@ -53,7 +53,7 @@ public sealed class AnalysisComponentTests
         await renderer.ClickText("Validate specification / Preview design");
         StringAssert.Contains((string)renderer.Attribute("id", "spec-status", "text")!, "spec.invalid");
         await renderer.ClickText("Return to analysis"); Assert.IsFalse(renderer.Has("id", "spec-worksheet"));
-        Assert.AreEqual(2, renderer.Count("role", "tab"));
+        Assert.AreEqual(3, renderer.Count("role", "tab"));
         Assert.AreEqual(0, workbook.Writes);
     }
 
@@ -63,7 +63,7 @@ public sealed class AnalysisComponentTests
         using var fixture = AnalysisPilotTests.Fixture("anova-base");
         var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
         var host = new AnalysisPilotTests.Host { Occupancy = OutputOccupancy.Occupied };
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
             .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
         await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
         await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" });
@@ -84,7 +84,7 @@ public sealed class AnalysisComponentTests
     {
         var workbook = new AnalysisPilotTests.Workbook(WorksheetDiscoveryTests.AtRowOne(SpecificationBuilderTests.Repeated())); var host = new AnalysisPilotTests.Host();
         host.ConfigureWorksheet(workbook.Range);
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
             .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
         await using var renderer = new EventRenderer(services); await renderer.Mount<App>();
         await renderer.ClickText("Open specification builder preview (no fit / write)");
@@ -112,7 +112,7 @@ public sealed class AnalysisComponentTests
     [TestMethod]
     public async Task RealHtmlRenderContainsDescriptorNavigationAndDisabledHonestRun()
     {
-        using var services = Services().BuildServiceProvider();
+        await using var services = Services().BuildServiceProvider();
         await using var renderer = new HtmlRenderer(services, services.GetRequiredService<ILoggerFactory>());
         var html = await renderer.Dispatcher.InvokeAsync(async () =>
             (await renderer.RenderComponentAsync<AnalysisShell>()).ToHtmlString());
@@ -135,7 +135,7 @@ public sealed class AnalysisComponentTests
     {
         var workbook = new CountingWorkbook();
         var host = new Ready(status);
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook)
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook)
             .AddSingleton<IOfficeHostReadiness>(host).BuildServiceProvider();
         await using (var renderer = new EventRenderer(services))
         {
@@ -194,7 +194,7 @@ public sealed class AnalysisComponentTests
     [TestMethod]
     public async Task AlphaAndCheckboxHtmlHaveExplicitLabelsValidationAndFieldset()
     {
-        using var services = Services().BuildServiceProvider();
+        await using var services = Services().BuildServiceProvider();
         using var draft = new KruskalWallisOptionDraft(new());
         draft.SetAlpha("NaN");
         await using var renderer = new HtmlRenderer(services, services.GetRequiredService<ILoggerFactory>());
@@ -212,7 +212,7 @@ public sealed class AnalysisComponentTests
     {
         var host = new Ready(HostState.Excel) { Pending = new(TaskCreationOptions.RunContinuationsAsynchronously) };
         var workbook = new CountingWorkbook();
-        using var services = Services().AddSingleton<IOfficeHostReadiness>(host)
+        await using var services = Services().AddSingleton<IOfficeHostReadiness>(host)
             .AddSingleton<IWorkbookAdapter>(workbook).BuildServiceProvider();
         var renderer = new EventRenderer(services);
         await renderer.Mount<App>();
@@ -226,7 +226,7 @@ public sealed class AnalysisComponentTests
         Assert.AreEqual(1, workbook.Disposals);
     }
 
-    private static IServiceCollection Services() => new ServiceCollection().AddLogging()
+    internal static IServiceCollection Services() => new ServiceCollection().AddLogging().AddOfficeFoundation()
         .AddSingleton<IAnalysisNavigationCatalog, AnalysisNavigationCatalog>().AddSingleton<AnalysisEditorRegistry>()
         .AddSingleton<AnalysisNavigationMenu>()
         .AddSingleton<IFoundationProbe, FoundationProbe>().AddSingleton(new WorkbookDiagnostics(false))
@@ -239,7 +239,7 @@ public sealed class AnalysisComponentTests
         var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
         var host = new AnalysisPilotTests.Host { Occupancy = OutputOccupancy.Occupied };
         var readiness = new Ready(HostState.Excel);
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
             .AddSingleton<IOfficeHostReadiness>(readiness).BuildServiceProvider();
         await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
         Assert.AreEqual("true", renderer.Attribute("id", "analysis-tab", "aria-selected"));
@@ -265,7 +265,7 @@ public sealed class AnalysisComponentTests
     {
         using var fixture = AnalysisPilotTests.Fixture("anova-base");
         var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(new AnalysisPilotTests.Host())
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(new AnalysisPilotTests.Host())
             .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
         await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
         await renderer.ClickText("Run analysis"); Assert.IsTrue(renderer.Has("aria-label", "Input validation issues")); Assert.AreEqual(0, workbook.Reads);
@@ -291,7 +291,7 @@ public sealed class AnalysisComponentTests
         using var fixture = AnalysisPilotTests.Fixture("anova-base");
         var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
         var host = new AnalysisPilotTests.Host { Occupancy = OutputOccupancy.Occupied };
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
             .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
         await using var renderer = new EventRenderer(services);
         await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
@@ -323,7 +323,7 @@ public sealed class AnalysisComponentTests
         using var fixture = AnalysisPilotTests.Fixture("anova-base");
         var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
         var host = new AnalysisPilotTests.Host();
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
             .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
         await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
         Assert.IsTrue(renderer.Labelled("input-reference")); Assert.IsTrue(renderer.Labelled("group-arrangement")); Assert.IsTrue(renderer.Labelled("group-headers"));
@@ -346,7 +346,7 @@ public sealed class AnalysisComponentTests
         using var fixture = AnalysisPilotTests.Fixture("anova-base");
         var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement));
         var host = new AnalysisPilotTests.Host { Occupancy = OutputOccupancy.Occupied };
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
             .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
         await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
         await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" }); await renderer.ClickText("Run analysis"); await renderer.ClickText("Inspect output destination");
@@ -366,7 +366,7 @@ public sealed class AnalysisComponentTests
         using var fixture = AnalysisPilotTests.Fixture("anova-base");
         var workbook = new AnalysisPilotTests.Workbook(AnalysisPilotTests.Range(fixture.RootElement)) { Uncertain = true };
         var host = new AnalysisPilotTests.Host { CaptureCode = "output.mutation-uncertain" };
-        using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
+        await using var services = Services().AddSingleton<IWorkbookAdapter>(workbook).AddSingleton<IPilotHost>(host)
             .AddSingleton<IOfficeHostReadiness>(new Ready(HostState.Excel)).BuildServiceProvider();
         await using var renderer = new EventRenderer(services); await renderer.Mount<App>(); await renderer.Choose(AnalysisIds.OneWayAnova);
         await renderer.Event("id", "input-reference", "oninput", new ChangeEventArgs { Value = "'Input'!A1:C4" }); await renderer.ClickText("Run analysis"); await renderer.ClickText("Inspect output destination");
@@ -383,7 +383,7 @@ public sealed class AnalysisComponentTests
     [TestMethod]
     public async Task ActualDropdownEventsRepresentAllMethodsAndRejectUnsupportedGroupsAndForgedChoices()
     {
-        using var services = Services().BuildServiceProvider();
+        await using var services = Services().BuildServiceProvider();
         await using var renderer = new EventRenderer(services);
         await renderer.Mount<AnalysisShell>();
         Assert.AreEqual(13, renderer.Options("analysis-group").Count); // 12 generated groups + placeholder.
@@ -469,7 +469,7 @@ public sealed class AnalysisComponentTests
         public ValueTask DisposeAsync() { Disposals++; return ValueTask.CompletedTask; }
     }
 
-    private sealed class EventRenderer(IServiceProvider services) : Renderer(services, services.GetRequiredService<ILoggerFactory>())
+    internal sealed class EventRenderer(IServiceProvider services) : Renderer(services, services.GetRequiredService<ILoggerFactory>())
     {
         private int root;
         private readonly List<Task> displays = [];

@@ -3,25 +3,35 @@
 @inject IFoundationProbe Probe
 @inject BESHStat.OfficeAddin.Services.IWorkbookAdapter Workbook
 @inject BESHStat.OfficeAddin.Services.WorkbookDiagnostics ReadDiagnostics
+@inject OfficePreferenceSession Preferences
+@inject OfficeStrings Text
+@inject BESHStatNG.ExcelCommon.DiagnosticEmitter Diagnostics
 
 <main>
     <header class="workspace-header">
     <h1>BESHStatNG <small>Office workspace</small></h1>
-    <p>Development build - 04.05</p>
+    <p>Development build - 04.06</p>
     <div class="availability" role="status">
-        <span>@(loading ? "Connecting to Office…" : status.IsExcel ? "Excel ready" : status.Message)</span>
-        <button @onclick="RetryAsync" disabled="@(loading || reading || pilotBusy)">Retry initialization</button>
+        <span>@(loading ? Text["Connecting"] : status.IsExcel ? Text["ExcelReady"] : status.Message)</span>
+        <button id="retry-initialization" @onclick="RetryAsync" disabled="@(loading || reading || pilotBusy || Preferences.Applying)">@Text["Retry"]</button>
     </div>
-    <div role="tablist" aria-label="Workspace views" class="workspace-tabs">
-        <button @ref="analysisTab" id="analysis-tab" role="tab" aria-selected="@((!diagnosticsTab).ToString().ToLowerInvariant())" aria-controls="analysis-panel" tabindex="@(diagnosticsTab ? -1 : 0)" @onclick="() => diagnosticsTab = false" @onkeydown="TabKey">Analysis</button>
-        <button @ref="logTab" id="diagnostics-tab" role="tab" aria-selected="@diagnosticsTab.ToString().ToLowerInvariant()" aria-controls="diagnostics-panel" tabindex="@(diagnosticsTab ? 0 : -1)" @onclick="() => diagnosticsTab = true" @onkeydown="TabKey">Diagnostics / Log</button>
+    <div role="tablist" aria-label="@Text["WorkspaceViews"]" class="workspace-tabs">
+        <button @ref="analysisTab" id="analysis-tab" role="tab" aria-selected="@Selected(0)" aria-controls="analysis-panel" tabindex="@(activeTab == 0 ? 0 : -1)" @onclick="() => activeTab = 0" @onkeydown="TabKey">@Text["Analysis"]</button>
+        <button @ref="optionsTab" id="options-tab" role="tab" aria-selected="@Selected(1)" aria-controls="options-panel" tabindex="@(activeTab == 1 ? 0 : -1)" @onclick="() => activeTab = 1" @onkeydown="TabKey">@Text["Options"]</button>
+        <button @ref="logTab" id="diagnostics-tab" role="tab" aria-selected="@Selected(2)" aria-controls="diagnostics-panel" tabindex="@(activeTab == 2 ? 0 : -1)" @onclick="() => activeTab = 2" @onkeydown="TabKey">@Text["Diagnostics"]</button>
     </div>
     </header>
-    <div id="analysis-panel" role="tabpanel" aria-labelledby="analysis-tab" tabindex="0" hidden="@diagnosticsTab">
-        <AnalysisShell HostAvailable="@(!loading && status.IsExcel)" ReadinessGeneration="readinessGeneration" BusyChanged="busy => pilotBusy = busy" />
+    <div id="analysis-panel" role="tabpanel" aria-labelledby="analysis-tab" tabindex="0" hidden="@(activeTab != 0)">
+        @if (Preferences.Initialized)
+        { <fieldset disabled="@Preferences.Applying" class="workspace-analysis"><AnalysisShell HostAvailable="@(!loading && status.IsExcel)" ReadinessGeneration="readinessGeneration" BusyChanged="busy => pilotBusy = busy" /></fieldset> }
         <p class="workspace-note">Workbook reads and output writes require explicit actions. Raw input values, names and addresses are hidden from diagnostics.</p>
+        <HelpAction />
     </div>
-    <div id="diagnostics-panel" role="tabpanel" aria-labelledby="diagnostics-tab" tabindex="0" hidden="@(!diagnosticsTab)">
+    <div id="options-panel" role="tabpanel" aria-labelledby="options-tab" tabindex="0" hidden="@(activeTab != 1)"><GlobalOptions /></div>
+    <div id="diagnostics-panel" role="tabpanel" aria-labelledby="diagnostics-tab" tabindex="0" hidden="@(activeTab != 2)">
+    <DiagnosticLog />
+    @if (ReadDiagnostics.Enabled)
+    {
     <section aria-live="polite" aria-busy="@loading.ToString().ToLowerInvariant()">
         <h2>Office host</h2>
         <p id="host-status">@(loading ? "Waiting for Office initialization..." : status.Message)</p>
@@ -59,8 +69,9 @@
         <section aria-label="Local development read stages">
             <h2>Local development read stages</h2>
             <button @onclick="RefreshStages">Refresh stage summary</button>
-            <pre>@stageSummary</pre>
+            <pre id="development-stage-summary">@stageSummary</pre>
         </section>
+    }
     }
     </div>
 </main>
@@ -73,13 +84,14 @@
     private bool disposed;
     private bool reading;
     private bool pilotBusy;
-    private bool diagnosticsTab;
-    private ElementReference analysisTab, logTab;
+    private int activeTab;
+    private ElementReference analysisTab, optionsTab, logTab;
+    private string Selected(int tab) => (activeTab == tab).ToString().ToLowerInvariant();
     private async Task TabKey(KeyboardEventArgs e)
     {
         if (e.Key is not ("ArrowLeft" or "ArrowRight" or "Home" or "End")) return;
-        diagnosticsTab = e.Key == "End" || (e.Key != "Home" && !diagnosticsTab);
-        try { await (diagnosticsTab ? logTab : analysisTab).FocusAsync(); } catch (InvalidOperationException) { }
+        activeTab = e.Key switch { "Home" => 0, "End" => 2, "ArrowRight" => (activeTab + 1) % 3, _ => (activeTab + 2) % 3 };
+        try { await (activeTab switch { 0 => analysisTab, 1 => optionsTab, _ => logTab }).FocusAsync(); } catch (InvalidOperationException) { }
     }
     private int readinessGeneration;
     private string? readCode;
@@ -124,6 +136,14 @@
 
     private async Task StartAsync(bool retry)
     {
+        Text.Changed -= RefreshPreferences;
+        Text.Changed += RefreshPreferences;
+        await Text.InitializeAsync();
+        await Preferences.InitializeAsync();
+        Preferences.Changed -= RefreshPreferences;
+        Preferences.Changed += RefreshPreferences;
+        var diagnostic = await Diagnostics.StartAsync("office", Preferences.Effective.TraceEnabled);
+        if (retry) await diagnostic.ReportAsync("diagnostic.host.retry", "invocation");
         if (retry) readinessGeneration++;
         loading = true;
         readCode = null;
@@ -134,14 +154,20 @@
         var result = await Host.InitializeAsync(lifetime.Token, retry);
         if (disposed) return;
         status = result;
+        await diagnostic.ReportAsync(result.IsExcel ? "diagnostic.host.ready" : "diagnostic.host.unavailable", "invocation");
+        await diagnostic.EndAsync();
         loading = false;
         StateHasChanged();
     }
+
+    private void RefreshPreferences() { if (!disposed) _ = InvokeAsync(StateHasChanged); }
 
     public async ValueTask DisposeAsync()
     {
         if (disposed) return;
         disposed = true;
+        Preferences.Changed -= RefreshPreferences;
+        Text.Changed -= RefreshPreferences;
         lifetime.Cancel();
         await Workbook.DisposeAsync();
         await Host.DisposeAsync();

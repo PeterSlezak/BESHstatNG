@@ -7,6 +7,8 @@
     <RootNamespace>BESHStat.OfficeAddin</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <EmbeddedResource Include="..\Resources\*.resx" Link="Resources\%(Filename)%(Extension)" />
+    <EmbeddedResource Update="..\Resources\Ui.sk.resx" WithCulture="false" LogicalName="BESHStat.OfficeAddin.Resources.Ui.sk.resources" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
     <PackageReference Include="MSTest" Version="3.6.4" />
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

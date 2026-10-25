@@ -15,7 +15,16 @@ public sealed class AnalysisPilotState : IAsyncDisposable
     private readonly IWorkbookAdapter workbook;
     private readonly IPilotHost host;
     private readonly GroupedInputConstraints constraints;
-    private readonly PreferenceSnapshot preferences;
+    private PreferenceSnapshot preferences;
+    private readonly OfficePreferenceSession? preferenceSession;
+    private readonly DiagnosticEmitter? diagnosticEmitter;
+    private readonly IDisposable? preferenceParticipation;
+    private DiagnosticRunContext? diagnosticRun;
+    public ExecutionStage Stage { get; private set; } = ExecutionStage.None;
+    public bool NativeWriteSubmitted => writing;
+    public string? RunId => diagnosticRun?.RunId;
+    private double runAlpha;
+    private long preferenceRevision;
     private readonly CancellationTokenSource lifetime = new();
     private CancellationTokenSource? pending;
     private Task retirement = Task.CompletedTask;
@@ -47,6 +56,9 @@ public sealed class AnalysisPilotState : IAsyncDisposable
     public IReadOnlyList<AnalysisMetricArtifact> Metrics => result?.Metrics ?? Array.Empty<AnalysisMetricArtifact>();
     public IReadOnlyList<string> WarningCodes => result?.Warnings.Select(w => w.Code).ToArray() ?? [];
     public IReadOnlyList<string> FaultCodes => result?.Faults.Select(w => w.Code).ToArray() ?? [];
+    public UserFault? Fault => RequiresRecovery ? UserFaultMapper.FromWriteState(OutputWriteState.PartiallyWritten, WriteCodes.MutationUncertain, true)
+        : WriteOutcome is { } outcome && outcome.Code == Code ? UserFaultMapper.FromWriteResult(outcome)
+        : result?.Faults.FirstOrDefault() is { } fault ? UserFaultMapper.FromAnalysisFault(fault) : null;
     public int NonCellArtifacts => document?.Artifacts.Count(a => a is not OutputTableArtifact) ?? 0;
     public string Code { get; private set; } = "input.not-acquired";
     public string Guidance => RequiresRecovery ? RecoveryGuidance : Code switch {
@@ -87,8 +99,8 @@ public sealed class AnalysisPilotState : IAsyncDisposable
                 && draft.IsValid && descriptor.OptionsType == draft.Snapshot().GetType() && descriptor.InputTypes.Contains(typeof(GroupedNumericData));
         }
     }
-    public bool CanRun => !disposed && !RequiresRecovery && !Picking && !Busy && Supported;
-    public bool CanInspect => !disposed && !RequiresRecovery && !Picking && !Busy && Current && OutputDraftValid && document is not null && result?.Faults.Count == 0 && Supported;
+    public bool CanRun => !disposed && preferenceSession?.Applying != true && !RequiresRecovery && !Picking && !Busy && Supported;
+    public bool CanInspect => !disposed && preferenceSession?.Applying != true && !RequiresRecovery && !Picking && !Busy && Current && OutputDraftValid && document is not null && result?.Faults.Count == 0 && Supported;
     private bool OutputDraftValid => Destination == SpreadsheetOutputDestination.NewWorksheet ||
         (Destination == SpreadsheetOutputDestination.CurrentWorksheet && OutputReference.IsValid);
     public bool CanWrite => CanInspect && plan is not null && intent is not null && Inspection is not null;
@@ -108,10 +120,15 @@ public sealed class AnalysisPilotState : IAsyncDisposable
     public event Action? Changed;
 
     public AnalysisPilotState(IAnalysisDescriptor descriptor, AnalysisOptionDraft draft, IWorkbookAdapter workbook, IPilotHost host,
-        GroupedInputConstraints? constraints = null, PreferenceSnapshot? preferences = null)
+        GroupedInputConstraints? constraints = null, PreferenceSnapshot? preferences = null,
+        OfficePreferenceSession? preferenceSession = null, DiagnosticEmitter? diagnostics = null)
     {
         this.descriptor = descriptor; this.draft = draft; this.workbook = workbook; this.host = host;
         this.constraints = constraints ?? new(); this.preferences = preferences ?? PreferenceSnapshot.Defaults();
+        this.preferenceSession = preferenceSession; diagnosticEmitter = diagnostics;
+        preferenceRevision = preferenceSession?.Revision ?? 0;
+        preferenceParticipation = preferenceSession?.Participate(() => !Busy && !Picking, RetirePreferencesAsync);
+        if (preferenceSession is not null) { draft.FollowGlobalAlpha(preferenceSession.Effective.DefaultAlpha); preferenceSession.Changed += PreferencesChanged; }
         WriteOutcome = (host as IPilotSafetyHost)?.LastWriteOutcome;
         InputReference = new(host as IRangeCaptureHost, false, Invalidate, WaitForRetirementsAsync);
         CategoryReference = new(host as IRangeCaptureHost, false, Invalidate, WaitForRetirementsAsync);
@@ -120,6 +137,33 @@ public sealed class AnalysisPilotState : IAsyncDisposable
         InputReference.Changed += ReferenceChanged; OutputReference.Changed += OutputReferenceChanged;
         CategoryReference.Changed += ReferenceChanged; ValueReference.Changed += ReferenceChanged;
         draft.Changed += OptionsChanged; host.Invalidated += Invalidate;
+    }
+    private void PreferencesChanged()
+    {
+        if (disposed || preferenceSession is null) return;
+        if (!preferenceSession.Applying && preferenceRevision != preferenceSession.Revision) {
+            preferenceRevision = preferenceSession.Revision;
+            var previousCode = Code;
+            draft.FollowGlobalAlpha(preferenceSession.Effective.DefaultAlpha);
+            if (RequiresRecovery) Code = "output.mutation-uncertain";
+            else if (previousCode == WriteCodes.Completed && WriteOutcome?.State == OutputWriteState.Completed) Code = previousCode;
+        }
+        Changed?.Invoke();
+    }
+    private async Task RetirePreferencesAsync()
+    {
+        Invalidate();
+        await WaitForRetirementsAsync(lifetime.Token);
+        if (RequiresRecovery) Code = "output.mutation-uncertain";
+        else if (WriteOutcome?.State == OutputWriteState.Completed) Code = WriteOutcome.Code;
+    }
+    private void SetStage(ExecutionStage stage) { Stage = stage; Changed?.Invoke(); }
+    private Task ReportAsync(string code, string stage) => diagnosticRun is { } run ? run.ReportAsync(code, stage,
+        new Dictionary<string, string> { ["host"] = "office" }) : Task.CompletedTask;
+    private async Task EnsureDiagnosticRunAsync()
+    {
+        if (diagnosticRun is null && diagnosticEmitter is not null)
+            diagnosticRun = await diagnosticEmitter.StartAsync(descriptor.Id, (preferenceSession?.Effective ?? preferences).TraceEnabled);
     }
     private void ReferenceChanged() => Changed?.Invoke();
     private void OutputReferenceChanged()
@@ -156,7 +200,7 @@ public sealed class AnalysisPilotState : IAsyncDisposable
         if (disposed) return;
         foreach (var reference in References) reference.Stop();
         generation++; pending?.Cancel(); source = null; grouped = null; sourceToken = session = null;
-        result = null; document = null; Tables = []; ClearOutput(); Code = "input.preview-stale";
+        result = null; document = null; Tables = []; ClearOutput(); Code = RequiresRecovery ? "output.mutation-uncertain" : "input.preview-stale";
         Preview = null; ShowPreview = false; validationRequested = false; InputRole = null; InputNotices = [];
         QueueRetirement(); Changed?.Invoke();
     }
@@ -178,12 +222,13 @@ public sealed class AnalysisPilotState : IAsyncDisposable
     }
     public void Cancel()
     {
+        _ = ReportAsync("diagnostic.user.cancelled", "invocation");
         if (writing) { pending?.Cancel(); QueueRetirement(); Code = "output.cancellation-requested"; Changed?.Invoke(); }
         else { Invalidate(); Code = "user.cancelled"; }
     }
     private async Task Operation(Func<CancellationToken, long, Task> action)
     {
-        if (disposed || Busy) { if (!disposed) Code = "host.busy"; return; }
+        if (disposed || Busy || preferenceSession?.Applying == true) { if (!disposed) Code = "host.busy"; return; }
         Busy = true;
         Changed?.Invoke();
         var version = generation;
@@ -194,7 +239,14 @@ public sealed class AnalysisPilotState : IAsyncDisposable
         catch (SpreadsheetInputValidationException ex) { if (!disposed && version == generation) { ClearOutput(); Code = Safe(ex.Report.Issues[0].Code); ShowPreview = true; } }
         catch (GroupedInputException ex) { if (!disposed && version == generation) { ClearOutput(); Code = ex.Code; ShowPreview = true; } }
         catch (Exception) { if (!disposed && version == generation) { ClearOutput(); Code = "host.operation-failed"; } }
-        finally { if (pending == bound) pending = null; Busy = false; if (!disposed) Changed?.Invoke(); }
+        finally {
+            if (pending == bound) pending = null; Busy = false;
+            if (diagnosticRun is not null && !disposed) {
+                if (Code is "input.validation-failed" || Code.StartsWith("input.", StringComparison.Ordinal) && Code != "input.not-acquired") await ReportAsync("diagnostic.validation.rejected", "validation");
+                else if (Code == "host.operation-failed") await ReportAsync("diagnostic.run.failed", "invocation");
+            }
+            if (!disposed) Changed?.Invoke();
+        }
     }
     private bool Accept(long version, CancellationToken token)
     {
@@ -209,16 +261,20 @@ public sealed class AnalysisPilotState : IAsyncDisposable
         "output.target-merged" or "output.target-invalid" or "output.sheet-name-collision" or "output.sheet-name-adjusted" or "output.sheet-name-unavailable" or "output.consent-stale" ? code : "host.operation-failed";
 
     public Task AcquireAsync() => Operation(async (token, version) => {
+        await EnsureDiagnosticRunAsync();
         ShowPreview = validationRequested = true;
         await AcquireWithinOperationAsync(token, version, allowSelection: true);
     });
     public Task ValidateAsync() => Operation(async (token, version) => {
+        await EnsureDiagnosticRunAsync();
         ShowPreview = validationRequested = true;
         await AcquireWithinOperationAsync(token, version);
     });
 
     private async Task AcquireWithinOperationAsync(CancellationToken token, long version, bool allowSelection = false)
     {
+        SetStage(ExecutionStage.Acquisition);
+        await ReportAsync("diagnostic.stage.entered", "acquisition");
         if (RequiresRecovery) { Code = "output.mutation-uncertain"; return; }
         source = null; grouped = null; sourceToken = session = null; result = null; document = null; Tables = []; ClearOutput();
         Preview = null; InputRole = null; InputNotices = [];
@@ -278,6 +334,8 @@ public sealed class AnalysisPilotState : IAsyncDisposable
             physical.Add(new(copy, reference?.Handle ?? ""));
         }
         if (longFormat && !PhysicalInputView.Aligned(physical[0].Snapshot, physical[1].Snapshot)) { Code = "input.long-alignment"; return; }
+        SetStage(ExecutionStage.Validation);
+        await ReportAsync("diagnostic.stage.entered", "validation");
         var parsed = GroupedInput.Parse(physical.Select(p => p.Snapshot).ToArray(), new(Orientation, Header, constraints));
         var snapshot = parsed.ParserInput;
         InputNotices = InputNotices.Concat(parsed.Notices).ToArray();
@@ -297,6 +355,7 @@ public sealed class AnalysisPilotState : IAsyncDisposable
             Array.AsReadOnly(parsed.Data?.GroupCounts ?? []), parsed.Issues, valid);
         if (!valid) { Code = "input.validation-failed"; return; }
         PilotReply? pin;
+        SetStage(ExecutionStage.Acquisition);
         if (longFormat)
         {
             if (host is not ICompositeSourceHost composite || physical.Any(p => string.IsNullOrWhiteSpace(p.Handle)))
@@ -313,6 +372,9 @@ public sealed class AnalysisPilotState : IAsyncDisposable
     }
 
     public Task RunAsync() => Operation(async (token, version) => {
+        if (diagnosticRun is not null) await diagnosticRun.EndAsync();
+        preferences = preferenceSession?.Effective ?? preferences;
+        diagnosticRun = diagnosticEmitter is null ? null : await diagnosticEmitter.StartAsync(descriptor.Id, preferences.TraceEnabled);
         ShowPreview = validationRequested;
         if (Picking || !Supported) { Code = "analysis.invalid-request"; return; }
         await AcquireWithinOperationAsync(token, version);
@@ -323,6 +385,9 @@ public sealed class AnalysisPilotState : IAsyncDisposable
         if (!Accept(version, token)) return;
         if (check?.Code != "workbook.ok") { Invalidate(); Code = Safe(check?.Code); return; }
         var options = draft.Snapshot();
+        runAlpha = draft.ValidatedAlpha;
+        SetStage(ExecutionStage.Analysis);
+        await ReportAsync("diagnostic.stage.entered", "analysis");
         await Task.Yield(); // Render busy before synchronous Common computation, without claiming interruptibility.
         if (!Accept(version, token)) return;
         var computed = SharedAnalysisApplicationService.RunDocument(descriptor.Id, grouped, options);
@@ -330,6 +395,7 @@ public sealed class AnalysisPilotState : IAsyncDisposable
         result = computed; document = OutputDocument.FromAnalysis(computed);
         Tables = Array.AsReadOnly(document.Artifacts.OfType<OutputTableArtifact>().Select(t => new TablePreview(t.Id, t.RowCount, t.ColumnCount)).ToArray());
         Code = computed.Faults.Count == 0 ? "analysis.completed" : computed.Faults[0].Code;
+        await ReportAsync(computed.Faults.Count == 0 ? "diagnostic.analysis.completed" : "diagnostic.run.failed", "analysis");
     });
 
     private static SpreadsheetRangeData CopySource(SpreadsheetRangeData s) => new()
@@ -344,6 +410,8 @@ public sealed class AnalysisPilotState : IAsyncDisposable
     public Task InspectAsync() => Operation(InspectWithinOperationAsync);
     private async Task InspectWithinOperationAsync(CancellationToken token, long version)
     {
+        SetStage(ExecutionStage.Output);
+        await ReportAsync("diagnostic.output.attempted", "output");
         if (Picking || !Current || document is null || result?.Faults.Count != 0 || source is null) { Code = "input.preview-stale"; return; }
         if (!OutputDraftValid) { Code = "output.rejected"; return; }
         ClearOutput();
@@ -381,7 +449,7 @@ public sealed class AnalysisPilotState : IAsyncDisposable
                 { Code = "host.invalid-response"; return; }
                 targetName = allocation.ResolvedName;
                 ResolvedWorksheetName = targetName;
-                if (allocation.WarningCode is { } warning) SheetNameNotice = new(NewSheetName, targetName, warning);
+                if (allocation.WarningCode is { } warning) { SheetNameNotice = new(NewSheetName, targetName, warning); await ReportAsync("output.sheet-name-adjusted", "output"); }
                 Changed?.Invoke();
             }
             var target = new SpreadsheetOutputTarget { Destination = Destination, StartRow = cell.StartRow, StartColumn = cell.StartColumn,
@@ -390,7 +458,7 @@ public sealed class AnalysisPilotState : IAsyncDisposable
                 Capabilities = [HostCapabilityIds.WriteResultTables, HostCapabilityIds.CurrentWorksheet, HostCapabilityIds.NewWorksheet] };
             var decision = TargetPlanner.Create(target, capabilities);
             decision.EnsureSupported();
-            var wire = OutputPlanPresentation.Prepare(document, decision.ToTarget(), draft.ValidatedAlpha, preferences);
+            var wire = OutputPlanPresentation.Prepare(document, decision.ToTarget(), runAlpha, preferences);
             var writeIntent = new WriteIntent(Guid.NewGuid().ToString("N"), Guid.NewGuid().ToString("N"), decision.ToTarget(),
                 wire.Tables.Select(t => new WriteRegion(t.ArtifactId, t.Bounds)), workbookIdentity: session,
                 worksheetIdentity: Destination == SpreadsheetOutputDestination.CurrentWorksheet ? targetId : null);
@@ -405,6 +473,7 @@ public sealed class AnalysisPilotState : IAsyncDisposable
             plan = wire; intent = writeIntent; Inspection = inspection;
             Geometry = wire.UsedBounds is { } b ? $"{wire.Tables.Count} tables; rows {b.StartRow}–{b.EndRow}, columns {b.StartColumn}–{b.EndColumn}" : "No cell output";
             Code = inspection.Code;
+            if (inspection.ConfirmationRequired) SetStage(ExecutionStage.Confirmation);
         }
         catch (ArgumentException) { Code = "output.rejected"; }
     }
@@ -429,7 +498,9 @@ public sealed class AnalysisPilotState : IAsyncDisposable
         if (!Accept(version, token)) return;
         if (check?.Code != "workbook.ok") { Invalidate(); Code = "output.consent-stale"; return; }
         var consent = approve.HasValue ? new WriteConsent(inspection, approve.Value) : null;
+        if (approve.HasValue) await ReportAsync("diagnostic.output.consent", "output");
         writing = true;
+        SetStage(ExecutionStage.Output);
         Code = "output.writing"; Changed?.Invoke();
         WriteResult written;
         try { written = await workbook.WriteAsync(boundPlan, boundIntent, consent, token); }
@@ -439,6 +510,7 @@ public sealed class AnalysisPilotState : IAsyncDisposable
         // An observed write outcome remains truthful after late Cancel or host invalidation.
         if (disposed) return;
         WriteOutcome = written; Code = written.Code;
+        await ReportAsync(written.State == OutputWriteState.Completed ? "diagnostic.output.completed" : "diagnostic.output.incomplete", "output");
         CreatedWorksheetName = written.State == OutputWriteState.Completed && boundIntent.Destination == SpreadsheetOutputDestination.NewWorksheet
             ? boundIntent.WorksheetName : null;
         requiresRecovery |= written.State == OutputWriteState.PartiallyWritten && written.MutationMayHaveOccurred;
@@ -459,9 +531,12 @@ public sealed class AnalysisPilotState : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         if (disposed) return;
+        preferenceParticipation?.Dispose();
+        if (preferenceSession is not null) preferenceSession.Changed -= PreferencesChanged;
         draft.Changed -= OptionsChanged; host.Invalidated -= Invalidate; generation++; disposed = true;
         pending?.Cancel(); lifetime.Cancel(); Changed = null;
         QueueRetirement(); // Retire immediately, before asynchronous picker disposal can yield to a new owner.
+        if (diagnosticRun is not null) await diagnosticRun.EndAsync();
         foreach (var reference in References) await reference.DisposeAsync();
         await retirement; source = null; grouped = null; result = null; document = null; ClearOutput(); lifetime.Dispose();
     }

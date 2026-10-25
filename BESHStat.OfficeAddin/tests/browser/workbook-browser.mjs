@@ -75,7 +75,7 @@ try {
         "document.querySelector('#range-status')?.textContent==='Status: workbook.ok' && __simulatedWorkbook.payloads.length===1");
     assert.equal(await evaluate("__simulatedWorkbook.mutations"),0);
     await click("Refresh stage summary");
-    const stages=await evaluate("document.querySelector('pre').textContent");
+    const stages=await evaluate("document.querySelector('#development-stage-summary').textContent");
     assert.ok(pendingSync ? /cs\.(timeout|js-timeout-received)/.test(stages) : stages.includes("cs.read-completed"));
     if(pendingSync) summary.timeoutOrigin=stages.includes("cs.js-timeout-received")?"javascript":"csharp";
     summary.fullRead=pendingSync?"input.time-budget":"workbook.ok";
@@ -99,6 +99,6 @@ try {
 } catch {
     summary.status="browser.check-failed";
     summary.javascriptStages=await evaluate("__beshOfficeDebug?.snapshot().events.filter(e=>e.code.startsWith('read.'))");
-    summary.stageCodes=await evaluate("document.querySelector('pre')?.textContent.split('\\n').map(s=>s.split(' ')[0]).filter(s=>/^cs\\.[a-z-]+$/.test(s))");
+    summary.stageCodes=await evaluate("document.querySelector('#development-stage-summary')?.textContent.split('\\n').map(s=>s.split(' ')[0]).filter(s=>/^cs\\.[a-z-]+$/.test(s))");
     console.log(JSON.stringify(summary,null,2));process.exitCode=1;
 } finally { await send("Page.close");socket.close(); }

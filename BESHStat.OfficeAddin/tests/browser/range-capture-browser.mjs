@@ -35,7 +35,7 @@ try {
     await send("Network.setCacheDisabled", { cacheDisabled: true });
     await send("Emulation.setDeviceMetricsOverride", { width: 360, height: 1000, deviceScaleFactor: 1, mobile: false });
     await send("Fetch.enable", { patterns: [{ urlPattern: "https://officeapis.public.onecdn.static.microsoft/1/office.js" }] });
-    await send("Page.navigate", { url: "https://localhost:7141/" });
+    await send("Page.navigate", { url: "https://localhost:7141/?beshOfficeDiagnostics=1" });
     await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready' && !document.querySelector('button').disabled");
     // Synthetic sheet contents only. The application still uses actual typed reader/parser/writer paths.
     await evaluate(`{
@@ -107,8 +107,8 @@ try {
     summary.stage="tabs-preserve-live-composite";
     const tabReads=await evaluate("__pilotFake.state.loads.length"), tabListeners=await evaluate("__pilotFake.state.listenerCount()");
     await evaluate("document.querySelector('#analysis-tab').focus()");
-    await send("Input.dispatchKeyEvent",{type:"rawKeyDown",key:"ArrowRight",code:"ArrowRight",windowsVirtualKeyCode:39});
-    await send("Input.dispatchKeyEvent",{type:"keyUp",key:"ArrowRight",code:"ArrowRight",windowsVirtualKeyCode:39});
+    await send("Input.dispatchKeyEvent",{type:"rawKeyDown",key:"ArrowLeft",code:"ArrowLeft",windowsVirtualKeyCode:37});
+    await send("Input.dispatchKeyEvent",{type:"keyUp",key:"ArrowLeft",code:"ArrowLeft",windowsVirtualKeyCode:37});
     await wait("document.activeElement.id==='diagnostics-tab' && document.querySelector('#diagnostics-tab').getAttribute('aria-selected')==='true'");
     assert.equal(await evaluate("document.querySelector('#analysis-panel').hidden"),true);
     await click("Analysis");assert.equal(await evaluate("__pilotFake.state.loads.length"),tabReads);

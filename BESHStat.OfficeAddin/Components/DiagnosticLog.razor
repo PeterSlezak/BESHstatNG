@@ -1,0 +1,22 @@
+@implements IDisposable
+@inject OfficeDiagnosticLog Log
+@inject OfficeStrings Text
+@inject IOfficeWorkspaceBrowser Browser
+<section aria-labelledby="session-log-title">
+    <h2 id="session-log-title">@Text["LogTitle"]</h2>
+    <p>@Text["LogPrivacy"]</p>
+    <label for="log-filter">@Text["LogFilter"]</label>
+    <select id="log-filter" @bind="filter"><option value="all">@Text["All"]</option><option value="warnings">@Text["Warnings"]</option></select>
+    <button type="button" @onclick="Copy">@Text["Copy"]</button>
+    <p role="status">@(message is null ? "" : Text[message])</p>
+    <pre id="sanitized-log" tabindex="0">@(Log.Export(filter == "warnings") is { Length: > 0 } data ? data : Text["NoEvents"])</pre>
+</section>
+@code {
+    private string filter = "all";
+    private string? message;
+    private bool disposed;
+    protected override void OnInitialized() { Log.Changed += Refresh; Text.Changed += Refresh; }
+    private void Refresh() { if (!disposed) _ = InvokeAsync(() => { if (!disposed) StateHasChanged(); }); }
+    private async Task Copy() { var copied = await Browser.CopyAsync(Log.Export(filter == "warnings")); if (!disposed) message = copied ? "Copied" : "CopyFailed"; }
+    public void Dispose() { disposed = true; Log.Changed -= Refresh; Text.Changed -= Refresh; }
+}

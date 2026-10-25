@@ -57,13 +57,14 @@ public sealed class AnalysisPilotTests
         public string CheckCode = "workbook.ok";
         public OutputOccupancy Occupancy;
         public int Pins, Checks, Inspections;
+        public TaskCompletionSource<PilotReply?>? PendingInspection;
         public TaskCompletionSource<PilotReply?>? Pending;
         public Task<PilotReply?> PinSourceAsync(SpreadsheetRangeData snapshot, CancellationToken token)
         { Pins++; Reference.WorksheetId = snapshot.WorksheetId; return Pending?.Task.WaitAsync(token) ?? Task.FromResult<PilotReply?>(new() { Code = "workbook.ok", SourceToken = $"source-{Pins}", SessionIdentity = $"session-{Pins}" }); }
         public Task<PilotReply?> CheckSourceAsync(string sourceToken, CancellationToken token)
         { Checks++; return Task.FromResult<PilotReply?>(new() { Code = CheckCode }); }
         public Task<PilotReply?> PrepareOutputAsync(OfficeOutputPlan plan, WriteIntent intent, string id, CancellationToken token)
-        { Inspections++; return Task.FromResult<PilotReply?>(new() { Code = "workbook.ok", State = Occupancy, ObservationIdentity = "observation",
+        { Inspections++; if (PendingInspection is not null) return PendingInspection.Task.WaitAsync(token); return Task.FromResult<PilotReply?>(new() { Code = "workbook.ok", State = Occupancy, ObservationIdentity = "observation",
             Facts = new() { WorkbookAvailable = true, SheetExists = intent.Destination == SpreadsheetOutputDestination.CurrentWorksheet,
                 IdentityUnambiguous = true, Writable = true, ProtectedSheet = false, MergedConflict = false, CanCreateWorksheet = true,
                 WorksheetNameValid = true, NewWorksheetNameCollision = false },
@@ -86,12 +87,14 @@ public sealed class AnalysisPilotTests
         public WriteIntent? Intent;
         public bool Uncertain;
         public Action? BeforeWriteReturn;
+        public TaskCompletionSource<WriteResult>? PendingWrite;
         public Task<WorkbookResult<SpreadsheetRangeData>> ReadSelectionAsync(InputSizeLimits? limits = null, CancellationToken cancellationToken = default)
         { Reads++; return Task.FromResult(new WorkbookResult<SpreadsheetRangeData>(ReadCode, ReadCode == "workbook.ok" ? Range : null)); }
         public Task<WriteResult> WriteAsync(OfficeOutputPlan plan, WriteIntent intent, WriteConsent? consent = null, CancellationToken cancellationToken = default)
         {
             Writes++; Plan = plan; Consent = consent; Intent = intent;
             BeforeWriteReturn?.Invoke();
+            if (PendingWrite is not null) return PendingWrite.Task;
             if (Uncertain) return Task.FromResult(new WriteResult(OutputWriteState.PartiallyWritten, WriteCodes.MutationUncertain, "Unverified", intent, true));
             return Task.FromResult(consent?.Approved == false ? new WriteResult(OutputWriteState.CancelledByUser, WriteCodes.Cancelled, "Declined", intent, false, confirmationRequired: true, overwriteApproved: false)
                 : new WriteResult(OutputWriteState.Completed, WriteCodes.Completed, "Written", intent, true, intent.Regions.Select(r => r.ArtifactId), consent is not null, consent?.Approved));

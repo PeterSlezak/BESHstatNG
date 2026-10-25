@@ -3,6 +3,8 @@
 @inject AnalysisEditorRegistry Editors
 @inject AnalysisNavigationMenu Menu
 @inject IPilotHost PreviewHost
+@inject OfficeStrings Text
+@inject OfficePreferenceSession Preferences
 
 <section aria-labelledby="analysis-navigation-title">
     <h2 id="analysis-navigation-title">Choose an analysis</h2>
@@ -45,11 +47,13 @@
     {
         <div @key="selected.Id" class="analysis-editor" aria-labelledby="selected-analysis-title">
             <h3 id="selected-analysis-title">@selected.DisplayName</h3>
+            <HelpAction AnalysisId="@selected.Id" Label="@Text["MethodHelp"]" />
             <p>@selected.Description</p>
             <span id="option-schema" hidden>@selected.OptionsSchemaId</span>
             @if (state.Editor is { } editor)
             {
                 <fieldset disabled="@pilotBusy"><legend>Analysis specification</legend>
+                    <p role="status">@Text[editor.Draft.AlphaInherited ? "Inherited" : "Explicit"]</p>
                     <DynamicComponent Type="editor.ComponentType" Parameters="@(new Dictionary<string, object> { ["Draft"] = editor.Draft })" />
                 </fieldset>
                 <AnalysisPilot Descriptor="selected" Draft="editor.Draft" HostAvailable="@(HostAvailable && !builderActive)" ReadinessGeneration="ReadinessGeneration" BusyChanged="PilotBusyChanged" />
@@ -83,7 +87,7 @@
     private AnalysisOptionDraft? observedDraft;
     private bool disposed;
     private async Task PilotBusyChanged(bool busy) { pilotBusy = busy; await BusyChanged.InvokeAsync(busy || builderBusy); }
-    protected override void OnInitialized() => state = new(Catalog, Editors, Menu);
+    protected override void OnInitialized() { state = new(Catalog, Editors, Menu); Text.Changed += DraftChanged; }
     private void ObserveDraft()
     {
         if (ReferenceEquals(observedDraft, state?.Editor?.Draft)) return;
@@ -94,5 +98,5 @@
     private void DraftChanged() { if (!disposed) _ = InvokeAsync(() => { if (!disposed) StateHasChanged(); }); }
     private void ChangeGroup(ChangeEventArgs args) { if (builderActive) return; state?.SelectGroup(args.Value as string); ObserveDraft(); }
     private void ChangeMethod(ChangeEventArgs args) { if (builderActive) return; state?.Select(args.Value as string); ObserveDraft(); }
-    public void Dispose() { disposed = true; if (observedDraft is not null) observedDraft.Changed -= DraftChanged; state?.Dispose(); }
+    public void Dispose() { disposed = true; Text.Changed -= DraftChanged; if (observedDraft is not null) observedDraft.Changed -= DraftChanged; state?.Dispose(); }
 }

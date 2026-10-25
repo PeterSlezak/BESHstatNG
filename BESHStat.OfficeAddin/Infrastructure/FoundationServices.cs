@@ -19,6 +19,16 @@ public static class FoundationServices
         services.TryAddScoped<IAnalysisNavigationCatalog, AnalysisNavigationCatalog>();
         services.TryAddScoped<AnalysisEditorRegistry>();
         services.TryAddScoped<AnalysisNavigationMenu>();
+        services.TryAddScoped<OfficeBrowser>();
+        services.TryAddScoped<IOfficePreferenceStorage>(p => p.GetRequiredService<OfficeBrowser>());
+        services.TryAddScoped<IOfficeWorkspaceBrowser>(p => p.GetRequiredService<OfficeBrowser>());
+        services.TryAddScoped<BESHStatNG.ExcelCommon.IPreferenceStore, OfficePreferenceStore>();
+        services.TryAddScoped<OfficePreferenceSession>();
+        services.TryAddScoped<OfficeStrings>();
+        services.TryAddScoped<OfficeHelp>();
+        services.TryAddScoped<OfficeDiagnosticLog>();
+        services.TryAddScoped<BESHStatNG.ExcelCommon.IDiagnosticSink>(p => p.GetRequiredService<OfficeDiagnosticLog>());
+        services.TryAddScoped<BESHStatNG.ExcelCommon.DiagnosticEmitter>();
         return services;
     }
 }

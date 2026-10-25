@@ -10,6 +10,8 @@ public sealed class SpecificationBuilderState : IAsyncDisposable
     private readonly IWorkbookAdapter workbook;
     private readonly IPilotHost host;
     private readonly IWorksheetDiscoveryHost? discovery;
+    private readonly OfficePreferenceSession? preferences;
+    private readonly IDisposable? preferenceParticipation;
     private readonly string owner=Guid.NewGuid().ToString("N");
     private readonly CancellationTokenSource lifetime=new();
     private CancellationTokenSource? pending;
@@ -30,7 +32,7 @@ public sealed class SpecificationBuilderState : IAsyncDisposable
     public long VariableRevision { get; private set; }
     public bool Busy { get; private set; }
     public bool RequiresRecovery => (host as IPilotSafetyHost)?.RequiresRecovery == true;
-    public bool CanPreview => !disposed && !Busy && !RequiresRecovery && Columns.Count>0;
+    public bool CanPreview => !disposed && preferences?.Applying != true && !Busy && !RequiresRecovery && Columns.Count>0;
     public string Guidance => Code switch {
         "office.unsupported-api" => "Worksheet discovery requires ExcelApi 1.17 and the worksheet metadata/event APIs. This host cannot verify them.",
         "input.range-cells" => "The row-1-to-used-data rectangle exceeds 10,000 cells. Remove distant unused data or use a smaller worksheet data footprint.",
@@ -43,12 +45,15 @@ public sealed class SpecificationBuilderState : IAsyncDisposable
         _ => "Preview reads fresh worksheet data and uses Common/Core validation. Local role and term edits do not read or write Excel."
     };
     public event Action? Changed;
-    public SpecificationBuilderState(IWorkbookAdapter workbook, IPilotHost host)
+    public SpecificationBuilderState(IWorkbookAdapter workbook, IPilotHost host, OfficePreferenceSession? preferences = null)
     {
         this.workbook=workbook;this.host=host;discovery=host as IWorksheetDiscoveryHost;
+        this.preferences = preferences;
+        preferenceParticipation = preferences?.Participate(() => !Busy, RetirePreferencesAsync);
         Draft.Changed+=DraftChanged;host.Invalidated+=HostChanged;
         if(discovery is not null)discovery.WorksheetsInvalidated+=CatalogChanged;
     }
+    private async Task RetirePreferencesAsync() { ClearPreview(); await Retire(); Code = "spec.draft-changed"; Status = SpecificationStatus.DraftChanged; Notify(); }
     private void Notify(){if(!disposed)Changed?.Invoke();}
     private void ClearPreview(){Preview=null;FactorLevels=[];}
     private void DraftChanged()
@@ -96,7 +101,7 @@ public sealed class SpecificationBuilderState : IAsyncDisposable
     }
     private Task Schedule(bool compile)
     {
-        if(disposed || RequiresRecovery)return Task.CompletedTask;
+        if(disposed || RequiresRecovery || preferences?.Applying == true)return Task.CompletedTask;
         var version=++generation;scheduledVersion=version;pending?.Cancel();ClearPreview();Busy=true;Status=SpecificationStatus.Busy;Code="spec.discovering";
         operation=RunAfter(operation,version,compile);Notify();return operation;
     }
@@ -177,6 +182,7 @@ public sealed class SpecificationBuilderState : IAsyncDisposable
     {
         if(disposed)return;
         disposed=true;generation++;pending?.Cancel();lifetime.Cancel();Status=SpecificationStatus.Disposed;
+        preferenceParticipation?.Dispose();
         Draft.Changed-=DraftChanged;host.Invalidated-=HostChanged;if(discovery is not null)discovery.WorksheetsInvalidated-=CatalogChanged;
         await operation;
         await Retire();if(discovery is not null)await discovery.StopWorksheetDiscoveryAsync(owner);

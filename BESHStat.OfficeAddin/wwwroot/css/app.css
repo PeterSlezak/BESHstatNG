@@ -43,6 +43,14 @@ code { overflow-wrap: anywhere; }
 .workspace-tabs { display: flex; gap: .35rem; border-bottom: 1px solid #647d72; }
 .workspace-tabs button { flex: 1; min-width: 0; padding: .45rem .35rem; overflow-wrap: anywhere; font: inherit; font-size: .85rem; background: white; color: inherit; border: 1px solid #647d72; border-radius: .3rem .3rem 0 0; }
 .workspace-tabs [aria-selected="true"] { background: #18352e; color: white; border-bottom: 3px solid #42bd87; }
+.global-options label { display: block; margin-top: .8rem; }
+.global-options input:not([type="checkbox"]), .global-options select { width: 100%; box-sizing: border-box; font: inherit; padding: .5rem; }
+.global-options input[type="checkbox"] { margin-inline-end: .4rem; }
+.option-actions { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1rem; }
+.global-options dd { margin-inline-start: 1rem; overflow-wrap: anywhere; }
+.help-action { display: inline-flex; align-items: center; flex-wrap: wrap; gap: .35rem; font-size: .85rem; }
+progress { max-width: 100%; }
+@media (max-height: 420px) { .workspace-header > p, .workspace-header h1 small { display: none; } .workspace-header button { padding-block: .25rem; } main { padding: .35rem; } }
 .availability { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; margin-block: .35rem; font-size: .9rem; }
 [role="tabpanel"] { flex: 1 1 auto; min-height: 0; min-width: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: contain; padding: .25rem; scroll-padding-block: .5rem; }
 [role="alert"] { overflow-wrap: anywhere; }

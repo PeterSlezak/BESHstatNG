@@ -43,12 +43,15 @@ Namespace ExcelCommon
                                       Optional metadata As IDictionary(Of String, String) = Nothing) As DiagnosticRecord
             Dim code = Allowed(eventCode, "diagnostic.run.started", "diagnostic.validation.rejected",
                 "diagnostic.output.attempted", "diagnostic.output.completed", "diagnostic.output.incomplete",
-                "diagnostic.run.failed", "diagnostic.run.ended", "diagnostic.stage.entered")
+                "diagnostic.run.failed", "diagnostic.run.ended", "diagnostic.stage.entered",
+                "output.sheet-name-adjusted", "diagnostic.host.ready", "diagnostic.host.unavailable",
+                "diagnostic.host.retry", "diagnostic.user.cancelled", "diagnostic.output.consent", "diagnostic.analysis.completed")
             If code = "redacted" Then code = "diagnostic.event.redacted"
             Dim severity = DiagnosticSeverity.Information
             Select Case code
                 Case "diagnostic.stage.entered" : severity = DiagnosticSeverity.Debug
-                Case "diagnostic.validation.rejected", "diagnostic.output.incomplete", "diagnostic.event.redacted"
+                Case "diagnostic.validation.rejected", "diagnostic.output.incomplete", "diagnostic.event.redacted",
+                     "output.sheet-name-adjusted", "diagnostic.host.unavailable"
                     severity = DiagnosticSeverity.Warning
                 Case "diagnostic.run.failed" : severity = DiagnosticSeverity.Error
             End Select
@@ -59,7 +62,7 @@ Namespace ExcelCommon
                 CopyValue(metadata, safe, "outcome", {"completed", "rejected", "failed", "cancelled", "incomplete", "ended"})
                 CopyValue(metadata, safe, "host", {"windows", "office"})
             End If
-            Return New DiagnosticRecord(code, severity, Allowed(operation, AnalysisIds.OneWayAnova, AnalysisIds.KruskalWallis),
+            Return New DiagnosticRecord(code, severity, Allowed(operation, AnalysisIds.OneWayAnova, AnalysisIds.KruskalWallis, "office"),
                 runId.ToString("N"), Allowed(stage, "invocation", "validation", "acquisition", "analysis", "output"),
                 timestamp, New ReadOnlyDictionary(Of String, String)(safe))
         End Function

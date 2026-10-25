@@ -25,7 +25,7 @@ try{
     await send('Runtime.enable');await send('Page.enable');await send('Network.enable');await send('Network.setCacheDisabled',{cacheDisabled:true});
     await send('Emulation.setDeviceMetricsOverride',{width:360,height:760,deviceScaleFactor:1,mobile:false});
     await send('Fetch.enable',{patterns:[{urlPattern:'https://officeapis.public.onecdn.static.microsoft/1/office.js'}]});
-    await send('Page.navigate',{url:'https://localhost:7141/'});await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready'");
+    await send('Page.navigate',{url:'https://localhost:7141/?beshOfficeDiagnostics=1'});await wait("document.querySelector('#host-code')?.textContent==='office.excel-ready'");
     await change('analysis-group','Parametric');await change('analysis-method','anova.oneway');await wait("!!document.querySelector('#input-reference')");
     summary.stage='whole-column-capture-and-direct-run';
     await evaluate("__pilotFake.state.selected={row:1,col:1,rows:1048576,cols:3}");await click('Capture selected range');

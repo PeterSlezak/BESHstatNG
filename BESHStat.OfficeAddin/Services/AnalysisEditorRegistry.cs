@@ -11,6 +11,7 @@ public sealed record AnalysisEditor(AnalysisOptionDraft Draft, Type ComponentTyp
 /// <summary>Compile-time editor registrations, keyed by schema AND exact Common option type.</summary>
 public sealed class AnalysisEditorRegistry
 {
+    private readonly OfficePreferenceSession? preferences;
     private interface IRegistration { AnalysisEditor? Create(SpreadsheetAnalysisOptions options); }
     private sealed class Registration<TOptions, TDraft, TComponent>(Func<TOptions, TDraft> create) : IRegistration
         where TOptions : SpreadsheetAnalysisOptions
@@ -22,8 +23,9 @@ public sealed class AnalysisEditorRegistry
     }
 
     private readonly Dictionary<(string Schema, Type Options), IRegistration> registrations = new();
-    public AnalysisEditorRegistry()
+    public AnalysisEditorRegistry(OfficePreferenceSession? preferences = null)
     {
+        this.preferences = preferences;
         Register<OneWayAnovaAnalysisOptions, AnovaOptionDraft, AnovaOptions>("anova.oneway.options.v1", o => new(o));
         Register<KruskalWallisAnalysisOptions, KruskalWallisOptionDraft, KruskalWallisOptions>("nonparametric.kruskal-wallis.options.v1", o => new(o));
     }
@@ -43,7 +45,11 @@ public sealed class AnalysisEditorRegistry
     internal AnalysisEditor? Create(IAnalysisDescriptor descriptor)
     {
         if (!registrations.TryGetValue((descriptor.OptionsSchemaId, descriptor.OptionsType), out var registration)) return null;
-        try { return registration.Create(descriptor.CreateDefaultOptions()); }
+        try {
+            var editor = registration.Create(descriptor.CreateDefaultOptions());
+            if (editor is not null && preferences is not null) editor.Draft.FollowGlobalAlpha(preferences.Effective.DefaultAlpha);
+            return editor;
+        }
         catch (InvalidOperationException) { return null; }
         catch (ArgumentException) { return null; }
     }

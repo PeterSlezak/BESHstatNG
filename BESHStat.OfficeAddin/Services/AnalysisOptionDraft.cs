@@ -12,14 +12,29 @@ public abstract class AnalysisOptionDraft : IDisposable
     public string? AlphaError { get; private set; }
     public bool IsValid => !disposed && AlphaError is null;
     public long Revision { get; private set; }
+    public bool AlphaInherited { get; private set; } = true;
+    private double defaultAlpha;
     public event Action? Changed;
 
-    protected AnalysisOptionDraft(double initialAlpha) => SetAlpha(initialAlpha.ToString("G", CultureInfo.InvariantCulture));
+    protected AnalysisOptionDraft(double initialAlpha) { defaultAlpha = initialAlpha; SetAlpha(initialAlpha.ToString("G", CultureInfo.InvariantCulture)); AlphaInherited = true; }
+
+    internal void FollowGlobalAlpha(double value)
+    {
+        defaultAlpha = value;
+        if (AlphaInherited && AlphaText != value.ToString("G", CultureInfo.InvariantCulture)) RestoreInheritedAlpha();
+    }
+    protected void RestoreInheritedAlpha()
+    {
+        SetAlpha(defaultAlpha.ToString("G", CultureInfo.InvariantCulture));
+        AlphaInherited = true;
+    }
 
     public void SetAlpha(string? text)
     {
         if (disposed) return;
-        if (AlphaText == (text ?? "") && AlphaText.Length > 0) return;
+        var wasInherited = AlphaInherited;
+        AlphaInherited = false;
+        if (AlphaText == (text ?? "") && AlphaText.Length > 0) { if (wasInherited) { Revision++; Changed?.Invoke(); } return; }
         AlphaText = text ?? "";
         if (double.TryParse(AlphaText, NumberStyles.Float, CultureInfo.InvariantCulture, out var value)
             && double.IsFinite(value) && value > 0 && value < 1)
@@ -56,7 +71,7 @@ public sealed class AnovaOptionDraft : AnalysisOptionDraft
     public override void Reset()
     {
         var defaults = new OneWayAnovaAnalysisOptions();
-        SetAlpha(defaults.Alpha.ToString("G", CultureInfo.InvariantCulture));
+        RestoreInheritedAlpha();
         IncludeWelch = defaults.IncludeWelch; IncludeFisherLsd = defaults.IncludeFisherLsd;
         IncludeBonferroni = defaults.IncludeBonferroni; IncludeTukeyKramer = defaults.IncludeTukeyKramer;
         IncludeGamesHowell = defaults.IncludeGamesHowell;
@@ -76,7 +91,7 @@ public sealed class KruskalWallisOptionDraft : AnalysisOptionDraft
     public override void Reset()
     {
         var defaults = new KruskalWallisAnalysisOptions();
-        SetAlpha(defaults.Alpha.ToString("G", CultureInfo.InvariantCulture));
+        RestoreInheritedAlpha();
         IncludeDunnComparisons = defaults.IncludeDunnComparisons;
     }
     public override SpreadsheetAnalysisOptions Snapshot() => new KruskalWallisAnalysisOptions

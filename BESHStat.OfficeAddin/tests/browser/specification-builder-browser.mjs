@@ -71,7 +71,7 @@ try{
     await change('analysis-group','Parametric');await change('analysis-method','anova.oneway');await change('input-reference',"'ANOVA'!A1:C4",'input');
     await click('Run analysis');await wait("document.querySelector('#pilot-status code')?.textContent==='analysis.completed'");
     await change('output-start',"'ANOVA'!J1",'input');await click('Write results');await wait("document.querySelector('#pilot-status code')?.textContent==='output.completed'");
-    assert.ok(await evaluate('__pilotFake.state.mutations')>0);assert.equal(await evaluate("document.querySelectorAll('[role=tab]').length"),2);assert.equal(summary.errors,0);
+    assert.ok(await evaluate('__pilotFake.state.mutations')>0);assert.equal(await evaluate("document.querySelectorAll('[role=tab]').length"),3);assert.equal(summary.errors,0);
     summary.stages.push('unsupported-menu-disabled-return-to-anova-refedit-run-and-verified-write');summary.passed=true;
     writeFileSync(new URL('../../../TestResults/04-05/worksheet-discovery/browser-summary.json',import.meta.url),JSON.stringify(summary,null,2));console.log(JSON.stringify(summary,null,2));
 }catch(error){summary.passed=false;summary.failure=error.code==='ERR_ASSERTION'?{actual:error.actual,expected:error.expected}:error.message;summary.status=await evaluate("document.querySelector('#spec-status')?.textContent || document.querySelector('#pilot-status code')?.textContent");await screenshot('failure');console.log(JSON.stringify(summary,null,2));process.exitCode=1;}

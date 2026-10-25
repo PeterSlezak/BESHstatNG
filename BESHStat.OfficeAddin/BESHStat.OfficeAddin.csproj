@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Both pane locales must be available even when Office and browser cultures differ. -->
+    <EmbeddedResource Update="Resources\Ui.sk.resx" WithCulture="false" LogicalName="BESHStat.OfficeAddin.Resources.Ui.sk.resources" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.13" PrivateAssets="all" />
     <ProjectReference Include="..\BESHStat.Core\BESHStat.Core.vbproj" />

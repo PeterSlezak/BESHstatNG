@@ -1,0 +1,83 @@
+@implements IDisposable
+@inject OfficePreferenceSession Preferences
+@inject OfficeStrings Text
+
+<section class="global-options" aria-labelledby="global-options-title" aria-busy="@Preferences.Applying.ToString().ToLowerInvariant()">
+    <h2 id="global-options-title">@Text["GlobalOptions"]</h2>
+    <HelpAction GlobalSettings="true" Label="@Text["SettingsHelp"]" />
+    <p>@Text["DraftOnly"]</p>
+    <p id="preference-state" role="status">@PersistenceLabel</p>
+    @if (failed) { <p role="alert">@Text[Preferences.CanApply ? "SaveFailed" : "Wait"]</p> }
+    @if (!Preferences.CanApply) { <p role="status">@Text["Wait"]</p> }
+    <fieldset disabled="@Preferences.Applying">
+        <legend>@Text["Options"]</legend>
+        <label for="global-force-english"><input id="global-force-english" type="checkbox" checked="@draft.ForceEnglish" @onchange="e => Edit(() => draft.ForceEnglish = e.Value is true)" aria-describedby="force-english-hint" /> @Text["ForceEnglish"]</label>
+        <p id="force-english-hint" class="option-hint">@Text["ForceEnglishHint"]</p>
+        <label for="global-alpha">@Text["Alpha"]</label>
+        <input id="global-alpha" type="text" inputmode="decimal" value="@draft.Alpha" @oninput="e => Edit(() => draft.Alpha = e.Value?.ToString() ?? string.Empty)" aria-describedby="global-alpha-hint global-alpha-error" aria-invalid="@Invalid("alpha")" />
+        <p id="global-alpha-hint" class="option-hint">@Text["AlphaHint"]</p>
+        <p id="global-alpha-error" class="option-error" aria-live="polite">@Error("alpha")</p>
+        <label for="global-seed">@Text["Seed"]</label>
+        <input id="global-seed" type="text" value="@draft.Seed" @oninput="e => Edit(() => draft.Seed = e.Value?.ToString() ?? string.Empty)" aria-describedby="global-seed-hint global-seed-error" aria-invalid="@Invalid("seed")" />
+        <p id="global-seed-hint" class="option-hint">@Text["SeedHint"]</p>
+        <p id="global-seed-error" class="option-error" aria-live="polite">@Error("seed")</p>
+        <label for="global-trace"><input id="global-trace" type="checkbox" checked="@draft.Trace" @onchange="e => Edit(() => draft.Trace = e.Value is true)" /> @Text["Trace"]</label>
+        <p class="option-hint">@Text["TraceHint"]</p>
+        <label for="global-digits">@Text["Digits"]</label>
+        <input id="global-digits" type="text" inputmode="numeric" value="@draft.Digits" @oninput="e => Edit(() => draft.Digits = e.Value?.ToString() ?? string.Empty)" aria-describedby="global-digits-error" aria-invalid="@Invalid("digits")" />
+        <p id="global-digits-error" class="option-error" aria-live="polite">@Error("digits")</p>
+        <label for="global-mode">@Text["SmallValues"]</label>
+        <select id="global-mode" value="@draft.Mode" @onchange="e => Edit(() => draft.Mode = e.Value?.ToString() ?? string.Empty)" aria-describedby="global-mode-error" aria-invalid="@Invalid("mode")">
+            <option value="0">@Text["LessThan"]</option><option value="1">@Text["Scientific"]</option><option value="2">@Text["Fixed"]</option>
+        </select>
+        <p id="global-mode-error" class="option-error" aria-live="polite">@Error("mode")</p>
+        <label for="global-upper"><input id="global-upper" type="checkbox" checked="@draft.UpperBound" @onchange="e => Edit(() => draft.UpperBound = e.Value is true)" /> @Text["UpperBound"]</label>
+        <div class="option-actions">
+            <button id="global-save" type="button" disabled="@(!Preferences.Initialized || !Preferences.CanApply || draft.Errors.Count > 0)" @onclick="() => Save(false)">@Text["Save"]</button>
+            <button id="global-discard" type="button" @onclick="Revert">@Text["Discard"]</button>
+            <button id="global-defaults" type="button" @onclick="Defaults">@Text["Restore"]</button>
+            @if (failed || Preferences.State.Persistence == BESHStatNG.ExcelCommon.PreferencePersistence.Unavailable)
+            { <button id="global-session" type="button" disabled="@(!Preferences.CanApply || draft.Errors.Count > 0)" @onclick="() => Save(true)">@Text["SessionSave"]</button> }
+        </div>
+    </fieldset>
+    <h3>@Text["Effective"]</h3>
+    <dl id="effective-settings">
+        <dt>@Text["Alpha"]</dt><dd>@Preferences.Effective.DefaultAlpha.ToString("G", System.Globalization.CultureInfo.InvariantCulture)</dd>
+        <dt>@Text["Seed"]</dt><dd>@(Preferences.Effective.DefaultRandomSeed == int.MinValue ? Text["None"] : Preferences.Effective.DefaultRandomSeed.ToString(System.Globalization.CultureInfo.InvariantCulture))</dd>
+        <dt>@Text["Trace"]</dt><dd>@Text[Preferences.Effective.TraceEnabled ? "On" : "Off"]</dd>
+        <dt>@Text["Digits"]</dt><dd>@Preferences.Effective.DecimalPlaces</dd>
+        <dt>@Text["SmallValues"]</dt><dd>@Text[Preferences.Effective.SmallValueDisplay switch { BESHStatNG.AppInfrastructure.PValueSmallValueDisplay.ScientificNotation => "Scientific", BESHStatNG.AppInfrastructure.PValueSmallValueDisplay.FixedDecimal => "Fixed", _ => "LessThan" }]</dd>
+        <dt>@Text["UpperBound"]</dt><dd>@Text[Preferences.Effective.UseUpperBound ? "On" : "Off"]</dd>
+        <dt>@Text["ForceEnglish"]</dt><dd id="effective-force-english">@Text[Preferences.ForceEnglish ? "On" : "Off"]</dd>
+        <dt>@Text["InterfaceLanguage"]</dt><dd id="effective-interface-language" role="status">@Text.LanguageName</dd>
+    </dl>
+</section>
+@code {
+    private readonly GlobalOptionsDraft draft = new();
+    private bool failed, dirty, disposed;
+    private long revision;
+    protected override void OnInitialized() { Revert(); Preferences.Changed += Refresh; Text.Changed += RefreshLanguage; }
+    private void RefreshLanguage() { if (!disposed) _ = InvokeAsync(() => { if (!disposed) StateHasChanged(); }); }
+    private string Invalid(string field) => draft.Errors.ContainsKey(field) ? "true" : "false";
+    private string Error(string field) => draft.Errors.TryGetValue(field, out var key) ? Text[key] : "";
+    private void Edit(Action edit) { edit(); dirty = true; failed = false; draft.Validate(); }
+    private void Revert() { draft.Revert(Preferences.Effective, Preferences.ForceEnglish); revision = Preferences.Revision; dirty = failed = false; }
+    private void Defaults() { draft.Revert(BESHStatNG.ExcelCommon.PreferenceSnapshot.Defaults()); dirty = true; failed = false; }
+    private async Task Save(bool sessionOnly)
+    {
+        var candidate = draft.Validate();
+        if (candidate is null) return;
+        var success = await Preferences.SaveAsync(candidate, sessionOnly, draft.ForceEnglish);
+        if (disposed) return;
+        failed = !success;
+        if (!failed) Revert();
+    }
+    private string PersistenceLabel => Text[Preferences.State.Status switch {
+        BESHStatNG.ExcelCommon.PreferenceStatus.UnsupportedVersion => "Unsupported",
+        BESHStatNG.ExcelCommon.PreferenceStatus.InvalidData => "InvalidSaved",
+        _ when Preferences.State.Persistence == BESHStatNG.ExcelCommon.PreferencePersistence.Persisted => "Persisted",
+        _ when Preferences.State.Persistence == BESHStatNG.ExcelCommon.PreferencePersistence.Unavailable => "StorageUnavailable",
+        _ => "SessionOnly" }];
+    private void Refresh() { if (!disposed) _ = InvokeAsync(() => { if (disposed) return; if (!dirty || revision != Preferences.Revision) Revert(); StateHasChanged(); }); }
+    public void Dispose() { disposed = true; Preferences.Changed -= Refresh; Text.Changed -= RefreshLanguage; }
+}

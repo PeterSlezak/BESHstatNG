@@ -1,6 +1,7 @@
 @implements IAsyncDisposable
 @inject IWorkbookAdapter Workbook
 @inject IPilotHost Host
+@inject OfficePreferenceSession Preferences
 @using BESHStatNG.ExcelCommon
 @if (state is { } s)
 {
@@ -64,7 +65,7 @@
     private bool available, disposed;
     private int initializedGeneration = -1;
     public async Task RetireAsync() { if (state is not null) await state.DisposeAsync(); }
-    protected override void OnInitialized() { state = new(Workbook, Host); state.Changed += Refresh; readiness = ReadinessGeneration; available = HostAvailable; }
+    protected override void OnInitialized() { state = new(Workbook, Host, Preferences); state.Changed += Refresh; readiness = ReadinessGeneration; available = HostAvailable; }
     protected override void OnParametersSet()
     {
         if (readiness != ReadinessGeneration || available && !HostAvailable) state?.DocumentChanged();
