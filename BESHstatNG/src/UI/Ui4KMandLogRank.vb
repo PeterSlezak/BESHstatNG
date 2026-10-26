@@ -84,7 +84,7 @@ Public Class Ui4KMandLogRank
                 grpData(i) = "0"
             Next
         Else
-            grpData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, 0))
+            grpData = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(d, 0))
             colId += 1
         End If
         Dim NoGroups As Integer = grpData.Distinct().Count()
@@ -96,7 +96,7 @@ Public Class Ui4KMandLogRank
                 strataData(i) = "0"
             Next
         Else
-            strataData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, colId))
+            strataData = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(d, colId))
             colId += 1
         End If
 

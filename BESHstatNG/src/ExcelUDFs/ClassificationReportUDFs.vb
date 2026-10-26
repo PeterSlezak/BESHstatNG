@@ -350,7 +350,7 @@ Namespace WorksheetFunctions
                 Dim w() As Double = Nothing
                 If Not Global.BESHStatNG.UdfDataImport.TryGetOptionalNumericVector(weights, w) Then Return ExcelError.ExcelErrorValue
 
-                regression.BinaryClassificationReporting.ValidateBinaryInputs(observed, probs, w)
+                Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(observed, probs, w)
 
                 Dim hdr As Boolean = GetOptionalBool(includeHeader, True)
                 Dim brier As Double = regression.BinaryClassificationReporting.ComputeBrierScore(observed, probs, w)

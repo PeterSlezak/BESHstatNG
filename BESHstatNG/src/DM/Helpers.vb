@@ -7,22 +7,6 @@ Imports BESHStatNG.DataManagement
 Public Module Helpers
 
     ''' <summary>
-    ''' Resolves the actual pseudo-random seed that will be used for bootstrap resampling.
-    ''' </summary>
-    ''' <param name="requestedSeed">
-    ''' Explicit seed requested by the caller. Use <see cref="Integer.MinValue"/> to indicate that no explicit seed was supplied.
-    ''' </param>
-    ''' <returns>
-    ''' The explicit seed if one was supplied; otherwise the global default seed; otherwise a time-based seed captured from <see cref="Environment.TickCount"/>.
-    ''' </returns>
-    ''' <remarks>
-    ''' Returning the concrete seed value allows the bootstrap run to be reproduced exactly and reported back in the result output.
-    ''' </remarks>
-    Friend Function ResolveRandomSeed(Optional requestedSeed As Integer = Integer.MinValue) As Integer
-        Return CoreServices.AnalysisDefaults.ResolveRandomSeed(requestedSeed, generateWhenMissing:=True)
-    End Function
-
-    ''' <summary>
     ''' Creates a subset of the input 2D array by selecting specific rows whose indices
     ''' are provided in <paramref name="rIds"/>. The resulting array contains only the
     ''' selected rows, in the order of the dictionary's key enumeration.

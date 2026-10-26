@@ -507,7 +507,7 @@ Public Class Ui0OneRefeditMulticol
         Dim ca As New Multivariate.CA, TableData(,) As Integer
 
         If Me.ckLabels.Checked Then
-            Dim RowLabels() As String = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(data.FinalData, 0))
+            Dim RowLabels() As String = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(data.FinalData, 0))
             ReDim TableData(data.nRows - 1, data.nCols - 2)
             For i = 0 To UBound(data.FinalData, 1)
                 For j = 1 To UBound(data.FinalData, 2) '1st column is Row labels
@@ -928,7 +928,7 @@ Public Class Ui0OneRefeditMulticol
             End If
         Next
         descTable.AddTitle("Descriptive Statistics")
-        descTable.AddHeaderTopRow(Matrix.ConcatArrays({""}, data.varNames))
+        descTable.AddHeaderTopRow(Global.BESHStatNG.DataManagement.ArrayUtilities.ConcatArrays({""}, data.varNames))
         Return descTable
     End Function
 

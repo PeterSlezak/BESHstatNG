@@ -180,10 +180,6 @@ Namespace AppInfrastructure
             Return seed.ToString(Globalization.CultureInfo.InvariantCulture)
         End Function
 
-        Public Function CreateRandom(Optional explicitSeed As Integer = Integer.MinValue) As Random
-            Return CoreServices.AnalysisDefaults.CreateRandom(explicitSeed)
-        End Function
-
         Public Sub ApplySettings(settings As BeshStatNgSettings)
             Dim normalized = LegacyPreferenceStore.FromLegacy(settings)
             gSettings = LegacyPreferenceStore.ToLegacy(normalized.Snapshot)

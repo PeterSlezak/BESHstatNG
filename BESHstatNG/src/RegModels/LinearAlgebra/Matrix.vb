@@ -59,10 +59,6 @@ Namespace Matrix
             Return MatrixArithmeticCore.OuterProduct(mat1, mat2)
         End Function
 
-        Public Function MatrixTrace(a(,) As Double) As Double
-            Return MatrixArithmeticCore.Trace(a)
-        End Function
-
         ''' <summary>
         ''' Computes the matrix product of two 2-dimensional numeric arrays.
         ''' </summary>
@@ -230,14 +226,6 @@ Namespace Matrix
             Return MatrixArithmeticCore.Multiply(Matrix1, c)
         End Function
 
-        Public Function NegativeVector(x() As Double) As Double()
-            Return MatrixArithmeticCore.NegateVector(x)
-        End Function
-
-        Public Function MatrixVectorMultiply(a(,) As Double, x() As Double) As Double()
-            Return MatrixArithmeticCore.MultiplyVector(a, x)
-        End Function
-
         ''' <summary>
         ''' Computes the dot product of two 1-dimensional numeric vectors.
         ''' </summary>
@@ -301,31 +289,6 @@ Namespace Matrix
         ''' </remarks>
         Function M_ADD(mat1(,) As Double, mat2(,) As Double) As Double(,) 'matrix addition
             Return MatrixArithmeticCore.Add(mat1, mat2)
-        End Function
-
-        ''' <summary>
-        ''' Computes the scalar quadratic form <c>v' * A * v</c>.
-        ''' </summary>
-        ''' <param name="v">
-        ''' The vector used on both sides of the quadratic form. Its length must match
-        ''' both dimensions of <paramref name="a"/>.
-        ''' </param>
-        ''' <param name="a">
-        ''' The square matrix in the middle of the quadratic form. The matrix must have
-        ''' the same number of rows and columns as the length of <paramref name="v"/>.
-        ''' </param>
-        ''' <returns>
-        ''' The scalar value of <c>v' * A * v</c>. Returns <see cref="Double.NaN"/>
-        ''' when either input is <c>Nothing</c> or when the matrix dimensions do not
-        ''' match the vector length.
-        ''' </returns>
-        ''' <remarks>
-        ''' This helper is typically used to compute variances of linear estimates,
-        ''' contrasts, or predictions, where <paramref name="v"/> is a contrast or
-        ''' design row and <paramref name="a"/> is a covariance matrix.
-        ''' </remarks>
-        Public Function QuadraticForm(v() As Double, a(,) As Double) As Double
-            Return MatrixArithmeticCore.QuadraticForm(v, a)
         End Function
 
         ''' <summary>
@@ -1102,20 +1065,8 @@ Namespace Matrix
             Return MatrixArithmeticCore.IdentityMatrix(n)
         End Function
 
-        Public Function VectorNorm(x() As Double) As Double
-            Return MatrixArithmeticCore.VectorNorm(x)
-        End Function
-
         Public Function MatrixIsFinite(a(,) As Double) As Boolean
             Return MatrixArithmeticCore.MatrixIsFinite(a)
-        End Function
-
-        Public Function VectorIsFinite(values() As Double) As Boolean
-            Return MatrixArithmeticCore.VectorIsFinite(values)
-        End Function
-
-        Public Function MatrixIsFiniteAndSymmetric(a(,) As Double, tolerance As Double, ByRef message As String) As Boolean
-            Return MatrixArithmeticCore.MatrixIsFiniteAndSymmetric(a, tolerance, message)
         End Function
 
         ''' <summary>
@@ -1944,38 +1895,6 @@ Namespace Matrix
         End Function
 
         ''' <summary>
-        ''' Concatenates two one-dimensional arrays into a single array.
-        ''' </summary>
-        ''' <typeparam name="T">
-        ''' The element type of the arrays (e.g., String, Integer, Double, Object).
-        ''' </typeparam>
-        ''' <param name="a1">
-        ''' The first input array of type <typeparamref name="T"/>.
-        ''' </param>
-        ''' <param name="a2">
-        ''' The second input array of type <typeparamref name="T"/>.
-        ''' </param>
-        ''' <returns>
-        ''' A new one-dimensional array of type <typeparamref name="T"/> containing
-        ''' all elements of <paramref name="a1"/> followed by all elements of <paramref name="a2"/>.
-        ''' </returns>
-        ''' <remarks>
-        ''' - The returned array length is <c>a1.Length + a2.Length</c>.  
-        ''' - Elements are copied in order: first all from <paramref name="a1"/>, then all from <paramref name="a2"/>.  
-        ''' </remarks>
-        ''' <example>
-        ''' ' Example: concatenate two arrays of strings
-        ''' Dim arr1() As String = {"apple", "banana"}
-        ''' Dim arr2() As String = {"cherry", "date"}
-        ''' Dim result() As String = ConcatArrays(Of String)(arr1, arr2)
-        ''' ' result = {"apple", "banana", "cherry", "date"}
-        ''' Console.WriteLine(String.Join(", ", result))
-        ''' </example>
-        Public Function ConcatArrays(Of T)(a1() As T, a2() As T) As T()
-            Return ArrayUtilities.ConcatArrays(a1, a2)
-        End Function
-
-        ''' <summary>
         ''' Horizontally concatenates two two-dimensional arrays (side by side), aligning rows.
         ''' </summary>
         ''' <typeparam name="T">
@@ -2100,68 +2019,6 @@ Namespace Matrix
         ''' </example>
         Public Function GetColumnFrom2Darray(Of T)(x(,) As T, nCol As Integer) As T()
             Return ArrayUtilities.GetColumn(x, nCol)
-        End Function
-
-        ''' <summary>
-        ''' Converts a one-dimensional array of any type into a string array by calling <c>.ToString()</c> on each element.
-        ''' </summary>
-        ''' <typeparam name="T">
-        ''' The element type of the input array (e.g., Object, Integer, Double, String).
-        ''' </typeparam>
-        ''' <param name="x">
-        ''' A one-dimensional array of type <typeparamref name="T"/> to be converted.
-        ''' </param>
-        ''' <returns>
-        ''' A one-dimensional array of strings containing the string representation of each element in <paramref name="x"/>.
-        ''' </returns>
-        ''' <remarks>
-        ''' - Each element is converted using <c>.ToString()</c>.  
-        ''' - If an element is <c>Nothing</c>, its string representation will be an empty string.  
-        ''' - Useful for debugging or serialization of arrays of mixed types.  
-        ''' </remarks>
-        ''' <example>
-        ''' ' Example: convert an array of integers to strings
-        ''' Dim arr() As Integer = {10, 20, 30}
-        ''' Dim strArr() As String = objArray2strArray(Of Integer)(arr)
-        ''' ' strArr = {"10", "20", "30"}
-        ''' Console.WriteLine(String.Join(", ", strArr))
-        ''' </example>
-        Public Function Array2strArray(Of T)(x() As T) As String()
-            Return ArrayUtilities.Array2strArray(x)
-        End Function
-
-        ''' <summary>
-        ''' Converts a two-dimensional array of any type into a two-dimensional string array
-        ''' by calling <c>Convert.ToString()</c> on each element.
-        ''' </summary>
-        ''' <typeparam name="T">
-        ''' The element type of the input array (e.g., Object, Integer, Double, String).
-        ''' </typeparam>
-        ''' <param name="x">
-        ''' A two-dimensional array of type <typeparamref name="T"/> to be converted.
-        ''' </param>
-        ''' <returns>
-        ''' A two-dimensional array of strings with the same dimensions as <paramref name="x"/>,
-        ''' where each element contains the string representation of the corresponding value in <paramref name="x"/>.
-        ''' </returns>
-        ''' <remarks>
-        ''' <list type="bullet">
-        '''   <item><description>Each element is converted using <c>Convert.ToString()</c>.</description></item>
-        '''   <item><description>If an element is <c>Nothing</c>, the corresponding output cell is an empty string.</description></item>
-        '''   <item><description>Useful for debugging, exporting, logging, or serializing mixed-type 2‑D arrays.</description></item>
-        ''' </list>
-        ''' </remarks>
-        ''' <example>
-        ''' ' Example: convert a 2×2 numeric matrix to a string matrix
-        ''' Dim mat(,) As Double = {{1.5, 2.5}, {3.5, 4.5}}
-        ''' Dim strMat(,) As String = Array2strArray(Of Double)(mat)
-        ''' 
-        ''' ' strMat =
-        ''' '   {{"1.5", "2.5"},
-        ''' '    {"3.5", "4.5"}}
-        ''' </example>
-        Public Function Array2strArray(Of T)(x(,) As T) As String(,)
-            Return ArrayUtilities.Array2strArray(x)
         End Function
 
         ''' <summary>

@@ -220,7 +220,7 @@ Public Class Ui20PropensityScoreMatching
         Try
             Dim fitOptions As PsmComprehensiveFitOptions = BuildFitOptions()
             fitOptions.StandardOptions.Validate()
-            ValidateMethodSpecificOptions(fitOptions)
+            Global.BESHStatNG.CausalInference.PsmMethodCapabilities.ValidateFitOptions(fitOptions)
         Catch ex As Exception
             strWarning = ex.Message
             bWait = True
@@ -553,10 +553,6 @@ Public Class Ui20PropensityScoreMatching
         For Each item As Object In list.Items
             target.Add(New KeyValuePair(Of String, String)(CStr(item), roleName))
         Next
-    End Sub
-
-    Private Sub ValidateMethodSpecificOptions(fitOptions As PsmComprehensiveFitOptions)
-        PsmMethodCapabilities.ValidateFitOptions(fitOptions)
     End Sub
 
     Private Sub BeginPsmComputation()

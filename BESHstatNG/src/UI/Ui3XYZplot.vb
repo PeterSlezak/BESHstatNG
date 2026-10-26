@@ -384,12 +384,12 @@ Public Class Ui3XYZplot
 
         'check if we have groups data input
         If Me.RefEdit4_Group.Address <> String.Empty Then 'We have only One group
-            grpData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, 0))
+            grpData = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(d, 0))
             colId += 1
         End If
         'check if we have data lebels data input
         If Me.RefEdit5_Labels.Address <> String.Empty Then 'We have only One group
-            labelData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, colId))
+            labelData = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(d, colId))
             colId += 1
         End If
 
@@ -627,12 +627,12 @@ Public Class Ui3XYZplot
 
         'check if we have groups data input
         If Me.RefEdit4_Group.Address <> String.Empty Then 'We have only One group
-            grpData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, 0))
+            grpData = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(d, 0))
             colId += 1
         End If
         'check if we have data lebels data input
         If Me.RefEdit5_Labels.Address <> String.Empty Then 'We have only One group
-            labelData = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(d, colId))
+            labelData = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(d, colId))
             colId += 1
         End If
 

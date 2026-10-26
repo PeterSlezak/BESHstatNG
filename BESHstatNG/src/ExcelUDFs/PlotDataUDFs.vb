@@ -493,7 +493,7 @@ Namespace WorksheetFunctions
                 Dim yy() As Double = yVals.ToArray()
                 Dim pp() As Double = pVals.ToArray()
 
-                regression.BinaryClassificationReporting.ValidateBinaryInputs(yy, pp, w)
+                Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(yy, pp, w)
                 Dim rows As List(Of regression.CalibrationBinSummary) = regression.BinaryClassificationReporting.BuildCalibrationBins(yy, pp, binCount, w, methodName)
                 If rows Is Nothing OrElse rows.Count = 0 Then Return ExcelError.ExcelErrorNA
 

@@ -396,7 +396,7 @@ Public Class UibyID
 
             'Debug.Print(array2str(byIdData.FinalData))
             out.X = byIdData.DataByID2ByColumn()
-            out.varNames = Matrix.Array2strArray(Matrix.GetColumnFrom2Darray(byIdData.FinalData, 0).Distinct().ToArray())
+            out.varNames = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(byIdData.FinalData, 0).Distinct().ToArray())
             Return out
         End If
     End Function
@@ -1375,7 +1375,7 @@ Public Class UibyID
             rTable.AddPvalueCellToFormat(6, i + 2)
             rTable.AddPvalueCellToFormat(9, i + 2)
         Next
-        rTable.AddHeaderTopRow(Matrix.ConcatArrays({"Normality Tests"}, data.varNames))
+        rTable.AddHeaderTopRow(Global.BESHStatNG.DataManagement.ArrayUtilities.ConcatArrays({"Normality Tests"}, data.varNames))
         res.Add(rTable)
 
         'descriptive statistics
@@ -1621,7 +1621,7 @@ Public Class UibyID
             End If
         Next
         descTable.AddTitle("Descriptive Statistics")
-        descTable.AddHeaderTopRow(Matrix.ConcatArrays({""}, data.varNames))
+        descTable.AddHeaderTopRow(Global.BESHStatNG.DataManagement.ArrayUtilities.ConcatArrays({""}, data.varNames))
 
         Return descTable
     End Function

@@ -361,7 +361,7 @@ Public Class Ui11PCA
             MyData.SubsetByRowIdValues(ids)
         End If
 
-        mca.DataMultiple(Matrix.Array2strArray(MyData.FinalData), MyData.varNames)
+        mca.DataMultiple(Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(MyData.FinalData), MyData.varNames)
         mca.Calculate()
 
         'Dump results

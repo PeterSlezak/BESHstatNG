@@ -765,7 +765,7 @@ Public Class Ui13GEE
                 Dim weights() As Double = fitGEE.ObservationWeights()
                 Dim threshold As Double = GetClassificationThresholdUiValue()
 
-                regression.BinaryClassificationReporting.ValidateBinaryInputs(y, p, weights)
+                Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(y, p, weights)
 
                 Dim summary As regression.BinaryClassificationSummary =
                     regression.BinaryClassificationReporting.ComputeBinarySummary(y, p, threshold, weights)

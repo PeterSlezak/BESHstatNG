@@ -1647,7 +1647,7 @@ Public Class Ui18MMRM
         .Alpha = alphaValue
     }
 
-        Dim visitProfileName As String = ReferenceGridProfileName(mmrmData.VisitKey)
+        Dim visitProfileName As String = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(mmrmData.VisitKey)
         Dim visitLevels() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(visit)
         If visitLevels IsNot Nothing AndAlso visitLevels.Length > 0 Then
             spec.AddByFactor(visitProfileName, visitLevels, visit)
@@ -1655,7 +1655,7 @@ Public Class Ui18MMRM
 
         Dim groupProfileName As String = Nothing
         If hasGroup AndAlso Not String.IsNullOrWhiteSpace(groupKey) AndAlso groupValues IsNot Nothing Then
-            groupProfileName = ReferenceGridProfileName(groupKey)
+            groupProfileName = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(groupKey)
             Dim groupLevels() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(groupValues)
             If groupLevels IsNot Nothing AndAlso groupLevels.Length > 1 Then
                 spec.AddByFactor(groupProfileName, groupLevels, groupValues)
@@ -1710,7 +1710,7 @@ Public Class Ui18MMRM
         If factorKeys Is Nothing Then Exit Sub
 
         For Each key As String In factorKeys
-            Dim profileName As String = ReferenceGridProfileName(key)
+            Dim profileName As String = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(key)
 
             If String.Equals(profileName, visitProfileName, StringComparison.OrdinalIgnoreCase) Then Continue For
             If Not String.IsNullOrWhiteSpace(groupProfileName) AndAlso
@@ -1740,7 +1740,7 @@ Public Class Ui18MMRM
         If covariateKeys Is Nothing Then Exit Sub
 
         For Each key As String In covariateKeys
-            Dim profileName As String = ReferenceGridProfileName(key)
+            Dim profileName As String = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(key)
 
             If String.Equals(profileName, visitProfileName, StringComparison.OrdinalIgnoreCase) Then Continue For
             If Not String.IsNullOrWhiteSpace(groupProfileName) AndAlso
@@ -1771,7 +1771,7 @@ Public Class Ui18MMRM
                                                           contrastDirection As String) As ResultTable
         If rows Is Nothing OrElse rows.Count = 0 Then Return Nothing
 
-        Dim groupProfileName As String = ReferenceGridProfileName(groupKey)
+        Dim groupProfileName As String = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(groupKey)
 
         If String.Equals(contrastMode, MMRM_MODE_PAIRWISE, StringComparison.OrdinalIgnoreCase) Then
             Return regression.MixedModelReferenceGridService.BuildPairwiseContrastsByFactor(rows,
@@ -1880,10 +1880,6 @@ Public Class Ui18MMRM
 
         If parts.Count = 0 Then Return String.Empty
         Return " | " & String.Join(", ", parts)
-    End Function
-
-    Private Function ReferenceGridProfileName(rawKey As String) As String
-        Return regression.MixedModelReferenceGridService.NormalizeProfileName(rawKey)
     End Function
 
     Private Function GetMMRMContinuousMainEffectBaseKeys() As List(Of String)

@@ -557,7 +557,7 @@ Public Module UIprocedures
             Dim expVal As Integer
             If Integer.TryParse(expStr, expVal) Then
                 Dim baseKey As String = Left$(s, pCaret - 1).Trim()
-                out.Add(StripOuterDoubleQuotes(baseKey))
+                out.Add(Global.BESHStatNG.RegressionDesignCore.StripOuterDoubleQuotesPublic(baseKey))
                 Return out
             End If
         End If
@@ -566,7 +566,7 @@ Public Module UIprocedures
         If InStr(s, ":") > 0 AndAlso InStr(s, ChrW(34)) > 0 Then
             Dim parts() As String = Split(s, ":")
             For Each p As String In parts
-                Dim k As String = StripOuterDoubleQuotes(p.Trim())
+                Dim k As String = Global.BESHStatNG.RegressionDesignCore.StripOuterDoubleQuotesPublic(p.Trim())
                 If k <> String.Empty Then out.Add(k)
             Next
             If out.Count >= 2 Then Return out
@@ -582,25 +582,6 @@ Public Module UIprocedures
         '3) Main effect as-is
         out.Add(s)
         Return out
-    End Function
-
-    ''' <summary>
-    ''' Removes a single pair of outer double quotes from the supplied string,
-    ''' if such quotes are present. Inner content is preserved unchanged.
-    ''' </summary>
-    ''' <param name="s">
-    ''' The input string to process. May be quoted, unquoted, or null.
-    ''' </param>
-    ''' <returns>
-    ''' The trimmed string with one pair of leading and trailing double quotes
-    ''' removed if present; otherwise, the trimmed original value.
-    ''' </returns>
-    ''' <remarks>
-    ''' Only removes quotes when both the first and last characters are
-    ''' double quotes. Does not attempt to unescape or modify internal content.
-    ''' </remarks>
-    Private Function StripOuterDoubleQuotes(s As String) As String
-        Return RegressionDesignCore.StripOuterDoubleQuotesPublic(s)
     End Function
 
     Public Function GetExcelNumberCulture() As Globalization.CultureInfo

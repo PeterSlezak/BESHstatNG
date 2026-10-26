@@ -33,13 +33,6 @@ Namespace regression
             End Function
         End Class
 
-        Public Sub ValidateBinaryInputs(y() As Double,
-                                        p() As Double,
-                                        Optional weights() As Double = Nothing,
-                                        Optional allowMissing As Boolean = False)
-            BinaryClassificationCore.ValidateBinaryInputs(y, p, weights, allowMissing)
-        End Sub
-
         Public Function ComputeBinarySummary(y() As Double,
                                              p() As Double,
                                              Optional threshold As Double = 0.5,
@@ -86,16 +79,6 @@ Namespace regression
                 Case Else
                     Return defaultValue
             End Select
-        End Function
-
-        Public Function GetDefaultThresholds(p() As Double, Optional maxRows As Integer = 500,
-                                             Optional includeEndpoints As Boolean = True) As Double()
-            Return BinaryClassificationCore.GetDefaultThresholds(p, maxRows, includeEndpoints)
-        End Function
-
-        Public Function BuildPercentileCutpointBins(p() As Double,
-                                                  Optional requestedBins As Integer = 10) As List(Of ProbabilityCutpointBin)
-            Return BinaryClassificationCore.BuildPercentileCutpointBins(p, requestedBins)
         End Function
 
         Public Function WrapResults(summary As BinaryClassificationSummary,

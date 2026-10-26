@@ -715,7 +715,7 @@ Namespace WorksheetFunctions
                 Dim initialEigen() As Double = h.Model.InitialEigenvalues
                 Dim unrotatedSs() As Double = ColumnSumsOfSquares(h.Model.UnrotatedLoadings, h.Model.UnrotatedLoadings)
                 Dim rotatedSs() As Double = ColumnSumsOfSquares(h.Model.PatternMatrix, h.Model.StructureMatrix)
-                Dim totalVar As Double = Matrix.MatrixTrace(h.Model.WorkingMatrix)
+                Dim totalVar As Double = Global.BESHStatNG.Matrix.MatrixArithmeticCore.Trace(h.Model.WorkingMatrix)
                 Dim initPct() As Double = PercentOfTotal(initialEigen, totalVar)
                 Dim initCum() As Double = Cumulative(initPct)
                 Dim extrPct() As Double = PercentOfTotal(unrotatedSs, totalVar)

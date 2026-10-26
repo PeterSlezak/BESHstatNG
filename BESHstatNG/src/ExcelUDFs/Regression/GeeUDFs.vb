@@ -1359,7 +1359,7 @@ Namespace WorksheetFunctions
                 For r As Integer = 0 To labels.Count - 1
                     Dim lRow() As Double = lByLabel(labels(r))
                     Dim eta As Double = Matrix.DotProduct(lRow, beta)
-                    Dim v As Double = Matrix.QuadraticForm(lRow, cov)
+                    Dim v As Double = Global.BESHStatNG.Matrix.MatrixArithmeticCore.QuadraticForm(lRow, cov)
                     If v < 0.0R AndAlso v > -0.0000000001R Then v = 0.0R
                     Dim seLink As Double = If(v >= 0.0R, Math.Sqrt(v), Double.NaN)
                     Dim z As Double = If(seLink > 0.0R, eta / seLink, Double.NaN)

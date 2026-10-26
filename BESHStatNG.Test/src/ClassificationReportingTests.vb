@@ -272,6 +272,53 @@ Public Class ClassificationReportGenericUdfTests
         UdfAssert.IsExcelError(Udfs.ClassificationReportUDFs.CLASS_CONFUSION(yRow, pRow, 1.5R, Nothing, True), "ExcelErrorValue")
     End Sub
 
+    <TestMethod>
+    <TestCategory("UDF")>
+    Public Sub CLASS_BRIER_preserves_probability_endpoints_and_zero_weight_rows()
+        Dim y = ClassificationReportingTestData.ToColumn(New Double() {0.0R, 1.0R, 1.0R})
+        Dim p = ClassificationReportingTestData.ToColumn(New Double() {0.0R, 1.0R, 0.0R})
+        Dim weights = ClassificationReportingTestData.ToColumn(New Double() {0.0R, 1.0R, 3.0R})
+
+        Dim result = UdfAssert.AsTable(Udfs.ClassificationReportUDFs.CLASS_BRIER(y, p, weights, False))
+
+        Assert.AreEqual("BrierScore", CStr(result(0, 0)))
+        Assert.AreEqual(0.75R, CDbl(result(0, 1)), 0.0000001R)
+        Assert.AreEqual(4.0R, CDbl(result(1, 1)), 0.0000001R)
+        Assert.AreEqual(1.0R, CDbl(result(2, 1)), 0.0000001R)
+    End Sub
+
+    <TestMethod>
+    <TestCategory("UDF")>
+    Public Sub Classification_validation_preserves_text_and_native_excel_errors()
+        Dim y = ClassificationReportingTestData.ToColumn(New Double() {0.0R, 1.0R})
+
+        For Each invalidProbability As Double In New Double() {-0.1R, 1.1R}
+            Dim p = ClassificationReportingTestData.ToColumn(New Double() {0.2R, invalidProbability})
+            Dim result = Udfs.ClassificationReportUDFs.CLASS_BRIER(y, p)
+
+            Assert.AreEqual("ArgumentException: Predicted probabilities must lie in [0,1].", result)
+            UdfAssert.IsExcelError(Udfs.PlotDataUDFs.CALIB_POINTS(y, p), "ExcelErrorValue")
+        Next
+    End Sub
+
+    <TestMethod>
+    <TestCategory("UDF")>
+    Public Sub CLASS_BRIER_preserves_length_binary_outcome_and_weight_validation()
+        Dim y = ClassificationReportingTestData.ToColumn(New Double() {0.0R, 1.0R})
+        Dim p = ClassificationReportingTestData.ToColumn(New Double() {0.2R, 0.8R})
+        Dim shortP = ClassificationReportingTestData.ToColumn(New Double() {0.2R})
+        Dim invalidY = ClassificationReportingTestData.ToColumn(New Double() {0.0R, 2.0R})
+        Dim invalidWeights = ClassificationReportingTestData.ToColumn(New Double() {1.0R, -1.0R})
+
+        Assert.AreEqual("ArgumentException: Observed outcomes and predicted probabilities must have the same length.",
+                        Udfs.ClassificationReportUDFs.CLASS_BRIER(y, shortP))
+        Assert.AreEqual("ArgumentException: Observed outcomes must be coded as 0/1.",
+                        Udfs.ClassificationReportUDFs.CLASS_BRIER(invalidY, p))
+        Dim weightError = CStr(Udfs.ClassificationReportUDFs.CLASS_BRIER(y, p, invalidWeights))
+        StringAssert.StartsWith(weightError, "ArgumentException: ")
+        StringAssert.Contains(weightError, "Weights")
+    End Sub
+
 End Class
 
 <TestClass>
