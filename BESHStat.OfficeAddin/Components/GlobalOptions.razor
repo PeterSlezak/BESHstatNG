@@ -4,7 +4,7 @@
 
 <section class="global-options" aria-labelledby="global-options-title" aria-busy="@Preferences.Applying.ToString().ToLowerInvariant()">
     <h2 id="global-options-title">@Text["GlobalOptions"]</h2>
-    <HelpAction GlobalSettings="true" Label="@Text["SettingsHelp"]" />
+    <HelpAction Id="global-settings-help" GlobalSettings="true" Label="@Text["Help"]" />
     <p>@Text["DraftOnly"]</p>
     <p id="preference-state" role="status">@PersistenceLabel</p>
     @if (failed) { <p role="alert">@Text[Preferences.CanApply ? "SaveFailed" : "Wait"]</p> }

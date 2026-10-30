@@ -90,7 +90,7 @@ try {
     assert.equal(await evaluate("!!document.querySelector('label[for=analysis-group]') && !!document.querySelector('label[for=analysis-method]')"), true);
     // Native Tab and arrow keys operate the dependent selects; method identity remains its stable ID.
     summary.stage = "keyboard-anova";
-    await evaluate("document.querySelector('#retry-initialization').focus()");
+    await evaluate("document.querySelector('#header-help').focus()");
     await key("Tab");
     assert.equal(await evaluate("document.activeElement.id"), "analysis-tab");
     await key("Tab");

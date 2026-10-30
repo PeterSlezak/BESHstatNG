@@ -92,7 +92,7 @@ def projections(ledger):
 <!-- Generated development manifest. Identity/base URL preserved; sideload only. -->
 <OfficeApp xmlns="http://schemas.microsoft.com/office/appforoffice/1.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0" xsi:type="TaskPaneApp">
 <Id>5f70b95c-dc4a-4f38-b78d-0a7348657e19</Id><Version>1.0.1.0</Version><ProviderName>BESHStatNG</ProviderName><DefaultLocale>en-US</DefaultLocale>
-<DisplayName DefaultValue="BESHStatNG Office Foundation Dev"/><Description DefaultValue="BESHStatNG development analysis workspace and capability-guarded Ribbon commands."/>
+<DisplayName DefaultValue="BESHStatNG Office workspace"/><Description DefaultValue="BESHStatNG development analysis workspace and capability-guarded Ribbon commands."/>
 <IconUrl DefaultValue="https://localhost:7141/icons/ribbon-32.png"/><HighResolutionIconUrl DefaultValue="https://localhost:7141/icons/ribbon-80.png"/>
 <SupportUrl DefaultValue="https://www.beshstat.eu/beshstatng/help/latest/"/>
 <Hosts><Host Name="Workbook"/></Hosts><Requirements><Sets DefaultMinVersion="1.1"><Set Name="ExcelApi" MinVersion="1.1"/></Sets></Requirements>

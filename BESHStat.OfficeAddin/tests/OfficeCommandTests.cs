@@ -42,23 +42,34 @@ public sealed class OfficeCommandTests
         await using var ui=new AnalysisComponentTests.EventRenderer(services);await ui.Mount<App>();
         var help=services.GetRequiredService<OfficeHelp>();
         Assert.AreEqual(4,ui.Count("role","tab"));Assert.AreEqual(exportLabel,ui.Attribute("id","export-tab","text"));
+        Assert.IsTrue(ui.Has("class","visually-hidden") || ui.StaticMarkup.Contains("class=\"visually-hidden\""),"The semantic title must not consume pane space");
+        Assert.AreEqual(1,ui.Count("id","retry-initialization"));
+        Assert.IsTrue(ui.Has("id","host-availability"));
+        await ui.Event("id","diagnostics-tab","onclick",new MouseEventArgs());
+        Assert.AreNotEqual(true,ui.Attribute("id","diagnostics-panel","hidden"));
+        Assert.AreEqual(true,ui.Attribute("id","analysis-panel","hidden"));
+        await ui.Event("id","analysis-tab","onclick",new MouseEventArgs());
         Assert.AreEqual(aboutLabel,ui.Attribute("id","header-about","text"));Assert.AreEqual("dialog",ui.Attribute("id","header-about","aria-haspopup"));
         Assert.AreEqual(help.Home.Url,ui.Attribute("id","header-help","href"));Assert.AreEqual(help.Page("ExportChart").Url,ui.Attribute("id","export-help","href"));
         foreach(var id in new[]{"workspace-commands","command-analysis","command-options","command-log","command-about","command-help","command-export"})Assert.IsFalse(ui.Has("id",id));
         await ui.Event("id","export-tab","onclick",new MouseEventArgs());Assert.AreEqual("true",ui.Attribute("id","export-tab","aria-selected"));
         Assert.AreNotEqual(true,ui.Attribute("id","export-panel","hidden"));Assert.AreEqual(placeholder,ui.Attribute("id","export-placeholder","text"));
-        await ui.Event("id","export-help","onclick",new MouseEventArgs());Assert.AreEqual(help.Page("ExportChart").Url,browser.Url);
-        await ui.Event("id","header-help","onclick",new MouseEventArgs());Assert.AreEqual(help.Home.Url,browser.Url);
+        foreach(var id in new[]{"header-help","export-help"}) {
+            Assert.AreEqual("_blank",ui.Attribute("id",id,"target"));
+            Assert.AreEqual("noopener noreferrer",ui.Attribute("id",id,"rel"));
+        }
+        Assert.IsNull(browser.Url,"Direct Help links must not call the asynchronous Office browser bridge.");
         await ui.Event("id","header-about","onclick",new MouseEventArgs());Assert.IsTrue(ui.Has("id","about-panel"));
-        Assert.IsTrue(ui.Has("text",help.Version.DisplayLabel));StringAssert.Contains(ui.StaticMarkup,"BESHStatNG · ");Assert.IsTrue(ui.Has("text",services.GetRequiredService<OfficeStrings>()["OfficeWorkspace"]));
+        Assert.IsTrue(ui.Has("text",help.Version.DisplayLabel));StringAssert.Contains(ui.StaticMarkup,"BESHStatNG · ");
         StringAssert.Contains((string)ui.Attribute("id","about-license","text")!,"Apache License 2.0");
         await ui.Event("id","about-close","onclick",new MouseEventArgs());Assert.IsFalse(ui.Has("id","about-panel"));
         Assert.AreEqual("true",ui.Attribute("id","export-tab","aria-selected"));
         Assert.AreEqual("command.unavailable",await services.GetRequiredService<OfficeCommandCoordinator>().DispatchAsync("export",true));
         Assert.AreEqual("true",ui.Attribute("id","export-tab","aria-selected"));
         Assert.AreEqual(0,workbook.Reads);Assert.AreEqual(0,workbook.Writes);Assert.AreEqual(0,storage.Saves);
-        browser.Result="blocked";await ui.Event("id","export-help","onclick",new MouseEventArgs());
-        Assert.IsTrue(ui.Has("text",services.GetRequiredService<OfficeStrings>()["HelpBlocked"]));
+        browser.Result="blocked";
+        Assert.IsFalse(ui.Has("text",services.GetRequiredService<OfficeStrings>()["HelpBlocked"]));
+        Assert.AreEqual(help.Page("ExportChart").Url,ui.Attribute("id","export-help","href"));
     }
     [TestMethod]
     public async Task LedgerAndRegistryRetainAllOccurrencesButOnlyActualEditorsExecute()
@@ -114,6 +125,7 @@ public sealed class OfficeCommandTests
         var root=new DirectoryInfo(AppContext.BaseDirectory);while(root is not null&&!File.Exists(Path.Combine(root.FullName,"BESHStatNG.sln")))root=root.Parent;
         var xml=XDocument.Load(Path.Combine(root!.FullName,"BESHStat.OfficeAddin/manifest-dev.xml"));XNamespace ov="http://schemas.microsoft.com/office/taskpaneappversionoverrides",bt="http://schemas.microsoft.com/office/officeappbasictypes/1.0",xsi="http://www.w3.org/2001/XMLSchema-instance";
         var controls=xml.Descendants().Where(e=>e.Name.LocalName is "Control" or "Item").ToArray();Assert.AreEqual(controls.Length,controls.Select(c=>(string?)c.Attribute("id")).Distinct().Count());
+        Assert.AreEqual("BESHStatNG Office workspace",(string?)xml.Descendants().Single(e=>e.Name.LocalName=="DisplayName").Attribute("DefaultValue"));
         Assert.AreEqual(12,controls.Count(c=>(string?)c.Attribute(xsi+"type")=="Menu"));Assert.IsFalse(xml.Descendants(ov+"Item").Any(i=>i.Descendants(ov+"Items").Any()));
         Assert.AreEqual(1,xml.Descendants(ov+"Runtime").Count());Assert.AreEqual("long",(string?)xml.Descendants(ov+"Runtime").Single().Attribute("lifetime"));Assert.IsFalse(xml.Descendants(ov+"TaskpaneID").Any());
         foreach(var source in GeneratedRibbonCommands.All){var control=controls.Single(c=>(string?)c.Attribute("id")==source.ManifestId);var enabled=control.Element(ov+"Enabled")!.Value=="true";

@@ -104,13 +104,17 @@ public sealed class GlobalOptionsComponentTests
     {
         var browser = new Browser("sk-SK") { Result = "blocked" };
         await using var services = Services(new Storage { Saved = Snapshot().ToData(), SavedForceEnglish = false }, browser).BuildServiceProvider(); await using var ui = new AnalysisComponentTests.EventRenderer(services); await ui.Mount<App>();
-        Assert.IsTrue(ui.Has("text", "Možnosti")); await ui.ClickText("Pomocník ku globálnym nastaveniam");
-        Assert.IsNotNull(browser.Url); StringAssert.Contains(browser.Url, "route=GlobalSettings");
-        Assert.IsTrue(ui.Has("text", "Pomocníka sa nepodarilo otvoriť. Použite odkaz na dokumentáciu."));
-        await ui.Choose(AnalysisIds.OneWayAnova); await ui.ClickText("Pomocník k vybranej metóde");
-        StringAssert.Contains(browser.Url!, "route=" + HelpDestination.ForAnalysisId(AnalysisIds.OneWayAnova).Metadata.Key);
-        await ui.Choose(AnalysisIds.KruskalWallis); await ui.ClickText("Pomocník k vybranej metóde");
-        StringAssert.Contains(browser.Url!, "route=" + HelpDestination.ForAnalysisId(AnalysisIds.KruskalWallis).Metadata.Key);
+        Assert.IsTrue(ui.Has("text", "Možnosti"));
+        Assert.AreEqual("Pomocník",ui.Attribute("id","global-settings-help","text"));
+        StringAssert.Contains((string)ui.Attribute("id","global-settings-help","href")!,"route=GlobalSettings");
+        Assert.AreEqual("_blank",ui.Attribute("id","global-settings-help","target"));
+        Assert.AreEqual("noopener noreferrer",ui.Attribute("id","global-settings-help","rel"));
+        await ui.Choose(AnalysisIds.OneWayAnova);
+        StringAssert.Contains((string)ui.Attribute("id","method-help","href")!,"route=" + HelpDestination.ForAnalysisId(AnalysisIds.OneWayAnova).Metadata.Key);
+        await ui.Choose(AnalysisIds.KruskalWallis);
+        StringAssert.Contains((string)ui.Attribute("id","method-help","href")!,"route=" + HelpDestination.ForAnalysisId(AnalysisIds.KruskalWallis).Metadata.Key);
+        Assert.IsNull(browser.Url,"Direct Help links should use native browser navigation, not the Office popup API.");
+        Assert.IsFalse(ui.Has("text", "Pomocníka sa nepodarilo otvoriť. Použite odkaz na dokumentáciu."));
         await ui.ClickText("Kopírovať anonymizovaný záznam"); Assert.IsNotNull(browser.Copied); Assert.IsFalse(browser.Copied.Contains("Input"));
     }
 
@@ -124,7 +128,7 @@ public sealed class GlobalOptionsComponentTests
         Assert.IsTrue(ui.Labelled("global-force-english")); Assert.AreEqual(true, ui.Attribute("id", "global-force-english", "checked"));
         Assert.IsTrue(ui.Has("text", "Options"));
         await ui.Event("id", "options-tab", "onclick", new MouseEventArgs());
-        await ui.ClickText("Global settings Help"); await ui.ClickText("Copy sanitized log");
+        Assert.AreEqual("Help",ui.Attribute("id","global-settings-help","text")); await ui.ClickText("Copy sanitized log");
         await ui.Event("id", "global-force-english", "onchange", new ChangeEventArgs { Value = false });
         Assert.IsTrue(owner.ForceEnglish); Assert.IsTrue(ui.Has("text", "Options")); Assert.AreEqual(0, storage.Saves);
         await ui.Event("id", "global-discard", "onclick", new MouseEventArgs()); Assert.AreEqual(true, ui.Attribute("id", "global-force-english", "checked"));
@@ -133,7 +137,7 @@ public sealed class GlobalOptionsComponentTests
         Assert.IsFalse(owner.ForceEnglish); Assert.IsTrue(ui.Has("text", "Možnosti")); Assert.IsTrue(ui.Has("text", "Analýza"));
         Assert.IsTrue(ui.Has("text", "Export grafu")); Assert.IsTrue(ui.Has("text", "O BESHStatNG"));
         Assert.IsTrue(ui.Has("text", "Diagnostika / Záznam")); Assert.IsTrue(ui.Has("text", "Uložiť")); Assert.IsTrue(ui.Has("text", "Záznam bol skopírovaný."));
-        Assert.IsTrue(ui.Has("text", "Pomocníka sa nepodarilo otvoriť. Použite odkaz na dokumentáciu."));
+        Assert.AreEqual("Pomocník",ui.Attribute("id","global-settings-help","text"));
         Assert.AreEqual("true", ui.Attribute("id", "options-tab", "aria-selected"));
         Assert.AreEqual("Slovenčina", ui.Attribute("id", "effective-interface-language", "text"));
         await ui.Event("id", "global-defaults", "onclick", new MouseEventArgs());
@@ -152,11 +156,12 @@ public sealed class GlobalOptionsComponentTests
         await using (var log = new AnalysisComponentTests.EventRenderer(services))
         await using (var help = new AnalysisComponentTests.EventRenderer(services)) {
             await log.Mount<BESHStat.OfficeAddin.Components.DiagnosticLog>(); await help.Mount<BESHStat.OfficeAddin.Components.HelpAction>();
-            await help.ClickText("Help"); await log.ClickText("Copy sanitized log");
+            Assert.IsTrue(help.Has("text", "Help")); await log.ClickText("Copy sanitized log");
             await log.Dispatcher.InvokeAsync(() => owner.SaveAsync(Snapshot(), sessionOnly: true, forceEnglish: false));
             await help.Dispatcher.InvokeAsync(() => Task.CompletedTask);
             Assert.IsTrue(log.Has("text", "Diagnostický záznam relácie")); Assert.IsTrue(log.Has("text", "Záznam bol skopírovaný."));
-            Assert.IsTrue(help.Has("text", "Pomocník")); Assert.IsTrue(help.Has("text", "Pomocníka sa nepodarilo otvoriť. Použite odkaz na dokumentáciu."));
+            Assert.IsTrue(help.Has("text", "Pomocník"));
+            Assert.IsFalse(help.Has("text", "Pomocníka sa nepodarilo otvoriť. Použite odkaz na dokumentáciu."));
         }
         Assert.IsTrue(await owner.SaveAsync(Snapshot(), true, true)); Assert.AreEqual("Options", text["Options"]);
     }

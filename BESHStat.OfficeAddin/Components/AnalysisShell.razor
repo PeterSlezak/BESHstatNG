@@ -47,7 +47,7 @@
     {
         <div @key="selected.Id" class="analysis-editor" aria-labelledby="selected-analysis-title">
             <h3 id="selected-analysis-title">@selected.DisplayName</h3>
-            <HelpAction AnalysisId="@selected.Id" Label="@Text["MethodHelp"]" />
+            <HelpAction Id="method-help" AnalysisId="@selected.Id" Label="@Text["MethodHelp"]" />
             <p>@selected.Description</p>
             <span id="option-schema" hidden>@selected.OptionsSchemaId</span>
             @if (state.Editor is { } editor)

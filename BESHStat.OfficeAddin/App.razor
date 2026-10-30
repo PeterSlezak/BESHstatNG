@@ -12,17 +12,13 @@
 
 <main>
     <header class="workspace-header">
-    <h1>BESHStatNG <small>@Text["OfficeWorkspace"]</small></h1>
+    <h1 class="visually-hidden">BESHStatNG @Text["OfficeWorkspace"]</h1>
     <div class="workspace-menu">
         <span class="workspace-build">@Text["DevelopmentBuild"] - @DevelopmentBatch</span>
         <nav aria-label="@Text["WorkspaceMenu"]">
             <button @ref="aboutHeader" id="header-about" type="button" class="menu-link" aria-haspopup="dialog" @onclick="OpenHeaderAboutAsync">@Text["AboutCommand"]</button>
-            <HelpAction Id="header-help" AsLink="true" Label="@Text["HelpHomeCommand"]" />
+            <HelpAction Id="header-help" Label="@Text["HelpHomeCommand"]" />
         </nav>
-    </div>
-    <div class="availability" role="status">
-        <span>@(loading ? Text["Connecting"] : status.IsExcel ? Text["ExcelReady"] : status.Message)</span>
-        <button id="retry-initialization" @onclick="RetryAsync" disabled="@(loading || reading || pilotBusy || Preferences.Applying)">@Text["Retry"]</button>
     </div>
     <div role="tablist" aria-label="@Text["WorkspaceViews"]" class="workspace-tabs">
         <button @ref="analysisTab" id="analysis-tab" role="tab" aria-selected="@Selected(0)" aria-controls="analysis-panel" tabindex="@(activeTab == 0 ? 0 : -1)" @onclick="() => activeTab = 0" @onkeydown="TabKey">@Text["Analysis"]</button>
@@ -42,22 +38,29 @@
         <section aria-labelledby="export-title">
             <h2 id="export-title">@Text["ExportChart"]</h2>
             <p id="export-placeholder">@Text["ExportPlaceholder"]</p>
-            <HelpAction Id="export-help" AsLink="true" PageKey="ExportChart" Label="@Text["ExportHelp"]" />
+            <HelpAction Id="export-help" PageKey="ExportChart" Label="@Text["ExportHelp"]" />
         </section>
     </div>
     <div id="diagnostics-panel" role="tabpanel" aria-labelledby="diagnostics-tab" tabindex="0" hidden="@(activeTab != 3)">
+    <section class="host-connection" aria-labelledby="host-connection-title" aria-busy="@loading.ToString().ToLowerInvariant()">
+        <h2 id="host-connection-title">@Text["OfficeConnection"]</h2>
+        <div class="availability" role="status">
+            <span id="host-availability">@(loading ? Text["Connecting"] : status.IsExcel ? Text["ExcelReady"] : status.Message)</span>
+            <button id="retry-initialization" type="button" @onclick="RetryAsync" disabled="@(loading || reading || pilotBusy || Preferences.Applying)">@Text["Retry"]</button>
+        </div>
+        @if (ReadDiagnostics.Enabled)
+        {
+            <p id="host-status">@(loading ? "Waiting for Office initialization..." : status.Message)</p>
+            @if (!loading)
+            {
+                <p>Diagnostic: <code id="host-code">@status.Code</code></p>
+                @if (status.Platform.Length > 0) { <p>Platform: @status.Platform</p> }
+            }
+        }
+    </section>
     <DiagnosticLog />
     @if (ReadDiagnostics.Enabled)
     {
-    <section aria-live="polite" aria-busy="@loading.ToString().ToLowerInvariant()">
-        <h2>Office host</h2>
-        <p id="host-status">@(loading ? "Waiting for Office initialization..." : status.Message)</p>
-        @if (!loading)
-        {
-            <p>Diagnostic: <code id="host-code">@status.Code</code></p>
-            @if (status.Platform.Length > 0) { <p>Platform: @status.Platform</p> }
-        }
-    </section>
     <section>
         <h2>Core and Common checks</h2>
         @if (probe is null) { <p>Loading local probes...</p> }
@@ -99,7 +102,7 @@
             <p>@Text["DevelopmentBuild"] - @DevelopmentBatch</p>
             <p>@Help.Version.DisplayLabel</p><p>@Text["AboutBuild"]</p><p>@Text["AboutPlatform"]: @(status.Platform.Length == 0 ? Text["UnknownPlatform"] : status.Platform)</p>
             <p id="about-license">@Text["AboutLicense"]</p>
-            <p>@Text["AboutMethods"]</p><HelpAction AsLink="true" Label="@Text["Documentation"]" />
+            <p>@Text["AboutMethods"]</p><HelpAction Label="@Text["Documentation"]" />
             <button @ref="aboutClose" id="about-close" @onclick="CloseAbout">@Text["Close"]</button>
         </dialog>
     }

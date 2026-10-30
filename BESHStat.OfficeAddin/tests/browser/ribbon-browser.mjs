@@ -42,8 +42,11 @@ try{
     assert.equal(await evaluate("document.querySelector('#export-panel').hidden"),false);
     assert.equal(await evaluate("document.querySelector('#export-placeholder').textContent"),'Chart export is not yet implemented in this Office add-in.');
     await screenshot('export-header-360');
-    await evaluate("document.querySelector('#export-help').click()");await wait('__help.length===1');assert.ok((await evaluate('__help[0]')).includes('route=ExportChart'));
-    await evaluate("document.querySelector('#header-help').click()");await wait('__help.length===2');assert.ok((await evaluate('__help[1]')).startsWith('https://www.beshstat.eu/'));
+    assert.equal(await evaluate("document.querySelector('#export-help').href.includes('route=ExportChart')"),true);
+    assert.equal(await evaluate("document.querySelector('#export-help').target"),'_blank');
+    assert.equal(await evaluate("document.querySelector('#header-help').href.startsWith('https://www.beshstat.eu/')"),true);
+    assert.equal(await evaluate("document.querySelector('#header-help').target"),'_blank');
+    assert.equal(await evaluate('__help.length'),0);
     await evaluate("document.querySelector('#header-about').click()");await wait("document.querySelector('#about-panel')?.open && document.activeElement.id==='about-close'");
     assert.equal(await evaluate("document.querySelector('#about-license').textContent"),'License: Apache License 2.0');
     assert.ok((await evaluate("document.querySelector('#about-panel').textContent")).includes('BESHStatNG · Office workspace'));
@@ -52,6 +55,9 @@ try{
     await evaluate("document.querySelector('#header-about').click()");await wait("document.querySelector('#about-panel')?.open");
     await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await wait("!document.querySelector('#about-panel') && document.activeElement.id==='header-about'");
     await evaluate('__help.length=0');assert.equal(await evaluate('__pilotFake.state.mutations'),0);
+    assert.equal(await evaluate("document.querySelector('.workspace-header #retry-initialization')===null"),true);
+    assert.equal(await evaluate("!!document.querySelector('#diagnostics-panel #retry-initialization')"),true);
+    assert.equal(await evaluate("getComputedStyle(document.querySelector('.workspace-header h1')).position==='absolute'"),true);
     summary.stage='manifest';
     const manifest=readFileSync(new URL('../../manifest-dev.xml',import.meta.url),'utf8');
     const counts=await evaluate(`(()=>{const doc=new DOMParser().parseFromString(${JSON.stringify(manifest)},'text/xml');const items=[...doc.getElementsByTagNameNS('*','Item')];return {items:items.length,disabled:items.filter(i=>i.getElementsByTagNameNS('*','Enabled')[0]?.textContent==='false').length,menus:[...doc.getElementsByTagNameNS('*','Control')].filter(c=>c.getAttributeNS('http://www.w3.org/2001/XMLSchema-instance','type')==='Menu').length};})()`);
