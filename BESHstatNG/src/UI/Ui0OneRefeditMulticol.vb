@@ -162,6 +162,9 @@ Public Class Ui0OneRefeditMulticol
             Dim ref As String = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
 
             ExcelDnaDataImporter.ImportInto(columData, ref, True)
+            If Me.Tag = HelpTopic.FriedmanTest OrElse Me.Tag = HelpTopic.OneWayRepeatedMeasuresANOVA Then
+                Return WindowsPairedInputAdapter.SelectBlocks(columData, strErr)
+            End If
             out.X = columData.DataDbl()
             out.varNames = columData.varNames
 

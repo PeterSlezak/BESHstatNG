@@ -116,10 +116,7 @@ Public Class Ui9ANOVA2nested
             Return Nothing
         End If
 
-        out.X = byIdData.FinalData
-        out.varNames = byIdData.varNames
-
-        Return out
+        Return WindowsPairedInputAdapter.SelectNested(byIdData, strErr)
     End Function
 
     Private Function getDataPB(ByRef strErr As String) As MultiGroupsPairedDataObj
@@ -196,7 +193,12 @@ Public Class Ui9ANOVA2nested
             End If
         End If
 
+        Dim projected = ExcelCommon.PairedOptionPolicy.ProjectBland(Me.cmbBlandMode.SelectedIndex, Me.cmbBlandScale.SelectedIndex,
+            Me.optBlandBootstrap.Checked, Me.optBlandBootstrapBCa.Checked, Me.optBlandJackknife.Checked)
         Dim opts As New Agreement.BlandAltmanOptions With {
+        .Mode = projected.Mode,
+        .Scale = projected.Scale,
+        .CiMethod = projected.CiMethod,
         .Alpha = CDbl(Me.spinBtnBlandAlpha.Value),
         .UseTDistribution = Me.ckBlandUseTDistribution.Checked,
         .BootstrapReplicates = CInt(Val(Me.tbBlandBootstrapReps.Text)),
@@ -207,20 +209,6 @@ Public Class Ui9ANOVA2nested
         .CheckProportionalBias = Me.ckBlandCheckProportionalBias.Checked,
         .AllowFallbackToSimple = Me.ckBlandAllowFallback.Checked
     }
-
-        Select Case Me.cmbBlandMode.SelectedIndex
-            Case 1 : opts.Mode = Agreement.RepeatedBlandAltmanMode.SimplePairs
-            Case 2 : opts.Mode = Agreement.RepeatedBlandAltmanMode.RepeatedBySubject
-            Case Else : opts.Mode = Agreement.RepeatedBlandAltmanMode.Auto
-        End Select
-
-        Select Case Me.cmbBlandScale.SelectedIndex
-            Case 1 : opts.Scale = Agreement.BlandAltmanScale.PercentOfMean
-            Case 2 : opts.Scale = Agreement.BlandAltmanScale.PercentOfReference
-            Case 3 : opts.Scale = Agreement.BlandAltmanScale.PercentOfTest
-            Case 4 : opts.Scale = Agreement.BlandAltmanScale.LogRatio
-            Case Else : opts.Scale = Agreement.BlandAltmanScale.RawDifference
-        End Select
 
         Select Case Me.cmbBlandXAxis.SelectedIndex
             Case 1 : opts.XAxisMode = Agreement.BlandAltmanXAxisMode.ReferenceMethod
@@ -234,17 +222,12 @@ Public Class Ui9ANOVA2nested
             Case Else : opts.PlotMode = Agreement.RepeatedBlandAltmanPlotMode.AllObservations
         End Select
 
-        If Me.optBlandBootstrap.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile
-        ElseIf Me.optBlandBootstrapBCa.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.BootstrapBCa
-        ElseIf Me.optBlandJackknife.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.Jackknife
-        Else
-            opts.CiMethod = Agreement.AgreementCiMethod.Analytical
-        End If
-
         If opts.BootstrapReplicates <= 0 Then opts.BootstrapReplicates = 2000
+
+        If Not WindowsPairedInputAdapter.Accept(ExcelCommon.PairedOptionPolicy.ValidateBland(opts, x, y), decisionErr) Then
+            MsgBox(decisionErr, vbExclamation)
+            Exit Sub
+        End If
 
         Dim ba As New Agreement.BlandAltmanAgreement(x, y,
                                              If(hasSubjectIds, d.varNames(1), d.varNames(0)),
@@ -448,11 +431,7 @@ Public Class Ui9ANOVA2nested
         lowerAllowable = ParseUiDouble(Me.tbBlandLowerAllowable.Text, "Lower acceptable limit")
         upperAllowable = ParseUiDouble(Me.tbBlandUpperAllowable.Text, "Upper acceptable limit")
 
-        If lowerAllowable > upperAllowable Then
-            errText = "The lower acceptable limit must not exceed the upper acceptable limit."
-            Return False
-        End If
-        Return True
+        Return WindowsPairedInputAdapter.Accept(ExcelCommon.PairedOptionPolicy.ValidateLimits(True, lowerAllowable, upperAllowable), errText)
     End Function
 
     Private Sub ApplyBlandDecisionLimitState()

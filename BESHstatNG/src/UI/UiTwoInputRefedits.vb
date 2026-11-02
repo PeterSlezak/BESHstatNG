@@ -99,6 +99,10 @@ Public Class UiTwoInputRefedits
         refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True, Me.RefEdit2.ExcelWorkBook) & "!", String.Empty) 'Remove "Sheet1!" from string
         ExcelDnaDataImporter.ImportInto(columData, refFinal, True)
 
+        If Me.Tag = HelpTopic.PairedSingleSampleTTests OrElse Me.Tag = HelpTopic.WilcoxonSignedRankTest Then
+            Return WindowsPairedInputAdapter.SelectPairs(columData, strErr)
+        End If
+
         'get unique group IDs
         out.X = columData.DataDbl
         out.name1 = columData.varNames(0)
@@ -153,19 +157,19 @@ Public Class UiTwoInputRefedits
 
         refGr1 = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
         ExcelDnaDataImporter.ImportInto(Gr1Data, refGr1, True)
-        Dim x1(,) As Double = Gr1Data.DataDbl
         If Gr1Data.bZeroValid Then
             strErr = "No valid data in the 1st input."
             Return (Nothing, Nothing)
         End If
+        Dim x1(,) As Double = Gr1Data.DataDbl
 
         refGr2 = prepareRef2D(Me.RefEdit2.Address, Me.RefEdit2.ExcelWorkBook)
         ExcelDnaDataImporter.ImportInto(Gr2Data, refGr2, True)
-        Dim x2(,) As Double = Gr2Data.DataDbl
         If Gr2Data.bZeroValid Then
             strErr = "No valid data in the 2nd input."
             Return (Nothing, Nothing)
         End If
+        Dim x2(,) As Double = Gr2Data.DataDbl
 
         If UBound(x1, 2) <> UBound(x2, 2) Then
             strErr = $"Input data ranges must have the same number of columns. Group1 #columns= {x1.GetLength(1)} Group2 #columns={x2.GetLength(1)}."
@@ -181,7 +185,10 @@ Public Class UiTwoInputRefedits
 
         If optPaired.Checked Then
             'get only common rows in both ranges. This is required only for the Paired versoin  of Hotelling's T2
-            Dim commonRows() As Integer = Gr1Data.RowIds.Intersect(Gr2Data.RowIds).ToArray()
+            Dim commonRows() As Integer = WindowsPairedInputAdapter.AlignHotelling(Gr1Data, Gr2Data,
+                Me.RefEdit1.ExcelWorkBook.FullName, WorksheetNameFromRefAdress(refGr1, True, Me.RefEdit1.ExcelWorkBook),
+                Me.RefEdit2.ExcelWorkBook.FullName, WorksheetNameFromRefAdress(refGr2, True, Me.RefEdit2.ExcelWorkBook), strErr)
+            If commonRows Is Nothing Then Return (Nothing, Nothing)
             Gr1Data.SubsetByRowIdValues(CommonItems(Gr1Data.RowIds, commonRows))
             Gr2Data.SubsetByRowIdValues(CommonItems(Gr2Data.RowIds, commonRows))
         End If
@@ -195,6 +202,13 @@ Public Class UiTwoInputRefedits
             Dim D1 As (DataObj, DataObj) = Nothing 'for Hoteling's T
             'Validate Inputs
             If Me.checkInputs() Then Exit Sub
+            If Me.Tag = HelpTopic.WilcoxonSignedRankTest OrElse Me.Tag = HelpTopic.HotellingSTSquaredTest Then
+                If Not WindowsPairedInputAdapter.Accept(ExcelCommon.PairedOptionPolicy.Validate(CDbl(Me.spinBtnAlphaGlobal.Value),
+                    ExcelCommon.PairedAlternative.TwoSided, ExcelCommon.PairedDifferenceDirection.FirstMinusSecond), errText) Then
+                    MsgBox(errText, vbExclamation)
+                    Exit Sub
+                End If
+            End If
 
             'Get Data
             If Me.Tag = HelpTopic.HotellingSTSquaredTest Then
