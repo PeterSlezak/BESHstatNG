@@ -129,11 +129,19 @@ Public NotInheritable Class ExcelDnaSharedApplicationAdapter
         Dim result As New SpreadsheetRangeSetData With {.SelectionId = If(selection.SelectionId, String.Empty)}
         For Each reference As SpreadsheetRangeReference In references
             budget.Checkpoint()
-            Dim snapshot As SpreadsheetRangeData = acquire(reference)
+            ' Keep a private expected identity; the callback must not mutate its
+            ' own verification authority or a previously accepted payload.
+            Dim expected As SpreadsheetRangeReference = ValidateAcquisitionReference(reference)
+            Dim snapshot As SpreadsheetRangeData = acquire(ValidateAcquisitionReference(reference))
             budget.Checkpoint()
-            VerifyReference(reference, snapshot.ToReference())
+            If snapshot Is Nothing OrElse snapshot.StartRow <> expected.StartRow OrElse snapshot.StartColumn <> expected.StartColumn OrElse
+                snapshot.RowCount <> expected.RowCount OrElse snapshot.ColumnCount <> expected.ColumnCount Then
+                Throw New ArgumentException("Observed snapshot coordinates disagree with the requested selection.")
+            End If
+            VerifyReference(expected, ValidateAcquisitionReference(snapshot.ToReference()))
+            snapshot = WindowsSpreadsheetTransport.Require(SpreadsheetSelectionTransport.Capture(snapshot)).Data
             ' SelectionId is caller correlation metadata, not a host-issued revision token.
-            snapshot.SelectionId = If(reference.SelectionId, String.Empty)
+            snapshot.SelectionId = If(expected.SelectionId, String.Empty)
             result.Ranges.Add(snapshot)
         Next
         Return result
@@ -261,12 +269,12 @@ Public NotInheritable Class ExcelDnaSharedApplicationAdapter
             Next
             result.Rows.Add(cells)
         Next
-        Return result
+        Return WindowsSpreadsheetTransport.Require(SpreadsheetSelectionTransport.Capture(result)).Data
     End Function
 
-    Private Shared Function ToSnapshotCell(value As Object, errorTextAt As Func(Of Integer, Integer, String),
+    Friend Shared Function ToSnapshotCell(value As Object, errorTextAt As Func(Of Integer, Integer, String),
                                           row As Integer, column As Integer) As SpreadsheetCellValue
-        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is ExcelEmpty Then Return SpreadsheetCellValue.BlankCell()
+        If value Is Nothing OrElse TypeOf value Is DBNull OrElse TypeOf value Is ExcelEmpty OrElse TypeOf value Is ExcelMissing Then Return SpreadsheetCellValue.BlankCell()
         Dim nativeCode As String = Nothing
         If TypeOf value Is ExcelError Then
             nativeCode = CInt(DirectCast(value, ExcelError)).ToString(CultureInfo.InvariantCulture)

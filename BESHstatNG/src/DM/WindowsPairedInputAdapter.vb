@@ -41,7 +41,7 @@ Public NotInheritable Class WindowsPairedInputAdapter
             Next
             snapshot.Rows.Add(row)
         Next
-        Return snapshot
+        Return WindowsSpreadsheetTransport.Require(SpreadsheetSelectionTransport.Capture(snapshot, table.RowIds)).Data
     End Function
 
     Public Shared Function SelectPairs(imported As DataObj, ByRef errorText As String) As TwoGroupsPairedData

@@ -11,7 +11,10 @@ Imports Microsoft.Office.Interop.Excel
 ''' Keep Excel object-model code here rather than in <see cref="DataObj"/>.
 ''' </summary>
 Public Class ExcelDnaDataImporter
-    ''' <summary>Lossless snapshot; the legacy Import/ImportInto behavior below is unchanged.</summary>
+    ' Weak-key metadata sidecar: no Excel objects, no public Core schema change.
+    Private Shared ReadOnly physicalEvidence As New System.Runtime.CompilerServices.ConditionalWeakTable(Of CoreDataTable, Global.BESHStatNG.ExcelCommon.SpreadsheetTypedParseResult(Of Global.BESHStatNG.ExcelCommon.SpreadsheetTransportFrame))
+
+    ''' <summary>Lossless snapshot; COM acquisition remains Windows-owned.</summary>
     Public Shared Function AcquireRangeData(source As Range) As Global.BESHStatNG.ExcelCommon.SpreadsheetRangeData
         Return ExcelDnaSharedApplicationAdapter.ToRangeData(source)
     End Function
@@ -36,6 +39,8 @@ Public Class ExcelDnaDataImporter
         If ws Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentException("Unable to resolve worksheet from reference: " & ref))
 
         Dim fullString() As String = ColumListFromRefAdress(ref)
+        ' Owner-authorized 04A.27 physical-area switch; native obligations remain OPEN.
+        If bStartRow Then Return ImportPhysicalAreas(ws, ref, fullString)
         Dim nCols As Integer = 0
         Dim nRows As Integer = 0
         Dim startRow As Integer = 1
@@ -97,6 +102,73 @@ Public Class ExcelDnaDataImporter
 
             Return CoreDataTable.FromObjectMatrix(values, columnNames, firstSourceRow:=startRow, sourceInfo:=source, copyValues:=False)
         End With
+    End Function
+
+    Private Shared Function ImportPhysicalAreas(ws As Worksheet, original As String, addresses As String()) As CoreDataTable
+        Return ImportPhysicalSelection(original, addresses,
+            Function(selected)
+                Dim areas As New List(Of Range)
+                For Each address As String In selected
+                    ' Resolve each actual selected rectangle independently; never rewrite rows.
+                    Dim area As Range = ws.Range(address)
+                    ValidatePhysicalMergeState(area.MergeCells)
+                    areas.Add(area)
+                Next
+                Return AcquireRangeSetData(areas)
+            End Function)
+    End Function
+
+    ''' <summary>Operation-local acquisition boundary used by the shipping True path.
+    ''' Tests supply snapshots; no global Excel object or mutable host override.</summary>
+    Friend Shared Function ImportPhysicalSelection(original As String, addresses As IEnumerable(Of String),
+        acquire As Func(Of IReadOnlyList(Of String), Global.BESHStatNG.ExcelCommon.SpreadsheetRangeSetData)) As CoreDataTable
+        If addresses Is Nothing Then Throw New ArgumentNullException(NameOf(addresses))
+        If acquire Is Nothing Then Throw New ArgumentNullException(NameOf(acquire))
+        Dim selected = addresses.ToArray()
+        If selected.Length = 0 OrElse selected.Any(Function(a) String.IsNullOrWhiteSpace(a)) Then Throw New ArgumentException("Selected area addresses are required.")
+        Dim snapshots = acquire(Array.AsReadOnly(selected))
+        Dim joined = Global.BESHStatNG.ExcelCommon.SpreadsheetSelectionTransport.JoinColumns(snapshots,
+            Global.BESHStatNG.ExcelCommon.SpreadsheetAreaAlignment.PhysicalIntersection)
+        If Not joined.Success Then Throw New Global.BESHStatNG.ExcelCommon.SpreadsheetInputValidationException(joined.Validation)
+        Dim frame = joined.Data
+        Dim first = frame.Data
+        Dim names(first.ColumnCount - 1) As String
+        For c As Integer = 0 To names.Length - 1
+            Dim cell = first.Rows(0)(c)
+            Select Case cell.Kind
+                Case Global.BESHStatNG.ExcelCommon.SpreadsheetCellKind.Text
+                    names(c) = cell.TextValue
+                Case Global.BESHStatNG.ExcelCommon.SpreadsheetCellKind.Number
+                    names(c) = cell.NumberValue.ToString(Globalization.CultureInfo.CurrentCulture)
+                Case Global.BESHStatNG.ExcelCommon.SpreadsheetCellKind.Bool
+                    names(c) = cell.BooleanValue.ToString()
+                Case Else
+                    names(c) = "Var" & Global.BESHStatNG.ExcelCommon.SpreadsheetRangeAddress.ColumnLetters(frame.SourceAt(0, c).WorksheetColumn)
+            End Select
+        Next
+        Dim policy As New Global.BESHStatNG.ExcelCommon.SpreadsheetCellPolicyOptions With {
+            .Errors = Global.BESHStatNG.ExcelCommon.SpreadsheetErrorPolicy.TreatAsMissing,
+            .MissingText = Global.BESHStatNG.ExcelCommon.SpreadsheetMissingTextPolicy.BlankOrWhitespaceText,
+            .NumericText = If(Globalization.CultureInfo.CurrentCulture.Equals(Globalization.CultureInfo.InvariantCulture),
+                Global.BESHStatNG.ExcelCommon.SpreadsheetNumericTextPolicy.Invariant, Global.BESHStatNG.ExcelCommon.SpreadsheetNumericTextPolicy.ExplicitCulture),
+            .NumericCultureName = Globalization.CultureInfo.CurrentCulture.Name}
+        Dim result = frame.ToCoreDataTable(names, policy)
+        result.SourceInfo.Address = original
+        ' ImportInto transfers this very table (cloneTable=False), so both the
+        ' original area/row sidecar and exclusion warnings remain retrievable.
+        physicalEvidence.Add(result, joined)
+        Return result
+    End Function
+
+    Friend Shared Sub ValidatePhysicalMergeState(merged As Object)
+        If Not TypeOf merged Is Boolean OrElse CBool(merged) Then Throw New ArgumentException("Merged or unverifiable merge regions are not supported by this transport.")
+    End Sub
+
+    Friend Shared Function GetPhysicalImportEvidence(table As CoreDataTable) As Global.BESHStatNG.ExcelCommon.SpreadsheetTypedParseResult(Of Global.BESHStatNG.ExcelCommon.SpreadsheetTransportFrame)
+        If table Is Nothing Then Return Nothing
+        Dim evidence As Global.BESHStatNG.ExcelCommon.SpreadsheetTypedParseResult(Of Global.BESHStatNG.ExcelCommon.SpreadsheetTransportFrame) = Nothing
+        If physicalEvidence.TryGetValue(table, evidence) Then Return evidence
+        Return Nothing
     End Function
 
     Public Shared Sub ImportInto(target As DataObj,

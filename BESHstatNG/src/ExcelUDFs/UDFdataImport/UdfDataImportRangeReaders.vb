@@ -19,26 +19,12 @@ Partial Friend Module UdfDataImport
     Friend Function Get2D(v As Object) As Object(,)
         If v Is Nothing OrElse TypeOf v Is ExcelEmpty OrElse TypeOf v Is ExcelMissing Then Return Nothing
 
-        If TypeOf v Is Object(,) Then
-            Return CType(v, Object(,))
-        End If
-
-        If TypeOf v Is ExcelReference Then
-            Try
-                Dim coerced As Object = XlCall.Excel(XlCall.xlCoerce, CType(v, ExcelReference))
-                If TypeOf coerced Is Object(,) Then
-                    Return CType(coerced, Object(,))
-                End If
-
-                Dim sngle(0, 0) As Object
-                sngle(0, 0) = coerced
-                Return sngle
-            Catch
-                Return Nothing
-            End Try
-        End If
-
-        Return Nothing
+        Try
+            Return WindowsSpreadsheetTransport.ReadUdfMatrix(v,
+                Function(reference) XlCall.Excel(XlCall.xlCoerce, reference))
+        Catch
+            Return Nothing
+        End Try
     End Function
 
     ''' <summary>
@@ -81,23 +67,16 @@ Partial Friend Module UdfDataImport
         cols = 0
         Dim raw(,) As Object = Nothing
         Dim inferredNames() As String = Nothing
-        If Not TryGetTrimmedNumericMatrixObject(v, raw, inferredNames) Then Return False
+        Dim original = Get2D(v)
+        If original Is Nothing Then Return False
+        If Not TryGetTrimmedNumericMatrixObject(original, raw, inferredNames) Then Return False
 
         rows = raw.GetLength(0)
         cols = raw.GetLength(1)
         If rows < 1 OrElse cols < 1 Then Return False
 
-        ReDim mat(rows - 1, cols - 1)
-        For i As Integer = 0 To rows - 1
-            For j As Integer = 0 To cols - 1
-                Dim d As Double? = TryGetDouble(raw(i, j))
-                If d.HasValue Then
-                    mat(i, j) = d.Value
-                Else
-                    mat(i, j) = Double.NaN
-                End If
-            Next
-        Next
+        Dim offset As Integer = If(HasNumericMatrixHeader(original, FindLastNonBlankRow(original)), 1, 0)
+        mat = WindowsSpreadsheetTransport.NumericMatrix(raw, v, offset)
         Return True
     End Function
 
@@ -860,6 +839,7 @@ Partial Friend Module UdfDataImport
     Friend Function TryReadPairedNumericColumns(x As Object, y As Object, ByRef mat As Double(,), ByRef names() As String) As Boolean
         mat = Nothing
         names = Nothing
+        If Not WindowsSpreadsheetTransport.PairedArgumentsAligned(x, y) Then Return False
         Dim ax As Object(,) = Get2D(x)
         Dim ay As Object(,) = Get2D(y)
         If ax Is Nothing OrElse ay Is Nothing Then Return False
@@ -893,21 +873,7 @@ Partial Friend Module UdfDataImport
     ''' <param name="ay">Second aligned one-column matrix.</param>
     ''' <returns>A list containing one two-element array per row where both cells are numeric.</returns>
     Friend Function ExtractCompletePairedNumericRows(ax As Object(,), ay As Object(,)) As List(Of Double())
-        Dim pairs As New List(Of Double())()
-
-        If ax Is Nothing OrElse ay Is Nothing Then Return pairs
-        If ax.GetLength(1) <> 1 OrElse ay.GetLength(1) <> 1 Then Return pairs
-        If ax.GetLength(0) <> ay.GetLength(0) Then Return pairs
-
-        For r As Integer = 0 To ax.GetLength(0) - 1
-            Dim dx As Double? = TryGetDouble(ax(r, 0))
-            Dim dy As Double? = TryGetDouble(ay(r, 0))
-            If dx.HasValue AndAlso dy.HasValue Then
-                pairs.Add(New Double() {dx.Value, dy.Value})
-            End If
-        Next
-
-        Return pairs
+        Return WindowsSpreadsheetTransport.ExtractNumericPairs(ax, ay)
     End Function
 
     ''' <summary>
@@ -961,6 +927,11 @@ Partial Friend Module UdfDataImport
 
     Friend Function ExtractPairedNumericColumnsIgnoringNonNumeric(x As Object, y As Object, ByRef err As ExcelError?) As Double(,)
         err = Nothing
+
+        If Not WindowsSpreadsheetTransport.PairedArgumentsAligned(x, y) Then
+            err = ExcelError.ExcelErrorValue
+            Return Nothing
+        End If
 
         Dim ax As Object(,) = CoerceToObjectMatrix(x, err)
         If err.HasValue OrElse ax Is Nothing Then Return Nothing

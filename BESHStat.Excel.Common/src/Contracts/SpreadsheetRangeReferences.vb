@@ -128,6 +128,12 @@ Namespace ExcelCommon
             End If
         End Sub
 
+        ''' <summary>Format a known Excel column without querying active host state.</summary>
+        Public Shared Function ColumnLetters(index As Integer) As String
+            If index < 1 OrElse index > ExcelMaxColumns Then Throw New ArgumentOutOfRangeException(NameOf(index))
+            Return ToColumn(index)
+        End Function
+
         Private Shared Function ToColumn(index As Integer) As String
             Dim chars As String = String.Empty
             While index > 0
