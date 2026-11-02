@@ -1,0 +1,1341 @@
+{
+  "schema": "04A02-acceptance-coverage-matrix-v4",
+  "status": "C07_HOST_FREE_EVIDENCE_COMPLETE_OFFICIAL_REFERENCE_NATIVE_OWNER_GATES_OUTSTANDING",
+  "official_accepted": false,
+  "source_commit": "12e25924aae93f0b36ab33937176c86c19641b50",
+  "supersedes_scope": false,
+  "original_register": {
+    "path": "docs/architecture/04A02/coverage-register-v1.json",
+    "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+  },
+  "full_masterplan_row": "04A.02 representative Windows statistical/table/chart/form-option migration goldens; data/settings/seed/alpha/culture/result/chart geometry; saved-workbook ANOVA/normality/2x2/PCA",
+  "criteria": [
+    {
+      "criterion_id": "G0",
+      "required_evidence": "Verified current Git/source/data/options and owner decisions",
+      "actual_files": [
+        {
+          "path": "AGENTS.md",
+          "sha256": "9fb0b1351f975c33724fc62a023f66f74ceb8bb0990254731a4c897586955a3b"
+        },
+        {
+          "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+          "sha256": "98d76584e8ffc3afebb069126965dec9e55e70d70e54ba70140c6d10d721753e"
+        },
+        {
+          "path": "docs/architecture/04A02/checkpoint03-owner-decisions.pending.json",
+          "sha256": "326213796fff31b6b904847b0a334990e16763c74e51e6b25d01f4030ab2dff8"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-scientific-decision-form.json",
+          "sha256": "7afdbec07a4331cda915d47e21b075b55506cf53d560b95f3f17b4dc67a27574"
+        }
+      ],
+      "validation": "SOURCE_PREFLIGHT_PASS; S_PENDING_R_P_N_NO",
+      "remaining_blocker": "Independent scientific/owner releases absent",
+      "owner": "Roadmap owner + domain owner",
+      "minimum_next_decision_or_capture": "New authentic per-case S then separate R; existing historical pending file remains unchanged",
+      "C07_status": "BLOCKED_PENDING_OWNER"
+    },
+    {
+      "criterion_id": "G1",
+      "required_evidence": "Frozen typed data/provenance/options and deterministic candidate serialization",
+      "actual_files": [
+        {
+          "path": "BESHStat.Excel.Common.Tests/TestData/04A02/C30-SYN-ANOVA.json",
+          "sha256": "ff7f518cee7a57d3a49276d8ad6ecae035364cfb87a865d62eaa47f34796ba34"
+        },
+        {
+          "path": "BESHStat.Excel.Common.Tests/TestData/04A02/C30-SYN-KW.json",
+          "sha256": "c4ec2f9483ebf286b1e384b1582bff369f3675a60f8b9623cc0845401bcd3837"
+        },
+        {
+          "path": "BESHStat.Excel.Common.Tests/src/MigrationFixture04A02Support.vb",
+          "sha256": "46d13f55de21cc28687b1fc12f33ed47e70e1114d87f0d944697a16c9676512b"
+        },
+        {
+          "path": "TestResults/04A-02-initial-fixtures-c07-20261030T190822Z/final-test-identities-v2.json",
+          "sha256": "05754228658b03606ba5e79eab868b6dfaff2483ee87030d7081343a5de91937"
+        }
+      ],
+      "validation": "IMPLEMENTED_EXECUTED_CANDIDATE_ONLY",
+      "remaining_blocker": "No independent numerical validation",
+      "owner": "Core inference owner",
+      "minimum_next_decision_or_capture": "S/R-approved oracle run followed by comparison and later P",
+      "C07_status": "PASS_SCOPED_CANDIDATE_PREPARATION"
+    },
+    {
+      "criterion_id": "G2",
+      "required_evidence": "Independent method/runtime qualification, references, per-field comparisons and two reviews",
+      "actual_files": [
+        {
+          "path": "docs/architecture/04A02/oracle-proposals/manifest-v2.json",
+          "sha256": "92bfb3ecc8849b3f8ff120f2b910d17d6f3d85ebf3fdd7a7a4d361a53f34f6f4"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-scientific-method-and-release-decision-packet.md",
+          "sha256": "6ab849aea85378ea869c2ffa461ebf939a6352dad3f8f9e1d56f6639feaed85d"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-R-runtime-qualification-v1.json",
+          "sha256": "8cedf6bfdbb481ddb01ed2c2e7638bf7250bad705b4b8ae3e77a50460aafba15"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C06-SR-decisions.pending.json",
+          "sha256": "8f968166a2d8fb7047628659b91d674d2217ad030f2e4a9491834bc71cead52e"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-scientific-decision-form.json",
+          "sha256": "7afdbec07a4331cda915d47e21b075b55506cf53d560b95f3f17b4dc67a27574"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-runtime-output-readiness.json",
+          "sha256": "a535f5f462e4cd46fcf1c7547e1b7ce7d6056e6034bb05a1e6a40b84256a8224"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-proposed-changes.json",
+          "sha256": "45046687b3fde7bc8f637542ea241b7df9ff0a04d91e4cdb3634264e3746f4c2"
+        }
+      ],
+      "validation": "R_451_NONSTATISTICAL_PROBE_QUALIFIED; S_PENDING_R_P_NO; OFFICIAL_REFERENCE_NOT_RUN",
+      "remaining_blocker": "Authentic case-specific S then separate R; successor private-HOME/library runner review, owner-context ancestor ACL/output/loader risk qualification; real reference and independent comparator, two reviewers and subsequent P",
+      "owner": "Domain owner + roadmap owner + two independent reviewers",
+      "minimum_next_decision_or_capture": "Case-specific S/R with runtime/hashes/policy/ACL; then actual run/comparison, two reviews and separate P",
+      "C07_status": "BLOCKED_PENDING_OWNER"
+    },
+    {
+      "criterion_id": "G3",
+      "required_evidence": "Numerical/semantic table/document/style/layout/p-value/null/error/culture golden contracts",
+      "actual_files": [
+        {
+          "path": "docs/architecture/04A02/04A02-G3-semantic-evidence-v1.json",
+          "sha256": "8ab4438b02aca47d41a09834667e1b3a6a34361d48f18294eb4d389729539d8c"
+        },
+        {
+          "path": "BESHStat.Excel.Common.Tests/src/MigrationSemantic04A02Tests.vb",
+          "sha256": "4339c948900407ff9733784044baa353a4ba65753b4b147e242c4b00d195e7da"
+        },
+        {
+          "path": "TestResults/04A-02-initial-fixtures-c07-20261030T190822Z/final-test-identities-v2.json",
+          "sha256": "05754228658b03606ba5e79eab868b6dfaff2483ee87030d7081343a5de91937"
+        }
+      ],
+      "validation": "REAL_API_SEMANTIC_TESTS_PASS; NUMERICS_UNVERIFIED",
+      "remaining_blocker": "Approved numeric semantic references and native rendered text/format NOT CAPTURED",
+      "owner": "Common output/04A.28 + inference owners",
+      "minimum_next_decision_or_capture": "Review semantic assertions; S/R/P for numeric references; N for rendered formatting",
+      "C07_status": "PASS_SCOPED_SEMANTIC_CANDIDATE_TESTS_REFERENCE_NOT_APPROVED"
+    },
+    {
+      "criterion_id": "G4",
+      "required_evidence": "Saved-workbook ANOVA/normality/2x2/PCA tables/charts/form states and complete data/settings/seed/alpha/culture/geometry",
+      "actual_files": [
+        {
+          "path": "docs/architecture/04A02/04A02-G4-native-capture-ready-v1.json",
+          "sha256": "91b25a3040bcc81c1997fad75732910a403be13d0af2923ed21fb7e1d6f1572e"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-native-disposable-workbook-procedure.md",
+          "sha256": "b5a37b1a8b5515b829c0af42959344561baa13b2d0e98c48485b538f80be13b7"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-control-root-cause-matrix-v1.json",
+          "sha256": "e7ffa327ecb0d6d6143bfbbc8c3b11e00f4f7876a91e33e2bbdfe87b530ebbf5"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-control-mitigation-and-test-plan.md",
+          "sha256": "77149789a152d52cee283c937d187e5d4dbc2ba485715c5afec21a6c56f1a3f8"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-GUI-automation-feasibility-v1.json",
+          "sha256": "4b9ab8ca10e199c1e50e1be9c6066be3e06ffcb211775ed39f557aa9aa9f94f2"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-GUI-pilots-v1.md",
+          "sha256": "2f017ff016adccf5159ef247231cc97d826959a9b72682f29d74dcee0b606750"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-exact-ID-disposition.json",
+          "sha256": "3dd44aafc8bb2d609e5570c972d150bf41361151f0ba199c5e0f442c156bc107"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-RefEdit-mitigation-receipt.json",
+          "sha256": "38ca6d86560c94c4e49eb6ea9728e6d266ca6ed8643c1598ca4498c32bc53094"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-N0-dry-run-contract.json",
+          "sha256": "a5eff550eaf0821a2d71fe16d69b6777904fa1d07ce6639641daf069c2e217a9"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-2x2-N1-decision-memo.md",
+          "sha256": "36d1ae85115194b906c5f15ea4428fbc5a32c6646a7537f556fae8782b51aa3a"
+        }
+      ],
+      "validation": "239_EXACT_OBLIGATIONS_SOURCE_MAPPED_IN_11_GROUPS; HOST_FREE_TESTS_EXECUTED; ALL_NATIVE_NOT_RUN_N_NO",
+      "remaining_blocker": "Private RefEdit seam/shared UNKNOWN_HIGH risk-owner mitigation/regression/release and exact-case N; successor N1 ROT/provider/read-claim safety; actual representative Windows captures or a separately approved exact-gap amendment",
+      "owner": "Per-case native owners + roadmap owner",
+      "minimum_next_decision_or_capture": "Exact-ID executed mitigations/shared-edge release + separate N/disposable authorization and actual saved-workbook capture; or approved narrow roadmap amendment",
+      "C07_status": "NOT_RUN_NATIVE_BLOCKED_PENDING_OWNER"
+    },
+    {
+      "criterion_id": "G5",
+      "required_evidence": "Independent pass/fail/review, full obligation reconciliation and owner acceptance",
+      "actual_files": [
+        {
+          "path": "docs/architecture/04A02/04A02-proposed-restricted-deferrals.md",
+          "sha256": "a8f1c069897d422bf585d165ed0478143727e688eaffbfd711eaa1d2d9e397e1"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-owner-closeout-decisions.pending.json",
+          "sha256": "15c541f6e971650d531e4e6e92e39263ad0463a681ad51733845a84a546f069b"
+        },
+        {
+          "path": "TestResults/04A-02-initial-fixtures-checkpoint06-20261030T181007Z/final-test-identities.json",
+          "sha256": "af49f594dc44ba56adec6fe677657184d133813336acea78a052c906ea90e9ca"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-owner-handoff.md",
+          "sha256": "04f990f4e10ebefa748d228eafaae832aac70a4753de2254df2a551402f19c3b"
+        },
+        {
+          "path": "TestResults/04A-02-initial-fixtures-c07-20261030T190822Z/final-test-identities-v2.json",
+          "sha256": "05754228658b03606ba5e79eab868b6dfaff2483ee87030d7081343a5de91937"
+        }
+      ],
+      "validation": "C07_AUTOMATED_RESULTS_RECORDED_NO_OWNER_ACCEPTANCE; legacy strict/profile 1/1 unchanged",
+      "remaining_blocker": "S/R/P/N or a separately approved narrow native-criterion amendment plus numerical approvals and independent final owner acceptance",
+      "owner": "Independent reviewer + roadmap owner",
+      "minimum_next_decision_or_capture": "Review full packet only after all required evidence or explicit narrow amendments and numerical approvals; record owner acceptance separately",
+      "C07_status": "BLOCKED_PENDING_OWNER"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "C30-SYN-ANOVA",
+      "row_kind": "typed-synthetic",
+      "source": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/OneWayAnovaApplicationService.vb",
+          "sha256": "c064aa54540f643df972aed60c84c2ab1bcc5a31b8212831445336f3f4919bd5"
+        }
+      ],
+      "dataset": {
+        "group_labels": [
+          "A",
+          "B",
+          "C"
+        ],
+        "values": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            2,
+            4,
+            6
+          ],
+          [
+            3,
+            5,
+            7
+          ]
+        ],
+        "row_ids": [
+          [
+            101,
+            103,
+            107
+          ],
+          [
+            109,
+            113,
+            127
+          ],
+          [
+            131,
+            137,
+            139
+          ]
+        ],
+        "identity_scope": "provenance only"
+      },
+      "settings": {
+        "alpha": 0.05,
+        "seed": "N/A",
+        "culture": [
+          "InvariantCulture",
+          "sk-SK"
+        ],
+        "method": "classical one-way ANOVA",
+        "posthoc": "none"
+      },
+      "required_artifacts": [
+        "approved numerical reference pending",
+        "semantic tables candidate only"
+      ],
+      "oracle_policy": "PENDING_ORACLE_APPROVAL; scientific-decisions.md",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/coverage-register-v1.json",
+          "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+        },
+        {
+          "path": "BESHStat.Excel.Common.Tests/TestData/04A02/C30-SYN-ANOVA.json",
+          "sha256": "ff7f518cee7a57d3a49276d8ad6ecae035364cfb87a865d62eaa47f34796ba34"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-G3-semantic-evidence-v1.json",
+          "sha256": "8ab4438b02aca47d41a09834667e1b3a6a34361d48f18294eb4d389729539d8c"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-R-runtime-qualification-v1.json",
+          "sha256": "8cedf6bfdbb481ddb01ed2c2e7638bf7250bad705b4b8ae3e77a50460aafba15"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-scientific-decision-form.json",
+          "sha256": "7afdbec07a4331cda915d47e21b075b55506cf53d560b95f3f17b4dc67a27574"
+        },
+        {
+          "path": "TestResults/04A-02-initial-fixtures-c07-20261030T190822Z/final-test-identities-v2.json",
+          "sha256": "05754228658b03606ba5e79eab868b6dfaff2483ee87030d7081343a5de91937"
+        }
+      ],
+      "validation": "REAL_TYPED_SERVICE_SEMANTICS_CANDIDATE_ONLY",
+      "remaining_evidence": "S/R independent numeric reference and approved comparison, subsequent P with two reviewers; owner-reviewed semantic reference",
+      "blocker_owner": "Core inference/Common service owner",
+      "blocker_ids": [],
+      "consumed_by": [
+        "04A.03",
+        "04A.07",
+        "04A.28",
+        "04A.48"
+      ],
+      "status": "EXECUTED_CANDIDATE_NOT_APPROVED",
+      "children": [],
+      "reference_only_aggregate": false,
+      "C07_gate_status": "BLOCKED_PENDING_OWNER"
+    },
+    {
+      "case_id": "C30-SYN-KW",
+      "row_kind": "typed-synthetic",
+      "source": [
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/KruskalWallisApplicationService.vb",
+          "sha256": "31ea5324a34fec6e44bda405ed8cacdb9c66b09797603457d4edada4e4a6a1f3"
+        }
+      ],
+      "dataset": {
+        "group_labels": [
+          "A",
+          "B",
+          "C"
+        ],
+        "values": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            4,
+            6
+          ],
+          [
+            3,
+            5,
+            7
+          ]
+        ],
+        "row_ids": [
+          [
+            101,
+            103,
+            107
+          ],
+          [
+            109,
+            113,
+            127
+          ],
+          [
+            131,
+            137,
+            139
+          ]
+        ],
+        "identity_scope": "provenance only"
+      },
+      "settings": {
+        "alpha": 0.05,
+        "seed": "N/A",
+        "culture": [
+          "InvariantCulture",
+          "sk-SK"
+        ],
+        "method": "Kruskal-Wallis; scientific inference policy pending",
+        "posthoc": "none"
+      },
+      "required_artifacts": [
+        "approved numerical reference pending",
+        "semantic tables candidate only"
+      ],
+      "oracle_policy": "PENDING_ORACLE_APPROVAL; scientific-decisions.md",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/coverage-register-v1.json",
+          "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+        },
+        {
+          "path": "BESHStat.Excel.Common.Tests/TestData/04A02/C30-SYN-KW.json",
+          "sha256": "c4ec2f9483ebf286b1e384b1582bff369f3675a60f8b9623cc0845401bcd3837"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-G3-semantic-evidence-v1.json",
+          "sha256": "8ab4438b02aca47d41a09834667e1b3a6a34361d48f18294eb4d389729539d8c"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-R-runtime-qualification-v1.json",
+          "sha256": "8cedf6bfdbb481ddb01ed2c2e7638bf7250bad705b4b8ae3e77a50460aafba15"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-scientific-decision-form.json",
+          "sha256": "7afdbec07a4331cda915d47e21b075b55506cf53d560b95f3f17b4dc67a27574"
+        },
+        {
+          "path": "TestResults/04A-02-initial-fixtures-c07-20261030T190822Z/final-test-identities-v2.json",
+          "sha256": "05754228658b03606ba5e79eab868b6dfaff2483ee87030d7081343a5de91937"
+        }
+      ],
+      "validation": "REAL_TYPED_SERVICE_SEMANTICS_CANDIDATE_ONLY",
+      "remaining_evidence": "S/R independent numeric reference and approved comparison, subsequent P with two reviewers; owner-reviewed semantic reference",
+      "blocker_owner": "Core inference/Common service owner",
+      "blocker_ids": [],
+      "consumed_by": [
+        "04A.03",
+        "04A.07",
+        "04A.28",
+        "04A.48"
+      ],
+      "status": "EXECUTED_CANDIDATE_NOT_APPROVED",
+      "children": [],
+      "reference_only_aggregate": false,
+      "C07_gate_status": "BLOCKED_PENDING_OWNER"
+    },
+    {
+      "case_id": "04A02-NORMALITY-NATIVE-01",
+      "row_kind": "Windows-native-capture",
+      "source": [
+        {
+          "path": "BESHstatNG/src/UI/UibyID.vb",
+          "sha256": "11a87f3e5399b16bdc8229599ecb7f9b282a7a623ae3c568f38751a57862b6ca"
+        },
+        {
+          "path": "BESHStat.Core.Tests/src/StatTests/AssumptionsTests.vb",
+          "sha256": "23847f39543132e3663d056f0fbb2f6d9c6290c28f37a136e005a06991ef2efc"
+        },
+        {
+          "path": "BESHstatNG/src/Graphics/BoxPlot.vb",
+          "sha256": "9d4ab03855b7b30603a18aa3f28847a92ca4f38ec442ceb9bb55b12a1c2fab23"
+        }
+      ],
+      "dataset": {
+        "values": [
+          -1.2,
+          -0.7,
+          -0.3,
+          0,
+          0.15,
+          0.32,
+          0.5,
+          0.9,
+          1.1,
+          1.3,
+          -0.1,
+          0.22,
+          0.45,
+          -0.55,
+          0.78,
+          1.05,
+          -0.95,
+          0.6,
+          -0.4,
+          0.12
+        ],
+        "row_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20
+        ],
+        "label": "NormalityA",
+        "proposal_source": "BESHStat.Core.Tests/src/StatTests/AssumptionsTests.vb:ShapiroWilk_matches_reference"
+      },
+      "settings": {
+        "alpha": 0.05,
+        "seed": "N/A",
+        "culture": [
+          "InvariantCulture",
+          "sk-SK"
+        ],
+        "descriptive": true,
+        "box_plot": true,
+        "missing": "reject pending approval"
+      },
+      "required_artifacts": [
+        "normality table with warnings/NA strings",
+        "descriptive and box tables",
+        "box chart series/configuration/geometry",
+        "form state"
+      ],
+      "oracle_policy": "Propose separately pinned R Shapiro and controlled independent DAgostino/AD implementation; parameter-estimation and small-N policy pending",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/coverage-register-v1.json",
+          "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-G4-native-capture-ready-v1.json",
+          "sha256": "91b25a3040bcc81c1997fad75732910a403be13d0af2923ed21fb7e1d6f1572e"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-control-root-cause-matrix-v1.json",
+          "sha256": "e7ffa327ecb0d6d6143bfbbc8c3b11e00f4f7876a91e33e2bbdfe87b530ebbf5"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-GUI-automation-feasibility-v1.json",
+          "sha256": "4b9ab8ca10e199c1e50e1be9c6066be3e06ffcb211775ed39f557aa9aa9f94f2"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-exact-ID-disposition.json",
+          "sha256": "3dd44aafc8bb2d609e5570c972d150bf41361151f0ba199c5e0f442c156bc107"
+        }
+      ],
+      "validation": "SOURCE_SPEC_AND_MOCK_SCHEMA_ONLY_NOT_NATIVE",
+      "remaining_evidence": "Per-root targeted mitigation/review and exact N case release; actual state/output capture and domain interpretation. Proposed owner-selected limited amendment only if genuinely blocked; no automatic case deferral.",
+      "blocker_owner": "Normality/04A.06 owner",
+      "blocker_ids": [
+        "native-restriction-crosswalk-v1.json#/forms/UibyID/blocked_control_ids"
+      ],
+      "consumed_by": [
+        "04A.03",
+        "04A.06",
+        "04A.30",
+        "04A.48"
+      ],
+      "status": "NOT_RUN_BLOCKED_N",
+      "children": [],
+      "reference_only_aggregate": false,
+      "C07_gate_status": "BLOCKED_PENDING_OWNER",
+      "C07_native_status": "NOT_RUN"
+    },
+    {
+      "case_id": "04A02-2X2-NATIVE-01",
+      "row_kind": "Windows-native-capture",
+      "source": [
+        {
+          "path": "BESHstatNG/src/UI/Ui82x2.vb",
+          "sha256": "8df9f73fd01e5677f671b8f30ff423d6d7f038a17361bc2c1c4c9f9c9ff41d85"
+        },
+        {
+          "path": "BESHStat.Core.Tests/src/StatTests/ContingencyTableTests.vb",
+          "sha256": "99a3c28847a45d119c963e0f7231611637d302dd92f9770658495c5b70d23f2e"
+        }
+      ],
+      "dataset": {
+        "counts": [
+          [
+            1,
+            9
+          ],
+          [
+            11,
+            3
+          ]
+        ],
+        "row_ids": [
+          1,
+          2
+        ],
+        "labels": [
+          "R1",
+          "R2"
+        ],
+        "column_labels": [
+          "C1",
+          "C2"
+        ],
+        "proposal_source": "BESHStat.Core.Tests/src/StatTests/ContingencyTableTests.vb:FisherExact2x2(1,9,11,3)"
+      },
+      "settings": {
+        "alpha": 0.05,
+        "seed": "N/A",
+        "culture": [
+          "InvariantCulture",
+          "sk-SK"
+        ],
+        "input_modes": [
+          "in-dialog",
+          "worksheet"
+        ],
+        "fisher": true,
+        "odds_ratio": true,
+        "risk_ratio": true,
+        "other_statistics": false
+      },
+      "required_artifacts": [
+        "count orientation",
+        "numeric and formatted CIs",
+        "option/input/output state; no chart required by this path"
+      ],
+      "oracle_policy": "Approve tail/mid-p convention, row/column orientation, CI algorithms and zero-cell policy; controlled R Fisher context only",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/coverage-register-v1.json",
+          "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-G4-native-capture-ready-v1.json",
+          "sha256": "91b25a3040bcc81c1997fad75732910a403be13d0af2923ed21fb7e1d6f1572e"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-control-root-cause-matrix-v1.json",
+          "sha256": "e7ffa327ecb0d6d6143bfbbc8c3b11e00f4f7876a91e33e2bbdfe87b530ebbf5"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-GUI-automation-feasibility-v1.json",
+          "sha256": "4b9ab8ca10e199c1e50e1be9c6066be3e06ffcb211775ed39f557aa9aa9f94f2"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-exact-ID-disposition.json",
+          "sha256": "3dd44aafc8bb2d609e5570c972d150bf41361151f0ba199c5e0f442c156bc107"
+        }
+      ],
+      "validation": "SOURCE_SPEC_AND_MOCK_SCHEMA_ONLY_NOT_NATIVE",
+      "remaining_evidence": "Per-root targeted mitigation/review and exact N case release; actual state/output capture and domain interpretation. Proposed owner-selected limited amendment only if genuinely blocked; no automatic case deferral.",
+      "blocker_owner": "Contingency/04A.05 owner",
+      "blocker_ids": [
+        "native-restriction-crosswalk-v1.json#/forms/Ui82x2/blocked_control_ids"
+      ],
+      "consumed_by": [
+        "04A.05",
+        "04A.28",
+        "04A.48"
+      ],
+      "status": "NOT_RUN_BLOCKED_N",
+      "children": [],
+      "reference_only_aggregate": false,
+      "C07_gate_status": "BLOCKED_PENDING_OWNER",
+      "C07_native_status": "NOT_RUN"
+    },
+    {
+      "case_id": "04A02-PCA-NATIVE-01",
+      "row_kind": "Windows-native-capture",
+      "source": [
+        {
+          "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+          "sha256": "4a7de253e98713a53b0132f6aba65b11f42d259c310ec572191c34bd82036cbf"
+        },
+        {
+          "path": "BESHStat.Core.Tests/src/Multivariate/PcaCoreTests.vb",
+          "sha256": "9f4b292d7a082a3197d6ca2d77e694c9f039d2d01e95baffeb653b1c28cb7e07"
+        },
+        {
+          "path": "BESHstatNG/src/Graphics/PcaPlotExcel.vb",
+          "sha256": "3a156c106a3e969957b31b253e7ac1196a92fdfee08cddcb76ea4fcb9486f26b"
+        }
+      ],
+      "dataset": {
+        "values": [
+          [
+            2,
+            0,
+            1
+          ],
+          [
+            3,
+            1,
+            0
+          ],
+          [
+            4,
+            0,
+            2
+          ],
+          [
+            5,
+            1,
+            1
+          ],
+          [
+            6,
+            2,
+            1
+          ],
+          [
+            7,
+            1,
+            3
+          ],
+          [
+            8,
+            2,
+            2
+          ],
+          [
+            9,
+            3,
+            2
+          ],
+          [
+            10,
+            2,
+            4
+          ],
+          [
+            11,
+            3,
+            3
+          ]
+        ],
+        "row_ids": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "labels": [
+          "A",
+          "B",
+          "C"
+        ],
+        "proposal_source": "BESHStat.Core.Tests/src/Multivariate/PcaCoreTests.vb:ReferenceData"
+      },
+      "settings": {
+        "alpha": 0.05,
+        "seed": "N/A",
+        "culture": [
+          "InvariantCulture",
+          "sk-SK"
+        ],
+        "matrix": "Correlation",
+        "extraction": "Fixed",
+        "components": 3,
+        "max_iterations": 2000,
+        "epsilon": 1e-12,
+        "biplot_scales": [
+          0,
+          0.5
+        ]
+      },
+      "required_artifacts": [
+        "data/reduced/standardized/score/loading/eigen tables",
+        "scree/score/loading/biplot series, axes, labels and geometry",
+        "form option state"
+      ],
+      "oracle_policy": "Controlled pinned R prcomp proposed; centering/scaling, sign/rotation invariance, repeated eigenvalues and singular policy pending",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/coverage-register-v1.json",
+          "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-G4-native-capture-ready-v1.json",
+          "sha256": "91b25a3040bcc81c1997fad75732910a403be13d0af2923ed21fb7e1d6f1572e"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-control-root-cause-matrix-v1.json",
+          "sha256": "e7ffa327ecb0d6d6143bfbbc8c3b11e00f4f7876a91e33e2bbdfe87b530ebbf5"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-GUI-automation-feasibility-v1.json",
+          "sha256": "4b9ab8ca10e199c1e50e1be9c6066be3e06ffcb211775ed39f557aa9aa9f94f2"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-exact-ID-disposition.json",
+          "sha256": "3dd44aafc8bb2d609e5570c972d150bf41361151f0ba199c5e0f442c156bc107"
+        }
+      ],
+      "validation": "SOURCE_SPEC_AND_MOCK_SCHEMA_ONLY_NOT_NATIVE",
+      "remaining_evidence": "Per-root targeted mitigation/review and exact N case release; actual state/output capture and domain interpretation. Proposed owner-selected limited amendment only if genuinely blocked; no automatic case deferral.",
+      "blocker_owner": "Multivariate/04A.17 owner",
+      "blocker_ids": [
+        "native-restriction-crosswalk-v1.json#/forms/Ui11PCA/blocked_control_ids"
+      ],
+      "consumed_by": [
+        "04A.17",
+        "04A.29",
+        "04A.48"
+      ],
+      "status": "NOT_RUN_BLOCKED_N",
+      "children": [],
+      "reference_only_aggregate": false,
+      "C07_gate_status": "BLOCKED_PENDING_OWNER",
+      "C07_native_status": "NOT_RUN"
+    },
+    {
+      "case_id": "04A02-ANOVA-NATIVE-01",
+      "row_kind": "Windows-native-capture",
+      "source": [
+        {
+          "path": "BESHstatNG/src/UI/UibyID.vb",
+          "sha256": "11a87f3e5399b16bdc8229599ecb7f9b282a7a623ae3c568f38751a57862b6ca"
+        },
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/OneWayAnovaApplicationService.vb",
+          "sha256": "c064aa54540f643df972aed60c84c2ab1bcc5a31b8212831445336f3f4919bd5"
+        }
+      ],
+      "dataset": {
+        "proposal_case": "C30-SYN-ANOVA",
+        "identity": "Workbook source identity acquisition pending"
+      },
+      "settings": {
+        "alpha": 0.05,
+        "seed": "N/A",
+        "culture": [
+          "InvariantCulture",
+          "sk-SK"
+        ],
+        "classical": true,
+        "posthoc": "none",
+        "welch": false
+      },
+      "required_artifacts": [
+        "native ANOVA table and form options",
+        "no optional post-hoc chart for this option set"
+      ],
+      "oracle_policy": "Same approved numerical oracle as typed case plus independent Windows/Common table comparison",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/coverage-register-v1.json",
+          "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-G4-native-capture-ready-v1.json",
+          "sha256": "91b25a3040bcc81c1997fad75732910a403be13d0af2923ed21fb7e1d6f1572e"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-control-root-cause-matrix-v1.json",
+          "sha256": "e7ffa327ecb0d6d6143bfbbc8c3b11e00f4f7876a91e33e2bbdfe87b530ebbf5"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-GUI-automation-feasibility-v1.json",
+          "sha256": "4b9ab8ca10e199c1e50e1be9c6066be3e06ffcb211775ed39f557aa9aa9f94f2"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-exact-ID-disposition.json",
+          "sha256": "3dd44aafc8bb2d609e5570c972d150bf41361151f0ba199c5e0f442c156bc107"
+        }
+      ],
+      "validation": "SOURCE_SPEC_AND_MOCK_SCHEMA_ONLY_NOT_NATIVE",
+      "remaining_evidence": "Per-root targeted mitigation/review and exact N case release; actual state/output capture and domain interpretation. Proposed owner-selected limited amendment only if genuinely blocked; no automatic case deferral.",
+      "blocker_owner": "ANOVA/04A.07 owner",
+      "blocker_ids": [
+        "native-restriction-crosswalk-v1.json#/forms/UibyID/blocked_control_ids"
+      ],
+      "consumed_by": [
+        "04A.03",
+        "04A.07",
+        "04A.28",
+        "04A.48"
+      ],
+      "status": "NOT_RUN_BLOCKED_N",
+      "children": [],
+      "reference_only_aggregate": false,
+      "C07_gate_status": "BLOCKED_PENDING_OWNER",
+      "C07_native_status": "NOT_RUN"
+    },
+    {
+      "case_id": "04A02-TABLE-SEMANTIC-01",
+      "row_kind": "aggregate-requirement",
+      "source": [
+        {
+          "path": "BESHStat.Excel.Common.Tests/src/Stage304ContractSnapshotTests.vb",
+          "sha256": "7e213a71453265482a3ecee3216ec4815467f23c0246b5e6afb782636bc8a85c"
+        },
+        {
+          "path": "BESHStat.Excel.Common/src/Output/OutputLayoutPlanner.vb",
+          "sha256": "048558b761a578326ccba09db43519394d0ef32f30e2fcc5905689ff05f7b2c5"
+        }
+      ],
+      "dataset": {
+        "proposal_cases": [
+          "C30-SYN-ANOVA",
+          "C30-SYN-KW"
+        ],
+        "historical_context": [
+          "TestData/Stage304",
+          "TestData/OutputSemantics",
+          "TestData/OutputLayout"
+        ]
+      },
+      "settings": {
+        "alpha": 0.05,
+        "seed": "N/A",
+        "culture": [
+          "InvariantCulture",
+          "sk-SK"
+        ],
+        "pvalue_format": "proposed existing defaults; exact options pending approval",
+        "destination": "semantic current-sheet placement only"
+      },
+      "required_artifacts": [
+        "complete document/table fields",
+        "semantic plan/layout snapshots; no rendered workbook claim"
+      ],
+      "oracle_policy": "Schema/order/types/pvalue/null/error/warning/layout exact; numerical tolerances separately approved",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/coverage-register-v1.json",
+          "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-G3-semantic-evidence-v1.json",
+          "sha256": "8ab4438b02aca47d41a09834667e1b3a6a34361d48f18294eb4d389729539d8c"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        }
+      ],
+      "validation": "REAL_TYPED_SERVICE_SEMANTICS_CANDIDATE_ONLY",
+      "remaining_evidence": "S/R independent numeric reference and approved comparison, subsequent P with two reviewers; owner-reviewed semantic reference",
+      "blocker_owner": "Common output/04A.28 owner",
+      "blocker_ids": [],
+      "consumed_by": [
+        "04A.07",
+        "04A.28",
+        "04A.48"
+      ],
+      "status": "EXECUTED_CANDIDATE_NOT_APPROVED",
+      "children": [
+        "04A02-ANOVA-SEMANTIC-SPEC-01",
+        "04A02-KW-SEMANTIC-SPEC-01"
+      ],
+      "reference_only_aggregate": true,
+      "C07_gate_status": "BLOCKED_PENDING_OWNER"
+    },
+    {
+      "case_id": "04A02-CHART-NATIVE-01",
+      "row_kind": "aggregate-requirement",
+      "source": [
+        {
+          "path": "BESHstatNG/src/Graphics/PcaPlotExcel.vb",
+          "sha256": "3a156c106a3e969957b31b253e7ac1196a92fdfee08cddcb76ea4fcb9486f26b"
+        }
+      ],
+      "dataset": {
+        "proposal_case": "04A02-PCA-NATIVE-01"
+      },
+      "settings": {
+        "alpha": 0.05,
+        "seed": "N/A",
+        "culture": [
+          "InvariantCulture",
+          "sk-SK"
+        ],
+        "geometry_units": "points; native workbook measurement pending"
+      },
+      "required_artifacts": [
+        "chart sheet vs embedded identity",
+        "bounds/series/data ranges/axes/labels/format/configuration/annotations"
+      ],
+      "oracle_policy": "Source prediction: LoadingPlot2D creates xlXYScatter, line series from origin to loading, width 1 and label font 11. Numeric chart size/position not captured or inferred",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/coverage-register-v1.json",
+          "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-G4-native-capture-ready-v1.json",
+          "sha256": "91b25a3040bcc81c1997fad75732910a403be13d0af2923ed21fb7e1d6f1572e"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-exact-ID-disposition.json",
+          "sha256": "3dd44aafc8bb2d609e5570c972d150bf41361151f0ba199c5e0f442c156bc107"
+        }
+      ],
+      "validation": "SOURCE_SPEC_AND_MOCK_SCHEMA_ONLY_NOT_NATIVE",
+      "remaining_evidence": "Actual released saved-workbook table/chart/form capture, host/culture/geometry and independent review; or separately APPROVED narrow roadmap amendment",
+      "blocker_owner": "Graphics/04A.29-30 owner",
+      "blocker_ids": [
+        "native-restriction-crosswalk-v1.json#/forms/Ui11PCA/blocked_control_ids"
+      ],
+      "consumed_by": [
+        "04A.17",
+        "04A.29",
+        "04A.30",
+        "04A.48"
+      ],
+      "status": "NOT_RUN_BLOCKED_N",
+      "children": [
+        "04A02-ANOVA-NATIVE-01",
+        "04A02-NORMALITY-NATIVE-01",
+        "04A02-PCA-NATIVE-01"
+      ],
+      "reference_only_aggregate": true,
+      "not_applicable": "2x2 handler has no chart call; table/form evidence remains required separately",
+      "C07_gate_status": "BLOCKED_PENDING_OWNER",
+      "C07_native_status": "NOT_RUN"
+    },
+    {
+      "case_id": "04A02-FORM-OPTIONS-NATIVE-01",
+      "row_kind": "aggregate-requirement",
+      "source": [
+        {
+          "path": "BESHstatNG/src/UI/UibyID.vb",
+          "sha256": "11a87f3e5399b16bdc8229599ecb7f9b282a7a623ae3c568f38751a57862b6ca"
+        },
+        {
+          "path": "BESHstatNG/src/UI/Ui82x2.vb",
+          "sha256": "8df9f73fd01e5677f671b8f30ff423d6d7f038a17361bc2c1c4c9f9c9ff41d85"
+        },
+        {
+          "path": "BESHstatNG/src/UI/Ui11PCA.vb",
+          "sha256": "4a7de253e98713a53b0132f6aba65b11f42d259c310ec572191c34bd82036cbf"
+        }
+      ],
+      "dataset": {
+        "proposal_cases": [
+          "04A02-ANOVA-NATIVE-01",
+          "04A02-NORMALITY-NATIVE-01",
+          "04A02-2X2-NATIVE-01",
+          "04A02-PCA-NATIVE-01"
+        ]
+      },
+      "settings": {
+        "alpha": 0.05,
+        "seed": "N/A",
+        "culture": [
+          "InvariantCulture",
+          "sk-SK"
+        ],
+        "transitions": [
+          "initial defaults",
+          "retained options",
+          "mode change",
+          "source-target change",
+          "cancel/close/reentry"
+        ]
+      },
+      "required_artifacts": [
+        "per-control state and callback sequence; exact crosswalk for all three forms"
+      ],
+      "oracle_policy": "Source-backed state prediction only; native enable/visible/selected/value and callback outcomes pending capture",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/coverage-register-v1.json",
+          "sha256": "22cceb212b6f9c3e72625a327044a007960287eb9357e4b7df4c01abe3c52e10"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-G4-native-capture-ready-v1.json",
+          "sha256": "91b25a3040bcc81c1997fad75732910a403be13d0af2923ed21fb7e1d6f1572e"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-exact-ID-disposition.json",
+          "sha256": "3dd44aafc8bb2d609e5570c972d150bf41361151f0ba199c5e0f442c156bc107"
+        }
+      ],
+      "validation": "SOURCE_SPEC_AND_MOCK_SCHEMA_ONLY_NOT_NATIVE",
+      "remaining_evidence": "Actual released saved-workbook table/chart/form capture, host/culture/geometry and independent review; or separately APPROVED narrow roadmap amendment",
+      "blocker_owner": "Windows UI/04A.45-47 owners",
+      "blocker_ids": [
+        "native-restriction-crosswalk-v1.json#/forms/UibyID/blocked_control_ids",
+        "native-restriction-crosswalk-v1.json#/forms/Ui82x2/blocked_control_ids",
+        "native-restriction-crosswalk-v1.json#/forms/Ui11PCA/blocked_control_ids"
+      ],
+      "consumed_by": [
+        "04A.03",
+        "04A.05",
+        "04A.17",
+        "04A.45",
+        "04A.46",
+        "04A.47",
+        "04A.48"
+      ],
+      "status": "NOT_RUN_BLOCKED_N",
+      "children": [
+        "04A02-ANOVA-NATIVE-01",
+        "04A02-NORMALITY-NATIVE-01",
+        "04A02-2X2-NATIVE-01",
+        "04A02-PCA-NATIVE-01"
+      ],
+      "reference_only_aggregate": true,
+      "C07_gate_status": "BLOCKED_PENDING_OWNER",
+      "C07_native_status": "NOT_RUN"
+    },
+    {
+      "case_id": "04A02-ANOVA-SEMANTIC-SPEC-01",
+      "parent": "04A02-TABLE-SEMANTIC-01",
+      "row_kind": "semantic-child",
+      "source": [
+        {
+          "path": "BESHStat.Excel.Common.Tests/src/MigrationSemantic04A02Tests.vb",
+          "sha256": "4339c948900407ff9733784044baa353a4ba65753b4b147e242c4b00d195e7da"
+        }
+      ],
+      "dataset": "C30-SYN-ANOVA",
+      "settings": {
+        "IncludeWelch": false,
+        "IncludeFisherLsd": false,
+        "IncludeBonferroni": false,
+        "IncludeTukeyKramer": false,
+        "IncludeGamesHowell": false
+      },
+      "alpha": 0.05,
+      "seed": "N/A",
+      "culture": [
+        "InvariantCulture",
+        "sk-SK"
+      ],
+      "required_artifacts": [
+        "semantic types/header/body/order/null/p coordinates",
+        "real Common document/style/layout observations",
+        "independently approved numerical semantic reference"
+      ],
+      "oracle_policy": "Independent R candidate only after S/R; no self-derived expected values; P later",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/04A02-G3-semantic-evidence-v1.json",
+          "sha256": "8ab4438b02aca47d41a09834667e1b3a6a34361d48f18294eb4d389729539d8c"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        }
+      ],
+      "validation": "EXECUTED_REAL_API_ASSERTIONS_PASS",
+      "remaining_evidence": "Independent numeric reference/promoted semantic reference; native rendering separately NOT CAPTURED",
+      "blocker_owner": "Core inference/Common output owner",
+      "blocker_ids": [
+        "S/PENDING",
+        "R/NO",
+        "P/NO"
+      ],
+      "consumed_by": [
+        "04A.03",
+        "04A.07",
+        "04A.28",
+        "04A.48"
+      ],
+      "status": "EXECUTED_CANDIDATE_NOT_APPROVED",
+      "C07_gate_status": "BLOCKED_PENDING_OWNER"
+    },
+    {
+      "case_id": "04A02-KW-SEMANTIC-SPEC-01",
+      "parent": "04A02-TABLE-SEMANTIC-01",
+      "row_kind": "semantic-child",
+      "source": [
+        {
+          "path": "BESHStat.Excel.Common.Tests/src/MigrationSemantic04A02Tests.vb",
+          "sha256": "4339c948900407ff9733784044baa353a4ba65753b4b147e242c4b00d195e7da"
+        }
+      ],
+      "dataset": "C30-SYN-KW",
+      "settings": {
+        "IncludeDunnComparisons": false
+      },
+      "alpha": 0.05,
+      "seed": "N/A",
+      "culture": [
+        "InvariantCulture",
+        "sk-SK"
+      ],
+      "required_artifacts": [
+        "semantic types/header/body/order/null/p coordinates",
+        "real Common document/style/layout observations",
+        "independently approved numerical semantic reference"
+      ],
+      "oracle_policy": "Independent R candidate only after S/R; no self-derived expected values; P later",
+      "actual_evidence": [
+        {
+          "path": "docs/architecture/04A02/04A02-G3-semantic-evidence-v1.json",
+          "sha256": "8ab4438b02aca47d41a09834667e1b3a6a34361d48f18294eb4d389729539d8c"
+        },
+        {
+          "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+          "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+        }
+      ],
+      "validation": "EXECUTED_REAL_API_ASSERTIONS_PASS",
+      "remaining_evidence": "Independent numeric reference/promoted semantic reference; native rendering separately NOT CAPTURED",
+      "blocker_owner": "Core inference/Common output owner",
+      "blocker_ids": [
+        "S/PENDING",
+        "R/NO",
+        "P/NO"
+      ],
+      "consumed_by": [
+        "04A.03",
+        "04A.07",
+        "04A.28",
+        "04A.48"
+      ],
+      "status": "EXECUTED_CANDIDATE_NOT_APPROVED",
+      "C07_gate_status": "BLOCKED_PENDING_OWNER"
+    }
+  ],
+  "upstream": {
+    "accepted_04A01": true,
+    "restrictions": 1514,
+    "restricted_live_captures": 802,
+    "incomplete_controls": 892,
+    "open_wiring": 622,
+    "strict_exit": 1,
+    "profile_exit": 1,
+    "historical_failures": 24,
+    "Gate_C2": "UNMET",
+    "E1_E7": "OPEN",
+    "GC3_GC8": "DEFERRED",
+    "evidence": {
+      "path": "docs/architecture/04A02/checkpoint02-audit-reconciliation.md",
+      "sha256": "c77a7313792adbfd136819d3ee95b00149312b1a742e43cd0c038a0eb56c266d"
+    }
+  },
+  "native_deferral_amendment": "PROPOSED_NOT_APPROVED",
+  "numerical_reference": "NOT_RUN_RELEASE_REQUIRED",
+  "golden_promotion": "NOT_APPROVED",
+  "native_capture": "NOT_RUN_BLOCKED",
+  "next_numbered_batch_authorized": false,
+  "supersedes_evidence_matrix": {
+    "path": "docs/architecture/04A02/04A02-acceptance-coverage-matrix-v3.json",
+    "sha256": "a80ded353a5e766c2b1d1a3195f16c4fb86ec4c122c9633a6eccf3d51d70c2a0"
+  },
+  "source_preflight": {
+    "branch": "codex/04A-02",
+    "head": "12e25924aae93f0b36ab33937176c86c19641b50",
+    "main": "12e25924aae93f0b36ab33937176c86c19641b50",
+    "prior_paths_verified": 61
+  },
+  "classifications": {
+    "candidate": "Existing typed observations unverified",
+    "approved_R_reference": "NONE",
+    "independent_reference_comparison": "NOT_RUN_S_R_REQUIRED",
+    "P_promoted_golden": "NONE",
+    "Common_semantic_tests": "EXECUTED",
+    "static_native_source": "SOURCE_INFERRED",
+    "native_capture": "NONE",
+    "owner_approved_deferral": "NONE",
+    "runtime_probe": "QUALIFIED_FOR_READ_ONLY_PROBING_ONLY",
+    "C07_runtime_process": "NOT_RUN",
+    "shared_risk_host_free": "9_ACTUAL_SEAM_TESTS_PER_CONFIG_PRIVATE_REFEDIT_NOT_EXERCISED",
+    "personal_library": "OWNER_CREATED_DIRECTORY_OBSERVED_NOT_REFERENCE_RELEASE"
+  },
+  "decision_paths": [
+    {
+      "path": "A",
+      "preferred": true,
+      "status": "PROPOSED_NOT_RELEASED",
+      "next": "Review per-ID/root gaps and source fields; execute separately approved targeted mitigations, then exact N/state pilots and distinct output captures. 2x2 first may be lowest-complexity, never assumed safe.",
+      "cases": [
+        "04A02-2X2-NATIVE-01",
+        "04A02-ANOVA-NATIVE-01",
+        "04A02-NORMALITY-NATIVE-01",
+        "04A02-PCA-NATIVE-01"
+      ]
+    },
+    {
+      "path": "B",
+      "preferred": false,
+      "status": "NOT_APPROVED",
+      "chosen_case_ids": [],
+      "chosen_criterion_ids": [],
+      "chosen_obligation_ids": [],
+      "risk_owner": null,
+      "roadmap_owner": null,
+      "decision_date": null,
+      "deadline_before_earliest_consumer": null,
+      "resume_trigger": null,
+      "note": "Owner chooses only proven-unresolvable exact gaps after root review; significant deviation from Windows-golden objective, not all-four blanket default. Numerical S/R/P requirements and Gate C2 constraints remain."
+    }
+  ],
+  "runtime_qualification_record": {
+    "path": "docs/architecture/04A02/04A02-R-runtime-qualification-v1.json",
+    "sha256": "8cedf6bfdbb481ddb01ed2c2e7638bf7250bad705b4b8ae3e77a50460aafba15"
+  },
+  "runtime_ancestor_ACL_supplement": {
+    "path": "TestResults/04A-02-initial-fixtures-checkpoint06-20261030T181007Z/runtime-ancestor-acls-qualified-status.json",
+    "sha256": "0ee829e915715401f0b1eeece54cf2f84beab5ebfda2d3669654b233665dbae3",
+    "verdict": "OBSERVED_WITH_UNVERIFIABLE_ANCESTOR_NOT_PRIVATE_OUTPUT_APPROVAL",
+    "unverifiable": [
+      "C:\\Users\\peter"
+    ]
+  },
+  "C07_gate_ledger": {
+    "path": "docs/architecture/04A02/04A02-C07-gate-ledger.json",
+    "sha256": "461b55497e7dcb4a56098632c3b4a8eeb5fcf067fa1f560756862797f34f0dda"
+  },
+  "C07_disposition": {
+    "path": "docs/architecture/04A02/04A02-C07-exact-ID-disposition.json",
+    "sha256": "3dd44aafc8bb2d609e5570c972d150bf41361151f0ba199c5e0f442c156bc107"
+  },
+  "C07_runtime_readiness": {
+    "path": "docs/architecture/04A02/04A02-C07-runtime-output-readiness.json",
+    "sha256": "a535f5f462e4cd46fcf1c7547e1b7ce7d6056e6034bb05a1e6a40b84256a8224"
+  },
+  "C07_proposed_changes": {
+    "path": "docs/architecture/04A02/04A02-C07-proposed-changes.json",
+    "sha256": "45046687b3fde7bc8f637542ea241b7df9ff0a04d91e4cdb3634264e3746f4c2"
+  }
+}

@@ -1,0 +1,462 @@
+{
+  "schema": "04A02-semantic-table-source-spec-v1",
+  "source_commit": "12e25924aae93f0b36ab33937176c86c19641b50",
+  "status": "CANDIDATE_SPECIFICATION_ONLY",
+  "release_gates": {
+    "reference_execution": false,
+    "golden_promotion": false,
+    "native_capture": false
+  },
+  "source_refs": [
+    {
+      "path": "BESHStat.Core/src/DM/ResultWriter/ResultTable.vb",
+      "sha256": "2c88b5a06d692fc1f9817b076d1c4ae6a0e3a752be7f7a1a5c27d26e20fe4947",
+      "anchor": "Public Function ToOutputModel",
+      "line": 517
+    },
+    {
+      "path": "BESHStat.Core/src/DM/ResultWriter/ResultTableOutput.vb",
+      "sha256": "2798f882250d946017c619749e38770913de8a4979a156dffdb006d44f5351b5",
+      "anchor": "Public Class ResultTableOutputModel",
+      "line": 28
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Output/ResultTableWriteRequest.vb",
+      "sha256": "09c8d25a48c352e01fec3c96ece8361a24a7f048ad4f113db9d697c568d6ae6e",
+      "anchor": "Private Shared Function NormalizeValue",
+      "line": 144
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Output/OutputLayoutPlanner.vb",
+      "sha256": "048558b761a578326ccba09db43519394d0ef32f30e2fcc5905689ff05f7b2c5",
+      "anchor": "Public NotInheritable Class OutputLayoutPlanner",
+      "line": 138
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpreadsheetAnalysisContracts.vb",
+      "sha256": "7c6ff02d9810d23e702ef07af8a6facc0d38920d97f58ea75971bbac180a5bae",
+      "anchor": "IncludeDunnComparisons = True",
+      "line": 66
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Output/OutputDocument.vb",
+      "sha256": "b4f2ea5e6d9a7fe2674884f2d6fc9a85b05bf5f4cd21d62bac7e081e462945e8",
+      "anchor": "Public NotInheritable Class OutputTableArtifact"
+    }
+  ],
+  "cases": [
+    {
+      "case_id": "04A02-ANOVA-SEMANTIC-SPEC-01",
+      "input_case_id": "C30-SYN-ANOVA",
+      "fixture_path": "BESHStat.Excel.Common.Tests/TestData/04A02/C30-SYN-ANOVA.json",
+      "fixture_sha256": "ff7f518cee7a57d3a49276d8ad6ecae035364cfb87a865d62eaa47f34796ba34",
+      "dataset_sha256": "98dce529f444e6ede2f5f8e34ef072cd7407efd2a3a25597d2d1504c6b4f6cba",
+      "dataset": {
+        "group_labels": [
+          "A",
+          "B",
+          "C"
+        ],
+        "values": [
+          [
+            1,
+            2,
+            3
+          ],
+          [
+            2,
+            4,
+            6
+          ],
+          [
+            3,
+            5,
+            7
+          ]
+        ],
+        "row_ids": [
+          [
+            101,
+            103,
+            107
+          ],
+          [
+            109,
+            113,
+            127
+          ],
+          [
+            131,
+            137,
+            139
+          ]
+        ]
+      },
+      "row_id_transport": "provenance-only; not transported by GroupedNumericData",
+      "alpha": 0.05,
+      "seed": "N/A",
+      "options": {
+        "IncludeWelch": false,
+        "IncludeFisherLsd": false,
+        "IncludeBonferroni": false,
+        "IncludeTukeyKramer": false,
+        "IncludeGamesHowell": false
+      },
+      "classification": "SOURCE_INFERRED_NOT_NATIVE_VERIFIED",
+      "core_numerical_status": "CANDIDATE_ONLY",
+      "common_semantic_status": "CANDIDATE_SPECIFICATION_ONLY",
+      "windows_rendered_status": "NOT_CAPTURED",
+      "table_order": [
+        "primary"
+      ],
+      "tables": [
+        {
+          "table_id": "primary",
+          "order": 0,
+          "rows": 4,
+          "columns": 6,
+          "header": [
+            "Source of Variation",
+            "SS",
+            "df",
+            "MS",
+            "F",
+            "P-value"
+          ],
+          "body_row_labels": [
+            "Between Groups",
+            "Within Groups",
+            "Total"
+          ],
+          "header_top_rows": 1,
+          "header_left_columns": 1,
+          "title_rows": 0,
+          "footer_rows": 0,
+          "pvalue_columns": [
+            5
+          ],
+          "pvalue_cells": [],
+          "coordinate_policy": "one-based body coordinates; excludes top and left headers",
+          "cell_types": [
+            [
+              "System.Double",
+              "System.Int32",
+              "System.Double",
+              "System.Double",
+              "System.Double"
+            ],
+            [
+              "System.Double",
+              "System.Int32",
+              "System.Double",
+              "null",
+              "null"
+            ],
+            [
+              "System.Double",
+              "System.Int32",
+              "null",
+              "null",
+              "null"
+            ]
+          ],
+          "type_coordinates": "body only, excludes left header",
+          "annotation_cells": {},
+          "numerical_cells": "UNVERIFIED_AGAINST_INDEPENDENT_ORACLE",
+          "expected_numerical_reference": null
+        }
+      ],
+      "metric_types": {
+        "FStatistic": "System.Double",
+        "PValue": "System.Double"
+      },
+      "source_refs": [
+        {
+          "path": "BESHStat.Core/src/StatTests/Parametric.vb",
+          "sha256": "e0b950692ba15f06ccf4a7169fdd81fd38be47f96a7aeeef9c1659250276daa8",
+          "anchor": "Public Class OneWayANOVA",
+          "line": 410
+        },
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/OneWayAnovaApplicationService.vb",
+          "sha256": "c064aa54540f643df972aed60c84c2ab1bcc5a31b8212831445336f3f4919bd5",
+          "anchor": "Public Shared Function Run(grouped As GroupedNumericData,",
+          "line": 129
+        }
+      ],
+      "coverage_parent_case_id": "04A02-TABLE-SEMANTIC-01",
+      "transported_group_counts": [
+        3,
+        3,
+        3
+      ],
+      "optional_result_fields": "HasWelch false; WelchResult/plot data Nothing; Welch numerical getters return NaN if absent, never serialize as approved finite reference"
+    },
+    {
+      "case_id": "04A02-KW-SEMANTIC-SPEC-01",
+      "input_case_id": "C30-SYN-KW",
+      "fixture_path": "BESHStat.Excel.Common.Tests/TestData/04A02/C30-SYN-KW.json",
+      "fixture_sha256": "c4ec2f9483ebf286b1e384b1582bff369f3675a60f8b9623cc0845401bcd3837",
+      "dataset_sha256": "7e156caca9ded21a8e0967d5755ec40143a11542b2094cc03ebe7474400e120e",
+      "dataset": {
+        "group_labels": [
+          "A",
+          "B",
+          "C"
+        ],
+        "values": [
+          [
+            1,
+            2,
+            2
+          ],
+          [
+            2,
+            4,
+            6
+          ],
+          [
+            3,
+            5,
+            7
+          ]
+        ],
+        "row_ids": [
+          [
+            101,
+            103,
+            107
+          ],
+          [
+            109,
+            113,
+            127
+          ],
+          [
+            131,
+            137,
+            139
+          ]
+        ]
+      },
+      "row_id_transport": "provenance-only; not transported by GroupedNumericData",
+      "alpha": 0.05,
+      "seed": "N/A",
+      "options": {
+        "IncludeDunnComparisons": false
+      },
+      "classification": "SOURCE_INFERRED_NOT_NATIVE_VERIFIED",
+      "core_numerical_status": "CANDIDATE_ONLY",
+      "common_semantic_status": "CANDIDATE_SPECIFICATION_ONLY",
+      "windows_rendered_status": "NOT_CAPTURED",
+      "table_order": [
+        "primary"
+      ],
+      "tables": [
+        {
+          "table_id": "primary",
+          "order": 0,
+          "rows": 7,
+          "columns": 3,
+          "header": [
+            "Kruskal-Wallis Test",
+            "",
+            ""
+          ],
+          "body_row_labels": [
+            "n",
+            "Number of groups",
+            "Test statistics H",
+            "Two sided P-value",
+            "Test statistics Hcor",
+            "Two sided p-value"
+          ],
+          "header_top_rows": 1,
+          "header_left_columns": 0,
+          "title_rows": 0,
+          "footer_rows": 0,
+          "pvalue_columns": [],
+          "pvalue_cells": [
+            [
+              4,
+              2
+            ],
+            [
+              6,
+              2
+            ]
+          ],
+          "coordinate_policy": "one-based body coordinates; excludes top and left headers",
+          "cell_types": [
+            [
+              "System.String",
+              "System.Int32",
+              "System.String"
+            ],
+            [
+              "System.String",
+              "System.Int32",
+              "System.String"
+            ],
+            [
+              "System.String",
+              "System.Double",
+              "System.String"
+            ],
+            [
+              "System.String",
+              "System.Double",
+              "System.String"
+            ],
+            [
+              "System.String",
+              "System.Double",
+              "System.String"
+            ],
+            [
+              "System.String",
+              "System.Double",
+              "System.String"
+            ]
+          ],
+          "type_coordinates": "body only, excludes left header",
+          "annotation_cells": {
+            "4,3": "ties un-corrected",
+            "6,3": "ties corrected"
+          },
+          "numerical_cells": "UNVERIFIED_AGAINST_INDEPENDENT_ORACLE",
+          "expected_numerical_reference": null
+        }
+      ],
+      "metric_types": {
+        "HStatistic": "System.Double",
+        "TieCorrectedHStatistic": "System.Double",
+        "PValue": "System.Double",
+        "TieCorrectedPValue": "System.Double"
+      },
+      "source_refs": [
+        {
+          "path": "BESHStat.Core/src/StatTests/Nonparametric.vb",
+          "sha256": "16d06875bb9fe7acbc9dbf2e0fed0805e9da8d3717e1edfbb9241409ffe94960",
+          "anchor": "Public Class KruskallWalis",
+          "line": 1706
+        },
+        {
+          "path": "BESHStat.Excel.Common/src/Analysis/KruskalWallisApplicationService.vb",
+          "sha256": "31ea5324a34fec6e44bda405ed8cacdb9c66b09797603457d4edada4e4a6a1f3",
+          "anchor": "Public Shared Function Run(grouped As GroupedNumericData,",
+          "line": 72
+        }
+      ],
+      "coverage_parent_case_id": "04A02-TABLE-SEMANTIC-01",
+      "transported_group_counts": [
+        3,
+        3,
+        3
+      ],
+      "optional_result_fields": "No Dunn table with explicit IncludeDunnComparisons=false; default production option is true, so do not omit options"
+    }
+  ],
+  "culture": {
+    "capture": "InvariantCulture",
+    "planned_check": "sk-SK",
+    "numeric_cells": "CLR numeric values remain numeric; do not assert localized decimal text as a numerical reference",
+    "text_policy": "Preserve exact authored English labels/case and empty strings; no translated golden approved"
+  },
+  "warnings_null_errors": {
+    "ANOVA": "Unassigned Object matrix body cells remain Nothing (null), not zero or empty string; no warning/footer added in primary branch",
+    "KW": "Empty annotation strings distinct from null; raw/corrected table labels retained verbatim",
+    "Common_request": "Nothing stays null; Double/Single NaN -> #N/A, +Infinity -> #Pinf, -Infinity -> #Ninf text; finite primitive types retained",
+    "admission": "Frozen inputs finite; no singular/empty input inference approved"
+  },
+  "pvalue_presentation": {
+    "status": "PENDING_CASE_SPECIFIC_PRESENTATION_APPROVAL",
+    "numeric_vs_text": "P cells numeric; flags separate; Common factory derives Excel format from PValuePresentationSettings; no selected format promoted",
+    "kw_label_issue": "Two sided labels preserved; asymptotic chi-square upper-tail proposal is separately pending; no relabeling"
+  },
+  "layout": {
+    "source": "OutputLayoutPlanner.Create",
+    "order": "document artifact order, vertical stack, default gap 1, one-based inclusive bounds",
+    "scope": "in-memory geometry only; not live occupancy or rendered workbook proof"
+  },
+  "context_snapshots": [
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/Stage304/anova-all-posthoc.json",
+      "sha256": "e22a734a04282acc165e5599604d53b3dc7f6dcf35edc6bae6e538caf11f4c20"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/Stage304/anova-base.json",
+      "sha256": "9151f95b3a4166d1571d9209c7f19d668e4145599faf2a2cdfc01c5f9db01ffd"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/Stage304/anova-welch-tukey.json",
+      "sha256": "9fa6617aeefccc7bac7b40848b69e78f69397601cd1854518c7c24cbc3e67a7e"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/Stage304/kw-base.json",
+      "sha256": "52aafb116014a1f1d7d5775db234c5bebefb387d060dab7983c8a79898a8bf75"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/Stage304/kw-dunn.json",
+      "sha256": "8beef0d44dbb4ccc58bbacd025deffaa5508369ea037807ca0c97d7085c1c90a"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputSemantics/anova-all-posthoc.json",
+      "sha256": "d8064c9920352a11ef609fc61979cd10a6e20d1992298171a90dd2b81ad9b6de"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputSemantics/anova-base.json",
+      "sha256": "77213b9cba4d9641c3dd49a1eb25d6c08c1d2be7198e4eca585f31f9e529fcc1"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputSemantics/anova-welch-tukey.json",
+      "sha256": "f21fac3159142a7b7e23ac5a25b9cfed2772868ac3dd7153b53ce6055a17bef7"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputSemantics/generic-mixed.json",
+      "sha256": "f00eb66a54011735bcf2104822897d11903156469cde6bdfaaa72ee231444304"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputSemantics/kw-base.json",
+      "sha256": "c440919d69bdb93eabb2118cd115fb47d9f5274697c655ab5a2d5346acfa83ca"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputSemantics/kw-dunn.json",
+      "sha256": "5e58097df8aa5cf7d11f9a012ec83c44f794be2266c13669156cee8e2daacdef"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputLayout/anova-all-posthoc.txt",
+      "sha256": "d4bf96cb85581077c2c5b9ee711da819d7f908b58093f70f1900f246c83e0932"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputLayout/anova-base.txt",
+      "sha256": "b98c5cdd434e039e3672a3de281da9653bb34779274bd2b72ed053ea8ed4c994"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputLayout/anova-welch-tukey.txt",
+      "sha256": "09031096461cdd2b47279308eb40603a01a5ca9bdccfa1c2862138bb70ee2f87"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputLayout/four-tables-c6.txt",
+      "sha256": "158479b8c1b4a0732e2b5f95e731189c232b1474b1f2c866da1de465ea8dbeb9"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputLayout/generic-mixed.txt",
+      "sha256": "aa961f47999f03e3b92558e763225c9cd3a52b8adb4c32cdc79288ccba766efb"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputLayout/kw-base.txt",
+      "sha256": "5a63c4c0724b24b4774aa864b25ed8664daa2c31b665d244884d3f6b46291b32"
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/TestData/OutputLayout/kw-dunn.txt",
+      "sha256": "39c6f1e3dd56bf24520645f4ad403fafab7c66f7d1c7e764f6d5e46a1904bf82"
+    }
+  ],
+  "document_fields": {
+    "artifact_order": "Retain document-local ordinal Id/Kind/Caption; caption does not replace title cells",
+    "table": "OutputTableArtifact snapshots assembled Values, section counts and original p annotations; Model returns independent copy",
+    "diagnostics": "Diagnostic Warning/Fault roles and plot artifacts separate from table cells; no native placement implied",
+    "case_status": "Primary-only tables specified here; document warning/null/error cases remain future independent semantic fixtures under 04A02-TABLE-SEMANTIC-01"
+  }
+}

@@ -1,0 +1,43 @@
+# C12 source-reviewed one-shot NONSTATISTICAL owner startup only.
+# No elevation, impersonation, ACL edit, install, GUI, network or reference cases.
+$ErrorActionPreference='Stop'
+$identity=[Security.Principal.WindowsIdentity]::GetCurrent()
+if ($identity.User.Value -ne 'S-1-5-21-142429299-24905182-1790040237-1002') { throw 'Normal owner SID required; sandbox refused' }
+$principal=New-Object Security.Principal.WindowsPrincipal($identity)
+if ($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Non-elevated owner token required' }
+if ((Get-Location).Path -ne 'C:\Users\peter\source\repos\BESHstatNG') { throw 'Run from the exact repository root' }
+if (Test-Path -LiteralPath 'C:\Users\peter\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c12-startup-20261101-v1') { throw 'C12 startup name consumed; preserve evidence and stop' }
+$expected=@{
+    'C:\Users\peter\source\repos\BESHstatNG\docs\architecture\04A02\oracle-proposals\manifest-v6-c12-v1.json'='d8f3338bfe588e47ba6f78b589b43f587448ffbd52948558ad9e0af6f2bc8bd1'
+    'C:\Users\peter\source\repos\BESHstatNG\docs\architecture\04A02\04A02-C11-owner-acl-review-v1.json'='8fe99ff0c6ae04f0b19b953f3066003a0ef1ad121362b6372f98e56d59405eb7'
+    'C:\Users\peter\source\repos\BESHstatNG\docs\architecture\04A02\04A02-C12-operator-qualification-tests-v1.json'='86e3347a48cdcf40ad23514be5e057fb6109ca5a2efaaabba8b07c76a096ff17'
+    'C:\Users\peter\source\repos\BESHstatNG\scripts\04a02\oracle_operator_v6.py'='faf529c20e7d8ed7e3f9159a5618aaf442152be4214ea8bf57ce776db57a47fc'
+    'C:\Users\peter\source\repos\BESHstatNG\scripts\04a02\windows_r_path_identity_v1.py'='623227969878b298606cd519ed8e0318feb8d96d6dbbffe8e57b3b0180a26b4b'
+    'C:\Users\peter\source\repos\BESHstatNG\docs\architecture\04A02\04A02-C12-path-identity-policy-v1.json'='73f5ff0e2420b9937d158781a7ca95fd9cbfe2066232f66a61feb73a414d3667'
+}
+foreach ($path in $expected.Keys) { if ((Get-FileHash -Algorithm SHA256 -LiteralPath $path).Hash.ToLowerInvariant() -ne $expected[$path]) { throw ('Pinned handoff source drift: '+$path) } }
+$tests=Get-Content -Raw -LiteralPath 'C:\Users\peter\source\repos\BESHstatNG\docs\architecture\04A02\04A02-C12-operator-qualification-tests-v1.json' | ConvertFrom-Json
+if ($tests.status -ne 'PASS' -or $tests.failed -ne 0 -or $tests.tests -ne 65 -or $tests.operator_sha256 -ne 'faf529c20e7d8ed7e3f9159a5618aaf442152be4214ea8bf57ce776db57a47fc') { throw 'Current C12 qualification receipt required' }
+if ((Get-FileHash -Algorithm SHA256 -LiteralPath 'C:\Users\peter\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c10-startup-20261101-v1\raw-stdout.bin').Hash.ToLowerInvariant() -ne '1296920a22a1f3778aaa54478a605989004f82865d18454e9fc1f8b5b2f46b5f') { throw 'Retained failed startup changed' }
+if (Test-Path -LiteralPath 'C:\Users\peter\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c10-startup-20261101-v1\startup-receipt.json') { throw 'Unexpected receipt on failed old startup; stop for review' }
+if ((Get-FileHash -Algorithm SHA256 -LiteralPath 'C:\Users\peter\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c11-startup-20261101-v1\raw-stdout.bin').Hash.ToLowerInvariant() -ne 'f9ca4049ba9be04d2ac405aa35f1fa2d636ee44a5de5eab09ed2e47ca88d855b') { throw 'Retained failed startup changed' }
+if (Test-Path -LiteralPath 'C:\Users\peter\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a\c11-startup-20261101-v1\startup-receipt.json') { throw 'Unexpected receipt on failed old startup; stop for review' }
+$startupArguments=@(
+    '-B',
+    'C:\Users\peter\source\repos\BESHstatNG\scripts\04a02\oracle_operator_v6.py',
+    '--manifest',
+    'C:\Users\peter\source\repos\BESHstatNG\docs\architecture\04A02\oracle-proposals\manifest-v6-c12-v1.json',
+    '--manifest-sha256',
+    'd8f3338bfe588e47ba6f78b589b43f587448ffbd52948558ad9e0af6f2bc8bd1',
+    '--root',
+    'C:\Users\peter\AppData\Local\BESHStatNG-04A02-C09-reference-20261101-7d4a',
+    '--name',
+    'c12-startup-20261101-v1',
+    '--startup-only',
+    '--acl-review',
+    'C:\Users\peter\source\repos\BESHstatNG\docs\architecture\04A02\04A02-C11-owner-acl-review-v1.json',
+    '--acl-review-sha256',
+    '8fe99ff0c6ae04f0b19b953f3066003a0ef1ad121362b6372f98e56d59405eb7'
+)
+& 'C:\Users\peter\Desktop\WPy64-31470\python\python.exe' @startupArguments
+if ($LASTEXITCODE -ne 0) { throw "C12 startup refused/failed ($LASTEXITCODE); retain every output and stop. Never retry a consumed name." }

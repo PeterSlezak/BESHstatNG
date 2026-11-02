@@ -1,0 +1,40 @@
+{
+  "schema": "04A02-C07-proposed-changes-v1",
+  "status": "REVIEW_ONLY_NOT_APPLIED_NOT_OWNER_APPROVED",
+  "requests": [
+    {
+      "id": "CR-R-PRIVATE-ENV-07",
+      "owner": "04A.02 inference/runtime owner",
+      "source": {
+        "path": "scripts/04a02/oracle_operator.py",
+        "sha256": "5aa59d822a824808d3fd42bef9b1c1bc8d789dfc92d80dc4a6f108202aa7d30b"
+      },
+      "problem": "Frozen operator sets TEMP/TMP/LC_ALL but no explicit private HOME/R_USER or user/site library paths. C07 execution requirement cannot be claimed satisfied by --vanilla alone.",
+      "review_only_diff": "--- frozen-v2-operator\n+++ proposed-private-env-successor\n@@ -375,7 +375,14 @@\n                     err_fd = os.open(job / 'raw-stderr.bin', os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_BINARY, 0o600)\n                     with os.fdopen(err_fd, 'wb') as stderr:\n                         env = {key: os.environ[key] for key in ('SystemRoot', 'WINDIR', 'COMSPEC') if key in os.environ}\n-                        env.update(R_HOME=str(r_home), PATH=str(r_home / 'bin/x64'), TEMP=str(job), TMP=str(job), LC_ALL='C')\n+                        private_home = job / 'home'\n+                        private_library = job / 'user-library'\n+                        private_home.mkdir()\n+                        private_library.mkdir()\n+                        env.update(R_HOME=str(r_home), PATH=str(r_home / 'bin/x64'),\n+                                   HOME=str(private_home), R_USER=str(private_home),\n+                                   R_LIBS_USER=str(private_library), R_LIBS_SITE=str(private_library), R_LIBS='',\n+                                   TEMP=str(job), TMP=str(job), TMPDIR=str(job), LC_ALL='C', LANG='C', LANGUAGE='C')\n                         result = subprocess.run([str(executable), '--vanilla', str(job / 'proposal-source.R'), str(job / 'approved-input.dcf')],\n                             cwd=job, env=env, stdin=subprocess.DEVNULL, stdout=stdout, stderr=stderr, timeout=30,\n                             shell=False, creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))\n",
+      "rendered_source_sha256": "ca2fc207a0e2fd4475e003b2142b5db4c59a97689263c63ef716ce7dff9fea1c",
+      "approval_required": "New versioned operator/manifest hashes reviewed by owner; frozen v2 bytes unchanged. No statistical execution until this gap is resolved/adopted."
+    },
+    {
+      "id": "CR-REFEDIT-SEAM-07",
+      "owner": "04A.27 / 04A.45?47",
+      "source": {
+        "path": "BESHstatNG/src/UI/Refedit/Excel2007RefEdit.vb",
+        "sha256": "4ff232377a717e86fea412eb438a95db54969fac52b91224c2d93d3aab1aba84"
+      },
+      "problem": "Private WinForms/COM handlers lack a safe injected seam for direct event-source lifetime tests without control activation.",
+      "proposal": "Review an internal Windows-only event/connector ownership seam with Attach/Detach/Rebind/Observe and borrowed-object policy. Keep public Core/Common API and existing behavior. Regression comparisons and source review before production work.",
+      "acceptance": "Direct fake-host tests cover actual RefEdit handler orchestration, duplicate/failed detach, stale callback/rebind/disposal and zero output on invalid lease. Then narrowly approved native regression. Current observer tests are not that proof."
+    },
+    {
+      "id": "CR-N1-ROT-READ-07",
+      "owner": "Windows host/risk owner 04A.27/45?47",
+      "source": {
+        "path": "docs/architecture/04A02/04A02-GUI-readonly-pilot-proposal-v1.ps1",
+        "sha256": "af7699a7363e664b6d9fc79d55ca746800636e2fbd1e77dd3804bbe6967a2263"
+      },
+      "problem": "GetActiveObject attaches ROT-selected Excel before PID check; read-only provider calls can have side effects. N1 cannot assert guaranteed no state change.",
+      "proposal": "Do not run v1 as-is. Review exact-instance binding or separately approved UIA-only human-context protocol, revalidate PID/session/context before and after, record provider read risks, and replace unconditional NoWorkbookWrite claim with measured/unknown state-change evidence in a new version.",
+      "acceptance": "N0 mocked wrong-ROT/PID reuse/context race/provider-effect tests; actual N1 only after authentic exact permission/mitigation/context proof. No edits to v1 in C07."
+    }
+  ]
+}

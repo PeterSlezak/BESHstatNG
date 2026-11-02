@@ -1,0 +1,59 @@
+{
+  "schema": "04A02-C07-RefEdit-seam-evidence-v1",
+  "status": "UNIT_TEST_EXECUTED_SCOPE_LIMITED_NOT_RISK_OWNER_APPROVED",
+  "shared_edge": "BESHstatNG/src/UI/Refedit/Excel2007RefEdit.vb|WithEvents|xlApp@34",
+  "risk": "UNKNOWN_HIGH",
+  "owners": [
+    "04A.27",
+    "04A.45",
+    "04A.46",
+    "04A.47"
+  ],
+  "source": {
+    "path": "BESHstatNG/src/UI/Refedit/Excel2007RefEdit.vb",
+    "sha256": "4ff232377a717e86fea412eb438a95db54969fac52b91224c2d93d3aab1aba84"
+  },
+  "seam_source": {
+    "path": "BESHstatNG/src/AppInfrastructure/WindowsDocumentLifecycle.vb",
+    "sha256": "6ae8d02431bfb8f590414e643b0d12da710b8cf547fa8c327a570e57e4c7a872"
+  },
+  "test_source": {
+    "path": "BESHStatNG.Test/src/MigrationRefEditBoundary07Tests.vb",
+    "sha256": "63b0be911476b560c24782958f0bbf98110da5ed4ad4f08f1c7a0596ab68717e"
+  },
+  "debug_test_receipt": {
+    "path": "TestResults/04A-02-initial-fixtures-c07-20261030T190822Z/s7f/execution.json",
+    "sha256": "42dab99be8694350f5292ab566e37d55903803b7c18c21fe6948049101f70844"
+  },
+  "test_count": 9,
+  "covered": [
+    "subscribe/dispose/double-remove/late callback with safe injected detach",
+    "new observer on rebind cannot retarget old pinned lease",
+    "mock disconnected source guarded cleanup (not native 0x800401A8 reproduction)",
+    "sheet/book replacement and cancellation: zero write delegates",
+    "borrowed managed owner token retained; no ReleaseComObject",
+    "unsafe injected detach exception propagates, but leases disposed and late callback ignored"
+  ],
+  "not_covered": [
+    "private RefEdit handlers or WinForms control initialization",
+    "real COM event subscriptions/RCW disconnection",
+    "real modal/reentry/STA event ordering or native no-write guarantee"
+  ],
+  "risk_owner_review": {
+    "status": "PENDING_EXTERNAL_REVIEW",
+    "reviewer": null,
+    "date": null,
+    "source": null
+  },
+  "change_request": "CR-REFEDIT-SEAM-07",
+  "N_released": false,
+  "obligation_discharged": false,
+  "release_test_receipt": {
+    "path": "TestResults/04A-02-initial-fixtures-c07-20261030T190822Z/s7r/execution.json",
+    "sha256": "b3c848d8c9fcebbfc03b26b0bcede3f11a0f0f4f6e5dcf2ccecb28b16be07f53"
+  },
+  "tests_executed_per_configuration": {
+    "Debug": 9,
+    "Release": 9
+  }
+}

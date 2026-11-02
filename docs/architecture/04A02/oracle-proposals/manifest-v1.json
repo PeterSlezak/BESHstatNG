@@ -1,0 +1,121 @@
+{
+  "schema": "04A02-oracle-source-proposal-v1",
+  "status": "SOURCE_ONLY_NOT_APPROVED_NOT_EXECUTED",
+  "release_gates": {
+    "run_independent_reference": false,
+    "promote_numerical_golden": false,
+    "native_workbook_capture": false
+  },
+  "cases": [
+    {
+      "case_id": "C30-SYN-ANOVA",
+      "script": "docs/architecture/04A02/oracle-proposals/anova-proposed.R",
+      "script_sha256": "4d6475f1ac12fbbc37424e6910a8a80fe76265f0b5c8ea3be45b0ec51a369c74",
+      "script_version": "proposal-1",
+      "execution_status": "NOT_EXECUTED",
+      "R_version_candidate": "4.5.1",
+      "Rscript_executable_sha256": null,
+      "R_runtime_sha256": null,
+      "source_commit": "12e25924aae93f0b36ab33937176c86c19641b50",
+      "group_labels": [
+        "A",
+        "B",
+        "C"
+      ],
+      "values": [
+        [
+          1,
+          2,
+          3
+        ],
+        [
+          2,
+          4,
+          6
+        ],
+        [
+          3,
+          5,
+          7
+        ]
+      ],
+      "row_ids": [
+        [
+          101,
+          103,
+          107
+        ],
+        [
+          109,
+          113,
+          127
+        ],
+        [
+          131,
+          137,
+          139
+        ]
+      ],
+      "row_id_transport": "provenance-only",
+      "alpha": 0.05,
+      "seed": "N/A",
+      "culture": "InvariantCulture/C",
+      "reference_provenance_status": "PENDING_OWNER_RELEASE"
+    },
+    {
+      "case_id": "C30-SYN-KW",
+      "script": "docs/architecture/04A02/oracle-proposals/kw-proposed.R",
+      "script_sha256": "874a14699dc359be1f812e2e8b743b9b7a857aa10db91d7fc50e33cf76eef8d9",
+      "script_version": "proposal-1",
+      "execution_status": "NOT_EXECUTED",
+      "R_version_candidate": "4.5.1",
+      "Rscript_executable_sha256": null,
+      "R_runtime_sha256": null,
+      "source_commit": "12e25924aae93f0b36ab33937176c86c19641b50",
+      "group_labels": [
+        "A",
+        "B",
+        "C"
+      ],
+      "values": [
+        [
+          1,
+          2,
+          2
+        ],
+        [
+          2,
+          4,
+          6
+        ],
+        [
+          3,
+          5,
+          7
+        ]
+      ],
+      "row_ids": [
+        [
+          101,
+          103,
+          107
+        ],
+        [
+          109,
+          113,
+          127
+        ],
+        [
+          131,
+          137,
+          139
+        ]
+      ],
+      "row_id_transport": "provenance-only",
+      "alpha": 0.05,
+      "seed": "N/A",
+      "culture": "InvariantCulture/C",
+      "reference_provenance_status": "PENDING_OWNER_RELEASE"
+    }
+  ]
+}

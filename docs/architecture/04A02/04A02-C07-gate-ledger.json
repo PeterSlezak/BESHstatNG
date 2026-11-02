@@ -1,0 +1,137 @@
+{
+  "schema": "04A02-C07-gates-v1",
+  "status": "BLOCKED_PENDING_ATTRIBUTABLE_OWNER_DECISIONS",
+  "reviewed_sources": [
+    {
+      "path": "docs/architecture/04A02/04A02-C06-SR-decisions.pending.json",
+      "sha256": "8f968166a2d8fb7047628659b91d674d2217ad030f2e4a9491834bc71cead52e"
+    },
+    {
+      "path": "docs/architecture/04A02/04A02-owner-closeout-decisions.pending.json",
+      "sha256": "15c541f6e971650d531e4e6e92e39263ad0463a681ad51733845a84a546f069b"
+    },
+    {
+      "path": "docs/architecture/04A02/checkpoint03-owner-decisions.pending.json",
+      "sha256": "326213796fff31b6b904847b0a334990e16763c74e51e6b25d01f4030ab2dff8"
+    }
+  ],
+  "positive_decision_discovered": false,
+  "source_of_current_authority": "C07 user prompt explicitly does not issue S/R/P/N; no additional affirmative artifact supplied",
+  "cases": [
+    {
+      "case_id": "C30-SYN-ANOVA",
+      "authentic_new_decision": null,
+      "S": "PENDING_EXTERNAL_DOMAIN_DECISION",
+      "R": "NO_PER_CASE_EXECUTION_RELEASE",
+      "independent_real_R_comparison": "NOT_RUN",
+      "independent_reviewer_1": null,
+      "independent_reviewer_2": null,
+      "P": "NO",
+      "shared_risk_receipt": "NO_LIVE_CONTROL_TRANSPORT_IN_TYPED_CASE",
+      "N1": "NO",
+      "N2": "NO",
+      "N_chart": "NO",
+      "roadmap_deferral": "NONE_APPROVED"
+    },
+    {
+      "case_id": "C30-SYN-KW",
+      "authentic_new_decision": null,
+      "S": "PENDING_EXTERNAL_DOMAIN_DECISION",
+      "R": "NO_PER_CASE_EXECUTION_RELEASE",
+      "independent_real_R_comparison": "NOT_RUN",
+      "independent_reviewer_1": null,
+      "independent_reviewer_2": null,
+      "P": "NO",
+      "shared_risk_receipt": "NO_LIVE_CONTROL_TRANSPORT_IN_TYPED_CASE",
+      "N1": "NO",
+      "N2": "NO",
+      "N_chart": "NO",
+      "roadmap_deferral": "NONE_APPROVED"
+    },
+    {
+      "case_id": "04A02-ANOVA-NATIVE-01",
+      "authentic_new_decision": null,
+      "S": "PENDING_EXTERNAL_DOMAIN_DECISION",
+      "R": "NOT_APPLICABLE_TO_NATIVE_STAGE; native scientific policy still pending",
+      "independent_real_R_comparison": "NOT_RUN",
+      "independent_reviewer_1": null,
+      "independent_reviewer_2": null,
+      "P": "NO",
+      "shared_risk_receipt": "UNIT_TEST_SCOPE_ONLY_NOT_OWNER_APPROVED",
+      "N1": "NO",
+      "N2": "NO",
+      "N_chart": "NO",
+      "roadmap_deferral": "NONE_APPROVED"
+    },
+    {
+      "case_id": "04A02-NORMALITY-NATIVE-01",
+      "authentic_new_decision": null,
+      "S": "PENDING_EXTERNAL_DOMAIN_DECISION",
+      "R": "NOT_APPLICABLE_TO_NATIVE_STAGE; native scientific policy still pending",
+      "independent_real_R_comparison": "NOT_RUN",
+      "independent_reviewer_1": null,
+      "independent_reviewer_2": null,
+      "P": "NO",
+      "shared_risk_receipt": "UNIT_TEST_SCOPE_ONLY_NOT_OWNER_APPROVED",
+      "N1": "NO",
+      "N2": "NO",
+      "N_chart": "NO",
+      "roadmap_deferral": "NONE_APPROVED"
+    },
+    {
+      "case_id": "04A02-2X2-NATIVE-01",
+      "authentic_new_decision": null,
+      "S": "PENDING_EXTERNAL_DOMAIN_DECISION",
+      "R": "NOT_APPLICABLE_TO_NATIVE_STAGE; native scientific policy still pending",
+      "independent_real_R_comparison": "NOT_RUN",
+      "independent_reviewer_1": null,
+      "independent_reviewer_2": null,
+      "P": "NO",
+      "shared_risk_receipt": "UNIT_TEST_SCOPE_ONLY_NOT_OWNER_APPROVED",
+      "N1": "NO",
+      "N2": "NO",
+      "N_chart": "NOT_APPLICABLE_NO_CHART_HANDLER",
+      "roadmap_deferral": "NONE_APPROVED"
+    },
+    {
+      "case_id": "04A02-PCA-NATIVE-01",
+      "authentic_new_decision": null,
+      "S": "PENDING_EXTERNAL_DOMAIN_DECISION",
+      "R": "NOT_APPLICABLE_TO_NATIVE_STAGE; native scientific policy still pending",
+      "independent_real_R_comparison": "NOT_RUN",
+      "independent_reviewer_1": null,
+      "independent_reviewer_2": null,
+      "P": "NO",
+      "shared_risk_receipt": "UNIT_TEST_SCOPE_ONLY_NOT_OWNER_APPROVED",
+      "N1": "NO",
+      "N2": "NO",
+      "N_chart": "NO",
+      "roadmap_deferral": "NONE_APPROVED"
+    }
+  ],
+  "actual_R_output": null,
+  "actual_reference_comparison": null,
+  "promoted_golden": null,
+  "native_capture": null,
+  "personal_library_owner_update": {
+    "owner_supplied_path": "C:\\Users\\peter\\AppData\\Local\\R\\win-library\\4.5",
+    "directory_observed": true,
+    "installed_package_names_observed": [
+      "lme4",
+      "minqa",
+      "nloptr",
+      "rbibutils",
+      "Rcpp",
+      "RcppEigen",
+      "Rdpack",
+      "reformulas"
+    ],
+    "R_process_or_packages_loaded": false,
+    "permission_effect": "No S/R/P/N release; not a trusted oracle output root or private per-run library",
+    "ACL_scope": "Only supplied directory inspected; no parent trust claim, no ACL changes",
+    "evidence": {
+      "path": "TestResults/04A-02-initial-fixtures-c07-20261030T190822Z/personal-library-owner-update.json",
+      "sha256": "07fbacb7a40a44815b8c9248257ae85b6e0e7707f49ff5ca302d8eb062174fcb"
+    }
+  }
+}

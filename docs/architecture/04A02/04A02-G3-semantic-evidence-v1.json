@@ -1,0 +1,64 @@
+{
+  "schema": "04A02-G3-semantic-evidence-v1",
+  "status": "EXECUTION_BACKED_SEMANTIC_CANDIDATES_NOT_NUMERICAL_REFERENCES",
+  "parent": "04A02-TABLE-SEMANTIC-01",
+  "test_source": {
+    "path": "BESHStat.Excel.Common.Tests/src/MigrationSemantic04A02Tests.vb",
+    "sha256": "4339c948900407ff9733784044baa353a4ba65753b4b147e242c4b00d195e7da"
+  },
+  "source_spec": {
+    "path": "BESHStat.Excel.Common.Tests/TestData/04A02/semantic-table-source-spec-v1.json",
+    "sha256": "109e0e8a07e99d632ea1f94d4ca15143bc0cf76998f3bf12e209c8c1c1e6fcef"
+  },
+  "observations": [
+    {
+      "path": "TestResults/04A-02-initial-fixtures-checkpoint05-20261030T172052Z/executions/c05-focused-Debug/observations/C05-G3-C30-SYN-ANOVA-invariant.json",
+      "sha256": "5bb05d6287cec8b80d690f21f29dfcb0ff42e5cb7548f3e750b0b67629171b2e"
+    },
+    {
+      "path": "TestResults/04A-02-initial-fixtures-checkpoint05-20261030T172052Z/executions/c05-focused-Debug/observations/C05-G3-C30-SYN-ANOVA-sk-SK.json",
+      "sha256": "6ebb1fe9e70e9609d9cede7493c281f28f930693de8fa777984412155a073830"
+    },
+    {
+      "path": "TestResults/04A-02-initial-fixtures-checkpoint05-20261030T172052Z/executions/c05-focused-Debug/observations/C05-G3-C30-SYN-KW-invariant.json",
+      "sha256": "798c39cf129078fa2152febe2030eb8d5bdffd41d93b4eb4c8e35ba006d72bc9"
+    },
+    {
+      "path": "TestResults/04A-02-initial-fixtures-checkpoint05-20261030T172052Z/executions/c05-focused-Debug/observations/C05-G3-C30-SYN-KW-sk-SK.json",
+      "sha256": "ac80dbd3dd5c34db836fb6e0e4e378f1e855eb744282815fb9d05720a9514fe0"
+    }
+  ],
+  "tested_contracts": [
+    "real services: ordered primary cells and all CLR/null/empty roles",
+    "real OutputDocument snapshot/diagnostic roles and one-based layout bounds",
+    "real ResultTable and request nonfinite-to-text policy",
+    "Invariant/sk-SK type and authored labels; p preview policy only",
+    "real optional result absence and KW raw/corrected field-to-cell links",
+    "negative table/type/order/p-metadata/null mutation; duplicate artifact rejection"
+  ],
+  "reference": null,
+  "approved_golden": null,
+  "native_rendering": "NOT_CAPTURED",
+  "remaining": "Independent scientific reference/promoted numerical semantic expectations; native rendered p-format/geometry; independent owner review",
+  "consumed_by": [
+    "04A.03",
+    "04A.07",
+    "04A.28",
+    "04A.48"
+  ],
+  "execution_assembly_pins": [
+    {
+      "path": "TestResults/04A-02-initial-fixtures-checkpoint05-20261030T172052Z/executions/c05-focused-Debug/sandbox/Common/bin/Debug/net10.0/BESHStat.Excel.Common.Tests.dll",
+      "sha256": "ef3f31316937f15dd138605ebab1396a4008bb836bb568abeee5818dfe6c98ab"
+    },
+    {
+      "path": "TestResults/04A-02-initial-fixtures-checkpoint05-20261030T172052Z/executions/c05-focused-Debug/sandbox/Common/bin/Debug/net10.0/BESHStat.Excel.Common.dll",
+      "sha256": "8c1f955d47406fc9cf59aa82bd67cf7f3a42f09042c12ee016dea1f21b29ee00"
+    },
+    {
+      "path": "TestResults/04A-02-initial-fixtures-checkpoint05-20261030T172052Z/executions/c05-focused-Debug/sandbox/Common/bin/Debug/net10.0/BESHStat.Core.dll",
+      "sha256": "1ad1bbf3e64de38f18508ae7d8e1fdd581ec6bd9bedb0494338312065a199ac4"
+    }
+  ],
+  "diagnostic_fixture_scope": "Synthetic warning/fault objects and nonfinite Core table exercise real Common contracts; not claimed actual service faults or approved singular policies."
+}

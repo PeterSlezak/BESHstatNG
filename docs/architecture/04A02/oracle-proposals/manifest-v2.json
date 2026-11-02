@@ -1,0 +1,101 @@
+{
+  "schema": "04A02-oracle-source-proposal-v2",
+  "status": "SOURCE_ONLY_NOT_EXECUTED_PENDING_REVIEW",
+  "R_version_candidate": "4.5.1",
+  "runtime_qualified": false,
+  "runner": "scripts/04a02/oracle_operator.py",
+  "runner_sha256": "5aa59d822a824808d3fd42bef9b1c1bc8d789dfc92d80dc4a6f108202aa7d30b",
+  "release_gates": {
+    "run_independent_reference": false,
+    "promote_numerical_golden": false,
+    "native_workbook_capture": false
+  },
+  "supersedes_manifest": {
+    "path": "docs/architecture/04A02/oracle-proposals/manifest-v1.json",
+    "sha256": "65de4e6fddcfe568cac2c7189b507035b032f434ffccc7643a2ebdf5741afdc7",
+    "original_files_preserved": true
+  },
+  "cases": [
+    {
+      "case_id": "C30-SYN-ANOVA",
+      "script": "docs/architecture/04A02/oracle-proposals/anova-proposed-v2.R",
+      "script_sha256": "e3ebab74a5a802ea9753ae9c876140bad644947ef39d38d27d17d2d4abdd4ae3",
+      "script_version": "proposal-2",
+      "execution_status": "NOT_EXECUTED",
+      "supersedes": {
+        "script": "docs/architecture/04A02/oracle-proposals/anova-proposed.R",
+        "script_sha256": "4d6475f1ac12fbbc37424e6910a8a80fe76265f0b5c8ea3be45b0ec51a369c74",
+        "reason": "R wx is not a documented atomic exclusive-create mode; unsafe for publication"
+      },
+      "fixture_file_sha256": "ff7f518cee7a57d3a49276d8ad6ecae035364cfb87a865d62eaa47f34796ba34",
+      "dataset_sha256": "98dce529f444e6ede2f5f8e34ef072cd7407efd2a3a25597d2d1504c6b4f6cba",
+      "method_id": "classical-one-way-anova",
+      "tail_policy": "upper-F-2-6",
+      "finite_policy": "reject-unapproved-degenerate",
+      "metric_fields": [
+        "FStatistic",
+        "PValue",
+        "SSBetween",
+        "SSWithin",
+        "SSTotal",
+        "MSBetween",
+        "MSWithin",
+        "DFBetween",
+        "DFWithin",
+        "DFTotal"
+      ],
+      "df_fields": {
+        "DFBetween": 2,
+        "DFWithin": 6,
+        "DFTotal": 8
+      },
+      "p_fields": [
+        "PValue"
+      ],
+      "tolerance_classes": [
+        "statistics",
+        "p_values",
+        "sums_and_means"
+      ]
+    },
+    {
+      "case_id": "C30-SYN-KW",
+      "script": "docs/architecture/04A02/oracle-proposals/kw-proposed-v2.R",
+      "script_sha256": "77f8bdaf5e37100fbbf6e42c0f80dca11980e7908889136440d3b7552221463a",
+      "script_version": "proposal-2",
+      "execution_status": "NOT_EXECUTED",
+      "supersedes": {
+        "script": "docs/architecture/04A02/oracle-proposals/kw-proposed.R",
+        "script_sha256": "874a14699dc359be1f812e2e8b743b9b7a857aa10db91d7fc50e33cf76eef8d9",
+        "reason": "R wx is not a documented atomic exclusive-create mode; unsafe for publication"
+      },
+      "fixture_file_sha256": "c4ec2f9483ebf286b1e384b1582bff369f3675a60f8b9623cc0845401bcd3837",
+      "dataset_sha256": "7e156caca9ded21a8e0967d5755ec40143a11542b2094cc03ebe7474400e120e",
+      "method_id": "kruskal-wallis-asymptotic",
+      "tail_policy": "upper-chi-square-2-raw-and-corrected",
+      "finite_policy": "reject-unapproved-degenerate",
+      "metric_fields": [
+        "HStatistic",
+        "PValue",
+        "TieCorrectedHStatistic",
+        "TieCorrectedPValue",
+        "tie_correction",
+        "formula_corrected_H_for_separate_review",
+        "rank_sums",
+        "DF"
+      ],
+      "df_fields": {
+        "DF": 2
+      },
+      "p_fields": [
+        "PValue",
+        "TieCorrectedPValue"
+      ],
+      "tolerance_classes": [
+        "statistics",
+        "p_values",
+        "rank_sums"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "schema": "04A02-C07-N0-contract-v1",
+  "status": "HOST_FREE_DRY_RUN_ONLY",
+  "request": {
+    "stage": "N0_HOST_FREE_DRY_RUN",
+    "case_id": "04A02-2X2-NATIVE-01"
+  },
+  "result": {
+    "schema": "04A02-C07-N0-result-v1",
+    "classification": "HOST_FREE_DRY_RUN_NOT_NATIVE_AUTHORITY",
+    "stage": "N0",
+    "native_calls_allowed": false,
+    "live_execution_authorized": false,
+    "status": "NO_GO_PENDING_EVIDENCE",
+    "missing": [
+      "external_owner_decision",
+      "risk_owner_shared_receipt",
+      "exact_id_reviews",
+      "script_hash_review",
+      "xll_hash_review",
+      "owned_pid_session_start_proof",
+      "exclusive_disposable_context_proof",
+      "provider_read_side_effect_policy",
+      "rot_or_exact_instance_binding_review",
+      "external_timeout_supervisor",
+      "no_write_before_after_proof",
+      "N1_state_permission"
+    ],
+    "note": "Booleans are test inputs, never an attributable owner signature; no API callback is accepted or invoked."
+  },
+  "C06_pilot": {
+    "path": "docs/architecture/04A02/04A02-GUI-readonly-pilot-proposal-v1.ps1",
+    "sha256": "af7699a7363e664b6d9fc79d55ca746800636e2fbd1e77dd3804bbe6967a2263"
+  },
+  "source_review_findings": [
+    "ROT-selected GetActiveObject attaches before PID check; may not be desired /x instance",
+    "UIA Current/Value getters are reads but provider side effects/TOCTOU can occur; NoWorkbookWrite=True is not a measured guarantee",
+    "External supervisor and pre/post exact context checks are prerequisites, not implemented runtime proof",
+    "N1 state authority cannot imply N2 output authority; no live stage under current prompt"
+  ],
+  "screen_fixture": {
+    "classification": "PROPOSED_INPUT_CONTRACT_NOT_NATIVE_CAPTURE",
+    "case_id": "04A02-2X2-NATIVE-01",
+    "counts": [
+      [
+        1,
+        9
+      ],
+      [
+        11,
+        3
+      ]
+    ],
+    "orientation": [
+      "R1C1=A",
+      "R1C2=B",
+      "R2C1=C",
+      "R2C2=D"
+    ],
+    "alpha": 0.05,
+    "options": {
+      "Fisher": true,
+      "OR": true,
+      "RR": true,
+      "Chi2": false,
+      "Association": false,
+      "Liddell": false
+    },
+    "numeric_reference": null,
+    "native_executed": false
+  },
+  "additional_cases": [
+    {
+      "input": "zero cells",
+      "policy": "NOT_APPROVED_NUMERIC_OUTCOME; separate N2 negative authorization"
+    },
+    {
+      "input": "invalid/negative/nonfinite/overflow count",
+      "policy": "REJECT_PROPOSAL_ADMISSION; not a claim about current worksheet importer"
+    },
+    {
+      "input": "N>1000 exact Fisher and no selected statistic",
+      "policy": "Source modal/error paths reviewed, NOT RUN; do not auto-dismiss"
+    }
+  ]
+}

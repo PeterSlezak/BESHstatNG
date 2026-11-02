@@ -1,0 +1,740 @@
+{
+  "schema": "04A02-R-runtime-qualification-v1",
+  "status": "QUALIFIED_FOR_READ_ONLY_PROBING",
+  "qualified_for_official_reference_execution": false,
+  "authority": "Owner C06 explicitly permits local discovery and nonstatistical version/startup/dependency/ACL probing only",
+  "canonical_r_home": "C:\\Program Files\\R\\R-4.5.1",
+  "R_HOME_inherited": null,
+  "installations": [
+    "C:\\Program Files\\R\\R-4.4.3",
+    "C:\\Program Files\\R\\R-4.5.1"
+  ],
+  "historical_443_executed": false,
+  "binary_file_metadata": [
+    {
+      "Path": "C:\\Program Files\\R\\R-4.5.1\\bin\\R.exe",
+      "Length": 154624,
+      "FileVersion": "4.5.1  (2025-06-13)",
+      "ProductVersion": "",
+      "SHA256": "49BEA1F72A9B4B37C420F9B2386B9F9C4F3FC46BF1F2FF1DFD783B69F03902EB",
+      "SignatureStatus": "NotSigned"
+    },
+    {
+      "Path": "C:\\Program Files\\R\\R-4.5.1\\bin\\Rscript.exe",
+      "Length": 154624,
+      "FileVersion": "4.5.1  (2025-06-13)",
+      "ProductVersion": "",
+      "SHA256": "49BEA1F72A9B4B37C420F9B2386B9F9C4F3FC46BF1F2FF1DFD783B69F03902EB",
+      "SignatureStatus": "NotSigned"
+    },
+    {
+      "Path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\R.exe",
+      "Length": 153600,
+      "FileVersion": "4.5.1  (2025-06-13)",
+      "ProductVersion": "",
+      "SHA256": "5BBC95A505DFD3320D0ECC3F6624409F4B48C52C78C759905C6C3A3E4D3E0556",
+      "SignatureStatus": "NotSigned"
+    },
+    {
+      "Path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rscript.exe",
+      "Length": 94720,
+      "FileVersion": "4.5.1  (2025-06-13)",
+      "ProductVersion": "",
+      "SHA256": "BA14ED16B879D617AB9EC69570C6F9EDF4D7F2C5EA17235021812A9D9AF0F16D",
+      "SignatureStatus": "NotSigned"
+    },
+    {
+      "Path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\R.dll",
+      "Length": 40483328,
+      "FileVersion": "4.5.1  (2025-06-13)",
+      "ProductVersion": "",
+      "SHA256": "11D32B3DCB3E919EA3BB95BE4965D3C6C6DC3A63ABB66D74E45973A24D654ED1",
+      "SignatureStatus": "NotSigned"
+    },
+    {
+      "Path": "C:\\Program Files\\R\\R-4.5.1\\library\\stats\\libs\\x64\\stats.dll",
+      "Length": 622592,
+      "FileVersion": "4.5.1  (2025-06-13)",
+      "ProductVersion": "",
+      "SHA256": "EE1171ADD01148D6D025612D7FA34DEADA3D79347BE745213270F2A4625B185A",
+      "SignatureStatus": "NotSigned"
+    }
+  ],
+  "actual_r_version": "4.5.1",
+  "actual_stats_version": "4.5.1",
+  "platform": "x86_64-w64-mingw32",
+  "bitness": 64,
+  "locale_qualified": "C",
+  "first_attempt_limit": "Inherited C.UTF-8 startup warnings and overescaped probe JSON retained; not admitted as clean JSON smoke",
+  "clean_nonstatistical_probes": {
+    "scope": "NONSTATISTICAL_ONLY_NOT_OFFICIAL_REFERENCE",
+    "commands": [
+      {
+        "name": "startup-version-json",
+        "command": [
+          "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rscript.exe",
+          "--vanilla",
+          "-e",
+          "stopifnot(as.character(getRversion()) == \"4.5.1\", as.character(utils::packageVersion(\"stats\")) == \"4.5.1\", .Machine$sizeof.pointer == 8L); cat(sprintf('{\"r_version\":\"%s\",\"stats_version\":\"%s\",\"arch\":\"%s\",\"pointer_bytes\":%d}\\n', as.character(getRversion()), as.character(utils::packageVersion(\"stats\")), R.version$arch, .Machine$sizeof.pointer))"
+        ],
+        "exit_code": 0,
+        "stdout": "{\"r_version\":\"4.5.1\",\"stats_version\":\"4.5.1\",\"arch\":\"x86_64\",\"pointer_bytes\":8}\r\n",
+        "stderr": ""
+      },
+      {
+        "name": "environment",
+        "command": [
+          "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rscript.exe",
+          "--vanilla",
+          "-e",
+          "dput(list(r_home=R.home(),platform=R.version$platform,locale=Sys.getlocale(),numeric_locale=Sys.getlocale(\"LC_NUMERIC\"),libraries=.libPaths(),default_packages=getOption(\"defaultPackages\")))"
+        ],
+        "exit_code": 0,
+        "stdout": "list(r_home = \"C:/PROGRA~1/R/R-45~1.1\", platform = \"x86_64-w64-mingw32\", \r\n    locale = \"C\", numeric_locale = \"C\", libraries = c(\"C:/Users/peter/source/repos/BESHstatNG/TestResults/04A-02-initial-fixtures-checkpoint06-20261030T181007Z/r-readonly-probe-c-locale/user-library\", \r\n    \"C:/Program Files/R/R-4.5.1/library\"), default_packages = c(\"utils\", \r\n    \"stats\"))\r\n",
+        "stderr": ""
+      }
+    ],
+    "environment_overrides": {
+      "R_HOME": "C:\\Program Files\\R\\R-4.5.1",
+      "R_USER": "C:\\Users\\peter\\source\\repos\\BESHstatNG\\TestResults\\04A-02-initial-fixtures-checkpoint06-20261030T181007Z\\r-readonly-probe-c-locale\\home",
+      "HOME": "C:\\Users\\peter\\source\\repos\\BESHstatNG\\TestResults\\04A-02-initial-fixtures-checkpoint06-20261030T181007Z\\r-readonly-probe-c-locale\\home",
+      "R_LIBS_USER": "C:\\Users\\peter\\source\\repos\\BESHstatNG\\TestResults\\04A-02-initial-fixtures-checkpoint06-20261030T181007Z\\r-readonly-probe-c-locale\\user-library",
+      "R_LIBS_SITE": "C:\\Users\\peter\\source\\repos\\BESHstatNG\\TestResults\\04A-02-initial-fixtures-checkpoint06-20261030T181007Z\\r-readonly-probe-c-locale\\user-library",
+      "TMPDIR": "C:\\Users\\peter\\source\\repos\\BESHstatNG\\TestResults\\04A-02-initial-fixtures-checkpoint06-20261030T181007Z\\r-readonly-probe-c-locale\\tmp",
+      "LC_ALL": "C",
+      "LANG": "C",
+      "LANGUAGE": "C",
+      "R_DEFAULT_PACKAGES": "utils,stats",
+      "PATH": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64;C:\\WINDOWS/System32;C:\\WINDOWS"
+    }
+  },
+  "operator_shaped_environment_startup": {
+    "evidence_path": "TestResults/04A-02-initial-fixtures-checkpoint06-20261030T181007Z/r-loaded-modules.json",
+    "sha256": "e193b90ca34801990c0b24b20d3aedfab7768ac385b079f148abfac7e757e6b0",
+    "module_count": 38,
+    "exit_code": 0
+  },
+  "runtime_components_proposed_for_owner_review": [
+    {
+      "relative_path": "bin/x64/R.dll",
+      "sha256": "11d32b3dcb3e919ea3bb95be4965d3c6c6dc3a63abb66d74e45973a24d654ed1",
+      "bytes": 40483328
+    },
+    {
+      "relative_path": "bin/x64/Rblas.dll",
+      "sha256": "dec926c3281ac06518b6ea33245bd3a86cea831702cb1c793d0a46e84ccf5388",
+      "bytes": 203776
+    },
+    {
+      "relative_path": "bin/x64/Rgraphapp.dll",
+      "sha256": "5ff339b46b692532c62dce7fd064afde780d710720d1000a9df8b7cd95ce8c04",
+      "bytes": 255488
+    },
+    {
+      "relative_path": "bin/x64/Riconv.dll",
+      "sha256": "5b181fd44d819a1f60cfa504a0a59f909288a9a0ffc6e4c2edbfc3c58a5a9929",
+      "bytes": 34304
+    },
+    {
+      "relative_path": "bin/x64/Rlapack.dll",
+      "sha256": "b3a75627f710060ea544f07e7d5d58ec00d0422334cd6342c76fc5243a30e4f2",
+      "bytes": 2983936
+    },
+    {
+      "relative_path": "library/base/DESCRIPTION",
+      "sha256": "73d206b24df8d82f7612f641e62cb772b22a9d97ece166c7a01e0afab474c2e9",
+      "bytes": 398
+    },
+    {
+      "relative_path": "library/base/R/base.rdb",
+      "sha256": "b3a7efb83181a5c76dd196d3a91bb0847a024186883ea194d9892e0837b3f9c1",
+      "bytes": 1096967
+    },
+    {
+      "relative_path": "library/base/R/base.rdx",
+      "sha256": "e9f99e1e3b901ac43959e0f292c6b6644e9eebcfba5e3e5e057b5b0cb27cce82",
+      "bytes": 14194
+    },
+    {
+      "relative_path": "library/datasets/DESCRIPTION",
+      "sha256": "69d76cdbc3a84929de6f1c222b3907164e801f414f145e47c2b3a73b17c9e7be",
+      "bytes": 356
+    },
+    {
+      "relative_path": "library/datasets/NAMESPACE",
+      "sha256": "b90c1d636c82f2182a266a8564845a896507098ebb3dfae51c302ad4f41db9d9",
+      "bytes": 71
+    },
+    {
+      "relative_path": "library/graphics/DESCRIPTION",
+      "sha256": "68ff6e6e389683cd7c103536842bc0fe4853b29dfe73567d9f77c43c27d1cd35",
+      "bytes": 446
+    },
+    {
+      "relative_path": "library/graphics/libs/x64/graphics.dll",
+      "sha256": "c55a9641b0ddfa98df94d4e46c9cd0c4d7d62c22fb820dd75655ac6fd1e17ae7",
+      "bytes": 278528
+    },
+    {
+      "relative_path": "library/graphics/NAMESPACE",
+      "sha256": "b4639f81f6dc497b3767ce506c65cb30382e95cc52c4abe648006dd25aee83ea",
+      "bytes": 2812
+    },
+    {
+      "relative_path": "library/graphics/R/graphics.rdb",
+      "sha256": "57c65de9036f720678409b7ca8e25d9df7dac9688e8e18c46b0dd789a50aca05",
+      "bytes": 328322
+    },
+    {
+      "relative_path": "library/graphics/R/graphics.rdx",
+      "sha256": "f5abbed1604c76c8f2f815cd68d2f8d49dc76ca1f70265102d9440a40aba99a7",
+      "bytes": 1884
+    },
+    {
+      "relative_path": "library/grDevices/DESCRIPTION",
+      "sha256": "655df97b56783bce1d53cef664940d3f7e06b302e9b704bc3dc442c994efd3f4",
+      "bytes": 494
+    },
+    {
+      "relative_path": "library/grDevices/libs/x64/grDevices.dll",
+      "sha256": "d40093c2a1813fbda6e90679d4caafd4622b8e33f2b605c8b3ac41c9ba2249db",
+      "bytes": 3831808
+    },
+    {
+      "relative_path": "library/grDevices/NAMESPACE",
+      "sha256": "688c5119279c63d620500c637ee3cd53c2e065365f43722cca16ecfc0c095cb2",
+      "bytes": 3125
+    },
+    {
+      "relative_path": "library/grDevices/R/grDevices.rdb",
+      "sha256": "2cc9da7ed1a756809aba84cf706843250bbbf13d97df7e6971eaedc7a3eafaab",
+      "bytes": 248746
+    },
+    {
+      "relative_path": "library/grDevices/R/grDevices.rdx",
+      "sha256": "653ee50fc38c11b947a22b50708206f7c11a2719c6a53e85b5f586a156d1987e",
+      "bytes": 3359
+    },
+    {
+      "relative_path": "library/methods/DESCRIPTION",
+      "sha256": "9ef5186593017ced9aea2ca5cd497b531be10ad88db17d7a22f9b58782ec9d8b",
+      "bytes": 627
+    },
+    {
+      "relative_path": "library/methods/libs/x64/methods.dll",
+      "sha256": "032775ba8a57dbdd5703a1dbc664cab172cc382f149d9f77923667f2c5a40f3f",
+      "bytes": 41984
+    },
+    {
+      "relative_path": "library/methods/NAMESPACE",
+      "sha256": "5a7048a20040a4b86021ef2777416a8cebf2592e4d4f03342d3c43997298a985",
+      "bytes": 5241
+    },
+    {
+      "relative_path": "library/methods/R/methods.rdb",
+      "sha256": "9a81abe346134dd5f99a35e58a1dfe7822c108c8529225646eadb1ee88efead8",
+      "bytes": 1341190
+    },
+    {
+      "relative_path": "library/methods/R/methods.rdx",
+      "sha256": "a2e75b6fb6072a2f70a432e4efd7a7fd132a748a4b037eb5f8a57ae7766e0dea",
+      "bytes": 14373
+    },
+    {
+      "relative_path": "library/stats/DESCRIPTION",
+      "sha256": "7f74d8110ff7cac38ae1afb814828a3aaf8b01995c7f3cf86bcbd05076706df1",
+      "bytes": 570
+    },
+    {
+      "relative_path": "library/stats/libs/x64/stats.dll",
+      "sha256": "ee1171add01148d6d025612d7fa34deada3d79347be745213270f2a4625b185a",
+      "bytes": 622592
+    },
+    {
+      "relative_path": "library/stats/NAMESPACE",
+      "sha256": "3c5f7463f69e5803c10032cb7b10de614927e0a28e92665e81857f7a6fa759c1",
+      "bytes": 17205
+    },
+    {
+      "relative_path": "library/stats/R/stats.rdb",
+      "sha256": "8254f3e51c5a36e2b5d6db275284c172dec4025623c42e4fe47f4e2bcfa54285",
+      "bytes": 1665754
+    },
+    {
+      "relative_path": "library/stats/R/stats.rdx",
+      "sha256": "8db291da4df853dd4525a1cc7fa191544c76d72f4c4d330d177eeefed6122ffa",
+      "bytes": 11203
+    },
+    {
+      "relative_path": "library/utils/DESCRIPTION",
+      "sha256": "433fe32d48a6c34077f3b5fd66ed81d65b866168758fd46610b7567f32aa759b",
+      "bytes": 449
+    },
+    {
+      "relative_path": "library/utils/libs/x64/utils.dll",
+      "sha256": "bd2d4b7c95892a74a6ea2f017263c243ceb85ac670c425f6f265b86a3fef9a75",
+      "bytes": 138752
+    },
+    {
+      "relative_path": "library/utils/NAMESPACE",
+      "sha256": "0b2fa534fb02770e76fdd9299a7a0f4abf7578fc2c7f1becb2dafa1f182328d1",
+      "bytes": 7936
+    },
+    {
+      "relative_path": "library/utils/R/utils.rdb",
+      "sha256": "de9e224a790424c7d113aa9843d6d6a49210e9fa3415a3ae89cc4e0b8e149f09",
+      "bytes": 1019690
+    },
+    {
+      "relative_path": "library/utils/R/utils.rdx",
+      "sha256": "ac72c0d5b0cabe2171e8866c1b1262c7453c1bbce55c443baffe3fb4ca111a42",
+      "bytes": 8319
+    }
+  ],
+  "static_dependency_review": {
+    "evidence_path": "TestResults/04A-02-initial-fixtures-checkpoint06-20261030T181007Z/r-static-dependency-review.json",
+    "sha256": "ee60429dbc05f9af9948e01c9c7ff875e7c2b1ea845825d01e5986b0816e2b48",
+    "bundled_components": 7,
+    "import_edges": 98,
+    "unresolved_normal_imports": [],
+    "limitations": [
+      "Normal imports only; delay/dynamic loading and actual statistical computation closure are not qualified",
+      "API-set entries require OS loader resolution, not invented DLL hashes"
+    ]
+  },
+  "ACL": [
+    {
+      "Path": "C:\\Program Files\\R\\R-4.5.1",
+      "Owner": "BUILTIN\\Administrators",
+      "Sddl": "O:BAG:S-1-5-21-142429299-24905182-1790040237-1002D:AI(A;ID;FA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;CIIOID;GA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;ID;FA;;;SY)(A;OICIIOID;GA;;;SY)(A;ID;FA;;;BA)(A;OICIIOID;GA;;;BA)(A;ID;0x1200a9;;;BU)(A;OICIIOID;GXGR;;;BU)(A;OICIIOID;GA;;;CO)(A;ID;0x1200a9;;;AC)(A;OICIIOID;GXGR;;;AC)(A;ID;0x1200a9;;;S-1-15-2-2)(A;OICIIOID;GXGR;;;S-1-15-2-2)",
+      "Access": [
+        {
+          "IdentityReference": {
+            "Value": "NT SERVICE\\TrustedInstaller"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT SERVICE\\TrustedInstaller"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT AUTHORITY\\SYSTEM"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT AUTHORITY\\SYSTEM"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Administrators"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Administrators"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Users"
+          },
+          "FileSystemRights": 1179817,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Users"
+          },
+          "FileSystemRights": -1610612736,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "CREATOR OWNER"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES"
+          },
+          "FileSystemRights": 1179817,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES"
+          },
+          "FileSystemRights": -1610612736,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES"
+          },
+          "FileSystemRights": 1179817,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES"
+          },
+          "FileSystemRights": -1610612736,
+          "AccessControlType": 0,
+          "IsInherited": true
+        }
+      ]
+    },
+    {
+      "Path": "C:\\Program Files\\R",
+      "Owner": "BUILTIN\\Administrators",
+      "Sddl": "O:BAG:S-1-5-21-142429299-24905182-1790040237-1002D:AI(A;ID;FA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;CIIOID;GA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;ID;FA;;;SY)(A;OICIIOID;GA;;;SY)(A;ID;FA;;;BA)(A;OICIIOID;GA;;;BA)(A;ID;0x1200a9;;;BU)(A;OICIIOID;GXGR;;;BU)(A;OICIIOID;GA;;;CO)(A;ID;0x1200a9;;;AC)(A;OICIIOID;GXGR;;;AC)(A;ID;0x1200a9;;;S-1-15-2-2)(A;OICIIOID;GXGR;;;S-1-15-2-2)",
+      "Access": [
+        {
+          "IdentityReference": {
+            "Value": "NT SERVICE\\TrustedInstaller"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT SERVICE\\TrustedInstaller"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT AUTHORITY\\SYSTEM"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT AUTHORITY\\SYSTEM"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Administrators"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Administrators"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Users"
+          },
+          "FileSystemRights": 1179817,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Users"
+          },
+          "FileSystemRights": -1610612736,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "CREATOR OWNER"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES"
+          },
+          "FileSystemRights": 1179817,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES"
+          },
+          "FileSystemRights": -1610612736,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES"
+          },
+          "FileSystemRights": 1179817,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES"
+          },
+          "FileSystemRights": -1610612736,
+          "AccessControlType": 0,
+          "IsInherited": true
+        }
+      ]
+    },
+    {
+      "Path": "C:\\Program Files",
+      "Owner": "NT SERVICE\\TrustedInstaller",
+      "Sddl": "O:S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464G:S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464D:PAI(A;OICIIO;GA;;;CO)(A;OICIIO;GA;;;SY)(A;;0x1301bf;;;SY)(A;OICIIO;GA;;;BA)(A;;0x1301bf;;;BA)(A;OICIIO;GXGR;;;BU)(A;;0x1200a9;;;BU)(A;CIIO;GA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;;FA;;;S-1-5-80-956008885-3418522649-1831038044-1853292631-2271478464)(A;;0x1200a9;;;AC)(A;OICIIO;GXGR;;;AC)(A;;0x1200a9;;;S-1-15-2-2)(A;OICIIO;GXGR;;;S-1-15-2-2)",
+      "Access": [
+        {
+          "IdentityReference": {
+            "Value": "CREATOR OWNER"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT AUTHORITY\\SYSTEM"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT AUTHORITY\\SYSTEM"
+          },
+          "FileSystemRights": 1245631,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Administrators"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Administrators"
+          },
+          "FileSystemRights": 1245631,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Users"
+          },
+          "FileSystemRights": -1610612736,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Users"
+          },
+          "FileSystemRights": 1179817,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT SERVICE\\TrustedInstaller"
+          },
+          "FileSystemRights": 268435456,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT SERVICE\\TrustedInstaller"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES"
+          },
+          "FileSystemRights": 1179817,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES"
+          },
+          "FileSystemRights": -1610612736,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES"
+          },
+          "FileSystemRights": 1179817,
+          "AccessControlType": 0,
+          "IsInherited": false
+        },
+        {
+          "IdentityReference": {
+            "Value": "APPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES"
+          },
+          "FileSystemRights": -1610612736,
+          "AccessControlType": 0,
+          "IsInherited": false
+        }
+      ]
+    },
+    {
+      "Path": "C:\\Users\\peter\\source\\repos\\BESHstatNG\\TestResults\\04A-02-initial-fixtures-checkpoint06-20261030T181007Z",
+      "Owner": "BESH_NTB\\CodexSandboxOffline",
+      "Sddl": "O:S-1-5-21-142429299-24905182-1790040237-1012G:S-1-5-21-142429299-24905182-1790040237-513D:AI(A;OICIID;0x1301bf;;;S-1-5-21-54700648-4080307029-3937564170-709096005)(A;OICIID;0x1301bf;;;S-1-5-21-142429299-24905182-1790040237-1011)(A;OICIID;0x1301bf;;;S-1-5-21-757992463-2164845368-2697156997-1094949907)(A;OICIID;FA;;;SY)(A;OICIID;FA;;;BA)(A;OICIID;FA;;;S-1-5-21-142429299-24905182-1790040237-1002)",
+      "Access": [
+        {
+          "IdentityReference": {
+            "BinaryLength": 28,
+            "AccountDomainSid": {
+              "BinaryLength": 24,
+              "AccountDomainSid": {
+                "BinaryLength": 24,
+                "AccountDomainSid": {
+                  "BinaryLength": 24,
+                  "AccountDomainSid": "S-1-5-21-54700648-4080307029-3937564170",
+                  "Value": "S-1-5-21-54700648-4080307029-3937564170"
+                },
+                "Value": "S-1-5-21-54700648-4080307029-3937564170"
+              },
+              "Value": "S-1-5-21-54700648-4080307029-3937564170"
+            },
+            "Value": "S-1-5-21-54700648-4080307029-3937564170-709096005"
+          },
+          "FileSystemRights": 1245631,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BESH_NTB\\CodexSandboxUsers"
+          },
+          "FileSystemRights": 1245631,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "BinaryLength": 28,
+            "AccountDomainSid": {
+              "BinaryLength": 24,
+              "AccountDomainSid": {
+                "BinaryLength": 24,
+                "AccountDomainSid": {
+                  "BinaryLength": 24,
+                  "AccountDomainSid": "S-1-5-21-757992463-2164845368-2697156997",
+                  "Value": "S-1-5-21-757992463-2164845368-2697156997"
+                },
+                "Value": "S-1-5-21-757992463-2164845368-2697156997"
+              },
+              "Value": "S-1-5-21-757992463-2164845368-2697156997"
+            },
+            "Value": "S-1-5-21-757992463-2164845368-2697156997-1094949907"
+          },
+          "FileSystemRights": 1245631,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "NT AUTHORITY\\SYSTEM"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BUILTIN\\Administrators"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": true
+        },
+        {
+          "IdentityReference": {
+            "Value": "BESH_NTB\\peter"
+          },
+          "FileSystemRights": 2032127,
+          "AccessControlType": 0,
+          "IsInherited": true
+        }
+      ]
+    }
+  ],
+  "ACL_review_conclusion": "Program Files R ancestors show Users read/execute and administrative/system modification. Sandbox evidence root has multiple modifying identities; no private/trusted official-output ACL attestation is granted. Owner review/new secured run root required for R.",
+  "rscript_signature": "NotSigned; hash pin and version probe do not establish publisher/install-source attestation",
+  "manifest_and_operator_unchanged": true,
+  "reference_gate_state": {
+    "S": "PENDING",
+    "R": false,
+    "P": false,
+    "N": false
+  },
+  "remaining": [
+    "Per-case scientific adoption including field-specific tolerances/edges/p range",
+    "Separate positive roadmap R release",
+    "Owner review of runtime/dependency closure/dynamic and delay imports/OS loader assumptions",
+    "Trusted output ACL and independently reviewed publication destination",
+    "Real R candidate/statistical JSON/receipt qualification under authorized case run; NOT performed here"
+  ],
+  "package_code_review": "Pinned loaded R-owned components plus bundled base/stats/utils/graphics/grDevices/methods/datasets DESCRIPTION/NAMESPACE/R database/index when present. Not a complete dynamic statistical run closure or installer attestation."
+}

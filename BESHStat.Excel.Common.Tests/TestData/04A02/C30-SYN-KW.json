@@ -1,0 +1,101 @@
+{
+  "schema": "04A02-typed-preparation-v1",
+  "case_id": "C30-SYN-KW",
+  "kind": "typed-synthetic",
+  "approved_scope": "typed-only preparation",
+  "proposal_path": "docs/architecture/WindowsMigrationLedger/continuation30-safe-fixture-candidates.json",
+  "source_commit": "12e25924aae93f0b36ab33937176c86c19641b50",
+  "source_pins": [
+    {
+      "path": "docs/architecture/WindowsMigrationLedger/continuation30-safe-fixture-candidates.json",
+      "sha256": "245db2aed55ace354cac95e7dc3537c78802f9e61e6af144c36c87546badc941"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Input/GroupedNumericRangeParser.vb",
+      "sha256": "44bf9cd1d949ea4f6fdfe5e4db374d74113ecfa68fde5788d865334c0dae68eb"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/SpreadsheetAnalysisContracts.vb",
+      "sha256": "7c6ff02d9810d23e702ef07af8a6facc0d38920d97f58ea75971bbac180a5bae"
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/KruskalWallisApplicationService.vb",
+      "sha256": "31ea5324a34fec6e44bda405ed8cacdb9c66b09797603457d4edada4e4a6a1f3"
+    }
+  ],
+  "dataset": {
+    "group_labels": [
+      "A",
+      "B",
+      "C"
+    ],
+    "values": [
+      [
+        1,
+        2,
+        2
+      ],
+      [
+        2,
+        4,
+        6
+      ],
+      [
+        3,
+        5,
+        7
+      ]
+    ],
+    "row_ids": [
+      [
+        101,
+        103,
+        107
+      ],
+      [
+        109,
+        113,
+        127
+      ],
+      [
+        131,
+        137,
+        139
+      ]
+    ]
+  },
+  "dataset_sha256": "7e156caca9ded21a8e0967d5755ec40143a11542b2094cc03ebe7474400e120e",
+  "row_id_transport": "provenance-only; not transported by GroupedNumericData",
+  "method": "Kruskal-Wallis; scientific inference policy pending",
+  "alpha": 0.05,
+  "options": {
+    "IncludeDunnComparisons": false
+  },
+  "seed": "N/A",
+  "culture": "InvariantCulture",
+  "planned_culture_check": "sk-SK",
+  "missing_finite_error_policy": "Fixture admission rejects absent labels, nonfinite values and mismatched provenance; no workbook/date/error transport is exercised. Production degeneracy policy awaits approval.",
+  "expected_table_schema": {
+    "classification": "semantic candidate only",
+    "ordering": "service table/cell order preserved",
+    "cell_types": "CLR type plus primitive value; explicit null",
+    "pvalue_semantics": "numeric values and original cell/column metadata; rendered format pending"
+  },
+  "scientific_admission": "PENDING_ORACLE_APPROVAL",
+  "reference_status": "NOT_APPROVED",
+  "expected_numerical_reference": null,
+  "reference_provenance": {
+    "script": null,
+    "version": null,
+    "method": null,
+    "citation": null,
+    "generated_at": null,
+    "approval": null
+  },
+  "tolerances": [],
+  "observed_state": "NOT_RUN_IN_FIXTURE",
+  "output_status": "CANDIDATE_ONLY",
+  "live_control_capture": false,
+  "control_ids": [],
+  "mitigation_release_status": "typed only; no native release implied"
+}

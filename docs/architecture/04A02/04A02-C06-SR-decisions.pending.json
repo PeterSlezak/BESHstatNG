@@ -1,0 +1,425 @@
+{
+  "schema": "04A02-C06-SR-proposals-v1",
+  "status": "PROPOSED_NOT_AN_AUTHORIZATION",
+  "owner": null,
+  "source_of_positive_decision": null,
+  "signature": null,
+  "cases": [
+    {
+      "schema": "04A02-owner-reference-decision-v2",
+      "status": "PENDING_NEW_OWNER_DOMAIN_DECISION",
+      "decision_id": null,
+      "case_id": "C30-SYN-ANOVA",
+      "scientific_method_approved": false,
+      "domain_owner_decision_id": null,
+      "roadmap_owner_execution_decision_id": null,
+      "domain_owner": null,
+      "roadmap_owner": null,
+      "decision_record_reference": null,
+      "decided_at_utc": null,
+      "release_gates": {
+        "run_independent_reference": false,
+        "promote_numerical_golden": false,
+        "native_workbook_capture": false
+      },
+      "proposal_manifest_sha256": "92bfb3ecc8849b3f8ff120f2b910d17d6f3d85ebf3fdd7a7a4d361a53f34f6f4",
+      "runner_sha256": "5aa59d822a824808d3fd42bef9b1c1bc8d789dfc92d80dc4a6f108202aa7d30b",
+      "script_sha256": "e3ebab74a5a802ea9753ae9c876140bad644947ef39d38d27d17d2d4abdd4ae3",
+      "r_version": "4.5.1",
+      "stats_version": "4.5.1",
+      "rscript_sha256": "ba14ed16b879d617ab9ec69570c6f9edf4d7f2c5ea17235021812a9d9af0f16d",
+      "runtime_components": [
+        {
+          "relative_path": "bin/x64/R.dll",
+          "sha256": "11d32b3dcb3e919ea3bb95be4965d3c6c6dc3a63abb66d74e45973a24d654ed1"
+        },
+        {
+          "relative_path": "bin/x64/Rblas.dll",
+          "sha256": "dec926c3281ac06518b6ea33245bd3a86cea831702cb1c793d0a46e84ccf5388"
+        },
+        {
+          "relative_path": "bin/x64/Rgraphapp.dll",
+          "sha256": "5ff339b46b692532c62dce7fd064afde780d710720d1000a9df8b7cd95ce8c04"
+        },
+        {
+          "relative_path": "bin/x64/Riconv.dll",
+          "sha256": "5b181fd44d819a1f60cfa504a0a59f909288a9a0ffc6e4c2edbfc3c58a5a9929"
+        },
+        {
+          "relative_path": "bin/x64/Rlapack.dll",
+          "sha256": "b3a75627f710060ea544f07e7d5d58ec00d0422334cd6342c76fc5243a30e4f2"
+        },
+        {
+          "relative_path": "library/base/DESCRIPTION",
+          "sha256": "73d206b24df8d82f7612f641e62cb772b22a9d97ece166c7a01e0afab474c2e9"
+        },
+        {
+          "relative_path": "library/base/R/base.rdb",
+          "sha256": "b3a7efb83181a5c76dd196d3a91bb0847a024186883ea194d9892e0837b3f9c1"
+        },
+        {
+          "relative_path": "library/base/R/base.rdx",
+          "sha256": "e9f99e1e3b901ac43959e0f292c6b6644e9eebcfba5e3e5e057b5b0cb27cce82"
+        },
+        {
+          "relative_path": "library/datasets/DESCRIPTION",
+          "sha256": "69d76cdbc3a84929de6f1c222b3907164e801f414f145e47c2b3a73b17c9e7be"
+        },
+        {
+          "relative_path": "library/datasets/NAMESPACE",
+          "sha256": "b90c1d636c82f2182a266a8564845a896507098ebb3dfae51c302ad4f41db9d9"
+        },
+        {
+          "relative_path": "library/graphics/DESCRIPTION",
+          "sha256": "68ff6e6e389683cd7c103536842bc0fe4853b29dfe73567d9f77c43c27d1cd35"
+        },
+        {
+          "relative_path": "library/graphics/libs/x64/graphics.dll",
+          "sha256": "c55a9641b0ddfa98df94d4e46c9cd0c4d7d62c22fb820dd75655ac6fd1e17ae7"
+        },
+        {
+          "relative_path": "library/graphics/NAMESPACE",
+          "sha256": "b4639f81f6dc497b3767ce506c65cb30382e95cc52c4abe648006dd25aee83ea"
+        },
+        {
+          "relative_path": "library/graphics/R/graphics.rdb",
+          "sha256": "57c65de9036f720678409b7ca8e25d9df7dac9688e8e18c46b0dd789a50aca05"
+        },
+        {
+          "relative_path": "library/graphics/R/graphics.rdx",
+          "sha256": "f5abbed1604c76c8f2f815cd68d2f8d49dc76ca1f70265102d9440a40aba99a7"
+        },
+        {
+          "relative_path": "library/grDevices/DESCRIPTION",
+          "sha256": "655df97b56783bce1d53cef664940d3f7e06b302e9b704bc3dc442c994efd3f4"
+        },
+        {
+          "relative_path": "library/grDevices/libs/x64/grDevices.dll",
+          "sha256": "d40093c2a1813fbda6e90679d4caafd4622b8e33f2b605c8b3ac41c9ba2249db"
+        },
+        {
+          "relative_path": "library/grDevices/NAMESPACE",
+          "sha256": "688c5119279c63d620500c637ee3cd53c2e065365f43722cca16ecfc0c095cb2"
+        },
+        {
+          "relative_path": "library/grDevices/R/grDevices.rdb",
+          "sha256": "2cc9da7ed1a756809aba84cf706843250bbbf13d97df7e6971eaedc7a3eafaab"
+        },
+        {
+          "relative_path": "library/grDevices/R/grDevices.rdx",
+          "sha256": "653ee50fc38c11b947a22b50708206f7c11a2719c6a53e85b5f586a156d1987e"
+        },
+        {
+          "relative_path": "library/methods/DESCRIPTION",
+          "sha256": "9ef5186593017ced9aea2ca5cd497b531be10ad88db17d7a22f9b58782ec9d8b"
+        },
+        {
+          "relative_path": "library/methods/libs/x64/methods.dll",
+          "sha256": "032775ba8a57dbdd5703a1dbc664cab172cc382f149d9f77923667f2c5a40f3f"
+        },
+        {
+          "relative_path": "library/methods/NAMESPACE",
+          "sha256": "5a7048a20040a4b86021ef2777416a8cebf2592e4d4f03342d3c43997298a985"
+        },
+        {
+          "relative_path": "library/methods/R/methods.rdb",
+          "sha256": "9a81abe346134dd5f99a35e58a1dfe7822c108c8529225646eadb1ee88efead8"
+        },
+        {
+          "relative_path": "library/methods/R/methods.rdx",
+          "sha256": "a2e75b6fb6072a2f70a432e4efd7a7fd132a748a4b037eb5f8a57ae7766e0dea"
+        },
+        {
+          "relative_path": "library/stats/DESCRIPTION",
+          "sha256": "7f74d8110ff7cac38ae1afb814828a3aaf8b01995c7f3cf86bcbd05076706df1"
+        },
+        {
+          "relative_path": "library/stats/libs/x64/stats.dll",
+          "sha256": "ee1171add01148d6d025612d7fa34deada3d79347be745213270f2a4625b185a"
+        },
+        {
+          "relative_path": "library/stats/NAMESPACE",
+          "sha256": "3c5f7463f69e5803c10032cb7b10de614927e0a28e92665e81857f7a6fa759c1"
+        },
+        {
+          "relative_path": "library/stats/R/stats.rdb",
+          "sha256": "8254f3e51c5a36e2b5d6db275284c172dec4025623c42e4fe47f4e2bcfa54285"
+        },
+        {
+          "relative_path": "library/stats/R/stats.rdx",
+          "sha256": "8db291da4df853dd4525a1cc7fa191544c76d72f4c4d330d177eeefed6122ffa"
+        },
+        {
+          "relative_path": "library/utils/DESCRIPTION",
+          "sha256": "433fe32d48a6c34077f3b5fd66ed81d65b866168758fd46610b7567f32aa759b"
+        },
+        {
+          "relative_path": "library/utils/libs/x64/utils.dll",
+          "sha256": "bd2d4b7c95892a74a6ea2f017263c243ceb85ac670c425f6f265b86a3fef9a75"
+        },
+        {
+          "relative_path": "library/utils/NAMESPACE",
+          "sha256": "0b2fa534fb02770e76fdd9299a7a0f4abf7578fc2c7f1becb2dafa1f182328d1"
+        },
+        {
+          "relative_path": "library/utils/R/utils.rdb",
+          "sha256": "de9e224a790424c7d113aa9843d6d6a49210e9fa3415a3ae89cc4e0b8e149f09"
+        },
+        {
+          "relative_path": "library/utils/R/utils.rdx",
+          "sha256": "ac72c0d5b0cabe2171e8866c1b1262c7453c1bbce55c443baffe3fb4ca111a42"
+        }
+      ],
+      "runtime_closure_reviewed": false,
+      "method_id": "classical-one-way-anova",
+      "tail_policy": "upper-F-2-6",
+      "finite_policy": "reject-unapproved-degenerate",
+      "extreme_policy": "reject-outside-approved-ordinary-range",
+      "ordinary_p_range": {
+        "min": null,
+        "max": null
+      },
+      "tolerance_policy_id": null,
+      "tolerances": {
+        "statistics": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        },
+        "p_values": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        },
+        "sums_and_means": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        }
+      },
+      "independent_run_record": null,
+      "exact_core_comparison": null,
+      "exceptions": null,
+      "json_validation_review": null,
+      "first_reviewer": null,
+      "second_reviewer": null,
+      "golden_promotion_decision": null,
+      "native_control_release_and_workbook_decision": null,
+      "output_acl_reviewed": false,
+      "r_home_proposed": "C:\\Program Files\\R\\R-4.5.1",
+      "qualification_record": {
+        "path": "docs/architecture/04A02/04A02-R-runtime-qualification-v1.json",
+        "sha256": "8cedf6bfdbb481ddb01ed2c2e7638bf7250bad705b4b8ae3e77a50460aafba15"
+      }
+    },
+    {
+      "schema": "04A02-owner-reference-decision-v2",
+      "status": "PENDING_NEW_OWNER_DOMAIN_DECISION",
+      "decision_id": null,
+      "case_id": "C30-SYN-KW",
+      "scientific_method_approved": false,
+      "domain_owner_decision_id": null,
+      "roadmap_owner_execution_decision_id": null,
+      "domain_owner": null,
+      "roadmap_owner": null,
+      "decision_record_reference": null,
+      "decided_at_utc": null,
+      "release_gates": {
+        "run_independent_reference": false,
+        "promote_numerical_golden": false,
+        "native_workbook_capture": false
+      },
+      "proposal_manifest_sha256": "92bfb3ecc8849b3f8ff120f2b910d17d6f3d85ebf3fdd7a7a4d361a53f34f6f4",
+      "runner_sha256": "5aa59d822a824808d3fd42bef9b1c1bc8d789dfc92d80dc4a6f108202aa7d30b",
+      "script_sha256": "77f8bdaf5e37100fbbf6e42c0f80dca11980e7908889136440d3b7552221463a",
+      "r_version": "4.5.1",
+      "stats_version": "4.5.1",
+      "rscript_sha256": "ba14ed16b879d617ab9ec69570c6f9edf4d7f2c5ea17235021812a9d9af0f16d",
+      "runtime_components": [
+        {
+          "relative_path": "bin/x64/R.dll",
+          "sha256": "11d32b3dcb3e919ea3bb95be4965d3c6c6dc3a63abb66d74e45973a24d654ed1"
+        },
+        {
+          "relative_path": "bin/x64/Rblas.dll",
+          "sha256": "dec926c3281ac06518b6ea33245bd3a86cea831702cb1c793d0a46e84ccf5388"
+        },
+        {
+          "relative_path": "bin/x64/Rgraphapp.dll",
+          "sha256": "5ff339b46b692532c62dce7fd064afde780d710720d1000a9df8b7cd95ce8c04"
+        },
+        {
+          "relative_path": "bin/x64/Riconv.dll",
+          "sha256": "5b181fd44d819a1f60cfa504a0a59f909288a9a0ffc6e4c2edbfc3c58a5a9929"
+        },
+        {
+          "relative_path": "bin/x64/Rlapack.dll",
+          "sha256": "b3a75627f710060ea544f07e7d5d58ec00d0422334cd6342c76fc5243a30e4f2"
+        },
+        {
+          "relative_path": "library/base/DESCRIPTION",
+          "sha256": "73d206b24df8d82f7612f641e62cb772b22a9d97ece166c7a01e0afab474c2e9"
+        },
+        {
+          "relative_path": "library/base/R/base.rdb",
+          "sha256": "b3a7efb83181a5c76dd196d3a91bb0847a024186883ea194d9892e0837b3f9c1"
+        },
+        {
+          "relative_path": "library/base/R/base.rdx",
+          "sha256": "e9f99e1e3b901ac43959e0f292c6b6644e9eebcfba5e3e5e057b5b0cb27cce82"
+        },
+        {
+          "relative_path": "library/datasets/DESCRIPTION",
+          "sha256": "69d76cdbc3a84929de6f1c222b3907164e801f414f145e47c2b3a73b17c9e7be"
+        },
+        {
+          "relative_path": "library/datasets/NAMESPACE",
+          "sha256": "b90c1d636c82f2182a266a8564845a896507098ebb3dfae51c302ad4f41db9d9"
+        },
+        {
+          "relative_path": "library/graphics/DESCRIPTION",
+          "sha256": "68ff6e6e389683cd7c103536842bc0fe4853b29dfe73567d9f77c43c27d1cd35"
+        },
+        {
+          "relative_path": "library/graphics/libs/x64/graphics.dll",
+          "sha256": "c55a9641b0ddfa98df94d4e46c9cd0c4d7d62c22fb820dd75655ac6fd1e17ae7"
+        },
+        {
+          "relative_path": "library/graphics/NAMESPACE",
+          "sha256": "b4639f81f6dc497b3767ce506c65cb30382e95cc52c4abe648006dd25aee83ea"
+        },
+        {
+          "relative_path": "library/graphics/R/graphics.rdb",
+          "sha256": "57c65de9036f720678409b7ca8e25d9df7dac9688e8e18c46b0dd789a50aca05"
+        },
+        {
+          "relative_path": "library/graphics/R/graphics.rdx",
+          "sha256": "f5abbed1604c76c8f2f815cd68d2f8d49dc76ca1f70265102d9440a40aba99a7"
+        },
+        {
+          "relative_path": "library/grDevices/DESCRIPTION",
+          "sha256": "655df97b56783bce1d53cef664940d3f7e06b302e9b704bc3dc442c994efd3f4"
+        },
+        {
+          "relative_path": "library/grDevices/libs/x64/grDevices.dll",
+          "sha256": "d40093c2a1813fbda6e90679d4caafd4622b8e33f2b605c8b3ac41c9ba2249db"
+        },
+        {
+          "relative_path": "library/grDevices/NAMESPACE",
+          "sha256": "688c5119279c63d620500c637ee3cd53c2e065365f43722cca16ecfc0c095cb2"
+        },
+        {
+          "relative_path": "library/grDevices/R/grDevices.rdb",
+          "sha256": "2cc9da7ed1a756809aba84cf706843250bbbf13d97df7e6971eaedc7a3eafaab"
+        },
+        {
+          "relative_path": "library/grDevices/R/grDevices.rdx",
+          "sha256": "653ee50fc38c11b947a22b50708206f7c11a2719c6a53e85b5f586a156d1987e"
+        },
+        {
+          "relative_path": "library/methods/DESCRIPTION",
+          "sha256": "9ef5186593017ced9aea2ca5cd497b531be10ad88db17d7a22f9b58782ec9d8b"
+        },
+        {
+          "relative_path": "library/methods/libs/x64/methods.dll",
+          "sha256": "032775ba8a57dbdd5703a1dbc664cab172cc382f149d9f77923667f2c5a40f3f"
+        },
+        {
+          "relative_path": "library/methods/NAMESPACE",
+          "sha256": "5a7048a20040a4b86021ef2777416a8cebf2592e4d4f03342d3c43997298a985"
+        },
+        {
+          "relative_path": "library/methods/R/methods.rdb",
+          "sha256": "9a81abe346134dd5f99a35e58a1dfe7822c108c8529225646eadb1ee88efead8"
+        },
+        {
+          "relative_path": "library/methods/R/methods.rdx",
+          "sha256": "a2e75b6fb6072a2f70a432e4efd7a7fd132a748a4b037eb5f8a57ae7766e0dea"
+        },
+        {
+          "relative_path": "library/stats/DESCRIPTION",
+          "sha256": "7f74d8110ff7cac38ae1afb814828a3aaf8b01995c7f3cf86bcbd05076706df1"
+        },
+        {
+          "relative_path": "library/stats/libs/x64/stats.dll",
+          "sha256": "ee1171add01148d6d025612d7fa34deada3d79347be745213270f2a4625b185a"
+        },
+        {
+          "relative_path": "library/stats/NAMESPACE",
+          "sha256": "3c5f7463f69e5803c10032cb7b10de614927e0a28e92665e81857f7a6fa759c1"
+        },
+        {
+          "relative_path": "library/stats/R/stats.rdb",
+          "sha256": "8254f3e51c5a36e2b5d6db275284c172dec4025623c42e4fe47f4e2bcfa54285"
+        },
+        {
+          "relative_path": "library/stats/R/stats.rdx",
+          "sha256": "8db291da4df853dd4525a1cc7fa191544c76d72f4c4d330d177eeefed6122ffa"
+        },
+        {
+          "relative_path": "library/utils/DESCRIPTION",
+          "sha256": "433fe32d48a6c34077f3b5fd66ed81d65b866168758fd46610b7567f32aa759b"
+        },
+        {
+          "relative_path": "library/utils/libs/x64/utils.dll",
+          "sha256": "bd2d4b7c95892a74a6ea2f017263c243ceb85ac670c425f6f265b86a3fef9a75"
+        },
+        {
+          "relative_path": "library/utils/NAMESPACE",
+          "sha256": "0b2fa534fb02770e76fdd9299a7a0f4abf7578fc2c7f1becb2dafa1f182328d1"
+        },
+        {
+          "relative_path": "library/utils/R/utils.rdb",
+          "sha256": "de9e224a790424c7d113aa9843d6d6a49210e9fa3415a3ae89cc4e0b8e149f09"
+        },
+        {
+          "relative_path": "library/utils/R/utils.rdx",
+          "sha256": "ac72c0d5b0cabe2171e8866c1b1262c7453c1bbce55c443baffe3fb4ca111a42"
+        }
+      ],
+      "runtime_closure_reviewed": false,
+      "method_id": "kruskal-wallis-asymptotic",
+      "tail_policy": "upper-chi-square-2-raw-and-corrected",
+      "finite_policy": "reject-unapproved-degenerate",
+      "extreme_policy": "reject-outside-approved-ordinary-range",
+      "ordinary_p_range": {
+        "min": null,
+        "max": null
+      },
+      "tolerance_policy_id": null,
+      "tolerances": {
+        "statistics": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        },
+        "p_values": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        },
+        "rank_sums": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        }
+      },
+      "independent_run_record": null,
+      "exact_core_comparison": null,
+      "exceptions": null,
+      "json_validation_review": null,
+      "first_reviewer": null,
+      "second_reviewer": null,
+      "golden_promotion_decision": null,
+      "native_control_release_and_workbook_decision": null,
+      "output_acl_reviewed": false,
+      "r_home_proposed": "C:\\Program Files\\R\\R-4.5.1",
+      "qualification_record": {
+        "path": "docs/architecture/04A02/04A02-R-runtime-qualification-v1.json",
+        "sha256": "8cedf6bfdbb481ddb01ed2c2e7638bf7250bad705b4b8ae3e77a50460aafba15"
+      }
+    }
+  ],
+  "nonstatistical_probe_permission": "Owner C06 only; does not turn S/R/P/N positive",
+  "note": "Actual R paths/hashes replace unknown proposal slots in this new record only; historical C03/C05 bytes preserved. No official oracle may execute before authentic S plus separate R."
+}

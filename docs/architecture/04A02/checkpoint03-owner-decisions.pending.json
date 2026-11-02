@@ -1,0 +1,144 @@
+{
+  "schema": "04A02-checkpoint03-owner-decisions-pending-v1",
+  "status": "PENDING; NOT AN AUTHORIZATION OR SIGNATURE",
+  "release_gates": {
+    "run_independent_reference": false,
+    "promote_numerical_golden": false,
+    "native_workbook_capture": false
+  },
+  "note": "Create a new separately reviewed case-specific release record only after an affirmative owner/domain decision. Do not edit this pending historical form into a signature.",
+  "cases": [
+    {
+      "schema": "04A02-owner-reference-decision-v2",
+      "status": "PENDING",
+      "decision_id": null,
+      "case_id": "C30-SYN-ANOVA",
+      "scientific_method_approved": false,
+      "domain_owner_decision_id": null,
+      "roadmap_owner_execution_decision_id": null,
+      "domain_owner": null,
+      "roadmap_owner": null,
+      "decision_record_reference": null,
+      "decided_at_utc": null,
+      "release_gates": {
+        "run_independent_reference": false,
+        "promote_numerical_golden": false,
+        "native_workbook_capture": false
+      },
+      "proposal_manifest_sha256": "92bfb3ecc8849b3f8ff120f2b910d17d6f3d85ebf3fdd7a7a4d361a53f34f6f4",
+      "runner_sha256": "5aa59d822a824808d3fd42bef9b1c1bc8d789dfc92d80dc4a6f108202aa7d30b",
+      "script_sha256": "e3ebab74a5a802ea9753ae9c876140bad644947ef39d38d27d17d2d4abdd4ae3",
+      "r_version": "4.5.1",
+      "stats_version": "4.5.1",
+      "rscript_sha256": null,
+      "runtime_components": [
+        {
+          "relative_path": "bin/x64/R.dll",
+          "sha256": null
+        }
+      ],
+      "runtime_closure_reviewed": false,
+      "method_id": "classical-one-way-anova",
+      "tail_policy": "upper-F-2-6",
+      "finite_policy": "reject-unapproved-degenerate",
+      "extreme_policy": "reject-outside-approved-ordinary-range",
+      "ordinary_p_range": {
+        "min": null,
+        "max": null
+      },
+      "tolerance_policy_id": null,
+      "tolerances": {
+        "statistics": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        },
+        "p_values": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        },
+        "sums_and_means": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        }
+      },
+      "independent_run_record": null,
+      "exact_core_comparison": null,
+      "exceptions": null,
+      "json_validation_review": null,
+      "first_reviewer": null,
+      "second_reviewer": null,
+      "golden_promotion_decision": null,
+      "native_control_release_and_workbook_decision": null,
+      "output_acl_reviewed": false
+    },
+    {
+      "schema": "04A02-owner-reference-decision-v2",
+      "status": "PENDING",
+      "decision_id": null,
+      "case_id": "C30-SYN-KW",
+      "scientific_method_approved": false,
+      "domain_owner_decision_id": null,
+      "roadmap_owner_execution_decision_id": null,
+      "domain_owner": null,
+      "roadmap_owner": null,
+      "decision_record_reference": null,
+      "decided_at_utc": null,
+      "release_gates": {
+        "run_independent_reference": false,
+        "promote_numerical_golden": false,
+        "native_workbook_capture": false
+      },
+      "proposal_manifest_sha256": "92bfb3ecc8849b3f8ff120f2b910d17d6f3d85ebf3fdd7a7a4d361a53f34f6f4",
+      "runner_sha256": "5aa59d822a824808d3fd42bef9b1c1bc8d789dfc92d80dc4a6f108202aa7d30b",
+      "script_sha256": "77f8bdaf5e37100fbbf6e42c0f80dca11980e7908889136440d3b7552221463a",
+      "r_version": "4.5.1",
+      "stats_version": "4.5.1",
+      "rscript_sha256": null,
+      "runtime_components": [
+        {
+          "relative_path": "bin/x64/R.dll",
+          "sha256": null
+        }
+      ],
+      "runtime_closure_reviewed": false,
+      "method_id": "kruskal-wallis-asymptotic",
+      "tail_policy": "upper-chi-square-2-raw-and-corrected",
+      "finite_policy": "reject-unapproved-degenerate",
+      "extreme_policy": "reject-outside-approved-ordinary-range",
+      "ordinary_p_range": {
+        "min": null,
+        "max": null
+      },
+      "tolerance_policy_id": null,
+      "tolerances": {
+        "statistics": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        },
+        "p_values": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        },
+        "rank_sums": {
+          "atol": null,
+          "rtol": null,
+          "rationale": null
+        }
+      },
+      "independent_run_record": null,
+      "exact_core_comparison": null,
+      "exceptions": null,
+      "json_validation_review": null,
+      "first_reviewer": null,
+      "second_reviewer": null,
+      "golden_promotion_decision": null,
+      "native_control_release_and_workbook_decision": null,
+      "output_acl_reviewed": false
+    }
+  ]
+}

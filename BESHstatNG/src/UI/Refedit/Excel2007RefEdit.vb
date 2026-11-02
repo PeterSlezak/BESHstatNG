@@ -29,9 +29,14 @@ End Structure
 <DefaultEvent("Changed")>
 Public Class Excel2007RefEdit
 
-    Private WithEvents xlBook As Excel.Workbook
-    Private WithEvents xlSheet As Excel.Worksheet
-    Private WithEvents xlApp As Excel.Application
+    Private xlBook As Excel.Workbook
+    Private xlSheet As Excel.Worksheet
+    Private xlApp As Excel.Application
+    ' Borrowed RCWs; leases own only the event subscriptions, never the RCWs.
+    Private ReadOnly selectionLease As New RefEditEventLease(Of Excel.Range)
+    Private ReadOnly workbookLease As New RefEditEventLease(Of Object)
+    Private captureFaulted As Boolean
+    Private captureTransitioning As Boolean
     Private DisplayState As RefEditState
     Private pbInTextAdressHandler As Boolean = False
 
@@ -82,33 +87,92 @@ Public Class Excel2007RefEdit
     End Property
 #End Region
 
-    Private Sub xlSheetChangeHandle(ByVal target As Excel.Worksheet) Handles xlBook.SheetActivate
-        ' A deleted worksheet leaves its RCW non-Nothing but disconnected (0x800401A8).
-        ' Rebind from the event argument; never read properties of the old worksheet.
-        If Me.IsDisposed OrElse Not Me.pbInTextAdressHandler Then Return
+    Private Sub xlSheetChangeHandle(ByVal target As Excel.Worksheet)
+        If Me.IsDisposed OrElse captureFaulted OrElse captureTransitioning OrElse Not pbInTextAdressHandler Then Return
+        RunCaptureBoundary("SheetActivate", Sub()
+                                               If target Is Nothing Then
+                                                   xlSheet = Nothing
+                                                   Return
+                                               End If
+                                               If Not Object.ReferenceEquals(target.Parent, xlBook) OrElse
+                                                  Not Object.ReferenceEquals(_ExcelConnector.ActiveWorkbook, xlBook) Then Return
+                                               xlSheet = target
+                                               BindSelection(target)
+                                               pbInTextAdressHandler = True
+                                           End Sub)
+    End Sub
 
+    Private Sub BindWorkbook(book As Excel.Workbook)
+        workbookLease.Rebind(Function(callback)
+                                 Dim handler As Excel.WorkbookEvents_SheetActivateEventHandler = Sub(value) callback(value)
+                                 AddHandler book.SheetActivate, handler
+                                 Return Sub() RemoveHandler book.SheetActivate, handler
+                             End Function,
+                             Sub(value)
+                                 If Object.ReferenceEquals(book, xlBook) Then xlSheetChangeHandle(TryCast(value, Excel.Worksheet))
+                             End Sub)
+    End Sub
+
+    Private Sub BindSelection(sheet As Excel.Worksheet)
+        selectionLease.Rebind(Function(callback)
+                                  Dim handler As Excel.DocEvents_SelectionChangeEventHandler = Sub(value) callback(value)
+                                  AddHandler sheet.SelectionChange, handler
+                                  Return Sub() RemoveHandler sheet.SelectionChange, handler
+                              End Function, AddressOf SelectionChange)
+    End Sub
+
+    ' Callable production boundary: host-free tests inject detach failures into its
+    ' leases. They do not simulate Excel's COM connection points or STA ordering.
+    Friend Sub RunCaptureBoundary(context As String, operation As System.Action)
+        pbInTextAdressHandler = False
+        If Me.IsDisposed OrElse captureFaulted Then Return
+        If captureTransitioning Then
+            FaultCapture(context, New InvalidOperationException("Reentrant RefEdit transition"))
+            Return
+        End If
+        captureTransitioning = True
         Try
-            If target Is Nothing Then Return
-
-            If xlSheet IsNot Nothing Then
-                Try
-                    RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
-                Catch ex As Exception
-                    ' The previous sheet may already have been deleted by Excel.
-                    LogRefEdit($"SheetActivate: previous SelectionChange handler unavailable:  {ex}")
-                End Try
-            End If
-
-            xlSheet = target
-
-            Try
-                AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
-            Catch ex As Exception
-                LogRefEdit($"SheetActivate error {ex}")
-            End Try
+            selectionLease.Clear()
+            If selectionLease.IsClosed OrElse workbookLease.IsClosed Then Throw New InvalidOperationException("Closed RefEdit lease")
+            operation()
+            If captureFaulted OrElse selectionLease.IsClosed OrElse workbookLease.IsClosed Then Throw New InvalidOperationException("Context closed during transition")
         Catch ex As Exception
-            Me.pbInTextAdressHandler = False
-            LogRefEdit($"SheetActivate error: {ex}")
+            FaultCapture(context, ex)
+        Finally
+            captureTransitioning = False
+        End Try
+    End Sub
+
+    Friend ReadOnly Property CaptureRequiresRecreation As Boolean
+        Get
+            Return captureFaulted OrElse selectionLease.IsClosed OrElse workbookLease.IsClosed
+        End Get
+    End Property
+
+    Private Sub FaultCapture(context As String, failure As Exception)
+        pbInTextAdressHandler = False
+        captureFaulted = True ' Never reset: close and recreate the control after a fault.
+        LogRefEdit($"{context}: capture disabled; recreate control: {failure}")
+        CloseCaptureLeases()
+        xlSheet = Nothing
+        xlBook = Nothing
+        xlApp = Nothing
+        _ExcelConnector = Nothing
+    End Sub
+
+    Private Sub CloseCaptureLeases()
+        ' Invalidate BOTH callback generations before either provider is called.
+        selectionLease.Invalidate()
+        workbookLease.Invalidate()
+        Try
+            selectionLease.Dispose()
+        Catch ex As Exception
+            LogRefEdit($"Selection detach failure: {ex}")
+        End Try
+        Try
+            workbookLease.Dispose()
+        Catch ex As Exception
+            LogRefEdit($"Workbook detach failure: {ex}")
         End Try
     End Sub
 
@@ -134,17 +198,23 @@ Public Class Excel2007RefEdit
             Return _ExcelConnector
         End Get
         Set(ByVal value As Excel.Application)
-            _ExcelConnector = value
-            xlApp = value
-
-            If _ExcelConnector Is Nothing Then Return
-
-            If _ExcelConnector.Workbooks.Count > 0 Then
-                xlBook = _ExcelConnector.ActiveWorkbook
-                If xlBook.Sheets.Count > 0 AndAlso xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then
-                    xlSheet = xlBook.ActiveSheet
-                End If
-            End If
+            RunCaptureBoundary("ExcelConnector", Sub()
+                                                    workbookLease.Clear()
+                                                    xlBook = Nothing
+                                                    xlSheet = Nothing
+                                                    xlApp = Nothing
+                                                    _ExcelConnector = Nothing
+                                                    If value Is Nothing Then Return
+                                                    ' Publish a new connector only after the old sources detach.
+                                                    _ExcelConnector = value
+                                                    xlApp = value
+                                                    If value.Workbooks.Count = 0 Then Return
+                                                    Dim book = value.ActiveWorkbook
+                                                    If book Is Nothing Then Return
+                                                    xlBook = book
+                                                    BindWorkbook(book)
+                                                    xlSheet = TryCast(book.ActiveSheet, Excel.Worksheet)
+                                                End Sub)
         End Set
     End Property
 
@@ -397,7 +467,7 @@ Public Class Excel2007RefEdit
     ''' </summary>
     ''' <param name="value"></param>
     ''' <remarks></remarks>
-    Private Delegate Sub WriteValue(ByVal value As String)
+    Private Delegate Sub WriteValue(ByVal value As String, ByVal generation As Long)
 
     ''' <summary>
     ''' Internal method that handles the xlSheet.SelectionChange event.
@@ -405,7 +475,14 @@ Public Class Excel2007RefEdit
     ''' <param name="target"></param>
     ''' <remarks></remarks>
     Private Sub SelectionChange(ByVal target As Excel.Range)
+        If Me.IsDisposed OrElse captureFaulted OrElse captureTransitioning OrElse Not pbInTextAdressHandler Then Return
         Try
+            If target Is Nothing Then Return
+            Dim generation = selectionLease.CurrentGeneration
+            If Not selectionLease.IsCurrent(generation) Then Return
+            If Not Object.ReferenceEquals(target.Worksheet, xlSheet) OrElse
+               Not Object.ReferenceEquals(target.Worksheet.Parent, xlBook) OrElse
+               Not Object.ReferenceEquals(_ExcelConnector.ActiveWorkbook, xlBook) Then Return
             Dim address As String = ""
             Dim SheetName As String = "'" & target.Worksheet.Name & "'!"
 
@@ -416,13 +493,14 @@ Public Class Excel2007RefEdit
                 address &= rng.Address(_ShowRowAbsoluteIndicator, _ShowColumnAbsoluteIndicator, Excel.XlReferenceStyle.xlA1)
 
                 'LogRefEdit($"SelectionChange: area address fragment='{address}'")
-                Call WriteData(address)
-                Call _NAR(rng)
+                Call WriteData(address, generation)
+                If Not selectionLease.IsCurrent(generation) Then Return
+                ' Borrowed event/Areas RCW: no ReleaseComObject.
             Next
 
             'Call _NAR(target)
         Catch ex As Exception
-            LogRefEdit($"SelectionChange error: {ex}")
+            FaultCapture("SelectionChange", ex)
         End Try
     End Sub
 
@@ -431,10 +509,10 @@ Public Class Excel2007RefEdit
     ''' </summary>
     ''' <param name="value"></param>
     ''' <remarks></remarks>
-    Private Sub WriteData(ByVal value As String)
+    Private Sub WriteData(ByVal value As String, ByVal generation As Long)
 
         Try
-            If Me.IsDisposed Then Return
+            If Me.IsDisposed OrElse captureFaulted OrElse Not pbInTextAdressHandler OrElse Not selectionLease.IsCurrent(generation) Then Return
 
             If Not Me.IsHandleCreated Then
                 Try
@@ -446,10 +524,13 @@ Public Class Excel2007RefEdit
             End If
 
             If Me.InvokeRequired Then
-                Me.BeginInvoke(New WriteValue(AddressOf WriteData), New Object() {value})
+                Me.BeginInvoke(New WriteValue(AddressOf WriteData), New Object() {value, generation})
                 Return
             End If
 
+            If _ExcelConnector Is Nothing OrElse xlBook Is Nothing OrElse xlSheet Is Nothing Then Return
+            If Not Object.ReferenceEquals(_ExcelConnector.ActiveWorkbook, xlBook) OrElse
+               Not Object.ReferenceEquals(xlBook.ActiveSheet, xlSheet) Then Return
             Me.Address = value
             Me.EnsureReadableText()
 
@@ -471,9 +552,9 @@ Public Class Excel2007RefEdit
                 LogRefEdit($"WriteData: UI refresh error: {ex}")
             End Try
 
-            RaiseEvent Changed(Me, New System.EventArgs())
+            If selectionLease.IsCurrent(generation) Then RaiseEvent Changed(Me, New System.EventArgs())
         Catch ex As Exception
-            LogRefEdit($"WriteData error: {ex}")
+            FaultCapture("WriteData", ex)
         End Try
     End Sub
 
@@ -503,88 +584,39 @@ Public Class Excel2007RefEdit
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub txtAddress_Enter(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtAddress.Enter
-        If ExcelConnector Is Nothing Then Return
-
-        Try
-            If xlBook Is Nothing OrElse xlSheet Is Nothing Then
-                If ExcelConnector.Workbooks.Count = 0 Then Return
-                xlBook = ExcelConnector.ActiveWorkbook
-                If xlBook.Sheets.Count = 0 OrElse xlBook.ActiveSheet.Type <> XlSheetType.xlWorksheet Then Return
-                xlSheet = xlBook.ActiveSheet
-            End If
-
-            Try
-                Dim activeWbName = If(ExcelConnector Is Nothing OrElse ExcelConnector.ActiveWorkbook Is Nothing, "<null>", ExcelConnector.ActiveWorkbook.Name)
-                Dim currentWbName = If(xlBook Is Nothing, "<null>", xlBook.Name)
-                If xlBook IsNot Nothing AndAlso ExcelConnector IsNot Nothing AndAlso xlBook.Name <> ExcelConnector.ActiveWorkbook.Name Then
-                    Me.Address = String.Empty
-                    'LogRefEdit("txtAddress_Enter: workbook changed while entering; cleared Address")
-                End If
-            Catch ex As Exception
-                LogRefEdit($"txtAddress_Enter workbook name check error: {ex}")
-            End Try
-
-            If Me.Address <> String.Empty Then
-                'we are in different sheet compared to the original worksheet so activate the original one
-                If xlSheet.Name <> xlBook.ActiveSheet.name Then xlSheet.Activate()
-
-                Try
-                    xlSheet.Range(Me.Address).Select()
-                Catch ex As Exception
-                    Try
-                        If WorksheetNameFromRefAdress(Me.Address, True) <> xlSheet.Name Then
-                            xlSheet = WorksheetFromRefAdress(Me.Address)
-                            xlSheet.Activate()
-                            xlSheet.Range(Me.Address).Select()
-                        End If
-                    Catch
-                    End Try
-                End Try
-            Else
-                'No selection has been made yet and we are on different sheet compared to the one stored in the xlSheet so update the xlSheet
-                If xlSheet.Name <> xlBook.ActiveSheet.name AndAlso xlBook.ActiveSheet.Type = XlSheetType.xlWorksheet Then xlSheet = xlBook.ActiveSheet
-            End If
-
-            Try
-                AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
-                'LogRefEdit($"SelectionChange handler attached to sheet={xlSheet.Name}; EnableEvents={IsEnableEventsEnabled()}")
-            Catch ex As Exception
-                LogRefEdit($"txtAddress_Enter AddHandler error: {ex}; EnableEvents={IsEnableEventsEnabled()}")
-            End Try
-
-
-            If Me.FindForm() IsNot Nothing Then Me.FindForm().TopMost = True
-            Me.pbInTextAdressHandler = True
-        Catch ex As Exception
-            LogRefEdit($"txtAddress_Enter: stale workbook/worksheet reference: {ex}")
-            Try
-                If xlSheet IsNot Nothing Then
-                    RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
-                End If
-            Catch detachEx As Exception
-                LogRefEdit($"txtAddress_Enter: stale SelectionChange handler: {detachEx}")
-            End Try
-            xlSheet = Nothing
-            Me.pbInTextAdressHandler = False
-            ' Keep Address unchanged: the 03.06 lifecycle validator must reject stale output.
-            ' A fresh user selection can still replace the obsolete address.
-            Try
-                Dim activeBook As Excel.Workbook = ExcelConnector.ActiveWorkbook
-                If activeBook IsNot Nothing Then
-                    Dim activeSheetObject As Object = activeBook.ActiveSheet
-                    If TypeOf activeSheetObject Is Excel.Worksheet Then
-                        xlBook = activeBook
-                        xlSheet = DirectCast(activeSheetObject, Excel.Worksheet)
-                        AddHandler xlSheet.SelectionChange, AddressOf SelectionChange
-                        Me.pbInTextAdressHandler = True
-                    End If
-                End If
-            Catch rebindEx As Exception
-                LogRefEdit($"txtAddress_Enter: cannot rebind to active worksheet: {rebindEx}")
-                xlSheet = Nothing
-                Me.pbInTextAdressHandler = False
-            End Try
-        End Try
+        RunCaptureBoundary("txtAddress_Enter", Sub()
+                                                   If _ExcelConnector Is Nothing Then Return
+                                                   Dim activeBook = _ExcelConnector.ActiveWorkbook
+                                                   If activeBook Is Nothing Then Return
+                                                   If Not Object.ReferenceEquals(activeBook, xlBook) Then
+                                                       workbookLease.Clear()
+                                                       xlBook = Nothing
+                                                       xlSheet = Nothing
+                                                       xlBook = activeBook
+                                                       BindWorkbook(activeBook)
+                                                   End If
+                                                   If xlSheet Is Nothing Then xlSheet = TryCast(activeBook.ActiveSheet, Excel.Worksheet)
+                                                   If xlSheet Is Nothing Then Return
+                                                   ' Retain the entered address on every failure or workbook change.
+                                                   If Me.Address <> String.Empty Then
+                                                       If Not Object.ReferenceEquals(xlSheet, activeBook.ActiveSheet) Then xlSheet.Activate()
+                                                       Try
+                                                           xlSheet.Range(Me.Address).Select()
+                                                       Catch ex As Exception
+                                                           Dim addressedSheet = WorksheetFromRefAdress(Me.Address)
+                                                           If addressedSheet Is Nothing OrElse Not Object.ReferenceEquals(addressedSheet.Parent, activeBook) Then Throw
+                                                           xlSheet = addressedSheet
+                                                           xlSheet.Activate()
+                                                           xlSheet.Range(Me.Address).Select()
+                                                       End Try
+                                                   Else
+                                                       xlSheet = TryCast(activeBook.ActiveSheet, Excel.Worksheet)
+                                                       If xlSheet Is Nothing Then Return
+                                                   End If
+                                                   BindSelection(xlSheet)
+                                                   If Me.FindForm() IsNot Nothing Then Me.FindForm().TopMost = True
+                                                   pbInTextAdressHandler = True
+                                               End Sub)
     End Sub
 
     'Private Sub xlApp_WorkbookActivate(Wb As Excel.Workbook) Handles xlApp.WorkbookActivate
@@ -615,19 +647,8 @@ Public Class Excel2007RefEdit
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub txtAddress_Leave(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtAddress.Leave
-        If ExcelConnector Is Nothing Then Return
-        If xlSheet IsNot Nothing Then
-            Try
-                'LogRefEdit($"txtAddress_Leave: removing handler from sheet={xlSheet.Name}; EnableEvents={IsEnableEventsEnabled()}")
-                RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
-                'LogRefEdit($"SelectionChange handler removed from sheet={xlSheet.Name}; EnableEvents={IsEnableEventsEnabled()}")
-            Catch ex As Exception
-                LogRefEdit($"txtAddress_Leave RemoveHandler error: {ex}; EnableEvents={IsEnableEventsEnabled()}")
-            End Try
-        Else
-            'LogRefEdit("txtAddress_Leave: xlSheet is Nothing; nothing to remove")
-        End If
-        Me.pbInTextAdressHandler = False
+        ' Cleanup is independent of connector/sheet presence. Capture stays off.
+        RunCaptureBoundary("txtAddress_Leave", Sub() Return)
     End Sub
 
     ''' <summary>
@@ -805,28 +826,16 @@ Public Class Excel2007RefEdit
     ''' <param name="e"></param>
     ''' <remarks></remarks>
     Private Sub Excel2007RefEdit_Disposed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Disposed
-
+        pbInTextAdressHandler = False
+        captureFaulted = True
         Try
-            If _ExcelConnector Is Nothing Then Return
-
-            If xlSheet IsNot Nothing Then
-                Try
-                    RemoveHandler xlSheet.SelectionChange, AddressOf SelectionChange
-                    LogRefEdit($"Disposed: removed SelectionChange handler from sheet={xlSheet.Name}")
-                Catch ex As Exception
-                    LogRefEdit($"Disposed: error removing SelectionChange handler: {ex}")
-                End Try
-            Else
-                LogRefEdit("Disposed: xlSheet is Nothing; no handler to remove")
-            End If
-
-            'Call _NAR(xlSheet)
-            'Call _NAR(xlBook)
-            'Call _NAR(ExcelConnector)
-
+            CloseCaptureLeases()
+        Finally
+            xlSheet = Nothing
+            xlBook = Nothing
+            xlApp = Nothing
+            _ExcelConnector = Nothing
             DisplayState = Nothing
-        Catch ex As Exception
-
         End Try
     End Sub
 

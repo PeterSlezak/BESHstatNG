@@ -1,0 +1,842 @@
+{
+  "schema": "04A02-C07-runtime-output-readiness-v1",
+  "status": "NOT_READY_FOR_OFFICIAL_R",
+  "R_process_executed_in_C07": false,
+  "chosen_R_443": false,
+  "version_metadata_current": {
+    "stats": "4.5.1",
+    "base": "4.5.1",
+    "utils": "4.5.1"
+  },
+  "rscript": {
+    "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rscript.exe",
+    "sha256": "ba14ed16b879d617ab9ec69570c6f9edf4d7f2c5ea17235021812a9d9af0f16d"
+  },
+  "binary_package_pins": [
+    {
+      "relative_path": "bin/x64/R.dll",
+      "expected": "11d32b3dcb3e919ea3bb95be4965d3c6c6dc3a63abb66d74e45973a24d654ed1",
+      "actual": "11d32b3dcb3e919ea3bb95be4965d3c6c6dc3a63abb66d74e45973a24d654ed1",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "bin/x64/Rblas.dll",
+      "expected": "dec926c3281ac06518b6ea33245bd3a86cea831702cb1c793d0a46e84ccf5388",
+      "actual": "dec926c3281ac06518b6ea33245bd3a86cea831702cb1c793d0a46e84ccf5388",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "bin/x64/Rgraphapp.dll",
+      "expected": "5ff339b46b692532c62dce7fd064afde780d710720d1000a9df8b7cd95ce8c04",
+      "actual": "5ff339b46b692532c62dce7fd064afde780d710720d1000a9df8b7cd95ce8c04",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "bin/x64/Riconv.dll",
+      "expected": "5b181fd44d819a1f60cfa504a0a59f909288a9a0ffc6e4c2edbfc3c58a5a9929",
+      "actual": "5b181fd44d819a1f60cfa504a0a59f909288a9a0ffc6e4c2edbfc3c58a5a9929",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "bin/x64/Rlapack.dll",
+      "expected": "b3a75627f710060ea544f07e7d5d58ec00d0422334cd6342c76fc5243a30e4f2",
+      "actual": "b3a75627f710060ea544f07e7d5d58ec00d0422334cd6342c76fc5243a30e4f2",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/base/DESCRIPTION",
+      "expected": "73d206b24df8d82f7612f641e62cb772b22a9d97ece166c7a01e0afab474c2e9",
+      "actual": "73d206b24df8d82f7612f641e62cb772b22a9d97ece166c7a01e0afab474c2e9",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/base/R/base.rdb",
+      "expected": "b3a7efb83181a5c76dd196d3a91bb0847a024186883ea194d9892e0837b3f9c1",
+      "actual": "b3a7efb83181a5c76dd196d3a91bb0847a024186883ea194d9892e0837b3f9c1",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/base/R/base.rdx",
+      "expected": "e9f99e1e3b901ac43959e0f292c6b6644e9eebcfba5e3e5e057b5b0cb27cce82",
+      "actual": "e9f99e1e3b901ac43959e0f292c6b6644e9eebcfba5e3e5e057b5b0cb27cce82",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/datasets/DESCRIPTION",
+      "expected": "69d76cdbc3a84929de6f1c222b3907164e801f414f145e47c2b3a73b17c9e7be",
+      "actual": "69d76cdbc3a84929de6f1c222b3907164e801f414f145e47c2b3a73b17c9e7be",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/datasets/NAMESPACE",
+      "expected": "b90c1d636c82f2182a266a8564845a896507098ebb3dfae51c302ad4f41db9d9",
+      "actual": "b90c1d636c82f2182a266a8564845a896507098ebb3dfae51c302ad4f41db9d9",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/graphics/DESCRIPTION",
+      "expected": "68ff6e6e389683cd7c103536842bc0fe4853b29dfe73567d9f77c43c27d1cd35",
+      "actual": "68ff6e6e389683cd7c103536842bc0fe4853b29dfe73567d9f77c43c27d1cd35",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/graphics/libs/x64/graphics.dll",
+      "expected": "c55a9641b0ddfa98df94d4e46c9cd0c4d7d62c22fb820dd75655ac6fd1e17ae7",
+      "actual": "c55a9641b0ddfa98df94d4e46c9cd0c4d7d62c22fb820dd75655ac6fd1e17ae7",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/graphics/NAMESPACE",
+      "expected": "b4639f81f6dc497b3767ce506c65cb30382e95cc52c4abe648006dd25aee83ea",
+      "actual": "b4639f81f6dc497b3767ce506c65cb30382e95cc52c4abe648006dd25aee83ea",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/graphics/R/graphics.rdb",
+      "expected": "57c65de9036f720678409b7ca8e25d9df7dac9688e8e18c46b0dd789a50aca05",
+      "actual": "57c65de9036f720678409b7ca8e25d9df7dac9688e8e18c46b0dd789a50aca05",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/graphics/R/graphics.rdx",
+      "expected": "f5abbed1604c76c8f2f815cd68d2f8d49dc76ca1f70265102d9440a40aba99a7",
+      "actual": "f5abbed1604c76c8f2f815cd68d2f8d49dc76ca1f70265102d9440a40aba99a7",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/grDevices/DESCRIPTION",
+      "expected": "655df97b56783bce1d53cef664940d3f7e06b302e9b704bc3dc442c994efd3f4",
+      "actual": "655df97b56783bce1d53cef664940d3f7e06b302e9b704bc3dc442c994efd3f4",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/grDevices/libs/x64/grDevices.dll",
+      "expected": "d40093c2a1813fbda6e90679d4caafd4622b8e33f2b605c8b3ac41c9ba2249db",
+      "actual": "d40093c2a1813fbda6e90679d4caafd4622b8e33f2b605c8b3ac41c9ba2249db",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/grDevices/NAMESPACE",
+      "expected": "688c5119279c63d620500c637ee3cd53c2e065365f43722cca16ecfc0c095cb2",
+      "actual": "688c5119279c63d620500c637ee3cd53c2e065365f43722cca16ecfc0c095cb2",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/grDevices/R/grDevices.rdb",
+      "expected": "2cc9da7ed1a756809aba84cf706843250bbbf13d97df7e6971eaedc7a3eafaab",
+      "actual": "2cc9da7ed1a756809aba84cf706843250bbbf13d97df7e6971eaedc7a3eafaab",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/grDevices/R/grDevices.rdx",
+      "expected": "653ee50fc38c11b947a22b50708206f7c11a2719c6a53e85b5f586a156d1987e",
+      "actual": "653ee50fc38c11b947a22b50708206f7c11a2719c6a53e85b5f586a156d1987e",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/methods/DESCRIPTION",
+      "expected": "9ef5186593017ced9aea2ca5cd497b531be10ad88db17d7a22f9b58782ec9d8b",
+      "actual": "9ef5186593017ced9aea2ca5cd497b531be10ad88db17d7a22f9b58782ec9d8b",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/methods/libs/x64/methods.dll",
+      "expected": "032775ba8a57dbdd5703a1dbc664cab172cc382f149d9f77923667f2c5a40f3f",
+      "actual": "032775ba8a57dbdd5703a1dbc664cab172cc382f149d9f77923667f2c5a40f3f",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/methods/NAMESPACE",
+      "expected": "5a7048a20040a4b86021ef2777416a8cebf2592e4d4f03342d3c43997298a985",
+      "actual": "5a7048a20040a4b86021ef2777416a8cebf2592e4d4f03342d3c43997298a985",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/methods/R/methods.rdb",
+      "expected": "9a81abe346134dd5f99a35e58a1dfe7822c108c8529225646eadb1ee88efead8",
+      "actual": "9a81abe346134dd5f99a35e58a1dfe7822c108c8529225646eadb1ee88efead8",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/methods/R/methods.rdx",
+      "expected": "a2e75b6fb6072a2f70a432e4efd7a7fd132a748a4b037eb5f8a57ae7766e0dea",
+      "actual": "a2e75b6fb6072a2f70a432e4efd7a7fd132a748a4b037eb5f8a57ae7766e0dea",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/stats/DESCRIPTION",
+      "expected": "7f74d8110ff7cac38ae1afb814828a3aaf8b01995c7f3cf86bcbd05076706df1",
+      "actual": "7f74d8110ff7cac38ae1afb814828a3aaf8b01995c7f3cf86bcbd05076706df1",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/stats/libs/x64/stats.dll",
+      "expected": "ee1171add01148d6d025612d7fa34deada3d79347be745213270f2a4625b185a",
+      "actual": "ee1171add01148d6d025612d7fa34deada3d79347be745213270f2a4625b185a",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/stats/NAMESPACE",
+      "expected": "3c5f7463f69e5803c10032cb7b10de614927e0a28e92665e81857f7a6fa759c1",
+      "actual": "3c5f7463f69e5803c10032cb7b10de614927e0a28e92665e81857f7a6fa759c1",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/stats/R/stats.rdb",
+      "expected": "8254f3e51c5a36e2b5d6db275284c172dec4025623c42e4fe47f4e2bcfa54285",
+      "actual": "8254f3e51c5a36e2b5d6db275284c172dec4025623c42e4fe47f4e2bcfa54285",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/stats/R/stats.rdx",
+      "expected": "8db291da4df853dd4525a1cc7fa191544c76d72f4c4d330d177eeefed6122ffa",
+      "actual": "8db291da4df853dd4525a1cc7fa191544c76d72f4c4d330d177eeefed6122ffa",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/utils/DESCRIPTION",
+      "expected": "433fe32d48a6c34077f3b5fd66ed81d65b866168758fd46610b7567f32aa759b",
+      "actual": "433fe32d48a6c34077f3b5fd66ed81d65b866168758fd46610b7567f32aa759b",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/utils/libs/x64/utils.dll",
+      "expected": "bd2d4b7c95892a74a6ea2f017263c243ceb85ac670c425f6f265b86a3fef9a75",
+      "actual": "bd2d4b7c95892a74a6ea2f017263c243ceb85ac670c425f6f265b86a3fef9a75",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/utils/NAMESPACE",
+      "expected": "0b2fa534fb02770e76fdd9299a7a0f4abf7578fc2c7f1becb2dafa1f182328d1",
+      "actual": "0b2fa534fb02770e76fdd9299a7a0f4abf7578fc2c7f1becb2dafa1f182328d1",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/utils/R/utils.rdb",
+      "expected": "de9e224a790424c7d113aa9843d6d6a49210e9fa3415a3ae89cc4e0b8e149f09",
+      "actual": "de9e224a790424c7d113aa9843d6d6a49210e9fa3415a3ae89cc4e0b8e149f09",
+      "status": "PASS"
+    },
+    {
+      "relative_path": "library/utils/R/utils.rdx",
+      "expected": "ac72c0d5b0cabe2171e8866c1b1262c7453c1bbce55c443baffe3fb4ca111a42",
+      "actual": "ac72c0d5b0cabe2171e8866c1b1262c7453c1bbce55c443baffe3fb4ca111a42",
+      "status": "PASS"
+    }
+  ],
+  "observed_C06_module_pins_rechecked": [
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rscript.exe",
+      "expected": "ba14ed16b879d617ab9ec69570c6f9edf4d7f2c5ea17235021812a9d9af0f16d",
+      "actual": "ba14ed16b879d617ab9ec69570c6f9edf4d7f2c5ea17235021812a9d9af0f16d",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+      "expected": "651ac9041af8e6b5ebd331d53163244c0a27d36d1433f0f15cac1f28c5f2e82c",
+      "actual": "651ac9041af8e6b5ebd331d53163244c0a27d36d1433f0f15cac1f28c5f2e82c",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+      "expected": "e132eba4166256e2f414b91fe7d5386590bc5ea8626aee5af9c9738383cf2ae1",
+      "actual": "e132eba4166256e2f414b91fe7d5386590bc5ea8626aee5af9c9738383cf2ae1",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+      "expected": "5c29b73622ce0976e1ada566f31f2197ba0f8beaea89c3ec033366126172c3d0",
+      "actual": "5c29b73622ce0976e1ada566f31f2197ba0f8beaea89c3ec033366126172c3d0",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\ucrtbase.dll",
+      "expected": "dedb7611e1abc1ff3852dcac3d4c93a048d729e25b061973b9969f22698f14ca",
+      "actual": "dedb7611e1abc1ff3852dcac3d4c93a048d729e25b061973b9969f22698f14ca",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rgraphapp.dll",
+      "expected": "5ff339b46b692532c62dce7fd064afde780d710720d1000a9df8b7cd95ce8c04",
+      "actual": "5ff339b46b692532c62dce7fd064afde780d710720d1000a9df8b7cd95ce8c04",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\comdlg32.dll",
+      "expected": "7d87ea4e567e74005a7a0ffbb11707265962a24aeb73f909ba7f3d004b5925bf",
+      "actual": "7d87ea4e567e74005a7a0ffbb11707265962a24aeb73f909ba7f3d004b5925bf",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\msvcp_win.dll",
+      "expected": "b9dacd83201e59bb74e5282d8f0dcc8c428525409b4bc458a39eb8d2a9373a9a",
+      "actual": "b9dacd83201e59bb74e5282d8f0dcc8c428525409b4bc458a39eb8d2a9373a9a",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\WinSxS\\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.26100.9711_none_3e07b8b0e334e825\\COMCTL32.dll",
+      "expected": "645e27c04538e8079b0db62cef14b6353dd83a1b09a68a7d6c1b69e83cfd65e3",
+      "actual": "645e27c04538e8079b0db62cef14b6353dd83a1b09a68a7d6c1b69e83cfd65e3",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\combase.dll",
+      "expected": "087f72ecc0c979a3b784ab319285ab64d053dfc0c274df5b28fd40cf204a234f",
+      "actual": "087f72ecc0c979a3b784ab319285ab64d053dfc0c274df5b28fd40cf204a234f",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\msvcrt.dll",
+      "expected": "fc1447db4e4814cbcb002179a8003a41f383fc417879f628727043cab8c25093",
+      "actual": "fc1447db4e4814cbcb002179a8003a41f383fc417879f628727043cab8c25093",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\RPCRT4.dll",
+      "expected": "c060f02c11fb19c9c8a30b5077a87cdb17d4be40f08070a539ec73eb53402775",
+      "actual": "c060f02c11fb19c9c8a30b5077a87cdb17d4be40f08070a539ec73eb53402775",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\GDI32.dll",
+      "expected": "772c73e294a4c5f5e0d4146288af95287a85c074d3aee3fa9f320dc010d7dbfe",
+      "actual": "772c73e294a4c5f5e0d4146288af95287a85c074d3aee3fa9f320dc010d7dbfe",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\R.dll",
+      "expected": "11d32b3dcb3e919ea3bb95be4965d3c6c6dc3a63abb66d74e45973a24d654ed1",
+      "actual": "11d32b3dcb3e919ea3bb95be4965d3c6c6dc3a63abb66d74e45973a24d654ed1",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\win32u.dll",
+      "expected": "d46a695db805e808efa63d1095ce3e1b6be9c0155dad405d444530efc1ed0362",
+      "actual": "d46a695db805e808efa63d1095ce3e1b6be9c0155dad405d444530efc1ed0362",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\shcore.dll",
+      "expected": "60fa3face0cfeccd442ef8c10f0d98f7991998784d21c8f7b77fc1048b222c95",
+      "actual": "60fa3face0cfeccd442ef8c10f0d98f7991998784d21c8f7b77fc1048b222c95",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+      "expected": "b864e1468a01a44f1901e03c05c1029e71655dd9abddd6d840bcfff5e7227d44",
+      "actual": "b864e1468a01a44f1901e03c05c1029e71655dd9abddd6d840bcfff5e7227d44",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\gdi32full.dll",
+      "expected": "52de3e02898e9c0e243d08d5c51d54871e9bce90de883eff7df29a30fc8aeac9",
+      "actual": "52de3e02898e9c0e243d08d5c51d54871e9bce90de883eff7df29a30fc8aeac9",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\USER32.dll",
+      "expected": "f285937030bcb325cad39ee5be4818f6666241229adeadea4ff1ae469dfd7ef3",
+      "actual": "f285937030bcb325cad39ee5be4818f6666241229adeadea4ff1ae469dfd7ef3",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\sechost.dll",
+      "expected": "b4a345ad9af0635f50e27eea8ae0ff37255dca90e6d5991bdbc4806fb02aaa72",
+      "actual": "b4a345ad9af0635f50e27eea8ae0ff37255dca90e6d5991bdbc4806fb02aaa72",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\SHLWAPI.dll",
+      "expected": "77b883ae848e1209b17ded14e6558656651f84d47cd656d1d3c118cc5409ed5b",
+      "actual": "77b883ae848e1209b17ded14e6558656651f84d47cd656d1d3c118cc5409ed5b",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rblas.dll",
+      "expected": "dec926c3281ac06518b6ea33245bd3a86cea831702cb1c793d0a46e84ccf5388",
+      "actual": "dec926c3281ac06518b6ea33245bd3a86cea831702cb1c793d0a46e84ccf5388",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\ole32.dll",
+      "expected": "1053ffb858cddbe29eaaa6a5b0836b88c7cd11fbd58605288600e507c06db443",
+      "actual": "1053ffb858cddbe29eaaa6a5b0836b88c7cd11fbd58605288600e507c06db443",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\SHELL32.dll",
+      "expected": "c55a5f3b6ef059871fe2a0c8d82f086e0998d1154023e3ecf49698b97f9341f6",
+      "actual": "c55a5f3b6ef059871fe2a0c8d82f086e0998d1154023e3ecf49698b97f9341f6",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\System32\\IMM32.dll",
+      "expected": "7e45f12c1c555e2407c5ca082bd925b34655278fde4dbfac53a0468cc1e77411",
+      "actual": "7e45f12c1c555e2407c5ca082bd925b34655278fde4dbfac53a0468cc1e77411",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\SYSTEM32\\VERSION.dll",
+      "expected": "cea99f212af557a9613150c5509631403ed0f05f5d9a06ac42039bd59b40e39a",
+      "actual": "cea99f212af557a9613150c5509631403ed0f05f5d9a06ac42039bd59b40e39a",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+      "expected": "b9035da2ee058fe565ecb3c0064f46f2d09bde01f29e423ffe6b33e15c773f04",
+      "actual": "b9035da2ee058fe565ecb3c0064f46f2d09bde01f29e423ffe6b33e15c773f04",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Riconv.dll",
+      "expected": "5b181fd44d819a1f60cfa504a0a59f909288a9a0ffc6e4c2edbfc3c58a5a9929",
+      "actual": "5b181fd44d819a1f60cfa504a0a59f909288a9a0ffc6e4c2edbfc3c58a5a9929",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\SYSTEM32\\MSIMG32.dll",
+      "expected": "5ce19ba68dcf63de8b06218ea4f156649674de3394b013b3bb76afece0b2a86f",
+      "actual": "5ce19ba68dcf63de8b06218ea4f156649674de3394b013b3bb76afece0b2a86f",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\SYSTEM32\\windows.storage.dll",
+      "expected": "a0d41fcfd66f4fbba8dbb84776c7d344f66969ce8b6edac19b3ac1dd737a628a",
+      "actual": "a0d41fcfd66f4fbba8dbb84776c7d344f66969ce8b6edac19b3ac1dd737a628a",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\SYSTEM32\\profapi.dll",
+      "expected": "8983b0b95ce9e3282d3a09890316fc7290ba1ad45624167c576fbc691fbe66b0",
+      "actual": "8983b0b95ce9e3282d3a09890316fc7290ba1ad45624167c576fbc691fbe66b0",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\WINDOWS\\system32\\uxtheme.dll",
+      "expected": "e5087142f87989c7430d82a65616817a2515a79fa582549ba48a1dd6ac1b7200",
+      "actual": "e5087142f87989c7430d82a65616817a2515a79fa582549ba48a1dd6ac1b7200",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\methods\\libs\\x64\\methods.dll",
+      "expected": "032775ba8a57dbdd5703a1dbc664cab172cc382f149d9f77923667f2c5a40f3f",
+      "actual": "032775ba8a57dbdd5703a1dbc664cab172cc382f149d9f77923667f2c5a40f3f",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\utils\\libs\\x64\\utils.dll",
+      "expected": "bd2d4b7c95892a74a6ea2f017263c243ceb85ac670c425f6f265b86a3fef9a75",
+      "actual": "bd2d4b7c95892a74a6ea2f017263c243ceb85ac670c425f6f265b86a3fef9a75",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\grDevices\\libs\\x64\\grDevices.dll",
+      "expected": "d40093c2a1813fbda6e90679d4caafd4622b8e33f2b605c8b3ac41c9ba2249db",
+      "actual": "d40093c2a1813fbda6e90679d4caafd4622b8e33f2b605c8b3ac41c9ba2249db",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\graphics\\libs\\x64\\graphics.dll",
+      "expected": "c55a9641b0ddfa98df94d4e46c9cd0c4d7d62c22fb820dd75655ac6fd1e17ae7",
+      "actual": "c55a9641b0ddfa98df94d4e46c9cd0c4d7d62c22fb820dd75655ac6fd1e17ae7",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\stats\\libs\\x64\\stats.dll",
+      "expected": "ee1171add01148d6d025612d7fa34deada3d79347be745213270f2a4625b185a",
+      "actual": "ee1171add01148d6d025612d7fa34deada3d79347be745213270f2a4625b185a",
+      "status": "PASS"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rlapack.dll",
+      "expected": "b3a75627f710060ea544f07e7d5d58ec00d0422334cd6342c76fc5243a30e4f2",
+      "actual": "b3a75627f710060ea544f07e7d5d58ec00d0422334cd6342c76fc5243a30e4f2",
+      "status": "PASS"
+    }
+  ],
+  "PE_import_review": [
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\R.dll",
+      "sha256": "11d32b3dcb3e919ea3bb95be4965d3c6c6dc3a63abb66d74e45973a24d654ed1",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "Rblas.dll",
+          "ADVAPI32.dll",
+          "KERNEL32.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "api-ms-win-crt-utility-l1-1-0.dll",
+          "ole32.dll",
+          "SHELL32.dll",
+          "USER32.dll",
+          "VERSION.dll",
+          "WINMM.dll",
+          "Rgraphapp.dll",
+          "Riconv.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rblas.dll",
+      "sha256": "dec926c3281ac06518b6ea33245bd3a86cea831702cb1c793d0a46e84ccf5388",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "KERNEL32.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "R.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rgraphapp.dll",
+      "sha256": "5ff339b46b692532c62dce7fd064afde780d710720d1000a9df8b7cd95ce8c04",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "R.dll",
+          "COMCTL32.dll",
+          "comdlg32.dll",
+          "GDI32.dll",
+          "IMM32.dll",
+          "KERNEL32.dll",
+          "MSIMG32.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "api-ms-win-crt-utility-l1-1-0.dll",
+          "ole32.dll",
+          "SHELL32.dll",
+          "USER32.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Riconv.dll",
+      "sha256": "5b181fd44d819a1f60cfa504a0a59f909288a9a0ffc6e4c2edbfc3c58a5a9929",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "KERNEL32.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rlapack.dll",
+      "sha256": "b3a75627f710060ea544f07e7d5d58ec00d0422334cd6342c76fc5243a30e4f2",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "KERNEL32.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "api-ms-win-crt-utility-l1-1-0.dll",
+          "R.dll",
+          "Rblas.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\bin\\x64\\Rscript.exe",
+      "sha256": "ba14ed16b879d617ab9ec69570c6f9edf4d7f2c5ea17235021812a9d9af0f16d",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "KERNEL32.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "R.dll",
+          "Rgraphapp.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\graphics\\libs\\x64\\graphics.dll",
+      "sha256": "c55a9641b0ddfa98df94d4e46c9cd0c4d7d62c22fb820dd75655ac6fd1e17ae7",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "KERNEL32.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "R.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\grDevices\\libs\\x64\\grDevices.dll",
+      "sha256": "d40093c2a1813fbda6e90679d4caafd4622b8e33f2b605c8b3ac41c9ba2249db",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "KERNEL32.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "api-ms-win-crt-utility-l1-1-0.dll",
+          "USER32.dll",
+          "R.dll",
+          "Rgraphapp.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\methods\\libs\\x64\\methods.dll",
+      "sha256": "032775ba8a57dbdd5703a1dbc664cab172cc382f149d9f77923667f2c5a40f3f",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "KERNEL32.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "R.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\stats\\libs\\x64\\stats.dll",
+      "sha256": "ee1171add01148d6d025612d7fa34deada3d79347be745213270f2a4625b185a",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "KERNEL32.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "R.dll",
+          "Rblas.dll",
+          "Rlapack.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    },
+    {
+      "path": "C:\\Program Files\\R\\R-4.5.1\\library\\utils\\libs\\x64\\utils.dll",
+      "sha256": "bd2d4b7c95892a74a6ea2f017263c243ceb85ac670c425f6f265b86a3fef9a75",
+      "normal_imports": {
+        "machine": "0x8664",
+        "bitness": 64,
+        "imports": [
+          "ADVAPI32.dll",
+          "KERNEL32.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "USER32.dll",
+          "VERSION.dll",
+          "R.dll",
+          "Rgraphapp.dll"
+        ],
+        "limitation": "Normal import table only; dynamic LoadLibrary/delay imports/SxS/API-set resolution need separate closure review"
+      },
+      "delay_imports": [],
+      "status": "STATIC_IMPORT_TABLES_READ_NOT_DYNAMIC_EXECUTED"
+    }
+  ],
+  "source_manifest": {
+    "path": "docs/architecture/04A02/oracle-proposals/manifest-v2.json",
+    "sha256": "92bfb3ecc8849b3f8ff120f2b910d17d6f3d85ebf3fdd7a7a4d361a53f34f6f4"
+  },
+  "source_runner": {
+    "path": "scripts/04a02/oracle_operator.py",
+    "sha256": "5aa59d822a824808d3fd42bef9b1c1bc8d789dfc92d80dc4a6f108202aa7d30b"
+  },
+  "checklist": [
+    {
+      "item": "R/stats 4.5.1 and required native layout/hash",
+      "status": "PASS_AT_RECHECK"
+    },
+    {
+      "item": "Frozen case/manifest/script/runner pins",
+      "status": "PASS_AT_RECHECK"
+    },
+    {
+      "item": "C06 nonstatistical startup",
+      "status": "RETAINED_PASS_NOT_REPEATED"
+    },
+    {
+      "item": "Per-case authentic S and R",
+      "status": "BLOCKED_PENDING_OWNER"
+    },
+    {
+      "item": "Owner-normal-context complete output ancestor ACL proof",
+      "status": "BLOCKED_NO_OWNER_CONTEXT_EVIDENCE; C06 USER_PROFILE_ANCESTOR_UNVERIFIABLE"
+    },
+    {
+      "item": "Narrowly writable owner root, parent rename/delete-child/reparse review",
+      "status": "BLOCKED_PENDING_OWNER"
+    },
+    {
+      "item": "Private child HOME/R_USER/library contract in frozen runner",
+      "status": "FAIL_SOURCE_READINESS_CR-R-PRIVATE-ENV-07"
+    },
+    {
+      "item": "Dynamic/delay/statistical loader risk acceptance",
+      "status": "BLOCKED_PENDING_OWNER_REVIEW"
+    },
+    {
+      "item": "Independent output/comparison/two reviewers/P",
+      "status": "NOT_RUN_NOT_APPROVED"
+    }
+  ],
+  "proposed_owner_root": "C:\\Users\\peter\\source\\repos\\BESHstatNG\\TestResults\\04A-02-initial-fixtures-owner-reference-<OWNER-ALLOCATED-UTC>",
+  "root_status": "TEMPLATE_ONLY_NOT_CREATED_NOT_TRUSTED",
+  "owner_readonly_check": [
+    "Owner normal context captures Get-Acl/SDDL/owner/rights for every ancestor and target; no sandbox escalation or private-folder bypass",
+    "Owner allocates literal unique path and reviews who can modify/rename/delete/reparse ancestors and descendants; narrower child DACL alone is insufficient",
+    "No ACL changes by Codex; no path/hash alone establishes provenance",
+    "Future operator uses exclusive namespace/staging/link receipt and held directory/file locks; cannot replace owner trust review"
+  ],
+  "risk_register": [
+    {
+      "id": "OS-LOADER-07",
+      "scope": "Windows API-set/SxS/kernel system contracts",
+      "treatment": "Bound OS build and actual known module hashes; owner reviews expected system resolution, no invented exhaustive global closure"
+    },
+    {
+      "id": "R-DYNAMIC-07",
+      "scope": "Method-specific dynamic loading/package lazy DB/native DLLs",
+      "treatment": "Current static tables plus C06 startup are evidence only; official algorithm run is not yet qualified; review approved bundled dependencies and package code pins"
+    },
+    {
+      "id": "OUTPUT-ACL-07",
+      "scope": "Multiple modifying identities / unreadable user-profile ACL",
+      "treatment": "No bypass/escalation/permission modification; owner supplies normal-context evidence and approved fresh root"
+    }
+  ],
+  "personal_library_owner_update": {
+    "owner_supplied_path": "C:\\Users\\peter\\AppData\\Local\\R\\win-library\\4.5",
+    "directory_observed": true,
+    "installed_package_names_observed": [
+      "lme4",
+      "minqa",
+      "nloptr",
+      "rbibutils",
+      "Rcpp",
+      "RcppEigen",
+      "Rdpack",
+      "reformulas"
+    ],
+    "R_process_or_packages_loaded": false,
+    "permission_effect": "No S/R/P/N release; not a trusted oracle output root or private per-run library",
+    "ACL_scope": "Only supplied directory inspected; no parent trust claim, no ACL changes",
+    "evidence": {
+      "path": "TestResults/04A-02-initial-fixtures-c07-20261030T190822Z/personal-library-owner-update.json",
+      "sha256": "07fbacb7a40a44815b8c9248257ae85b6e0e7707f49ff5ca302d8eb062174fcb"
+    }
+  }
+}
