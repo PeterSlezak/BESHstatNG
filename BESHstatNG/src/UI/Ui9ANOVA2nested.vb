@@ -305,9 +305,8 @@ Public Class Ui9ANOVA2nested
 
     Private Sub Run2WayNested(d As MultiGroupsPairedDataObj)
         Dim WriteRes = New ExcelDnaResultWriter
-        Dim nest = New parametric.TwoWayNestedANOVA(d.X, d.varNames)
-        nest.compute()
-        Dim res = nest.wrapResults()
+        Dim prepared = WindowsAnovaWorkflowAdapter.Nested(d)
+        Dim res = prepared.ToLegacyTables()
         Dim rr = New ProcessListofResultTables(res)
 
         'Dump outputs
@@ -320,10 +319,8 @@ Public Class Ui9ANOVA2nested
             End If
         End If
 
-        WriteRes.write({{"Two-Way Nested ANOVA"}, {$"Balanced design = {nest.balancedDesign}"}})
-        Dim sep As New List(Of Object(,))
-        sep.Add({{"", ""}, {"Satterthwaite approximation", ""}})
-        rr.SetSeparators(sep)
+        WriteRes.write(prepared.Banner)
+        rr.SetSeparators(prepared.Separators)
         rr.writeToSheet(WriteRes)
 
     End Sub

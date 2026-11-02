@@ -741,39 +741,13 @@ Public Class Ui0OneRefeditMulticol
     End Sub
 
     Private Sub Run1WayRmANOVA(data As MultiGroupsPairedData)
-        Dim Mtest As TestResult, Mout As ResultTable
-        Dim box As graphics.BoxPlot = Nothing
-
-        Dim alpha As Double = AppGlobals.DefaultAlpha
-        Dim anova = New parametric.OneWayRmANOVA(data.X, data.varNames)
-        anova.compute()
-        If Me.ckGreenhouse.Checked Then anova.GreenhouseGeisser()
-        If Me.ckHuyhn.Checked Then anova.HuyhnFeldt()
-        If Me.ckTukey.Checked Then
-            anova.TukeyKramerRM2(alpha) 'no sphericity asumption
-            anova.Tukey(alpha)
-        End If
-        Dim res = anova.wrapResults()
-
-        If Me.ckMauchly.Checked Then
-            Mtest = assumptions.MauchlyTest(data.X)
-            Mout = New ResultTable
-            Mout.SetBody({{"Chi2", Mtest.TestStatistics1}, {"P-value", Mtest.Pvalue}})
-            Mout.AddHeaderTopRow({"Mauchly 's Test of Sphericity", ""})
-            Mout.AddPvalueCellToFormat(2, 2)
-            res.Add(Mout)
-        End If
-
-        'Compute descriptive statistics
-        If Me.ckDescriptiveStatistics.Checked Then res.Add(ComputeDescriptiveStatistics(data))
-
-        'box plot if requested
-        If Me.ckBoxPlot.Checked Then
-            box = New graphics.BoxPlot(data.X, data.varNames)
-            box.Calculate()
-            box.CalcForPlotting()
-            res.Add(box.wrapResults())
-        End If
+        Dim prepared = WindowsAnovaWorkflowAdapter.Repeated(data,
+            New ExcelCommon.RepeatedAnovaWorkflowOptions(alpha:=AppGlobals.DefaultAlpha,
+                greenhouseGeisser:=Me.ckGreenhouse.Checked, huynhFeldt:=Me.ckHuyhn.Checked,
+                tukey:=Me.ckTukey.Checked, mauchly:=Me.ckMauchly.Checked,
+                descriptive:=Me.ckDescriptiveStatistics.Checked, boxSummary:=Me.ckBoxPlot.Checked))
+        Dim res = prepared.Tables
+        Dim box = prepared.Box
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output

@@ -8,6 +8,7 @@ Imports BESHStatNG.ExcelCommon
 ''' It has no Excel state, controls, acquisition, dialog or write dependency.
 ''' </summary>
 Public NotInheritable Class WindowsUnivariateInputAdapter
+    Private Shared ReadOnly originalSelections As New System.Runtime.CompilerServices.ConditionalWeakTable(Of MultiGroupsUnpairedData, AssumptionReportInput)
     Private Sub New()
     End Sub
 
@@ -33,6 +34,16 @@ Public NotInheritable Class WindowsUnivariateInputAdapter
             Return Nothing
         End If
         ' Do not clear a pre-existing worksheet diagnostic from UibyID.
-        Return New MultiGroupsUnpairedData With {.X = result.Data.Groups, .varNames = result.Data.GroupNames}
+        Dim legacy = New MultiGroupsUnpairedData With {.X = result.Data.Groups, .varNames = result.Data.GroupNames}
+        originalSelections.Add(legacy, New AssumptionReportInput(result.Data.Groups, result.Data.GroupNames, result.Sources))
+        Return legacy
+    End Function
+
+    ''' <summary>Immutable original selection, independent of later Core scratch sorting.
+    ''' Does not claim these row IDs still describe a subsequently modified legacy vector.</summary>
+    Public Shared Function GetOriginalSelection(data As MultiGroupsUnpairedData) As AssumptionReportInput
+        Dim result As AssumptionReportInput = Nothing
+        If data IsNot Nothing Then originalSelections.TryGetValue(data, result)
+        Return result
     End Function
 End Class

@@ -8,6 +8,16 @@ Imports BESHStatNG.ExcelCommon
 
 ''' <summary>Pure adapter after Windows acquisition. No active application, controls or writes.</summary>
 Public NotInheritable Class WindowsPairedInputAdapter
+    ' Operation-keyed immutable parser evidence. No synthetic IDs or native object ownership.
+    Private Shared ReadOnly blockEvidence As New System.Runtime.CompilerServices.ConditionalWeakTable(Of MultiGroupsPairedData, SpreadsheetNumericBlocks)
+    Private Shared ReadOnly nestedEvidence As New System.Runtime.CompilerServices.ConditionalWeakTable(Of MultiGroupsPairedDataObj, NestedSelectionEvidence)
+    Private NotInheritable Class NestedSelectionEvidence
+        Public Sub New(original As SpreadsheetNestedInput, coreInput As SpreadsheetNestedInput)
+            Me.Original = original : Me.CoreInput = coreInput
+        End Sub
+        Public ReadOnly Property Original As SpreadsheetNestedInput
+        Public ReadOnly Property CoreInput As SpreadsheetNestedInput
+    End Class
     Private Sub New()
     End Sub
 
@@ -62,7 +72,9 @@ Public NotInheritable Class WindowsPairedInputAdapter
             If(imported Is Nothing OrElse imported.CoreTable Is Nothing, Nothing, imported.CoreTable.RowIds),
             If(imported Is Nothing, Nothing, imported.varNames))
         If Not Accept(result.Validation, errorText) Then Return Nothing
-        Return New MultiGroupsPairedData With {.X = result.Data.Matrix, .varNames = result.Data.Names.ToArray()}
+        Dim legacy = New MultiGroupsPairedData With {.X = result.Data.Matrix, .varNames = result.Data.Names.ToArray()}
+        blockEvidence.Add(legacy, result.Data)
+        Return legacy
     End Function
 
     Public Shared Function SelectNested(imported As DataObj, ByRef errorText As String) As MultiGroupsPairedDataObj
@@ -78,7 +90,44 @@ Public NotInheritable Class WindowsPairedInputAdapter
                 matrix(r, c) = imported.FinalData(index, c)
             Next
         Next
-        Return New MultiGroupsPairedDataObj With {.X = matrix, .varNames = CType(imported.varNames.Clone(), String())}
+        Dim legacy = New MultiGroupsPairedDataObj With {.X = matrix, .varNames = CType(imported.varNames.Clone(), String())}
+        'DataObj may stringify a whole response column when any numeric text is
+        'present. On .NET Framework this can round Double.ToString to 15 digits.
+        'Keep original captured values separately; Core receives matrix verbatim.
+        Dim coreResponses As New List(Of IEnumerable(Of SpreadsheetNumericObservation))
+        For r = 0 To matrix.GetLength(0) - 1
+            Dim cells As New List(Of SpreadsheetNumericObservation)
+            For c = 0 To result.Data.Responses.Names.Count - 1
+                Dim source = result.Data.Responses.Blocks(r)(c)
+                cells.Add(New SpreadsheetNumericObservation(Convert.ToDouble(matrix(r, c + 2), CultureInfo.CurrentCulture),
+                    source.SelectedRow, source.SelectedColumn, source.WorksheetRow, source.WorksheetColumn))
+            Next
+            coreResponses.Add(cells)
+        Next
+        Dim coreInput As New SpreadsheetNestedInput(result.Data.GroupLabels, result.Data.NestedLabels,
+            New SpreadsheetNumericBlocks(result.Data.Responses.Names, coreResponses))
+        nestedEvidence.Add(legacy, New NestedSelectionEvidence(result.Data, coreInput))
+        Return legacy
+    End Function
+
+    Public Shared Function GetBlockEvidence(data As MultiGroupsPairedData) As SpreadsheetNumericBlocks
+        Dim result As SpreadsheetNumericBlocks = Nothing
+        If data IsNot Nothing Then blockEvidence.TryGetValue(data, result)
+        Return result
+    End Function
+
+    Public Shared Function GetNestedEvidence(data As MultiGroupsPairedDataObj) As SpreadsheetNestedInput
+        Dim result As NestedSelectionEvidence = Nothing
+        If data IsNot Nothing Then nestedEvidence.TryGetValue(data, result)
+        Return If(result Is Nothing, Nothing, result.Original)
+    End Function
+
+    ''' <summary>Actual surviving Core-input numbers with original coordinates.
+    ''' Raw captured numbers remain available separately through GetNestedEvidence.</summary>
+    Public Shared Function GetNestedCoreInput(data As MultiGroupsPairedDataObj) As SpreadsheetNestedInput
+        Dim result As NestedSelectionEvidence = Nothing
+        If data IsNot Nothing Then nestedEvidence.TryGetValue(data, result)
+        Return If(result Is Nothing, Nothing, result.CoreInput)
     End Function
 
     Public Shared Function AlignHotelling(first As DataObj, second As DataObj, firstWorkbook As String, firstSheet As String,

@@ -1433,61 +1433,24 @@ Public Class UibyID
     Private Sub RunOneWayANOVAThroughSharedLayer(data As MultiGroupsUnpairedData, diagnostic As WindowsDiagnosticRun)
         Dim alpha As Double = AppGlobals.DefaultAlpha
         Dim box As graphics.BoxPlot = Nothing
-
-        Dim grouped As Global.BESHStatNG.ExcelCommon.GroupedNumericData =
-            ExcelDnaSharedApplicationAdapter.ToGroupedNumericData(data)
-
-        Dim analysisOptions As New Global.BESHStatNG.ExcelCommon.OneWayAnovaAnalysisOptions With {
-             .IncludeWelch = Me.ckWelch.Checked,
-             .IncludeFisherLsd = Me.ckLSD.Checked,
-             .IncludeBonferroni = Me.ckBonferroni.Checked,
-             .IncludeTukeyKramer = Me.ckTukey.Checked,
-             .IncludeGamesHowell = Me.ckGamesHowell.Checked,
-             .Alpha = alpha
-        }
-
-        Dim analysisRequest As New Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisRequest(
-            Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisKind.OneWayAnova,
-            grouped,
-            analysisOptions)
-
-        Dim analysisResult As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult =
-            Global.BESHStatNG.ExcelCommon.SharedAnalysisApplicationService.Run(analysisRequest)
+        Dim options As New AnovaGroupedWorkflowOptions(SpreadsheetAnalysisKind.OneWayAnova,
+            alpha:=alpha, welch:=Me.ckWelch.Checked, lsd:=Me.ckLSD.Checked,
+            bonferroni:=Me.ckBonferroni.Checked, tukey:=Me.ckTukey.Checked, gamesHowell:=Me.ckGamesHowell.Checked,
+            homogeneity:=GetHomogeneityMethods(), descriptive:=Me.ckDescriptiveStatistics.Checked,
+            boxSummary:=Me.ckBoxPlot.Checked)
+        Dim workflow = WindowsAnovaWorkflowAdapter.AnalyzeGrouped(data, options)
+        Dim analysisResult = workflow.LegacyAnalysis
 
         executionRun.Checkpoint(ExecutionStage.Analysis, 60)
 
-        Dim sharedResult As Global.BESHStatNG.ExcelCommon.OneWayAnovaApplicationResult =
-            TryCast(analysisResult.Detail, Global.BESHStatNG.ExcelCommon.OneWayAnovaApplicationResult)
+        Dim sharedResult = TryCast(analysisResult.Detail, OneWayAnovaApplicationResult)
         If sharedResult Is Nothing Then
             Throw New InvalidOperationException("The shared one-way ANOVA dispatcher did not return its typed detail result.")
         End If
-
-        'Windows-only supplementary analyses remain host-side for now. The ANOVA primary
-        'table, Welch columns, post-hoc tables, and post-hoc plot payloads are already in
-        'analysisResult/sharedResult and are not recomputed here.
-        Dim res As New List(Of ResultTable)
-
-        If Me.ckBartlett.Checked Or Me.ckFlignerKilleen.Checked Or
-           Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then
-            res.Add(Me.ComputeVarianceHomogeneity(data))
-        End If
-
-        If Me.ckDescriptiveStatistics.Checked Then
-            res.Add(Me.ComputeDescriptiveStats(data))
-        End If
-
-        If Me.ckBoxPlot.Checked Then
-            box = New graphics.BoxPlot(data.X, data.varNames)
-            box.Calculate()
-            box.CalcForPlotting()
-            res.Add(box.wrapResults())
-        End If
-
-        Dim plotData As New List(Of parametric.MultipleComparisonPlotData)
-        If Me.ckLSD.Checked AndAlso sharedResult.FisherLsdPlotData IsNot Nothing Then plotData.Add(sharedResult.FisherLsdPlotData)
-        If Me.ckBonferroni.Checked AndAlso sharedResult.BonferroniPlotData IsNot Nothing Then plotData.Add(sharedResult.BonferroniPlotData)
-        If Me.ckTukey.Checked AndAlso sharedResult.TukeyKramerPlotData IsNot Nothing Then plotData.Add(sharedResult.TukeyKramerPlotData)
-        If Me.ckGamesHowell.Checked AndAlso sharedResult.GamesHowellPlotData IsNot Nothing Then plotData.Add(sharedResult.GamesHowellPlotData)
+        Dim prepared = WindowsAnovaWorkflowAdapter.PrepareSupplements(data, workflow.Options)
+        Dim res = prepared.Tables
+        box = prepared.Box
+        Dim plotData = workflow.ComparisonPlots
         If Not RunSharedOutput(Global.BESHStatNG.ExcelCommon.AnalysisIds.OneWayAnova, analysisResult, res, alpha,
             Function(writer, totalColumns)
                 Dim charts As New List(Of System.Action)()
@@ -1563,51 +1526,24 @@ Public Class UibyID
     End Function
 
     Private Sub RunKruskallWalis(data As MultiGroupsUnpairedData, diagnostic As WindowsDiagnosticRun)
-        'Stage 3.04: Kruskal-Wallis is the second analysis family routed through the
-        'generic BESHStat.Excel.Common request/result boundary. Dunn comparisons are
-        'computed once in the shared application service; Windows-only supplementary
-        'tables/charts remain host-side in this batch.
         Dim alpha As Double = AppGlobals.DefaultAlpha
         Dim box As graphics.BoxPlot = Nothing
-
-        Dim grouped As Global.BESHStatNG.ExcelCommon.GroupedNumericData = ExcelDnaSharedApplicationAdapter.ToGroupedNumericData(data)
-
-        Dim analysisOptions As New Global.BESHStatNG.ExcelCommon.KruskalWallisAnalysisOptions With {
-             .IncludeDunnComparisons = True,
-             .Alpha = alpha
-        }
-
-        Dim analysisRequest As New Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisRequest(
-            Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisKind.KruskalWallis,
-            grouped,
-            analysisOptions)
-
-        Dim analysisResult As Global.BESHStatNG.ExcelCommon.SpreadsheetAnalysisResult =
-            Global.BESHStatNG.ExcelCommon.SharedAnalysisApplicationService.Run(analysisRequest)
+        Dim options As New AnovaGroupedWorkflowOptions(SpreadsheetAnalysisKind.KruskalWallis,
+            alpha:=alpha, dunn:=True,
+            homogeneity:=GetHomogeneityMethods(), descriptive:=Me.ckDescriptiveStatistics.Checked,
+            boxSummary:=Me.ckBoxPlot.Checked)
+        Dim workflow = WindowsAnovaWorkflowAdapter.AnalyzeGrouped(data, options)
+        Dim analysisResult = workflow.LegacyAnalysis
 
         executionRun.Checkpoint(ExecutionStage.Analysis, 60)
 
-        Dim sharedResult As Global.BESHStatNG.ExcelCommon.KruskalWallisApplicationResult =
-            TryCast(analysisResult.Detail, Global.BESHStatNG.ExcelCommon.KruskalWallisApplicationResult)
+        Dim sharedResult = TryCast(analysisResult.Detail, KruskalWallisApplicationResult)
         If sharedResult Is Nothing Then
             Throw New InvalidOperationException("The shared Kruskal-Wallis dispatcher did not return its typed detail result.")
         End If
-
-        Dim res As New List(Of ResultTable)
-
-        If Me.ckDescriptiveStatistics.Checked Then
-            res.Add(Me.ComputeDescriptiveStats(data))
-        End If
-        If Me.ckBartlett.Checked Or Me.ckFlignerKilleen.Checked Or Me.ckLevene.Checked Or Me.ckSquaredRanks.Checked Then
-            res.Add(Me.ComputeVarianceHomogeneity(data))
-        End If
-
-        If Me.ckBoxPlot.Checked Then
-            box = New graphics.BoxPlot(data.X, data.varNames)
-            box.Calculate()
-            box.CalcForPlotting()
-            res.Add(box.wrapResults())
-        End If
+        Dim prepared = WindowsAnovaWorkflowAdapter.PrepareSupplements(data, workflow.Options)
+        Dim res = prepared.Tables
+        box = prepared.Box
 
         If Not RunSharedOutput(Global.BESHStatNG.ExcelCommon.AnalysisIds.KruskalWallis, analysisResult, res, alpha,
             Function(writer, totalColumns)
