@@ -20,98 +20,36 @@ Public Class Ui82x2
 
     Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click
         Try
-            Dim R1C1 As Integer, R1C2 As Integer, R2C1 As Integer, R2C2 As Integer, bSelectedOption As Boolean = False
-            Dim table(1, 1) As Integer, res = New List(Of ResultTable), t = New ResultTable
-            Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
-
-            'get data
+            Dim options As New ExcelCommon.TwoByTwoReportOptions With {
+                .Alpha = CDbl(Me.spinBtnAlpha.Value), .Fisher = Me.ckFisher.Checked,
+                .ChiSquare = Me.ckChi2.Checked, .Association = Me.ckAssociation.Checked,
+                .Liddell = Me.ckLiddel.Checked, .OddsRatio = Me.ckOR.Checked, .RiskRatio = Me.ckRR.Checked}
+            Dim report As ExcelCommon.ContingencyReportResult
             If Me.optWorksheetData.Checked Then
-                Dim d = Me.getDataMultipleGroups()
-                If d.X.GetLength(0) <> 2 Or d.X.GetLength(1) <> 2 Then
-                    MsgBox("Wrong dimensions of input table, 2x2 is expected.", vbOKOnly, "2x2 table analysis")
+                Dim input = WindowsContingencyInputAdapter.ParseWorksheet(Me.getDataMultipleGroups(),
+                    New ExcelCommon.SpreadsheetContingencyCountParseOptions With {.HasColumnHeaders = False, .HasRowLabels = False}, True)
+                If Not input.Success Then
+                    MsgBox(input.Validation.Issues.First(Function(i) i.Severity = ExcelCommon.SpreadsheetValidationSeverity.Error).Message, vbOKOnly, "2x2 table analysis")
                     Exit Sub
                 End If
-                table = Matrix.Array2intArray(d.X)
-                R1C1 = table(0, 0)
-                R1C2 = table(0, 1)
-                R2C1 = table(1, 0)
-                R2C2 = table(1, 1)
+                report = ExcelCommon.ContingencyReportPolicy.TwoByTwo(input.Data, options)
             ElseIf Me.optScreenData.Checked Then
-                R1C1 = Me.spinBtnA.Value
-                R1C2 = Me.spinBtnB.Value
-                R2C1 = Me.spinBtnC.Value
-                R2C2 = Me.spinBtnD.Value
-                table = {{R1C1, R1C2}, {R2C1, R2C2}}
-            End If
-            t.SetBody(table)
-            t.AddHeaderTopRow({"Analyzed 2x2 table", ""})
-            res.Add(t)
-
-            'do the analysis
-            If Me.ckFisher.Checked Then
-                If R1C1 + R1C2 + R2C1 + R2C2 > 1000 Then
-                    MsgBox("Too large sample size for exact computation.", vbOKOnly, "Fisher's exact test")
-                Else
-                    Dim Fisher = contingencytable.FisherExact2x2(R1C1, R1C2, R2C1, R2C2)
-                    t = New ResultTable
-                    t.AddHeaderTopRow({"Fisher's Exact Test", ""})
-                    t.SetBody({{"one-sided P-value", Fisher.PvalueLowerSide},
-                               {"two-sided P-value", Fisher.Pvalue},
-                               {"one-sided mid P-value", Fisher.pValueExactLowerSide},
-                               {"two-sided mid P-value", Fisher.Pvalue2}})
-                    t.AddPvalueToFormat(2)
-                    res.Add(t)
-                End If
-            End If
-
-            If Me.ckChi2.Checked Or Me.ckAssociation.Checked Then
-                Dim chi2indep = contingencytable.Chi2TESTindependence(table)
-                t = New ResultTable
-                t.AddHeaderTopRow({"Pearson's Chi-squared Test", ""})
-                t.SetBody({{"Chi-Square", chi2indep.Item1.TestStatistics1}, {"two-sided P-value", chi2indep.Item1.Pvalue}})
-                t.AddPvalueCellToFormat(2, 2)
-                res.Add(t)
-
-                t = New ResultTable
-                t.AddHeaderTopRow({"Measures of Nominal Association", ""})
-                t.SetBody({{"Cramer's V", chi2indep.Item2},
-                           {"Pearson's contingency coefficient", chi2indep.Item3},
-                           {"Phi", chi2indep.Item4}})
-                res.Add(t)
-            End If
-            If Me.ckLiddel.Checked Then
-                Dim Liddel = contingencytable.Liddell_McNemar(table, alphaValue)
-                t = New ResultTable
-                t.AddHeaderTopRow({"Liddell's Test", ""})
-                t.SetBody({{"P-value", Liddel.Item1.Pvalue},
-                            {"Risk ratio", Liddel.Item2.Estimate},
-                            {Liddel.Item2.CIlabel, Liddel.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
-                t.AddPvalueCellToFormat(1, 2)
-                res.Add(t)
-            End If
-            If Me.ckOR.Checked Then
-                Dim Odds = contingencytable.OddsRatio(table, alphaValue)
-                t = New ResultTable
-                t.AddHeaderTopRow({"Odds Ratio", ""})
-                t.SetBody({{"OR", Odds.Item1.Estimate},
-                          {Odds.Item1.CIlabel & " (Woolf)", Odds.Item1.strConfidenceInterval(CIformat.LL_to_UL)},
-                          {Odds.Item2.CIlabel & " (Cornfield)", Odds.Item2.strConfidenceInterval(CIformat.LL_to_UL)}})
-                res.Add(t)
-            End If
-            If Me.ckRR.Checked Then
-                Dim Risk = contingencytable.RiskRatio(table, alphaValue)
-                t = New ResultTable
-                t.AddHeaderTopRow({"Risk Ratio", ""})
-                t.SetBody({{"RR", Risk.Estimate},
-                            {Risk.CIlabel, Risk.strConfidenceInterval(CIformat.LL_to_UL)}})
-                res.Add(t)
-            End If
-
-            'chcek wheter at least one option was selected
-            If res.Count <= 1 Then
-                MsgBox("Select statistic(s) to compute.", vbOKOnly, "2x2 table analysis")
+                report = WindowsContingencyInputAdapter.AnalyzeDialog(CDbl(Me.spinBtnA.Value), CDbl(Me.spinBtnB.Value),
+                    CDbl(Me.spinBtnC.Value), CDbl(Me.spinBtnD.Value), options)
+            Else
+                MsgBox("Select a count input source.", vbOKOnly, "2x2 table analysis")
                 Exit Sub
             End If
+            For Each issue In report.Validation.Issues
+                If issue.Severity = ExcelCommon.SpreadsheetValidationSeverity.Warning Then
+                    MsgBox(issue.Message, vbOKOnly, "Fisher's exact test")
+                End If
+            Next
+            If Not report.Success Then
+                MsgBox(report.Validation.Issues.First(Function(i) i.Severity = ExcelCommon.SpreadsheetValidationSeverity.Error).Message, vbOKOnly, "2x2 table analysis")
+                Exit Sub
+            End If
+            Dim res = report.ToLegacyTables()
 
             'Dump outputs
             Dim WriteRes = GetResultWriter() 'pass just table from the main test output
@@ -130,16 +68,11 @@ Public Class Ui82x2
         End Try
     End Sub
 
-    Private Function getDataMultipleGroups() As MultiGroupsPairedData
-        Dim out = New MultiGroupsPairedData
-        Dim columData = New DataObj
-        Dim ref As String = prepareRef2D(Me.RefEdit1_WorksheetData.Address)
-
-        ExcelDnaDataImporter.ImportInto(columData, ref, True)
-        out.X = columData.DataDbl()
-        out.varNames = columData.varNames
-
-        Return out
+    Private Function getDataMultipleGroups() As DataObj
+        Dim imported As New DataObj
+        Dim reference As String = prepareRef2D(Me.RefEdit1_WorksheetData.Address)
+        ExcelDnaDataImporter.ImportInto(imported, reference, True)
+        Return imported
     End Function
 
     Private Function GetResultWriter() As ExcelDnaResultWriter

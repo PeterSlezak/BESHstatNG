@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
+    <Compile Include="..\BESHStat.Core.Tests\src\StatTests\Completion05References.vb" Link="TestSupport\Completion05References.vb" />
+    <None Include="..\BESHStat.Core.Tests\TestData\04A05Completion\*.csv" Link="TestData\04A05Completion\%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <ItemGroup>

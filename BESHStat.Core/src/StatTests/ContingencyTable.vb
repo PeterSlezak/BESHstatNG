@@ -371,8 +371,9 @@ Namespace contingencytable
             If (NoResp1 + RespBoth) = 0 Or ((TotalN - NoResp1 - RespBoth) = 0) Or (NoResp2 + RespBoth) = 0 Or ((TotalN - NoResp2 - RespBoth) = 0) Then
                 phi = 0.0
             Else
-                a = (NoResp1 + RespBoth) * (TotalN - NoResp1 - RespBoth) * (NoResp2 + RespBoth) * (TotalN - NoResp2 - RespBoth)
-                b = (RespBoth * (TotalN - (NoResp1 + NoResp2 + RespBoth))) - (NoResp1 * NoResp2)
+                ' SC-CORE-PAIRED-OVERFLOW-02: widen before multiplication; retain the existing formula.
+                a = CDbl(NoResp1 + RespBoth) * (TotalN - NoResp1 - RespBoth) * (NoResp2 + RespBoth) * (TotalN - NoResp2 - RespBoth)
+                b = (CDbl(RespBoth) * (TotalN - (NoResp1 + NoResp2 + RespBoth))) - (CDbl(NoResp1) * NoResp2)
                 If b > (TotalN / 2) Then
                     c = b - (TotalN / 2.0)
                 ElseIf b >= 0.0 And b <= (TotalN / 2.0) Then
@@ -439,6 +440,16 @@ Namespace contingencytable
             Dim r As Double = table(0, 1)
             Dim S As Double = table(1, 0)
 
+            ' No discordants: exact p=1, and matched odds/limits are not estimable.
+            If r = 0.0 AndAlso S = 0.0 Then
+                tst.Pvalue = 1.0
+                ci.Estimate = Double.NaN
+                ci.LowerLimit = Double.NaN
+                ci.UpperLimit = Double.NaN
+                ci.strConfidenceInterval = "Not estimable (no discordant pairs)"
+                Return (tst, ci)
+            End If
+
             If S > 0 Then
                 If r > 0 Then
                     ci.Estimate = r / S
@@ -452,18 +463,21 @@ Namespace contingencytable
 
                 End If
             ElseIf S = 0 Then
-                ci.Estimate = 1.0E+30 'infinity
+                ci.Estimate = Double.PositiveInfinity
+                ci.UpperLimit = Double.PositiveInfinity
                 ci.LowerLimit = r / ((S + 1) * distributions.F_Inv_RT(alpha / 2.0, 2.0 * (S + 1), 2.0 * r))
                 ci.strConfidenceInterval = Convert.ToSingle(ci.LowerLimit).ToString(CultureInfo.CurrentCulture) + " to infinity"
             End If
 
             If r > S Then
-                tst.Pvalue = 2.0 * distributions.F_RT(r / (S + 1.0), 2.0 * (S + 1.0), 2.0 * r)
+                ' Reciprocal F identity: same upper tail without subtraction from one.
+                tst.Pvalue = 2.0 * distributions.F_CDF((S + 1.0) / r, 2.0 * r, 2.0 * (S + 1.0))
             ElseIf r < S Then
-                tst.Pvalue = 2.0 * distributions.F_RT(S / (r + 1.0), 2.0 * (r + 1.0), 2.0 * S)
+                tst.Pvalue = 2.0 * distributions.F_CDF((r + 1.0) / S, 2.0 * S, 2.0 * (r + 1.0))
             Else
-                tst.Pvalue = 2.0 * (1.0 - distributions.F_RT(S / (r + 1.0), 2.0 * (r + 1.0), 2.0 * S))
+                tst.Pvalue = 1.0
             End If
+            tst.Pvalue = Math.Min(1.0, tst.Pvalue)
             Return (tst, ci)
         End Function
 

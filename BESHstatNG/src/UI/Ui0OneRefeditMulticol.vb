@@ -233,6 +233,11 @@ Public Class Ui0OneRefeditMulticol
                 Exit Sub
             End If
 
+            If Me.Tag = HelpTopic.RxCTable Then
+                Me.RunRxC()
+                Exit Sub
+            End If
+
             'Get Data
             If Me.Tag = HelpTopic.CorrespondenceAnalysis Then
                 CAdata = getCAdata(errText)
@@ -250,8 +255,6 @@ Public Class Ui0OneRefeditMulticol
                 Me.Run1WayRmANOVA(data)
             ElseIf Me.Tag = HelpTopic.CochranSQTest Then
                 Me.RunCochran(data)
-            ElseIf Me.Tag = HelpTopic.RxCTable Then
-                Me.RunRxC(data)
             ElseIf Me.Tag = HelpTopic.MantelHaenszelTest Then
                 Me.RunMantelHaenszel(data)
             ElseIf Me.Tag = HelpTopic.SkillingsMackTest Then
@@ -605,105 +608,23 @@ Public Class Ui0OneRefeditMulticol
 
     End Sub
 
-    Private Sub RunRxC(data As MultiGroupsPairedData)
-        Dim tab = Matrix.Array2intArray(data.X)
-        Dim res = New List(Of ResultTable), t = New ResultTable
-        Dim head(UBound(tab, 2)) As String
-        head(0) = "Analyzed table"
-        t.AddHeaderTopRow(head)
-        t.SetBody(tab)
-        res.Add(t)
-
-        'compute outputs
-        Dim chi2indep = contingencytable.Chi2TESTindependence(tab)
-        t = New ResultTable
-        t.AddHeaderTopRow({"Pearson's Chi-squared Test", ""})
-        t.SetBody({{"Chi-Square", chi2indep.Item1.TestStatistics1}, {"two-sided P-value", chi2indep.Item1.Pvalue}})
-        t.AddPvalueCellToFormat(2, 2)
-        res.Add(t)
-
-        If Me.ckNominalAssociation.Checked Then
-            t = New ResultTable
-            t.AddHeaderTopRow({"Measures of Nominal Association", ""})
-            t.SetBody({{"Cramer's V", chi2indep.Item2},
-                           {"Pearson's contingency coefficient", chi2indep.Item3},
-                           {"Phi", chi2indep.Item4}})
-            res.Add(t)
+    Private Sub RunRxC()
+        Dim imported As New DataObj
+        Dim reference As String = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
+        ExcelDnaDataImporter.ImportInto(imported, reference, True)
+        Dim report = WindowsContingencyInputAdapter.AnalyzeRxC(imported, New ExcelCommon.RxCReportOptions With {
+            .Alpha = CDbl(Me.spinBtnAlphaICC.Value), .Nominal = Me.ckNominalAssociation.Checked,
+            .Exact = Me.ckFFH.Checked, .Ordinal = Me.ckOrdinal.Checked, .Trend = Me.ckCochranArmitage.Checked})
+        If Not report.Success Then
+            MsgBox(report.Validation.Issues.First(Function(i) i.Severity = ExcelCommon.SpreadsheetValidationSeverity.Error).Message, vbExclamation)
+            Exit Sub
         End If
-
-        If Me.ckFFH.Checked Then
-            Dim fisherP As Object
-            Try
-                Dim fexact = New contingencytable.FisherExactEngine(tab)
-                fexact.Run()
-                fisherP = fexact.PValue
-            Catch
-                fisherP = ".error. not possible to compute"
-            End Try
-
-            t = New ResultTable
-            t.AddHeaderTopRow({"Fisher-Freeman-Halton Exact Test", ""})
-            t.SetBody({{"two-sided P-value", fisherP}})
-            t.AddPvalueCellToFormat(1, 2)
-            res.Add(t)
-        End If
-
-        If Me.ckOrdinal.Checked Then
-            Dim alphaValue As Double = CDbl(Me.spinBtnAlphaICC.Value)
-            Dim ciLabel As String = $"{(1.0 - alphaValue) * 100.0:0.##}% CI"
-            Dim ordinal = contingencytable.cTableORDINALassoc(tab, alphaValue)
-
-            t = New ResultTable
-            t.AddHeaderTopRow({"Measures of Ordinal Association", ""})
-            t.SetBody({{"Kendall's tau-b", ordinal.Item1.TestStatistics1},
-                       {"Std.Err.", ordinal.Item1.DF1},
-                       {ciLabel, ordinal.Item1.strSpecialInformation},
-                       {"two-sided P-value", ordinal.Item1.Pvalue},
-                       {"Kendall's tau-c", ordinal.Item2.TestStatistics1},
-                       {"Std.Err.", ordinal.Item2.DF1},
-                       {ciLabel, ordinal.Item2.strSpecialInformation},
-                       {"two-sided P-value", ordinal.Item2.Pvalue},
-                       {"Goodman-Kruskal's Gamma", ordinal.Item3.TestStatistics1},
-                       {"Std.Err.", ordinal.Item3.DF1},
-                       {ciLabel, ordinal.Item3.strSpecialInformation},
-                       {"two-sided P-value", ordinal.Item3.Pvalue},
-                       {"Somers' D (columns as dependent var.)", ordinal.Item4.TestStatistics1},
-                       {"Std.Err.", ordinal.Item4.DF1},
-                       {ciLabel, ordinal.Item4.strSpecialInformation},
-                       {"two-sided P-value", ordinal.Item4.Pvalue}})
-            t.AddPvalueCellToFormat(4, 2)
-            t.AddPvalueCellToFormat(8, 2)
-            t.AddPvalueCellToFormat(12, 2)
-            t.AddPvalueCellToFormat(16, 2)
-            res.Add(t)
-        End If
-
-        If Me.ckCochranArmitage.Checked Then
-            Dim Cochran As TestResult = Nothing
-            '1st chcek for proper table dimensions.
-            'One of the dimensions have to be 2 and table must be larger then 2x2
-            Dim rows As Integer = UBound(tab, 1) + 1
-            Dim cols As Integer = UBound(tab, 2) + 1
-            If Not ((rows = 2) Or (cols = 2)) Or (rows + cols < 5) Then
-                MsgBox("Cannot compute Cochran-Armitage test for linear trend because of inapropriate table dimensions.", vbOKOnly, "Cochran-Armitage test")
-            ElseIf rows = 2 Then
-                Cochran = contingencytable.CochranArmitage(Matrix.Array2intArray(Matrix.trans(data.X)))
-            Else
-                Cochran = contingencytable.CochranArmitage(tab)
+        For Each issue In report.Validation.Issues
+            If issue.Severity = ExcelCommon.SpreadsheetValidationSeverity.Warning Then
+                MsgBox(issue.Message, vbOKOnly, "Cochran-Armitage test")
             End If
-
-            If Cochran IsNot Nothing Then
-                t = New ResultTable
-                t.AddHeaderTopRow({"Cochran-Armitage Test for Linear Trend", ""})
-                t.SetBody({{"Chi2 for Linear Trend", Cochran.TestStatistics1},
-                       {"two-sided P-value for Linear Trend", Cochran.Pvalue},
-                       {"Chi2 for Departure from Linear Trend", Cochran.TestStatistics2},
-                       {"two-sided P-value for Linear Trend", Cochran.Pvalue2}})
-                t.AddPvalueCellToFormat(2, 2)
-                t.AddPvalueCellToFormat(4, 2)
-                res.Add(t)
-            End If
-        End If
+        Next
+        Dim res = report.ToLegacyTables()
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output

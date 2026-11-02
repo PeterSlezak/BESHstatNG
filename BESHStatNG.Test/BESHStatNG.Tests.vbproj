@@ -87,6 +87,15 @@
     <Compile Include="src\MigrationRefEditBoundary09Tests.vb" />
     <Compile Include="src\UnivariateSelectionAdapterTests.vb" />
     <Compile Include="src\PairedBlockAdapterTests.vb" />
+    <Compile Include="src\ContingencyAdapterTests.vb" />
+    <Compile Include="src\Completion05AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\StatTests\Completion05References.vb">
+      <Link>TestSupport\Completion05References.vb</Link>
+    </Compile>
+    <Content Include="..\BESHStat.Core.Tests\TestData\04A05Completion\*.csv">
+      <Link>TestData\04A05Completion\%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Compile Include="src\Charts\BulletChartFacadeTests.vb" />
     <Compile Include="src\Charts\CategoricalHistogramFacadeTests.vb" />
     <Compile Include="src\Charts\ChartAxisScalingFacadeTests.vb" />
