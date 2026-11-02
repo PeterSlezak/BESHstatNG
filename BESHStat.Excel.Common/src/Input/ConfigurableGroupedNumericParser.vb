@@ -29,6 +29,10 @@ Namespace ExcelCommon
         Public Property CategoryColumnIndex As Integer = 0
         Public Property ValueColumnIndex As Integer = 1
         Public Property MinimumObservationsPerGroup As Integer = 2
+        ' Defaults retain the existing ANOVA/KW parser contract. Univariate callers
+        ' can explicitly allow one group, or require exactly two, without padding data.
+        Public Property MinimumGroups As Integer = 2
+        Public Property MaximumGroups As Integer = Integer.MaxValue
         Public Property WarnOnSkippedObservations As Boolean = False
         Public Property CellPolicy As SpreadsheetCellPolicyOptions = New SpreadsheetCellPolicyOptions()
 
@@ -40,15 +44,23 @@ Namespace ExcelCommon
 
     Public NotInheritable Class SpreadsheetGroupedParseResult
         Public Sub New(data As GroupedNumericData, validation As SpreadsheetValidationReport)
+            Me.New(data, validation, Array.Empty(Of UnivariateObservationSource)())
+        End Sub
+
+        Friend Sub New(data As GroupedNumericData, validation As SpreadsheetValidationReport,
+                       sources As IEnumerable(Of UnivariateObservationSource))
             If validation Is Nothing Then Throw New ArgumentNullException(NameOf(validation))
             If validation.HasErrors AndAlso data IsNot Nothing Then
                 Throw New ArgumentException("An invalid parse cannot contain grouped data.", NameOf(data))
             End If
             Me.Data = data
             Me.Validation = validation
+            Me.ObservationSources = New System.Collections.ObjectModel.ReadOnlyCollection(Of UnivariateObservationSource)(
+                New List(Of UnivariateObservationSource)(sources))
         End Sub
         Public ReadOnly Property Data As GroupedNumericData
         Public ReadOnly Property Validation As SpreadsheetValidationReport
+        Public ReadOnly Property ObservationSources As IReadOnlyList(Of UnivariateObservationSource)
         Public ReadOnly Property Success As Boolean
             Get
                 Return Validation.IsValid AndAlso Data IsNot Nothing
@@ -75,18 +87,24 @@ Namespace ExcelCommon
 
             Dim names As New List(Of String)()
             Dim groups As New List(Of List(Of Double))()
+            Dim sources As New List(Of UnivariateObservationSource)()
             Select Case config.Orientation
                 Case SpreadsheetGroupedOrientation.GroupsInColumns
-                    ParseWideColumns(input, config, names, groups, issues)
+                    ParseWideColumns(input, config, names, groups, issues, sources)
                 Case SpreadsheetGroupedOrientation.GroupsInRows
-                    ParseWideRows(input, config, names, groups, issues)
+                    ParseWideRows(input, config, names, groups, issues, sources)
                 Case SpreadsheetGroupedOrientation.LongFormat
-                    ParseLong(input, config, names, groups, issues)
+                    ParseLong(input, config, names, groups, issues, sources)
             End Select
 
-            If names.Count < 2 Then
+            If names.Count < config.MinimumGroups Then
                 Add(issues, input, "groups.too-few", SpreadsheetValidationSeverity.[Error],
-                    "At least two groups are required.", "groups")
+                    If(config.MinimumGroups = 2, "At least two groups are required.",
+                       "At least " & config.MinimumGroups.ToString(CultureInfo.InvariantCulture) & " groups are required."), "groups")
+            End If
+            If names.Count > config.MaximumGroups Then
+                Add(issues, input, "groups.too-many", SpreadsheetValidationSeverity.[Error],
+                    "At most " & config.MaximumGroups.ToString(CultureInfo.InvariantCulture) & " groups are permitted.", "groups")
             End If
             For groupIndex As Integer = 0 To names.Count - 1
                 If groups(groupIndex).Count < config.MinimumObservationsPerGroup Then
@@ -102,7 +120,8 @@ Namespace ExcelCommon
             For i As Integer = 0 To groups.Count - 1
                 dataGroups(i) = groups(i).ToArray()
             Next
-            Return Result(New GroupedNumericData(names.ToArray(), dataGroups), issues)
+            Return New SpreadsheetGroupedParseResult(New GroupedNumericData(names.ToArray(), dataGroups),
+                New SpreadsheetValidationReport(issues), sources)
         End Function
 
         Private Shared Function Result(data As GroupedNumericData, issues As List(Of SpreadsheetValidationIssue)) As SpreadsheetGroupedParseResult
@@ -139,7 +158,8 @@ Namespace ExcelCommon
             Next
             If Not System.Enum.IsDefined(GetType(SpreadsheetGroupedOrientation), config.Orientation) OrElse
                 Not System.Enum.IsDefined(GetType(SpreadsheetHeaderMode), config.Header) OrElse
-                config.MinimumObservationsPerGroup < 1 OrElse config.CellPolicy Is Nothing Then
+                config.MinimumObservationsPerGroup < 1 OrElse config.MinimumGroups < 1 OrElse
+                config.MaximumGroups < config.MinimumGroups OrElse config.CellPolicy Is Nothing Then
                 Add(issues, input, "options.invalid", SpreadsheetValidationSeverity.[Error],
                     "The grouped parsing options are invalid.", "options")
                 Return False
@@ -152,10 +172,11 @@ Namespace ExcelCommon
                         "Long-format category and value columns must be distinct valid column indices.", "options.columns")
                     Return False
                 End If
-            ElseIf (config.Orientation = SpreadsheetGroupedOrientation.GroupsInColumns AndAlso input.ColumnCount < 2) OrElse
-                   (config.Orientation = SpreadsheetGroupedOrientation.GroupsInRows AndAlso input.RowCount < 2) Then
+            ElseIf (config.Orientation = SpreadsheetGroupedOrientation.GroupsInColumns AndAlso input.ColumnCount < config.MinimumGroups) OrElse
+                   (config.Orientation = SpreadsheetGroupedOrientation.GroupsInRows AndAlso input.RowCount < config.MinimumGroups) Then
                 Add(issues, input, "range.too-few-groups", SpreadsheetValidationSeverity.[Error],
-                    "At least two group columns or group rows are required.", "rows")
+                    If(config.MinimumGroups = 2, "At least two group columns or group rows are required.",
+                       "Too few group columns or group rows were supplied."), "rows")
                 Return False
             End If
             Return True
@@ -163,21 +184,21 @@ Namespace ExcelCommon
 
         Private Shared Sub ParseWideColumns(input As SpreadsheetRangeData, config As SpreadsheetGroupedParseOptions,
                                             names As List(Of String), groups As List(Of List(Of Double)),
-                                            issues As List(Of SpreadsheetValidationIssue))
+                                            issues As List(Of SpreadsheetValidationIssue), sources As List(Of UnivariateObservationSource))
             Dim headers As Boolean = HasWideHeader(input, config, True, issues)
             If HasErrors(issues) Then Return
             For c As Integer = 0 To input.ColumnCount - 1
                 names.Add(If(headers, HeaderText(input.Rows(0)(c), c), AutoLabel(c)))
                 groups.Add(New List(Of Double)())
                 For r As Integer = If(headers, 1, 0) To input.RowCount - 1
-                    AddNumeric(input, config, input.Rows(r)(c), r, c, names(c), groups(c), issues)
+                    AddNumeric(input, config, input.Rows(r)(c), r, c, names(c), groups(c), issues, sources, c)
                 Next
             Next
         End Sub
 
         Private Shared Sub ParseWideRows(input As SpreadsheetRangeData, config As SpreadsheetGroupedParseOptions,
                                          names As List(Of String), groups As List(Of List(Of Double)),
-                                         issues As List(Of SpreadsheetValidationIssue))
+                                         issues As List(Of SpreadsheetValidationIssue), sources As List(Of UnivariateObservationSource))
             Dim headers As Boolean = HasWideHeader(input, config, False, issues)
             If HasErrors(issues) Then Return
             For r As Integer = 0 To input.RowCount - 1
@@ -185,7 +206,7 @@ Namespace ExcelCommon
                 names.Add(label)
                 Dim values As New List(Of Double)()
                 For c As Integer = If(headers, 1, 0) To input.ColumnCount - 1
-                    AddNumeric(input, config, input.Rows(r)(c), r, c, label, values, issues)
+                    AddNumeric(input, config, input.Rows(r)(c), r, c, label, values, issues, sources, r)
                 Next
                 groups.Add(values)
             Next
@@ -238,7 +259,7 @@ Namespace ExcelCommon
 
         Private Shared Sub ParseLong(input As SpreadsheetRangeData, config As SpreadsheetGroupedParseOptions,
                                      names As List(Of String), groups As List(Of List(Of Double)),
-                                     issues As List(Of SpreadsheetValidationIssue))
+                                     issues As List(Of SpreadsheetValidationIssue), sources As List(Of UnivariateObservationSource))
             Dim headers As Boolean = config.Header = SpreadsheetHeaderMode.Required
             If config.Header = SpreadsheetHeaderMode.Auto Then
                 Dim valueCell As SpreadsheetCellValue = input.Rows(0)(config.ValueColumnIndex)
@@ -311,14 +332,14 @@ Namespace ExcelCommon
                     names.Add(label)
                     groups.Add(New List(Of Double)())
                 End If
-                AddNumeric(input, config, valueCell, r, config.ValueColumnIndex, label, groups(idx), issues)
+                AddNumeric(input, config, valueCell, r, config.ValueColumnIndex, label, groups(idx), issues, sources, idx)
             Next
         End Sub
 
         Private Shared Sub AddNumeric(input As SpreadsheetRangeData, config As SpreadsheetGroupedParseOptions,
                                       cell As SpreadsheetCellValue, r As Integer, c As Integer,
                                       groupName As String, values As List(Of Double),
-                                      issues As List(Of SpreadsheetValidationIssue))
+                                      issues As List(Of SpreadsheetValidationIssue), sources As List(Of UnivariateObservationSource), groupIndex As Integer)
             Dim ev As SpreadsheetCellEvaluation
             Try
                 ev = SpreadsheetCellValuePolicy.Evaluate(cell, config.CellPolicy)
@@ -339,6 +360,9 @@ Namespace ExcelCommon
                 Add(issues, input, "cell.not-numeric", SpreadsheetValidationSeverity.[Error],
                     "Non-numeric value in group '" & groupName & "'.", "observations", r + 1, c + 1)
             Else
+                sources.Add(New UnivariateObservationSource(groupIndex, values.Count, r + 1, c + 1,
+                    If(input.StartRow > 0, input.StartRow + r, 0), If(input.StartColumn > 0, input.StartColumn + c, 0),
+                    input.WorkbookId, input.WorksheetId, input.WorksheetName, input.Address))
                 values.Add(ev.NumericValue)
             End If
         End Sub

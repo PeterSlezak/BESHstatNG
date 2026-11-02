@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+    <Platform>AnyCPU</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>BESHStatNG.Test</RootNamespace>
+    <AssemblyName>BESHStatNG.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <OptionCompare>Text</OptionCompare>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="BESHStatNG"><HintPath>..\..\BESHstatNG\bin\$(Configuration)\BESHStatNG.dll</HintPath></Reference>
+    <Reference Include="BESHStat.Core"><HintPath>..\..\BESHStat.Core\bin\$(Configuration)\netstandard2.0\BESHStat.Core.dll</HintPath></Reference>
+    <Reference Include="BESHStat.Excel.Common"><HintPath>..\..\BESHStat.Excel.Common\bin\$(Configuration)\netstandard2.0\BESHStat.Excel.Common.dll</HintPath></Reference>
+    <Reference Include="ExcelDna.Integration"><HintPath>..\..\packages\ExcelDna.Integration.1.9.0\lib\net462\ExcelDna.Integration.dll</HintPath></Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel"><HintPath>..\..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1001\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath><EmbedInteropTypes>True</EmbedInteropTypes></Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework"><HintPath>..\packages\MSTest.TestFramework.2.2.10\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath></Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions"><HintPath>..\packages\MSTest.TestFramework.2.2.10\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath></Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Linq" />
+    <Compile Include="$(ProjectionSourceDir)\Projection.vb" />
+    <Compile Include="$(ProjectionSourceDir)\Projection.Designer.vb" />
+    <Compile Include="ControlMitigationProjectionTests.vb" />
+  </ItemGroup>
+  <Target Name="RequireIsolatedProjection" BeforeTargets="BeforeBuild">
+    <Error Condition="'$(ProjectionSourceDir)' == ''" Text="Use scripts/04a03_control_mitigation.py with a fresh protected evidence directory." />
+  </Target>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+</Project>

@@ -264,14 +264,17 @@ Public Class UibyID
     Private Function checkInputs() As Boolean
         Dim bOut As Boolean
         'check input data------------------------------
-        If Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve Or Me.optByID.Checked Then
-            If CheckRefEdit(Me.RefEdit1.Address, True) Then
+        Dim roles = UnivariateSelectionPolicy.InputRoles(
+            Me.Tag = HelpTopic.MannWhitneyTest Or Me.Tag = HelpTopic.UnpairedTTest Or Me.Tag = HelpTopic.ROCCurve,
+            Me.optByID.Checked)
+        If roles.FirstInputRequired Then
+            If CheckRefEdit(Me.RefEdit1.Address, roles.InputsMustBeSingleColumn) Then
                 Me.TabControl1.SelectedIndex = 0
                 RefEditReset(Me.RefEdit1)
                 bOut = True
             End If
 
-            If CheckRefEdit(Me.RefEdit2.Address, True) Then
+            If CheckRefEdit(Me.RefEdit2.Address, roles.InputsMustBeSingleColumn) Then
                 Me.TabControl1.SelectedIndex = 0
                 RefEditReset(Me.RefEdit2)
                 bOut = True
@@ -343,44 +346,24 @@ Public Class UibyID
         Dim dataAddress = If(executionRun Is Nothing, Me.RefEdit2.Address, executionRun.SourceAddress)
         Dim groupAddress = If(executionRun Is Nothing, Me.RefEdit1.Address, executionRun.GroupAddress)
         Dim byIdData = New DataObj
-        Dim out = New MultiGroupsUnpairedData
         'for by ID declarations
         Dim refId As String, refData As String, refFinal As String
-        Dim groupIDs() As String, NoGroups As Integer, ii As Integer
 
         If Me.optByColumn.Checked Then
             'Group by Column. Loop throug each column separately because data are not paired
             Dim colList() As String = ColumListFromRefAdress(dataAddress)
-            NoGroups = colList.Length
             Dim ref As String = prepareRef2D(dataAddress)
-            ii = 0 'use separate column counter so we can drop completely missing columns
-
-            Dim outData()() As Double = New Double()() {}
-            ReDim groupIDs(NoGroups - 1), outData(NoGroups - 1)
-            For i = 0 To NoGroups - 1
+            Dim importedColumns As New List(Of UnivariateImportedColumn)()
+            For i = 0 To colList.Length - 1
                 executionRun?.Checkpoint(ExecutionStage.Acquisition)
                 EnsurePilotAcquisition()
                 Dim ref1 As String = WorksheetNameFromRefAdress(ref, True) & "!" & colList(i)
                 'Debug.Print(ref1)
                 Dim columData = New DataObj
                 ExcelDnaDataImporter.ImportInto(columData, ref1, True)
-                If columData.FinalData IsNot Nothing Then 'save data
-                    outData(ii) = Matrix.GetColumnFrom2Darray(columData.DataDbl, 0)
-                    groupIDs(ii) = columData.varNames(0)
-                    ii += 1
-                End If
+                importedColumns.Add(WindowsUnivariateInputAdapter.CaptureColumn(columData))
             Next
-            If ii = 0 Then 'no valid data column
-                strErr = "No valid data"
-                Return Nothing
-            Else
-                ReDim Preserve groupIDs(ii - 1)
-                ReDim Preserve outData(ii - 1)
-                out.X = outData
-                out.varNames = groupIDs
-            End If
-
-            Return out
+            Return WindowsUnivariateInputAdapter.SelectCapturedColumns(importedColumns, strErr)
         Else
             'Group by identifier
             If WorksheetNameFromRefAdress(groupAddress, True) <> WorksheetNameFromRefAdress(dataAddress, True) Then
@@ -394,10 +377,7 @@ Public Class UibyID
             refFinal = refId & ", " & Replace(refData, WorksheetNameFromRefAdress(refData, True) & "!", String.Empty) 'Remove "Sheet1!" from string
             ExcelDnaDataImporter.ImportInto(byIdData, refFinal, True, 0)
 
-            'Debug.Print(array2str(byIdData.FinalData))
-            out.X = byIdData.DataByID2ByColumn()
-            out.varNames = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(byIdData.FinalData, 0).Distinct().ToArray())
-            Return out
+            Return WindowsUnivariateInputAdapter.SelectById(byIdData, strErr)
         End If
     End Function
 
