@@ -1,0 +1,375 @@
+{
+  "base": "b02480a71c1f2de45beb9cb0726a564eae15076b",
+  "branch": "codex/04A-14",
+  "changed_existing": {
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj": {
+      "before": "cdcec6ef5ecaf492bc11baa522b3cf10f7398d15956b8e96dee2770d89bd2d51",
+      "after": "f13aa2b0e30863240e4da5553597c7731523e3ead57cb1a942b7a49f824792e1"
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/linear-mixed-models-lmm.md": {
+      "before": "b82f143ef45517d1f28718eb65c89c3a519480060b1d57633e2b1e0cf5aba7c7",
+      "after": "f51db92c2092bbf71c12033dad8a9b4a0f2de06c056853b187da12f45e7d9c0f"
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/mixed-models-for-repeated-measures-mmrm.md": {
+      "before": "2af3d8cd772fb00b9e59a8640610337b79d1aa2b103195730c2dda32664c8fd4",
+      "after": "af1a2f13ac835af490864c317bdcf957f88eeaaabe38f54dcd3ed6b8fb6e575e"
+    },
+    "BESHstatNG/BESHStatNG.vbproj": {
+      "before": "7a2fe84d6aaa771af8bb3435cd9035fb04b820f888ea4ae14a4e136692e5267e",
+      "after": "a4e499e2463b08bb511a94f7fe8f6b0241681e8501d28f473de1bb476d99d219"
+    },
+    "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb": {
+      "before": "e99dbf4b1c2f9ee415b44a1bf0c6d3b84c13d237cda00bbd1fd05d2a7234ce64",
+      "after": "fdf7733a2b7d8f0ea68b9434e439a8da778b788a213191ea45e5b6d6b10fdf1e"
+    },
+    "BESHstatNG/src/UI/Ui18MMRM.vb": {
+      "before": "f8967b80168e6bd5b830468293ce90ab9e01130fa0bee1db2af1ba3dcaf49a73",
+      "after": "e02ea563cfb8e02737a6ba02251fc5b75e07501cceba6289d98599225b457e3e"
+    },
+    "BESHstatNG/src/UI/Ui19LMM.vb": {
+      "before": "dc354d6d85d96da12087be74b94ee485ab4bdc937bd023408112e985e91ce381",
+      "after": "86f13d042b17c34ff83e49d8d6203e369f98ea922b1905880fbee1e2e0a7469f"
+    }
+  },
+  "members": {
+    "BESHstatNG/src/UI/Ui18MMRM.vb": {
+      "changed": {
+        "AppendMMRMEstimatedMeanTables": {
+          "before": "a2a7872af9abc6f90ddfe16b9efdc46eb3b9e82a2fc62f12f842f44af968b0ea",
+          "after": "fc51ae645d558eb3022999546af58b1331fd125e230114dc962c7e31b3e8eb57"
+        },
+        "AppendMMRMReferenceGridTables": {
+          "before": "41b67653048bb00b77dbfb8096d75a309d4055e3f94f776efec8b65f8e10d6a7",
+          "after": "c260d78fe8c7d7f8571b89ff10595baa41d10549f2d210dfa77468378f5940a8"
+        },
+        "ApplyMMRMCovarianceOptimizerSelections": {
+          "before": "34437bf41f1ce29d436daac3883e948492f447f86eba0667788fecf97d2079f1",
+          "after": "a9b5e1338cc09792c041e3d44a73eab3119e62463e056f41402bcd33fb4e781f"
+        },
+        "BuildMMRMReferenceGridSpec": {
+          "before": "b8d2390224cd65f85b9527c710fd330b0fd8db474ef044ae7b3074089d63be6a",
+          "after": "bae75850be6c8661626b55ac2d52585e2fbb79946a75370d0653020446acd3df"
+        },
+        "IsMMRMReferenceGridModeSelected": {
+          "before": "2a4c400cc51a8c75543437c53a147e9e19aaf508fff6ab68ba19a4baaa65b866",
+          "after": "2ecc53ed6b22e832f5751ea142a54577959b9c9b6f8d97f56cd507a16ee7b9cb"
+        },
+        "ResolveDirectedGroupPair": {
+          "before": "917309ded6ec4d0c96f1b6a6328582687967902ce249df7212b6caa7032e43f6",
+          "after": "6a8e5056c5976bd189713627c46992766dc5f3a707ebd3bb4cef904498fb279e"
+        },
+        "RunMMRMAsync": {
+          "before": "908070d5e7aa3a06e31ea92ea2d1eb479bd1d2af2b21c96036a1dd358bc36cb3",
+          "after": "fc74507d82863418993504f45a4bb81ddc2a9f801f59d1750996d73db2d24bc8"
+        },
+        "SelectedMultiplicityAdjustment": {
+          "before": "a159c8b49ce1ed5f6cb2e9d3016ce5060dd918bebecfefcdf89b87d1d869c12c",
+          "after": "e4c43b587fdd7e8c2f204f0923c1d2e7fd5206cd4abd4836350c14bb3a68c1bf"
+        },
+        "SelectedReferenceGridWeighting": {
+          "before": "26d60803b16c04443f0e142bdcc29a3e4b84bf1f452ba8245bcc2e117ad9bd9c",
+          "after": "a39a3f2a5d6aa4abd27213649c239235c830ca5f085d707b7ad02ede67a8cf86"
+        },
+        "UseObservedMeanReferenceCovariates": {
+          "before": "9290dda137f2856e5c2106df6706dbc79db61b5eca05506746215ffb00cfaf99",
+          "after": "2169919a5fc04b9cba5f10920bd4682ff35d676700ad81cc4c70cf23013a4ee0"
+        },
+        "ValidateInputs": {
+          "before": "2fc28f8a92df573519b0024652de6f7cc0edaf36aeb65f1649641b25d11f4731",
+          "after": "92dd8164ab1ca02add5cd0c2f5fbf2e4144914e2b1babf3ac23f042916674de0"
+        },
+        "WriteMMRMDataSheet": {
+          "before": "09e803a77a4d359d704740ce1bb39e19c75d0925816734d511d29c3d20f0543e",
+          "after": "6c02d4355906fe1e5ae84d0293bedf4cc31cc3522a9cc63d7b7627f74f714e93"
+        },
+        "WriteMMRMModelSheet": {
+          "before": "a9523a14810e08a590b9280a953f92066a19d302f958ea1668de9fdf50275169",
+          "after": "ac1b098843a39025e26ae9bf384403fc18c4a7c26b993b4846a3136a303e5352"
+        },
+        "WriteMMRMResults": {
+          "before": "6f6d42b992b054e29aebd7f9352a4db8654d0de86f7f8d3c34f572ba648746f6",
+          "after": "3562adad2e15a81e9306c9e2d5807555f58773b310a06a1185c3c8aa615141f5"
+        }
+      },
+      "added": {
+        "CaptureMMRMReportOptions": "48b7386519b0c2b8ece9657e961baa59f93c718b975469ae98597fcafcee2a64"
+      },
+      "unchanged": {
+        "New": "df0fc17b8022a7c5bbc00c402f83107648f191b255caacbe98768715a24b37bf",
+        "Populate": "f5c06de78e8ba220a45ab61539c4050ea6b0a180e638677e5db74475a8def06a",
+        "TryRequireNumericColumn": "27eaf486ba8f0f6e01c62bb2d6a7d4e8f09b28fa0842d1a4d48a985a99563b87",
+        "IsAvailableColumnNumeric": "eb9c9c09262d91f2e290c286ec7119502aabff58aac41244391f5f650429c7b1",
+        "GetData": "1f5c5bcce089dbceeeab374976585a24672b93022fe52114f167a74a2d33a65d",
+        "BuildExpandedFixedInputs": "3f9c493c1ef01f5132006ddcbc681fb7b2732dd38523aaef3d3f8e1083eefea3",
+        "btCalculate_Click": "3094f24a425453b170fe98d56a92c3fbdedcc5b7b4f41032707aec3393b7e7f9",
+        "TabControl1_SelectedIndexChanged": "bfc4aa96144d7f34333b5cb908acbf444232f2955f891a78fc13412ed291f196",
+        "btReload_Click": "b7ce516fe5acaeb3c061d245d6fa5c74954f7bdfc112408aa05e350f4c16f37e",
+        "btRemoveY_Click": "e238b4e1e100a325445d3848e1ca046475d9987b375605844e424e0e62924e60",
+        "btRemoveClusterID_Click": "1f9c7bec4819947280d3b6327f0f06437f1e35aa63d26cccd190e55f7f3b1055",
+        "btRemoveTime_Click": "e11dfe37d6919d05326452ab69072cd4c92a6aee419aa7066959d09ddd2335e4",
+        "btRemoveX_Click": "37952cb74c8856bce7a5fe2e58ca684ce499e763740aa2167fc3bb17563107e9",
+        "btAddY_Click": "cb18ad608032e02481c468df49f405ecb8dbd9c4d4648dec1f56e3771a1a3468",
+        "btAddClusterID_Click": "439050c55f693ea3a1e5085eb5f47f2c27d06d5c7992eebcc36ff4b33804ffd0",
+        "btAddTime_Click": "08ea853621b3205fd2b64b49317c2c6ca511b1e5ccf3580c0cedd64b544024be",
+        "btAddX_Click": "6466bff3b602a89eff20a29356866c80d92f5a53ccabe12889ba800a7d40d626",
+        "btAddEffect_Click": "95c4c9974c9d170453d55f316ba93afb499f54cd809e30ef59872eaffe9d7d97",
+        "btAddEffectCategoricalFactor_Click": "864e368c7b3d8c28c15883546c6f690cd69abb4c39ccc4e4f19d071d8d98784a",
+        "btn2Interactions_Click": "629d438494c9e049e7ccb51ebefe01a280ee64889206e162bce3d49392d86bab",
+        "btnCustomInteraction_Click": "fdec16bdfb57dcc605d2208dfbb489279e44e3f15853d6ca90b079a6b75acd6a",
+        "btnPoly_Click": "826a5d1209102f60288471a516e0463c03af291ae5c8699e124b4a922508c4d2",
+        "tbRemoveSelectedEffects_Click": "d792556f4f4f28d2921df38c257d3583078f9bcdb0529ba46e31807362ffc275",
+        "btClearAllSelectedEffects_Click": "f7de195b4b01998c1b9bbd1fd5fd0104bb655e0e543fb5a1dae9dbfd368b3d3f",
+        "cbMMRMControlLevel_SelectedIndexChanged": "3e67b8e1ffecc08fb7a537d4ddbbae67d8cb469595041b09a7aec08ed9405b3b",
+        "cbMMRMContrastMode_SelectedIndexChanged": "6b320edd3ffa5fb026c8a18a18f6a4d76ae107ef57781a25bc97e56f5ef52d3e",
+        "MMRMReferenceGridControlChanged": "91d46c84204045aa7c99d0e13e4072c0c0d8e3a930a4d889345419aa8a64a18a",
+        "MMRMContrastControl_CheckedOrSelectedChanged": "16095f89b814b89989d7118ff47d191342f9abea3bcaf0be4caf520d8ac81096",
+        "btInterrupt_Click": "c657cb9d79810efa0c71590284731b4a52a9261dcdeb2a49c1c8d6d67b8244da",
+        "WriteMMRMTraceSheet": "86a9a2ac325f355e65c13c369d9c54642faf1670572df29306c1ce6501c23bca",
+        "BuildSelectedEffectsText": "6c2df8bc0c28ac611135aa44719133bcfab55c1ef897689f19a7bff63b4b3fed",
+        "ResolveDataColumnIndex": "6e90309ed7220d9aa9b9c5d686df0b387f5a6ac48deffb1217e7bc8711d49e25",
+        "ExtractNumericColumnFromData": "890b0022adf24e1cc1a1f763061624bf73d2aba18392d41e710d503f982fd6a0",
+        "ExtractRawNumericMatrix": "14f14573884707042a7ac08108f43f94764123cb5a81e33d46b02cdd7ba9dc36",
+        "CombineNamesWithIntercept": "7f7a0b02d3dc015391bc197f12591ab56ded5071c03758881096d3e7bc4ad0e2",
+        "TryChooseMMRMGroupingVariable": "888e7ce34fdbb5b7b419846c4d9ca73f6ceb1ce5db3d8ac6aecb4c35816ddccd",
+        "BuildMMRMClassLevelInformationTable": "c5172523e52486522f240ba89a8820a0ad906b71757eeb6205bdf8440f97dddc",
+        "AddClassLevelRow": "5dd7facf39b373dfcf68a940b9f000f21c67ed7a9f99fbfb95c5bd0aaa4a85ee",
+        "InitializeMMRMControls": "42e0175d1918d1ec9ae5f31ac685e179f3ffde4ce5513ed073fa25c52871c7b8",
+        "RefreshMMRMContrastControls": "229239b5576e414f4f1b34d2ec3d73bece46918b583f8c421c3c79676fa5572e",
+        "RefreshMMRMContrastControlsFromData": "46547537009151ee53274200af64413414d30b84afade001ce1f4059d79fc7b7",
+        "RefreshMMRMGroupingFactorItems": "2663f4aad55db181da9fc674bced0eeab1181d4d8a1e048a92ded66d67afaeaf",
+        "RefreshMMRMBaselineVisitItems": "a395245f33130c3f7ba8a44c3e0c2220ba5595a90e22424a1b1a9201e7878975",
+        "RefreshMMRMControlLevelItems": "ff8386809ca7ffd3c28db5ea1f4a8d30d1394af71a76e2e33f5ad81e7b3aeefe",
+        "UpdateMMRMContrastControlEnabledState": "6f983dbd53ed53c7d6001b82351a93fc1ea0fbac7c83db7a72d8b521865368b2",
+        "ParseMMRMCovarianceOptimizerMode": "74cfa95e9549ff868f0511532a491898e596ea15ff71bb065654662ab2492282",
+        "ParseMMRMCovarianceGradientMode": "665684ba47b11ff7ff2c9745c15c49bf6845e84b4889284e4a777462b4c291b4",
+        "SelectedComboText": "de4689bc486bc3f92e70db5b43e4d57dc0572a5de09ba01dbee56cc521ae86bc",
+        "GetMMRMCategoricalFactorBaseKeys": "dfc10e0186f1a839cc67b15d7dfb5a9fa118314517bd80431052c06431ed8ded",
+        "TryResolveMMRMGroupingVariableFromControls": "f95bb46c0fbb073330c438eb25e73146b4303f83e36203d051320caf00953680",
+        "ResolveSelectedBaselineVisit": "8675b30d3303cb103b9d2e138347fb89ab851082c40621e05b2ddebd60707481",
+        "ResolveSelectedControlLevel": "bb6d0a1f43a55cb7a965534f07107122720300d1283436b07373c61292eb0409",
+        "BuildMMRMVisitGroupDifferencesTableControlled": "dec6706dfed2edfadc525e31989a012175b074ba5cce5fc6502d7a26796105c8",
+        "BuildMMRMDifferenceInChangeFromBaselineTableControlled": "2bdbb16ae5b9e87aab0803394a4fa8a330029ffe8525505454da298bd38b6c7d",
+        "AddReferenceGridMarginalFactors": "ddd84ccd0f0296ce3a425385ce944da5b4ba94c6364b5e87cff53c70dee55df1",
+        "AddReferenceGridContinuousCovariates": "620dfb1543fabb6b827973718004c03fbf900a2c04e4f56e13eb6e799595ff6d",
+        "BuildMMRMReferenceGridGroupContrastsTable": "c8341416d1ac4edf64353cf29c7fddb5cc8bf2e06365f965a7bc2f0b4f2ad92d",
+        "IsSameProfileGroupComparisonCandidate": "09531a59df765cf78716ef1be2514ecceb4b9644acdfec2fbc1e64c601ac62f8",
+        "FindMatchingReferenceGridRow": "6a6f5212332bec6c43b901120c272785806615444413bd44cb2ea15959c04e8a",
+        "GetLevelsFromReferenceGridRows": "c90b4c09de855f13e6f9a528d89da73094b5b1bdf58e7c0038179a550ed8ab3d",
+        "ReferenceGridOtherProfileSuffix": "631e342fe3a64a3b28e5ad4e0718a2db6aa3f5a6a0210e3a7912fbcac159c410",
+        "GetMMRMContinuousMainEffectBaseKeys": "5fa646212b76ec5c61bea8447e5c7e59b7b971c1f4356312323b48f56c22dbfb",
+        "AddOptionalMMRMTable": "f504362b4e9bc878ef55f7eaa1aadde992bd3f43c3f96050652a903b5446ede9",
+        "RefreshMMRMComparisonLevelCombo": "e7a92856d1fe979bc91cf3054370cfb29cf8cf3f50f98015a5783ae1d12c8607",
+        "ResolveSelectedComparisonLevel": "cfc90e46575430b156c54c3ce351ef723b8c3d0d23024cdec6cfc2c4694a91c6",
+        "TryRefreshMMRMContrastControlsFromCurrentSelections": "0d8b43b03f2b50fde7d057ec6ec83cccda4a5f80ce5e4a61f0eaf03dd3db1da4",
+        "HasEnoughMMRMSelectionsForLevelRefresh": "289a206468e1904c3b68d0f9d530e92d7a39f2e81d8313f80fbec14d52962231",
+        "IsMMRMCancellationRequested": "9c83f6cd9f0031a89e6bbd77d9fcb4469725ac5c2f4035e524e09f3836dd14ce",
+        "IsMMRMInterruptionRequested": "08ce51d3ff1d8c05d6107d833dade9c5d08f5f694e98f66309a4ef7ced07e611",
+        "Ui18MMRM_FormClosing": "a277c26a35eb6b575c82d74b719741c1376aea6625f1e2a4f21ca2adc6dcd1f7",
+        "ResetMMRMProgress": "e327859611ecf55f9b0412d7aab87e3bb80ae28a786c655b97b500af8debfe96",
+        "ReportMMRMProgressFromAnyThread": "fb28cc3255fa56d8981f06a6fa01c72beb0039d66725603275ea87e2a2eb2e70",
+        "UpdateMMRMProgress": "42c9ce3462ac61fed0df31b8a7eef6c5735d78006ae28b7f8d2ca09cc8abee98",
+        "RefreshMMRMProgressControls": "706bb7d7a3378647b37dbff7fc8142ddaca35a45e89cfd6a38ea57b28fbb716a",
+        "InvokeMMRMUi": "4eea88b8898ac1b6ad1bc7347ab7396ff8930e11c4e27d87b4eed1ebd56fb610",
+        "CompleteMMRMRunOnUiThread": "76cea6b8bef7e8b1db21136dcbce9e32744ae6db31a8981467b97701eda7c669",
+        "FinishMMRMProgress": "1e0c859bceced05234213020b53aee2c0d9500934422ff5de8f2f1e1983dd835",
+        "ReleaseMMRMLargeRunReferences": "5dd262dadd9e8c3dccf799b61445ccb89d28cada44a6b0e139bb97a2d4e193d5",
+        "Ui18MMRM_FormClosed": "2d3cbe24770452be010d49b3976cf03a86a7324c821fab5770774cffa4903abb",
+        "ClearMMRMDialogReferences": "96effa343d43bc7ae30e77b0342c5c2f24337b6950686075a10c747741b866e4",
+        "RequestMMRMManagedCleanup": "a0f87900b4b4dfa743727c04638ac9423857fdb1948ecb4d539e9bcd7ea344f5"
+      }
+    },
+    "BESHstatNG/src/UI/Ui19LMM.vb": {
+      "changed": {
+        "AppendLMMClassInfoTable": {
+          "before": "3f53144ac5f11e566f2d99a7d11c4f03a2a3a9affcf3d9dee136ab1e373616b4",
+          "after": "6ba3c814b5e42acdf2edacb729103224b7279465916d18dbaccb0d8dbddf78ac"
+        },
+        "ApplyLMMCovarianceOptimizerSelections": {
+          "before": "45ee6942b3a46874985cfa4681409318b3bc23579e7ab59fee6e28d960762daa",
+          "after": "de0d87f8bc52c1803b57405d8cbc867c378ca92a28147b8650e7e095626f7c6d"
+        },
+        "PromoteRandomCovarianceForGeneralRandomEffects": {
+          "before": "6d8cb4a5c950325e7ce38b3302e72a8c6d1691ebba4c8f783419f6ef7b7352b8",
+          "after": "23fecefec17a5a29b063ab9639cfbbaafd72867d86e9259d2c4e1bc79bb174b1"
+        },
+        "PromoteRandomCovarianceForMultipleRandomEffects": {
+          "before": "42919dfbb7a7c593bc436799fc8a3310e24a8aae5d3d7b4eb4297f104cc69f39",
+          "after": "e38db1a9f4d452791ed13c72a0f71c99a1ad3cd9eda07765eb759eb97baa1452"
+        },
+        "RunLMMAsync": {
+          "before": "595f63106e0175362b44511e94b299f24d000151120cd642659f48b097a57899",
+          "after": "9ec6ada5ff59d09eb212baf209986f83650f41e13a5f00cb601260ad8437e0c0"
+        },
+        "ValidateInputs": {
+          "before": "b5a51287d33c99585020ceb9256ee5a066e78094ecf9c149685241781657a3ca",
+          "after": "96c84ae6d9f53edc1f4ffd6a422ae9048687ad7b19ef7c29f7cb5307cec732b6"
+        },
+        "WriteLMMDataSheet": {
+          "before": "1581b26f573b63cbc8b8455600ebc28436372b30678f81ad72cecaf7120d007c",
+          "after": "76706beecee2eebb9573305b94799536ff4887c40ee2acfba6da8d8b683d172f"
+        },
+        "WriteLMMModelSheet": {
+          "before": "9d4af03e870413aa883ab6eebdd57c93f0155b62a1da7461958f8c8f79898f2e",
+          "after": "eebc90ed3627558dece2323cf574797ffe35adc350ca90e475cebf8c22357847"
+        },
+        "WriteLMMResults": {
+          "before": "4e688fafbb89c407fda5f3089d5e51bcfa65451aab515c1bbf14154c28d8841b",
+          "after": "a4df9fba2e046a1905cfdddb737e0617993f50889adc429fd1a54d99bdcbb51e"
+        }
+      },
+      "added": {},
+      "unchanged": {
+        "New": "6fc3ff3f16d6a3f6da34bff1213cd7fd95e72f9293b429364e71219feaf5f79e",
+        "Populate": "f5c06de78e8ba220a45ab61539c4050ea6b0a180e638677e5db74475a8def06a",
+        "InitializeLMMControls": "79ccbfc9f8ceff046574982858fd33b98bcd034a74590149d3f1b40ee8eec4f7",
+        "TryRequireNumericColumn": "27eaf486ba8f0f6e01c62bb2d6a7d4e8f09b28fa0842d1a4d48a985a99563b87",
+        "IsAvailableColumnNumeric": "eb9c9c09262d91f2e290c286ec7119502aabff58aac41244391f5f650429c7b1",
+        "GetData": "d43596e9cb806f79e24eac4d73be9f13a5866b9885d59781c9113fa849bec099",
+        "BuildExpandedModelInputs": "c3863be715e64a759a95acae3804074c0eaf865b8acf03ed15b586b57f4241d1",
+        "BuildExpandedDesignFromEffects": "e9d2128249bec302a1e13e23c8504903f6beb92e8d399fd05ad5eeb785523b71",
+        "btCalculate_Click": "bff0a206b006d4963c1535fc5bc0c1c7da394773e010110cf650984656abcadf",
+        "btReload_Click": "e1981b2519f05f8e263edf2967a6874dbbe09f74e43e2c5ff1c1dddd15c89bf1",
+        "btRemoveY_Click": "e238b4e1e100a325445d3848e1ca046475d9987b375605844e424e0e62924e60",
+        "btRemoveClusterID_Click": "1f9c7bec4819947280d3b6327f0f06437f1e35aa63d26cccd190e55f7f3b1055",
+        "btRemoveTime_Click": "e60a2a77831db91bda858f43e47e5241ffd36f86fa673fed2887f20aac98be8c",
+        "btRemoveX_Click": "cc4169010305f7b44ac27d94094cdeb0178b126cd5b9d2e46309335209497ef1",
+        "btAddY_Click": "cb18ad608032e02481c468df49f405ecb8dbd9c4d4648dec1f56e3771a1a3468",
+        "btAddClusterID_Click": "439050c55f693ea3a1e5085eb5f47f2c27d06d5c7992eebcc36ff4b33804ffd0",
+        "btAddTime_Click": "242dfa3e72d2dcd2924c916dfaf4764f3d1d0a4faf56e423a16fe9c6935c7154",
+        "btAddX_Click": "3d3bd7862911601491fc7f7993d20620778a52dc246dab1f1ff5afe985461e84",
+        "btAddFixedEffect_Click": "3dfd92292550d9e075f464a3f7e069925dee1c3a2b5adb5921796b5d8baf5edf",
+        "btAddFixedEffectCategoricalFactor_Click": "ab18331bbd5a0bc83e2b6d2716045d3d716e2ee69386354440106f84e655338f",
+        "btnFixed2Interactions_Click": "f8f3af9942ab996374c04aa4eb1cca40a66826da5d49f2960f8ebbf0de4dfb05",
+        "btnFixedCustomInteraction_Click": "f874368c773bbd35fd12a3c74036c1ec73f4d20109de9fb79804d71cd9a9a84b",
+        "btnFixedPoly_Click": "f40a52c166269f34af6874ca8e957b3d555652dbc872b55b03af9ff04180fa32",
+        "tbRemoveSelectedFixedEffects_Click": "1f46839669091cf1254cf7ba8c56e31ac7b98b0cceda3c81d8433ee3f8f8f906",
+        "btClearAllSelectedFixedEffects_Click": "8dc9d8dba34d7d0c70293d731dc5895c2b246144b0aca7cebc1edaa181eaf3ff",
+        "btAddRandomEffect_Click": "d61bc7784f03c9a52f69d4baa21a5df47515ba724d55b09989c8e63d13665d0f",
+        "btAddRandomEffectCategoricalFactor_Click": "96140ecdc23b8546b1427a3d06e6819074ebaf6c9b6ef83416fe9d1f11e07d2d",
+        "btnRandom2Interactions_Click": "b372ea6872309ee05f4b6c1d0b8df8a90045c27106e739680406804058458b47",
+        "btnRandomCustomInteraction_Click": "ed147d50638a64863355f5b1eeca7985f8fcb763a226d127642dd11e856d476d",
+        "btnRandomPoly_Click": "7019ee884ee15c0e85cfbdd9301c8e5fb16a1f5f22431e53b5be592838f2ebd2",
+        "tbRemoveSelectedRandomEffects_Click": "35b956857aa97d153d4cc6e453b1f6dd1d2e42c5b4eb1b96afcec6e1a3fec9cd",
+        "btClearAllSelectedRandomEffects_Click": "b940b810aff35140ae33b81870ee477a5fd5c839a5bce4d272bcdcb153dc0061",
+        "cbCovarStruct_SelectedIndexChanged": "3a417c392492b3dfdb4f3b53da16b26b9903a33252e0d1e1b030203426e0a72c",
+        "cbRandomCovarStruct_SelectedIndexChanged": "4be573847f5d251a73b44933e7c888f08d144ece5021971d45d40c3eb6876d69",
+        "cbRandomIntercept_CheckedChanged": "842cdf72cf22bba3fdf5e69898a1661ab5e63714782ef249665dd8003a9e8f88",
+        "btInterrupt_Click": "61d17b9929ba08e6faad739f62b098b92f99fe9e0ba4707c2370f2783f114399",
+        "RefreshSelectedVariablesFromSourceList": "2c0f4cb8d6724135c20b707b28d3e5db887bbf9324f7ab3b3d6107006ab081a4",
+        "TermSpecsUseOnlySelectedVariables": "61cbd3884201b52ab470697afdadb37f59676a6e3bd1364c702b2d63bca5e5fb",
+        "UpdateLMMCovarianceDependentControls": "aed70ed7c2525f5a1b58a0c3019c26c4a9c0026263815de8105ee89faf03722b",
+        "ValidateRandomStructureAgainstExpandedDesign": "9909f88fe58ee0c677186d9c916433e910104edcb5ce7a10a1af5f7f5b7e3df3",
+        "SelectedComboText": "de4689bc486bc3f92e70db5b43e4d57dc0572a5de09ba01dbee56cc521ae86bc",
+        "BuildSelectedEffectsText": "bafef1b7607a96bfac9e1237a503c0577d9970771b15ce925f56ff1f4f1b4e14",
+        "ResolveDataColumnIndex": "f6f80ff6fbe8fc6ef234dcf6f59b26f98bd3eaa3a13e4c75a275b5829c02abe7",
+        "CombineNamesWithIntercept": "7f7a0b02d3dc015391bc197f12591ab56ded5071c03758881096d3e7bc4ad0e2",
+        "AppendClassInfoRows": "746ecd23451a1eba2a3dba1b3726026b4a18a9bd1c0c2dfba324a84c9d0865dc",
+        "GetCategoricalMainEffectBaseKeys": "02abe7b612500049ed33c279a2b251fe7bedae5e82e3516781db80b745ad1388",
+        "WriteLMMTraceSheet": "4a8142e9cf9a206c7753e7ffaf7fd4894bfff5d26601aba51efe036f8981f0a9",
+        "IsLMMCancellationRequested": "fb91c4a7c08142b6c2745218637129a07af8342f1ff6275ed9b35eac9df771e9",
+        "IsLMMInterruptionRequested": "a6f7c5cf6dce6727c5f019f14a513480888d9a14b37ae7900664b24d0ad0d3ab",
+        "Ui19LMM_FormClosing": "33e301f32a145208e7d673cc86fc7a567d7fe236721ad4eea6891efafdcdb127",
+        "ResetLMMProgress": "1e3297579d6dfd3723cdf30ac6ecf42b9497979b728d6c73b83df01cd5e020e9",
+        "ReportLMMProgressFromAnyThread": "59683479bb5f7fb90f4a335590b8068b855abba9c452959fc3e109f1e158fe13",
+        "UpdateLMMProgress": "b668780043885dcc2dcc6c9e2a762d9e58b0af5bff35662095fc79dc2756baae",
+        "RefreshLMMProgressControls": "639f322f69a8577e2ae836dda23856ad1783c3f4d2c24e587936d7f490b0a4f5",
+        "InvokeLMMUi": "49e41602336db195b10f965c6d68ad8b51f0dfa1e635b5c4984b14827d7dd62a",
+        "CompleteLMMRunOnUiThread": "e403c65fc8be600772175fa563fbe1cf1a17a2af0d7ff3395d8102c067417476",
+        "FinishLMMProgress": "547961502fa2934351e9049b2ad88607d140ed16740008e11ef869a80d307e37",
+        "ReleaseLMMLargeRunReferences": "4ac1805a2b287f705e9f94665908562bd631d7a90c65f3c730ec5b3a07262e42",
+        "Ui19LMM_FormClosed": "aa465a486f72cd86877b2a89e1d95c27f1fa215fa2612045b727ed4edd196c8d",
+        "ClearLMMDialogReferences": "98cd286e7854ab43c4bf301d7a32a04fa6628c4ded1914b20b6f10d259cecd9a",
+        "RequestLMMManagedCleanup": "7ebbf806ed04e6190ad20b2b8796a091a758c86f679d5e597707dd192aa70e3a"
+      }
+    },
+    "BESHstatNG/src/RegModels/MixedModels/MixedModelFrontEndHelpers.vb": {
+      "changed": {
+        "AsString": {
+          "before": "6d107df21b07d03bc9e41ed3faba78e437c0dcb6a9fb1832ed982ec6a6fa51a3",
+          "after": "29f523cfa66525fb16b87b64c49666dfdbd7cb151d55f24257fd8478c8b19ad8"
+        },
+        "NormalizeToken": {
+          "before": "4adeecbf69e12e9ae717777bb2a06e67de7f6e14cc4aac3e4ed3905f72810221",
+          "after": "1c514743e123155328cbf4536091cd34abdccd2a4008b2340c8d15af755d5774"
+        },
+        "ParseCovarianceGradientMode": {
+          "before": "b97599a01d3a2e0158ccd54ab773acdfee75f5d55908bc803600b3adae7044c9",
+          "after": "9b25f2dcc459e86fdc4fd6692406b9f74490a02d6eb9bf491e6ea88c90b0b72b"
+        },
+        "ParseCovarianceOptimizerMode": {
+          "before": "3ef60d1dee6a1a3f2b6dc3e7f120646a7e93b1a910242b819186abbbd6ea5682",
+          "after": "fe1e82fd10f05bc7b14d15de2a3404a3f1b53871fb1eb21d9a383a4dc2fc42b5"
+        },
+        "ParseFitMethod": {
+          "before": "1c01b32bc1173de69da87de3a5889c2a8deebc042b48dd888fbed7be1d2d0cfe",
+          "after": "fc82289674f327d6153c85ac94fd4abcd21fabefafad1db78d233f502a7252dc"
+        },
+        "ParseInferenceMethod": {
+          "before": "c7bc8eac4dc1a8851e5815d1fa199e2c8dad3f808c83d202bd27ad0f161a3455",
+          "after": "ee3e6b8173d63c974b3578237bfb44103bc0eeed8411ee33d8cc629acfd1eb28"
+        }
+      },
+      "added": {},
+      "unchanged": {
+        "ResidualStructureRequiresVisit": "777bd2c1a0a03a1a40febcb34e5f25246dbb595b119c1fe430eaf06785a9de1a",
+        "ResolveDataColumnIndex": "eae01decc7881d26209c52ee32be59e59b725449a09830eb8637f07de2d053ed",
+        "ExtractNumericColumnFromData": "5076d7a1425ecd816bd310f395c4046f7afcf593ed55811b5a53e68cb764f10a",
+        "ExtractObjectColumnFromData": "ce469a30a28d4529439e3f17d17acc7fb252bbbe9e0c4072617976d4b0d3050a",
+        "ExtractRawNumericMatrix": "73e5271d5200d3c35162c7675f16a3f494f98eea39570e046d2f3d1fa55efbde",
+        "BuildExpandedDesignFromEffectSpecs": "b2dbe5522b259711c4f8776eeccf521b0dbb02c86e749a73ce59d66d8bc4490a",
+        "AddInterceptColumn": "6be3f90774cb99b9790274a3c2d7a40718b6416c4badf24b83e07a1556f27cdf",
+        "AddInterceptName": "1fe6b3977bab7f21af635188fc2af2cba0bbdfb85d670ce03260ed770449e5cc",
+        "AddInterceptIfRequested": "6a41dc50cddc64581f49301888ce5bfb2b705c6246375dcb23b46faea16a4c31",
+        "AddInterceptNameIfRequested": "0876f8e9946bcf97ec05bcdcd68ff19c09b9ee24cde351d18e305cc25d75598a",
+        "DefaultNames": "98d2fae687840f94d1bd491c4eab08e77d5b58189c578ecd1f857a87352ee097",
+        "BuildEffectsText": "59a9d7e9e5e454d29e3567587d18eee77f53892a416d6e0f34d9f550dd62b5d3",
+        "TraceTextToMatrix": "06fc8551646c5541d139c1f2b829487665ed48dd07c1a95b9af4927a57af59ca",
+        "UniqueSortedFiniteValues": "b334ecd859ee02d45727bdf3bf9ceb4b53eecb4b91fcf98b2fa1e229eb606614",
+        "UniqueSortedClassValues": "95d685119e930d3a66862fb5ec1821a7d2bbc78f01a3d84e42f1c02eed5bd363",
+        "JoinClassValues": "8abcc1d08f5be53c1ba80fb0dc7d1df627271d12992b71f79676d4fa78fc4807",
+        "AddUniqueNumeric": "53e8f72fa8c5a5dbf7ad0436c5fc8a6ca8c5de9b4a99f255668f8e275d8ae11c",
+        "AddUniqueText": "456165a8093416133501aea5253b73d919a7dada2c7f161d912389e11a46bac3",
+        "RandomAuthoringRequiresGeneralGSideStructure": "b08c0382a21c672c73c56096f38396c49611449ad968d1d4d880b564732c14b7",
+        "ValidateRandomStructureAgainstDesign": "c23b11ad2957ae19b62798ae3c3932032e7b6fda3bbd5dfdb91f39102b53d058",
+        "ValidateRandomStructureAgainstColumnCount": "8ed8f6805fe9bef7ac7b11c3f6b36ae159c174498162a33e27d894a05e4ed85b"
+      }
+    }
+  },
+  "protected_count": 3611,
+  "protected_map_sha256": "2a4228633790c525b67f084a777d81d0ae9a7ee4ae511a9b046f2f170259a4e7",
+  "private_pin_map": "LOCAL_BASELINE_ALIAS:source_pins; actual historical filename keys remain in ignored baseline.json, never replaced with imaginary paths.",
+  "unaffected": "Every other baseline tracked/docs byte pin verified, including Core estimators, UDF exports, Designers, GEE and C09/C11/C12 candidates; no hash equivalence invented for changed forms.",
+  "owner_plan": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "before_revision": "2.7",
+    "before_sha256": "3e813ca612f49207fd712966d64c6bc3b68fa64011623888e76fc54177030929",
+    "observed_revision": "2.8",
+    "observed_sha256": "dbe3bad6d23c4252a387f6dac56ea610c7a8430f29ebf838dfac2800fd60285f",
+    "origin": "Externally modified during this run; no assistant command edits this path. Observed write time follows initial protection snapshot. Preserved as owner/external work; source-of-truth plan now 2.8.",
+    "scope": "04A.14-16 row scope unchanged; accepted status/scientific/native lineage updated. User-authorized 04A.14 implementation continues, no 04A.15 implementation.",
+    "raw_diff_sha256": "67106655152ccbc7c57494a9151ffcff3ebb9f1de5fe4d3131d6bc17d14d9692",
+    "initial_protection_record_modified": false,
+    "publication": "Owner plan path is separately identified, not claimed as an agent-authored implementation change."
+  },
+  "writer": "Original writer operation sequence, sheet names, messages, async/cancel/interrupt/cleanup members preserved. Typed report tables consumed by shipping writers.",
+  "dormant_patches": {
+    "evidence/04A09/strict-validation-activation.UNAPPLIED.patch": {
+      "sha256": "aab350401c873d1a4f56450295688e9a046122aca2269fc9a618765f8fe79fe1",
+      "apply_check_exit": 0,
+      "applied": false
+    },
+    "evidence/04A11/C11-NATIVE-CORRECTIONS-01.final.UNAPPLIED.patch": {
+      "sha256": "2283553890563a7b2e662699d7c05319d30a5cc932099179fd24d88c1516b3fc",
+      "apply_check_exit": 0,
+      "applied": false
+    },
+    "evidence/04A12/C12-NATIVE-CLASSIFICATION-01.UNAPPLIED.patch": {
+      "sha256": "d1d525bbf6ebff2e371de4b8f6cb43689d4790ec2c4297da9fc29c08e4a58540",
+      "apply_check_exit": 0,
+      "applied": false
+    }
+  },
+  "native_executed": false,
+  "staged": false,
+  "published": false
+}

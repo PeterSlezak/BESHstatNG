@@ -1,0 +1,60 @@
+{
+  "base": "b02480a71c1f2de45beb9cb0726a564eae15076b",
+  "main": "b02480a71c1f2de45beb9cb0726a564eae15076b",
+  "feature_head": "b02480a71c1f2de45beb9cb0726a564eae15076b",
+  "branch": "codex/04A-14",
+  "merge_base": "b02480a71c1f2de45beb9cb0726a564eae15076b",
+  "local_tracking_comparison": "0\t0",
+  "remote_contacted": false,
+  "initial": {
+    "status_porcelain": "",
+    "diff_check_exit": 0,
+    "unrelated_tracked_changes": false
+  },
+  "owner_plan": "Owner/external Rev2.8 edit occurred after initial snapshot; separate owner-plan-update.json pins it. No source overwrite/reset/stash/clean/rebase or remote Git operation.",
+  "authorities": [
+    "AGENTS.md",
+    "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "docs/architecture/batch-04A-13-owner-review.md",
+    "docs/architecture/WindowsMigrationLedger/04A01-approved-deferred-obligations.json",
+    "docs/architecture/WindowsMigrationLedger/ui-controls.csv",
+    "docs/architecture/04A02/04A02-final-amended-acceptance-PROPOSED.json"
+  ],
+  "read_sources": [
+    {
+      "root": "BESHStat.Core/src/RegModels/MixedModels",
+      "vb_files": 29
+    },
+    {
+      "root": "BESHStat.Core.Tests/src/MixedModels",
+      "vb_files": 7
+    },
+    {
+      "root": "BESHStatNG.Test/src/MixedModels",
+      "vb_files": 13
+    }
+  ],
+  "source_pins": {
+    "AGENTS.md": "9fb0b1351f975c33724fc62a023f66f74ceb8bb0990254731a4c897586955a3b",
+    "BESHStat.Excel.Common.Tests/src/LegacyMixed14Options.vb": "948b18338c0075cb6ce490f41fa222059cc0e0211fa56292e041f5afb4f16577",
+    "BESHStat.Excel.Common.Tests/src/Mixed14Baselines.vb": "d8ebac77117924aa93f2030f3a5190014b01c1d7ec13911ed1ecbcd79023469a",
+    "scripts/verify-beshstatng.ps1": "e54e1fb0e7f3699f5d9aee361d255801531a546d8169edbab704ac0d8dd017fd",
+    "BESHStat.Excel.Common/src/Input/ModelInput.vb": "24ce36115b13ca33b36480cbcce64439e2af8317c35c94373eb387e0f894062f",
+    "BESHStat.Excel.Common/src/Input/ModelInputCompiler.vb": "90707f795dd4df22ba35a5124af105e2d7ffd6cff63124706b5fe2e6b1171eb3"
+  },
+  "prechange_scope_erratum": {
+    "original_receipt_sha256": "94ffc1fb312f9b091496ae3d69be81127be1f8a7bc482300a01640ccce798809",
+    "actual_selected_pins": 64,
+    "description": "The initial public receipt retained a copied survival/GEE scope sentence; its actual keys are selected mixed-model/dormant/plan sources. Original bytes and pins are preserved, not relabeled. Runner description is corrected for future init only."
+  },
+  "UDF": "All worksheet source/signatures/model-handle semantics byte-protected, six pure parser helpers now delegate losslessly with unchanged Friend signatures and source-derived alias oracle.",
+  "memory": "Original immutable Core block snapshot reused, no second retained X/Z; O(n) input rows/subject sidecars and explicit block permutation. Report table snapshot/rehydration allocates output-table copies; no retained mutable Core result. Original release and workflow reference clearing precede managed cleanup.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET"
+  },
+  "raw_role_selection_keys": "Original source-role keys retained separately from original Core display captions; final role metadata and candidate-only finite-subject/empty-random diagnostics validated by current Debug/Release focused rebuilds; no new acquired-path refusal.",
+  "validation_purity": "Exact Core factory alias-branch projections for validation only; no new aliases or numerical algorithms. Original actual request factories/acquired instances remain authoritative. Avoids extra Core logger calls; source equality and logger-probe tests pass. Deeper option specialization remains 04A.15."
+}

@@ -28,80 +28,30 @@ Namespace regression
 
         Friend Function ParseFitMethod(arg As Object,
                                        Optional defaultValue As MixedModelFitMethod = MixedModelFitMethod.REML) As MixedModelFitMethod
-            Dim token As String = NormalizeToken(AsString(arg))
-            If token = "ML" OrElse token = "MAXIMUMLIKELIHOOD" Then Return MixedModelFitMethod.ML
-            If token = "REML" OrElse token = "RESTRICTEDML" OrElse token = "RESTRICTEDMAXIMUMLIKELIHOOD" Then Return MixedModelFitMethod.REML
-            Return defaultValue
+            Return ExcelCommon.MixedModelOptionPolicy.ParseFitMethod(arg, defaultValue)
         End Function
 
         Friend Function ParseInferenceMethod(arg As Object,
                                              Optional defaultValue As MixedModelFixedInferenceMethod = MixedModelFixedInferenceMethod.KenwardRoger) As MixedModelFixedInferenceMethod
-            Dim token As String = NormalizeToken(AsString(arg))
-            If token = "KR" OrElse token = "KENWARDROGER" Then Return MixedModelFixedInferenceMethod.KenwardRoger
-            If token = "SATTERTHWAITE" OrElse token = "SATTERTHWAITEDF" Then Return MixedModelFixedInferenceMethod.Satterthwaite
-            If token = "BETWEENWITHIN" OrElse token = "BW" Then Return MixedModelFixedInferenceMethod.BetweenWithin
-            If token = "RESIDUALDF" OrElse token = "RESIDUAL" Then Return MixedModelFixedInferenceMethod.ResidualDF
-            If token = "WALD" OrElse token = "WALDNORMAL" OrElse token = "LARGESAMPLENORMAL" OrElse token = "NORMAL" Then Return MixedModelFixedInferenceMethod.WaldNormal
-            Return defaultValue
+            Return ExcelCommon.MixedModelOptionPolicy.ParseInferenceMethod(arg, defaultValue)
         End Function
 
         Friend Function ParseCovarianceOptimizerMode(arg As Object,
                                                       Optional defaultValue As MixedModelCovarianceOptimizerMode = MixedModelCovarianceOptimizerMode.AverageInformationReml) As MixedModelCovarianceOptimizerMode
-            Dim token As String = NormalizeToken(AsString(arg))
-            If token = String.Empty Then Return defaultValue
-
-            If token = "AI" OrElse token = "AVERAGEINFORMATION" OrElse token = "FISHERSCORING" OrElse token = "SAS" OrElse
-               token = "AIFISHERSCORINGDEFAULT" OrElse token = "AVERAGEINFORMATIONREML" Then
-                Return MixedModelCovarianceOptimizerMode.AverageInformationReml
-            End If
-
-            If token = "BFGSANALYTIC" OrElse token = "PROJECTEDBFGSANALYTIC" OrElse
-               token = "PROJECTEDBFGSANALYTICGRADIENT" OrElse token = "ANALYTICBFGS" Then
-                Return MixedModelCovarianceOptimizerMode.ProjectedBfgsAnalyticGradient
-            End If
-
-            If token = "BFGS" OrElse token = "PROJECTEDBFGS" OrElse token = "BFGSAUTOGRADIENT" OrElse
-               token = "PROJECTEDBFGSAUTOGRADIENT" OrElse token = "BFGSNUMERICAL" OrElse
-               token = "PROJECTEDBFGSNUMERICAL" OrElse token = "BFGSFINITE" OrElse
-               token = "BFGSFINITEDIFFERENCE" OrElse token = "NUMERICALBFGS" Then
-                Return MixedModelCovarianceOptimizerMode.ProjectedBfgs
-            End If
-
-            Return defaultValue
+            Return ExcelCommon.MixedModelOptionPolicy.ParseCovarianceOptimizerMode(arg, defaultValue)
         End Function
 
         Friend Function ParseCovarianceGradientMode(arg As Object,
                                                      Optional defaultValue As MixedModelCovarianceGradientMode = MixedModelCovarianceGradientMode.Auto) As MixedModelCovarianceGradientMode
-            Dim token As String = NormalizeToken(AsString(arg))
-            If token = String.Empty OrElse token = "AUTO" OrElse token = "AUTOANALYTICWHEREAVAILABLE" Then Return defaultValue
-
-            If token = "ANALYTIC" OrElse token = "ANALYTICSCORE" Then
-                Return MixedModelCovarianceGradientMode.AnalyticScore
-            End If
-
-            If token = "ANALYTICVALIDATION" OrElse token = "VALIDATE" OrElse
-               token = "ANALYTICSCOREFINITEDIFFERENCEVALIDATION" OrElse
-               token = "ANALYTICSCOREWITHFINITEDIFFERENCEVALIDATION" Then
-                Return MixedModelCovarianceGradientMode.AnalyticScoreWithFiniteDifferenceValidation
-            End If
-
-            If token = "NUMERICAL" OrElse token = "FINITE" OrElse token = "FINITEDIFFERENCE" OrElse
-               token = "NUMERICALFINITEDIFFERENCE" Then
-                Return MixedModelCovarianceGradientMode.NumericalFiniteDifference
-            End If
-
-            Return defaultValue
+            Return ExcelCommon.MixedModelOptionPolicy.ParseCovarianceGradientMode(arg, defaultValue)
         End Function
 
         Friend Function NormalizeToken(s As String) As String
-            If String.IsNullOrWhiteSpace(s) Then Return String.Empty
-            Dim chars As IEnumerable(Of Char) = s.Where(Function(ch) Char.IsLetterOrDigit(ch))
-            Return New String(chars.ToArray()).ToUpperInvariant()
+            Return ExcelCommon.MixedModelOptionPolicy.NormalizeToken(s)
         End Function
 
         Friend Function AsString(arg As Object) As String
-            If arg Is Nothing Then Return String.Empty
-            Return Convert.ToString(arg, CultureInfo.InvariantCulture)
+            Return ExcelCommon.MixedModelOptionPolicy.AsString(arg)
         End Function
 
         Friend Function ResolveDataColumnIndex(raw As Global.BESHStatNG.DataObj,

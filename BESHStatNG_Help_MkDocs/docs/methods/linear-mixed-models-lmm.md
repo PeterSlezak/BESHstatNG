@@ -5,6 +5,18 @@
 
 ---
 
+## Office add-in availability
+
+This method is available through the Windows Excel-DNA ribbon and worksheet functions. It is **not yet available** in the Office add-in (Excel Online) task pane. Windows tests do not verify Mac desktop operation.
+
+The linked dialog screenshots are historical Windows images; they were not recaptured or native-verified for the shared workflow extraction.
+
+## Windows workflow notes
+
+Kenward?Roger inference requires REML. In the ribbon dialog, selecting Kenward?Roger with ML switches the effective fit to REML, updates the fit selection where possible and displays an information message. Satterthwaite, residual-DF and large-sample normal inference remain distinct choices.
+
+Worksheet acquisition and missing-row filtering remain in Windows. Retained source-row identities accompany the fitted subject blocks; within-subject sorting is a computation order, not a replacement for worksheet row numbers. LMM sorts within subject by visit when a visit variable is supplied. Random-intercept and random-intercept-plus-slope choices have dimensional restrictions; authoring multiple or interacting random effects can promote the selected simple structure to VC/Diag.
+
 ## Overview
 
 A **linear mixed model (LMM)** extends ordinary linear regression by adding random effects. Fixed effects describe the average relationship between the response and predictors in the population. Random effects describe how subjects, clusters, batches, sites, or other grouping units deviate from that population average.

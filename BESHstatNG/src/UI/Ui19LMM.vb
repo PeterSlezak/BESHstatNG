@@ -1,6 +1,7 @@
 ﻿Option Explicit On
 
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.ExcelCommon
 Imports System.Threading.Tasks
 
 Public Class Ui19LMM
@@ -230,13 +231,13 @@ Public Class Ui19LMM
             End If
         Next
 
-        If Me.lbSelectedFixedEffectsList.Items.Count = 0 AndAlso Not Me.cbFixedIntercept.Checked Then
+        If MixedModelWorkflowPolicy.EmptyEffectSelection(Me.lbSelectedFixedEffectsList.Items.Count, Me.cbFixedIntercept.Checked) Then
             strWarning = "No fixed effects were specified and the fixed intercept is disabled."
             bWait = True
             Exit Sub
         End If
 
-        If Me.lbSelectedRandomEffectsList.Items.Count = 0 AndAlso Not Me.cbRandomIntercept.Checked Then
+        If MixedModelWorkflowPolicy.EmptyEffectSelection(Me.lbSelectedRandomEffectsList.Items.Count, Me.cbRandomIntercept.Checked) Then
             strWarning = "No random effects were specified and the random intercept is disabled."
             bWait = True
             Exit Sub
@@ -296,14 +297,14 @@ Public Class Ui19LMM
         End If
 
         Dim eps As Double = ParseUiDouble(Me.tbEps.Text, "Convergence epsilon")
-        If eps <= 0 Then
+        If MixedModelWorkflowPolicy.LegacyRejectEpsilon(eps) Then
             strWarning = "Convergence epsilon must be positive."
             bWait = True
             Exit Sub
         End If
 
         Dim maxIter As Integer = ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations")
-        If maxIter <= 0 Then
+        If MixedModelWorkflowPolicy.LegacyRejectIterations(maxIter) Then
             strWarning = "Maximum iterations must be positive."
             bWait = True
             Exit Sub
@@ -493,17 +494,10 @@ Public Class Ui19LMM
         Dim gStruct As regression.MixedModelGStruct = regression.MixedModelGStructUtils.createMixedModelGStruct(CStr(Me.cbRandomCovarStruct.SelectedItem))
 
         Dim selectedInferenceMethod As String = CStr(Me.cbInferenceMethod.SelectedItem)
-        Dim krInferenceRequested As Boolean = String.Equals(selectedInferenceMethod, "Kenward-Roger", StringComparison.OrdinalIgnoreCase)
+        Dim selectedFitMethod As String = CStr(Me.cbFitMethod.SelectedItem)
+        Dim fitDecision = MixedModelWorkflowPolicy.DecideFit(MixedModelWorkflowKind.LMM, selectedFitMethod, selectedInferenceMethod)
 
-        Dim fitMethod As regression.MixedModelFitMethod
-        If String.Equals(CStr(Me.cbFitMethod.SelectedItem), "ML", StringComparison.OrdinalIgnoreCase) Then
-            fitMethod = regression.MixedModelFitMethod.ML
-        Else
-            fitMethod = regression.MixedModelFitMethod.REML
-        End If
-
-        If krInferenceRequested AndAlso fitMethod = regression.MixedModelFitMethod.ML Then
-            fitMethod = regression.MixedModelFitMethod.REML
+        If fitDecision.CoerceToReml Then
             Try
                 Me.cbFitMethod.SelectedItem = "REML"
             Catch
@@ -514,41 +508,19 @@ Public Class Ui19LMM
                    "LMM Kenward-Roger inference")
         End If
 
-        Dim req As regression.MixedModelFitRequest = regression.MixedModelFitRequest.CreateLMM(blockData, rStruct, gStruct, fitMethod)
-
-        req.ResponseVarName = RegressionDesignCore.GetCoefBaseName(lmmGuiData.ResponseKey)
-        req.SubjectVarName = RegressionDesignCore.GetCoefBaseName(lmmGuiData.SubjectKey)
-        req.VisitVarName = If(String.IsNullOrWhiteSpace(lmmGuiData.VisitKey), String.Empty, RegressionDesignCore.GetCoefBaseName(lmmGuiData.VisitKey))
-        req.FixedEffectNames = fixedNames
-        req.RandomEffectNames = randomNames
-        req.FixedFormulaText = BuildSelectedEffectsText(Me.lbSelectedFixedEffectsList, Me.cbFixedIntercept.Checked, "Intercept only")
-        req.RandomFormulaText = BuildSelectedEffectsText(Me.lbSelectedRandomEffectsList, Me.cbRandomIntercept.Checked, "Random intercept only")
-        req.RequestLabel = "LMM"
-
-        Select Case selectedInferenceMethod
-            Case "Large-sample normal"
-                req.FixedInferenceMethod = regression.MixedModelFixedInferenceMethod.WaldNormal
-            Case "Residual DF"
-                req.FixedInferenceMethod = regression.MixedModelFixedInferenceMethod.ResidualDF
-            Case "Satterthwaite"
-                req.FixedInferenceMethod = regression.MixedModelFixedInferenceMethod.Satterthwaite
-                req.UseSatterthwaite = True
-            Case "Kenward-Roger"
-                req.EnableFullKenwardRogerForLmm()
-            Case Else
-                req.FixedInferenceMethod = regression.MixedModelFixedInferenceMethod.WaldNormal
-        End Select
-
-        Dim ctl As regression.MixedModelControl = req.Control
-        Dim uiEps As Double = ParseUiDouble(Me.tbEps.Text, "Convergence epsilon")
-
-        ctl.MaxIter = ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations")
-        ctl.Epsilon = uiEps
-        ctl.StepTolerance = uiEps
-        ctl.FunctionTolerance = uiEps
-        ApplyLMMCovarianceOptimizerSelections(ctl)
-        ctl.Trace = Me.ckTrace.Checked OrElse Me.ckIterationsDetails.Checked
-        req.Control = ctl
+        Dim workflow = WindowsMixedModelWorkflowAdapter.CaptureLMM(raw, blockData, subjectId,
+            lmmGuiData.ResponseKey, lmmGuiData.SubjectKey, lmmGuiData.VisitKey, fixedNames, randomNames,
+            RegressionEffectModel.FromProjection(Me.lbSelectedFixedEffectsList.Items.Cast(Of String)(), Me.FixedTermSpecs, Me.cbFixedIntercept.Checked),
+            RegressionEffectModel.FromProjection(Me.lbSelectedRandomEffectsList.Items.Cast(Of String)(), Me.RandomTermSpecs, Me.cbRandomIntercept.Checked),
+            BuildSelectedEffectsText(Me.lbSelectedFixedEffectsList, Me.cbFixedIntercept.Checked, "Intercept only"),
+            BuildSelectedEffectsText(Me.lbSelectedRandomEffectsList, Me.cbRandomIntercept.Checked, "Random intercept only"),
+            New MixedModelWorkflowOptions With {.ResidualStructure = CStr(Me.cbCovarStruct.SelectedItem), .RandomStructure = CStr(Me.cbRandomCovarStruct.SelectedItem),
+                .FitMethod = selectedFitMethod, .Inference = selectedInferenceMethod,
+                .MaximumIterations = ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"), .Epsilon = ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"),
+                .Optimizer = SelectedComboText(Me.cbLMMCovOptimizerMode, LMM_OPT_AI), .Gradient = SelectedComboText(Me.cbLMMCovGradientMode, LMM_GRAD_AUTO),
+                .Trace = Me.ckTrace.Checked, .IterationDetails = Me.ckIterationsDetails.Checked,
+                .FixedIntercept = Me.cbFixedIntercept.Checked, .RandomIntercept = Me.cbRandomIntercept.Checked})
+        Dim req As regression.MixedModelFitRequest = workflow.CreateAcquiredCoreRequest(rStruct, gStruct)
 
         ResetLMMProgress()
         pLmmCancelRequested = False
@@ -586,6 +558,7 @@ Public Class Ui19LMM
                         End Sub)
         Finally
             ReleaseLMMLargeRunReferences(result, model, req)
+            workflow = Nothing
 
             result = Nothing
             model = Nothing
@@ -798,20 +771,11 @@ Public Class Ui19LMM
 
     Private Sub PromoteRandomCovarianceForMultipleRandomEffects()
         Try
-            Dim authoredCount As Integer = Me.lbSelectedRandomEffectsList.Items.Count
-            Dim qAuthoring As Integer = authoredCount + If(Me.cbRandomIntercept.Checked, 1, 0)
             Dim current As String = SelectedComboText(Me.cbRandomCovarStruct, "Random Intercept")
-            If regression.MixedModelFrontEndHelpers.RandomAuthoringRequiresGeneralGSideStructure(Me.RandomTermSpecs,
-                                                                                                authoredCount,
-                                                                                                Me.cbRandomIntercept.Checked) Then
-                If String.Equals(current, "Random Intercept", StringComparison.OrdinalIgnoreCase) OrElse
-                   String.Equals(current, "Random Intercept + Slope", StringComparison.OrdinalIgnoreCase) Then
-                    Me.cbRandomCovarStruct.SelectedItem = "Variance Components (VC/Diag)"
-                End If
-            ElseIf qAuthoring = 2 AndAlso Me.cbRandomIntercept.Checked AndAlso
-                String.Equals(current, "Random Intercept", StringComparison.OrdinalIgnoreCase) Then
-                Me.cbRandomCovarStruct.SelectedItem = "Random Intercept + Slope"
-            End If
+            Dim effects = RegressionEffectModel.FromProjection(If(Me.RandomTermSpecs Is Nothing, Enumerable.Empty(Of String)(), Me.RandomTermSpecs.Keys),
+                Me.RandomTermSpecs, Me.cbRandomIntercept.Checked)
+            Dim promoted = MixedModelWorkflowPolicy.PromotedRandomStructure(current, effects, False, Me.lbSelectedRandomEffectsList.Items.Count)
+            If Not String.Equals(current, promoted, StringComparison.Ordinal) Then Me.cbRandomCovarStruct.SelectedItem = promoted
         Catch
         End Try
     End Sub
@@ -819,10 +783,10 @@ Public Class Ui19LMM
     Private Sub PromoteRandomCovarianceForGeneralRandomEffects()
         Try
             Dim current As String = SelectedComboText(Me.cbRandomCovarStruct, "Random Intercept")
-            If String.Equals(current, "Random Intercept", StringComparison.OrdinalIgnoreCase) OrElse
-               String.Equals(current, "Random Intercept + Slope", StringComparison.OrdinalIgnoreCase) Then
-                Me.cbRandomCovarStruct.SelectedItem = "Variance Components (VC/Diag)"
-            End If
+            Dim effects = RegressionEffectModel.FromProjection(If(Me.RandomTermSpecs Is Nothing, Enumerable.Empty(Of String)(), Me.RandomTermSpecs.Keys),
+                Me.RandomTermSpecs, Me.cbRandomIntercept.Checked)
+            Dim promoted = MixedModelWorkflowPolicy.PromotedRandomStructure(current, effects, True, Me.lbSelectedRandomEffectsList.Items.Count)
+            If Not String.Equals(current, promoted, StringComparison.Ordinal) Then Me.cbRandomCovarStruct.SelectedItem = promoted
         Catch
         End Try
     End Sub
@@ -852,19 +816,9 @@ Public Class Ui19LMM
     End Sub
 
     Private Sub ApplyLMMCovarianceOptimizerSelections(ByRef ctl As regression.MixedModelControl)
-        Dim optimizerText As String = SelectedComboText(Me.cbLMMCovOptimizerMode, LMM_OPT_AI)
-        Dim gradientText As String = SelectedComboText(Me.cbLMMCovGradientMode, LMM_GRAD_AUTO)
-
-        ctl.CovarianceOptimizerMode = regression.MixedModelFrontEndHelpers.ParseCovarianceOptimizerMode(optimizerText)
-        ctl.CovarianceGradientMode = regression.MixedModelFrontEndHelpers.ParseCovarianceGradientMode(gradientText)
-
-        If String.Equals(optimizerText, LMM_OPT_BFGS_ANALYTIC, StringComparison.OrdinalIgnoreCase) Then
-            ctl.CovarianceOptimizerMode = regression.MixedModelCovarianceOptimizerMode.ProjectedBfgsAnalyticGradient
-            ctl.CovarianceGradientMode = regression.MixedModelCovarianceGradientMode.AnalyticScore
-        ElseIf String.Equals(optimizerText, LMM_OPT_BFGS_NUMERICAL, StringComparison.OrdinalIgnoreCase) Then
-            ctl.CovarianceOptimizerMode = regression.MixedModelCovarianceOptimizerMode.ProjectedBfgs
-            ctl.CovarianceGradientMode = regression.MixedModelCovarianceGradientMode.NumericalFiniteDifference
-        End If
+        MixedModelWorkflowPolicy.ApplyOptimizer(MixedModelWorkflowKind.LMM, ctl,
+            SelectedComboText(Me.cbLMMCovOptimizerMode, LMM_OPT_AI),
+            SelectedComboText(Me.cbLMMCovGradientMode, LMM_GRAD_AUTO))
     End Sub
 
     Private Function SelectedComboText(cb As Windows.Forms.ComboBox, fallback As String) As String
@@ -890,7 +844,10 @@ Public Class Ui19LMM
 
     Private Sub AppendLMMClassInfoTable(result As regression.MixedModelResult, lmmGuiData As LmmGuiData)
         Try
-            If result Is Nothing OrElse Not Me.ckLMMClassInfo.Checked Then Exit Sub
+            If result Is Nothing Then Exit Sub
+            Dim classPlan = MixedModelReportPolicy.Plan(MixedModelWorkflowKind.LMM,
+                New MixedModelReportOptions With {.ClassInformation = Me.ckLMMClassInfo.Checked}, False)
+            If Not classPlan.Includes(MixedModelSupplementalSection.ClassInformation) Then Exit Sub
             If result.AdditionalResultTables Is Nothing Then result.AdditionalResultTables = New List(Of ResultTable)()
 
             Dim rows As New List(Of Object())()
@@ -972,7 +929,7 @@ Public Class Ui19LMM
         WriteLMMDataSheet(wb, lmmGuiData, result, y, x, fixedNames, z, randomNames, subjectId, visit)
         WriteLMMModelSheet(wb, result)
 
-        If (Me.ckTrace.Checked OrElse Me.ckIterationsDetails.Checked) AndAlso Not String.IsNullOrWhiteSpace(result.strTrace) Then
+        If MixedModelReportPolicy.ShouldWriteTrace(Me.ckTrace.Checked, Me.ckIterationsDetails.Checked, result.strTrace) Then
             WriteLMMTraceSheet(wb, result.strTrace)
         End If
 
@@ -1048,7 +1005,7 @@ Public Class Ui19LMM
             writeRes.shiftColumnPointer(1)
         End If
 
-        If Me.ckResiduals.Checked AndAlso result.ResidualRaw IsNot Nothing AndAlso result.ResidualRaw.Length = y.Length Then
+        If MixedModelReportPolicy.ShouldWriteResidual(Me.ckResiduals.Checked, result.ResidualRaw, y.Length) Then
             writeRes.write({"Residual"})
             writeRes.setRowPointer(2)
             writeRes.write(result.ResidualRaw, bTall:=True)
@@ -1060,24 +1017,27 @@ Public Class Ui19LMM
     Private Sub WriteLMMModelSheet(wb As Object, result As regression.MixedModelResult)
         Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
 
-        If Not Me.ckLMMGCovarianceMatrix.Checked Then
+        Dim reportOptions As New MixedModelReportOptions With {.Alpha = alphaValue,
+            .RandomCovariance = Me.ckLMMGCovarianceMatrix.Checked, .ResidualCovariance = Me.ckLMMRCovarianceMatrix.Checked,
+            .RandomEffects = Me.ckLMMRandomEffects.Checked, .IterationDetails = Me.ckIterationsDetails.Checked, .Diagnostics = Me.cbDiagnostic.Checked}
+
+        If Not reportOptions.RandomCovariance Then
             result.RandomCovarianceUserScale = Nothing
             result.RandomCorrelationUserScale = Nothing
         End If
 
-        If Not Me.ckLMMRCovarianceMatrix.Checked Then
+        If Not reportOptions.ResidualCovariance Then
             result.ResidualCovarianceUserScale = Nothing
             result.ResidualCorrelationUserScale = Nothing
         End If
 
-        If Not Me.ckLMMRandomEffects.Checked AndAlso result.RandomEffects IsNot Nothing Then
+        If Not reportOptions.RandomEffects AndAlso result.RandomEffects IsNot Nothing Then
             result.RandomEffects.Clear()
         End If
 
-        Dim tables As List(Of ResultTable) = result.wrapResults(alphaValue,
-                                                                includeOptimizerTrace:=Me.ckIterationsDetails.Checked,
-                                                                includeKenwardRogerTermTests:=True,
-                                                                includeDiagnostics:=Me.cbDiagnostic.Checked)
+        Dim report = MixedModelReportPolicy.Project(MixedModelWorkflowKind.LMM, result,
+            reportOptions)
+        Dim tables As List(Of ResultTable) = report.LegacyTables()
         Dim writeRes As New ExcelDnaResultWriter
         wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
         wb.ActiveSheet.Name = "LMM"

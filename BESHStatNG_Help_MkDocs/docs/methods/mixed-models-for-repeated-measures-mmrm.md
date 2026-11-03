@@ -5,6 +5,18 @@
 
 ---
 
+## Office add-in availability
+
+This method is available through the Windows Excel-DNA ribbon and worksheet functions. It is **not yet available** in the Office add-in (Excel Online) task pane. Windows tests do not verify Mac desktop operation.
+
+The linked dialog screenshots are historical Windows images; they were not recaptured or native-verified for the shared workflow extraction.
+
+## Windows workflow notes
+
+Kenward?Roger inference requires REML. In the ribbon dialog, selecting Kenward?Roger with ML switches the effective fit to REML, updates the fit selection where possible and displays an information message. Satterthwaite, residual-DF and large-sample normal inference remain distinct choices.
+
+Worksheet acquisition and missing-row filtering remain in Windows. Retained source-row identities accompany the fitted subject blocks; within-subject sorting is a computation order, not a replacement for worksheet row numbers. MMRM sorts within subject by visit. Observed-design estimated means and reference-grid LS-means use different specifications; weighting, covariate references, baseline, control and contrast direction must match when comparing results.
+
 ## Overview
 
 A **mixed model for repeated measures (MMRM)** is a likelihood-based model for continuous outcomes measured repeatedly on the same subject. It is widely used in clinical trials, biomedical studies, and other longitudinal analyses where the main questions are usually visit-specific adjusted means, treatment differences, changes from baseline, or differences in change from baseline.

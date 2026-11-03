@@ -1,6 +1,7 @@
 ﻿Option Explicit On
 
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.ExcelCommon
 Imports System.Threading.Tasks
 
 Public Class Ui18MMRM
@@ -180,7 +181,7 @@ Public Class Ui18MMRM
             End If
         Next
 
-        If Me.lbSelectedEffectsList.Items.Count = 0 AndAlso Not Me.cbIntercept.Checked Then
+        If MixedModelWorkflowPolicy.EmptyEffectSelection(Me.lbSelectedEffectsList.Items.Count, Me.cbIntercept.Checked) Then
             strWarning = "No fixed effects were specified and the intercept is disabled."
             bWait = True
             Exit Sub
@@ -211,14 +212,14 @@ Public Class Ui18MMRM
         End If
 
         Dim eps As Double = ParseUiDouble(Me.tbEps.Text, "Convergence epsilon")
-        If eps <= 0 Then
+        If MixedModelWorkflowPolicy.LegacyRejectEpsilon(eps) Then
             strWarning = "Convergence epsilon must be positive."
             bWait = True
             Exit Sub
         End If
 
         Dim maxIter As Integer = ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations")
-        If maxIter <= 0 Then
+        If MixedModelWorkflowPolicy.LegacyRejectIterations(maxIter) Then
             strWarning = "Maximum iterations must be positive."
             bWait = True
             Exit Sub
@@ -390,17 +391,10 @@ Public Class Ui18MMRM
             regression.MixedModelRStructUtils.createMixedModelRStruct(CStr(Me.cbCovarStruct.SelectedItem))
 
         Dim selectedInferenceMethod As String = CStr(Me.cbInferenceMethod.SelectedItem)
-        Dim krInferenceRequested As Boolean = String.Equals(selectedInferenceMethod, "Kenward-Roger", StringComparison.OrdinalIgnoreCase)
+        Dim selectedFitMethod As String = CStr(Me.cbFitMethod.SelectedItem)
+        Dim fitDecision = MixedModelWorkflowPolicy.DecideFit(MixedModelWorkflowKind.MMRM, selectedFitMethod, selectedInferenceMethod)
 
-        Dim fitMethod As regression.MixedModelFitMethod
-        If String.Equals(CStr(Me.cbFitMethod.SelectedItem), "ML", StringComparison.OrdinalIgnoreCase) Then
-            fitMethod = regression.MixedModelFitMethod.ML
-        Else
-            fitMethod = regression.MixedModelFitMethod.REML
-        End If
-
-        If krInferenceRequested AndAlso fitMethod = regression.MixedModelFitMethod.ML Then
-            fitMethod = regression.MixedModelFitMethod.REML
+        If fitDecision.CoerceToReml Then
             Try
                 Me.cbFitMethod.SelectedItem = "REML"
             Catch
@@ -412,44 +406,15 @@ Public Class Ui18MMRM
                    "MMRM Kenward-Roger inference")
         End If
 
-        Dim req As regression.MixedModelFitRequest = regression.MixedModelFitRequest.CreateMMRM(blockData, rStruct, fitMethod)
-
-        req.ResponseVarName = RegressionDesignCore.GetCoefBaseName(mmrmGuiData.ResponseKey)
-        req.SubjectVarName = RegressionDesignCore.GetCoefBaseName(mmrmGuiData.SubjectKey)
-        req.VisitVarName = RegressionDesignCore.GetCoefBaseName(mmrmGuiData.VisitKey)
-        req.FixedEffectNames = fixedNames
-        req.FixedFormulaText = BuildSelectedEffectsText()
-        req.RandomFormulaText = String.Empty
-        req.RequestLabel = "MMRM"
-        Select Case selectedInferenceMethod
-            Case "Large-sample normal"
-                req.FixedInferenceMethod = regression.MixedModelFixedInferenceMethod.WaldNormal
-            Case "Residual DF"
-                req.FixedInferenceMethod = regression.MixedModelFixedInferenceMethod.ResidualDF
-            Case "Satterthwaite"
-                req.FixedInferenceMethod = regression.MixedModelFixedInferenceMethod.Satterthwaite
-                req.UseSatterthwaite = True
-            Case "Kenward-Roger"
-                req.EnableFullKenwardRogerForMmrm()
-            Case Else
-                req.FixedInferenceMethod = regression.MixedModelFixedInferenceMethod.BetweenWithin
-        End Select
-
-        ' MixedModelControl is a Structure.  A property access returns a copy, so assign to a
-        ' local variable, update it, then assign the whole structure back to req.Control.
-        Dim ctl As regression.MixedModelControl = req.Control
-        Dim uiEps As Double = ParseUiDouble(Me.tbEps.Text, "Convergence epsilon")
-
-        ctl.MaxIter = ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations")
-
-        ' Keep one UI field for now, but apply it consistently to all three optimizer stopping tolerances.
-        ctl.Epsilon = uiEps
-        ctl.StepTolerance = uiEps
-        ctl.FunctionTolerance = uiEps
-        ApplyMMRMCovarianceOptimizerSelections(ctl)
-
-        ctl.Trace = Me.ckTrace.Checked OrElse Me.ckIterationsDetails.Checked
-        req.Control = ctl
+        Dim workflow = WindowsMixedModelWorkflowAdapter.CaptureMMRM(raw, blockData, subjectId,
+            mmrmGuiData.ResponseKey, mmrmGuiData.SubjectKey, mmrmGuiData.VisitKey, fixedNames,
+            RegressionEffectModel.FromProjection(Me.lbSelectedEffectsList.Items.Cast(Of String)(), Me.TermSpecs, Me.cbIntercept.Checked),
+            BuildSelectedEffectsText(), New MixedModelWorkflowOptions With {
+                .ResidualStructure = CStr(Me.cbCovarStruct.SelectedItem), .FitMethod = selectedFitMethod, .Inference = selectedInferenceMethod,
+                .MaximumIterations = ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"), .Epsilon = ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"),
+                .Optimizer = SelectedComboText(Me.cbMMRMCovOptimizerMode, MMRM_OPT_AI), .Gradient = SelectedComboText(Me.cbMMRMCovGradientMode, MMRM_GRAD_AUTO),
+                .Trace = Me.ckTrace.Checked, .IterationDetails = Me.ckIterationsDetails.Checked, .FixedIntercept = Me.cbIntercept.Checked})
+        Dim req As regression.MixedModelFitRequest = workflow.CreateAcquiredCoreRequest(rStruct)
 
         ResetMMRMProgress()
         pMmrmCancelRequested = False
@@ -489,6 +454,7 @@ Public Class Ui18MMRM
                          End Sub)
         Finally
             ReleaseMMRMLargeRunReferences(result, model, req)
+            workflow = Nothing
 
             result = Nothing
             model = Nothing
@@ -714,7 +680,7 @@ Public Class Ui18MMRM
         WriteMMRMDataSheet(wb, mmrmGuiData, result, y, x, fixedNames, subjectId, visit)
         WriteMMRMModelSheet(wb, result)
 
-        If (Me.ckTrace.Checked OrElse Me.ckIterationsDetails.Checked) AndAlso Not String.IsNullOrWhiteSpace(result.strTrace) Then
+        If MixedModelReportPolicy.ShouldWriteTrace(Me.ckTrace.Checked, Me.ckIterationsDetails.Checked, result.strTrace) Then
             WriteMMRMTraceSheet(wb, result.strTrace)
         End If
 
@@ -774,7 +740,7 @@ Public Class Ui18MMRM
             writeRes.shiftColumnPointer(1)
         End If
 
-        If Me.ckResiduals.Checked AndAlso result.ResidualRaw IsNot Nothing AndAlso result.ResidualRaw.Length = y.Length Then
+        If MixedModelReportPolicy.ShouldWriteResidual(Me.ckResiduals.Checked, result.ResidualRaw, y.Length) Then
             writeRes.write({"Residual"})
             writeRes.setRowPointer(2)
             writeRes.write(result.ResidualRaw, bTall:=True)
@@ -786,9 +752,9 @@ Public Class Ui18MMRM
 
     Private Sub WriteMMRMModelSheet(wb As Object, result As regression.MixedModelResult)
         Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
-        Dim tables As List(Of ResultTable) = result.wrapResults(alphaValue,
-                                                                includeOptimizerTrace:=Me.ckIterationsDetails.Checked,
-                                                                includeDiagnostics:=Me.cbDiagnostic.Checked)
+        Dim report = MixedModelReportPolicy.Project(MixedModelWorkflowKind.MMRM, result,
+            New MixedModelReportOptions With {.Alpha = alphaValue, .IterationDetails = Me.ckIterationsDetails.Checked, .Diagnostics = Me.cbDiagnostic.Checked})
+        Dim tables As List(Of ResultTable) = report.LegacyTables()
         Dim writeRes As New ExcelDnaResultWriter
         wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
         wb.ActiveSheet.Name = "MMRM"
@@ -830,6 +796,23 @@ Public Class Ui18MMRM
         Return regression.MixedModelFrontEndHelpers.AddInterceptName(expandedNames)
     End Function
 
+    ' Fresh post-fit snapshot, after the existing data-dependent level refresh.
+    Private Function CaptureMMRMReportOptions() As MixedModelReportOptions
+        Return New MixedModelReportOptions With {
+            .Alpha = CDbl(Me.spinBtnAlpha.Value), .ClassInformation = Me.ckMMRMClassInfo.Checked,
+            .EstimatedMeans = Me.ckMMRMEstimatedMeans.Checked, .ChangeFromBaseline = Me.ckMMRMChangeFromBaseline.Checked,
+            .DifferenceInChange = Me.ckMMRMDiffInChange.Checked,
+            .MeansMode = MixedModelReportPolicy.MeansMode(SelectedComboText(Me.cbMMRMLSMeansMode, MMRM_LSMEANS_OBSERVED_GRID)),
+            .Contrast = MixedModelReportPolicy.Contrast(SelectedComboText(Me.cbMMRMContrastMode, MMRM_MODE_PAIRWISE)),
+            .Direction = MixedModelReportPolicy.Direction(SelectedComboText(Me.cbMMRMContrastDirection, MMRM_DIR_HIGHER_MINUS_LOWER)),
+            .Weighting = SelectedReferenceGridWeighting(), .Multiplicity = SelectedMultiplicityAdjustment(),
+            .CovariateMode = MixedModelReportPolicy.CovariateMode(SelectedComboText(Me.cbMMRMRefGridCovariates, MMRM_RG_COVARIATE_MEANS)),
+            .GroupSelection = SelectedComboText(Me.cbMMRMGroupingFactor, MMRM_GROUP_AUTO),
+            .BaselineSelection = SelectedComboText(Me.cbMMRMBaselineVisit, MMRM_BASELINE_SMALLEST),
+            .ControlSelection = SelectedComboText(Me.cbMMRMControlLevel, MMRM_CONTROL_FIRST),
+            .ComparisonSelection = SelectedComboText(Me.cbMMRMComparisonLevel, MMRM_GROUP_AUTO)}
+    End Function
+
     ''' <summary>
     ''' Adds first-pass MMRM estimated marginal mean and contrast tables to the fitted result.
     ''' </summary>
@@ -845,6 +828,8 @@ Public Class Ui18MMRM
     ''' method also adds visit-by-group LS-means and pairwise group contrast tables.
     ''' </para>
     ''' </remarks>
+
+
     Private Sub AppendMMRMEstimatedMeanTables(result As regression.MixedModelResult,
                                           x(,) As Double,
                                           fixedNames() As String,
@@ -903,13 +888,16 @@ Public Class Ui18MMRM
                 CoreServices.Logger.Warn("RefreshMMRMContrastControlsFromData failed inside AppendMMRMEstimatedMeanTables: " & ex.Message)
             End Try
 
-            If Me.ckMMRMClassInfo.Checked Then
+            Dim reportOptions = CaptureMMRMReportOptions()
+            Dim reportPlan = MixedModelReportPolicy.Plan(MixedModelWorkflowKind.MMRM, reportOptions, hasGroup)
+
+            If reportPlan.Includes(MixedModelSupplementalSection.ClassInformation) Then
                 AddOptionalMMRMTable(result,
                                  Function() BuildMMRMClassLevelInformationTable(mmrmData, If(hasGroup, groupKey, Nothing)),
                                  "Class Level Information")
             End If
 
-            If Not Me.ckMMRMEstimatedMeans.Checked Then
+            If Not reportPlan.Options.EstimatedMeans Then
                 CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables finished after class-level output because estimated means are disabled.")
                 Exit Sub
             End If
@@ -944,7 +932,7 @@ Public Class Ui18MMRM
                              Function() regression.MMRMPostEstimation.BuildEstimatedMeansByVisitTable(result, x, visit, alphaValue),
                              "Estimated marginal means by visit")
 
-            If Me.ckMMRMChangeFromBaseline.Checked Then
+            If reportPlan.Includes(MixedModelSupplementalSection.ChangeByVisit) Then
                 AddOptionalMMRMTable(result,
                                  Function() regression.MMRMPostEstimation.BuildChangeFromBaselineTableControlled(result, x, visit, baselineVisit, alphaValue),
                                  "MMRM change from baseline by visit")
@@ -955,18 +943,18 @@ Public Class Ui18MMRM
                                  Function() regression.MMRMPostEstimation.BuildEstimatedMeansByVisitAndGroupTable(result, x, visit, groupValues, groupKey, alphaValue),
                                  "Estimated marginal means by visit and group")
 
-                If Not String.Equals(contrastMode, MMRM_MODE_NONE, StringComparison.OrdinalIgnoreCase) Then
+                If reportPlan.Includes(MixedModelSupplementalSection.GroupDifferences) Then
                     AddOptionalMMRMTable(result,
                                      Function() BuildMMRMVisitGroupDifferencesTableControlled(result, x, visit, groupValues, groupKey, alphaValue, contrastMode, controlLevel, contrastDirection),
                                      "MMRM group differences by visit")
                 End If
 
-                If Me.ckMMRMChangeFromBaseline.Checked Then
+                If reportPlan.Includes(MixedModelSupplementalSection.ChangeByGroup) Then
                     AddOptionalMMRMTable(result,
                                      Function() regression.MMRMPostEstimation.BuildChangeFromBaselineByGroupTableControlled(result, x, visit, groupValues, groupKey, baselineVisit, alphaValue),
                                      "MMRM change from baseline by visit and group")
 
-                    If Me.ckMMRMDiffInChange.Checked AndAlso Not String.Equals(contrastMode, MMRM_MODE_NONE, StringComparison.OrdinalIgnoreCase) Then
+                    If reportPlan.Includes(MixedModelSupplementalSection.DifferenceInChange) Then
                         AddOptionalMMRMTable(result,
                                          Function() BuildMMRMDifferenceInChangeFromBaselineTableControlled(result, x, visit, groupValues, groupKey, baselineVisit, alphaValue, contrastMode, controlLevel, contrastDirection),
                                          "MMRM difference in change from baseline")
@@ -1153,8 +1141,11 @@ Public Class Ui18MMRM
                              spec:=spec),
                          "Reference-grid estimated marginal means")
 
-        If hasGroup AndAlso Not String.IsNullOrWhiteSpace(groupKey) AndAlso
-       Not String.Equals(contrastMode, MMRM_MODE_NONE, StringComparison.OrdinalIgnoreCase) Then
+        Dim referenceOptions = CaptureMMRMReportOptions()
+        referenceOptions.MeansMode = MixedModelMeansMode.ReferenceGrid
+        referenceOptions.Contrast = MixedModelReportPolicy.Contrast(contrastMode)
+        Dim referencePlan = MixedModelReportPolicy.Plan(MixedModelWorkflowKind.MMRM, referenceOptions, hasGroup AndAlso Not String.IsNullOrWhiteSpace(groupKey))
+        If referencePlan.Includes(MixedModelSupplementalSection.ReferenceGroupContrasts) Then
 
             AddOptionalMMRMTable(result,
                              Function() BuildMMRMReferenceGridGroupContrastsTable(result,
@@ -1421,19 +1412,9 @@ Public Class Ui18MMRM
     End Sub
 
     Private Sub ApplyMMRMCovarianceOptimizerSelections(ByRef ctl As regression.MixedModelControl)
-        Dim optimizerText As String = SelectedComboText(Me.cbMMRMCovOptimizerMode, MMRM_OPT_AI)
-        Dim gradientText As String = SelectedComboText(Me.cbMMRMCovGradientMode, MMRM_GRAD_AUTO)
-
-        ctl.CovarianceOptimizerMode = ParseMMRMCovarianceOptimizerMode(optimizerText)
-        ctl.CovarianceGradientMode = ParseMMRMCovarianceGradientMode(gradientText)
-
-        If String.Equals(optimizerText, MMRM_OPT_BFGS_ANALYTIC, StringComparison.OrdinalIgnoreCase) Then
-            ctl.CovarianceOptimizerMode = regression.MixedModelCovarianceOptimizerMode.ProjectedBfgsAnalyticGradient
-            ctl.CovarianceGradientMode = regression.MixedModelCovarianceGradientMode.AnalyticScore
-        ElseIf String.Equals(optimizerText, MMRM_OPT_BFGS_NUMERICAL, StringComparison.OrdinalIgnoreCase) Then
-            ctl.CovarianceOptimizerMode = regression.MixedModelCovarianceOptimizerMode.ProjectedBfgs
-            ctl.CovarianceGradientMode = regression.MixedModelCovarianceGradientMode.NumericalFiniteDifference
-        End If
+        MixedModelWorkflowPolicy.ApplyOptimizer(MixedModelWorkflowKind.MMRM, ctl,
+            SelectedComboText(Me.cbMMRMCovOptimizerMode, MMRM_OPT_AI),
+            SelectedComboText(Me.cbMMRMCovGradientMode, MMRM_GRAD_AUTO))
     End Sub
 
     Private Function ParseMMRMCovarianceOptimizerMode(selection As String) As regression.MixedModelCovarianceOptimizerMode
@@ -1453,10 +1434,7 @@ Public Class Ui18MMRM
     End Function
 
     Private Function IsMMRMReferenceGridModeSelected() As Boolean
-        Return Me.cbMMRMLSMeansMode IsNot Nothing AndAlso
-           String.Equals(SelectedComboText(Me.cbMMRMLSMeansMode, MMRM_LSMEANS_OBSERVED_GRID),
-                         MMRM_LSMEANS_REFERENCE_GRID,
-                         StringComparison.OrdinalIgnoreCase)
+        Return Me.cbMMRMLSMeansMode IsNot Nothing AndAlso MixedModelReportPolicy.MeansMode(SelectedComboText(Me.cbMMRMLSMeansMode, MMRM_LSMEANS_OBSERVED_GRID)) = MixedModelMeansMode.ReferenceGrid
     End Function
 
     ''' <summary>
@@ -1640,26 +1618,15 @@ Public Class Ui18MMRM
                                             alphaValue As Double) As regression.MixedModelReferenceGridSpec
         If result Is Nothing OrElse mmrmData Is Nothing OrElse mmrmData.Raw Is Nothing Then Return Nothing
 
-        Dim spec As New regression.MixedModelReferenceGridSpec With {
-        .FixedEffectNames = If(fixedNames Is Nothing, result.FixedEffectNames, fixedNames),
-        .Weighting = SelectedReferenceGridWeighting(),
-        .MultiplicityAdjustment = SelectedMultiplicityAdjustment(),
-        .Alpha = alphaValue
-    }
-
-        Dim visitProfileName As String = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(mmrmData.VisitKey)
-        Dim visitLevels() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(visit)
-        If visitLevels IsNot Nothing AndAlso visitLevels.Length > 0 Then
-            spec.AddByFactor(visitProfileName, visitLevels, visit)
-        End If
-
+        Dim referenceOptions As New MixedModelReportOptions With {.Alpha = alphaValue,
+            .Weighting = SelectedReferenceGridWeighting(), .Multiplicity = SelectedMultiplicityAdjustment()}
+        Dim reference As New MixedModelReferenceIntent(If(fixedNames Is Nothing, result.FixedEffectNames, fixedNames),
+            mmrmData.VisitKey, visit, If(hasGroup, groupKey, Nothing), If(hasGroup, groupValues, Nothing), referenceOptions)
+        Dim spec = reference.CreateCoreSpec()
+        Dim visitProfileName As String = regression.MixedModelReferenceGridService.NormalizeProfileName(mmrmData.VisitKey)
         Dim groupProfileName As String = Nothing
         If hasGroup AndAlso Not String.IsNullOrWhiteSpace(groupKey) AndAlso groupValues IsNot Nothing Then
-            groupProfileName = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(groupKey)
-            Dim groupLevels() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(groupValues)
-            If groupLevels IsNot Nothing AndAlso groupLevels.Length > 1 Then
-                spec.AddByFactor(groupProfileName, groupLevels, groupValues)
-            End If
+            groupProfileName = regression.MixedModelReferenceGridService.NormalizeProfileName(groupKey)
         End If
 
         AddReferenceGridMarginalFactors(spec, mmrmData, visitProfileName, groupProfileName)
@@ -1669,37 +1636,15 @@ Public Class Ui18MMRM
     End Function
 
     Private Function UseObservedMeanReferenceCovariates() As Boolean
-        Return Not String.Equals(SelectedComboText(Me.cbMMRMRefGridCovariates, MMRM_RG_COVARIATE_MEANS),
-                             MMRM_RG_COVARIATE_ZERO,
-                             StringComparison.OrdinalIgnoreCase)
+        Return MixedModelReportPolicy.CovariateMode(SelectedComboText(Me.cbMMRMRefGridCovariates, MMRM_RG_COVARIATE_MEANS)) = regression.MixedModelCovariateReferenceMode.ObservedMean
     End Function
 
     Private Function SelectedMultiplicityAdjustment() As regression.MixedModelMultiplicityAdjustment
-        Dim txt As String = SelectedComboText(Me.cbMMRMMultiplicity, MMRM_MULT_NONE)
-
-        If String.Equals(txt, MMRM_MULT_BONFERRONI, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelMultiplicityAdjustment.Bonferroni
-        End If
-
-        If String.Equals(txt, MMRM_MULT_HOLM, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelMultiplicityAdjustment.Holm
-        End If
-
-        If String.Equals(txt, MMRM_MULT_SIDAK, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelMultiplicityAdjustment.Sidak
-        End If
-
-        Return regression.MixedModelMultiplicityAdjustment.None
+        Return MixedModelReportPolicy.Multiplicity(SelectedComboText(Me.cbMMRMMultiplicity, MMRM_MULT_NONE))
     End Function
 
     Private Function SelectedReferenceGridWeighting() As regression.MixedModelReferenceGridWeighting
-        Dim txt As String = SelectedComboText(Me.cbMMRMRefGridWeighting, MMRM_RG_WEIGHT_EQUAL)
-
-        If String.Equals(txt, MMRM_RG_WEIGHT_OBSERVED, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelReferenceGridWeighting.ObservedCellFrequency
-        End If
-
-        Return regression.MixedModelReferenceGridWeighting.EqualCells
+        Return MixedModelReportPolicy.Weighting(SelectedComboText(Me.cbMMRMRefGridWeighting, MMRM_RG_WEIGHT_EQUAL))
     End Function
 
     Private Sub AddReferenceGridMarginalFactors(spec As regression.MixedModelReferenceGridSpec,
@@ -2023,25 +1968,9 @@ Public Class Ui18MMRM
                                      "Higher level - lower level",
                                      CStr(Me.cbMMRMContrastDirection.SelectedItem).Trim())
 
-        If direction.Equals("Treatment - control", StringComparison.OrdinalIgnoreCase) Then
-            firstLevel = comparisonLevel
-            secondLevel = controlLevel
-            Return
-        End If
-
-        If direction.Equals("Control - treatment", StringComparison.OrdinalIgnoreCase) Then
-            firstLevel = controlLevel
-            secondLevel = comparisonLevel
-            Return
-        End If
-
-        If comparisonLevel >= controlLevel Then
-            firstLevel = comparisonLevel
-            secondLevel = controlLevel
-        Else
-            firstLevel = controlLevel
-            secondLevel = comparisonLevel
-        End If
+        Dim pair = MixedModelReportPolicy.DirectedPair(MixedModelReportPolicy.Direction(direction), controlLevel, comparisonLevel)
+        firstLevel = pair(0)
+        secondLevel = pair(1)
     End Sub
 
     ''' <summary>

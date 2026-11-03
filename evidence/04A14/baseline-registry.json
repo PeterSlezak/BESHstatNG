@@ -1,0 +1,418 @@
+{
+  "base": "b02480a71c1f2de45beb9cb0726a564eae15076b",
+  "cases_per_runtime": 25,
+  "cultures": [
+    "invariant",
+    "sk-SK"
+  ],
+  "runtimes": [
+    "net10",
+    "net48"
+  ],
+  "status": "NOT_GOLDEN",
+  "capture_source_sha256": "d8ebac77117924aa93f2030f3a5190014b01c1d7ec13911ed1ecbcd79023469a",
+  "files": {
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Kenward-Roger-REML-toy-iv-net48.txt": {
+      "sha256": "e732ae43ea8c3efe3f5370e4fde6ab39fe00b35ebb2305fbd0c76578b8cbe833",
+      "bytes": 13409
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Kenward-Roger-REML-toy-iv.txt": {
+      "sha256": "abdb5a9ff77707d71f377e3f4a33334f433ecaf65b0ed8f24727628d9afc6315",
+      "bytes": 13296
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Kenward-Roger-REML-toy-sk-SK-net48.txt": {
+      "sha256": "e732ae43ea8c3efe3f5370e4fde6ab39fe00b35ebb2305fbd0c76578b8cbe833",
+      "bytes": 13409
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Kenward-Roger-REML-toy-sk-SK.txt": {
+      "sha256": "abdb5a9ff77707d71f377e3f4a33334f433ecaf65b0ed8f24727628d9afc6315",
+      "bytes": 13296
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Large-samplenormal-REML-sleep-iv-net48.txt": {
+      "sha256": "4b045927142c6b9271449c64c819698a7b3c8c1263eefa1a016b066418bc08af",
+      "bytes": 25562
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Large-samplenormal-REML-sleep-iv.txt": {
+      "sha256": "b7ac5db666f395afd182a5c3224cb16bed51ee1716e08955d7320803e1c5162c",
+      "bytes": 25321
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Large-samplenormal-REML-sleep-sk-SK-net48.txt": {
+      "sha256": "4b045927142c6b9271449c64c819698a7b3c8c1263eefa1a016b066418bc08af",
+      "bytes": 25562
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Large-samplenormal-REML-sleep-sk-SK.txt": {
+      "sha256": "b7ac5db666f395afd182a5c3224cb16bed51ee1716e08955d7320803e1c5162c",
+      "bytes": 25321
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Satterthwaite-REML-sleep-unbalanced-iv-net48.txt": {
+      "sha256": "d5b090513ad3c36ee4819eb1746416ba5724aa53585609a053fcfcd7f41261e4",
+      "bytes": 24344
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Satterthwaite-REML-sleep-unbalanced-iv.txt": {
+      "sha256": "f4e464ad36797cb6117e4533d19f9ff7abaeefcdfd64a21bbc8889459f625c7a",
+      "bytes": 24155
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Satterthwaite-REML-sleep-unbalanced-sk-SK-net48.txt": {
+      "sha256": "d5b090513ad3c36ee4819eb1746416ba5724aa53585609a053fcfcd7f41261e4",
+      "bytes": 24344
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept+Slope-Satterthwaite-REML-sleep-unbalanced-sk-SK.txt": {
+      "sha256": "f4e464ad36797cb6117e4533d19f9ff7abaeefcdfd64a21bbc8889459f625c7a",
+      "bytes": 24155
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Kenward-Roger-ML-toy-iv-net48.txt": {
+      "sha256": "8a77e4ac08856f25fade2c1c097e28ff1c750ba7eb0754c5e09572f020075550",
+      "bytes": 12288
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Kenward-Roger-ML-toy-iv.txt": {
+      "sha256": "4871ab3103f2712b3732b589623253134cf4abcf5455fe92735f3a4bfe14b91c",
+      "bytes": 12174
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Kenward-Roger-ML-toy-sk-SK-net48.txt": {
+      "sha256": "8a77e4ac08856f25fade2c1c097e28ff1c750ba7eb0754c5e09572f020075550",
+      "bytes": 12288
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Kenward-Roger-ML-toy-sk-SK.txt": {
+      "sha256": "4871ab3103f2712b3732b589623253134cf4abcf5455fe92735f3a4bfe14b91c",
+      "bytes": 12174
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Large-samplenormal-REML-limit-iv-net48.txt": {
+      "sha256": "7fb48b929ecea8b422b733541fb14ffc84ec25946b9cc2b9abc3e54cd2351b86",
+      "bytes": 10339
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Large-samplenormal-REML-limit-iv.txt": {
+      "sha256": "32511ad1cfb4986bff2a82a244213e75973b880a56f231f06812eb39e1c5c755",
+      "bytes": 10249
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Large-samplenormal-REML-limit-sk-SK-net48.txt": {
+      "sha256": "7fb48b929ecea8b422b733541fb14ffc84ec25946b9cc2b9abc3e54cd2351b86",
+      "bytes": 10339
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Large-samplenormal-REML-limit-sk-SK.txt": {
+      "sha256": "32511ad1cfb4986bff2a82a244213e75973b880a56f231f06812eb39e1c5c755",
+      "bytes": 10249
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Large-samplenormal-REML-toy-iv-net48.txt": {
+      "sha256": "58167b555030797132ca92f5dfbc3d52c5fa4da4ae7ae2c6ed32a88efc804677",
+      "bytes": 10748
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Large-samplenormal-REML-toy-iv.txt": {
+      "sha256": "ee1b4c57a0c7d67710a0d088f51e3f4113a98dc5e23d789b74278a12e7c0607d",
+      "bytes": 10640
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Large-samplenormal-REML-toy-sk-SK-net48.txt": {
+      "sha256": "58167b555030797132ca92f5dfbc3d52c5fa4da4ae7ae2c6ed32a88efc804677",
+      "bytes": 10748
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Large-samplenormal-REML-toy-sk-SK.txt": {
+      "sha256": "ee1b4c57a0c7d67710a0d088f51e3f4113a98dc5e23d789b74278a12e7c0607d",
+      "bytes": 10640
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-ResidualDF-ML-toy-iv-net48.txt": {
+      "sha256": "b48456a36a82135b90a8074f6438dfaecc620d0d3ccfc9f2545c4f191aef3dd1",
+      "bytes": 10446
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-ResidualDF-ML-toy-iv.txt": {
+      "sha256": "e62fb345cdab8fab5f8a80bb30a0353ea3de95c7de9491acbccf8b721ab3f336",
+      "bytes": 10327
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-ResidualDF-ML-toy-sk-SK-net48.txt": {
+      "sha256": "ed4083d1231aaf58f7b96212f7d88819631dc00720b8d2d5100c56eab95595de",
+      "bytes": 10446
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-ResidualDF-ML-toy-sk-SK.txt": {
+      "sha256": "80d28525309a3d26a50d57d84ff49857e788e04e059fef80394d6dc7c3e93911",
+      "bytes": 10327
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Satterthwaite-REML-toy-iv-net48.txt": {
+      "sha256": "c30403b39f3da48266b39daba6a09f2b278626becf27ea79017b90c64045ed62",
+      "bytes": 10742
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Satterthwaite-REML-toy-iv.txt": {
+      "sha256": "3c36e8b14b43573672f19f77ccdaec6def62ae64a2a1d0ecdf3bef5cdaae472e",
+      "bytes": 10634
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Satterthwaite-REML-toy-sk-SK-net48.txt": {
+      "sha256": "c30403b39f3da48266b39daba6a09f2b278626becf27ea79017b90c64045ed62",
+      "bytes": 10742
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-Satterthwaite-REML-toy-sk-SK.txt": {
+      "sha256": "3c36e8b14b43573672f19f77ccdaec6def62ae64a2a1d0ecdf3bef5cdaae472e",
+      "bytes": 10634
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-unknown-REML-novisit-iv-net48.txt": {
+      "sha256": "53fbc2171f7dcf27450550b608c271977f31c1ed002171efa35ca52f0b85b2c5",
+      "bytes": 10541
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-unknown-REML-novisit-iv.txt": {
+      "sha256": "54ba87fdac4670f47c7e9e9dccd1bc5cc2bc067077a17eba6fe3d9954d984765",
+      "bytes": 10456
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-unknown-REML-novisit-sk-SK-net48.txt": {
+      "sha256": "53fbc2171f7dcf27450550b608c271977f31c1ed002171efa35ca52f0b85b2c5",
+      "bytes": 10541
+    },
+    "evidence/04A14/baselines/LMM-RandomIntercept-unknown-REML-novisit-sk-SK.txt": {
+      "sha256": "54ba87fdac4670f47c7e9e9dccd1bc5cc2bc067077a17eba6fe3d9954d984765",
+      "bytes": 10456
+    },
+    "evidence/04A14/baselines/LMM-VarianceComponents(VC_Diag)-Large-samplenormal-REML-toy-iv-net48.txt": {
+      "sha256": "109c7e5fe54eae0493a2b603a759a71b4d3b7edb62140119fd616d1bf5ba1e60",
+      "bytes": 11714
+    },
+    "evidence/04A14/baselines/LMM-VarianceComponents(VC_Diag)-Large-samplenormal-REML-toy-iv.txt": {
+      "sha256": "e8f49d99e6185ea92b145c63a31854e13cd36d3d056045996091c4925410a89a",
+      "bytes": 11619
+    },
+    "evidence/04A14/baselines/LMM-VarianceComponents(VC_Diag)-Large-samplenormal-REML-toy-sk-SK-net48.txt": {
+      "sha256": "109c7e5fe54eae0493a2b603a759a71b4d3b7edb62140119fd616d1bf5ba1e60",
+      "bytes": 11714
+    },
+    "evidence/04A14/baselines/LMM-VarianceComponents(VC_Diag)-Large-samplenormal-REML-toy-sk-SK.txt": {
+      "sha256": "e8f49d99e6185ea92b145c63a31854e13cd36d3d056045996091c4925410a89a",
+      "bytes": 11619
+    },
+    "evidence/04A14/baselines/MMRM-AR1-Large-samplenormal-REML-toy-iv-net48.txt": {
+      "sha256": "717682d04b4d8285a7364826d358c14526b08dd0cbba27b4e5e94c86cee6611c",
+      "bytes": 9319
+    },
+    "evidence/04A14/baselines/MMRM-AR1-Large-samplenormal-REML-toy-iv.txt": {
+      "sha256": "03e804f88c68d9253d1e9b53c7b004fa40d5e0ccd2c1a0a8eb4529d1091b9cc2",
+      "bytes": 9216
+    },
+    "evidence/04A14/baselines/MMRM-AR1-Large-samplenormal-REML-toy-sk-SK-net48.txt": {
+      "sha256": "717682d04b4d8285a7364826d358c14526b08dd0cbba27b4e5e94c86cee6611c",
+      "bytes": 9319
+    },
+    "evidence/04A14/baselines/MMRM-AR1-Large-samplenormal-REML-toy-sk-SK.txt": {
+      "sha256": "03e804f88c68d9253d1e9b53c7b004fa40d5e0ccd2c1a0a8eb4529d1091b9cc2",
+      "bytes": 9216
+    },
+    "evidence/04A14/baselines/MMRM-AR1-Satterthwaite-REML-missing-iv-net48.txt": {
+      "sha256": "a784a9c88380406c5e06398f351ef640f41026dcbbbd4a17d6b1b68d088053d9",
+      "bytes": 9336
+    },
+    "evidence/04A14/baselines/MMRM-AR1-Satterthwaite-REML-missing-iv.txt": {
+      "sha256": "9ce00d3b8e8a9369c196980f781d1a46a556786b19439a894809acac009a7ef2",
+      "bytes": 9238
+    },
+    "evidence/04A14/baselines/MMRM-AR1-Satterthwaite-REML-missing-sk-SK-net48.txt": {
+      "sha256": "a784a9c88380406c5e06398f351ef640f41026dcbbbd4a17d6b1b68d088053d9",
+      "bytes": 9336
+    },
+    "evidence/04A14/baselines/MMRM-AR1-Satterthwaite-REML-missing-sk-SK.txt": {
+      "sha256": "9ce00d3b8e8a9369c196980f781d1a46a556786b19439a894809acac009a7ef2",
+      "bytes": 9238
+    },
+    "evidence/04A14/baselines/MMRM-CS-Between-withinDF-REML-toy-iv-net48.txt": {
+      "sha256": "5ab269d4fde44ee53ce6547556ae79c59ca872a2238c01bc6a94ef8ae8b512c3",
+      "bytes": 9581
+    },
+    "evidence/04A14/baselines/MMRM-CS-Between-withinDF-REML-toy-iv.txt": {
+      "sha256": "732b102c7efc7fff3776f6639aae4f5cb6499fc4db465591130599097398fe9a",
+      "bytes": 9488
+    },
+    "evidence/04A14/baselines/MMRM-CS-Between-withinDF-REML-toy-sk-SK-net48.txt": {
+      "sha256": "5ab269d4fde44ee53ce6547556ae79c59ca872a2238c01bc6a94ef8ae8b512c3",
+      "bytes": 9581
+    },
+    "evidence/04A14/baselines/MMRM-CS-Between-withinDF-REML-toy-sk-SK.txt": {
+      "sha256": "732b102c7efc7fff3776f6639aae4f5cb6499fc4db465591130599097398fe9a",
+      "bytes": 9488
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-ML-toy-iv-net48.txt": {
+      "sha256": "a5bc945deece7a24a2c582fc76fdba283ea6fcba4c6cba8767f95bca036fa186",
+      "bytes": 10897
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-ML-toy-iv.txt": {
+      "sha256": "3976eb9c9236efb7fe892d12f5e06e4b0f6722a48d8f75c0e9402f9ac4eea78a",
+      "bytes": 10799
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-ML-toy-sk-SK-net48.txt": {
+      "sha256": "a5bc945deece7a24a2c582fc76fdba283ea6fcba4c6cba8767f95bca036fa186",
+      "bytes": 10897
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-ML-toy-sk-SK.txt": {
+      "sha256": "3976eb9c9236efb7fe892d12f5e06e4b0f6722a48d8f75c0e9402f9ac4eea78a",
+      "bytes": 10799
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-REML-orthodont-iv-net48.txt": {
+      "sha256": "b5486616c18816190c0e49d0b6335d46b04cec12ace7f066aed11f6d3e506270",
+      "bytes": 16656
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-REML-orthodont-iv.txt": {
+      "sha256": "8b007dadd9d97e359c91fe96bd4ecb6cf1beb5f04ff9eb9aa8c691568433c2e0",
+      "bytes": 16563
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-REML-orthodont-sk-SK-net48.txt": {
+      "sha256": "b5486616c18816190c0e49d0b6335d46b04cec12ace7f066aed11f6d3e506270",
+      "bytes": 16656
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-REML-orthodont-sk-SK.txt": {
+      "sha256": "8b007dadd9d97e359c91fe96bd4ecb6cf1beb5f04ff9eb9aa8c691568433c2e0",
+      "bytes": 16563
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-REML-toy-iv-net48.txt": {
+      "sha256": "96cd7554f92bf9818c10ec04232d2088d9d5037eddb6dfa4f14575f3a5ec6324",
+      "bytes": 10899
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-REML-toy-iv.txt": {
+      "sha256": "7c25d9d7c95f7e6ba48d0d71de9d7adb8d366d217c1fe8f044375004c85dfd03",
+      "bytes": 10801
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-REML-toy-sk-SK-net48.txt": {
+      "sha256": "96cd7554f92bf9818c10ec04232d2088d9d5037eddb6dfa4f14575f3a5ec6324",
+      "bytes": 10899
+    },
+    "evidence/04A14/baselines/MMRM-CS-Kenward-Roger-REML-toy-sk-SK.txt": {
+      "sha256": "7c25d9d7c95f7e6ba48d0d71de9d7adb8d366d217c1fe8f044375004c85dfd03",
+      "bytes": 10801
+    },
+    "evidence/04A14/baselines/MMRM-CS-Large-samplenormal-ML-toy-iv-net48.txt": {
+      "sha256": "50cab5a21809babcaf1c313f91624dc6c57cc775c42735e1abef31feb8c00a48",
+      "bytes": 9036
+    },
+    "evidence/04A14/baselines/MMRM-CS-Large-samplenormal-ML-toy-iv.txt": {
+      "sha256": "e96352bd170235af92a8797338efdb0b3efbfc733199b10ad7e9b23b59235ac8",
+      "bytes": 8919
+    },
+    "evidence/04A14/baselines/MMRM-CS-Large-samplenormal-ML-toy-sk-SK-net48.txt": {
+      "sha256": "1a031fcbf2264bd6e7eb40549a8b60c77417bd30f7ba8f16c823741a4ba2d455",
+      "bytes": 9036
+    },
+    "evidence/04A14/baselines/MMRM-CS-Large-samplenormal-ML-toy-sk-SK.txt": {
+      "sha256": "e20fe76bd987b99b86c6162fec589d97f3b0668290cd3af813dfd0a95f2b271a",
+      "bytes": 8919
+    },
+    "evidence/04A14/baselines/MMRM-CS-Large-samplenormal-REML-toy-iv-net48.txt": {
+      "sha256": "eb4aaf8271f2217cbf5d69e36f0180d784e17e3559c9599c1567ae3f437f5cff",
+      "bytes": 9364
+    },
+    "evidence/04A14/baselines/MMRM-CS-Large-samplenormal-REML-toy-iv.txt": {
+      "sha256": "e278faee50850a03aa4f45f8ff4a9bd1cd48e4ddf5e4fc024890cc788bc7139e",
+      "bytes": 9271
+    },
+    "evidence/04A14/baselines/MMRM-CS-Large-samplenormal-REML-toy-sk-SK-net48.txt": {
+      "sha256": "eb4aaf8271f2217cbf5d69e36f0180d784e17e3559c9599c1567ae3f437f5cff",
+      "bytes": 9364
+    },
+    "evidence/04A14/baselines/MMRM-CS-Large-samplenormal-REML-toy-sk-SK.txt": {
+      "sha256": "e278faee50850a03aa4f45f8ff4a9bd1cd48e4ddf5e4fc024890cc788bc7139e",
+      "bytes": 9271
+    },
+    "evidence/04A14/baselines/MMRM-CS-ResidualDF-REML-toy-iv-net48.txt": {
+      "sha256": "aa6f2afae992df343142f47165e5b6ab722ac9afe804d6da48e4e38dc72bd5cc",
+      "bytes": 9401
+    },
+    "evidence/04A14/baselines/MMRM-CS-ResidualDF-REML-toy-iv.txt": {
+      "sha256": "99a2f39f01005ab232838c6ba9f23fec21f9179637c47310c1e963bf07b69be5",
+      "bytes": 9309
+    },
+    "evidence/04A14/baselines/MMRM-CS-ResidualDF-REML-toy-sk-SK-net48.txt": {
+      "sha256": "aa6f2afae992df343142f47165e5b6ab722ac9afe804d6da48e4e38dc72bd5cc",
+      "bytes": 9401
+    },
+    "evidence/04A14/baselines/MMRM-CS-ResidualDF-REML-toy-sk-SK.txt": {
+      "sha256": "99a2f39f01005ab232838c6ba9f23fec21f9179637c47310c1e963bf07b69be5",
+      "bytes": 9309
+    },
+    "evidence/04A14/baselines/MMRM-CS-Satterthwaite-REML-toy-iv-net48.txt": {
+      "sha256": "253e1b14e4341739da1a042cf1f4ab2077a64456e8745c6dbd177b4e75e5a009",
+      "bytes": 9580
+    },
+    "evidence/04A14/baselines/MMRM-CS-Satterthwaite-REML-toy-iv.txt": {
+      "sha256": "d43b30f699be532f237e67f6aa3d9b5c6697693f8db04e7072254c0ad579e64a",
+      "bytes": 9487
+    },
+    "evidence/04A14/baselines/MMRM-CS-Satterthwaite-REML-toy-sk-SK-net48.txt": {
+      "sha256": "253e1b14e4341739da1a042cf1f4ab2077a64456e8745c6dbd177b4e75e5a009",
+      "bytes": 9580
+    },
+    "evidence/04A14/baselines/MMRM-CS-Satterthwaite-REML-toy-sk-SK.txt": {
+      "sha256": "d43b30f699be532f237e67f6aa3d9b5c6697693f8db04e7072254c0ad579e64a",
+      "bytes": 9487
+    },
+    "evidence/04A14/baselines/MMRM-CS-unknown-REML-toy-iv-net48.txt": {
+      "sha256": "faaa08593e097037e1aacbdb1ac45a883369f7a134328ee41143e043760175e3",
+      "bytes": 9571
+    },
+    "evidence/04A14/baselines/MMRM-CS-unknown-REML-toy-iv.txt": {
+      "sha256": "6e18c9405a84025536deb4d5454e6c99291094cb566f30f75842115f21694f92",
+      "bytes": 9478
+    },
+    "evidence/04A14/baselines/MMRM-CS-unknown-REML-toy-sk-SK-net48.txt": {
+      "sha256": "faaa08593e097037e1aacbdb1ac45a883369f7a134328ee41143e043760175e3",
+      "bytes": 9571
+    },
+    "evidence/04A14/baselines/MMRM-CS-unknown-REML-toy-sk-SK.txt": {
+      "sha256": "6e18c9405a84025536deb4d5454e6c99291094cb566f30f75842115f21694f92",
+      "bytes": 9478
+    },
+    "evidence/04A14/baselines/MMRM-CSH-Large-samplenormal-REML-toy-iv-net48.txt": {
+      "sha256": "11a8ac8b888428791c05718e8eaea1c85695c68629515568afa7f0504bdb8cbd",
+      "bytes": 9744
+    },
+    "evidence/04A14/baselines/MMRM-CSH-Large-samplenormal-REML-toy-iv.txt": {
+      "sha256": "f3854a1b4ccf65ec80d1081a722b16949c07a52b4fe36aacd23bda0ce2194e3b",
+      "bytes": 9654
+    },
+    "evidence/04A14/baselines/MMRM-CSH-Large-samplenormal-REML-toy-sk-SK-net48.txt": {
+      "sha256": "11a8ac8b888428791c05718e8eaea1c85695c68629515568afa7f0504bdb8cbd",
+      "bytes": 9744
+    },
+    "evidence/04A14/baselines/MMRM-CSH-Large-samplenormal-REML-toy-sk-SK.txt": {
+      "sha256": "f3854a1b4ccf65ec80d1081a722b16949c07a52b4fe36aacd23bda0ce2194e3b",
+      "bytes": 9654
+    },
+    "evidence/04A14/baselines/MMRM-Identity-Large-samplenormal-REML-toy-iv-net48.txt": {
+      "sha256": "cc57e3af42562193b74cccb9fbc2087558babadb80eeb89b5251acf93ab355ef",
+      "bytes": 8335
+    },
+    "evidence/04A14/baselines/MMRM-Identity-Large-samplenormal-REML-toy-iv.txt": {
+      "sha256": "d7260f2aa22801ad8d57d5e6c3b137672ceec0ec7998baedf6a32b0531a745c2",
+      "bytes": 8274
+    },
+    "evidence/04A14/baselines/MMRM-Identity-Large-samplenormal-REML-toy-sk-SK-net48.txt": {
+      "sha256": "cc57e3af42562193b74cccb9fbc2087558babadb80eeb89b5251acf93ab355ef",
+      "bytes": 8335
+    },
+    "evidence/04A14/baselines/MMRM-Identity-Large-samplenormal-REML-toy-sk-SK.txt": {
+      "sha256": "d7260f2aa22801ad8d57d5e6c3b137672ceec0ec7998baedf6a32b0531a745c2",
+      "bytes": 8274
+    },
+    "evidence/04A14/baselines/MMRM-TOEP-Large-samplenormal-REML-toy-iv-net48.txt": {
+      "sha256": "f27b344d3b8d22360c83409c5c6689fccd1c46597a2753aa3ac8bf4b528ed8af",
+      "bytes": 9855
+    },
+    "evidence/04A14/baselines/MMRM-TOEP-Large-samplenormal-REML-toy-iv.txt": {
+      "sha256": "a4c99e50b04f6de870e3376ea5a35340ae70c7109186e724f6bd3829223cc6dd",
+      "bytes": 9735
+    },
+    "evidence/04A14/baselines/MMRM-TOEP-Large-samplenormal-REML-toy-sk-SK-net48.txt": {
+      "sha256": "f27b344d3b8d22360c83409c5c6689fccd1c46597a2753aa3ac8bf4b528ed8af",
+      "bytes": 9855
+    },
+    "evidence/04A14/baselines/MMRM-TOEP-Large-samplenormal-REML-toy-sk-SK.txt": {
+      "sha256": "a4c99e50b04f6de870e3376ea5a35340ae70c7109186e724f6bd3829223cc6dd",
+      "bytes": 9735
+    },
+    "evidence/04A14/baselines/MMRM-UN-Large-samplenormal-REML-toy-iv-net48.txt": {
+      "sha256": "d8f15a3ddf5546d5ea347b5bb8fbe5b52eb125d01dffc556a6deca2d3527e4ff",
+      "bytes": 9959
+    },
+    "evidence/04A14/baselines/MMRM-UN-Large-samplenormal-REML-toy-iv.txt": {
+      "sha256": "b7b3fb60086b6bd00850b913841600ffc1ad68bdca1e5d0eacbdb1b5ab98bf2b",
+      "bytes": 9848
+    },
+    "evidence/04A14/baselines/MMRM-UN-Large-samplenormal-REML-toy-sk-SK-net48.txt": {
+      "sha256": "d8f15a3ddf5546d5ea347b5bb8fbe5b52eb125d01dffc556a6deca2d3527e4ff",
+      "bytes": 9959
+    },
+    "evidence/04A14/baselines/MMRM-UN-Large-samplenormal-REML-toy-sk-SK.txt": {
+      "sha256": "b7b3fb60086b6bd00850b913841600ffc1ad68bdca1e5d0eacbdb1b5ab98bf2b",
+      "bytes": 9848
+    }
+  },
+  "mask": "Only execution-time cells; floating cells max(1e-9,abs(expected)*1e-9); labels, types, order, p-value metadata and row axes exact. IncludeDiagnostics=False for repeated frozen fits; diagnostics tested separately against the same actual Core result.",
+  "native_executed": false
+}

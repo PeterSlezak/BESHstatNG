@@ -1,0 +1,113 @@
+{
+  "scope": "04A.14 end-to-end request and report-selection boundary. No implementation of official 04A.15/16 specialist scope.",
+  "handoff": [
+    {
+      "owner": "04A.15",
+      "sources": [
+        "MixedModelWorkflowOptions",
+        "MixedModelWorkflowPolicy.ApplyOptimizer",
+        "Core MixedModelControl / RStruct / GStruct / optimizers"
+      ],
+      "work": "Deep covariance/optimizer specialization, structure-by-method convergence/reference coverage; all math stays Core",
+      "fixtures": "100 frozen baseline captures, BFGS original-request comparisons, existing KR and sleepstudy suites"
+    },
+    {
+      "owner": "04A.16",
+      "sources": [
+        "Ui18MMRM.BuildMMRMReferenceGridSpec (additional marginal/covariate acquisition)",
+        "Ui18MMRM.BuildMMRMReferenceGridGroupContrastsTable",
+        "Ui18MMRM.TryResolveMMRMGroupingVariableFromControls / ResolveSelectedBaselineVisit / ResolveSelectedControlLevel / ResolveSelectedComparisonLevel",
+        "Ui18MMRM.BuildMMRMClassLevelInformationTable",
+        "Ui19LMM.AppendLMMClassInfoTable / AppendClassInfoRows",
+        "MixedModelReferenceIntent / MixedModelReportPolicy.Plan"
+      ],
+      "work": "Deeper pure grid/profile/level resolution, matching profiles and inferential result diagnostics; current numerical Core builders unchanged",
+      "fixtures": "Observed/reference section orders, four weighting/covariate profiles, directed contrasts, original Core table captures"
+    },
+    {
+      "owner": "04A.39-41 and 04A.45-48",
+      "sources": [
+        "C14-INPUT-FINITE-01",
+        "GUI/UDF row/reference/inference boundary"
+      ],
+      "work": "Scope-specific invalid-input/native behavior decisions and consumer harmonization; no normalization in 04A.14",
+      "fixtures": "Strict diagnostics vs original acquired-request compatibility tests; unchanged GUI/UDF extraction and source rows"
+    },
+    {
+      "owner": "04A.28/36 and 04A.45-47",
+      "sources": [
+        "Native workbook writer/trace/residual tables"
+      ],
+      "work": "Native placement/output evidence and later chart/output work only if authorized",
+      "fixtures": "Memory-writer block parity; NOT native evidence"
+    }
+  ],
+  "compatibility": [
+    {
+      "topic": "Numerical authority",
+      "classification": "same",
+      "previous": "Original CreateMMRM/CreateLMM and Fit; same expanded X/Z and blocks",
+      "current": "Common creates equivalent Core requests with exact metadata, inference and three-tolerance control assignment"
+    },
+    {
+      "topic": "KR with ML",
+      "classification": "same",
+      "previous": "GUI forces REML and shows model-specific info message",
+      "current": "Common decides effective REML; original Windows message/combo remains; worksheet KR/ML validation remains its own unchanged path"
+    },
+    {
+      "topic": "Inference fallback",
+      "classification": "same within each existing path",
+      "previous": "MMRM GUI unknown -> BetweenWithin; LMM GUI unknown -> WaldNormal; UDF helper defaults may differ",
+      "current": "Distinct source-derived GUI decision and lossless shared parser retained; not normalized"
+    },
+    {
+      "topic": "Rows and missingness",
+      "classification": "same within each existing path",
+      "previous": "GUI physical DataObj RowIds/import filtering, UDF trimmed positional arrays/filtering",
+      "current": "Original acquisition and Core sorting preserved; no coordinates invented for UDF arrays. Physical three-area fixture retains rows 101/103/104 and sorted permutation 104/103/101"
+    },
+    {
+      "topic": "Random design/effects",
+      "classification": "same",
+      "previous": "RegressionEffectsController/RegressionDesignCore; simple-structure promotion and dimensional guard",
+      "current": "Accepted typed effect snapshot reused; original expanded dimensions/labels unchanged; promotion scans original full term dictionary with authored-count sidecar"
+    },
+    {
+      "topic": "Report layout",
+      "classification": "intentionally Windows-only presentation",
+      "previous": "New workbook Data then model then optional trace; source-aligned residual/fitted tables",
+      "current": "Same writers/order; Common snapshots tables and supplies selection/trace/residual decisions"
+    },
+    {
+      "topic": "MMRM observed/reference means",
+      "classification": "intentionally Windows-only presentation for UI level acquisition",
+      "previous": "Fresh post-fit level refresh; observed/design-grid versus Core reference-grid builders",
+      "current": "Fresh immutable report plan and reference intent consumed; existing additional-factor/covariate acquisition and profile matching retained for 04A.16"
+    },
+    {
+      "topic": "Nonfinite/ambiguous inputs",
+      "classification": "open defect candidate",
+      "previous": "GUI epsilon <=0 check does not reject NaN/infinity; source-specific subject coercion may merge typed labels",
+      "current": "C14-INPUT-FINITE-01: candidate-only finite/shape/subject alias diagnostics. Shipping acquired seam retains current behavior; no new refusal or activation patch proposed"
+    }
+  ],
+  "scientific": {
+    "promoted": false,
+    "R": "NOT RUN",
+    "new_confirmed_scientific_defects": [],
+    "inherited": "C13-LOGRANK-R-01 remains OPEN; scientific/consumer 04A.40-41. C09/C11/C12 unapplied."
+  },
+  "native": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "releases": 0,
+    "discharges": 0,
+    "executed": false,
+    "new_patch": "NONE; no stricter shipping activation requested"
+  },
+  "raw_role_selection_keys": "Original source-role keys retained separately from original Core display captions; final role metadata and candidate-only finite-subject/empty-random diagnostics validated by current Debug/Release focused rebuilds; no new acquired-path refusal.",
+  "validation_purity": "Exact Core factory alias-branch projections for validation only; no new aliases or numerical algorithms. Original actual request factories/acquired instances remain authoritative. Avoids extra Core logger calls; source equality and logger-probe tests pass. Deeper option specialization remains 04A.15."
+}

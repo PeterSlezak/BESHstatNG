@@ -1,0 +1,32 @@
+{
+  "raw_run_alias": "LOCAL_RUN_ALIAS:04A14-01",
+  "public_alias_policy": "Aliases are explicit identifiers, never invented filesystem paths. Original raw hashes remain distinct from sanitized derivatives.",
+  "local_only": [
+    {
+      "alias": "LOCAL_BASELINE_ALIAS:source_pins",
+      "file": "baseline.json",
+      "sha256": "0338b90fcf36b4cec1b30c98ae669fd44f5280be0feb7da00648bba1c71350b2"
+    },
+    {
+      "alias": "LOCAL_RETENTION_ALIAS:root_initial",
+      "file": "historical-metadata.json",
+      "sha256": "5803f6178309bbf3589d9461796a51eab8e94abb43da1bb579f8d04715a6d133"
+    },
+    {
+      "alias": "LOCAL_RETENTION_ALIAS:nested_initial",
+      "file": "nested-initial-metadata.json",
+      "sha256": "890120d6968be3208bd8dbd1936cf5b9bc519f772d06d2f21bb187f5791c0e94"
+    },
+    {
+      "alias": "LOCAL_START_ALIAS:protection",
+      "file": "start.json",
+      "sha256": "0a458633a567a96c363128825a56ef67dc31edaef9a762b0c197efee201bbb70"
+    },
+    {
+      "alias": "LOCAL_OWNER_PLAN_ALIAS:raw_diff",
+      "file": "owner-plan-update.diff",
+      "sha256": "67106655152ccbc7c57494a9151ffcff3ebb9f1de5fe4d3131d6bc17d14d9692"
+    }
+  ],
+  "excluded": "Raw command logs, TRX and machine paths; original historical private source/control/evidence maps remain protected in place. Shared ZIP cannot prove original workstation file identity/metadata; no complete historical byte audit claimed."
+}

@@ -1,0 +1,112 @@
+{
+  "configurations": {
+    "Debug": [
+      {
+        "path": "TestResults/04A-14-20261103-run01/executions/settled-Debug-02/results/Common.trx",
+        "sha256": "a1a606fc3673c622815637ee60ea56d319c6b4080759cd7d9d0aa41774caa000",
+        "counters": {
+          "total": "130",
+          "executed": "130",
+          "passed": "130",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "nonpasses": []
+      },
+      {
+        "path": "TestResults/04A-14-20261103-run01/executions/settled-Debug-02-windows/results/Legacy.trx",
+        "sha256": "f4ead18108178fdcbe9bfa1b9028e705a2755121dd74bb427817129abcfdc67e",
+        "counters": {
+          "total": "161",
+          "executed": "161",
+          "passed": "161",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "nonpasses": []
+      }
+    ],
+    "Release": [
+      {
+        "path": "TestResults/04A-14-20261103-run01/executions/settled-Release/results/Common.trx",
+        "sha256": "a41a26d92625393e9091244ecf2cfb36978d60f5a9c226b46e1b276557ea1693",
+        "counters": {
+          "total": "130",
+          "executed": "130",
+          "passed": "130",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "nonpasses": []
+      },
+      {
+        "path": "TestResults/04A-14-20261103-run01/executions/settled-Release-windows/results/Legacy.trx",
+        "sha256": "0f1774bd840caf1bcab04fdc6292dcec6c6751f92e889ffa1e32c751ea069224",
+        "counters": {
+          "total": "161",
+          "executed": "161",
+          "passed": "161",
+          "failed": "0",
+          "error": "0",
+          "timeout": "0",
+          "aborted": "0",
+          "inconclusive": "0",
+          "passedButRunAborted": "0",
+          "notRunnable": "0",
+          "notExecuted": "0",
+          "disconnected": "0",
+          "warning": "0",
+          "completed": "0",
+          "inProgress": "0",
+          "pending": "0"
+        },
+        "nonpasses": []
+      }
+    ]
+  },
+  "new_logical_cases": 161,
+  "source_contracts": 16,
+  "scope": "Full suites preceded final source-role key preservation, candidate-only finite-subject/empty-random checks and pure validation alias projections that remove duplicate Core factory logging. Current-build focused reruns rebuild Common and actual Windows host/test assemblies: 130 Common/161 Windows per configuration. Source factory-branch equality and logger-probe assertions pass. Original Core captions, options, arrays, numerics and acquired host refusals are unchanged. Full totals are not replaced by focused totals.",
+  "source_pins": {
+    "BESHStat.Excel.Common/src/Analysis/MixedModelOptionPolicy.vb": "d4cb599f7ddb7e7cf4d4fb7f08b73b33a67acede4d83600dcba109f3863bbe7c",
+    "BESHStat.Excel.Common/src/Analysis/MixedModelWorkflowPolicy.vb": "eaa1a1dcfd6db4d7bdd914c9b385bcc7cae164ea711181bc53b515808b0e5087",
+    "BESHstatNG/src/DM/WindowsMixedModelWorkflowAdapter.vb": "4ddaa7e472aee41d7a347f263c7b232eaa905762d2793ed228cebffe4b81b1dc",
+    "BESHStatNG.Test/src/Mixed14AdapterTests.vb": "f2fee8835977a0633f3c1db445d5fc20700ba4be1e01875e9fc505b89ba52c1c",
+    "scripts/tests/test_04a14_mixed_workflow.py": "9dd0ce1b8902d8f6749eebb7d325d1f31d2b0c18add87e2a3e6a7a0418499727"
+  },
+  "native": false,
+  "source_contracts_note": "Final source run also verifies exact Core alias branches and completeness of changed plus added method/control associations, including four original MMRM reference selections."
+}

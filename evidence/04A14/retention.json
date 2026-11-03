@@ -1,0 +1,33 @@
+{
+  "status": "PASS_HISTORICAL_MEMBERSHIP_METADATA_WITH_OWNER_PLAN_PIN_EXCEPTION",
+  "raw_preservation": {
+    "alias": "LOCAL_RETENTION_ALIAS:final_raw",
+    "sha256": "190584fd66d9573ba12071560d09c58d01dff0b7c0259102fdec4e4bba000479",
+    "status": "FAIL",
+    "exit_code": 1,
+    "errors": [
+      "Source pin drift planning/BESHStatNG_CrossPlatform_MasterPlan.md"
+    ]
+  },
+  "root_historical_files": 194109,
+  "root_membership_metadata_errors": 0,
+  "nested_historical_files": 139,
+  "nested_membership_metadata_errors": 0,
+  "source_pin_exception": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "before_revision": "2.7",
+    "before_sha256": "3e813ca612f49207fd712966d64c6bc3b68fa64011623888e76fc54177030929",
+    "observed_revision": "2.8",
+    "observed_sha256": "dbe3bad6d23c4252a387f6dac56ea610c7a8430f29ebf838dfac2800fd60285f",
+    "origin": "Externally modified during this run; no assistant command edits this path. Observed write time follows initial protection snapshot. Preserved as owner/external work; source-of-truth plan now 2.8.",
+    "scope": "04A.14-16 row scope unchanged; accepted status/scientific/native lineage updated. User-authorized 04A.14 implementation continues, no 04A.15 implementation.",
+    "raw_diff_sha256": "67106655152ccbc7c57494a9151ffcff3ebb9f1de5fe4d3131d6bc17d14d9692",
+    "initial_protection_record_modified": false,
+    "publication": "Owner plan path is separately identified, not claimed as an agent-authored implementation change."
+  },
+  "other_source_pin_errors": 0,
+  "initial_disk_free_bytes": 529140027392,
+  "final_disk_free_bytes": 528381300736,
+  "scope": "Complete initial root and nested membership/size/creation-write ns/file identity; initial frozen source/evidence byte pins except separately verified external owner plan update. Raw FAIL is retained, never edited into PASS. This successor distinguishes intact historical files from the legitimate owner-source edit; it clears no native/scientific gate.",
+  "limit": "No all-historical-byte rehash. Shared ZIP cannot independently establish original workstation identity/timestamps or private historical path membership. No historical cleanup, relocation, compaction, recreation or metadata edit."
+}
