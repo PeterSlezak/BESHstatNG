@@ -1,0 +1,151 @@
+{
+  "base": "49fcc30a6b39f6a2bebcc9353ce2dea0d3e13055",
+  "status": "NOT_GOLDEN",
+  "native": false,
+  "capture_source_sha256": "b4196d14b8dc4b0b55b81fda02249c8bff0409d3c52b017e9271b78fd83ed43f",
+  "current_source_sha256": "6c7cd96b1d5a019212a6a48512bc8238a2a7d9d5b22babb521e6204c8d37da29",
+  "harness_delta": "After capture only: clone names before GLM.setVarNames, because Core covariance wrap mutates the response name to Intercept. All captured tables/vectors remain unchanged.",
+  "prechange_net10": {
+    "command": {
+      "command": [
+        "dotnet",
+        "test",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore",
+        "--filter",
+        "FullyQualifiedName~Regression10Baselines",
+        "--logger",
+        "trx;LogFileName=capture.trx",
+        "--results-directory",
+        "<REPO>\\TestResults\\04A-10-20261103-run01\\prechange-net10\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 10.058719699969515
+    },
+    "passed": 6,
+    "total": 6
+  },
+  "prechange_net48": {
+    "host": {
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.598571299982723
+    },
+    "tests": {
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.3710079999873415
+    },
+    "passed": 6,
+    "total": 6
+  },
+  "cases": {
+    "LM-ordinary": "OLS/intercept/Type III/covariance/residuals/coding notes",
+    "LM-alternate": "WLS/no intercept/Type I/covariance/residuals/coding notes",
+    "Gaussian-ordinary": "Gaussian identity; offset/weights/covariance/residuals/iterations",
+    "Gaussian-alternate": "Gaussian log; same roles/sections",
+    "Binomial-ordinary": "Binomial logit; same roles/sections; Core nonconvergence retained",
+    "Binomial-alternate": "Binomial probit; same roles/sections; Core nonconvergence retained"
+  },
+  "rows": "7+3i identities reversed, data order unchanged",
+  "files": {
+    "evidence/04A10/baselines/Binomial-alternate-net48.txt": {
+      "sha256": "36527fd18b2c8d09ab1304ed60e3f572e4b1a08150e6a22b547bbfcc4ff6d5d0",
+      "bytes": 67136
+    },
+    "evidence/04A10/baselines/Binomial-alternate.txt": {
+      "sha256": "05d0a412a2f2a17423415f85a10c0c8bef9fc1bc2dd2998223b67a762dbd6d34",
+      "bytes": 65984
+    },
+    "evidence/04A10/baselines/Binomial-ordinary-net48.txt": {
+      "sha256": "58750c8730b4bf31a4887d554fd2e600431e588f00ded954ef2f3054957328be",
+      "bytes": 67091
+    },
+    "evidence/04A10/baselines/Binomial-ordinary.txt": {
+      "sha256": "6d52c972fc95cd58eb6882db27910d11b171ba1c8e18369d239738e1afad7d7c",
+      "bytes": 65907
+    },
+    "evidence/04A10/baselines/Gaussian-alternate-net48.txt": {
+      "sha256": "1a2839a0a050b2b41682c6cfc530f40b43d7c0e7c6e5c3426b03e83ea8a07977",
+      "bytes": 52792
+    },
+    "evidence/04A10/baselines/Gaussian-alternate.txt": {
+      "sha256": "2fbc2389d639a74938ebfd98045d1cb8a5ee4da99a78565a65afba60d92fad6b",
+      "bytes": 51977
+    },
+    "evidence/04A10/baselines/Gaussian-ordinary-net48.txt": {
+      "sha256": "95b27fd423999db663ff4549925af092a2c2f8ee31faa44a959d0755f9af5462",
+      "bytes": 50919
+    },
+    "evidence/04A10/baselines/Gaussian-ordinary.txt": {
+      "sha256": "9098c26fd86777196edfd00a3bcd7e2c8f4584cecb828eb46fbe9ac83442f1ab",
+      "bytes": 50187
+    },
+    "evidence/04A10/baselines/LM-alternate-net48.txt": {
+      "sha256": "abeaf25c79cfa8b931002b7378183583da9cd8265e9e6923da92bc17795342b7",
+      "bytes": 44652
+    },
+    "evidence/04A10/baselines/LM-alternate.txt": {
+      "sha256": "daf9bff41ec1ea852aba23673f60bdf009aefba1dbab192f261c2aa73ae45471",
+      "bytes": 43994
+    },
+    "evidence/04A10/baselines/LM-ordinary-net48.txt": {
+      "sha256": "a3261a6918f7c33e696189ddfce60b98ca4b658d06a8ce221f948298a4e919e3",
+      "bytes": 45221
+    },
+    "evidence/04A10/baselines/LM-ordinary.txt": {
+      "sha256": "1f489d9c1313605dea632a9062710dc89c652f7e49d7a7b4c012e68f753bf540",
+      "bytes": 44512
+    }
+  },
+  "inherited_04A09_baselines": {
+    "evidence/04A09/baselines/GLM-alternate-net48.txt": "6baf5e41c93559676c33c22204c6f3d9f8f6df425bc8f82524a2c26e979a5f65",
+    "evidence/04A09/baselines/GLM-alternate.txt": "8bc2c6a1cfe18c19b7db4e1c5ec22b42173edfc83d9a1f8bc9f127ef335b7346",
+    "evidence/04A09/baselines/GLM-ordinary-net48.txt": "fd74b68565ba17da5fca3e088d40834aa44a1dd9542187ec927891ec59dc8ab9",
+    "evidence/04A09/baselines/GLM-ordinary.txt": "55837ce43f67adc1983af246fb0f402c3e780725be10a955bffa4ddb0b550d05",
+    "evidence/04A09/baselines/LM-alternate-net48.txt": "165cf88a9ea0f09035808d7094f9a0f0ee9c38835a374c41c7f7f245ecd978cf",
+    "evidence/04A09/baselines/LM-alternate.txt": "307361d3fba03039b77eaabfefbc9924a936e2f8356b8ea140bac2b5fa1fd6e1",
+    "evidence/04A09/baselines/LM-ordinary-net48.txt": "6d38b924d51a58afcbd64bb8a52e5af3431c4abe4a7863282621ebda7568e0a2",
+    "evidence/04A09/baselines/LM-ordinary.txt": "d4e8353a53063ad8d18b7df4cce771c38f9718cdfcdbb05ee0396841a0a42d87",
+    "evidence/04A09/baselines/Multinomial-alternate-net48.txt": "8fb00d2c52f9a5c85d801a5736ef5fe91ed76ec014089bdfad377b4515ba8109",
+    "evidence/04A09/baselines/Multinomial-alternate.txt": "026bc9ae906422b5fbd6283a3c151f7a639c6131e3e62b72e385ed984b669d2d",
+    "evidence/04A09/baselines/Multinomial-ordinary-net48.txt": "95fc2aeeddf6f0ced29ee8ddda37b305f3df14ddd565dd188dca6374642fd5f0",
+    "evidence/04A09/baselines/Multinomial-ordinary.txt": "4d5766a02553875f897550a983dbdb248113f6d8e09131bf16b7ad2e0d66f0f7",
+    "evidence/04A09/baselines/NB2-alternate-net48.txt": "f26afc38739b8417fd27ba4ba604355a02da263ddb0cea3318c29fe04b08da5b",
+    "evidence/04A09/baselines/NB2-alternate.txt": "609b9c5f29fb16c98cdad6039819fbf4f69a86cc53113625696399c9972da339",
+    "evidence/04A09/baselines/NB2-ordinary-net48.txt": "197925ec38465329f5347581428c87b67a16d139713df3ea6b70d148bf9ae7e5",
+    "evidence/04A09/baselines/NB2-ordinary.txt": "0802b432bb8cab9d25c28965ead0251db9a65210c51413c87241d74d4df1c559",
+    "evidence/04A09/baselines/Ordinal-alternate-net48.txt": "5be7120ce9fc83aa00c0699f66b17a133b2a9b99eceab80421251a7ba96d9ae2",
+    "evidence/04A09/baselines/Ordinal-alternate.txt": "b80fcaa426da649ebcb90cda9062c148cbfbcfc7f495c653900367bd072f054b",
+    "evidence/04A09/baselines/Ordinal-ordinary-net48.txt": "2cba38300ea5304c12de5c68141974e137121d53e659aa81c3e22130f35acd0d",
+    "evidence/04A09/baselines/Ordinal-ordinary.txt": "a086f8d28811198bef1bd96a24b109c6334baaab01d2498689d0ad549a0bb160",
+    "evidence/04A09/baselines/ZIP-alternate-net48.txt": "61ac281f8fab70891ca161472cef77f360bc06195c836e060bb7b676b77863d5",
+    "evidence/04A09/baselines/ZIP-alternate.txt": "88a67f13f360934b7ff910053f109fdcd4c8db4ef41316de84f66b9c54c04790",
+    "evidence/04A09/baselines/ZIP-ordinary-net48.txt": "aa62898096914ffbe6275c25a26c46c8dbf5da89dbfdac01d64add7c3f0a51c1",
+    "evidence/04A09/baselines/ZIP-ordinary.txt": "b6fa2aa970abfed7e7019061b43de26c7b36d0d25804ac2c9c89959a6b597e05"
+  },
+  "inherited_GLM": "ordinary=Poisson; alternate=binomial. Neither is relabelled Gaussian.",
+  "tolerance": "Double cells max(1e-9,abs(expected)*1e-9); NaN explicit; types/strings/table order/header metadata/p-value annotations exact within runtime; only elapsed wall-clock strings masked.",
+  "culture": "Invariant and sk-SK; cross-culture numeric cells compared to frozen captures; culture-dependent Core strings compared exactly to same-culture projection.",
+  "references": "Existing NIST 11-dataset suite and committed GLM all-link CSV/reference tests retain their original tolerances and run in full regressions. No new external reference or independent scientific review."
+}

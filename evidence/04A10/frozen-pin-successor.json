@@ -1,0 +1,14 @@
+{
+  "new_failure_ids": [
+    "test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings",
+    "test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports"
+  ],
+  "original_form_sha256": "81fbf320c8fdd0aacf7360feb46980abe70b43f5ffbabca430fff6b367468a73",
+  "current_form_sha256": "a9cbfdef7bb1fd05613cf3f85d1934bfefaada08a3d218d2a104a05459becc1a",
+  "source_delta": "evidence/04A10/source-delta.json",
+  "entry_failure_ids": [
+    "test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete"
+  ],
+  "entry_provenance": "evidence/04A10/baseline-byte-provenance.json",
+  "disposition": "Remain FAIL: old whole-file pins and RunOLS request-overload source expectation are intentionally frozen. The baseline receipt expects CRLF, while all 24 files were LF on entry/main and remain unchanged. Actual family overload/writer compatibility has executable net48 tests. NOT native acceptance."
+}

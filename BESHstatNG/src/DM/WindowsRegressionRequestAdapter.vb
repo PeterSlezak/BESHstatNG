@@ -60,4 +60,13 @@ Public NotInheritable Class WindowsRegressionRequestAdapter
         For i = 0 To values.Length - 1 : result(i, 0) = values(i) : Next
         Return result
     End Function
+
+    ''' <summary>04A.10 shipping response seam; Core wrapResults and fitted arrays are captured
+    ''' before the existing native writer. The six-family overload remains compatible.</summary>
+    Public Shared Function Report(intent As LinearBinomialFitIntent, tables As List(Of ResultTable),
+                                  fitted() As Double, residuals(,) As Object,
+                                  Optional converged As Nullable(Of Boolean) = Nothing,
+                                  Optional actualFitAlpha As Nullable(Of Double) = Nothing) As LinearBinomialReport
+        Return LinearBinomialRegressionPolicy.Compose(intent, tables, fitted, residuals, converged, actualFitAlpha)
+    End Function
 End Class

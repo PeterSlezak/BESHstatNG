@@ -842,13 +842,11 @@ Public Class UiGLM
 
         Dim request = CaptureRegressionRequest(RegressionAnalysisKind.LinearModel, MyData, expanded, expandedNames)
         Dim options = request.Options
-        lm.Data(expanded, expandedNames, MyData.RowIds, If(MyData.bWeights, MyData.WeightData, Nothing))
         Dim codingNotes As List(Of String) = RegressionDesignCore.BuildCategoricalReferenceFootnotesForLm(
                                                                     raw:=MyData,
                                                                     effectItems:=Me.lbSelectedEffectsList.Items,
                                                                     termSpecs:=Me.TermSpecs,
                                                                     includeIntercept:=Me.ckIntercept.Checked)
-        lm.SetPredictorCodingFootnotes(codingNotes)
         lm.bReturnCov = options.Covariance
         lm.bComputeResiduals = options.Residuals
 
@@ -859,11 +857,16 @@ Public Class UiGLM
             ss = regression.TermSumOfSquaresType.TypeIII
         End If
 
-        lm.Fit(request.Primary.Effects.IncludeIntercept, customGroups, ss)
+        Dim intent = LinearBinomialRegressionPolicy.Project(request, ss, customGroups, codingNotes)
+        lm.Data(intent.Request.Primary.Data, intent.Request.Primary.Names, intent.Request.Primary.RowIds,
+                If(intent.Request.Weights Is Nothing, Nothing, intent.Request.Weights.Values))
+        lm.SetPredictorCodingFootnotes(If(intent.PredictorCodingFootnotes Is Nothing, Nothing, intent.PredictorCodingFootnotes.ToList()))
+        lm.Fit(intent.IncludeIntercept, intent.TermGroups, intent.SumOfSquares)
 
         Dim res = lm.wrapResults()
-        Dim report = WindowsRegressionRequestAdapter.Report(request, res, WindowsRegressionRequestAdapter.FittedColumn(lm.Fitted),
-            If(lm.bComputeResiduals, lm.AllResiduals_toPrint, Nothing))
+        Dim report = WindowsRegressionRequestAdapter.Report(intent, res, lm.Fitted,
+            If(lm.bComputeResiduals, lm.AllResiduals_toPrint, Nothing), actualFitAlpha:=lm.Alpha)
+        res = report.LegacyTables()
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1333,12 +1336,19 @@ Public Class UiGLM
         Dim request = CaptureRegressionRequest(RegressionAnalysisKind.GeneralizedLinearModel, MyData, fitData, fitVarNames)
         Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
         Dim options = request.Options
+        Dim intent As LinearBinomialFitIntent = Nothing
+        If LinearBinomialRegressionPolicy.Supports(request) Then
+            intent = LinearBinomialRegressionPolicy.Project(request)
+            options = intent.Request.Options
+        End If
 
-        Dim fam = regression.createFamily(options.Family.Value.ToString())
+        Dim fam = If(intent Is Nothing, regression.createFamily(options.Family.Value.ToString()), intent.CreateFamily())
         If options.Dispersion.HasValue Then fam.pdAlpha = options.Dispersion.Value
 
         Dim lnk As regression.Link
-        If options.Link = RegressionLink.Power Then
+        If intent IsNot Nothing Then
+            lnk = intent.CreateLink()
+        ElseIf options.Link = RegressionLink.Power Then
             lnk = regression.createLink(options.Link.Value.ToString(), options.Power.Value)
         Else
             lnk = regression.createLink(options.Link.Value.ToString())
@@ -1358,7 +1368,7 @@ Public Class UiGLM
             End If
         End If
 
-        fitGlm.data(fitData, MyData.RowIds,
+        fitGlm.data(If(intent Is Nothing, fitData, intent.Request.Primary.Data), MyData.RowIds,
                         If(MyData.bOffset, MyData.OffsetData, Nothing),
                         If(MyData.bWeights, MyData.WeightData, Nothing))
         fitGlm.setVarNames(fitVarNames)
@@ -1373,7 +1383,15 @@ Public Class UiGLM
 
         Dim res = fitGlm.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                           If(MyData.bWeights, MyData.WeightVarName, Nothing))
-        Dim report = WindowsRegressionRequestAdapter.Report(request, res, WindowsRegressionRequestAdapter.FittedColumn(fitGlm.PredictedResponses), If(fitGlm.bComputeResiduals, fitGlm.AllResiduals(), Nothing), fitGlm.Converged)
+        Dim report As RegressionReportPlan
+        If intent Is Nothing Then
+            report = WindowsRegressionRequestAdapter.Report(request, res, WindowsRegressionRequestAdapter.FittedColumn(fitGlm.PredictedResponses), If(fitGlm.bComputeResiduals, fitGlm.AllResiduals(), Nothing), fitGlm.Converged)
+        Else
+            Dim projected = WindowsRegressionRequestAdapter.Report(intent, res, fitGlm.PredictedResponses,
+                If(fitGlm.bComputeResiduals, fitGlm.AllResiduals(), Nothing), fitGlm.Converged, alphaValue)
+            report = projected.Report
+            res = projected.LegacyTables()
+        End If
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1452,7 +1470,8 @@ Public Class UiGLM
             If classificationOptions.Brier Then eventRate = BESHStatNG.WorksheetFunctions.ComputeWeightedEventRate(y, weights)
             Dim classification = regression.BinaryClassificationReporting.ComposeGlmReport(y, p, weights, classificationOptions, eventRate)
             Dim calibrationRows = classification.CalibrationRows
-            Dim clsRes = classification.LegacyTables()
+            Dim classificationPlan = New LinearBinomialClassificationPlan(request, classificationOptions, classification)
+            Dim clsRes = classificationPlan.LegacyTables()
 
             If clsRes IsNot Nothing AndAlso clsRes.Count > 0 Then
                 WriteRes = New ExcelDnaResultWriter

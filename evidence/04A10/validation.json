@@ -1,0 +1,2607 @@
+{
+  "base": "49fcc30a6b39f6a2bebcc9353ce2dea0d3e13055",
+  "configurations": {
+    "Debug": {
+      "managed_suites": [
+        {
+          "path": "TestResults/04A-10-20261103-run01/final-Debug/Debug/results/Core.trx",
+          "sha256": "1f9154e1017e04eeee1435f4efcede596a30d1d8e41fd453df0af3c8f5f36704",
+          "counters": {
+            "total": "1055",
+            "executed": "1055",
+            "passed": "1055",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [],
+          "batch10": [],
+          "nist": [
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Longley\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler2\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"NoInt1\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler1\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Pontius\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler4\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler3\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"NoInt2\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Norris\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler5\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Filip\")",
+              "outcome": "Passed"
+            }
+          ],
+          "glm_references": [
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_Binomial_all_links_match_reference",
+              "test_name": "GLM_Binomial_all_links_match_reference",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_reports_insufficient_observations_without_throw",
+              "test_name": "GLM_reports_insufficient_observations_without_throw",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_Gaussian_all_links_match_reference",
+              "test_name": "GLM_Gaussian_all_links_match_reference",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_Poisson_all_links_match_reference",
+              "test_name": "GLM_Poisson_all_links_match_reference",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_throws_when_no_intercept_and_no_predictors",
+              "test_name": "GLM_throws_when_no_intercept_and_no_predictors",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_Gamma_all_links_match_reference",
+              "test_name": "GLM_Gamma_all_links_match_reference",
+              "outcome": "Passed"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/final-Debug/Debug/results/OfficeAddin.trx",
+          "sha256": "81eb1b74d056aceebd060a655324eae393953db1862c6ab7b8ac2cbcc9042885",
+          "counters": {
+            "total": "505",
+            "executed": "505",
+            "passed": "505",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [],
+          "batch10": [],
+          "nist": [],
+          "glm_references": []
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/final-Debug/Debug/results/OfficeExecution.trx",
+          "sha256": "bc68995d1881611674c7fbfe54b584ef27e231eb062adf1f8ed4cdd004fe7a4e",
+          "counters": {
+            "total": "45",
+            "executed": "45",
+            "passed": "45",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [],
+          "batch10": [],
+          "nist": [],
+          "glm_references": []
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/executions/final-Debug-Common/results/Common.trx",
+          "sha256": "48aa1feeb1fdbaa880ebee514eccade0d728e63a80111012d6f507e84fbce380",
+          "counters": {
+            "total": "1388",
+            "executed": "1388",
+            "passed": "1384",
+            "failed": "4",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,15,40)",
+              "outcome": "Failed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (0,0,0)",
+              "outcome": "Failed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,30,50)",
+              "outcome": "Failed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "test_name": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "outcome": "Failed"
+            }
+          ],
+          "batch10": [
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm",
+              "test_name": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (False,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (0)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument",
+              "test_name": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument (\"sk-SK\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (0)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"Gaussian-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"Binomial-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (2)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument",
+              "test_name": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument (\"\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"LM-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"Gaussian-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "IntentAndResponseDoNotRetainMutableCoreArrays",
+              "test_name": "IntentAndResponseDoNotRetainMutableCoreArrays",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"LM-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (True,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (True,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"Gaussian-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (False,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"LM-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"LM-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "NumericBaselinesAndProjectionUnderBothCultures",
+              "test_name": "NumericBaselinesAndProjectionUnderBothCultures (\"sk-SK\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (4)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"Binomial-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (False,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (False,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"Binomial-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (True,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm",
+              "test_name": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "NumericBaselinesAndProjectionUnderBothCultures",
+              "test_name": "NumericBaselinesAndProjectionUnderBothCultures (\"\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GaussianSuppliedStartsUseTheSelectedCoreLink",
+              "test_name": "GaussianSuppliedStartsUseTheSelectedCoreLink (False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "StartingValuesAndPostFitClassificationRemainSeparateSnapshots",
+              "test_name": "StartingValuesAndPostFitClassificationRemainSeparateSnapshots",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (2)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "DiagnosticsDoNotBecomeIntentRefusalsAndGlmZeroWeightsStayAccepted",
+              "test_name": "DiagnosticsDoNotBecomeIntentRefusalsAndGlmZeroWeightsStayAccepted",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "ZeroObservationResponseHasAnExplicitHeaderAndNoRenumbering",
+              "test_name": "ZeroObservationResponseHasAnExplicitHeaderAndNoRenumbering",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GaussianSuppliedStartsUseTheSelectedCoreLink",
+              "test_name": "GaussianSuppliedStartsUseTheSelectedCoreLink (True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "EmptyOptionalSectionsNonfiniteAndConvergenceAreIndependent",
+              "test_name": "EmptyOptionalSectionsNonfiniteAndConvergenceAreIndependent",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (True,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"Gaussian-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"Binomial-ordinary\")",
+              "outcome": "Passed"
+            }
+          ],
+          "nist": [],
+          "glm_references": []
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/executions/final-Debug-Legacy/results/Legacy.trx",
+          "sha256": "ab5d950f439af831e8b110f42953a7a746efeb9b80f55f4b4c374f495f9a5818",
+          "counters": {
+            "total": "1271",
+            "executed": "1271",
+            "passed": "1270",
+            "failed": "1",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [
+            {
+              "class_name": "BESHStatNG.Test.ContingencyAdapterTests",
+              "method": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "outcome": "Failed"
+            }
+          ],
+          "batch10": [
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (LM-ordinary,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Gaussian-alternate,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "StartingValuesAndPostFitClassificationRemainSeparateSnapshots",
+              "test_name": "StartingValuesAndPostFitClassificationRemainSeparateSnapshots",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Binomial-ordinary,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (LM-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Gaussian-ordinary,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "ZeroObservationResponseHasAnExplicitHeaderAndNoRenumbering",
+              "test_name": "ZeroObservationResponseHasAnExplicitHeaderAndNoRenumbering",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (LM-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "IntentAndResponseDoNotRetainMutableCoreArrays",
+              "test_name": "IntentAndResponseDoNotRetainMutableCoreArrays",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (LM-alternate,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (Gaussian-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (True,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "PostFitClassificationUsesCurrentOptionsAndUnchangedFacade",
+              "test_name": "PostFitClassificationUsesCurrentOptionsAndUnchangedFacade",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (True,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (True,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GaussianSuppliedStartsUseTheSelectedCoreLink",
+              "test_name": "GaussianSuppliedStartsUseTheSelectedCoreLink (True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (Gaussian-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (0)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "StrictDiagnosticsStayObservationalInShippingAdapter",
+              "test_name": "StrictDiagnosticsStayObservationalInShippingAdapter",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm",
+              "test_name": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (2)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument",
+              "test_name": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument (sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Gaussian-alternate,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "DiagnosticsDoNotBecomeIntentRefusalsAndGlmZeroWeightsStayAccepted",
+              "test_name": "DiagnosticsDoNotBecomeIntentRefusalsAndGlmZeroWeightsStayAccepted",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "NumericBaselinesAndProjectionUnderBothCultures",
+              "test_name": "NumericBaselinesAndProjectionUnderBothCultures (sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (False,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (Binomial-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (True,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GaussianSuppliedStartsUseTheSelectedCoreLink",
+              "test_name": "GaussianSuppliedStartsUseTheSelectedCoreLink (False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Gaussian-ordinary,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (Gaussian-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (False,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (Gaussian-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (0)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (LM-ordinary,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (False,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "EmptyOptionalSectionsNonfiniteAndConvergenceAreIndependent",
+              "test_name": "EmptyOptionalSectionsNonfiniteAndConvergenceAreIndependent",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (4)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (2)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument",
+              "test_name": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument ()",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Binomial-ordinary,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (LM-alternate,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm",
+              "test_name": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (Binomial-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (LM-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (LM-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (False,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Binomial-alternate,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (Binomial-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "NumericBaselinesAndProjectionUnderBothCultures",
+              "test_name": "NumericBaselinesAndProjectionUnderBothCultures ()",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (Binomial-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Binomial-alternate,)",
+              "outcome": "Passed"
+            }
+          ],
+          "nist": [],
+          "glm_references": []
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/projection-executions/final-Debug/results/ControlMitigation.trx",
+          "sha256": "772d9ebf1aa337f6dd53f098948c46574b25da6f48d4c73ccad961784b3c7c15",
+          "counters": {
+            "total": "61",
+            "executed": "61",
+            "passed": "61",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [],
+          "batch10": [],
+          "nist": [],
+          "glm_references": []
+        }
+      ],
+      "total": 4325,
+      "passed": 4320,
+      "failed": 5,
+      "new_managed_nonpasses": [],
+      "batch10_executions": 102,
+      "python_total": 701,
+      "python_passed": 647,
+      "python_nonpasses": {
+        "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision": "ERROR",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy": "ERROR",
+        "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities": "ERROR",
+        "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce": "ERROR",
+        "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook": "FAIL",
+        "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection": "FAIL",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten": "FAIL",
+        "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized": "FAIL",
+        "test_04a08_authoring_successor.Authoring08SuccessorTests.test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts": "FAIL",
+        "test_04a08_authoring_successor.Authoring08SuccessorTests.test_original_numerics_and_shipping_forms_are_unchanged": "FAIL",
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings": "FAIL",
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports": "FAIL",
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows": "FAIL",
+        "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch": "FAIL",
+        "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations": "ERROR",
+        "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates": "FAIL",
+        "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts": "FAIL",
+        "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect": "FAIL",
+        "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof": "FAIL",
+        "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler": "FAIL"
+      },
+      "python_failure_events": [
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+          "context": "(path='BESHstatNG/src/UI/UibyID.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+          "context": "(path='BESHstatNG/src/DM/WindowsUnivariateInputAdapter.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "context": "(method='RunNormality')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "context": "(method='RunDescStat')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "context": "(method='RunOneWayANOVAThroughSharedLayer')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "context": "(method='RunKruskallWalis')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a08_authoring_successor.Authoring08SuccessorTests.test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a08_authoring_successor.Authoring08SuccessorTests.test_original_numerics_and_shipping_forms_are_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler",
+          "context": ""
+        }
+      ],
+      "inherited_python_nonpasses": 51,
+      "entry_python_pin_failures": [
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete"
+      ],
+      "new_python_pin_failures": [
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings",
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports"
+      ],
+      "managed_nonpass_identities_preserved": true,
+      "python_inherited_outcome_changes": {},
+      "node_passed": 916,
+      "node_failed": 0,
+      "final_command": {
+        "command": [
+          "powershell",
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "<REPO>\\TestResults\\04A-10-20261103-run01\\final-Debug-verify-isolated.ps1",
+          "-Legacy",
+          "-Wasm",
+          "-Js",
+          "-Python",
+          "-VisualStudio",
+          "2026",
+          "-PythonExe",
+          "<PYTHON_EXE>",
+          "-Configuration",
+          "Debug"
+        ],
+        "exit_code": 1,
+        "seconds": 418.2421768999775
+      }
+    },
+    "Release": {
+      "managed_suites": [
+        {
+          "path": "TestResults/04A-10-20261103-run01/final-Release/Release/results/Core.trx",
+          "sha256": "31fb6e691bb5391133ad417cfc8261d6f61558932dc5120e088c8f537477c635",
+          "counters": {
+            "total": "1055",
+            "executed": "1055",
+            "passed": "1055",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [],
+          "batch10": [],
+          "nist": [
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Filip\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler2\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler1\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Norris\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler5\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"NoInt1\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"NoInt2\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler4\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Longley\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Pontius\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.NistLinearRegression_Tests",
+              "method": "Fit_matches_nist_lls_reference",
+              "test_name": "Fit_matches_nist_lls_reference (\"Wampler3\")",
+              "outcome": "Passed"
+            }
+          ],
+          "glm_references": [
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_reports_insufficient_observations_without_throw",
+              "test_name": "GLM_reports_insufficient_observations_without_throw",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_Poisson_all_links_match_reference",
+              "test_name": "GLM_Poisson_all_links_match_reference",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_Binomial_all_links_match_reference",
+              "test_name": "GLM_Binomial_all_links_match_reference",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_Gamma_all_links_match_reference",
+              "test_name": "GLM_Gamma_all_links_match_reference",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_throws_when_no_intercept_and_no_predictors",
+              "test_name": "GLM_throws_when_no_intercept_and_no_predictors",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Core.Tests.GLM_Tests",
+              "method": "GLM_Gaussian_all_links_match_reference",
+              "test_name": "GLM_Gaussian_all_links_match_reference",
+              "outcome": "Passed"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/final-Release/Release/results/OfficeAddin.trx",
+          "sha256": "4f38b9f1386a5c3ecc11435a4e1d1f1b9b095e1a70eb77dd23823479d6f96dac",
+          "counters": {
+            "total": "505",
+            "executed": "505",
+            "passed": "505",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [],
+          "batch10": [],
+          "nist": [],
+          "glm_references": []
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/final-Release/Release/results/OfficeExecution.trx",
+          "sha256": "0bf2e39d9d9d11b21c4804097f00d2a4411a8bfc83623d22d55ab13b7539f232",
+          "counters": {
+            "total": "45",
+            "executed": "45",
+            "passed": "45",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [],
+          "batch10": [],
+          "nist": [],
+          "glm_references": []
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/executions/final-Release-Common/results/Common.trx",
+          "sha256": "2ec7813431e3c4e929e3860e9a863d06d0005d4d8608ec2da3c613334ab70f63",
+          "counters": {
+            "total": "1388",
+            "executed": "1388",
+            "passed": "1384",
+            "failed": "4",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "test_name": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "outcome": "Failed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,30,50)",
+              "outcome": "Failed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,15,40)",
+              "outcome": "Failed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (0,0,0)",
+              "outcome": "Failed"
+            }
+          ],
+          "batch10": [
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "EmptyOptionalSectionsNonfiniteAndConvergenceAreIndependent",
+              "test_name": "EmptyOptionalSectionsNonfiniteAndConvergenceAreIndependent",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (0)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (False,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (2)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "NumericBaselinesAndProjectionUnderBothCultures",
+              "test_name": "NumericBaselinesAndProjectionUnderBothCultures (\"\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"LM-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"Gaussian-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GaussianSuppliedStartsUseTheSelectedCoreLink",
+              "test_name": "GaussianSuppliedStartsUseTheSelectedCoreLink (False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (False,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (2)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"LM-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"Binomial-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GaussianSuppliedStartsUseTheSelectedCoreLink",
+              "test_name": "GaussianSuppliedStartsUseTheSelectedCoreLink (True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"LM-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (False,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"Binomial-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm",
+              "test_name": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (False,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "NumericBaselinesAndProjectionUnderBothCultures",
+              "test_name": "NumericBaselinesAndProjectionUnderBothCultures (\"sk-SK\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"LM-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"Binomial-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument",
+              "test_name": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument (\"sk-SK\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "DiagnosticsDoNotBecomeIntentRefusalsAndGlmZeroWeightsStayAccepted",
+              "test_name": "DiagnosticsDoNotBecomeIntentRefusalsAndGlmZeroWeightsStayAccepted",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (0)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"Gaussian-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"Gaussian-ordinary\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm",
+              "test_name": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument",
+              "test_name": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument (\"\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (\"Gaussian-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (True,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (True,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (True,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "ZeroObservationResponseHasAnExplicitHeaderAndNoRenumbering",
+              "test_name": "ZeroObservationResponseHasAnExplicitHeaderAndNoRenumbering",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (\"Binomial-alternate\")",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "StartingValuesAndPostFitClassificationRemainSeparateSnapshots",
+              "test_name": "StartingValuesAndPostFitClassificationRemainSeparateSnapshots",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (4)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "IntentAndResponseDoNotRetainMutableCoreArrays",
+              "test_name": "IntentAndResponseDoNotRetainMutableCoreArrays",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (True,True)",
+              "outcome": "Passed"
+            }
+          ],
+          "nist": [],
+          "glm_references": []
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/executions/final-Release-Legacy/results/Legacy.trx",
+          "sha256": "f80fdd0be183248fde681d654c8cd0aea5baa54dd47074a1923663e7b20e18ac",
+          "counters": {
+            "total": "1271",
+            "executed": "1271",
+            "passed": "1270",
+            "failed": "1",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [
+            {
+              "class_name": "BESHStatNG.Test.ContingencyAdapterTests",
+              "method": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "outcome": "Failed"
+            }
+          ],
+          "batch10": [
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (LM-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "EmptyOptionalSectionsNonfiniteAndConvergenceAreIndependent",
+              "test_name": "EmptyOptionalSectionsNonfiniteAndConvergenceAreIndependent",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (Binomial-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (0)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "IntentAndResponseDoNotRetainMutableCoreArrays",
+              "test_name": "IntentAndResponseDoNotRetainMutableCoreArrays",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (2)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm",
+              "test_name": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (True,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Gaussian-ordinary,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Binomial-alternate,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Binomial-ordinary,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GaussianSuppliedStartsUseTheSelectedCoreLink",
+              "test_name": "GaussianSuppliedStartsUseTheSelectedCoreLink (True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (LM-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (Binomial-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (LM-ordinary,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (False,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (True,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (2)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "StartingValuesAndPostFitClassificationRemainSeparateSnapshots",
+              "test_name": "StartingValuesAndPostFitClassificationRemainSeparateSnapshots",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (Gaussian-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "ZeroObservationResponseHasAnExplicitHeaderAndNoRenumbering",
+              "test_name": "ZeroObservationResponseHasAnExplicitHeaderAndNoRenumbering",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (4)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (False,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (True,True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (LM-ordinary,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument",
+              "test_name": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument ()",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GlmOptionsMatrix",
+              "test_name": "GlmOptionsMatrix (False,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Binomial-alternate,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "DiagnosticsDoNotBecomeIntentRefusalsAndGlmZeroWeightsStayAccepted",
+              "test_name": "DiagnosticsDoNotBecomeIntentRefusalsAndGlmZeroWeightsStayAccepted",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (False,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "MalformedCoreResponseFailsBeforeWriting",
+              "test_name": "MalformedCoreResponseFailsBeforeWriting (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (LM-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (LM-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (Gaussian-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (Binomial-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearOptionsMatrix",
+              "test_name": "LinearOptionsMatrix (True,False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "NumericBaselinesAndProjectionUnderBothCultures",
+              "test_name": "NumericBaselinesAndProjectionUnderBothCultures ()",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (0)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (Gaussian-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm",
+              "test_name": "OriginalTermKeysGroupsAndCodingNotesFlowIntoTheActualLm (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10Baselines",
+              "method": "FrozenPrechangeCoreTablesAndVectors",
+              "test_name": "FrozenPrechangeCoreTablesAndVectors (Binomial-alternate)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (1)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "LinearDegenerateDesignsPreserveCoreOutcome",
+              "test_name": "LinearDegenerateDesignsPreserveCoreOutcome (3)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "PostFitClassificationUsesCurrentOptionsAndUnchangedFacade",
+              "test_name": "PostFitClassificationUsesCurrentOptionsAndUnchangedFacade",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Binomial-ordinary,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (LM-alternate,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "GaussianSuppliedStartsUseTheSelectedCoreLink",
+              "test_name": "GaussianSuppliedStartsUseTheSelectedCoreLink (False)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "NumericBaselinesAndProjectionUnderBothCultures",
+              "test_name": "NumericBaselinesAndProjectionUnderBothCultures (sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "RealCoreResponsesRoundTripEveryCellAndAnnotation",
+              "test_name": "RealCoreResponsesRoundTripEveryCellAndAnnotation (Gaussian-ordinary)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (True)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (LM-alternate,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "StrictDiagnosticsStayObservationalInShippingAdapter",
+              "test_name": "StrictDiagnosticsStayObservationalInShippingAdapter",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Gaussian-alternate,sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument",
+              "test_name": "NistNorrisCoefficientsAndStandardErrorsReachTheProjectedDocument (sk-SK)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Gaussian-alternate,)",
+              "outcome": "Passed"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10AdapterTests",
+              "method": "ShippingAdapterAndTableWriterConsumeFamilyProjection",
+              "test_name": "ShippingAdapterAndTableWriterConsumeFamilyProjection (Gaussian-ordinary,sk-SK)",
+              "outcome": "Passed"
+            }
+          ],
+          "nist": [],
+          "glm_references": []
+        },
+        {
+          "path": "TestResults/04A-10-20261103-run01/projection-executions/final-Release/results/ControlMitigation.trx",
+          "sha256": "88f506f232dfe7c2200211ab903686c653d15c637227bef9378c6a9594d9e23c",
+          "counters": {
+            "total": "61",
+            "executed": "61",
+            "passed": "61",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [],
+          "batch10": [],
+          "nist": [],
+          "glm_references": []
+        }
+      ],
+      "total": 4325,
+      "passed": 4320,
+      "failed": 5,
+      "new_managed_nonpasses": [],
+      "batch10_executions": 102,
+      "python_total": 701,
+      "python_passed": 647,
+      "python_nonpasses": {
+        "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision": "ERROR",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy": "ERROR",
+        "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities": "ERROR",
+        "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce": "ERROR",
+        "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook": "FAIL",
+        "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection": "FAIL",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten": "FAIL",
+        "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized": "FAIL",
+        "test_04a08_authoring_successor.Authoring08SuccessorTests.test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts": "FAIL",
+        "test_04a08_authoring_successor.Authoring08SuccessorTests.test_original_numerics_and_shipping_forms_are_unchanged": "FAIL",
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings": "FAIL",
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports": "FAIL",
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows": "FAIL",
+        "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch": "FAIL",
+        "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations": "ERROR",
+        "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates": "FAIL",
+        "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts": "FAIL",
+        "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect": "FAIL",
+        "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof": "FAIL",
+        "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler": "FAIL"
+      },
+      "python_failure_events": [
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+          "context": "(path='BESHstatNG/src/UI/UibyID.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+          "context": "(path='BESHstatNG/src/DM/WindowsUnivariateInputAdapter.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "context": "(method='RunNormality')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "context": "(method='RunDescStat')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "context": "(method='RunOneWayANOVAThroughSharedLayer')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "context": "(method='RunKruskallWalis')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a08_authoring_successor.Authoring08SuccessorTests.test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a08_authoring_successor.Authoring08SuccessorTests.test_original_numerics_and_shipping_forms_are_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations",
+          "context": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof",
+          "context": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler",
+          "context": ""
+        }
+      ],
+      "inherited_python_nonpasses": 51,
+      "entry_python_pin_failures": [
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete"
+      ],
+      "new_python_pin_failures": [
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings",
+        "test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports"
+      ],
+      "managed_nonpass_identities_preserved": true,
+      "python_inherited_outcome_changes": {},
+      "node_passed": 916,
+      "node_failed": 0,
+      "final_command": {
+        "command": [
+          "powershell",
+          "-NoProfile",
+          "-ExecutionPolicy",
+          "Bypass",
+          "-File",
+          "<REPO>\\TestResults\\04A-10-20261103-run01\\final-Release-verify-isolated.ps1",
+          "-Legacy",
+          "-Wasm",
+          "-Js",
+          "-Python",
+          "-VisualStudio",
+          "2026",
+          "-PythonExe",
+          "<PYTHON_EXE>",
+          "-Configuration",
+          "Release"
+        ],
+        "exit_code": 1,
+        "seconds": 358.72600820002845
+      }
+    }
+  },
+  "native": false,
+  "P": "NO",
+  "prior_validation_sha256": "69a0fc0278ec421ff1b2438502200b5d7806bae56e525fefb99cab4cb754fcad",
+  "pin_failure_disposition": "Two newly stale source expectations plus one pre-existing checkout/receipt EOL pin mismatch beyond the historical 51 identities. source-delta.json and baseline-byte-provenance.json supply exact provenance. No historical test/fixture edited or skipped."
+}
