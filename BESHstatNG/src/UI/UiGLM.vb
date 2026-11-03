@@ -7,6 +7,7 @@ Imports System.Windows.Forms
 Imports System.Windows.Forms.LinkLabel
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.regression
+Imports BESHStatNG.ExcelCommon
 
 Public Class UiGLM
 
@@ -766,6 +767,64 @@ Public Class UiGLM
         End Try
     End Sub
 
+    ' Controls and localized text are read only here; Common retains cloned typed values.
+    ' Strict portable diagnostics are observed, not used to activate a new native refusal path.
+    ' Legacy form/Core validation remains authoritative pending exact-ID native timing disposition.
+    Private Function CaptureRegressionRequest(kind As RegressionAnalysisKind, raw As glmData,
+                                              expanded(,) As Double, names() As String,
+                                              Optional logisticRaw As glmData = Nothing,
+                                              Optional logisticExpanded(,) As Double = Nothing,
+                                              Optional logisticNames() As String = Nothing) As RegressionRequest
+        Dim o As New RegressionOptions With {
+            .Alpha = CDbl(Me.spinBtnAlpha.Value),
+            .Covariance = If(kind = RegressionAnalysisKind.LinearModel, Me.ckCovarMatrixLM.Checked, Me.ckCovarMatrix.Checked),
+            .Residuals = If(kind = RegressionAnalysisKind.LinearModel, Me.ckResidualsLM.Checked, Me.ckResiduals.Checked),
+            .IterationDetails = Me.ckIterationsDetails.Checked,
+            .Reference = If(Me.optFirst.Checked, regression.ReferenceCategory.First, regression.ReferenceCategory.Last),
+            .PValuePresentation = New OutputPValuePolicy(AppGlobals.PValuePresentation)}
+        If kind <> RegressionAnalysisKind.LinearModel Then
+            o.MaximumIterations = ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations")
+            o.Epsilon = ParseUiDouble(Me.tbEps.Text, "Convergence epsilon")
+        End If
+        If kind = RegressionAnalysisKind.ZeroInflatedPoisson Then o.EmIterations = ParseUiInteger(Me.tbEMiterations.Text, "EM iterations")
+        If kind = RegressionAnalysisKind.GeneralizedLinearModel OrElse kind = RegressionAnalysisKind.NegativeBinomial2 Then
+            o.Link = DirectCast([Enum].Parse(GetType(RegressionLink), CStr(Me.cbLink.SelectedItem), True), RegressionLink)
+            If o.Link = RegressionLink.Power Then o.Power = ParseUiDouble(Me.tbPower.Text, "Power link parameter")
+        End If
+        If kind = RegressionAnalysisKind.GeneralizedLinearModel Then
+            o.Family = DirectCast([Enum].Parse(GetType(RegressionFamily), regression.Family.FamiliesCodes(Me.cbFamily.SelectedIndex), True), RegressionFamily)
+            If o.Family = RegressionFamily.NegativeBinomial AndAlso Me.tbDispersionParameterNB2.Text <> String.Empty Then
+                Try
+                    Dim dispersion = ParseUiDouble(Me.tbDispersionParameterNB2.Text, "Dispersion parameter")
+                    If dispersion > 0 Then o.Dispersion = dispersion
+                Catch
+                    ' Preserve the existing Windows fallback; strict typed callers retain invalid inputs.
+                End Try
+            End If
+            o.Classification = IsCurrentBinomialGlmFamily() AndAlso Me.grpClassification.Enabled AndAlso Me.cbPerformClasification.Checked
+            If o.Classification Then
+                o.Threshold = GetClassificationThresholdUiValue()
+                o.ThresholdTable = Me.cbOutputTresholdTable.Checked
+                o.Calibration = Me.cbOutputCalibrationTable.Checked
+                o.CalibrationBins = CInt(Me.spinBtnCallibrationBinsN.Value)
+                o.Brier = Me.cbBrierScore.Checked
+            End If
+        End If
+        Dim initial() As Double = Nothing, logisticInitial() As Double = Nothing
+        If kind <> RegressionAnalysisKind.LinearModel AndAlso Me.tbInitValues.Text <> String.Empty Then initial = GetNumbersFromStrList(Me.tbInitValues.Text, False)
+        If kind = RegressionAnalysisKind.ZeroInflatedPoisson AndAlso Me.tbInitValuesLogistic.Text <> String.Empty Then logisticInitial = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, False)
+        Dim effects = RegressionEffectModel.FromProjection(Me.lbSelectedEffectsList.Items.Cast(Of String)(), Me.TermSpecs, Me.ckIntercept.Checked)
+        Dim logisticEffects As RegressionEffectModel = Nothing
+        If logisticRaw IsNot Nothing Then logisticEffects = RegressionEffectModel.FromProjection(Me.lbSelectedEffectsListLogistic.Items.Cast(Of String)(), Me.TermSpecsLogistic, Me.ckInterceptLogistic.Checked)
+        Dim request = WindowsRegressionRequestAdapter.Capture(kind, CStr(Me.lbY.Items(0)), raw, expanded, names, effects, o, initial,
+            logisticRaw, logisticExpanded, logisticNames, logisticEffects, logisticInitial)
+        Dim validation = WindowsRegressionRequestAdapter.Validate(request)
+        For Each diagnostic In validation.Diagnostics
+            CoreServices.Log(diagnostic.Code & ": " & diagnostic.Message)
+        Next
+        Return request
+    End Function
+
     Private Sub RunOLS(MyData As glmData, bInitialValues As Boolean)
         Dim lm As New regression.LinearModel()
         Dim expanded(,) As Double = Nothing
@@ -781,6 +840,8 @@ Public Class UiGLM
                                        outVarNames:=expandedNames,
                                        outTermGroups:=customGroups)
 
+        Dim request = CaptureRegressionRequest(RegressionAnalysisKind.LinearModel, MyData, expanded, expandedNames)
+        Dim options = request.Options
         lm.Data(expanded, expandedNames, MyData.RowIds, If(MyData.bWeights, MyData.WeightData, Nothing))
         Dim codingNotes As List(Of String) = RegressionDesignCore.BuildCategoricalReferenceFootnotesForLm(
                                                                     raw:=MyData,
@@ -788,8 +849,8 @@ Public Class UiGLM
                                                                     termSpecs:=Me.TermSpecs,
                                                                     includeIntercept:=Me.ckIntercept.Checked)
         lm.SetPredictorCodingFootnotes(codingNotes)
-        lm.bReturnCov = Me.ckCovarMatrixLM.Checked
-        lm.bComputeResiduals = Me.ckResidualsLM.Checked
+        lm.bReturnCov = options.Covariance
+        lm.bComputeResiduals = options.Residuals
 
         Dim ss As regression.TermSumOfSquaresType
         If Me.optTypeISS.Checked Then
@@ -798,7 +859,11 @@ Public Class UiGLM
             ss = regression.TermSumOfSquaresType.TypeIII
         End If
 
-        lm.Fit(Me.ckIntercept.Checked, customGroups, ss)
+        lm.Fit(request.Primary.Effects.IncludeIntercept, customGroups, ss)
+
+        Dim res = lm.wrapResults()
+        Dim report = WindowsRegressionRequestAdapter.Report(request, res, WindowsRegressionRequestAdapter.FittedColumn(lm.Fitted),
+            If(lm.bComputeResiduals, lm.AllResiduals_toPrint, Nothing))
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -829,12 +894,11 @@ Public Class UiGLM
 
         'Residuals
         If lm.bComputeResiduals Then
-            WriteRes.write(lm.AllResiduals_toPrint)
+            WriteRes.write(report.Rows.Residuals)
         End If
 
         'Create new worksheet in workbook. It will automaticaly be an activesheet
         'We need to start new writer to start writing on this new sheet
-        Dim res = lm.wrapResults()
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "LM"
@@ -852,12 +916,15 @@ Public Class UiGLM
         Dim fitVarNames() As String = Nothing
 
         BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
+        Dim request = CaptureRegressionRequest(RegressionAnalysisKind.Ordinal, MyData, fitData, fitVarNames)
+        Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
+        Dim options = request.Options
 
         Dim predictorCount As Integer = fitVarNames.Length - 1
         Dim categoryCount As Integer = CountDistinctResponseCategories(fitData)
 
         If bInitialValues Then
-            Dim expectedCount As Integer = predictorCount + (categoryCount - 1)
+            Dim expectedCount As Integer = requestValidation.PrimaryParameterCount
 
             If Not ValidateExpandedInitialValuesCount(
                     expectedCount:=expectedCount,
@@ -870,15 +937,19 @@ Public Class UiGLM
         ordL.Data(fitData, fitVarNames, MyData.RowIds,
                    If(MyData.bOffset, MyData.OffsetData, Nothing),
                    If(MyData.bWeights, MyData.WeightData, Nothing))
-        ordL.bReturnCov = Me.ckCovarMatrix.Checked
-        ordL.bComputeResiduals = Me.ckResiduals.Checked
-        ordL.bIterationDetails = Me.ckIterationsDetails.Checked
+        ordL.bReturnCov = options.Covariance
+        ordL.bComputeResiduals = options.Residuals
+        ordL.bIterationDetails = options.IterationDetails
         ordL.SettingInputs(alphaValue,
-                           ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
-                           ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
-        If bInitialValues Then ordL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
-        Dim refCat = If(Me.optFirst.Checked, regression.ReferenceCategory.First, regression.ReferenceCategory.Last)
+                           options.MaximumIterations,
+                           options.Epsilon)
+        If bInitialValues Then ordL.startParams = request.Primary.InitialValues 'validated above
+        Dim refCat = options.Reference
         ordL.Fit(refCat, bInitialValues, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
+
+        Dim res = ordL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
+                                     If(MyData.bWeights, MyData.WeightVarName, Nothing))
+        Dim report = WindowsRegressionRequestAdapter.Report(request, res, If(ordL.bComputeResiduals, ordL.Residuals.Probabilities, Nothing), If(ordL.bComputeResiduals, ordL.wrapResiduals(), Nothing), categories:=If(ordL.bComputeResiduals, ordL.Residuals.Categories, Nothing))
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -915,13 +986,11 @@ Public Class UiGLM
 
         'Residuals
         If ordL.bComputeResiduals Then
-            WriteRes.write(ordL.wrapResiduals())
+            WriteRes.write(report.Rows.Residuals)
         End If
 
         'Create new worksheet in workbook. It will automaticaly be an activesheet
         'We need to start new writer to start writing on this new sheet
-        Dim res = ordL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
-                                     If(MyData.bWeights, MyData.WeightVarName, Nothing))
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Ordinal_LR"
@@ -938,13 +1007,16 @@ Public Class UiGLM
         Dim fitVarNames() As String = Nothing
 
         BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
+        Dim request = CaptureRegressionRequest(RegressionAnalysisKind.Multinomial, MyData, fitData, fitVarNames)
+        Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
+        Dim options = request.Options
 
         Dim predictorCount As Integer = fitVarNames.Length - 1
         Dim categoryCount As Integer = CountDistinctResponseCategories(fitData)
-        Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
+        Dim lIntercept As Integer = If(request.Primary.Effects.IncludeIntercept, 1, 0)
 
         If bInitialValues Then
-            Dim expectedCount As Integer = (predictorCount + lIntercept) * (categoryCount - 1)
+            Dim expectedCount As Integer = requestValidation.PrimaryParameterCount
 
             If Not ValidateExpandedInitialValuesCount(
                     expectedCount:=expectedCount,
@@ -957,15 +1029,19 @@ Public Class UiGLM
         multL.data(fitData, fitVarNames, MyData.RowIds,
                    If(MyData.bOffset, MyData.OffsetData, Nothing),
                    If(MyData.bWeights, MyData.WeightData, Nothing))
-        multL.bReturnCov = Me.ckCovarMatrix.Checked
-        multL.bComputeResiduals = Me.ckResiduals.Checked
-        multL.bIterationDetails = Me.ckIterationsDetails.Checked
+        multL.bReturnCov = options.Covariance
+        multL.bComputeResiduals = options.Residuals
+        multL.bIterationDetails = options.IterationDetails
         multL.settingInputs(alphaValue,
-                            ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
-                            ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
-        If bInitialValues Then multL.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
-        Dim refCat = If(Me.optFirst.Checked, regression.ReferenceCategory.First, regression.ReferenceCategory.Last)
+                            options.MaximumIterations,
+                            options.Epsilon)
+        If bInitialValues Then multL.startParams = request.Primary.InitialValues 'validated above
+        Dim refCat = options.Reference
         multL.Fit(lIntercept, refCat, bInitialValues, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
+
+        Dim res = multL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
+                                     If(MyData.bWeights, MyData.WeightVarName, Nothing))
+        Dim report = WindowsRegressionRequestAdapter.Report(request, res, If(multL.bComputeResiduals, multL.ResidualDiagnostics.Probabilities, Nothing), If(multL.bComputeResiduals, multL.wrapResiduals(), Nothing), categories:=If(multL.bComputeResiduals, multL.ResidualDiagnostics.Categories, Nothing))
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1002,13 +1078,11 @@ Public Class UiGLM
 
         'Residuals
         If multL.bComputeResiduals Then
-            WriteRes.write(multL.wrapResiduals())
+            WriteRes.write(report.Rows.Residuals)
         End If
 
         'Create new worksheet in workbook. It will automaticaly be an activesheet
         'We need to start new writer to start writing on this new sheet
-        Dim res = multL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
-                                     If(MyData.bWeights, MyData.WeightVarName, Nothing))
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Multinomial_LR"
@@ -1030,15 +1104,18 @@ Public Class UiGLM
 
         BuildExpandedZIPPoissonInputs(PoissonData, fitDataPois, fitVarNamesPois)
         BuildExpandedZIPLogisticInputs(LogisticData, fitDataLog, fitVarNamesLog)
+        Dim request = CaptureRegressionRequest(RegressionAnalysisKind.ZeroInflatedPoisson, PoissonData, fitDataPois, fitVarNamesPois, LogisticData, fitDataLog, fitVarNamesLog)
+        Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
+        Dim options = request.Options
 
         Dim predictorCountPois As Integer = fitVarNamesPois.Length - 1
         Dim predictorCountLog As Integer = fitVarNamesLog.Length - 1
-        Dim interceptPois As Integer = If(Me.ckIntercept.Checked, 1, 0)
-        Dim interceptLog As Integer = If(Me.ckInterceptLogistic.Checked, 1, 0)
+        Dim interceptPois As Integer = If(request.Primary.Effects.IncludeIntercept, 1, 0)
+        Dim interceptLog As Integer = If(request.Logistic.Effects.IncludeIntercept, 1, 0)
 
         If bPoissonInitialValues Then
             If Not ValidateExpandedInitialValuesCount(
-                    expectedCount:=predictorCountPois + interceptPois,
+                    expectedCount:=requestValidation.PrimaryParameterCount,
                     modelCaption:="Zero-Inflated Poisson Regression (Poisson part)",
                     includeInterceptFirstNote:=(interceptPois = 1),
                     targetTextBox:=Me.tbInitValues) Then
@@ -1048,7 +1125,7 @@ Public Class UiGLM
 
         If bLogisticInitialValues Then
             If Not ValidateExpandedInitialValuesCount(
-                    expectedCount:=predictorCountLog + interceptLog,
+                    expectedCount:=requestValidation.LogisticParameterCount,
                     modelCaption:="Zero-Inflated Poisson Regression (Logistic part)",
                     includeInterceptFirstNote:=(interceptLog = 1),
                     targetTextBox:=Me.tbInitValuesLogistic) Then
@@ -1064,20 +1141,20 @@ Public Class UiGLM
                           If(PoissonData.bOffset, PoissonData.OffsetData, Nothing),
                           If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing))
 
-        zipFit.bComputeResiduals = Me.ckResiduals.Checked
-        zipFit.bIterationDetails = Me.ckIterationsDetails.Checked
-        zipFit.bReturnCov = Me.ckCovarMatrix.Checked
+        zipFit.bComputeResiduals = options.Residuals
+        zipFit.bIterationDetails = options.IterationDetails
+        zipFit.bReturnCov = options.Covariance
         zipFit.settingInputs(alphaValue,
-                             ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
-                             ParseUiInteger(Me.tbEMiterations.Text, "EM iterations"),
-                             ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
+                             options.MaximumIterations,
+                             options.EmIterations,
+                             options.Epsilon)
 
         If bPoissonInitialValues Then
-            zipFit.startParamsPois = GetNumbersFromStrList(Me.tbInitValues.Text, False)
+            zipFit.startParamsPois = request.Primary.InitialValues
         End If
 
         If bLogisticInitialValues Then
-            zipFit.startParamsLog = GetNumbersFromStrList(Me.tbInitValuesLogistic.Text, False)
+            zipFit.startParamsLog = request.Logistic.InitialValues
         End If
 
         zipFit.Fit(interceptPois,
@@ -1085,6 +1162,9 @@ Public Class UiGLM
                    bPoissonInitialValues,
                    bLogisticInitialValues,
                    New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
+
+        Dim res = zipFit.wrapResults(If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing), Nothing)
+        Dim report = WindowsRegressionRequestAdapter.Report(request, res, WindowsRegressionRequestAdapter.FittedColumn(zipFit.Predicted), If(zipFit.bComputeResiduals, zipFit.AllResiduals(), Nothing), zipFit.Converged)
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1119,18 +1199,17 @@ Public Class UiGLM
 
         'Prediction
         WriteRes.write({"Prediction"})
-        WriteRes.write(zipFit.Predicted, bTall:=True)
+        WriteRes.write(report.Rows.Fitted)
         WriteRes.setRowPointer(2)
         WriteRes.shiftColumnPointer(1)
 
         'Residuals
         If zipFit.bComputeResiduals Then
-            WriteRes.write(zipFit.AllResiduals())
+            WriteRes.write(report.Rows.Residuals)
         End If
 
         'Create new worksheet in workbook. It will automaticaly be an activesheet
         'We need to start new writer to start writing on this new sheet
-        Dim res = zipFit.wrapResults(If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing), Nothing)
 
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
@@ -1148,20 +1227,23 @@ Public Class UiGLM
         Dim fitVarNames() As String = Nothing
 
         BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
+        Dim request = CaptureRegressionRequest(RegressionAnalysisKind.NegativeBinomial2, MyData, fitData, fitVarNames)
+        Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
+        Dim options = request.Options
 
-        If Me.cbLink.SelectedItem = "Power" Then
-            lnk = regression.createLink(Me.cbLink.SelectedItem, ParseUiDouble(Me.tbPower.Text, "Power link parameter"))
+        If options.Link = RegressionLink.Power Then
+            lnk = regression.createLink(options.Link.Value.ToString(), options.Power.Value)
         Else
-            lnk = regression.createLink(Me.cbLink.SelectedItem)
+            lnk = regression.createLink(options.Link.Value.ToString())
         End If
 
         Dim nb2 = New GLM_NB(lnk)
-        Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
+        Dim lIntercept As Integer = If(request.Primary.Effects.IncludeIntercept, 1, 0)
         Dim predictorCount As Integer = fitVarNames.Length - 1
 
         If bInitialValues Then
             If Not ValidateExpandedInitialValuesCount(
-                    expectedCount:=predictorCount + lIntercept,
+                    expectedCount:=requestValidation.PrimaryParameterCount,
                     modelCaption:="Negative Binomial Regression (NB2)",
                     includeInterceptFirstNote:=(lIntercept = 1)) Then
                 Exit Sub
@@ -1172,14 +1254,18 @@ Public Class UiGLM
                  If(MyData.bOffset, MyData.OffsetData, Nothing),
                  If(MyData.bWeights, MyData.WeightData, Nothing))
         nb2.setVarNames(fitVarNames)
-        nb2.bReturnCov = Me.ckCovarMatrix.Checked
-        nb2.bComputeResiduals = Me.ckResiduals.Checked
-        nb2.bIterationDetails = Me.ckIterationsDetails.Checked
+        nb2.bReturnCov = options.Covariance
+        nb2.bComputeResiduals = options.Residuals
+        nb2.bIterationDetails = options.IterationDetails
         nb2.settingInputs(alphaValue,
-                          ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
-                          ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
-        If bInitialValues Then nb2.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
+                          options.MaximumIterations,
+                          options.Epsilon)
+        If bInitialValues Then nb2.startParams = request.Primary.InitialValues 'validated above
         nb2.Fit(lIntercept, bInitialValues, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
+
+        Dim res = nb2.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
+                                  If(MyData.bWeights, MyData.WeightVarName, Nothing))
+        Dim report = WindowsRegressionRequestAdapter.Report(request, res, WindowsRegressionRequestAdapter.FittedColumn(nb2.PredictedResponses), If(nb2.bComputeResiduals, nb2.AllResiduals(), Nothing), nb2.Converged)
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1217,19 +1303,17 @@ Public Class UiGLM
         'Prediction
         WriteRes.write({"Prediction"})
         WriteRes.setRowPointer(2)
-        WriteRes.write(nb2.PredictedResponses, bTall:=True)
+        WriteRes.write(report.Rows.Fitted)
         WriteRes.setRowPointer()
         WriteRes.shiftColumnPointer(1)
 
         'Residuals
         If nb2.bComputeResiduals Then
-            WriteRes.write(nb2.AllResiduals())
+            WriteRes.write(report.Rows.Residuals)
         End If
 
         'Create new worksheet in workbook. It will automaticaly be an activesheet
         'We need to start new writer to start writing on this new sheet
-        Dim res = nb2.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
-                                  If(MyData.bWeights, MyData.WeightVarName, Nothing))
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "GLM NB2"
@@ -1246,31 +1330,28 @@ Public Class UiGLM
         Dim fitVarNames() As String = Nothing
 
         BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
+        Dim request = CaptureRegressionRequest(RegressionAnalysisKind.GeneralizedLinearModel, MyData, fitData, fitVarNames)
+        Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
+        Dim options = request.Options
 
-        Dim fam = regression.createFamily(regression.Family.FamiliesCodes(Me.cbFamily.SelectedIndex))
-        If Me.tbDispersionParameterNB2.Text <> String.Empty Then
-            Try
-                Dim dispParam As Double = ParseUiDouble(Me.tbDispersionParameterNB2.Text, "Dispersion parameter")
-                If dispParam > 0 Then fam.pdAlpha = dispParam
-            Catch
-            End Try
-        End If
+        Dim fam = regression.createFamily(options.Family.Value.ToString())
+        If options.Dispersion.HasValue Then fam.pdAlpha = options.Dispersion.Value
 
         Dim lnk As regression.Link
-        If Me.cbLink.SelectedItem = "Power" Then
-            lnk = regression.createLink(Me.cbLink.SelectedItem, ParseUiDouble(Me.tbPower.Text, "Power link parameter"))
+        If options.Link = RegressionLink.Power Then
+            lnk = regression.createLink(options.Link.Value.ToString(), options.Power.Value)
         Else
-            lnk = regression.createLink(Me.cbLink.SelectedItem)
+            lnk = regression.createLink(options.Link.Value.ToString())
         End If
 
         fitGlm = New GLM(fam, lnk)
 
-        Dim lIntercept As Integer = If(Me.ckIntercept.Checked, 1, 0)
+        Dim lIntercept As Integer = If(request.Primary.Effects.IncludeIntercept, 1, 0)
         Dim predictorCount As Integer = fitVarNames.Length - 1
 
         If bInitialValues Then
             If Not ValidateExpandedInitialValuesCount(
-                    expectedCount:=predictorCount + lIntercept,
+                    expectedCount:=requestValidation.PrimaryParameterCount,
                     modelCaption:="Generalized Linear Models",
                     includeInterceptFirstNote:=(lIntercept = 1)) Then
                 Exit Sub
@@ -1281,14 +1362,18 @@ Public Class UiGLM
                         If(MyData.bOffset, MyData.OffsetData, Nothing),
                         If(MyData.bWeights, MyData.WeightData, Nothing))
         fitGlm.setVarNames(fitVarNames)
-        fitGlm.bReturnCov = Me.ckCovarMatrix.Checked
-        fitGlm.bComputeResiduals = Me.ckResiduals.Checked
-        fitGlm.bIterationDetails = Me.ckIterationsDetails.Checked
+        fitGlm.bReturnCov = options.Covariance
+        fitGlm.bComputeResiduals = options.Residuals
+        fitGlm.bIterationDetails = options.IterationDetails
         fitGlm.settingInputs(alphaValue,
-                             ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
-                             ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
-        If bInitialValues Then fitGlm.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
+                             options.MaximumIterations,
+                             options.Epsilon)
+        If bInitialValues Then fitGlm.startParams = request.Primary.InitialValues 'validated above
         fitGlm.Fit(lIntercept, bInitialValues, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
+
+        Dim res = fitGlm.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
+                                          If(MyData.bWeights, MyData.WeightVarName, Nothing))
+        Dim report = WindowsRegressionRequestAdapter.Report(request, res, WindowsRegressionRequestAdapter.FittedColumn(fitGlm.PredictedResponses), If(fitGlm.bComputeResiduals, fitGlm.AllResiduals(), Nothing), fitGlm.Converged)
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1329,19 +1414,17 @@ Public Class UiGLM
         WriteRes.setRowPointer()
         WriteRes.write({"Prediction"})
         WriteRes.setRowPointer(2)
-        WriteRes.write(fitGlm.PredictedResponses, bTall:=True)
+        WriteRes.write(report.Rows.Fitted)
         WriteRes.setRowPointer()
         WriteRes.shiftColumnPointer(1)
 
         'Residuals
         If fitGlm.bComputeResiduals Then
-            WriteRes.write(fitGlm.AllResiduals())
+            WriteRes.write(report.Rows.Residuals)
         End If
 
         'Create new worksheet in workbook. It will automaticaly be an activesheet
         'We need to start new writer to start writing on this new sheet
-        Dim res = fitGlm.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
-                                          If(MyData.bWeights, MyData.WeightVarName, Nothing))
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "GLM"
@@ -1356,27 +1439,20 @@ Public Class UiGLM
             Dim weights() As Double = fitGlm.ObservationWeights()
             Dim threshold As Double = GetClassificationThresholdUiValue()
 
-            Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(y, p, weights)
-
-            Dim summary As regression.BinaryClassificationSummary = regression.BinaryClassificationReporting.ComputeBinarySummary(y, p, threshold, weights)
-
-            Dim thresholdRows As List(Of regression.BinaryThresholdRow) = Nothing
-            If Me.cbOutputTresholdTable.Checked Then thresholdRows = regression.BinaryClassificationReporting.BuildThresholdTable(y, p, Nothing, weights)
-            Dim calibrationRows As List(Of regression.CalibrationBinSummary) = Nothing
-            If Me.cbOutputCalibrationTable.Checked Then
-                calibrationRows = regression.BinaryClassificationReporting.BuildCalibrationBins(
-                    y, p, CInt(Me.spinBtnCallibrationBinsN.Value), weights, "quantile")
-            End If
-
-            Dim brier As Double = Double.NaN
+            ' Preserve the legacy post-fit control-read boundary (progress may pump UI events).
+            Dim classificationOptions = options.Copy()
+            classificationOptions.Classification = True
+            classificationOptions.Family = RegressionFamily.Binomial
+            classificationOptions.Threshold = threshold
+            classificationOptions.ThresholdTable = Me.cbOutputTresholdTable.Checked
+            classificationOptions.Calibration = Me.cbOutputCalibrationTable.Checked
+            classificationOptions.CalibrationBins = CInt(Me.spinBtnCallibrationBinsN.Value)
+            classificationOptions.Brier = Me.cbBrierScore.Checked
             Dim eventRate As Double = Double.NaN
-            If Me.cbBrierScore.Checked Then
-                brier = regression.BinaryClassificationReporting.ComputeBrierScore(y, p, weights)
-                eventRate = BESHStatNG.WorksheetFunctions.ComputeWeightedEventRate(y, weights)
-            End If
-
-            Dim clsRes As List(Of ResultTable) = regression.BinaryClassificationReporting.WrapResults(
-                summary, thresholdRows, calibrationRows, brier, eventRate, "GLM Binary Classification")
+            If classificationOptions.Brier Then eventRate = BESHStatNG.WorksheetFunctions.ComputeWeightedEventRate(y, weights)
+            Dim classification = regression.BinaryClassificationReporting.ComposeGlmReport(y, p, weights, classificationOptions, eventRate)
+            Dim calibrationRows = classification.CalibrationRows
+            Dim clsRes = classification.LegacyTables()
 
             If clsRes IsNot Nothing AndAlso clsRes.Count > 0 Then
                 WriteRes = New ExcelDnaResultWriter

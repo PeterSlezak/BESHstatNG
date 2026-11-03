@@ -1,0 +1,108 @@
+{
+  "base": "c25c6954d4e2948e728eebf395970d7ae635d6b6",
+  "net10": "12 Core-backed cases executed before production edits. See original baseline-manifest.json.",
+  "net48": "12 Core-backed cases executed after bridge edits against byte-unchanged Core source; separate runtime baselines retain Framework G-format diagnostic strings. NOT a pre-change native run.",
+  "files": {
+    "GLM-alternate-net48.txt": {
+      "sha256": "599ce4430e16bb785e943bfc37a5a207b397ad9af6349137743808451a743be3",
+      "bytes": 129048
+    },
+    "GLM-alternate.txt": {
+      "sha256": "7c3a5efcb110a7783d850b480b909351dcd9479d3eadabcdbdd69163b6755863",
+      "bytes": 126411
+    },
+    "GLM-ordinary-net48.txt": {
+      "sha256": "529eca5a0606d1736b02156bb9657deebc24b65773963be60aa63a8f4ecb0c70",
+      "bytes": 50602
+    },
+    "GLM-ordinary.txt": {
+      "sha256": "91330b3d65c4d9357c98eacd269faf234e57d09dad6aaeda4193e37ba82e3295",
+      "bytes": 49730
+    },
+    "LM-alternate-net48.txt": {
+      "sha256": "ba023db0e7623a026cb1e525438c9a7da2c637af60429098c992f60600521aba",
+      "bytes": 44088
+    },
+    "LM-alternate.txt": {
+      "sha256": "1cd6bae66876291701575c58b07a34beab7f2cfd7188fa336dc286bbe9fb66d2",
+      "bytes": 43427
+    },
+    "LM-ordinary-net48.txt": {
+      "sha256": "5b0965f65dbbf59730c01e2ed6b793c4079a715f82a6433df5ef06d1d357be04",
+      "bytes": 8917
+    },
+    "LM-ordinary.txt": {
+      "sha256": "e8d322e1cda5b423c1f2cdd27860b91c88aca36e9a826db379d5f0d1390cbf0b",
+      "bytes": 8799
+    },
+    "Multinomial-alternate-net48.txt": {
+      "sha256": "27d36c166a9c3406303984a83a1639f9df2c3a10b4eafb46a8b51461a971cf7f",
+      "bytes": 12332
+    },
+    "Multinomial-alternate.txt": {
+      "sha256": "c936347f7452d0c1c8e47255ed4c126c1d413699c92b5afa3945231117526733",
+      "bytes": 12189
+    },
+    "Multinomial-ordinary-net48.txt": {
+      "sha256": "848e482728db794c45b8aa04f51c30853ddbd173489a9cec5c2264a9fc3675ba",
+      "bytes": 11779
+    },
+    "Multinomial-ordinary.txt": {
+      "sha256": "9aa59dfc656deda849a58e2c50260aff95486d6610720f8102ffe0d916e64353",
+      "bytes": 11636
+    },
+    "NB2-alternate-net48.txt": {
+      "sha256": "9335d8ce02455ab4745c88e160031643c10892b5a4e8c736623929a9bcfc19f4",
+      "bytes": 5563
+    },
+    "NB2-alternate.txt": {
+      "sha256": "d35c31288795d2cf2270a1a11c2e0698b6d231c30a81e4641f77633eaee2c7c6",
+      "bytes": 5518
+    },
+    "NB2-ordinary-net48.txt": {
+      "sha256": "fc7c03399513f7cdf2a5e8c45064e1646c92e6e2471133c6ec30c1e85deca65b",
+      "bytes": 18323
+    },
+    "NB2-ordinary.txt": {
+      "sha256": "42e97b7cdc726f3bc33a12b4c8435cdc92015555a9afa0b62c78fc9c9cfb99a8",
+      "bytes": 18074
+    },
+    "Ordinal-alternate-net48.txt": {
+      "sha256": "4ed0142a227fffb7a7e54b75017d62f61d458bc7a30300dbca6985d1b6244585",
+      "bytes": 14487
+    },
+    "Ordinal-alternate.txt": {
+      "sha256": "db51bc4f0e581f6a83be8fe256501c37b66ce91c116263a964eafe90b30d68d2",
+      "bytes": 14280
+    },
+    "Ordinal-ordinary-net48.txt": {
+      "sha256": "cb35193d2c024aa44152ad5587a35188e36b8f53fa0908d9919fd712264c50bf",
+      "bytes": 12670
+    },
+    "Ordinal-ordinary.txt": {
+      "sha256": "9c51c0f49d605f6e5543ca7c69b5d8ac3fbe993f0fbf70bc9625824e5b62c676",
+      "bytes": 12453
+    },
+    "ZIP-alternate-net48.txt": {
+      "sha256": "408f07b7f9d2644fe569689b6d05cb87cd41fb7252763737fde928778716e129",
+      "bytes": 9767
+    },
+    "ZIP-alternate.txt": {
+      "sha256": "6d7b6ce34ff8db46e4dc6a1137826da371222580bcd5410a707a03ab6ede4fc3",
+      "bytes": 9634
+    },
+    "ZIP-ordinary-net48.txt": {
+      "sha256": "146c446ee6ab4cd90cf5755211e911a5d7c5be515d497b23026bdc35814410f2",
+      "bytes": 18250
+    },
+    "ZIP-ordinary.txt": {
+      "sha256": "5d554ac459a4c5de5a03abb7859dabacf007be8c3717ee0fc9858bb2b13c6147",
+      "bytes": 17908
+    }
+  },
+  "capture_source_original_sha256": "a5e3ee81ba01d9e3f4f47fa5d4be6fe49815392d35099f1e5a412f526764c3bc",
+  "current_harness_sha256": "13c6b658d1030762dc06cd84bc975c36f5427b4553559957a1fb5f7815518095",
+  "masking": "Only computational wall-clock text. CLR types, labels, numbers, RowIds, table order and p-value metadata retained. Base64 string cells decode as UTF-8; D: is invariant round-trip Double. Separate runtime strings never normalized into parity.",
+  "native": false,
+  "P": "NO"
+}

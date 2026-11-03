@@ -33,6 +33,13 @@ Namespace regression
             End Function
         End Class
 
+        ' Portable section selection/composition; UDF conversion and ROC/chart methods stay here.
+        Public Function ComposeGlmReport(y() As Double, p() As Double, weights() As Double,
+                                         options As ExcelCommon.RegressionOptions,
+                                         Optional eventRate As Double = Double.NaN) As ExcelCommon.RegressionClassificationReport
+            Return ExcelCommon.RegressionClassificationPolicy.Compose(y, p, weights, options, eventRate)
+        End Function
+
         Public Function ComputeBinarySummary(y() As Double,
                                              p() As Double,
                                              Optional threshold As Double = 0.5,

@@ -1,0 +1,63 @@
+{
+  "base": "c25c6954d4e2948e728eebf395970d7ae635d6b6",
+  "newly_nonpassing_frozen_test_ids": [
+    "test_04a08_authoring_successor.Authoring08SuccessorTests.test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts",
+    "test_04a08_authoring_successor.Authoring08SuccessorTests.test_original_numerics_and_shipping_forms_are_unchanged"
+  ],
+  "old_expectation": "UiGLM unchanged from b488774 (04A.07); source was still identical at c25c695 entry main. Exact whole-form equality and c08 build() assertion remain frozen.",
+  "old_sha256": "1ad9aa65ec1452e1d452fd8931d7fd42f5249a7c1af8aacc0f8ab18e5f3124fd",
+  "new_sha256": "81fbf320c8fdd0aacf7360feb46980abe70b43f5ffbabca430fff6b367468a73",
+  "changed_members": {
+    "RunOLS": {
+      "before_sha256": "5254033f4dbc1ecbc7572224f55c19d1cc1a239113b2e315f63c58154444188e",
+      "after_sha256": "4ab5a7c0a9c9bc8572436d6f8b7641fbc5874874f010d2efedc8e652ea02391b"
+    },
+    "RunOrdLogit": {
+      "before_sha256": "ac0201c90ac9cb6ce181d93d19d0bc457992aeabde84ba2def1c569284450adc",
+      "after_sha256": "b37234521a9878a947cf04aef15563b71b0d5e2a938a62d7fd5a54f4541918ac"
+    },
+    "RunMultiLogit": {
+      "before_sha256": "7b353f29bcf6eb71eedcc0c05e3febe72ebaf3ddef5c2f4f15214d2295f123b1",
+      "after_sha256": "d10967224de1588cbe99ae6b97c84e4a53daa799d4b03bfe2b0bd79af0eb912e"
+    },
+    "RunZIP": {
+      "before_sha256": "0dcb3da1d7fcddc915a711830938955124f943d114bd644b3a13602eeee6adab",
+      "after_sha256": "ff8e52320c35f482d370d90e21847179579583ce1e6d9aa5699f6174d9410234"
+    },
+    "RunGLMNB2": {
+      "before_sha256": "f95c94dc17dcebf70e0a9ab8317417d71cca1274251d4efb3e27fca4f7f48090",
+      "after_sha256": "abd82cdc23db9be110824c125f891e96ff79dc1f7a298cf9f83ccc35dadb5539"
+    },
+    "RunGLM": {
+      "before_sha256": "4d5023cacea0fa38f3c6215593983fbf5d4b830ec8b7d6b17e1f8d0b8ffc0ea8",
+      "after_sha256": "6c26a71c9ae72ba7670c15fdf9ef100292fb73d11b29f2d8bca16a4ba86cf9cf"
+    }
+  },
+  "added_members": [
+    "CaptureRegressionRequest"
+  ],
+  "new_evidence": "83 Common + 99 host-free Windows managed cases; eight additive source checks; full final executions recorded separately.",
+  "disposition": "Both remain FAIL. No skip/xfail/rebaseline/original-test edit; only versioned successor evidence. All original native/scientific gates remain.",
+  "other_changed_pins": [
+    {
+      "path": "BESHstatNG/src/UI/UiGLM.vb",
+      "before_sha256": "1ad9aa65ec1452e1d452fd8931d7fd42f5249a7c1af8aacc0f8ab18e5f3124fd",
+      "after_sha256": "81fbf320c8fdd0aacf7360feb46980abe70b43f5ffbabca430fff6b367468a73"
+    },
+    {
+      "path": "BESHstatNG/src/RegModels/BinaryClassificationReporting.vb",
+      "before_sha256": "a6c429952330b94e98627233ee2771854dfcc6305f661fb28cd744faf6231dd6",
+      "after_sha256": "f279f486e3e74e969fd8b837470af6afb10370678a2a612e28cdaf390f799373"
+    },
+    {
+      "path": "BESHstatNG/BESHStatNG.vbproj",
+      "before_sha256": "18c172a3162b6d1d69022809d6d594ff38d53782f59d44b607f527f54f12b0e7",
+      "after_sha256": "eaa6b3f23a17d6e0ac0247d47340f170972090907eaec6ad78b50a9ec479d6f8"
+    },
+    {
+      "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+      "before_sha256": "619795027a1f706b0d39fb558ae6773388facb0a28937fd8310ab4574b75ffec",
+      "after_sha256": "2db48a982993977e4f9da9ce237b0ec08a68e5556f80f058580dbf10cae09bef"
+    }
+  ]
+}

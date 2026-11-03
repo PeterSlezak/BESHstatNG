@@ -1,0 +1,13 @@
+diff --git a/BESHstatNG/src/UI/UiGLM.vb b/BESHstatNG/src/UI/UiGLM.vb
+--- a/BESHstatNG/src/UI/UiGLM.vb
++++ b/BESHstatNG/src/UI/UiGLM.vb
+@@ -820,6 +820,9 @@
+         For Each diagnostic In validation.Diagnostics
+             CoreServices.Log(diagnostic.Code & ": " & diagnostic.Message)
+         Next
++        If Not validation.IsValid Then
++            Throw New ArgumentException(String.Join(Environment.NewLine, validation.Diagnostics.Where(Function(d) d.Blocking).Select(Function(d) d.Code & ": " & d.Message)))
++        End If
+         Return request
+     End Function
+ 
