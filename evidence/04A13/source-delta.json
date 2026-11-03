@@ -1,0 +1,135 @@
+{
+  "base": "f7d1c693eadda871c82807947922b2fa8596b87b",
+  "branch": "codex/04A-13",
+  "changed_existing": {
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj": {
+      "before": "a8930aac289337b588d523902e32c28a9631afd24539e1ef06d43fe880b1df87",
+      "after": "cdcec6ef5ecaf492bc11baa522b3cf10f7398d15956b8e96dee2770d89bd2d51"
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/cox-regression.md": {
+      "before": "4f4ddcadf4e89038e120194decf8f8ffb6a82943505b7095a80898694df094fb",
+      "after": "3a0cdc19fe7cb7d7b98a3f4f0cc212a4a2a5260039782c7f49243a16d6f25e81"
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/kaplan-meier-plot.md": {
+      "before": "bdcfd9b85aaad43ad1491b2244bb4337c762d6901a6573bab66469360a2fd82b",
+      "after": "372af3fc5dda4129b239f3e99c4608cab2af7cfb1b286b32b95eecb09b64b983"
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/logrank-test.md": {
+      "before": "cb00308642fa23bccf0d6b25f92ce1d6cbb91c2fbb20be64ea12903a807d192d",
+      "after": "3929619f505b992e47f9e198d889368f0f3a0714f84d8410ad5a092fed091222"
+    },
+    "BESHstatNG/BESHStatNG.vbproj": {
+      "before": "9fd7a379112994fa70e1e7513a751cc71e3bdc191a3f52715240496b73690246",
+      "after": "7a2fe84d6aaa771af8bb3435cd9035fb04b820f888ea4ae14a4e136692e5267e"
+    },
+    "BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb": {
+      "before": "b93bd08b34be2a64f21435c92f72895bb4e8984b69a6fdc9df7fa301574326fa",
+      "after": "5bc23975dff9b5a60d929717becd32c85ccd163feda7701c2c2d53791cbbc7a0"
+    },
+    "BESHstatNG/src/UI/Ui4Cox.vb": {
+      "before": "69889949268e29a3a663d915e4f54f65b70ba77d7b51f0f3d14d94e4c3fc5d48",
+      "after": "160812faea283f9abb610505293e36d48de699be3f72217ab739626dda51ffda"
+    },
+    "BESHstatNG/src/UI/Ui4KMandLogRank.vb": {
+      "before": "63422aae7d7410b12cf5628dbe9704a768d5864f0c416e0d0715aa6930a37916",
+      "after": "2aebc10614612fd4281a53d6889981a8d4c5361d75317c6472ceb7b92dd83fc1"
+    }
+  },
+  "members": {
+    "BESHstatNG/src/UI/Ui4KMandLogRank.vb": {
+      "changed": {
+        "RunKM": {
+          "before": "5aa87883b33a16d968843318ebda2a7950da2b1cb5621c66fe7c31428b0e01dd",
+          "after": "971f372de003b22dbce15c6d2febf067713d31fea7d8eeb7e7f7034839ee240d"
+        }
+      },
+      "unchanged": {
+        "New": "dad291b984d2c966c67c027e756d1a2e4f393bdf16530573e6aef34a7c298ef4",
+        "btCompute_Click": "16bf967b0222eb78db39fa7fe62ad315028eb27456d3b160f341e76ac4746e5d",
+        "RunLogrank": "ba06e22a50be957042593edd467ab626b013382dbc3ef1896c8a8a6b73bf7b94",
+        "getData": "04aa549953d06421226c669e2f5102d30b59e6f25a3148146f829d644a1e542f",
+        "checkInputs": "b5eba0e2de68bba95868c809d1dca090d68267985b349c3edfec60cf2064dd88",
+        "GetResultWriter": "c67e2143230faf9e92666f7694c255fcbef2375a21647704aa04065fb728e1ff",
+        "optOutputRange_Click": "af2269b36e7bfbc9a656821e0da479121e94dc2d9fa72ae4fde79188f74f7737",
+        "optWorksheet_Click": "87248b573e4208ce3c3c3f97f1bacc245203a95299a3d889f8306d38d0cb1960",
+        "optWorkbook_Click": "5e444d0cd90f45473d62f78114d85a45ac71c11865faab787c07d93159e00547"
+      }
+    },
+    "BESHstatNG/src/UI/Ui4Cox.vb": {
+      "changed": {
+        "BuildExpandedCoxInputs": {
+          "before": "1c7b7a7d8cbbac7129da8919b5f529444605b77b38b23f4cbbd453f8b06e84c2",
+          "after": "7dd14771f0e071cf55fecbbba3eb7eb8317f8e68e7674dba0943832b411c74c8"
+        },
+        "BuildExpandedSurvivalRecords": {
+          "before": "a2cd1af20cfdadd314f26daddb2fe84d663efde86ca82a8e375cebe0269824be",
+          "after": "2336b4955f2280299db2aa64c5e1ffed15c9b2943251c9a01ea251682819d175"
+        },
+        "ValidateExpandedInitialValuesCount": {
+          "before": "18559847091239f811c401d395c4ccb7bf340959fab5d824dc79fee91c3996af",
+          "after": "cd50b8a1b5acc2132c62fc9a26616dbd02ae2c8e61aed252349ac121dd781b58"
+        },
+        "btCalculate_Click": {
+          "before": "fed274dd6dc39a014ffee3659fd4f2e1aa690683c71c0a2f993e06703af40821",
+          "after": "ccf978e89cdd43231233973cedf17ee3f224f34e0c37cc0c4aefec8d4c26f2ec"
+        }
+      },
+      "unchanged": {
+        "New": "59d5108725fb4eaf7201ffc96fbc0aaa488dc1ad4afc22415146bbfd650a0f56",
+        "btReload_Click": "501fb0148998e1b80468049d4c54429b19de2bca2c3e8d5f9db4a0172bd9486e",
+        "Populate": "8c19ae6df871fdc27336f607c5eae8f9fbcc2ecdfd1aa16d50bdac5335c8eaed",
+        "GetData": "ea26e7f7d11ac36c0cbfa4225e148e1452c0f0bd63e0c1c62bd90ebc3fa6256f",
+        "BeginRegressionComputation": "90fce0166bc21b7758f940c33605590d27713fa6360e647e9c5f3bb8cf9f0a1a",
+        "EndRegressionComputation": "5da64d7c71bc73e07c79c478fde88225030309472638c09b7fd86e242dae61af",
+        "IsRegressionCancellationRequested": "c81e4a3c114a2fb78a42facc968fcd0a0d9712d441ed24c7d211b183affb58ff",
+        "IsRegressionInterruptionRequested": "04269f2c2fd6499bd58fbece2c926ce69563a2f5e395f2247dc142f70f46e222",
+        "FinishRegressionComputation": "d0ed6fb6462a79d222bfaf18f807d54aa0f965124f0102f6b3d5c6e2722f9e78",
+        "validateInputs": "b10103067ceab6347067c82689ef0b1eda6bd40573a16abba4a4d62ca2ea82e3",
+        "btAddTime_Click": "fb87336bbbf7d3945f331704603d9daedc0a6103d8c624ed20e24e584c4af05c",
+        "btRemoveTime_Click": "e60a2a77831db91bda858f43e47e5241ffd36f86fa673fed2887f20aac98be8c",
+        "btAddCensorting_Click": "5863c103ec4936536778afae10a072313429e4c577ab434addba74a1dc75ae60",
+        "btRemoveCensoring_Click": "5489dbca54c72d4b1b0d41deb0bc9325226c4d4297190404caca463669c9c44e",
+        "btAddStrata_Click": "256175de7371ffabb3ca310a899c900b33255aa65b734ff022054aa4b58bcfac",
+        "btRemoveStrata_Click": "6b00854be8b316abc53cfda9ab110b813284b62589cbcc0a21daac1bd27b2afd",
+        "btAddX_Click": "47f539bc3d0182e941562bff937d696b522a49a16047fe098ee8e1084fccbac2",
+        "btRemoveX_Click": "054a03be84d7316e3627c84c83f8aa843e54603d6889f70df3f4e140d61e2578",
+        "btAddEffect_Click": "95c4c9974c9d170453d55f316ba93afb499f54cd809e30ef59872eaffe9d7d97",
+        "btAddEffectCategoricalFactor_Click": "864e368c7b3d8c28c15883546c6f690cd69abb4c39ccc4e4f19d071d8d98784a",
+        "btnPoly_Click": "826a5d1209102f60288471a516e0463c03af291ae5c8699e124b4a922508c4d2",
+        "btn2Interactions_Click": "629d438494c9e049e7ccb51ebefe01a280ee64889206e162bce3d49392d86bab",
+        "btnCustomInteraction_Click": "fdec16bdfb57dcc605d2208dfbb489279e44e3f15853d6ca90b079a6b75acd6a",
+        "tbRemoveSelectedEffects_Click": "d792556f4f4f28d2921df38c257d3583078f9bcdb0529ba46e31807362ffc275",
+        "btClearAllSelectedEffects_Click": "f7de195b4b01998c1b9bbd1fd5fd0104bb655e0e543fb5a1dae9dbfd368b3d3f",
+        "tbInitValues_Leave": "8189732635af5e923f8665e126c5cea97ff31593957a0fdb7931656f0981c630",
+        "TabControl1_SelectedIndexChanged": "b89e5ffcb8e22179f273bba074fe378d0927e69f006a3b446659879c1890d494",
+        "btInterrupt_Click": "f733c74bfc988f4c3eebaa6571b1d0d8247014733edc4d77642b060cef388bb0",
+        "RegressionForm_FormClosing": "1657a43af46c7e9bfc1ad4755c4455f7d2d65086410d59ae5a9ca7702a3f1446"
+      }
+    }
+  },
+  "protected_count": 3430,
+  "protected_map_sha256": "bcf11c5769b6191f0ab981eabb58dbb439ac70441038bb73f2356b7fcf4ed3c3",
+  "private_pin_map": "LOCAL_BASELINE_ALIAS:source_pins; actual historical filename keys remain in ignored baseline.json, never replaced with imaginary paths.",
+  "unaffected": "Every other baseline tracked/docs byte pin verified, including Core estimators, UDF exports, Designers, GEE and C09/C11/C12 candidates; no hash equivalence invented for changed forms.",
+  "renderer": "Original KM native body from noGroups onward is byte-equal after LF normalization. Payload overload only; Cox renderer unchanged.",
+  "dormant_patches": {
+    "evidence/04A09/strict-validation-activation.UNAPPLIED.patch": {
+      "sha256": "aab350401c873d1a4f56450295688e9a046122aca2269fc9a618765f8fe79fe1",
+      "apply_check_exit": 0,
+      "applied": false
+    },
+    "evidence/04A11/C11-NATIVE-CORRECTIONS-01.final.UNAPPLIED.patch": {
+      "sha256": "2283553890563a7b2e662699d7c05319d30a5cc932099179fd24d88c1516b3fc",
+      "apply_check_exit": 0,
+      "applied": false
+    },
+    "evidence/04A12/C12-NATIVE-CLASSIFICATION-01.UNAPPLIED.patch": {
+      "sha256": "d1d525bbf6ebff2e371de4b8f6cb43689d4790ec2c4297da9fc29c08e4a58540",
+      "apply_check_exit": 0,
+      "applied": false
+    }
+  },
+  "native_executed": false,
+  "staged": false,
+  "published": false
+}

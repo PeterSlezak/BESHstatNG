@@ -3,6 +3,38 @@
 **Includes:** Kaplan–Meier survival estimate, optional confidence bands at a user-selected level (default 95%), optional detailed tabular curve output, weighted log-rank tests, hazard ratio (2 groups), Brookmeyer–Crowley median CI and median-equality test, fixed-time comparisons.  
 **Purpose:** Plot survival over time and summarize survival probabilities (with censoring) for one or multiple groups.
 
+## Office add-in availability
+
+Kaplan-Meier is currently available through the Windows Excel-DNA dialog. The Office
+add-in has no enabled KM analysis screen. Excel Online and Mac desktop execution are
+not verified for this method. The screenshots below are historical Windows images;
+no new native UI or chart capture accompanied the internal workflow extraction.
+
+## Input and output compatibility notes
+
+Use **0 = censored, 1 = event** with finite, nonnegative times. Omitting Group ID
+creates one curve labelled `0`. Group labels retain their first-seen order and case;
+strata are selected through the [Logrank Test](logrank-test.md) dialog. The existing
+multi-area importer aligns selected columns by physical worksheet row and excludes
+incomplete rows. Raw worksheet-function arrays do not establish physical coordinates.
+
+Median survival and its Brookmeyer-Crowley interval are always requested by the
+Windows dialog. Detailed tables, equality of medians and fixed-time comparisons are
+separate options. Equality of medians requires multiple groups; fixed-time comparison
+requires exactly two. The two-group wrapper retains a heading-only fixed-time table
+when that calculation is unchecked. Output remains tables followed by the Excel plot.
+Plot CI and legend default on, title display off, and X-axis units to days. Alpha
+starts from the application preference (otherwise .05).
+
+Enter binary status explicitly: the existing GUI integer conversion can round
+fractional values, while worksheet helpers can truncate them. These permissive legacy
+conversions are not supported event coding. Portable diagnostics identify such values
+without introducing a new Windows refusal. Undefined medians/limits remain undefined.
+The existing plot-data implementation can fail when no observation is censored, and
+its censor-count axis can omit a group without censoring. These limitations have not
+been corrected or native-verified in this extraction.
+
+
 ---
 
 ## Overview

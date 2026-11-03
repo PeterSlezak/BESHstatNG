@@ -1,0 +1,109 @@
+{
+  "issues": [
+    {
+      "id": "C13-RESIDUAL-PLOTS-01",
+      "kind": "EXISTING_NATIVE_WIRING",
+      "source": "Ui4Cox.Designer.vb: ckResidualPlots.Enabled=False; no codebehind reference or event handler",
+      "behavior": "Disabled checkbox produces no graph. Full residual tables remain available. Original approved removal was not implemented by this batch.",
+      "original_obligation": "control:BESHStatNG.Ui4Cox.ckResidualPlots",
+      "status": "OPEN_UNCHANGED",
+      "owners": [
+        "04A.36 residual/plot payload reuse",
+        "04A.45-47 native wiring/disposition",
+        "04A.48 reconciliation"
+      ]
+    },
+    {
+      "id": "C13-STATUS-LABELS-01",
+      "kind": "EXISTING_INPUT_COMPATIBILITY",
+      "source": "Ui4KMandLogRank.RunKM; Matrix.Array2intArray; ExcelArgNumeric.TryGetBinary01/TryGetStatus01Flexible; UdfDataImportSurvival",
+      "behavior": "GUI rounds status; UDF helper truncates before its exact-code fallback. Strict portable numeric diagnostics reject all nonbinary values. GUI labels are literal ordinal; KM_TABLE UDF trims and groups ignoring case, median/logrank helpers use distinct literal labels after trimming. No silent normalization applied.",
+      "status": "OPEN_UNCHANGED",
+      "owners": [
+        "04A.39-41 input/UDF parity",
+        "04A.45-48 native validation"
+      ]
+    },
+    {
+      "id": "C13-COX-TEXT-STRATA-01",
+      "kind": "EXISTING_HOST_IMPORT",
+      "source": "CoxPHData.DataImportRawMatrix override versus ExcelDnaDataImporter.ImportInto -> LoadCoreDataTable(CharCols=-1)",
+      "behavior": "Raw/UDF Cox override permits character columns through index 2, including text strata. Shipping default LoadCoreDataTable route does not invoke that override and excludes text strata. No acquisition patch activated.",
+      "status": "OPEN_UNCHANGED",
+      "owners": [
+        "04A.39-41 roles/coercion parity",
+        "04A.45-48 native acquisition"
+      ]
+    },
+    {
+      "id": "C13-SOURCE-AXES-01",
+      "kind": "COMPATIBILITY_BOUNDARY",
+      "source": "DataObj.LoadCoreDataTable/RemoveMissing; accepted ImportPhysicalSelection; Cox expanded-record bridge; UDF positional imports",
+      "behavior": "DataObj derives RowIds from its physical RawData row axis and does not import arbitrary CoreDataTable.RowIds metadata. KM True multi-area acquisition retains accepted physical intersection and source-column sidecar. Positional UDF/raw arrays do not invent worksheet coordinates. Cox expanded records copy retained RowIds to Index and residual sidecars exactly.",
+      "status": "CHARACTERIZED_NO_NEW_FAILURE",
+      "owners": [
+        "04A.39-41 input/response parity",
+        "04A.45-48 native provenance"
+      ]
+    },
+    {
+      "id": "C13-KM-CENSOR-AXIS-01",
+      "kind": "EXISTING_CORE_PLOT_PAYLOAD",
+      "source": "Survival_KM_LR.KaplanMeierPlotDataPrep/GetKaplanMeierPlotData; KaplanMeierPlotExcel.Plot",
+      "behavior": "All-event input has no censored group for Max and throws InvalidOperationException after report tables. Mixed censoring can omit a no-censor group from CensoredCountByGroup; the native renderer still indexes by every group. Payload diagnostics record the mismatch; arrays/indexing unchanged.",
+      "reproducer": "Survival13Fixture: KM|Logrank|events; KM|Logrank|mixed; frozen captures and payload tests",
+      "status": "OPEN_SCIENTIFIC_AND_NATIVE_CANDIDATE",
+      "owners": [
+        "04A.36 plot payload contract",
+        "04A.40-41 Core/consumer scientific review",
+        "04A.45-47 native chart validation"
+      ]
+    },
+    {
+      "id": "C13-COX-BASELINE-01",
+      "kind": "EXISTING_CORE_FAULT",
+      "source": "CoxPH.ComputeBaseline baseline(last) on empty event list; Fit full residual/PH computation can reach this before wrapResults",
+      "behavior": "The no-event-stratum fixture throws ArgumentOutOfRangeException; entirely no-event input reports ApplicationException and singular X ArithmeticException. These are preserved faults, not completed successful reports. Supplied starts, limit/nonconvergence, ties and separated designs otherwise preserve original outcomes.",
+      "reproducer": "Survival13Fixture: Cox|Breslow|emptystratum / noevents / singular / separated; every tie limit fixture",
+      "status": "OPEN_SCIENTIFIC_CANDIDATE",
+      "owners": [
+        "04A.40-41 scientific/consumer parity",
+        "04A.45-48 native fault behavior"
+      ]
+    },
+    {
+      "id": "C13-LOGRANK-R-01",
+      "kind": "INDEPENDENT_SCIENTIFIC_CANDIDATE",
+      "source": "Survival_KM_LR.WeightedLogRankTest; scripts/reference-04a13.R",
+      "reproducer": "Synthetic 24 rows i=0..23: time=1+((i*7) mod 11), event=0 when i mod 4=0 else 1; group=b when i mod 3=0 else A; optional strata=S z when even else S a. R survival::survdiff rho=0; same first-seen vectors.",
+      "behavior": "Core grouped chi-square .9623537488337257 versus R 1.01806251989924; stratified 1.0965259390388649 versus R 1.15607908970711. Both exceed 1e-6. Investigate existing variance/risk-set convention with scientific review; no established inference changed or R name treated as authority to change it.",
+      "reference": "R 4.5.1 / survival 3.8.3; numeric details in numerical-comparisons.json; NOT_GOLDEN",
+      "status": "OPEN_SCIENTIFIC_CANDIDATE_TWO_NONMATCHES",
+      "owners": [
+        "04A.40-41 parity/scientific issue disposition",
+        "Separate scientific P review",
+        "04A.45-48 native inference confirmation"
+      ]
+    },
+    {
+      "id": "C13-ADJUSTED-CURVES-01",
+      "kind": "EXISTING_NATIVE_ONLY",
+      "source": "Ui4Cox.btCalculate_Click strExpString/strCellAddress/comment/SeriesCollection",
+      "behavior": "First stratum baseline is selected by default; dynamic edits, formula addresses, comments and SeriesCollection(count) remain Windows-owned and source-equal. Neutral semantic descriptor cannot execute Excel formulas.",
+      "status": "RETAINED_BOUNDARY_NOT_NATIVE_VERIFIED",
+      "owners": [
+        "04A.28 output placement/safety",
+        "04A.36 chart payloads",
+        "04A.45-47 native rendering"
+      ]
+    }
+  ],
+  "Core_changed": false,
+  "native_executed": false,
+  "controls_released": 0,
+  "obligations_discharged": 0,
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET"
+}

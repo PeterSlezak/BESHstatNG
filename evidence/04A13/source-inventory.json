@@ -1,0 +1,424 @@
+{
+  "base": "f7d1c693eadda871c82807947922b2fa8596b87b",
+  "files": [
+    {
+      "path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+      "before_sha256": "63422aae7d7410b12cf5628dbe9704a768d5864f0c416e0d0715aa6930a37916",
+      "after_sha256": "2aebc10614612fd4281a53d6889981a8d4c5361d75317c6472ceb7b92dd83fc1",
+      "exports": [],
+      "members": [
+        "New",
+        "btCompute_Click",
+        "RunLogrank",
+        "RunKM",
+        "getData",
+        "checkInputs",
+        "GetResultWriter",
+        "optOutputRange_Click",
+        "optWorksheet_Click",
+        "optWorkbook_Click"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "before_sha256": "27c442208e2f3516af077b4908cfee972e9117f36b037b2392645a59f207908c",
+      "after_sha256": "27c442208e2f3516af077b4908cfee972e9117f36b037b2392645a59f207908c",
+      "exports": [],
+      "members": [
+        "InitializeComponent"
+      ]
+    },
+    {
+      "path": "BESHStat.Core/src/StatTests/Survival.vb",
+      "before_sha256": "866afb40a100cc88fbb31ba2fa5003dd87d27383ddc9926682421cb425b44598",
+      "after_sha256": "866afb40a100cc88fbb31ba2fa5003dd87d27383ddc9926682421cb425b44598",
+      "exports": [],
+      "members": [
+        "New",
+        "FormatValueForDisplay",
+        "FormatIntervalForDisplay",
+        "AppendRows",
+        "wrapResults",
+        "WeightedLogRankTest",
+        "GetInRiskByGroup",
+        "SurvivalCurveTabularOutput",
+        "SurvivalCurveAtRisk",
+        "SurvivalCurveLogSE",
+        "Compare",
+        "SurvivalAt",
+        "EqualityOfMedianTest",
+        "BrookmeyerCrowleyMedianSurvivalCI",
+        "StepPlateauRightEndTime",
+        "CompareCurveFixTimePoint",
+        "AllCenzoredInGroup",
+        "GetKaplanMeierPlotData",
+        "KaplanMeierPlotDataPrep",
+        "SurvivalProbability"
+      ]
+    },
+    {
+      "path": "BESHStat.Core/src/Survival/SurvivalContracts.vb",
+      "before_sha256": "1d01b2c3fe33b41d350a515bbeee1c3a54b75c5e77046d55df2c5c6a2abfe539",
+      "after_sha256": "1d01b2c3fe33b41d350a515bbeee1c3a54b75c5e77046d55df2c5c6a2abfe539",
+      "exports": [],
+      "members": [
+        "survivalRecord2str",
+        "survRecList2str",
+        "SurvivalTableRecord2array",
+        "CreatSurvivalData"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/UI/Ui4Cox.vb",
+      "before_sha256": "69889949268e29a3a663d915e4f54f65b70ba77d7b51f0f3d14d94e4c3fc5d48",
+      "after_sha256": "160812faea283f9abb610505293e36d48de699be3f72217ab739626dda51ffda",
+      "exports": [],
+      "members": [
+        "New",
+        "btCalculate_Click",
+        "btReload_Click",
+        "Populate",
+        "GetData",
+        "BeginRegressionComputation",
+        "EndRegressionComputation",
+        "IsRegressionCancellationRequested",
+        "IsRegressionInterruptionRequested",
+        "FinishRegressionComputation",
+        "BuildExpandedCoxInputs",
+        "BuildExpandedSurvivalRecords",
+        "ValidateExpandedInitialValuesCount",
+        "validateInputs",
+        "btAddTime_Click",
+        "btRemoveTime_Click",
+        "btAddCensorting_Click",
+        "btRemoveCensoring_Click",
+        "btAddStrata_Click",
+        "btRemoveStrata_Click",
+        "btAddX_Click",
+        "btRemoveX_Click",
+        "btAddEffect_Click",
+        "btAddEffectCategoricalFactor_Click",
+        "btnPoly_Click",
+        "btn2Interactions_Click",
+        "btnCustomInteraction_Click",
+        "tbRemoveSelectedEffects_Click",
+        "btClearAllSelectedEffects_Click",
+        "tbInitValues_Leave",
+        "TabControl1_SelectedIndexChanged",
+        "btInterrupt_Click",
+        "RegressionForm_FormClosing"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "before_sha256": "bef4039467e46293f83dd4e4c195976fc4a0167713d527bd169c7ff8394a8b90",
+      "after_sha256": "bef4039467e46293f83dd4e4c195976fc4a0167713d527bd169c7ff8394a8b90",
+      "exports": [],
+      "members": [
+        "InitializeComponent"
+      ]
+    },
+    {
+      "path": "BESHStat.Core/src/DM/CoxPHData.vb",
+      "before_sha256": "567ad58391d29ce9422b1e91083d2f2eacd8283a62d8b888eb6e56b22957892b",
+      "after_sha256": "567ad58391d29ce9422b1e91083d2f2eacd8283a62d8b888eb6e56b22957892b",
+      "exports": [],
+      "members": [
+        "New",
+        "DataImportRawMatrix",
+        "RequireDouble",
+        "FinalizeCoxImport"
+      ]
+    },
+    {
+      "path": "BESHStat.Core/src/RegModels/CoxPH.vb",
+      "before_sha256": "e5c62952adf3e8e6e9105f11b037a827a2217f54b53442760b37d6a2402fe5ac",
+      "after_sha256": "e5c62952adf3e8e6e9105f11b037a827a2217f54b53442760b37d6a2402fe5ac",
+      "exports": [],
+      "members": [
+        "ConcatArrays",
+        "ArrayToString",
+        "New",
+        "wrapResiduals",
+        "wrapResults",
+        "Fit",
+        "ComputeScoreTest",
+        "UpdateBreslow",
+        "UpdateEfron",
+        "UpdateExact",
+        "InvertNegHessian",
+        "ComputeSandwichVariance",
+        "Residuals",
+        "ComputeDevianceResiduals",
+        "ComputeSchoenfeldResiduals",
+        "ComputeScaledSchoenfeld",
+        "ComputeDfbetaResiduals",
+        "ComputeDfbetas",
+        "ComputeScoreResiduals",
+        "ComputeMartingaleResiduals",
+        "ComputeCoxSnellResiduals",
+        "SolveLinearSystem",
+        "ComputeLogLikelihood",
+        "ComputeLikelihoodDisplacement",
+        "ComputePHScoreTest",
+        "ComputeBaseline",
+        "BaseSurvivalForPloting"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb",
+      "before_sha256": "b93bd08b34be2a64f21435c92f72895bb4e8984b69a6fdc9df7fa301574326fa",
+      "after_sha256": "5bc23975dff9b5a60d929717becd32c85ccd163feda7701c2c2d53791cbbc7a0",
+      "exports": [],
+      "members": [
+        "New",
+        "Plot",
+        "Plot",
+        "AddKMplot"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/CoxSurvivalPlotExcel.vb",
+      "before_sha256": "c3cddc314291c994a27c7187392610e7eb9cf5a2689f63f6bcb3ac8decf741c8",
+      "after_sha256": "c3cddc314291c994a27c7187392610e7eb9cf5a2689f63f6bcb3ac8decf741c8",
+      "exports": [],
+      "members": [
+        "New",
+        "PlotCox"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/SurvivalUDFs.vb",
+      "before_sha256": "dc848cfe4fad16878d31f758657a4aef77ca269390ffa53fbd3b2ea17a8d6ed1",
+      "after_sha256": "dc848cfe4fad16878d31f758657a4aef77ca269390ffa53fbd3b2ea17a8d6ed1",
+      "exports": [
+        "BESH.SURV.LOGRANK_P",
+        "BESH.SURV.LOGRANK_STAT",
+        "BESH.SURV.MEDIAN_CI",
+        "BESH.SURV.KM_TABLE"
+      ],
+      "members": [
+        "LOGRANK_P",
+        "LOGRANK_STAT",
+        "MEDIAN_CI",
+        "KM_TABLE"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/Regression/CoxUDFs.vb",
+      "before_sha256": "52826f08ac1f22cc8323f00dafa76c5f3e7ea60f13736d3b6926d6d994d0c0b7",
+      "after_sha256": "52826f08ac1f22cc8323f00dafa76c5f3e7ea60f13736d3b6926d6d994d0c0b7",
+      "exports": [
+        "BESH.SURV.COX_FIT",
+        "BESH.SURV.COX_SUMMARY",
+        "BESH.SURV.COX_TESTS",
+        "BESH.SURV.COX_RESID",
+        "BESH.SURV.COX_BASELINE",
+        "BESH.SURV.COX_PRED",
+        "BESH.SURV.COX_DROP"
+      ],
+      "members": [
+        "COX_FIT",
+        "COX_SUMMARY",
+        "COX_TESTS",
+        "COX_RESID",
+        "COX_BASELINE",
+        "COX_PRED",
+        "COX_DROP",
+        "EnsureResiduals",
+        "ParseResidualType",
+        "ResidualLabel",
+        "LookupStepValue"
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportSurvival.vb",
+      "before_sha256": "4d06a35bc858d6174143e7a9042dc4f15de89ebf805b1655a31677ae5b287037",
+      "after_sha256": "4d06a35bc858d6174143e7a9042dc4f15de89ebf805b1655a31677ae5b287037",
+      "exports": [],
+      "members": [
+        "TryGetKaplanMeierRecords",
+        "TryComputeSurvivalMedianCi",
+        "TryComputeSurvivalLogRank",
+        "ParseSurvivalWeightMethod",
+        "TryGetSurvival2D"
+      ]
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Input/LongitudinalInputs.vb",
+      "before_sha256": "1a8d76d8661ae18b6c4e203baf19f8998a1f9a7f0be31407ebcd00abbda542a2",
+      "after_sha256": "1a8d76d8661ae18b6c4e203baf19f8998a1f9a7f0be31407ebcd00abbda542a2",
+      "exports": [],
+      "members": [
+        "New",
+        "New",
+        "New",
+        "New",
+        "New",
+        "New"
+      ]
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Input/LongitudinalParsers.vb",
+      "before_sha256": "fac8297deee98fcd9cd39fa63a627284b35dd8caaf225191212a49a450551905",
+      "after_sha256": "fac8297deee98fcd9cd39fa63a627284b35dd8caaf225191212a49a450551905",
+      "exports": [],
+      "members": [
+        "New",
+        "ParseSurvival",
+        "ParseRepeatedSubjects",
+        "ParseMixedModel",
+        "ReadRepeated",
+        "Prepare",
+        "TryNumeric",
+        "TryCategory",
+        "TryStatus",
+        "CheckCovariate",
+        "MissingRow",
+        "NumericObservation",
+        "ColumnsValid",
+        "RepeatedOptionsValid",
+        "ValidIndices",
+        "ValidMissing",
+        "Finish",
+        "HasErrors",
+        "Add"
+      ]
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Input/SpreadsheetSelectionTransport.vb",
+      "before_sha256": "99f1060a1a18be5df9d87fd08fcbd95c5059e8a93d728a0a9ce3fdbce33b98e4",
+      "after_sha256": "99f1060a1a18be5df9d87fd08fcbd95c5059e8a93d728a0a9ce3fdbce33b98e4",
+      "exports": [],
+      "members": [
+        "New",
+        "New",
+        "SourceAt",
+        "ToCoreDataTable",
+        "New",
+        "Capture",
+        "JoinColumns",
+        "SameSource",
+        "Shape",
+        "Add",
+        "Result",
+        "CloneCell",
+        "Copy"
+      ]
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Input/SpreadsheetCoreTableBridge.vb",
+      "before_sha256": "47d364ab06eac0abffd7ef783f4deabda1e18bde342603b13e6f50879eb5c1a0",
+      "after_sha256": "47d364ab06eac0abffd7ef783f4deabda1e18bde342603b13e6f50879eb5c1a0",
+      "exports": [],
+      "members": [
+        "New",
+        "ToCoreDataTable"
+      ]
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/AnalysisResultDocument.vb",
+      "before_sha256": "9d63bce1f7df3160645935926f81d6e4509c57a9ee8f8f031a3896d60d9b63c8",
+      "after_sha256": "9d63bce1f7df3160645935926f81d6e4509c57a9ee8f8f031a3896d60d9b63c8",
+      "exports": [],
+      "members": [
+        "New",
+        "New",
+        "New",
+        "New",
+        "New",
+        "CloneTable",
+        "New",
+        "New",
+        "FromValue",
+        "TryGet",
+        "New",
+        "TryGetDetail",
+        "ToContractSnapshot",
+        "Failure",
+        "IsKnownPValue"
+      ]
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/AnovaWorkflowPolicy.vb",
+      "before_sha256": "cb0df7743cbf30a6861ee2e47902a6e813be306545a84a7eb9a0bfc02d6fbfcc",
+      "after_sha256": "cb0df7743cbf30a6861ee2e47902a6e813be306545a84a7eb9a0bfc02d6fbfcc",
+      "exports": [],
+      "members": [
+        "New",
+        "ToAnalysisOptions",
+        "New",
+        "New",
+        "CopyPlot",
+        "ThrowIfFailed",
+        "New",
+        "ToLegacyTable",
+        "New",
+        "New",
+        "ToLegacyTables",
+        "ThrowIfFailed",
+        "New",
+        "Issue",
+        "RunGrouped",
+        "BuildSupplements",
+        "RunRepeated",
+        "RunRepeated",
+        "ValidateSources",
+        "RunNested",
+        "RunNested",
+        "IsNumericType",
+        "ObserveUndefined"
+      ]
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Analysis/GeeWorkflowPolicy.vb",
+      "before_sha256": "fc60ac8efe7afa6e1ba2e65c33dec0d0523537b0ce3e34de8a9aed93ae882c4a",
+      "after_sha256": "fc60ac8efe7afa6e1ba2e65c33dec0d0523537b0ce3e34de8a9aed93ae882c4a",
+      "exports": [],
+      "members": [
+        "Copy",
+        "New",
+        "New",
+        "New",
+        "CreateFamily",
+        "CreateLink",
+        "CreateCorrelation",
+        "CreateCoreModel",
+        "New",
+        "StandardErrorNames",
+        "FamilyNames",
+        "CorrelationNames",
+        "FamilyCode",
+        "SupportedLinks",
+        "ExpandedParameterCount",
+        "Project",
+        "ImportSortPermutation"
+      ]
+    },
+    {
+      "path": "BESHStat.Excel.Common/src/Results/GeeReportPolicy.vb",
+      "before_sha256": "a304072abe7a0603d25e60b96a27596840823e48e960447f5929aee64959ddde",
+      "after_sha256": "a304072abe7a0603d25e60b96a27596840823e48e960447f5929aee64959ddde",
+      "exports": [],
+      "members": [
+        "New",
+        "Copy",
+        "LegacyTables",
+        "New",
+        "LegacyTables",
+        "New",
+        "Predictions",
+        "Residuals",
+        "Compose",
+        "Classification"
+      ]
+    }
+  ],
+  "authority": "Current merged checkout; original calculations/UDF exports/Help routes remain authoritative. Core/Common and existing test/parser/report patterns inspected before extraction.",
+  "Help_routes": [
+    "HelpTopic.KaplanMeierPlot",
+    "HelpTopic.LogrankTest",
+    "HelpTopic.CoxRegression"
+  ],
+  "availability": "Office survival editors disabled/unregistered; no new Office feature or UDF added."
+}

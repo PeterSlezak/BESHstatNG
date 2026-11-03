@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.AppInfrastructure
 
 Public Class Ui4Cox
@@ -133,17 +134,6 @@ Public Class Ui4Cox
                 startVals = GetNumbersFromStrList(Me.tbInitValues.Text, False)
             End If
 
-            'do the calculation
-            Dim cox = New CoxPH(fitRecords, fitVarNames, Int(Me.spinBtnMaxIter.Value), ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
-            If bInitialValues Then cox.startParams = startVals
-
-            cox.bRobustVariance = Me.ckRobustVariance.Checked
-            cox.bReturnCov = Me.ckCovarMatrix.Checked
-            cox.bComputeAllResiduals = Me.ckAllResiduals.Checked
-            cox.bComputePHScoreTest = Me.ckPHtest.Checked
-            cox.bIterationDetails = Me.ckIterationsDetails.Checked
-            cox.bTrace = Me.ckTrace.Checked
-
             Dim m As TieMethod
             If Me.optBreslow.Checked Then
                 m = TieMethod.Breslow
@@ -154,8 +144,17 @@ Public Class Ui4Cox
             End If
 
             Dim alphaValue As Double = Me.spinBtnAlpha.Value
+            Dim intent = WindowsCoxWorkflowAdapter.Capture(MyData, fitX, fitVarNames,
+                RegressionEffectModel.FromProjection(Me.lbSelectedEffectsList.Items.Cast(Of String)().ToArray(), Me.TermSpecs, includeIntercept:=False),
+                RegressionDesignCore.GetRequiredRawVarKeys(Me.lbSelectedEffectsList.Items, Me.TermSpecs).ToArray(),
+                New CoxOptions With {.Ties = m, .Alpha = alphaValue, .MaximumIterations = CInt(Int(Me.spinBtnMaxIter.Value)),
+                    .Epsilon = ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"), .RobustVariance = Me.ckRobustVariance.Checked,
+                    .ReturnCovariance = Me.ckCovarMatrix.Checked, .AllResiduals = Me.ckAllResiduals.Checked,
+                    .PHScoreTest = Me.ckPHtest.Checked, .IterationDetails = Me.ckIterationsDetails.Checked, .Trace = Me.ckTrace.Checked}, startVals)
+            Dim cox = intent.CreateAcquiredModel(fitRecords)
             Dim resu = cox.Fit(m, New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
-            Dim res = cox.wrapResults(If(MyData.bStrata, MyData.StrataVarName, Nothing), alphaValue)
+            Dim report = CoxReportPolicy.Compose(intent, cox.wrapResults(If(MyData.bStrata, MyData.StrataVarName, Nothing), alphaValue), resu)
+            Dim res = report.Report.LegacyTables()
 
             'Dump results
             Dim WriteRes = New ExcelDnaResultWriter
@@ -191,7 +190,8 @@ Public Class Ui4Cox
             Dim strCellAddress(,) As Object = Nothing, Strata1Times() As Double = Nothing, Strata1SurvProb() As Double = Nothing
 
             For Each strId In bh.Keys
-                Dim x(,) As Object = Matrix.Array2objArray(cox.BaseSurvivalForPloting(bh(strId)))
+                Dim curve = CoxReportPolicy.Curve(cox, CStr(strId), bh(strId))
+                Dim x(,) As Object = Matrix.Array2objArray(curve.StepValues)
                 Dim tit(,) As Object = {{$"Time_{strId}", $"Baseline Survival_{strId}", $"Baseline Cumulative Hazard_{strId}"}}
                 WriteRes.write(Matrix.HorizontalStackArrays(tit, x))
                 WriteRes.setRowPointer(1)
@@ -270,21 +270,22 @@ Public Class Ui4Cox
             WriteRes.setRowPointer(1)
             WriteRes.setColumnPointer(1)
 
-            Dim residualsList = cox.wrapResiduals()
+            Dim residuals = CoxReportPolicy.Residuals(intent, cox.wrapResiduals())
+            Dim residualsList = residuals.LegacyBlocks()
             WriteRes.write({"", "Row ID"}, True)
-            WriteRes.write(MyData.RowIds, True)
+            WriteRes.write(residuals.RowIds, True)
             WriteRes.setRowPointer(1)
             WriteRes.shiftColumnPointer(1)
             WriteRes.write({"Data", "Time"}, True)
-            WriteRes.write(MyData.TimeData, True)
+            WriteRes.write(residuals.Time, True)
             WriteRes.setRowPointer(1)
             WriteRes.shiftColumnPointer(1)
             WriteRes.write({"", "Censorship"}, True)
-            WriteRes.write(MyData.CensorData, True)
+            WriteRes.write(residuals.Status, True)
             WriteRes.setRowPointer(2)
             WriteRes.shiftColumnPointer(1)
-            WriteRes.write(fitVarNames)
-            WriteRes.write(fitX)
+            WriteRes.write(residuals.Names)
+            WriteRes.write(residuals.Predictors)
             WriteRes.setRowPointer(1)
             WriteRes.shiftColumnPointer(fitVarNames.Length)
 
@@ -457,7 +458,7 @@ Public Class Ui4Cox
                                                   rawXKeys:=rawXKeys,
                                                   effectItems:=Me.lbSelectedEffectsList.Items,
                                                   termSpecs:=Me.TermSpecs,
-                                                  omitCategoricalReference:=True,
+                                                  omitCategoricalReference:=CoxWorkflowPolicy.OmitCategoricalReference,
                                                   outX:=fitX,
                                                   outPredictorNames:=fitVarNames)
 
@@ -480,33 +481,7 @@ Public Class Ui4Cox
     Private Function BuildExpandedSurvivalRecords(MyData As CoxPHData,
                                                   fitX(,) As Double) As List(Of survival.SurvivalRecord)
 
-        Dim out As New List(Of survival.SurvivalRecord)
-        Dim p As Integer = 0
-
-        If fitX IsNot Nothing Then
-            p = UBound(fitX, 2) + 1
-        End If
-
-        For i As Integer = 0 To MyData.nRows - 1
-            Dim covars() As Double = {}
-
-            If p > 0 Then
-                ReDim covars(p - 1)
-                For j As Integer = 0 To p - 1
-                    covars(j) = fitX(i, j)
-                Next
-            End If
-
-            Dim sr As New survival.SurvivalRecord
-            sr.Censorship = MyData.CensorData(i)
-            sr.Stratum = If(MyData.bStrata, MyData.StrataData(i), "0")
-            sr.Time = MyData.TimeData(i)
-            sr.Index = MyData.RowIds(i)
-            sr.Covariates = covars
-            out.Add(sr)
-        Next
-
-        Return out
+        Return CoxWorkflowPolicy.BuildExpandedRecords(WindowsCoxWorkflowAdapter.Input(MyData), fitX)
     End Function
 
     ''' <summary>
@@ -533,7 +508,7 @@ Public Class Ui4Cox
             Return False
         End If
 
-        If vals.Length <> expectedCount Then
+        If Not CoxWorkflowPolicy.InitialValuesCountMatches(vals, expectedCount) Then
             Dim msg As String = $"Number of initial values does not match the number of estimated parameters for Cox regression." &
                                 vbNewLine &
                                 $"Expected {expectedCount}, received {vals.Length}."

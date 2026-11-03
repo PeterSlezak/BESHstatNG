@@ -1,4 +1,4 @@
-﻿Imports System.Security.Cryptography
+﻿Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.survival
 Imports Microsoft.Office.Interop.Excel
@@ -69,7 +69,7 @@ Public Class Ui4KMandLogRank
     End Sub
 
     Private Sub RunKM(data As DataObj)
-        Dim strErr As String = String.Empty, strMethod As String = String.Empty
+        Dim strErr As String = String.Empty, weight As SurvivalWeight = CType(-1, SurvivalWeight)
         Dim grpData() As String, strataData() As String
         Dim d = data.FinalData
         Dim WriteRes = New ExcelDnaResultWriter
@@ -110,30 +110,29 @@ Public Class Ui4KMandLogRank
         End If
 
         'compute Logrank test and KM related outputs
-        Dim LRKM As New survival.Survival_KM_LR(SurvD)
 
         If Me.optLogRank.Checked Then
-            strMethod = "Logrank"
+            weight = SurvivalWeight.Logrank
         ElseIf Me.optTaroneWare.Checked Then
-            strMethod = "Tarone-Ware"
+            weight = SurvivalWeight.TaroneWare
         ElseIf Me.optGehanBreslow.Checked Then
-            strMethod = "Gehan-Breslow"
+            weight = SurvivalWeight.GehanBreslow
         ElseIf Me.optPeto.Checked Then
-            strMethod = "Peto"
+            weight = SurvivalWeight.Peto
         ElseIf Me.optModPeto.Checked Then
-            strMethod = "modified Peto"
+            weight = SurvivalWeight.ModifiedPeto
         End If
 
-        If NoGroups > 1 Then LRKM.WeightedLogRankTest(strMethod, alphaValue)
-        LRKM.BrookmeyerCrowleyMedianSurvivalCI(alphaValue) 'Median survival time and CI by group
-        If Me.ckCIoutput.Checked Then LRKM.SurvivalCurveTabularOutput(alphaValue)
-        If Me.ckBCtest.Checked And NoGroups > 1 Then LRKM.EqualityOfMedianTest()
-        If NoGroups = 2 Then
-            If Me.ckCSCatFTP.Checked Then LRKM.CompareCurveFixTimePoint()
-        End If
-
-        'wrap all computed results
-        Dim res = LRKM.wrapResults()
+        Dim intent = WindowsSurvivalWorkflowAdapter.Capture(data, colId, grpData, strataData,
+            Me.RefEdit3_GroupID.Address <> String.Empty, Me.RefEdit4_StrataID.Address <> String.Empty,
+            If(Me.Tag = HelpTopic.LogrankTest, SurvivalAnalysisMode.LogRank, SurvivalAnalysisMode.KaplanMeier),
+            New SurvivalOptions With {.Alpha = alphaValue, .Weight = weight, .DetailedTable = Me.ckCIoutput.Checked,
+                .EqualityOfMedians = Me.ckBCtest.Checked, .FixedTimeComparison = Me.ckCSCatFTP.Checked,
+                .OutputTarget = If(Me.optWorkbook.Checked, SurvivalOutputTarget.NewWorkbook,
+                    If(Me.optWorksheet.Checked, SurvivalOutputTarget.NewWorksheet, SurvivalOutputTarget.SelectedRange))})
+        Dim LRKM = intent.ExecuteAcquiredRecords(SurvD)
+        Dim report = SurvivalReportPolicy.Compose(intent, LRKM.wrapResults())
+        Dim res = report.LegacyTables()
 
         'Dump outputs
         WriteRes = GetResultWriter() 'pass just table from the main test output
@@ -149,7 +148,11 @@ Public Class Ui4KMandLogRank
         rr.writeToSheet(WriteRes, True)
 
         Dim strTitle = If(Me.ckDisplayTitle.Checked, Me.tbTitleText.Text, String.Empty)
-        LRKM.AddKMplot(WriteRes.ws, Me.ckPlotCI.Checked, Me.ckShowLegend.Checked, strTitle, Me.cbXunits.Text, alphaValue)
+        Dim plot = SurvivalReportPolicy.Plot(LRKM, alphaValue, New SurvivalOptions With {.Alpha = alphaValue,
+            .PlotConfidenceIntervals = Me.ckPlotCI.Checked, .ShowLegend = Me.ckShowLegend.Checked,
+            .DisplayTitle = Me.ckDisplayTitle.Checked, .Title = strTitle, .XUnits = Me.cbXunits.Text})
+        graphics.KaplanMeierPlotExcel.Plot(plot.ToCoreData(), WriteRes.ws, plot.Options.PlotConfidenceIntervals,
+            plot.Options.ShowLegend, strTitle, plot.Options.XUnits)
     End Sub
 
     Private Function getData(ByRef strErr As String) As DataObj

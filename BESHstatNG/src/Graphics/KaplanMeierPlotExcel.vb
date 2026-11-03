@@ -23,9 +23,15 @@ Namespace graphics
                                sXaxisUnit As String,
                                Optional alpha As Double = 0.05)
             If analysis Is Nothing Then Throw New ArgumentNullException(NameOf(analysis))
-            If ws Is Nothing Then Throw New ArgumentNullException(NameOf(ws))
+            Plot(analysis.GetKaplanMeierPlotData(alpha), ws, bPlotCI, bLegend, sTitle, sXaxisUnit)
+        End Sub
 
-            Dim plotData As survival.KaplanMeierPlotData = analysis.GetKaplanMeierPlotData(alpha)
+        ' Payload overload only. The shipping renderer below retains its original series
+        ' indexing, clipping, markers and native operations; Common performs no rendering.
+        Public Shared Sub Plot(plotData As survival.KaplanMeierPlotData,
+                               ws As Worksheet, bPlotCI As Boolean, bLegend As Boolean,
+                               sTitle As String, sXaxisUnit As String)
+            If ws Is Nothing Then Throw New ArgumentNullException(NameOf(ws))
             Dim noGroups As Integer = plotData.GroupLabels.Length
             Dim bCen As Boolean
             Dim cenProbability() As Double = Nothing

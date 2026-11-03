@@ -3,6 +3,38 @@
 **Includes:** Logrank, Tarone–Ware, Gehan–Breslow, Peto, Modified Peto (Andersen).  
 **Purpose:** Compare survival curves between groups using logrank-type tests (with several common weightings).
 
+## Office add-in availability
+
+Logrank is available through the Windows Excel-DNA dialog. No enabled Office add-in
+logrank screen is present; Excel Online and Mac desktop execution are not verified.
+The existing screenshots are historical Windows images, not new validation evidence.
+
+## Dialog and compatibility notes
+
+Select time, **0 = censored / 1 = event**, and a required Group ID; Strata ID is optional.
+The dialog uses the same KM workflow, adding stratified weighted testing when strata
+are supplied. Literal group/stratum labels retain case and first-seen order. The
+multi-area importer aligns physical worksheet rows and removes incomplete rows.
+The five selections map to Core names `Logrank`, `Tarone-Ware`, `Gehan-Breslow`, `Peto`
+and `modified Peto`. They retain the existing equations; similarly named R weights
+are not a guarantee of identical variance conventions.
+
+The Windows dialog always requests median survival/CI and offers detailed KM tables,
+equality of medians (multiple groups) and fixed-time comparison (exactly two groups).
+A single retained group suppresses the weighted and median-equality tests. Core also
+skips the weighted test when any group is entirely censored. A two-group fixed-time
+heading can still be written when its calculation is unchecked. Plot CI/legend default
+on; title display defaults off; X-axis units default to days. Alpha starts from the
+application preference, otherwise .05. The output destination options and table order
+are unchanged.
+
+Use exact binary status. Historical GUI rounding, UDF status truncation, UDF label
+trimming and the KM table UDF's case-insensitive group mapping are distinct legacy
+behaviors. New portable diagnostics do not change those Windows paths. KM plot-data
+limitations for no censoring or groups without censoring remain; see
+[Kaplan-Meier limitations](kaplan-meier-plot.md#input-and-output-compatibility-notes).
+
+
 ---
 
 ## Overview

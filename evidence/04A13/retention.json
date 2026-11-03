@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "historical_files": 189815,
+  "errors": [],
+  "method": "Complete initial path membership, size, creation/write ns, file identity; frozen source hashes. No claim of rereading all historical bytes.",
+  "disk_free_bytes": 529334722560,
+  "raw_receipt_sha256": "ccd320f3328febeb8e022cea35c33381a72ff80fcca7c8afa80372a4a84a099a",
+  "raw_alias": "LOCAL_RETENTION_ALIAS:final",
+  "command": [
+    "PYTHON_EXE",
+    "-B",
+    "scripts/verify-04a13.py",
+    "preserve",
+    "--evidence",
+    "TestResults/04A-13-20261103-run01",
+    "--name",
+    "final"
+  ],
+  "scope": "Complete pre-edit root TestResults membership/metadata plus frozen source/evidence hashes; nested closeout-only observation qualified separately. No cleanup/metadata edit/relocation/overwrite of any historical TestResults.",
+  "self_hash": "Public sanitized derivative has a new publication hash, not the private raw receipt hash."
+}

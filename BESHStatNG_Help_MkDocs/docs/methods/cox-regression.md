@@ -3,6 +3,46 @@
 **Includes:** Cox proportional hazards model, tie handling (Breslow, Efron, Exact), categorical factors, polynomial terms, continuous and categorical-factor interactions, user-selected hazard-ratio confidence level (default 95%), optional starting values for the optimizer, robust variance (optional), residuals + PH score test (optional), baseline + adjusted survival curves.  
 **Purpose:** Fit a proportional hazards model to time-to-event data and report hazard ratios with diagnostics.
 
+## Office add-in availability
+
+Cox regression is currently available through Windows Excel-DNA. The Office add-in
+has no enabled Cox analysis screen. Excel Online and Mac desktop operation are not
+verified. Screenshots below remain historical Windows images; no new native UI,
+workbook-placement or rendered-chart evidence was produced by the extraction.
+
+## Current workflow boundaries and limitations
+
+Use finite nonnegative time and exact **0 = censored / 1 = event** status. Only raw
+predictors needed by the selected effects are imported. The shared effect builder
+expands categorical factors with reference omission and interactions; supplied starts
+must match the **expanded** coefficient count. The dialog defaults to Breslow ties,
+50 iterations and epsilon `1e-6`; alpha starts from the application preference
+(otherwise .05). Efron and Exact retain their existing Core implementations.
+
+Stratification keeps separate baselines in Core's first-seen stratum order. The
+raw-matrix/UDF importer supports text strata, but the shipping GUI acquisition uses a
+different default character-column policy and can exclude nonnumeric strata. This
+existing discrepancy is retained pending input/native validation; numeric strata and
+worksheet-row alignment are not silently recoded. UDF array positions are not proof
+of original worksheet coordinates. Missing predictors exclude the complete row.
+
+The form creates a new workbook, then writes **Cox Regression**, **Adjusted Curves**
+and **Residuals** in that order. The residual sheet is created even when the optional
+full residual diagnostics are unchecked; Core supplies only the residual blocks it
+actually computed. The covariance option prints the selected model-based or robust
+matrix. PH tests and residual scaling retain Core's model-based conventions.
+**Residual Plots is disabled and has no functional wiring**; this option produces no
+residual graph. Exported residual tables can be plotted manually.
+
+Adjusted survival uses the first baseline stratum by default and
+`S0(t) ^ exp(sum(beta * covariate))`. Editable cells, Excel formulas/comments, changing
+the selected stratum/time axis and native chart series remain Windows operations.
+Portable curve payloads describe those inputs; they do not execute workbook formulas.
+A stratum with no events can trigger an existing Core baseline fault. Nonconvergence,
+singular/separated designs and undefined statistics must be reviewed as actual engine
+outcomes, not evidence of a successful fit or valid inference.
+
+
 ---
 
 ## Overview
@@ -91,7 +131,7 @@ Current limitations:
 
 - **Alpha**: significance level used for hazard-ratio confidence intervals in the coefficient table.  
   Default: **0.05** (95% confidence interval).
-- **Covariance Matrix of Parameters**: prints \(\widehat{\mathrm{Var}}(\hat\beta)\) (model-based; plus robust if selected).
+- **Covariance Matrix of Parameters**: prints the selected model-based or robust covariance matrix.
 - **Robust Variance**: additionally computes the Lin--Wei--Ying sandwich estimator and uses it for the coefficient table.
 - **Residuals**: outputs residual diagnostics to a separate worksheet.
 - **Tests for Proportional Hazard Assumption**: runs PH score tests based on scaled Schoenfeld residuals.
@@ -351,7 +391,7 @@ This is implemented directly in Excel as `BaselineSurvival ^ exp(b1*z1 + ... + b
 
 ## Residuals and influence diagnostics
 
-If **Residuals** is checked, BESHStatNG outputs a **Residuals** worksheet containing the original data plus these diagnostics.
+BESHStatNG always creates a **Residuals** worksheet containing aligned input data and the residual blocks Core computed. Checking **Residuals** requests the full diagnostics below.
 
 ### Residual output columns
 

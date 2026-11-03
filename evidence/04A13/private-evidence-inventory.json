@@ -1,0 +1,42 @@
+{
+  "items": [
+    {
+      "alias": "LOCAL_PRIVATE_ALIAS:baseline.json",
+      "role": "initial source hash map",
+      "bytes": 503297,
+      "sha256": "58ea82716f7a84c48936d94ac217b02ac45fdb3f6efa8cce3d3cba61dfdd09d5"
+    },
+    {
+      "alias": "LOCAL_PRIVATE_ALIAS:historical-metadata.json",
+      "role": "initial root membership/metadata",
+      "bytes": 60033527,
+      "sha256": "40337c2abc6783311d9c86bc517b45bc940e2ede53811b5afada6694d45b8632"
+    },
+    {
+      "alias": "LOCAL_PRIVATE_ALIAS:start.json",
+      "role": "protection authority and disk baseline",
+      "bytes": 159348,
+      "sha256": "38b00b87ab66ab305aa1488904f9fbcb79862578b80a1c2526b10d0be1954e02"
+    },
+    {
+      "alias": "LOCAL_PRIVATE_ALIAS:merged-python-scope.json",
+      "role": "exact tracked HEAD-byte Python baseline scope",
+      "bytes": 543,
+      "sha256": "959c2c1d997a4575d9ce9df5f252b6ef4d79ce41a6e3953d2c8effea38e40ee1"
+    },
+    {
+      "alias": "LOCAL_PRIVATE_ALIAS:nested-closeout-metadata.json",
+      "role": "closeout-only nested observation",
+      "bytes": 46506,
+      "sha256": "4ed10c700df6803d72f178d040928390f9be2a64ee4c7e060f3eab9adbc08687"
+    },
+    {
+      "alias": "LOCAL_PRIVATE_ALIAS:R-unqualified-attempt-01.csv",
+      "role": "unqualified exploratory reference; excluded from comparisons",
+      "bytes": 1543,
+      "sha256": "57c884bddd25393da8497f92d971bec1bb77d32992a38675e858a8767cdd78b1"
+    }
+  ],
+  "other_evidence": "Isolated assembly copies, raw stdout/TRX, execution-script diffs and command receipts remain under the ignored run directory. Raw historical proof/private ledger originals stay at their original locations. These aliases are not filesystem paths; a shared ZIP cannot verify excluded private originals.",
+  "native_executed": false
+}

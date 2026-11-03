@@ -1,0 +1,18 @@
+{
+  "status": "PASS_PUBLIC_CANDIDATE_SCAN",
+  "candidate_count": 189,
+  "scope": [
+    "Every proposed changed/new Git path and its UTF-8 content",
+    "JSON-decoded keys/values, escaped paths, Unicode NFKC and case variants",
+    "Decodable base64 table/capture payloads",
+    "Known current owner/home and host components from the local environment",
+    "Profile, home, AppData, drive and UNC paths; SIDs; keys/tokens/credential URLs; email/internal hosts/connection secrets"
+  ],
+  "unresolved": 0,
+  "public_false_positive_policy": "Public product-brand prose/comparison-fixture prefixes and unchanged shared Windows SDK tool paths manually reviewed; never whitelist complete owner/host identifiers. Existing public signing-certificate fingerprint is not a private key or credential; signing targets unchanged/unexecuted.",
+  "assurance": "Pattern scan plus targeted review, not proof of absence of all secrets. Private originals, mapping, raw TRX/logs, baseline.json and caches excluded.",
+  "reviewed_false_positive_groups": 1,
+  "reviewed_false_positive_categories": [
+    "inherited_public_windows_sdk_tool_path"
+  ]
+}

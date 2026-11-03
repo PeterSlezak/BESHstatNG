@@ -1,0 +1,2105 @@
+{
+  "authorities": {
+    "docs/architecture/WindowsMigrationLedger/04A01-approved-deferred-obligations.json": "363ae57510b613eef06faebba7bc7e4152b928e4d3bbad7c1f67eea589c56d10",
+    "docs/architecture/WindowsMigrationLedger/ui-controls.csv": "65001d9b0289942b75dae8e6451d9a892baff66f490f0dc14a65867ffb54dcbe",
+    "docs/architecture/04A02/04A02-final-amended-acceptance-PROPOSED.json": "8ba5614757a20cd9ca7d075529c058072a250e4ae97fc00d66228c9703e22307"
+  },
+  "forms": {
+    "Ui4KMandLogRank": {
+      "controls": 39,
+      "obligations": 6,
+      "restricted": 5,
+      "touched_source_controls": 18,
+      "without_original_obligation": [
+        "BESHStatNG.Ui4KMandLogRank.TabMultipage",
+        "BESHStatNG.Ui4KMandLogRank.TabPage1",
+        "BESHStatNG.Ui4KMandLogRank.TabPage_OptionsLogRank",
+        "BESHStatNG.Ui4KMandLogRank.grpLogRankWeights",
+        "BESHStatNG.Ui4KMandLogRank.optPeto",
+        "BESHStatNG.Ui4KMandLogRank.optTaroneWare",
+        "BESHStatNG.Ui4KMandLogRank.optGehanBreslow",
+        "BESHStatNG.Ui4KMandLogRank.optLogRank",
+        "BESHStatNG.Ui4KMandLogRank.TabPage_OptionsKM",
+        "BESHStatNG.Ui4KMandLogRank.grpChartOptions",
+        "BESHStatNG.Ui4KMandLogRank.grpKMOptions",
+        "BESHStatNG.Ui4KMandLogRank.btCompute",
+        "BESHStatNG.Ui4KMandLogRank.ckBCtest",
+        "BESHStatNG.Ui4KMandLogRank.ckCSCatFTP",
+        "BESHStatNG.Ui4KMandLogRank.ckCIoutput",
+        "BESHStatNG.Ui4KMandLogRank.ckPlotCI",
+        "BESHStatNG.Ui4KMandLogRank.ckDisplayTitle",
+        "BESHStatNG.Ui4KMandLogRank.ckShowLegend",
+        "BESHStatNG.Ui4KMandLogRank.cbXunits",
+        "BESHStatNG.Ui4KMandLogRank.lblXaxisUnit",
+        "BESHStatNG.Ui4KMandLogRank.tbTitleText",
+        "BESHStatNG.Ui4KMandLogRank.optModPeto",
+        "BESHStatNG.Ui4KMandLogRank.grpOutput",
+        "BESHStatNG.Ui4KMandLogRank.optWorkbook",
+        "BESHStatNG.Ui4KMandLogRank.optWorksheet",
+        "BESHStatNG.Ui4KMandLogRank.optOutputRange",
+        "BESHStatNG.Ui4KMandLogRank.lblStrata",
+        "BESHStatNG.Ui4KMandLogRank.lblGroup",
+        "BESHStatNG.Ui4KMandLogRank.lblCensor",
+        "BESHStatNG.Ui4KMandLogRank.lblTime",
+        "BESHStatNG.Ui4KMandLogRank.grpInput",
+        "BESHStatNG.Ui4KMandLogRank.spinBtnAlpha",
+        "BESHStatNG.Ui4KMandLogRank.lblAlpha"
+      ]
+    },
+    "Ui4Cox": {
+      "controls": 64,
+      "obligations": 6,
+      "restricted": 5,
+      "touched_source_controls": 17,
+      "without_original_obligation": [
+        "BESHStatNG.Ui4Cox.TabControl1",
+        "BESHStatNG.Ui4Cox.TabPage1",
+        "BESHStatNG.Ui4Cox.lbXs",
+        "BESHStatNG.Ui4Cox.lbStrata",
+        "BESHStatNG.Ui4Cox.lbCensoring",
+        "BESHStatNG.Ui4Cox.lbTime",
+        "BESHStatNG.Ui4Cox.cbSheetsList",
+        "BESHStatNG.Ui4Cox.btReload",
+        "BESHStatNG.Ui4Cox.btRemoveX",
+        "BESHStatNG.Ui4Cox.btAddX",
+        "BESHStatNG.Ui4Cox.btRemoveStrata",
+        "BESHStatNG.Ui4Cox.btAddStrata",
+        "BESHStatNG.Ui4Cox.lblNote",
+        "BESHStatNG.Ui4Cox.lblCensor",
+        "BESHStatNG.Ui4Cox.btRemoveCensoring",
+        "BESHStatNG.Ui4Cox.btAddCensorting",
+        "BESHStatNG.Ui4Cox.lblTime",
+        "BESHStatNG.Ui4Cox.btRemoveTime",
+        "BESHStatNG.Ui4Cox.btAddTime",
+        "BESHStatNG.Ui4Cox.lbAllColumns",
+        "BESHStatNG.Ui4Cox.lblAllColumns",
+        "BESHStatNG.Ui4Cox.lblStrata",
+        "BESHStatNG.Ui4Cox.lblX",
+        "BESHStatNG.Ui4Cox.TabPage2",
+        "BESHStatNG.Ui4Cox.btAddEffect",
+        "BESHStatNG.Ui4Cox.btClearAllSelectedEffects",
+        "BESHStatNG.Ui4Cox.tbRemoveSelectedEffects",
+        "BESHStatNG.Ui4Cox.tbInitValues",
+        "BESHStatNG.Ui4Cox.lblInitValues",
+        "BESHStatNG.Ui4Cox.lbSelectedEffectsList",
+        "BESHStatNG.Ui4Cox.lbSelectedVariables",
+        "BESHStatNG.Ui4Cox.lblSelectedEffectsList",
+        "BESHStatNG.Ui4Cox.lblSelectedVariables",
+        "BESHStatNG.Ui4Cox.TabPage3",
+        "BESHStatNG.Ui4Cox.grpTiesHandling",
+        "BESHStatNG.Ui4Cox.optEfron",
+        "BESHStatNG.Ui4Cox.optBreslow",
+        "BESHStatNG.Ui4Cox.grpIterOptions",
+        "BESHStatNG.Ui4Cox.ckIterationsDetails",
+        "BESHStatNG.Ui4Cox.ckTrace",
+        "BESHStatNG.Ui4Cox.lblMaxIter",
+        "BESHStatNG.Ui4Cox.lblEps",
+        "BESHStatNG.Ui4Cox.tbEps",
+        "BESHStatNG.Ui4Cox.spinBtnMaxIter",
+        "BESHStatNG.Ui4Cox.optExact",
+        "BESHStatNG.Ui4Cox.ckRobustVariance",
+        "BESHStatNG.Ui4Cox.ckCovarMatrix",
+        "BESHStatNG.Ui4Cox.grpResiduals",
+        "BESHStatNG.Ui4Cox.ckPHtest",
+        "BESHStatNG.Ui4Cox.ckAllResiduals",
+        "BESHStatNG.Ui4Cox.lblSelectedSheet",
+        "BESHStatNG.Ui4Cox.spinBtnAlpha",
+        "BESHStatNG.Ui4Cox.lblAlpha",
+        "BESHStatNG.Ui4Cox.btAddEffectCategoricalFactor",
+        "BESHStatNG.Ui4Cox.btnCustomInteraction",
+        "BESHStatNG.Ui4Cox.btn2Interactions",
+        "BESHStatNG.Ui4Cox.spinBtnPoly",
+        "BESHStatNG.Ui4Cox.btnPoly"
+      ]
+    }
+  },
+  "controls": [
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.TabMultipage",
+      "control_row_sha256": "20092616c2cf96ba9c00e7c6c4aae9d18c9a452fb4bca0e0298c37c4e87db6d9",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "571",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.TabPage1",
+      "control_row_sha256": "7cdacd3c5b1bad856d26988f215e116d57a7f555baa7b8fd30c8e38b271909f0",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "572",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.TabPage_OptionsLogRank",
+      "control_row_sha256": "53227a40cb6a14a5b9f4834bf96aa634565115bade94f214ad6199793500f869",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "573",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.grpLogRankWeights",
+      "control_row_sha256": "8d3b51c76a04321f178674dd7c6a86794e85c7c924d83ba5c57e200029eb0327",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "574",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.optPeto",
+      "control_row_sha256": "6e211045b913f3cc23354b8bad56c94b882f29148011aec1bd32909e3dadfe01",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "575",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.optTaroneWare",
+      "control_row_sha256": "0baf6e98ca5b9f4b9015e1e1a156dd88225ca0f96f39242f80877061a86755ea",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "576",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.optGehanBreslow",
+      "control_row_sha256": "591b69a9b5095856290ebdc1e5bca9a9da1482ea21030476d7a5fc695654a716",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "577",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.optLogRank",
+      "control_row_sha256": "0335ba69c3f031263c835d22bbe062eec4aefa824154c582d85cf7b689eb4af6",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "578",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.TabPage_OptionsKM",
+      "control_row_sha256": "adb4bd37def6c53d5a9969b693d7c4b64915891dbffe35ae4870088a2640f3df",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "579",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.grpChartOptions",
+      "control_row_sha256": "9af16460a3603559a7fc17e56bcd91464632c92c9f6f8bdb46049ead2d66fe79",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "580",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.grpKMOptions",
+      "control_row_sha256": "b57226680eebd40dbfddec008159e9cbffb71f8dc5c19faacb84fb2940259a77",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "581",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.btnHelp",
+      "control_row_sha256": "c002fc14082f5181852f185e089f72e507f4ba0e07f0f7b981de258fa1b55714",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "582",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": "control:BESHStatNG.Ui4KMandLogRank.btnHelp",
+      "obligation_row_sha256": "58583446ebbfa4c8abb0a4014dc2508531717195cffff4ebea2284eab5720f42",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "85ead33423c1a196fabdc21009a684ef07b95101db624f9e0496129d6fe342fe",
+      "original_control_sha256": "c002fc14082f5181852f185e089f72e507f4ba0e07f0f7b981de258fa1b55714",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "codebehind_source_sha256": "63422aae7d7410b12cf5628dbe9704a768d5864f0c416e0d0715aa6930a37916",
+        "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+        "designer_source_sha256": "27c442208e2f3516af077b4908cfee972e9117f36b037b2392645a59f207908c"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|d42a2e26162ce7b2@209:330"
+        },
+        {
+          "body_sha256": "5e66583252bd3a52b91abe06541304c9180716e0db488800b9d642799c6e1f71",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|1c52542b07fc440b@836:28164"
+        },
+        {
+          "body_sha256": "802fd607fb6108a0eb9b459525aebc72cb62e931dd3f2e0f8204ef4c41ef7c5f",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|ConstructorBlock|07ef0539f984a935@176:1182"
+        }
+      ],
+      "owner_roles": [
+        "Windows Help/locale policy maintainer; KM/log-rank survival dialog owner"
+      ],
+      "dependent_batches": [
+        "04A.44",
+        "04A.46",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4KMandLogRank-btnHelp-help: For each documented Tag/title and locale, resolve the existing Help route; focused/closed/busy form cases; approve host Help opening separately; do not include Help state as native-verified numerical golden; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.btCompute",
+      "control_row_sha256": "d596a2756d592e20ccc7209b27692b51b1826b2c2412da9cdea4f0847f88e999",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "583",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.ckBCtest",
+      "control_row_sha256": "9ff980070623f0835acfedbf3371c32891913bde173080bb88239c7e9d0527bf",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "584",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.ckCSCatFTP",
+      "control_row_sha256": "13cd9db06e7638b557f2933dd86fadcd46b31084cb22d782a153f929836ae8aa",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "585",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.ckCIoutput",
+      "control_row_sha256": "8206885c9a9d620b7cc96baa4c0759ea20e7631145f6efc3c36b8ee2aaf9ab72",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "586",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.ckPlotCI",
+      "control_row_sha256": "0c88b0f14ce0be0867d1f54f3f6d2dbe382714344cc0bf7a15fcd33a44660de9",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "587",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.ckDisplayTitle",
+      "control_row_sha256": "669f125d479b6176c90682c0e6cc4402e2b1ee33517e1b69b996ba27e737e054",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "588",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.ckShowLegend",
+      "control_row_sha256": "0b04bfeb8f88d3dc61a2009c45117a811fb909dea7b2207dac1ef3323fdf3c3b",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "589",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.cbXunits",
+      "control_row_sha256": "9ed963efab0025e4d1c23fa3785cbb3e1526296dd87f9c6c8751fdd4ec4df9f9",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "590",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.lblXaxisUnit",
+      "control_row_sha256": "93a21e394e68056833457b58e1f41b9448b07dfbdc04a54081d8165fbbe7b887",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "591",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.tbTitleText",
+      "control_row_sha256": "cbccc2cdb7f1a0bd357fa2e45af437abcfcdc83d8bb508e6af70575e283c1fe6",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "592",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.optModPeto",
+      "control_row_sha256": "1fd3e41150cbae341508c55a345e2f09af9faa13f52656bd7c206e9fad0747fc",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "593",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.grpOutput",
+      "control_row_sha256": "577b861f7ca2906adfdab3ef8b62c8c13eefedfeeb22314b4560749a4bf15c39",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "594",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.RefEditOutput",
+      "control_row_sha256": "66051f260ce4b1297e71ededdc54b122f0e80f735f733b99f3516044b75c0d64",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "595",
+      "original_restricted": true,
+      "source_associated_changed_methods": [],
+      "obligation_id": "control:BESHStatNG.Ui4KMandLogRank.RefEditOutput",
+      "obligation_row_sha256": "bcbfef78f1d0b94f72c01b1c5b5eb03e391c57c45f66906dbea1261b33220ea6",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "8af1e61eaea592be426532679c81a7eed99f20e544d25cf406f66a53f189361f",
+      "original_control_sha256": "66051f260ce4b1297e71ededdc54b122f0e80f735f733b99f3516044b75c0d64",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "codebehind_source_sha256": "63422aae7d7410b12cf5628dbe9704a768d5864f0c416e0d0715aa6930a37916",
+        "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+        "designer_source_sha256": "27c442208e2f3516af077b4908cfee972e9117f36b037b2392645a59f207908c"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|d42a2e26162ce7b2@209:330"
+        },
+        {
+          "body_sha256": "5e66583252bd3a52b91abe06541304c9180716e0db488800b9d642799c6e1f71",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|1c52542b07fc440b@836:28164"
+        },
+        {
+          "body_sha256": "802fd607fb6108a0eb9b459525aebc72cb62e931dd3f2e0f8204ef4c41ef7c5f",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|ConstructorBlock|07ef0539f984a935@176:1182"
+        },
+        {
+          "body_sha256": "1f6ff6d76b234e1053d9dc0d6bd0b0b252175d772196f1cda8a5ace5912ade24",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|3a03e469a2e17fc7@8207:1626"
+        },
+        {
+          "body_sha256": "5c326ef67f21da265ed0a8798f3e33d3e7e1cb8d15b8d47d36a0811671c6df70",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|d49945440f939b88@9839:862"
+        },
+        {
+          "body_sha256": "57dfa310cf690c6fa549f5da65e509a2a052f5b1233fae1ad4d551a6295a6b01",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|e8c9e2a486ce7dfa@10707:199"
+        },
+        {
+          "body_sha256": "627622d7c7ae7fcce7a2bc1f55873ff977d843b5ed7b28f910c6b0e5d55c2525",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|40e99feb8341c518@10912:151"
+        },
+        {
+          "body_sha256": "19f8dd50496e4c910a06d2d184c5409886faf94114bf7502adb40e4252300d68",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|085d0fa16f639a67@11069:149"
+        }
+      ],
+      "owner_roles": [
+        "Windows RefEdit/COM lifetime maintainer; Common source/target identity policy owner; KM/log-rank survival integration maintainer"
+      ],
+      "dependent_batches": [
+        "04A.28",
+        "04A.46",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4KMandLogRank-RefEditOutput-refedit-output: Three destinations with retained RefEdit text; two books same sheet names; occupied/formula cells, overwrite refusal, native creation/write failure, deleted target and retry; inspect every retained cell/destination; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.optWorkbook",
+      "control_row_sha256": "4bb1743154ad5d20fba2d79c4cc0063e87a8d6b99e2d8d7876b5c097ab3b9680",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "596",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.optWorksheet",
+      "control_row_sha256": "faac8e7051a76c890022cff7bb02029169eace562403b41664bf0f17431ef988",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "597",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.optOutputRange",
+      "control_row_sha256": "c5b45479eeaa316c16f23986c3be82d9eada8d3605a0541913ac81ad829b8f0a",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "598",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.RefEdit1_SurvivalTime",
+      "control_row_sha256": "152df0ec218a74b7da0068c12082650184b3efb09d39d23b1d3398e5cfdf14e8",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "599",
+      "original_restricted": true,
+      "source_associated_changed_methods": [],
+      "obligation_id": "control:BESHStatNG.Ui4KMandLogRank.RefEdit1_SurvivalTime",
+      "obligation_row_sha256": "aa13c4c9bdc858ea44e65991ce71456ca533c0deb8077119b0a8cf0609c8b9a6",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "25ed414bb715441de4e8b5b37e8ed30cd5fa8625e8f1691ef37e89f5e0b376a9",
+      "original_control_sha256": "152df0ec218a74b7da0068c12082650184b3efb09d39d23b1d3398e5cfdf14e8",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "codebehind_source_sha256": "63422aae7d7410b12cf5628dbe9704a768d5864f0c416e0d0715aa6930a37916",
+        "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+        "designer_source_sha256": "27c442208e2f3516af077b4908cfee972e9117f36b037b2392645a59f207908c"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|d42a2e26162ce7b2@209:330"
+        },
+        {
+          "body_sha256": "5e66583252bd3a52b91abe06541304c9180716e0db488800b9d642799c6e1f71",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|1c52542b07fc440b@836:28164"
+        },
+        {
+          "body_sha256": "802fd607fb6108a0eb9b459525aebc72cb62e931dd3f2e0f8204ef4c41ef7c5f",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|ConstructorBlock|07ef0539f984a935@176:1182"
+        },
+        {
+          "body_sha256": "90dc1ae8ac024448339322777e1818f348eab65a97018670767c83bc849e8d39",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|f61182b55af4992f@6019:2182"
+        },
+        {
+          "body_sha256": "1f6ff6d76b234e1053d9dc0d6bd0b0b252175d772196f1cda8a5ace5912ade24",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|3a03e469a2e17fc7@8207:1626"
+        }
+      ],
+      "owner_roles": [
+        "Windows RefEdit/COM lifetime maintainer; Common source/target identity policy owner; KM/log-rank survival integration maintainer"
+      ],
+      "dependent_batches": [
+        "04A.27",
+        "04A.46",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4KMandLogRank-RefEdit1_SurvivalTime-refedit-input: Two synthetic books with identical sheet names; bind each address to explicit book/sheet identity; blank/header/error/offset-row cases; rename/delete/switch/close, repeated Enter/Leave and disposed queued updates; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.RefEdit2_Censor",
+      "control_row_sha256": "839b2f4257b06f1ca532a7ac083fb30e5ea8c71367dd20a5dc42233367ebefc8",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "600",
+      "original_restricted": true,
+      "source_associated_changed_methods": [],
+      "obligation_id": "control:BESHStatNG.Ui4KMandLogRank.RefEdit2_Censor",
+      "obligation_row_sha256": "ecc9f507fa0cf777e224998eea3ff4a1888bdbf500efde0acabd312c602e0e29",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "3cb643cf86383a2b55b3771ad740a572496965afed0727dc0d5c694ab7e636e5",
+      "original_control_sha256": "839b2f4257b06f1ca532a7ac083fb30e5ea8c71367dd20a5dc42233367ebefc8",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "codebehind_source_sha256": "63422aae7d7410b12cf5628dbe9704a768d5864f0c416e0d0715aa6930a37916",
+        "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+        "designer_source_sha256": "27c442208e2f3516af077b4908cfee972e9117f36b037b2392645a59f207908c"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|d42a2e26162ce7b2@209:330"
+        },
+        {
+          "body_sha256": "5e66583252bd3a52b91abe06541304c9180716e0db488800b9d642799c6e1f71",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|1c52542b07fc440b@836:28164"
+        },
+        {
+          "body_sha256": "802fd607fb6108a0eb9b459525aebc72cb62e931dd3f2e0f8204ef4c41ef7c5f",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|ConstructorBlock|07ef0539f984a935@176:1182"
+        },
+        {
+          "body_sha256": "90dc1ae8ac024448339322777e1818f348eab65a97018670767c83bc849e8d39",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|f61182b55af4992f@6019:2182"
+        },
+        {
+          "body_sha256": "1f6ff6d76b234e1053d9dc0d6bd0b0b252175d772196f1cda8a5ace5912ade24",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|3a03e469a2e17fc7@8207:1626"
+        }
+      ],
+      "owner_roles": [
+        "Windows RefEdit/COM lifetime maintainer; Common source/target identity policy owner; KM/log-rank survival integration maintainer"
+      ],
+      "dependent_batches": [
+        "04A.27",
+        "04A.46",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4KMandLogRank-RefEdit2_Censor-refedit-input: Two synthetic books with identical sheet names; bind each address to explicit book/sheet identity; blank/header/error/offset-row cases; rename/delete/switch/close, repeated Enter/Leave and disposed queued updates; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.RefEdit3_GroupID",
+      "control_row_sha256": "97bf7ad98c2676cf1264cb0ba4859a8ee8ffd5a185c478aabd4a735c0568c21b",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "601",
+      "original_restricted": true,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": "control:BESHStatNG.Ui4KMandLogRank.RefEdit3_GroupID",
+      "obligation_row_sha256": "8dc61b8c5e3bfa3c0cd4cfb9215dce803de8c16d8fd9be2c3378c7c562679966",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "9662008869f87f6325a90ebc85a2001699826800fda01756eaf4143ba53fa742",
+      "original_control_sha256": "97bf7ad98c2676cf1264cb0ba4859a8ee8ffd5a185c478aabd4a735c0568c21b",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "codebehind_source_sha256": "63422aae7d7410b12cf5628dbe9704a768d5864f0c416e0d0715aa6930a37916",
+        "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+        "designer_source_sha256": "27c442208e2f3516af077b4908cfee972e9117f36b037b2392645a59f207908c"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|d42a2e26162ce7b2@209:330"
+        },
+        {
+          "body_sha256": "5e66583252bd3a52b91abe06541304c9180716e0db488800b9d642799c6e1f71",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|1c52542b07fc440b@836:28164"
+        },
+        {
+          "body_sha256": "802fd607fb6108a0eb9b459525aebc72cb62e931dd3f2e0f8204ef4c41ef7c5f",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|ConstructorBlock|07ef0539f984a935@176:1182"
+        },
+        {
+          "body_sha256": "07d8fd011f71ba753d8a3d5f75423760160a57b41a0681cebb934c9785f2ca18",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|42454c73bb42c295@2472:3541"
+        },
+        {
+          "body_sha256": "90dc1ae8ac024448339322777e1818f348eab65a97018670767c83bc849e8d39",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|f61182b55af4992f@6019:2182"
+        },
+        {
+          "body_sha256": "1f6ff6d76b234e1053d9dc0d6bd0b0b252175d772196f1cda8a5ace5912ade24",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|3a03e469a2e17fc7@8207:1626"
+        }
+      ],
+      "owner_roles": [
+        "Windows RefEdit/COM lifetime maintainer; Common source/target identity policy owner; KM/log-rank survival integration maintainer"
+      ],
+      "dependent_batches": [
+        "04A.27",
+        "04A.46",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4KMandLogRank-RefEdit3_GroupID-refedit-input: Two synthetic books with identical sheet names; bind each address to explicit book/sheet identity; blank/header/error/offset-row cases; rename/delete/switch/close, repeated Enter/Leave and disposed queued updates; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.RefEdit4_StrataID",
+      "control_row_sha256": "8512f6d3d59ccc95dff908ca48b1090ec430951c4e640fdbd5600f0c2973566c",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "602",
+      "original_restricted": true,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": "control:BESHStatNG.Ui4KMandLogRank.RefEdit4_StrataID",
+      "obligation_row_sha256": "8abe511927e7d0ada8a06de8307af7ba40b717b051d0e5d548ae391a9f754edb",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "74f1333fa99ce5645673633124f3cf5dbead84f060d5bed7310cc13b2b94afd1",
+      "original_control_sha256": "8512f6d3d59ccc95dff908ca48b1090ec430951c4e640fdbd5600f0c2973566c",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4KMandLogRank.vb",
+        "codebehind_source_sha256": "63422aae7d7410b12cf5628dbe9704a768d5864f0c416e0d0715aa6930a37916",
+        "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+        "designer_source_sha256": "27c442208e2f3516af077b4908cfee972e9117f36b037b2392645a59f207908c"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|d42a2e26162ce7b2@209:330"
+        },
+        {
+          "body_sha256": "5e66583252bd3a52b91abe06541304c9180716e0db488800b9d642799c6e1f71",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|1c52542b07fc440b@836:28164"
+        },
+        {
+          "body_sha256": "802fd607fb6108a0eb9b459525aebc72cb62e931dd3f2e0f8204ef4c41ef7c5f",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|ConstructorBlock|07ef0539f984a935@176:1182"
+        },
+        {
+          "body_sha256": "07d8fd011f71ba753d8a3d5f75423760160a57b41a0681cebb934c9785f2ca18",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|SubBlock|42454c73bb42c295@2472:3541"
+        },
+        {
+          "body_sha256": "90dc1ae8ac024448339322777e1818f348eab65a97018670767c83bc849e8d39",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|f61182b55af4992f@6019:2182"
+        },
+        {
+          "body_sha256": "1f6ff6d76b234e1053d9dc0d6bd0b0b252175d772196f1cda8a5ace5912ade24",
+          "symbol_id": "BESHstatNG/src/UI/Ui4KMandLogRank.vb|BESHStatNG.Ui4KMandLogRank|FunctionBlock|3a03e469a2e17fc7@8207:1626"
+        }
+      ],
+      "owner_roles": [
+        "Windows RefEdit/COM lifetime maintainer; Common source/target identity policy owner; KM/log-rank survival integration maintainer"
+      ],
+      "dependent_batches": [
+        "04A.27",
+        "04A.46",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4KMandLogRank-RefEdit4_StrataID-refedit-input: Two synthetic books with identical sheet names; bind each address to explicit book/sheet identity; blank/header/error/offset-row cases; rename/delete/switch/close, repeated Enter/Leave and disposed queued updates; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.lblStrata",
+      "control_row_sha256": "a26a3c3b7b460764078452e0f3e070bff08660c1d84f5647bdb39edd5680bd68",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "603",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.lblGroup",
+      "control_row_sha256": "b5bb12b71271553b82496f034d5e456a43a5d44223cdd67e4a568859b0dfcd54",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "604",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.lblCensor",
+      "control_row_sha256": "6ae68ebb2d671e528b22822cad94cf1e80251aa0978e641ebf4acc11f1e5252a",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "605",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.lblTime",
+      "control_row_sha256": "bdc58d41a495dcce78b38c1cd8a5270306fd20207c084be0a5ac8905139e0430",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "606",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.grpInput",
+      "control_row_sha256": "c3afa0181e7b51a6082b5ae67e4558ff4eb32d4384c51a25beaf41a704109f58",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "607",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.spinBtnAlpha",
+      "control_row_sha256": "4c829c9f1dca4ca818cbcfc32ae314e5213cd1912b9e6efbbc4fac3f646b6751",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "608",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "RunKM"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4KMandLogRank.lblAlpha",
+      "control_row_sha256": "a827ad1942fd499b0dc7cc50e038d5ca2f5ff85db0bbef7f6e2a6e29c77ff015",
+      "declaration_path": "BESHstatNG/src/UI/Ui4KMandLogRank.Designer.vb",
+      "declaration_line": "609",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.TabControl1",
+      "control_row_sha256": "140a855b473dc53b6ea5e1983fe647bddc6635a39bdba7d55dec1afb5ee5b7ea",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "820",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.TabPage1",
+      "control_row_sha256": "a6fecf6a41270d6a8249101c143160812711cbb718261a5de16d9fc805b9ceba",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "821",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lbXs",
+      "control_row_sha256": "f2013da8569fbe23fcb446363d5bdac1801447fe4b1c65a84d19878fd75f7843",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "822",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lbStrata",
+      "control_row_sha256": "2f3d0757f2d87bc19e83ae2344d6d4ee62b0aacc929a95a949a339cf4ac231cf",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "823",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lbCensoring",
+      "control_row_sha256": "1a057bb0f47a2e88921ac8ed859c337289aa52b89405f1cc86a5de3f846fa8a6",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "824",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lbTime",
+      "control_row_sha256": "c6bfbf463329a430d4d8e3cc806b85db22052d61c6d8e020cd4206d580be9cef",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "825",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.cbSheetsList",
+      "control_row_sha256": "a2967d9d6286bb57654a08a8453ceccaba012bd5e58ff9ff17df3129f6b36a0a",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "826",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btReload",
+      "control_row_sha256": "dbe0354fc3229f59a999a3a3641920c559fbe7f273b218fe9a0b9fac8652ee53",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "827",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btRemoveX",
+      "control_row_sha256": "26a6004c3398f2d9e9ff83e52c9b9d2649bdaa139d8ecf1d34638e6440e5ba44",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "828",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btAddX",
+      "control_row_sha256": "7fee9100425976be80fb4cd6e0fcca2fefc774076c0c046332fec6d25d13c1ea",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "829",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btRemoveStrata",
+      "control_row_sha256": "ba0eb777a776521a8dcfc23ba40603d39020abed83d7c6adcc06e096b37a7200",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "830",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btAddStrata",
+      "control_row_sha256": "dba91be24c9a827c1599f9634d128a7d45def0d7eb3d4a2cd42dac45d295e695",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "831",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblNote",
+      "control_row_sha256": "547a0136b4066efe59666abfb60596e6968e01c576341a3b4072bad5a015e7f7",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "832",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblCensor",
+      "control_row_sha256": "8970ec6a158ff499967dfabff52b164b93af97e82a6c72187fa67126b906469c",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "833",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btRemoveCensoring",
+      "control_row_sha256": "cb6e4bcebbcfe21365b262b74286ec7f92327a8dc1eeac3af4dcc58dc4d9513e",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "834",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btAddCensorting",
+      "control_row_sha256": "efb4ff8857bddff53ef0a41628601fe5fb0dcdab8ab3df102b098376da5b6fd6",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "835",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblTime",
+      "control_row_sha256": "bacd61d7859dfe7b7b054e6e70a25d9f170decfb2670070074db898fc5fefaaf",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "836",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btRemoveTime",
+      "control_row_sha256": "c5ba73f716a601379ed3a1058af74a6500db977e7839313cfe527f48203f2aae",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "837",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btAddTime",
+      "control_row_sha256": "b2675d080b6f10f6c7043a13b0f32b0668e9181d67f009e1c91e7b1b660053b1",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "838",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lbAllColumns",
+      "control_row_sha256": "f3551ef72b8587a6bb1716c952ea5ac42429ebde01d5e8cd7e74d0c49392a307",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "839",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblAllColumns",
+      "control_row_sha256": "50c4f72207b8cbd2151cb35964456d41f6e4a2872c847dd3c84b1e923d3ac5e8",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "840",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblStrata",
+      "control_row_sha256": "3c29bfee08457127ec68b6c1f4b55361b43eb29822d6914a45c6bd73308177ac",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "841",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblX",
+      "control_row_sha256": "88cc82a4b020ca545964783a146e98640d96890b95062ead798275a1c282ab44",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "842",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.TabPage2",
+      "control_row_sha256": "bbb199ad669bcad927a5d2d9e0fd50680c56de09a8e2826f65b22bfc395680d9",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "843",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btAddEffect",
+      "control_row_sha256": "d21bfad9066e8280dbabf04d52eabd4a98cb9b5007956a346bba5cf8c6a67b62",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "844",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btClearAllSelectedEffects",
+      "control_row_sha256": "4df62ba6f10b229679967315a4c42633966819fe9a4c55e8faee162c0303a91b",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "845",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.tbRemoveSelectedEffects",
+      "control_row_sha256": "580b0f0a079423cd30e1f874dd24c2f72d2edd724e3dd6a336e5a1f35e11d55e",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "846",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.tbInitValues",
+      "control_row_sha256": "65d20761c87a5cf2be1521ec19d1d1d84027aaafe30d935e9c536a97a12858f6",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "847",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "ValidateExpandedInitialValuesCount",
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblInitValues",
+      "control_row_sha256": "b32037fac0402741bccb522d64daec5d4db20cb9a30d42e65b88cedf61bd3acd",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "848",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lbSelectedEffectsList",
+      "control_row_sha256": "f79a761e614c41f1cbdd0aa8053d6afe17c159701c68d2d08b12508ce710bd8c",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "849",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "BuildExpandedCoxInputs",
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lbSelectedVariables",
+      "control_row_sha256": "ecbd15d5b0a8e0db4a0c305c5c0fea828667bda7143a30a4a729c379030624f3",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "850",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblSelectedEffectsList",
+      "control_row_sha256": "da45f353c893258f2ff6c8e1776b05143d4d6b8e6c355546849bb99b13990064",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "851",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblSelectedVariables",
+      "control_row_sha256": "a312ede9b19b82bc7acef7bf49abd52ab72a54f0a99e0208ffa06ac053e5982c",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "852",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.TabPage3",
+      "control_row_sha256": "458480720ac0d241d42862fed3fb83dbc9a0f533090f46f2a0bea351844b476b",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "853",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.grpTiesHandling",
+      "control_row_sha256": "30597dd66cf0e83e6e2b0d83ffe07b646b1eea5f9850a8d73493c08a0d00e107",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "854",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.optEfron",
+      "control_row_sha256": "1c733a534227bbcf00c33a1b66e423dd532d681ea801dfbef27a05535d910d1c",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "855",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.optBreslow",
+      "control_row_sha256": "b710dcdf1173bd7ef3266761120c3611e4376c15d5d73449a9d8329373e517d1",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "856",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.grpIterOptions",
+      "control_row_sha256": "3f4ebe7267af11e20dae65cc9a6960708b3e410d7cab00e710223d86f4ed57b5",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "857",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.ckIterationsDetails",
+      "control_row_sha256": "c0de6af8c16c2fed7fa5f7a10b26d975d9a3c8ecaebbf19e49bd795f89910660",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "858",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.ckTrace",
+      "control_row_sha256": "7c592c1cc99bb1ecd521b014a7b4145818c42877e0a7abe9d7da21a997b567ad",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "859",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblMaxIter",
+      "control_row_sha256": "a42e1bd2f632268cb4e89cd6eb1402a7b342bafa49876408e594a57033b4cf80",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "860",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblEps",
+      "control_row_sha256": "6420632315c96a8d25fd84dcabc9e7be3d1019ee9c4ec8d465d51b72c6cad2e0",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "861",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.tbEps",
+      "control_row_sha256": "c416c72cbd7d29c9fd538976d06c915eaba854fbc701f60bf18a7036e0f88afa",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "862",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblProgress",
+      "control_row_sha256": "5623a79b63366db2b5d68a73c377a930b4125e5761858ef6971b36f6d941f5ad",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "863",
+      "original_restricted": true,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": "control:BESHStatNG.Ui4Cox.lblProgress",
+      "obligation_row_sha256": "a06fee200cb7e4e3d8bda1d52b9ed55eae714b4f0bd738b985629bd776172b67",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "1c9d677737bda61ae2a4b426472ec5e3fa91addab7bedd8e3bb3acac6447a2f7",
+      "original_control_sha256": "5623a79b63366db2b5d68a73c377a930b4125e5761858ef6971b36f6d941f5ad",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "codebehind_source_sha256": "69889949268e29a3a663d915e4f54f65b70ba77d7b51f0f3d14d94e4c3fc5d48",
+        "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+        "designer_source_sha256": "bef4039467e46293f83dd4e4c195976fc4a0167713d527bd169c7ff8394a8b90"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|d42a2e26162ce7b2@200:330"
+        },
+        {
+          "body_sha256": "ecb24dd0362ff694a17582443f5f8c5c5713f73ea3b8b9e45573a2ff22b22e97",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|1c52542b07fc440b@827:38781"
+        },
+        {
+          "body_sha256": "56595839f17f2632e04afb69fc5d1d78340a32d9fae75e328e8deedc5b495523",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|ConstructorBlock|908132648b8ca868@848:4606"
+        },
+        {
+          "body_sha256": "91a48a717a871896d21d724be60a779879a957f6572f15d6e1ed0cdf991725bb",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|168f17be4f94418d@5462:9964"
+        },
+        {
+          "body_sha256": "d2b9a2613d0d45034d3e1cbc8c2feb7dcd049d881bad4711aaee8a3b1ad4a256",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|441ad868136b2296@18161:617"
+        },
+        {
+          "body_sha256": "c3a9f4ff0399a5e6ffc8b0c2fd5dc8eff73268fad0f5e71440acff98cb03530f",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|c9b07d71e0af90b1@18786:741"
+        },
+        {
+          "body_sha256": "f768daf69038d4b3c0653c63cf6d0b05b2c36dc8b3e36ff660425510f89a63bf",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|1c943c61ba1df64e@19841:375"
+        },
+        {
+          "body_sha256": "68ae30c7af42de8a659fefe87ac9d696bb27ab1eb531c7790dfba101e899dd6a",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|886299a9be2a5fb4@32650:455"
+        },
+        {
+          "body_sha256": "6fd8f391b55760bfba10894fcc7d9e4e11a8c981e79a7d7ebce0364be5f93803",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|3d08b08f8f285a66@33113:631"
+        }
+      ],
+      "owner_roles": [
+        "Core Cox callback owner; Common survival request policy; Windows Cox lifecycle maintainers"
+      ],
+      "dependent_batches": [
+        "04A.47",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4Cox-lblProgress-execution: Interleave compute/interrupt/cancel/close/retry; two modeless instances where global callbacks exist; observer throws; dispose before callback; failure before/after write; distinguish cancelled, failed and completed output; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btnHelp",
+      "control_row_sha256": "5838426d2609fdfef1c5e3910e9eb07be78870e24b85448f6deebc3d401baa12",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "864",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": "control:BESHStatNG.Ui4Cox.btnHelp",
+      "obligation_row_sha256": "405b98f9f4cc6359b872b1ede18e32b849b93c712a44edf73578a47edd290758",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "5f45a7d0c5b9a053e07ef7dd9c771dfa6abb2c3b442f11c1f3f7178b75fbf417",
+      "original_control_sha256": "5838426d2609fdfef1c5e3910e9eb07be78870e24b85448f6deebc3d401baa12",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "codebehind_source_sha256": "69889949268e29a3a663d915e4f54f65b70ba77d7b51f0f3d14d94e4c3fc5d48",
+        "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+        "designer_source_sha256": "bef4039467e46293f83dd4e4c195976fc4a0167713d527bd169c7ff8394a8b90"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|d42a2e26162ce7b2@200:330"
+        },
+        {
+          "body_sha256": "ecb24dd0362ff694a17582443f5f8c5c5713f73ea3b8b9e45573a2ff22b22e97",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|1c52542b07fc440b@827:38781"
+        },
+        {
+          "body_sha256": "56595839f17f2632e04afb69fc5d1d78340a32d9fae75e328e8deedc5b495523",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|ConstructorBlock|908132648b8ca868@848:4606"
+        }
+      ],
+      "owner_roles": [
+        "Windows Help/locale policy maintainer; Cox dialog owner"
+      ],
+      "dependent_batches": [
+        "04A.44",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4Cox-btnHelp-help: For each documented Tag/title and locale, resolve the existing Help route; focused/closed/busy form cases; approve host Help opening separately; do not include Help state as native-verified numerical golden; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btCalculate",
+      "control_row_sha256": "47e29b6cefc9edc51d61942eda2919eac0e9c77241716b461fd71d9eea737adc",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "865",
+      "original_restricted": true,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": "control:BESHStatNG.Ui4Cox.btCalculate",
+      "obligation_row_sha256": "445517ea67905efffd76130ad6996f9a2731f44306e338a74fdd1cf94c49bd6b",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "e0f3f6a4e8f1ccff1fbb610645865fc02374654898a05e7e49282fd22997ac2e",
+      "original_control_sha256": "47e29b6cefc9edc51d61942eda2919eac0e9c77241716b461fd71d9eea737adc",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "codebehind_source_sha256": "69889949268e29a3a663d915e4f54f65b70ba77d7b51f0f3d14d94e4c3fc5d48",
+        "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+        "designer_source_sha256": "bef4039467e46293f83dd4e4c195976fc4a0167713d527bd169c7ff8394a8b90"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|d42a2e26162ce7b2@200:330"
+        },
+        {
+          "body_sha256": "ecb24dd0362ff694a17582443f5f8c5c5713f73ea3b8b9e45573a2ff22b22e97",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|1c52542b07fc440b@827:38781"
+        },
+        {
+          "body_sha256": "56595839f17f2632e04afb69fc5d1d78340a32d9fae75e328e8deedc5b495523",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|ConstructorBlock|908132648b8ca868@848:4606"
+        },
+        {
+          "body_sha256": "91a48a717a871896d21d724be60a779879a957f6572f15d6e1ed0cdf991725bb",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|168f17be4f94418d@5462:9964"
+        },
+        {
+          "body_sha256": "d2b9a2613d0d45034d3e1cbc8c2feb7dcd049d881bad4711aaee8a3b1ad4a256",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|441ad868136b2296@18161:617"
+        },
+        {
+          "body_sha256": "c3a9f4ff0399a5e6ffc8b0c2fd5dc8eff73268fad0f5e71440acff98cb03530f",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|c9b07d71e0af90b1@18786:741"
+        },
+        {
+          "body_sha256": "f768daf69038d4b3c0653c63cf6d0b05b2c36dc8b3e36ff660425510f89a63bf",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|1c943c61ba1df64e@19841:375"
+        },
+        {
+          "body_sha256": "6fd8f391b55760bfba10894fcc7d9e4e11a8c981e79a7d7ebce0364be5f93803",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|3d08b08f8f285a66@33113:631"
+        }
+      ],
+      "owner_roles": [
+        "Core Cox callback owner; Common survival request policy; Windows Cox lifecycle maintainers"
+      ],
+      "dependent_batches": [
+        "04A.47",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4Cox-btCalculate-execution: Interleave compute/interrupt/cancel/close/retry; two modeless instances where global callbacks exist; observer throws; dispose before callback; failure before/after write; distinguish cancelled, failed and completed output; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.ProgressBar1",
+      "control_row_sha256": "dca31a24e7eeb9133e57ce37bdd2af3c95e34ed0f19c3177d0ffc5c1cdb07785",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "866",
+      "original_restricted": true,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": "control:BESHStatNG.Ui4Cox.ProgressBar1",
+      "obligation_row_sha256": "0dd554f581652c8d1406e31b253033a478b9688b061d2a8dbee5cd7f4ac96602",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "4f687e14958ccc6ec4be4b4cca0d4506ed3d5b5ea38e3206e93a65ce575d0c05",
+      "original_control_sha256": "dca31a24e7eeb9133e57ce37bdd2af3c95e34ed0f19c3177d0ffc5c1cdb07785",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "codebehind_source_sha256": "69889949268e29a3a663d915e4f54f65b70ba77d7b51f0f3d14d94e4c3fc5d48",
+        "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+        "designer_source_sha256": "bef4039467e46293f83dd4e4c195976fc4a0167713d527bd169c7ff8394a8b90"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|d42a2e26162ce7b2@200:330"
+        },
+        {
+          "body_sha256": "ecb24dd0362ff694a17582443f5f8c5c5713f73ea3b8b9e45573a2ff22b22e97",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|1c52542b07fc440b@827:38781"
+        },
+        {
+          "body_sha256": "56595839f17f2632e04afb69fc5d1d78340a32d9fae75e328e8deedc5b495523",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|ConstructorBlock|908132648b8ca868@848:4606"
+        },
+        {
+          "body_sha256": "91a48a717a871896d21d724be60a779879a957f6572f15d6e1ed0cdf991725bb",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|168f17be4f94418d@5462:9964"
+        },
+        {
+          "body_sha256": "f768daf69038d4b3c0653c63cf6d0b05b2c36dc8b3e36ff660425510f89a63bf",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|1c943c61ba1df64e@19841:375"
+        },
+        {
+          "body_sha256": "6fd8f391b55760bfba10894fcc7d9e4e11a8c981e79a7d7ebce0364be5f93803",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|3d08b08f8f285a66@33113:631"
+        }
+      ],
+      "owner_roles": [
+        "Core Cox callback owner; Common survival request policy; Windows Cox lifecycle maintainers"
+      ],
+      "dependent_batches": [
+        "04A.47",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4Cox-ProgressBar1-execution: Interleave compute/interrupt/cancel/close/retry; two modeless instances where global callbacks exist; observer throws; dispose before callback; failure before/after write; distinguish cancelled, failed and completed output; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.spinBtnMaxIter",
+      "control_row_sha256": "cd5ac1395ae031c7f7e7d28f98c1b9d59e9f1a099a96f4135e31b6890dca4a8c",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "867",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.optExact",
+      "control_row_sha256": "02795b682d0583932e5ee0f8d8cbfd96af36f45733b15cd0b5bebb6e34c45479",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "868",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.ckRobustVariance",
+      "control_row_sha256": "9d408524880e6f7f04e25fbe9438baf83fe28bf376848201ff41f1e35715f139",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "869",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.ckCovarMatrix",
+      "control_row_sha256": "2da14b427923e5c931c56fabd290e651b4871f030bcc0208e1b784103225098e",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "870",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.grpResiduals",
+      "control_row_sha256": "02049277eb6f307d93bca334980dffc29ccd81968daff2a06b6a1ba4d3e59be8",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "871",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.ckPHtest",
+      "control_row_sha256": "b2119f178eee6cfb1567ebf789b6aa080cf8702af39a6a90c25c05616dc6e9ce",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "872",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.ckResidualPlots",
+      "control_row_sha256": "663eb5806f4e02ea992d2ac9dfc7fcb68740e2889dc2eec611e05b79cd8f18a1",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "873",
+      "original_restricted": true,
+      "source_associated_changed_methods": [],
+      "obligation_id": "control:BESHStatNG.Ui4Cox.ckResidualPlots",
+      "obligation_row_sha256": "7f1204af8dab807d3da51bf71043c29c7960f220ecb845823551e38613885172",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "e3ad7bf4c047afd20d2cba171a966d160f07a00fe5c5ea2930d7b62e0d63fc35",
+      "original_control_sha256": "663eb5806f4e02ea992d2ac9dfc7fcb68740e2889dc2eec611e05b79cd8f18a1",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "codebehind_source_sha256": "69889949268e29a3a663d915e4f54f65b70ba77d7b51f0f3d14d94e4c3fc5d48",
+        "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+        "designer_source_sha256": "bef4039467e46293f83dd4e4c195976fc4a0167713d527bd169c7ff8394a8b90"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|d42a2e26162ce7b2@200:330"
+        },
+        {
+          "body_sha256": "ecb24dd0362ff694a17582443f5f8c5c5713f73ea3b8b9e45573a2ff22b22e97",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|1c52542b07fc440b@827:38781"
+        },
+        {
+          "body_sha256": "56595839f17f2632e04afb69fc5d1d78340a32d9fae75e328e8deedc5b495523",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|ConstructorBlock|908132648b8ca868@848:4606"
+        }
+      ],
+      "owner_roles": [
+        "Core Cox callback owner; Common survival request policy; Windows Cox lifecycle maintainers"
+      ],
+      "dependent_batches": [
+        "04A.47",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4Cox-ckResidualPlots-execution: Interleave compute/interrupt/cancel/close/retry; two modeless instances where global callbacks exist; observer throws; dispose before callback; failure before/after write; distinguish cancelled, failed and completed output; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.ckAllResiduals",
+      "control_row_sha256": "fb12aad90b7dd7ed2066c6b9663f4606ebcc4679d90dd27e214dabc8280d2d5b",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "874",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblSelectedSheet",
+      "control_row_sha256": "2c17ef203d9dabba793aa95b07f388eb0120e41efa7b205697871dd7d587c08c",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "875",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.spinBtnAlpha",
+      "control_row_sha256": "8a1a441454632c479ae77a8993198d08406c40cbeb0551f038b9bddb53408790",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "876",
+      "original_restricted": false,
+      "source_associated_changed_methods": [
+        "btCalculate_Click"
+      ],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.lblAlpha",
+      "control_row_sha256": "2d934b629836a3215adc044ab99863ff2cd7da49a4a863e35c1891e6301353ae",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "877",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btAddEffectCategoricalFactor",
+      "control_row_sha256": "6a7c42325e192921fdf00e0e9949c660a4c5b65d65252bad0f44dc6584300dfe",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "878",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btnCustomInteraction",
+      "control_row_sha256": "6cc81ef5a0ae3d3a8e797f6457fe28a08df81075c1e4475cbd77138006df9efe",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "879",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btn2Interactions",
+      "control_row_sha256": "9c22bb7a0668e79db47575307f6eb346eb096eba2aba08e5844176f4c012ed72",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "880",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.spinBtnPoly",
+      "control_row_sha256": "73c216274bf1b0ebd5e58804e6d51f94a545650e4511a63a50034055c253c67e",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "881",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btnPoly",
+      "control_row_sha256": "ce4845765de9d9f936dfbabc5540c8d20555d83eec4f5b9c65649b82217452c8",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "882",
+      "original_restricted": false,
+      "source_associated_changed_methods": [],
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "retained_status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "source_record_path": null,
+      "source_record_sha256": null
+    },
+    {
+      "control_id": "BESHStatNG.Ui4Cox.btInterrupt",
+      "control_row_sha256": "565cd10e9e20e2b3be9e832ebc6f18f8ce523074b26f06943bb75de661586f99",
+      "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+      "declaration_line": "883",
+      "original_restricted": true,
+      "source_associated_changed_methods": [],
+      "obligation_id": "control:BESHStatNG.Ui4Cox.btInterrupt",
+      "obligation_row_sha256": "f5aefcb77ae76c211650ef08815347525f83c2447242841abba3907ccc9302db",
+      "retained_status": "OPEN",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "2ca4c6b3d98bd94eacc28f38da388ff17ab3ff17f108f2ec82e4e8334cdd5f9c",
+      "original_control_sha256": "565cd10e9e20e2b3be9e832ebc6f18f8ce523074b26f06943bb75de661586f99",
+      "original_source_pins": {
+        "codebehind_path": "BESHstatNG/src/UI/Ui4Cox.vb",
+        "codebehind_source_sha256": "69889949268e29a3a663d915e4f54f65b70ba77d7b51f0f3d14d94e4c3fc5d48",
+        "declaration_path": "BESHstatNG/src/UI/Ui4Cox.Designer.vb",
+        "designer_source_sha256": "bef4039467e46293f83dd4e4c195976fc4a0167713d527bd169c7ff8394a8b90"
+      },
+      "member_body_pins": [
+        {
+          "body_sha256": "517ff2c9c37d5cbcb23f03fdf52607854da124a0dae41002c1f934ce78554b1c",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|d42a2e26162ce7b2@200:330"
+        },
+        {
+          "body_sha256": "ecb24dd0362ff694a17582443f5f8c5c5713f73ea3b8b9e45573a2ff22b22e97",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.Designer.vb|BESHStatNG.Ui4Cox|SubBlock|1c52542b07fc440b@827:38781"
+        },
+        {
+          "body_sha256": "56595839f17f2632e04afb69fc5d1d78340a32d9fae75e328e8deedc5b495523",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|ConstructorBlock|908132648b8ca868@848:4606"
+        },
+        {
+          "body_sha256": "d2b9a2613d0d45034d3e1cbc8c2feb7dcd049d881bad4711aaee8a3b1ad4a256",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|441ad868136b2296@18161:617"
+        },
+        {
+          "body_sha256": "c3a9f4ff0399a5e6ffc8b0c2fd5dc8eff73268fad0f5e71440acff98cb03530f",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|c9b07d71e0af90b1@18786:741"
+        },
+        {
+          "body_sha256": "f768daf69038d4b3c0653c63cf6d0b05b2c36dc8b3e36ff660425510f89a63bf",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|1c943c61ba1df64e@19841:375"
+        },
+        {
+          "body_sha256": "68ae30c7af42de8a659fefe87ac9d696bb27ab1eb531c7790dfba101e899dd6a",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|886299a9be2a5fb4@32650:455"
+        },
+        {
+          "body_sha256": "6fd8f391b55760bfba10894fcc7d9e4e11a8c981e79a7d7ebce0364be5f93803",
+          "symbol_id": "BESHstatNG/src/UI/Ui4Cox.vb|BESHStatNG.Ui4Cox|SubBlock|3d08b08f8f285a66@33113:631"
+        }
+      ],
+      "owner_roles": [
+        "Core Cox callback owner; Common survival request policy; Windows Cox lifecycle maintainers"
+      ],
+      "dependent_batches": [
+        "04A.47",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ],
+      "named_fixture": "C28-Ui4Cox-btInterrupt-execution: Interleave compute/interrupt/cancel/close/retry; two modeless instances where global callbacks exist; observer throws; dispose before callback; failure before/after write; distinguish cancelled, failed and completed output; NOT RUN",
+      "verification_status": "NOT RUN",
+      "owner_decision_status": "CLASSIFICATION_AND_RESTRICTED_DEFERRAL_APPROVED",
+      "capture_authorized": false,
+      "full_contract_newly_qualified": false
+    }
+  ],
+  "populations": "1514 original obligations / 802 restricted controls; accepted 04A.02 transferred 239/218 and overlapping case subsets. Never add overlapping sets.",
+  "released": 0,
+  "discharged": 0,
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET",
+  "native": "NOT RUN / NOT AUTHORIZED. Original whole-file pins remain historical; source-delta supplies successor provenance. No timing waiver requested for this behavior-preserving extraction."
+}
