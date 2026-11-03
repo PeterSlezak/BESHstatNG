@@ -1,0 +1,43 @@
+{
+  "status": "PUBLIC_DERIVATIVES; private originals authoritative for real local filenames",
+  "date": "2026-11-03",
+  "files": {
+    "evidence/04A11/prechange-manifest.json": {
+      "raw_sha256": "718194351f8744a346de084d07ec968536f041de7ae54973a3fcc47072df1404",
+      "raw_bytes": 471889,
+      "public_sha256": "2c56fc732a5fa984213c4fe0f196812a877fd67593561918aa367e252a3f8ada",
+      "public_bytes": 472932,
+      "redacted_keys": 70,
+      "redacted_path_components": 133
+    },
+    "evidence/04A11/source-delta.json": {
+      "raw_sha256": "c9b928dc7f709e06c4e5e46c0d1f0f1eff7ca967dcaafa0adfa95a1f367828b4",
+      "raw_bytes": 480359,
+      "public_sha256": "3ac0138476d75ce71c83f42061e9e9767c73ac05756612a6d9bc9359b3f9c535",
+      "public_bytes": 481402,
+      "redacted_keys": 70,
+      "redacted_path_components": 133
+    },
+    "evidence/04A11/source-delta-v2.json": {
+      "raw_sha256": "d0c4fcc8546b098a85c0f2583185ee842b25fa1ce1ce7dca52e684973ab18169",
+      "raw_bytes": 480479,
+      "public_sha256": "8649648e6b75b590e11ba097e087e555b87ff993dcef105287722a717b0aec24",
+      "public_bytes": 481522,
+      "redacted_keys": 70,
+      "redacted_path_components": 133
+    },
+    "evidence/04A11/source-delta-final.json": {
+      "raw_sha256": "5eb53e69b926a4663285f3d142eef133793c005a92d6be466ad70a16f4ba8b10",
+      "raw_bytes": 480794,
+      "public_sha256": "acd6fa204c5c29180f224a486ba8272c8ffe15789ee5bd32103e8f1a351ceb39",
+      "public_bytes": 481837,
+      "redacted_keys": 70,
+      "redacted_path_components": 133
+    }
+  },
+  "placeholder": "REDACTED_OWNER_HOST",
+  "policy": "Replace only owner/host components of historical TestResults dictionary keys, including dated prefixes and repeated deployment subfolders; retain suffixes and all source SHA-256 values. Aliases are display identities, not real filenames.",
+  "verification": "Private reverse mapping restores original JSON structure exactly; 70 unique mappings in each file; no added source-document schema keys.",
+  "private_preservation": "Byte-exact originals, original publication manifests and private mapping retained in an ACL-protected owner-local vault outside repository and TestResults.",
+  "manifests": "Original 72/74-entry manifests privately retained; public revisions refresh their subset hashes. publication-manifest-sanitized.json is authoritative for the complete current publication set; itself omitted from its hash map."
+}

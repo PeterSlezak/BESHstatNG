@@ -857,7 +857,7 @@ Public Class UiGLM
             ss = regression.TermSumOfSquaresType.TypeIII
         End If
 
-        Dim intent = LinearBinomialRegressionPolicy.Project(request, ss, customGroups, codingNotes)
+        Dim intent = LinearBinomialRegressionPolicy.Project(request, ss, customGroups, codingNotes, LinearFitAlphaMode.NativeLegacyDefault)
         lm.Data(intent.Request.Primary.Data, intent.Request.Primary.Names, intent.Request.Primary.RowIds,
                 If(intent.Request.Weights Is Nothing, Nothing, intent.Request.Weights.Values))
         lm.SetPredictorCodingFootnotes(If(intent.PredictorCodingFootnotes Is Nothing, Nothing, intent.PredictorCodingFootnotes.ToList()))
@@ -920,8 +920,9 @@ Public Class UiGLM
 
         BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
         Dim request = CaptureRegressionRequest(RegressionAnalysisKind.Ordinal, MyData, fitData, fitVarNames)
-        Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
-        Dim options = request.Options
+        Dim intent = ExtendedRegressionFamilyPolicy.Project(request)
+        Dim requestValidation = intent.Validation
+        Dim options = intent.Options
 
         Dim predictorCount As Integer = fitVarNames.Length - 1
         Dim categoryCount As Integer = CountDistinctResponseCategories(fitData)
@@ -937,7 +938,7 @@ Public Class UiGLM
             End If
         End If
 
-        ordL.Data(fitData, fitVarNames, MyData.RowIds,
+        ordL.Data(intent.Primary.Data, intent.Primary.Names, intent.Primary.RowIds,
                    If(MyData.bOffset, MyData.OffsetData, Nothing),
                    If(MyData.bWeights, MyData.WeightData, Nothing))
         ordL.bReturnCov = options.Covariance
@@ -952,7 +953,8 @@ Public Class UiGLM
 
         Dim res = ordL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                      If(MyData.bWeights, MyData.WeightVarName, Nothing))
-        Dim report = WindowsRegressionRequestAdapter.Report(request, res, If(ordL.bComputeResiduals, ordL.Residuals.Probabilities, Nothing), If(ordL.bComputeResiduals, ordL.wrapResiduals(), Nothing), categories:=If(ordL.bComputeResiduals, ordL.Residuals.Categories, Nothing))
+        Dim report = WindowsRegressionRequestAdapter.Report(intent, res, If(ordL.bComputeResiduals, ordL.Residuals.Probabilities, Nothing), If(ordL.bComputeResiduals, ordL.wrapResiduals(), Nothing), categories:=If(ordL.bComputeResiduals, ordL.Residuals.Categories, Nothing))
+        res = report.LegacyTables()
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1011,8 +1013,9 @@ Public Class UiGLM
 
         BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
         Dim request = CaptureRegressionRequest(RegressionAnalysisKind.Multinomial, MyData, fitData, fitVarNames)
-        Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
-        Dim options = request.Options
+        Dim intent = ExtendedRegressionFamilyPolicy.Project(request)
+        Dim requestValidation = intent.Validation
+        Dim options = intent.Options
 
         Dim predictorCount As Integer = fitVarNames.Length - 1
         Dim categoryCount As Integer = CountDistinctResponseCategories(fitData)
@@ -1029,7 +1032,7 @@ Public Class UiGLM
             End If
         End If
 
-        multL.data(fitData, fitVarNames, MyData.RowIds,
+        multL.data(intent.Primary.Data, intent.Primary.Names, intent.Primary.RowIds,
                    If(MyData.bOffset, MyData.OffsetData, Nothing),
                    If(MyData.bWeights, MyData.WeightData, Nothing))
         multL.bReturnCov = options.Covariance
@@ -1044,7 +1047,8 @@ Public Class UiGLM
 
         Dim res = multL.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                      If(MyData.bWeights, MyData.WeightVarName, Nothing))
-        Dim report = WindowsRegressionRequestAdapter.Report(request, res, If(multL.bComputeResiduals, multL.ResidualDiagnostics.Probabilities, Nothing), If(multL.bComputeResiduals, multL.wrapResiduals(), Nothing), categories:=If(multL.bComputeResiduals, multL.ResidualDiagnostics.Categories, Nothing))
+        Dim report = WindowsRegressionRequestAdapter.Report(intent, res, If(multL.bComputeResiduals, multL.ResidualDiagnostics.Probabilities, Nothing), If(multL.bComputeResiduals, multL.wrapResiduals(), Nothing), categories:=If(multL.bComputeResiduals, multL.ResidualDiagnostics.Categories, Nothing))
+        res = report.LegacyTables()
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1108,13 +1112,14 @@ Public Class UiGLM
         BuildExpandedZIPPoissonInputs(PoissonData, fitDataPois, fitVarNamesPois)
         BuildExpandedZIPLogisticInputs(LogisticData, fitDataLog, fitVarNamesLog)
         Dim request = CaptureRegressionRequest(RegressionAnalysisKind.ZeroInflatedPoisson, PoissonData, fitDataPois, fitVarNamesPois, LogisticData, fitDataLog, fitVarNamesLog)
-        Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
-        Dim options = request.Options
+        Dim intent = ExtendedRegressionFamilyPolicy.Project(request)
+        Dim requestValidation = intent.Validation
+        Dim options = intent.Options
 
         Dim predictorCountPois As Integer = fitVarNamesPois.Length - 1
         Dim predictorCountLog As Integer = fitVarNamesLog.Length - 1
-        Dim interceptPois As Integer = If(request.Primary.Effects.IncludeIntercept, 1, 0)
-        Dim interceptLog As Integer = If(request.Logistic.Effects.IncludeIntercept, 1, 0)
+        Dim interceptPois As Integer = intent.PrimaryIntercept
+        Dim interceptLog As Integer = intent.LogisticIntercept
 
         If bPoissonInitialValues Then
             If Not ValidateExpandedInitialValuesCount(
@@ -1136,11 +1141,11 @@ Public Class UiGLM
             End If
         End If
 
-        zipFit.dataInputs(fitDataPois,
-                          fitDataLog,
-                          fitVarNamesPois,
-                          fitVarNamesLog,
-                          PoissonData.RowIds,
+        zipFit.dataInputs(intent.Primary.Data,
+                          intent.Logistic.Data,
+                          intent.Primary.Names,
+                          intent.Logistic.Names,
+                          intent.Primary.RowIds,
                           If(PoissonData.bOffset, PoissonData.OffsetData, Nothing),
                           If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing))
 
@@ -1167,7 +1172,8 @@ Public Class UiGLM
                    New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
 
         Dim res = zipFit.wrapResults(If(PoissonData.bOffset, PoissonData.OffsetVarName, Nothing), Nothing)
-        Dim report = WindowsRegressionRequestAdapter.Report(request, res, WindowsRegressionRequestAdapter.FittedColumn(zipFit.Predicted), If(zipFit.bComputeResiduals, zipFit.AllResiduals(), Nothing), zipFit.Converged)
+        Dim report = WindowsRegressionRequestAdapter.Report(intent, res, WindowsRegressionRequestAdapter.FittedColumn(zipFit.Predicted), If(zipFit.bComputeResiduals, zipFit.AllResiduals(), Nothing), zipFit.Converged)
+        res = report.LegacyTables()
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1231,17 +1237,14 @@ Public Class UiGLM
 
         BuildExpandedRegressionInputs(MyData, fitData, fitVarNames)
         Dim request = CaptureRegressionRequest(RegressionAnalysisKind.NegativeBinomial2, MyData, fitData, fitVarNames)
-        Dim requestValidation = WindowsRegressionRequestAdapter.Validate(request)
-        Dim options = request.Options
+        Dim intent = ExtendedRegressionFamilyPolicy.Project(request)
+        Dim requestValidation = intent.Validation
+        Dim options = intent.Options
 
-        If options.Link = RegressionLink.Power Then
-            lnk = regression.createLink(options.Link.Value.ToString(), options.Power.Value)
-        Else
-            lnk = regression.createLink(options.Link.Value.ToString())
-        End If
+        lnk = intent.CreateLink()
 
         Dim nb2 = New GLM_NB(lnk)
-        Dim lIntercept As Integer = If(request.Primary.Effects.IncludeIntercept, 1, 0)
+        Dim lIntercept As Integer = intent.PrimaryIntercept
         Dim predictorCount As Integer = fitVarNames.Length - 1
 
         If bInitialValues Then
@@ -1253,7 +1256,7 @@ Public Class UiGLM
             End If
         End If
 
-        nb2.data(fitData, MyData.RowIds,
+        nb2.data(intent.Primary.Data, intent.Primary.RowIds,
                  If(MyData.bOffset, MyData.OffsetData, Nothing),
                  If(MyData.bWeights, MyData.WeightData, Nothing))
         nb2.setVarNames(fitVarNames)
@@ -1268,7 +1271,9 @@ Public Class UiGLM
 
         Dim res = nb2.wrapResults(If(MyData.bOffset, MyData.OffsetVarName, Nothing),
                                   If(MyData.bWeights, MyData.WeightVarName, Nothing))
-        Dim report = WindowsRegressionRequestAdapter.Report(request, res, WindowsRegressionRequestAdapter.FittedColumn(nb2.PredictedResponses), If(nb2.bComputeResiduals, nb2.AllResiduals(), Nothing), nb2.Converged)
+        Dim report = WindowsRegressionRequestAdapter.Report(intent, res, WindowsRegressionRequestAdapter.FittedColumn(nb2.PredictedResponses), If(nb2.bComputeResiduals, nb2.AllResiduals(), Nothing), nb2.Converged, estimatedDispersion:=nb2.NBalpha)
+        res = report.LegacyTables()
+        Dim dataHeaders = WindowsRegressionRequestAdapter.DeferredCovarianceDataHeaders(request, fitVarNames)
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1280,7 +1285,7 @@ Public Class UiGLM
         WriteRes.write(MyData.RowIds, bTall:=True)
         WriteRes.setRowPointer()
         WriteRes.setColumnPointer(2)
-        WriteRes.write(fitVarNames)
+        WriteRes.write(dataHeaders)
         WriteRes.write(fitData)
         WriteRes.shiftColumnPointer(fitVarNames.Length)
         WriteRes.setRowPointer()
@@ -1392,6 +1397,7 @@ Public Class UiGLM
             report = projected.Report
             res = projected.LegacyTables()
         End If
+        Dim dataHeaders = WindowsRegressionRequestAdapter.DeferredCovarianceDataHeaders(request, fitVarNames)
 
         'Dump results
         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
@@ -1403,7 +1409,7 @@ Public Class UiGLM
         WriteRes.write(MyData.RowIds, bTall:=True)
         WriteRes.setRowPointer()
         WriteRes.setColumnPointer(2)
-        WriteRes.write(fitVarNames)
+        WriteRes.write(dataHeaders)
         WriteRes.write(fitData)
         WriteRes.setRowPointer()
         WriteRes.shiftColumnPointer(UBound(fitData, 2) + 1)
@@ -1451,7 +1457,7 @@ Public Class UiGLM
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(WriteRes, True)
 
-        If IsCurrentBinomialGlmFamily() AndAlso Me.grpClassification.Enabled And cbPerformClasification.Checked Then
+        If fitGlm.HasReportData AndAlso IsCurrentBinomialGlmFamily() AndAlso Me.grpClassification.Enabled And cbPerformClasification.Checked Then
             Dim y() As Double = fitGlm.ObservedResponses()
             Dim p() As Double = fitGlm.PredictedResponses()
             Dim weights() As Double = fitGlm.ObservationWeights()

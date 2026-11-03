@@ -6,22 +6,28 @@ Imports System.Linq
 Imports BESHStatNG.regression
 
 Namespace ExcelCommon
+    Public Enum LinearFitAlphaMode
+        Requested
+        NativeLegacyDefault
+    End Enum
     ''' <summary>Family-specific intent over the accepted request, after Core design expansion.
     ''' Validation remains diagnostic; creating intent never activates Windows strict refusal.</summary>
     Public NotInheritable Class LinearBinomialFitIntent
         Private ReadOnly _groups As Dictionary(Of String, Integer())
         Private ReadOnly _coding As IReadOnlyList(Of String)
         Friend Sub New(request As RegressionRequest, sums As TermSumOfSquaresType,
-                       groups As Dictionary(Of String, Integer()), coding As IEnumerable(Of String))
+                       groups As Dictionary(Of String, Integer()), coding As IEnumerable(Of String), alphaMode As LinearFitAlphaMode)
             Me.Request = request
             Me.Validation = RegressionRequestPolicy.Validate(request)
             Me.SumOfSquares = sums
+            Me.AlphaMode = alphaMode
             _groups = CopyGroups(groups)
             _coding = If(coding Is Nothing, Nothing, New List(Of String)(coding).AsReadOnly())
         End Sub
         Public ReadOnly Property Request As RegressionRequest
         Public ReadOnly Property Validation As RegressionValidation
         Public ReadOnly Property SumOfSquares As TermSumOfSquaresType
+        Public ReadOnly Property AlphaMode As LinearFitAlphaMode
         Public ReadOnly Property IsLinearModel As Boolean
             Get
                 Return Request.Kind = RegressionAnalysisKind.LinearModel
@@ -37,11 +43,12 @@ Namespace ExcelCommon
                 Return Request.Options.Alpha
             End Get
         End Property
-        ''' <summary>Native LM never sets Alpha. This is Core's existing default, not GUI alpha.
-        ''' Response composition also records the actual fitted model's Alpha.</summary>
+        ''' <summary>Portable intent uses requested alpha. Shipping Windows explicitly selects
+        ''' the temporary NativeLegacyDefault mode pending C11-NATIVE-CORRECTIONS-01.
+        ''' Validation diagnoses invalid alpha without activating a new native refusal.</summary>
         Public ReadOnly Property EffectiveFitAlpha As Double
             Get
-                Return If(IsLinearModel, 0.05, RequestedAlpha)
+                Return If(IsLinearModel AndAlso AlphaMode = LinearFitAlphaMode.NativeLegacyDefault, 0.05, RequestedAlpha)
             End Get
         End Property
         Public ReadOnly Property ResponseScale As String
@@ -88,12 +95,20 @@ Namespace ExcelCommon
                  request.Options.Family.HasValue AndAlso
                  (request.Options.Family.Value = RegressionFamily.Gaussian OrElse request.Options.Family.Value = RegressionFamily.Binomial)))
         End Function
-        Public Shared Function Project(request As RegressionRequest,
+        ''' <summary>Retain the accepted four-argument CLR entry point for already compiled
+        ''' consumers. Source callers can also use the additive optional alpha-mode overload.</summary>
+        Public Shared Overloads Function Project(request As RegressionRequest, sums As TermSumOfSquaresType,
+                                                groups As Dictionary(Of String, Integer()),
+                                                codingFootnotes As IEnumerable(Of String)) As LinearBinomialFitIntent
+            Return Project(request, sums, groups, codingFootnotes, LinearFitAlphaMode.Requested)
+        End Function
+        Public Shared Overloads Function Project(request As RegressionRequest,
                                        Optional sums As TermSumOfSquaresType = TermSumOfSquaresType.TypeIII,
                                        Optional groups As Dictionary(Of String, Integer()) = Nothing,
-                                       Optional codingFootnotes As IEnumerable(Of String) = Nothing) As LinearBinomialFitIntent
+                                       Optional codingFootnotes As IEnumerable(Of String) = Nothing,
+                                       Optional alphaMode As LinearFitAlphaMode = LinearFitAlphaMode.Requested) As LinearBinomialFitIntent
             If Not Supports(request) Then Throw New ArgumentException("regression.linear-binomial.family: Only LM, Gaussian GLM and binomial GLM are projected.")
-            Return New LinearBinomialFitIntent(request, sums, groups, codingFootnotes)
+            Return New LinearBinomialFitIntent(request, sums, groups, codingFootnotes, alphaMode)
         End Function
 
         ''' <summary>Snapshot real Core responses once, before any native write. No solver, inverse

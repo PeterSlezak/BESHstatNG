@@ -1,0 +1,33 @@
+--- a/BESHstatNG/src/UI/UiGLM.vb
++++ b/BESHstatNG/src/UI/UiGLM.vb
+@@ -857,10 +857,11 @@
+             ss = regression.TermSumOfSquaresType.TypeIII
+         End If
+ 
+-        Dim intent = LinearBinomialRegressionPolicy.Project(request, ss, customGroups, codingNotes, LinearFitAlphaMode.NativeLegacyDefault)
++        Dim intent = LinearBinomialRegressionPolicy.Project(request, ss, customGroups, codingNotes, LinearFitAlphaMode.Requested)
+         lm.Data(intent.Request.Primary.Data, intent.Request.Primary.Names, intent.Request.Primary.RowIds,
+                 If(intent.Request.Weights Is Nothing, Nothing, intent.Request.Weights.Values))
+         lm.SetPredictorCodingFootnotes(If(intent.PredictorCodingFootnotes Is Nothing, Nothing, intent.PredictorCodingFootnotes.ToList()))
++        lm.Alpha = intent.EffectiveFitAlpha
+         lm.Fit(intent.IncludeIntercept, intent.TermGroups, intent.SumOfSquares)
+ 
+         Dim res = lm.wrapResults()
+@@ -1273,7 +1274,7 @@
+                                   If(MyData.bWeights, MyData.WeightVarName, Nothing))
+         Dim report = WindowsRegressionRequestAdapter.Report(intent, res, WindowsRegressionRequestAdapter.FittedColumn(nb2.PredictedResponses), If(nb2.bComputeResiduals, nb2.AllResiduals(), Nothing), nb2.Converged, estimatedDispersion:=nb2.NBalpha)
+         res = report.LegacyTables()
+-        Dim dataHeaders = WindowsRegressionRequestAdapter.DeferredCovarianceDataHeaders(request, fitVarNames)
++        Dim dataHeaders = DirectCast(fitVarNames.Clone(), String())
+ 
+         'Dump results
+         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter
+@@ -1397,7 +1398,7 @@
+             report = projected.Report
+             res = projected.LegacyTables()
+         End If
+-        Dim dataHeaders = WindowsRegressionRequestAdapter.DeferredCovarianceDataHeaders(request, fitVarNames)
++        Dim dataHeaders = DirectCast(fitVarNames.Clone(), String())
+ 
+         'Dump results
+         Dim WriteRes As ExcelDnaResultWriter = New ExcelDnaResultWriter

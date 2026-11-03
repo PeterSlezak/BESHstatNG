@@ -6,6 +6,14 @@
 ---
 
 ## Overview
+
+### Office add-in availability
+
+ZIP regression is not currently executable in the Office task pane in Excel
+Online. This page describes the Windows Excel-DNA add-in. The shared policy keeps
+the count and zero-inflation designs separate; it does not add an Office screen
+or support for observation weights in ZIP. Existing screenshots are unchanged
+and have not been revalidated against live Excel in this batch.
 A **zero-inflated Poisson (ZIP)** model is a two-part (mixture) model for count outcomes with **excess zeros**. It combines:
 
 1. a **Poisson regression** for the expected count among observations that are “at risk” of having counts, and

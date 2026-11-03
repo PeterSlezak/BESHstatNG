@@ -1,0 +1,31 @@
+{
+  "historical-strict": {
+    "command": {
+      "command": [
+        "dotnet",
+        "scripts/windows-migration-audit/bin/Debug/net10.0/WindowsMigrationAudit.dll",
+        "--check",
+        "--strict"
+      ],
+      "exit_code": 1,
+      "seconds": 10.038298100000247
+    },
+    "raw_log_sha256": "0155b6d837d4f89d91e9ec6f9605956f28ee66b192596fb628ec1a77a07dadb9",
+    "output": "System.Exception: Stale review dependency: BESHstatNG/src/UI/UibyID.vb for BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe\n   at Audit.Classify() in <REPO>\\scripts\\windows-migration-audit\\Program.cs:line 278\n   at Audit.Run(String[] args) in <REPO>\\scripts\\windows-migration-audit\\Program.cs:line 457\n   at Audit.Main(String[] args) in <REPO>\\scripts\\windows-migration-audit\\Program.cs:line 436\n"
+  },
+  "historical-profile": {
+    "command": {
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "scripts/windows-migration-audit/owner_closeout.py",
+        "--profile",
+        "inventory-complete-with-approved-deferrals"
+      ],
+      "exit_code": 1,
+      "seconds": 34.72488150000572
+    },
+    "raw_log_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+    "output": "{\"status\": \"INTEGRITY_FAILURE\", \"error\": \"\"}\n"
+  }
+}

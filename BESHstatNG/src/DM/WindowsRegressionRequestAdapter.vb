@@ -69,4 +69,24 @@ Public NotInheritable Class WindowsRegressionRequestAdapter
                                   Optional actualFitAlpha As Nullable(Of Double) = Nothing) As LinearBinomialReport
         Return LinearBinomialRegressionPolicy.Compose(intent, tables, fitted, residuals, converged, actualFitAlpha)
     End Function
+
+    Public Shared Function Report(intent As ExtendedRegressionIntent, tables As List(Of ResultTable),
+                                  fitted(,) As Double, residuals(,) As Object,
+                                  Optional converged As Nullable(Of Boolean) = Nothing,
+                                  Optional categories() As Integer = Nothing,
+                                  Optional estimatedDispersion As Nullable(Of Double) = Nothing) As ExtendedRegressionReport
+        Return ExtendedRegressionFamilyPolicy.Compose(intent, tables,
+            New RegressionRowOutput(intent.Primary.RowIds, fitted, residuals, 1, categories), converged, estimatedDispersion)
+    End Function
+
+    ''' <summary>Temporary native-only Data-header compatibility quarantine for C10-COV-NAMES-01.
+    ''' Core/Common identifiers are fixed and never mutated. Remove these writer-call substitutions
+    ''' only under C11-NATIVE-CORRECTIONS-01; the tested removal patch remains unapplied.</summary>
+    Public Shared Function DeferredCovarianceDataHeaders(request As RegressionRequest, names() As String) As String()
+        If names Is Nothing Then Return Nothing
+        Dim result = DirectCast(names.Clone(), String())
+        If (request.Kind = RegressionAnalysisKind.GeneralizedLinearModel OrElse request.Kind = RegressionAnalysisKind.NegativeBinomial2) AndAlso
+            request.Options.Covariance AndAlso request.Primary.Effects.IncludeIntercept AndAlso result.Length > 0 Then result(0) = "Intercept"
+        Return result
+    End Function
 End Class

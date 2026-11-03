@@ -7,6 +7,21 @@
 
 ## Overview
 
+### Office add-in availability
+
+This regression method is not currently executable in the Office task pane in
+Excel Online. The instructions on this page describe the Windows Excel-DNA add-in.
+The shared request/report policy does not add an Office regression screen.
+
+### Current output-label limitation
+
+With an intercept and covariance output enabled, the Windows **Data** sheet can
+still label the response column **Intercept**. Core report construction now keeps
+the supplied variable identifiers intact. Correcting that Windows Data header is
+pending native verification and activation; coefficient and covariance numbers
+are not changed by the identifier fix. Existing screenshots have not been
+revalidated against a live Excel instance for this change.
+
 Negative Binomial regression (NB2) is a count-data regression model used when the outcome is a non-negative integer (0, 1, 2, …) and the data show **overdispersion** (variance larger than the mean), which often violates the Poisson assumption. NB2 extends Poisson regression by introducing a dispersion parameter that allows the variance to increase quadratically with the mean:
 
 \[

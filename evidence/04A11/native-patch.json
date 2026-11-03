@@ -1,0 +1,22 @@
+{
+  "id": "C11-NATIVE-CORRECTIONS-01",
+  "issues": [
+    "C10-LM-ALPHA-01",
+    "C10-COV-NAMES-01"
+  ],
+  "status": "UNAPPLIED_GATED",
+  "source_path": "BESHstatNG/src/UI/UiGLM.vb",
+  "source_sha256": "45aba0a8d69b2f751da2cdaa0c6b7eef792083471ab8d9eb10cecdff5a14bb07",
+  "patch_sha256": "2283553890563a7b2e662699d7c05319d30a5cc932099179fd24d88c1516b3fc",
+  "isolated_candidate_sha256": "444807637745d0e1975b1fa80c7196f349ede0aa83a4e54eb8b3407d48ea351a",
+  "apply_check_exit_code": 0,
+  "scope": "Assign requested LM alpha before fit; stop quarantining the GLM/NB2 Data header. Portable corrections active; these Windows output changes remain dormant.",
+  "strict_patch_applied": false,
+  "strict_patch_sha256": "aab350401c873d1a4f56450295688e9a046122aca2269fc9a618765f8fe79fe1",
+  "next_owners": [
+    "04A.28 output labels/formatting",
+    "04A.40 UDF parity",
+    "04A.47 native GUI confirmation"
+  ],
+  "owner_decision": "Approve exact-ID native timing deferral for these two shipping activations until original pre-change evidence/risk/N authority is met. Retain tested portable fixes and native compatibility in the meantime. No N/P release requested."
+}

@@ -7,6 +7,14 @@
 
 ## Overview
 
+### Office add-in availability
+
+Ordinal regression is not currently executable in the Office task pane in Excel
+Online. This page describes the Windows Excel-DNA add-in. Extracting the shared
+request/report policy preserves the existing category/reference ordering and
+does not add an Office screen. Existing screenshots are unchanged and have not
+been revalidated against live Excel in this batch.
+
 Ordinal logistic regression (also called the **proportional-odds cumulative logit model**) is used when the outcome is **ordered categorical** (e.g., 1 < 2 < 3) and you want to relate that ordering to one or more predictors. BESHStatNG fits a cumulative logit model that estimates a set of **cutpoints** (thresholds between outcome levels) and a common set of **slope coefficients** for the predictors. The fitted coefficients are interpreted via **odds ratios**: for a one-unit increase in a predictor, the odds of being in category \(Y \le k\) (versus \(Y > k\)) change by a multiplicative factor \(\exp(\beta)\), assumed to be the same for all cutpoints \(k\) (the proportional-odds assumption). The add-in reports parameter estimates with standard errors, Wald \(Z\) tests, confidence intervals, odds ratios, model fit statistics (log-likelihood, likelihood-ratio test, information criteria, pseudo-\(R^2\)), optional residual diagnostics, and a classification table based on the highest predicted category probability.
 
 ## User interface

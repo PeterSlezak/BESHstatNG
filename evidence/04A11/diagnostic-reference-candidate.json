@@ -1,0 +1,23 @@
+{
+  "status": "NOT_GOLDEN",
+  "software": "Python 3.14.7 standard library",
+  "code": "for y in ([0.0]*24, [1.0]*24): mean=sum(y)/len(y); variance=mean*(1-mean); observed_classes=len(set(y))",
+  "cases": [
+    {
+      "response": 0.0,
+      "rows": 24,
+      "mean": 0.0,
+      "bernoulli_variance_at_empirical_mean": 0.0,
+      "observed_classes": 1
+    },
+    {
+      "response": 1.0,
+      "rows": 24,
+      "mean": 1.0,
+      "bernoulli_variance_at_empirical_mean": 0.0,
+      "observed_classes": 1
+    }
+  ],
+  "interpretation": "Independent diagnostic candidate identifying one observed response class and boundary empirical variance. It does not establish a valid finite MLE or a general HL p-value. Core absence of its post-fit payload is reported, never filled with a fabricated statistic.",
+  "provenance": "Deterministic synthetic all-zero/all-one arrays; separately computed from Core. No R invocation, new coefficient reference, scientific golden promotion or independent external scientific signoff."
+}

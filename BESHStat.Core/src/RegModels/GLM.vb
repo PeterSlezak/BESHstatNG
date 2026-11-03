@@ -262,6 +262,7 @@ Public Class GLM
     ''' </remarks>
     Public Overridable ReadOnly Property AllResiduals() As Object(,)
         Get
+            If Me.pRaw_res Is Nothing Then Return Nothing
             Dim t = New ResultTable
             Dim o(n - 1, 6) As Double
             For i = 0 To n - 1
@@ -567,6 +568,7 @@ Public Class GLM
     ''' </remarks>
     Public ReadOnly Property PredictedResponses() As Double()
         Get
+            If Me.results IsNot Nothing AndAlso Not Me.HasReportData Then Return Nothing
             Return Me.mu
         End Get
     End Property
@@ -710,10 +712,28 @@ Public Class GLM
     ''' <item><description>Covariance matrix table (if <see cref="bReturnCov"/> True).</description></item>
     ''' </list>
     ''' </remarks>
+    ''' <summary>Availability of completed Core inference/diagnostic payloads, independent of
+    ''' optimizer convergence. An early failed fit must not fabricate coefficient/HL output.</summary>
+    Public ReadOnly Property HasReportData As Boolean
+        Get
+            Return Me.results IsNot Nothing AndAlso Me.results.Coeffs_est IsNot Nothing AndAlso
+                Me.results.ModelTableLabels IsNot Nothing AndAlso Me.results.ModelTableVals IsNot Nothing
+        End Get
+    End Property
+
     Public Function wrapResults(Optional strOffsetVar As String = "",
                                 Optional strWeightsVar As String = "") As List(Of ResultTable)
         Dim out As New List(Of ResultTable)
         Dim t = New ResultTable
+
+        If Not Me.HasReportData Then
+            t.AddTitle("GLM results unavailable")
+            t.SetBody(New Object(,) {{"Status", "Fit did not produce the required inference and diagnostic payloads."},
+                                    {"Details", Me.strError}})
+            If Me.bHosmerLemeshow AndAlso TypeOf pFamily Is regression.Binomial Then t.AddFootnote("Hosmer-Lemeshow test unavailable; no statistic or p-value was produced.")
+            out.Add(t)
+            Return out
+        End If
 
         'coefficients, SE table
         t = Me.results.CoeffsZ_toPrint()
@@ -742,7 +762,7 @@ Public Class GLM
             Dim nSlopes As Integer = Me.p - If(Me.pbIntercept, 1, 0)
             If nSlopes > 0 Then out.Add(Me.results.OR_toPrint)
 
-            If bHosmerLemeshow Then
+            If bHosmerLemeshow AndAlso Me.pHosmerLemeshowTab IsNot Nothing AndAlso Me.pHosmerLemeshowTest IsNot Nothing Then
                 'Hosmer Lemeshow Test
                 t = New ResultTable
                 t.SetBody(Me.pHosmerLemeshowTab)
@@ -750,6 +770,8 @@ Public Class GLM
                 t.AddTitle("Contingency table for Hosmer and Lemeshow test")
                 t.AddFootnote($"Chi2={Me.pHosmerLemeshowTest.TestStatistics1}, DF={Me.pHosmerLemeshowTest.DF1}, P-value={Me.pHosmerLemeshowTest.Pvalue}")
                 out.Add(t)
+            ElseIf bHosmerLemeshow Then
+                out(0).AddFootnote("Hosmer-Lemeshow test unavailable; no statistic or p-value was produced.")
             End If
         End If
 
@@ -760,8 +782,8 @@ Public Class GLM
             Dim ItLabels(Me.pIRLSiterations - 1) As String
             For i = 0 To Me.pIRLSiterations - 1 : ItLabels(i) = $"Iteration {i + 1}" : Next
             t.AddHeaderTopRow(ItLabels)
-            Dim vars = ConcatArrays(Me.pVarNames, {"LogLikelihood", "LogLikelihood Change"})
-            If Me.pbIntercept Then vars(0) = "Intercept"
+            Dim vars = ConcatArrays(If(Me.pVarNames, Array.Empty(Of String)()), {"LogLikelihood", "LogLikelihood Change"})
+            If Me.pbIntercept AndAlso Me.pVarNames IsNot Nothing AndAlso Me.pVarNames.Length > 0 Then vars(0) = "Intercept"
             t.AddHeaderLeftRow(vars)
             out.Add(t)
         End If
@@ -770,13 +792,14 @@ Public Class GLM
         If Me.bReturnCov Then
             t = New ResultTable
             t.SetBody(Me.computeVarCovar())
-            Dim h(Me.pVarNames.Length - 1) As String
+            Dim vars = If(Me.pVarNames Is Nothing, Array.Empty(Of String)(), DirectCast(Me.pVarNames.Clone(), String()))
+            Dim h(Math.Max(1, vars.Length) - 1) As String
             h(0) = "Covariance matrix of parameters"
             t.AddHeaderTopRow(h)
-            Dim vars = Me.pVarNames
-            If Me.pbIntercept Then vars(0) = "Intercept"
+            If Me.pbIntercept AndAlso vars.Length > 0 Then vars(0) = "Intercept"
             t.AddHeaderTopRow(vars)
             t.AddHeaderLeftRow(vars)
+            If vars.Length <> Me.pData.GetLength(1) Then t.AddFootnote("Covariance parameter labels unavailable or incomplete.")
             out.Add(t)
         End If
 
@@ -883,6 +906,20 @@ Public Class GLM
 
         Dim stopwatch As Stopwatch = Stopwatch.StartNew()
         Me.results = New LMresult
+
+        ' Reset report/fit-lifecycle state so an early exit cannot expose an earlier run's
+        ' optional test, covariance or residual payload. No estimator formula changes.
+        If TypeOf Me.pFamily Is regression.Binomial Then
+            Me.pHosmerLemeshowTab = Nothing
+            Me.pHosmerLemeshowTest = New TestResult
+            Me.pRaw_res = Nothing
+            Me.pFinalWeights = Nothing
+            Me.pVarCovar = Nothing
+            Me.pbVarCovarComputed = False
+            Me.pSuccess = 0 : Me.pFail = 0
+            Me.bSeparation = False : Me.bQuasiSeparation = False
+            Me.strError = String.Empty
+        End If
 
         'Set defaults
         pbConverged = False

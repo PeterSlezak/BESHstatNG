@@ -1,0 +1,124 @@
+{
+  "base": "463aaa12a6342cedfa084e266d5a985461de9d3a",
+  "status": "NOT_GOLDEN",
+  "native": false,
+  "files": {
+    "evidence/04A11/baselines/defects-before-net48.txt": {
+      "sha256": "51fb3d916f649cf4282062afa44aa15de29337229f5867d627c2bd0729d0ccb7",
+      "bytes": 87418
+    },
+    "evidence/04A11/baselines/defects-before.txt": {
+      "sha256": "e3bb028e22d79231fb6ebe6a75466703c8f1c1f1f2a07cd6dd611eb1324a1e42",
+      "bytes": 86000
+    },
+    "evidence/04A11/baselines/Multinomial-alternate-net48.txt": {
+      "sha256": "8fb00d2c52f9a5c85d801a5736ef5fe91ed76ec014089bdfad377b4515ba8109",
+      "bytes": 11764
+    },
+    "evidence/04A11/baselines/Multinomial-alternate.txt": {
+      "sha256": "026bc9ae906422b5fbd6283a3c151f7a639c6131e3e62b72e385ed984b669d2d",
+      "bytes": 11621
+    },
+    "evidence/04A11/baselines/Multinomial-ordinary-net48.txt": {
+      "sha256": "95fc2aeeddf6f0ced29ee8ddda37b305f3df14ddd565dd188dca6374642fd5f0",
+      "bytes": 11233
+    },
+    "evidence/04A11/baselines/Multinomial-ordinary.txt": {
+      "sha256": "4d5766a02553875f897550a983dbdb248113f6d8e09131bf16b7ad2e0d66f0f7",
+      "bytes": 11090
+    },
+    "evidence/04A11/baselines/NB2-alternate-net48.txt": {
+      "sha256": "f26afc38739b8417fd27ba4ba604355a02da263ddb0cea3318c29fe04b08da5b",
+      "bytes": 5291
+    },
+    "evidence/04A11/baselines/NB2-alternate.txt": {
+      "sha256": "609b9c5f29fb16c98cdad6039819fbf4f69a86cc53113625696399c9972da339",
+      "bytes": 5246
+    },
+    "evidence/04A11/baselines/NB2-ordinary-net48.txt": {
+      "sha256": "197925ec38465329f5347581428c87b67a16d139713df3ea6b70d148bf9ae7e5",
+      "bytes": 17514
+    },
+    "evidence/04A11/baselines/NB2-ordinary.txt": {
+      "sha256": "0802b432bb8cab9d25c28965ead0251db9a65210c51413c87241d74d4df1c559",
+      "bytes": 17265
+    },
+    "evidence/04A11/baselines/Ordinal-alternate-net48.txt": {
+      "sha256": "5be7120ce9fc83aa00c0699f66b17a133b2a9b99eceab80421251a7ba96d9ae2",
+      "bytes": 13828
+    },
+    "evidence/04A11/baselines/Ordinal-alternate.txt": {
+      "sha256": "b80fcaa426da649ebcb90cda9062c148cbfbcfc7f495c653900367bd072f054b",
+      "bytes": 13621
+    },
+    "evidence/04A11/baselines/Ordinal-ordinary-net48.txt": {
+      "sha256": "2cba38300ea5304c12de5c68141974e137121d53e659aa81c3e22130f35acd0d",
+      "bytes": 12080
+    },
+    "evidence/04A11/baselines/Ordinal-ordinary.txt": {
+      "sha256": "a086f8d28811198bef1bd96a24b109c6334baaab01d2498689d0ad549a0bb160",
+      "bytes": 11863
+    },
+    "evidence/04A11/baselines/ZIP-alternate-net48.txt": {
+      "sha256": "61ac281f8fab70891ca161472cef77f360bc06195c836e060bb7b676b77863d5",
+      "bytes": 9336
+    },
+    "evidence/04A11/baselines/ZIP-alternate.txt": {
+      "sha256": "88a67f13f360934b7ff910053f109fdcd4c8db4ef41316de84f66b9c54c04790",
+      "bytes": 9203
+    },
+    "evidence/04A11/baselines/ZIP-ordinary-net48.txt": {
+      "sha256": "aa62898096914ffbe6275c25a26c46c8dbf5da89dbfdac01d64add7c3f0a51c1",
+      "bytes": 17454
+    },
+    "evidence/04A11/baselines/ZIP-ordinary.txt": {
+      "sha256": "b6fa2aa970abfed7e7019061b43de26c7b36d0d25804ac2c9c89959a6b597e05",
+      "bytes": 17112
+    }
+  },
+  "capture_source_sha256": "1ff0580120b56e2765b7aff3cc7765898f5de504e57f9bd56739a504c3beb571",
+  "current_capture_source_sha256": "1ff0580120b56e2765b7aff3cc7765898f5de504e57f9bd56739a504c3beb571",
+  "prechange_net10": {
+    "command": {
+      "command": [
+        "dotnet",
+        "test",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore",
+        "--filter",
+        "FullyQualifiedName~Regression11Baselines",
+        "--logger",
+        "trx;LogFileName=capture.trx",
+        "--results-directory",
+        "<REPO>\\TestResults\\04A-11-20261103-run01\\prechange-net10-02\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 5.0414383000461385
+    },
+    "passed": 9,
+    "total": 9
+  },
+  "prechange_net48": {
+    "build": {
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.710288899950683
+    },
+    "passed": 9,
+    "total": 9
+  },
+  "meaning": "Eight real-Core four-family table/vector captures plus one executable defect-observation capture per runtime, before production edits. Defect observation code retained; original accepted 04A.10 failure expectation remains frozen.",
+  "tolerances": "Double max(1e-9,abs(expected)*1e-9); strings/types/axes/table order/metadata exact within runtime; only elapsed-time text masked; LF output explicit.",
+  "original_evidence_preserved": true
+}

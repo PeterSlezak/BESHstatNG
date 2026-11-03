@@ -1,0 +1,109 @@
+{
+  "status": "PASS_WITH_EXPLICIT_HISTORICAL_PUBLIC_MODE_NONPASSES",
+  "python_command_prefix": "<LOCAL_PYTHON> -B (established portable WinPython; local absolute executable path intentionally withheld)",
+  "commands": [
+    {
+      "command": "<LOCAL_PYTHON> -B scripts/verify-04a11-publication.py backup",
+      "exit": 0,
+      "result": "75 byte-exact private originals; four expected raw SHA-256 matches; owner-local protected ACL; sandbox validator read-only access added"
+    },
+    {
+      "command": "<LOCAL_PYTHON> -B scripts/verify-04a11-publication.py sanitize",
+      "exit": 0,
+      "result": "Four structurally reversible public derivatives; 70 keys and 133 components each; private mapping revisions retained"
+    },
+    {
+      "command": "<LOCAL_PYTHON> -B -m unittest discover -s scripts/tests -p test_04a11_regression_families.py -v",
+      "exit": 1,
+      "passed": 7,
+      "total": 9,
+      "failed": [
+        "Regression11SuccessorTests.test_exact_six_form_deltas_and_native_writer_tails"
+      ],
+      "errors": [
+        "Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected"
+      ],
+      "disposition": "Two new publication-mode incompatibilities, not fixed or hidden: original generator compares raw keys to public aliases; original path loop attempts to open aliases. Frozen tests unchanged. New publication successor checks actual private raw-local pins and original source computation separately from public aliases."
+    },
+    {
+      "command": "<LOCAL_PYTHON> -B scripts/verify-04a11.py preserve --evidence TestResults/04A-11-20261103-run01 --name public-sanitization",
+      "exit": 0,
+      "historical_files": 180375,
+      "errors": 0,
+      "method": "Original path membership, size, creation/write ns and file identity; frozen source hashes. No full historical byte audit. New receipt only in ignored existing run directory."
+    },
+    {
+      "command": "<LOCAL_PYTHON> -B -m unittest discover -s scripts/tests -p test_04a11_publication.py -v",
+      "exit": 0,
+      "passed": 10,
+      "total": 10,
+      "skipped": 0,
+      "result": "Private raw hashes and reverse mapping; source-pin values and other fields; deterministic collision-free aliases; complete manifest DAG and trackability; unchanged implementation/Help/patches/dossier; raw-local original source and writer-tail verification; complete privacy scan"
+    },
+    {
+      "command": "<LOCAL_PYTHON> -B scripts/verify-04a11-publication.py refresh",
+      "exit": 0,
+      "external_hashes": 81,
+      "candidates": 82,
+      "self": "Omitted from own hash map; included in privacy and trackability scope"
+    },
+    {
+      "command": "<LOCAL_PYTHON> -B scripts/verify-04a11-publication.py verify",
+      "exit": 0,
+      "hashes_and_bytes": "81/81 external; all 72/74 historical subset entries current",
+      "trackability": "82/82; 11 tracked and 71 non-ignored untracked. Six tracked Help pages match broad ignore rules under --no-index; no root ignore changes."
+    },
+    {
+      "command": "<LOCAL_PYTHON> -B scripts/verify-04a11-publication.py scan",
+      "exit": 0,
+      "candidates": 82,
+      "unresolved": 0
+    },
+    {
+      "command": "git diff --check",
+      "exit": 0
+    },
+    {
+      "command": "git diff --cached --name-only",
+      "exit": 0,
+      "output": "EMPTY"
+    },
+    {
+      "command": "git status --short --untracked-files=all; git diff --name-status",
+      "exit": 0,
+      "tracked_modified": 11,
+      "untracked_candidates": 71,
+      "index_empty": true
+    },
+    {
+      "command": "<LOCAL_PYTHON> -B scripts/verify-04a11-publication.py public",
+      "exit": 0,
+      "scope": "Public-only hash/byte/manifest/alias/trackability checks; deliberately independent of private vault, branch and recorded preflight tracking status. Private raw-local mode remains separate."
+    }
+  ],
+  "prior_nonpasses": {
+    "managed_logical": 6,
+    "python": 61,
+    "status": "UNCHANGED REAL NONPASSES; no full suite rerun. Some owner wording says five managed: five inherited plus one accepted frozen constant-response expectation gives six logical nonpasses."
+  },
+  "full_suites": "NOT RUN: managed/Node/full Python/R/MkDocs; administrative evidence-only scope",
+  "early_troubleshooting": "Initial sandbox private-vault discovery checks failed closed before redaction; corrected read-only ACL access. Full privacy scan found repeated shortened deployment components; corrected mapping plans retained privately. No original source/hash values lost.",
+  "development_checks": {
+    "initial_successor_run": {
+      "passed": 8,
+      "total": 10,
+      "failed": 1,
+      "errors": 1,
+      "cause": "Complete manifest had not been created: --no-index exposed six already tracked Help ignore matches; category-list prose triggered a generic home-path regex. Trackability now explicitly distinguishes tracked files from ignored new files; prose clarified. Corrected and rerun 10/10."
+    },
+    "raw_original_generator": "Intentionally unchanged; private raw-local output captured and compared in new successor without writing historical receipts."
+  },
+  "implementation_preservation": {
+    "initial_candidates": 75,
+    "permitted_changed_initial_candidates": 7,
+    "unchanged_initial_candidates": 68,
+    "original_protected_source_pins_verified_raw_local": 3198,
+    "gitignore_unchanged": true,
+    "historical_testresults_scope": "Membership/metadata/file identity for 180375 files; no full-byte audit; narrow historical source pins read only as already required by original source verifier."
+  }
+}

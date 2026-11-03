@@ -7,6 +7,21 @@
 
 ## Overview
 
+### Unavailable fit diagnostics and variable labels
+
+If a binomial fit exits before producing the required inference and diagnostic
+payloads, its report now states **GLM results unavailable** instead of attempting
+to print missing Hosmer–Lemeshow results. No test statistic or p-value is invented.
+Unavailable predictions and residuals remain absent, and a nonconverged fit is
+not presented as converged. Completed fits keep their existing output sections.
+
+Covariance report construction now preserves supplied variable identifiers.
+The Windows **Data** sheet's existing response-header **Intercept** label when
+intercept and covariance are enabled is temporarily retained pending separate
+native activation of its correction. This does not change coefficient or
+covariance numbers. Existing screenshots have not been revalidated against a
+live Excel instance for these changes.
+
 A generalized linear model (GLM) relates the mean of a response \(Y\) to predictors \(x\) through:
 
 - a **random component** (distribution family) with mean \(\mu=\mathbb{E}[Y]\) and variance \(V(\mu)\),

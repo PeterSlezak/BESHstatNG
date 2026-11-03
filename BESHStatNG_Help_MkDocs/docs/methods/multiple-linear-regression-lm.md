@@ -7,6 +7,17 @@
 
 ## Overview
 
+### Current Windows confidence-interval limitation
+
+The current Windows dialog still fits LM coefficient intervals with Core alpha
+**0.05** (95% intervals), even if another alpha is selected in the dialog. The
+shared portable policy now supports the requested alpha, but activating that
+assignment in the Windows fit is pending native verification and approval. Do
+not interpret an alpha 0.10 request as an available 90% GUI coefficient interval
+until that activation is confirmed. The LM worksheet-function alpha parameter
+already supplies the requested alpha. Existing screenshots remain historical
+examples and are not new native verification of this correction.
+
 Multiple linear regression models a continuous outcome \(y\) as a linear combination of predictors:
 
 \[

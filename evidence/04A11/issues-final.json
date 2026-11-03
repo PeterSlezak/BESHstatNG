@@ -1,0 +1,341 @@
+{
+  "supersedes": [
+    "issues.json: before CLR compatibility overload",
+    "issues-v2.json: before failed-fit classification guard"
+  ],
+  "issues": [
+    {
+      "id": "C10-LM-ALPHA-01",
+      "status": "PORTABLE_FIXED_NATIVE_PENDING",
+      "before": "Requested .10; Core effective .05; 95% coefficient CIs.",
+      "after": "Portable Requested intent supplies .10 before fitting: 90% CIs, same coefficients/SE/fitted vectors; default .05 still 95%. Shipping RunOLS explicitly keeps NativeLegacyDefault with actual .05 metadata.",
+      "shipping_status": "UNAPPLIED_GATED",
+      "next_owners": [
+        "04A.40 GUI/UDF parity",
+        "04A.47 GUI confirmation"
+      ],
+      "source_pins": {
+        "BESHStat.Core/src/RegModels/GLM.vb": {
+          "before": "7379cedd86b8a7837f9480575e5e2a5d766815dfd6cae0f0a44dd81a6d1a3975",
+          "after": "7ae9e489a1dd0c5c689ba439f712c89dd38e3df1c09f28a38564958f50a4ce4d"
+        },
+        "BESHStat.Excel.Common/src/Analysis/LinearBinomialRegressionPolicy.vb": {
+          "before": "5d91509313482d57e4a17142e6d64400324b4e54c288ae0efed4547fe85be4bf",
+          "after": "665382c09ada4a228732d94831a7f7c1456f6866e92a4002bae061da2dda6bbd"
+        },
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj": {
+          "before": "ec9198d1a82f4314ad5331c08db7177b87880f5efdb38ad3ce9abeea40b6a244",
+          "after": "9d89bf5618e3b3d2da7fb27f15a541c65ab4decd2d09169523a49b0031500ed1"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/generalized-linear-models-glm.md": {
+          "before": "b7bd633ca9ff30b9f5b1c04f504d6f30e3f3585da71d4e606cfb46855039a9a5",
+          "after": "77068775be6131f3a80474188b2c6e0b7a847411527f052b5759d425f5b050ac"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/multinomial-logistic-regression.md": {
+          "before": "8f9920c9afb88f820f596a96a04e6c2fac6a6061a7a6135c86fd42ce1049c228",
+          "after": "1b0635aedf8a33dfd857dcfe405caaea4f1685635df9ae11a8252322f9130210"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/multiple-linear-regression-lm.md": {
+          "before": "8728bf7346cd255cccb8eaae48b00cada4cd19e330d9aaff0e47312d2d97cc4c",
+          "after": "acc7f258ad5f8efca0abd8c2c9d1525138ffc7eb86077b8b5ec3ec9cc13ffaca"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/negative-binomial-regression-nb2.md": {
+          "before": "91185ab2b3584ef98de19d62af54067fb36f498ede2eb96fffd354a11222ec3a",
+          "after": "bb3785ac3731f1bff9c9c09883f94aedd1067cf43d17e54402ca4e6b6000ff09"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/ordinal-logistic-regression.md": {
+          "before": "334b558938c37270d6837b6395dd11c2adfe42ad70283c748ab8925c035e495b",
+          "after": "9e0c83320109fe9e034dd25bc340850bb1fd7b502c0a79390a77503f8a9be197"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/zero-inflated-poisson-regression.md": {
+          "before": "01ceb7a481e329e85a19824cd193ceecac7942a5eefb280f62c6cb60a675e340",
+          "after": "642ff154a6b81c711c81a8606a8917754501bb5b9a69a30f906f16e7880655ad"
+        },
+        "BESHstatNG/src/DM/WindowsRegressionRequestAdapter.vb": {
+          "before": "24992da6696a35c4a0391bb34f2d2d761569a22d0f15d87f8c3dd3c34f01c598",
+          "after": "f020d47f0b76cb486e083d45af87472ce500be054d89f9dd08cf0ce3051bfbc1"
+        },
+        "BESHstatNG/src/UI/UiGLM.vb": {
+          "before": "a9cbfdef7bb1fd05613cf3f85d1934bfefaada08a3d218d2a104a05459becc1a",
+          "after": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+        }
+      },
+      "test_pins": {
+        "BESHStat.Excel.Common.Tests/src/Regression11DefectTests.vb": "6aa1727ed240eb3cebaacacd9e9c4b270757a80c86364262947ab4ec9e442630",
+        "BESHStat.Excel.Common.Tests/src/Regression11PolicyTests.vb": "9eed91b9b3947c11d4ef17d5495b362ff1d1d6bdfd5e288b182fc5f117975162",
+        "BESHStatNG.Test/src/Regression11AdapterTests.vb": "fc699e1188c4df1fe39030f10e50f33378a922c39e4ed70cc582653003e3f292"
+      },
+      "affected_control_ids": [
+        "BESHStatNG.UiGLM.lbY",
+        "BESHStatNG.UiGLM.lbOffset",
+        "BESHStatNG.UiGLM.lbWeights",
+        "BESHStatNG.UiGLM.lbSelectedEffectsList",
+        "BESHStatNG.UiGLM.tbInitValues",
+        "BESHStatNG.UiGLM.ckIntercept",
+        "BESHStatNG.UiGLM.lblProgress",
+        "BESHStatNG.UiGLM.tbMaxIter",
+        "BESHStatNG.UiGLM.tbEps",
+        "BESHStatNG.UiGLM.ckIterationsDetails",
+        "BESHStatNG.UiGLM.cbFamily",
+        "BESHStatNG.UiGLM.tbPower",
+        "BESHStatNG.UiGLM.cbLink",
+        "BESHStatNG.UiGLM.optFirst",
+        "BESHStatNG.UiGLM.ProgressBar1",
+        "BESHStatNG.UiGLM.tbDispersionParameterNB2",
+        "BESHStatNG.UiGLM.ckResiduals",
+        "BESHStatNG.UiGLM.ckCovarMatrix",
+        "BESHStatNG.UiGLM.ckInterceptLogistic",
+        "BESHStatNG.UiGLM.tbInitValuesLogistic",
+        "BESHStatNG.UiGLM.lbSelectedEffectsListLogistic",
+        "BESHStatNG.UiGLM.tbEMiterations",
+        "BESHStatNG.UiGLM.optTypeIIISS",
+        "BESHStatNG.UiGLM.optTypeISS",
+        "BESHStatNG.UiGLM.ckResidualsLM",
+        "BESHStatNG.UiGLM.ckCovarMatrixLM",
+        "BESHStatNG.UiGLM.spinBtnAlpha",
+        "BESHStatNG.UiGLM.grpClassification",
+        "BESHStatNG.UiGLM.tbClassificationTreshold",
+        "BESHStatNG.UiGLM.cbBrierScore",
+        "BESHStatNG.UiGLM.spinBtnCallibrationBinsN",
+        "BESHStatNG.UiGLM.cbOutputCalibrationTable",
+        "BESHStatNG.UiGLM.cbOutputTresholdTable",
+        "BESHStatNG.UiGLM.cbPerformClasification"
+      ],
+      "retained_original_obligation_ids": [
+        "control:BESHStatNG.UiGLM.lbY",
+        "control:BESHStatNG.UiGLM.lbOffset",
+        "control:BESHStatNG.UiGLM.lbWeights",
+        "control:BESHStatNG.UiGLM.lbSelectedEffectsList",
+        "control:BESHStatNG.UiGLM.lblProgress",
+        "control:BESHStatNG.UiGLM.ProgressBar1",
+        "control:BESHStatNG.UiGLM.lbSelectedEffectsListLogistic"
+      ],
+      "original_row_hashes": "restriction-crosswalk.json",
+      "native_executed": false,
+      "P": "NO"
+    },
+    {
+      "id": "C10-CORE-CONSTANT-01",
+      "status": "FIXED_AND_ACTIVE",
+      "before": "Constant-binomial early exit could dereference absent HL, covariance or residual payload; prechange captures record exact exception matrix.",
+      "after": "HasReportData false yields a diagnostic-only GLM report and absent predictions/residuals. HL null guard, binomial lifecycle cache reset, no optimizer/formula changes or fabricated statistic. Completed nonconverged fits remain distinct.",
+      "shipping_status": "Core defensive report active through existing calls; full UDF handle/inference-status reconciliation remains 04A.40.",
+      "next_owners": [
+        "04A.40 UDF failed-handle status",
+        "04A.47 native diagnostics verification"
+      ],
+      "source_pins": {
+        "BESHStat.Core/src/RegModels/GLM.vb": {
+          "before": "7379cedd86b8a7837f9480575e5e2a5d766815dfd6cae0f0a44dd81a6d1a3975",
+          "after": "7ae9e489a1dd0c5c689ba439f712c89dd38e3df1c09f28a38564958f50a4ce4d"
+        },
+        "BESHStat.Excel.Common/src/Analysis/LinearBinomialRegressionPolicy.vb": {
+          "before": "5d91509313482d57e4a17142e6d64400324b4e54c288ae0efed4547fe85be4bf",
+          "after": "665382c09ada4a228732d94831a7f7c1456f6866e92a4002bae061da2dda6bbd"
+        },
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj": {
+          "before": "ec9198d1a82f4314ad5331c08db7177b87880f5efdb38ad3ce9abeea40b6a244",
+          "after": "9d89bf5618e3b3d2da7fb27f15a541c65ab4decd2d09169523a49b0031500ed1"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/generalized-linear-models-glm.md": {
+          "before": "b7bd633ca9ff30b9f5b1c04f504d6f30e3f3585da71d4e606cfb46855039a9a5",
+          "after": "77068775be6131f3a80474188b2c6e0b7a847411527f052b5759d425f5b050ac"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/multinomial-logistic-regression.md": {
+          "before": "8f9920c9afb88f820f596a96a04e6c2fac6a6061a7a6135c86fd42ce1049c228",
+          "after": "1b0635aedf8a33dfd857dcfe405caaea4f1685635df9ae11a8252322f9130210"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/multiple-linear-regression-lm.md": {
+          "before": "8728bf7346cd255cccb8eaae48b00cada4cd19e330d9aaff0e47312d2d97cc4c",
+          "after": "acc7f258ad5f8efca0abd8c2c9d1525138ffc7eb86077b8b5ec3ec9cc13ffaca"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/negative-binomial-regression-nb2.md": {
+          "before": "91185ab2b3584ef98de19d62af54067fb36f498ede2eb96fffd354a11222ec3a",
+          "after": "bb3785ac3731f1bff9c9c09883f94aedd1067cf43d17e54402ca4e6b6000ff09"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/ordinal-logistic-regression.md": {
+          "before": "334b558938c37270d6837b6395dd11c2adfe42ad70283c748ab8925c035e495b",
+          "after": "9e0c83320109fe9e034dd25bc340850bb1fd7b502c0a79390a77503f8a9be197"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/zero-inflated-poisson-regression.md": {
+          "before": "01ceb7a481e329e85a19824cd193ceecac7942a5eefb280f62c6cb60a675e340",
+          "after": "642ff154a6b81c711c81a8606a8917754501bb5b9a69a30f906f16e7880655ad"
+        },
+        "BESHstatNG/src/DM/WindowsRegressionRequestAdapter.vb": {
+          "before": "24992da6696a35c4a0391bb34f2d2d761569a22d0f15d87f8c3dd3c34f01c598",
+          "after": "f020d47f0b76cb486e083d45af87472ce500be054d89f9dd08cf0ce3051bfbc1"
+        },
+        "BESHstatNG/src/UI/UiGLM.vb": {
+          "before": "a9cbfdef7bb1fd05613cf3f85d1934bfefaada08a3d218d2a104a05459becc1a",
+          "after": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+        }
+      },
+      "test_pins": {
+        "BESHStat.Excel.Common.Tests/src/Regression11DefectTests.vb": "6aa1727ed240eb3cebaacacd9e9c4b270757a80c86364262947ab4ec9e442630",
+        "BESHStat.Excel.Common.Tests/src/Regression11PolicyTests.vb": "9eed91b9b3947c11d4ef17d5495b362ff1d1d6bdfd5e288b182fc5f117975162",
+        "BESHStatNG.Test/src/Regression11AdapterTests.vb": "fc699e1188c4df1fe39030f10e50f33378a922c39e4ed70cc582653003e3f292"
+      },
+      "affected_control_ids": [
+        "BESHStatNG.UiGLM.lbY",
+        "BESHStatNG.UiGLM.lbOffset",
+        "BESHStatNG.UiGLM.lbWeights",
+        "BESHStatNG.UiGLM.lbSelectedEffectsList",
+        "BESHStatNG.UiGLM.tbInitValues",
+        "BESHStatNG.UiGLM.ckIntercept",
+        "BESHStatNG.UiGLM.lblProgress",
+        "BESHStatNG.UiGLM.tbMaxIter",
+        "BESHStatNG.UiGLM.tbEps",
+        "BESHStatNG.UiGLM.ckIterationsDetails",
+        "BESHStatNG.UiGLM.cbFamily",
+        "BESHStatNG.UiGLM.tbPower",
+        "BESHStatNG.UiGLM.cbLink",
+        "BESHStatNG.UiGLM.optFirst",
+        "BESHStatNG.UiGLM.ProgressBar1",
+        "BESHStatNG.UiGLM.tbDispersionParameterNB2",
+        "BESHStatNG.UiGLM.ckResiduals",
+        "BESHStatNG.UiGLM.ckCovarMatrix",
+        "BESHStatNG.UiGLM.ckInterceptLogistic",
+        "BESHStatNG.UiGLM.tbInitValuesLogistic",
+        "BESHStatNG.UiGLM.lbSelectedEffectsListLogistic",
+        "BESHStatNG.UiGLM.tbEMiterations",
+        "BESHStatNG.UiGLM.optTypeIIISS",
+        "BESHStatNG.UiGLM.optTypeISS",
+        "BESHStatNG.UiGLM.ckResidualsLM",
+        "BESHStatNG.UiGLM.ckCovarMatrixLM",
+        "BESHStatNG.UiGLM.spinBtnAlpha",
+        "BESHStatNG.UiGLM.grpClassification",
+        "BESHStatNG.UiGLM.tbClassificationTreshold",
+        "BESHStatNG.UiGLM.cbBrierScore",
+        "BESHStatNG.UiGLM.spinBtnCallibrationBinsN",
+        "BESHStatNG.UiGLM.cbOutputCalibrationTable",
+        "BESHStatNG.UiGLM.cbOutputTresholdTable",
+        "BESHStatNG.UiGLM.cbPerformClasification"
+      ],
+      "retained_original_obligation_ids": [
+        "control:BESHStatNG.UiGLM.lbY",
+        "control:BESHStatNG.UiGLM.lbOffset",
+        "control:BESHStatNG.UiGLM.lbWeights",
+        "control:BESHStatNG.UiGLM.lbSelectedEffectsList",
+        "control:BESHStatNG.UiGLM.lblProgress",
+        "control:BESHStatNG.UiGLM.ProgressBar1",
+        "control:BESHStatNG.UiGLM.lbSelectedEffectsListLogistic"
+      ],
+      "original_row_hashes": "restriction-crosswalk.json",
+      "native_executed": false,
+      "P": "NO"
+    },
+    {
+      "id": "C10-COV-NAMES-01",
+      "status": "PORTABLE_FIXED_NATIVE_PENDING",
+      "before": "Covariance wrap aliases names and changes response key to Intercept.",
+      "after": "Clone before label formatting; repeated wraps and malformed-name tests safe; numbers/order unchanged. Native Data header held in explicit temporary compatibility quarantine, outside Core/Common.",
+      "shipping_status": "UNAPPLIED_GATED Data-header activation; Core clone is active.",
+      "next_owners": [
+        "04A.28 output/formatting",
+        "04A.40 UDF parity",
+        "04A.47 GUI confirmation"
+      ],
+      "source_pins": {
+        "BESHStat.Core/src/RegModels/GLM.vb": {
+          "before": "7379cedd86b8a7837f9480575e5e2a5d766815dfd6cae0f0a44dd81a6d1a3975",
+          "after": "7ae9e489a1dd0c5c689ba439f712c89dd38e3df1c09f28a38564958f50a4ce4d"
+        },
+        "BESHStat.Excel.Common/src/Analysis/LinearBinomialRegressionPolicy.vb": {
+          "before": "5d91509313482d57e4a17142e6d64400324b4e54c288ae0efed4547fe85be4bf",
+          "after": "665382c09ada4a228732d94831a7f7c1456f6866e92a4002bae061da2dda6bbd"
+        },
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj": {
+          "before": "ec9198d1a82f4314ad5331c08db7177b87880f5efdb38ad3ce9abeea40b6a244",
+          "after": "9d89bf5618e3b3d2da7fb27f15a541c65ab4decd2d09169523a49b0031500ed1"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/generalized-linear-models-glm.md": {
+          "before": "b7bd633ca9ff30b9f5b1c04f504d6f30e3f3585da71d4e606cfb46855039a9a5",
+          "after": "77068775be6131f3a80474188b2c6e0b7a847411527f052b5759d425f5b050ac"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/multinomial-logistic-regression.md": {
+          "before": "8f9920c9afb88f820f596a96a04e6c2fac6a6061a7a6135c86fd42ce1049c228",
+          "after": "1b0635aedf8a33dfd857dcfe405caaea4f1685635df9ae11a8252322f9130210"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/multiple-linear-regression-lm.md": {
+          "before": "8728bf7346cd255cccb8eaae48b00cada4cd19e330d9aaff0e47312d2d97cc4c",
+          "after": "acc7f258ad5f8efca0abd8c2c9d1525138ffc7eb86077b8b5ec3ec9cc13ffaca"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/negative-binomial-regression-nb2.md": {
+          "before": "91185ab2b3584ef98de19d62af54067fb36f498ede2eb96fffd354a11222ec3a",
+          "after": "bb3785ac3731f1bff9c9c09883f94aedd1067cf43d17e54402ca4e6b6000ff09"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/ordinal-logistic-regression.md": {
+          "before": "334b558938c37270d6837b6395dd11c2adfe42ad70283c748ab8925c035e495b",
+          "after": "9e0c83320109fe9e034dd25bc340850bb1fd7b502c0a79390a77503f8a9be197"
+        },
+        "BESHStatNG_Help_MkDocs/docs/methods/zero-inflated-poisson-regression.md": {
+          "before": "01ceb7a481e329e85a19824cd193ceecac7942a5eefb280f62c6cb60a675e340",
+          "after": "642ff154a6b81c711c81a8606a8917754501bb5b9a69a30f906f16e7880655ad"
+        },
+        "BESHstatNG/src/DM/WindowsRegressionRequestAdapter.vb": {
+          "before": "24992da6696a35c4a0391bb34f2d2d761569a22d0f15d87f8c3dd3c34f01c598",
+          "after": "f020d47f0b76cb486e083d45af87472ce500be054d89f9dd08cf0ce3051bfbc1"
+        },
+        "BESHstatNG/src/UI/UiGLM.vb": {
+          "before": "a9cbfdef7bb1fd05613cf3f85d1934bfefaada08a3d218d2a104a05459becc1a",
+          "after": "47d99e58838647bba33610e834d9eadd59db0fb5c8bd31f3274a02f7a34a94f6"
+        }
+      },
+      "test_pins": {
+        "BESHStat.Excel.Common.Tests/src/Regression11DefectTests.vb": "6aa1727ed240eb3cebaacacd9e9c4b270757a80c86364262947ab4ec9e442630",
+        "BESHStat.Excel.Common.Tests/src/Regression11PolicyTests.vb": "9eed91b9b3947c11d4ef17d5495b362ff1d1d6bdfd5e288b182fc5f117975162",
+        "BESHStatNG.Test/src/Regression11AdapterTests.vb": "fc699e1188c4df1fe39030f10e50f33378a922c39e4ed70cc582653003e3f292"
+      },
+      "affected_control_ids": [
+        "BESHStatNG.UiGLM.lbY",
+        "BESHStatNG.UiGLM.lbOffset",
+        "BESHStatNG.UiGLM.lbWeights",
+        "BESHStatNG.UiGLM.lbSelectedEffectsList",
+        "BESHStatNG.UiGLM.tbInitValues",
+        "BESHStatNG.UiGLM.ckIntercept",
+        "BESHStatNG.UiGLM.lblProgress",
+        "BESHStatNG.UiGLM.tbMaxIter",
+        "BESHStatNG.UiGLM.tbEps",
+        "BESHStatNG.UiGLM.ckIterationsDetails",
+        "BESHStatNG.UiGLM.cbFamily",
+        "BESHStatNG.UiGLM.tbPower",
+        "BESHStatNG.UiGLM.cbLink",
+        "BESHStatNG.UiGLM.optFirst",
+        "BESHStatNG.UiGLM.ProgressBar1",
+        "BESHStatNG.UiGLM.tbDispersionParameterNB2",
+        "BESHStatNG.UiGLM.ckResiduals",
+        "BESHStatNG.UiGLM.ckCovarMatrix",
+        "BESHStatNG.UiGLM.ckInterceptLogistic",
+        "BESHStatNG.UiGLM.tbInitValuesLogistic",
+        "BESHStatNG.UiGLM.lbSelectedEffectsListLogistic",
+        "BESHStatNG.UiGLM.tbEMiterations",
+        "BESHStatNG.UiGLM.optTypeIIISS",
+        "BESHStatNG.UiGLM.optTypeISS",
+        "BESHStatNG.UiGLM.ckResidualsLM",
+        "BESHStatNG.UiGLM.ckCovarMatrixLM",
+        "BESHStatNG.UiGLM.spinBtnAlpha",
+        "BESHStatNG.UiGLM.grpClassification",
+        "BESHStatNG.UiGLM.tbClassificationTreshold",
+        "BESHStatNG.UiGLM.cbBrierScore",
+        "BESHStatNG.UiGLM.spinBtnCallibrationBinsN",
+        "BESHStatNG.UiGLM.cbOutputCalibrationTable",
+        "BESHStatNG.UiGLM.cbOutputTresholdTable",
+        "BESHStatNG.UiGLM.cbPerformClasification"
+      ],
+      "retained_original_obligation_ids": [
+        "control:BESHStatNG.UiGLM.lbY",
+        "control:BESHStatNG.UiGLM.lbOffset",
+        "control:BESHStatNG.UiGLM.lbWeights",
+        "control:BESHStatNG.UiGLM.lbSelectedEffectsList",
+        "control:BESHStatNG.UiGLM.lblProgress",
+        "control:BESHStatNG.UiGLM.ProgressBar1",
+        "control:BESHStatNG.UiGLM.lbSelectedEffectsListLogistic"
+      ],
+      "original_row_hashes": "restriction-crosswalk.json",
+      "native_executed": false,
+      "P": "NO"
+    }
+  ],
+  "single_owner_timing_disposition": "C11-NATIVE-CORRECTIONS-01",
+  "strict_validation_activation": "C09-NATIVE-STRICT-01 remains deferred and UNAPPLIED."
+}

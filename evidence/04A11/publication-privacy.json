@@ -1,0 +1,23 @@
+{
+  "status": "PASS_PUBLICATION_PREFLIGHT",
+  "candidate_count": 82,
+  "scope": [
+    "Every candidate path and UTF-8 content",
+    "JSON-decoded keys/values and escaped slash variants",
+    "NFKC Unicode normalization and case-insensitive known private identifier matching",
+    "Base64-encoded capture payloads when decodable as UTF-8",
+    "Known combined identifiers and component tokens; absolute profile/AppData/drive/UNC/home paths; domain SIDs; credentials, email, internal hostnames"
+  ],
+  "resolved_private_findings": {
+    "affected_documents": 4,
+    "keys_per_document": 70,
+    "path_components_per_document": 133,
+    "total_keys": 280,
+    "total_components": 532
+  },
+  "reviewed_false_positive_groups": 6,
+  "false_positive_reason": "A short component also names the public product. Manual review of two existing Help pages and established comparison-fixture basenames in four pin dictionaries confirmed public product references, not owner or workstation identities. These narrowly scoped brand matches are allowed; full identifiers and other components remain blocking.",
+  "unresolved_findings": 0,
+  "security_limit": "Pattern scanning and targeted manual review are not proof of absence of all secrets. No new screenshot/native review or scientific qualification is implied.",
+  "scan_result": "82 complete candidate paths, contents and decoded views; zero unresolved findings"
+}

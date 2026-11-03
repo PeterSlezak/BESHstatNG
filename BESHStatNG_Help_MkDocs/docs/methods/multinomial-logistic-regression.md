@@ -7,6 +7,14 @@
 
 ## Overview
 
+### Office add-in availability
+
+Multinomial regression is not currently executable in the Office task pane in
+Excel Online. This page describes the Windows Excel-DNA add-in. The shared policy
+retains Core's class identities and probability-column order; it does not add an
+Office screen. Existing screenshots are unchanged and have not been revalidated
+against live Excel in this batch.
+
 Multinomial logistic regression is used when the outcome has **more than two unordered (nominal) categories** (for example `APPLY` taking values `1`, `2`, `3`) and you want to model how predictors shift the *relative* probability of each category. BESHStatNG fits a **baseline-category (reference-category) logit model**: one category is chosen as the reference, and the model estimates a separate set of coefficients for each non-reference category. Results are reported as coefficients, Wald tests, and **odds ratios** for each category-versus-reference comparison, along with model fit statistics, optional residual diagnostics, and a classification table.
 
 ---
