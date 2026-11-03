@@ -1,0 +1,828 @@
+{
+  "schema": "04A08-ownership-v1",
+  "base": "b48877406c3c185a992d5dd5c42f951611a52569",
+  "members": [
+    {
+      "source": "BESHstatNG/src/UI/RegressionEffectsController.vb",
+      "member": "AddMainEffectsFromSelectedVars",
+      "owner": "RegressionEffectAuthoringPolicy.Apply",
+      "operation": "ContinuousMain",
+      "windows_retains": "Selection/index snapshot, projection, original warning presentation",
+      "core_retains": "Effect identity, coefficient labels, TermSpec and PredictorScale"
+    },
+    {
+      "source": "BESHstatNG/src/UI/RegressionEffectsController.vb",
+      "member": "AddCategoricalEffectsFromSelectedVars",
+      "owner": "RegressionEffectAuthoringPolicy.Apply",
+      "operation": "CategoricalMain",
+      "windows_retains": "Selection/index snapshot, projection, original warning presentation",
+      "core_retains": "Effect identity, coefficient labels, TermSpec and PredictorScale"
+    },
+    {
+      "source": "BESHstatNG/src/UI/RegressionEffectsController.vb",
+      "member": "AddPolynomialEffectsFromSelectedVars",
+      "owner": "RegressionEffectAuthoringPolicy.Apply",
+      "operation": "Polynomial",
+      "windows_retains": "Selection/index snapshot, projection, original warning presentation",
+      "core_retains": "Effect identity, coefficient labels, TermSpec and PredictorScale"
+    },
+    {
+      "source": "BESHstatNG/src/UI/RegressionEffectsController.vb",
+      "member": "AddTwoWayInteractionsFromSelectedVars",
+      "owner": "RegressionEffectAuthoringPolicy.Apply",
+      "operation": "PairwiseInteractions",
+      "windows_retains": "Selection/index snapshot, projection, original warning presentation",
+      "core_retains": "Effect identity, coefficient labels, TermSpec and PredictorScale"
+    },
+    {
+      "source": "BESHstatNG/src/UI/RegressionEffectsController.vb",
+      "member": "AddCustomInteractionFromSelectedVars",
+      "owner": "RegressionEffectAuthoringPolicy.Apply",
+      "operation": "CustomInteraction",
+      "windows_retains": "Selection/index snapshot, projection, original warning presentation",
+      "core_retains": "Effect identity, coefficient labels, TermSpec and PredictorScale"
+    },
+    {
+      "source": "BESHstatNG/src/DM/UIprocedures.vb",
+      "member": "Remove_Item",
+      "owner": "RegressionEffectAuthoringPolicy.Remove",
+      "windows_retains": "Untyped variable-list path and existing early-empty return; typed list projection/messages",
+      "compatibility": "Exact original text-based cascade and order refresh"
+    }
+  ],
+  "consumers": [
+    {
+      "path": "BESHstatNG/src/UI/UiGLM.vb",
+      "source_sha256": "1ad9aa65ec1452e1d452fd8931d7fd42f5249a7c1af8aacc0f8ab18e5f3124fd",
+      "unchanged": true,
+      "controllers": [
+        [
+          "EffectsController",
+          "Me.lbSelectedVariables,\n                                                               Me.lbSelectedEffectsList,\n                                                               Me.TermSpecs"
+        ],
+        [
+          "EffectsControllerLogistic",
+          "Me.lbSelectedVariablesLogistic,\n                                                                       Me.lbSelectedEffectsListLogistic,\n                                                                       Me.TermSpecsLogistic"
+        ]
+      ],
+      "handlers": [
+        {
+          "member": "btReload_Click",
+          "body_sha256": "5590f58f4d7f3b9ab395e9e558d6bc66a86929397f2f730b243cf1113856d0bb",
+          "edges": [
+            [
+              "btReload",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "TabControl1_SelectedIndexChanged",
+          "body_sha256": "44426cab24cde9deabcae14b610e6e1604fd7e709893cace9d058a1623e4ffea",
+          "edges": [
+            [
+              "TabControl1",
+              "SelectedIndexChanged"
+            ]
+          ]
+        },
+        {
+          "member": "btClearAllSelectedEffects_Click",
+          "body_sha256": "abbfe5b9b10078b82ce54b56f6898add0b39416aa7cadb216ed9fa6ac68522f6",
+          "edges": [
+            [
+              "btClearAllSelectedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "tbRemoveSelectedEffects_Click",
+          "body_sha256": "cafd043868d8882c493d15926639c21e6ed4b62a67408132733473733cf98a57",
+          "edges": [
+            [
+              "tbRemoveSelectedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffect_Click",
+          "body_sha256": "52d234e56317b9bffcc236988935763d283a3bedf9b60da0e1196515d0b9c1f1",
+          "edges": [
+            [
+              "btAddEffect",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffectLogistic_Click",
+          "body_sha256": "08a9fe1c39b435593ab6666ede6cf312eb5876b59caf1e5788d163f3d45eef90",
+          "edges": [
+            [
+              "btAddEffectLogistic",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffectCategoricalFactorLogistic_Click",
+          "body_sha256": "5d01413d7b817b402db9b7f5bc117c6ec04c1a7937da5218fb267b9aa3d4d996",
+          "edges": [
+            [
+              "btAddEffectCategoricalFactorLogistic",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnPolyLogistic_Click",
+          "body_sha256": "4d678729bbe542c0ce33b488f2b83819cac478c404408f70f9b088931a1c3bb6",
+          "edges": [
+            [
+              "btnPolyLogistic",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btn2InteractionsLogistic_Click",
+          "body_sha256": "cf0f0791af91af42b25f3387ec75031216ae217deba3e1d4a73714b2c89c195d",
+          "edges": [
+            [
+              "btn2InteractionsLogistic",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnCustomInteractionLogistic_Click",
+          "body_sha256": "520f671c6b44258e77760b9f2d70baed0e1ae8a9c529f41cd340e9b1db6c847c",
+          "edges": [
+            [
+              "btnCustomInteractionLogistic",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "tbRemoveSelectedEffectsLogistic_Click",
+          "body_sha256": "6ce66712d72b2f803c77d4711d65ac12d2049d2983483f517f61d836fe982c0e",
+          "edges": [
+            [
+              "tbRemoveSelectedEffectsLogistic",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btClearAllSelectedEffectsLogistic_Click",
+          "body_sha256": "60de9f029b02b807993696340ae9ba23d4d31752c2c939c075fcebb82df66247",
+          "edges": [
+            [
+              "btClearAllSelectedEffectsLogistic",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnPoly_Click",
+          "body_sha256": "04673022ec8a3ca08774a2366cc480e00461034db6da530728cc31e7b259d836",
+          "edges": [
+            [
+              "btnPoly",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btn2Interactions_Click",
+          "body_sha256": "6f733b052e258ae8f94cfe0fc284821035e1f6bf90fdeabfe647e2296fb2527e",
+          "edges": [
+            [
+              "btn2Interactions",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnCustomInteraction_Click",
+          "body_sha256": "88cddbffcf23fdc14fa66b14764bdb0b4a93b6690a16f6aa6c01ab73f083ed7c",
+          "edges": [
+            [
+              "btnCustomInteraction",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffectCategoricalFactor_Click",
+          "body_sha256": "2fed9e60f7c28213fbd6770bc8835b9838eec84a3083bb15b4a91148aa3253ac",
+          "edges": [
+            [
+              "btAddEffectCategoricalFactor",
+              "Click"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/UI/Ui13GEE.vb",
+      "source_sha256": "605d0b76abccb880bed4ab05a84c485c4305e4b98bd311f0f5f4355f9b702e00",
+      "unchanged": true,
+      "controllers": [
+        [
+          "EffectsController",
+          "Me.lbSelectedVariables,\n                                                               Me.lbSelectedEffectsList,\n                                                               Me.TermSpecs"
+        ]
+      ],
+      "handlers": [
+        {
+          "member": "btReload_Click",
+          "body_sha256": "4ca6f514a1475bfe4c2d5a23bdce52fa8b83634587ae8a554bd5b7c094ae8c5e",
+          "edges": [
+            [
+              "btReload",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "TabControl1_SelectedIndexChanged",
+          "body_sha256": "3faf20b96a12503f58f2404a051d5158d7c105dbfe7cbe02e625ace822ee1140",
+          "edges": [
+            [
+              "TabControl1",
+              "SelectedIndexChanged"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffect_Click",
+          "body_sha256": "52d234e56317b9bffcc236988935763d283a3bedf9b60da0e1196515d0b9c1f1",
+          "edges": [
+            [
+              "btAddEffect",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffectCategoricalFactor_Click",
+          "body_sha256": "2fed9e60f7c28213fbd6770bc8835b9838eec84a3083bb15b4a91148aa3253ac",
+          "edges": [
+            [
+              "btAddEffectCategoricalFactor",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btn2Interactions_Click",
+          "body_sha256": "6f733b052e258ae8f94cfe0fc284821035e1f6bf90fdeabfe647e2296fb2527e",
+          "edges": [
+            [
+              "btn2Interactions",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnCustomInteraction_Click",
+          "body_sha256": "88cddbffcf23fdc14fa66b14764bdb0b4a93b6690a16f6aa6c01ab73f083ed7c",
+          "edges": [
+            [
+              "btnCustomInteraction",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "tbRemoveSelectedEffects_Click",
+          "body_sha256": "cafd043868d8882c493d15926639c21e6ed4b62a67408132733473733cf98a57",
+          "edges": [
+            [
+              "tbRemoveSelectedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btClearAllSelectedEffects_Click",
+          "body_sha256": "abbfe5b9b10078b82ce54b56f6898add0b39416aa7cadb216ed9fa6ac68522f6",
+          "edges": [
+            [
+              "btClearAllSelectedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnPoly_Click",
+          "body_sha256": "04673022ec8a3ca08774a2366cc480e00461034db6da530728cc31e7b259d836",
+          "edges": [
+            [
+              "btnPoly",
+              "Click"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/UI/Ui4Cox.vb",
+      "source_sha256": "69889949268e29a3a663d915e4f54f65b70ba77d7b51f0f3d14d94e4c3fc5d48",
+      "unchanged": true,
+      "controllers": [
+        [
+          "EffectsController",
+          "Me.lbSelectedVariables,\n                                                               Me.lbSelectedEffectsList,\n                                                               Me.TermSpecs"
+        ]
+      ],
+      "handlers": [
+        {
+          "member": "btReload_Click",
+          "body_sha256": "dd0442179a7bb4dc54b918f1107d31f7a0a3a054e632745fd73c858d58589f5c",
+          "edges": [
+            [
+              "btReload",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffect_Click",
+          "body_sha256": "52d234e56317b9bffcc236988935763d283a3bedf9b60da0e1196515d0b9c1f1",
+          "edges": [
+            [
+              "btAddEffect",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffectCategoricalFactor_Click",
+          "body_sha256": "2fed9e60f7c28213fbd6770bc8835b9838eec84a3083bb15b4a91148aa3253ac",
+          "edges": [
+            [
+              "btAddEffectCategoricalFactor",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnPoly_Click",
+          "body_sha256": "04673022ec8a3ca08774a2366cc480e00461034db6da530728cc31e7b259d836",
+          "edges": [
+            [
+              "btnPoly",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btn2Interactions_Click",
+          "body_sha256": "6f733b052e258ae8f94cfe0fc284821035e1f6bf90fdeabfe647e2296fb2527e",
+          "edges": [
+            [
+              "btn2Interactions",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnCustomInteraction_Click",
+          "body_sha256": "88cddbffcf23fdc14fa66b14764bdb0b4a93b6690a16f6aa6c01ab73f083ed7c",
+          "edges": [
+            [
+              "btnCustomInteraction",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "tbRemoveSelectedEffects_Click",
+          "body_sha256": "cafd043868d8882c493d15926639c21e6ed4b62a67408132733473733cf98a57",
+          "edges": [
+            [
+              "tbRemoveSelectedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btClearAllSelectedEffects_Click",
+          "body_sha256": "abbfe5b9b10078b82ce54b56f6898add0b39416aa7cadb216ed9fa6ac68522f6",
+          "edges": [
+            [
+              "btClearAllSelectedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "TabControl1_SelectedIndexChanged",
+          "body_sha256": "780d28340f61afab1987839d60aa138deb3eee06b437030c0b018d697c456969",
+          "edges": [
+            [
+              "TabControl1",
+              "SelectedIndexChanged"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/UI/Ui18MMRM.vb",
+      "source_sha256": "f8967b80168e6bd5b830468293ce90ab9e01130fa0bee1db2af1ba3dcaf49a73",
+      "unchanged": true,
+      "controllers": [
+        [
+          "EffectsController",
+          "Me.lbSelectedVariables, Me.lbSelectedEffectsList, Me.TermSpecs"
+        ]
+      ],
+      "handlers": [
+        {
+          "member": "TabControl1_SelectedIndexChanged",
+          "body_sha256": "36dc9d61c90a28ca386804689cffeaed2cb23e1c95dc2f153353caa163f97edc",
+          "edges": [
+            [
+              "TabControl1",
+              "SelectedIndexChanged"
+            ]
+          ]
+        },
+        {
+          "member": "btReload_Click",
+          "body_sha256": "274b78e04d4766a78b0eeab5de26383e507d4a3e252847a813cb0504ef0003d5",
+          "edges": [
+            [
+              "btReload",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffect_Click",
+          "body_sha256": "52d234e56317b9bffcc236988935763d283a3bedf9b60da0e1196515d0b9c1f1",
+          "edges": [
+            [
+              "btAddEffect",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffectCategoricalFactor_Click",
+          "body_sha256": "2fed9e60f7c28213fbd6770bc8835b9838eec84a3083bb15b4a91148aa3253ac",
+          "edges": [
+            [
+              "btAddEffectCategoricalFactor",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btn2Interactions_Click",
+          "body_sha256": "6f733b052e258ae8f94cfe0fc284821035e1f6bf90fdeabfe647e2296fb2527e",
+          "edges": [
+            [
+              "btn2Interactions",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnCustomInteraction_Click",
+          "body_sha256": "88cddbffcf23fdc14fa66b14764bdb0b4a93b6690a16f6aa6c01ab73f083ed7c",
+          "edges": [
+            [
+              "btnCustomInteraction",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnPoly_Click",
+          "body_sha256": "04673022ec8a3ca08774a2366cc480e00461034db6da530728cc31e7b259d836",
+          "edges": [
+            [
+              "btnPoly",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "tbRemoveSelectedEffects_Click",
+          "body_sha256": "cafd043868d8882c493d15926639c21e6ed4b62a67408132733473733cf98a57",
+          "edges": [
+            [
+              "tbRemoveSelectedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btClearAllSelectedEffects_Click",
+          "body_sha256": "abbfe5b9b10078b82ce54b56f6898add0b39416aa7cadb216ed9fa6ac68522f6",
+          "edges": [
+            [
+              "btClearAllSelectedEffects",
+              "Click"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/UI/Ui19LMM.vb",
+      "source_sha256": "dc354d6d85d96da12087be74b94ee485ab4bdc937bd023408112e985e91ce381",
+      "unchanged": true,
+      "controllers": [
+        [
+          "FixedEffectsController",
+          "Me.lbSelectedVariables, Me.lbSelectedFixedEffectsList, Me.FixedTermSpecs"
+        ],
+        [
+          "RandomEffectsController",
+          "Me.lbSelectedVariables, Me.lbSelectedRandomEffectsList, Me.RandomTermSpecs"
+        ]
+      ],
+      "handlers": [
+        {
+          "member": "btReload_Click",
+          "body_sha256": "7bf776bcf04bcbfe2b08ea176f325c0240dfe4901e2234c0024feb049136d4c8",
+          "edges": [
+            [
+              "btReload",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddFixedEffect_Click",
+          "body_sha256": "9e78a5e566eccf21144ef97059fd150f7412e6c7cd58aacac2f1334c3f1e0ba6",
+          "edges": [
+            [
+              "btAddFixedEffect",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddFixedEffectCategoricalFactor_Click",
+          "body_sha256": "1a6ee61de6de546c5bccc6d83b7cde8106a9bfe44cb0639db781df4ffe905898",
+          "edges": [
+            [
+              "btAddFixedEffectCategoricalFactor",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnFixed2Interactions_Click",
+          "body_sha256": "ad7dd8811fc2ff1efbb69739094a61d0bcd1fdc0fbc1a5ae495a14471604b5e2",
+          "edges": [
+            [
+              "btnFixed2Interactions",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnFixedCustomInteraction_Click",
+          "body_sha256": "ae6c11ffbf9754c90831079e7396082f912909e6f07ac922b83114efaa8c7f66",
+          "edges": [
+            [
+              "btnFixedCustomInteraction",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnFixedPoly_Click",
+          "body_sha256": "a1fd80a25b5b070c185b66e49293ec2baca4fb38829d71071dd3d484272e9ea8",
+          "edges": [
+            [
+              "btnFixedPoly",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "tbRemoveSelectedFixedEffects_Click",
+          "body_sha256": "c2b1af15977b1ebe34a5a24df1a57a5cfe4bc5bc7468e1e6699980049b521099",
+          "edges": [
+            [
+              "tbRemoveSelectedFixedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btClearAllSelectedFixedEffects_Click",
+          "body_sha256": "84c48155aa3e54620b7658481c9d02444461f2933800a5588a08a98dbfdeb944",
+          "edges": [
+            [
+              "btClearAllSelectedFixedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddRandomEffect_Click",
+          "body_sha256": "b24cedb4fdb533cbdc77aae30a2f8aba5dd22a4ebfc96fe411b21a89f0008d67",
+          "edges": [
+            [
+              "btAddRandomEffect",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddRandomEffectCategoricalFactor_Click",
+          "body_sha256": "3affc73d0eb59e819f45b9e7e6da198fdf1989c61be0ee9bb383f3f789189587",
+          "edges": [
+            [
+              "btAddRandomEffectCategoricalFactor",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnRandom2Interactions_Click",
+          "body_sha256": "be603952041cad72e7543674db837f9912c9bd40a65d8b9bf1bc2f14fef1bc5f",
+          "edges": [
+            [
+              "btnRandom2Interactions",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnRandomCustomInteraction_Click",
+          "body_sha256": "23ac63db9975cd5e5b609e2ca040afc1c09df67d86c5e6799267ff2bd8e05848",
+          "edges": [
+            [
+              "btnRandomCustomInteraction",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnRandomPoly_Click",
+          "body_sha256": "e6cd78f547efe55bc7d22d75308a887391a80a7be6ec2ab74b42a55869055d45",
+          "edges": [
+            [
+              "btnRandomPoly",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "tbRemoveSelectedRandomEffects_Click",
+          "body_sha256": "294546e0eac138673a7a75659334d3ed594bef6a42fbf8a42430d10a6d6cae21",
+          "edges": [
+            [
+              "tbRemoveSelectedRandomEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btClearAllSelectedRandomEffects_Click",
+          "body_sha256": "f683b74b368543710f5b58ced17bba306b6158d279308ea89e76adf604aa3dfa",
+          "edges": [
+            [
+              "btClearAllSelectedRandomEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "RefreshSelectedVariablesFromSourceList",
+          "body_sha256": "152993bc64677b38ee11a59f594c8a7e26c568914e7d2c1843d2dbe917130917",
+          "edges": []
+        }
+      ]
+    },
+    {
+      "path": "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb",
+      "source_sha256": "de71d17991d63f24cb0d8ab89af6bc0436bbcf9ca31db92b46c445eb74ce6f1d",
+      "unchanged": true,
+      "controllers": [
+        [
+          "EffectsController",
+          "Me.lbSelectedVariables,\n                                                               Me.lbSelectedEffectsList,\n                                                               Me.TermSpecs"
+        ]
+      ],
+      "handlers": [
+        {
+          "member": "btReload_Click",
+          "body_sha256": "81da9b09a473f9147d924487d388394c2bf59bf4c7828936447c8e66963557d0",
+          "edges": [
+            [
+              "btReload",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "RefreshSelectedVariablesFromSourceList",
+          "body_sha256": "48ceba0fbc5762797e70a724b9b8abb004e651ce5d0a524183ac46f1c1606e05",
+          "edges": []
+        },
+        {
+          "member": "tbRemoveSelectedEffects_Click",
+          "body_sha256": "cafd043868d8882c493d15926639c21e6ed4b62a67408132733473733cf98a57",
+          "edges": [
+            [
+              "tbRemoveSelectedEffects",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffect_Click",
+          "body_sha256": "52d234e56317b9bffcc236988935763d283a3bedf9b60da0e1196515d0b9c1f1",
+          "edges": [
+            [
+              "btAddEffect",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btAddEffectCategoricalFactor_Click",
+          "body_sha256": "2fed9e60f7c28213fbd6770bc8835b9838eec84a3083bb15b4a91148aa3253ac",
+          "edges": [
+            [
+              "btAddEffectCategoricalFactor",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnPoly_Click",
+          "body_sha256": "04673022ec8a3ca08774a2366cc480e00461034db6da530728cc31e7b259d836",
+          "edges": [
+            [
+              "btnPoly",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btn2Interactions_Click",
+          "body_sha256": "6f733b052e258ae8f94cfe0fc284821035e1f6bf90fdeabfe647e2296fb2527e",
+          "edges": [
+            [
+              "btn2Interactions",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btnCustomInteraction_Click",
+          "body_sha256": "88cddbffcf23fdc14fa66b14764bdb0b4a93b6690a16f6aa6c01ab73f083ed7c",
+          "edges": [
+            [
+              "btnCustomInteraction",
+              "Click"
+            ]
+          ]
+        },
+        {
+          "member": "btClearAllSelectedEffects_Click",
+          "body_sha256": "abbfe5b9b10078b82ce54b56f6898add0b39416aa7cadb216ed9fa6ac68522f6",
+          "edges": [
+            [
+              "btClearAllSelectedEffects",
+              "Click"
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "protected_source_pins": {
+    "BESHStat.Core/src/RegModels/RegressionDesignCore.vb": "45b3ab73f9b4c373d687715f3064ec536eb7f2b730762dbb3287af689c7a20f3",
+    "BESHStat.Core/src/RegModels/RegressionFormulaParser.vb": "38216d2d98d6fde5a2682bc58df09fa74460575ddd46aa6b7f12796a2430996f",
+    "BESHStat.Core/src/RegModels/RegressionFormulaDesignService.vb": "c2d110d417d727f28dadf73085cf458894e098bd689018b898a6da7e933b0565",
+    "BESHStat.Excel.Common/src/Input/ModelInput.vb": "24ce36115b13ca33b36480cbcce64439e2af8317c35c94373eb387e0f894062f",
+    "BESHStat.Excel.Common/src/Input/ModelInputCompiler.vb": "90707f795dd4df22ba35a5124af105e2d7ffd6cff63124706b5fe2e6b1171eb3",
+    "BESHstatNG/src/DM/ExcelDnaDataImporter.vb": "32942d3034c2fb80befe23e6bb317b9dde3097774b9cef0373536d9199f36fc9",
+    "BESHStat.Excel.Common/src/Analysis/AnovaWorkflowPolicy.vb": "cb0df7743cbf30a6861ee2e47902a6e813be306545a84a7eb9a0bfc02d6fbfcc",
+    "BESHStat.Excel.Common/src/Input/ContingencyInputPolicy.vb": "9bb28865470b386a7773b51de9efeb594031c207af2fc148663d0cc3edf35e40",
+    "BESHStat.Excel.Common/src/Results/ContingencyReportPolicy.vb": "05df5860550a2a427353c3c5dabc9a666f458c324bed99144d55a9d4dde194d7",
+    "BESHStat.Excel.Common/src/Results/ProportionsReportPolicy.vb": "11f9b5e5caca922a5888b6b2727f217fe63fe358f5898ece2f6ba547636f3906",
+    "BESHStat.Excel.Common/src/Results/AssumptionReportPolicy.vb": "d373b5da570ccf219150fb01103a915f188b1b1a9ecb442f5048a38f43a074d2",
+    "planning/BESHStatNG_CrossPlatform_MasterPlan.md": "666af3fc136ad34f2ed7fc4620d0a3b9349f783158864248fd3b22c79af895b9",
+    "BESHstatNG/Generated/VersionAttributes.vb": "7d66675f888be0ed49ce42bf40bce3821124b592447150e18c3b49d74a526660"
+  },
+  "common_contract": "Ordered read-only effects and defensive Core TermSpec projections; ordinal identity; optional diagnostic snapshots; no host or IO dependency",
+  "host_evidence": "Standalone managed ListBoxes and shipping controller, STA; source-anchored event routes. Actual form constructors and native Excel UI NOT RUN."
+}

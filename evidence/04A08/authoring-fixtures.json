@@ -1,0 +1,656 @@
+{
+  "schema": "04A08-authoring-fixtures-v1",
+  "base": "b48877406c3c185a992d5dd5c42f951611a52569",
+  "original_controller_sha256": "8ed00ae3afff1e5fa128c537567827fcb2d06cdf0986d3d408412eaaa37448c6",
+  "configurations": {
+    "Debug": {
+      "path": "TestResults/04A-08-20261103-run01/authoring-observations-Debug-complete.json",
+      "sha256": "d74530a7ae0356faa226cc07be32ea93a437a59a878661cf17731279991b361b",
+      "assemblies": [
+        {
+          "name": "BESHStat.Core.dll",
+          "sha256": "d8be2f5a3362c7be895e030222fa070800e0dc2d002a9f5b37e95c669a44023e"
+        },
+        {
+          "name": "BESHStat.Excel.Common.dll",
+          "sha256": "6daea342cfa707c77741a7427ddfee3f3812273dfae42c0d6569b5d86efec59b"
+        },
+        {
+          "name": "BESHStatNG.dll",
+          "sha256": "90de83f999faf28f82d4ee757827cb672946f1ee6cd8fd72307da2f3b90fe873"
+        },
+        {
+          "name": "BESHStatNG.Test.dll",
+          "sha256": "77393018ec3e227a4a4cfc4d17b2caeb582b561c6a0a6c172fda02dc60a30a36"
+        }
+      ],
+      "observations": [
+        {
+          "culture": "en-US",
+          "method": "AddMainEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "3cb13d2884569b9f27dfe9cbc2d62fd54c645f9c3b6787a0f9d60a092324e055",
+          "after_sha256": "3cb13d2884569b9f27dfe9cbc2d62fd54c645f9c3b6787a0f9d60a092324e055",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>Group | VarC</key><spec><kind>MainEffect</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>雪</key><spec><kind>MainEffect</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>雪</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "Age | VarB",
+            "Group | VarC",
+            "雪"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddMainEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "cdfa116436674e3c75345358584ff546b0c3d5bdc83edab52821f049d6a4d9a0",
+          "after_sha256": "cdfa116436674e3c75345358584ff546b0c3d5bdc83edab52821f049d6a4d9a0",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>Group | VarC</key><spec><kind>MainEffect</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>雪</key><spec><kind>MainEffect</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>雪</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [
+            "Variable 'Age' is already marked as categorical. Remove it first if you want to use it as continuous."
+          ],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "Group | VarC",
+            "雪"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddCategoricalEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "529959eff72d0e808eb6c9363924892e18b59cb5825bd050b67f918904662b84",
+          "after_sha256": "529959eff72d0e808eb6c9363924892e18b59cb5825bd050b67f918904662b84",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>[Cat] Group | VarC</key><spec><kind>MainEffect</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group</label><order>1</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>[Cat] 雪</key><spec><kind>MainEffect</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>雪</label><order>2</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "[Cat] Group | VarC",
+            "[Cat] 雪"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddCategoricalEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "7051d8c2a48b54e93546a6518a7eb992e027a714003479f679b40c92ded426fd",
+          "after_sha256": "7051d8c2a48b54e93546a6518a7eb992e027a714003479f679b40c92ded426fd",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>[Cat] Group | VarC</key><spec><kind>MainEffect</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group</label><order>1</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>[Cat] 雪</key><spec><kind>MainEffect</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>雪</label><order>2</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [
+            "Variable 'Age' is already used in the model. Remove its existing term(s) before adding it as categorical."
+          ],
+          "effect_keys": [
+            "Age | VarB",
+            "[Cat] Group | VarC",
+            "[Cat] 雪"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddPolynomialEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "92c0be2a8950396c5ea93ad141f8ca7f048c4170717749e79053dbdfaa6d784f",
+          "after_sha256": "92c0be2a8950396c5ea93ad141f8ca7f048c4170717749e79053dbdfaa6d784f",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>\"Age | VarB\"^3</key><spec><kind>Polynomial</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>3</degree><label>Age^3</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Group | VarC\"^3</key><spec><kind>Polynomial</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>3</degree><label>Group^3</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"雪\"^3</key><spec><kind>Polynomial</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>3</degree><label>雪^3</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\"^3",
+            "\"Group | VarC\"^3",
+            "\"雪\"^3"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddPolynomialEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "2265745d2181fdcc472981f7e4f458a726b4f43e201a598b69075a066962683d",
+          "after_sha256": "2265745d2181fdcc472981f7e4f458a726b4f43e201a598b69075a066962683d",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Group | VarC\"^3</key><spec><kind>Polynomial</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>3</degree><label>Group^3</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"雪\"^3</key><spec><kind>Polynomial</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>3</degree><label>雪^3</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [
+            "Polynomial terms are not supported for categorical predictors."
+          ],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Group | VarC\"^3",
+            "\"雪\"^3"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddTwoWayInteractionsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "035ef3e84519dba0151536980840d2d2cd74e5be003d197c9f92f00ba7b57dc6",
+          "after_sha256": "035ef3e84519dba0151536980840d2d2cd74e5be003d197c9f92f00ba7b57dc6",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>\"Age | VarB\":\"Group | VarC\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:Group</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Age | VarB\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:雪</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Group | VarC\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Group | VarC</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group:雪</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\":\"Group | VarC\"",
+            "\"Age | VarB\":\"雪\"",
+            "\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddTwoWayInteractionsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "374ebc8c21787aed1998b294037477a94e3c77dcb228de255da35dfbfcccee2a",
+          "after_sha256": "374ebc8c21787aed1998b294037477a94e3c77dcb228de255da35dfbfcccee2a",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Age | VarB\":\"Group | VarC\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:Group</label><order>1</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Age | VarB\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:雪</label><order>2</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Group | VarC\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Group | VarC</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group:雪</label><order>3</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Age | VarB\":\"Group | VarC\"",
+            "\"Age | VarB\":\"雪\"",
+            "\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddCustomInteractionFromSelectedVars",
+          "seed": false,
+          "before_sha256": "4ac456f96b09d32b3f4e4b485b5c89d382f2ca904bb568a2eb367386454c0312",
+          "after_sha256": "4ac456f96b09d32b3f4e4b485b5c89d382f2ca904bb568a2eb367386454c0312",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>\"Age | VarB\":\"Group | VarC\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>Group | VarC</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:Group:雪</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\":\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddCustomInteractionFromSelectedVars",
+          "seed": true,
+          "before_sha256": "7f36ba83eb81b8eb12955b6a859dc3d092507b7394ddd4cbf5e5270051927645",
+          "after_sha256": "7f36ba83eb81b8eb12955b6a859dc3d092507b7394ddd4cbf5e5270051927645",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Age | VarB\":\"Group | VarC\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>Group | VarC</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:Group:雪</label><order>1</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Age | VarB\":\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddMainEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "3cb13d2884569b9f27dfe9cbc2d62fd54c645f9c3b6787a0f9d60a092324e055",
+          "after_sha256": "3cb13d2884569b9f27dfe9cbc2d62fd54c645f9c3b6787a0f9d60a092324e055",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>Group | VarC</key><spec><kind>MainEffect</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>雪</key><spec><kind>MainEffect</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>雪</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "Age | VarB",
+            "Group | VarC",
+            "雪"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddMainEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "cdfa116436674e3c75345358584ff546b0c3d5bdc83edab52821f049d6a4d9a0",
+          "after_sha256": "cdfa116436674e3c75345358584ff546b0c3d5bdc83edab52821f049d6a4d9a0",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>Group | VarC</key><spec><kind>MainEffect</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>雪</key><spec><kind>MainEffect</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>雪</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [
+            "Variable 'Age' is already marked as categorical. Remove it first if you want to use it as continuous."
+          ],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "Group | VarC",
+            "雪"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddCategoricalEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "529959eff72d0e808eb6c9363924892e18b59cb5825bd050b67f918904662b84",
+          "after_sha256": "529959eff72d0e808eb6c9363924892e18b59cb5825bd050b67f918904662b84",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>[Cat] Group | VarC</key><spec><kind>MainEffect</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group</label><order>1</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>[Cat] 雪</key><spec><kind>MainEffect</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>雪</label><order>2</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "[Cat] Group | VarC",
+            "[Cat] 雪"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddCategoricalEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "7051d8c2a48b54e93546a6518a7eb992e027a714003479f679b40c92ded426fd",
+          "after_sha256": "7051d8c2a48b54e93546a6518a7eb992e027a714003479f679b40c92ded426fd",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>[Cat] Group | VarC</key><spec><kind>MainEffect</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group</label><order>1</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>[Cat] 雪</key><spec><kind>MainEffect</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>雪</label><order>2</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [
+            "Variable 'Age' is already used in the model. Remove its existing term(s) before adding it as categorical."
+          ],
+          "effect_keys": [
+            "Age | VarB",
+            "[Cat] Group | VarC",
+            "[Cat] 雪"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddPolynomialEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "92c0be2a8950396c5ea93ad141f8ca7f048c4170717749e79053dbdfaa6d784f",
+          "after_sha256": "92c0be2a8950396c5ea93ad141f8ca7f048c4170717749e79053dbdfaa6d784f",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>\"Age | VarB\"^3</key><spec><kind>Polynomial</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>3</degree><label>Age^3</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Group | VarC\"^3</key><spec><kind>Polynomial</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>3</degree><label>Group^3</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"雪\"^3</key><spec><kind>Polynomial</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>3</degree><label>雪^3</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\"^3",
+            "\"Group | VarC\"^3",
+            "\"雪\"^3"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddPolynomialEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "2265745d2181fdcc472981f7e4f458a726b4f43e201a598b69075a066962683d",
+          "after_sha256": "2265745d2181fdcc472981f7e4f458a726b4f43e201a598b69075a066962683d",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Group | VarC\"^3</key><spec><kind>Polynomial</kind><bases><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>3</degree><label>Group^3</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"雪\"^3</key><spec><kind>Polynomial</kind><bases><value>雪</value></bases><display-bases null=\"true\" /><degree>3</degree><label>雪^3</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [
+            "Polynomial terms are not supported for categorical predictors."
+          ],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Group | VarC\"^3",
+            "\"雪\"^3"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddTwoWayInteractionsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "035ef3e84519dba0151536980840d2d2cd74e5be003d197c9f92f00ba7b57dc6",
+          "after_sha256": "035ef3e84519dba0151536980840d2d2cd74e5be003d197c9f92f00ba7b57dc6",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>\"Age | VarB\":\"Group | VarC\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:Group</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Age | VarB\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:雪</label><order>1</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Group | VarC\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Group | VarC</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group:雪</label><order>2</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\":\"Group | VarC\"",
+            "\"Age | VarB\":\"雪\"",
+            "\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddTwoWayInteractionsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "374ebc8c21787aed1998b294037477a94e3c77dcb228de255da35dfbfcccee2a",
+          "after_sha256": "374ebc8c21787aed1998b294037477a94e3c77dcb228de255da35dfbfcccee2a",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Age | VarB\":\"Group | VarC\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>Group | VarC</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:Group</label><order>1</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Age | VarB\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:雪</label><order>2</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Group | VarC\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Group | VarC</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Group:雪</label><order>3</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Age | VarB\":\"Group | VarC\"",
+            "\"Age | VarB\":\"雪\"",
+            "\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddCustomInteractionFromSelectedVars",
+          "seed": false,
+          "before_sha256": "4ac456f96b09d32b3f4e4b485b5c89d382f2ca904bb568a2eb367386454c0312",
+          "after_sha256": "4ac456f96b09d32b3f4e4b485b5c89d382f2ca904bb568a2eb367386454c0312",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>\"Age | VarB\":\"Group | VarC\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>Group | VarC</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:Group:雪</label><order>0</order><scale>0</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\":\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddCustomInteractionFromSelectedVars",
+          "seed": true,
+          "before_sha256": "7f36ba83eb81b8eb12955b6a859dc3d092507b7394ddd4cbf5e5270051927645",
+          "after_sha256": "7f36ba83eb81b8eb12955b6a859dc3d092507b7394ddd4cbf5e5270051927645",
+          "equal": true,
+          "canonical_typed_spec": "<regression-effects version=\"1\" intercept=\"true\" contrast=\"core-default\"><effect><key>[Cat] Age | VarB</key><spec><kind>MainEffect</kind><bases><value>Age | VarB</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age</label><order>0</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect><effect><key>\"Age | VarB\":\"Group | VarC\":\"雪\"</key><spec><kind>Interaction</kind><bases><value>Age | VarB</value><value>Group | VarC</value><value>雪</value></bases><display-bases null=\"true\" /><degree>1</degree><label>Age:Group:雪</label><order>1</order><scale>1</scale><reference null=\"true\" /><observed null=\"true\" /></spec></effect></regression-effects>",
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Age | VarB\":\"Group | VarC\":\"雪\""
+          ]
+        }
+      ]
+    },
+    "Release": {
+      "path": "TestResults/04A-08-20261103-run01/authoring-observations-Release-complete.json",
+      "sha256": "d80febd6ee236c240580f2454e63d78d1e3450e9b88aa0c51a2349ce93207e85",
+      "assemblies": [
+        {
+          "name": "BESHStat.Core.dll",
+          "sha256": "ca5a3acd8fcd857d6ba11ba00b64b01343437c06ef6289884c7b02d3444c8331"
+        },
+        {
+          "name": "BESHStat.Excel.Common.dll",
+          "sha256": "86a1b12346966f3375867da474bd25e037abe9f6de8d5f9f81d6f9edec674a8f"
+        },
+        {
+          "name": "BESHStatNG.dll",
+          "sha256": "f0ebfa2661b46d42470e72e28afaa31478d39960b137a48607be730f0fbf52ba"
+        },
+        {
+          "name": "BESHStatNG.Test.dll",
+          "sha256": "143b6e56abffff2e6d126163ffd07a4caf128fea6ad3147d30085d2456259d94"
+        }
+      ],
+      "observations": [
+        {
+          "culture": "en-US",
+          "method": "AddMainEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "3cb13d2884569b9f27dfe9cbc2d62fd54c645f9c3b6787a0f9d60a092324e055",
+          "after_sha256": "3cb13d2884569b9f27dfe9cbc2d62fd54c645f9c3b6787a0f9d60a092324e055",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "Age | VarB",
+            "Group | VarC",
+            "雪"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddMainEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "cdfa116436674e3c75345358584ff546b0c3d5bdc83edab52821f049d6a4d9a0",
+          "after_sha256": "cdfa116436674e3c75345358584ff546b0c3d5bdc83edab52821f049d6a4d9a0",
+          "equal": true,
+          "messages": [
+            "Variable 'Age' is already marked as categorical. Remove it first if you want to use it as continuous."
+          ],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "Group | VarC",
+            "雪"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddCategoricalEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "529959eff72d0e808eb6c9363924892e18b59cb5825bd050b67f918904662b84",
+          "after_sha256": "529959eff72d0e808eb6c9363924892e18b59cb5825bd050b67f918904662b84",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "[Cat] Group | VarC",
+            "[Cat] 雪"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddCategoricalEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "7051d8c2a48b54e93546a6518a7eb992e027a714003479f679b40c92ded426fd",
+          "after_sha256": "7051d8c2a48b54e93546a6518a7eb992e027a714003479f679b40c92ded426fd",
+          "equal": true,
+          "messages": [
+            "Variable 'Age' is already used in the model. Remove its existing term(s) before adding it as categorical."
+          ],
+          "effect_keys": [
+            "Age | VarB",
+            "[Cat] Group | VarC",
+            "[Cat] 雪"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddPolynomialEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "92c0be2a8950396c5ea93ad141f8ca7f048c4170717749e79053dbdfaa6d784f",
+          "after_sha256": "92c0be2a8950396c5ea93ad141f8ca7f048c4170717749e79053dbdfaa6d784f",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\"^3",
+            "\"Group | VarC\"^3",
+            "\"雪\"^3"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddPolynomialEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "2265745d2181fdcc472981f7e4f458a726b4f43e201a598b69075a066962683d",
+          "after_sha256": "2265745d2181fdcc472981f7e4f458a726b4f43e201a598b69075a066962683d",
+          "equal": true,
+          "messages": [
+            "Polynomial terms are not supported for categorical predictors."
+          ],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Group | VarC\"^3",
+            "\"雪\"^3"
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddTwoWayInteractionsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "035ef3e84519dba0151536980840d2d2cd74e5be003d197c9f92f00ba7b57dc6",
+          "after_sha256": "035ef3e84519dba0151536980840d2d2cd74e5be003d197c9f92f00ba7b57dc6",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\":\"Group | VarC\"",
+            "\"Age | VarB\":\"雪\"",
+            "\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddTwoWayInteractionsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "374ebc8c21787aed1998b294037477a94e3c77dcb228de255da35dfbfcccee2a",
+          "after_sha256": "374ebc8c21787aed1998b294037477a94e3c77dcb228de255da35dfbfcccee2a",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Age | VarB\":\"Group | VarC\"",
+            "\"Age | VarB\":\"雪\"",
+            "\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddCustomInteractionFromSelectedVars",
+          "seed": false,
+          "before_sha256": "4ac456f96b09d32b3f4e4b485b5c89d382f2ca904bb568a2eb367386454c0312",
+          "after_sha256": "4ac456f96b09d32b3f4e4b485b5c89d382f2ca904bb568a2eb367386454c0312",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\":\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "en-US",
+          "method": "AddCustomInteractionFromSelectedVars",
+          "seed": true,
+          "before_sha256": "7f36ba83eb81b8eb12955b6a859dc3d092507b7394ddd4cbf5e5270051927645",
+          "after_sha256": "7f36ba83eb81b8eb12955b6a859dc3d092507b7394ddd4cbf5e5270051927645",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Age | VarB\":\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddMainEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "3cb13d2884569b9f27dfe9cbc2d62fd54c645f9c3b6787a0f9d60a092324e055",
+          "after_sha256": "3cb13d2884569b9f27dfe9cbc2d62fd54c645f9c3b6787a0f9d60a092324e055",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "Age | VarB",
+            "Group | VarC",
+            "雪"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddMainEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "cdfa116436674e3c75345358584ff546b0c3d5bdc83edab52821f049d6a4d9a0",
+          "after_sha256": "cdfa116436674e3c75345358584ff546b0c3d5bdc83edab52821f049d6a4d9a0",
+          "equal": true,
+          "messages": [
+            "Variable 'Age' is already marked as categorical. Remove it first if you want to use it as continuous."
+          ],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "Group | VarC",
+            "雪"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddCategoricalEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "529959eff72d0e808eb6c9363924892e18b59cb5825bd050b67f918904662b84",
+          "after_sha256": "529959eff72d0e808eb6c9363924892e18b59cb5825bd050b67f918904662b84",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "[Cat] Group | VarC",
+            "[Cat] 雪"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddCategoricalEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "7051d8c2a48b54e93546a6518a7eb992e027a714003479f679b40c92ded426fd",
+          "after_sha256": "7051d8c2a48b54e93546a6518a7eb992e027a714003479f679b40c92ded426fd",
+          "equal": true,
+          "messages": [
+            "Variable 'Age' is already used in the model. Remove its existing term(s) before adding it as categorical."
+          ],
+          "effect_keys": [
+            "Age | VarB",
+            "[Cat] Group | VarC",
+            "[Cat] 雪"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddPolynomialEffectsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "92c0be2a8950396c5ea93ad141f8ca7f048c4170717749e79053dbdfaa6d784f",
+          "after_sha256": "92c0be2a8950396c5ea93ad141f8ca7f048c4170717749e79053dbdfaa6d784f",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\"^3",
+            "\"Group | VarC\"^3",
+            "\"雪\"^3"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddPolynomialEffectsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "2265745d2181fdcc472981f7e4f458a726b4f43e201a598b69075a066962683d",
+          "after_sha256": "2265745d2181fdcc472981f7e4f458a726b4f43e201a598b69075a066962683d",
+          "equal": true,
+          "messages": [
+            "Polynomial terms are not supported for categorical predictors."
+          ],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Group | VarC\"^3",
+            "\"雪\"^3"
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddTwoWayInteractionsFromSelectedVars",
+          "seed": false,
+          "before_sha256": "035ef3e84519dba0151536980840d2d2cd74e5be003d197c9f92f00ba7b57dc6",
+          "after_sha256": "035ef3e84519dba0151536980840d2d2cd74e5be003d197c9f92f00ba7b57dc6",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\":\"Group | VarC\"",
+            "\"Age | VarB\":\"雪\"",
+            "\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddTwoWayInteractionsFromSelectedVars",
+          "seed": true,
+          "before_sha256": "374ebc8c21787aed1998b294037477a94e3c77dcb228de255da35dfbfcccee2a",
+          "after_sha256": "374ebc8c21787aed1998b294037477a94e3c77dcb228de255da35dfbfcccee2a",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Age | VarB\":\"Group | VarC\"",
+            "\"Age | VarB\":\"雪\"",
+            "\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddCustomInteractionFromSelectedVars",
+          "seed": false,
+          "before_sha256": "4ac456f96b09d32b3f4e4b485b5c89d382f2ca904bb568a2eb367386454c0312",
+          "after_sha256": "4ac456f96b09d32b3f4e4b485b5c89d382f2ca904bb568a2eb367386454c0312",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "\"Age | VarB\":\"Group | VarC\":\"雪\""
+          ]
+        },
+        {
+          "culture": "sk-SK",
+          "method": "AddCustomInteractionFromSelectedVars",
+          "seed": true,
+          "before_sha256": "7f36ba83eb81b8eb12955b6a859dc3d092507b7394ddd4cbf5e5270051927645",
+          "after_sha256": "7f36ba83eb81b8eb12955b6a859dc3d092507b7394ddd4cbf5e5270051927645",
+          "equal": true,
+          "messages": [],
+          "effect_keys": [
+            "[Cat] Age | VarB",
+            "\"Age | VarB\":\"Group | VarC\":\"雪\""
+          ]
+        }
+      ]
+    }
+  },
+  "debug_release_specs_identical": true,
+  "source_derived": true,
+  "native_executed": false,
+  "NOT_GOLDEN": true,
+  "count_convention": "20 operation/culture/seed observations per config; nested repeated/orphan/removal/error cases are in executable tests, not extra snapshot files or MSTest identities."
+}

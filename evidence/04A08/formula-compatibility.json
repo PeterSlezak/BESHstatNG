@@ -1,0 +1,77 @@
+{
+  "schema": "04A08-formula-compatibility-v1",
+  "typed_version": 1,
+  "contrast": "core-default",
+  "intercept": "Separate Boolean; no RHS intercept token",
+  "rows": [
+    {
+      "case": "continuous/categorical/polynomial",
+      "status": "SUPPORTED",
+      "rule": "Core helpers + parser; relative tokens bind to supplied catalog; no alternate grammar",
+      "test": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames"
+    },
+    {
+      "case": "continuous x categorical",
+      "status": "SUPPORTED when Core preserves authored order",
+      "rule": "Same matrix/columns; separate intercept option",
+      "test": "FormulaParserAndTypedCompilerUseSeparateIntercept"
+    },
+    {
+      "case": "categorical x categorical / 3-way",
+      "status": "SUPPORTED when Core preserves authored order",
+      "rule": "Existing Core coding, no inferred contrast",
+      "test": "CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder"
+    },
+    {
+      "case": "explicit ref=2",
+      "status": "SUPPORTED",
+      "rule": "Reference is metadata, not a level-inference algorithm",
+      "test": "ExplicitReferenceCodingAndDuplicateCoefficientLabelsKeepRawIdentity"
+    },
+    {
+      "case": "reordered interaction",
+      "status": "NOT REPRESENTABLE when parser reorders",
+      "rule": "Typed source order retained; no silently changed effect key",
+      "test": "FormulaNormalizationRefusesChangedInteractionOrderAndEmptyFallback"
+    },
+    {
+      "case": "empty / intercept-only",
+      "status": "TYPED ONLY",
+      "rule": "Blank Core RHS means all default main effects; no 1/0/LHS grammar invented",
+      "test": "FormulaNormalizationRefusesChangedInteractionOrderAndEmptyFallback"
+    },
+    {
+      "case": "polynomial + interaction sharing a base",
+      "status": "NOT REPRESENTABLE (conservative)",
+      "rule": "C08-CORE-LABEL-01: existing label map differs; numeric matrix equal in reproducer",
+      "test": "ExistingCorePolynomialInteractionLabelDifferenceIsNotSilentlyNormalized"
+    },
+    {
+      "case": "high-precision factor reference normalized on Framework",
+      "status": "NOT REPRESENTABLE if normalized text loses bits",
+      "rule": "C08-FORMULA-REF-01; Core G formatting unchanged",
+      "test": "CanonicalDoubleMetadataMatchesPortableRuntimeContract"
+    },
+    {
+      "case": "observed levels / custom display metadata",
+      "status": "TYPED ONLY",
+      "rule": "No inference or silent metadata loss",
+      "test": "ReferenceLevelsDisplayMetadataAndSnapshotsAreDeepCopies"
+    },
+    {
+      "case": "whitespace / XML-ineligible strings / CR / LF",
+      "status": "LOSSLESS TYPED",
+      "rule": "XML escaping; CR/LF or invalid XML code units use explicit utf16le-base64",
+      "test": "NonXmlCodeUnitsAndWhitespaceHaveLosslessTypedSerialization"
+    },
+    {
+      "case": "double metadata",
+      "status": "LOSSLESS TYPED",
+      "rule": "16 uppercase IEEE-754 hex bits; both runtimes test negative zero and nontrivial reference",
+      "test": "CanonicalMetadataHasExactRuntimeIndependentDoubleBits"
+    }
+  ],
+  "native_fitting_change": false,
+  "Core_modified": false,
+  "publication_status": "Candidate technical evidence, NOT_GOLDEN"
+}

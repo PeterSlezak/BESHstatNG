@@ -321,6 +321,16 @@ Public Module UIprocedures
 
         If lbox Is Nothing OrElse lbox.Items.Count = 0 Then Exit Sub
 
+        ' Typed model-effect lists share the portable removal/cascade policy.
+        If termSpecs IsNot Nothing AndAlso TypeOf lbox Is System.Windows.Forms.ListBox Then
+            If String.Equals(sWhich, "all", StringComparison.OrdinalIgnoreCase) OrElse
+               String.Equals(sWhich, "selected", StringComparison.OrdinalIgnoreCase) Then
+                RegressionEffectsController.Remove(DirectCast(lbox, System.Windows.Forms.ListBox), termSpecs,
+                                                   String.Equals(sWhich, "all", StringComparison.OrdinalIgnoreCase))
+            End If
+            Exit Sub
+        End If
+
         If String.Equals(sWhich, "all", StringComparison.OrdinalIgnoreCase) Then
             lbox.Items.Clear()
 

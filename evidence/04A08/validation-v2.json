@@ -1,0 +1,3190 @@
+{
+  "schema": "04A08-validation-v2",
+  "base": "b48877406c3c185a992d5dd5c42f951611a52569",
+  "branch": "codex/04A-08",
+  "configurations": {
+    "Debug": {
+      "managed_pass": 4036,
+      "managed_total": 4041,
+      "managed_fail": 5,
+      "managed_skip": 0,
+      "managed_suites": [
+        {
+          "path": "TestResults/04A-08-20261103-run01/final-managed-Debug/results/Core.trx",
+          "sha256": "b514b36efc086f3dd6e94f306cb5b380d109b153a6bead1a0bd53db3924061b7",
+          "counters": {
+            "total": "1055",
+            "executed": "1055",
+            "passed": "1055",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [],
+          "batch08_tests": []
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/final-managed-Debug/results/OfficeAddin.trx",
+          "sha256": "66569f14f81ca54832ccac2aba8c4ecbb4d7c0099bb702e801a9c8fe9ea2bc71",
+          "counters": {
+            "total": "505",
+            "executed": "505",
+            "passed": "505",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [],
+          "batch08_tests": []
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/final-managed-Debug/results/OfficeExecution.trx",
+          "sha256": "4bc01c17066ece79af38a7eba61a5d1306e906e756457879cd465d17e1903bfa",
+          "counters": {
+            "total": "45",
+            "executed": "45",
+            "passed": "45",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [],
+          "batch08_tests": []
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/executions/final-authoring-Debug-Common/results/Common.trx",
+          "sha256": "4064b7235940590bc1ec59c9c302b1b1d9df17019359060dd81297b55b1a4e20",
+          "counters": {
+            "total": "1261",
+            "executed": "1261",
+            "passed": "1257",
+            "failed": "4",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [
+            {
+              "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (0,0,0)",
+              "outcome": "Failed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,30,50)",
+              "outcome": "Failed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "test_name": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "outcome": "Failed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,15,40)",
+              "outcome": "Failed"
+            }
+          ],
+          "batch08_tests": [
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder",
+              "test_name": "CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"'quote'\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder",
+              "test_name": "CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ConflictsPartialSuccessAndRemovalCascade",
+              "test_name": "ConflictsPartialSuccessAndRemovalCascade",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.TooFewInteractionSelectionsAndErrorPrecedence",
+              "test_name": "TooFewInteractionSelectionsAndErrorPrecedence (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.NonXmlCodeUnitsAndWhitespaceHaveLosslessTypedSerialization",
+              "test_name": "NonXmlCodeUnitsAndWhitespaceHaveLosslessTypedSerialization",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (2147483647)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ExistingCorePolynomialInteractionLabelDifferenceIsNotSilentlyNormalized",
+              "test_name": "ExistingCorePolynomialInteractionLabelDifferenceIsNotSilentlyNormalized",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.OrdinalCaseOnlyKeysAndOptionalBudgetsDoNotChangeLegacyDefaults",
+              "test_name": "OrdinalCaseOnlyKeysAndOptionalBudgetsDoNotChangeLegacyDefaults",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"[Cat] x\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+              "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (0,1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"a\"b\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PairwiseEnumerationAndPermissiveHierarchy",
+              "test_name": "PairwiseEnumerationAndPermissiveHierarchy (4,6)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"=SHELL('data') + factor(B)\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+              "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (2,3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ExplicitReferenceCodingAndDuplicateCoefficientLabelsKeepRawIdentity",
+              "test_name": "ExplicitReferenceCodingAndDuplicateCoefficientLabelsKeepRawIdentity",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.FormulaParserAndTypedCompilerUseSeparateIntercept",
+              "test_name": "FormulaParserAndTypedCompilerUseSeparateIntercept (False)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"A:B\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.FormulaNormalizationRefusesChangedInteractionOrderAndEmptyFallback",
+              "test_name": "FormulaNormalizationRefusesChangedInteractionOrderAndEmptyFallback",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+              "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (1,1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PairwiseEnumerationAndPermissiveHierarchy",
+              "test_name": "PairwiseEnumerationAndPermissiveHierarchy (2,1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CommonAssemblyHasNoHostReferences",
+              "test_name": "CommonAssemblyHasNoHostReferences",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PairwiseEnumerationAndPermissiveHierarchy",
+              "test_name": "PairwiseEnumerationAndPermissiveHierarchy (3,3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.BoundsMalformedInputsAndCanonicalVersionFailures",
+              "test_name": "BoundsMalformedInputsAndCanonicalVersionFailures",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ReferenceLevelsDisplayMetadataAndSnapshotsAreDeepCopies",
+              "test_name": "ReferenceLevelsDisplayMetadataAndSnapshotsAreDeepCopies",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+              "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (2,2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CanonicalMetadataHasExactRuntimeIndependentDoubleBits",
+              "test_name": "CanonicalMetadataHasExactRuntimeIndependentDoubleBits",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"λ雪\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (4)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.TooFewInteractionSelectionsAndErrorPrecedence",
+              "test_name": "TooFewInteractionSelectionsAndErrorPrecedence (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\" x \")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.FormulaParserAndTypedCompilerUseSeparateIntercept",
+              "test_name": "FormulaParserAndTypedCompilerUseSeparateIntercept (True)",
+              "outcome": "Passed"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/executions/final-authoring-Debug-Legacy/results/Legacy.trx",
+          "sha256": "6ce53b76f542171d0ea8f30bf95d1c92dc680cad662bd017735b65904a9ca238",
+          "counters": {
+            "total": "1114",
+            "executed": "1114",
+            "passed": "1113",
+            "failed": "1",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [
+            {
+              "identity": "BESHStatNG.Test.ContingencyAdapterTests.PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "outcome": "Failed"
+            }
+          ],
+          "batch08_tests": [
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (5)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (GLM-logistic)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (LMM-fixed)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (GEE)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (15)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (5)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (7)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.CanonicalDoubleMetadataMatchesPortableRuntimeContract",
+              "test_name": "CanonicalDoubleMetadataMatchesPortableRuntimeContract",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+              "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+              "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (MMRM)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (LMM-random)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (4)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+              "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (Cox)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (GLM-primary)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (PSM)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+              "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (2147483647)",
+              "outcome": "Passed"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/projection-executions/final-managed-Debug/results/ControlMitigation.trx",
+          "sha256": "80b404891ab82303d0d2c109ebe0fc45704d3ce35fcf667ce9c0eca961216e7a",
+          "counters": {
+            "total": "61",
+            "executed": "61",
+            "passed": "61",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [],
+          "batch08_tests": []
+        }
+      ],
+      "managed_failures": [
+        {
+          "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+          "test_name": "PairedDisjointCountContractAndPureSemanticProjection (0,0,0)",
+          "outcome": "Failed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+          "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,30,50)",
+          "outcome": "Failed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+          "test_name": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+          "outcome": "Failed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+          "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,15,40)",
+          "outcome": "Failed"
+        },
+        {
+          "identity": "BESHStatNG.Test.ContingencyAdapterTests.PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+          "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+          "outcome": "Failed"
+        }
+      ],
+      "batch08_managed_pass": 66,
+      "batch08_managed_fail": 0,
+      "batch08_managed_skip": 0,
+      "node_pass": 916,
+      "node_fail": 0,
+      "python_total": 675,
+      "python_pass": 626,
+      "python_nonpassing_methods": 49,
+      "python_skip": 0,
+      "python_nonpasses": {
+        "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision": "ERROR",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy": "ERROR",
+        "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities": "ERROR",
+        "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce": "ERROR",
+        "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook": "FAIL",
+        "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection": "FAIL",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten": "FAIL",
+        "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows": "FAIL",
+        "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch": "FAIL",
+        "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations": "ERROR",
+        "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates": "FAIL",
+        "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts": "FAIL",
+        "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect": "FAIL",
+        "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof": "FAIL",
+        "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler": "FAIL"
+      },
+      "python_events": [
+        {
+          "identity": "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+          "outcome": "FAIL",
+          "subtest": "(path='BESHstatNG/src/UI/UibyID.vb')"
+        },
+        {
+          "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+          "outcome": "FAIL",
+          "subtest": "(path='BESHstatNG/src/DM/WindowsUnivariateInputAdapter.vb')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "outcome": "FAIL",
+          "subtest": "(method='RunNormality')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "outcome": "FAIL",
+          "subtest": "(method='RunDescStat')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "outcome": "FAIL",
+          "subtest": "(method='RunOneWayANOVAThroughSharedLayer')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "outcome": "FAIL",
+          "subtest": "(method='RunKruskallWalis')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler",
+          "outcome": "FAIL",
+          "subtest": null
+        }
+      ],
+      "python_failure_events": 53,
+      "inherited_from_reported04A07": {
+        "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision": "ERROR",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy": "ERROR",
+        "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities": "ERROR",
+        "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce": "ERROR",
+        "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook": "FAIL",
+        "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection": "FAIL",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten": "FAIL",
+        "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows": "FAIL",
+        "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch": "FAIL",
+        "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations": "ERROR",
+        "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates": "FAIL",
+        "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts": "FAIL",
+        "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect": "FAIL",
+        "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof": "FAIL",
+        "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler": "FAIL"
+      },
+      "inherited_entry_plan_conflicts": [
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized"
+      ],
+      "batch08_python_pass": 8,
+      "new_functional_nonpasses": 0
+    },
+    "Release": {
+      "managed_pass": 4036,
+      "managed_total": 4041,
+      "managed_fail": 5,
+      "managed_skip": 0,
+      "managed_suites": [
+        {
+          "path": "TestResults/04A-08-20261103-run01/final-managed-Release/results/Core.trx",
+          "sha256": "e902b29d3b8f7b7d8106a1dba5900bca49078156af6f5a239660a02897509a80",
+          "counters": {
+            "total": "1055",
+            "executed": "1055",
+            "passed": "1055",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [],
+          "batch08_tests": []
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/final-managed-Release/results/OfficeAddin.trx",
+          "sha256": "13794eb4c7151bf952a7d3cabb6a703ea06c4d02b844fb9ee5924bed4eccc940",
+          "counters": {
+            "total": "505",
+            "executed": "505",
+            "passed": "505",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [],
+          "batch08_tests": []
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/final-managed-Release/results/OfficeExecution.trx",
+          "sha256": "4306a28e7dcc5f6f1c9d72cf8315807d5d89a5391138f615dc89311c8a72968a",
+          "counters": {
+            "total": "45",
+            "executed": "45",
+            "passed": "45",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [],
+          "batch08_tests": []
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/executions/final-authoring-Release-Common/results/Common.trx",
+          "sha256": "b45fa8c519379d061d3db1e2f032c4c40f65f6b3d473407790ca2dac3e1d7790",
+          "counters": {
+            "total": "1261",
+            "executed": "1261",
+            "passed": "1257",
+            "failed": "4",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [
+            {
+              "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,30,50)",
+              "outcome": "Failed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (0,0,0)",
+              "outcome": "Failed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "test_name": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "outcome": "Failed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,15,40)",
+              "outcome": "Failed"
+            }
+          ],
+          "batch08_tests": [
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ReferenceLevelsDisplayMetadataAndSnapshotsAreDeepCopies",
+              "test_name": "ReferenceLevelsDisplayMetadataAndSnapshotsAreDeepCopies",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PairwiseEnumerationAndPermissiveHierarchy",
+              "test_name": "PairwiseEnumerationAndPermissiveHierarchy (4,6)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"'quote'\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"[Cat] x\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.TooFewInteractionSelectionsAndErrorPrecedence",
+              "test_name": "TooFewInteractionSelectionsAndErrorPrecedence (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (4)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ConflictsPartialSuccessAndRemovalCascade",
+              "test_name": "ConflictsPartialSuccessAndRemovalCascade",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.TooFewInteractionSelectionsAndErrorPrecedence",
+              "test_name": "TooFewInteractionSelectionsAndErrorPrecedence (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.FormulaNormalizationRefusesChangedInteractionOrderAndEmptyFallback",
+              "test_name": "FormulaNormalizationRefusesChangedInteractionOrderAndEmptyFallback",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"A:B\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder",
+              "test_name": "CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PairwiseEnumerationAndPermissiveHierarchy",
+              "test_name": "PairwiseEnumerationAndPermissiveHierarchy (2,1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+              "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (2,3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+              "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (1,1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+              "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (2,2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+              "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ExistingCorePolynomialInteractionLabelDifferenceIsNotSilentlyNormalized",
+              "test_name": "ExistingCorePolynomialInteractionLabelDifferenceIsNotSilentlyNormalized",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder",
+              "test_name": "CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"a\"b\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.OrdinalCaseOnlyKeysAndOptionalBudgetsDoNotChangeLegacyDefaults",
+              "test_name": "OrdinalCaseOnlyKeysAndOptionalBudgetsDoNotChangeLegacyDefaults",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"λ雪\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+              "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (0,1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CommonAssemblyHasNoHostReferences",
+              "test_name": "CommonAssemblyHasNoHostReferences",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"=SHELL('data') + factor(B)\")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.NonXmlCodeUnitsAndWhitespaceHaveLosslessTypedSerialization",
+              "test_name": "NonXmlCodeUnitsAndWhitespaceHaveLosslessTypedSerialization",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CanonicalMetadataHasExactRuntimeIndependentDoubleBits",
+              "test_name": "CanonicalMetadataHasExactRuntimeIndependentDoubleBits",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+              "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\" x \")",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ExplicitReferenceCodingAndDuplicateCoefficientLabelsKeepRawIdentity",
+              "test_name": "ExplicitReferenceCodingAndDuplicateCoefficientLabelsKeepRawIdentity",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.FormulaParserAndTypedCompilerUseSeparateIntercept",
+              "test_name": "FormulaParserAndTypedCompilerUseSeparateIntercept (True)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.FormulaParserAndTypedCompilerUseSeparateIntercept",
+              "test_name": "FormulaParserAndTypedCompilerUseSeparateIntercept (False)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.BoundsMalformedInputsAndCanonicalVersionFailures",
+              "test_name": "BoundsMalformedInputsAndCanonicalVersionFailures",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PairwiseEnumerationAndPermissiveHierarchy",
+              "test_name": "PairwiseEnumerationAndPermissiveHierarchy (3,3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+              "test_name": "DegreesAndCultureAreLegacyCompatible (2147483647)",
+              "outcome": "Passed"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/executions/final-authoring-Release-Legacy/results/Legacy.trx",
+          "sha256": "744d0a1cca6d6043f47dfe6fe5165b4ad85da4efc4adbaaaa0289eb996ed409f",
+          "counters": {
+            "total": "1114",
+            "executed": "1114",
+            "passed": "1113",
+            "failed": "1",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [
+            {
+              "identity": "BESHStatNG.Test.ContingencyAdapterTests.PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "outcome": "Failed"
+            }
+          ],
+          "batch08_tests": [
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (7)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+              "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (5)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+              "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (LMM-fixed)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (5)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (4)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (LMM-random)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (PSM)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (GLM-logistic)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+              "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (2)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+              "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (2147483647)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (3)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.CanonicalDoubleMetadataMatchesPortableRuntimeContract",
+              "test_name": "CanonicalDoubleMetadataMatchesPortableRuntimeContract",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (MMRM)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (Cox)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (1)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+              "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (15)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+              "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (0)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (GLM-primary)",
+              "outcome": "Passed"
+            },
+            {
+              "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+              "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (GEE)",
+              "outcome": "Passed"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-08-20261103-run01/projection-executions/final-managed-Release/results/ControlMitigation.trx",
+          "sha256": "32040f8aa67d0c23b23f6532d09c65598964d8126ceedc97fae0ee9c0b2b6579",
+          "counters": {
+            "total": "61",
+            "executed": "61",
+            "passed": "61",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "failures": [],
+          "batch08_tests": []
+        }
+      ],
+      "managed_failures": [
+        {
+          "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+          "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,30,50)",
+          "outcome": "Failed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+          "test_name": "PairedDisjointCountContractAndPureSemanticProjection (0,0,0)",
+          "outcome": "Failed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+          "test_name": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+          "outcome": "Failed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests.PairedDisjointCountContractAndPureSemanticProjection",
+          "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,15,40)",
+          "outcome": "Failed"
+        },
+        {
+          "identity": "BESHStatNG.Test.ContingencyAdapterTests.PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+          "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+          "outcome": "Failed"
+        }
+      ],
+      "batch08_managed_pass": 66,
+      "batch08_managed_fail": 0,
+      "batch08_managed_skip": 0,
+      "node_pass": 916,
+      "node_fail": 0,
+      "python_total": 675,
+      "python_pass": 626,
+      "python_nonpassing_methods": 49,
+      "python_skip": 0,
+      "python_nonpasses": {
+        "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision": "ERROR",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy": "ERROR",
+        "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities": "ERROR",
+        "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce": "ERROR",
+        "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook": "FAIL",
+        "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection": "FAIL",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten": "FAIL",
+        "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls": "FAIL",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows": "FAIL",
+        "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch": "FAIL",
+        "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations": "ERROR",
+        "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates": "FAIL",
+        "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts": "FAIL",
+        "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect": "FAIL",
+        "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof": "FAIL",
+        "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler": "FAIL"
+      },
+      "python_events": [
+        {
+          "identity": "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+          "outcome": "FAIL",
+          "subtest": "(path='BESHstatNG/src/UI/UibyID.vb')"
+        },
+        {
+          "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+          "outcome": "FAIL",
+          "subtest": "(path='BESHstatNG/src/DM/WindowsUnivariateInputAdapter.vb')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "outcome": "FAIL",
+          "subtest": "(method='RunNormality')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "outcome": "FAIL",
+          "subtest": "(method='RunDescStat')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "outcome": "FAIL",
+          "subtest": "(method='RunOneWayANOVAThroughSharedLayer')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+          "outcome": "FAIL",
+          "subtest": "(method='RunKruskallWalis')"
+        },
+        {
+          "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps",
+          "outcome": "ERROR",
+          "subtest": null
+        },
+        {
+          "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof",
+          "outcome": "FAIL",
+          "subtest": null
+        },
+        {
+          "identity": "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler",
+          "outcome": "FAIL",
+          "subtest": null
+        }
+      ],
+      "python_failure_events": 53,
+      "inherited_from_reported04A07": {
+        "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision": "ERROR",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy": "ERROR",
+        "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities": "ERROR",
+        "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce": "ERROR",
+        "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook": "FAIL",
+        "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection": "FAIL",
+        "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero": "FAIL",
+        "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order": "FAIL",
+        "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten": "FAIL",
+        "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged": "FAIL",
+        "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities": "FAIL",
+        "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial": "FAIL",
+        "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld": "FAIL",
+        "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter": "FAIL",
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved": "FAIL",
+        "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows": "FAIL",
+        "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch": "FAIL",
+        "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations": "ERROR",
+        "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps": "ERROR",
+        "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates": "FAIL",
+        "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts": "FAIL",
+        "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect": "FAIL",
+        "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof": "FAIL",
+        "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler": "FAIL"
+      },
+      "inherited_entry_plan_conflicts": [
+        "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls",
+        "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized"
+      ],
+      "batch08_python_pass": 8,
+      "new_functional_nonpasses": 0
+    }
+  },
+  "focused": {
+    "Core": {
+      "path": "TestResults/04A-08-20261103-run01/core-focused/CoreFocused.trx",
+      "sha256": "75197730d982591eae9a50afef2427bb8e356d7241a8ab6dcec2ed93e9f0fc24",
+      "counters": {
+        "total": "14",
+        "executed": "14",
+        "passed": "14",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "batch08_tests": []
+    },
+    "Common": {
+      "path": "TestResults/04A-08-20261103-run01/executions/focused-canonical/results/Common.trx",
+      "sha256": "b31412f11f4be8ddef2f2e62e3474505fbbd0df20785b96666db8800f513c211",
+      "counters": {
+        "total": "60",
+        "executed": "60",
+        "passed": "60",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "batch08_tests": [
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+          "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"A:B\")",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+          "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (0,1)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+          "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (3)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CommonAssemblyHasNoHostReferences",
+          "test_name": "CommonAssemblyHasNoHostReferences",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+          "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (2)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.FormulaParserAndTypedCompilerUseSeparateIntercept",
+          "test_name": "FormulaParserAndTypedCompilerUseSeparateIntercept (True)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+          "test_name": "DegreesAndCultureAreLegacyCompatible (2)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+          "test_name": "DegreesAndCultureAreLegacyCompatible (2147483647)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder",
+          "test_name": "CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder (3)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.NonXmlCodeUnitsAndWhitespaceHaveLosslessTypedSerialization",
+          "test_name": "NonXmlCodeUnitsAndWhitespaceHaveLosslessTypedSerialization",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ExistingCorePolynomialInteractionLabelDifferenceIsNotSilentlyNormalized",
+          "test_name": "ExistingCorePolynomialInteractionLabelDifferenceIsNotSilentlyNormalized",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+          "test_name": "DegreesAndCultureAreLegacyCompatible (1)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+          "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (2,2)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.BoundsMalformedInputsAndCanonicalVersionFailures",
+          "test_name": "BoundsMalformedInputsAndCanonicalVersionFailures",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+          "test_name": "DegreesAndCultureAreLegacyCompatible (3)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.TooFewInteractionSelectionsAndErrorPrecedence",
+          "test_name": "TooFewInteractionSelectionsAndErrorPrecedence (0)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+          "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"a\"b\")",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PairwiseEnumerationAndPermissiveHierarchy",
+          "test_name": "PairwiseEnumerationAndPermissiveHierarchy (2,1)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+          "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (0)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.DegreesAndCultureAreLegacyCompatible",
+          "test_name": "DegreesAndCultureAreLegacyCompatible (0)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+          "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"[Cat] x\")",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PairwiseEnumerationAndPermissiveHierarchy",
+          "test_name": "PairwiseEnumerationAndPermissiveHierarchy (4,6)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+          "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"=SHELL('data') + factor(B)\")",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+          "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\" x \")",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CanonicalMetadataHasExactRuntimeIndependentDoubleBits",
+          "test_name": "CanonicalMetadataHasExactRuntimeIndependentDoubleBits",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ConflictsPartialSuccessAndRemovalCascade",
+          "test_name": "ConflictsPartialSuccessAndRemovalCascade",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.OrdinalCaseOnlyKeysAndOptionalBudgetsDoNotChangeLegacyDefaults",
+          "test_name": "OrdinalCaseOnlyKeysAndOptionalBudgetsDoNotChangeLegacyDefaults",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+          "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (2,3)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+          "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (1)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ReferenceLevelsDisplayMetadataAndSnapshotsAreDeepCopies",
+          "test_name": "ReferenceLevelsDisplayMetadataAndSnapshotsAreDeepCopies",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.TooFewInteractionSelectionsAndErrorPrecedence",
+          "test_name": "TooFewInteractionSelectionsAndErrorPrecedence (1)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames",
+          "test_name": "SingleTermFormulaAndCoreDesignRoundTripQuotedUnicodeNames (1,1)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PairwiseEnumerationAndPermissiveHierarchy",
+          "test_name": "PairwiseEnumerationAndPermissiveHierarchy (3,3)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.SelectionOrderRepeatedAdditionAndCoreRawIdentity",
+          "test_name": "SelectionOrderRepeatedAdditionAndCoreRawIdentity (4)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder",
+          "test_name": "CategoricalCrossesAndThreeWayPreserveCoreMatrixAndOrder (2)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+          "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"λ雪\")",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.FormulaNormalizationRefusesChangedInteractionOrderAndEmptyFallback",
+          "test_name": "FormulaNormalizationRefusesChangedInteractionOrderAndEmptyFallback",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.FormulaParserAndTypedCompilerUseSeparateIntercept",
+          "test_name": "FormulaParserAndTypedCompilerUseSeparateIntercept (False)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.ExplicitReferenceCodingAndDuplicateCoefficientLabelsKeepRawIdentity",
+          "test_name": "ExplicitReferenceCodingAndDuplicateCoefficientLabelsKeepRawIdentity",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStat.Excel.Common.Tests.RegressionEffectAuthoring08Tests.PunctuationUnicodeAndFormulaLookingKeysAreLosslessData",
+          "test_name": "PunctuationUnicodeAndFormulaLookingKeysAreLosslessData (\"'quote'\")",
+          "outcome": "Passed"
+        }
+      ]
+    },
+    "Windows": {
+      "path": "TestResults/04A-08-20261103-run01/executions/focused-canonical-windows/results/Legacy.trx",
+      "sha256": "d254d22cc8ba9e419b5ca68b9fd8ba45c6c7903b13390a29b725631e81588feb",
+      "counters": {
+        "total": "26",
+        "executed": "26",
+        "passed": "26",
+        "failed": "0",
+        "error": "0",
+        "timeout": "0",
+        "aborted": "0",
+        "inconclusive": "0",
+        "passedButRunAborted": "0",
+        "notRunnable": "0",
+        "notExecuted": "0",
+        "disconnected": "0",
+        "warning": "0",
+        "completed": "0",
+        "inProgress": "0",
+        "pending": "0"
+      },
+      "failures": [],
+      "batch08_tests": [
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+          "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (2)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+          "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (2)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+          "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (1)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+          "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (3)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+          "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (GLM-primary)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+          "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (GLM-logistic)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+          "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (0)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+          "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (7)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+          "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (5)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+          "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (1)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+          "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (2)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+          "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (GEE)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+          "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (4)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+          "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (Cox)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+          "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (1)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+          "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (3)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+          "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (MMRM)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.CanonicalDoubleMetadataMatchesPortableRuntimeContract",
+          "test_name": "CanonicalDoubleMetadataMatchesPortableRuntimeContract",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+          "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (0)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+          "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (PSM)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.RemovalAndClearMatchFrozenTextRulesIncludingPunctuation",
+          "test_name": "RemovalAndClearMatchFrozenTextRulesIncludingPunctuation (0)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.PolynomialErrorsAndExtremeDegreeMatchOriginal",
+          "test_name": "PolynomialErrorsAndExtremeDegreeMatchOriginal (2147483647)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+          "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (5)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+          "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (LMM-random)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.FrozenOriginalAllOperationsPartialSuccessAndSourceOrder",
+          "test_name": "FrozenOriginalAllOperationsPartialSuccessAndSourceOrder (15)",
+          "outcome": "Passed"
+        },
+        {
+          "identity": "BESHStatNG.Test.RegressionEffects08Tests.SharedDictionaryRemovalClearRefreshAndIndependentComponents",
+          "test_name": "SharedDictionaryRemovalClearRefreshAndIndependentComponents (LMM-fixed)",
+          "outcome": "Passed"
+        }
+      ]
+    }
+  },
+  "entry_source_pin_conflict_proof": {
+    "planning/BESHStatNG_CrossPlatform_MasterPlan.md": {
+      "prior_sha256": "e08c89a060a250d8f600851a02aed124e0bfe74ceb1d8f04c8c6787ae0f4ec17",
+      "entry_sha256": "666af3fc136ad34f2ed7fc4620d0a3b9349f783158864248fd3b22c79af895b9",
+      "current_sha256": "666af3fc136ad34f2ed7fc4620d0a3b9349f783158864248fd3b22c79af895b9"
+    }
+  },
+  "reported_prior_python_nonpasses": 44,
+  "actual_entry_python_nonpasses": 49,
+  "inferred_entry_python_counts": {
+    "pass_count": 618,
+    "total": 667,
+    "nonpass": 49,
+    "basis": "Reported 667-method corpus, all original 44 nonpass identities recur, plus five reproduced C06/C07 failures whose triggering plan drift was already present on main; no pre-edit whole-suite run claimed."
+  },
+  "initial_debug": "final-Debug retained, superseded: Common was built before warning-boundary snapshot repair and five additional focused cases. Final-fixed runs repaired warning snapshots; their managed stages were subsequently superseded by final-managed.",
+  "final_managed_refresh": "Final-managed Debug/Release supersede managed stages of final-fixed full runs after cross-runtime double-bit serialization and exact normalized-reference checks; Node/Python sources and full results remain applicable. No numerical methods changed.",
+  "final_authoring_refresh": "Final-authoring Debug/Release supersede Common/Windows stages after LF-only string identity was added to the existing serialization edge test; all other source and executed suites remain applicable.",
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 2.090666299976874
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.2360331000527367
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.5406706999638118
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Release",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.9745501999859698
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.961842600023374
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.3127027000300586
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8038809999707155
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8254759999690577
+    },
+    {
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 4.197033000004012
+    },
+    {
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\final-Debug-verify-isolated.ps1",
+        "-Legacy",
+        "-Wasm",
+        "-Js",
+        "-Python",
+        "-VisualStudio",
+        "2026",
+        "-PythonExe",
+        "<PYTHON_EXE>",
+        "-Configuration",
+        "Debug"
+      ],
+      "exit_code": 1,
+      "seconds": 339.57636969996383
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/m",
+        "/v:minimal",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection",
+        "/p:OutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-Debug\\bin\\",
+        "/p:IntermediateOutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-Debug\\obj\\"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6035179999889806
+    },
+    {
+      "command": [
+        "<VSTEST_EXE>",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-Debug\\bin\\BESHStatNG.Test.dll",
+        "/TestAdapterPath:<REPOSITORY_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:console;verbosity=minimal",
+        "/Logger:trx;LogFileName=ControlMitigation.trx",
+        "/ResultsDirectory:<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-Debug\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 7.885910599958152
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8148429000284523
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8355383000453003
+    },
+    {
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 4.412034299981315
+    },
+    {
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\final-fixed-Debug-verify-isolated.ps1",
+        "-Legacy",
+        "-Wasm",
+        "-Js",
+        "-Python",
+        "-VisualStudio",
+        "2026",
+        "-PythonExe",
+        "<PYTHON_EXE>",
+        "-Configuration",
+        "Debug"
+      ],
+      "exit_code": 1,
+      "seconds": 315.0066822000081
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/m",
+        "/v:minimal",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection",
+        "/p:OutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-fixed-Debug\\bin\\",
+        "/p:IntermediateOutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-fixed-Debug\\obj\\"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5756412000046112
+    },
+    {
+      "command": [
+        "<VSTEST_EXE>",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-fixed-Debug\\bin\\BESHStatNG.Test.dll",
+        "/TestAdapterPath:<REPOSITORY_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:console;verbosity=minimal",
+        "/Logger:trx;LogFileName=ControlMitigation.trx",
+        "/ResultsDirectory:<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-fixed-Debug\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 8.135450800007675
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.033913599967491
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.310833299998194
+    },
+    {
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 3.8853843999677338
+    },
+    {
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\final-fixed-Release-verify-isolated.ps1",
+        "-Legacy",
+        "-Wasm",
+        "-Js",
+        "-Python",
+        "-VisualStudio",
+        "2026",
+        "-PythonExe",
+        "<PYTHON_EXE>",
+        "-Configuration",
+        "Release"
+      ],
+      "exit_code": 1,
+      "seconds": 329.1575992000289
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/m",
+        "/v:minimal",
+        "/p:Configuration=Release",
+        "/p:ProjectionSourceDir=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection",
+        "/p:OutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-fixed-Release\\bin\\",
+        "/p:IntermediateOutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-fixed-Release\\obj\\"
+      ],
+      "exit_code": 0,
+      "seconds": 0.7536061000428163
+    },
+    {
+      "command": [
+        "<VSTEST_EXE>",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-fixed-Release\\bin\\BESHStatNG.Test.dll",
+        "/TestAdapterPath:<REPOSITORY_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:console;verbosity=minimal",
+        "/Logger:trx;LogFileName=ControlMitigation.trx",
+        "/ResultsDirectory:<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-fixed-Release\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 6.098488199990243
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.2187010999768972
+    },
+    {
+      "command": [
+        "dotnet",
+        "test",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore",
+        "--logger",
+        "trx;LogFileName=Core.trx",
+        "--results-directory",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\final-managed-Debug\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 4.846772200020496
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.7996906999615021
+    },
+    {
+      "command": [
+        "dotnet",
+        "test",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "-c",
+        "Debug",
+        "--no-restore",
+        "--logger",
+        "trx;LogFileName=OfficeAddin.trx",
+        "--results-directory",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\final-managed-Debug\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 38.225215399987064
+    },
+    {
+      "command": [
+        "dotnet",
+        "test",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "-c",
+        "Debug",
+        "--no-restore",
+        "--logger",
+        "trx;LogFileName=OfficeExecution.trx",
+        "--results-directory",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\final-managed-Debug\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 3.324453400040511
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/m",
+        "/v:minimal",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection",
+        "/p:OutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-managed-Debug\\bin\\",
+        "/p:IntermediateOutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-managed-Debug\\obj\\"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5856091000023298
+    },
+    {
+      "command": [
+        "<VSTEST_EXE>",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-managed-Debug\\bin\\BESHStatNG.Test.dll",
+        "/TestAdapterPath:<REPOSITORY_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:console;verbosity=minimal",
+        "/Logger:trx;LogFileName=ControlMitigation.trx",
+        "/ResultsDirectory:<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-managed-Debug\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 7.953241500013974
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8405197999672964
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Release",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.69288129999768
+    },
+    {
+      "command": [
+        "dotnet",
+        "test",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "-c",
+        "Release",
+        "--no-restore",
+        "--logger",
+        "trx;LogFileName=Core.trx",
+        "--results-directory",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\final-managed-Release\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 4.767278599960264
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8147081999923103
+    },
+    {
+      "command": [
+        "dotnet",
+        "test",
+        "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj",
+        "-c",
+        "Release",
+        "--no-restore",
+        "--logger",
+        "trx;LogFileName=OfficeAddin.trx",
+        "--results-directory",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\final-managed-Release\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 35.6763237999985
+    },
+    {
+      "command": [
+        "dotnet",
+        "test",
+        "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj",
+        "-c",
+        "Release",
+        "--no-restore",
+        "--logger",
+        "trx;LogFileName=OfficeExecution.trx",
+        "--results-directory",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\final-managed-Release\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 2.822788199991919
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/m",
+        "/v:minimal",
+        "/p:Configuration=Release",
+        "/p:ProjectionSourceDir=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection",
+        "/p:OutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-managed-Release\\bin\\",
+        "/p:IntermediateOutputPath=<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-managed-Release\\obj\\"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6280310999718495
+    },
+    {
+      "command": [
+        "<VSTEST_EXE>",
+        "<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-managed-Release\\bin\\BESHStatNG.Test.dll",
+        "/TestAdapterPath:<REPOSITORY_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:console;verbosity=minimal",
+        "/Logger:trx;LogFileName=ControlMitigation.trx",
+        "/ResultsDirectory:<REPOSITORY_ROOT>\\TestResults\\04A-08-20261103-run01\\projection-executions\\final-managed-Release\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 6.014912199985702
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8726680999970995
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.8488974999636412
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.8699312999960966
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.6623362000100315
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 2.160511299967766
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 2.276401699986309
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.259496999962721
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.19277039996814
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.4530828000279143
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.2148653999902308
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.7833316999603994
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.3491723000188358
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 2.177078199980315
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 2.1353558999835514
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.18858930002898
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.427676999999676
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 2.7266442999825813
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.327770799980499
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.4620914999977686
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 3.3858904999797232
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.4969918999704532
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.9577619999763556
+    },
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.6491862999973819
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.9868298000073992
+    },
+    {
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.426289600029122
+    }
+  ],
+  "native": "NOT RUN",
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET",
+  "publication_derivation": {
+    "kind": "sanitized-derived",
+    "policy": "general-machine-path-placeholders-v1",
+    "source_path": "docs/architecture/04A08/validation-v2.json",
+    "source_sha256": "e8da3029d7f8493c770e651378c94d6b9b079e8cb4d4f6f3853ef3b8ffe6d1c2",
+    "use": "Non-executable publication rendition. Use the original local file for testing and development."
+  }
+}
