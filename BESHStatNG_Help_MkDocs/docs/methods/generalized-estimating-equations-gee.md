@@ -44,12 +44,12 @@ All implemented families, links, and correlation-structure mathematics are docum
 2. **Offset** (optional): a known additive term \(o_{ij}\) in \(\eta_{ij}\).  
    For log-link count models this is typically \(\log(\text{exposure})\).
 3. **Weights** (optional): accepted in the UI and echoed in the output header. *(Current implementation does not apply weights in the estimating equations.)*
-4. **Cluster ID**: subject/cluster identifier.
-5. **Within Cluster Ordering**: the visit/time/order variable. Used to determine the ordering of repeated measurements within each cluster, especially for AR(1), Toeplitz, and Unstructured working correlation. If omitted, the current row order within each cluster is used and synthetic sequential positions are assigned.
+4. **Cluster ID**: subject/cluster identifier. The current Windows GUI import uses the default numeric-data filter: nonnumeric cluster labels can cause rows to be excluded. Use numeric cluster codes and check the retained observations. This limitation is unchanged by the portable workflow extraction.
+5. **Within Cluster Ordering**: the visit/time/order variable. The importer sorts retained observations by Cluster ID and then this variable. If omitted, it sorts by Cluster ID and original source Row ID before Core assigns synthetic sequential positions within each cluster. All selected roles move with the observation.
 6. **Predictor Variable(s)**: covariates in the linear predictor.
 
 !!! note "Within-cluster ordering"
-    The data are expected to be ordered by **Cluster ID** and then **Within Cluster Ordering**. The add-in also builds its internal time index from the ordering variable, or from row order if ordering is omitted. For AR(1), Toeplitz, and Unstructured working correlation, supplying an explicit ordering column is strongly recommended so the reported working-correlation matrix has meaningful visit/time labels.
+    The Windows importer supplies sorted data to Core. Equal time values retain the existing sort's tie behavior; a stable tie order is not guaranteed. Explicit visit labels help interpret the working-correlation matrix, but the current AR(1) fit uses adjacent within-cluster positions, not a continuous-time correlation based on numeric visit gaps. Irregular gaps therefore do not create a continuous-time model.
 
 ### Build Model
 
@@ -65,6 +65,9 @@ All implemented families, links, and correlation-structure mathematics are docum
   - If provided, they are used as the starting \(\bf \beta^{(0)}\).
   - The number of supplied values must match the number of **expanded** GEE mean-model coefficients, including the intercept.
   - If omitted, starting values are obtained by fitting a **GLM under independence** (see *Estimation* below).
+
+!!! warning "Known supplied-start limitation"
+    The current Core path with explicitly supplied starting coefficients can fail when QIC requests an independence covariance initialized only by the automatic-start GLM. This existing failure is characterized by host-free regression tests and remains unresolved. Leave the optional starting-values field blank to use the existing automatic-start path; no QIC or successful fit is fabricated after a failure.
 
 Current limitations:
 
@@ -89,9 +92,9 @@ When **Family = Binomial**, the page exposes the additional **Perform Classifica
 
 - **Convergence Criterion** \(\varepsilon\): tolerance for the parameter-change convergence test.
 - **Max. Iterations**: maximum number of GEE iterations.
-- **Trace Execution**: writes per-iteration diagnostic information to the log.
+- **Trace Execution**: the checkbox is retained, but the current GEE run does not assign it to a per-model tracing switch. Diagnostic logging follows the existing Core logger configuration.
 - **Iterations Details**: outputs a per-iteration table of coefficients and the convergence statistic.
-- **Compute Residuals**: exports GLM-style residuals (raw, Pearson, deviance, etc.) to a separate output file/sheet.
+- **Compute Residuals**: appends GLM-style residuals (raw, Pearson, deviance, etc.) to the **Data** worksheet after Prediction. The model tables are written to **GEE**, with optional **GEE Classification** results and charts.
 - **Alpha**: two-sided significance level used for Wald confidence intervals. Default: **0.05** (95% confidence interval).
 
 **Model specification**
@@ -501,3 +504,22 @@ QIC(fit)
 - [Family - Link](family-link-covmat.md)
 - [Generalized Linear Models (GLM)](generalized-linear-models-glm.md)
 - [Home](../index.md)
+
+## Contrasts and host availability
+
+There is **no GEE contrast panel in the Windows dialog**. The existing Excel-DNA
+worksheet API provides `BESH.REGR.GEE_LSMESTIMATE` for weighted combinations of
+matched observed design profiles, optionally restricted by visit/time and AT settings.
+Its existing Wald inference uses the selected coefficient covariance and a normal
+reference distribution. Response-scale output applies the inverse link to the combined
+link-scale estimate; it is not generally a difference of separately transformed means.
+The observed design profiles do not add an offset term to the contrast vector.
+The portable policy does not add a GUI panel or change these worksheet exports.
+
+### Office add-in availability
+
+GEE is not executable in the current Office task pane (Excel Online). Its catalog and
+Help entry do not establish an implemented web analysis route. Use the existing Windows
+workflow when available; no Excel Online GEE run instructions or new screenshots are
+claimed here. Existing screenshots are retained and have not been reverified in a live
+Windows/Excel session by this software batch.

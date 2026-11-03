@@ -1,0 +1,31 @@
+{
+  "id": "C12-NATIVE-CLASSIFICATION-01",
+  "status": "UNAPPLIED_GATED",
+  "source_path": "BESHstatNG/src/UI/Ui13GEE.vb",
+  "source_sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b",
+  "patch_sha256": "d1d525bbf6ebff2e371de4b8f6cb43689d4790ec2c4297da9fc29c08e4a58540",
+  "candidate_sha256": "a126004d97576bff4a8782bd8a78f8b21df8496ab8c9d33b7667c1dc267fcef4",
+  "apply_check_exit": 0,
+  "before": "The original post-fit UI-selected binomial family can classify an earlier non-binomial fit when controls change during progress/writing. Windows-only compatibility quarantine preserves this rare path.",
+  "portable": "Common GEE classification correctly requires the actual fitted binomial family. Pure host-free simulated post-fit control change reproduces before/after; real WinForms transition NOT TESTED.",
+  "after": "Guard classification by the captured fitted family as well as the original post-fit UI predicate; leave estimator, controls, normal binomial output and chart/writer order unchanged.",
+  "affected_controls": [
+    "BESHStatNG.Ui13GEE.cbFamily",
+    "BESHStatNG.Ui13GEE.grpClassification",
+    "BESHStatNG.Ui13GEE.cbPerformClasification",
+    "BESHStatNG.Ui13GEE.btCalculate",
+    "BESHStatNG.Ui13GEE.lblProgress",
+    "BESHStatNG.Ui13GEE.ProgressBar1"
+  ],
+  "lineage": "Exact original IDs and row hashes in restriction-crosswalk.json; no fabricated obligation for option controls without original deferred rows.",
+  "owner_timing_request": "Accept software scope with exact activation deferred until original native pre-change evidence/risk/N authority or a fresh exact-ID timing exception. No native/P release requested.",
+  "C09_sha256": "aab350401c873d1a4f56450295688e9a046122aca2269fc9a618765f8fe79fe1",
+  "C11_sha256": "2283553890563a7b2e662699d7c05319d30a5cc932099179fd24d88c1516b3fc",
+  "native_executed": false,
+  "patch_applied": false,
+  "next_owners": [
+    "04A.40 GUI/UDF parity",
+    "04A.47 native confirmation",
+    "04A.45-48 native prerequisites"
+  ]
+}

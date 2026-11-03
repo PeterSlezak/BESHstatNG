@@ -1,0 +1,11 @@
+--- a/BESHstatNG/src/UI/Ui13GEE.vb
++++ b/BESHstatNG/src/UI/Ui13GEE.vb
+@@ -739,7 +739,7 @@
+             Dim rr = New ProcessListofResultTables(res)
+             rr.writeToSheet(WriteRes, True)
+ 
+-            If IsCurrentBinomialGeeFamily() AndAlso Me.grpClassification.Enabled And cbPerformClasification.Checked Then
++            If intent.MeanRequest.Options.Family = RegressionFamily.Binomial AndAlso IsCurrentBinomialGeeFamily() AndAlso Me.grpClassification.Enabled And cbPerformClasification.Checked Then
+                 Dim y() As Double = fitGEE.ObservedResponses()
+                 Dim p() As Double = fitGEE.PredictedResponses()
+                 Dim weights() As Double = fitGEE.ObservationWeights()

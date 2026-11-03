@@ -1,0 +1,46 @@
+{
+  "status": "CANDIDATES_NOT_GOLDEN",
+  "items": [
+    {
+      "id": "C12-GEE-START-QIC-01",
+      "shipping_status": "LEGACY_CORE_FAILURE_PRESERVED",
+      "source": "BESHStat.Core/src/RegModels/GEE.vb GetStartParams / EstimateQIC",
+      "before_and_after": "Supplied valid coefficients bypass GetStartParams, leaving pIndependenceNaiveVarCovar Nothing. EstimateQIC calls InvertMatrix on the unavailable reference, throwing NullReferenceException. Automatic starts recover normally. All-zero/all-one fixtures also expose unavailable starting-fit inference. No QIC/p-value/fit success fabricated.",
+      "tests": [
+        "Gee12CoreCharacterizationTests.SuppliedStartsLeaveExistingQicIndependenceReferenceUnavailable",
+        "Gee12PolicyTests.ExistingValidStartFailureAndInsufficientDataRemainTruthful",
+        "Gee12FailureAndProvenanceTests.UnstableFitsMatchDirectCoreOutcomeWithoutInventedStatistics"
+      ],
+      "next_owner": "GEE Core maintainer / qualified numerical reviewer under separately authorized correction; 04A40 GUI/UDF parity; 04A47 native confirmation"
+    },
+    {
+      "id": "C12-GEE-CLUSTER-TEXT-01",
+      "shipping_status": "ACQUISITION_UNCHANGED",
+      "source": "Ui13GEE.GetData -> ExcelDnaDataImporter.ImportInto -> DataObj.RemoveMissing(CharCols=-1)",
+      "before_and_after": "Default GUI import drops nonnumeric cluster labels. Core supports text clusters if provided through a compatible typed acquisition; numeric string labels retain string sorting. Distinct scalar identities sharing a Core ToString label can collide. Portable diagnostics do not activate a new Windows refusal.",
+      "next_owner": "04A40 GUI/UDF input parity and GEE input maintainer; 04A47 native acquisition confirmation"
+    },
+    {
+      "id": "C12-GEE-PREDICTION-AXIS-01",
+      "shipping_status": "PORTABLE_PROJECTION_ACTIVE; CORE_UNCHANGED",
+      "source": "GEE.PredictedResponses versus ObservedResponses / AllResiduals",
+      "before_and_after": "Core predictions concatenate clusters; observed/residual arrays restore original input positions. Common stores the original Core vector/row axis and explicitly maps predictions to input rows. This mapping is identity for the actual sorted Windows import. Core/UDF raw axes remain unchanged.",
+      "next_owner": "04A40 worksheet API alignment; 04A28 output convention review"
+    },
+    {
+      "id": "C12-NATIVE-CLASSIFICATION-01",
+      "shipping_status": "PORTABLE_CORRECT_NATIVE_PENDING",
+      "before_and_after": "Common requires actual fitted binomial family. Windows preserves the original post-fit UI-selected-family mismatch in a narrowly named compatibility helper. The exact fitted-family guard patch is tested/compiled and unapplied.",
+      "lineage": "native-disposition-lineage.json",
+      "next_owner": "One owner timing disposition; original native prerequisites 04A45-48; public UDF parity 04A40"
+    }
+  ],
+  "prior_deferrals": [
+    "C09-NATIVE-STRICT-01 UNAPPLIED",
+    "C11-NATIVE-CORRECTIONS-01 UNAPPLIED"
+  ],
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET"
+}

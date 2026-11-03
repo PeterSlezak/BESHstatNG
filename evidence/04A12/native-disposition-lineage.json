@@ -1,0 +1,64 @@
+{
+  "id": "C12-NATIVE-CLASSIFICATION-01",
+  "patch_sha256": "d1d525bbf6ebff2e371de4b8f6cb43689d4790ec2c4297da9fc29c08e4a58540",
+  "source_sha256": "80a276c182f1bcc8a582ae9de90a7c05b01b912fe085504b5f3170eb7199206b",
+  "affected": [
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbFamily",
+      "original_obligation_id": null,
+      "original_obligation_row_sha256": null,
+      "original_named_fixture": null,
+      "original_blocked_gate": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW; source-associated control"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.grpClassification",
+      "original_obligation_id": null,
+      "original_obligation_row_sha256": null,
+      "original_named_fixture": null,
+      "original_blocked_gate": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW; source-associated control"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbPerformClasification",
+      "original_obligation_id": null,
+      "original_obligation_row_sha256": null,
+      "original_named_fixture": null,
+      "original_blocked_gate": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW; source-associated control"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btCalculate",
+      "original_obligation_id": "control:BESHStatNG.Ui13GEE.btCalculate",
+      "original_obligation_row_sha256": "8334ec1dd3d2d7a39e0cce446f5b4a0e563c044dda76fd46a5147314a06a9e6a",
+      "original_named_fixture": "C28-Ui13GEE-btCalculate-execution: Interleave compute/interrupt/cancel/close/retry; two modeless instances where global callbacks exist; observer throws; dispose before callback; failure before/after write; distinguish cancelled, failed and completed output; NOT RUN",
+      "original_blocked_gate": "Gate C2 / 04A.48; affected 04A.02 prerequisite if blocked",
+      "status": "OPEN"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblProgress",
+      "original_obligation_id": "control:BESHStatNG.Ui13GEE.lblProgress",
+      "original_obligation_row_sha256": "16276776bec7c71139c08b0c58959b80234cfe885ff2459f23a433b5f2832e9c",
+      "original_named_fixture": "C28-Ui13GEE-lblProgress-execution: Interleave compute/interrupt/cancel/close/retry; two modeless instances where global callbacks exist; observer throws; dispose before callback; failure before/after write; distinguish cancelled, failed and completed output; NOT RUN",
+      "original_blocked_gate": "Gate C2 / 04A.48; affected 04A.02 prerequisite if blocked",
+      "status": "OPEN"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.ProgressBar1",
+      "original_obligation_id": "control:BESHStatNG.Ui13GEE.ProgressBar1",
+      "original_obligation_row_sha256": "f5522d01da03aeb1f752ff46ed0c4ce8839760d1d3674d2019d1456033f3fe59",
+      "original_named_fixture": "C28-Ui13GEE-ProgressBar1-execution: Interleave compute/interrupt/cancel/close/retry; two modeless instances where global callbacks exist; observer throws; dispose before callback; failure before/after write; distinguish cancelled, failed and completed output; NOT RUN",
+      "original_blocked_gate": "Gate C2 / 04A.48; affected 04A.02 prerequisite if blocked",
+      "status": "OPEN"
+    }
+  ],
+  "original_representative_GEE_case_id": null,
+  "original_representative_GEE_criterion_id": null,
+  "reason": "No GEE representative native golden case/criterion is asserted by the accepted 04A02 representative ANOVA/normality/2x2/PCA packet. Exact original GEE obligation rows and named fixtures, plus the general accepted pre-change operational gate, apply. No case or criterion ID is invented.",
+  "accepted_gate_source": "docs/architecture/04A02/04A02-owner-acceptance-2026-11-02.md",
+  "operational_gate": "Before changing an affected native behavior resolve pre-change evidence, mitigation/regression, independent risk review and N authority OR a fresh exact-ID owner timing deferral. Earlier 2x2/importer exceptions do not apply.",
+  "proposed_owner_decision": "Accept 04A12 software scope with C12-NATIVE-CLASSIFICATION-01 activation deferred until the exact original native prerequisites/timing authority are met; preserve tested Common fitted-family behavior and the bounded Windows legacy mismatch quarantine. Keep all original obligations/restrictions open.",
+  "native_executed": false,
+  "released": 0,
+  "discharged": 0
+}

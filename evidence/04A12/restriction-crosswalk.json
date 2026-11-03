@@ -1,0 +1,1874 @@
+{
+  "base": "90d990c51a691f30a6f90dfdebe5019a4cb24c63",
+  "authorities": {
+    "docs/architecture/WindowsMigrationLedger/04A01-approved-deferred-obligations.json": "363ae57510b613eef06faebba7bc7e4152b928e4d3bbad7c1f67eea589c56d10",
+    "docs/architecture/WindowsMigrationLedger/ui-controls.csv": "65001d9b0289942b75dae8e6451d9a892baff66f490f0dc14a65867ffb54dcbe",
+    "docs/architecture/04A02/04A02-final-amended-acceptance-PROPOSED.json": "8ba5614757a20cd9ca7d075529c058072a250e4ae97fc00d66228c9703e22307"
+  },
+  "controls": [
+    {
+      "control_id": "BESHStatNG.Ui13GEE.TabControl1",
+      "control_row_sha256": "b6056f204ec04b5962c93e36c4635c57613bcf50fcf06a4036d8adca0ee7c4ed",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1091",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.TabPage1",
+      "control_row_sha256": "84ddaa31f8402837d35ca6dba6906901875d74a5545b7623a9ceb7709ba19375",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1092",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lbXs",
+      "control_row_sha256": "cd30fba56ee4020fec4e6b257527f3e30c36dffd7dc8737cb818e5b5fc3f061c",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1093",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lbXs",
+      "obligation_row_sha256": "5366193eda81b082ff03b784b3238ab9558b080ab35643d9d338b7b69a2e0154",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "614b5ba3c74db9cbe057686a06e6ec3b1601a04d5a6e55f17ea116e95179ec6b",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lbY",
+      "control_row_sha256": "4a5c3e641c4aec031365758f059a1c32b7d250b93744e7bb422a455e472f5d08",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1094",
+      "source_associated_changed_methods": [
+        "BuildExpandedRegressionInputs",
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lbY",
+      "obligation_row_sha256": "b8922bea9f116f91c67202a187caeed496c1a59ea435cae3642527948d5103f7",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "6ff841ea835f6acaa2d06cd5bd3430a79676a3ec24d3f0f00a63c08d847c46b1",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbSheetsList",
+      "control_row_sha256": "b48ce7d578a91ea6b767d2b435b310dd12ffff58b5506672c235df519e51d064",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1095",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.cbSheetsList",
+      "obligation_row_sha256": "1e45b642b8a5ad30b663f4d4bbdb14974ede54adb94a70173ef790e17f059a41",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "e6da9316e0e3df5be21eaff0c4ea64f80807ee50a36b66dc4a63108de17b55d9",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btReload",
+      "control_row_sha256": "68ee76aa146f5911480439f0ea995a893fb837a0f08fa0112e565088611b19f4",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1096",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btReload",
+      "obligation_row_sha256": "cafe267a9b5959b66da578c252b72a703bc1e80fc840559069a6c939202f96b2",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "5d93a9ac52d7604c956d100c84e6be16d9a92951dd3131b397d53937a950bb13",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btRemoveX",
+      "control_row_sha256": "d73da11f0f39a50bea2f56a73040c561956e31b3590d6a22505a0c9d69381557",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1097",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btRemoveX",
+      "obligation_row_sha256": "b732b53e301ecb156fd5a75f2aa374e898acde6d69896f192d6a62ce778ea7ff",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "75f247f9a05c68023050eeca9378f4899cafbc8df1befa016dbe0c62593bd2ce",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btAddX",
+      "control_row_sha256": "f08d01405973ced7b60e5b956a0b5a0d49d9559653159cdabd33b92f649eae8e",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1098",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btAddX",
+      "obligation_row_sha256": "2ab2e667e8c69b4e7fefdf81950d3a5186175cf062b9217ec5a5a58dd33cf50b",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "708e420ce1f9acf60e5a351702ae3781bb6425fccaee33d31912f67c45244ab2",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblNote",
+      "control_row_sha256": "1eea028e1681a94a18c5ec04663b6e0b9ee637d918392518c9f32900224e408c",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1099",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblY",
+      "control_row_sha256": "dc4f2d86424a9097a9f14a811d2e94e434e7e055f19d63ccfb126156a05a3104",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1100",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btRemoveY",
+      "control_row_sha256": "5f729bbf0ac0a9d8e1b03d53e2695335fe5e6dfc6b2f0b85f732e8b2086177da",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1101",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btRemoveY",
+      "obligation_row_sha256": "56ee0836c0fb31451abc216f9fd37fbfc045e37371b2ac3edcd1c7fd4cbd23f8",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "a9c612de25b49c2d4b13047754a3d829095a3fd5d80e5b2ae4a6effda278e8b3",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btAddY",
+      "control_row_sha256": "37b0b20c956d26e73db3f99e6366d4c069dad15db920324bf678acac6dba6076",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1102",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btAddY",
+      "obligation_row_sha256": "728d883f5c227f7e2ca9f319cf2f2750e595df65b9d91c38008bfd9c8969d8ce",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "d6f2089a4b8e2b89743577ede6663a7c59ffad90f786837791f580d49c703f0e",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lbAllColumns",
+      "control_row_sha256": "3928d0cfbf7d92a47f4b5c7dab066fa3e2a362478b5c3b70a0b6d888fcb9a640",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1103",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lbAllColumns",
+      "obligation_row_sha256": "d55719eda77c0734929b31b0e99dd7c5ee623c2d1a50db12c2839891613e97e1",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "17b83d771b3cb19c803a75b6a5ae3e49f70baeacdcece753d04022eb905b33d9",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblAllColumns",
+      "control_row_sha256": "f6b56d54c090c800cee75f8c0b93916204348875a371ebd3eca9dcac0ca9add6",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1104",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblX",
+      "control_row_sha256": "64d1d00ac2507696ca5af941ed47f71e82527f9f56a9882a80479533a6a69e62",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1105",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblSelectedSheet",
+      "control_row_sha256": "4996414fdaecdfde3566b6bd550e179cd8f5c2d492a0cc358fc9393e2f9521f1",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1106",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.TabPageBuildModel",
+      "control_row_sha256": "1d799c285e6d6cfd78541c7d019e371482db10fcc25f5cd8f78631a173f8cd18",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1107",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbIntercept",
+      "control_row_sha256": "fb5bb3e0afd7658053fe0f949f93fe4a4e4cdaaf288b7fd455fe728b502c30d1",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1108",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btAddEffect",
+      "control_row_sha256": "0acc7ad212d22a8d90a5e54e8d090de4c48e4e85349792a083f926176e69b7dc",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1109",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btAddEffect",
+      "obligation_row_sha256": "780d07ea49beb78d7d7bbdfafbb601a737b9ea5f79c6c7e7a6f41e6ca886e1b1",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "5e1125fc24febe3f4c95175240809281c2f93cdacfba7a2ff5761aa2ce36f369",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.08",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btClearAllSelectedEffects",
+      "control_row_sha256": "e156dbeb35c96245a26ac5a471904f850ab3059d04e1cc0c2e2964e0940aa29c",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1110",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btClearAllSelectedEffects",
+      "obligation_row_sha256": "6d49e08f83e84d31bb98bf8340c159e81569c7dbbcd43639971934ec1c6dc733",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "87ce946390281476c2e649061e9e6d9aafb413e8771d682dcf748c86c9357b97",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.08",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.tbRemoveSelectedEffects",
+      "control_row_sha256": "095e22cf3c910dd82664c0598ae5412643979f2b134e23580b670a8add0900a4",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1111",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.tbRemoveSelectedEffects",
+      "obligation_row_sha256": "9739063eb10963ac7b89413c11623002567e0ac4ead681bd757dfac6624dff0a",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "764e6a81acb877c4227b1a86e06684bef8aa1be06997db2fb2fd989c42646580",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.08",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.tbInitValues",
+      "control_row_sha256": "a6f407d047fe82bc78056280b89074d62a19f4d5d5cde01571762ec8af20c8b3",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1112",
+      "source_associated_changed_methods": [
+        "New",
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblInitValues",
+      "control_row_sha256": "385b620f5e3ae7d7d5eb38f4d41c4b7c37945dec9c287095a20b918f91d89c72",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1113",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lbSelectedEffectsList",
+      "control_row_sha256": "4c58aa02097b4e701de9776e03685b0d2ebc573168c94b98754fed4a029bbbf8",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1114",
+      "source_associated_changed_methods": [
+        "BuildExpandedRegressionInputs",
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lbSelectedEffectsList",
+      "obligation_row_sha256": "a9926a29c0a8fd9aea92c747669b865333f0a7e3000eb16b42447dd9202267f0",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "97b3a1848980da4c3ec9f5bbfb5f0c84cc07c1fd50a1c874797f946c3e991259",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.08",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lbSelectedVariables",
+      "control_row_sha256": "e3cad300299fb237473699821fb55c5108a5b4654005a592f552c2dcb09c4d83",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1115",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lbSelectedVariables",
+      "obligation_row_sha256": "bc9089a623d36d0044bc9853328cafdba1220a69386444c6a9b0489052e43f02",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "525ff8366ff62eb9e127a4c3ab78da13b7a31ee3608a1ee1fcf035a732c1d932",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblSelectedEffectsList",
+      "control_row_sha256": "1791a1a134da3a380f0df9a43350e021463cc716b891ead9c2e39ddde8250d62",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1116",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblSelectedVariables",
+      "control_row_sha256": "286659e861f0460c551bdf5c0ebdc5e0b51221f56098e5183fb666fb0c3718e5",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1117",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.TabPageOptions",
+      "control_row_sha256": "2c773d08a715a48e8c494fcd5ac0f67b7a5e15d1809641cd82af0b1e87fa6c30",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1118",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.ckResiduals",
+      "control_row_sha256": "aff6d26fdb9015f0c4cbc5ae30535e1cfd7dc4805403cb152cb0107784e99829",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1119",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.grpModelSpecification",
+      "control_row_sha256": "b6bd0b0d9774448f53d76a68bf4dd8426d9a8653fb9c09a370e95c8e41d41d8b",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1120",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.tbDispersionParameterNB2",
+      "control_row_sha256": "25e8ea5bbe4315d46ec8b57323b71bf534bcd9597a5ed099337f9ab0ee49219c",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1121",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblDisperisionParameter",
+      "control_row_sha256": "426a14520de0c9318b9217dfcfaa87b89a52e8008e0f8b0c5361c378300b0839",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1122",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.tbPower",
+      "control_row_sha256": "933e4a0c57a4aaa63e5462e2d11997fe4aeab0454d876dd8761ee34d21efafa6",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1123",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblPower",
+      "control_row_sha256": "e698d66f58659263d385267eb8f3a19a7980eed8599baba599c695e243b9dfe6",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1124",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbLink",
+      "control_row_sha256": "7348f57a1811d8081b7e354af2a388adc332d360100560bd188753f6caca6902",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1125",
+      "source_associated_changed_methods": [
+        "RefreshLinkOptionsForSelectedFamily",
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblLink",
+      "control_row_sha256": "7b169204d05ea066216fabe7791450838f768392bc49af18f51ea8bc60026f78",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1126",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbFamily",
+      "control_row_sha256": "d10e61a979991202819600463d957d8e25690d5e1250b74b3afb02b5ea818528",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1127",
+      "source_associated_changed_methods": [
+        "New",
+        "RefreshLinkOptionsForSelectedFamily",
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblFamily",
+      "control_row_sha256": "c2b732baa343e676134145e5ec12e2f7059f7a0b6d928b70386f5a1745db797c",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1128",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.grpIterOptions",
+      "control_row_sha256": "72db322495149cd8f26cefb0298d688c89e02687b8296738a88775a8d16139f6",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1129",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.ckIterationsDetails",
+      "control_row_sha256": "12afe6eaeccbb6fb76d4b944710caed8caf068246262a1610c79102880c4cbab",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1130",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.tbMaxIter",
+      "control_row_sha256": "47804a674c490a35e6ac9a7489ae9a8fbc6c04c979c2982090bda0cc06080c07",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1131",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblMaxIter",
+      "control_row_sha256": "a176a5adc553ae04a6778a6065d205020d186553ed5a1e5f92f3951e93b5c688",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1132",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblEps",
+      "control_row_sha256": "f9fc8cd2b4589c22bcaffd88f5b9b49b68fa75896db6cb3b0ba7c90d4698bb13",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1133",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.tbEps",
+      "control_row_sha256": "dc376019b2c24bb11e49b280d73f9a2b85c815e4b3e888a744f5000c49b597b4",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1134",
+      "source_associated_changed_methods": [
+        "New",
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lbTime",
+      "control_row_sha256": "07489b0789c33483afd2dbd3ae521df87ce15552360ac89118faee2216ba1bd0",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1135",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lbTime",
+      "obligation_row_sha256": "bc28507f88eb01269dc0e09e62e682360eef139423294e181a47d1debb821aa5",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "1eb830a5de500448174af3cea39f6b1b2eb37a46c1e2383953ad9446c1036440",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblTime",
+      "control_row_sha256": "2974697e17778f00e145f4ffe5d7d5b46835aa2fbba10554b99a835773986a75",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1136",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lbClusterID",
+      "control_row_sha256": "75329897a07dfbe98ace12a68918d0898fd927ba9983ad7555058ca8694c3624",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1137",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lbClusterID",
+      "obligation_row_sha256": "d19f9eba9d8a787c36c5af6d9dc0d9505351ff7a596f51c65269fd276efe84ee",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "9ae47b38ca6371d00002a915d6ad5200c3805e552054edcc38d177bc73f50412",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblClusterID",
+      "control_row_sha256": "99b3fc54cecdb1a0a8961e82fd7bed94af94ebd432d19c67f0a71a307e6a9fa0",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1138",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.ProgressBar1",
+      "control_row_sha256": "ed55fad1b06a9f582e5d1c98b9b664aada640e29f379fbcd4e9c8fdc1ae6bf6f",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1139",
+      "source_associated_changed_methods": [
+        "New",
+        "RunGEE"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.ProgressBar1",
+      "obligation_row_sha256": "f5522d01da03aeb1f752ff46ed0c4ce8839760d1d3674d2019d1456033f3fe59",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "c781a882cf6787f7e1480c2640cfaaa8d26a61f4a5c12c6198f9ca54f87842ec",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.47",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblProgress",
+      "control_row_sha256": "c5804907b419aded226dcbab4addf34d8e6462a8ea63d7b0003dbb031f48c83c",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1140",
+      "source_associated_changed_methods": [
+        "New",
+        "RunGEE"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lblProgress",
+      "obligation_row_sha256": "16276776bec7c71139c08b0c58959b80234cfe885ff2459f23a433b5f2832e9c",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "409125cb238baacdb4de45395e0e78d6757971b316e860f04a974a8ea1c6646a",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.47",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btnHelp",
+      "control_row_sha256": "505e0b21ec81dcebe1f6482d88111d1df9471bdd5d6e46267451e6575b15bd28",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1141",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": false,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btnHelp",
+      "obligation_row_sha256": "7b562511894b49f869d9e7982d2b14e4fa9106fe6a8e8dbee0b02d00dfddcaef",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "8a6f29536316c74a3d3d00cf201b4336bd76c6f09f007eb10e7bdbab75cb0628",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Windows Help/locale policy maintainer; GEE dialog owner"
+      ],
+      "original_dependent_batches": [
+        "04A.44",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btCalculate",
+      "control_row_sha256": "a25bb2f14364fdcf8800b92f1f3c7a78e80366c0f4180cff4fd6ddd52b0a8c4e",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1142",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btCalculate",
+      "obligation_row_sha256": "8334ec1dd3d2d7a39e0cce446f5b4a0e563c044dda76fd46a5147314a06a9e6a",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "6e3a160e1880b6b1479e06de5f519d2e0e130227b1c6190dd9a28681b4e17e74",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.47",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btRemoveTime",
+      "control_row_sha256": "438dbad5e10af327b81b87c0d563e6b82b6b2f530bd1ac3e8b13769a53ca62a4",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1143",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btRemoveTime",
+      "obligation_row_sha256": "6d3d7e8ed5ebf5e1a8836427689dc84236440fa1b4dd185bf15c035ac5bcd2fc",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "e215668ad5996800ff13aa94724f698032a2182a33588d397a8327f7211711fa",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btAddTime",
+      "control_row_sha256": "470e9a8a59d153893e0e391255d6cd61f09f7719fb6c4015ec1340e8c53ff3df",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1144",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btAddTime",
+      "obligation_row_sha256": "63da77a5a3a98bf7d5c1102824c623eaead0cef2757b185b3fbb83cde69fd5a6",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "73066074595d76a20f5e3fd61eb2b41c46ae0012cfe5ae93066f7b67c8417ab6",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btRemoveClusterID",
+      "control_row_sha256": "ddabc3c0321d9290fae24399e992e24affee5a94fe43bec9375d27333bb20ce8",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1145",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btRemoveClusterID",
+      "obligation_row_sha256": "adfec94796574e7448a9fd3076a4acb6d41b09650e8cf17c30297ce1555c9c8b",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "ceee9d3ed5cb45c93622c132c76e3e7e24f2ad7411a6e55de1c88f9bc3f76427",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btAddClusterID",
+      "control_row_sha256": "0fabacb63036a7f4200cbda99390201c4fd1277fac638401b0dc04662fd9326d",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1146",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btAddClusterID",
+      "obligation_row_sha256": "93121fd688ad9835af6d3d38724c6c2eae11f41f53dbcf3558faf9fd3f4f98f5",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "b70b3aa3a7a8d7f835a72b3a32a9363c6f39e59da0765fed5243850d980633d2",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.ckTrace",
+      "control_row_sha256": "38eab6aef296f38b73586e35dacdbf209fefb3de762f12dd1bb7d9e0a275746b",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1147",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbCovarStruct",
+      "control_row_sha256": "84fd3f9e3f70e410de9ad21e770135c36667d92e2781f5d9abc7042a11366c62",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1148",
+      "source_associated_changed_methods": [
+        "New",
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblCovarStruct",
+      "control_row_sha256": "fe83a839504bb46bcae564e2033ff264e1c04bf773fe5f7594553ca3a99832ce",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1149",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.ckUseP",
+      "control_row_sha256": "3d3104b87ecdd27c683ca14c263815ee31660b07cdc8630fc36ba7864c974b4e",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1150",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbStandardErr",
+      "control_row_sha256": "f85625c28219f43f6df3a375cded7011009b0dd8425f20bfdac21cb698d5a44d",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1151",
+      "source_associated_changed_methods": [
+        "New",
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblStdErr",
+      "control_row_sha256": "27aec1dcdb722b533a8b253ba840498a9480755f991e19f9d33ea661572f296b",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1152",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblAlpha",
+      "control_row_sha256": "b6de3c820dda0bbfc5f966c84fc2936b9893d1cc1d6b9a807f71caeaf21703dc",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1153",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.spinBtnAlpha",
+      "control_row_sha256": "0eed0208627d399e033afe724d7140b2e278e3f5ab37f9f3ba74d3b0b9970fc6",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1154",
+      "source_associated_changed_methods": [
+        "New",
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btAddEffectCategoricalFactor",
+      "control_row_sha256": "7c1a852f05eff9c826f5dfe8c36a22f9d32d5447464350699db9a89329a9f8a6",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1155",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btAddEffectCategoricalFactor",
+      "obligation_row_sha256": "912bf1c25876aa7ee9912037ccac86e55dbdcf49b91936fab993c95c310229a0",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "9e8636cf363bda8d5df3d85c03f24c08aba869c41adf94480f265911faa018f5",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.08",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btnCustomInteraction",
+      "control_row_sha256": "2bfce31686587eefce8d4cdadfec8b83371388d82714c879fe0ea615f31e5657",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1156",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btnCustomInteraction",
+      "obligation_row_sha256": "6bd2d810cb87a8e83e7f53ef34b2a0e7b610c364359da13909315464aa1a226d",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "393ea9783b39a8077c4f171b46bf7ee836dbf83f0e00c9435cb494e587e1d01f",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.08",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btn2Interactions",
+      "control_row_sha256": "8e9103526f0c4ed373b21faada02e970adc6db5d5d17ad5d7c9ecf8645b90acf",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1157",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btn2Interactions",
+      "obligation_row_sha256": "c7609f3749ac59c9f5dea8ab0300d561030678f69699bc487ced45f9a9793c9b",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "77ea566cfb7fdd628854c209e4a33f024ea789c75b25476ada7d15bcead2456c",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.08",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.spinBtnPoly",
+      "control_row_sha256": "a2eff613173843f08affde0a6c7692a578d875a251e1bc0ffbbb22544aa65f9b",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1158",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btnPoly",
+      "control_row_sha256": "cf9b071919d3ddc4ee938c368dbb7c074b361734ecbc5e11e606e47f7b2d4d0f",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1159",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btnPoly",
+      "obligation_row_sha256": "4170caf1b5f8f49ee9c6e297a81b28834fa555a2a1fc5526b6e0a347bf84c004",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "c25817067267dc06c3e6f8ff22bde224588255ae0f606c720ea8475718da9fa2",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.08",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.grpClassification",
+      "control_row_sha256": "06bb13757580d50c30183dfa411847aa7b2f55cec45c0ecf8ceb2e0f0ae632ec",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1160",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbBrierScore",
+      "control_row_sha256": "3eb7c798af79ac253e96307e7798a274b979ec71640fdedfa6c65a7b2cf946ed",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1161",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblCallibrationBinsN",
+      "control_row_sha256": "41c67675311125c8b5d68f927d025ddcf34a4969bb31d14611914922c7737ea3",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1162",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.spinBtnCallibrationBinsN",
+      "control_row_sha256": "9fa37bb1b807b6e9f3c3e9025a172982efb86400d6e3eb25158b4146739b3b38",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1163",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbOutputCalibrationTable",
+      "control_row_sha256": "35992da9a60dbd2a58b59c8a0f6d9dfbf2b0111971779384555ab72c29f11445",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1164",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbOutputTresholdTable",
+      "control_row_sha256": "d47266cad763a3714d61bfc27a40687457e32b5d8a8fdf004509395fd16fd6e5",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1165",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.tbClassificationTreshold",
+      "control_row_sha256": "913c611e0eda740b4dc419e1294e90f37d286247dd4379708f796a29ddafb271",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1166",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblClassificationTreshold",
+      "control_row_sha256": "d9cdb1707e08981d687d47c5bfd46423eb379642253d8b258502ae8652b37e7e",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1167",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.cbPerformClasification",
+      "control_row_sha256": "2281504f28c535d8d9a58b87732d47c6abd0e9238dc38971a4a39f432322bd1c",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1168",
+      "source_associated_changed_methods": [
+        "RunGEE"
+      ],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lbWeights",
+      "control_row_sha256": "0fdf8ea734105c1e6f80287b1de375a9abd3ba64031c7e61197a116e7cbf2b6b",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1169",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lbWeights",
+      "obligation_row_sha256": "b62af66642fe17f72e617cd046e9c6420b09a5b8e3a99d76530d850413d29f09",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "35698cf37b57735ccefb41939e2afc81fd815c1d64ce844ab376b37714196ed5",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lbOffset",
+      "control_row_sha256": "50143855c354f3dd582bd8e70153fee266e367e6de75d8ef73f9259b2ec5efaf",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1170",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.lbOffset",
+      "obligation_row_sha256": "1d7da7507b976c4ab289a84ab732c1d99118172e944879d09c12d0073976ae14",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "c8af031bfd2e6702e6d3436a25fb33367318096eda8c5b51be646495a5ce7026",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btRemoveWeights",
+      "control_row_sha256": "49a654582d79b143a43bcd997b930414a1d602a75c0bb2b3e972284050f56f2f",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1171",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btRemoveWeights",
+      "obligation_row_sha256": "dc1583208b94385138c2b5f27a4ed08deabe0cccbfa68b7959381c36f9b738ac",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "6330bdd752237f2671aaec4932f4a81a492b26cc11db3bb3d2294ad66514df2e",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btAddWeights",
+      "control_row_sha256": "4053b51652808f028edea23f53005d38d41afdeeaa2a5929dea4c2e7bd2c03ff",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1172",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btAddWeights",
+      "obligation_row_sha256": "8768247ca9be17cd92df6238f3b6331b0443df480ce1af73151175bf494b833b",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "14303b73618e5a064a8a8832046816913f45033bb003eecc1074f63353cc7a0e",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblOffset",
+      "control_row_sha256": "5e525bf8acd9aa3c47a37c06c8f4df9022ea9ae1d29c2ac80173b599e0ccda4e",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1173",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btRemoveOffset",
+      "control_row_sha256": "86b03075de6a1f7302871622237ee2e668b000023181fdc16365361c2a875d57",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1174",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btRemoveOffset",
+      "obligation_row_sha256": "34d102a578aa087c0ba76be727f242ff3e366790b3e2467cef339442c85299a9",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "15d7847502596c63a03f053debba87031b280def99e5fef3931537be3a16f43e",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btAddOffset",
+      "control_row_sha256": "accaa30910368cce844934f1a2fb8ccac6e43abb28848475a267fac0d35555c3",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1175",
+      "source_associated_changed_methods": [],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btAddOffset",
+      "obligation_row_sha256": "dfe02db2eae4d1131d7a6193f00be88aa193241272391b2ab371c171d30d15c5",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "b735299a78cebf02d018266df91c5cffa7d8a25583e664416ad1c2c197ed671c",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.12",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.lblWeights",
+      "control_row_sha256": "fdb90aa81ab4c64f855278c64c7266f019d79ff28340622d89cd7e7680fa0455",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1176",
+      "source_associated_changed_methods": [],
+      "original_restricted": false,
+      "obligation_id": null,
+      "obligation_row_sha256": null,
+      "source_record_path": null,
+      "source_record_sha256": null,
+      "status": "NO ORIGINAL DEFERRED OBLIGATION ROW",
+      "verification_status": "SOURCE ONLY; NOT NATIVE VERIFICATION",
+      "original_capture_authorized": false,
+      "original_owner_roles": "Windows UI maintainer",
+      "original_dependent_batches": "04A.45"
+    },
+    {
+      "control_id": "BESHStatNG.Ui13GEE.btInterrupt",
+      "control_row_sha256": "abe7bd69d6f7cd1472006360f3276e92faf29b39917dc4c7701e2e9ea3039dc2",
+      "declaration_path": "BESHstatNG/src/UI/Ui13GEE.Designer.vb",
+      "declaration_line": "1177",
+      "source_associated_changed_methods": [
+        "New"
+      ],
+      "original_restricted": true,
+      "obligation_id": "control:BESHStatNG.Ui13GEE.btInterrupt",
+      "obligation_row_sha256": "2f2a2a67831db5579d0ec9f5ec4a9b97a835cfe808734dd4612844eb74c3ccdb",
+      "source_record_path": "docs/architecture/WindowsMigrationLedger/continuation28-control-triage.csv",
+      "source_record_sha256": "5c23405fc3b946c6eb1ea638e5e263d905bc279a784ba803ba88168e3a82a9fa",
+      "status": "OPEN",
+      "verification_status": "NOT RUN",
+      "original_capture_authorized": false,
+      "original_owner_roles": [
+        "Core GEE; Common cluster/time/link policy; Windows GEE dialog maintainers"
+      ],
+      "original_dependent_batches": [
+        "04A.47",
+        "04A.47",
+        "04A.27 host input identity",
+        "04A.28 output safety",
+        "04A.48 / Gate C2 extraction/parity closure"
+      ]
+    }
+  ],
+  "form_controls": 87,
+  "original_restricted_controls": 34,
+  "original_open_obligations": 35,
+  "obligation_less_source_controls": 52,
+  "changed_method_source_controls": 39,
+  "released": 0,
+  "discharged": 0,
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET",
+  "original_universe": "1514 obligations / 802 restricted controls; 239/218 transferred and other subsets overlap, never add.",
+  "UiGLM": "Seven OPEN obligations / 34 restricted controls remain separate and untouched.",
+  "native": "NOT RUN; source/host-free evidence cannot release a control.",
+  "pending_activation": "C12-NATIVE-CLASSIFICATION-01 is a new administrative timing disposition, not a new original obligation."
+}

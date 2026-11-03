@@ -1,5 +1,6 @@
 ﻿Imports System.Drawing
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.ExcelCommon
 
 Public Class Ui13GEE
 
@@ -28,13 +29,13 @@ Public Class Ui13GEE
 
         ' Add any initialization after the InitializeComponent() call.
 
-        For Each sFam In regression.Family.FamiliesList
+        For Each sFam In GeeWorkflowPolicy.FamilyNames()
             Me.cbFamily.Items.Add(sFam)
         Next
-        For Each sCovStruct In regression.GEEcovStruct.CovStructsList
+        For Each sCovStruct In GeeWorkflowPolicy.CorrelationNames()
             Me.cbCovarStruct.Items.Add(sCovStruct)
         Next
-        For Each sSE In {"Robust", "Naive", "Bias Reduced"}
+        For Each sSE In GeeWorkflowPolicy.StandardErrorNames()
             Me.cbStandardErr.Items.Add(sSE)
         Next
         Me.cbFamily.SelectedIndex = 0
@@ -135,20 +136,7 @@ Public Class Ui13GEE
     End Sub
 
     Private Shared Function GetFamilyCodeFromDisplayName(familyDisplayName As String) As String
-        Select Case familyDisplayName
-            Case "Binomial"
-                Return "Binomial"
-            Case "Poisson"
-                Return "Poisson"
-            Case "Negative Binomial"
-                Return "NegativeBinomial"
-            Case "Gaussian"
-                Return "Gaussian"
-            Case "Gamma"
-                Return "Gamma"
-            Case Else
-                Return String.Empty
-        End Select
+        Return GeeWorkflowPolicy.FamilyCode(familyDisplayName)
     End Function
 
     Private Sub RefreshLinkOptionsForSelectedFamily(Optional preferredLink As String = Nothing)
@@ -175,12 +163,8 @@ Public Class Ui13GEE
                 Return
             End If
 
-            Dim fam As regression.Family = regression.createFamily(familyCode)
-
-            For Each sLink As String In regression.Link.LinkList.Values
-                If fam.testLink(sLink) Then
-                    Me.cbLink.Items.Add(sLink)
-                End If
+            For Each sLink As String In GeeWorkflowPolicy.SupportedLinks(familyCode)
+                Me.cbLink.Items.Add(sLink)
             Next
 
             If Not String.IsNullOrWhiteSpace(linkToSelect) Then
@@ -484,7 +468,7 @@ Public Class Ui13GEE
                                                        yKey:=CStr(Me.lbY.Items(0)),
                                                        effectItems:=Me.lbSelectedEffectsList.Items,
                                                        termSpecs:=Me.TermSpecs,
-                                                       omitCategoricalReference:=True,
+                                                       omitCategoricalReference:=GeeWorkflowPolicy.OmitCategoricalReference,
                                                        outData:=fitData,
                                                        outVarNames:=fitVarNames)
     End Sub
@@ -639,53 +623,41 @@ Public Class Ui13GEE
 
             If bInitialValues Then
                 'GEE currently always includes an intercept internally.
-                Dim expectedCount As Integer = fitVarNames.Length
+                Dim expectedCount As Integer = GeeWorkflowPolicy.ExpandedParameterCount(fitData)
 
                 If Not ValidateExpandedInitialValuesCount(expectedCount) Then
                     Exit Sub
                 End If
             End If
 
-            'create family
-            Dim fam = regression.createFamily(regression.Family.FamiliesCodes(Me.cbFamily.SelectedIndex))
+            'Windows parses text; Common owns effective family/link/correlation/SE intent.
+            Dim dispersion As Nullable(Of Double) = Nothing
             If Me.tbDispersionParameterNB2.Text <> String.Empty Then
                 Try
                     Dim dispParam As Double = ParseUiDouble(Me.tbDispersionParameterNB2.Text, "Dispersion parameter")
-                    If dispParam > 0 Then fam.pdAlpha = dispParam
+                    dispersion = dispParam
                 Catch
                 End Try
             End If
 
-            'create link
-            Dim lnk As regression.Link
-            If Me.cbLink.SelectedItem = "Power" Then
-                lnk = regression.createLink(Me.cbLink.SelectedItem, ParseUiDouble(Me.tbPower.Text, "Power link parameter"))
-            Else
-                lnk = regression.createLink(Me.cbLink.SelectedItem)
-            End If
-
-            'create Covariance structure
-            Dim covStr = regression.createGEEcovMat(regression.GEEcovStruct.CovStructsList(Me.cbCovarStruct.SelectedIndex))
-            fitGEE = New GEE(fam, lnk, covStr, Me.cbStandardErr.SelectedItem)
-
-            fitGEE.data(fitData, MyData.ClusterIdData, MyData.RowIds,
-                    If(MyData.bOffset, MyData.OffsetData, Nothing),
-                    If(MyData.bWeights, MyData.WeightData, Nothing),
-                    If(MyData.bTime, MyData.TimeData, Nothing))
-
-            fitGEE.setVarNames(fitVarNames, MyData.ClusterIdVarName,
-                           If(MyData.bOffset, MyData.OffsetVarName, Nothing),
-                           If(MyData.bWeights, MyData.WeightVarName, Nothing),
-                           If(MyData.bTime, MyData.TimeVarName, Nothing))
-
-            fitGEE.bComputeResiduals = Me.ckResiduals.Checked
-            fitGEE.bIterationDetails = Me.ckIterationsDetails.Checked
-            fitGEE.settingInputs(alphaValue,
-                                 ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
-                                 ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"),
-                                 Me.ckUseP.Checked)
-
-            If bInitialValues Then fitGEE.startParams = GetNumbersFromStrList(Me.tbInitValues.Text, False) 'validated above
+            Dim options As New RegressionOptions With {
+                .Family = CType([Enum].Parse(GetType(RegressionFamily), regression.Family.FamiliesCodes(Me.cbFamily.SelectedIndex)), RegressionFamily),
+                .Link = CType([Enum].Parse(GetType(RegressionLink), Me.cbLink.SelectedItem.ToString()), RegressionLink),
+                .Power = If(Me.cbLink.SelectedItem = "Power", CType(ParseUiDouble(Me.tbPower.Text, "Power link parameter"), Double?), Nothing),
+                .Dispersion = dispersion, .Alpha = alphaValue,
+                .Residuals = Me.ckResiduals.Checked, .IterationDetails = Me.ckIterationsDetails.Checked,
+                .MaximumIterations = ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
+                .Epsilon = ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"),
+                .PValuePresentation = New OutputPValuePolicy(AppGlobals.PValuePresentation)}
+            Dim geeOptions As New GeeWorkflowOptions With {
+                .Correlation = GeeWorkflowPolicy.CorrelationNames()(Me.cbCovarStruct.SelectedIndex),
+                .StandardError = CType(Me.cbStandardErr.SelectedIndex, GeeStandardError), .UseP = Me.ckUseP.Checked,
+                .RequestedIntercept = Me.cbIntercept.Checked, .TraceRequested = Me.ckTrace.Checked}
+            Dim intent = WindowsGeeWorkflowAdapter.Capture(CStr(Me.lbY.Items(0)), MyData, fitData, fitVarNames,
+                RegressionEffectsController.Snapshot(Me.lbSelectedEffectsList, Me.TermSpecs), options, geeOptions,
+                If(bInitialValues, GetNumbersFromStrList(Me.tbInitValues.Text, False), Nothing))
+            'Intent.Validation is diagnostic metadata, not a new Windows strict-refusal gate.
+            fitGEE = intent.CreateCoreModel()
 
             fitGEE.Fit(bInitialValues, progress:=New AppInfrastructure.WinFormsProgressReporter(Me.ProgressBar1, Me.lblProgress))
 
@@ -741,16 +713,24 @@ Public Class Ui13GEE
             'Prediction
             WriteRes.write({"Prediction"})
             WriteRes.setRowPointer(2)
-            WriteRes.write(fitGEE.PredictedResponses, bTall:=True)
+            Dim corePredictions = fitGEE.PredictedResponses
+            WriteRes.write(GeeReportPolicy.Predictions(intent, corePredictions), bTall:=True)
             WriteRes.setRowPointer()
             WriteRes.shiftColumnPointer(1)
 
             'Residuals
-            If fitGEE.bComputeResiduals Then WriteRes.write(fitGEE.AllResiduals())
+            Dim residualValues(,) As Object = Nothing
+            If fitGEE.bComputeResiduals Then
+                residualValues = GeeReportPolicy.Residuals(intent, fitGEE.AllResiduals())
+                WriteRes.write(residualValues)
+            End If
 
             'Create new worksheet in workbook. It will automaticaly be an activesheet
             'We need to start new writer to start writing on this new sheet
             Dim res = fitGEE.wrapResults()
+            Dim report = WindowsGeeWorkflowAdapter.Report(intent, res, corePredictions, residualValues,
+                fitGEE.ObservedResponses(), fitGEE.ObservationWeights(), fitGEE.WorkingCorrelationMatrix)
+            res = report.LegacyTables()
             WriteRes = New ExcelDnaResultWriter
             AppGlobals.app.ActiveWorkbook.Worksheets.Add()
             AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "GEE"
@@ -767,31 +747,29 @@ Public Class Ui13GEE
 
                 Global.BESHStatNG.regression.BinaryClassificationCore.ValidateBinaryInputs(y, p, weights)
 
-                Dim summary As regression.BinaryClassificationSummary =
-                    regression.BinaryClassificationReporting.ComputeBinarySummary(y, p, threshold, weights)
-
-                Dim thresholdRows As List(Of regression.BinaryThresholdRow) = Nothing
-                If Me.cbOutputTresholdTable.Checked Then
-                    thresholdRows = regression.BinaryClassificationReporting.BuildThresholdTable(y, p, Nothing, weights)
-                End If
-
-                Dim calibrationRows As List(Of regression.CalibrationBinSummary) = Nothing
-                If Me.cbOutputCalibrationTable.Checked Then
-                    calibrationRows = regression.BinaryClassificationReporting.BuildCalibrationBins(
-                        y, p, CInt(Me.spinBtnCallibrationBinsN.Value), weights, "quantile")
-
-
-                End If
-
-                Dim brier As Double = Double.NaN
+                'These controls are deliberately read after Fit and the GEE writer.
+                Dim postFit As New RegressionOptions With {.Family = RegressionFamily.Binomial,
+                    .Classification = True, .Threshold = threshold, .ThresholdTable = Me.cbOutputTresholdTable.Checked,
+                    .Calibration = Me.cbOutputCalibrationTable.Checked,
+                    .CalibrationBins = If(Me.cbOutputCalibrationTable.Checked, CInt(Me.spinBtnCallibrationBinsN.Value), 10),
+                    .Brier = Me.cbBrierScore.Checked, .PValuePresentation = New OutputPValuePolicy(AppGlobals.PValuePresentation)}
                 Dim eventRate As Double = Double.NaN
-                If Me.cbBrierScore.Checked Then
-                    brier = regression.BinaryClassificationReporting.ComputeBrierScore(y, p, weights)
+                If postFit.Brier Then
                     eventRate = BESHStatNG.WorksheetFunctions.ComputeWeightedEventRate(y, weights)
                 End If
-
-                Dim clsRes As List(Of ResultTable) = regression.BinaryClassificationReporting.WrapResults(
-                    summary, thresholdRows, calibrationRows, brier, eventRate, "GEE Binary Classification")
+                Dim calibrationRows As List(Of regression.CalibrationBinSummary)
+                Dim clsRes As List(Of ResultTable)
+                If intent.MeanRequest.Options.Family = RegressionFamily.Binomial Then
+                    Dim classification = GeeReportPolicy.Classification(report, postFit, eventRate)
+                    calibrationRows = classification.CalibrationRows
+                    clsRes = classification.LegacyTables()
+                Else
+                    'C12-NATIVE-CLASSIFICATION-01: preserve the original selected-family mismatch
+                    'until its exact native timing gate is resolved; never put this rule in Common.
+                    Dim legacyClassification = WindowsGeeWorkflowAdapter.DeferredPostFitFamilyReport(report, postFit, eventRate)
+                    calibrationRows = legacyClassification.CalibrationRows
+                    clsRes = legacyClassification.LegacyTables()
+                End If
 
                 If clsRes IsNot Nothing AndAlso clsRes.Count > 0 Then
                     WriteRes = New ExcelDnaResultWriter
