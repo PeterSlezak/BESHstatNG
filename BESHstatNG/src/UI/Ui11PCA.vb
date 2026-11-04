@@ -192,13 +192,15 @@ Public Class Ui11PCA
             .Method = Me.GetSelectedDiscriminantMethod(), .Standardization = Me.GetSelectedDiscriminantStandardization(),
             .Missing = Me.GetSelectedDiscriminantMissingPolicy(), .Priors = priorMode,
             .Regularization = Me.GetSelectedDiscriminantRegularization()}
-        options.ConfigureModel(fitDA)
+        Dim request As New MultivariateDiscriminantRequest(intent, options, Me.ckFirstRow.Checked)
+        request.ConfigureModel(fitDA)
+        Dim userPriors As MultivariateUserPriorIntent = Nothing
 
         If priorMode = Multivariate.DiscriminantPriorMode.UserSpecified Then
             Dim priorLabels() As Object = Nothing
             Dim priorValues() As Double = Nothing
             Me.GetDiscriminantUserPriors(priorLabels, priorValues)
-            fitDA.priorInputs(priorLabels, priorValues)
+            userPriors = request.ApplyUserPriors(fitDA, priorLabels, priorValues)
         End If
 
         options.Validation = Me.GetSelectedDiscriminantValidationMode()
@@ -206,19 +208,21 @@ Public Class Ui11PCA
         options.HoldoutFraction = CDbl(Me.tbDAHoldoutFraction.Value)
         options.Seed = Me.GetSelectedDiscriminantRandomSeed()
         options.Stratified = Me.ckDAStratified.Checked
-        options.ConfigureValidation(fitDA)
+        Dim validation As New MultivariateDiscriminantValidationRequest(options)
+        validation.Configure(fitDA)
         fitDA.Fit()
+        Dim projection = MultivariateDiscriminantProjectionPolicy.Project(request, validation, userPriors, fitDA)
 
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
         Dim wsData As Worksheet = CType(wb.Worksheets(1), Worksheet)
-        wsData.Name = "Data"
+        wsData.Name = request.DataSection.SheetName
         Dim wrData As New ExcelDnaResultWriter With {.wb = wb, .ws = wsData}
-        wrData.write(Me.BuildDiscriminantInputDataTable(MyData, groupLabels, rowLabels))
+        WindowsMultivariateWorkflowAdapter.WriteDiscriminantData(wrData, MyData.FinalData, groupLabels, projection)
 
         Dim wsResults As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
-        wsResults.Name = "Discriminant results"
+        wsResults.Name = request.ResultsSheetName
         Dim wrSummary As New ExcelDnaResultWriter With {.wb = wb, .ws = wsResults}
-        Dim report = MultivariateReportPolicy.Project(intent, fitDA.wrapResults())
+        Dim report = projection.ProjectReport(fitDA.wrapResults())
         Dim rr = New ProcessListofResultTables(report.LegacyTables())
         rr.writeToSheet(wrSummary, True)
     End Sub
@@ -234,23 +238,25 @@ Public Class Ui11PCA
             .Rotation = Me.GetSelectedFARotationMethod(), .Scores = Me.GetSelectedFAScoreMethod(),
             .Communality = Me.GetSelectedFACommunalityInitialization(), .Missing = Me.GetSelectedFAMissingPolicy(),
             .KaiserNormalization = Me.ckFAKaiserNormalization.Checked, .PromaxPower = CDbl(Me.nudFAPromaxPower.Value)}
-        options.Configure(fitFA)
+        Dim request As New MultivariateFactorRequest(intent, options)
+        request.Configure(fitFA)
         fitFA.Calculate()
+        Dim projection = MultivariateFactorProjectionPolicy.Project(request, fitFA)
 
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
         Dim wsData As Worksheet = CType(wb.Worksheets(1), Worksheet)
-        wsData.Name = "Data"
+        wsData.Name = request.DataSection.SheetName
         Dim wrData As New ExcelDnaResultWriter With {.wb = wb, .ws = wsData}
-        wrData.write(Me.BuildKMeansInputDataTable(MyData, Nothing))
+        WindowsMultivariateWorkflowAdapter.WriteFactorData(wrData, MyData.FinalData, projection)
 
         Dim wsResults As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
-        wsResults.Name = "Factor analysis results"
+        wsResults.Name = request.ResultsSheetName
         Dim wrSummary As New ExcelDnaResultWriter With {.wb = wb, .ws = wsResults}
-        Dim report = MultivariateReportPolicy.Project(intent, fitFA.wrapResults())
+        Dim report = projection.ProjectReport(fitFA.wrapResults())
         Dim rr = New ProcessListofResultTables(report.LegacyTables())
         rr.writeToSheet(wrSummary, True)
 
-        WindowsMultivariateWorkflowAdapter.RenderFactor(report, fitFA)
+        WindowsMultivariateWorkflowAdapter.RenderFactorProjection(projection, fitFA)
     End Sub
 
     Private Sub RunHierarchicalClustering(MyData As DataObj)

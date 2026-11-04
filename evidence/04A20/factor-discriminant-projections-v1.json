@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "FA": "Actual AnalysisRowIds and unique source/input mapping; ambiguous duplicate IDs are diagnostic-only. Actual K, eigen axis, P x K unrotated/pattern/structure/score coefficients, N_active x K scores, K x K Phi/rotation and P x P model matrices; Core convergence/iterations retained.",
+  "DA": "Input ordinal vs physical source RowId; active/removed/training/validation populations; first-observed Core classes; posterior/score/distance columns, observed confusion rows vs predicted columns. Core counts/totals/recall/precision/accuracy copied, never recomputed.",
+  "sections": "Actual wrapResults -> existing ReportPolicy/AnalysisResultDocument -> ordered ModelSection indices -> LegacyTables -> native existing ProcessListofResultTables.",
+  "sheets": [
+    "Data",
+    "Factor analysis results",
+    "Discriminant results"
+  ],
+  "plots": {
+    "FA": [
+      "Scree",
+      "Loadings2D",
+      "Loadings3D"
+    ],
+    "DA": []
+  },
+  "native_arguments": "Same existing FactorAnalysisPlotExcel methods with the same fitted Core object, in original order and after results; no new dimensional filtering, chart options or geometry.",
+  "row_issue": "C20-DA-ROWID-DISPLAY-01: Core casewise Row retains local input ordinal; no visible remapping activated.",
+  "numerical_profiles": "fa-da-same-core-comparisons-v1.json profile_id/test/receipt links carry actual shape/section/identity and exception/convergence observations.",
+  "raw_ownership": "No raw N x P matrix or mutable Core model stored in projections. Immediate writer borrowing only; copied lightweight axes and G x G confusion metadata.",
+  "native": "NOT_RUN / UNAUTHORIZED"
+}

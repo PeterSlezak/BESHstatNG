@@ -1,0 +1,20 @@
+{
+  "batch": "04A.20",
+  "modified": [
+    "BESHstatNG/src/UI/Ui11PCA.vb",
+    "BESHstatNG/src/DM/WindowsMultivariateWorkflowAdapter.vb",
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+    "BESHStatNG_Help_MkDocs/docs/methods/factor-analysis.md",
+    "BESHStatNG_Help_MkDocs/docs/methods/discriminant-analysis.md"
+  ],
+  "new": [
+    "Common FA/DA requests and projections",
+    "Multivariate20Tests.vb",
+    "Multivariate20AdapterTests.vb",
+    "04a20 Python verification/accounting contracts",
+    "evidence/04A20/*",
+    "docs/architecture/batch-04A-20-owner-review.md"
+  ],
+  "preserved": "Core, prior tests/evidence, importers/RefEdit, native renderers/writers, other form methods, metadata, master plan, targets/packages",
+  "tolerance": "Finite max(1e-9, abs(expected)*1e-9); exact cell types/identities/order, NaN and signed infinity classes. No relabelling."
+}

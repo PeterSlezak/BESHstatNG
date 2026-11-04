@@ -1,0 +1,1164 @@
+{
+  "records": [
+    {
+      "alias": "LOCAL_COMMAND:dev01-build-command",
+      "raw_sha256": "bdd64160820a658fcf9df1aa19646f87c1a0e3d909be2fa112f7ab37f205ac5e",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.217849100008607
+    },
+    {
+      "alias": "LOCAL_COMMAND:dev02-build-command",
+      "raw_sha256": "8d58710f8dd0a5b04317b1a062fab95a6f2f9f5e034c614a1e3218cdaacc0c61",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.9386898999800906
+    },
+    {
+      "alias": "LOCAL_COMMAND:dev03-build-command",
+      "raw_sha256": "7e1229bf24336e2410b7e794ac9d1a0e5127af46b8a2b74ef5fcf840c27be607",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.9977946999715641
+    },
+    {
+      "alias": "LOCAL_COMMAND:dev03-host-command",
+      "raw_sha256": "8b215e82a3cae9206ed1ce3e4257e57d54763cd096bfea9e9904604b0b08c1df",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.160820799996145
+    },
+    {
+      "alias": "LOCAL_COMMAND:dev03-tests-command",
+      "raw_sha256": "5635291e9ae59659faea198ad2064ac0a01829d70f937596df4ddd004144de86",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.4036590999457985
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-authority-historical-profile-command",
+      "raw_sha256": "3fe3fa70ede5ea18126258a0f458e9015ab7887212129f40eea46b98a55e2f02",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "scripts/windows-migration-audit/owner_closeout.py",
+        "--profile",
+        "inventory-complete-with-approved-deferrals"
+      ],
+      "exit_code": 1,
+      "seconds": 7.345499300048687
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-authority-historical-strict-command",
+      "raw_sha256": "189e6eacc2bf6aaba6b64e67d458d1c7d7667f4bc1d8b08e84ddddbe1eb46b9d",
+      "command": [
+        "dotnet",
+        "scripts/windows-migration-audit/bin/Debug/net10.0/WindowsMigrationAudit.dll",
+        "--check",
+        "--strict"
+      ],
+      "exit_code": 1,
+      "seconds": 11.678271999931894
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-authority-toolchain-dotnet-command",
+      "raw_sha256": "717dd3ad2d4c6bfde4dbc00f6bbe462110678366dbfba524e833507b7975299c",
+      "command": [
+        "dotnet",
+        "--info"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5585433000233024
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Debug-build-host-command",
+      "raw_sha256": "ee760bb9089dcf8fc84f06759c3e42bebe07a3815a328f5d92745ea2719127dc",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 3.475136899971403
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Debug-build-tests-command",
+      "raw_sha256": "0d85ecfdd454eff8022124cc77da213845ebd78881d3568ba8e87d6d9a277fe7",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.676054999930784
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Debug-common-python-command",
+      "raw_sha256": "a49e8e7eb244a582d6bdf8ee74a4e1c8e1fd94c0b4469b80e45d2474f5642aed",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 2.1872825999744236
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Debug-full-command",
+      "raw_sha256": "c178fc1fafd6fe2683167ce7feabdc03ea258f5249c9511978d646e28dce92ea",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\entry-Debug-verify-isolated.ps1",
+        "-Legacy",
+        "-Wasm",
+        "-Js",
+        "-Python",
+        "-VisualStudio",
+        "2026",
+        "-PythonExe",
+        "<PYTHON_EXE>",
+        "-Configuration",
+        "Debug"
+      ],
+      "exit_code": 1,
+      "seconds": 458.5594047999475
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Debug-projection-build-command",
+      "raw_sha256": "47b7e19e7cd579675abd5653adb00278ed2b675d88bc38b0cd4be522b39ce694",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/m",
+        "/v:minimal",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection",
+        "/p:OutputPath=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\entry-Debug\\bin\\",
+        "/p:IntermediateOutputPath=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\entry-Debug\\obj\\"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5593730999389663
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Debug-projection-tests-command",
+      "raw_sha256": "c9591776ab0221bf721e911be46f388ef82fc82df3872c372935d837ca429128",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\entry-Debug\\bin\\BESHStatNG.Test.dll",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:console;verbosity=minimal",
+        "/Logger:trx;LogFileName=ControlMitigation.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\entry-Debug\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 7.643592100008391
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-mkdocs-command",
+      "raw_sha256": "77084f41e60a59ca3f3c3dc7b386fb9b50529523ab91664a0103ac26261942e3",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--config-file",
+        "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+        "--site-dir",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\entry-mkdocs",
+        "--strict"
+      ],
+      "exit_code": 0,
+      "seconds": 6.949631899944507
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Release-build-host-command",
+      "raw_sha256": "8bd0884c96bd37b1470f235a828d3e032011a670d958a67866eca1a57960b297",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.928771200007759
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Release-build-tests-command",
+      "raw_sha256": "209beb141657ea4cebbb19f7ef27c812bd403bd30317c1ec980419425ba6ab2b",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.2633454999886453
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Release-common-python-command",
+      "raw_sha256": "c757b98470e8a704d9c9d6b7aba604deb6eb8da86e37a0af28222ef48c9ae7e3",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 2.4235577000072226
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Release-full-command",
+      "raw_sha256": "34167febc6724391b7c063e74ff701f6af05411c661738702453a98eef71af87",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\entry-Release-verify-isolated.ps1",
+        "-Legacy",
+        "-Wasm",
+        "-Js",
+        "-Python",
+        "-VisualStudio",
+        "2026",
+        "-PythonExe",
+        "<PYTHON_EXE>",
+        "-Configuration",
+        "Release"
+      ],
+      "exit_code": 1,
+      "seconds": 430.93543599999975
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Release-projection-build-command",
+      "raw_sha256": "d001d6b911d3b39374f85b8c9b2fe4abbcfc9b4401b3d578b3e5f5d1aafa72ae",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/m",
+        "/v:minimal",
+        "/p:Configuration=Release",
+        "/p:ProjectionSourceDir=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection",
+        "/p:OutputPath=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\entry-Release\\bin\\",
+        "/p:IntermediateOutputPath=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\entry-Release\\obj\\"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6394806000171229
+    },
+    {
+      "alias": "LOCAL_COMMAND:entry-Release-projection-tests-command",
+      "raw_sha256": "cb11bf1143e5ad4c2acf26af288c661cd64a0b1867fff3412b6d43d46a748ce0",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\entry-Release\\bin\\BESHStatNG.Test.dll",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:console;verbosity=minimal",
+        "/Logger:trx;LogFileName=ControlMitigation.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\entry-Release\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 5.89546110003721
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-authority-historical-profile-command",
+      "raw_sha256": "91fb6dc30f8960ebd7d51cee9c1a0317e12e379875508c8175e5177ded8873f7",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "scripts/windows-migration-audit/owner_closeout.py",
+        "--profile",
+        "inventory-complete-with-approved-deferrals"
+      ],
+      "exit_code": 1,
+      "seconds": 6.780391699983738
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-authority-historical-strict-command",
+      "raw_sha256": "ab8cb65b0bbf73c01d4c3935b3a7e557bfd2bc80078a3a19e30ed1d484cd8d2c",
+      "command": [
+        "dotnet",
+        "scripts/windows-migration-audit/bin/Debug/net10.0/WindowsMigrationAudit.dll",
+        "--check",
+        "--strict"
+      ],
+      "exit_code": 1,
+      "seconds": 11.557589199976064
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-authority-toolchain-dotnet-command",
+      "raw_sha256": "0884cb5e10e7479a203858b3227e99964f724b7e0c34c0a9470c5c6075fe3da1",
+      "command": [
+        "dotnet",
+        "--info"
+      ],
+      "exit_code": 0,
+      "seconds": 0.4017564000096172
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Debug-build-host-command",
+      "raw_sha256": "a2943aaaa6c54d5663dc278ef222ff54fdd4b957cb88a41a53f7ac6ba57814bd",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8936839000089094
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Debug-build-tests-command",
+      "raw_sha256": "b7926607d3a268b52020e4c05c1efbd90cb12cb1155862d31b88453ee1b2a36c",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.9696576000424102
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Debug-common-python-command",
+      "raw_sha256": "15a1d64599d39e59353f978c86f3f4fac4e8b02f5859283d28b0b029d4c11815",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 2.1819917999673635
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Debug-full-command",
+      "raw_sha256": "1123200a88e748a3cc3359ea59f3c89159663a8e8dec76fb33e2b2c919ed58cc",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\final-Debug-verify-isolated.ps1",
+        "-Legacy",
+        "-Wasm",
+        "-Js",
+        "-Python",
+        "-VisualStudio",
+        "2026",
+        "-PythonExe",
+        "<PYTHON_EXE>",
+        "-Configuration",
+        "Debug"
+      ],
+      "exit_code": 1,
+      "seconds": 449.8188379999483
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Debug-projection-build-command",
+      "raw_sha256": "bd0d23f225a519b444bc352c0d15118524293587baba32b8d8c68fb7a5bdd429",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/m",
+        "/v:minimal",
+        "/p:Configuration=Debug",
+        "/p:ProjectionSourceDir=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection",
+        "/p:OutputPath=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\final-Debug\\bin\\",
+        "/p:IntermediateOutputPath=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\final-Debug\\obj\\"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5484024999896064
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Debug-projection-tests-command",
+      "raw_sha256": "9e20be96f5cd03ecded16d10085c3d1c1eefd582f527f4d5dfbfa6f8506a97bd",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\final-Debug\\bin\\BESHStatNG.Test.dll",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:console;verbosity=minimal",
+        "/Logger:trx;LogFileName=ControlMitigation.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\final-Debug\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 7.665956700104289
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-evidence-python-command",
+      "raw_sha256": "4dae59c9b3fb03b739262cef73900ad1240af83d0e1796dd8b57400438e89ced",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_04a20_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 2.396738799987361
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-focused-python-command",
+      "raw_sha256": "5c664df64701ec60020bb72df11eddd2bf20075947e1952098f4d1aa61fc5537",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_04a20_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 2.4317545000230893
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-focused-Release-build-command",
+      "raw_sha256": "9cf7862c2f00bb1b12eb5221e36e970b678cda1f5a8ecae83a9390d391e58075",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Release",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.3091767999576405
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-focused-Release-host-command",
+      "raw_sha256": "df3e632b3f9c6ea2ab0563d94df6d418d753de7dc6a180f39c69eb4a49923455",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8075263999635354
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-focused-Release-tests-command",
+      "raw_sha256": "f58ccd0cfbc69e6cc1bd5f390f69ee179cfaebad52d23bf6c1ef776f2fdaaa1b",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8366846999851987
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-mkdocs-command",
+      "raw_sha256": "a397358271c147b1f6a847baa5ee7a60848d68e5e6a96f088e56ffa54bfe8059",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--config-file",
+        "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+        "--site-dir",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\final-mkdocs",
+        "--strict"
+      ],
+      "exit_code": 0,
+      "seconds": 6.846671000006609
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Release-build-host-command",
+      "raw_sha256": "c0efa4702fe81479f62b2d52b7ff13a602519a4f00be104287656a25dcac09be",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.3370208999840543
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Release-build-tests-command",
+      "raw_sha256": "f6047345d6c2afd9c0c77b970d83c3ee310a2d12a3aa2b01542ee9bcd946fa4f",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.6512088000308722
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Release-common-python-command",
+      "raw_sha256": "5aaca76ea817371c5f40aac22e5bb89bb168ad5a3029dfa1f78ffc4da79e6d04",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 1,
+      "seconds": 2.4509186999639496
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Release-full-command",
+      "raw_sha256": "20bfee02811fb401c722ceab575ee15145f333896fdc60502966f9e90e29fcb0",
+      "command": [
+        "powershell",
+        "-NoProfile",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\final-Release-verify-isolated.ps1",
+        "-Legacy",
+        "-Wasm",
+        "-Js",
+        "-Python",
+        "-VisualStudio",
+        "2026",
+        "-PythonExe",
+        "<PYTHON_EXE>",
+        "-Configuration",
+        "Release"
+      ],
+      "exit_code": 1,
+      "seconds": 425.54111839993857
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Release-projection-build-command",
+      "raw_sha256": "541a62497d8b4b91169c948e57599575050adb6e6d8a7cccfb39bfad6948d799",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/ControlMitigation/ControlMitigation.Tests.vbproj",
+        "/t:Build",
+        "/m",
+        "/v:minimal",
+        "/p:Configuration=Release",
+        "/p:ProjectionSourceDir=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection",
+        "/p:OutputPath=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\final-Release\\bin\\",
+        "/p:IntermediateOutputPath=<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\final-Release\\obj\\"
+      ],
+      "exit_code": 0,
+      "seconds": 0.6149456999264657
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-Release-projection-tests-command",
+      "raw_sha256": "77cdf42c9a7e4dd7a2b38b1ee0cfe53235eeb5b9cfc5774bdaa28e7df4ec8538",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\final-Release\\bin\\BESHStatNG.Test.dll",
+        "/TestAdapterPath:<REPO_ROOT>\\BESHStatNG.Test\\packages\\MSTest.TestAdapter.2.2.10\\build\\_common",
+        "/Logger:console;verbosity=minimal",
+        "/Logger:trx;LogFileName=ControlMitigation.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\projection-executions\\final-Release\\results"
+      ],
+      "exit_code": 0,
+      "seconds": 5.9968947999877855
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-source-Debug-build-command",
+      "raw_sha256": "6f0ef43a50c7222682ba9974ece6261cd4e503530e5eb2fbb2dd940734102eee",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 1.7858155000722036
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-source-Debug-host-command",
+      "raw_sha256": "45fa162ca593a5df86bd101be1f4bf97518b846870ca149a7d9f9498d2b86801",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 0.8445569999748841
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-source-Debug-tests-command",
+      "raw_sha256": "5a729f60d358407d95404f1e3eecc6f14de16df36eb624c4902978488254ec11",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.4779484999598935
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-source-Release-build-command",
+      "raw_sha256": "41abe45bc38d1e9e27d4916c2a4b58a4dec4b4f7b56c0b3660ee2ab201a2d268",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Release",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 2.0531402999768034
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-source-Release-host-command",
+      "raw_sha256": "b79d4f7f2bd23bca126e9a2ee5f798483be603d6c18df5f94403c6f3ed2e237d",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.4104170999489725
+    },
+    {
+      "alias": "LOCAL_COMMAND:final-source-Release-tests-command",
+      "raw_sha256": "aead9357c04144a204373d76a83519e78d53564e61f8a7d9dab2ba07bd5c2147",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Release",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.5402801999589428
+    },
+    {
+      "alias": "LOCAL_COMMAND:preview-Debug-build-command",
+      "raw_sha256": "53b1f8dbe6dcd799f94837a274931d2e75c986d230dddcbca487d62c531559fb",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore"
+      ],
+      "exit_code": 0,
+      "seconds": 2.411496700020507
+    },
+    {
+      "alias": "LOCAL_COMMAND:preview-Debug-host-command",
+      "raw_sha256": "66b6d689f6fbca47aa770d2376ad20ae2ee744306fe34981f549bfe847476767",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 2.0874889000551775
+    },
+    {
+      "alias": "LOCAL_COMMAND:preview-Debug-tests-command",
+      "raw_sha256": "432d31ff8e369eada14547b3b2dfd29d2156496ba3639d1f43842a341cffaf1a",
+      "command": [
+        "<VS2026>\\MSBuild\\Current\\Bin\\MSBuild.exe",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m",
+        "/v:minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.5920841000042856
+    },
+    {
+      "alias": "LOCAL_EXECUTION:dev01-Common",
+      "raw_sha256": "cbc8b1b52a1d2ad1f44bbcfd22e95a88fb795bb8e53cbda240f59cc27da6bcf7",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\dev01-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\dev01-Common\\results",
+        "/TestCaseFilter:FullyQualifiedName~Multivariate20",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 5.139892800012603
+    },
+    {
+      "alias": "LOCAL_EXECUTION:dev02-Common",
+      "raw_sha256": "15582390dedf5f2aa422f5dde90c0c9751a351db6b0668729c3cae24f1d7e84d",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\dev02-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\dev02-Common\\results",
+        "/TestCaseFilter:FullyQualifiedName~Multivariate20",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 5.129740200005472
+    },
+    {
+      "alias": "LOCAL_EXECUTION:dev03-Common",
+      "raw_sha256": "0a831afe7f44f9c5bc0ce27587a05f9a85e4e2141835febc13532d0cfc9c12e7",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\dev03-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\dev03-Common\\results",
+        "/TestCaseFilter:FullyQualifiedName~Multivariate20",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 5.155993399908766
+    },
+    {
+      "alias": "LOCAL_EXECUTION:dev03-Legacy",
+      "raw_sha256": "a297316f754a9fb6ce8dfb1d2766eee7bd0490603144a86ea7d0d9145028fe81",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\dev03-Legacy\\sandbox\\Legacy\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\dev03-Legacy\\results",
+        "/TestCaseFilter:FullyQualifiedName~Multivariate20",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 8.737063299980946
+    },
+    {
+      "alias": "LOCAL_EXECUTION:entry-Debug-Common",
+      "raw_sha256": "e6ba82e6867774ed99883de1504b37b758583679ecf4a605c3f01e4b91f725fe",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Debug-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Debug-Common\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 45.167942599975504
+    },
+    {
+      "alias": "LOCAL_EXECUTION:entry-Debug-Legacy",
+      "raw_sha256": "2aa38542ac679ad6497f33054fce903da1e8929a562699a69a4f2226331e6ef3",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Debug-Legacy\\sandbox\\Legacy\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Debug-Legacy\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 55.248410400003195
+    },
+    {
+      "alias": "LOCAL_EXECUTION:entry-Debug-semantic",
+      "raw_sha256": "cd4610a899f990448c86643b241b3558f118d76decb5728c66edaee82d31683f",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Debug-semantic\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Debug-semantic\\results",
+        "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.4066677000373602
+    },
+    {
+      "alias": "LOCAL_EXECUTION:entry-Release-Common",
+      "raw_sha256": "7c94cded94c39b41a52d85afb2a37612f90881187aff5096312fa683a37842a9",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Release-Common\\sandbox\\Common\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Release-Common\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 34.706923599937
+    },
+    {
+      "alias": "LOCAL_EXECUTION:entry-Release-Legacy",
+      "raw_sha256": "bcb85e55de4968832f08ac45e9147dbd3b9831b374a5fd9dfa5f0297e060bb7d",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Release-Legacy\\sandbox\\Legacy\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Release-Legacy\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 35.73744989989791
+    },
+    {
+      "alias": "LOCAL_EXECUTION:entry-Release-semantic",
+      "raw_sha256": "16dbcea23c2da29d4358e73edb991d407be156e4d400b42a13503d7e1e0cf213",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Release-semantic\\sandbox\\Common\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\entry-Release-semantic\\results",
+        "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.5059454999864101
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-Debug-Common",
+      "raw_sha256": "122ed10617bfb1b9fca0ac10a753b01db7bd366aff1cba0997cb0b3d8cea7bf1",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Debug-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Debug-Common\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 48.234653100022115
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-Debug-Legacy",
+      "raw_sha256": "ec6eb57be5974e1e038d8bdca372b786d956fa502c151f691d517375726be5d5",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Debug-Legacy\\sandbox\\Legacy\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Debug-Legacy\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 62.78360939992126
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-Debug-semantic",
+      "raw_sha256": "c87b912f1899422639092750d142b01eab0fc4d7aaa726a13bd45fa8bdb60955",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Debug-semantic\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Debug-semantic\\results",
+        "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.4044365000445396
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-focused-Release-Common",
+      "raw_sha256": "1da24f1f1f8a6a2c55742e493c58273c4e9aaf4a5013a69c11cfc717e2eede8c",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-focused-Release-Common\\sandbox\\Common\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-focused-Release-Common\\results",
+        "/TestCaseFilter:FullyQualifiedName~Multivariate20",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 4.533292500069365
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-focused-Release-Legacy",
+      "raw_sha256": "9298874f7a98a0bd9c086273283fb8ececd60f51a64c996e8c16daae18b2ac09",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-focused-Release-Legacy\\sandbox\\Legacy\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-focused-Release-Legacy\\results",
+        "/TestCaseFilter:FullyQualifiedName~Multivariate20",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 7.128612000029534
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-Release-Common",
+      "raw_sha256": "a2dafacd8c2e5f23cab015551e4ad0afa3c9950bb59279d78b141e98dca5db54",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Release-Common\\sandbox\\Common\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Release-Common\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 37.868644499918446
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-Release-Legacy",
+      "raw_sha256": "0a42ac9e72af6393084e807422f76fe51d6e7e24269469b0fafccdefc9911971",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Release-Legacy\\sandbox\\Legacy\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Release-Legacy\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 43.10548819997348
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-Release-semantic",
+      "raw_sha256": "ea2cda34bed8f0a89acb5a74b65cdf7b4674aa8388152c2892f2df888d549d81",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Release-semantic\\sandbox\\Common\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-Release-semantic\\results",
+        "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 1.5326769000384957
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-source-Debug-Common",
+      "raw_sha256": "6a212ade2bd0cd73b2aaf2e891923652189164ec0947a249488d27334e98d3cd",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-source-Debug-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-source-Debug-Common\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 44.728899299982004
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-source-Debug-Legacy",
+      "raw_sha256": "a9ebaaaabc06cfa61cd6abd4dd38e3be8d538a3404b6eb2171bb24af12f8de3e",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-source-Debug-Legacy\\sandbox\\Legacy\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-source-Debug-Legacy\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 59.681094600004144
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-source-Release-Common",
+      "raw_sha256": "8d3529006dc26c66f314389cd76aed3dd287fdb50c04b4d920df0e20569d0980",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-source-Release-Common\\sandbox\\Common\\bin\\Release\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-source-Release-Common\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 35.10557729995344
+    },
+    {
+      "alias": "LOCAL_EXECUTION:final-source-Release-Legacy",
+      "raw_sha256": "9597e3ff8aecc36e46e751b1fd9be24b7ec679b68f98a2251184bab420053cdd",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-source-Release-Legacy\\sandbox\\Legacy\\bin\\Release\\net48\\BESHStatNG.Test.dll",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\final-source-Release-Legacy\\results",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 1,
+      "seconds": 40.087923099985346
+    },
+    {
+      "alias": "LOCAL_EXECUTION:preview-Debug-Common",
+      "raw_sha256": "7e73a371a371a2e3ae71f24f2322947ac106e146e85847c876fff500e4a2f70b",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\preview-Debug-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\preview-Debug-Common\\results",
+        "/TestCaseFilter:FullyQualifiedName~Multivariate20",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 5.175357699976303
+    },
+    {
+      "alias": "LOCAL_EXECUTION:preview-Debug-Legacy",
+      "raw_sha256": "e9d20f1d5ba8957932cd53cd150384cf7af05d2d7a9177147ad0dc28d5f1a964",
+      "command": [
+        "<VS2026>\\Common7\\IDE\\Extensions\\TestPlatform\\vstest.console.exe",
+        "<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\preview-Debug-Legacy\\sandbox\\Legacy\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-20-20261104-run01\\executions\\preview-Debug-Legacy\\results",
+        "/TestCaseFilter:FullyQualifiedName~Multivariate20",
+        "/Logger:console;verbosity=minimal"
+      ],
+      "exit_code": 0,
+      "seconds": 8.817014800035395
+    }
+  ],
+  "hash_policy": "Raw local receipt hashes; sanitized command derivatives are not byte-identical raw evidence."
+}

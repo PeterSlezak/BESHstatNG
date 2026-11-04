@@ -1,0 +1,35 @@
+{
+  "issues": [
+    {
+      "id": "C20-DA-ROWID-DISPLAY-01",
+      "status": "OPEN / DORMANT / UNAPPLIED",
+      "reproduction": "DiscriminantSourceOrdinalsConfusionAndCopiesStayIndependent: noncontiguous reversed physical IDs, first input deleted; first training Core Row=2 maps to a different physical SourceRowId. Data has no unconditional physical-ID column.",
+      "proposal": "Use the detached source mapping for a future explicit presentation decision; no current cell or heading changes.",
+      "owner": "04A.28 / 04A.39-42 or separately approved timing exception",
+      "gate": "Separate visible-output owner authorization and original applicable native prechange/capture gate"
+    },
+    {
+      "id": "C20-FA-ROWID-AMBIGUOUS-01",
+      "status": "CANDIDATE_ONLY / NONBLOCKING",
+      "reproduction": "FactorDeletionUsesCorePhysicalScoreIdsAndDoesNotGuessDuplicateSources(True): all supplied RowIds=101, one deleted; Core exposes IDs and removed count, not the deleted input position.",
+      "proposal": "Do not guess source ordinals or introduce new Windows refusal; metadata records Ambiguous.",
+      "owner": "Future provenance/output policy 04A.28/39-42"
+    },
+    {
+      "id": "C20-DA-PRIOR-NONFINITE-01",
+      "status": "OPEN / CANDIDATE_ONLY",
+      "reproduction": "DA profiles 175/176: NaN/infinite positive-test bypass and Core prior normalization/outcomes are preserved; see actual exception or returned nonfinite profile, never a scientifically accepted result.",
+      "proposal": "Separate scientific finite-weight admission decision; no Common check.",
+      "owner": "04A.40-41"
+    },
+    {
+      "id": "C20-DA-FOLD-UPPER-BOUND-01",
+      "status": "SOURCE_ONLY / CANDIDATE_ONLY",
+      "reproduction": "Core RunKFoldValidation loops through configured folds, with only lower clamping. New executed requests include 50/100; extreme Integer.MaxValue not run to avoid an unbounded validation loop.",
+      "proposal": "No upper clamp introduced; performance/domain decision belongs to Core owner.",
+      "owner": "Future Core domain/performance decision"
+    }
+  ],
+  "retained_prior": "All C09/C11/C12 unapplied, C13 log-rank OPEN, C14 candidate-only, C17/C18 no-label CA dormant, C19 row-ID/nonfinite-power/inversion candidates and PCA/source-layout assertions remain unchanged.",
+  "activated_behavior_fixes": 0
+}

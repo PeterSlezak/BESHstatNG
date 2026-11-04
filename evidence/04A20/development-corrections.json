@@ -1,0 +1,15 @@
+{
+  "corrections": [
+    {
+      "receipt": "dev02-Common",
+      "issue": "Mutation test oracle retained Core header-array aliases; expected table mutated with Core names.",
+      "resolution": "Detached the reference through the existing legacy ReportPolicy before mutating Core. Production projection was already detached; no old tests or numerics changed."
+    },
+    {
+      "receipt": "final-source-Debug/Release-Common/Legacy",
+      "issue": "New nonfinite-prior fixtures 175/176 originally supplied only two of the three/four class labels and reached missing-prior rejection first.",
+      "resolution": "Kept the complete generated prior list and replaced its first weight with NaN/Infinity; added observed nonfinite report-cell counts. Full affected Common and Windows suites rerun in Debug and Release after this new-test-only edit; production unchanged."
+    }
+  ],
+  "production_numerical_corrections": 0
+}

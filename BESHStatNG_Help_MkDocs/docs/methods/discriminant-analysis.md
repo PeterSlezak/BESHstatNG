@@ -2,6 +2,8 @@
 
 **Windows workflow and availability.** The Windows importer acquires the grouping column first and predictors in their selected order, with the existing missing-value policy applied by Core. Custom priors accept `label=probability` or `label:probability`, separated by semicolons or newlines. Parsing tries the current culture before invariant culture, including the existing thousands-separator behavior; label case and duplicate-prior handling remain Core-owned. Blank seeds retain the time-based Core sentinel. Selected blank row labels use `Row {RowId}`. The GUI writes Data and Discriminant results and does not create a discriminant chart. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
 
+**Row identity, priors and validation output.** The Windows Data sheet contains an optional leading `Row label`, then the imported group column and raw predictors in selected order; it has no unconditional physical RowId column. Core training/validation casewise `Row` and removed-row values are 1-based analysis input ordinals, which can differ from physical source row numbers after filtered or noncontiguous import. No visible row-number remapping has been applied. Class order follows Core first occurrence after preprocessing, with ordinal case-sensitive identity and trimmed labels; numeric group values are converted by Core using invariant culture. User prior definitions retain parser order and Core normalization/duplicate handling; use the class labels reported by Core. Training accuracy is resubstitution. Separate leave-one-out, k-fold or holdout tables describe their actual validation population; holdout casewise rows are a subset. Confusion rows are observed classes and columns are predicted classes, with the existing recall, precision and percentage fields. A blank seed passes the existing sentinel and Core resolves resampling randomness; explicit zero is a fixed seed. The current public Core API does not expose the resolved validation seed, so no effective-seed reporting or unspecified-seed replay is promised. LDA/canonical versus QDA covariance and optional validation tables retain Core ordering. Output remains a new Data/Discriminant results workbook with no DA charts. These dialogs are not available in Excel Online or Excel for Mac.
+
 **Includes:** Linear discriminant analysis (LDA), quadratic discriminant analysis (QDA), classification of training and new observations, posterior probabilities, squared Mahalanobis distances, proportional / equal / user-specified priors, optional preprocessing, missing-value handling, leave-one-out validation, k-fold validation, holdout validation, linear classification functions, and canonical discriminant functions for LDA.  
 **Purpose:** Classify observations into known groups and understand which linear combinations of variables best separate those groups.
 
@@ -730,7 +732,7 @@ Observed-versus-predicted table for the training sample, including:
 
 One row per active training observation, including:
 
-- Original row number
+- Analysis input row number (Row; not necessarily the physical Excel row)
 - Optional row label
 - Actual group
 - Predicted group

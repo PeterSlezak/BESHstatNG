@@ -2,6 +2,8 @@
 
 **Windows workflow and availability.** The Windows defaults remain Principal Axis, squared multiple correlations, error on missing values, Varimax and regression scores. The initial retention selection is two fixed factors; eigenvalue and cumulative-variance choices retain their existing Core boundaries and percentage units. The Data sheet retains the clustering-style `OriginalRow` header. Reports and the scree/2D/3D loading plot requests preserve their existing order; unsupported dimensions remain subject to the existing renderer guards. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
 
+**Rows, factors and output.** The new Windows workbook contains `Data` followed by `Factor analysis results`. Data keeps all imported rows and physical source row numbers under `OriginalRow`, without an optional RowLabel column. After listwise deletion, factor-score `Observation` values come from Core AnalysisRowIds and retain the supplied physical source identifiers; scores have active observations in rows and retained factors in columns. Loading and score-coefficient rows are variables, while factor-correlation (Phi) and rotation-transform axes are factors. Core chooses the retained factor count from the requested fixed/eigenvalue/variance settings. Promax pattern, structure and Phi remain distinct outputs. Extraction and rotation convergence flags and iterations describe the actual calculation, including nonconverged returns. Score-coefficient and score sections are omitted when scores are None; the remaining Core table order and scree/2D/3D plot requests are unchanged. These Windows dialogs and charts are not available in Excel Online or Excel for Mac.
+
 **Includes:** Exploratory factor analysis on correlation or covariance matrix, extraction methods (principal axis, maximum likelihood, generalized least squares, image, alpha, and principal-components style extraction for comparison), retention by fixed count / eigenvalue cutoff / cumulative variance, rotations (none, varimax, quartimax, equamax, promax), regression or Bartlett scores, factorability diagnostics (KMO, per-variable MSA, Bartlett's test, anti-image matrix, determinant), residual diagnostics, scree plot, and 2D/3D loading plots.  
 **Purpose:** Discover lower-dimensional latent structure behind correlated numeric variables and summarize the common variance they share.
 
@@ -30,7 +32,7 @@ The output includes:
 - **variance explained**,
 - **communalities and uniquenesses**,
 - **unrotated loadings**,
-- **rotated pattern / structure / factor-correlation matrices** when rotation is requested,
+- **pattern, structure, factor-correlation and rotation-transformation matrices**, including the existing None-rotation output,
 - optional **factor-score coefficients** and **factor scores**,
 - a **reproduced matrix** and **residual matrix**,
 - and charts such as **scree plot** and **loading plots**.

@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "FA": "Core dataInputs -> copied FactorOptions.Configure -> one Calculate; all UI parsing/defaults/disabled control readings remain Windows-owned.",
+  "DA": "Core dataInputs after host group-first CDbl conversion -> request.ConfigureModel -> conditional original ParsePriors -> request.ApplyUserPriors delegates priorInputs before snapshot -> later validation snapshot.Configure -> one Fit.",
+  "prior_provenance": "Ordered raw immutable scalar labels and weights copied only after Core priorInputs; no prior normalization or second parser in Common.",
+  "validation_seed": "Blank Integer.MinValue distinct from explicit zero; public Core exposes no effective validation seed. Unspecified-seed observation has no exact independent split replay claim.",
+  "first_row": "Post-import metadata only; ckFirstRow skip remains in unchanged GetDiscriminantData/ExcelDnaDataImporter.",
+  "data": {
+    "FA": "Data: OriginalRow physical RowIds, no RowLabel; original cells/order, header1/body2.",
+    "DA": "Data: optional Row label then original group/predictor cells; no extra RowId column."
+  },
+  "native": "NOT_RUN / UNAUTHORIZED"
+}

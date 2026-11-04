@@ -100,6 +100,25 @@ Public NotInheritable Class WindowsMultivariateWorkflowAdapter
             chartTitle:=request.Title, cutMode:=request.Cut.Mode,
             membershipClusterCount:=request.Cut.Clusters, membershipCutHeight:=request.Cut.Height)
     End Sub
+    Public Shared Sub WriteFactorData(writer As ResultTableWriterBase, original(,) As Object, projection As MultivariateFactorProjection)
+        writer.setRowPointer(projection.Request.DataSection.HeaderRow)
+        writer.setColumnPointer(projection.Request.DataSection.FirstColumn)
+        writer.write(projection.Request.DataTable(original))
+    End Sub
+    Public Shared Sub WriteDiscriminantData(writer As ResultTableWriterBase, original(,) As Object, groups() As Object, projection As MultivariateDiscriminantProjection)
+        writer.setRowPointer(projection.Request.DataSection.HeaderRow)
+        writer.setColumnPointer(projection.Request.DataSection.FirstColumn)
+        writer.write(projection.Request.DataTable(original, groups))
+    End Sub
+    Public Shared Sub RenderFactorProjection(projection As MultivariateFactorProjection, model As Multivariate.FactorAnalysis)
+        For Each binding In projection.Plots
+            Select Case binding.Request.Kind
+                Case MultivariatePlotKind.Scree : graphics.FactorAnalysisPlotExcel.ScreePlot(model)
+                Case MultivariatePlotKind.Loadings2D : graphics.FactorAnalysisPlotExcel.LoadingPlot2D(model)
+                Case MultivariatePlotKind.Loadings3D : graphics.FactorAnalysisPlotExcel.LoadingPlot3D(model)
+            End Select
+        Next
+    End Sub
     Public Shared Sub RenderFactor(report As MultivariateReport, model As Multivariate.FactorAnalysis)
         For Each plot In report.Plots
             Select Case plot.Kind
