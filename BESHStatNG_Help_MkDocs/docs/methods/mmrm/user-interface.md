@@ -1,5 +1,8 @@
 # MMRM Excel ribbon workflow
 
+!!! note "Availability"
+    This workflow describes the Windows Excel-DNA add-in. MMRM fitting is not yet available in the Office add-in; its mixed-model role preview does not fit a model. Existing screenshots illustrate the Windows interface.
+
 [← Back to MMRM overview](../mixed-models-for-repeated-measures-mmrm.md)
 
 **Purpose of this page:** show how to fit an MMRM from the Excel ribbon, using the FEV1 example data that accompanies this documentation. This page is written for practical users who want to know which columns to select, how to build the fixed-effect model, what the main options mean in the dialog, and where the main results appear. For the formal model definition, likelihood, covariance structures, and degrees-of-freedom methods, see [Model and mathematics](model-and-mathematics.md). For a full option-by-option reference, see [Options and output reference](options-and-output.md).

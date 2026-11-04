@@ -388,7 +388,7 @@ Public Class Ui18MMRM
                                                       rowNumbers:=raw.RowIds)
 
         Dim rStruct As regression.MixedModelRStruct =
-            regression.MixedModelRStructUtils.createMixedModelRStruct(CStr(Me.cbCovarStruct.SelectedItem))
+            WindowsMixedModelWorkflowAdapter.CreateResidualStructure(CStr(Me.cbCovarStruct.SelectedItem))
 
         Dim selectedInferenceMethod As String = CStr(Me.cbInferenceMethod.SelectedItem)
         Dim selectedFitMethod As String = CStr(Me.cbFitMethod.SelectedItem)

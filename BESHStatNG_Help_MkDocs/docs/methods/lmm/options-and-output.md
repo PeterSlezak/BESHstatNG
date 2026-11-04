@@ -213,6 +213,10 @@ where the critical value is chosen from the selected inference method.
 
 The **Convergence** output table records whether the fit converged, the message, iteration count, gradient norm, requested tolerances, optimizer mode, gradient mode, and relevant internal diagnostic flags.
 
+The default covariance optimizer is **AI/Fisher scoring (default)**. The AI implementation attempts REML fits; with ML, or if AI cannot return a usable solution, the existing Core fallback may use projected BFGS. Inspect the actual optimizer diagnostics rather than assuming that the requested mode was the final algorithm. Kenward-Roger retains its separate ML-to-REML information message.
+
+**Projected BFGS (analytic gradient)** and **Projected BFGS (finite-difference gradient)** override the separate gradient selection. **Projected BFGS (auto gradient)** retains that selection; its default Auto value lets Core choose the provider. The convergence criterion is copied to all three stopping tolerances. Trace is requested when either Trace or Iteration details is selected.
+
 ---
 
 ## 11. Data sheet output

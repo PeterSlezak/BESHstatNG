@@ -314,15 +314,15 @@ The R-side residual covariance structure describes within-subject residual varia
 |---|---:|---|---:|
 | **Identity** | 1 | Residuals are independent with common variance after random effects. | No |
 | **Diagonal Heterogeneous** | \(T\) | Residual variance differs by visit/order, but residual correlations are not modeled. | Yes |
-| **Compound Symmetry** | 2 when \(T>1\) | Residuals have common variance and common pairwise correlation. | No |
-| **Heterogeneous CS** | \(T+1\) when \(T>1\) | Residual variance differs by visit/order with one common residual correlation. | Yes |
-| **AR(1)** | 2 when \(T>1\) | Ordered residual correlations decay by visit/order lag, with common variance. | Yes |
-| **Heterogeneous AR(1)** | \(T+1\) when \(T>1\) | Ordered residual correlations decay by lag, with visit/order-specific variance. | Yes |
+| **Compound Symmetry** | 2 | Residuals have common variance and common pairwise correlation. | No |
+| **Heterogeneous CS** | \(T+1\) | Residual variance differs by visit/order with one common residual correlation. | Yes |
+| **AR(1)** | 2 | Ordered residual correlations decay by visit/order lag, with common variance. | Yes |
+| **Heterogeneous AR(1)** | \(T+1\) | Ordered residual correlations decay by lag, with visit/order-specific variance. | Yes |
 | **Toeplitz (TOEP)** | \(T\) | Residual correlations depend on lag but do not have to follow AR(1) decay. | Yes |
 | **Heterogeneous Toeplitz (TOEPH)** | \(2T-1\) | Residual variances differ by visit/order and correlations are lag-specific. | Yes |
 | **Unstructured** | \(T(T+1)/2\) | Every residual variance and covariance across visits should be estimated. | Yes |
 
-For \(T=1\), all valid R-side structures reduce to one residual variance. For incomplete longitudinal data, each subject contributes the rows that are observed; the selected R-side structure defines the covariance pattern for the retained visit/order levels.
+For \(T=1\), the observable covariance reduces to one residual variance, but the current CS, heterogeneous CS, AR(1), and heterogeneous AR(1) implementations still allocate their correlation parameter. A single occasion cannot identify that correlation; do not interpret parameter allocation as evidence of estimability. For incomplete longitudinal data, each subject contributes the rows that are observed; the selected R-side structure defines the covariance pattern for the retained visit/order levels.
 
 ### 6.2 Identity residual covariance
 
@@ -373,6 +373,10 @@ R_{jk} =
 Compound-symmetry residual covariance can overlap conceptually with a random intercept. Consider whether both are needed in the same model.
 
 ### 6.5 AR(1) and heterogeneous AR(1) residual covariance
+
+Residual lag is measured between indices of the sorted distinct retained visit values, rather than elapsed numeric time. Irregularly spaced visit values therefore do not define a continuous-time AR(1) model. The same indexed-order convention applies to residual Toeplitz structures. Missing observations contribute their observed visit submatrices; they are not imputed.
+
+The Windows LMM dialog requires a visit/time/order selection for these indexed residual structures. Core callers without visit values retain the legacy sequential within-subject order fallback and warning. That fallback does not remove the dialog's visit requirement.
 
 **AR(1)** residual covariance assumes residual correlation decreases as the visit/order lag increases:
 

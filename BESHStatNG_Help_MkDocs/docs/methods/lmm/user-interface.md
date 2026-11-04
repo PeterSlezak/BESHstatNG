@@ -1,5 +1,8 @@
 # LMM Excel ribbon workflow
 
+!!! note "Availability"
+    This workflow describes the Windows Excel-DNA add-in. LMM fitting is not yet available in the Office add-in; its mixed-model role preview does not fit a model. Existing screenshots illustrate the Windows interface.
+
 [← Back to LMM overview](../linear-mixed-models-lmm.md)
 
 **Purpose of this page:** show how to fit a Linear Mixed Model (LMM) from the Excel ribbon. The page uses the `200lmm` example data and screenshots included with this documentation and focuses on practical dialog use: selecting variables, building fixed and random effects, choosing G-side and R-side covariance structures, selecting output tables, fitting the model, and reviewing the result workbook. For a full option-by-option reference, see [Options and output reference](options-and-output.md). For the fitted example results, see [Examples and interpretation](examples.md).

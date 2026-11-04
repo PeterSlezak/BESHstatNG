@@ -177,7 +177,8 @@ Namespace ExcelCommon
             _randomNames = If(randomNames Is Nothing, Nothing, DirectCast(randomNames.Clone(), String()))
             Me.FixedEffects = fixedEffects : Me.RandomEffects = randomEffects : Me.FixedText = fixedText : Me.RandomText = randomText
             _options = If(options, MixedModelWorkflowOptions.Defaults(kind)).Copy()
-            Decision = MixedModelWorkflowPolicy.DecideFit(kind, _options.FitMethod, _options.Inference)
+            Fitting = New MixedModelFittingOptions(kind, _options)
+            Decision = Fitting.Decision
             Validation = MixedModelWorkflowPolicy.Validate(Me)
         End Sub
         Public ReadOnly Property Kind As MixedModelWorkflowKind
@@ -194,6 +195,7 @@ Namespace ExcelCommon
         Public ReadOnly Property FixedText As String
         Public ReadOnly Property RandomText As String
         Public ReadOnly Property Decision As MixedModelFitDecision
+        Public ReadOnly Property Fitting As MixedModelFittingOptions
         Public ReadOnly Property Validation As RegressionValidation
         Public ReadOnly Property Options As MixedModelWorkflowOptions
             Get
@@ -215,10 +217,10 @@ Namespace ExcelCommon
             Return CreateAcquiredCoreRequest()
         End Function
         Public Function CreateAcquiredCoreRequest(Optional residual As MixedModelRStruct = Nothing, Optional random As MixedModelGStruct = Nothing) As MixedModelFitRequest
-            residual = If(residual, MixedModelRStructUtils.createMixedModelRStruct(_options.ResidualStructure))
+            residual = If(residual, Fitting.Residual.CreateResidualStructure())
             Dim req = If(Kind = MixedModelWorkflowKind.MMRM,
                 MixedModelFitRequest.CreateMMRM(Data.CoreData, residual, Decision.EffectiveMethod),
-                MixedModelFitRequest.CreateLMM(Data.CoreData, residual, If(random, MixedModelGStructUtils.createMixedModelGStruct(_options.RandomStructure)), Decision.EffectiveMethod))
+                MixedModelFitRequest.CreateLMM(Data.CoreData, residual, If(random, Fitting.Random.CreateRandomStructure()), Decision.EffectiveMethod))
             req.ResponseVarName = ResponseKey : req.SubjectVarName = SubjectKey : req.VisitVarName = If(VisitKey, String.Empty)
             req.FixedEffectNames = FixedNames : req.RandomEffectNames = RandomNames
             req.FixedFormulaText = FixedText : req.RandomFormulaText = If(Kind = MixedModelWorkflowKind.MMRM, String.Empty, RandomText)
@@ -228,10 +230,7 @@ Namespace ExcelCommon
                 If Kind = MixedModelWorkflowKind.MMRM Then req.EnableFullKenwardRogerForMmrm() Else req.EnableFullKenwardRogerForLmm()
             End If
             Dim ctl = req.Control
-            ctl.MaxIter = _options.MaximumIterations : ctl.Epsilon = _options.Epsilon
-            ctl.StepTolerance = _options.Epsilon : ctl.FunctionTolerance = _options.Epsilon
-            MixedModelWorkflowPolicy.ApplyOptimizer(Kind, ctl, _options.Optimizer, _options.Gradient)
-            ctl.Trace = _options.Trace OrElse _options.IterationDetails
+            Fitting.ApplyControl(ctl)
             req.Control = ctl ' MixedModelControl is a value type: assigning back is essential.
             Return req
         End Function
@@ -260,17 +259,7 @@ Namespace ExcelCommon
             Return New MixedModelFitDecision(kind, fit, inference)
         End Function
         Public Shared Sub ApplyOptimizer(kind As MixedModelWorkflowKind, ByRef control As MixedModelControl, optimizer As String, gradient As String)
-            Dim text = If(String.IsNullOrWhiteSpace(optimizer), "AI/Fisher scoring (default)", optimizer)
-            control.CovarianceOptimizerMode = MixedModelOptionPolicy.ParseCovarianceOptimizerMode(text,
-                If(kind = MixedModelWorkflowKind.MMRM, MixedModelCovarianceOptimizerMode.ProjectedBfgs, MixedModelCovarianceOptimizerMode.AverageInformationReml))
-            control.CovarianceGradientMode = MixedModelOptionPolicy.ParseCovarianceGradientMode(gradient, MixedModelCovarianceGradientMode.Auto)
-            If String.Equals(text, "Projected BFGS (analytic gradient)", StringComparison.OrdinalIgnoreCase) Then
-                control.CovarianceOptimizerMode = MixedModelCovarianceOptimizerMode.ProjectedBfgsAnalyticGradient
-                control.CovarianceGradientMode = MixedModelCovarianceGradientMode.AnalyticScore
-            ElseIf String.Equals(text, "Projected BFGS (finite-difference gradient)", StringComparison.OrdinalIgnoreCase) Then
-                control.CovarianceOptimizerMode = MixedModelCovarianceOptimizerMode.ProjectedBfgs
-                control.CovarianceGradientMode = MixedModelCovarianceGradientMode.NumericalFiniteDifference
-            End If
+            MixedModelFittingOptions.ProjectOptimizer(kind, control, optimizer, gradient)
         End Sub
         Public Shared Function PromotedRandomStructure(current As String, effects As RegressionEffectModel, generalOperation As Boolean, Optional authoredCount As Nullable(Of Integer) = Nothing) As String
             Dim count = If(authoredCount.HasValue, authoredCount.Value, If(effects Is Nothing, 0, effects.Effects.Count)), intercept = effects IsNot Nothing AndAlso effects.IncludeIntercept
@@ -298,10 +287,10 @@ Namespace ExcelCommon
             If request.Decision.InferenceFallback Then Issue(issues, "inference.fallback", "Unrecognized GUI inference retains the model-specific legacy fallback.", False)
             If request.Decision.CoerceToReml Then Issue(issues, "fit.reml", "The existing KR guard changes ML to REML; Windows owns the information message.", False)
             If Not o.FixedIntercept AndAlso (request.FixedEffects Is Nothing OrElse request.FixedEffects.Effects.Count = 0) Then Issue(issues, "fixed.empty", "No fixed effects and fixed intercept is disabled.")
-            Dim residual = MixedModelOptionPolicy.ResidualForValidation(o.ResidualStructure)
-            If residual Is Nothing Then
+            Dim residual = request.Fitting.Residual
+            If Not residual.IsSupported Then
                 Issue(issues, "residual.structure", "Unsupported R-side covariance selection.")
-            ElseIf residual.UsesVisitIndex() AndAlso (d Is Nothing OrElse Not d.HasVisit OrElse String.IsNullOrWhiteSpace(request.VisitKey)) Then
+            ElseIf residual.UsesVisitIndex AndAlso (d Is Nothing OrElse Not d.HasVisit OrElse String.IsNullOrWhiteSpace(request.VisitKey)) Then
                 Issue(issues, "visit.required", "The selected R structure requires visit indices.")
             End If
             If d IsNot Nothing Then
@@ -314,16 +303,17 @@ Namespace ExcelCommon
                     If Not o.RandomIntercept AndAlso authored = 0 Then Issue(issues, "random.empty", "No random effects and random intercept is disabled.")
                     If String.Equals(o.RandomStructure, "Random Intercept", StringComparison.OrdinalIgnoreCase) AndAlso (d.Q <> 1 OrElse Not o.RandomIntercept OrElse authored <> 0) Then Issue(issues, "random.intercept", "Random Intercept requires intercept-only authoring and one expanded column.")
                     If String.Equals(o.RandomStructure, "Random Intercept + Slope", StringComparison.OrdinalIgnoreCase) AndAlso (d.Q <> 2 OrElse Not o.RandomIntercept OrElse authored <> 1) Then Issue(issues, "random.slope", "Random Intercept + Slope requires intercept and exactly one authored effect/two expanded columns.")
-                    Dim random = MixedModelOptionPolicy.RandomForValidation(o.RandomStructure)
-                    If random Is Nothing Then
+                    Dim random = request.Fitting.Random
+                    If Not random.IsSupported Then
                         Issue(issues, "random.structure", "Unsupported G-side covariance selection.")
-                    ElseIf TypeOf random Is NoRandomEffects Then
+                    ElseIf random.IsZeroRandom Then
                         Issue(issues, "random.structure", "LMM requires a G-side random structure.")
                     End If
                 ElseIf d.Q <> 0 Then
                     Issue(issues, "random.mmrm", "MMRM has no random design.")
                 End If
             End If
+            issues.AddRange(request.Fitting.DesignDiagnostics(d))
             Return New RegressionValidation(issues.Take(MaximumDiagnostics), If(d Is Nothing, 0, d.P), If(d Is Nothing, 0, d.Q), {})
         End Function
     End Class

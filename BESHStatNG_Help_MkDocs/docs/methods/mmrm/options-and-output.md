@@ -432,6 +432,10 @@ In the current implementation, reference-grid contrast tables include both the r
 
 ### Covariance gradient mode
 
+The analytic-gradient and finite-difference-gradient **optimizer** entries override the separate gradient selection with their named gradient. The auto-gradient optimizer entry retains the separate gradient selection; with its default Auto value, Core chooses the available provider. Selecting a covariance or optimizer does not guarantee convergence.
+
+The AI/Fisher-scoring implementation attempts REML fits. With ML, or if AI cannot return a usable solution, the existing Core fallback may use projected BFGS; inspect the actual optimizer diagnostics and convergence status. This does not change the requested ML/REML method. Kenward-Roger's separate ML-to-REML dialog guard still applies.
+
 | UI value | Intended use |
 |---|---|
 | `Auto (analytic where available)` | Default; uses analytic derivatives where supported and falls back when necessary. |

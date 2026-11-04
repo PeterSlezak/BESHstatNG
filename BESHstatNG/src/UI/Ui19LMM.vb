@@ -490,8 +490,8 @@ Public Class Ui19LMM
                                                         sortWithinSubjectByVisit:=(visit IsNot Nothing),
                                                         rowNumbers:=raw.RowIds)
 
-        Dim rStruct As regression.MixedModelRStruct = regression.MixedModelRStructUtils.createMixedModelRStruct(CStr(Me.cbCovarStruct.SelectedItem))
-        Dim gStruct As regression.MixedModelGStruct = regression.MixedModelGStructUtils.createMixedModelGStruct(CStr(Me.cbRandomCovarStruct.SelectedItem))
+        Dim rStruct As regression.MixedModelRStruct = WindowsMixedModelWorkflowAdapter.CreateResidualStructure(CStr(Me.cbCovarStruct.SelectedItem))
+        Dim gStruct As regression.MixedModelGStruct = WindowsMixedModelWorkflowAdapter.CreateRandomStructure(CStr(Me.cbRandomCovarStruct.SelectedItem))
 
         Dim selectedInferenceMethod As String = CStr(Me.cbInferenceMethod.SelectedItem)
         Dim selectedFitMethod As String = CStr(Me.cbFitMethod.SelectedItem)

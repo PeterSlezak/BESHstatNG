@@ -9,6 +9,14 @@ Imports BESHStatNG.regression
 Public NotInheritable Class WindowsMixedModelWorkflowAdapter
     Private Sub New()
     End Sub
+    ' Called at the original form factory sites, before the KR information message.
+    ' Preserve Core factory side effects and exceptions; never activate strict validation here.
+    Public Shared Function CreateResidualStructure(selectedToken As String) As MixedModelRStruct
+        Return MixedModelFittingOptions.CreateResidualStructure(selectedToken)
+    End Function
+    Public Shared Function CreateRandomStructure(selectedToken As String) As MixedModelGStruct
+        Return MixedModelFittingOptions.CreateRandomStructure(selectedToken)
+    End Function
     Private Shared Function Snapshot(raw As DataObj, blocks As MixedModelBlockData, subjects() As Object) As MixedModelWorkflowData
         Dim evidence = ExcelDnaDataImporter.GetPhysicalImportEvidence(raw.CoreTable)
         Return MixedModelWorkflowData.FromAcquiredBlocks(blocks, raw.RowIds, subjects, If(evidence Is Nothing, Nothing, evidence.Data))
