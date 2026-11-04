@@ -1,0 +1,327 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "exclusions": {
+    "source": "SpcExclusionPolicy.Import/CoreIndex",
+    "flags": "After unchanged Windows Object coercion: any true source row excludes point.",
+    "reasons": "All nonblank trimmed source-row reasons, including false-indicator rows; Ordinal HashSet and same-runtime ToArray/String.Join order, no sorting or new cross-runtime order promise.",
+    "scope_values": {
+      "ParameterEstimation": 1,
+      "RuleEvaluation": 2,
+      "EstimationAndRules": 3
+    },
+    "manual": "Bounds before scope parse; display1→Core0; preserve duplicate entries for Core rejection. Existing output/audit retains point/source rows."
+  },
+  "rules": {
+    "source": "SpcRuleRequest.ToCore/FinishCustom; Core SpcRuleCatalog remains sole preset/definition/evaluation owner",
+    "presets": [
+      "None",
+      "RuleOneOnly",
+      "WesternElectric",
+      "Nelson",
+      "PaperMontgomeryEightRules",
+      "Custom"
+    ],
+    "custom": "Enabled/parsed rows stay in host grid order, immutable Core rule definitions cloned by array; empty enabled custom retains original error.",
+    "state": "Original UpdateRuleAvailability/RestoreCustomRules methods byte-identical, including graceful preservation of last valid custom snapshot. Time-weighted disables preset/phase/marking, gap control remains enabled.",
+    "phase_scope": [
+      "None",
+      "PhaseI",
+      "PhaseII",
+      "All"
+    ],
+    "gaps": [
+      "BreakSequence",
+      "SkipPointAndContinue"
+    ],
+    "marking": [
+      "TerminalPointOnly",
+      "EntirePattern"
+    ]
+  },
+  "limits": {
+    "source": "SpcLimitRequest.ToCore",
+    "fields": [
+      "ParameterSource",
+      "Method",
+      "SigmaMultiplier",
+      "WithinSigmaEstimator",
+      "NaturalLimitPolicy",
+      "MovingRangeLength",
+      "UseBiasCorrection"
+    ],
+    "defaults": {
+      "sigma": 3,
+      "moving_range_length": 2,
+      "ewma_lambda": 0.2,
+      "cusum_reference": 0.5,
+      "cusum_decision": 5,
+      "head_start": 0,
+      "moving_average_span": 3,
+      "bias_correction": true,
+      "steady_state": false
+    },
+    "default_authority": "Unchanged Ui21 InitializeOptionControls and Designer. Steady-state has no Checked assignment and retains standard unchecked control default; source inference, not native observation."
+  },
+  "history": "EstimateFromPhaseI returns empty without parsing grid; otherwise original host optional CurrentCulture parsing then Common empty-row/row-stage decision and existing Core constructor. Nothing differs from explicit0.",
+  "missing": [
+    "Reject",
+    "OmitPoint",
+    "UseAvailableMeasurements"
+  ],
+  "matrix": [
+    {
+      "chart": "Individuals",
+      "layouts": [
+        "IndividualSequence"
+      ],
+      "required_roles": [
+        "one value"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": true,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "MovingRange",
+      "layouts": [
+        "IndividualSequence"
+      ],
+      "required_roles": [
+        "one value"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": false,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "IndividualsMovingRange",
+      "layouts": [
+        "IndividualSequence"
+      ],
+      "required_roles": [
+        "one value"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": true,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "XBar",
+      "layouts": [
+        "WideSubgroups",
+        "StackedObservations"
+      ],
+      "required_roles": [
+        "wide measurements>=2 OR stacked value+subgroup ID"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": true,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "SubgroupRange",
+      "layouts": [
+        "WideSubgroups",
+        "StackedObservations"
+      ],
+      "required_roles": [
+        "wide measurements>=2 OR stacked value+subgroup ID"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": false,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "SubgroupStandardDeviation",
+      "layouts": [
+        "WideSubgroups",
+        "StackedObservations"
+      ],
+      "required_roles": [
+        "wide measurements>=2 OR stacked value+subgroup ID"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": false,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "XBarR",
+      "layouts": [
+        "WideSubgroups",
+        "StackedObservations"
+      ],
+      "required_roles": [
+        "wide measurements>=2 OR stacked value+subgroup ID"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": true,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "XBarS",
+      "layouts": [
+        "WideSubgroups",
+        "StackedObservations"
+      ],
+      "required_roles": [
+        "wide measurements>=2 OR stacked value+subgroup ID"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": true,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "PChart",
+      "layouts": [
+        "AggregatedCounts"
+      ],
+      "required_roles": [
+        "count",
+        "sample size"
+      ],
+      "limits": "ShewhartSigma or ExactProbability",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": false,
+      "history_fields": [
+        "proportion"
+      ]
+    },
+    {
+      "chart": "NpChart",
+      "layouts": [
+        "AggregatedCounts"
+      ],
+      "required_roles": [
+        "count",
+        "sample size"
+      ],
+      "limits": "ShewhartSigma or ExactProbability",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": false,
+      "history_fields": [
+        "proportion"
+      ]
+    },
+    {
+      "chart": "CChart",
+      "layouts": [
+        "AggregatedCounts"
+      ],
+      "required_roles": [
+        "count"
+      ],
+      "limits": "ShewhartSigma or ExactProbability",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": false,
+      "history_fields": [
+        "mean count"
+      ]
+    },
+    {
+      "chart": "UChart",
+      "layouts": [
+        "AggregatedCounts"
+      ],
+      "required_roles": [
+        "count",
+        "exposure"
+      ],
+      "limits": "ShewhartSigma or ExactProbability",
+      "rules": "Selected Core catalog preset or enabled custom definitions",
+      "specification_lines": false,
+      "history_fields": [
+        "mean rate"
+      ]
+    },
+    {
+      "chart": "Cusum",
+      "layouts": [
+        "IndividualSequence"
+      ],
+      "required_roles": [
+        "one value"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "None; intrinsic signals and selected gap behavior",
+      "specification_lines": false,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "Ewma",
+      "layouts": [
+        "IndividualSequence"
+      ],
+      "required_roles": [
+        "one value"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "None; intrinsic signals and selected gap behavior",
+      "specification_lines": true,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    },
+    {
+      "chart": "MovingAverage",
+      "layouts": [
+        "IndividualSequence"
+      ],
+      "required_roles": [
+        "one value"
+      ],
+      "limits": "ShewhartSigma forced by unchanged UI",
+      "rules": "None; intrinsic signals and selected gap behavior",
+      "specification_lines": true,
+      "history_fields": [
+        "mean",
+        "sigma"
+      ]
+    }
+  ],
+  "statistical_owners": "Core: subgroup/missing processing, estimators, exact probability/natural limits, exclusions, rules, CUSUM/EWMA/MA recursions. Specification/target lines do not estimate control limits.",
+  "windows_output": [
+    "SPC Summary",
+    "Control Charts",
+    "Chart Data",
+    "Signals",
+    "Settings and Audit"
+  ],
+  "native": "NOT_RUN / UNAUTHORIZED"
+}

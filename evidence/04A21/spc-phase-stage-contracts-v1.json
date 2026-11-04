@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "source": "SpcPhaseStagePolicy.Quick/Collapse/ImportedRows/Manual/FinishManual",
+  "quick": [
+    {
+      "points": 10,
+      "single": true,
+      "source": "EstimateFromPhaseI",
+      "rows": [
+        {
+          "id": "PhaseI",
+          "name": "Phase I",
+          "display_first": 1,
+          "display_last": 10,
+          "core_first": 0,
+          "core_last": 9,
+          "phase": "PhaseI",
+          "limit_mode": "EstimateFromStageData",
+          "reference": ""
+        }
+      ]
+    },
+    {
+      "points": 10,
+      "single": false,
+      "last_phase_I": 5,
+      "source": "EstimateFromPhaseI",
+      "rows": [
+        {
+          "id": "PhaseI",
+          "display_first": 1,
+          "display_last": 5,
+          "core_first": 0,
+          "core_last": 4,
+          "mode": "EstimateFromStageData"
+        },
+        {
+          "id": "PhaseII",
+          "display_first": 6,
+          "display_last": 10,
+          "core_first": 5,
+          "core_last": 9,
+          "mode": "UseReferenceStage",
+          "reference": "PhaseI"
+        }
+      ]
+    }
+  ],
+  "historical": "Quick/imported blocks all UseHistoricalParameters for global historical source; original per-stage model guards remain Core.",
+  "grammar": "Trim, remove ASCII spaces, invariant uppercase; PHASEI/I/1 and PHASEII/II/2. Other values use original message.",
+  "continuity": "Rows in a logical point agree exactly on trimmed stage (Ordinal) and parsed phase. Block changes are case-sensitive; used stage IDs are OrdinalIgnoreCase and cannot recur. Phase-only generated counters are per phase and use InvariantCulture.",
+  "reference": "Phase II references most recent preceding Phase I unless global history; no earlier Phase I retains original rejection.",
+  "failure_timing": "Collapse checks before Windows grid clear; ImportedRows lazily validates/yields blocks after clear, preserving partial additions on late failure. Quick clears before reading/validating lastPhaseI. Manual host parses all fields before logical upper bound and Core constructor; empty DefinedByStage error remains last.",
+  "tests": [
+    "QuickPhaseRangeAndFailureMessagesStayLegacy",
+    "StageImportCollapseCaseContinuityAndPartialGridTimingMatch",
+    "ManualStageBoundsCoreConstructorAndEmptyDefinedSourceKeepOrder",
+    "StageCoverageReferenceOrderingAndExclusionScopesRemainCoreDecisions"
+  ],
+  "new_statistical_validation": false
+}

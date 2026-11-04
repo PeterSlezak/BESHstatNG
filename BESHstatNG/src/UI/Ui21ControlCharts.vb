@@ -10,6 +10,7 @@ Imports System.Globalization
 Imports System.Linq
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms
+Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.StatisticalProcessControl
 Imports Excel = Microsoft.Office.Interop.Excel
@@ -68,6 +69,7 @@ Public Class Ui21ControlCharts
     End Class
 
     Private NotInheritable Class InputRowContext
+        Public Property PointMap As SpcSourcePointMap
         Public Property FirstRow As Integer
         Public Property LastRow As Integer
         Public Property Layout As SpcDataLayout
@@ -1012,34 +1014,19 @@ Public Class Ui21ControlCharts
     End Sub
 
     Private Shared Function IsAttributeChart(chartType As SpcChartType) As Boolean
-        Return chartType = SpcChartType.PChart OrElse
-               chartType = SpcChartType.NpChart OrElse
-               chartType = SpcChartType.CChart OrElse
-               chartType = SpcChartType.UChart
+        Return SpcRequestPreparation.IsAttributeChart(chartType)
     End Function
 
     Private Shared Function IsSubgroupChart(chartType As SpcChartType) As Boolean
-        Return chartType = SpcChartType.XBar OrElse
-               chartType = SpcChartType.SubgroupRange OrElse
-               chartType = SpcChartType.SubgroupStandardDeviation OrElse
-               chartType = SpcChartType.XBarR OrElse
-               chartType = SpcChartType.XBarS
+        Return SpcRequestPreparation.IsSubgroupChart(chartType)
     End Function
 
     Private Shared Function IsTimeWeightedChart(chartType As SpcChartType) As Boolean
-        Return chartType = SpcChartType.Cusum OrElse
-               chartType = SpcChartType.Ewma OrElse
-               chartType = SpcChartType.MovingAverage
+        Return SpcRequestPreparation.IsTimeWeightedChart(chartType)
     End Function
 
     Private Shared Function ChartCanUseSpecificationLines(chartType As SpcChartType) As Boolean
-        Return chartType = SpcChartType.Individuals OrElse
-               chartType = SpcChartType.IndividualsMovingRange OrElse
-               chartType = SpcChartType.XBar OrElse
-               chartType = SpcChartType.XBarR OrElse
-               chartType = SpcChartType.XBarS OrElse
-               chartType = SpcChartType.Ewma OrElse
-               chartType = SpcChartType.MovingAverage
+        Return SpcRequestPreparation.ChartCanUseSpecificationLines(chartType)
     End Function
 
 #End Region
@@ -1074,29 +1061,11 @@ Public Class Ui21ControlCharts
             End If
             Dim context As InputRowContext = GetInputRowContext()
             Dim parameterSource As SpcParameterSource = SelectedComboValue(Of SpcParameterSource)(cbParameterSource)
-            Dim phaseILimitMode As SpcStageLimitMode = If(parameterSource = SpcParameterSource.UseHistoricalParameters,
-                                                          SpcStageLimitMode.UseHistoricalParameters,
-                                                          SpcStageLimitMode.EstimateFromStageData)
             dgvStages.Rows.Clear()
-            If rbSinglePhaseI.Checked Then
-                AddStageRow("PhaseI", "Phase I", 1, context.PointCount, SpcPhase.PhaseI,
-                            phaseILimitMode, String.Empty)
-            Else
-                Dim lastPhaseI As Integer = CInt(spinLastPhaseIPoint.Value)
-                If lastPhaseI < 1 OrElse lastPhaseI >= context.PointCount Then
-                    Throw New ArgumentException("The last Phase I point must be between 1 and " &
-                                                (context.PointCount - 1).ToString(CultureInfo.CurrentCulture) & ".")
-                End If
-                AddStageRow("PhaseI", "Phase I", 1, lastPhaseI, SpcPhase.PhaseI,
-                            phaseILimitMode, String.Empty)
-                If parameterSource = SpcParameterSource.UseHistoricalParameters Then
-                    AddStageRow("PhaseII", "Phase II", lastPhaseI + 1, context.PointCount, SpcPhase.PhaseII,
-                                SpcStageLimitMode.UseHistoricalParameters, String.Empty)
-                Else
-                    AddStageRow("PhaseII", "Phase II", lastPhaseI + 1, context.PointCount, SpcPhase.PhaseII,
-                                SpcStageLimitMode.UseReferenceStage, "PhaseI")
-                End If
-            End If
+            Dim lastPhaseI As Integer = If(rbSinglePhaseI.Checked, 0, CInt(spinLastPhaseIPoint.Value))
+            For Each stage In SpcPhaseStagePolicy.Quick(context.PointCount, rbSinglePhaseI.Checked, lastPhaseI, parameterSource)
+                AddStageRow(stage.StageId, stage.DisplayName, stage.FirstPoint, stage.LastPoint, stage.Phase, stage.LimitMode, stage.ReferenceStageId)
+            Next
             RefreshStageReferenceItems()
         Catch ex As Exception
             ShowInputError(ex.Message)
@@ -1117,75 +1086,10 @@ Public Class Ui21ControlCharts
             Dim rowPhases As String() = If(phaseInfo Is Nothing, Nothing,
                                            ReadTextColumn(phaseInfo, context.FirstRow, context.LastRow))
 
-            Dim pointStages(context.PointCount - 1) As String
-            Dim pointPhases(context.PointCount - 1) As SpcPhase
-            For point As Integer = 0 To context.PointCount - 1
-                If stageInfo IsNot Nothing Then
-                    pointStages(point) = CollapsedTextValue(rowStages, context.PointIndexByRow, point, "stage identifier")
-                End If
-                If stageInfo IsNot Nothing AndAlso pointStages(point).Trim().Length = 0 Then
-                    Throw New ArgumentException("The stage identifier is blank at chart point " & (point + 1).ToString() & ".")
-                End If
-                pointPhases(point) = If(phaseInfo Is Nothing, SpcPhase.PhaseI,
-                                        ParseCollapsedPhase(rowPhases, context.PointIndexByRow, point))
-            Next
-
-            If stageInfo Is Nothing Then
-                Dim phaseRunCounts As New Dictionary(Of SpcPhase, Integer)()
-                Dim runStartPoint As Integer = 0
-                While runStartPoint < context.PointCount
-                    Dim phase As SpcPhase = pointPhases(runStartPoint)
-                    Dim runEndPoint As Integer = runStartPoint
-                    While runEndPoint + 1 < context.PointCount AndAlso pointPhases(runEndPoint + 1) = phase
-                        runEndPoint += 1
-                    End While
-                    Dim runNumber As Integer = 1
-                    If phaseRunCounts.ContainsKey(phase) Then runNumber = phaseRunCounts(phase) + 1
-                    phaseRunCounts(phase) = runNumber
-                    Dim baseId As String = If(phase = SpcPhase.PhaseI, "PhaseI", "PhaseII")
-                    Dim generatedId As String = If(runNumber = 1, baseId, baseId & "-" & runNumber.ToString(CultureInfo.InvariantCulture))
-                    For point As Integer = runStartPoint To runEndPoint
-                        pointStages(point) = generatedId
-                    Next
-                    runStartPoint = runEndPoint + 1
-                End While
-            End If
-
+            Dim imported = SpcPhaseStagePolicy.Collapse(context.PointMap, rowStages, rowPhases)
             dgvStages.Rows.Clear()
-            Dim usedIds As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
-            Dim runStart As Integer = 0
-            Dim lastPhaseIId As String = String.Empty
-            For point As Integer = 1 To context.PointCount
-                Dim atEnd As Boolean = point = context.PointCount
-                Dim changed As Boolean = Not atEnd AndAlso
-                    (Not String.Equals(pointStages(point), pointStages(runStart), StringComparison.Ordinal) OrElse
-                     pointPhases(point) <> pointPhases(runStart))
-                If Not atEnd AndAlso Not changed Then Continue For
-
-                Dim stageId As String = pointStages(runStart).Trim()
-                If Not usedIds.Add(stageId) Then
-                    Throw New ArgumentException("Stage '" & stageId & "' occurs in more than one non-contiguous block.")
-                End If
-
-                Dim phase As SpcPhase = pointPhases(runStart)
-                Dim limitMode As SpcStageLimitMode
-                Dim referenceId As String = String.Empty
-                If SelectedComboValue(Of SpcParameterSource)(cbParameterSource) = SpcParameterSource.UseHistoricalParameters Then
-                    limitMode = SpcStageLimitMode.UseHistoricalParameters
-                    If phase = SpcPhase.PhaseI Then lastPhaseIId = stageId
-                ElseIf phase = SpcPhase.PhaseI Then
-                    limitMode = SpcStageLimitMode.EstimateFromStageData
-                    lastPhaseIId = stageId
-                Else
-                    If lastPhaseIId.Length = 0 Then
-                        Throw New ArgumentException("A Phase II stage requires an earlier Phase I reference stage or historical parameters.")
-                    End If
-                    limitMode = SpcStageLimitMode.UseReferenceStage
-                    referenceId = lastPhaseIId
-                End If
-
-                AddStageRow(stageId, stageId, runStart + 1, point, phase, limitMode, referenceId)
-                runStart = point
+            For Each stage In SpcPhaseStagePolicy.ImportedRows(imported, SelectedComboValue(Of SpcParameterSource)(cbParameterSource))
+                AddStageRow(stage.StageId, stage.DisplayName, stage.FirstPoint, stage.LastPoint, stage.Phase, stage.LimitMode, stage.ReferenceStageId)
             Next
             RefreshStageReferenceItems()
             ClearQuickPhaseSelection()
@@ -1275,26 +1179,17 @@ Public Class Ui21ControlCharts
             Dim reasons As String() = If(reasonInfo Is Nothing, Nothing,
                                          ReadTextColumn(reasonInfo, context.FirstRow, context.LastRow))
 
-            Dim excluded(context.PointCount - 1) As Boolean
-            Dim reasonSets(context.PointCount - 1) As HashSet(Of String)
-            For i As Integer = 0 To reasonSets.Length - 1
-                reasonSets(i) = New HashSet(Of String)(StringComparer.Ordinal)
-            Next
-            For row As Integer = 0 To indicators.Length - 1
-                Dim point As Integer = context.PointIndexByRow(row)
-                If IsExclusionIndicator(indicators(row)) Then excluded(point) = True
-                If reasons IsNot Nothing AndAlso reasons(row).Trim().Length > 0 Then reasonSets(point).Add(reasons(row).Trim())
-            Next
+            Dim flags = indicators.Select(Function(value) IsExclusionIndicator(value)).ToArray()
+            Dim imported = SpcExclusionPolicy.Import(context.PointMap, flags, reasons)
 
             dgvExclusions.Rows.Clear()
             Dim scopeText As String = ExclusionScopeText(SelectedComboValue(Of SpcExclusionScope)(cbImportedExclusionScope))
-            For point As Integer = 0 To excluded.Length - 1
-                If Not excluded(point) Then Continue For
+            For Each item In imported
                 Dim rowIndex As Integer = dgvExclusions.Rows.Add()
                 Dim row As DataGridViewRow = dgvExclusions.Rows(rowIndex)
-                row.Cells(colExclusionPoint.Index).Value = point + 1
+                row.Cells(colExclusionPoint.Index).Value = item.DisplayPoint
                 row.Cells(colExclusionScope.Index).Value = scopeText
-                row.Cells(colExclusionReason.Index).Value = String.Join("; ", reasonSets(point).ToArray())
+                row.Cells(colExclusionReason.Index).Value = item.Reason
             Next
         Catch ex As Exception
             ShowInputError(ex.Message)
@@ -1435,34 +1330,26 @@ Public Class Ui21ControlCharts
         Dim chartType As SpcChartType = SelectedChartType()
         Dim input As SpcInputData = BuildInputData()
 
-        Dim limitOptions As New SpcControlLimitOptions With {
-            .ParameterSource = SelectedComboValue(Of SpcParameterSource)(cbParameterSource),
-            .Method = SelectedComboValue(Of SpcControlLimitMethod)(cbControlLimitMethod),
-            .SigmaMultiplier = CDbl(spinSigmaMultiplier.Value),
-            .WithinSigmaEstimator = SelectedComboValue(Of SpcWithinSigmaEstimator)(cbWithinSigmaEstimator),
-            .NaturalLimitPolicy = SelectedComboValue(Of SpcNaturalLimitPolicy)(cbNaturalLimitPolicy),
-            .MovingRangeLength = CInt(spinMovingRangeLength.Value),
-            .UseBiasCorrection = chkUseBiasCorrection.Checked
-        }
+        Dim limits As New SpcLimitRequest(
+            SelectedComboValue(Of SpcParameterSource)(cbParameterSource),
+            SelectedComboValue(Of SpcControlLimitMethod)(cbControlLimitMethod),
+            CDbl(spinSigmaMultiplier.Value),
+            SelectedComboValue(Of SpcWithinSigmaEstimator)(cbWithinSigmaEstimator),
+            SelectedComboValue(Of SpcNaturalLimitPolicy)(cbNaturalLimitPolicy),
+            CInt(spinMovingRangeLength.Value), chkUseBiasCorrection.Checked)
 
-        Dim ruleOptions As New SpcRuleOptions With {
-            .Preset = If(IsTimeWeightedChart(chartType), SpcRulePreset.None,
-                         SelectedComboValue(Of SpcRulePreset)(cbRulePreset)),
-            .PhaseScope = SelectedComboValue(Of SpcRulePhaseScope)(cbRulePhaseScope),
-            .GapBehavior = SelectedComboValue(Of SpcSequenceGapBehavior)(cbSequenceGapBehavior),
-            .MarkingMode = SelectedComboValue(Of SpcSignalMarkingMode)(cbSignalMarkingMode)
-        }
-        If ruleOptions.Preset = SpcRulePreset.Custom Then ruleOptions.CustomRules = BuildCustomRules(allowEmpty:=False)
+        Dim rules As New SpcRuleRequest(
+            If(IsTimeWeightedChart(chartType), SpcRulePreset.None, SelectedComboValue(Of SpcRulePreset)(cbRulePreset)),
+            SelectedComboValue(Of SpcRulePhaseScope)(cbRulePhaseScope),
+            SelectedComboValue(Of SpcSequenceGapBehavior)(cbSequenceGapBehavior),
+            SelectedComboValue(Of SpcSignalMarkingMode)(cbSignalMarkingMode))
+        If rules.Preset = SpcRulePreset.Custom Then rules = rules.WithCustomRules(BuildCustomRules(allowEmpty:=False))
 
-        Dim analysisOptions As New SpcAnalysisOptions With {
-            .MissingValuePolicy = SelectedComboValue(Of SpcMissingValuePolicy)(cbMissingValuePolicy),
-            .ControlLimits = limitOptions,
-            .Rules = ruleOptions,
-            .Stages = BuildStagesFromGrid(input),
-            .Exclusions = BuildExclusionsFromGrid(input)
-        }
+        Dim analysisOptions = SpcRequestPreparation.Analysis(
+            SelectedComboValue(Of SpcMissingValuePolicy)(cbMissingValuePolicy), limits, rules, chartType,
+            BuildStagesFromGrid(input), BuildExclusionsFromGrid(input))
 
-        Dim request As New SpcFitRequest(
+        Dim request = SpcRequestPreparation.Create(
             chartType,
             input,
             analysisOptions:=analysisOptions,
@@ -1548,10 +1435,7 @@ Public Class Ui21ControlCharts
         Dim sequenceValues As Double() = If(lbSequence.Items.Count = 1,
                                             ReadNumericColumn(ColumnInfo(CStr(lbSequence.Items(0))), context.FirstRow, context.LastRow),
                                             Nothing)
-        Dim sourceRows(context.RowCount - 1) As Integer
-        For i As Integer = 0 To sourceRows.Length - 1
-            sourceRows(i) = context.FirstRow + i
-        Next
+        Dim sourceRows As Integer() = context.PointMap.SourceRowIndices.ToArray()
 
         Select Case context.Layout
             Case SpcDataLayout.IndividualSequence
@@ -1625,37 +1509,20 @@ Public Class Ui21ControlCharts
             End If
         End If
 
-        Dim firstRow As Integer = If(required.Any(Function(info) info.HasHeader), 2, 1)
+        Dim firstRow As Integer = SpcInputPointPolicy.FirstDataRow(required.Select(Function(info) info.HasHeader))
         Dim lastRow As Integer = 0
         For Each info As VarColumnInfo In required
             lastRow = Math.Max(lastRow, LastUsedRow(info.ColumnNumber))
         Next
         If lastRow < firstRow Then Throw New ArgumentException("The selected columns contain no data rows.")
 
-        Dim rowCount As Integer = lastRow - firstRow + 1
-        Dim pointIndexByRow(rowCount - 1) As Integer
-        Dim pointCount As Integer
+        Dim subgroupIds As String() = Nothing
         If layout = SpcDataLayout.StackedObservations Then
             Dim subgroupInfo As VarColumnInfo = ColumnInfo(CStr(lbSubgroupID.Items(0)))
-            Dim subgroupIds As String() = ReadTextColumn(subgroupInfo, firstRow, lastRow)
-            Dim groups As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
-            For row As Integer = 0 To subgroupIds.Length - 1
-                Dim id As String = subgroupIds(row).Trim()
-                If id.Length = 0 Then Throw New ArgumentException("A subgroup ID is blank at worksheet row " & (firstRow + row).ToString() & ".")
-                Dim point As Integer
-                If Not groups.TryGetValue(id, point) Then
-                    point = groups.Count
-                    groups.Add(id, point)
-                End If
-                pointIndexByRow(row) = point
-            Next
-            pointCount = groups.Count
-        Else
-            For row As Integer = 0 To pointIndexByRow.Length - 1
-                pointIndexByRow(row) = row
-            Next
-            pointCount = rowCount
+            subgroupIds = ReadTextColumn(subgroupInfo, firstRow, lastRow)
         End If
+        Dim pointMap = SpcInputPointPolicy.FromWorksheetRows(layout, firstRow, lastRow, subgroupIds)
+        Dim pointCount As Integer = pointMap.PointCount
 
         spinLastPhaseIPoint.Maximum = Math.Max(1D, CDec(pointCount))
         If spinLastPhaseIPoint.Value > spinLastPhaseIPoint.Maximum Then spinLastPhaseIPoint.Value = spinLastPhaseIPoint.Maximum
@@ -1663,7 +1530,8 @@ Public Class Ui21ControlCharts
             .FirstRow = firstRow,
             .LastRow = lastRow,
             .Layout = layout,
-            .PointIndexByRow = pointIndexByRow,
+            .PointMap = pointMap,
+            .PointIndexByRow = pointMap.PointIndexByRow.ToArray(),
             .PointCount = pointCount
         }
     End Function
@@ -1680,18 +1548,10 @@ Public Class Ui21ControlCharts
             Dim phase As SpcPhase = ParsePhaseText(CellText(row, colStagePhase.Index))
             Dim limitMode As SpcStageLimitMode = ParseStageLimitMode(CellText(row, colStageLimitMode.Index))
             Dim referenceId As String = CellText(row, colStageReferenceID.Index)
-            If lastPoint > logicalPointCount Then
-                Throw New ArgumentException("Stage '" & stageId & "' ends after the last chart point (" &
-                                            logicalPointCount.ToString(CultureInfo.CurrentCulture) & ").")
-            End If
-            stages.Add(New SpcStageDefinition(stageId, firstPoint - 1, lastPoint - 1, phase, limitMode,
-                                              If(referenceId.Length = 0, Nothing, referenceId), displayName))
+            stages.Add(SpcPhaseStagePolicy.Manual(New SpcStageRowIntent(stageId, displayName, firstPoint, lastPoint, phase, limitMode, referenceId), logicalPointCount))
         Next
 
-        If stages.Count = 0 AndAlso SelectedComboValue(Of SpcParameterSource)(cbParameterSource) = SpcParameterSource.DefinedByStage Then
-            Throw New ArgumentException("Define at least one stage when 'Defined by stage' is selected.")
-        End If
-        Return stages.ToArray()
+        Return SpcPhaseStagePolicy.FinishManual(stages, SelectedComboValue(Of SpcParameterSource)(cbParameterSource))
     End Function
 
     Private Function BuildExclusionsFromGrid(input As SpcInputData) As SpcExclusionDefinition()
@@ -1700,13 +1560,9 @@ Public Class Ui21ControlCharts
         For Each row As DataGridViewRow In dgvExclusions.Rows
             If row.IsNewRow OrElse GridRowIsBlank(row) Then Continue For
             Dim point As Integer = RequiredIntegerCell(row, colExclusionPoint.Index, "Exclusion point")
-            If point < 1 Then Throw New ArgumentException("Exclusion point numbers are one-based and must be positive.")
-            If point > logicalPointCount Then
-                Throw New ArgumentException("Exclusion point " & point.ToString(CultureInfo.CurrentCulture) &
-                                            " is beyond the last chart point (" & logicalPointCount.ToString(CultureInfo.CurrentCulture) & ").")
-            End If
+            Dim pointIndex = SpcExclusionPolicy.CoreIndex(point, logicalPointCount)
             Dim scope As SpcExclusionScope = ParseExclusionScope(CellText(row, colExclusionScope.Index))
-            exclusions.Add(New SpcExclusionDefinition(point - 1, scope, CellText(row, colExclusionReason.Index)))
+            exclusions.Add(New SpcExclusionDefinition(pointIndex, scope, CellText(row, colExclusionReason.Index)))
         Next
         Return exclusions.ToArray()
     End Function
@@ -1726,32 +1582,14 @@ Public Class Ui21ControlCharts
             Dim meanCount As Nullable(Of Double) = OptionalDoubleCell(row, colHistoryMeanCount.Index, "Mean count")
             Dim meanRate As Nullable(Of Double) = OptionalDoubleCell(row, colHistoryMeanRate.Index, "Mean rate")
 
-            If Not processMean.HasValue AndAlso Not processSigma.HasValue AndAlso
-               Not proportion.HasValue AndAlso Not meanCount.HasValue AndAlso Not meanRate.HasValue Then
-                If stageId.Length = 0 Then Continue For
-                Throw New ArgumentException("Historical-parameter row for stage '" & stageId &
-                                            "' contains no parameter relevant to the selected chart.")
-            End If
-
-            values.Add(New SpcHistoricalParameters(
-                stageId:=NullIfEmpty(stageId),
-                processMean:=processMean,
-                processSigma:=processSigma,
-                nonconformingProportion:=proportion,
-                meanDefectCount:=meanCount,
-                meanDefectRate:=meanRate))
+            Dim value = SpcRequestPreparation.HistoricalRow(stageId, processMean, processSigma, proportion, meanCount, meanRate)
+            If value IsNot Nothing Then values.Add(value)
         Next
         Return values.ToArray()
     End Function
 
     Private Shared Function GetLogicalPointCount(input As SpcInputData) As Integer
-        If input.Layout <> SpcDataLayout.StackedObservations Then Return input.RowCount
-        Dim ids As String() = input.SubgroupIds
-        Dim distinct As New HashSet(Of String)(StringComparer.Ordinal)
-        For Each id As String In ids
-            distinct.Add(If(id, String.Empty).Trim())
-        Next
-        Return distinct.Count
+        Return SpcInputPointPolicy.LogicalPointCount(input)
     End Function
 
     Private Function BuildSpecificationLimits(chartType As SpcChartType) As SpcSpecificationLimits
@@ -1796,8 +1634,7 @@ Public Class Ui21ControlCharts
                 CellText(row, colRuleName.Index),
                 If(TryCast(row.Tag, String), String.Empty)))
         Next
-        If rules.Count = 0 AndAlso Not allowEmpty Then Throw New ArgumentException("Enable at least one custom signal rule.")
-        Return rules.ToArray()
+        Return SpcRuleRequest.FinishCustom(rules, allowEmpty)
     End Function
 
     Private Function RoleColumnInfos(list As ListBox) As List(Of VarColumnInfo)
@@ -2160,10 +1997,7 @@ Public Class Ui21ControlCharts
     End Function
 
     Private Shared Function ParsePhaseText(text As String) As SpcPhase
-        Dim normalized As String = text.Trim().Replace(" ", String.Empty).ToUpperInvariant()
-        If normalized = "PHASEI" OrElse normalized = "I" OrElse normalized = "1" Then Return SpcPhase.PhaseI
-        If normalized = "PHASEII" OrElse normalized = "II" OrElse normalized = "2" Then Return SpcPhase.PhaseII
-        Throw New ArgumentException("Phase must be 'Phase I' or 'Phase II'.")
+        Return SpcPhaseStagePolicy.ParsePhaseText(text)
     End Function
 
     Private Shared Function ParseCollapsedPhase(values As String(), pointIndices As Integer(), point As Integer) As SpcPhase

@@ -1,0 +1,12 @@
+{
+  "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values",
+  "outcome": "FAIL",
+  "configuration": "Release",
+  "receipt": "LOCAL_LOG:final-Release-full",
+  "raw_sha256": "0b80ead25ce0c3f9f53a9d70e2895c42b2294c52b67f62b69637cc84c0860df5",
+  "terminal": "AssertionError: Missing public candidate",
+  "observed": "Frozen test filters existing candidates, then scan rechecks existence. A candidate disappeared between those checks. The assertion does not record its path; exact vanished path cannot be recovered from this receipt.",
+  "cause_classification": "TRANSIENT_CANDIDATE_MEMBERSHIP_RACE / NO_PRIVATE_VALUE_FINDING_REPORTED",
+  "disposition": "Original nonzero receipt preserved. Complete Python inventories rerun sequentially after managed/Node work and candidate creation finish; final outcomes are measured separately. Frozen test unchanged.",
+  "production_changed": false
+}

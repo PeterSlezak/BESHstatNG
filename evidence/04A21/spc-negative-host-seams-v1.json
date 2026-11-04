@@ -1,0 +1,128 @@
+{
+    "version":  1,
+    "status":  "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+    "mode":  "HOST_FREE_MANAGED_API_COMPARISON",
+    "configuration":  "Release",
+    "tfm":  "net48",
+    "os":  "Windows",
+    "records":  [
+                    {
+                        "variant":  0,
+                        "culture":  "",
+                        "runtime":  "4.0.30319.42000",
+                        "source_rows":  [
+                                            101,
+                                            105
+                                        ],
+                        "subgroup_ids":  [
+                                             "A",
+                                             ""
+                                         ],
+                        "classification":  "LEGACY_HOST_PREPARATION_REJECTION",
+                        "exception_type":  "System.ArgumentException",
+                        "exception_message":  "A subgroup ID is blank at worksheet row 105.",
+                        "matched":  true
+                    },
+                    {
+                        "variant":  1,
+                        "culture":  "",
+                        "runtime":  "4.0.30319.42000",
+                        "source_rows":  [
+                                            101,
+                                            105
+                                        ],
+                        "subgroup_ids":  [
+                                             "A",
+                                             " "
+                                         ],
+                        "classification":  "LEGACY_HOST_PREPARATION_REJECTION",
+                        "exception_type":  "System.ArgumentException",
+                        "exception_message":  "A subgroup ID is blank at worksheet row 105.",
+                        "matched":  true
+                    },
+                    {
+                        "variant":  2,
+                        "culture":  "",
+                        "runtime":  "4.0.30319.42000",
+                        "source_rows":  [
+                                            101,
+                                            105
+                                        ],
+                        "subgroup_ids":  [
+                                             "",
+                                             "B"
+                                         ],
+                        "classification":  "LEGACY_HOST_PREPARATION_REJECTION",
+                        "exception_type":  "System.ArgumentException",
+                        "exception_message":  "A subgroup ID is blank at worksheet row 101.",
+                        "matched":  true
+                    },
+                    {
+                        "variant":  0,
+                        "culture":  "sk-SK",
+                        "runtime":  "4.0.30319.42000",
+                        "source_rows":  [
+                                            101,
+                                            105
+                                        ],
+                        "subgroup_ids":  [
+                                             "A",
+                                             ""
+                                         ],
+                        "classification":  "LEGACY_HOST_PREPARATION_REJECTION",
+                        "exception_type":  "System.ArgumentException",
+                        "exception_message":  "A subgroup ID is blank at worksheet row 105.",
+                        "matched":  true
+                    },
+                    {
+                        "variant":  1,
+                        "culture":  "sk-SK",
+                        "runtime":  "4.0.30319.42000",
+                        "source_rows":  [
+                                            101,
+                                            105
+                                        ],
+                        "subgroup_ids":  [
+                                             "A",
+                                             " "
+                                         ],
+                        "classification":  "LEGACY_HOST_PREPARATION_REJECTION",
+                        "exception_type":  "System.ArgumentException",
+                        "exception_message":  "A subgroup ID is blank at worksheet row 105.",
+                        "matched":  true
+                    },
+                    {
+                        "variant":  2,
+                        "culture":  "sk-SK",
+                        "runtime":  "4.0.30319.42000",
+                        "source_rows":  [
+                                            101,
+                                            105
+                                        ],
+                        "subgroup_ids":  [
+                                             "",
+                                             "B"
+                                         ],
+                        "classification":  "LEGACY_HOST_PREPARATION_REJECTION",
+                        "exception_type":  "System.ArgumentException",
+                        "exception_message":  "A subgroup ID is blank at worksheet row 101.",
+                        "matched":  true
+                    }
+                ],
+    "harness":  {
+                    "alias":  "LOCAL_HARNESS:blank-source-probe.ps1",
+                    "sha256":  "bc1fb1cba070e9218bb4d94c8f7fcc4b0d0597f37f0c1f94c3d6b07d528e8f8a"
+                },
+    "production_symbols":  [
+                               "SpcInputPointPolicy.FromRows"
+                           ],
+    "legacy_symbol":  "Spc21LegacyPreparation.PointIndices",
+    "binary_receipts":  {
+                            "alias":  "LOCAL_EXECUTION:final-focused-Release-Legacy",
+                            "core_sha256":  "94416dd2644e6bc7c1b039c7a4f193269ff082bcf13b1bdb58198599227e7d28",
+                            "common_sha256":  "e115675384805bea64cd569b6c11b5c5ce63be0ced7a6fb767c58f67278f5ba8",
+                            "tests_sha256":  "e087603d8da4e9391c139c666a0f17e6906fffa2fd2065d823883ed73204b2ba"
+                        },
+    "counting":  "Supplemental compatibility records, not additional MSTest framework/logical identities.",
+    "native":  "NOT_RUN / UNAUTHORIZED"
+}

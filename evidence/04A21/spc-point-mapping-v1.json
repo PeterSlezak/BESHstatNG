@@ -1,0 +1,251 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "ownership": "Typed imported strings/rows only; Excel cell conversion remains unchanged Windows. No matrix retained or data prefiltered.",
+  "source": "SpcInputPointPolicy.FromWorksheetRows/FromRows; Ui21.GetInputRowContext/BuildInputData",
+  "axes": {
+    "input_row_index": "zero-based position within imported input",
+    "source_row": "physical worksheet row supplied by host, not a point index",
+    "point_index": "zero-based Core logical point",
+    "display_point": "one-based phase/exclusion grid identifier"
+  },
+  "fixtures": [
+    {
+      "layout": "WideSubgroups",
+      "source_rows": [
+        101,
+        105,
+        118,
+        131
+      ],
+      "imported_subgroup_ids": null,
+      "point_index_by_row": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "points": [
+        {
+          "point_index": 0,
+          "display_point": 1,
+          "input_row_indices": [
+            0
+          ],
+          "source_rows": [
+            101
+          ]
+        },
+        {
+          "point_index": 1,
+          "display_point": 2,
+          "input_row_indices": [
+            1
+          ],
+          "source_rows": [
+            105
+          ]
+        },
+        {
+          "point_index": 2,
+          "display_point": 3,
+          "input_row_indices": [
+            2
+          ],
+          "source_rows": [
+            118
+          ]
+        },
+        {
+          "point_index": 3,
+          "display_point": 4,
+          "input_row_indices": [
+            3
+          ],
+          "source_rows": [
+            131
+          ]
+        }
+      ],
+      "test": "Spc21Tests.FourLayoutsKeepInputSourceAndLogicalAxesApart (0)",
+      "classification": "EXECUTED_MANAGED_POLICY_AND_SOURCE_BACKED_HOST_CONTRACT"
+    },
+    {
+      "layout": "StackedObservations",
+      "source_rows": [
+        101,
+        105,
+        118,
+        131
+      ],
+      "imported_subgroup_ids": [
+        " A ",
+        "a",
+        "A",
+        "a"
+      ],
+      "point_index_by_row": [
+        0,
+        1,
+        0,
+        1
+      ],
+      "points": [
+        {
+          "point_index": 0,
+          "display_point": 1,
+          "input_row_indices": [
+            0,
+            2
+          ],
+          "source_rows": [
+            101,
+            118
+          ]
+        },
+        {
+          "point_index": 1,
+          "display_point": 2,
+          "input_row_indices": [
+            1,
+            3
+          ],
+          "source_rows": [
+            105,
+            131
+          ]
+        }
+      ],
+      "test": "Spc21Tests.FourLayoutsKeepInputSourceAndLogicalAxesApart (1)",
+      "classification": "EXECUTED_MANAGED_POLICY_AND_SOURCE_BACKED_HOST_CONTRACT"
+    },
+    {
+      "layout": "IndividualSequence",
+      "source_rows": [
+        101,
+        105,
+        118,
+        131
+      ],
+      "imported_subgroup_ids": null,
+      "point_index_by_row": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "points": [
+        {
+          "point_index": 0,
+          "display_point": 1,
+          "input_row_indices": [
+            0
+          ],
+          "source_rows": [
+            101
+          ]
+        },
+        {
+          "point_index": 1,
+          "display_point": 2,
+          "input_row_indices": [
+            1
+          ],
+          "source_rows": [
+            105
+          ]
+        },
+        {
+          "point_index": 2,
+          "display_point": 3,
+          "input_row_indices": [
+            2
+          ],
+          "source_rows": [
+            118
+          ]
+        },
+        {
+          "point_index": 3,
+          "display_point": 4,
+          "input_row_indices": [
+            3
+          ],
+          "source_rows": [
+            131
+          ]
+        }
+      ],
+      "test": "Spc21Tests.FourLayoutsKeepInputSourceAndLogicalAxesApart (2)",
+      "classification": "EXECUTED_MANAGED_POLICY_AND_SOURCE_BACKED_HOST_CONTRACT"
+    },
+    {
+      "layout": "AggregatedCounts",
+      "source_rows": [
+        101,
+        105,
+        118,
+        131
+      ],
+      "imported_subgroup_ids": null,
+      "point_index_by_row": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "points": [
+        {
+          "point_index": 0,
+          "display_point": 1,
+          "input_row_indices": [
+            0
+          ],
+          "source_rows": [
+            101
+          ]
+        },
+        {
+          "point_index": 1,
+          "display_point": 2,
+          "input_row_indices": [
+            1
+          ],
+          "source_rows": [
+            105
+          ]
+        },
+        {
+          "point_index": 2,
+          "display_point": 3,
+          "input_row_indices": [
+            2
+          ],
+          "source_rows": [
+            118
+          ]
+        },
+        {
+          "point_index": 3,
+          "display_point": 4,
+          "input_row_indices": [
+            3
+          ],
+          "source_rows": [
+            131
+          ]
+        }
+      ],
+      "test": "Spc21Tests.FourLayoutsKeepInputSourceAndLogicalAxesApart (3)",
+      "classification": "EXECUTED_MANAGED_POLICY_AND_SOURCE_BACKED_HOST_CONTRACT"
+    }
+  ],
+  "header_bounds": {
+    "first": "2 iff any required active source column has header; otherwise1",
+    "last": "max LastUsedRow among required roles, optional label/sequence never extends range",
+    "source_test": "Spc21Contracts.test_original_header_bounds_roles_and_read_chronology",
+    "native": "NOT_RUN / UNAUTHORIZED"
+  },
+  "group_semantics": "Trim; Ordinal case-sensitive first-appearance numbering; repeated interleaved ID accepted; first source label/sequence belongs to Core factory/calculator, directly tested by StackedFirstSeenLabelsSequenceAndEverySourceRowMatchCore.",
+  "read_chronology": "Fresh context for each action. BuildInputData retains original second stacked ID read for Core after context construction; no global stale cache or changed workbook read timing. Volatile/live workbook behavior not executed."
+}

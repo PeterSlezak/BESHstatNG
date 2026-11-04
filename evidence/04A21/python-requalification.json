@@ -1,0 +1,181 @@
+{
+  "complete": true,
+  "configurations": {
+    "Debug": {
+      "components": [
+        {
+          "alias": "LOCAL_LOG:final-python-Debug-tools",
+          "log_sha256": "11c6600fec0e16f68615c01867948ec5c1a1a22d10b5c4f4af9522c621f3392e",
+          "command_sha256": "cab6851b6a408e256ffde96f7c313e05a222cfb0978d11eb8ea01353e830b791",
+          "exit_code": 0
+        },
+        {
+          "alias": "LOCAL_LOG:final-python-Debug-help",
+          "log_sha256": "8cf6f2595d71fcc8db29b7dccd2d77f9be4dc82e16cbc5bc63272cf7c4ae090b",
+          "command_sha256": "8f67c53416934d7b2732c25fd0a7edf2d83fab5cae86ba91141796d7dbe02e56",
+          "exit_code": 0
+        },
+        {
+          "alias": "LOCAL_LOG:final-python-Debug-scripts",
+          "log_sha256": "28acb369a51087f6b98fbe661afe6130c7f8d695adbe672c2e646c964d2eb1bf",
+          "command_sha256": "6b7dbe9d744aef02fba2626ac80cc83e318fb7eda5616c3f025418c5501e5c10",
+          "exit_code": 1
+        },
+        {
+          "alias": "LOCAL_LOG:final-python-qualified-Debug-common-python",
+          "log_sha256": "2977a357fb7b059166aab0a4c23a3bee954d54d529805a2d3d64b07a3c9284ee",
+          "command_sha256": "ea9cdce0a00555dcef4dcdaeb7b4580a61260d77466dc4a9d6e71d0934071484",
+          "exit_code": 1
+        }
+      ],
+      "aggregate_exit": 1,
+      "semantic_observations": "LOCAL_EXECUTION:final-Debug-semantic",
+      "uncorrected_common_attempt": {
+        "alias": "LOCAL_LOG:final-python-Debug-common-python",
+        "raw_sha256": "59d1dc7631dd7d8865c954e16de56814db60f7cc601ea9c04128d280363b64c9",
+        "nonpasses": {
+          "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations": "ERROR",
+          "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps": "ERROR",
+          "test_capture_contract04a02.CandidateComparisonTests.test_all_real_candidate_fields_admitted_without_promotion": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_alpha": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_cell_type": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_dataset": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_fixture": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_header": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_metric": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_metric_type": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_native": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_nonfinite": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_row": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_seed": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_source": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_status": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_changed_numeric_observation_is_visible_not_tolerance_tuned": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_cross_case_comparison_rejected": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_scalar_type_alias_visible_in_comparison": "FAIL",
+          "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates": "FAIL",
+          "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts": "FAIL",
+          "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect": "FAIL",
+          "test_investigation06.Investigation06Tests.test_pca_has_three_biplot_scales_not_the_old_two_scale_proposal": "FAIL",
+          "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof": "FAIL",
+          "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler": "FAIL"
+        },
+        "extra_due_missing_candidate_name": {
+          "test_capture_contract04a02.CandidateComparisonTests.test_all_real_candidate_fields_admitted_without_promotion": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_alpha": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_cell_type": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_dataset": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_fixture": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_header": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_metric": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_metric_type": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_native": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_nonfinite": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_row": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_seed": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_source": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_status": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_changed_numeric_observation_is_visible_not_tolerance_tuned": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_cross_case_comparison_rejected": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_scalar_type_alias_visible_in_comparison": "FAIL"
+        }
+      }
+    },
+    "Release": {
+      "components": [
+        {
+          "alias": "LOCAL_LOG:final-python-Release-tools",
+          "log_sha256": "0171ae20a724e7385af9a1a96ab5b456a3871f152f06f4345b07954ade120982",
+          "command_sha256": "88fb409ad88ed4609e0e8d7fa192993a08e48390d2e18f780bafc8b5ab51861a",
+          "exit_code": 0
+        },
+        {
+          "alias": "LOCAL_LOG:final-python-Release-help",
+          "log_sha256": "42ea4a5a4827d0e65721f30f03f052d8180ec271f82d2626d202ea261e453496",
+          "command_sha256": "0f340c1d89210fe877d6b2670380df486b1b9f060eac050cfa1edb75b01b0488",
+          "exit_code": 0
+        },
+        {
+          "alias": "LOCAL_LOG:final-python-Release-scripts",
+          "log_sha256": "38908172cdb04dc5e4c9e86f54f2861650db9dcaaf79ca1752cd5950c9d13c33",
+          "command_sha256": "140682d43def8d9640cc52fac8f1bad2eb0c9bc507b16409ec496038b730ca67",
+          "exit_code": 1
+        },
+        {
+          "alias": "LOCAL_LOG:final-python-qualified-Release-common-python",
+          "log_sha256": "92393b1774a2f4c62664d95713b3f9850c64d68a2f1d2496c2c1e7accb5e6d36",
+          "command_sha256": "11e9ede943de4a984a6782835e1661e75b49eae2bfa7792d57ef1a8fdb93c7df",
+          "exit_code": 1
+        }
+      ],
+      "aggregate_exit": 1,
+      "semantic_observations": "LOCAL_EXECUTION:final-Release-semantic",
+      "uncorrected_common_attempt": {
+        "alias": "LOCAL_LOG:final-python-Release-common-python",
+        "raw_sha256": "39eb5802560281ad49110fb4a1892490a4ac7c9e7303e462f0d4f80fe9c5d9dc",
+        "nonpasses": {
+          "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations": "ERROR",
+          "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps": "ERROR",
+          "test_capture_contract04a02.CandidateComparisonTests.test_all_real_candidate_fields_admitted_without_promotion": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_alpha": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_cell_type": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_dataset": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_fixture": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_header": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_metric": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_metric_type": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_native": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_nonfinite": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_row": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_seed": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_source": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_status": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_changed_numeric_observation_is_visible_not_tolerance_tuned": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_cross_case_comparison_rejected": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_scalar_type_alias_visible_in_comparison": "FAIL",
+          "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates": "FAIL",
+          "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts": "FAIL",
+          "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect": "FAIL",
+          "test_investigation06.Investigation06Tests.test_pca_has_three_biplot_scales_not_the_old_two_scale_proposal": "FAIL",
+          "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof": "FAIL",
+          "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler": "FAIL"
+        },
+        "extra_due_missing_candidate_name": {
+          "test_capture_contract04a02.CandidateComparisonTests.test_all_real_candidate_fields_admitted_without_promotion": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_alpha": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_cell_type": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_dataset": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_fixture": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_header": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_metric": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_metric_type": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_native": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_nonfinite": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_row": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_seed": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_source": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_candidate_reject_status": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_changed_numeric_observation_is_visible_not_tolerance_tuned": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_cross_case_comparison_rejected": "FAIL",
+          "test_capture_contract04a02.CandidateComparisonTests.test_scalar_type_alias_visible_in_comparison": "FAIL"
+        }
+      }
+    }
+  },
+  "reason": "Sequential full source discovery after initial Release missing-candidate race; Common discovery explicitly references already executed same-final-source semantic observations. First sequential Common command omitted --candidate-name and introduced17 missing-fixture comparison failures per configuration; exact failed receipts retained, no test source/expectation changed.",
+  "production_and_compiled_test_bytes_unchanged": true,
+  "full_initial_counts": "validation-initial-final.json",
+  "transient": "transient-validation-observation.json",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET"
+  }
+}

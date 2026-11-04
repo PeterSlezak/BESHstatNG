@@ -1,0 +1,22 @@
+{
+  "issues": [
+    {
+      "id": "C21-STACKED-ROWCOUNT-VALIDATION-01",
+      "status": "OPEN / CANDIDATE_ONLY / UNAPPLIED",
+      "source": "SpcEngine.ValidateStages/ValidateExclusions versus calculator BuildStages/ApplyExclusions",
+      "reproduction": "RawRowCountValidationVersusGroupedPointFitRejectionIsCharacterized: values1,2,3,4 and interleaved A,B,A,B; raw4/logical2. Bare Core exclusion index2 or stage range0..3 passes Validate, then Fit rejects against constructed points. Existing Windows manual preparation already checks logical count; new policy preserves this earlier host bound.",
+      "implication": "A caller treating Validate success as a complete grouped-point domain check can encounter a later rejection. No numeric, timing or native behavior correction is activated.",
+      "proposal": "Core domain/validation timing decision, with explicit compatibility/native implications; do not add a new check in this extraction.",
+      "owner": "04A.22 / 04A.39-42 by separate owner authorization"
+    }
+  ],
+  "activated_behavior_fixes": 0,
+  "retained_prior": "All C09/C11/C12 unapplied, C13 log-rank OPEN, C14 diagnostics candidate, C17/C18 no-label CA dormant, C19 row/nonfinite-power/inversion candidates and C20 FA/DA source-row/prior/fold candidates remain frozen/unapplied.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET"
+  },
+  "native": "NOT_RUN / UNAUTHORIZED"
+}

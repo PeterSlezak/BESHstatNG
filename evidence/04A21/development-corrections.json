@@ -1,0 +1,46 @@
+{
+  "production_numerical_corrections": 0,
+  "corrections": [
+    {
+      "receipts": [
+        "dev01-build"
+      ],
+      "issue": "Bootstrap copied new test drafts into Common production alongside the four intended policies.",
+      "resolution": "Verified exact new-file identity and removed only the three accidental new copies; restricted bootstrap source list. No owner/historical file removed."
+    },
+    {
+      "receipts": [
+        "dev02-build",
+        "dev04-tests",
+        "dev06-build",
+        "dev07-tests"
+      ],
+      "issue": "New test integration compile errors: VB name shadowing/inference, wrong writer override name and older Framework MSTest overload.",
+      "resolution": "Corrected only new test/helper signatures and names; real host compiled, no framework/package change."
+    },
+    {
+      "receipts": [
+        "dev05-Common"
+      ],
+      "issue": "New custom-rule test correctly matched rejected Core fits but then called ResolveRules outside exception comparison.",
+      "resolution": "Kept rejected shape/side cases as rejection expectations; added both min2/min4, compare exact copied rule fields and actual Core fit outcomes. No Core definition/evaluator changes."
+    },
+    {
+      "receipts": [
+        "new Python development discovery"
+      ],
+      "issue": "New preservation test used arbitrary >200 file threshold; actual selected set197.",
+      "resolution": "Removed the invented size quota; every actual selected entry hash still checked."
+    },
+    {
+      "receipts": [
+        "dev07",
+        "dev08",
+        "dev09"
+      ],
+      "issue": "New narrow-subgroup fixtures initially retained five variable names after reducing measurement dimensions.",
+      "resolution": "Aligned new fixture names to actual selected columns so minimum-shape cases reach genuine Core boundary rather than unrelated name-length rejection."
+    }
+  ],
+  "final_qualification": "All fixes precede final-input-pins.json and both full final matrices."
+}

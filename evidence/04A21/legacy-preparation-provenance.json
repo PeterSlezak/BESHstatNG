@@ -1,0 +1,25 @@
+{
+  "source": "BESHstatNG/src/UI/Ui21ControlCharts.vb",
+  "entry_sha256": "79f646b6a5f0e6bed50e9f6ce225ebac8976790e842b3d7193a4b6bd0e375c42",
+  "derivative": "BESHStat.Excel.Common.Tests/src/Spc21LegacyPreparation.vb",
+  "method_hashes": {
+    "ParsePhaseText": "567f4d26d3eb972090b47438b6d1298a1136d894d653415451dd8eba765bbfe2",
+    "ParseCollapsedPhase": "e1a10d6232b96b3a1f02059fee9aeab1eecbe7cc576cd0f9ce4cfb2a24c634c5",
+    "CollapsedTextValue": "5650c7c2b8a359a3933f1b349fe2048ece3d61c9ce60e41b63de1a0d7be7f744",
+    "IsAttributeChart": "d4242c74df61f5509b1e40d973b23831be040badf722c37ae1ab2a94daf78ac4",
+    "IsSubgroupChart": "c0efdfeebd50ea2ce1d4e834a2a42d2f2b09a0e70aaebe1291e29487da016de5",
+    "IsTimeWeightedChart": "98f5bf26edc708289f194fb00a4844dae4f352eca154cec61adf6b8f19ba55f8",
+    "ChartCanUseSpecificationLines": "3bb2da4823b759231fa6f3f7e2541e261507980817e23454c1025368db33c688",
+    "ParseRuleKind": "963d9ca8a625b16c5e6690920913d15dc15d7fbc0f2f76b703def0d2c15a216c",
+    "ParseRuleSide": "5915d9f0e44eaff047b20b96f7a3a95fa840fe3180f93a35d2926ddf2ad5b50a",
+    "ParseRuleScope": "1494a7966ce374dd9b765ccacc1a735a8c15fbbd43405d0ed9010ee71fcdf04b",
+    "IsExclusionIndicator": "932ebd562cc55215d472eb12f2cd1d5458f189d21478f23a542085f332dac0f7",
+    "TryParseDouble": "4f3240df468f04883650fb5941560a0b6d0a29b1d760c8aba1f65561d6280836",
+    "btImportStages_Click": "b1589214eafd4ef1fc629ddce94a9f9605696efa4393f4c8f2e189b0053d28f1",
+    "btImportExclusions_Click": "371b8c4f4e8e40a1c6da414afa7530afa8af88e2b661bf1b48013079e7e439fd",
+    "btApplyQuickPhaseSetup_Click": "13bd15b50e4ac978a8563f7884f6dcc4cd72ae0d3f40cc76917dea0bc83ed2f1",
+    "BuildRequest": "00b62cc388f6cf9fdf8b510155a5033132c7c72c68f3de3e67afe2a0a42cca99",
+    "GetInputRowContext": "8a7de648557635337da3359eb152c66fa9cc11f1b24b23f5cc52c0dd860fa6d0"
+  },
+  "adaptations": "Exact helper bodies except visibility; point/quick/import/exclusion loop bodies adapt host reads/grid writes to parsed arrays and ordered output lists. No new Common policy calls in reference adapter. Core calculations unchanged."
+}

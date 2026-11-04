@@ -1,0 +1,32 @@
+{
+  "base": "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e",
+  "main": "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e",
+  "origin_main": "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e",
+  "branch": "codex/04A-21",
+  "index_empty": true,
+  "tracked_clean": true,
+  "ancestry": [
+    "0f1980e5e223cf4770ce2bebe2d5828daa7ac81e Factor analysis and discriminant analysis factor/rotation/prior/validation option mapping",
+    "ae7490bbce241dd8a444fd4d23ba413fb89a36ca K-means and hierarchical clustering initialization/distance/standardization and membership output mapping",
+    "5429a46ac706a43c9f57136eef68158decedf89d PCA, CA and MCA input transform and score/label mapping for shared results",
+    "f539d4e31779a2083d4c135e2784314c0083cff4 Extract PCA/CA/MCA, cluster, discriminant and factor selection, priors, row labels and plot payload preparation from Ui11PCA.vb"
+  ],
+  "merge_interpretation": "Local main and origin/main include accepted 04A.20 commit and shipping source. Linear history; owner statement supplies acceptance, no separate merge commit invented.",
+  "worktrees": 1,
+  "untracked": [
+    "evidence/04A21/frozen-capture-hashes.json",
+    "evidence/04A21/prechange-manifest.json",
+    "evidence/04A21/prechange-method-inventory.json",
+    "scripts/capture-04a21-contract.py",
+    "scripts/verify-04a21.py"
+  ],
+  "gitignore_sha256": "9a3cbe846efb3c06a8ee68a619f85c46b5f0e7c10171440c121b380a7ad3b112",
+  "ownership": "Per-command safe.directory; no global config change. Authorized branch ref required sandbox escalation.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET"
+  },
+  "native_releases": 0
+}
