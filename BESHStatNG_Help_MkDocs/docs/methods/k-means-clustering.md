@@ -1,5 +1,7 @@
 # K-Means Clustering
 
+**Windows workflow and availability.** The Windows defaults remain K-Means++, squared Euclidean distance, no standardization, error on missing values and farthest-observation empty-cluster recovery. The seed field uses the configured application default; leaving it blank requests the existing time-based Core seed, rather than seed zero. Fixed seeds support repeatable comparisons. Selected blank row labels fall back to `Row {RowId}`; the Data table retains `OriginalRow` and optional `RowLabel`. User centers still come from the existing worksheet range importer. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
+
 **Includes:** K-means clustering for numeric data, initialization by k-means++, Forgy, random partition, or user-specified centers, repeated random starts, optional z-score or 0–1 range standardization, explicit missing-value handling, empty-cluster strategies, optional row labels, and formatted result tables.  
 **Purpose:** Partition observations into a requested number of compact clusters by minimizing the total within-cluster sum of squared Euclidean distances.
 

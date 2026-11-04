@@ -1,5 +1,7 @@
 # Principal Component Analysis
 
+**Windows workflow and availability.** The Windows dialog keeps row labels and grouping columns out of the numeric PCA variables. Blank selected row labels use the original worksheet RowId as text; blank group labels use `(missing)`. Duplicate labels remain separate observations. The plot sequence requests scree, 2D scores, 2D loadings, biplots with scaling 0, 0.5 and 1, then 3D scores and loadings; plots requiring more retained components are skipped by the existing renderer. Eigenvalue and explained-variance boundaries retain the existing Core interpretation; the displayed variance setting is a percentage. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
+
 **Includes:** PCA on a correlation or covariance matrix; component extraction by eigenvalue, fixed number of components, or variance threshold; scores, loadings, standardized data and reduced dataset; optional observation labels and grouping for score plots/biplots; scree, score/loading, biplot, and 3D plots.  
 **Purpose:** Reduce the dimensionality of multivariate numeric data and visualize the dominant patterns among variables and observations.
 
@@ -332,7 +334,7 @@ The BESHStatNG scree plot displays **percentage variance explained** against com
 For the eigenvalue rule:
 
 $$
-k=\left|\{j:\lambda_j\ge\text{cutoff}\}\right|.
+k=\left|\{j: \lambda_j\ge\text{cutoff}\}\right|.
 $$
 
 For the fixed rule, \(k\) is the requested number of components.
@@ -340,7 +342,7 @@ For the fixed rule, \(k\) is the requested number of components.
 For the cumulative variance rule:
 
 $$
-k=\min\{j:\mathrm{CPVE}_j\ge\text{target percentage}\}.
+k=\min\{j: \mathrm{CPVE}_j\ge\text{target percentage}\}.
 $$
 
 The final value is constrained to \(1\le k\le p\).

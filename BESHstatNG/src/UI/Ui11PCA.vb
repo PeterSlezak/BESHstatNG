@@ -1,4 +1,5 @@
-﻿Imports BESHStatNG.AppInfrastructure
+﻿Imports BESHStatNG.ExcelCommon
+Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui11PCA
@@ -182,15 +183,16 @@ Public Class Ui11PCA
         Dim groupLabels() As Object = Matrix.GetColumnFrom2Darray(MyData.FinalData, 0)
         Dim rowLabels() As String = Me.GetSelectedDiscriminantRowLabels(MyData)
 
+        Dim intent = WindowsMultivariateWorkflowAdapter.Capture(MultivariateAnalysisKind.Discriminant, MyData, rowLabels, selectedKeys:=(New String() {Me.GetSelectedDiscriminantGroupingKey()}).Concat(Me.lbXs.Items.Cast(Of Object)().Select(Function(v) CStr(v)).ToArray()).ToArray())
         Dim fitDA As New Multivariate.DiscriminantAnalysis
         fitDA.dataInputs(predictorData, groupLabels, rowLabels, predictorNames)
 
         Dim priorMode As Multivariate.DiscriminantPriorMode = Me.GetSelectedDiscriminantPriorMode()
-        fitDA.settingsInputs(method:=Me.GetSelectedDiscriminantMethod(),
-                         standardization:=Me.GetSelectedDiscriminantStandardization(),
-                         missingPolicy:=Me.GetSelectedDiscriminantMissingPolicy(),
-                         priorMode:=priorMode,
-                         covarianceRegularization:=Me.GetSelectedDiscriminantRegularization())
+        Dim options As New MultivariateDiscriminantOptions With {
+            .Method = Me.GetSelectedDiscriminantMethod(), .Standardization = Me.GetSelectedDiscriminantStandardization(),
+            .Missing = Me.GetSelectedDiscriminantMissingPolicy(), .Priors = priorMode,
+            .Regularization = Me.GetSelectedDiscriminantRegularization()}
+        options.ConfigureModel(fitDA)
 
         If priorMode = Multivariate.DiscriminantPriorMode.UserSpecified Then
             Dim priorLabels() As Object = Nothing
@@ -199,11 +201,12 @@ Public Class Ui11PCA
             fitDA.priorInputs(priorLabels, priorValues)
         End If
 
-        fitDA.validationInputs(mode:=Me.GetSelectedDiscriminantValidationMode(),
-                           numberOfFolds:=Me.nudDAFolds.Value,
-                           holdoutFraction:=Me.tbDAHoldoutFraction.Value,
-                           randomSeed:=Me.GetSelectedDiscriminantRandomSeed(),
-                           stratified:=Me.ckDAStratified.Checked)
+        options.Validation = Me.GetSelectedDiscriminantValidationMode()
+        options.Folds = CInt(Me.nudDAFolds.Value)
+        options.HoldoutFraction = CDbl(Me.tbDAHoldoutFraction.Value)
+        options.Seed = Me.GetSelectedDiscriminantRandomSeed()
+        options.Stratified = Me.ckDAStratified.Checked
+        options.ConfigureValidation(fitDA)
         fitDA.Fit()
 
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
@@ -215,26 +218,23 @@ Public Class Ui11PCA
         Dim wsResults As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
         wsResults.Name = "Discriminant results"
         Dim wrSummary As New ExcelDnaResultWriter With {.wb = wb, .ws = wsResults}
-        Dim rr = New ProcessListofResultTables(fitDA.wrapResults())
+        Dim report = MultivariateReportPolicy.Project(intent, fitDA.wrapResults())
+        Dim rr = New ProcessListofResultTables(report.LegacyTables())
         rr.writeToSheet(wrSummary, True)
     End Sub
 
     Private Sub RunFA(MyData As DataObj)
+        Dim intent = WindowsMultivariateWorkflowAdapter.Capture(MultivariateAnalysisKind.Factor, MyData, selectedKeys:=Me.lbXs.Items.Cast(Of Object)().Select(Function(v) CStr(v)).ToArray())
         Dim fitFA As New Multivariate.FactorAnalysis
         fitFA.dataInputs(MyData.DataDbl, MyData.RowIds, MyData.varNames)
-        fitFA.settingsInputs(
-            maximumIteration:=Me.nudFAMaxIter.Value,
-            dEps:=ParseUiDouble(Me.tbFAEps.Text, "Convergence tolerance"),
-            analyzedMatrixType:=Me.GetSelectedFAMatrixType(),
-            extractionMethod:=Me.GetSelectedFAExtractionMethod(),
-            retentionMethod:=Me.GetSelectedFARetentionMethod(),
-            retentionValue:=Me.GetSelectedFARetentionValue(),
-            rotationMethod:=Me.GetSelectedFARotationMethod(),
-            scoreMethod:=Me.GetSelectedFAScoreMethod(),
-            communalityInitialization:=Me.GetSelectedFACommunalityInitialization(),
-            missingValuePolicy:=Me.GetSelectedFAMissingPolicy(),
-            useKaiserNormalization:=Me.ckFAKaiserNormalization.Checked,
-            promaxPower:=CDbl(Me.nudFAPromaxPower.Value))
+        Dim options As New MultivariateFactorOptions With {
+            .MaximumIterations = CInt(Me.nudFAMaxIter.Value), .Epsilon = ParseUiDouble(Me.tbFAEps.Text, "Convergence tolerance"),
+            .MatrixType = Me.GetSelectedFAMatrixType(), .Extraction = Me.GetSelectedFAExtractionMethod(),
+            .Retention = Me.GetSelectedFARetentionMethod(), .RetentionValue = Me.GetSelectedFARetentionValue(),
+            .Rotation = Me.GetSelectedFARotationMethod(), .Scores = Me.GetSelectedFAScoreMethod(),
+            .Communality = Me.GetSelectedFACommunalityInitialization(), .Missing = Me.GetSelectedFAMissingPolicy(),
+            .KaiserNormalization = Me.ckFAKaiserNormalization.Checked, .PromaxPower = CDbl(Me.nudFAPromaxPower.Value)}
+        options.Configure(fitFA)
         fitFA.Calculate()
 
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
@@ -246,27 +246,28 @@ Public Class Ui11PCA
         Dim wsResults As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
         wsResults.Name = "Factor analysis results"
         Dim wrSummary As New ExcelDnaResultWriter With {.wb = wb, .ws = wsResults}
-        Dim rr = New ProcessListofResultTables(fitFA.wrapResults())
+        Dim report = MultivariateReportPolicy.Project(intent, fitFA.wrapResults())
+        Dim rr = New ProcessListofResultTables(report.LegacyTables())
         rr.writeToSheet(wrSummary, True)
 
-        graphics.FactorAnalysisPlotExcel.ScreePlot(fitFA)
-        graphics.FactorAnalysisPlotExcel.LoadingPlot2D(fitFA)
-        graphics.FactorAnalysisPlotExcel.LoadingPlot3D(fitFA)
+        WindowsMultivariateWorkflowAdapter.RenderFactor(report, fitFA)
     End Sub
 
     Private Sub RunHierarchicalClustering(MyData As DataObj)
         Dim rowLabels() As String = Me.GetSelectedKMeansRowLabels(MyData)
 
+        Dim intent = WindowsMultivariateWorkflowAdapter.Capture(MultivariateAnalysisKind.Hierarchical, MyData, rowLabels, selectedKeys:=Me.lbXs.Items.Cast(Of Object)().Select(Function(v) CStr(v)).ToArray())
         Dim fitHierarchical As New Multivariate.HierarchicalClustering
         fitHierarchical.dataInputs(MyData.DataDbl, rowLabels, MyData.varNames)
-        fitHierarchical.settingsInputs(linkage:=Me.GetSelectedHierarchicalLinkage(),
-                                       distanceMetric:=Me.GetSelectedHierarchicalDistanceMetric(),
-                                       minkowskiPower:=ParseUiDouble(Me.tbHierarchicalMinkowskiPower.Text, "Minkowski power"),
-                                       standardization:=Me.GetSelectedHierarchicalStandardization(),
-                                       missingValuePolicy:=Me.GetSelectedHierarchicalMissingPolicy())
-        fitHierarchical.reportInputs(cutMode:=Me.GetSelectedHierarchicalMembershipMode(),
-                                     membershipClusterCount:=CInt(Me.nudHierarchicalClusters.Value),
-                                     membershipCutHeight:=ParseUiDouble(Me.tbHierarchicalCutHeight.Text, "Cut height"))
+        Dim options As New MultivariateHierarchicalOptions With {
+            .Linkage = Me.GetSelectedHierarchicalLinkage(), .Distance = Me.GetSelectedHierarchicalDistanceMetric(),
+            .MinkowskiPower = ParseUiDouble(Me.tbHierarchicalMinkowskiPower.Text, "Minkowski power"),
+            .Standardization = Me.GetSelectedHierarchicalStandardization(), .Missing = Me.GetSelectedHierarchicalMissingPolicy()}
+        options.ConfigureModel(fitHierarchical)
+        options.Cut = Me.GetSelectedHierarchicalMembershipMode()
+        options.Clusters = CInt(Me.nudHierarchicalClusters.Value)
+        options.CutHeight = ParseUiDouble(Me.tbHierarchicalCutHeight.Text, "Cut height")
+        options.ConfigureReport(fitHierarchical)
         fitHierarchical.Fit()
 
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
@@ -277,7 +278,8 @@ Public Class Ui11PCA
         wrData.ws = wsData
         wrData.write(Me.BuildKMeansInputDataTable(MyData, rowLabels))
 
-        Dim res = fitHierarchical.wrapResults()
+        Dim report = MultivariateReportPolicy.Project(intent, fitHierarchical.wrapResults())
+        Dim res = report.LegacyTables()
         Dim wrSummary As New ExcelDnaResultWriter()
         Dim wsSummary As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
         wsSummary.Name = "Hierarchical results"
@@ -286,7 +288,9 @@ Public Class Ui11PCA
         Dim rr = New ProcessListofResultTables(res)
         rr.writeToSheet(wrSummary, True)
 
-        If Me.grpHierarchicalDendrogram IsNot Nothing AndAlso Me.ckHierarchicalCreateDendrogram.Checked Then
+        Dim plotPlan = MultivariateReportPolicy.PlotPlan(intent.Kind,
+            Me.grpHierarchicalDendrogram IsNot Nothing AndAlso Me.ckHierarchicalCreateDendrogram.Checked)
+        If plotPlan.Count > 0 Then
             Dim wsDendrogram As Worksheet = CType(wb.Worksheets.Add(After:=wsSummary), Worksheet)
             wsDendrogram.Name = "Dendrogram"
             graphics.ClusterAnalysisPlotExcel.CreateDendrogramChart(fitHierarchical.Result, ws:=wsDendrogram,
@@ -306,6 +310,7 @@ Public Class Ui11PCA
     Private Sub RunKmeans(MyData As DataObj)
         Dim rowLabels() As String = Me.GetSelectedKMeansRowLabels(MyData)
 
+        Dim intent = WindowsMultivariateWorkflowAdapter.Capture(MultivariateAnalysisKind.KMeans, MyData, rowLabels, selectedKeys:=Me.lbXs.Items.Cast(Of Object)().Select(Function(v) CStr(v)).ToArray())
         Dim fitKmeans As New Multivariate.KMeans
         fitKmeans.dataInputs(MyData.DataDbl, rowLabels, MyData.varNames)
 
@@ -315,21 +320,19 @@ Public Class Ui11PCA
                                                                    expectedVariables:=MyData.nCols))
         End If
 
-        Dim seed As Integer = Integer.MinValue
+        Dim seed As Integer = MultivariateWorkflowPolicy.Seed(Nothing)
         If Me.tbKmeansSeed IsNot Nothing AndAlso Me.tbKmeansSeed.Text.Trim() <> String.Empty Then
             seed = ParseUiInteger(Me.tbKmeansSeed.Text, "Random seed")
         End If
 
-        fitKmeans.settingsInputs(numberOfClusters:=CInt(Me.nudKmeansClusters.Value),
-                             initialization:=initialization,
-                             distanceMetric:=Me.GetSelectedKMeansDistanceMetric(),
-                             nStarts:=CInt(Me.nudKmeansStarts.Value),
-                             maxIterations:=CInt(Me.nudKmeansMaxIterations.Value),
-                             convergenceTolerance:=ParseUiDouble(Me.tbKmeansTolerance.Text, "Convergence tolerance"),
-                             standardization:=Me.GetSelectedKMeansStandardization(),
-                             missingValuePolicy:=Me.GetSelectedKMeansMissingPolicy(),
-                             emptyClusterHandling:=Me.GetSelectedKMeansEmptyClusterHandling(),
-                             randomSeed:=seed)
+        Dim options As New MultivariateKMeansOptions With {
+            .Clusters = CInt(Me.nudKmeansClusters.Value), .Initialization = initialization,
+            .Distance = Me.GetSelectedKMeansDistanceMetric(), .Starts = CInt(Me.nudKmeansStarts.Value),
+            .MaximumIterations = CInt(Me.nudKmeansMaxIterations.Value),
+            .Tolerance = ParseUiDouble(Me.tbKmeansTolerance.Text, "Convergence tolerance"),
+            .Standardization = Me.GetSelectedKMeansStandardization(), .Missing = Me.GetSelectedKMeansMissingPolicy(),
+            .EmptyCluster = Me.GetSelectedKMeansEmptyClusterHandling(), .Seed = seed}
+        options.Configure(fitKmeans)
         fitKmeans.Fit()
 
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
@@ -340,7 +343,8 @@ Public Class Ui11PCA
         wrData.ws = wsData
         wrData.write(Me.BuildKMeansInputDataTable(MyData, rowLabels))
 
-        Dim res = fitKmeans.wrapResults()
+        Dim report = MultivariateReportPolicy.Project(intent, fitKmeans.wrapResults())
+        Dim res = report.LegacyTables()
         Dim wrSummary As New ExcelDnaResultWriter()
         Dim wsSummary As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
         wsSummary.Name = "KMeans results"
@@ -361,7 +365,8 @@ Public Class Ui11PCA
             MyData.SubsetByRowIdValues(ids)
         End If
 
-        mca.DataMultiple(Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(MyData.FinalData), MyData.varNames)
+        Dim intent = WindowsMultivariateWorkflowAdapter.Capture(MultivariateAnalysisKind.MCA, MyData, selectedKeys:=Me.lbXs.Items.Cast(Of Object)().Select(Function(v) CStr(v)).ToArray())
+        mca.DataMultiple(Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(MyData.FinalData), intent.VariableNames)
         mca.Calculate()
 
         'Dump results
@@ -387,7 +392,8 @@ Public Class Ui11PCA
         WriteRes.write(mca.DesignMatrix)
 
         'MCA numerical results
-        Dim res = mca.wrapResults()
+        Dim report = MultivariateReportPolicy.Project(intent, mca.wrapResults())
+        Dim res = report.LegacyTables()
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "MCA results"
@@ -396,41 +402,23 @@ Public Class Ui11PCA
         rr.writeToSheet(WriteRes, True)
 
         'Add figures
-        graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(mca)
-        graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(mca, 0, False)
-        graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(mca, 1, False)
+        WindowsMultivariateWorkflowAdapter.RenderMca(report, mca)
     End Sub
 
     Private Sub RunPCA(MyData As DataObj)
-        Dim strExtractMethod As String = String.Empty, Extractcoef As Double = 0.0, strExtractMethodLong As String = String.Empty
-        Dim strMatrix As String = If(Me.optCorr.Checked, "Correlation", "Covariance")
+        Dim correlation As Boolean = Me.optCorr.Checked
         Dim rowLabels() As String = Me.GetSelectedPcaRowLabels(MyData)
         Dim groupLabels() As String = Me.GetSelectedPcaGroupLabels(MyData)
-
-        If Me.optExtractEigen.Checked Then
-            strExtractMethod = "Eigenvalue"
-            Extractcoef = CDbl(Me.spinBtnExtractEigen.Value)
-            strExtractMethodLong = "Eigenvalue > " & CStr(Me.spinBtnExtractEigen.Value)
-
-        ElseIf Me.optExtractFixed.Checked Then
-            strExtractMethod = "Fixed"
-            Extractcoef = CDbl(Me.spinBtnExtractComp.Value)
-            strExtractMethodLong = "Fixed Number of Components = " & CStr(Me.spinBtnExtractComp.Value)
-
-        ElseIf Me.optExtractVariance.Checked Then
-            strExtractMethod = "Variance"
-            Extractcoef = CDbl(Me.spinBtnExtractVariance.Value)
-            strExtractMethodLong = "Explained Variance > " & CStr(Me.spinBtnExtractVariance.Value)
-
-        End If
+        Dim options As New MultivariatePcaOptions(correlation, Me.optExtractEigen.Checked, Me.optExtractFixed.Checked, Me.optExtractVariance.Checked,
+            Me.spinBtnExtractEigen.Value, Me.spinBtnExtractComp.Value, Me.spinBtnExtractVariance.Value)
+        Dim intent = WindowsMultivariateWorkflowAdapter.Capture(MultivariateAnalysisKind.PCA, MyData, rowLabels, groupLabels, selectedKeys:=Me.lbXs.Items.Cast(Of Object)().Select(Function(v) CStr(v)).ToArray())
 
         Dim objPCA As New Multivariate.PCA
         With objPCA
-            .dataInputs(MyData.DataDbl, MyData.RowIds, MyData.varNames, strExtractMethodLong)
-            .settingsInputs(ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
-                            ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"),
-                            strMatrix)
-            .Calculate(strExtractMethod, Extractcoef)
+            .dataInputs(MyData.DataDbl, intent.SourceRowIds, intent.VariableNames, options.Label)
+            options.Configure(objPCA, ParseUiInteger(Me.tbMaxIter.Text, "Maximum iterations"),
+                            ParseUiDouble(Me.tbEps.Text, "Convergence epsilon"))
+            .Calculate(options.CoreRetention, options.Value)
         End With
 
         'Dump results
@@ -473,7 +461,8 @@ Public Class Ui11PCA
         WriteRes.write(objPCA.ReducedDataset)
 
         'PCA numerical results
-        Dim res = objPCA.wrapResults()
+        Dim report = MultivariateReportPolicy.Project(intent, objPCA.wrapResults())
+        Dim res = report.LegacyTables()
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "PCA results"
@@ -482,14 +471,7 @@ Public Class Ui11PCA
         rr.writeToSheet(WriteRes, True)
 
         'Figures
-        graphics.PcaPlotExcel.ScreePlot(objPCA)
-        graphics.PcaPlotExcel.ScorePlot2D(objPCA, rowLabels, groupLabels)
-        graphics.PcaPlotExcel.LoadingPlot2D(objPCA)
-        graphics.PcaPlotExcel.Biplot(objPCA, 0.0, rowLabels, groupLabels)
-        graphics.PcaPlotExcel.Biplot(objPCA, 0.5, rowLabels, groupLabels)
-        graphics.PcaPlotExcel.Biplot(objPCA, 1.0, rowLabels, groupLabels)
-        graphics.PcaPlotExcel.ScorePlot3D(objPCA, rowLabels, groupLabels)
-        graphics.PcaPlotExcel.LoadingPlot3D(objPCA)
+        WindowsMultivariateWorkflowAdapter.RenderPca(report, objPCA)
 
     End Sub
 
@@ -586,22 +568,12 @@ Public Class Ui11PCA
             Dim rowLabelKey As String = Me.GetSelectedPcaRowLabelKey()
             Dim groupingKey As String = Me.GetSelectedPcaGroupingKey()
 
-            If rowLabelKey <> String.Empty AndAlso keys.Contains(rowLabelKey) Then
-                Throw New ArgumentException("The optional row label variable must not also be selected as an analysis variable.")
-            End If
-            If groupingKey <> String.Empty AndAlso keys.Contains(groupingKey) Then
-                Throw New ArgumentException("The grouping variable must not also be selected as an analysis variable.")
-            End If
-            If rowLabelKey <> String.Empty AndAlso groupingKey <> String.Empty AndAlso rowLabelKey = groupingKey Then
-                Throw New ArgumentException("The optional row label variable and grouping variable must be different columns.")
-            End If
+            MultivariateWorkflowPolicy.ValidateAuxiliaryRoles(keys, rowLabelKey, groupingKey, True)
         End If
 
         If Me.Tag = HelpTopic.KMeansClustering OrElse Me.Tag = HelpTopic.HierarchicalClustering OrElse Me.Tag = HelpTopic.FactorAnalysis Then
             Dim rowLabelKey As String = Me.GetSelectedKMeansRowLabelKey()
-            If rowLabelKey <> String.Empty AndAlso keys.Contains(rowLabelKey) Then
-                Throw New ArgumentException("The optional row label variable must not also be selected as an analysis variable.")
-            End If
+            MultivariateWorkflowPolicy.ValidateAuxiliaryRoles(keys, rowLabelKey, String.Empty, False)
 
             'Keep missing values in the imported matrix so the clustering engine can apply
             'its own missing-value policy (error vs. listwise deletion).
@@ -641,9 +613,7 @@ Public Class Ui11PCA
             Throw New ArgumentException("Please select at least one analysis variable.")
         End If
 
-        If predictorKeys.Contains(groupingKey) Then
-            Throw New ArgumentException("The grouping variable must not also be selected as an analysis variable.")
-        End If
+        MultivariateWorkflowPolicy.ValidateAuxiliaryRoles(predictorKeys, String.Empty, groupingKey, False)
 
         Dim importKeys As New List(Of String)
         importKeys.Add(groupingKey)
@@ -795,13 +765,7 @@ Public Class Ui11PCA
             Catch
             End Try
 
-            If text = String.Empty Then
-                If useRowIdForBlank Then
-                    text = CStr(MyData.RowIds(i))
-                Else
-                    text = "(missing)"
-                End If
-            End If
+            text = MultivariateWorkflowPolicy.PcaAuxiliaryLabel(text, MyData.RowIds(i), useRowIdForBlank)
             out(i) = text
         Next
 
@@ -877,7 +841,7 @@ Public Class Ui11PCA
             Catch
             End Try
 
-            If String.IsNullOrWhiteSpace(labelText) Then labelText = $"Row {MyData.RowIds(i)}"
+            labelText = MultivariateWorkflowPolicy.ObservationLabel(labelText, MyData.RowIds(i))
             out(i) = labelText
         Next
 
@@ -891,76 +855,27 @@ Public Class Ui11PCA
     End Sub
 
     Private Function GetSelectedKMeansInitialization() As Multivariate.KMeansInitializationMethod
-        Select Case Me.cbKmeansInitialization.SelectedIndex
-            Case 1
-                Return Multivariate.KMeansInitializationMethod.Forgy
-            Case 2
-                Return Multivariate.KMeansInitializationMethod.RandomPartition
-            Case 3
-                Return Multivariate.KMeansInitializationMethod.UserSpecifiedCenters
-            Case Else
-                Return Multivariate.KMeansInitializationMethod.KMeansPlusPlus
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedKMeansInitialization(Me.cbKmeansInitialization.SelectedIndex)
     End Function
 
     Private Function GetSelectedKMeansDistanceMetric() As Multivariate.KMeansDistanceMetric
-        If Me.cbKmeansDistance.SelectedIndex = 1 Then
-            Return Multivariate.KMeansDistanceMetric.Euclidean
-        End If
-        Return Multivariate.KMeansDistanceMetric.SquaredEuclidean
+        Return MultivariateLegacyChoices.GetSelectedKMeansDistanceMetric(Me.cbKmeansDistance.SelectedIndex)
     End Function
 
     Private Function GetSelectedKMeansStandardization() As Multivariate.ClusterStandardizationMode
-        Select Case Me.cbKmeansStandardization.SelectedIndex
-            Case 1
-                Return Multivariate.ClusterStandardizationMode.ZScores
-            Case 2
-                Return Multivariate.ClusterStandardizationMode.RangeZeroToOne
-            Case Else
-                Return Multivariate.ClusterStandardizationMode.None
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedKMeansStandardization(Me.cbKmeansStandardization.SelectedIndex)
     End Function
 
     Private Function GetSelectedKMeansMissingPolicy() As Multivariate.ClusterMissingValuePolicy
-        If Me.cbKmeansMissingPolicy.SelectedIndex = 1 Then
-            Return Multivariate.ClusterMissingValuePolicy.ListwiseDeletion
-        End If
-        Return Multivariate.ClusterMissingValuePolicy.ErrorOnMissing
+        Return MultivariateLegacyChoices.GetSelectedKMeansMissingPolicy(Me.cbKmeansMissingPolicy.SelectedIndex)
     End Function
 
     Private Function GetSelectedKMeansEmptyClusterHandling() As Multivariate.EmptyClusterHandlingStrategy
-        Select Case Me.cbKmeansEmptyCluster.SelectedIndex
-            Case 1
-                Return Multivariate.EmptyClusterHandlingStrategy.RandomObservation
-            Case 2
-                Return Multivariate.EmptyClusterHandlingStrategy.KeepPreviousCenter
-            Case Else
-                Return Multivariate.EmptyClusterHandlingStrategy.FarthestObservation
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedKMeansEmptyClusterHandling(Me.cbKmeansEmptyCluster.SelectedIndex)
     End Function
 
     Private Function BuildKMeansInputDataTable(MyData As DataObj, rowLabels() As String) As Object(,)
-        Dim includeRowLabels As Boolean = (rowLabels IsNot Nothing AndAlso rowLabels.Length = MyData.nRows)
-        Dim extraCols As Integer = If(includeRowLabels, 2, 1)
-        Dim out(MyData.nRows, MyData.nCols + extraCols - 1) As Object
-
-        out(0, 0) = "OriginalRow"
-        If includeRowLabels Then out(0, 1) = "RowLabel"
-
-        For j As Integer = 0 To MyData.nCols - 1
-            out(0, j + extraCols) = MyData.varNames(j)
-        Next
-
-        For i As Integer = 0 To MyData.nRows - 1
-            out(i + 1, 0) = MyData.RowIds(i)
-            If includeRowLabels Then out(i + 1, 1) = rowLabels(i)
-
-            For j As Integer = 0 To MyData.nCols - 1
-                out(i + 1, j + extraCols) = MyData.FinalData(i, j)
-            Next
-        Next
-
-        Return out
+        Return MultivariateWorkflowPolicy.ClusterInputTable(MyData.FinalData, MyData.varNames, MyData.RowIds, rowLabels)
     End Function
 
     Private Function ImportKMeansStartingCenters(expectedClusters As Integer,
@@ -1012,97 +927,35 @@ Public Class Ui11PCA
     End Sub
 
     Private Function GetSelectedHierarchicalLinkage() As Multivariate.HierarchicalLinkageMethod
-        Select Case Me.cbHierarchicalLinkage.SelectedIndex
-            Case 1
-                Return Multivariate.HierarchicalLinkageMethod.Complete
-            Case 2
-                Return Multivariate.HierarchicalLinkageMethod.Average
-            Case 3
-                Return Multivariate.HierarchicalLinkageMethod.WeightedAverage
-            Case 4
-                Return Multivariate.HierarchicalLinkageMethod.SingleLinkage
-            Case 5
-                Return Multivariate.HierarchicalLinkageMethod.Centroid
-            Case 6
-                Return Multivariate.HierarchicalLinkageMethod.Median
-            Case Else
-                Return Multivariate.HierarchicalLinkageMethod.Ward
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedHierarchicalLinkage(Me.cbHierarchicalLinkage.SelectedIndex)
     End Function
 
     Private Function GetSelectedHierarchicalDistanceMetric() As Multivariate.HierarchicalDistanceMetric
-        Select Case Me.cbHierarchicalDistance.SelectedIndex
-            Case 1
-                Return Multivariate.HierarchicalDistanceMetric.Euclidean
-            Case 2
-                Return Multivariate.HierarchicalDistanceMetric.Manhattan
-            Case 3
-                Return Multivariate.HierarchicalDistanceMetric.Chebyshev
-            Case 4
-                Return Multivariate.HierarchicalDistanceMetric.Minkowski
-            Case 5
-                Return Multivariate.HierarchicalDistanceMetric.Cosine
-            Case 6
-                Return Multivariate.HierarchicalDistanceMetric.Correlation
-            Case Else
-                Return Multivariate.HierarchicalDistanceMetric.SquaredEuclidean
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedHierarchicalDistanceMetric(Me.cbHierarchicalDistance.SelectedIndex)
     End Function
 
     Private Function GetSelectedHierarchicalStandardization() As Multivariate.ClusterStandardizationMode
-        Select Case Me.cbHierarchicalStandardization.SelectedIndex
-            Case 1
-                Return Multivariate.ClusterStandardizationMode.ZScores
-            Case 2
-                Return Multivariate.ClusterStandardizationMode.RangeZeroToOne
-            Case Else
-                Return Multivariate.ClusterStandardizationMode.None
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedHierarchicalStandardization(Me.cbHierarchicalStandardization.SelectedIndex)
     End Function
 
     Private Function GetSelectedHierarchicalMissingPolicy() As Multivariate.ClusterMissingValuePolicy
-        If Me.cbHierarchicalMissingPolicy.SelectedIndex = 1 Then
-            Return Multivariate.ClusterMissingValuePolicy.ListwiseDeletion
-        End If
-        Return Multivariate.ClusterMissingValuePolicy.ErrorOnMissing
+        Return MultivariateLegacyChoices.GetSelectedHierarchicalMissingPolicy(Me.cbHierarchicalMissingPolicy.SelectedIndex)
     End Function
 
     Private Function GetSelectedHierarchicalMembershipMode() As Multivariate.HierarchicalMembershipDisplayMode
-        If Me.optHierarchicalCutByHeight IsNot Nothing AndAlso Me.optHierarchicalCutByHeight.Checked Then
-            Return Multivariate.HierarchicalMembershipDisplayMode.ByHeight
-        End If
-        Return Multivariate.HierarchicalMembershipDisplayMode.ByClusterCount
+        Return MultivariateLegacyChoices.GetSelectedHierarchicalMembershipMode(Me.optHierarchicalCutByHeight IsNot Nothing AndAlso Me.optHierarchicalCutByHeight.Checked)
     End Function
 
     Private Function GetSelectedHierarchicalDendrogramHeightMode() As Multivariate.DendrogramHeightMode
-        If Me.cbHierarchicalHeightMode.SelectedIndex = 1 Then
-            Return Multivariate.DendrogramHeightMode.StepLevels
-        End If
-        Return Multivariate.DendrogramHeightMode.MergeDistance
+        Return MultivariateLegacyChoices.GetSelectedHierarchicalDendrogramHeightMode(Me.cbHierarchicalHeightMode.SelectedIndex)
     End Function
 
     Private Function GetSelectedHierarchicalDendrogramOrientation() As Multivariate.DendrogramOrientation
-        Select Case Me.cbHierarchicalOrientation.SelectedIndex
-            Case 1
-                Return Multivariate.DendrogramOrientation.Bottom
-            Case 2
-                Return Multivariate.DendrogramOrientation.Left
-            Case 3
-                Return Multivariate.DendrogramOrientation.Right
-            Case Else
-                Return Multivariate.DendrogramOrientation.Top
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedHierarchicalDendrogramOrientation(Me.cbHierarchicalOrientation.SelectedIndex)
     End Function
 
     Private Function GetSelectedHierarchicalDendrogramLabelMode() As Multivariate.DendrogramLabelMode
-        Select Case Me.cbHierarchicalLabelMode.SelectedIndex
-            Case 1
-                Return Multivariate.DendrogramLabelMode.AxisTitle
-            Case 2
-                Return Multivariate.DendrogramLabelMode.None
-            Case Else
-                Return Multivariate.DendrogramLabelMode.DataLabels
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedHierarchicalDendrogramLabelMode(Me.cbHierarchicalLabelMode.SelectedIndex)
     End Function
 
     '--------------------------------------------------------------------------
@@ -1132,87 +985,36 @@ Public Class Ui11PCA
     End Sub
 
     Private Function GetSelectedFAMatrixType() As Multivariate.FactorAnalysisMatrixType
-        If Me.optFACovariance.Checked Then
-            Return Multivariate.FactorAnalysisMatrixType.Covariance
-        End If
-        Return Multivariate.FactorAnalysisMatrixType.Correlation
+        Return MultivariateLegacyChoices.GetSelectedFAMatrixType(Me.optFACovariance.Checked)
     End Function
 
     Private Function GetSelectedFAExtractionMethod() As Multivariate.FactorAnalysisExtractionMethod
-        Select Case Me.cbFAExtraction.SelectedIndex
-            Case 1
-                Return Multivariate.FactorAnalysisExtractionMethod.PrincipalAxis
-            Case 2
-                Return Multivariate.FactorAnalysisExtractionMethod.MaximumLikelihood ' MaximumLikelihood after enum extension
-            Case 3
-                Return Multivariate.FactorAnalysisExtractionMethod.GeneralizedLeastSquares ' GeneralizedLeastSquares after enum extension
-            Case 4
-                Return Multivariate.FactorAnalysisExtractionMethod.Image ' Image after enum extension
-            Case 5
-                Return Multivariate.FactorAnalysisExtractionMethod.Alpha ' Alpha after enum extension
-            Case Else
-                Return Multivariate.FactorAnalysisExtractionMethod.PrincipalComponents
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedFAExtractionMethod(Me.cbFAExtraction.SelectedIndex)
     End Function
 
     Private Function GetSelectedFARetentionMethod() As Multivariate.FactorAnalysisRetentionMethod
-        If Me.optFAExtractEigen.Checked Then
-            Return Multivariate.FactorAnalysisRetentionMethod.Eigenvalue
-        End If
-        If Me.optFAExtractVariance.Checked Then
-            Return Multivariate.FactorAnalysisRetentionMethod.Variance
-        End If
-        Return Multivariate.FactorAnalysisRetentionMethod.Fixed
+        Return MultivariateLegacyChoices.GetSelectedFARetentionMethod(Me.optFAExtractEigen.Checked, Me.optFAExtractVariance.Checked)
     End Function
 
     Private Function GetSelectedFARetentionValue() As Double
-        If Me.optFAExtractEigen.Checked Then
-            Return CDbl(Me.nudFAEigen.Value)
-        End If
-        If Me.optFAExtractVariance.Checked Then
-            Return CDbl(Me.nudFAVariance.Value)
-        End If
-        Return CDbl(Me.nudFAFactors.Value)
+        Return MultivariateWorkflowPolicy.FactorRetentionValue(Me.optFAExtractEigen.Checked, Me.optFAExtractVariance.Checked,
+            CDbl(Me.nudFAEigen.Value), CDbl(Me.nudFAVariance.Value), CDbl(Me.nudFAFactors.Value))
     End Function
 
     Private Function GetSelectedFARotationMethod() As Multivariate.FactorAnalysisRotationMethod
-        Select Case Me.cbFARotation.SelectedIndex
-            Case 1
-                Return Multivariate.FactorAnalysisRotationMethod.Varimax
-            Case 2
-                Return Multivariate.FactorAnalysisRotationMethod.Quartimax
-            Case 3
-                Return Multivariate.FactorAnalysisRotationMethod.Equamax
-            Case 4
-                Return Multivariate.FactorAnalysisRotationMethod.Promax
-            Case Else
-                Return Multivariate.FactorAnalysisRotationMethod.None
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedFARotationMethod(Me.cbFARotation.SelectedIndex)
     End Function
 
     Private Function GetSelectedFAScoreMethod() As Multivariate.FactorAnalysisScoreMethod
-        Select Case Me.cbFAScoreMethod.SelectedIndex
-            Case 1
-                Return Multivariate.FactorAnalysisScoreMethod.Regression
-            Case 2
-                Return Multivariate.FactorAnalysisScoreMethod.Bartlett
-            Case Else
-                Return Multivariate.FactorAnalysisScoreMethod.None
-        End Select
+        Return MultivariateLegacyChoices.GetSelectedFAScoreMethod(Me.cbFAScoreMethod.SelectedIndex)
     End Function
 
     Private Function GetSelectedFACommunalityInitialization() As Multivariate.FactorAnalysisCommunalityInitialization
-        If Me.cbFACommunalityInit.SelectedIndex = 1 Then
-            Return Multivariate.FactorAnalysisCommunalityInitialization.One
-        End If
-        Return Multivariate.FactorAnalysisCommunalityInitialization.SquaredMultipleCorrelation
+        Return MultivariateLegacyChoices.GetSelectedFACommunalityInitialization(Me.cbFACommunalityInit.SelectedIndex)
     End Function
 
     Private Function GetSelectedFAMissingPolicy() As Multivariate.FactorAnalysisMissingValuePolicy
-        If Me.cbFAMissingPolicy.SelectedIndex = 1 Then
-            Return Multivariate.FactorAnalysisMissingValuePolicy.ListwiseDeletion
-        End If
-        Return Multivariate.FactorAnalysisMissingValuePolicy.ErrorOnMissing
+        Return MultivariateLegacyChoices.GetSelectedFAMissingPolicy(Me.cbFAMissingPolicy.SelectedIndex)
     End Function
 
     '--------------------------------------------------------------------------
@@ -1284,60 +1086,15 @@ Public Class Ui11PCA
     Private Function BuildDiscriminantInputDataTable(MyData As DataObj,
                                                  groupLabels() As Object,
                                                  rowLabels() As String) As Object(,)
-        Dim predictorNames() As String = Me.ExtractDiscriminantPredictorNames(MyData)
-        Dim includeRowLabels As Boolean = (rowLabels IsNot Nothing AndAlso rowLabels.Length = MyData.nRows)
-
-        Dim totalCols As Integer = predictorNames.Length + 1
-        If includeRowLabels Then totalCols += 1
-
-        Dim out(MyData.nRows, totalCols - 1) As Object
-        Dim col As Integer = 0
-
-        If includeRowLabels Then
-            out(0, col) = "Row label"
-            col += 1
-        End If
-
-        out(0, col) = MyData.varNames(0)
-        col += 1
-
-        For j As Integer = 0 To predictorNames.Length - 1
-            out(0, col + j) = predictorNames(j)
-        Next
-
-        For i As Integer = 0 To MyData.nRows - 1
-            col = 0
-
-            If includeRowLabels Then
-                out(i + 1, col) = rowLabels(i)
-                col += 1
-            End If
-
-            out(i + 1, col) = groupLabels(i)
-            col += 1
-
-            For j As Integer = 1 To MyData.nCols - 1
-                out(i + 1, col + j - 1) = MyData.FinalData(i, j)
-            Next
-        Next
-
-        Return out
+        Return MultivariateWorkflowPolicy.DiscriminantInputTable(MyData.FinalData, MyData.varNames, groupLabels, rowLabels)
     End Function
 
     Private Function GetSelectedDiscriminantMethod() As Multivariate.DiscriminantAnalysisMethod
-        Dim txt As String = Me.cbDAMethod.SelectedItem
-        If txt.IndexOf("quadratic", StringComparison.OrdinalIgnoreCase) >= 0 OrElse txt.IndexOf("qda", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            Return Multivariate.DiscriminantAnalysisMethod.Quadratic
-        End If
-        Return Multivariate.DiscriminantAnalysisMethod.Linear
+        Return MultivariateLegacyChoices.GetSelectedDiscriminantMethod(CStr(Me.cbDAMethod.SelectedItem))
     End Function
 
     Private Function GetSelectedDiscriminantMissingPolicy() As Multivariate.ClusterMissingValuePolicy
-        Dim txt As String = Me.cbDAMissingPolicy.SelectedItem
-        If txt.IndexOf("listwise", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            Return Multivariate.ClusterMissingValuePolicy.ListwiseDeletion
-        End If
-        Return Multivariate.ClusterMissingValuePolicy.ErrorOnMissing
+        Return MultivariateLegacyChoices.GetSelectedDiscriminantMissingPolicy(CStr(Me.cbDAMissingPolicy.SelectedItem))
     End Function
 
     Private Function GetSelectedDiscriminantRowLabels(MyData As DataObj) As String()
@@ -1356,7 +1113,7 @@ Public Class Ui11PCA
             Catch
             End Try
 
-            If String.IsNullOrWhiteSpace(labelText) Then labelText = $"Row {MyData.RowIds(i)}"
+            labelText = MultivariateWorkflowPolicy.ObservationLabel(labelText, MyData.RowIds(i))
             out(i) = labelText
         Next
 
@@ -1364,68 +1121,11 @@ Public Class Ui11PCA
     End Function
 
     Private Sub GetDiscriminantUserPriors(ByRef categoryLabels() As Object, ByRef priorProbabilities() As Double)
-        Dim txt As String = Me.tbDAUserPriors.Text
-        If txt.Trim() = String.Empty Then
-            Throw New ArgumentException("User-specified priors were selected, but no prior definitions were supplied. Use the format GroupA=0.4; GroupB=0.6 or place each definition on a new line.")
-        End If
-
-        Dim normalized As String = txt.Replace(vbCrLf, vbLf).Replace(vbCr, vbLf)
-        Dim chunks() As String = normalized.Split(New String() {vbLf, ";"}, StringSplitOptions.RemoveEmptyEntries)
-
-        Dim labelList As New List(Of Object)
-        Dim valueList As New List(Of Double)
-
-        For Each rawChunk As String In chunks
-            Dim chunk As String = rawChunk.Trim()
-            If chunk = String.Empty Then Continue For
-
-            Dim splitPos As Integer = chunk.IndexOf("="c)
-            If splitPos < 0 Then splitPos = chunk.IndexOf(":"c)
-            If splitPos <= 0 OrElse splitPos >= chunk.Length - 1 Then
-                Throw New ArgumentException("Each user prior must be written as label=probability (for example: GroupA=0.4). Separate multiple definitions with semicolons or new lines.")
-            End If
-
-            Dim label As String = chunk.Substring(0, splitPos).Trim()
-            Dim valueText As String = chunk.Substring(splitPos + 1).Trim()
-
-            If label = String.Empty Then
-                Throw New ArgumentException("Each user prior must include a non-empty group label.")
-            End If
-
-            Dim p As Double
-            If Not Double.TryParse(valueText,
-                               System.Globalization.NumberStyles.Float Or System.Globalization.NumberStyles.AllowThousands,
-                               System.Globalization.CultureInfo.CurrentCulture,
-                               p) Then
-                If Not Double.TryParse(valueText,
-                                   System.Globalization.NumberStyles.Float Or System.Globalization.NumberStyles.AllowThousands,
-                                   System.Globalization.CultureInfo.InvariantCulture,
-                                   p) Then
-                    Throw New ArgumentException("Could not parse the user-specified prior probability '" & valueText & "'.")
-                End If
-            End If
-
-            labelList.Add(label)
-            valueList.Add(p)
-        Next
-
-        If labelList.Count = 0 Then
-            Throw New ArgumentException("No valid user-specified priors were found.")
-        End If
-
-        categoryLabels = labelList.ToArray()
-        priorProbabilities = valueList.ToArray()
+        MultivariateLegacyChoices.ParsePriors(Me.tbDAUserPriors.Text, categoryLabels, priorProbabilities)
     End Sub
 
     Private Function GetSelectedDiscriminantStandardization() As Multivariate.ClusterStandardizationMode
-        Dim txt As String = Me.cbDAStandardization.SelectedItem
-        If txt.IndexOf("z", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            Return Multivariate.ClusterStandardizationMode.ZScores
-        End If
-        If txt.IndexOf("range", StringComparison.OrdinalIgnoreCase) >= 0 OrElse txt.IndexOf("0 to 1", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            Return Multivariate.ClusterStandardizationMode.RangeZeroToOne
-        End If
-        Return Multivariate.ClusterStandardizationMode.None
+        Return MultivariateLegacyChoices.GetSelectedDiscriminantStandardization(CStr(Me.cbDAStandardization.SelectedItem))
     End Function
 
     Private Sub PopulateOptionalDiscriminantRowLabelItems()
@@ -1458,32 +1158,11 @@ Public Class Ui11PCA
     End Sub
 
     Private Function GetSelectedDiscriminantPriorMode() As Multivariate.DiscriminantPriorMode
-        Dim txt As String = String.Empty
-        If Me.cbDAPriors IsNot Nothing AndAlso Me.cbDAPriors.SelectedItem IsNot Nothing Then txt = CStr(Me.cbDAPriors.SelectedItem)
-
-        If txt.IndexOf("user", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            Return Multivariate.DiscriminantPriorMode.UserSpecified
-        End If
-        If txt.IndexOf("equal", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            Return Multivariate.DiscriminantPriorMode.Equal
-        End If
-        Return Multivariate.DiscriminantPriorMode.ProportionalToGroupSizes
+        Return MultivariateLegacyChoices.GetSelectedDiscriminantPriorMode(If(Me.cbDAPriors Is Nothing OrElse Me.cbDAPriors.SelectedItem Is Nothing, String.Empty, CStr(Me.cbDAPriors.SelectedItem)))
     End Function
 
     Private Function GetSelectedDiscriminantValidationMode() As Multivariate.DiscriminantValidationMode
-        Dim txt As String = String.Empty
-        If Me.cbDAValidation IsNot Nothing AndAlso Me.cbDAValidation.SelectedItem IsNot Nothing Then txt = CStr(Me.cbDAValidation.SelectedItem)
-
-        If txt.IndexOf("leave", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            Return Multivariate.DiscriminantValidationMode.LeaveOneOut
-        End If
-        If txt.IndexOf("k-fold", StringComparison.OrdinalIgnoreCase) >= 0 OrElse txt.IndexOf("k fold", StringComparison.OrdinalIgnoreCase) >= 0 OrElse txt.IndexOf("kfold", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            Return Multivariate.DiscriminantValidationMode.KFold
-        End If
-        If txt.IndexOf("holdout", StringComparison.OrdinalIgnoreCase) >= 0 Then
-            Return Multivariate.DiscriminantValidationMode.Holdout
-        End If
-        Return Multivariate.DiscriminantValidationMode.None
+        Return MultivariateLegacyChoices.GetSelectedDiscriminantValidationMode(If(Me.cbDAValidation Is Nothing OrElse Me.cbDAValidation.SelectedItem Is Nothing, String.Empty, CStr(Me.cbDAValidation.SelectedItem)))
     End Function
 
     Private Function GetSelectedDiscriminantRandomSeed() As Integer

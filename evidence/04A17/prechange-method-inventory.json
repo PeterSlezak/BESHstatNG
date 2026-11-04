@@ -1,0 +1,765 @@
+{
+  "base": "13c6364f63fb8d4a254e5759e871896caf29cd7b",
+  "files": {
+    "BESHstatNG/src/UI/Ui11PCA.vb": {
+      "sha256": "4a7de253e98713a53b0132f6aba65b11f42d259c310ec572191c34bd82036cbf",
+      "bytes": 73191,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 1545,
+      "final_newline": false,
+      "methods": {
+        "New": {
+          "sha256": "b1a7b30de0ecaf736605dfcc9d86c236b011ffe1596c7507414ebbda42c699e2",
+          "first_line": 11
+        },
+        "btCalculate_Click": {
+          "sha256": "e1fe2ab85fe7155c33348e339db1f79024689654e6ed664a169fa4b2807b0cb2",
+          "first_line": 142
+        },
+        "RunDiscriminantAnalysis": {
+          "sha256": "d08df293cab5f6ad15bb79c16ae841643d56461acbce9fd1926f4792e56e2d02",
+          "first_line": 179
+        },
+        "RunFA": {
+          "sha256": "b47e22584b8ec6d44ad294cecfbc0094c077ce12d70e34c1b8fe2d80446f22fd",
+          "first_line": 222
+        },
+        "RunHierarchicalClustering": {
+          "sha256": "1ae82ddb739f35b34d61c1bd2ab10cb77ca663f4c481340d2c5a9578fcd1a850",
+          "first_line": 257
+        },
+        "RunKmeans": {
+          "sha256": "5eb1715646cb2f68a4e7bdbf29624008db1ceaf1cfc4fbe42aee735a5aa41d26",
+          "first_line": 306
+        },
+        "RunMCA": {
+          "sha256": "a91393f120b3e532f95f4c2a02f837aabf916bd12c5516421d04062ff496443a",
+          "first_line": 353
+        },
+        "RunPCA": {
+          "sha256": "7779fe855502ada0d2e20e4d7f75c836ebef58f186dacac76156a0d31895f374",
+          "first_line": 404
+        },
+        "RunSPM": {
+          "sha256": "35ec76d83076150310b4056e6182276e0597d3b4281d3c2f5f8e3064390bf52b",
+          "first_line": 496
+        },
+        "btAddX_Click": {
+          "sha256": "cd0d2f6ef99efca4a3af1c4acf2201e55dca559756ecf3c00161e56ccb18b78b",
+          "first_line": 502
+        },
+        "btRemoveX_Click": {
+          "sha256": "3e1778d5374077ab4ed9a36f17d399ab35474e5677251ed3e27f3fc159531014",
+          "first_line": 518
+        },
+        "btReload_Click": {
+          "sha256": "0f9d9afe57c77c38ada299ac9084737c18f256513edd81f6888efe59c445017f",
+          "first_line": 522
+        },
+        "cbGruppingVar_SelectedIndexChanged": {
+          "sha256": "b71371482d851c74a8bb934bbbb06e913a4c890df054949831b212806742f308",
+          "first_line": 537
+        },
+        "cbRowLabel_SelectedIndexChanged": {
+          "sha256": "606274ff6bac7f97ae2fd1da638e847db736dfc3555448d2d511c0dd22fa6b1b",
+          "first_line": 561
+        },
+        "DiscriminantPriorModeChanged": {
+          "sha256": "072b656049eaa91c2d9579c3f6be84160fa96f8e1d296f3b0d86132f2ec22b34",
+          "first_line": 566
+        },
+        "DiscriminantValidationChanged": {
+          "sha256": "36c931f686132ee2c5310b7eed8b39b3bf98438c252a48581142f309d6e55eb2",
+          "first_line": 570
+        },
+        "GetData": {
+          "sha256": "72c00bc24494ab5f2976da34f86820e3198335d563c2ee744df16b3a9fab8a27",
+          "first_line": 574
+        },
+        "GetDiscriminantData": {
+          "sha256": "88fa147a3154544fb1713f93b1acdca678109f689cc69da421b8925a93d22c14",
+          "first_line": 625
+        },
+        "Populate": {
+          "sha256": "ee51823e17925904a260547a210fd39b982354144a97407bd5834fbf441678a5",
+          "first_line": 675
+        },
+        "PopulatePcaAuxiliaryItems": {
+          "sha256": "266665df7fcd756baf1fe6f49e2748b4380d54f65d95e85d886696e1079a9635",
+          "first_line": 721
+        },
+        "PopulatePcaAuxiliaryCombo": {
+          "sha256": "1d8bed5429f70ef9f23161fb09c932675ac833dbbc39080eb4fe4c6bcb788b6f",
+          "first_line": 726
+        },
+        "GetSelectedPcaRowLabelKey": {
+          "sha256": "4b439cfd982de3b8455a96cf9df6126ddcd93e622c9461527b3a401d34cf7c07",
+          "first_line": 754
+        },
+        "GetSelectedPcaGroupingKey": {
+          "sha256": "fb6fa65fa5c186d655ad2efa45f62dd0db9e2bf480504557a6d121d64954d457",
+          "first_line": 758
+        },
+        "GetSelectedPcaAuxiliaryKey": {
+          "sha256": "fced6c7102f8ec187f7152026ddd56af70d2e8821ceb67a438ce524e5ca6ffd9",
+          "first_line": 762
+        },
+        "GetSelectedPcaRowLabels": {
+          "sha256": "faa3cabf8429411d848889db56a52148866f4242ddc56e6be2b9cbf8a4c4480c",
+          "first_line": 767
+        },
+        "GetSelectedPcaGroupLabels": {
+          "sha256": "f140129cf1b1e75d50487c3ea4925363a746936ef72ac7cee70b3a6cfd33f407",
+          "first_line": 773
+        },
+        "ReadPcaAuxiliaryColumn": {
+          "sha256": "f9885f3cfa5d2167b7d4e05ebc952c9fc230112042ac16d1c3d8136403256b95",
+          "first_line": 779
+        },
+        "RemovePcaAuxiliaryVariableFromAnalysisList": {
+          "sha256": "152b7fc153d83e892ab3cc2a45af5b0004db9d80ebc329d50a6a0d280a575af9",
+          "first_line": 811
+        },
+        "PopulateKMeansRowLabelItems": {
+          "sha256": "23c4d4d274ec365ae7dfe156b47f9019368c95827d55d85a19043711e3740bd3",
+          "first_line": 829
+        },
+        "GetSelectedKMeansRowLabelKey": {
+          "sha256": "73d09b04815823165c5055145bde6db40f5b7ec569626e34eec81b63011c8b5d",
+          "first_line": 857
+        },
+        "GetSelectedKMeansRowLabels": {
+          "sha256": "c291391c8c691724b1e0de650f870defdf99ca0055386139b3171c02ae2ab426",
+          "first_line": 864
+        },
+        "KMeansInitializationChanged": {
+          "sha256": "e6a646610b30bbe9003661d9f819ab2cfae13d3ac38d300e3609c040dbb30b0d",
+          "first_line": 887
+        },
+        "GetSelectedKMeansInitialization": {
+          "sha256": "0cc96e4767cf6e7fa2fcebad568f3b79f4ced2c2cc42908160766a6783200886",
+          "first_line": 893
+        },
+        "GetSelectedKMeansDistanceMetric": {
+          "sha256": "b7d51f3b9e97971775490dc18dd553953d5d7337297edf01ad884baa937d33ac",
+          "first_line": 906
+        },
+        "GetSelectedKMeansStandardization": {
+          "sha256": "b28903917534f57d9ee1d6580e2237b481156083615e74943ce4f155c19b2447",
+          "first_line": 913
+        },
+        "GetSelectedKMeansMissingPolicy": {
+          "sha256": "108aae0bc3aa9b06749d14edf391e8b173576e986ae2caf5e9f0b4351ec261be",
+          "first_line": 924
+        },
+        "GetSelectedKMeansEmptyClusterHandling": {
+          "sha256": "59a6023243308f6474f1950dd9f4c12cb6abaa74d0be8416433b666b312e14c2",
+          "first_line": 931
+        },
+        "BuildKMeansInputDataTable": {
+          "sha256": "daf426b57ebcc5f4139b659ace24a552fd4503c6c8608e39333e87f7b3cd99c4",
+          "first_line": 942
+        },
+        "ImportKMeansStartingCenters": {
+          "sha256": "6628638e846c55793b32ab794c5265d0f161e1e1e52975359abfea9c9306ff8a",
+          "first_line": 966
+        },
+        "HierarchicalDistanceChanged": {
+          "sha256": "a12abf595afa1bcaa776811fc7055f9c3303e62ebbc509c6552614058d806946",
+          "first_line": 1002
+        },
+        "HierarchicalMembershipModeChanged": {
+          "sha256": "e871ef208e39244b6f3b530f29168112d3226e6c9ad22fe4fa2134c60613194f",
+          "first_line": 1008
+        },
+        "GetSelectedHierarchicalLinkage": {
+          "sha256": "51043c8451468f279643162ab8c7f6b717d314e88d8e74de9bb3c418ad609321",
+          "first_line": 1014
+        },
+        "GetSelectedHierarchicalDistanceMetric": {
+          "sha256": "8b139a0a6aee26ec18ff89ecd21087aa59a48d221849b7eecb8fdee39d4b1bdf",
+          "first_line": 1033
+        },
+        "GetSelectedHierarchicalStandardization": {
+          "sha256": "966a97c81aa7b84167e6775c35e68ca1ade79381d7b17e8c2560409cccfb4e9e",
+          "first_line": 1052
+        },
+        "GetSelectedHierarchicalMissingPolicy": {
+          "sha256": "2216c00c8baf0d333a707e43fa088813f7c7f1245a79c7594c32e1412f95b3be",
+          "first_line": 1063
+        },
+        "GetSelectedHierarchicalMembershipMode": {
+          "sha256": "03431b55ae7d3bdcae596174a1eadd235d8df3d470ef80cff32be172a566b4d3",
+          "first_line": 1070
+        },
+        "GetSelectedHierarchicalDendrogramHeightMode": {
+          "sha256": "6f19395d5ab5e394fe402cbea4c3e5edf842cf2bb869c4db01614acda21491ee",
+          "first_line": 1077
+        },
+        "GetSelectedHierarchicalDendrogramOrientation": {
+          "sha256": "e25ab5412626cab864f698fab362454a1d3ce270f11ca85952db9a04d0f3bac1",
+          "first_line": 1084
+        },
+        "GetSelectedHierarchicalDendrogramLabelMode": {
+          "sha256": "340a96bcc7237944c036e7d7d9a9d19f5b8cb6b2c6bf67235e617042118f067b",
+          "first_line": 1097
+        },
+        "FactorAnalysisExtractionChanged": {
+          "sha256": "c75ce64f7f0e406440af22b79a6e7d92638bb099e7b3e42a70bb92568f7b0a70",
+          "first_line": 1111
+        },
+        "FactorAnalysisRotationChanged": {
+          "sha256": "b9327a0c60385cbdcd46a82ce8f4fc4b6a7145475bcc87d74d11789c23e7e836",
+          "first_line": 1118
+        },
+        "FactorAnalysisRetentionChanged": {
+          "sha256": "caa053ed42121a72a0483354d59b48c2a1f5dea9aff5128353d6ddbdd440f04c",
+          "first_line": 1128
+        },
+        "GetSelectedFAMatrixType": {
+          "sha256": "d85f1ae30c92944420ffbf135e67e441ca71d3ee9e34d6e0f406fc67aa8a23d2",
+          "first_line": 1134
+        },
+        "GetSelectedFAExtractionMethod": {
+          "sha256": "a0de380a552ff8b0c8d2a1a71afa9a38c05e986e03019a3ab5b01591c04a4d37",
+          "first_line": 1141
+        },
+        "GetSelectedFARetentionMethod": {
+          "sha256": "471a2d9ee2a79d9ea0dccd5bc6ebac00caf56b3fafb97ad19d35c02d8dd7878b",
+          "first_line": 1158
+        },
+        "GetSelectedFARetentionValue": {
+          "sha256": "f57399329131e2e501e265e0ce48ace42f9628a20388139417e6e66995b8d4e4",
+          "first_line": 1168
+        },
+        "GetSelectedFARotationMethod": {
+          "sha256": "6380dae34d845a430fc1b2f6fd04dcf0040cd364396c8d6a3ce74581f1bafb2e",
+          "first_line": 1178
+        },
+        "GetSelectedFAScoreMethod": {
+          "sha256": "ed9e0903a8ae6e36a6034e7114f21104a885a8b58fbb00cc85434bae02caadb4",
+          "first_line": 1193
+        },
+        "GetSelectedFACommunalityInitialization": {
+          "sha256": "ff3c5800990357e94874e765d7215e027bde9c68888aef46358b559a1df7e798",
+          "first_line": 1204
+        },
+        "GetSelectedFAMissingPolicy": {
+          "sha256": "f4b2f213e41eb55ebab3f02398bda73248ba8db2702d569ad4b298e5b7e2ba64",
+          "first_line": 1211
+        },
+        "PopulateDiscriminantGroupingItems": {
+          "sha256": "0d71fc7ccb75e4f6771bb60883cd5b94a5f35fb510133b4a2064b2f81d168f06",
+          "first_line": 1221
+        },
+        "GetSelectedDiscriminantGroupingKey": {
+          "sha256": "e8e3ddeda3db6304cbc27fc0bfae8ff9c38cd3fae2153da7d4b07cc08d1e08a3",
+          "first_line": 1247
+        },
+        "ExtractDiscriminantPredictorData": {
+          "sha256": "78ce55dc8d7d322c522f6d7d0bd27e780dc1e93f159ee69a1562a7aa77d2b770",
+          "first_line": 1254
+        },
+        "ExtractDiscriminantPredictorNames": {
+          "sha256": "f5a9d0538e44c9ef6f09f7767693cbb3623355573b1cf83413bd20d4e2bd89a3",
+          "first_line": 1272
+        },
+        "BuildDiscriminantInputDataTable": {
+          "sha256": "f3015358f0b7c18cd11c49fe2cf9cd7adc2661b2a3c92637e40fc2ccd4591dfd",
+          "first_line": 1284
+        },
+        "GetSelectedDiscriminantMethod": {
+          "sha256": "99383a9e928a43ef797af67dbc27ed14623617fa7f854600be0c2bf3b3b20fed",
+          "first_line": 1327
+        },
+        "GetSelectedDiscriminantMissingPolicy": {
+          "sha256": "f01b415e8d890973d63021b6b94d1d201410e4e7d39cc58d533920ec276b56d2",
+          "first_line": 1335
+        },
+        "GetSelectedDiscriminantRowLabels": {
+          "sha256": "0053139357bff912db4aa9845e7869fb6154f877fa3987133bfaab7a3e8a2ec2",
+          "first_line": 1343
+        },
+        "GetDiscriminantUserPriors": {
+          "sha256": "740da8e29a15bb92d123b48fabda720bd1eb7a4069d215bac5a8dfd00784e63c",
+          "first_line": 1366
+        },
+        "GetSelectedDiscriminantStandardization": {
+          "sha256": "fd610ced41476154a58862442d4e9bb0f83233db30a5999ef4d8c0b2d3e90f17",
+          "first_line": 1420
+        },
+        "PopulateOptionalDiscriminantRowLabelItems": {
+          "sha256": "b4bf22d985b8931035e894c08c2dd1b1e430cea7a6de200b6f40ff8cfd58d751",
+          "first_line": 1431
+        },
+        "GetSelectedDiscriminantPriorMode": {
+          "sha256": "955f5de439ace02e290ac1739730a53f0b9e864b5255e012ea387a50559a1b95",
+          "first_line": 1460
+        },
+        "GetSelectedDiscriminantValidationMode": {
+          "sha256": "5829e2e127e8822891bf263a9de63899153597f70ede61ba8f1b5c54ce156711",
+          "first_line": 1473
+        },
+        "GetSelectedDiscriminantRandomSeed": {
+          "sha256": "de3b20fd0f8c019d5ae3db7e1dc315c7217db8715e0f46cab4c115b6ea7a8265",
+          "first_line": 1489
+        },
+        "GetSelectedDiscriminantRegularization": {
+          "sha256": "77ed095644206107e5ee0ba493cc1bce3d4d346f5f5d3e65b14220f870a1a009",
+          "first_line": 1495
+        },
+        "UpdateDiscriminantOptionStates": {
+          "sha256": "e00cebfce6bf938c8715adc7cf753516bf31520fd2b664c0e30e1f8b87e42796",
+          "first_line": 1501
+        },
+        "GetSelectedDiscriminantRowLabelKey": {
+          "sha256": "2f2cc0955ca29eb53a36ce21fe9a3f29305eecff038f4b0fd8c202b251b02746",
+          "first_line": 1539
+        }
+      }
+    },
+    "BESHstatNG/src/UI/Ui11PCA.Designer.vb": {
+      "sha256": "5d7c2fd53af135a09a9b5cf05672e6b042f36e81a3bc20169f00e009743692a6",
+      "bytes": 118304,
+      "encoding": "UTF-8 BOM",
+      "crlf": 2055,
+      "bare_lf": 0,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHstatNG/src/UI/Ui11PCA.resx": {
+      "sha256": "df41a5331203907e88f31ee7b8d50ed74c7098409c4c0ef4e5f6d9ed719269a0",
+      "bytes": 7320,
+      "encoding": "UTF-8 BOM",
+      "crlf": 138,
+      "bare_lf": 0,
+      "final_newline": false,
+      "methods": {}
+    },
+    "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb": {
+      "sha256": "f31d9194441277ed72cee9bc82c3f6d68af92459b44e2bfbe3f038da5b3fae17",
+      "bytes": 36638,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 865,
+      "final_newline": true,
+      "methods": {
+        "New": {
+          "sha256": "a42b814ecefed6b1a04458dafd5acd538d5fee27797bb1ed30bc1fb46aa1fabe",
+          "first_line": 21
+        },
+        "checkInputs": {
+          "sha256": "0b30b704cbf877be36637dfbb6fa4a448042568045f8c9c74a764c785b8240f0",
+          "first_line": 84
+        },
+        "CheckKiteInputRange": {
+          "sha256": "d5eb8a14ebd3c19caa4e6da68900ee563efea2ead103531f99f260894a4446f5",
+          "first_line": 113
+        },
+        "getDataMultipleGroups": {
+          "sha256": "0fd5e87bf80b592f4508a34faed37b224f56ee6dc9bfcd45c3ffaf1840d0283d",
+          "first_line": 158
+        },
+        "getCAdata": {
+          "sha256": "2cf254529fbfdc22c963ce90c368547bf48dbe84129a2cc8cf519f074c86b1bb",
+          "first_line": 177
+        },
+        "getDataICC11": {
+          "sha256": "4155a9a56fa4f6cb7c15264e0bb7a79407b10f20ff6a5575f70c99c914a3b192",
+          "first_line": 191
+        },
+        "btCompute_Click": {
+          "sha256": "f6e592773736043f4cc4a81d2b9ea8a5b109a38c90f60b5070ced14ce3202226",
+          "first_line": 223
+        },
+        "GetKiteChartInput": {
+          "sha256": "4a9f46ec1f818d679a5f775b19a63ec8e46b92a7785af0105710cec0b0eda1a9",
+          "first_line": 277
+        },
+        "RunKiteChart": {
+          "sha256": "951c41ea6bcae00d5e982c8731883d49d7a16139188ae938fbdfb2914f07c0dc",
+          "first_line": 366
+        },
+        "ResolveKiteChartOutput": {
+          "sha256": "3dedb56146d87305ccce7fd581be2e6cce5ac7a7d4ddeb05f0b1bdab093cb847",
+          "first_line": 411
+        },
+        "ToKiteDoubleOrNaN": {
+          "sha256": "1a32652fafd682cbaef05272e4125755c76b9bcb6252eeea92b047c2e14c4a33",
+          "first_line": 439
+        },
+        "RunICC": {
+          "sha256": "0bde3fbb3077b1cbd0da0427f7952cd496c25ffd30de513ec6b5881846a943bd",
+          "first_line": 445
+        },
+        "RunCA": {
+          "sha256": "2a73c16fb7be2a08ef88348f6771d9865f6b8d9ec9cac8acab0204e989bc5f2d",
+          "first_line": 512
+        },
+        "RunSkillingsMack": {
+          "sha256": "acff2f6536fd89ee8693cb98d78752e1fcec8dfb82ab3bb79cd6c6fbfca17d1b",
+          "first_line": 574
+        },
+        "RunRxC": {
+          "sha256": "916c03f083d09563107849bfb0a3e7e989ae00ab5c170b362cc044bdcec4d716",
+          "first_line": 611
+        },
+        "RunMantelHaenszel": {
+          "sha256": "9214c950ba903ded5d77b1d64ec3020c1db268411466119e98c8889fbbbeb005",
+          "first_line": 643
+        },
+        "RunCochran": {
+          "sha256": "2ecb8c6d7d77b064d162ccf14385ea0c03dccc1d8df108dbf3353422dd5814af",
+          "first_line": 683
+        },
+        "Run1WayRmANOVA": {
+          "sha256": "f64fcb8f97b0a4fa3333d22bfcb8bb30e81bfdfcb2af91ba80f5d5e03651398b",
+          "first_line": 743
+        },
+        "RunFriedman": {
+          "sha256": "2d4840060923d41060f64db98960aa998e28c1f3997e01547f9c95f1c7225834",
+          "first_line": 771
+        },
+        "ComputeDescriptiveStatistics": {
+          "sha256": "7affcd0076ba156c61c779ebaa28e901f12f17a1313dd06981256f621b8445c1",
+          "first_line": 810
+        },
+        "GetResultWriter": {
+          "sha256": "8ce0369e546b525e1a6113d60c62db8597166bfdc59b7a21e3c333f94e6a9b90",
+          "first_line": 833
+        },
+        "optOutputRange_Click": {
+          "sha256": "a354cc207253b26c7d26b8252deef3e4ea11f1f46a33293673e98f8b9d317e8f",
+          "first_line": 853
+        },
+        "optWorksheet_Click": {
+          "sha256": "39762187847a0d5e48d5ada3683850386eeec70e864f130a8df35d9a141a3f6f",
+          "first_line": 858
+        },
+        "optWorkbook_Click": {
+          "sha256": "c98eb6d6ce689f00acda9ff1574508f592a499eede4efd2473305ab73eb0ddf9",
+          "first_line": 862
+        }
+      }
+    },
+    "BESHstatNG/src/ExcelUDFs/MultivariateAnalysisUDFs.vb": {
+      "sha256": "0bf48323015eacae5240bd35db2ebd59fee309aafa2bdfdc8b4929c72d5607fa",
+      "bytes": 243724,
+      "encoding": "UTF-8",
+      "crlf": 0,
+      "bare_lf": 4056,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHstatNG/src/ExcelUDFs/UDFdataImport/UdfDataImportMultivariate.vb": {
+      "sha256": "f4f7f913b8b0f41ed1a7335ff56a5070338ebf7936dafbfd99f6049e91e7a10c",
+      "bytes": 11941,
+      "encoding": "UTF-8 BOM",
+      "crlf": 272,
+      "bare_lf": 0,
+      "final_newline": true,
+      "methods": {
+        "TryGetCorrespondenceInput": {
+          "sha256": "3732d2adbb923c028a8be247ebca6ba756ccd46bb6fee9703caca3812f3f7cb9",
+          "first_line": 16
+        },
+        "TryGetCategoricalMatrix": {
+          "sha256": "589c493ccf7968620ceae0519f97f9d0ae23e0413308913046325216974d141e",
+          "first_line": 71
+        },
+        "TryGetStringVector": {
+          "sha256": "2bb9d196e81b166490ba6dd9f1fa9c9bce81d9f5df05283f1a0dbd1c96ba7ff0",
+          "first_line": 120
+        },
+        "TryGetDoubleVector": {
+          "sha256": "c7b154379b77653aca930b33e7008c77a5a98dc38f4c0893482169e57338ccf4",
+          "first_line": 162
+        },
+        "ResolveImportLabelNames": {
+          "sha256": "94343a3b14483a4b98fcaf10b00e93ccc8cdf71d8b9bfa7368cf5fb153d643fd",
+          "first_line": 219
+        }
+      }
+    },
+    "BESHstatNG/src/DM/ExcelDnaDataImporter.vb": {
+      "sha256": "32942d3034c2fb80befe23e6bb317b9dde3097774b9cef0373536d9199f36fc9",
+      "bytes": 11601,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 215,
+      "final_newline": true,
+      "methods": {
+        "AcquireRangeData": {
+          "sha256": "8fb65fec54daf2d0ed4af3a322109ab2d6a109fbabe5a90117e92916f165e4fd",
+          "first_line": 18
+        },
+        "AcquireRangeSetData": {
+          "sha256": "dc5475204741da9b27e30138d8618ac0009b30d9cd781a7ebb684c4cf2abfdf9",
+          "first_line": 30
+        },
+        "Import": {
+          "sha256": "9dd6e71600c18e287925826583508840b043f9421cde5e8c490d8c11e8dd4dda",
+          "first_line": 35
+        },
+        "ImportPhysicalAreas": {
+          "sha256": "23421189c678db9b135098dc979be0b508bfc7a9e838dcfd3362277a7035397c",
+          "first_line": 107
+        },
+        "ImportPhysicalSelection": {
+          "sha256": "a1c63a5c1e15391b40e64fde8f9657c63a5016b3a28ca265d6cdf1c708d585b5",
+          "first_line": 123
+        },
+        "ValidatePhysicalMergeState": {
+          "sha256": "75aada580e82b557a885cc2d2ccc44186b5202d73a546cab6d993d01ad198f13",
+          "first_line": 163
+        },
+        "GetPhysicalImportEvidence": {
+          "sha256": "0942350063dc04bca3d40411127fcdbe4603a41b6273a3e74a265b45179a4618",
+          "first_line": 167
+        },
+        "ImportInto": {
+          "sha256": "73488dc487d153a11f4b87809a2850ec9c92b41d2d69ad8d1eea727803381689",
+          "first_line": 174
+        },
+        "NormalizeExcelValue": {
+          "sha256": "8526a2c69d7a370c678d83327d9f827fc195f7daada23f4c81dfc020e51a4517",
+          "first_line": 184
+        },
+        "ResolveStartRow": {
+          "sha256": "fb9e39d0973a5fa130de76635d1d5158e034382dc9b648fa978af3658c8ecb39",
+          "first_line": 190
+        },
+        "BuildConcreteRangeAddress": {
+          "sha256": "e220793a83ac7cd969637a47978a95c36252bc5146ad4af1a8b8baa60405d831",
+          "first_line": 207
+        }
+      }
+    },
+    "BESHstatNG/src/DM/DataObjContracts.vb": {
+      "sha256": "cd10740c22e7dc1432545f5132be40d03247961aabc81f6b0b27db65fa62e45f",
+      "bytes": 762,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 36,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHstatNG/src/DM/ResultWriter/ExcelDnaResultWriter.vb": {
+      "sha256": "44349cdfee00df73655e68d7168064d24f3b94758a7dcc7f737176f3d84a9847",
+      "bytes": 16305,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 354,
+      "final_newline": true,
+      "methods": {
+        "New": {
+          "sha256": "6e38212d265e189a6f4e8f309429e7cbe4065bfc99c924775cbfc139bb17b986",
+          "first_line": 21
+        },
+        "WriteSharedRequest": {
+          "sha256": "9bed6115f9131ca887fc198b326177bfcf9b44e86e105529034fc44764cb6cb9",
+          "first_line": 34
+        },
+        "WritePlannedSharedRequests": {
+          "sha256": "cc4062271553714162f05acc83ccf1dc1e795a7418761e411df145015b85a51a",
+          "first_line": 50
+        },
+        "WriteSharedCommand": {
+          "sha256": "63b6b6679b7c669322cd542421b432be88d56598ae3eaf5462f5c1c31d4976b6",
+          "first_line": 63
+        },
+        "ToOutputModel": {
+          "sha256": "459f6d5763057f45ac8ba19ba483993c085d90342c5016f406ae3d1c70f06008",
+          "first_line": 110
+        },
+        "format": {
+          "sha256": "001bdb9c333b33e2afdfe1ff145e487161a5e90b0b67fef6c3dd39e7468ae4fd",
+          "first_line": 156
+        },
+        "ApplyPValueFormatting": {
+          "sha256": "9864918909eff24b442c62bd912be12b7bcd50bf89b4da2a8ae0c488183ae7db",
+          "first_line": 256
+        },
+        "ApplyPValueHighlight": {
+          "sha256": "75992c7c06e5d10a409d19ec4c9e07d3e99b8d7472eb750dc29f40631067aec6",
+          "first_line": 319
+        },
+        "LegacyPValueIsHighlighted": {
+          "sha256": "000f2f6a265746e1141ef16a6ace46acd708cbe8f896338172deeda07859cd70",
+          "first_line": 333
+        },
+        "ResolvePValueAlpha": {
+          "sha256": "4c0318d4cfee6496665bad035624d66cfa4df40028f41d675cee1b4f497417a0",
+          "first_line": 345
+        },
+        "ResolvePValueNumberFormat": {
+          "sha256": "56ee704724262440f2e95b3884b58a2631411a57a1a08e39a9d7548979950668",
+          "first_line": 351
+        }
+      }
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/principal-component-analysis.md": {
+      "sha256": "11afb93cbaa59b93187a64e0678311b54626d80947a978818e25e415ccb8845f",
+      "bytes": 24014,
+      "encoding": "UTF-8",
+      "crlf": 658,
+      "bare_lf": 0,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/correspondence-analysis.md": {
+      "sha256": "65150274d01b537a1e5dbfa1d5de8f8c60b671856d2e342a745f143ea87f9ead",
+      "bytes": 11574,
+      "encoding": "UTF-8",
+      "crlf": 385,
+      "bare_lf": 0,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/multiple-correspondence-analysis.md": {
+      "sha256": "d5e098d98ef8329b6f927ad31ab7b38f70aea80251cd7bcabd0881b0edb91f3a",
+      "bytes": 11809,
+      "encoding": "UTF-8",
+      "crlf": 303,
+      "bare_lf": 0,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/k-means-clustering.md": {
+      "sha256": "10b0c12e9ac00618d19f6bfa5ab156ed508aab7f605bc9162d0e3f011cc799bd",
+      "bytes": 24528,
+      "encoding": "UTF-8",
+      "crlf": 736,
+      "bare_lf": 0,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/hierarchical-clustering.md": {
+      "sha256": "6923cb741cc71779fbbaed995d30413713d4d7cb075d5270f7a572cce50a0490",
+      "bytes": 23555,
+      "encoding": "UTF-8",
+      "crlf": 751,
+      "bare_lf": 0,
+      "final_newline": false,
+      "methods": {}
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/factor-analysis.md": {
+      "sha256": "667c8861d8a7ec9e0951611054ce1555c7e816eae55a56596899cff91b213dc5",
+      "bytes": 36799,
+      "encoding": "UTF-8",
+      "crlf": 1172,
+      "bare_lf": 0,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/discriminant-analysis.md": {
+      "sha256": "8b3e5d1671ad2e02a3c83922ace3a391a3bb14a461d5327334f4d317463c7446",
+      "bytes": 33474,
+      "encoding": "UTF-8",
+      "crlf": 1116,
+      "bare_lf": 0,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/Multivariate/CA.vb": {
+      "sha256": "34b69fa838071f485bea1f77b57c499b6f772771ee8422cb765b6320da595a53",
+      "bytes": 59495,
+      "encoding": "UTF-8 BOM",
+      "crlf": 1210,
+      "bare_lf": 2,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/Multivariate/ClusterAnalysis.vb": {
+      "sha256": "64d643cc057acfd5067911c770605621b0f6e5ab762268997ed961d1c621c3f1",
+      "bytes": 147298,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 3147,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/Multivariate/DiscriminantAnalysis.vb": {
+      "sha256": "02bb15d8c43a339424c6f4dcfa79a011ce1b03ce9725a33bfb2ec54f5f724699",
+      "bytes": 83759,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 1727,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/Multivariate/FactorAnalysis.vb": {
+      "sha256": "95db0be527c4e18686d38d69b35d9e517e327a8074120c29c65f753c6907711d",
+      "bytes": 124252,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 2632,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/Multivariate/MultivariateInputHelpers.vb": {
+      "sha256": "f8181816be8bf3e7171d8cf69553422b1da25d0aecfcf4daeefe2fcaf00c9b9e",
+      "bytes": 4837,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 90,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/Multivariate/MultivariateShared.vb": {
+      "sha256": "3a052ff48239bfafe90a050f1261263e5b188d54ea3791addc4687d07ef7a34b",
+      "bytes": 6633,
+      "encoding": "UTF-8 BOM",
+      "crlf": 0,
+      "bare_lf": 148,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/Multivariate/PCA.vb": {
+      "sha256": "61e65d66a17676e8a568ee76852d18d0472783d966deace0568f6ea07e254bc4",
+      "bytes": 23985,
+      "encoding": "UTF-8 BOM",
+      "crlf": 489,
+      "bare_lf": 2,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHstatNG/src/Graphics/PcaPlotExcel.vb": {
+      "sha256": "3a156c106a3e969957b31b253e7ac1196a92fdfee08cddcb76ea4fcb9486f26b",
+      "bytes": 26741,
+      "encoding": "UTF-8 BOM",
+      "crlf": 566,
+      "bare_lf": 0,
+      "final_newline": false,
+      "methods": {}
+    },
+    "BESHstatNG/src/Graphics/CorrespondenceAnalysisPlotExcel.vb": {
+      "sha256": "04790b798dfeb283bbd4360efe4cd87789d1d05df436400490e10469b843ef2f",
+      "bytes": 9037,
+      "encoding": "UTF-8 BOM",
+      "crlf": 210,
+      "bare_lf": 0,
+      "final_newline": false,
+      "methods": {}
+    },
+    "BESHstatNG/src/Graphics/ClusterAnalysisPlotExcel.vb": {
+      "sha256": "e7f450f123f7e84ee2fd45ee45fc4395f78278b6777fd80c9aea419cda27da7f",
+      "bytes": 20537,
+      "encoding": "UTF-8 BOM",
+      "crlf": 342,
+      "bare_lf": 0,
+      "final_newline": true,
+      "methods": {}
+    },
+    "BESHstatNG/src/Graphics/FactorAnalysisPlotExcel.vb": {
+      "sha256": "8164bad9ff52f224a87aa2ede85c51d37e58482ae95745859a5aa81de2f09c9e",
+      "bytes": 12845,
+      "encoding": "UTF-8 BOM",
+      "crlf": 268,
+      "bare_lf": 0,
+      "final_newline": false,
+      "methods": {}
+    }
+  }
+}

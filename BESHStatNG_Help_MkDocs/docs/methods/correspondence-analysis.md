@@ -1,5 +1,7 @@
 # Correspondence Analysis
 
+**Windows workflow and availability.** Simple CA uses the separate contingency-table dialog, rather than the PCA/MCA dialog. Its first-column-label option and output destination remain distinct. Known limitation: the existing Windows path without first-column row labels contains an indexing defect and can fail before output; this portability extraction does not repair that path. Portable CA report/plot contracts do not establish native execution parity. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
+
 **Includes:** Correspondence analysis (CA), Row/column contribution plots, Biplot.  
 **Purpose:** Explore association patterns in a contingency table by mapping **rows** and **columns** into a low-dimensional space using the **chi-square** metric.
 

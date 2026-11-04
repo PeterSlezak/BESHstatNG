@@ -1,5 +1,7 @@
 # Factor Analysis
 
+**Windows workflow and availability.** The Windows defaults remain Principal Axis, squared multiple correlations, error on missing values, Varimax and regression scores. The initial retention selection is two fixed factors; eigenvalue and cumulative-variance choices retain their existing Core boundaries and percentage units. The Data sheet retains the clustering-style `OriginalRow` header. Reports and the scree/2D/3D loading plot requests preserve their existing order; unsupported dimensions remain subject to the existing renderer guards. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
+
 **Includes:** Exploratory factor analysis on correlation or covariance matrix, extraction methods (principal axis, maximum likelihood, generalized least squares, image, alpha, and principal-components style extraction for comparison), retention by fixed count / eigenvalue cutoff / cumulative variance, rotations (none, varimax, quartimax, equamax, promax), regression or Bartlett scores, factorability diagnostics (KMO, per-variable MSA, Bartlett's test, anti-image matrix, determinant), residual diagnostics, scree plot, and 2D/3D loading plots.  
 **Purpose:** Discover lower-dimensional latent structure behind correlated numeric variables and summarize the common variance they share.
 

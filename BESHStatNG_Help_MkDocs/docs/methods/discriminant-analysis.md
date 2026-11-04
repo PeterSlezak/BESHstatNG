@@ -1,5 +1,7 @@
 # Discriminant Analysis
 
+**Windows workflow and availability.** The Windows importer acquires the grouping column first and predictors in their selected order, with the existing missing-value policy applied by Core. Custom priors accept `label=probability` or `label:probability`, separated by semicolons or newlines. Parsing tries the current culture before invariant culture, including the existing thousands-separator behavior; label case and duplicate-prior handling remain Core-owned. Blank seeds retain the time-based Core sentinel. Selected blank row labels use `Row {RowId}`. The GUI writes Data and Discriminant results and does not create a discriminant chart. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
+
 **Includes:** Linear discriminant analysis (LDA), quadratic discriminant analysis (QDA), classification of training and new observations, posterior probabilities, squared Mahalanobis distances, proportional / equal / user-specified priors, optional preprocessing, missing-value handling, leave-one-out validation, k-fold validation, holdout validation, linear classification functions, and canonical discriminant functions for LDA.  
 **Purpose:** Classify observations into known groups and understand which linear combinations of variables best separate those groups.
 

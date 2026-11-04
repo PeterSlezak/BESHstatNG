@@ -1,5 +1,7 @@
 # Hierarchical Clustering
 
+**Windows workflow and availability.** The Windows defaults remain Ward linkage, squared Euclidean distance, no standardization and error on missing values. Minkowski power defaults to 2. The membership cut and optional dendrogram retain their existing independent report/rendering requests; orientation, height and label choices do not change their ownership. Selected blank observation labels use `Row {RowId}`. Output remains Data, Hierarchical results and, when requested, Dendrogram. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
+
 **Includes:** Agglomerative hierarchical clustering for numeric data, linkage methods (Ward, complete, average, weighted average, single, centroid, median), distance metrics (squared Euclidean, Euclidean, Manhattan, Chebyshev, Minkowski, cosine, correlation), optional z-score or 0–1 range standardization, missing-value handling, membership output by cluster count or cut height, and Excel dendrogram generation.  
 **Purpose:** Build a full bottom-up clustering hierarchy and inspect it through merge tables, membership cuts, and a dendrogram.
 

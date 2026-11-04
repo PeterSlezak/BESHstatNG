@@ -1,0 +1,54 @@
+{
+  "scope": "04A.17 only; created before production edits",
+  "routes": {
+    "RunPCA": {
+      "input": "Host acquisition remains distinct; detached arrays/provenance after acquisition",
+      "options": "Source-derived Common compatibility projection and typed family options",
+      "core": "Original data/settings and Fit/Calculate order; no estimator changes",
+      "report": "Core wrapResults -> detached Common document -> original native writer",
+      "plots": "Scree, scores2D, loadings2D, biplot(0,0.5,1), scores3D, loadings3D"
+    },
+    "RunMCA": {
+      "input": "Host acquisition remains distinct; detached arrays/provenance after acquisition",
+      "options": "Source-derived Common compatibility projection and typed family options",
+      "core": "Original data/settings and Fit/Calculate order; no estimator changes",
+      "report": "Core wrapResults -> detached Common document -> original native writer",
+      "plots": "Correspondence, column contributions axes 0 then 1"
+    },
+    "RunKmeans": {
+      "input": "Host acquisition remains distinct; detached arrays/provenance after acquisition",
+      "options": "Source-derived Common compatibility projection and typed family options",
+      "core": "Original data/settings and Fit/Calculate order; no estimator changes",
+      "report": "Core wrapResults -> detached Common document -> original native writer",
+      "plots": "No GUI chart; row-label/membership report intent"
+    },
+    "RunHierarchicalClustering": {
+      "input": "Host acquisition remains distinct; detached arrays/provenance after acquisition",
+      "options": "Source-derived Common compatibility projection and typed family options",
+      "core": "Original data/settings and Fit/Calculate order; no estimator changes",
+      "report": "Core wrapResults -> detached Common document -> original native writer",
+      "plots": "Optional original dendrogram settings"
+    },
+    "RunFA": {
+      "input": "Host acquisition remains distinct; detached arrays/provenance after acquisition",
+      "options": "Source-derived Common compatibility projection and typed family options",
+      "core": "Original data/settings and Fit/Calculate order; no estimator changes",
+      "report": "Core wrapResults -> detached Common document -> original native writer",
+      "plots": "Scree, loading2D, loading3D"
+    },
+    "RunDiscriminantAnalysis": {
+      "input": "Host acquisition remains distinct; detached arrays/provenance after acquisition",
+      "options": "Source-derived Common compatibility projection and typed family options",
+      "core": "Original data/settings and Fit/Calculate order; no estimator changes",
+      "report": "Core wrapResults -> detached Common document -> original native writer",
+      "plots": "No GUI chart; classification report intent"
+    }
+  },
+  "other": {
+    "RunSPM": "Unchanged",
+    "standaloneCA": "Shared portable intent only; native RunCA unchanged, no-label j-1 defect retained for 04A.18/40-41"
+  },
+  "files": "Common multivariate policy/input/report files, one Windows adapter, Ui11PCA, explicit project Compile entries, new tests, seven audited Help pages, scripts/evidence/dossier",
+  "boundaries": "Original validation precedence/messages, native workbook/sheet/renderer call order, Excel parsing and COM remain Windows; no stricter candidate validation activated",
+  "tolerance": "max(1e-9, abs(expected)*1e-9) for finite doubles; exact labels/types/order/shapes/metadata and nonfinite classes; fixed before comparisons. Fixed seeds only for exact stochastic comparisons; no sign/tied-subspace normalization in production."
+}

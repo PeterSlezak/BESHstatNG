@@ -1,5 +1,7 @@
 # Multiple Correspondence Analysis
 
+**Windows workflow and availability.** The Windows MCA path accepts categorical/text columns. Selecting the first-row option removes that acquired row before construction of the design/Burt data and retains the remaining original worksheet RowIds. Category text and case are retained. Output remains Data/design matrix, MCA results, correspondence plot, then column contributions for axes 1 and 2. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
+
 **Includes:** Multiple correspondence analysis (MCA) via indicator/Burt matrix, Contribution plots, Biplot.  
 **Purpose:** Extend correspondence analysis to **multiple categorical variables** (survey-style data) by mapping category levels into a low-dimensional space using the **chi-square** metric.
 
