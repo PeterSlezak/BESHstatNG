@@ -83,6 +83,23 @@ Public NotInheritable Class WindowsMultivariateWorkflowAdapter
             End Select
         Next
     End Sub
+    Public Shared Sub WriteClusterData(writer As ResultTableWriterBase, original(,) As Object, request As MultivariateKMeansRequest)
+        writer.setRowPointer(request.DataSection.HeaderRow)
+        writer.setColumnPointer(request.DataSection.FirstColumn)
+        writer.write(request.DataTable(original))
+    End Sub
+    Public Shared Sub WriteClusterData(writer As ResultTableWriterBase, original(,) As Object, request As MultivariateHierarchicalRequest)
+        writer.setRowPointer(request.DataSection.HeaderRow)
+        writer.setColumnPointer(request.DataSection.FirstColumn)
+        writer.write(request.DataTable(original))
+    End Sub
+    Public Shared Sub RenderDendrogram(result As Multivariate.HierarchicalClusterResult, ws As Microsoft.Office.Interop.Excel.Worksheet, request As MultivariateDendrogramRequest)
+        graphics.ClusterAnalysisPlotExcel.CreateDendrogramChart(result, ws:=ws,
+            topLeftCellAddress:=request.Anchor, chartWidth:=request.Width, chartHeight:=request.Height,
+            heightMode:=request.HeightMode, orientation:=request.Orientation, labelMode:=request.LabelMode,
+            chartTitle:=request.Title, cutMode:=request.Cut.Mode,
+            membershipClusterCount:=request.Cut.Clusters, membershipCutHeight:=request.Cut.Height)
+    End Sub
     Public Shared Sub RenderFactor(report As MultivariateReport, model As Multivariate.FactorAnalysis)
         For Each plot In report.Plots
             Select Case plot.Kind

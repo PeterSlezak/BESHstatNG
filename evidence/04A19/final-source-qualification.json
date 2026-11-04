@@ -1,0 +1,129 @@
+{
+  "compiled_sources_unchanged_after_final_suites": true,
+  "compiled_files": {
+    "BESHstatNG/src/UI/Ui11PCA.vb": {
+      "sha256": "2ccdb4d401b231c2b33dad70d50074fae62177c71f1be1a25064d49af00f3c29",
+      "bytes": 59791
+    },
+    "BESHstatNG/src/DM/WindowsMultivariateWorkflowAdapter.vb": {
+      "sha256": "c99df027402b6bda10511112311f25f304bef8312dc31fd3949fc40ba4b3289d",
+      "bytes": 7383
+    },
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj": {
+      "sha256": "c1a28d6fbd8d02e19f35c79faa6895e866b4e0dffab3ba963be6aa6e80b1fc79",
+      "bytes": 22984
+    },
+    "BESHStat.Excel.Common/src/Analysis/MultivariateClusteringRequest.vb": {
+      "sha256": "ad1a951e5bb164bbb464673ad0e533318c57b18583f5e926c15e1c1048003ad2",
+      "bytes": 6969
+    },
+    "BESHStat.Excel.Common/src/Results/MultivariateClusteringProjection.vb": {
+      "sha256": "4fe2a117874629e70a6882c3a8a7ed8166d1331b1e0d0fbecf53b3e1221765f3",
+      "bytes": 11528
+    },
+    "BESHStat.Excel.Common.Tests/src/Multivariate19Tests.vb": {
+      "sha256": "1c8a01d02b2419bbc9f0150fed2bf31ddbd429ac5e020d9151d07d96556613c5",
+      "bytes": 40393
+    },
+    "BESHStatNG.Test/src/Multivariate19AdapterTests.vb": {
+      "sha256": "35904e1be151f4c0879cd92b984b452247d03685636fdcc180d4c132d534994a",
+      "bytes": 8528
+    }
+  },
+  "production": "All final production bytes were present for both complete full matrices. Later managed-test edit adds receipt fields for report-rejected fits and plot source axes only; no assertions or production algorithms changed. Complete affected Common/Windows suites rebuilt/reran in both configurations after that edit.",
+  "python": "After removing a privacy-scanner-matching regex literal in the new test, all four discovery roots reran separately per configuration; comparable C02 semantic observations from the full matrices remain unchanged. Earlier transient failures remain in raw receipts, excluded from current counts by explicitly selected newer complete component runs.",
+  "component_selection": "Core/Office/managed WASM/Node and builds: final-{configuration}; Common/Windows: final-source-{configuration}; Python: final-python-{configuration}-{tools,help,scripts,common-python}. No focused subset substitutes for a full suite. Focused final Release and new Python repeat supplement, not add to totals.",
+  "records": [
+    {
+      "configuration": "Debug",
+      "suite": "Common",
+      "exit_code": 1,
+      "raw_receipt_sha256": "09747ef3686bdb7a7fc858a0b42eda03b10e1d7add600713eb68930f8526b1ab",
+      "copied_assemblies": [
+        {
+          "path": "BESHStat.Core.dll",
+          "sha256": "8161d4478378d129c12a123fe055b2adf33956fd36efa50a343d47acf845c767"
+        },
+        {
+          "path": "BESHStat.Excel.Common.dll",
+          "sha256": "4e41470a8777e9c7b9faf885b0ed8e90c1e54d7fd81b2c5aaba4ae193abaf3da"
+        },
+        {
+          "path": "BESHStat.Excel.Common.Tests.dll",
+          "sha256": "ebcdaa49c377f6824bf10865accc2714f1b84c34a195dbbab9d9f19dd3468d72"
+        }
+      ]
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Legacy",
+      "exit_code": 1,
+      "raw_receipt_sha256": "7d7e5614fecab3775d48ae74ae8d40d759107d577c7cb17b1404d30ceddec9b8",
+      "copied_assemblies": [
+        {
+          "path": "BESHStat.Core.dll",
+          "sha256": "8161d4478378d129c12a123fe055b2adf33956fd36efa50a343d47acf845c767"
+        },
+        {
+          "path": "BESHStat.Excel.Common.dll",
+          "sha256": "4e41470a8777e9c7b9faf885b0ed8e90c1e54d7fd81b2c5aaba4ae193abaf3da"
+        },
+        {
+          "path": "BESHStatNG.dll",
+          "sha256": "28e6ed4f05f01c2e200195eae395bd40fbb964dbedf4397b1f7376386f5ae902"
+        },
+        {
+          "path": "BESHStatNG.Test.dll",
+          "sha256": "4cbe529ccc471cc0d90637fb91ed5a7ccfe752aaf9f389a806e2fbe5a024cfd1"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "suite": "Common",
+      "exit_code": 1,
+      "raw_receipt_sha256": "b9cbf4c2366593906cd1143c13794372fba37c19ced93f73532b62b728d5e007",
+      "copied_assemblies": [
+        {
+          "path": "BESHStat.Core.dll",
+          "sha256": "8d009e232a3236f658d9f895f7dc5580de1e7b4f683f2533dbd5238e0c249a00"
+        },
+        {
+          "path": "BESHStat.Excel.Common.dll",
+          "sha256": "d29894db94ca9dd3a6a4d3e321ad11fc049a036a44e96cbf30ff60b4710fb497"
+        },
+        {
+          "path": "BESHStat.Excel.Common.Tests.dll",
+          "sha256": "fa717336fefb5e5387174c36cb1f0298a2b565a8664bc4caa6a01949e8648fb6"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "suite": "Legacy",
+      "exit_code": 1,
+      "raw_receipt_sha256": "e9f3678f7e6193bc1d67da4d846efac83de2bbcbfe87c573fdb0aaaa4856c2c1",
+      "copied_assemblies": [
+        {
+          "path": "BESHStat.Core.dll",
+          "sha256": "8d009e232a3236f658d9f895f7dc5580de1e7b4f683f2533dbd5238e0c249a00"
+        },
+        {
+          "path": "BESHStat.Excel.Common.dll",
+          "sha256": "d29894db94ca9dd3a6a4d3e321ad11fc049a036a44e96cbf30ff60b4710fb497"
+        },
+        {
+          "path": "BESHStatNG.dll",
+          "sha256": "093c27f6c5fd0bfbd517424e0cece8a25ef8a8fefe3c5d9405764771df9c8c91"
+        },
+        {
+          "path": "BESHStatNG.Test.dll",
+          "sha256": "1929a4179d96b195711f35eb1b00a32fd1c91dddce3a78bcd21d36bedd2b28bf"
+        }
+      ]
+    }
+  ],
+  "native": "NOT_RUN / UNAUTHORIZED",
+  "independent_R": "NOT_RUN / UNAUTHORIZED",
+  "no_framework_package_target_changes": true
+}

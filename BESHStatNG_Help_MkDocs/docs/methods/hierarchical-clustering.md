@@ -2,6 +2,8 @@
 
 **Windows workflow and availability.** The Windows defaults remain Ward linkage, squared Euclidean distance, no standardization and error on missing values. Minkowski power defaults to 2. The membership cut and optional dendrogram retain their existing independent report/rendering requests; orientation, height and label choices do not change their ownership. Selected blank observation labels use `Row {RowId}`. Output remains Data, Hierarchical results and, when requested, Dendrogram. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
 
+**Output identity and cuts.** The Data sheet uses acquired Excel source row numbers in `OriginalRow`; Leaf Order, Cluster Membership and removed-row result tables currently use 1-based analysis input positions under that heading. These can differ for filtered or noncontiguous selections; no output remapping has been applied. Active leaf IDs are numbered after missing-row deletion, while new internal cluster IDs are active-row count plus merge step. Leaf display order and labels are separate from these identities. Results retain settings, fit summary, agglomeration schedule, leaf order and the selected membership cut, followed by conditional preprocessing and removed-row tables. Ward, centroid and median linkage require Euclidean or squared Euclidean distance. Count cuts use the active observations; height cuts retain the current Core comparison at equality. For centroid/median inversions, Core stops applying merges at the first height above the cut, even if a later merge is lower; the table footnote has not been functionally corrected. The optional Dendrogram sheet retains Merge Distance/Step Levels, four orientations and Data Labels/Axis Title/None; display choices do not refit the tree. These Windows dialog/chart workflows are not available in Excel Online or Excel for Mac.
+
 **Includes:** Agglomerative hierarchical clustering for numeric data, linkage methods (Ward, complete, average, weighted average, single, centroid, median), distance metrics (squared Euclidean, Euclidean, Manhattan, Chebyshev, Minkowski, cosine, correlation), optional z-score or 0–1 range standardization, missing-value handling, membership output by cluster count or cut height, and Excel dendrogram generation.  
 **Purpose:** Build a full bottom-up clustering hierarchy and inspect it through merge tables, membership cuts, and a dendrogram.
 
@@ -20,7 +22,7 @@ BESHStatNG can then report membership in two ways:
 The output contains:
 
 - a **Data** sheet,
-- a **Hierarchical Clustering results** sheet with settings, agglomeration schedule, leaf order, and cluster membership,
+- a **Hierarchical results** sheet with settings, agglomeration schedule, leaf order, and cluster membership,
 - optionally a **Dendrogram** sheet containing a chart with a cut line and cluster-colored branches.
 
 ---

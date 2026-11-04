@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "shipping": {
+    "KMeans": "Import labels and numeric matrix -> original optional centre importer -> seed/control parsing -> detached request.Configure -> one Core Fit -> adapter Data section -> projection over Result and wrapResults -> LegacyTables -> existing writer",
+    "Hierarchical": "Labels/matrix -> detached fit request.Configure before cut-field parse -> cut.Configure -> one Core Fit -> adapter Data section -> projection over existing Core memberships/tables -> writer -> optional PlotPlan -> late display snapshot -> adapter/native CreateDendrogramChart"
+  },
+  "original_call_equivalence": {
+    "native_renderer": "Unchanged ClusterAnalysisPlotExcel.CreateDendrogramChart; existing Result and newly created Dendrogram worksheet; A1,680.0,420.0; same height/orientation/label/cut getters and parsed fields, evaluated only after result output and Dendrogram sheet naming.",
+    "parameters": {
+      "topLeftCellAddress": "request.Anchor = A1",
+      "chartWidth": "request.Width = 680.0",
+      "chartHeight": "request.Height = 420.0",
+      "heightMode": "same GetSelectedHierarchicalDendrogramHeightMode",
+      "orientation": "same GetSelectedHierarchicalDendrogramOrientation",
+      "labelMode": "same GetSelectedHierarchicalDendrogramLabelMode",
+      "chartTitle": "request.Title = Hierarchical Clustering Dendrogram",
+      "cutMode": "same late GetSelectedHierarchicalMembershipMode",
+      "membershipClusterCount": "same late CInt(nudHierarchicalClusters.Value)",
+      "membershipCutHeight": "same late ParseUiDouble(tbHierarchicalCutHeight.Text, Cut height)"
+    },
+    "proof": "Prechange method hashes and locally retained exact source; new source-call-graph contracts plus managed Core-layout equality and writer block comparisons. No independent or native chart golden claimed."
+  },
+  "data_section": {
+    "sheet": "Data",
+    "header_row": 1,
+    "body_row": 2,
+    "columns": "OriginalRow, optional RowLabel, acquired raw variables in selected order; existing ClusterInputTable retains CLR cells."
+  },
+  "results_sheets": [
+    "KMeans results",
+    "Hierarchical results"
+  ],
+  "raw_matrix_ownership": "Borrowed for immediate synchronous Core/writer calls only. Requests/projections do not retain raw N x P matrices or mutable Core arrays.",
+  "fixtures": "Actual per-execution option, axis, seed, failure and sequence payloads are linked by profile_id in kmeans-hierarchical-projection-comparisons-v1.json. Source keys preserve selected order; display duplicates never define identity.",
+  "native": "NOT_RUN / UNAUTHORIZED"
+}

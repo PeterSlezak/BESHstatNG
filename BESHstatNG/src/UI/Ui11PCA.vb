@@ -263,11 +263,13 @@ Public Class Ui11PCA
             .Linkage = Me.GetSelectedHierarchicalLinkage(), .Distance = Me.GetSelectedHierarchicalDistanceMetric(),
             .MinkowskiPower = ParseUiDouble(Me.tbHierarchicalMinkowskiPower.Text, "Minkowski power"),
             .Standardization = Me.GetSelectedHierarchicalStandardization(), .Missing = Me.GetSelectedHierarchicalMissingPolicy()}
-        options.ConfigureModel(fitHierarchical)
+        Dim request As New MultivariateHierarchicalRequest(intent, options)
+        request.Configure(fitHierarchical)
         options.Cut = Me.GetSelectedHierarchicalMembershipMode()
         options.Clusters = CInt(Me.nudHierarchicalClusters.Value)
         options.CutHeight = ParseUiDouble(Me.tbHierarchicalCutHeight.Text, "Cut height")
-        options.ConfigureReport(fitHierarchical)
+        Dim cut As New MultivariateClusterCutRequest(options.Cut, options.Clusters, options.CutHeight)
+        cut.Configure(fitHierarchical)
         fitHierarchical.Fit()
 
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
@@ -276,13 +278,13 @@ Public Class Ui11PCA
         Dim wrData As New ExcelDnaResultWriter()
         wrData.wb = wb
         wrData.ws = wsData
-        wrData.write(Me.BuildKMeansInputDataTable(MyData, rowLabels))
+        WindowsMultivariateWorkflowAdapter.WriteClusterData(wrData, MyData.FinalData, request)
 
-        Dim report = MultivariateReportPolicy.Project(intent, fitHierarchical.wrapResults())
-        Dim res = report.LegacyTables()
+        Dim projection = MultivariateClusteringProjectionPolicy.Hierarchical(request, cut, fitHierarchical.Result, fitHierarchical.wrapResults())
+        Dim res = projection.LegacyTables()
         Dim wrSummary As New ExcelDnaResultWriter()
         Dim wsSummary As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
-        wsSummary.Name = "Hierarchical results"
+        wsSummary.Name = projection.ResultsSheetName
         wrSummary.wb = wb
         wrSummary.ws = wsSummary
         Dim rr = New ProcessListofResultTables(res)
@@ -293,17 +295,12 @@ Public Class Ui11PCA
         If plotPlan.Count > 0 Then
             Dim wsDendrogram As Worksheet = CType(wb.Worksheets.Add(After:=wsSummary), Worksheet)
             wsDendrogram.Name = "Dendrogram"
-            graphics.ClusterAnalysisPlotExcel.CreateDendrogramChart(fitHierarchical.Result, ws:=wsDendrogram,
-                                             topLeftCellAddress:="A1",
-                                             chartWidth:=680.0,
-                                             chartHeight:=420.0,
-                                             heightMode:=Me.GetSelectedHierarchicalDendrogramHeightMode(),
-                                             orientation:=Me.GetSelectedHierarchicalDendrogramOrientation(),
-                                             labelMode:=Me.GetSelectedHierarchicalDendrogramLabelMode(),
-                                             chartTitle:="Hierarchical Clustering Dendrogram",
-                                             cutMode:=Me.GetSelectedHierarchicalMembershipMode(),
-                                             membershipClusterCount:=CInt(Me.nudHierarchicalClusters.Value),
-                                             membershipCutHeight:=ParseUiDouble(Me.tbHierarchicalCutHeight.Text, "Cut height"))
+            Dim dendrogram As New MultivariateDendrogramRequest(
+                Me.GetSelectedHierarchicalDendrogramHeightMode(), Me.GetSelectedHierarchicalDendrogramOrientation(),
+                Me.GetSelectedHierarchicalDendrogramLabelMode(), New MultivariateClusterCutRequest(
+                    Me.GetSelectedHierarchicalMembershipMode(), CInt(Me.nudHierarchicalClusters.Value),
+                    ParseUiDouble(Me.tbHierarchicalCutHeight.Text, "Cut height")))
+            WindowsMultivariateWorkflowAdapter.RenderDendrogram(fitHierarchical.Result, wsDendrogram, dendrogram)
         End If
     End Sub
 
@@ -315,9 +312,12 @@ Public Class Ui11PCA
         fitKmeans.dataInputs(MyData.DataDbl, rowLabels, MyData.varNames)
 
         Dim initialization As Multivariate.KMeansInitializationMethod = Me.GetSelectedKMeansInitialization()
+        Dim centersIntent As MultivariateStartingCentersIntent = Nothing
         If initialization = Multivariate.KMeansInitializationMethod.UserSpecifiedCenters Then
-            fitKmeans.startingCentersInputs(Me.ImportKMeansStartingCenters(expectedClusters:=CInt(Me.nudKmeansClusters.Value),
-                                                                   expectedVariables:=MyData.nCols))
+            Dim centers = Me.ImportKMeansStartingCenters(expectedClusters:=CInt(Me.nudKmeansClusters.Value),
+                                                         expectedVariables:=MyData.nCols)
+            fitKmeans.startingCentersInputs(centers)
+            centersIntent = New MultivariateStartingCentersIntent(centers.GetLength(0), centers.GetLength(1))
         End If
 
         Dim seed As Integer = MultivariateWorkflowPolicy.Seed(Nothing)
@@ -332,7 +332,8 @@ Public Class Ui11PCA
             .Tolerance = ParseUiDouble(Me.tbKmeansTolerance.Text, "Convergence tolerance"),
             .Standardization = Me.GetSelectedKMeansStandardization(), .Missing = Me.GetSelectedKMeansMissingPolicy(),
             .EmptyCluster = Me.GetSelectedKMeansEmptyClusterHandling(), .Seed = seed}
-        options.Configure(fitKmeans)
+        Dim request As New MultivariateKMeansRequest(intent, options, centersIntent)
+        request.Configure(fitKmeans)
         fitKmeans.Fit()
 
         Dim wb As Workbook = AppGlobals.app.Workbooks.Add()
@@ -341,13 +342,13 @@ Public Class Ui11PCA
         Dim wrData As New ExcelDnaResultWriter()
         wrData.wb = wb
         wrData.ws = wsData
-        wrData.write(Me.BuildKMeansInputDataTable(MyData, rowLabels))
+        WindowsMultivariateWorkflowAdapter.WriteClusterData(wrData, MyData.FinalData, request)
 
-        Dim report = MultivariateReportPolicy.Project(intent, fitKmeans.wrapResults())
-        Dim res = report.LegacyTables()
+        Dim projection = MultivariateClusteringProjectionPolicy.KMeans(request, fitKmeans.Result, fitKmeans.wrapResults())
+        Dim res = projection.LegacyTables()
         Dim wrSummary As New ExcelDnaResultWriter()
         Dim wsSummary As Worksheet = CType(wb.Worksheets.Add(After:=wsData), Worksheet)
-        wsSummary.Name = "KMeans results"
+        wsSummary.Name = projection.ResultsSheetName
         wrSummary.wb = wb
         wrSummary.ws = wsSummary
         Dim rr = New ProcessListofResultTables(res)

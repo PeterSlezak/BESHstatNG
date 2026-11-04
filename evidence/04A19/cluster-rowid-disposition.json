@@ -1,0 +1,40 @@
+{
+  "id": "C19-CLUSTER-ROWID-DISPLAY-01",
+  "status": "OPEN / CANDIDATE_ONLY",
+  "fixture": {
+    "source_rows": [
+      101,
+      105,
+      118,
+      131
+    ],
+    "deleted_input_ordinal": 2,
+    "active_input_ordinals": [
+      1,
+      3,
+      4
+    ],
+    "active_source_rows": [
+      101,
+      118,
+      131
+    ],
+    "active_leaf_ids": [
+      1,
+      2,
+      3
+    ],
+    "internal_merge_ids": [
+      4,
+      5
+    ]
+  },
+  "observed": "Data OriginalRow is physical source RowId; Core membership OriginalRow is 1-based input ordinal, after deletion still 1,3,4. Active leaf 2 is input ordinal 3 and source RowId 118. Display labels do not define identity.",
+  "executed_tests": [
+    "PhysicalRowsInputOrdinalsAndLeavesStayDistinct(False)",
+    "PhysicalRowsInputOrdinalsAndLeavesStayDistinct(True)"
+  ],
+  "dormant_proposal": "Use projected observation SourceRowId for a future explicitly approved output alignment, while retaining input ordinal provenance. No existing report cell or heading changed; no production activation switch.",
+  "owner": "04A.28 / 04A.39-42 or separately approved timing exception",
+  "activation_gate": "Separate owner-approved visible behavior decision and original applicable native prechange/capture gate; software extraction acceptance alone grants no release."
+}

@@ -1,0 +1,35 @@
+{
+  "corrections": [
+    {
+      "receipt": "dev01-build",
+      "issue": "New test function and local both named Centers; VB compilation refused.",
+      "resolution": "Renamed only the new test fixture function StartingCenters."
+    },
+    {
+      "receipt": "dev02-tests",
+      "issue": "New For Each labels collided with a Framework test helper named Labels.",
+      "resolution": "Declared explicit enum labelMode in the new test."
+    },
+    {
+      "receipt": "preview-Debug-Common",
+      "issue": "New inversion test used Core enum value 6 (Ward), assuming UI ordering.",
+      "resolution": "Used actual Core centroid/median values 4 and 5 after inspecting enum authority; both observed inversions remain unchanged."
+    },
+    {
+      "receipt": "historical rerun guard",
+      "issue": "Prior wrapper fixed receipt names refused an existing log with FileExistsError.",
+      "resolution": "New batch wrapper prefixes final-authority names. No historical/default log overwritten."
+    },
+    {
+      "receipt": "final-Debug and final-Release Python",
+      "issue": "New privacy-test regex literal matched old home-path scanner, causing two new privacy failures.",
+      "resolution": "Removed the redundant literal while retaining drive/SID assertions and the full independent candidate privacy scan. All four Python roots rerun in both configurations; prior tests unchanged."
+    },
+    {
+      "receipt": "final-source-Debug/Release",
+      "issue": "Evidence completeness for fitted-but-report-rejected outcomes.",
+      "resolution": "Only new test logging adds actual available Core row/leaf axes and explicit absence at earlier rejection. Entire affected Common/Windows suites rerun; counts/assertions unchanged."
+    }
+  ],
+  "production_numerical_corrections": 0
+}

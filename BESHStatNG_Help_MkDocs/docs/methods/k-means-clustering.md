@@ -1,6 +1,8 @@
 # K-Means Clustering
 
-**Windows workflow and availability.** The Windows defaults remain K-Means++, squared Euclidean distance, no standardization, error on missing values and farthest-observation empty-cluster recovery. The seed field uses the configured application default; leaving it blank requests the existing time-based Core seed, rather than seed zero. Fixed seeds support repeatable comparisons. Selected blank row labels fall back to `Row {RowId}`; the Data table retains `OriginalRow` and optional `RowLabel`. User centers still come from the existing worksheet range importer. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
+**Windows workflow and availability.** The Windows defaults remain K-Means++, squared Euclidean distance, no standardization, error on missing values and farthest-observation empty-cluster recovery. The seed field uses the configured application default; leaving it blank delegates seed resolution to Core, using the configured default or a time-based fallback. Fixed seeds support repeatable comparisons. Selected blank row labels fall back to `Row {RowId}`; the Data table retains `OriginalRow` and optional `RowLabel`. User centers still come from the existing worksheet range importer. These dialog/chart workflows are not yet available in the Office/Excel Online add-in; portable contract tests do not provide a task-pane command.
+
+**Output identity and reproducibility.** In the Data sheet, `OriginalRow` contains the acquired Excel source row numbers. In Observation Assignments and the removed-row result table, the same heading currently contains 1-based analysis input positions, which can differ for filtered or noncontiguous selections. No output remapping has been applied. Without a selected label column, Core uses `Obs 1`, `Obs 2`, and so on; selected blank labels use the source-row fallback described above. User-specified centres are supplied on the original numeric scale in selected-variable order; Core transforms them once using the fitted preprocessing constants and evaluates one start. Standardized fits report both original-scale and working-scale centres. Euclidean reporting changes the displayed point-to-centre distance; the fitting objective remains squared-Euclidean within-cluster SSE. Seed zero is an explicit seed. A blank field delegates seed resolution to Core, using the configured default when present and otherwise a time-based seed. The effective seed is reported after fitting; replay requires the same data, option order and runtime configuration, and an unspecified seed alone promises no repeatability. These Windows dialog workflows are not available in Excel Online or Excel for Mac.
 
 **Includes:** K-means clustering for numeric data, initialization by k-means++, Forgy, random partition, or user-specified centers, repeated random starts, optional z-score or 0–1 range standardization, explicit missing-value handling, empty-cluster strategies, optional row labels, and formatted result tables.  
 **Purpose:** Partition observations into a requested number of compact clusters by minimizing the total within-cluster sum of squared Euclidean distances.
@@ -24,7 +26,7 @@ The BESHStatNG workflow is:
 The output contains:
 
 - a **Data** sheet containing the analyzed variables and optional row labels,
-- a **K-Means results** sheet containing settings, fit summary, cluster centers, and observation assignments.
+- a **KMeans results** sheet containing settings, fit summary, cluster centers, and observation assignments.
 
 ---
 
@@ -412,7 +414,7 @@ Set a seed when:
 
 Leave the field blank when:
 
-- you want a fresh stochastic initialization each run,
+- you accept Core seed resolution (a configured default can still repeat the seed),
 - you do not need exact reproducibility.
 
 ##### Output reporting

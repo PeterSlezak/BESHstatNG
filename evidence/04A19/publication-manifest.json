@@ -1,0 +1,350 @@
+{
+  "base": "5429a46ac706a43c9f57136eef68158decedf89d",
+  "head": "5429a46ac706a43c9f57136eef68158decedf89d",
+  "branch": "codex/04A-19",
+  "files": {
+    "BESHStat.Excel.Common.Tests/src/Multivariate19Tests.vb": {
+      "sha256": "1c8a01d02b2419bbc9f0150fed2bf31ddbd429ac5e020d9151d07d96556613c5",
+      "bytes": 40393,
+      "change": "new",
+      "role": "test",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStat.Excel.Common/src/Analysis/MultivariateClusteringRequest.vb": {
+      "sha256": "ad1a951e5bb164bbb464673ad0e533318c57b18583f5e926c15e1c1048003ad2",
+      "bytes": 6969,
+      "change": "new",
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStat.Excel.Common/src/Results/MultivariateClusteringProjection.vb": {
+      "sha256": "4fe2a117874629e70a6882c3a8a7ed8166d1331b1e0d0fbecf53b3e1221765f3",
+      "bytes": 11528,
+      "change": "new",
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj": {
+      "sha256": "c1a28d6fbd8d02e19f35c79faa6895e866b4e0dffab3ba963be6aa6e80b1fc79",
+      "bytes": 22984,
+      "change": "modified",
+      "role": "project",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStatNG.Test/src/Multivariate19AdapterTests.vb": {
+      "sha256": "35904e1be151f4c0879cd92b984b452247d03685636fdcc180d4c132d534994a",
+      "bytes": 8528,
+      "change": "new",
+      "role": "test",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/hierarchical-clustering.md": {
+      "sha256": "807a8dfa7dd169dae02dd77148e05f0e08671b9532a9d3ab1e88d30ff93a8b5f",
+      "bytes": 24727,
+      "change": "modified",
+      "role": "documentation",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 0
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/k-means-clustering.md": {
+      "sha256": "b27f4fa6d45b0cabbad55bed15d246dcc179dc301a0129df8ca1aecad0b43109",
+      "bytes": 25853,
+      "change": "modified",
+      "role": "documentation",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 0
+    },
+    "BESHstatNG/src/DM/WindowsMultivariateWorkflowAdapter.vb": {
+      "sha256": "c99df027402b6bda10511112311f25f304bef8312dc31fd3949fc40ba4b3289d",
+      "bytes": 7383,
+      "change": "modified",
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHstatNG/src/UI/Ui11PCA.vb": {
+      "sha256": "2ccdb4d401b231c2b33dad70d50074fae62177c71f1be1a25064d49af00f3c29",
+      "bytes": 59791,
+      "change": "modified",
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "docs/architecture/batch-04A-19-owner-review.md": {
+      "sha256": "1756390809e33598dfd378401b9664f49bd8a890c06a9db3bdee482dcd1f0347",
+      "bytes": 42590,
+      "change": "new",
+      "role": "documentation",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/candidate-issues.json": {
+      "sha256": "20607200e4a23f68678ab7392cb207ac659d522d67a33d4b84839b6ebc2b1615",
+      "bytes": 1633,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/cluster-rowid-disposition.json": {
+      "sha256": "dea956288f0fe9568ce54149a17e2d3f8c129ff5890a7aafc1033faff005163f",
+      "bytes": 1317,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/clustering-request-projections-v1.json": {
+      "sha256": "4d7728111afbe20c4bd8103fa5618077f375b50f1763eb2c5af785810fc39cbf",
+      "bytes": 2645,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/command-outcomes.json": {
+      "sha256": "73c67ccbd1fb40c87ffd98c63d1b8a3886c583dc71efedadccbe391e7f9d8e22",
+      "bytes": 52188,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/development-corrections.json": {
+      "sha256": "b95c24af973c8b57ec92a90f566155d49bc7eb495a190ca58739cbb76302344a",
+      "bytes": 1786,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/documentation-audit.json": {
+      "sha256": "c28c9ba34fcb34549a437a1c20c97ccdbe6c376526b4b82ed2ca98305cd4d374",
+      "bytes": 1220,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/entry-state.json": {
+      "sha256": "5f1eaf306d719e09294f325e009668fc85b5e14653fd5462609ea79d23de8917",
+      "bytes": 1652,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/entry-validation.json": {
+      "sha256": "e148a48f80916ab448cb553dc35ac1feba6c23d1fab9d0cf2b89047ab53c842b",
+      "bytes": 76390,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/execution-adaptations.json": {
+      "sha256": "301cdaa63e54900562be277789d15e21583c846486fd9b94cd72044205de1597",
+      "bytes": 23967,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/final-source-qualification.json": {
+      "sha256": "7e07ffcc2729610229bb3d9694e417a5ac457767d6eee2f3498b5c8ef37b708f",
+      "bytes": 5489,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/format-preservation.json": {
+      "sha256": "1c6bb176753be85eb90706062203f5839ccba8f3c222779ea7e2ef5020b2a682",
+      "bytes": 1402,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/frozen-capture-hashes.json": {
+      "sha256": "46d06fe2619003c5fd068cffdf8dce0fe07a900b1634cd486661436900994c36",
+      "bytes": 38293,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/implementation-plan.json": {
+      "sha256": "47ffbe9fd2feb4f38e5d9365f2e628163d3fba12c6f8b24b60f492106b05acfe",
+      "bytes": 888,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/kmeans-hierarchical-projection-comparisons-v1.json": {
+      "sha256": "4ec9b04bbb45fe7dffa2917a2e1546de1beec22caf52ca20c957f5e7fbde4c96",
+      "bytes": 3737079,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/legacy-import-validation-provenance.json": {
+      "sha256": "cfa37086ad26434fb6dfbfe2a776694149c573d6b61040509ee8f337ac70948c",
+      "bytes": 594,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/nonpasses.json": {
+      "sha256": "359c3783d2c39d69105e083e035268bf1023c07c58e4300c3c3cc0825faa0571",
+      "bytes": 228454,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/original-control-crosswalk.json": {
+      "sha256": "854bf38e8869db1fa6910d9651a69e8ab11a38484589e6ab5827ba4fffe72274",
+      "bytes": 97074,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/prechange-manifest.json": {
+      "sha256": "44b4b30764685d51e88ed9cbd907d13f0bfad88f54b3fc76f2b98caaac427a51",
+      "bytes": 13989,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/prechange-method-inventory.json": {
+      "sha256": "7ff06219b41a86120346ec1133cb9db8fc7259f1bd2eed277611eeb6ae41f139",
+      "bytes": 204771,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/privacy.json": {
+      "sha256": "05c7a716bc0c36414b5aab4bd50c52b5885b97e8169edaa760ad79a7c0279084",
+      "bytes": 399,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/retention.json": {
+      "sha256": "9dd1f210907c3cd16442b20e37608867675486cfe615eb895e6c60cd3cfdb4a9",
+      "bytes": 578,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/review-state.json": {
+      "sha256": "5937a6a137385de0757c0b20d462cc1c66e2a04d742ffdf5cdf178d0dff2d7ba",
+      "bytes": 8858,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/source-preservation.json": {
+      "sha256": "4549981a29dac3c3a6502fb1102d948b2f945a709328127b3cf1f0bc9acc7336",
+      "bytes": 4910,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/test-inventory.json": {
+      "sha256": "46df617392ecb8b11fee5e2e8d69ac8100e3e81230ed1a0daefa77e509a55463",
+      "bytes": 243042,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/toolchain.json": {
+      "sha256": "94f656442b8e5c7c48daf92ce19b47375683e064d898680f667f33139148f1fe",
+      "bytes": 821,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A19/validation.json": {
+      "sha256": "e4a2e9338876d3f5f28cfab2c2855d8c8744da6054fafa25c174e50a3975d9b4",
+      "bytes": 78202,
+      "change": "new",
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/capture-04a19-contract.py": {
+      "sha256": "204cc3a120069f0ff6dfe42effc73fb7f3d2fb6bea70227116e7971fc9f7886c",
+      "bytes": 4246,
+      "change": "new",
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/summarize-04a19.py": {
+      "sha256": "206f21ac74e8c28663f8e22d6fee7e011c77536f8fcb1b6bc21ff6641f548d55",
+      "bytes": 31684,
+      "change": "new",
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/tests/test_04a19_clustering.py": {
+      "sha256": "565f5a4071b7a3d319614f5d4000d66c696c2832433ff39062d46885dccf703e",
+      "bytes": 10215,
+      "change": "new",
+      "role": "test",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/verify-04a19-publication.py": {
+      "sha256": "d7f5353d18b42afd35cabeaf4722ed641b04c74fdef06b3ff2bfc7231d738859",
+      "bytes": 8332,
+      "change": "new",
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/verify-04a19.py": {
+      "sha256": "c6247077f9360cf4aa2f999dc421c636b40c50e566f00b6ad3469238eff44f6d",
+      "bytes": 8502,
+      "change": "new",
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    }
+  },
+  "candidate_count": 42,
+  "self_hash_policy": "Only manifest itself excluded to avoid circularity. Its content, membership, privacy and trackability checked separately.",
+  "excluded": [
+    "Historical/ignored TestResults including raw logs/TRX, private source snapshots and drafts",
+    "Build binaries/caches, prior evidence, owner plan and unrelated files"
+  ],
+  "index": "EMPTY",
+  "publication": "OWNER_REVIEW_PENDING / UNSTAGED / UNCOMMITTED / NOT_PUSHED",
+  "native": false,
+  "R": false,
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET",
+  "reviewed_false_positive_groups": 0
+}

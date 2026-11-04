@@ -1,0 +1,26 @@
+{
+  "issues": [
+    {
+      "id": "C19-CLUSTER-ROWID-DISPLAY-01",
+      "status": "OPEN / UNAPPLIED",
+      "owner": "04A.28 / 04A.39-42",
+      "reproduction": "PhysicalRowsInputOrdinalsAndLeavesStayDistinct: source 101,105,118,131; delete input 2; result OriginalRow remains 1,3,4."
+    },
+    {
+      "id": "C19-HIERARCHICAL-NONFINITE-POWER-01",
+      "status": "OPEN / CANDIDATE_ONLY",
+      "owner": "04A.40-41 scientific/domain policy",
+      "reproduction": "Hierarchical profile 165: Minkowski power NaN passes settings but Fit throws KeyNotFoundException for key -1; profile 166 positive infinity is retained as Core-returned, not scientifically validated.",
+      "proposal": "Separately review finite-power admission/exception behavior; no new Common or Windows refusal activated."
+    },
+    {
+      "id": "C19-HIERARCHICAL-INVERSION-CUT-01",
+      "status": "OPEN / CANDIDATE_ONLY",
+      "owner": "04A.40-41 scientific policy and 04A.28 reporting",
+      "reproduction": "ExistingInversionAndPrefixHeightCutRemainCandidateOnly: (-1,0),(1,0),(0,1.8), centroid/median Euclidean; heights 2 then 1.8. Cut 1.9 returns three memberships because Core stops at the first higher merge, despite the existing all-merges <= footnote.",
+      "proposal": "Separate scientific/reporting decision required. Keep merge order, height cut, workbook footnote and geometry unchanged."
+    }
+  ],
+  "prior_deferrals": "C09/C11/C12 unapplied; C13 log-rank earliest-censored-time OPEN for 04A.40-41; C14 candidate-only; C17/C18 unlabelled CA activation dormant/unapplied; frozen PCA/layout failures retained.",
+  "activated_corrections": 0
+}

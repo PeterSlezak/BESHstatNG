@@ -1,0 +1,20 @@
+{
+  "batch": "04A.19",
+  "modified": [
+    "BESHstatNG/src/UI/Ui11PCA.vb",
+    "BESHstatNG/src/DM/WindowsMultivariateWorkflowAdapter.vb",
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+    "BESHStatNG_Help_MkDocs/docs/methods/k-means-clustering.md",
+    "BESHStatNG_Help_MkDocs/docs/methods/hierarchical-clustering.md"
+  ],
+  "new": [
+    "Common clustering request and projection contracts",
+    "Multivariate19Tests.vb",
+    "Multivariate19AdapterTests.vb",
+    "04a19 Python verification/accounting contracts",
+    "evidence/04A19/*",
+    "docs/architecture/batch-04A-19-owner-review.md"
+  ],
+  "preserved": "Core, prior tests/evidence, importers/RefEdit, native renderers/writers, other form methods, metadata, master plan, targets/packages",
+  "tolerance": "Finite max(1e-9, abs(expected)*1e-9); exact cell types/identities/order, NaN and signed infinity classes. No relabelling."
+}
