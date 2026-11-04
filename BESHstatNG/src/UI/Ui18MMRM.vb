@@ -449,8 +449,8 @@ Public Class Ui18MMRM
             End Try
 
             InvokeMMRMUi(Sub()
-                             AppendMMRMEstimatedMeanTables(result, x, fixedNames, visit, mmrmGuiData)
-                             WriteMMRMResults(mmrmGuiData, result, y, x, fixedNames, subjectId, visit)
+                             AppendMMRMEstimatedMeanTables(result, x, fixedNames, visit, mmrmGuiData, workflow.Decision)
+                             WriteMMRMResults(mmrmGuiData, result, y, x, fixedNames, subjectId, visit, workflow.Decision)
                          End Sub)
         Finally
             ReleaseMMRMLargeRunReferences(result, model, req)
@@ -670,7 +670,7 @@ Public Class Ui18MMRM
                                  x(,) As Double,
                                  fixedNames() As String,
                                  subjectId() As Object,
-                                 visit() As Double)
+                                 visit() As Double, Optional decision As MixedModelFitDecision = Nothing)
 
         If result Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(result)))
         If mmrmGuiData Is Nothing OrElse mmrmGuiData.Raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(mmrmGuiData)))
@@ -678,7 +678,7 @@ Public Class Ui18MMRM
         Dim wb As Object = AppGlobals.app.Workbooks.Add()
 
         WriteMMRMDataSheet(wb, mmrmGuiData, result, y, x, fixedNames, subjectId, visit)
-        WriteMMRMModelSheet(wb, result)
+        WriteMMRMModelSheet(wb, result, decision)
 
         If MixedModelReportPolicy.ShouldWriteTrace(Me.ckTrace.Checked, Me.ckIterationsDetails.Checked, result.strTrace) Then
             WriteMMRMTraceSheet(wb, result.strTrace)
@@ -750,10 +750,10 @@ Public Class Ui18MMRM
 
     End Sub
 
-    Private Sub WriteMMRMModelSheet(wb As Object, result As regression.MixedModelResult)
+    Private Sub WriteMMRMModelSheet(wb As Object, result As regression.MixedModelResult, Optional decision As MixedModelFitDecision = Nothing)
         Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim report = MixedModelReportPolicy.Project(MixedModelWorkflowKind.MMRM, result,
-            New MixedModelReportOptions With {.Alpha = alphaValue, .IterationDetails = Me.ckIterationsDetails.Checked, .Diagnostics = Me.cbDiagnostic.Checked})
+            New MixedModelReportOptions With {.Alpha = alphaValue, .IterationDetails = Me.ckIterationsDetails.Checked, .Diagnostics = Me.cbDiagnostic.Checked}, decision)
         Dim tables As List(Of ResultTable) = report.LegacyTables()
         Dim writeRes As New ExcelDnaResultWriter
         wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
@@ -810,7 +810,9 @@ Public Class Ui18MMRM
             .GroupSelection = SelectedComboText(Me.cbMMRMGroupingFactor, MMRM_GROUP_AUTO),
             .BaselineSelection = SelectedComboText(Me.cbMMRMBaselineVisit, MMRM_BASELINE_SMALLEST),
             .ControlSelection = SelectedComboText(Me.cbMMRMControlLevel, MMRM_CONTROL_FIRST),
-            .ComparisonSelection = SelectedComboText(Me.cbMMRMComparisonLevel, MMRM_GROUP_AUTO)}
+            .ComparisonSelection = SelectedComboText(Me.cbMMRMComparisonLevel, MMRM_GROUP_AUTO),
+            .RequestedContrastText = SelectedComboText(Me.cbMMRMContrastMode, MMRM_MODE_PAIRWISE),
+            .RequestedDirectionText = SelectedComboText(Me.cbMMRMContrastDirection, MMRM_DIR_HIGHER_MINUS_LOWER)}
     End Function
 
     ''' <summary>
@@ -834,7 +836,7 @@ Public Class Ui18MMRM
                                           x(,) As Double,
                                           fixedNames() As String,
                                           visit() As Double,
-                                          mmrmData As MmrmData)
+                                          mmrmData As MmrmData, Optional decision As MixedModelFitDecision = Nothing)
         Try
             If result Is Nothing Then Exit Sub
             If result.AdditionalResultTables Is Nothing Then result.AdditionalResultTables = New List(Of ResultTable)()
@@ -889,80 +891,18 @@ Public Class Ui18MMRM
             End Try
 
             Dim reportOptions = CaptureMMRMReportOptions()
-            Dim reportPlan = MixedModelReportPolicy.Plan(MixedModelWorkflowKind.MMRM, reportOptions, hasGroup)
-
-            If reportPlan.Includes(MixedModelSupplementalSection.ClassInformation) Then
-                AddOptionalMMRMTable(result,
-                                 Function() BuildMMRMClassLevelInformationTable(mmrmData, If(hasGroup, groupKey, Nothing)),
-                                 "Class Level Information")
-            End If
-
-            If Not reportPlan.Options.EstimatedMeans Then
-                CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables finished after class-level output because estimated means are disabled.")
-                Exit Sub
-            End If
-
-            Dim baselineVisit As Double = ResolveSelectedBaselineVisit(visit)
-            Dim contrastMode As String = SelectedComboText(Me.cbMMRMContrastMode, MMRM_MODE_PAIRWISE)
-            Dim contrastDirection As String = SelectedComboText(Me.cbMMRMContrastDirection, MMRM_DIR_HIGHER_MINUS_LOWER)
-            Dim controlLevel As Double = If(hasGroup, ResolveSelectedControlLevel(groupValues), Double.NaN)
-
-            If IsMMRMReferenceGridModeSelected() Then
-                AppendMMRMReferenceGridTables(result:=result,
-                                  fixedNames:=fixedNames,
-                                  visit:=visit,
-                                  mmrmData:=mmrmData,
-                                  hasGroup:=hasGroup,
-                                  groupKey:=groupKey,
-                                  groupValues:=groupValues,
-                                  alphaValue:=alphaValue,
-                                  contrastMode:=contrastMode,
-                                  controlLevel:=controlLevel,
-                                  contrastDirection:=contrastDirection)
-
-                CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables used reference-grid mode; observed-design-grid tables skipped.")
-                Exit Sub
-            End If
-
-            CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables options. baseline=" & baselineVisit.ToString(Globalization.CultureInfo.InvariantCulture) &
-                                "; contrastMode='" & contrastMode & "'; direction='" & contrastDirection &
-                                "'; controlLevel=" & controlLevel.ToString(Globalization.CultureInfo.InvariantCulture))
-
-            AddOptionalMMRMTable(result,
-                             Function() regression.MMRMPostEstimation.BuildEstimatedMeansByVisitTable(result, x, visit, alphaValue),
-                             "Estimated marginal means by visit")
-
-            If reportPlan.Includes(MixedModelSupplementalSection.ChangeByVisit) Then
-                AddOptionalMMRMTable(result,
-                                 Function() regression.MMRMPostEstimation.BuildChangeFromBaselineTableControlled(result, x, visit, baselineVisit, alphaValue),
-                                 "MMRM change from baseline by visit")
-            End If
-
-            If hasGroup Then
-                AddOptionalMMRMTable(result,
-                                 Function() regression.MMRMPostEstimation.BuildEstimatedMeansByVisitAndGroupTable(result, x, visit, groupValues, groupKey, alphaValue),
-                                 "Estimated marginal means by visit and group")
-
-                If reportPlan.Includes(MixedModelSupplementalSection.GroupDifferences) Then
-                    AddOptionalMMRMTable(result,
-                                     Function() BuildMMRMVisitGroupDifferencesTableControlled(result, x, visit, groupValues, groupKey, alphaValue, contrastMode, controlLevel, contrastDirection),
-                                     "MMRM group differences by visit")
-                End If
-
-                If reportPlan.Includes(MixedModelSupplementalSection.ChangeByGroup) Then
-                    AddOptionalMMRMTable(result,
-                                     Function() regression.MMRMPostEstimation.BuildChangeFromBaselineByGroupTableControlled(result, x, visit, groupValues, groupKey, baselineVisit, alphaValue),
-                                     "MMRM change from baseline by visit and group")
-
-                    If reportPlan.Includes(MixedModelSupplementalSection.DifferenceInChange) Then
-                        AddOptionalMMRMTable(result,
-                                         Function() BuildMMRMDifferenceInChangeFromBaselineTableControlled(result, x, visit, groupValues, groupKey, baselineVisit, alphaValue, contrastMode, controlLevel, contrastDirection),
-                                         "MMRM difference in change from baseline")
-                    End If
-                End If
-            Else
-                CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables: no grouping factor resolved; group-specific LS-means/contrast tables skipped.")
-            End If
+            reportOptions.Alpha = alphaValue
+            Dim intent As New MixedModelPostEstimationIntent(MixedModelWorkflowKind.MMRM, fixedNames, If(mmrmData Is Nothing, Nothing, mmrmData.VisitKey),
+                visit, hasGroup, groupKey, groupValues, reportOptions, If(mmrmData Is Nothing OrElse mmrmData.Raw Is Nothing, Nothing, mmrmData.Raw.RowIds), decision)
+            Dim supplemental = MixedModelPostEstimationPolicy.ProjectMMRM(result, x, intent,
+                Function() BuildMMRMClassLevelInformationTable(mmrmData, If(hasGroup, groupKey, Nothing)),
+                Function() AppendMMRMReferenceGridTables(result, fixedNames, visit, mmrmData, hasGroup,
+                    groupKey, groupValues, alphaValue, MixedModelPostEstimationPolicy.ContrastText(reportOptions),
+                    If(hasGroup, MixedModelPostEstimationPolicy.ResolveLevel(groupValues, reportOptions.ControlSelection, MMRM_CONTROL_FIRST), Double.NaN),
+                    MixedModelPostEstimationPolicy.DirectionText(reportOptions)),
+                AddressOf WindowsMixedModelWorkflowAdapter.LogPostEstimation)
+            WindowsMixedModelWorkflowAdapter.ApplySupplemental(result, supplemental)
+            If Not reportOptions.EstimatedMeans OrElse reportOptions.MeansMode = MixedModelMeansMode.ReferenceGrid Then Exit Sub
 
             CoreServices.Logger.Debug("AppendMMRMEstimatedMeanTables complete. additionalTables=" & result.AdditionalResultTables.Count.ToString())
 
@@ -977,7 +917,7 @@ Public Class Ui18MMRM
     ''' <remarks>
     ''' The first implementation is conservative: among selected fixed-effect source variables,
     ''' exclude the visit/time variable and choose the variable with the smallest number of
-    ''' finite distinct numeric levels between 2 and 6.  This works well for examples such as
+    ''' at least two finite distinct numeric levels. This works well for examples such as
     ''' SexCode in the Orthodont data while avoiding continuous variables such as age when a
     ''' two-level grouping variable is present.
     ''' </remarks>
@@ -1002,8 +942,8 @@ Public Class Ui18MMRM
                 Dim values() As Double = ExtractNumericColumnFromData(mmrmData.Raw, col)
                 Dim levels() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(values)
 
-                If levels IsNot Nothing AndAlso levels.Length >= 2 Then
-                    If levels.Length < bestLevelCount Then
+                If levels IsNot Nothing Then
+                    If MixedModelPostEstimationPolicy.BetterGroupingCandidate(levels.Length, bestLevelCount) Then
                         bestLevelCount = levels.Length
                         bestKey = key
                         bestValues = values
@@ -1037,7 +977,7 @@ Public Class Ui18MMRM
                                                      Optional groupKey As String = Nothing) As ResultTable
         If mmrmData Is Nothing OrElse mmrmData.Raw Is Nothing Then Return Nothing
 
-        Dim rows As New List(Of Object())
+        Dim rows As New List(Of MixedModelClassLevel)
 
         ' IMPORTANT: use HashSet, not List(comparer).  List(Of String) has no
         ' comparer constructor; passing StringComparer to List creates the runtime
@@ -1050,28 +990,14 @@ Public Class Ui18MMRM
             AddClassLevelRow(rows, addedKeys, mmrmData.Raw, groupKey)
         End If
 
-        If rows.Count = 0 Then Return Nothing
-
-        Dim body(rows.Count - 1, 2) As Object
-        For i As Integer = 0 To rows.Count - 1
-            body(i, 0) = rows(i)(0)
-            body(i, 1) = rows(i)(1)
-            body(i, 2) = rows(i)(2)
-        Next
-
-        Dim t As New ResultTable
-        t.AddTitle("Class Level Information")
-        t.SetBody(body)
-        t.AddHeaderTopRow({"Class", "Levels", "Values"})
-        t.AddFootnote("Class levels are shown for the subject ID and, when available, the grouping factor used by MMRM LS-means/contrast output.")
-        Return t
+        Return MixedModelPostEstimationPolicy.ClassInformation(MixedModelWorkflowKind.MMRM, rows)
     End Function
 
 
     ''' <summary>
     ''' Adds one row to the Class Level Information table.
     ''' </summary>
-    Private Sub AddClassLevelRow(rows As List(Of Object()),
+    Private Sub AddClassLevelRow(rows As List(Of MixedModelClassLevel),
                              addedKeys As System.Collections.Generic.HashSet(Of String),
                              raw As DataObj,
                              key As String)
@@ -1090,14 +1016,14 @@ Public Class Ui18MMRM
 
             If uniqueValues Is Nothing OrElse uniqueValues.Length = 0 Then Exit Sub
 
-            rows.Add(New Object() {baseName, uniqueValues.Length, regression.MixedModelFrontEndHelpers.JoinClassValues(uniqueValues)})
+            rows.Add(New MixedModelClassLevel(baseName, uniqueValues.Length, regression.MixedModelFrontEndHelpers.JoinClassValues(uniqueValues)))
             addedKeys.Add(baseName)
         Catch ex As Exception
             CoreServices.Logger.Warn("Class-level row skipped for '" & key & "': " & ex.Message)
         End Try
     End Sub
 
-    Private Sub AppendMMRMReferenceGridTables(result As regression.MixedModelResult,
+    Private Function AppendMMRMReferenceGridTables(result As regression.MixedModelResult,
                                           fixedNames() As String,
                                           visit() As Double,
                                           mmrmData As MmrmData,
@@ -1107,57 +1033,17 @@ Public Class Ui18MMRM
                                           alphaValue As Double,
                                           contrastMode As String,
                                           controlLevel As Double,
-                                          contrastDirection As String)
-        If result Is Nothing OrElse fixedNames Is Nothing OrElse visit Is Nothing OrElse mmrmData Is Nothing Then Exit Sub
-
-        Dim spec As regression.MixedModelReferenceGridSpec =
-        BuildMMRMReferenceGridSpec(result:=result,
-                                   fixedNames:=fixedNames,
-                                   visit:=visit,
-                                   mmrmData:=mmrmData,
-                                   hasGroup:=hasGroup,
-                                   groupKey:=groupKey,
-                                   groupValues:=groupValues,
-                                   alphaValue:=alphaValue)
-
-        If spec Is Nothing Then
-            CoreServices.Logger.Warn("Reference-grid LS-means skipped: specification could not be built.")
-            Exit Sub
-        End If
-
-        Dim rows As List(Of regression.MixedModelReferenceGridRow) =
-        regression.MixedModelReferenceGridService.BuildReferenceGridRows(spec)
-
-        If rows Is Nothing OrElse rows.Count = 0 Then
-            CoreServices.Logger.Warn("Reference-grid LS-means skipped: no reference-grid rows were created.")
-            Exit Sub
-        End If
-
-        AddOptionalMMRMTable(result,
-                         Function() regression.MixedModelReferenceGridService.BuildEstimatedMeansTable(
-                             title:="Reference-grid estimated marginal means",
-                             rows:=rows,
-                             result:=result,
-                             spec:=spec),
-                         "Reference-grid estimated marginal means")
-
-        Dim referenceOptions = CaptureMMRMReportOptions()
-        referenceOptions.MeansMode = MixedModelMeansMode.ReferenceGrid
-        referenceOptions.Contrast = MixedModelReportPolicy.Contrast(contrastMode)
-        Dim referencePlan = MixedModelReportPolicy.Plan(MixedModelWorkflowKind.MMRM, referenceOptions, hasGroup AndAlso Not String.IsNullOrWhiteSpace(groupKey))
-        If referencePlan.Includes(MixedModelSupplementalSection.ReferenceGroupContrasts) Then
-
-            AddOptionalMMRMTable(result,
-                             Function() BuildMMRMReferenceGridGroupContrastsTable(result,
-                                                                                 rows,
-                                                                                 spec,
-                                                                                 groupKey,
-                                                                                 contrastMode,
-                                                                                 controlLevel,
-                                                                                 contrastDirection),
-                             "Reference-grid group contrasts")
-        End If
-    End Sub
+                                          contrastDirection As String) As MixedModelSupplementalReport
+        If result Is Nothing OrElse fixedNames Is Nothing OrElse visit Is Nothing OrElse mmrmData Is Nothing Then Return MixedModelPostEstimationPolicy.EmptyReport()
+        Dim spec = BuildMMRMReferenceGridSpec(result, fixedNames, visit, mmrmData, hasGroup, groupKey, groupValues, alphaValue)
+        Dim options = CaptureMMRMReportOptions()
+        options.MeansMode = MixedModelMeansMode.ReferenceGrid
+        options.RequestedContrastText = contrastMode : options.RequestedDirectionText = contrastDirection
+        options.Contrast = MixedModelReportPolicy.Contrast(contrastMode) : options.ControlLevel = controlLevel
+        Dim intent As New MixedModelPostEstimationIntent(MixedModelWorkflowKind.MMRM, fixedNames, mmrmData.VisitKey, visit,
+            hasGroup, groupKey, groupValues, options, mmrmData.Raw.RowIds)
+        Return MixedModelPostEstimationPolicy.ProjectReference(result, spec, intent, AddressOf WindowsMixedModelWorkflowAdapter.LogPostEstimation)
+    End Function
 
     ''' <summary>
     ''' Initializes MMRM-specific model, inference, and LS-means/contrast controls.
@@ -1442,38 +1328,10 @@ Public Class Ui18MMRM
     ''' authored as categorical main effects.
     ''' </summary>
     Private Function GetMMRMCategoricalFactorBaseKeys() As List(Of String)
-        Dim out As New List(Of String)
-
-        If Me.lbSelectedEffectsList Is Nothing OrElse Me.TermSpecs Is Nothing Then Return out
-
-        Dim visitBase As String = Nothing
-        If Me.lbTime IsNot Nothing AndAlso Me.lbTime.Items.Count = 1 Then
-            visitBase = RegressionDesignCore.GetCoefBaseName(CStr(Me.lbTime.Items(0)))
-        End If
-
-        For Each it As Object In Me.lbSelectedEffectsList.Items
-            Dim effKey As String = CStr(it)
-            If String.IsNullOrWhiteSpace(effKey) Then Continue For
-            If Not Me.TermSpecs.ContainsKey(effKey) Then Continue For
-
-            Dim spec As TermSpec = Me.TermSpecs(effKey)
-            If spec Is Nothing Then Continue For
-            If Not String.Equals(spec.Kind, "MainEffect", StringComparison.OrdinalIgnoreCase) Then Continue For
-            If spec.Scale <> PredictorScale.Categorical Then Continue For
-            If spec.BaseVarKeys Is Nothing OrElse spec.BaseVarKeys.Count <> 1 Then Continue For
-
-            Dim baseKey As String = spec.BaseVarKeys(0)
-            Dim baseName As String = RegressionDesignCore.GetCoefBaseName(baseKey)
-
-            If Not String.IsNullOrWhiteSpace(visitBase) AndAlso
-           String.Equals(baseName, visitBase, StringComparison.OrdinalIgnoreCase) Then
-                Continue For
-            End If
-
-            If Not out.Contains(baseKey) Then out.Add(baseKey)
-        Next
-
-        Return out
+        Dim excludeVisit As String = Nothing
+        If Me.lbTime IsNot Nothing AndAlso Me.lbTime.Items.Count = 1 Then excludeVisit = RegressionDesignCore.GetCoefBaseName(CStr(Me.lbTime.Items(0)))
+        Return MixedModelPostEstimationPolicy.MainEffectKeys(If(Me.lbSelectedEffectsList Is Nothing, Nothing, Me.lbSelectedEffectsList.Items.Cast(Of String)()),
+            Me.TermSpecs, PredictorScale.Categorical, excludeVisit)
     End Function
 
     ''' <summary>
@@ -1489,9 +1347,9 @@ Public Class Ui18MMRM
 
         Dim sel As String = SelectedComboText(Me.cbMMRMGroupingFactor, MMRM_GROUP_AUTO)
 
-        If String.Equals(sel, MMRM_GROUP_NONE, StringComparison.OrdinalIgnoreCase) Then Return False
+        If MixedModelPostEstimationPolicy.GroupingChoice(sel) = MixedModelGroupingChoice.None Then Return False
 
-        If String.Equals(sel, MMRM_GROUP_AUTO, StringComparison.OrdinalIgnoreCase) Then
+        If MixedModelPostEstimationPolicy.GroupingChoice(sel) = MixedModelGroupingChoice.Automatic Then
             Return TryChooseMMRMGroupingVariable(mmrmData, groupKey, groupValues)
         End If
 
@@ -1499,7 +1357,7 @@ Public Class Ui18MMRM
             Dim col As Integer = ResolveDataColumnIndex(mmrmData.Raw, sel, "LS-means grouping variable")
             Dim values() As Double = ExtractNumericColumnFromData(mmrmData.Raw, col)
             Dim levels() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(values)
-            If levels Is Nothing OrElse levels.Length < 2 Then Return False
+            If levels Is Nothing OrElse Not MixedModelPostEstimationPolicy.HasGroupingLevels(levels.Length) Then Return False
 
             groupKey = sel
             groupValues = values
@@ -1511,39 +1369,11 @@ Public Class Ui18MMRM
     End Function
 
     Private Function ResolveSelectedBaselineVisit(visit() As Double) As Double
-        Dim visits() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(visit)
-        If visits Is Nothing OrElse visits.Length = 0 Then Return Double.NaN
-
-        Dim sel As String = SelectedComboText(Me.cbMMRMBaselineVisit, MMRM_BASELINE_SMALLEST)
-        If String.Equals(sel, MMRM_BASELINE_SMALLEST, StringComparison.OrdinalIgnoreCase) Then Return visits(0)
-
-        For Each v As Double In visits
-            If String.Equals(regression.MixedModelPostEstimation.FormatProfileValue(v), sel, StringComparison.OrdinalIgnoreCase) Then Return v
-        Next
-
-        Dim parsed As Double
-        If Double.TryParse(sel, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, parsed) Then Return parsed
-        If Double.TryParse(sel, parsed) Then Return parsed
-
-        Return visits(0)
+        Return MixedModelPostEstimationPolicy.ResolveLevel(visit, SelectedComboText(Me.cbMMRMBaselineVisit, MMRM_BASELINE_SMALLEST), MMRM_BASELINE_SMALLEST)
     End Function
 
     Private Function ResolveSelectedControlLevel(groupValues() As Double) As Double
-        Dim groups() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(groupValues)
-        If groups Is Nothing OrElse groups.Length = 0 Then Return Double.NaN
-
-        Dim sel As String = SelectedComboText(Me.cbMMRMControlLevel, MMRM_CONTROL_FIRST)
-        If String.Equals(sel, MMRM_CONTROL_FIRST, StringComparison.OrdinalIgnoreCase) Then Return groups(0)
-
-        For Each g As Double In groups
-            If String.Equals(regression.MixedModelPostEstimation.FormatProfileValue(g), sel, StringComparison.OrdinalIgnoreCase) Then Return g
-        Next
-
-        Dim parsed As Double
-        If Double.TryParse(sel, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, parsed) Then Return parsed
-        If Double.TryParse(sel, parsed) Then Return parsed
-
-        Return groups(0)
+        Return MixedModelPostEstimationPolicy.ResolveLevel(groupValues, SelectedComboText(Me.cbMMRMControlLevel, MMRM_CONTROL_FIRST), MMRM_CONTROL_FIRST)
     End Function
 
     Private Function BuildMMRMVisitGroupDifferencesTableControlled(result As regression.MixedModelResult,
@@ -1555,25 +1385,9 @@ Public Class Ui18MMRM
                                                                contrastMode As String,
                                                                controlLevel As Double,
                                                                direction As String) As ResultTable
-        Dim groups() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(groupValues)
-
-        Dim comparisonLevel As Double = Double.NaN
-        If String.Equals(contrastMode, MMRM_MODE_SELECTED, StringComparison.OrdinalIgnoreCase) Then
-            If Not ResolveSelectedComparisonLevel(groups, controlLevel, comparisonLevel) Then
-                Throw New ApplicationException("Selected comparison could not be resolved. Choose a comparison/treatment level different from the control/reference level.")
-            End If
-        End If
-
-        Return regression.MMRMPostEstimation.BuildVisitGroupDifferencesTableControlled(result:=result,
-                                                                                   x:=x,
-                                                                                   visit:=visit,
-                                                                                   groupValues:=groupValues,
-                                                                                   groupName:=groupName,
-                                                                                   alpha:=alpha,
-                                                                                   contrastMode:=contrastMode,
-                                                                                   controlLevel:=controlLevel,
-                                                                                   comparisonLevel:=comparisonLevel,
-                                                                                   direction:=direction)
+        Dim options = CaptureMMRMReportOptions()
+        options.Alpha = alpha : options.RequestedContrastText = contrastMode : options.RequestedDirectionText = direction
+        Return MixedModelPostEstimationPolicy.BuildObservedContrast(result, x, visit, groupValues, groupName, Double.NaN, controlLevel, options, False)
     End Function
 
     Private Function BuildMMRMDifferenceInChangeFromBaselineTableControlled(result As regression.MixedModelResult,
@@ -1586,26 +1400,9 @@ Public Class Ui18MMRM
                                                                         contrastMode As String,
                                                                         controlLevel As Double,
                                                                         direction As String) As ResultTable
-        Dim groups() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(groupValues)
-
-        Dim comparisonLevel As Double = Double.NaN
-        If String.Equals(contrastMode, MMRM_MODE_SELECTED, StringComparison.OrdinalIgnoreCase) Then
-            If Not ResolveSelectedComparisonLevel(groups, controlLevel, comparisonLevel) Then
-                Throw New ApplicationException("Selected comparison could not be resolved. Choose a comparison/treatment level different from the control/reference level.")
-            End If
-        End If
-
-        Return regression.MMRMPostEstimation.BuildDifferenceInChangeFromBaselineTableControlled(result:=result,
-                                                                                           x:=x,
-                                                                                           visit:=visit,
-                                                                                           groupValues:=groupValues,
-                                                                                           groupName:=groupName,
-                                                                                           baseline:=baseline,
-                                                                                           alpha:=alpha,
-                                                                                           contrastMode:=contrastMode,
-                                                                                           controlLevel:=controlLevel,
-                                                                                           comparisonLevel:=comparisonLevel,
-                                                                                           direction:=direction)
+        Dim options = CaptureMMRMReportOptions()
+        options.Alpha = alpha : options.RequestedContrastText = contrastMode : options.RequestedDirectionText = direction
+        Return MixedModelPostEstimationPolicy.BuildObservedContrast(result, x, visit, groupValues, groupName, baseline, controlLevel, options, True)
     End Function
 
     Private Function BuildMMRMReferenceGridSpec(result As regression.MixedModelResult,
@@ -1657,18 +1454,13 @@ Public Class Ui18MMRM
         For Each key As String In factorKeys
             Dim profileName As String = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(key)
 
-            If String.Equals(profileName, visitProfileName, StringComparison.OrdinalIgnoreCase) Then Continue For
-            If Not String.IsNullOrWhiteSpace(groupProfileName) AndAlso
-           String.Equals(profileName, groupProfileName, StringComparison.OrdinalIgnoreCase) Then Continue For
+            If Not MixedModelPostEstimationPolicy.ReferenceColumnIncluded(key, visitProfileName, groupProfileName) Then Continue For
 
             Try
                 Dim col As Integer = ResolveDataColumnIndex(mmrmData.Raw, key, "reference-grid marginal factor")
                 Dim values() As Double = ExtractNumericColumnFromData(mmrmData.Raw, col)
-                Dim levels() As Double = regression.MixedModelPostEstimation.UniqueSortedFiniteValues(values)
-
-                If levels IsNot Nothing AndAlso levels.Length > 1 Then
-                    spec.AddMarginalFactor(profileName, levels, values)
-                End If
+                MixedModelPostEstimationPolicy.AddReferenceColumn(spec,
+                    New MixedModelReferenceColumn(key, MixedModelReferenceColumnRole.MarginalFactor, values), visitProfileName, groupProfileName, CaptureMMRMReportOptions())
 
             Catch ex As Exception
                 CoreServices.Logger.Debug("Reference-grid marginal factor skipped '" & key & "': " & ex.Message)
@@ -1687,19 +1479,13 @@ Public Class Ui18MMRM
         For Each key As String In covariateKeys
             Dim profileName As String = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(key)
 
-            If String.Equals(profileName, visitProfileName, StringComparison.OrdinalIgnoreCase) Then Continue For
-            If Not String.IsNullOrWhiteSpace(groupProfileName) AndAlso
-           String.Equals(profileName, groupProfileName, StringComparison.OrdinalIgnoreCase) Then Continue For
+            If Not MixedModelPostEstimationPolicy.ReferenceColumnIncluded(key, visitProfileName, groupProfileName) Then Continue For
 
             Try
                 Dim col As Integer = ResolveDataColumnIndex(mmrmData.Raw, key, "reference-grid continuous covariate")
                 Dim values() As Double = ExtractNumericColumnFromData(mmrmData.Raw, col)
-
-                If UseObservedMeanReferenceCovariates() Then
-                    spec.AddCovariateMean(profileName, values)
-                Else
-                    spec.AddCovariateValue(profileName, values, 0.0)
-                End If
+                MixedModelPostEstimationPolicy.AddReferenceColumn(spec,
+                    New MixedModelReferenceColumn(key, MixedModelReferenceColumnRole.ContinuousCovariate, values), visitProfileName, groupProfileName, CaptureMMRMReportOptions())
 
             Catch ex As Exception
                 CoreServices.Logger.Debug("Reference-grid continuous covariate skipped '" & key & "': " & ex.Message)
@@ -1714,44 +1500,9 @@ Public Class Ui18MMRM
                                                           contrastMode As String,
                                                           controlLevel As Double,
                                                           contrastDirection As String) As ResultTable
-        If rows Is Nothing OrElse rows.Count = 0 Then Return Nothing
-
-        Dim groupProfileName As String = Global.BESHStatNG.regression.MixedModelReferenceGridService.NormalizeProfileName(groupKey)
-
-        If String.Equals(contrastMode, MMRM_MODE_PAIRWISE, StringComparison.OrdinalIgnoreCase) Then
-            Return regression.MixedModelReferenceGridService.BuildPairwiseContrastsByFactor(rows,
-                                                                                       result,
-                                                                                       spec,
-                                                                                       groupProfileName,
-                                                                                       "Reference-grid group contrasts")
-        End If
-
-        Dim groupLevels() As Double =
-        regression.MixedModelReferenceGridService.GetLevelsFromRows(rows, groupProfileName)
-
-        Dim comparisonLevel As Double = Double.NaN
-        Dim useSingleComparison As Boolean = False
-
-        If String.Equals(contrastMode, MMRM_MODE_SELECTED, StringComparison.OrdinalIgnoreCase) Then
-            If Not ResolveSelectedComparisonLevel(groupLevels, controlLevel, comparisonLevel) Then
-                Throw New ApplicationException("Selected comparison could not be resolved. Choose a comparison/treatment level different from the control/reference level.")
-            End If
-
-            useSingleComparison = True
-        End If
-
-        Return regression.MixedModelReferenceGridService.BuildContrastsAgainstControlByFactor(
-                    rows:=rows,
-                    result:=result,
-                    spec:=spec,
-                    factorName:=groupProfileName,
-                    controlLevel:=controlLevel,
-                    comparisonLevel:=comparisonLevel,
-                    useSingleComparison:=useSingleComparison,
-                    direction:=contrastDirection,
-                    treatmentMinusControlText:=MMRM_DIR_TREATMENT_MINUS_CONTROL,
-                    controlMinusTreatmentText:=MMRM_DIR_CONTROL_MINUS_TREATMENT,
-                    title:="Reference-grid group contrasts")
+        Dim options = CaptureMMRMReportOptions()
+        options.RequestedContrastText = contrastMode : options.RequestedDirectionText = contrastDirection : options.ControlLevel = controlLevel
+        Return MixedModelPostEstimationPolicy.BuildReferenceContrasts(result, rows, spec, groupKey, options)
     End Function
 
     Private Function IsSameProfileGroupComparisonCandidate(candidate As regression.MixedModelReferenceGridRow,
@@ -1828,25 +1579,9 @@ Public Class Ui18MMRM
     End Function
 
     Private Function GetMMRMContinuousMainEffectBaseKeys() As List(Of String)
-        Dim out As New List(Of String)
-
-        If Me.lbSelectedEffectsList Is Nothing OrElse Me.TermSpecs Is Nothing Then Return out
-
-        For Each it As Object In Me.lbSelectedEffectsList.Items
-            Dim effKey As String = CStr(it)
-            If String.IsNullOrWhiteSpace(effKey) Then Continue For
-            If Not Me.TermSpecs.ContainsKey(effKey) Then Continue For
-
-            Dim spec As TermSpec = Me.TermSpecs(effKey)
-            If spec Is Nothing Then Continue For
-            If Not String.Equals(spec.Kind, "MainEffect", StringComparison.OrdinalIgnoreCase) Then Continue For
-            If spec.Scale <> PredictorScale.Continuous Then Continue For
-            If spec.BaseVarKeys Is Nothing OrElse spec.BaseVarKeys.Count <> 1 Then Continue For
-
-            If Not out.Contains(spec.BaseVarKeys(0)) Then out.Add(spec.BaseVarKeys(0))
-        Next
-
-        Return out
+        Dim excludeVisit As String = Nothing
+        Return MixedModelPostEstimationPolicy.MainEffectKeys(If(Me.lbSelectedEffectsList Is Nothing, Nothing, Me.lbSelectedEffectsList.Items.Cast(Of String)()),
+            Me.TermSpecs, PredictorScale.Continuous, excludeVisit)
     End Function
 
     ''' <summary>
@@ -1915,44 +1650,9 @@ Public Class Ui18MMRM
                                                     controlLevel As Double,
                                                     ByRef comparisonLevel As Double) As Boolean
 
-        comparisonLevel = Double.NaN
-
-        If groupLevels Is Nothing OrElse groupLevels.Length = 0 Then Return False
-
         Dim cb = Me.cbMMRMComparisonLevel
-        Dim selectedText As String = If(cb Is Nothing OrElse cb.SelectedItem Is Nothing,
-                                        "(Auto)",
-                                        CStr(cb.SelectedItem).Trim())
-
-        If selectedText.Length = 0 OrElse selectedText.Equals("(Auto)", StringComparison.OrdinalIgnoreCase) Then
-            For Each g As Double In groupLevels
-                If Not regression.MixedModelPostEstimation.NearlyEqual(g, controlLevel) Then
-                    comparisonLevel = g
-                    Return True
-                End If
-            Next
-            Return False
-        End If
-
-        Dim parsed As Double
-        If Double.TryParse(selectedText, Globalization.NumberStyles.Any, Globalization.CultureInfo.CurrentCulture, parsed) _
-           OrElse Double.TryParse(selectedText, Globalization.NumberStyles.Any, Globalization.CultureInfo.InvariantCulture, parsed) Then
-
-            If regression.MixedModelPostEstimation.NearlyEqual(parsed, controlLevel) Then Return False
-
-            comparisonLevel = parsed
-            Return True
-        End If
-
-        For Each g As Double In groupLevels
-            If String.Equals(regression.MixedModelPostEstimation.FormatProfileValue(g), selectedText, StringComparison.OrdinalIgnoreCase) Then
-                If regression.MixedModelPostEstimation.NearlyEqual(g, controlLevel) Then Return False
-                comparisonLevel = g
-                Return True
-            End If
-        Next
-
-        Return False
+        Return MixedModelPostEstimationPolicy.ResolveComparison(groupLevels, controlLevel,
+            If(cb Is Nothing OrElse cb.SelectedItem Is Nothing, Nothing, CStr(cb.SelectedItem)), comparisonLevel)
     End Function
 
     ''' <summary>

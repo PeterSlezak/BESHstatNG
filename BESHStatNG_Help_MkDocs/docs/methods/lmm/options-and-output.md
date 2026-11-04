@@ -1,5 +1,8 @@
 # LMM options and output reference
 
+!!! note "Post-estimation availability"
+    The current Windows LMM dialog reports its existing fixed-effect/inference, class, covariance, random-effect and diagnostic outputs. It does not expose the MMRM reference-grid/LS-means editor or a new LMM LS-means report switch. Portable Core post-estimation services do not imply that such controls exist. LMM fitting is not yet available in the Office add-in.
+
 [← Back to LMM overview](../linear-mixed-models-lmm.md)
 
 **Purpose of this page:** provide an option-by-option reference for the BESH Stat NG **Linear Mixed Models (LMM)** dialog and explain the output tables written to the result workbook. For the formal model, likelihood, covariance-structure formulas, and degrees-of-freedom mathematics, see [Model and mathematics](model-and-mathematics.md). For practical workflows using the supplied dataset, screenshots, and result workbooks, see [Examples and interpretation](examples.md).

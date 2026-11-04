@@ -412,7 +412,7 @@ The **Multiplicity** option provides:
 | `Holm` | Step-down family-wise error-rate adjustment; usually less conservative than Bonferroni. |
 | `Sidak` | Sidak family-wise adjustment. |
 
-In the current implementation, reference-grid contrast tables include both the raw p-value and an **Adjusted p** column when multiplicity adjustment is used. Confidence limits remain unadjusted. The observed-design-grid contrast tables shown in the supplied workbook report unadjusted p-values and confidence intervals.
+In the current implementation, reference-grid contrast tables include both the raw p-value and an **Adjusted p** column, including when adjustment is `None`. The adjustment family is all contrast rows produced in that table across its visits/profiles. Confidence limits remain unadjusted. The observed-design-grid contrast path reports unadjusted p-values and confidence intervals even when a multiplicity setting is selected.
 
 !!! tip "Analysis-plan decision"
     Multiplicity adjustment should follow the analysis plan. Do not turn it on simply because multiple rows appear in the output; some rows may be descriptive or part of a prespecified hierarchical testing strategy handled outside the model output.

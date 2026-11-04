@@ -1,5 +1,10 @@
 # MMRM LS-means, contrasts, and estimands
 
+!!! note "Current dialog scope"
+    These controls belong to the Windows Excel-DNA MMRM dialog. MMRM fitting is not yet available in the Office add-in. Observed-design mode can report visit/group means, baseline changes and differences in change. Reference-grid mode reports reference means and optional group contrasts; it does not add the observed-design baseline-change tables.
+
+The current reference-grid dialog uses numeric-coded categorical main-effect levels and continuous covariates at their observed means or at zero. It is not an arbitrary text-factor or custom-profile editor. Automatic grouping chooses the first authored categorical candidate with the smallest number of distinct finite levels, requiring at least two levels; an explicit grouping choice avoids ambiguity when candidates tie.
+
 [← Back to MMRM overview](../mixed-models-for-repeated-measures-mmrm.md)
 
 **Purpose of this page:** explain how model-based estimated means, treatment differences, change-from-baseline contrasts, and custom LS-mean estimates are defined and interpreted in BESH Stat NG **Mixed Models for Repeated Measures (MMRM)**. This page is for users who already understand the basic MMRM workflow and need to decide *which estimand to report*. For the full model likelihood and inference formulas, see [Model and mathematics](model-and-mathematics.md). For dialog options and output sheets, see [Options and output reference](options-and-output.md). For worksheet formulas, see [Worksheet functions](worksheet-functions.md).
@@ -429,7 +434,9 @@ When many LS-means or contrasts are inspected, distinguish between:
 - **secondary or exploratory contrasts**, where adjusted p-values or a multiplicity strategy may be appropriate;
 - **descriptive LS-means**, which are often reported with confidence intervals but not interpreted as separate hypothesis tests.
 
-If a multiplicity adjustment is selected in the dialog, state the family of comparisons to which it applies. Do not combine p-values from different families or different contrast directions without documenting the choice.
+Reference-grid contrasts apply the selected adjustment to the complete set of contrast rows in that table, including all represented visits/profiles. They retain raw and adjusted p-values; confidence intervals remain unadjusted. The observed-design contrast path currently reports unadjusted p-values and intervals even if a multiplicity setting is selected. State the comparison family in the analysis report.
+
+Optional tables that cannot be computed may be omitted with a warning while the fit report continues. Their presence does not establish convergence or estimability: inspect the convergence status, effective inference method, missing DF/intervals and warnings before interpreting the estimates. A failed optional comparison does not become a zero effect.
 
 ---
 

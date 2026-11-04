@@ -1,0 +1,968 @@
+{
+  "base": "60bb832b8e10c94166b86cf3f661cc87f61eb7f3",
+  "source": {
+    "BESHstatNG/src/UI/Ui18MMRM.vb": {
+      "sha256": "be0ff205165c8dacaba8eac598a19ae2fdf88d66ba148caa4007c9efa8412a9b",
+      "methods": {
+        "New": {
+          "sha256": "df0fc17b8022a7c5bbc00c402f83107648f191b255caacbe98768715a24b37bf",
+          "first_line": 52,
+          "lines": 73
+        },
+        "Populate": {
+          "sha256": "f5c06de78e8ba220a45ab61539c4050ea6b0a180e638677e5db74475a8def06a",
+          "first_line": 126,
+          "lines": 16
+        },
+        "ValidateInputs": {
+          "sha256": "92dd8164ab1ca02add5cd0c2f5fbf2e4144914e2b1babf3ac23f042916674de0",
+          "first_line": 143,
+          "lines": 86
+        },
+        "TryRequireNumericColumn": {
+          "sha256": "27eaf486ba8f0f6e01c62bb2d6a7d4e8f09b28fa0842d1a4d48a985a99563b87",
+          "first_line": 230,
+          "lines": 8
+        },
+        "IsAvailableColumnNumeric": {
+          "sha256": "eb9c9c09262d91f2e290c286ec7119502aabff58aac41244391f5f650429c7b1",
+          "first_line": 239,
+          "lines": 12
+        },
+        "GetData": {
+          "sha256": "1f5c5bcce089dbceeeab374976585a24672b93022fe52114f167a74a2d33a65d",
+          "first_line": 252,
+          "lines": 34
+        },
+        "BuildExpandedFixedInputs": {
+          "sha256": "3f9c493c1ef01f5132006ddcbc681fb7b2732dd38523aaef3d3f8e1083eefea3",
+          "first_line": 287,
+          "lines": 50
+        },
+        "btCalculate_Click": {
+          "sha256": "3094f24a425453b170fe98d56a92c3fbdedcc5b7b4f41032707aec3393b7e7f9",
+          "first_line": 338,
+          "lines": 27
+        },
+        "RunMMRMAsync": {
+          "sha256": "363e19e1ed01ddd24fe601548168b82c45dc2b5c96abf67c3aeb400340030181",
+          "first_line": 366,
+          "lines": 108
+        },
+        "TabControl1_SelectedIndexChanged": {
+          "sha256": "bfc4aa96144d7f34333b5cb908acbf444232f2955f891a78fc13412ed291f196",
+          "first_line": 475,
+          "lines": 34
+        },
+        "btReload_Click": {
+          "sha256": "b7ce516fe5acaeb3c061d245d6fa5c74954f7bdfc112408aa05e350f4c16f37e",
+          "first_line": 510,
+          "lines": 22
+        },
+        "btRemoveY_Click": {
+          "sha256": "e238b4e1e100a325445d3848e1ca046475d9987b375605844e424e0e62924e60",
+          "first_line": 533,
+          "lines": 3
+        },
+        "btRemoveClusterID_Click": {
+          "sha256": "1f9c7bec4819947280d3b6327f0f06437f1e35aa63d26cccd190e55f7f3b1055",
+          "first_line": 537,
+          "lines": 3
+        },
+        "btRemoveTime_Click": {
+          "sha256": "e11dfe37d6919d05326452ab69072cd4c92a6aee419aa7066959d09ddd2335e4",
+          "first_line": 541,
+          "lines": 4
+        },
+        "btRemoveX_Click": {
+          "sha256": "37952cb74c8856bce7a5fe2e58ca684ce499e763740aa2167fc3bb17563107e9",
+          "first_line": 546,
+          "lines": 4
+        },
+        "btAddY_Click": {
+          "sha256": "cb18ad608032e02481c468df49f405ecb8dbd9c4d4648dec1f56e3771a1a3468",
+          "first_line": 551,
+          "lines": 3
+        },
+        "btAddClusterID_Click": {
+          "sha256": "439050c55f693ea3a1e5085eb5f47f2c27d06d5c7992eebcc36ff4b33804ffd0",
+          "first_line": 555,
+          "lines": 3
+        },
+        "btAddTime_Click": {
+          "sha256": "08ea853621b3205fd2b64b49317c2c6ca511b1e5ccf3580c0cedd64b544024be",
+          "first_line": 559,
+          "lines": 5
+        },
+        "btAddX_Click": {
+          "sha256": "6466bff3b602a89eff20a29356866c80d92f5a53ccabe12889ba800a7d40d626",
+          "first_line": 565,
+          "lines": 5
+        },
+        "btAddEffect_Click": {
+          "sha256": "95c4c9974c9d170453d55f316ba93afb499f54cd809e30ef59872eaffe9d7d97",
+          "first_line": 571,
+          "lines": 3
+        },
+        "btAddEffectCategoricalFactor_Click": {
+          "sha256": "864e368c7b3d8c28c15883546c6f690cd69abb4c39ccc4e4f19d071d8d98784a",
+          "first_line": 575,
+          "lines": 3
+        },
+        "btn2Interactions_Click": {
+          "sha256": "629d438494c9e049e7ccb51ebefe01a280ee64889206e162bce3d49392d86bab",
+          "first_line": 579,
+          "lines": 3
+        },
+        "btnCustomInteraction_Click": {
+          "sha256": "fdec16bdfb57dcc605d2208dfbb489279e44e3f15853d6ca90b079a6b75acd6a",
+          "first_line": 583,
+          "lines": 3
+        },
+        "btnPoly_Click": {
+          "sha256": "826a5d1209102f60288471a516e0463c03af291ae5c8699e124b4a922508c4d2",
+          "first_line": 587,
+          "lines": 3
+        },
+        "tbRemoveSelectedEffects_Click": {
+          "sha256": "d792556f4f4f28d2921df38c257d3583078f9bcdb0529ba46e31807362ffc275",
+          "first_line": 591,
+          "lines": 3
+        },
+        "btClearAllSelectedEffects_Click": {
+          "sha256": "f7de195b4b01998c1b9bbd1fd5fd0104bb655e0e543fb5a1dae9dbfd368b3d3f",
+          "first_line": 595,
+          "lines": 3
+        },
+        "cbMMRMControlLevel_SelectedIndexChanged": {
+          "sha256": "3e67b8e1ffecc08fb7a537d4ddbbae67d8cb469595041b09a7aec08ed9405b3b",
+          "first_line": 599,
+          "lines": 7
+        },
+        "cbMMRMContrastMode_SelectedIndexChanged": {
+          "sha256": "6b320edd3ffa5fb026c8a18a18f6a4d76ae107ef57781a25bc97e56f5ef52d3e",
+          "first_line": 607,
+          "lines": 7
+        },
+        "MMRMReferenceGridControlChanged": {
+          "sha256": "91d46c84204045aa7c99d0e13e4072c0c0d8e3a930a4d889345419aa8a64a18a",
+          "first_line": 615,
+          "lines": 10
+        },
+        "MMRMContrastControl_CheckedOrSelectedChanged": {
+          "sha256": "16095f89b814b89989d7118ff47d191342f9abea3bcaf0be4caf520d8ac81096",
+          "first_line": 626,
+          "lines": 24
+        },
+        "btInterrupt_Click": {
+          "sha256": "c657cb9d79810efa0c71590284731b4a52a9261dcdeb2a49c1c8d6d67b8244da",
+          "first_line": 651,
+          "lines": 12
+        },
+        "WriteMMRMResults": {
+          "sha256": "3562adad2e15a81e9306c9e2d5807555f58773b310a06a1185c3c8aa615141f5",
+          "first_line": 667,
+          "lines": 21
+        },
+        "WriteMMRMDataSheet": {
+          "sha256": "6c02d4355906fe1e5ae84d0293bedf4cc31cc3522a9cc63d7b7627f74f714e93",
+          "first_line": 689,
+          "lines": 63
+        },
+        "WriteMMRMModelSheet": {
+          "sha256": "ac1b098843a39025e26ae9bf384403fc18c4a7c26b993b4846a3136a303e5352",
+          "first_line": 753,
+          "lines": 14
+        },
+        "WriteMMRMTraceSheet": {
+          "sha256": "86a9a2ac325f355e65c13c369d9c54642faf1670572df29306c1ce6501c23bca",
+          "first_line": 768,
+          "lines": 9
+        },
+        "BuildSelectedEffectsText": {
+          "sha256": "6c2df8bc0c28ac611135aa44719133bcfab55c1ef897689f19a7bff63b4b3fed",
+          "first_line": 778,
+          "lines": 4
+        },
+        "ResolveDataColumnIndex": {
+          "sha256": "6e90309ed7220d9aa9b9c5d686df0b387f5a6ac48deffb1217e7bc8711d49e25",
+          "first_line": 783,
+          "lines": 3
+        },
+        "ExtractNumericColumnFromData": {
+          "sha256": "890b0022adf24e1cc1a1f763061624bf73d2aba18392d41e710d503f982fd6a0",
+          "first_line": 787,
+          "lines": 3
+        },
+        "ExtractRawNumericMatrix": {
+          "sha256": "14f14573884707042a7ac08108f43f94764123cb5a81e33d46b02cdd7ba9dc36",
+          "first_line": 791,
+          "lines": 3
+        },
+        "CombineNamesWithIntercept": {
+          "sha256": "7f7a0b02d3dc015391bc197f12591ab56ded5071c03758881096d3e7bc4ad0e2",
+          "first_line": 795,
+          "lines": 3
+        },
+        "CaptureMMRMReportOptions": {
+          "sha256": "48b7386519b0c2b8ece9657e961baa59f93c718b975469ae98597fcafcee2a64",
+          "first_line": 800,
+          "lines": 15
+        },
+        "AppendMMRMEstimatedMeanTables": {
+          "sha256": "fc51ae645d558eb3022999546af58b1331fd125e230114dc962c7e31b3e8eb57",
+          "first_line": 833,
+          "lines": 140
+        },
+        "TryChooseMMRMGroupingVariable": {
+          "sha256": "888e7ce34fdbb5b7b419846c4d9ca73f6ceb1ce5db3d8ac6aecb4c35816ddccd",
+          "first_line": 984,
+          "lines": 39
+        },
+        "BuildMMRMClassLevelInformationTable": {
+          "sha256": "c5172523e52486522f240ba89a8820a0ad906b71757eeb6205bdf8440f97dddc",
+          "first_line": 1036,
+          "lines": 33
+        },
+        "AddClassLevelRow": {
+          "sha256": "5dd7facf39b373dfcf68a940b9f000f21c67ed7a9f99fbfb95c5bd0aaa4a85ee",
+          "first_line": 1074,
+          "lines": 25
+        },
+        "AppendMMRMReferenceGridTables": {
+          "sha256": "c260d78fe8c7d7f8571b89ff10595baa41d10549f2d210dfa77468378f5940a8",
+          "first_line": 1100,
+          "lines": 61
+        },
+        "InitializeMMRMControls": {
+          "sha256": "42e0175d1918d1ec9ae5f31ac685e179f3ffde4ce5513ed073fa25c52871c7b8",
+          "first_line": 1165,
+          "lines": 80
+        },
+        "RefreshMMRMContrastControls": {
+          "sha256": "229239b5576e414f4f1b34d2ec3d73bece46918b583f8c421c3c79676fa5572e",
+          "first_line": 1252,
+          "lines": 17
+        },
+        "RefreshMMRMContrastControlsFromData": {
+          "sha256": "46547537009151ee53274200af64413414d30b84afade001ce1f4059d79fc7b7",
+          "first_line": 1274,
+          "lines": 17
+        },
+        "RefreshMMRMGroupingFactorItems": {
+          "sha256": "2663f4aad55db181da9fc674bced0eeab1181d4d8a1e048a92ded66d67afaeaf",
+          "first_line": 1292,
+          "lines": 24
+        },
+        "RefreshMMRMBaselineVisitItems": {
+          "sha256": "a395245f33130c3f7ba8a44c3e0c2220ba5595a90e22424a1b1a9201e7878975",
+          "first_line": 1317,
+          "lines": 22
+        },
+        "RefreshMMRMControlLevelItems": {
+          "sha256": "ff8386809ca7ffd3c28db5ea1f4a8d30d1394af71a76e2e33f5ad81e7b3aeefe",
+          "first_line": 1340,
+          "lines": 22
+        },
+        "UpdateMMRMContrastControlEnabledState": {
+          "sha256": "6f983dbd53ed53c7d6001b82351a93fc1ea0fbac7c83db7a72d8b521865368b2",
+          "first_line": 1363,
+          "lines": 50
+        },
+        "ApplyMMRMCovarianceOptimizerSelections": {
+          "sha256": "a9b5e1338cc09792c041e3d44a73eab3119e62463e056f41402bcd33fb4e781f",
+          "first_line": 1414,
+          "lines": 5
+        },
+        "ParseMMRMCovarianceOptimizerMode": {
+          "sha256": "74cfa95e9549ff868f0511532a491898e596ea15ff71bb065654662ab2492282",
+          "first_line": 1420,
+          "lines": 4
+        },
+        "ParseMMRMCovarianceGradientMode": {
+          "sha256": "665684ba47b11ff7ff2c9745c15c49bf6845e84b4889284e4a777462b4c291b4",
+          "first_line": 1425,
+          "lines": 3
+        },
+        "SelectedComboText": {
+          "sha256": "de4689bc486bc3f92e70db5b43e4d57dc0572a5de09ba01dbee56cc521ae86bc",
+          "first_line": 1429,
+          "lines": 6
+        },
+        "IsMMRMReferenceGridModeSelected": {
+          "sha256": "2ecc53ed6b22e832f5751ea142a54577959b9c9b6f8d97f56cd507a16ee7b9cb",
+          "first_line": 1436,
+          "lines": 3
+        },
+        "GetMMRMCategoricalFactorBaseKeys": {
+          "sha256": "dfc10e0186f1a839cc67b15d7dfb5a9fa118314517bd80431052c06431ed8ded",
+          "first_line": 1444,
+          "lines": 34
+        },
+        "TryResolveMMRMGroupingVariableFromControls": {
+          "sha256": "f95bb46c0fbb073330c438eb25e73146b4303f83e36203d051320caf00953680",
+          "first_line": 1482,
+          "lines": 30
+        },
+        "ResolveSelectedBaselineVisit": {
+          "sha256": "8675b30d3303cb103b9d2e138347fb89ab851082c40621e05b2ddebd60707481",
+          "first_line": 1513,
+          "lines": 17
+        },
+        "ResolveSelectedControlLevel": {
+          "sha256": "bb6d0a1f43a55cb7a965534f07107122720300d1283436b07373c61292eb0409",
+          "first_line": 1531,
+          "lines": 17
+        },
+        "BuildMMRMVisitGroupDifferencesTableControlled": {
+          "sha256": "dec6706dfed2edfadc525e31989a012175b074ba5cce5fc6502d7a26796105c8",
+          "first_line": 1549,
+          "lines": 29
+        },
+        "BuildMMRMDifferenceInChangeFromBaselineTableControlled": {
+          "sha256": "2bdbb16ae5b9e87aab0803394a4fa8a330029ffe8525505454da298bd38b6c7d",
+          "first_line": 1579,
+          "lines": 31
+        },
+        "BuildMMRMReferenceGridSpec": {
+          "sha256": "bae75850be6c8661626b55ac2d52585e2fbb79946a75370d0653020446acd3df",
+          "first_line": 1611,
+          "lines": 26
+        },
+        "UseObservedMeanReferenceCovariates": {
+          "sha256": "2169919a5fc04b9cba5f10920bd4682ff35d676700ad81cc4c70cf23013a4ee0",
+          "first_line": 1638,
+          "lines": 3
+        },
+        "SelectedMultiplicityAdjustment": {
+          "sha256": "e4c43b587fdd7e8c2f204f0923c1d2e7fd5206cd4abd4836350c14bb3a68c1bf",
+          "first_line": 1642,
+          "lines": 3
+        },
+        "SelectedReferenceGridWeighting": {
+          "sha256": "a39a3f2a5d6aa4abd27213649c239235c830ca5f085d707b7ad02ede67a8cf86",
+          "first_line": 1646,
+          "lines": 3
+        },
+        "AddReferenceGridMarginalFactors": {
+          "sha256": "ddd84ccd0f0296ce3a425385ce944da5b4ba94c6364b5e87cff53c70dee55df1",
+          "first_line": 1650,
+          "lines": 28
+        },
+        "AddReferenceGridContinuousCovariates": {
+          "sha256": "620dfb1543fabb6b827973718004c03fbf900a2c04e4f56e13eb6e799595ff6d",
+          "first_line": 1680,
+          "lines": 29
+        },
+        "BuildMMRMReferenceGridGroupContrastsTable": {
+          "sha256": "c8341416d1ac4edf64353cf29c7fddb5cc8bf2e06365f965a7bc2f0b4f2ad92d",
+          "first_line": 1710,
+          "lines": 46
+        },
+        "IsSameProfileGroupComparisonCandidate": {
+          "sha256": "09531a59df765cf78716ef1be2514ecceb4b9644acdfec2fbc1e64c601ac62f8",
+          "first_line": 1757,
+          "lines": 7
+        },
+        "FindMatchingReferenceGridRow": {
+          "sha256": "6a6f5212332bec6c43b901120c272785806615444413bd44cb2ea15959c04e8a",
+          "first_line": 1766,
+          "lines": 21
+        },
+        "GetLevelsFromReferenceGridRows": {
+          "sha256": "c90b4c09de855f13e6f9a528d89da73094b5b1bdf58e7c0038179a550ed8ab3d",
+          "first_line": 1789,
+          "lines": 24
+        },
+        "ReferenceGridOtherProfileSuffix": {
+          "sha256": "631e342fe3a64a3b28e5ad4e0718a2db6aa3f5a6a0210e3a7912fbcac159c410",
+          "first_line": 1815,
+          "lines": 14
+        },
+        "GetMMRMContinuousMainEffectBaseKeys": {
+          "sha256": "5fa646212b76ec5c61bea8447e5c7e59b7b971c1f4356312323b48f56c22dbfb",
+          "first_line": 1830,
+          "lines": 21
+        },
+        "AddOptionalMMRMTable": {
+          "sha256": "f504362b4e9bc878ef55f7eaa1aadde992bd3f43c3f96050652a903b5446ede9",
+          "first_line": 1856,
+          "lines": 20
+        },
+        "RefreshMMRMComparisonLevelCombo": {
+          "sha256": "e7a92856d1fe979bc91cf3054370cfb29cf8cf3f50f98015a5783ae1d12c8607",
+          "first_line": 1880,
+          "lines": 29
+        },
+        "ResolveSelectedComparisonLevel": {
+          "sha256": "cfc90e46575430b156c54c3ce351ef723b8c3d0d23024cdec6cfc2c4694a91c6",
+          "first_line": 1914,
+          "lines": 43
+        },
+        "ResolveDirectedGroupPair": {
+          "sha256": "6a8e5056c5976bd189713627c46992766dc5f3a707ebd3bb4cef904498fb279e",
+          "first_line": 1961,
+          "lines": 14
+        },
+        "TryRefreshMMRMContrastControlsFromCurrentSelections": {
+          "sha256": "0d8b43b03f2b50fde7d057ec6ec83cccda4a5f80ce5e4a61f0eaf03dd3db1da4",
+          "first_line": 1985,
+          "lines": 32
+        },
+        "HasEnoughMMRMSelectionsForLevelRefresh": {
+          "sha256": "289a206468e1904c3b68d0f9d530e92d7a39f2e81d8313f80fbec14d52962231",
+          "first_line": 2022,
+          "lines": 9
+        },
+        "IsMMRMCancellationRequested": {
+          "sha256": "9c83f6cd9f0031a89e6bbd77d9fcb4469725ac5c2f4035e524e09f3836dd14ce",
+          "first_line": 2032,
+          "lines": 3
+        },
+        "IsMMRMInterruptionRequested": {
+          "sha256": "08ce51d3ff1d8c05d6107d833dade9c5d08f5f694e98f66309a4ef7ced07e611",
+          "first_line": 2036,
+          "lines": 3
+        },
+        "Ui18MMRM_FormClosing": {
+          "sha256": "a277c26a35eb6b575c82d74b719741c1376aea6625f1e2a4f21ca2adc6dcd1f7",
+          "first_line": 2040,
+          "lines": 16
+        },
+        "ResetMMRMProgress": {
+          "sha256": "e327859611ecf55f9b0412d7aab87e3bb80ae28a786c655b97b500af8debfe96",
+          "first_line": 2057,
+          "lines": 15
+        },
+        "ReportMMRMProgressFromAnyThread": {
+          "sha256": "fb28cc3255fa56d8981f06a6fa01c72beb0039d66725603275ea87e2a2eb2e70",
+          "first_line": 2073,
+          "lines": 13
+        },
+        "UpdateMMRMProgress": {
+          "sha256": "42c9ce3462ac61fed0df31b8a7eef6c5735d78006ae28b7f8d2ca09cc8abee98",
+          "first_line": 2087,
+          "lines": 34
+        },
+        "RefreshMMRMProgressControls": {
+          "sha256": "706bb7d7a3378647b37dbff7fc8142ddaca35a45e89cfd6a38ea57b28fbb716a",
+          "first_line": 2122,
+          "lines": 29
+        },
+        "InvokeMMRMUi": {
+          "sha256": "4eea88b8898ac1b6ad1bc7347ab7396ff8930e11c4e27d87b4eed1ebd56fb610",
+          "first_line": 2152,
+          "lines": 12
+        },
+        "CompleteMMRMRunOnUiThread": {
+          "sha256": "76cea6b8bef7e8b1db21136dcbce9e32744ae6db31a8981467b97701eda7c669",
+          "first_line": 2165,
+          "lines": 17
+        },
+        "FinishMMRMProgress": {
+          "sha256": "1e0c859bceced05234213020b53aee2c0d9500934422ff5de8f2f1e1983dd835",
+          "first_line": 2183,
+          "lines": 32
+        },
+        "ReleaseMMRMLargeRunReferences": {
+          "sha256": "5dd262dadd9e8c3dccf799b61445ccb89d28cada44a6b0e139bb97a2d4e193d5",
+          "first_line": 2216,
+          "lines": 23
+        },
+        "Ui18MMRM_FormClosed": {
+          "sha256": "2d3cbe24770452be010d49b3976cf03a86a7324c821fab5770774cffa4903abb",
+          "first_line": 2240,
+          "lines": 4
+        },
+        "ClearMMRMDialogReferences": {
+          "sha256": "96effa343d43bc7ae30e77b0342c5c2f24337b6950686075a10c747741b866e4",
+          "first_line": 2245,
+          "lines": 15
+        },
+        "RequestMMRMManagedCleanup": {
+          "sha256": "a0f87900b4b4dfa743727c04638ac9423857fdb1948ecb4d539e9bcd7ea344f5",
+          "first_line": 2261,
+          "lines": 13
+        }
+      }
+    },
+    "BESHstatNG/src/UI/Ui19LMM.vb": {
+      "sha256": "aa2659114ce56885b78507eb9d354b5f9d11a38dc1079c4b0e0c39f4aab6d284",
+      "methods": {
+        "New": {
+          "sha256": "6fc3ff3f16d6a3f6da34bff1213cd7fd95e72f9293b429364e71219feaf5f79e",
+          "first_line": 42,
+          "lines": 80
+        },
+        "Populate": {
+          "sha256": "f5c06de78e8ba220a45ab61539c4050ea6b0a180e638677e5db74475a8def06a",
+          "first_line": 123,
+          "lines": 16
+        },
+        "InitializeLMMControls": {
+          "sha256": "79ccbfc9f8ceff046574982858fd33b98bcd034a74590149d3f1b40ee8eec4f7",
+          "first_line": 140,
+          "lines": 50
+        },
+        "ValidateInputs": {
+          "sha256": "96c84ae6d9f53edc1f4ffd6a422ae9048687ad7b19ef7c29f7cb5307cec732b6",
+          "first_line": 191,
+          "lines": 123
+        },
+        "TryRequireNumericColumn": {
+          "sha256": "27eaf486ba8f0f6e01c62bb2d6a7d4e8f09b28fa0842d1a4d48a985a99563b87",
+          "first_line": 315,
+          "lines": 8
+        },
+        "IsAvailableColumnNumeric": {
+          "sha256": "eb9c9c09262d91f2e290c286ec7119502aabff58aac41244391f5f650429c7b1",
+          "first_line": 324,
+          "lines": 12
+        },
+        "GetData": {
+          "sha256": "d43596e9cb806f79e24eac4d73be9f13a5866b9885d59781c9113fa849bec099",
+          "first_line": 337,
+          "lines": 41
+        },
+        "BuildExpandedModelInputs": {
+          "sha256": "c3863be715e64a759a95acae3804074c0eaf865b8acf03ed15b586b57f4241d1",
+          "first_line": 379,
+          "lines": 38
+        },
+        "BuildExpandedDesignFromEffects": {
+          "sha256": "e9d2128249bec302a1e13e23c8504903f6beb92e8d399fd05ad5eeb785523b71",
+          "first_line": 418,
+          "lines": 18
+        },
+        "btCalculate_Click": {
+          "sha256": "bff0a206b006d4963c1535fc5bc0c1c7da394773e010110cf650984656abcadf",
+          "first_line": 437,
+          "lines": 24
+        },
+        "RunLMMAsync": {
+          "sha256": "671bc4c60272d7ff22a3fa11b64bda45de86eb7ff58212f995dcfc9ffb253a28",
+          "first_line": 462,
+          "lines": 119
+        },
+        "btReload_Click": {
+          "sha256": "e1981b2519f05f8e263edf2967a6874dbbe09f74e43e2c5ff1c1dddd15c89bf1",
+          "first_line": 582,
+          "lines": 21
+        },
+        "btRemoveY_Click": {
+          "sha256": "e238b4e1e100a325445d3848e1ca046475d9987b375605844e424e0e62924e60",
+          "first_line": 604,
+          "lines": 3
+        },
+        "btRemoveClusterID_Click": {
+          "sha256": "1f9c7bec4819947280d3b6327f0f06437f1e35aa63d26cccd190e55f7f3b1055",
+          "first_line": 608,
+          "lines": 3
+        },
+        "btRemoveTime_Click": {
+          "sha256": "e60a2a77831db91bda858f43e47e5241ffd36f86fa673fed2887f20aac98be8c",
+          "first_line": 612,
+          "lines": 3
+        },
+        "btRemoveX_Click": {
+          "sha256": "cc4169010305f7b44ac27d94094cdeb0178b126cd5b9d2e46309335209497ef1",
+          "first_line": 616,
+          "lines": 4
+        },
+        "btAddY_Click": {
+          "sha256": "cb18ad608032e02481c468df49f405ecb8dbd9c4d4648dec1f56e3771a1a3468",
+          "first_line": 621,
+          "lines": 3
+        },
+        "btAddClusterID_Click": {
+          "sha256": "439050c55f693ea3a1e5085eb5f47f2c27d06d5c7992eebcc36ff4b33804ffd0",
+          "first_line": 625,
+          "lines": 3
+        },
+        "btAddTime_Click": {
+          "sha256": "242dfa3e72d2dcd2924c916dfaf4764f3d1d0a4faf56e423a16fe9c6935c7154",
+          "first_line": 629,
+          "lines": 3
+        },
+        "btAddX_Click": {
+          "sha256": "3d3bd7862911601491fc7f7993d20620778a52dc246dab1f1ff5afe985461e84",
+          "first_line": 633,
+          "lines": 4
+        },
+        "btAddFixedEffect_Click": {
+          "sha256": "3dfd92292550d9e075f464a3f7e069925dee1c3a2b5adb5921796b5d8baf5edf",
+          "first_line": 638,
+          "lines": 3
+        },
+        "btAddFixedEffectCategoricalFactor_Click": {
+          "sha256": "ab18331bbd5a0bc83e2b6d2716045d3d716e2ee69386354440106f84e655338f",
+          "first_line": 642,
+          "lines": 3
+        },
+        "btnFixed2Interactions_Click": {
+          "sha256": "f8f3af9942ab996374c04aa4eb1cca40a66826da5d49f2960f8ebbf0de4dfb05",
+          "first_line": 646,
+          "lines": 3
+        },
+        "btnFixedCustomInteraction_Click": {
+          "sha256": "f874368c773bbd35fd12a3c74036c1ec73f4d20109de9fb79804d71cd9a9a84b",
+          "first_line": 650,
+          "lines": 3
+        },
+        "btnFixedPoly_Click": {
+          "sha256": "f40a52c166269f34af6874ca8e957b3d555652dbc872b55b03af9ff04180fa32",
+          "first_line": 654,
+          "lines": 3
+        },
+        "tbRemoveSelectedFixedEffects_Click": {
+          "sha256": "1f46839669091cf1254cf7ba8c56e31ac7b98b0cceda3c81d8433ee3f8f8f906",
+          "first_line": 658,
+          "lines": 3
+        },
+        "btClearAllSelectedFixedEffects_Click": {
+          "sha256": "8dc9d8dba34d7d0c70293d731dc5895c2b246144b0aca7cebc1edaa181eaf3ff",
+          "first_line": 662,
+          "lines": 3
+        },
+        "btAddRandomEffect_Click": {
+          "sha256": "d61bc7784f03c9a52f69d4baa21a5df47515ba724d55b09989c8e63d13665d0f",
+          "first_line": 666,
+          "lines": 4
+        },
+        "btAddRandomEffectCategoricalFactor_Click": {
+          "sha256": "96140ecdc23b8546b1427a3d06e6819074ebaf6c9b6ef83416fe9d1f11e07d2d",
+          "first_line": 671,
+          "lines": 5
+        },
+        "btnRandom2Interactions_Click": {
+          "sha256": "b372ea6872309ee05f4b6c1d0b8df8a90045c27106e739680406804058458b47",
+          "first_line": 677,
+          "lines": 5
+        },
+        "btnRandomCustomInteraction_Click": {
+          "sha256": "ed147d50638a64863355f5b1eeca7985f8fcb763a226d127642dd11e856d476d",
+          "first_line": 683,
+          "lines": 5
+        },
+        "btnRandomPoly_Click": {
+          "sha256": "7019ee884ee15c0e85cfbdd9301c8e5fb16a1f5f22431e53b5be592838f2ebd2",
+          "first_line": 689,
+          "lines": 5
+        },
+        "tbRemoveSelectedRandomEffects_Click": {
+          "sha256": "35b956857aa97d153d4cc6e453b1f6dd1d2e42c5b4eb1b96afcec6e1a3fec9cd",
+          "first_line": 695,
+          "lines": 3
+        },
+        "btClearAllSelectedRandomEffects_Click": {
+          "sha256": "b940b810aff35140ae33b81870ee477a5fd5c839a5bce4d272bcdcb153dc0061",
+          "first_line": 699,
+          "lines": 3
+        },
+        "cbCovarStruct_SelectedIndexChanged": {
+          "sha256": "3a417c392492b3dfdb4f3b53da16b26b9903a33252e0d1e1b030203426e0a72c",
+          "first_line": 703,
+          "lines": 3
+        },
+        "cbRandomCovarStruct_SelectedIndexChanged": {
+          "sha256": "4be573847f5d251a73b44933e7c888f08d144ece5021971d45d40c3eb6876d69",
+          "first_line": 707,
+          "lines": 3
+        },
+        "cbRandomIntercept_CheckedChanged": {
+          "sha256": "842cdf72cf22bba3fdf5e69898a1661ab5e63714782ef249665dd8003a9e8f88",
+          "first_line": 711,
+          "lines": 4
+        },
+        "btInterrupt_Click": {
+          "sha256": "61d17b9929ba08e6faad739f62b098b92f99fe9e0ba4707c2370f2783f114399",
+          "first_line": 716,
+          "lines": 12
+        },
+        "RefreshSelectedVariablesFromSourceList": {
+          "sha256": "2c0f4cb8d6724135c20b707b28d3e5db887bbf9324f7ab3b3d6107006ab081a4",
+          "first_line": 732,
+          "lines": 31
+        },
+        "TermSpecsUseOnlySelectedVariables": {
+          "sha256": "61cbd3884201b52ab470697afdadb37f59676a6e3bd1364c702b2d63bca5e5fb",
+          "first_line": 764,
+          "lines": 7
+        },
+        "PromoteRandomCovarianceForMultipleRandomEffects": {
+          "sha256": "e38db1a9f4d452791ed13c72a0f71c99a1ad3cd9eda07765eb759eb97baa1452",
+          "first_line": 772,
+          "lines": 10
+        },
+        "PromoteRandomCovarianceForGeneralRandomEffects": {
+          "sha256": "23fecefec17a5a29b063ab9639cfbbaafd72867d86e9259d2c4e1bc79bb174b1",
+          "first_line": 783,
+          "lines": 10
+        },
+        "UpdateLMMCovarianceDependentControls": {
+          "sha256": "aed70ed7c2525f5a1b58a0c3019c26c4a9c0026263815de8105ee89faf03722b",
+          "first_line": 794,
+          "lines": 14
+        },
+        "ValidateRandomStructureAgainstExpandedDesign": {
+          "sha256": "9909f88fe58ee0c677186d9c916433e910104edcb5ce7a10a1af5f7f5b7e3df3",
+          "first_line": 809,
+          "lines": 8
+        },
+        "ApplyLMMCovarianceOptimizerSelections": {
+          "sha256": "de0d87f8bc52c1803b57405d8cbc867c378ca92a28147b8650e7e095626f7c6d",
+          "first_line": 818,
+          "lines": 5
+        },
+        "SelectedComboText": {
+          "sha256": "de4689bc486bc3f92e70db5b43e4d57dc0572a5de09ba01dbee56cc521ae86bc",
+          "first_line": 824,
+          "lines": 6
+        },
+        "BuildSelectedEffectsText": {
+          "sha256": "bafef1b7607a96bfac9e1237a503c0577d9970771b15ce925f56ff1f4f1b4e14",
+          "first_line": 831,
+          "lines": 5
+        },
+        "ResolveDataColumnIndex": {
+          "sha256": "f6f80ff6fbe8fc6ef234dcf6f59b26f98bd3eaa3a13e4c75a275b5829c02abe7",
+          "first_line": 837,
+          "lines": 3
+        },
+        "CombineNamesWithIntercept": {
+          "sha256": "7f7a0b02d3dc015391bc197f12591ab56ded5071c03758881096d3e7bc4ad0e2",
+          "first_line": 841,
+          "lines": 3
+        },
+        "AppendLMMClassInfoTable": {
+          "sha256": "6ba3c814b5e42acdf2edacb729103224b7279465916d18dbaccb0d8dbddf78ac",
+          "first_line": 845,
+          "lines": 31
+        },
+        "AppendClassInfoRows": {
+          "sha256": "746ecd23451a1eba2a3dba1b3726026b4a18a9bd1c0c2dfba324a84c9d0865dc",
+          "first_line": 877,
+          "lines": 18
+        },
+        "GetCategoricalMainEffectBaseKeys": {
+          "sha256": "02abe7b612500049ed33c279a2b251fe7bedae5e82e3516781db80b745ad1388",
+          "first_line": 896,
+          "lines": 17
+        },
+        "WriteLMMResults": {
+          "sha256": "a4df9fba2e046a1905cfdddb737e0617993f50889adc429fd1a54d99bdcbb51e",
+          "first_line": 914,
+          "lines": 23
+        },
+        "WriteLMMDataSheet": {
+          "sha256": "76706beecee2eebb9573305b94799536ff4887c40ee2acfba6da8d8b683d172f",
+          "first_line": 938,
+          "lines": 78
+        },
+        "WriteLMMModelSheet": {
+          "sha256": "eebc90ed3627558dece2323cf574797ffe35adc350ca90e475cebf8c22357847",
+          "first_line": 1017,
+          "lines": 33
+        },
+        "WriteLMMTraceSheet": {
+          "sha256": "4a8142e9cf9a206c7753e7ffaf7fd4894bfff5d26601aba51efe036f8981f0a9",
+          "first_line": 1051,
+          "lines": 9
+        },
+        "IsLMMCancellationRequested": {
+          "sha256": "fb91c4a7c08142b6c2745218637129a07af8342f1ff6275ed9b35eac9df771e9",
+          "first_line": 1061,
+          "lines": 3
+        },
+        "IsLMMInterruptionRequested": {
+          "sha256": "a6f7c5cf6dce6727c5f019f14a513480888d9a14b37ae7900664b24d0ad0d3ab",
+          "first_line": 1065,
+          "lines": 3
+        },
+        "Ui19LMM_FormClosing": {
+          "sha256": "33e301f32a145208e7d673cc86fc7a567d7fe236721ad4eea6891efafdcdb127",
+          "first_line": 1069,
+          "lines": 16
+        },
+        "ResetLMMProgress": {
+          "sha256": "1e3297579d6dfd3723cdf30ac6ecf42b9497979b728d6c73b83df01cd5e020e9",
+          "first_line": 1086,
+          "lines": 15
+        },
+        "ReportLMMProgressFromAnyThread": {
+          "sha256": "59683479bb5f7fb90f4a335590b8068b855abba9c452959fc3e109f1e158fe13",
+          "first_line": 1102,
+          "lines": 12
+        },
+        "UpdateLMMProgress": {
+          "sha256": "b668780043885dcc2dcc6c9e2a762d9e58b0af5bff35662095fc79dc2756baae",
+          "first_line": 1115,
+          "lines": 34
+        },
+        "RefreshLMMProgressControls": {
+          "sha256": "639f322f69a8577e2ae836dda23856ad1783c3f4d2c24e587936d7f490b0a4f5",
+          "first_line": 1150,
+          "lines": 28
+        },
+        "InvokeLMMUi": {
+          "sha256": "49e41602336db195b10f965c6d68ad8b51f0dfa1e635b5c4984b14827d7dd62a",
+          "first_line": 1179,
+          "lines": 11
+        },
+        "CompleteLMMRunOnUiThread": {
+          "sha256": "e403c65fc8be600772175fa563fbe1cf1a17a2af0d7ff3395d8102c067417476",
+          "first_line": 1191,
+          "lines": 16
+        },
+        "FinishLMMProgress": {
+          "sha256": "547961502fa2934351e9049b2ad88607d140ed16740008e11ef869a80d307e37",
+          "first_line": 1208,
+          "lines": 32
+        },
+        "ReleaseLMMLargeRunReferences": {
+          "sha256": "4ac1805a2b287f705e9f94665908562bd631d7a90c65f3c730ec5b3a07262e42",
+          "first_line": 1241,
+          "lines": 16
+        },
+        "Ui19LMM_FormClosed": {
+          "sha256": "aa465a486f72cd86877b2a89e1d95c27f1fa215fa2612045b727ed4edd196c8d",
+          "first_line": 1258,
+          "lines": 4
+        },
+        "ClearLMMDialogReferences": {
+          "sha256": "98cd286e7854ab43c4bf301d7a32a04fa6628c4ded1914b20b6f10d259cecd9a",
+          "first_line": 1263,
+          "lines": 15
+        },
+        "RequestLMMManagedCleanup": {
+          "sha256": "7ebbf806ed04e6190ad20b2b8796a091a758c86f679d5e597707dd192aa70e3a",
+          "first_line": 1279,
+          "lines": 13
+        }
+      }
+    },
+    "BESHStat.Excel.Common/src/Results/MixedModelReportPolicy.vb": {
+      "sha256": "988e5d11af143666750369db6073a44c349e645b7918cbef73ce3af365aaf613",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/LMM.vb": {
+      "sha256": "ca7737e194b5598130d781f850fba0d12f88740f68adf832d749e518472c472a",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelAnalyticGradient.vb": {
+      "sha256": "38d0921c4e194939bfb332f5b69eb912f9f2d2e71ca01c2e50d03fff610b5155",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelAverageInformationOptimizer.vb": {
+      "sha256": "f54f57b10b1e3cc6013846481ec8eab02d2bc0dee365000da6326a8aedc7536d",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelBlockData.vb": {
+      "sha256": "d54f357f8ed6ef01ace24e0b3972c34da2c6fbded40429bbe920ea4f6d630cf4",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelContracts.vb": {
+      "sha256": "c7beb5c422a661c0435b5ee94d2959d2329f2e7260d2359a7ee15f6d468536ab",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelCovariance.vb": {
+      "sha256": "629530356b93cf6e05dda3531d1c9c66dfac8b861d9e9135c607c2ae89d47d4a",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelCovarianceDerivatives.vb": {
+      "sha256": "7abc5666852ef2089fa446ffe9aa74039c507baaef9dcac1a812db1fb3403541",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelCovarianceParameterScale.vb": {
+      "sha256": "c2f71e6349c638b05e1010ace8047813435ccee51dd5629572a12a2eb88a7109",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelDiagnosticsContracts.vb": {
+      "sha256": "19d66a33beff988ce282cbf9c924de1e282530df10df4bd6e38b6b8ab6ae1f9e",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelEngine.Inference.vb": {
+      "sha256": "e6bea6680e0126520d0f5be6b267566a2594ee4025e8617b698ed5d445555da4",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelEngine.vb": {
+      "sha256": "3aa86e7db564ac0d688fc22fc923df838797d5e77b8ebb7e827008cffc3cbf43",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelEngineContracts.vb": {
+      "sha256": "c7b4dfb6b03dd97a75466d84baecb3b8bc539ff1570f88a52686dfe828063748",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelFitRequest.vb": {
+      "sha256": "a209c4337496ba483c52e17b69f9edf496666635d321c253d5db864e3fff1a9f",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelFormulaService.vb": {
+      "sha256": "62cced743df25ec154f27800a486a8cc426456068ddc1487d47bf98b7287ecc7",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelGStruct.vb": {
+      "sha256": "221f3ed4eb68d3040b863f7f854a64eecfb74fa9dd5ef177e2cc2b25d9e11735",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelHypothesisBuilder.vb": {
+      "sha256": "e27ef2da2c8904ecf35e734231262f257045fc4603c8bc591d225d17b72ca0e6",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelInferenceWorkspace.vb": {
+      "sha256": "8268aa193ff8101f6ac2ba04575b12301ac7059a42da544b964dded4313df31a",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelKenwardRogerBackend.vb": {
+      "sha256": "01bfc839897ce6223bad294366e0140fe0fce3e41fe21576ae8a08ad2c12fa23",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelKenwardRogerContracts.vb": {
+      "sha256": "845538ba2ced93695cce97c00cdd00382f4163db046530adc0ad0ea4dddbf6e1",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelKenwardRogerInference.vb": {
+      "sha256": "e2d9cbb691f87b7e04f9fb73eb5f1eaddae2a55067d3f46a00f939834ce82d0f",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelKenwardRogerInferenceCore.vb": {
+      "sha256": "f09de134497b4efb9cd0756e617db6bc3f63a129792953de58509b4e93ef143e",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelNumericalDiagnostics.vb": {
+      "sha256": "4cdf3badbb6752dbb0ed8c1aa037339bea168aa8d1ffd1dfeedd373fcc35f97a",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelOptimizer.vb": {
+      "sha256": "e2d12d6016d85b45d7bd48ea364e1110e117bde5d160092aa95c5c6ef97282d2",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelPostEstimation.vb": {
+      "sha256": "b3841bc352a6d82059231c447b0c2fa18b919a1cdde7e68d5c681d30fb395ecd",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelReferenceGrid.vb": {
+      "sha256": "2713b37775bd67c805f14d633ae984ab67f2d1d9f19915beb3d047ffbab429f1",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelResult.vb": {
+      "sha256": "3f072338a377a953b54d03473a079f31c035b2c93843468193e4eecb750f79aa",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MixedModelRStruct.vb": {
+      "sha256": "4ae4be4a085624989a6f68de8536aa9a60f40109df00cd416468d79707d35eaa",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MMRM.vb": {
+      "sha256": "67c245067bfa0ba07f5327cd3f6ae39d306cc052cacf62ad0c7c6ffbe4a770d8",
+      "methods": {}
+    },
+    "BESHStat.Core/src/RegModels/MixedModels/MMRMPostEstimation.vb": {
+      "sha256": "b63f576d6c58546cb3fd40c1675b87657a02f6bac1fb08e8db74b5e74bfc774c",
+      "methods": {}
+    }
+  },
+  "report_order": "Fixed effects; available KR term tests; Core additional tables then Windows supplemental class/means/contrasts; covariance parameters and selected G/R/BLUPs; fit statistics; optional performance/support/restart/KR diagnostics; convergence; optional optimizer trace.",
+  "warning_policy": "Optional MMRM factories log failures and continue. Reference-spec/row creation failure escapes to the original outer catch. LMM class acquisition failure omits its whole optional table. No new Windows refusal.",
+  "identities": "Post-estimation X/visit/group arrays follow acquisition order. Physical source RowIds are separate from Core subject/visit permutations."
+}

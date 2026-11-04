@@ -1,6 +1,8 @@
 Option Explicit On
 Option Strict On
 Imports System
+Imports System.Collections.Generic
+Imports System.Runtime.CompilerServices
 Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.regression
 
@@ -8,6 +10,36 @@ Imports BESHStatNG.regression
 ''' Original Core blocks are immutable snapshots and are reused without copying X/Z again.</summary>
 Public NotInheritable Class WindowsMixedModelWorkflowAdapter
     Private Sub New()
+    End Sub
+    Private NotInheritable Class AttachedTables
+        Public Tables As New List(Of ResultTable)
+    End Class
+    Private Shared ReadOnly SupplementalTables As New ConditionalWeakTable(Of MixedModelResult, AttachedTables)
+    ' Preserve the existing Core additional-table list and its original insertion point.
+    ' Track only table identities, with a weak fit key; never retain X/Z or a KR workspace.
+    Public Shared Sub ApplySupplemental(result As MixedModelResult, report As MixedModelSupplementalReport)
+        If result Is Nothing OrElse report Is Nothing Then Return
+        SyncLock result
+            Dim attached = SupplementalTables.GetValue(result, Function(key) New AttachedTables())
+            If result.AdditionalResultTables Is Nothing Then result.AdditionalResultTables = New List(Of ResultTable)
+            Dim position = result.AdditionalResultTables.Count
+            For Each table In attached.Tables
+                Dim index = result.AdditionalResultTables.IndexOf(table)
+                If index >= 0 Then
+                    position = Math.Min(position, index)
+                    result.AdditionalResultTables.RemoveAt(index)
+                End If
+            Next
+            attached.Tables = report.LegacyTables()
+            result.AdditionalResultTables.InsertRange(position, attached.Tables)
+        End SyncLock
+    End Sub
+    Public Shared Sub LogPostEstimation(notice As MixedModelPostEstimationNotice)
+        If notice.IsWarning Then
+            AppInfrastructure.CoreServices.Logger.Warn(notice.Message)
+        Else
+            AppInfrastructure.CoreServices.Logger.Debug(notice.Message)
+        End If
     End Sub
     ' Called at the original form factory sites, before the KR information message.
     ' Preserve Core factory side effects and exceptions; never activate strict validation here.

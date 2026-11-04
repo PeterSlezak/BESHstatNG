@@ -60,6 +60,9 @@ Namespace ExcelCommon
         Public Property BaselineVisit As Nullable(Of Double)
         Public Property ControlLevel As Nullable(Of Double)
         Public Property ComparisonLevel As Nullable(Of Double)
+        ' Lossless GUI text for the original Core string seams (including unknown fallbacks).
+        Public Property RequestedContrastText As String
+        Public Property RequestedDirectionText As String
         Public Function Copy() As MixedModelReportOptions
             Return DirectCast(MemberwiseClone(), MixedModelReportOptions)
         End Function
@@ -82,16 +85,23 @@ Namespace ExcelCommon
     End Class
 
     Public NotInheritable Class MixedModelWorkflowReport
-        Friend Sub New(kind As MixedModelWorkflowKind, result As MixedModelResult, tables As IEnumerable(Of ResultTable))
+        Friend Sub New(kind As MixedModelWorkflowKind, result As MixedModelResult, tables As IEnumerable(Of ResultTable), Optional alpha As Double = 0.05,
+                       Optional decision As MixedModelFitDecision = Nothing)
+            RequestedDecision = decision
             If result IsNot Nothing Then
                 Converged = result.Converged : Cancelled = result.Cancelled : Interrupted = result.Interrupted
             End If
+            Diagnostics = MixedModelDiagnosticPolicy.Capture(result, alpha)
             Document = New AnalysisResultDocument("mixed." & kind.ToString().ToLowerInvariant(),
                 If(tables, Enumerable.Empty(Of ResultTable)()).Select(Function(t) t.ToOutputModel()),
-                Array.Empty(Of KeyValuePair(Of String, Double))(), Nothing, Array.Empty(Of AnalysisWarning)(),
+                Array.Empty(Of KeyValuePair(Of String, Double))(), Nothing, Diagnostics.Warnings,
                 If(result Is Nothing, New AnalysisFault() {New AnalysisFault("mixed.fit.unavailable", "No Core result was supplied.")}, Array.Empty(Of AnalysisFault)()))
+            Sections = MixedModelDiagnosticPolicy.DescribeTables(Document)
         End Sub
         Public ReadOnly Property Document As AnalysisResultDocument
+        Public ReadOnly Property Diagnostics As MixedModelDiagnosticSnapshot
+        Public ReadOnly Property Sections As IReadOnlyList(Of MixedModelReportSection)
+        Public ReadOnly Property RequestedDecision As MixedModelFitDecision
         Public ReadOnly Property Converged As Nullable(Of Boolean)
         Public ReadOnly Property Cancelled As Nullable(Of Boolean)
         Public ReadOnly Property Interrupted As Nullable(Of Boolean)
@@ -115,6 +125,26 @@ Namespace ExcelCommon
         End Sub
         Public ReadOnly Property VisitKey As String
         Public ReadOnly Property GroupKey As String
+        Public ReadOnly Property FixedNames As String()
+            Get
+                Return If(_names Is Nothing, Nothing, DirectCast(_names.Clone(), String()))
+            End Get
+        End Property
+        Public ReadOnly Property Visits As Double()
+            Get
+                Return If(_visits Is Nothing, Nothing, DirectCast(_visits.Clone(), Double()))
+            End Get
+        End Property
+        Public ReadOnly Property Groups As Double()
+            Get
+                Return If(_groups Is Nothing, Nothing, DirectCast(_groups.Clone(), Double()))
+            End Get
+        End Property
+        Public ReadOnly Property Options As MixedModelReportOptions
+            Get
+                Return _options.Copy()
+            End Get
+        End Property
         Public Function CreateCoreSpec() As MixedModelReferenceGridSpec
             Dim spec As New MixedModelReferenceGridSpec With {.FixedEffectNames = If(_names Is Nothing, Nothing, DirectCast(_names.Clone(), String())),
                 .Weighting = _options.Weighting, .MultiplicityAdjustment = _options.Multiplicity, .Alpha = _options.Alpha}
@@ -132,9 +162,13 @@ Namespace ExcelCommon
         Private Sub New()
         End Sub
         Public Shared Function Project(kind As MixedModelWorkflowKind, result As MixedModelResult, options As MixedModelReportOptions) As MixedModelWorkflowReport
+            Return Project(kind, result, options, Nothing)
+        End Function
+        Public Shared Function Project(kind As MixedModelWorkflowKind, result As MixedModelResult, options As MixedModelReportOptions,
+                                       decision As MixedModelFitDecision) As MixedModelWorkflowReport
             Dim tables As List(Of ResultTable) = Nothing
             If result IsNot Nothing Then tables = result.wrapResults(options.Alpha, options.IterationDetails, kind = MixedModelWorkflowKind.LMM, options.Diagnostics)
-            Return New MixedModelWorkflowReport(kind, result, tables)
+            Return New MixedModelWorkflowReport(kind, result, tables, options.Alpha, decision)
         End Function
         Public Shared Function ShouldWriteTrace(trace As Boolean, details As Boolean, text As String) As Boolean
             Return (trace OrElse details) AndAlso Not String.IsNullOrWhiteSpace(text)

@@ -554,7 +554,7 @@ Public Class Ui19LMM
 
             InvokeLMMUi(Sub()
                             AppendLMMClassInfoTable(result, lmmGuiData)
-                            WriteLMMResults(lmmGuiData, result, y, x, fixedNames, z, randomNames, subjectId, visit)
+                            WriteLMMResults(lmmGuiData, result, y, x, fixedNames, z, randomNames, subjectId, visit, workflow.Decision)
                         End Sub)
         Finally
             ReleaseLMMLargeRunReferences(result, model, req)
@@ -850,31 +850,17 @@ Public Class Ui19LMM
             If Not classPlan.Includes(MixedModelSupplementalSection.ClassInformation) Then Exit Sub
             If result.AdditionalResultTables Is Nothing Then result.AdditionalResultTables = New List(Of ResultTable)()
 
-            Dim rows As New List(Of Object())()
+            Dim rows As New List(Of MixedModelClassLevel)()
             AppendClassInfoRows(rows, lmmGuiData.Raw, "Fixed", Me.FixedTermSpecs)
             AppendClassInfoRows(rows, lmmGuiData.Raw, "Random", Me.RandomTermSpecs)
 
-            If rows.Count = 0 Then Exit Sub
-
-            Dim body(rows.Count - 1, 4) As Object
-            For i As Integer = 0 To rows.Count - 1
-                For j As Integer = 0 To 4
-                    body(i, j) = rows(i)(j)
-                Next
-            Next
-
-            Dim t As New ResultTable()
-            t.AddTitle("Class level information")
-            t.SetBody(body)
-            t.AddHeaderTopRow({"Model part", "Variable", "Term kind", "Levels", "No. levels"})
-            t.AddFootnote("Levels are observed numeric/coded values in the cleaned analysis data for variables used as categorical effects.")
-            result.AdditionalResultTables.Add(t)
+            WindowsMixedModelWorkflowAdapter.ApplySupplemental(result, MixedModelPostEstimationPolicy.LmmClassReport(rows))
         Catch ex As Exception
             CoreServices.Logger.Warn("AppendLMMClassInfoTable failed: " & ex.Message)
         End Try
     End Sub
 
-    Private Sub AppendClassInfoRows(rows As List(Of Object()), raw As DataObj, modelPart As String, specs As Dictionary(Of String, TermSpec))
+    Private Sub AppendClassInfoRows(rows As List(Of MixedModelClassLevel), raw As DataObj, modelPart As String, specs As Dictionary(Of String, TermSpec))
         If rows Is Nothing OrElse raw Is Nothing OrElse specs Is Nothing Then Exit Sub
 
         Dim categoricalKeys As List(Of String) = GetCategoricalMainEffectBaseKeys(specs)
@@ -889,26 +875,13 @@ Public Class Ui19LMM
             Dim values() As Double = regression.MixedModelFrontEndHelpers.ExtractNumericColumnFromData(raw, col)
             Dim levels As List(Of Double) = regression.MixedModelFrontEndHelpers.UniqueSortedFiniteValues(values)
             Dim levelText As String = String.Join(", ", levels.Select(Function(v) v.ToString("G15", Globalization.CultureInfo.InvariantCulture)).ToArray())
-            rows.Add(New Object() {modelPart, RegressionDesignCore.GetCoefBaseName(baseKey), "Categorical main effect", levelText, levels.Count})
+            rows.Add(New MixedModelClassLevel(RegressionDesignCore.GetCoefBaseName(baseKey), levels.Count, levelText, modelPart))
         Next
     End Sub
 
     Private Function GetCategoricalMainEffectBaseKeys(specs As Dictionary(Of String, TermSpec)) As List(Of String)
-        Dim out As New List(Of String)()
-        If specs Is Nothing Then Return out
-
-        For Each kvp In specs
-            Dim spec As TermSpec = kvp.Value
-            If spec Is Nothing OrElse spec.BaseVarKeys Is Nothing Then Continue For
-            If spec.Scale <> PredictorScale.Categorical Then Continue For
-            If Not String.Equals(spec.Kind, "MainEffect", StringComparison.OrdinalIgnoreCase) Then Continue For
-
-            For Each baseKey As String In spec.BaseVarKeys
-                If Not out.Contains(baseKey) Then out.Add(baseKey)
-            Next
-        Next
-
-        Return out
+        Return MixedModelPostEstimationPolicy.MainEffectKeys(If(specs Is Nothing, Nothing, specs.Keys), specs,
+            PredictorScale.Categorical, singleBaseOnly:=False)
     End Function
 
     Private Sub WriteLMMResults(lmmGuiData As LmmGuiData,
@@ -919,7 +892,7 @@ Public Class Ui19LMM
                                 z(,) As Double,
                                 randomNames() As String,
                                 subjectId() As Object,
-                                visit() As Double)
+                                visit() As Double, Optional decision As MixedModelFitDecision = Nothing)
 
         If result Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(result)))
         If lmmGuiData Is Nothing OrElse lmmGuiData.Raw Is Nothing Then CoreServices.Errors.LogAndThrow(New ArgumentNullException(NameOf(lmmGuiData)))
@@ -927,7 +900,7 @@ Public Class Ui19LMM
         Dim wb As Object = AppGlobals.app.Workbooks.Add()
 
         WriteLMMDataSheet(wb, lmmGuiData, result, y, x, fixedNames, z, randomNames, subjectId, visit)
-        WriteLMMModelSheet(wb, result)
+        WriteLMMModelSheet(wb, result, decision)
 
         If MixedModelReportPolicy.ShouldWriteTrace(Me.ckTrace.Checked, Me.ckIterationsDetails.Checked, result.strTrace) Then
             WriteLMMTraceSheet(wb, result.strTrace)
@@ -1014,7 +987,7 @@ Public Class Ui19LMM
         End If
     End Sub
 
-    Private Sub WriteLMMModelSheet(wb As Object, result As regression.MixedModelResult)
+    Private Sub WriteLMMModelSheet(wb As Object, result As regression.MixedModelResult, Optional decision As MixedModelFitDecision = Nothing)
         Dim alphaValue As Double = CDbl(Me.spinBtnAlpha.Value)
 
         Dim reportOptions As New MixedModelReportOptions With {.Alpha = alphaValue,
@@ -1036,7 +1009,7 @@ Public Class Ui19LMM
         End If
 
         Dim report = MixedModelReportPolicy.Project(MixedModelWorkflowKind.LMM, result,
-            reportOptions)
+            reportOptions, decision)
         Dim tables As List(Of ResultTable) = report.LegacyTables()
         Dim writeRes As New ExcelDnaResultWriter
         wb.Worksheets.Add(After:=wb.Worksheets(wb.Worksheets.Count))
