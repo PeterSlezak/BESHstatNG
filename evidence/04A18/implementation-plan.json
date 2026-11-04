@@ -1,0 +1,32 @@
+{
+  "scope": "04A.18 only; before production edits",
+  "existing_files": [
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+    "BESHStatNG_Help_MkDocs/docs/methods/correspondence-analysis.md",
+    "BESHStatNG_Help_MkDocs/docs/methods/multiple-correspondence-analysis.md",
+    "BESHStatNG_Help_MkDocs/docs/methods/principal-component-analysis.md",
+    "BESHstatNG/src/DM/WindowsMultivariateWorkflowAdapter.vb",
+    "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+    "BESHstatNG/src/UI/Ui11PCA.vb"
+  ],
+  "methods": {
+    "BESHstatNG/src/UI/Ui11PCA.vb": [
+      "RunPCA",
+      "RunMCA"
+    ],
+    "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb": [
+      "RunCA"
+    ],
+    "BESHstatNG/src/DM/WindowsMultivariateWorkflowAdapter.vb": [
+      "PCA/MCA rendering delegates and narrow new layout/labelled-CA bridges"
+    ]
+  },
+  "common": "Detached semantic axes/shape/section metadata, PCA/MCA synchronous borrowed payload traversal, labelled contingency column mapping and original result prefix; no eigensolver/encoding/geometry",
+  "gating": "Unlabelled CA loop and exception remain unchanged. Correct j-to-j mapping is dormant with a separately pinned unapplied patch. No candidate diagnostic becomes a host rejection.",
+  "original_layout": {
+    "PCA": "ID row1/body2; optional group col2; original, standardized and reduced blocks offset by input P; variable P separate from score K",
+    "MCA": "IDs/raw observations start row3; header row2 blank beside raw block; design caption colQ+2; variable/category headers row1/2 colQ+3; indicator body row3",
+    "CA": "Original Analyzed contingency table prefix; wrapResults order; overlap prompt and five plots at existing destination"
+  },
+  "tolerance": "max(1e-9, abs(expected)*1e-9) finite doubles; exact CLR types, nonfinite classes, labels, metadata, block positions and sequence. Fixed before comparisons; no sign/subspace canonicalization."
+}

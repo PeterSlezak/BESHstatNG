@@ -15,21 +15,71 @@ Public NotInheritable Class WindowsMultivariateWorkflowAdapter
     End Function
     Public Shared Sub RenderPca(report As MultivariateReport, model As Multivariate.PCA)
         For Each plot In report.Plots
+            RenderPcaRequest(plot, report.Input, model)
+        Next
+    End Sub
+    Public Shared Sub RenderPca(projection As MultivariateComponentProjection, model As Multivariate.PCA)
+        For Each binding In projection.PlotData
+            RenderPcaRequest(binding.Request, projection.Input, model)
+        Next
+    End Sub
+    Private Shared Sub RenderPcaRequest(plot As MultivariatePlotIntent, input As MultivariateInputIntent, model As Multivariate.PCA)
             Select Case plot.Kind
                 Case MultivariatePlotKind.Scree : graphics.PcaPlotExcel.ScreePlot(model)
-                Case MultivariatePlotKind.Scores2D : graphics.PcaPlotExcel.ScorePlot2D(model, report.Input.RowLabels, report.Input.GroupLabels)
+                Case MultivariatePlotKind.Scores2D : graphics.PcaPlotExcel.ScorePlot2D(model, input.RowLabels, input.GroupLabels)
                 Case MultivariatePlotKind.Loadings2D : graphics.PcaPlotExcel.LoadingPlot2D(model)
-                Case MultivariatePlotKind.Biplot : graphics.PcaPlotExcel.Biplot(model, plot.Scaling, report.Input.RowLabels, report.Input.GroupLabels)
-                Case MultivariatePlotKind.Scores3D : graphics.PcaPlotExcel.ScorePlot3D(model, report.Input.RowLabels, report.Input.GroupLabels)
+                Case MultivariatePlotKind.Biplot : graphics.PcaPlotExcel.Biplot(model, plot.Scaling, input.RowLabels, input.GroupLabels)
+                Case MultivariatePlotKind.Scores3D : graphics.PcaPlotExcel.ScorePlot3D(model, input.RowLabels, input.GroupLabels)
                 Case MultivariatePlotKind.Loadings3D : graphics.PcaPlotExcel.LoadingPlot3D(model)
             End Select
-        Next
     End Sub
     Public Shared Sub RenderMca(report As MultivariateReport, model As Multivariate.CA)
         For Each plot In report.Plots
+            RenderMcaRequest(plot, model)
+        Next
+    End Sub
+    Public Shared Sub RenderMca(projection As MultivariateComponentProjection, model As Multivariate.CA)
+        For Each binding In projection.PlotData
+            RenderMcaRequest(binding.Request, model)
+        Next
+    End Sub
+    Private Shared Sub RenderMcaRequest(plot As MultivariatePlotIntent, model As Multivariate.CA)
             Select Case plot.Kind
                 Case MultivariatePlotKind.Correspondence : graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(model)
                 Case MultivariatePlotKind.Contribution : graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(model, plot.Axis, plot.RowContribution)
+            End Select
+    End Sub
+    Private Shared Sub WriteSection(writer As ResultTableWriterBase, section As MultivariateResultSection, payload As Object, tall As Boolean)
+        writer.setRowPointer(section.StartRow)
+        writer.setColumnPointer(section.StartColumn)
+        writer.write(payload, tall)
+    End Sub
+    Public Shared Sub WritePcaData(writer As ResultTableWriterBase, original(,) As Object, model As Multivariate.PCA, projection As MultivariateComponentProjection)
+        MultivariateComponentProjectionPolicy.VisitPca(projection, original, model, Sub(section, payload, tall) WriteSection(writer, section, payload, tall))
+    End Sub
+    Public Shared Sub WriteMcaData(writer As ResultTableWriterBase, original(,) As Object, model As Multivariate.CA, projection As MultivariateComponentProjection)
+        MultivariateComponentProjectionPolicy.VisitMca(projection, original, model, Sub(section, payload, tall) WriteSection(writer, section, payload, tall))
+    End Sub
+    Public Shared Function CaptureLabelledCa(data As DataObj, labels() As String) As MultivariateContingencyInput
+        Return MultivariateCorrespondenceInputPolicy.Labelled(data.nRows, data.nCols, data.varNames, data.RowIds, labels)
+    End Function
+    Public Shared Function ConvertLabelledCaCounts(data As DataObj, input As MultivariateContingencyInput) As Integer(,)
+        If input.CandidateOnly Then Throw New InvalidOperationException("Dormant unlabelled CA mapping cannot activate the Windows conversion path.")
+        Dim counts(input.RowCount - 1, input.CountColumnCount - 1) As Integer
+        For i = 0 To UBound(data.FinalData, 1)
+            For j = input.FirstCountSourceColumn To UBound(data.FinalData, 2)
+                counts(i, input.ResultColumn(j)) = CInt(data.FinalData(i, j))
+            Next
+        Next
+        Return counts
+    End Function
+    Public Shared Sub RenderCa(projection As MultivariateComponentProjection, model As Multivariate.CA,
+                               Optional ws As Microsoft.Office.Interop.Excel.Worksheet = Nothing)
+        For Each binding In projection.PlotData
+            Dim plot = binding.Request
+            Select Case plot.Kind
+                Case MultivariatePlotKind.Contribution : graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(model, plot.Axis, plot.RowContribution, ws)
+                Case MultivariatePlotKind.Correspondence : graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(model, ws)
             End Select
         Next
     End Sub

@@ -1,0 +1,11 @@
+--- a/BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb
++++ b/BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb
+@@ -525,7 +525,7 @@
+             ReDim TableData(data.nRows - 1, data.nCols - 1)
+             For i = 0 To UBound(data.FinalData, 1)
+                 For j = 0 To UBound(data.FinalData, 2) '1st column is Row labels
+-                    TableData(i, j - 1) = CInt(data.FinalData(i, j))
++                    TableData(i, j) = CInt(data.FinalData(i, j))
+                 Next
+             Next
+ 

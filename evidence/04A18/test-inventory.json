@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "classification": "same-Core compatibility and synthetic/source contracts only; NOT_GOLDEN",
+  "profiles": {
+    "PCA": {
+      "profiles": 72,
+      "requirements": [
+        "correlation/covariance",
+        "eigen/fixed/variance retention",
+        "1/2/3 retained components and near-tied eigensystems",
+        "filtered/reordered noncontiguous RowIds",
+        "none/label/group/both and blank/duplicate labels",
+        "duplicate/special variable names",
+        "original/standardized/reduced axis separation",
+        "eight plot requests and 0/0.5/1 biplots"
+      ]
+    },
+    "MCA": {
+      "profiles": 18,
+      "requirements": [
+        "Q1/Q2/Q3",
+        "first acquired row retained/removed",
+        "Unicode/whitespace/null/repeated categories",
+        "duplicate variable name ambiguous ownership",
+        "N by Q/N by K/K by K",
+        "two header rows and row3 body",
+        "observation/category/factor axes and three plot requests"
+      ]
+    },
+    "CA": {
+      "profiles": 12,
+      "requirements": [
+        "labelled j1.. -> j-1",
+        "blank/duplicate names",
+        "noncontiguous source RowIds",
+        "fraction/string/null/negative/overflow/NaN/zero margins",
+        "existing CInt vs Core failure boundaries",
+        "original contingency prefix",
+        "five plot requests",
+        "writer anchors1,1 and7,9"
+      ]
+    }
+  },
+  "common": {
+    "path": "BESHStat.Excel.Common.Tests/src/Multivariate18Tests.vb",
+    "logical": 122,
+    "groups": {
+      "SourceBackedAxesBlocksAndReports": 102,
+      "PartialCoreAndLargeShapesStayMetadataOnlyAndCandidateOnly": 1,
+      "UnlabelledFailureAndDormantIdentityMappingAreDifferent": 4,
+      "ExistingPcaNegativeInputsAreNotNewRefusals": 8,
+      "McaEmptySmallNullAndMalformedAxesRetainCoreBoundary": 6,
+      "MetadataCopiesBorrowedPayloadsAndRepeatedProjectionStaySeparate": 1
+    }
+  },
+  "windows": {
+    "path": "BESHStatNG.Test/src/Multivariate18AdapterTests.vb",
+    "logical": 32,
+    "groups": {
+      "ActualPcaDataWriterConsumesCommonPositionsAndCorePayloads": 13,
+      "ActualMcaDataWriterKeepsTwoHeadersAndPostSubsetRows": 6,
+      "LabelledWindowsCoercionAndBothWriterDestinationsRemainOriginal": 12,
+      "DormantMappingCannotBePassedToTheShippingLabelledConverter": 1
+    }
+  },
+  "python": {
+    "path": "scripts/tests/test_04a18_projection.py",
+    "logical": 8
+  },
+  "oracle": {
+    "base": "f539d4e31779a2083d4c135e2784314c0083cff4",
+    "source_methods": {
+      "BESHstatNG/src/UI/Ui11PCA.vb": {
+        "RunPCA": "8c124983f5988239daea32e01397028fb0a04ef9b3d7fabd15e6da1f779ee44c",
+        "RunMCA": "a26e7eafd7a008b35669f6692c4a4a8600432b77cb5a2b775da8fbfea90e312a"
+      },
+      "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb": {
+        "RunCA": "2a73c16fb7be2a08ef88348f6771d9865f6b8d9ec9cac8acab0204e989bc5f2d"
+      }
+    },
+    "derivative_path": "BESHStat.Excel.Common.Tests/src/LegacyMultivariate18Layout.vb",
+    "derivative_sha256": "235bde2960b3109f6c33f5736331e18071dda675a8bf2d315dfa9ea1b39cac32",
+    "interpretation": "Actual prechange pointer/write sequences copied verbatim into host-free methods. CA conversion/reproducer retain exact original bounds/CInt/target indices; original host acquisition remains outside this test oracle. NOT_GOLDEN."
+  },
+  "existing_fixtures": "Unchanged Core PCA/CA and Windows regression datasets run in both full configurations. New profiles are synthetic source-backed presentation tests; the original 04A02 PCA case is authority/metadata evidence, not a new scientific reference dataset or native capture.",
+  "tolerance": "max(1e-9, abs(expected)*1e-9) finite doubles; exact CLR types, nonfinite classes, labels, metadata, block positions and sequence. Fixed before comparisons; no sign/subspace canonicalization."
+}

@@ -393,6 +393,10 @@ The optional Row Label and Grouping variables do **not** enter any of these calc
 
 ## Output
 
+**Data-sheet axes.** The Data sheet starts with `Row ID`, or `Record ID` when an optional label column is selected, followed by optional `Group ID`, the original variables, standardized variables and reduced component scores. The input-variable axis and retained-component axis are separate: scores have one row per retained source observation, while loadings have one row per input variable. Source worksheet RowIds remain distinct from array positions and duplicate display labels. Standardized output retains the existing Core definition even when covariance PCA is selected.
+
+**Retention boundary.** Existing result captions use `>` for eigenvalue/variance selection, while Core retains at `>=`. This known caption/boundary discrepancy is unchanged; no sign or tied-eigenspace normalization is applied to scores, loadings or biplots.
+
 BESHStatNG creates a new workbook containing a **Data** sheet, a **PCA results** sheet, and chart sheets.
 
 ### 1) Sheet: `Data`

@@ -374,25 +374,11 @@ Public Class Ui11PCA
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
-        WriteRes.write({"Row ID"})
-        WriteRes.setRowPointer(3) 'second row is blank because of Design matrix having two header rows
-        WriteRes.write(MyData.RowIds, bTall:=True)
-        WriteRes.setRowPointer()
-        WriteRes.setColumnPointer(2)
-        WriteRes.write(MyData.varNames)
-        WriteRes.setRowPointer(3) 'second row is blank
-        WriteRes.write(MyData.FinalData)
-        WriteRes.shiftColumnPointer(MyData.varNames.Length)
-        WriteRes.setRowPointer()
-        WriteRes.write({"Design MatrixType:"})
-        WriteRes.setRowPointer()
-        WriteRes.shiftColumnPointer(1)
-        WriteRes.write(mca.BurtVarNames)
-        WriteRes.write(mca.rowNames)
-        WriteRes.write(mca.DesignMatrix)
+        Dim projection = MultivariateComponentProjectionPolicy.Mca(New MultivariateMcaTransformIntent(intent, Me.ckFirstRow.Checked), mca, MyData.FinalData)
+        WindowsMultivariateWorkflowAdapter.WriteMcaData(WriteRes, MyData.FinalData, mca, projection)
 
         'MCA numerical results
-        Dim report = MultivariateReportPolicy.Project(intent, mca.wrapResults())
+        Dim report = projection.ToReport(mca.wrapResults())
         Dim res = report.LegacyTables()
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
@@ -402,7 +388,7 @@ Public Class Ui11PCA
         rr.writeToSheet(WriteRes, True)
 
         'Add figures
-        WindowsMultivariateWorkflowAdapter.RenderMca(report, mca)
+        WindowsMultivariateWorkflowAdapter.RenderMca(projection, mca)
     End Sub
 
     Private Sub RunPCA(MyData As DataObj)
@@ -426,42 +412,11 @@ Public Class Ui11PCA
         WriteRes.wb = AppGlobals.app.Workbooks.Add()
         AppGlobals.app.ActiveWorkbook.ActiveSheet.name = "Data"
         WriteRes.ws = AppGlobals.app.ActiveWorkbook.ActiveSheet
-        Dim metadataColumnCount As Integer = 1
-        If rowLabels IsNot Nothing Then
-            WriteRes.write({"Record ID"})
-            WriteRes.setRowPointer(2)
-            WriteRes.write(rowLabels, bTall:=True)
-        Else
-            WriteRes.write({"Row ID"})
-            WriteRes.setRowPointer(2)
-            WriteRes.write(MyData.RowIds, bTall:=True)
-        End If
-
-        If groupLabels IsNot Nothing Then
-            metadataColumnCount += 1
-            WriteRes.setRowPointer()
-            WriteRes.setColumnPointer(2)
-            WriteRes.write({"Group ID"})
-            WriteRes.setRowPointer(2)
-            WriteRes.write(groupLabels, bTall:=True)
-        End If
-        WriteRes.setRowPointer()
-        WriteRes.setColumnPointer(metadataColumnCount + 1)
-        WriteRes.write(MyData.varNames)
-        WriteRes.write(MyData.FinalData)
-        WriteRes.shiftColumnPointer(MyData.varNames.Length)
-        WriteRes.setRowPointer()
-        'Standardized values
-        WriteRes.write(objPCA.StandardizedVarNames(MyData.varNames))
-        WriteRes.write(objPCA.StandardizedData)
-        WriteRes.shiftColumnPointer(MyData.varNames.Length)
-        WriteRes.setRowPointer()
-        'Final Reduced Dataset
-        WriteRes.write(objPCA.StandardizedVarNames(objPCA.PCnames("Reduced_Data_PC")))
-        WriteRes.write(objPCA.ReducedDataset)
+        Dim projection = MultivariateComponentProjectionPolicy.Pca(intent, objPCA, options, MyData.FinalData)
+        WindowsMultivariateWorkflowAdapter.WritePcaData(WriteRes, MyData.FinalData, objPCA, projection)
 
         'PCA numerical results
-        Dim report = MultivariateReportPolicy.Project(intent, objPCA.wrapResults())
+        Dim report = projection.ToReport(objPCA.wrapResults())
         Dim res = report.LegacyTables()
         WriteRes = New ExcelDnaResultWriter
         AppGlobals.app.ActiveWorkbook.Worksheets.Add()
@@ -471,7 +426,7 @@ Public Class Ui11PCA
         rr.writeToSheet(WriteRes, True)
 
         'Figures
-        WindowsMultivariateWorkflowAdapter.RenderPca(report, objPCA)
+        WindowsMultivariateWorkflowAdapter.RenderPca(projection, objPCA)
 
     End Sub
 

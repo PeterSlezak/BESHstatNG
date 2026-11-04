@@ -1,0 +1,270 @@
+{
+  "issue_id": "C17-CA-NOLABEL-INDEX-01",
+  "activation_disposition_id": "C18-CA-NOLABEL-ACTIVATION-01",
+  "status": "OPEN / DORMANT / UNAPPLIED / NATIVE_NOT_RUN",
+  "source": {
+    "path": "BESHstatNG/src/UI/Ui0OneRefeditMulticol.vb",
+    "source_sha256": "0f6d19f72697bcab51f61f32d5eb0eab2bf9161630a8bbc37ae6cd68abb52214",
+    "original_unchanged_branch_sha256": "1d6ecc0b80a5c12cf6cf88f87062f34fb6ae3171e8416e184b95ce797716b293",
+    "candidate_source_sha256": "50ce640ef0e8d194eac17b7861b721383c71bd773b0b34bc1c3076462d1a6b28"
+  },
+  "patch": {
+    "path": "evidence/04A18/C18-CA-NOLABEL-ACTIVATION-01.UNAPPLIED.patch",
+    "sha256": "3acd187210617e2d98b8388d3bd5973af53fba1a00804b0a891fb98f4aed58c3",
+    "bytes": 491,
+    "apply_check_exit": 0,
+    "applied": false
+  },
+  "current_failure": "For nonempty count data, source j=0 assigns destination -1 after the original CInt coercion. IndexOutOfRangeException; an earlier invalid/overflow cell can fail its original coercion first. No-label Core fit/output is not successful.",
+  "candidate_mapping": "Unlabelled R x C counts: source column j maps to result column j. Labelled R x (C+1): source j>=1 maps to result j-1. No recoding, rounding or statistical algorithm change.",
+  "software_scope": "Common labelled mapping/prefix and PCA/MCA layout extraction are authorized; unlabelled Windows loop is explicitly unchanged. Correct mapping is isolated in DormantUnlabelled and tests only.",
+  "activation_requires": "Separate exact new owner authorization/timing exception for this source/patch and original controls, or satisfaction of original prechange native evidence gate, with loaded-build/workbook/form/chart attribution and later regression. No implied control release or scientific promotion.",
+  "original_host_controls": [
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.TabMultipage",
+      "source_row_sha256": "475ebaf88771dd759dece1e8461cde9d206cd078d46aad81a6bc29764f19b811"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.TabPage1",
+      "source_row_sha256": "b77788861867fc97b3be01be24ff2945bfd9a0bf2ba05ab8285b6e4aa690b015"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.grpOutput",
+      "source_row_sha256": "222419dc112065c199764de4c9cac2cadbc2f8a45ab9d69a89a9b4836116e96e"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput",
+      "source_row_sha256": "b5426e59779d2f00a12cfb827e5471cd970d74f65d7f49e0e8b35bf99bedf99f"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.optWorkbook",
+      "source_row_sha256": "9757467778baa295242fcbfe7544835cce1f4f663aeb333ec4c2846e8c410944"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.optWorksheet",
+      "source_row_sha256": "d61e4157cbc8dd69ffc2dfe6b89a5c8bc7ac318e86ae0a3de5a8faf265ecdb60"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.optOutputRange",
+      "source_row_sha256": "45d3b0d4b73028f4b9c40b6648891bceb42e2488d2e7bd850990448e44620467"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.grpInput",
+      "source_row_sha256": "313abf6eb9b214aa834d13c18425d33e6fe0d86b33fcb297ba947c2d1875ff1d"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.lblRefedit1",
+      "source_row_sha256": "6ff84428556b98f25659560e4d21ad0ffac7c91a5f6a6960294205578f0b25ad"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.RefEdit1",
+      "source_row_sha256": "dc39c042849693544663c85350bd21167a6e3f244d165d8a6ab21f29988cd0e8"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.TabPage_Options",
+      "source_row_sha256": "8189598087f620f57a4bb021cd90362de363ccc342233e0e5796ee3b46c28a77"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckBoxPlot",
+      "source_row_sha256": "80afbe20cafb884666cac898bd1aa077bb0548c2f8fb9924aa7a5bad893f0bed"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckDescriptiveStatistics",
+      "source_row_sha256": "cf6253cfb04af73171659f95ece0b5464fd2546e7e403a4e61d1bb46bb6b7f38"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc",
+      "source_row_sha256": "60c195fbb634182839443f4a4715853b23a3cd03f3b724600ded94c36e78d57d"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.btnHelp",
+      "source_row_sha256": "a6601ee931ce77f828716dd18100839d6ff650b044f182cd42532dd339e88640"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.btCompute",
+      "source_row_sha256": "4684914a7806abc3475d170cf0af99180f8b0134e2077a9a145c92e6caf4b9a2"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.grpRmANOVAsphericity",
+      "source_row_sha256": "7887fa88f46e6313c2dc3a8c1c128ce2143cf6c06281e81059a85cb4356e0f44"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.grpMCP",
+      "source_row_sha256": "6090e1f346de088cf4b03c89754a6598c674f3d76f9f50d28cb1b55e685afeb9"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckTukey",
+      "source_row_sha256": "68dfb171a17e7c5d04826aab4ec56df04919c43d863b7584246c31fdb82e9b33"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckGreenhouse",
+      "source_row_sha256": "2a888aeadd0dabff5f02e98fc7f23b08ab18168976366d75a48325ab915af88e"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckHuyhn",
+      "source_row_sha256": "bf64e90558cb1560a71986707b196d9bafa7e3c58049986d62ccdec854189b53"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckMauchly",
+      "source_row_sha256": "06eeb863b94544ba907653169dbae30e615c21ab51a8c793a324320178a675d4"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.TabPage_OptionsRxC",
+      "source_row_sha256": "1275bbab73c226108a5fd0e0d40a0566e3153ed77c18b4d97c84fe5d76aac264"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckOrdinal",
+      "source_row_sha256": "7b2b481132d715d821b891d722f452d7dcd0a7215efcb5b00e26ed6fbdc4ad0c"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckFFH",
+      "source_row_sha256": "a6fffde4e44a6003f85bf509771d765d5e73e3b7bdd256b71ccf394b66ac419f"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckCochranArmitage",
+      "source_row_sha256": "ba521df5c02177622a457200c1bcd84b43ee64c3f969db5800b71347e60b51f1"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckNominalAssociation",
+      "source_row_sha256": "993cc8ba306cdec1849c2d466e274f45d63c7b145d6b70668b8928ea0bfb9e30"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckLabels",
+      "source_row_sha256": "c1deb6853fcaa03e96614d03fea4395f5a7faca047a85dfd0ec95489a5083edd"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.TabPage_OptionsICC",
+      "source_row_sha256": "38b36df1d4d077c5e117aaec6a2ddcbabd5468cee80bdbe7ecb5a0b7236ecfc4"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.grpICCtype",
+      "source_row_sha256": "ce7300965635515dd9672ecc4e98369dbac3055c8d6194d9d2c21d7f492dab52"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.optICC21",
+      "source_row_sha256": "79fef3f009315444d5ffa210e9c527b16ae8f53396474e9fcfa7f4d2854feaad"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.optICC1k",
+      "source_row_sha256": "7e2c9a5029d99e4df24f74bf6f13d1e6f508c4bb2157e5ae0bfd773703717e72"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.optICC11",
+      "source_row_sha256": "c11315f7fc01e127a7c02cd170e020bcc9cca420dbe8a8a0d9163fc59446318e"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.optICC3k",
+      "source_row_sha256": "0b8f26c31bad3f4d4e2361afcce0c21ea482310682715a4e50b61788b5fdb874"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.optICC31",
+      "source_row_sha256": "39cb28a00a81a08c88554ede04e96849ce359f6e192498d4de767fa626cd32eb"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.optICC2k",
+      "source_row_sha256": "95c78baf4ebfdd6eafb1218f4a8b2f82ab66e80874c5751d13c24611b31dc774"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.lblAlphaICC",
+      "source_row_sha256": "36399c2d0967bafdbb6ed6e27ecc40400c562cbee4b00ccf6c23eaf16aaf7916"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.spinBtnAlphaICC",
+      "source_row_sha256": "4f0c185aca11d2a4a5eadcb96d9c35eb3e73ea8e96b5702c3c1246d7d0a9e205"
+    },
+    {
+      "control_id": "BESHStatNG.Ui0OneRefeditMulticol.ckRepeatabilityCoefficient",
+      "source_row_sha256": "7be1ed2f53ea677d6ed71801530f23893020fa35866a20d511242132b58c2968"
+    }
+  ],
+  "original_linked_open_obligations": [
+    {
+      "obligation_id": "control:BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput",
+      "linked_control_ids": [
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput"
+      ],
+      "source_record_sha256": "dbd609e1dbe242206e57e963de20182de48d9496f9accf330a3b20abf83d4780",
+      "original_row_sha256": "6252853c8a38dac810e6d78839292230e26f4b45f9dd86afe079ed3d572f8637",
+      "status": "OPEN",
+      "capture_authorized": false,
+      "affected_live_golden_blocked": true
+    },
+    {
+      "obligation_id": "control:BESHStatNG.Ui0OneRefeditMulticol.RefEdit1",
+      "linked_control_ids": [
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEdit1"
+      ],
+      "source_record_sha256": "04f608d5495ece4be4fa15fb59a1c820eb0d615e9ed67eda5e59e66c18967d2c",
+      "original_row_sha256": "73a035970991db4db031955fc594e113b9c946976a575523ddd9f39de36818b6",
+      "status": "OPEN",
+      "capture_authorized": false,
+      "affected_live_golden_blocked": true
+    },
+    {
+      "obligation_id": "control:BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc",
+      "linked_control_ids": [
+        "BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc"
+      ],
+      "source_record_sha256": "efc59c39dc3675a291d6c9519ecac0d02b18725f667159d56bbb5c16d79e0809",
+      "original_row_sha256": "e830de407928e99f122b98e9ce991faaf49d195317b8f9ae984f92d8ca2d9779",
+      "status": "OPEN",
+      "capture_authorized": false,
+      "affected_live_golden_blocked": true
+    },
+    {
+      "obligation_id": "control:BESHStatNG.Ui0OneRefeditMulticol.btnHelp",
+      "linked_control_ids": [
+        "BESHStatNG.Ui0OneRefeditMulticol.btnHelp"
+      ],
+      "source_record_sha256": "78e1ad2fc9d5a40041c26752087e26ee97920559e2b1a1f75e02030aac157e97",
+      "original_row_sha256": "d4d15f9b232897c8069422ee4a48161595f38ef8d32cb0a0fe1117f83c9c7a16",
+      "status": "OPEN",
+      "capture_authorized": false,
+      "affected_live_golden_blocked": false
+    },
+    {
+      "obligation_id": "edge:BESHstatNG/src/UI/Ui0OneRefeditMulticol.Designer.vb|WithEvents|RefEditOutput@587",
+      "linked_control_ids": [
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput"
+      ],
+      "source_record_sha256": "1291e49b5794e274c0618f39bf252bf1487b8fbe18357779cd0d578cea861719",
+      "original_row_sha256": "f71b4706949e05f4b3c1cc70e39557aae5c08e8f4a7165a4c497dd6c27cdaef7",
+      "status": "OPEN",
+      "capture_authorized": false,
+      "affected_live_golden_blocked": true
+    },
+    {
+      "obligation_id": "edge:BESHstatNG/src/UI/Ui0OneRefeditMulticol.Designer.vb|WithEvents|RefEdit1@593",
+      "linked_control_ids": [
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEdit1"
+      ],
+      "source_record_sha256": "476597010fefd43a32cb70e829b35696742a031f14cf0be23efe8053acd96d10",
+      "original_row_sha256": "eb4968199e71474c4858d82e376cb02e10674c0b7d71f8d7b2b0938d7ae08cdb",
+      "status": "OPEN",
+      "capture_authorized": false,
+      "affected_live_golden_blocked": true
+    },
+    {
+      "obligation_id": "edge:BESHstatNG/src/UI/Ui0OneRefeditMulticol.Designer.vb|WithEvents|progressBarExactCalc@597",
+      "linked_control_ids": [
+        "BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc"
+      ],
+      "source_record_sha256": "8795c8ed763742c54788782b94e6c8231486e8cb4f63429ddd7d708de58680fd",
+      "original_row_sha256": "7d2274bc7a65853e89958339aa05e188596845c891df2772baf76147dbf6b511",
+      "status": "OPEN",
+      "capture_authorized": false,
+      "affected_live_golden_blocked": true
+    }
+  ],
+  "restriction_interpretation": "Retain the complete original 39-control host population/seven linked obligations and shared RefEdit restrictions; not a new restriction assignment or additive population. Original PCA 75/76 and all 147 Ui11PCA controls/145 linked obligations remain separately retained.",
+  "future_owner": [
+    "04A.39-42 input/scientific alignment",
+    "04A.45-48 native evidence/activation"
+  ],
+  "releases": 0,
+  "discharges": 0,
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET"
+}

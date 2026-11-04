@@ -110,6 +110,10 @@ BESHStatNG writes results to a **new workbook** with:
 
 ### 1) Data sheet
 
+The original observation matrix is N by Q, its indicator/design matrix is N by K and the Burt matrix is K by K. Observation RowIds are not category labels. The Data sheet preserves two header rows: source variable names above the raw observations, variable block names above design-category labels, and observation/indicator values starting on row 3. The second header row beside the raw observations is blank.
+
+Core trims categorical values and orders levels within each variable using the current culture's string ordering. Repeated category text in different variables remains in distinct category blocks. Duplicate variable names can make source ownership of a category label ambiguous; portable metadata reports that ambiguity without recoding data or rejecting the Windows request. Individual coordinates and category coordinates retain distinct axes; the MCA correspondence plot displays categories. The existing Core result labels and table ordering remain unchanged.
+
 - The original categorical data (with Row ID).
 - The **Design Matrix** `Z` (indicator matrix), shown with:
   - a header row of variable names (repeated across that variable’s category columns),

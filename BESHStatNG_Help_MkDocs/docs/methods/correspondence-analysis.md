@@ -97,6 +97,10 @@ Choose one of:
 
 ## Output and interpretation
 
+**Contingency axes and current limitation.** With first-column row labels enabled, that column supplies row names and is excluded from the integer count matrix. Remaining columns preserve their source order and headings. The Windows host retains its existing numeric conversion, including rounding/coercion and error behavior. Output begins with `Analyzed contingency table`, followed by the existing Core tables; row contributions for axes 1 and 2, column contributions for axes 1 and 2, then the correspondence plot retain their existing order and destination.
+
+The unlabelled Windows indexing defect `C17-CA-NOLABEL-INDEX-01` remains open: nonempty input can fail at destination column -1 before calculation/output. A tested dormant correction is not active in this dialog. Low-dimensional plots retain their current renderer behavior; this extraction does not establish native workbook/chart equivalence.
+
 ### 1) Eigenvalues table
 
 The eigenvalues (principal inertias) summarize how much association is captured by each axis.

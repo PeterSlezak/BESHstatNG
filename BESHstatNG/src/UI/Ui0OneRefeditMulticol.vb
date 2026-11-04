@@ -1,4 +1,5 @@
 ﻿Option Explicit On
+Imports BESHStatNG.ExcelCommon
 Imports System.IO
 Imports System.Security.Cryptography
 Imports System.Windows.Forms.VisualStyles.VisualStyleElement
@@ -511,15 +512,13 @@ Public Class Ui0OneRefeditMulticol
 
     Private Sub RunCA(data As DataObj)
         Dim ca As New Multivariate.CA, TableData(,) As Integer
+        Dim countInput As MultivariateContingencyInput = Nothing
+        Dim projection As MultivariateComponentProjection = Nothing
 
         If Me.ckLabels.Checked Then
             Dim RowLabels() As String = Global.BESHStatNG.DataManagement.ArrayUtilities.Array2strArray(Matrix.GetColumnFrom2Darray(data.FinalData, 0))
-            ReDim TableData(data.nRows - 1, data.nCols - 2)
-            For i = 0 To UBound(data.FinalData, 1)
-                For j = 1 To UBound(data.FinalData, 2) '1st column is Row labels
-                    TableData(i, j - 1) = CInt(data.FinalData(i, j))
-                Next
-            Next
+            countInput = WindowsMultivariateWorkflowAdapter.CaptureLabelledCa(data, RowLabels)
+            TableData = WindowsMultivariateWorkflowAdapter.ConvertLabelledCaCounts(data, countInput)
             ca.data(TableData, RowLabels, data.varNames.Skip(1).ToArray())
             ca.Calculate()
         Else
@@ -533,14 +532,20 @@ Public Class Ui0OneRefeditMulticol
             ca.data(TableData)
             ca.Calculate()
         End If
-        Dim res = ca.wrapResults()
+        Dim res As List(Of ResultTable)
+        If countInput IsNot Nothing Then
+            projection = MultivariateComponentProjectionPolicy.SimpleCa(countInput, ca, TableData)
+            res = MultivariateComponentProjectionPolicy.CaReport(projection, TableData, ca.wrapResults()).LegacyTables()
+        Else
+            res = ca.wrapResults()
 
-        Dim t As New ResultTable
-        t.AddTitle("Analyzed contingency table")
-        t.SetBody(TableData)
-        t.AddHeaderLeftRow(ca.rowNames)
-        t.AddHeaderTopRow(ca.ColumNames)
-        res.Insert(0, t)
+            Dim t As New ResultTable
+            t.AddTitle("Analyzed contingency table")
+            t.SetBody(TableData)
+            t.AddHeaderLeftRow(ca.rowNames)
+            t.AddHeaderTopRow(ca.ColumNames)
+            res.Insert(0, t)
+        End If
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
@@ -556,18 +561,26 @@ Public Class Ui0OneRefeditMulticol
         rr.writeToSheet(WriteRes, True)
 
         'Add Plots
-        If Me.optWorkbook.Checked Then
-            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, True)
-            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, True)
-            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, False)
-            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, False)
-            graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(ca)
+        If projection IsNot Nothing Then
+            If Me.optWorkbook.Checked Then
+                WindowsMultivariateWorkflowAdapter.RenderCa(projection, ca)
+            Else
+                WindowsMultivariateWorkflowAdapter.RenderCa(projection, ca, WriteRes.ws)
+            End If
         Else
-            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, True, WriteRes.ws)
-            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, True, WriteRes.ws)
-            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, False, WriteRes.ws)
-            graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, False, WriteRes.ws)
-            graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(ca, WriteRes.ws)
+            If Me.optWorkbook.Checked Then
+                graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, True)
+                graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, True)
+                graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, False)
+                graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, False)
+                graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(ca)
+            Else
+                graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, True, WriteRes.ws)
+                graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, True, WriteRes.ws)
+                graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 0, False, WriteRes.ws)
+                graphics.CorrespondenceAnalysisPlotExcel.ContributionPlot(ca, 1, False, WriteRes.ws)
+                graphics.CorrespondenceAnalysisPlotExcel.CorrespondencePlot(ca, WriteRes.ws)
+            End If
         End If
     End Sub
 
