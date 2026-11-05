@@ -1,0 +1,44 @@
+{
+  "status": "OPEN / CANDIDATE_ONLY / UNAPPLIED",
+  "activated_fixes": 0,
+  "issues": [
+    {
+      "id": "C25-REENTRANT-REQUEST-SNAPSHOT-01",
+      "reproducer": "RunPSM calls BuildFitOptions, Fit, DoEvents; writer calls BuildFitOptions again. A changed selection could make the displayed options differ from fitted options.",
+      "retained": "Both captures and checkbox phase chronology retained; no re-entrant UI correction.",
+      "owner": "Windows workflow owner / 04A.47",
+      "gate": "Separate native/behavior authorization and verified synchronous/re-entrant test."
+    },
+    {
+      "id": "C25-LOVE-THRESHOLD-MISSING-01",
+      "reproducer": "Psm25Tests.LegacyNonfiniteThresholdCellAndAllMissingAxisFallbackAreObservedUnchanged: NaN threshold boxes zero through original VB Double/Nothing If.",
+      "retained": "Zero threshold cell retained, missing SMD cells remain Nothing.",
+      "owner": "Windows chart/report owner / 04A.34-36 and 04A.47",
+      "gate": "Separate output contract approval and native capture."
+    },
+    {
+      "id": "C25-LOVE-AXIS-NOFINITE-01",
+      "reproducer": "Same named test: all three SMD channels nonfinite, positive threshold 10 -> x maximum 0.25 via Math.Max with NaN.",
+      "retained": "Legacy fallback retained.",
+      "owner": "Windows chart owner / 04A.34-36",
+      "gate": "Separate geometry/output approval and native appearance."
+    },
+    {
+      "id": "C25-RAW-TEXT-COVARIATE-IMPORT-01",
+      "reproducer": "Psm25AdapterTests.RawTextModelCovariatesRetainExistingNumericImportRejection: two raw model rows {1,A}/{0,B} with numeric outcome -> bZeroValid True, Input/AlignedAxis Nothing. Numeric-coded factor and interaction tests pass.",
+      "retained": "Original CharCols=-1 import branch and early-return boundary unchanged. No native worksheet claim.",
+      "owner": "Host data import and PSM owners / later separately authorized review",
+      "gate": "Separate host transport/behavior approval; preserve 04A.27 restrictions."
+    },
+    {
+      "id": "C25-GUI-UDF-DEFAULT-INTENT-01",
+      "reproducer": "Source-observed defaults: GUI ridge 1e-7 and CEM bins 5 versus UDF/Core ridge 1e-6 and CEM bins 4; GUI forces AsInput for optimal/nonmatching, UDF normalization retains selected/default order.",
+      "retained": "UDF unchanged; no inferred statistical equivalence between differing defaults.",
+      "owner": "Scientific/UDF owner / 04A.42; Windows owner / 04A.47",
+      "gate": "Separate scientific/default-policy and native authorization."
+    }
+  ],
+  "predecessors": "C09/C11/C12, C13, C17-C24 including C21-STACKED-ROWCOUNT-VALIDATION-01 and C24-HISTORICAL-ORACLE-SCOPE-01 unchanged.",
+  "releases": 0,
+  "discharges": 0
+}

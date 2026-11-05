@@ -8,6 +8,7 @@ Imports System.Collections.Generic
 Imports System.Linq
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.CausalInference
+Imports BESHStatNG.ExcelCommon
 Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>
@@ -83,6 +84,7 @@ Public Class psmData
     Public Property IdData As DataObj
     Public Property ExactGroupData As DataObj
 
+    Public Property AlignedAxis As PsmAlignedInputAxis
     Public Property Input As PsmInputData
     Public Property ExpandedData As Double(,)
     Public Property ExpandedVarNames As String()
@@ -224,6 +226,7 @@ Public Class psmData
         IdData = Nothing
         ExactGroupData = Nothing
         Input = Nothing
+        AlignedAxis = Nothing
         ExpandedData = Nothing
         ExpandedVarNames = Nothing
         RawCovariateKeys = New List(Of String)()
@@ -469,6 +472,8 @@ Public Class psmData
             .SuppliedPropensityScores = scores,
             .ExactGroupLabels = exactLabels
         }
+        AlignedAxis = New PsmAlignedInputAxis(Input, Me.RowIds, RawCovariateKeys,
+            EffectiveEffectItems.Select(Function(item) If(item Is Nothing, Nothing, item.ToString())), DroppedRowsDuringAlignment)
     End Sub
 
     Private Shared Function BuildExactLabel(data(,) As Object, rowIndex As Integer) As String

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "checkbox_combinations": 32,
+  "ordered_sheets": [
+    "Input Data",
+    "Results",
+    "Diagnostics",
+    "Row Audit",
+    "Love Plot",
+    "Matched Pairs",
+    "Matched Data",
+    "CEM"
+  ],
+  "unique_profile_report_sections": {
+    "Input Data": 1196,
+    "Results": 1196,
+    "Diagnostics": 1196,
+    "Row Audit": 1196,
+    "Love Plot": 1196,
+    "Matched Pairs": 1196,
+    "Matched Data": 1196,
+    "CEM": 300
+  },
+  "core_table_hashes": "Every positive payload in psm-matching-weighting-balance-same-core-v1.json includes exact typed ToOutputModel table hashes for selected sections, compared against original Core API calls.",
+  "empty_behavior": "Native skip-empty lists unchanged; Core can return message tables for no matches. Love sheet availability follows raw LovePlotRows.Count, preserving a sheet with empty source message if all labels filter out.",
+  "report_snapshot": "Original second BuildFitOptions call retained; diagnostic, Love, matches and CEM phases preserve native checkbox read chronology. Workbook/summary naming/formatting/activation remain Windows-owned."
+}

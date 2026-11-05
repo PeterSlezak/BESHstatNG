@@ -1,0 +1,365 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "authority": {
+    "path": "BESHStat.Core/src/StatTests/PropensityScoreMatching/PSMmethodCapabilities.vb",
+    "sha256": "c3b5ddabe0ae6574b2784d4a7fd7218a70f3a68b22788dde6da0ce8a040b760b"
+  },
+  "methods": [
+    {
+      "method": "StandardNearestNeighbor",
+      "supported_estimands": [
+        "ATT",
+        "ATC"
+      ],
+      "matching_controls": true,
+      "nearest_neighbor": true,
+      "subclass": false,
+      "cem": false,
+      "observed_unique_payload_classifications": [
+        {
+          "estimand": "0",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "0",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 104
+        },
+        {
+          "estimand": "0",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 84
+        },
+        {
+          "estimand": "1",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "1",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 36
+        },
+        {
+          "estimand": "1",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 24
+        },
+        {
+          "estimand": "2",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 64
+        },
+        {
+          "estimand": "3",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 64
+        }
+      ]
+    },
+    {
+      "method": "StandardSubclassification",
+      "supported_estimands": [
+        "ATT",
+        "ATC",
+        "ATE",
+        "ATO"
+      ],
+      "matching_controls": false,
+      "nearest_neighbor": false,
+      "subclass": true,
+      "cem": false,
+      "observed_unique_payload_classifications": [
+        {
+          "estimand": "0",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "0",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 128
+        },
+        {
+          "estimand": "0",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 60
+        },
+        {
+          "estimand": "1",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "1",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 52
+        },
+        {
+          "estimand": "1",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 8
+        },
+        {
+          "estimand": "2",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "2",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 52
+        },
+        {
+          "estimand": "2",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 8
+        },
+        {
+          "estimand": "3",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "3",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 52
+        },
+        {
+          "estimand": "3",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 8
+        }
+      ]
+    },
+    {
+      "method": "WeightingOnly",
+      "supported_estimands": [
+        "ATT",
+        "ATC",
+        "ATE",
+        "ATO"
+      ],
+      "matching_controls": false,
+      "nearest_neighbor": false,
+      "subclass": false,
+      "cem": false,
+      "observed_unique_payload_classifications": [
+        {
+          "estimand": "0",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "0",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 128
+        },
+        {
+          "estimand": "0",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 60
+        },
+        {
+          "estimand": "1",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "1",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 52
+        },
+        {
+          "estimand": "1",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 8
+        },
+        {
+          "estimand": "2",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "2",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 52
+        },
+        {
+          "estimand": "2",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 8
+        },
+        {
+          "estimand": "3",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "3",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 52
+        },
+        {
+          "estimand": "3",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 8
+        }
+      ]
+    },
+    {
+      "method": "OptimalPairMatching",
+      "supported_estimands": [
+        "ATT",
+        "ATC"
+      ],
+      "matching_controls": true,
+      "nearest_neighbor": false,
+      "subclass": false,
+      "cem": false,
+      "observed_unique_payload_classifications": [
+        {
+          "estimand": "0",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "0",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 104
+        },
+        {
+          "estimand": "0",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 84
+        },
+        {
+          "estimand": "1",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "1",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 36
+        },
+        {
+          "estimand": "1",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 24
+        },
+        {
+          "estimand": "2",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 64
+        },
+        {
+          "estimand": "3",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 64
+        }
+      ]
+    },
+    {
+      "method": "CoarsenedExactMatching",
+      "supported_estimands": [
+        "ATT",
+        "ATC",
+        "ATE",
+        "ATO"
+      ],
+      "matching_controls": false,
+      "nearest_neighbor": false,
+      "subclass": false,
+      "cem": true,
+      "observed_unique_payload_classifications": [
+        {
+          "estimand": "0",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "0",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 128
+        },
+        {
+          "estimand": "0",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 60
+        },
+        {
+          "estimand": "1",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "1",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 52
+        },
+        {
+          "estimand": "1",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 8
+        },
+        {
+          "estimand": "2",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "2",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 52
+        },
+        {
+          "estimand": "2",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 8
+        },
+        {
+          "estimand": "3",
+          "classification": "NONCONVERGED",
+          "payloads": 4
+        },
+        {
+          "estimand": "3",
+          "classification": "POSITIVE_PARITY",
+          "payloads": 52
+        },
+        {
+          "estimand": "3",
+          "classification": "PRESERVED_CORE_REJECTION",
+          "payloads": 8
+        }
+      ]
+    }
+  ],
+  "gui_defaults": {
+    "logistic_tolerance": 1e-07,
+    "logistic_ridge": 1e-07,
+    "max_iterations": 100,
+    "ratio": 1,
+    "strata": 5,
+    "cem_bins": 5,
+    "overlap_bins": 20,
+    "trim": [
+      0,
+      1
+    ],
+    "smd_threshold": 0.1,
+    "extreme_weight_cutoff": 10,
+    "caliper": "NaN when empty",
+    "random_seed": 12345
+  },
+  "core_defaults": {
+    "logistic_ridge": 1e-06,
+    "cem_covariate_bins": 4
+  },
+  "no_fallback": true,
+  "selected_vs_effective": "PsmRequestSelection.SelectedOptions versus CreateEffectiveOptions; native disabled text/event mutation and numeric parsing remain Windows-owned.",
+  "udf": "Signatures/metadata and UDF parser unchanged; source-observed default disparities are candidate issues, not silently aligned."
+}

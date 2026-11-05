@@ -1,0 +1,16 @@
+{
+  "source_files": {
+    "BESHstatNG/src/UI/Ui20PropensityScoreMatching.vb": "de71d17991d63f24cb0d8ab89af6bc0436bbcf9ca31db92b46c445eb74ce6f1d",
+    "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb": "d93c1c96f4ee130c578143005c78921ba069369604f57ddf653792a001344399"
+  },
+  "derivative": {
+    "path": "BESHStat.Excel.Common.Tests/src/Psm25Legacy.vb",
+    "sha256": "582188b056cc11fe438fb6a5eb4a39fbb05b54617f1256f4fe089d18129dae3c"
+  },
+  "transformations": [
+    "Original Ui20 normalize access changed to Public Shared; body unchanged.",
+    "Original pure renderer table and four numeric helpers; inaccessible Friend finite qualifier replaced by identical NaN/Infinity predicate from NumericGuards.vb.",
+    "Original AddChart prelude returned as seven channels; empty plan added; no chart/COM calls."
+  ],
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY"
+}

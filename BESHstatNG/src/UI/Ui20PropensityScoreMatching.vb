@@ -1,4 +1,5 @@
-﻿Imports System.Windows.Forms
+﻿Imports BESHStatNG.ExcelCommon
+Imports System.Windows.Forms
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.CausalInference
 Imports Microsoft.Office.Interop
@@ -15,6 +16,7 @@ Public Class Ui20PropensityScoreMatching
         Public RawModelData As psmData
         Public Input As PsmInputData
         Public SourceRowIds As Integer()
+        Public AlignedAxis As PsmAlignedInputAxis
         Public ExpandedData As Double(,)
         Public ExpandedVarNames As String()
         Public RawCovariateKeys As List(Of String)
@@ -317,6 +319,7 @@ Public Class Ui20PropensityScoreMatching
         out.RawModelData = importer
         out.Input = importer.Input
         out.SourceRowIds = importer.RowIds
+        out.AlignedAxis = importer.AlignedAxis
         out.ExpandedData = importer.ExpandedData
         out.ExpandedVarNames = importer.ExpandedVarNames
         out.RawCovariateKeys = importer.RawCovariateKeys
@@ -478,30 +481,24 @@ Public Class Ui20PropensityScoreMatching
 
         If fitOptions.RunMethod = PsmBackendRunMethod.CoarsenedExactMatching Then
             Dim bins As Integer = Math.Max(2, ParseUiInteger(tbCemBins.Text, "CEM quantile bins"))
-            fitOptions.CoarseningSpec = New PsmCoarseningSpec With {
-                .DefaultCovariateBins = bins,
-                .PropensityScoreBins = bins,
-                .Estimand = standard.Estimand,
-                .NormalizeWeightsToSampleSize = standard.NormalizeWeightsToSampleSize
-            }
+            fitOptions.CoarseningSpec = PsmRequestSelection.CreateCemSpec(bins, standard)
         End If
 
-        NormalizeFitOptionsForRunMethod(fitOptions)
-        Return fitOptions
+        Return New PsmRequestSelection(fitOptions).CreateEffectiveOptions()
     End Function
 
     Private Sub InitializeDefaultUiValues()
-        Me.tbTolerance.Text = FormatUiDouble(0.0000001)
-        Me.tbRidgePenalty.Text = FormatUiDouble(0.0000001)
-        Me.tbTrimLower.Text = FormatUiDouble(0.0)
-        Me.tbTrimUpper.Text = FormatUiDouble(1.0)
-        Me.tbLoveThreshold.Text = FormatUiDouble(0.1)
-        Me.tbMaxIterations.Text = "100"
-        Me.tbMatchingRatio.Text = "1"
-        Me.tbStrata.Text = "5"
-        Me.tbCemBins.Text = "5"
-        Me.tbOverlapBins.Text = "20"
-        Me.tbExtremeWeight.Text = FormatUiDouble(10.0)
+        Me.tbTolerance.Text = FormatUiDouble(PsmSelectionDefaults.LogisticTolerance)
+        Me.tbRidgePenalty.Text = FormatUiDouble(PsmSelectionDefaults.LogisticRidgePenalty)
+        Me.tbTrimLower.Text = FormatUiDouble(PsmSelectionDefaults.LowerTrim)
+        Me.tbTrimUpper.Text = FormatUiDouble(PsmSelectionDefaults.UpperTrim)
+        Me.tbLoveThreshold.Text = FormatUiDouble(PsmSelectionDefaults.SmdThreshold)
+        Me.tbMaxIterations.Text = PsmSelectionDefaults.MaximumIterations.ToString()
+        Me.tbMatchingRatio.Text = PsmSelectionDefaults.MatchingRatio.ToString()
+        Me.tbStrata.Text = PsmSelectionDefaults.Strata.ToString()
+        Me.tbCemBins.Text = PsmSelectionDefaults.CemBins.ToString()
+        Me.tbOverlapBins.Text = PsmSelectionDefaults.OverlapBins.ToString()
+        Me.tbExtremeWeight.Text = FormatUiDouble(PsmSelectionDefaults.ExtremeWeightCutoff)
         Me.tbCaliper.Text = String.Empty
 
         PopulateEnumCombo(Me.cbScoreMethod, GetType(PsmScoreMethod), PsmScoreMethod.LogisticRegression.ToString())
@@ -601,7 +598,8 @@ Public Class Ui20PropensityScoreMatching
             estimand = PsmEstimand.ATT
         End Try
 
-        Dim supplied As Boolean = (scoreMethod = PsmScoreMethod.Supplied)
+        Dim intent As New PsmControlIntent(runMethod, estimand, scoreMethod)
+        Dim supplied As Boolean = intent.Supplied
         Me.lbScore.Enabled = supplied
         Me.btAddScore.Enabled = supplied
         Me.btRemoveScore.Enabled = supplied
@@ -617,22 +615,22 @@ Public Class Ui20PropensityScoreMatching
         Me.tbRidgePenalty.Enabled = Not supplied
         Me.lblRidgePenalty.Enabled = Not supplied
 
-        Dim matching As Boolean = PsmMethodCapabilities.UsesMatchingControls(runMethod)
-        Dim nearestNeighbor As Boolean = PsmMethodCapabilities.UsesNearestNeighborOptions(runMethod)
-        Dim optimalPair As Boolean = PsmMethodCapabilities.UsesOptimalPairOptions(runMethod)
+        Dim matching As Boolean = intent.Matching
+        Dim nearestNeighbor As Boolean = intent.NearestNeighbor
+        Dim optimalPair As Boolean = intent.OptimalPair
 
         If optimalPair Then
             Me.tbMatchingRatio.Text = "1"
             Me.chkWithReplacement.Checked = False
         End If
 
-        If distanceMetric = PsmDistanceMetric.MahalanobisWithinPropensityCaliper AndAlso caliperScale = PsmCaliperScale.None Then
+        If PsmControlIntent.NeedsCaliperDefault(distanceMetric, caliperScale) Then
             Dim idx As Integer = Me.cbCaliperScale.FindStringExact(PsmCaliperScale.StandardizedLogitPropensityScore.ToString())
             If idx >= 0 Then
                 Me.cbCaliperScale.SelectedIndex = idx
                 caliperScale = PsmCaliperScale.StandardizedLogitPropensityScore
             End If
-            If String.IsNullOrWhiteSpace(Me.tbCaliper.Text) Then Me.tbCaliper.Text = FormatUiDouble(0.2)
+            If String.IsNullOrWhiteSpace(Me.tbCaliper.Text) Then Me.tbCaliper.Text = FormatUiDouble(PsmSelectionDefaults.MahalanobisCaliper)
         End If
 
         Me.tbMatchingRatio.Enabled = nearestNeighbor
@@ -646,17 +644,17 @@ Public Class Ui20PropensityScoreMatching
         Me.lblCaliperScale.Enabled = matching
         Me.tbCaliper.Enabled = matching AndAlso caliperScale <> PsmCaliperScale.None
         Me.lblCaliper.Enabled = Me.tbCaliper.Enabled
-        Me.tbStrata.Enabled = PsmMethodCapabilities.UsesSubclassificationControls(runMethod)
+        Me.tbStrata.Enabled = intent.Subclassification
         Me.lblStrata.Enabled = Me.tbStrata.Enabled
-        Me.tbCemBins.Enabled = PsmMethodCapabilities.UsesCemControls(runMethod)
+        Me.tbCemBins.Enabled = intent.Cem
         Me.lblCemBins.Enabled = Me.tbCemBins.Enabled
-        Me.chkDoublyRobust.Enabled = PsmMethodCapabilities.SupportsDoublyRobust(runMethod, estimand)
+        Me.chkDoublyRobust.Enabled = intent.DoublyRobust
         If Not Me.chkDoublyRobust.Enabled Then Me.chkDoublyRobust.Checked = False
     End Sub
 
     Private Sub RefreshEstimandChoicesForRunMethod(runMethod As PsmBackendRunMethod)
         Dim current As String = If(Me.cbEstimand.SelectedItem Is Nothing, PsmEstimand.ATT.ToString(), Me.cbEstimand.Text)
-        Dim allowed As PsmEstimand() = PsmMethodCapabilities.SupportedEstimands(runMethod)
+        Dim allowed As PsmEstimand() = PsmControlIntent.Estimands(runMethod)
         Dim allowedNames As String() = allowed.Select(Function(e) e.ToString()).ToArray()
         If Me.cbEstimand.Items.Count = allowedNames.Length Then
             Dim same As Boolean = True
@@ -681,68 +679,34 @@ Public Class Ui20PropensityScoreMatching
     End Sub
 
     Private Sub NormalizeFitOptionsForRunMethod(fitOptions As PsmComprehensiveFitOptions)
-        Dim runMethod As PsmBackendRunMethod = fitOptions.RunMethod
-        If fitOptions.StandardOptions Is Nothing Then Return
-
-        If runMethod = PsmBackendRunMethod.OptimalPairMatching Then
-            fitOptions.StandardOptions.MatchingRatio = 1
-            fitOptions.StandardOptions.WithReplacement = False
-            fitOptions.StandardOptions.MatchingOrder = PsmMatchingOrder.AsInput
-        End If
-
-        If Not PsmMethodCapabilities.UsesMatchingControls(runMethod) Then
-            fitOptions.StandardOptions.DistanceMetric = PsmDistanceMetric.PropensityScore
-            fitOptions.StandardOptions.CaliperScale = PsmCaliperScale.None
-            fitOptions.StandardOptions.Caliper = Double.NaN
-            fitOptions.StandardOptions.MatchingRatio = 1
-            fitOptions.StandardOptions.WithReplacement = False
-            fitOptions.StandardOptions.MatchingOrder = PsmMatchingOrder.AsInput
-        End If
+        PsmRequestSelection.Normalize(fitOptions)
     End Sub
 
     Private Sub WritePsmResults(myData As PsmGuiData, fitResult As PsmComprehensiveResult)
+        'Preserve the original second UI snapshot and each later checkbox-read boundary.
         Dim fitOptions As PsmComprehensiveFitOptions = BuildFitOptions()
         Dim wb As Excel.Workbook = CreatePsmResultWorkbook()
+        Dim presentation As New PsmResultPresentation(myData.Input.RowCount, fitResult)
+        Dim sourceRows As Integer() = myData.AlignedAxis.SourceRowIds()
+        Dim initial = PsmReportSelectionPolicy.Plan(False, False, False, False, False)
+        Dim inputWs As Excel.Worksheet = CreateOrAddResultSheet(wb, initial(0).SheetName, reuseFirstSheet:=True)
+        WriteResultTablesToWorksheet(wb, inputWs, initial(0).BuildTables(myData.Input, sourceRows, fitResult, fitOptions, Nothing))
 
-        '1) The analyzed input data is always the first sheet so users can audit
-        'exactly which source rows reached the backend after DataObj alignment.
-        Dim inputWs As Excel.Worksheet = CreateOrAddResultSheet(wb, "Input Data", reuseFirstSheet:=True)
-        WriteResultTablesToWorksheet(wb, inputWs,
-                                     New List(Of ResultTable) From {PsmFormattedResultTables.AnalyzedInputDataTable(myData.Input, myData.SourceRowIds)})
+        Dim resultWs As Excel.Worksheet = CreateOrAddResultSheet(wb, initial(1).SheetName, reuseFirstSheet:=False)
+        WriteResultTablesToWorksheet(wb, resultWs, initial(1).BuildTables(myData.Input, sourceRows, fitResult, fitOptions, DataImportSummaryTable(myData)))
 
-        '2) Compact/general results go to a single formatted sheet.
-        Dim resultWs As Excel.Worksheet = CreateOrAddResultSheet(wb, "Results", reuseFirstSheet:=False)
-        WriteResultTablesToWorksheet(wb, resultWs,
-                                     PsmFormattedResultTables.GeneralResultTables(fitResult, fitOptions, DataImportSummaryTable(myData)))
-
-        '3) Diagnostics and audit outputs are separated because they can be wider
-        'or more numerous than the main report.
-        If Me.chkWriteDiagnostics.Checked Then
-            WriteResultTablesToNewSheet(wb, "Diagnostics",
-                                        PsmFormattedResultTables.DiagnosticsTables(myData.Input, fitResult, includeDefaultSensitivity:=True))
-
-            WriteResultTablesToNewSheet(wb, "Row Audit",
-                                        PsmFormattedResultTables.RowAuditTables(myData.Input, fitResult, myData.SourceRowIds))
-        End If
-
-        'The Love plot gets its own worksheet with a formatted source table and
-        'an embedded Excel chart.  The source table is still written through
-        'ResultTable / ProcessListofResultTables, matching the other result sheets.
-        If Me.chkLovePlot.Checked Then WriteLovePlotSheetIfAvailable(wb, fitResult)
-
-        '4) Large matched outputs receive dedicated sheets.
-        If Me.chkWriteMatches.Checked Then
-            WriteResultTablesToNewSheet(wb, "Matched Pairs", PsmFormattedResultTables.MatchedPairsTables(myData.Input, fitResult))
-
-            WriteResultTablesToNewSheet(wb, "Matched Data",
-                                        PsmFormattedResultTables.MatchedDatasetTables(myData.Input, fitResult, myData.SourceRowIds))
-        End If
-
-        '5) CEM-specific outputs are written only when available.
-        If fitResult IsNot Nothing AndAlso fitResult.CoarsenedExactResult IsNot Nothing Then
-            WriteResultTablesToNewSheet(wb, "CEM", PsmFormattedResultTables.CoarsenedExactTables(myData.Input, fitResult))
-        End If
-
+        For Each sheet In PsmReportSelectionPolicy.DiagnosticSheets(Me.chkWriteDiagnostics.Checked)
+            WriteResultTablesToNewSheet(wb, sheet.SheetName, sheet.BuildTables(myData.Input, sourceRows, fitResult, fitOptions, Nothing))
+        Next
+        For Each sheet In PsmReportSelectionPolicy.LoveSheets(Me.chkLovePlot.Checked, presentation.HasLoveRows)
+            WriteLovePlotSheetIfAvailable(wb, fitResult)
+        Next
+        For Each sheet In PsmReportSelectionPolicy.MatchSheets(Me.chkWriteMatches.Checked)
+            WriteResultTablesToNewSheet(wb, sheet.SheetName, sheet.BuildTables(myData.Input, sourceRows, fitResult, fitOptions, Nothing))
+        Next
+        For Each sheet In PsmReportSelectionPolicy.CemSheets(presentation.HasCem)
+            WriteResultTablesToNewSheet(wb, sheet.SheetName, sheet.BuildTables(myData.Input, sourceRows, fitResult, fitOptions, Nothing))
+        Next
         Try
             resultWs.Activate()
         Catch
@@ -789,16 +753,17 @@ Public Class Ui20PropensityScoreMatching
     Private Sub WriteLovePlotSheetIfAvailable(wb As Excel.Workbook, fitResult As PsmComprehensiveResult)
         If fitResult Is Nothing OrElse fitResult.LovePlotRows Is Nothing OrElse fitResult.LovePlotRows.Count = 0 Then Return
 
+        Dim projection As New PsmLovePlotProjection(fitResult.LovePlotRows)
         Dim ws As Excel.Worksheet = CreateOrAddResultSheet(wb, "Love Plot", reuseFirstSheet:=False)
         Dim sourceTable As ResultTable = PsmFormattedResultTables.MatrixToResultTable(
             "Love plot source data",
-            graphics.PsmLovePlotExcel.BuildPlotDataTable(fitResult.LovePlotRows),
+            graphics.PsmLovePlotExcel.BuildProjectedDataTable(projection),
             "The chart uses absolute standardized mean differences. Points to the right of the vertical threshold line may indicate residual imbalance.")
 
         WriteResultTablesToWorksheet(wb, ws, New List(Of ResultTable) From {sourceTable})
 
         Try
-            graphics.PsmLovePlotExcel.AddChart(ws, fitResult.LovePlotRows)
+            graphics.PsmLovePlotExcel.AddProjectedChart(ws, projection)
             ws.Columns.AutoFit()
         Catch ex As Exception
             Dim warningTable As ResultTable = PsmFormattedResultTables.MatrixToResultTable(

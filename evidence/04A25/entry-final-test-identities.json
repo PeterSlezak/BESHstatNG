@@ -1,0 +1,52 @@
+{
+  "entry": "entry-validation.json",
+  "final": "validation.json",
+  "files": [
+    "entry-Debug-logical-test-identities.json",
+    "entry-Debug-raw-test-identities.json",
+    "entry-Debug-python-nonpass-traces.json",
+    "entry-Release-logical-test-identities.json",
+    "entry-Release-raw-test-identities.json",
+    "entry-Release-python-nonpass-traces.json",
+    "final-Debug-logical-test-identities.json",
+    "final-Debug-raw-test-identities.json",
+    "final-Debug-python-nonpass-traces.json",
+    "final-Release-logical-test-identities.json",
+    "final-Release-raw-test-identities.json",
+    "final-Release-python-nonpass-traces.json"
+  ],
+  "counts": {
+    "Debug": {
+      "entry": {
+        "total": 10280,
+        "passed": 10267,
+        "nonpassed": 13
+      },
+      "final": {
+        "total": 11382,
+        "passed": 11369,
+        "nonpassed": 13
+      },
+      "new_managed_nonpasses": [],
+      "new_python_nonpasses": {
+        "test_04a24_multivariate_payload.MultivariatePayload24.test_original_numerical_ui21_renderer_and_prior_common_hashes": "FAIL"
+      }
+    },
+    "Release": {
+      "entry": {
+        "total": 10280,
+        "passed": 10267,
+        "nonpassed": 13
+      },
+      "final": {
+        "total": 11382,
+        "passed": 11369,
+        "nonpassed": 13
+      },
+      "new_managed_nonpasses": [],
+      "new_python_nonpasses": {
+        "test_04a24_multivariate_payload.MultivariatePayload24.test_original_numerical_ui21_renderer_and_prior_common_hashes": "FAIL"
+      }
+    }
+  }
+}

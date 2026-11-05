@@ -1,0 +1,69 @@
+{
+  "reason": "Evidence-only privacy sanitization of synthetic fixture paths/credential URLs in managed identities; product/compiled test/Python test source unchanged.",
+  "initial": "initial-full-matrix-validation.json",
+  "commands": {
+    "Debug": {
+      "name": "requalified-Debug-python-scripts",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 146.51039289997425,
+      "started_utc": "2026-11-05T15:16:15.631159+00:00",
+      "finished_utc": "2026-11-05T15:18:42.141557+00:00",
+      "pid": 4092,
+      "metrics": {
+        "peak_root_working_set_bytes": 836792320,
+        "root_cpu_seconds": 119.296875
+      },
+      "runner_sha256": "4f9444a25678a94497edaa6f1f9d0746797781323a065ff64cb2aaa41e1c9c09",
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "b75e80ff7c1097a1a62f4d66496e086f9d5aca3c85e27e5698fc7d04bac8e26d"
+    },
+    "Release": {
+      "name": "requalified-Release-python-scripts",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 137.23769789992366,
+      "started_utc": "2026-11-05T15:20:01.648648+00:00",
+      "finished_utc": "2026-11-05T15:22:18.886349+00:00",
+      "pid": 12356,
+      "metrics": {
+        "peak_root_working_set_bytes": 838180864,
+        "root_cpu_seconds": 110.3125
+      },
+      "runner_sha256": "4f9444a25678a94497edaa6f1f9d0746797781323a065ff64cb2aaa41e1c9c09",
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "a4c36fbd09e6a9f3e8a8cec27c416657c5880633b56653d5ed7e4783f00c1dcf"
+    }
+  },
+  "repeat_script_methods_per_configuration": 699,
+  "unique_python_methods_per_configuration": 910,
+  "executed_raw_method_invocations_per_configuration": 1609,
+  "not_run_reused_methods": 0,
+  "accounting": "Initial full roots retained. Replace only the affected complete scripts discovery receipt for final classification; other roots already executed in that same configuration. Additional checks are repetitions, never extra distinct cases."
+}

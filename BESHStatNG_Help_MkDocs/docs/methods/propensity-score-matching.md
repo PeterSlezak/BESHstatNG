@@ -65,7 +65,9 @@ A typical worksheet has one row per subject and one column per variable.
 | Supplied score | `pscore` | Conditional | Required only when using an existing propensity-score column. Values must be in `(0, 1)`. |
 | Exact groups | `sex`, `site` | Optional | Matching can be restricted to subjects in the same exact-group combination. |
 
-Rows with missing or invalid treatment, outcome, covariate, or supplied-score values cannot be analyzed. The result workbook includes source worksheet row numbers so analyzed and excluded rows can be traced back to the original data.
+Rows with missing or invalid treatment, outcome, covariate, or supplied-score values cannot be analyzed. **Input Data** lists the rows retained after import and alignment. **Source Row** identifies the original worksheet row; an optional ID is a display label and can repeat. Match-set IDs identify matching sets and are separate from worksheet rows and display IDs.
+
+The data import summary counts rows dropped during alignment. Those dropped rows are absent from Input Data and Row Audit; these sheets are not a complete record of every rejected source row. Row Audit reports the backend's support/trimming flags and weights for retained input rows. A retained input row can have zero effective weight.
 
 ---
 
@@ -325,6 +327,10 @@ Large eCDF differences indicate distributional imbalance that may not be visible
 ### Love plot
 
 The Love plot displays absolute SMD values before and after adjustment. Points to the right of the vertical threshold line indicate variables that remain imbalanced.
+
+The Love Plot sheet contains a source table and, when Excel chart creation succeeds, a native chart. Variables are ordered by the largest finite absolute SMD across the before, after-matching and after-weighting series, then by name. Missing SMD values remain missing. A chart creation failure leaves the source table and adds a chart warning. Diagnostic and matched-output sheets depend on the selected outputs and available results; weighting, subclassification and CEM do not imply pair links.
+
+This workflow describes the Windows Excel-DNA dialog. Portable request and report contracts do not provide an Office/Mac PSM interface or verify native chart appearance.
 
 ![Propensity Score Matching Love plot](../assets/images/205propensityscorematching/205propensityscorematching_loveplot.png)
 

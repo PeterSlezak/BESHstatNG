@@ -1,0 +1,36 @@
+{
+  "worker_limit": 4,
+  "fifth_worker": false,
+  "runner": {
+    "path": "scripts/verify-04a25.py",
+    "sha256": "1c46dbfe66c413e8d4d23359512f4d8e9c063a76bc2f41ecbb517b493f54c621"
+  },
+  "predecessors": {
+    "scripts/verify-04a24.py": "42102b9f9d51b15f32f4d1fd2b07a19e66eb981a0dc55ce37b3166b50c308e17",
+    "scripts/verify-beshstatng.ps1": "e54e1fb0e7f3699f5d9aee361d255801531a546d8169edbab704ac0d8dd017fd"
+  },
+  "builds": "Sequential offline --no-restore /m:4; no concurrent MSBuild across configurations.",
+  "lanes": {
+    "A": "Core then Common managed",
+    "B": "Windows then ControlMitigation managed",
+    "C": "Office/WASM managed then JS/resolver/WASM Node --test-concurrency=1",
+    "D": "Python/source check commands sequential; D submitted first"
+  },
+  "outputs": "Unique TestResults/04A-25/run01/commands and executions per invocation. Copied prebuilt binary sandbox, MaxCpuCount=1 and MSTest Workers=1.",
+  "writers": [
+    "Project-relative TestData copied/hash checked; original bin-local priority retained.",
+    "Fixed ../../../../TestResults/Codex destinations resolve beneath per-invocation sandbox, asserted by runner.",
+    "BESHSTAT_KR_EXPORT_DIR unique; optional C02 full-suite writer unset.",
+    "Separate 15-case semantic-only observation probe feeds Common Python; no additional logical count.",
+    "Python Help temp clones serialized; strict/profile/MkDocs/hash/privacy/retention serial after matrix."
+  ],
+  "original_verifier": "Not executed in-place: its fixed TestResults/Codex output and restore-capable dotnet test would violate protected-history/offline constraints. Same commands adapted through batch-local offline isolated runner, including Legacy.",
+  "native": "NOT_RUN / UNAUTHORIZED",
+  "resources": "Root command PID/CPU/working set observed, not all testhost child aggregate metrics; max four command roots. No independent sequential baseline/speedup claim.",
+  "final_runner": {
+    "path": "scripts/verify-04a25.py",
+    "sha256": "5493fbe2003232a67577b32844a8551ecfcecc969baa14885b0b1b16678df27b"
+  },
+  "post_matrix_helper_changes": "Evidence privacy, stable source/case inventory fingerprints, immutable receipt-hash caching, run-ID selection and standalone source requalification action. Entry/final copied-bin routing is now explicit for reproducibility. No product/compiled test/Python test source changed. Actual executing runner hashes remain in every private command receipt.",
+  "fresh_run": "Set BESHSTAT_04A25_RUN to a new alphanumeric/hyphen/underscore identifier; never overwrite an old run. Repeat build names and matrix names inside that new isolated root."
+}
