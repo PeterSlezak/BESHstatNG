@@ -242,6 +242,7 @@ This ensures that the reported sample size is the minimum integer number of subj
 - It is a **hypothesis-test** planning tool, not a confidence-interval precision tool.
 - The design assumes a fixed number of observations per subject.
 - The required sample size refers to the number of **subjects**, not the total number of measurements.
+- The reported achieved power describes the returned subject count under the entered assumptions. The current Windows dialog has no separate assurance solver.
 - If your reliability design requires a different ICC model or a precision-based target, additional planning methods may be more appropriate.
 
 ---

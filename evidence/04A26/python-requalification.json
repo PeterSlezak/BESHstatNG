@@ -1,0 +1,127 @@
+{
+  "reason": "New dossier-helper prose matched a frozen path scanner. Two new Agreement26 fixture/reference files were strengthened for valid >=200 replicate fits, correctly dimensioned ICC subject axes and full typed numeric/table snapshots. Affected full Common/Windows and scripts discovery repeated per configuration; entry encoding restored. Product/Core and frozen tests unchanged.",
+  "initial": "initial-full-matrix-validation.json",
+  "commands": {
+    "requalified-Debug": {
+      "name": "requalified-Debug-python-scripts",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 136.0084733000258,
+      "started_utc": "2026-11-05T17:29:10.085654+00:00",
+      "finished_utc": "2026-11-05T17:31:26.085032+00:00",
+      "pid": 26400,
+      "metrics": {
+        "peak_root_working_set_bytes": 837496832,
+        "root_cpu_seconds": 111.34375
+      },
+      "runner_sha256": "a9822738cf42b9594722a31d1e95e55512eb738153c1db80c94b50f33d58cdbe",
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "6bb53df855ab4674e50c1a9a831c551a34f52ec5137384f08114b79bb983174d"
+    },
+    "qualified-Debug": {
+      "name": "qualified-Debug-python-scripts",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 140.8346929999534,
+      "started_utc": "2026-11-05T17:41:06.815352+00:00",
+      "finished_utc": "2026-11-05T17:43:27.642694+00:00",
+      "pid": 18776,
+      "metrics": {
+        "peak_root_working_set_bytes": 840871936,
+        "root_cpu_seconds": 113.953125
+      },
+      "runner_sha256": "bdbbe607c120a20f3f68ca9a0b46c361b1f727ae1bb1dd3aeb8c4ac447825194",
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "1eecc7048d3f6fab9eb195614934f9e770c2c1d8952a6b4408bc406b36fba6d9"
+    },
+    "requalified-Release": {
+      "name": "requalified-Release-python-scripts",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 178.40579250000883,
+      "started_utc": "2026-11-05T17:34:03.414092+00:00",
+      "finished_utc": "2026-11-05T17:37:01.810574+00:00",
+      "pid": 21712,
+      "metrics": {
+        "peak_root_working_set_bytes": 840368128,
+        "root_cpu_seconds": 149.96875
+      },
+      "runner_sha256": "546a476e69d0d87730561b3412876853773d40410c7cba494c79124824e1db3d",
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "cabc084cbb778b04862b22e3e486d51920175bc38009c7ef4d6469a6b81698b8"
+    },
+    "qualified-Release": {
+      "name": "qualified-Release-python-scripts",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 137.28590039990377,
+      "started_utc": "2026-11-05T17:44:54.542061+00:00",
+      "finished_utc": "2026-11-05T17:47:11.820797+00:00",
+      "pid": 19884,
+      "metrics": {
+        "peak_root_working_set_bytes": 838303744,
+        "root_cpu_seconds": 111.359375
+      },
+      "runner_sha256": "bdbbe607c120a20f3f68ca9a0b46c361b1f727ae1bb1dd3aeb8c4ac447825194",
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "d05dff3b0383145a3c9282cb5e12a4321b298390e130539d2c630f2899dcdb0a"
+    }
+  },
+  "repeated_methods_per_scripts_root": 719,
+  "distinct_final_methods_per_configuration": 930,
+  "raw_method_invocations_per_configuration": 2368,
+  "executed_results_reused": 0,
+  "qualification": "All initial receipts/nonpasses retained; repetitions never inflate distinct totals. Other executed source-identical roots remain qualified."
+}

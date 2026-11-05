@@ -1,0 +1,2051 @@
+{
+  "configurations": {
+    "Debug": {
+      "logical_cases": {
+        "total": 11382,
+        "passed": 11369,
+        "nonpassed": 13
+      },
+      "runtime_executions": {
+        "total": 18361,
+        "passed": 18347,
+        "nonpassed": 14
+      },
+      "managed_suites": [
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-Core/results/Core.trx",
+          "sha256": "6f2e2aafb360f45016a6663d658f2f39e3f2f74fc449e3920b529c44ac4aab72",
+          "counters": {
+            "total": "1058",
+            "executed": "1058",
+            "passed": "1058",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": []
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-OfficeAddin/results/OfficeAddin.trx",
+          "sha256": "edfb856b641ddd5550da5cf1b8f5b8344986f613710db7f42593c74d636c390d",
+          "counters": {
+            "total": "505",
+            "executed": "505",
+            "passed": "505",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": []
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-OfficeExecution/results/OfficeExecution.trx",
+          "sha256": "82881bbeff975992a9df1ed733251851ed72b7b3e375e555ab47e6a8d28464ab",
+          "counters": {
+            "total": "45",
+            "executed": "45",
+            "passed": "45",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": []
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-Common/results/Common.trx",
+          "sha256": "50082154aa92845db3c62940bde85166ef47fb234796539760e546d9cf502503",
+          "counters": {
+            "total": "8240",
+            "executed": "8240",
+            "passed": "8235",
+            "failed": "5",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (0,0,0)",
+              "outcome": "Failed",
+              "message": "Assert.IsFalse failed. No silent choice between conflicting scientific mappings",
+              "raw_identity_sha256": "d2b6b5c01c65f88f2b78267ddd83ad1cd2691186de829a7bc3f5dd91ccfe5306"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "test_name": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "outcome": "Failed",
+              "message": "Assert.ThrowsException failed. Expected exception type:<System.OverflowException> but no exception was thrown. ",
+              "raw_identity_sha256": "ae83c0dc6d385792089161510abbb47dcb6a3fa24a76b8e94a8f01d69ef13982"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (True)",
+              "outcome": "Failed",
+              "message": "Assert.ThrowsException failed. Expected exception type:<System.NullReferenceException> but no exception was thrown. ",
+              "raw_identity_sha256": "e3c70f5de724c156ad6998393fef0cfa2b684caf8460bb55fdc1c07af3a7162d"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,30,50)",
+              "outcome": "Failed",
+              "message": "Assert.IsFalse failed. No silent choice between conflicting scientific mappings",
+              "raw_identity_sha256": "7aa286a79f9848ac78ee098044852918fd5b16d9cd1aca4c51cbc5b17d67ae4f"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,15,40)",
+              "outcome": "Failed",
+              "message": "Assert.IsFalse failed. No silent choice between conflicting scientific mappings",
+              "raw_identity_sha256": "64f17ba18724eb07e0242fc99261a1552d3a0abc2807e3a33abc5b9009368423"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-Legacy/results/Legacy.trx",
+          "sha256": "c37d6e0c3f922e514bab39ec1d015e0a09d40e3da1de985b4f95f06997ad53b8",
+          "counters": {
+            "total": "8452",
+            "executed": "8452",
+            "passed": "8443",
+            "failed": "9",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [
+            {
+              "class_name": "BESHStatNG.Test.Spc21AdapterTests",
+              "method": "NativeHostCoercionStateFitOutputAndChartTailStayEntryBytes",
+              "test_name": "NativeHostCoercionStateFitOutputAndChartTailStayEntryBytes (WriteResultsToNewWorkbook)",
+              "outcome": "Failed",
+              "message": "Assert.AreEqual failed. Expected:<0e623c8c0c8c0907e100525e689126647c0f66484f05586561b9cd4b9e0b876c>. Actual:<2b648024ad85103748a6d657ba47025c08ed401dba1e8bc719e8989d9979519f>. ",
+              "raw_identity_sha256": "6623625b1ee8dae085baded56c7e71f5bbf59e9332c8e7b5cf4de1e4f28ef6ef"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (0)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "40e573cf68c15dc4732056424a6429fd66eddbcaff764b1cc19ecc92e0163342"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (5)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "1c54cfd3a8d9b9acb90d97a36afbdf8d091cb0c0614daff2ed6943b128e5709f"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (True)",
+              "outcome": "Failed",
+              "message": "Assert.ThrowsException failed. No exception thrown. NullReferenceException exception was expected. ",
+              "raw_identity_sha256": "bb66dab620a69bded90346398b936930ebf26c52bc441c565a4022fc4422c588"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (3)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "3d76793f0814af822df38fd388a96a159e1c4529d682729942054365af6f6a92"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (1)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "5e68eba7bae84fca0f57551e6361990800ece2f870be143618a64fa2ee0f5af5"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (4)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "298b8a94e6cccdb33bddcbe00649fbf74b8b5ced096aeeb91351dad29680d7f2"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (2)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "b493d2488d706cbb7a8a64a13ecbcbeda5da3b1bb656bd4160912967e1ddb08f"
+            },
+            {
+              "class_name": "BESHStatNG.Test.ContingencyAdapterTests",
+              "method": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "outcome": "Failed",
+              "message": "Assert.AreEqual failed. Expected:<6.49310735531625E-08>. Actual:<0.499559833202511>. ",
+              "raw_identity_sha256": "f38e72c44b2b7df022063e4997d4d6e3e8ad399b8a968d90d2faadb8a2118e1e"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-ControlMitigation/results/ControlMitigation.trx",
+          "sha256": "4b9e983c780edc65e9661f4a5864a53d863775742e77df77521a82acbb4dcbcb",
+          "counters": {
+            "total": "61",
+            "executed": "61",
+            "passed": "61",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": []
+        }
+      ],
+      "node_total": 916,
+      "node_passed": 916,
+      "qualification": "NOT_RUN_REUSED_EVIDENCE / immutable accepted managed+Node receipts; not a fresh full branch-entry execution",
+      "receipt_files": [
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-Core/results/Core.trx",
+          "sha256": "6f2e2aafb360f45016a6663d658f2f39e3f2f74fc449e3920b529c44ac4aab72",
+          "raw_cases": 1058
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-OfficeAddin/results/OfficeAddin.trx",
+          "sha256": "edfb856b641ddd5550da5cf1b8f5b8344986f613710db7f42593c74d636c390d",
+          "raw_cases": 505
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-OfficeExecution/results/OfficeExecution.trx",
+          "sha256": "82881bbeff975992a9df1ed733251851ed72b7b3e375e555ab47e6a8d28464ab",
+          "raw_cases": 45
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-Common/results/Common.trx",
+          "sha256": "50082154aa92845db3c62940bde85166ef47fb234796539760e546d9cf502503",
+          "raw_cases": 8240
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-Legacy/results/Legacy.trx",
+          "sha256": "c37d6e0c3f922e514bab39ec1d015e0a09d40e3da1de985b4f95f06997ad53b8",
+          "raw_cases": 8452
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Debug-ControlMitigation/results/ControlMitigation.trx",
+          "sha256": "4b9e983c780edc65e9661f4a5864a53d863775742e77df77521a82acbb4dcbcb",
+          "raw_cases": 61
+        }
+      ],
+      "node_receipts": [
+        {
+          "name": "final-Debug-office-js",
+          "stdout_sha256": "8ab039f40035a47156fe47ed4a1c0f2f85084f9e054c4b94770baea7e083ad75",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "qualification": "NOT_RUN_REUSED_EVIDENCE"
+        },
+        {
+          "name": "final-Debug-resolver",
+          "stdout_sha256": "44549c228b9648fa93d6a4b5bd451cc0abd00ac1a6039e4dbba3b8c3981fe008",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "qualification": "NOT_RUN_REUSED_EVIDENCE"
+        },
+        {
+          "name": "final-Debug-wasm-js",
+          "stdout_sha256": "66274f8de5a0aafe77101d27ee4e5a2124c41422ff07e8e6aa1e23d0c0a8087f",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "qualification": "NOT_RUN_REUSED_EVIDENCE"
+        }
+      ],
+      "compiled_members": 801,
+      "line_ending_differences": [
+        {
+          "path": "BESHstatNG/src/DM/PSMdataImport.vb",
+          "accepted_sha256": "2290ecba8de681031c795a6ba04ec0577c39c571dac576cafc9d0d1c5fba7cd5",
+          "entry_sha256": "812ed891ad0a668e220686d9751996d01aa8f621ae19ec1a02da35eb2153325d",
+          "classification": "LINE_ENDINGS_ONLY"
+        },
+        {
+          "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+          "accepted_sha256": "eaf85a820f9959d90c0a76eb3e469589463af5c79b37bb85300fa2c3658d58e1",
+          "entry_sha256": "93c1e5b1a98b2e039975ad00cfff637c500125dde7edfd9f9342a6824f83c6fd",
+          "classification": "LINE_ENDINGS_ONLY"
+        }
+      ],
+      "compiled_receipt_sha256": "6f5fb5fa86ff806c355ea2e30d4e318a810476755c625380ca8556fc46540fef",
+      "python": {
+        "total": 910,
+        "passed": 807,
+        "nonpasses": {
+          "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision": "ERROR",
+          "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy": "ERROR",
+          "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities": "ERROR",
+          "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce": "ERROR",
+          "test_04a17_multivariate.Multivariate17SourceContracts.test_acquisition_error_order_and_legacy_grammars_preserved": "ERROR",
+          "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook": "FAIL",
+          "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection": "FAIL",
+          "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5": "FAIL",
+          "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero": "FAIL",
+          "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser": "FAIL",
+          "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order": "FAIL",
+          "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten": "FAIL",
+          "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources": "FAIL",
+          "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged": "FAIL",
+          "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change": "FAIL",
+          "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities": "FAIL",
+          "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden": "FAIL",
+          "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden": "FAIL",
+          "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial": "FAIL",
+          "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes": "FAIL",
+          "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged": "FAIL",
+          "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged": "FAIL",
+          "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed": "FAIL",
+          "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table": "FAIL",
+          "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld": "FAIL",
+          "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries": "FAIL",
+          "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails": "FAIL",
+          "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged": "FAIL",
+          "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum": "FAIL",
+          "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified": "FAIL",
+          "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter": "FAIL",
+          "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage": "FAIL",
+          "test_04a07_workflow_successor.Anova07SuccessorTests.test_actual_four_shipping_routes_and_native_bodies": "FAIL",
+          "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged": "FAIL",
+          "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows": "FAIL",
+          "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls": "FAIL",
+          "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized": "FAIL",
+          "test_04a08_authoring_successor.Authoring08SuccessorTests.test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts": "FAIL",
+          "test_04a08_authoring_successor.Authoring08SuccessorTests.test_original_numerics_and_shipping_forms_are_unchanged": "FAIL",
+          "test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings": "FAIL",
+          "test_04a09_regression_successor.Regression09SuccessorTests.test_frozen_tests_numerics_and_public_04a08_evidence_preserved": "FAIL",
+          "test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports": "FAIL",
+          "test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete": "FAIL",
+          "test_04a10_regression_projection.Regression10ProjectionTests.test_baselines_are_actual_gaussian_and_binomial_and_not_goldens": "FAIL",
+          "test_04a10_regression_projection.Regression10ProjectionTests.test_core_udfs_frameworks_and_accepted_evidence_are_byte_protected": "FAIL",
+          "test_04a10_regression_projection.Regression10ProjectionTests.test_only_two_form_routes_change_and_native_tails_match": "FAIL",
+          "test_04a11_publication.Publication11Tests.test_accepted_dossier_and_dormant_patches_unchanged": "FAIL",
+          "test_04a11_publication.Publication11Tests.test_all_manifests_and_implementation_freeze": "FAIL",
+          "test_04a11_publication.Publication11Tests.test_raw_local_source_pins_and_native_writer_tails": "FAIL",
+          "test_04a11_regression_families.Regression11SuccessorTests.test_exact_six_form_deltas_and_native_writer_tails": "FAIL",
+          "test_04a11_regression_families.Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected": "FAIL",
+          "test_04a12_gee_workflow.Gee12WorkflowSuccessorTests.test_exact_source_scope_and_all_old_byte_pins": "FAIL",
+          "test_04a13_survival_workflow.Survival13SourceContracts.test_all_prechange_protected_bytes_except_exact_approved_scope": "FAIL",
+          "test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch": "FAIL",
+          "test_04a13_survival_workflow.Survival13SourceContracts.test_successor_pins_and_members_reconcile_to_actual_forms": "FAIL",
+          "test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index": "FAIL",
+          "test_04a14_mixed_workflow.Mixed14SourceContracts.test_exact_scope_and_external_owner_plan_are_separate": "FAIL",
+          "test_04a14_mixed_workflow.Mixed14SourceContracts.test_original_members_and_successor_pins_are_reconcilable": "FAIL",
+          "test_04a14_mixed_workflow.Mixed14SourceContracts.test_reports_are_consumed_by_actual_writers_and_append_seams": "FAIL",
+          "test_04a15_fitting.Mixed15SourceContracts.test_all_protected_sources_and_new_source_hashes": "FAIL",
+          "test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope": "FAIL",
+          "test_04a15_fitting.Mixed15SourceContracts.test_only_actual_shipping_factory_routes_change": "FAIL",
+          "test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope": "FAIL",
+          "test_04a16_post_estimation.Mixed16SourceContracts.test_unchanged_methods_designers_udfs_and_core": "FAIL",
+          "test_04a17_multivariate.Multivariate17SourceContracts.test_actual_six_handlers_delegate_and_keep_one_calculation": "FAIL",
+          "test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources": "FAIL",
+          "test_04a17_multivariate.Multivariate17SourceContracts.test_native_writer_statements_and_spm_dispatch_stay_identical": "FAIL",
+          "test_04a17_multivariate.Multivariate17SourceContracts.test_public_targets_and_successor_hashes": "FAIL",
+          "test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes": "FAIL",
+          "test_04a18_projection.Projection18SourceContracts.test_only_three_form_methods_change_and_spm_remains_exact": "FAIL",
+          "test_04a19_clustering.Clustering19Contracts.test_all_other_form_methods_and_import_catches_preserved": "FAIL",
+          "test_04a19_clustering.Clustering19Contracts.test_core_native_writer_and_prior_test_bytes_unchanged": "FAIL",
+          "test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index": "FAIL",
+          "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_core_native_prior_tests_targets_and_metadata_are_entry_bytes": "FAIL",
+          "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source": "FAIL",
+          "test_04a21_spc.Spc21Contracts.test_core_ui22_native_designers_prior_tests_and_targets_unchanged": "FAIL",
+          "test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index": "FAIL",
+          "test_04a21_spc.Spc21Contracts.test_single_fit_cancellation_and_original_native_output_tail": "FAIL",
+          "test_04a22_spc.Spc22Contracts.test_core_ui22_udfs_designers_old_tests_targets_and_frozen_evidence": "FAIL",
+          "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy": "FAIL",
+          "test_04a23_multivariate_spc.Spc23Contracts.test_actual_publication_membership_hash_privacy_trackability_and_empty_index": "FAIL",
+          "test_04a23_multivariate_spc.Spc23Contracts.test_existing_tables_and_warnings_remain_byte_exact_methods": "FAIL",
+          "test_04a23_multivariate_spc.Spc23Contracts.test_native_workbook_order_warning_and_appearance_are_exact": "FAIL",
+          "test_04a23_multivariate_spc.Spc23Contracts.test_result_context_is_consumed_and_diagnostic_table_tail_is_exact": "FAIL",
+          "test_04a24_multivariate_payload.MultivariatePayload24.test_original_numerical_ui21_renderer_and_prior_common_hashes": "FAIL",
+          "test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index": "FAIL",
+          "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged": "FAIL",
+          "test_04a27_geometry_completion.Geometry27CompletionTests.test_initial_implementation_and_historical_tests_not_rewritten": "FAIL",
+          "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved": "FAIL",
+          "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows": "FAIL",
+          "test_04a27_transport_successor.Transport27SuccessorTests.test_core_designer_and_refedit_sources_are_unmodified": "FAIL",
+          "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch": "FAIL",
+          "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations": "ERROR",
+          "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps": "ERROR",
+          "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates": "FAIL",
+          "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts": "FAIL",
+          "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect": "FAIL",
+          "test_investigation06.Investigation06Tests.test_pca_has_three_biplot_scales_not_the_old_two_scale_proposal": "FAIL",
+          "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof": "FAIL",
+          "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler": "FAIL"
+        },
+        "events": [
+          {
+            "identity": "test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_acquisition_error_order_and_legacy_grammars_preserved",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+            "outcome": "FAIL",
+            "context": "(path='BESHstatNG/src/UI/UibyID.vb')"
+          },
+          {
+            "identity": "test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources",
+            "outcome": "FAIL",
+            "context": "(path='BESHstatNG/src/DM/WindowsUnivariateInputAdapter.vb')"
+          },
+          {
+            "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+            "outcome": "FAIL",
+            "context": "(method='RunNormality')"
+          },
+          {
+            "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+            "outcome": "FAIL",
+            "context": "(method='RunDescStat')"
+          },
+          {
+            "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+            "outcome": "FAIL",
+            "context": "(method='RunOneWayANOVAThroughSharedLayer')"
+          },
+          {
+            "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged",
+            "outcome": "FAIL",
+            "context": "(method='RunKruskallWalis')"
+          },
+          {
+            "identity": "test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_actual_four_shipping_routes_and_native_bodies",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a08_authoring_successor.Authoring08SuccessorTests.test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a08_authoring_successor.Authoring08SuccessorTests.test_original_numerics_and_shipping_forms_are_unchanged",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_frozen_tests_numerics_and_public_04a08_evidence_preserved",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a10_regression_projection.Regression10ProjectionTests.test_baselines_are_actual_gaussian_and_binomial_and_not_goldens",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a10_regression_projection.Regression10ProjectionTests.test_core_udfs_frameworks_and_accepted_evidence_are_byte_protected",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a10_regression_projection.Regression10ProjectionTests.test_only_two_form_routes_change_and_native_tails_match",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a11_publication.Publication11Tests.test_accepted_dossier_and_dormant_patches_unchanged",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a11_publication.Publication11Tests.test_all_manifests_and_implementation_freeze",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a11_publication.Publication11Tests.test_raw_local_source_pins_and_native_writer_tails",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a11_regression_families.Regression11SuccessorTests.test_exact_six_form_deltas_and_native_writer_tails",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a11_regression_families.Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a12_gee_workflow.Gee12WorkflowSuccessorTests.test_exact_source_scope_and_all_old_byte_pins",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_all_prechange_protected_bytes_except_exact_approved_scope",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a13_survival_workflow.Survival13SourceContracts.test_successor_pins_and_members_reconcile_to_actual_forms",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_exact_scope_and_external_owner_plan_are_separate",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_original_members_and_successor_pins_are_reconcilable",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a14_mixed_workflow.Mixed14SourceContracts.test_reports_are_consumed_by_actual_writers_and_append_seams",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a15_fitting.Mixed15SourceContracts.test_all_protected_sources_and_new_source_hashes",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a15_fitting.Mixed15SourceContracts.test_only_actual_shipping_factory_routes_change",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a16_post_estimation.Mixed16SourceContracts.test_unchanged_methods_designers_udfs_and_core",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_actual_six_handlers_delegate_and_keep_one_calculation",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_native_writer_statements_and_spm_dispatch_stay_identical",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a17_multivariate.Multivariate17SourceContracts.test_public_targets_and_successor_hashes",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a18_projection.Projection18SourceContracts.test_only_three_form_methods_change_and_spm_remains_exact",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a19_clustering.Clustering19Contracts.test_all_other_form_methods_and_import_catches_preserved",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a19_clustering.Clustering19Contracts.test_core_native_writer_and_prior_test_bytes_unchanged",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_core_native_prior_tests_targets_and_metadata_are_entry_bytes",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a21_spc.Spc21Contracts.test_core_ui22_native_designers_prior_tests_and_targets_unchanged",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a21_spc.Spc21Contracts.test_single_fit_cancellation_and_original_native_output_tail",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a22_spc.Spc22Contracts.test_core_ui22_udfs_designers_old_tests_targets_and_frozen_evidence",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_actual_publication_membership_hash_privacy_trackability_and_empty_index",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_existing_tables_and_warnings_remain_byte_exact_methods",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_native_workbook_order_warning_and_appearance_are_exact",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a23_multivariate_spc.Spc23Contracts.test_result_context_is_consumed_and_diagnostic_table_tail_is_exact",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a24_multivariate_payload.MultivariatePayload24.test_original_numerical_ui21_renderer_and_prior_common_hashes",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_initial_implementation_and_historical_tests_not_rewritten",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_core_designer_and_refedit_sources_are_unmodified",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps",
+            "outcome": "ERROR",
+            "context": ""
+          },
+          {
+            "identity": "test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_investigation06.Investigation06Tests.test_pca_has_three_biplot_scales_not_the_old_two_scale_proposal",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof",
+            "outcome": "FAIL",
+            "context": ""
+          },
+          {
+            "identity": "test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler",
+            "outcome": "FAIL",
+            "context": ""
+          }
+        ],
+        "scope": "Distinct unittest methods per disjoint discovery roots; subtest failures stay attached to their real method, never discarded. Extra probes are excluded.",
+        "failure_methods": 93,
+        "error_methods": 10,
+        "executed": 910,
+        "reused_not_run": 0
+      }
+    },
+    "Release": {
+      "logical_cases": {
+        "total": 11382,
+        "passed": 11369,
+        "nonpassed": 13
+      },
+      "runtime_executions": {
+        "total": 18361,
+        "passed": 18347,
+        "nonpassed": 14
+      },
+      "managed_suites": [
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-Core/results/Core.trx",
+          "sha256": "f7eefa176a9d101de67d48fcd6ecf6c33c00539ad084b8ec3c7250f3a32a6bf3",
+          "counters": {
+            "total": "1058",
+            "executed": "1058",
+            "passed": "1058",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": []
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-OfficeAddin/results/OfficeAddin.trx",
+          "sha256": "996ece6d236ff9a0b88bbab3db874993ecee5f3f8d9da6ace2e272b1b1912fd6",
+          "counters": {
+            "total": "505",
+            "executed": "505",
+            "passed": "505",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": []
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-OfficeExecution/results/OfficeExecution.trx",
+          "sha256": "9c360aebcb1c23925d37f4e7e001ce2d234e93c95abcd20875886853144dfdcb",
+          "counters": {
+            "total": "45",
+            "executed": "45",
+            "passed": "45",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": []
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-Common/results/Common.trx",
+          "sha256": "722c4276fe5b0d27bddd63f682b02f1ab52cd3a8518f43b429ccd610b3a7d9fb",
+          "counters": {
+            "total": "8240",
+            "executed": "8240",
+            "passed": "8235",
+            "failed": "5",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (True)",
+              "outcome": "Failed",
+              "message": "Assert.ThrowsException failed. Expected exception type:<System.NullReferenceException> but no exception was thrown. ",
+              "raw_identity_sha256": "e3c70f5de724c156ad6998393fef0cfa2b684caf8460bb55fdc1c07af3a7162d"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "test_name": "ExistingEquivalenceCoreDomainAndPairedOverflowAreNotReinterpreted",
+              "outcome": "Failed",
+              "message": "Assert.ThrowsException failed. Expected exception type:<System.OverflowException> but no exception was thrown. ",
+              "raw_identity_sha256": "ae83c0dc6d385792089161510abbb47dcb6a3fa24a76b8e94a8f01d69ef13982"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,15,40)",
+              "outcome": "Failed",
+              "message": "Assert.IsFalse failed. No silent choice between conflicting scientific mappings",
+              "raw_identity_sha256": "64f17ba18724eb07e0242fc99261a1552d3a0abc2807e3a33abc5b9009368423"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (0,0,0)",
+              "outcome": "Failed",
+              "message": "Assert.IsFalse failed. No silent choice between conflicting scientific mappings",
+              "raw_identity_sha256": "d2b6b5c01c65f88f2b78267ddd83ad1cd2691186de829a7bc3f5dd91ccfe5306"
+            },
+            {
+              "class_name": "BESHStat.Excel.Common.Tests.ProportionsPolicyTests",
+              "method": "PairedDisjointCountContractAndPureSemanticProjection",
+              "test_name": "PairedDisjointCountContractAndPureSemanticProjection (20,30,50)",
+              "outcome": "Failed",
+              "message": "Assert.IsFalse failed. No silent choice between conflicting scientific mappings",
+              "raw_identity_sha256": "7aa286a79f9848ac78ee098044852918fd5b16d9cd1aca4c51cbc5b17d67ae4f"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-Legacy/results/Legacy.trx",
+          "sha256": "3eb1c154e206e7f07de8612edcdfcd7b51ac0d9ccd675bff82e69bafe04eaf5f",
+          "counters": {
+            "total": "8452",
+            "executed": "8452",
+            "passed": "8443",
+            "failed": "9",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": [
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (2)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "b493d2488d706cbb7a8a64a13ecbcbeda5da3b1bb656bd4160912967e1ddb08f"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (1)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "5e68eba7bae84fca0f57551e6361990800ece2f870be143618a64fa2ee0f5af5"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (0)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "40e573cf68c15dc4732056424a6429fd66eddbcaff764b1cc19ecc92e0163342"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (3)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "3d76793f0814af822df38fd388a96a159e1c4529d682729942054365af6f6a92"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc21AdapterTests",
+              "method": "NativeHostCoercionStateFitOutputAndChartTailStayEntryBytes",
+              "test_name": "NativeHostCoercionStateFitOutputAndChartTailStayEntryBytes (WriteResultsToNewWorkbook)",
+              "outcome": "Failed",
+              "message": "Assert.AreEqual failed. Expected:<0e623c8c0c8c0907e100525e689126647c0f66484f05586561b9cd4b9e0b876c>. Actual:<2b648024ad85103748a6d657ba47025c08ed401dba1e8bc719e8989d9979519f>. ",
+              "raw_identity_sha256": "6623625b1ee8dae085baded56c7e71f5bbf59e9332c8e7b5cf4de1e4f28ef6ef"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Regression10PolicyTests",
+              "method": "ConstantAndSeparatedBinomialPreserveActualFitWarnings",
+              "test_name": "ConstantAndSeparatedBinomialPreserveActualFitWarnings (True)",
+              "outcome": "Failed",
+              "message": "Assert.ThrowsException failed. No exception thrown. NullReferenceException exception was expected. ",
+              "raw_identity_sha256": "bb66dab620a69bded90346398b936930ebf26c52bc441c565a4022fc4422c588"
+            },
+            {
+              "class_name": "BESHStatNG.Test.ContingencyAdapterTests",
+              "method": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "test_name": "PairedCompatibilityEvidenceIsExplicitlyLegacy_NotACorrectedGolden",
+              "outcome": "Failed",
+              "message": "Assert.AreEqual failed. Expected:<6.49310735531625E-08>. Actual:<0.499559833202511>. ",
+              "raw_identity_sha256": "f38e72c44b2b7df022063e4997d4d6e3e8ad399b8a968d90d2faadb8a2118e1e"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (5)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "1c54cfd3a8d9b9acb90d97a36afbdf8d091cb0c0614daff2ed6943b128e5709f"
+            },
+            {
+              "class_name": "BESHStatNG.Test.Spc23AdapterTests",
+              "method": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+              "test_name": "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (4)",
+              "outcome": "Failed",
+              "message": "Assert.IsTrue failed. ",
+              "raw_identity_sha256": "298b8a94e6cccdb33bddcbe00649fbf74b8b5ced096aeeb91351dad29680d7f2"
+            }
+          ]
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-ControlMitigation/results/ControlMitigation.trx",
+          "sha256": "be494e6d4035352ab05924ff87d65f49533ed963a945ee25e28b58caf812d5f4",
+          "counters": {
+            "total": "61",
+            "executed": "61",
+            "passed": "61",
+            "failed": "0",
+            "error": "0",
+            "timeout": "0",
+            "aborted": "0",
+            "inconclusive": "0",
+            "passedButRunAborted": "0",
+            "notRunnable": "0",
+            "notExecuted": "0",
+            "disconnected": "0",
+            "warning": "0",
+            "completed": "0",
+            "inProgress": "0",
+            "pending": "0"
+          },
+          "nonpasses": []
+        }
+      ],
+      "node_total": 916,
+      "node_passed": 916,
+      "qualification": "NOT_RUN_REUSED_EVIDENCE / immutable accepted managed+Node receipts; not a fresh full branch-entry execution",
+      "receipt_files": [
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-Core/results/Core.trx",
+          "sha256": "f7eefa176a9d101de67d48fcd6ecf6c33c00539ad084b8ec3c7250f3a32a6bf3",
+          "raw_cases": 1058
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-OfficeAddin/results/OfficeAddin.trx",
+          "sha256": "996ece6d236ff9a0b88bbab3db874993ecee5f3f8d9da6ace2e272b1b1912fd6",
+          "raw_cases": 505
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-OfficeExecution/results/OfficeExecution.trx",
+          "sha256": "9c360aebcb1c23925d37f4e7e001ce2d234e93c95abcd20875886853144dfdcb",
+          "raw_cases": 45
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-Common/results/Common.trx",
+          "sha256": "722c4276fe5b0d27bddd63f682b02f1ab52cd3a8518f43b429ccd610b3a7d9fb",
+          "raw_cases": 8240
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-Legacy/results/Legacy.trx",
+          "sha256": "3eb1c154e206e7f07de8612edcdfcd7b51ac0d9ccd675bff82e69bafe04eaf5f",
+          "raw_cases": 8452
+        },
+        {
+          "path": "TestResults/04A-25/run01/executions/final-Release-ControlMitigation/results/ControlMitigation.trx",
+          "sha256": "be494e6d4035352ab05924ff87d65f49533ed963a945ee25e28b58caf812d5f4",
+          "raw_cases": 61
+        }
+      ],
+      "node_receipts": [
+        {
+          "name": "final-Release-office-js",
+          "stdout_sha256": "3880e30e8b057df6dea8e48bc5ea51848ff8a83d4790f1e8f9f2712d16ccdf1b",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "qualification": "NOT_RUN_REUSED_EVIDENCE"
+        },
+        {
+          "name": "final-Release-resolver",
+          "stdout_sha256": "df35cc1c9389615b1180692f479644fd4cbeaaf1826b569bcd1a8e29b17ded4b",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "qualification": "NOT_RUN_REUSED_EVIDENCE"
+        },
+        {
+          "name": "final-Release-wasm-js",
+          "stdout_sha256": "7a8995cbb94c00ec7d1e67ed9d64e14f30138a41fcaa68706afb79bc203a8a37",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "qualification": "NOT_RUN_REUSED_EVIDENCE"
+        }
+      ],
+      "compiled_members": 801,
+      "line_ending_differences": [
+        {
+          "path": "BESHstatNG/src/DM/PSMdataImport.vb",
+          "accepted_sha256": "2290ecba8de681031c795a6ba04ec0577c39c571dac576cafc9d0d1c5fba7cd5",
+          "entry_sha256": "812ed891ad0a668e220686d9751996d01aa8f621ae19ec1a02da35eb2153325d",
+          "classification": "LINE_ENDINGS_ONLY"
+        },
+        {
+          "path": "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb",
+          "accepted_sha256": "eaf85a820f9959d90c0a76eb3e469589463af5c79b37bb85300fa2c3658d58e1",
+          "entry_sha256": "93c1e5b1a98b2e039975ad00cfff637c500125dde7edfd9f9342a6824f83c6fd",
+          "classification": "LINE_ENDINGS_ONLY"
+        }
+      ],
+      "compiled_receipt_sha256": "ba103efa9457f74c2a9711da8d9ab36eb341ca7ca753aee0040562b9f9210086",
+      "python": {
+        "executed": 0,
+        "total": null,
+        "passed": null,
+        "nonpasses": {},
+        "qualification": "NOT_RUN: Release-specific branch-entry Python. Fresh Debug source inventory is the entry comparison; no duplicated pass claim."
+      }
+    }
+  },
+  "qualification": "Entry managed identities reused only after SHA qualification of actual main input membership and accepted raw TRX. Focused freshly built main tests and full Debug Python were additionally executed. No unexecuted full matrix is labelled executed.",
+  "entry_attempts": [
+    {
+      "name": "entry-Debug-catalog",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "BESHstatNG/tools/validate_methods_catalog.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 0.5079648999962956,
+      "started_utc": "2026-11-05T16:21:54.293867+00:00",
+      "finished_utc": "2026-11-05T16:21:54.801723+00:00",
+      "pid": 27556,
+      "metrics": {
+        "peak_root_working_set_bytes": 23269376,
+        "root_cpu_seconds": 0.1875
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "a70bfb0b64c4f6c04f35aa5c750548cb66686d91b481ae1351aea79f72332e99",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-Debug-common-python",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStat.Excel.Common.Tests/src",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 2.5131841999245808,
+      "started_utc": "2026-11-05T16:27:06.727193+00:00",
+      "finished_utc": "2026-11-05T16:27:09.239986+00:00",
+      "pid": 15084,
+      "metrics": {
+        "peak_root_working_set_bytes": 93634560,
+        "root_cpu_seconds": 2.140625
+      },
+      "runner_sha256": "a9d36b6de618dd936286cfe331f3c081706f6e89f00923e02521510f4bbe84fa",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8c4ad44268d69c215202e7edc1ab01d40717a6c7c900151b7d57261b969fc0f9"
+    },
+    {
+      "name": "entry-Debug-help-check",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "BESHstatNG/tools/generate_help_links.py",
+        "--methods-yml",
+        "BESHStatNG_Help_MkDocs/docs/_meta/methods.yml",
+        "--project-dir",
+        "BESHstatNG",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 0.7585864000720903,
+      "started_utc": "2026-11-05T16:21:56.330299+00:00",
+      "finished_utc": "2026-11-05T16:21:57.088731+00:00",
+      "pid": 7128,
+      "metrics": {
+        "peak_root_working_set_bytes": 46112768,
+        "root_cpu_seconds": 0.4375
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "888fd08f3679d5a3f594309557bd4e65c931234fb73da7ba1300fb02fd0c0c4b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-Debug-inventory",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "tools/verify_stage304_inventory.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 0.25796990003436804,
+      "started_utc": "2026-11-05T16:21:54.026484+00:00",
+      "finished_utc": "2026-11-05T16:21:54.284400+00:00",
+      "pid": 19292,
+      "metrics": {
+        "peak_root_working_set_bytes": 2232320,
+        "root_cpu_seconds": 0.0
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "7788d50af2e9176560a1785ef60c018e111cd2bd58b07e1e3dacf67d839a6e6d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-Debug-metadata",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "BESHstatNG/tools/generate_analysis_metadata.py",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 0.7596050000283867,
+      "started_utc": "2026-11-05T16:21:54.805995+00:00",
+      "finished_utc": "2026-11-05T16:21:55.565442+00:00",
+      "pid": 4644,
+      "metrics": {
+        "peak_root_working_set_bytes": 45944832,
+        "root_cpu_seconds": 0.453125
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "333ca83ca13676f083b5aa452bc3fa627abcd2430e65fa17ec3bcb7f845f9fe6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-Debug-office-audit",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "BESHstatNG/tools/audit_transitional_officejs.py"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 67.86961649998557,
+      "started_utc": "2026-11-05T16:21:57.092928+00:00",
+      "finished_utc": "2026-11-05T16:23:04.948118+00:00",
+      "pid": 18216,
+      "metrics": {
+        "peak_root_working_set_bytes": 1052282880,
+        "root_cpu_seconds": 67.109375
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "38527431c305bca83b15e0f2b5c72637010e2c9fed9a3132779c5ba15ca82df2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-Debug-python-help",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHStatNG_Help_MkDocs/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 82.64253379998263,
+      "started_utc": "2026-11-05T16:24:47.380373+00:00",
+      "finished_utc": "2026-11-05T16:26:10.009978+00:00",
+      "pid": 25772,
+      "metrics": {
+        "peak_root_working_set_bytes": 59842560,
+        "root_cpu_seconds": 5.953125
+      },
+      "runner_sha256": "a9d36b6de618dd936286cfe331f3c081706f6e89f00923e02521510f4bbe84fa",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "661e7873dc0b369da214aab0559b65a957d3968d12ce6607a37d7c5231f6bdf5"
+    },
+    {
+      "name": "entry-Debug-python-scripts",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 53.59679189999588,
+      "started_utc": "2026-11-05T16:26:10.021198+00:00",
+      "finished_utc": "2026-11-05T16:27:03.609608+00:00",
+      "pid": 6240,
+      "metrics": {
+        "peak_root_working_set_bytes": 837443584,
+        "root_cpu_seconds": 31.171875
+      },
+      "runner_sha256": "a9d36b6de618dd936286cfe331f3c081706f6e89f00923e02521510f4bbe84fa",
+      "stdout_sha256": "192077bf79fd11d74d799460999dc220c966e9fe462a57110a01747eb6ce0ec0",
+      "stderr_sha256": "c67db6f3ccec87bfbcd1e4bbd085c791b3507d277b0dd6708da122c8f1b0244f"
+    },
+    {
+      "name": "entry-Debug-python-tools",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "BESHstatNG/tools/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 102.4322185999481,
+      "started_utc": "2026-11-05T16:23:04.952191+00:00",
+      "finished_utc": "2026-11-05T16:24:47.363009+00:00",
+      "pid": 20344,
+      "metrics": {
+        "peak_root_working_set_bytes": 1064742912,
+        "root_cpu_seconds": 94.453125
+      },
+      "runner_sha256": "a9d36b6de618dd936286cfe331f3c081706f6e89f00923e02521510f4bbe84fa",
+      "stdout_sha256": "ac8076e929fab4d531f9451b5a801bd9ab5e1c7c5ddf5c707431f51ef6f5a3e7",
+      "stderr_sha256": "1d4578e0e1cffa18c4b3236c5deae48b64e351723925dfaafda28840c3fbe0b8"
+    },
+    {
+      "name": "entry-Debug-resolver-check",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "BESHStatNG_Help_MkDocs/generate_help_resolver_routes.py",
+        "--check"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 0.7590016999747604,
+      "started_utc": "2026-11-05T16:21:55.568499+00:00",
+      "finished_utc": "2026-11-05T16:21:56.327342+00:00",
+      "pid": 9044,
+      "metrics": {
+        "peak_root_working_set_bytes": 45891584,
+        "root_cpu_seconds": 0.421875
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "253249fab444837d44ba1da5eefc73c3e9849bd773253dcf9b47847b882ad8b4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-Debug-semantic",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-Debug-semantic\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-Debug-semantic\\serial.runsettings",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-Debug-semantic\\results",
+        "/TestCaseFilter:FullyQualifiedName~MigrationSemantic04A02Tests"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 1.5100050000473857,
+      "started_utc": "2026-11-05T16:27:04.968861+00:00",
+      "finished_utc": "2026-11-05T16:27:06.478629+00:00",
+      "pid": 14476,
+      "metrics": {
+        "peak_root_working_set_bytes": 57438208,
+        "root_cpu_seconds": 0.4375
+      },
+      "runner_sha256": "a9d36b6de618dd936286cfe331f3c081706f6e89f00923e02521510f4bbe84fa",
+      "stdout_sha256": "f203b177e5c0543ef69d5fec1210a587d5db97105639fed21d2dd57715958b38",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-existing-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-existing-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-existing-Common\\serial.runsettings",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-existing-Common\\results",
+        "/TestCaseFilter:FullyQualifiedName~Paired|FullyQualifiedName~Psm25|FullyQualifiedName~Contingency"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 6.27736329997424,
+      "started_utc": "2026-11-05T16:24:03.241593+00:00",
+      "finished_utc": "2026-11-05T16:24:09.517623+00:00",
+      "pid": 3108,
+      "metrics": {
+        "peak_root_working_set_bytes": 57536512,
+        "root_cpu_seconds": 0.375
+      },
+      "runner_sha256": "a9d36b6de618dd936286cfe331f3c081706f6e89f00923e02521510f4bbe84fa",
+      "stdout_sha256": "316aed5f34a75281f274bcc216202cda4e0f82834e592881b9feec3b35b6ebd8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-existing-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-existing-Core\\sandbox\\Core\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-existing-Core\\serial.runsettings",
+        "/Logger:trx;LogFileName=Core.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-existing-Core\\results",
+        "/TestCaseFilter:FullyQualifiedName~SampleSize|FullyQualifiedName~Agreement"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 1.510847600060515,
+      "started_utc": "2026-11-05T16:23:59.625199+00:00",
+      "finished_utc": "2026-11-05T16:24:01.135727+00:00",
+      "pid": 3568,
+      "metrics": {
+        "peak_root_working_set_bytes": 57614336,
+        "root_cpu_seconds": 0.328125
+      },
+      "runner_sha256": "a9d36b6de618dd936286cfe331f3c081706f6e89f00923e02521510f4bbe84fa",
+      "stdout_sha256": "7c62b9d65741f56530e27168f0fe8ba2abadfca326dcb916cf8e3bd579bc722b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-existing-Legacy",
+      "command": [
+        "<VSTEST_EXE>",
+        "<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-existing-Legacy\\sandbox\\Legacy\\bin\\Debug\\net48\\BESHStatNG.Test.dll",
+        "/Settings:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-existing-Legacy\\serial.runsettings",
+        "/Logger:trx;LogFileName=Legacy.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-existing-Legacy\\results",
+        "/TestCaseFilter:FullyQualifiedName~Paired|FullyQualifiedName~Psm25|FullyQualifiedName~Contingency"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 8.019624600070529,
+      "started_utc": "2026-11-05T16:24:13.250603+00:00",
+      "finished_utc": "2026-11-05T16:24:21.268523+00:00",
+      "pid": 12680,
+      "metrics": {
+        "peak_root_working_set_bytes": 133861376,
+        "root_cpu_seconds": 7.90625
+      },
+      "runner_sha256": "a9d36b6de618dd936286cfe331f3c081706f6e89f00923e02521510f4bbe84fa",
+      "stdout_sha256": "fc69493a73a057dbb0608d3d2dc7c4b7e85ed96f208837e7a8e97d929fce9e34",
+      "stderr_sha256": "dcf8c268bfde477f9c77551d83b416cc0be9010237fcf913f56278d347965d07"
+    },
+    {
+      "name": "entry-focused-build-0",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Core/BESHStat.Core.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore",
+        "-m:4"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 4.033961899927817,
+      "started_utc": "2026-11-05T16:21:28.694735+00:00",
+      "finished_utc": "2026-11-05T16:21:32.727841+00:00",
+      "pid": 8252,
+      "metrics": {
+        "peak_root_working_set_bytes": 122531840,
+        "root_cpu_seconds": 1.390625
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "94b504c28385e1b445a9f63dba8514d3532c5683e21d28f8992c2b4084992663",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-focused-build-1",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common/BESHStat.Excel.Common.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore",
+        "-m:4"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 2.5134142000460997,
+      "started_utc": "2026-11-05T16:21:32.738525+00:00",
+      "finished_utc": "2026-11-05T16:21:35.251409+00:00",
+      "pid": 25000,
+      "metrics": {
+        "peak_root_working_set_bytes": 136024064,
+        "root_cpu_seconds": 1.640625
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "8e9f8eb82d89c380970aab1a73a1033170baaf59f87bab20f11137654d0e78e6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-focused-build-2",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Core.Tests/BESHStat.Core.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore",
+        "-m:4"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 2.764481300022453,
+      "started_utc": "2026-11-05T16:21:35.268458+00:00",
+      "finished_utc": "2026-11-05T16:21:38.032353+00:00",
+      "pid": 27188,
+      "metrics": {
+        "peak_root_working_set_bytes": 143552512,
+        "root_cpu_seconds": 1.625
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "7b42d4c8a1f462a9beca1964b331bbab7cb8dd6d352894d0e2c739b7f65975e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-focused-build-3",
+      "command": [
+        "dotnet",
+        "build",
+        "BESHStat.Excel.Common.Tests/BESHStat.Excel.Common.Tests.vbproj",
+        "-c",
+        "Debug",
+        "--no-restore",
+        "-m:4"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 3.5179214000236243,
+      "started_utc": "2026-11-05T16:21:38.043603+00:00",
+      "finished_utc": "2026-11-05T16:21:41.560778+00:00",
+      "pid": 27136,
+      "metrics": {
+        "peak_root_working_set_bytes": 138407936,
+        "root_cpu_seconds": 1.875
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "663bc06dc3704ffb80ce4a86bf24ff63151241e8018445cfb2762b00f67358ff",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-focused-build-host",
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHstatNG/BESHStatNG.vbproj",
+        "/t:PrepareForBuild;PrepareResources;Compile;CopyFilesToOutputDirectory",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m:4",
+        "/v:minimal"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 3.050551600055769,
+      "started_utc": "2026-11-05T16:21:41.653659+00:00",
+      "finished_utc": "2026-11-05T16:21:44.703566+00:00",
+      "pid": 15560,
+      "metrics": {
+        "peak_root_working_set_bytes": 74084352,
+        "root_cpu_seconds": 1.203125
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "7e84b5ff263fb958a4ebe7ec5c588b745fecf8aa8952207ee43f62f5e75cc92b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-focused-build-legacy",
+      "command": [
+        "<MSBUILD_EXE>",
+        "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "/t:Build",
+        "/p:Configuration=Debug",
+        "/p:BuildProjectReferences=false",
+        "/p:PythonExe=<PYTHON_EXE>",
+        "/m:4",
+        "/v:minimal"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 1.7762471999740228,
+      "started_utc": "2026-11-05T16:21:44.707164+00:00",
+      "finished_utc": "2026-11-05T16:21:46.483045+00:00",
+      "pid": 5444,
+      "metrics": {
+        "peak_root_working_set_bytes": 70107136,
+        "root_cpu_seconds": 0.875
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "88f616c7dda315f51e690fde834143650d5a2987b823fc162f3d90d88ceaefc5",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-focused-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-focused-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-focused-Common\\serial.runsettings",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-focused-Common\\results",
+        "/TestCaseFilter:FullyQualifiedName~SampleSize|FullyQualifiedName~Agreement"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 1.5112699000164866,
+      "started_utc": "2026-11-05T16:21:52.281236+00:00",
+      "finished_utc": "2026-11-05T16:21:53.792187+00:00",
+      "pid": 12296,
+      "metrics": {
+        "peak_root_working_set_bytes": 59211776,
+        "root_cpu_seconds": 0.421875
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "0b472fe3c1cb03f32f31c07a8092e3b4868d8c4466f7506b370a2a8ed354139c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "entry-focused-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-focused-Core\\sandbox\\Core\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-focused-Core\\serial.runsettings",
+        "/Logger:trx;LogFileName=Core.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-26\\run01\\executions\\entry-focused-Core\\results",
+        "/TestCaseFilter:FullyQualifiedName~SampleSize|FullyQualifiedName~Agreement"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 1.260077300015837,
+      "started_utc": "2026-11-05T16:21:48.739876+00:00",
+      "finished_utc": "2026-11-05T16:21:49.999687+00:00",
+      "pid": 4524,
+      "metrics": {
+        "peak_root_working_set_bytes": 57593856,
+        "root_cpu_seconds": 0.421875
+      },
+      "runner_sha256": "2ca9d177bb6cae9f3fc82e2b8ee02fec432a290071f77866f3b8f685de45e63e",
+      "stdout_sha256": "d6b1d68a1ed4b6804957c79ecd5bec343e6d37b862192f8ae8f23864a26f8927",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "node_source_pins": {
+    "BESHStat.OfficeAddin/BESHStat.OfficeAddin.csproj": "198089f0f48d4c90103b1d4b53c017534195b6a699a77f45f2d7cfc1c41aa1f2",
+    "BESHStat.OfficeAddin/Infrastructure/FoundationProbe.cs": "7652194ecadc879abcd3bc1b9b2ad1657f2426c24ac0e9dfb02212d9e18d1d77",
+    "BESHStat.OfficeAddin/Infrastructure/FoundationServices.cs": "a6d5a0a61c59241776dbf9bccdc80cacd2365cadaccc20cba493efd47e07a168",
+    "BESHStat.OfficeAddin/Infrastructure/HostStatus.cs": "74c1f68e13e7fa9044770d9218259da5e36bb2933a7ad2b238e9bdf32b491ac4",
+    "BESHStat.OfficeAddin/Infrastructure/OfficeHostReadiness.cs": "032372f3e4065cdd6ff12e8a7753a1b2fc5818c2d96ecf74b74dc5197563a8cd",
+    "BESHStat.OfficeAddin/Program.cs": "2be5b158d8c8b34503338d6aecf9e7756cd10b371a3bba416c93b1f30f240677",
+    "BESHStat.OfficeAddin/Services/AnalysisEditorRegistry.cs": "b6632ea3bfab75c47fc107d630c7e15a544f742550f635a99a28ded86af869a6",
+    "BESHStat.OfficeAddin/Services/AnalysisNavigationCatalog.cs": "033f1b7f6bf1869011486d650719ccbbd0ed0d1639a0f2f8a4ab41613e263156",
+    "BESHStat.OfficeAddin/Services/AnalysisNavigationMenu.cs": "5ab52846d5d25e58320be971f2eb882df76e8cd8610962d800943795e1ef0b61",
+    "BESHStat.OfficeAddin/Services/AnalysisNavigationState.cs": "f8034dc2d9a7fd5d6d8b09e758a9f8a57264a22f5de958c52ec10eaf2b54e726",
+    "BESHStat.OfficeAddin/Services/AnalysisOptionDraft.cs": "e0cbf0663a5db31e30a5ce8484858cc4fbddfe17bc6b8c53cba3c4cd5a95f936",
+    "BESHStat.OfficeAddin/Services/AnalysisPilotState.cs": "1e6c39e6ee69730cd0b11f63060b366434129056f5410fe040877b302395e70f",
+    "BESHStat.OfficeAddin/Services/GeneratedRibbonCommands.cs": "20d5f6ae66616f3060618b1f369035bb59ab035f83d9269e24209e91a16150bb",
+    "BESHStat.OfficeAddin/Services/GlobalOptionsDraft.cs": "8e5aa773eb2c5ccb7c8de47937e1c272fad6709a2093657cff6e315e333c0b51",
+    "BESHStat.OfficeAddin/Services/GroupedInput.cs": "0c60dcfdef0c64b38aa253673c719d106a04c7ac949c5b526b9efc468ded8a59",
+    "BESHStat.OfficeAddin/Services/IPilotHost.cs": "ddfc6ab49defd82eafe0bfb90d458aff578d664720086ad662ce5e6d66891869",
+    "BESHStat.OfficeAddin/Services/IRangeCaptureHost.cs": "3d2ff646ccdb50b053d3f150ea6456d77a658adbe40de77cddcb52d5b7db470b",
+    "BESHStat.OfficeAddin/Services/IWorkbookAdapter.cs": "285042219ae9b91b9a15f75d96faa0b7ec8e5ff27bbd71cd8137b107986b8e18",
+    "BESHStat.OfficeAddin/Services/OfficeBrowser.cs": "0aea7a06bcdbb986a859b55eb1e0aebd167b2f5c2b3cd70307015239e1ff7904",
+    "BESHStat.OfficeAddin/Services/OfficeCommandBridge.cs": "be6e5269578b8b678159cc09b49d9fb54b1916a72c01872690e611b51c3c019d",
+    "BESHStat.OfficeAddin/Services/OfficeCommands.cs": "43e53e14e25a877a5af5696d3c17237af0d0d383541b45b2727469f94640e123",
+    "BESHStat.OfficeAddin/Services/OfficeDiagnosticLog.cs": "8cb94c77cf4719fe6ffbf22b1186a9e23852332c2340b8fff47ee4e57f922af6",
+    "BESHStat.OfficeAddin/Services/OfficeHelp.cs": "7b87f1df185635a151a780833a66855985baf240d0ddfd318664a9640c176adc",
+    "BESHStat.OfficeAddin/Services/OfficePreferenceSession.cs": "555f21a11ca902e16b83f15f29761180c3202c8fa5849880e8f9d75a067d8320",
+    "BESHStat.OfficeAddin/Services/OfficePreferenceStore.cs": "468a046406091e449d8dcaf3c8346d04f75de303791c7868dc3ecacbde274542",
+    "BESHStat.OfficeAddin/Services/OfficeStrings.cs": "edc663de31c180acad7e4f11510a6319ab509bfd66d8efa34b13a315f67db81b",
+    "BESHStat.OfficeAddin/Services/OutputPlanPresentation.cs": "dd9261779fe083caa1a633ba1e9cd58dde3232cbe24911eb0061f9102d4d7055",
+    "BESHStat.OfficeAddin/Services/PhysicalInputView.cs": "629a75109b336538e2267fea620bad28eeb09751b8179b1038287c5f2921f2cc",
+    "BESHStat.OfficeAddin/Services/RangeReferenceState.cs": "111a5ef276498523ede034cbf2ef58e98ee50a2d9f4bec5e2aff87c1f03eb7f8",
+    "BESHStat.OfficeAddin/Services/SpecificationBuilderState.cs": "be51aadbcfcb7b169767b4ad863d3fd5bd7815704da756f78853c2a21c43ab92",
+    "BESHStat.OfficeAddin/Services/SpecificationCompilation.cs": "3107d7624c8f81d7a6a984589f78c2099cae2a75f52f718ab1c376ed08215b40",
+    "BESHStat.OfficeAddin/Services/SpecificationDraft.cs": "7d4abacdc1732f791572367429597cb0f346751a206141b30f7a9c689fdb62e8",
+    "BESHStat.OfficeAddin/Services/WorkbookAdapter.cs": "e2ec63b628cf2481dd4bfb7b750fc97406362be3ee5c78e85fdce1a9c2a3edf7",
+    "BESHStat.OfficeAddin/Services/WorkbookDiagnostics.cs": "26dd37bf1bba98d6b6764a579b39550040fc4c0b6fe846b86dde1167cf9d609d",
+    "BESHStat.OfficeAddin/Services/WorkbookTransport.cs": "218e52a3b94de1384be952160fc29a6e8f5fd06cb42d846b7e7a903dc5a961f3",
+    "BESHStat.OfficeAddin/Services/WorksheetColumnCatalog.cs": "daa70b1fbd1845ce69865308a11873c4916aa2c7e66cdc206a5e0afb7921fad4",
+    "BESHStat.OfficeAddin/Services/WorksheetDiscovery.cs": "ae19d3c2305e91d6974e6a712782103f1211233be93420794a494a8e09b44ffe",
+    "BESHStat.OfficeAddin/tests/AnalysisComponentTests.cs": "3fcf476bd873766270acb7531c276043d953b3fd9fe41ea48311a3f23b010e0f",
+    "BESHStat.OfficeAddin/tests/AnalysisNavigationTests.cs": "d216bd44a0e02b2e2a9261c3c953e2ea9b8ae243a5916437e82b41a4f2a60545",
+    "BESHStat.OfficeAddin/tests/AnalysisPilotTests.cs": "d92432b5302db4d8ec2753fa5828b5fe2821c8b75266c107eca84eddf91167b7",
+    "BESHStat.OfficeAddin/tests/CorrectiveWorkflowTests.cs": "35d6fd48a8c78bf0d9e6137e6b78c3e4d2843ecae0f186e08bd55691a7e2bacc",
+    "BESHStat.OfficeAddin/tests/ForceEnglishTests.cs": "50cb61ffbd6a49dd476bba2b915d1c64d8c4a5f766e6702a57a079e2ef2c87ca",
+    "BESHStat.OfficeAddin/tests/FormatInputAmendmentTests.cs": "bea16bd4b77e3a41c538dc0c7b437f3d8f198b5727c19377393f1d041f888513",
+    "BESHStat.OfficeAddin/tests/FoundationTests.cs": "5c8f125b1c17dd615d39af849e9f49a333c8ca0c7240e8600f8a1591c50c72fe",
+    "BESHStat.OfficeAddin/tests/GlobalOptionsComponentTests.cs": "71f6bc0a782d47fd3284b707146222543bb11186920108778c19fb6a134fdda9",
+    "BESHStat.OfficeAddin/tests/OfficeAddin.Tests.csproj": "d57e2a98ff25274d8115d230f3bcf2486ea52d9d8a081434b284183bf68c2f6a",
+    "BESHStat.OfficeAddin/tests/OfficeCommandTests.cs": "3ffe2fbee9b0e937eaf1cba61a25d1c854da59473a79fc22af57a355a80c755e",
+    "BESHStat.OfficeAddin/tests/OfficeDiagnosticHelpTests.cs": "6e93e619cd11c996be197236ad1779d8bffa91e5a0785d3dc80154f59aaa5f67",
+    "BESHStat.OfficeAddin/tests/OfficePreferenceTests.cs": "5cf1979df1fc19accbae1ee835236bbdfc37cda2bb94396c48c8cb5c5f7ed0b2",
+    "BESHStat.OfficeAddin/tests/PreferenceLifecycleTests.cs": "a4ca60ff93d2a2c6767b9bface07f3893501aa67ae60d442e68331bee274a6ce",
+    "BESHStat.OfficeAddin/tests/ProductionUxTests.cs": "a401282dec92f52ef43861ee0acd47df8dde4b9162dc796eccea12f029252c55",
+    "BESHStat.OfficeAddin/tests/RangeReferenceTests.cs": "98ba938ded8f9bbb65c415ada489e4a4d27b8306d2260773d2179fbe5efb3667",
+    "BESHStat.OfficeAddin/tests/SpecificationBuilderTests.cs": "083c27d0c619dab0893edfa8b1a5bf910d72f77f1d436d4e4f99b4b9f553209b",
+    "BESHStat.OfficeAddin/tests/WorkbookAdapterTests.cs": "6644087569b9b880be194c35956317a056e9329d20a31d6fa97d0d21a093c04d",
+    "BESHStat.OfficeAddin/tests/WorksheetDiscoveryTests.cs": "e80c83fb01a189881165791d57afde0b8721653d88fec066df76328dcfc4a157",
+    "BESHStat.OfficeAddin/tests/browser/corrective-workflow-browser.mjs": "4c2d913f485a9b55a75ea5a1398e53ab5223503c12d6b222b58602bae6d370e4",
+    "BESHStat.OfficeAddin/tests/browser/format-input-browser.mjs": "450e1c97ac40e2850a314f400112b6a0c9028171c87314980c6c8400c4b39ea1",
+    "BESHStat.OfficeAddin/tests/browser/live-edge-mcp.mjs": "10e9b74d2880e9709d863607a6544ed41f20f73e6c6ebffa82d6c680be01c547",
+    "BESHStat.OfficeAddin/tests/browser/live-edge-workflow-code.js": "385891a49d9118be87eda1ec39720b9a3100ae9141e67cd5e587c8844dfe45d3",
+    "BESHStat.OfficeAddin/tests/browser/live-edge-workflow.mjs": "f6f6ab649dec2873c52fa0e4ecfd7338a3b7f65a4dedb72e168b892d6ea749e9",
+    "BESHStat.OfficeAddin/tests/browser/options-browser.mjs": "7e9e95fcbdd90a663bea4bb084f809058de6c3298e185db09d8884c5cc0aebd6",
+    "BESHStat.OfficeAddin/tests/browser/pilot-browser.mjs": "faa8277c4683972fa4beaa1c70de1a34d40d6608fb6f186888fdd954929537b3",
+    "BESHStat.OfficeAddin/tests/browser/production-options-browser.mjs": "d596531f638f00c88052e67c1286b19da7589f7fb7738171bfef4d70ddb22c6f",
+    "BESHStat.OfficeAddin/tests/browser/range-capture-browser.mjs": "c1e461f6122cf55df79b2c9b372aec45977c7ec3c53bbc3e35e5e9f25a32678d",
+    "BESHStat.OfficeAddin/tests/browser/readiness-browser.mjs": "59c8f92200c7c0b06c97a46ad23409203dd209ad13ae7237a742e5d2c8b1d6fe",
+    "BESHStat.OfficeAddin/tests/browser/ribbon-browser.mjs": "a54f42b401a3176c28e579a2d4d087ad5735c994c1877a070adcc5257648aa45",
+    "BESHStat.OfficeAddin/tests/browser/specification-builder-browser.mjs": "979cffaa78930c14c1e6217bdc3a41cf11fb16257f52edde17d8a4a6978234c7",
+    "BESHStat.OfficeAddin/tests/browser/workbook-browser.mjs": "bb808a2ded3586d141c74f369c4b489db3e73a23322bf324e533a335092a79a4",
+    "BESHStat.OfficeAddin/tests/helpers/pilotWorkbook.mjs": "bc4f44fc42a301f632d6f7b930d6d7732c10c640bc6c7ee9a2d4434121bcb8c0",
+    "BESHStat.OfficeAddin/tests/helpers/workbook.mjs": "283fa8121b2e98314f87a2748780753334830fb5b392b544946c5548cc9d2a31",
+    "BESHStat.OfficeAddin/tests/longIntersection.test.mjs": "893f964362ba65ad348fa11d6349e32a077d8c4165341f40914a6817331469a6",
+    "BESHStat.OfficeAddin/tests/multiSource.test.mjs": "6404a374fa79795fe1327d82ec0143f9c757f38c043eeaef564d011efe6441d7",
+    "BESHStat.OfficeAddin/tests/nativeNumericReadback.test.mjs": "f3221d2f6aea2fa80da0aae764600f64822cd7bd34211b01db070ae34b255498",
+    "BESHStat.OfficeAddin/tests/officeDiagnostics.test.mjs": "7e219a706e88144996b7cffe0a07ea23e49076e972959dafe2ab4f6c6290c2ab",
+    "BESHStat.OfficeAddin/tests/officeHost.test.mjs": "6bf3806dfad674c741c726b02eef08191035359999fe3fd8fbbf1595021f9203",
+    "BESHStat.OfficeAddin/tests/preferences.test.mjs": "16df60ad20faad6ffb45168bf3d068b2eec66997f6c885974920edd86822fc44",
+    "BESHStat.OfficeAddin/tests/productionWriter.test.mjs": "a11c4e9206b4d0d7ab4165250ae2bd7ce4d1e96f5cd90501bd7ebaaee8715b8d",
+    "BESHStat.OfficeAddin/tests/rangeCapture.test.mjs": "bab9517dd0b2005fdff6650d7570f098cfeecbd288c5b459e7e1d838b0ced7c5",
+    "BESHStat.OfficeAddin/tests/ribbonCommands.test.mjs": "34dfb5d74b9f0bf653a755f003843d3cb5f2b8ce034b03a6e5874978bda03f85",
+    "BESHStat.OfficeAddin/tests/tablePresentation.test.mjs": "242c6364333a787561d0510476c4c975e980baf5cc919e98bba6c064ec09907c",
+    "BESHStat.OfficeAddin/tests/webFillReadback.test.mjs": "478bdebb7a730d73b45508854b57c83c6e32a4015c7708b543e203bbf046fd44",
+    "BESHStat.OfficeAddin/tests/wholeColumns.test.mjs": "812b7f48074d271bfc9e880516c631ce6fe4d9f77f95e707dcd7d16a53d660d0",
+    "BESHStat.OfficeAddin/tests/workbookAdapter.test.mjs": "aa6b579b8a67f33d0611b5fb7e92859825a365063a077c6e0ba5490b16cd4983",
+    "BESHStat.OfficeAddin/tests/workbookReadStages.test.mjs": "eb727e175b227fd32e4f3517dc12bc2ef18297a312f4b87d63c85e1e6e389238",
+    "BESHStat.OfficeAddin/tests/workbookWriter.test.mjs": "9ed7c46d5b4c478aa0ccd91c5d0506af547bc4db2910ee3da71341d43929b1be",
+    "BESHStat.OfficeAddin/tests/worksheetDiscovery.test.mjs": "177099a6f137489e91fcea66f93025e8b51fa488ebcfa75bca3c4da60cb5ab8c",
+    "BESHStat.OfficeAddin/tests/worksheetNames.test.mjs": "a8293980ec6ca99a3544cf40920d7952d9b44156050c034990b10a21d142c904",
+    "BESHStat.OfficeAddin/tests/workspaceHost.test.mjs": "c5c12e6277dc6fa044245b8df6e1dd78fe12ca092a3e424a7c9e171139940944",
+    "BESHStat.OfficeAddin/wwwroot/js/officeDiagnostics.js": "eb6519da9aae84a3ff92f31cc6c1b737bdad73b5f2d503aba93b1e818e8cb03a",
+    "BESHStat.OfficeAddin/wwwroot/js/officeHost.mjs": "5ee84be1f2aacf489ca7e30d3da6482e86f7a2a27f8d7ae0e0defcfaba37d6f5",
+    "BESHStat.OfficeAddin/wwwroot/js/preferences.mjs": "52c65ed7931da98701743f05acfa5b170381a39f649e89bc3dd0833d75fb5ffd",
+    "BESHStat.OfficeAddin/wwwroot/js/productionWriter.mjs": "cf05235b591731742aac7972d18e12da223a12888d53981ae59d73440fff598e",
+    "BESHStat.OfficeAddin/wwwroot/js/rangeCapture.mjs": "eec9e58b5da7c4541edd7ef096a6c9c599e16dca6d418a7099df1a5de6650637",
+    "BESHStat.OfficeAddin/wwwroot/js/ribbonCommands.mjs": "a1b82cb7d128ced40bd09d057fd1cea0982a73bc9445f0f6891d6570843ce45c",
+    "BESHStat.OfficeAddin/wwwroot/js/tablePresentation.mjs": "685b6a294e519ce2f1a18204a5ff25f89110391668ab848bb5cb7c4eb131fbf3",
+    "BESHStat.OfficeAddin/wwwroot/js/workbookAdapter.mjs": "d3b0c6db94c200e5c13f6d55f2ea1abee33065fbd0a2dbc1f798d12da1e7659f",
+    "BESHStat.OfficeAddin/wwwroot/js/worksheetDiscovery.mjs": "e411a44f1ce002b0f849ee18768ada2873da22a69879a6b54c0bb5716d0b4a0e",
+    "BESHStat.OfficeAddin/wwwroot/js/worksheetNames.mjs": "c5335189834d74da11b68a4576c4d1ec26e34ee77a44ff838cb90a7ad0230c86",
+    "BESHStat.OfficeAddin/wwwroot/js/workspaceHost.mjs": "5f33caedbf13afcee141a9c20f00d7eb42bc8611590dee288fce58db1ddcbb8a",
+    "BESHStat.WasmSmoke/BESHStat.WasmSmoke.csproj": "83cf3030ca936587b2fa1fbddd373c038f9470dcc3abe2213be3b6c8dae97b96",
+    "BESHStat.WasmSmoke/Infrastructure/BrowserDiagnosticSink.cs": "63e40a236b8c2dcdef09123def625195fcfdc52c0b2258d76c47305a662e9470",
+    "BESHStat.WasmSmoke/Infrastructure/BrowserPreferenceStore.cs": "cea457324736133a35edf10a7de7f65abf73f7d04f714508754cbd3b404422d2",
+    "BESHStat.WasmSmoke/Infrastructure/OfficeDocumentLifecycle.cs": "cbb660b0250ca979e86f5fb13c9edf84b372b2e7bfe5520b52039b9491c93540",
+    "BESHStat.WasmSmoke/Infrastructure/OfficeExecutionRun.cs": "8779e6d7647c349fdec4d7b343cab9838c5f2c1acabaf29ea9fe741146bead7c",
+    "BESHStat.WasmSmoke/Infrastructure/OfficeFaultPresentation.cs": "90c1f3da9bcfab86a9ee6fa88c35e490d63d1c42ea7c84b185a2b6ae42542753",
+    "BESHStat.WasmSmoke/Program.cs": "e5b24c1a3163ddd1808c28fc5077267bf6aede5b2d9feee918a8abef802a2c7c",
+    "BESHStat.WasmSmoke/tests/Execution/Execution.Tests.csproj": "6f3ed807a63c6b3d46bc11b33cfde0a969803e48dea2aac4d20c9fdb39236f3e",
+    "BESHStat.WasmSmoke/tests/Execution/HelpMetadataTests.cs": "c312e5e1713530b6c5902430b871d1e3f78ade036118959e7ff4750c3d0e1850",
+    "BESHStat.WasmSmoke/tests/Execution/OfficeDocumentLifecycleTests.cs": "96f5864b59bc6e5d558b3a40e0248e46f0555c1f484b22dea831b4db8fb77ce8",
+    "BESHStat.WasmSmoke/tests/Execution/OfficeExecutionTests.cs": "da557bc501306262b0351ff667c2914ecb389355525cf368e67d1618b013fc8c",
+    "BESHStat.WasmSmoke/tests/Execution/OfficeFaultTests.cs": "d70f0a7c48d07ec4c21b08b06ed666af409b5d3c9795deeb127d1cae1333c73f",
+    "BESHStat.WasmSmoke/tests/acquisitionAdapters.test.cjs": "4383ab85799e7636e9078591ef3a6ddb8556a3668b751fd4620b9ca369acc39e",
+    "BESHStat.WasmSmoke/tests/cellValuePolicy.test.cjs": "a9a06aae06eee11fa42725c5a64cf08f3e04c096bf85cbdf47e3004e6a8ca582",
+    "BESHStat.WasmSmoke/tests/compositeOutputWriter.test.cjs": "63d7767f9b38d5eb87fc1a6d999ff56a2f20e799f39a447d1deee6aebe7db844",
+    "BESHStat.WasmSmoke/tests/diagnostics.test.cjs": "c7aee61bb2943703cb9269f3a8ce249fd5df266d01e4920a89632e129de0092d",
+    "BESHStat.WasmSmoke/tests/documentLifecycle.test.cjs": "00be31bd4b7ed66221eb29219e2c0d72338a9b0af4bd7cecaf5c648f7f49aa4f",
+    "BESHStat.WasmSmoke/tests/execution.test.cjs": "d020ce3e6b5bb75b5992dd19c635a23cde0cfc6ef2cfcf1ec961d1c1590cbc24",
+    "BESHStat.WasmSmoke/tests/helpers/compositeWorkbook.cjs": "6798282b9aeeb5be418017b39c733e9538e2b7d21b5c527318a294ad3079dcbc",
+    "BESHStat.WasmSmoke/tests/helpers/recordingWorkbook.cjs": "525c65d08d437173d19bd5ea3fade116fb4f78775135509c4359063b727ffa6e",
+    "BESHStat.WasmSmoke/tests/hostCapabilities.test.cjs": "00209860baf9a9ce9c4ecff48c684b354088afcd9a0a42b8c732a2e8c8c3c884",
+    "BESHStat.WasmSmoke/tests/largeRangeAcquisition.test.cjs": "7121d47f4d37e497d2eaa538265df49b46f5a13933aba2610a2a16e43557a126",
+    "BESHStat.WasmSmoke/tests/mixedCellKinds.test.cjs": "99c054c5eb1457f15753fae3767bd4080149cb37b5c38af7d90939161eae6c9b",
+    "BESHStat.WasmSmoke/tests/outputPlanWriter.test.cjs": "fd54534d017847200675716265088742f79ea49dc1fb1ba6701773c1071d5fcf",
+    "BESHStat.WasmSmoke/tests/preferences.test.cjs": "15f30d3059b179f8ff03b9fe6cc1ec49d6e882f8132b51a8b9f00ac01ca3c1c5",
+    "BESHStat.WasmSmoke/tests/rangeIdentity.test.cjs": "f88d6cd4ea6f2192583205e09d7be0a4b9104deb919df9a9c12b23340627f285",
+    "BESHStat.WasmSmoke/tests/safeOverwrite.test.cjs": "8ba52049d438e86ce41736e851602d2d7d4794f20c98a18429fde6ac411c3607",
+    "BESHStat.WasmSmoke/tests/wholeColumnSelection.test.cjs": "f159344ecf927b1cacd89fc613a22b536917589acc0cc8927d9f3eeb15b0d4ed",
+    "BESHStat.WasmSmoke/wwwroot/js/diagnostics.js": "30b4a0759e7e26a7885f8950903157c52c303a877060a6ed252385783e84807f",
+    "BESHStat.WasmSmoke/wwwroot/js/officeBridge.js": "dfd6821486ef56b320c4bbf3ac55f641cd81475aad9185b788aba16268c5ad13",
+    "BESHStat.WasmSmoke/wwwroot/js/preferences.js": "16cb2f292c32cb846264bd49e0d69f64339d1451d4ac323b890345f85ca4888e",
+    "BESHStat.WasmSmoke/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js": "985a005d37cc30ff0eecd8b8fff6bac79cf7d1f1b440bcd68bd52263ebe49172",
+    "BESHStat.WasmSmoke/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js": "0833b2e9c3a26c258476c46266e6877fc75218625162e0460be9a3a098a61c6c",
+    "BESHStat.WasmSmoke/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js": "75d2af21e04908f1fc8822b25bb0bb7a768c265fec61ef683328086e3a0cfe04",
+    "BESHStat.WasmSmoke/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js": "4197454f564d765cb8ae681406d5e65c54bd054d454dafac3deea1efde2c1514",
+    "BESHStat.WasmSmoke/wwwroot/lib/bootstrap/dist/js/bootstrap.js": "cf46d9bebbcb08f652b91054bc930d4ae2ff83b8e99bdfca9b2693e9cb6ed779",
+    "BESHStat.WasmSmoke/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js": "de040986d9a3ed89d5d5f9ad6d5727015e9e238c2cd13af8f1b55909386d0864",
+    "BESHStatNG_Help_MkDocs/docs/assets/javascripts/help-resolver.mjs": "a91c3077f527618cbcc0a2071f89503b825b46b88493c176c7d5ace3bb066438",
+    "BESHStatNG_Help_MkDocs/docs/assets/javascripts/help-routes.mjs": "08378326035580dc633bfa9bafcf636a6f8b5878fe6d105966642cb92e0b200c",
+    "BESHStatNG_Help_MkDocs/docs/assets/javascripts/mathjax.js": "d34c73f9871be61fa388796cb610f0caa1cf9f67fd987dd3fa3d5c4e7fe07258",
+    "BESHStatNG_Help_MkDocs/tests/help-resolver.test.mjs": "6e9e14522d765f4941cc9fc4d2bed3260b93fa1f8be0959a7569fcf550d26fb5"
+  },
+  "full_entry_release_python": "NOT_RUN; final complete Python execution is required in each configuration.",
+  "prior": "evidence/04A25/validation.json"
+}

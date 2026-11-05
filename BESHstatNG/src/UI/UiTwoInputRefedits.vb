@@ -1,10 +1,13 @@
-﻿Imports System.Security.Cryptography
+﻿Imports BESHStatNG.ExcelCommon
+Imports System.Security.Cryptography
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.nonparametric
 Imports Microsoft.Office.Interop.Excel
 
 
 Public Class UiTwoInputRefedits
+    Private ReadOnly agreementSourceRows As New System.Runtime.CompilerServices.ConditionalWeakTable(Of TwoGroupsPairedData, Integer())
+
 
     Sub New(analysis As String, tagn As Integer)
         ' This call is required by the designer.
@@ -108,17 +111,20 @@ Public Class UiTwoInputRefedits
         out.name1 = columData.varNames(0)
         out.name2 = columData.varNames(1)
 
+        If (Me.Tag = HelpTopic.DemingRegression OrElse Me.Tag = HelpTopic.HotellingSTSquaredTest) AndAlso columData.RowIds IsNot Nothing Then
+            agreementSourceRows.Add(out, CType(columData.RowIds.Clone(), Integer()))
+        End If
         Return out
     End Function
 
-    Private Function getPairedCategoricalData(ByRef strErr As String) As (x As Object(), y As Object(), name1 As String, name2 As String)
+    Private Function getPairedCategoricalData(ByRef strErr As String) As (x As Object(), y As Object(), name1 As String, name2 As String, axis As AgreementInputAxis)
         Dim columData = New DataObj
         Dim refId As String, refData As String, refFinal As String
 
         If WorksheetNameFromRefAdress(Me.RefEdit1.Address, True, Me.RefEdit1.ExcelWorkBook) <>
             WorksheetNameFromRefAdress(Me.RefEdit2.Address, True, Me.RefEdit2.ExcelWorkBook) Then
             strErr = "Input reference range adresses are from different sheets. Input can be only from one sheet."
-            Return (Nothing, Nothing, Nothing, Nothing)
+            Return (Nothing, Nothing, Nothing, Nothing, Nothing)
         End If
 
         refId = prepareRef2D(Me.RefEdit1.Address, Me.RefEdit1.ExcelWorkBook)
@@ -131,7 +137,7 @@ Public Class UiTwoInputRefedits
 
         If columData.bZeroValid Then
             strErr = "No valid paired categorical observations in the input ranges."
-            Return (Nothing, Nothing, Nothing, Nothing)
+            Return (Nothing, Nothing, Nothing, Nothing, Nothing)
         End If
 
         If Not Me.ckFirstRow.Checked Then
@@ -142,7 +148,10 @@ Public Class UiTwoInputRefedits
         Return (Matrix.GetColumnFrom2Darray(columData.FinalData, 0),
                 Matrix.GetColumnFrom2Darray(columData.FinalData, 1),
                 columData.varNames(0),
-                columData.varNames(1))
+                columData.varNames(1),
+                New AgreementInputAxis(columData.FinalData.GetLength(0), columData.varNames, columData.RowIds,
+                    categoricalFirst:=Matrix.GetColumnFrom2Darray(columData.FinalData, 0),
+                    categoricalSecond:=Matrix.GetColumnFrom2Darray(columData.FinalData, 1), header:=Me.ckFirstRow.Checked))
     End Function
 
     Private Function getDataHotteling(ByRef strErr As String) As (DataObj, DataObj)
@@ -258,39 +267,21 @@ Public Class UiTwoInputRefedits
         End If
 
         Dim WriteRes As New ExcelDnaResultWriter
-        Dim tt = New Agreement.WeightedKappaAgreement(catData.x, catData.y, catData.name1, catData.name2)
+        Dim tt = New Agreement.WeightedKappaAgreement(catData.axis.FirstCategories(), catData.axis.SecondCategories(), catData.name1, catData.name2)
 
         Dim opts As New Agreement.KappaOptions With {
                 .Alpha = CDbl(Me.spinBtnAlphaKappa.Value),
                 .BootstrapReplicates = CInt(Me.spinBtnBootstrapReplicatesKappa.Value)
             }
 
-        Select Case Me.cmbWeightingSchemeKappa.SelectedIndex
-            Case 0 : opts.Weighting = Agreement.KappaWeightingScheme.Unweighted
-            Case 1 : opts.Weighting = Agreement.KappaWeightingScheme.Linear
-            Case 2 : opts.Weighting = Agreement.KappaWeightingScheme.Quadratic
-            Case 3 : opts.Weighting = Agreement.KappaWeightingScheme.CicchettiAllison
-            Case 4 : opts.Weighting = Agreement.KappaWeightingScheme.FleissCohen
-            Case Else : opts.Weighting = Agreement.KappaWeightingScheme.Unweighted
-        End Select
-
-        If Me.optKappaAnalytical.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.Analytical
-        ElseIf Me.optKappaJackknife.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.Jackknife
-        ElseIf Me.optKappaBootstrapPercentile.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile
-        ElseIf Me.optKappaBootstrapBCa.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.BootstrapBCa
-        Else
-            opts.CiMethod = Agreement.AgreementCiMethod.Analytical
-        End If
+        Dim selection As New KappaRequestSelection(opts, Me.cmbWeightingSchemeKappa.SelectedIndex,
+            Me.optKappaAnalytical.Checked, Me.optKappaJackknife.Checked, Me.optKappaBootstrapPercentile.Checked, Me.optKappaBootstrapBCa.Checked)
+        opts = selection.CreateOptions()
 
         Try
             tt.Options = opts
 
-            Dim useResampling As Boolean = (opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile OrElse opts.CiMethod = Agreement.AgreementCiMethod.BootstrapBCa OrElse
-                               opts.CiMethod = Agreement.AgreementCiMethod.Jackknife)
+            Dim useResampling As Boolean = selection.UsesResampling
             If useResampling Then
                 Me.progressBarExactCalc.Visible = True
                 Me.progressBarExactCalc.Value = 0
@@ -300,10 +291,11 @@ Public Class UiTwoInputRefedits
                 tt.Fit()
             End If
 
-            Dim res = tt.wrapResults()
+            Dim presentation As New AgreementReportPlan(AgreementMethod.Kappa, tt.wrapResults(), catData.axis)
+            Dim res = presentation.TablesForWriter()
             WriteRes = GetResultWriter()
             Dim rr = New ProcessListofResultTables(res)
-            Dim totrows As Integer = rr.TotRows + res.Count - 1
+            Dim totrows As Integer = presentation.NativeRowSpan(rr.TotRows)
             Dim totcols As Integer = rr.TotCols
 
             If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
@@ -322,11 +314,12 @@ Public Class UiTwoInputRefedits
     Private Sub RunLinsCCC(data As TwoGroupsPairedData)
         Dim WriteRes As New ExcelDnaResultWriter
 
-        Dim tt = New Agreement.LinConcordanceCorrelation(
-        Matrix.GetColumnFrom2Darray(data.X, 0),
-        Matrix.GetColumnFrom2Darray(data.X, 1),
-        data.name1,
-        data.name2)
+        Dim first = Matrix.GetColumnFrom2Darray(data.X, 0)
+        Dim second = Matrix.GetColumnFrom2Darray(data.X, 1)
+        Dim physicalRows As Integer() = Nothing
+        agreementSourceRows.TryGetValue(data, physicalRows)
+        Dim axis As New AgreementInputAxis(first.Length, {data.name1, data.name2}, physicalRows, first, second)
+        Dim tt = New Agreement.LinConcordanceCorrelation(axis.First(), axis.Second(), data.name1, data.name2)
 
         Dim opts As New Agreement.LinConcordanceOptions With {
             .Alpha = CDbl(Me.spinBtnAlphaLinCCC.Value),
@@ -334,17 +327,9 @@ Public Class UiTwoInputRefedits
             .NullConcordance = CDbl(Me.spinBtnNullConcordanceLinCCC.Value)
         }
 
-        If Me.optLinCCCAnalytical.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.Analytical
-        ElseIf Me.optLinCCCBootstrapPercentile.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile
-        ElseIf Me.optLinCCCBootstrapBCa.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.BootstrapBCa
-        Else
-            opts.CiMethod = Agreement.AgreementCiMethod.Analytical
-        End If
-
-        Dim useBootstrap As Boolean = (opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile OrElse opts.CiMethod = Agreement.AgreementCiMethod.BootstrapBCa)
+        Dim selection As New LinRequestSelection(opts, Me.optLinCCCAnalytical.Checked, Me.optLinCCCBootstrapPercentile.Checked, Me.optLinCCCBootstrapBCa.Checked)
+        opts = selection.CreateOptions()
+        Dim useBootstrap As Boolean = selection.UsesBootstrap
 
         tt.Options = opts
 
@@ -358,11 +343,12 @@ Public Class UiTwoInputRefedits
                 tt.Fit()
             End If
 
-            Dim res = tt.wrapResults()
+            Dim presentation As New AgreementReportPlan(AgreementMethod.LinConcordance, tt.wrapResults(), axis)
+            Dim res = presentation.TablesForWriter()
 
             WriteRes = GetResultWriter()
             Dim rr = New ProcessListofResultTables(res)
-            Dim totrows As Integer = rr.TotRows + res.Count - 1
+            Dim totrows As Integer = presentation.NativeRowSpan(rr.TotRows)
             Dim totcols As Integer = rr.TotCols
 
             If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
@@ -372,7 +358,7 @@ Public Class UiTwoInputRefedits
             End If
 
             rr.writeToSheet(WriteRes, True)
-            tt.AddPlot(WriteRes.ws)
+            If presentation.PlotRequested Then tt.AddPlot(WriteRes.ws)
         Finally
             Me.progressBarExactCalc.Value = 0
             Me.progressBarExactCalc.Visible = False
@@ -381,7 +367,13 @@ Public Class UiTwoInputRefedits
 
     Private Sub RunDeming(data As TwoGroupsPairedData)
         Dim WriteRes = New ExcelDnaResultWriter
-        Dim tt = New Agreement.WeightedDemingRegression(Matrix.GetColumnFrom2Darray(data.X, 0), Matrix.GetColumnFrom2Darray(data.X, 1), data.name1, data.name2)
+        Dim first = Matrix.GetColumnFrom2Darray(data.X, 0)
+        Dim second = Matrix.GetColumnFrom2Darray(data.X, 1)
+        Dim physicalRows As Integer() = Nothing
+        agreementSourceRows.TryGetValue(data, physicalRows)
+        Dim axis As New AgreementInputAxis(first.Length, {data.name1, data.name2}, physicalRows, first, second)
+        Dim tt = New Agreement.WeightedDemingRegression(axis.First(), axis.Second(), data.name1, data.name2)
+
         Dim opts As New Agreement.DemingOptions With {
                 .Alpha = CDbl(Me.spinBtnAlphaDeming.Value),
                 .BootstrapReplicates = CInt(Me.spinBtnBootstrapReplicatesDeming.Value),
@@ -390,11 +382,11 @@ Public Class UiTwoInputRefedits
 
         Select Case Me.cmbDemingVarianceModel.SelectedIndex
             Case 1
-                opts.VarianceModel = Agreement.DemingVarianceModel.ConstantCV
+                opts.VarianceModel = DemingRequestSelection.VarianceForIndex(Me.cmbDemingVarianceModel.SelectedIndex)
                 opts.CVx = CDbl(Me.spinBtnDemingCVx.Value)
                 opts.CVy = CDbl(Me.spinBtnDemingCVy.Value)
             Case 2
-                opts.VarianceModel = Agreement.DemingVarianceModel.KnownPointwiseSD
+                opts.VarianceModel = DemingRequestSelection.VarianceForIndex(Me.cmbDemingVarianceModel.SelectedIndex)
                 Dim errText As String = String.Empty
                 opts.SDx = Me.GetDemingStandardDeviationVector(Me.RefEditDemingSDx, data.X.GetLength(0), "SDx", errText)
                 If errText <> String.Empty Then
@@ -409,30 +401,22 @@ Public Class UiTwoInputRefedits
                     Exit Sub
                 End If
             Case Else
-                opts.VarianceModel = Agreement.DemingVarianceModel.ConstantLambda
+                opts.VarianceModel = DemingRequestSelection.VarianceForIndex(Me.cmbDemingVarianceModel.SelectedIndex)
                 opts.Lambda = CDbl(Me.spinBtnErrorRatio.Value)
         End Select
 
-        If Me.optDemingBootstrapPercentile.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile
-        ElseIf Me.optDemingBootstrapBCa.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.BootstrapBCa
-        ElseIf Me.optAnalyticalClosedForm.Checked OrElse Me.optAnalyticalLinnet.Checked Then
-            opts.CiMethod = Agreement.AgreementCiMethod.Analytical
-        Else
-            opts.CiMethod = Agreement.AgreementCiMethod.Jackknife
-        End If
-
+        Dim selection As New DemingRequestSelection(opts, Me.optDemingBootstrapPercentile.Checked, Me.optDemingBootstrapBCa.Checked,
+            Me.optAnalyticalClosedForm.Checked, Me.optAnalyticalLinnet.Checked)
+        opts = selection.CreateOptions()
         tt.Options = opts
-
-        Dim useBootstrap As Boolean = (opts.CiMethod = Agreement.AgreementCiMethod.BootstrapPercentile OrElse opts.CiMethod = Agreement.AgreementCiMethod.BootstrapBCa)
+        Dim useBootstrap As Boolean = selection.Execution = DemingExecutionIntent.Bootstrap
 
         Try
-            If opts.CiMethod = Agreement.AgreementCiMethod.Analytical AndAlso Me.optAnalyticalLinnet.Checked Then
+            If selection.Execution = DemingExecutionIntent.AnalyticalMcr Then
                 tt.DemingAnalyticalCI_MCR()
-            ElseIf opts.CiMethod = Agreement.AgreementCiMethod.Analytical Then
+            ElseIf selection.Execution = DemingExecutionIntent.AnalyticalClosedForm Then
                 tt.DemingAnalyticalCI()
-            ElseIf opts.CiMethod = Agreement.AgreementCiMethod.Jackknife Then
+            ElseIf selection.Execution = DemingExecutionIntent.Jackknife Then
                 tt.FitJackknifeCI()
             ElseIf useBootstrap Then
                 Me.progressBarExactCalc.Visible = True
@@ -443,12 +427,13 @@ Public Class UiTwoInputRefedits
                 tt.Fit()
             End If
 
-            Dim res = tt.wrapResults()
+            Dim presentation As New AgreementReportPlan(AgreementMethod.Deming, tt.wrapResults(), axis)
+            Dim res = presentation.TablesForWriter()
 
             'Dump outputs
             WriteRes = GetResultWriter() 'pass just table from the main test output
             Dim rr = New ProcessListofResultTables(res)
-            Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
+            Dim totrows As Integer = presentation.NativeRowSpan(rr.TotRows) 'one blank row as a separator
             Dim totcols As Integer = rr.TotCols
             If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
                 If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then
@@ -457,7 +442,7 @@ Public Class UiTwoInputRefedits
             End If
 
             rr.writeToSheet(WriteRes, True)
-            tt.AddPlot(WriteRes.ws)
+            If presentation.PlotRequested Then tt.AddPlot(WriteRes.ws)
         Finally
             Me.progressBarExactCalc.Value = 0
             Me.progressBarExactCalc.Visible = False

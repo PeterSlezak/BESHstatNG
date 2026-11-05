@@ -1,0 +1,95 @@
+{
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET"
+  },
+  "serial_commands": {
+    "strict": {
+      "name": "qualified-serial-strict",
+      "command": [
+        "dotnet",
+        "scripts/windows-migration-audit/bin/Debug/net10.0/WindowsMigrationAudit.dll",
+        "--check",
+        "--strict"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 10.273724399972707,
+      "started_utc": "2026-11-05T17:50:32.752595+00:00",
+      "finished_utc": "2026-11-05T17:50:43.025895+00:00",
+      "pid": 13048,
+      "metrics": {
+        "peak_root_working_set_bytes": 717213696,
+        "root_cpu_seconds": 11.203125
+      },
+      "runner_sha256": "bdbbe607c120a20f3f68ca9a0b46c361b1f727ae1bb1dd3aeb8c4ac447825194",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0155b6d837d4f89d91e9ec6f9605956f28ee66b192596fb628ec1a77a07dadb9"
+    },
+    "profile": {
+      "name": "qualified-serial-profile",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "scripts/windows-migration-audit/owner_closeout.py",
+        "--profile",
+        "inventory-complete-with-approved-deferrals"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 6.021240699919872,
+      "started_utc": "2026-11-05T17:50:43.029381+00:00",
+      "finished_utc": "2026-11-05T17:50:49.050377+00:00",
+      "pid": 12084,
+      "metrics": {
+        "peak_root_working_set_bytes": 159526912,
+        "root_cpu_seconds": 5.5625
+      },
+      "runner_sha256": "bdbbe607c120a20f3f68ca9a0b46c361b1f727ae1bb1dd3aeb8c4ac447825194",
+      "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "mkdocs": {
+      "name": "qualified-serial-mkdocs",
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--config-file",
+        "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+        "--site-dir",
+        "<REPO_ROOT>\\TestResults\\04A-26\\run01\\qualified-serial\\site",
+        "--strict"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 6.017464199918322,
+      "started_utc": "2026-11-05T17:50:49.054936+00:00",
+      "finished_utc": "2026-11-05T17:50:55.072150+00:00",
+      "pid": 21956,
+      "metrics": {
+        "peak_root_working_set_bytes": 71294976,
+        "root_cpu_seconds": 5.640625
+      },
+      "runner_sha256": "bdbbe607c120a20f3f68ca9a0b46c361b1f727ae1bb1dd3aeb8c4ac447825194",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "733b49687645d61a6a46b69fd7aac51d7a0b87f46248c458745a64adc28f101a"
+    }
+  },
+  "strict_reason": "Stale review dependency UibyID.vb for graphics.NormalPlot ConstructorBlock; frozen authority not modified.",
+  "profile_reason": "INTEGRITY_FAILURE, empty error field; retained real exit 1.",
+  "native_releases": 0,
+  "deferred_discharges": 0,
+  "native_Excel_COM_UIA": "NOT_RUN / UNAUTHORIZED",
+  "Office_Mac_browser": "NOT_RUN / UNAUTHORIZED",
+  "independent_R": "NOT_RUN / UNAUTHORIZED",
+  "installer_signing": "NOT_RUN",
+  "golden_promotion": false
+}

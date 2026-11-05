@@ -1,0 +1,23 @@
+{
+  "worker_limit": 4,
+  "fifth_worker": false,
+  "runner": {
+    "path": "scripts/verify-04a26.py",
+    "sha256": "a9d36b6de618dd936286cfe331f3c081706f6e89f00923e02521510f4bbe84fa"
+  },
+  "predecessors": {
+    "scripts/verify-04a25.py": "5493fbe2003232a67577b32844a8551ecfcecc969baa14885b0b1b16678df27b",
+    "scripts/verify-beshstatng.ps1": "e54e1fb0e7f3699f5d9aee361d255801531a546d8169edbab704ac0d8dd017fd"
+  },
+  "builds": "Offline --no-restore /m:4; Debug build/matrix before Release build/matrix. No overlapping MSBuild outputs.",
+  "lanes": {
+    "A": "Core/Common managed",
+    "B": "Windows/ControlMitigation managed",
+    "C": "Office/WASM managed and Node",
+    "D": "All Python roots/source validators, submitted first"
+  },
+  "outputs": "Fresh TestResults/04A-26/<run>/commands and executions; copied bins and hash-checked project TestData; unique TRX and exports.",
+  "settings": "MaxCpuCount=1, MSTest Workers=1, Node concurrency=1; C02 full-suite optional writer disabled. Separate semantic-only probe supplies Common Python observations.",
+  "original_verifier": "Read-only predecessor. Its fixed TestResults/Codex outputs and restore-capable build prevent direct safe execution; equivalent established portable+Legacy inventory is run through isolated offline helper.",
+  "serial": "Strict/profile, strict MkDocs, preservation/privacy/publication scans after matrix; no live Excel/Office/browser/R."
+}

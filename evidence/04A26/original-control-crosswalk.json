@@ -1,0 +1,1259 @@
+{
+  "authorities": {
+    "docs/architecture/WindowsMigrationLedger/ui-controls.csv": "65001d9b0289942b75dae8e6451d9a892baff66f490f0dc14a65867ffb54dcbe",
+    "docs/architecture/WindowsMigrationLedger/04A01-approved-deferred-obligations.json": "363ae57510b613eef06faebba7bc7e4152b928e4d3bbad7c1f67eea589c56d10",
+    "docs/architecture/04A02/native-restriction-crosswalk-v1.json": "56d92a7822a9394740d7e9e3bcba44dc20d467114b826a2ed810c4800b0f9d31"
+  },
+  "populations": {
+    "Ui12SampleSizeTtestSingleProp": {
+      "control_ids": [
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.btCompute",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.btnHelp",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.btnSaveToSheet",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.cbHypothesisType",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.grpInput",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblAlpha",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblBeta",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblCustom4",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblHypothesisType",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblKappa",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblMeanDiff",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblSD",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblSettings",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.spinBtnAlpha",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.spinBtnBeta",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbCustom4",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbKappa",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbMeanDiff",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbOutput",
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbSD"
+      ],
+      "obligation_ids": [
+        "control:BESHStatNG.Ui12SampleSizeTtestSingleProp.btnHelp"
+      ]
+    },
+    "UiTwoInputRefedits": {
+      "control_ids": [
+        "BESHStatNG.UiTwoInputRefedits.RefEdit1",
+        "BESHStatNG.UiTwoInputRefedits.RefEdit2",
+        "BESHStatNG.UiTwoInputRefedits.RefEditDemingSDx",
+        "BESHStatNG.UiTwoInputRefedits.RefEditDemingSDy",
+        "BESHStatNG.UiTwoInputRefedits.RefEditOutput",
+        "BESHStatNG.UiTwoInputRefedits.TabMultipage",
+        "BESHStatNG.UiTwoInputRefedits.TabPage1",
+        "BESHStatNG.UiTwoInputRefedits.TabPageOptions",
+        "BESHStatNG.UiTwoInputRefedits.TabPageOptionsDeming",
+        "BESHStatNG.UiTwoInputRefedits.TabPageOptionsHotteling",
+        "BESHStatNG.UiTwoInputRefedits.TabPageOptionsKappa",
+        "BESHStatNG.UiTwoInputRefedits.TabPageOptionsLinCCC",
+        "BESHStatNG.UiTwoInputRefedits.btCompute",
+        "BESHStatNG.UiTwoInputRefedits.btnHelp",
+        "BESHStatNG.UiTwoInputRefedits.ckDemingFitIntercept",
+        "BESHStatNG.UiTwoInputRefedits.ckDescriptiveStatistics",
+        "BESHStatNG.UiTwoInputRefedits.ckFirstRow",
+        "BESHStatNG.UiTwoInputRefedits.ckSignTest",
+        "BESHStatNG.UiTwoInputRefedits.cmbDemingVarianceModel",
+        "BESHStatNG.UiTwoInputRefedits.cmbWeightingSchemeKappa",
+        "BESHStatNG.UiTwoInputRefedits.grpCItypeKappa",
+        "BESHStatNG.UiTwoInputRefedits.grpCItypeLinCCC",
+        "BESHStatNG.UiTwoInputRefedits.grpDemingCItype",
+        "BESHStatNG.UiTwoInputRefedits.grpHottelingTestType",
+        "BESHStatNG.UiTwoInputRefedits.grpInput",
+        "BESHStatNG.UiTwoInputRefedits.grpOutput",
+        "BESHStatNG.UiTwoInputRefedits.lblAlphaDeming",
+        "BESHStatNG.UiTwoInputRefedits.lblAlphaGlobal",
+        "BESHStatNG.UiTwoInputRefedits.lblAlphaHottelings",
+        "BESHStatNG.UiTwoInputRefedits.lblAlphaKappa",
+        "BESHStatNG.UiTwoInputRefedits.lblAlphaLinCCC",
+        "BESHStatNG.UiTwoInputRefedits.lblBootstrapReplicatesDeming",
+        "BESHStatNG.UiTwoInputRefedits.lblBootstrapReplicatesKappa",
+        "BESHStatNG.UiTwoInputRefedits.lblBootstrapReplicatesLinCCC",
+        "BESHStatNG.UiTwoInputRefedits.lblDemingCVx",
+        "BESHStatNG.UiTwoInputRefedits.lblDemingCVy",
+        "BESHStatNG.UiTwoInputRefedits.lblDemingSDx",
+        "BESHStatNG.UiTwoInputRefedits.lblDemingSDy",
+        "BESHStatNG.UiTwoInputRefedits.lblDemingVarianceModel",
+        "BESHStatNG.UiTwoInputRefedits.lblErrorRatio",
+        "BESHStatNG.UiTwoInputRefedits.lblKappaInfo",
+        "BESHStatNG.UiTwoInputRefedits.lblLinCCCInfo",
+        "BESHStatNG.UiTwoInputRefedits.lblNullConcordanceLinCCC",
+        "BESHStatNG.UiTwoInputRefedits.lblRefedit1",
+        "BESHStatNG.UiTwoInputRefedits.lblRefedit2",
+        "BESHStatNG.UiTwoInputRefedits.lblWeightingSchemeKappa",
+        "BESHStatNG.UiTwoInputRefedits.optAnalyticalClosedForm",
+        "BESHStatNG.UiTwoInputRefedits.optAnalyticalLinnet",
+        "BESHStatNG.UiTwoInputRefedits.optDemingBootstrapBCa",
+        "BESHStatNG.UiTwoInputRefedits.optDemingBootstrapPercentile",
+        "BESHStatNG.UiTwoInputRefedits.optIndependent",
+        "BESHStatNG.UiTwoInputRefedits.optJackknife",
+        "BESHStatNG.UiTwoInputRefedits.optKappaAnalytical",
+        "BESHStatNG.UiTwoInputRefedits.optKappaBootstrapBCa",
+        "BESHStatNG.UiTwoInputRefedits.optKappaBootstrapPercentile",
+        "BESHStatNG.UiTwoInputRefedits.optKappaJackknife",
+        "BESHStatNG.UiTwoInputRefedits.optLinCCCAnalytical",
+        "BESHStatNG.UiTwoInputRefedits.optLinCCCBootstrapBCa",
+        "BESHStatNG.UiTwoInputRefedits.optLinCCCBootstrapPercentile",
+        "BESHStatNG.UiTwoInputRefedits.optOutputRange",
+        "BESHStatNG.UiTwoInputRefedits.optPaired",
+        "BESHStatNG.UiTwoInputRefedits.optSingle",
+        "BESHStatNG.UiTwoInputRefedits.optWorkbook",
+        "BESHStatNG.UiTwoInputRefedits.optWorksheet",
+        "BESHStatNG.UiTwoInputRefedits.progressBarExactCalc",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaDeming",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaGlobal",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaHottelings",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaKappa",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaLinCCC",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnBootstrapReplicatesDeming",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnBootstrapReplicatesKappa",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnBootstrapReplicatesLinCCC",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnDemingCVx",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnDemingCVy",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnErrorRatio",
+        "BESHStatNG.UiTwoInputRefedits.spinBtnNullConcordanceLinCCC"
+      ],
+      "obligation_ids": [
+        "control:BESHStatNG.UiTwoInputRefedits.RefEdit1",
+        "control:BESHStatNG.UiTwoInputRefedits.RefEdit2",
+        "control:BESHStatNG.UiTwoInputRefedits.RefEditDemingSDx",
+        "control:BESHStatNG.UiTwoInputRefedits.RefEditDemingSDy",
+        "control:BESHStatNG.UiTwoInputRefedits.RefEditOutput",
+        "control:BESHStatNG.UiTwoInputRefedits.btnHelp",
+        "control:BESHStatNG.UiTwoInputRefedits.progressBarExactCalc",
+        "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEdit1@1101",
+        "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEdit2@1100",
+        "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEditDemingSDx@1168",
+        "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEditDemingSDy@1167",
+        "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEditOutput@1110",
+        "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|progressBarExactCalc@1108"
+      ]
+    },
+    "Ui9ANOVA2nested": {
+      "control_ids": [
+        "BESHStatNG.Ui9ANOVA2nested.RefEdit1_Group",
+        "BESHStatNG.Ui9ANOVA2nested.RefEdit2_nested",
+        "BESHStatNG.Ui9ANOVA2nested.RefEdit3_Data",
+        "BESHStatNG.Ui9ANOVA2nested.RefEditOutput",
+        "BESHStatNG.Ui9ANOVA2nested.TabControl1",
+        "BESHStatNG.Ui9ANOVA2nested.TabPageDecisionLimitsBlandAltman",
+        "BESHStatNG.Ui9ANOVA2nested.TabPageInput",
+        "BESHStatNG.Ui9ANOVA2nested.TabPageOptionsBlandAltman",
+        "BESHStatNG.Ui9ANOVA2nested.btCompute",
+        "BESHStatNG.Ui9ANOVA2nested.btnHelp",
+        "BESHStatNG.Ui9ANOVA2nested.ckBlandAllowFallback",
+        "BESHStatNG.Ui9ANOVA2nested.ckBlandCheckProportionalBias",
+        "BESHStatNG.Ui9ANOVA2nested.ckBlandDecisionLimitsEnable",
+        "BESHStatNG.Ui9ANOVA2nested.ckBlandExcludeSingletonSubjects",
+        "BESHStatNG.Ui9ANOVA2nested.ckBlandUseTDistribution",
+        "BESHStatNG.Ui9ANOVA2nested.cmbBlandMode",
+        "BESHStatNG.Ui9ANOVA2nested.cmbBlandPlotMode",
+        "BESHStatNG.Ui9ANOVA2nested.cmbBlandScale",
+        "BESHStatNG.Ui9ANOVA2nested.cmbBlandXAxis",
+        "BESHStatNG.Ui9ANOVA2nested.grpBlandCI",
+        "BESHStatNG.Ui9ANOVA2nested.grpBlandDecisionLimits",
+        "BESHStatNG.Ui9ANOVA2nested.grpBlandGeneral",
+        "BESHStatNG.Ui9ANOVA2nested.grpInput",
+        "BESHStatNG.Ui9ANOVA2nested.grpOutput",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandAlpha",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandBootstrapReps",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandDecisionLimitsHelp",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandLowerAllowable",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandMinPairs",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandMinSubjects",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandMode",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandPlotMode",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandScale",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandUpperAllowable",
+        "BESHStatNG.Ui9ANOVA2nested.lblBlandXAxis",
+        "BESHStatNG.Ui9ANOVA2nested.lblRefedit1_Group",
+        "BESHStatNG.Ui9ANOVA2nested.lblRefedit2_Nested",
+        "BESHStatNG.Ui9ANOVA2nested.lblRefedit3_Data",
+        "BESHStatNG.Ui9ANOVA2nested.optBlandAnalytical",
+        "BESHStatNG.Ui9ANOVA2nested.optBlandBootstrap",
+        "BESHStatNG.Ui9ANOVA2nested.optBlandBootstrapBCa",
+        "BESHStatNG.Ui9ANOVA2nested.optBlandJackknife",
+        "BESHStatNG.Ui9ANOVA2nested.optOutputRange",
+        "BESHStatNG.Ui9ANOVA2nested.optWorkbook",
+        "BESHStatNG.Ui9ANOVA2nested.optWorksheet",
+        "BESHStatNG.Ui9ANOVA2nested.spinBtnBlandAlpha",
+        "BESHStatNG.Ui9ANOVA2nested.spinBtnBlandMinPairs",
+        "BESHStatNG.Ui9ANOVA2nested.spinBtnBlandMinSubjects",
+        "BESHStatNG.Ui9ANOVA2nested.tbBlandBootstrapReps",
+        "BESHStatNG.Ui9ANOVA2nested.tbBlandLowerAllowable",
+        "BESHStatNG.Ui9ANOVA2nested.tbBlandUpperAllowable"
+      ],
+      "obligation_ids": [
+        "control:BESHStatNG.Ui9ANOVA2nested.RefEdit1_Group",
+        "control:BESHStatNG.Ui9ANOVA2nested.RefEdit2_nested",
+        "control:BESHStatNG.Ui9ANOVA2nested.RefEdit3_Data",
+        "control:BESHStatNG.Ui9ANOVA2nested.RefEditOutput",
+        "control:BESHStatNG.Ui9ANOVA2nested.btnHelp",
+        "edge:BESHstatNG/src/UI/Ui9ANOVA2nested.Designer.vb|WithEvents|RefEdit1_Group@762",
+        "edge:BESHstatNG/src/UI/Ui9ANOVA2nested.Designer.vb|WithEvents|RefEdit2_nested@760",
+        "edge:BESHstatNG/src/UI/Ui9ANOVA2nested.Designer.vb|WithEvents|RefEdit3_Data@761",
+        "edge:BESHstatNG/src/UI/Ui9ANOVA2nested.Designer.vb|WithEvents|RefEditOutput@756"
+      ]
+    },
+    "Ui0OneRefeditMulticol": {
+      "control_ids": [
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEdit1",
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput",
+        "BESHStatNG.Ui0OneRefeditMulticol.TabMultipage",
+        "BESHStatNG.Ui0OneRefeditMulticol.TabPage1",
+        "BESHStatNG.Ui0OneRefeditMulticol.TabPage_Options",
+        "BESHStatNG.Ui0OneRefeditMulticol.TabPage_OptionsICC",
+        "BESHStatNG.Ui0OneRefeditMulticol.TabPage_OptionsRxC",
+        "BESHStatNG.Ui0OneRefeditMulticol.btCompute",
+        "BESHStatNG.Ui0OneRefeditMulticol.btnHelp",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckBoxPlot",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckCochranArmitage",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckDescriptiveStatistics",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckFFH",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckGreenhouse",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckHuyhn",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckLabels",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckMauchly",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckNominalAssociation",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckOrdinal",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckRepeatabilityCoefficient",
+        "BESHStatNG.Ui0OneRefeditMulticol.ckTukey",
+        "BESHStatNG.Ui0OneRefeditMulticol.grpICCtype",
+        "BESHStatNG.Ui0OneRefeditMulticol.grpInput",
+        "BESHStatNG.Ui0OneRefeditMulticol.grpMCP",
+        "BESHStatNG.Ui0OneRefeditMulticol.grpOutput",
+        "BESHStatNG.Ui0OneRefeditMulticol.grpRmANOVAsphericity",
+        "BESHStatNG.Ui0OneRefeditMulticol.lblAlphaICC",
+        "BESHStatNG.Ui0OneRefeditMulticol.lblRefedit1",
+        "BESHStatNG.Ui0OneRefeditMulticol.optICC11",
+        "BESHStatNG.Ui0OneRefeditMulticol.optICC1k",
+        "BESHStatNG.Ui0OneRefeditMulticol.optICC21",
+        "BESHStatNG.Ui0OneRefeditMulticol.optICC2k",
+        "BESHStatNG.Ui0OneRefeditMulticol.optICC31",
+        "BESHStatNG.Ui0OneRefeditMulticol.optICC3k",
+        "BESHStatNG.Ui0OneRefeditMulticol.optOutputRange",
+        "BESHStatNG.Ui0OneRefeditMulticol.optWorkbook",
+        "BESHStatNG.Ui0OneRefeditMulticol.optWorksheet",
+        "BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc",
+        "BESHStatNG.Ui0OneRefeditMulticol.spinBtnAlphaICC"
+      ],
+      "obligation_ids": [
+        "control:BESHStatNG.Ui0OneRefeditMulticol.RefEdit1",
+        "control:BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput",
+        "control:BESHStatNG.Ui0OneRefeditMulticol.btnHelp",
+        "control:BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc",
+        "edge:BESHstatNG/src/UI/Ui0OneRefeditMulticol.Designer.vb|WithEvents|RefEdit1@593",
+        "edge:BESHstatNG/src/UI/Ui0OneRefeditMulticol.Designer.vb|WithEvents|RefEditOutput@587",
+        "edge:BESHstatNG/src/UI/Ui0OneRefeditMulticol.Designer.vb|WithEvents|progressBarExactCalc@597"
+      ]
+    }
+  },
+  "controls": [
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.TabMultipage",
+      "sha256": "2ece582a335f49a88fd33cf165bf74edc58efab7ae539d8e6e0907a4eefe58ac"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.TabPage1",
+      "sha256": "08ffca1d0ba57c16291d8f9a8f69c33b38a02ec0d698f02314bf0e1e905d4ca6"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.grpOutput",
+      "sha256": "5e1a9f24c2a173149c71b9d608c92050e57d7a43ea0cecaed027fb614961b931"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput",
+      "sha256": "9a5fa0fe10d373b20a6d3037e6df7c0964c5ebb41b73c66d8c80ca3af64aa247"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.optWorkbook",
+      "sha256": "9f77e757c3872a0c733823daab79e9bfa8fd12f1ceb7c8a9c836cc1eb428531d"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.optWorksheet",
+      "sha256": "664df2c105fc3d2e1e0b41f01cb1f32d7e6eada91e1c62468befdd1cb439a19d"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.optOutputRange",
+      "sha256": "eef87a06c4c269585cb8c6b6333602af3539ec31e9d6b4264a2adfbe837a598c"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.grpInput",
+      "sha256": "7cf180a6ec1a682c03495d44f4aaab5ef0b2ddfd14f6e1964f2a6cd6d8a6e438"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.lblRefedit1",
+      "sha256": "95b899965c2a2fdb458b582239b79d8891f5bbf5f8b8be264132190932e6890e"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.RefEdit1",
+      "sha256": "59a9e6270796505ad11818d437c0605c12c8b069aae6bf21c7f5fcf59e9484c2"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.TabPage_Options",
+      "sha256": "af618aaffcf18136463b001ae6f99470fbc964ed4035f09642b53d9988e0065a"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckBoxPlot",
+      "sha256": "0dbac60f5069273eeb198db54a97cca89a0e42ad5a21f9737e8f5978dd47ecfe"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckDescriptiveStatistics",
+      "sha256": "bfce77c5a1be1c401480280639438e22c5b17d85df396b5a612df6a2fd8bfe9d"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc",
+      "sha256": "aea921b1f3d93d8f03c69ddb923a0e0b0e110cd122e8fe01a84fe4f283957ef7"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.btnHelp",
+      "sha256": "a28ad80d5c0f2352a463ab538aefd4939eefc57519c1b259a1a61102e0f8bcc9"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.btCompute",
+      "sha256": "c8a7785b28ba0732dd2c3bef2cbf1799a520670551b3c23583a6a27d3306d25e"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.grpRmANOVAsphericity",
+      "sha256": "88284a555a34a44f5dbea02885dca4fc27deb73fea16ce73a6cf917353548f5f"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.grpMCP",
+      "sha256": "d211c47ff3850758439e18f4bc2476ca8c7cae509ae05f561cd5d0e51bbd2dc8"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckTukey",
+      "sha256": "d8c0aca7a27576593237ebac522703b837b8efde57cda017a56fdc66b30cf59d"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckGreenhouse",
+      "sha256": "8cb7f6d857cf08f8cc2eba6b7af9ea8d98923cc87cc72450793521e5a87058ec"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckHuyhn",
+      "sha256": "08141c0297ef11e55c5f843ade0c3e6492c7d6f03c3835d87d43acc2644ff76e"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckMauchly",
+      "sha256": "5a7f6701c23df39899b9e9b059c97a95050d008374e387eb6d32acb758f5322e"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.TabPage_OptionsRxC",
+      "sha256": "c0657241ee09ee852360b69ebfaaf527b95528b6142bd6580d270a0eff233784"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckOrdinal",
+      "sha256": "976bf327f3231ecf8d9659454c641857cf4353f020f3fc084edf597ce60ab163"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckFFH",
+      "sha256": "6f2f70a877ee2c1cdd147037e0546fbad7fecacd740259d403d6c16e129d2dbb"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckCochranArmitage",
+      "sha256": "0900e05ed25f273dff488542a267578a9760d4a1db119ce82bc758abe90b94e6"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckNominalAssociation",
+      "sha256": "f909a79448febce5d33895191ea317034a3942f5b2ee607e3cfd43b1d147cc76"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckLabels",
+      "sha256": "07fdc04d81c07afe52309f13dadeae055af35e94cb1252b78e7915a22f6bfa8c"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.TabPage_OptionsICC",
+      "sha256": "34cfe5c13ff5d7628b19b9b972d87f9befdc7e9613082cb8d1ce46ceffe8197e"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.grpICCtype",
+      "sha256": "6f076f8b104f50dab9e31fe4deab77a9163bca8baf3dbc580407c82e45727836"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.optICC21",
+      "sha256": "bf2675ee095e61689b220bca20641b3906635372eff5efaea8f8fa88895faa11"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.optICC1k",
+      "sha256": "71d7bbdb2bfafd23022dcd1b7099bba6b14f730f8875d1a493150f5150efa9a9"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.optICC11",
+      "sha256": "dbdf99ab28b798e42e82ddbd9f01e70827040cdafd6ee52ba5b34df0362ab8ca"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.optICC3k",
+      "sha256": "d89dc11a3541568c2925c5a855704e132ba9aa9daeb100f9562aba3464b2e689"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.optICC31",
+      "sha256": "742b8868c2691f4911feff0be0c036fb51051cddf1b74253cd84378900713b7c"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.optICC2k",
+      "sha256": "96a2675fab383496e6ebfd66ae8cb36d944844f7df94b41875bfcd91527d2f52"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.lblAlphaICC",
+      "sha256": "32dc6c0230185ea989f99e5941b01bcbbbe07b91b0d9b0c7279781c482434abf"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.spinBtnAlphaICC",
+      "sha256": "368c77991fbfb079af64a016e72951b60eb5a912df3123a3dc2186be7bf12595"
+    },
+    {
+      "id": "BESHStatNG.Ui0OneRefeditMulticol.ckRepeatabilityCoefficient",
+      "sha256": "6cbb5873335fdfa9d0ebcd4bff8c855181a24790367f9fc71f1970e3c24dd450"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.grpInput",
+      "sha256": "9aee54278a7b73e9b23b7345b2ac03dd975729008c3a74291c4c090afe106b2a"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbMeanDiff",
+      "sha256": "eab2aef775dc0b57286870ee6b1c666e44cbd22555a58a606a4e1a91083c1000"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblMeanDiff",
+      "sha256": "481d0b85c3f426769422fc82623aaff32202e787ff82c1554c2c020a3e7be7d2"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbKappa",
+      "sha256": "30d9cd1c8623a4166e8f2ed256fb0d8c8b023e7832a149e99ce74bb83722ecb4"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblKappa",
+      "sha256": "b405dcf00d1570a32fb4e8892321d979fd993f2856ff83918cea440349d1fb78"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbSD",
+      "sha256": "f537ec2cd3c2fe16875c59b3b412d666ca1e737bd0276bdfd4f02ac07c9698ca"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblSD",
+      "sha256": "cc31ee35143903e68f517512779db64df1e7a2899456652dd47090bcb8a92b20"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblAlpha",
+      "sha256": "7be9244418b78e8909808b9830600bce02d103c69207d71f362e2d1ea79f0319"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.spinBtnAlpha",
+      "sha256": "26d3076397dd04b360c155e243c412a1945ce79815650d6513f7ca40e7fa00a7"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblBeta",
+      "sha256": "2724062dcee074b893d8df819994e46a3b35b0e1f0e35bca717aea927a1af4b2"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.spinBtnBeta",
+      "sha256": "1b54fcc38cf7f60f574a8df89a7fe3c6f3c368054541deb4ed1d63e12af73c02"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbOutput",
+      "sha256": "f91360f6b776f90527fe5c2cd9d1a43ab18990db7875515a055af8ac5487a257"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.btnHelp",
+      "sha256": "7dbe604eecae100b1df13f584d8f900a73f33b30e351fbe889ffb3b56bb8ece9"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.btCompute",
+      "sha256": "7bba2e3b107777170450b1415b68679fe1bc1939dd7338c28d2a913747562aa7"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.btnSaveToSheet",
+      "sha256": "54ad0bbb272b59ff66094d92f0b51e303521c85ab2c07f8a32e000a1724e0eba"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblSettings",
+      "sha256": "12ae01d81f1ea133b7b4856934881557f6edb82208165ae2016de598b3d510b4"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.tbCustom4",
+      "sha256": "f5c2d26dd4c30e6a666acef01b8f685b86186f4e5d7e1cabe8d84020a8528704"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblCustom4",
+      "sha256": "2a64080104b0bfbe37952e1acc2f32def83ed5e7493075361e20cbef9ce6007a"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.lblHypothesisType",
+      "sha256": "40434cc152b8bf1b0718fe6aab74ef34589b65a4174215b3bb66f0e16f717c4c"
+    },
+    {
+      "id": "BESHStatNG.Ui12SampleSizeTtestSingleProp.cbHypothesisType",
+      "sha256": "7812fcf19518b6022a454226b8248549a171c23a8c1e48fe35372a40d2c1bbfe"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.TabControl1",
+      "sha256": "68253d946926a24386c24b9878fd6070e9144d936002253fe644258fb17d4e54"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.TabPageInput",
+      "sha256": "b30124d55150edd679a6a0edf0c1c954010b3df8e199c7980425eae7ad25030e"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.grpInput",
+      "sha256": "76f20db288baf5f358acfc0065b4819bdc6f3219617dfc7af64ef36cf6e8ee26"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblRefedit2_Nested",
+      "sha256": "89cd4fa05e95dbefe825bee1ad7fb79754c008135e095b5f3eacb270043e6a09"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblRefedit3_Data",
+      "sha256": "a7a1be0bfc791baadaf7d752cc2ce5ff42f034507519d78485bf99cd48ce495a"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblRefedit1_Group",
+      "sha256": "8b2b7fd80304430728d5d549e3ce54bab2335929d55165a00305ee059a880e9d"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.btnHelp",
+      "sha256": "8bc3c4f699e9bff09bcf15bfe0967e8b03d5538febc9d46e013d691cf77e7f9d"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.btCompute",
+      "sha256": "ee3ae9b7242408e6855831efdb477485e2a7a650fa602b10137683a17e369424"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.TabPageOptionsBlandAltman",
+      "sha256": "4f736024c08018cd53722ab6a0d97424f45fb0fb0065001b8f9cb5f85f3abec5"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.grpBlandCI",
+      "sha256": "f85a67c4561a991de1fd2e2cce4de35d15fad14dcb922eca95b52464c7beda90"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.tbBlandBootstrapReps",
+      "sha256": "a056c6591e4fc3250018c2176eb0d2620c6d4be21cf3ba1378dfb6e6ada56035"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandBootstrapReps",
+      "sha256": "1b4b45692813ee5affb6a43d7b56a7ad041949d863b8a8e451e4a14475447b64"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.optBlandBootstrapBCa",
+      "sha256": "bb6c935e487d21f4e9b9862b5a5c011c4524262c7f896f12c60a39bc5e6a8559"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.optBlandBootstrap",
+      "sha256": "6dcd46ea34574d6fd80771ab6b86cb2e634c8e8e1b0acb3267f135cfa4e2c3a4"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.optBlandAnalytical",
+      "sha256": "7484973e9d672c9605095d6ebd95ec07d2d8f13a816b7349b1a333a879a4ce6f"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.cmbBlandMode",
+      "sha256": "c6f6c9ac41b7c6c80d60e949cdea760441252bfffde7e4a9a2f57bf4348d7619"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandMode",
+      "sha256": "9452d59ea073fb6980c69444f5d295ccca18cfc124fb26fdf5ca9a057abc1035"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.optBlandJackknife",
+      "sha256": "d6e99bc51c2db09111b92ae1d4adc24af5615f0c7327160ef67314fb71ad0aee"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.grpBlandGeneral",
+      "sha256": "033391d7574db7da5a96662c073c76ad73842f9702c32f703e3a290fe0b59351"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.cmbBlandScale",
+      "sha256": "9d2f7c03c45e63542c178f8343fda551723efd71c604c206a3f759b4574bb942"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandScale",
+      "sha256": "3032deaa087e31ad12ab4f5dbab4ea9324c7f8b5b736ad4bea5ec8c6268d3421"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.cmbBlandXAxis",
+      "sha256": "74ee8e5bcefc21330aaf3047b50fcee39557634cee777d60361dae8ad982fc01"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandXAxis",
+      "sha256": "ccdaeb6eb92df6e1b1c1bd84185e67344e2c5e49355b73ac8412755e29b2690b"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.cmbBlandPlotMode",
+      "sha256": "73f716cd40f803f5c8460734c883fa89fc2e8f30a2bf38544387f6064cde284f"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandPlotMode",
+      "sha256": "9c972749b2dc80bcf6330d8ea1bdd0c233605e77467a30ed76e8d54591e60d6b"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.ckBlandUseTDistribution",
+      "sha256": "a849d86a4b475a1f9dc3bc417d0b9b687774e764c799853461cf225089749bde"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.ckBlandCheckProportionalBias",
+      "sha256": "78f0cd560957575729a5f18d19a9bac0ac8c87307ed6ab80f9f74f0260d960b2"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandAlpha",
+      "sha256": "0a896e9a676b9e501c88909f3a547de59e2467064e566f60d4891e45a26f530f"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.spinBtnBlandAlpha",
+      "sha256": "754175e8525d3c223977f8f09ea9830abfe0a075dd830277e471749c4d2145fd"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.ckBlandAllowFallback",
+      "sha256": "cf9282ef74afd482dd7799b488b1224e2841748c5c18bf7ddafabc8c021bd523"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.ckBlandExcludeSingletonSubjects",
+      "sha256": "301290a45d7d4e714c1a5606bc888ebdd129b696f64b533ee6fb40f007f48ddc"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.spinBtnBlandMinPairs",
+      "sha256": "101a5dbdd6db287919f055873b82e7e7e712ee0306084e135c311adb434de5ca"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandMinPairs",
+      "sha256": "85e8799e6e71f4f4415be04c7a28ea9a90f10030a8bd91f9dd8e9f53d032a463"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.spinBtnBlandMinSubjects",
+      "sha256": "7ad015fc19b573e809be688acf44cefef1cd157b7fc2db597512c73c9dedc54e"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandMinSubjects",
+      "sha256": "70c88d414bc4edf22d6973dbe9bfae37df3f62997a7caab178c377943544b8a4"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.grpOutput",
+      "sha256": "e503441eed5a04dac664a318c00711e3660ad84a09febb857d61c58c8b83b4a7"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.RefEditOutput",
+      "sha256": "76fb99222a5fc71d7914a05565a08afe7e13ef6439fb63718a269b2f729e39c1"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.optWorkbook",
+      "sha256": "92b6735242ef3ac1852d0f2f772577695bf9a92b61817f9b896679b7cd45a090"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.optWorksheet",
+      "sha256": "017aacffcf0f0023f495bc1398675a0b4e2bcc050819d0922b6d592bdf1a8dc3"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.optOutputRange",
+      "sha256": "ea885b375417657906e9cc5185d1422668d99bda88449d93cd296fe48c8e1540"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.RefEdit2_nested",
+      "sha256": "cd89284b51b2f2ca18763ccc02a153cc9e559a7f7dc001abcd1500c9f3f78e5d"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.RefEdit3_Data",
+      "sha256": "c1b7dfdd8d6fcd66b9405c74516b969651051123adebe1ad57cd85ca7bb7903e"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.RefEdit1_Group",
+      "sha256": "ba7c3c1369bd17667f8e2912537a99b1f8a62127c7ab4b2182aa7b8a525dea77"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.TabPageDecisionLimitsBlandAltman",
+      "sha256": "8ed123646dae357ff6da84bb4f6315d92f8497d5d9b7f3edff3f3977682a7470"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.grpBlandDecisionLimits",
+      "sha256": "a4ffecce4d6cb8f8991e2623c3c957c9a1ab39ee5508ae0972f32e031b9ac6a1"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.ckBlandDecisionLimitsEnable",
+      "sha256": "f380598204b9f3931939b31674b2d0ea57c0453386bdd0a849f0497dd7f3a149"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandLowerAllowable",
+      "sha256": "47137e652a03b1335399696a105c98b4903c06dcad8c902d23066954faeda260"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandDecisionLimitsHelp",
+      "sha256": "f9bc1ca280fd5c7bb1d7d7d13b50e6f57576ee2c82ac3596197bbdbcffdc6dd3"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.tbBlandUpperAllowable",
+      "sha256": "3d2842cc909f941fd092b567c16d12b269393fa75a566db34ed97decc41532e4"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.lblBlandUpperAllowable",
+      "sha256": "a0432aa8c67360fea0cf24d3d3ed32ac3c8a7151c8daff9dafbccfc84c299e5f"
+    },
+    {
+      "id": "BESHStatNG.Ui9ANOVA2nested.tbBlandLowerAllowable",
+      "sha256": "4d27e12bacdac27a377b85827d28a7617fb0f883b0e489f6813c766561b5bd8f"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.TabMultipage",
+      "sha256": "5e66239154168c4eedf1b7de70aae8a3b65942c34e427111cdda54dc77747091"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.TabPage1",
+      "sha256": "74a258fdaa517f6fc8303d5ea1ff9dfe86448ea751e77aefc491c6cdd898f9a5"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.TabPageOptions",
+      "sha256": "f10d67441fb6c459d752d601939a7663813ec08149fd88377c99a112245bc65d"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.grpInput",
+      "sha256": "f010fca233150fe1e6431e5fb03e3d2ffda8009625edb29039ab5fe4fe32c18c"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.RefEdit2",
+      "sha256": "e456ed992837b12cd20c00a5316c2893fc2df890e203849080b07253b4315297"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.RefEdit1",
+      "sha256": "4ee1a1a85b3eece07cef31bdccaafd157544420c35dcded185d2f9583c447ad5"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblRefedit2",
+      "sha256": "aeb4fda82d59cf73b24a1a4f399951b9cc1b9b415ed06539abc317bd8dbf6453"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblRefedit1",
+      "sha256": "d00e41aa2764fe6aa3c0d7204677e453a34d643193f570fa56a59a05a4d9490b"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.btnHelp",
+      "sha256": "ec5c8e02a25f4537366f9079e15b1f18978eeda84380ca2b8d246cc8b0140d5a"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.btCompute",
+      "sha256": "7fa82bc7a9c28f29df41c6aa23c7213584f069a6d6c0e92d28faecddc2b3b947"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.ckDescriptiveStatistics",
+      "sha256": "15d6ad7f1ca97cf2903e3b90ab91ebc93778a3562ed49ba85aedbb85178a3f2b"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.ckSignTest",
+      "sha256": "40430284cc677a35d1501236881784461bfd4c258b5380c3af2c4eb7e54550bc"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.progressBarExactCalc",
+      "sha256": "8f98734e1e23a15ce9882153e5533e1dc47ff639956e94563298352938bb3e8c"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.grpOutput",
+      "sha256": "c39dfbeef1d60a80fa4aa2fe4965da182517d06aadf44b5e79c9006c2a8ed7c5"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.RefEditOutput",
+      "sha256": "3ef3d7afef69214487ef1f258b0d9c79f037a72745ec89fc4018c85d863a74bf"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optWorkbook",
+      "sha256": "aa0402ceb94631b97917c034c8a1de9581cb757eed32b1638a6afa222edafb2b"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optWorksheet",
+      "sha256": "46acb7ee5d82ad9b93fe13af6bad186339745c5e0c96b4bff125246ffc973fee"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optOutputRange",
+      "sha256": "a0e0eb389180240e0e8bbe86a804882315b6c50c3ae1315f9ccc53602f1cec86"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.TabPageOptionsHotteling",
+      "sha256": "22d8d884b329318b4ab62916aabd2548becb507fa94253df1a1fe6e0c05d3c7f"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.grpHottelingTestType",
+      "sha256": "5bfe0322f18d9255b21c61e1b78d3ca8b5a60b6edb0a847503c775dd81da64ea"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optSingle",
+      "sha256": "15a1259c319fac8804d05f19e739424e3dfa0825b4a9bb10c8ff1ba925d75acf"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optIndependent",
+      "sha256": "3737e5ad1ff6acb944038197c55a80fcd9b914273ad0a0878c7226e53cb1cbfa"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optPaired",
+      "sha256": "1fde043d6e0d7ce7c732812c9b7f2a04c6cddd939b4f254fca620228d66cbcec"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblAlphaHottelings",
+      "sha256": "7181e0340148442273390513e5d072541f61159204b04334e7fca8e46fc5155c"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaHottelings",
+      "sha256": "ae22e42d1abea7958dca5a421afb3f104728b27cd72b1ebf33704a83c092df8d"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.TabPageOptionsLinCCC",
+      "sha256": "9edb36c575a1fd9bcbf301020c945025df95941bb42ef7b9b2fa6f582d91a852"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.grpCItypeLinCCC",
+      "sha256": "d0547b16cd3b5036b77e47bfbcd8a29162fe9172c8adef39fe829b4ffefe7daa"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblBootstrapReplicatesLinCCC",
+      "sha256": "6283f19042b457b1f548cdd5b25f033ed36aef0d2e281489732391d7c3e4899c"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblAlphaLinCCC",
+      "sha256": "e4bcb50f467d048977b8e0e00ac4c4b6ff9ae8e775e8e986ad340617ed82476b"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaLinCCC",
+      "sha256": "2c15417e7e24ccde23fe9e41cdc710a13d8852da07af6c6bebcede8690ea7715"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optLinCCCBootstrapBCa",
+      "sha256": "0c3410a6662b797d150012dafcb4945b7626c2357d96ba8b6cf8fb252631ddf0"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optLinCCCBootstrapPercentile",
+      "sha256": "40015dd1e016d10cc2387f764f8525e746c776b381a7c43a6147ab65045e177e"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optLinCCCAnalytical",
+      "sha256": "46ccd00f963f0b65ee63620b4d9837f667a66db52675f955cf89d22445706200"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblLinCCCInfo",
+      "sha256": "40d352547c3a4d20ef397d43db0caea1dd1cb4ba05f7ade2f15a667e047e6511"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblNullConcordanceLinCCC",
+      "sha256": "ac81290b015775623e9bc2a92ca9aa47faa7133fc6a85acbee82fb038febad7b"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnNullConcordanceLinCCC",
+      "sha256": "9fa424ef3620d064a5859e17b1a4812efc8b7862ffc1fb50f48f78fb516b6f2c"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnBootstrapReplicatesLinCCC",
+      "sha256": "d815db21f7dfb656de0c601ee987cab77bc75087d0f47f9ceb4b4502b331c26e"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.TabPageOptionsKappa",
+      "sha256": "5af7d40105f43b40c65ac2abeef910bae5de76dcb3de75a9912d042b0ebc795a"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblKappaInfo",
+      "sha256": "2e68b7f0e23c9f6d390505236cf6f48db585754ecbabfcebf44edba54c3ff9ab"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblWeightingSchemeKappa",
+      "sha256": "d4d3fefa5b990d04d87821c38043d6d1ff6601e176c7b82326de081e53e313fa"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.cmbWeightingSchemeKappa",
+      "sha256": "78ab440d2cff9c46dbeb7a183e3344cc560cb16b87fd20c15049ffa94bff3ad0"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.grpCItypeKappa",
+      "sha256": "48e066a5e4725aa281221b3a149b6178e4268038fa9820d7507483733ee4c3f8"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnBootstrapReplicatesKappa",
+      "sha256": "79df0184818ff1e8c68622fed2bda1ef065fda113a7dbecf115765c387e20b68"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblBootstrapReplicatesKappa",
+      "sha256": "3fc1bcb719447609baf39042a1c208050dffd7f69d94d0510378775c88533bb6"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblAlphaKappa",
+      "sha256": "fda2132d7da7432f93e179dcf1c95ff2697e397654517ec40c0fd21e0ee3c6e3"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaKappa",
+      "sha256": "6062f24448280fbc0f4565593c096e6310fd2c8c40cc279bc67893a153c37f8a"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optKappaBootstrapBCa",
+      "sha256": "b4d2f93054969c77a70f1b3dfff6a104524704cdbffaa49ef0404c34fc663394"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optKappaBootstrapPercentile",
+      "sha256": "04d05be1558e6425803538d85b93680af1361ba78983b85c7bbaaec0e2423e8b"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optKappaAnalytical",
+      "sha256": "9e407c780434bb4c66ea24731fb8e2bcb9797d70a3b8c8342fd403f937a21117"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.TabPageOptionsDeming",
+      "sha256": "4cbd915565fea5697f344b00ec8009a1ed87bdda18d8f26cb28dc16af31d75e9"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblDemingCVy",
+      "sha256": "0987a37b240ae81f9e0d276829deadf4ef254d8996b24cb4b9753d0008d55ecd"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnDemingCVy",
+      "sha256": "2b0e57a39298db9ca89ea781753f26f77e682e5b7daf3be17f6635e6f39fd509"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblDemingCVx",
+      "sha256": "f76b2f5fad3034eeb9aee1de26df18e3da585ca36932f6e5caabd08a564e427a"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnDemingCVx",
+      "sha256": "d4252686ba426acddeb814e303ca527a572dcd6d27f38e3f714ed8599ee98370"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.cmbDemingVarianceModel",
+      "sha256": "0f58dcdfbe85f9ad0c6c901e52d2dd3896e0cc05a55d08dc15789ffc457cb13e"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblDemingVarianceModel",
+      "sha256": "67a9e8391a81bce151f56fd790a2de23f8cf0934154a2c993e326037b776bda7"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.ckDemingFitIntercept",
+      "sha256": "77f7d3691963626de60c522e89844c8ca16ef6ab27e31b6839405e68165f4dc8"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblErrorRatio",
+      "sha256": "c667781985f2e780d21957630a941a44bb5150dabc69b746996d1959c7f18759"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnErrorRatio",
+      "sha256": "25d38e56315951203aace984e5b25c0fae62107a9d691199cd56c039409aca3a"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.grpDemingCItype",
+      "sha256": "55430a0b611abccca15c0eedc85a2f6762b602eb25705b2ee687932b8722eef2"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblAlphaDeming",
+      "sha256": "2bec53dfee8d8f2115c683f2c39c6373819c30124644900d17f513da0171760c"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaDeming",
+      "sha256": "d8481dcdb896c4a8d71ec31f62084d2739da4ac3cdca3d9bc7026e97630c5124"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnBootstrapReplicatesDeming",
+      "sha256": "e299f1cfa3d669e138b99847290716a18dd42bb8f3dd91a42b46fc15b05ca534"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblBootstrapReplicatesDeming",
+      "sha256": "5d6ee1614beff789e1a5b5c84a42a4766d6d5212bb6456120334e7ff47b6ce22"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optDemingBootstrapBCa",
+      "sha256": "226ab7b8242225561441cbac2d3a9b7475fdf9a1413a2ffae203d36da7c6d2a6"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optDemingBootstrapPercentile",
+      "sha256": "df01efe68d9506d20de5ad2469416004ae20c82f9fd6634c18df16e8bfaa0d2f"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optAnalyticalClosedForm",
+      "sha256": "dd2d670b0194a688ccf2af84f4bb181020d4dd440ee714f8cae5b1cdacb033ad"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optJackknife",
+      "sha256": "9bcb360ed75ca4b7a4ac4969ba58d6a7b76e4fb671b793588576608387a6ec9e"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optAnalyticalLinnet",
+      "sha256": "369bde1e73dde616c98eb120f9b6b238af62c11c91e6a67dfa70cd0b43d1087c"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblDemingSDy",
+      "sha256": "ffacb2dfe3536ead9784eea0b3f9e680d4d34beb362e75633e767adb5e0a69e3"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblDemingSDx",
+      "sha256": "b19fadfa08ff3e351f8aa102db4e4a2b6b3c2572769aa34108d2a4d87b8ecb80"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.RefEditDemingSDy",
+      "sha256": "e18615701665503243519dc9e0f7bd19bef3e89bc3b4edf473d7ceca7a179e8d"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.RefEditDemingSDx",
+      "sha256": "feaaf1b56622b9e8d9cae4d4884372b3e6a61f364a3d5dcf94ad6399a561741e"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.lblAlphaGlobal",
+      "sha256": "517a82ecf2c5a7c481b755c6fcdf8fc2483b6f57653dffdab641e0425114b56b"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.spinBtnAlphaGlobal",
+      "sha256": "03670576860bc5d17dfc5183e549cfe7daabca7f415086576e4582c9d35fe2f1"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.ckFirstRow",
+      "sha256": "2babed9d05b0e6b032acdfb6fc56090befc4eec63d30d884559b9a1deb55a765"
+    },
+    {
+      "id": "BESHStatNG.UiTwoInputRefedits.optKappaJackknife",
+      "sha256": "c131892b076b9edaa8d8f4db6e8325de5dad67a9e44f22d139b766055adf935d"
+    }
+  ],
+  "obligations": [
+    {
+      "id": "control:BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput",
+      "sha256": "83607391104faea71d5cd201f29d5be3d5c61840db3705570e1645b5f7a06dc5",
+      "linked_controls": [
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.Ui0OneRefeditMulticol.RefEdit1",
+      "sha256": "3493474117932a4101e638883dd0c257b879389a0f50d3737510159cb40e30b6",
+      "linked_controls": [
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEdit1"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc",
+      "sha256": "05f0bc9fe1864dc9bd9458b25ad38b7ba5ad5bc5d9754e96d868fb7130f0aac9",
+      "linked_controls": [
+        "BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.Ui0OneRefeditMulticol.btnHelp",
+      "sha256": "82755ae3533040c89afa2ec2d5a7d22805e4c7f01a2b65edcc0e9c3e3c5c5fda",
+      "linked_controls": [
+        "BESHStatNG.Ui0OneRefeditMulticol.btnHelp"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.Ui12SampleSizeTtestSingleProp.btnHelp",
+      "sha256": "538fc6ff2d8a2af95c264d36372553ca8ef9e2ade1f86eda418eccfd56cf05f2",
+      "linked_controls": [
+        "BESHStatNG.Ui12SampleSizeTtestSingleProp.btnHelp"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.Ui9ANOVA2nested.btnHelp",
+      "sha256": "0a24d32ab82d8022d5cb0b3ef715d4b6347e6ebfbf4bd7569824b13d290a4c2a",
+      "linked_controls": [
+        "BESHStatNG.Ui9ANOVA2nested.btnHelp"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.Ui9ANOVA2nested.RefEditOutput",
+      "sha256": "ffabbad10c82e66254e4ce9d7dd46e628015a4b8f496edcb57eb6f4d1bde7127",
+      "linked_controls": [
+        "BESHStatNG.Ui9ANOVA2nested.RefEditOutput"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.Ui9ANOVA2nested.RefEdit2_nested",
+      "sha256": "85aa940713d720ceac991c8669681b5f6bb8583e6f1ce49337f587dd2ee4f81e",
+      "linked_controls": [
+        "BESHStatNG.Ui9ANOVA2nested.RefEdit2_nested"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.Ui9ANOVA2nested.RefEdit3_Data",
+      "sha256": "96a3fb7dbe766dd50871b33163328487f646eec3c8a81b461e5bb9e4e83209dd",
+      "linked_controls": [
+        "BESHStatNG.Ui9ANOVA2nested.RefEdit3_Data"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.Ui9ANOVA2nested.RefEdit1_Group",
+      "sha256": "1708b276324e583b070faccdbab29f0c3139b80032f7170de360b6be4004eb38",
+      "linked_controls": [
+        "BESHStatNG.Ui9ANOVA2nested.RefEdit1_Group"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.UiTwoInputRefedits.RefEdit2",
+      "sha256": "24171152801fc0a2e7c522884e637a7b7669c83f54dc4ed8f0be1773dd4c2bd7",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEdit2"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.UiTwoInputRefedits.RefEdit1",
+      "sha256": "5cf30463ecd0eeb8fa719b29a1a79207ec8ecd5d6962ce5d79ccf9e9b6067f72",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEdit1"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.UiTwoInputRefedits.btnHelp",
+      "sha256": "0e02bf7da6515081f419e9a5250a0f87bd6bac3f8d4bf357312c479220f117d4",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.btnHelp"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.UiTwoInputRefedits.progressBarExactCalc",
+      "sha256": "114e88191e38af9262f50324c82a1cabafc00d4d0b51c4bb8ea4a2c062ad0e99",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.progressBarExactCalc"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.UiTwoInputRefedits.RefEditOutput",
+      "sha256": "5044848001d6693d25baaf8a64d29ee497e73522d518ef5eef95e74762b94b50",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEditOutput"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.UiTwoInputRefedits.RefEditDemingSDy",
+      "sha256": "e73947bc5cec22ce1f8ead58acc073e53e36469211334856d6112f03e35a010b",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEditDemingSDy"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "control:BESHStatNG.UiTwoInputRefedits.RefEditDemingSDx",
+      "sha256": "ac6e47b62cac38a06508298acf9902ae7375ebbac2a90b61c8309da7eec507ee",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEditDemingSDx"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/Ui0OneRefeditMulticol.Designer.vb|WithEvents|RefEditOutput@587",
+      "sha256": "bdadc250ddc2492fc852aafddb2f36d8dc3e3182f33b59dcd8224914ce35fec2",
+      "linked_controls": [
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEditOutput"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/Ui0OneRefeditMulticol.Designer.vb|WithEvents|RefEdit1@593",
+      "sha256": "81d22dc34498c369524e40823c61d886f6876ade90fae886d49c7a97fbd62ae3",
+      "linked_controls": [
+        "BESHStatNG.Ui0OneRefeditMulticol.RefEdit1"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/Ui0OneRefeditMulticol.Designer.vb|WithEvents|progressBarExactCalc@597",
+      "sha256": "9e0400829b3e6228c461c6673ba89b4d17bc9d88282a95274cc9de77b7a30546",
+      "linked_controls": [
+        "BESHStatNG.Ui0OneRefeditMulticol.progressBarExactCalc"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/Ui9ANOVA2nested.Designer.vb|WithEvents|RefEditOutput@756",
+      "sha256": "01eee2e6cbc5217b6ac677a011bf6e7ce7302e23f1a0ded664aaf38036775fd0",
+      "linked_controls": [
+        "BESHStatNG.Ui9ANOVA2nested.RefEditOutput"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/Ui9ANOVA2nested.Designer.vb|WithEvents|RefEdit2_nested@760",
+      "sha256": "20cb365263a2dc6ecb94325187d7f0de90f85b37e88250dcb04cb5755084f3c4",
+      "linked_controls": [
+        "BESHStatNG.Ui9ANOVA2nested.RefEdit2_nested"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/Ui9ANOVA2nested.Designer.vb|WithEvents|RefEdit3_Data@761",
+      "sha256": "85fdc42556fc78e6dd32f19907b5697fad29f55fda3357e3d0f67f2b44360fd9",
+      "linked_controls": [
+        "BESHStatNG.Ui9ANOVA2nested.RefEdit3_Data"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/Ui9ANOVA2nested.Designer.vb|WithEvents|RefEdit1_Group@762",
+      "sha256": "693535998da30564601e8fba45d1bea6d94ddb77f6a5906a209fd15fa4034d74",
+      "linked_controls": [
+        "BESHStatNG.Ui9ANOVA2nested.RefEdit1_Group"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEdit2@1100",
+      "sha256": "c1111ed5eeb80f261e1229471b642b5e1d260f3a70826ad9f16bb9144cbf5e8d",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEdit2"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEdit1@1101",
+      "sha256": "c1ea9f1188958e9e3d7931ed481dde9fecf4893df17ac8e9947652c69a7ad9b6",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEdit1"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|progressBarExactCalc@1108",
+      "sha256": "cdedcef6b650f2f8be029d07df6fc40abfdaf272364750b55c6f41b814eb836e",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.progressBarExactCalc"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEditOutput@1110",
+      "sha256": "0405a719ae2e3d0f764bc3baec22a8b3f20051c3df8fb83a3d8845c284653c6f",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEditOutput"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEditDemingSDy@1167",
+      "sha256": "0abe4160371264679720c6280b0681ff74ab4d3f60bf7248e9e57eade82664db",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEditDemingSDy"
+      ],
+      "status": "OPEN"
+    },
+    {
+      "id": "edge:BESHstatNG/src/UI/UiTwoInputRefedits.Designer.vb|WithEvents|RefEditDemingSDx@1168",
+      "sha256": "1aa72e5dc7a396fbca04c328bc4814894dd51a5d81a456c045bac81b4185eada",
+      "linked_controls": [
+        "BESHStatNG.UiTwoInputRefedits.RefEditDemingSDx"
+      ],
+      "status": "OPEN"
+    }
+  ],
+  "counts": {
+    "host_controls": 187,
+    "linked_open_obligations": 30,
+    "overall_controls": 2056,
+    "overall_obligations": 1514,
+    "original_source_members": 3866
+  },
+  "overlap": "Host-wide populations include unrelated form modes; source-backed linked obligations overlap and are never added as disjoint method populations. No native release inferred.",
+  "native_crosswalk_sha256": "56d92a7822a9394740d7e9e3bcba44dc20d467114b826a2ed810c4800b0f9d31",
+  "releases": 0,
+  "discharges": 0,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET"
+  }
+}

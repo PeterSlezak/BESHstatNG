@@ -1,4 +1,5 @@
-﻿Imports System.IO
+﻿Imports BESHStatNG.ExcelCommon
+Imports System.IO
 Imports System.Windows.Forms
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.SampleSizeCalc
@@ -25,8 +26,8 @@ Public Class Ui12SampleSizeTtestSingleProp
         If Me.Text = "Sample Size - Paired T-test" Then
             Me.lblMeanDiff.Text = "Mean Difference"
             Me.lblSD.Text = "Standard Deviation"
-            Me.tbMeanDiff.Text = "5"
-            Me.tbSD.Text = "10"
+            Me.tbMeanDiff.Text = FormatUiDouble(SampleSizePlanningDefaults.Inputs(SampleSizePlanningMethod.PairedTTest)(0))
+            Me.tbSD.Text = FormatUiDouble(SampleSizePlanningDefaults.Inputs(SampleSizePlanningMethod.PairedTTest)(1))
             Me.lblKappa.Visible = False
             Me.tbKappa.Visible = False
             Me.lblAlpha.Text = "Alpha"
@@ -40,8 +41,8 @@ Public Class Ui12SampleSizeTtestSingleProp
             Me.tbKappa.Visible = False
             Me.lblMeanDiff.Text = "Proportion"
             Me.lblSD.Text = "Null Hypothesis Proportion"
-            Me.tbMeanDiff.Text = FormatUiDouble(0.5)
-            Me.tbSD.Text = FormatUiDouble(0.4)
+            Me.tbMeanDiff.Text = FormatUiDouble(SampleSizePlanningDefaults.Inputs(SampleSizePlanningMethod.SingleProportion)(0))
+            Me.tbSD.Text = FormatUiDouble(SampleSizePlanningDefaults.Inputs(SampleSizePlanningMethod.SingleProportion)(1))
             Me.lblAlpha.Text = "Alpha"
 
         ElseIf Me.Text = "Sample Size - Independent Proportions" Then
@@ -133,20 +134,8 @@ Public Class Ui12SampleSizeTtestSingleProp
         Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
 
-        Dim result = SampleSizeCalculator.CalculateLogRankSampleSize(hazardRatio,
-                                                        controlEventProportion, experimentalEventProportion,
-                                                        kappa, Alpha, Beta, True)
-
-        Dim out As String =
-            $"Inputs: Hazard ratio={hazardRatio}; Control event proportion={controlEventProportion}; Experimental event proportion={experimentalEventProportion}; Ratio of control to experimental subjects={kappa}.{vbNewLine}" &
-            $"alpha={Alpha}; beta={Beta}.{vbNewLine}" &
-            $"Required events:{result.RequiredEvents}{vbNewLine}" &
-            $"Average event proportion={result.AverageEventProportion}{vbNewLine}" &
-            $"Estimated Number of Controls:{result.NumberOfControls}{vbNewLine}" &
-            $"Estimated Number of Experimental subjects:{result.NumberOfExperimental}{vbNewLine}" &
-            $"Estimated Total Number of Subjects:{result.TotalNumberOfSubjects}{vbNewLine}{vbNewLine}"
-
-        Me.tbOutput.AppendText(out)
+        Dim requestLogRankSampleSize As New SampleSizePlanningRequest(SampleSizePlanningMethod.LogRankSampleSize, Alpha, Beta, New Double() {hazardRatio, controlEventProportion, experimentalEventProportion, kappa})
+        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestLogRankSampleSize).Text)
     End Sub
 
     Private Sub RunCox()
@@ -159,47 +148,16 @@ Public Class Ui12SampleSizeTtestSingleProp
             Dim hazardRatioPerUnit As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Hazard ratio per unit")
             Dim covariateSd As Double = ParseUiDouble(Me.tbSD.Text, "Covariate standard deviation")
 
-            Dim result = SampleSizeCalculator.CalculateCoxEventCountContinuousCovariate(hazardRatioPerUnit, covariateSd, Alpha, Beta,
-                                                                           rSquaredWithOtherCovariates, overallEventProportion, True)
-
-            Dim subjectsText As String = If(result.EstimatedNumberOfSubjects > 0,
-                                         result.EstimatedNumberOfSubjects.ToString(), "not estimated (overall event proportion not provided)")
-
-            Dim overallEventText As String = If(Double.IsNaN(result.OverallEventProportion),
-                                               "not provided", result.OverallEventProportion.ToString())
-
-            Dim out As String =
-                $"Inputs: Hazard ratio per unit={hazardRatioPerUnit}; Covariate SD={covariateSd}; R-squared with other covariates={rSquaredWithOtherCovariates}; Overall event proportion={overallEventText}.{vbNewLine}" &
-                $"alpha={Alpha}; beta={Beta}.{vbNewLine}" &
-                $"Required events:{result.RequiredEvents}{vbNewLine}" &
-                $"Estimated Number of Subjects:{subjectsText}{vbNewLine}" &
-                $"log(HR)={result.LogHazardRatio}; Effective variance={result.EffectiveVariance}{vbNewLine}{vbNewLine}"
-
-            Me.tbOutput.AppendText(out)
+            Dim requestCoxEventCountContinuousCovariate As New SampleSizePlanningRequest(SampleSizePlanningMethod.CoxEventCountContinuousCovariate, Alpha, Beta, New Double() {hazardRatioPerUnit, covariateSd, rSquaredWithOtherCovariates, overallEventProportion}, overallEventProvided:=Me.tbKappa.Text.Trim() <> String.Empty, rSquaredProvided:=Me.tbCustom4.Text.Trim() <> String.Empty)
+            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestCoxEventCountContinuousCovariate).Text)
             Exit Sub
         End If
 
         Dim hazardRatio As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Hazard ratio")
         Dim kappa As Double = ParseUiDouble(Me.tbSD.Text, "Ratio of control to experimental subjects")
 
-        Dim binaryResult = SampleSizeCalculator.CalculateCoxEventCountBinaryCovariate(hazardRatio, kappa, Alpha, Beta,
-                                                                       rSquaredWithOtherCovariates,
-                                                                       overallEventProportion, True)
-
-        Dim binarySubjectsText As String = If(binaryResult.EstimatedNumberOfSubjects > 0,
-                                               binaryResult.EstimatedNumberOfSubjects.ToString(), "not estimated (overall event proportion not provided)")
-
-        Dim binaryOverallEventText As String = If(Double.IsNaN(binaryResult.OverallEventProportion),
-                                                   "not provided", binaryResult.OverallEventProportion.ToString())
-
-        Dim binaryOut As String =
-            $"Inputs: Hazard ratio={hazardRatio}; Ratio of control to experimental subjects={kappa}; R-squared with other covariates={rSquaredWithOtherCovariates}; Overall event proportion={binaryOverallEventText}.{vbNewLine}" &
-            $"alpha={Alpha}; beta={Beta}.{vbNewLine}" &
-            $"Required events:{binaryResult.RequiredEvents}{vbNewLine}" &
-            $"Estimated Number of Subjects:{binarySubjectsText}{vbNewLine}" &
-            $"log(HR)={binaryResult.LogHazardRatio}; Effective variance={binaryResult.EffectiveVariance}{vbNewLine}{vbNewLine}"
-
-        Me.tbOutput.AppendText(binaryOut)
+        Dim requestCoxEventCountBinaryCovariate As New SampleSizePlanningRequest(SampleSizePlanningMethod.CoxEventCountBinaryCovariate, Alpha, Beta, New Double() {hazardRatio, kappa, rSquaredWithOtherCovariates, overallEventProportion}, overallEventProvided:=Me.tbKappa.Text.Trim() <> String.Empty, rSquaredProvided:=Me.tbCustom4.Text.Trim() <> String.Empty)
+        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestCoxEventCountBinaryCovariate).Text)
     End Sub
 
     Private Sub RunICC()
@@ -214,16 +172,8 @@ Public Class Ui12SampleSizeTtestSingleProp
             Exit Sub
         End If
 
-        Dim result = SampleSizeCalculator.CalculateIccHypothesisTestSampleSize(nullIcc, alternativeIcc,
-                                                                     CInt(observationsPerSubjectValue), Alpha, Beta)
-
-        Dim out As String =
-            $"Inputs: Null ICC={nullIcc}; Alternative ICC={alternativeIcc}; Observations per subject={CInt(observationsPerSubjectValue)}.{vbNewLine}" &
-            $"one-sided alpha={Alpha}; beta={Beta}.{vbNewLine}" &
-            $"Estimated Number of Subjects:{result.NumberOfSubjects}{vbNewLine}" &
-            $"Achieved power={result.AchievedPower}{vbNewLine}{vbNewLine}"
-
-        Me.tbOutput.AppendText(out)
+        Dim requestIccHypothesisTestSampleSize As New SampleSizePlanningRequest(SampleSizePlanningMethod.IccHypothesisTestSampleSize, Alpha, Beta, New Double() {nullIcc, alternativeIcc, observationsPerSubjectValue}, observationsPerSubject:=CInt(observationsPerSubjectValue))
+        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestIccHypothesisTestSampleSize).Text)
     End Sub
 
     Private Sub RunBlandAltman()
@@ -232,14 +182,8 @@ Public Class Ui12SampleSizeTtestSingleProp
         Dim loaMultiplier As Double = ParseUiDouble(Me.tbKappa.Text, "LoA multiplier")
         Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
 
-        Dim result = SampleSizeCalculator.CalculateBlandAltmanLoASampleSize(sdDifference, desiredHalfWidth, Alpha, loaMultiplier)
-
-        Dim out As String =
-            $"Inputs: SD of differences={sdDifference}; Desired LoA CI half-width={desiredHalfWidth}; LoA multiplier={loaMultiplier}; alpha={Alpha}.{vbNewLine}" &
-            $"Estimated Number of Pairs:{result.NumberOfPairs}{vbNewLine}" &
-            $"Achieved LoA CI half-width={result.AchievedHalfWidth}{vbNewLine}{vbNewLine}"
-
-        Me.tbOutput.AppendText(out)
+        Dim requestBlandAltmanLoASampleSize As New SampleSizePlanningRequest(SampleSizePlanningMethod.BlandAltmanLoASampleSize, Alpha, Double.NaN, New Double() {sdDifference, desiredHalfWidth, loaMultiplier})
+        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestBlandAltmanLoASampleSize).Text)
     End Sub
 
 
@@ -277,21 +221,8 @@ Public Class Ui12SampleSizeTtestSingleProp
             Dim marginAbsolute As Double = ParseUiDouble(Me.tbKappa.Text, "Noninferiority margin")
             Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, "Ratio of control to experimental subjects")
 
-            Dim result = SampleSizeCalculator.CalculateNonInferiorityIndependentProportions(controlProp, experimentalProp,
-                                                                              -Math.Abs(marginAbsolute),
-                                                                              kappa, Alpha, Beta)
-
-            Dim out As String =
-            $"Inputs: Control Group Proportion={controlProp}; Experimental Group Proportion={experimentalProp}; Noninferiority margin=-{Math.Abs(marginAbsolute)} on (Experimental - Control) scale; Ratio of control to experimental subjects={kappa}.{vbNewLine}" &
-            $"one-sided alpha={Alpha}; beta={Beta}.{vbNewLine}" &
-            $"For uncorrected chi-square test:{vbNewLine}" &
-            $"Estimated Number of Controls:{result.UncorrectedNumberOfControls}{vbNewLine}" &
-            $"Estimated Number of Experimental subjects:{result.UncorrectedNumberOfExperimental} {vbNewLine}" &
-            $"For corrected chi-square or Fisher's exact test:{vbNewLine}" &
-            $"Estimated Number of Controls:{result.CorrectedNumberOfControls}{vbNewLine}" &
-            $"Estimated Number of Experimental subjects:{result.CorrectedNumberOfExperimental}{vbNewLine}{vbNewLine}"
-
-            Me.tbOutput.AppendText(out)
+            Dim requestNonInferiorityIndependentProportions As New SampleSizePlanningRequest(SampleSizePlanningMethod.NonInferiorityIndependentProportions, Alpha, Beta, New Double() {controlProp, experimentalProp, marginAbsolute, kappa})
+            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestNonInferiorityIndependentProportions).Text)
             Exit Sub
         End If
 
@@ -299,23 +230,8 @@ Public Class Ui12SampleSizeTtestSingleProp
             Dim marginAbsolute As Double = ParseUiDouble(Me.tbKappa.Text, "Equivalence margin")
             Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, "Ratio of control to experimental subjects")
 
-            Dim result = SampleSizeCalculator.CalculateEquivalenceIndependentProportions(controlProp, experimentalProp,
-                                                                           -Math.Abs(marginAbsolute),
-                                                                           Math.Abs(marginAbsolute),
-                                                                           kappa, Alpha, Beta)
-
-            Dim out As String =
-            $"Inputs: Control Group Proportion={controlProp}; Experimental Group Proportion={experimentalProp}; Equivalence bounds=[-{Math.Abs(marginAbsolute)}, +{Math.Abs(marginAbsolute)}]; Ratio of control to experimental subjects={kappa}.{vbNewLine}" &
-            $"one-sided alpha={Alpha}; beta={Beta}.{vbNewLine}" &
-            $"Lower-bound requirement (uncorrected): Controls={result.LowerBoundUncorrectedNumberOfControls}; Experimental={result.LowerBoundUncorrectedNumberOfExperimental}{vbNewLine}" &
-            $"Upper-bound requirement (uncorrected): Controls={result.UpperBoundUncorrectedNumberOfControls}; Experimental={result.UpperBoundUncorrectedNumberOfExperimental}{vbNewLine}" &
-            $"Lower-bound requirement (corrected/Fisher): Controls={result.LowerBoundCorrectedNumberOfControls}; Experimental={result.LowerBoundCorrectedNumberOfExperimental}{vbNewLine}" &
-            $"Upper-bound requirement (corrected/Fisher): Controls={result.UpperBoundCorrectedNumberOfControls}; Experimental={result.UpperBoundCorrectedNumberOfExperimental}{vbNewLine}" &
-            $"Driving bound: {result.DrivingBound}{vbNewLine}" &
-            $"Final uncorrected requirement: Controls={result.UncorrectedNumberOfControls}; Experimental={result.UncorrectedNumberOfExperimental}{vbNewLine}" &
-            $"Final corrected/Fisher requirement: Controls={result.CorrectedNumberOfControls}; Experimental={result.CorrectedNumberOfExperimental}{vbNewLine}{vbNewLine}"
-
-            Me.tbOutput.AppendText(out)
+            Dim requestEquivalenceIndependentProportions As New SampleSizePlanningRequest(SampleSizePlanningMethod.EquivalenceIndependentProportions, Alpha, Beta, New Double() {controlProp, experimentalProp, marginAbsolute, kappa})
+            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestEquivalenceIndependentProportions).Text)
             Exit Sub
         End If
 
@@ -325,17 +241,8 @@ Public Class Ui12SampleSizeTtestSingleProp
         End If
 
         Dim kappaSuperiority As Double = ParseUiDouble(Me.tbKappa.Text, "Ratio of control to experimental subjects")
-        Dim resultSuperiority = SampleSizeCalculator.CalculateIndependentProportions(controlProp, experimentalProp, kappaSuperiority, Alpha, Beta)
-
-        Dim outSuperiority As String =
-            $"Inputs: Control Group Proportion={controlProp}; Experimental Group Proportion={experimentalProp}; Ratio of control to experimental subjects={kappaSuperiority}.{vbNewLine}" &
-            $"alpha={Alpha}; beta={Beta}.{vbNewLine}For uncorrected chi-square test:{vbNewLine}" &
-            $"Estimated Number of Controls:{resultSuperiority.UncorrectedNumberOfControls}{vbNewLine}" &
-            $"Estimated Number of Experimental subjects:{resultSuperiority.UncorrectedNumberOfExperimental}{vbNewLine}For corrected chi-square or Fisher's exact test:{vbNewLine}" &
-            $"Estimated Number of Controls:{resultSuperiority.CorrectedNumberOfControls}{vbNewLine}" &
-            $"Estimated Number of Experimental subjects:{resultSuperiority.CorrectedNumberOfExperimental}{vbNewLine}{vbNewLine}"
-
-        Me.tbOutput.AppendText(outSuperiority)
+        Dim requestIndependentProportions As New SampleSizePlanningRequest(SampleSizePlanningMethod.IndependentProportions, Alpha, Beta, New Double() {controlProp, experimentalProp, kappaSuperiority})
+        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestIndependentProportions).Text)
     End Sub
 
     Private Sub RunSingleProp()
@@ -375,12 +282,8 @@ Public Class Ui12SampleSizeTtestSingleProp
 
         Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
-        Dim result = SampleSizeCalculator.CalculateSingleProportion(prop, H0Prop, Alpha, Beta)
-
-        Dim out As String = $"Inputs: Proportion={prop}; Null Hypothesis Proportion={H0Prop}; alpha={Alpha}; beta={Beta}. {vbNewLine}" &
-                        $"Est. Number of Subjects:{result.NumberOfSubjects} {vbNewLine} {vbNewLine}"
-
-        Me.tbOutput.AppendText(out)
+        Dim requestSingleProportion As New SampleSizePlanningRequest(SampleSizePlanningMethod.SingleProportion, Alpha, Beta, New Double() {prop, H0Prop})
+        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestSingleProportion).Text)
     End Sub
 
     Private Sub RunPTtest()
@@ -388,12 +291,8 @@ Public Class Ui12SampleSizeTtestSingleProp
         Dim sd As Double = ParseUiDouble(Me.tbSD.Text, "Standard deviation")
         Dim Alpha As Double = CDbl(Me.spinBtnAlpha.Value)
         Dim Beta As Double = CDbl(Me.spinBtnBeta.Value)
-        Dim result = SampleSizeCalculator.CalculatePairedTTest(diff, sd, Alpha, Beta)
-
-        Dim out As String = $"Inputs: Mean difference={diff}; SD={sd}; alpha={Alpha}; beta={Beta}. {vbNewLine}" &
-                        $"Est. Number of Pairs:{result.NumberOfPairs} {vbNewLine} {vbNewLine}"
-
-        Me.tbOutput.AppendText(out)
+        Dim requestPairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.PairedTTest, Alpha, Beta, New Double() {diff, sd})
+        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestPairedTTest).Text)
     End Sub
 
     Private Sub RunUPTtest()
@@ -406,16 +305,8 @@ Public Class Ui12SampleSizeTtestSingleProp
             Dim sd As Double = ParseUiDouble(Me.tbKappa.Text, "Standard deviation")
             Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, "Ratio of control to experimental subjects")
 
-            Dim result = SampleSizeCalculator.CalculateNonInferiorityUnpairedTTest(expectedDifference,
-                                                                     -Math.Abs(marginAbsolute), sd, kappa, Alpha, Beta)
-
-            Dim out As String =
-                $"Inputs: Expected mean difference={expectedDifference}; Noninferiority margin=-{Math.Abs(marginAbsolute)} on (Experimental - Control) scale; SD={sd}; Ratio of control to experimental subjects={kappa}.{vbNewLine}" &
-                $"one-sided alpha={Alpha}; beta={Beta}.{vbNewLine}" &
-                $"Estimated Number of Controls:{result.NumberOfControls}{vbNewLine}" &
-                $"Estimated Number of Experimental subjects:{result.NumberOfExperimental}{vbNewLine}{vbNewLine}"
-
-            Me.tbOutput.AppendText(out)
+            Dim requestNonInferiorityUnpairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.NonInferiorityUnpairedTTest, Alpha, Beta, New Double() {expectedDifference, marginAbsolute, sd, kappa})
+            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestNonInferiorityUnpairedTTest).Text)
             Exit Sub
         End If
 
@@ -425,34 +316,16 @@ Public Class Ui12SampleSizeTtestSingleProp
             Dim sd As Double = ParseUiDouble(Me.tbKappa.Text, "Standard deviation")
             Dim kappa As Double = ParseUiDouble(Me.tbCustom4.Text, "Ratio of control to experimental subjects")
 
-            Dim result = SampleSizeCalculator.CalculateEquivalenceUnpairedTTest(expectedDifference, -Math.Abs(marginAbsolute),
-                                                                  Math.Abs(marginAbsolute), sd, kappa, Alpha, Beta)
-
-            Dim out As String =
-                $"Inputs: Expected mean difference={expectedDifference}; Equivalence bounds=[-{Math.Abs(marginAbsolute)}, +{Math.Abs(marginAbsolute)}]; SD={sd}; Ratio of control to experimental subjects={kappa}.{vbNewLine}" &
-                $"one-sided alpha={Alpha}; beta={Beta}.{vbNewLine}" &
-                $"Lower-bound requirement: Controls={result.LowerBoundNumberOfControls}; Experimental={result.LowerBoundNumberOfExperimental}{vbNewLine}" &
-                $"Upper-bound requirement: Controls={result.UpperBoundNumberOfControls}; Experimental={result.UpperBoundNumberOfExperimental}{vbNewLine}" &
-                $"Driving bound: {result.DrivingBound}{vbNewLine}" &
-                $"Estimated Number of Controls:{result.NumberOfControls}{vbNewLine}" &
-                $"Estimated Number of Experimental subjects:{result.NumberOfExperimental}{vbNewLine}{vbNewLine}"
-
-            Me.tbOutput.AppendText(out)
+            Dim requestEquivalenceUnpairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.EquivalenceUnpairedTTest, Alpha, Beta, New Double() {expectedDifference, marginAbsolute, sd, kappa})
+            Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestEquivalenceUnpairedTTest).Text)
             Exit Sub
         End If
 
         Dim diff As Double = ParseUiDouble(Me.tbMeanDiff.Text, "Mean difference")
         Dim sdSuperiority As Double = ParseUiDouble(Me.tbSD.Text, "Standard deviation")
         Dim kappaSuperiority As Double = ParseUiDouble(Me.tbKappa.Text, "Ratio of control to experimental subjects")
-        Dim resultSuperiority = SampleSizeCalculator.CalculateUnpairedTTest(diff, sdSuperiority, kappaSuperiority, Alpha, Beta)
-
-        Dim outSuperiority As String =
-            $"Inputs: Mean difference={diff}; SD={sdSuperiority}; Ratio of control to experimental subjects={kappaSuperiority}.{vbNewLine}" &
-            $"alpha={Alpha}; beta={Beta}.{vbNewLine}" &
-            $"Estimated Number of Controls:{resultSuperiority.NumberOfControls}{vbNewLine}" &
-            $"Estimated Number of Experimental subjects:{resultSuperiority.NumberOfExperimental}{vbNewLine}{vbNewLine}"
-
-        Me.tbOutput.AppendText(outSuperiority)
+        Dim requestUnpairedTTest As New SampleSizePlanningRequest(SampleSizePlanningMethod.UnpairedTTest, Alpha, Beta, New Double() {diff, sdSuperiority, kappaSuperiority})
+        Me.tbOutput.AppendText(SampleSizePlanningPolicy.Calculate(requestUnpairedTTest).Text)
     End Sub
 
     Private Sub CheckData(ByRef sAllErrors As String, ByRef bwait As Boolean)

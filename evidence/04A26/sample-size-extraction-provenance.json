@@ -1,0 +1,148 @@
+{
+  "source": "BESHstatNG/src/UI/Ui12SampleSizeTtestSingleProp.vb",
+  "source_sha256": "e8221baf3fde6c0b89815252bb5ea73b154a9ea308062fad9624b0f5ffb6268f",
+  "methods": [
+    {
+      "core_method": "CalculateLogRankSampleSize",
+      "family": "LogRank",
+      "parsed_variables": [
+        "hazardRatio",
+        "controlEventProportion",
+        "experimentalEventProportion",
+        "kappa"
+      ],
+      "result_type": "LogRankSampleSizeResult"
+    },
+    {
+      "core_method": "CalculateCoxEventCountContinuousCovariate",
+      "family": "Cox",
+      "parsed_variables": [
+        "hazardRatioPerUnit",
+        "covariateSd",
+        "rSquaredWithOtherCovariates",
+        "overallEventProportion"
+      ],
+      "result_type": "CoxEventCountPlanningResult"
+    },
+    {
+      "core_method": "CalculateCoxEventCountBinaryCovariate",
+      "family": "Cox",
+      "parsed_variables": [
+        "hazardRatio",
+        "kappa",
+        "rSquaredWithOtherCovariates",
+        "overallEventProportion"
+      ],
+      "result_type": "CoxEventCountPlanningResult"
+    },
+    {
+      "core_method": "CalculateIccHypothesisTestSampleSize",
+      "family": "Icc",
+      "parsed_variables": [
+        "nullIcc",
+        "alternativeIcc",
+        "observationsPerSubjectValue"
+      ],
+      "result_type": "IccHypothesisTestSampleSizeResult"
+    },
+    {
+      "core_method": "CalculateBlandAltmanLoASampleSize",
+      "family": "BlandAltman",
+      "parsed_variables": [
+        "sdDifference",
+        "desiredHalfWidth",
+        "loaMultiplier"
+      ],
+      "result_type": "BlandAltmanAgreementStudyPlanningResult"
+    },
+    {
+      "core_method": "CalculateNonInferiorityIndependentProportions",
+      "family": "IndependentProportions",
+      "parsed_variables": [
+        "controlProp",
+        "experimentalProp",
+        "marginAbsolute",
+        "kappa"
+      ],
+      "result_type": "IndependentProportionsSampleSizeResult"
+    },
+    {
+      "core_method": "CalculateEquivalenceIndependentProportions",
+      "family": "IndependentProportions",
+      "parsed_variables": [
+        "controlProp",
+        "experimentalProp",
+        "marginAbsolute",
+        "kappa"
+      ],
+      "result_type": "EquivalenceIndependentProportionsSampleSizeResult"
+    },
+    {
+      "core_method": "CalculateIndependentProportions",
+      "family": "IndependentProportions",
+      "parsed_variables": [
+        "controlProp",
+        "experimentalProp",
+        "kappaSuperiority"
+      ],
+      "result_type": "IndependentProportionsSampleSizeResult"
+    },
+    {
+      "core_method": "CalculateSingleProportion",
+      "family": "SingleProportion",
+      "parsed_variables": [
+        "prop",
+        "H0Prop"
+      ],
+      "result_type": "SingleProportionSampleSizeResult"
+    },
+    {
+      "core_method": "CalculatePairedTTest",
+      "family": "PairedT",
+      "parsed_variables": [
+        "diff",
+        "sd"
+      ],
+      "result_type": "PairedTTestSampleSizeResult"
+    },
+    {
+      "core_method": "CalculateNonInferiorityUnpairedTTest",
+      "family": "UnpairedT",
+      "parsed_variables": [
+        "expectedDifference",
+        "marginAbsolute",
+        "sd",
+        "kappa"
+      ],
+      "result_type": "UnpairedTTestSampleSizeResult"
+    },
+    {
+      "core_method": "CalculateEquivalenceUnpairedTTest",
+      "family": "UnpairedT",
+      "parsed_variables": [
+        "expectedDifference",
+        "marginAbsolute",
+        "sd",
+        "kappa"
+      ],
+      "result_type": "EquivalenceUnpairedTTestSampleSizeResult"
+    },
+    {
+      "core_method": "CalculateUnpairedTTest",
+      "family": "UnpairedT",
+      "parsed_variables": [
+        "diff",
+        "sdSuperiority",
+        "kappaSuperiority"
+      ],
+      "result_type": "UnpairedTTestSampleSizeResult"
+    }
+  ],
+  "transformations": [
+    "Existing Core calls moved to Common coordinator, arguments/branch selection unchanged.",
+    "Original interpolated text moved verbatim; vbNewLine becomes explicit CRLF through PlanningTextNewLine.Value.",
+    "ICC CInt stays Windows-owned; typed count provided to request.",
+    "Source-pinned test text derivative retains original vbNewLine expressions."
+  ],
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY"
+}

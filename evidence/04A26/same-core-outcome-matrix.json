@@ -1,0 +1,430 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "methods": {
+    "planning.UnpairedTTest": {
+      "classifications": {
+        "POSITIVE_PARITY": 32,
+        "PRESERVED_CORE_REJECTION": 32
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values. (Parameter 'p must be in (0,1)')"
+        },
+        {
+          "type": "System.OverflowException",
+          "message": "Value was either too large or too small for an Int32."
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values.\nParameter name: p must be in (0,1)"
+        }
+      ]
+    },
+    "planning.NonInferiorityIndependentProportions": {
+      "classifications": {
+        "POSITIVE_PARITY": 24,
+        "PRESERVED_CORE_REJECTION": 40
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'controlProp')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'alphaOneSided')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'beta')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: controlProp"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: alphaOneSided"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: beta"
+        }
+      ]
+    },
+    "agreement.1": {
+      "classifications": {
+        "POSITIVE_PARITY": 56,
+        "PRESERVED_CORE_REJECTION": 8
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "At least 200 bootstrap replicates are recommended for bootstrap confidence intervals. (Parameter 'BootstrapReplicates')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "At least 200 bootstrap replicates are recommended for bootstrap confidence intervals.\nParameter name: BootstrapReplicates"
+        }
+      ]
+    },
+    "planning.BlandAltmanLoASampleSize": {
+      "classifications": {
+        "PRESERVED_CORE_REJECTION": 32,
+        "POSITIVE_PARITY": 32
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'alpha')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must be positive. (Parameter 'sdDifference')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must be positive.\nParameter name: sdDifference"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: alpha"
+        }
+      ]
+    },
+    "planning.PairedTTest": {
+      "classifications": {
+        "POSITIVE_PARITY": 32,
+        "PRESERVED_CORE_REJECTION": 32
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values. (Parameter 'p must be in (0,1)')"
+        },
+        {
+          "type": "System.OverflowException",
+          "message": "Value was either too large or too small for an Int32."
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values.\nParameter name: p must be in (0,1)"
+        }
+      ]
+    },
+    "planning.NonInferiorityUnpairedTTest": {
+      "classifications": {
+        "POSITIVE_PARITY": 40,
+        "PRESERVED_CORE_REJECTION": 24
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'alphaOneSided')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values. (Parameter 'p must be in (0,1)')"
+        },
+        {
+          "type": "System.OverflowException",
+          "message": "Value was either too large or too small for an Int32."
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: alphaOneSided"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values.\nParameter name: p must be in (0,1)"
+        }
+      ]
+    },
+    "planning.LogRankSampleSize": {
+      "classifications": {
+        "PRESERVED_CORE_REJECTION": 40,
+        "POSITIVE_PARITY": 24
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'beta')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must be positive. (Parameter 'hazardRatio')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'alpha')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: alpha"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must be positive.\nParameter name: hazardRatio"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: beta"
+        }
+      ]
+    },
+    "planning.EquivalenceUnpairedTTest": {
+      "classifications": {
+        "POSITIVE_PARITY": 40,
+        "PRESERVED_CORE_REJECTION": 24
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values. (Parameter 'p must be in (0,1)')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'alphaOneSided')"
+        },
+        {
+          "type": "System.OverflowException",
+          "message": "Value was either too large or too small for an Int32."
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values.\nParameter name: p must be in (0,1)"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: alphaOneSided"
+        }
+      ]
+    },
+    "agreement.2": {
+      "classifications": {
+        "POSITIVE_PARITY": 64
+      },
+      "exceptions": []
+    },
+    "planning.CoxEventCountContinuousCovariate": {
+      "classifications": {
+        "POSITIVE_PARITY": 24,
+        "PRESERVED_CORE_REJECTION": 40
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'alpha')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'beta')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must be positive. (Parameter 'hazardRatioPerUnit')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: alpha"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must be positive.\nParameter name: hazardRatioPerUnit"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: beta"
+        }
+      ]
+    },
+    "agreement.3": {
+      "classifications": {
+        "POSITIVE_PARITY": 56,
+        "PRESERVED_CORE_REJECTION": 8
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentException",
+          "message": "Fewer than 3 complete finite pairs remain after filtering."
+        }
+      ]
+    },
+    "planning.IndependentProportions": {
+      "classifications": {
+        "POSITIVE_PARITY": 32,
+        "PRESERVED_CORE_REJECTION": 32
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values. (Parameter 'p must be in (0,1)')"
+        },
+        {
+          "type": "System.OverflowException",
+          "message": "Value was either too large or too small for an Int32."
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values.\nParameter name: p must be in (0,1)"
+        }
+      ]
+    },
+    "agreement.0": {
+      "classifications": {
+        "POSITIVE_PARITY": 56,
+        "PRESERVED_CORE_REJECTION": 8
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Standard deviations must be finite and > 0. (Parameter 'sd')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Standard deviations must be finite and > 0.\nParameter name: sd"
+        }
+      ]
+    },
+    "planning.CoxEventCountBinaryCovariate": {
+      "classifications": {
+        "POSITIVE_PARITY": 24,
+        "PRESERVED_CORE_REJECTION": 40
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must be positive. (Parameter 'hazardRatio')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'beta')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'alpha')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must be positive.\nParameter name: hazardRatio"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: alpha"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: beta"
+        }
+      ]
+    },
+    "planning.EquivalenceIndependentProportions": {
+      "classifications": {
+        "PRESERVED_CORE_REJECTION": 40,
+        "POSITIVE_PARITY": 24
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Expected proportion difference must lie strictly inside the equivalence margins. (Parameter 'experimentalProp')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'controlProp')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'beta')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'alphaOneSided')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: alphaOneSided"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Expected proportion difference must lie strictly inside the equivalence margins.\nParameter name: experimentalProp"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: controlProp"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: beta"
+        }
+      ]
+    },
+    "planning.IccHypothesisTestSampleSize": {
+      "classifications": {
+        "POSITIVE_PARITY": 32,
+        "PRESERVED_CORE_REJECTION": 32
+      },
+      "exceptions": [
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'beta')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "ICC values for planning must satisfy 0 <= ICC < 1. (Parameter 'nullIcc')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1. (Parameter 'alpha')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: beta"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "ICC values for planning must satisfy 0 <= ICC < 1.\nParameter name: nullIcc"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Value must satisfy 0 < value < 1.\nParameter name: alpha"
+        }
+      ]
+    },
+    "agreement.4": {
+      "classifications": {
+        "POSITIVE_PARITY": 64
+      },
+      "exceptions": []
+    },
+    "planning.SingleProportion": {
+      "classifications": {
+        "POSITIVE_PARITY": 40,
+        "PRESERVED_CORE_REJECTION": 24
+      },
+      "exceptions": [
+        {
+          "type": "System.OverflowException",
+          "message": "Value was either too large or too small for an Int32."
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values. (Parameter 'p must be in (0,1)')"
+        },
+        {
+          "type": "System.ArgumentOutOfRangeException",
+          "message": "Specified argument was out of the range of valid values.\nParameter name: p must be in (0,1)"
+        }
+      ]
+    }
+  },
+  "agreement_method_order": [
+    "Deming",
+    "Lin concordance",
+    "Kappa",
+    "Bland–Altman",
+    "ICC"
+  ],
+  "all_five_agreement_methods_have_executed_positive_profiles": true
+}

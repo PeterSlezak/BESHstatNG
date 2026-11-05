@@ -1,0 +1,715 @@
+{
+  "configurations": {
+    "Debug": {
+      "configuration": "Debug",
+      "seconds": 401.69381670001894,
+      "lanes": [
+        {
+          "lane": "D",
+          "seconds": 401.69179300009273,
+          "exit_codes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
+          ],
+          "completed": true
+        },
+        {
+          "lane": "A",
+          "seconds": 145.88785890000872,
+          "exit_codes": [
+            0,
+            1
+          ],
+          "completed": true
+        },
+        {
+          "lane": "B",
+          "seconds": 215.9178059999831,
+          "exit_codes": [
+            1,
+            0
+          ],
+          "completed": true
+        },
+        {
+          "lane": "C",
+          "seconds": 62.54474529996514,
+          "exit_codes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "completed": true
+        }
+      ],
+      "errors": [],
+      "max_active_command_roots": 4,
+      "worker_limit": 4,
+      "resource_scope": "Root-command OS peak working set and CPU counters where available; testhost/Node/MkDocs child memory not claimed measured. MaxCpuCount=1, MSTest Workers=1, Node concurrency=1; no fifth worker.",
+      "serial_lane_sum_estimate": 826.0422032000497,
+      "speedup_qualification": "Measured concurrent wall clock versus sum of observed lane durations only; not a separate serial benchmark.",
+      "commands": [
+        {
+          "name": "final-Debug-catalog",
+          "started_utc": "2026-11-05T17:02:10.716036+00:00",
+          "finished_utc": "2026-11-05T17:02:11.486565+00:00",
+          "pid": 27352,
+          "seconds": 0.7705964999040589,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 44077056,
+            "root_cpu_seconds": 0.453125
+          }
+        },
+        {
+          "name": "final-Debug-Common",
+          "started_utc": "2026-11-05T17:02:21.723304+00:00",
+          "finished_utc": "2026-11-05T17:04:33.696864+00:00",
+          "pid": 17064,
+          "seconds": 131.9851027999539,
+          "exit_code": 1,
+          "metrics": {
+            "peak_root_working_set_bytes": 58691584,
+            "root_cpu_seconds": 0.3125
+          }
+        },
+        {
+          "name": "final-Debug-common-python",
+          "started_utc": "2026-11-05T17:08:49.326900+00:00",
+          "finished_utc": "2026-11-05T17:08:51.840313+00:00",
+          "pid": 26448,
+          "seconds": 2.513633199967444,
+          "exit_code": 1,
+          "metrics": {
+            "peak_root_working_set_bytes": 94146560,
+            "root_cpu_seconds": 2.21875
+          }
+        },
+        {
+          "name": "final-Debug-ControlMitigation",
+          "started_utc": "2026-11-05T17:05:36.840093+00:00",
+          "finished_utc": "2026-11-05T17:05:45.860827+00:00",
+          "pid": 7284,
+          "seconds": 9.021523200091906,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 108781568,
+            "root_cpu_seconds": 8.625
+          }
+        },
+        {
+          "name": "final-Debug-Core",
+          "started_utc": "2026-11-05T17:02:12.395030+00:00",
+          "finished_utc": "2026-11-05T17:02:19.666141+00:00",
+          "pid": 12492,
+          "seconds": 7.271745200036094,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 58277888,
+            "root_cpu_seconds": 0.609375
+          }
+        },
+        {
+          "name": "final-Debug-help-check",
+          "started_utc": "2026-11-05T17:02:13.276794+00:00",
+          "finished_utc": "2026-11-05T17:02:14.288216+00:00",
+          "pid": 12396,
+          "seconds": 1.0115082999691367,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 46010368,
+            "root_cpu_seconds": 0.703125
+          }
+        },
+        {
+          "name": "final-Debug-inventory",
+          "started_utc": "2026-11-05T17:02:10.200711+00:00",
+          "finished_utc": "2026-11-05T17:02:10.711810+00:00",
+          "pid": 11056,
+          "seconds": 0.5111439999891445,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 19853312,
+            "root_cpu_seconds": 0.1875
+          }
+        },
+        {
+          "name": "final-Debug-Legacy",
+          "started_utc": "2026-11-05T17:02:12.408327+00:00",
+          "finished_utc": "2026-11-05T17:05:32.774512+00:00",
+          "pid": 9388,
+          "seconds": 200.3837157000089,
+          "exit_code": 1,
+          "metrics": {
+            "peak_root_working_set_bytes": 1967587328,
+            "root_cpu_seconds": 201.34375
+          }
+        },
+        {
+          "name": "final-Debug-metadata",
+          "started_utc": "2026-11-05T17:02:11.490264+00:00",
+          "finished_utc": "2026-11-05T17:02:12.251468+00:00",
+          "pid": 4028,
+          "seconds": 0.7612698000157252,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 46292992,
+            "root_cpu_seconds": 0.484375
+          }
+        },
+        {
+          "name": "final-Debug-office-audit",
+          "started_utc": "2026-11-05T17:02:14.298957+00:00",
+          "finished_utc": "2026-11-05T17:03:59.978882+00:00",
+          "pid": 15516,
+          "seconds": 105.68917000002693,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 1063940096,
+            "root_cpu_seconds": 102.875
+          }
+        },
+        {
+          "name": "final-Debug-office-check",
+          "started_utc": "2026-11-05T17:02:53.071270+00:00",
+          "finished_utc": "2026-11-05T17:02:53.332332+00:00",
+          "pid": 2732,
+          "seconds": 0.261086400016211,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 40882176,
+            "root_cpu_seconds": 0.0
+          }
+        },
+        {
+          "name": "final-Debug-office-js",
+          "started_utc": "2026-11-05T17:02:53.334738+00:00",
+          "finished_utc": "2026-11-05T17:03:07.120665+00:00",
+          "pid": 17012,
+          "seconds": 13.787109200027771,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 67682304,
+            "root_cpu_seconds": 0.375
+          }
+        },
+        {
+          "name": "final-Debug-OfficeAddin",
+          "started_utc": "2026-11-05T17:02:12.793010+00:00",
+          "finished_utc": "2026-11-05T17:02:48.864014+00:00",
+          "pid": 18060,
+          "seconds": 36.07416139997076,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 58048512,
+            "root_cpu_seconds": 0.5625
+          }
+        },
+        {
+          "name": "final-Debug-OfficeExecution",
+          "started_utc": "2026-11-05T17:02:51.263859+00:00",
+          "finished_utc": "2026-11-05T17:02:52.773908+00:00",
+          "pid": 14664,
+          "seconds": 1.5101785000879318,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 57774080,
+            "root_cpu_seconds": 0.515625
+          }
+        },
+        {
+          "name": "final-Debug-python-help",
+          "started_utc": "2026-11-05T17:05:43.707049+00:00",
+          "finished_utc": "2026-11-05T17:07:05.592099+00:00",
+          "pid": 20812,
+          "seconds": 81.89221189997625,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 59699200,
+            "root_cpu_seconds": 5.828125
+          }
+        },
+        {
+          "name": "final-Debug-python-scripts",
+          "started_utc": "2026-11-05T17:07:05.602037+00:00",
+          "finished_utc": "2026-11-05T17:08:45.767886+00:00",
+          "pid": 16664,
+          "seconds": 100.17461270000786,
+          "exit_code": 1,
+          "metrics": {
+            "peak_root_working_set_bytes": 836640768,
+            "root_cpu_seconds": 76.546875
+          }
+        },
+        {
+          "name": "final-Debug-python-tools",
+          "started_utc": "2026-11-05T17:03:59.982224+00:00",
+          "finished_utc": "2026-11-05T17:05:43.688379+00:00",
+          "pid": 13884,
+          "seconds": 103.71522750006989,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 1078771712,
+            "root_cpu_seconds": 100.5625
+          }
+        },
+        {
+          "name": "final-Debug-resolver",
+          "started_utc": "2026-11-05T17:03:07.146473+00:00",
+          "finished_utc": "2026-11-05T17:03:07.915139+00:00",
+          "pid": 16492,
+          "seconds": 0.7687312999041751,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 63201280,
+            "root_cpu_seconds": 0.109375
+          }
+        },
+        {
+          "name": "final-Debug-resolver-check",
+          "started_utc": "2026-11-05T17:02:12.261866+00:00",
+          "finished_utc": "2026-11-05T17:02:13.272930+00:00",
+          "pid": 9896,
+          "seconds": 1.011152100050822,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 45887488,
+            "root_cpu_seconds": 0.6875
+          }
+        },
+        {
+          "name": "final-Debug-semantic",
+          "started_utc": "2026-11-05T17:08:47.331416+00:00",
+          "finished_utc": "2026-11-05T17:08:49.092078+00:00",
+          "pid": 13220,
+          "seconds": 1.760814099921845,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 57438208,
+            "root_cpu_seconds": 0.359375
+          }
+        },
+        {
+          "name": "final-Debug-wasm-check",
+          "started_utc": "2026-11-05T17:03:07.933783+00:00",
+          "finished_utc": "2026-11-05T17:03:08.199019+00:00",
+          "pid": 13144,
+          "seconds": 0.2652576999971643,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 40902656,
+            "root_cpu_seconds": 0.0
+          }
+        },
+        {
+          "name": "final-Debug-wasm-js",
+          "started_utc": "2026-11-05T17:03:08.202177+00:00",
+          "finished_utc": "2026-11-05T17:03:12.727260+00:00",
+          "pid": 18056,
+          "seconds": 4.525479799951427,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 85278720,
+            "root_cpu_seconds": 1.375
+          }
+        }
+      ]
+    },
+    "Release": {
+      "configuration": "Release",
+      "seconds": 370.64518470002804,
+      "lanes": [
+        {
+          "lane": "D",
+          "seconds": 370.6426109999884,
+          "exit_codes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
+          ],
+          "completed": true
+        },
+        {
+          "lane": "A",
+          "seconds": 109.73370430001523,
+          "exit_codes": [
+            0,
+            1
+          ],
+          "completed": true
+        },
+        {
+          "lane": "B",
+          "seconds": 146.63021169998683,
+          "exit_codes": [
+            1,
+            0
+          ],
+          "completed": true
+        },
+        {
+          "lane": "C",
+          "seconds": 60.06937119993381,
+          "exit_codes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "completed": true
+        }
+      ],
+      "errors": [],
+      "max_active_command_roots": 4,
+      "worker_limit": 4,
+      "resource_scope": "Root-command OS peak working set and CPU counters where available; testhost/Node/MkDocs child memory not claimed measured. MaxCpuCount=1, MSTest Workers=1, Node concurrency=1; no fifth worker.",
+      "serial_lane_sum_estimate": 687.0758981999243,
+      "speedup_qualification": "Measured concurrent wall clock versus sum of observed lane durations only; not a separate serial benchmark.",
+      "commands": [
+        {
+          "name": "final-Release-catalog",
+          "started_utc": "2026-11-05T17:10:27.372368+00:00",
+          "finished_utc": "2026-11-05T17:10:28.132923+00:00",
+          "pid": 1000,
+          "seconds": 0.7606224999763072,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 43753472,
+            "root_cpu_seconds": 0.453125
+          }
+        },
+        {
+          "name": "final-Release-Common",
+          "started_utc": "2026-11-05T17:10:38.027930+00:00",
+          "finished_utc": "2026-11-05T17:12:14.193042+00:00",
+          "pid": 14168,
+          "seconds": 96.17352519999258,
+          "exit_code": 1,
+          "metrics": {
+            "peak_root_working_set_bytes": 57925632,
+            "root_cpu_seconds": 0.359375
+          }
+        },
+        {
+          "name": "final-Release-common-python",
+          "started_utc": "2026-11-05T17:16:35.189726+00:00",
+          "finished_utc": "2026-11-05T17:16:37.450489+00:00",
+          "pid": 18412,
+          "seconds": 2.2609140999848023,
+          "exit_code": 1,
+          "metrics": {
+            "peak_root_working_set_bytes": 95191040,
+            "root_cpu_seconds": 1.9375
+          }
+        },
+        {
+          "name": "final-Release-ControlMitigation",
+          "started_utc": "2026-11-05T17:12:47.487483+00:00",
+          "finished_utc": "2026-11-05T17:12:53.250833+00:00",
+          "pid": 15444,
+          "seconds": 5.76385400001891,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 108888064,
+            "root_cpu_seconds": 5.328125
+          }
+        },
+        {
+          "name": "final-Release-Core",
+          "started_utc": "2026-11-05T17:10:29.516477+00:00",
+          "finished_utc": "2026-11-05T17:10:35.537374+00:00",
+          "pid": 536,
+          "seconds": 6.0214221000205725,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 57466880,
+            "root_cpu_seconds": 0.375
+          }
+        },
+        {
+          "name": "final-Release-help-check",
+          "started_utc": "2026-11-05T17:10:29.661752+00:00",
+          "finished_utc": "2026-11-05T17:10:30.423420+00:00",
+          "pid": 22068,
+          "seconds": 0.7617327999323606,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 46379008,
+            "root_cpu_seconds": 0.484375
+          }
+        },
+        {
+          "name": "final-Release-inventory",
+          "started_utc": "2026-11-05T17:10:26.856981+00:00",
+          "finished_utc": "2026-11-05T17:10:27.368939+00:00",
+          "pid": 16044,
+          "seconds": 0.5120019000023603,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 19886080,
+            "root_cpu_seconds": 0.125
+          }
+        },
+        {
+          "name": "final-Release-Legacy",
+          "started_utc": "2026-11-05T17:10:30.048173+00:00",
+          "finished_utc": "2026-11-05T17:12:43.322519+00:00",
+          "pid": 25532,
+          "seconds": 133.28600650001317,
+          "exit_code": 1,
+          "metrics": {
+            "peak_root_working_set_bytes": 2289754112,
+            "root_cpu_seconds": 133.90625
+          }
+        },
+        {
+          "name": "final-Release-metadata",
+          "started_utc": "2026-11-05T17:10:28.135870+00:00",
+          "finished_utc": "2026-11-05T17:10:28.896165+00:00",
+          "pid": 2984,
+          "seconds": 0.7603597999550402,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 46321664,
+            "root_cpu_seconds": 0.4375
+          }
+        },
+        {
+          "name": "final-Release-office-audit",
+          "started_utc": "2026-11-05T17:10:30.427390+00:00",
+          "finished_utc": "2026-11-05T17:11:54.072394+00:00",
+          "pid": 20444,
+          "seconds": 83.6523233000189,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 1067847680,
+            "root_cpu_seconds": 82.578125
+          }
+        },
+        {
+          "name": "final-Release-office-check",
+          "started_utc": "2026-11-05T17:11:08.786949+00:00",
+          "finished_utc": "2026-11-05T17:11:09.046213+00:00",
+          "pid": 23384,
+          "seconds": 0.259286499931477,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 40882176,
+            "root_cpu_seconds": 0.0
+          }
+        },
+        {
+          "name": "final-Release-office-js",
+          "started_utc": "2026-11-05T17:11:09.048454+00:00",
+          "finished_utc": "2026-11-05T17:11:22.841879+00:00",
+          "pid": 15140,
+          "seconds": 13.794630399905145,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 67637248,
+            "root_cpu_seconds": 0.6875
+          }
+        },
+        {
+          "name": "final-Release-OfficeAddin",
+          "started_utc": "2026-11-05T17:10:29.467680+00:00",
+          "finished_utc": "2026-11-05T17:11:04.530713+00:00",
+          "pid": 25940,
+          "seconds": 35.06609840004239,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 58540032,
+            "root_cpu_seconds": 0.359375
+          }
+        },
+        {
+          "name": "final-Release-OfficeExecution",
+          "started_utc": "2026-11-05T17:11:06.739209+00:00",
+          "finished_utc": "2026-11-05T17:11:08.500238+00:00",
+          "pid": 23796,
+          "seconds": 1.761181200039573,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 59457536,
+            "root_cpu_seconds": 0.59375
+          }
+        },
+        {
+          "name": "final-Release-python-help",
+          "started_utc": "2026-11-05T17:13:24.312521+00:00",
+          "finished_utc": "2026-11-05T17:14:47.193696+00:00",
+          "pid": 13860,
+          "seconds": 82.88842570001725,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 60010496,
+            "root_cpu_seconds": 5.515625
+          }
+        },
+        {
+          "name": "final-Release-python-scripts",
+          "started_utc": "2026-11-05T17:14:47.204090+00:00",
+          "finished_utc": "2026-11-05T17:16:32.128528+00:00",
+          "pid": 22016,
+          "seconds": 104.93279380002059,
+          "exit_code": 1,
+          "metrics": {
+            "peak_root_working_set_bytes": 837398528,
+            "root_cpu_seconds": 82.625
+          }
+        },
+        {
+          "name": "final-Release-python-tools",
+          "started_utc": "2026-11-05T17:11:54.075852+00:00",
+          "finished_utc": "2026-11-05T17:13:24.296738+00:00",
+          "pid": 19904,
+          "seconds": 90.22877299995162,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 1082195968,
+            "root_cpu_seconds": 87.78125
+          }
+        },
+        {
+          "name": "final-Release-resolver",
+          "started_utc": "2026-11-05T17:11:22.854978+00:00",
+          "finished_utc": "2026-11-05T17:11:23.367674+00:00",
+          "pid": 22448,
+          "seconds": 0.5127407999243587,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 64446464,
+            "root_cpu_seconds": 0.0625
+          }
+        },
+        {
+          "name": "final-Release-resolver-check",
+          "started_utc": "2026-11-05T17:10:28.898799+00:00",
+          "finished_utc": "2026-11-05T17:10:29.657525+00:00",
+          "pid": 2704,
+          "seconds": 0.758790299994871,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 45764608,
+            "root_cpu_seconds": 0.4375
+          }
+        },
+        {
+          "name": "final-Release-semantic",
+          "started_utc": "2026-11-05T17:16:33.430879+00:00",
+          "finished_utc": "2026-11-05T17:16:34.941417+00:00",
+          "pid": 22116,
+          "seconds": 1.5106355999596417,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 58216448,
+            "root_cpu_seconds": 0.421875
+          }
+        },
+        {
+          "name": "final-Release-wasm-check",
+          "started_utc": "2026-11-05T17:11:23.380492+00:00",
+          "finished_utc": "2026-11-05T17:11:23.641554+00:00",
+          "pid": 19072,
+          "seconds": 0.26108369999565184,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 40894464,
+            "root_cpu_seconds": 0.0
+          }
+        },
+        {
+          "name": "final-Release-wasm-js",
+          "started_utc": "2026-11-05T17:11:23.644176+00:00",
+          "finished_utc": "2026-11-05T17:11:26.909833+00:00",
+          "pid": 20816,
+          "seconds": 3.265942000085488,
+          "exit_code": 0,
+          "metrics": {
+            "peak_root_working_set_bytes": 85663744,
+            "root_cpu_seconds": 1.03125
+          }
+        }
+      ]
+    }
+  },
+  "worker_limit": 4,
+  "global_measured_max_command_roots": 4,
+  "matrix_seconds": 772.339001400047,
+  "final_build_seconds": 54.570461000083014,
+  "serial_gate_seconds": 47.37747659988236,
+  "requalification_command_seconds": 1802.48248829972,
+  "requalification_seconds": 1089.126888,
+  "requalifications": {
+    "requalified-Debug": {
+      "configuration": "Debug",
+      "exit_codes": [
+        1,
+        1,
+        1
+      ],
+      "worker_limit": 3,
+      "wall_seconds": 155.2838710999349,
+      "scope": "Full Common/Windows affected assemblies and full scripts discovery; Core/Office/Node and other Python roots unchanged and already executed in initial final matrix."
+    },
+    "qualified-Debug": {
+      "configuration": "Debug",
+      "exit_codes": [
+        1,
+        1,
+        1
+      ],
+      "worker_limit": 3,
+      "wall_seconds": 159.3050964999711,
+      "scope": "Full Common/Windows affected assemblies and full scripts discovery; Core/Office/Node and other Python roots unchanged and already executed in initial final matrix."
+    },
+    "requalified-Release": {
+      "configuration": "Release",
+      "exit_codes": [
+        1,
+        1,
+        1
+      ],
+      "worker_limit": 3,
+      "wall_seconds": 192.4216013000114,
+      "scope": "Full Common/Windows affected assemblies and full scripts discovery; Core/Office/Node and other Python roots unchanged and already executed in initial final matrix."
+    },
+    "qualified-Release": {
+      "configuration": "Release",
+      "exit_codes": [
+        1,
+        1,
+        1
+      ],
+      "worker_limit": 3,
+      "wall_seconds": 146.23693000001367,
+      "scope": "Full Common/Windows affected assemblies and full scripts discovery; Core/Office/Node and other Python roots unchanged and already executed in initial final matrix."
+    }
+  },
+  "scope": "Root PID CPU/peak working set only; child aggregates not claimed. Four roots globally verified from UTC intervals. Requalification wall is first-start through last-finish, including review gaps; command sum separate. Copied-bin encoding-only Debug Windows rerun safely overlapped Release qualification, at most four roots and no concurrent builds.",
+  "speedup": "No comparable sequential baseline measured; no speedup claimed."
+}

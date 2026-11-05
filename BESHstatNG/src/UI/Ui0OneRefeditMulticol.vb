@@ -8,6 +8,8 @@ Imports ExcelDna.Integration
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui0OneRefeditMulticol
+    Private ReadOnly iccSourceAxes As New System.Runtime.CompilerServices.ConditionalWeakTable(Of MultiGroupsUnpairedData, AgreementInputAxis)
+
     Private Const KiteChartWidthPoints As Double = 720.0R
     Private Const KiteChartHeightPoints As Double = 440.0R
 
@@ -218,6 +220,7 @@ Public Class Ui0OneRefeditMulticol
         out.X = outData
         Dim varnames(g - 1) As String
         out.varNames = varnames
+        iccSourceAxes.Add(out, New AgreementInputAxis(g, columData.varNames, columData.RowIds))
         Return out
     End Function
 
@@ -461,45 +464,55 @@ Public Class Ui0OneRefeditMulticol
             Exit Sub
         End If
 
+        Dim intent As New IccRequestIntent(Me.optICC11.Checked, Me.optICC1k.Checked, Me.optICC21.Checked,
+            Me.optICC2k.Checked, Me.optICC31.Checked, Me.optICC3k.Checked, CDbl(Me.spinBtnAlphaICC.Value), Me.ckRepeatabilityCoefficient.Checked)
+        Dim axis As AgreementInputAxis = Nothing
+        If data1 IsNot Nothing Then
+            iccSourceAxes.TryGetValue(data1, axis)
+        Else
+            Dim evidence = WindowsPairedInputAdapter.GetBlockEvidence(data2)
+            axis = If(evidence Is Nothing, New AgreementInputAxis(data2.X.GetLength(0), data2.varNames, Nothing), AgreementInputAxis.FromBlocks(evidence))
+        End If
         Dim strIccType As String = String.Empty
-        If Me.optICC11.Checked Then
-            iccNum = icc.ICC11(data1.X, Me.spinBtnAlphaICC.Value)
-            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_OneWay(data1.X, False, Me.spinBtnAlphaICC.Value)
-            strIccType = "ICC(1,1)"
+        If intent.Choice = IccEstimatorChoice.OneOne Then
+            iccNum = icc.ICC11(data1.X, intent.Alpha)
+            If intent.Repeatability Then icc.RepeatabilityCoefficient_OneWay(data1.X, False, intent.Alpha)
+            strIccType = intent.Label(0)
 
-        ElseIf Me.optICC1k.Checked Then
-            iccNum = icc.ICC1k(data1.X, Me.spinBtnAlphaICC.Value)
-            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_OneWay(data1.X, True, Me.spinBtnAlphaICC.Value)
-            strIccType = "ICC(1,k)"
+        ElseIf intent.Choice = IccEstimatorChoice.OneAverage Then
+            iccNum = icc.ICC1k(data1.X, intent.Alpha)
+            If intent.Repeatability Then icc.RepeatabilityCoefficient_OneWay(data1.X, True, intent.Alpha)
+            strIccType = intent.Label(0)
 
-        ElseIf Me.optICC21.Checked Then
-            iccNum = icc.ICC21(data2.X, Me.spinBtnAlphaICC.Value)
-            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_TwoWay(data2.X, True, False, Me.spinBtnAlphaICC.Value)
-            strIccType = "ICC(2,1)"
+        ElseIf intent.Choice = IccEstimatorChoice.TwoOne Then
+            iccNum = icc.ICC21(data2.X, intent.Alpha)
+            If intent.Repeatability Then icc.RepeatabilityCoefficient_TwoWay(data2.X, True, False, intent.Alpha)
+            strIccType = intent.Label(0)
 
-        ElseIf Me.optICC2k.Checked Then
-            iccNum = icc.ICC2k(data2.X, Me.spinBtnAlphaICC.Value)
-            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_TwoWay(data2.X, True, True, Me.spinBtnAlphaICC.Value)
-            strIccType = $"ICC(2,{data2.X.GetLength(1)})"
+        ElseIf intent.Choice = IccEstimatorChoice.TwoAverage Then
+            iccNum = icc.ICC2k(data2.X, intent.Alpha)
+            If intent.Repeatability Then icc.RepeatabilityCoefficient_TwoWay(data2.X, True, True, intent.Alpha)
+            strIccType = intent.Label(data2.X.GetLength(1))
 
-        ElseIf Me.optICC31.Checked Then
-            iccNum = icc.ICC31(data2.X, Me.spinBtnAlphaICC.Value)
-            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_TwoWay(data2.X, False, False, Me.spinBtnAlphaICC.Value)
-            strIccType = "ICC(3,1)"
+        ElseIf intent.Choice = IccEstimatorChoice.ThreeOne Then
+            iccNum = icc.ICC31(data2.X, intent.Alpha)
+            If intent.Repeatability Then icc.RepeatabilityCoefficient_TwoWay(data2.X, False, False, intent.Alpha)
+            strIccType = intent.Label(0)
 
-        ElseIf Me.optICC3k.Checked Then
-            iccNum = icc.ICC3k(data2.X, Me.spinBtnAlphaICC.Value)
-            If Me.ckRepeatabilityCoefficient.Checked Then icc.RepeatabilityCoefficient_TwoWay(data2.X, False, True, Me.spinBtnAlphaICC.Value)
-            strIccType = $"ICC(3,{data2.X.GetLength(1)})"
+        ElseIf intent.Choice = IccEstimatorChoice.ThreeAverage Then
+            iccNum = icc.ICC3k(data2.X, intent.Alpha)
+            If intent.Repeatability Then icc.RepeatabilityCoefficient_TwoWay(data2.X, False, True, intent.Alpha)
+            strIccType = intent.Label(data2.X.GetLength(1))
 
         End If
 
-        Dim res = icc.wrapResults(iccNum, strIccType)
+        Dim presentation As New AgreementReportPlan(AgreementMethod.Icc, icc.wrapResults(iccNum, strIccType), axis)
+        Dim res = presentation.TablesForWriter()
 
         'Dump outputs
         Dim WriteRes = GetResultWriter() 'pass just table from the main test output
         Dim rr = New ProcessListofResultTables(res)
-        Dim totrows As Integer = rr.TotRows + res.Count - 1 'one blank row as a separator
+        Dim totrows As Integer = presentation.NativeRowSpan(rr.TotRows) 'one blank row as a separator
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then

@@ -1,0 +1,41 @@
+{
+  "status": "OPEN / CANDIDATE_ONLY / UNAPPLIED",
+  "activated_fixes": 0,
+  "issues": [
+    {
+      "id": "C26-ICC-NONFINITE-COUNT-01",
+      "reproducer": "Original Ui12 CheckData comparison integer guard accepts positive Infinity; subsequent original CInt in RunICC raises OverflowException. Planning26Tests characterizes guard and conversion separately.",
+      "actual": "Original GUI guard and CInt timing retained; no new blocking Common validation.",
+      "proposed": "Require finite integral subject observation count before conversion, subject to owner review.",
+      "owner": "Windows validation owner / later 04A.47",
+      "activation_gate": "Separate native/behavior authorization."
+    },
+    {
+      "id": "C26-INDEPENDENT-PROP-DEFAULTS-01",
+      "reproducer": "Ui12 constructor independent-proportions final defaults p0=.5,p1=.4; ApplyIndependentProportionHypothesisLayout superiority resets .4,.5. SampleSizePlanningDefaults retains both contexts.",
+      "actual": "Existing control initialization/toggling untouched.",
+      "proposed": "Owner decides intended initial versus toggled default orientation.",
+      "owner": "Windows/UDF planning owners / 04A.39–04A.42 and 04A.47",
+      "activation_gate": "Separate default/output approval."
+    },
+    {
+      "id": "C26-GUI-UDF-CONTRACT-01",
+      "reproducer": "SampleSizeUDFs exposes two-sided option for survival sizing; Ui12 passes True. GUI reports full allocation/text while scalar UDF contracts select different fields.",
+      "actual": "All UDF source/registrations unchanged; GUI branches retain original arguments.",
+      "proposed": "Inventory intentional differences before any reconciliation.",
+      "owner": "UDF/scientific owner / 04A.39–04A.42",
+      "activation_gate": "Separate scientific/public-contract review."
+    },
+    {
+      "id": "C26-RESAMPLING-MINIMUM-01",
+      "reproducer": "Initial profiles with BootstrapReplicates=30: Deming rejects below 50 even analytical paths; Lin/Bland bootstrap reject below 200; Kappa validation clamps to 200. Final positive fixtures use 200 and explicit Lin/Bland low-replicate rejection remains.",
+      "actual": "Core policies and original GUI spinner/exception boundaries retained; Common echoes entered replicates without new guard.",
+      "proposed": "Review whether host capability/help intent should expose method-specific lower bounds or clamp semantics.",
+      "owner": "Scientific/agreement and Windows owners / later 04A.39–42 and 04A.47",
+      "activation_gate": "Separate scientific/default and native validation approval."
+    }
+  ],
+  "predecessors": "C09/C11/C12, C13 log-rank, C17–C25 including C21 stacked validation and C24 historic oracle scope remain unchanged/unapplied.",
+  "native_releases": 0,
+  "discharges": 0
+}

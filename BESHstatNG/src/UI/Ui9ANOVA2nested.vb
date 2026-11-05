@@ -1,8 +1,11 @@
-﻿Imports System.Security.Cryptography
+﻿Imports BESHStatNG.ExcelCommon
+Imports System.Security.Cryptography
 Imports BESHStatNG.AppInfrastructure
 Imports Microsoft.Office.Interop.Excel
 
 Public Class Ui9ANOVA2nested
+    Private ReadOnly blandSourceRows As New System.Runtime.CompilerServices.ConditionalWeakTable(Of MultiGroupsPairedDataObj, Integer())
+
     Sub New(analysis As String, tagn As Integer)
 
         ' This call is required by the designer.
@@ -161,6 +164,7 @@ Public Class Ui9ANOVA2nested
         out.X = byIdData.FinalData
         out.varNames = byIdData.varNames
 
+        If Me.Tag = HelpTopic.BlandAltman AndAlso byIdData.RowIds IsNot Nothing Then blandSourceRows.Add(out, CType(byIdData.RowIds.Clone(), Integer()))
         Return out
     End Function
 
@@ -210,29 +214,20 @@ Public Class Ui9ANOVA2nested
         .AllowFallbackToSimple = Me.ckBlandAllowFallback.Checked
     }
 
-        Select Case Me.cmbBlandXAxis.SelectedIndex
-            Case 1 : opts.XAxisMode = Agreement.BlandAltmanXAxisMode.ReferenceMethod
-            Case 2 : opts.XAxisMode = Agreement.BlandAltmanXAxisMode.TestMethod
-            Case Else : opts.XAxisMode = Agreement.BlandAltmanXAxisMode.MeanOfMethods
-        End Select
-
-        Select Case Me.cmbBlandPlotMode.SelectedIndex
-            Case 1 : opts.PlotMode = Agreement.RepeatedBlandAltmanPlotMode.SubjectMeansOnly
-            Case 2 : opts.PlotMode = Agreement.RepeatedBlandAltmanPlotMode.AllObservationsAndSubjectMeans
-            Case Else : opts.PlotMode = Agreement.RepeatedBlandAltmanPlotMode.AllObservations
-        End Select
-
-        If opts.BootstrapReplicates <= 0 Then opts.BootstrapReplicates = 2000
+        Dim selection As New BlandRequestSelection(opts, Me.cmbBlandXAxis.SelectedIndex, Me.cmbBlandPlotMode.SelectedIndex)
+        opts = selection.CreateOptions()
 
         If Not WindowsPairedInputAdapter.Accept(ExcelCommon.PairedOptionPolicy.ValidateBland(opts, x, y), decisionErr) Then
             MsgBox(decisionErr, vbExclamation)
             Exit Sub
         End If
 
-        Dim ba As New Agreement.BlandAltmanAgreement(x, y,
-                                             If(hasSubjectIds, d.varNames(1), d.varNames(0)),
-                                             If(hasSubjectIds, d.varNames(2), d.varNames(1)),
-                                             opts)
+        Dim referenceName = If(hasSubjectIds, d.varNames(1), d.varNames(0))
+        Dim testName = If(hasSubjectIds, d.varNames(2), d.varNames(1))
+        Dim physicalRows As Integer() = Nothing
+        blandSourceRows.TryGetValue(d, physicalRows)
+        Dim axis As New AgreementInputAxis(x.Length, {referenceName, testName}, physicalRows, x, y, subIds)
+        Dim ba As New Agreement.BlandAltmanAgreement(axis.First(), axis.Second(), referenceName, testName, opts)
         Dim fit = ba.Fit()
         Dim res = ba.wrapResults()
 
@@ -244,21 +239,24 @@ Public Class Ui9ANOVA2nested
             fit, lowerAllowable, upperAllowable)
 
             Dim scaleText As String = If(String.IsNullOrWhiteSpace(Me.cmbBlandScale.Text), "Raw difference", Me.cmbBlandScale.Text)
-            res.Add(Me.BuildBlandAllowableBiasTable(biasAssessment, scaleText, fit.UsedRepeatedModel))
-            res.Add(Me.BuildBlandDecisionLimitTable(loaAssessment, scaleText, fit.UsedRepeatedModel))
+            AgreementReportPlan.AppendDecisionTables(res,
+                Me.BuildBlandAllowableBiasTable(biasAssessment, scaleText, fit.UsedRepeatedModel),
+                Me.BuildBlandDecisionLimitTable(loaAssessment, scaleText, fit.UsedRepeatedModel))
         End If
 
+        Dim presentation As New AgreementReportPlan(AgreementMethod.BlandAltman, res, axis)
+        res = presentation.TablesForWriter()
         Dim rr = New ProcessListofResultTables(res)
 
         WriteRes = GetResultWriter()
-        Dim totrows As Integer = rr.TotRows + res.Count + res.Count - 1
+        Dim totrows As Integer = presentation.NativeRowSpan(rr.TotRows)
         Dim totcols As Integer = rr.TotCols
         If AreaCheck(WriteRes.RowID, WriteRes.ColID, totrows, totcols, WriteRes.ws) Then
             If MsgBox("Output range not empty! Overwrite?", vbYesNo + vbExclamation, "Overwrite?") = vbNo Then Exit Sub
         End If
 
         rr.writeToSheet(WriteRes, True)
-        ba.AddPlot(WriteRes.ws)
+        If presentation.PlotRequested Then ba.AddPlot(WriteRes.ws)
     End Sub
 
     Private Sub RunPassingBablok(d As MultiGroupsPairedDataObj)

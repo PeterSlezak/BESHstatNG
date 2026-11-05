@@ -260,6 +260,7 @@ If you tighten the target half-width, the required sample size increases quickly
 - The result depends strongly on the assumed **SD of differences**. Use the best available prior information.
 - The planner targets **precision of LoA**, not power for a null-hypothesis test.
 - The output is the number of **complete pairs** required.
+- The achieved LoA CI half-width describes precision at the returned pair count under the entered assumptions. The current Windows dialog has no separate assurance solver.
 - If repeated measurements per subject are planned and the repeated structure is central to the design, interpret the result cautiously and consider whether a more specialized repeated-measures planning strategy is needed.
 
 ---

@@ -394,4 +394,13 @@
     <Error Condition="!Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets'))" />
   </Target>
   <Import Project="packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets" Condition="Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" />
+  <ItemGroup>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Planning26Tests.vb"><Link>Common\Planning26Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Planning26LegacyText.vb"><Link>Common\Planning26LegacyText.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Planning26LegacyCore.vb"><Link>Common\Planning26LegacyCore.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Agreement26Tests.vb"><Link>Common\Agreement26Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Agreement26Legacy.vb"><Link>Common\Agreement26Legacy.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\Agreement26Reference.vb"><Link>Common\Agreement26Reference.vb</Link></Compile>
+    <Compile Include="src\Agreement26AdapterTests.vb" />
+  </ItemGroup>
 </Project>
