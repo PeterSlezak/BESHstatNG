@@ -1,0 +1,24 @@
+{
+  "activated_behavior_fixes": 0,
+  "C21_STACKED_ROWCOUNT_VALIDATION_01": "OPEN / CANDIDATE_ONLY / UNAPPLIED",
+  "C24": [
+    {
+      "id": "C24-HISTORICAL-ORACLE-SCOPE-01",
+      "status": "OPEN / CANDIDATE_ONLY / UNAPPLIED",
+      "source": "BESHStat.Excel.Common.Tests/src/Spc23LegacyPreparation.vb",
+      "reproducer": "BuildDiagnosticTables uses Dim signalOnly As Boolean = SignalOnly; the VB local shadows the fixture field. Compare the old helper scope=True with its explicit selected-list observation and the original Ui22 cbDiagnosticScope predicate.",
+      "retained_behavior": "Original shipping predicate and the accepted 04A.23 independent SelectDiagnostics checks remain unchanged; old helper/corpus/expectations preserved byte-for-byte. New 04A.24 helper uses Me.SignalOnly to model the actual frozen UI predicate.",
+      "proposed_owner": "Historical compatibility-evidence review; any publication correction requires separate owner authorization. No Core/native/GUI correction activated.",
+      "pending": "Owner review of historical scope-labelled table hashes; no rerun or replacement of accepted corpora."
+    }
+  ],
+  "predecessors": "C09/C11/C12 native; C13; C14; C17/C18; C19; C20; C21 and accepted 22/23 candidates remain under their existing owners.",
+  "native": "NOT_RUN / UNAUTHORIZED",
+  "R": "NOT_RUN / UNAUTHORIZED",
+  "releases": 0,
+  "discharges": 0,
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET"
+}

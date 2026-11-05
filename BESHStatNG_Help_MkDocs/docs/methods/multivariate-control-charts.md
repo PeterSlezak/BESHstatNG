@@ -826,9 +826,13 @@ Reports the chart type, observation structure, input and chart-point counts, bas
 
 Reports the fitted model, including the process mean vector where applicable, covariance and analysis covariance matrices, inverse or pseudoinverse, effective rank, PCA scales, eigenvalues, eigenvectors/loadings, and retained-component information.
 
+Matrix rows and columns follow the selected variable order. PCA component headings follow the returned eigenpair order; the number of reported components and the effective covariance dimension describe different parts of the fitted model. Historical inputs, regularization and pseudoinverse use remain visible in the model and audit output.
+
 ### Multivariate Chart
 
 Contains a standard embedded Excel chart of the selected statistic with centre and control or decision limits. It can be moved, resized, formatted, copied, or exported; see [Export Chart](../export-chart.md).
+
+Chart categories use sequence values where selected and available, otherwise point labels. Source worksheet row numbers remain provenance rather than chart positions. Signal and exclusion markers follow the fitted point flags; a stage boundary denotes a change of stage ID, rather than a phase change alone. Missing plotted values leave gaps rather than zero-valued points.
 
 ### Chart Data
 
@@ -851,6 +855,8 @@ Contributions are diagnostic aids, not independent hypothesis tests or proof of 
 ### Settings and Audit
 
 Records the complete request, stage definitions, exclusions and reasons, historical parameters, method-specific settings, output and appearance choices, source-row information, timestamps, execution time, and calculation warnings.
+
+Warnings retain their original wording and first occurrence, considering result warnings before panel warnings. The selected outputs retain the sheet order shown above. Portable report and chart-data preparation does not provide an Office.js or Mac multivariate SPC dialog; native chart creation remains part of the Windows Excel-DNA workflow.
 
 ---
 

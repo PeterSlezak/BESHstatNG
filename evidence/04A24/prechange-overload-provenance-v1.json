@@ -1,0 +1,994 @@
+{
+  "source": "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+  "entry_source_sha256": "22c12a29438e8a179d3af469ed62959626f76f5752ca70797000c1a26a89a54a",
+  "members": [
+    {
+      "name": "New",
+      "signature": "    Public Sub New(analysis As String, tagn As Integer)",
+      "first_line": 128,
+      "last_line": 139,
+      "sha256": "0eee96c677d2ed9d0c223eb7fa92bf0f7ff306e3d87aa1f9501c2f71c0758512"
+    },
+    {
+      "name": "ConfigureDesignerCorrections",
+      "signature": "    Private Sub ConfigureDesignerCorrections()",
+      "first_line": 143,
+      "last_line": 173,
+      "sha256": "b091c531d820307611b905ef7ae0c55c415e8df14d2b6aa942c77f63f4c59e00"
+    },
+    {
+      "name": "InitializeOptionControls",
+      "signature": "    Private Sub InitializeOptionControls()",
+      "first_line": 175,
+      "last_line": 295,
+      "sha256": "18a24d92792edd93da0c7d3271fe381b6fc4de0ea49be64bd5e35bde1a4ace09"
+    },
+    {
+      "name": "ConfigureGridColumns",
+      "signature": "    Private Sub ConfigureGridColumns()",
+      "first_line": 297,
+      "last_line": 321,
+      "sha256": "af7e78634d8db30fddb9799b76e4e07e19ba7d4afdc75f5d9114f2dee07d52d6"
+    },
+    {
+      "name": "ConfigureResponsiveLayout",
+      "signature": "    Private Sub ConfigureResponsiveLayout()",
+      "first_line": 323,
+      "last_line": 340,
+      "sha256": "a465e35171764dd4042e6d0dee4b34813f3810adb0c5a7db6a096d464ca6cf3d"
+    },
+    {
+      "name": "ResponsiveLayoutChanged",
+      "signature": "    Private Sub ResponsiveLayoutChanged(sender As Object, e As System.EventArgs)",
+      "first_line": 342,
+      "last_line": 344,
+      "sha256": "3978193045d594c554538813d4eb1333865313626a8287835d1b4bb2a46b2cf9"
+    },
+    {
+      "name": "HistoricalLayoutChanged",
+      "signature": "    Private Sub HistoricalLayoutChanged(sender As Object, e As System.EventArgs)",
+      "first_line": 346,
+      "last_line": 348,
+      "sha256": "ca42f272a1df603ec2d8d8ee7b4697dfd2e02ea3e51fcb41745b88088db2caeb"
+    },
+    {
+      "name": "InnerWidth",
+      "signature": "    Private Shared Function InnerWidth(page As TabPage) As Integer",
+      "first_line": 350,
+      "last_line": 352,
+      "sha256": "c460aeadeb4e2ccc3ba02d5b03452c3448bfa32da698482dcdd6ae7d642f0c87"
+    },
+    {
+      "name": "ApplyResponsiveLayout",
+      "signature": "    Private Sub ApplyResponsiveLayout()",
+      "first_line": 354,
+      "last_line": 361,
+      "sha256": "3f44be5ed1a8f1026ba757d529191a5e05c8f39002884d1d72037f94e9a8f883"
+    },
+    {
+      "name": "LayoutChartDataTab",
+      "signature": "    Private Sub LayoutChartDataTab()",
+      "first_line": 363,
+      "last_line": 416,
+      "sha256": "042a0b1967be3a5fcc1108febd3163d5cb00ba159af9523c4b04d2291758637a"
+    },
+    {
+      "name": "AlignRoleButtons",
+      "signature": "    Private Shared Sub AlignRoleButtons(list As ListBox, addButton As Button, removeButton As Button)",
+      "first_line": 418,
+      "last_line": 422,
+      "sha256": "be4cc6a7874fcdbd891a7615d3ed3eab2e59b015737bba5c997175adc1f6fb42"
+    },
+    {
+      "name": "LayoutModelTab",
+      "signature": "    Private Sub LayoutModelTab()",
+      "first_line": 424,
+      "last_line": 435,
+      "sha256": "0090625cd3277a435fd238b7fc3fcd137aabac12f5a1adcd61f68348fa85c633"
+    },
+    {
+      "name": "LayoutHistoricalGrids",
+      "signature": "    Private Sub LayoutHistoricalGrids()",
+      "first_line": 437,
+      "last_line": 441,
+      "sha256": "8fd7ecac6df38b79caa0cae0f62678245d5f4a1a758465acd5a2c0942fee0394"
+    },
+    {
+      "name": "LayoutHistoricalPanel",
+      "signature": "    Private Shared Sub LayoutHistoricalPanel(panel As SplitterPanel, label As Label, grid As DataGridView)",
+      "first_line": 443,
+      "last_line": 451,
+      "sha256": "96346023161b9415e003e6bd3d8b3b25a82d8089e98464a02fe99845d485d878"
+    },
+    {
+      "name": "LayoutPhasesTab",
+      "signature": "    Private Sub LayoutPhasesTab()",
+      "first_line": 453,
+      "last_line": 477,
+      "sha256": "ed5a3a35412183fff52d2cff527b241f92e60867f26a139713e8f4a6e21f72d8"
+    },
+    {
+      "name": "LayoutMethodTab",
+      "signature": "    Private Sub LayoutMethodTab()",
+      "first_line": 479,
+      "last_line": 489,
+      "sha256": "b3a64616998b5bb016ea25bc3dd6c2dcb39e1f066bca0408ac908a7c7876f8ee"
+    },
+    {
+      "name": "LayoutOutputTab",
+      "signature": "    Private Sub LayoutOutputTab()",
+      "first_line": 491,
+      "last_line": 506,
+      "sha256": "2436e74ec8ea007d20d4639f2fc500200ee09f07299ccff58ee37b30546c52de"
+    },
+    {
+      "name": "FillCombo",
+      "signature": "    Private Shared Sub FillCombo(Of T)(combo As ComboBox, ParamArray items As ComboItem(Of T)())",
+      "first_line": 508,
+      "last_line": 518,
+      "sha256": "86bfb72ae882c04667a85e004c71ff8b4d6542ee559eeb86a4bf1a0b325db291"
+    },
+    {
+      "name": "SelectedComboValue",
+      "signature": "    Private Shared Function SelectedComboValue(Of T)(combo As ComboBox) As T",
+      "first_line": 520,
+      "last_line": 524,
+      "sha256": "09dc9802a39cc16838f34a4166aaf3a8995d1cae863572a48c6d594b87478d44"
+    },
+    {
+      "name": "SelectComboValue",
+      "signature": "    Private Shared Sub SelectComboValue(Of T)(combo As ComboBox, value As T)",
+      "first_line": 526,
+      "last_line": 534,
+      "sha256": "ef7531623206af435fd6cce8dc1eac7fe5232c11e297cadacbd33b6e73d8754d"
+    },
+    {
+      "name": "Populate",
+      "signature": "    Public Sub Populate(ws As Object)",
+      "first_line": 540,
+      "last_line": 546,
+      "sha256": "056432a67eaf1714ede36b58e0593464f408751f5ab352f65cfbdfbbd34353cd"
+    },
+    {
+      "name": "ReloadColumnLists",
+      "signature": "    Private Sub ReloadColumnLists(clearAssignments As Boolean)",
+      "first_line": 548,
+      "last_line": 571,
+      "sha256": "ce80b37d18ba033dfca70574e0efe3e8aaef7b1687466200dd379fa0a7f0ec44"
+    },
+    {
+      "name": "PopulateSourceColumnCombos",
+      "signature": "    Private Sub PopulateSourceColumnCombos()",
+      "first_line": 573,
+      "last_line": 590,
+      "sha256": "6fa8711c646b4356ae1dbd926019719e52c1d8e619589813d173b42d5c15c4cd"
+    },
+    {
+      "name": "WireRoleButtons",
+      "signature": "    Private Sub WireRoleButtons()",
+      "first_line": 592,
+      "last_line": 601,
+      "sha256": "7c10c07bdaf4482f40a862f104c4eefc2ff10886d8583d34bd1cea02993874a4"
+    },
+    {
+      "name": "MoveSelectedColumns",
+      "signature": "    Private Sub MoveSelectedColumns(target As ListBox, allowMany As Boolean)",
+      "first_line": 603,
+      "last_line": 624,
+      "sha256": "7342b8d2ae3637d6213a52b8b49edb0626a1b499b91b9ef02ee77aee8e8e6b15"
+    },
+    {
+      "name": "FindAssignedRole",
+      "signature": "    Private Function FindAssignedRole(columnName As String, target As ListBox) As String",
+      "first_line": 626,
+      "last_line": 637,
+      "sha256": "a06882e6803e9891741be8dd7261488f1cb2cef4e4734c69cc8e325666d27381"
+    },
+    {
+      "name": "RemoveSelectedItems",
+      "signature": "    Private Sub RemoveSelectedItems(list As ListBox)",
+      "first_line": 639,
+      "last_line": 648,
+      "sha256": "8b6b809d7193fabe45fb5a18716ee8bc3a51f53e4213f5f65eab802cb0dbf73f"
+    },
+    {
+      "name": "RoleAssignmentsChanged",
+      "signature": "    Private Sub RoleAssignmentsChanged()",
+      "first_line": 650,
+      "last_line": 655,
+      "sha256": "19491f900f77c9f9b6e345a95221aeea035072324581af0d0590394fbae22b99"
+    },
+    {
+      "name": "ClearDataRoles",
+      "signature": "    Private Sub ClearDataRoles()",
+      "first_line": 657,
+      "last_line": 662,
+      "sha256": "bb560328efa8fde043ca73627e7d58eef5e1056fbb6c454cc05656d4122af57d"
+    },
+    {
+      "name": "btReload_Click",
+      "signature": "    Private Sub btReload_Click(sender As Object, e As System.EventArgs) Handles btReload.Click",
+      "first_line": 664,
+      "last_line": 675,
+      "sha256": "88e9a9717e3e1f0b7855d605dc815416fd91d73b54b5770e95a90e016f3640b5"
+    },
+    {
+      "name": "btClearDataRoles_Click",
+      "signature": "    Private Sub btClearDataRoles_Click(sender As Object, e As System.EventArgs) Handles btClearDataRoles.Click",
+      "first_line": 677,
+      "last_line": 679,
+      "sha256": "37118d883b19612a51d640d0c9baf91f0d45f4bfb3a0e2c2253ad5865f1faf57"
+    },
+    {
+      "name": "SelectedChartChoice",
+      "signature": "    Private Function SelectedChartChoice() As ChartChoice",
+      "first_line": 685,
+      "last_line": 689,
+      "sha256": "f959f206c39b6c930f6503264ca2756382f58423ad2c9b7bfb06f3c68c503cfa"
+    },
+    {
+      "name": "SelectedChartType",
+      "signature": "    Private Function SelectedChartType() As SpcChartType",
+      "first_line": 691,
+      "last_line": 693,
+      "sha256": "fa2325715912a489f5603c18f07ff490f2b22917319104a13dc691907dc21fb6"
+    },
+    {
+      "name": "IsGroupedStructure",
+      "signature": "    Private Function IsGroupedStructure() As Boolean",
+      "first_line": 695,
+      "last_line": 697,
+      "sha256": "0e6acae2673d8f2a1b094e455742ed0d27d4d339cb7935551f0f74ece2948c7a"
+    },
+    {
+      "name": "cbChartType_SelectedIndexChanged",
+      "signature": "    Private Sub cbChartType_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbChartType.SelectedIndexChanged",
+      "first_line": 699,
+      "last_line": 702,
+      "sha256": "5443558a0b0b1d7b28e02f8ad5984edc0a077d92bfe6290be888478c5aeb7b9e"
+    },
+    {
+      "name": "cbObservationStructure_SelectedIndexChanged",
+      "signature": "    Private Sub cbObservationStructure_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbObservationStructure.SelectedIndexChanged",
+      "first_line": 704,
+      "last_line": 708,
+      "sha256": "3ea0ec729f62910ad9432a02a4e9a553a9636c3d4e0c7e014b643d60d8c4a45e"
+    },
+    {
+      "name": "PopulateObservationStructures",
+      "signature": "    Private Sub PopulateObservationStructures(chartType As SpcChartType)",
+      "first_line": 710,
+      "last_line": 735,
+      "sha256": "027cad01aac5df8f128ed8df3bfdbd2b79621ecc67956d5eb10f1bcb46619ed2"
+    },
+    {
+      "name": "UpdateChartDependentControls",
+      "signature": "    Private Sub UpdateChartDependentControls(Optional preserveStructure As Boolean = False)",
+      "first_line": 737,
+      "last_line": 815,
+      "sha256": "87c18c71df1d1846646f3b76e5004eaaf8972e9aedf3a3f24b312adcf48a73c0"
+    },
+    {
+      "name": "UpdateRoleAvailability",
+      "signature": "    Private Sub UpdateRoleAvailability()",
+      "first_line": 817,
+      "last_line": 826,
+      "sha256": "1926f6a2116732945d991119dc8e5c11eda35ae16fe9b9ab840e6c90090ddda5"
+    },
+    {
+      "name": "SetRoleEnabled",
+      "signature": "    Private Shared Sub SetRoleEnabled(list As ListBox, label As Label,",
+      "first_line": 828,
+      "last_line": 836,
+      "sha256": "5765cad34d616610cf8a7d597781ae9b24d3ae8e1e75efb65b35499417427449"
+    },
+    {
+      "name": "cbModelSource_SelectedIndexChanged",
+      "signature": "    Private Sub cbModelSource_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbModelSource.SelectedIndexChanged",
+      "first_line": 838,
+      "last_line": 842,
+      "sha256": "88e5ad2bf20b4b457c84ae1fcc0df51a073417ea79ba57ce5578496a1cf73f21"
+    },
+    {
+      "name": "UpdateHistoricalControls",
+      "signature": "    Private Sub UpdateHistoricalControls()",
+      "first_line": 844,
+      "last_line": 860,
+      "sha256": "b75ae084982506ca30282155fa930354ed3343bd56f7a1b36495f2290f1c9e8a"
+    },
+    {
+      "name": "rbPca_CheckedChanged",
+      "signature": "    Private Sub rbPca_CheckedChanged(sender As Object, e As System.EventArgs) Handles rbPcaVarianceSelection.CheckedChanged, rbPcaFixedComponents.CheckedChanged",
+      "first_line": 862,
+      "last_line": 864,
+      "sha256": "5d5acc017b20ccfcaada665a6141a686f54bd38c43b943306fcf5346360dcaf2"
+    },
+    {
+      "name": "UpdatePcaSelectionControls",
+      "signature": "    Private Sub UpdatePcaSelectionControls()",
+      "first_line": 866,
+      "last_line": 869,
+      "sha256": "171a2e73dc7ee61ff42fdfc8da809d30f8f1f4d7c1ccb84b777422c8568c7eff"
+    },
+    {
+      "name": "UpdatePcaComponentMaximum",
+      "signature": "    Private Sub UpdatePcaComponentMaximum()",
+      "first_line": 871,
+      "last_line": 881,
+      "sha256": "5c653d597839a6b1af3d101eddcb1748dbaa826b58c501424b8dd0ff93e89fc3"
+    },
+    {
+      "name": "chkSpecifyGvSigmaMultiplier_CheckedChanged",
+      "signature": "    Private Sub chkSpecifyGvSigmaMultiplier_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkSpecifyGvSigmaMultiplier.CheckedChanged",
+      "first_line": 883,
+      "last_line": 886,
+      "sha256": "c30e0a94b3127857ce4eaaa3255d737d6c0d2ed8e44071395891a81aed822fd2"
+    },
+    {
+      "name": "chkSpecifyMewmaControlLimit_CheckedChanged",
+      "signature": "    Private Sub chkSpecifyMewmaControlLimit_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkSpecifyMewmaControlLimit.CheckedChanged",
+      "first_line": 888,
+      "last_line": 893,
+      "sha256": "38444af45eecf386f4f2bdb39d4965935e3531c44f407bcb3399067bd74a5d99"
+    },
+    {
+      "name": "chkWriteDiagnostics_CheckedChanged",
+      "signature": "    Private Sub chkWriteDiagnostics_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkWriteDiagnostics.CheckedChanged",
+      "first_line": 895,
+      "last_line": 897,
+      "sha256": "de42f9b21f039a9d3410c4d2876ab405dd599355d33fc43c474e1fcff068442a"
+    },
+    {
+      "name": "UpdateDiagnosticsControls",
+      "signature": "    Private Sub UpdateDiagnosticsControls()",
+      "first_line": 899,
+      "last_line": 902,
+      "sha256": "47311c90b0c2d3558c69cd040dd8a56915be8163c65404f6e8205afa4e2714d4"
+    },
+    {
+      "name": "btRefreshHistoricalVariables_Click",
+      "signature": "    Private Sub btRefreshHistoricalVariables_Click(sender As Object, e As System.EventArgs) Handles btRefreshHistoricalVariables.Click",
+      "first_line": 908,
+      "last_line": 910,
+      "sha256": "f7c959cd567f5d5d47bc353c2d07f1bc8613f08a20cc05b0be88099498ad2870"
+    },
+    {
+      "name": "RefreshHistoricalVariables",
+      "signature": "    Private Sub RefreshHistoricalVariables(preserveValues As Boolean)",
+      "first_line": 912,
+      "last_line": 969,
+      "sha256": "832a4574e0750d72d1ebe6ded33f294dd76e35234d8edda407ca3c59ddb385c9"
+    },
+    {
+      "name": "btImportHistoricalMean_Click",
+      "signature": "    Private Sub btImportHistoricalMean_Click(sender As Object, e As System.EventArgs) Handles btImportHistoricalMean.Click",
+      "first_line": 971,
+      "last_line": 987,
+      "sha256": "875f246d8875cc97ea970c2583fa75bba3f7012e696f5eb2c9283920a122434c"
+    },
+    {
+      "name": "btImportHistoricalCovariance_Click",
+      "signature": "    Private Sub btImportHistoricalCovariance_Click(sender As Object, e As System.EventArgs) Handles btImportHistoricalCovariance.Click",
+      "first_line": 989,
+      "last_line": 1005,
+      "sha256": "b3d89b7a41f3a13ac71dc6556dd419d93947c78404552ce91ca702e82c7103b4"
+    },
+    {
+      "name": "btClearHistoricalModel_Click",
+      "signature": "    Private Sub btClearHistoricalModel_Click(sender As Object, e As System.EventArgs) Handles btClearHistoricalModel.Click",
+      "first_line": 1007,
+      "last_line": 1016,
+      "sha256": "6e07470065718c50e1d3b836f2160799e0a2d22adf2c2f0cd9817efbd4543535"
+    },
+    {
+      "name": "EnsureHistoricalGridReady",
+      "signature": "    Private Sub EnsureHistoricalGridReady()",
+      "first_line": 1018,
+      "last_line": 1024,
+      "sha256": "12ff56c459185d17dd24d4325bff8311bf5cd39748f9ab665fbc601cf2e24e1d"
+    },
+    {
+      "name": "ReadSelectedNumericRange",
+      "signature": "    Private Function ReadSelectedNumericRange() As Double(,)",
+      "first_line": 1026,
+      "last_line": 1048,
+      "sha256": "636caa450fd10b0da85f4d5fca39ff95ab78684bfde8183252f132c0a6c5e2d0"
+    },
+    {
+      "name": "RequiredNumericValue",
+      "signature": "    Private Shared Function RequiredNumericValue(value As Object, label As String) As Double",
+      "first_line": 1050,
+      "last_line": 1058,
+      "sha256": "cf53949af4a14476916db7c3ef7a0eb9350006607e4e96100cb7d83dd4fb590e"
+    },
+    {
+      "name": "rbPhase_CheckedChanged",
+      "signature": "    Private Sub rbPhase_CheckedChanged(sender As Object, e As System.EventArgs) Handles rbSinglePhaseI.CheckedChanged, rbPhaseIThenPhaseII.CheckedChanged, rbSinglePhaseII.CheckedChanged",
+      "first_line": 1060,
+      "last_line": 1062,
+      "sha256": "15c04438b3ac0cdc5acae52bec27b25f22bcebf5f681e510ccd022817b6a48bc"
+    },
+    {
+      "name": "UpdateQuickPhaseControls",
+      "signature": "    Private Sub UpdateQuickPhaseControls()",
+      "first_line": 1064,
+      "last_line": 1067,
+      "sha256": "7a7f196f158de78e042e174db15ab27e7f727005ece6824403be46aa6e438dd4"
+    },
+    {
+      "name": "btApplyQuickPhaseSetup_Click",
+      "signature": "    Private Sub btApplyQuickPhaseSetup_Click(sender As Object, e As System.EventArgs) Handles btApplyQuickPhaseSetup.Click",
+      "first_line": 1069,
+      "last_line": 1092,
+      "sha256": "0d08c5582f323a86798baed781b97d6b84c5a703fbbc9c6fab46ee3a89d4cc4b"
+    },
+    {
+      "name": "btAddStage_Click",
+      "signature": "    Private Sub btAddStage_Click(sender As Object, e As System.EventArgs) Handles btAddStage.Click",
+      "first_line": 1094,
+      "last_line": 1100,
+      "sha256": "28fe08526d2552bd742262f5f269a192fe19a39be4a404e0430236d3e6c272ab"
+    },
+    {
+      "name": "btRemoveStage_Click",
+      "signature": "    Private Sub btRemoveStage_Click(sender As Object, e As System.EventArgs) Handles btRemoveStage.Click",
+      "first_line": 1102,
+      "last_line": 1105,
+      "sha256": "5a272e570ca586355ebde5e21da0dde493b07bea20829a6cd1116ce3d62dc592"
+    },
+    {
+      "name": "btClearStages_Click",
+      "signature": "    Private Sub btClearStages_Click(sender As Object, e As System.EventArgs) Handles btClearStages.Click",
+      "first_line": 1107,
+      "last_line": 1110,
+      "sha256": "7df2ebede7c35ab06643292433edfab39f17c62ba247ed331bef27d055af7fa2"
+    },
+    {
+      "name": "dgvStages_DefaultValuesNeeded",
+      "signature": "    Private Sub dgvStages_DefaultValuesNeeded(sender As Object, e As DataGridViewRowEventArgs) Handles dgvStages.DefaultValuesNeeded",
+      "first_line": 1112,
+      "last_line": 1114,
+      "sha256": "3b61d99178f5639240e38f1a3d8eac8ff96f7df78d1e458fcacbaed4d07a4d33"
+    },
+    {
+      "name": "AddStageRow",
+      "signature": "    Private Sub AddStageRow(stageId As String, firstPoint As Integer, lastPoint As Integer, phase As SpcPhase)",
+      "first_line": 1116,
+      "last_line": 1123,
+      "sha256": "55fab469d7688f49ffd3c88c740dd6ccb361e272c9a93aff1e263a929271a21d"
+    },
+    {
+      "name": "btImportStages_Click",
+      "signature": "    Private Sub btImportStages_Click(sender As Object, e As System.EventArgs) Handles btImportStages.Click",
+      "first_line": 1125,
+      "last_line": 1146,
+      "sha256": "5ac1adf80f5a7204a2d3bac504ed447909b0a1a82a42ecf5bae062565af054a8"
+    },
+    {
+      "name": "ClearQuickPhaseSelection",
+      "signature": "    Private Sub ClearQuickPhaseSelection()",
+      "first_line": 1150,
+      "last_line": 1155,
+      "sha256": "bb7bce2d94864d5f45d7600c4d92be93d9d7dc1833aedc70f85ad03edd6b72cc"
+    },
+    {
+      "name": "btAddExclusion_Click",
+      "signature": "    Private Sub btAddExclusion_Click(sender As Object, e As System.EventArgs) Handles btAddExclusion.Click",
+      "first_line": 1157,
+      "last_line": 1160,
+      "sha256": "bc10bcfe22f8fea6a78310b87e42f0f949f5769ec9bc4e1029e1f07e5e86df41"
+    },
+    {
+      "name": "btRemoveExclusion_Click",
+      "signature": "    Private Sub btRemoveExclusion_Click(sender As Object, e As System.EventArgs) Handles btRemoveExclusion.Click",
+      "first_line": 1162,
+      "last_line": 1164,
+      "sha256": "de3ca91093f4a5208071e06a77eb57b384d0d5e496fe0b208564cfd5bd3e3756"
+    },
+    {
+      "name": "btClearExclusions_Click",
+      "signature": "    Private Sub btClearExclusions_Click(sender As Object, e As System.EventArgs) Handles btClearExclusions.Click",
+      "first_line": 1166,
+      "last_line": 1168,
+      "sha256": "4b8abcaf0d332d1d7253cee92553079c52f170e351c6983468f2e39d2ccef4ff"
+    },
+    {
+      "name": "btImportExclusions_Click",
+      "signature": "    Private Sub btImportExclusions_Click(sender As Object, e As System.EventArgs) Handles btImportExclusions.Click",
+      "first_line": 1170,
+      "last_line": 1194,
+      "sha256": "6a861473ec950ef7dd3204fdabc5eac4dce7e03142b5cbea6d7dd6803a2a5947"
+    },
+    {
+      "name": "RemoveSelectedGridRows",
+      "signature": "    Private Shared Sub RemoveSelectedGridRows(grid As DataGridView)",
+      "first_line": 1196,
+      "last_line": 1205,
+      "sha256": "e53373fb932ca6960c2cb36bd50df593ffdf34a12c02808d7a555c043f882ce3"
+    },
+    {
+      "name": "Grid_DataError",
+      "signature": "    Private Sub Grid_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles dgvHistoricalMean.DataError, dgvHistoricalCovariance.DataError, dgvStages.DataError, dgvExclusions.DataError",
+      "first_line": 1207,
+      "last_line": 1209,
+      "sha256": "3fc9e57e861119e0cd09460913778d50df7482346e99f6bc1fbdf22a5466430a"
+    },
+    {
+      "name": "BuildRequest",
+      "signature": "    Private Function BuildRequest() As SpcMultivariateRequest",
+      "first_line": 1215,
+      "last_line": 1288,
+      "sha256": "8d5a9b776f1412f5d625d22b0edc466725b7d6c3868f8c2239c5a98c923c3611"
+    },
+    {
+      "name": "ValidateSelections",
+      "signature": "    Private Sub ValidateSelections()",
+      "first_line": 1290,
+      "last_line": 1321,
+      "sha256": "fab5af7956e004dcc4e00f614d01419e92e510d720d4fdf4afa8877dfe2da20d"
+    },
+    {
+      "name": "RequireExactlyOne",
+      "signature": "    Private Shared Sub RequireExactlyOne(list As ListBox, roleName As String)",
+      "first_line": 1323,
+      "last_line": 1325,
+      "sha256": "25d39992fd3e54046988948aca0a0d86571c246668eefca192395090fb256b4d"
+    },
+    {
+      "name": "GetInputRowContext",
+      "signature": "    Private Function GetInputRowContext() As InputRowContext",
+      "first_line": 1327,
+      "last_line": 1354,
+      "sha256": "5c6ef73bd324ab708376ee1617fadb9b1af6228268fec57d9a6e0a2c546b894b"
+    },
+    {
+      "name": "NormalizeGroupedMetadata",
+      "signature": "    Private Shared Sub NormalizeGroupedMetadata(ByRef labels As String(), ByRef sequences As Double(), context As InputRowContext)",
+      "first_line": 1356,
+      "last_line": 1358,
+      "sha256": "0486fb4dac9d40f40bb7177ed2c08500453fda1dca323e5cfd9dc648862f953f"
+    },
+    {
+      "name": "BuildPointAssignments",
+      "signature": "    Private Function BuildPointAssignments(pointCount As Integer) As SpcMultivariatePointAssignments",
+      "first_line": 1360,
+      "last_line": 1373,
+      "sha256": "e339229d4f3f4dae38869dbd7526cf2a00b09ad09dda969079721e9b2a2687ca"
+    },
+    {
+      "name": "BuildPointExclusions",
+      "signature": "    Private Function BuildPointExclusions(pointCount As Integer) As SpcMultivariatePointExclusions",
+      "first_line": 1375,
+      "last_line": 1386,
+      "sha256": "0d66e3b0d4e16c112e3080bfd38b4d2c59c48512c62585affec8036379ca7e0d"
+    },
+    {
+      "name": "BuildHistoricalModel",
+      "signature": "    Private Sub BuildHistoricalModel(ByRef mean As Double(), ByRef covariance As Double(,))",
+      "first_line": 1388,
+      "last_line": 1405,
+      "sha256": "9348aa6f7cfca7ba5cdaefac5e5af718d852ddced6ef39ed35d19085823ae42e"
+    },
+    {
+      "name": "RoleColumnInfos",
+      "signature": "    Private Function RoleColumnInfos(list As ListBox) As List(Of VarColumnInfo)",
+      "first_line": 1407,
+      "last_line": 1413,
+      "sha256": "c47990b338a75f99e868e5c5357a931842090ef57b85566c1355e56b444ee00d"
+    },
+    {
+      "name": "ColumnInfo",
+      "signature": "    Private Function ColumnInfo(displayText As String) As VarColumnInfo",
+      "first_line": 1415,
+      "last_line": 1421,
+      "sha256": "236b741e196b4983564eb3c3c1fda479e6e7ffeb7d1a375f09ac5425ee6f455b"
+    },
+    {
+      "name": "OptionalComboColumn",
+      "signature": "    Private Function OptionalComboColumn(combo As ComboBox) As VarColumnInfo",
+      "first_line": 1423,
+      "last_line": 1426,
+      "sha256": "16b3fd28ed408340c5d8afc3136c878bacd8bdc318d28a34e92cee6642f1ecc5"
+    },
+    {
+      "name": "LastUsedRow",
+      "signature": "    Private Function LastUsedRow(columnNumber As Integer) As Integer",
+      "first_line": 1428,
+      "last_line": 1431,
+      "sha256": "7ca287baf07edecc441ec17945cff416131a71180fc438181489f9ddce15bd58"
+    },
+    {
+      "name": "ReadObjectColumn",
+      "signature": "    Private Function ReadObjectColumn(info As VarColumnInfo, firstRow As Integer, lastRow As Integer) As Object()",
+      "first_line": 1433,
+      "last_line": 1449,
+      "sha256": "771162451594b0ff835c4c338f6aeef46a00af98362c7e0901700a96092b5da8"
+    },
+    {
+      "name": "ReadNumericColumn",
+      "signature": "    Private Function ReadNumericColumn(info As VarColumnInfo, firstRow As Integer, lastRow As Integer) As Double()",
+      "first_line": 1451,
+      "last_line": 1469,
+      "sha256": "1b910a26388d09d411ac45992413982c57018e68976b753c91fbb9a33b36080f"
+    },
+    {
+      "name": "ReadTextColumn",
+      "signature": "    Private Function ReadTextColumn(info As VarColumnInfo, firstRow As Integer, lastRow As Integer) As String()",
+      "first_line": 1471,
+      "last_line": 1478,
+      "sha256": "082c938c008e26ac81b3457f12af5350416394dce11ef7f12deee86aceb88ec7"
+    },
+    {
+      "name": "NormalizeWorksheetValue",
+      "signature": "    Private Shared Function NormalizeWorksheetValue(value As Object) As Object",
+      "first_line": 1480,
+      "last_line": 1485,
+      "sha256": "08eeb42394fc366a38a1944556b44a2011045025207e6f46c20eb7649430e6dd"
+    },
+    {
+      "name": "btCompute_Click",
+      "signature": "    Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click",
+      "first_line": 1491,
+      "last_line": 1514,
+      "sha256": "ef5fd8e39e02c31148d06bf5873b1eea6f4ce675e89bb697f63d0cc07d602149"
+    },
+    {
+      "name": "BeginComputation",
+      "signature": "    Private Sub BeginComputation()",
+      "first_line": 1516,
+      "last_line": 1525,
+      "sha256": "3aebec4b9facd8e32c2f5f6a8d3ad70b83fa2280de8b9683429fa5a5bd43d737"
+    },
+    {
+      "name": "EndComputation",
+      "signature": "    Private Sub EndComputation()",
+      "first_line": 1527,
+      "last_line": 1535,
+      "sha256": "0622f5de7fca6b53878c1478bf40347cb904ec11af3946883d268d11d1b6563a"
+    },
+    {
+      "name": "CancellationRequested",
+      "signature": "    Private Function CancellationRequested() As Boolean",
+      "first_line": 1537,
+      "last_line": 1540,
+      "sha256": "11745f8987691af89bd7e22eabf676f3f43c7cc6465c0397ccec452d27d94e4f"
+    },
+    {
+      "name": "btnInterrupt_Click",
+      "signature": "    Private Sub btnInterrupt_Click(sender As Object, e As System.EventArgs) Handles btnInterrupt.Click",
+      "first_line": 1542,
+      "last_line": 1545,
+      "sha256": "26bace0d9352784a82030bf4bb78c8ebc68fbd8070a1574cb8302ae03dc410a9"
+    },
+    {
+      "name": "Ui22MultivariateControlCharts_FormClosing",
+      "signature": "    Private Sub Ui22MultivariateControlCharts_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing",
+      "first_line": 1547,
+      "last_line": 1551,
+      "sha256": "ebce226cac352a5970ff5496287222551171a98156e377d7957a7f6823e553d4"
+    },
+    {
+      "name": "Ui22MultivariateControlCharts_Shown",
+      "signature": "    Private Sub Ui22MultivariateControlCharts_Shown(sender As Object, e As System.EventArgs) Handles Me.Shown",
+      "first_line": 1553,
+      "last_line": 1557,
+      "sha256": "7d4dce64e10e9ff6b5815f56bfcdf6e2fee7fcc611bdad1fe3e6844b3a9a550e"
+    },
+    {
+      "name": "WriteResultsToNewWorkbook",
+      "signature": "    Private Sub WriteResultsToNewWorkbook(result As SpcMultivariateFitResult)",
+      "first_line": 1559,
+      "last_line": 1614,
+      "sha256": "e71002c515f88e35d6133bb52144d07504d5fae46c815d7a1856a44a9786c86b"
+    },
+    {
+      "name": "BuildChartRenderingResult",
+      "signature": "    Private Function BuildChartRenderingResult(result As SpcMultivariateFitResult) As SpcFitResult",
+      "first_line": 1616,
+      "last_line": 1638,
+      "sha256": "78913d9e5bc98088d14e3bcbbab9eff079e0bbe52cb44534f3a8d2af1efa1952"
+    },
+    {
+      "name": "BuildAppearanceOptions",
+      "signature": "    Private Function BuildAppearanceOptions() As graphics.SpcControlChartAppearanceOptions",
+      "first_line": 1640,
+      "last_line": 1664,
+      "sha256": "a53c51442594b43aa1c697bb65a263e328bfacc88cfd1ab31d8da6e979638bb9"
+    },
+    {
+      "name": "btResetAppearance_Click",
+      "signature": "    Private Sub btResetAppearance_Click(sender As Object, e As System.EventArgs) Handles btResetAppearance.Click",
+      "first_line": 1666,
+      "last_line": 1684,
+      "sha256": "c31e8a79c1abe08053350d4696ff7e8869413c461aa961309f22f2be6efd034d"
+    },
+    {
+      "name": "ClampDecimal",
+      "signature": "    Private Shared Function ClampDecimal(value As Decimal, minimum As Decimal, maximum As Decimal) As Decimal",
+      "first_line": 1686,
+      "last_line": 1688,
+      "sha256": "fac8a613fbea91787fc85fbfa1e769c6dee153e111ec911687777edfa129b228"
+    },
+    {
+      "name": "CreateResultWorkbook",
+      "signature": "    Private Function CreateResultWorkbook() As Excel.Workbook",
+      "first_line": 1690,
+      "last_line": 1702,
+      "sha256": "627adab702ef2424f75c976dbac27d219987bc0dda8b67e2e1f525765531bb5f"
+    },
+    {
+      "name": "CreateResultSheet",
+      "signature": "    Private Function CreateResultSheet(workbook As Excel.Workbook, baseName As String, reuseFirst As Boolean) As Excel.Worksheet",
+      "first_line": 1704,
+      "last_line": 1714,
+      "sha256": "2acad7e31ec6afdd7d49c81e160f32e5a8eaa9dce8c5b056a8360c1239e6aa5e"
+    },
+    {
+      "name": "WriteResultTables",
+      "signature": "    Private Shared Sub WriteResultTables(sheet As Excel.Worksheet, workbook As Excel.Workbook, tables As List(Of ResultTable))",
+      "first_line": 1716,
+      "last_line": 1728,
+      "sha256": "6823f972e3d7af061e7e446a62d4a99430f074ae9a70c879aaec14c7b20a694f"
+    },
+    {
+      "name": "BuildSummaryTables",
+      "signature": "    Private Function BuildSummaryTables(result As SpcMultivariateFitResult) As List(Of ResultTable)",
+      "first_line": 1734,
+      "last_line": 1774,
+      "sha256": "71bcae8f8b476dd08c960eb3ae15da7405aa363a0d28e2b86c4157dea6e96905"
+    },
+    {
+      "name": "BuildModelTables",
+      "signature": "    Private Function BuildModelTables(result As SpcMultivariateFitResult) As List(Of ResultTable)",
+      "first_line": 1776,
+      "last_line": 1800,
+      "sha256": "05a7be29982c432b2d4c8243e620b8832dc851be205213e5ab889bb8b25dcbd9"
+    },
+    {
+      "name": "BuildChartDataTable",
+      "signature": "    Private Function BuildChartDataTable(result As SpcMultivariateFitResult) As ResultTable",
+      "first_line": 1802,
+      "last_line": 1826,
+      "sha256": "7dda650642a92c77696e661a6b3cd7777b50f072b48b1bb9aac7b3a831942cf7"
+    },
+    {
+      "name": "BuildSignalsTable",
+      "signature": "    Private Function BuildSignalsTable(result As SpcMultivariateFitResult) As ResultTable",
+      "first_line": 1828,
+      "last_line": 1847,
+      "sha256": "81102bb437ae05f011d6cd71a279225729be105848243b2377b8da333bface86"
+    },
+    {
+      "name": "BuildDiagnosticTables",
+      "signature": "    Private Function BuildDiagnosticTables(result As SpcMultivariateFitResult) As List(Of ResultTable)",
+      "first_line": 1849,
+      "last_line": 1926,
+      "sha256": "e24d145b107e20916043a93fd3341367f980f89220f9b7fa1a2966126e624eb7"
+    },
+    {
+      "name": "BuildAuditTables",
+      "signature": "    Private Function BuildAuditTables(result As SpcMultivariateFitResult) As List(Of ResultTable)",
+      "first_line": 1928,
+      "last_line": 1996,
+      "sha256": "b2246fa9387006571aaf60712c9d3b0c3409a027062fb24b88f9ff47f52b49fc"
+    },
+    {
+      "name": "BuildWarningsTable",
+      "signature": "    Private Function BuildWarningsTable(result As SpcMultivariateFitResult) As ResultTable",
+      "first_line": 1998,
+      "last_line": 2006,
+      "sha256": "8b788e1d72699d4348464207ed60169acff41423c204b6865c7ed4af171b0649"
+    },
+    {
+      "name": "CollectWarnings",
+      "signature": "    Private Shared Function CollectWarnings(result As SpcMultivariateFitResult) As List(Of String)",
+      "first_line": 2008,
+      "last_line": 2020,
+      "sha256": "bae3a6c2c5ab20e279078e45a20fa3dd0338bd6f013110e820af26e6de554903"
+    },
+    {
+      "name": "CreateTable",
+      "signature": "    Private Shared Function CreateTable(title As String, headers As String(), rows As IList(Of Object()),",
+      "first_line": 2022,
+      "last_line": 2042,
+      "sha256": "bb1e9abbd5ee4154a3c63e595c0d2920a53192152ea4de3443b6d712cbf54a81"
+    },
+    {
+      "name": "CreateVectorTable",
+      "signature": "    Private Shared Function CreateVectorTable(title As String, names As String(), values As Double(), valueHeader As String) As ResultTable",
+      "first_line": 2044,
+      "last_line": 2052,
+      "sha256": "8ee3c2ae1aa4779bb2d4d0f1aee00058881f68dc9c84cc1cea21b94fdc1c99a3"
+    },
+    {
+      "name": "CreateIndexedVectorTable",
+      "signature": "    Private Shared Function CreateIndexedVectorTable(title As String, values As Double(), indexHeader As String, valueHeader As String) As ResultTable",
+      "first_line": 2054,
+      "last_line": 2060,
+      "sha256": "c7a3b248a85b1a82fc8ebd93c96d5d855fece76f8a63abf2e836994a688b8923"
+    },
+    {
+      "name": "CreateMatrixTable",
+      "signature": "    Private Shared Function CreateMatrixTable(title As String, rowNames As String(), columnNames As String(), values As Double(,)) As ResultTable",
+      "first_line": 2062,
+      "last_line": 2075,
+      "sha256": "1fa2d518437fc1ca1f1d664256f8f268943c0fb3056685a9f786b1ea3193217b"
+    },
+    {
+      "name": "ComponentNames",
+      "signature": "    Private Shared Function ComponentNames(count As Integer) As String()",
+      "first_line": 2077,
+      "last_line": 2083,
+      "sha256": "bd4a2fb8c150e88aa22b150daa1f5f54061cefef2eae797b103641cd5afca45a"
+    },
+    {
+      "name": "AddVectorValues",
+      "signature": "    Private Shared Sub AddVectorValues(target As List(Of Object), values As Double(), count As Integer)",
+      "first_line": 2085,
+      "last_line": 2093,
+      "sha256": "c33a1a5b13859160fb244b96f385b758a6c81464ccb33451a708cbe4d3728933"
+    },
+    {
+      "name": "Row",
+      "signature": "    Private Shared Function Row(ParamArray values As Object()) As Object()",
+      "first_line": 2095,
+      "last_line": 2097,
+      "sha256": "63a8479aa8aba69cb499da791274298b108cac854df56819691b0e24b3efc35e"
+    },
+    {
+      "name": "GridRowIsBlank",
+      "signature": "    Private Shared Function GridRowIsBlank(row As DataGridViewRow) As Boolean",
+      "first_line": 2103,
+      "last_line": 2108,
+      "sha256": "12816f9829067d24bc6116589b3d1759953d311b3983bdbea8741fe7c2ede7af"
+    },
+    {
+      "name": "CellText",
+      "signature": "    Private Shared Function CellText(row As DataGridViewRow, columnIndex As Integer) As String",
+      "first_line": 2110,
+      "last_line": 2113,
+      "sha256": "dd4096cdcd7f86b0ce8579a5065997c2bcc926ee8dff505f6c9eee0d552701bf"
+    },
+    {
+      "name": "RequiredIntegerCell",
+      "signature": "    Private Shared Function RequiredIntegerCell(row As DataGridViewRow, columnIndex As Integer, label As String) As Integer",
+      "first_line": 2115,
+      "last_line": 2121,
+      "sha256": "e4f3313235de5302bdfa0fa70e80dccb4629a87213b2ec768c1e64363f9bf767"
+    },
+    {
+      "name": "RequiredDoubleCell",
+      "signature": "    Private Shared Function RequiredDoubleCell(row As DataGridViewRow, columnIndex As Integer, label As String) As Double",
+      "first_line": 2123,
+      "last_line": 2128,
+      "sha256": "13c906769e1884b57b896de9026d87dfd6f1d8195d94e48cc8c2d12627078227"
+    },
+    {
+      "name": "TryParseDouble",
+      "signature": "    Private Shared Function TryParseDouble(text As String, ByRef value As Double) As Boolean",
+      "first_line": 2130,
+      "last_line": 2133,
+      "sha256": "4f3240df468f04883650fb5941560a0b6d0a29b1d760c8aba1f65561d6280836"
+    },
+    {
+      "name": "ParsePhaseText",
+      "signature": "    Private Shared Function ParsePhaseText(text As String) As SpcPhase",
+      "first_line": 2135,
+      "last_line": 2137,
+      "sha256": "b1b3cdecf1db94a741525b8a43eadb112fb59ba2353849af796dbe8dc7348578"
+    },
+    {
+      "name": "ParseExclusionScope",
+      "signature": "    Private Shared Function ParseExclusionScope(text As String) As SpcExclusionScope",
+      "first_line": 2143,
+      "last_line": 2150,
+      "sha256": "4f5b362415a674f909f7e2c1fbd029383f28e59d6c42de710767dfe845210c4f"
+    },
+    {
+      "name": "ExclusionScopeText",
+      "signature": "    Private Shared Function ExclusionScopeText(scope As SpcExclusionScope) As String",
+      "first_line": 2152,
+      "last_line": 2160,
+      "sha256": "7d31564b53231ec12de937f395b1a63a366ee9494747ebb17b2b4eb0a405ec70"
+    },
+    {
+      "name": "IsExclusionIndicator",
+      "signature": "    Private Shared Function IsExclusionIndicator(value As Object) As Boolean",
+      "first_line": 2162,
+      "last_line": 2172,
+      "sha256": "f672bb14f3ffd540f09654ad3c6a9d3136b4d908e8c838946cc14d65af7e8c50"
+    },
+    {
+      "name": "PhaseText",
+      "signature": "    Private Shared Function PhaseText(value As SpcPhase) As String",
+      "first_line": 2174,
+      "last_line": 2176,
+      "sha256": "0a6e99d86e61ce0fc45f1ab293a41be39bb20e4f0b077e8c98a136fc27c0d372"
+    },
+    {
+      "name": "MissingPolicyText",
+      "signature": "    Private Shared Function MissingPolicyText(value As SpcMissingValuePolicy) As String",
+      "first_line": 2178,
+      "last_line": 2180,
+      "sha256": "473f2c429db462db817cb908977c1bbcfb928247460e40b1dd9773616336668d"
+    },
+    {
+      "name": "ModelSourceText",
+      "signature": "    Private Shared Function ModelSourceText(value As SpcMultivariateModelSource) As String",
+      "first_line": 2182,
+      "last_line": 2184,
+      "sha256": "4524731e8111e4e64ff93a98d33cd03f3bbefd82bef546601ba6a7e004039c5b"
+    },
+    {
+      "name": "SequenceGapBehaviorText",
+      "signature": "    Private Shared Function SequenceGapBehaviorText(value As SpcSequenceGapBehavior) As String",
+      "first_line": 2186,
+      "last_line": 2192,
+      "sha256": "ae92979cd33299abf1a14b899cd4fc689155321c68f6f78b5433aa07aa04c59c"
+    },
+    {
+      "name": "ChartTypeText",
+      "signature": "    Private Shared Function ChartTypeText(value As SpcChartType) As String",
+      "first_line": 2194,
+      "last_line": 2204,
+      "sha256": "f47cb66e75ee71e9d1b491fb7bfab92bfe65eae6a6080e6a3c93522609aff86f"
+    },
+    {
+      "name": "YesNo",
+      "signature": "    Private Shared Function YesNo(value As Boolean) As String",
+      "first_line": 2206,
+      "last_line": 2208,
+      "sha256": "495f7b88e23c269f56e610637d6529d2f01cf516da27420dcb834c49cba536ec"
+    },
+    {
+      "name": "NullableValue",
+      "signature": "    Private Shared Function NullableValue(value As Nullable(Of Double)) As Object",
+      "first_line": 2210,
+      "last_line": 2212,
+      "sha256": "c9d7a8bb65b22480ed895e7bc8abf56195cdd4f3ccaa7b083ddf348a9ab621b8"
+    },
+    {
+      "name": "NullableValue",
+      "signature": "    Private Shared Function NullableValue(value As Nullable(Of Integer)) As Object",
+      "first_line": 2214,
+      "last_line": 2216,
+      "sha256": "98e8b738c37d418808e69ac7aa1886f2eebabd5fd0a2290eb03b83d175f27555"
+    },
+    {
+      "name": "JoinIntegers",
+      "signature": "    Private Shared Function JoinIntegers(values As Integer(), addOne As Boolean) As String",
+      "first_line": 2218,
+      "last_line": 2227,
+      "sha256": "4c94a853b89d743d591d5c0b1af22d72be74913c18fafc3f50b589341bb2e10c"
+    },
+    {
+      "name": "MakeUniqueWorksheetName",
+      "signature": "    Private Shared Function MakeUniqueWorksheetName(workbook As Excel.Workbook,",
+      "first_line": 2229,
+      "last_line": 2241,
+      "sha256": "c90bd3e3cb79f7e4b8a8df8477b1e79d2f213a8f881f39471084d1cb287cee9c"
+    },
+    {
+      "name": "CleanWorksheetName",
+      "signature": "    Private Shared Function CleanWorksheetName(value As String) As String",
+      "first_line": 2243,
+      "last_line": 2252,
+      "sha256": "6350bfaee37ab22fae21854453cb3a722976bd3bf48eac255acef1d25475471e"
+    },
+    {
+      "name": "WorksheetNameExists",
+      "signature": "    Private Shared Function WorksheetNameExists(workbook As Excel.Workbook,",
+      "first_line": 2254,
+      "last_line": 2263,
+      "sha256": "2da67d3f2da4be500ac488aa09d5ed7d38d4f8aa82c27f14903fafc5d7a3a53a"
+    },
+    {
+      "name": "ShowInputError",
+      "signature": "    Private Shared Sub ShowInputError(message As String)",
+      "first_line": 2265,
+      "last_line": 2267,
+      "sha256": "57c1774f7e73a88e5d09cba466eb0c5f97059daaae6224399f9d3f8ef33b2b81"
+    }
+  ],
+  "scope": "Supplemental complete member list including both NullableValue overloads, derived from the exact entry preimage and original main. The initial named-method map has one key per name; full-file hash and this list preserve overload distinction. LF-normalized method hashes; original file bytes remain private and pinned."
+}

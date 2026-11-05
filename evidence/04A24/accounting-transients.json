@@ -1,0 +1,21 @@
+{
+  "scope": "Evidence-generation/tooling only; no statistical/production/compiled-test source changes or test-result replacement.",
+  "attempts": [
+    {
+      "command": "<PYTHON_EXE> -B scripts/summarize-04a24.py final",
+      "exit": 1,
+      "cause": "Compared order-dependent display representatives of existing null/empty cohorts; canonical source-backed cohort keys/weights match. Fixed accounting signature, old assertions/results retained."
+    },
+    {
+      "command": "<PYTHON_EXE> -B scripts/summarize-04a24.py final",
+      "status": "NOT_COMPLETED / AGENT_OWNED_ACCOUNTING_PROCESS_STOPPED",
+      "exit": 1,
+      "cause": "Repeated full TRX hashing per inventory row. Stopped only the identified accounting process after verifying its exact PID/start-time/executable; no test worker remained. Hash each immutable receipt once, resume finish from completed measured/corpus artifacts."
+    },
+    {
+      "command": "<PYTHON_EXE> -B scripts/summarize-04a24.py finish",
+      "purpose": "Resume only inventory/preservation/receipts/dossier support; no rerun or promotion of statistical captures."
+    }
+  ],
+  "raw_scope": "Full test/build/focused stdout/stderr/exit receipts are preserved under the isolated run. Direct accounting diagnostics and the optional denied WMI probe are in the Codex execution transcript; no fabricated raw file/hash/timing is asserted. Root OS process metrics remain the only resource measurements."
+}

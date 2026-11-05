@@ -1,0 +1,118 @@
+{
+  "entry": "entry-validation.json",
+  "entry_source_reconciliation": "entry-source-qualification.json",
+  "final": {
+    "Debug": {
+      "logical": "final-Debug-logical-test-identities.json",
+      "raw": "final-Debug-raw-test-identities.json",
+      "python_traces": "final-Debug-python-nonpass-traces.json"
+    },
+    "Release": {
+      "logical": "final-Release-logical-test-identities.json",
+      "raw": "final-Release-raw-test-identities.json",
+      "python_traces": "final-Release-python-nonpass-traces.json"
+    }
+  },
+  "counts": {
+    "Debug": {
+      "accepted_entry": {
+        "total": 9451,
+        "passed": 9444,
+        "nonpassed": 7
+      },
+      "final": {
+        "total": 10280,
+        "passed": 10267,
+        "nonpassed": 13
+      },
+      "new_managed_nonpasses": [
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (0)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (1)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (2)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (3)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (4)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (5)"
+        ]
+      ],
+      "new_python_nonpasses": {
+        "test_04a23_multivariate_spc.Spc23Contracts.test_actual_publication_membership_hash_privacy_trackability_and_empty_index": "FAIL",
+        "test_04a23_multivariate_spc.Spc23Contracts.test_existing_tables_and_warnings_remain_byte_exact_methods": "FAIL",
+        "test_04a23_multivariate_spc.Spc23Contracts.test_native_workbook_order_warning_and_appearance_are_exact": "FAIL",
+        "test_04a23_multivariate_spc.Spc23Contracts.test_result_context_is_consumed_and_diagnostic_table_tail_is_exact": "FAIL"
+      }
+    },
+    "Release": {
+      "accepted_entry": {
+        "total": 9451,
+        "passed": 9444,
+        "nonpassed": 7
+      },
+      "final": {
+        "total": 10280,
+        "passed": 10267,
+        "nonpassed": 13
+      },
+      "new_managed_nonpasses": [
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (0)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (1)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (2)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (3)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (4)"
+        ],
+        [
+          "Spc23AdapterTests",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer",
+          "ShippingCompatibilityWrapperUsesActualResultAndSharedRenderer (5)"
+        ]
+      ],
+      "new_python_nonpasses": {
+        "test_04a23_multivariate_spc.Spc23Contracts.test_actual_publication_membership_hash_privacy_trackability_and_empty_index": "FAIL",
+        "test_04a23_multivariate_spc.Spc23Contracts.test_existing_tables_and_warnings_remain_byte_exact_methods": "FAIL",
+        "test_04a23_multivariate_spc.Spc23Contracts.test_native_workbook_order_warning_and_appearance_are_exact": "FAIL",
+        "test_04a23_multivariate_spc.Spc23Contracts.test_result_context_is_consumed_and_diagnostic_table_tail_is_exact": "FAIL"
+      }
+    }
+  }
+}

@@ -1,0 +1,715 @@
+{
+  "branch": "codex/04A-24",
+  "head": "44b32955bb4f1b3aa43a9b65e42564c4fc9d436c",
+  "main": "44b32955bb4f1b3aa43a9b65e42564c4fc9d436c",
+  "origin_main": "44b32955bb4f1b3aa43a9b65e42564c4fc9d436c",
+  "parent": "519e875a329111270685a0ae4be8666abb55ae04",
+  "tree": "ac52d230d316f7b04419bd409011883550c13123",
+  "main_is_ancestor": true,
+  "public_state": {
+    "status": " M BESHStatNG.Test/BESHStatNG.Tests.vbproj\n M BESHStatNG_Help_MkDocs/docs/methods/multivariate-control-charts.md\n M BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb\n?? BESHStat.Excel.Common.Tests/src/Spc24ExpectedRejections.vb\n?? BESHStat.Excel.Common.Tests/src/Spc24Fixture.vb\n?? BESHStat.Excel.Common.Tests/src/Spc24LegacyProjection.vb\n?? BESHStat.Excel.Common.Tests/src/Spc24Tests.vb\n?? BESHStat.Excel.Common/src/Analysis/SpcMultivariateChartProjectionPolicy.vb\n?? BESHStat.Excel.Common/src/Analysis/SpcMultivariatePresentation.vb\n?? BESHStat.Excel.Common/src/Analysis/SpcMultivariateReportProjection.vb\n?? BESHStatNG.Test/src/Spc24AdapterTests.vb\n?? docs/architecture/batch-04A-24-owner-review.md\n?? evidence/04A24/\n?? scripts/capture-04a24-contract.py\n?? scripts/generate-04a24-expectations.py\n?? scripts/generate-04a24-projections.py\n?? scripts/integrate-04a24.py\n?? scripts/summarize-04a24.py\n?? scripts/tests/test_04a24_multivariate_payload.py\n?? scripts/verify-04a24-publication.py\n?? scripts/verify-04a24.py\n",
+    "diff": "M\tBESHStatNG.Test/BESHStatNG.Tests.vbproj\nM\tBESHStatNG_Help_MkDocs/docs/methods/multivariate-control-charts.md\nM\tBESHstatNG/src/UI/Ui22MultivariateControlCharts.vb\n",
+    "index": "",
+    "worktree_root": "<REPO_ROOT>",
+    "worktree_count": 1,
+    "ignored": [
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:8601957a879f11659856ab5c7300962967c498851b0586886dc2cad39e9380a7"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:1551d2a127b9d91e6853b82835ca5afa5884c652f536c7febb30a55b9267d1a7"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:61df0d5de65043f4b6f113963bfbede9d1f45696ca4d6464e5059f630d71a407"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:bc4bbf4dca6074bf65c851cad10316a48f001c92f98212dd3b85ac89a86ef4d0"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:39ab2024eafe2bb97d8bafbb2ce415074e2caa5e4f8bdb6459e9a1688213b75a"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:87eaa4dff41e4bacb3dcd828b7e5d89697e4b782d102ae9e11ec5dd46a598df6"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:2fb306c4aafa83fbb56569f95671c2511524d4b70621141d6fb667870977f60b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:2563356f54b11a87659191e800cb22853e7825bc5f9b26d703b901d96a301816"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:48436ed5358fa3163e67ca1af207a5a7ab8f6d421f5b5a17dde99a088cf2310f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:cc40792108a7773c1549de1bc46ece9d5b87b6d1d4a965b1438520ff385a2480"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:87ce3eccdd20578f75428131433e7d2f44333505348408c567c2338a5df56bf0"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a9e2660d318e856016cda5c969b5c643e4e910a688be6b2d507870a9a47eadbf"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a8c81aba9863b8c7b45288059a67a0928bed4ed20ea6d50e7c1b1bee3cefc855"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:854b1cb40ee292272cbf71da2775d10166f7e16e53fe289efa54fd5b44627aca"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:15323f02393bbea36f31252ea37755a5848095dd2e3f49edc71d820d25e7de19"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a0847fbc05a761f005ec4a43857f0f66c362a4e53ccbb512d545304bcfc48a3d"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:f88333971568258f070bda51de3327443ca927ce7cfdf9df3897ee92d577c682"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:ff5ec40c4c7d968c83cd5f365cb3fd1172c15e96797e140ebbd7dfdfe32f1567"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:97d9c1fadd31312ad1820f0bde329bd1209faa282007be5d06334d8057bda9a8"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:64994f45a2f5ea8b02e50ccfa7cb8f39cbcf609d630be570a376204e59ade5f7"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:019917ba511c8e638a25e400bf3e413119a7d86aa1857c1efe44c98a794e256b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:b91a04add19c4b49bb6e84c822a174fae7786d9964d46cd7eacaefb4dce52472"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:fd52c4debd3adc5a88fbe1abcd085356f8f85b60afdbbe4e8ad7d9a772fc960c"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:11d3bda54edc291f963bc3c3a232c307d2f0beff74c4d46466f4994d100da6d6"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:2e7c0ed595ac145e0cc0e2ec5b3f67ff5796071d2c6e58f979dac337118729bc"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:bc7765ffbc889756e76e288fd3a547eaef2cd0c7cdd7a4f5eb27017c60acb465"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:bb620c2f715ee6df98ef2464e42da7e1a5d8543ef9520a6117eb89ce825e6400"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:ea2aed017bf8621ebb07f85b522a4e1f9392fe99fd6b02d3e3d65ab1d6b25023"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:5bb4575862892b44542dc168915735a1aafc6a7e0434d00a84d4d514ba0de6e9"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:0d2c5669c9ff350e8a1d761ca70674a929b07760adc8aab87f831b47770715ac"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a604fd55853901d1056f6029066cc15dd2db436470377ac0e15c0619b6b7d01e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:0bc25ddaba24ca4e75dc8beb9488dc5e5cbd61918b280a1d39642025f03ca93e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:54d7071106023fff17d832fa1d7bbd69ca85ebf3eaf2d9c0511b41e0187ab90a"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:99691cea95dcbb9d501a7c781229625bf2851e9169f017992cb842f881e16345"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:c085532f3a405a6f9a28135d2de623f9f53368a020a05963a28998dbfe14da7e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:455c00b398601f2fbc51178ed6790f6833f5dc64d6dbd86c3998dbe95377ab79"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:e1f8fb99125c14a9c6e522d0deb2a1da13c8d524881c2cde035cfca0d711f177"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:17e42841141275d67d7561fcc31c2dac96367b79845dffa422b12649030b53f4"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:6e8e1026e57f9b37ce4d1707afea6fa14fc0f1e5edd1d845d817331b69d345ca"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:fe57eec195ccfb4479d801a4520dc864841eee33803b009efed4ca080c3b55a6"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:1b4dba70fa3a92b72590adf9191ae446dbd0a469c8451ba8a98542ccc2c912be"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:9539fbb7c43a7b2137744b60b52f6777677a6d02745bb2d01ff5dd58dde7cb46"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:99df9af7ed29bd32b9df05eff7c1e9f035c1d288b1cf8174226693a3415d3ce5"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:fe1f170b325e8da60f76745cce3363f3a3e4004e36cae7e659e82e24a8438284"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:52d2f9bab670c1351d7f64542d8625fec7ed515cdfa64d75c3c7e03d81d66a15"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:92089efa55e262b9ea8ea4e560ab111b2720d69f6b148348a1612e14c03b2271"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:ee9caade101f20598a47501a192be90a2516a36d1b51c33ab851ea2e88928ad1"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:27191de82bfe3ff62784734c8da54ee3caa054f32f067bcadcee80888f14fa19"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:418d194036d2d00b11c64e9e7297a321408c6fa1155f6bb33fb84841587581de"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:e0e45024c8c14749d6e915ecdb5cf40f0e86b6e81e00b87028b8f4d916613f23"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:111a6cfb1d7e758f4b8c4414584467ffd8060ee151d9e898b599ae4c6a430d0e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:5d43b7ccaf8ac02b4d46eaf6c0466e25c009b9aa4ffc3ec5228e230ee61f204f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:bcd520a2db24044669895e4c8967367850b3715f3901ff6852d68560f323959e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:d757d3249317831442c96d3f3001c82920a3dd0af5d6b0694c6d9b3ea9f8c8b4"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:7b14e84ca0a79e3a44d3e4a5f22d50cd5f0c8fdb86d19cfb65390d33c07e65cc"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:40a1b9aece32b3b2b0ef29dc4f1f5a9932c5dec2cf61725e5d3255664c1c47b6"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a8f61b8e0b89c184beb2242c7c55633cb513f58b40bacb7c9b380f2b583cce77"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:36452faffc3f0d4e200915f1dc5800b77e84ec3e4f3315f82bcada58ae814df2"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:917be4caa0628bbd727faf50c3e92f5bafb8be07c3dd315dd6030a3dbfcc19b0"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:ebefed2efc9bf27da3a380d5fe123b560116c41243f09e14f347af0910110233"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:332122548b4400a1bdb138508676063e7b3d05949c9039db957d98eabe53fcef"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:0e1f05767ee6598a0e58e385c98031463d0594894cc5faa96e1594f264a032bf"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:17d7f272616ea21c3ff318dd95f03c2ac651d1873aa1c6cddbe14b4d90500f37"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:0ebd0c916ed9ce244a5282d9fa5aa818ad848e8bfcb224fd3e4ad29e39af9dd9"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:5c5d4f1ce58281ac97e6ac4e2275f635abbeb6baacf3d2b4b5f9a537207fd2e7"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:17111eecb39fd9c853dae4f48445b5308d4091f45c108b9a270f8ea8c6466420"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:b4f71fc9fae559b39406f18e06b4afa15fdf778d511c0da864427c7f4fbba675"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:59953b8c8db645dfacc84a607de199ac67748067aff7129a22ea53713558e8cc"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:35fe687f8fb3318737702ddc73c65270506a9148a61f31429a7899957bbf7506"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a878b1830af1c41084d261f768c102372630f6a5aebe3af3ec4854f28d4b9fac"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:96b1cc004138b70ea08ea45ce5172fed2e1eea39ada5992b5315c913df682891"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:1e7a32c0748ee8e6624dd1fbd9a6d6476695a10a224fd89a114a963566354646"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a1574a8d76c480a43b5d4885d7e6301b048758f41f897324edebe7f604dad0e6"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:cf2cfaa3e7381a7151f609fd152ee0950a1321bf61dcd98c1202075689c65f6d"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:7ccd969ae7b6eccd9d8b225019eb782d361844fe39b9cedd3e0a84f1f92c2e15"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:488a790b945527a6cf6b543ac52055ebb3d56c28a033e7d8de7df80040077fe1"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:7827c63b44d40fc7d7cc6050569a8c51ffab8f252ee4f40ba1425ad38b48280f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a5432f0c05b071173d3884d25dc2d0635e9b1f91877a09bd644d6278106c4099"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:fe1e96303bfb530e52b5f284da376c295b0de6ec2766129b1a274ab8737eeddb"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:1b93725bbb64ccd7b418d89b82d931d8db9184b85f31b279d738c17b497a4f53"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:10517f098a0d28b426d48efba79a2f76c8dcb5d12d6e706fd9239f20de8fe49b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:41f720a16708c75574319e1d6b4a2e5157171de3bfe2d0405db515bd28c6846e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:7702ece8c5d2a6bb5dec0e3cdb928b83fbd93c4062450d8b549df37824b63227"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:d9340ad2d47131ea4f65e1e71b5e2eac7bfc83499e2cdf83f1ba10fe912b40a3"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:e043de991b8b60c34794a3a80e7b46712d9249e0c7a3c34798ec5c5792012e1a"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:4c649e4de6add32873d7ae7abb092c34775fb2e29b88a3344f74ca8b578d1c0f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:74469f46c5b03c7d68a127f526933c18986cce9e08103bfd8e0dad22b3a14900"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:79170d564db5a522174d2b18f45785e7a3967ccfc94924828ee6ef43daaf3207"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:d9da6224edcf43a6f72dc4451272598b15fcffaea48279e2d3448ca3db293501"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:1e8c821a8854af8abd9ad644693c5db8b81d145e4295406a6ea9f031592549c2"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:1ffe14e79e8104243c92e177bdb1097c2527b432ee4618c83ffda046c81c195b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:6ad318cdac63269a74d523ccd3d8baec8e6a6afaf6072ef9e0ac43d9d43e3622"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:9f9041ceea124c20f565e7920ba117049d4f9a3382927b6af0b008afa9757df8"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:b50ebbf6c78d196c25f2b67008a96da5941d42d4a926434982f91eb03f52388f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:940edfcab5af356bb729154459bea97de73a2cd4c576b63a85222ff111c618bd"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:667c184e4dab824a6873a69f0ed3ba5bfa213623dd173837bd8a0c8d75bd543b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:ac85e074e151c3232069918b6706f5ec53ac8ad0f73925bce9d3b7e0e879dcf8"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:c01947d23435a806e9efab59da479eaa482f547dbd2dbc7433dcfc2f4fdac146"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:f97a328dc1088a0c8854bf784f4ceb956d5f247032ad904dc5f2f90efd490985"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:fdd6452a6e70d8a4589e302d5f8aa51f556ce0de525c71a42176bcf8d2530b10"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:9fba6a3ce903c0f2eff953d345858020fd88475b069fabfda71599e894b23825"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:3b9158b68e0f4e3b114d934886707322064ca62827a47879a42a5f2787c2b8d8"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:58d878b4b896856a4dd7469c467975f379b000f285b3bf14ee422317a9f10489"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a67ea0c7673e63eedc9527f8a1c8cbfaac4ead77eb4aba88aca3279650cb527d"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:fe2b9b9ec47264c48aaaf36e2a06fbacf89baab5149d3cb335cab8d075b03ef1"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:ab94989bb99cc7c94cadae635348c506a3f408d7ccf3ea49b3ccc77124854650"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:e192a4fde86cd49243d4070937d9fb55a2f2d1c6d18edd0c269a677da185b8fd"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:30085f6d670d5d95533e665c8060fa79011e4a06571c5f2b2acde2cb9814e7cd"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a8eb9d07741e34006a4b1608a148e9fd9797c6e6f557245f653204744477c85f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:c012208e51aac0059e39deb0232ba15978ac3d80c2dc051b4ca101b1d29f159e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:c083eff322a0a1379a5a9e311818d14ae368abb3487274c04894933b7470f3b4"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:c61794bf2463e42219f6fab2d38b508ba0b47e7b45b574de876a2282403d8761"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:d1a7195bc6eaf1c7233669328d163bb7de11aa8e3f874763aea498c1dbddf3e2"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:677d129a0279985916733d64613f92e40ec2c1b3ba39e0f8318acbc7ade1c32f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:2692442d12140b3e38650aec83bb10c2178707dffa5975f6887e7ba579763e9b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:a0866efdb8434a4275835894eb6bfdff8f96ee75a688a9a09391cf6346e6e296"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:acad2e275e390e558d85c887b94a44c915df94e447c546dc45f48d8deff4c044"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:637025ecb52f41912810df1debb55a7d0741b5affa20bd3b611c4a39c4081294"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:27d6d23f3374006f099cdb9ebac1df116e7d1d705a643cd2d5bf4340b447606c"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:5d0010bd92ee0a0d1f2ff2757105afcad2b403d89098852fe98f258ed9c80217"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:d28a0eb4457a799f760f837ddbf671beb0ba7dbe200e751b1cec18167baf9ff6"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:422ec4b42fb27e0238056fbbdba2da6704251ffaa28c7bd6582c64661013e52c"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:3867794dad41ad9aba3601148333e1202514d3f250fcfb0bbe8871d65edf7e21"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:4974debc695fd7c2c0d96d3cd276346ee21e2cb6636ba82e21c763e00ee97602"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:2b505f7eb6d1f93c6b33898c0e508e7dc43497a591bc9351b3ec9ff1497a2c55"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:cf44b27d27d497c16515c60bd80f717517ef6f1c395da74451bba496b9a995a1"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:60ceba91dc2ed84f7cd1436c4b1a606cb9d4a3a660e26e87ed8ac5e696067940"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:c0bed955e0db55d835471adf48fd78b6a717a29fd82fbe8b563f402d58d7be48"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:ba179ef5f6a03aebcaf8243cd01519246ff5c4aac06cec19bfcabad19b63dc98"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:9ad76203ae5bacaa659e49c25dee9678230ae149ac3641bb0000c0d8be16a842"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:2ab3757b3424236da605e3cd310ce77e3a4e7ff42ec5ce1fe2f0421726729381"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:288659b033d31224b3776b7f1dafe73071e32c79732b03adf207f4b133e9cc3f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:f7c5ab6ffc16e5971ee69c8363167c9267678efca149a4cd8d8cff6d7a8fbe5e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:05d7e7a83438eb8e16308e02df9edce37c9f4411c7946e60f1bb76f696b0e414"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:eb41027d65c00ff0e2b4181da74782cb9ac83087a55f87a3502bcf76faf15606"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:425081a289413f44a60ac294cefa2d6309e9f52092d0123cd03354be182d8767"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:d482f976c7f959e00ba919ebfe029d674c5629b9eb7d1b0a7d1ee34d94e9ffe4"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:6bea0d2b63d391f4680b4e670bac841b1d531bb31ce5d45a4a478c25cac38b1c"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:eb22368f0779d96ee93a91145b27a6557938b615da7784b29d63e70f645dde42"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:670a5feda5997b28525e7e75cca07e88b84e0d5cbb2096c65702aa23a130c0bd"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:d9c58620b579b70d44de14f15a0f4b7758f3078efa3fe14fd364d0768473c0b4"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:1fb46c8575e90e5cff24a767891eae08a4915682fdc193d4d6a1bd19520435eb"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:5ee3855c63b0d5cccb40afb9a5e4944f778f7a57234de01548a835da63b98d2f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:1f5edd7a8c594a34d37226458805e2ad6f48714ec0a8c93f6f991b1532606001"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:c4758841633d41dc6d44ff6aa8679128af750cb7fb770576e47c8ae4cacfc500"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:5244ec3c03678d1d7055ed66d762cba348e35f7705d23c1cbc39725a80f345e0"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:5057175c7190210a397b3d792247fc459d2be0d1cf0a908d87114027db180952"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:391077fb38c7e9668b8cbd59cb73f48e02bded5c822ebf1ba48eabd45be7fa8e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:f83dbc7b8ebd06fbd26f752a490467be341d18cdad5d2db6e80b76468bbbc216"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:448eb0ae512d7547402b8226c942a74c32a48f494b07332ec766d0a77f5512b3"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:22887b4be81328dba7e2866da1ff3b0805d38a1611feaba3d324e14ec68ef743"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:54079701e276ea7105d74abc5d08243461e9a38d1689324a6774e70fb6113e30"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:db49dbb2ca6a37bbc682433c3ca81199ae3d637140383d5fd3b1d24acb04b876"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:807a88d2748b5fa4d9a3cfcac56c80280d8222f14c9ff278307e7d80393c56de"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:03b2db85d7b3ddf657910e0a0dda3b5fbd2df5fde170a40068456cfaab3b7244"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:ba2e6f99cf143816ec97698be8901947b15709c2f30609bb31d21b9f7a9bbe2e"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:dde49fc7a5d38c2784cdb0d743480d3c5910d294323bf8ef5a0d0b12f045ae83"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:f0940b30442f0031d59b7a96c787525fc13e6ab87b811b31cfa19b18eb251e41"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:09d5f19c031db03a0b9b35f62d928ca92decff03c2ffeba248eafe310e0b9570"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:f2af3147e6e65542cc4c2ef15a197b2c7d46edef266e6958aa1ef4d64d71ee4b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:ffd7f08b06d6c75eb97cbe380d95df81e510412e15d0eb50ae5097f0ee42ee97"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:34bc5f3b42bda1a566134adcb1b336e7bf2202800938a69cda0fcfd675e1031c"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:9fb76eeb816a2e23f41707848bd09eb720204d4f6c3506d48d59e2b1d9515fd0"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:77efef8d2947f21b5cd2dd3e7b58619aadbe8661e65284aa7d3661ef343f0f47"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:b17482625e6cbc4b937c2feb3eeb89dc2d3af9c4c038fb4b0782c8dbd0b5b172"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:1eeecc17c2556ac4d39f0483b959451dfc448ce91957d343d0086f2200d4c643"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:0f7b8730d2d6e59e114f062ee944d358810078731d8c6ae1b650424c8dcf302b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:f883102ea70279d7fe0ee1f86c8835365b155b44d4fdefe95bcaaa842f1f6d07"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:7d6311772925e42b64c84bbc7eb01ea4003edba0db8a0c8e4ff889111aa6f00f"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:bbcb03785f8363c62b4fe1ffc3ab3220a69aad6793b5753a0f6b7bc9e7d1a76b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:d5d883d25b5f219cdc74d9acb6e34517e4e7c14109d9378c8cca8c06b1f3d33b"
+      },
+      {
+        "status": "!!",
+        "path_alias": "LOCAL_IGNORED_PATH:SHA256:0515da206bb78c87add2e94138d0b2d360a214c240ede0187d52daaf9ab8b808"
+      }
+    ]
+  },
+  "raw_receipt_sha256": "29a85c66f58dc1b6e44ead717baa62a2f4d706d6fef1820079e6a43ff06c34a1",
+  "diff_check_exit": 0,
+  "index_empty": true,
+  "staged": false,
+  "committed": false,
+  "merged": false,
+  "pushed": false,
+  "fetch": false,
+  "scope": "Final status includes every current untracked candidate. Exact ignored/worktree state is private under the reported receipt hash; public ignored paths use content-derived aliases to avoid local workstation/account filenames. Public manifest is resealed after dossier/evidence-only closeout; terminal publication guard verifies the resulting complete set."
+}

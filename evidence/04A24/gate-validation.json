@@ -1,0 +1,91 @@
+{
+  "commands": {
+    "strict": {
+      "command": [
+        "dotnet",
+        "scripts/windows-migration-audit/bin/Debug/net10.0/WindowsMigrationAudit.dll",
+        "--check",
+        "--strict"
+      ],
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 10.525205599959008,
+      "stdout": [
+        "",
+        "System.Exception: Stale review dependency: BESHstatNG/src/UI/UibyID.vb for BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe",
+        "   at Audit.Classify() in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 278",
+        "   at Audit.Run(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 457",
+        "   at Audit.Main(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 436"
+      ],
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0155b6d837d4f89d91e9ec6f9605956f28ee66b192596fb628ec1a77a07dadb9"
+    },
+    "profile": {
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "scripts/windows-migration-audit/owner_closeout.py",
+        "--profile",
+        "inventory-complete-with-approved-deferrals"
+      ],
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 33.07397239992861,
+      "stdout": [
+        "{\"status\": \"INTEGRITY_FAILURE\", \"error\": \"\"}",
+        ""
+      ],
+      "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "mkdocs": {
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "mkdocs",
+        "build",
+        "--config-file",
+        "BESHStatNG_Help_MkDocs/mkdocs.latest.yml",
+        "--site-dir",
+        "<REPO_ROOT>\\TestResults\\04A-24\\run01\\final-serial\\site",
+        "--strict"
+      ],
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 6.0173425999237224,
+      "stdout": [
+        "",
+        "",
+        " \\u2502  Material for MkDocs reaches end of life on May 5, 2027.",
+        " \\u2502  Critical fixes and security updates continue until that date.",
+        " \\u2502",
+        " \\u2502  Zensical is its maintained successor, built by the same team.",
+        " \\u2502  Try it alongside MkDocs with your existing mkdocs.yml:",
+        " \\u2502  https://zensical.org/docs/compatibility/mkdocs/migration/",
+        "",
+        "  To disable this warning, set NO_MKDOCS_2_WARNING=1.",
+        "",
+        "INFO    -  Cleaning site directory",
+        "INFO    -  Building documentation to directory: <REPO_ROOT>\\TestResults\\04A-24\\run01\\final-serial\\site",
+        "INFO    -  The following pages exist in the docs directory, but are not included in the \"nav\" configuration:",
+        "  - methods\\family-link-covmat.md",
+        "INFO    -  Documentation built in 5.34 seconds"
+      ],
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "eb919171a866e246730ab70a2874141f0d10381dd9aafbfd920beb9d4515ae70"
+    }
+  },
+  "prior": "evidence/04A23/gate-validation.json",
+  "observations": "Same inherited strict stale UibyID/NormalPlot review dependency and profile INTEGRITY_FAILURE with empty error as accepted 04A23. Both actual nonzero exits retained; not labelled passing. Strict MkDocs exit separately recorded.",
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET",
+  "C3": "UNCHANGED",
+  "E1_E7": "UNCHANGED",
+  "native_releases": 0,
+  "deferred_discharges": 0,
+  "native": "NOT_RUN / UNAUTHORIZED",
+  "R": "NOT_RUN / UNAUTHORIZED"
+}

@@ -1,0 +1,2374 @@
+{
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "positive": [
+    {
+      "id": "published-0",
+      "chart": "HotellingT2",
+      "profile_id": "21a941aef47c781a56f462868032f599c62765e3d5da3eacfb98607e1996efbd",
+      "dataset_typed_sha256": "4d62db96af332293e29129fbccabf3246d51405e9be984ee9bc0d06438b9d9ba",
+      "options": [
+        {
+          "name": "AllowPseudo",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Alpha",
+          "type": "System.Double",
+          "value": "0.0027"
+        },
+        {
+          "name": "Components",
+          "type": "System.Int32",
+          "value": "2"
+        },
+        {
+          "name": "Correlation",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "CumulativePercent",
+          "type": "System.Double",
+          "value": "90"
+        },
+        {
+          "name": "FixedComponents",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Gap",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcSequenceGapBehavior",
+          "value": "BreakSequence"
+        },
+        {
+          "name": "GvSigma",
+          "type": "System.Double",
+          "value": "3"
+        },
+        {
+          "name": "H",
+          "type": "System.Double",
+          "value": "5.5"
+        },
+        {
+          "name": "K",
+          "type": "System.Double",
+          "value": "0.5"
+        },
+        {
+          "name": "Lambda",
+          "type": "System.Double",
+          "value": "0.2"
+        },
+        {
+          "name": "LowerLimit",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "MewmaLimit",
+          "type": "System.Double",
+          "value": "12"
+        },
+        {
+          "name": "MissingValuePolicy",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMissingValuePolicy",
+          "value": "Reject"
+        },
+        {
+          "name": "ModelSource",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMultivariateModelSource",
+          "value": "EstimateFromPhaseI"
+        },
+        {
+          "name": "RequestLabel",
+          "type": "System.String",
+          "value": "Multivariate SPC fixture"
+        },
+        {
+          "name": "ResetPhase",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "ResetSignal",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "ResetStage",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Ridge",
+          "type": "System.Double",
+          "value": "0"
+        },
+        {
+          "name": "SuppliedGv",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "SuppliedMewma",
+          "type": "System.Boolean",
+          "value": "False"
+        }
+      ],
+      "panel_type": "HotellingT2",
+      "axis_point_count": 150,
+      "first_axis_rows": [
+        [
+          "Obs-001",
+          "System.String",
+          "1",
+          "PhaseI",
+          "0",
+          "0",
+          "Baseline",
+          [
+            "2"
+          ]
+        ],
+        [
+          "Obs-002",
+          "System.String",
+          "2",
+          "PhaseI",
+          "1",
+          "1",
+          "Baseline",
+          [
+            "3"
+          ]
+        ]
+      ],
+      "axis_columns": [
+        "category",
+        "category_type",
+        "display",
+        "phase",
+        "point",
+        "slot",
+        "stage",
+        "source_rows"
+      ],
+      "stage_boundaries": [
+        {
+          "i": "100",
+          "n": "150",
+          "fraction": "0.6666666666666666",
+          "text": "Stage boundary: Baseline to Monitoring"
+        }
+      ],
+      "signal_marker_count": 7,
+      "excluded_marker_count": 5,
+      "first_statistic": 3.1496052282952647,
+      "first_cl": 2.968421052631579,
+      "first_lcl": 0.0,
+      "first_ucl": 14.606831276162012,
+      "last_statistic": 9.291705887935251,
+      "rank": "3",
+      "retained_components": "0",
+      "pseudo": "false",
+      "warnings": [],
+      "section_shapes": [
+        {
+          "name": "Summary",
+          "tables": [
+            {
+              "rows": "21",
+              "columns": "2",
+              "sha256": "2c0219f95f474919e8560898bf1e55252c1f84bac46bcc604efce5b3e83b9a64"
+            },
+            {
+              "rows": "6",
+              "columns": "7",
+              "sha256": "64bd131371f8223e79824b9c16a689f704ffa6270ff85c3afb0f7241428989a6"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "ee7d25708c562ed0bc6fd5f7e7d431e736c9541d62138105b774821ad484d0ff"
+            }
+          ]
+        },
+        {
+          "name": "Model",
+          "tables": [
+            {
+              "rows": "10",
+              "columns": "2",
+              "sha256": "b505e8a36b03713798ab20e1ec846b976cffd3cc600e785176b0614eb68927c5"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "2e224ab2522a9406bc24d2e9ba1320603f6f214b1981a75d79ef1bab5b8582d6"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "788d6ee1c2be35807315996c907ac545d6f95a480c97dffab733f45b243dfedf"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "7c41c2cffdbb4de89388adcc2e95c00ad58c45a26acf383225632584c8e9578d"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "1e57f983b19506dbde4ab8b80977158d9f0c04b593e9f24b574d1c610cc5950b"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "d5e9e8119ef641ad90d56f5ebf297c0a496f93552735f2862eb403950b827921"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "516775cd5155027c4066bb4d4d4e21f2de4e0f495caef400d4360095f0812e3a"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "0b7162b850a0a840d5c28ebab67eb58f83b42e0ea75ec2b137c2db50707f0c84"
+            }
+          ]
+        },
+        {
+          "name": "ChartData",
+          "tables": [
+            {
+              "rows": "152",
+              "columns": "15",
+              "sha256": "f04176d985a9f5fed2a2b604867057340acff33907327662901cde2a9969c01b"
+            }
+          ]
+        },
+        {
+          "name": "Signals",
+          "tables": [
+            {
+              "rows": "9",
+              "columns": "11",
+              "sha256": "91321a0d601c96114fae338db1ff0dfbb60ef17dd9506515d46146dd07d66800"
+            }
+          ]
+        },
+        {
+          "name": "Diagnostics",
+          "tables": [
+            {
+              "rows": "152",
+              "columns": "18",
+              "sha256": "53068ecbd81fb00d20c5f7d073c14ece1b564c16d0b5f345028c0dedd549b2eb"
+            }
+          ]
+        },
+        {
+          "name": "Audit",
+          "tables": [
+            {
+              "rows": "30",
+              "columns": "2",
+              "sha256": "a84d357ecec93f288e011667d39b89d68f658ca724a619ca70d452b62788f7ea"
+            },
+            {
+              "rows": "4",
+              "columns": "4",
+              "sha256": "7c30df969afb3e52f538a969d52ef70d93097c90fddd8e77d91bdf6b7b203bf1"
+            },
+            {
+              "rows": "7",
+              "columns": "3",
+              "sha256": "371aa242b5ab81d657ece9bb54fa4a570729b318f20ffeeb70e802aadbaed7de"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "ee7d25708c562ed0bc6fd5f7e7d431e736c9541d62138105b774821ad484d0ff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "published-1",
+      "chart": "GeneralizedVariance",
+      "profile_id": "6a8f28f04b7c9ae7825598480cecaf93540e9d12950d70509cc06415e2fb4786",
+      "dataset_typed_sha256": "4d62db96af332293e29129fbccabf3246d51405e9be984ee9bc0d06438b9d9ba",
+      "options": [
+        {
+          "name": "AllowPseudo",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "Alpha",
+          "type": "System.Double",
+          "value": "0.0027"
+        },
+        {
+          "name": "Components",
+          "type": "System.Int32",
+          "value": "2"
+        },
+        {
+          "name": "Correlation",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "CumulativePercent",
+          "type": "System.Double",
+          "value": "90"
+        },
+        {
+          "name": "FixedComponents",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Gap",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcSequenceGapBehavior",
+          "value": "BreakSequence"
+        },
+        {
+          "name": "GvSigma",
+          "type": "System.Double",
+          "value": "3"
+        },
+        {
+          "name": "H",
+          "type": "System.Double",
+          "value": "5.5"
+        },
+        {
+          "name": "K",
+          "type": "System.Double",
+          "value": "0.5"
+        },
+        {
+          "name": "Lambda",
+          "type": "System.Double",
+          "value": "0.2"
+        },
+        {
+          "name": "LowerLimit",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "MewmaLimit",
+          "type": "System.Double",
+          "value": "12"
+        },
+        {
+          "name": "MissingValuePolicy",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMissingValuePolicy",
+          "value": "Reject"
+        },
+        {
+          "name": "ModelSource",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMultivariateModelSource",
+          "value": "EstimateFromPhaseI"
+        },
+        {
+          "name": "RequestLabel",
+          "type": "System.String",
+          "value": "Multivariate SPC fixture"
+        },
+        {
+          "name": "ResetPhase",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "ResetSignal",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "ResetStage",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Ridge",
+          "type": "System.Double",
+          "value": "0"
+        },
+        {
+          "name": "SuppliedGv",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "SuppliedMewma",
+          "type": "System.Boolean",
+          "value": "False"
+        }
+      ],
+      "panel_type": "GeneralizedVariance",
+      "axis_point_count": 30,
+      "first_axis_rows": [
+        [
+          "Subgroup 01",
+          "System.String",
+          "1",
+          "PhaseI",
+          "0",
+          "0",
+          "Baseline",
+          [
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        ],
+        [
+          "Subgroup 02",
+          "System.String",
+          "2",
+          "PhaseI",
+          "1",
+          "1",
+          "Baseline",
+          [
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"
+          ]
+        ]
+      ],
+      "axis_columns": [
+        "category",
+        "category_type",
+        "display",
+        "phase",
+        "point",
+        "slot",
+        "stage",
+        "source_rows"
+      ],
+      "stage_boundaries": [
+        {
+          "i": "20",
+          "n": "30",
+          "fraction": "0.6666666666666666",
+          "text": "Stage boundary: Baseline to Monitoring"
+        }
+      ],
+      "signal_marker_count": 1,
+      "excluded_marker_count": 1,
+      "first_statistic": 0.49437599247567837,
+      "first_cl": 0.20397050853562304,
+      "first_lcl": 0.0,
+      "first_ucl": 1.4277841741293917,
+      "last_statistic": 0.019889195717088845,
+      "rank": "3",
+      "retained_components": "0",
+      "pseudo": "false",
+      "warnings": [
+        "Generalized-variance limits use the conventional normal moment approximation for |S|; small subgroups can have a false-signal rate different from the nominal alpha.",
+        "Generalized variance depends on measurement units; rescaling any variable changes |S|."
+      ],
+      "section_shapes": [
+        {
+          "name": "Summary",
+          "tables": [
+            {
+              "rows": "21",
+              "columns": "2",
+              "sha256": "fc9ddc6cd7f192e17add222cdccab1b1ccace97e3bd466ff780b1fe18c3b1cd7"
+            },
+            {
+              "rows": "8",
+              "columns": "7",
+              "sha256": "09c26643ec0d46d8cfda9004186246db6312c7d916d2feace6d6423b4e5d1081"
+            },
+            {
+              "rows": "4",
+              "columns": "2",
+              "sha256": "f1b14865ec766986cb739df47413fb28b3b67c64e4f3386ef8f5b46bdaf19dd5"
+            }
+          ]
+        },
+        {
+          "name": "Model",
+          "tables": [
+            {
+              "rows": "10",
+              "columns": "2",
+              "sha256": "815716ce7a33c2d08762f8b2a1173d99ddff4c5160aff77857bef651c2face33"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "788d6ee1c2be35807315996c907ac545d6f95a480c97dffab733f45b243dfedf"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "228c0f6fd4b66143c8869f0c57d93934e0bd7be2dd2d9a8917e69eb72ed2bcb9"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "f1c8620ccb437a4c0243906163cf8915aa1267820afe732cb876c644be58ffe8"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "1e8478a705916a253fcc45537612cb80a05e530a21af98cee7fb595dc48c023f"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "1c0137f84aae81694885cd90b05ad05a7c70a9dcac3c6fa8d1d11ab11b3ff294"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "a8e08afdd8ca57ec5aa303855a3d960589eb078bb8bb220f59e38513612d224c"
+            }
+          ]
+        },
+        {
+          "name": "ChartData",
+          "tables": [
+            {
+              "rows": "32",
+              "columns": "15",
+              "sha256": "4ce800b0affe13f5523be3f2f78ae242585019a0120ffc4d4148fc2815df1cc6"
+            }
+          ]
+        },
+        {
+          "name": "Signals",
+          "tables": [
+            {
+              "rows": "3",
+              "columns": "11",
+              "sha256": "c5f80de922e6f191854eafbeb27e9bfd038349c70bc9b2fe7224c5c15d7853b7"
+            }
+          ]
+        },
+        {
+          "name": "Diagnostics",
+          "tables": [
+            {
+              "rows": "3",
+              "columns": "10",
+              "sha256": "231e62e632533d24c3cb5be5bfaf25a516b77f6252be8490fac85063b4bf696b"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "78e04fb3c3b582e135ddba84ea168660af9b62b5d6fc957ac509500ba17c31d1"
+            }
+          ]
+        },
+        {
+          "name": "Audit",
+          "tables": [
+            {
+              "rows": "30",
+              "columns": "2",
+              "sha256": "258aa31a46167fd2b77f5b4228fa2d9998d18211af8c950e58d0d61b45225f11"
+            },
+            {
+              "rows": "4",
+              "columns": "4",
+              "sha256": "4a75edd493f31882bd348446b342e8e18704c6614ed6942c9860160b9afc040c"
+            },
+            {
+              "rows": "7",
+              "columns": "3",
+              "sha256": "371aa242b5ab81d657ece9bb54fa4a570729b318f20ffeeb70e802aadbaed7de"
+            },
+            {
+              "rows": "4",
+              "columns": "2",
+              "sha256": "f1b14865ec766986cb739df47413fb28b3b67c64e4f3386ef8f5b46bdaf19dd5"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "published-2",
+      "chart": "PcaT2",
+      "profile_id": "eefc2ca0ec9f4ff34ac0afbe72e3d02b69759a1f4ca5481e0cd623701b33ef97",
+      "dataset_typed_sha256": "4d62db96af332293e29129fbccabf3246d51405e9be984ee9bc0d06438b9d9ba",
+      "options": [
+        {
+          "name": "AllowPseudo",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Alpha",
+          "type": "System.Double",
+          "value": "0.0027"
+        },
+        {
+          "name": "Components",
+          "type": "System.Int32",
+          "value": "2"
+        },
+        {
+          "name": "Correlation",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "CumulativePercent",
+          "type": "System.Double",
+          "value": "90"
+        },
+        {
+          "name": "FixedComponents",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Gap",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcSequenceGapBehavior",
+          "value": "BreakSequence"
+        },
+        {
+          "name": "GvSigma",
+          "type": "System.Double",
+          "value": "3"
+        },
+        {
+          "name": "H",
+          "type": "System.Double",
+          "value": "5.5"
+        },
+        {
+          "name": "K",
+          "type": "System.Double",
+          "value": "0.5"
+        },
+        {
+          "name": "Lambda",
+          "type": "System.Double",
+          "value": "0.2"
+        },
+        {
+          "name": "LowerLimit",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "MewmaLimit",
+          "type": "System.Double",
+          "value": "12"
+        },
+        {
+          "name": "MissingValuePolicy",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMissingValuePolicy",
+          "value": "Reject"
+        },
+        {
+          "name": "ModelSource",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMultivariateModelSource",
+          "value": "EstimateFromPhaseI"
+        },
+        {
+          "name": "RequestLabel",
+          "type": "System.String",
+          "value": "Multivariate SPC fixture"
+        },
+        {
+          "name": "ResetPhase",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "ResetSignal",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "ResetStage",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Ridge",
+          "type": "System.Double",
+          "value": "0"
+        },
+        {
+          "name": "SuppliedGv",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "SuppliedMewma",
+          "type": "System.Boolean",
+          "value": "False"
+        }
+      ],
+      "panel_type": "PcaT2",
+      "axis_point_count": 150,
+      "first_axis_rows": [
+        [
+          "Obs-001",
+          "System.String",
+          "1",
+          "PhaseI",
+          "0",
+          "0",
+          "Baseline",
+          [
+            "2"
+          ]
+        ],
+        [
+          "Obs-002",
+          "System.String",
+          "2",
+          "PhaseI",
+          "1",
+          "1",
+          "Baseline",
+          [
+            "3"
+          ]
+        ]
+      ],
+      "axis_columns": [
+        "category",
+        "category_type",
+        "display",
+        "phase",
+        "point",
+        "slot",
+        "stage",
+        "source_rows"
+      ],
+      "stage_boundaries": [
+        {
+          "i": "100",
+          "n": "150",
+          "fraction": "0.6666666666666666",
+          "text": "Stage boundary: Baseline to Monitoring"
+        }
+      ],
+      "signal_marker_count": 2,
+      "excluded_marker_count": 5,
+      "first_statistic": 2.11832165423988,
+      "first_cl": 1.9789473684210526,
+      "first_lcl": 0.0,
+      "first_ucl": 12.445221717322415,
+      "last_statistic": 9.18782615212027,
+      "rank": "3",
+      "retained_components": "2",
+      "pseudo": "false",
+      "warnings": [],
+      "section_shapes": [
+        {
+          "name": "Summary",
+          "tables": [
+            {
+              "rows": "21",
+              "columns": "2",
+              "sha256": "09d6186f4ea5fc67d74add5e1b0a3de9029d89faca96aa8fbda108201e6abb63"
+            },
+            {
+              "rows": "8",
+              "columns": "7",
+              "sha256": "8a7bbe491cd0ac7fdbd1c692cc9934c6b85b42c1c1c7c2bbd2723e4c6d478edb"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "ee7d25708c562ed0bc6fd5f7e7d431e736c9541d62138105b774821ad484d0ff"
+            }
+          ]
+        },
+        {
+          "name": "Model",
+          "tables": [
+            {
+              "rows": "10",
+              "columns": "2",
+              "sha256": "178c34c95abc211b494727a79c407a9dff59e72248c364d52d42e651c6681f3d"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "2e224ab2522a9406bc24d2e9ba1320603f6f214b1981a75d79ef1bab5b8582d6"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "788d6ee1c2be35807315996c907ac545d6f95a480c97dffab733f45b243dfedf"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "7c41c2cffdbb4de89388adcc2e95c00ad58c45a26acf383225632584c8e9578d"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "1e57f983b19506dbde4ab8b80977158d9f0c04b593e9f24b574d1c610cc5950b"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "d5e9e8119ef641ad90d56f5ebf297c0a496f93552735f2862eb403950b827921"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "516775cd5155027c4066bb4d4d4e21f2de4e0f495caef400d4360095f0812e3a"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "0b7162b850a0a840d5c28ebab67eb58f83b42e0ea75ec2b137c2db50707f0c84"
+            }
+          ]
+        },
+        {
+          "name": "ChartData",
+          "tables": [
+            {
+              "rows": "152",
+              "columns": "15",
+              "sha256": "d7e869cca2d1b8d64b4062a5d6565be67b45f6dc1684e2f2d80b2377483d092b"
+            }
+          ]
+        },
+        {
+          "name": "Signals",
+          "tables": [
+            {
+              "rows": "4",
+              "columns": "11",
+              "sha256": "616e373017a4545b0e685f62e19fd28dfbf3303dea86ace2942b292fa1c0cc31"
+            }
+          ]
+        },
+        {
+          "name": "Diagnostics",
+          "tables": [
+            {
+              "rows": "152",
+              "columns": "23",
+              "sha256": "60cfe89847d6668de2705b3aae590a1792fc8fe308feb4258ba055d9262ff02e"
+            }
+          ]
+        },
+        {
+          "name": "Audit",
+          "tables": [
+            {
+              "rows": "30",
+              "columns": "2",
+              "sha256": "19e5402f7b62ffb8f5dde61368f18d9329fdcec78be689c2306009fb24e4824e"
+            },
+            {
+              "rows": "4",
+              "columns": "4",
+              "sha256": "7c30df969afb3e52f538a969d52ef70d93097c90fddd8e77d91bdf6b7b203bf1"
+            },
+            {
+              "rows": "7",
+              "columns": "3",
+              "sha256": "371aa242b5ab81d657ece9bb54fa4a570729b318f20ffeeb70e802aadbaed7de"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "ee7d25708c562ed0bc6fd5f7e7d431e736c9541d62138105b774821ad484d0ff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "published-3",
+      "chart": "PcaQ",
+      "profile_id": "89f93b8bfdf6282b97ea943d1140bb1497063eb7fe43d3333a1fa7a12dd97ba4",
+      "dataset_typed_sha256": "4d62db96af332293e29129fbccabf3246d51405e9be984ee9bc0d06438b9d9ba",
+      "options": [
+        {
+          "name": "AllowPseudo",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Alpha",
+          "type": "System.Double",
+          "value": "0.0027"
+        },
+        {
+          "name": "Components",
+          "type": "System.Int32",
+          "value": "2"
+        },
+        {
+          "name": "Correlation",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "CumulativePercent",
+          "type": "System.Double",
+          "value": "90"
+        },
+        {
+          "name": "FixedComponents",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Gap",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcSequenceGapBehavior",
+          "value": "BreakSequence"
+        },
+        {
+          "name": "GvSigma",
+          "type": "System.Double",
+          "value": "3"
+        },
+        {
+          "name": "H",
+          "type": "System.Double",
+          "value": "5.5"
+        },
+        {
+          "name": "K",
+          "type": "System.Double",
+          "value": "0.5"
+        },
+        {
+          "name": "Lambda",
+          "type": "System.Double",
+          "value": "0.2"
+        },
+        {
+          "name": "LowerLimit",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "MewmaLimit",
+          "type": "System.Double",
+          "value": "12"
+        },
+        {
+          "name": "MissingValuePolicy",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMissingValuePolicy",
+          "value": "Reject"
+        },
+        {
+          "name": "ModelSource",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMultivariateModelSource",
+          "value": "EstimateFromPhaseI"
+        },
+        {
+          "name": "RequestLabel",
+          "type": "System.String",
+          "value": "Multivariate SPC fixture"
+        },
+        {
+          "name": "ResetPhase",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "ResetSignal",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "ResetStage",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Ridge",
+          "type": "System.Double",
+          "value": "0"
+        },
+        {
+          "name": "SuppliedGv",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "SuppliedMewma",
+          "type": "System.Boolean",
+          "value": "False"
+        }
+      ],
+      "panel_type": "PcaQ",
+      "axis_point_count": 150,
+      "first_axis_rows": [
+        [
+          "Obs-001",
+          "System.String",
+          "1",
+          "PhaseI",
+          "0",
+          "0",
+          "Baseline",
+          [
+            "2"
+          ]
+        ],
+        [
+          "Obs-002",
+          "System.String",
+          "2",
+          "PhaseI",
+          "1",
+          "1",
+          "Baseline",
+          [
+            "3"
+          ]
+        ]
+      ],
+      "axis_columns": [
+        "category",
+        "category_type",
+        "display",
+        "phase",
+        "point",
+        "slot",
+        "stage",
+        "source_rows"
+      ],
+      "stage_boundaries": [
+        {
+          "i": "100",
+          "n": "150",
+          "fraction": "0.6666666666666666",
+          "text": "Stage boundary: Baseline to Monitoring"
+        }
+      ],
+      "signal_marker_count": 6,
+      "excluded_marker_count": 5,
+      "first_statistic": 0.372836021988628,
+      "first_cl": 0.36152619063094094,
+      "first_lcl": 0.0,
+      "first_ucl": 3.297157801175971,
+      "last_statistic": 0.037555245172233215,
+      "rank": "3",
+      "retained_components": "2",
+      "pseudo": "false",
+      "warnings": [],
+      "section_shapes": [
+        {
+          "name": "Summary",
+          "tables": [
+            {
+              "rows": "21",
+              "columns": "2",
+              "sha256": "0bac6a076758dda691cae1e7d3ce0ed219c29077517c47a8125b847b5378b999"
+            },
+            {
+              "rows": "8",
+              "columns": "7",
+              "sha256": "8a7bbe491cd0ac7fdbd1c692cc9934c6b85b42c1c1c7c2bbd2723e4c6d478edb"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "ee7d25708c562ed0bc6fd5f7e7d431e736c9541d62138105b774821ad484d0ff"
+            }
+          ]
+        },
+        {
+          "name": "Model",
+          "tables": [
+            {
+              "rows": "10",
+              "columns": "2",
+              "sha256": "178c34c95abc211b494727a79c407a9dff59e72248c364d52d42e651c6681f3d"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "2e224ab2522a9406bc24d2e9ba1320603f6f214b1981a75d79ef1bab5b8582d6"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "788d6ee1c2be35807315996c907ac545d6f95a480c97dffab733f45b243dfedf"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "7c41c2cffdbb4de89388adcc2e95c00ad58c45a26acf383225632584c8e9578d"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "1e57f983b19506dbde4ab8b80977158d9f0c04b593e9f24b574d1c610cc5950b"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "d5e9e8119ef641ad90d56f5ebf297c0a496f93552735f2862eb403950b827921"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "516775cd5155027c4066bb4d4d4e21f2de4e0f495caef400d4360095f0812e3a"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "0b7162b850a0a840d5c28ebab67eb58f83b42e0ea75ec2b137c2db50707f0c84"
+            }
+          ]
+        },
+        {
+          "name": "ChartData",
+          "tables": [
+            {
+              "rows": "152",
+              "columns": "15",
+              "sha256": "0080d815ba2bc485ec210d34246e6680ccfe6f078f28ef69d01bb799488aa41a"
+            }
+          ]
+        },
+        {
+          "name": "Signals",
+          "tables": [
+            {
+              "rows": "8",
+              "columns": "11",
+              "sha256": "89a1d41af43af1e7627b645eb37f1e662cb56d030f29b19d632598eb6b2846fc"
+            }
+          ]
+        },
+        {
+          "name": "Diagnostics",
+          "tables": [
+            {
+              "rows": "8",
+              "columns": "23",
+              "sha256": "274df0117a119c1acbf15d3e5bcf2a14a902008d3050b54962264ce8a460e840"
+            }
+          ]
+        },
+        {
+          "name": "Audit",
+          "tables": [
+            {
+              "rows": "30",
+              "columns": "2",
+              "sha256": "74c3bd4ec1523efb13c099e71d3abd7bd7a2b975b7422c1de593a21e973a3735"
+            },
+            {
+              "rows": "4",
+              "columns": "4",
+              "sha256": "7c30df969afb3e52f538a969d52ef70d93097c90fddd8e77d91bdf6b7b203bf1"
+            },
+            {
+              "rows": "7",
+              "columns": "3",
+              "sha256": "371aa242b5ab81d657ece9bb54fa4a570729b318f20ffeeb70e802aadbaed7de"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "ee7d25708c562ed0bc6fd5f7e7d431e736c9541d62138105b774821ad484d0ff"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "published-4",
+      "chart": "Mewma",
+      "profile_id": "fc9796c5ecbde3012cc85a2c9fd4c502b6bb6924dd853f00b695ab7aeb95b6e4",
+      "dataset_typed_sha256": "4d62db96af332293e29129fbccabf3246d51405e9be984ee9bc0d06438b9d9ba",
+      "options": [
+        {
+          "name": "AllowPseudo",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Alpha",
+          "type": "System.Double",
+          "value": "0.0027"
+        },
+        {
+          "name": "Components",
+          "type": "System.Int32",
+          "value": "2"
+        },
+        {
+          "name": "Correlation",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "CumulativePercent",
+          "type": "System.Double",
+          "value": "90"
+        },
+        {
+          "name": "FixedComponents",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Gap",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcSequenceGapBehavior",
+          "value": "BreakSequence"
+        },
+        {
+          "name": "GvSigma",
+          "type": "System.Double",
+          "value": "3"
+        },
+        {
+          "name": "H",
+          "type": "System.Double",
+          "value": "5.5"
+        },
+        {
+          "name": "K",
+          "type": "System.Double",
+          "value": "0.5"
+        },
+        {
+          "name": "Lambda",
+          "type": "System.Double",
+          "value": "0.2"
+        },
+        {
+          "name": "LowerLimit",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "MewmaLimit",
+          "type": "System.Double",
+          "value": "12"
+        },
+        {
+          "name": "MissingValuePolicy",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMissingValuePolicy",
+          "value": "Reject"
+        },
+        {
+          "name": "ModelSource",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMultivariateModelSource",
+          "value": "EstimateFromPhaseI"
+        },
+        {
+          "name": "RequestLabel",
+          "type": "System.String",
+          "value": "Multivariate SPC fixture"
+        },
+        {
+          "name": "ResetPhase",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "ResetSignal",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "ResetStage",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Ridge",
+          "type": "System.Double",
+          "value": "0"
+        },
+        {
+          "name": "SuppliedGv",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "SuppliedMewma",
+          "type": "System.Boolean",
+          "value": "False"
+        }
+      ],
+      "panel_type": "Mewma",
+      "axis_point_count": 150,
+      "first_axis_rows": [
+        [
+          "Obs-001",
+          "System.String",
+          "1",
+          "PhaseI",
+          "0",
+          "0",
+          "Baseline",
+          [
+            "2"
+          ]
+        ],
+        [
+          "Obs-002",
+          "System.String",
+          "2",
+          "PhaseI",
+          "1",
+          "1",
+          "Baseline",
+          [
+            "3"
+          ]
+        ]
+      ],
+      "axis_columns": [
+        "category",
+        "category_type",
+        "display",
+        "phase",
+        "point",
+        "slot",
+        "stage",
+        "source_rows"
+      ],
+      "stage_boundaries": [
+        {
+          "i": "100",
+          "n": "150",
+          "fraction": "0.6666666666666666",
+          "text": "Stage boundary: Baseline to Monitoring"
+        }
+      ],
+      "signal_marker_count": 17,
+      "excluded_marker_count": 5,
+      "first_statistic": 3.1496052282952656,
+      "first_cl": 3.0,
+      "first_lcl": 0.0,
+      "first_ucl": 14.156252500540894,
+      "last_statistic": 30.703706285845094,
+      "rank": "3",
+      "retained_components": "0",
+      "pseudo": "false",
+      "warnings": [
+        "The MEWMA UCL uses a chi-square pointwise approximation. For production monitoring, supply an ARL-calibrated MEWMA control limit."
+      ],
+      "section_shapes": [
+        {
+          "name": "Summary",
+          "tables": [
+            {
+              "rows": "21",
+              "columns": "2",
+              "sha256": "acacdcd5cbb7c0861e719e7e5dcf75161e2d0c464bd73a5aa970b437d5cd43ea"
+            },
+            {
+              "rows": "8",
+              "columns": "7",
+              "sha256": "c17bcf9b75e7c7ff7888f58ede0263fe5f1caa84ed5ef27bea6241a09210dcc3"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "6916bb7e855512b84e29d14364c37b588a3b1021a94687889811fa3dbc8dba58"
+            }
+          ]
+        },
+        {
+          "name": "Model",
+          "tables": [
+            {
+              "rows": "10",
+              "columns": "2",
+              "sha256": "b505e8a36b03713798ab20e1ec846b976cffd3cc600e785176b0614eb68927c5"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "2e224ab2522a9406bc24d2e9ba1320603f6f214b1981a75d79ef1bab5b8582d6"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "788d6ee1c2be35807315996c907ac545d6f95a480c97dffab733f45b243dfedf"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "7c41c2cffdbb4de89388adcc2e95c00ad58c45a26acf383225632584c8e9578d"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "1e57f983b19506dbde4ab8b80977158d9f0c04b593e9f24b574d1c610cc5950b"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "d5e9e8119ef641ad90d56f5ebf297c0a496f93552735f2862eb403950b827921"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "516775cd5155027c4066bb4d4d4e21f2de4e0f495caef400d4360095f0812e3a"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "0b7162b850a0a840d5c28ebab67eb58f83b42e0ea75ec2b137c2db50707f0c84"
+            }
+          ]
+        },
+        {
+          "name": "ChartData",
+          "tables": [
+            {
+              "rows": "152",
+              "columns": "15",
+              "sha256": "04831fb7a7f770361a163968188e8c857e7c23fefaa9a4b1cc585a257d696907"
+            }
+          ]
+        },
+        {
+          "name": "Signals",
+          "tables": [
+            {
+              "rows": "19",
+              "columns": "11",
+              "sha256": "8c6a4fd9a6bf0c851813acffc00ccf41693ed1a6e4e6036d93c8ced4f5681bac"
+            }
+          ]
+        },
+        {
+          "name": "Diagnostics",
+          "tables": [
+            {
+              "rows": "152",
+              "columns": "18",
+              "sha256": "ea136569a9d814b9afdb4cd3e6c8e761775028bfa1d935dc914ea7b774aeaf41"
+            }
+          ]
+        },
+        {
+          "name": "Audit",
+          "tables": [
+            {
+              "rows": "30",
+              "columns": "2",
+              "sha256": "a50ec29ebc70213f58cf599b529d5920df7b2e6c115181f078ab9e465db24c2b"
+            },
+            {
+              "rows": "4",
+              "columns": "4",
+              "sha256": "7c30df969afb3e52f538a969d52ef70d93097c90fddd8e77d91bdf6b7b203bf1"
+            },
+            {
+              "rows": "7",
+              "columns": "3",
+              "sha256": "371aa242b5ab81d657ece9bb54fa4a570729b318f20ffeeb70e802aadbaed7de"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "6916bb7e855512b84e29d14364c37b588a3b1021a94687889811fa3dbc8dba58"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "published-5",
+      "chart": "Mcusum",
+      "profile_id": "7e8b6b3d438a3a0b2a415f2398ae2b5c2cd6b4214d4e18391c15e103970d3074",
+      "dataset_typed_sha256": "4d62db96af332293e29129fbccabf3246d51405e9be984ee9bc0d06438b9d9ba",
+      "options": [
+        {
+          "name": "AllowPseudo",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Alpha",
+          "type": "System.Double",
+          "value": "0.0027"
+        },
+        {
+          "name": "Components",
+          "type": "System.Int32",
+          "value": "2"
+        },
+        {
+          "name": "Correlation",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "CumulativePercent",
+          "type": "System.Double",
+          "value": "90"
+        },
+        {
+          "name": "FixedComponents",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Gap",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcSequenceGapBehavior",
+          "value": "BreakSequence"
+        },
+        {
+          "name": "GvSigma",
+          "type": "System.Double",
+          "value": "3"
+        },
+        {
+          "name": "H",
+          "type": "System.Double",
+          "value": "5.5"
+        },
+        {
+          "name": "K",
+          "type": "System.Double",
+          "value": "0.5"
+        },
+        {
+          "name": "Lambda",
+          "type": "System.Double",
+          "value": "0.2"
+        },
+        {
+          "name": "LowerLimit",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "MewmaLimit",
+          "type": "System.Double",
+          "value": "12"
+        },
+        {
+          "name": "MissingValuePolicy",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMissingValuePolicy",
+          "value": "Reject"
+        },
+        {
+          "name": "ModelSource",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMultivariateModelSource",
+          "value": "EstimateFromPhaseI"
+        },
+        {
+          "name": "RequestLabel",
+          "type": "System.String",
+          "value": "Multivariate SPC fixture"
+        },
+        {
+          "name": "ResetPhase",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "ResetSignal",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "ResetStage",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Ridge",
+          "type": "System.Double",
+          "value": "0"
+        },
+        {
+          "name": "SuppliedGv",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "SuppliedMewma",
+          "type": "System.Boolean",
+          "value": "False"
+        }
+      ],
+      "panel_type": "Mcusum",
+      "axis_point_count": 150,
+      "first_axis_rows": [
+        [
+          "Obs-001",
+          "System.String",
+          "1",
+          "PhaseI",
+          "0",
+          "0",
+          "Baseline",
+          [
+            "2"
+          ]
+        ],
+        [
+          "Obs-002",
+          "System.String",
+          "2",
+          "PhaseI",
+          "1",
+          "1",
+          "Baseline",
+          [
+            "3"
+          ]
+        ]
+      ],
+      "axis_columns": [
+        "category",
+        "category_type",
+        "display",
+        "phase",
+        "point",
+        "slot",
+        "stage",
+        "source_rows"
+      ],
+      "stage_boundaries": [
+        {
+          "i": "100",
+          "n": "150",
+          "fraction": "0.6666666666666666",
+          "text": "Stage boundary: Baseline to Monitoring"
+        }
+      ],
+      "signal_marker_count": 37,
+      "excluded_marker_count": 5,
+      "first_statistic": 1.274712717116566,
+      "first_cl": 0.0,
+      "first_lcl": 0.0,
+      "first_ucl": 5.5,
+      "last_statistic": 34.838437792902006,
+      "rank": "3",
+      "retained_components": "0",
+      "pseudo": "false",
+      "warnings": [
+        "MCUSUM k and h are design parameters whose in-control ARL depends on dimension and covariance estimation; validate the selected design for the intended process."
+      ],
+      "section_shapes": [
+        {
+          "name": "Summary",
+          "tables": [
+            {
+              "rows": "21",
+              "columns": "2",
+              "sha256": "38748b550fe02a27f23d1cbe18722412eefed3bda5015f9369b51fb34d73ba44"
+            },
+            {
+              "rows": "8",
+              "columns": "7",
+              "sha256": "8cab25934a1c9da90bfca45fd4b01ac49743c88c8f125197cd36f13b61785252"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "d52ccaaaede165cfba91f789dec52cd93dfc6767a424dae830949f23560978ef"
+            }
+          ]
+        },
+        {
+          "name": "Model",
+          "tables": [
+            {
+              "rows": "10",
+              "columns": "2",
+              "sha256": "b505e8a36b03713798ab20e1ec846b976cffd3cc600e785176b0614eb68927c5"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "2e224ab2522a9406bc24d2e9ba1320603f6f214b1981a75d79ef1bab5b8582d6"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "788d6ee1c2be35807315996c907ac545d6f95a480c97dffab733f45b243dfedf"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "7c41c2cffdbb4de89388adcc2e95c00ad58c45a26acf383225632584c8e9578d"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "1e57f983b19506dbde4ab8b80977158d9f0c04b593e9f24b574d1c610cc5950b"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "d5e9e8119ef641ad90d56f5ebf297c0a496f93552735f2862eb403950b827921"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "516775cd5155027c4066bb4d4d4e21f2de4e0f495caef400d4360095f0812e3a"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "0b7162b850a0a840d5c28ebab67eb58f83b42e0ea75ec2b137c2db50707f0c84"
+            }
+          ]
+        },
+        {
+          "name": "ChartData",
+          "tables": [
+            {
+              "rows": "152",
+              "columns": "15",
+              "sha256": "d42aca83356029f863f664bd41773b37bcd7ab8e4c6fbf003c4c2d495517e0a0"
+            }
+          ]
+        },
+        {
+          "name": "Signals",
+          "tables": [
+            {
+              "rows": "39",
+              "columns": "11",
+              "sha256": "7af7dba8ccaae6a176ca4d38891ac040d5d9e2b49f6bc5de995531a913a4b9c4"
+            }
+          ]
+        },
+        {
+          "name": "Diagnostics",
+          "tables": [
+            {
+              "rows": "39",
+              "columns": "18",
+              "sha256": "f3a10bfcde60b3efe6432942a55e8c3d2a0f44474213feb7f1b48cc2d4f67b66"
+            }
+          ]
+        },
+        {
+          "name": "Audit",
+          "tables": [
+            {
+              "rows": "30",
+              "columns": "2",
+              "sha256": "6da4d4e0499cf0a0d09ffb565d68ee8b9a51714f7ffbfc32a90496ab62a888a1"
+            },
+            {
+              "rows": "4",
+              "columns": "4",
+              "sha256": "7c30df969afb3e52f538a969d52ef70d93097c90fddd8e77d91bdf6b7b203bf1"
+            },
+            {
+              "rows": "7",
+              "columns": "3",
+              "sha256": "371aa242b5ab81d657ece9bb54fa4a570729b318f20ffeeb70e802aadbaed7de"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "d52ccaaaede165cfba91f789dec52cd93dfc6767a424dae830949f23560978ef"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "published-6",
+      "chart": "HotellingT2",
+      "profile_id": "e38d3cac337abc8214576fb84341fbd2a2b96d1987b8405972001a1aab9802da",
+      "dataset_typed_sha256": "4d62db96af332293e29129fbccabf3246d51405e9be984ee9bc0d06438b9d9ba",
+      "options": [
+        {
+          "name": "AllowPseudo",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Alpha",
+          "type": "System.Double",
+          "value": "0.0027"
+        },
+        {
+          "name": "Components",
+          "type": "System.Int32",
+          "value": "2"
+        },
+        {
+          "name": "Correlation",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "CumulativePercent",
+          "type": "System.Double",
+          "value": "90"
+        },
+        {
+          "name": "FixedComponents",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Gap",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcSequenceGapBehavior",
+          "value": "BreakSequence"
+        },
+        {
+          "name": "GvSigma",
+          "type": "System.Double",
+          "value": "3"
+        },
+        {
+          "name": "H",
+          "type": "System.Double",
+          "value": "5.5"
+        },
+        {
+          "name": "K",
+          "type": "System.Double",
+          "value": "0.5"
+        },
+        {
+          "name": "Lambda",
+          "type": "System.Double",
+          "value": "0.2"
+        },
+        {
+          "name": "LowerLimit",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "MewmaLimit",
+          "type": "System.Double",
+          "value": "12"
+        },
+        {
+          "name": "MissingValuePolicy",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMissingValuePolicy",
+          "value": "Reject"
+        },
+        {
+          "name": "ModelSource",
+          "type": "BESHStatNG.StatisticalProcessControl.SpcMultivariateModelSource",
+          "value": "EstimateFromPhaseI"
+        },
+        {
+          "name": "RequestLabel",
+          "type": "System.String",
+          "value": "Multivariate SPC fixture"
+        },
+        {
+          "name": "ResetPhase",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "ResetSignal",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "ResetStage",
+          "type": "System.Boolean",
+          "value": "True"
+        },
+        {
+          "name": "Ridge",
+          "type": "System.Double",
+          "value": "0"
+        },
+        {
+          "name": "SuppliedGv",
+          "type": "System.Boolean",
+          "value": "False"
+        },
+        {
+          "name": "SuppliedMewma",
+          "type": "System.Boolean",
+          "value": "False"
+        }
+      ],
+      "panel_type": "HotellingT2",
+      "axis_point_count": 30,
+      "first_axis_rows": [
+        [
+          "Subgroup 01",
+          "System.String",
+          "1",
+          "PhaseI",
+          "0",
+          "0",
+          "Baseline",
+          [
+            "2",
+            "3",
+            "4",
+            "5",
+            "6"
+          ]
+        ],
+        [
+          "Subgroup 02",
+          "System.String",
+          "2",
+          "PhaseI",
+          "1",
+          "1",
+          "Baseline",
+          [
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"
+          ]
+        ]
+      ],
+      "axis_columns": [
+        "category",
+        "category_type",
+        "display",
+        "phase",
+        "point",
+        "slot",
+        "stage",
+        "source_rows"
+      ],
+      "stage_boundaries": [
+        {
+          "i": "20",
+          "n": "30",
+          "fraction": "0.6666666666666666",
+          "text": "Stage boundary: Baseline to Monitoring"
+        }
+      ],
+      "signal_marker_count": 4,
+      "excluded_marker_count": 1,
+      "first_statistic": 1.9967932775761479,
+      "first_cl": 3.0,
+      "first_lcl": 0.0,
+      "first_ucl": 12.41864274253283,
+      "last_statistic": 26.979024149612325,
+      "rank": "3",
+      "retained_components": "0",
+      "pseudo": "false",
+      "warnings": [],
+      "section_shapes": [
+        {
+          "name": "Summary",
+          "tables": [
+            {
+              "rows": "21",
+              "columns": "2",
+              "sha256": "7674ab6011b69a3ceb876632dc7a4b90878f46a459f736da11602a2be69c3ea8"
+            },
+            {
+              "rows": "6",
+              "columns": "7",
+              "sha256": "64bd131371f8223e79824b9c16a689f704ffa6270ff85c3afb0f7241428989a6"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "ee7d25708c562ed0bc6fd5f7e7d431e736c9541d62138105b774821ad484d0ff"
+            }
+          ]
+        },
+        {
+          "name": "Model",
+          "tables": [
+            {
+              "rows": "10",
+              "columns": "2",
+              "sha256": "815716ce7a33c2d08762f8b2a1173d99ddff4c5160aff77857bef651c2face33"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "b8941c52ebd78fc278c27942def813eb835824330538c59bd08f323991627662"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "788d6ee1c2be35807315996c907ac545d6f95a480c97dffab733f45b243dfedf"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "228c0f6fd4b66143c8869f0c57d93934e0bd7be2dd2d9a8917e69eb72ed2bcb9"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "f1c8620ccb437a4c0243906163cf8915aa1267820afe732cb876c644be58ffe8"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "1e8478a705916a253fcc45537612cb80a05e530a21af98cee7fb595dc48c023f"
+            },
+            {
+              "rows": "5",
+              "columns": "2",
+              "sha256": "1c0137f84aae81694885cd90b05ad05a7c70a9dcac3c6fa8d1d11ab11b3ff294"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "a8e08afdd8ca57ec5aa303855a3d960589eb078bb8bb220f59e38513612d224c"
+            }
+          ]
+        },
+        {
+          "name": "ChartData",
+          "tables": [
+            {
+              "rows": "32",
+              "columns": "15",
+              "sha256": "3b5e41c7af6fd72a67a267f8788bc8926a42695d22c4b30cd5d0722384e767ad"
+            }
+          ]
+        },
+        {
+          "name": "Signals",
+          "tables": [
+            {
+              "rows": "6",
+              "columns": "11",
+              "sha256": "78a6d974c744ebe5362530307987460bf9b94948d38a43e890a39267554a9ce6"
+            }
+          ]
+        },
+        {
+          "name": "Diagnostics",
+          "tables": [
+            {
+              "rows": "32",
+              "columns": "18",
+              "sha256": "99fcf7639ee278db67e62e6f1be2568c8230402b3673cf83f05a4731f084bae3"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "350b1df660294c8f4461c17b5ac77fbbff968c55821ca58af858f1aaf7d0b83f"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "178dcd28e7ddfe039d0713a1d8d1708082527e8540be8364747a6606a43e8b5d"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "caf68326aaa234e8dfa817483540acd0a73de5a22b208b6ddee402d4490edc4d"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "0f932169de9fe51bb9f3cd68cc1d4f92efa4627ace95e818d2f5e2781954287d"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "8064607a47405977f38603a027084ab6e4dfbd7073fd5e331a7e9424ad823711"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "e7a980fc1ff96922563d1ee8f1123e849e70e18856bc2335145fc6683aa706ec"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "1ff597af79b29d06842e775d78f7d1bb0c1afc9755771f3477d065838c37f8ed"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "986bd51594967068fbd997d4adc2a62d65350f6567c7d514661258b64d7074e3"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "65b23ed5fc3e085aa44ed922491b2a6d083fa5f6de16dfb2c48e7b4032da48ff"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "b55706cb0bdc2fda6d9c55fcf126094cf6546ebc251d1814d4eb42dabd0e43bc"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "b9d69eea77b288ce97b1ca5e85718deca231419ad5b5a3a0765f84522e8d1e17"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "82a40cec444a681d27d6a08a6037b6092068ab58216a0f2e58c78efd81116075"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "d6db403cb8daa2cd0075ff87c1ee36a5839208d1f6e33028f417b6b9ac9b90ca"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "0d2166ff0f4313c0e353e4fa6aa863ae10161927e0d9e83e2af84dc291d65915"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "593d0e71ab98a13ad0dfdc6d41ce9909dbd01a36aedeec34525ce88676114a77"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "013780dac8cc1c1c4a2c93d348ca4bdd211fd1687128ae181b480fd7bbec5fa7"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "541ed7ddde8ef38fea6761eff7912676aef52952bb25456ae48a3fbf807ffb4c"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "35bdf7b594c3dfbe270952cd14c36db3c065a5e4c806be3a7dec5b1889a96034"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "5dbd0862d15ebe05630ba0a41f36b5d8478a5fea439c421c6beba7fc9280e8db"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "67caa922050d27cf8c6a8509530de71b08189d6d6d1c50bc585a8cb9ed724adb"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "e24d7d5529b9bb5c2222d503e07be7320ff02e2fe213e404cc0469f6f8f00521"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "d0e0b6c0f0b14a57ff03edac133be9210edf7df4be58da1e547b0b4e803e1dae"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "5a8a50654134fb9f01b348f006b3a6f181b77c55e2c58a715b0d5ec421ddae6e"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "cb0dd7db66a598dbc5e0e0f9f5116f55e313d1f0afa0f7e083882e48c01534d6"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "be6e80081f55dbcd6e818a986cc03799710a97ece053fb40d377eef84f3716f1"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "c10ca92457956388891bb4df38cb2785c702b39adf26c2e81cf3e598693962a8"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "78e04fb3c3b582e135ddba84ea168660af9b62b5d6fc957ac509500ba17c31d1"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "21dd6be909cf73e10f2b7d61e70465a2c43afa6ba9146122b95627eac8482d9d"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "f02d0b0a057ed6b03b0be305cb7293ee1d4d428d70ae97080fcc0408cf938aee"
+            },
+            {
+              "rows": "5",
+              "columns": "4",
+              "sha256": "91eebadb6dad74aab6fb20ab5b426d08d8e72df902016d92fb558615f73efb9f"
+            }
+          ]
+        },
+        {
+          "name": "Audit",
+          "tables": [
+            {
+              "rows": "30",
+              "columns": "2",
+              "sha256": "02bf0b779e8b86a6cffeb9c132630bf557d279a45dfcd14325f0810dfcf255c4"
+            },
+            {
+              "rows": "4",
+              "columns": "4",
+              "sha256": "4a75edd493f31882bd348446b342e8e18704c6614ed6942c9860160b9afc040c"
+            },
+            {
+              "rows": "7",
+              "columns": "3",
+              "sha256": "371aa242b5ab81d657ece9bb54fa4a570729b318f20ffeeb70e802aadbaed7de"
+            },
+            {
+              "rows": "3",
+              "columns": "2",
+              "sha256": "ee7d25708c562ed0bc6fd5f7e7d431e736c9541d62138105b774821ad484d0ff"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "negative": [
+    {
+      "id": "211",
+      "chart": "GeneralizedVariance",
+      "profile_id": "c74a51268af7f525bb8aa14fb60898ff46f768546742d2a1fd95b204dd5dbc86",
+      "exception": {
+        "type": "System.ArgumentException",
+        "raw_message_sha256": "a38caa9fabf78c5cfba7359612597c93e79b085e1e39d1850164620052db8a6c",
+        "message": "At least one complete multivariate observation is required. (Parameter 'measurements')"
+      },
+      "reference": {
+        "path": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+        "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643",
+        "profile_id": "b2c6954e7e91098eccb50e322c91a81e92c697f17d2b52a24c1866a0fb36e983",
+        "stage": "request",
+        "classification": "EXISTING_PREPARATION_EXCEPTION",
+        "parameter": "measurements",
+        "qualification": "Boundary classification from frozen prechange same-fixture observation, joined by runtime/id/culture with exact exception type/message and dataset hash where recorded. Current Core/request sources unchanged; not independent scientific validation."
+      }
+    },
+    {
+      "id": "198",
+      "chart": "HotellingT2",
+      "profile_id": "c1daa6de11d413481a002d967801b58eced81b0ac3429162665ef1d4e395b1b2",
+      "exception": {
+        "type": "System.ArgumentException",
+        "raw_message_sha256": "e3369085d3445e2f8839d434b8c33217a580bd5c5c703eebd8ab8306a4f0b247",
+        "message": "Measurements contain a missing value and the selected policy is Reject. (Parameter 'measurements')"
+      },
+      "reference": {
+        "path": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+        "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643",
+        "profile_id": "343e9f54ea807cf88df45a823bc68073ada106ab9957b9bd271e5024304893d6",
+        "stage": "request",
+        "classification": "EXISTING_PREPARATION_EXCEPTION",
+        "parameter": "measurements",
+        "qualification": "Boundary classification from frozen prechange same-fixture observation, joined by runtime/id/culture with exact exception type/message and dataset hash where recorded. Current Core/request sources unchanged; not independent scientific validation."
+      }
+    },
+    {
+      "id": "311",
+      "chart": "Mcusum",
+      "profile_id": "26001e602c6e99253f1c9e75e7cdb18fca4eaa270291993396fc5f06d6f7c135",
+      "exception": {
+        "type": "System.ArgumentOutOfRangeException",
+        "raw_message_sha256": "b7622f4388721e659f7c78e56902ce8b56e4ab7a710ec84956c2e9cb0475d313",
+        "message": "The value must be finite and positive. (Parameter 'mcusumDecisionInterval')"
+      },
+      "reference": {
+        "path": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+        "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643",
+        "profile_id": "1813a21620b8d850766978a1e3c491a4c5708fa241415cab111d0db93aa6ae72",
+        "stage": "request",
+        "classification": "EXISTING_PREPARATION_EXCEPTION",
+        "parameter": "mcusumDecisionInterval",
+        "qualification": "Boundary classification from frozen prechange same-fixture observation, joined by runtime/id/culture with exact exception type/message and dataset hash where recorded. Current Core/request sources unchanged; not independent scientific validation."
+      }
+    },
+    {
+      "id": "220",
+      "chart": "Mewma",
+      "profile_id": "768d478c679c15676843d257eb0766783fa9a0805e8830a0df11ac85bfab54a2",
+      "exception": {
+        "type": "System.InvalidOperationException",
+        "raw_message_sha256": "667106b9a517e8f8d6067296baa5a2024beacd650073575c9262a53b0c877668",
+        "message": "The fitted covariance matrix has zero numerical rank."
+      },
+      "reference": {
+        "path": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+        "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643",
+        "profile_id": "8e48995ee547392e3e10d159444c643cfe18cb99f72fd97820ca47c51793afff",
+        "stage": "core-fit",
+        "classification": "EXISTING_CORE_REJECTION",
+        "parameter": "",
+        "qualification": "Boundary classification from frozen prechange same-fixture observation, joined by runtime/id/culture with exact exception type/message and dataset hash where recorded. Current Core/request sources unchanged; not independent scientific validation."
+      }
+    },
+    {
+      "id": "231",
+      "chart": "PcaQ",
+      "profile_id": "05be8a543475d5ec82fed1525eb67b76df38b0004aef85c330128097261ef395",
+      "exception": {
+        "type": "System.ArgumentOutOfRangeException",
+        "raw_message_sha256": "7c25a066a3aefbbcbad71792088436ea147a97f64e446c3feba0b3ba649f44a2",
+        "message": "The PCA component count must be positive. (Parameter 'pcaComponentCount')"
+      },
+      "reference": {
+        "path": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+        "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643",
+        "profile_id": "a47e578f33ef5984296d9b1563010b95eb29dbba799c877cba1d3f67a04ab5d0",
+        "stage": "request",
+        "classification": "EXISTING_PREPARATION_EXCEPTION",
+        "parameter": "pcaComponentCount",
+        "qualification": "Boundary classification from frozen prechange same-fixture observation, joined by runtime/id/culture with exact exception type/message and dataset hash where recorded. Current Core/request sources unchanged; not independent scientific validation."
+      }
+    },
+    {
+      "id": "206",
+      "chart": "PcaT2",
+      "profile_id": "c6419c422bcc4e02558b6fa98201d483c9912408083c41787369bd200c3fccd8",
+      "exception": {
+        "type": "System.ArgumentException",
+        "raw_message_sha256": "1f5fbfa8ad89ca01c2d6b7a3f6a1887feaa9dd3818d449641489fb07eeb58a0f",
+        "message": "Measurements must not contain infinity. (Parameter 'measurements')"
+      },
+      "reference": {
+        "path": "evidence/04A23/multivariate-spc-same-core-comparisons-v1.json",
+        "sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643",
+        "profile_id": "c8d2495576554d5034951502e001718288d17c678ddbf3131b61de9f97742dc8",
+        "stage": "request",
+        "classification": "EXISTING_PREPARATION_EXCEPTION",
+        "parameter": "measurements",
+        "qualification": "Boundary classification from frozen prechange same-fixture observation, joined by runtime/id/culture with exact exception type/message and dataset hash where recorded. Current Core/request sources unchanged; not independent scientific validation."
+      }
+    }
+  ],
+  "numbers": "Decoded directly from captured Core-result Double bits for readable examples, no statistical calculation. Complete exact typed values/row hashes/channels in the content-addressed corpus. No native rendering or independent scientific accuracy claim."
+}

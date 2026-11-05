@@ -1,0 +1,300 @@
+{
+  "preflight": "parallel-preflight.json",
+  "initial_preflight": "parallel-preflight-initial-v1.json",
+  "runner_sha256": "42102b9f9d51b15f32f4d1fd2b07a19e66eb981a0dc55ce37b3166b50c308e17",
+  "initial_runner_sha256": "9c6a30f86f5b0a6970d60d5456e10f8417d39fdc79eaf92d28c0bb6de5fe502f",
+  "configurations": [
+    {
+      "configuration": "Debug",
+      "seconds": 451.3861498000333,
+      "lanes": [
+        {
+          "lane": "A",
+          "seconds": 125.96536649996415,
+          "exit_codes": [
+            1,
+            1
+          ],
+          "completed": true
+        },
+        {
+          "lane": "B",
+          "seconds": 194.8889217999531,
+          "exit_codes": [
+            1,
+            0
+          ],
+          "completed": true
+        },
+        {
+          "lane": "C",
+          "seconds": 60.553179399925284,
+          "exit_codes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "completed": true
+        },
+        {
+          "lane": "D",
+          "seconds": 451.3832583000185,
+          "exit_codes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
+          ],
+          "completed": true
+        }
+      ],
+      "errors": [],
+      "max_active_command_roots": 4,
+      "worker_limit": 4,
+      "resource_scope": "Root-command OS peak working set and CPU counters where available; testhost/Node/MkDocs child memory not claimed measured. MaxCpuCount=1, MSTest Workers=1, Node concurrency=1; no fifth worker.",
+      "serial_lane_sum_estimate": 832.790725999861,
+      "speedup_qualification": "Measured concurrent wall clock versus sum of observed lane durations only; not a separate serial benchmark."
+    },
+    {
+      "configuration": "Release",
+      "seconds": 436.0433773000259,
+      "lanes": [
+        {
+          "lane": "A",
+          "seconds": 111.87380359997042,
+          "exit_codes": [
+            0,
+            1
+          ],
+          "completed": true
+        },
+        {
+          "lane": "B",
+          "seconds": 153.84798940003384,
+          "exit_codes": [
+            1,
+            0
+          ],
+          "completed": true
+        },
+        {
+          "lane": "C",
+          "seconds": 61.325858199968934,
+          "exit_codes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "completed": true
+        },
+        {
+          "lane": "D",
+          "seconds": 436.04059759993106,
+          "exit_codes": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            1,
+            0,
+            1
+          ],
+          "completed": true
+        }
+      ],
+      "errors": [],
+      "max_active_command_roots": 4,
+      "worker_limit": 4,
+      "resource_scope": "Root-command OS peak working set and CPU counters where available; testhost/Node/MkDocs child memory not claimed measured. MaxCpuCount=1, MSTest Workers=1, Node concurrency=1; no fifth worker.",
+      "serial_lane_sum_estimate": 763.0882487999042,
+      "speedup_qualification": "Measured concurrent wall clock versus sum of observed lane durations only; not a separate serial benchmark."
+    }
+  ],
+  "debug_portable_requalification": [
+    {
+      "name": "requalified-Debug-Core",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-24\\run01\\executions\\requalified-Debug-Core\\sandbox\\Core\\bin\\Debug\\net10.0\\BESHStat.Core.Tests.dll",
+        "/Settings:<REPO_ROOT>\\TestResults\\04A-24\\run01\\executions\\requalified-Debug-Core\\serial.runsettings",
+        "/Logger:trx;LogFileName=Core.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-24\\run01\\executions\\requalified-Debug-Core\\results"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 0,
+      "completed": true,
+      "seconds": 4.516519699944183,
+      "pid": 14772,
+      "metrics": {
+        "peak_root_working_set_bytes": 57815040,
+        "root_cpu_seconds": 0.390625
+      },
+      "runner_sha256": "42102b9f9d51b15f32f4d1fd2b07a19e66eb981a0dc55ce37b3166b50c308e17",
+      "stdout_sha256": "df8c12f261dabe6594b6473d767d750a17d3917bcd324108b37658c538c42109",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "requalified-Debug-Common",
+      "command": [
+        "dotnet",
+        "vstest",
+        "<REPO_ROOT>\\TestResults\\04A-24\\run01\\executions\\requalified-Debug-Common\\sandbox\\Common\\bin\\Debug\\net10.0\\BESHStat.Excel.Common.Tests.dll",
+        "/Settings:<REPO_ROOT>\\TestResults\\04A-24\\run01\\executions\\requalified-Debug-Common\\serial.runsettings",
+        "/Logger:trx;LogFileName=Common.trx",
+        "/ResultsDirectory:<REPO_ROOT>\\TestResults\\04A-24\\run01\\executions\\requalified-Debug-Common\\results"
+      ],
+      "cwd": "<REPO_ROOT>",
+      "exit_code": 1,
+      "completed": true,
+      "seconds": 90.17365539993625,
+      "pid": 16568,
+      "metrics": {
+        "peak_root_working_set_bytes": 57823232,
+        "root_cpu_seconds": 0.328125
+      },
+      "runner_sha256": "42102b9f9d51b15f32f4d1fd2b07a19e66eb981a0dc55ce37b3166b50c308e17",
+      "stdout_sha256": "f32899ad23740ffaa2bc9706847e03df2ef11003908923b0a12d674cd7877298",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "debug_requalification_test_command_seconds": 94.69017509988043,
+  "matrix_wall_seconds": 887.4295271000592,
+  "builds": [
+    {
+      "name": "final-build-Debug-0",
+      "seconds": 1.0091625999193639,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-1",
+      "seconds": 1.0103265999350697,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-2",
+      "seconds": 1.2586827999912202,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-3",
+      "seconds": 1.2589394999668002,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-4",
+      "seconds": 5.789751700009219,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-5",
+      "seconds": 5.269587200018577,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-6",
+      "seconds": 1.7596241000574082,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-7",
+      "seconds": 4.515955799957737,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-host",
+      "seconds": 1.009237700025551,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-legacy",
+      "seconds": 1.0096389999380335,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Debug-mitigation",
+      "seconds": 1.0084380999905989,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-0",
+      "seconds": 1.0085824000416324,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-1",
+      "seconds": 1.0096920999931172,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-2",
+      "seconds": 1.2586530999979004,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-3",
+      "seconds": 1.2609634000109509,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-4",
+      "seconds": 3.271241999929771,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-5",
+      "seconds": 4.516232899972238,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-6",
+      "seconds": 1.510486499988474,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-7",
+      "seconds": 3.7649699000176042,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-host",
+      "seconds": 1.009641799959354,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-legacy",
+      "seconds": 1.0101512999972329,
+      "exit": 0
+    },
+    {
+      "name": "final-build-Release-mitigation",
+      "seconds": 0.7578435000032187,
+      "exit": 0
+    }
+  ],
+  "resource_observations": {
+    "max_recorded_root_working_set_bytes": 1912090624,
+    "max_concurrent_command_roots": 4,
+    "timeouts": []
+  },
+  "performance": "Four command roots, each single test worker; associated testhost infrastructure is not counted as only four total OS PIDs. Measured wall-clock and root-process counters only. Initial Debug pilot includes rejected setup results; qualified Debug substitutes entire repaired Core/Common receipts. Sum of observed lane times estimates serial lane scheduling; no independent serial benchmark/speedup claimed. Requalification command time excludes container setup. No fifth worker, native process or simultaneous compilers."
+}

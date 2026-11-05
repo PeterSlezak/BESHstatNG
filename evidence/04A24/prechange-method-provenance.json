@@ -1,0 +1,848 @@
+{
+  "source": "BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb",
+  "source_sha256": "22c12a29438e8a179d3af469ed62959626f76f5752ca70797000c1a26a89a54a",
+  "main_blob_sha256": "22c12a29438e8a179d3af469ed62959626f76f5752ca70797000c1a26a89a54a",
+  "methods": {
+    "New": {
+      "body": "    Public Sub New(analysis As String, tagn As Integer)\n        InitializeComponent()\n        Me.Text = analysis\n        Me.Tag = tagn\n\n        ConfigureDesignerCorrections()\n        ConfigureResponsiveLayout()\n        ConfigureGridColumns()\n        InitializeOptionControls()\n        WireRoleButtons()\n        Me.WireHelp(Me.btnHelp)\n    End Sub",
+      "sha256": "0eee96c677d2ed9d0c223eb7fa92bf0f7ff306e3d87aa1f9501c2f71c0758512",
+      "first_line": 128,
+      "last_line": 139
+    },
+    "ConfigureDesignerCorrections": {
+      "body": "    Private Sub ConfigureDesignerCorrections()\n        'These controls are remnants of Ui21 and are not part of the multivariate request.\n        Dim obsoleteControls As Control() = {\n            lblCount, lbCounts, btAddCounts, btRemoveCounts,\n            lblSampleSize, lbSampleSize, btAddSampleSize, btRemoveSampleSize,\n            lblExposure, lbExposure, btAddExposure, btRemoveExposure\n        }\n        For Each control As Control In obsoleteControls\n            control.Visible = False\n            control.Enabled = False\n        Next\n\n        splitHistoricalModel.Orientation = Orientation.Vertical\n        splitHistoricalModel.SplitterDistance = Math.Min(285, Math.Max(200, splitHistoricalModel.Width \\ 3))\n        dgvHistoricalMean.Dock = DockStyle.None\n        dgvHistoricalCovariance.Dock = DockStyle.None\n        lblHistoricalMeanGrid.BringToFront()\n        lblHistoricalCovarianceGrid.BringToFront()\n\n        grpPcaOptions.Font = New Font(grpPcaOptions.Font, FontStyle.Bold)\n        grpGeneralizedVarianceOptions.Font = New Font(grpGeneralizedVarianceOptions.Font, FontStyle.Bold)\n        grpMewmaOptions.Font = New Font(grpMewmaOptions.Font, FontStyle.Bold)\n        grpMcusumOptions.Font = New Font(grpMcusumOptions.Font, FontStyle.Bold)\n        grpSequentialResetOptions.Font = New Font(grpSequentialResetOptions.Font, FontStyle.Bold)\n        For Each group As GroupBox In {grpPcaOptions, grpGeneralizedVarianceOptions, grpMewmaOptions,\n                                       grpMcusumOptions, grpSequentialResetOptions}\n            For Each child As Control In group.Controls\n                child.Font = New Font(child.Font, FontStyle.Regular)\n            Next\n        Next\n    End Sub",
+      "sha256": "b091c531d820307611b905ef7ae0c55c415e8df14d2b6aa942c77f63f4c59e00",
+      "first_line": 143,
+      "last_line": 173
+    },
+    "InitializeOptionControls": {
+      "body": "    Private Sub InitializeOptionControls()\n        pSuppressUiEvents = True\n        Try\n            cbChartType.BeginUpdate()\n            cbChartType.Items.Clear()\n            cbChartType.Items.AddRange(ChartChoices)\n            cbChartType.DropDownStyle = ComboBoxStyle.DropDownList\n            cbChartType.SelectedIndex = 0\n            cbChartType.EndUpdate()\n\n            FillCombo(cbMissingValuePolicy,\n                      New ComboItem(Of SpcMissingValuePolicy)(\"Reject\", SpcMissingValuePolicy.Reject),\n                      New ComboItem(Of SpcMissingValuePolicy)(\"Omit incomplete observation\", SpcMissingValuePolicy.OmitPoint))\n\n            FillCombo(cbModelSource,\n                      New ComboItem(Of SpcMultivariateModelSource)(\"Estimate from Phase I\", SpcMultivariateModelSource.EstimateFromPhaseI),\n                      New ComboItem(Of SpcMultivariateModelSource)(\"Use historical parameters\", SpcMultivariateModelSource.UseHistoricalParameters))\n\n            FillCombo(cbImportedExclusionScope,\n                      New ComboItem(Of SpcExclusionScope)(\"Parameter estimation and signal evaluation\", SpcExclusionScope.EstimationAndRules),\n                      New ComboItem(Of SpcExclusionScope)(\"Parameter estimation\", SpcExclusionScope.ParameterEstimation),\n                      New ComboItem(Of SpcExclusionScope)(\"Signal evaluation\", SpcExclusionScope.RuleEvaluation))\n\n            FillCombo(cbHorizontalTickOrientation,\n                      New ComboItem(Of Integer)(\"0°\", 0),\n                      New ComboItem(Of Integer)(\"45°\", 45),\n                      New ComboItem(Of Integer)(\"90°\", 90))\n\n            FillCombo(cbDiagnosticsScope,\n                      New ComboItem(Of DiagnosticsScope)(\"All points\", DiagnosticsScope.AllPoints),\n                      New ComboItem(Of DiagnosticsScope)(\"Signalled points only\", DiagnosticsScope.SignalledPointsOnly))\n\n            FillCombo(cbPcaMatrix,\n                      New ComboItem(Of Boolean)(\"Covariance matrix\", False),\n                      New ComboItem(Of Boolean)(\"Correlation matrix\", True))\n\n            FillCombo(cbSequenceGapBehavior,\n                      New ComboItem(Of SpcSequenceGapBehavior)(\"Break sequence\", SpcSequenceGapBehavior.BreakSequence),\n                      New ComboItem(Of SpcSequenceGapBehavior)(\"Skip point and continue\", SpcSequenceGapBehavior.SkipPointAndContinue))\n\n            spinControlLimitAlpha.DecimalPlaces = 4\n            spinControlLimitAlpha.Increment = 0.0001D\n            spinControlLimitAlpha.Minimum = 0.0001D\n            spinControlLimitAlpha.Maximum = 0.9999D\n            spinControlLimitAlpha.Value = 0.0027D\n\n            spinCovarianceRegularization.DecimalPlaces = 6\n            spinCovarianceRegularization.Increment = 0.0001D\n            spinCovarianceRegularization.Minimum = 0D\n            spinCovarianceRegularization.Maximum = 25D\n            spinCovarianceRegularization.Value = 0D\n\n            spinPcaCumulativeVariance.DecimalPlaces = 1\n            spinPcaCumulativeVariance.Increment = 1D\n            spinPcaCumulativeVariance.Minimum = 1D\n            spinPcaCumulativeVariance.Maximum = 100D\n            spinPcaCumulativeVariance.Value = 90D\n            spinPcaComponentCount.Minimum = 1D\n            spinPcaComponentCount.Maximum = 1000D\n            spinPcaComponentCount.Value = 1D\n\n            spinGvSigmaMultiplier.DecimalPlaces = 2\n            spinGvSigmaMultiplier.Increment = 0.1D\n            spinGvSigmaMultiplier.Minimum = 0.01D\n            spinGvSigmaMultiplier.Maximum = 100D\n            spinGvSigmaMultiplier.Value = 3D\n\n            spinMewmaLambda.DecimalPlaces = 2\n            spinMewmaLambda.Increment = 0.05D\n            spinMewmaLambda.Minimum = 0.01D\n            spinMewmaLambda.Maximum = 1D\n            spinMewmaLambda.Value = 0.2D\n            spinMewmaControlLimit.DecimalPlaces = 4\n            spinMewmaControlLimit.Increment = 0.1D\n            spinMewmaControlLimit.Minimum = 0.0001D\n            spinMewmaControlLimit.Maximum = 1000000D\n            spinMewmaControlLimit.Value = 1D\n\n            spinMcusumReferenceValue.DecimalPlaces = 3\n            spinMcusumReferenceValue.Increment = 0.1D\n            spinMcusumReferenceValue.Minimum = 0D\n            spinMcusumReferenceValue.Maximum = 100D\n            spinMcusumReferenceValue.Value = 0.5D\n            spinMcusumDecisionInterval.DecimalPlaces = 3\n            spinMcusumDecisionInterval.Increment = 0.1D\n            spinMcusumDecisionInterval.Minimum = 0.001D\n            spinMcusumDecisionInterval.Maximum = 1000D\n            spinMcusumDecisionInterval.Value = 5.5D\n\n            spinLastPhaseIPoint.Minimum = 1D\n            spinLastPhaseIPoint.Maximum = 1000000D\n            chkUseLowerHotellingLimit.Checked = False\n            chkAllowPseudoInverse.Checked = True\n            rbSinglePhaseI.Checked = True\n            rbPcaVarianceSelection.Checked = True\n            chkSpecifyGvSigmaMultiplier.Checked = False\n            chkSpecifyMewmaControlLimit.Checked = False\n            chkResetAtStageBoundary.Checked = True\n            chkResetAtPhaseBoundary.Checked = True\n            chkResetAfterSignal.Checked = False\n            chkUseSequenceValuesForHorizontalAxis.Checked = False\n            tbHorizontalAxisTitle.Text = \"Sample\"\n            tbValueNumberFormat.Text = \"0.####\"\n            btnInterrupt.Enabled = False\n            ProgressBar.Minimum = 0\n            ProgressBar.Maximum = 100\n            ProgressBar.Value = 0\n\n            pToolTip.SetToolTip(cbSequenceGapBehavior,\n                \"Controls whether an omitted or rule-excluded point resets MEWMA/MCUSUM recursion or is skipped without changing the carried state.\")\n        Finally\n            pSuppressUiEvents = False\n        End Try\n\n        PopulateObservationStructures(SpcChartType.HotellingT2)\n        UpdatePcaSelectionControls()\n        UpdateChartDependentControls()\n        UpdateQuickPhaseControls()\n        UpdateDiagnosticsControls()\n        LayoutHistoricalGrids()\n    End Sub",
+      "sha256": "18a24d92792edd93da0c7d3271fe381b6fc4de0ea49be64bd5e35bde1a4ace09",
+      "first_line": 175,
+      "last_line": 295
+    },
+    "ConfigureGridColumns": {
+      "body": "    Private Sub ConfigureGridColumns()\n        dgvStages.AllowUserToAddRows = True\n        dgvStages.AllowUserToDeleteRows = True\n        dgvStages.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.DisplayedCellsExceptHeaders\n        colStageID.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill\n        colStagePhase.Items.Clear()\n        colStagePhase.Items.AddRange(\"Phase I\", \"Phase II\")\n\n        dgvExclusions.AllowUserToAddRows = False\n        dgvExclusions.AllowUserToDeleteRows = True\n        colExclusionReason.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill\n        colExclusionScope.Items.Clear()\n        colExclusionScope.Items.AddRange(\"Parameter estimation\", \"Signal evaluation\",\n                                         \"Parameter estimation and signal evaluation\")\n\n        dgvHistoricalMean.AllowUserToAddRows = False\n        dgvHistoricalMean.AllowUserToDeleteRows = False\n        dgvHistoricalMean.RowHeadersVisible = False\n        colHistoricalMeanVariable.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill\n        colHistoricalMeanValue.AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill\n\n        dgvHistoricalCovariance.AllowUserToAddRows = False\n        dgvHistoricalCovariance.AllowUserToDeleteRows = False\n        dgvHistoricalCovariance.RowHeadersVisible = False\n    End Sub",
+      "sha256": "af7e78634d8db30fddb9799b76e4e07e19ba7d4afdc75f5d9114f2dee07d52d6",
+      "first_line": 297,
+      "last_line": 321
+    },
+    "ConfigureResponsiveLayout": {
+      "body": "    Private Sub ConfigureResponsiveLayout()\n        Me.MinimumSize = New Size(MinimumFormWidth, MinimumFormHeight)\n        Me.MaximizeBox = True\n        Me.KeyPreview = True\n        Me.AcceptButton = btCompute\n\n        TabControl1.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right\n        ProgressBar.Anchor = AnchorStyles.Left Or AnchorStyles.Right Or AnchorStyles.Bottom\n        btnHelp.Anchor = AnchorStyles.Right Or AnchorStyles.Bottom\n        btnInterrupt.Anchor = AnchorStyles.Right Or AnchorStyles.Bottom\n        btCompute.Anchor = AnchorStyles.Right Or AnchorStyles.Bottom\n\n        AddHandler Me.Resize, AddressOf ResponsiveLayoutChanged\n        AddHandler TabControl1.SelectedIndexChanged, AddressOf ResponsiveLayoutChanged\n        AddHandler splitHistoricalModel.Resize, AddressOf HistoricalLayoutChanged\n        AddHandler splitHistoricalModel.SplitterMoved, AddressOf HistoricalLayoutChanged\n        ApplyResponsiveLayout()\n    End Sub",
+      "sha256": "a465e35171764dd4042e6d0dee4b34813f3810adb0c5a7db6a096d464ca6cf3d",
+      "first_line": 323,
+      "last_line": 340
+    },
+    "ResponsiveLayoutChanged": {
+      "body": "    Private Sub ResponsiveLayoutChanged(sender As Object, e As System.EventArgs)\n        ApplyResponsiveLayout()\n    End Sub",
+      "sha256": "3978193045d594c554538813d4eb1333865313626a8287835d1b4bb2a46b2cf9",
+      "first_line": 342,
+      "last_line": 344
+    },
+    "HistoricalLayoutChanged": {
+      "body": "    Private Sub HistoricalLayoutChanged(sender As Object, e As System.EventArgs)\n        LayoutHistoricalGrids()\n    End Sub",
+      "sha256": "ca42f272a1df603ec2d8d8ee7b4697dfd2e02ea3e51fcb41745b88088db2caeb",
+      "first_line": 346,
+      "last_line": 348
+    },
+    "InnerWidth": {
+      "body": "    Private Shared Function InnerWidth(page As TabPage) As Integer\n        Return Math.Max(763, page.ClientSize.Width - 14)\n    End Function",
+      "sha256": "c460aeadeb4e2ccc3ba02d5b03452c3448bfa32da698482dcdd6ae7d642f0c87",
+      "first_line": 350,
+      "last_line": 352
+    },
+    "ApplyResponsiveLayout": {
+      "body": "    Private Sub ApplyResponsiveLayout()\n        If TabControl1 Is Nothing Then Return\n        LayoutChartDataTab()\n        LayoutModelTab()\n        LayoutPhasesTab()\n        LayoutMethodTab()\n        LayoutOutputTab()\n    End Sub",
+      "sha256": "3f44be5ed1a8f1026ba757d529191a5e05c8f39002884d1d72037f94e9a8f883",
+      "first_line": 354,
+      "last_line": 361
+    },
+    "LayoutChartDataTab": {
+      "body": "    Private Sub LayoutChartDataTab()\n        Dim width As Integer = InnerWidth(TabPage1_ChartData)\n        grpChartSelection.Width = width\n        grpWorksheet.Width = width\n\n        Dim descriptionX As Integer = Math.Max(395, CInt(Math.Floor(width * 0.51R)))\n        cbChartType.Width = Math.Max(239, descriptionX - cbChartType.Left - 3)\n        cbObservationStructure.Width = cbChartType.Width\n        lblChartDescription.Left = descriptionX\n        lblChartDescription.Width = Math.Max(250, width - descriptionX - 6)\n        lblDataRequirements.Left = descriptionX\n        lblDataRequirements.Width = lblChartDescription.Width\n\n        Dim rightX As Integer = Math.Max(495, CInt(Math.Floor(width * 0.62R)))\n        Dim addX As Integer = rightX - 90\n        Dim removeX As Integer = rightX - 45\n        Dim leftWidth As Integer = Math.Max(180, addX - lbAllColumns.Left - 12)\n        Dim rightWidth As Integer = Math.Max(220, width - rightX - 5)\n\n        lbAllColumns.Width = leftWidth\n        btReload.Left = lbAllColumns.Right + 5\n        btClearDataRoles.Left = width - btClearDataRoles.Width - 6\n\n        Dim lists As ListBox() = {lbVariables, lbSubgroupID, lbLabels, lbSequence}\n        Dim labels As Label() = {lblVariables, lblSubgroupID, lblLabels, lblSequence}\n        Dim adds As Button() = {btAddVariables, btAddSubgroupID, btAddLabels, btAddSequence}\n        Dim removes As Button() = {btRemoveVariables, btRemoveSubgroupID, btRemoveLabels, btRemoveSequence}\n        For i As Integer = 0 To lists.Length - 1\n            lists(i).Left = rightX\n            lists(i).Width = rightWidth\n            labels(i).Left = rightX\n            adds(i).Left = addX\n            removes(i).Left = removeX\n        Next\n\n        Dim labelGap As Integer = 4\n        Dim rowGap As Integer = 8\n        lbVariables.Top = lblVariables.Bottom + labelGap\n        Dim availableGroupHeight As Integer = TabPage1_ChartData.ClientSize.Height - grpWorksheet.Top - 8\n        grpWorksheet.Height = Math.Max(500, availableGroupHeight)\n        Dim lowerHeight As Integer = 3 * (lblSubgroupID.Height + labelGap + lbSubgroupID.Height + rowGap)\n        lbVariables.Height = Math.Max(120, grpWorksheet.ClientSize.Height - lbVariables.Top - lowerHeight - 14)\n        AlignRoleButtons(lbVariables, btAddVariables, btRemoveVariables)\n\n        Dim top As Integer = lbVariables.Bottom + rowGap\n        For i As Integer = 1 To labels.Length - 1\n            labels(i).Top = top\n            lists(i).Top = labels(i).Bottom + labelGap\n            AlignRoleButtons(lists(i), adds(i), removes(i))\n            top = lists(i).Bottom + rowGap\n        Next\n        lbAllColumns.Height = Math.Max(100, grpWorksheet.ClientSize.Height - lbAllColumns.Top - 12)\n        TabPage1_ChartData.AutoScrollMinSize = New Size(790, grpWorksheet.Bottom + 8)\n    End Sub",
+      "sha256": "042a0b1967be3a5fcc1108febd3163d5cb00ba159af9523c4b04d2291758637a",
+      "first_line": 363,
+      "last_line": 416
+    },
+    "AlignRoleButtons": {
+      "body": "    Private Shared Sub AlignRoleButtons(list As ListBox, addButton As Button, removeButton As Button)\n        Dim top As Integer = list.Top + CInt(Math.Floor((list.Height - addButton.Height) / 2.0R))\n        addButton.Top = top\n        removeButton.Top = top\n    End Sub",
+      "sha256": "be4cc6a7874fcdbd891a7615d3ed3eab2e59b015737bba5c997175adc1f6fb42",
+      "first_line": 418,
+      "last_line": 422
+    },
+    "LayoutModelTab": {
+      "body": "    Private Sub LayoutModelTab()\n        Dim width As Integer = InnerWidth(TabPage2_ModelLimits)\n        grpModelOptions.Width = width\n        grpHistoricalModel.Width = width\n        grpHistoricalModel.Height = Math.Max(300, TabPage2_ModelLimits.ClientSize.Height - grpHistoricalModel.Top - 8)\n        splitHistoricalModel.Width = grpHistoricalModel.ClientSize.Width - 12\n        splitHistoricalModel.Height = Math.Max(220, grpHistoricalModel.ClientSize.Height - splitHistoricalModel.Top - 8)\n        btClearHistoricalModel.Left = width - btClearHistoricalModel.Width - 18\n        btImportHistoricalCovariance.Left = btClearHistoricalModel.Left - btImportHistoricalCovariance.Width - 6\n        LayoutHistoricalGrids()\n        TabPage2_ModelLimits.AutoScrollMinSize = New Size(790, grpHistoricalModel.Bottom + 8)\n    End Sub",
+      "sha256": "0090625cd3277a435fd238b7fc3fcd137aabac12f5a1adcd61f68348fa85c633",
+      "first_line": 424,
+      "last_line": 435
+    },
+    "LayoutHistoricalGrids": {
+      "body": "    Private Sub LayoutHistoricalGrids()\n        If splitHistoricalModel Is Nothing Then Return\n        LayoutHistoricalPanel(splitHistoricalModel.Panel1, lblHistoricalMeanGrid, dgvHistoricalMean)\n        LayoutHistoricalPanel(splitHistoricalModel.Panel2, lblHistoricalCovarianceGrid, dgvHistoricalCovariance)\n    End Sub",
+      "sha256": "8fd7ecac6df38b79caa0cae0f62678245d5f4a1a758465acd5a2c0942fee0394",
+      "first_line": 437,
+      "last_line": 441
+    },
+    "LayoutHistoricalPanel": {
+      "body": "    Private Shared Sub LayoutHistoricalPanel(panel As SplitterPanel, label As Label, grid As DataGridView)\n        label.Left = 3\n        label.Top = 3\n        grid.Left = 0\n        grid.Top = label.Bottom + 4\n        grid.Width = Math.Max(1, panel.ClientSize.Width)\n        grid.Height = Math.Max(1, panel.ClientSize.Height - grid.Top)\n        grid.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right\n    End Sub",
+      "sha256": "96346023161b9415e003e6bd3d8b3b25a82d8089e98464a02fe99845d485d878",
+      "first_line": 443,
+      "last_line": 451
+    },
+    "LayoutPhasesTab": {
+      "body": "    Private Sub LayoutPhasesTab()\n        Dim width As Integer = InnerWidth(TabPage3_PhasesExclusions)\n        grpPhaseColumns.Width = width\n        grpQuickPhaseSetup.Width = width\n        grpStages.Width = width\n        grpExclusions.Width = width\n        dgvStages.Width = width - 12\n        dgvExclusions.Width = width - 15\n\n        Dim sourceCombos As ComboBox() = {cbStageColumn, cbPhaseColumn, cbExclusionColumn,\n                                         cbExclusionReasonColumn, cbImportedExclusionScope}\n        For Each combo As ComboBox In sourceCombos\n            combo.Width = Math.Max(239, width - combo.Left - 317)\n        Next\n        btImportStages.Left = width - btImportStages.Width - 79\n        btImportExclusions.Left = width - btImportExclusions.Width - 79\n\n        Dim remaining As Integer = Math.Max(350, TabPage3_PhasesExclusions.ClientSize.Height - grpStages.Top - 12)\n        grpStages.Height = Math.Max(148, CInt(Math.Floor(remaining * 0.45R)))\n        dgvStages.Height = Math.Max(90, grpStages.ClientSize.Height - dgvStages.Top)\n        grpExclusions.Top = grpStages.Bottom + 6\n        grpExclusions.Height = Math.Max(180, TabPage3_PhasesExclusions.ClientSize.Height - grpExclusions.Top - 8)\n        dgvExclusions.Height = Math.Max(120, grpExclusions.ClientSize.Height - dgvExclusions.Top - 6)\n        TabPage3_PhasesExclusions.AutoScrollMinSize = New Size(790, grpExclusions.Bottom + 8)\n    End Sub",
+      "sha256": "ed5a3a35412183fff52d2cff527b241f92e60867f26a139713e8f4a6e21f72d8",
+      "first_line": 453,
+      "last_line": 477
+    },
+    "LayoutMethodTab": {
+      "body": "    Private Sub LayoutMethodTab()\n        Dim width As Integer = InnerWidth(TabPage4_MethodOptions)\n        lblMethodDescription.Width = width - 10\n        flpMethodOptions.Width = width\n        flpMethodOptions.Height = Math.Max(300, TabPage4_MethodOptions.ClientSize.Height - flpMethodOptions.Top - 8)\n        For Each group As GroupBox In {grpPcaOptions, grpGeneralizedVarianceOptions, grpMewmaOptions,\n                                       grpMcusumOptions, grpSequentialResetOptions}\n            group.Width = Math.Max(760, flpMethodOptions.ClientSize.Width - 10)\n        Next\n        TabPage4_MethodOptions.AutoScrollMinSize = New Size(790, flpMethodOptions.Bottom + 8)\n    End Sub",
+      "sha256": "b3a64616998b5bb016ea25bc3dd6c2dcb39e1f066bca0408ac908a7c7876f8ee",
+      "first_line": 479,
+      "last_line": 489
+    },
+    "LayoutOutputTab": {
+      "body": "    Private Sub LayoutOutputTab()\n        Dim width As Integer = InnerWidth(TabPage5_OutputAppearance)\n        For Each group As GroupBox In {grpOutputs, grpTitleAxes, grpChartDisplay, grpChartDimensions}\n            group.Width = width\n        Next\n        tbChartTitle.Width = Math.Max(240, CInt(Math.Floor(width * 0.42R)) - tbChartTitle.Left)\n        Dim rightX As Integer = Math.Max(494, CInt(Math.Floor(width * 0.62R)))\n        For Each textBox As TextBox In {tbValueAxisTitle, tbHorizontalAxisTitle, tbValueNumberFormat}\n            textBox.Left = rightX\n            textBox.Width = Math.Max(200, width - rightX - 29)\n        Next\n        lblValueAxisTitle.Left = rightX - 124\n        lblHorizontalAxisTitle.Left = rightX - 124\n        lblValueNumberFormat.Left = rightX - 124\n        TabPage5_OutputAppearance.AutoScrollMinSize = New Size(790, grpChartDimensions.Bottom + 8)\n    End Sub",
+      "sha256": "2436e74ec8ea007d20d4639f2fc500200ee09f07299ccff58ee37b30546c52de",
+      "first_line": 491,
+      "last_line": 506
+    },
+    "FillCombo": {
+      "body": "    Private Shared Sub FillCombo(Of T)(combo As ComboBox, ParamArray items As ComboItem(Of T)())\n        combo.BeginUpdate()\n        Try\n            combo.Items.Clear()\n            combo.DropDownStyle = ComboBoxStyle.DropDownList\n            combo.Items.AddRange(items)\n            If combo.Items.Count > 0 Then combo.SelectedIndex = 0\n        Finally\n            combo.EndUpdate()\n        End Try\n    End Sub",
+      "sha256": "86bfb72ae882c04667a85e004c71ff8b4d6542ee559eeb86a4bf1a0b325db291",
+      "first_line": 508,
+      "last_line": 518
+    },
+    "SelectedComboValue": {
+      "body": "    Private Shared Function SelectedComboValue(Of T)(combo As ComboBox) As T\n        Dim item As ComboItem(Of T) = TryCast(combo.SelectedItem, ComboItem(Of T))\n        If item Is Nothing Then Throw New InvalidOperationException(\"No value is selected for \" & combo.Name & \".\")\n        Return item.Value\n    End Function",
+      "sha256": "09dc9802a39cc16838f34a4166aaf3a8995d1cae863572a48c6d594b87478d44",
+      "first_line": 520,
+      "last_line": 524
+    },
+    "SelectComboValue": {
+      "body": "    Private Shared Sub SelectComboValue(Of T)(combo As ComboBox, value As T)\n        For i As Integer = 0 To combo.Items.Count - 1\n            Dim item As ComboItem(Of T) = TryCast(combo.Items(i), ComboItem(Of T))\n            If item IsNot Nothing AndAlso EqualityComparer(Of T).Default.Equals(item.Value, value) Then\n                combo.SelectedIndex = i\n                Return\n            End If\n        Next\n    End Sub",
+      "sha256": "ef7531623206af435fd6cce8dc1eac7fe5232c11e297cadacbd33b6e73d8754d",
+      "first_line": 526,
+      "last_line": 534
+    },
+    "Populate": {
+      "body": "    Public Sub Populate(ws As Object)\n        Dim worksheet As Excel.Worksheet = TryCast(ws, Excel.Worksheet)\n        If worksheet Is Nothing Then Throw New ArgumentException(\"An Excel worksheet is required.\", NameOf(ws))\n        pWorksheet = worksheet\n        pWorkbook = DirectCast(worksheet.Parent, Excel.Workbook)\n        ReloadColumnLists(clearAssignments:=False)\n    End Sub",
+      "sha256": "056432a67eaf1714ede36b58e0593464f408751f5ab352f65cfbdfbbd34353cd",
+      "first_line": 540,
+      "last_line": 546
+    },
+    "ReloadColumnLists": {
+      "body": "    Private Sub ReloadColumnLists(clearAssignments As Boolean)\n        If pWorksheet Is Nothing Then Return\n        If clearAssignments Then ClearDataRoles()\n        lbAllColumns.Items.Clear()\n        pColumnInfo.Clear()\n\n        Dim finalColumn As Integer = LastColumnInSheet(pWorksheet)\n        Dim maxRows As Integer = MaxRowsInSheet(pWorksheet)\n        Dim headerRange As Excel.Range = pWorksheet.Range(pWorksheet.Cells(1, 1), pWorksheet.Cells(1, finalColumn))\n        pColumnInfo = VarNamesToLBox(headerRange, maxRows, lbAllColumns, bNumeric_only:=False)\n\n        cbSheetsList.BeginUpdate()\n        Try\n            cbSheetsList.Items.Clear()\n            For Each sheetObject As Object In pWorkbook.Worksheets\n                Dim sheet As Excel.Worksheet = TryCast(sheetObject, Excel.Worksheet)\n                If sheet IsNot Nothing Then cbSheetsList.Items.Add(sheet.Name)\n            Next\n            cbSheetsList.SelectedIndex = cbSheetsList.FindStringExact(pWorksheet.Name)\n        Finally\n            cbSheetsList.EndUpdate()\n        End Try\n        PopulateSourceColumnCombos()\n    End Sub",
+      "sha256": "ce80b37d18ba033dfca70574e0efe3e8aaef7b1687466200dd379fa0a7f0ec44",
+      "first_line": 548,
+      "last_line": 571
+    },
+    "PopulateSourceColumnCombos": {
+      "body": "    Private Sub PopulateSourceColumnCombos()\n        For Each combo As ComboBox In {cbStageColumn, cbPhaseColumn, cbExclusionColumn, cbExclusionReasonColumn}\n            Dim previous As String = If(combo.SelectedItem Is Nothing, NoneColumnText, combo.SelectedItem.ToString())\n            combo.BeginUpdate()\n            Try\n                combo.Items.Clear()\n                combo.Items.Add(NoneColumnText)\n                For Each item As Object In lbAllColumns.Items\n                    combo.Items.Add(item.ToString())\n                Next\n                Dim index As Integer = combo.FindStringExact(previous)\n                combo.SelectedIndex = If(index >= 0, index, 0)\n                combo.DropDownStyle = ComboBoxStyle.DropDownList\n            Finally\n                combo.EndUpdate()\n            End Try\n        Next\n    End Sub",
+      "sha256": "6fa8711c646b4356ae1dbd926019719e52c1d8e619589813d173b42d5c15c4cd",
+      "first_line": 573,
+      "last_line": 590
+    },
+    "WireRoleButtons": {
+      "body": "    Private Sub WireRoleButtons()\n        AddHandler btAddVariables.Click, Sub() MoveSelectedColumns(lbVariables, allowMany:=True)\n        AddHandler btAddSubgroupID.Click, Sub() MoveSelectedColumns(lbSubgroupID, allowMany:=False)\n        AddHandler btAddLabels.Click, Sub() MoveSelectedColumns(lbLabels, allowMany:=False)\n        AddHandler btAddSequence.Click, Sub() MoveSelectedColumns(lbSequence, allowMany:=False)\n        AddHandler btRemoveVariables.Click, Sub() RemoveSelectedItems(lbVariables)\n        AddHandler btRemoveSubgroupID.Click, Sub() RemoveSelectedItems(lbSubgroupID)\n        AddHandler btRemoveLabels.Click, Sub() RemoveSelectedItems(lbLabels)\n        AddHandler btRemoveSequence.Click, Sub() RemoveSelectedItems(lbSequence)\n    End Sub",
+      "sha256": "7c10c07bdaf4482f40a862f104c4eefc2ff10886d8583d34bd1cea02993874a4",
+      "first_line": 592,
+      "last_line": 601
+    },
+    "MoveSelectedColumns": {
+      "body": "    Private Sub MoveSelectedColumns(target As ListBox, allowMany As Boolean)\n        If lbAllColumns.SelectedItems.Count = 0 Then Return\n        Dim selected As New List(Of String)()\n        For Each item As Object In lbAllColumns.SelectedItems\n            selected.Add(item.ToString())\n        Next\n        If Not allowMany AndAlso selected.Count > 1 Then\n            ShowInputError(\"Select exactly one available column for this role.\")\n            Return\n        End If\n\n        For Each columnName As String In selected\n            Dim assignedRole As String = FindAssignedRole(columnName, target)\n            If assignedRole.Length > 0 Then\n                ShowInputError(\"Column '\" & columnName & \"' is already assigned to \" & assignedRole & \".\")\n                Continue For\n            End If\n            If Not allowMany Then target.Items.Clear()\n            If Not target.Items.Contains(columnName) Then target.Items.Add(columnName)\n        Next\n        RoleAssignmentsChanged()\n    End Sub",
+      "sha256": "7342b8d2ae3637d6213a52b8b49edb0626a1b499b91b9ef02ee77aee8e8e6b15",
+      "first_line": 603,
+      "last_line": 624
+    },
+    "FindAssignedRole": {
+      "body": "    Private Function FindAssignedRole(columnName As String, target As ListBox) As String\n        Dim roles As New List(Of KeyValuePair(Of String, ListBox)) From {\n            New KeyValuePair(Of String, ListBox)(\"measurement variables\", lbVariables),\n            New KeyValuePair(Of String, ListBox)(\"subgroup ID\", lbSubgroupID),\n            New KeyValuePair(Of String, ListBox)(\"point label\", lbLabels),\n            New KeyValuePair(Of String, ListBox)(\"sequence/date/time\", lbSequence)\n        }\n        For Each role As KeyValuePair(Of String, ListBox) In roles\n            If role.Value IsNot target AndAlso role.Value.Items.Contains(columnName) Then Return role.Key\n        Next\n        Return String.Empty\n    End Function",
+      "sha256": "a06882e6803e9891741be8dd7261488f1cb2cef4e4734c69cc8e325666d27381",
+      "first_line": 626,
+      "last_line": 637
+    },
+    "RemoveSelectedItems": {
+      "body": "    Private Sub RemoveSelectedItems(list As ListBox)\n        Dim selected As New List(Of Object)()\n        For Each item As Object In list.SelectedItems\n            selected.Add(item)\n        Next\n        For Each item As Object In selected\n            list.Items.Remove(item)\n        Next\n        RoleAssignmentsChanged()\n    End Sub",
+      "sha256": "8b6b809d7193fabe45fb5a18716ee8bc3a51f53e4213f5f65eab802cb0dbf73f",
+      "first_line": 639,
+      "last_line": 648
+    },
+    "RoleAssignmentsChanged": {
+      "body": "    Private Sub RoleAssignmentsChanged()\n        UpdatePcaComponentMaximum()\n        RefreshHistoricalVariables(preserveValues:=True)\n        chkUseSequenceValuesForHorizontalAxis.Enabled = lbSequence.Items.Count = 1\n        If lbSequence.Items.Count = 0 Then chkUseSequenceValuesForHorizontalAxis.Checked = False\n    End Sub",
+      "sha256": "19491f900f77c9f9b6e345a95221aeea035072324581af0d0590394fbae22b99",
+      "first_line": 650,
+      "last_line": 655
+    },
+    "ClearDataRoles": {
+      "body": "    Private Sub ClearDataRoles()\n        For Each list As ListBox In {lbVariables, lbSubgroupID, lbLabels, lbSequence}\n            list.Items.Clear()\n        Next\n        RoleAssignmentsChanged()\n    End Sub",
+      "sha256": "bb560328efa8fde043ca73627e7d58eef5e1056fbb6c454cc05656d4122af57d",
+      "first_line": 657,
+      "last_line": 662
+    },
+    "btReload_Click": {
+      "body": "    Private Sub btReload_Click(sender As Object, e As System.EventArgs) Handles btReload.Click\n        If pWorkbook Is Nothing Then Return\n        If cbSheetsList.SelectedItem Is Nothing Then\n            ReloadColumnLists(clearAssignments:=False)\n            Return\n        End If\n        Dim selectedName As String = cbSheetsList.SelectedItem.ToString()\n        Dim changed As Boolean = pWorksheet Is Nothing OrElse\n            Not String.Equals(pWorksheet.Name, selectedName, StringComparison.Ordinal)\n        pWorksheet = DirectCast(pWorkbook.Worksheets(selectedName), Excel.Worksheet)\n        ReloadColumnLists(clearAssignments:=changed)\n    End Sub",
+      "sha256": "88e9a9717e3e1f0b7855d605dc815416fd91d73b54b5770e95a90e016f3640b5",
+      "first_line": 664,
+      "last_line": 675
+    },
+    "btClearDataRoles_Click": {
+      "body": "    Private Sub btClearDataRoles_Click(sender As Object, e As System.EventArgs) Handles btClearDataRoles.Click\n        ClearDataRoles()\n    End Sub",
+      "sha256": "37118d883b19612a51d640d0c9baf91f0d45f4bfb3a0e2c2253ad5865f1faf57",
+      "first_line": 677,
+      "last_line": 679
+    },
+    "SelectedChartChoice": {
+      "body": "    Private Function SelectedChartChoice() As ChartChoice\n        Dim choice As ChartChoice = TryCast(cbChartType.SelectedItem, ChartChoice)\n        If choice Is Nothing Then Throw New InvalidOperationException(\"Select a multivariate control-chart type.\")\n        Return choice\n    End Function",
+      "sha256": "f959f206c39b6c930f6503264ca2756382f58423ad2c9b7bfb06f3c68c503cfa",
+      "first_line": 685,
+      "last_line": 689
+    },
+    "SelectedChartType": {
+      "body": "    Private Function SelectedChartType() As SpcChartType\n        Return SelectedChartChoice().ChartType\n    End Function",
+      "sha256": "fa2325715912a489f5603c18f07ff490f2b22917319104a13dc691907dc21fb6",
+      "first_line": 691,
+      "last_line": 693
+    },
+    "IsGroupedStructure": {
+      "body": "    Private Function IsGroupedStructure() As Boolean\n        Return SelectedComboValue(Of ObservationStructure)(cbObservationStructure) = ObservationStructure.RationalSubgroups\n    End Function",
+      "sha256": "0e6acae2673d8f2a1b094e455742ed0d27d4d339cb7935551f0f74ece2948c7a",
+      "first_line": 695,
+      "last_line": 697
+    },
+    "cbChartType_SelectedIndexChanged": {
+      "body": "    Private Sub cbChartType_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbChartType.SelectedIndexChanged\n        If pSuppressUiEvents Then Return\n        UpdateChartDependentControls()\n    End Sub",
+      "sha256": "5443558a0b0b1d7b28e02f8ad5984edc0a077d92bfe6290be888478c5aeb7b9e",
+      "first_line": 699,
+      "last_line": 702
+    },
+    "cbObservationStructure_SelectedIndexChanged": {
+      "body": "    Private Sub cbObservationStructure_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbObservationStructure.SelectedIndexChanged\n        If pSuppressUiEvents Then Return\n        UpdateRoleAvailability()\n        UpdateChartDependentControls(preserveStructure:=True)\n    End Sub",
+      "sha256": "3ea0ec729f62910ad9432a02a4e9a553a9636c3d4e0c7e014b643d60d8c4a45e",
+      "first_line": 704,
+      "last_line": 708
+    },
+    "PopulateObservationStructures": {
+      "body": "    Private Sub PopulateObservationStructures(chartType As SpcChartType)\n        Dim choice = SpcMultivariateRequestPolicy.Compatibility(chartType)\n        Dim previous As Nullable(Of ObservationStructure) = Nothing\n        Dim selected As ComboItem(Of ObservationStructure) = TryCast(cbObservationStructure.SelectedItem, ComboItem(Of ObservationStructure))\n        If selected IsNot Nothing Then previous = selected.Value\n\n        pSuppressUiEvents = True\n        Try\n            cbObservationStructure.BeginUpdate()\n            cbObservationStructure.Items.Clear()\n            If Not choice.RequiresSubgroups Then\n                cbObservationStructure.Items.Add(New ComboItem(Of ObservationStructure)(\n                    \"Individual observations\", ObservationStructure.IndividualObservations))\n            End If\n            If choice.AllowsSubgroups Then\n                cbObservationStructure.Items.Add(New ComboItem(Of ObservationStructure)(\n                    \"Rational subgroups\", ObservationStructure.RationalSubgroups))\n            End If\n            cbObservationStructure.DropDownStyle = ComboBoxStyle.DropDownList\n            If previous.HasValue Then SelectComboValue(cbObservationStructure, previous.Value)\n            If cbObservationStructure.SelectedIndex < 0 Then cbObservationStructure.SelectedIndex = 0\n        Finally\n            cbObservationStructure.EndUpdate()\n            pSuppressUiEvents = False\n        End Try\n    End Sub",
+      "sha256": "027cad01aac5df8f128ed8df3bfdbd2b79621ecc67956d5eb10f1bcb46619ed2",
+      "first_line": 710,
+      "last_line": 735
+    },
+    "UpdateChartDependentControls": {
+      "body": "    Private Sub UpdateChartDependentControls(Optional preserveStructure As Boolean = False)\n        If cbChartType.SelectedItem Is Nothing Then Return\n        Dim choice As ChartChoice = SelectedChartChoice()\n        If Not preserveStructure Then PopulateObservationStructures(choice.ChartType)\n        lblChartDescription.Text = choice.Description\n        lblDataRequirements.Text = choice.Requirements\n        UpdateRoleAvailability()\n\n        Dim compatibility = SpcMultivariateRequestPolicy.Compatibility(choice.ChartType)\n        Dim isPca As Boolean = compatibility.IsPca\n        Dim isGv As Boolean = choice.ChartType = SpcChartType.GeneralizedVariance\n        Dim isMewma As Boolean = choice.ChartType = SpcChartType.Mewma\n        Dim isMcusum As Boolean = choice.ChartType = SpcChartType.Mcusum\n        Dim isSequential As Boolean = compatibility.IsSequential\n        grpPcaOptions.Visible = isPca\n        grpGeneralizedVarianceOptions.Visible = isGv\n        grpMewmaOptions.Visible = isMewma\n        grpMcusumOptions.Visible = isMcusum\n        grpSequentialResetOptions.Visible = isSequential\n        cbSequenceGapBehavior.Enabled = isSequential\n        lblSequenceGapBehavior.Enabled = isSequential\n\n        spinMewmaLambda.Enabled = isMewma\n        lblMewmaLambda.Enabled = isMewma\n        spinMewmaControlLimit.Enabled = isMewma AndAlso chkSpecifyMewmaControlLimit.Checked\n        spinMcusumReferenceValue.Enabled = isMcusum\n        lblMcusumReferenceValue.Enabled = isMcusum\n        spinMcusumDecisionInterval.Enabled = isMcusum\n        lblMcusumDecisionInterval.Enabled = isMcusum\n\n        Select Case choice.ChartType\n            Case SpcChartType.HotellingT2\n                lblMethodDescription.Text = \"Hotelling T-squared uses the selected covariance model and has no additional chart-specific design parameters.\"\n            Case SpcChartType.GeneralizedVariance\n                lblMethodDescription.Text = \"Generalized variance monitors |S|. Supply a sigma multiplier only when you intentionally want to override the alpha-derived limits.\"\n            Case SpcChartType.PcaT2\n                lblMethodDescription.Text = \"PCA T-squared monitors scores in the retained principal-component space.\"\n            Case SpcChartType.PcaQ\n                lblMethodDescription.Text = \"PCA Q monitors residual variation; at least one nonzero component must remain outside the retained model.\"\n            Case SpcChartType.Mewma\n                lblMethodDescription.Text = \"MEWMA uses lambda to weight recent multivariate observations. A supplied UCL should be calibrated for the intended in-control ARL.\"\n            Case SpcChartType.Mcusum\n                lblMethodDescription.Text = \"MCUSUM uses Crosier design parameters k and h; validate their in-control ARL for the process dimension.\"\n        End Select\n\n        lblPcaNote.Text = If(choice.ChartType = SpcChartType.PcaQ,\n            \"PCA Q requires a residual subspace. If the variance rule retains every nonzero component, the backend leaves one component for Q monitoring and reports a warning.\",\n            \"PCA T-squared monitors the retained component space. Covariance PCA preserves measurement units; correlation PCA standardizes every variable.\")\n        lblMewmaNote.Text = \"Without a supplied UCL, the backend uses a chi-square pointwise approximation and reports that an ARL-calibrated limit is preferred for production monitoring.\"\n        lblMcusumNote.Text = \"The in-control ARL depends on k, h, dimension and covariance estimation. Validate the selected design for the intended process.\"\n\n        Dim individualHotelling As Boolean = choice.ChartType = SpcChartType.HotellingT2 AndAlso\n            compatibility.UseLowerHotellingLimitAvailable(IsGroupedStructure())\n        chkUseLowerHotellingLimit.Enabled = individualHotelling\n        If Not individualHotelling Then chkUseLowerHotellingLimit.Checked = False\n        If isGv Then\n            If Not pAllowPseudoInverseBeforeGeneralizedVariance.HasValue Then\n                pAllowPseudoInverseBeforeGeneralizedVariance = chkAllowPseudoInverse.Checked\n            End If\n            chkAllowPseudoInverse.Checked = False\n            chkAllowPseudoInverse.Enabled = False\n        Else\n            chkAllowPseudoInverse.Enabled = True\n            If pAllowPseudoInverseBeforeGeneralizedVariance.HasValue Then\n                chkAllowPseudoInverse.Checked = pAllowPseudoInverseBeforeGeneralizedVariance.Value\n                pAllowPseudoInverseBeforeGeneralizedVariance = Nothing\n            End If\n        End If\n\n        Dim alphaEnabled As Boolean = compatibility.AlphaEnabled(\n            If(isMewma, chkSpecifyMewmaControlLimit.Checked, False),\n            If(isGv, chkSpecifyGvSigmaMultiplier.Checked, False))\n        spinControlLimitAlpha.Enabled = alphaEnabled\n        lblControlLimitAlpha.Enabled = alphaEnabled\n        UpdateHistoricalControls()\n        UpdatePcaSelectionControls()\n        UpdatePcaComponentMaximum()\n        ApplyResponsiveLayout()\n    End Sub",
+      "sha256": "87c18c71df1d1846646f3b76e5004eaaf8972e9aedf3a3f24b312adcf48a73c0",
+      "first_line": 737,
+      "last_line": 815
+    },
+    "UpdateRoleAvailability": {
+      "body": "    Private Sub UpdateRoleAvailability()\n        If cbObservationStructure.SelectedItem Is Nothing Then Return\n        Dim grouped As Boolean = IsGroupedStructure()\n        SetRoleEnabled(lbVariables, lblVariables, btAddVariables, btRemoveVariables, True)\n        SetRoleEnabled(lbSubgroupID, lblSubgroupID, btAddSubgroupID, btRemoveSubgroupID, grouped)\n        SetRoleEnabled(lbLabels, lblLabels, btAddLabels, btRemoveLabels, True)\n        SetRoleEnabled(lbSequence, lblSequence, btAddSequence, btRemoveSequence, True)\n        lbVariables.SelectionMode = SelectionMode.MultiExtended\n        colExclusionPoint.HeaderText = If(grouped, \"Subgroup point\", \"Point\")\n    End Sub",
+      "sha256": "1926f6a2116732945d991119dc8e5c11eda35ae16fe9b9ab840e6c90090ddda5",
+      "first_line": 817,
+      "last_line": 826
+    },
+    "SetRoleEnabled": {
+      "body": "    Private Shared Sub SetRoleEnabled(list As ListBox, label As Label,\n                                      addButton As Button, removeButton As Button,\n                                      enabled As Boolean)\n        If Not enabled Then list.Items.Clear()\n        list.Enabled = enabled\n        label.Enabled = enabled\n        addButton.Enabled = enabled\n        removeButton.Enabled = enabled\n    End Sub",
+      "sha256": "5765cad34d616610cf8a7d597781ae9b24d3ae8e1e75efb65b35499417427449",
+      "first_line": 828,
+      "last_line": 836
+    },
+    "cbModelSource_SelectedIndexChanged": {
+      "body": "    Private Sub cbModelSource_SelectedIndexChanged(sender As Object, e As System.EventArgs) Handles cbModelSource.SelectedIndexChanged\n        If pSuppressUiEvents Then Return\n        UpdateHistoricalControls()\n        UpdateQuickPhaseControls()\n    End Sub",
+      "sha256": "88e5ad2bf20b4b457c84ae1fcc0df51a073417ea79ba57ce5578496a1cf73f21",
+      "first_line": 838,
+      "last_line": 842
+    },
+    "UpdateHistoricalControls": {
+      "body": "    Private Sub UpdateHistoricalControls()\n        If cbModelSource.SelectedItem Is Nothing OrElse cbChartType.SelectedItem Is Nothing Then Return\n        Dim historical As Boolean = SelectedComboValue(Of SpcMultivariateModelSource)(cbModelSource) =\n                                    SpcMultivariateModelSource.UseHistoricalParameters\n        grpHistoricalModel.Enabled = historical\n        Dim meanEnabled As Boolean = historical AndAlso SelectedChartType() <> SpcChartType.GeneralizedVariance\n        dgvHistoricalMean.Enabled = meanEnabled\n        lblHistoricalMeanGrid.Enabled = meanEnabled\n        btImportHistoricalMean.Enabled = meanEnabled\n        rbSinglePhaseII.Enabled = historical\n        If Not historical AndAlso rbSinglePhaseII.Checked Then rbSinglePhaseI.Checked = True\n        lblModelNote.Text = If(historical,\n            If(SelectedChartType() = SpcChartType.GeneralizedVariance,\n               \"Historical generalized-variance monitoring requires a positive-definite covariance matrix. A mean vector is not used.\",\n               \"Historical monitoring requires a finite mean vector and a symmetric positive-definite covariance matrix matching the selected variables.\"),\n            \"The in-control mean/covariance model is estimated from eligible Phase-I observations. Exclude known special causes from parameter estimation.\")\n    End Sub",
+      "sha256": "b75ae084982506ca30282155fa930354ed3343bd56f7a1b36495f2290f1c9e8a",
+      "first_line": 844,
+      "last_line": 860
+    },
+    "rbPca_CheckedChanged": {
+      "body": "    Private Sub rbPca_CheckedChanged(sender As Object, e As System.EventArgs) Handles rbPcaVarianceSelection.CheckedChanged, rbPcaFixedComponents.CheckedChanged\n        UpdatePcaSelectionControls()\n    End Sub",
+      "sha256": "5d5acc017b20ccfcaada665a6141a686f54bd38c43b943306fcf5346360dcaf2",
+      "first_line": 862,
+      "last_line": 864
+    },
+    "UpdatePcaSelectionControls": {
+      "body": "    Private Sub UpdatePcaSelectionControls()\n        spinPcaCumulativeVariance.Enabled = rbPcaVarianceSelection.Checked\n        spinPcaComponentCount.Enabled = rbPcaFixedComponents.Checked\n    End Sub",
+      "sha256": "171a2e73dc7ee61ff42fdfc8da809d30f8f1f4d7c1ccb84b777422c8568c7eff",
+      "first_line": 866,
+      "last_line": 869
+    },
+    "UpdatePcaComponentMaximum": {
+      "body": "    Private Sub UpdatePcaComponentMaximum()\n        Dim variableCount As Integer = Math.Max(1, lbVariables.Items.Count)\n        Dim maximum As Integer = variableCount\n        If cbChartType.SelectedItem IsNot Nothing AndAlso SelectedChartType() = SpcChartType.PcaQ Then\n            maximum = Math.Max(1, variableCount - 1)\n        End If\n        spinPcaComponentCount.Maximum = CDec(maximum)\n        If spinPcaComponentCount.Value > spinPcaComponentCount.Maximum Then\n            spinPcaComponentCount.Value = spinPcaComponentCount.Maximum\n        End If\n    End Sub",
+      "sha256": "5c653d597839a6b1af3d101eddcb1748dbaa826b58c501424b8dd0ff93e89fc3",
+      "first_line": 871,
+      "last_line": 881
+    },
+    "chkSpecifyGvSigmaMultiplier_CheckedChanged": {
+      "body": "    Private Sub chkSpecifyGvSigmaMultiplier_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkSpecifyGvSigmaMultiplier.CheckedChanged\n        spinGvSigmaMultiplier.Enabled = chkSpecifyGvSigmaMultiplier.Checked\n        If Not pSuppressUiEvents Then UpdateChartDependentControls(preserveStructure:=True)\n    End Sub",
+      "sha256": "c30e0a94b3127857ce4eaaa3255d737d6c0d2ed8e44071395891a81aed822fd2",
+      "first_line": 883,
+      "last_line": 886
+    },
+    "chkSpecifyMewmaControlLimit_CheckedChanged": {
+      "body": "    Private Sub chkSpecifyMewmaControlLimit_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkSpecifyMewmaControlLimit.CheckedChanged\n        Dim isMewma As Boolean = cbChartType.SelectedItem IsNot Nothing AndAlso\n            SelectedChartType() = SpcChartType.Mewma\n        spinMewmaControlLimit.Enabled = isMewma AndAlso chkSpecifyMewmaControlLimit.Checked\n        If Not pSuppressUiEvents Then UpdateChartDependentControls(preserveStructure:=True)\n    End Sub",
+      "sha256": "38444af45eecf386f4f2bdb39d4965935e3531c44f407bcb3399067bd74a5d99",
+      "first_line": 888,
+      "last_line": 893
+    },
+    "chkWriteDiagnostics_CheckedChanged": {
+      "body": "    Private Sub chkWriteDiagnostics_CheckedChanged(sender As Object, e As System.EventArgs) Handles chkWriteDiagnostics.CheckedChanged\n        UpdateDiagnosticsControls()\n    End Sub",
+      "sha256": "de42f9b21f039a9d3410c4d2876ab405dd599355d33fc43c474e1fcff068442a",
+      "first_line": 895,
+      "last_line": 897
+    },
+    "UpdateDiagnosticsControls": {
+      "body": "    Private Sub UpdateDiagnosticsControls()\n        cbDiagnosticsScope.Enabled = chkWriteDiagnostics.Checked\n        lblDiagnosticsScope.Enabled = chkWriteDiagnostics.Checked\n    End Sub",
+      "sha256": "47311c90b0c2d3558c69cd040dd8a56915be8163c65404f6e8205afa4e2714d4",
+      "first_line": 899,
+      "last_line": 902
+    },
+    "btRefreshHistoricalVariables_Click": {
+      "body": "    Private Sub btRefreshHistoricalVariables_Click(sender As Object, e As System.EventArgs) Handles btRefreshHistoricalVariables.Click\n        RefreshHistoricalVariables(preserveValues:=True)\n    End Sub",
+      "sha256": "f7c959cd567f5d5d47bc353c2d07f1bc8613f08a20cc05b0be88099498ad2870",
+      "first_line": 908,
+      "last_line": 910
+    },
+    "RefreshHistoricalVariables": {
+      "body": "    Private Sub RefreshHistoricalVariables(preserveValues As Boolean)\n        Dim names As String() = lbVariables.Items.Cast(Of Object)().Select(Function(item) item.ToString()).ToArray()\n        Dim oldMeans As New Dictionary(Of String, Object)(StringComparer.Ordinal)\n        Dim oldCovariance As New Dictionary(Of String, Object)(StringComparer.Ordinal)\n        If preserveValues Then\n            For Each row As DataGridViewRow In dgvHistoricalMean.Rows\n                If row.IsNewRow Then Continue For\n                Dim name As String = CellText(row, colHistoricalMeanVariable.Index)\n                If name.Length > 0 Then oldMeans(name) = row.Cells(colHistoricalMeanValue.Index).Value\n            Next\n            If dgvHistoricalCovariance.Columns.Count > 1 Then\n                For Each row As DataGridViewRow In dgvHistoricalCovariance.Rows\n                    If row.IsNewRow Then Continue For\n                    Dim rowName As String = Convert.ToString(row.Cells(0).Value, CultureInfo.CurrentCulture)\n                    For column As Integer = 1 To dgvHistoricalCovariance.Columns.Count - 1\n                        oldCovariance(rowName & ChrW(31) & dgvHistoricalCovariance.Columns(column).HeaderText) = row.Cells(column).Value\n                    Next\n                Next\n            End If\n        End If\n\n        dgvHistoricalMean.Rows.Clear()\n        dgvHistoricalCovariance.Rows.Clear()\n        dgvHistoricalCovariance.Columns.Clear()\n        If names.Length = 0 Then Return\n\n        For Each name As String In names\n            Dim index As Integer = dgvHistoricalMean.Rows.Add(name, Nothing)\n            If oldMeans.ContainsKey(name) Then dgvHistoricalMean.Rows(index).Cells(1).Value = oldMeans(name)\n        Next\n\n        Dim nameColumn As New DataGridViewTextBoxColumn With {\n            .Name = \"colHistoricalCovarianceVariable\",\n            .HeaderText = \"Variable\",\n            .ReadOnly = True,\n            .Frozen = True,\n            .Width = 125\n        }\n        dgvHistoricalCovariance.Columns.Add(nameColumn)\n        For i As Integer = 0 To names.Length - 1\n            Dim column As New DataGridViewTextBoxColumn With {\n                .Name = \"colHistoricalCovariance\" & (i + 1).ToString(CultureInfo.InvariantCulture),\n                .HeaderText = names(i),\n                .Width = 90\n            }\n            dgvHistoricalCovariance.Columns.Add(column)\n        Next\n        For Each rowName As String In names\n            Dim rowIndex As Integer = dgvHistoricalCovariance.Rows.Add()\n            dgvHistoricalCovariance.Rows(rowIndex).Cells(0).Value = rowName\n            For column As Integer = 0 To names.Length - 1\n                Dim key As String = rowName & ChrW(31) & names(column)\n                If oldCovariance.ContainsKey(key) Then\n                    dgvHistoricalCovariance.Rows(rowIndex).Cells(column + 1).Value = oldCovariance(key)\n                End If\n            Next\n        Next\n    End Sub",
+      "sha256": "832a4574e0750d72d1ebe6ded33f294dd76e35234d8edda407ca3c59ddb385c9",
+      "first_line": 912,
+      "last_line": 969
+    },
+    "btImportHistoricalMean_Click": {
+      "body": "    Private Sub btImportHistoricalMean_Click(sender As Object, e As System.EventArgs) Handles btImportHistoricalMean.Click\n        Try\n            EnsureHistoricalGridReady()\n            Dim values As Double(,) = ReadSelectedNumericRange()\n            Dim p As Integer = lbVariables.Items.Count\n            If Not ((values.GetLength(0) = p AndAlso values.GetLength(1) = 1) OrElse\n                    (values.GetLength(0) = 1 AndAlso values.GetLength(1) = p)) Then\n                Throw New ArgumentException(\"Select exactly one row or column containing \" & p.ToString() & \" numeric mean values, without headers.\")\n            End If\n            For i As Integer = 0 To p - 1\n                dgvHistoricalMean.Rows(i).Cells(colHistoricalMeanValue.Index).Value =\n                    If(values.GetLength(0) = 1, values(0, i), values(i, 0))\n            Next\n        Catch ex As Exception\n            ShowInputError(ex.Message)\n        End Try\n    End Sub",
+      "sha256": "875f246d8875cc97ea970c2583fa75bba3f7012e696f5eb2c9283920a122434c",
+      "first_line": 971,
+      "last_line": 987
+    },
+    "btImportHistoricalCovariance_Click": {
+      "body": "    Private Sub btImportHistoricalCovariance_Click(sender As Object, e As System.EventArgs) Handles btImportHistoricalCovariance.Click\n        Try\n            EnsureHistoricalGridReady()\n            Dim values As Double(,) = ReadSelectedNumericRange()\n            Dim p As Integer = lbVariables.Items.Count\n            If values.GetLength(0) <> p OrElse values.GetLength(1) <> p Then\n                Throw New ArgumentException(\"Select a \" & p.ToString() & \" by \" & p.ToString() & \" numeric covariance matrix, without headers.\")\n            End If\n            For row As Integer = 0 To p - 1\n                For column As Integer = 0 To p - 1\n                    dgvHistoricalCovariance.Rows(row).Cells(column + 1).Value = values(row, column)\n                Next\n            Next\n        Catch ex As Exception\n            ShowInputError(ex.Message)\n        End Try\n    End Sub",
+      "sha256": "b3d89b7a41f3a13ac71dc6556dd419d93947c78404552ce91ca702e82c7103b4",
+      "first_line": 989,
+      "last_line": 1005
+    },
+    "btClearHistoricalModel_Click": {
+      "body": "    Private Sub btClearHistoricalModel_Click(sender As Object, e As System.EventArgs) Handles btClearHistoricalModel.Click\n        For Each row As DataGridViewRow In dgvHistoricalMean.Rows\n            row.Cells(colHistoricalMeanValue.Index).Value = Nothing\n        Next\n        For Each row As DataGridViewRow In dgvHistoricalCovariance.Rows\n            For column As Integer = 1 To dgvHistoricalCovariance.Columns.Count - 1\n                row.Cells(column).Value = Nothing\n            Next\n        Next\n    End Sub",
+      "sha256": "6e07470065718c50e1d3b836f2160799e0a2d22adf2c2f0cd9817efbd4543535",
+      "first_line": 1007,
+      "last_line": 1016
+    },
+    "EnsureHistoricalGridReady": {
+      "body": "    Private Sub EnsureHistoricalGridReady()\n        If lbVariables.Items.Count < 2 Then Throw New ArgumentException(\"Select at least two measurement variables first.\")\n        If dgvHistoricalMean.Rows.Count <> lbVariables.Items.Count OrElse\n           dgvHistoricalCovariance.Rows.Count <> lbVariables.Items.Count Then\n            RefreshHistoricalVariables(preserveValues:=True)\n        End If\n    End Sub",
+      "sha256": "12ff56c459185d17dd24d4325bff8311bf5cd39748f9ab665fbc601cf2e24e1d",
+      "first_line": 1018,
+      "last_line": 1024
+    },
+    "ReadSelectedNumericRange": {
+      "body": "    Private Function ReadSelectedNumericRange() As Double(,)\n        If AppGlobals.app Is Nothing Then Throw New InvalidOperationException(\"Excel is not available.\")\n        Dim selectedRange As Excel.Range = TryCast(AppGlobals.app.Selection, Excel.Range)\n        If selectedRange Is Nothing Then Throw New ArgumentException(\"Select an Excel range containing numeric values first.\")\n        If selectedRange.Areas.Count <> 1 Then Throw New ArgumentException(\"Select one contiguous Excel range.\")\n        Dim rows As Integer = selectedRange.Rows.Count\n        Dim columns As Integer = selectedRange.Columns.Count\n        Dim result(rows - 1, columns - 1) As Double\n        Dim raw As Object = selectedRange.Value2\n        If rows = 1 AndAlso columns = 1 Then\n            result(0, 0) = RequiredNumericValue(raw, \"Selected cell\")\n            Return result\n        End If\n        Dim matrix As Object(,) = TryCast(raw, Object(,))\n        If matrix Is Nothing Then Throw New ArgumentException(\"Excel did not return the selected range as a matrix.\")\n        For r As Integer = 0 To rows - 1\n            For c As Integer = 0 To columns - 1\n                result(r, c) = RequiredNumericValue(matrix(r + 1, c + 1),\n                    \"Selected cell \" & (r + 1).ToString() & \", \" & (c + 1).ToString())\n            Next\n        Next\n        Return result\n    End Function",
+      "sha256": "636caa450fd10b0da85f4d5fca39ff95ab78684bfde8183252f132c0a6c5e2d0",
+      "first_line": 1026,
+      "last_line": 1048
+    },
+    "RequiredNumericValue": {
+      "body": "    Private Shared Function RequiredNumericValue(value As Object, label As String) As Double\n        If value Is Nothing OrElse value Is DBNull.Value Then Throw New ArgumentException(label & \" is blank.\")\n        Dim number As Double\n        If Not TryParseDouble(Convert.ToString(value, CultureInfo.CurrentCulture), number) Then\n            Throw New ArgumentException(label & \" is not numeric.\")\n        End If\n        If Double.IsNaN(number) OrElse Double.IsInfinity(number) Then Throw New ArgumentException(label & \" must be finite.\")\n        Return number\n    End Function",
+      "sha256": "cf53949af4a14476916db7c3ef7a0eb9350006607e4e96100cb7d83dd4fb590e",
+      "first_line": 1050,
+      "last_line": 1058
+    },
+    "rbPhase_CheckedChanged": {
+      "body": "    Private Sub rbPhase_CheckedChanged(sender As Object, e As System.EventArgs) Handles rbSinglePhaseI.CheckedChanged, rbPhaseIThenPhaseII.CheckedChanged, rbSinglePhaseII.CheckedChanged\n        UpdateQuickPhaseControls()\n    End Sub",
+      "sha256": "15c04438b3ac0cdc5acae52bec27b25f22bcebf5f681e510ccd022817b6a48bc",
+      "first_line": 1060,
+      "last_line": 1062
+    },
+    "UpdateQuickPhaseControls": {
+      "body": "    Private Sub UpdateQuickPhaseControls()\n        spinLastPhaseIPoint.Enabled = rbPhaseIThenPhaseII.Checked\n        lblLastPhaseIPoint.Enabled = rbPhaseIThenPhaseII.Checked\n    End Sub",
+      "sha256": "7a7f196f158de78e042e174db15ab27e7f727005ece6824403be46aa6e438dd4",
+      "first_line": 1064,
+      "last_line": 1067
+    },
+    "btApplyQuickPhaseSetup_Click": {
+      "body": "    Private Sub btApplyQuickPhaseSetup_Click(sender As Object, e As System.EventArgs) Handles btApplyQuickPhaseSetup.Click\n        Try\n            If Not rbSinglePhaseI.Checked AndAlso Not rbPhaseIThenPhaseII.Checked AndAlso Not rbSinglePhaseII.Checked Then\n                Throw New ArgumentException(\"Select a quick phase setup before applying it.\")\n            End If\n            Dim context As InputRowContext = GetInputRowContext()\n            dgvStages.Rows.Clear()\n            Dim rows As IReadOnlyList(Of SpcMultivariateStageRow)\n            If rbSinglePhaseI.Checked Then\n                rows = SpcMultivariatePhasePolicy.Quick(context.PointCount, SpcMultivariateQuickPhase.AllPhaseI)\n            ElseIf rbSinglePhaseII.Checked Then\n                rows = SpcMultivariatePhasePolicy.Quick(context.PointCount, SpcMultivariateQuickPhase.AllPhaseII,\n                    modelSource:=SelectedComboValue(Of SpcMultivariateModelSource)(cbModelSource))\n            Else\n                rows = SpcMultivariatePhasePolicy.Quick(context.PointCount, SpcMultivariateQuickPhase.PhaseIThenPhaseII,\n                    lastPhaseI:=CInt(spinLastPhaseIPoint.Value))\n            End If\n            For Each stage In rows\n                AddStageRow(stage.StageId, stage.FirstPoint, stage.LastPoint, stage.Phase)\n            Next\n        Catch ex As Exception\n            ShowInputError(ex.Message)\n        End Try\n    End Sub",
+      "sha256": "0d08c5582f323a86798baed781b97d6b84c5a703fbbc9c6fab46ee3a89d4cc4b",
+      "first_line": 1069,
+      "last_line": 1092
+    },
+    "btAddStage_Click": {
+      "body": "    Private Sub btAddStage_Click(sender As Object, e As System.EventArgs) Handles btAddStage.Click\n        Dim nextNumber As Integer = dgvStages.Rows.Cast(Of DataGridViewRow)().Count(Function(row) Not row.IsNewRow) + 1\n        Dim index As Integer = dgvStages.Rows.Add()\n        Dim roww As DataGridViewRow = dgvStages.Rows(index)\n        roww.Cells(colStageID.Index).Value = \"Stage\" & nextNumber.ToString(CultureInfo.InvariantCulture)\n        roww.Cells(colStagePhase.Index).Value = \"Phase I\"\n    End Sub",
+      "sha256": "28fe08526d2552bd742262f5f269a192fe19a39be4a404e0430236d3e6c272ab",
+      "first_line": 1094,
+      "last_line": 1100
+    },
+    "btRemoveStage_Click": {
+      "body": "    Private Sub btRemoveStage_Click(sender As Object, e As System.EventArgs) Handles btRemoveStage.Click\n        RemoveSelectedGridRows(dgvStages)\n        ClearQuickPhaseSelection()\n    End Sub",
+      "sha256": "5a272e570ca586355ebde5e21da0dde493b07bea20829a6cd1116ce3d62dc592",
+      "first_line": 1102,
+      "last_line": 1105
+    },
+    "btClearStages_Click": {
+      "body": "    Private Sub btClearStages_Click(sender As Object, e As System.EventArgs) Handles btClearStages.Click\n        dgvStages.Rows.Clear()\n        ClearQuickPhaseSelection()\n    End Sub",
+      "sha256": "7df2ebede7c35ab06643292433edfab39f17c62ba247ed331bef27d055af7fa2",
+      "first_line": 1107,
+      "last_line": 1110
+    },
+    "dgvStages_DefaultValuesNeeded": {
+      "body": "    Private Sub dgvStages_DefaultValuesNeeded(sender As Object, e As DataGridViewRowEventArgs) Handles dgvStages.DefaultValuesNeeded\n        e.Row.Cells(colStagePhase.Index).Value = \"Phase I\"\n    End Sub",
+      "sha256": "3b61d99178f5639240e38f1a3d8eac8ff96f7df78d1e458fcacbaed4d07a4d33",
+      "first_line": 1112,
+      "last_line": 1114
+    },
+    "AddStageRow": {
+      "body": "    Private Sub AddStageRow(stageId As String, firstPoint As Integer, lastPoint As Integer, phase As SpcPhase)\n        Dim index As Integer = dgvStages.Rows.Add()\n        Dim row As DataGridViewRow = dgvStages.Rows(index)\n        row.Cells(colStageID.Index).Value = stageId\n        row.Cells(colStageFirstPoint.Index).Value = firstPoint\n        row.Cells(colStageLastPoint.Index).Value = lastPoint\n        row.Cells(colStagePhase.Index).Value = PhaseText(phase)\n    End Sub",
+      "sha256": "55fab469d7688f49ffd3c88c740dd6ccb361e272c9a93aff1e263a929271a21d",
+      "first_line": 1116,
+      "last_line": 1123
+    },
+    "btImportStages_Click": {
+      "body": "    Private Sub btImportStages_Click(sender As Object, e As System.EventArgs) Handles btImportStages.Click\n        Try\n            Dim stageInfo As VarColumnInfo = OptionalComboColumn(cbStageColumn)\n            Dim phaseInfo As VarColumnInfo = OptionalComboColumn(cbPhaseColumn)\n            If stageInfo Is Nothing AndAlso phaseInfo Is Nothing Then\n                Throw New ArgumentException(\"Select a stage identifier column, a Phase I/Phase II column, or both.\")\n            End If\n            Dim context As InputRowContext = GetInputRowContext()\n            Dim rowStages As String() = If(stageInfo Is Nothing, Nothing,\n                                           ReadTextColumn(stageInfo, context.FirstRow, context.LastRow))\n            Dim rowPhases As String() = If(phaseInfo Is Nothing, Nothing,\n                                           ReadTextColumn(phaseInfo, context.FirstRow, context.LastRow))\n            Dim assignments = SpcMultivariatePhasePolicy.CollapseImported(context.PointMap, rowStages, rowPhases)\n            dgvStages.Rows.Clear()\n            For Each stage In SpcMultivariatePhasePolicy.ImportedRows(assignments)\n                AddStageRow(stage.StageId, stage.FirstPoint, stage.LastPoint, stage.Phase)\n            Next\n            ClearQuickPhaseSelection()\n        Catch ex As Exception\n            ShowInputError(ex.Message)\n        End Try\n    End Sub",
+      "sha256": "5ac1adf80f5a7204a2d3bac504ed447909b0a1a82a42ecf5bae062565af054a8",
+      "first_line": 1125,
+      "last_line": 1146
+    },
+    "ClearQuickPhaseSelection": {
+      "body": "    Private Sub ClearQuickPhaseSelection()\n        rbSinglePhaseI.Checked = False\n        rbPhaseIThenPhaseII.Checked = False\n        rbSinglePhaseII.Checked = False\n        UpdateQuickPhaseControls()\n    End Sub",
+      "sha256": "bb7bce2d94864d5f45d7600c4d92be93d9d7dc1833aedc70f85ad03edd6b72cc",
+      "first_line": 1150,
+      "last_line": 1155
+    },
+    "btAddExclusion_Click": {
+      "body": "    Private Sub btAddExclusion_Click(sender As Object, e As System.EventArgs) Handles btAddExclusion.Click\n        Dim index As Integer = dgvExclusions.Rows.Add()\n        dgvExclusions.Rows(index).Cells(colExclusionScope.Index).Value = \"Parameter estimation and signal evaluation\"\n    End Sub",
+      "sha256": "bc10bcfe22f8fea6a78310b87e42f0f949f5769ec9bc4e1029e1f07e5e86df41",
+      "first_line": 1157,
+      "last_line": 1160
+    },
+    "btRemoveExclusion_Click": {
+      "body": "    Private Sub btRemoveExclusion_Click(sender As Object, e As System.EventArgs) Handles btRemoveExclusion.Click\n        RemoveSelectedGridRows(dgvExclusions)\n    End Sub",
+      "sha256": "de3ca91093f4a5208071e06a77eb57b384d0d5e496fe0b208564cfd5bd3e3756",
+      "first_line": 1162,
+      "last_line": 1164
+    },
+    "btClearExclusions_Click": {
+      "body": "    Private Sub btClearExclusions_Click(sender As Object, e As System.EventArgs) Handles btClearExclusions.Click\n        dgvExclusions.Rows.Clear()\n    End Sub",
+      "sha256": "4b8abcaf0d332d1d7253cee92553079c52f170e351c6983468f2e39d2ccef4ff",
+      "first_line": 1166,
+      "last_line": 1168
+    },
+    "btImportExclusions_Click": {
+      "body": "    Private Sub btImportExclusions_Click(sender As Object, e As System.EventArgs) Handles btImportExclusions.Click\n        Try\n            Dim indicatorInfo As VarColumnInfo = OptionalComboColumn(cbExclusionColumn)\n            If indicatorInfo Is Nothing Then Throw New ArgumentException(\"Select an exclusion indicator column.\")\n            Dim reasonInfo As VarColumnInfo = OptionalComboColumn(cbExclusionReasonColumn)\n            Dim context As InputRowContext = GetInputRowContext()\n            Dim indicators As Object() = ReadObjectColumn(indicatorInfo, context.FirstRow, context.LastRow)\n            Dim reasons As String() = If(reasonInfo Is Nothing, Nothing,\n                                         ReadTextColumn(reasonInfo, context.FirstRow, context.LastRow))\n            Dim imported As New SpcMultivariateExclusionImport(context.PointMap)\n            For row As Integer = 0 To indicators.Length - 1\n                imported.IncludeRow(row, IsExclusionIndicator(indicators(row)), reasons)\n            Next\n            dgvExclusions.Rows.Clear()\n            Dim scopeText As String = ExclusionScopeText(SelectedComboValue(Of SpcExclusionScope)(cbImportedExclusionScope))\n            For Each point In imported.Rows()\n                Dim index As Integer = dgvExclusions.Rows.Add()\n                dgvExclusions.Rows(index).Cells(colExclusionPoint.Index).Value = point.DisplayPoint\n                dgvExclusions.Rows(index).Cells(colExclusionScope.Index).Value = scopeText\n                dgvExclusions.Rows(index).Cells(colExclusionReason.Index).Value = point.Reason\n            Next\n        Catch ex As Exception\n            ShowInputError(ex.Message)\n        End Try\n    End Sub",
+      "sha256": "6a861473ec950ef7dd3204fdabc5eac4dce7e03142b5cbea6d7dd6803a2a5947",
+      "first_line": 1170,
+      "last_line": 1194
+    },
+    "RemoveSelectedGridRows": {
+      "body": "    Private Shared Sub RemoveSelectedGridRows(grid As DataGridView)\n        Dim rows As New List(Of DataGridViewRow)()\n        For Each row As DataGridViewRow In grid.SelectedRows\n            If Not row.IsNewRow Then rows.Add(row)\n        Next\n        If rows.Count = 0 AndAlso grid.CurrentRow IsNot Nothing AndAlso Not grid.CurrentRow.IsNewRow Then rows.Add(grid.CurrentRow)\n        For Each row As DataGridViewRow In rows\n            grid.Rows.Remove(row)\n        Next\n    End Sub",
+      "sha256": "e53373fb932ca6960c2cb36bd50df593ffdf34a12c02808d7a555c043f882ce3",
+      "first_line": 1196,
+      "last_line": 1205
+    },
+    "Grid_DataError": {
+      "body": "    Private Sub Grid_DataError(sender As Object, e As DataGridViewDataErrorEventArgs) Handles dgvHistoricalMean.DataError, dgvHistoricalCovariance.DataError, dgvStages.DataError, dgvExclusions.DataError\n        e.ThrowException = False\n    End Sub",
+      "sha256": "3fc9e57e861119e0cd09460913778d50df7482346e99f6bc1fbdf22a5466430a",
+      "first_line": 1207,
+      "last_line": 1209
+    },
+    "BuildRequest": {
+      "body": "    Private Function BuildRequest() As SpcMultivariateRequest\n        ValidateSelections()\n        Dim context As InputRowContext = GetInputRowContext()\n        Dim variableInfos As List(Of VarColumnInfo) = RoleColumnInfos(lbVariables)\n        Dim measurements(context.RowCount - 1, variableInfos.Count - 1) As Double\n        Dim variableNames(variableInfos.Count - 1) As String\n        For column As Integer = 0 To variableInfos.Count - 1\n            Dim values As Double() = ReadNumericColumn(variableInfos(column), context.FirstRow, context.LastRow)\n            variableNames(column) = variableInfos(column).HeaderText\n            For row As Integer = 0 To values.Length - 1\n                measurements(row, column) = values(row)\n            Next\n        Next\n\n        Dim subgroupIds As String() = Nothing\n        If context.IsGrouped Then\n            subgroupIds = ReadTextColumn(ColumnInfo(CStr(lbSubgroupID.Items(0))), context.FirstRow, context.LastRow)\n        End If\n        Dim labels As String() = If(lbLabels.Items.Count = 1,\n                                    ReadTextColumn(ColumnInfo(CStr(lbLabels.Items(0))), context.FirstRow, context.LastRow),\n                                    Nothing)\n        Dim sequences As Double() = If(lbSequence.Items.Count = 1,\n                                       ReadNumericColumn(ColumnInfo(CStr(lbSequence.Items(0))), context.FirstRow, context.LastRow),\n                                       Nothing)\n        If context.IsGrouped Then NormalizeGroupedMetadata(labels, sequences, context)\n\n        Dim pointAssignments As SpcMultivariatePointAssignments = BuildPointAssignments(context.PointCount)\n        Dim pointExclusions As SpcMultivariatePointExclusions = BuildPointExclusions(context.PointCount)\n        Dim rowMetadata = context.PointMap.Expand(pointAssignments, pointExclusions)\n        Dim phases As SpcPhase() = rowMetadata.Phases.ToArray()\n        Dim stages As String() = rowMetadata.StageIds.ToArray()\n        Dim scopes As SpcExclusionScope() = rowMetadata.ExclusionScopes.ToArray()\n        Dim reasons As String() = rowMetadata.ExclusionReasons.ToArray()\n        Dim sourceRows As Integer() = rowMetadata.SourceRowIndices.ToArray()\n\n        Dim modelSource As SpcMultivariateModelSource = SelectedComboValue(Of SpcMultivariateModelSource)(cbModelSource)\n        Dim historicalMean As Double() = Nothing\n        Dim historicalCovariance As Double(,) = Nothing\n        If modelSource = SpcMultivariateModelSource.UseHistoricalParameters Then\n            BuildHistoricalModel(historicalMean, historicalCovariance)\n        End If\n\n        Dim pcaCount As Nullable(Of Integer) = Nothing\n        If rbPcaFixedComponents.Checked Then pcaCount = CInt(spinPcaComponentCount.Value)\n        Dim mewmaLimit As Nullable(Of Double) = Nothing\n        If chkSpecifyMewmaControlLimit.Checked Then mewmaLimit = CDbl(spinMewmaControlLimit.Value)\n        Dim gvMultiplier As Nullable(Of Double) = Nothing\n        If chkSpecifyGvSigmaMultiplier.Checked Then gvMultiplier = CDbl(spinGvSigmaMultiplier.Value)\n\n        Dim chartType As SpcChartType = SelectedChartType()\n        Dim model As New SpcMultivariateModelIntent(variableNames, modelSource, historicalMean, historicalCovariance)\n        Dim options As New SpcMultivariateOptions(\n            missingValuePolicy:=SelectedComboValue(Of SpcMissingValuePolicy)(cbMissingValuePolicy),\n            controlLimitAlpha:=CDbl(spinControlLimitAlpha.Value),\n            useLowerHotellingLimit:=chkUseLowerHotellingLimit.Checked,\n            covarianceRegularization:=CDbl(spinCovarianceRegularization.Value),\n            allowPseudoInverse:=chkAllowPseudoInverse.Checked,\n            pcaUseCorrelationMatrix:=SelectedComboValue(Of Boolean)(cbPcaMatrix),\n            pcaComponentCount:=pcaCount,\n            pcaCumulativeVariance:=CDbl(spinPcaCumulativeVariance.Value) / 100.0R,\n            mewmaLambda:=CDbl(spinMewmaLambda.Value),\n            mewmaControlLimit:=mewmaLimit,\n            mcusumReferenceValue:=CDbl(spinMcusumReferenceValue.Value),\n            mcusumDecisionInterval:=CDbl(spinMcusumDecisionInterval.Value),\n            generalizedVarianceSigmaMultiplier:=gvMultiplier,\n            resetAtStageBoundary:=chkResetAtStageBoundary.Checked,\n            resetAtPhaseBoundary:=chkResetAtPhaseBoundary.Checked,\n            resetAfterSignal:=chkResetAfterSignal.Checked,\n            requestLabel:=Me.Text,\n            sequenceGapBehavior:=SelectedComboValue(Of SpcSequenceGapBehavior)(cbSequenceGapBehavior))\n        Return SpcMultivariateRequestPolicy.Create(chartType, measurements, model, options,\n            subgroupIds:=subgroupIds, labels:=labels, phases:=phases, stageIds:=stages,\n            sequenceValues:=sequences, sourceRowIndices:=sourceRows, exclusionScopes:=scopes, exclusionReasons:=reasons)\n    End Function",
+      "sha256": "8d5a9b776f1412f5d625d22b0edc466725b7d6c3868f8c2239c5a98c923c3611",
+      "first_line": 1215,
+      "last_line": 1288
+    },
+    "ValidateSelections": {
+      "body": "    Private Sub ValidateSelections()\n        If pWorksheet Is Nothing Then Throw New ArgumentException(\"Select a source worksheet.\")\n        If lbVariables.Items.Count < 2 Then Throw New ArgumentException(\"Select at least two measurement-variable columns.\")\n        If IsGroupedStructure() Then RequireExactlyOne(lbSubgroupID, \"subgroup ID\")\n        If lbLabels.Items.Count > 1 Then Throw New ArgumentException(\"Select at most one point-label column.\")\n        If lbSequence.Items.Count > 1 Then Throw New ArgumentException(\"Select at most one sequence/date/time column.\")\n\n        Dim used As New Dictionary(Of String, String)(StringComparer.Ordinal)\n        For Each role As KeyValuePair(Of String, ListBox) In {\n            New KeyValuePair(Of String, ListBox)(\"measurement variables\", lbVariables),\n            New KeyValuePair(Of String, ListBox)(\"subgroup ID\", lbSubgroupID),\n            New KeyValuePair(Of String, ListBox)(\"point label\", lbLabels),\n            New KeyValuePair(Of String, ListBox)(\"sequence\", lbSequence)\n        }\n            If role.Value Is lbSubgroupID AndAlso Not IsGroupedStructure() Then Continue For\n            For Each item As Object In role.Value.Items\n                Dim name As String = item.ToString()\n                If used.ContainsKey(name) Then Throw New ArgumentException(\"Column '\" & name & \"' is assigned to both \" & used(name) & \" and \" & role.Key & \".\")\n                used(name) = role.Key\n            Next\n        Next\n\n        If Not chkWriteSummary.Checked AndAlso Not chkWriteModelDetails.Checked AndAlso\n           Not chkCreateControlChart.Checked AndAlso Not chkWriteChartData.Checked AndAlso\n           Not chkWriteSignals.Checked AndAlso Not chkWriteDiagnostics.Checked AndAlso\n           Not chkWriteSettingsAudit.Checked Then\n            Throw New ArgumentException(\"Select at least one output on the Output and Appearance tab.\")\n        End If\n        If SelectedChartType() = SpcChartType.GeneralizedVariance AndAlso Not IsGroupedStructure() Then\n            Throw New ArgumentException(\"A generalized-variance chart requires rational subgroups.\")\n        End If\n    End Sub",
+      "sha256": "fab5af7956e004dcc4e00f614d01419e92e510d720d4fdf4afa8877dfe2da20d",
+      "first_line": 1290,
+      "last_line": 1321
+    },
+    "RequireExactlyOne": {
+      "body": "    Private Shared Sub RequireExactlyOne(list As ListBox, roleName As String)\n        If list.Items.Count <> 1 Then Throw New ArgumentException(\"Select exactly one \" & roleName & \" column.\")\n    End Sub",
+      "sha256": "25d39992fd3e54046988948aca0a0d86571c246668eefca192395090fb256b4d",
+      "first_line": 1323,
+      "last_line": 1325
+    },
+    "GetInputRowContext": {
+      "body": "    Private Function GetInputRowContext() As InputRowContext\n        If lbVariables.Items.Count = 0 Then Throw New ArgumentException(\"Select the measurement variables first.\")\n        Dim required As List(Of VarColumnInfo) = RoleColumnInfos(lbVariables)\n        Dim grouped As Boolean = IsGroupedStructure()\n        If grouped Then\n            If lbSubgroupID.Items.Count = 0 Then Throw New ArgumentException(\"Select a subgroup-ID column first.\")\n            required.Add(ColumnInfo(CStr(lbSubgroupID.Items(0))))\n        End If\n        Dim firstRow As Integer = SpcInputPointPolicy.FirstDataRow(required.Select(Function(info) info.HasHeader))\n        Dim lastRow As Integer = required.Max(Function(info) LastUsedRow(info.ColumnNumber))\n        If lastRow < firstRow Then Throw New ArgumentException(\"The selected columns contain no data rows.\")\n        Dim rowCount As Integer = lastRow - firstRow + 1\n        Dim subgroupIds As String() = Nothing\n        If grouped Then subgroupIds = ReadTextColumn(ColumnInfo(CStr(lbSubgroupID.Items(0))), firstRow, lastRow)\n        Dim pointMap = SpcMultivariatePointMapPolicy.FromWorksheetRows(firstRow, lastRow, grouped, subgroupIds)\n        Dim pointIndices As Integer() = pointMap.PointIndexByRow.ToArray()\n        Dim pointCount As Integer = pointMap.PointCount\n        spinLastPhaseIPoint.Maximum = Math.Max(1D, CDec(pointCount))\n        If spinLastPhaseIPoint.Value > spinLastPhaseIPoint.Maximum Then spinLastPhaseIPoint.Value = spinLastPhaseIPoint.Maximum\n        Return New InputRowContext With {\n            .FirstRow = firstRow,\n            .LastRow = lastRow,\n            .PointIndexByRow = pointIndices,\n            .PointCount = pointCount,\n            .IsGrouped = grouped,\n            .PointMap = pointMap\n        }\n    End Function",
+      "sha256": "5c6ef73bd324ab708376ee1617fadb9b1af6228268fec57d9a6e0a2c546b894b",
+      "first_line": 1327,
+      "last_line": 1354
+    },
+    "NormalizeGroupedMetadata": {
+      "body": "    Private Shared Sub NormalizeGroupedMetadata(ByRef labels As String(), ByRef sequences As Double(), context As InputRowContext)\n        context.PointMap.NormalizeGroupedMetadata(labels, sequences)\n    End Sub",
+      "sha256": "0486fb4dac9d40f40bb7177ed2c08500453fda1dca323e5cfd9dc648862f953f",
+      "first_line": 1356,
+      "last_line": 1358
+    },
+    "BuildPointAssignments": {
+      "body": "    Private Function BuildPointAssignments(pointCount As Integer) As SpcMultivariatePointAssignments\n        Dim builder As New SpcMultivariateStageBuilder(pointCount)\n        For Each row As DataGridViewRow In dgvStages.Rows\n            If row.IsNewRow OrElse GridRowIsBlank(row) Then Continue For\n            Dim id As String = CellText(row, colStageID.Index)\n            builder.BeginStage(id)\n            Dim firstPoint As Integer = RequiredIntegerCell(row, colStageFirstPoint.Index, \"First point\")\n            Dim lastPoint As Integer = RequiredIntegerCell(row, colStageLastPoint.Index, \"Last point\")\n            builder.ValidateRange(id, firstPoint, lastPoint)\n            Dim phase As SpcPhase = ParsePhaseText(CellText(row, colStagePhase.Index))\n            builder.Assign(id, firstPoint, lastPoint, phase)\n        Next\n        Return builder.Finish()\n    End Function",
+      "sha256": "e339229d4f3f4dae38869dbd7526cf2a00b09ad09dda969079721e9b2a2687ca",
+      "first_line": 1360,
+      "last_line": 1373
+    },
+    "BuildPointExclusions": {
+      "body": "    Private Function BuildPointExclusions(pointCount As Integer) As SpcMultivariatePointExclusions\n        Dim builder As New SpcMultivariateExclusionBuilder(pointCount)\n        For Each row As DataGridViewRow In dgvExclusions.Rows\n            If row.IsNewRow OrElse GridRowIsBlank(row) Then Continue For\n            Dim point As Integer = RequiredIntegerCell(row, colExclusionPoint.Index, \"Exclusion point\")\n            Dim index As Integer = builder.CoreIndex(point)\n            builder.IncludeScope(index, ParseExclusionScope(CellText(row, colExclusionScope.Index)))\n            Dim reason As String = CellText(row, colExclusionReason.Index)\n            builder.IncludeReason(index, reason)\n        Next\n        Return builder.Finish()\n    End Function",
+      "sha256": "0d66e3b0d4e16c112e3080bfd38b4d2c59c48512c62585affec8036379ca7e0d",
+      "first_line": 1375,
+      "last_line": 1386
+    },
+    "BuildHistoricalModel": {
+      "body": "    Private Sub BuildHistoricalModel(ByRef mean As Double(), ByRef covariance As Double(,))\n        EnsureHistoricalGridReady()\n        Dim p As Integer = lbVariables.Items.Count\n        If SelectedChartType() <> SpcChartType.GeneralizedVariance Then\n            ReDim mean(p - 1)\n            For i As Integer = 0 To p - 1\n                mean(i) = RequiredDoubleCell(dgvHistoricalMean.Rows(i), colHistoricalMeanValue.Index,\n                                              \"Historical mean for \" & CStr(lbVariables.Items(i)))\n            Next\n        End If\n        ReDim covariance(p - 1, p - 1)\n        For r As Integer = 0 To p - 1\n            For c As Integer = 0 To p - 1\n                covariance(r, c) = RequiredDoubleCell(dgvHistoricalCovariance.Rows(r), c + 1,\n                                                       \"Historical covariance value\")\n            Next\n        Next\n    End Sub",
+      "sha256": "9348aa6f7cfca7ba5cdaefac5e5af718d852ddced6ef39ed35d19085823ae42e",
+      "first_line": 1388,
+      "last_line": 1405
+    },
+    "RoleColumnInfos": {
+      "body": "    Private Function RoleColumnInfos(list As ListBox) As List(Of VarColumnInfo)\n        Dim values As New List(Of VarColumnInfo)()\n        For Each item As Object In list.Items\n            values.Add(ColumnInfo(item.ToString()))\n        Next\n        Return values\n    End Function",
+      "sha256": "c47990b338a75f99e868e5c5357a931842090ef57b85566c1355e56b444ee00d",
+      "first_line": 1407,
+      "last_line": 1413
+    },
+    "ColumnInfo": {
+      "body": "    Private Function ColumnInfo(displayText As String) As VarColumnInfo\n        Dim info As VarColumnInfo = Nothing\n        If Not pColumnInfo.TryGetValue(displayText, info) Then\n            Throw New ArgumentException(\"Worksheet column '\" & displayText & \"' is no longer available. Reload the worksheet columns.\")\n        End If\n        Return info\n    End Function",
+      "sha256": "236b741e196b4983564eb3c3c1fda479e6e7ffeb7d1a375f09ac5425ee6f455b",
+      "first_line": 1415,
+      "last_line": 1421
+    },
+    "OptionalComboColumn": {
+      "body": "    Private Function OptionalComboColumn(combo As ComboBox) As VarColumnInfo\n        If combo.SelectedItem Is Nothing OrElse combo.SelectedItem.ToString() = NoneColumnText Then Return Nothing\n        Return ColumnInfo(combo.SelectedItem.ToString())\n    End Function",
+      "sha256": "16b3fd28ed408340c5d8afc3136c878bacd8bdc318d28a34e92cee6642f1ecc5",
+      "first_line": 1423,
+      "last_line": 1426
+    },
+    "LastUsedRow": {
+      "body": "    Private Function LastUsedRow(columnNumber As Integer) As Integer\n        Dim finalCell As Excel.Range = DirectCast(pWorksheet.Cells(pWorksheet.Rows.Count, columnNumber), Excel.Range)\n        Return finalCell.End(Excel.XlDirection.xlUp).Row\n    End Function",
+      "sha256": "7ca287baf07edecc441ec17945cff416131a71180fc438181489f9ddce15bd58",
+      "first_line": 1428,
+      "last_line": 1431
+    },
+    "ReadObjectColumn": {
+      "body": "    Private Function ReadObjectColumn(info As VarColumnInfo, firstRow As Integer, lastRow As Integer) As Object()\n        Dim count As Integer = lastRow - firstRow + 1\n        Dim result(count - 1) As Object\n        Dim range As Excel.Range = pWorksheet.Range(pWorksheet.Cells(firstRow, info.ColumnNumber),\n                                                     pWorksheet.Cells(lastRow, info.ColumnNumber))\n        Dim raw As Object = range.Value2\n        If count = 1 Then\n            result(0) = NormalizeWorksheetValue(raw)\n        Else\n            Dim matrix As Object(,) = TryCast(raw, Object(,))\n            If matrix Is Nothing Then Throw New InvalidOperationException(\"Excel did not return a column matrix for \" & info.DisplayText & \".\")\n            For i As Integer = 0 To count - 1\n                result(i) = NormalizeWorksheetValue(matrix(i + 1, 1))\n            Next\n        End If\n        Return result\n    End Function",
+      "sha256": "771162451594b0ff835c4c338f6aeef46a00af98362c7e0901700a96092b5da8",
+      "first_line": 1433,
+      "last_line": 1449
+    },
+    "ReadNumericColumn": {
+      "body": "    Private Function ReadNumericColumn(info As VarColumnInfo, firstRow As Integer, lastRow As Integer) As Double()\n        Dim raw As Object() = ReadObjectColumn(info, firstRow, lastRow)\n        Dim values(raw.Length - 1) As Double\n        For i As Integer = 0 To raw.Length - 1\n            If raw(i) Is Nothing Then\n                values(i) = Double.NaN\n            ElseIf TypeOf raw(i) Is DateTime Then\n                values(i) = DirectCast(raw(i), DateTime).ToOADate()\n            Else\n                Dim number As Double\n                If Not TryParseDouble(Convert.ToString(raw(i), CultureInfo.CurrentCulture), number) Then\n                    Throw New ArgumentException(\"Column '\" & info.HeaderText & \"' contains a nonnumeric value at worksheet row \" &\n                                                (firstRow + i).ToString(CultureInfo.CurrentCulture) & \".\")\n                End If\n                values(i) = number\n            End If\n        Next\n        Return values\n    End Function",
+      "sha256": "1b910a26388d09d411ac45992413982c57018e68976b753c91fbb9a33b36080f",
+      "first_line": 1451,
+      "last_line": 1469
+    },
+    "ReadTextColumn": {
+      "body": "    Private Function ReadTextColumn(info As VarColumnInfo, firstRow As Integer, lastRow As Integer) As String()\n        Dim raw As Object() = ReadObjectColumn(info, firstRow, lastRow)\n        Dim values(raw.Length - 1) As String\n        For i As Integer = 0 To raw.Length - 1\n            values(i) = If(raw(i) Is Nothing, String.Empty, Convert.ToString(raw(i), CultureInfo.CurrentCulture).Trim())\n        Next\n        Return values\n    End Function",
+      "sha256": "082c938c008e26ac81b3457f12af5350416394dce11ef7f12deee86aceb88ec7",
+      "first_line": 1471,
+      "last_line": 1478
+    },
+    "NormalizeWorksheetValue": {
+      "body": "    Private Shared Function NormalizeWorksheetValue(value As Object) As Object\n        If value Is Nothing OrElse value Is DBNull.Value OrElse TypeOf value Is ErrorWrapper Then Return Nothing\n        Dim text As String = TryCast(value, String)\n        If text IsNot Nothing AndAlso text.Trim().Length = 0 Then Return Nothing\n        Return value\n    End Function",
+      "sha256": "08eeb42394fc366a38a1944556b44a2011045025207e6f46c20eb7649430e6dd",
+      "first_line": 1480,
+      "last_line": 1485
+    },
+    "btCompute_Click": {
+      "body": "    Private Sub btCompute_Click(sender As Object, e As System.EventArgs) Handles btCompute.Click\n        If pBusy Then Return\n        Try\n            If pWorkbook IsNot Nothing Then pWorkbook.Activate()\n            Dim request As SpcMultivariateRequest = BuildRequest()\n            BeginComputation()\n            Dim result As SpcMultivariateFitResult = SpcMultivariate.Fit(request, AddressOf CancellationRequested)\n            If pCancelRequested Then Throw New OperationCanceledException(\"The multivariate SPC calculation was cancelled.\")\n            WriteResultsToNewWorkbook(result)\n            ProgressBar.Style = ProgressBarStyle.Blocks\n            ProgressBar.Value = 100\n        Catch ex As OperationCanceledException\n            MessageBox.Show(\"The multivariate SPC calculation was interrupted.\", AppGlobals.gsAPP_TITLE,\n                            MessageBoxButtons.OK, MessageBoxIcon.Information)\n        Catch ex As ArgumentException\n            ShowInputError(ex.Message)\n        Catch ex As InvalidOperationException\n            ShowInputError(ex.Message)\n        Catch ex As Exception\n            CoreServices.Errors.LogAndThrow(ex, False, True, \"Unable to calculate the multivariate control chart\")\n        Finally\n            EndComputation()\n        End Try\n    End Sub",
+      "sha256": "ef5fd8e39e02c31148d06bf5873b1eea6f4ce675e89bb697f63d0cc07d602149",
+      "first_line": 1491,
+      "last_line": 1514
+    },
+    "BeginComputation": {
+      "body": "    Private Sub BeginComputation()\n        pBusy = True\n        pCancelRequested = False\n        btCompute.Enabled = False\n        btnInterrupt.Enabled = True\n        ProgressBar.Style = ProgressBarStyle.Marquee\n        ProgressBar.MarqueeAnimationSpeed = 25\n        Cursor = Cursors.WaitCursor\n        Application.DoEvents()\n    End Sub",
+      "sha256": "3aebec4b9facd8e32c2f5f6a8d3ad70b83fa2280de8b9683429fa5a5bd43d737",
+      "first_line": 1516,
+      "last_line": 1525
+    },
+    "EndComputation": {
+      "body": "    Private Sub EndComputation()\n        pBusy = False\n        btnInterrupt.Enabled = False\n        btCompute.Enabled = True\n        ProgressBar.MarqueeAnimationSpeed = 0\n        ProgressBar.Style = ProgressBarStyle.Blocks\n        If pCancelRequested Then ProgressBar.Value = 0\n        Cursor = Cursors.Default\n    End Sub",
+      "sha256": "0622f5de7fca6b53878c1478bf40347cb904ec11af3946883d268d11d1b6563a",
+      "first_line": 1527,
+      "last_line": 1535
+    },
+    "CancellationRequested": {
+      "body": "    Private Function CancellationRequested() As Boolean\n        Application.DoEvents()\n        Return pCancelRequested\n    End Function",
+      "sha256": "11745f8987691af89bd7e22eabf676f3f43c7cc6465c0397ccec452d27d94e4f",
+      "first_line": 1537,
+      "last_line": 1540
+    },
+    "btnInterrupt_Click": {
+      "body": "    Private Sub btnInterrupt_Click(sender As Object, e As System.EventArgs) Handles btnInterrupt.Click\n        pCancelRequested = True\n        btnInterrupt.Enabled = False\n    End Sub",
+      "sha256": "26bace0d9352784a82030bf4bb78c8ebc68fbd8070a1574cb8302ae03dc410a9",
+      "first_line": 1542,
+      "last_line": 1545
+    },
+    "Ui22MultivariateControlCharts_FormClosing": {
+      "body": "    Private Sub Ui22MultivariateControlCharts_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing\n        If Not pBusy Then Return\n        pCancelRequested = True\n        e.Cancel = True\n    End Sub",
+      "sha256": "ebce226cac352a5970ff5496287222551171a98156e377d7957a7f6823e553d4",
+      "first_line": 1547,
+      "last_line": 1551
+    },
+    "Ui22MultivariateControlCharts_Shown": {
+      "body": "    Private Sub Ui22MultivariateControlCharts_Shown(sender As Object, e As System.EventArgs) Handles Me.Shown\n        If pWorksheet IsNot Nothing OrElse AppGlobals.app Is Nothing Then Return\n        Dim activeWorksheet As Excel.Worksheet = TryCast(AppGlobals.app.ActiveSheet, Excel.Worksheet)\n        If activeWorksheet IsNot Nothing Then Populate(activeWorksheet)\n    End Sub",
+      "sha256": "7d4dce64e10e9ff6b5815f56bfcdf6e2fee7fcc611bdad1fe3e6844b3a9a550e",
+      "first_line": 1553,
+      "last_line": 1557
+    },
+    "WriteResultsToNewWorkbook": {
+      "body": "    Private Sub WriteResultsToNewWorkbook(result As SpcMultivariateFitResult)\n        Dim workbook As Excel.Workbook = CreateResultWorkbook()\n        Dim firstAvailable As Boolean = True\n        Dim firstOutput As Excel.Worksheet = Nothing\n\n        If chkWriteSummary.Checked Then\n            Dim sheet As Excel.Worksheet = CreateResultSheet(workbook, \"Multivariate Summary\", firstAvailable)\n            firstAvailable = False\n            firstOutput = sheet\n            WriteResultTables(sheet, workbook, BuildSummaryTables(result))\n        End If\n        If chkWriteModelDetails.Checked Then\n            Dim sheet As Excel.Worksheet = CreateResultSheet(workbook, \"Model Details\", firstAvailable)\n            firstAvailable = False\n            If firstOutput Is Nothing Then firstOutput = sheet\n            WriteResultTables(sheet, workbook, BuildModelTables(result))\n        End If\n        If chkCreateControlChart.Checked Then\n            Dim sheet As Excel.Worksheet = CreateResultSheet(workbook, \"Multivariate Chart\", firstAvailable)\n            firstAvailable = False\n            If firstOutput Is Nothing Then firstOutput = sheet\n            Try\n                graphics.SpcControlChartExcel.AddCharts(sheet, BuildChartRenderingResult(result), BuildAppearanceOptions())\n            Catch ex As Exception\n                Dim warning As New ResultTable()\n                warning.AddTitle(\"Multivariate control-chart warning\")\n                warning.AddFootnote(\"The statistical results were calculated, but the Excel chart could not be created: \" & ex.Message)\n                WriteResultTables(sheet, workbook, New List(Of ResultTable) From {warning})\n            End Try\n        End If\n        If chkWriteChartData.Checked Then\n            Dim sheet As Excel.Worksheet = CreateResultSheet(workbook, \"Chart Data\", firstAvailable)\n            firstAvailable = False\n            If firstOutput Is Nothing Then firstOutput = sheet\n            WriteResultTables(sheet, workbook, New List(Of ResultTable) From {BuildChartDataTable(result)})\n        End If\n        If chkWriteSignals.Checked Then\n            Dim sheet As Excel.Worksheet = CreateResultSheet(workbook, \"Signals\", firstAvailable)\n            firstAvailable = False\n            If firstOutput Is Nothing Then firstOutput = sheet\n            WriteResultTables(sheet, workbook, New List(Of ResultTable) From {BuildSignalsTable(result)})\n        End If\n        If chkWriteDiagnostics.Checked Then\n            Dim sheet As Excel.Worksheet = CreateResultSheet(workbook, \"Diagnostics\", firstAvailable)\n            firstAvailable = False\n            If firstOutput Is Nothing Then firstOutput = sheet\n            WriteResultTables(sheet, workbook, BuildDiagnosticTables(result))\n        End If\n        If chkWriteSettingsAudit.Checked Then\n            Dim sheet As Excel.Worksheet = CreateResultSheet(workbook, \"Settings and Audit\", firstAvailable)\n            firstAvailable = False\n            If firstOutput Is Nothing Then firstOutput = sheet\n            WriteResultTables(sheet, workbook, BuildAuditTables(result))\n        End If\n        If firstOutput IsNot Nothing Then firstOutput.Activate()\n    End Sub",
+      "sha256": "e71002c515f88e35d6133bb52144d07504d5fae46c815d7a1856a44a9786c86b",
+      "first_line": 1559,
+      "last_line": 1614
+    },
+    "BuildChartRenderingResult": {
+      "body": "    Private Function BuildChartRenderingResult(result As SpcMultivariateFitResult) As SpcFitResult\n        Dim context = SpcMultivariateResultAxisPolicy.Project(result)\n        Dim sourcePanels As SpcPanelResult() = context.Panels.ToArray()\n        Dim panels(sourcePanels.Length - 1) As SpcPanelResult\n        For i As Integer = 0 To sourcePanels.Length - 1\n            Dim source As SpcPanelResult = sourcePanels(i)\n            panels(i) = New SpcPanelResult(\n                source.PanelType,\n                source.DisplayName,\n                source.Points,\n                valueAxisTitle:=If(String.IsNullOrWhiteSpace(tbValueAxisTitle.Text), source.ValueAxisTitle, tbValueAxisTitle.Text.Trim()),\n                parameterEstimates:=source.ParameterEstimates,\n                signals:=source.Signals,\n                warnings:=source.Warnings)\n        Next\n        Dim input As SpcInputData = SpcMultivariateResultAxisPolicy.RenderingInput(panels(0))\n        Dim title As String = If(String.IsNullOrWhiteSpace(tbChartTitle.Text), SelectedChartChoice().DisplayText, tbChartTitle.Text.Trim())\n        Dim request As New SpcFitRequest(result.Request.ChartType, input,\n                                         requestLabel:=result.Request.RequestLabel,\n                                         chartTitle:=title,\n                                         valueAxisTitle:=tbValueAxisTitle.Text.Trim())\n        Return New SpcFitResult(request, panels, result.Warnings, result.ExecutionTimeMilliseconds)\n    End Function",
+      "sha256": "78913d9e5bc98088d14e3bcbbab9eff079e0bbe52cb44534f3a8d2af1efa1952",
+      "first_line": 1616,
+      "last_line": 1638
+    },
+    "BuildAppearanceOptions": {
+      "body": "    Private Function BuildAppearanceOptions() As graphics.SpcControlChartAppearanceOptions\n        Return New graphics.SpcControlChartAppearanceOptions With {\n            .ChartWidth = CDbl(spinChartWidth.Value),\n            .PanelHeight = CDbl(spinChartHeight.Value),\n            .PanelSpacing = 0R,\n            .ChartTitle = If(String.IsNullOrWhiteSpace(tbChartTitle.Text), SelectedChartChoice().DisplayText, tbChartTitle.Text.Trim()),\n            .HorizontalAxisTitle = tbHorizontalAxisTitle.Text.Trim(),\n            .UseSequenceValuesForHorizontalAxis = chkUseSequenceValuesForHorizontalAxis.Checked,\n            .ShowHorizontalAxisOnEveryPanel = True,\n            .HorizontalTickLabelOrientation = SelectedComboValue(Of Integer)(cbHorizontalTickOrientation),\n            .ShowLegend = chkShowLegend.Checked,\n            .ShowMajorGridlines = chkShowMajorGridlines.Checked,\n            .ShowPointLabels = chkShowPointLabels.Checked,\n            .ShowSignalLabels = chkShowSignalLabels.Checked,\n            .ShowExclusionLabels = chkShowExclusionLabels.Checked,\n            .ShowLimitLabels = chkShowLimitLabels.Checked,\n            .ShowExcludedPoints = chkShowExcludedPoints.Checked,\n            .ShowStageBoundaries = chkShowStageBoundaries.Checked,\n            .ZoneDisplay = graphics.SpcZoneDisplayMode.None,\n            .ShowZoneSeriesInLegend = False,\n            .ShowSpecificationLimits = False,\n            .ShowTargetLine = False,\n            .ValueNumberFormat = If(String.IsNullOrWhiteSpace(tbValueNumberFormat.Text), \"0.####\", tbValueNumberFormat.Text.Trim())\n        }\n    End Function",
+      "sha256": "a53c51442594b43aa1c697bb65a263e328bfacc88cfd1ab31d8da6e979638bb9",
+      "first_line": 1640,
+      "last_line": 1664
+    },
+    "btResetAppearance_Click": {
+      "body": "    Private Sub btResetAppearance_Click(sender As Object, e As System.EventArgs) Handles btResetAppearance.Click\n        Dim defaults As New graphics.SpcControlChartAppearanceOptions()\n        spinChartWidth.Value = ClampDecimal(760D, spinChartWidth.Minimum, spinChartWidth.Maximum)\n        spinChartHeight.Value = ClampDecimal(360D, spinChartHeight.Minimum, spinChartHeight.Maximum)\n        tbChartTitle.Clear()\n        tbValueAxisTitle.Clear()\n        tbHorizontalAxisTitle.Text = defaults.HorizontalAxisTitle\n        tbValueNumberFormat.Text = defaults.ValueNumberFormat\n        chkUseSequenceValuesForHorizontalAxis.Checked = False\n        SelectComboValue(cbHorizontalTickOrientation, defaults.HorizontalTickLabelOrientation)\n        chkShowLegend.Checked = defaults.ShowLegend\n        chkShowMajorGridlines.Checked = defaults.ShowMajorGridlines\n        chkShowPointLabels.Checked = defaults.ShowPointLabels\n        chkShowSignalLabels.Checked = defaults.ShowSignalLabels\n        chkShowExclusionLabels.Checked = defaults.ShowExclusionLabels\n        chkShowLimitLabels.Checked = defaults.ShowLimitLabels\n        chkShowExcludedPoints.Checked = defaults.ShowExcludedPoints\n        chkShowStageBoundaries.Checked = defaults.ShowStageBoundaries\n    End Sub",
+      "sha256": "c31e8a79c1abe08053350d4696ff7e8869413c461aa961309f22f2be6efd034d",
+      "first_line": 1666,
+      "last_line": 1684
+    },
+    "ClampDecimal": {
+      "body": "    Private Shared Function ClampDecimal(value As Decimal, minimum As Decimal, maximum As Decimal) As Decimal\n        Return Math.Min(maximum, Math.Max(minimum, value))\n    End Function",
+      "sha256": "fac8a613fbea91787fc85fbfa1e769c6dee153e111ec911687777edfa129b228",
+      "first_line": 1686,
+      "last_line": 1688
+    },
+    "CreateResultWorkbook": {
+      "body": "    Private Function CreateResultWorkbook() As Excel.Workbook\n        Dim workbook As Excel.Workbook = DirectCast(AppGlobals.app.Workbooks.Add(), Excel.Workbook)\n        Dim oldAlerts As Boolean = AppGlobals.app.DisplayAlerts\n        Try\n            AppGlobals.app.DisplayAlerts = False\n            For i As Integer = workbook.Worksheets.Count To 2 Step -1\n                DirectCast(workbook.Worksheets(i), Excel.Worksheet).Delete()\n            Next\n        Finally\n            AppGlobals.app.DisplayAlerts = oldAlerts\n        End Try\n        Return workbook\n    End Function",
+      "sha256": "627adab702ef2424f75c976dbac27d219987bc0dda8b67e2e1f525765531bb5f",
+      "first_line": 1690,
+      "last_line": 1702
+    },
+    "CreateResultSheet": {
+      "body": "    Private Function CreateResultSheet(workbook As Excel.Workbook, baseName As String, reuseFirst As Boolean) As Excel.Worksheet\n        Dim sheet As Excel.Worksheet\n        If reuseFirst Then\n            sheet = DirectCast(workbook.Worksheets(1), Excel.Worksheet)\n            sheet.Name = MakeUniqueWorksheetName(workbook, baseName, sheet)\n        Else\n            sheet = DirectCast(workbook.Worksheets.Add(After:=workbook.Worksheets(workbook.Worksheets.Count)), Excel.Worksheet)\n            sheet.Name = MakeUniqueWorksheetName(workbook, baseName, Nothing)\n        End If\n        Return sheet\n    End Function",
+      "sha256": "2acad7e31ec6afdd7d49c81e160f32e5a8eaa9dce8c5b056a8360c1239e6aa5e",
+      "first_line": 1704,
+      "last_line": 1714
+    },
+    "WriteResultTables": {
+      "body": "    Private Shared Sub WriteResultTables(sheet As Excel.Worksheet, workbook As Excel.Workbook, tables As List(Of ResultTable))\n        If tables Is Nothing OrElse tables.Count = 0 Then Return\n        Dim writer As New ExcelDnaResultWriter With {.wb = workbook, .ws = sheet}\n        writer.setRowPointer(1)\n        writer.setColumnPointer(1)\n        Dim processor As New ProcessListofResultTables(tables)\n        processor.writeToSheet(writer, True)\n        Try\n            sheet.Columns.AutoFit()\n            sheet.Rows.AutoFit()\n        Catch\n        End Try\n    End Sub",
+      "sha256": "6823f972e3d7af061e7e446a62d4a99430f074ae9a70c879aaec14c7b20a694f",
+      "first_line": 1716,
+      "last_line": 1728
+    },
+    "BuildSummaryTables": {
+      "body": "    Private Function BuildSummaryTables(result As SpcMultivariateFitResult) As List(Of ResultTable)\n        Dim panel As SpcPanelResult = result.Panels(0)\n        Dim model As SpcMultivariateModelResult = result.Model\n        Dim signalCount As Integer = panel.Signals.Length\n        Dim rows As New List(Of Object()) From {\n            Row(\"Analysis\", result.Request.RequestLabel),\n            Row(\"Chart type\", ChartTypeText(result.Request.ChartType)),\n            Row(\"Observation structure\", If(result.Request.HasSubgroups, \"Rational subgroups\", \"Individual observations\")),\n            Row(\"Input rows\", result.Request.RowCount),\n            Row(\"Variables\", result.Request.VariableCount),\n            Row(\"Chart points\", panel.PointCount),\n            Row(\"Model source\", ModelSourceText(result.Request.ModelSource)),\n            Row(\"Baseline observations\", model.BaselineObservationCount),\n            Row(\"Baseline subgroups\", model.BaselineSubgroupCount),\n            Row(\"Covariance degrees of freedom\", model.CovarianceDegreesOfFreedom),\n            Row(\"Effective dimension\", model.EffectiveDimension),\n            Row(\"Retained PCA components\", model.RetainedComponentCount),\n            Row(\"Pseudoinverse used\", YesNo(model.UsedPseudoInverse)),\n            Row(\"Signal occurrences\", signalCount),\n            Row(\"Signalled points\", panel.SignalledPointCount),\n            Row(\"Process status\", If(signalCount = 0, \"No intrinsic-limit signals detected\", \"Intrinsic-limit signal(s) detected\")),\n            Row(\"Warnings\", CollectWarnings(result).Count),\n            Row(\"Execution time (ms)\", result.ExecutionTimeMilliseconds)\n        }\n        Dim tables As New List(Of ResultTable) From {\n            CreateTable(\"Multivariate SPC analysis - summary\", {\"Item\", \"Value\"}, rows,\n                        footnote:=\"Signal status reflects the selected multivariate chart and its intrinsic control or decision limit.\")\n        }\n\n        Dim parameterRows As New List(Of Object())()\n        For Each estimate As SpcParameterEstimate In panel.ParameterEstimates\n            parameterRows.Add(Row(estimate.StageId, estimate.DisplayName, estimate.ParameterName,\n                                  estimate.Value, NullableValue(estimate.StandardError), estimate.Method,\n                                  NullableValue(estimate.SampleCount)))\n        Next\n        tables.Add(CreateTable(\"Multivariate SPC analysis - retained chart parameters\",\n                               {\"Stage\", \"Parameter\", \"Identifier\", \"Value\", \"Standard Error\", \"Method\", \"Sample Count\"},\n                               parameterRows, emptyMessage:=\"No retained chart parameters were reported.\"))\n        tables.Add(BuildWarningsTable(result))\n        Return tables\n    End Function",
+      "sha256": "71bcae8f8b476dd08c960eb3ae15da7405aa363a0d28e2b86c4157dea6e96905",
+      "first_line": 1734,
+      "last_line": 1774
+    },
+    "BuildModelTables": {
+      "body": "    Private Function BuildModelTables(result As SpcMultivariateFitResult) As List(Of ResultTable)\n        Dim model As SpcMultivariateModelResult = result.Model\n        Dim names As String() = result.Request.VariableNames\n        Dim tables As New List(Of ResultTable) From {\n            CreateTable(\"Multivariate in-control model - properties\", {\"Item\", \"Value\"},\n                New List(Of Object()) From {\n                    Row(\"Source\", ModelSourceText(model.Source)),\n                    Row(\"Baseline observations\", model.BaselineObservationCount),\n                    Row(\"Baseline subgroups\", model.BaselineSubgroupCount),\n                    Row(\"Covariance degrees of freedom\", model.CovarianceDegreesOfFreedom),\n                    Row(\"Effective dimension\", model.EffectiveDimension),\n                    Row(\"Retained components\", model.RetainedComponentCount),\n                    Row(\"Pseudoinverse used\", YesNo(model.UsedPseudoInverse)),\n                    Row(\"Diagonal ridge factor\", model.Regularization)\n                })\n        }\n        If model.ProcessMean IsNot Nothing Then tables.Add(CreateVectorTable(\"Process mean vector\", names, model.ProcessMean, \"Mean\"))\n        tables.Add(CreateVectorTable(\"Analysis scale\", names, model.AnalysisScale, \"Scale\"))\n        tables.Add(CreateMatrixTable(\"Process covariance matrix\", names, names, model.ProcessCovariance))\n        tables.Add(CreateMatrixTable(\"Analysis covariance matrix\", names, names, model.AnalysisCovariance))\n        tables.Add(CreateMatrixTable(\"Analysis covariance inverse\", names, names, model.AnalysisCovarianceInverse))\n        tables.Add(CreateIndexedVectorTable(\"Eigenvalues\", model.Eigenvalues, \"Component\", \"Eigenvalue\"))\n        tables.Add(CreateMatrixTable(\"Eigenvectors\", names, ComponentNames(model.Eigenvectors.GetLength(1)), model.Eigenvectors))\n        Return tables\n    End Function",
+      "sha256": "05a7be29982c432b2d4c8243e620b8832dc851be205213e5ab889bb8b25dcbd9",
+      "first_line": 1776,
+      "last_line": 1800
+    },
+    "BuildChartDataTable": {
+      "body": "    Private Function BuildChartDataTable(result As SpcMultivariateFitResult) As ResultTable\n        Dim rows As New List(Of Object())()\n        Dim panel As SpcPanelResult = result.Panels(0)\n        For Each point As SpcPointResult In panel.Points\n            rows.Add(Row(point.PointIndex + 1,\n                         JoinIntegers(point.SourceRowIndices, addOne:=False),\n                         point.Label,\n                         point.StageId,\n                         PhaseText(point.Phase),\n                         point.Value,\n                         point.CenterLine,\n                         point.LowerControlLimit,\n                         point.UpperControlLimit,\n                         YesNo(point.IncludedInParameterEstimation),\n                         YesNo(point.IncludedInRuleEvaluation),\n                         ExclusionScopeText(point.ExclusionScope),\n                         point.ExclusionReason,\n                         YesNo(point.IsSignalled),\n                         JoinIntegers(point.SignalRuleNumbers, addOne:=False)))\n        Next\n        Return CreateTable(\"Multivariate SPC chart data\",\n            {\"Point\", \"Source Rows\", \"Label\", \"Stage\", \"Phase\", \"Statistic\", \"Center Line\", \"LCL\", \"UCL\",\n             \"Used to Estimate\", \"Signal Eligible\", \"Exclusion Scope\", \"Exclusion Reason\", \"Signal\", \"Signal Numbers\"},\n            rows)\n    End Function",
+      "sha256": "7dda650642a92c77696e661a6b3cd7777b50f072b48b1bb9aac7b3a831942cf7",
+      "first_line": 1802,
+      "last_line": 1826
+    },
+    "BuildSignalsTable": {
+      "body": "    Private Function BuildSignalsTable(result As SpcMultivariateFitResult) As ResultTable\n        Dim rows As New List(Of Object())()\n        For Each signal As SpcSignalResult In result.Panels(0).Signals\n            rows.Add(Row(signal.RuleNumber,\n                         signal.RuleCode,\n                         signal.Rule.DisplayName,\n                         signal.StageId,\n                         signal.TerminalPointIndex + 1,\n                         signal.WindowStartPointIndex + 1,\n                         signal.WindowEndPointIndex + 1,\n                         signal.TriggeredSide.ToString(),\n                         JoinIntegers(signal.ContributingPointIndices, addOne:=True),\n                         JoinIntegers(signal.MarkedPointIndices, addOne:=True),\n                         signal.Message))\n        Next\n        Return CreateTable(\"Multivariate SPC signals\",\n            {\"Signal Number\", \"Code\", \"Signal\", \"Stage\", \"Terminal Point\", \"Window Start\", \"Window End\",\n             \"Side\", \"Contributing Points\", \"Marked Points\", \"Message\"},\n            rows, emptyMessage:=\"No intrinsic-limit signals were detected.\")\n    End Function",
+      "sha256": "81102bb437ae05f011d6cd71a279225729be105848243b2377b8da333bface86",
+      "first_line": 1828,
+      "last_line": 1847
+    },
+    "BuildDiagnosticTables": {
+      "body": "    Private Function BuildDiagnosticTables(result As SpcMultivariateFitResult) As List(Of ResultTable)\n        Dim context = SpcMultivariateResultAxisPolicy.Project(result)\n        Dim signalOnly As Boolean = SelectedComboValue(Of DiagnosticsScope)(cbDiagnosticsScope) = DiagnosticsScope.SignalledPointsOnly\n        Dim selected = context.SelectDiagnostics(signalOnly)\n\n        Dim names As String() = result.Request.VariableNames\n        Dim hasState As Boolean = selected.Any(Function(item) item.StateVector IsNot Nothing)\n        Dim hasScores As Boolean = selected.Any(Function(item) item.ComponentScores IsNot Nothing)\n        Dim hasResiduals As Boolean = selected.Any(Function(item) item.ResidualVector IsNot Nothing)\n        Dim hasContributions As Boolean = selected.Any(Function(item) item.Contributions IsNot Nothing)\n        Dim scoreCount As Integer = 0\n        For Each item As SpcMultivariatePointDiagnostic In selected\n            If item.ComponentScores IsNot Nothing Then scoreCount = Math.Max(scoreCount, item.ComponentScores.Length)\n        Next\n\n        Dim headers As New List(Of String) From {\n            \"Point\", \"Source Rows\", \"Label\", \"Stage\", \"Phase\", \"Statistic\", \"Effective Sample Size\"\n        }\n        For Each name As String In names\n            headers.Add(\"Observed: \" & name)\n        Next\n        If hasState Then\n            For Each name As String In names\n                headers.Add(\"State: \" & name)\n            Next\n        End If\n        If hasScores Then\n            For i As Integer = 1 To scoreCount\n                headers.Add(\"PC Score \" & i.ToString())\n            Next\n        End If\n        If hasResiduals Then\n            For Each name As String In names\n                headers.Add(\"Residual: \" & name)\n            Next\n        End If\n        If hasContributions Then\n            For Each name As String In names\n                headers.Add(\"Contribution: \" & name)\n            Next\n            headers.Add(\"Contribution Total\")\n            headers.Add(\"Contribution Basis\")\n        End If\n\n        Dim rows As New List(Of Object())()\n        For Each item As SpcMultivariatePointDiagnostic In selected\n            Dim values As New List(Of Object) From {\n                item.PointIndex + 1,\n                JoinIntegers(item.SourceRowIndices, addOne:=False),\n                item.Label,\n                item.StageId,\n                PhaseText(item.Phase),\n                item.Statistic,\n                item.EffectiveSampleSize\n            }\n            AddVectorValues(values, item.ObservationVector, names.Length)\n            If hasState Then AddVectorValues(values, item.StateVector, names.Length)\n            If hasScores Then AddVectorValues(values, item.ComponentScores, scoreCount)\n            If hasResiduals Then AddVectorValues(values, item.ResidualVector, names.Length)\n            If hasContributions Then\n                AddVectorValues(values, item.Contributions, names.Length)\n                values.Add(If(Double.IsNaN(item.ContributionTotal), CType(String.Empty, Object), item.ContributionTotal))\n                values.Add(item.ContributionBasis)\n            End If\n            rows.Add(values.ToArray())\n        Next\n\n        Dim tables As New List(Of ResultTable) From {\n            CreateTable(\"Multivariate point diagnostics and contributions\", headers.ToArray(), rows,\n                        emptyMessage:=If(signalOnly, \"No signalled points have diagnostics.\", \"No point diagnostics were returned.\"))\n        }\n        For Each item As SpcMultivariatePointDiagnostic In selected\n            If item.SubgroupCovariance Is Nothing Then Continue For\n            tables.Add(CreateMatrixTable(\"Subgroup covariance - point \" & (item.PointIndex + 1).ToString(),\n                                          names, names, item.SubgroupCovariance))\n        Next\n        Return tables\n    End Function",
+      "sha256": "e24d145b107e20916043a93fd3341367f980f89220f9b7fa1a2966126e624eb7",
+      "first_line": 1849,
+      "last_line": 1926
+    },
+    "BuildAuditTables": {
+      "body": "    Private Function BuildAuditTables(result As SpcMultivariateFitResult) As List(Of ResultTable)\n        Dim request As SpcMultivariateRequest = result.Request\n        Dim settings As New List(Of Object()) From {\n            Row(\"Request label\", request.RequestLabel),\n            Row(\"Chart type\", ChartTypeText(request.ChartType)),\n            Row(\"Observation structure\", If(request.HasSubgroups, \"Rational subgroups\", \"Individual observations\")),\n            Row(\"Missing-value policy\", MissingPolicyText(request.MissingValuePolicy)),\n            Row(\"Model source\", ModelSourceText(request.ModelSource)),\n            Row(\"Control-limit alpha\", request.ControlLimitAlpha),\n            Row(\"Use lower Hotelling limit\", YesNo(request.UseLowerHotellingLimit)),\n            Row(\"Diagonal ridge factor\", request.CovarianceRegularization),\n            Row(\"Allow pseudoinverse\", YesNo(request.AllowPseudoInverse)),\n            Row(\"PCA matrix\", If(request.PcaUseCorrelationMatrix, \"Correlation\", \"Covariance\")),\n            Row(\"PCA component count\", NullableValue(request.PcaComponentCount)),\n            Row(\"PCA cumulative variance\", request.PcaCumulativeVariance),\n            Row(\"MEWMA lambda\", request.MewmaLambda),\n            Row(\"MEWMA supplied UCL\", NullableValue(request.MewmaControlLimit)),\n            Row(\"MCUSUM k\", request.McusumReferenceValue),\n            Row(\"MCUSUM h\", request.McusumDecisionInterval),\n            Row(\"Generalized-variance sigma multiplier\", NullableValue(request.GeneralizedVarianceSigmaMultiplier)),\n            Row(\"Reset at stage boundary\", YesNo(request.ResetAtStageBoundary)),\n            Row(\"Reset at phase boundary\", YesNo(request.ResetAtPhaseBoundary)),\n            Row(\"Reset after signal\", YesNo(request.ResetAfterSignal)),\n            Row(\"Sequence-gap behaviour\", SequenceGapBehaviorText(request.SequenceGapBehavior)),\n            Row(\"Chart title\", tbChartTitle.Text.Trim()),\n            Row(\"Value-axis title\", tbValueAxisTitle.Text.Trim()),\n            Row(\"Horizontal-axis title\", tbHorizontalAxisTitle.Text.Trim()),\n            Row(\"Use sequence on horizontal axis\", YesNo(chkUseSequenceValuesForHorizontalAxis.Checked)),\n            Row(\"Chart width\", spinChartWidth.Value),\n            Row(\"Chart height\", spinChartHeight.Value),\n            Row(\"Execution time (ms)\", result.ExecutionTimeMilliseconds)\n        }\n\n        Dim stageRows As New List(Of Object())()\n        Dim panelPoints As SpcPointResult() = result.Panels(0).Points\n        If panelPoints.Length > 0 Then\n            Dim start As Integer = 0\n            For i As Integer = 1 To panelPoints.Length\n                Dim atEnd As Boolean = i = panelPoints.Length\n                Dim changed As Boolean = Not atEnd AndAlso\n                    (Not String.Equals(panelPoints(i).StageId, panelPoints(start).StageId, StringComparison.Ordinal) OrElse\n                     panelPoints(i).Phase <> panelPoints(start).Phase)\n                If Not atEnd AndAlso Not changed Then Continue For\n                stageRows.Add(Row(panelPoints(start).StageId,\n                                  panelPoints(start).PointIndex + 1,\n                                  panelPoints(i - 1).PointIndex + 1,\n                                  PhaseText(panelPoints(start).Phase)))\n                start = i\n            Next\n        End If\n\n        Dim exclusionRows As New List(Of Object())()\n        Dim scopes As SpcExclusionScope() = request.ExclusionScopes\n        Dim reasons As String() = request.ExclusionReasons\n        Dim sourceRows As Integer() = request.SourceRowIndices\n        For i As Integer = 0 To scopes.Length - 1\n            If scopes(i) = SpcExclusionScope.None Then Continue For\n            exclusionRows.Add(Row(sourceRows(i), ExclusionScopeText(scopes(i)), reasons(i)))\n        Next\n\n        Return New List(Of ResultTable) From {\n            CreateTable(\"Multivariate SPC settings and audit\", {\"Setting\", \"Value\"}, settings),\n            CreateTable(\"Effective stages\", {\"Stage\", \"First Point\", \"Last Point\", \"Phase\"}, stageRows,\n                        emptyMessage:=\"No chart points were returned.\"),\n            CreateTable(\"Source-row exclusions\", {\"Source Row\", \"Scope\", \"Reason\"}, exclusionRows,\n                        emptyMessage:=\"No explicit exclusions were supplied.\"),\n            BuildWarningsTable(result)\n        }\n    End Function",
+      "sha256": "b2246fa9387006571aaf60712c9d3b0c3409a027062fb24b88f9ff47f52b49fc",
+      "first_line": 1928,
+      "last_line": 1996
+    },
+    "BuildWarningsTable": {
+      "body": "    Private Function BuildWarningsTable(result As SpcMultivariateFitResult) As ResultTable\n        Dim rows As New List(Of Object())()\n        Dim warnings As List(Of String) = CollectWarnings(result)\n        For i As Integer = 0 To warnings.Count - 1\n            rows.Add(Row(i + 1, warnings(i)))\n        Next\n        Return CreateTable(\"Multivariate SPC warnings\", {\"Number\", \"Warning\"}, rows,\n                           emptyMessage:=\"No calculation warnings were reported.\")\n    End Function",
+      "sha256": "8b788e1d72699d4348464207ed60169acff41423c204b6865c7ed4af171b0649",
+      "first_line": 1998,
+      "last_line": 2006
+    },
+    "CollectWarnings": {
+      "body": "    Private Shared Function CollectWarnings(result As SpcMultivariateFitResult) As List(Of String)\n        Dim values As New List(Of String)()\n        Dim seen As New HashSet(Of String)(StringComparer.Ordinal)\n        For Each warning As String In result.Warnings\n            If warning.Length > 0 AndAlso seen.Add(warning) Then values.Add(warning)\n        Next\n        For Each panel As SpcPanelResult In result.Panels\n            For Each warning As String In panel.Warnings\n                If warning.Length > 0 AndAlso seen.Add(warning) Then values.Add(warning)\n            Next\n        Next\n        Return values\n    End Function",
+      "sha256": "bae3a6c2c5ab20e279078e45a20fa3dd0338bd6f013110e820af26e6de554903",
+      "first_line": 2008,
+      "last_line": 2020
+    },
+    "CreateTable": {
+      "body": "    Private Shared Function CreateTable(title As String, headers As String(), rows As IList(Of Object()),\n                                        Optional emptyMessage As String = Nothing,\n                                        Optional footnote As String = Nothing) As ResultTable\n        Dim table As New ResultTable()\n        If title.Length > 0 Then table.AddTitle(title)\n        table.AddHeaderTopRow(CType(headers.Clone(), String()))\n        If rows.Count > 0 Then\n            Dim body(rows.Count - 1, headers.Length - 1) As Object\n            For r As Integer = 0 To rows.Count - 1\n                If rows(r).Length <> headers.Length Then Throw New InvalidOperationException(\"A result row does not match its table header.\")\n                For c As Integer = 0 To headers.Length - 1\n                    body(r, c) = rows(r)(c)\n                Next\n            Next\n            table.SetBody(body)\n        ElseIf Not String.IsNullOrWhiteSpace(emptyMessage) Then\n            table.AddFootnote(emptyMessage)\n        End If\n        If Not String.IsNullOrWhiteSpace(footnote) Then table.AddFootnote(footnote)\n        Return table\n    End Function",
+      "sha256": "bb1e9abbd5ee4154a3c63e595c0d2920a53192152ea4de3443b6d712cbf54a81",
+      "first_line": 2022,
+      "last_line": 2042
+    },
+    "CreateVectorTable": {
+      "body": "    Private Shared Function CreateVectorTable(title As String, names As String(), values As Double(), valueHeader As String) As ResultTable\n        Dim rows As New List(Of Object())()\n        If values IsNot Nothing Then\n            For i As Integer = 0 To values.Length - 1\n                rows.Add(Row(names(i), values(i)))\n            Next\n        End If\n        Return CreateTable(title, {\"Variable\", valueHeader}, rows, emptyMessage:=\"Not applicable to this chart.\")\n    End Function",
+      "sha256": "8ee3c2ae1aa4779bb2d4d0f1aee00058881f68dc9c84cc1cea21b94fdc1c99a3",
+      "first_line": 2044,
+      "last_line": 2052
+    },
+    "CreateIndexedVectorTable": {
+      "body": "    Private Shared Function CreateIndexedVectorTable(title As String, values As Double(), indexHeader As String, valueHeader As String) As ResultTable\n        Dim rows As New List(Of Object())()\n        For i As Integer = 0 To values.Length - 1\n            rows.Add(Row(i + 1, values(i)))\n        Next\n        Return CreateTable(title, {indexHeader, valueHeader}, rows)\n    End Function",
+      "sha256": "c7a3b248a85b1a82fc8ebd93c96d5d855fece76f8a63abf2e836994a688b8923",
+      "first_line": 2054,
+      "last_line": 2060
+    },
+    "CreateMatrixTable": {
+      "body": "    Private Shared Function CreateMatrixTable(title As String, rowNames As String(), columnNames As String(), values As Double(,)) As ResultTable\n        Dim headers As New List(Of String) From {\"Variable\"}\n        headers.AddRange(columnNames)\n        Dim rows As New List(Of Object())()\n        For r As Integer = 0 To values.GetLength(0) - 1\n            Dim row(values.GetLength(1)) As Object\n            row(0) = rowNames(r)\n            For c As Integer = 0 To values.GetLength(1) - 1\n                row(c + 1) = values(r, c)\n            Next\n            rows.Add(row)\n        Next\n        Return CreateTable(title, headers.ToArray(), rows)\n    End Function",
+      "sha256": "1fa2d518437fc1ca1f1d664256f8f268943c0fb3056685a9f786b1ea3193217b",
+      "first_line": 2062,
+      "last_line": 2075
+    },
+    "ComponentNames": {
+      "body": "    Private Shared Function ComponentNames(count As Integer) As String()\n        Dim names(count - 1) As String\n        For i As Integer = 0 To count - 1\n            names(i) = \"PC\" & (i + 1).ToString(CultureInfo.InvariantCulture)\n        Next\n        Return names\n    End Function",
+      "sha256": "bd4a2fb8c150e88aa22b150daa1f5f54061cefef2eae797b103641cd5afca45a",
+      "first_line": 2077,
+      "last_line": 2083
+    },
+    "AddVectorValues": {
+      "body": "    Private Shared Sub AddVectorValues(target As List(Of Object), values As Double(), count As Integer)\n        For i As Integer = 0 To count - 1\n            If values IsNot Nothing AndAlso i < values.Length Then\n                target.Add(values(i))\n            Else\n                target.Add(String.Empty)\n            End If\n        Next\n    End Sub",
+      "sha256": "c33a1a5b13859160fb244b96f385b758a6c81464ccb33451a708cbe4d3728933",
+      "first_line": 2085,
+      "last_line": 2093
+    },
+    "Row": {
+      "body": "    Private Shared Function Row(ParamArray values As Object()) As Object()\n        Return values\n    End Function",
+      "sha256": "63a8479aa8aba69cb499da791274298b108cac854df56819691b0e24b3efc35e",
+      "first_line": 2095,
+      "last_line": 2097
+    },
+    "GridRowIsBlank": {
+      "body": "    Private Shared Function GridRowIsBlank(row As DataGridViewRow) As Boolean\n        For Each cell As DataGridViewCell In row.Cells\n            If cell.Value IsNot Nothing AndAlso Convert.ToString(cell.Value, CultureInfo.CurrentCulture).Trim().Length > 0 Then Return False\n        Next\n        Return True\n    End Function",
+      "sha256": "12816f9829067d24bc6116589b3d1759953d311b3983bdbea8741fe7c2ede7af",
+      "first_line": 2103,
+      "last_line": 2108
+    },
+    "CellText": {
+      "body": "    Private Shared Function CellText(row As DataGridViewRow, columnIndex As Integer) As String\n        Dim value As Object = row.Cells(columnIndex).Value\n        Return If(value Is Nothing, String.Empty, Convert.ToString(value, CultureInfo.CurrentCulture).Trim())\n    End Function",
+      "sha256": "dd4096cdcd7f86b0ce8579a5065997c2bcc926ee8dff505f6c9eee0d552701bf",
+      "first_line": 2110,
+      "last_line": 2113
+    },
+    "RequiredIntegerCell": {
+      "body": "    Private Shared Function RequiredIntegerCell(row As DataGridViewRow, columnIndex As Integer, label As String) As Integer\n        Dim value As Integer\n        If Not Integer.TryParse(CellText(row, columnIndex), NumberStyles.Integer, CultureInfo.CurrentCulture, value) Then\n            Throw New ArgumentException(label & \" must be an integer.\")\n        End If\n        Return value\n    End Function",
+      "sha256": "e4f3313235de5302bdfa0fa70e80dccb4629a87213b2ec768c1e64363f9bf767",
+      "first_line": 2115,
+      "last_line": 2121
+    },
+    "RequiredDoubleCell": {
+      "body": "    Private Shared Function RequiredDoubleCell(row As DataGridViewRow, columnIndex As Integer, label As String) As Double\n        Dim value As Double\n        If Not TryParseDouble(CellText(row, columnIndex), value) Then Throw New ArgumentException(label & \" must be numeric.\")\n        If Double.IsNaN(value) OrElse Double.IsInfinity(value) Then Throw New ArgumentException(label & \" must be finite.\")\n        Return value\n    End Function",
+      "sha256": "13c906769e1884b57b896de9026d87dfd6f1d8195d94e48cc8c2d12627078227",
+      "first_line": 2123,
+      "last_line": 2128
+    },
+    "TryParseDouble": {
+      "body": "    Private Shared Function TryParseDouble(text As String, ByRef value As Double) As Boolean\n        If Double.TryParse(text, NumberStyles.Float Or NumberStyles.AllowThousands, CultureInfo.CurrentCulture, value) Then Return True\n        Return Double.TryParse(text, NumberStyles.Float Or NumberStyles.AllowThousands, CultureInfo.InvariantCulture, value)\n    End Function",
+      "sha256": "4f3240df468f04883650fb5941560a0b6d0a29b1d760c8aba1f65561d6280836",
+      "first_line": 2130,
+      "last_line": 2133
+    },
+    "ParsePhaseText": {
+      "body": "    Private Shared Function ParsePhaseText(text As String) As SpcPhase\n        Return SpcMultivariatePhasePolicy.ParsePhase(text)\n    End Function",
+      "sha256": "b1b3cdecf1db94a741525b8a43eadb112fb59ba2353849af796dbe8dc7348578",
+      "first_line": 2135,
+      "last_line": 2137
+    },
+    "ParseExclusionScope": {
+      "body": "    Private Shared Function ParseExclusionScope(text As String) As SpcExclusionScope\n        Select Case text.Trim().ToLowerInvariant()\n            Case \"parameter estimation\" : Return SpcExclusionScope.ParameterEstimation\n            Case \"signal evaluation\", \"rule evaluation\" : Return SpcExclusionScope.RuleEvaluation\n            Case \"parameter estimation and signal evaluation\", \"parameter estimation and rules\" : Return SpcExclusionScope.EstimationAndRules\n            Case Else : Throw New ArgumentException(\"Select a valid exclusion scope.\")\n        End Select\n    End Function",
+      "sha256": "4f5b362415a674f909f7e2c1fbd029383f28e59d6c42de710767dfe845210c4f",
+      "first_line": 2143,
+      "last_line": 2150
+    },
+    "ExclusionScopeText": {
+      "body": "    Private Shared Function ExclusionScopeText(scope As SpcExclusionScope) As String\n        Select Case scope\n            Case SpcExclusionScope.None : Return \"None\"\n            Case SpcExclusionScope.ParameterEstimation : Return \"Parameter estimation\"\n            Case SpcExclusionScope.RuleEvaluation : Return \"Signal evaluation\"\n            Case SpcExclusionScope.EstimationAndRules : Return \"Parameter estimation and signal evaluation\"\n            Case Else : Return scope.ToString()\n        End Select\n    End Function",
+      "sha256": "7d31564b53231ec12de937f395b1a63a366ee9494747ebb17b2b4eb0a405ec70",
+      "first_line": 2152,
+      "last_line": 2160
+    },
+    "IsExclusionIndicator": {
+      "body": "    Private Shared Function IsExclusionIndicator(value As Object) As Boolean\n        If value Is Nothing Then Return False\n        If TypeOf value Is Boolean Then Return DirectCast(value, Boolean)\n        Dim numeric As Double\n        If TryParseDouble(Convert.ToString(value, CultureInfo.CurrentCulture), numeric) Then Return numeric <> 0R\n        Select Case Convert.ToString(value, CultureInfo.CurrentCulture).Trim().ToLowerInvariant()\n            Case \"true\", \"yes\", \"y\", \"x\", \"exclude\", \"excluded\" : Return True\n            Case \"false\", \"no\", \"n\", \"include\", \"included\", \"\" : Return False\n            Case Else : Throw New ArgumentException(\"Exclusion indicators must be blank/0/No or nonzero/Yes/True/X.\")\n        End Select\n    End Function",
+      "sha256": "f672bb14f3ffd540f09654ad3c6a9d3136b4d908e8c838946cc14d65af7e8c50",
+      "first_line": 2162,
+      "last_line": 2172
+    },
+    "PhaseText": {
+      "body": "    Private Shared Function PhaseText(value As SpcPhase) As String\n        Return If(value = SpcPhase.PhaseI, \"Phase I\", \"Phase II\")\n    End Function",
+      "sha256": "0a6e99d86e61ce0fc45f1ab293a41be39bb20e4f0b077e8c98a136fc27c0d372",
+      "first_line": 2174,
+      "last_line": 2176
+    },
+    "MissingPolicyText": {
+      "body": "    Private Shared Function MissingPolicyText(value As SpcMissingValuePolicy) As String\n        Return If(value = SpcMissingValuePolicy.Reject, \"Reject\", \"Omit incomplete observation\")\n    End Function",
+      "sha256": "473f2c429db462db817cb908977c1bbcfb928247460e40b1dd9773616336668d",
+      "first_line": 2178,
+      "last_line": 2180
+    },
+    "ModelSourceText": {
+      "body": "    Private Shared Function ModelSourceText(value As SpcMultivariateModelSource) As String\n        Return If(value = SpcMultivariateModelSource.EstimateFromPhaseI, \"Estimate from Phase I\", \"Use historical parameters\")\n    End Function",
+      "sha256": "4524731e8111e4e64ff93a98d33cd03f3bbefd82bef546601ba6a7e004039c5b",
+      "first_line": 2182,
+      "last_line": 2184
+    },
+    "SequenceGapBehaviorText": {
+      "body": "    Private Shared Function SequenceGapBehaviorText(value As SpcSequenceGapBehavior) As String\n        Select Case value\n            Case SpcSequenceGapBehavior.BreakSequence : Return \"Break sequence\"\n            Case SpcSequenceGapBehavior.SkipPointAndContinue : Return \"Skip point and continue\"\n            Case Else : Return value.ToString()\n        End Select\n    End Function",
+      "sha256": "ae92979cd33299abf1a14b899cd4fc689155321c68f6f78b5433aa07aa04c59c",
+      "first_line": 2186,
+      "last_line": 2192
+    },
+    "ChartTypeText": {
+      "body": "    Private Shared Function ChartTypeText(value As SpcChartType) As String\n        Select Case value\n            Case SpcChartType.HotellingT2 : Return \"Hotelling T-squared\"\n            Case SpcChartType.GeneralizedVariance : Return \"Generalized variance\"\n            Case SpcChartType.PcaT2 : Return \"PCA T-squared\"\n            Case SpcChartType.PcaQ : Return \"PCA Q\"\n            Case SpcChartType.Mewma : Return \"MEWMA\"\n            Case SpcChartType.Mcusum : Return \"MCUSUM (Crosier)\"\n            Case Else : Return value.ToString()\n        End Select\n    End Function",
+      "sha256": "f47cb66e75ee71e9d1b491fb7bfab92bfe65eae6a6080e6a3c93522609aff86f",
+      "first_line": 2194,
+      "last_line": 2204
+    },
+    "YesNo": {
+      "body": "    Private Shared Function YesNo(value As Boolean) As String\n        Return If(value, \"Yes\", \"No\")\n    End Function",
+      "sha256": "495f7b88e23c269f56e610637d6529d2f01cf516da27420dcb834c49cba536ec",
+      "first_line": 2206,
+      "last_line": 2208
+    },
+    "NullableValue": {
+      "body": "    Private Shared Function NullableValue(value As Nullable(Of Integer)) As Object\n        Return If(value.HasValue, CType(value.Value, Object), String.Empty)\n    End Function",
+      "sha256": "98e8b738c37d418808e69ac7aa1886f2eebabd5fd0a2290eb03b83d175f27555",
+      "first_line": 2214,
+      "last_line": 2216
+    },
+    "JoinIntegers": {
+      "body": "    Private Shared Function JoinIntegers(values As Integer(), addOne As Boolean) As String\n        If values Is Nothing OrElse values.Length = 0 Then Return String.Empty\n        Dim text(values.Length - 1) As String\n        For i As Integer = 0 To values.Length - 1\n            Dim value As Integer = values(i)\n            If addOne Then value += 1\n            text(i) = value.ToString(CultureInfo.InvariantCulture)\n        Next\n        Return String.Join(\", \", text)\n    End Function",
+      "sha256": "4c94a853b89d743d591d5c0b1af22d72be74913c18fafc3f50b589341bb2e10c",
+      "first_line": 2218,
+      "last_line": 2227
+    },
+    "MakeUniqueWorksheetName": {
+      "body": "    Private Shared Function MakeUniqueWorksheetName(workbook As Excel.Workbook,\n                                                    baseName As String,\n                                                    reusableSheet As Excel.Worksheet) As String\n        Dim cleaned As String = CleanWorksheetName(baseName)\n        Dim candidate As String = cleaned\n        Dim suffix As Integer = 1\n        While WorksheetNameExists(workbook, candidate, reusableSheet)\n            suffix += 1\n            Dim suffixText As String = \" (\" & suffix.ToString(CultureInfo.InvariantCulture) & \")\"\n            candidate = cleaned.Substring(0, Math.Min(cleaned.Length, 31 - suffixText.Length)) & suffixText\n        End While\n        Return candidate\n    End Function",
+      "sha256": "c90bd3e3cb79f7e4b8a8df8477b1e79d2f213a8f881f39471084d1cb287cee9c",
+      "first_line": 2229,
+      "last_line": 2241
+    },
+    "CleanWorksheetName": {
+      "body": "    Private Shared Function CleanWorksheetName(value As String) As String\n        Dim cleaned As String = If(value, String.Empty).Trim()\n        For Each invalid As Char In New Char() {\":\"c, \"\\\"c, \"/\"c, \"?\"c, \"*\"c, \"[\"c, \"]\"c}\n            cleaned = cleaned.Replace(invalid, \" \"c)\n        Next\n        cleaned = cleaned.Trim(\"'\"c, \" \"c)\n        If cleaned.Length = 0 Then cleaned = \"Multivariate SPC\"\n        If cleaned.Length > 31 Then cleaned = cleaned.Substring(0, 31)\n        Return cleaned\n    End Function",
+      "sha256": "6350bfaee37ab22fae21854453cb3a722976bd3bf48eac255acef1d25475471e",
+      "first_line": 2243,
+      "last_line": 2252
+    },
+    "WorksheetNameExists": {
+      "body": "    Private Shared Function WorksheetNameExists(workbook As Excel.Workbook,\n                                                name As String,\n                                                reusableSheet As Excel.Worksheet) As Boolean\n        For Each sheetObject As Object In workbook.Worksheets\n            Dim sheet As Excel.Worksheet = TryCast(sheetObject, Excel.Worksheet)\n            If sheet Is Nothing OrElse sheet Is reusableSheet Then Continue For\n            If String.Equals(sheet.Name, name, StringComparison.OrdinalIgnoreCase) Then Return True\n        Next\n        Return False\n    End Function",
+      "sha256": "2da67d3f2da4be500ac488aa09d5ed7d38d4f8aa82c27f14903fafc5d7a3a53a",
+      "first_line": 2254,
+      "last_line": 2263
+    },
+    "ShowInputError": {
+      "body": "    Private Shared Sub ShowInputError(message As String)\n        MessageBox.Show(message, AppGlobals.gsAPP_TITLE, MessageBoxButtons.OK, MessageBoxIcon.Exclamation)\n    End Sub",
+      "sha256": "57c1774f7e73a88e5d09cba466eb0c5f97059daaae6224399f9d3f8ef33b2b81",
+      "first_line": 2265,
+      "last_line": 2267
+    }
+  },
+  "hashing": "Exact file bytes; method hash is normalized LF UTF-8."
+}

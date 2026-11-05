@@ -1,0 +1,42 @@
+{
+  "original_verifier": {
+    "path": "scripts/verify-beshstatng.ps1",
+    "sha256": "e54e1fb0e7f3699f5d9aee361d255801531a546d8169edbab704ac0d8dd017fd",
+    "unchanged": true
+  },
+  "runner": {
+    "path": "scripts/verify-04a24.py",
+    "sha256": "9c6a30f86f5b0a6970d60d5456e10f8417d39fdc79eaf92d28c0bb6de5fe502f"
+  },
+  "worker_limit": 4,
+  "fifth_worker": false,
+  "builds": "Sequential per configuration; offline --no-restore, /m:4. No compiler during prebuilt lanes.",
+  "lanes": {
+    "A": "Core then Common prebuilt containers; each copied binaries, isolated TRX/temp observations/KR exports. MaxCpuCount=1 and MSTest Workers=1 override assembly parallelism.",
+    "B": "Windows then frozen ControlMitigation prebuilt containers; original bitness/apartment. Generated projection sources copied/hash-checked, never regenerated. No Excel process.",
+    "C": "Office and WASM managed prebuilt containers then Office JS, resolver and WASM Node. --test-concurrency=1, no npm install/build/server/browser.",
+    "D": "Read/check-only inventory/catalog/metadata/resolver/help/Office audits then one Python discovery at a time. Temporary Help copies serialized. Fresh isolated semantic observations precede Common Python."
+  },
+  "writers": [
+    {
+      "source": "Common/Windows fixed ../../../../TestResults/Codex/Batch0205/Wire and Batch0207",
+      "isolation": "Copied DLL execution base resolves inside each unique execution/sandbox; asserted before launch."
+    },
+    {
+      "source": "KR export and 04A02 observation writers",
+      "isolation": "Unique BESHSTAT_KR_EXPORT_DIR and BESHSTAT_04A02_OBSERVATIONS per invocation."
+    },
+    {
+      "source": "Python Help clones/temp files",
+      "isolation": "Only lane D Python, one discovery at a time; no shared project compiler."
+    },
+    {
+      "source": "Strict/profile/MkDocs/publication/hash checks",
+      "isolation": "Serial after lanes; MkDocs site under own run only; validators check-only."
+    }
+  ],
+  "coverage": "Exact applicable original verifier commands adapted to build-once isolated prebuilt invocations; original verifier remains immutable. No TestResults/Codex or old reports reused.",
+  "resource_scope": "OS root-command CPU/peak working set only; child/testhost aggregate memory not measured. No psutil installation. Four command roots plus bounded testhost infrastructure; no claim of four total operating-system PIDs.",
+  "ports": "Selected Node tests are file/unit suites; no browser/manual server process authorized. Unknown writers serialized.",
+  "timeouts": "Only current run-owned live Popen tree may be killed; abort receipt completed=false, no pass substitution. Every launched future collected even on another lane failure."
+}
