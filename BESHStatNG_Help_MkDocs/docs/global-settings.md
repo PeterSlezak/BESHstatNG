@@ -76,6 +76,8 @@ For example:
 
 In standard BESHStatNG result tables, marked p-values less than or equal to **Default alpha** are highlighted. Highlighting uses the underlying numeric p-value, not its rounded display.
 
+In Windows result tables, a marked text cell that Excel can convert to a number in the current locale may also be highlighted. The portable typed-cell contract treats text as text; this legacy Windows distinction does not change the stored cell value.
+
 This distinction matters near the threshold. For example, a p-value of `0.04996` can be displayed as `0.050` when three decimal places are selected, but it is still highlighted because the unrounded value is below `0.05`.
 
 ---

@@ -201,10 +201,13 @@ Friend NotInheritable Class ExcelDnaSharedWriteCommand
                 values(row, column) = request.Values(row)(column)
             Next
         Next
-        snapshot = New OutputTableArtifact(ArtifactId, New ResultTableOutputModel(values,
+        Dim model = New ResultTableOutputModel(values,
             request.HeaderTopRows, request.HeaderLeftColumns, request.FooterRows, request.PvalueColumns,
             request.TitleRows, request.IsResultTable,
-            request.PvalueCells.Select(Function(p) New ResultTableCellAddress(p.BodyRow, p.BodyColumn))))
+            request.PvalueCells.Select(Function(p) New ResultTableCellAddress(p.BodyRow, p.BodyColumn)))
+        snapshot = New OutputTableArtifact(ArtifactId, model)
+        Presentation = ResultTablePresentationIntent.Capture(
+            New ResultTableOutputBlock(Bounds.StartRow, Bounds.StartColumn, model), ArtifactId, SourceOrdinal)
         PvalueNumberFormat = request.PvalueNumberFormat
         PvalueHighlightAlpha = request.PvalueHighlightAlpha
         AutoFit = request.AutoFit
@@ -212,6 +215,7 @@ Friend NotInheritable Class ExcelDnaSharedWriteCommand
 
     Public ReadOnly Property ArtifactId As String
     Public ReadOnly Property SourceOrdinal As Integer
+    Public ReadOnly Property Presentation As ResultTablePresentationIntent
     Public ReadOnly Property DocumentIndex As Integer
     Public ReadOnly Property Bounds As OutputRectangle
     Public ReadOnly Property PvalueNumberFormat As String
@@ -359,23 +363,7 @@ Friend NotInheritable Class ExcelDnaSharedOutputPlanAdapter
 
     Friend Shared Function PreflightBounds(layout As OutputLayoutPlan,
                                            supplementary As IEnumerable(Of ResultTableOutputModel)) As OutputRectangle
-        If layout Is Nothing Then Throw New ArgumentNullException(NameOf(layout))
-        Dim used = layout.UsedBounds
-        If used Is Nothing Then Throw New ArgumentException("This UI workflow requires occupied shared tables.")
-        Dim rowLimit As Integer = Math.Min(MaxRows, layout.Options.MaxRows)
-        Dim columnLimit As Integer = Math.Min(MaxColumns, layout.Options.MaxColumns)
-        If used.EndRow >= rowLimit Then Throw New ArgumentException("Output leaves no next Windows cursor row.")
-        Dim endRow As Long = used.EndRow
-        Dim endColumn As Long = used.EndColumn
-        If supplementary IsNot Nothing Then
-            For Each model In supplementary
-                If model Is Nothing OrElse model.RowCount < 1 OrElse model.ColumnCount < 1 Then Throw New ArgumentException("Invalid supplementary table.")
-                endRow += 1L + model.RowCount
-                endColumn = Math.Max(endColumn, CLng(used.StartColumn) + model.ColumnCount - 1L)
-                If endRow >= rowLimit OrElse endColumn > columnLimit Then Throw New ArgumentException("Combined output exceeds the Windows grid or leaves no next cursor row.")
-            Next
-        End If
-        Return New OutputRectangle(used.StartRow, used.StartColumn, CInt(endRow), CInt(endColumn))
+        Return ResultTableSequencePolicy.PreflightBounds(layout, supplementary, MaxRows, MaxColumns)
     End Function
 
     Public Shared Function ConfirmOverwrite(occupied As Boolean, confirm As Func(Of Boolean)) As Boolean
@@ -398,27 +386,7 @@ Friend NotInheritable Class ExcelDnaSharedOutputPlanAdapter
                                              supplementary As IEnumerable(Of ResultTableOutputModel),
                                              chartIds As IEnumerable(Of String), guards As IEnumerable(Of OutputRectangle),
                                              workbookIdentity As String, worksheetIdentity As String) As WriteIntent
-        If layout Is Nothing OrElse layout.UsedBounds Is Nothing Then Throw New ArgumentException("Shared output requires spatial tables.")
-        Dim regions = layout.Placements.Where(Function(p) p.IsPlaced).Select(Function(p) New WriteRegion(p.ArtifactId, p.Bounds)).ToList()
-        Dim lastRow As Integer = layout.UsedBounds.EndRow
-        If supplementary IsNot Nothing Then
-            Dim index As Integer = 0
-            For Each model In supplementary
-                If model Is Nothing OrElse model.RowCount < 1 OrElse model.ColumnCount < 1 Then Throw New ArgumentException("Invalid supplementary table.")
-                Dim start As Long = CLng(lastRow) + 2
-                Dim finish As Long = start + model.RowCount - 1L
-                Dim right As Long = CLng(layout.StartColumn) + model.ColumnCount - 1L
-                If finish >= MaxRows OrElse right > MaxColumns Then Throw New ArgumentException("Supplementary output exceeds grid.")
-                regions.Add(New WriteRegion("supplementary-" & index.ToString(CultureInfo.InvariantCulture),
-                    New OutputRectangle(CInt(start), layout.StartColumn, CInt(finish), CInt(right))))
-                lastRow = CInt(finish) : index += 1
-            Next
-        End If
-        If chartIds IsNot Nothing Then
-            For Each id In chartIds
-                regions.Add(New WriteRegion(id, Nothing, nonCellMutation:=True))
-            Next
-        End If
+        Dim regions = ResultTableSequencePolicy.OrderedRegions(layout, supplementary, chartIds, MaxRows, MaxColumns)
         Dim target As New SpreadsheetOutputTarget With {.Destination = layout.Destination,
             .WorksheetName = layout.WorksheetName, .StartRow = layout.StartRow, .StartColumn = layout.StartColumn}
         Return New WriteIntent(Guid.NewGuid().ToString("N"), Guid.NewGuid().ToString("N"), target,

@@ -1,6 +1,7 @@
 ﻿Option Explicit On
 
 Imports BESHStatNG.AppInfrastructure
+Imports BESHStatNG.ExcelCommon
 Imports Microsoft.Office.Interop.Excel
 
 ''' <summary>
@@ -17,6 +18,7 @@ Public Class ExcelDnaResultWriter
     Public wb As Workbook
     Public ws As Worksheet
     Friend Property LastSharedWriteResult As Global.BESHStatNG.ExcelCommon.WriteResult
+    Private ReadOnly presentations As New Runtime.CompilerServices.ConditionalWeakTable(Of ResultTableOutputBlock, ResultTablePresentationIntent)
 
     Public Sub New(Optional row As Integer = 1, Optional col As Integer = 1)
         MyBase.New(row, col)
@@ -54,17 +56,27 @@ Public Class ExcelDnaResultWriter
             .Destination = prepared.Layout.Destination, .WorksheetName = CStr(Me.ws.Name),
             .StartRow = Me.RowID, .StartColumn = Me.ColID}
         prepared.Execute(target, CStr(Me.ws.Name),
-            Sub(command) WriteOutputBlockCore(
+            Sub(command) WritePresentedOutputBlock(
                 New ResultTableOutputBlock(command.Bounds.StartRow, command.Bounds.StartColumn, command.Model),
-                command.PvalueNumberFormat, command.PvalueHighlightAlpha, command.AutoFit, command.Bounds),
+                command.Presentation, command.PvalueNumberFormat, command.PvalueHighlightAlpha, command.AutoFit, command.Bounds),
             Sub(row) Me.setRowPointer(row))
     End Sub
 
     Friend Sub WriteSharedCommand(command As ExcelDnaSharedWriteCommand)
         Me.setRowPointer(command.Bounds.StartRow)
-        WriteOutputBlockCore(New ResultTableOutputBlock(command.Bounds.StartRow, command.Bounds.StartColumn, command.Model),
-            command.PvalueNumberFormat, command.PvalueHighlightAlpha, command.AutoFit, command.Bounds)
+        WritePresentedOutputBlock(New ResultTableOutputBlock(command.Bounds.StartRow, command.Bounds.StartColumn, command.Model),
+            command.Presentation, command.PvalueNumberFormat, command.PvalueHighlightAlpha, command.AutoFit, command.Bounds)
         Me.setRowPointer(command.Bounds.EndRow + 1)
+    End Sub
+
+    Private Sub WritePresentedOutputBlock(block As ResultTableOutputBlock, presentation As ResultTablePresentationIntent,
+                                         numberFormat As String, alpha As Double?, autoFit As Boolean, bounds As OutputRectangle)
+        presentations.Add(block, presentation)
+        Try
+            WriteOutputBlockCore(block, numberFormat, alpha, autoFit, bounds)
+        Finally
+            presentations.Remove(block)
+        End Try
     End Sub
 
     Friend Overridable Sub WriteOutputBlockCore(block As ResultTableOutputBlock,
@@ -75,8 +87,20 @@ Public Class ExcelDnaResultWriter
         If block Is Nothing OrElse block.Model Is Nothing Then Exit Sub
         If block.Model.Values Is Nothing OrElse block.Model.RowCount = 0 OrElse block.Model.ColumnCount = 0 Then Exit Sub
 
-        If Me.ws Is Nothing Then Throw New InvalidOperationException("ExcelDnaResultWriter.ws must be set before writing.")
+        EnsureOutputWorksheet()
+        Dim presentation As ResultTablePresentationIntent = Nothing
+        If Not presentations.TryGetValue(block, presentation) Then presentation = ResultTablePresentationIntent.Capture(block)
+        WriteNativeOutputBlock(block, presentation, pvalueNumberFormatOverride, pvalueAlphaOverride, autoFit, plannedBounds)
+    End Sub
 
+    ' Recording seam only; the production implementation retains the same native guard.
+    Friend Overridable Sub EnsureOutputWorksheet()
+        If Me.ws Is Nothing Then Throw New InvalidOperationException("ExcelDnaResultWriter.ws must be set before writing.")
+    End Sub
+
+    Friend Overridable Sub WriteNativeOutputBlock(block As ResultTableOutputBlock, presentation As ResultTablePresentationIntent,
+                                                pvalueNumberFormatOverride As String, pvalueAlphaOverride As Double?, autoFit As Boolean,
+                                                Optional plannedBounds As OutputRectangle = Nothing)
         Dim rng = Me.ws.Range(
             ws.Cells(If(plannedBounds Is Nothing, block.StartRow, plannedBounds.StartRow),
                      If(plannedBounds Is Nothing, block.StartColumn, plannedBounds.StartColumn)),
@@ -88,14 +112,15 @@ Public Class ExcelDnaResultWriter
         If block.Model.IsResultTable Then
             Me.format(
                 rng,
-                block.Model.HeaderTopRows,
-                block.Model.HeaderLeftColumns,
-                block.Model.FooterRows,
-                block.Model.PvalueColumns,
-                block.Model.PvalueCells,
-                block.Model.TitleRows,
+                presentation.HeaderTopRows,
+                presentation.HeaderLeftColumns,
+                presentation.FooterRows,
+                New List(Of Integer)(presentation.PvalueColumns),
+                New List(Of ResultTableCellAddress)(presentation.PvalueCells),
+                presentation.TitleRows,
                 pvalueNumberFormatOverride,
-                pvalueAlphaOverride)
+                pvalueAlphaOverride,
+                presentation)
         End If
 
         If autoFit Then
@@ -161,7 +186,9 @@ Public Class ExcelDnaResultWriter
                        PvalueCells As List(Of ResultTableCellAddress),
                        TitlesCount As Integer,
                        Optional pvalueNumberFormatOverride As String = Nothing,
-                       Optional pvalueAlphaOverride As Nullable(Of Double) = Nothing)
+                       Optional pvalueAlphaOverride As Nullable(Of Double) = Nothing,
+                       Optional presentation As ResultTablePresentationIntent = Nothing)
+        Dim axis = If(presentation, New ResultTablePresentationIntent(hTop, hLeft, foots, TitlesCount))
         With rng
             'remove borders first
             .Borders(XlBordersIndex.xlInsideHorizontal).LineStyle = XlLineStyle.xlLineStyleNone
@@ -170,10 +197,10 @@ Public Class ExcelDnaResultWriter
             .Borders(XlBordersIndex.xlEdgeRight).LineStyle = XlLineStyle.xlLineStyleNone
 
             'set them as we want them now
-            If TitlesCount = 0 Then .Borders(XlBordersIndex.xlEdgeTop).LineStyle = XlLineStyle.xlContinuous
+            If axis.HasTopBorder Then .Borders(XlBordersIndex.xlEdgeTop).LineStyle = XlLineStyle.xlContinuous
 
             'set bottom border line (excluding footers)
-            .Rows(.Rows.Count - foots).Borders(XlBordersIndex.xlEdgeBottom).LineStyle = XlLineStyle.xlContinuous
+            .Rows(axis.LastBodyRow(.Rows.Count)).Borders(XlBordersIndex.xlEdgeBottom).LineStyle = XlLineStyle.xlContinuous
 
             'HorizontalAlignment is causing error some times. In the help it is stated that:
             'Some of these constants may not be available to you, depending on the language support (U.S. English, for example)
@@ -203,7 +230,7 @@ Public Class ExcelDnaResultWriter
 
         'bold Top headers, set background color and borders
         For i As Integer = 1 To hTop
-            With rng.Rows(i + TitlesCount)
+            With rng.Rows(axis.TopHeaderRow(i))
                 If i = hTop Then .Borders(XlBordersIndex.xlEdgeBottom).LineStyle = XlLineStyle.xlContinuous
                 .Interior.Color = 14540253
                 .Font.Bold = True
@@ -211,14 +238,14 @@ Public Class ExcelDnaResultWriter
         Next
 
         'bold Left headers
-        For i As Integer = 1 To hLeft - foots
+        For i As Integer = 1 To axis.LegacyLastLeftHeaderColumn
             With rng.Columns(i)
                 .Font.Bold = True
             End With
         Next
 
         'footers formatting
-        For i As Integer = rng.Rows.Count - foots + 1 To rng.Rows.Count
+        For i As Integer = axis.FirstFooterRow(rng.Rows.Count) To rng.Rows.Count
             With rng.Rows(i)
                 .Font.Size = 8
             End With
@@ -246,7 +273,8 @@ Public Class ExcelDnaResultWriter
             PvalueCells,
             TitlesCount,
             pvalueNumberFormatOverride,
-            pvalueAlphaOverride)
+            pvalueAlphaOverride,
+            axis)
     End Sub
 
     ''' <summary>
@@ -261,13 +289,15 @@ Public Class ExcelDnaResultWriter
                                       pvalueCells As List(Of ResultTableCellAddress),
                                       titlesCount As Integer,
                                       Optional pvalueNumberFormatOverride As String = Nothing,
-                                      Optional pvalueAlphaOverride As Nullable(Of Double) = Nothing)
+                                      Optional pvalueAlphaOverride As Nullable(Of Double) = Nothing,
+                                      Optional presentation As ResultTablePresentationIntent = Nothing)
         Dim hasColumns As Boolean = pvalueColumns IsNot Nothing AndAlso pvalueColumns.Count > 0
         Dim hasCells As Boolean = pvalueCells IsNot Nothing AndAlso pvalueCells.Count > 0
         If Not hasColumns AndAlso Not hasCells Then Exit Sub
 
-        Dim firstBodyRow As Integer = 1 + hTop + titlesCount
-        Dim lastBodyRow As Integer = rng.Rows.Count - foots
+        Dim axis = If(presentation, New ResultTablePresentationIntent(hTop, hLeft, foots, titlesCount))
+        Dim firstBodyRow As Integer = axis.FirstBodyRow
+        Dim lastBodyRow As Integer = axis.LastBodyRow(rng.Rows.Count)
         If firstBodyRow > lastBodyRow Then Exit Sub
 
         Dim numberFormat As String = ResolvePValueNumberFormat(pvalueNumberFormatOverride, AppGlobals.PValuePresentation)
@@ -275,7 +305,7 @@ Public Class ExcelDnaResultWriter
 
         If hasColumns Then
             For Each bodyColumn As Integer In pvalueColumns
-                Dim rangeColumn As Integer = bodyColumn + hLeft
+                Dim rangeColumn As Integer = axis.PvalueColumn(bodyColumn)
                 If rangeColumn < 1 OrElse rangeColumn > rng.Columns.Count Then Continue For
 
                 Try
@@ -299,8 +329,8 @@ Public Class ExcelDnaResultWriter
 
         If hasCells Then
             For Each address As ResultTableCellAddress In pvalueCells
-                Dim rangeRow As Integer = firstBodyRow + address.BodyRow - 1
-                Dim rangeColumn As Integer = hLeft + address.BodyColumn
+                Dim rangeRow As Integer = axis.PvalueRow(address.BodyRow)
+                Dim rangeColumn As Integer = axis.PvalueColumn(address.BodyColumn)
 
                 If rangeRow < firstBodyRow OrElse rangeRow > lastBodyRow OrElse
                    rangeColumn < 1 OrElse rangeColumn > rng.Columns.Count Then Continue For
