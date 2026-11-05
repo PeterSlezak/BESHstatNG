@@ -582,7 +582,7 @@ Generalized variance requires a full-rank covariance matrix, so this option is d
 
 #### Use lower T-squared control limit
 
-Available only for individual-observation Hotelling and PCA T-squared charts. A lower-tail signal can indicate observations unusually close to the fitted mean, which may be relevant when over-stratification, data duplication, or artificially reduced variation is plausible. Most routine applications leave this option off.
+The dialog enables this option only for individual-observation Hotelling T-squared charts. A lower-tail signal can indicate observations unusually close to the fitted mean, which may be relevant when over-stratification, data duplication, or artificially reduced variation is plausible. Most routine applications leave this option off.
 
 ### Phases and Exclusions
 
@@ -606,6 +606,10 @@ Choose:
 - Phase I followed by Phase II, with the last Phase I point specified.
 
 For subgroup analyses, point numbers refer to subgroup points rather than worksheet rows.
+
+Subgroup IDs are trimmed and compared with case preserved: A and  identify different subgroups. The first appearance of an ID determines its chart-point order, and later rows with that ID belong to the same point even when they are not adjacent. Labels and sequence values must agree within each subgroup; worksheet source-row lists remain separate from the displayed point number.
+
+Signal markers and the signalled-points diagnostics filter use the fitted point signal flags. An explicit exclusion remains distinct from a missing statistic and can retain a plotted value. Stage boundaries follow changes in stage ID (ignoring case), rather than a phase change alone. These are existing Windows chart semantics; reusable request/result contracts do not make an Office.js, WASM or Mac multivariate SPC dialog available.
 
 #### Exclusion scopes
 

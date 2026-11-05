@@ -1,0 +1,40 @@
+{
+  "previous_04A22_validation_sha256": "5576badd39a77235ab942d5660b00056bb38fd8f41ee5dae2b67604f18d48ec5",
+  "configurations": {
+    "Debug": {
+      "previous_accepted_passed": 755,
+      "previous_accepted_total": 850,
+      "actual_entry_passed": 753,
+      "actual_entry_total": 850,
+      "new_entry_nonpass_identities": [
+        "test_04a22_spc.Spc22Contracts.test_core_ui22_udfs_designers_old_tests_targets_and_frozen_evidence",
+        "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy"
+      ],
+      "removed_nonpass_identities": [],
+      "changed_outcomes": {
+        "test_04a11_regression_families.Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected": {
+          "before": "ERROR",
+          "entry": "FAIL"
+        }
+      }
+    },
+    "Release": {
+      "previous_accepted_passed": 755,
+      "previous_accepted_total": 850,
+      "actual_entry_passed": 753,
+      "actual_entry_total": 850,
+      "new_entry_nonpass_identities": [
+        "test_04a22_spc.Spc22Contracts.test_core_ui22_udfs_designers_old_tests_targets_and_frozen_evidence",
+        "test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy"
+      ],
+      "removed_nonpass_identities": [],
+      "changed_outcomes": {
+        "test_04a11_regression_families.Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected": {
+          "before": "ERROR",
+          "entry": "FAIL"
+        }
+      }
+    }
+  },
+  "interpretation": "Two newly triggered protected 04A.22 source/publication pins already fail at this actual merged-main/owner-2.9-plan entry. They are not 04A.23 regressions. No expectations rewritten; exact entry/final traces retained. Historical reported counts are not forced onto live main."
+}

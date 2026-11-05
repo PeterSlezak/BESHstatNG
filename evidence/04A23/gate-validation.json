@@ -1,0 +1,86 @@
+{
+  "runs": {
+    "entry": {
+      "strict": {
+        "command": [
+          "dotnet",
+          "scripts/windows-migration-audit/bin/Debug/net10.0/WindowsMigrationAudit.dll",
+          "--check",
+          "--strict"
+        ],
+        "exit_code": 1,
+        "raw_command_sha256": "a6ee4e988aa84fb96d634d4a925d0f4f8fcf55237121fcb96d360505f85d6ca9",
+        "raw_log_sha256": "0155b6d837d4f89d91e9ec6f9605956f28ee66b192596fb628ec1a77a07dadb9",
+        "diagnostic_lines": [
+          "System.Exception: Stale review dependency: BESHstatNG/src/UI/UibyID.vb for BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe",
+          "   at Audit.Classify() in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 278",
+          "   at Audit.Run(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 457",
+          "   at Audit.Main(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 436"
+        ],
+        "status": "UNMET"
+      },
+      "profile": {
+        "command": [
+          "<PYTHON_EXE>",
+          "-B",
+          "scripts/windows-migration-audit/owner_closeout.py",
+          "--profile",
+          "inventory-complete-with-approved-deferrals"
+        ],
+        "exit_code": 1,
+        "raw_command_sha256": "24fb7dd7d530bbdbe5ef36990ee024cbfb730bb6671ca58c39f24ee74e969af8",
+        "raw_log_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+        "diagnostic_lines": [
+          "{\"status\": \"INTEGRITY_FAILURE\", \"error\": \"\"}"
+        ],
+        "status": "INTEGRITY_FAILURE"
+      }
+    },
+    "final": {
+      "strict": {
+        "command": [
+          "dotnet",
+          "scripts/windows-migration-audit/bin/Debug/net10.0/WindowsMigrationAudit.dll",
+          "--check",
+          "--strict"
+        ],
+        "exit_code": 1,
+        "raw_command_sha256": "1ab7a30197b24a18101784104baae913c08eda40b370f7c841aa89413b6473d6",
+        "raw_log_sha256": "0155b6d837d4f89d91e9ec6f9605956f28ee66b192596fb628ec1a77a07dadb9",
+        "diagnostic_lines": [
+          "System.Exception: Stale review dependency: BESHstatNG/src/UI/UibyID.vb for BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe",
+          "   at Audit.Classify() in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 278",
+          "   at Audit.Run(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 457",
+          "   at Audit.Main(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 436"
+        ],
+        "status": "UNMET"
+      },
+      "profile": {
+        "command": [
+          "<PYTHON_EXE>",
+          "-B",
+          "scripts/windows-migration-audit/owner_closeout.py",
+          "--profile",
+          "inventory-complete-with-approved-deferrals"
+        ],
+        "exit_code": 1,
+        "raw_command_sha256": "b0973307d8238cfe3810f19bd7cd5dbee348f56240026ea888e00e7d96cc7ba4",
+        "raw_log_sha256": "04368d8e53bbadef707b8c93feb8e1e06d4ac3e9d208d3ba676b577a8f6fb4ef",
+        "diagnostic_lines": [
+          "warning: in the working copy of 'BESHStatNG_Help_MkDocs/docs/methods/multivariate-control-charts.md', CRLF will be replaced by LF the next time Git touches it",
+          "warning: in the working copy of 'BESHstatNG/src/UI/Ui22MultivariateControlCharts.vb', CRLF will be replaced by LF the next time Git touches it",
+          "{\"status\": \"INTEGRITY_FAILURE\", \"error\": \"\"}"
+        ],
+        "status": "INTEGRITY_FAILURE"
+      }
+    }
+  },
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET",
+  "native_releases": 0,
+  "deferred_discharges": 0,
+  "native": "NOT_RUN / UNAUTHORIZED",
+  "R": "NOT_RUN / UNAUTHORIZED"
+}

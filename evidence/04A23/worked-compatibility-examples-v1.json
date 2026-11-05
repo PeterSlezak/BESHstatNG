@@ -1,0 +1,576 @@
+{
+  "status": "NOT_GOLDEN / SAME_CORE_COMPATIBILITY_ONLY",
+  "corpus_sha256": "7f20addb9177a48e95b81330aa55acccde4bb6ed8b808cdbad42e09f2b790643",
+  "examples": [
+    {
+      "profile_id": "e55fe16560d5a50d0da4c073215920b455953426ae1804fa0a880f5cf93c4846",
+      "id": "published-0",
+      "chart": "HotellingT2",
+      "model": {
+        "chart": "HotellingT2",
+        "effective_dimension": "3",
+        "pseudo_inverse": "false",
+        "retained": "0",
+        "baseline_observations": "95",
+        "baseline_groups": "0",
+        "covariance_df": "94",
+        "model_source": "EstimateFromPhaseI",
+        "model_sha256": "faffbb4dae933bc5561d82c4631f54e3ab74541c8a0ffe29b0ce77bb32ce8ef6",
+        "diagnostics_sha256": "20729a8e648a2bcf565c8d57f329f7a0c261514d0f9a5914a6956b77af35ae48",
+        "tables_sha256": "2d36a8e6212402d112c06c150bb10b0a8605d2ed4aca8e696161a079aadc076f",
+        "warnings": [],
+        "variable_names": [
+          "Temperature_C",
+          "Pressure_kPa",
+          "Flow_L_min"
+        ],
+        "diagnostic_tables": [
+          {
+            "signal_only": "false",
+            "selected": "150",
+            "sha256": "f5e9f480ed61d72697f4686b604aa6819c58338919287ca71f87ef7325968ee3"
+          },
+          {
+            "signal_only": "true",
+            "selected": "7",
+            "sha256": "f5e9f480ed61d72697f4686b604aa6819c58338919287ca71f87ef7325968ee3"
+          }
+        ]
+      },
+      "first_four": [
+        {
+          "value": 3.1496052282952647,
+          "cl": 2.968421052631579,
+          "lcl": 0.0,
+          "ucl": 14.606831276162012
+        },
+        {
+          "value": 2.3175793607449386,
+          "cl": 2.968421052631579,
+          "lcl": 0.0,
+          "ucl": 14.606831276162012
+        },
+        {
+          "value": 1.02454414516701,
+          "cl": 2.968421052631579,
+          "lcl": 0.0,
+          "ucl": 14.606831276162012
+        },
+        {
+          "value": 3.055077908630466,
+          "cl": 2.968421052631579,
+          "lcl": 0.0,
+          "ucl": 14.606831276162012
+        }
+      ],
+      "signal_display_points": [
+        132,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140
+      ],
+      "explicit_exclusion_display_points": [
+        36,
+        37,
+        38,
+        39,
+        40
+      ]
+    },
+    {
+      "profile_id": "a373e09975ef8283b306557498f969b6f68a4d55cb6c74c5c4cf96a8e09c8193",
+      "id": "published-1",
+      "chart": "GeneralizedVariance",
+      "model": {
+        "chart": "GeneralizedVariance",
+        "effective_dimension": "3",
+        "pseudo_inverse": "false",
+        "retained": "0",
+        "baseline_observations": "95",
+        "baseline_groups": "19",
+        "covariance_df": "76",
+        "model_source": "EstimateFromPhaseI",
+        "model_sha256": "08650fc66e77da22fa2f8cf986caeab8113eabf15a2e13a83072e714a70188be",
+        "diagnostics_sha256": "396edb386496222ec05dd792b62f8052d61b201756c59b0e092b6d1351e3aaad",
+        "tables_sha256": "1f96449c00c5a809365e342afe731ba1436b1ef9dbde121d6c12e0e7ebe3a0f8",
+        "warnings": [
+          "Generalized-variance limits use the conventional normal moment approximation for |S|; small subgroups can have a false-signal rate different from the nominal alpha.",
+          "Generalized variance depends on measurement units; rescaling any variable changes |S|."
+        ],
+        "variable_names": [
+          "Temperature_C",
+          "Pressure_kPa",
+          "Flow_L_min"
+        ],
+        "diagnostic_tables": [
+          {
+            "signal_only": "false",
+            "selected": "30",
+            "sha256": "19d111d8529303a86d9d5ef21043f9e61975eed4b47c34f53199c81ffc79c348"
+          },
+          {
+            "signal_only": "true",
+            "selected": "1",
+            "sha256": "19d111d8529303a86d9d5ef21043f9e61975eed4b47c34f53199c81ffc79c348"
+          }
+        ]
+      },
+      "first_four": [
+        {
+          "value": 0.49437599247567837,
+          "cl": 0.20397050853562304,
+          "lcl": 0.0,
+          "ucl": 1.4277841741293917
+        },
+        {
+          "value": 0.21590679777011199,
+          "cl": 0.20397050853562304,
+          "lcl": 0.0,
+          "ucl": 1.4277841741293917
+        },
+        {
+          "value": 0.19670599744353337,
+          "cl": 0.20397050853562304,
+          "lcl": 0.0,
+          "ucl": 1.4277841741293917
+        },
+        {
+          "value": 1.1520132609668066,
+          "cl": 0.20397050853562304,
+          "lcl": 0.0,
+          "ucl": 1.4277841741293917
+        }
+      ],
+      "signal_display_points": [
+        27
+      ],
+      "explicit_exclusion_display_points": [
+        8
+      ]
+    },
+    {
+      "profile_id": "7b5afc4764e5f31eae7ba115b9ccf8fc538b65378cb20c66634c6880f7fc05a8",
+      "id": "published-2",
+      "chart": "PcaT2",
+      "model": {
+        "chart": "PcaT2",
+        "effective_dimension": "3",
+        "pseudo_inverse": "false",
+        "retained": "2",
+        "baseline_observations": "95",
+        "baseline_groups": "0",
+        "covariance_df": "94",
+        "model_source": "EstimateFromPhaseI",
+        "model_sha256": "564ea8b3f6c48d3778d9cdec6231160f8254c886d3e52e0fa827dac4a893a18e",
+        "diagnostics_sha256": "0c54ca62e626b4a9e8012a264ab888c780755d1c1dc8897df012ddb8ea9aedd9",
+        "tables_sha256": "634ba422beeaaa87c670635b6377b382065f1762f1d9222c4bacaeb0fba22e97",
+        "warnings": [],
+        "variable_names": [
+          "Temperature_C",
+          "Pressure_kPa",
+          "Flow_L_min"
+        ],
+        "diagnostic_tables": [
+          {
+            "signal_only": "false",
+            "selected": "150",
+            "sha256": "3dedc247c6cb3f3984b191b86ed13d9f81e82cfff0189a7c95fd34aea22a922f"
+          },
+          {
+            "signal_only": "true",
+            "selected": "2",
+            "sha256": "3dedc247c6cb3f3984b191b86ed13d9f81e82cfff0189a7c95fd34aea22a922f"
+          }
+        ]
+      },
+      "first_four": [
+        {
+          "value": 2.11832165423988,
+          "cl": 1.9789473684210526,
+          "lcl": 0.0,
+          "ucl": 12.445221717322415
+        },
+        {
+          "value": 2.0054399983790607,
+          "cl": 1.9789473684210526,
+          "lcl": 0.0,
+          "ucl": 12.445221717322415
+        },
+        {
+          "value": 0.4068214520817487,
+          "cl": 1.9789473684210526,
+          "lcl": 0.0,
+          "ucl": 12.445221717322415
+        },
+        {
+          "value": 0.4686033083708181,
+          "cl": 1.9789473684210526,
+          "lcl": 0.0,
+          "ucl": 12.445221717322415
+        }
+      ],
+      "signal_display_points": [
+        132,
+        135
+      ],
+      "explicit_exclusion_display_points": [
+        36,
+        37,
+        38,
+        39,
+        40
+      ]
+    },
+    {
+      "profile_id": "d22c0c13a935c616f03ef00676257db52a662e2876677896739f5ebcea50cb7d",
+      "id": "published-3",
+      "chart": "PcaQ",
+      "model": {
+        "chart": "PcaQ",
+        "effective_dimension": "3",
+        "pseudo_inverse": "false",
+        "retained": "2",
+        "baseline_observations": "95",
+        "baseline_groups": "0",
+        "covariance_df": "94",
+        "model_source": "EstimateFromPhaseI",
+        "model_sha256": "564ea8b3f6c48d3778d9cdec6231160f8254c886d3e52e0fa827dac4a893a18e",
+        "diagnostics_sha256": "fd6c4d425b051bb9fa2564b62a84c97bebd735079f3c10254ab2f8f3cd40843f",
+        "tables_sha256": "90583c0eb15d6c10eac090f8946bd038f67fe6709406a0860bf9668298c2bf46",
+        "warnings": [],
+        "variable_names": [
+          "Temperature_C",
+          "Pressure_kPa",
+          "Flow_L_min"
+        ],
+        "diagnostic_tables": [
+          {
+            "signal_only": "false",
+            "selected": "150",
+            "sha256": "8bbfef979e0583fd296248661a64f29943535c4216f54d1426f6904ca5f45b8d"
+          },
+          {
+            "signal_only": "true",
+            "selected": "6",
+            "sha256": "8bbfef979e0583fd296248661a64f29943535c4216f54d1426f6904ca5f45b8d"
+          }
+        ]
+      },
+      "first_four": [
+        {
+          "value": 0.372836021988628,
+          "cl": 0.36152619063094094,
+          "lcl": 0.0,
+          "ucl": 3.297157801175971
+        },
+        {
+          "value": 0.11284655462194702,
+          "cl": 0.36152619063094094,
+          "lcl": 0.0,
+          "ucl": 3.297157801175971
+        },
+        {
+          "value": 0.22332293209742082,
+          "cl": 0.36152619063094094,
+          "lcl": 0.0,
+          "ucl": 3.297157801175971
+        },
+        {
+          "value": 0.9350783093955886,
+          "cl": 0.36152619063094094,
+          "lcl": 0.0,
+          "ucl": 3.297157801175971
+        }
+      ],
+      "signal_display_points": [
+        18,
+        136,
+        137,
+        138,
+        139,
+        140
+      ],
+      "explicit_exclusion_display_points": [
+        36,
+        37,
+        38,
+        39,
+        40
+      ]
+    },
+    {
+      "profile_id": "647ecf1bbe6577f1f933af3e471ddbb582aaea21e7c36a560065f54dd995ebcc",
+      "id": "published-4",
+      "chart": "Mewma",
+      "model": {
+        "chart": "Mewma",
+        "effective_dimension": "3",
+        "pseudo_inverse": "false",
+        "retained": "0",
+        "baseline_observations": "95",
+        "baseline_groups": "0",
+        "covariance_df": "94",
+        "model_source": "EstimateFromPhaseI",
+        "model_sha256": "faffbb4dae933bc5561d82c4631f54e3ab74541c8a0ffe29b0ce77bb32ce8ef6",
+        "diagnostics_sha256": "561817772caeaf5c31473e3e4397aa3b984831f29a1cff8558196518e990100b",
+        "tables_sha256": "3e247c0d79cb2ef6ac1d03d7d66ade99b86a65c8cb348a2dd0d5729858bbd53a",
+        "warnings": [
+          "The MEWMA UCL uses a chi-square pointwise approximation. For production monitoring, supply an ARL-calibrated MEWMA control limit."
+        ],
+        "variable_names": [
+          "Temperature_C",
+          "Pressure_kPa",
+          "Flow_L_min"
+        ],
+        "diagnostic_tables": [
+          {
+            "signal_only": "false",
+            "selected": "150",
+            "sha256": "56eb57fc7e644192b70ba0d9872b27f3594d5b16855abf99447ec0627e22a753"
+          },
+          {
+            "signal_only": "true",
+            "selected": "17",
+            "sha256": "56eb57fc7e644192b70ba0d9872b27f3594d5b16855abf99447ec0627e22a753"
+          }
+        ]
+      },
+      "first_four": [
+        {
+          "value": 3.1496052282952656,
+          "cl": 3.0,
+          "lcl": 0.0,
+          "ucl": 14.156252500540894
+        },
+        {
+          "value": 1.258511320716955,
+          "cl": 3.0,
+          "lcl": 0.0,
+          "ucl": 14.156252500540894
+        },
+        {
+          "value": 0.6318113148120097,
+          "cl": 3.0,
+          "lcl": 0.0,
+          "ucl": 14.156252500540894
+        },
+        {
+          "value": 0.7509996543134541,
+          "cl": 3.0,
+          "lcl": 0.0,
+          "ucl": 14.156252500540894
+        }
+      ],
+      "signal_display_points": [
+        35,
+        132,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150
+      ],
+      "explicit_exclusion_display_points": [
+        36,
+        37,
+        38,
+        39,
+        40
+      ]
+    },
+    {
+      "profile_id": "55dadbb4df6c18ecd10ba8aba61ea082867167b54f765e51f7488ee04e9dcc5f",
+      "id": "published-5",
+      "chart": "Mcusum",
+      "model": {
+        "chart": "Mcusum",
+        "effective_dimension": "3",
+        "pseudo_inverse": "false",
+        "retained": "0",
+        "baseline_observations": "95",
+        "baseline_groups": "0",
+        "covariance_df": "94",
+        "model_source": "EstimateFromPhaseI",
+        "model_sha256": "faffbb4dae933bc5561d82c4631f54e3ab74541c8a0ffe29b0ce77bb32ce8ef6",
+        "diagnostics_sha256": "e7969e2f1a4573398f1561c4ae98cd6f63c894c288a456eda0d7c2aef5847759",
+        "tables_sha256": "e910e038597ce449e4ef64226f34b3f35c1dbce669609b2a45d59a4b4c1f6168",
+        "warnings": [
+          "MCUSUM k and h are design parameters whose in-control ARL depends on dimension and covariance estimation; validate the selected design for the intended process."
+        ],
+        "variable_names": [
+          "Temperature_C",
+          "Pressure_kPa",
+          "Flow_L_min"
+        ],
+        "diagnostic_tables": [
+          {
+            "signal_only": "false",
+            "selected": "150",
+            "sha256": "0541a3637ddd9c25d96c12e86ff5fc23b53f387f5ccedc28b1c578152b83ea36"
+          },
+          {
+            "signal_only": "true",
+            "selected": "37",
+            "sha256": "0541a3637ddd9c25d96c12e86ff5fc23b53f387f5ccedc28b1c578152b83ea36"
+          }
+        ]
+      },
+      "first_four": [
+        {
+          "value": 1.274712717116566,
+          "cl": 0.0,
+          "lcl": 0.0,
+          "ucl": 5.5
+        },
+        {
+          "value": 0.8802044542112728,
+          "cl": 0.0,
+          "lcl": 0.0,
+          "ucl": 5.5
+        },
+        {
+          "value": 0.47165896478488,
+          "cl": 0.0,
+          "lcl": 0.0,
+          "ucl": 5.5
+        },
+        {
+          "value": 0.8955484922561279,
+          "cl": 0.0,
+          "lcl": 0.0,
+          "ucl": 5.5
+        }
+      ],
+      "signal_display_points": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150
+      ],
+      "explicit_exclusion_display_points": [
+        36,
+        37,
+        38,
+        39,
+        40
+      ]
+    },
+    {
+      "profile_id": "f3ce4f3fdb2eacec01197dacb2e82241329815fbd1833eb7819065bd07dfc7d6",
+      "id": "published-6",
+      "chart": "HotellingT2",
+      "model": {
+        "chart": "HotellingT2",
+        "effective_dimension": "3",
+        "pseudo_inverse": "false",
+        "retained": "0",
+        "baseline_observations": "95",
+        "baseline_groups": "19",
+        "covariance_df": "76",
+        "model_source": "EstimateFromPhaseI",
+        "model_sha256": "8c8e36952a05ebb6fb1b9b4c8a93236ac3b89bd6e33ac50076c55377b877ac4a",
+        "diagnostics_sha256": "c3e8eb999702e2f1e9d6ee861e837bcd92a8f8421b28e510eb1ea0c02060c235",
+        "tables_sha256": "1182e6d42b085cebc5a0a887f57917990d39abae6af7acf8db67deae2433853a",
+        "warnings": [],
+        "variable_names": [
+          "Temperature_C",
+          "Pressure_kPa",
+          "Flow_L_min"
+        ],
+        "diagnostic_tables": [
+          {
+            "signal_only": "false",
+            "selected": "30",
+            "sha256": "f7f8f3f98c9d25e33d7195afcc1245b8fa8e66e1b6854af43face3008f2ea16a"
+          },
+          {
+            "signal_only": "true",
+            "selected": "4",
+            "sha256": "f7f8f3f98c9d25e33d7195afcc1245b8fa8e66e1b6854af43face3008f2ea16a"
+          }
+        ]
+      },
+      "first_four": [
+        {
+          "value": 1.9967932775761479,
+          "cl": 3.0,
+          "lcl": 0.0,
+          "ucl": 12.41864274253283
+        },
+        {
+          "value": 2.1873400751328083,
+          "cl": 3.0,
+          "lcl": 0.0,
+          "ucl": 12.41864274253283
+        },
+        {
+          "value": 5.350045968608743,
+          "cl": 3.0,
+          "lcl": 0.0,
+          "ucl": 12.41864274253283
+        },
+        {
+          "value": 3.491207720372303,
+          "cl": 3.0,
+          "lcl": 0.0,
+          "ucl": 12.41864274253283
+        }
+      ],
+      "signal_display_points": [
+        6,
+        27,
+        28,
+        30
+      ],
+      "explicit_exclusion_display_points": [
+        8
+      ]
+    }
+  ]
+}

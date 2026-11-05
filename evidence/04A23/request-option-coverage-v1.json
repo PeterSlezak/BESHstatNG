@@ -1,0 +1,508 @@
+{
+  "version": 1,
+  "charts": [
+    {
+      "chart": "HotellingT2",
+      "allows_subgroups": true,
+      "requires_subgroups": false,
+      "individual_only": false,
+      "lower_checkbox": true,
+      "alpha_disabled": "MCUSUM always; MEWMA supplied UCL; GV supplied sigma multiplier",
+      "effective_calculations": "Core only"
+    },
+    {
+      "chart": "GeneralizedVariance",
+      "allows_subgroups": true,
+      "requires_subgroups": true,
+      "individual_only": false,
+      "lower_checkbox": false,
+      "alpha_disabled": "MCUSUM always; MEWMA supplied UCL; GV supplied sigma multiplier",
+      "effective_calculations": "Core only"
+    },
+    {
+      "chart": "PcaT2",
+      "allows_subgroups": false,
+      "requires_subgroups": false,
+      "individual_only": true,
+      "lower_checkbox": false,
+      "alpha_disabled": "MCUSUM always; MEWMA supplied UCL; GV supplied sigma multiplier",
+      "effective_calculations": "Core only"
+    },
+    {
+      "chart": "PcaQ",
+      "allows_subgroups": false,
+      "requires_subgroups": false,
+      "individual_only": true,
+      "lower_checkbox": false,
+      "alpha_disabled": "MCUSUM always; MEWMA supplied UCL; GV supplied sigma multiplier",
+      "effective_calculations": "Core only"
+    },
+    {
+      "chart": "Mewma",
+      "allows_subgroups": false,
+      "requires_subgroups": false,
+      "individual_only": true,
+      "lower_checkbox": false,
+      "alpha_disabled": "MCUSUM always; MEWMA supplied UCL; GV supplied sigma multiplier",
+      "effective_calculations": "Core only"
+    },
+    {
+      "chart": "Mcusum",
+      "allows_subgroups": false,
+      "requires_subgroups": false,
+      "individual_only": true,
+      "lower_checkbox": false,
+      "alpha_disabled": "MCUSUM always; MEWMA supplied UCL; GV supplied sigma multiplier",
+      "effective_calculations": "Core only"
+    }
+  ],
+  "original_constructor_mapping": {
+    "variableNames": "variableNames",
+    "subgroupIds": "subgroupIds",
+    "labels": "labels",
+    "phases": "phases",
+    "stageIds": "stages",
+    "sequenceValues": "sequences",
+    "sourceRowIndices": "sourceRows",
+    "exclusionScopes": "scopes",
+    "exclusionReasons": "reasons",
+    "missingValuePolicy": "SelectedComboValue(Of SpcMissingValuePolicy)(cbMissingValuePolicy)",
+    "modelSource": "modelSource",
+    "historicalMean": "historicalMean",
+    "historicalCovariance": "historicalCovariance",
+    "controlLimitAlpha": "CDbl(spinControlLimitAlpha.Value)",
+    "useLowerHotellingLimit": "chkUseLowerHotellingLimit.Checked",
+    "covarianceRegularization": "CDbl(spinCovarianceRegularization.Value)",
+    "allowPseudoInverse": "chkAllowPseudoInverse.Checked",
+    "pcaUseCorrelationMatrix": "SelectedComboValue(Of Boolean)(cbPcaMatrix)",
+    "pcaComponentCount": "pcaCount",
+    "pcaCumulativeVariance": "CDbl(spinPcaCumulativeVariance.Value) / 100.0R",
+    "mewmaLambda": "CDbl(spinMewmaLambda.Value)",
+    "mewmaControlLimit": "mewmaLimit",
+    "mcusumReferenceValue": "CDbl(spinMcusumReferenceValue.Value)",
+    "mcusumDecisionInterval": "CDbl(spinMcusumDecisionInterval.Value)",
+    "generalizedVarianceSigmaMultiplier": "gvMultiplier",
+    "resetAtStageBoundary": "chkResetAtStageBoundary.Checked",
+    "resetAtPhaseBoundary": "chkResetAtPhaseBoundary.Checked",
+    "resetAfterSignal": "chkResetAfterSignal.Checked",
+    "requestLabel": "Me.Text",
+    "sequenceGapBehavior": "SelectedComboValue(Of SpcSequenceGapBehavior)(cbSequenceGapBehavior))"
+  },
+  "original_numeric_control_settings": {
+    "cbMissingValuePolicy": [],
+    "cbModelSource": [],
+    "cbPcaMatrix": [],
+    "cbSequenceGapBehavior": [],
+    "chkAllowPseudoInverse": [
+      "Me.chkAllowPseudoInverse.Checked = True",
+      "Me.chkAllowPseudoInverse.Text = \"Allow pseudoinverse for rank-deficient covariance\""
+    ],
+    "chkResetAfterSignal": [
+      "Me.chkResetAfterSignal.Checked = True",
+      "Me.chkResetAfterSignal.Text = \"Reset after a signal\""
+    ],
+    "chkResetAtPhaseBoundary": [
+      "Me.chkResetAtPhaseBoundary.Checked = True",
+      "Me.chkResetAtPhaseBoundary.Text = \"Reset at phase boundary\""
+    ],
+    "chkResetAtStageBoundary": [
+      "Me.chkResetAtStageBoundary.Checked = True",
+      "Me.chkResetAtStageBoundary.Text = \"Reset at stage boundary\""
+    ],
+    "chkSpecifyGvSigmaMultiplier": [
+      "Me.chkSpecifyGvSigmaMultiplier.Text = \"Specify sigma multiplier\""
+    ],
+    "chkSpecifyMewmaControlLimit": [
+      "Me.chkSpecifyMewmaControlLimit.Text = \"Specify ARL-calibrated UCL\""
+    ],
+    "chkUseLowerHotellingLimit": [
+      "Me.chkUseLowerHotellingLimit.Checked = True",
+      "Me.chkUseLowerHotellingLimit.Text = \"Use lower T² control limit\""
+    ],
+    "rbPcaFixedComponents": [
+      "Me.rbPcaFixedComponents.Text = \"Specify component count\""
+    ],
+    "spinControlLimitAlpha": [
+      "Me.spinControlLimitAlpha.DecimalPlaces = 4",
+      "Me.spinControlLimitAlpha.Increment = New Decimal(New Integer() {1, 0, 0, 262144})",
+      "Me.spinControlLimitAlpha.Maximum = New Decimal(New Integer() {9999, 0, 0, 262144})",
+      "Me.spinControlLimitAlpha.Minimum = New Decimal(New Integer() {1, 0, 0, 262144})",
+      "Me.spinControlLimitAlpha.Value = New Decimal(New Integer() {27, 0, 0, 262144})"
+    ],
+    "spinCovarianceRegularization": [
+      "Me.spinCovarianceRegularization.DecimalPlaces = 6",
+      "Me.spinCovarianceRegularization.Increment = New Decimal(New Integer() {1, 0, 0, 262144})",
+      "Me.spinCovarianceRegularization.Maximum = New Decimal(New Integer() {25, 0, 0, 0})"
+    ],
+    "spinGvSigmaMultiplier": [
+      "Me.spinGvSigmaMultiplier.DecimalPlaces = 2",
+      "Me.spinGvSigmaMultiplier.Enabled = False",
+      "Me.spinGvSigmaMultiplier.Increment = New Decimal(New Integer() {1, 0, 0, 65536})",
+      "Me.spinGvSigmaMultiplier.Minimum = New Decimal(New Integer() {1, 0, 0, 131072})",
+      "Me.spinGvSigmaMultiplier.Value = New Decimal(New Integer() {3, 0, 0, 0})"
+    ],
+    "spinMcusumDecisionInterval": [
+      "Me.spinMcusumDecisionInterval.DecimalPlaces = 3",
+      "Me.spinMcusumDecisionInterval.Enabled = False",
+      "Me.spinMcusumDecisionInterval.Increment = New Decimal(New Integer() {1, 0, 0, 65536})",
+      "Me.spinMcusumDecisionInterval.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})",
+      "Me.spinMcusumDecisionInterval.Minimum = New Decimal(New Integer() {1, 0, 0, 196608})",
+      "Me.spinMcusumDecisionInterval.Value = New Decimal(New Integer() {55, 0, 0, 65536})"
+    ],
+    "spinMcusumReferenceValue": [
+      "Me.spinMcusumReferenceValue.DecimalPlaces = 3",
+      "Me.spinMcusumReferenceValue.Enabled = False",
+      "Me.spinMcusumReferenceValue.Increment = New Decimal(New Integer() {1, 0, 0, 65536})",
+      "Me.spinMcusumReferenceValue.Value = New Decimal(New Integer() {5, 0, 0, 65536})"
+    ],
+    "spinMewmaControlLimit": [
+      "Me.spinMewmaControlLimit.DecimalPlaces = 4",
+      "Me.spinMewmaControlLimit.Enabled = False",
+      "Me.spinMewmaControlLimit.Increment = New Decimal(New Integer() {1, 0, 0, 65536})",
+      "Me.spinMewmaControlLimit.Maximum = New Decimal(New Integer() {1000000, 0, 0, 0})",
+      "Me.spinMewmaControlLimit.Minimum = New Decimal(New Integer() {1, 0, 0, 262144})",
+      "Me.spinMewmaControlLimit.Value = New Decimal(New Integer() {1, 0, 0, 0})"
+    ],
+    "spinMewmaLambda": [
+      "Me.spinMewmaLambda.DecimalPlaces = 2",
+      "Me.spinMewmaLambda.Enabled = False",
+      "Me.spinMewmaLambda.Increment = New Decimal(New Integer() {5, 0, 0, 131072})",
+      "Me.spinMewmaLambda.Maximum = New Decimal(New Integer() {1, 0, 0, 0})",
+      "Me.spinMewmaLambda.Minimum = New Decimal(New Integer() {1, 0, 0, 131072})",
+      "Me.spinMewmaLambda.Value = New Decimal(New Integer() {2, 0, 0, 65536})"
+    ],
+    "spinPcaComponentCount": [
+      "Me.spinPcaComponentCount.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})",
+      "Me.spinPcaComponentCount.Minimum = New Decimal(New Integer() {1, 0, 0, 0})",
+      "Me.spinPcaComponentCount.Value = New Decimal(New Integer() {1, 0, 0, 0})"
+    ],
+    "spinPcaCumulativeVariance": [
+      "Me.spinPcaCumulativeVariance.DecimalPlaces = 1",
+      "Me.spinPcaCumulativeVariance.Value = New Decimal(New Integer() {90, 0, 0, 0})"
+    ]
+  },
+  "original_runtime_control_assignments": {
+    "cbMissingValuePolicy": [],
+    "cbModelSource": [],
+    "cbPcaMatrix": [],
+    "cbSequenceGapBehavior": [
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "cbSequenceGapBehavior.Enabled = isSequential"
+      }
+    ],
+    "chkAllowPseudoInverse": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "chkAllowPseudoInverse.Checked = True"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "chkAllowPseudoInverse.Checked = False"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "chkAllowPseudoInverse.Enabled = False"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "chkAllowPseudoInverse.Enabled = True"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "chkAllowPseudoInverse.Checked = pAllowPseudoInverseBeforeGeneralizedVariance.Value"
+      }
+    ],
+    "chkResetAfterSignal": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "chkResetAfterSignal.Checked = False"
+      }
+    ],
+    "chkResetAtPhaseBoundary": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "chkResetAtPhaseBoundary.Checked = True"
+      }
+    ],
+    "chkResetAtStageBoundary": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "chkResetAtStageBoundary.Checked = True"
+      }
+    ],
+    "chkSpecifyGvSigmaMultiplier": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "chkSpecifyGvSigmaMultiplier.Checked = False"
+      }
+    ],
+    "chkSpecifyMewmaControlLimit": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "chkSpecifyMewmaControlLimit.Checked = False"
+      }
+    ],
+    "chkUseLowerHotellingLimit": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "chkUseLowerHotellingLimit.Checked = False"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "chkUseLowerHotellingLimit.Enabled = individualHotelling"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "If Not individualHotelling Then chkUseLowerHotellingLimit.Checked = False"
+      }
+    ],
+    "rbPcaFixedComponents": [],
+    "spinControlLimitAlpha": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinControlLimitAlpha.DecimalPlaces = 4"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinControlLimitAlpha.Increment = 0.0001D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinControlLimitAlpha.Minimum = 0.0001D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinControlLimitAlpha.Maximum = 0.9999D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinControlLimitAlpha.Value = 0.0027D"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "spinControlLimitAlpha.Enabled = alphaEnabled"
+      }
+    ],
+    "spinCovarianceRegularization": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinCovarianceRegularization.DecimalPlaces = 6"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinCovarianceRegularization.Increment = 0.0001D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinCovarianceRegularization.Minimum = 0D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinCovarianceRegularization.Maximum = 25D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinCovarianceRegularization.Value = 0D"
+      }
+    ],
+    "spinGvSigmaMultiplier": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinGvSigmaMultiplier.DecimalPlaces = 2"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinGvSigmaMultiplier.Increment = 0.1D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinGvSigmaMultiplier.Minimum = 0.01D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinGvSigmaMultiplier.Maximum = 100D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinGvSigmaMultiplier.Value = 3D"
+      },
+      {
+        "method": "chkSpecifyGvSigmaMultiplier_CheckedChanged",
+        "statement": "spinGvSigmaMultiplier.Enabled = chkSpecifyGvSigmaMultiplier.Checked"
+      }
+    ],
+    "spinMcusumDecisionInterval": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumDecisionInterval.DecimalPlaces = 3"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumDecisionInterval.Increment = 0.1D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumDecisionInterval.Minimum = 0.001D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumDecisionInterval.Maximum = 1000D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumDecisionInterval.Value = 5.5D"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "spinMcusumDecisionInterval.Enabled = isMcusum"
+      }
+    ],
+    "spinMcusumReferenceValue": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumReferenceValue.DecimalPlaces = 3"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumReferenceValue.Increment = 0.1D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumReferenceValue.Minimum = 0D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumReferenceValue.Maximum = 100D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMcusumReferenceValue.Value = 0.5D"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "spinMcusumReferenceValue.Enabled = isMcusum"
+      }
+    ],
+    "spinMewmaControlLimit": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaControlLimit.DecimalPlaces = 4"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaControlLimit.Increment = 0.1D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaControlLimit.Minimum = 0.0001D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaControlLimit.Maximum = 1000000D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaControlLimit.Value = 1D"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "spinMewmaControlLimit.Enabled = isMewma AndAlso chkSpecifyMewmaControlLimit.Checked"
+      },
+      {
+        "method": "chkSpecifyMewmaControlLimit_CheckedChanged",
+        "statement": "spinMewmaControlLimit.Enabled = isMewma AndAlso chkSpecifyMewmaControlLimit.Checked"
+      }
+    ],
+    "spinMewmaLambda": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaLambda.DecimalPlaces = 2"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaLambda.Increment = 0.05D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaLambda.Minimum = 0.01D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaLambda.Maximum = 1D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinMewmaLambda.Value = 0.2D"
+      },
+      {
+        "method": "UpdateChartDependentControls",
+        "statement": "spinMewmaLambda.Enabled = isMewma"
+      }
+    ],
+    "spinPcaComponentCount": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinPcaComponentCount.Minimum = 1D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinPcaComponentCount.Maximum = 1000D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinPcaComponentCount.Value = 1D"
+      },
+      {
+        "method": "UpdatePcaSelectionControls",
+        "statement": "spinPcaComponentCount.Enabled = rbPcaFixedComponents.Checked"
+      },
+      {
+        "method": "UpdatePcaComponentMaximum",
+        "statement": "spinPcaComponentCount.Maximum = CDec(maximum)"
+      },
+      {
+        "method": "UpdatePcaComponentMaximum",
+        "statement": "spinPcaComponentCount.Value = spinPcaComponentCount.Maximum"
+      }
+    ],
+    "spinPcaCumulativeVariance": [
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinPcaCumulativeVariance.DecimalPlaces = 1"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinPcaCumulativeVariance.Increment = 1D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinPcaCumulativeVariance.Minimum = 1D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinPcaCumulativeVariance.Maximum = 100D"
+      },
+      {
+        "method": "InitializeOptionControls",
+        "statement": "spinPcaCumulativeVariance.Value = 90D"
+      },
+      {
+        "method": "UpdatePcaSelectionControls",
+        "statement": "spinPcaCumulativeVariance.Enabled = rbPcaVarianceSelection.Checked"
+      }
+    ]
+  },
+  "control_default_precedence": "Designer property declarations are raw initial values; original form initialization assignments override them. Chart/selection-dependent Enabled/Checked/Maximum assignments remain native and source-identical apart from delegating pure predicates. Runtime statements are pinned by original method names/hashes.",
+  "original_optional_conversions": "        Dim pcaCount As Nullable(Of Integer) = Nothing\n        If rbPcaFixedComponents.Checked Then pcaCount = CInt(spinPcaComponentCount.Value)\n        Dim mewmaLimit As Nullable(Of Double) = Nothing\n        If chkSpecifyMewmaControlLimit.Checked Then mewmaLimit = CDbl(spinMewmaControlLimit.Value)\n        Dim gvMultiplier As Nullable(Of Double) = Nothing\n        If chkSpecifyGvSigmaMultiplier.Checked Then gvMultiplier = CDbl(spinGvSigmaMultiplier.Value)\n\n",
+  "designer_sha256": "846d443cb9b09caaeabcd4d513c14b8a3f500aafbdb691ab3677507d83183697",
+  "source_sha256": "0b14088a8ca3c013a0804d85bc9883bf3e2493552886f5893b5964e33afe5655",
+  "production": "Ui22 BuildRequest -> immutable model/options -> Common Create -> one original Core constructor; UpdateChartDependentControls/PopulateObservationStructures consume compatibility. Host numeric conversion retained. Requested values are not effective Core estimates.",
+  "Core_default_alpha": 0.0027,
+  "supported_missing": [
+    "Reject",
+    "OmitPoint"
+  ],
+  "unsupported_available_measurements": false,
+  "legacy_source": "legacy-preparation-provenance.json"
+}

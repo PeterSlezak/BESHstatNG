@@ -1,0 +1,38 @@
+{
+  "status": "PASS_SOFTWARE_PUBLICATION_CHECKS",
+  "python_new_contracts": {
+    "passed": 18,
+    "total": 18
+  },
+  "records": {
+    "terminal-policy-01": {
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/tests",
+        "-p",
+        "test_04a23_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "raw_command_sha256": "e811a405a41b7dc26cd5a4546c567e3e856b4289fbc9ca43fc620e85762ddfa8",
+      "raw_log_sha256": "397af83b364eb60e89f71b03e4b03e6781d1799897866ec23e74e25f52baa1d3"
+    },
+    "terminal-publication-01": {
+      "command": [
+        "<PYTHON_EXE>",
+        "-B",
+        "scripts/verify-04a23-publication.py",
+        "verify"
+      ],
+      "exit_code": 0,
+      "raw_command_sha256": "34d7801de91c670d539afc28fffe1f966f11493ce2ae37c53a63f7a0a62004e6",
+      "raw_log_sha256": "e1776e5a83bb5d913d89f6d417486e2c2086097f4f293d204be301d206d42788"
+    }
+  },
+  "scope": "Actual terminal checks after complete final matrices. Receipt and final status are then included in manifest; identical commands are rerun after final seal without adding their logs to manifest, avoiding recursive receipt/manifest hashes. All raw follow-up logs retained locally. Native/scientific gates remain unmet."
+}

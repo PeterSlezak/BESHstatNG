@@ -10,6 +10,7 @@ Imports System.Globalization
 Imports System.Linq
 Imports System.Runtime.InteropServices
 Imports System.Windows.Forms
+Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.StatisticalProcessControl
 Imports Excel = Microsoft.Office.Interop.Excel
@@ -57,23 +58,17 @@ Public Class Ui22MultivariateControlCharts
         Public Sub New(displayText As String,
                        chartType As SpcChartType,
                        description As String,
-                       requirements As String,
-                       allowsSubgroups As Boolean,
-                       requiresSubgroups As Boolean)
+                       requirements As String)
             Me.DisplayText = displayText
             Me.ChartType = chartType
             Me.Description = description
             Me.Requirements = requirements
-            Me.AllowsSubgroups = allowsSubgroups
-            Me.RequiresSubgroups = requiresSubgroups
         End Sub
 
         Public ReadOnly Property DisplayText As String
         Public ReadOnly Property ChartType As SpcChartType
         Public ReadOnly Property Description As String
         Public ReadOnly Property Requirements As String
-        Public ReadOnly Property AllowsSubgroups As Boolean
-        Public ReadOnly Property RequiresSubgroups As Boolean
 
         Public Overrides Function ToString() As String
             Return DisplayText
@@ -86,6 +81,7 @@ Public Class Ui22MultivariateControlCharts
         Public Property PointIndexByRow As Integer()
         Public Property PointCount As Integer
         Public Property IsGrouped As Boolean
+        Public Property PointMap As SpcMultivariatePointMap
 
         Public ReadOnly Property RowCount As Integer
             Get
@@ -94,59 +90,39 @@ Public Class Ui22MultivariateControlCharts
         End Property
     End Class
 
-    Private NotInheritable Class PointAssignments
-        Public Property StageIds As String()
-        Public Property Phases As SpcPhase()
-    End Class
 
-    Private NotInheritable Class PointExclusions
-        Public Property Scopes As SpcExclusionScope()
-        Public Property Reasons As String()
-    End Class
 
     Private Shared ReadOnly ChartChoices As ChartChoice() = {
         New ChartChoice(
             "Hotelling T-squared",
             SpcChartType.HotellingT2,
             "Monitors the joint location of correlated process variables using their covariance structure.",
-            "Select at least two numeric measurement variables. Choose individual observations or rational subgroups; grouped Hotelling limits require equal complete subgroup sizes.",
-            allowsSubgroups:=True,
-            requiresSubgroups:=False),
+            "Select at least two numeric measurement variables. Choose individual observations or rational subgroups; grouped Hotelling limits require equal complete subgroup sizes."),
         New ChartChoice(
             "Generalized variance",
             SpcChartType.GeneralizedVariance,
             "Monitors changes in overall multivariate dispersion through the determinant of each subgroup covariance matrix.",
-            "Select at least two numeric measurement variables and one subgroup-ID column. Every subgroup must contain more complete observations than variables.",
-            allowsSubgroups:=True,
-            requiresSubgroups:=True),
+            "Select at least two numeric measurement variables and one subgroup-ID column. Every subgroup must contain more complete observations than variables."),
         New ChartChoice(
             "PCA T-squared",
             SpcChartType.PcaT2,
             "Monitors variation within the retained principal-component model space.",
-            "Select at least two numeric measurement variables. Observations must be ordered individual rows.",
-            allowsSubgroups:=False,
-            requiresSubgroups:=False),
+            "Select at least two numeric measurement variables. Observations must be ordered individual rows."),
         New ChartChoice(
             "PCA Q",
             SpcChartType.PcaQ,
             "Monitors residual variation not explained by the retained principal components.",
-            "Select at least two numeric measurement variables. At least one nonzero component must remain in the residual subspace.",
-            allowsSubgroups:=False,
-            requiresSubgroups:=False),
+            "Select at least two numeric measurement variables. At least one nonzero component must remain in the residual subspace."),
         New ChartChoice(
             "MEWMA",
             SpcChartType.Mewma,
             "Uses an exponentially weighted multivariate state to detect sustained small joint shifts.",
-            "Select at least two ordered numeric measurement variables. Lambda must be in (0, 1].",
-            allowsSubgroups:=False,
-            requiresSubgroups:=False),
+            "Select at least two ordered numeric measurement variables. Lambda must be in (0, 1]."),
         New ChartChoice(
             "MCUSUM (Crosier)",
             SpcChartType.Mcusum,
             "Uses the Crosier multivariate cumulative-sum statistic to detect persistent joint mean shifts.",
-            "Select at least two ordered numeric measurement variables and specify design parameters k and h.",
-            allowsSubgroups:=False,
-            requiresSubgroups:=False)
+            "Select at least two ordered numeric measurement variables and specify design parameters k and h.")
     }
 
     Public Sub New(analysis As String, tagn As Integer)
@@ -732,7 +708,7 @@ Public Class Ui22MultivariateControlCharts
     End Sub
 
     Private Sub PopulateObservationStructures(chartType As SpcChartType)
-        Dim choice As ChartChoice = ChartChoices.First(Function(item) item.ChartType = chartType)
+        Dim choice = SpcMultivariateRequestPolicy.Compatibility(chartType)
         Dim previous As Nullable(Of ObservationStructure) = Nothing
         Dim selected As ComboItem(Of ObservationStructure) = TryCast(cbObservationStructure.SelectedItem, ComboItem(Of ObservationStructure))
         If selected IsNot Nothing Then previous = selected.Value
@@ -766,11 +742,12 @@ Public Class Ui22MultivariateControlCharts
         lblDataRequirements.Text = choice.Requirements
         UpdateRoleAvailability()
 
-        Dim isPca As Boolean = choice.ChartType = SpcChartType.PcaT2 OrElse choice.ChartType = SpcChartType.PcaQ
+        Dim compatibility = SpcMultivariateRequestPolicy.Compatibility(choice.ChartType)
+        Dim isPca As Boolean = compatibility.IsPca
         Dim isGv As Boolean = choice.ChartType = SpcChartType.GeneralizedVariance
         Dim isMewma As Boolean = choice.ChartType = SpcChartType.Mewma
         Dim isMcusum As Boolean = choice.ChartType = SpcChartType.Mcusum
-        Dim isSequential As Boolean = isMewma OrElse isMcusum
+        Dim isSequential As Boolean = compatibility.IsSequential
         grpPcaOptions.Visible = isPca
         grpGeneralizedVarianceOptions.Visible = isGv
         grpMewmaOptions.Visible = isMewma
@@ -808,7 +785,8 @@ Public Class Ui22MultivariateControlCharts
         lblMewmaNote.Text = "Without a supplied UCL, the backend uses a chi-square pointwise approximation and reports that an ARL-calibrated limit is preferred for production monitoring."
         lblMcusumNote.Text = "The in-control ARL depends on k, h, dimension and covariance estimation. Validate the selected design for the intended process."
 
-        Dim individualHotelling As Boolean = choice.ChartType = SpcChartType.HotellingT2 AndAlso Not IsGroupedStructure()
+        Dim individualHotelling As Boolean = choice.ChartType = SpcChartType.HotellingT2 AndAlso
+            compatibility.UseLowerHotellingLimitAvailable(IsGroupedStructure())
         chkUseLowerHotellingLimit.Enabled = individualHotelling
         If Not individualHotelling Then chkUseLowerHotellingLimit.Checked = False
         If isGv Then
@@ -825,9 +803,9 @@ Public Class Ui22MultivariateControlCharts
             End If
         End If
 
-        Dim alphaEnabled As Boolean = Not isMcusum AndAlso
-            Not (isMewma AndAlso chkSpecifyMewmaControlLimit.Checked) AndAlso
-            Not (isGv AndAlso chkSpecifyGvSigmaMultiplier.Checked)
+        Dim alphaEnabled As Boolean = compatibility.AlphaEnabled(
+            If(isMewma, chkSpecifyMewmaControlLimit.Checked, False),
+            If(isGv, chkSpecifyGvSigmaMultiplier.Checked, False))
         spinControlLimitAlpha.Enabled = alphaEnabled
         lblControlLimitAlpha.Enabled = alphaEnabled
         UpdateHistoricalControls()
@@ -1095,23 +1073,19 @@ Public Class Ui22MultivariateControlCharts
             End If
             Dim context As InputRowContext = GetInputRowContext()
             dgvStages.Rows.Clear()
+            Dim rows As IReadOnlyList(Of SpcMultivariateStageRow)
             If rbSinglePhaseI.Checked Then
-                AddStageRow("PhaseI", 1, context.PointCount, SpcPhase.PhaseI)
+                rows = SpcMultivariatePhasePolicy.Quick(context.PointCount, SpcMultivariateQuickPhase.AllPhaseI)
             ElseIf rbSinglePhaseII.Checked Then
-                If SelectedComboValue(Of SpcMultivariateModelSource)(cbModelSource) <>
-                   SpcMultivariateModelSource.UseHistoricalParameters Then
-                    Throw New ArgumentException("All-Phase-II monitoring requires historical parameters.")
-                End If
-                AddStageRow("PhaseII", 1, context.PointCount, SpcPhase.PhaseII)
+                rows = SpcMultivariatePhasePolicy.Quick(context.PointCount, SpcMultivariateQuickPhase.AllPhaseII,
+                    modelSource:=SelectedComboValue(Of SpcMultivariateModelSource)(cbModelSource))
             Else
-                Dim lastPhaseI As Integer = CInt(spinLastPhaseIPoint.Value)
-                If lastPhaseI < 1 OrElse lastPhaseI >= context.PointCount Then
-                    Throw New ArgumentException("The last Phase I point must be between 1 and " &
-                                                (context.PointCount - 1).ToString(CultureInfo.CurrentCulture) & ".")
-                End If
-                AddStageRow("PhaseI", 1, lastPhaseI, SpcPhase.PhaseI)
-                AddStageRow("PhaseII", lastPhaseI + 1, context.PointCount, SpcPhase.PhaseII)
+                rows = SpcMultivariatePhasePolicy.Quick(context.PointCount, SpcMultivariateQuickPhase.PhaseIThenPhaseII,
+                    lastPhaseI:=CInt(spinLastPhaseIPoint.Value))
             End If
+            For Each stage In rows
+                AddStageRow(stage.StageId, stage.FirstPoint, stage.LastPoint, stage.Phase)
+            Next
         Catch ex As Exception
             ShowInputError(ex.Message)
         End Try
@@ -1160,31 +1134,10 @@ Public Class Ui22MultivariateControlCharts
                                            ReadTextColumn(stageInfo, context.FirstRow, context.LastRow))
             Dim rowPhases As String() = If(phaseInfo Is Nothing, Nothing,
                                            ReadTextColumn(phaseInfo, context.FirstRow, context.LastRow))
-            Dim pointStages(context.PointCount - 1) As String
-            Dim pointPhases(context.PointCount - 1) As SpcPhase
-            For point As Integer = 0 To context.PointCount - 1
-                pointPhases(point) = If(phaseInfo Is Nothing, SpcPhase.PhaseI,
-                                        ParseCollapsedPhase(rowPhases, context.PointIndexByRow, point))
-                If stageInfo IsNot Nothing Then
-                    pointStages(point) = CollapsedTextValue(rowStages, context.PointIndexByRow, point, "stage identifier")
-                    If pointStages(point).Length = 0 Then Throw New ArgumentException("The stage identifier is blank at chart point " & (point + 1).ToString() & ".")
-                End If
-            Next
-            If stageInfo Is Nothing Then GenerateStageIdsFromPhaseRuns(pointStages, pointPhases)
-
+            Dim assignments = SpcMultivariatePhasePolicy.CollapseImported(context.PointMap, rowStages, rowPhases)
             dgvStages.Rows.Clear()
-            Dim used As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
-            Dim runStart As Integer = 0
-            For point As Integer = 1 To context.PointCount
-                Dim atEnd As Boolean = point = context.PointCount
-                Dim changed As Boolean = Not atEnd AndAlso
-                    (Not String.Equals(pointStages(point), pointStages(runStart), StringComparison.Ordinal) OrElse
-                     pointPhases(point) <> pointPhases(runStart))
-                If Not atEnd AndAlso Not changed Then Continue For
-                Dim stageId As String = pointStages(runStart).Trim()
-                If Not used.Add(stageId) Then Throw New ArgumentException("Stage '" & stageId & "' occurs in more than one non-contiguous block.")
-                AddStageRow(stageId, runStart + 1, point, pointPhases(runStart))
-                runStart = point
+            For Each stage In SpcMultivariatePhasePolicy.ImportedRows(assignments)
+                AddStageRow(stage.StageId, stage.FirstPoint, stage.LastPoint, stage.Phase)
             Next
             ClearQuickPhaseSelection()
         Catch ex As Exception
@@ -1192,25 +1145,7 @@ Public Class Ui22MultivariateControlCharts
         End Try
     End Sub
 
-    Private Shared Sub GenerateStageIdsFromPhaseRuns(stageIds As String(), phases As SpcPhase())
-        Dim phaseCounts As New Dictionary(Of SpcPhase, Integer)()
-        Dim start As Integer = 0
-        While start < phases.Length
-            Dim phase As SpcPhase = phases(start)
-            Dim finish As Integer = start
-            While finish + 1 < phases.Length AndAlso phases(finish + 1) = phase
-                finish += 1
-            End While
-            Dim number As Integer = If(phaseCounts.ContainsKey(phase), phaseCounts(phase) + 1, 1)
-            phaseCounts(phase) = number
-            Dim baseId As String = If(phase = SpcPhase.PhaseI, "PhaseI", "PhaseII")
-            Dim id As String = If(number = 1, baseId, baseId & "-" & number.ToString(CultureInfo.InvariantCulture))
-            For i As Integer = start To finish
-                stageIds(i) = id
-            Next
-            start = finish + 1
-        End While
-    End Sub
+
 
     Private Sub ClearQuickPhaseSelection()
         rbSinglePhaseI.Checked = False
@@ -1241,26 +1176,17 @@ Public Class Ui22MultivariateControlCharts
             Dim indicators As Object() = ReadObjectColumn(indicatorInfo, context.FirstRow, context.LastRow)
             Dim reasons As String() = If(reasonInfo Is Nothing, Nothing,
                                          ReadTextColumn(reasonInfo, context.FirstRow, context.LastRow))
-            Dim excluded(context.PointCount - 1) As Boolean
-            Dim reasonSets(context.PointCount - 1) As HashSet(Of String)
-            For i As Integer = 0 To reasonSets.Length - 1
-                reasonSets(i) = New HashSet(Of String)(StringComparer.Ordinal)
-            Next
+            Dim imported As New SpcMultivariateExclusionImport(context.PointMap)
             For row As Integer = 0 To indicators.Length - 1
-                Dim point As Integer = context.PointIndexByRow(row)
-                If IsExclusionIndicator(indicators(row)) Then
-                    excluded(point) = True
-                    If reasons IsNot Nothing AndAlso reasons(row).Length > 0 Then reasonSets(point).Add(reasons(row))
-                End If
+                imported.IncludeRow(row, IsExclusionIndicator(indicators(row)), reasons)
             Next
             dgvExclusions.Rows.Clear()
             Dim scopeText As String = ExclusionScopeText(SelectedComboValue(Of SpcExclusionScope)(cbImportedExclusionScope))
-            For point As Integer = 0 To excluded.Length - 1
-                If Not excluded(point) Then Continue For
+            For Each point In imported.Rows()
                 Dim index As Integer = dgvExclusions.Rows.Add()
-                dgvExclusions.Rows(index).Cells(colExclusionPoint.Index).Value = point + 1
+                dgvExclusions.Rows(index).Cells(colExclusionPoint.Index).Value = point.DisplayPoint
                 dgvExclusions.Rows(index).Cells(colExclusionScope.Index).Value = scopeText
-                dgvExclusions.Rows(index).Cells(colExclusionReason.Index).Value = String.Join("; ", reasonSets(point).ToArray())
+                dgvExclusions.Rows(index).Cells(colExclusionReason.Index).Value = point.Reason
             Next
         Catch ex As Exception
             ShowInputError(ex.Message)
@@ -1312,21 +1238,14 @@ Public Class Ui22MultivariateControlCharts
                                        Nothing)
         If context.IsGrouped Then NormalizeGroupedMetadata(labels, sequences, context)
 
-        Dim pointAssignments As PointAssignments = BuildPointAssignments(context.PointCount)
-        Dim pointExclusions As PointExclusions = BuildPointExclusions(context.PointCount)
-        Dim phases(context.RowCount - 1) As SpcPhase
-        Dim stages(context.RowCount - 1) As String
-        Dim scopes(context.RowCount - 1) As SpcExclusionScope
-        Dim reasons(context.RowCount - 1) As String
-        Dim sourceRows(context.RowCount - 1) As Integer
-        For row As Integer = 0 To context.RowCount - 1
-            Dim point As Integer = context.PointIndexByRow(row)
-            phases(row) = pointAssignments.Phases(point)
-            stages(row) = pointAssignments.StageIds(point)
-            scopes(row) = pointExclusions.Scopes(point)
-            reasons(row) = pointExclusions.Reasons(point)
-            sourceRows(row) = context.FirstRow + row
-        Next
+        Dim pointAssignments As SpcMultivariatePointAssignments = BuildPointAssignments(context.PointCount)
+        Dim pointExclusions As SpcMultivariatePointExclusions = BuildPointExclusions(context.PointCount)
+        Dim rowMetadata = context.PointMap.Expand(pointAssignments, pointExclusions)
+        Dim phases As SpcPhase() = rowMetadata.Phases.ToArray()
+        Dim stages As String() = rowMetadata.StageIds.ToArray()
+        Dim scopes As SpcExclusionScope() = rowMetadata.ExclusionScopes.ToArray()
+        Dim reasons As String() = rowMetadata.ExclusionReasons.ToArray()
+        Dim sourceRows As Integer() = rowMetadata.SourceRowIndices.ToArray()
 
         Dim modelSource As SpcMultivariateModelSource = SelectedComboValue(Of SpcMultivariateModelSource)(cbModelSource)
         Dim historicalMean As Double() = Nothing
@@ -1342,22 +1261,10 @@ Public Class Ui22MultivariateControlCharts
         Dim gvMultiplier As Nullable(Of Double) = Nothing
         If chkSpecifyGvSigmaMultiplier.Checked Then gvMultiplier = CDbl(spinGvSigmaMultiplier.Value)
 
-        Return New SpcMultivariateRequest(
-            SelectedChartType(),
-            measurements,
-            variableNames:=variableNames,
-            subgroupIds:=subgroupIds,
-            labels:=labels,
-            phases:=phases,
-            stageIds:=stages,
-            sequenceValues:=sequences,
-            sourceRowIndices:=sourceRows,
-            exclusionScopes:=scopes,
-            exclusionReasons:=reasons,
+        Dim chartType As SpcChartType = SelectedChartType()
+        Dim model As New SpcMultivariateModelIntent(variableNames, modelSource, historicalMean, historicalCovariance)
+        Dim options As New SpcMultivariateOptions(
             missingValuePolicy:=SelectedComboValue(Of SpcMissingValuePolicy)(cbMissingValuePolicy),
-            modelSource:=modelSource,
-            historicalMean:=historicalMean,
-            historicalCovariance:=historicalCovariance,
             controlLimitAlpha:=CDbl(spinControlLimitAlpha.Value),
             useLowerHotellingLimit:=chkUseLowerHotellingLimit.Checked,
             covarianceRegularization:=CDbl(spinCovarianceRegularization.Value),
@@ -1375,6 +1282,9 @@ Public Class Ui22MultivariateControlCharts
             resetAfterSignal:=chkResetAfterSignal.Checked,
             requestLabel:=Me.Text,
             sequenceGapBehavior:=SelectedComboValue(Of SpcSequenceGapBehavior)(cbSequenceGapBehavior))
+        Return SpcMultivariateRequestPolicy.Create(chartType, measurements, model, options,
+            subgroupIds:=subgroupIds, labels:=labels, phases:=phases, stageIds:=stages,
+            sequenceValues:=sequences, sourceRowIndices:=sourceRows, exclusionScopes:=scopes, exclusionReasons:=reasons)
     End Function
 
     Private Sub ValidateSelections()
@@ -1422,32 +1332,15 @@ Public Class Ui22MultivariateControlCharts
             If lbSubgroupID.Items.Count = 0 Then Throw New ArgumentException("Select a subgroup-ID column first.")
             required.Add(ColumnInfo(CStr(lbSubgroupID.Items(0))))
         End If
-        Dim firstRow As Integer = If(required.Any(Function(info) info.HasHeader), 2, 1)
+        Dim firstRow As Integer = SpcInputPointPolicy.FirstDataRow(required.Select(Function(info) info.HasHeader))
         Dim lastRow As Integer = required.Max(Function(info) LastUsedRow(info.ColumnNumber))
         If lastRow < firstRow Then Throw New ArgumentException("The selected columns contain no data rows.")
         Dim rowCount As Integer = lastRow - firstRow + 1
-        Dim pointIndices(rowCount - 1) As Integer
-        Dim pointCount As Integer
-        If grouped Then
-            Dim subgroupIds As String() = ReadTextColumn(ColumnInfo(CStr(lbSubgroupID.Items(0))), firstRow, lastRow)
-            Dim groups As New Dictionary(Of String, Integer)(StringComparer.Ordinal)
-            For row As Integer = 0 To subgroupIds.Length - 1
-                Dim id As String = subgroupIds(row).Trim()
-                If id.Length = 0 Then Throw New ArgumentException("A subgroup ID is blank at worksheet row " & (firstRow + row).ToString() & ".")
-                Dim point As Integer
-                If Not groups.TryGetValue(id, point) Then
-                    point = groups.Count
-                    groups.Add(id, point)
-                End If
-                pointIndices(row) = point
-            Next
-            pointCount = groups.Count
-        Else
-            For row As Integer = 0 To rowCount - 1
-                pointIndices(row) = row
-            Next
-            pointCount = rowCount
-        End If
+        Dim subgroupIds As String() = Nothing
+        If grouped Then subgroupIds = ReadTextColumn(ColumnInfo(CStr(lbSubgroupID.Items(0))), firstRow, lastRow)
+        Dim pointMap = SpcMultivariatePointMapPolicy.FromWorksheetRows(firstRow, lastRow, grouped, subgroupIds)
+        Dim pointIndices As Integer() = pointMap.PointIndexByRow.ToArray()
+        Dim pointCount As Integer = pointMap.PointCount
         spinLastPhaseIPoint.Maximum = Math.Max(1D, CDec(pointCount))
         If spinLastPhaseIPoint.Value > spinLastPhaseIPoint.Maximum Then spinLastPhaseIPoint.Value = spinLastPhaseIPoint.Maximum
         Return New InputRowContext With {
@@ -1455,96 +1348,41 @@ Public Class Ui22MultivariateControlCharts
             .LastRow = lastRow,
             .PointIndexByRow = pointIndices,
             .PointCount = pointCount,
-            .IsGrouped = grouped
+            .IsGrouped = grouped,
+            .PointMap = pointMap
         }
     End Function
 
     Private Shared Sub NormalizeGroupedMetadata(ByRef labels As String(), ByRef sequences As Double(), context As InputRowContext)
-        If labels IsNot Nothing Then
-            Dim collapsed(context.PointCount - 1) As String
-            For point As Integer = 0 To context.PointCount - 1
-                collapsed(point) = CollapsedTextValue(labels, context.PointIndexByRow, point, "label")
-            Next
-            For row As Integer = 0 To labels.Length - 1
-                labels(row) = collapsed(context.PointIndexByRow(row))
-            Next
-        End If
-        If sequences IsNot Nothing Then
-            Dim collapsed(context.PointCount - 1) As Double
-            For point As Integer = 0 To context.PointCount - 1
-                Dim found As Nullable(Of Double) = Nothing
-                For row As Integer = 0 To sequences.Length - 1
-                    If context.PointIndexByRow(row) <> point OrElse Double.IsNaN(sequences(row)) Then Continue For
-                    If found.HasValue AndAlso sequences(row) <> found.Value Then
-                        Throw New ArgumentException("Rows belonging to subgroup point " & (point + 1).ToString() & " contain inconsistent sequence values.")
-                    End If
-                    found = sequences(row)
-                Next
-                collapsed(point) = If(found.HasValue, found.Value, Double.NaN)
-            Next
-            For row As Integer = 0 To sequences.Length - 1
-                sequences(row) = collapsed(context.PointIndexByRow(row))
-            Next
-        End If
+        context.PointMap.NormalizeGroupedMetadata(labels, sequences)
     End Sub
 
-    Private Function BuildPointAssignments(pointCount As Integer) As PointAssignments
-        Dim stageIds(pointCount - 1) As String
-        Dim phases(pointCount - 1) As SpcPhase
-        Dim assigned(pointCount - 1) As Boolean
-        Dim stageCount As Integer = 0
-        Dim usedIds As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+    Private Function BuildPointAssignments(pointCount As Integer) As SpcMultivariatePointAssignments
+        Dim builder As New SpcMultivariateStageBuilder(pointCount)
         For Each row As DataGridViewRow In dgvStages.Rows
             If row.IsNewRow OrElse GridRowIsBlank(row) Then Continue For
-            stageCount += 1
             Dim id As String = CellText(row, colStageID.Index)
-            If id.Length = 0 Then Throw New ArgumentException("Every stage requires a nonblank stage ID.")
-            If Not usedIds.Add(id) Then Throw New ArgumentException("Stage ID '" & id & "' is duplicated.")
+            builder.BeginStage(id)
             Dim firstPoint As Integer = RequiredIntegerCell(row, colStageFirstPoint.Index, "First point")
             Dim lastPoint As Integer = RequiredIntegerCell(row, colStageLastPoint.Index, "Last point")
-            If firstPoint < 1 OrElse lastPoint < firstPoint OrElse lastPoint > pointCount Then
-                Throw New ArgumentException("Stage '" & id & "' must use a valid one-based point range within 1 to " & pointCount.ToString() & ".")
-            End If
+            builder.ValidateRange(id, firstPoint, lastPoint)
             Dim phase As SpcPhase = ParsePhaseText(CellText(row, colStagePhase.Index))
-            For point As Integer = firstPoint - 1 To lastPoint - 1
-                If assigned(point) Then Throw New ArgumentException("Chart point " & (point + 1).ToString() & " belongs to more than one stage.")
-                assigned(point) = True
-                stageIds(point) = id
-                phases(point) = phase
-            Next
+            builder.Assign(id, firstPoint, lastPoint, phase)
         Next
-        If stageCount = 0 Then
-            For point As Integer = 0 To pointCount - 1
-                stageIds(point) = "Stage1"
-                phases(point) = SpcPhase.PhaseI
-            Next
-        Else
-            For point As Integer = 0 To pointCount - 1
-                If Not assigned(point) Then Throw New ArgumentException("Chart point " & (point + 1).ToString() & " is not covered by the stage grid.")
-            Next
-        End If
-        Return New PointAssignments With {.StageIds = stageIds, .Phases = phases}
+        Return builder.Finish()
     End Function
 
-    Private Function BuildPointExclusions(pointCount As Integer) As PointExclusions
-        Dim scopes(pointCount - 1) As SpcExclusionScope
-        Dim reasonSets(pointCount - 1) As HashSet(Of String)
-        For i As Integer = 0 To pointCount - 1
-            reasonSets(i) = New HashSet(Of String)(StringComparer.Ordinal)
-        Next
+    Private Function BuildPointExclusions(pointCount As Integer) As SpcMultivariatePointExclusions
+        Dim builder As New SpcMultivariateExclusionBuilder(pointCount)
         For Each row As DataGridViewRow In dgvExclusions.Rows
             If row.IsNewRow OrElse GridRowIsBlank(row) Then Continue For
             Dim point As Integer = RequiredIntegerCell(row, colExclusionPoint.Index, "Exclusion point")
-            If point < 1 OrElse point > pointCount Then Throw New ArgumentException("Exclusion point must be between 1 and " & pointCount.ToString() & ".")
-            scopes(point - 1) = scopes(point - 1) Or ParseExclusionScope(CellText(row, colExclusionScope.Index))
+            Dim index As Integer = builder.CoreIndex(point)
+            builder.IncludeScope(index, ParseExclusionScope(CellText(row, colExclusionScope.Index)))
             Dim reason As String = CellText(row, colExclusionReason.Index)
-            If reason.Length > 0 Then reasonSets(point - 1).Add(reason)
+            builder.IncludeReason(index, reason)
         Next
-        Dim reasons(pointCount - 1) As String
-        For i As Integer = 0 To reasons.Length - 1
-            reasons(i) = String.Join("; ", reasonSets(i).ToArray())
-        Next
-        Return New PointExclusions With {.Scopes = scopes, .Reasons = reasons}
+        Return builder.Finish()
     End Function
 
     Private Sub BuildHistoricalModel(ByRef mean As Double(), ByRef covariance As Double(,))
@@ -1776,7 +1614,8 @@ Public Class Ui22MultivariateControlCharts
     End Sub
 
     Private Function BuildChartRenderingResult(result As SpcMultivariateFitResult) As SpcFitResult
-        Dim sourcePanels As SpcPanelResult() = result.Panels
+        Dim context = SpcMultivariateResultAxisPolicy.Project(result)
+        Dim sourcePanels As SpcPanelResult() = context.Panels.ToArray()
         Dim panels(sourcePanels.Length - 1) As SpcPanelResult
         For i As Integer = 0 To sourcePanels.Length - 1
             Dim source As SpcPanelResult = sourcePanels(i)
@@ -1789,19 +1628,7 @@ Public Class Ui22MultivariateControlCharts
                 signals:=source.Signals,
                 warnings:=source.Warnings)
         Next
-        Dim points As SpcPointResult() = panels(0).Points
-        Dim values(points.Length - 1) As Double
-        Dim labels(points.Length - 1) As String
-        Dim sequences(points.Length - 1) As Double
-        Dim sourceRows(points.Length - 1) As Integer
-        For i As Integer = 0 To points.Length - 1
-            values(i) = points(i).Value
-            labels(i) = points(i).Label
-            sequences(i) = If(points(i).SequenceValue.HasValue, points(i).SequenceValue.Value, Double.NaN)
-            Dim rows As Integer() = points(i).SourceRowIndices
-            sourceRows(i) = If(rows.Length > 0, rows(0), points(i).PointIndex)
-        Next
-        Dim input As SpcInputData = SpcInputData.FromIndividualSequence(values, labels, sequences, sourceRows, "Statistic")
+        Dim input As SpcInputData = SpcMultivariateResultAxisPolicy.RenderingInput(panels(0))
         Dim title As String = If(String.IsNullOrWhiteSpace(tbChartTitle.Text), SelectedChartChoice().DisplayText, tbChartTitle.Text.Trim())
         Dim request As New SpcFitRequest(result.Request.ChartType, input,
                                          requestLabel:=result.Request.RequestLabel,
@@ -2020,14 +1847,9 @@ Public Class Ui22MultivariateControlCharts
     End Function
 
     Private Function BuildDiagnosticTables(result As SpcMultivariateFitResult) As List(Of ResultTable)
-        Dim diagnostics As SpcMultivariatePointDiagnostic() = result.Diagnostics
+        Dim context = SpcMultivariateResultAxisPolicy.Project(result)
         Dim signalOnly As Boolean = SelectedComboValue(Of DiagnosticsScope)(cbDiagnosticsScope) = DiagnosticsScope.SignalledPointsOnly
-        Dim panel As SpcPanelResult = result.Panels(0)
-        Dim selected As New List(Of SpcMultivariatePointDiagnostic)()
-        For Each diagnostic As SpcMultivariatePointDiagnostic In diagnostics
-            Dim point As SpcPointResult = panel.GetPoint(diagnostic.PointIndex)
-            If Not signalOnly OrElse (point IsNot Nothing AndAlso point.IsSignalled) Then selected.Add(diagnostic)
-        Next
+        Dim selected = context.SelectDiagnostics(signalOnly)
 
         Dim names As String() = result.Request.VariableNames
         Dim hasState As Boolean = selected.Any(Function(item) item.StateVector IsNot Nothing)
@@ -2311,39 +2133,12 @@ Public Class Ui22MultivariateControlCharts
     End Function
 
     Private Shared Function ParsePhaseText(text As String) As SpcPhase
-        Dim normalized As String = text.Trim().Replace(" ", String.Empty).ToUpperInvariant()
-        If normalized = "PHASEI" OrElse normalized = "I" OrElse normalized = "1" Then Return SpcPhase.PhaseI
-        If normalized = "PHASEII" OrElse normalized = "II" OrElse normalized = "2" Then Return SpcPhase.PhaseII
-        Throw New ArgumentException("Phase must be 'Phase I' or 'Phase II'.")
+        Return SpcMultivariatePhasePolicy.ParsePhase(text)
     End Function
 
-    Private Shared Function ParseCollapsedPhase(values As String(), pointIndices As Integer(), point As Integer) As SpcPhase
-        Dim found As Nullable(Of SpcPhase) = Nothing
-        For i As Integer = 0 To values.Length - 1
-            If pointIndices(i) <> point Then Continue For
-            Dim current As SpcPhase = ParsePhaseText(values(i))
-            If found.HasValue AndAlso found.Value <> current Then
-                Throw New ArgumentException("Rows belonging to chart point " & (point + 1).ToString() & " contain inconsistent phase values.")
-            End If
-            found = current
-        Next
-        If Not found.HasValue Then Throw New ArgumentException("No phase value is available for chart point " & (point + 1).ToString() & ".")
-        Return found.Value
-    End Function
 
-    Private Shared Function CollapsedTextValue(values As String(), pointIndices As Integer(), point As Integer, label As String) As String
-        Dim found As String = Nothing
-        For i As Integer = 0 To values.Length - 1
-            If pointIndices(i) <> point Then Continue For
-            Dim current As String = values(i).Trim()
-            If found Is Nothing Then
-                found = current
-            ElseIf Not String.Equals(found, current, StringComparison.Ordinal) Then
-                Throw New ArgumentException("Rows belonging to chart point " & (point + 1).ToString() & " contain inconsistent " & label & " values.")
-            End If
-        Next
-        Return If(found, String.Empty)
-    End Function
+
+
 
     Private Shared Function ParseExclusionScope(text As String) As SpcExclusionScope
         Select Case text.Trim().ToLowerInvariant()
