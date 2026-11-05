@@ -1804,7 +1804,9 @@ Public Class Ui21ControlCharts
             firstSheetAvailable = False
             If firstOutputSheet Is Nothing Then firstOutputSheet = sheet
             Try
-                graphics.SpcControlChartExcel.AddCharts(sheet, result, BuildAppearanceOptions())
+                Dim appearance = BuildAppearanceOptions()
+                Dim projection = SpcUnivariateChartProjectionPolicy.Project(result, appearance.UseSequenceValuesForHorizontalAxis)
+                graphics.SpcControlChartExcel.AddCharts(sheet, result, appearance, projection)
             Catch ex As Exception
                 Dim warning As New ResultTable()
                 warning.AddTitle("SPC control-chart warning")

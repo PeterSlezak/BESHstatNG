@@ -1,0 +1,46 @@
+{
+  "receipts": "All unsuccessful/superseded command, build, test and filter receipts retained under the fresh run. command-outcomes.json includes every durable suite receipt, including nonzero exits.",
+  "observations": [
+    {
+      "attempt": "entry-Debug initial Common build",
+      "issue": "No-TestClass legacy helper used an unresolved label-list alias; BC30002. Helper isolated before qualifying original entry sources.",
+      "resolution": "Fresh entry-qualified-Debug Common/Legacy full reruns and complete entry-full-Release; zero-test/stale receipts excluded from totals."
+    },
+    {
+      "attempt": "local helper generation",
+      "issue": "IndentationError then NameError in one-off generation commands; recorded in assistant tool transcript.",
+      "resolution": "Frozen entry method bodies generated with explicit generic label-list signatures and provenance. No production source behavior changed."
+    },
+    {
+      "attempt": "focused-01 / focused-02",
+      "issue": "No matching Spc22 tests while helpers were being integrated; process exits 0 are NOT counted as successful test validation.",
+      "resolution": "Subsequent enumerated focused/full suites qualify actual tests."
+    },
+    {
+      "attempt": "focused-03",
+      "issue": "Four syntax diagnostics in new VB tests (single-line declaration lambdas and shadowed lambda parameter).",
+      "resolution": "New test syntax corrected; protected tests untouched."
+    },
+    {
+      "attempt": "focused-04",
+      "issue": "New test assumed input rule order 2,1; Core result already normalizes to 1,2.",
+      "resolution": "Assert actual immutable Core enumeration and legacy renderer text R1,2; no production sort/correction."
+    },
+    {
+      "attempt": "focused-06",
+      "issue": "New supplemental tests expected to reach Fit, but span 1/infinite input reject in Core constructors.",
+      "resolution": "Capture exact earlier constructor type/message; retain rejection as non-parity outcome."
+    },
+    {
+      "attempt": "initial publication scan",
+      "issue": "Synthetic credential URL/drive-path literals in historical test display names.",
+      "resolution": "Public stable SHA-256 aliases; exact identities remain in local TRX. No credential literals published."
+    },
+    {
+      "attempt": "focused-python-01",
+      "issue": "SyntaxError in a new test separator; discovery ran one failed-loader case.",
+      "resolution": "New test syntax corrected; focused-python-02 and both complete final matrices enumerate all 14 contracts."
+    }
+  ],
+  "final_behavioral_sources": "qualification-before-final.json -> final-source-qualification.json; no compiled/test source edit after both full matrices began."
+}

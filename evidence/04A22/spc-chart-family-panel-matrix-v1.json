@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN",
+  "availability": "Windows only",
+  "charts": {
+    "CChart": [
+      [
+        "DefectCount"
+      ]
+    ],
+    "Cusum": [
+      [
+        "UpperCusum",
+        "LowerCusum"
+      ]
+    ],
+    "Ewma": [
+      [
+        "Ewma"
+      ]
+    ],
+    "Individuals": [
+      [
+        "IndividualValue"
+      ]
+    ],
+    "IndividualsMovingRange": [
+      [
+        "IndividualValue",
+        "MovingRange"
+      ]
+    ],
+    "MovingAverage": [
+      [
+        "MovingAverage"
+      ]
+    ],
+    "MovingRange": [
+      [
+        "MovingRange"
+      ]
+    ],
+    "NpChart": [
+      [
+        "NumberNonconforming"
+      ]
+    ],
+    "PChart": [
+      [
+        "Proportion"
+      ]
+    ],
+    "SubgroupRange": [
+      [
+        "SubgroupRange"
+      ]
+    ],
+    "SubgroupStandardDeviation": [
+      [
+        "SubgroupStandardDeviation"
+      ]
+    ],
+    "UChart": [
+      [
+        "DefectRate"
+      ]
+    ],
+    "XBar": [
+      [
+        "SubgroupMean"
+      ]
+    ],
+    "XBarR": [
+      [
+        "SubgroupMean",
+        "SubgroupRange"
+      ]
+    ],
+    "XBarS": [
+      [
+        "SubgroupMean",
+        "SubgroupStandardDeviation"
+      ]
+    ]
+  },
+  "synthetic_model_shapes_excluded": true,
+  "production": "Only actual Fit cases establish this matrix. Core ChartFamily and returned panel order are consumed by Ui21 post-fit projection and real renderer; no independent family registry or UI activation."
+}

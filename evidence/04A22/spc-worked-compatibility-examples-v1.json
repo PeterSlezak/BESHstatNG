@@ -1,0 +1,722 @@
+{
+  "version": 1,
+  "status": "NOT_GOLDEN / SAME_CORE_PRESENTATION_COMPATIBILITY_ONLY",
+  "corpus_sha256": "7901f6355927feff3afcc193e7597625dcc5befc5a971afd1b5492ce37b92d15",
+  "examples": [
+    {
+      "chart": "XBarR",
+      "fixture_id": "6",
+      "profile_id": "fc3e267fa4dff6810f3329f312ff6da1311c8c58412921a5670c6a7b9ee6e3a1",
+      "options_xml": "<options layout=\"WideSubgroups\" missing=\"Reject\" parameter_source=\"EstimateFromPhaseI\" limit_method=\"ShewhartSigma\" sigma=\"3\" estimator=\"Automatic\" natural_limits=\"ClipToFeasibleRange\" moving_range_length=\"2\" bias_correction=\"true\" rule_preset=\"None\" rule_phase_scope=\"PhaseII\" gap=\"BreakSequence\" marking=\"EntirePattern\"><data_sha256>f6553c4e4998973494a9f8219bc871e56ef3c4a722c69b8a865b2273ebd61ab1</data_sha256><custom_rules_sha256>597ae9383cbb333a44d2ab32768f78b1f187a8c9d6e3f60495e07b7036a6d142</custom_rules_sha256><history_sha256>9a2726794fbcebc1ad117dc433c3d041b122dd5721644110d8ec2ca88ca0c533</history_sha256><chart_parameters ewma_lambda=\"&lt;Nothing&gt;\" steady_state=\"false\" cusum_k=\"&lt;Nothing&gt;\" cusum_h=\"&lt;Nothing&gt;\" head_start=\"&lt;Nothing&gt;\" ma_span=\"&lt;Nothing&gt;\" /><stages><stage id=\"PhaseI\" first=\"0\" last=\"29\" phase=\"PhaseI\" mode=\"EstimateFromStageData\" reference=\"\" /><stage id=\"PhaseII\" first=\"30\" last=\"59\" phase=\"PhaseII\" mode=\"UseReferenceStage\" reference=\"PhaseI\" /></stages><exclusions><exclusion point=\"17\" scope=\"ParameterEstimation\">note</exclusion></exclusions></options>",
+      "panels": [
+        {
+          "panel": {
+            "order": "0",
+            "type": "SubgroupMean",
+            "name": "X-bar",
+            "value_axis": "value",
+            "signal_occurrences": "0"
+          },
+          "first_four_values": {
+            "Statistic": [
+              49.881,
+              50.06699999999999,
+              50.144,
+              49.961000000000006
+            ],
+            "CenterLine": [
+              50.011241379310356,
+              50.011241379310356,
+              50.011241379310356,
+              50.011241379310356
+            ],
+            "LowerControlLimit": [
+              49.704939779522384,
+              49.704939779522384,
+              49.704939779522384,
+              49.704939779522384
+            ],
+            "UpperControlLimit": [
+              50.31754297909833,
+              50.31754297909833,
+              50.31754297909833,
+              50.31754297909833
+            ],
+            "LowerOneSigma": [
+              49.9091408460477,
+              49.9091408460477,
+              49.9091408460477,
+              49.9091408460477
+            ],
+            "UpperOneSigma": [
+              50.11334191257301,
+              50.11334191257301,
+              50.11334191257301,
+              50.11334191257301
+            ],
+            "LowerTwoSigma": [
+              49.80704031278504,
+              49.80704031278504,
+              49.80704031278504,
+              49.80704031278504
+            ],
+            "UpperTwoSigma": [
+              50.21544244583567,
+              50.21544244583567,
+              50.21544244583567,
+              50.21544244583567
+            ],
+            "Signal": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Excluded": [
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "signal_series_slots_zero_based": [],
+          "excluded_series_slots_zero_based": [
+            17
+          ],
+          "full_original_arrays_and_masks": "Referenced corpus payload XML, all IEEE-754 bits/BLANK entries retained."
+        },
+        {
+          "panel": {
+            "order": "1",
+            "type": "SubgroupRange",
+            "name": "Range",
+            "value_axis": "value",
+            "signal_occurrences": "0"
+          },
+          "first_four_values": {
+            "Statistic": [
+              0.5450000000000017,
+              0.5450000000000017,
+              0.5,
+              0.5450000000000017
+            ],
+            "CenterLine": [
+              0.5310344827586212,
+              0.5310344827586212,
+              0.5310344827586212,
+              0.5310344827586212
+            ],
+            "LowerControlLimit": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UpperControlLimit": [
+              1.1227977584724416,
+              1.1227977584724416,
+              1.1227977584724416,
+              1.1227977584724416
+            ],
+            "LowerOneSigma": [
+              0.3337800575206811,
+              0.3337800575206811,
+              0.3337800575206811,
+              0.3337800575206811
+            ],
+            "UpperOneSigma": [
+              0.7282889079965613,
+              0.7282889079965613,
+              0.7282889079965613,
+              0.7282889079965613
+            ],
+            "LowerTwoSigma": [
+              0.136525632282741,
+              0.136525632282741,
+              0.136525632282741,
+              0.136525632282741
+            ],
+            "UpperTwoSigma": [
+              0.9255433332345013,
+              0.9255433332345013,
+              0.9255433332345013,
+              0.9255433332345013
+            ],
+            "Signal": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Excluded": [
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "signal_series_slots_zero_based": [],
+          "excluded_series_slots_zero_based": [
+            17
+          ],
+          "full_original_arrays_and_masks": "Referenced corpus payload XML, all IEEE-754 bits/BLANK entries retained."
+        }
+      ],
+      "boundaries": [
+        {
+          "i": "30",
+          "n": "60",
+          "fraction": "0.5",
+          "text": "Stage boundary: PhaseI to PhaseII"
+        }
+      ]
+    },
+    {
+      "chart": "Ewma",
+      "fixture_id": "13",
+      "profile_id": "1ba7e66c192632f12110d4cf18572c8c75b9b671b16d648aa59b73e21bdddb55",
+      "options_xml": "<options layout=\"IndividualSequence\" missing=\"Reject\" parameter_source=\"UseHistoricalParameters\" limit_method=\"ShewhartSigma\" sigma=\"3\" estimator=\"Automatic\" natural_limits=\"RetainCalculatedLimits\" moving_range_length=\"3\" bias_correction=\"false\" rule_preset=\"None\" rule_phase_scope=\"PhaseI\" gap=\"SkipPointAndContinue\" marking=\"TerminalPointOnly\"><data_sha256>657ac040988b04dc992c670714092e1c4a0e717d982197f0ac5c6b10ea098c71</data_sha256><custom_rules_sha256>597ae9383cbb333a44d2ab32768f78b1f187a8c9d6e3f60495e07b7036a6d142</custom_rules_sha256><history_sha256>532e339dfd3ed98ffb5b3d58907f23f9b0ab21914caba24b261ad4387f732845</history_sha256><chart_parameters ewma_lambda=\"0.2\" steady_state=\"false\" cusum_k=\"&lt;Nothing&gt;\" cusum_h=\"&lt;Nothing&gt;\" head_start=\"&lt;Nothing&gt;\" ma_span=\"&lt;Nothing&gt;\" /><stages><stage id=\"PhaseI\" first=\"0\" last=\"29\" phase=\"PhaseI\" mode=\"UseHistoricalParameters\" reference=\"\" /><stage id=\"PhaseII\" first=\"30\" last=\"59\" phase=\"PhaseII\" mode=\"UseHistoricalParameters\" reference=\"\" /></stages><exclusions><exclusion point=\"17\" scope=\"RuleEvaluation\">note</exclusion></exclusions></options>",
+      "panels": [
+        {
+          "panel": {
+            "order": "0",
+            "type": "Ewma",
+            "name": "EWMA",
+            "value_axis": "value",
+            "signal_occurrences": "25"
+          },
+          "first_four_values": {
+            "Statistic": [
+              49.964,
+              49.9872,
+              49.979760000000006,
+              50.02780800000001
+            ],
+            "CenterLine": [
+              50.0,
+              50.0,
+              50.0,
+              50.0
+            ],
+            "LowerControlLimit": [
+              49.85,
+              49.80790627287701,
+              49.785253637981924,
+              49.771933693851985
+            ],
+            "UpperControlLimit": [
+              50.15,
+              50.19209372712299,
+              50.214746362018076,
+              50.228066306148015
+            ],
+            "LowerOneSigma": [
+              49.95,
+              49.93596875762567,
+              49.928417879327306,
+              49.923977897950664
+            ],
+            "UpperOneSigma": [
+              50.05,
+              50.06403124237433,
+              50.071582120672694,
+              50.076022102049336
+            ],
+            "LowerTwoSigma": [
+              49.9,
+              49.871937515251346,
+              49.85683575865461,
+              49.84795579590132
+            ],
+            "UpperTwoSigma": [
+              50.1,
+              50.128062484748654,
+              50.14316424134539,
+              50.15204420409868
+            ],
+            "Signal": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Excluded": [
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "signal_series_slots_zero_based": [
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59
+          ],
+          "excluded_series_slots_zero_based": [
+            17
+          ],
+          "full_original_arrays_and_masks": "Referenced corpus payload XML, all IEEE-754 bits/BLANK entries retained."
+        }
+      ],
+      "boundaries": [
+        {
+          "i": "30",
+          "n": "60",
+          "fraction": "0.5",
+          "text": "Stage boundary: PhaseI to PhaseII"
+        }
+      ]
+    },
+    {
+      "chart": "Cusum",
+      "fixture_id": "12",
+      "profile_id": "fc174c554531f2c22cdf205cb2c9972bad6f62fd272d00b86a9feb3b40ea70ae",
+      "options_xml": "<options layout=\"IndividualSequence\" missing=\"Reject\" parameter_source=\"EstimateFromPhaseI\" limit_method=\"ShewhartSigma\" sigma=\"3\" estimator=\"Automatic\" natural_limits=\"ClipToFeasibleRange\" moving_range_length=\"2\" bias_correction=\"true\" rule_preset=\"None\" rule_phase_scope=\"None\" gap=\"BreakSequence\" marking=\"TerminalPointOnly\"><data_sha256>657ac040988b04dc992c670714092e1c4a0e717d982197f0ac5c6b10ea098c71</data_sha256><custom_rules_sha256>597ae9383cbb333a44d2ab32768f78b1f187a8c9d6e3f60495e07b7036a6d142</custom_rules_sha256><history_sha256>9a2726794fbcebc1ad117dc433c3d041b122dd5721644110d8ec2ca88ca0c533</history_sha256><chart_parameters ewma_lambda=\"&lt;Nothing&gt;\" steady_state=\"false\" cusum_k=\"0.5\" cusum_h=\"5\" head_start=\"0\" ma_span=\"&lt;Nothing&gt;\" /><stages><stage id=\"Baseline\" first=\"0\" last=\"29\" phase=\"PhaseI\" mode=\"EstimateFromStageData\" reference=\"\" /><stage id=\"Monitoring\" first=\"30\" last=\"59\" phase=\"PhaseII\" mode=\"UseReferenceStage\" reference=\"Baseline\" /></stages><exclusions><exclusion point=\"17\" scope=\"ParameterEstimation\">note</exclusion></exclusions></options>",
+      "panels": [
+        {
+          "panel": {
+            "order": "0",
+            "type": "UpperCusum",
+            "name": "Upper CUSUM",
+            "value_axis": "value",
+            "signal_occurrences": "40"
+          },
+          "first_four_values": {
+            "Statistic": [
+              0.0,
+              0.0,
+              0.0,
+              0.6112224380767464
+            ],
+            "CenterLine": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "LowerControlLimit": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UpperControlLimit": [
+              5.0,
+              5.0,
+              5.0,
+              5.0
+            ],
+            "LowerOneSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "UpperOneSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "LowerTwoSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "UpperTwoSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Signal": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Excluded": [
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "signal_series_slots_zero_based": [
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59
+          ],
+          "excluded_series_slots_zero_based": [
+            17
+          ],
+          "full_original_arrays_and_masks": "Referenced corpus payload XML, all IEEE-754 bits/BLANK entries retained."
+        },
+        {
+          "panel": {
+            "order": "1",
+            "type": "LowerCusum",
+            "name": "Lower CUSUM",
+            "value_axis": "value",
+            "signal_occurrences": "0"
+          },
+          "first_four_values": {
+            "Statistic": [
+              -0.5335662943176147,
+              -0.0,
+              -0.0,
+              -0.0
+            ],
+            "CenterLine": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "LowerControlLimit": [
+              -5.0,
+              -5.0,
+              -5.0,
+              -5.0
+            ],
+            "UpperControlLimit": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "LowerOneSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "UpperOneSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "LowerTwoSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "UpperTwoSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Signal": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Excluded": [
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "signal_series_slots_zero_based": [],
+          "excluded_series_slots_zero_based": [
+            17
+          ],
+          "full_original_arrays_and_masks": "Referenced corpus payload XML, all IEEE-754 bits/BLANK entries retained."
+        }
+      ],
+      "boundaries": [
+        {
+          "i": "30",
+          "n": "60",
+          "fraction": "0.5",
+          "text": "Stage boundary: Baseline to Monitoring"
+        }
+      ]
+    },
+    {
+      "chart": "PChart",
+      "fixture_id": "8",
+      "profile_id": "2afd2a0e2f64c75c25a039f5cfec22fc28ac8539033c51754bdaef4c624bcfa9",
+      "options_xml": "<options layout=\"AggregatedCounts\" missing=\"Reject\" parameter_source=\"DefinedByStage\" limit_method=\"ShewhartSigma\" sigma=\"3\" estimator=\"Automatic\" natural_limits=\"ClipToFeasibleRange\" moving_range_length=\"2\" bias_correction=\"true\" rule_preset=\"None\" rule_phase_scope=\"None\" gap=\"BreakSequence\" marking=\"TerminalPointOnly\"><data_sha256>24d7e46fcafcdd74531602128be817c9e3a09d2257892717ff25b4534a22571f</data_sha256><custom_rules_sha256>597ae9383cbb333a44d2ab32768f78b1f187a8c9d6e3f60495e07b7036a6d142</custom_rules_sha256><history_sha256>532e339dfd3ed98ffb5b3d58907f23f9b0ab21914caba24b261ad4387f732845</history_sha256><chart_parameters ewma_lambda=\"&lt;Nothing&gt;\" steady_state=\"false\" cusum_k=\"&lt;Nothing&gt;\" cusum_h=\"&lt;Nothing&gt;\" head_start=\"&lt;Nothing&gt;\" ma_span=\"&lt;Nothing&gt;\" /><stages><stage id=\"Baseline\" first=\"0\" last=\"29\" phase=\"PhaseI\" mode=\"EstimateFromStageData\" reference=\"\" /><stage id=\"Monitoring\" first=\"30\" last=\"59\" phase=\"PhaseII\" mode=\"UseReferenceStage\" reference=\"Baseline\" /></stages><exclusions><exclusion point=\"17\" scope=\"EstimationAndRules\">note</exclusion></exclusions></options>",
+      "panels": [
+        {
+          "panel": {
+            "order": "0",
+            "type": "Proportion",
+            "name": "p Chart",
+            "value_axis": "value",
+            "signal_occurrences": "0"
+          },
+          "first_four_values": {
+            "Statistic": [
+              0.02,
+              0.010869565217391304,
+              0.027777777777777776,
+              0.023809523809523808
+            ],
+            "CenterLine": [
+              0.02103448275862069,
+              0.02103448275862069,
+              0.02103448275862069,
+              0.02103448275862069
+            ],
+            "LowerControlLimit": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UpperControlLimit": [
+              0.0640842562357578,
+              0.0659169742179959,
+              0.062459146601249904,
+              0.06800563647521189
+            ],
+            "LowerOneSigma": [
+              0.006684558266241654,
+              0.006073652272162286,
+              0.007226261477744288,
+              0.005377431519756955
+            ],
+            "UpperOneSigma": [
+              0.03538440725099973,
+              0.0359953132450791,
+              0.034842704039497095,
+              0.03669153399748443
+            ],
+            "LowerTwoSigma": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UpperTwoSigma": [
+              0.04973433174337877,
+              0.0509561437315375,
+              0.048650925320373496,
+              0.052348585236348166
+            ],
+            "Signal": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Excluded": [
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "signal_series_slots_zero_based": [],
+          "excluded_series_slots_zero_based": [
+            17
+          ],
+          "full_original_arrays_and_masks": "Referenced corpus payload XML, all IEEE-754 bits/BLANK entries retained."
+        }
+      ],
+      "boundaries": [
+        {
+          "i": "30",
+          "n": "60",
+          "fraction": "0.5",
+          "text": "Stage boundary: Baseline to Monitoring"
+        }
+      ]
+    },
+    {
+      "chart": "NpChart",
+      "fixture_id": "9",
+      "profile_id": "c851f7e2054714c897ff03d0d76da050de71cab6f0dc4c7b1b65b17577df4855",
+      "options_xml": "<options layout=\"AggregatedCounts\" missing=\"Reject\" parameter_source=\"EstimateFromPhaseI\" limit_method=\"ExactProbability\" sigma=\"3\" estimator=\"Automatic\" natural_limits=\"RetainCalculatedLimits\" moving_range_length=\"3\" bias_correction=\"false\" rule_preset=\"None\" rule_phase_scope=\"PhaseI\" gap=\"SkipPointAndContinue\" marking=\"TerminalPointOnly\"><data_sha256>975db0b8601ea7509ececc4fac1ca0e3c8155c454d0947444a7a02bfeaf96429</data_sha256><custom_rules_sha256>597ae9383cbb333a44d2ab32768f78b1f187a8c9d6e3f60495e07b7036a6d142</custom_rules_sha256><history_sha256>9a2726794fbcebc1ad117dc433c3d041b122dd5721644110d8ec2ca88ca0c533</history_sha256><chart_parameters ewma_lambda=\"&lt;Nothing&gt;\" steady_state=\"false\" cusum_k=\"&lt;Nothing&gt;\" cusum_h=\"&lt;Nothing&gt;\" head_start=\"&lt;Nothing&gt;\" ma_span=\"&lt;Nothing&gt;\" /><stages><stage id=\"PhaseI\" first=\"0\" last=\"29\" phase=\"PhaseI\" mode=\"EstimateFromStageData\" reference=\"\" /><stage id=\"PhaseII\" first=\"30\" last=\"59\" phase=\"PhaseII\" mode=\"UseReferenceStage\" reference=\"PhaseI\" /></stages><exclusions><exclusion point=\"17\" scope=\"ParameterEstimation\">note</exclusion></exclusions></options>",
+      "panels": [
+        {
+          "panel": {
+            "order": "0",
+            "type": "NumberNonconforming",
+            "name": "np Chart",
+            "value_axis": "value",
+            "signal_occurrences": "0"
+          },
+          "first_four_values": {
+            "Statistic": [
+              2.0,
+              1.0,
+              3.0,
+              2.0
+            ],
+            "CenterLine": [
+              2.103448275862069,
+              2.103448275862069,
+              2.103448275862069,
+              2.103448275862069
+            ],
+            "LowerControlLimit": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "UpperControlLimit": [
+              7.0,
+              7.0,
+              7.0,
+              7.0
+            ],
+            "LowerOneSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "UpperOneSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "LowerTwoSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "UpperTwoSigma": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Signal": [
+              null,
+              null,
+              null,
+              null
+            ],
+            "Excluded": [
+              null,
+              null,
+              null,
+              null
+            ]
+          },
+          "signal_series_slots_zero_based": [],
+          "excluded_series_slots_zero_based": [
+            17
+          ],
+          "full_original_arrays_and_masks": "Referenced corpus payload XML, all IEEE-754 bits/BLANK entries retained."
+        }
+      ],
+      "boundaries": [
+        {
+          "i": "30",
+          "n": "60",
+          "fraction": "0.5",
+          "text": "Stage boundary: PhaseI to PhaseII"
+        }
+      ]
+    }
+  ],
+  "varying_np_rejection": {
+    "profile_id": "daa5da672070e44097c1c338b3636b36ade49ef6bb668bf73a6c487f67d05699",
+    "payload": {
+      "xml": "<case id=\"supplemental-11\" status=\"NOT_GOLDEN\" chart=\"NpChart\" runtime=\"10.0.14\" classification=\"CORE_OR_REQUEST_REJECTION_NOT_PARITY_SUCCESS\"><request_sha256>8fe77e9f5a9a0a7a63694324bf6719edb01d2332ef8464b2004752497334a273</request_sha256><options layout=\"AggregatedCounts\" missing=\"OmitPoint\" parameter_source=\"UseHistoricalParameters\" limit_method=\"ShewhartSigma\" sigma=\"3\" estimator=\"Automatic\" natural_limits=\"ClipToFeasibleRange\" moving_range_length=\"2\" bias_correction=\"true\" rule_preset=\"None\" rule_phase_scope=\"All\" gap=\"SkipPointAndContinue\" marking=\"TerminalPointOnly\"><data_sha256>0105f8a927d7508741475fc92e1323f271156c12b29faac8e2c4c51e694845ed</data_sha256><custom_rules_sha256>597ae9383cbb333a44d2ab32768f78b1f187a8c9d6e3f60495e07b7036a6d142</custom_rules_sha256><history_sha256>532e339dfd3ed98ffb5b3d58907f23f9b0ab21914caba24b261ad4387f732845</history_sha256><chart_parameters ewma_lambda=\"&lt;Nothing&gt;\" steady_state=\"false\" cusum_k=\"&lt;Nothing&gt;\" cusum_h=\"&lt;Nothing&gt;\" head_start=\"&lt;Nothing&gt;\" ma_span=\"&lt;Nothing&gt;\" /><stages /><exclusions /></options><exception type=\"System.ArgumentException\">An np chart requires constant sample size.</exception></case>",
+      "classification": "CORE_OR_REQUEST_REJECTION_NOT_PARITY_SUCCESS",
+      "id": "supplemental-11",
+      "culture": "",
+      "status": "NOT_GOLDEN",
+      "validation": "SAME_CORE_PRESENTATION_COMPATIBILITY_ONLY"
+    }
+  },
+  "column_mapping": {
+    "XBarR": [
+      "Measure_1",
+      "Measure_2",
+      "Measure_3",
+      "Measure_4",
+      "Measure_5"
+    ],
+    "Ewma": [
+      "Individual_Value"
+    ],
+    "Cusum": [
+      "Individual_Value"
+    ],
+    "PChart": [
+      "Nonconforming_Count",
+      "Sample_Size"
+    ],
+    "NpChart": [
+      "Nonconforming_Count",
+      "Sample_Size_Constant"
+    ]
+  },
+  "fixture_sha256": "7ea168ca8e7812a2bf9b925d5261413f20a057f79a087414b4032c08b2492a2b",
+  "interpretation": "Values are actual unchanged Core returns, not an independent statistical oracle. Display samples retain round-trip Double values; full bit vectors remain in linked payloads. No Excel chart was executed."
+}

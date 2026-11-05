@@ -5,6 +5,7 @@ Option Infer On
 Imports System
 Imports System.Collections.Generic
 Imports System.Globalization
+Imports BESHStatNG.ExcelCommon
 Imports BESHStatNG.AppInfrastructure
 Imports BESHStatNG.StatisticalProcessControl
 Imports Microsoft.Office.Interop.Excel
@@ -258,6 +259,17 @@ Namespace graphics
             result As SpcFitResult,
             Optional appearance As SpcControlChartAppearanceOptions = Nothing) As Chart()
 
+            Return AddCharts(worksheet, result, appearance, Nothing)
+        End Function
+
+        'The Ui21 caller passes its post-fit Common payload inside the existing
+        'chart-warning boundary. Other callers retain the three-argument API.
+        Friend Shared Function AddCharts(
+            worksheet As Worksheet,
+            result As SpcFitResult,
+            appearance As SpcControlChartAppearanceOptions,
+            projection As SpcUnivariateChartProjection) As Chart()
+
             If worksheet Is Nothing Then Throw New ArgumentNullException(NameOf(worksheet))
             If result Is Nothing Then Throw New ArgumentNullException(NameOf(result))
 
@@ -266,7 +278,19 @@ Namespace graphics
             Dim panels As SpcPanelResult() = result.Panels
             If panels.Length = 0 Then Return Array.Empty(Of Chart)()
 
-            Dim axisContext As SharedAxisContext = BuildSharedAxisContext(result, options)
+            If projection Is Nothing Then
+                projection = SpcUnivariateChartProjectionPolicy.Project(result, options.UseSequenceValuesForHorizontalAxis)
+            End If
+            If projection.UseSequenceValues <> options.UseSequenceValuesForHorizontalAxis OrElse
+               projection.Panels.Count <> panels.Length Then
+                Throw New ArgumentException("The chart projection must match the result and axis options.", NameOf(projection))
+            End If
+            For i As Integer = 0 To panels.Length - 1
+                If Not Object.ReferenceEquals(projection.Panels(i).Panel, panels(i)) Then
+                    Throw New ArgumentException("The chart projection must belong to this result.", NameOf(projection))
+                End If
+            Next
+            Dim axisContext As SharedAxisContext = MarshalAxis(projection)
             Dim createdCharts As New List(Of Chart)(panels.Length)
 
             Try
@@ -285,6 +309,7 @@ Namespace graphics
                     RenderPanel(chart,
                                 result,
                                 panels(panelIndex),
+                                projection.Panels(panelIndex),
                                 axisContext,
                                 options,
                                 panelIndex,
@@ -307,6 +332,7 @@ Namespace graphics
         Private Shared Sub RenderPanel(chart As Chart,
                                        result As SpcFitResult,
                                        panel As SpcPanelResult,
+                                       panelProjection As SpcPanelSeriesProjection,
                                        axisContext As SharedAxisContext,
                                        options As SpcControlChartAppearanceOptions,
                                        panelIndex As Integer,
@@ -317,7 +343,7 @@ Namespace graphics
             chart.PlotVisibleOnly = False
             chart.ChartArea.AutoScaleFont = False
 
-            Dim panelData As PanelChartData = BuildPanelChartData(panel, axisContext)
+            Dim panelData As PanelChartData = MarshalPanel(panelProjection)
             Dim specifications As SpcSpecificationLimits = result.Request.SpecificationLimits
             Dim yBounds As AxisBounds = ComputeYAxisBounds(panel, panelData, specifications, options)
             Dim hiddenLegendEntries As New List(Of Integer)()
@@ -344,7 +370,7 @@ Namespace graphics
                 showLine:=True)
 
             If options.ShowPointLabels Then
-                AddPointLabels(statisticSeries, panelData.Points, options)
+                AddPointLabels(statisticSeries, panelProjection.PointLabels, options)
             End If
 
             AddReferenceLine(chart,
@@ -431,7 +457,7 @@ Namespace graphics
                     XlMarkerStyle.xlMarkerStyleX,
                     options.ExclusionMarkerSize)
                 If options.ShowExclusionLabels Then
-                    AddExclusionLabels(excludedSeries, panelData.Points, options)
+                    AddExclusionLabels(excludedSeries, panelProjection.ExclusionLabels, options)
                 End If
             End If
 
@@ -445,7 +471,7 @@ Namespace graphics
                     XlMarkerStyle.xlMarkerStyleDiamond,
                     options.SignalMarkerSize)
                 If options.ShowSignalLabels Then
-                    AddSignalLabels(signalSeries, panelData.Points, options)
+                    AddSignalLabels(signalSeries, panelProjection.SignalLabels, options)
                 End If
             End If
 
@@ -466,108 +492,48 @@ Namespace graphics
             End If
         End Sub
 
-        Private Shared Function BuildSharedAxisContext(
-            result As SpcFitResult,
-            options As SpcControlChartAppearanceOptions) As SharedAxisContext
-
-            Dim representativePoints As New Dictionary(Of Integer, SpcPointResult)()
-            Dim panels As SpcPanelResult() = result.Panels
-
-            For panelIndex As Integer = 0 To panels.Length - 1
-                Dim points As SpcPointResult() = panels(panelIndex).Points
-                For pointIndex As Integer = 0 To points.Length - 1
-                    Dim point As SpcPointResult = points(pointIndex)
-                    If Not representativePoints.ContainsKey(point.PointIndex) Then
-                        representativePoints.Add(point.PointIndex, point)
-                    End If
-                Next
-            Next
-
-            Dim orderedIndices As New List(Of Integer)(representativePoints.Keys)
-            orderedIndices.Sort()
-            Dim categories(orderedIndices.Count - 1) As Object
-            Dim stageIds(orderedIndices.Count - 1) As String
-
-            For i As Integer = 0 To orderedIndices.Count - 1
-                Dim point As SpcPointResult = representativePoints(orderedIndices(i))
-                If options.UseSequenceValuesForHorizontalAxis AndAlso
-                   point.SequenceValue.HasValue Then
-                    categories(i) = point.SequenceValue.Value
-                Else
-                    categories(i) = point.Label
-                End If
-                stageIds(i) = point.StageId
-            Next
-
-            Return New SharedAxisContext(orderedIndices.ToArray(), categories, stageIds)
+        Private Shared Function MarshalAxis(projection As SpcUnivariateChartProjection) As SharedAxisContext
+            Return New SharedAxisContext(MarshalChartCategories(projection), projection)
         End Function
 
-        Private Shared Function BuildPanelChartData(
-            panel As SpcPanelResult,
-            axisContext As SharedAxisContext) As PanelChartData
-
-            Dim pointByIndex As New Dictionary(Of Integer, SpcPointResult)()
-            Dim sourcePoints As SpcPointResult() = panel.Points
-            For i As Integer = 0 To sourcePoints.Length - 1
-                pointByIndex.Add(sourcePoints(i).PointIndex, sourcePoints(i))
-            Next
-
-            Dim n As Integer = axisContext.PointIndices.Length
-            Dim points(n - 1) As SpcPointResult
-            Dim statistic(n - 1) As Object
-            Dim center(n - 1) As Object
-            Dim lcl(n - 1) As Object
-            Dim ucl(n - 1) As Object
-            Dim lowerOne(n - 1) As Object
-            Dim upperOne(n - 1) As Object
-            Dim lowerTwo(n - 1) As Object
-            Dim upperTwo(n - 1) As Object
-            Dim signals(n - 1) As Object
-            Dim exclusions(n - 1) As Object
-
-            For i As Integer = 0 To n - 1
-                Dim point As SpcPointResult = Nothing
-                If pointByIndex.TryGetValue(axisContext.PointIndices(i), point) Then
-                    points(i) = point
-                    statistic(i) = ChartValue(point.Value)
-                    center(i) = ChartValue(point.CenterLine)
-                    lcl(i) = ChartValue(point.LowerControlLimit)
-                    ucl(i) = ChartValue(point.UpperControlLimit)
-                    lowerOne(i) = ChartValue(point.LowerOneSigmaLimit)
-                    upperOne(i) = ChartValue(point.UpperOneSigmaLimit)
-                    lowerTwo(i) = ChartValue(point.LowerTwoSigmaLimit)
-                    upperTwo(i) = ChartValue(point.UpperTwoSigmaLimit)
-                    signals(i) = If(point.IsSignalled,
-                                    ChartValue(point.Value),
-                                    MissingChartValue())
-                    exclusions(i) = If(point.IsExplicitlyExcluded,
-                                       ChartValue(point.Value),
-                                       MissingChartValue())
+        Friend Shared Function MarshalChartCategories(projection As SpcUnivariateChartProjection) As Object()
+            Dim categories(projection.Axis.Count - 1) As Object
+            For i As Integer = 0 To categories.Length - 1
+                Dim category = projection.Axis(i)
+                If category.IsSequenceCategory Then
+                    categories(i) = category.Point.SequenceValue.Value
                 Else
-                    statistic(i) = MissingChartValue()
-                    center(i) = MissingChartValue()
-                    lcl(i) = MissingChartValue()
-                    ucl(i) = MissingChartValue()
-                    lowerOne(i) = MissingChartValue()
-                    upperOne(i) = MissingChartValue()
-                    lowerTwo(i) = MissingChartValue()
-                    upperTwo(i) = MissingChartValue()
-                    signals(i) = MissingChartValue()
-                    exclusions(i) = MissingChartValue()
+                    categories(i) = category.Point.Label
                 End If
             Next
+            Return categories
+        End Function
 
+        Private Shared Function MarshalPanel(projection As SpcPanelSeriesProjection) As PanelChartData
+            Dim points(projection.Points.Count - 1) As SpcPointResult
+            For i As Integer = 0 To points.Length - 1
+                points(i) = projection.Points(i)
+            Next
             Return New PanelChartData(points,
-                                      statistic,
-                                      center,
-                                      lcl,
-                                      ucl,
-                                      lowerOne,
-                                      upperOne,
-                                      lowerTwo,
-                                      upperTwo,
-                                      signals,
-                                      exclusions)
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.Statistic))),
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.CenterLine))),
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.LowerControlLimit))),
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.UpperControlLimit))),
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.LowerOneSigma))),
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.UpperOneSigma))),
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.LowerTwoSigma))),
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.UpperTwoSigma))),
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.Signal))),
+                MarshalChartValues(projection.Channels(CInt(SpcChartChannel.Excluded))))
+        End Function
+
+        'Excel-specific blank VARIANT marshalling stays at the native boundary.
+        Friend Shared Function MarshalChartValues(values As IReadOnlyList(Of Double?)) As Object()
+            Dim marshalled(values.Count - 1) As Object
+            For i As Integer = 0 To values.Count - 1
+                If values(i).HasValue Then marshalled(i) = values(i).Value
+            Next
+            Return marshalled
         End Function
 
         Private Shared Sub AddZoneBands(chart As Chart,
@@ -881,7 +847,7 @@ Namespace graphics
             axisContext As SharedAxisContext,
             options As SpcControlChartAppearanceOptions)
 
-            If axisContext.StageIds.Length < 2 Then Return
+            If axisContext.Projection.Axis.Count < 2 Then Return
 
             Try
                 chart.Refresh()
@@ -889,24 +855,17 @@ Namespace graphics
                 Dim plotTop As Double = CDbl(chart.PlotArea.InsideTop)
                 Dim plotWidth As Double = CDbl(chart.PlotArea.InsideWidth)
                 Dim plotHeight As Double = CDbl(chart.PlotArea.InsideHeight)
-                Dim n As Integer = axisContext.StageIds.Length
-
-                For i As Integer = 1 To n - 1
-                    If Not String.Equals(axisContext.StageIds(i - 1),
-                                         axisContext.StageIds(i),
-                                         StringComparison.OrdinalIgnoreCase) Then
-                        Dim x As Single = CSng(plotLeft + plotWidth * (CDbl(i) / CDbl(n)))
-                        Dim boundaryObject As Object = chart.Shapes.AddLine(
-                            x,
-                            CSng(plotTop),
-                            x,
-                            CSng(plotTop + plotHeight))
-                        boundaryObject.Line.ForeColor.RGB = options.StageBoundaryColor
-                        boundaryObject.Line.DashStyle = MsoLineDash
-                        boundaryObject.Line.Weight = options.StageBoundaryLineWeight
-                        boundaryObject.AlternativeText = "Stage boundary: " &
-                            axisContext.StageIds(i - 1) & " to " & axisContext.StageIds(i)
-                    End If
+                For Each boundary In axisContext.Projection.StageBoundaries
+                    Dim x As Single = CSng(plotLeft + plotWidth * boundary.Fraction)
+                    Dim boundaryObject As Object = chart.Shapes.AddLine(
+                        x,
+                        CSng(plotTop),
+                        x,
+                        CSng(plotTop + plotHeight))
+                    boundaryObject.Line.ForeColor.RGB = options.StageBoundaryColor
+                    boundaryObject.Line.DashStyle = MsoLineDash
+                    boundaryObject.Line.Weight = options.StageBoundaryLineWeight
+                    boundaryObject.AlternativeText = boundary.AlternativeText
                 Next
             Catch
                 'Stage boundaries are annotations. Do not discard an otherwise valid
@@ -915,56 +874,41 @@ Namespace graphics
         End Sub
 
         Private Shared Sub AddPointLabels(series As Series,
-                                          points As SpcPointResult(),
+                                          labels As IReadOnlyList(Of SpcChartLabelIntent),
                                           options As SpcControlChartAppearanceOptions)
-            For i As Integer = 0 To points.Length - 1
-                Dim pointResult As SpcPointResult = points(i)
-                If pointResult IsNot Nothing AndAlso pointResult.HasFiniteValue Then
-                    SetPointLabel(series,
-                                  i,
-                                  pointResult.Label,
-                                  options.StatisticColor,
-                                  options.DataLabelFontSize,
-                                  XlDataLabelPosition.xlLabelPositionAbove)
-                End If
+            For Each label In labels
+                SetPointLabel(series,
+                              label.SeriesIndex,
+                              label.Text,
+                              options.StatisticColor,
+                              options.DataLabelFontSize,
+                              XlDataLabelPosition.xlLabelPositionAbove)
             Next
         End Sub
 
         Private Shared Sub AddSignalLabels(series As Series,
-                                           points As SpcPointResult(),
-                                           options As SpcControlChartAppearanceOptions)
-            For i As Integer = 0 To points.Length - 1
-                Dim pointResult As SpcPointResult = points(i)
-                If pointResult IsNot Nothing AndAlso
-                   pointResult.HasFiniteValue AndAlso
-                   pointResult.IsSignalled Then
-                    SetPointLabel(series,
-                                  i,
-                                  FormatRuleNumbers(pointResult.SignalRuleNumbers),
-                                  options.SignalColor,
-                                  options.DataLabelFontSize,
-                                  XlDataLabelPosition.xlLabelPositionAbove)
-                End If
+                                          labels As IReadOnlyList(Of SpcChartLabelIntent),
+                                          options As SpcControlChartAppearanceOptions)
+            For Each label In labels
+                SetPointLabel(series,
+                              label.SeriesIndex,
+                              label.Text,
+                              options.SignalColor,
+                              options.DataLabelFontSize,
+                              XlDataLabelPosition.xlLabelPositionAbove)
             Next
         End Sub
 
         Private Shared Sub AddExclusionLabels(series As Series,
-                                              points As SpcPointResult(),
-                                              options As SpcControlChartAppearanceOptions)
-            For i As Integer = 0 To points.Length - 1
-                Dim pointResult As SpcPointResult = points(i)
-                If pointResult IsNot Nothing AndAlso
-                   pointResult.HasFiniteValue AndAlso
-                   pointResult.IsExplicitlyExcluded Then
-                    Dim text As String = pointResult.ExclusionReason
-                    If text.Length = 0 Then text = "Excluded"
-                    SetPointLabel(series,
-                                  i,
-                                  text,
-                                  options.ExclusionColor,
-                                  options.DataLabelFontSize,
-                                  XlDataLabelPosition.xlLabelPositionBelow)
-                End If
+                                          labels As IReadOnlyList(Of SpcChartLabelIntent),
+                                          options As SpcControlChartAppearanceOptions)
+            For Each label In labels
+                SetPointLabel(series,
+                              label.SeriesIndex,
+                              label.Text,
+                              options.ExclusionColor,
+                              options.DataLabelFontSize,
+                              XlDataLabelPosition.xlLabelPositionBelow)
             Next
         End Sub
 
@@ -1178,19 +1122,9 @@ Namespace graphics
             Return True
         End Function
 
-        Private Shared Function FormatRuleNumbers(ruleNumbers As Integer()) As String
-            If ruleNumbers Is Nothing OrElse ruleNumbers.Length = 0 Then Return String.Empty
-            Dim parts(ruleNumbers.Length - 1) As String
-            For i As Integer = 0 To ruleNumbers.Length - 1
-                parts(i) = ruleNumbers(i).ToString(CultureInfo.InvariantCulture)
-            Next
-            Return "R" & String.Join(",", parts)
-        End Function
 
-        Private Shared Function ChartValue(value As Double) As Object
-            If IsFinite(value) Then Return value
-            Return MissingChartValue()
-        End Function
+
+
 
         Private Shared Function MissingChartValue() As Object
             'Nothing marshals as a blank VARIANT and is accepted by Series.Values.
@@ -1258,17 +1192,12 @@ Namespace graphics
         End Sub
 
         Private NotInheritable Class SharedAxisContext
-            Public Sub New(pointIndices As Integer(),
-                           categories As Object(),
-                           stageIds As String())
-                Me.PointIndices = pointIndices
+            Public Sub New(categories As Object(), projection As SpcUnivariateChartProjection)
                 Me.Categories = categories
-                Me.StageIds = stageIds
+                Me.Projection = projection
             End Sub
-
-            Public ReadOnly PointIndices As Integer()
             Public ReadOnly Categories As Object()
-            Public ReadOnly StageIds As String()
+            Public ReadOnly Projection As SpcUnivariateChartProjection
         End Class
 
         Private NotInheritable Class PanelChartData

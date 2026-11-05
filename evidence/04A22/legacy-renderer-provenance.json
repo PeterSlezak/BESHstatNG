@@ -1,0 +1,28 @@
+{
+  "source": "BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+  "source_sha256": "57a886adecf364508065d77715d8b5bc45bb4eb5aa677e39e53b475aa6e0a186",
+  "derivative": "BESHStat.Excel.Common.Tests/src/Spc22LegacyRenderer.vb",
+  "derivative_sha256": "73465d7cc12d0d61a57a374d419c613734b44544539d2720677197a75b766d83",
+  "methods": {
+    "BuildSharedAxisContext": "373745394bdbd43dbf691d000dab948eb8b8009612881ab5b54edf11f6df0d4f",
+    "BuildPanelChartData": "03404dfe31767f8a10f5a9130e326b1590c3a075096c0dc2291dfbd8072bff85",
+    "AddPointLabels": "1c358b8d692d4d63132b6b0cc44bfe7cbe8d30212eb13a7898dc7624cb997c80",
+    "AddSignalLabels": "a8ede338a0b1ec30d605b2634b2b9732de0198fbf21a91d24462501b5bca5afc",
+    "AddExclusionLabels": "70be2d4a50de1688e191e69bd18c66466c3c561cbe6e69a9ecf5f16c063db491",
+    "FormatRuleNumbers": "1aa38d5bc2dde22fa28687c4d5c3311162766f9377c6eefb0e8b02ea08b4c57f",
+    "ChartValue": "c7aa2b81df8a1757419e549c3e4d5b6857422129e8ace636f131341d33a2b01f",
+    "MissingChartValue": "2599b7d0754351d82561c524da83831719055330739169cf4b95fbb8962086aa",
+    "IsFinite": "e723b68b290e806d2fc4b3e1f5cfe92b8374d53af3eb98a18e31d4779d02eb06",
+    "HasValidZones": "e3233139041688fead00381977c50af0d1c7d49e877203e5724698be92bb8667",
+    "ComputeYAxisBounds": "428f2516bf8ccd7f616575608d33ca34896530d6f6e4a5d2ac13fc42f24117e4",
+    "IncludeValuesInBounds": "b20222c291ddb86d95433ca88215a13e32e247ee3e8558015ac03858d2d0e2d2",
+    "IncludeNullableInBounds": "fc52cac6a44ec6d0bfc45e2066b2ee94f4a0313793efc63835e626238fdf7f4c",
+    "PanelSupportsSpecificationLimits": "7712ea502d678e929dd6271040c55af71a58579fc62969638b54cb70f2bd49d0",
+    "HasNaturalZero": "8a51f949ab06ed684024dcfef6d3cca8b599c8c4029a21698c1f7162ddc1ee38",
+    "IsNumericChartValue": "a14ea0a88a282f519b4036e3eec1d70a44d807a4493e2c3210dbb91e774774b1"
+  },
+  "adaptation": "Visibility widened; Series replaced by a label collector, styling-only options/enum replaced by inert local types; SetPointLabel collects nonblank content and zero-based index. Shared axis/channel/label loop bodies unchanged. Stage predicate/fraction characterized separately against pinned original body; bounds/zones remain native.",
+  "status": "NOT_GOLDEN / SAME_CORE_PRESENTATION_COMPATIBILITY_ONLY",
+  "initial_derivative_sha256": "66833e820f62eff0280fb7f7880c8dd7916efb88f0f256835d9d7a36b1e0b576",
+  "setup_note": "Initial no-TestClass alias helper failed initial Debug build and was isolated before entry qualification. Final helper uses explicit label-list signatures and frozen bound methods. Initial bytes and unsuccessful generation/filter receipts remain local; zero-test filters are not counted as validation."
+}

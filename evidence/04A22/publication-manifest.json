@@ -1,0 +1,579 @@
+{
+  "base": "9330f8df18c0c73d2b233ec4b06dc7199cbb244a",
+  "head": "9330f8df18c0c73d2b233ec4b06dc7199cbb244a",
+  "branch": "codex/04A-22",
+  "files": {
+    "BESHStat.Excel.Common.Tests/src/Spc22LegacyRenderer.vb": {
+      "sha256": "73465d7cc12d0d61a57a374d419c613734b44544539d2720677197a75b766d83",
+      "bytes": 19232,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "test",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStat.Excel.Common.Tests/src/Spc22Tests.vb": {
+      "sha256": "19c5c061db56381687a4bba056f744a6c10b376756508b098df9399c6e62f120",
+      "bytes": 30601,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "test",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStat.Excel.Common/src/Analysis/SpcUnivariateChartProjectionPolicy.vb": {
+      "sha256": "77269587cccb667b462c1ae61f8b5a18889fd09bdb5d5fbf82f0a6dbf2139f42",
+      "bytes": 9300,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStatNG.Test/BESHStatNG.Tests.vbproj": {
+      "sha256": "258e03e3ac1a2e57278cb3a45f232f5eff8e2cbed6d4b97e0336cdfa59ca1db6",
+      "bytes": 23888,
+      "change": "modified",
+      "mode": "100644",
+      "tracked": true,
+      "role": "project",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStatNG.Test/src/Spc22AdapterTests.vb": {
+      "sha256": "006d8d2923656ad605cd31346f36fb034a62539e61d1caa7ad538a57c3499af0",
+      "bytes": 6429,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "test",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHStatNG_Help_MkDocs/docs/methods/control-charts.md": {
+      "sha256": "45436839ba3dece3a93174d7c748243f8dc49918ea8b50cd3f411f5059f3c003",
+      "bytes": 38703,
+      "change": "modified",
+      "mode": "100644",
+      "tracked": true,
+      "role": "documentation",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 0
+    },
+    "BESHstatNG/src/Graphics/SpcControlChartExcel.vb": {
+      "sha256": "e6216534de82e1282e906ce6b54e3f2a861d59af0d25c8ff29cf02e5936e0ffd",
+      "bytes": 60952,
+      "change": "modified",
+      "mode": "100644",
+      "tracked": true,
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "BESHstatNG/src/UI/Ui21ControlCharts.vb": {
+      "sha256": "99518c05451577b90aa7e94cae2250e26bf88aa8490717702dec42bc7fe4719b",
+      "bytes": 114829,
+      "change": "modified",
+      "mode": "100644",
+      "tracked": true,
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "docs/architecture/batch-04A-22-owner-review.md": {
+      "sha256": "14dc18657c6d9fdcdc3a8633709a709a512de8c58f44957119bdb098b65d744b",
+      "bytes": 27949,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "documentation",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/candidate-issues.json": {
+      "sha256": "4dd6dc7343f4d55c9ddf3ff5bcf1aff59c2b1c368ab124dbb9e246dcc112f206",
+      "bytes": 460,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/command-outcomes.json": {
+      "sha256": "0a7c14db7501e326a69d01af8d8bb6aa8e7b2499112ad29de7144c52464ec592",
+      "bytes": 59698,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/documentation-audit.json": {
+      "sha256": "98c562c2c49ef0fa650c7bfa67d8bcf4c902ffe366319f8bd02398716dc044cc",
+      "bytes": 632,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/entry-Debug-logical-test-identities.json": {
+      "sha256": "b9a640e755ff11a5e99c225ceb4d244f0fea93ccb903617af8037c323970ba21",
+      "bytes": 5020544,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/entry-Debug-raw-test-identities.json": {
+      "sha256": "1dafdf38ac4a8a3f5a5baad8ae3f963af8d1802977ae76d6240acf572d3db1fe",
+      "bytes": 3315078,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/entry-Release-logical-test-identities.json": {
+      "sha256": "94d295ca16531ac5e02345f8cdf620315bf259c43fcfb8b418e40a56ffa17e82",
+      "bytes": 5027424,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/entry-Release-raw-test-identities.json": {
+      "sha256": "f2fc3f05b2b8482824299ec91796bad40ddb9a4a09ea8d28d8df5433b8bad96d",
+      "bytes": 3315106,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/entry-state.json": {
+      "sha256": "5fa4eaf9e7adf4696f139ce33a7e0741f39224415c47cf2ba44ed932091f2ad0",
+      "bytes": 1682,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/entry-validation.json": {
+      "sha256": "748e59b82c91996458bde5f1c160e6975eff8a5906cd265e6c5b510db00b1936",
+      "bytes": 82513,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/final-Debug-logical-test-identities.json": {
+      "sha256": "f1a1a2ca58250559af379f41a359d3fd2e031b141f5653c0fb7c19d34f14806e",
+      "bytes": 5402829,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/final-Debug-raw-test-identities.json": {
+      "sha256": "8fa18564d382b92eb5a3eb0f9b76b01934acb1a07cfd97aed915750fef7b7f16",
+      "bytes": 3634512,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/final-Release-logical-test-identities.json": {
+      "sha256": "2d37bb5ece2fd8078057d73bee151b7f94c75380805a5a525e897f15a931ddfb",
+      "bytes": 5414778,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/final-Release-raw-test-identities.json": {
+      "sha256": "55e87145104236193163d2a3179665dbfcd109b70584f20c32e613e7f3758c35",
+      "bytes": 3634530,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/final-git-state.json": {
+      "sha256": "8f377994529d7089bd043c8558f588980f9aae9b50248968b99609d72831cbd1",
+      "bytes": 3798,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/final-source-qualification.json": {
+      "sha256": "b5b55073ef151db2f4b4eda2067b928fe87020b941dd4623327c026a9a32f4d7",
+      "bytes": 1549,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/frozen-capture-hashes.json": {
+      "sha256": "98f18d7bd286712008d9eba49c86473342104773a7f4f0031db3d8242c044a81",
+      "bytes": 152344,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/gate-validation.json": {
+      "sha256": "ba6effa8ead05612d6f9dcb46c885806566a0290765791d27fd12038dadb59ae",
+      "bytes": 3452,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/historical-manifest-observations.json": {
+      "sha256": "ef735c50a726c84f3cb159250a880246205bae29f24731bb75ff13bfdd624d99",
+      "bytes": 14837,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/legacy-renderer-provenance.json": {
+      "sha256": "a920a21da49a66538c26706b6fd872541e5cad04914be9bf7dd306a0c76eddc8",
+      "bytes": 2704,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/nonpasses.json": {
+      "sha256": "997ea2137a2700eac0f56e9632ce53dba0e2386668e5820c4908c425415f666c",
+      "bytes": 64314,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/original-control-crosswalk.json": {
+      "sha256": "d50bdf25a57240f66d8831d4b50e1eeb4c41c246bda189226d739e3c6b175803",
+      "bytes": 1307355,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/prechange-manifest.json": {
+      "sha256": "80d691f89cd42c84590baa59c4e8be1b2d866d67e7f09cb3c275f693ed053452",
+      "bytes": 13872,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/prechange-method-inventory.json": {
+      "sha256": "649239c0f9983a1a23da561497ac4b4849d40f5a79c66262604e7882bfa82f3f",
+      "bytes": 238679,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/prechange-ui-method-inventory.json": {
+      "sha256": "fdb7ee92f14d0b2fdfdbb5f7b597e4f7a1d638b9f4e496d8d518bc66c3c6f120",
+      "bytes": 131365,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/privacy.json": {
+      "sha256": "5cfd33678738e63b1836362f40147fc4de5aacc7cbd05abda1b7f2a54d81bbf0",
+      "bytes": 7656,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/project-compilation-inventory.json": {
+      "sha256": "3c05f3bebe740dbcf3bdbbffc5734b7d88bced7c006f99304e35439d15a432f8",
+      "bytes": 41328,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/python-nonpass-traces.json": {
+      "sha256": "ed6859efdb02403f0ac0a5a83a9bab61b838915199aeb39613e34135da96f981",
+      "bytes": 1894586,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/qualification-before-final.json": {
+      "sha256": "24da9206c5ee5486b7aaa716648336e5b253c84e84cc1c1154245756b987729a",
+      "bytes": 1340,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/retention.json": {
+      "sha256": "d7eb12b200698da5d09f70092c428bc2955258086c9c2bcc0fc258accf8b2d72",
+      "bytes": 577,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/source-preservation.json": {
+      "sha256": "43a6fcb5a7b1ad228013cc52dd690269efb8e4054863633cf71141a185861e53",
+      "bytes": 3080,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/spc-chart-family-panel-matrix-v1.json": {
+      "sha256": "43e2fc0a5f5fa76ce0a1da011e2b3777fdebe71001de114e96e37bf9612d3990",
+      "bytes": 1457,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/spc-postfit-same-core-comparisons-v1.json": {
+      "sha256": "7901f6355927feff3afcc193e7597625dcc5befc5a971afd1b5492ce37b92d15",
+      "bytes": 127418793,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/spc-signal-exclusion-marker-parity-v1.json": {
+      "sha256": "7858b575400dc79ad6ad8b21f581af3251bef177158d165e6e5db8c075795540",
+      "bytes": 412,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/spc-stage-boundary-geometry-v1.json": {
+      "sha256": "8355cfe9126c15087a450e91531cb72574b3525cb5f899bd69acd654ea585d5a",
+      "bytes": 433,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/spc-univariate-axis-series-parity-v1.json": {
+      "sha256": "122926f1fcabe310acbd29171304044345a19cb2f843bc6e58d3210d2482bffa",
+      "bytes": 426,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/spc-worked-compatibility-examples-v1.json": {
+      "sha256": "efe7f95e8ad098baf7aa14448aaff2fdcdea5fcb002751e8c26da7fa65d50b9b",
+      "bytes": 25051,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/spc-zone-reference-geometry-v1.json": {
+      "sha256": "087fd686d038863c615f03a9276276e938c33c5d635c9c9a79047aeed6be8559",
+      "bytes": 581,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/test-inventory.json": {
+      "sha256": "cd35dda795a448c77b2d8e203cf4e7fdc969ae27b3ebe24ec4bf9f4befb637ca",
+      "bytes": 1916639,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/toolchain.json": {
+      "sha256": "43cabf11f1fde671df7fa06315177bc7209196c636e3608254b172f973660edb",
+      "bytes": 509,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/transient-validation.json": {
+      "sha256": "f0b907bcb69a09d4f5623ebed02b302613ebe43ac6b09b84761d997e910810ee",
+      "bytes": 2715,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/validation.json": {
+      "sha256": "5576badd39a77235ab942d5660b00056bb38fd8f41ee5dae2b67604f18d48ec5",
+      "bytes": 87787,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "evidence/04A22/verification-workflow-provenance.json": {
+      "sha256": "ac69960538c20e2af9194b608bda0e9cbb89a7f349b4c16e0157389106a5922c",
+      "bytes": 24104,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "evidence",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/capture-04a22-contract.py": {
+      "sha256": "3007a754c628e91aa66f791cc8038112b0eb890068b6e82457ad4173a51a07de",
+      "bytes": 6489,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/summarize-04a22.py": {
+      "sha256": "1655ec038e96c488563d79ce36d99cda0051e262b97cbd9adab316badbba011b",
+      "bytes": 35144,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/tests/test_04a22_spc.py": {
+      "sha256": "7654f6e2b47b6a19bbb994a1d23470036d54fe0b7090969906289b7247c3e3bb",
+      "bytes": 9384,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "test",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/verify-04a22-publication.py": {
+      "sha256": "20c17d6274c9049f366b23cfde890f3beb1277743bb37fa0e66a3b891f9599c3",
+      "bytes": 7473,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    },
+    "scripts/verify-04a22.py": {
+      "sha256": "859bbc0806482f450b6346bb0dad0fe5ac491c37fc58dad559a8558bb65bebfb",
+      "bytes": 609,
+      "change": "new",
+      "mode": "100644",
+      "tracked": false,
+      "role": "implementation/verification",
+      "git_ignore_exit": 1,
+      "git_ignore_rule_exit": 1
+    }
+  },
+  "candidate_count": 57,
+  "self_hash_policy": "Only this manifest excluded from its own hash map; manifest membership, privacy and trackability checked separately. No circular hashes.",
+  "publication": "OWNER_REVIEW_PENDING / UNSTAGED / UNCOMMITTED / NOT_PUSHED",
+  "excluded": "All ignored TestResults/raw logs/TRX/snapshots/drafts/build binaries/caches; unchanged historical evidence/plan/captures/data/workbooks.",
+  "index": "EMPTY",
+  "native_releases": 0,
+  "deferred_discharges": 0,
+  "P": "NO",
+  "N1": "NO GO",
+  "N2": "NO",
+  "C2": "UNMET",
+  "reviewed_false_positive_groups": 0
+}
