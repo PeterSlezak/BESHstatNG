@@ -1,0 +1,74 @@
+{
+  "commands": [
+    {
+      "name": "ast-build",
+      "command": [
+        "dotnet",
+        "build",
+        "evidence/04A30/helpers/Graphics30Guard.csproj",
+        "--no-restore",
+        "-p:ProjectAssetsFile=<REPO_ROOT>\\.04a29-audit.tmp\\obj\\project.assets.json",
+        "-p:BaseIntermediateOutputPath=<FINAL_EVIDENCE_RUN>\\guard-obj/",
+        "-p:OutputPath=<FINAL_EVIDENCE_RUN>\\guard-bin/",
+        "--nologo",
+        "--verbosity",
+        "quiet"
+      ],
+      "exit_code": 0,
+      "seconds": 3.2148056000005454,
+      "stdout_sha256": "faf3de9365393cd14fc4000d04b65a8edffe0f009a39bd5cbff1c2c31273ed60",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "helper_sha256": "4c9585ad229dd731fd00223978bcea6e65532add1396b88ea4ab759062737d71",
+      "raw_receipt_sha256": "c48ced1ec1abed84609ed57c0d46d221c4196dc7ec1307e6d2e30df14e52b850"
+    },
+    {
+      "name": "ast-guard",
+      "command": [
+        "dotnet",
+        "<FINAL_EVIDENCE_RUN>\\guard-bin\\Graphics30Guard.dll"
+      ],
+      "exit_code": 0,
+      "seconds": 2.9643964000279084,
+      "stdout_sha256": "159f0db2545d3950bf5c2b8f614c6c79005d57aefb432547334da682b7667022",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "helper_sha256": "4c9585ad229dd731fd00223978bcea6e65532add1396b88ea4ab759062737d71",
+      "raw_receipt_sha256": "ec36802546c18a81227475b2743c41a8a313ec9ab8e4d7a1db6b555e8b05caca"
+    },
+    {
+      "name": "exact-root-and-source-tests",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence\\04A30\\helpers\\evidence_disposition_v2.py",
+        "tests"
+      ],
+      "exit_code": 0,
+      "seconds": 6.212683800025843,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "26d1a0c6c19ff362c4d72955cc99188212754de83020f288ba77d07462f900df",
+      "helper_sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54",
+      "raw_receipt_sha256": "8d81cf9e1604c03517791c40ef60bb0965fd509acadecb47b6346f06c8e21232"
+    },
+    {
+      "name": "historical-six-fails",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence\\04A30\\helpers\\evidence_disposition_v2.py",
+        "old-test"
+      ],
+      "exit_code": 1,
+      "seconds": 0.492509700008668,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "86bd49fc1ff93f7361dbce82d6197942d2610c63e6dd70f89c77d13fe83baa8c",
+      "helper_sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54",
+      "raw_receipt_sha256": "9bb56abc10c1ee57a0ef549911259a35ad4314c6846647eb9dce58bf5f2b8ee5"
+    }
+  ],
+  "helper_pin": {
+    "path": "evidence/04A30/helpers/evidence_disposition_v2.py",
+    "bytes": 37993,
+    "sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+  },
+  "raw_logs": "Ignored <FINAL_EVIDENCE_RUN>; no private absolute paths published"
+}

@@ -1,0 +1,99 @@
+{
+  "commands": [
+    {
+      "name": "ast-build",
+      "command": [
+        "dotnet",
+        "build",
+        "evidence/04A30/helpers/Graphics30Guard.csproj",
+        "--no-restore",
+        "-p:ProjectAssetsFile=<REPO_ROOT>\\.04a29-audit.tmp\\obj\\project.assets.json",
+        "-p:BaseIntermediateOutputPath=<DISPOSITION_RUN>\\guard-obj/",
+        "-p:OutputPath=<DISPOSITION_RUN>\\guard-bin/",
+        "--nologo",
+        "--verbosity",
+        "quiet"
+      ],
+      "exit_code": 0,
+      "seconds": 3.7720436999807134,
+      "stdout_sha256": "12862019f8d27764eb9732a1056f364ab81d1b815365f1a91fa69c82e6f8a145",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "helper_sha256": "b02c6b2c8b37ca251e2a9988c7b4cfbd5e0ee63686de30efeeb2f722423fa8e2",
+      "raw_receipt_sha256": "01f286a6386572c0fc9631fe461aafcf792db4f052c564449282396cc7bbddb5"
+    },
+    {
+      "name": "ast-guard",
+      "command": [
+        "dotnet",
+        "<DISPOSITION_RUN>\\guard-bin\\Graphics30Guard.dll"
+      ],
+      "exit_code": 0,
+      "seconds": 3.2567480999277905,
+      "stdout_sha256": "159f0db2545d3950bf5c2b8f614c6c79005d57aefb432547334da682b7667022",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "helper_sha256": "b02c6b2c8b37ca251e2a9988c7b4cfbd5e0ee63686de30efeeb2f722423fa8e2",
+      "raw_receipt_sha256": "58efeff18ecf66d973aae4a2a9d720f98a378ec44dc966a77b2bf3b3b429c666"
+    },
+    {
+      "name": "closeout-verification",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence\\04A30\\helpers\\evidence_disposition_v1.py",
+        "verify"
+      ],
+      "exit_code": 0,
+      "seconds": 4.155985999968834,
+      "stdout_sha256": "1e6ee797404dce81a61ff6f18220a8ec624917d0aefef8d26d26a25560b2b8f5",
+      "stderr_sha256": "c37d39a3615b0879d7ec2d2290b8680fb0dc5be9bd7a33f61686757cbc44683e",
+      "helper_sha256": "5d1efd184d4a6939387c06109ce7958525abd7eec2ad3b8da73881953b834476",
+      "raw_receipt_sha256": "b3988b39be501a1d64eaa6c3d723806988f1d967d59cb37878cb99dc5e3c41fc"
+    },
+    {
+      "name": "existing-finalizer-verification",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence/04A30/finalize.py",
+        "verify"
+      ],
+      "exit_code": 0,
+      "seconds": 0.5219034999608994,
+      "stdout_sha256": "8fc728fc58db9bf1a5590d9fb5227671744084ad1a91721cd5766a289890ad4b",
+      "stderr_sha256": "4b3cfeaf5040290966d22756ecf07c854d0adba97e658758a061bcc4fe4bdfa8",
+      "helper_sha256": "5d1efd184d4a6939387c06109ce7958525abd7eec2ad3b8da73881953b834476",
+      "raw_receipt_sha256": "c571e054f397f212dfd0e2ddb3a020162d5954e7c87a7da2d078b6b3552e5ffe"
+    },
+    {
+      "name": "historical-six-fails",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence\\04A30\\helpers\\evidence_disposition_v1.py",
+        "old-test"
+      ],
+      "exit_code": 1,
+      "seconds": 0.821140700019896,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "787609ad7f92bb4e4d6fcc39122a3040d2e1ef1144e13ba72ad266ac2965cea7",
+      "helper_sha256": "5d1efd184d4a6939387c06109ce7958525abd7eec2ad3b8da73881953b834476",
+      "raw_receipt_sha256": "a14fd725e43985238f0899c4ee8624b28033bc0ba2466ba5e4bbc31bb5880e8d"
+    },
+    {
+      "name": "successor-tests",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence\\04A30\\helpers\\evidence_disposition_v1.py",
+        "tests"
+      ],
+      "exit_code": 0,
+      "seconds": 7.537618500064127,
+      "stdout_sha256": "117e8294aa2ce768afdfa57bd4725cc9bde2a5a10993e4f89f2c7b7dbcdf2ece",
+      "stderr_sha256": "33308fb61a6acb9a5ad2d15c02e62b2361d2bdc8cf7ba59861b6a39ce0795c99",
+      "helper_sha256": "5d1efd184d4a6939387c06109ce7958525abd7eec2ad3b8da73881953b834476",
+      "raw_receipt_sha256": "1da40a65a3704139ebf01a8a9f56f6e2c5c252b31bf035b2c5404d857fc5a8db"
+    }
+  ],
+  "raw_logs": "Fresh ignored <DISPOSITION_RUN>; raw prior failures/receipts retained. No private paths published."
+}

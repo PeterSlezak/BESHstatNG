@@ -339,29 +339,13 @@ Namespace graphics
         Sub transformData()
             Dim tmp() As Double, tmp2() As Double
 
-            Dim min_old(p - 1) As Double, max_old(p - 1) As Double, range_old(p - 1) As Double, range_fract(p - 1) As Double
             ReDim ScaledData(n - 1, p - 1), x_corr_labels(p * p - 1), y_corr_labels(p * p - 1), x_var_labels(p - 1)
             Dim intercepts_scaled(p - 1, p - 1) As Double, slopes_scaled(p - 1, p - 1) As Double
             ReDim x_regline((p * (p - 1) * 3) - 1), y_regline((p * (p - 1) * 3) - 1)
 
-            Dim min_new As Double = (1 / p) * pMargin
-            Dim max_new As Double = (1 / p) * (1 - pMargin)
-            Dim range_new As Double = max_new - min_new
-
-            For j = 1 To p  ' loop over all variables/columns
-                tmp = Matrix.GetColumnFrom2Darray(pData, j - 1)
-                min_old(j - 1) = tmp.Min()
-                max_old(j - 1) = tmp.Max()
-                range_old(j - 1) = max_old(j - 1) - min_old(j - 1)
-                range_fract(j - 1) = range_new / range_old(j - 1)
-                x_var_labels(j - 1) = (j - 1) * (1 / p) + (1 / p) / 2
-            Next
-
-            For i = 0 To n - 1
-                For j = 1 To p
-                    ScaledData(i, j - 1) = ((j - 1.0) * (1.0 / p)) + (pData(i, j - 1) - min_old(j - 1)) * range_fract(j - 1) + min_new
-                Next
-            Next
+            Dim normalized = ScatterMatrixDataCore.Normalize(pData, pMargin)
+            ScaledData = normalized.Values
+            x_var_labels = normalized.DiagonalLabelX
 
             If pbDisplayCorrCoef Then CorrMatrix = Matrix.CorrelMatrix(pData, "r") 'compute pearson correlation coefficient to display on chart
 

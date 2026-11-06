@@ -1,0 +1,57 @@
+{
+  "base": "45466a88e7567c9f4711ba4fbbe295a7a2e69bb4",
+  "fixture": "BESHStat.Core.Tests/src/Graphics/LegacyGraphics30.vb",
+  "source_files": [
+    {
+      "path": "BESHstatNG/src/Graphics/ROC.vb",
+      "bytes": 25992,
+      "sha256": "707d01339c395ecc874cbe5be7e623addf8cd10afd2b565a936bd1d99d23a748"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/NormalPlot.vb",
+      "bytes": 10498,
+      "sha256": "35411116b26c17c9ee28d89ababc315e2fdc87e8b7a3c5576a5661017b34389d"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/BoxPlot.vb",
+      "bytes": 38634,
+      "sha256": "9d4ab03855b7b30603a18aa3f28847a92ca4f38ec442ceb9bb55b12a1c2fab23"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/Histogram.vb",
+      "bytes": 28275,
+      "sha256": "e29614a708ba6eeead94235b2371d9f7bc1f4abc7139ca061101cdd2bd2129a2"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/ScatterPlotMatrix.vb",
+      "bytes": 19299,
+      "sha256": "7558d7aace79b8fb8935695b9e9e9d6e7e402244a964bd1605c25d7a1a67dce1"
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/XYZscatter.vb",
+      "bytes": 88719,
+      "sha256": "c26946aaa5a8782c717a9ef2e066521ae9238cfdd34ab3cc2940a185e90653b6"
+    }
+  ],
+  "transformations": [
+    "Exact accepted member bodies sliced by audited declaration lines",
+    "Namespace/class renamed; private changed to Friend for observing numeric state",
+    "XML/source comments omitted for compactness; no arithmetic/control-flow edits",
+    "Scatter/XYZ host fields replaced with explicit numeric fixture fields; no COM retained"
+  ],
+  "status": "FROZEN_SOURCE_COMPATIBILITY_ONLY; NOT_GOLDEN",
+  "fixtures": [
+    {
+      "path": "BESHStat.Core.Tests/src/Graphics/LegacyGraphics30.vb",
+      "bytes": 19289,
+      "sha256": "b2bd54bc4d8104fddb5dd4f0d95e2269d329b77dc8588e3b97a9c02a06c8280a"
+    },
+    {
+      "path": "BESHStat.Core.Tests/src/Graphics/LegacyBoxBounds30.vb",
+      "bytes": 6285,
+      "sha256": "36875489f3fd13ea4ee9ac94cff601cec47d65f830a989a680747b384194c681"
+    }
+  ],
+  "forwarding_shim": "Exact Windows Matrix forwarding target ArrayUtilities.GetColumn;CorrelationMatrixCore.Compute via reflection of the existing Friend provider. No new correlation algorithm.",
+  "statement_proof": "source-ownership-guard.json frozen_fixture_proofs"
+}

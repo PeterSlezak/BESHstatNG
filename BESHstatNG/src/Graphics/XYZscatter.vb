@@ -1309,12 +1309,9 @@ Namespace graphics
         ''' </list>
         ''' </summary>
         Private Sub getnorm()
-            ReDim x_norm(n - 1), y_norm(n - 1), z_norm(n - 1)
-            For i = 0 To n - 1
-                x_norm(i) = ((x_raw(i) - raw_mins_(0)) / raw_ranges_(0) - 0.5) * axis_dir_(0)
-                y_norm(i) = ((y_raw(i) - raw_mins_(1)) / raw_ranges_(1) - 0.5) * axis_dir_(1)
-                z_norm(i) = ((z_raw(i) - raw_mins_(2)) / raw_ranges_(2) - 0.5) * axis_dir_(2)
-            Next
+            x_norm = XyzDataCore.NormalizeAxis(x_raw, raw_mins_(0), raw_ranges_(0), axis_dir_(0), n)
+            y_norm = XyzDataCore.NormalizeAxis(y_raw, raw_mins_(1), raw_ranges_(1), axis_dir_(1), n)
+            z_norm = XyzDataCore.NormalizeAxis(z_raw, raw_mins_(2), raw_ranges_(2), axis_dir_(2), n)
         End Sub
 
         ''' <summary>

@@ -267,7 +267,7 @@ Namespace graphics
                 .SeriesCollection.NewSeries
                 With .SeriesCollection(1)
                     .Values = pPlotBlank
-                    .XValues = pGroupNames
+                    .XValues = SnapshotGroupNames()
                     .Name = "PlotBlanks"
                     .Format.Fill.Visible = False
                     If Not useLegacyAppearance Then .Format.Line.Visible = False
@@ -603,6 +603,12 @@ Namespace graphics
             Return appearance.SeriesColors(groupIndex Mod appearance.SeriesColors.Length)
         End Function
 
+        Private Function SnapshotGroupNames() As String()
+            If pGroupNames Is Nothing OrElse pGroupNames.Length <> pData.Length Then Return pGroupNames
+            Return New ExcelCommon.OrderedPlotGroups(
+                New ExcelCommon.GroupedNumericData(pGroupNames, pData)).DisplayLabels
+        End Function
+
         ''' <summary>
         ''' Produces a summary table containing:
         ''' <list type="bullet">
@@ -616,11 +622,12 @@ Namespace graphics
         ''' </summary>
         ''' <returns>A <see cref="ResultTable"/> summarizing boxplot statistics.</returns>
         Public Function wrapResults() As ResultTable
+            Dim labels = SnapshotGroupNames()
             Dim t = New ResultTable, tmp(,) As Object
 
             ReDim tmp(Me.pNoGroups - 1, 5)
             For i = 0 To Me.pNoGroups - 1
-                tmp(i, 0) = Me.pGroupNames(i)
+                tmp(i, 0) = labels(i)
                 tmp(i, 1) = Me.pQ1(i)
                 tmp(i, 2) = Me.pMedians(i)
                 tmp(i, 3) = Me.pQ3(i)
@@ -716,55 +723,12 @@ Namespace graphics
                 With Me.pDSCollection.Item(i + 1) 'DescriptiveS
                     'Plot Blank
 
-                    If .LQuartile > 0 Then
-                        pPlotBlank(i) = .LQuartile
-                    Else
-                        pPlotBlank(i) = If(.UQuartile < 0, .UQuartile, 0)
-                    End If
-
-                    'Plot Median
-                    If .Median > 0 Then
-                        If .LQuartile > 0 Then
-                            pPlotMedian(i) = If(.Median > .LQuartile, .Median - .LQuartile, 0)
-                        Else
-                            pPlotMedian(i) = .Median
-                        End If
-                    Else
-                        pPlotMedian(i) = 0
-                    End If
-
-                    'Plot Q3
-                    If .UQuartile > 0 Then
-                        If .Median > 0 Then
-                            pPlotQ3(i) = If(.UQuartile > .Median, .UQuartile - .Median, 0)
-                        Else
-                            pPlotQ3(i) = .UQuartile
-                        End If
-                    Else
-                        pPlotQ3(i) = 0
-                    End If
-
-                    'Plot Q3 Minus
-                    If .Median < 0 Then
-                        If .UQuartile < 0 Then
-                            pPlotQ3Minus(i) = If(.Median < .UQuartile, .Median - .UQuartile, 0)
-                        Else
-                            pPlotQ3Minus(i) = .Median
-                        End If
-                    Else
-                        pPlotQ3Minus(i) = 0
-                    End If
-
-                    'Plot Median Minus
-                    If .LQuartile < 0 Then
-                        If .Median < 0 Then
-                            pPlotMedianMinus(i) = If(.LQuartile < .Median, .LQuartile - .Median, 0)
-                        Else
-                            pPlotMedianMinus(i) = .LQuartile
-                        End If
-                    Else
-                        pPlotMedianMinus(i) = 0
-                    End If
+                    Dim segments = BoxSegmentsCore.Compute(.LQuartile, .Median, .UQuartile)
+                    pPlotBlank(i) = segments.Blank
+                    pPlotMedian(i) = segments.Median
+                    pPlotQ3(i) = segments.Q3
+                    pPlotQ3Minus(i) = segments.Q3Minus
+                    pPlotMedianMinus(i) = segments.MedianMinus
 
                     'Sort a clone for whisker lookup so pData keeps the original
                     'observation order used by the optional jittered point layer.

@@ -393,6 +393,13 @@
     <Error Condition="!Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.props'))" />
     <Error Condition="!Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets'))" />
   </Target>
+  <ItemGroup>
+    <Compile Include="src\Charts\Graphics30AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics30Tests.vb"><Link>Graphics30\Graphics30Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyGraphics30.vb"><Link>Graphics30\LegacyGraphics30.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyBoxBounds30.vb"><Link>Graphics30\LegacyBoxBounds30.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Excel.Common.Tests\src\OrderedPlotGroups30Tests.vb"><Link>Graphics30\OrderedPlotGroups30Tests.vb</Link></Compile>
+  </ItemGroup>
   <Import Project="packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets" Condition="Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" />
   <ItemGroup>
     <Compile Include="..\BESHStat.Excel.Common.Tests\src\Planning26Tests.vb"><Link>Common\Planning26Tests.vb</Link></Compile>

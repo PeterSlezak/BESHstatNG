@@ -1,0 +1,180 @@
+{
+  "schema": "04A30-final-original-byte-completion-v1",
+  "decision": "READY_FOR_OWNER_04A30_ACCEPTANCE_REVIEW",
+  "archive": {
+    "basename": "BESHStatNG_04A29_Pristine_Publication_Bytes_For_04A30_20261106.zip",
+    "bytes": 3474560,
+    "sha256": "d14b960f974a10831474892c60bee63824d02eb864fb58b93aefdc41dcfaec66"
+  },
+  "trusted_root": "PRISTINE_04A29_ORIGINALS/",
+  "entries": 121,
+  "authenticated_originals": 120,
+  "counts": {
+    "DIRECT_ORIGINAL_HASH_MATCH": 27,
+    "ORIGINAL_BYTES_CRLF_TO_LF_PROVEN": 93,
+    "MANIFEST_SELF_ENTRY": 1
+  },
+  "unresolved": 0,
+  "source_pins": {
+    "total": 278,
+    "unchanged": 272,
+    "authorized": 6,
+    "status": "PASS"
+  },
+  "targeted_tests": {
+    "status": "PASS",
+    "tests_run": 19,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "test_identities": [
+      "exact_root_v2.ExactArchiveTests.test_278_272_6_and_all_protections",
+      "exact_root_v2.ExactArchiveTests.test_absolute_path_rejected",
+      "exact_root_v2.ExactArchiveTests.test_altered_frozen_manifest_rejected",
+      "exact_root_v2.ExactArchiveTests.test_bad_archive_container_sha_rejected",
+      "exact_root_v2.ExactArchiveTests.test_bad_original_sha_rejected",
+      "exact_root_v2.ExactArchiveTests.test_case_ambiguity_rejected",
+      "exact_root_v2.ExactArchiveTests.test_duplicate_exact_path_rejected",
+      "exact_root_v2.ExactArchiveTests.test_duplicate_normalized_path_rejected",
+      "exact_root_v2.ExactArchiveTests.test_duplicate_suffix_trap_is_resolved_by_exact_root",
+      "exact_root_v2.ExactArchiveTests.test_explicit_empty_repository_root",
+      "exact_root_v2.ExactArchiveTests.test_missing_core_delegation_rejected",
+      "exact_root_v2.ExactArchiveTests.test_missing_exact_entry_rejected",
+      "exact_root_v2.ExactArchiveTests.test_mixed_line_endings_forward_proof",
+      "exact_root_v2.ExactArchiveTests.test_no_root_discovery",
+      "exact_root_v2.ExactArchiveTests.test_seventh_changed_source_rejected",
+      "exact_root_v2.ExactArchiveTests.test_swapped_legacy_new_sha_rejected",
+      "exact_root_v2.ExactArchiveTests.test_traversal_rejected",
+      "exact_root_v2.ExactArchiveTests.test_unauthorized_existing_test_change_rejected",
+      "exact_root_v2.ExactArchiveTests.test_unauthorized_test_project_change_rejected"
+    ],
+    "helper_pin": {
+      "path": "evidence/04A30/helpers/evidence_disposition_v2.py",
+      "bytes": 37993,
+      "sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+    }
+  },
+  "old_test": {
+    "parent_tests_run": 1,
+    "failed_subtests": 6,
+    "errors": 0,
+    "status": "FAIL retained"
+  },
+  "retention": {
+    "status": "PASS",
+    "previous95_external_payloads_preserved": true,
+    "prior_summary_copies": 16,
+    "v1_conditional_and_v2_pending_attempts_unchanged": true,
+    "large_dataset_copies": 0
+  },
+  "commands": [
+    {
+      "name": "ast-build",
+      "command": [
+        "dotnet",
+        "build",
+        "evidence/04A30/helpers/Graphics30Guard.csproj",
+        "--no-restore",
+        "-p:ProjectAssetsFile=<REPO_ROOT>\\.04a29-audit.tmp\\obj\\project.assets.json",
+        "-p:BaseIntermediateOutputPath=<FINAL_EVIDENCE_RUN>\\guard-obj/",
+        "-p:OutputPath=<FINAL_EVIDENCE_RUN>\\guard-bin/",
+        "--nologo",
+        "--verbosity",
+        "quiet"
+      ],
+      "exit_code": 0,
+      "seconds": 3.286200800095685,
+      "stdout_sha256": "db93b67058d01d79606a405a7f3986167f2d4f0f3df72d1c94aa35c12ce3f376",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "helper_sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+    },
+    {
+      "name": "ast-guard",
+      "command": [
+        "dotnet",
+        "<FINAL_EVIDENCE_RUN>\\guard-bin\\Graphics30Guard.dll"
+      ],
+      "exit_code": 0,
+      "seconds": 3.061435400042683,
+      "stdout_sha256": "159f0db2545d3950bf5c2b8f614c6c79005d57aefb432547334da682b7667022",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "helper_sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+    },
+    {
+      "name": "historical-six-fails",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence\\04A30\\helpers\\final_original_bytes_closeout_v1.py",
+        "old-test"
+      ],
+      "exit_code": 1,
+      "seconds": 0.9305509000550956,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "787609ad7f92bb4e4d6fcc39122a3040d2e1ef1144e13ba72ad266ac2965cea7",
+      "driver_sha256": "d8635f7d3c68d0f27d236a3769d25b40e93c5a988b56c93b3957191bb53c05a8",
+      "exact_root_helper": {
+        "path": "evidence/04A30/helpers/evidence_disposition_v2.py",
+        "bytes": 37993,
+        "sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+      }
+    },
+    {
+      "name": "original-byte-qualification",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence/04A30/helpers/evidence_disposition_v2.py",
+        "qualify",
+        "--archive",
+        "<PRISTINE_ARCHIVE>",
+        "--root",
+        "PRISTINE_04A29_ORIGINALS/"
+      ],
+      "exit_code": 0,
+      "seconds": 11.112662799889222,
+      "stdout_sha256": "c9a93ef22affce99e9184427470275e91f9bc4a47e0102f32a4dd3b4a52c5200",
+      "stderr_sha256": "4b3cfeaf5040290966d22756ecf07c854d0adba97e658758a061bcc4fe4bdfa8",
+      "driver_sha256": "d8635f7d3c68d0f27d236a3769d25b40e93c5a988b56c93b3957191bb53c05a8",
+      "exact_root_helper": {
+        "path": "evidence/04A30/helpers/evidence_disposition_v2.py",
+        "bytes": 37993,
+        "sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+      }
+    },
+    {
+      "name": "targeted-exact-root-tests",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence\\04A30\\helpers\\final_original_bytes_closeout_v1.py",
+        "tests"
+      ],
+      "exit_code": 0,
+      "seconds": 5.984714400023222,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "55e4c3fa3fefb876fa83ae45395e317de59c11d1baa1edab576c36ba8c47a969",
+      "driver_sha256": "d8635f7d3c68d0f27d236a3769d25b40e93c5a988b56c93b3957191bb53c05a8",
+      "exact_root_helper": {
+        "path": "evidence/04A30/helpers/evidence_disposition_v2.py",
+        "bytes": 37993,
+        "sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+      }
+    }
+  ],
+  "prior_runs": "REUSED_PREVIOUS_04A30_EXECUTION_EVIDENCE;full matrices/native/R/browser/MkDocs/strict/profile/history scans NOT_RUN in this final continuation",
+  "product_existing_test_changes": 0,
+  "all100_captures_unchanged": true,
+  "original12_core_graphics_unchanged": true,
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "Gate_C2": "UNMET"
+  },
+  "scientific": "NOT_GOLDEN",
+  "native": "NATIVE_NOT_RUN",
+  "native_releases": 0,
+  "original_control_discharges": 0,
+  "next_batch_started": false
+}

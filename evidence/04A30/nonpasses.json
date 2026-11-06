@@ -1,0 +1,156 @@
+{
+  "decision": "READY_FOR_OWNER_04A30_ACCEPTANCE_REVIEW",
+  "acceptance_blockers": [],
+  "managed": {
+    "raw_failed": 14,
+    "before_after": "Same exact identities/outcomes as original-source Debug; full Release has same failures. See managed-validation-v1.json.",
+    "unexpected_new_failures": 0
+  },
+  "python": {
+    "total": 956,
+    "passed": 840,
+    "failed": 106,
+    "errors": 10,
+    "inherited_remaining_failures": 100,
+    "inherited_errors": 10,
+    "new_frozen_source_pin_subtest_failures": 6,
+    "initial_audit_privacy_failures_fixed": 2,
+    "full_verified_matrix_raw": {
+      "passed": 838,
+      "failed": 108,
+      "errors": 10
+    },
+    "final_scripts_rerun": {
+      "total": 745,
+      "passed": 640,
+      "failed": 100,
+      "errors": 5
+    },
+    "qualification": "Entry Debug Python was844pass/102fail/10error;two privacy checks initially failed on provisional04A30 metadata. Final verified full matrix was838/108/10 before synthetic security-test display payloads were redacted in the new identity export. The final745-case scripts rerun is640/100/5; together with unchanged tools/help/Common lanes this yields final840/106/10. Six authorized source-pin failures remain FAIL. All earlier receipts retained; no assertion or historical expected hash changed."
+  },
+  "strict_exit": 1,
+  "profile_exit": 1,
+  "strict_mkdocs_exit": 0,
+  "native": "NATIVE_NOT_RUN",
+  "R": "NOT_RUN",
+  "goldens": "NOT_GOLDEN",
+  "retained_defects": "All named original restrictions, ROC repeated accumulator/scatter margin/legacy definitions and historical171/172 uncertainties retained.",
+  "intermediate_runs": "product/focused builds and first complete matrix retained in raw receipts; final verified label supersedes them after one XYZ empty-input preservation fix. No failed receipt was overwritten.",
+  "historical_six_source_pin_failures": {
+    "status": "FAIL",
+    "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+    "successor": "PASS",
+    "receipt": "historical-source-pin-rerun-v1.json",
+    "subtests": [
+      {
+        "path": "BESHstatNG/src/Graphics/BoxPlot.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "b6f2066dbb66c19234f6264b6aefd84e9e3413bfbbe758d4dbc3129d2fface07"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/Histogram.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "d4d741b15ba904483907f0f5184d72482aba33855862333e2b54c5f77069889c"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/NormalPlot.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "9dfbef3f4bb0416345a9bb2c208a6f3dd6fdc7a8619b2ae319c2c1611cf0ddeb"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/ROC.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "63cf8530c992e12ad58e67fc6b84b141cbe67d9a44a2269c2288393419a91139"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/ScatterPlotMatrix.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "93eb51aa01dd6f1d2c5479d390aab2da3f5111b5be2590ca2ad48b9258d65b68"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/XYZscatter.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "9ed6c3bcc6b5fffd0f56afc98449ff0f379c4a466392cf83e5b3a31bac5127bf"
+      }
+    ],
+    "raw_totals_unchanged": true
+  },
+  "new_closeout_runs": {
+    "successor_tests": 11,
+    "passed": 11,
+    "failed": 0,
+    "errors": 0,
+    "historical_parent_tests": 1,
+    "historical_failed_subtests": 6,
+    "aggregate_with_previous_suites": "NOT_COMBINED; separate execution scopes"
+  },
+  "final_v2": {
+    "archive": "PASS_ALL_ORIGINAL_EOL_TRANSITIONS_PROVEN",
+    "counts": {
+      "DIRECT_ORIGINAL_HASH_MATCH": 27,
+      "ORIGINAL_BYTES_CRLF_TO_LF_PROVEN": 93,
+      "MANIFEST_SELF_ENTRY": 1
+    },
+    "new_targeted_tests_passed": 19,
+    "historical_failed_subtests": [
+      {
+        "path": "BESHstatNG/src/Graphics/BoxPlot.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "b6f2066dbb66c19234f6264b6aefd84e9e3413bfbbe758d4dbc3129d2fface07"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/Histogram.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "d4d741b15ba904483907f0f5184d72482aba33855862333e2b54c5f77069889c"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/NormalPlot.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "9dfbef3f4bb0416345a9bb2c208a6f3dd6fdc7a8619b2ae319c2c1611cf0ddeb"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/ROC.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "63cf8530c992e12ad58e67fc6b84b141cbe67d9a44a2269c2288393419a91139"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/ScatterPlotMatrix.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "93eb51aa01dd6f1d2c5479d390aab2da3f5111b5be2590ca2ad48b9258d65b68"
+      },
+      {
+        "path": "BESHstatNG/src/Graphics/XYZscatter.vb",
+        "outcome": "FAIL",
+        "cause": "AUTHORIZED_VERSIONED_SOURCE_TRANSITION_04A30",
+        "failure_text_sha256": "9ed6c3bcc6b5fffd0f56afc98449ff0f379c4a466392cf83e5b3a31bac5127bf"
+      }
+    ],
+    "old_raw_totals_preserved": true,
+    "prior_matrices": "REUSED_PREVIOUS_04A30_EXECUTION_EVIDENCE;not rerun"
+  },
+  "prior_authority_manifest_discrepancy_status": {
+    "original_frozen_entry_mismatches": 93,
+    "eol_proven": 0,
+    "eol_unproved": 93,
+    "frozen_manifest_unchanged": true
+  },
+  "authority_manifest_discrepancies": {
+    "original_recorded_differences": 93,
+    "exact_original_byte_eol_transforms_proven": 93,
+    "unexplained": 0,
+    "historical_manifest_unchanged": true,
+    "evidence": "04A29-eol-qualification-v2.json"
+  },
+  "final_original_byte_outcome": "Original-byte blocker resolved;all previous raw managed/Python/strict/profile nonpasses and six historical FAIL subtests retained unchanged."
+}

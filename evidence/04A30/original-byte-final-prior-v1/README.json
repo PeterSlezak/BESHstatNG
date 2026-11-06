@@ -1,0 +1,16 @@
+{
+  "decision": "NOT_READY",
+  "dossier": "docs/architecture/batch-04A-30-owner-review.md",
+  "manifest": "evidence/04A30/publication-manifest.json",
+  "authoritative_operation_map": "migration-operation-map-v1.csv",
+  "casebook": "graphics-compatibility-casebook-v1.json",
+  "reproduce": [
+    "Use existing restored/cache-only assets and isolated runner; do not invoke stock verifier default historical outputs",
+    "run.py focused/matrix/managed/serial/guard configuration label; raw paths stay under fresh ignored run root",
+    "finalize.py verify validates candidate membership, all SHA/bytes and references without product build",
+    "Do not rerun entry/map over accepted receipts or modify frozen04A29 authority"
+  ],
+  "elapsed_finalization_seconds": 5.140990799991414,
+  "current_closeout": "04A30-evidence-disposition-v2.json",
+  "verification": "helpers/evidence_disposition_v2.py verify;unchanged finalize.py verify supported after seal"
+}

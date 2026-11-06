@@ -1,0 +1,1 @@
+Immutable pre-v2 summaries. Conditional v1 proof and helper remain at original paths unchanged. These retained decisions are historical; root dossier and v2 receipts are current. Large unchanged datasets are not duplicated.

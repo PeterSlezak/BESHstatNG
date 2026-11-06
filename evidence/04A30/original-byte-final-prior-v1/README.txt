@@ -1,0 +1,1 @@
+Immutable previous NOT_READY checkpoint before real pristine bytes became available. V1 attempts and archive-input-status-v2 remain unchanged; large unchanged CSV/casebooks are not copied. Current root dossier and authenticated v2 original-byte proof supersede these statuses.

@@ -1,0 +1,1 @@
+Immutable pre-closeout 04A.30 summaries. Superseded decisions are historical, not current authority. Large unchanged CSV/casebooks remain at their original paths, authenticated by the retained manifest.

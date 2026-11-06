@@ -1,0 +1,2104 @@
+{
+  "status": "PASS",
+  "runs": [
+    {
+      "configuration": "Debug",
+      "suite": "Core",
+      "outcomes": {
+        "Passed": 120
+      },
+      "trx_sha256": "4204b44ae276cf7863825ff7a89dc14954f77b2c2c25f576a6538a300b596c1e",
+      "seconds": 1.9664757000282407,
+      "identities": [
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ComparativeRequiresExactlyTwoUsableGroups",
+          "test_name": "ComparativeRequiresExactlyTwoUsableGroups",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_UnknownScaleModeThrows",
+          "test_name": "Validation_UnknownScaleModeThrows",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "MismatchedRowsRejected",
+          "test_name": "MismatchedRowsRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Blom\",\"OLS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Blom\",\"SPSS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "EqualPositiveLimits_ExpandNarrowly",
+          "test_name": "EqualPositiveLimits_ExpandNarrowly",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ComparativeOrientationChangesOnlyRenderingOptions",
+          "test_name": "ComparativeOrientationChangesOnlyRenderingOptions",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"(Freedman-Diaconis)\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_NonZeroGroupLowerBoundIsSupported",
+          "test_name": "Input_NonZeroGroupLowerBoundIsSupported",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Groups_FirstAppearanceOrderAndTextTrimming",
+          "test_name": "Groups_FirstAppearanceOrderAndTextTrimming",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "EmptyInput_RetainsException",
+          "test_name": "EmptyInput_RetainsException",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (0,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"(Sturges)\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "CLRAndTextNumericCategoriesShareOneGroup",
+          "test_name": "CLRAndTextNumericCategoriesShareOneGroup",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (1,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "NullInput_RetainsException",
+          "test_name": "NullInput_RetainsException",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "UnknownRule_RetainsOneTargetBinFallback",
+          "test_name": "UnknownRule_RetainsOneTargetBinFallback",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Missing_InfinityThrowsInsteadOfBeingOmitted",
+          "test_name": "Missing_InfinityThrowsInsteadOfBeingOmitted",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_ConstantSampleYieldsNonfiniteDensitiesAsBefore",
+          "test_name": "GaussianOverlay_ConstantSampleYieldsNonfiniteDensitiesAsBefore",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "ZeroToZero_PreservesLegacySpecialCase",
+          "test_name": "ZeroToZero_PreservesLegacySpecialCase",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Scaling_CountModeRespectsRelativeSampleSize",
+          "test_name": "Scaling_CountModeRespectsRelativeSampleSize",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Groups_LocalizedDecimalTextIsNumerical",
+          "test_name": "Groups_LocalizedDecimalTextIsNumerical",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_LengthMismatchIsRejected",
+          "test_name": "Input_LengthMismatchIsRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Missing_NaNAndBlankAndDBNullAndNothingRowsAreExcluded",
+          "test_name": "Missing_NaNAndBlankAndDBNullAndNothingRowsAreExcluded",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ComparativePercentagesForEachGroupSumToOneHundred",
+          "test_name": "ComparativePercentagesForEachGroupSumToOneHundred",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "StackedPooledContributionsIntegrateToOne",
+          "test_name": "StackedPooledContributionsIntegrateToOne",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "ScatterFrozenNormalizationAndXyz",
+          "test_name": "ScatterFrozenNormalizationAndXyz",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_BandwidthAdjustmentMustBePositive",
+          "test_name": "Validation_BandwidthAdjustmentMustBePositive",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_PreservesInputSortingSideEffect",
+          "test_name": "GaussianOverlay_PreservesInputSortingSideEffect",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Basic_YExtentEnclosesEveryGrid",
+          "test_name": "Basic_YExtentEnclosesEveryGrid",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Bandwidth_ManualValueIsRetained",
+          "test_name": "Bandwidth_ManualValueIsRetained",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Basic_GroupOrderingAndObservationCounts",
+          "test_name": "Basic_GroupOrderingAndObservationCounts",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InvalidPlotTypeRejected",
+          "test_name": "InvalidPlotTypeRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "Sturges_OneValueAndZeroValueRanges",
+          "test_name": "Sturges_OneValueAndZeroValueRanges",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_GridLimitsThrow",
+          "test_name": "Validation_GridLimitsThrow",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_FrequencyScalingUsesDistinctSortedBinWidths",
+          "test_name": "GaussianOverlay_FrequencyScalingUsesDistinctSortedBinWidths",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (1,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Scaling_EqualAreaUsesCommonDensityToWidthFactor",
+          "test_name": "Scaling_EqualAreaUsesCommonDensityToWidthFactor",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Bandwidth_AdjustmentMultipliesSelectedRule",
+          "test_name": "Bandwidth_AdjustmentMultipliesSelectedRule",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (3,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Grid_UntrimmedExtendsThreeBandwidths",
+          "test_name": "Grid_UntrimmedExtendsThreeBandwidths",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InvariantDecimalGroupTextAndNumericValueAreEquivalent",
+          "test_name": "InvariantDecimalGroupTextAndNumericValueAreEquivalent",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Missing_AllRowsFiltered_Throws",
+          "test_name": "Missing_AllRowsFiltered_Throws",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "Sturges_RightMostBoundaryIncluded",
+          "test_name": "Sturges_RightMostBoundaryIncluded",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Van Der Waerden\",\"SPSS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Summary_StatisticsAndTukeyWhiskersArePreserved",
+          "test_name": "Summary_StatisticsAndTukeyWhiskersArePreserved",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "NegativeZero_EqualsPositiveZero",
+          "test_name": "NegativeZero_EqualsPositiveZero",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InvalidComparativeOrientationRejected",
+          "test_name": "InvalidComparativeOrientationRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "LargeValues_RetainScalePrecision",
+          "test_name": "LargeValues_RetainScalePrecision",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (2,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "DefaultOptionsAndGroupOrder",
+          "test_name": "DefaultOptionsAndGroupOrder",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_HasLegacyHundredByTwoShapeAndEndpoints",
+          "test_name": "GaussianOverlay_HasLegacyHundredByTwoShapeAndEndpoints",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "FreedmanDiaconis_PreservesQuartileSorterSideEffect",
+          "test_name": "FreedmanDiaconis_PreservesQuartileSorterSideEffect",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Bandwidth_ConstantSingleObservationFallbackProducesPositiveKde",
+          "test_name": "Bandwidth_ConstantSingleObservationFallbackProducesPositiveKde",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Rankit\",\"SPSS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Rankit\",\"R\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Scaling_EqualMaximumWidthNormalizesEveryViolin",
+          "test_name": "Scaling_EqualMaximumWidthNormalizesEveryViolin",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_OneMidpointUsesUnitWidth",
+          "test_name": "GaussianOverlay_OneMidpointUsesUnitWidth",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "MixedSignIntervals_EncloseZero",
+          "test_name": "MixedSignIntervals_EncloseZero",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "ReversedIntervals_ProduceSameScaling",
+          "test_name": "ReversedIntervals_ProduceSameScaling",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Basic_DensityGridHasRequestedLengthAndPositiveValues",
+          "test_name": "Basic_DensityGridHasRequestedLengthAndPositiveValues",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramFrozenBoundsAndEmptyPrecondition",
+          "test_name": "HistogramFrozenBoundsAndEmptyPrecondition",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalMutationFallbackEmptyAndNonfinite",
+          "test_name": "NormalMutationFallbackEmptyAndNonfinite",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (0,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Bandwidth_ScottProducesPositiveFiniteBandwidth",
+          "test_name": "Bandwidth_ScottProducesPositiveFiniteBandwidth",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_NullValuesAreRejected",
+          "test_name": "Input_NullValuesAreRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "MissingValuesAndGroupsCountOnlyPairedObservations",
+          "test_name": "MissingValuesAndGroupsCountOnlyPairedObservations",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InfiniteContinuousValueRejected",
+          "test_name": "InfiniteContinuousValueRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Contracts_OptionsAreCopiedOnResultCreationAndRead",
+          "test_name": "Contracts_OptionsAreCopiedOnResultCreationAndRead",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Van Der Waerden\",\"OLS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_NullGroupsAreRejected",
+          "test_name": "Input_NullGroupsAreRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_UnknownBandwidthRuleThrows",
+          "test_name": "Validation_UnknownBandwidthRuleThrows",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"(Doane)\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "NegativeValues_AreCounted",
+          "test_name": "NegativeValues_AreCounted",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "UnequalGroupsUsePooledCountsForStackedAndPerGroupForDensity",
+          "test_name": "UnequalGroupsUsePooledCountsForStackedAndPerGroupForDensity",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (4,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "Sturges_KnownBreaksMidpointsAndFrequencies",
+          "test_name": "Sturges_KnownBreaksMidpointsAndFrequencies",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_ManualBandwidthIsRequiredAndPositive",
+          "test_name": "Validation_ManualBandwidthIsRequiredAndPositive",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "MultidimensionalGroupArrayRejected",
+          "test_name": "MultidimensionalGroupArrayRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "DefensiveCopiesForResultArraysAndOptions",
+          "test_name": "DefensiveCopiesForResultArraysAndOptions",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "NullContinuousValuesRejected",
+          "test_name": "NullContinuousValuesRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "TextAndBooleanRemainDistinctCategories",
+          "test_name": "TextAndBooleanRemainDistinctCategories",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ConstantSampleStillProducesFinitePositiveBinWidth",
+          "test_name": "ConstantSampleStillProducesFinitePositiveBinWidth",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "NegativeIntervals_UseFloorRatherThanTruncation",
+          "test_name": "NegativeIntervals_UseFloorRatherThanTruncation",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_GroupArrayMustBeOneDimensional",
+          "test_name": "Input_GroupArrayMustBeOneDimensional",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ResultBinExtentMatchesWidthAndMidpoints",
+          "test_name": "ResultBinExtentMatchesWidthAndMidpoints",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Blom\",\"R\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Numerical_RunIsDeterministic",
+          "test_name": "Numerical_RunIsDeterministic",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Groups_NumericValuesAndNumericTextUseSameKey",
+          "test_name": "Groups_NumericValuesAndNumericTextUseSameKey",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Grid_TrimmedUsesObservedLimits",
+          "test_name": "Grid_TrimmedUsesObservedLimits",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "GroupsWithNonZeroLowerBoundAreAlignedCorrectly",
+          "test_name": "GroupsWithNonZeroLowerBoundAreAlignedCorrectly",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "DensityForEachGroupIntegratesToOne",
+          "test_name": "DensityForEachGroupIntegratesToOne",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "FourRules_AcceptSkewedFiniteObservations",
+          "test_name": "FourRules_AcceptSkewedFiniteObservations",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "SignedBoxSegmentsFromWholeFrozenMethod",
+          "test_name": "SignedBoxSegmentsFromWholeFrozenMethod",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "NullCategoriesRejected",
+          "test_name": "NullCategoriesRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_EmptyDataAreRejected",
+          "test_name": "Input_EmptyDataAreRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "EmptyContinuousArrayRejected",
+          "test_name": "EmptyContinuousArrayRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"(Scott)\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "PositiveIntervals_HaveEstablishedMajorUnits",
+          "test_name": "PositiveIntervals_HaveEstablishedMajorUnits",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Groups_ConventionalDecimalStringIsNumerical",
+          "test_name": "Groups_ConventionalDecimalStringIsNumerical",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (4,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "StableObjectResultAndFreshInstance",
+          "test_name": "StableObjectResultAndFreshInstance",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocInvalidAndMidrankCopies",
+          "test_name": "RocInvalidAndMidrankCopies",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "UsesExistingCoreBinsWithSameMidpoints",
+          "test_name": "UsesExistingCoreBinsWithSameMidpoints",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "RawCountsPreserveAllObservationsAndRightmostEdge",
+          "test_name": "RawCountsPreserveAllObservationsAndRightmostEdge",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_WidthLimitsThrow",
+          "test_name": "Validation_WidthLimitsThrow",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "EqualNegativeLimits_ExpandNarrowly",
+          "test_name": "EqualNegativeLimits_ExpandNarrowly",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (3,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Rankit\",\"OLS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Contracts_ComputeDoesNotModifyInputs",
+          "test_name": "Contracts_ComputeDoesNotModifyInputs",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "SmallDecimals_AreNotRoundedToWholeNumbers",
+          "test_name": "SmallDecimals_AreNotRoundedToWholeNumbers",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "AllFourBinningRulesUseSharedCoreEngine",
+          "test_name": "AllFourBinningRulesUseSharedCoreEngine",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Van Der Waerden\",\"R\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Contracts_ResultArraysAreDefensivelyCopied",
+          "test_name": "Contracts_ResultArraysAreDefensivelyCopied",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "FullyMissingPairsRejected",
+          "test_name": "FullyMissingPairsRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (2,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_NullSampleRetainsException",
+          "test_name": "GaussianOverlay_NullSampleRetainsException",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InvalidBinningRuleRejected",
+          "test_name": "InvalidBinningRuleRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "DecimalStep_ProducesRoundedFiniteMidpoints",
+          "test_name": "DecimalStep_ProducesRoundedFiniteMidpoints",
+          "outcome": "Passed"
+        }
+      ]
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Common",
+      "outcomes": {
+        "Passed": 7
+      },
+      "trx_sha256": "975545b162174d4adfb8ce4daa506d7d0d00a2d001ecd8f04ee51d93e7e6e95f",
+      "seconds": 2.062650499981828,
+      "identities": [
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "ExplicitContractErrorsDoNotMutateInputs",
+          "test_name": "ExplicitContractErrorsDoNotMutateInputs",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "DefensiveCopiesAndRaggedMissingGroups",
+          "test_name": "DefensiveCopiesAndRaggedMissingGroups",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "NoImplicitFormattingOrCultureGrouping",
+          "test_name": "NoImplicitFormattingOrCultureGrouping (\"\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "ReusesAcceptedParserSourcesAfterBlankAndFilteredRows",
+          "test_name": "ReusesAcceptedParserSourcesAfterBlankAndFilteredRows",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "NoImplicitFormattingOrCultureGrouping",
+          "test_name": "NoImplicitFormattingOrCultureGrouping (\"sk-SK\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "PhysicalRowsAreDistinctFromSourceAndPlottedOrdinals",
+          "test_name": "PhysicalRowsAreDistinctFromSourceAndPlottedOrdinals",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "OrderedLabelsRetainDuplicatesWhitespaceCaseAndScalarType",
+          "test_name": "OrderedLabelsRetainDuplicatesWhitespaceCaseAndScalarType",
+          "outcome": "Passed"
+        }
+      ]
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Legacy",
+      "outcomes": {
+        "Passed": 42
+      },
+      "trx_sha256": "0f6dea10607783826e15eb6944e4e4f9401e91eeb379c891f97fa1c0a7bfa839",
+      "seconds": 3.7563739999895915,
+      "identities": [
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Rankit,SPSS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.ChartAxisScalingFacadeTests",
+          "method": "WindowsChartScaling_ExposesMutableLegacyResult",
+          "test_name": "WindowsChartScaling_ExposesMutableLegacyResult",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30AdapterTests",
+          "method": "BoxHistogramAndLabelWindowsConsumers",
+          "test_name": "BoxHistogramAndLabelWindowsConsumers",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (4,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Rankit,OLS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ((Sturges))",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalMutationFallbackEmptyAndNonfinite",
+          "test_name": "NormalMutationFallbackEmptyAndNonfinite",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30AdapterTests",
+          "method": "RocWindowsAdapterRetainsFirstAndRepeatedStateAndReportShape",
+          "test_name": "RocWindowsAdapterRetainsFirstAndRepeatedStateAndReportShape",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "NoImplicitFormattingOrCultureGrouping",
+          "test_name": "NoImplicitFormattingOrCultureGrouping (sk-SK)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "ReusesAcceptedParserSourcesAfterBlankAndFilteredRows",
+          "test_name": "ReusesAcceptedParserSourcesAfterBlankAndFilteredRows",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30AdapterTests",
+          "method": "NormalWindowsAdapterMatchesSourceWithIntentionalCopyBoundary",
+          "test_name": "NormalWindowsAdapterMatchesSourceWithIntentionalCopyBoundary",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Blom,R)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (0,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ((Freedman-Diaconis))",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "NoImplicitFormattingOrCultureGrouping",
+          "test_name": "NoImplicitFormattingOrCultureGrouping ()",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (3,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Van Der Waerden,R)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (2,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Blom,SPSS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "ExplicitContractErrorsDoNotMutateInputs",
+          "test_name": "ExplicitContractErrorsDoNotMutateInputs",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30AdapterTests",
+          "method": "ScatterXyzAndAxisWindowsConsumers",
+          "test_name": "ScatterXyzAndAxisWindowsConsumers",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "PhysicalRowsAreDistinctFromSourceAndPlottedOrdinals",
+          "test_name": "PhysicalRowsAreDistinctFromSourceAndPlottedOrdinals",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (3,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.ChartAxisScalingFacadeTests",
+          "method": "WindowsChartScaling_ForwardsMixedAndReversedIntervals",
+          "test_name": "WindowsChartScaling_ForwardsMixedAndReversedIntervals",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Van Der Waerden,SPSS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Rankit,R)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ()",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (2,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Blom,OLS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (1,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (4,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Van Der Waerden,OLS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (0,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ((Scott))",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ((Doane))",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramFrozenBoundsAndEmptyPrecondition",
+          "test_name": "HistogramFrozenBoundsAndEmptyPrecondition",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "SignedBoxSegmentsFromWholeFrozenMethod",
+          "test_name": "SignedBoxSegmentsFromWholeFrozenMethod",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (1,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocInvalidAndMidrankCopies",
+          "test_name": "RocInvalidAndMidrankCopies",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "DefensiveCopiesAndRaggedMissingGroups",
+          "test_name": "DefensiveCopiesAndRaggedMissingGroups",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "ScatterFrozenNormalizationAndXyz",
+          "test_name": "ScatterFrozenNormalizationAndXyz",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "OrderedLabelsRetainDuplicatesWhitespaceCaseAndScalarType",
+          "test_name": "OrderedLabelsRetainDuplicatesWhitespaceCaseAndScalarType",
+          "outcome": "Passed"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "suite": "Core",
+      "outcomes": {
+        "Passed": 120
+      },
+      "trx_sha256": "0c141ca2fdc7b019ed8a4110535586d3cd2a0d5968c576392e4b169e9b08e1ba",
+      "seconds": 2.4942581999348477,
+      "identities": [
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "FourRules_AcceptSkewedFiniteObservations",
+          "test_name": "FourRules_AcceptSkewedFiniteObservations",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "NegativeValues_AreCounted",
+          "test_name": "NegativeValues_AreCounted",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"(Freedman-Diaconis)\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "NullContinuousValuesRejected",
+          "test_name": "NullContinuousValuesRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ComparativeOrientationChangesOnlyRenderingOptions",
+          "test_name": "ComparativeOrientationChangesOnlyRenderingOptions",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (2,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Grid_TrimmedUsesObservedLimits",
+          "test_name": "Grid_TrimmedUsesObservedLimits",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "EqualPositiveLimits_ExpandNarrowly",
+          "test_name": "EqualPositiveLimits_ExpandNarrowly",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "ScatterFrozenNormalizationAndXyz",
+          "test_name": "ScatterFrozenNormalizationAndXyz",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Van Der Waerden\",\"R\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Scaling_EqualAreaUsesCommonDensityToWidthFactor",
+          "test_name": "Scaling_EqualAreaUsesCommonDensityToWidthFactor",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "StableObjectResultAndFreshInstance",
+          "test_name": "StableObjectResultAndFreshInstance",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InfiniteContinuousValueRejected",
+          "test_name": "InfiniteContinuousValueRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Groups_FirstAppearanceOrderAndTextTrimming",
+          "test_name": "Groups_FirstAppearanceOrderAndTextTrimming",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "DecimalStep_ProducesRoundedFiniteMidpoints",
+          "test_name": "DecimalStep_ProducesRoundedFiniteMidpoints",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (4,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "Sturges_KnownBreaksMidpointsAndFrequencies",
+          "test_name": "Sturges_KnownBreaksMidpointsAndFrequencies",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (3,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InvalidBinningRuleRejected",
+          "test_name": "InvalidBinningRuleRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Contracts_OptionsAreCopiedOnResultCreationAndRead",
+          "test_name": "Contracts_OptionsAreCopiedOnResultCreationAndRead",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Contracts_ComputeDoesNotModifyInputs",
+          "test_name": "Contracts_ComputeDoesNotModifyInputs",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "UnknownRule_RetainsOneTargetBinFallback",
+          "test_name": "UnknownRule_RetainsOneTargetBinFallback",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_EmptyDataAreRejected",
+          "test_name": "Input_EmptyDataAreRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "Sturges_RightMostBoundaryIncluded",
+          "test_name": "Sturges_RightMostBoundaryIncluded",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_PreservesInputSortingSideEffect",
+          "test_name": "GaussianOverlay_PreservesInputSortingSideEffect",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "NullCategoriesRejected",
+          "test_name": "NullCategoriesRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "NegativeZero_EqualsPositiveZero",
+          "test_name": "NegativeZero_EqualsPositiveZero",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "ZeroToZero_PreservesLegacySpecialCase",
+          "test_name": "ZeroToZero_PreservesLegacySpecialCase",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_GridLimitsThrow",
+          "test_name": "Validation_GridLimitsThrow",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ConstantSampleStillProducesFinitePositiveBinWidth",
+          "test_name": "ConstantSampleStillProducesFinitePositiveBinWidth",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Grid_UntrimmedExtendsThreeBandwidths",
+          "test_name": "Grid_UntrimmedExtendsThreeBandwidths",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "UsesExistingCoreBinsWithSameMidpoints",
+          "test_name": "UsesExistingCoreBinsWithSameMidpoints",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "FreedmanDiaconis_PreservesQuartileSorterSideEffect",
+          "test_name": "FreedmanDiaconis_PreservesQuartileSorterSideEffect",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "FullyMissingPairsRejected",
+          "test_name": "FullyMissingPairsRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InvalidPlotTypeRejected",
+          "test_name": "InvalidPlotTypeRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_NullSampleRetainsException",
+          "test_name": "GaussianOverlay_NullSampleRetainsException",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "MissingValuesAndGroupsCountOnlyPairedObservations",
+          "test_name": "MissingValuesAndGroupsCountOnlyPairedObservations",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_BandwidthAdjustmentMustBePositive",
+          "test_name": "Validation_BandwidthAdjustmentMustBePositive",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "MultidimensionalGroupArrayRejected",
+          "test_name": "MultidimensionalGroupArrayRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "SmallDecimals_AreNotRoundedToWholeNumbers",
+          "test_name": "SmallDecimals_AreNotRoundedToWholeNumbers",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "UnequalGroupsUsePooledCountsForStackedAndPerGroupForDensity",
+          "test_name": "UnequalGroupsUsePooledCountsForStackedAndPerGroupForDensity",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "Sturges_OneValueAndZeroValueRanges",
+          "test_name": "Sturges_OneValueAndZeroValueRanges",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "TextAndBooleanRemainDistinctCategories",
+          "test_name": "TextAndBooleanRemainDistinctCategories",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Van Der Waerden\",\"OLS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_HasLegacyHundredByTwoShapeAndEndpoints",
+          "test_name": "GaussianOverlay_HasLegacyHundredByTwoShapeAndEndpoints",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_UnknownScaleModeThrows",
+          "test_name": "Validation_UnknownScaleModeThrows",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"(Scott)\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Bandwidth_ManualValueIsRetained",
+          "test_name": "Bandwidth_ManualValueIsRetained",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (0,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ComparativeRequiresExactlyTwoUsableGroups",
+          "test_name": "ComparativeRequiresExactlyTwoUsableGroups",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Rankit\",\"OLS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "EqualNegativeLimits_ExpandNarrowly",
+          "test_name": "EqualNegativeLimits_ExpandNarrowly",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Basic_YExtentEnclosesEveryGrid",
+          "test_name": "Basic_YExtentEnclosesEveryGrid",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_WidthLimitsThrow",
+          "test_name": "Validation_WidthLimitsThrow",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "RawCountsPreserveAllObservationsAndRightmostEdge",
+          "test_name": "RawCountsPreserveAllObservationsAndRightmostEdge",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "SignedBoxSegmentsFromWholeFrozenMethod",
+          "test_name": "SignedBoxSegmentsFromWholeFrozenMethod",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalMutationFallbackEmptyAndNonfinite",
+          "test_name": "NormalMutationFallbackEmptyAndNonfinite",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_FrequencyScalingUsesDistinctSortedBinWidths",
+          "test_name": "GaussianOverlay_FrequencyScalingUsesDistinctSortedBinWidths",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Bandwidth_AdjustmentMultipliesSelectedRule",
+          "test_name": "Bandwidth_AdjustmentMultipliesSelectedRule",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Blom\",\"OLS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Blom\",\"SPSS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "MixedSignIntervals_EncloseZero",
+          "test_name": "MixedSignIntervals_EncloseZero",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_ConstantSampleYieldsNonfiniteDensitiesAsBefore",
+          "test_name": "GaussianOverlay_ConstantSampleYieldsNonfiniteDensitiesAsBefore",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (1,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Blom\",\"R\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Missing_NaNAndBlankAndDBNullAndNothingRowsAreExcluded",
+          "test_name": "Missing_NaNAndBlankAndDBNullAndNothingRowsAreExcluded",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Bandwidth_ScottProducesPositiveFiniteBandwidth",
+          "test_name": "Bandwidth_ScottProducesPositiveFiniteBandwidth",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Summary_StatisticsAndTukeyWhiskersArePreserved",
+          "test_name": "Summary_StatisticsAndTukeyWhiskersArePreserved",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"(Doane)\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_NonZeroGroupLowerBoundIsSupported",
+          "test_name": "Input_NonZeroGroupLowerBoundIsSupported",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Rankit\",\"R\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "NullInput_RetainsException",
+          "test_name": "NullInput_RetainsException",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Missing_InfinityThrowsInsteadOfBeingOmitted",
+          "test_name": "Missing_InfinityThrowsInsteadOfBeingOmitted",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_ManualBandwidthIsRequiredAndPositive",
+          "test_name": "Validation_ManualBandwidthIsRequiredAndPositive",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (3,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Missing_AllRowsFiltered_Throws",
+          "test_name": "Missing_AllRowsFiltered_Throws",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (4,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "NegativeIntervals_UseFloorRatherThanTruncation",
+          "test_name": "NegativeIntervals_UseFloorRatherThanTruncation",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_NullGroupsAreRejected",
+          "test_name": "Input_NullGroupsAreRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "DefensiveCopiesForResultArraysAndOptions",
+          "test_name": "DefensiveCopiesForResultArraysAndOptions",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "LargeValues_RetainScalePrecision",
+          "test_name": "LargeValues_RetainScalePrecision",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (2,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "PositiveIntervals_HaveEstablishedMajorUnits",
+          "test_name": "PositiveIntervals_HaveEstablishedMajorUnits",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ChartAxisScalingCoreTests",
+          "method": "ReversedIntervals_ProduceSameScaling",
+          "test_name": "ReversedIntervals_ProduceSameScaling",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Basic_DensityGridHasRequestedLengthAndPositiveValues",
+          "test_name": "Basic_DensityGridHasRequestedLengthAndPositiveValues",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ComparativePercentagesForEachGroupSumToOneHundred",
+          "test_name": "ComparativePercentagesForEachGroupSumToOneHundred",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Validation_UnknownBandwidthRuleThrows",
+          "test_name": "Validation_UnknownBandwidthRuleThrows",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "DefaultOptionsAndGroupOrder",
+          "test_name": "DefaultOptionsAndGroupOrder",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "DensityForEachGroupIntegratesToOne",
+          "test_name": "DensityForEachGroupIntegratesToOne",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Basic_GroupOrderingAndObservationCounts",
+          "test_name": "Basic_GroupOrderingAndObservationCounts",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "CLRAndTextNumericCategoriesShareOneGroup",
+          "test_name": "CLRAndTextNumericCategoriesShareOneGroup",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Scaling_EqualMaximumWidthNormalizesEveryViolin",
+          "test_name": "Scaling_EqualMaximumWidthNormalizesEveryViolin",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "GroupsWithNonZeroLowerBoundAreAlignedCorrectly",
+          "test_name": "GroupsWithNonZeroLowerBoundAreAlignedCorrectly",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Scaling_CountModeRespectsRelativeSampleSize",
+          "test_name": "Scaling_CountModeRespectsRelativeSampleSize",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "StackedPooledContributionsIntegrateToOne",
+          "test_name": "StackedPooledContributionsIntegrateToOne",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "GaussianOverlay_OneMidpointUsesUnitWidth",
+          "test_name": "GaussianOverlay_OneMidpointUsesUnitWidth",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InvariantDecimalGroupTextAndNumericValueAreEquivalent",
+          "test_name": "InvariantDecimalGroupTextAndNumericValueAreEquivalent",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "MismatchedRowsRejected",
+          "test_name": "MismatchedRowsRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies (\"(Sturges)\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Groups_LocalizedDecimalTextIsNumerical",
+          "test_name": "Groups_LocalizedDecimalTextIsNumerical",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "EmptyContinuousArrayRejected",
+          "test_name": "EmptyContinuousArrayRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Van Der Waerden\",\"SPSS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (\"Rankit\",\"SPSS\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "InvalidComparativeOrientationRejected",
+          "test_name": "InvalidComparativeOrientationRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (1,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "AllFourBinningRulesUseSharedCoreEngine",
+          "test_name": "AllFourBinningRulesUseSharedCoreEngine",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Contracts_ResultArraysAreDefensivelyCopied",
+          "test_name": "Contracts_ResultArraysAreDefensivelyCopied",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (0,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.CategoricalHistogramCoreTests",
+          "method": "ResultBinExtentMatchesWidthAndMidpoints",
+          "test_name": "ResultBinExtentMatchesWidthAndMidpoints",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_LengthMismatchIsRejected",
+          "test_name": "Input_LengthMismatchIsRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_NullValuesAreRejected",
+          "test_name": "Input_NullValuesAreRejected",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Numerical_RunIsDeterministic",
+          "test_name": "Numerical_RunIsDeterministic",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Groups_NumericValuesAndNumericTextUseSameKey",
+          "test_name": "Groups_NumericValuesAndNumericTextUseSameKey",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "HistogramFrozenBoundsAndEmptyPrecondition",
+          "test_name": "HistogramFrozenBoundsAndEmptyPrecondition",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Groups_ConventionalDecimalStringIsNumerical",
+          "test_name": "Groups_ConventionalDecimalStringIsNumerical",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Bandwidth_ConstantSingleObservationFallbackProducesPositiveKde",
+          "test_name": "Bandwidth_ConstantSingleObservationFallbackProducesPositiveKde",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.ViolinPlotCoreTests",
+          "method": "Input_GroupArrayMustBeOneDimensional",
+          "test_name": "Input_GroupArrayMustBeOneDimensional",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.Graphics30Tests",
+          "method": "RocInvalidAndMidrankCopies",
+          "test_name": "RocInvalidAndMidrankCopies",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Core.Tests.HistogramBinningCoreTests",
+          "method": "EmptyInput_RetainsException",
+          "test_name": "EmptyInput_RetainsException",
+          "outcome": "Passed"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "suite": "Common",
+      "outcomes": {
+        "Passed": 7
+      },
+      "trx_sha256": "17264162eba81866454439e1a00a76a8b66a600ed3590c5f378cd9bdbcd06d0c",
+      "seconds": 2.7489287999924272,
+      "identities": [
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "NoImplicitFormattingOrCultureGrouping",
+          "test_name": "NoImplicitFormattingOrCultureGrouping (\"sk-SK\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "PhysicalRowsAreDistinctFromSourceAndPlottedOrdinals",
+          "test_name": "PhysicalRowsAreDistinctFromSourceAndPlottedOrdinals",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "OrderedLabelsRetainDuplicatesWhitespaceCaseAndScalarType",
+          "test_name": "OrderedLabelsRetainDuplicatesWhitespaceCaseAndScalarType",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "ExplicitContractErrorsDoNotMutateInputs",
+          "test_name": "ExplicitContractErrorsDoNotMutateInputs",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "DefensiveCopiesAndRaggedMissingGroups",
+          "test_name": "DefensiveCopiesAndRaggedMissingGroups",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "NoImplicitFormattingOrCultureGrouping",
+          "test_name": "NoImplicitFormattingOrCultureGrouping (\"\")",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStat.Excel.Common.Tests.OrderedPlotGroups30Tests",
+          "method": "ReusesAcceptedParserSourcesAfterBlankAndFilteredRows",
+          "test_name": "ReusesAcceptedParserSourcesAfterBlankAndFilteredRows",
+          "outcome": "Passed"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "suite": "Legacy",
+      "outcomes": {
+        "Passed": 42
+      },
+      "trx_sha256": "05e065b6e21824f6f6b83aebca6289f865b0e7f0c61df5f2cedb5bdd6e96bc5d",
+      "seconds": 5.38640449999366,
+      "identities": [
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocInvalidAndMidrankCopies",
+          "test_name": "RocInvalidAndMidrankCopies",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (1,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (3,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30AdapterTests",
+          "method": "BoxHistogramAndLabelWindowsConsumers",
+          "test_name": "BoxHistogramAndLabelWindowsConsumers",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Van Der Waerden,SPSS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "ScatterFrozenNormalizationAndXyz",
+          "test_name": "ScatterFrozenNormalizationAndXyz",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Rankit,R)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (3,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (0,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30AdapterTests",
+          "method": "ScatterXyzAndAxisWindowsConsumers",
+          "test_name": "ScatterXyzAndAxisWindowsConsumers",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Van Der Waerden,R)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ((Freedman-Diaconis))",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Blom,R)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.ChartAxisScalingFacadeTests",
+          "method": "WindowsChartScaling_ForwardsMixedAndReversedIntervals",
+          "test_name": "WindowsChartScaling_ForwardsMixedAndReversedIntervals",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30AdapterTests",
+          "method": "NormalWindowsAdapterMatchesSourceWithIntentionalCopyBoundary",
+          "test_name": "NormalWindowsAdapterMatchesSourceWithIntentionalCopyBoundary",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ((Doane))",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ((Scott))",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (0,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (1,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "ReusesAcceptedParserSourcesAfterBlankAndFilteredRows",
+          "test_name": "ReusesAcceptedParserSourcesAfterBlankAndFilteredRows",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalMutationFallbackEmptyAndNonfinite",
+          "test_name": "NormalMutationFallbackEmptyAndNonfinite",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.ChartAxisScalingFacadeTests",
+          "method": "WindowsChartScaling_ExposesMutableLegacyResult",
+          "test_name": "WindowsChartScaling_ExposesMutableLegacyResult",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Rankit,SPSS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (2,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Blom,OLS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "NoImplicitFormattingOrCultureGrouping",
+          "test_name": "NoImplicitFormattingOrCultureGrouping (sk-SK)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Blom,SPSS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "OrderedLabelsRetainDuplicatesWhitespaceCaseAndScalarType",
+          "test_name": "OrderedLabelsRetainDuplicatesWhitespaceCaseAndScalarType",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (2,0.1)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (4,0.05)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "SignedBoxSegmentsFromWholeFrozenMethod",
+          "test_name": "SignedBoxSegmentsFromWholeFrozenMethod",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramFrozenBoundsAndEmptyPrecondition",
+          "test_name": "HistogramFrozenBoundsAndEmptyPrecondition",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "DefensiveCopiesAndRaggedMissingGroups",
+          "test_name": "DefensiveCopiesAndRaggedMissingGroups",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ()",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "NoImplicitFormattingOrCultureGrouping",
+          "test_name": "NoImplicitFormattingOrCultureGrouping ()",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Van Der Waerden,OLS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30AdapterTests",
+          "method": "RocWindowsAdapterRetainsFirstAndRepeatedStateAndReportShape",
+          "test_name": "RocWindowsAdapterRetainsFirstAndRepeatedStateAndReportShape",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "ExplicitContractErrorsDoNotMutateInputs",
+          "test_name": "ExplicitContractErrorsDoNotMutateInputs",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "NormalFrozenSource",
+          "test_name": "NormalFrozenSource (Rankit,OLS)",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "HistogramExistingEngineCopies",
+          "test_name": "HistogramExistingEngineCopies ((Sturges))",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.OrderedPlotGroups30Tests",
+          "method": "PhysicalRowsAreDistinctFromSourceAndPlottedOrdinals",
+          "test_name": "PhysicalRowsAreDistinctFromSourceAndPlottedOrdinals",
+          "outcome": "Passed"
+        },
+        {
+          "class_name": "BESHStatNG.Test.Graphics30Tests",
+          "method": "RocFrozenSource",
+          "test_name": "RocFrozenSource (4,0.1)",
+          "outcome": "Passed"
+        }
+      ]
+    }
+  ],
+  "unique_new_cases": 40,
+  "new_case_executions_per_configuration": 76,
+  "baseline_cases": "Focused filters also include unchanged HistogramBinningCore, ViolinPlotCore, CategoricalHistogramCore, ChartAxisScalingCore and Windows axis facade tests.",
+  "native": "NATIVE_NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

@@ -1,0 +1,35 @@
+{
+  "status": "RECORDED_BEFORE_PRODUCT_EDITS",
+  "base": "45466a88e7567c9f4711ba4fbbe295a7a2e69bb4",
+  "operation_records": 15,
+  "source_members_verified": true,
+  "planned_product_files": [
+    "BESHStat.Core/src/Graphics/RocDataCore.vb",
+    "BESHStat.Core/src/Graphics/NormalPlotDataCore.vb",
+    "BESHStat.Core/src/Graphics/BoxSegmentsCore.vb",
+    "BESHStat.Core/src/Graphics/HistogramDataCore.vb",
+    "BESHStat.Core/src/Graphics/ScatterMatrixDataCore.vb",
+    "BESHStat.Core/src/Graphics/XyzDataCore.vb",
+    "BESHStat.Excel.Common/src/Analysis/OrderedPlotGroups.vb",
+    "BESHstatNG/src/Graphics/ROC.vb",
+    "BESHstatNG/src/Graphics/NormalPlot.vb",
+    "BESHstatNG/src/Graphics/BoxPlot.vb",
+    "BESHstatNG/src/Graphics/Histogram.vb",
+    "BESHstatNG/src/Graphics/ScatterPlotMatrix.vb",
+    "BESHstatNG/src/Graphics/XYZscatter.vb"
+  ],
+  "already_migrated": [
+    "ChartAxisScalingCore",
+    "HistogramBinningCore"
+  ],
+  "native_methods": "Retained; no renderer rewrite",
+  "label_scope": "Existing supplied ordered group path in Box and single raw-group path in Normal; no 04A03 parser or equality normalization changes",
+  "callers": [
+    "UI/UibyID.vb ROC/Normal/Histogram/Box",
+    "UI/Ui0OneRefeditMulticol.vb Box",
+    "UI/Ui11PCA.vb ScatterPlotMatrix",
+    "UI/Ui3XYZplot.vb XYZ",
+    "DM/WindowsAssumptionReportAdapter.vb Box",
+    "DM/WindowsAnovaWorkflowAdapter.vb Box"
+  ]
+}

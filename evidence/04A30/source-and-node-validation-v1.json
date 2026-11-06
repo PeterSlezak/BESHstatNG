@@ -1,0 +1,1350 @@
+{
+  "python": [
+    {
+      "label": "before",
+      "suite": "python-tools",
+      "total": 27,
+      "passed": 27,
+      "failed": 0,
+      "errors": 0,
+      "stderr_encoding": "utf-8",
+      "reported_primary_identities": 27,
+      "nonpasses": [],
+      "identity_count_qualification": "Primary descriptions reconstructed around interleaved Git warnings; every explicit failure/error subtest retained separately.",
+      "stderr_sha256": "b7e5f4c163c1a493cf34cf6913a9382fedbb9b66f46441f0828b6cf6c1300d46",
+      "identities_sha256": "55e9470540e7927eaaa2fa4a684055dfca97a2a85a56b38917cd3fb52ea6f835"
+    },
+    {
+      "label": "verified",
+      "suite": "python-tools",
+      "total": 27,
+      "passed": 27,
+      "failed": 0,
+      "errors": 0,
+      "stderr_encoding": "utf-8",
+      "reported_primary_identities": 27,
+      "nonpasses": [],
+      "identity_count_qualification": "Primary descriptions reconstructed around interleaved Git warnings; every explicit failure/error subtest retained separately.",
+      "stderr_sha256": "011d271bd34bca837bb6da1eb7bd27a805eb59ef92da9eab9d31be244b05f772",
+      "identities_sha256": "55e9470540e7927eaaa2fa4a684055dfca97a2a85a56b38917cd3fb52ea6f835"
+    },
+    {
+      "label": "before",
+      "suite": "python-help",
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "errors": 0,
+      "stderr_encoding": "utf-8",
+      "reported_primary_identities": 16,
+      "nonpasses": [],
+      "identity_count_qualification": "Primary descriptions reconstructed around interleaved Git warnings; every explicit failure/error subtest retained separately.",
+      "stderr_sha256": "3c57395fa54280cce16a8f9554bf8a494f4e78e1a0af745ef664acd6cbbf3f44",
+      "identities_sha256": "c8297ca504b927513700e4855cf44c6d189a1eb762792107bc6749a513acd060"
+    },
+    {
+      "label": "verified",
+      "suite": "python-help",
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "errors": 0,
+      "stderr_encoding": "utf-8",
+      "reported_primary_identities": 16,
+      "nonpasses": [],
+      "identity_count_qualification": "Primary descriptions reconstructed around interleaved Git warnings; every explicit failure/error subtest retained separately.",
+      "stderr_sha256": "e0a17e752942b51dd0a3614c85da0d02ecc2d024c798c2d7858578c76f3559c4",
+      "identities_sha256": "c8297ca504b927513700e4855cf44c6d189a1eb762792107bc6749a513acd060"
+    },
+    {
+      "label": "before",
+      "suite": "python-scripts",
+      "total": 745,
+      "passed": 644,
+      "failed": 96,
+      "errors": 5,
+      "stderr_encoding": "utf-8",
+      "reported_primary_identities": 745,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "identity": "test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision (test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy (test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_real_successful_owner_startup_all_pins_and_native_identities (test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_actual_two_owner_publications_and_both_cultures_reproduce (test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_acquisition_error_order_and_legacy_grammars_preserved (test_04a17_multivariate.Multivariate17SourceContracts.test_acquisition_error_order_and_legacy_grammars_preserved)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook (test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_retained_bytes_reproduce_only_compiler_rejection (test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_owner_bytes_negative_for_frozen_v5 (test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_corrupt_receipt_hash_fails_even_with_exit_zero (test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_tampered_stdout_hash_stops_before_parser (test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_per_mode_consumers_and_branch_order (test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_sealed_sources_are_reconciled_never_rewritten (test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_review_packet_source_pins_match_current_sources (test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources)",
+          "subtest": "(path='BESHstatNG/src/UI/UibyID.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_review_packet_source_pins_match_current_sources (test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources)",
+          "subtest": "(path='BESHstatNG/src/DM/WindowsUnivariateInputAdapter.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged (test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged)",
+          "subtest": "(method='RunNormality')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged (test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged)",
+          "subtest": "(method='RunDescStat')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged (test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged)",
+          "subtest": "(method='RunOneWayANOVAThroughSharedLayer')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged (test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged)",
+          "subtest": "(method='RunKruskallWalis')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_only_two_form_methods_change (test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_crosswalk_and_authorities (test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_legacy_geometry_ambiguity_is_not_hidden (test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_independent_candidate_provenance_not_core_or_golden (test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial (test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_owner_bound_successor_and_source_hashes (test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_historical_ledgers_and_importer_unchanged (test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_other_multicol_members_including_04a04_selection_unchanged (test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed (test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table (test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_ui82x2_source_wiring_explicitly_withheld (test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_versioned_successor_sources_and_case_boundaries (test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_form_routes_and_unchanged_native_tails (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_importer_udf_designers_core_and_old_tests_unchanged (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_native_population_is_union_not_sum (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_new_scientific_candidates_are_explicitly_unmodified (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_no_duplicate_statistics_in_form_or_windows_adapter (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_production_sources_and_exact_open_ledger_lineage (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_four_shipping_routes_and_native_bodies (test_04a07_workflow_successor.Anova07SuccessorTests.test_actual_four_shipping_routes_and_native_bodies)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_old_tests_importer_udfs_designers_and_help_unchanged (test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_source_and_original_ledger_rows (test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_no_fabricated_obligation_for_previously_source_qualified_controls (test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_restriction_unions_and_timing_exceptions_not_generalized (test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts (test_04a08_authoring_successor.Authoring08SuccessorTests.test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_original_numerics_and_shipping_forms_are_unchanged (test_04a08_authoring_successor.Authoring08SuccessorTests.test_original_numerics_and_shipping_forms_are_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_six_changed_members_and_unchanged_native_surroundings (test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_frozen_tests_numerics_and_public_04a08_evidence_preserved (test_04a09_regression_successor.Regression09SuccessorTests.test_frozen_tests_numerics_and_public_04a08_evidence_preserved)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_real_six_routes_use_common_options_counts_and_reports (test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_runtime_baselines_are_incremental_and_complete (test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_baselines_are_actual_gaussian_and_binomial_and_not_goldens (test_04a10_regression_projection.Regression10ProjectionTests.test_baselines_are_actual_gaussian_and_binomial_and_not_goldens)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_udfs_frameworks_and_accepted_evidence_are_byte_protected (test_04a10_regression_projection.Regression10ProjectionTests.test_core_udfs_frameworks_and_accepted_evidence_are_byte_protected)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_only_two_form_routes_change_and_native_tails_match (test_04a10_regression_projection.Regression10ProjectionTests.test_only_two_form_routes_change_and_native_tails_match)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_accepted_dossier_and_dormant_patches_unchanged (test_04a11_publication.Publication11Tests.test_accepted_dossier_and_dormant_patches_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_manifests_and_implementation_freeze (test_04a11_publication.Publication11Tests.test_all_manifests_and_implementation_freeze)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_raw_local_source_pins_and_native_writer_tails (test_04a11_publication.Publication11Tests.test_raw_local_source_pins_and_native_writer_tails)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_six_form_deltas_and_native_writer_tails (test_04a11_regression_families.Regression11SuccessorTests.test_exact_six_form_deltas_and_native_writer_tails)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_unaffected_sources_and_all_old_evidence_are_byte_protected (test_04a11_regression_families.Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_source_scope_and_all_old_byte_pins (test_04a12_gee_workflow.Gee12WorkflowSuccessorTests.test_exact_source_scope_and_all_old_byte_pins)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_prechange_protected_bytes_except_exact_approved_scope (test_04a13_survival_workflow.Survival13SourceContracts.test_all_prechange_protected_bytes_except_exact_approved_scope)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_complete_existing_publication_set_has_no_unresolved_private_values (test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_local_main_ancestry_empty_index_and_dedicated_branch (test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_successor_pins_and_members_reconcile_to_actual_forms (test_04a13_survival_workflow.Survival13SourceContracts.test_successor_pins_and_members_reconcile_to_actual_forms)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_branch_base_ancestry_and_empty_index (test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_entire_proposed_publication_set_privacy (test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_scope_and_external_owner_plan_are_separate (test_04a14_mixed_workflow.Mixed14SourceContracts.test_exact_scope_and_external_owner_plan_are_separate)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_original_members_and_successor_pins_are_reconcilable (test_04a14_mixed_workflow.Mixed14SourceContracts.test_original_members_and_successor_pins_are_reconcilable)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_reports_are_consumed_by_actual_writers_and_append_seams (test_04a14_mixed_workflow.Mixed14SourceContracts.test_reports_are_consumed_by_actual_writers_and_append_seams)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_protected_sources_and_new_source_hashes (test_04a15_fitting.Mixed15SourceContracts.test_all_protected_sources_and_new_source_hashes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_branch_ancestry_empty_index_and_exact_existing_scope (test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_only_actual_shipping_factory_routes_change (test_04a15_fitting.Mixed15SourceContracts.test_only_actual_shipping_factory_routes_change)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_branch_base_index_and_exact_scope (test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_unchanged_methods_designers_udfs_and_core (test_04a16_post_estimation.Mixed16SourceContracts.test_unchanged_methods_designers_udfs_and_core)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_six_handlers_delegate_and_keep_one_calculation (test_04a17_multivariate.Multivariate17SourceContracts.test_actual_six_handlers_delegate_and_keep_one_calculation)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_base_branch_index_and_protected_sources (test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_native_writer_statements_and_spm_dispatch_stay_identical (test_04a17_multivariate.Multivariate17SourceContracts.test_native_writer_statements_and_spm_dispatch_stay_identical)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_public_targets_and_successor_hashes (test_04a17_multivariate.Multivariate17SourceContracts.test_public_targets_and_successor_hashes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_branch_index_and_protected_entry_bytes (test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_only_three_form_methods_change_and_spm_remains_exact (test_04a18_projection.Projection18SourceContracts.test_only_three_form_methods_change_and_spm_remains_exact)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_other_form_methods_and_import_catches_preserved (test_04a19_clustering.Clustering19Contracts.test_all_other_form_methods_and_import_catches_preserved)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_native_writer_and_prior_test_bytes_unchanged (test_04a19_clustering.Clustering19Contracts.test_core_native_writer_and_prior_test_bytes_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_base_branch_and_empty_index (test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_native_prior_tests_targets_and_metadata_are_entry_bytes (test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_core_native_prior_tests_targets_and_metadata_are_entry_bytes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_main_branch_index_and_accepted_source (test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_ui22_native_designers_prior_tests_and_targets_unchanged (test_04a21_spc.Spc21Contracts.test_core_ui22_native_designers_prior_tests_and_targets_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_merged_main_ancestry_branch_and_empty_index (test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_single_fit_cancellation_and_original_native_output_tail (test_04a21_spc.Spc21Contracts.test_single_fit_cancellation_and_original_native_output_tail)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_ui22_udfs_designers_old_tests_targets_and_frozen_evidence (test_04a22_spc.Spc22Contracts.test_core_ui22_udfs_designers_old_tests_targets_and_frozen_evidence)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_publication_membership_hashes_empty_index_and_privacy (test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_merged_base_and_protected_owner_plan (test_04a23_multivariate_spc.Spc23Contracts.test_actual_merged_base_and_protected_owner_plan)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_publication_membership_hash_privacy_trackability_and_empty_index (test_04a23_multivariate_spc.Spc23Contracts.test_actual_publication_membership_hash_privacy_trackability_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_existing_tables_and_warnings_remain_byte_exact_methods (test_04a23_multivariate_spc.Spc23Contracts.test_existing_tables_and_warnings_remain_byte_exact_methods)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_native_workbook_order_warning_and_appearance_are_exact (test_04a23_multivariate_spc.Spc23Contracts.test_native_workbook_order_warning_and_appearance_are_exact)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_result_context_is_consumed_and_diagnostic_table_tail_is_exact (test_04a23_multivariate_spc.Spc23Contracts.test_result_context_is_consumed_and_diagnostic_table_tail_is_exact)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_frozen_evidence_authority_hashes_and_unchanged_metadata (test_04a24_multivariate_payload.MultivariatePayload24.test_frozen_evidence_authority_hashes_and_unchanged_metadata)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_original_numerical_ui21_renderer_and_prior_common_hashes (test_04a24_multivariate_payload.MultivariatePayload24.test_original_numerical_ui21_renderer_and_prior_common_hashes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_publication_exact_membership_hashes_and_empty_index (test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_designer_udf_and_owner_plan_remain_exact_entry_bytes (test_04a25_psm.Psm25SourceContracts.test_core_designer_udf_and_owner_plan_remain_exact_entry_bytes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_compile_targets_and_native_helpers_unchanged (test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_initial_implementation_and_historical_tests_not_rewritten (test_04a27_geometry_completion.Geometry27CompletionTests.test_initial_implementation_and_historical_tests_not_rewritten)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_real_consumer_routes_and_udf_exports_preserved (test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_source_owner_pins_and_all_44_original_rows (test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_designer_and_refedit_sources_are_unmodified (test_04a27_transport_successor.Transport27SuccessorTests.test_core_designer_and_refedit_sources_are_unmodified)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_successor_and_unapplied_patch (test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch)",
+          "subtest": ""
+        }
+      ],
+      "identity_count_qualification": "Primary descriptions reconstructed around interleaved Git warnings; every explicit failure/error subtest retained separately.",
+      "stderr_sha256": "217b57b3380c131dca776a10ea0eebd46e7ed539b396ea55ba38eabdc3ee97e6",
+      "identities_sha256": "35ec2c6cc9464f1e73a85d643769ab5068e9e77271e5c36d6e328f00737aee62"
+    },
+    {
+      "label": "verified",
+      "suite": "python-scripts",
+      "total": 745,
+      "passed": 640,
+      "failed": 100,
+      "errors": 5,
+      "stderr_encoding": "utf-8",
+      "reported_primary_identities": 745,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "identity": "test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision (test_04a02_checkpoint11.Provenance11Tests.test_both_authorized_case_pins_pass_and_frozen_false_is_not_owner_decision)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy (test_04a02_checkpoint12.Diagnosis12Tests.test_both_authorized_case_pins_keep_original_compiler_and_scientific_policy)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_real_successful_owner_startup_all_pins_and_native_identities (test_04a02_checkpoint13.Startup13Tests.test_real_successful_owner_startup_all_pins_and_native_identities)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_actual_two_owner_publications_and_both_cultures_reproduce (test_04a02_checkpoint14.Actual14Tests.test_actual_two_owner_publications_and_both_cultures_reproduce)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_acquisition_error_order_and_legacy_grammars_preserved (test_04a17_multivariate.Multivariate17SourceContracts.test_acquisition_error_order_and_legacy_grammars_preserved)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook (test_04a02_checkpoint09.Native09Tests.test_unapplied_patch_routes_every_active_selection_binding_and_guards_workbook)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_retained_bytes_reproduce_only_compiler_rejection (test_04a02_checkpoint11.Namespace11Tests.test_exact_retained_bytes_reproduce_only_compiler_rejection)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_owner_bytes_negative_for_frozen_v5 (test_04a02_checkpoint12.Diagnosis12Tests.test_exact_owner_bytes_negative_for_frozen_v5)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_corrupt_receipt_hash_fails_even_with_exit_zero (test_04a02_checkpoint13.Startup13Tests.test_corrupt_receipt_hash_fails_even_with_exit_zero)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_tampered_stdout_hash_stops_before_parser (test_04a02_checkpoint13.Startup13Tests.test_tampered_stdout_hash_stops_before_parser)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_per_mode_consumers_and_branch_order (test_04a03_control_mitigation.ControlMitigationSourceTests.test_per_mode_consumers_and_branch_order)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_sealed_sources_are_reconciled_never_rewritten (test_04a03_control_mitigation.ControlMitigationSourceTests.test_sealed_sources_are_reconciled_never_rewritten)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_review_packet_source_pins_match_current_sources (test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources)",
+          "subtest": "(path='BESHstatNG/src/UI/UibyID.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_review_packet_source_pins_match_current_sources (test_04a03_control_mitigation.NativeGateNegativeTests.test_review_packet_source_pins_match_current_sources)",
+          "subtest": "(path='BESHstatNG/src/DM/WindowsUnivariateInputAdapter.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged (test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged)",
+          "subtest": "(method='RunNormality')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged (test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged)",
+          "subtest": "(method='RunDescStat')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged (test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged)",
+          "subtest": "(method='RunOneWayANOVAThroughSharedLayer')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged (test_04a03_selection.UnivariateSelectionSourceTests.test_all_native_lifetime_cancel_write_and_reporting_methods_unchanged)",
+          "subtest": "(method='RunKruskallWalis')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_only_two_form_methods_change (test_04a03_selection.UnivariateSelectionSourceTests.test_only_two_form_methods_change)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_crosswalk_and_authorities (test_04a04_alignment.PairedBlockSourceGates.test_exact_crosswalk_and_authorities)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_legacy_geometry_ambiguity_is_not_hidden (test_04a04_alignment.PairedBlockSourceGates.test_legacy_geometry_ambiguity_is_not_hidden)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_independent_candidate_provenance_not_core_or_golden (test_04a05_completion_successor.Completion05SuccessorTests.test_independent_candidate_provenance_not_core_or_golden)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial (test_04a05_completion_successor.Completion05SuccessorTests.test_nonpaired_code_and_unrelated_forms_are_unchanged_from_partial)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_owner_bound_successor_and_source_hashes (test_04a05_completion_successor.Completion05SuccessorTests.test_owner_bound_successor_and_source_hashes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_historical_ledgers_and_importer_unchanged (test_04a05_contingency.ContingencySourceGates.test_historical_ledgers_and_importer_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_other_multicol_members_including_04a04_selection_unchanged (test_04a05_contingency.ContingencySourceGates.test_other_multicol_members_including_04a04_selection_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed (test_04a05_contingency.ContingencySourceGates.test_prior_04a04_whole_file_source_check_remains_frozen_and_disclosed)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table (test_04a05_contingency.ContingencySourceGates.test_scientific_ambiguity_is_not_a_permanent_portable_wrong_table)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_ui82x2_source_wiring_explicitly_withheld (test_04a05_contingency.ContingencySourceGates.test_ui82x2_source_wiring_explicitly_withheld)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_versioned_successor_sources_and_case_boundaries (test_04a05_contingency.ContingencySourceGates.test_versioned_successor_sources_and_case_boundaries)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_form_routes_and_unchanged_native_tails (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_actual_form_routes_and_unchanged_native_tails)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_importer_udf_designers_core_and_old_tests_unchanged (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_importer_udf_designers_core_and_old_tests_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_native_population_is_union_not_sum (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_native_population_is_union_not_sum)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_new_scientific_candidates_are_explicitly_unmodified (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_new_scientific_candidates_are_explicitly_unmodified)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_no_duplicate_statistics_in_form_or_windows_adapter (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_no_duplicate_statistics_in_form_or_windows_adapter)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_production_sources_and_exact_open_ledger_lineage (test_04a06_assumptions_successor.Assumptions06SuccessorTests.test_production_sources_and_exact_open_ledger_lineage)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_four_shipping_routes_and_native_bodies (test_04a07_workflow_successor.Anova07SuccessorTests.test_actual_four_shipping_routes_and_native_bodies)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_old_tests_importer_udfs_designers_and_help_unchanged (test_04a07_workflow_successor.Anova07SuccessorTests.test_core_old_tests_importer_udfs_designers_and_help_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_source_and_original_ledger_rows (test_04a07_workflow_successor.Anova07SuccessorTests.test_exact_source_and_original_ledger_rows)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_no_fabricated_obligation_for_previously_source_qualified_controls (test_04a07_workflow_successor.Anova07SuccessorTests.test_no_fabricated_obligation_for_previously_source_qualified_controls)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_restriction_unions_and_timing_exceptions_not_generalized (test_04a07_workflow_successor.Anova07SuccessorTests.test_restriction_unions_and_timing_exceptions_not_generalized)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts (test_04a08_authoring_successor.Authoring08SuccessorTests.test_exact_id_crosswalk_retains_original_row_hashes_and_open_counts)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_original_numerics_and_shipping_forms_are_unchanged (test_04a08_authoring_successor.Authoring08SuccessorTests.test_original_numerics_and_shipping_forms_are_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_six_changed_members_and_unchanged_native_surroundings (test_04a09_regression_successor.Regression09SuccessorTests.test_exact_six_changed_members_and_unchanged_native_surroundings)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_frozen_tests_numerics_and_public_04a08_evidence_preserved (test_04a09_regression_successor.Regression09SuccessorTests.test_frozen_tests_numerics_and_public_04a08_evidence_preserved)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_real_six_routes_use_common_options_counts_and_reports (test_04a09_regression_successor.Regression09SuccessorTests.test_real_six_routes_use_common_options_counts_and_reports)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_runtime_baselines_are_incremental_and_complete (test_04a09_regression_successor.Regression09SuccessorTests.test_runtime_baselines_are_incremental_and_complete)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_baselines_are_actual_gaussian_and_binomial_and_not_goldens (test_04a10_regression_projection.Regression10ProjectionTests.test_baselines_are_actual_gaussian_and_binomial_and_not_goldens)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_udfs_frameworks_and_accepted_evidence_are_byte_protected (test_04a10_regression_projection.Regression10ProjectionTests.test_core_udfs_frameworks_and_accepted_evidence_are_byte_protected)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_only_two_form_routes_change_and_native_tails_match (test_04a10_regression_projection.Regression10ProjectionTests.test_only_two_form_routes_change_and_native_tails_match)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_accepted_dossier_and_dormant_patches_unchanged (test_04a11_publication.Publication11Tests.test_accepted_dossier_and_dormant_patches_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_manifests_and_implementation_freeze (test_04a11_publication.Publication11Tests.test_all_manifests_and_implementation_freeze)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_raw_local_source_pins_and_native_writer_tails (test_04a11_publication.Publication11Tests.test_raw_local_source_pins_and_native_writer_tails)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_six_form_deltas_and_native_writer_tails (test_04a11_regression_families.Regression11SuccessorTests.test_exact_six_form_deltas_and_native_writer_tails)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_unaffected_sources_and_all_old_evidence_are_byte_protected (test_04a11_regression_families.Regression11SuccessorTests.test_unaffected_sources_and_all_old_evidence_are_byte_protected)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_source_scope_and_all_old_byte_pins (test_04a12_gee_workflow.Gee12WorkflowSuccessorTests.test_exact_source_scope_and_all_old_byte_pins)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_prechange_protected_bytes_except_exact_approved_scope (test_04a13_survival_workflow.Survival13SourceContracts.test_all_prechange_protected_bytes_except_exact_approved_scope)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_local_main_ancestry_empty_index_and_dedicated_branch (test_04a13_survival_workflow.Survival13SourceContracts.test_local_main_ancestry_empty_index_and_dedicated_branch)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_successor_pins_and_members_reconcile_to_actual_forms (test_04a13_survival_workflow.Survival13SourceContracts.test_successor_pins_and_members_reconcile_to_actual_forms)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_branch_base_ancestry_and_empty_index (test_04a14_mixed_workflow.Mixed14SourceContracts.test_branch_base_ancestry_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_scope_and_external_owner_plan_are_separate (test_04a14_mixed_workflow.Mixed14SourceContracts.test_exact_scope_and_external_owner_plan_are_separate)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_original_members_and_successor_pins_are_reconcilable (test_04a14_mixed_workflow.Mixed14SourceContracts.test_original_members_and_successor_pins_are_reconcilable)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_reports_are_consumed_by_actual_writers_and_append_seams (test_04a14_mixed_workflow.Mixed14SourceContracts.test_reports_are_consumed_by_actual_writers_and_append_seams)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_protected_sources_and_new_source_hashes (test_04a15_fitting.Mixed15SourceContracts.test_all_protected_sources_and_new_source_hashes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_branch_ancestry_empty_index_and_exact_existing_scope (test_04a15_fitting.Mixed15SourceContracts.test_branch_ancestry_empty_index_and_exact_existing_scope)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_only_actual_shipping_factory_routes_change (test_04a15_fitting.Mixed15SourceContracts.test_only_actual_shipping_factory_routes_change)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_branch_base_index_and_exact_scope (test_04a16_post_estimation.Mixed16SourceContracts.test_branch_base_index_and_exact_scope)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_unchanged_methods_designers_udfs_and_core (test_04a16_post_estimation.Mixed16SourceContracts.test_unchanged_methods_designers_udfs_and_core)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_six_handlers_delegate_and_keep_one_calculation (test_04a17_multivariate.Multivariate17SourceContracts.test_actual_six_handlers_delegate_and_keep_one_calculation)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_base_branch_index_and_protected_sources (test_04a17_multivariate.Multivariate17SourceContracts.test_live_base_branch_index_and_protected_sources)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_native_writer_statements_and_spm_dispatch_stay_identical (test_04a17_multivariate.Multivariate17SourceContracts.test_native_writer_statements_and_spm_dispatch_stay_identical)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_public_targets_and_successor_hashes (test_04a17_multivariate.Multivariate17SourceContracts.test_public_targets_and_successor_hashes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_branch_index_and_protected_entry_bytes (test_04a18_projection.Projection18SourceContracts.test_live_branch_index_and_protected_entry_bytes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_only_three_form_methods_change_and_spm_remains_exact (test_04a18_projection.Projection18SourceContracts.test_only_three_form_methods_change_and_spm_remains_exact)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_all_other_form_methods_and_import_catches_preserved (test_04a19_clustering.Clustering19Contracts.test_all_other_form_methods_and_import_catches_preserved)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_native_writer_and_prior_test_bytes_unchanged (test_04a19_clustering.Clustering19Contracts.test_core_native_writer_and_prior_test_bytes_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_base_branch_and_empty_index (test_04a19_clustering.Clustering19Contracts.test_live_base_branch_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_native_prior_tests_targets_and_metadata_are_entry_bytes (test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_core_native_prior_tests_targets_and_metadata_are_entry_bytes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_main_branch_index_and_accepted_source (test_04a20_factor_discriminant.FactorDiscriminant20Contracts.test_live_main_branch_index_and_accepted_source)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_ui22_native_designers_prior_tests_and_targets_unchanged (test_04a21_spc.Spc21Contracts.test_core_ui22_native_designers_prior_tests_and_targets_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_live_merged_main_ancestry_branch_and_empty_index (test_04a21_spc.Spc21Contracts.test_live_merged_main_ancestry_branch_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_single_fit_cancellation_and_original_native_output_tail (test_04a21_spc.Spc21Contracts.test_single_fit_cancellation_and_original_native_output_tail)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_ui22_udfs_designers_old_tests_targets_and_frozen_evidence (test_04a22_spc.Spc22Contracts.test_core_ui22_udfs_designers_old_tests_targets_and_frozen_evidence)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_publication_membership_hashes_empty_index_and_privacy (test_04a22_spc.Spc22Contracts.test_publication_membership_hashes_empty_index_and_privacy)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_merged_base_and_protected_owner_plan (test_04a23_multivariate_spc.Spc23Contracts.test_actual_merged_base_and_protected_owner_plan)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_actual_publication_membership_hash_privacy_trackability_and_empty_index (test_04a23_multivariate_spc.Spc23Contracts.test_actual_publication_membership_hash_privacy_trackability_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_existing_tables_and_warnings_remain_byte_exact_methods (test_04a23_multivariate_spc.Spc23Contracts.test_existing_tables_and_warnings_remain_byte_exact_methods)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_native_workbook_order_warning_and_appearance_are_exact (test_04a23_multivariate_spc.Spc23Contracts.test_native_workbook_order_warning_and_appearance_are_exact)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_result_context_is_consumed_and_diagnostic_table_tail_is_exact (test_04a23_multivariate_spc.Spc23Contracts.test_result_context_is_consumed_and_diagnostic_table_tail_is_exact)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_frozen_evidence_authority_hashes_and_unchanged_metadata (test_04a24_multivariate_payload.MultivariatePayload24.test_frozen_evidence_authority_hashes_and_unchanged_metadata)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_original_numerical_ui21_renderer_and_prior_common_hashes (test_04a24_multivariate_payload.MultivariatePayload24.test_original_numerical_ui21_renderer_and_prior_common_hashes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_publication_exact_membership_hashes_and_empty_index (test_04a24_multivariate_payload.MultivariatePayload24.test_publication_exact_membership_hashes_and_empty_index)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_designer_udf_and_owner_plan_remain_exact_entry_bytes (test_04a25_psm.Psm25SourceContracts.test_core_designer_udf_and_owner_plan_remain_exact_entry_bytes)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_compile_targets_and_native_helpers_unchanged (test_04a27_geometry_completion.Geometry27CompletionTests.test_compile_targets_and_native_helpers_unchanged)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_initial_implementation_and_historical_tests_not_rewritten (test_04a27_geometry_completion.Geometry27CompletionTests.test_initial_implementation_and_historical_tests_not_rewritten)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_real_consumer_routes_and_udf_exports_preserved (test_04a27_geometry_completion.Geometry27CompletionTests.test_real_consumer_routes_and_udf_exports_preserved)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_source_owner_pins_and_all_44_original_rows (test_04a27_geometry_completion.Geometry27CompletionTests.test_source_owner_pins_and_all_44_original_rows)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_designer_and_refedit_sources_are_unmodified (test_04a27_transport_successor.Transport27SuccessorTests.test_core_designer_and_refedit_sources_are_unmodified)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_exact_successor_and_unapplied_patch (test_04a27_transport_successor.Transport27SuccessorTests.test_exact_successor_and_unapplied_patch)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+          "subtest": "(path='BESHstatNG/src/Graphics/BoxPlot.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+          "subtest": "(path='BESHstatNG/src/Graphics/Histogram.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+          "subtest": "(path='BESHstatNG/src/Graphics/NormalPlot.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+          "subtest": "(path='BESHstatNG/src/Graphics/ROC.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+          "subtest": "(path='BESHstatNG/src/Graphics/ScatterPlotMatrix.vb')"
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+          "subtest": "(path='BESHstatNG/src/Graphics/XYZscatter.vb')"
+        }
+      ],
+      "identity_count_qualification": "Primary descriptions reconstructed around interleaved Git warnings; every explicit failure/error subtest retained separately.",
+      "stderr_sha256": "26d25f4b18e6ef1589c75b33e51cc1a2c4fc03801608642147acc558cb72ba06",
+      "identities_sha256": "8ff7ecea67624940d14b7d699c19dfb705a4c87de380bcfe94e8c661d137c495"
+    },
+    {
+      "label": "before",
+      "suite": "common-python",
+      "total": 168,
+      "passed": 157,
+      "failed": 6,
+      "errors": 5,
+      "stderr_encoding": "cp1252 (Windows redirected stderr)",
+      "reported_primary_identities": 168,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "identity": "test_all_native_blockers_and_anchored_mappings (test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_all_239_ledger_rows_identified_with_original_digest_convention (test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_complete_source_crosswalk_equality (test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_packet_retains_additional_21_deferred_obligations (test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_all_239_exact_ids_have_reversible_root_cause_source_maps (test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_packet_covers_all_original_cases_and_six_gates (test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_anova_defaults_mapping_remain_explicit_source_facts (test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_normality_5000_disagreement_preserved_as_review_defect (test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_pca_has_three_biplot_scales_not_the_old_two_scale_proposal (test_investigation06.Investigation06Tests.test_pca_has_three_biplot_scales_not_the_old_two_scale_proposal)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof (test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_two_by_two_or_condition_and_no_chart_handler (test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler)",
+          "subtest": ""
+        }
+      ],
+      "identity_count_qualification": "Primary descriptions reconstructed around interleaved Git warnings; every explicit failure/error subtest retained separately.",
+      "stderr_sha256": "a9d32de83e4323bf4eb7c894a0b49b5c185e026a67616db87f81b0d5a8ae2c46",
+      "identities_sha256": "e2067a7d22172d845d386c8247823355a9d7ff331a25bdf5f11bd5db43405f98"
+    },
+    {
+      "label": "verified",
+      "suite": "common-python",
+      "total": 168,
+      "passed": 157,
+      "failed": 6,
+      "errors": 5,
+      "stderr_encoding": "cp1252 (Windows redirected stderr)",
+      "reported_primary_identities": 168,
+      "nonpasses": [
+        {
+          "outcome": "ERROR",
+          "identity": "test_all_native_blockers_and_anchored_mappings (test_04a02_source_specs.SourceSpecifications.test_all_native_blockers_and_anchored_mappings)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_all_239_ledger_rows_identified_with_original_digest_convention (test_capture_contract04a02.CaptureContracts.test_all_239_ledger_rows_identified_with_original_digest_convention)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_complete_source_crosswalk_equality (test_capture_contract04a02.CaptureContracts.test_complete_source_crosswalk_equality)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_packet_retains_additional_21_deferred_obligations (test_capture_contract04a02.CaptureContracts.test_packet_retains_additional_21_deferred_obligations)",
+          "subtest": ""
+        },
+        {
+          "outcome": "ERROR",
+          "identity": "test_all_239_exact_ids_have_reversible_root_cause_source_maps (test_investigation06.Investigation06Tests.test_all_239_exact_ids_have_reversible_root_cause_source_maps)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_packet_covers_all_original_cases_and_six_gates (test_capture_contract04a02.CaptureContracts.test_packet_covers_all_original_cases_and_six_gates)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_anova_defaults_mapping_remain_explicit_source_facts (test_investigation06.Investigation06Tests.test_anova_defaults_mapping_remain_explicit_source_facts)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_normality_5000_disagreement_preserved_as_review_defect (test_investigation06.Investigation06Tests.test_normality_5000_disagreement_preserved_as_review_defect)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_pca_has_three_biplot_scales_not_the_old_two_scale_proposal (test_investigation06.Investigation06Tests.test_pca_has_three_biplot_scales_not_the_old_two_scale_proposal)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof (test_investigation06.Investigation06Tests.test_refedit_disposal_and_sheetactivate_guards_are_source_not_native_proof)",
+          "subtest": ""
+        },
+        {
+          "outcome": "FAIL",
+          "identity": "test_two_by_two_or_condition_and_no_chart_handler (test_investigation06.Investigation06Tests.test_two_by_two_or_condition_and_no_chart_handler)",
+          "subtest": ""
+        }
+      ],
+      "identity_count_qualification": "Primary descriptions reconstructed around interleaved Git warnings; every explicit failure/error subtest retained separately.",
+      "stderr_sha256": "469f6d2b8bae17402ec1dd252191f42b09e0a955e0b0b0a763635526f89d652b",
+      "identities_sha256": "e2067a7d22172d845d386c8247823355a9d7ff331a25bdf5f11bd5db43405f98"
+    }
+  ],
+  "python_identity_deltas": [
+    {
+      "suite": "python-tools",
+      "status": "EXACT_IDENTITY_POPULATION_MATCH",
+      "outcome_changes": []
+    },
+    {
+      "suite": "python-help",
+      "status": "EXACT_IDENTITY_POPULATION_MATCH",
+      "outcome_changes": []
+    },
+    {
+      "suite": "python-scripts",
+      "status": "EXACT_IDENTITY_POPULATION_MATCH",
+      "outcome_changes": [
+        {
+          "identity": "test_complete_existing_publication_set_has_no_unresolved_private_values (test_04a13_survival_workflow.Survival13SourceContracts.test_complete_existing_publication_set_has_no_unresolved_private_values)",
+          "before": "FAIL",
+          "after": "ok"
+        },
+        {
+          "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+          "before": "ok",
+          "after": "FAIL"
+        },
+        {
+          "identity": "test_entire_proposed_publication_set_privacy (test_04a14_mixed_workflow.Mixed14SourceContracts.test_entire_proposed_publication_set_privacy)",
+          "before": "FAIL",
+          "after": "ok"
+        }
+      ]
+    },
+    {
+      "suite": "common-python",
+      "status": "EXACT_IDENTITY_POPULATION_MATCH",
+      "outcome_changes": []
+    }
+  ],
+  "node": [
+    {
+      "label": "before",
+      "suite": "office-node",
+      "total": 468,
+      "passed": 468,
+      "failed": 0,
+      "stdout_sha256": "c20e09526f093bc5585e10c2072b303166074930892de8f232952d740c552717"
+    },
+    {
+      "label": "before",
+      "suite": "resolver",
+      "total": 71,
+      "passed": 71,
+      "failed": 0,
+      "stdout_sha256": "211382afb2a5abdde1c4d518869c7b3cf57e42c56f4d9f78d57b7a7054ed777b"
+    },
+    {
+      "label": "before",
+      "suite": "wasm-node",
+      "total": 377,
+      "passed": 377,
+      "failed": 0,
+      "stdout_sha256": "dd2c33a208da204da1079e81be0866bbc79f4174d64dab949b058c6a0501c2e6"
+    },
+    {
+      "label": "verified",
+      "suite": "office-node",
+      "total": 468,
+      "passed": 468,
+      "failed": 0,
+      "stdout_sha256": "26812731e54d63cab091e189a97e4962b7472ef30c00018af6e6bfbe1b4c4545"
+    },
+    {
+      "label": "verified",
+      "suite": "resolver",
+      "total": 71,
+      "passed": 71,
+      "failed": 0,
+      "stdout_sha256": "eb3f93a8d0cfbdf70011dc9f0f809a8a67311ddd42462223b1363fc5603d7688"
+    },
+    {
+      "label": "verified",
+      "suite": "wasm-node",
+      "total": 377,
+      "passed": 377,
+      "failed": 0,
+      "stdout_sha256": "3dbc43b98b3440830879220f7fe2f8f43ae236e5a74a5a00b0f5a5aef8b607c7"
+    }
+  ],
+  "final_source_recheck": "Scripts745-case lane rerun after final publication identity redaction; full matrix raw privacy failures retained separately in raw receipts, not reported as green.",
+  "release": "NOT_RUN: configuration-independent source/Node suites executed in full Debug lane, not duplicated in Release managed lane"
+}

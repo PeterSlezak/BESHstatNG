@@ -1,0 +1,21 @@
+{
+  "status": "CORRECTED_AUDIT_HELPER_ONLY",
+  "attempts": [
+    {
+      "command": "<PYTHON> -B evidence/04A30/helpers/final_original_bytes_closeout_v1.py publish",
+      "exit_code": 1,
+      "reason": "Comprehensive privacy scanner classified a Python module attribute expression as an internal hostname;changed new driver to setattr without altering scanner or v2 helper."
+    },
+    {
+      "command": "<PYTHON> -B evidence/04A30/finalize.py verify",
+      "exit_code": 1,
+      "reason": "Manifest not resealed after preceding publication failure."
+    },
+    {
+      "command": "<PYTHON> -B evidence/04A30/helpers/final_original_bytes_closeout_v1.py verify",
+      "exit_code": 1,
+      "reason": "Manifest not resealed after preceding publication failure."
+    }
+  ],
+  "no_product_or_existing_test_change": true
+}

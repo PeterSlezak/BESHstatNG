@@ -1,0 +1,46 @@
+{
+  "branch": "codex/04A-30",
+  "head": "45466a88e7567c9f4711ba4fbbe295a7a2e69bb4",
+  "main": "45466a88e7567c9f4711ba4fbbe295a7a2e69bb4",
+  "ancestry": {
+    "04A29": "45466a88e7567c9f4711ba4fbbe295a7a2e69bb4",
+    "04A28": "ed94086e449f22ee1a0fc3888d6209ecba85a8b5",
+    "test-rationalization": "033cbe9033cc10bce3e19322e5582e5ea389fe22"
+  },
+  "index": "EMPTY",
+  "owner_tracked_edits": [],
+  "authority_04A29_manifest": {
+    "path": "evidence/04A29/publication-manifest.json",
+    "bytes": 23860,
+    "sha256": "53573382117650dccd11789064c7810da5962bf3a02a146a0d0195adf188db23"
+  },
+  "plan": {
+    "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+    "bytes": 199164,
+    "sha256": "a31a342eef74125d9d236087925baa53042ef3d9514212ada684c138d6fa437a"
+  },
+  "agents": {
+    "path": "AGENTS.md",
+    "bytes": 3101,
+    "sha256": "9fb0b1351f975c33724fc62a023f66f74ceb8bb0990254731a4c897586955a3b"
+  },
+  "plan_heading": "Revision 2.11 handoff stale; owner expressly accepted 04A29",
+  "writer_check": "Get-Process: no dotnet/MSBuild/testhost/python/Excel before our runner; six Node processes. CIM command-line inspection denied. Isolated outputs, no exclusive global-writer claim.",
+  "gates": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "Gate_C2": "UNMET"
+  },
+  "native": "NATIVE_NOT_RUN",
+  "scientific": "NOT_GOLDEN",
+  "historical_results": "Accepted immutable metadata receipt plus final scoped stat comparison; payload NOT_REHASHED",
+  "historical_helper_uncertainty": [
+    171,
+    172
+  ],
+  "authority_04A29_files_enumerated": 121,
+  "authority_04A29_payload_pins_matched": 27,
+  "authority_04A29_payload_pins_mismatched": 93,
+  "authority_04A29_manifest_status": "INHERITED_COMMITTED_MANIFEST_MISMATCH; details in inherited-04A29-manifest-discrepancies.json"
+}

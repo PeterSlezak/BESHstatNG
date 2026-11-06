@@ -1,0 +1,43 @@
+{
+  "decision": "NOT_READY",
+  "acceptance_blockers": [
+    "Owner disposition pending for93 inherited committed04A29 publication hash discrepancies; frozen evidence was preserved, not repaired.",
+    "Unchanged04A28 frozen source-pin test now has six genuine failing subtests for the authorized Windows Graphics edits. New AST/entry-delta guards pass; owner-specific disposition is needed before calling this software batch ready. No old assertion/expected hash was changed."
+  ],
+  "managed": {
+    "raw_failed": 14,
+    "before_after": "Same exact identities/outcomes as original-source Debug; full Release has same failures. See managed-validation-v1.json.",
+    "unexpected_new_failures": 0
+  },
+  "python": {
+    "total": 956,
+    "passed": 840,
+    "failed": 106,
+    "errors": 10,
+    "inherited_remaining_failures": 100,
+    "inherited_errors": 10,
+    "new_frozen_source_pin_subtest_failures": 6,
+    "initial_audit_privacy_failures_fixed": 2,
+    "full_verified_matrix_raw": {
+      "passed": 838,
+      "failed": 108,
+      "errors": 10
+    },
+    "final_scripts_rerun": {
+      "total": 745,
+      "passed": 640,
+      "failed": 100,
+      "errors": 5
+    },
+    "qualification": "Entry Debug Python was844pass/102fail/10error;two privacy checks initially failed on provisional04A30 metadata. Final verified full matrix was838/108/10 before synthetic security-test display payloads were redacted in the new identity export. The final745-case scripts rerun is640/100/5; together with unchanged tools/help/Common lanes this yields final840/106/10. Six authorized source-pin failures remain FAIL. All earlier receipts retained; no assertion or historical expected hash changed."
+  },
+  "strict_exit": 1,
+  "profile_exit": 1,
+  "strict_mkdocs_exit": 0,
+  "authority_manifest_discrepancies": 93,
+  "native": "NATIVE_NOT_RUN",
+  "R": "NOT_RUN",
+  "goldens": "NOT_GOLDEN",
+  "retained_defects": "All named original restrictions, ROC repeated accumulator/scatter margin/legacy definitions and historical171/172 uncertainties retained.",
+  "intermediate_runs": "product/focused builds and first complete matrix retained in raw receipts; final verified label supersedes them after one XYZ empty-input preservation fix. No failed receipt was overwritten."
+}

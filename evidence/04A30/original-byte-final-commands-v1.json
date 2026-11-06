@@ -1,0 +1,98 @@
+{
+  "commands": [
+    {
+      "name": "ast-build",
+      "command": [
+        "dotnet",
+        "build",
+        "evidence/04A30/helpers/Graphics30Guard.csproj",
+        "--no-restore",
+        "-p:ProjectAssetsFile=<REPO_ROOT>\\.04a29-audit.tmp\\obj\\project.assets.json",
+        "-p:BaseIntermediateOutputPath=<FINAL_EVIDENCE_RUN>\\guard-obj/",
+        "-p:OutputPath=<FINAL_EVIDENCE_RUN>\\guard-bin/",
+        "--nologo",
+        "--verbosity",
+        "quiet"
+      ],
+      "exit_code": 0,
+      "seconds": 3.286200800095685,
+      "stdout_sha256": "db93b67058d01d79606a405a7f3986167f2d4f0f3df72d1c94aa35c12ce3f376",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "helper_sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+    },
+    {
+      "name": "ast-guard",
+      "command": [
+        "dotnet",
+        "<FINAL_EVIDENCE_RUN>\\guard-bin\\Graphics30Guard.dll"
+      ],
+      "exit_code": 0,
+      "seconds": 3.061435400042683,
+      "stdout_sha256": "159f0db2545d3950bf5c2b8f614c6c79005d57aefb432547334da682b7667022",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "helper_sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+    },
+    {
+      "name": "historical-six-fails",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence\\04A30\\helpers\\final_original_bytes_closeout_v1.py",
+        "old-test"
+      ],
+      "exit_code": 1,
+      "seconds": 0.9305509000550956,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "787609ad7f92bb4e4d6fcc39122a3040d2e1ef1144e13ba72ad266ac2965cea7",
+      "driver_sha256": "d8635f7d3c68d0f27d236a3769d25b40e93c5a988b56c93b3957191bb53c05a8",
+      "exact_root_helper": {
+        "path": "evidence/04A30/helpers/evidence_disposition_v2.py",
+        "bytes": 37993,
+        "sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+      }
+    },
+    {
+      "name": "original-byte-qualification",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence/04A30/helpers/evidence_disposition_v2.py",
+        "qualify",
+        "--archive",
+        "<PRISTINE_ARCHIVE>",
+        "--root",
+        "PRISTINE_04A29_ORIGINALS/"
+      ],
+      "exit_code": 0,
+      "seconds": 11.112662799889222,
+      "stdout_sha256": "c9a93ef22affce99e9184427470275e91f9bc4a47e0102f32a4dd3b4a52c5200",
+      "stderr_sha256": "4b3cfeaf5040290966d22756ecf07c854d0adba97e658758a061bcc4fe4bdfa8",
+      "driver_sha256": "d8635f7d3c68d0f27d236a3769d25b40e93c5a988b56c93b3957191bb53c05a8",
+      "exact_root_helper": {
+        "path": "evidence/04A30/helpers/evidence_disposition_v2.py",
+        "bytes": 37993,
+        "sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+      }
+    },
+    {
+      "name": "targeted-exact-root-tests",
+      "command": [
+        "<PYTHON>",
+        "-B",
+        "evidence\\04A30\\helpers\\final_original_bytes_closeout_v1.py",
+        "tests"
+      ],
+      "exit_code": 0,
+      "seconds": 5.984714400023222,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "55e4c3fa3fefb876fa83ae45395e317de59c11d1baa1edab576c36ba8c47a969",
+      "driver_sha256": "d8635f7d3c68d0f27d236a3769d25b40e93c5a988b56c93b3957191bb53c05a8",
+      "exact_root_helper": {
+        "path": "evidence/04A30/helpers/evidence_disposition_v2.py",
+        "bytes": 37993,
+        "sha256": "e336f9c526e80e4f97a54bfb42497208e4040d6acfdb8b6008562283ab266f54"
+      }
+    }
+  ],
+  "private_paths": "Pristine input stays outside repository;real path replaced by<PRISTINE_ARCHIVE>;raw diagnostics ignored"
+}

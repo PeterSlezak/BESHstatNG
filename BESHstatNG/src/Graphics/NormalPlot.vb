@@ -55,9 +55,11 @@ Namespace graphics
         ''' <param name="arrData">Numeric data to be analyzed.</param>
         ''' <param name="varName">Name of the variable.</param>
         Sub New(arrData() As Double, varName As String)
-            Array.Sort(arrData)
-            pData = arrData
-            Me.pvarName = varName
+            '04A.30 explicitly requires sorted-input immutability.
+            pData = NormalPlotDataCore.SortedCopy(arrData)
+            Dim labels As New ExcelCommon.OrderedPlotGroups(
+                New ExcelCommon.GroupedNumericData({varName}, {arrData}))
+            Me.pvarName = labels.DisplayLabels(0)
             n = pData.Length
         End Sub
 
@@ -77,27 +79,9 @@ Namespace graphics
         ''' <returns>An array of Z‑scores for the normal probability plot.</returns>
         Public Function compute(strMethod As String) As Double()
             pstrNormalScores = strMethod
-
-            ReDim pZ(n - 1), pP(n - 1)
-            Dim ranks = nonparametric.ComputeAvgRanks(pData)
-
-            If pstrNormalScores = "Blom" Then
-                For i = 0 To n - 1
-                    pP(i) = (ranks(i) - 0.375) / (n + 0.25)
-                    pZ(i) = distributions.NormSInv(pP(i))
-                Next
-            ElseIf pstrNormalScores = "Rankit" Then
-                For i = 0 To n - 1
-                    pP(i) = (ranks(i) - 0.5) / n
-                    pZ(i) = distributions.NormSInv(pP(i))
-                Next
-            ElseIf pstrNormalScores = "Van Der Waerden" Then
-                For i = 0 To n - 1
-                    pP(i) = ranks(i) / (n + 1)
-                    pZ(i) = distributions.NormSInv(pP(i))
-                Next
-            End If
-
+            Dim result = NormalPlotDataCore.Scores(pData, strMethod)
+            pZ = result.NormalScores
+            pP = result.Probabilities
             Return pZ
         End Function
 
@@ -124,53 +108,7 @@ Namespace graphics
         ''' <param name="strMethod">Reference‑line method: SPSS, OLS, or R.</param>
         ''' <returns>A 2×2 matrix containing X and Y coordinates of the line endpoints.</returns>
         Public Function computeRefLIne(strMethod As String) As Double(,)
-            Dim dSlope As Double, dIntercept As Double
-
-            If strMethod = "SPSS" Then
-                '1st calculate two points on line
-                Dim dMean As Double = pData.Average()
-                Dim dSD As Double = stDev(pData)
-
-                pRefLine(0, 0) = distributions.QNorm(pP.Min(), dMean, dSD)
-                pRefLine(1, 0) = distributions.QNorm(pP.Max(), dMean, dSD)
-                pRefLine(0, 1) = pZ.Min()
-                pRefLine(1, 1) = pZ.Max()
-
-                'calculate parameters of the reference line
-                'and coordinate for the 1st and last X value coordinate that will define reference line in plot
-                dSlope = Slope(Matrix.GetColumnFrom2Darray(pRefLine, 1), Matrix.GetColumnFrom2Darray(pRefLine, 0))
-                dIntercept = Intercept(Matrix.GetColumnFrom2Darray(pRefLine, 1), Matrix.GetColumnFrom2Darray(pRefLine, 0))
-            ElseIf strMethod = "OLS" Then
-                dSlope = Slope(pZ, pData)
-                dIntercept = Intercept(pZ, pData)
-            ElseIf strMethod = "R" Then
-                '1st calculate paires of values coresponding to 1st and 3rd quartile
-                'center the rank in the middle i.e. .5 if it is fraction or 0
-                Dim dRankQ = {(RoundDown((0.25 * (n + 1)), 0) + RoundUp((0.25 * (n + 1)), 0)) / 2,
-                              (RoundDown((0.75 * (n + 1)), 0) + RoundUp((0.75 * (n + 1)), 0)) / 2}
-
-                'compute quartiles using user defined function
-                Dim Quartiles = QuartilesComp(pData)
-                Dim dQ() = {Quartiles.Q1, Quartiles.Q3}
-                'according which z-score calculation methods was used, calculate Z to above-calculated ranks
-                Dim ZQ() As Double = Nothing
-                If pstrNormalScores = "Blom" Then
-                    ZQ = {distributions.NormSInv((dRankQ(0) - 0.375) / (n + 0.25)), distributions.NormSInv((dRankQ(1) - 0.375) / (n + 0.25))}
-                ElseIf pstrNormalScores = "Rankit" Then
-                    ZQ = {distributions.NormSInv((dRankQ(0) - 0.5) / n), distributions.NormSInv((dRankQ(1) - 0.5) / n)}
-                ElseIf pstrNormalScores = "Van Der Waerden" Then
-                    ZQ = {distributions.NormSInv(dRankQ(0) / (n + 1)), distributions.NormSInv(dRankQ(1) / (n + 1))}
-                End If
-
-                dSlope = Slope(ZQ, dQ)
-                dIntercept = Intercept(ZQ, dQ)
-            End If
-
-            pRefLine(0, 1) = dIntercept + dSlope * pData.Min()
-            pRefLine(1, 1) = dIntercept + dSlope * pData.Max()
-            pRefLine(0, 0) = pData.Min()
-            pRefLine(1, 0) = pData.Max()
-
+            pRefLine = NormalPlotDataCore.ReferenceLine(pData, pP, pZ, pstrNormalScores, strMethod)
             Return pRefLine
         End Function
 

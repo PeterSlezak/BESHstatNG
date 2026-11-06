@@ -82,7 +82,7 @@ Namespace graphics
                                 Optional strType As String = "",
                                 Optional bBoxPlot As Boolean = False) As Object(,)
 
-            Dim bins = HistogramBinsComputation(Me.data, strType)
+            Dim bins = HistogramDataCore.BinsCopy(Me.data, strType)
             Me.arBinMidVal = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(bins, 0))
             Me.arFreq = Matrix.Array2intArray(Matrix.GetColumnFrom2Darray(bins, 1))
 
@@ -90,7 +90,7 @@ Namespace graphics
             Me.arGauss = Nothing
 
             If bOveraly Then
-                Dim overlayData = GaussOverlayComputation(Me.data, Me.arBinMidVal)
+                Dim overlayData = HistogramDataCore.OverlayCopy(Me.data, Me.arBinMidVal)
                 Me.arXi = Matrix.GetColumnFrom2Darray(overlayData, 0)
                 Me.arGauss = Matrix.GetColumnFrom2Darray(overlayData, 1)
             End If
@@ -153,20 +153,9 @@ Namespace graphics
             'The column chart's categories are bin midpoints.  The secondary XY axis
             'must instead span the outer bin edges so the normal curve and box plot
             'line up exactly with the bar geometry.
-            Dim dBinWidth As Double
-            If iNoBins >= 2 Then
-                dBinWidth = Math.Abs(Me.arBinMidVal(1) - Me.arBinMidVal(0))
-            Else
-                'Degenerate/one-bin case.  Exact width is not recoverable from the
-                'midpoint alone, so use a stable symmetric display range.
-                dBinWidth = Math.Max(1.0R, Math.Abs(Me.arBinMidVal(0))) * 2.0R
-            End If
-            If dBinWidth <= 0.0R OrElse Double.IsNaN(dBinWidth) OrElse Double.IsInfinity(dBinWidth) Then
-                dBinWidth = 1.0R
-            End If
-
-            Dim dXMin As Double = Me.arBinMidVal(0) - dBinWidth / 2.0R
-            Dim dXMax As Double = Me.arBinMidVal(iNoBins - 1) + dBinWidth / 2.0R
+            Dim horizontalBounds = HistogramDataCore.HorizontalBounds(Me.arBinMidVal)
+            Dim dXMin As Double = horizontalBounds.Minimum
+            Dim dXMax As Double = horizontalBounds.Maximum
 
             'Use one shared Y scale for histogram frequencies and the already
             'frequency-scaled normal curve.  This fixes the previous independent
