@@ -1,0 +1,83 @@
+{
+  "schema": "04A31-normal-series-v1",
+  "types": [
+    "BESHStatNG.NormalPlotObservationOrder",
+    "BESHStatNG.NormalPlotSeriesData"
+  ],
+  "source": {
+    "path": "BESHStat.Core/src/Graphics/NormalPlotSeriesData.vb",
+    "bytes": 5736,
+    "sha256": "e8abcb867671caab383cd1788633735b8ceaf161a56383eacad7d4a5a692b386"
+  },
+  "numerical_authority": {
+    "path": "BESHStat.Core/src/Graphics/NormalPlotDataCore.vb",
+    "bytes": 5901,
+    "sha256": "ea7cf00ab4a4cdd04cf67c171e38efa68dc68ff47275a22801162147056b5919"
+  },
+  "shape": {
+    "X": "n sorted observed values; unchanged SortedCopy bytes",
+    "Y": "n expected normal scores",
+    "probabilities": "n",
+    "reference": "2x2;rows=endpoints;column0=observedX,column1=normalY",
+    "reference_x": "matrix[:,0]",
+    "reference_y": "matrix[:,1]",
+    "point_count": "n",
+    "sorted_to_source": "n zero-based input ordinals indexed by sorted plot slot",
+    "source_to_sorted": "n inverse slots indexed by input ordinal"
+  },
+  "scores": {
+    "Blom": "(averageRank-0.375)/(n+0.25)",
+    "Rankit": "(averageRank-0.5)/n",
+    "Van Der Waerden": "averageRank/(n+1)"
+  },
+  "lines": [
+    "SPSS",
+    "OLS",
+    "R"
+  ],
+  "matching": "Exact case-sensitive strings; existing zero fallback/exceptions retained; no method normalization",
+  "permutation": {
+    "algorithm": "Call accepted SortedCopy; bucket original ordinals by exact IEEE Int64 bits; for each sorted coordinate dequeue earliest unused identical input bits.",
+    "ties": "Stable original ordinal for identical IEEE values. Numeric-equal signed zeros and differing NaN payloads retain legacy Array.Sort coordinate slots; no claim of historical stable sorting.",
+    "reason": "Preserve exact numerical coordinate bytes and deterministic identity, including signed-zero/nonfinite slots.",
+    "identity_axes": [
+      {
+        "name": "input ordinal",
+        "base": 0,
+        "authority": "original supplied vector"
+      },
+      {
+        "name": "sorted plot ordinal",
+        "base": 0,
+        "authority": "SortedToSource index"
+      },
+      {
+        "name": "group identity",
+        "base": 0,
+        "authority": "OrderedPlotGroups.PointOrder(groupOrdinal,permutation)"
+      },
+      {
+        "name": "physical worksheet row",
+        "base": 1,
+        "authority": "actual UnivariateObservationSource.WorksheetRow>0;otherwise nullable NotAvailable"
+      },
+      {
+        "name": "neutral chart slot",
+        "base": 0,
+        "authority": "OrderedPlotPoint.ChartIndex"
+      },
+      {
+        "name": "native chart point index",
+        "base": 1,
+        "authority": "proposed Excel array slot+1;NATIVE_NOT_RUN;not a physical row"
+      }
+    ]
+  },
+  "common": "Reuses OrderedPlotGroups.PointOrder and immutable UnivariateObservationSource. No Common product change or parser duplication required.",
+  "windows": "New uses ObservationOrder;compute projects existing Scores;computeRefLIne projects existing ReferenceLine;addChart consumes snapshot X/Y/reference columns. PlotPointOrder returns actual available group0/input/sorted identity with physical row unavailable.",
+  "copy_safety": "All coordinate/probability/matrix/permutation getters clone. Immutable order object is shared safely. Each Project captures mutable Windows aliases at request time;old snapshots remain unchanged.",
+  "precompute": "Project may contain Nothing probabilities/Y and the uncomputed zero 2x2 matrix; it never scores or fits. Existing direct reference-before-score exceptions remain in NormalPlotDataCore.",
+  "scientific": "NOT_GOLDEN",
+  "native": "NATIVE_NOT_RUN",
+  "detrending": "NOT_IMPLEMENTED;04A68-69"
+}

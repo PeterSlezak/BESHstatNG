@@ -1,0 +1,46 @@
+{
+  "schema": "04A31-roc-series-v1",
+  "type": "BESHStatNG.RocPlotSeriesData",
+  "source": {
+    "path": "BESHStat.Core/src/Graphics/RocPlotSeriesData.vb",
+    "bytes": 3115,
+    "sha256": "7917df78502f026d818f41844b97c74a0efd0042c7b09648a5dd25c88d6a0518"
+  },
+  "numerical_authority": {
+    "path": "BESHStat.Core/src/Graphics/RocDataCore.vb",
+    "bytes": 13363,
+    "sha256": "7ab53ce742a879d0c713a2d9160d786824b0c46017802e0bcec80e1c4abab80f"
+  },
+  "construction": "New(result) copies the accepted RocDataResult; four-vector overload captures Windows precomputed/current state without recalculation",
+  "curve": {
+    "X": "FalsePositiveRate (1-specificity except legacy forced terminal)",
+    "Y": "Sensitivity",
+    "count": "u+1",
+    "ordering": "Exact existing descending curve order:initial(1,1),terminal(0,0)",
+    "cutoffs": "u distinct-value midpoint/terminal max+1 thresholds",
+    "specificity": "u",
+    "mapping": "Cutoff i (zero-based) -> curve slot i+1. Slot0 has no cutoff; never synthesize another threshold.",
+    "cutoff_point_indexes": "[1,...,u]",
+    "reference": {
+      "X": [
+        0,
+        1
+      ],
+      "Y": [
+        0,
+        1
+      ]
+    },
+    "axis": {
+      "minimum": 0,
+      "maximum": 1,
+      "major_unit": 0.2,
+      "crossing": 0
+    }
+  },
+  "copy_safety": "All vector getters and cutoff indexes/diagonal return independent arrays. Mutable CI getters remain the accepted RocDataResult copies.",
+  "windows": "compute consumes New RocPlotSeriesData(result); PlotSeries snapshots existing adapter fields; addROCplot consumes X/Y/ReferenceX/ReferenceY. AUC accumulation seed and Hanley-before-DeLong state order unchanged.",
+  "table": "wrapResults token-identical. Its sensitivity row uses historical slot i, not the curve slot i+1; see deferred issue04A31-ROC-TABLE-SLOT-01.",
+  "precompute": "Windows compatibility snapshot preserves Nothing curve vectors; counts zero. Diagonal and axis constants remain available. No implicit calculation.",
+  "comparison": "COMPATIBILITY_REFERENCE;HOST_FREE_EXECUTED only where validation identifies execution;NOT_GOLDEN;NATIVE_NOT_RUN"
+}

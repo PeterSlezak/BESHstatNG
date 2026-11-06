@@ -1,0 +1,148 @@
+{
+  "schema": "04A31-deferred-v1",
+  "issues": [
+    {
+      "id": "04A31-ROC-TABLE-SLOT-01",
+      "source": "BESHstatNG/src/Graphics/ROC.vb:wrapResults",
+      "baseline": "Merged04A30 f840b169;Graphics30AdapterTests;source-ownership token proof",
+      "input": {
+        "positive": [
+          5,
+          1,
+          3,
+          3
+        ],
+        "negative": [
+          0,
+          2,
+          3
+        ],
+        "alpha": 0.05
+      },
+      "existing": "Cutoffs index i maps curve point i+1;wrapResults reports sensitivity(i). At cutoff1.5,table sensitivity1.0 while curve sensitivity0.75. Table behavior preserved unchanged.",
+      "disputed": "Whether cutoff-table sensitivity must be shifted; requires separately approved user-visible/statistical policy.",
+      "host": "Numeric/table semantics;native table confirmation later",
+      "oracle": "Independent scientific oracle and owner approval before any correction",
+      "owner": "04A39-41 numeric/report investigation;04A46-48 gated native review",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "restriction": "P=NO;N1=NO GO;N2=NO;C2=UNMET;C3 NOT_APPROVED;NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0
+    },
+    {
+      "id": "04A31-ROC-TERMINAL-NONFINITE-01",
+      "source": "RocDataCore.Work.compute",
+      "baseline": "Frozen LegacyRoc30;Graphics31RocTests fixtures7/8/9",
+      "input": {
+        "positive": [
+          "+Infinity",
+          1
+        ],
+        "negative": [
+          "-Infinity",
+          0
+        ],
+        "alpha": 0.05
+      },
+      "existing": "No finite filtering;midpoint/max+1 cutoffs can be nonfinite/indistinguishable;terminal plotted point forcibly(0,0) independently of final specificity. Preserve exact results/exceptions in casebook.",
+      "disputed": "Finite/alpha/terminal-threshold policy and floating midpoint overflow are not independently qualified.",
+      "host": "Host-free calculations;native equivalence unproved",
+      "oracle": "Independent oracle+owner method-policy approval",
+      "owner": "04A39-41;native04A45-48",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "restriction": "P=NO;N1=NO GO;N2=NO;C2=UNMET;C3 NOT_APPROVED;NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0
+    },
+    {
+      "id": "04A31-ROC-REPEAT-STATE-01",
+      "source": "ROC.compute -> RocDataCore.ComputeCurve(legacyAucSeed)",
+      "baseline": "Accepted04A30 explicit seed;Graphics31AdapterTests repeated calls",
+      "input": {
+        "positive": [
+          5,
+          1,
+          3,
+          3
+        ],
+        "negative": [
+          0,
+          2,
+          3
+        ],
+        "alpha_sequence": [
+          0.05,
+          0.1,
+          0.01
+        ]
+      },
+      "existing": "Windows reuses previous normalized AUC as next accumulator seed;Core zero-default API remains stateless. CI/SE may become questionable after repeated calls. Singleton DeLong failure leaves computed Hanley/curve state.",
+      "disputed": "Reset-on-recompute would change accepted behavior;not authorized.",
+      "host": "Mutable compatibility state is Windows-only",
+      "oracle": "Independent scientific/state policy+owner approval",
+      "owner": "04A39-41;GUI04A46-48",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "restriction": "P=NO;N1=NO GO;N2=NO;C2=UNMET;C3 NOT_APPROVED;NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0
+    },
+    {
+      "id": "04A31-QQ-DEGENERATE-FIT-01",
+      "source": "NormalPlotDataCore.ReferenceLine",
+      "baseline": "Frozen LegacyNormal30;Graphics31NormalPlotTests nine combinations/edge casebook",
+      "input": {
+        "values": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "scores": [
+          "Blom",
+          "Rankit",
+          "Van Der Waerden"
+        ],
+        "lines": [
+          "SPSS",
+          "OLS",
+          "R"
+        ]
+      },
+      "existing": "Zero-variance/small/nonfinite inputs retain original nonfinite endpoints or exceptions. Exact R-style quartiles,rank quantiles and regression argument order are retained. Invalid score strings yield zero score vectors;R fitting can throw.",
+      "disputed": "Corrected degenerate-fit policy,quartile choice/R interpretation and unsupported-method rejection require independent decisions.",
+      "host": "Host-free numerical contract;native chart treatment unproved",
+      "oracle": "Independent scientific oracle+owner authorization",
+      "owner": "04A39-41;native04A45-48;detrending04A68-69",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "restriction": "P=NO;N1=NO GO;N2=NO;C2=UNMET;C3 NOT_APPROVED;NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0
+    },
+    {
+      "id": "04A31-QQ-PHYSICAL-ROWS-UNAVAILABLE-01",
+      "source": "NormalPlot.New(arrData,varName);UI/UibyID.RunNormalPlot",
+      "baseline": "Accepted04A30 constructor/acquisition;Graphics31SourceIdentityTests",
+      "input": {
+        "values": [
+          4,
+          1,
+          4,
+          2,
+          1
+        ],
+        "variable": " A "
+      },
+      "existing": "Actual Windows acquisition passes values/name only. Input/sorted/group/chart identity is available;physical row is NotAvailable. Supplied Common sources project actual rows correctly.",
+      "disputed": "Future acquisition could carry physical row metadata;array positions must never be promoted to worksheet rows.",
+      "host": "Requires an authorized Windows acquisition contract change and native provenance review",
+      "oracle": "No numeric oracle needed for metadata;separate acquisition/native authorization required",
+      "owner": "04A39 reconciliation;04A46-48 input/native provenance review",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "restriction": "P=NO;N1=NO GO;N2=NO;C2=UNMET;C3 NOT_APPROVED;NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0
+    }
+  ],
+  "original_controls": "All original obligations remain OPEN;zero releases/discharges",
+  "downstream": "04A32 Box/Histogram/Violin/axis and04A33-37 other families untouched;04A68-69 own detrending"
+}

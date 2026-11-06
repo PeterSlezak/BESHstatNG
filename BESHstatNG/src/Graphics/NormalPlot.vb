@@ -47,6 +47,9 @@ Namespace graphics
 
         ''' <summary>Normal score method used (Blom, Rankit, Van der Waerden).</summary>
         Private pstrNormalScores As String
+        Private ReadOnly pObservationOrder As NormalPlotObservationOrder
+        Private ReadOnly pPlotGroups As ExcelCommon.OrderedPlotGroups
+        Private pstrLineMethod As String
 
         ''' <summary>
         ''' Initializes the normal plot object by sorting the data and storing the
@@ -56,10 +59,12 @@ Namespace graphics
         ''' <param name="varName">Name of the variable.</param>
         Sub New(arrData() As Double, varName As String)
             '04A.30 explicitly requires sorted-input immutability.
-            pData = NormalPlotDataCore.SortedCopy(arrData)
+            pObservationOrder = New NormalPlotObservationOrder(arrData)
+            pData = pObservationOrder.Data
             Dim labels As New ExcelCommon.OrderedPlotGroups(
                 New ExcelCommon.GroupedNumericData({varName}, {arrData}))
             Me.pvarName = labels.DisplayLabels(0)
+            pPlotGroups = labels
             n = pData.Length
         End Sub
 
@@ -80,8 +85,9 @@ Namespace graphics
         Public Function compute(strMethod As String) As Double()
             pstrNormalScores = strMethod
             Dim result = NormalPlotDataCore.Scores(pData, strMethod)
-            pZ = result.NormalScores
-            pP = result.Probabilities
+            Dim series = NormalPlotSeriesData.Project(pObservationOrder, result.Probabilities, result.NormalScores, strMethod, pRefLine, pstrLineMethod)
+            pZ = series.Y
+            pP = series.Probabilities
             Return pZ
         End Function
 
@@ -109,7 +115,21 @@ Namespace graphics
         ''' <returns>A 2×2 matrix containing X and Y coordinates of the line endpoints.</returns>
         Public Function computeRefLIne(strMethod As String) As Double(,)
             pRefLine = NormalPlotDataCore.ReferenceLine(pData, pP, pZ, pstrNormalScores, strMethod)
+            pstrLineMethod = strMethod
+            pRefLine = PlotSeries().ReferenceLine
             Return pRefLine
+        End Function
+
+        ''' <summary>Copy-safe current coordinates, including caller edits to legacy
+        ''' returned score/line arrays. Does not trigger scoring or fitting.</summary>
+        Public Function PlotSeries() As NormalPlotSeriesData
+            Return NormalPlotSeriesData.Project(pObservationOrder, pP, pZ, pstrNormalScores, pRefLine, pstrLineMethod)
+        End Function
+
+        ''' <summary>Input and sorted/chart ordinals only: this constructor receives
+        ''' no physical source rows. Common can project supplied rows separately.</summary>
+        Public Function PlotPointOrder() As System.Collections.Generic.IReadOnlyList(Of ExcelCommon.OrderedPlotPoint)
+            Return pPlotGroups.PointOrder(0, pObservationOrder.SortedToSource)
         End Function
 
         ''' <summary>
@@ -125,8 +145,9 @@ Namespace graphics
         ''' </summary>
         ''' <param name="ws">Worksheet where the plot will be created.</param>
         Public Sub addChart(ws As Worksheet)
+            Dim series = PlotSeries()
 
-            With GeneralScatterPlot(pData, pZ, "Normal Expected Scores", "Observed: " & Me.pvarName, ws)
+            With GeneralScatterPlot(series.X, series.Y, "Normal Expected Scores", "Observed: " & Me.pvarName, ws)
 
                 On Error Resume Next
                 .Legend.Delete()
@@ -141,8 +162,8 @@ Namespace graphics
 
                 .SeriesCollection.NewSeries
                 With .SeriesCollection(2)
-                    .XValues = Matrix.GetColumnFrom2Darray(pRefLine, 0)
-                    .Values = Matrix.GetColumnFrom2Darray(pRefLine, 1)
+                    .XValues = series.ReferenceX
+                    .Values = series.ReferenceY
                     .Name = "Reference Line"
                     .MarkerStyle = XlMarkerStyle.xlMarkerStyleNone
                     .Border.Color = RGB(255, 0, 0)

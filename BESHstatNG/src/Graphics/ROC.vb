@@ -167,13 +167,14 @@ Namespace graphics
         Public Sub compute(Optional alpha As Double = 0.05)
             'Keep the legacy accumulator and the Hanley-before-DeLong state/error order.
             Dim result = RocDataCore.ComputeCurve(data, alpha, pAUC)
+            Dim series = New RocPlotSeriesData(result)
             pAUC = result.Auc
             pseAUC = result.StandardError
             pPvalue = result.PValue
-            parCutOff = result.Cutoffs
-            parSensitivity = result.Sensitivity
-            parSpecificity = result.Specificity
-            par1minusSpec = result.FalsePositiveRate
+            parCutOff = series.Cutoffs
+            parSensitivity = series.Y
+            parSpecificity = series.Specificity
+            par1minusSpec = series.X
             pCI = result.Interval
             Me.DeLongSE(alpha)
         End Sub
@@ -276,6 +277,7 @@ Namespace graphics
         ''' </summary>
         ''' <param name="ws">Worksheet where the ROC plot will be created.</param>
         Public Sub addROCplot(ws As Worksheet)
+            Dim series = PlotSeries()
 
             With ws.Shapes.AddChart(Width:=300, Height:=270)
                 With .Chart
@@ -288,8 +290,8 @@ Namespace graphics
 
                     .SeriesCollection.NewSeries
                     With .SeriesCollection(1)
-                        .XValues = par1minusSpec
-                        .Values = parSensitivity
+                        .XValues = series.X
+                        .Values = series.Y
                         .Name = "ROC 1"
                         .Format.Line.Weight = 1.5
                         .MarkerStyle = 8
@@ -330,8 +332,8 @@ Namespace graphics
                     'add and plot reference line
                     .SeriesCollection.NewSeries
                     With .SeriesCollection(2)
-                        .XValues = {0, 1}
-                        .Values = {0, 1}
+                        .XValues = series.ReferenceX
+                        .Values = series.ReferenceY
                         .MarkerStyle = -4142
                         .Border.Color = RGB(0, 0, 0)
                         With .Format.Line
@@ -344,6 +346,12 @@ Namespace graphics
                 End With
             End With
         End Sub
+
+        ''' <summary>Copy-safe coordinates from the current compatibility state.
+        ''' Does not compute statistics or create native objects.</summary>
+        Public Function PlotSeries() As RocPlotSeriesData
+            Return New RocPlotSeriesData(par1minusSpec, parSensitivity, parCutOff, parSpecificity)
+        End Function
 
     End Class
 End Namespace
