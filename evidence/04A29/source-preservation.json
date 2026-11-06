@@ -1,0 +1,53 @@
+{
+  "protected_entry_manifest": {
+    "path": "evidence/04A29/protected-files-entry.json",
+    "bytes": 714028,
+    "sha256": "9da784743f7f210424b9a8d4793fcc81f15af973b21fb11cbb00b5859174ac9b"
+  },
+  "historical_entry_manifest": {
+    "path": "evidence/04A29/historical-files-entry.json",
+    "bytes": 332646,
+    "sha256": "af3f09ce358eceb096f81b4978ac2a3ac9576399a4cb006927401d1c200d1b26"
+  },
+  "protected_changed": [],
+  "historical_changed": [],
+  "product_and_authority_bytes_unchanged": true,
+  "scope": "All3699 tracked entry files plus all local ledger/04A02/evidence authority; exact byte SHA and size, not Git newline normalization. UDF/Designer/Ribbon/projects included.",
+  "historical_TestResults_entry": {
+    "count": 280953,
+    "bytes": 138180795001,
+    "membership_size_mtime_sha256": "47e1430509183a035a67756061d424c2689567540489fb04349531d2cb1593c2",
+    "qualification": "metadata/membership only; payload bytes NOT_REHASHED; no historical writes"
+  },
+  "historical_TestResults_final": {
+    "count": 280953,
+    "bytes": 138180795001,
+    "membership_size_mtime_sha256": "47e1430509183a035a67756061d424c2689567540489fb04349531d2cb1593c2",
+    "qualification": "metadata/membership only; payload bytes NOT_REHASHED; no historical writes"
+  },
+  "historical_TestResults_unchanged": true,
+  "historical_payload_qualification": "No280953-result payload rehash. Entry/final membership,size,write-time digest checked; original prior hash/stat receipt pinned. NOT a fresh byte seal of138GB.",
+  "original_100_mixed_captures": {
+    "registry": {
+      "path": "evidence/04A14/baseline-registry.json",
+      "bytes": 20306,
+      "sha256": "6ef690d6b9ec3ca2d6ea735556be4576ce6e27d744948401badad285086c52a8"
+    },
+    "count": 100,
+    "changed": [],
+    "status": "NOT_GOLDEN; exact byte/hash check PASS"
+  },
+  "original_hash_receipt": {
+    "path": "docs/architecture/WindowsMigrationLedger/04A01-closeout-preservation.json",
+    "bytes": 2981,
+    "sha256": "6c126633b62f25159cc1e24ee060d660213d4a655d6bcc9e92e8f0e9b09e379d"
+  },
+  "final_seconds": 43.0725161,
+  "no_historical_writes": true,
+  "lineage_correction": {
+    "path": "evidence/04A29/lineage-source-preservation-v2.json",
+    "bytes": 1862,
+    "sha256": "a5039fa7c7b72996f5e0b70aac8f1925c769ae0fb56fcdfbaacd4947c672ec37"
+  },
+  "current_protection_status": "PASS_AFTER_LINEAGE_CORRECTION"
+}

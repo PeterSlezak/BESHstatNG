@@ -1,0 +1,64 @@
+{
+  "command": "dotnet \u003CAUDIT_HELPER\u003E/GraphicsAudit.dll self-test",
+  "passed": 14,
+  "failed": 0,
+  "tests": [
+    {
+      "name": "reject duplicate member identity",
+      "outcome": "PASS"
+    },
+    {
+      "name": "reject missing file population",
+      "outcome": "PASS"
+    },
+    {
+      "name": "reject invented ownership",
+      "outcome": "PASS"
+    },
+    {
+      "name": "reject native/scientific promotion",
+      "outcome": "PASS"
+    },
+    {
+      "name": "reject inverted source span",
+      "outcome": "PASS"
+    },
+    {
+      "name": "reject mixed ownership without native boundary",
+      "outcome": "PASS"
+    },
+    {
+      "name": "publication path cannot escape audit allowlist",
+      "outcome": "PASS"
+    },
+    {
+      "name": "private path aliases resolve deterministically from frozen Git tree",
+      "outcome": "PASS"
+    },
+    {
+      "name": "privacy rejects native machine identity without printing it",
+      "outcome": "PASS"
+    },
+    {
+      "name": "Roslyn distinguishes overloaded constructors, accessors, multiline signatures and strings",
+      "outcome": "PASS"
+    },
+    {
+      "name": "byte hash distinguishes line-ending and payload tampering",
+      "outcome": "PASS"
+    },
+    {
+      "name": "historical body matching accepts verified newline transform but rejects changed operation",
+      "outcome": "PASS"
+    },
+    {
+      "name": "field declarator fallback and attributed declaration-token line",
+      "outcome": "PASS"
+    },
+    {
+      "name": "CSV quoted multiline input and quoted signature roundtrip",
+      "outcome": "PASS"
+    }
+  ],
+  "scope": "Audit infrastructure only; no existing test changed; no product assembly executed"
+}

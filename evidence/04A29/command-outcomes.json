@@ -1,0 +1,126 @@
+{
+  "shell": "Windows PowerShell; cwd=\u003CREPO_ROOT\u003E",
+  "git_prefix": "git -c safe.directory=\u003CREPO_ROOT\u003E",
+  "executions": [
+    {
+      "command": "git status --short; git diff --check; git diff --cached --name-only; git branch --show-current; git log -12 --oneline --decorate; git rev-parse main; git status --short --ignored",
+      "outcome": "FAILED: dubious repository ownership; no writes",
+      "seconds": null
+    },
+    {
+      "command": "git -c safe.directory=\u003CREPO_ROOT\u003E status --short; git -c safe.directory=\u003CREPO_ROOT\u003E diff --check; git -c safe.directory=\u003CREPO_ROOT\u003E diff --cached --name-only; git -c safe.directory=\u003CREPO_ROOT\u003E log -14 --oneline --decorate; git -c safe.directory=\u003CREPO_ROOT\u003E rev-parse main",
+      "outcome": "PASS: clean entry, verified main and ancestry",
+      "seconds": null
+    },
+    {
+      "command": "git -c safe.directory=\u003CREPO_ROOT\u003E merge-base --is-ancestor ed94086 main; git -c safe.directory=\u003CREPO_ROOT\u003E merge-base --is-ancestor 033cbe9 main",
+      "outcome": "Both exit0",
+      "seconds": null
+    },
+    {
+      "command": "git -c safe.directory=\u003CREPO_ROOT\u003E switch -c codex/04A-29 main",
+      "outcome": "First exit1 index.lock sandbox denied; separately approved repeat exit0",
+      "seconds": null
+    },
+    {
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File evidence/04A29/helpers/build-audit.ps1",
+      "outcome": "Initial exit1:3CS0104 SearchOption ambiguity errors; fixed helper source only",
+      "seconds": 4.37
+    },
+    {
+      "command": "dotnet build evidence/04A29/helpers/GraphicsAudit.csproj --no-restore -p:BaseIntermediateOutputPath=\u003CREPO_ROOT\u003E/.04a29-audit.tmp/obj/ -p:OutputPath=\u003CREPO_ROOT\u003E/.04a29-audit.tmp/bin/ --nologo --verbosity quiet",
+      "outcome": "Exit0 following fix;0warnings0errors. Repeated after new audit reporting/helper code, no product build",
+      "seconds": null
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll freeze",
+      "outcome": "Exit0: exact tracked/historical source pins and scoped historical TestResults metadata",
+      "seconds": 81.7
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll inventory",
+      "outcome": "Exit0:38files1442extended members1009headers0unmapped; initial inventory3.14seconds",
+      "seconds": 3.14
+    },
+    {
+      "command": "git -c safe.directory=\u003CREPO_ROOT\u003E diff 11fa5d99a040de2e62c75ec201c49852c1d6b289 HEAD -- BESHstatNG/src/Graphics/KaplanMeierPlotExcel.vb BESHstatNG/src/Graphics/PsmLovePlotExcel.vb BESHstatNG/src/Graphics/SpcControlChartExcel.vb",
+      "outcome": "Exit0: accepted later seams reviewed; source unchanged",
+      "seconds": null
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll report",
+      "outcome": "Exit0: deterministic inventories, historical/current lineage, source-only test/casebook/roadmap/reference datasets",
+      "seconds": null
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll self-test",
+      "outcome": "Exit0:14/14 fault-focused audit tests",
+      "seconds": null
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll qualify-entry-privacy",
+      "outcome": "Exit0:70public path aliases; raw entry receipt retained locally with exact hash/bytes",
+      "seconds": null
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll verify",
+      "outcome": "Exit0: schema/source/publication checks; also invoked by close",
+      "seconds": null
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll close",
+      "outcome": "Final preservation/dossier/privacy/manifest closure; exits nonzero on any failure; terminal tool receipt is authority",
+      "seconds": null
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll publish-audit",
+      "outcome": "Local report-only finalization after successful close: exact inherited plan-pin qualification and final Git state; privacy/manifest/schema checks. No Git publication or historical rescan",
+      "seconds": null
+    },
+    {
+      "command": "git -c safe.directory=\u003CREPO_ROOT\u003E diff --check; git -c safe.directory=\u003CREPO_ROOT\u003E status --short; git -c safe.directory=\u003CREPO_ROOT\u003E diff --cached --name-only",
+      "outcome": "Final terminal checks required; unchanged tracked source, only allowed untracked packet/dossier and excluded owner transcript; index empty",
+      "seconds": null
+    }
+  ],
+  "discovery": "Read-only Get-Content/Import-Csv/XML/Get-FileHash/Get-Process/Get-ChildItem/rg inspected AGENTS,gitignore,plan literal rows, accepted dossiers, all38source ASTs,12Core ASTs,Common and actual external callers/tests. Failed guessed paths/globs and unavailable Python are retained in nonpasses, not passes. Shell control separators are reporting commands, not file mutations.",
+  "not_run": "No full product build/tests, portable/Legacy wrapper, native Excel/COM/UIA/clipboard/chart capture, R/oracle, installer/signing/deploy or Git publication.",
+  "timing": "Only actual measured values shown; null means not recorded individually. No causal speedup claim.",
+  "lineage_correction_commands": [
+    {
+      "command": "dotnet build evidence/04A29/helpers/GraphicsAudit.csproj --no-restore -p:BaseIntermediateOutputPath=\u003CREPO_ROOT\u003E/.04a29-audit.tmp/obj/ -p:OutputPath=\u003CREPO_ROOT\u003E/.04a29-audit.tmp/bin/ --nologo --verbosity quiet",
+      "outcome": "Offline audit-helper compilation only; actual terminal exit retained"
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll correct-lineage",
+      "outcome": "RUN:1062rows,31explicit recipes; v1 retained unchanged"
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll self-test",
+      "outcome": "RUN: 24passing (14original\u002B10lineage)"
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll finalize-lineage",
+      "outcome": "RUN: original source/capture/history and superseded-attempt preservation; refreshed dossier/validation/privacy/trackability/manifest; final terminal exit is authority"
+    },
+    {
+      "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll verify",
+      "outcome": "RUN: canonical v2 source/identity/reproduction and final publication hashes"
+    },
+    {
+      "command": "git -c safe.directory=\u003CREPO_ROOT\u003E diff --check; git -c safe.directory=\u003CREPO_ROOT\u003E status --short; git -c safe.directory=\u003CREPO_ROOT\u003E diff --cached --name-only",
+      "outcome": "Required closing checks; tracked source unchanged and index empty"
+    }
+  ],
+  "lineage_correction_preservation_seconds": 14.5814953,
+  "report_only_lineage_finalization": {
+    "command": "dotnet .04a29-audit.tmp/bin/GraphicsAudit.dll publish-lineage",
+    "scope": "Fresh source/authority/100capture byte checks, corrected snapshot alias receipts, no repeat large historical-result stat traversal",
+    "historical_result_reference": {
+      "path": "evidence/04A29/lineage-source-preservation-initial.json",
+      "bytes": 1392,
+      "sha256": "4cf3adc0c7484a35681366b33af0c375a7742fac711c66d36ef96001daca64fe"
+    },
+    "outcome": "Final terminal exit and final verify receipts are authoritative; any integrity/privacy/trackability/hash failure remains nonzero"
+  }
+}

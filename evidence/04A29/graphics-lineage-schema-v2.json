@@ -1,0 +1,32 @@
+{
+  "schema": "04A29-lineage-v2",
+  "row_key": "historical_member_id",
+  "order": "Immutable original decision-array Graphics order; exactly one row/disposition for every original ID",
+  "required_non_exact_fields": [
+    "accepted_batch",
+    "accepted_commit",
+    "confidence",
+    "lineage_evidence_id",
+    "reason",
+    "equivalence_limit"
+  ],
+  "target_requirements": [
+    "Actual current member ID,qualified type,body/source SHA,exact operation anchor and role",
+    "Accepted-batch body present and commit is ancestor of current frozen HEAD",
+    "No generic constructor or family-file fallback",
+    "Context-existing providers separated from moved operations"
+  ],
+  "categories": [
+    "UNCHANGED_MATCHED_SOURCE",
+    "CURRENT_RELOCATED_OR_REFACTORED",
+    "CURRENT_NEW_MEMBER",
+    "CURRENT_REMOVED_OR_RENAMED",
+    "HISTORICAL_UNRESOLVED",
+    "SPLIT_OPERATION",
+    "UNCERTAIN_DIFFERENT_SOURCE"
+  ],
+  "proof_reproduction": "VerifyLineageV2 rebuilds exact CSV/target registry/operation evidence from source recipes, checks1031exact rows and52-file superseded snapshot bytes",
+  "native_status": "NATIVE_NOT_RUN",
+  "scientific_status": "NOT_GOLDEN",
+  "current_member_delta_and_roadmap": "UNCHANGED"
+}

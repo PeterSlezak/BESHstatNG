@@ -1,0 +1,69 @@
+{
+  "original_order": "Immutable review-decisions.json object-array order, filtered to exact Graphics prefix; reconciled1:1to accepted symbols.csv. One row per original decision.",
+  "original_ordered_ids_sha256": "c2cc41d6d86d37c6accfbb8c9d31a565aa9e853ecf8dacf47f2f1936bd6398cb",
+  "original_total": 1062,
+  "original_all_windows": 3866,
+  "original_pin": {
+    "path": "docs/architecture/WindowsMigrationLedger/symbols.csv",
+    "bytes": 35861897,
+    "sha256": "68be9da47884f41cbeff2c5867ae22e3f26a063628fd976e7c8fe45f6dce65dd"
+  },
+  "decision_objects_pin": {
+    "path": "scripts/windows-migration-audit/review-decisions.json",
+    "bytes": 38136416,
+    "sha256": "fc90980df4c62eac323d1ef04f4ee6fad131188bfd156c8f2a99dc5dc6f2875f"
+  },
+  "original_provenance": {
+    "path": "docs/architecture/WindowsMigrationLedger/source-provenance.json",
+    "bytes": 1902,
+    "sha256": "4c42dc67e39d116af3b9f4041d329126a8416cba4f73a550b8dd271c8dab6af3"
+  },
+  "original_review_csvs": [
+    {
+      "path": "docs/architecture/WindowsMigrationLedger/continuation14-member-reviews.csv",
+      "bytes": 1083149,
+      "sha256": "404eda3557ecab740f87aed42220d93d7f58583c27665d5964b4431126597187"
+    },
+    {
+      "path": "docs/architecture/WindowsMigrationLedger/continuation15-member-reviews.csv",
+      "bytes": 1330725,
+      "sha256": "ca241bbafbaca693e28556081e44941e7febeaf8be289f6102a72e579f7f08e2"
+    },
+    {
+      "path": "docs/architecture/WindowsMigrationLedger/continuation16-member-reviews.csv",
+      "bytes": 1688225,
+      "sha256": "cf0ec18266fb607560e58159e5e8f6e15722002066fe650c66ad355104c5d204"
+    },
+    {
+      "path": "docs/architecture/WindowsMigrationLedger/continuation17-member-reviews.csv",
+      "bytes": 1266043,
+      "sha256": "963d9edd3298674b5411f88353cf932dfc15e5a13253b165042dbe07f99aa8ed"
+    },
+    {
+      "path": "docs/architecture/WindowsMigrationLedger/continuation18-member-reviews.csv",
+      "bytes": 888937,
+      "sha256": "6574654ac37e08408dd75bf7787792da5f6a22a79ba616f1004494db2fd140c2"
+    }
+  ],
+  "original_source_head": "11fa5d99a040de2e62c75ec201c49852c1d6b289",
+  "current_distinct_members": 1442,
+  "ordered_original_decisions_disposed": 1062,
+  "categories": {
+    "UNCHANGED_MATCHED_SOURCE": 1031,
+    "CURRENT_RELOCATED_OR_REFACTORED": 21,
+    "CURRENT_NEW_MEMBER": 0,
+    "CURRENT_REMOVED_OR_RENAMED": 5,
+    "HISTORICAL_UNRESOLVED": 0,
+    "SPLIT_OPERATION": 5,
+    "UNCERTAIN_DIFFERENT_SOURCE": 0
+  },
+  "unmapped_original_ids": [],
+  "current_delta": {
+    "NEWLY_ENUMERATED_PREEXISTING_DECLARATION": 392,
+    "CURRENT_NEW_MEMBER": 14
+  },
+  "current_coverage_percent": 100,
+  "historical_crosswalk": "04A01-graphics-member-crosswalk-v1.csv",
+  "current_delta_file": "current-member-lineage-delta-v1.csv",
+  "caveat": "Newly enumerated state is not post-audit new code. SPLIT and relocation assert source responsibility lineage, not numeric equivalence. All native original controls remain open."
+}

@@ -1,0 +1,129 @@
+{
+  "source_backed_candidates": [
+    {
+      "id": "G29-NORMAL-INPUT-ALIAS",
+      "family": "NormalPlot",
+      "member_ids": [
+        "BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe@2492:191"
+      ],
+      "trigger": "Pass unsorted aliased Double[] into constructor and compare caller array afterward",
+      "retained_behavior": "Array.Sort(arrData) mutates caller; current declaration aliases sorted array. Future immutable Core contract needs explicit compatibility decision.",
+      "owner": "04A.30/.31contract characterization; correction decision04A.39-41, native04A.45-48",
+      "status": "OPEN_CANDIDATE_ONLY_UNAPPLIED",
+      "native_status": "NOT_RUN",
+      "scientific_status": "NOT_GOLDEN",
+      "next_action": "Source-pinned reproducer and owner/scientific/native disposition before changed output; prospective geometry extraction must characterize this seam."
+    },
+    {
+      "id": "G29-ROC-REPEATED-COMPUTE",
+      "family": "ROC",
+      "member_ids": [
+        "BESHstatNG/src/Graphics/ROC.vb|BESHStatNG.graphics.ROC|SubBlock|2b7135ef213eaa90@7916:4912"
+      ],
+      "trigger": "Call compute twice on the same instance/data",
+      "retained_behavior": "pAUC \u002B= accumulation has no initial reset in compute; preserve current code, do not use second result as scientific golden.",
+      "owner": "04A.31characterization; separately authorized science/correction04A.41, native04A.47",
+      "status": "OPEN_CANDIDATE_ONLY_UNAPPLIED",
+      "native_status": "NOT_RUN",
+      "scientific_status": "NOT_GOLDEN",
+      "next_action": "Source-pinned reproducer and owner/scientific/native disposition before changed output; prospective geometry extraction must characterize this seam."
+    },
+    {
+      "id": "G29-CA-CAPTION-INDEX",
+      "family": "CorrespondenceAnalysisPlot",
+      "member_ids": [
+        "BESHstatNG/src/Graphics/CorrespondenceAnalysisPlotExcel.vb|BESHStatNG.graphics.CorrespondenceAnalysisPlotExcel|SubBlock|38771374f0e3bf2d@2819:6181"
+      ],
+      "trigger": "Exactly two factors and current pct(2,1) Factor2caption path",
+      "retained_behavior": "Uses row2/column1and row1/column1; caption index/cumulative interpretation candidate, catch can hide missing caption.",
+      "owner": "04A.37projection characterization;04A.42decision and04A.47native",
+      "status": "OPEN_CANDIDATE_ONLY_UNAPPLIED",
+      "native_status": "NOT_RUN",
+      "scientific_status": "NOT_GOLDEN",
+      "next_action": "Source-pinned reproducer and owner/scientific/native disposition before changed output; prospective geometry extraction must characterize this seam."
+    },
+    {
+      "id": "G29-SYMMETRY-AXIS-CAPTION",
+      "family": "Symmetry",
+      "member_ids": [
+        "BESHstatNG/src/Graphics/SymetryPlot.vb|BESHStatNG.graphics.SymetryPlot|SubBlock|089b255deb48adc7@4439:5584"
+      ],
+      "trigger": "Asymmetric tails with distinguishable upper/lower deviations",
+      "retained_behavior": "Actual X=upper-tail,Y=lower-tail; captions claim opposite; sorts caller in place.",
+      "owner": "04A.34characterization; science04A.41and native04A.46",
+      "status": "OPEN_CANDIDATE_ONLY_UNAPPLIED",
+      "native_status": "NOT_RUN",
+      "scientific_status": "NOT_GOLDEN",
+      "next_action": "Source-pinned reproducer and owner/scientific/native disposition before changed output; prospective geometry extraction must characterize this seam."
+    },
+    {
+      "id": "G29-SCATTER-MARGIN-IGNORED",
+      "family": "ScatterPlotMatrix",
+      "member_ids": [
+        "BESHstatNG/src/Graphics/ScatterPlotMatrix.vb|BESHStatNG.graphics.ScatterPlotMatrix|ConstructorBlock|72e9c5864f6a7581@3703:434"
+      ],
+      "trigger": "Supply dMargin different from0.1",
+      "retained_behavior": "Constructor assigns supplied margin then unconditionally overwrites0.1.",
+      "owner": "04A.33characterization; product decision04A.42and native04A.47",
+      "status": "OPEN_CANDIDATE_ONLY_UNAPPLIED",
+      "native_status": "NOT_RUN",
+      "scientific_status": "NOT_GOLDEN",
+      "next_action": "Source-pinned reproducer and owner/scientific/native disposition before changed output; prospective geometry extraction must characterize this seam."
+    },
+    {
+      "id": "G29-BOX-REPEATED-STATE",
+      "family": "BoxPlot",
+      "member_ids": [
+        "BESHstatNG/src/Graphics/BoxPlot.vb|BESHStatNG.graphics.BoxPlot|SubBlock|16ef05e57d4f0815@31311:1712"
+      ],
+      "trigger": "Repeated Calculate after changing aliased group data",
+      "retained_behavior": "Appends descriptive collection instead of reset; CalcForPlotting reads first generation and bounded whisker scans.",
+      "owner": "04A.32characterization; science04A.41and native04A.46",
+      "status": "OPEN_CANDIDATE_ONLY_UNAPPLIED",
+      "native_status": "NOT_RUN",
+      "scientific_status": "NOT_GOLDEN",
+      "next_action": "Source-pinned reproducer and owner/scientific/native disposition before changed output; prospective geometry extraction must characterize this seam."
+    },
+    {
+      "id": "C25-LOVE-THRESHOLD-MISSING-01",
+      "family": "PsmLovePlot",
+      "member_ids": [
+        "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|b0d44fe7f020d498@2210:3276"
+      ],
+      "trigger": "Missing/nonpositive threshold in Common projection",
+      "retained_behavior": "Accepted Common fallback threshold0.1; do not infer missing threshold supplied by user.",
+      "owner": "04A.35spec reuse; original04A.39-41and04A.45-48gates",
+      "status": "OPEN_CANDIDATE_ONLY_UNAPPLIED",
+      "native_status": "NOT_RUN",
+      "scientific_status": "NOT_GOLDEN",
+      "next_action": "Source-pinned reproducer and owner/scientific/native disposition before changed output; prospective geometry extraction must characterize this seam."
+    },
+    {
+      "id": "C25-LOVE-AXIS-NOFINITE-01",
+      "family": "PsmLovePlot",
+      "member_ids": [
+        "BESHstatNG/src/Graphics/PsmLovePlotExcel.vb|BESHStatNG.graphics.PsmLovePlotExcel|SubBlock|b0d44fe7f020d498@2210:3276"
+      ],
+      "trigger": "No finite SMD values with threshold data",
+      "retained_behavior": "Accepted MaximumX fallback/floor0.25and original masks retained.",
+      "owner": "04A.35spec reuse; original04A.39-41and04A.45-48gates",
+      "status": "OPEN_CANDIDATE_ONLY_UNAPPLIED",
+      "native_status": "NOT_RUN",
+      "scientific_status": "NOT_GOLDEN",
+      "next_action": "Source-pinned reproducer and owner/scientific/native disposition before changed output; prospective geometry extraction must characterize this seam."
+    }
+  ],
+  "unchanged_prior_issues": [
+    "C13-LOGRANK-R-01/Core/native restrictions",
+    "C17/C18unlabelledCA dormant mapping",
+    "C18PCAthreshold-caption",
+    "C19clusterRowId/cut",
+    "C20DA/FArowId/prior",
+    "C21-STACKED-ROWCOUNT-VALIDATION-01",
+    "C24-HISTORICAL-ORACLE-SCOPE-01",
+    "C25reentrant/raw-text/default intent",
+    "C28output/GEErow-ID/covariance-header issues"
+  ],
+  "additional_per_member_risks": "graphics-members-v1.csv and family casebook include native indexing, zero-span/nonfinite/overflow, overlay cleanup, copy/default/culture risks; no correction activated",
+  "histogram_enhancement_owner": "04A.75only"
+}

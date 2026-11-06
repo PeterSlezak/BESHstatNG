@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "reason": "Initial publication check caught machine-name text in a tracked relative path. The raw entry manifest is retained locally byte-for-byte; only a public path-alias derivative replaces its candidate presentation.",
+  "redacted_paths": 70,
+  "raw_local_receipt": {
+    "path": "\u003CAUDIT_PRIVATE\u003E/protected-files-entry-raw.json",
+    "bytes": 720748,
+    "sha256": "e5f051e6e07c58272a2be1a53be16ccb82dfbcdcea07a3e33ac73099863e50fe"
+  },
+  "public_derivative": {
+    "path": "evidence/04A29/protected-files-entry.json",
+    "bytes": 714028,
+    "sha256": "9da784743f7f210424b9a8d4793fcc81f15af973b21fb11cbb00b5859174ac9b"
+  },
+  "alias_rule": "\u003CPRIVATE_PROTECTED_PATH:first24SHA256(original Git-relative path)\u003E; resolve against ls-tree of frozen02a6d01base, never a guessed path. File bytes/SHA stay exact.",
+  "product_or_historical_changes": 0
+}

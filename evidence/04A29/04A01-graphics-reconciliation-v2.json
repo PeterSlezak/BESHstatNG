@@ -1,0 +1,40 @@
+{
+  "schema": "04A29-historical-reconciliation-v2",
+  "authoritative_crosswalk": "04A01-graphics-member-crosswalk-v2.csv",
+  "supersedes": "04A01-graphics-member-crosswalk-v1.csv /04A01-graphics-reconciliation-v1.json; retained unchanged and explicitly non-authoritative",
+  "original_order": "Immutable review-decisions.json object-array order, filtered to exact Graphics prefix; reconciled1:1to accepted symbols.csv. One row per original decision.",
+  "original_ordered_ids_sha256": "c2cc41d6d86d37c6accfbb8c9d31a565aa9e853ecf8dacf47f2f1936bd6398cb",
+  "original_total": 1062,
+  "exact_rows_retained_unchanged": 1031,
+  "non_exact_operations_reviewed": 31,
+  "categories": {
+    "UNCHANGED_MATCHED_SOURCE": 1031,
+    "CURRENT_RELOCATED_OR_REFACTORED": 19,
+    "CURRENT_NEW_MEMBER": 0,
+    "CURRENT_REMOVED_OR_RENAMED": 5,
+    "HISTORICAL_UNRESOLVED": 0,
+    "SPLIT_OPERATION": 5,
+    "UNCERTAIN_DIFFERENT_SOURCE": 2
+  },
+  "historical_unresolved_ordinals": [],
+  "uncertain_different_source_ordinals": [
+    171,
+    172
+  ],
+  "uncertainty": "Ordinals171/172retain documented standalone-helper contract limits. Actual source operations are traced; whole-helper equivalence is explicitly unproved. This is an audit disposition, not a discharge or product correction.",
+  "current_distinct_members": 1442,
+  "current_lineage_delta": "current-member-lineage-delta-v1.csv unchanged; 14accepted new declarations and392newly enumerated pre-existing declarations",
+  "roadmap": "graphics-roadmap-owner-map-v1.json unchanged; no new family/member work inflated",
+  "target_registry": "graphics-lineage-targets-v2.csv",
+  "operation_evidence": "graphics-lineage-operation-evidence-v2.json",
+  "original_authority": {
+    "path": "scripts/windows-migration-audit/review-decisions.json",
+    "bytes": 38136416,
+    "sha256": "fc90980df4c62eac323d1ef04f4ee6fad131188bfd156c8f2a99dc5dc6f2875f"
+  },
+  "current_file_coverage_percent": 100,
+  "native_status": "NATIVE_NOT_RUN",
+  "scientific_status": "NOT_GOLDEN",
+  "native_releases": 0,
+  "original_control_discharges": 0
+}

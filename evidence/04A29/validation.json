@@ -1,0 +1,118 @@
+{
+  "audit_schema": "PASS",
+  "current_files": 38,
+  "classified_members": 1442,
+  "helper_tests": {
+    "path": "evidence/04A29/audit-helper-tests.json",
+    "bytes": 3076,
+    "sha256": "52de610bb007cb7c6d78a0d136ab1338b7a39bebaa0d0aa3925cd525e503694e"
+  },
+  "product_source_integrity": "PASS",
+  "compiled_membership": "PASS",
+  "historical_evidence_integrity": "PASS_ENTRY_TO_FINAL",
+  "frozen_reference_qualification": "INHERITED_MISMATCHES_RETAINED_SEPARATELY",
+  "product_build": {
+    "status": "NOT_RUN",
+    "reason": "Source-only audit; compiled product inputs unchanged. Only isolated offline audit helper compiled."
+  },
+  "suites": [
+    {
+      "name": "Node",
+      "status": "NOT_RUN",
+      "reason": "No product-source change or executable fixture claim; required source-only audit validation executed instead."
+    },
+    {
+      "name": "full Debug managed",
+      "status": "NOT_RUN",
+      "reason": "No product-source change or executable fixture claim; required source-only audit validation executed instead."
+    },
+    {
+      "name": "full Release managed",
+      "status": "NOT_RUN",
+      "reason": "No product-source change or executable fixture claim; required source-only audit validation executed instead."
+    },
+    {
+      "name": "full Python",
+      "status": "NOT_RUN",
+      "reason": "No product-source change or executable fixture claim; required source-only audit validation executed instead."
+    },
+    {
+      "name": "strict",
+      "status": "NOT_RUN",
+      "reason": "No product-source change or executable fixture claim; required source-only audit validation executed instead."
+    },
+    {
+      "name": "profile",
+      "status": "NOT_RUN",
+      "reason": "No product-source change or executable fixture claim; required source-only audit validation executed instead."
+    },
+    {
+      "name": "strict MkDocs",
+      "status": "NOT_RUN",
+      "reason": "No product-source change or executable fixture claim; required source-only audit validation executed instead."
+    },
+    {
+      "name": "focused Core Graphics",
+      "status": "NOT_RUN",
+      "reason": "No product-source change or executable fixture claim; required source-only audit validation executed instead."
+    },
+    {
+      "name": "verify-beshstatng.ps1",
+      "status": "NOT_RUN",
+      "reason": "Official audit-only override; wrapper writes historical/shared TestResults. Source/schema/hash checks used; no product source changes."
+    },
+    {
+      "name": "verify-beshstatng.ps1 -Legacy",
+      "status": "NOT_RUN",
+      "reason": "Official audit-only override; wrapper writes historical/shared TestResults. Source/schema/hash checks used; no product source changes."
+    }
+  ],
+  "historical_reference": {
+    "status": "REUSED_HISTORICAL_REFERENCE",
+    "source": {
+      "path": "evidence/04A28/debug-full-validation.json",
+      "bytes": 166164,
+      "sha256": "5769a26cd8b62257c4e6ac7b4e62303b5844b79800294db2504da486d9b8a298"
+    },
+    "dossier": {
+      "path": "docs/architecture/batch-04A-28-owner-review.md",
+      "bytes": 33243,
+      "sha256": "208e159e36aa882c579b8502ad4b86ae28a0909bab2bdcdcc6c52a6e43653052"
+    },
+    "counts": "Debug12090/12103logical,19854/19868raw;Node916/916;Python850/956(96FAIL10ERROR);Release targeted1253/1253;fullReleaseNOT_RUN under batch-specific trial;strict/profile1/1;MkDocs0",
+    "meaning": "Background only; exact current test fixture/source pins in protected manifest. Not an04A29 pass or permanent Debug-first waiver."
+  },
+  "manual_checks": [
+    {
+      "host": "Excel",
+      "status": "NOT_RUN",
+      "proposed": "After separate native authorization, compare histogram bins/box/overlay and staged Sankey labels/resize; verify loaded build identity before capture."
+    },
+    {
+      "host": "Excel/WASM",
+      "status": "NOT_RUN",
+      "proposed": "After separate authorization, compare PCA retained labels/biplot and KM/censor/CI series. WASM is smoke only; audited renderers are not available there by this audit."
+    }
+  ],
+  "duration_seconds": 14.0718173,
+  "performance": "Measured freeze81.70s and final scoped preservation duration reported; no matched sequential control or speedup claim.",
+  "historical_lineage_authority": "04A01-graphics-member-crosswalk-v2.csv",
+  "lineage_correction": {
+    "status": "PASS_SOURCE_BACKED_DISPOSITIONS",
+    "original_rows": 1062,
+    "non_exact_rows_reviewed": 31,
+    "exact_rows_retained": 1031,
+    "helper_tests_passed": 24,
+    "historical_unresolved_ordinals": [],
+    "uncertain_different_source_ordinals": [
+      "171",
+      "172"
+    ],
+    "scope": "Known standalone-helper limits171/172retained; no whole-helper/native/scientific equivalence claim"
+  },
+  "current_preservation": {
+    "path": "evidence/04A29/lineage-source-preservation-v2.json",
+    "bytes": 1862,
+    "sha256": "a5039fa7c7b72996f5e0b70aac8f1925c769ae0fb56fcdfbaacd4947c672ec37"
+  }
+}

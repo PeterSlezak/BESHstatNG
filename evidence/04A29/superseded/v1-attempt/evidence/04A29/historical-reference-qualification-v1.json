@@ -1,0 +1,26 @@
+{
+  "status": "INHERITED_OWNER_PLAN_SUPERSESSION; not an04A29change or silently repaired old receipt",
+  "historical_manifest": {
+    "path": "evidence/04A28/frozen-capture-hashes.json",
+    "bytes": 286924,
+    "sha256": "f8a8ea271c6ae9d3dcc2d0c8167f0b5591eda26abb5fdbfe4f9be6d29fdfc255"
+  },
+  "observations": [
+    {
+      "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+      "expected_sha256": "2a52aa40d2e1614ce8b26c8b6ca600696439ef495254823586aee669aa7b4cb0",
+      "expected_bytes": 190798,
+      "current": {
+        "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+        "bytes": 199164,
+        "sha256": "a31a342eef74125d9d236087925baa53042ef3d9514212ada684c138d6fa437a"
+      },
+      "commit": "02a6d01cd3520116539fcefdd77612bbd9550129",
+      "parent_04A28": "ed94086e449f22ee1a0fc3888d6209ecba85a8b5",
+      "reason": "Owner-installed Revision2.11at verified main entry replaces04A28Revision2.10. Current199164bytes/SHAa31a342e...were frozen before audit and remain exact. Prior manifest190798bytes/SHA2a52aa40...is retained unchanged.",
+      "gate_effect": "NONE"
+    }
+  ],
+  "all_other_old_frozen_file_pins": "Matched entry cache qualified by successful final byte preservation; raw mismatches remain listed in nonpasses.json",
+  "cost": "No repeat280953-file historical traversal for report-only qualification. Existing completed43.07s byte/stat preservation receipt reused; all subsequent mutations are audit artifacts only."
+}
