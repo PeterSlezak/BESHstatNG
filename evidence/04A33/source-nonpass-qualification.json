@@ -1,0 +1,52 @@
+{
+  "schema": "04A33-source-nonpass-qualification-v1",
+  "status": "REAL_FAIL_RETAINED",
+  "new_failed_assertions": 1,
+  "identity": "test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved (test_04a28_output.Output28SourceContracts.test_core_numerics_udfs_designers_importer_and_canonical_spc_preserved)",
+  "subtest": "path='BESHstatNG/src/Graphics/3Dobjects.vb'",
+  "test_source": {
+    "path": "scripts/tests/test_04a28_output.py",
+    "bytes": 8219,
+    "sha256": "4c1a9e7e3c14fc39e155d966f7132064a7df1ea9f913da0445cd2445861b8eda"
+  },
+  "assertion_lines": "25-29",
+  "source": {
+    "path": "BESHstatNG/src/Graphics/3Dobjects.vb",
+    "entry_sha256": "ce24709c08be08f29b73ad4aa3819b0fb5b859cd93626ec22ea7f91f59efbe2f",
+    "final_sha256": "80e6e25090a1adc0865b3657f9139bcf1c40199a10d65b3c61c207089b56b65a"
+  },
+  "diagnostic_normalized_block_sha256": "6d47442aff9c9e6b7bdf07de37a7469495a1c9a803929e135e9608c735516dc3",
+  "proof": "Exact failing before/after SHA pair equals authorized wire-source transition;Roslyn/native-tail and whole-file recipe checks pass. Frozen test body/expected pin unchanged.",
+  "baseline_python": {
+    "passed": 833,
+    "failed": 113,
+    "errors": 10
+  },
+  "final_python": {
+    "passed": 832,
+    "failed": 114,
+    "errors": 10
+  },
+  "strict_profile_diagnostics": [
+    {
+      "lane": "strict",
+      "exit_code": 1,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "3c59ac61c3627891246191742721419958a2e89f782a61ce970c6fd5df24a747",
+      "stdout": "",
+      "stderr": "System.Exception: Stale or ambiguous review decision: BESHstatNG/src/Graphics/NormalPlot.vb|BESHStatNG.graphics.NormalPlot|ConstructorBlock|0fdb131aa98f9dfe\r\n   at Audit.Classify() in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 242\r\n   at Audit.Run(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 457\r\n   at Audit.Main(String[] args) in <REPO_ROOT>\\scripts\\windows-migration-audit\\Program.cs:line 436",
+      "historical_reference": "evidence/04A32/validation.json",
+      "accepted32_diagnostics_equal": true
+    },
+    {
+      "lane": "profile",
+      "exit_code": 1,
+      "stdout_sha256": "fc905ee21ba9cdfaa0a2eee7639bd6842284642890340f6ec2391dd97105d4e4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "{\"status\": \"INTEGRITY_FAILURE\", \"error\": \"\"}",
+      "stderr": "",
+      "historical_reference": "evidence/04A32/validation.json",
+      "accepted32_diagnostics_equal": true
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+Option Strict Off
+Option Explicit On
+Imports BESHStatNG
+Imports System.Linq
+
+Namespace Global.Batch33Fixtures
+
+
+    Public Class LegacyScatter33
+
+        Private Const gToDeleteGridLineValue As Integer = -100
+
+        Private wb As Object
+
+        Private pData(,) As Double
+
+        Private pVarNames() As String
+
+        Private n As Integer
+
+        Private p As Integer
+
+        Private pMargin As Double
+
+        Private ScaledData(,) As Double
+
+        Private x_var_labels() As Double
+
+        Private CorrMatrix(,) As Double
+
+        Private x_corr_labels() As Double
+        Private y_corr_labels() As Double
+
+        Private x_regline() As Double
+        Private y_regline() As Double
+
+        Private pbDisplayCorrCoef As Boolean
+        Private pbDisplayRegLines As Boolean
+
+
+        Sub New(arData(,) As Double, varNames() As String, wb As Object, Optional dMargin As Double = 0.1)
+
+            pData = arData
+            n = UBound(pData, 1) + 1
+            p = UBound(pData, 2) + 1
+
+            pVarNames = varNames
+            pMargin = dMargin
+            Me.wb = wb
+
+            pMargin = 0.1 'fraction of 1
+            pbDisplayCorrCoef = True
+            pbDisplayRegLines = True
+        End Sub
+
+        Sub settingInputs(bDisplayCorrCoef As Boolean, bDisplayRegLines As Boolean)
+            pbDisplayCorrCoef = bDisplayCorrCoef
+            pbDisplayRegLines = bDisplayRegLines
+        End Sub
+
+        Sub transformData()
+            Dim tmp() As Double, tmp2() As Double
+
+            ReDim ScaledData(n - 1, p - 1), x_corr_labels(p * p - 1), y_corr_labels(p * p - 1), x_var_labels(p - 1)
+            Dim intercepts_scaled(p - 1, p - 1) As Double, slopes_scaled(p - 1, p - 1) As Double
+            ReDim x_regline((p * (p - 1) * 3) - 1), y_regline((p * (p - 1) * 3) - 1)
+
+            Dim normalized = ScatterMatrixDataCore.Normalize(pData, pMargin)
+            ScaledData = normalized.Values
+            x_var_labels = normalized.DiagonalLabelX
+
+            If pbDisplayCorrCoef Then CorrMatrix = LegacyCorrelation33(pData) 'compute pearson correlation coefficient to display on chart
+
+            If pbDisplayRegLines Then
+                For i = 0 To p - 1
+                    tmp = DataManagement.ArrayUtilities.GetColumn(ScaledData, i)
+                    For j = 0 To p - 1
+                        tmp2 = DataManagement.ArrayUtilities.GetColumn(ScaledData, j)
+                        intercepts_scaled(i, j) = Intercept(tmp2, tmp)
+                        slopes_scaled(i, j) = Slope(tmp2, tmp)
+                    Next
+                Next
+            End If
+
+            Dim ii As Integer = 0
+            Dim iii As Integer = 0
+            For i = 1 To p
+                For j = 1 To p
+                    x_corr_labels(ii) = (i - 1) * (1 / p)
+                    y_corr_labels(ii) = (j - 1) * (1 / p) + ((1 / p) * (pMargin / 2))
+                    ii += 1
+
+                    If pbDisplayRegLines Then
+                        If i <> j Then
+                            For jj = 1 To 3
+                                If jj = 1 Then
+                                    x_regline(iii) = (i - 1) * (1 / p) + ((1 / p) * pMargin)
+                                    y_regline(iii) = slopes_scaled(i - 1, j - 1) * x_regline(iii) + intercepts_scaled(i - 1, j - 1)
+                                ElseIf jj = 2 Then
+                                    x_regline(iii) = i * (1 / p) - ((1 / p) * pMargin)
+                                    y_regline(iii) = slopes_scaled(i - 1, j - 1) * x_regline(iii) + intercepts_scaled(i - 1, j - 1)
+                                Else 'indication to set line segment to invisible
+                                    x_regline(iii) = gToDeleteGridLineValue
+                                    y_regline(iii) = gToDeleteGridLineValue
+                                End If
+
+                                If i = j Then
+                                    x_regline(iii) = gToDeleteGridLineValue
+                                    y_regline(iii) = gToDeleteGridLineValue
+                                End If
+                                iii += 1
+                            Next jj
+                        End If
+                    End If
+                Next
+            Next i
+        End Sub
+
+        Private Shared Function LegacyCorrelation33(data(,) As Double) As Double(,)
+            Dim t = GetType(ScatterMatrixDataCore).Assembly.GetType("BESHStatNG.Matrix.CorrelationMatrixCore")
+            Return DirectCast(t.GetMethod("Compute", Reflection.BindingFlags.Static Or Reflection.BindingFlags.NonPublic).Invoke(Nothing, New Object() {data, "r"}), Double(,))
+        End Function
+    End Class
+End Namespace

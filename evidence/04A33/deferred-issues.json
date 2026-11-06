@@ -1,0 +1,101 @@
+{
+  "schema": "04A33-deferred-v1",
+  "inherited_references": [
+    "evidence/04A29/graphics-risk-register-v1.json",
+    "evidence/04A31/deferred-issues.json",
+    "evidence/04A32/deferred-issues.json",
+    "evidence/04A30/graphics-roadmap-handoff-v1.json"
+  ],
+  "issues": [
+    {
+      "id": "G29-SCATTER-MARGIN-IGNORED",
+      "source": "ScatterPlotMatrix.New",
+      "reproducer": "dMargin=.37;data=[[0,0],[1,1],[4,4]]",
+      "existing": "Windows overwrites margin=.1;minimum of first panel .05,not .185. Core Normalize continues to accept an explicit margin.",
+      "candidate": "Honor supplied margin only after product/native compatibility disposition",
+      "owner": "Existing04A29 ledger:04A42 product decision;04A47 native",
+      "evidence": "Framework ActualScatterForcedMarginAndFeatureState;actual pre-edit9472-row capture",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "native": "NATIVE_NOT_RUN",
+      "scientific": "NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0,
+      "required_authorization": "Separate owner/scientific and native gates;no correction in33"
+    },
+    {
+      "id": "04A33-XYZ-BREAK-SENTINEL-COLLISION",
+      "source": "XYZscatter.draw point hiding;XyzGeometryData.BreakMask;wire Draw",
+      "reproducer": "Context minima=[0,0,0],ranges=[1,1,1],directions=[1,1,1],rotationRows identityXY,shift0,zoom1;rawX=-99999999999999.5 gives projectedX=-100000000000000",
+      "existing": "Numeric real coordinate can equal the XYZ sentinel. Scatter independently uses -100. Native hiding still compares sentinel equality;wire neutral BreakMask marks structural ring terminals.",
+      "candidate": "Separate masks from coordinate values only after compatibility/native authorization",
+      "owner": "04A39-41 investigation;native04A45-48 disposition",
+      "evidence": "Source-backed candidate;no native visibility observation",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "native": "NATIVE_NOT_RUN",
+      "scientific": "NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0,
+      "required_authorization": "Separate owner/scientific and native gates;no correction in33"
+    },
+    {
+      "id": "04A33-XYZ-TICK-EXTREME-DIGITS",
+      "source": "XYZscatter.tick_marks_prerequisites / XyzGeometryCore.TickAxis",
+      "reproducer": "Raw range2e150 or2e-150;Math.Round(fract,nDig) digit count outside0..15",
+      "existing": "ArgumentOutOfRangeException;nonfinite inputs can fail at CInt conversion. Per-axis field commit/error timing preserved.",
+      "candidate": "Define finite/extreme-range tick policy only with approved numeric/native disposition",
+      "owner": "04A39-41 investigation;native04A45-48 disposition",
+      "evidence": "Frozen XYZ fixture and actual adapter extreme/nonfinite captures",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "native": "NATIVE_NOT_RUN",
+      "scientific": "NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0,
+      "required_authorization": "Separate owner/scientific and native gates;no correction in33"
+    },
+    {
+      "id": "04A33-XYZ-GROUP-LATCH",
+      "source": "XYZscatter.SetGroups",
+      "reproducer": "SetGroups([a,b]);SetGroups([a,a])",
+      "existing": "bGroups setTrue for multiple groups and not resetFalse for later single group. Original label/order and aliases retained.",
+      "candidate": "Reset grouping flag only with separately approved repeated-state/native change",
+      "owner": "04A39-41 state investigation;native04A45-48 disposition",
+      "evidence": "Unchanged source member/token pin;native effect NOT_RUN",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "native": "NATIVE_NOT_RUN",
+      "scientific": "NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0,
+      "required_authorization": "Separate owner/scientific and native gates;no correction in33"
+    },
+    {
+      "id": "04A33-WIRE-INVALID-DIMENSION-BOUNDS",
+      "source": "WireSphere3D.GetRawBounds / Draw;XYZscatter.ExpandRawBoundsToIncludeObjects",
+      "reproducer": "Data bounds0..1;WireSphere center100 and Diameter=-2 =>rawBounds101..99;Draw skips dimension<=0",
+      "existing": "Bounds API returns reversed limits without validation;object inclusion can expand bounds for an object not drawn. NaN dimension is not rejected by <=0.",
+      "candidate": "Unify invalid-object bounds/draw policy only after explicit approval",
+      "owner": "04A39-41 numeric/state investigation;native04A45-48 disposition",
+      "evidence": "Core negative-diameter bounds invariant;frozen wire invalid/nonfinite sampling;axis interaction source-backed",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "native": "NATIVE_NOT_RUN",
+      "scientific": "NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0,
+      "required_authorization": "Separate owner/scientific and native gates;no correction in33"
+    },
+    {
+      "id": "04A33-SCATTER-DEGENERATE-POLICY",
+      "source": "ScatterMatrixDataCore.Normalize;CorrelationMatrixCore;ScatterMatrixSeriesCore.PanelCoordinates",
+      "reproducer": "Constant columns;one observation;NaN entry;regression/correlation toggles",
+      "existing": "Retains nonfinite normalized vectors and original correlation/regression formulas,exception and zero-array behavior;no finite filtering or clipped endpoints.",
+      "candidate": "Scientific policy review with independent oracle authorization before any correction",
+      "owner": "04A39-41 investigation;existing scatter product/native04A42/47 where applicable",
+      "evidence": "Frozen source and Core/Framework feature/edge matrix",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "native": "NATIVE_NOT_RUN",
+      "scientific": "NOT_GOLDEN",
+      "released": 0,
+      "discharged": 0,
+      "required_authorization": "Separate owner/scientific and native gates;no correction in33"
+    }
+  ]
+}

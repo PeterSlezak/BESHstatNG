@@ -169,7 +169,7 @@ Namespace graphics
                     With .SeriesCollection(seriesID)
                         .ChartType = XlChartType.xlXYScatterLinesNoMarkers
                         .XValues = {0, 1}
-                        .Values = {i * 1 / p, i * 1 / p}
+                        .Values = {ScatterMatrixSeriesCore.GridPosition(i, p), ScatterMatrixSeriesCore.GridPosition(i, p)}
                         .Name = "HorizontalGrid" & CStr(i)
                         .Format.Line.Weight = 1
                         .Format.Line.Visible = True
@@ -183,7 +183,7 @@ Namespace graphics
                     .SeriesCollection.NewSeries
                     With .SeriesCollection(seriesID)
                         .ChartType = XlChartType.xlXYScatterLinesNoMarkers
-                        .XValues = {i * 1 / p, i * 1 / p}
+                        .XValues = {ScatterMatrixSeriesCore.GridPosition(i, p), ScatterMatrixSeriesCore.GridPosition(i, p)}
                         .Values = {0, 1}
                         .Name = "VerticalGrid" & CStr(i)
                         .Format.Line.Weight = 1
@@ -196,8 +196,8 @@ Namespace graphics
                 For i = 0 To p - 1
                     For j = 0 To p - 1
                         If i <> j Then
-                            tmp1 = Matrix.GetColumnFrom2Darray(ScaledData, i)
-                            tmp2 = Matrix.GetColumnFrom2Darray(ScaledData, j)
+                            tmp1 = ScatterMatrixSeriesCore.PanelValues(ScaledData, i)
+                            tmp2 = ScatterMatrixSeriesCore.PanelValues(ScaledData, j)
 
                             seriesID += 1
                             .SeriesCollection.NewSeries
@@ -347,54 +347,10 @@ Namespace graphics
             ScaledData = normalized.Values
             x_var_labels = normalized.DiagonalLabelX
 
-            If pbDisplayCorrCoef Then CorrMatrix = Matrix.CorrelMatrix(pData, "r") 'compute pearson correlation coefficient to display on chart
-
-            'compute regression lines to display on the chart
-            If pbDisplayRegLines Then
-                For i = 0 To p - 1
-                    tmp = Matrix.GetColumnFrom2Darray(ScaledData, i)
-                    For j = 0 To p - 1
-                        tmp2 = Matrix.GetColumnFrom2Darray(ScaledData, j)
-                        intercepts_scaled(i, j) = Intercept(tmp2, tmp)
-                        slopes_scaled(i, j) = Slope(tmp2, tmp)
-                    Next
-                Next
-            End If
-
-            Dim ii As Integer = 0
-            Dim iii As Integer = 0
-            For i = 1 To p
-                For j = 1 To p
-                    'coordinates for correlation coefficient labels displayed on chart
-                    x_corr_labels(ii) = (i - 1) * (1 / p)
-                    y_corr_labels(ii) = (j - 1) * (1 / p) + ((1 / p) * (pMargin / 2))
-                    ii += 1
-
-                    If pbDisplayRegLines Then
-                        'coordinates for regression lines
-                        If i <> j Then
-                            For jj = 1 To 3
-                                If jj = 1 Then
-                                    x_regline(iii) = (i - 1) * (1 / p) + ((1 / p) * pMargin)
-                                    y_regline(iii) = slopes_scaled(i - 1, j - 1) * x_regline(iii) + intercepts_scaled(i - 1, j - 1)
-                                ElseIf jj = 2 Then
-                                    x_regline(iii) = i * (1 / p) - ((1 / p) * pMargin)
-                                    y_regline(iii) = slopes_scaled(i - 1, j - 1) * x_regline(iii) + intercepts_scaled(i - 1, j - 1)
-                                Else 'indication to set line segment to invisible
-                                    x_regline(iii) = gToDeleteGridLineValue
-                                    y_regline(iii) = gToDeleteGridLineValue
-                                End If
-
-                                If i = j Then
-                                    x_regline(iii) = gToDeleteGridLineValue
-                                    y_regline(iii) = gToDeleteGridLineValue
-                                End If
-                                iii += 1
-                            Next jj
-                        End If
-                    End If
-                Next
-            Next i
+            If pbDisplayCorrCoef Then CorrMatrix = ScatterMatrixSeriesCore.Correlations(pData)
+            Dim coordinates = ScatterMatrixSeriesCore.PanelCoordinates(ScaledData, pMargin, pbDisplayRegLines)
+            x_corr_labels = coordinates.CorrelationX : y_corr_labels = coordinates.CorrelationY
+            x_regline = coordinates.RegressionX : y_regline = coordinates.RegressionY
         End Sub
 
     End Class

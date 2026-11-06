@@ -1,0 +1,71 @@
+{
+  "schema": "04A33-casebook-v1",
+  "authority": "COMPATIBILITY_REFERENCE: frozen merged-main numeric fixtures and actual pre-edit Framework captures. HOST_FREE_EXECUTED. NOT_GOLDEN.",
+  "source_authority": {
+    "path": "evidence/04A33/pre-edit-authority.json",
+    "bytes": 1021,
+    "sha256": "f9164f7efa9abae77e31f7302a5e9c071790cc67a1b73455a9781ef1ed01f127"
+  },
+  "unique_vector_cases": 8206,
+  "executed_vector_comparisons": 32824,
+  "vectors": {
+    "path": "evidence/04A33/compatibility-vectors.csv",
+    "bytes": 4211478,
+    "sha256": "363e8ceaf7aa56f36fba5a844aa32f8c6362dcd8d59389c552de5e0217bedeb5"
+  },
+  "lanes": [
+    {
+      "configuration": "Debug",
+      "suite": "Core",
+      "records": 8206,
+      "sha256": "ed585ac8c2e6c91eee3bf1c344a065e6bee4808a115007660373226fe51ea8ff",
+      "numeric_and_exception_comparison": "PASS"
+    },
+    {
+      "configuration": "Debug",
+      "suite": "Legacy",
+      "records": 8206,
+      "sha256": "71ab25633f2c1f2b51738b6f19db8c90e0c6e208ee687d712f5bbf0b49e8aee6",
+      "numeric_and_exception_comparison": "PASS"
+    },
+    {
+      "configuration": "Release",
+      "suite": "Core",
+      "records": 8206,
+      "sha256": "9acf9a6c4f25f5789529366c0b99143370d71423a4319f3611eec86c68351cb5",
+      "numeric_and_exception_comparison": "PASS"
+    },
+    {
+      "configuration": "Release",
+      "suite": "Legacy",
+      "records": 8206,
+      "sha256": "25bf7e0c6800ca8aa8b7f03914fa34ce6862168e6a6d56248deedf9327aa84e5",
+      "numeric_and_exception_comparison": "PASS"
+    }
+  ],
+  "actual_adapter_captures": [
+    {
+      "configuration": "Debug",
+      "sha256": "85b61012c858d5a455d53bdca198a44e53666a81b1043b85dcfd512a58bc4c99",
+      "bytes": 1342855,
+      "rows": 9472,
+      "equals_pre_edit_bytes": true,
+      "host_assembly_sha256": "4ab1e3660d08ec529e43b4906cb500e082b6cbb114646b59898912bfd0513a5b",
+      "core_assembly_sha256": "c1422d6a4fe85d79d62017cbc847a4648aa408bc246b1d0a671398dd03886b83"
+    },
+    {
+      "configuration": "Release",
+      "sha256": "85b61012c858d5a455d53bdca198a44e53666a81b1043b85dcfd512a58bc4c99",
+      "bytes": 1342855,
+      "rows": 9472,
+      "equals_pre_edit_bytes": true,
+      "host_assembly_sha256": "cc3fd40d51006123807570b5c276cd0e4c965970e08957aaf6a864c62bfdfecc",
+      "core_assembly_sha256": "ca1fed80449ff0ee94cba3428728879d9ae6b8dfd84c0227ed1ceff607d8160b"
+    }
+  ],
+  "comparison": "Exact IEEE finite/infinite/signed-zero bits;algorithmic NaNs by classification;copy tests exact bits. No new tolerance. Pre/post actual adapter CSV byte-identical, including NaN bits.",
+  "baseline_capture_limit": "Actual adapter numeric members only;wire Draw requires a Chart and was not invoked. Frozen test-only original sampling slice executes ring numerics with the original projection fixture;native tail remains source-guarded.",
+  "culture": "Invariant actual capture;managed test CurrentCulture explicitly recorded per vector;no worksheet row fabricated",
+  "native": "NATIVE_NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

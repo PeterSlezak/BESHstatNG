@@ -1,0 +1,206 @@
+{
+  "schema": "04A33-fixture-specification-v1",
+  "source": "BESHStat.Core.Tests/src/Graphics/Graphics33Tests.vb plus pinned pre-edit numeric fixtures",
+  "ieee": "Big-endian hexadecimal IEEE754 binary64;NaN classification for algorithms,exact bits for snapshots",
+  "xyz": {
+    "id_pattern": "XYZ33-{fixture}-{flip}-{mode}-{operation}-{vector}",
+    "x_inputs": [
+      {
+        "fixture": 0,
+        "ieee": [
+          "C008000000000000",
+          "0000000000000000",
+          "4000000000000000",
+          "4020000000000000"
+        ]
+      },
+      {
+        "fixture": 1,
+        "ieee": [
+          "3FF0000000000000"
+        ]
+      },
+      {
+        "fixture": 2,
+        "ieee": [
+          "0000000000000000",
+          "0000000000000000",
+          "0000000000000000"
+        ]
+      },
+      {
+        "fixture": 3,
+        "ieee": []
+      },
+      {
+        "fixture": 4,
+        "ieee": [
+          "8000000000000000",
+          "0000000000000000",
+          "3FF0000000000000",
+          "3FF0000000000000"
+        ]
+      },
+      {
+        "fixture": 5,
+        "ieee": [
+          "7FF8000000000000",
+          "3FF0000000000000",
+          "7FF0000000000000"
+        ]
+      },
+      {
+        "fixture": 6,
+        "ieee": [
+          "DF138D352E5096AF",
+          "5F138D352E5096AF"
+        ]
+      },
+      {
+        "fixture": 7,
+        "ieee": [
+          "20CA2FE76A3F9475",
+          "20DA2FE76A3F9475"
+        ]
+      },
+      {
+        "fixture": 8,
+        "ieee": [
+          "4020000000000000",
+          "4000000000000000",
+          "0000000000000000",
+          "C008000000000000"
+        ]
+      },
+      {
+        "fixture": 9,
+        "ieee": [
+          "4000000000000000",
+          "C008000000000000",
+          "4020000000000000",
+          "0000000000000000"
+        ]
+      }
+    ],
+    "y": "Reverse(X)",
+    "z": "X*2 in original order",
+    "flips": "0..7:bit0=X,bit1=Y,bit2=Z",
+    "modes": [
+      {
+        "mode": 0,
+        "scale": false,
+        "zoom": 0,
+        "shiftX": 50,
+        "shiftY": 50,
+        "rotX": 120,
+        "rotY": 180,
+        "rotZ": 60
+      },
+      {
+        "mode": 1,
+        "scale": true,
+        "zoom": 0,
+        "shiftX": 50,
+        "shiftY": 50,
+        "rotX": 90,
+        "rotY": 180,
+        "rotZ": 0
+      },
+      {
+        "mode": 2,
+        "scale": false,
+        "zoom": -50,
+        "shiftX": 50,
+        "shiftY": 50,
+        "rotX": 90,
+        "rotY": 180,
+        "rotZ": 0
+      },
+      {
+        "mode": 3,
+        "scale": false,
+        "zoom": 150,
+        "shiftX": 200,
+        "shiftY": -100,
+        "rotX": 90,
+        "rotY": 180,
+        "rotZ": 0
+      }
+    ],
+    "bounds": "Original Windows data/eps/range/scale policy;source fixture feeds frozen Core context",
+    "operations": [
+      "normalizedData",
+      "cut_planes",
+      "cage_data",
+      "tick_marks_data",
+      "get_gridlines"
+    ],
+    "tick_failure": "Type compared to original source;skip downstream tick/grid vectors on matched failure"
+  },
+  "scatter": {
+    "id_pattern": "SCATTER33-{p}-{mode}-{edge}-{repeat}-{vector}",
+    "p": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "n": "edge1=>1;others5",
+    "edge": "0: i*i+2*j*i-j;1:same single row;2:constant2;3:first rowNaN;4:1e-15*i+j",
+    "mode": "0..3;bit0=correlation;bit1=regression",
+    "repeat": [
+      0,
+      1
+    ],
+    "requested_margin": 0.37,
+    "effective_margin": 0.1,
+    "variable_names": "same repeated p times"
+  },
+  "wire": {
+    "id_pattern": "WIRE33-{options}-{LegacySphere33|LegacyEllipsoid33}",
+    "owner_raw": {
+      "x": [
+        -5,
+        5
+      ],
+      "y": [
+        -4,
+        4
+      ],
+      "z": [
+        -3,
+        3
+      ]
+    },
+    "owner_options": "Legacy defaults;flipX=True,flipY=(options Mod2=0),flipZ=True;current bounds/rotation snapshot",
+    "center": [
+      1,
+      -1,
+      0
+    ],
+    "sphere_diameter": "options4=0,5=-2,7=+Infinity,8=NaN;otherwise4",
+    "ellipsoid": "DiameterX=sphere_diameter,DiameterY=6,DiameterZ=2",
+    "latitude": "options1=-2,6=8;otherwise2",
+    "longitude": "options2=0,6=12;otherwise3",
+    "points": "options3=1,6=120;otherwise16",
+    "options": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "additional_assertions": [
+    "Manual axes and live object mutation/clear,partial failures,groups/labels via Framework adapter",
+    "Independent cardinal and mixed-angle projection/context copies",
+    "Ragged/Nothing/empty numeric vector errors",
+    "Every mutable return array and matrices snapshot checks"
+  ],
+  "native": "NATIVE_NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}

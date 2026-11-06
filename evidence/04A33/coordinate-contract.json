@@ -1,0 +1,295 @@
+{
+  "schema": "04A33-coordinate-contract-v1",
+  "public_members": [
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 10,
+      "declaration": "Public ReadOnly Property XShift As Double"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 11,
+      "declaration": "Public ReadOnly Property YShift As Double"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 12,
+      "declaration": "Public ReadOnly Property Zoom As Double"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 13,
+      "declaration": "Public Sub New(minima() As Double, ranges() As Double, directions() As Double,"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 20,
+      "declaration": "Public ReadOnly Property Minima As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 25,
+      "declaration": "Public ReadOnly Property Ranges As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 30,
+      "declaration": "Public ReadOnly Property Directions As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 35,
+      "declaration": "Public ReadOnly Property RotationX As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 40,
+      "declaration": "Public ReadOnly Property RotationY As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 45,
+      "declaration": "Public Shared Function RotationRows(xRotate As Double, yRotate As Double, zRotate As Double,"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 58,
+      "declaration": "Public Shared Function ZoomFactor(value As Double) As Double"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 61,
+      "declaration": "Public Shared Function ShiftX(value As Double) As Double"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 64,
+      "declaration": "Public Shared Function ShiftY(value As Double) As Double"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 67,
+      "declaration": "Public Sub ProjectRawPoint(x As Double, y As Double, z As Double, ByRef projectedX As Double, ByRef projectedY As Double)"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 84,
+      "declaration": "Public ReadOnly Property VectorNames As String()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 89,
+      "declaration": "Public Function Vector(name As String) As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 92,
+      "declaration": "Public Function BreakMask(name As String) As Boolean()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 95,
+      "declaration": "Public ReadOnly Property SourceOrdinals As Integer()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 110,
+      "declaration": "Public ReadOnly Property X As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 115,
+      "declaration": "Public ReadOnly Property Y As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 120,
+      "declaration": "Public ReadOnly Property BreakMask As Boolean()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 125,
+      "declaration": "Public ReadOnly Property RingOrdinals As Integer()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzProjectionContext.vb",
+      "line": 130,
+      "declaration": "Public ReadOnly Property SampleOrdinals As Integer()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzGeometryCore.vb",
+      "line": 10,
+      "declaration": "Public Function TickAxis(minimum As Double, range As Double, direction As Double) As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzGeometryCore.vb",
+      "line": 18,
+      "declaration": "Public Function ProjectNormalized(context As XyzProjectionContext, x() As Double, y() As Double, z() As Double, count As Integer) As XyzGeometryData"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzGeometryCore.vb",
+      "line": 23,
+      "declaration": "Public Function CutPlanes(context As XyzProjectionContext, x() As Double, y() As Double, z() As Double, count As Integer, planes() As Double) As XyzGeometryData"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzGeometryCore.vb",
+      "line": 29,
+      "declaration": "Public Function Cage(context As XyzProjectionContext) As XyzGeometryData"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzGeometryCore.vb",
+      "line": 33,
+      "declaration": "Public Function Ticks(context As XyzProjectionContext, first() As Double, stepSize() As Double, counts() As Double) As XyzGeometryData"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/XyzGeometryCore.vb",
+      "line": 38,
+      "declaration": "Public Function GridLines(context As XyzProjectionContext, first() As Double, stepSize() As Double, counts() As Double) As XyzGeometryData"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 15,
+      "declaration": "Public ReadOnly Property Values As Double(,)"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 20,
+      "declaration": "Public ReadOnly Property CorrelationX As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 25,
+      "declaration": "Public ReadOnly Property CorrelationY As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 30,
+      "declaration": "Public ReadOnly Property RegressionX As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 35,
+      "declaration": "Public ReadOnly Property RegressionY As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 40,
+      "declaration": "Public ReadOnly Property RegressionBreakMask As Boolean()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 45,
+      "declaration": "Public ReadOnly Property SourceOrdinals As Integer()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 50,
+      "declaration": "Public ReadOnly Property PanelColumns As Integer()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 56,
+      "declaration": "Public ReadOnly Property PanelRows As Integer()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 62,
+      "declaration": "Public Function PanelX(column As Integer) As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixPanelData.vb",
+      "line": 65,
+      "declaration": "Public Function PanelY(row As Integer) As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixSeriesCore.vb",
+      "line": 6,
+      "declaration": "Public Function Correlations(data(,) As Double) As Double(,)"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixSeriesCore.vb",
+      "line": 9,
+      "declaration": "Public Function GridPosition(index As Integer, variables As Integer) As Double"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixSeriesCore.vb",
+      "line": 12,
+      "declaration": "Public Function PanelValues(data(,) As Double, variableOrdinal As Integer) As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ScatterMatrixSeriesCore.vb",
+      "line": 15,
+      "declaration": "Public Function PanelCoordinates(input(,) As Double, margin As Double, regression As Boolean) As ScatterMatrixPanelData"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/WireObjectGeometryCore.vb",
+      "line": 5,
+      "declaration": "Public Function Sphere(context As XyzProjectionContext, Cx As Double, Cy As Double, Cz As Double, Diameter As Double, LatitudeRings As Integer, LongitudeRings As Integer, PointsPerRing As Integer, Optional breakValue As Double = -100000000000000.0) As WireSeriesData"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/WireObjectGeometryCore.vb",
+      "line": 66,
+      "declaration": "Public Function SphereBounds(Cx As Double, Cy As Double, Cz As Double, Diameter As Double) As Double()"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/WireObjectGeometryCore.vb",
+      "line": 74,
+      "declaration": "Public Function Ellipsoid(context As XyzProjectionContext, Cx As Double, Cy As Double, Cz As Double, DiameterX As Double, DiameterY As Double, DiameterZ As Double, LatitudeRings As Integer, LongitudeRings As Integer, PointsPerRing As Integer, Optional breakValue As Double = -100000000000000.0) As WireSeriesData"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/WireObjectGeometryCore.vb",
+      "line": 144,
+      "declaration": "Public Function EllipsoidBounds(Cx As Double, Cy As Double, Cz As Double, DiameterX As Double, DiameterY As Double, DiameterZ As Double) As Double()"
+    }
+  ],
+  "xyz": {
+    "context": "Immutable copied minima[3],ranges[3],directions[3],rotationX[3],rotationY[3],shiftX/shiftY/zoom scalars;captured from current adapter fields at each original numeric operation time. No early dataInputs snapshot;legacy alias/repeated-option semantics retained.",
+    "rotation": "Original two rotation rows and StatFunc.Radians;X/Y/Z scales and sign/order preserved. No perspective camera.",
+    "normalization": "Existing XyzDataCore.NormalizeAxis only;((raw-min)/range-.5)*direction;explicit X-derived count;ragged/nonfinite propagation preserved.",
+    "interpolation": "Zoom=(1+z/50)^2;Xshift=x/100-.5;Yshift=y/100+.5;rotation+shift then zoom",
+    "payload": "XyzGeometryData named vectors with copied names/vectors and break masks. ProjectNormalized:3 vectors of n. CutPlanes:6 vectors of n. Cage:2 vectors of11. Ticks:6 vectors,3*(CInt(tx(axis))+1) each. GridLines:12 vectors,3*(CInt(tx(axis))+1) by corresponding axis.",
+    "z_drop": "error_bars=projectedY-projectedY at fixed normalizedZ=-.5,including flippedZ",
+    "ticks": "TickAxis[5]=rawStep,rawFirst,count,normalizedFirst,normalizedStep. Math.Floor substitutes same numeric Int;original Math.Round digits/failures retained. Windows labels CStr culture retained.",
+    "source": "SourceOrdinals=0..n-1 only for data packet;geometry packets have empty observation ordinals. Chartpoint=ordinal+1 within each rendered series;group packing can differ from raw source. PhysicalWorksheetRow=NOT_AVAILABLE.",
+    "sentinel": -100000000000000
+  },
+  "scatter": {
+    "normalization": "Unchanged ScatterMatrixDataCore.Normalize;Windows passes forced.1;no new normalization/correlation/regression algorithm.",
+    "statistics": "Existing Core Matrix.CorrelationMatrixCore.Compute,StatFunc.Intercept/Slope reused;Windows lower-triangle p/upper-triangle r and formats unchanged.",
+    "payload": "Values[n,p];CorrelationX/Y[p*p],i outer,j inner including diagonal;RegressionX/Y[p*(p-1)*3] with endpoint,endpoint,-100 order or original zero arrays when disabled. PanelColumns[k]=k\\p;PanelRows[k]=k Mod p;row SourceOrdinals[0..n-1]. Diagonal anchors remain accepted normalized contract.",
+    "grid": "GridPosition(i,p)=i*1/p;horizontal grids then vertical grids;native pair loop i outer,j inner skipping diagonal;variable order/duplicates preserved.",
+    "sentinel": -100,
+    "physical_rows": "NOT_AVAILABLE"
+  },
+  "wire": {
+    "payload": "WireSeriesData copied X/Y,structural BreakMask,RingOrdinals,SampleOrdinals;sample=-1 for terminal break;not observation/worksheet identity.",
+    "geometry": "Sphere retains ringR=r*cos(phi) and original operation order;ellipsoid retains separate a/b semiaxes. Full diameters/2. Latitude rings exclude poles;longitude meridians -pi/2..pi/2. Closed latitude duplicate endpoints retained.",
+    "shape": "(Max(0,lat)+Max(1,lon))*(Max(12,pts)+2);one terminal break/ring;invalid<=0 dimensions return empty portable series and retain Windows no-draw guard.",
+    "bounds": "6 scalars minX,maxX,minY,maxY,minZ,maxZ;negative dimensions retain reversed bounds;no new validation.",
+    "context": "Same frozen current scene minima/ranges/directions/rows/shifts/zoom as data/cage;new object property snapshot on each Draw. Color/name/native series order stay Windows."
+  },
+  "copy_safety": "All input vectors/matrices snapshotted before portable calculations;all mutable returned vectors/matrices/names/masks/ordinal arrays independent per read. Private per-call builder is ephemeral,not a shared reusable mutable calculator.",
+  "exception_policy": "No new filtering/normalization/rejection or algorithm correction. Core argument/index/Math.Round behavior retained from numeric slice;Windows preallocation/ordered field commits preserve characterized partial failure state.",
+  "host_only_exceptions": [
+    {
+      "source": "XYZscatter.RecomputeRawBoundsFromDataOnly / ExpandRawBoundsToIncludeObjects / ApplyManualAxisBoundsIfAny / RefreshScaleRatios / EnsureNonZeroRanges / ValidateAxisMinMax",
+      "retained": "Mutable raw bounds/manual limits/range fallback and live IXYZHasBounds dispatch;per-axis writes,exceptions,validation messages and reevaluation when data/objects/manual limits change remain in Windows.",
+      "reason": "Preserve existing adapter state/evaluation ordering and public IXYZ object callbacks;Core consumes a frozen snapshot of resulting bounds/directions/scale coefficients. Core geometry is fully portable from explicit numeric bounds;this is not a host-only trigonometric projection.",
+      "future": "Any independent bounds/range policy correction needs04A39-41 and native04A45-48 disposition"
+    },
+    {
+      "source": "XYZscatter.SetGroups / SetDataLabels / draw grouped point loop",
+      "retained": "Existing string label/group acquisition,first-seen grouping,latch behavior,per-series packing and Excel1-based label/point assignment",
+      "reason": "Retains caller aliases,current missing-label exceptions,format/series/lifecycle timing. Neutral data payload exposes zero-based raw point ordinals;group packing remains the source-guarded renderer boundary.",
+      "future": "No physical worksheet rows are available on this values-only path"
+    },
+    {
+      "source": "XYZscatter.draw / ScatterPlotMatrix.compute / WireSphere3D.Draw / WireEllipsoid3D.Draw native tails",
+      "retained": "SeriesCollection,point hiding,axis/ticklabel styling,RGB,markers,COM lifetime,chart export/animation/UI",
+      "reason": "Native renderer and host ownership. Wire Draw null/invalid-dimension guards retain original sequencing before portable sampling;actual native rendering NOT_RUN.",
+      "future": "Separate native permission/source/session/build attribution"
+    }
+  ],
+  "native": "NATIVE_NOT_RUN",
+  "scientific": "NOT_GOLDEN"
+}
