@@ -1,0 +1,66 @@
+{
+  "schema": "04A32-current-main-baseline-v1",
+  "base": "43a752b169fb996ed65387d88d380b1386e92240",
+  "suites": [
+    {
+      "suite": "Core",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 1113
+      },
+      "trx_sha256": "d8f83f3fc0f7afdaacfeb6560beb2595cdb4b38b1a7468ea5a1fa6f036079737"
+    },
+    {
+      "suite": "Common",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 8984,
+        "Failed": 5
+      },
+      "trx_sha256": "705c869adcfc4f34ed8871ca2793b0f0e9e3d975f2d850b23b48f15e561592b0"
+    },
+    {
+      "suite": "Legacy",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 9288,
+        "Failed": 9
+      },
+      "trx_sha256": "b14a8877c049388e815b382f446f7091dd7aeb7e7aa0549c1b57a84487bc5aea"
+    },
+    {
+      "suite": "OfficeAddin",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 508
+      },
+      "trx_sha256": "7c5c5ff9093ec6b440e7d4f15663c8f1e0d425e15c678a3e214ed7a9db92b62c"
+    },
+    {
+      "suite": "OfficeExecution",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 45
+      },
+      "trx_sha256": "2355fd66e185c91828ca650c8bf696523063080c1d064eb54f5123a015da8a2b"
+    },
+    {
+      "suite": "ControlMitigation",
+      "configuration": "Debug",
+      "outcomes": {
+        "Passed": 61
+      },
+      "trx_sha256": "e44be8880622d7b492aec46e56a3a2dc7066da01816125d02acb35cc6f0a29c2"
+    }
+  ],
+  "source_unchanged": true,
+  "capture": {
+    "path": "evidence/04A32/adapter-capture-entry.csv",
+    "bytes": 546375,
+    "sha256": "627f063ada1554b050c6e1fd36e03f328b59acfec36f5f68a1a206a95c0db6ce",
+    "rows": 3302
+  },
+  "capture_assembly_sha256": "80cd2ef1d700f574c5418b29b19dd04417eecc74cf7f6ca594597ba1217c7068",
+  "entry_release": "NOT_RUN;final fresh full Release required;current-main Debug identities captured;accepted31 Release is historical reference only",
+  "authority": "Actual compiled current-main adapters headlessly executed;no worksheet/native object constructed;source-backed fixture frozen before edit;NOT_GOLDEN"
+}

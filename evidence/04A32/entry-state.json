@@ -1,0 +1,450 @@
+{
+  "schema": "04A32-entry-v1",
+  "branch": "codex/04A-32",
+  "base": "43a752b169fb996ed65387d88d380b1386e92240",
+  "main": "43a752b169fb996ed65387d88d380b1386e92240",
+  "head": "43a752b169fb996ed65387d88d380b1386e92240",
+  "parent": "f840b1695fd95be25faba6fd5408c9498a31d804",
+  "index": "EMPTY",
+  "tracked_owner_changes": [],
+  "untracked_owner_files": [],
+  "writers": "No dotnet/testhost/python/Excel observed;two MSBuild nodes visible. No index lock. Other writers not globally excluded;isolated outputs and source hashes used.",
+  "authority": "Actual merged main controls branch;owner acceptance supersedes stale plan handoff",
+  "plan_discrepancies": [
+    "Revision2.11 handoff/counts stale;official04A32 row agrees",
+    "Live standalone DescriptiveStat,Histogram and Violin all call the same StatFunc.QuartilesComp. No differing-quartile fixture is fabricated;distinct call paths,finite policies and whisker algorithms retained."
+  ],
+  "previous_publication_qualification": [
+    {
+      "path": "BESHStat.Core.Tests/src/Graphics/Graphics31Evidence.vb",
+      "relation": "DIRECT",
+      "original_sha256": "97385b42d5006a39ac755817145039c920f1ecd28757a71ea4e040b78f2faa79",
+      "merged": {
+        "path": "BESHStat.Core.Tests/src/Graphics/Graphics31Evidence.vb",
+        "bytes": 2652,
+        "sha256": "97385b42d5006a39ac755817145039c920f1ecd28757a71ea4e040b78f2faa79"
+      }
+    },
+    {
+      "path": "BESHStat.Core.Tests/src/Graphics/Graphics31NormalPlotTests.vb",
+      "relation": "DIRECT",
+      "original_sha256": "000db119a294d840df331283169649484dc2dee2978f7cdfd6b46e9ca84953ab",
+      "merged": {
+        "path": "BESHStat.Core.Tests/src/Graphics/Graphics31NormalPlotTests.vb",
+        "bytes": 9644,
+        "sha256": "000db119a294d840df331283169649484dc2dee2978f7cdfd6b46e9ca84953ab"
+      }
+    },
+    {
+      "path": "BESHStat.Core.Tests/src/Graphics/Graphics31RocTests.vb",
+      "relation": "DIRECT",
+      "original_sha256": "1cc385d5f33c1839af815515b99ab997239a0dd6f6f05e4edae1432265018e92",
+      "merged": {
+        "path": "BESHStat.Core.Tests/src/Graphics/Graphics31RocTests.vb",
+        "bytes": 9364,
+        "sha256": "1cc385d5f33c1839af815515b99ab997239a0dd6f6f05e4edae1432265018e92"
+      }
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/NormalPlotSeriesData.vb",
+      "relation": "DIRECT",
+      "original_sha256": "e8abcb867671caab383cd1788633735b8ceaf161a56383eacad7d4a5a692b386",
+      "merged": {
+        "path": "BESHStat.Core/src/Graphics/NormalPlotSeriesData.vb",
+        "bytes": 5736,
+        "sha256": "e8abcb867671caab383cd1788633735b8ceaf161a56383eacad7d4a5a692b386"
+      }
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/RocPlotSeriesData.vb",
+      "relation": "DIRECT",
+      "original_sha256": "7917df78502f026d818f41844b97c74a0efd0042c7b09648a5dd25c88d6a0518",
+      "merged": {
+        "path": "BESHStat.Core/src/Graphics/RocPlotSeriesData.vb",
+        "bytes": 3115,
+        "sha256": "7917df78502f026d818f41844b97c74a0efd0042c7b09648a5dd25c88d6a0518"
+      }
+    },
+    {
+      "path": "BESHStat.Excel.Common.Tests/src/Graphics31SourceIdentityTests.vb",
+      "relation": "DIRECT",
+      "original_sha256": "ebe2ad3c10fdf3e22c6a07f2f52379707346ce5b198243b9c0ab55b696a217a3",
+      "merged": {
+        "path": "BESHStat.Excel.Common.Tests/src/Graphics31SourceIdentityTests.vb",
+        "bytes": 4875,
+        "sha256": "ebe2ad3c10fdf3e22c6a07f2f52379707346ce5b198243b9c0ab55b696a217a3"
+      }
+    },
+    {
+      "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+      "relation": "DIRECT",
+      "original_sha256": "25e3e3c89894d35181de9cf5232d4fa3ee640284058d009a381691228a0088b6",
+      "merged": {
+        "path": "BESHStatNG.Test/BESHStatNG.Tests.vbproj",
+        "bytes": 28435,
+        "sha256": "25e3e3c89894d35181de9cf5232d4fa3ee640284058d009a381691228a0088b6"
+      }
+    },
+    {
+      "path": "BESHStatNG.Test/src/Charts/Graphics31AdapterTests.vb",
+      "relation": "DIRECT",
+      "original_sha256": "15ba5fbc33614e8d3ab174e5a5fa000c83355b961b8d86584e200936785c92fa",
+      "merged": {
+        "path": "BESHStatNG.Test/src/Charts/Graphics31AdapterTests.vb",
+        "bytes": 7021,
+        "sha256": "15ba5fbc33614e8d3ab174e5a5fa000c83355b961b8d86584e200936785c92fa"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/NormalPlot.vb",
+      "relation": "DIRECT",
+      "original_sha256": "2f76950a10b5c23d9ea167098587947bb9d9fd96f6b45e7115868525c880abf7",
+      "merged": {
+        "path": "BESHstatNG/src/Graphics/NormalPlot.vb",
+        "bytes": 8592,
+        "sha256": "2f76950a10b5c23d9ea167098587947bb9d9fd96f6b45e7115868525c880abf7"
+      }
+    },
+    {
+      "path": "BESHstatNG/src/Graphics/ROC.vb",
+      "relation": "DIRECT",
+      "original_sha256": "e1b1b096e49663d8480226a5f93b89d438e47d1d57f7a350c76bb200136223c6",
+      "merged": {
+        "path": "BESHstatNG/src/Graphics/ROC.vb",
+        "bytes": 16914,
+        "sha256": "e1b1b096e49663d8480226a5f93b89d438e47d1d57f7a350c76bb200136223c6"
+      }
+    },
+    {
+      "path": "docs/architecture/batch-04A-31-owner-review.md",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "1d72c586f06177b3ca4ed7916465fd40be28eb2e8c1f2f7b3e4694addefdde0b",
+      "merged": {
+        "path": "docs/architecture/batch-04A-31-owner-review.md",
+        "bytes": 12016,
+        "sha256": "2d76c1cbd097c6d4638fdcf0d25c29b70ae8b7950bd84b5e35f9124f5d13dc31"
+      }
+    },
+    {
+      "path": "evidence/04A31/audit.py",
+      "relation": "DIRECT",
+      "original_sha256": "5676ca37edd374d4644d0e68ab1515624bd08a7096e8e818ef03b5065d62124d",
+      "merged": {
+        "path": "evidence/04A31/audit.py",
+        "bytes": 14553,
+        "sha256": "5676ca37edd374d4644d0e68ab1515624bd08a7096e8e818ef03b5065d62124d"
+      }
+    },
+    {
+      "path": "evidence/04A31/command-outcomes.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "ebd623a483e4f117a13adc83876a57322e78e466c1b7bc3c94dc3fc0b3051ef0",
+      "merged": {
+        "path": "evidence/04A31/command-outcomes.json",
+        "bytes": 73913,
+        "sha256": "aa4aa4e68e29f7cd51d7f46da512eb6f149ecdb749613d056fc83ac852f54449"
+      }
+    },
+    {
+      "path": "evidence/04A31/deferred-issues.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "bda81276b61479aec3027e09996cf8e0b9069516a2f39f8561fcca05b2a4c376",
+      "merged": {
+        "path": "evidence/04A31/deferred-issues.json",
+        "bytes": 6046,
+        "sha256": "d2da1092c3711fee37e6580f54e4150aaec170e480d1d4d4b9bb9fd144d8ad33"
+      }
+    },
+    {
+      "path": "evidence/04A31/entry-state.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "9f2647d381ff041d4a2dfbd9871c8d89c623a1aba9653baa62fe2dd1bea2f809",
+      "merged": {
+        "path": "evidence/04A31/entry-state.json",
+        "bytes": 55765,
+        "sha256": "1d425935a77c4252dba404cc6561a385dec145b23b341385832286012b982ddd"
+      }
+    },
+    {
+      "path": "evidence/04A31/finalize.py",
+      "relation": "DIRECT",
+      "original_sha256": "80ea1be9f27fc3a61c83b3efb67d7c837775a7d2407901d5c2088ba179147f95",
+      "merged": {
+        "path": "evidence/04A31/finalize.py",
+        "bytes": 31769,
+        "sha256": "80ea1be9f27fc3a61c83b3efb67d7c837775a7d2407901d5c2088ba179147f95"
+      }
+    },
+    {
+      "path": "evidence/04A31/graphics31-compatibility-casebook.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "dd42da2323e3662c348b411d26bd7863d4dbaeed03c2e9d7df97101178a2788c",
+      "merged": {
+        "path": "evidence/04A31/graphics31-compatibility-casebook.json",
+        "bytes": 852364,
+        "sha256": "462408188e39f89836e294e024b8039c9f5ce554ffda44972ea85c9939f77dce"
+      }
+    },
+    {
+      "path": "evidence/04A31/graphics31-validation.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "a6a9584f4eeaf704e3514519756abe061296b2398d0d2b83ea85226421369109",
+      "merged": {
+        "path": "evidence/04A31/graphics31-validation.json",
+        "bytes": 87154,
+        "sha256": "d0507925be665310265791f68bb926ac40919c4452e136286b92e1597d0ebebe"
+      }
+    },
+    {
+      "path": "evidence/04A31/helpers/Graphics31Guard.csproj",
+      "relation": "DIRECT",
+      "original_sha256": "386fac91c2beb2ea0fcc390a72795c55a5688309241d82a7569df9f97a8724fe",
+      "merged": {
+        "path": "evidence/04A31/helpers/Graphics31Guard.csproj",
+        "bytes": 594,
+        "sha256": "386fac91c2beb2ea0fcc390a72795c55a5688309241d82a7569df9f97a8724fe"
+      }
+    },
+    {
+      "path": "evidence/04A31/helpers/Program.cs",
+      "relation": "DIRECT",
+      "original_sha256": "f151031e2e78a5801edcf68a4aba03847ea023d6dd204d88aa7b3c2b3e02bdb8",
+      "merged": {
+        "path": "evidence/04A31/helpers/Program.cs",
+        "bytes": 10379,
+        "sha256": "f151031e2e78a5801edcf68a4aba03847ea023d6dd204d88aa7b3c2b3e02bdb8"
+      }
+    },
+    {
+      "path": "evidence/04A31/historical-results-preservation.json",
+      "relation": "CRLF_EXCEPT_LITERAL_FINAL_LF",
+      "original_sha256": "320c9c9017f67ff3181cdfa7aa62ba6d26419daca80c6acf8d531d39e26096ab",
+      "merged": {
+        "path": "evidence/04A31/historical-results-preservation.json",
+        "bytes": 460,
+        "sha256": "d53c1ecc3c2e9af46645aef933b909619b438776a820305accbe8c7c250ae4b6"
+      }
+    },
+    {
+      "path": "evidence/04A31/managed-test-identities.csv",
+      "relation": "CSV_RECORD_CRLF_EMBEDDED_LF",
+      "original_sha256": "61a42890efa5b61b6033cc83bc989e9116403b47166b0b96b5c43a41fd0fe7a9",
+      "merged": {
+        "path": "evidence/04A31/managed-test-identities.csv",
+        "bytes": 4991227,
+        "sha256": "40f13d4237fbabf5538128178d80258bab7752660456d08d1d048a5cea1deb04"
+      }
+    },
+    {
+      "path": "evidence/04A31/native-smoke-proposal.md",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "c049d7d230718cc6e085fb99709711a96074bb02f69724de0abe082ed03fa41f",
+      "merged": {
+        "path": "evidence/04A31/native-smoke-proposal.md",
+        "bytes": 2544,
+        "sha256": "69d0b1fa22070f16552adad1638fb296d6807eb75e08a0410dc9ccb7a51307e6"
+      }
+    },
+    {
+      "path": "evidence/04A31/nonpasses.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "5025d72497179a14ee7a19bf2d3cf69a43c37fbefd0f9fd6c976fad759998406",
+      "merged": {
+        "path": "evidence/04A31/nonpasses.json",
+        "bytes": 199848,
+        "sha256": "126144fabcfa296ebfe9116e737a0060618819cd91cdf55655af7de2a250bffc"
+      }
+    },
+    {
+      "path": "evidence/04A31/normal-qq-coordinate-and-permutation-contract.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "85d3734cdbb45ab2a270e95ad8ba6eeeba851e379cdefc78474c2485633e2f96",
+      "merged": {
+        "path": "evidence/04A31/normal-qq-coordinate-and-permutation-contract.json",
+        "bytes": 3645,
+        "sha256": "cfb08f38dd2c9dc2e119631c7d478a00c5ff37b1ee243b51225649d7707e9e98"
+      }
+    },
+    {
+      "path": "evidence/04A31/prepare.py",
+      "relation": "DIRECT",
+      "original_sha256": "4157b4d8be3bba2a114dc2028807c0b938ad1311ad30f389f2536c88fbef75de",
+      "merged": {
+        "path": "evidence/04A31/prepare.py",
+        "bytes": 11668,
+        "sha256": "4157b4d8be3bba2a114dc2028807c0b938ad1311ad30f389f2536c88fbef75de"
+      }
+    },
+    {
+      "path": "evidence/04A31/privacy.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "41defe13b7146891e3ba8531db0db5c1ecf241fdcf312e2d7da531b04e422d94",
+      "merged": {
+        "path": "evidence/04A31/privacy.json",
+        "bytes": 383,
+        "sha256": "ca45f534823dcb7e493d2484cfcded540e6cc8d99f1f8a84f475333f8136dc0d"
+      }
+    },
+    {
+      "path": "evidence/04A31/roc-plot-coordinate-contract.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "76234f37111d2aeb94df78691b34a00689bb6b50b13386cdc8393f0cc80a0055",
+      "merged": {
+        "path": "evidence/04A31/roc-plot-coordinate-contract.json",
+        "bytes": 2129,
+        "sha256": "64e99760ddddad343626e077ca7d53fddcd4094a6b36682b59d4eb379f913981"
+      }
+    },
+    {
+      "path": "evidence/04A31/roc-qq-operation-map-entry.csv",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "07cc544de187fc79a4bfa27e08636b716bd046b7d001d765c9f7f47e5e5be7a0",
+      "merged": {
+        "path": "evidence/04A31/roc-qq-operation-map-entry.csv",
+        "bytes": 6467,
+        "sha256": "dd8e58d3020147e9cde14aabd7b51b45ae6847608e72a986b312cf586eb57d67"
+      }
+    },
+    {
+      "path": "evidence/04A31/roc-qq-operation-map-final.csv",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "904006af5ddb3c5c62790252c485469120c2cbfed15baa9f99bfe416f65d490e",
+      "merged": {
+        "path": "evidence/04A31/roc-qq-operation-map-final.csv",
+        "bytes": 7661,
+        "sha256": "278a8e6868d39f92e4805b606e91dfdc95b6afe9902893f8d5cb3a5211f46265"
+      }
+    },
+    {
+      "path": "evidence/04A31/run.py",
+      "relation": "DIRECT",
+      "original_sha256": "9695d802d914dec4186130bf27cfda816447fbb6dfd76b1bff00a0e811027f38",
+      "merged": {
+        "path": "evidence/04A31/run.py",
+        "bytes": 3343,
+        "sha256": "9695d802d914dec4186130bf27cfda816447fbb6dfd76b1bff00a0e811027f38"
+      }
+    },
+    {
+      "path": "evidence/04A31/source-and-node-validation.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "f23001385bbd016dc8e7dd0ede21e4265af74239d5ac8ed062e0567255438b6c",
+      "merged": {
+        "path": "evidence/04A31/source-and-node-validation.json",
+        "bytes": 186242,
+        "sha256": "a1b23dc52a756ef2a180233c98eaa8786062799a87689ea4d4c631d0ce8da9e6"
+      }
+    },
+    {
+      "path": "evidence/04A31/source-ownership.json",
+      "relation": "CRLF_EXCEPT_LITERAL_FINAL_LF",
+      "original_sha256": "cbf3bb7bbf4ed0058ab28ee9041730ee8d85f36f96dfe20ffd28e4d79381882f",
+      "merged": {
+        "path": "evidence/04A31/source-ownership.json",
+        "bytes": 5823,
+        "sha256": "8044c5aa9826bd2d01faa1ae279a27bc538090ea57ca1602bd70ff40c6b001de"
+      }
+    },
+    {
+      "path": "evidence/04A31/source-pins.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "2aa22589556ab6b99ccee0005888b1bbf301cb8ccef24c7869287b5c1e7f0690",
+      "merged": {
+        "path": "evidence/04A31/source-pins.json",
+        "bytes": 776231,
+        "sha256": "67df4ae8757b3a9a42bed6913fc57fcc2d1fdafed6cd58ba588a6f10f6fbeeeb"
+      }
+    },
+    {
+      "path": "evidence/04A31/source-preservation.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "7dbb6cf05236efa0447e6471453ba5e3a560b0a49b28bfd0aa4f10b82e17c579",
+      "merged": {
+        "path": "evidence/04A31/source-preservation.json",
+        "bytes": 23686,
+        "sha256": "9dc639f39a9e0248a086d45d49bf15ba8340546b6b94d8d171f1e0da007398b0"
+      }
+    },
+    {
+      "path": "evidence/04A31/source-transition-successor.json",
+      "relation": "EXACT_CRLF_RECONSTITUTION",
+      "original_sha256": "914bb9096e30fd77f8ad03df69bc56b50619d15b451016d8de23faaeaf27c6ca",
+      "merged": {
+        "path": "evidence/04A31/source-transition-successor.json",
+        "bytes": 117127,
+        "sha256": "110be5d5e3ae3fb6c4a7de556529f43d2623a881bf5db94a2f0a79dabc973179"
+      }
+    },
+    {
+      "path": "evidence/04A31/test_audit.py",
+      "relation": "DIRECT",
+      "original_sha256": "1f166f7c93f083a3abc82b6f29c68dc67315385601cff2334533162195253636",
+      "merged": {
+        "path": "evidence/04A31/test_audit.py",
+        "bytes": 4384,
+        "sha256": "1f166f7c93f083a3abc82b6f29c68dc67315385601cff2334533162195253636"
+      }
+    }
+  ],
+  "qualification_limit": "Digest-exact inverse EOL/CSV reconstruction against frozen manifest plus committed blobs;no fresh inspection of pre-normalization original31 archive is claimed. Accepted29 original-byte receipt remains frozen.",
+  "protected_authorities": [
+    {
+      "path": "AGENTS.md",
+      "bytes": 3101,
+      "sha256": "9fb0b1351f975c33724fc62a023f66f74ceb8bb0990254731a4c897586955a3b"
+    },
+    {
+      "path": "planning/BESHStatNG_CrossPlatform_MasterPlan.md",
+      "bytes": 199164,
+      "sha256": "a31a342eef74125d9d236087925baa53042ef3d9514212ada684c138d6fa437a"
+    },
+    {
+      "path": "docs/architecture/batch-04A-31-owner-review.md",
+      "bytes": 12016,
+      "sha256": "2d76c1cbd097c6d4638fdcf0d25c29b70ae8b7950bd84b5e35f9124f5d13dc31"
+    },
+    {
+      "path": "evidence/04A30/graphics-roadmap-handoff-v1.json",
+      "bytes": 6494,
+      "sha256": "ef1c8cf1a034b3a5bfcf5bbdbb3a91808fc09b72910cf32341414a1943e391d6"
+    },
+    {
+      "path": "evidence/04A31/source-transition-successor.json",
+      "bytes": 117127,
+      "sha256": "110be5d5e3ae3fb6c4a7de556529f43d2623a881bf5db94a2f0a79dabc973179"
+    },
+    {
+      "path": "evidence/04A31/publication-manifest.json",
+      "bytes": 6779,
+      "sha256": "a532fee4964a94d9864d9ddec280a0782a6c51916ff7bd1834e796138d3835bb"
+    }
+  ],
+  "planned_production": [
+    "BESHstatNG/src/Graphics/BoxPlot.vb",
+    "BESHstatNG/src/Graphics/Histogram.vb",
+    "BESHstatNG/src/Graphics/ViolinPlot.vb",
+    "BESHStat.Core/src/Graphics/HistogramBinningCore.vb",
+    "BESHStat.Core/src/Graphics/HistogramDataCore.vb",
+    "BESHStat.Core/src/Graphics/ViolinPlotCore.vb",
+    "BESHStat.Core/src/Graphics/BoxPlotDataCore.vb",
+    "BESHStat.Core/src/Graphics/HistogramPlotDataCore.vb",
+    "BESHStat.Core/src/Graphics/DistributionPlotGeometryCore.vb"
+  ],
+  "why_existing_core_changes": {
+    "HistogramBinningCore": "Expose actual classification breaks from SAME calculator;old signature retained;no duplicated bin/PrettyBreaks logic",
+    "HistogramDataCore": "Add copied bins+edges entry to same engine",
+    "ViolinPlotCore": "Capture accepted original observation ordinal alongside existing group value append;add copied metadata only"
+  },
+  "protected": "All other sources,ROC/QQ,old tests,evidence,plan,controls,100captures;no04A33",
+  "restrictions": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED",
+    "native": "NATIVE_NOT_RUN",
+    "scientific": "NOT_GOLDEN",
+    "releases": 0,
+    "discharges": 0
+  }
+}

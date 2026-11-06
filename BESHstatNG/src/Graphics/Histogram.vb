@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 Imports System.Collections.Generic
 Imports Microsoft.Office.Interop.Excel
 
@@ -21,6 +21,8 @@ Namespace graphics
     Public Class Histogram
         ''' <summary>Input data vector.</summary>
         Private data() As Double
+        Private pBins(,) As Object
+        Private pClassificationEdges() As Double
 
         ''' <summary>Worksheet used for chart output.</summary>
         Private pWs As Worksheet
@@ -82,7 +84,10 @@ Namespace graphics
                                 Optional strType As String = "",
                                 Optional bBoxPlot As Boolean = False) As Object(,)
 
-            Dim bins = HistogramDataCore.BinsCopy(Me.data, strType)
+            Dim binned = HistogramDataCore.BinsAndEdgesCopy(Me.data, strType)
+            Dim bins = binned.Bins
+            pBins = DirectCast(bins.Clone(), Object(,))
+            pClassificationEdges = binned.Edges
             Me.arBinMidVal = Matrix.Array2dblArray(Matrix.GetColumnFrom2Darray(bins, 0))
             Me.arFreq = Matrix.Array2intArray(Matrix.GetColumnFrom2Darray(bins, 1))
 
@@ -98,28 +103,13 @@ Namespace graphics
             Me.pHasBoxSummary = False
             Me.arOutliers = Nothing
             If bBoxPlot AndAlso Me.data IsNot Nothing AndAlso Me.data.Length > 0 Then
-                Dim sorted() As Double = DirectCast(Me.data.Clone(), Double())
-                Array.Sort(sorted)
-
-                Dim quartileInput() As Double = DirectCast(sorted.Clone(), Double())
-                Dim quartiles As udQuartiles = StatFunc.QuartilesComp(quartileInput)
-
-                Me.pQ1 = quartiles.Q1
-                Me.pMedian = quartiles.Median
-                Me.pQ3 = quartiles.Q3
-                StatFunc.ResolveTukeyWhiskers(sorted,
-                                              Me.pQ1,
-                                              Me.pQ3,
-                                              Me.pWhiskerLow,
-                                              Me.pWhiskerHigh)
-
-                Dim outlierList As New List(Of Double)
-                For Each value As Double In sorted
-                    If value < Me.pWhiskerLow OrElse value > Me.pWhiskerHigh Then
-                        outlierList.Add(value)
-                    End If
-                Next
-                Me.arOutliers = outlierList.ToArray()
+                Dim summary As New HistogramTukeyData(Me.data)
+                Me.pQ1 = summary.Q1
+                Me.pMedian = summary.Median
+                Me.pQ3 = summary.Q3
+                Me.pWhiskerLow = summary.WhiskerLow
+                Me.pWhiskerHigh = summary.WhiskerHigh
+                Me.arOutliers = summary.Outliers
                 Me.pHasBoxSummary = True
             End If
 
@@ -150,39 +140,10 @@ Namespace graphics
             Dim iNoBins As Integer = Me.arBinMidVal.Length
             If iNoBins = 0 Then Exit Sub
 
-            'The column chart's categories are bin midpoints.  The secondary XY axis
-            'must instead span the outer bin edges so the normal curve and box plot
-            'line up exactly with the bar geometry.
-            Dim horizontalBounds = HistogramDataCore.HorizontalBounds(Me.arBinMidVal)
-            Dim dXMin As Double = horizontalBounds.Minimum
-            Dim dXMax As Double = horizontalBounds.Maximum
-
-            'Use one shared Y scale for histogram frequencies and the already
-            'frequency-scaled normal curve.  This fixes the previous independent
-            'secondary-Y autoscaling of the normal overlay.
-            Dim dPositiveMax As Double = 1.0R
-            For Each f As Integer In Me.arFreq
-                If f > dPositiveMax Then dPositiveMax = f
-            Next
-            If bOverlay Then
-                For Each y As Double In Me.arGauss
-                    If Not Double.IsNaN(y) AndAlso Not Double.IsInfinity(y) AndAlso y > dPositiveMax Then
-                        dPositiveMax = y
-                    End If
-                Next
-            End If
-
-            Dim yScale As CHARTscale = ChartScaling(0.0R, dPositiveMax)
-            Dim dYMax As Double = yScale.Max
-            If dYMax <= 0.0R OrElse Double.IsNaN(dYMax) OrElse Double.IsInfinity(dYMax) Then dYMax = 1.0R
-            Dim dYMajor As Double = yScale.Scale
-            If dYMajor <= 0.0R OrElse Double.IsNaN(dYMajor) OrElse Double.IsInfinity(dYMajor) Then dYMajor = 1.0R
-
-            'Reserve a band below zero for the Tukey box plot.  Histogram bars still
-            'start at zero, and negative value-axis labels are hidden by number format.
-            Dim dYMin As Double = If(bDrawBoxPlot, -0.32R * dYMax, 0.0R)
-            Dim dBoxY As Double = -0.18R * dYMax
-            Dim dBoxHalfHeight As Double = 0.055R * dYMax
+            Dim numeric = PlotData(bBoxPlot).Axis
+            Dim dXMin = numeric.XMinimum, dXMax = numeric.XMaximum
+            Dim dYMin = numeric.YMinimum, dYMax = numeric.YMaximum, dYMajor = numeric.YMajorUnit
+            Dim dBoxY = numeric.BoxCentreY, dBoxHalfHeight = numeric.BoxHalfHeight
 
             Dim anchor As Range = DirectCast(ws.Cells(r, c), Range)
             Dim chartShape As Shape = ws.Shapes.AddChart()
@@ -306,6 +267,11 @@ Namespace graphics
 
         'Keep embedded-chart event sinks alive for as long as their charts are usable.
         'Closed/deleted charts are pruned whenever another histogram overlay is attached.
+        Public Function PlotData(Optional drawBox As Boolean = False) As HistogramPlotSeriesData
+            Return New HistogramPlotSeriesData(pBins, pClassificationEdges, arBinMidVal, arFreq, arXi, arGauss, pHasBoxSummary,
+                                               {pQ1, pMedian, pQ3, pWhiskerLow, pWhiskerHigh}, arOutliers, drawBox)
+        End Function
+
         Private Shared ReadOnly pBoxPlotOverlays As New List(Of HistogramBoxPlotOverlay)
 
         Private Shared Sub AttachBoxPlotOverlay(chart As Chart,

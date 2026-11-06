@@ -16,6 +16,17 @@ Public NotInheritable Class HistogramBinningCore
     End Sub
 
         Public Shared Function HistogramBinsComputation(arInput() As Double, strType As String) As Object(,)
+            Dim edges() As Double = Nothing
+            Return ComputeBins(arInput, strType, edges)
+        End Function
+
+        Public Shared Function ComputeWithEdges(arInput() As Double, strType As String) As HistogramBinningData
+            Dim edges() As Double = Nothing
+            Dim bins = ComputeBins(DirectCast(arInput.Clone(), Double()), strType, edges)
+            Return New HistogramBinningData(bins, edges)
+        End Function
+
+        Private Shared Function ComputeBins(arInput() As Double, strType As String, ByRef capturedEdges() As Double) As Object(,)
 
         Dim iNoBins As Integer, sBinSize As Double, i As Integer
         Dim sDenominator As Double, out(,) As Object
@@ -91,6 +102,7 @@ Public NotInheritable Class HistogramBinningCore
             out(idx, 1) = Convert.ToInt32(out(idx, 1)) + 1
         Next
 
+        capturedEdges = DirectCast(breaks.Clone(), Double())
         Return out
     End Function
 
@@ -281,4 +293,21 @@ Public NotInheritable Class HistogramBinningCore
             Return out
         End Function
 
+End Class
+
+Public NotInheritable Class HistogramBinningData
+    Private ReadOnly binData(,) As Object, edgeData() As Double
+    Friend Sub New(bins(,) As Object, edges() As Double)
+        binData = DirectCast(bins.Clone(), Object(,)) : edgeData = DirectCast(edges.Clone(), Double())
+    End Sub
+    Public ReadOnly Property Bins As Object(,)
+        Get
+            Return DirectCast(binData.Clone(), Object(,))
+        End Get
+    End Property
+    Public ReadOnly Property Edges As Double()
+        Get
+            Return DirectCast(edgeData.Clone(), Double())
+        End Get
+    End Property
 End Class

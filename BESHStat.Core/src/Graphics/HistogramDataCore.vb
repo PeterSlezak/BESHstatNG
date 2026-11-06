@@ -11,6 +11,10 @@ Public Module HistogramDataCore
         Return HistogramBinningCore.HistogramBinsComputation(DirectCast(values.Clone(), Double()), rule)
     End Function
 
+    Public Function BinsAndEdgesCopy(values As Double(), rule As String) As HistogramBinningData
+        Return HistogramBinningCore.ComputeWithEdges(DirectCast(values.Clone(), Double()), rule)
+    End Function
+
     Public Function OverlayCopy(values As Double(), midpoints As Double()) As Double(,)
         Return HistogramBinningCore.GaussOverlayComputation(DirectCast(values.Clone(), Double()), DirectCast(midpoints.Clone(), Double()))
     End Function

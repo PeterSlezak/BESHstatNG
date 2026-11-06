@@ -1,0 +1,87 @@
+{
+  "schema": "04A32-frozen-source-v1",
+  "base": "43a752b169fb996ed65387d88d380b1386e92240",
+  "slices": [
+    {
+      "source": {
+        "path": "BESHstatNG/src/Graphics/BoxPlot.vb",
+        "bytes": 36620,
+        "sha256": "701e6a9081d397cb71dd26d1eb78541bac7caece99f2cbeae81fa00f5c00d533"
+      },
+      "member": "Calculate",
+      "start_line": 658,
+      "end_line": 694,
+      "body_sha256": "571aaab998a0243d41388667a84036b3705f365dc3a028a2cc2a788bedfe4324"
+    },
+    {
+      "source": {
+        "path": "BESHstatNG/src/Graphics/Histogram.vb",
+        "bytes": 27159,
+        "sha256": "83fd0e0a23c2696ab293c862ecceff82237bf3b51dfc1dc14f4ad7818e1c0f1a"
+      },
+      "member": "compute",
+      "start_line": 81,
+      "end_line": 128,
+      "body_sha256": "e3c2daa5aff590244aaa6826b08bd3797c9ce47629ad91f57fef3a662765719b"
+    },
+    {
+      "source": {
+        "path": "BESHstatNG/src/Graphics/Histogram.vb",
+        "bytes": 27159,
+        "sha256": "83fd0e0a23c2696ab293c862ecceff82237bf3b51dfc1dc14f4ad7818e1c0f1a"
+      },
+      "member": "addChart",
+      "start_line": 140,
+      "end_line": 306,
+      "body_sha256": "b4e6758a9e2102d2f31842982a6b81a355fc06a778b4621f30716ebe81a615b9"
+    },
+    {
+      "source": {
+        "path": "BESHstatNG/src/Graphics/ViolinPlot.vb",
+        "bytes": 41652,
+        "sha256": "0ac2c1c043ebe139dc7332737364ffdbc81752b110b6fb42b2e0a0428458e7ce"
+      },
+      "member": "ResolveAxisContext",
+      "start_line": 309,
+      "end_line": 336,
+      "body_sha256": "44d701407a26430a0c589346832158ff6a4b6a41065e931feb8090c32dfafe78"
+    },
+    {
+      "source": {
+        "path": "BESHstatNG/src/Graphics/ViolinPlot.vb",
+        "bytes": 41652,
+        "sha256": "0ac2c1c043ebe139dc7332737364ffdbc81752b110b6fb42b2e0a0428458e7ce"
+      },
+      "member": "ResolveAutomaticYLimits",
+      "start_line": 337,
+      "end_line": 355,
+      "body_sha256": "ededf9dd466efa0c3a30f24a3c5430277b2bdd71177ebf39aa5b9500c3751b82"
+    },
+    {
+      "source": {
+        "path": "BESHstatNG/src/Graphics/BoxPlot.vb",
+        "bytes": 36620,
+        "sha256": "701e6a9081d397cb71dd26d1eb78541bac7caece99f2cbeae81fa00f5c00d533"
+      },
+      "member": "DeterministicJitter",
+      "start_line": 595,
+      "end_line": 601,
+      "body_sha256": "6e6f3d321334fe62a695217392016fb1499ec34d32b8b268de2d9efb4fb765e1"
+    }
+  ],
+  "fixture": {
+    "path": "evidence/04A32/LegacyGraphics32.vb.txt",
+    "bytes": 9084,
+    "sha256": "645a187d7e8220819f8cd7730e6e9533ebbf68416a9968ee909c4f288ed70d33"
+  },
+  "reused": "LegacyBoxBounds30.vb supplies unchanged source-derived CalcForPlotting;not copied again",
+  "transformations": [
+    "Comments removed;host fields replaced with typed numeric fields",
+    "Histogram array-conversion facades replaced by their exact typed Convert targets",
+    "Histogram chart numeric prefix returned as seven scalars;no COM copied",
+    "Violin axis appearance/context replaced by equivalent numeric fields;shared scale forwards same Core engine"
+  ],
+  "quartile_identity": "All three live paths ultimately use StatFunc.QuartilesComp;separate route policy and whisker implementation retained. No fictitious disagreement expected values.",
+  "scientific": "NOT_GOLDEN",
+  "native": "NATIVE_NOT_RUN"
+}

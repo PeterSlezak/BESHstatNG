@@ -112,6 +112,7 @@ End Class
 Public NotInheritable Class ViolinPlotSeries
     Private ReadOnly _name As String
     Private ReadOnly _groupValue As Object
+    Private ReadOnly _sourceOrdinals As Integer()
     Private ReadOnly _observations As Double()
     Private ReadOnly _evaluationPoints As Double()
     Private ReadOnly _density As Double()
@@ -157,6 +158,31 @@ Public NotInheritable Class ViolinPlotSeries
         _whiskerLow = whiskerLow
         _whiskerHigh = whiskerHigh
     End Sub
+    Friend Sub New(name As String,
+                   groupValue As Object,
+                   observations As Double(),
+                   evaluationPoints As Double(),
+                   density As Double(),
+                   scaledHalfWidths As Double(),
+                   bandwidth As Double,
+                   minimum As Double,
+                   q1 As Double,
+                   median As Double,
+                   q3 As Double,
+                   maximum As Double,
+                   mean As Double,
+                   whiskerLow As Double,
+                   whiskerHigh As Double, sourceOrdinals As Integer())
+        Me.New(name, groupValue, observations, evaluationPoints, density, scaledHalfWidths, bandwidth, minimum, q1, median, q3, maximum, mean, whiskerLow, whiskerHigh)
+        _sourceOrdinals = DirectCast(sourceOrdinals.Clone(), Integer())
+    End Sub
+
+    Public ReadOnly Property SourceObservationOrdinals As Integer()
+        Get
+            Return If(_sourceOrdinals Is Nothing, Nothing, DirectCast(_sourceOrdinals.Clone(), Integer()))
+        End Get
+    End Property
+
 
     Public ReadOnly Property Name As String
         Get
@@ -359,12 +385,14 @@ Public NotInheritable Class ViolinPlotCore
         Friend Name As String
         Friend Value As Object
         Friend Values As New List(Of Double)()
+        Friend SourceOrdinals As New List(Of Integer)()
     End Class
 
     Private NotInheritable Class WorkingSeries
         Friend Name As String
         Friend GroupValue As Object
         Friend Observations As Double()
+        Friend SourceOrdinals As Integer()
         Friend EvaluationPoints As Double()
         Friend Density As Double()
         Friend ScaledHalfWidths As Double()
@@ -445,6 +473,7 @@ Public NotInheritable Class ViolinPlotCore
             End If
 
             working.Values.Add(x)
+            working.SourceOrdinals.Add(i)
             pooledValues.Add(x)
         Next
 
@@ -521,6 +550,7 @@ Public NotInheritable Class ViolinPlotCore
                 .Name = group.Name,
                 .GroupValue = group.Value,
                 .Observations = observations,
+                .SourceOrdinals = group.SourceOrdinals.ToArray(),
                 .EvaluationPoints = evaluationPoints,
                 .Density = density,
                 .Bandwidth = bandwidth,
@@ -575,7 +605,8 @@ Public NotInheritable Class ViolinPlotCore
                                                       ws.Maximum,
                                                       ws.Mean,
                                                       ws.WhiskerLow,
-                                                      ws.WhiskerHigh)
+                                                      ws.WhiskerHigh,
+                                                      ws.SourceOrdinals)
         Next
 
         Return New ViolinPlotResult(output,

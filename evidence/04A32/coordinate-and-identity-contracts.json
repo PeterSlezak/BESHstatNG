@@ -1,0 +1,90 @@
+{
+  "schema": "04A32-distribution-contracts-v1",
+  "sources": [
+    {
+      "path": "BESHStat.Core/src/Graphics/BoxPlotDataCore.vb",
+      "bytes": 7921,
+      "sha256": "d29180697a08f6f0e17d2e984ae13eac4accd1ef91942b80046b2cdf2d379b54"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/HistogramPlotDataCore.vb",
+      "bytes": 7337,
+      "sha256": "8012c352a0478b7ccab8e64cea352d684291bdb9449033382b33e62509c5c367"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/DistributionPlotGeometryCore.vb",
+      "bytes": 7383,
+      "sha256": "2fd10aef9e3709c49ec3af8bca5c2a60d32e22047efd1cc074acaebc900a6ff9"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/HistogramBinningCore.vb",
+      "bytes": 13527,
+      "sha256": "08e82e3e1722bf3cd096283eb8338dc83d2646a91068a660bab97b4ef07d53e9"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/HistogramDataCore.vb",
+      "bytes": 2152,
+      "sha256": "97ffe0fc4c575c017902b42d5021ba11b4c54516841a330c69f633ea4e12dfa5"
+    },
+    {
+      "path": "BESHStat.Core/src/Graphics/ViolinPlotCore.vb",
+      "bytes": 35492,
+      "sha256": "99337434af005cc3a8076b7ad80e99f8f88ee05408627784c6fb913a7bc708c5"
+    }
+  ],
+  "box": {
+    "types": [
+      "BoxGroupAggregateData",
+      "BoxGroupPlotData",
+      "BoxPlotSeriesData",
+      "BoxPlotDataCore"
+    ],
+    "aggregate": "N,Q1/median/Q3,IQR,mean,min/max via unchanged DescriptiveStat.compute(False) on cloned values",
+    "quartiles": "DescriptiveStat -> StatFunc.QuartilesComp (CDF/SAS method5);same ultimate routine as live Histogram/Violin,not a fabricated disagreement",
+    "outliers": "Strict <Q1-1.5IQR and >Q3+1.5IQR;sorted values/order/counts and Boolean flags copied",
+    "whiskers": "Original standalone loops including Long end-bound conversion via CLng;distinct from ResolveTukeyWhiskers helper",
+    "segments": "Unchanged BoxSegmentsCore signed Peltier components",
+    "identity": "GroupOrdinal and raw input ordinal zero-based;X=groupOrdinal+1+jitter(rawOrdinal);SortedToInput reuses accepted NormalPlotObservationOrder,stable identical IEEE ties;physical rows unavailable",
+    "labels": "Supplied order/duplicates/whitespace/empty values retained;Core labels copy;Windows existing supplied-name alias and Common SnapshotGroupNames remain",
+    "state": "Core Compute is stateless;Windows retains fixed constructor Ns,collection accumulation,partial errors and mutable public array aliases. Calculate stores immutable aggregate objects privately,then mechanically copies flag-classified points into legacy matrices;CalcForPlotting commits Core outputs in legacy order.",
+    "shape": "One immutable group record per vector or matrix column;raw X/Y=N,sorted order=N,outlier vectors ragged;group X=1..g;shared legacy axis over DS min/max"
+  },
+  "histogram": {
+    "types": [
+      "HistogramBinningData",
+      "HistogramTukeyData",
+      "HistogramAxisData",
+      "HistogramPlotSeriesData",
+      "HistogramPlotDataCore"
+    ],
+    "binning": "Original public two-argument function retained;its exact arithmetic/control flow moved to one private ComputeBins;copied actual PrettyBreaks edges captured at successful return",
+    "shapes": "Bins=u*2 Object matrix (boxed numeric scalars),ClassificationEdges=u+1,Midpoints/Frequencies=u,NormalX/NormalY=100 or Nothing,outliers ragged or Nothing",
+    "edges": "Actual classification edges are distinct from midpoint-derived display bounds,especially one bin. No edge reconstruction from rounded midpoints.",
+    "membership": "Original floor-based membership,clamping,rightmost-inclusive edge,PrettyBreaks and rule strings unchanged;04A75 toggle not implemented",
+    "overlay": "Existing OverlayCopy outputs already frequency-scaled n*binWidth*density;no new rescaling. Its one-bin fallback width1 is preserved. Display bounds retain their independent fallback.",
+    "summary": "Sorted clone -> StatFunc.QuartilesComp -> ResolveTukeyWhiskers;outliers strictly outside resolved endpoints;distinct standalone-loop policy retained",
+    "axis": "X uses existing HorizontalBounds;positive Y max begins1,includes frequencies and finite positive overlay maxima;ChartAxisScalingCore(0,max),legacy invalid max/major fallback1;drawn box reserves Ymin=-.32*Ymax,centre=-.18*Ymax,halfheight=.055*Ymax;primary/secondary share same limits/major",
+    "state": "Windows compute preserves stage order and legacy failure state;overlay arrays reset after bins succeed,box flag/outliers reset after overlay succeeds. When box is off,old scalar quartiles persist but HasBoxSummary=False;they are inactive compatibility state. Core stateless Compute has no prior state.",
+    "native": "Bar/secondary series,all chart styling,shape overlay projections,Chart_Resize/list pruning/cleanup remain Windows"
+  },
+  "violin": {
+    "types": [
+      "ViolinPlotDomainData",
+      "ViolinSeriesDomainData",
+      "PlotCoordinatesData",
+      "DistributionPlotGeometryCore"
+    ],
+    "engine": "Existing ViolinPlotCore KDE,bandwidth,scaling,trim,group grammar,filtering and summaries unchanged;three append/transport operations add original observation ordinal metadata only",
+    "ordinal_metadata": "Original flat values index i is captured beside each accepted working.Values.Add(x);same group observation order;SourceObservationOrdinals getter clones;old Friend series constructor retained and returns unavailable metadata when no ordinal supplied",
+    "category_policy": "Existing mixed numeric/text equivalence,current-culture formatting,first-seen grouping and excluded/missing policy reused;new domain never reparses categories",
+    "axis": "X=.5..groupCount+.5;Y explicit bounds merged with legacy shared-axis automatic result;finite/ordered shared result used,else centre finite(dataMin) or0 +/-max(1,abs(centre)*.1). Explicit major optional;automatic major remains unavailable/Excel-owned.",
+    "anchors": "X=1..g;Y=Ymin+.012*(Ymax-Ymin);labels exact existing Core names",
+    "outline": "2*grid points:right side bottom-to-top groupX+halfWidth;left side top-to-bottom groupX-halfWidth. Closing/pixel clipping/freeform conversion remain Windows.",
+    "inner": "Data-space box/cap half widths min(appearance,maxDensityHalfWidth*.45/.35);pixel minimum sizes/style remain Windows",
+    "observations": "Raw per-group order,source ordinals and deterministic X;visibility based on original <min or >max comparisons;physical rows unavailable. Shape index remains per-group ordinal+1,not worksheet row.",
+    "limits": "255-series limitation stays exclusively Windows;no Office enum/COM/pixel reference added to Core"
+  },
+  "copy_safety": "All stored vector/matrix getters clone,including nested group/series vectors and metadata. Immutable scalar/record children may be shared. No caller array is sorted/filtered in place through the new portable entries.",
+  "shared_jitter": "Same golden-fraction sequence (index+1)*.6180339887498949 Mod1;nonpositive halfWidth returns0;Box and Violin existing wrapper signatures retained.",
+  "comparison": "COMPATIBILITY_REFERENCE source/captures;HOST_FREE_EXECUTED as actual receipts identify;NOT_GOLDEN;NATIVE_NOT_RUN"
+}

@@ -144,6 +144,7 @@ Public NotInheritable Class ViolinPlotExcel
     End Class
 
     Private NotInheritable Class AxisContext
+        Friend Domain As ViolinPlotDomainData
         Friend XMinimum As Double
         Friend XMaximum As Double
         Friend YMinimum As Double
@@ -308,49 +309,16 @@ Public NotInheritable Class ViolinPlotExcel
 
     Private Shared Function ResolveAxisContext(result As ViolinPlotResult,
                                                appearance As ViolinPlotAppearance) As AxisContext
-        Dim axis As New AxisContext With {
-            .XMinimum = 0.5R,
-            .XMaximum = result.GroupCount + 0.5R
-        }
-
-        If appearance.YAxisMinimum.HasValue Then
-            axis.YMinimum = appearance.YAxisMinimum.Value
-        End If
-        If appearance.YAxisMaximum.HasValue Then
-            axis.YMaximum = appearance.YAxisMaximum.Value
-        End If
-
-        If Not appearance.YAxisMinimum.HasValue OrElse Not appearance.YAxisMaximum.HasValue Then
-            Dim autoMinimum As Double
-            Dim autoMaximum As Double
-            ResolveAutomaticYLimits(result.YMinimum, result.YMaximum, autoMinimum, autoMaximum)
-            If Not appearance.YAxisMinimum.HasValue Then axis.YMinimum = autoMinimum
-            If Not appearance.YAxisMaximum.HasValue Then axis.YMaximum = autoMaximum
-        End If
-
-        If axis.YMinimum >= axis.YMaximum Then
-            Throw New ArgumentException("Resolved Y-axis minimum must be smaller than its maximum.")
-        End If
-        Return axis
+        Dim domain As New ViolinPlotDomainData(result, appearance.YAxisMinimum, appearance.YAxisMaximum, appearance.YAxisMajorUnit, appearance.ObservationJitterHalfWidth)
+        Return New AxisContext With {.XMinimum = domain.XMinimum, .XMaximum = domain.XMaximum, .YMinimum = domain.YMinimum, .YMaximum = domain.YMaximum, .Domain = domain}
     End Function
 
     Private Shared Sub ResolveAutomaticYLimits(dataMinimum As Double,
                                                dataMaximum As Double,
                                                ByRef axisMinimum As Double,
                                                ByRef axisMaximum As Double)
-        If IsFinite(dataMinimum) AndAlso IsFinite(dataMaximum) AndAlso dataMaximum > dataMinimum Then
-            Dim scale As graphics.CHARTscale = graphics.ChartingFunc.ChartScaling(dataMinimum, dataMaximum)
-            If scale IsNot Nothing AndAlso IsFinite(scale.Min) AndAlso IsFinite(scale.Max) AndAlso scale.Max > scale.Min Then
-                axisMinimum = scale.Min
-                axisMaximum = scale.Max
-                Return
-            End If
-        End If
-
-        Dim centre As Double = If(IsFinite(dataMinimum), dataMinimum, 0.0R)
-        Dim halfRange As Double = Math.Max(1.0R, Math.Abs(centre) * 0.1R)
-        axisMinimum = centre - halfRange
-        axisMaximum = centre + halfRange
+        Dim bounds = ViolinPlotDomainData.AutomaticLimits(dataMinimum, dataMaximum)
+        axisMinimum = bounds(0) : axisMaximum = bounds(1)
     End Sub
 
     Private Shared Sub ConfigureBackground(chart As Object, appearance As ViolinPlotAppearance)
@@ -405,14 +373,8 @@ Public NotInheritable Class ViolinPlotExcel
                                               series As ViolinPlotSeries(),
                                               axisContext As AxisContext,
                                               appearance As ViolinPlotAppearance)
-        Dim xValues(series.Length - 1) As Double
-        Dim yValues(series.Length - 1) As Double
-        Dim anchorY As Double = axisContext.YMinimum + 0.012R * (axisContext.YMaximum - axisContext.YMinimum)
-
-        For i As Integer = 0 To series.Length - 1
-            xValues(i) = i + 1.0R
-            yValues(i) = anchorY
-        Next
+        Dim xValues = axisContext.Domain.GroupPositions
+        Dim yValues = axisContext.Domain.CategoryLabelY
 
         seriesCollection.NewSeries()
         Dim labelSeries As Object = seriesCollection(seriesCollection.Count - 1)
@@ -455,7 +417,7 @@ Public NotInheritable Class ViolinPlotExcel
         For groupIndex As Integer = 0 To allSeries.Length - 1
             Dim source As ViolinPlotSeries = allSeries(groupIndex)
             Dim style As ResolvedSeriesStyle = ResolveStyle(source.Name, groupIndex, appearance)
-            Dim groupX As Double = groupIndex + 1.0R
+            Dim groupX As Double = axisContext.Domain.GroupPositions(groupIndex)
 
             Dim evaluationPoints() As Double = source.EvaluationPoints
             Dim halfWidths() As Double = source.ScaledHalfWidths
@@ -515,27 +477,13 @@ Public NotInheritable Class ViolinPlotExcel
                                           insideHeight As Double,
                                           style As ResolvedSeriesStyle,
                                           groupIndex As Integer)
-        If evaluationPoints.Length <> halfWidths.Length OrElse evaluationPoints.Length < 2 Then
-            Throw New ArgumentException("Violin evaluation points and widths are inconsistent.")
-        End If
-
-        Dim pointCount As Integer = evaluationPoints.Length * 2
-        Dim xs(pointCount - 1) As Double
-        Dim ys(pointCount - 1) As Double
-        Dim k As Integer = 0
-
-        'Right side, bottom to top.
-        For i As Integer = 0 To evaluationPoints.Length - 1
-            xs(k) = DataXToPlotX(groupX + halfWidths(i), axisContext, insideLeft, insideWidth)
-            ys(k) = DataYToPlotY(evaluationPoints(i), axisContext, insideTop, insideHeight)
-            k += 1
-        Next
-
-        'Left side, top to bottom.
-        For i As Integer = evaluationPoints.Length - 1 To 0 Step -1
-            xs(k) = DataXToPlotX(groupX - halfWidths(i), axisContext, insideLeft, insideWidth)
-            ys(k) = DataYToPlotY(evaluationPoints(i), axisContext, insideTop, insideHeight)
-            k += 1
+        Dim outline = DistributionPlotGeometryCore.ViolinOutline(groupX, evaluationPoints, halfWidths)
+        Dim dataX = outline.X, dataY = outline.Y
+        Dim pointCount = dataX.Length
+        Dim xs(pointCount - 1), ys(pointCount - 1) As Double
+        For i As Integer = 0 To pointCount - 1
+            xs(i) = DataXToPlotX(dataX(i), axisContext, insideLeft, insideWidth)
+            ys(i) = DataYToPlotY(dataY(i), axisContext, insideTop, insideHeight)
         Next
 
         Dim builder As Object = chartShapes.BuildFreeform(MsoEditingCorner, CSng(xs(0)), CSng(ys(0)))
@@ -573,29 +521,26 @@ Public NotInheritable Class ViolinPlotExcel
                                         appearance As ViolinPlotAppearance,
                                         groupIndex As Integer)
         Dim xCentre As Double = DataXToPlotX(groupX, axisContext, insideLeft, insideWidth)
-        Dim sourceHalfWidths() As Double = source.ScaledHalfWidths
-        Dim displayedMaximumHalfWidth As Double = sourceHalfWidths.Max()
-        Dim effectiveBoxHalfWidth As Double = Math.Min(appearance.InnerBoxHalfWidth, displayedMaximumHalfWidth * 0.45R)
-        Dim effectiveCapHalfWidth As Double = Math.Min(appearance.WhiskerCapHalfWidth, displayedMaximumHalfWidth * 0.35R)
+        Dim innerX = DistributionPlotGeometryCore.ViolinInnerX(groupX, source.ScaledHalfWidths, appearance.InnerBoxHalfWidth, appearance.WhiskerCapHalfWidth)
         Dim q1Y As Double = DataYToPlotY(source.Q1, axisContext, insideTop, insideHeight)
         Dim q3Y As Double = DataYToPlotY(source.Q3, axisContext, insideTop, insideHeight)
         Dim medianY As Double = DataYToPlotY(source.Median, axisContext, insideTop, insideHeight)
         Dim whiskerLowY As Double = DataYToPlotY(source.WhiskerLow, axisContext, insideTop, insideHeight)
         Dim whiskerHighY As Double = DataYToPlotY(source.WhiskerHigh, axisContext, insideTop, insideHeight)
 
-        Dim boxLeft As Double = DataXToPlotX(groupX - effectiveBoxHalfWidth,
+        Dim boxLeft As Double = DataXToPlotX(innerX(0),
                                             axisContext,
                                             insideLeft,
                                             insideWidth)
-        Dim boxRight As Double = DataXToPlotX(groupX + effectiveBoxHalfWidth,
+        Dim boxRight As Double = DataXToPlotX(innerX(1),
                                              axisContext,
                                              insideLeft,
                                              insideWidth)
-        Dim capLeft As Double = DataXToPlotX(groupX - effectiveCapHalfWidth,
+        Dim capLeft As Double = DataXToPlotX(innerX(2),
                                             axisContext,
                                             insideLeft,
                                             insideWidth)
-        Dim capRight As Double = DataXToPlotX(groupX + effectiveCapHalfWidth,
+        Dim capRight As Double = DataXToPlotX(innerX(3),
                                              axisContext,
                                              insideLeft,
                                              insideWidth)
@@ -689,17 +634,19 @@ Public NotInheritable Class ViolinPlotExcel
         Dim markerSize As Double = CDbl(appearance.ObservationMarkerSize)
         Dim markerRadius As Double = markerSize / 2.0R
 
+        Dim visible = DistributionPlotGeometryCore.VisibleObservations(observations, axisContext.YMinimum, axisContext.YMaximum)
+        Dim observationX = axisContext.Domain.Series(groupIndex).ObservationX
         For i As Integer = 0 To observations.Length - 1
             Dim observation As Double = observations(i)
 
             'Match Excel's normal series clipping behaviour when custom Y limits are
             'used: do not draw a marker whose centre lies outside the plot range.
-            If observation < axisContext.YMinimum OrElse observation > axisContext.YMaximum Then
+            If Not visible(i) Then
                 Continue For
             End If
 
-            Dim jitter As Double = DeterministicJitter(i, appearance.ObservationJitterHalfWidth)
-            Dim plotX As Double = DataXToPlotX(groupX + jitter,
+            Dim dataX As Double = observationX(i)
+            Dim plotX As Double = DataXToPlotX(dataX,
                                                axisContext,
                                                insideLeft,
                                                insideWidth)
@@ -741,12 +688,7 @@ Public NotInheritable Class ViolinPlotExcel
 
     Private Shared Function DeterministicJitter(index As Integer,
                                                 halfWidth As Double) As Double
-        If halfWidth <= 0.0R Then Return 0.0R
-        'Low-discrepancy golden-ratio sequence: stable across redraws and does not
-        'require shared Random state.
-        Const GoldenFraction As Double = 0.6180339887498949R
-        Dim u As Double = ((index + 1) * GoldenFraction) Mod 1.0R
-        Return (2.0R * u - 1.0R) * halfWidth
+        Return DistributionPlotGeometryCore.DeterministicJitter(index, halfWidth)
     End Function
 
     Private Shared Function ResolveStyle(seriesName As String,

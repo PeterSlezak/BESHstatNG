@@ -1,0 +1,90 @@
+{
+  "schema": "04A32-deferred-v1",
+  "issues": [
+    {
+      "id": "04A32-BOX-REPEATED-SUMMARIES-01",
+      "source": "BoxPlot.Calculate / CalcForPlotting",
+      "reproducer": "groups=[[4,1,4,2,1],[8,1,3,3,4]];Calculate/CalcForPlotting;increment first observation;repeat",
+      "baseline": "Actual entry adapter capture,repeat rows;frozen Calculate and LegacyBox30.CalcForPlotting",
+      "existing": "Calculate appends to pDSCollection;CalcForPlotting reads first groupCount records while current outlier counts/raw whisker lookup may reflect new input. Constructor Ns remain fixed. Preserved,including public vector aliases.",
+      "candidate": "Reset/recompute coherent collection only after separate owner/statistical/state compatibility approval",
+      "owner": "04A39-41 investigation;04A46-48 native/report activation",
+      "authorization": "Independent scientific/state decision and native authorization before changed chart/report behavior",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "scientific": "NOT_GOLDEN",
+      "native": "NATIVE_NOT_RUN",
+      "released": 0,
+      "discharged": 0
+    },
+    {
+      "id": "04A32-BOX-SHORT-NONFINITE-WHISKERS-01",
+      "source": "BoxPlot.Calculate / CalcForPlotting;BoxPlotDataCore.UpperWhisker/LowerWhisker",
+      "reproducer": "[],[3],[0,0,0],[NaN,1,+Infinity];odd outlier groups in capture fixture",
+      "baseline": "Source-backed fixture and captured exception/partial matrices",
+      "existing": "Empty and nonfinite/degenerate behaviors retain exceptions/IEEE results. Whisker loops retain Long rounded end bounds,not a substituted generic Tukey rule.",
+      "candidate": "Define finite/empty/short-group/loop policy after independent scientific characterization",
+      "owner": "04A39-41;native04A45-48",
+      "authorization": "Separate scientific oracle and native approval;no correction here",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "scientific": "NOT_GOLDEN",
+      "native": "NATIVE_NOT_RUN",
+      "released": 0,
+      "discharged": 0
+    },
+    {
+      "id": "04A32-HIST-SINGLE-BIN-DOMAINS-01",
+      "source": "HistogramDataCore.HorizontalBounds;HistogramBinningCore.GaussOverlayComputation",
+      "reproducer": "values=[0,1],rule=\"\",overlay=True;one pretty bin",
+      "baseline": "Frozen source;new exact ClassificationEdges and old chart-domain formulas",
+      "existing": "Classification edges [0,1],midpoint .5;display width2 and bounds[-.5,1.5];Gaussian one-bin width1. Independent conventions are exposed explicitly and retained.",
+      "candidate": "Decide chart alignment/overlay width policy independently;do not conflate classification and display edges",
+      "owner": "04A39-41 numeric policy;04A47 native review;PrettyBreaks toggle only04A75",
+      "authorization": "Scientific/native approval before any changed alignment/ordinates",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "scientific": "NOT_GOLDEN",
+      "native": "NATIVE_NOT_RUN",
+      "released": 0,
+      "discharged": 0
+    },
+    {
+      "id": "04A32-HIST-ERROR-STALE-STATE-01",
+      "source": "Histogram.compute",
+      "reproducer": "Compute overlay+box successfully,then disable box or mutate input to NaN and use Scott",
+      "baseline": "Actual before/final adapter captures and adapter toggle/error test",
+      "existing": "Inactive quartile scalars remain after box=False;error before a later reset can preserve previous arrays/flag. New immutable PlotData marks actual HasBoxSummary/HasOverlay;state not silently repaired.",
+      "candidate": "Separate atomic-state/reset policy decision",
+      "owner": "04A39-41;04A46-48 GUI/native",
+      "authorization": "Owner compatibility and native decision;no automatic cleanup correction",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "scientific": "NOT_GOLDEN",
+      "native": "NATIVE_NOT_RUN",
+      "released": 0,
+      "discharged": 0
+    },
+    {
+      "id": "04A32-VIOLIN-LABEL-INDEX-01",
+      "source": "ViolinPlotExcel.AddCategoryLabelSeries",
+      "reproducer": "Source:NewSeries followed by seriesCollection(seriesCollection.Count-1)",
+      "baseline": "SOURCE_INFERRED only;original expression protected unchanged",
+      "existing": "Potential collection-index discrepancy remains a candidate. No actual Excel call or appearance equivalence observed.",
+      "candidate": "Confirm indexing against qualified native session before proposing correction",
+      "owner": "04A39 source reconciliation;04A45-48 gated native verification",
+      "authorization": "Native Excel/COM session attribution and explicit risk approval required",
+      "status": "OPEN_RETAINED_RESTRICTED",
+      "scientific": "NOT_GOLDEN",
+      "native": "NATIVE_NOT_RUN",
+      "released": 0,
+      "discharged": 0
+    }
+  ],
+  "inherited": "All04A01/02 and04A29/30/31 original controls/deferred entries remain unchanged and OPEN;zero releases/discharges",
+  "restriction": {
+    "P": "NO",
+    "N1": "NO GO",
+    "N2": "NO",
+    "C2": "UNMET",
+    "C3": "UNAPPROVED"
+  },
+  "provenance_limit": "Physical worksheet rows not supplied by actual plot entry contracts remain unavailable;not inferred from array/source/shape ordinals",
+  "later_scope": "04A33 and later not started;04A75 PrettyBreaks toggle and04A68-69 detrending untouched"
+}

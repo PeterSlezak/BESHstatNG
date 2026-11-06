@@ -394,6 +394,10 @@
     <Error Condition="!Exists('packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\MSTest.TestAdapter.2.2.10\build\net46\MSTest.TestAdapter.targets'))" />
   </Target>
   <ItemGroup>
+    <Compile Include="src\Charts\Graphics32AdapterTests.vb" />
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics32Tests.vb"><Link>Graphics32\Graphics32Tests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics32ViolinTests.vb"><Link>Graphics32\Graphics32ViolinTests.vb</Link></Compile>
+    <Compile Include="..\BESHStat.Core.Tests\src\Graphics\LegacyGraphics32.vb"><Link>Graphics32\LegacyGraphics32.vb</Link></Compile>
     <Compile Include="src\Charts\Graphics31AdapterTests.vb" />
     <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics31RocTests.vb"><Link>Graphics31\Graphics31RocTests.vb</Link></Compile>
     <Compile Include="..\BESHStat.Core.Tests\src\Graphics\Graphics31NormalPlotTests.vb"><Link>Graphics31\Graphics31NormalPlotTests.vb</Link></Compile>

@@ -1,4 +1,4 @@
-﻿Option Explicit On
+Option Explicit On
 Imports System.Drawing
 Imports Microsoft.Office
 Imports Microsoft.Office.Interop.Excel
@@ -250,7 +250,8 @@ Namespace graphics
             End If
 
             'compute optimal axis borders and scale
-            udBoxPlotAxis = ChartScaling(pMins.Min(), pMaxs.Max())
+            Dim axis = BoxPlotDataCore.Axis(pMins, pMaxs)
+            udBoxPlotAxis = New CHARTscale With {.Min = axis.Min, .Max = axis.Max, .Scale = axis.Scale}
 
             Dim chartShape As Object = Me.pWS.Shapes.AddChart
             If chartWidth.HasValue Then chartShape.Width = CSng(chartWidth.Value)
@@ -546,12 +547,7 @@ Namespace graphics
                 Dim observations() As Double = pData(groupIndex)
                 If observations Is Nothing OrElse observations.Length = 0 Then Continue For
 
-                Dim xValues(observations.Length - 1) As Double
-                For observationIndex As Integer = 0 To observations.Length - 1
-                    xValues(observationIndex) =
-                        CDbl(groupIndex + 1) +
-                        DeterministicJitter(observationIndex, appearance.ObservationJitterHalfWidth)
-                Next
+                Dim xValues = DistributionPlotGeometryCore.ObservationX(groupIndex + 1.0, observations.Length, appearance.ObservationJitterHalfWidth)
 
                 Dim observationSeries As Object = seriesCollection.NewSeries()
                 Dim groupColor As Integer = GetSeriesColor(appearance, groupIndex)
@@ -593,10 +589,7 @@ Namespace graphics
         End Sub
 
         Private Shared Function DeterministicJitter(index As Integer, halfWidth As Double) As Double
-            If halfWidth <= 0.0R Then Return 0.0R
-            Const GoldenFraction As Double = 0.6180339887498949R
-            Dim u As Double = ((index + 1) * GoldenFraction) Mod 1.0R
-            Return (2.0R * u - 1.0R) * halfWidth
+            Return DistributionPlotGeometryCore.DeterministicJitter(index, halfWidth)
         End Function
 
         Private Shared Function GetSeriesColor(appearance As BoxPlotAppearance, groupIndex As Integer) As Integer
@@ -666,23 +659,24 @@ Namespace graphics
                 'DescriptiveStat.QuartilesComp sorts its input in place. Work on a
                 'clone so the original observation order remains available for the
                 'optional jittered raw-point layer.
-                Dim arTemporal() As Double = DirectCast(pData(i).Clone(), Double())
+                Dim aggregate = BoxPlotDataCore.Aggregate(pData(i))
+                Dim arTemporal() As Double = aggregate.SortedValues
+                Dim smallFlags = aggregate.SmallOutlierFlags, largeFlags = aggregate.LargeOutlierFlags
 
                 'Fit quantiles and outliers for each group
-                Dim DescriptiveS As DescriptiveStat = New DescriptiveStat(arTemporal)
-                DescriptiveS.compute(False)
+                Dim DescriptiveS As BoxGroupAggregateData = aggregate
                 pDSCollection.Add(DescriptiveS) 'Add to Collection
 
                 'outliers
                 With DescriptiveS
                     For j = 0 To pNs(i) - 1
                         'small outliers
-                        If arTemporal(j) < (.LQuartile - 1.5 * .IQR) Then
+                        If smallFlags(CInt(j)) Then
                             pArNOutliersSmall(i) += 1
                             pArOutliersSmall(pArNOutliersSmall(i) - 1, i) = arTemporal(j)
                         End If
                         'big outliers
-                        If arTemporal(j) > (.UQuartile + 1.5 * .IQR) Then
+                        If largeFlags(CInt(j)) Then
                             pArNOutliersBig(i) += 1
                             pArOutliersBig(pArNOutliersBig(i) - 1, i) = arTemporal(j)
                         End If
@@ -720,7 +714,7 @@ Namespace graphics
 
             For i = 0 To pNoGroups - 1
 
-                With Me.pDSCollection.Item(i + 1) 'DescriptiveS
+                With DirectCast(Me.pDSCollection.Item(i + 1), BoxGroupAggregateData) 'DescriptiveS
                     'Plot Blank
 
                     Dim segments = BoxSegmentsCore.Compute(.LQuartile, .Median, .UQuartile)
@@ -730,37 +724,8 @@ Namespace graphics
                     pPlotQ3Minus(i) = segments.Q3Minus
                     pPlotMedianMinus(i) = segments.MedianMinus
 
-                    'Sort a clone for whisker lookup so pData keeps the original
-                    'observation order used by the optional jittered point layer.
-                    Dim arTemporal() As Double = DirectCast(pData(i).Clone(), Double())
-                    Array.Sort(arTemporal)
-
-                    If .Maximum > .UQuartile Then
-                        If pArNOutliersBig(i) = 0 Then
-                            pWhiskerQ3(i) = .Maximum - .UQuartile
-                        Else 'show outliers
-                            For j = pNs(i) - 1 To pNs(i) / 2 - 1 Step -1
-                                If (arTemporal(j) - (.UQuartile + 1.5 * .IQR)) <= 0 Then Exit For
-                            Next
-                            pWhiskerQ3(i) = arTemporal(j) - .UQuartile
-                        End If
-                    Else
-                        pWhiskerQ3(i) = 0
-                    End If
-
-                    'Whisker Q1
-                    If .LQuartile > .Minimum Then
-                        If pArNOutliersSmall(i) = 0 Then
-                            pWhiskerQ1(i) = .LQuartile - .Minimum
-                        Else 'show outliers
-                            For j = 0 To pNs(i) / 2 - 1
-                                If (arTemporal(j) - (.LQuartile - 1.5 * .IQR)) >= 0 Then Exit For
-                            Next
-                            pWhiskerQ1(i) = .LQuartile - arTemporal(j)
-                        End If
-                    Else
-                        pWhiskerQ1(i) = 0
-                    End If
+                    pWhiskerQ3(i) = BoxPlotDataCore.UpperWhisker(DirectCast(pDSCollection.Item(i + 1), BoxGroupAggregateData), pData(i), CInt(pNs(i)), pArNOutliersBig(i))
+                    pWhiskerQ1(i) = BoxPlotDataCore.LowerWhisker(DirectCast(pDSCollection.Item(i + 1), BoxGroupAggregateData), pData(i), CInt(pNs(i)), pArNOutliersSmall(i))
 
                     pQ1(i) = .LQuartile
                     pQ3(i) = .UQuartile
